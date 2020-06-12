@@ -156,6 +156,22 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
         }
       }
     />
+    <Connect(ChannelHeaderCall)
+      channel={
+        Object {
+          "delete_at": 0,
+          "id": "channel_id",
+          "name": "Test",
+          "team_id": "team_id",
+        }
+      }
+      channelMember={
+        Object {
+          "channel_id": "channel_id",
+          "user_id": "user_id",
+        }
+      }
+    />
     <HeaderIconWrapper
       ariaLabel={true}
       buttonClass="channel-header__icon channel-header__icon--wide"
@@ -351,6 +367,22 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
       />
     </div>
     <Connect(ChannelHeaderPlug)
+      channel={
+        Object {
+          "delete_at": 0,
+          "id": "channel_id",
+          "name": "Test",
+          "team_id": "team_id",
+        }
+      }
+      channelMember={
+        Object {
+          "channel_id": "channel_id",
+          "user_id": "user_id",
+        }
+      }
+    />
+    <Connect(ChannelHeaderCall)
       channel={
         Object {
           "delete_at": 0,
@@ -576,6 +608,22 @@ exports[`components/ChannelHeader should render active pinned posts 1`] = `
         }
       }
     />
+    <Connect(ChannelHeaderCall)
+      channel={
+        Object {
+          "delete_at": 0,
+          "id": "channel_id",
+          "name": "Test",
+          "team_id": "team_id",
+        }
+      }
+      channelMember={
+        Object {
+          "channel_id": "channel_id",
+          "user_id": "user_id",
+        }
+      }
+    />
     <HeaderIconWrapper
       ariaLabel={true}
       buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--active"
@@ -710,6 +758,22 @@ exports[`components/ChannelHeader should render archived view 1`] = `
       />
     </div>
     <Connect(ChannelHeaderPlug)
+      channel={
+        Object {
+          "delete_at": 1234,
+          "id": "channel_id",
+          "name": "Test",
+          "team_id": "team_id",
+        }
+      }
+      channelMember={
+        Object {
+          "channel_id": "channel_id",
+          "user_id": "user_id",
+        }
+      }
+    />
+    <Connect(ChannelHeaderCall)
       channel={
         Object {
           "delete_at": 1234,
@@ -970,6 +1034,22 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
         }
       }
     />
+    <Connect(ChannelHeaderCall)
+      channel={
+        Object {
+          "delete_at": 0,
+          "id": "channel_id",
+          "name": "Test",
+          "team_id": "team_id",
+        }
+      }
+      channelMember={
+        Object {
+          "channel_id": "channel_id",
+          "user_id": "user_id",
+        }
+      }
+    />
     <HeaderIconWrapper
       ariaLabel={true}
       buttonClass="channel-header__icon channel-header__icon--wide"
@@ -1171,6 +1251,22 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
       />
     </div>
     <Connect(ChannelHeaderPlug)
+      channel={
+        Object {
+          "delete_at": 0,
+          "id": "channel_id",
+          "name": "Test",
+          "team_id": "team_id",
+        }
+      }
+      channelMember={
+        Object {
+          "channel_id": "channel_id",
+          "user_id": "user_id",
+        }
+      }
+    />
+    <Connect(ChannelHeaderCall)
       channel={
         Object {
           "delete_at": 0,
@@ -1434,6 +1530,29 @@ exports[`components/ChannelHeader should render properly when populated with cha
         }
       }
     />
+    <Connect(ChannelHeaderCall)
+      channel={
+        Object {
+          "header": "See ~test",
+          "id": "channel_id",
+          "name": "Test",
+          "props": Object {
+            "channel_mentions": Object {
+              "test": Object {
+                "display_name": "Test",
+              },
+            },
+          },
+          "team_id": "team_id",
+        }
+      }
+      channelMember={
+        Object {
+          "channel_id": "channel_id",
+          "user_id": "user_id",
+        }
+      }
+    />
     <HeaderIconWrapper
       ariaLabel={true}
       buttonClass="channel-header__icon channel-header__icon--wide"
@@ -1629,6 +1748,22 @@ exports[`components/ChannelHeader should render the pinned icon with the pinned 
       />
     </div>
     <Connect(ChannelHeaderPlug)
+      channel={
+        Object {
+          "delete_at": 0,
+          "id": "channel_id",
+          "name": "Test",
+          "team_id": "team_id",
+        }
+      }
+      channelMember={
+        Object {
+          "channel_id": "channel_id",
+          "user_id": "user_id",
+        }
+      }
+    />
+    <Connect(ChannelHeaderCall)
       channel={
         Object {
           "delete_at": 0,
