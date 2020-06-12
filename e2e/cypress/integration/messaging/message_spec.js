@@ -8,7 +8,7 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @messaging
+// Group: @messaging @smoke
 
 import users from '../../fixtures/users.json';
 
@@ -135,6 +135,35 @@ describe('Message', () => {
 
             // * Check that message has the css class needed for system message styling
             cy.get(divPostId).should('have.class', 'post--system');
+        });
+    });
+
+    it('message with emoji contains hidden shortcode text', () => {
+        const message = 'This post has a shortcode emoji :raising_hand_man: within it.';
+
+        // # Post a message with a shortcode emoji
+        cy.postMessage(message);
+
+        cy.getLastPostId().then((postId) => {
+            const divPostId = `#post_${postId}`;
+
+            // * Check that message matches what was posted with the emoji omitted
+            cy.get(`#postMessageText_${postId}`).should('have.text', message);
+
+            // * Check that the emoji image contains the hidden shortcode text
+            cy.get(divPostId).find('span.emoticon').should('have.text', ':raising_hand_man:');
+        });
+    });
+
+    it('message with unicode emoji displays the unicode and not a span with background image', () => {
+        // # Post a message with a shortcode emoji
+        cy.postMessage('This post a unicode emoji in a code snippet: `😉`');
+
+        cy.getLastPostId().then((postId) => {
+            const divPostId = `#post_${postId}`;
+
+            cy.get(divPostId).find('span.emoticon').should('not.exist');
+            cy.get(divPostId).find('span.codespan__pre-wrap code').should('have.text', '😉');
         });
     });
 });

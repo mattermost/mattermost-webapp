@@ -43,7 +43,7 @@ export default class ChannelSelectorModal extends React.PureComponent {
     }
 
     componentDidMount() {
-        this.props.actions.loadChannels(0, CHANNELS_PER_PAGE + 1, this.props.groupID, true).then((response) => {
+        this.props.actions.loadChannels(0, CHANNELS_PER_PAGE + 1, this.props.groupID, false).then((response) => {
             this.setState({channels: response.data.sort(compareChannels)});
             this.setChannelsLoadingState(false);
         });
@@ -55,7 +55,7 @@ export default class ChannelSelectorModal extends React.PureComponent {
 
             const searchTerm = this.props.searchTerm;
             if (searchTerm === '') {
-                this.props.actions.loadChannels(0, CHANNELS_PER_PAGE + 1, this.props.groupID, true).then((response) => {
+                this.props.actions.loadChannels(0, CHANNELS_PER_PAGE + 1, this.props.groupID, false).then((response) => {
                     this.setState({channels: response.data.sort(compareChannels)});
                     this.setChannelsLoadingState(false);
                 });
@@ -157,10 +157,10 @@ export default class ChannelSelectorModal extends React.PureComponent {
                 <div
                     className='more-modal__details'
                 >
-                    {option.type === 'P' &&
-                        <i className='icon icon-globe'/>}
-                    {option.type === 'O' &&
+                    {option.type === Constants.PRIVATE_CHANNEL &&
                         <i className='icon icon-lock-outline'/>}
+                    {option.type === Constants.OPEN_CHANNEL &&
+                        <i className='icon icon-globe'/>}
                     <span className='channel-name'>{option.display_name}</span>
                     <span className='team-name'>{'(' + option.team_display_name + ')'}</span>
                 </div>

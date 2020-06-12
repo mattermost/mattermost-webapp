@@ -105,18 +105,21 @@ function isMac() {
 // ***********************************************************
 
 Cypress.Commands.add('postMessage', (message) => {
-    cy.get('#post_textbox', {timeout: TIMEOUTS.LARGE}).clear().type(message).type('{enter}');
-    cy.waitUntil(() => {
-        return cy.get('#post_textbox').then((el) => {
-            return el[0].textContent === '';
-        });
-    });
+    postMessageAndWait('#post_textbox', message);
 });
 
 Cypress.Commands.add('postMessageReplyInRHS', (message) => {
-    cy.get('#reply_textbox').should('be.visible').clear().type(message).type('{enter}');
-    cy.wait(TIMEOUTS.TINY);
+    postMessageAndWait('#reply_textbox', message);
 });
+
+function postMessageAndWait(textboxSelector, message) {
+    cy.get(textboxSelector, {timeout: TIMEOUTS.LARGE}).should('be.visible').clear().type(`${message}{enter}`);
+    cy.waitUntil(() => {
+        return cy.get(textboxSelector).then((el) => {
+            return el[0].textContent === '';
+        });
+    });
+}
 
 function waitUntilPermanentPost() {
     cy.get('#postListContent').should('be.visible');
@@ -134,6 +137,27 @@ Cypress.Commands.add('getLastPostId', () => {
 
     cy.findAllByTestId('postView').last().should('have.attr', 'id').and('not.include', ':').
         invoke('replace', 'post_', '');
+});
+
+/**
+ * @see `cy.uiWaitUntilMessagePostedIncludes` at ./ui_commands.d.ts
+ */
+Cypress.Commands.add('uiWaitUntilMessagePostedIncludes', (message) => {
+    const checkFn = () => {
+        return cy.getLastPost().then((el) => {
+            const postedMessageEl = el.find('.post-message__text')[0];
+            return Boolean(postedMessageEl && postedMessageEl.textContent.includes(message));
+        });
+    };
+
+    // Wait for 5 seconds with 200ms check interval
+    const options = {
+        timeout: TIMEOUTS.SMALL,
+        interval: 200,
+        errorMsg: `Expected "${message}" to be in the last message posted but not found.`,
+    };
+
+    return cy.waitUntil(checkFn, options);
 });
 
 Cypress.Commands.add('getLastPostIdRHS', () => {
@@ -386,11 +410,11 @@ Cypress.Commands.add('updateChannelHeader', (text) => {
 /**
  * On default "ad-1" team, create and visit a new channel
  */
-Cypress.Commands.add('createAndVisitNewChannel', () => {
+Cypress.Commands.add('createAndVisitNewChannel', (channelName = 'channel-test') => {
     cy.visit('/ad-1/channels/town-square');
 
     cy.getCurrentTeamId().then((teamId) => {
-        cy.apiCreateChannel(teamId, 'channel-test', 'Channel Test').then((res) => {
+        cy.apiCreateChannel(teamId, channelName, 'Channel Test').then((res) => {
             const channel = res.body;
 
             // # Visit the new channel

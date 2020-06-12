@@ -14,15 +14,19 @@
     flex: 0 0 1.6rem;
 
     &--standard {
-        font-size: 1.6rem;
+        font-size: 1.2rem;
         margin: 0 12px 0 0;
-        width: 1.6rem;
+        flex: 0 0 2.4rem;
+        width: 2rem;
+        height: 2rem;
     }
 
     &--large {
         font-size: 1.6rem;
         margin: 0 12px 0 0;
+        flex: 0 0 2.4rem;
         width: 2.4rem;
+        height: 2.4rem;
     }
 
     .status--group {
@@ -33,10 +37,6 @@
 .suggestion-list {
     width: 100%;
     z-index: 100;
-
-    .post-create & {
-        margin: 0 0 -8px 16px;
-    }
 
     .post-right__scroll & {
         margin: 0;

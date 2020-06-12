@@ -7,8 +7,8 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod @smoke
-// Group: @channel @channel_settings
+// Stage: @prod
+// Group: @channel @channel_settings @smoke
 
 function verifyMentionedUserAndProfilePopover(postId) {
     cy.get(`#post_${postId}`).find('.mention-link').each(($el) => {
