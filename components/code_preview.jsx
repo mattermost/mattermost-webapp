@@ -24,28 +24,46 @@ export default class CodePreview extends React.PureComponent {
     }
 
     componentDidMount() {
-        this.updateStateFromProps(this.props);
+        this.getCode();
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (this.props.fileUrl !== nextProps.fileUrl) {
-            this.updateStateFromProps(nextProps);
+    static getDerivedStateFromProps(props, state) {
+        if (props.fileUrl !== state.prevFileUrl) {
+            const usedLanguage = SyntaxHighlighting.getLanguageFromFileExtension(props.fileInfo.extension);
+
+            if (!usedLanguage || props.fileInfo.size > Constants.CODE_PREVIEW_MAX_FILE_SIZE) {
+                return {
+                    code: '',
+                    lang: '',
+                    loading: false,
+                    success: false,
+                    prevFileUrl: props.fileUrl,
+                };
+            }
+
+            return {
+                code: '',
+                lang: usedLanguage,
+                loading: true,
+                prevFileUrl: props.fileUrl,
+            };
+        }
+        return null;
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.fileUrl !== prevProps.fileUrl) {
+            this.getCode();
         }
     }
 
-    updateStateFromProps = (props) => {
-        const usedLanguage = SyntaxHighlighting.getLanguageFromFileExtension(props.fileInfo.extension);
-
-        if (!usedLanguage || props.fileInfo.size > Constants.CODE_PREVIEW_MAX_FILE_SIZE) {
-            this.setState({code: '', lang: '', loading: false, success: false});
+    getCode = () => {
+        if (!this.state.lang || this.props.fileInfo.size > Constants.CODE_PREVIEW_MAX_FILE_SIZE) {
             return;
         }
-
-        this.setState({code: '', lang: usedLanguage, loading: true});
-
         $.ajax({
             async: true,
-            url: props.fileUrl,
+            url: this.props.fileUrl,
             type: 'GET',
             dataType: 'text',
             error: this.handleReceivedError,
