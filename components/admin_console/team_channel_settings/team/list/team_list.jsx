@@ -14,6 +14,8 @@ import {PAGE_SIZE} from 'components/admin_console/team_channel_settings/abstract
 import TeamIcon from 'components/widgets/team_icon/team_icon';
 
 import './team_list.scss';
+
+const ROW_HEIGHT = 80;
 export default class TeamList extends React.PureComponent {
     static propTypes = {
         actions: PropTypes.shape({
@@ -208,6 +210,10 @@ export default class TeamList extends React.PureComponent {
             />
         );
 
+        const rowsContainerStyles = {
+            minHeight: `${rows.length * ROW_HEIGHT}px`,
+        };
+
         return (
             <DataGrid
                 columns={columns}
@@ -222,6 +228,7 @@ export default class TeamList extends React.PureComponent {
                 search={this.search}
                 term={term}
                 placeholderEmpty={placeholderEmpty}
+                rowsContainerStyles={rowsContainerStyles}
             />
         );
     }

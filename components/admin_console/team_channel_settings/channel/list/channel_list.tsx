@@ -33,6 +33,8 @@ interface ChannelListState {
     total: number;
 }
 
+const ROW_HEIGHT = 50;
+
 export default class ChannelList extends React.PureComponent<ChannelListProps, ChannelListState> {
     constructor(props: ChannelListProps) {
         super(props);
@@ -208,6 +210,10 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
             />
         );
 
+        const rowsContainerStyles = {
+            minHeight: `${rows.length * ROW_HEIGHT}px`,
+        };
+
         return (
             <DataGrid
                 columns={columns}
@@ -222,6 +228,7 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
                 search={this.search}
                 term={term}
                 placeholderEmpty={placeholderEmpty}
+                rowsContainerStyles={rowsContainerStyles}
             />
         );
     }
