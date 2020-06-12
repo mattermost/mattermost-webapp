@@ -45,7 +45,7 @@ export type GlobalState = BaseGlobalState & {
                 [channelId: string]: number;
             };
             channelPrefetchStatus: {
-                [channelId: string]: boolean;
+                [channelId: string]: string;
             };
         };
 

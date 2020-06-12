@@ -181,7 +181,6 @@ export function autocompleteUsersInChannel(prefix, channelId) {
 export function loadUnreads(channelId, prefetch = false) {
     return async (dispatch) => {
         const time = Date.now();
-        const actions = [];
         if (prefetch) {
             dispatch({
                 type: ActionTypes.PREFETCH_POSTS_FOR_CHANNEL,
@@ -204,6 +203,7 @@ export function loadUnreads(channelId, prefetch = false) {
                 atOldestmessage: false,
             };
         }
+        const actions = [];
 
         actions.push({
             type: ActionTypes.INCREASE_POST_VISIBILITY,
@@ -362,18 +362,20 @@ export function syncPostsInChannel(channelId, since, prefetch = false) {
             });
         }
 
-        if (error && prefetch) {
-            actions.push({
-                type: ActionTypes.PREFETCH_POSTS_FOR_CHANNEL,
-                channelId,
-                status: RequestStatus.FAILURE,
-            });
-        } else if (prefetch) {
-            actions.push({
-                type: ActionTypes.PREFETCH_POSTS_FOR_CHANNEL,
-                channelId,
-                status: RequestStatus.SUCCESS,
-            });
+        if (prefetch) {
+            if (error) {
+                actions.push({
+                    type: ActionTypes.PREFETCH_POSTS_FOR_CHANNEL,
+                    channelId,
+                    status: RequestStatus.FAILURE,
+                });
+            } else {
+                actions.push({
+                    type: ActionTypes.PREFETCH_POSTS_FOR_CHANNEL,
+                    channelId,
+                    status: RequestStatus.SUCCESS,
+                });
+            }
         }
 
         dispatch(batchActions(actions));

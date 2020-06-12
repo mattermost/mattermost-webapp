@@ -4,6 +4,7 @@
 import React from 'react';
 import PQueue from 'p-queue';
 import {Channel} from 'mattermost-redux/types/channels';
+import {Dictionary} from 'mattermost-redux/types/utilities';
 
 import {Constants} from 'utils/constants';
 import {loadProfilesForSidebar} from 'actions/user_actions.jsx';
@@ -13,12 +14,34 @@ const queue = new PQueue({concurrency: 2});
 type Props = {
     currentChannelId: string;
     prefetchQueueObj: Record<string, string[]>;
-    prefetchRequestStatus: Record<string, any>;
+    prefetchRequestStatus: Dictionary<string>;
     unreadChannels: Channel[];
     actions: {
-        prefetchChannelPosts: (channelId: string, delay: number | undefined) => Promise<any>;
+        prefetchChannelPosts: (channelId: string, delay?: number) => Promise<any>;
     };
 }
+
+/*
+This component is responsible for prefetching data. As of now component only fetches for channel posts based on the below set of rules.
+   * Priority order:
+        Fetches channel posts 2 at a time, with mentions followed channels with unreads.
+
+  * Conditions for prefetching posts:
+        On load of webapp
+        On socket reconnect or system comes from sleep
+        On new message in a channel where user has not visited in the present session
+        On addition of user to a channel/GM
+        On Team switch
+
+        In order to solve the above conditions the component looks for changes in selector unread channels.
+        if there is a change in unreads selector, then component clears existing queue as it can be obselete
+        i.e there can be new mentions and we need to prioritise instead of unreads so, contructs a new queue
+        with dispacthes of unreads posts for channels which do not have prefetched requests.
+
+  * other changes:
+        Adds current channel posts requests to be dispatched as soon as it is set in redux state instead of dispatching it from actions down the hierarchy. Otherwise couple of prefetching requests are sent before the postlist makes a request for posts.
+        Add a jitter(0-1sec) for delaying post requests in case of a new message in open/private channels. This is to prevent a case when all clients request messages when new post is made in a channel with thousands of users.
+*/
 
 export default class DataPrefetch extends React.PureComponent<Props, {}> {
     private prefetchTimeout?: number;
@@ -32,6 +55,8 @@ export default class DataPrefetch extends React.PureComponent<Props, {}> {
         } else if (prevProps.prefetchQueueObj !== prefetchQueueObj) {
             clearTimeout(this.prefetchTimeout);
             queue.clear();
+
+            // Added delay because queue wasnt getting cleared all that well.
             this.prefetchTimeout = window.setTimeout(() => {
                 this.prefetchData();
             }, 0);
@@ -54,32 +79,19 @@ export default class DataPrefetch extends React.PureComponent<Props, {}> {
         return this.props.actions.prefetchChannelPosts(channelId, delay);
     }
 
-    private shouldLoadPriorityQueue = (priority: number, numberOfPiorityRequests: Record<string, number>) => {
-        if (priority === 1) {
-            return true;
-        } else if (priority === 2) {
-            return !numberOfPiorityRequests[1];
-        }
-        return !numberOfPiorityRequests[1] && !numberOfPiorityRequests[2];
-    }
-
     private prefetchData = () => {
-        const numberOfPiorityRequests: Record<string, number> = {
-            3: 0,
-            2: 0,
-            1: 0, // high priority requests
-        };
+        const {prefetchRequestStatus, prefetchQueueObj} = this.props;
+        for (const priority in prefetchQueueObj) {
+            if (!prefetchQueueObj.hasOwnProperty(priority)) {
+                continue;
+            }
 
-        for (let priorityOrder = 1; priorityOrder <= 3; priorityOrder++) {
-            const priorityQueue = this.props.prefetchQueueObj[priorityOrder];
-            for (let channelIndex = 0; channelIndex < priorityQueue.length; channelIndex++) {
-                if (!this.props.prefetchRequestStatus[priorityQueue[channelIndex]] && this.shouldLoadPriorityQueue(priorityOrder, numberOfPiorityRequests)) {
-                    const channelId = priorityQueue[channelIndex];
-                    numberOfPiorityRequests[priorityOrder]++;
+            const priorityQueue = prefetchQueueObj[priority];
+            for (const channelId of priorityQueue) {
+                if (!prefetchRequestStatus.hasOwnProperty(channelId)) {
                     queue.add(async () => this.prefetchPosts(channelId));
                 }
             }
-            numberOfPiorityRequests[priorityOrder] = 0;
         }
     }
 

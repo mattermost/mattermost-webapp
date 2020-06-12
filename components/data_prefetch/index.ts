@@ -21,9 +21,18 @@ import {prefetchChannelPosts} from 'actions/views/channel';
 import DataPrefetch from './data_prefetch';
 
 type Actions = {
-    prefetchChannelPosts: (channelId: string, delay: number | undefined) => Promise<{data: {}}>;
+    prefetchChannelPosts: (channelId: string, delay?: number) => Promise<{data: {}}>;
 };
 
+enum Priority {
+    high = 1,
+    medium,
+    low
+}
+
+// function to return a queue obj with priotiy as key and array of channelIds as values.
+// high priority has channels with mentions
+// medium priority has channels with unreads
 const prefetchQueue = memoizeResult((channels: Channel[], memberships: RelationOneToOne<Channel, ChannelMembership>) => {
     return channels.reduce((acc: Record<string, string[]>, channel: Channel) => {
         const channelId = channel.id;
@@ -32,20 +41,20 @@ const prefetchQueue = memoizeResult((channels: Channel[], memberships: RelationO
             if (membership.mention_count > 0) {
                 return {
                     ...acc,
-                    1: [...acc[1], channelId],
+                    [Priority.high]: [...acc[Priority.high], channelId],
                 };
             } else if (membership.notify_props && membership.notify_props.mark_unread !== 'mention' && channel.total_msg_count - membership.msg_count) {
                 return {
                     ...acc,
-                    2: [...acc[2], channelId],
+                    [Priority.medium]: [...acc[Priority.medium], channelId],
                 };
             }
         }
         return acc;
     }, {
-        1: [], // 1 being high priority requests
-        2: [],
-        3: [], //TODO: add chanenls such as fav.
+        [Priority.high]: [], // 1 being high priority requests
+        [Priority.medium]: [],
+        [Priority.low]: [], //TODO: add chanenls such as fav.
     });
 });
 

@@ -124,19 +124,11 @@ export default class Sidebar extends React.PureComponent<Props, State> {
     }
 
     render() {
-        const {
-            isOpen,
-            canCreatePrivateChannel,
-            canCreatePublicChannel,
-            canJoinPublicChannel,
-            isDataPrefechEnabled,
-        } = this.props;
-
         return (
             <div
                 id='SidebarContainer'
                 className={classNames({
-                    'move--right': isOpen && Utils.isMobile(),
+                    'move--right': this.props.isOpen && Utils.isMobile(),
                 })}
             >
                 <SidebarHeader/>
@@ -150,14 +142,14 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                         <AddChannelDropdown
                             showNewChannelModal={this.showNewChannelModal}
                             showMoreChannelsModal={this.showMoreChannelsModal}
-                            canCreateChannel={canCreatePrivateChannel || canCreatePublicChannel}
-                            canJoinPublicChannel={canJoinPublicChannel}
+                            canCreateChannel={this.props.canCreatePrivateChannel || this.props.canCreatePublicChannel}
+                            canJoinPublicChannel={this.props.canJoinPublicChannel}
                         />
                     </div>
                 </div>
                 <Pluggable pluggableName='LeftSidebarHeader'/>
                 <SidebarCategoryList handleOpenMoreDirectChannelsModal={this.handleOpenMoreDirectChannelsModal}/>
-                {isDataPrefechEnabled && <DataPrefetch/>}
+                {this.props.isDataPrefechEnabled && <DataPrefetch/>}
                 {this.renderModals()}
             </div>
         );
