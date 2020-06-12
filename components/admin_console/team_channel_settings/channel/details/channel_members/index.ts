@@ -66,15 +66,16 @@ function makeMapStateToProps() {
             member_count: 0,
             channel_id: channelId,
             pinnedpost_count: 0,
+            guest_count: 0,
         };
 
         const searchTerm = state.views.search.modalSearch;
         let users = [];
         if (searchTerm) {
-            users = searchProfilesInChannel(state, channelId, searchTerm);
+            users = searchProfilesInChannel(state, channelId, searchTerm, false, true);
             usersToAdd = searchUsersToAdd(usersToAdd, searchTerm);
         } else {
-            users = doGetProfilesInChannel(state, channelId, false);
+            users = doGetProfilesInChannel(state, channelId, true);
         }
 
         return {

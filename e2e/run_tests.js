@@ -12,7 +12,7 @@
  * Options:
  *   --stage=[stage]
  *      Selects spec files with matching stage. It can be of multiple values separated by comma.
- *      E.g. "--stage='@prod,@smoke'" will select files with either @prod or @smoke.
+ *      E.g. "--stage='@prod,@dev'" will select files with either @prod or @dev.
  *   --group=[group]
  *      Selects spec files with matching group. It can be of multiple values separated by comma.
  *      E.g. "--group='@channel,@messaging'" will select files with either @channel or @messaging.

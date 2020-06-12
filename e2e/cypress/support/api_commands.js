@@ -21,10 +21,6 @@ import theme from '../fixtures/theme.json';
 // https://api.mattermost.com/#tag/authentication
 // *****************************************************************************
 
-/**
- * Login a user directly via API
- * @param {String} username - e.g. "user-1" (default)
- */
 Cypress.Commands.add('apiLogin', (username = 'user-1', password = null) => {
     cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
@@ -37,9 +33,6 @@ Cypress.Commands.add('apiLogin', (username = 'user-1', password = null) => {
     });
 });
 
-/**
- * Logout a user directly via API
- */
 Cypress.Commands.add('apiLogout', () => {
     cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
@@ -59,16 +52,19 @@ Cypress.Commands.add('apiLogout', () => {
     cy.getCookies({log: false}).should('be.empty');
 });
 
-/**
- * Get a list of all the bots
- * This API assumes that the user logged in has permission to read bots
- */
+// *******************************************************************************
+// Bots
+// https://api.mattermost.com/#tag/bots
+// *******************************************************************************
 
 Cypress.Commands.add('apiGetBots', () => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: '/api/v4/bots',
         method: 'GET',
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response);
     });
 });
 
@@ -77,17 +73,6 @@ Cypress.Commands.add('apiGetBots', () => {
 // https://api.mattermost.com/#tag/channels
 // *****************************************************************************
 
-/**
- * Creates a channel directly via API
- * This API assume that the user is logged in and has cookie to access
- * @param {String} teamId - The team ID of the team to create the channel on
- * @param {String} name - The unique handle for the channel, will be present in the channel URL
- * @param {String} displayName - The non-unique UI name for the channel
- * @param {String} type - 'O' for a public channel (default), 'P' for a private channel
- * @param {String} purpose - A short description of the purpose of the channel
- * @param {String} header - Markdown-formatted text to display in the header of the channel
- * All parameters required except purpose and header
- */
 Cypress.Commands.add('apiCreateChannel', (teamId, name, displayName, type = 'O', purpose = '', header = '') => {
     const uniqueName = `${name}-${getRandomId()}`;
 
@@ -109,27 +94,18 @@ Cypress.Commands.add('apiCreateChannel', (teamId, name, displayName, type = 'O',
     });
 });
 
-/**
- * Creates a new Direct channel directly via API
- * This API assume that the user is logged in and has cookie to access
- * @param {String} userids - array of userids
- * All parameters required
- */
 Cypress.Commands.add('apiCreateDirectChannel', (userids) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: '/api/v4/channels/direct',
         method: 'POST',
         body: userids,
+    }).then((response) => {
+        expect(response.status).to.equal(201);
+        return cy.wrap(response);
     });
 });
 
-/**
- * Creates a group channel directly via API
- * This API assume that the user is logged in and has cookie to access
- * @param {String} userIds - IDs of users as member of the group
- * All parameters required except purpose and header
- */
 Cypress.Commands.add('apiCreateGroupChannel', (userIds = []) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
@@ -142,12 +118,6 @@ Cypress.Commands.add('apiCreateGroupChannel', (userIds = []) => {
     });
 });
 
-/**
- * Deletes a channel directly via API
- * This API assume that the user is logged in and has cookie to access
- * @param {String} channelId - The channel ID to be deleted
- * All parameter required
- */
 Cypress.Commands.add('apiDeleteChannel', (channelId) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
@@ -159,18 +129,6 @@ Cypress.Commands.add('apiDeleteChannel', (channelId) => {
     });
 });
 
-/**
- * Updates a channel directly via API
- * This API assume that the user is logged in and has cookie to access
- * @param {String} channelId - The channel's id, not updatable
- * @param {Object} channelData
- *   {String} name - The unique handle for the channel, will be present in the channel URL
- *   {String} display_name - The non-unique UI name for the channel
- *   {String} type - 'O' for a public channel (default), 'P' for a private channel
- *   {String} purpose - A short description of the purpose of the channel
- *   {String} header - Markdown-formatted text to display in the header of the channel
- * Only channelId is required
- */
 Cypress.Commands.add('apiUpdateChannel', (channelId, channelData) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
@@ -186,17 +144,6 @@ Cypress.Commands.add('apiUpdateChannel', (channelId, channelData) => {
     });
 });
 
-/**
- * Partially update a channel directly via API
- * This API assume that the user is logged in and has cookie to access
- * @param {String} channelId - The channel's id, not updatable
- * @param {Object} channelData
- *   {String} name - The unique handle for the channel, will be present in the channel URL
- *   {String} display_name - The non-unique UI name for the channel
- *   {String} purpose - A short description of the purpose of the channel
- *   {String} header - Markdown-formatted text to display in the header of the channel
- * Only channelId is required
- */
 Cypress.Commands.add('apiPatchChannel', (channelId, channelData) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
@@ -794,6 +741,21 @@ Cypress.Commands.add('apiUpdateUserStatus', (status = 'online') => {
     });
 });
 
+/**
+ * Revoke all active sessions for a user
+ * @param {String} userId - ID of user to revoke sessions
+ */
+Cypress.Commands.add('apiRevokeUserSessions', (userId) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: `/api/v4/users/${userId}/sessions/revoke/all`,
+        method: 'POST',
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        cy.wrap(response);
+    });
+});
+
 // *****************************************************************************
 // Posts
 // https://api.mattermost.com/#tag/posts
@@ -848,12 +810,23 @@ Cypress.Commands.add('requireLicense', () => {
     });
 });
 
+const getDefaultConfig = () => {
+    const fromCypressEnv = {
+        LdapSettings: {
+            LdapServer: Cypress.env('ldapServer'),
+            LdapPort: Cypress.env('ldapPort'),
+        },
+    };
+
+    return merge(partialDefaultConfig, fromCypressEnv);
+};
+
 Cypress.Commands.add('apiUpdateConfig', (newSettings = {}) => {
     // # Get current settings
     return cy.request('/api/v4/config').then((response) => {
         const oldSettings = response.body;
 
-        const settings = merge(oldSettings, partialDefaultConfig, newSettings);
+        const settings = merge(oldSettings, getDefaultConfig(), newSettings);
 
         // # Set the modified settings
         return cy.request({
@@ -1238,6 +1211,11 @@ Cypress.Commands.add('apiActivateUser', (userId, active = true) => {
     cy.externalRequest({user: users.sysadmin, method: 'put', baseUrl, path: `users/${userId}/active`, data: {active}});
 });
 
+// *****************************************************************************
+// Groups
+// https://api.mattermost.com/#tag/groups
+// *****************************************************************************
+
 /**
  * Get all groups via the API
  *
@@ -1249,6 +1227,25 @@ Cypress.Commands.add('apiGetGroups', (page = 0, perPage = 100) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: `/api/v4/groups?page=${page}&per_page=${perPage}`,
+        method: 'GET',
+        timeout: 60000,
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response);
+    });
+});
+
+/**
+ * Get LDAP groups
+ *
+ * @param {Integer} page - The desired page of the paginated list
+ * @param {Integer} perPage - The number of groups per page
+ *
+ */
+Cypress.Commands.add('apiGetLDAPGroups', (page = 0, perPage = 100) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: `/api/v4/ldap/groups?page=${page}&per_page=${perPage}`,
         method: 'GET',
         timeout: 60000,
     }).then((response) => {
@@ -1280,6 +1277,160 @@ Cypress.Commands.add('apiPatchGroup', (groupID, patch) => {
         return cy.wrap(response);
     });
 });
+
+/**
+ * Get all LDAP groups via API
+ * @param {Integer} page - The page to select
+ * @param {Integer} perPage - The number of groups per page
+ */
+Cypress.Commands.add('apiGetLDAPGroups', (page = 0, perPage = 100) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: `/api/v4/ldap/groups?page=${page}&per_page=${perPage}`,
+        method: 'GET',
+        timeout: 60000,
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response);
+    });
+});
+
+/**
+ * Add a link for LDAP group via API
+ * @param {String} remoteId - remote ID of the group
+ */
+Cypress.Commands.add('apiAddLDAPGroupLink', (remoteId) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: `/api/v4/ldap/groups/${remoteId}/link`,
+        method: 'POST',
+        timeout: 60000,
+    }).then((response) => {
+        return cy.wrap(response);
+    });
+});
+
+/**
+ * Retrieve the list of groups associated with a given team via API
+ * @param {String} teamId - Team GUID
+ */
+Cypress.Commands.add('apiGetTeamGroups', (teamId) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: `/api/v4/teams/${teamId}/groups`,
+        method: 'GET',
+        timeout: 60000,
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response);
+    });
+});
+
+/**
+ * Delete a link from a team to a group via API
+ * @param {String} groupId - Group GUID
+ * @param {String} teamId - Team GUID
+ */
+Cypress.Commands.add('apiDeleteLinkFromTeamToGroup', (groupId, teamId) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: `/api/v4/groups/${groupId}/teams/${teamId}/link`,
+        method: 'DELETE',
+        timeout: 60000,
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response);
+    });
+});
+
+Cypress.Commands.add('apiLinkGroup', (groupID) => {
+    return linkUnlinkGroup(groupID, 'POST');
+});
+
+Cypress.Commands.add('apiUnlinkGroup', (groupID) => {
+    return linkUnlinkGroup(groupID, 'DELETE');
+});
+
+function linkUnlinkGroup(groupID, httpMethod) {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: `/api/v4/ldap/groups/${groupID}/link`,
+        method: httpMethod,
+        timeout: 60000,
+    }).then((response) => {
+        expect(response.status).to.be.oneOf([200, 201, 204]);
+        return cy.wrap(response);
+    });
+}
+
+Cypress.Commands.add('apiGetGroupTeams', (groupID) => {
+    return getGroupSyncables(groupID, 'team');
+});
+
+Cypress.Commands.add('apiGetGroupTeam', (groupID, teamID) => {
+    return getGroupSyncable(groupID, 'team', teamID);
+});
+
+Cypress.Commands.add('apiGetGroupChannels', (groupID) => {
+    return getGroupSyncables(groupID, 'channel');
+});
+
+Cypress.Commands.add('apiGetGroupChannel', (groupID, channelID) => {
+    return getGroupSyncable(groupID, 'channel', channelID);
+});
+
+function getGroupSyncable(groupID, syncableType, syncableID) {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: `/api/v4/groups/${groupID}/${syncableType}s/${syncableID}`,
+        method: 'GET',
+        timeout: 60000,
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response);
+    });
+}
+
+function getGroupSyncables(groupID, syncableType) {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: `/api/v4/groups/${groupID}/${syncableType}s?page=0&per_page=100`,
+        method: 'GET',
+        timeout: 60000,
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response);
+    });
+}
+
+Cypress.Commands.add('apiUnlinkGroupTeam', (groupID, teamID) => {
+    return linkUnlinkGroupSyncable(groupID, teamID, 'team', 'DELETE');
+});
+
+Cypress.Commands.add('apiLinkGroupTeam', (groupID, teamID) => {
+    return linkUnlinkGroupSyncable(groupID, teamID, 'team', 'POST');
+});
+
+Cypress.Commands.add('apiUnlinkGroupChannel', (groupID, channelID) => {
+    return linkUnlinkGroupSyncable(groupID, channelID, 'channel', 'DELETE');
+});
+
+Cypress.Commands.add('apiLinkGroupChannel', (groupID, channelID) => {
+    return linkUnlinkGroupSyncable(groupID, channelID, 'channel', 'POST');
+});
+
+function linkUnlinkGroupSyncable(groupID, syncableID, syncableType, httpMethod) {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: `/api/v4/groups/${groupID}/${syncableType}s/${syncableID}/link`,
+        method: httpMethod,
+        timeout: 60000,
+        body: {auto_add: true},
+    }).then((response) => {
+        expect(response.status).to.be.oneOf([200, 201, 204]);
+        return cy.wrap(response);
+    });
+}
 
 // *****************************************************************************
 // SAML

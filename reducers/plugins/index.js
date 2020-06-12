@@ -188,22 +188,6 @@ function components(state = {}, action) {
         }
         return state;
     }
-    case ActionTypes.RECEIVED_PLUGIN_RHS_ICONS: {
-        const nextState = {...state};
-        const currentArray = nextState.RightHandSidebarComponent;
-        const nextArray = currentArray.map((data) => {
-            if (data.id === action.data.id) {
-                // Update icons for this pluginId
-                return {
-                    ...data,
-                    icons: action.data.icons,
-                };
-            }
-            return data;
-        });
-        nextState.RightHandSidebarComponent = nextArray;
-        return nextState;
-    }
     case ActionTypes.REMOVED_PLUGIN_COMPONENT:
         return removePluginComponent(state, action);
     case ActionTypes.RECEIVED_WEBAPP_PLUGIN:

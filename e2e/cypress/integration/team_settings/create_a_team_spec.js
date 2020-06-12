@@ -8,7 +8,7 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @team_settings
+// Group: @team_settings @smoke
 
 import {getRandomId} from '../../utils';
 

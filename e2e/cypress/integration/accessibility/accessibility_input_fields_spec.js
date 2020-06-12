@@ -45,7 +45,7 @@ function verifyMessageAutocomplete(index, type = 'user') {
                 });
             });
         } else if (type === 'channel') {
-            cy.get('.mention__align>span').invoke('text').then((text) => {
+            cy.wrap(el).invoke('text').then((text) => {
                 const channel = text.split('~')[0].toLowerCase().trim();
                 cy.wrap(el).parents('.textarea-wrapper').find('.sr-only').should('have.attr', 'aria-live', 'polite').and('have.text', channel);
             });
