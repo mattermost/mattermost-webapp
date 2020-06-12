@@ -97,6 +97,11 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
       },
     ]
   }
+  rowsContainerStyles={
+    Object {
+      "minHeight": "50px",
+    }
+  }
   search={[Function]}
   startCount={1}
   term=""
@@ -560,6 +565,11 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
         </span>,
       },
     ]
+  }
+  rowsContainerStyles={
+    Object {
+      "minHeight": "500px",
+    }
   }
   search={[Function]}
   startCount={1}

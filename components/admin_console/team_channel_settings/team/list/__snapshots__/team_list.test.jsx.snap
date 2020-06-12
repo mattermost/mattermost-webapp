@@ -89,6 +89,11 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
       },
     ]
   }
+  rowsContainerStyles={
+    Object {
+      "minHeight": "80px",
+    }
+  }
   search={[Function]}
   startCount={1}
   term=""
@@ -562,6 +567,11 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
         </div>,
       },
     ]
+  }
+  rowsContainerStyles={
+    Object {
+      "minHeight": "800px",
+    }
   }
   search={[Function]}
   startCount={1}
