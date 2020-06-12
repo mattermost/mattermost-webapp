@@ -2279,7 +2279,7 @@
   "delete_channel.cancel": "Cancel",
   "delete_channel.confirm": "Confirm ARCHIVE Channel",
   "delete_channel.del": "Archive",
-  "delete_channel.question": "This will archive the channel from the team and make its contents inaccessible for all users. \n \nAre you sure you wish to archive the **{display_name}** channel?",
+  "delete_channel.question": "This will archive the channel from the team and remove it from the user interface. Archived channels can be unarchived if needed again. \n \nAre you sure you wish to archive the {display_name} channel?",
   "delete_channel.viewArchived.question": "This will archive the channel from the team. Channel contents will still be accessible by channel members.\n \nAre you sure you wish to archive the **{display_name}** channel?",
   "delete_post.cancel": "Cancel",
   "delete_post.comment": "Comment",
