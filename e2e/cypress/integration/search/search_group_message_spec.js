@@ -7,7 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod @smoke
+// Stage: @prod
 // Group: @search
 
 const groupMembers = ['aaron.peterson', 'aaron.ward', 'samuel.tucker'];

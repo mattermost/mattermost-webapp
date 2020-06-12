@@ -105,18 +105,21 @@ function isMac() {
 // ***********************************************************
 
 Cypress.Commands.add('postMessage', (message) => {
-    cy.get('#post_textbox', {timeout: TIMEOUTS.LARGE}).clear().type(`${message}{enter}`);
-    cy.waitUntil(() => {
-        return cy.get('#post_textbox').then((el) => {
-            return el[0].textContent === '';
-        });
-    });
+    postMessageAndWait('#post_textbox', message);
 });
 
 Cypress.Commands.add('postMessageReplyInRHS', (message) => {
-    cy.get('#reply_textbox').should('be.visible').clear().type(`${message}{enter}`);
-    cy.wait(TIMEOUTS.TINY);
+    postMessageAndWait('#reply_textbox', message);
 });
+
+function postMessageAndWait(textboxSelector, message) {
+    cy.get(textboxSelector, {timeout: TIMEOUTS.LARGE}).should('be.visible').clear().type(`${message}{enter}`);
+    cy.waitUntil(() => {
+        return cy.get(textboxSelector).then((el) => {
+            return el[0].textContent === '';
+        });
+    });
+}
 
 function waitUntilPermanentPost() {
     cy.get('#postListContent').should('be.visible');
