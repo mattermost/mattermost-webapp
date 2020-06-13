@@ -136,8 +136,6 @@ export default class NotificationsTab extends React.PureComponent {
         super(props);
 
         this.state = getNotificationsStateFromProps(props);
-        console.log("The user is: ", props.user);
-        console.log("The state is: ", this.state);
     }
 
     handleSubmit = () => {
@@ -927,6 +925,7 @@ export default class NotificationsTab extends React.PureComponent {
                         cancel={this.handleCancel}
                         error={this.state.serverError}
                         active={this.props.activeSection === 'desktop'}
+                        selectedSound={this.state.desktopNotificationSound}
                     />
                     <div className='divider-light'/>
                     <EmailNotificationSetting

@@ -3,15 +3,26 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import ReactSelect from 'react-select';
+import { FormattedMessage } from 'react-intl';
 
-import {NotificationLevels} from 'utils/constants';
+import { NotificationLevels, NotificationSounds } from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
-import {t} from 'utils/i18n.jsx';
+import { t } from 'utils/i18n.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
+import { select } from '@storybook/addon-knobs';
 
 export default class DesktopNotificationSettings extends React.PureComponent {
+
+    constructor(props) {
+        super(props);
+        const selectedOption = { value: props.selectedSound, label: props.selectedSound };
+        this.state = {
+            selectedOption,
+        };
+    }
+
     handleMinUpdateSection = (section) => {
         this.props.updateSection(section);
 
@@ -26,6 +37,11 @@ export default class DesktopNotificationSettings extends React.PureComponent {
         const key = e.currentTarget.getAttribute('data-key');
         const value = e.currentTarget.getAttribute('data-value');
         this.props.setParentState(key, value);
+    }
+
+    setDesktopNotificationSound = (selectedOption) => {
+        this.props.setParentState({desktopNotificationSound: selectedOption.value});
+        this.setState({selectedOption});
     }
 
     buildMaximizedSetting = () => {
@@ -50,6 +66,13 @@ export default class DesktopNotificationSettings extends React.PureComponent {
             }
 
             if (Utils.hasSoundOptions()) {
+                const sounds = ['Bing', 'Crackle', 'Down', 'Hello', 'Ripple', 'Upstairs'];
+                const options = [];
+                sounds.forEach((sound) => {
+                    options.push(
+                        { value: sound, label: sound },
+                    );
+                });
                 soundSection = (
                     <fieldset>
                         <legend className='form-legend'>
@@ -74,8 +97,19 @@ export default class DesktopNotificationSettings extends React.PureComponent {
                                     defaultMessage='On'
                                 />
                             </label>
-                            <br/>
+                            <br />
                         </div>
+                        <div className='pt-2'
+                        ><ReactSelect
+                                className='react-select react-select-top'
+                                classNamePrefix='react-select'
+                                id='displayLanguage'
+                                options={options}
+                                clearable={false}
+                                onChange={this.setDesktopNotificationSound}
+                                value={this.state.selectedOption}
+                            /></div>
+
                         <div className='radio'>
                             <label>
                                 <input
@@ -92,7 +126,7 @@ export default class DesktopNotificationSettings extends React.PureComponent {
                                     defaultMessage='Off'
                                 />
                             </label>
-                            <br/>
+                            <br />
                         </div>
                         <div className='mt-5'>
                             <FormattedMessage
@@ -111,7 +145,7 @@ export default class DesktopNotificationSettings extends React.PureComponent {
                                 defaultMessage='Notification sound'
                             />
                         </legend>
-                        <br/>
+                        <br />
                         <FormattedMessage
                             id='user.settings.notifications.soundConfig'
                             defaultMessage='Please configure notification sounds in your browser settings'
@@ -146,7 +180,7 @@ export default class DesktopNotificationSettings extends React.PureComponent {
                                 defaultMessage='For all activity'
                             />
                         </label>
-                        <br/>
+                        <br />
                     </div>
                     <div className='radio'>
                         <label>
@@ -164,7 +198,7 @@ export default class DesktopNotificationSettings extends React.PureComponent {
                                 defaultMessage='Only for mentions and direct messages'
                             />
                         </label>
-                        <br/>
+                        <br />
                     </div>
                     <div className='radio'>
                         <label>
@@ -190,7 +224,7 @@ export default class DesktopNotificationSettings extends React.PureComponent {
                         />
                     </div>
                 </fieldset>
-                <hr/>
+                <hr />
                 {soundSection}
             </div>,
         );
@@ -254,7 +288,7 @@ export default class DesktopNotificationSettings extends React.PureComponent {
         return (
             <SettingItemMin
                 title={Utils.localizeMessage('user.settings.notifications.desktop.title', 'Desktop Notifications')}
-                describe={<FormattedMessage {...formattedMessageProps}/>}
+                describe={<FormattedMessage {...formattedMessageProps} />}
                 focused={this.props.focused}
                 section={'desktop'}
                 updateSection={this.handleMinUpdateSection}

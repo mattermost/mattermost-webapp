@@ -541,12 +541,12 @@ export const NotificationLevels = {
 };
 
 export const NotificationSounds = {
-    BING: 'bing',
-    CRACKLE: 'crackle',
-    DOWN: 'down',
-    HELLO: 'hello',
-    RIPPLE: 'ripple',
-    UPSTAIRS: 'upstairs',
+    BING: 'Bing',
+    CRACKLE: 'Crackle',
+    DOWN: 'Down',
+    HELLO: 'Hello',
+    RIPPLE: 'Ripple',
+    UPSTAIRS: 'Upstairs',
 };
 
 export const IgnoreChannelMentions = {
