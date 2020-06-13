@@ -540,6 +540,15 @@ export const NotificationLevels = {
     NONE: 'none',
 };
 
+export const NotificationSounds = {
+    BING: 'bing',
+    CRACKLE: 'crackle',
+    DOWN: 'down',
+    HELLO: 'hello',
+    RIPPLE: 'ripple',
+    UPSTAIRS: 'upstairs',
+};
+
 export const IgnoreChannelMentions = {
     ON: 'on',
     OFF: 'off',

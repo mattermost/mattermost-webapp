@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import Constants, {NotificationLevels} from 'utils/constants';
+import Constants, {NotificationLevels, NotificationSounds} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
@@ -19,6 +19,7 @@ function getNotificationsStateFromProps(props) {
 
     let desktop = NotificationLevels.MENTION;
     let sound = 'true';
+    let desktopNotificationSound = NotificationSounds.BING;
     let comments = 'never';
     let enableEmail = 'true';
     let pushActivity = NotificationLevels.MENTION;
@@ -35,6 +36,9 @@ function getNotificationsStateFromProps(props) {
         }
         if (user.notify_props.desktop_sound) {
             sound = user.notify_props.desktop_sound;
+        }
+        if (user.notify_props.desktop_notification_sound) {
+            desktopNotificationSound = user.notify_props.desktop_notification_sound;
         }
         if (user.notify_props.comments) {
             comments = user.notify_props.comments;
@@ -95,6 +99,7 @@ function getNotificationsStateFromProps(props) {
         pushActivity,
         pushStatus,
         desktopSound: sound,
+        desktopNotificationSound,
         usernameKey,
         customKeys,
         customKeysChecked: customKeys.length > 0,
@@ -131,6 +136,8 @@ export default class NotificationsTab extends React.PureComponent {
         super(props);
 
         this.state = getNotificationsStateFromProps(props);
+        console.log("The user is: ", props.user);
+        console.log("The state is: ", this.state);
     }
 
     handleSubmit = () => {
