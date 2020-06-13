@@ -40,7 +40,7 @@ export default class DesktopNotificationSettings extends React.PureComponent {
     }
 
     setDesktopNotificationSound = (selectedOption) => {
-        this.props.setParentState({desktopNotificationSound: selectedOption.value});
+        this.props.setParentState('desktopNotificationSound', selectedOption.value);
         this.setState({selectedOption});
     }
 

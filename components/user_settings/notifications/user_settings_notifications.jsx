@@ -142,6 +142,7 @@ export default class NotificationsTab extends React.PureComponent {
         const data = {};
         data.email = this.state.enableEmail;
         data.desktop_sound = this.state.desktopSound;
+        data.desktop_notification_sound = this.state.desktopNotificationSound;
         data.desktop = this.state.desktopActivity;
         data.push = this.state.pushActivity;
         data.push_status = this.state.pushStatus;
