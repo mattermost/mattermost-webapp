@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @accessibility
 
 import users from '../../fixtures/users.json';
@@ -237,10 +236,10 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
             // * Verify channel name is highlighted and reader reads the channel name
             cy.get('.more-modal__list>div').children().eq(0).as('selectedRow');
             cy.get('@selectedRow').within(() => {
-                cy.get('.more-modal__actions button').
+                cy.get('button.user-popover').
                     should('have.class', 'a11y--active a11y--focused');
                 cy.get('.more-modal__name').invoke('text').then((user) => {
-                    selectedRowText = user.split(' - ')[0].replace('@', '');
+                    selectedRowText = user.split(' ')[0].replace('@', '');
                     cy.get('.more-modal__actions button .sr-only').should('have.text', selectedRowText);
                 });
 
@@ -251,7 +250,7 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
             // * Press Tab again and verify if focus changes to next row
             cy.focused().tab();
             cy.get('.more-modal__list>div').children().eq(1).as('selectedRow').
-                get('.more-modal__actions button').
+                get('button.dropdown-toggle').
                 should('have.class', 'a11y--active a11y--focused');
 
             // * Verify accessibility support in search total results

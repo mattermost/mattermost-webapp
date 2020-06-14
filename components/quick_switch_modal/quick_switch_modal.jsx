@@ -318,6 +318,7 @@ export default class QuickSwitchModal extends React.PureComponent {
                             openWhenEmpty={true}
                             onSuggestionsReceived={this.handleSuggestionsReceived}
                             suppressLoadingSpinner={!this.state.hasSuggestions}
+                            forceSuggestionsWhenBlur={true}
                         />
                         {!this.state.hasSuggestions &&
                         <NoResultsIndicator
