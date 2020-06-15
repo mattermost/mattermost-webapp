@@ -149,8 +149,8 @@ export default class SuggestionBox extends React.PureComponent {
          * Define whether or not to render the tagged input
          */
         renderTaggedInput: PropTypes.bool,
-      
-        /** 
+
+        /**
          * To show suggestions even when focus is lost
          */
         forceSuggestionsWhenBlur: PropTypes.bool,
