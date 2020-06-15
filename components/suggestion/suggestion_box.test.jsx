@@ -211,14 +211,13 @@ describe('components/SuggestionBox', () => {
         expect(onBlur).toBeCalledTimes(1);
     });
 
-    test('should not call for pretext change on call of handleFocusIn when forceSuggestionsWhenBlur is true', () => {
+    test('should call for handlePretextChanged on handleFocusIn', () => {
         jest.useFakeTimers();
         const onFocus = jest.fn();
         const wrapper = shallow(
             <SuggestionBox
                 {...baseProps}
                 openOnFocus={true}
-                forceSuggestionsWhenBlur={true}
                 onFocus={onFocus}
             />,
         );
@@ -232,7 +231,19 @@ describe('components/SuggestionBox', () => {
 
         instance.handleFocusIn({relatedTarget});
         jest.runAllTimers();
-        expect(instance.handlePretextChanged).not.toHaveBeenCalled();
+        expect(instance.handlePretextChanged).toHaveBeenCalled();
         expect(onFocus).toHaveBeenCalled();
+    });
+
+    test('should call for debouncedPretextChanged only on change of pretext', () => {
+        const wrapper = shallow(<SuggestionBox {...baseProps}/>);
+        const instance = wrapper.instance();
+        instance.debouncedPretextChanged = jest.fn();
+        instance.handlePretextChanged('value');
+        expect(instance.debouncedPretextChanged).toHaveBeenCalledTimes(1);
+        instance.handlePretextChanged('value');
+        expect(instance.debouncedPretextChanged).toHaveBeenCalledTimes(1);
+        instance.handlePretextChanged('change');
+        expect(instance.debouncedPretextChanged).toHaveBeenCalledTimes(2);
     });
 });

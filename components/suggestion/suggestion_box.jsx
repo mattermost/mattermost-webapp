@@ -316,7 +316,7 @@ export default class SuggestionBox extends React.PureComponent {
 
         this.setState({focused: true});
 
-        if ((this.props.openOnFocus || this.props.openWhenEmpty) && !this.props.forceSuggestionsWhenBlur) {
+        if (this.props.openOnFocus || this.props.openWhenEmpty) {
             setTimeout(() => {
                 const textbox = this.getTextbox();
                 if (textbox) {
@@ -635,8 +635,10 @@ export default class SuggestionBox extends React.PureComponent {
     };
 
     handlePretextChanged = (pretext) => {
-        this.pretext = pretext;
-        this.debouncedPretextChanged(pretext);
+        if (pretext !== this.pretext) {
+            this.pretext = pretext;
+            this.debouncedPretextChanged(pretext);
+        }
     }
 
     blur = () => {
