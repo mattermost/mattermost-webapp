@@ -19,7 +19,7 @@ function getNotificationsStateFromProps(props) {
 
     let desktop = NotificationLevels.MENTION;
     let sound = 'true';
-    let desktopNotificationSound = NotificationSounds.BING;
+    let desktopNotificationSound = 'Bing';
     let comments = 'never';
     let enableEmail = 'true';
     let pushActivity = NotificationLevels.MENTION;

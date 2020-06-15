@@ -41,7 +41,7 @@ export default class DesktopNotificationSettings extends React.PureComponent {
 
     setDesktopNotificationSound = (selectedOption) => {
         this.props.setParentState('desktopNotificationSound', selectedOption.value);
-        this.setState({selectedOption});
+        this.setState({ selectedOption });
         Utils.tryNotificationSound(selectedOption.value);
     }
 
@@ -58,6 +58,7 @@ export default class DesktopNotificationSettings extends React.PureComponent {
         }
 
         let soundSection;
+        let notificationSelection;
         if (this.props.activity !== NotificationLevels.NONE) {
             const soundRadio = [false, false];
             if (this.props.sound === 'false') {
@@ -66,7 +67,7 @@ export default class DesktopNotificationSettings extends React.PureComponent {
                 soundRadio[0] = true;
             }
 
-            if (Utils.hasSoundOptions()) {
+            if (this.props.sound === 'true') {
                 const sounds = ['Bing', 'Crackle', 'Down', 'Hello', 'Ripple', 'Upstairs'];
                 const options = [];
                 sounds.forEach((sound) => {
@@ -74,6 +75,21 @@ export default class DesktopNotificationSettings extends React.PureComponent {
                         { value: sound, label: sound },
                     );
                 });
+                notificationSelection = (<div className='pt-2'>
+                    <ReactSelect
+                        className='react-select react-select-top'
+                        classNamePrefix='react-select'
+                        id='displayLanguage'
+                        options={options}
+                        clearable={false}
+                        onChange={this.setDesktopNotificationSound}
+                        value={this.state.selectedOption}
+                        isSearchable={false}
+                    />
+                </div>)
+            }
+
+            if (Utils.hasSoundOptions()) {
                 soundSection = (
                     <fieldset>
                         <legend className='form-legend'>
@@ -118,17 +134,7 @@ export default class DesktopNotificationSettings extends React.PureComponent {
                             </label>
                             <br />
                         </div>
-                        <div className='pt-2'
-                        ><ReactSelect
-                                className='react-select react-select-top'
-                                classNamePrefix='react-select'
-                                id='displayLanguage'
-                                options={options}
-                                clearable={false}
-                                onChange={this.setDesktopNotificationSound}
-                                value={this.state.selectedOption}
-                                isSearchable={false}
-                            /></div>
+                        {notificationSelection}
                         <div className='mt-5'>
                             <FormattedMessage
                                 id='user.settings.notifications.sounds_info'
