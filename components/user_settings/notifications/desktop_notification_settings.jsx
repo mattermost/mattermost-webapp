@@ -6,9 +6,7 @@ import React from 'react';
 import ReactSelect from 'react-select';
 import {FormattedMessage} from 'react-intl';
 
-import {select} from '@storybook/addon-knobs';
-
-import {NotificationLevels, NotificationSounds} from 'utils/constants';
+import {NotificationLevels} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
@@ -323,4 +321,5 @@ DesktopNotificationSettings.propTypes = {
     active: PropTypes.bool,
     saving: PropTypes.bool,
     focused: PropTypes.bool,
+    selectedSound: PropTypes.string,
 };
