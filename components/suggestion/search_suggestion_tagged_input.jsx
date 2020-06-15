@@ -25,7 +25,7 @@ const determinePairs = (value = this.props.value) => {
     let pairs = [];
 
     if (pairIncludesTags) {
-        const split = value.split(/(?<!:) /);
+        const split = value.split(/\s(?=\w+:)/);
         let lastEntry = split[split.length - 1];
         const lastEntryIsTag = isTag(lastEntry);
 

@@ -338,7 +338,7 @@
     align-items: center;
     max-width: 100%;
 
-    .pair:last-child {
+    .pair:not(:first-child) {
         overflow: hidden;
         text-overflow: ellipsis;
     }
