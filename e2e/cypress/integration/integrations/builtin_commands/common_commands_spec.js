@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @integrations
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
@@ -42,7 +43,7 @@ describe('I18456 Built-in slash commands: common', () => {
 
         // # Login as user-1 and post "/shrug test"
         loginAndVisitDefaultChannel('user-1');
-        cy.postMessage('/shrug test{enter}');
+        cy.postMessage('/shrug test');
 
         // * Verify that it posted message as expected from user-1
         cy.getLastPostId().then((postId) => {

@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @enterprise @ldap
 
 import users from '../../../fixtures/ldap_users.json';
@@ -118,7 +117,8 @@ context('ldap', () => {
             cy.apiLogin('sysadmin').then(() => {
                 cy.apiUpdateConfig(ldapSetting).then(() => {
                     cy.doLDAPLogin(testSettings).then(() => {
-                        cy.checkLoginFailed(testSettings);
+                        cy.get('#createPublicChannel').should('be.visible');
+                        cy.doMemberLogout(testSettings);
                     });
                 });
             });
