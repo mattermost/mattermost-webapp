@@ -70,7 +70,11 @@
     }
 
     .filtered-user-list {
-        height: calc(100vh - 160px);
+        height: calc(100vh - 175px);
+
+        .announcement-bar--fixed & {
+            height: calc(100vh - 205px);
+        }
     }
 
     .Select-value-label {
