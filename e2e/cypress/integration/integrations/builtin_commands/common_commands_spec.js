@@ -7,9 +7,10 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod @smoke
+// Stage: @prod
 // Group: @integrations
 
+import * as TIMEOUTS from '../../../fixtures/timeouts';
 import users from '../../../fixtures/users.json';
 
 describe('I18456 Built-in slash commands: common', () => {
@@ -23,15 +24,15 @@ describe('I18456 Built-in slash commands: common', () => {
 
         // * Suggestion list should be visible
         // # Scroll to bottom and verify that the last command "/shrug" is visible
-        cy.get('#suggestionList').should('be.visible').scrollTo('bottom').then((container) => {
-            cy.findByText(/\/away/, {container}).should('not.be.visible');
-            cy.findByText(/\/shrug/, {container}).should('be.visible');
+        cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('be.visible').scrollTo('bottom').then((container) => {
+            cy.contains('/away', {container}).should('not.be.visible');
+            cy.contains('/shrug [message]', {container}).should('be.visible');
         });
 
         // # Scroll to top and verify that the first command "/away" is visible
         cy.get('#suggestionList').scrollTo('top').then((container) => {
-            cy.findByText(/\/away/, {container}).should('be.visible');
-            cy.findByText(/\/shrug/, {container}).should('not.be.visible');
+            cy.contains('/away', {container}).should('be.visible');
+            cy.contains('/shrug [message]', {container}).should('not.be.visible');
         });
     });
 
@@ -42,7 +43,7 @@ describe('I18456 Built-in slash commands: common', () => {
 
         // # Login as user-1 and post "/shrug test"
         loginAndVisitDefaultChannel('user-1');
-        cy.postMessage('/shrug test{enter}');
+        cy.postMessage('/shrug test');
 
         // * Verify that it posted message as expected from user-1
         cy.getLastPostId().then((postId) => {

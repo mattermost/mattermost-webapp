@@ -14,6 +14,7 @@ window.ReactDOM = require('react-dom');
 window.Redux = require('redux');
 window.ReactRedux = require('react-redux');
 window.ReactBootstrap = require('react-bootstrap');
+window.ReactRouterDom = require('react-router-dom');
 window.PostUtils = {formatText, messageHtmlToComponent};
 window.PropTypes = require('prop-types');
 window.PDFJS = require('pdfjs-dist');

@@ -18,7 +18,7 @@ exports[`components/SearchHint should match snapshot, with title 1`] = `
     <li
       className="search-hint__suggestions-list__option"
       key="From:"
-      onClick={[Function]}
+      onMouseDown={[Function]}
       onMouseOver={[Function]}
     >
       <div
@@ -43,7 +43,7 @@ exports[`components/SearchHint should match snapshot, with title 1`] = `
     <li
       className="search-hint__suggestions-list__option"
       key="In:"
-      onClick={[Function]}
+      onMouseDown={[Function]}
       onMouseOver={[Function]}
     >
       <div
@@ -68,7 +68,7 @@ exports[`components/SearchHint should match snapshot, with title 1`] = `
     <li
       className="search-hint__suggestions-list__option"
       key="On:"
-      onClick={[Function]}
+      onMouseDown={[Function]}
       onMouseOver={[Function]}
     >
       <div
@@ -93,7 +93,7 @@ exports[`components/SearchHint should match snapshot, with title 1`] = `
     <li
       className="search-hint__suggestions-list__option"
       key="Before:"
-      onClick={[Function]}
+      onMouseDown={[Function]}
       onMouseOver={[Function]}
     >
       <div
@@ -118,7 +118,7 @@ exports[`components/SearchHint should match snapshot, with title 1`] = `
     <li
       className="search-hint__suggestions-list__option"
       key="After:"
-      onClick={[Function]}
+      onMouseDown={[Function]}
       onMouseOver={[Function]}
     >
       <div
@@ -143,7 +143,7 @@ exports[`components/SearchHint should match snapshot, with title 1`] = `
     <li
       className="search-hint__suggestions-list__option"
       key="-"
-      onClick={[Function]}
+      onMouseDown={[Function]}
       onMouseOver={[Function]}
     >
       <div
@@ -152,7 +152,7 @@ exports[`components/SearchHint should match snapshot, with title 1`] = `
         <span
           className="search-hint__suggestion-list__label"
         >
-          -
+          —
         </span>
       </div>
       <div
@@ -168,7 +168,7 @@ exports[`components/SearchHint should match snapshot, with title 1`] = `
     <li
       className="search-hint__suggestions-list__option"
       key="\\"\\""
-      onClick={[Function]}
+      onMouseDown={[Function]}
       onMouseOver={[Function]}
     >
       <div
@@ -203,7 +203,7 @@ exports[`components/SearchHint should match snapshot, without title 1`] = `
     <li
       className="search-hint__suggestions-list__option"
       key="From:"
-      onClick={[Function]}
+      onMouseDown={[Function]}
       onMouseOver={[Function]}
     >
       <div
@@ -228,7 +228,7 @@ exports[`components/SearchHint should match snapshot, without title 1`] = `
     <li
       className="search-hint__suggestions-list__option"
       key="In:"
-      onClick={[Function]}
+      onMouseDown={[Function]}
       onMouseOver={[Function]}
     >
       <div
@@ -253,7 +253,7 @@ exports[`components/SearchHint should match snapshot, without title 1`] = `
     <li
       className="search-hint__suggestions-list__option"
       key="On:"
-      onClick={[Function]}
+      onMouseDown={[Function]}
       onMouseOver={[Function]}
     >
       <div
@@ -278,7 +278,7 @@ exports[`components/SearchHint should match snapshot, without title 1`] = `
     <li
       className="search-hint__suggestions-list__option"
       key="Before:"
-      onClick={[Function]}
+      onMouseDown={[Function]}
       onMouseOver={[Function]}
     >
       <div
@@ -303,7 +303,7 @@ exports[`components/SearchHint should match snapshot, without title 1`] = `
     <li
       className="search-hint__suggestions-list__option"
       key="After:"
-      onClick={[Function]}
+      onMouseDown={[Function]}
       onMouseOver={[Function]}
     >
       <div
@@ -328,7 +328,7 @@ exports[`components/SearchHint should match snapshot, without title 1`] = `
     <li
       className="search-hint__suggestions-list__option"
       key="-"
-      onClick={[Function]}
+      onMouseDown={[Function]}
       onMouseOver={[Function]}
     >
       <div
@@ -337,7 +337,7 @@ exports[`components/SearchHint should match snapshot, without title 1`] = `
         <span
           className="search-hint__suggestion-list__label"
         >
-          -
+          —
         </span>
       </div>
       <div
@@ -353,7 +353,7 @@ exports[`components/SearchHint should match snapshot, without title 1`] = `
     <li
       className="search-hint__suggestions-list__option"
       key="\\"\\""
-      onClick={[Function]}
+      onMouseDown={[Function]}
       onMouseOver={[Function]}
     >
       <div

@@ -7,7 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod @smoke
+// Stage: @prod
 // Group: @accessibility
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
@@ -232,7 +232,7 @@ describe('Verify Accessibility Support in different sections in Account Settings
         cy.get('.user-settings').then((el) => {
             if (el.find('#signinEdit').length) {
                 cy.get('#signinEdit').click();
-                cy.get('#appsEdit').focus().tab({shift: true}).tab().tab();
+                cy.get('#mfaEdit').focus().tab({shift: true}).tab().tab();
                 cy.get('.setting-list a.btn').should('have.class', 'a11y--active a11y--focused').tab();
                 cy.get('#cancelSetting').should('have.class', 'a11y--active a11y--focused');
             }

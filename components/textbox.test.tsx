@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import Textbox from 'components/textbox/textbox.jsx';
+import Textbox from 'components/textbox/textbox';
 
 describe('components/TextBox', () => {
     const baseProps = {
@@ -53,8 +53,8 @@ describe('components/TextBox', () => {
         function emptyFunction() {} //eslint-disable-line no-empty-function
 
         // this mock function should be called when the textbox value is too long
-        var gotError = false;
-        function handlePostError(msg) {
+        let gotError = false;
+        function handlePostError(msg: JSX.Element | null) {
             gotError = msg !== null;
         }
 
@@ -80,8 +80,8 @@ describe('components/TextBox', () => {
         function emptyFunction() {} //eslint-disable-line no-empty-function
 
         // this mock function should be called when the textbox value is too long
-        var gotError = false;
-        function handlePostError(msg) {
+        let gotError = false;
+        function handlePostError(msg: JSX.Element | null) {
             gotError = msg !== null;
         }
 

@@ -16,7 +16,7 @@ describe('Reducers.RHS', () => {
         rhsState: null,
         searchTerms: '',
         searchResultsTerms: '',
-        pluginId: '',
+        pluggableId: '',
         isSearchingFlaggedPost: false,
         isSearchingPinnedPost: false,
         isMenuOpen: false,
@@ -57,13 +57,13 @@ describe('Reducers.RHS', () => {
             {
                 type: ActionTypes.UPDATE_RHS_STATE,
                 state: RHSStates.PLUGIN,
-                pluginId: '123',
+                pluggableId: '123',
             },
         );
 
         expect(nextState).toEqual({
             ...initialState,
-            pluginId: '123',
+            pluggableId: '123',
             rhsState: RHSStates.PLUGIN,
             isSidebarOpen: true,
         });
@@ -103,6 +103,50 @@ describe('Reducers.RHS', () => {
             ...initialState,
             selectedPostCardId: '',
             rhsState: RHSStates.SEARCH,
+            isSidebarOpen: true,
+        });
+    });
+
+    test(`should wipe pluggableId on ${ActionTypes.SELECT_POST}`, () => {
+        const nextState = rhsReducer(
+            {
+                pluggableId: 'pluggableId',
+            },
+            {
+                type: ActionTypes.SELECT_POST,
+                postId: '123',
+                channelId: '321',
+                timestamp: 1234,
+            },
+        );
+
+        expect(nextState).toEqual({
+            ...initialState,
+            pluggableId: '',
+            selectedPostId: '123',
+            selectedPostFocussedAt: 1234,
+            selectedChannelId: '321',
+            isSidebarOpen: true,
+        });
+    });
+
+    test(`should wipe pluggableId on ${ActionTypes.SELECT_POST_CARD}`, () => {
+        const nextState = rhsReducer(
+            {
+                pluggableId: 'pluggableId',
+            },
+            {
+                type: ActionTypes.SELECT_POST_CARD,
+                postId: '123',
+                channelId: '321',
+            },
+        );
+
+        expect(nextState).toEqual({
+            ...initialState,
+            pluggableId: '',
+            selectedPostCardId: '123',
+            selectedChannelId: '321',
             isSidebarOpen: true,
         });
     });
