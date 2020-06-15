@@ -13,11 +13,11 @@
  * Note: This test requires Enterprise license to be uploaded
  */
 import {getRandomId} from '../../../utils';
-import users from '../../../fixtures/users.json';
+import {getAdminAccount} from '../../../support/env';
 
 let testTeam;
-const user1 = users['user-1'];
-const sysadmin = users.sysadmin;
+let testUser;
+const sysadmin = getAdminAccount();
 
 function invitePeople(typeText, resultsCount, verifyText) {
     // # Open Invite People
@@ -90,7 +90,6 @@ function loginAsNewUser() {
 describe('Guest Account - Member Invitation Flow', () => {
     beforeEach(() => {
         // * Check if server has license for Guest Accounts
-        cy.apiLogin('sysadmin');
         cy.requireLicenseForFeature('GuestAccounts');
 
         // # Enable Guest Account Settings
@@ -104,19 +103,13 @@ describe('Guest Account - Member Invitation Flow', () => {
             },
         });
 
-        // # Create new team and visit its URL
-        cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
-            testTeam = response.body;
-            cy.visit(`/${testTeam.name}`);
-        });
-    });
+        cy.apiInitSetup().then(({team, user}) => {
+            testUser = user;
+            testTeam = team;
 
-    afterEach(() => {
-        // # Delete the new team as sysadmin
-        if (testTeam && testTeam.id) {
-            cy.apiLogin('sysadmin');
-            cy.apiDeleteTeam(testTeam.id);
-        }
+            // # Go to town square
+            cy.visit(`/${team.name}/channels/town-square`);
+        });
     });
 
     it('MM-18039 Verify UI Elements of Members Invitation Flow', () => {
@@ -138,7 +131,7 @@ describe('Guest Account - Member Invitation Flow', () => {
 
         // * Verify the header has changed in the modal
         cy.findByTestId('invitationModal').within(($el) => {
-            cy.wrap($el).find('h1').should('have.text', 'Invite Members to Test Team');
+            cy.wrap($el).find('h1').should('have.text', `Invite Members to ${testTeam.display_name}`);
         });
 
         // * Verify Share Link Header and helper text
@@ -205,10 +198,10 @@ describe('Guest Account - Member Invitation Flow', () => {
         verifyInvitationError(sysadmin.username, 'This person is already a team member.');
 
         // # Search and add an existing member by email who is not part of the team
-        invitePeople(user1.email, 1, user1.username);
+        invitePeople(testUser.email, 1, testUser.username);
 
         // * Verify the content and message in next screen
-        verifyInvitationSuccess(user1.username, 'This member has been added to the team.');
+        verifyInvitationSuccess(testUser.username, 'This member has been added to the team.');
 
         // # Search and add a new member by email who is not part of the team
         const email = `temp-${getRandomId()}@mattermost.com`;

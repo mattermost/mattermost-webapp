@@ -10,9 +10,9 @@
 // Stage: @prod
 // Group: @messaging @smoke
 
-import users from '../../fixtures/users.json';
+import {getAdminAccount} from '../../support/env';
 
-const sysadmin = users.sysadmin;
+const admin = getAdminAccount();
 
 function shouldHavePostProfileImageVisible(isVisible = true) {
     cy.getLastPostId().then((postID) => {
@@ -37,10 +37,16 @@ function shouldHavePostProfileImageVisible(isVisible = true) {
 }
 
 describe('Message', () => {
+    let testTeam;
+    let testChannel;
+
     before(() => {
-        // # Login as "user-1" and go to /
-        cy.apiLogin('user-1');
-        cy.visit('/ad-1/channels/town-square');
+        // # Create new team and new user and visit Town Square channel
+        cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
+            testTeam = team;
+            testChannel = channel;
+            cy.visit(`/${testTeam.name}/channels/town-square`);
+        });
     });
 
     it('M13701 Consecutive message does not repeat profile info', () => {
@@ -48,9 +54,7 @@ describe('Message', () => {
         cy.get('#postListContent').should('be.visible');
 
         // # Post a message to force next user message to display a message
-        cy.getCurrentChannelId().then((channelId) => {
-            cy.postMessageAs({sender: sysadmin, message: 'Hello', channelId});
-        });
+        cy.postMessageAs({sender: admin, message: 'Hello', channelId: testChannel.id});
 
         // # Post message "One"
         cy.postMessage('One');
@@ -97,18 +101,6 @@ describe('Message', () => {
     });
 
     it('M14320 @here, @all and @channel (ending in a period) still highlight', () => {
-        // # Change settings to allow @channel messages
-        cy.apiPatchMe({notify_props: {channel: 'true'}});
-
-        // # Login as sysadmin the create/login as new user
-        cy.apiLogin('sysadmin');
-        cy.apiCreateAndLoginAsNewUser().then(() => {
-            // # Create new team and visit its URL
-            cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
-                cy.visit(`/${response.body.name}`);
-            });
-        });
-
         // # Post message
         cy.postMessage('@here. @all. @channel.');
 
@@ -128,7 +120,10 @@ describe('Message', () => {
 
     it('MM-2954 /me message should be formatted like a system message', () => {
         // # Post message
-        cy.postMessage('/me hello there');
+        const message = 'hello there';
+        cy.postMessage(`/me ${message}`);
+
+        cy.uiWaitUntilMessagePostedIncludes(message);
 
         cy.getLastPostId().then((postId) => {
             const divPostId = `#post_${postId}`;

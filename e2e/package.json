@@ -17,6 +17,7 @@
     "lodash.intersection": "4.4.0",
     "lodash.mapkeys": "4.6.0",
     "lodash.without": "4.4.0",
+    "lodash.xor": "4.5.0",
     "mattermost-redux": "5.23.0",
     "merge-deep": "3.0.2",
     "mime-types": "2.1.27",

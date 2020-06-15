@@ -10,13 +10,11 @@
 // Stage: @prod
 // Group: @channel_sidebar
 
-import users from '../../fixtures/users';
-
 import {testWithConfig} from '../../support/hooks';
-
+import {getAdminAccount} from '../../support/env';
 import {getRandomId} from '../../utils';
 
-const sysadmin = users.sysadmin;
+const sysadmin = getAdminAccount();
 
 describe('Channel sidebar', () => {
     testWithConfig({
@@ -26,9 +24,10 @@ describe('Channel sidebar', () => {
     });
 
     before(() => {
-        cy.apiLogin('user-1');
-
-        cy.visit('/');
+        // # Login as test user and visit town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
+        });
     });
 
     it('should switch channels when clicking on a channel in the sidebar', () => {

@@ -24,15 +24,9 @@ function verifyImageInPostFooter(verifyExistence = true) {
 
 describe('Image attachment', () => {
     before(() => {
-        // # Login as sysadmin
-        cy.apiLogin('sysadmin');
-
         // # Login as new user
-        cy.apiCreateAndLoginAsNewUser().then(() => {
-            // # Create new team and visit its URL
-            cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
-                cy.visit(`/${response.body.name}`);
-            });
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
         });
     });
 
@@ -149,8 +143,8 @@ describe('Image attachment', () => {
 
                 cy.get('@div').find('img').
                     and((img) => {
-                        expect(img.height()).to.be.closeTo(145, 2.0);
-                        expect(img.width()).to.be.closeTo(913, 2.0);
+                        expect(img.height()).to.be.closeTo(155, 2.0);
+                        expect(img.width()).to.be.closeTo(978, 2.0);
                     });
             });
         });
@@ -174,8 +168,8 @@ describe('Image attachment', () => {
 
                 cy.get('@div').find('img').
                     and((img) => {
-                        expect(img.height()).to.be.closeTo(145, 2.0);
-                        expect(img.width()).to.be.closeTo(913, 2.0);
+                        expect(img.height()).to.be.closeTo(155, 2.0);
+                        expect(img.width()).to.be.closeTo(978, 2.0);
                     }).
                     click();
             });
