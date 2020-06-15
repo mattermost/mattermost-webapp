@@ -42,6 +42,7 @@ export default class DesktopNotificationSettings extends React.PureComponent {
     setDesktopNotificationSound = (selectedOption) => {
         this.props.setParentState('desktopNotificationSound', selectedOption.value);
         this.setState({selectedOption});
+        Utils.tryNotificationSound(selectedOption.value);
     }
 
     buildMaximizedSetting = () => {
@@ -99,17 +100,6 @@ export default class DesktopNotificationSettings extends React.PureComponent {
                             </label>
                             <br />
                         </div>
-                        <div className='pt-2'
-                        ><ReactSelect
-                                className='react-select react-select-top'
-                                classNamePrefix='react-select'
-                                id='displayLanguage'
-                                options={options}
-                                clearable={false}
-                                onChange={this.setDesktopNotificationSound}
-                                value={this.state.selectedOption}
-                            /></div>
-
                         <div className='radio'>
                             <label>
                                 <input
@@ -128,6 +118,17 @@ export default class DesktopNotificationSettings extends React.PureComponent {
                             </label>
                             <br />
                         </div>
+                        <div className='pt-2'
+                        ><ReactSelect
+                                className='react-select react-select-top'
+                                classNamePrefix='react-select'
+                                id='displayLanguage'
+                                options={options}
+                                clearable={false}
+                                onChange={this.setDesktopNotificationSound}
+                                value={this.state.selectedOption}
+                                isSearchable={false}
+                            /></div>
                         <div className='mt-5'>
                             <FormattedMessage
                                 id='user.settings.notifications.sounds_info'

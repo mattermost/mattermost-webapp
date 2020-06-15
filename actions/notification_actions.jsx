@@ -147,7 +147,8 @@ export function sendDesktopNotification(post, msgProps) {
 
             //Don't add extra sounds on native desktop clients
             if (sound && !isWindowsApp() && !isMacApp() && !isMobileApp()) {
-                Utils.ding();
+                let soundName = !user.notify_props ? 'Bing' : user.notify_props.desktop_notification_sound;
+                Utils.ding(soundName);
             }
         }
     };

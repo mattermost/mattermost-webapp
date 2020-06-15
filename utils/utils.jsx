@@ -3,31 +3,36 @@
 
 import $ from 'jquery';
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 
-import {Client4} from 'mattermost-redux/client';
-import {Posts} from 'mattermost-redux/constants';
-import {getChannel, getRedirectChannelNameForTeam} from 'mattermost-redux/selectors/entities/channels';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getTeammateNameDisplaySetting, getBool} from 'mattermost-redux/selectors/entities/preferences';
-import {getCurrentUserId, getUser} from 'mattermost-redux/selectors/entities/users';
+import { Client4 } from 'mattermost-redux/client';
+import { Posts } from 'mattermost-redux/constants';
+import { getChannel, getRedirectChannelNameForTeam } from 'mattermost-redux/selectors/entities/channels';
+import { getConfig } from 'mattermost-redux/selectors/entities/general';
+import { getTeammateNameDisplaySetting, getBool } from 'mattermost-redux/selectors/entities/preferences';
+import { getCurrentUserId, getUser } from 'mattermost-redux/selectors/entities/users';
 import {
     blendColors,
     changeOpacity,
 } from 'mattermost-redux/utils/theme_utils';
-import {displayUsername} from 'mattermost-redux/utils/user_utils';
-import {getCurrentTeamId, getCurrentRelativeTeamUrl, getTeam} from 'mattermost-redux/selectors/entities/teams';
+import { displayUsername } from 'mattermost-redux/utils/user_utils';
+import { getCurrentTeamId, getCurrentRelativeTeamUrl, getTeam } from 'mattermost-redux/selectors/entities/teams';
 import cssVars from 'css-vars-ponyfill';
 
-import {browserHistory} from 'utils/browser_history';
-import {searchForTerm} from 'actions/post_actions';
-import Constants, {FileTypes, UserStatuses} from 'utils/constants.jsx';
+import { browserHistory } from 'utils/browser_history';
+import { searchForTerm } from 'actions/post_actions';
+import Constants, { FileTypes, UserStatuses } from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils';
-import bing from 'images/bing.mp3';
-import {t} from 'utils/i18n';
+import bing from 'sounds/bing.mp3';
+import crackle from 'sounds/crackle.mp3';
+import down from 'sounds/down.mp3';
+import hello from 'sounds/hello.mp3'
+import ripple from 'sounds/ripple.mp3'
+import upstairs from 'sounds/upstairs.mp3'
+import { t } from 'utils/i18n';
 import store from 'stores/redux_store.jsx';
-import {getCurrentLocale, getTranslations} from 'selectors/i18n';
+import { getCurrentLocale, getTranslations } from 'selectors/i18n';
 
 export function isMac() {
     return navigator.platform.toUpperCase().indexOf('MAC') >= 0;
@@ -89,8 +94,8 @@ export function isKeyPressed(event, key) {
 export function isUnhandledLineBreakKeyCombo(e) {
     return Boolean(
         isKeyPressed(e, Constants.KeyCodes.ENTER) &&
-            !e.shiftKey && // shift + enter is already handled everywhere, so don't handle again
-            (e.altKey && !UserAgent.isSafari() && !cmdOrCtrlPressed(e)), // alt/option + enter is already handled in Safari, so don't handle again
+        !e.shiftKey && // shift + enter is already handled everywhere, so don't handle again
+        (e.altKey && !UserAgent.isSafari() && !cmdOrCtrlPressed(e)), // alt/option + enter is already handled in Safari, so don't handle again
     );
 }
 
@@ -102,7 +107,7 @@ export function isUnhandledLineBreakKeyCombo(e) {
  */
 export function insertLineBreakFromKeyEvent(e) {
     const el = e.target;
-    const {selectionEnd, selectionStart, value} = el;
+    const { selectionEnd, selectionStart, value } = el;
 
     // replace text selection (or insert if no selection) with new line character
     const newValue = `${value.substr(0, selectionStart)}\n${value.substr(selectionEnd, value.length)}`;
@@ -196,16 +201,30 @@ export function getChannelURL(state, channel, teamId) {
 }
 
 var canDing = true;
+const notificationSounds = new Map([['Bing', bing], ['Crackle', crackle], ['Down', down], ['Hello', hello], ['Ripple', ripple], ['Upstairs', upstairs]]);
 
-export function ding() {
+export function ding(name) {
     if (hasSoundOptions() && canDing) {
-        var audio = new Audio(bing);
+        let selected = notificationSounds.get(name);
+        if (selected == undefined) {
+            selected = notificationSounds.get('Bing');
+        }
+        var audio = new Audio(selected);
         audio.play();
         canDing = false;
         setTimeout(() => {
             canDing = true;
         }, 3000);
     }
+}
+
+export function tryNotificationSound(name) {
+    let selected = notificationSounds.get(name);
+    if (selected == undefined) {
+        selected = notificationSounds.get('Bing');
+    }
+    var audio = new Audio(selected);
+    audio.play();
 }
 
 export function hasSoundOptions() {
@@ -307,25 +326,25 @@ export function areObjectsEqual(x, y) {
         }
 
         switch (typeof (x[p])) {
-        case 'object':
-        case 'function':
+            case 'object':
+            case 'function':
 
-            leftChain.push(x);
-            rightChain.push(y);
+                leftChain.push(x);
+                rightChain.push(y);
 
-            if (!areObjectsEqual(x[p], y[p])) {
-                return false;
-            }
+                if (!areObjectsEqual(x[p], y[p])) {
+                    return false;
+                }
 
-            leftChain.pop();
-            rightChain.pop();
-            break;
+                leftChain.pop();
+                rightChain.pop();
+                break;
 
-        default:
-            if (x[p] !== y[p]) {
-                return false;
-            }
-            break;
+            default:
+                if (x[p] !== y[p]) {
+                    return false;
+                }
+                break;
         }
     }
 
@@ -568,18 +587,18 @@ export function applyTheme(theme) {
         dndIndicator = theme.dndIndicator;
     } else {
         switch (theme.type) {
-        case 'Organization':
-            dndIndicator = Constants.THEMES.organization.dndIndicator;
-            break;
-        case 'Mattermost Dark':
-            dndIndicator = Constants.THEMES.mattermostDark.dndIndicator;
-            break;
-        case 'Windows Dark':
-            dndIndicator = Constants.THEMES.windows10.dndIndicator;
-            break;
-        default:
-            dndIndicator = Constants.THEMES.default.dndIndicator;
-            break;
+            case 'Organization':
+                dndIndicator = Constants.THEMES.organization.dndIndicator;
+                break;
+            case 'Mattermost Dark':
+                dndIndicator = Constants.THEMES.mattermostDark.dndIndicator;
+                break;
+            case 'Windows Dark':
+                dndIndicator = Constants.THEMES.windows10.dndIndicator;
+                break;
+            default:
+                dndIndicator = Constants.THEMES.default.dndIndicator;
+                break;
         }
     }
     changeCss('.app__body .status.status--dnd', 'color:' + dndIndicator);
@@ -1597,7 +1616,7 @@ export function isValidPassword(password, passwordConfig) {
         );
     }
 
-    return {valid, error};
+    return { valid, error };
 }
 
 export function handleFormattedTextClick(e, currentRelativeTeamUrl) {
@@ -1737,19 +1756,19 @@ export function getClosestParent(elem, selector) {
     // Element.matches() polyfill
     if (!Element.prototype.matches) {
         Element.prototype.matches =
-        Element.prototype.matchesSelector ||
-        Element.prototype.mozMatchesSelector ||
-        Element.prototype.msMatchesSelector ||
-        Element.prototype.oMatchesSelector ||
-        Element.prototype.webkitMatchesSelector ||
-        ((s) => {
-            const matches = (this.document || this.ownerDocument).querySelectorAll(s);
-            let i = matches.length - 1;
-            while (i >= 0 && matches.item(i) !== this) {
-                i--;
-            }
-            return i > -1;
-        });
+            Element.prototype.matchesSelector ||
+            Element.prototype.mozMatchesSelector ||
+            Element.prototype.msMatchesSelector ||
+            Element.prototype.oMatchesSelector ||
+            Element.prototype.webkitMatchesSelector ||
+            ((s) => {
+                const matches = (this.document || this.ownerDocument).querySelectorAll(s);
+                let i = matches.length - 1;
+                while (i >= 0 && matches.item(i) !== this) {
+                    i--;
+                }
+                return i > -1;
+            });
     }
 
     // Get the closest matching element
@@ -1783,5 +1802,5 @@ export function getSortedUsers(reactions, currentUserId, profiles, teammateNameD
         users.unshift(Utils.localizeMessage('reaction.you', 'You'));
     }
 
-    return {currentUserReacted, users};
+    return { currentUserReacted, users };
 }
