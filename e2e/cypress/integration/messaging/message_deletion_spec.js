@@ -7,7 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod @smoke
+// Stage: @prod
 // Group: @messaging
 
 describe('Message deletion', () => {
@@ -28,7 +28,7 @@ describe('Message deletion', () => {
             cy.get('#rhsContainer').should('be.visible');
 
             // # Post a reply in RHS.
-            cy.postMessageReplyInRHS('test message reply in RHS {enter}');
+            cy.postMessageReplyInRHS('test message reply in RHS');
 
             cy.getLastPostId().then((replyMessageId) => {
                 // # Click post dot menu in center.

@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import AutoSizer from 'react-virtualized-auto-sizer';
-import {DynamicSizeList} from 'react-window';
+import {DynamicSizeList} from 'dynamic-virtualized-list';
 import {injectIntl} from 'react-intl';
 
 import {isDateLine, isStartOfNewMessages} from 'mattermost-redux/utils/post_list';
@@ -22,9 +22,9 @@ import PostListRow from 'components/post_view/post_list_row';
 import ScrollToBottomArrows from 'components/post_view/scroll_to_bottom_arrows';
 import ToastWrapper from 'components/toast_wrapper';
 
-const OVERSCAN_COUNT_BACKWARD = window.OVERSCAN_COUNT_BACKWARD || 80; // Exposing the value for PM to test will be removed soon
-const OVERSCAN_COUNT_FORWARD = window.OVERSCAN_COUNT_FORWARD || 80; // Exposing the value for PM to test will be removed soon
-const HEIGHT_TRIGGER_FOR_MORE_POSTS = window.HEIGHT_TRIGGER_FOR_MORE_POSTS || 1000; // Exposing the value for PM to test will be removed soon
+const OVERSCAN_COUNT_BACKWARD = 80;
+const OVERSCAN_COUNT_FORWARD = 80;
+const HEIGHT_TRIGGER_FOR_MORE_POSTS = 1000;
 const BUFFER_TO_BE_CONSIDERED_BOTTOM = 10;
 
 const MAXIMUM_POSTS_FOR_SLICING = {
@@ -318,11 +318,6 @@ class PostList extends React.PureComponent {
         );
     };
 
-    itemKey = (index) => {
-        const {postListIds} = this.state;
-        return postListIds[index] ? postListIds[index] : index;
-    }
-
     scrollToFailed = (index) => {
         if (index === 0) {
             this.props.actions.changeUnreadChunkTimeStamp('');
@@ -574,15 +569,12 @@ class PostList extends React.PureComponent {
                                             height={height}
                                             width={width}
                                             className='post-list__dynamic'
-                                            itemCount={this.state.postListIds.length}
                                             itemData={this.state.postListIds}
-                                            itemKey={this.itemKey}
                                             overscanCountForward={OVERSCAN_COUNT_FORWARD}
                                             overscanCountBackward={OVERSCAN_COUNT_BACKWARD}
                                             onScroll={this.onScroll}
                                             initScrollToIndex={this.initScrollToIndex}
                                             canLoadMorePosts={this.props.actions.canLoadMorePosts}
-                                            skipResizeClass='post-menu'
                                             innerRef={this.postListRef}
                                             style={{...virtListStyles, ...dynamicListStyle}}
                                             innerListStyle={postListStyle}

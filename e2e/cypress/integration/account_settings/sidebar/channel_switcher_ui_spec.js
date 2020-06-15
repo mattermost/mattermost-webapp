@@ -7,7 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod @smoke
+// Stage: @prod
 // Group: @account_setting
 
 describe('Account Settings > Sidebar > Channel Switcher', () => {
