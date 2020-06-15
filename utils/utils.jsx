@@ -206,7 +206,7 @@ const notificationSounds = new Map([['Bing', bing], ['Crackle', crackle], ['Down
 export function ding(name) {
     if (hasSoundOptions() && canDing) {
         let selected = notificationSounds.get(name);
-        if (selected == undefined) {
+        if (selected === undefined) {
             selected = notificationSounds.get('Bing');
         }
         var audio = new Audio(selected);
@@ -220,7 +220,7 @@ export function ding(name) {
 
 export function tryNotificationSound(name) {
     let selected = notificationSounds.get(name);
-    if (selected == undefined) {
+    if (selected === undefined) {
         selected = notificationSounds.get('Bing');
     }
     var audio = new Audio(selected);
