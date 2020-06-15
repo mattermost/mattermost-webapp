@@ -36,7 +36,7 @@ describe('Draw Plugin - Upload', () => {
         // #If draw plugin is already enabled , unInstall it
         cy.apiRemovePluginById(pluginId);
         cy.visit('/admin_console/plugins/plugin_management');
-        cy.get('.admin-console__header', {timeout: 60000}).should('be.visible').and('have.text', 'Plugin Management');
+        cy.get('.admin-console__header', {timeout: TIMEOUTS.HUGE}).should('be.visible').and('have.text', 'Plugin Management');
     });
 
     /**
@@ -55,10 +55,10 @@ describe('Draw Plugin - Upload', () => {
         cy.get('#uploadPlugin').should('be.visible').click().wait(TIMEOUTS.TINY);
 
         // * Verify that the button shows correct text while uploading
-        cy.findByText('Uploading...', {timeout: 60000}).should('be.visible');
+        cy.findByText('Uploading...', {timeout: TIMEOUTS.HUGE}).should('be.visible');
 
         // * Verify that the button shows correct text and is disabled after upload
-        cy.findByText('Upload').should('be.visible');
+        cy.findByText('Upload', {timeout: TIMEOUTS.HUGE}).should('be.visible');
         cy.get('#uploadPlugin').and('be.disabled');
 
         // * Verify that the Draw Plugin is shown on successful upload

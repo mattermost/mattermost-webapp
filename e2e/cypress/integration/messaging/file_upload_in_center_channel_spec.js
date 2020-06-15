@@ -27,7 +27,7 @@ describe('Messaging', () => {
         cy.apiSavePreviewCollapsedPreference('false');
     });
 
-    it.only('M16425 : Show single image thumbnails in standard mode', () => {
+    it('M16425 : Show single image thumbnails in standard mode', () => {
         // # Set the messages display setting to standard i.e not compact
         cy.apiSaveMessageDisplayPreference();
 
@@ -59,7 +59,7 @@ describe('Messaging', () => {
         });
     });
 
-    it.only('M16425 : Show single image thumbnails in compact mode', () => {
+    it('M16425 : Show single image thumbnails in compact mode', () => {
         // # Set the messages display setting to compact
         cy.apiSaveMessageDisplayPreference('compact');
 
