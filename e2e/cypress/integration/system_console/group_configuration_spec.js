@@ -87,6 +87,12 @@ describe('group configuration', () => {
     describe('adding a team', () => {
         it('does not add a team without saving', () => {
             addGroupSyncable('team', () => {
+                // # Click away
+                cy.get('.sidebar-section').first().click();
+
+                // * Ensure that discard warning appears
+                cy.get('.discard-changes-modal').should('be.visible');
+
                 // # Reload the page
                 cy.visit(`/admin_console/user_management/groups/${groupID}`);
 
@@ -103,8 +109,11 @@ describe('group configuration', () => {
                 // # Reload the page
                 cy.visit(`/admin_console/user_management/groups/${groupID}`);
 
-                // # Test that the team persisted
+                // * Test that the team persisted
                 teamOrChannelIsPresent(teamName);
+
+                // * Ensure that server error is blank
+                cy.get('.error-message').should('be.empty');
             });
         });
     });
@@ -112,6 +121,12 @@ describe('group configuration', () => {
     describe('adding a channel', () => {
         it('does not add a channel without saving', () => {
             addGroupSyncable('channel', () => {
+                // # Click away
+                cy.get('.sidebar-section').first().click();
+
+                // * Ensure that discard warning appears
+                cy.get('.discard-changes-modal').should('be.visible');
+
                 // # Reload the page
                 cy.visit(`/admin_console/user_management/groups/${groupID}`);
 
@@ -128,8 +143,11 @@ describe('group configuration', () => {
                 // # Reload the page
                 cy.visit(`/admin_console/user_management/groups/${groupID}`);
 
-                // # Test that the team persisted
+                // * Test that the team persisted
                 teamOrChannelIsPresent(channelName);
+
+                // * Ensure that server error is blank
+                cy.get('.error-message').should('be.empty');
             });
         });
     });
@@ -149,6 +167,15 @@ describe('group configuration', () => {
 
                 // # Click remove and confirm
                 removeAndConfirm(team.display_name);
+
+                // # Click away
+                cy.get('.sidebar-section').first().click();
+
+                // * Ensure that discard warning appears
+                cy.get('.discard-changes-modal').should('be.visible');
+
+                // # Cancel navigating away
+                cy.get('#cancelModalButton').click();
 
                 // # Reload the page
                 cy.visit(`/admin_console/user_management/groups/${groupID}`);
@@ -172,6 +199,15 @@ describe('group configuration', () => {
 
                 // # Click remove and confirm
                 removeAndConfirm(team.display_name);
+
+                // # Click away
+                cy.get('.sidebar-section').first().click();
+
+                // * Ensure that discard warning appears
+                cy.get('.discard-changes-modal').should('be.visible');
+
+                // # Cancel navigating away
+                cy.get('#cancelModalButton').click();
 
                 // # Save the settings
                 savePage();
@@ -203,6 +239,15 @@ describe('group configuration', () => {
                 cy.get('#confirmModalButton').should('be.visible');
                 cy.get('#confirmModalButton').click();
 
+                // # Click away
+                cy.get('.sidebar-section').first().click();
+
+                // * Ensure that discard warning appears
+                cy.get('.discard-changes-modal').should('be.visible');
+
+                // # Cancel navigating away
+                cy.get('#cancelModalButton').click();
+
                 // # Reload the page
                 cy.visit(`/admin_console/user_management/groups/${groupID}`);
 
@@ -229,6 +274,15 @@ describe('group configuration', () => {
                 cy.get('#confirmModalButton').should('be.visible');
                 cy.get('#confirmModalButton').click();
 
+                // # Click away
+                cy.get('.sidebar-section').first().click();
+
+                // * Ensure that discard warning appears
+                cy.get('.discard-changes-modal').should('be.visible');
+
+                // # Cancel navigating away
+                cy.get('#cancelModalButton').click();
+
                 // # Save the settings
                 savePage();
 
@@ -247,6 +301,15 @@ describe('group configuration', () => {
             addGroupSyncable('team', (teamName) => {
                 // # Update the role
                 changeRole(teamName);
+
+                // # Click away
+                cy.get('.sidebar-section').first().click();
+
+                // * Ensure that discard warning appears
+                cy.get('.discard-changes-modal').should('be.visible');
+
+                // # Cancel navigating away
+                cy.get('#cancelModalButton').click();
 
                 // # Save the settings
                 savePage();
@@ -274,6 +337,15 @@ describe('group configuration', () => {
                 // # Change the role
                 changeRole(team.display_name);
 
+                // # Click away
+                cy.get('.sidebar-section').first().click();
+
+                // * Ensure that discard warning appears
+                cy.get('.discard-changes-modal').should('be.visible');
+
+                // # Cancel navigating away
+                cy.get('#cancelModalButton').click();
+
                 // # Save settings
                 savePage();
 
@@ -300,6 +372,15 @@ describe('group configuration', () => {
                 // # Change the role
                 changeRole(team.display_name);
 
+                // # Click away
+                cy.get('.sidebar-section').first().click();
+
+                // * Ensure that discard warning appears
+                cy.get('.discard-changes-modal').should('be.visible');
+
+                // # Cancel navigating away
+                cy.get('#cancelModalButton').click();
+
                 // # Reload the page
                 cy.visit(`/admin_console/user_management/groups/${groupID}`);
 
@@ -325,6 +406,15 @@ describe('group configuration', () => {
 
                 removeAndConfirm(team.display_name);
 
+                // # Click away
+                cy.get('.sidebar-section').first().click();
+
+                // * Ensure that discard warning appears
+                cy.get('.discard-changes-modal').should('be.visible');
+
+                // # Cancel navigating away
+                cy.get('#cancelModalButton').click();
+
                 // # Save settings
                 savePage();
 
@@ -342,6 +432,15 @@ describe('group configuration', () => {
             addGroupSyncable('channel', (channelName) => {
                 // # Update the role
                 changeRole(channelName);
+
+                // # Click away
+                cy.get('.sidebar-section').first().click();
+
+                // * Ensure that discard warning appears
+                cy.get('.discard-changes-modal').should('be.visible');
+
+                // # Cancel navigating away
+                cy.get('#cancelModalButton').click();
 
                 // # Save the settings
                 savePage();
@@ -369,6 +468,15 @@ describe('group configuration', () => {
                 // # Change the role
                 changeRole(channel.display_name);
 
+                // # Click away
+                cy.get('.sidebar-section').first().click();
+
+                // * Ensure that discard warning appears
+                cy.get('.discard-changes-modal').should('be.visible');
+
+                // # Cancel navigating away
+                cy.get('#cancelModalButton').click();
+
                 // # Save settings
                 savePage();
 
@@ -394,6 +502,15 @@ describe('group configuration', () => {
 
                 // # Change the role
                 changeRole(channel.display_name);
+
+                // # Click away
+                cy.get('.sidebar-section').first().click();
+
+                // * Ensure that discard warning appears
+                cy.get('.discard-changes-modal').should('be.visible');
+
+                // # Cancel navigating away
+                cy.get('#cancelModalButton').click();
 
                 // # Reload the page
                 cy.visit(`/admin_console/user_management/groups/${groupID}`);
@@ -421,6 +538,15 @@ describe('group configuration', () => {
                 cy.get(`button[data-testid='${channel.display_name}_groupsyncable_remove']`).click();
                 cy.get('#confirmModalButton').should('be.visible');
                 cy.get('#confirmModalButton').click();
+
+                // # Click away
+                cy.get('.sidebar-section').first().click();
+
+                // * Ensure that discard warning appears
+                cy.get('.discard-changes-modal').should('be.visible');
+
+                // # Cancel navigating away
+                cy.get('#cancelModalButton').click();
 
                 // # Save settings
                 savePage();

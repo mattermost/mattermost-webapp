@@ -40,6 +40,7 @@ node_modules: package.json package-lock.json
 	@echo Getting dependencies using npm
 
 	npm install
+	touch $@
 
 package: build ## Packages app
 	@echo Packaging webapp

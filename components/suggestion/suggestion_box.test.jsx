@@ -187,4 +187,52 @@ describe('components/SuggestionBox', () => {
         instance.clear();
         expect(instance.setState).toHaveBeenCalled();
     });
+
+    test('should not call clear search resutls when forceSuggestionsWhenBlur is true', () => {
+        const onBlur = jest.fn();
+        const wrapper = shallow(
+            <SuggestionBox
+                {...baseProps}
+                onBlur={onBlur}
+                forceSuggestionsWhenBlur={true}
+            />,
+        );
+
+        wrapper.setState({focused: true});
+        const instance = wrapper.instance();
+        const contains = jest.fn().mockReturnValue(false);
+        const relatedTarget = jest.fn();
+        instance.container = {contains};
+        instance.handleEmitClearSuggestions = jest.fn();
+
+        instance.handleFocusOut({relatedTarget});
+        expect(instance.handleEmitClearSuggestions).not.toHaveBeenCalled();
+        expect(wrapper.state('focused')).toEqual(false);
+        expect(onBlur).toBeCalledTimes(1);
+    });
+
+    test('should not call for pretext change on call of handleFocusIn when forceSuggestionsWhenBlur is true', () => {
+        jest.useFakeTimers();
+        const onFocus = jest.fn();
+        const wrapper = shallow(
+            <SuggestionBox
+                {...baseProps}
+                openOnFocus={true}
+                forceSuggestionsWhenBlur={true}
+                onFocus={onFocus}
+            />,
+        );
+        const instance = wrapper.instance();
+        instance.handlePretextChanged = jest.fn();
+        instance.getTextbox = jest.fn().mockReturnValue({value: 'value'});
+
+        const contains = jest.fn().mockReturnValue(false);
+        const relatedTarget = jest.fn();
+        instance.container = {contains};
+
+        instance.handleFocusIn({relatedTarget});
+        jest.runAllTimers();
+        expect(instance.handlePretextChanged).not.toHaveBeenCalled();
+        expect(onFocus).toHaveBeenCalled();
+    });
 });

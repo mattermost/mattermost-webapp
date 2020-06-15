@@ -149,6 +149,11 @@ export default class SuggestionBox extends React.PureComponent {
          * Define whether or not to render the tagged input
          */
         renderTaggedInput: PropTypes.bool,
+      
+        /** 
+         * To show suggestions even when focus is lost
+         */
+        forceSuggestionsWhenBlur: PropTypes.bool,
     }
 
     static defaultProps = {
@@ -163,6 +168,7 @@ export default class SuggestionBox extends React.PureComponent {
         openWhenEmpty: false,
         replaceAllInputOnSelect: false,
         listenForMentionKeyClick: false,
+        forceSuggestionsWhenBlur: false,
     }
 
     constructor(props) {
@@ -280,7 +286,9 @@ export default class SuggestionBox extends React.PureComponent {
             return;
         }
 
-        this.handleEmitClearSuggestions();
+        if (!this.props.forceSuggestionsWhenBlur) {
+            this.handleEmitClearSuggestions();
+        }
 
         this.setState({focused: false});
 
@@ -300,7 +308,7 @@ export default class SuggestionBox extends React.PureComponent {
 
         this.setState({focused: true});
 
-        if (this.props.openOnFocus || this.props.openWhenEmpty) {
+        if ((this.props.openOnFocus || this.props.openWhenEmpty) && !this.props.forceSuggestionsWhenBlur) {
             setTimeout(() => {
                 const pretext = this.inputRef.current.getPretext();
                 if (this.props.openWhenEmpty || pretext.length >= this.props.requiredCharacters) {
@@ -673,6 +681,7 @@ export default class SuggestionBox extends React.PureComponent {
         Reflect.deleteProperty(props, 'contextId');
         Reflect.deleteProperty(props, 'listenForMentionKeyClick');
         Reflect.deleteProperty(props, 'wrapperHeight');
+        Reflect.deleteProperty(props, 'forceSuggestionsWhenBlur');
 
         // This needs to be upper case so React doesn't think it's an html tag
         const SuggestionListComponent = listComponent;
@@ -716,7 +725,7 @@ export default class SuggestionBox extends React.PureComponent {
                     <div style={{width: this.state.width}}>
                         <SuggestionListComponent
                             ariaLiveRef={this.suggestionReadOut}
-                            open={this.state.focused}
+                            open={this.state.focused || this.props.forceSuggestionsWhenBlur}
                             pretext={this.pretext}
                             location={listStyle}
                             renderDividers={renderDividers}
