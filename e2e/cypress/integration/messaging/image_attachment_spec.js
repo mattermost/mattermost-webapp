@@ -38,7 +38,7 @@ describe('Image attachment', () => {
 
     it('Image smaller than 48px in both width and height', () => {
         // # Upload a file on center view
-        cy.fileUpload('#fileUploadInput', 'small-image.png');
+        cy.get('#fileUploadInput').attachFile('small-image.png');
 
         verifyImageInPostFooter();
 
@@ -69,7 +69,7 @@ describe('Image attachment', () => {
 
     it('Image with height smaller than 48px', () => {
         // # Upload a file on center view
-        cy.fileUpload('#fileUploadInput', 'image-small-height.png');
+        cy.get('#fileUploadInput').attachFile('image-small-height.png');
 
         verifyImageInPostFooter();
 
@@ -99,7 +99,7 @@ describe('Image attachment', () => {
 
     it('Image with width smaller than 48px', () => {
         // # Upload a file on center view
-        cy.fileUpload('#fileUploadInput', 'image-small-width.png');
+        cy.get('#fileUploadInput').attachFile('image-small-width.png');
 
         verifyImageInPostFooter();
 
@@ -132,7 +132,7 @@ describe('Image attachment', () => {
 
     it('Image with width and height bigger than 48px', () => {
         // # Upload a file on center view
-        cy.fileUpload('#fileUploadInput', 'MM-logo-horizontal.png');
+        cy.get('#fileUploadInput').attachFile('MM-logo-horizontal.png');
 
         verifyImageInPostFooter();
 
@@ -158,7 +158,7 @@ describe('Image attachment', () => {
 
     it('opens image preview window when image is clicked', () => {
         // # Upload a file on center view
-        cy.fileUpload('#fileUploadInput', 'MM-logo-horizontal.png');
+        cy.get('#fileUploadInput').attachFile('MM-logo-horizontal.png');
 
         verifyImageInPostFooter();
 
@@ -190,7 +190,7 @@ describe('Image attachment', () => {
 
     it('opens image preview window when small image is clicked', () => {
         // # Upload a file on center view
-        cy.fileUpload('#fileUploadInput', 'small-image.png');
+        cy.get('#fileUploadInput').attachFile('small-image.png');
 
         verifyImageInPostFooter();
 

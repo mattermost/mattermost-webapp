@@ -27,13 +27,13 @@ describe('Messaging', () => {
         cy.apiSavePreviewCollapsedPreference('false');
     });
 
-    it('M16425 : Show single image thumbnails in standard mode', () => {
+    it.only('M16425 : Show single image thumbnails in standard mode', () => {
         // # Set the messages display setting to standard i.e not compact
         cy.apiSaveMessageDisplayPreference();
 
         // # upload an image
         const IMAGE_NAME = 'huge-image.jpg';
-        cy.fileUpload('#fileUploadInput', IMAGE_NAME);
+        cy.get('#fileUploadInput').attachFile(IMAGE_NAME);
         waitForImageUpload();
 
         // # post it with a message
@@ -59,13 +59,13 @@ describe('Messaging', () => {
         });
     });
 
-    it('M16425 : Show single image thumbnails in compact mode', () => {
+    it.only('M16425 : Show single image thumbnails in compact mode', () => {
         // # Set the messages display setting to compact
         cy.apiSaveMessageDisplayPreference('compact');
 
         // # upload an image
         const IMAGE_NAME = 'huge-image.jpg';
-        cy.fileUpload('#fileUploadInput', IMAGE_NAME);
+        cy.get('#fileUploadInput').attachFile(IMAGE_NAME);
         waitForImageUpload();
 
         // # post it with a message
