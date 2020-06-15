@@ -33,7 +33,7 @@ interface ChannelListState {
     total: number;
 }
 
-const ROW_HEIGHT = 50;
+const ROW_HEIGHT = 40;
 
 export default class ChannelList extends React.PureComponent<ChannelListProps, ChannelListState> {
     constructor(props: ChannelListProps) {
@@ -121,7 +121,7 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
             {
                 name,
                 field: 'name',
-                width: 3,
+                width: 4,
                 fixed: true,
             },
             {
@@ -164,7 +164,9 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
                         ) : (
                             <GlobeIcon className='channel-icon channel-icon__globe'/>
                         )}
-                        {channel.display_name}
+                        <span className='TeamList_ChannelDisplayName'>
+                            {channel.display_name}
+                        </span>
                     </span>
                 ),
                 team: (
@@ -215,21 +217,23 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
         };
 
         return (
-            <DataGrid
-                columns={columns}
-                rows={rows}
-                loading={this.state.loading}
-                page={this.state.page}
-                nextPage={this.nextPage}
-                previousPage={this.previousPage}
-                startCount={startCount}
-                endCount={endCount}
-                total={total}
-                search={this.search}
-                term={term}
-                placeholderEmpty={placeholderEmpty}
-                rowsContainerStyles={rowsContainerStyles}
-            />
+            <div className='ChannelsList'>
+                <DataGrid
+                    columns={columns}
+                    rows={rows}
+                    loading={this.state.loading}
+                    page={this.state.page}
+                    nextPage={this.nextPage}
+                    previousPage={this.previousPage}
+                    startCount={startCount}
+                    endCount={endCount}
+                    total={total}
+                    search={this.search}
+                    term={term}
+                    placeholderEmpty={placeholderEmpty}
+                    rowsContainerStyles={rowsContainerStyles}
+                />
+            </div>
         );
     }
 }

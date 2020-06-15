@@ -1,12 +1,20 @@
-.DataGrid_cell {
+.TeamsList {
+    .DataGrid {
+        .DataGrid_cell {
     
-    .TeamList_NameText {
-        display: flex;
-        align-items: center;
-        height: 80px;
-    }
-
-    .TeamList_ManagementText {
-        opacity: 0.65;
+            .TeamList_NameText {
+                display: flex;
+                align-items: center;
+                height: 80px;
+            }
+        
+            .TeamList_ManagementText {
+                opacity: 0.65;
+            }
+        
+            .TeamList_EditText {
+                padding-right: 20px;
+            }
+        }
     }
 }

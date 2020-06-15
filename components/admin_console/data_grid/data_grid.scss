@@ -88,7 +88,6 @@
         }
 
         .DataGrid_row {
-            min-height: 50px;
             border-left: 2px solid transparent;
             
             &:nth-child(odd) {
@@ -112,7 +111,7 @@
     .DataGrid_row, .DataGrid_header {
         display: flex;
         flex-direction: row;
-        padding-left: 20px;
+        padding-left: 18px;
         height: auto;
 
         .DataGrid_cell {

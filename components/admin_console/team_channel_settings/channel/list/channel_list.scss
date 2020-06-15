@@ -1,3 +1,19 @@
-.TeamList_editRow {
-    padding-right: 20px;
+.ChannelsList {
+    .DataGrid {
+        .DataGrid_row {
+            min-height: 40px;
+        }
+        
+        .DataGrid_cell {
+            .TeamList_editRow {
+                padding-right: 20px;
+            }
+
+            .TeamList_ChannelDisplayName {
+                font-weight: 600;
+                color: #333333;
+            }
+        }
+    }
 }
+

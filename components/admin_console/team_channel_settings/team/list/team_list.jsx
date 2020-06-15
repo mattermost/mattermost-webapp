@@ -105,7 +105,7 @@ export default class TeamList extends React.PureComponent {
             {
                 name,
                 field: 'name',
-                width: 3,
+                width: 4,
                 fixed: true,
             },
             {
@@ -116,7 +116,7 @@ export default class TeamList extends React.PureComponent {
             {
                 name: '',
                 field: 'edit',
-                textAlign: 'center',
+                textAlign: 'right',
                 fixed: true,
             },
         ];
@@ -183,7 +183,7 @@ export default class TeamList extends React.PureComponent {
                 edit: (
                     <span
                         data-testid={`${team.display_name}edit`}
-                        className='group-actions'
+                        className='group-actions TeamList_EditText'
                     >
                         <Link to={`/admin_console/user_management/teams/${team.id}`}>
                             <FormattedMessage
@@ -215,21 +215,23 @@ export default class TeamList extends React.PureComponent {
         };
 
         return (
-            <DataGrid
-                columns={columns}
-                rows={rows}
-                loading={this.state.loading}
-                page={this.state.page}
-                nextPage={this.nextPage}
-                previousPage={this.previousPage}
-                startCount={startCount}
-                endCount={endCount}
-                total={total}
-                search={this.search}
-                term={term}
-                placeholderEmpty={placeholderEmpty}
-                rowsContainerStyles={rowsContainerStyles}
-            />
+            <div className='TeamsList'>
+                <DataGrid
+                    columns={columns}
+                    rows={rows}
+                    loading={this.state.loading}
+                    page={this.state.page}
+                    nextPage={this.nextPage}
+                    previousPage={this.previousPage}
+                    startCount={startCount}
+                    endCount={endCount}
+                    total={total}
+                    search={this.search}
+                    term={term}
+                    placeholderEmpty={placeholderEmpty}
+                    rowsContainerStyles={rowsContainerStyles}
+                />
+            </div>
         );
     }
 }
