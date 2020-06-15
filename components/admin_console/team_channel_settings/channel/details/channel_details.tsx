@@ -90,7 +90,7 @@ interface ChannelDetailsState {
     showConvertAndRemoveConfirmModal: boolean;
     channelPermissions?: Array<ChannelPermissions>;
     teamScheme?: Scheme;
-    isArchived: boolean;
+    isLocalArchived: boolean;
     showArchiveConfirmModal: boolean;
 }
 
@@ -117,7 +117,7 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
             previousServerError: null,
             channelPermissions: props.channelPermissions,
             teamScheme: props.teamScheme,
-            isArchived: props.channel.delete_at > 0,
+            isLocalArchived: props.channel.delete_at > 0,
             showArchiveConfirmModal: false,
         };
     }
@@ -131,7 +131,7 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
                 isSynced: Boolean(channel.group_constrained),
                 isPublic: channel.type === Constants.OPEN_CHANNEL,
                 isDefault: channel.name === Constants.DEFAULT_CHANNEL,
-                isArchived: channel.delete_at > 0,
+                isLocalArchived: channel.delete_at > 0,
             });
         }
 
@@ -530,15 +530,15 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
     };
 
     private channelToBeArchived = (): boolean => {
-        const {isArchived} = this.state;
-        const {channel} = this.props;
-        return isArchived && channel.delete_at === 0;
+        const {isLocalArchived} = this.state;
+        const isServerArchived = this.props.channel.delete_at !== 0;
+        return isLocalArchived && !isServerArchived;
     }
 
     private channelToBeRestored = (): boolean => {
-        const {isArchived} = this.state;
-        const {channel} = this.props;
-        return !isArchived && channel.delete_at > 0;
+        const {isLocalArchived} = this.state;
+        const isServerArchived = this.props.channel.delete_at !== 0;
+        return !isLocalArchived && isServerArchived;
     }
 
     private addRolesToUpdate = (userId: string, schemeUser: boolean, schemeAdmin: boolean) => {
@@ -578,13 +578,13 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
     }
 
     private onToggleArchive = () => {
-        const {isArchived, serverError, previousServerError} = this.state;
+        const {isLocalArchived, serverError, previousServerError} = this.state;
         const newState: any = {
             saveNeeded: true,
-            isArchived: !isArchived,
+            isLocalArchived: !isLocalArchived,
         };
 
-        if (newState.isArchived) {
+        if (newState.isLocalArchived) {
             // if the channel is being archived then clear the other server
             // errors, they're no longer relevant.
             newState.previousServerError = serverError;
@@ -618,7 +618,7 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
             teamScheme,
             usersToRemove,
             usersToAdd,
-            isArchived,
+            isLocalArchived,
             showArchiveConfirmModal,
         } = this.state;
         const {channel, team} = this.props;
@@ -710,7 +710,7 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
                             channel={channel}
                             team={team}
                             onToggleArchive={this.onToggleArchive}
-                            isArchived={isArchived}
+                            isArchived={isLocalArchived}
                         />
                         <ConfirmModal
                             show={showArchiveConfirmModal}
@@ -735,7 +735,7 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
                             onConfirm={this.handleSubmit}
                             onCancel={this.hideArchiveConfirmModal}
                         />
-                        {!isArchived && nonArchivedContent}
+                        {!isLocalArchived && nonArchivedContent}
                     </div>
                 </div>
 
