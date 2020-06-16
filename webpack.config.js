@@ -338,10 +338,6 @@ var config = {
                 sizes: '96x96',
             }],
         }),
-        new BrotliPlugin({
-            asset: '[file].br',
-            test: /\.(js|css)$/
-        }),
     ],
 };
 
