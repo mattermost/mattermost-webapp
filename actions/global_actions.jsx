@@ -350,7 +350,7 @@ export async function redirectUserToDefaultTeam() {
     }
 
     const team = getTeam(state, teamId);
-    if (team) {
+    if (team && team.delete_at === 0) {
         const channel = await getTeamRedirectChannelIfIsAccesible(user, team);
         if (channel) {
             dispatch(selectChannel(channel.id));
