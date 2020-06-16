@@ -282,6 +282,7 @@ export default class ViewImageModal extends React.PureComponent {
                     <preview.component
                         fileInfo={fileInfo}
                         post={this.props.post}
+                        onModalDismissed={this.props.onModalDismissed}
                     />
                 );
                 break;
