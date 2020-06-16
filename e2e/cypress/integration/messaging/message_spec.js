@@ -10,6 +10,7 @@
 // Stage: @prod
 // Group: @messaging @smoke
 
+import * as MESSAGES from '../../fixtures/messages';
 import users from '../../fixtures/users.json';
 
 const sysadmin = users.sysadmin;
@@ -165,5 +166,26 @@ describe('Message', () => {
             cy.get(divPostId).find('span.emoticon').should('not.exist');
             cy.get(divPostId).find('span.codespan__pre-wrap code').should('have.text', '😉');
         });
+    });
+
+    it('M23361 Focus remains in the RHS text box', () => {
+        cy.apiSaveShowMarkdownPreviewPreference();
+
+        cy.postMessage(MESSAGES.MEDIUM);
+
+        // # Open reply thread (RHS)
+        cy.clickPostCommentIcon();
+
+        // # Add some text to RHS text box
+        cy.get('#reply_textbox').type(MESSAGES.TINY);
+
+        // # Click on Preview
+        cy.get('#previewLink').click();
+
+        // # Click on Add Comment
+        cy.get('#addCommentButton').click();
+
+        // * Focus to remain in the RHS text box
+        cy.get('#reply_textbox').should('be.focused');
     });
 });
