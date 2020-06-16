@@ -60,7 +60,7 @@ describe('CS15445 Join/leave messages', () => {
         cy.apiInitSetup().then(({team, user}) => {
             testTeam = team;
 
-            // # Add atleast 4 users
+            // # Add 4 users
             for (let i = 0; i < 4; i++) {
                 cy.apiCreateUser().then(({user: newUser}) => { // eslint-disable-line
                     cy.apiAddUserToTeam(testTeam.id, newUser.id);

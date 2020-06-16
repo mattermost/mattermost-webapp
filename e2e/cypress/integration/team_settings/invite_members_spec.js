@@ -10,12 +10,6 @@
 // Stage: @prod
 // Group: @team_settings
 
-// import users from '../../fixtures/users.json';
-
-// let testTeam;
-// const user1 = users['user-1'];
-// const user2 = users['user-2'];
-
 function openClickInviteMenuItem() {
     // * validating the side bar is visible
     cy.get('#sidebarHeaderDropdownButton').should('be.visible');

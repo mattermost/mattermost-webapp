@@ -29,11 +29,6 @@ describe('Channel members test', () => {
             sysadmin = res.body;
         });
 
-        // # Login as sysadmin
-        cy.apiAdminLogin().then((res) => {
-            sysadmin = res.body;
-        });
-
         // * Check if server has license
         cy.requireLicense();
 

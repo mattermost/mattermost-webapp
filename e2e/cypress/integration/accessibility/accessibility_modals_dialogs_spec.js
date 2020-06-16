@@ -55,7 +55,7 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
     });
 
     beforeEach(() => {
-        // # Visit the Town Square channel
+        // # Login as sysadmin and visit the town-square
         cy.apiAdminLogin();
         cy.visit(`/${testTeam.name}/channels/town-square`);
     });
