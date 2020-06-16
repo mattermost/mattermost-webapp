@@ -63,10 +63,7 @@ export function sendMembersInvites(teamId, users, emails) {
     };
 }
 
-export async function sendGuestInviteForUser(dispatch, user, teamId, channels, members) {
-    if (!isGuest(user)) {
-        return {notSent: {user, reason: localizeMessage('invite.members.user-is-not-guest', 'This person is already a member.')}};
-    }
+async function sendGuestInviteForUser(dispatch, getState, user, teamId, channels, members) {
     let memberOfAll = true;
     let memberOfAny = false;
 
@@ -81,6 +78,14 @@ export async function sendGuestInviteForUser(dispatch, user, teamId, channels, m
 
     if (memberOfAll) {
         return {notSent: {user, reason: localizeMessage('invite.guests.already-all-channels-member', 'This person is already a member of all the channels.')}};
+    }
+
+    if (!isGuest(user)) {
+        const member = getTeamMember(getState(), teamId, user.id);
+        if (member) {
+            return {notSent: {user, reason: localizeMessage('invite.members.user-is-not-guest', 'This person is already a member.'), fixable: true, belongsToTeam: true}};
+        }
+        return {notSent: {user, reason: localizeMessage('invite.members.user-is-not-guest', 'This person is already a member.'), fixable: true, belongsToTeam: false}};
     }
 
     try {
@@ -110,7 +115,7 @@ export function sendGuestsInvites(teamId, channels, users, emails, message) {
         const sent = [];
         const notSent = [];
         const members = getChannelMembersInChannels(state);
-        const results = await Promise.all(users.map((user) => sendGuestInviteForUser(dispatch, user, teamId, channels, members)));
+        const results = await Promise.all(users.map((user) => sendGuestInviteForUser(dispatch, getState, user, teamId, channels, members)));
 
         for (const result of results) {
             if (result.sent) {

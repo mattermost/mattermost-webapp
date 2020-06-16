@@ -12,6 +12,7 @@ describe('components/invitation_modal/InvitationModalConfirmStep', () => {
     test('should match the snapshot for guests with failures and successes', () => {
         const wrapper = shallow(
             <InvitationModalConfirmStep
+                fixInviteRow={jest.fn()}
                 teamName='test'
                 onDone={jest.fn()}
                 onInviteMore={jest.fn()}
@@ -26,6 +27,7 @@ describe('components/invitation_modal/InvitationModalConfirmStep', () => {
     test('should match the snapshot for members with failures and successes', () => {
         const wrapper = shallow(
             <InvitationModalConfirmStep
+                fixInviteRow={jest.fn()}
                 teamName='test'
                 onDone={jest.fn()}
                 onInviteMore={jest.fn()}
@@ -40,6 +42,7 @@ describe('components/invitation_modal/InvitationModalConfirmStep', () => {
     test('should match the snapshot without successes', () => {
         const wrapper = shallow(
             <InvitationModalConfirmStep
+                fixInviteRow={jest.fn()}
                 teamName='test'
                 onDone={jest.fn()}
                 onInviteMore={jest.fn()}
@@ -54,6 +57,7 @@ describe('components/invitation_modal/InvitationModalConfirmStep', () => {
     test('should match the snapshot without failures', () => {
         const wrapper = shallow(
             <InvitationModalConfirmStep
+                fixInviteRow={jest.fn()}
                 teamName='test'
                 onDone={jest.fn()}
                 onInviteMore={jest.fn()}
@@ -68,6 +72,7 @@ describe('components/invitation_modal/InvitationModalConfirmStep', () => {
     test('should match the snapshot without failures or successes', () => {
         const wrapper = shallow(
             <InvitationModalConfirmStep
+                fixInviteRow={jest.fn()}
                 teamName='test'
                 onDone={jest.fn()}
                 onInviteMore={jest.fn()}

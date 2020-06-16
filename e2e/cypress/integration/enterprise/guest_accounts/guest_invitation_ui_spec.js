@@ -63,7 +63,7 @@ function invitePeople(typeText, resultsCount, verifyText, channelName = 'Town Sq
     }
 }
 
-function verifyInvitationError(user, errorText, verifyGuestBadge = false) {
+function verifyInvitationError(user, errorText, verifyGuestBadge = false, close = true) {
     // * Verify the content and error message in the Invitation Modal
     cy.findByTestId('invitationModal').within(() => {
         cy.get('h1').should('have.text', `Guests Invited to ${testTeam.display_name}`);
@@ -79,11 +79,32 @@ function verifyInvitationError(user, errorText, verifyGuestBadge = false) {
                 cy.get('.username-or-icon .Badge').should('be.visible').and('have.text', 'GUEST');
             }
         });
-        cy.get('.confirm-done').should('be.visible').and('not.be.disabled').click();
+        if (close) {
+            cy.get('.confirm-done').should('be.visible').and('not.be.disabled').click();
+        }
     });
 
-    // * Verify if Invitation Modal was closed
-    cy.get('.InvitationModal').should('not.exist');
+    if (close) {
+        // * Verify if Invitation Modal was closed
+        cy.get('.InvitationModal').should('not.exist');
+    }
+}
+
+function fixInvitationError(user, errorText) {
+    cy.findByTestId('invitationModal').within(() => {
+        cy.get('h1').should('have.text', `Guests Invited to ${testTeam.display_name}`);
+        cy.get('h2.subtitle > span').should('have.text', '1 invitation was not sent');
+        cy.get('div.invitation-modal-confirm-sent').should('not.exist');
+        cy.get('div.invitation-modal-confirm-not-sent').should('be.visible').within(() => {
+            cy.get('h2 > span').should('have.text', 'Invitations Not Sent');
+            cy.get('.people-header').should('have.text', 'People');
+            cy.get('.details-header').should('have.text', 'Details');
+            cy.get('.username-or-icon').should('contain', user);
+            cy.get('.reason').should('have.text', errorText);
+            cy.get('.fix-link').should('contain', 'Add this member');
+            cy.get('.fix-link').click();
+        });
+    });
 }
 
 function verifyInvitationSuccess(user, successText, verifyGuestBadge = false) {
@@ -240,13 +261,13 @@ describe('Guest Account - Guest User Invitation Flow', () => {
         invitePeople(newUser.username, 1, newUser.username);
 
         // * Verify the content and message in next screen
-        verifyInvitationError(newUser.username, 'This person is already a member.');
+        verifyInvitationError(newUser.username, 'This person is already a member.Add this member to the channels.');
 
         // # Search and add an existing member by email who is not part of the team
         invitePeople(user1.email, 1, user1.username);
 
         // * Verify the content and message in next screen
-        verifyInvitationError(user1.username, 'This person is already a member.');
+        verifyInvitationError(user1.username, 'This person is already a member.Add this member to the team and channels.');
 
         // # Demote the user from member to guest
         cy.demoteUser(newUser.id);
@@ -374,5 +395,31 @@ describe('Guest Account - Guest User Invitation Flow', () => {
 
         // * Verify the content and message in next screen
         verifyInvitationSuccess(email.toLowerCase(), 'An invitation email has been sent.');
+    });
+
+    it('MM-17502 Add New/Existing Regular user as Guest should allow to add as regular user to the team and channels', () => {
+        // # Search and add an existing member by username who is part of the team
+        invitePeople(newUser.username, 1, newUser.username);
+
+        // * Verify the content and message in next screen
+        verifyInvitationError(newUser.username, 'This person is already a member.Add this member to the channels.', false, false);
+
+        // * Try to fix the invitation of the regular user
+        fixInvitationError(newUser.username, 'This person is already a member.Add this member to the channels.');
+
+        // * Verify the content and message in next screen
+        verifyInvitationSuccess(newUser.username, 'This member has been added to the channels.');
+
+        // # Search and add an existing member by email who is not part of the team
+        invitePeople(user1.email, 1, user1.username);
+
+        // * Verify the content and message in next screen
+        verifyInvitationError(user1.username, 'This person is already a member.Add this member to the team and channels.', false, false);
+
+        // * Try to fix the invitation of the regular user
+        fixInvitationError(user1.username, 'This person is already a member.Add this member to the team and channels.');
+
+        // * Verify the content and message in next screen
+        verifyInvitationSuccess(user1.username, 'This member has been added to the channels.');
     });
 });

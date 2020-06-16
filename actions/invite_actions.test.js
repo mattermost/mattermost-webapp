@@ -314,6 +314,8 @@ describe('actions/invite_actions', () => {
                 ],
                 notSent: [
                     {
+                        belongsToTeam: true,
+                        fixable: true,
                         reason: 'This person is already a member.',
                         user: {
                             id: 'user1',
@@ -321,6 +323,8 @@ describe('actions/invite_actions', () => {
                         },
                     },
                     {
+                        belongsToTeam: false,
+                        fixable: true,
                         reason: 'This person is already a member.',
                         user: {
                             id: 'other-user',
@@ -398,6 +402,8 @@ describe('actions/invite_actions', () => {
                 ],
                 notSent: [
                     {
+                        belongsToTeam: true,
+                        fixable: true,
                         reason: 'This person is already a member.',
                         user: {
                             id: 'user1',
@@ -405,6 +411,8 @@ describe('actions/invite_actions', () => {
                         },
                     },
                     {
+                        belongsToTeam: false,
+                        fixable: true,
                         reason: 'This person is already a member.',
                         user: {
                             id: 'other-user',
@@ -427,6 +435,8 @@ describe('actions/invite_actions', () => {
                 sent: [],
                 notSent: [
                     {
+                        belongsToTeam: true,
+                        fixable: true,
                         reason: 'This person is already a member.',
                         user: {
                             id: 'user1',
@@ -441,6 +451,8 @@ describe('actions/invite_actions', () => {
                         },
                     },
                     {
+                        belongsToTeam: false,
+                        fixable: true,
                         reason: 'This person is already a member.',
                         user: {
                             id: 'other-user',
