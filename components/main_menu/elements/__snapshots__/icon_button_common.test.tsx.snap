@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/main_menu/IconButtonCommon should match snapshot 1`] = `
+<div
+  className="IconButton__wrapper"
+>
+  <button
+    aria-label="icon button"
+    className="IconButton IconButton___small undefined"
+    tabIndex={-1}
+  >
+    <i
+      className="Icon Icon___standard icon-emoticon-happy-outline Icon___standard IconButton_icon"
+    />
+  </button>
+</div>
+`;
