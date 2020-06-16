@@ -6,6 +6,8 @@ import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {UserProfile} from 'mattermost-redux/src/types/users';
+import {Dictionary} from 'mattermost-redux/src/types/utilities';
+import {AnalyticsRow} from 'mattermost-redux/types/admin';
 import {ActionFunc} from 'mattermost-redux/types/actions';
 
 import {getSiteURL} from 'utils/url';
@@ -25,7 +27,7 @@ type Props = {
     diagnosticId?: string;
     show: boolean;
     closeParentComponent?: () => Promise<void>;
-    stats: Record<string, any>;
+    stats?: Dictionary<number | AnalyticsRow[]>;
     warnMetricStatus: any;
     actions: {
         closeModal: (arg: string) => void;
@@ -93,7 +95,7 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
         mailBody += 'Email ' + this.props.user.email;
         mailBody += '\r\n';
 
-        if (this.props.stats[StatTypes.TOTAL_USERS]) {
+        if (this.props.stats && this.props.stats[StatTypes.TOTAL_USERS]) {
             mailBody += 'Registered Users ' + this.props.stats[StatTypes.TOTAL_USERS];
             mailBody += '\r\n';
         }

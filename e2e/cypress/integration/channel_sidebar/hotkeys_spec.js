@@ -104,12 +104,12 @@ describe('Channel switching', () => {
         cy.get('body').type(cmdOrCtrl, {release: false}).type('k').type(cmdOrCtrl, {release: true});
 
         // * Verify that the modal has been opened
-        cy.get('.channel-switch__modal').should('be.visible');
+        cy.get('.channel-switcher').should('be.visible');
 
         // # Press ctrl/cmd + k
         cy.get('body').type(cmdOrCtrl, {release: false}).type('k').type(cmdOrCtrl, {release: true});
 
         // * Verify that the modal has been closed
-        cy.get('.channel-switch__modal').should('not.be.visible');
+        cy.get('.channel-switcher').should('not.be.visible');
     });
 });

@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @integrations
 
 const testCases = [
@@ -50,7 +51,7 @@ describe('Integrations', () => {
             // # Verify that the suggestion list is visible
             cy.get('#suggestionList').should('be.visible').then((container) => {
                 // # Find command and click
-                cy.findByText(new RegExp(testCase.command), {container}).click({force: true});
+                cy.contains(new RegExp(testCase.command), {container}).click({force: true});
             });
 
             // # Hit enter and verify user status

@@ -79,6 +79,8 @@ describe('Header', () => {
             type('London{enter}').
             wait(1000).
             clear();
+        cy.get('#searchbar-help-popup').should('be.visible');
+        cy.get('#searchFormContainer').type('{esc}');
 
         // # Verify the Search side bar opens up
         cy.get('#sidebar-right').should('be.visible').and('contain', 'Search Results');
@@ -93,7 +95,7 @@ describe('Header', () => {
 
         // # Click the pin icon to open the pinned posts RHS
         cy.get('#channelHeaderPinButton').should('be.visible').click();
-        cy.get('#sidebar-right').should('be.visible').and('contain', 'Pinned Posts in');
+        cy.get('#sidebar-right').should('be.visible').and('contain', 'Pinned posts');
 
         // # Verify that the Search term input box is still cleared and search term does not reappear when RHS opens
         cy.get('#searchBox').should('have.attr', 'value', '').and('be.empty');
