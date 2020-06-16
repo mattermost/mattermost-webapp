@@ -175,11 +175,11 @@
         justify-content: center;
         align-items: center;
         position: absolute;
-        margin-left: 50%;
+        margin-left: calc(50% - 2px);
         width: 188px;
-        height: 34px;
-        font-size: 15px;
-        line-height: 28px;
+        height: 32px;
+        font-size: 14px;
+        line-height: 16px;
         text-align: center;
         @include border-radius(4px);
         font-weight: 700;
@@ -193,7 +193,7 @@
             display: inline-flex;
             justify-content: center;
             align-items: center;
-            margin-right: 5px;
+            margin-right: 4px;
         }
 
         body.enable-animations & {
