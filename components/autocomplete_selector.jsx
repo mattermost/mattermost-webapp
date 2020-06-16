@@ -152,6 +152,7 @@ export default class AutocompleteSelector extends React.PureComponent {
                         replaceAllInputOnSelect={true}
                         disabled={disabled}
                         listStyle={listStyle}
+                        closeOnClick={true}
                     />
                     {helpTextContent}
                     {footer}

@@ -147,6 +147,12 @@ export default class SuggestionBox extends React.PureComponent {
          * To show suggestions even when focus is lost
          */
         forceSuggestionsWhenBlur: PropTypes.bool,
+
+        /**
+         * If true, close the suggestion list when clicking on the input box.
+         * Defaults to false.
+         */
+        closeOnClick: PropTypes.bool,
     }
 
     static defaultProps = {
@@ -162,6 +168,7 @@ export default class SuggestionBox extends React.PureComponent {
         replaceAllInputOnSelect: false,
         listenForMentionKeyClick: false,
         forceSuggestionsWhenBlur: false,
+        closeOnClick: false,
     }
 
     constructor(props) {
@@ -185,6 +192,7 @@ export default class SuggestionBox extends React.PureComponent {
         // items: a list of objects backing the terms which may be used in rendering
         // components: a list of react components that can be used to render their corresponding item
         // selection: the term currently selected by the keyboard
+        // justFocused: set to true when onFocus, cleared away by onClick, so the latter knows if it was triggered right after the former
         this.state = {
             focused: false,
             cleared: true,
@@ -195,6 +203,7 @@ export default class SuggestionBox extends React.PureComponent {
             selection: '',
             allowDividers: true,
             presentationType: 'text',
+            justFocused: false,
         };
 
         this.inputRef = React.createRef();
@@ -314,7 +323,7 @@ export default class SuggestionBox extends React.PureComponent {
             return;
         }
 
-        this.setState({focused: true});
+        this.setState({focused: true, justFocused: true});
 
         if ((this.props.openOnFocus || this.props.openWhenEmpty) && !this.props.forceSuggestionsWhenBlur) {
             setTimeout(() => {
@@ -672,6 +681,21 @@ export default class SuggestionBox extends React.PureComponent {
         this.container = container;
     };
 
+    handleClick = () => {
+        if (this.props.closeOnClick) {
+            // Close the list on clik only if these conditions are met:
+            //   - the element was not just focused. This avoids the case where
+            //     onClick is triggered right after onFocus.
+            //   - the input text is empty. This avoids weird behaviour where the
+            //     user can click on an already entered text to modify it.
+            if (!this.state.justFocused && this.props.value === '') {
+                this.setState({focused: !this.state.focused});
+            }
+        }
+
+        this.setState({justFocused: false});
+    }
+
     render() {
         const {
             listComponent,
@@ -711,6 +735,7 @@ export default class SuggestionBox extends React.PureComponent {
             <div
                 ref={this.setContainerRef}
                 className={this.props.containerClass}
+                onClick={this.handleClick}
             >
                 <div
                     ref={this.suggestionReadOut}
