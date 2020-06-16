@@ -52,8 +52,11 @@ describe('Main menu', () => {
 
     describe('should not show integrations option', () => {
         it('for team member without permissions', () => {
-            cy.apiLogin('user-1');
-            cy.visit('/ad-1/channels/town-square');
+            cy.apiGetTeamByName('ad-1').then((res) => {
+                const team = res.body;
+                cy.apiCreateAndLoginAsNewUser({}, [team.id]);
+                cy.visit('/ad-1/channels/town-square');
+            });
 
             cy.get('#lhsHeader').should('be.visible').within(() => {
                 cy.get('#sidebarHeaderDropdownButton').click();

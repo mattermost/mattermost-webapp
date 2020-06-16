@@ -25,6 +25,11 @@ describe('Status dropdown menu', () => {
         cy.reload();
     });
 
+    afterEach(() => {
+        // # Reset user status to online to prevent status modal
+        cy.apiUpdateUserStatus();
+    });
+
     it('Displays default menu when status icon is clicked', () => {
         // # Wait for posts to load
         cy.get('#postListContent').should('be.visible');
