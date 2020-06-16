@@ -1,9 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-Cypress.Commands.add('apiInitSetup', (options = {}) => {
-    const loginAfter = options.loginAfter || false;
-
+Cypress.Commands.add('apiInitSetup', ({loginAfter = false} = {}) => {
     return cy.apiCreateTeam('team', 'Team').then((teamRes) => {
         const team = teamRes.body;
 

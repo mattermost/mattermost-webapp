@@ -165,17 +165,14 @@ function generateRandomUser(prefix = 'user') {
     };
 }
 
-Cypress.Commands.add('apiCreateUser', (options = {}) => {
-    const prefix = options.prefix || 'user';
-    const bypassTutorial = options.hasOwnProperty('bypassTutorial') ? options.bypassTutorial : true;
-
-    const user = options.user || generateRandomUser(prefix);
+Cypress.Commands.add('apiCreateUser', ({prefix = 'user', bypassTutorial = true, user = null} = {}) => {
+    const newUser = user || generateRandomUser(prefix);
 
     const createUserOption = {
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         method: 'POST',
         url: '/api/v4/users',
-        body: user,
+        body: newUser,
     };
 
     return cy.request(createUserOption).then((userRes) => {
@@ -187,7 +184,7 @@ Cypress.Commands.add('apiCreateUser', (options = {}) => {
             cy.apiSaveTutorialStep(createdUser.id, '999');
         }
 
-        return cy.wrap({user: {...createdUser, password: user.password}});
+        return cy.wrap({user: {...createdUser, password: newUser.password}});
     });
 });
 
