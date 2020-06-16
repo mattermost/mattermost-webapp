@@ -131,8 +131,10 @@ before(() => {
         cy.apiUpdateConfig();
         cy.apiInvalidateCache();
 
-        // # Reset admin preference
+        // # Reset admin preference, online status and locale
         cy.apiSaveTeammateNameDisplayPreference('username');
+        cy.apiUpdateUserStatus('online');
+        cy.apiPatchMe({locale: 'en'});
 
         // # Reset roles
         cy.apiGetClientLicense().then((res) => {
