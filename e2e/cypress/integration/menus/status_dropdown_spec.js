@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @menu
 
 describe('Status dropdown menu', () => {
@@ -15,6 +16,11 @@ describe('Status dropdown menu', () => {
         cy.apiLogin('user-1');
         cy.visit('/ad-1/channels/town-square');
 
+        // # Reset user status to online to prevent status modal
+        cy.apiUpdateUserStatus();
+    });
+
+    afterEach(() => {
         // # Reset user status to online to prevent status modal
         cy.apiUpdateUserStatus();
     });
