@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @messaging
 
 import users from '../../fixtures/users.json';
@@ -122,7 +121,7 @@ describe('at-mention', () => {
             townsquareChannelId = id;
         });
 
-        cy.get('#sidebarItem_off-topic').click({force: true});
+        cy.visit('/ad-1/channels/off-topic');
         cy.getCurrentChannelId().then((id) => {
             offTopicChannelId = id;
         });

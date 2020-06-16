@@ -71,7 +71,7 @@ class InvitationModalMembersStep extends React.PureComponent {
     }
 
     debouncedSearchProfiles = debounce((term, callback) => {
-        this.props.searchProfiles(term, {not_in_team_id: this.props.currentTeamId}).then(({data}) => {
+        this.props.searchProfiles(term).then(({data}) => {
             callback(data);
             if (data.length === 0) {
                 this.setState({termWithoutResults: term});

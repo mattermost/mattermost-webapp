@@ -7,11 +7,12 @@
 // Each command should be properly documented using JSDoc.
 // See https://jsdoc.app/index.html for reference.
 // Basic requirements for documentation are the following:
-// - Description
+// - Meaningful description
 // - Specific link to https://api.mattermost.com
 // - Each parameter with `@params`
 // - Return value with `@returns`
 // - Example usage with `@example`
+// Custom command should follow naming convention of having `api` prefix, e.g. `apiLogin`.
 // ***************************************************************
 
 declare namespace Cypress {
@@ -92,6 +93,7 @@ declare namespace Cypress {
          * @param {string[]} userIds - User ids to be in the group message channel
          * @returns {Response} response: Cypress-chainable response which should have successful HTTP status of 201 CREATED to continue or pass.
          * @returns {Channel} response.body: `Channel` object
+         *
          * @example
          *   cy.apiCreateGroupChannel('user-1-id', 'user-2-id', 'current-user-id').then((response) => {
          *     const newGroupChannel = response.body;
@@ -212,8 +214,8 @@ declare namespace Cypress {
         apiLogin(username: string, password?: string): Chainable<Response>;
 
         /**
-         * Logout a user's active session from server via API
-         * https://api.mattermost.com/#tag/users/paths/~1users~1logout/post
+         * Logout a user's active session from server via API.
+         * See https://api.mattermost.com/#tag/users/paths/~1users~1logout/post
          * Clears all cookies espececially `MMAUTHTOKEN`, `MMUSERID` and `MMCSRF`.
          *
          * @example
