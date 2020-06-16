@@ -12,9 +12,8 @@
 
 import {getAdminAccount} from '../../support/env';
 
-const sysadmin = getAdminAccount();
-
 describe('Scroll channel`s messages in mobile view', () => {
+    const sysadmin = getAdminAccount();
     let newChannel;
 
     before(() => {

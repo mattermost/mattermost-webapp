@@ -13,9 +13,8 @@
 import * as TIMEOUTS from '../../fixtures/timeouts';
 import {getAdminAccount} from '../../support/env';
 
-const sysadmin = getAdminAccount();
-
 describe('System Console', () => {
+    const sysadmin = getAdminAccount();
     let testUser;
 
     before(() => {

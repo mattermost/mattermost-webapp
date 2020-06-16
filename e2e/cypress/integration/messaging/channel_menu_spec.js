@@ -12,21 +12,20 @@
 
 import {getAdminAccount} from '../../support/env';
 
-const admin = getAdminAccount();
-
-function demoteUserToGuest(user) {
+function demoteUserToGuest(user, admin) {
     // # Issue a Request to demote the user to guest
     const baseUrl = Cypress.config('baseUrl');
     cy.externalRequest({user: admin, method: 'post', baseUrl, path: `users/${user.id}/demote`});
 }
 
-function promoteGuestToUser(user) {
+function promoteGuestToUser(user, admin) {
     // # Issue a Request to promote the guest to user
     const baseUrl = Cypress.config('baseUrl');
     cy.externalRequest({user: admin, method: 'post', baseUrl, path: `users/${user.id}/promote`});
 }
 
 describe('Channel header menu', () => {
+    const admin = getAdminAccount();
     let testUser;
     let testTeam;
 
@@ -65,13 +64,13 @@ describe('Channel header menu', () => {
             cy.get('.Menu__content').find('.menu-divider:visible').should('have.lengthOf', 3);
 
             // # Demote the user to guest
-            demoteUserToGuest(testUser);
+            demoteUserToGuest(testUser, admin);
 
             // * The dropdown menu of the channel header should have 2 dividers because some options have disappeared;
             cy.get('.Menu__content').find('.menu-divider:visible').should('have.lengthOf', 2);
 
             // # Promote the guest to user again
-            promoteGuestToUser(testUser);
+            promoteGuestToUser(testUser, admin);
 
             // * The dropdown menu of the channel header should have 3 dividers again;
             cy.get('.Menu__content').find('.menu-divider:visible').should('have.lengthOf', 3);

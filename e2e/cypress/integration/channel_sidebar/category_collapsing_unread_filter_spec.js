@@ -14,14 +14,14 @@ import {testWithConfig} from '../../support/hooks';
 import {getAdminAccount} from '../../support/env';
 import {getRandomId} from '../../utils';
 
-const sysadmin = getAdminAccount();
-
 describe('Channel sidebar', () => {
     testWithConfig({
         ServiceSettings: {
             ExperimentalChannelSidebarOrganization: 'default_on',
         },
     });
+
+    const sysadmin = getAdminAccount();
 
     before(() => {
         // # Login as test user and visit town-square

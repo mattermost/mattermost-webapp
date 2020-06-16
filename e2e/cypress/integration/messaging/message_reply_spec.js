@@ -12,9 +12,8 @@
 
 import {getAdminAccount} from '../../support/env';
 
-const sysadmin = getAdminAccount();
-
 describe('Message Reply', () => {
+    const sysadmin = getAdminAccount();
     let newChannel;
 
     before(() => {

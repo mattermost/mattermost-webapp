@@ -17,9 +17,8 @@ import {
 
 import {getAdminAccount} from '../../support/env';
 
-const admin = getAdminAccount();
-
 describe('Autocomplete without Elasticsearch - Channel', () => {
+    const admin = getAdminAccount();
     let testTeam;
     let testUser;
 

@@ -12,8 +12,6 @@
 
 import {getAdminAccount} from '../../support/env';
 
-const admin = getAdminAccount();
-
 function shouldHavePostProfileImageVisible(isVisible = true) {
     cy.getLastPostId().then((postID) => {
         const target = `#post_${postID}`;
@@ -37,6 +35,7 @@ function shouldHavePostProfileImageVisible(isVisible = true) {
 }
 
 describe('Message', () => {
+    const admin = getAdminAccount();
     let testTeam;
     let testChannel;
 

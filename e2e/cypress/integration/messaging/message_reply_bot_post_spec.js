@@ -12,14 +12,14 @@
 
 import {getAdminAccount} from '../../support/env';
 
-const sysadmin = getAdminAccount();
-
 describe('Messaging', () => {
+    const sysadmin = getAdminAccount();
     let newChannel;
     let botsUserId;
     let botName;
     let botToken;
     let yesterdaysDate;
+
     before(() => {
         // # Set ServiceSettings to expected values
         const newSettings = {

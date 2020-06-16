@@ -13,9 +13,9 @@
 import * as TIMEOUTS from '../../fixtures/timeouts';
 import {getAdminAccount} from '../../support/env';
 
-const admin = getAdminAccount();
-
 describe('Messaging', () => {
+    const admin = getAdminAccount();
+
     before(() => {
         // # Log in as test user, go to test channel and post several messages
         cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {

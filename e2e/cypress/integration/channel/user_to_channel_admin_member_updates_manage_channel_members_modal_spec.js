@@ -12,13 +12,11 @@
 
 import {getAdminAccount} from '../../support/env';
 
-const admin = getAdminAccount();
-
-const demoteToMember = (user) => {
+const demoteToMember = (user, admin) => {
     cy.externalRequest({user: admin, method: 'put', path: `users/${user.id}/roles`, data: {roles: 'system_user'}});
 };
 
-const demoteToChannelMember = (user, channelId) => {
+const demoteToChannelMember = (user, channelId, admin) => {
     cy.externalRequest({
         user: admin,
         method: 'put',
@@ -30,7 +28,7 @@ const demoteToChannelMember = (user, channelId) => {
     });
 };
 
-const promoteToChannelAdmin = (user, channelId) => {
+const promoteToChannelAdmin = (user, channelId, admin) => {
     cy.externalRequest({
         user: admin,
         method: 'put',
@@ -43,6 +41,7 @@ const promoteToChannelAdmin = (user, channelId) => {
 };
 
 describe('Change Roles', () => {
+    const admin = getAdminAccount();
     let testUser;
     let townsquareChannelId;
 
@@ -63,8 +62,8 @@ describe('Change Roles', () => {
                 townsquareChannelId = id;
 
                 // # Make user a regular member for channel and system
-                demoteToMember(testUser);
-                demoteToChannelMember(testUser, townsquareChannelId);
+                demoteToMember(testUser, admin);
+                demoteToChannelMember(testUser, townsquareChannelId, admin);
 
                 // # Reload page to ensure no cache or saved information
                 cy.reload(true);
@@ -83,7 +82,7 @@ describe('Change Roles', () => {
         });
 
         // Promote user to a channel admin
-        promoteToChannelAdmin(testUser, townsquareChannelId);
+        promoteToChannelAdmin(testUser, townsquareChannelId, admin);
 
         // * Check to see if a drop now exists now
         cy.get('.filtered-user-list').should('be.visible').within(() => {

@@ -11,9 +11,9 @@
 
 import {getAdminAccount} from '../../support/env';
 
-const sysadmin = getAdminAccount();
-
 describe('Messaging', () => {
+    const sysadmin = getAdminAccount();
+
     before(() => {
         // # Enable Timezone
         cy.apiUpdateConfig({

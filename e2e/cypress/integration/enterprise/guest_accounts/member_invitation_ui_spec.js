@@ -15,10 +15,6 @@
 import {getRandomId} from '../../../utils';
 import {getAdminAccount} from '../../../support/env';
 
-let testTeam;
-let testUser;
-const sysadmin = getAdminAccount();
-
 function invitePeople(typeText, resultsCount, verifyText) {
     // # Open Invite People
     cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
@@ -35,10 +31,10 @@ function invitePeople(typeText, resultsCount, verifyText) {
     cy.get('#inviteMembersButton').scrollIntoView().click();
 }
 
-function verifyInvitationError(user, errorText) {
+function verifyInvitationError(user, team, errorText) {
     // * Verify the content and error message in the Invitation Modal
     cy.findByTestId('invitationModal').within(($el) => {
-        cy.wrap($el).find('h1').should('have.text', `Members Invited to ${testTeam.display_name}`);
+        cy.wrap($el).find('h1').should('have.text', `Members Invited to ${team.display_name}`);
         cy.wrap($el).find('h2.subtitle > span').should('have.text', '1 invitation was not sent');
         cy.wrap($el).find('div.invitation-modal-confirm-sent').should('not.exist');
         cy.wrap($el).find('div.invitation-modal-confirm-not-sent').should('be.visible').within(($subel) => {
@@ -55,10 +51,10 @@ function verifyInvitationError(user, errorText) {
     cy.get('.InvitationModal').should('not.exist');
 }
 
-function verifyInvitationSuccess(user, successText) {
+function verifyInvitationSuccess(user, team, successText) {
     // * Verify the content and success message in the Invitation Modal
     cy.findByTestId('invitationModal').within(($el) => {
-        cy.wrap($el).find('h1').should('have.text', `Members Invited to ${testTeam.display_name}`);
+        cy.wrap($el).find('h1').should('have.text', `Members Invited to ${team.display_name}`);
         cy.wrap($el).find('h2.subtitle > span').should('have.text', '1 person has been invited');
         cy.wrap($el).find('div.invitation-modal-confirm-not-sent').should('not.exist');
         cy.wrap($el).find('div.invitation-modal-confirm-sent').should('be.visible').within(($subel) => {
@@ -75,19 +71,23 @@ function verifyInvitationSuccess(user, successText) {
     cy.get('.InvitationModal').should('not.exist');
 }
 
-function loginAsNewUser() {
+function loginAsNewUser(team) {
     // # Login as new user and get the user id
     cy.apiCreateNewUser().then((newUser) => {
-        cy.apiAddUserToTeam(testTeam.id, newUser.id);
+        cy.apiAddUserToTeam(team.id, newUser.id);
 
         // # Logout sysadmin, then login as new user
         cy.apiLogout();
         cy.apiLogin(newUser.username, newUser.password);
-        cy.visit(`/${testTeam.name}`);
+        cy.visit(`/${team.name}`);
     });
 }
 
 describe('Guest Account - Member Invitation Flow', () => {
+    const sysadmin = getAdminAccount();
+    let testTeam;
+    let testUser;
+
     beforeEach(() => {
         // * Check if server has license for Guest Accounts
         cy.requireLicenseForFeature('GuestAccounts');
@@ -189,37 +189,37 @@ describe('Guest Account - Member Invitation Flow', () => {
 
     it('MM-18040 Verify Invite New/Existing Users', () => {
         // # Login as new user
-        loginAsNewUser();
+        loginAsNewUser(testTeam);
 
         // # Search and add an existing member by username who is part of the team
         invitePeople(sysadmin.username, 1, sysadmin.username);
 
         // * Verify the content and message in next screen
-        verifyInvitationError(sysadmin.username, 'This person is already a team member.');
+        verifyInvitationError(sysadmin.username, testTeam, 'This person is already a team member.');
 
         // # Search and add an existing member by email who is not part of the team
         invitePeople(testUser.email, 1, testUser.username);
 
         // * Verify the content and message in next screen
-        verifyInvitationSuccess(testUser.username, 'This member has been added to the team.');
+        verifyInvitationSuccess(testUser.username, testTeam, 'This member has been added to the team.');
 
         // # Search and add a new member by email who is not part of the team
         const email = `temp-${getRandomId()}@mattermost.com`;
         invitePeople(email, 1, email);
 
         // * Verify the content and message in next screen
-        verifyInvitationSuccess(email, 'An invitation email has been sent.');
+        verifyInvitationSuccess(email, testTeam, 'An invitation email has been sent.');
     });
 
     it('MM-22037 Invite Member via Email containing upper case letters', () => {
         // # Login as new user
-        loginAsNewUser();
+        loginAsNewUser(testTeam);
 
         // # Invite a email containing uppercase letters
         const email = `tEMp-${getRandomId()}@mattermost.com`;
         invitePeople(email, 1, email);
 
         // * Verify the content and message in next screen
-        verifyInvitationSuccess(email, 'An invitation email has been sent.');
+        verifyInvitationSuccess(email, testTeam, 'An invitation email has been sent.');
     });
 });
