@@ -47,6 +47,7 @@ exports[`components/search_bar/SearchBar should match snapshot with search 1`] =
         autoFocus={false}
         className="search-bar a11y__region"
         clearable={true}
+        closeOnClick={false}
         completeOnTab={true}
         containerClass="w-full"
         data-a11y-sort-order="9"
@@ -150,6 +151,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search 1`
         autoFocus={false}
         className="search-bar a11y__region"
         clearable={true}
+        closeOnClick={false}
         completeOnTab={true}
         containerClass="w-full"
         data-a11y-sort-order="9"
@@ -322,6 +324,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
         autoFocus={false}
         className="search-bar a11y__region"
         clearable={true}
+        closeOnClick={false}
         completeOnTab={true}
         containerClass="w-full"
         data-a11y-sort-order="9"
@@ -494,6 +497,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
         autoFocus={false}
         className="search-bar a11y__region"
         clearable={true}
+        closeOnClick={false}
         completeOnTab={true}
         containerClass="w-full"
         data-a11y-sort-order="9"

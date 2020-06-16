@@ -7,6 +7,7 @@ exports[`components/TextBox should match snapshot with required props 1`] = `
   <SuggestionBox
     channelId="channelId"
     className="form-control custom-textarea"
+    closeOnClick={false}
     completeOnTab={true}
     containerClass=""
     contextId="channelId"
@@ -106,6 +107,7 @@ exports[`components/TextBox should throw error when new property is too long 1`]
   <SuggestionBox
     channelId="channelId"
     className="form-control custom-textarea"
+    closeOnClick={false}
     completeOnTab={true}
     containerClass=""
     contextId="channelId"
@@ -205,6 +207,7 @@ exports[`components/TextBox should throw error when value is too long 1`] = `
   <SuggestionBox
     channelId="channelId"
     className="form-control custom-textarea"
+    closeOnClick={false}
     completeOnTab={true}
     containerClass=""
     contextId="channelId"

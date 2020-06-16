@@ -30,6 +30,7 @@ describe('components/widgets/settings/AutocompleteSelector', () => {
               >
                 <SuggestionBox
                   className="form-control"
+                  closeOnClick={true}
                   completeOnTab={true}
                   containerClass="select-suggestion-container"
                   forceSuggestionsWhenBlur={false}
@@ -81,6 +82,7 @@ describe('components/widgets/settings/AutocompleteSelector', () => {
               >
                 <SuggestionBox
                   className="form-control"
+                  closeOnClick={true}
                   completeOnTab={true}
                   containerClass="select-suggestion-container"
                   forceSuggestionsWhenBlur={false}
@@ -123,6 +125,7 @@ describe('components/widgets/settings/AutocompleteSelector', () => {
               >
                 <SuggestionBox
                   className="form-control"
+                  closeOnClick={true}
                   completeOnTab={true}
                   containerClass="select-suggestion-container"
                   forceSuggestionsWhenBlur={false}

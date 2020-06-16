@@ -73,6 +73,7 @@ exports[`components/AddUserToChannelModal should match snapshot 1`] = `
       >
         <SuggestionBox
           className="form-control focused"
+          closeOnClick={false}
           completeOnTab={false}
           containerClass=""
           delayInputUpdate={true}
