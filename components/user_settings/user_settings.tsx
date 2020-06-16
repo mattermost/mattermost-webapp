@@ -10,18 +10,10 @@ import NotificationsTab from './notifications';
 import SecurityTab from './security';
 import SidebarTab from './sidebar';
 
+import {UserProfile} from 'mattermost-redux/types/users';
+
 type Props = {
-    user: {
-        id: string;
-        username: string;
-        first_name: string;
-        last_name: string;
-        nickname: string;
-        position: string;
-        email: string;
-        auth_service: string;
-        last_picture_update: number;
-    };
+    user: UserProfile;
     activeTab?: string;
     activeSection?: string;
     updateSection: (section: string) => void;

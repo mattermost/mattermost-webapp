@@ -5,6 +5,7 @@ import React from 'react';
 import {defineMessages, FormattedDate, FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
 import {isEmail} from 'mattermost-redux/utils/helpers';
+import {UserProfile} from 'mattermost-redux/types/users';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -85,18 +86,7 @@ const holders = defineMessages({
 
 type Props = {
     intl: IntlShape;
-    user: {
-        id: string;
-        username: string;
-        first_name: string;
-        last_name: string;
-        nickname: string;
-        position: string;
-        email: string;
-        password?: string;
-        auth_service: string;
-        last_picture_update: number;
-    };
+    user: UserProfile;
     updateSection: (section: string) => void;
     updateTab: (notifications: string) => void;
     activeSection?: string;
@@ -301,7 +291,7 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
         this.submitUser(user, true);
     }
 
-    submitUser = (user: object, emailUpdated: boolean | string) => {
+    submitUser = (user: object, emailUpdated: boolean) => {
         const {formatMessage} = this.props.intl;
         this.setState({sectionIsSaving: true});
 
@@ -434,7 +424,7 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
         this.setState({currentPassword: e.target.value});
     }
 
-    updatePicture = (e: {target: {files: {type: string; size: number}[]}}) => {
+    updatePicture = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
             this.setState({pictureFile: e.target.files[0]});
 
@@ -697,7 +687,7 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
                 />
             );
         } else {
-            let describe: any = '';
+            let describe: JSX.Element|string = '';
             if (this.props.user.auth_service === '') {
                 describe = this.props.user.email;
             } else if (this.props.user.auth_service === Constants.GITLAB_SERVICE) {
@@ -951,7 +941,7 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
                     </span>
                 );
             } else {
-                let nicknameLabel: any = (
+                let nicknameLabel: JSX.Element|string = (
                     <FormattedMessage
                         id='user.settings.general.nickname'
                         defaultMessage='Nickname'
@@ -1008,7 +998,7 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
                 />
             );
         } else {
-            let describe: any = '';
+            let describe: JSX.Element|string = '';
             if (user.nickname) {
                 describe = user.nickname;
             } else {
@@ -1122,7 +1112,7 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
 
         let positionSection;
         if (this.props.activeSection === 'position') {
-            let extraInfo;
+            let extraInfo: JSX.Element|string;
             let submit = null;
             if ((this.props.user.auth_service === Constants.LDAP_SERVICE && this.props.ldapPositionAttributeSet) || (this.props.user.auth_service === Constants.SAML_SERVICE && this.props.samlPositionAttributeSet)) {
                 extraInfo = (
@@ -1192,7 +1182,7 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
                 />
             );
         } else {
-            let describe: any = '';
+            let describe: JSX.Element|string = '';
             if (user.position) {
                 describe = user.position;
             } else {
@@ -1275,7 +1265,7 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
                 />
             );
         } else {
-            let minMessage: any = formatMessage(holders.uploadImage);
+            let minMessage: JSX.Element|string = formatMessage(holders.uploadImage);
             if (Utils.isMobile()) {
                 minMessage = formatMessage(holders.uploadImageMobile);
             }
