@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/main_menu/IconCommon should match snapshot 1`] = `
+<div
+  className="Icon__wrapper"
+>
+  <i
+    aria-label="icon"
+    className="Icon Icon___xsmall icon-emoticon-happy-outline"
+  />
+</div>
+`;
