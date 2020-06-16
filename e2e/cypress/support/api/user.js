@@ -212,6 +212,9 @@ Cypress.Commands.add('apiUpdateUserStatus', (status = 'online') => {
             url: '/api/v4/users/me/status',
             method: 'PUT',
             body: data,
+        }).then((response) => {
+            expect(response.status).to.equal(200);
+            cy.wrap({status: response.body});
         });
     });
 });
