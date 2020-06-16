@@ -54,7 +54,7 @@ describe('System Console', () => {
         cy.requireLicenseForFeature('LDAPGroups');
 
         // Enable LDAP
-        cy.apiUpdateConfig({LdapSettings: {Enable: true}});
+        cy.apiUpdateConfig({LdapSettings: {Enable: true, EnableSync: true}});
 
         // # Check and run LDAP Sync job
         if (Cypress.env('runLDAPSync')) {
@@ -115,7 +115,7 @@ describe('System Console', () => {
 
             // # Change the option to the admin roles (Channel Admin/Team Admin) for each row
             cy.findByTestId(`${name}_current_role`).scrollIntoView().click();
-            cy.findByTestId(`${name}_role_to_be`).scrollIntoView().click();
+            cy.get(`#${name}_change_role_options button`).scrollIntoView().click();
 
             // * Ensure that each row roles have changed successfully (by making sure that the Member text is not existent anymore)
             cy.findByTestId(`${name}_current_role`).scrollIntoView().should('not.contain.text', 'Member');
