@@ -15,8 +15,8 @@ function mapStateToProps(state: GlobalState) {
     const currentChannel = getCurrentChannel(state);
     const currentTeam = getCurrentTeam(state);
 
-    const customDescriptionText = config.CustomDescriptionText!;
-    const siteName = config.SiteName!;
+    const customDescriptionText = config.CustomDescriptionText;
+    const siteName = config.SiteName;
 
     return {
         currentChannel,
