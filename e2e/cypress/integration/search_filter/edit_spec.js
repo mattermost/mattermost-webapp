@@ -72,7 +72,7 @@ describe('SF15699 Search Date Filter - edit', () => {
         cy.get('#loadingSpinner').should('not.be.visible');
 
         // * Verify we see our single result
-        cy.queryAllByTestId('search-item-container').
+        cy.findAllByTestId('search-item-container').
             should('be.visible').
             and('have.length', 1).
             find('.post-message').
@@ -102,7 +102,7 @@ describe('SF15699 Search Date Filter - edit', () => {
         cy.get('#loadingSpinner').should('not.be.visible');
 
         // * There should be no results
-        cy.queryAllByTestId('search-item-container').should('have.length', 0);
+        cy.findAllByTestId('search-item-container').should('have.length', 0);
     });
 
     it('changing timezone changes day search results appears', () => {
