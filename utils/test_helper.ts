@@ -12,6 +12,7 @@ export class TestHelper {
             id: 'user_id',
             roles: '',
             username: 'some-user',
+            password: '',
             auth_data: '',
             auth_service: '',
             create_at: 0,
@@ -27,7 +28,8 @@ export class TestHelper {
             terms_of_service_id: '',
             update_at: 0,
             is_bot: false,
-            last_picture_update: 0,
+            allow_marketing: false,
+            props: {},
             notify_props: {
                 channel: 'false',
                 comments: 'never',
@@ -40,6 +42,14 @@ export class TestHelper {
                 push: 'none',
                 push_status: 'offline',
             },
+            last_picture_update: 0,
+            last_password_update: 0,
+            failed_attempts: 0,
+            mfa_active: false,
+            mfa_secret: '',
+            last_activity_at: 0,
+            bot_description: '',
+            bot_last_icon_update: 0,
         };
         return Object.assign({}, defaultUser, override);
     }
