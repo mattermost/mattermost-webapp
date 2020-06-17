@@ -596,7 +596,7 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
             newState.serverError = previousServerError;
             newState.previousServerError = null;
         }
-
+        this.props.actions.setNavigationBlocked(true);
         this.setState(newState);
     };
 
