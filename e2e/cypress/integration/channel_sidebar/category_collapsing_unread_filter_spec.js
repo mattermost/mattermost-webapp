@@ -10,13 +10,9 @@
 // Stage: @prod
 // Group: @channel_sidebar
 
-import users from '../../fixtures/users';
-
 import {testWithConfig} from '../../support/hooks';
-
+import {getAdminAccount} from '../../support/env';
 import {getRandomId} from '../../utils';
-
-const sysadmin = users.sysadmin;
 
 describe('Channel sidebar', () => {
     testWithConfig({
@@ -25,10 +21,13 @@ describe('Channel sidebar', () => {
         },
     });
 
-    before(() => {
-        cy.apiLogin('user-1');
+    const sysadmin = getAdminAccount();
 
-        cy.visit('/');
+    before(() => {
+        // # Login as test user and visit town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
+        });
     });
 
     it('should display collapsed state when collapsed', () => {

@@ -15,7 +15,7 @@ describe('Plugin Marketplace', () => {
     describe('should not render in main menu', () => {
         it('for non-admin', () => {
             // # Login as sysadmin
-            cy.apiLogin('sysadmin');
+            cy.apiAdminLogin();
 
             // # Enable Plugin Marketplace
             cy.apiUpdateConfig({
@@ -33,7 +33,7 @@ describe('Plugin Marketplace', () => {
 
         it('when marketplace disabled', () => {
             // # Login as sysadmin
-            cy.apiLogin('sysadmin');
+            cy.apiAdminLogin();
 
             // # Disable Plugin Marketplace
             cy.apiUpdateConfig({
@@ -50,7 +50,7 @@ describe('Plugin Marketplace', () => {
 
         it('when plugins disabled', () => {
             // # Login as sysadmin
-            cy.apiLogin('sysadmin');
+            cy.apiAdminLogin();
 
             // # Disable Plugin
             // # Enable Plugin Marketplace
@@ -70,7 +70,7 @@ describe('Plugin Marketplace', () => {
     describe('invalid marketplace, should', () => {
         beforeEach(() => {
             // # Login as sysadmin
-            cy.apiLogin('sysadmin');
+            cy.apiAdminLogin();
 
             // # Enable Plugin Marketplace and Remote Marketplace
             cy.apiUpdateConfig({

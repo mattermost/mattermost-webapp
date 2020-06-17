@@ -273,7 +273,7 @@ const viewManageChannelMembersModal = (viewOrManage) => {
 // # Checks to see if we got a system message warning after using @all/@here/@channel
 const postChannelMentionsAndVerifySystemMessageExist = () => {
     // # Type @all and post it to the channel
-    cy.findByTestId('post_textbox').clear().type('@all{enter}');
+    cy.postMessage('@all');
 
     // # Get last post message text
     cy.getLastPostId().then((postId) => {
@@ -282,7 +282,7 @@ const postChannelMentionsAndVerifySystemMessageExist = () => {
     });
 
     // # Type @here and post it to the channel
-    cy.findByTestId('post_textbox').clear().type('@here{enter}');
+    cy.postMessage('@here');
 
     // # Get last post message text
     cy.getLastPostId().then((postId) => {
@@ -290,7 +290,7 @@ const postChannelMentionsAndVerifySystemMessageExist = () => {
         cy.get(`#postMessageText_${postId}`).should('include.text', 'Channel notifications are disabled in aut-8. The @here did not trigger any notifications.');
     });
 
-    cy.findByTestId('post_textbox').clear().type('@channel{enter}');
+    cy.postMessage('@channel');
 
     // # Type last post message text
     cy.getLastPostId().then((postId) => {
@@ -301,7 +301,7 @@ const postChannelMentionsAndVerifySystemMessageExist = () => {
 
 // # Checks to see if we did not get a system message warning after using @all/@here/@channel
 const postChannelMentionsAndVerifySystemMessageNotExist = () => {
-    cy.findByTestId('post_textbox').clear().type('@all{enter}{enter}{enter}');
+    cy.postMessage('@all');
 
     // # Get last post message text
     cy.getLastPostId().then((postId) => {
@@ -309,7 +309,7 @@ const postChannelMentionsAndVerifySystemMessageNotExist = () => {
         cy.get(`#postMessageText_${postId}`).should('not.have.text', 'Channel notifications are disabled in aut-8. The @all did not trigger any notifications.');
     });
 
-    cy.findByTestId('post_textbox').clear().type('@here{enter}{enter}{enter}');
+    cy.postMessage('@here');
 
     // # Get last post message text
     cy.getLastPostId().then((postId) => {
@@ -317,7 +317,7 @@ const postChannelMentionsAndVerifySystemMessageNotExist = () => {
         cy.get(`#postMessageText_${postId}`).should('not.have.text', 'Channel notifications are disabled in aut-8. The @here did not trigger any notifications.');
     });
 
-    cy.findByTestId('post_textbox').clear().type('@channel{enter}{enter}{enter}');
+    cy.postMessage('@channel');
 
     // # Get last post message text
     cy.getLastPostId().then((postId) => {
@@ -441,9 +441,9 @@ describe('Channel Moderation Test', () => {
         before(() => {
             // Post a few messages in the channel
             visitAutemChannel('sysadmin');
-            cy.findByTestId('post_textbox').clear().type('test123{enter}');
-            cy.findByTestId('post_textbox').clear().type('test123{enter}');
-            cy.findByTestId('post_textbox').clear().type('test123{enter}');
+            cy.postMessage('test123');
+            cy.postMessage('test123');
+            cy.postMessage('test123');
         });
 
         it('Post Reactions option for Guests', () => {
@@ -519,7 +519,7 @@ describe('Channel Moderation Test', () => {
             // # Login as sysadmin and visit the Permissions page in the system console.
             // # Edit the System Scheme and remove the Post Reaction option for Guests & Save.
             goToSystemScheme();
-            cy.get('#guests-reactions').click();
+            cy.get('#guests-guest_reactions').click();
             saveConfigForScheme();
 
             // # Visit the Channels page and click on a channel.
@@ -811,15 +811,15 @@ describe('Channel Moderation Test', () => {
             visitAutemChannel('user-1');
 
             // * Type at all and enter that no confirmation dialogue shows up
-            cy.findByTestId('post_textbox').clear().type('@all{enter}');
+            cy.postMessage('@all');
             cy.get('#confirmModalLabel').should('not.exist');
 
             // * Type at channel and enter that no confirmation dialogue shows up
-            cy.findByTestId('post_textbox').clear().type('@channel{enter}');
+            cy.postMessage('@channel');
             cy.get('#confirmModalLabel').should('not.exist');
 
             // * Type at here and enter that no confirmation dialogue shows up
-            cy.findByTestId('post_textbox').clear().type('@here{enter}');
+            cy.postMessage('@here');
             cy.get('#confirmModalLabel').should('not.exist');
         });
     });
@@ -1020,7 +1020,7 @@ describe('Channel Moderation Test', () => {
 
         it('Check if user is allowed to Edit or Delete their own posts on a Read-Only channel', () => {
             visitAutemChannel('user-1');
-            cy.findByTestId('post_textbox').clear().type('testMessage123123{enter}');
+            cy.postMessage('testMessage123123');
             cy.findByTestId('post_textbox_placeholder').should('not.have.text', 'This channel is read-only. Only members with permission can post here.');
             cy.findByTestId('post_textbox').should('not.be.disabled');
 
