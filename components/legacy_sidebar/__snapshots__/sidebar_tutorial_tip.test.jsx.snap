@@ -2,7 +2,6 @@
 
 exports[`component/legacy_sidebar/SidebarTutorialTip should match snapshot, with townSquare and with offTopic 1`] = `
 <Connect(TutorialTip)
-  diagnosticsTag="tutorial_tip_2_channels"
   overlayClass="tip-overlay--sidebar"
   placement="right"
   screens={
@@ -88,12 +87,12 @@ exports[`component/legacy_sidebar/SidebarTutorialTip should match snapshot, with
       </div>,
     ]
   }
+  telemetryTag="tutorial_tip_2_channels"
 />
 `;
 
 exports[`component/legacy_sidebar/SidebarTutorialTip should match snapshot, with townSquare and without offTopic 1`] = `
 <Connect(TutorialTip)
-  diagnosticsTag="tutorial_tip_2_channels"
   overlayClass="tip-overlay--sidebar"
   placement="right"
   screens={
@@ -179,12 +178,12 @@ exports[`component/legacy_sidebar/SidebarTutorialTip should match snapshot, with
       </div>,
     ]
   }
+  telemetryTag="tutorial_tip_2_channels"
 />
 `;
 
 exports[`component/legacy_sidebar/SidebarTutorialTip should match snapshot, without townSquare and with offTopic 1`] = `
 <Connect(TutorialTip)
-  diagnosticsTag="tutorial_tip_2_channels"
   overlayClass="tip-overlay--sidebar"
   placement="right"
   screens={
@@ -270,12 +269,12 @@ exports[`component/legacy_sidebar/SidebarTutorialTip should match snapshot, with
       </div>,
     ]
   }
+  telemetryTag="tutorial_tip_2_channels"
 />
 `;
 
 exports[`component/legacy_sidebar/SidebarTutorialTip should match snapshot, without townSquare and without offTopic 1`] = `
 <Connect(TutorialTip)
-  diagnosticsTag="tutorial_tip_2_channels"
   overlayClass="tip-overlay--sidebar"
   placement="right"
   screens={
@@ -361,5 +360,6 @@ exports[`component/legacy_sidebar/SidebarTutorialTip should match snapshot, with
       </div>,
     ]
   }
+  telemetryTag="tutorial_tip_2_channels"
 />
 `;
