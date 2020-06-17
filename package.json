@@ -123,7 +123,6 @@
     "babel-jest": "24.9.0",
     "babel-loader": "8.0.6",
     "babel-plugin-typescript-to-proptypes": "0.17.1",
-    "brotli-webpack-plugin": "1.1.0",
     "bundle-loader": "0.5.6",
     "clone": "2.1.2",
     "copy-webpack-plugin": "5.1.1",

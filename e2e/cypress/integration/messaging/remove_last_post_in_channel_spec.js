@@ -19,7 +19,7 @@ const baseUrl = Cypress.config('baseUrl');
 describe('Remove Last Post', () => {
     beforeEach(() => {
         // # Login as sysadmin
-        cy.apiLogin('sysadmin');
+        cy.apiAdminLogin();
 
         // # Use the API to create a new user
         cy.apiCreateNewUser().then((res) => {

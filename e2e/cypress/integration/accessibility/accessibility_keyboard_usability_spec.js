@@ -34,8 +34,6 @@ function postMessages(cnt = 1) {
 
 describe('Verify Accessibility keyboard usability across different regions in the app', () => {
     before(() => {
-        cy.apiLogin('sysadmin');
-
         // Visit the Town Square channel
         cy.visit('/ad-1/channels/town-square');
 

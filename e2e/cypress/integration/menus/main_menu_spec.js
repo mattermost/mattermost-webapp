@@ -38,7 +38,7 @@ describe('Main menu', () => {
 
     describe('should show integrations option', () => {
         it('for system administrator', () => {
-            cy.apiLogin('sysadmin');
+            cy.apiAdminLogin();
             cy.visit('/ad-1/channels/town-square');
 
             cy.get('#lhsHeader').should('be.visible').within(() => {
