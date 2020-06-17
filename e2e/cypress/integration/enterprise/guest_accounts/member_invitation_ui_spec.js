@@ -77,13 +77,11 @@ function verifyInvitationSuccess(user, successText) {
 
 function loginAsNewUser() {
     // # Login as new user and get the user id
-    cy.apiCreateNewUser().then((newUser) => {
-        cy.apiAddUserToTeam(testTeam.id, newUser.id);
+    cy.apiCreateUser().then(({user}) => {
+        cy.apiAddUserToTeam(team.id, user.id);
 
-        // # Logout sysadmin, then login as new user
-        cy.apiLogout();
-        cy.apiLogin(newUser.username, newUser.password);
-        cy.visit(`/${testTeam.name}`);
+        cy.apiLogin(user.username, user.password);
+        cy.visit(`/${team.name}`);
     });
 }
 
@@ -104,22 +102,16 @@ describe('Guest Account - Member Invitation Flow', () => {
             },
         });
 
-        // # Create new team and visit its URL
-        cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
-            testTeam = response.body;
-            cy.visit(`/${testTeam.name}`);
+        cy.apiInitSetup().then(({team, user}) => {
+            testUser = user;
+            testTeam = team;
+
+            // # Go to town square
+            cy.visit(`/${testTeam.name}/channels/town-square`);
         });
     });
 
-    afterEach(() => {
-        // # Delete the new team as sysadmin
-        if (testTeam && testTeam.id) {
-            cy.apiLogin('sysadmin');
-            cy.apiDeleteTeam(testTeam.id);
-        }
-    });
-
-    it('MM-18039 Verify UI Elements of Members Invitation Flow', () => {
+    it.only('MM-18039 Verify UI Elements of Members Invitation Flow', () => {
         const email = `temp-${getRandomId()}@mattermost.com`;
 
         // # Open Invite People
@@ -149,12 +141,7 @@ describe('Guest Account - Member Invitation Flow', () => {
 
         // * Verify Share Link Input field
         const baseUrl = Cypress.config('baseUrl');
-        cy.getCurrentTeamId().then((teamId) => {
-            cy.apiGetTeam(teamId).then((response) => {
-                const inviteId = response.body.invite_id;
-                cy.findByTestId('shareLinkInput').should('be.visible').and('have.value', `${baseUrl}/signup_user_complete/?id=${inviteId}`);
-            });
-        });
+        cy.findByTestId('shareLinkInput').should('be.visible').and('have.value', `${baseUrl}/signup_user_complete/?id=${testTeam.invite_id}`);
 
         // * Verify Copy Link button text
         cy.findByTestId('shareLinkInputButton').should('be.visible').and('have.text', 'Copy Link');

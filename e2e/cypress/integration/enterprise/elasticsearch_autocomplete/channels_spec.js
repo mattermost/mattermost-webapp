@@ -9,20 +9,18 @@
 
 // Group: @enterprise @elasticsearch @autocomplete
 
-import users from '../../../fixtures/users.json';
+import {getAdminAccount} from '../../../support/env';
 
 import {
-    createEmail,
     createPrivateChannel,
     enableElasticSearch,
     searchForChannel,
-    withTimestamp,
 } from './helpers';
 
 describe('Autocomplete with Elasticsearch - Channel', () => {
-    const timestamp = Date.now();
-    let team = {};
-    let user;
+    const admin = getAdminAccount();
+    let testTeam;
+    let testUser;
 
     before(() => {
         // # Execute the before hook based on current config
@@ -31,30 +29,15 @@ describe('Autocomplete with Elasticsearch - Channel', () => {
         // * Check if server has license for Elasticsearch
         cy.requireLicenseForFeature('Elasticsearch');
 
-        // # Create new team to run tests against
-        cy.apiCreateTeam(`elastic-${timestamp}`, `elastic-${timestamp}`).then((response) => {
-            team = response.body;
-
-            const daredevil = {
-                username: withTimestamp('daredevil', timestamp),
-                firstName: 'Matt',
-                lastName: 'Murdock',
-                email: createEmail('daredevil', timestamp),
-                nickname: withTimestamp('attorney', timestamp),
-            };
-
-            // # Setup new channel and user
-            cy.apiCreateNewUser(daredevil, [team.id]).as('newUser');
-        });
-
+        // # Enable Elasticsearch
         enableElasticSearch();
-        cy.apiLogout();
 
-        // # Login and navigate to team with new user
-        cy.get('@newUser').then((newUser) => {
-            user = newUser;
-            cy.apiLogin(user.username, user.password);
-            cy.visit(`/${team.name}`);
+        // # Login as test user and go to town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team, user}) => {
+            testUser = user;
+            testTeam = team;
+
+            cy.visit(`/${testTeam.name}/channels/town-square`);
         });
     });
 
@@ -64,7 +47,7 @@ describe('Autocomplete with Elasticsearch - Channel', () => {
 
     it("private channel I don't belong to does not appear", () => {
         // # Create private channel, do not add new user to it (sets @privateChannel alias)
-        createPrivateChannel(team.id).then((channel) => {
+        createPrivateChannel(testTeam.id).then((channel) => {
             // # Go to off-topic channel to partially reload the page
             cy.get('#sidebarChannelContainer').should('be.visible').within(() => {
                 cy.findAllByText('Off-Topic').should('be.visible').click();
@@ -81,7 +64,7 @@ describe('Autocomplete with Elasticsearch - Channel', () => {
 
     it('private channel I do belong to appears', () => {
         // # Create private channel and add new user to it (sets @privateChannel alias)
-        createPrivateChannel(team.id, user).then((channel) => {
+        createPrivateChannel(testTeam.id, testUser).then((channel) => {
             // # Go to off-topic channel to partially reload the page
             cy.get('#sidebarChannelContainer').should('be.visible').within(() => {
                 cy.findAllByText('Off-Topic').should('be.visible').click();
@@ -105,7 +88,7 @@ describe('Autocomplete with Elasticsearch - Channel', () => {
 
         // # As admin, create a new team that the new user is not a member of
         cy.task('externalRequest', {
-            user: users.sysadmin,
+            user: admin,
             path: 'teams',
             baseUrl,
             method: 'post',
@@ -139,13 +122,13 @@ describe('Autocomplete with Elasticsearch - Channel', () => {
 
         before(() => {
             // # Login as admin
-            cy.apiLogin('sysadmin');
-            cy.visit(`/${team.name}`);
+            cy.apiAdminLogin();
+            cy.visit(`/${testTeam.name}`);
 
             const name = 'hellothere';
 
             // # Create a new channel
-            cy.apiCreateChannel(team.id, name, name).then((channelResponse) => {
+            cy.apiCreateChannel(testTeam.id, name, name).then((channelResponse) => {
                 channelId = channelResponse.body.id;
             });
 
