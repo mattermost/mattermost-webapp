@@ -10,7 +10,7 @@ import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import {browserHistory} from 'utils/browser_history';
-import {AnnouncementBarMessages, VerifyEmailErrors} from 'utils/constants';
+import {AnnouncementBarTypes, AnnouncementBarMessages, VerifyEmailErrors} from 'utils/constants';
 import logoImage from 'images/logo.png';
 import BackButton from 'components/common/back_button';
 import LoadingScreen from 'components/loading_screen';
@@ -65,7 +65,8 @@ export default class DoVerifyEmail extends React.PureComponent<Props, State> {
         if (this.props.isLoggedIn) {
             this.props.actions.logError({
                 message: AnnouncementBarMessages.EMAIL_VERIFIED,
-            }, true);
+                type: AnnouncementBarTypes.SUCCESS,
+            } as any, true);
             trackEvent('settings', 'verify_email');
             const me = await this.props.actions.getMe();
             if ('data' in me) {

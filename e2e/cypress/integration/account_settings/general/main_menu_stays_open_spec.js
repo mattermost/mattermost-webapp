@@ -11,19 +11,25 @@
 // Group: @account_setting
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
-import users from '../../../fixtures/users.json';
-
-let townsquareChannelId;
 
 describe('Account Settings > General', () => {
-    before(() => {
-        // # Login and go to town square
-        cy.apiLogin('sysadmin');
-        cy.visit('/ad-1/channels/town-square');
+    let otherUser;
+    let testChannel;
 
-        // # Store channel id for further use
-        cy.getCurrentChannelId().then((id) => {
-            townsquareChannelId = id;
+    before(() => {
+        cy.apiInitSetup().then(({team, channel}) => {
+            testChannel = channel;
+
+            cy.apiCreateUser().then(({user}) => {
+                otherUser = user;
+
+                cy.apiAddUserToTeam(team.id, user.id).then(() => {
+                    cy.apiAddUserToChannel(testChannel.id, user.id);
+                });
+            });
+
+            // # Go to town square
+            cy.visit(`/${team.name}/channels/town-square`);
         });
     });
 
@@ -35,7 +41,7 @@ describe('Account Settings > General', () => {
         cy.get('#sidebarDropdownMenu').find('.dropdown-menu').should('be.visible');
 
         // # Post a message as other user and wait for it to reach
-        cy.postMessageAs({sender: users['user-1'], message: 'abc', channelId: townsquareChannelId}).wait(TIMEOUTS.SMALL);
+        cy.postMessageAs({sender: otherUser, message: 'abc', channelId: testChannel.id}).wait(TIMEOUTS.SMALL);
 
         // * Menu should still be visible
         cy.get('#sidebarDropdownMenu').find('.dropdown-menu').should('be.visible');
