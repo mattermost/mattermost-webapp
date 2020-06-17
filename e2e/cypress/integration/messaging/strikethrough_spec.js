@@ -28,36 +28,34 @@ describe('Messaging', () => {
         cy.postMessage(message);
 
         // # Hit up arrow to open edit modal
-        cy.get('#post_textbox', {timeout: TIMEOUTS.LARGE}).clear().type('{uparrow}');
+        cy.get('#post_textbox', {timeout: TIMEOUTS.LARGE}).clear().type('{uparrow}').wait(TIMEOUTS.TINY);
 
         // # Type first tilde (a{backspace} used so cursor is in the textbox and {home} gets us to the beginning of the line)
-        cy.get('#edit_textbox').type('a{backspace}{home}~');
-        cy.wait(TIMEOUTS.TINY);
+        cy.get('#edit_textbox').type('a{backspace}{home}~').wait(TIMEOUTS.TINY);
 
         // # Channel autocomplete should show
         cy.get('#suggestionList').should('exist');
 
         // # Write the second tilde
-        cy.get('#edit_textbox').type('{home}{rightarrow}~');
+        cy.get('#edit_textbox').type('{home}{rightarrow}~').wait(TIMEOUTS.TINY);
 
         // * Channel autocomplete should have closed
         cy.get('#suggestionList').should('not.exist');
 
         // # Go to the end of the line and type the first tilde
-        cy.get('#edit_textbox').type('{end} ~');
-        cy.wait(TIMEOUTS.TINY);
+        cy.get('#edit_textbox').type('{end} ~').wait(TIMEOUTS.TINY);
 
         // # Channel autocomplete should show
         cy.get('#suggestionList').should('exist');
 
         // # Write the second tilde
-        cy.get('#edit_textbox').type('{end}~');
+        cy.get('#edit_textbox').type('{end}~').wait(TIMEOUTS.TINY);
 
         // * Channel autocomplete should close
         cy.get('#suggestionList').should('not.exist');
 
         // # Remove the whitespace
-        cy.get('#edit_textbox').type('{end}{leftarrow}{leftarrow}{backspace}');
+        cy.get('#edit_textbox').type('{end}{leftarrow}{leftarrow}{backspace}').wait(TIMEOUTS.TINY);
 
         // * Channel autocomplete should still not exist
         cy.get('#suggestionList').should('not.exist');

@@ -35,7 +35,7 @@ describe('Messaging', () => {
 
 function addAutocompleteThenVerifyNoOverlap() {
     // # Upload file
-    cy.fileUpload('#fileUploadInput');
+    cy.get('#fileUploadInput').attachFile('mattermost-icon.png');
 
     // # Create and then type message to use
     cy.get('#post_textbox').clear();

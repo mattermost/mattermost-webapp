@@ -11,13 +11,18 @@
 // Group: @menu
 
 describe('Status dropdown menu', () => {
-    beforeEach(() => {
-        // # Login as "user-1" and go to /
-        cy.apiLogin('user-1');
-        cy.visit('/ad-1/channels/town-square');
+    before(() => {
+        // # Login as test user and visit town-square
+        cy.apiInitSetup().then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
+        });
+    });
 
+    afterEach(() => {
         // # Reset user status to online to prevent status modal
-        cy.apiUpdateUserStatus();
+        cy.apiUpdateUserStatus('online');
+
+        cy.reload();
     });
 
     it('Displays default menu when status icon is clicked', () => {
@@ -36,17 +41,17 @@ describe('Status dropdown menu', () => {
         cy.get('#postListContent').should('be.visible');
 
         // # Set user status to away to ensure menu click changes status
-        cy.apiUpdateUserStatus('away');
+        cy.apiUpdateUserStatus('away').then(() => {
+            // # Click status menu
+            cy.get('.MenuWrapper .status-wrapper.status-selector button.status').click();
 
-        // # Click status menu
-        cy.get('.MenuWrapper .status-wrapper.status-selector button.status').click();
+            // # Wait for status menu to transition in
+            cy.get('.MenuWrapper.status-dropdown-menu .Menu__content.dropdown-menu').should('be.visible');
 
-        // # Wait for status menu to transition in
-        cy.get('.MenuWrapper.status-dropdown-menu .Menu__content.dropdown-menu').should('be.visible');
+            cy.get('.MenuWrapper.status-dropdown-menu .Menu__content.dropdown-menu #status-menu-online').click();
 
-        cy.get('.MenuWrapper.status-dropdown-menu .Menu__content.dropdown-menu #status-menu-online').click();
-
-        cy.get('.MenuWrapper.status-dropdown-menu > .status-wrapper > button.status > span > svg > path.online--icon').should('exist');
+            cy.get('.MenuWrapper.status-dropdown-menu > .status-wrapper > button.status > span > svg > path.online--icon').should('exist');
+        });
     });
 
     it('Changes status icon to away when "Away" menu item is selected', () => {
