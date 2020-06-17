@@ -1,13 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+// ***************************************************************
+// - [#] indicates a test step (e.g. # Go to a page)
+// - [*] indicates an assertion (e.g. * Check the title)
+// - Use element ID when selecting an element. Create one if none.
+// ***************************************************************
 
 // Group: @system_console
 
 describe('Cluster', () => {
     before(() => {
-        // # Login as sysadmin
-        cy.apiLogin('sysadmin');
-
         // # Visit customization system console page
         cy.visit('/admin_console/environment/high_availability');
     });

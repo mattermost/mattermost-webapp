@@ -28,9 +28,9 @@ type Actions = {
 function mapStateToProps(state: GlobalState, props: Props) {
     const {id: teamId} = props.team;
 
-    let filterOptions: {} = {};
+    let filterOptions: {} = {skipInactive: true};
     if (props.filterExcludeGuests) {
-        filterOptions = {role: 'system_user'};
+        filterOptions = {role: 'system_user', ...filterOptions};
     }
 
     const users: UserProfile[] = selectProfilesNotInTeam(state, teamId, filterOptions);
