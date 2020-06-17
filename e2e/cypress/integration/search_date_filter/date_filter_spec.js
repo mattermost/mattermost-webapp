@@ -80,9 +80,6 @@ describe('SF15699 Search Date Filter', () => {
     let newAdmin;
 
     before(() => {
-        // # Login as the sysadmin.
-        cy.apiLogin('sysadmin');
-
         // # Change timezone to UTC so we are in sync with the backend
         changeTimezone('UTC');
 

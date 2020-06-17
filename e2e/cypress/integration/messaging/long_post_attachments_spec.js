@@ -43,24 +43,14 @@ describe('M14322 Long post with multiple attachments', () => {
     let testTeam;
 
     beforeEach(() => {
-        testTeam = null;
-
         // # Login as sysadmin
-        cy.apiLogin('sysadmin');
+        cy.apiAdminLogin();
 
         // # Create new team and new user and visit Town Square channel
-        cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
-            testTeam = response.body;
-            cy.apiCreateAndLoginAsNewUser({}, [testTeam.id]);
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            testTeam = team;
             cy.visit(`/${testTeam.name}/channels/town-square`);
         });
-    });
-
-    afterEach(() => {
-        cy.apiLogin('sysadmin');
-        if (testTeam && testTeam.id) {
-            cy.apiDeleteTeam(testTeam.id);
-        }
     });
 
     it('Attachment previews/thumbnails display as expected, when viewing full or partial post', () => {

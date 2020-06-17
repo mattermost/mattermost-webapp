@@ -10,21 +10,17 @@
 // Stage: @prod
 // Group: @messaging
 
-import users from '../../fixtures/users.json';
-
-const sysadmin = users.sysadmin;
+import {getAdminAccount} from '../../support/env';
 
 describe('Message Reply', () => {
+    const sysadmin = getAdminAccount();
     let newChannel;
 
     before(() => {
-        // # Login and go to /
-        cy.apiLogin('user-1');
-        cy.apiSaveTeammateNameDisplayPreference('username');
-
         // # Create and visit new channel
-        cy.createAndVisitNewChannel().then((channel) => {
+        cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
             newChannel = channel;
+            cy.visit(`/${team.name}/channels/${channel.name}`);
         });
     });
 

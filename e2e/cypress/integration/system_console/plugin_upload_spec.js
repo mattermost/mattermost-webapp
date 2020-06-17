@@ -21,8 +21,7 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 describe('Draw Plugin - Upload', () => {
     const pluginId = 'com.mattermost.draw-plugin';
     before(() => {
-        // # Login as sysadmin and update config
-        cy.apiLogin('sysadmin');
+        // # Update config
         cy.apiUpdateConfig({
             PluginSettings: {
                 Enable: true,

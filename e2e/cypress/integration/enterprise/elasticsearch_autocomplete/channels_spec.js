@@ -25,9 +25,6 @@ describe('Autocomplete with Elasticsearch - Channel', () => {
     let user;
 
     before(() => {
-        // # Execute the before hook based on current config
-        cy.apiLogin('sysadmin');
-
         // * Check if server has license for Elasticsearch
         cy.requireLicenseForFeature('Elasticsearch');
 
@@ -139,7 +136,7 @@ describe('Autocomplete with Elasticsearch - Channel', () => {
 
         before(() => {
             // # Login as admin
-            cy.apiLogin('sysadmin');
+            cy.apiAdminLogin();
             cy.visit(`/${team.name}`);
 
             const name = 'hellothere';

@@ -11,22 +11,32 @@
 // Group: @messaging
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
-import users from '../../fixtures/users.json';
-
-let townsquareChannelId;
 
 describe('Messaging', () => {
+    let testTeam;
+    let testChannel;
+    let testUser;
+    let userOne;
+
     before(() => {
         // # Wrap websocket to be able to connect and close connections on demand
         cy.mockWebsockets();
 
-        // # Login and go to /
-        cy.apiLogin('sysadmin');
-        cy.visit('/ad-1/channels/town-square');
+        // # Login as test user and go to town-square
+        cy.apiInitSetup().then(({team, channel, user}) => {
+            testUser = user;
+            testTeam = team;
+            testChannel = channel;
 
-        // # Get ChannelID to use later
-        cy.getCurrentChannelId().then((id) => {
-            townsquareChannelId = id;
+            cy.apiCreateUser().then(({user: user1}) => {
+                userOne = user1;
+                cy.apiAddUserToTeam(testTeam.id, userOne.id).then(() => {
+                    cy.apiAddUserToChannel(testChannel.id, userOne.id);
+                });
+            });
+
+            cy.apiLogin(testUser.username, testUser.password);
+            cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
         });
     });
 
@@ -37,7 +47,7 @@ describe('Messaging', () => {
         });
 
         // # Post a message as another user
-        cy.postMessageAs({sender: users['user-1'], message: 'abc', channelId: townsquareChannelId}).wait(TIMEOUTS.SMALL);
+        cy.postMessageAs({sender: userOne, message: 'abc', channelId: testChannel.id}).wait(TIMEOUTS.SMALL);
 
         // # Click "Reply"
         cy.getLastPostId().then((rootPostId) => {
@@ -47,7 +57,7 @@ describe('Messaging', () => {
             cy.postMessageReplyInRHS('def');
 
             // # Change channel
-            cy.get('#sidebarItem_suscipit-4').click({force: true}).then(() => {
+            cy.get('#sidebarItem_town-square').click({force: true}).then(() => {
                 // # Close all sockets
                 window.mockWebsockets.forEach((value) => {
                     if (value.close) {
@@ -56,7 +66,7 @@ describe('Messaging', () => {
                 });
 
                 // # Post message as a different user
-                cy.postMessageAs({sender: users['user-1'], message: 'ghi', channelId: townsquareChannelId, rootId: rootPostId});
+                cy.postMessageAs({sender: userOne, message: 'ghi', channelId: testChannel.id, rootId: rootPostId});
 
                 // # Wait a short time to check whether the message appears or not
                 cy.wait(TIMEOUTS.SMALL);
