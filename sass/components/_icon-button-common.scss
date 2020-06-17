@@ -8,18 +8,18 @@
     height: 40px;
     font-size: 14/10*1rem;
     line-height: 1;
-    color: color(--center-channel-color-rgb, 0.56);
+    color: v(--center-channel-color-rgb, 0.56);
     border-radius: 4px;
     border: none;
     outline: none;
-    background: color(--center-channel-color-rgb, 0);
+    background: v(--center-channel-color-rgb, 0);
     -webkit-tap-highlight-color: rgba(0,0,0,0);
     overflow: hidden;
     cursor: pointer;
 
     // elements
     .IconButton_icon {
-        color: color(--center-channel-color-rgb, 0.56);
+        color: v(--center-channel-color-rgb, 0.56);
     }
 
     // states
@@ -38,24 +38,24 @@
 
     &:hover,
     &.hover {
-        background: color(--center-channel-color-rgb, 0.08);
+        background: v(--center-channel-color-rgb, 0.08);
 
         .IconButton_icon {
-            color: color(--center-channel-color-rgb, 0.72);
+            color: v(--center-channel-color-rgb, 0.72);
         }
     }
     &:focus,
     &.focus {
         &::before {
-            border-color: color(--button-bg-rgb);
+            border-color: v(--button-bg-rgb);
         }
     }
     &:active,
     &.active {
-        background: color(--button-bg-rgb, 0.08);
+        background: v(--button-bg-rgb, 0.08);
         
         .IconButton_icon {
-            color: color(--button-bg-rgb);
+            color: v(--button-bg-rgb);
         }
     }
     &[disabled],
@@ -72,7 +72,7 @@
             background: transparent;
 
             .IconButton_icon {
-                color: color(--center-channel-color-rgb, 0.32);
+                color: v(--center-channel-color-rgb, 0.32);
             }
 
             &::before {

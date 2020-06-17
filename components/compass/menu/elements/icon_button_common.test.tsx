@@ -6,7 +6,7 @@ import {shallow} from 'enzyme';
 
 import IconButtonCommon from './icon_button_common';
 
-describe('components/main_menu/IconButtonCommon', () => {
+describe('components/compass/menu/IconButtonCommon', () => {
     test('should match snapshot', () => {
         const Props = {
             iconGlyph: 'emoticon-happy-outline',
@@ -21,7 +21,6 @@ describe('components/main_menu/IconButtonCommon', () => {
         );
 
         expect(wrapper).toMatchSnapshot();
-        expect(wrapper.find('label').text()).toBe('icon button');
         expect(wrapper.find('button').props().className).toBe('IconButton IconButton___small');
     });
 });

@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import classNames from 'classnames';
 
 interface Props {
     iconGlyph: string;
@@ -17,7 +18,7 @@ const IconButtonCommon: React.FC<Props> = ({iconGlyph, size, label, disabled, ad
             className='IconButton__wrapper'
         >
             <button
-                className={`IconButton IconButton___${size} ${additionalClass}`}
+                className={classNames([`IconButton IconButton___${size}`, {additionalClass}])}
                 disabled={disabled}
                 tabIndex={-1}
                 aria-label={label}
