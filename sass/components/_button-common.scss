@@ -1,0 +1,220 @@
+.Button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    padding: 12px 16px;
+    height: 40px;
+    font-family: "Open Sans", sans-serif;
+    font-size: 14/10*1rem;
+    font-weight: 600;
+    line-height: 1;
+    color: v(--center-channel-color-rgb);
+    text-decoration: none;
+    border-radius: 4px;
+    border: none;
+    outline: none;
+    background: v(--center-channel-color-rgb, 0);
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    overflow: hidden;
+    cursor: pointer;
+
+    // elements (icons, label)
+    .Button_icon {
+        color: v(--center-channel-color-rgb);
+    }
+
+    .Button_label {
+        margin: 0 8px;
+
+        &:first-child {
+            margin-left: 0;
+        }
+        &:last-child {
+            margin-right: 0;
+        }
+    }
+
+    // states
+    // - (::before for fill, ::after for border)
+    &::before,
+    &::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        border-radius: 4px;
+        border: none;
+        background: transparent;
+        z-index: 0;
+    }
+    &::before {
+        opacity: 0;
+        background: v(--black);
+    }
+    &::after {
+        border: solid 1px transparent;
+    }
+
+    &:hover,
+    &.hover,
+    &:focus,
+    &.focus {
+        &::before {
+            opacity: 0.08;
+        }
+        &::after {
+            opacity: 1;
+        }
+    }
+    &:active,
+    &.active {
+        &::before {
+            opacity: 0.12;
+        }
+        &::after {
+            opacity: 1;
+        }
+    }
+
+    &[disabled],
+    .disabled {
+        cursor: not-allowed;
+
+        &,
+        &:hover,
+        &.hover,
+        &:focus,
+        &.focus,
+        &:active,
+        &.active {
+            background: v(--center-channel-color-rgb, 0.1);
+
+            .Button_icon,
+            .Button_label {
+                color: v(--center-channel-color-rgb, 0.5);
+            }
+
+            &::before,
+            &::after {
+                opacity: 0;
+            }
+        }
+    }
+
+    // styles (primary, secondary, tertiary)
+    &.Button___primary:not([disabled]) {
+        color: v(--button-color-rgb);
+        background: v(--button-bg-rgb);
+
+        &:hover,
+        &.hover,
+        &:focus,
+        &.focus {
+            &::before {
+                opacity: 0.2;
+            }
+        }
+        &:focus,
+        &.focus {
+            &::after {
+                border-color: v(--link-color-rgb);
+                border-width: 2px;
+            }
+        }
+        &:active,
+        &.active {
+            &::before {
+                opacity: 0.32;
+            }
+        }
+    
+        .Button_icon {
+            color: v(--button-color-rgb);
+        }
+    }
+
+    &.Button___secondary:not([disabled]),
+    &.Button___tertiary:not([disabled]) {
+        color: v(--button-bg-rgb);
+        background: v(--button-color-rgb);
+
+        &::before {
+            background: v(--button-bg-rgb);
+        }
+        &::after {
+            border-color:v(--button-bg-rgb);
+        }
+
+        &:hover,
+        &.hover,
+        &:focus,
+        &.focus {
+            &:before {
+                opacity: 0.06;
+            }
+        }
+        &:focus,
+        &.focus {
+            &:after {
+                border-color: v(--link-color-rgb);
+                border-width: 2px;
+            }
+        }
+        &:active,
+        &.active {
+            &:before {
+                opacity: 0.12;
+            }
+        }
+    
+        .Button_icon {
+            color: v(--button-bg-rgb);
+        }
+    }
+
+    &.Button___tertiary:not([disabled]) {
+        &::after {
+            border-color: transparent;
+        }
+        &:focus
+        &.focus {
+            &::after {
+                border-color: v(--button-bg-rgb);
+                border-width: 2px;
+            }
+        }
+    }
+
+    // sizes (small, large, full width)
+    &___small {
+        padding: 10px 12px;
+        height: 32px;
+    }
+    &___large {
+        padding: 14px 20px;
+        height: 48px;
+    }
+    &___fullWidth {
+        width: 100%;
+
+        .Button_icon {
+            flex-shrink: 1;
+        }
+        .Button_label {
+            flex-grow: 1;
+        }
+    }
+
+    // animation
+    .enable-animations & {
+        &::before {
+            transition: opacity $animation-speed-shorter 0s ease-in-out;
+        }
+        &::after {
+            transition: border-color $animation-speed-shorter 0s ease-in-out;
+        }
+    }
+}

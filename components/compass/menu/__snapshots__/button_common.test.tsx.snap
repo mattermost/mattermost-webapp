@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/compass/menu/ButtonCommon should match snapshot 1`] = `
+<div
+  className="Button__wrapper"
+>
+  <button
+    aria-label="button"
+    className="Button Button___primary Button___small"
+    tabIndex={-1}
+  >
+    <span
+      className="Label Label___standard Button_label"
+    >
+      Hello
+    </span>
+  </button>
+</div>
+`;
