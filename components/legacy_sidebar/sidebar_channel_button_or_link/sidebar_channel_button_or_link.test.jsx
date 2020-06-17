@@ -56,9 +56,9 @@ describe('component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannel
 
     test('should trackEvent, mark and add history entry on desktop on click', () => {
         const browserHistoryMock = require.requireMock('utils/browser_history');
-        const diagnosticsActionsMock = require.requireMock('actions/diagnostics_actions.jsx');
-        expect(diagnosticsActionsMock.trackEvent).not.toBeCalled();
-        expect(diagnosticsActionsMock.mark).not.toBeCalled();
+        const telemetryActionsMock = require.requireMock('actions/telemetry_actions.jsx');
+        expect(telemetryActionsMock.trackEvent).not.toBeCalled();
+        expect(telemetryActionsMock.mark).not.toBeCalled();
         expect(browserHistoryMock.browserHistory.push).not.toBeCalled();
     });
 
@@ -88,9 +88,9 @@ describe('component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannel
         userAgentMock.isDesktopApp.mockImplementation(() => false);
 
         const browserHistoryMock = require.requireMock('utils/browser_history');
-        const diagnosticsActionsMock = require.requireMock('actions/diagnostics_actions.jsx');
-        expect(diagnosticsActionsMock.trackEvent).not.toBeCalled();
-        expect(diagnosticsActionsMock.mark).not.toBeCalled();
+        const telemetryActionsMock = require.requireMock('actions/telemetry_actions.jsx');
+        expect(telemetryActionsMock.trackEvent).not.toBeCalled();
+        expect(telemetryActionsMock.mark).not.toBeCalled();
         expect(browserHistoryMock.browserHistory.push).not.toBeCalled();
     });
 

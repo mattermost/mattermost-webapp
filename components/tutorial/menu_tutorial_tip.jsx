@@ -55,7 +55,7 @@ const MenuTutorialTip = ({toggleFunc, onBottom}) => {
                 placement={placement}
                 screens={screens}
                 overlayClass={'tip-overlay--header--' + arrow}
-                diagnosticsTag='tutorial_tip_3_main_menu'
+                telemetryTag='tutorial_tip_3_main_menu'
             />
         </div>
     );

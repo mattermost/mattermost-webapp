@@ -6,7 +6,7 @@ import classNames from 'classnames';
 
 import {ChannelType} from 'mattermost-redux/types/channels';
 
-import {trackEvent} from 'actions/diagnostics_actions';
+import {trackEvent} from 'actions/telemetry_actions';
 import MoreDirectChannels from 'components/more_direct_channels';
 import MoreChannels from 'components/more_channels';
 import NewChannelFlow from 'components/new_channel_flow';

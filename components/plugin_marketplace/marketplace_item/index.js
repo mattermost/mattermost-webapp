@@ -9,7 +9,7 @@ import {installPlugin} from 'actions/marketplace';
 import {closeModal} from 'actions/views/modals';
 import {ModalIdentifiers} from 'utils/constants';
 import {getInstalling, getError} from 'selectors/views/marketplace';
-import {trackEvent} from 'actions/diagnostics_actions.jsx';
+import {trackEvent} from 'actions/telemetry_actions.jsx';
 
 import MarketplaceItem from './marketplace_item';
 

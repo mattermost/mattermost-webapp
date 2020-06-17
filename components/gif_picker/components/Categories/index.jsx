@@ -9,7 +9,7 @@ import {requestCategoriesList, requestCategoriesListIfNeeded, saveSearchBarText,
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 import {changeOpacity, makeStyleFromTheme} from 'mattermost-redux/utils/theme_utils';
 
-import {trackEvent} from 'actions/diagnostics_actions.jsx';
+import {trackEvent} from 'actions/telemetry_actions.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
 
 import InfiniteScroll from 'components/gif_picker/components/InfiniteScroll';

@@ -10,7 +10,7 @@ import BackButton from 'components/common/back_button';
 import DisplayName from 'components/create_team/components/display_name';
 import SiteNameAndDescription from 'components/common/site_name_and_description';
 import TeamUrl from 'components/create_team/components/team_url';
-import {trackEvent} from 'actions/diagnostics_actions.jsx';
+import {trackEvent} from 'actions/telemetry_actions.jsx';
 
 export default class CreateTeam extends React.PureComponent {
     static propTypes = {

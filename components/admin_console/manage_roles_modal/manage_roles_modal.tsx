@@ -8,7 +8,7 @@ import {Client4} from 'mattermost-redux/client';
 import {General} from 'mattermost-redux/constants';
 import * as UserUtils from 'mattermost-redux/utils/user_utils';
 
-import {trackEvent} from 'actions/diagnostics_actions.jsx';
+import {trackEvent} from 'actions/telemetry_actions.jsx';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import BotBadge from 'components/widgets/badges/bot_badge';

@@ -8,7 +8,7 @@ import {ServerError} from 'mattermost-redux/types/errors';
 
 import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
 
-import {trackEvent} from 'actions/diagnostics_actions.jsx';
+import {trackEvent} from 'actions/telemetry_actions.jsx';
 import {browserHistory} from 'utils/browser_history';
 import {AnnouncementBarTypes, AnnouncementBarMessages, VerifyEmailErrors} from 'utils/constants';
 import logoImage from 'images/logo.png';

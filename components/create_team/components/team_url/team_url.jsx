@@ -7,7 +7,7 @@ import {Button, Tooltip} from 'react-bootstrap';
 import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
-import {trackEvent} from 'actions/diagnostics_actions.jsx';
+import {trackEvent} from 'actions/telemetry_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import * as URL from 'utils/url';
 import logoImage from 'images/logo.png';

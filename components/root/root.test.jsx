@@ -12,7 +12,7 @@ jest.mock('fastclick', () => ({
     attach: () => {}, // eslint-disable-line no-empty-function
 }));
 
-jest.mock('actions/diagnostics_actions', () => ({
+jest.mock('actions/telemetry_actions', () => ({
     trackLoadTime: () => {}, // eslint-disable-line no-empty-function
 }));
 
@@ -28,8 +28,8 @@ jest.mock('utils/utils', () => ({
 
 describe('components/Root', () => {
     const baseProps = {
-        diagnosticsEnabled: true,
-        diagnosticId: '1234ab',
+        telemetryEnabled: true,
+        telemetryId: '1234ab',
         noAccounts: false,
         showTermsOfService: false,
         actions: {

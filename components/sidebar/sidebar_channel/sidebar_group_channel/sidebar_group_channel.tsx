@@ -6,7 +6,7 @@ import React from 'react';
 import {Channel} from 'mattermost-redux/types/channels';
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 
-import {trackEvent} from 'actions/diagnostics_actions';
+import {trackEvent} from 'actions/telemetry_actions';
 import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants';
 

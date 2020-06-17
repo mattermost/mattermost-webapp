@@ -9,7 +9,7 @@ import {Link} from 'react-router-dom';
 import {Permissions} from 'mattermost-redux/constants';
 
 import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
-import {trackEvent} from 'actions/diagnostics_actions.jsx';
+import {trackEvent} from 'actions/telemetry_actions.jsx';
 
 import * as UserAgent from 'utils/user_agent';
 import Constants from 'utils/constants';

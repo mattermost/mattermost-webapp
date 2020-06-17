@@ -11,7 +11,7 @@ import CreatePost from 'components/create_post';
 import FileUploadOverlay from 'components/file_upload_overlay';
 import PostView from 'components/post_view';
 import TutorialView from 'components/tutorial';
-import {clearMarks, mark, measure, trackEvent} from 'actions/diagnostics_actions.jsx';
+import {clearMarks, mark, measure, trackEvent} from 'actions/telemetry_actions.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 export default class ChannelView extends React.PureComponent {
