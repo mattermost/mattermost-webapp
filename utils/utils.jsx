@@ -200,17 +200,19 @@ export function getChannelURL(state, channel, teamId) {
     return notificationURL;
 }
 
-var canDing = true;
-const notificationSounds = new Map([['Bing', bing], ['Crackle', crackle], ['Down', down], ['Hello', hello], ['Ripple', ripple], ['Upstairs', upstairs]]);
+export const notificationSounds = new Map([
+    ['Bing', bing], 
+    ['Crackle', crackle], 
+    ['Down', down], 
+    ['Hello', hello], 
+    ['Ripple', ripple], 
+    ['Upstairs', upstairs]
+]);
 
+var canDing = true;
 export function ding(name) {
     if (hasSoundOptions() && canDing) {
-        let selected = notificationSounds.get(name);
-        if (selected === undefined) {
-            selected = notificationSounds.get('Bing');
-        }
-        var audio = new Audio(selected);
-        audio.play();
+        tryNotificationSound(name);
         canDing = false;
         setTimeout(() => {
             canDing = true;
@@ -219,11 +221,7 @@ export function ding(name) {
 }
 
 export function tryNotificationSound(name) {
-    let selected = notificationSounds.get(name);
-    if (selected === undefined) {
-        selected = notificationSounds.get('Bing');
-    }
-    var audio = new Audio(selected);
+    const audio = new Audio(notificationSounds.get(name) ?? notificationSounds.get('Bing'));
     audio.play();
 }
 
