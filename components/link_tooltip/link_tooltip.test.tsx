@@ -38,7 +38,7 @@ describe('components/link_tooltip/link_tooltip', () => {
                 <span className='codespan__pre-wrap'>
                     <code>{'foo'}</code>
                 </span>
-                    {' and '}
+                {' and '}
                 <span className='codespan__pre-wrap'>
                     <code>{'bar'}</code>
                 </span>
@@ -48,6 +48,4 @@ describe('components/link_tooltip/link_tooltip', () => {
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find('span').at(0).text()).toBe('foo and bar');
     });
-
-
 });
