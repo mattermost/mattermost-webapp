@@ -23,8 +23,7 @@ describe('Draw Plugin - Upload', () => {
     const fileType = 'application/gzip';
     const pluginId = 'com.mattermost.draw-plugin';
     before(() => {
-        // # Login as sysadmin and update config
-        cy.apiLogin('sysadmin');
+        // # Update config
         cy.apiUpdateConfig({
             PluginSettings: {
                 Enable: true,

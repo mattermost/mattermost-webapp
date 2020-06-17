@@ -41,21 +41,19 @@ describe('Negative search filters will omit results', () => {
         cy.get('.search-item__container').should('not.exist');
     }
 
+    let testUser;
+
     before(() => {
-        // # Login as the sysadmin.
-        cy.apiLogin('sysadmin');
+        // # Login as test user and go to town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team, user}) => {
+            testUser = user;
 
-        // # Create a new team
-        cy.apiCreateTeam('filter-test', 'filter-test').its('body').as('team');
-
-        // # Get team name and visit that team
-        cy.get('@team').then((team) => {
             cy.visit(`/${team.name}/channels/town-square`);
-        });
 
-        // # Create a post from today
-        cy.get('#postListContent', {timeout: TIMEOUTS.LARGE}).should('be.visible');
-        cy.postMessage(message);
+            // # Create a post from today
+            cy.get('#postListContent', {timeout: TIMEOUTS.LARGE}).should('be.visible');
+            cy.postMessage(message);
+        });
     });
 
     it('just search query', () => {
@@ -86,7 +84,7 @@ describe('Negative search filters will omit results', () => {
     });
 
     it('-from:', () => {
-        const query = `from:sysadmin ${message}`;
+        const query = `from:${testUser.username} ${message}`;
         searchAndVerify(query);
     });
 });

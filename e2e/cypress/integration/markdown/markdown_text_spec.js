@@ -29,8 +29,7 @@ const testCases = [
 
 describe('Markdown message', () => {
     before(() => {
-        // # Login as sysadmin and enable local image proxy so our expected URLs match
-        cy.apiLogin('sysadmin');
+        // # Enable local image proxy so our expected URLs match
         const newSettings = {
             ImageProxySettings: {
                 Enable: true,
@@ -41,12 +40,9 @@ describe('Markdown message', () => {
         };
         cy.apiUpdateConfig(newSettings);
 
-        // # Login as new user
-        cy.apiCreateAndLoginAsNewUser().then(() => {
-            // # Create new team and visit its URL
-            cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
-                cy.visit(`/${response.body.name}`);
-            });
+        // # Login as new user, create new team and visit its URL
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
         });
     });
 

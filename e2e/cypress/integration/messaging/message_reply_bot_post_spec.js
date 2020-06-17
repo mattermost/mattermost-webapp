@@ -10,18 +10,18 @@
 // Stage: @prod
 // Group: @messaging
 
-import users from '../../fixtures/users.json';
+import {getAdminAccount} from '../../support/env';
 
-const sysadmin = users.sysadmin;
 describe('Messaging', () => {
+    const sysadmin = getAdminAccount();
     let newChannel;
     let botsUserId;
     let botName;
     let botToken;
     let yesterdaysDate;
+
     before(() => {
-        // # Login as sysadmin and set ServiceSettings to expected values
-        cy.apiLogin('sysadmin');
+        // # Set ServiceSettings to expected values
         const newSettings = {
             ServiceSettings: {
                 EnableBotAccountCreation: true,
@@ -29,11 +29,10 @@ describe('Messaging', () => {
         };
         cy.apiUpdateConfig(newSettings);
 
-        cy.apiSaveTeammateNameDisplayPreference('username');
-
         // # Create and visit new channel
-        cy.createAndVisitNewChannel().then((channel) => {
+        cy.apiInitSetup().then(({team, channel}) => {
             newChannel = channel;
+            cy.visit(`/${team.name}/channels/${channel.name}`);
         });
     });
 

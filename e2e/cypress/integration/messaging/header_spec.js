@@ -28,7 +28,7 @@ describe('Header', () => {
     });
 
     afterEach(() => {
-        cy.apiLogin('sysadmin');
+        cy.apiAdminLogin();
         if (testTeam && testTeam.id) {
             cy.apiDeleteTeam(testTeam.id);
         }
@@ -50,7 +50,7 @@ describe('Header', () => {
 
     it('M14784 - An ellipsis indicates the channel header is too long - DM', () => {
         // # Open Account Setting and enable Compact View on the Display tab
-        cy.changeMessageDisplaySetting('COMPACT');
+        cy.uiChangeMessageDisplaySetting('COMPACT');
 
         // # Open a DM with user named 'user-2'
         cy.get('#addDirectChannel').click().wait(TIMEOUTS.TINY);

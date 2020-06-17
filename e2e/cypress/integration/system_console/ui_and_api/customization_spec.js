@@ -16,9 +16,6 @@ describe('Customization', () => {
     let origConfig;
 
     before(() => {
-        // # Login as sysadmin
-        cy.apiLogin('sysadmin');
-
         // Get config
         cy.apiGetConfig().then((response) => {
             origConfig = response.body;
