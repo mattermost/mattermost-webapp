@@ -119,6 +119,9 @@ function pluggableId(state = '', action) {
             return action.pluggableId;
         }
         return '';
+    case ActionTypes.SELECT_POST:
+    case ActionTypes.SELECT_POST_CARD:
+        return '';
     default:
         return state;
     }

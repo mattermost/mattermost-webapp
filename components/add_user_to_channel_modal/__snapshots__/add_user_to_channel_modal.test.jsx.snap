@@ -76,6 +76,7 @@ exports[`components/AddUserToChannelModal should match snapshot 1`] = `
           completeOnTab={false}
           containerClass=""
           delayInputUpdate={true}
+          forceSuggestionsWhenBlur={false}
           isRHS={false}
           listComponent={[Function]}
           listStyle="bottom"

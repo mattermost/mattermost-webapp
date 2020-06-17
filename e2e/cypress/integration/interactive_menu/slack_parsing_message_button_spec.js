@@ -7,30 +7,23 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+// Group: @interactive_menu
+
 /**
 * Note: This test requires webhook server running. Initiate `npm run start:webhook` to start.
 */
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
-let channel;
-let incomingWebhook;
-
 describe('Interactive Menu', () => {
+    let incomingWebhook;
+
     before(() => {
         cy.requireWebhookServer();
 
-        // # Login as sysadmin
-        cy.apiLogin('sysadmin');
-
-        // # Update teammate name display setting is set to default 'username'
-        cy.apiSaveTeammateNameDisplayPreference('username');
-        cy.apiSaveMessageDisplayPreference('clean');
-
         // # Create and visit new channel and create incoming webhook
-        cy.createAndVisitNewChannel().then((data) => {
-            channel = data;
-
+        cy.apiInitSetup().then(({team, channel}) => {
             const newIncomingHook = {
                 channel_id: channel.id,
                 channel_locked: true,
@@ -41,6 +34,8 @@ describe('Interactive Menu', () => {
             cy.apiCreateWebhook(newIncomingHook).then((hook) => {
                 incomingWebhook = hook;
             });
+
+            cy.visit(`/${team.name}/channels/${channel.name}`);
         });
     });
 
