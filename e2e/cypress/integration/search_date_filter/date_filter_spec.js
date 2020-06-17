@@ -23,7 +23,7 @@ function searchAndValidate(query, expectedResults = []) {
     cy.get('#search-items-container', {timeout: TIMEOUTS.HUGE}).should('be.visible');
 
     // * Verify the amount of results matches the amount of our expected results
-    cy.queryAllByTestId('search-item-container').should('have.length', expectedResults.length).then((results) => {
+    cy.findAllByTestId('search-item-container').should('have.length', expectedResults.length).then((results) => {
         if (expectedResults.length > 0) {
             // * Verify text of each result
             cy.wrap(results).each((result, index) => {
@@ -380,7 +380,7 @@ describe('SF15699 Search Date Filter', () => {
             cy.get('#loadingSpinner').should('not.be.visible');
 
             // * Verify we see our single result
-            cy.queryAllByTestId('search-item-container').
+            cy.findAllByTestId('search-item-container').
                 should('be.visible').
                 and('have.length', 1).
                 find('.post-message').
@@ -410,7 +410,7 @@ describe('SF15699 Search Date Filter', () => {
             cy.get('#loadingSpinner').should('not.be.visible');
 
             // * There should be no results
-            cy.queryAllByTestId('search-item-container').should('have.length', 0);
+            cy.findAllByTestId('search-item-container').should('have.length', 0);
         });
 
         it('changing timezone changes day search results appears', () => {

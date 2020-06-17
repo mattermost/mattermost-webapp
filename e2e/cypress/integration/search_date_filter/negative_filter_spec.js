@@ -27,7 +27,7 @@ describe('Negative search filters will omit results', () => {
         search(query);
 
         // * Verify the amount of results matches the amount of our expected results
-        cy.queryAllByTestId('search-item-container').should('have.length', 1).then((results) => {
+        cy.findAllByTestId('search-item-container').should('have.length', 1).then((results) => {
             // * Verify text of each result
             cy.wrap(results).first().find('.post-message').should('have.text', message);
         });

@@ -579,7 +579,7 @@ describe('Interactive Menu', () => {
 
 function verifyMessageAttachmentList(postId, isRhs, text) {
     return cy.get(`#messageAttachmentList_${postId}`).within(() => {
-        cy.queryByTestId('autoCompleteSelector').should('be.visible');
+        cy.findByTestId('autoCompleteSelector').should('be.visible');
 
         if (isRhs) {
             // * Verify that the selected option from center view matches the one in RHS

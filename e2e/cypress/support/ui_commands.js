@@ -407,46 +407,6 @@ Cypress.Commands.add('updateChannelHeader', (text) => {
         wait(TIMEOUTS.TINY);
 });
 
-// ***********************************************************
-// File Upload
-// ************************************************************
-
-/**
- * Upload a file on target input given a filename and mime type
- * @param {String} targetInput - Target input to upload a file
- * @param {String} fileName - Filename to upload from the fixture
- * @param {String} mimeType - Mime type of a file
- */
-Cypress.Commands.add('fileUpload', (targetInput, fileName = 'mattermost-icon.png', mimeType = 'image/png') => {
-    cy.fixture(fileName).then((fileContent) => {
-        cy.get(targetInput).upload(
-            {fileContent, fileName, mimeType},
-            {subjectType: 'input', force: true},
-        );
-    });
-});
-
-/**
- * Upload a file on target input in binary format -
- * @param {String} targetInput - #LocatorID
- * @param {String} fileName - Filename to upload from the fixture Ex: drawPlugin-binary.tar
- * @param {String} fileType - application/gzip
- */
-Cypress.Commands.add('uploadFile', {prevSubject: true}, (targetInput, fileName, fileType) => {
-    cy.log('Upload process started .FileName:' + fileName);
-    cy.fixture(fileName, 'binary').then((content) => {
-        return Cypress.Blob.binaryStringToBlob(content, fileType).then((blob) => {
-            const el = targetInput[0];
-            cy.log('el:' + el);
-            const testFile = new File([blob], fileName, {type: fileType});
-            const dataTransfer = new DataTransfer();
-            dataTransfer.items.add(testFile);
-            el.files = dataTransfer.files;
-            cy.wrap(targetInput).trigger('change', {force: true});
-        });
-    });
-});
-
 /**
  * Navigate to system console-PluginManagement from account settings
  */

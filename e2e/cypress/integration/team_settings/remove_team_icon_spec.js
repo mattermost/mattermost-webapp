@@ -58,7 +58,7 @@ describe('Teams Settings', () => {
         cy.findByTestId('saveSettingPicture').should('be.disabled');
 
         // # Upload a file on center view
-        cy.fileUpload('[data-testid="uploadPicture"]', 'mattermost-icon.png');
+        cy.findByTestId('uploadPicture').attachFile('mattermost-icon.png');
 
         // after uploading the picture the save button must be disabled
         cy.findByTestId('saveSettingPicture').should('not.be.disabled').click();

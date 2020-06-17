@@ -77,7 +77,7 @@ describe('Messaging', () => {
             cy.getLastPostId().then((replyId) => {
                 // * Verify that the reply is in the RHS with matching text
                 cy.get(`#rhsPost_${replyId}`).within(() => {
-                    cy.queryByTestId('post-link').should('not.be.visible');
+                    cy.findByTestId('post-link').should('not.be.visible');
                     cy.get(`#rhsPostMessageText_${replyId}`).should('be.visible').and('have.text', 'A reply to an older post bot post');
                 });
 
@@ -94,7 +94,7 @@ describe('Messaging', () => {
 
                 // * Verify that the reply is in the channel view with matching text
                 cy.get(`#post_${replyId}`).within(() => {
-                    cy.queryByTestId('post-link').should('be.visible').and('have.text', 'Commented on ' + botName + '\'s message: Some Text posted by bot that has no content and no attachment pretext');
+                    cy.findByTestId('post-link').should('be.visible').and('have.text', 'Commented on ' + botName + '\'s message: Some Text posted by bot that has no content and no attachment pretext');
                     cy.get(`#postMessageText_${replyId}`).should('be.visible').and('have.text', 'A reply to an older post bot post');
                 });
             });
@@ -145,7 +145,7 @@ describe('Messaging', () => {
             cy.getLastPostId().then((replyId) => {
                 // * Verify that the reply is in the RHS with matching text
                 cy.get(`#rhsPost_${replyId}`).within(() => {
-                    cy.queryByTestId('post-link').should('not.be.visible');
+                    cy.findByTestId('post-link').should('not.be.visible');
                     cy.get(`#rhsPostMessageText_${replyId}`).should('be.visible').and('have.text', 'A reply to an older post with message attachment');
                 });
 
@@ -162,7 +162,7 @@ describe('Messaging', () => {
 
                 // * Verify that the reply is in the channel view with matching text
                 cy.get(`#post_${replyId}`).within(() => {
-                    cy.queryByTestId('post-link').should('be.visible').and('have.text', 'Commented on ' + botName + '\'s message: Hello message from ' + botName);
+                    cy.findByTestId('post-link').should('be.visible').and('have.text', 'Commented on ' + botName + '\'s message: Hello message from ' + botName);
                     cy.get(`#postMessageText_${replyId}`).should('be.visible').and('have.text', 'A reply to an older post with message attachment');
                 });
             });

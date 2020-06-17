@@ -25,7 +25,7 @@ function verifyImageInPostFooter(verifyExistence = true) {
 function postAttachments() {
     // Add 4 attachments to a post
     [...Array(4)].forEach(() => {
-        cy.fileUpload('#fileUploadInput', 'small-image.png');
+        cy.get('#fileUploadInput').attachFile('small-image.png');
     });
 
     // # verify the attachment at the footer

@@ -71,7 +71,7 @@ describe('Autocomplete with Elasticsearch - Channel', () => {
             searchForChannel(channel.name);
 
             // * And it should not appear
-            cy.queryByTestId(channel.name).
+            cy.findByTestId(channel.name).
                 should('not.exist');
         });
     });
@@ -91,7 +91,7 @@ describe('Autocomplete with Elasticsearch - Channel', () => {
             cy.get('#suggestionList').should('be.visible');
 
             // * Channel should appear in the list
-            cy.queryByTestId(channel.name).
+            cy.findByTestId(channel.name).
                 should('be.visible');
         });
     });
@@ -125,7 +125,7 @@ describe('Autocomplete with Elasticsearch - Channel', () => {
                 searchForChannel(channel.name);
 
                 // * Channel should not appear in the search results
-                cy.queryByTestId(channel.name).
+                cy.findByTestId(channel.name).
                     should('not.exist');
             });
         });

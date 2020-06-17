@@ -75,7 +75,7 @@ describe('Messaging', () => {
                 cy.get('#rhsPostList').should('be.visible').children().should('have.length', 1);
                 cy.get('#rhsPostList').within(() => {
                     cy.findByText('def').should('be.visible');
-                    cy.queryByText('ghi').should('not.exist');
+                    cy.findByText('ghi').should('not.exist');
                 }).then(() => {
                     // * Connect all sockets one more time
                     window.mockWebsockets.forEach((value) => {

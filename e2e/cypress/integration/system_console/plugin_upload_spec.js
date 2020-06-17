@@ -19,8 +19,6 @@
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Draw Plugin - Upload', () => {
-    const fileName = 'com.mattermost.draw-plugin.tar.gz';
-    const fileType = 'application/gzip';
     const pluginId = 'com.mattermost.draw-plugin';
     before(() => {
         // # Update config
@@ -37,6 +35,7 @@ describe('Draw Plugin - Upload', () => {
         // #If draw plugin is already enabled , unInstall it
         cy.apiRemovePluginById(pluginId);
         cy.visit('/admin_console/plugins/plugin_management');
+        cy.get('.admin-console__header', {timeout: TIMEOUTS.HUGE}).should('be.visible').and('have.text', 'Plugin Management');
     });
 
     /**
@@ -44,14 +43,21 @@ describe('Draw Plugin - Upload', () => {
     */
     it('M11759-Draw plugin Configuration - should upload draw plugin', () => {
         // * upload Draw plugin from the browser
-        cy.get('input[type=file]').uploadFile(fileName, fileType).wait(TIMEOUTS.TINY);
+        const fileName = 'com.mattermost.draw-plugin.tar.gz';
+        const mimeType = 'application/gzip';
+        cy.fixture(fileName, 'binary').
+            then(Cypress.Blob.binaryStringToBlob).
+            then((fileContent) => {
+                cy.get('input[type=file]').attachFile({fileContent, fileName, mimeType});
+            });
+
         cy.get('#uploadPlugin').should('be.visible').click().wait(TIMEOUTS.TINY);
 
         // * Verify that the button shows correct text while uploading
-        cy.findByText('Uploading...').should('be.visible');
+        cy.findByText('Uploading...', {timeout: TIMEOUTS.HUGE}).should('be.visible');
 
         // * Verify that the button shows correct text and is disabled after upload
-        cy.findByText('Upload').should('be.visible');
+        cy.findByText('Upload', {timeout: TIMEOUTS.HUGE}).should('be.visible');
         cy.get('#uploadPlugin').and('be.disabled');
 
         // * Verify that the Draw Plugin is shown on successful upload
