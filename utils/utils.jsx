@@ -201,12 +201,12 @@ export function getChannelURL(state, channel, teamId) {
 }
 
 export const notificationSounds = new Map([
-    ['Bing', bing], 
-    ['Crackle', crackle], 
-    ['Down', down], 
-    ['Hello', hello], 
-    ['Ripple', ripple], 
-    ['Upstairs', upstairs]
+    ['Bing', bing],
+    ['Crackle', crackle],
+    ['Down', down],
+    ['Hello', hello],
+    ['Ripple', ripple],
+    ['Upstairs', upstairs],
 ]);
 
 var canDing = true;

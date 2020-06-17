@@ -68,7 +68,7 @@ export default class DesktopNotificationSettings extends React.PureComponent {
             if (this.props.sound === 'true') {
                 const sounds = Array.from(Utils.notificationSounds.keys());
                 const options = sounds.map((sound) => {
-                    return {value: sound, label: sound}
+                    return {value: sound, label: sound};
                 });
                 notificationSelection = (<div className='pt-2'>
                     <ReactSelect
