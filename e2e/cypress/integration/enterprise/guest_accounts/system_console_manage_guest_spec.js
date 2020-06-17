@@ -31,7 +31,6 @@ describe('Guest Account - Verify Manage Guest Users', () => {
 
     before(() => {
         // * Check if server has license for Guest Accounts
-        cy.apiLogin('sysadmin');
         cy.requireLicenseForFeature('GuestAccounts');
 
         // # Enable Guest Account Settings

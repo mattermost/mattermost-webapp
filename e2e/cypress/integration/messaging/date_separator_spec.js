@@ -17,23 +17,16 @@ describe('Messaging', () => {
     let newChannel;
 
     before(() => {
-        // # Login as user-1 and set preferences for locale and timezone
-        cy.apiLogin('user-1');
-        cy.apiPatchMe({
-            locale: 'en',
-            timezone: {automaticTimezone: '', manualTimezone: 'UTC', useAutomaticTimezone: 'false'},
-        });
-
         // # Create and visit new channel
-        cy.createAndVisitNewChannel().then((channel) => {
+        cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
             newChannel = channel;
-        });
-    });
 
-    after(() => {
-        cy.apiPatchMe({
-            locale: 'en',
-            timezone: {automaticTimezone: '', manualTimezone: 'UTC', useAutomaticTimezone: 'false'},
+            cy.apiPatchMe({
+                locale: 'en',
+                timezone: {automaticTimezone: '', manualTimezone: 'UTC', useAutomaticTimezone: 'false'},
+            });
+
+            cy.visit(`/${team.name}/channels/${channel.name}`);
         });
     });
 
@@ -76,7 +69,7 @@ describe('Messaging', () => {
         cy.apiPatchMe({timezone: {automaticTimezone: '', manualTimezone: 'NZ-CHAT', useAutomaticTimezone: 'false'}});
         cy.reload();
 
-        // * Verify that it renders in English as default and in short format of "ddd, MMM D, YYYY"
-        verifyDateSeparator(0, /^(Sun|Mon), Jan (5|6), 2020/);
+        // * Verify that it renders in "es" locale
+        verifyDateSeparator(0, /^(sáb|dom)., (04|05) ene. 2020/);
     });
 });
