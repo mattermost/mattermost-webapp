@@ -53,6 +53,8 @@ export default class MessageAttachment extends React.PureComponent {
 
         this.state = {
             checkOverflow: 0,
+            actionExecuting: false,
+            actionExecutingMessage: null,
         };
 
         this.imageProps = {
@@ -129,6 +131,8 @@ export default class MessageAttachment extends React.PureComponent {
                         action={action}
                         disabled={action.disabled}
                         handleAction={this.handleAction}
+                        actionExecuting={this.state.actionExecuting}
+                        actionExecutingMessage={this.state.actionExecutingMessage}
                     />,
                 );
                 break;
@@ -146,18 +150,34 @@ export default class MessageAttachment extends React.PureComponent {
 
     handleAction = (e, actionOptions) => {
         e.preventDefault();
+
+        var actionExecutingMessage = this.getActionOption(actionOptions, 'ActionExecutingMessage');
+        if (actionExecutingMessage) {
+            this.setState({actionExecuting: true, actionExecutingMessage: actionExecutingMessage.value});
+        }
+
         const actionId = e.currentTarget.getAttribute('data-action-id');
         const actionCookie = e.currentTarget.getAttribute('data-action-cookie');
 
-        this.props.actions.doPostActionWithCookie(this.props.postId, actionId, actionCookie);
-
-        if (actionOptions) {
-            const extUrlOption = actionOptions.find((option) => option.text === 'ExternalUrl');
+        this.props.actions.doPostActionWithCookie(this.props.postId, actionId, actionCookie).then(() => {
+            var extUrlOption = this.getActionOption(actionOptions, 'ExternalUrl');
             if (extUrlOption) {
                 window.location.href = extUrlOption.value;
             }
-        }
+
+            if (actionExecutingMessage) {
+                this.setState({actionExecuting: false, actionExecutingMessage: null});
+            }
+        });
     };
+
+    getActionOption = (actionOptions, optionName) => {
+        var opt = null;
+        if (actionOptions) {
+            opt = actionOptions.find((option) => option.text === optionName);
+        }
+        return opt;
+    }
 
     getFieldsTable = () => {
         const fields = this.props.attachment.fields;

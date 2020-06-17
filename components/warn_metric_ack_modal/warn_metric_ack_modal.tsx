@@ -167,7 +167,7 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
         );
         const subText = (
             <div
-                style={{opacity: '0.45'}}
+                style={{display: 'flex', opacity: '0.45', flexWrap: 'wrap'}}
                 className='help__format-text'
             >
                 <FormattedMessage

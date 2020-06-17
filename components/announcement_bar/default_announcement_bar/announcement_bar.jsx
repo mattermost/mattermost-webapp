@@ -123,6 +123,7 @@ export default class AnnouncementBar extends React.PureComponent {
                 >
                     <span>
                         {message}
+                        &nbsp;
                         {this.props.showModal &&
                             <FormattedMessage
                                 id={this.props.modalButtonText}
