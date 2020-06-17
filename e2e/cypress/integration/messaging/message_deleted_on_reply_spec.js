@@ -75,7 +75,7 @@ describe('Messaging', () => {
         cy.get('#reply_textbox').should('contain', '123');
 
         // # Change to the other user and go to Town Square
-        cy.apiLogin('sysadmin');
+        cy.apiAdminLogin();
         cy.visit('/ad-1/channels/town-square');
         cy.wait(TIMEOUTS.SMALL);
 

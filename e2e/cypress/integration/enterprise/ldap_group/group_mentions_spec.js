@@ -14,11 +14,13 @@ import users from '../../../fixtures/ldap_users.json';
 
 let groupID;
 let boardUser;
+let regularUser;
+let testTeam;
 
 // Goes to the groups page for the group specified by id as sysadmin
 const navigateToGroup = (id) => {
     // # Login as sysadmin and visit board group page, and wait until board user is visible
-    cy.apiLogin('sysadmin');
+    cy.apiAdminLogin();
     cy.visit(`/admin_console/user_management/groups/${id}`);
 
     // # Scroll users list into view and then make sure it has loaded before scrolling back to the top
@@ -27,15 +29,15 @@ const navigateToGroup = (id) => {
     cy.get('#group_profile').scrollIntoView();
 };
 
-// Goes to the ad-1 townsquare and attempts to display suggestions for the given group name
+// Goes to the townsquare and attempts to display suggestions for the given group name
 // Attempts to @mention the given group
 // Checks to see that the group is not highlighted as a link when viewed by a user without permission to mention
 // Checks to see that the group is not highlighted as a mention when viewed by user inside the group
 const assertGroupMentionDisabled = (groupName) => {
     const suggestion = groupName.substring(0, groupName.length - 1);
 
-    // # Visit ad-1 town-square
-    cy.visit('/ad-1/channels/town-square');
+    // # Visit town-square
+    cy.visit(`/${testTeam.name}/channels/town-square`);
 
     // # Type suggestion in channel post text box
     cy.get('#post_textbox').should('be.visible').clear().type(`@${suggestion}`).wait(TIMEOUTS.TINY);
@@ -56,8 +58,8 @@ const assertGroupMentionDisabled = (groupName) => {
     // # Login as board user
     cy.apiLogin(boardUser.username, boardUser.password);
 
-    // # Visit ad-1 town-square
-    cy.visit('/ad-1/channels/town-square');
+    // # Visit town-square
+    cy.visit(`/${testTeam.name}/channels/town-square`);
 
     // # Get last post message text
     cy.getLastPostId().then((postId) => {
@@ -67,15 +69,15 @@ const assertGroupMentionDisabled = (groupName) => {
     });
 };
 
-// Goes to the ad-1 townsquare and attempts to display suggestions for the given group name
+// Goes to the townsquare and attempts to display suggestions for the given group name
 // Attempts to @mention the given group
 // Checks to see that the group is highlighted as a link when viewed by a user outside of the group
 // Checks to see that the group is highlighted as a mention when viewed by user inside the group
 const assertGroupMentionEnabled = (groupName) => {
     const suggestion = groupName.substring(0, groupName.length - 1);
 
-    // # Visit ad-1 town-square
-    cy.visit('/ad-1/channels/town-square');
+    // # Visit town-square
+    cy.visit(`/${testTeam.name}/channels/town-square`);
 
     // # Type suggestion in channel post text box
     cy.get('#post_textbox').should('be.visible').clear().type(`@${suggestion}`).wait(TIMEOUTS.TINY);
@@ -99,8 +101,8 @@ const assertGroupMentionEnabled = (groupName) => {
     // # Login as board user
     cy.apiLogin(boardUser.username, boardUser.password);
 
-    // # Visit ad-1 town-square
-    cy.visit('/ad-1/channels/town-square');
+    // # Visit town-square
+    cy.visit(`/${testTeam.name}/channels/town-square`);
 
     // # Get last post message text
     cy.getLastPostId().then((postId) => {
@@ -125,14 +127,16 @@ const saveConfig = () => {
 
 describe('System Console', () => {
     before(() => {
-        // # Login as sysadmin
-        cy.apiLogin('sysadmin');
-
         // * Check if server has license for LDAP Groups
         cy.requireLicenseForFeature('LDAPGroups');
 
         // # Enable LDAP
         cy.apiUpdateConfig({LdapSettings: {Enable: true}});
+
+        cy.apiInitSetup().then(({team, user}) => {
+            regularUser = user;
+            testTeam = team;
+        });
 
         // # Link board group
         cy.visit('/admin_console/user_management/groups');
@@ -162,18 +166,17 @@ describe('System Console', () => {
         boardUser = users['board-1'];
         cy.apiLogin(boardUser.username, boardUser.password);
 
-        // # Login as sysadmin and add board-one to ad-1 team
-        cy.apiLogin('sysadmin');
+        // # Login as sysadmin and add board-one to test team
+        cy.apiAdminLogin();
 
-        // # Add board user to ad-1 to ensure that he exists in the team and set his preferences to skip tutorial step
+        // # Add board user to test team to ensure that it exists in the team and set its preferences to skip tutorial step
         cy.apiGetUserByEmail(boardUser.email).then((eRes) => {
             const user = eRes.body;
-            cy.apiGetTeamByName('ad-1').then((teamRes) => {
-                cy.apiGetChannelByName('ad-1', 'town-square').then((channelRes) => {
-                    const channelId = channelRes.body.id;
-                    cy.apiAddUserToTeam(teamRes.body.id, user.id).then(() => {
-                        cy.apiAddUserToChannel(channelId, user.id);
-                    });
+
+            cy.apiGetChannelByName(testTeam.name, 'town-square').then((channelRes) => {
+                const channelId = channelRes.body.id;
+                cy.apiAddUserToTeam(testTeam.id, user.id).then(() => {
+                    cy.apiAddUserToChannel(channelId, user.id);
                 });
             });
 
@@ -226,7 +229,7 @@ describe('System Console', () => {
         const groupName = `board_test_case_${Date.now()}`;
 
         // # Login as sysadmin
-        cy.apiLogin('sysadmin');
+        cy.apiAdminLogin();
 
         // # Set group as allow reference = true with name groupName
         cy.apiPatchGroup(groupID, {allow_reference: true, name: groupName});
@@ -240,13 +243,13 @@ describe('System Console', () => {
         saveConfig();
 
         // # Login as a normal user
-        cy.apiLogin('user-1');
+        cy.apiLogin(regularUser.username, regularUser.password);
 
         // * Assert that the group mention works as expected since the group is enabled and user has permission to mention
         assertGroupMentionEnabled(groupName);
 
         // # Login as sysadmin and navigate to system scheme
-        cy.apiLogin('sysadmin');
+        cy.apiAdminLogin();
         cy.visit('/admin_console/user_management/permissions/system_scheme');
 
         // # Disable group mentions for users if enabled and save
@@ -258,7 +261,7 @@ describe('System Console', () => {
         saveConfig();
 
         // # Login as a regular member
-        cy.apiLogin('user-1');
+        cy.apiLogin(regularUser.username, regularUser.password);
 
         // * Assert that the group mention does not do anything since the user does not have the permission to mention the group
         assertGroupMentionDisabled(groupName);
@@ -266,7 +269,7 @@ describe('System Console', () => {
 
     after(() => {
         // # Login as sysadmin and navigate to system scheme page
-        cy.apiLogin('sysadmin');
+        cy.apiAdminLogin();
         cy.visit('/admin_console/user_management/permissions/system_scheme');
 
         // # Click reset to defaults confirm and save
