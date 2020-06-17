@@ -59,7 +59,7 @@ describe('Messaging', () => {
                     cy.clickPostDotMenu(postId);
 
                     // # Click on permalink option
-                    cy.get(`#permalink_${postId}`).should('be.visible').click().wait(TIMEOUTS.SMALL);
+                    cy.get(`#permalink_${postId}`).should('be.visible').click().wait(TIMEOUTS.FIVE_SEC);
 
                     // * Check clipboard contains permalink
                     cy.task('getClipboard').should('contain', `/ad-1/pl/${postId}`).then((text) => {
@@ -101,7 +101,7 @@ describe('Messaging', () => {
                 cy.url().should('include', `/ad-1/messages/@user-1/${permalinkId}`);
 
                 // * Check if url redirects back to parent path eventually
-                cy.wait(TIMEOUTS.SMALL).url().should('include', '/ad-1/messages/@user-1').and('not.include', `/${permalinkId}`);
+                cy.wait(TIMEOUTS.FIVE_SEC).url().should('include', '/ad-1/messages/@user-1').and('not.include', `/${permalinkId}`);
 
                 // # Channel should still be visible
                 cy.get('#publicChannelList', {force: true}).scrollIntoView().should('be.visible').within(() => {
@@ -124,7 +124,7 @@ describe('Messaging', () => {
 function postMessageOnChannel(testChannel, linkText) {
     // # Click on test public channel
     cy.get('#sidebarItem_' + testChannel.name).click({force: true});
-    cy.wait(TIMEOUTS.TINY);
+    cy.wait(TIMEOUTS.HALF_SEC);
 
     // # Paste link on postlist area and mention the other user
     cy.postMessage('@sysadmin ' + linkText);
@@ -136,7 +136,7 @@ function postMessageOnChannel(testChannel, linkText) {
 function clickLink(testChannel) {
     // # Click on test public channel
     cy.get('#sidebarItem_' + testChannel.name).click({force: true});
-    cy.wait(TIMEOUTS.TINY);
+    cy.wait(TIMEOUTS.HALF_SEC);
 
     // # Since the last message is the system message telling us we joined the channel, we take the one previous
     cy.getNthPostId(1).then((postId) => {

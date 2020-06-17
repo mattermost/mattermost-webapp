@@ -39,7 +39,7 @@ describe('toasts', () => {
     beforeEach(() => {
         // # Click on town-square then off-topic channels in LHS
         cy.get('#sidebarItem_town-square').should('be.visible').click();
-        cy.get('#sidebarItem_off-topic').should('be.visible').click().wait(TIMEOUTS.TINY);
+        cy.get('#sidebarItem_off-topic').should('be.visible').click().wait(TIMEOUTS.HALF_SEC);
 
         // * Verify that off-topic channel is loaded
         cy.get('#channelIntro').should('be.visible').contains('Beginning of Off-Topic');
@@ -274,7 +274,7 @@ function scrollUpAndPostAMessage() {
     scrollUp();
 
     // # Without the wait the tests seem to fun flaky. Possibly because of ScrollTo having a race with post of message
-    cy.wait(20); // eslint-disable-line cypress/no-unnecessary-waiting
+    cy.wait(TIMEOUTS.HALF_SEC); // eslint-disable-line cypress/no-unnecessary-waiting
 
     // # Post a new message
     return cy.postMessageAs({sender: otherUser, message: 'This is a new message', channelId: townsquareChannelId});

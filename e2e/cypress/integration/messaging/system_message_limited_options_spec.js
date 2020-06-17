@@ -29,7 +29,7 @@ describe('Messaging', () => {
         cy.getLastPostId().then((lastPostId) => {
             // # Mouse over the post to show the options
             cy.get(`#post_${lastPostId}`).trigger('mouseover', {force: true});
-            cy.wait(TIMEOUTS.TINY);
+            cy.wait(TIMEOUTS.HALF_SEC);
 
             // * No option to reply this post
             cy.get(`#CENTER_commentIcon_${lastPostId}`).should('not.exist');
@@ -39,7 +39,7 @@ describe('Messaging', () => {
 
             // # Click in the '...' button
             cy.get(`#CENTER_button_${lastPostId}`).click({force: true});
-            cy.wait(TIMEOUTS.TINY);
+            cy.wait(TIMEOUTS.HALF_SEC);
 
             // # Get all list elements in the dropdown
             cy.get(`#CENTER_dropdown_${lastPostId}`).find('li').then((items) => {
@@ -56,7 +56,7 @@ describe('Messaging', () => {
 
             // # Mouse over the post to show the options
             cy.get(`#post_${lastPostId}`).trigger('mouseover', {force: true});
-            cy.wait(TIMEOUTS.TINY);
+            cy.wait(TIMEOUTS.HALF_SEC);
 
             // * No option should appear
             cy.get(`#CENTER_commentIcon_${lastPostId}`).should('not.exist');

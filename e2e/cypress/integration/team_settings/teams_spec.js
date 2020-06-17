@@ -90,7 +90,7 @@ describe('Teams Suite', () => {
             cy.get('#invitePeople').click();
 
             // * Check that the Invitation Modal opened up
-            cy.findByTestId('invitationModal', {timeout: TIMEOUTS.TINY}).should('be.visible');
+            cy.findByTestId('invitationModal', {timeout: TIMEOUTS.HALF_SEC}).should('be.visible');
 
             cy.findByTestId('inputPlaceholder').should('be.visible').within(($el) => {
                 // # Type the first letters of a user
@@ -108,7 +108,7 @@ describe('Teams Suite', () => {
             cy.findByText(/Done/).should('be.visible').click();
 
             // * As sysadmin, verify system message posts in Town Square and Off-Topic
-            cy.getLastPost().wait(TIMEOUTS.TINY).then(($el) => {
+            cy.getLastPost().wait(TIMEOUTS.HALF_SEC).then(($el) => {
                 cy.wrap($el).get('.user-popover').
                     should('be.visible').
                     and('have.text', 'System');
@@ -119,7 +119,7 @@ describe('Teams Suite', () => {
             });
 
             cy.get('#sidebarItem_off-topic').should('be.visible').click({force: true});
-            cy.getLastPost().wait(TIMEOUTS.TINY).then(($el) => {
+            cy.getLastPost().wait(TIMEOUTS.HALF_SEC).then(($el) => {
                 cy.wrap($el).get('.user-popover').
                     should('be.visible').
                     and('have.text', 'System');
@@ -139,7 +139,7 @@ describe('Teams Suite', () => {
             const sysadmin = getAdminAccount();
 
             // * As other user, verify system message posts in Town Square and Off-Topic
-            cy.getLastPost().wait(TIMEOUTS.TINY).then(($el) => {
+            cy.getLastPost().wait(TIMEOUTS.HALF_SEC).then(($el) => {
                 cy.wrap($el).get('.user-popover').
                     should('be.visible').
                     and('have.text', 'System');
@@ -150,7 +150,7 @@ describe('Teams Suite', () => {
             });
 
             cy.get('#sidebarItem_off-topic').should('be.visible').click({force: true});
-            cy.getLastPost().wait(TIMEOUTS.TINY).then(($el) => {
+            cy.getLastPost().wait(TIMEOUTS.HALF_SEC).then(($el) => {
                 cy.wrap($el).get('.user-popover').
                     should('be.visible').
                     and('have.text', 'System');
@@ -187,6 +187,6 @@ describe('Teams Suite', () => {
         cy.get('#logout').should('be.visible').click();
 
         // * Ensure user is logged out
-        cy.url({timeout: TIMEOUTS.LARGE}).should('include', 'login');
+        cy.url({timeout: TIMEOUTS.HALF_MIN}).should('include', 'login');
     });
 });

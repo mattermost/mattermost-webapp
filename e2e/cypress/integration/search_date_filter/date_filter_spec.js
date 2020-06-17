@@ -20,7 +20,7 @@ function searchAndValidate(query, expectedResults = []) {
     cy.get('#searchBox').clear().wait(500).type(query).wait(500).type('{enter}');
 
     cy.get('#loadingSpinner').should('not.be.visible');
-    cy.get('#search-items-container', {timeout: TIMEOUTS.HUGE}).should('be.visible');
+    cy.get('#search-items-container', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
     // * Verify the amount of results matches the amount of our expected results
     cy.findAllByTestId('search-item-container').should('have.length', expectedResults.length).then((results) => {
@@ -92,7 +92,7 @@ describe('SF15699 Search Date Filter', () => {
         });
 
         // # Create a post from today
-        cy.get('#postListContent', {timeout: TIMEOUTS.LARGE}).should('be.visible');
+        cy.get('#postListContent', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible');
         cy.postMessage(todayMessage);
 
         // # Create another admin user so we can create posts from another user

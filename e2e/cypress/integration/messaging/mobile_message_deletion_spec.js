@@ -36,7 +36,7 @@ describe('Delete Parent Message', () => {
                 cy.get('#reply_textbox').type('Reply').type('{enter}');
 
                 // add wait time to ensure that a post gets posted and not on pending state
-                cy.wait(TIMEOUTS.TINY);
+                cy.wait(TIMEOUTS.HALF_SEC);
             }
 
             cy.getLastPostId().then((replyPostId) => {

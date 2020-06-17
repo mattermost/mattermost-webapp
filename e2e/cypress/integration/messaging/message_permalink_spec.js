@@ -65,7 +65,7 @@ describe('Message permalink', () => {
                     cy.clickPostDotMenu(postId);
 
                     // # Click on permalink option
-                    cy.get(`#permalink_${postId}`).should('be.visible').click().wait(TIMEOUTS.SMALL);
+                    cy.get(`#permalink_${postId}`).should('be.visible').click().wait(TIMEOUTS.FIVE_SEC);
 
                     // * Check clipboard contains permalink
                     cy.task('getClipboard').should('contain', `/ad-1/pl/${postId}`).then((text) => {
@@ -121,7 +121,7 @@ describe('Message permalink', () => {
 function verifyPermalink(message, testChannel, linkText, permalinkId) {
     // # Click on test public channel
     cy.get('#sidebarItem_' + testChannel.name).click({force: true});
-    cy.wait(TIMEOUTS.TINY);
+    cy.wait(TIMEOUTS.HALF_SEC);
 
     // # Paste link on postlist area
     cy.postMessage(linkText);
@@ -136,7 +136,7 @@ function verifyPermalink(message, testChannel, linkText, permalinkId) {
         cy.url().should('include', `/ad-1/messages/@sysadmin/${permalinkId}`);
 
         // * Check if url redirects back to parent path eventually
-        cy.wait(TIMEOUTS.SMALL).url().should('include', '/ad-1/messages/@sysadmin').and('not.include', `/${permalinkId}`);
+        cy.wait(TIMEOUTS.FIVE_SEC).url().should('include', '/ad-1/messages/@sysadmin').and('not.include', `/${permalinkId}`);
     });
 
     // # Get last post id from open channel
