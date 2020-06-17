@@ -1864,6 +1864,13 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
                 />
               }
             />
+            <AdminSidebarSection
+              key="custompluginplugin_0"
+              name="plugins/plugin_plugin_0"
+              parentLink=""
+              subsection={false}
+              title="Plugin 0"
+            />
           </AdminSidebarCategory>
           <AdminSidebarCategory
             icon="fa-sitemap"
@@ -1978,7 +1985,7 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
 </div>
 `;
 
-exports[`components/AdminSidebar should match snapshot, not render the plugin in the sidebar because does not have settings 1`] = `
+exports[`components/AdminSidebar should match snapshot, render plugins without any settings as well 1`] = `
 <div
   className="admin-sidebar"
 >
@@ -2474,6 +2481,13 @@ exports[`components/AdminSidebar should match snapshot, not render the plugin in
                   values={Object {}}
                 />
               }
+            />
+            <AdminSidebarSection
+              key="custompluginplugin_0"
+              name="plugins/plugin_plugin_0"
+              parentLink=""
+              subsection={false}
+              title="Plugin 0"
             />
           </AdminSidebarCategory>
           <AdminSidebarCategory
@@ -3256,6 +3270,13 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
                 />
               }
             />
+            <AdminSidebarSection
+              key="custompluginplugin_0"
+              name="plugins/plugin_plugin_0"
+              parentLink=""
+              subsection={false}
+              title="Plugin 0"
+            />
           </AdminSidebarCategory>
           <AdminSidebarCategory
             icon="fa-sitemap"
@@ -4024,6 +4045,13 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
                   values={Object {}}
                 />
               }
+            />
+            <AdminSidebarSection
+              key="custompluginplugin_0"
+              name="plugins/plugin_plugin_0"
+              parentLink=""
+              subsection={false}
+              title="Plugin 0"
             />
           </AdminSidebarCategory>
           <AdminSidebarCategory
