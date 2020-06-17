@@ -68,7 +68,9 @@ export default class DesktopNotificationSettings extends React.PureComponent {
             if (this.props.sound === 'true') {
                 const sounds = ['Bing', 'Crackle', 'Down', 'Hello', 'Ripple', 'Upstairs'];
                 const options = [];
-                sounds.forEach((sound) => {
+const options = sounds.map((sound) => {
+    return {value: sound, label: sound}
+})
                     options.push(
                         {value: sound, label: sound},
                     );
