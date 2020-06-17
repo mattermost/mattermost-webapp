@@ -17,7 +17,7 @@ const IconCommon: React.FC<Props> = ({glyph, size, label, additionalClass}: Prop
             className='Icon__wrapper'
         >
             <i
-                className={classNames([`Icon Icon___${size} icon-${glyph} ${additionalClass}`])}
+                className={classNames([`Icon Icon___${size} icon-${glyph}`, {additionalClass}])}
                 aria-label={label}
             />
         </div>

@@ -6,7 +6,7 @@ import {shallow} from 'enzyme';
 
 import IconCommon from './icon_common';
 
-describe('components/main_menu/IconCommon', () => {
+describe('components/compass/menu/IconCommon', () => {
     test('should match snapshot', () => {
         const Props = {
             glyph: 'emoticon-happy-outline',
@@ -21,7 +21,6 @@ describe('components/main_menu/IconCommon', () => {
         );
 
         expect(wrapper).toMatchSnapshot();
-        expect(wrapper.find('label').text()).toBe('icon');
-        expect(wrapper.find('glyph').text()).toBe('emoticon-happy-outline');
+        expect(wrapper.find('i').props().className).toBe('Icon Icon___xsmall icon-emoticon-happy-outline');
     });
 });
