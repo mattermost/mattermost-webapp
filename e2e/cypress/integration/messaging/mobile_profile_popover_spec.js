@@ -14,12 +14,16 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Profile popover', () => {
     before(() => {
-        // # Login and navigate to town-square
-        cy.toMainChannelView('user-1');
+        // # Set view port to mobile
         cy.viewport('iphone-6');
 
-        // # Post a new message to ensure there will be a post to click on
-        cy.postMessage('Test message');
+        // # Login as test user and visit town-square channel
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
+
+            // # Post a new message to ensure there will be a post to click on
+            cy.postMessage('Test message');
+        });
     });
 
     it('M18715 Profile popover should render (standard mode)', () => {
