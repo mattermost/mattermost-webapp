@@ -939,7 +939,7 @@
   "admin.license.edition": "Edition: ",
   "admin.license.enterprise": "Upgrade to Enterprise:",
   "admin.license.enterprise.restart": "Restarting",
-  "admin.license.enterprise.upgrade": "Upgrade",
+  "admin.license.enterprise.upgrade": "Upgrade to Enterprise Edition",
   "admin.license.enterprise.upgrading": "Upgrading {percentage}%",
   "admin.license.key": "License Key: ",
   "admin.license.keyRemove": "Remove Enterprise License and Downgrade Server",

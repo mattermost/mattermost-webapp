@@ -178,12 +178,81 @@ export default class LicenseSettings extends React.PureComponent {
         if (!this.props.enterpriseReady) { // Team Edition
             // Note: DO NOT LOCALISE THESE STRINGS. Legally we can not since the license is in English.
             edition = (
-                <p>
-                    {'Mattermost Team Edition.'}
-                </p>
+                <div>
+                    <p>{'Mattermost Team Edition. Upgrade to Mattermost Enterprise Edition to add the ability to unlock enterprise features.'}</p>
+                    {this.state.upgradingPercentage !== 100 &&
+                        <div>
+                            <p>
+                                <button
+                                    onClick={this.handleUpgrade}
+                                    className='btn btn-primary'
+                                >
+                                    <LoadingWrapper
+                                        loading={this.state.upgradingPercentage > 0}
+                                        text={
+                                            <FormattedMessage
+                                                id='admin.license.enterprise.upgrading'
+                                                defaultMessage='Upgrading {percentage}%'
+                                                values={{percentage: this.state.upgradingPercentage}}
+                                            />
+                                        }
+                                    >
+                                        <FormattedMessage
+                                            id='admin.license.enterprise.upgrade'
+                                            defaultMessage='Upgrade to Enterprise Edition'
+                                        />
+                                    </LoadingWrapper>
+                                </button>
+                            </p>
+                            {this.state.upgradeError &&
+                                <div className='col-sm-12'>
+                                    <div className='form-group has-error'>
+                                        <label className='control-label'>{this.state.upgradeError}</label>
+                                    </div>
+                                </div>}
+                        </div>}
+                    {this.state.upgradingPercentage === 100 &&
+                        <div>
+                            <p>
+                                <FormattedMarkdownMessage
+                                    id='admin.license.upgraded-restart'
+                                    defaultMessage='You have upgraded your binary to mattermost enterprise, please restart the server to start using the new binary. You can do it right here:'
+                                />
+                            </p>
+                            <p>
+                                <button
+                                    onClick={this.handleRestart}
+                                    className='btn btn-primary'
+                                >
+                                    <LoadingWrapper
+                                        loading={this.state.restarting}
+                                        text={Utils.localizeMessage('admin.license.enterprise.restart', 'Restarting')}
+                                    >
+                                        <FormattedMessage
+                                            id='admin.license.enterprise.restart'
+                                            defaultMessage='Restart Server'
+                                        />
+                                    </LoadingWrapper>
+                                    {this.state.restartError &&
+                                        <div className='col-sm-12'>
+                                            <div className='form-group has-error'>
+                                                <label className='control-label'>{this.state.restartError}</label>
+                                            </div>
+                                        </div>}
+                                </button>
+                            </p>
+                        </div>}
+                </div>
             );
 
-            licenseType = 'This software is offered under a commercial license.\n\nSee ENTERPRISE-EDITION-LICENSE.txt in your root install directory for details. See NOTICE.txt for information about open source software used in this system.';
+            licenseType = (
+                <div>
+                    <p>{'When using Mattermost Team Edition, the software is offered under a Mattermost MIT Compiled License. See MIT-COMPILED-LICENSE.md in your root install directory for details.'}</p>
+                    <p>{'When using Mattermost Enterprise Edition, the software is offered under a commercial license. See below for “Enterprise Edition License” for details.'}</p>
+                    <p>{'See NOTICE.txt for information about open source software used in the system.'}</p>
+                </div>
+            );
+
             licenseContent = this.renderTEContent();
         } else if (license.IsLicensed === 'true' && !uploading) {
             // Note: DO NOT LOCALISE THESE STRINGS. Legally we can not since the license is in English.
@@ -445,73 +514,17 @@ export default class LicenseSettings extends React.PureComponent {
                     className='control-label col-sm-4'
                 >
                     <FormattedMessage
-                        id='admin.license.enterprise'
-                        defaultMessage='Upgrade to Enterprise:'
+                        id='admin.license.enterprise-edition-license'
+                        defaultMessage='Enterprise Edition License:'
                     />
                 </label>
-                <div className='col-sm-8'>
-                    {this.state.upgradingPercentage !== 100 &&
-                        <div>
-                            <p>
-                                <button
-                                    onClick={this.handleUpgrade}
-                                    className='btn btn-primary'
-                                >
-                                    <LoadingWrapper
-                                        loading={this.state.upgradingPercentage > 0}
-                                        text={
-                                            <FormattedMessage
-                                                id='admin.license.enterprise.upgrading'
-                                                defaultMessage='Upgrading {percentage}%'
-                                                values={{percentage: this.state.upgradingPercentage}}
-                                            />
-                                        }
-                                    >
-                                        <FormattedMessage
-                                            id='admin.license.enterprise.upgrade'
-                                            defaultMessage='Upgrade'
-                                        />
-                                    </LoadingWrapper>
-                                </button>
-                            </p>
-                            {this.state.upgradeError &&
-                                <div className='col-sm-12'>
-                                    <div className='form-group has-error'>
-                                        <label className='control-label'>{this.state.upgradeError}</label>
-                                    </div>
-                                </div>}
-                        </div>}
-                    {this.state.upgradingPercentage === 100 &&
-                        <div>
-                            <p>
-                                <FormattedMarkdownMessage
-                                    id='admin.license.upgraded-restart'
-                                    defaultMessage='You have upgraded your binary to mattermost enterprise, please restart the server to start using the new binary. You can do it right here:'
-                                />
-                            </p>
-                            <p>
-                                <button
-                                    onClick={this.handleRestart}
-                                    className='btn btn-primary'
-                                >
-                                    <LoadingWrapper
-                                        loading={this.state.restarting}
-                                        text={Utils.localizeMessage('admin.license.enterprise.restart', 'Restarting')}
-                                    >
-                                        <FormattedMessage
-                                            id='admin.license.enterprise.restart'
-                                            defaultMessage='Restart Server'
-                                        />
-                                    </LoadingWrapper>
-                                    {this.state.restartError &&
-                                        <div className='col-sm-12'>
-                                            <div className='form-group has-error'>
-                                                <label className='control-label'>{this.state.restartError}</label>
-                                            </div>
-                                        </div>}
-                                </button>
-                            </p>
-                        </div>}
+                <div className='col-sm-8 enterprise-license-text'>
+                    <div>
+                        <p>{'The Mattermost Enterprise Edition (EE) license (the “EE License”)'}</p>
+                        <p>{'Copyright (c) 2016-present Mattermost, Inc.'}</p>
+                        <p>{'The subscription-only features of the Mattermost Enterprise Edition software and associated documentation files (the "Software") may only be used if you (and any entity that you represent) (i) have agreed to, and are in compliance with, the Mattermost Subscription Terms of Service, available at https://about.mattermost.com/enterprise-edition-terms/ (the “EE Terms”), and (ii) otherwise have a valid Mattermost Enterprise Edition subscription for the correct features, number of user seats and instances of Mattermost Enterprise Edition that you are running, accessing, or using.  You may, however, utilize the free version of the Software (with several features not enabled) under this license without a license key or subscription provided that you otherwise comply with the terms and conditions of this Agreement. Subject to the foregoing, except as explicitly permitted in the EE Terms, it is forbidden to copy, merge, modify, publish, distribute, sublicense, stream, perform, display, create derivative works of and/or sell the Software in either source or executable form without written agreement from Mattermost.  Notwithstanding anything to the contrary, free versions of the Software are provided “AS-IS” without indemnification, support, or warranties of any kind, expressed or implied. You assume all risk associated with any use of free versions of the Software.'}</p>
+                        <p>{'EXCEPT AS OTHERWISE SET FORTH IN A BINDING WRITTEN AGREEMENT BETWEEN YOU AND MATTERMOST, THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'}</p>
+                    </div>
                 </div>
             </>
         );

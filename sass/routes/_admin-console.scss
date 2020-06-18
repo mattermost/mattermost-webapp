@@ -946,3 +946,10 @@
         max-width: none;
     }
 }
+
+.enterprise-license-text {
+    padding: 10px;
+    text-align: justify;
+    border: 1px solid $light-gray;
+    background: white;
+}

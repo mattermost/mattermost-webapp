@@ -8,7 +8,7 @@ import LicenseSettings from './license_settings.jsx';
 
 const flushPromises = () => new Promise(setImmediate);
 
-describe('components/admin_console/group_settings/GroupSettings', () => {
+describe('components/admin_console/license_settings/LicenseSettings', () => {
     const defaultProps = {
         license: {
             IsLicensed: 'true',
@@ -26,6 +26,7 @@ describe('components/admin_console/group_settings/GroupSettings', () => {
             uploadLicense: jest.fn(),
             removeLicense: jest.fn(),
             upgradeToE0: jest.fn(),
+            requestTrialLicense: jest.fn(),
             restartServer: jest.fn(),
             upgradeToE0Status: jest.fn().mockImplementation(() => Promise.resolve({percentage: 0, error: null})),
         },
@@ -56,11 +57,9 @@ describe('components/admin_console/group_settings/GroupSettings', () => {
 
     test('upgrade to enterprise click', async () => {
         const actions = {
+            ...defaultProps.actions,
             getLicenseConfig: jest.fn(),
-            uploadLicense: jest.fn(),
-            removeLicense: jest.fn(),
             upgradeToE0: jest.fn(),
-            restartServer: jest.fn(),
             upgradeToE0Status: jest.fn().mockImplementation(() => Promise.resolve({percentage: 0, error: null})),
         };
         const props = {...defaultProps, enterpriseReady: false, actions};
