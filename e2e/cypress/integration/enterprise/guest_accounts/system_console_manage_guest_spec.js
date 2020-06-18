@@ -150,7 +150,7 @@ describe('Guest Account - Verify Manage Guest Users', () => {
         cy.findByText(email).should('be.visible');
     });
 
-    it.only('MM-18048 Revoke Session of a Guest User and Verify', () => {
+    it('MM-18048 Revoke Session of a Guest User and Verify', () => {
         // # Click on the Revoke Session option
         cy.wait(TIMEOUTS.HALF_SEC).findByTestId('userListRow').find('.MenuWrapper a').should('be.visible').click();
         cy.wait(TIMEOUTS.HALF_SEC).findByText('Revoke Sessions').click();

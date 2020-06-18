@@ -34,7 +34,7 @@ describe('Profile popover', () => {
                         cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 
                         // # Post a message from the other user
-                        cy.postMessageAs({sender: otherUser, message, channelId: testChannel.id}).wait(TIMEOUTS.SMALL);
+                        cy.postMessageAs({sender: otherUser, message, channelId: testChannel.id}).wait(TIMEOUTS.FIVE_SEC);
                     });
                 });
             });

@@ -60,7 +60,7 @@ describe('SF15699 Search Date Filter - on', () => {
     });
 
     it('works from 12:00am to 11:59pm', () => {
-        // create posts on a day att 11:59 the previous day, 12:00am the main day, 11:59pm the main day, and 12:00 the next day
+        // create posts on a day at 11:59 the previous day, 12:00am the main day, 11:59pm the main day, and 12:00 the next day
         const identifier = 'christmas' + Date.now();
 
         const preTarget = getMsAndQueryForDate(Date.UTC(2018, 11, 24, 23, 59)); // December 24th, 2018 @ 11:59pm

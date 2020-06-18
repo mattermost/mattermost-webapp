@@ -110,7 +110,7 @@ describe('Guest Account - Member Invitation Flow', () => {
         });
     });
 
-    it.only('MM-18039 Verify UI Elements of Members Invitation Flow', () => {
+    it('MM-18039 Verify UI Elements of Members Invitation Flow', () => {
         const email = `temp-${getRandomId()}@mattermost.com`;
 
         // # Open Invite People

@@ -14,7 +14,7 @@ export function searchAndValidate(query, expectedResults = []) {
     cy.reload();
 
     // # Enter in search query, and hit enter
-    cy.get('#searchBox').clear().wait(500).type(query).wait(500).type('{enter}');
+    cy.get('#searchBox').clear().wait(TIMEOUTS.HALF_SEC).type(query).wait(TIMEOUTS.HALF_SEC).type('{enter}');
 
     cy.get('#loadingSpinner').should('not.be.visible');
     cy.get('#search-items-container', {timeout: TIMEOUTS.HUGE}).should('be.visible');
@@ -100,7 +100,7 @@ export function setupTestData(data, {team, admin, anotherAdmin}) {
 
     // # Create a post from today
     cy.get('#postListContent', {timeout: TIMEOUTS.LARGE}).should('be.visible');
-    cy.postMessage(todayMessage).wait(1000);
+    cy.postMessage(todayMessage).wait(TIMEOUTS.ONE_SEC);
 
     cy.apiGetChannelByName(team.name, 'town-square').then((townSquareRes) => {
         const townSquareChannel = townSquareRes.body;

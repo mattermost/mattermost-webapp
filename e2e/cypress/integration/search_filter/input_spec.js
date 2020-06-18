@@ -11,6 +11,7 @@
 // Group: @search_date_filter
 
 import {getAdminAccount} from '../../support/env';
+import * as TIMEOUTS from '../../fixtures/timeouts'; 
 
 import {
     getTestMessages,
@@ -119,14 +120,14 @@ describe('SF15699 Search Date Filter - input', () => {
         it('with keyboard', () => {
             cy.get('#searchBox').
                 clear().
-                wait(500).
+                wait(TIMEOUTS.HALF_SEC).
                 type(queryString).
                 type('{backspace}'.repeat(queryString.length)).
                 should('have.value', '');
         });
 
         it('with "x"', () => {
-            cy.get('#searchBox').clear().wait(500).type(queryString);
+            cy.get('#searchBox').clear().wait(TIMEOUTS.HALF_SEC).type(queryString);
             cy.get('#searchFormContainer').find('.input-clear-x').click({force: true});
             cy.get('#searchBox').should('have.value', '');
         });
