@@ -65,9 +65,9 @@ describe('Channels', () => {
 
         cy.get('#moreChannelsModal').should('be.visible').within(() => {
             // * Dropdown should be visible, defaulting to "Public Channels"
-            cy.get('#channelsMoreDropdown').should('be.visible').and('contain', 'Show: Public Channels').wait(TIMEOUTS.TINY);
+            cy.get('#channelsMoreDropdown').should('be.visible').and('contain', 'Show: Public Channels').wait(TIMEOUTS.HALF_SEC);
 
-            cy.get('#searchChannelsTextbox').should('be.visible').type(testChannel.display_name).wait(TIMEOUTS.TINY);
+            cy.get('#searchChannelsTextbox').should('be.visible').type(testChannel.display_name).wait(TIMEOUTS.HALF_SEC);
             cy.get('#moreChannelsList').should('be.visible').children().should('have.length', 1).within(() => {
                 cy.findByText(testChannel.display_name).should('be.visible');
             });
@@ -118,7 +118,7 @@ describe('Channels', () => {
                 cy.wrap(el).should('contain', 'Show: Archived Channels');
             });
 
-            cy.get('#searchChannelsTextbox').should('be.visible').type(testChannel.display_name).wait(TIMEOUTS.TINY);
+            cy.get('#searchChannelsTextbox').should('be.visible').type(testChannel.display_name).wait(TIMEOUTS.HALF_SEC);
             cy.get('#moreChannelsList').children().should('have.length', 1).within(() => {
                 cy.findByText(testChannel.display_name).should('be.visible');
             });

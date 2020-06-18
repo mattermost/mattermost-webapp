@@ -47,7 +47,7 @@ describe('Interactive Menu', () => {
 
         // # Click on "Skip Parsing" button
         cy.findByText('Skip Parsing').should('be.visible').click({force: true});
-        cy.wait(TIMEOUTS.TINY);
+        cy.wait(TIMEOUTS.HALF_SEC);
 
         // * Verify that it renders original "spoiler" text
         cy.getLastPostId().then((postId) => {
@@ -56,7 +56,7 @@ describe('Interactive Menu', () => {
 
         // # Click on "Do Parsing" button
         cy.findByText('Do Parsing').should('be.visible').click({force: true});
-        cy.wait(TIMEOUTS.TINY);
+        cy.wait(TIMEOUTS.HALF_SEC);
 
         // * Verify that it renders markdown with link
         cy.getLastPostId().then((postId) => {

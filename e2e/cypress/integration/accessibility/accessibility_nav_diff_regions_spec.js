@@ -10,6 +10,7 @@
 // Stage: @prod
 // Group: @accessibility
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
 import users from '../../fixtures/users.json';
 
 const otherUser = users['user-2'];
@@ -26,7 +27,7 @@ function postMessages(count = 1) {
                 message = `hello from ${otherUser.username}: ${Date.now()}`;
                 cy.postMessageAs({sender: otherUser, message, channelId});
             }
-            cy.wait(1000); // eslint-disable-line cypress/no-unnecessary-waiting
+            cy.wait(TIMEOUTS.ONE_SEC); // eslint-disable-line cypress/no-unnecessary-waiting
         });
     });
 }

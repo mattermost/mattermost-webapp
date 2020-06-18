@@ -7,6 +7,8 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
+
 function teamOrChannelIsPresent(name) {
     cy.get('.group-teams-and-channels-row').should('be.visible');
     cy.get('.group-teams-and-channels-row').findByText(name);
@@ -38,7 +40,7 @@ function changeRole(name) {
 
 function savePage() {
     cy.get('#saveSetting').click();
-    cy.wait(2000); // eslint-disable-line cypress/no-unnecessary-waiting
+    cy.wait(TIMEOUTS.TWO_SEC); // eslint-disable-line cypress/no-unnecessary-waiting
 }
 
 function removeAndConfirm(name) {
@@ -119,6 +121,20 @@ describe('group configuration', () => {
     });
 
     describe('adding a channel', () => {
+        it('shows default channels', () => {
+            // # Search for off-topic
+            cy.get('#add_team_or_channel').should('be.visible');
+            cy.get('#add_team_or_channel').click();
+            cy.get('.dropdown-menu').find('#add_channel').should('be.visible');
+            cy.get('.dropdown-menu').find('#add_channel').click();
+            cy.get('#selectItems').type('off-');
+
+            // * Check that the off-topic channels are displayed
+            cy.get('.more-modal__details').should('have.length', 2);
+            cy.get('.more-modal__details').first().find('.channel-name').contains('Off-Topic');
+            cy.get('.more-modal__details').last().find('.channel-name').contains('Off-Topic');
+        });
+
         it('does not add a channel without saving', () => {
             addGroupSyncable('channel', () => {
                 // # Click away

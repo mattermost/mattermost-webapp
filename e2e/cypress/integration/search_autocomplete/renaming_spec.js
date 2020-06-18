@@ -26,7 +26,7 @@ function searchAndVerifyChannel(channel) {
         type(channel.display_name);
 
     // * Suggestions should appear
-    cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('be.visible');
+    cy.get('#suggestionList', {timeout: TIMEOUTS.FIVE_SEC}).should('be.visible');
 
     // * Channel should appear
     cy.findByTestId(channel.name).
@@ -42,7 +42,7 @@ function searchAndVerifyUser(user) {
         type(`@${user.username}`);
 
     // * Suggestion list should appear
-    cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('be.visible');
+    cy.get('#suggestionList', {timeout: TIMEOUTS.FIVE_SEC}).should('be.visible');
 
     // # Verify user appears in results post-change
     return cy.findByTestId(`mentionSuggestion_${user.username}`, {exact: false}).within((name) => {
