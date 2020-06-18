@@ -5,6 +5,7 @@ import {v4 as uuidv4} from 'uuid';
 
 import messageMenusData from '../fixtures/hooks/message_menus.json';
 import messageMenusWithDatasourceData from '../fixtures/hooks/message_menus_with_datasource.json';
+import messageButtons from '../fixtures/hooks/message_buttons.json';
 
 /**
  * @param {Number} length - length on random string to return, e.g. 6 (default)
@@ -51,6 +52,15 @@ export function getMessageMenusPayload({dataSource, options, prefix = Date.now()
 
     const callbackUrl = Cypress.env().webhookBaseUrl + '/message_menus';
     data.attachments[0].actions[0].integration.url = callbackUrl;
+
+    return data;
+}
+
+export function getMessageButtonsPayload() {
+    const data = messageButtons;
+    const callbackUrl = Cypress.env().webhookBaseUrl + '/message_buttons';
+    data.attachments[0].actions[0].integration.url = callbackUrl;
+    data.attachments[0].actions[1].integration.url = callbackUrl;
 
     return data;
 }

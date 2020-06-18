@@ -1,0 +1,28 @@
+{
+    "attachments": [
+        {
+            "pretext": "This is the attachment pretext.",
+            "text": "This is the attachment text for Interactive Message Buttons.",
+            "actions": [
+                {
+                    "name": "Ephemeral Message",
+                    "integration": {
+                        "url": "http://localhost:3000/message_buttons",
+                        "context": {
+                            "action": "do_something_ephemeral"
+                        }
+                    }
+                },
+                {
+                    "name": "Update",
+                    "integration": {
+                        "url": "http://localhost:3000/message_buttons",
+                        "context": {
+                            "action": "do_something_update"
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}
