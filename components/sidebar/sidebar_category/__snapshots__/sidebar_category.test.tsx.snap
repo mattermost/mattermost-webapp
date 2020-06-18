@@ -50,6 +50,7 @@ exports[`components/sidebar/sidebar_category should match snapshot 2`] = `
           "sorting": "alpha",
           "team_id": "team1",
           "type": "custom",
+          "user_id": "",
         }
       }
       onToggle={[Function]}
@@ -128,6 +129,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when collapse
           "sorting": "alpha",
           "team_id": "team1",
           "type": "custom",
+          "user_id": "",
         }
       }
       onToggle={[Function]}
@@ -213,6 +215,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when isNewCat
           "sorting": "alpha",
           "team_id": "team1",
           "type": "custom",
+          "user_id": "",
         }
       }
       onToggle={[Function]}

@@ -37,6 +37,7 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
         categories: [{
             id: 'category1',
             team_id: 'team1',
+            user_id: 'user_id',
             type: CategoryTypes.CUSTOM,
             display_name: 'custom_category_1',
             sorting: CategorySorting.Alphabetical,
@@ -46,6 +47,7 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
         currentCategory: {
             id: 'category1',
             team_id: 'team1',
+            user_id: 'user_id',
             type: CategoryTypes.CUSTOM,
             sorting: CategorySorting.Alphabetical,
             channel_ids: ['channel_id'],

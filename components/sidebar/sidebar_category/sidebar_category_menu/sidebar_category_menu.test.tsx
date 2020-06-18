@@ -15,6 +15,7 @@ describe('components/sidebar/sidebar_category/sidebar_category_menu', () => {
         category: {
             id: 'category1',
             team_id: 'team1',
+            user_id: '',
             type: CategoryTypes.CUSTOM,
             display_name: 'custom_category_1',
             channel_ids: ['channel_id'],

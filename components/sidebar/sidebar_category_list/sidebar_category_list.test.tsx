@@ -75,6 +75,7 @@ describe('components/sidebar/sidebar_category_list', () => {
             {
                 id: 'category1',
                 team_id: 'team1',
+                user_id: '',
                 type: CategoryTypes.CUSTOM,
                 display_name: 'custom_category_1',
                 sorting: CategorySorting.Alphabetical,
