@@ -156,7 +156,8 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
         }
       }
     />
-    <Connect(ChannelHeaderCall)
+    <Connect(ChannelHeaderPlug)
+      callPlugins={true}
       channel={
         Object {
           "delete_at": 0,
@@ -171,6 +172,8 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
           "user_id": "user_id",
         }
       }
+      dropdownIcon={[Function]}
+      elementsToCollapse={1}
     />
     <HeaderIconWrapper
       ariaLabel={true}
@@ -382,7 +385,8 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
         }
       }
     />
-    <Connect(ChannelHeaderCall)
+    <Connect(ChannelHeaderPlug)
+      callPlugins={true}
       channel={
         Object {
           "delete_at": 0,
@@ -397,6 +401,8 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
           "user_id": "user_id",
         }
       }
+      dropdownIcon={[Function]}
+      elementsToCollapse={1}
     />
     <HeaderIconWrapper
       ariaLabel={true}
@@ -608,7 +614,8 @@ exports[`components/ChannelHeader should render active pinned posts 1`] = `
         }
       }
     />
-    <Connect(ChannelHeaderCall)
+    <Connect(ChannelHeaderPlug)
+      callPlugins={true}
       channel={
         Object {
           "delete_at": 0,
@@ -623,6 +630,8 @@ exports[`components/ChannelHeader should render active pinned posts 1`] = `
           "user_id": "user_id",
         }
       }
+      dropdownIcon={[Function]}
+      elementsToCollapse={1}
     />
     <HeaderIconWrapper
       ariaLabel={true}
@@ -773,7 +782,8 @@ exports[`components/ChannelHeader should render archived view 1`] = `
         }
       }
     />
-    <Connect(ChannelHeaderCall)
+    <Connect(ChannelHeaderPlug)
+      callPlugins={true}
       channel={
         Object {
           "delete_at": 1234,
@@ -788,6 +798,8 @@ exports[`components/ChannelHeader should render archived view 1`] = `
           "user_id": "user_id",
         }
       }
+      dropdownIcon={[Function]}
+      elementsToCollapse={1}
     />
     <HeaderIconWrapper
       ariaLabel={true}
@@ -1034,7 +1046,8 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
         }
       }
     />
-    <Connect(ChannelHeaderCall)
+    <Connect(ChannelHeaderPlug)
+      callPlugins={true}
       channel={
         Object {
           "delete_at": 0,
@@ -1049,6 +1062,8 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
           "user_id": "user_id",
         }
       }
+      dropdownIcon={[Function]}
+      elementsToCollapse={1}
     />
     <HeaderIconWrapper
       ariaLabel={true}
@@ -1266,7 +1281,8 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
         }
       }
     />
-    <Connect(ChannelHeaderCall)
+    <Connect(ChannelHeaderPlug)
+      callPlugins={true}
       channel={
         Object {
           "delete_at": 0,
@@ -1281,6 +1297,8 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
           "user_id": "user_id",
         }
       }
+      dropdownIcon={[Function]}
+      elementsToCollapse={1}
     />
     <HeaderIconWrapper
       ariaLabel={true}
@@ -1530,7 +1548,8 @@ exports[`components/ChannelHeader should render properly when populated with cha
         }
       }
     />
-    <Connect(ChannelHeaderCall)
+    <Connect(ChannelHeaderPlug)
+      callPlugins={true}
       channel={
         Object {
           "header": "See ~test",
@@ -1552,6 +1571,8 @@ exports[`components/ChannelHeader should render properly when populated with cha
           "user_id": "user_id",
         }
       }
+      dropdownIcon={[Function]}
+      elementsToCollapse={1}
     />
     <HeaderIconWrapper
       ariaLabel={true}
@@ -1763,7 +1784,8 @@ exports[`components/ChannelHeader should render the pinned icon with the pinned 
         }
       }
     />
-    <Connect(ChannelHeaderCall)
+    <Connect(ChannelHeaderPlug)
+      callPlugins={true}
       channel={
         Object {
           "delete_at": 0,
@@ -1778,6 +1800,8 @@ exports[`components/ChannelHeader should render the pinned icon with the pinned 
           "user_id": "user_id",
         }
       }
+      dropdownIcon={[Function]}
+      elementsToCollapse={1}
     />
     <HeaderIconWrapper
       ariaLabel={true}

@@ -5,6 +5,8 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with no extended compon
   channel={Object {}}
   channelMember={Object {}}
   components={Array []}
+  dropdownIcon={[Function]}
+  elementsToCollapse={5}
   theme={Object {}}
 />
 `;
@@ -27,6 +29,8 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with one extended compo
       },
     ]
   }
+  dropdownIcon={[Function]}
+  elementsToCollapse={5}
   theme={Object {}}
 >
   <HeaderIconWrapper
@@ -176,6 +180,8 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
       },
     ]
   }
+  dropdownIcon={[Function]}
+  elementsToCollapse={5}
   theme={Object {}}
 >
   <div

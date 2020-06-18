@@ -97,6 +97,14 @@ export default class ChannelHeaderPlug extends React.PureComponent {
          * Logged in user's theme
          */
         theme: PropTypes.object.isRequired,
+
+        dropdownIcon: PropTypes.elementType,
+        elementsToCollapse: PropTypes.number,
+    }
+
+    static defaultProps = {
+        dropdownIcon: PluginChannelHeaderIcon,
+        elementsToCollapse: 5,
     }
 
     constructor(props) {
@@ -151,6 +159,8 @@ export default class ChannelHeaderPlug extends React.PureComponent {
             );
         });
 
+        const Icon = this.props.dropdownIcon;
+
         return (
             <div className='flex-child'>
                 <Dropdown
@@ -178,7 +188,7 @@ export default class ChannelHeaderPlug extends React.PureComponent {
                             )}
                         >
                             <React.Fragment>
-                                <PluginChannelHeaderIcon
+                                <Icon
                                     id='pluginChannelHeaderIcon'
                                     className='icon icon--standard icon__pluginChannelHeader'
                                     aria-hidden='true'
@@ -209,7 +219,7 @@ export default class ChannelHeaderPlug extends React.PureComponent {
 
         if (components.length === 0) {
             return null;
-        } else if (components.length <= 5) {
+        } else if (components.length <= this.props.elementsToCollapse) {
             return components.map(this.createButton);
         }
 
