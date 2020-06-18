@@ -68,7 +68,7 @@ describe('Messaging', () => {
                 cy.url().should('include', `/${testTeam.name}/channels/${testPrivateChannel.name}/${permalinkPostId}`);
 
                 // * Check if url redirects back to parent path eventually
-                cy.wait(TIMEOUTS.SMALL).url().should('include', `/${testTeam.name}/channels/${testPrivateChannel.name}`).and('not.include', `/${permalinkPostId}`);
+                cy.wait(TIMEOUTS.FIVE_SEC).url().should('include', `/${testTeam.name}/channels/${testPrivateChannel.name}`).and('not.include', `/${permalinkPostId}`);
 
                 // * Check if the matching channel intro title is visible
                 cy.get('#channelIntro').contains('.channel-intro__title', `Beginning of ${testPrivateChannel.display_name}`).should('be.visible');

@@ -178,7 +178,7 @@ const deleteOrEditTeamScheme = (schemeDisplayName, editOrDelete) => {
 const visitChannel = (loginAs, channelName) => {
     cy.apiLogin(loginAs);
     cy.visit(`/ad-1/channels/${channelName}`);
-    cy.get('#postListContent', {timeout: TIMEOUTS.HUGE}).should('be.visible');
+    cy.get('#postListContent', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 };
 
 const visitAutemChannel = (loginAs) => {
@@ -202,7 +202,7 @@ const goToPermissionsAndCreateTeamOverrideScheme = (schemeName) => {
     cy.get('#multiSelectList').should('be.visible').children().first().click({force: true});
     cy.get('#saveItems').should('be.visible').click();
     saveConfigForScheme(false);
-    cy.wait(TIMEOUTS.TINY * 2);
+    cy.wait(TIMEOUTS.ONE_SEC);
 };
 
 // # Visits the channel configuration for a channel with channelName
@@ -211,7 +211,7 @@ const visitChannelConfigPage = (channelName) => {
     cy.visit('/admin_console/user_management/channels');
     cy.findByTestId('search-input').type(`${channelName}{enter}`);
     cy.findByTestId(`${channelName}edit`).click();
-    cy.wait(TIMEOUTS.TINY * 2);
+    cy.wait(TIMEOUTS.ONE_SEC);
 };
 
 // # Saves channel config and navigates back to the channel config page if specified
@@ -586,7 +586,7 @@ describe('Channel Moderation Test', () => {
             saveConfigForScheme(false);
 
             // # Wait until the groups have been saved (since it redirects you)
-            cy.wait(TIMEOUTS.TINY * 2);
+            cy.wait(TIMEOUTS.ONE_SEC);
 
             visitAutemChannelConfigPage();
 
@@ -675,7 +675,7 @@ describe('Channel Moderation Test', () => {
             deleteOrEditTeamScheme('manage_members', 'edit');
             cy.get('#all_users-public_channel-manage_public_channel_members').click();
             saveConfigForScheme(false);
-            cy.wait(TIMEOUTS.TINY * 2);
+            cy.wait(TIMEOUTS.ONE_SEC);
 
             // * Assert that Manage Members is disabled for members and a message is displayed
             visitAutemChannelConfigPage();
@@ -1117,7 +1117,7 @@ describe('Channel Moderation Test', () => {
         cy.findByTestId(`${channelName}edit`).click();
 
         // # Wait until the groups retrieved and show up
-        cy.wait(TIMEOUTS.TINY * 2);
+        cy.wait(TIMEOUTS.ONE_SEC);
 
         // # Check all the boxes currently unchecked (align with the system scheme permissions)
         enableAllChannelModeratedPermissions();
@@ -1126,7 +1126,7 @@ describe('Channel Moderation Test', () => {
         saveConfigForChannel(channelName);
 
         // # Wait until the groups retrieved and show up
-        cy.wait(TIMEOUTS.TINY * 2);
+        cy.wait(TIMEOUTS.ONE_SEC);
 
         // * Ensure all checkboxes are checked
         checkBoxes.forEach((buttonId) => {
@@ -1140,7 +1140,7 @@ describe('Channel Moderation Test', () => {
         saveConfigForChannel(channelName);
 
         // # Wait until the groups retrieved and show up
-        cy.wait(TIMEOUTS.TINY * 2);
+        cy.wait(TIMEOUTS.ONE_SEC);
 
         // * Ensure all checkboxes have the correct unchecked state
         checkBoxes.forEach((buttonId) => {

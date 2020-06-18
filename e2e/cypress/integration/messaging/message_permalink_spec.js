@@ -96,7 +96,7 @@ describe('Message permalink', () => {
 function verifyPermalink(message, testChannel, permalink, postId, dmChannelLink) {
     // # Click on test public channel
     cy.get('#sidebarItem_' + testChannel.name).click({force: true});
-    cy.wait(TIMEOUTS.TINY);
+    cy.wait(TIMEOUTS.HALF_SEC);
 
     // # Paste link on postlist area
     cy.postMessage(permalink);
@@ -110,7 +110,7 @@ function verifyPermalink(message, testChannel, permalink, postId, dmChannelLink)
         cy.url().should('include', `${dmChannelLink}/${postId}`);
 
         // * Check if url redirects back to parent path eventually
-        cy.wait(TIMEOUTS.SMALL).url().should('include', dmChannelLink).and('not.include', `/${postId}`);
+        cy.wait(TIMEOUTS.FIVE_SEC).url().should('include', dmChannelLink).and('not.include', `/${postId}`);
     });
 
     // # Get last post id from open channel

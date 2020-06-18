@@ -51,7 +51,7 @@ describe('Messaging', () => {
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # Wait for the page to be loaded
-        cy.wait(TIMEOUTS.SMALL);
+        cy.wait(TIMEOUTS.FIVE_SEC);
 
         // # Click Reply button to open the RHS
         cy.clickPostCommentIcon();
@@ -68,7 +68,7 @@ describe('Messaging', () => {
             cy.externalRequest({user: sysadmin, method: 'DELETE', path: `posts/${postId}`});
 
             // # Wait for the message to be deleted
-            cy.wait(TIMEOUTS.TINY);
+            cy.wait(TIMEOUTS.HALF_SEC);
 
             // * Cannot view the gif on main channel
             cy.get(`#post_${postId}`).find('.attachment__image').should('not.exist');
@@ -84,7 +84,7 @@ describe('Messaging', () => {
 
             // # Refresh the website and wait for it to be loaded
             cy.reload();
-            cy.wait(TIMEOUTS.SMALL);
+            cy.wait(TIMEOUTS.FIVE_SEC);
 
             // * The RHS is closed
             cy.get('#rhsCloseButton').should('not.exist');
@@ -141,7 +141,7 @@ describe('Messaging', () => {
             cy.externalRequest({user: sysadmin, method: 'DELETE', path: `posts/${postId}`});
 
             // # Wait for the message to be deleted
-            cy.wait(TIMEOUTS.TINY);
+            cy.wait(TIMEOUTS.HALF_SEC);
 
             // * Cannot view the gif on main channel
             cy.get(`#post_${postId}`).find('.attachment__image').should('not.exist');

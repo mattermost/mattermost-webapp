@@ -221,7 +221,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
         cy.get('.modal-body').should('be.visible').and('have.text', 'You have unsent invitations, are you sure you want to discard them?');
 
         // * Verify the behavior when Yes, Discard button in the confirmation message is clicked
-        cy.get('#confirmModalButton').should('be.visible').and('have.text', 'Yes, Discard').click().wait(TIMEOUTS.TINY);
+        cy.get('#confirmModalButton').should('be.visible').and('have.text', 'Yes, Discard').click().wait(TIMEOUTS.HALF_SEC);
 
         // * Verify it goes back to previous step since back button was pressed
         cy.findByTestId('inviteGuestLink').should('be.visible');
@@ -339,7 +339,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
             cy.get('#searchUsers').should('be.visible').type(user.username);
 
             // # Click on the option to update email
-            cy.wait(TIMEOUTS.TINY);
+            cy.wait(TIMEOUTS.HALF_SEC);
             cy.findByTestId('userListRow').find('.MenuWrapper a').should('be.visible').click();
             cy.findByText('Update Email').should('be.visible').click();
 

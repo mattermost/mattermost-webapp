@@ -130,7 +130,7 @@ function verifyChannelSwitch(team, channel) {
 
     // # Type channel display name on Channel switcher input
     cy.get('#quickSwitchInput').type(channel.display_name);
-    cy.wait(TIMEOUTS.TINY);
+    cy.wait(TIMEOUTS.HALF_SEC);
 
     // * Suggestion list should be visible
     cy.get('#suggestionList').should('be.visible');
