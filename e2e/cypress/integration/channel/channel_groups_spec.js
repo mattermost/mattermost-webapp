@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @enterprise @ldap_group
 
 import {getRandomId} from '../../utils';
@@ -18,8 +19,6 @@ describe('channel groups', () => {
 
     before(() => {
         cy.requireLicenseForFeature('LDAP');
-
-        cy.apiLogin('sysadmin');
 
         // # Link 2 groups
         cy.apiGetLDAPGroups().then((result) => {
@@ -52,7 +51,7 @@ describe('channel groups', () => {
     });
 
     after(() => {
-        cy.apiLogin('sysadmin');
+        cy.apiAdminLogin();
         cy.apiDeleteTeam(teamID, true);
         for (let i = 0; i < 2; i++) {
             cy.apiUnlinkGroup(groups[i].remote_id);
@@ -72,7 +71,7 @@ describe('channel groups', () => {
         cy.get('#addGroupsToChannelModal').find('.more-modal__row').its('length').should('be.gte', 2);
 
         // # Group-constrain the parent team
-        cy.apiLogin('sysadmin');
+        cy.apiAdminLogin();
         cy.apiPatchTeam(teamID, {group_constrained: true});
         cy.apiLogin('board.one', 'Password1');
         cy.visit(`/${teamName}/channels/off-topic`);

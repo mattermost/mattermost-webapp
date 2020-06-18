@@ -15,8 +15,7 @@ const PAGE_SIZE = 10;
 
 describe('Search channels', () => {
     before(() => {
-        // * Login as sysadmin and check if server has license for LDAP Groups
-        cy.apiLogin('sysadmin');
+        // * Check if server has license for LDAP Groups
         cy.requireLicenseForFeature('LDAPGroups');
 
         // Enable LDAP
