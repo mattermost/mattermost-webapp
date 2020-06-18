@@ -31,3 +31,43 @@ exports[`components/link_tooltip/link_tooltip should match snapshot 1`] = `
   </span>
 </Fragment>
 `;
+
+exports[`components/link_tooltip/link_tooltip should match snapshot with uncommon link structure 1`] = `
+<Fragment>
+  <div
+    style={
+      Object {
+        "alignItems": "center",
+        "display": "flex",
+        "flexDirection": "column",
+        "zIndex": 10,
+      }
+    }
+  >
+    <Connect(Pluggable)
+      href="https://www.google.com"
+      pluggableName="LinkTooltip"
+    />
+  </div>
+  <span
+    onMouseLeave={[Function]}
+    onMouseOver={[Function]}
+  >
+    <span
+      className="codespan__pre-wrap"
+    >
+      <code>
+        foo
+      </code>
+    </span>
+     and 
+    <span
+      className="codespan__pre-wrap"
+    >
+      <code>
+        bar
+      </code>
+    </span>
+  </span>
+</Fragment>
+`;
