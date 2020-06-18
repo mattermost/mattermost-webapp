@@ -174,6 +174,13 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
       }
       dropdownIcon={[Function]}
       elementsToCollapse={1}
+      tooltipMessage={
+        <FormattedMessage
+          defaultMessage="Start a call"
+          id="generic_icons.calls"
+          values={Object {}}
+        />
+      }
     />
     <HeaderIconWrapper
       ariaLabel={true}
@@ -403,6 +410,13 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
       }
       dropdownIcon={[Function]}
       elementsToCollapse={1}
+      tooltipMessage={
+        <FormattedMessage
+          defaultMessage="Start a call"
+          id="generic_icons.calls"
+          values={Object {}}
+        />
+      }
     />
     <HeaderIconWrapper
       ariaLabel={true}
@@ -632,6 +646,13 @@ exports[`components/ChannelHeader should render active pinned posts 1`] = `
       }
       dropdownIcon={[Function]}
       elementsToCollapse={1}
+      tooltipMessage={
+        <FormattedMessage
+          defaultMessage="Start a call"
+          id="generic_icons.calls"
+          values={Object {}}
+        />
+      }
     />
     <HeaderIconWrapper
       ariaLabel={true}
@@ -800,6 +821,13 @@ exports[`components/ChannelHeader should render archived view 1`] = `
       }
       dropdownIcon={[Function]}
       elementsToCollapse={1}
+      tooltipMessage={
+        <FormattedMessage
+          defaultMessage="Start a call"
+          id="generic_icons.calls"
+          values={Object {}}
+        />
+      }
     />
     <HeaderIconWrapper
       ariaLabel={true}
@@ -1064,6 +1092,13 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
       }
       dropdownIcon={[Function]}
       elementsToCollapse={1}
+      tooltipMessage={
+        <FormattedMessage
+          defaultMessage="Start a call"
+          id="generic_icons.calls"
+          values={Object {}}
+        />
+      }
     />
     <HeaderIconWrapper
       ariaLabel={true}
@@ -1299,6 +1334,13 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
       }
       dropdownIcon={[Function]}
       elementsToCollapse={1}
+      tooltipMessage={
+        <FormattedMessage
+          defaultMessage="Start a call"
+          id="generic_icons.calls"
+          values={Object {}}
+        />
+      }
     />
     <HeaderIconWrapper
       ariaLabel={true}
@@ -1573,6 +1615,13 @@ exports[`components/ChannelHeader should render properly when populated with cha
       }
       dropdownIcon={[Function]}
       elementsToCollapse={1}
+      tooltipMessage={
+        <FormattedMessage
+          defaultMessage="Start a call"
+          id="generic_icons.calls"
+          values={Object {}}
+        />
+      }
     />
     <HeaderIconWrapper
       ariaLabel={true}
@@ -1802,6 +1851,13 @@ exports[`components/ChannelHeader should render the pinned icon with the pinned 
       }
       dropdownIcon={[Function]}
       elementsToCollapse={1}
+      tooltipMessage={
+        <FormattedMessage
+          defaultMessage="Start a call"
+          id="generic_icons.calls"
+          values={Object {}}
+        />
+      }
     />
     <HeaderIconWrapper
       ariaLabel={true}

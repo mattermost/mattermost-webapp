@@ -100,11 +100,18 @@ export default class ChannelHeaderPlug extends React.PureComponent {
 
         dropdownIcon: PropTypes.elementType,
         elementsToCollapse: PropTypes.number,
+        tooltipMessage: PropTypes.element,
     }
 
     static defaultProps = {
         dropdownIcon: PluginChannelHeaderIcon,
         elementsToCollapse: 5,
+        tooltipMessage: (
+            <FormattedMessage
+                id='generic_icons.plugins'
+                defaultMessage='Plugins'
+            />
+        ),
     }
 
     constructor(props) {
@@ -179,27 +186,26 @@ export default class ChannelHeaderPlug extends React.PureComponent {
                             overlay={this.state.dropdownOpen ? <></> : (
                                 <Tooltip id='removeIcon'>
                                     <div aria-hidden={true}>
-                                        <FormattedMessage
-                                            id='generic_icons.plugins'
-                                            defaultMessage='Plugins'
-                                        />
+                                        {this.props.tooltipMessage}
                                     </div>
                                 </Tooltip>
                             )}
                         >
-                            <React.Fragment>
-                                <Icon
-                                    id='pluginChannelHeaderIcon'
-                                    className='icon icon--standard icon__pluginChannelHeader'
-                                    aria-hidden='true'
-                                />
-                                <span
-                                    id='pluginCount'
-                                    className='icon__text'
-                                >
-                                    {plugs.length}
-                                </span>
-                            </React.Fragment>
+                            <div>
+                                <React.Fragment>
+                                    <Icon
+                                        id='pluginChannelHeaderIcon'
+                                        className='icon icon--standard icon__pluginChannelHeader'
+                                        aria-hidden='true'
+                                    />
+                                    <span
+                                        id='pluginCount'
+                                        className='icon__text'
+                                    >
+                                        {plugs.length}
+                                    </span>
+                                </React.Fragment>
+                            </div>
                         </OverlayTrigger>
                     </CustomToggle>
                     <CustomMenu

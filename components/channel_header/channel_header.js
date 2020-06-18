@@ -761,6 +761,12 @@ class ChannelHeader extends React.PureComponent {
                         dropdownIcon={PluginChannelHeaderIcon}
                         elementsToCollapse={1}
                         callPlugins={true}
+                        tooltipMessage={(
+                            <FormattedMessage
+                                id='generic_icons.calls'
+                                defaultMessage='Start a call'
+                            />
+                        )}
                     />
                     <HeaderIconWrapper
                         iconComponent={pinnedIcon}
