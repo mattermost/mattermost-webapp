@@ -16,7 +16,7 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 describe('SC17020 - Revoke All Sessions from System Console', () => {
     it('Verify for System Admin', () => {
         // # Login as System Admin
-        cy.apiLogin('sysadmin');
+        cy.apiAdminLogin();
 
         cy.visit('/admin_console/user_management/users');
 

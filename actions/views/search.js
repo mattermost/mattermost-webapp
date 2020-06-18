@@ -13,7 +13,7 @@ export function setModalSearchTerm(term) {
     };
 }
 
-export function setSystemUsersSearch(term, team, filter = '') {
+export function setSystemUsersSearch(term, team = '', filter = '') {
     return async (dispatch) => {
         dispatch({
             type: SearchTypes.SET_SYSTEM_USERS_SEARCH,

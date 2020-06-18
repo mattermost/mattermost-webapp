@@ -60,7 +60,7 @@ describe('group configuration', () => {
                 groupID = response.body.id;
 
                 // # Login as sysadmin
-                cy.apiLogin('sysadmin');
+                cy.apiAdminLogin();
 
                 // # Go to the group configuration view of the linked group
                 cy.visit(`/admin_console/user_management/groups/${groupID}`);
