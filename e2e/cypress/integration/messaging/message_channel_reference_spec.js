@@ -28,7 +28,7 @@ describe('Messaging', () => {
         cy.get('#post_textbox').type('{uparrow}');
 
         // # Insert a tilde (~) at the beginning of the post to be edited
-        cy.get('#edit_textbox').should('be.visible').wait(TIMEOUTS.TINY).type('{home}~');
+        cy.get('#edit_textbox').should('be.visible').wait(TIMEOUTS.HALF_SEC).type('{home}~');
 
         // * autocomplete opens
         cy.get('#suggestionList').should('be.visible');

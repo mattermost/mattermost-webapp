@@ -19,7 +19,7 @@ const baseUrl = Cypress.config('baseUrl');
 describe('Remove Last Post', () => {
     beforeEach(() => {
         // # Login as sysadmin
-        cy.apiLogin('sysadmin');
+        cy.apiAdminLogin();
 
         // # Use the API to create a new user
         cy.apiCreateNewUser().then((res) => {
@@ -32,7 +32,7 @@ describe('Remove Last Post', () => {
 
     it('M18716 Remove last post in channel', () => {
         // # Wait a few ms for the user to be created before sending the test message
-        cy.wait(TIMEOUTS.SMALL);
+        cy.wait(TIMEOUTS.FIVE_SEC);
 
         // # Post test message
         cy.postMessage('Test');

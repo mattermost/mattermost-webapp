@@ -24,9 +24,6 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
         testChannel = null;
         isArchived = false;
 
-        // # Login as sysadmin
-        cy.apiLogin('sysadmin');
-
         // # Enable Experimental View Archived Channels
         cy.apiUpdateConfig({
             TeamSettings: {
@@ -54,7 +51,7 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
     });
 
     afterEach(() => {
-        cy.apiLogin('sysadmin');
+        cy.apiAdminLogin();
         if (testChannel && testChannel.id && !isArchived) {
             cy.apiDeleteChannel(testChannel.id);
         }
@@ -258,7 +255,7 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
             message: MESSAGES.TINY,
             channelId,
         });
-        cy.wait(TIMEOUTS.SMALL);
+        cy.wait(TIMEOUTS.FIVE_SEC);
 
         // * Check if emoji picker is still open and add a reaction
         addingReactionWithEmojiPicker();
@@ -299,7 +296,7 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
             message: MESSAGES.MEDIUM,
             channelId,
         });
-        cy.wait(TIMEOUTS.SMALL);
+        cy.wait(TIMEOUTS.FIVE_SEC);
 
         // # Click anywhere to take focus away from RHS text box
         cy.get('#lhsList').within(() => {
@@ -353,7 +350,7 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
             message: MESSAGES.MEDIUM,
             channelId,
         });
-        cy.wait(TIMEOUTS.SMALL);
+        cy.wait(TIMEOUTS.FIVE_SEC);
 
         // # Click anywhere to take focus away from RHS text box
         cy.get('#lhsList').within(() => {
@@ -395,32 +392,32 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
         cy.get('#post_textbox').
             clear().
             invoke('val', MESSAGES.LARGE).
-            wait(TIMEOUTS.TINY).
+            wait(TIMEOUTS.HALF_SEC).
             type(' {backspace}{enter}');
         cy.get('#post_textbox').
             clear().
             invoke('val', MESSAGES.HUGE).
-            wait(TIMEOUTS.TINY).
+            wait(TIMEOUTS.HALF_SEC).
             type(' {backspace}{enter}');
         cy.get('#post_textbox').
             clear().
             invoke('val', MESSAGES.LARGE).
-            wait(TIMEOUTS.TINY).
+            wait(TIMEOUTS.HALF_SEC).
             type(' {backspace}{enter}');
         cy.get('#post_textbox').
             clear().
             invoke('val', MESSAGES.HUGE).
-            wait(TIMEOUTS.TINY).
+            wait(TIMEOUTS.HALF_SEC).
             type(' {backspace}{enter}');
         cy.get('#post_textbox').
             clear().
             invoke('val', MESSAGES.LARGE).
-            wait(TIMEOUTS.TINY).
+            wait(TIMEOUTS.HALF_SEC).
             type(' {backspace}{enter}');
         cy.get('#post_textbox').
             clear().
             invoke('val', MESSAGES.HUGE).
-            wait(TIMEOUTS.TINY).
+            wait(TIMEOUTS.HALF_SEC).
             type(' {backspace}{enter}');
 
         cy.postMessage(MESSAGES.SMALL);
@@ -600,21 +597,21 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
  */
 function pressShortcutReactToLastMessage(from) {
     if (from === 'CENTER') {
-        cy.get('#post_textbox', {timeout: TIMEOUTS.LARGE}).
+        cy.get('#post_textbox', {timeout: TIMEOUTS.HALF_MIN}).
             focus().
             clear().
             cmdOrCtrlShortcut('{shift}\\');
     } else if (from === 'RHS') {
-        cy.get('#reply_textbox', {timeout: TIMEOUTS.LARGE}).
+        cy.get('#reply_textbox', {timeout: TIMEOUTS.HALF_MIN}).
             focus().
             clear().
             cmdOrCtrlShortcut('{shift}\\');
     } else {
-        cy.get('body', {timeout: TIMEOUTS.LARGE}).cmdOrCtrlShortcut(
+        cy.get('body', {timeout: TIMEOUTS.HALF_MIN}).cmdOrCtrlShortcut(
             '{shift}\\',
         );
     }
-    cy.wait(TIMEOUTS.TINY);
+    cy.wait(TIMEOUTS.HALF_SEC);
 }
 
 /**
@@ -626,10 +623,10 @@ function addingReactionWithEmojiPicker() {
         should('exist').
         within(() => {
             // # Search for an emoji and add it to message.
-            cy.findByPlaceholderText('Search emojis').type('smile').wait(TIMEOUTS.TINY);
+            cy.findByPlaceholderText('Search emojis').type('smile').wait(TIMEOUTS.HALF_SEC);
             cy.findByTestId('smile').should('be.visible').click();
         });
-    cy.wait(TIMEOUTS.TINY);
+    cy.wait(TIMEOUTS.HALF_SEC);
 }
 
 /**
@@ -661,13 +658,13 @@ function verifyShortcutReactToLastMessageIsBlocked(from) {
 }
 
 function openMainMenuOptions(menu) {
-    cy.get('body').type('{esc}').wait(TIMEOUTS.TINY);
+    cy.get('body').type('{esc}').wait(TIMEOUTS.HALF_SEC);
     cy.findByLabelText('main menu').click();
     cy.findByText(menu).scrollIntoView().click();
 }
 
 function openChannelMainOptions(menu) {
-    cy.get('body').type('{esc}').wait(TIMEOUTS.TINY);
+    cy.get('body').type('{esc}').wait(TIMEOUTS.HALF_SEC);
     cy.findByLabelText('channel menu').click();
     cy.findByText(menu).scrollIntoView().should('be.visible').click();
 }

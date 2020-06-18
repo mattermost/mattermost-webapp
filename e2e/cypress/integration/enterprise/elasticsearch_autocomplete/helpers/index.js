@@ -37,9 +37,9 @@ module.exports = {
         cy.contains('button', 'Index Now').click();
 
         // Small wait to ensure new row is added
-        cy.wait(TIMEOUTS.TINY);
+        cy.wait(TIMEOUTS.HALF_SEC);
 
-        cy.get('.job-table__table').find('tbody > tr').eq(0).as('firstRow').find('.status-icon-warning', {timeout: TIMEOUTS.GIGANTIC}).should('be.visible');
+        cy.get('.job-table__table').find('tbody > tr').eq(0).as('firstRow').find('.status-icon-warning', {timeout: TIMEOUTS.TWO_MIN}).should('be.visible');
 
         // Newest row should eventually result in Success
         cy.waitUntil(() => {
@@ -48,8 +48,8 @@ module.exports = {
             });
         }
         , {
-            timeout: TIMEOUTS.FOUR_MINS,
-            interval: 2000,
+            timeout: TIMEOUTS.FIVE_MIN,
+            interval: TIMEOUTS.TWO_SEC,
             errorMsg: 'Reindex did not succeed in time',
         });
     },
@@ -177,14 +177,14 @@ module.exports = {
                         expect(addResponse.status).to.equal(201);
 
                         // explicitly wait to give some to index before searching
-                        cy.wait(TIMEOUTS.TINY);
+                        cy.wait(TIMEOUTS.HALF_SEC);
                         return cy.wrap(channel);
                     });
                 });
             }
 
             // explicitly wait to give some to index before searching
-            cy.wait(TIMEOUTS.TINY);
+            cy.wait(TIMEOUTS.HALF_SEC);
             return cy.wrap(channel);
         });
     },
@@ -211,7 +211,7 @@ module.exports = {
             type(channel.display_name);
 
         // * Suggestions should appear
-        cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('be.visible');
+        cy.get('#suggestionList', {timeout: TIMEOUTS.FIVE_SEC}).should('be.visible');
 
         // * Channel should appear
         cy.findByTestId(channel.name).
@@ -226,7 +226,7 @@ module.exports = {
             type(`@${user.username}`);
 
         // * Suggestion list should appear
-        cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('be.visible');
+        cy.get('#suggestionList', {timeout: TIMEOUTS.FIVE_SEC}).should('be.visible');
 
         // # Verify user appears in results post-change
         return cy.findByTestId(`mentionSuggestion_${user.username}`, {exact: false}).within((name) => {
