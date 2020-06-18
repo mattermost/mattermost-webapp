@@ -153,7 +153,6 @@ export function leaveChannel(channelId) {
 }
 
 export function leaveDirectChannel(channelName) {
-    console.log(`leaving ${channelName}`);
     return async (dispatch, getState) => {
         const state = getState();
         const currentUserId = getCurrentUserId(state);
@@ -161,7 +160,6 @@ export function leaveDirectChannel(channelName) {
         teams.forEach((currentTeam) => {
             const previousChannel = LocalStorageStore.getPreviousChannelName(currentUserId, currentTeam.id, state);
             const penultimateChannel = LocalStorageStore.getPenultimateChannelName(currentUserId, currentTeam.id, state);
-            console.log(`is channel name ${channelName} like ${previousChannel} or ${penultimateChannel}?`);
             if (channelName === previousChannel) {
                 LocalStorageStore.removePreviousChannelName(currentUserId, currentTeam.id, state);
             } else if (channelName === penultimateChannel) {
