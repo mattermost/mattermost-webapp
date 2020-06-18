@@ -67,7 +67,7 @@ export default class TeamList extends React.PureComponent {
     }
 
     searchTeams = async (page = 0, term = '') => {
-        let teams = []
+        let teams = [];
         let total = 0;
         const response = await this.props.actions.searchTeams(term, page, PAGE_SIZE);
         if (response?.data) {
