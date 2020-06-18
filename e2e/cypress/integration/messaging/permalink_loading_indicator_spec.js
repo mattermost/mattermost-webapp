@@ -71,7 +71,7 @@ describe('Messaging', () => {
                     cy.clickPostDotMenu(postId);
 
                     // # Click on permalink option
-                    cy.get(`#permalink_${postId}`).should('be.visible').click().wait(TIMEOUTS.SMALL);
+                    cy.get(`#permalink_${postId}`).should('be.visible').click().wait(TIMEOUTS.FIVE_SEC);
 
                     // * Check clipboard contains permalink
                     cy.task('getClipboard').should('contain', `/ad-1/pl/${postId}`).then((text) => {
@@ -102,7 +102,7 @@ describe('Messaging', () => {
                     cy.url().should('include', `/ad-1/channels/${testPrivateChannel.name}/${permalinkId}`);
 
                     // * Check if url redirects back to parent path eventually
-                    cy.wait(TIMEOUTS.SMALL).url().should('include', `/ad-1/channels/${testPrivateChannel.name}`).and('not.include', `/${permalinkId}`);
+                    cy.wait(TIMEOUTS.FIVE_SEC).url().should('include', `/ad-1/channels/${testPrivateChannel.name}`).and('not.include', `/${permalinkId}`);
 
                     // * Check if the matching channel intro title is visible
                     cy.get('#channelIntro').contains('.channel-intro__title', `Beginning of ${testPrivateChannel.display_name}`).should('be.visible');

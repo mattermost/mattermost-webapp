@@ -71,7 +71,7 @@ describe('MM-18045 Verify Guest User Identification in different screens', () =>
 
         // # Open Channel Members Dialog
         cy.get('#channelHeaderDropdownIcon').click();
-        cy.get('#channelViewMembers').click().wait(TIMEOUTS.TINY);
+        cy.get('#channelViewMembers').click().wait(TIMEOUTS.HALF_SEC);
         cy.get('#channelMembersModal').should('be.visible').within(($el) => {
             cy.wrap($el).findAllByTestId('userListItemDetails').each(($elChild) => {
                 cy.wrap($elChild).invoke('text').then((username) => {
@@ -89,7 +89,7 @@ describe('MM-18045 Verify Guest User Identification in different screens', () =>
 
     it('Verify Guest Badge in Team Members dialog', () => {
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
-        cy.get('#viewMembers').click().wait(TIMEOUTS.SMALL);
+        cy.get('#viewMembers').click().wait(TIMEOUTS.FIVE_SEC);
         cy.get('#teamMembersModal').should('be.visible').within(($el) => {
             cy.wrap($el).findAllByTestId('userListItemDetails').each(($elChild) => {
                 cy.wrap($elChild).invoke('text').then((username) => {
@@ -121,7 +121,7 @@ describe('MM-18045 Verify Guest User Identification in different screens', () =>
         cy.get('@yesterdaysPost').then((postId) => {
             cy.get(`#post_${postId}`).within(($el) => {
                 cy.wrap($el).find('.post__header .Badge').should('be.visible');
-                cy.wrap($el).find('.post__header .user-popover').should('be.visible').click().wait(TIMEOUTS.TINY);
+                cy.wrap($el).find('.post__header .user-popover').should('be.visible').click().wait(TIMEOUTS.HALF_SEC);
             });
         });
 
@@ -152,7 +152,7 @@ describe('MM-18045 Verify Guest User Identification in different screens', () =>
         cy.get('#sidebarSwitcherButton').click();
 
         // # Type the guest user name on Channel switcher input
-        cy.get('#quickSwitchInput').type(guest.username).wait(TIMEOUTS.TINY);
+        cy.get('#quickSwitchInput').type(guest.username).wait(TIMEOUTS.HALF_SEC);
 
         // * Verify if Guest badge is displayed for the guest user in the Switch Channel Dialog
         cy.get('#suggestionList').should('be.visible');
@@ -166,10 +166,10 @@ describe('MM-18045 Verify Guest User Identification in different screens', () =>
 
     it('Verify Guest Badge in DM Search dialog', () => {
         // #Click on plus icon of Direct Messages
-        cy.get('#addDirectChannel').click().wait(TIMEOUTS.TINY);
+        cy.get('#addDirectChannel').click().wait(TIMEOUTS.HALF_SEC);
 
         // # Search for the Guest User
-        cy.focused().type(guest.username, {force: true}).wait(TIMEOUTS.TINY);
+        cy.focused().type(guest.username, {force: true}).wait(TIMEOUTS.HALF_SEC);
         cy.get('#multiSelectList').should('be.visible').within(($el) => {
             // * Verify if Guest badge is displayed in the DM Search
             cy.wrap($el).find('.Badge').should('be.visible').and('have.text', 'GUEST');
@@ -181,9 +181,9 @@ describe('MM-18045 Verify Guest User Identification in different screens', () =>
 
     it('Verify Guest Badge in DM header and GM header', () => {
         // # Open a DM with Guest User
-        cy.get('#addDirectChannel').click().wait(TIMEOUTS.TINY);
-        cy.focused().type(guest.username, {force: true}).type('{enter}', {force: true}).wait(TIMEOUTS.TINY);
-        cy.get('#saveItems').click().wait(TIMEOUTS.TINY);
+        cy.get('#addDirectChannel').click().wait(TIMEOUTS.HALF_SEC);
+        cy.focused().type(guest.username, {force: true}).type('{enter}', {force: true}).wait(TIMEOUTS.HALF_SEC);
+        cy.get('#saveItems').click().wait(TIMEOUTS.HALF_SEC);
 
         // * Verify Guest Badge in DM header
         cy.get('#channelHeaderTitle').should('be.visible').find('.Badge').should('be.visible').and('have.text', 'GUEST');
@@ -192,10 +192,10 @@ describe('MM-18045 Verify Guest User Identification in different screens', () =>
         });
 
         // # Open a GM with Guest User and Sysadmin
-        cy.get('#addDirectChannel').click().wait(TIMEOUTS.TINY);
-        cy.focused().type(guest.username, {force: true}).type('{enter}', {force: true}).wait(TIMEOUTS.TINY);
-        cy.focused().type('sysadmin', {force: true}).type('{enter}', {force: true}).wait(TIMEOUTS.TINY);
-        cy.get('#saveItems').click().wait(TIMEOUTS.TINY);
+        cy.get('#addDirectChannel').click().wait(TIMEOUTS.HALF_SEC);
+        cy.focused().type(guest.username, {force: true}).type('{enter}', {force: true}).wait(TIMEOUTS.HALF_SEC);
+        cy.focused().type('sysadmin', {force: true}).type('{enter}', {force: true}).wait(TIMEOUTS.HALF_SEC);
+        cy.get('#saveItems').click().wait(TIMEOUTS.HALF_SEC);
 
         // * Verify Guest Badge in GM header
         cy.get('#channelHeaderTitle').should('be.visible').find('.Badge').should('be.visible').and('have.text', 'GUEST');

@@ -66,7 +66,7 @@ describe('Messaging', () => {
         // # Get first reply and scroll into view
         cy.getNthPostId(-maxReplyCount).then((replyId) => {
             cy.get(`#postMessageText_${replyId}`).scrollIntoView();
-            cy.wait(TIMEOUTS.TINY);
+            cy.wait(TIMEOUTS.HALF_SEC);
         });
 
         // # Type new message to reply text box and verify last reply

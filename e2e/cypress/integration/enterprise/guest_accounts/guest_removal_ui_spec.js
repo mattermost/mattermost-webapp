@@ -32,7 +32,7 @@ function removeUserFromAllChannels(verifyAlert, user) {
         if (channel === 'Town Square' || verifyAlert) {
             cy.get('#removeFromChannelModalLabel').should('be.visible').and('have.text', `Removed from ${channel}`);
             cy.get('.modal-body').should('be.visible').contains(`removed you from ${channel}`);
-            cy.get('#removedChannelBtn').should('be.visible').and('have.text', 'Okay').click().wait(TIMEOUTS.TINY);
+            cy.get('#removedChannelBtn').should('be.visible').and('have.text', 'Okay').click().wait(TIMEOUTS.HALF_SEC);
         }
     });
 }

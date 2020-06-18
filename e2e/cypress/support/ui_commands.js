@@ -16,7 +16,7 @@ Cypress.Commands.add('toMainChannelView', (username = 'user-1', password) => {
     cy.apiLogin(username, password);
     cy.visit('/ad-1/channels/town-square');
 
-    cy.get('#post_textbox', {timeout: TIMEOUTS.HUGE}).should('be.visible');
+    cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 });
 
 Cypress.Commands.add('getSubpath', () => {
@@ -113,7 +113,7 @@ Cypress.Commands.add('postMessageReplyInRHS', (message) => {
 });
 
 function postMessageAndWait(textboxSelector, message) {
-    cy.get(textboxSelector, {timeout: TIMEOUTS.LARGE}).should('be.visible').clear().type(`${message}{enter}`);
+    cy.get(textboxSelector, {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').clear().type(`${message}{enter}`);
     cy.waitUntil(() => {
         return cy.get(textboxSelector).then((el) => {
             return el[0].textContent === '';
@@ -150,10 +150,10 @@ Cypress.Commands.add('uiWaitUntilMessagePostedIncludes', (message) => {
         });
     };
 
-    // Wait for 5 seconds with 200ms check interval
+    // Wait for 5 seconds with 500ms check interval
     const options = {
-        timeout: TIMEOUTS.SMALL,
-        interval: 200,
+        timeout: TIMEOUTS.FIVE_SEC,
+        interval: TIMEOUTS.HALF_SEC,
         errorMsg: `Expected "${message}" to be in the last message posted but not found.`,
     };
 
@@ -189,7 +189,7 @@ Cypress.Commands.add('getNthPostId', (index = 0) => {
  */
 Cypress.Commands.add('postMessageFromFile', (file, target = '#post_textbox') => {
     cy.fixture(file, 'utf-8').then((text) => {
-        cy.get(target).clear().invoke('val', text).wait(TIMEOUTS.TINY).type(' {backspace}{enter}').should('have.text', '');
+        cy.get(target).clear().invoke('val', text).wait(TIMEOUTS.HALF_SEC).type(' {backspace}{enter}').should('have.text', '');
     });
 });
 
@@ -198,7 +198,7 @@ Cypress.Commands.add('postMessageFromFile', (file, target = '#post_textbox') => 
  * instead of typing into it which takes longer period of time.
  * @param {String} file - includes path and filename relative to cypress/fixtures
  */
-Cypress.Commands.add('compareLastPostHTMLContentFromFile', (file, timeout = TIMEOUTS.MEDIUM) => {
+Cypress.Commands.add('compareLastPostHTMLContentFromFile', (file, timeout = TIMEOUTS.TEN_SEC) => {
     // * Verify that HTML Content is correct
     cy.getLastPostId().then((postId) => {
         const postMessageTextId = `#postMessageText_${postId}`;
@@ -216,11 +216,11 @@ Cypress.Commands.add('compareLastPostHTMLContentFromFile', (file, timeout = TIME
 function clickPostHeaderItem(postId, location, item) {
     if (postId) {
         cy.get(`#post_${postId}`).trigger('mouseover', {force: true});
-        cy.wait(TIMEOUTS.TINY).get(`#${location}_${item}_${postId}`).click({force: true});
+        cy.wait(TIMEOUTS.HALF_SEC).get(`#${location}_${item}_${postId}`).click({force: true});
     } else {
         cy.getLastPostId().then((lastPostId) => {
             cy.get(`#post_${lastPostId}`).trigger('mouseover', {force: true});
-            cy.wait(TIMEOUTS.TINY).get(`#${location}_${item}_${lastPostId}`).click({force: true});
+            cy.wait(TIMEOUTS.HALF_SEC).get(`#${location}_${item}_${lastPostId}`).click({force: true});
         });
     }
 }
@@ -385,7 +385,7 @@ Cypress.Commands.add('userStatus', (statusInt) => {
 // ************************************************************
 
 Cypress.Commands.add('getCurrentChannelId', () => {
-    return cy.get('#channel-header', {timeout: TIMEOUTS.LARGE}).invoke('attr', 'data-channelid');
+    return cy.get('#channel-header', {timeout: TIMEOUTS.HALF_MIN}).invoke('attr', 'data-channelid');
 });
 
 /**
@@ -404,7 +404,7 @@ Cypress.Commands.add('updateChannelHeader', (text) => {
         clear().
         type(text).
         type('{enter}').
-        wait(TIMEOUTS.TINY);
+        wait(TIMEOUTS.HALF_SEC);
 });
 
 /**
@@ -436,8 +436,8 @@ Cypress.Commands.add('checkRunLDAPSync', () => {
                 });
             }
             , {
-                timeout: TIMEOUTS.FOUR_MINS,
-                interval: 2000,
+                timeout: TIMEOUTS.FIVE_MIN,
+                interval: TIMEOUTS.TWO_SEC,
                 errorMsg: 'AD/LDAP Sync Job did not finish',
             });
         }

@@ -39,13 +39,13 @@ describe('Post Header', () => {
             cy.url().should('include', `/ad-1/channels/town-square/${postId}`);
 
             // * Check if url redirects back to parent path eventually
-            cy.wait(TIMEOUTS.SMALL).url().should('include', '/ad-1/channels/town-square').and('not.include', `/${postId}`);
+            cy.wait(TIMEOUTS.FIVE_SEC).url().should('include', '/ad-1/channels/town-square').and('not.include', `/${postId}`);
 
             // * Check that the post is highlighted on permalink view
             cy.get(divPostId).should('be.visible').and('have.class', 'post--highlight');
 
             // * Check that the highlight is removed after a period of time
-            cy.wait(TIMEOUTS.TINY).get(divPostId).should('be.visible').and('not.have.class', 'post--highlight');
+            cy.wait(TIMEOUTS.HALF_SEC).get(divPostId).should('be.visible').and('not.have.class', 'post--highlight');
 
             // * Check the said post not highlighted
             cy.get(divPostId).should('be.visible').should('not.have.class', 'post--highlight');
@@ -241,7 +241,7 @@ describe('Post Header', () => {
         // * Verify that the RHS for pinned posts is opened.
         cy.get('#searchContainer').should('be.visible').within(() => {
             // * Check that searching indicator appears before the pinned posts are loaded
-            cy.get('#loadingSpinner', {timeout: TIMEOUTS.SMALL}).should('be.visible').and('have.text', 'Searching...');
+            cy.get('#loadingSpinner', {timeout: TIMEOUTS.FIVE_SEC}).should('be.visible').and('have.text', 'Searching...');
             cy.get('#search-items-container').should('be.visible');
 
             // # Close the RHS

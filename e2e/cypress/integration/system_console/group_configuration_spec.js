@@ -7,6 +7,8 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
+
 function teamOrChannelIsPresent(name) {
     cy.get('.group-teams-and-channels-row').should('be.visible');
     cy.get('.group-teams-and-channels-row').findByText(name);
@@ -38,7 +40,7 @@ function changeRole(name) {
 
 function savePage() {
     cy.get('#saveSetting').click();
-    cy.wait(2000); // eslint-disable-line cypress/no-unnecessary-waiting
+    cy.wait(TIMEOUTS.TWO_SEC); // eslint-disable-line cypress/no-unnecessary-waiting
 }
 
 function removeAndConfirm(name) {

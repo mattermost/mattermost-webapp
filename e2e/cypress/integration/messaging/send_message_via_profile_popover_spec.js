@@ -30,7 +30,7 @@ describe('Profile popover', () => {
                 newUser = user;
 
                 cy.apiGetChannelByName('ad-1', 'town-square').then((channelRes) => {
-                    cy.postMessageAs({sender: newUser, message, channelId: channelRes.body.id}).wait(TIMEOUTS.SMALL);
+                    cy.postMessageAs({sender: newUser, message, channelId: channelRes.body.id}).wait(TIMEOUTS.FIVE_SEC);
                 });
             });
         });
@@ -71,25 +71,25 @@ function verifyDMChannelViaSendMessage(postId, profileSelector, user) {
     cy.visit('/ad-1/channels/town-square');
 
     // # Visit post thread on RHS and verify that RHS is opened
-    cy.wait(TIMEOUTS.TINY);
+    cy.wait(TIMEOUTS.HALF_SEC);
     cy.clickPostCommentIcon(postId);
     cy.get('#rhsContainer').should('be.visible');
 
     // # Open profile popover with the given selector
-    cy.wait(TIMEOUTS.TINY);
+    cy.wait(TIMEOUTS.HALF_SEC);
     cy.get(`#rhsPost_${postId}`).should('be.visible').within(() => {
         cy.get(profileSelector).should('be.visible').click();
     });
 
     // * Verify that profile popover is opened
-    cy.wait(TIMEOUTS.TINY);
+    cy.wait(TIMEOUTS.HALF_SEC);
     cy.get('#user-profile-popover').should('be.visible').within(() => {
         // # Click "Send Message" on profile popover
         cy.findByText('Send Message').should('be.visible').click();
     });
 
     // * Verify that profile popover is closed
-    cy.wait(TIMEOUTS.TINY);
+    cy.wait(TIMEOUTS.HALF_SEC);
     cy.get('#user-profile-popover').should('not.be.visible');
 
     // * Verify that it redirects into the DM channel and matches channel intro

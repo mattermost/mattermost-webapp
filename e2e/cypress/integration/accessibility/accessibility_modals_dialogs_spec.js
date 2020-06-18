@@ -198,7 +198,7 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
             cy.get('#selectItems input').should('have.attr', 'aria-label', 'Search and add members').and('have.attr', 'aria-autocomplete', 'list');
 
             // # Search for a text and then check up and down arrow
-            cy.get('#selectItems input').type('u', {force: true}).wait(TIMEOUTS.TINY).type('{downarrow}{downarrow}{downarrow}{uparrow}', {force: true});
+            cy.get('#selectItems input').type('u', {force: true}).wait(TIMEOUTS.HALF_SEC).type('{downarrow}{downarrow}{downarrow}{uparrow}', {force: true});
             cy.get('#multiSelectList').children().eq(2).should('have.class', 'more-modal__row--selected').within(() => {
                 cy.get('.more-modal__name').invoke('text').then((user) => {
                     selectedRowText = user.split(' - ')[0].replace('@', '');
@@ -238,7 +238,7 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
             cy.get('.modal-header button.close').should('have.attr', 'aria-label', 'Close');
 
             // * Verify the accessibility support in search input
-            cy.get('#searchUsersInput').should('have.attr', 'placeholder', 'Search users').focus().type(' {backspace}').wait(TIMEOUTS.TINY).tab({shift: true}).tab().tab();
+            cy.get('#searchUsersInput').should('have.attr', 'placeholder', 'Search users').focus().type(' {backspace}').wait(TIMEOUTS.HALF_SEC).tab({shift: true}).tab().tab();
 
             // * Verify channel name is highlighted and reader reads the channel name
             cy.get('.more-modal__list>div').children().eq(0).as('selectedRow');
