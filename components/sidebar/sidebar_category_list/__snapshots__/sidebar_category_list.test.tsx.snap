@@ -95,6 +95,7 @@ exports[`components/sidebar/sidebar_category_list should match snapshot 2`] = `
         "sorting": "alpha",
         "team_id": "team1",
         "type": "custom",
+        "user_id": "",
       }
     }
     categoryIndex={0}
@@ -202,6 +203,7 @@ exports[`components/sidebar/sidebar_category_list should match snapshot when unr
         "sorting": "alpha",
         "team_id": "team1",
         "type": "custom",
+        "user_id": "",
       }
     }
     categoryIndex={0}
