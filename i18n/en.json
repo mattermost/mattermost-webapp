@@ -937,7 +937,7 @@
   "admin.ldap.usernameAttrTitle": "Username Attribute:",
   "admin.license.choose": "Choose File",
   "admin.license.edition": "Edition: ",
-  "admin.license.enterprise": "Upgrade to Enterprise:",
+  "admin.license.enterprise-edition-license": "Enterprise Edition License:",
   "admin.license.enterprise.restart": "Restarting",
   "admin.license.enterprise.upgrade": "Upgrade to Enterprise Edition",
   "admin.license.enterprise.upgrading": "Upgrading {percentage}%",
