@@ -154,7 +154,7 @@ describe('MM-23102 - Channel Moderation - Manage Members', () => {
         cy.get('#all_users-public_channel-manage_public_channel_members').scrollIntoView().should('be.visible').click();
         cy.findByTestId('all_users-public_channel-manage_public_channel_members-checkbox').should('not.have.class', 'checked');
         saveConfigForScheme(false);
-        cy.wait(TIMEOUTS.SMALL);
+        cy.wait(TIMEOUTS.FIVE_SEC);
 
         // * Assert that Manage Members is disabled for members and a message is displayed
         visitChannelConfigPage(testChannel);
@@ -175,7 +175,7 @@ describe('MM-23102 - Channel Moderation - Manage Members', () => {
         cy.get('#all_users-public_channel-manage_public_channel_members').scrollIntoView().should('be.visible').click();
         cy.findByTestId('all_users-public_channel-manage_public_channel_members-checkbox').should('have.class', 'checked');
         saveConfigForScheme(false);
-        cy.wait(TIMEOUTS.SMALL);
+        cy.wait(TIMEOUTS.FIVE_SEC);
 
         visitChannelConfigPage(testChannel);
         cy.findByTestId('admin-channel_settings-channel_moderation-manageMembers-disabledMember').

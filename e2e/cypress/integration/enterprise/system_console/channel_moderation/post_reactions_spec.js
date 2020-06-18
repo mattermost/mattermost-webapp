@@ -210,7 +210,7 @@ describe('MM-23102 - Channel Moderation - Post Reactions', () => {
         saveConfigForScheme(false);
 
         // # Wait until the groups have been saved (since it redirects you)
-        cy.wait(TIMEOUTS.TINY * 2);
+        cy.wait(TIMEOUTS.ONE_SEC);
 
         visitChannelConfigPage(testChannel);
 

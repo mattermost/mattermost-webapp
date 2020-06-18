@@ -42,7 +42,7 @@ describe('Verify Accessibility Support in Dropdown Menus', () => {
 
     beforeEach(() => {
         // Visit the Off Topic channel
-        cy.visit(`/${testTeam.name}/channels/off-topic`).wait(TIMEOUTS.SMALL);
+        cy.visit(`/${testTeam.name}/channels/off-topic`).wait(TIMEOUTS.FIVE_SEC);
     });
 
     it('MM-22627 Accessibility Support in Channel Menu Dropdown', () => {

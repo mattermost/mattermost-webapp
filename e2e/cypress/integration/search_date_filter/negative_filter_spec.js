@@ -20,7 +20,7 @@ describe('Negative search filters will omit results', () => {
         cy.get('#searchBox').clear().wait(500).type(query).wait(500).type('{enter}');
 
         cy.get('#loadingSpinner').should('not.be.visible');
-        cy.get('#search-items-container', {timeout: TIMEOUTS.HUGE}).should('be.visible');
+        cy.get('#search-items-container', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
     }
 
     function searchAndVerify(query) {
@@ -51,7 +51,7 @@ describe('Negative search filters will omit results', () => {
             cy.visit(`/${team.name}/channels/town-square`);
 
             // # Create a post from today
-            cy.get('#postListContent', {timeout: TIMEOUTS.LARGE}).should('be.visible');
+            cy.get('#postListContent', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible');
             cy.postMessage(message);
         });
     });

@@ -40,7 +40,7 @@ const assertGroupMentionDisabled = (groupName) => {
     cy.visit(`/${testTeam.name}/channels/town-square`);
 
     // # Type suggestion in channel post text box
-    cy.get('#post_textbox').should('be.visible').clear().type(`@${suggestion}`).wait(TIMEOUTS.TINY);
+    cy.get('#post_textbox').should('be.visible').clear().type(`@${suggestion}`).wait(TIMEOUTS.HALF_SEC);
 
     // * Should not open up suggestion list for groups
     cy.get('#suggestionList').should('not.be.visible');
@@ -80,7 +80,7 @@ const assertGroupMentionEnabled = (groupName) => {
     cy.visit(`/${testTeam.name}/channels/town-square`);
 
     // # Type suggestion in channel post text box
-    cy.get('#post_textbox').should('be.visible').clear().type(`@${suggestion}`).wait(TIMEOUTS.TINY);
+    cy.get('#post_textbox').should('be.visible').clear().type(`@${suggestion}`).wait(TIMEOUTS.HALF_SEC);
 
     // * Should open up suggestion list for groups
     // * Should match group item and group label

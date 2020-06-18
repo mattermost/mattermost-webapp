@@ -86,7 +86,7 @@ describe('Guest Account - Guest User Experience', () => {
         cy.get('#member_popover').click();
 
         // * Verify list of Users in Direct Messages Dialog
-        cy.get('#addDirectChannel').click().wait(TIMEOUTS.SMALL);
+        cy.get('#addDirectChannel').click().wait(TIMEOUTS.FIVE_SEC);
         cy.get('#multiSelectList').should('be.visible').within(($el) => {
             // * Verify only 3 users - Guest, regular member and sysadmin is listed
             cy.wrap($el).children().should('have.length', 3);
@@ -98,7 +98,7 @@ describe('Guest Account - Guest User Experience', () => {
         cy.getLastPostId().then((postId) => {
             cy.get(`#post_${postId}`).within(($el) => {
                 cy.wrap($el).find('.post__header .Badge').should('be.visible');
-                cy.wrap($el).find('.post__header .user-popover').should('be.visible').click().wait(TIMEOUTS.TINY);
+                cy.wrap($el).find('.post__header .user-popover').should('be.visible').click().wait(TIMEOUTS.HALF_SEC);
             });
         });
 
@@ -115,7 +115,7 @@ describe('Guest Account - Guest User Experience', () => {
 
         // * Verify list of Users a Guest User can see in Team Members dialog
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
-        cy.get('#viewMembers').click().wait(TIMEOUTS.SMALL);
+        cy.get('#viewMembers').click().wait(TIMEOUTS.FIVE_SEC);
         cy.get('#searchableUserListTotal').should('be.visible').and('have.text', '1 - 3 members of 3 total');
     });
 
@@ -169,7 +169,7 @@ describe('Guest Account - Guest User Experience', () => {
         cy.getLastPostId().then((postId) => {
             cy.get(`#post_${postId}`).within(($el) => {
                 cy.wrap($el).find('.post__header .Badge').should('not.exist');
-                cy.wrap($el).find('.post__header .user-popover').should('be.visible').click().wait(TIMEOUTS.TINY);
+                cy.wrap($el).find('.post__header .user-popover').should('be.visible').click().wait(TIMEOUTS.HALF_SEC);
             });
         });
 
