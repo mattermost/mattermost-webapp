@@ -7,23 +7,20 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @messaging
 
-import users from '../../fixtures/users.json';
-
-const sysadmin = users.sysadmin;
+import {getAdminAccount} from '../../support/env';
 
 describe('Message Reply', () => {
+    const sysadmin = getAdminAccount();
     let newChannel;
 
     before(() => {
-        // # Login and go to /
-        cy.apiLogin('user-1');
-        cy.apiSaveTeammateNameDisplayPreference('username');
-
         // # Create and visit new channel
-        cy.createAndVisitNewChannel().then((channel) => {
+        cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
             newChannel = channel;
+            cy.visit(`/${team.name}/channels/${channel.name}`);
         });
     });
 
@@ -52,13 +49,13 @@ describe('Message Reply', () => {
             cy.getLastPostId().then((replyId) => {
                 // * Verify that the reply is in the channel view with matching text
                 cy.get(`#post_${replyId}`).within(() => {
-                    cy.queryByTestId('post-link').should('be.visible').and('have.text', 'Commented on sysadmin\'s message: Hello from yesterday');
+                    cy.findByTestId('post-link').should('be.visible').and('have.text', 'Commented on sysadmin\'s message: Hello from yesterday');
                     cy.get(`#postMessageText_${replyId}`).should('be.visible').and('have.text', 'A reply to an older post with attachment');
                 });
 
                 // * Verify that the reply is in the RHS with matching text
                 cy.get(`#rhsPost_${replyId}`).within(() => {
-                    cy.queryByTestId('post-link').should('not.be.visible');
+                    cy.findByTestId('post-link').should('not.be.visible');
                     cy.get(`#rhsPostMessageText_${replyId}`).should('be.visible').and('have.text', 'A reply to an older post with attachment');
                 });
 
