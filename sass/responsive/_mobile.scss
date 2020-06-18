@@ -1409,6 +1409,10 @@
             font-size: 17px;
             font-weight: bold;
         }
+
+        .Menu .MenuItem.MenuItem--with-icon .MenuItem__help-text {
+            padding-left: 0;
+        }
     }
 
     .sidebar--left {

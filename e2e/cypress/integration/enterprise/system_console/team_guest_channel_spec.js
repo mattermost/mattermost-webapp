@@ -15,7 +15,7 @@ import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 const permissions = ['create_private_channel', 'edit_post', 'delete_post', 'reactions', 'use_channel_mentions', 'use_group_mentions'];
 const getButtonId = (permission) => {
-    return 'guests-' + permission + '-checkbox';
+    return 'guests-guest_' + permission + '-checkbox';
 };
 
 const disableAllGuestPermissions = () => {
@@ -52,7 +52,6 @@ describe('Team Scheme Guest Permissions Test', () => {
     before(() => {
         // * Check if server has license
         cy.requireLicense();
-        cy.apiLogin('sysadmin');
     });
 
     it('MM- - Enable and Disable all guest permission', () => {

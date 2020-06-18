@@ -57,7 +57,7 @@ Cypress.Commands.add('toAccountSettingsModal', () => {
  * Change the message display setting
  * @param {String} setting - as 'STANDARD' or 'COMPACT'
  */
-Cypress.Commands.add('changeMessageDisplaySetting', (setting = 'STANDARD') => {
+Cypress.Commands.add('uiChangeMessageDisplaySetting', (setting = 'STANDARD') => {
     const SETTINGS = {STANDARD: '#message_displayFormatA', COMPACT: '#message_displayFormatB'};
 
     cy.toAccountSettingsModal();
@@ -105,18 +105,21 @@ function isMac() {
 // ***********************************************************
 
 Cypress.Commands.add('postMessage', (message) => {
-    cy.get('#post_textbox', {timeout: TIMEOUTS.LARGE}).clear().type(message).type('{enter}');
-    cy.waitUntil(() => {
-        return cy.get('#post_textbox').then((el) => {
-            return el[0].textContent === '';
-        });
-    });
+    postMessageAndWait('#post_textbox', message);
 });
 
 Cypress.Commands.add('postMessageReplyInRHS', (message) => {
-    cy.get('#reply_textbox').should('be.visible').clear().type(message).type('{enter}');
-    cy.wait(TIMEOUTS.TINY);
+    postMessageAndWait('#reply_textbox', message);
 });
+
+function postMessageAndWait(textboxSelector, message) {
+    cy.get(textboxSelector, {timeout: TIMEOUTS.LARGE}).should('be.visible').clear().type(`${message}{enter}`);
+    cy.waitUntil(() => {
+        return cy.get(textboxSelector).then((el) => {
+            return el[0].textContent === '';
+        });
+    });
+}
 
 function waitUntilPermanentPost() {
     cy.get('#postListContent').should('be.visible');
@@ -134,6 +137,27 @@ Cypress.Commands.add('getLastPostId', () => {
 
     cy.findAllByTestId('postView').last().should('have.attr', 'id').and('not.include', ':').
         invoke('replace', 'post_', '');
+});
+
+/**
+ * @see `cy.uiWaitUntilMessagePostedIncludes` at ./ui_commands.d.ts
+ */
+Cypress.Commands.add('uiWaitUntilMessagePostedIncludes', (message) => {
+    const checkFn = () => {
+        return cy.getLastPost().then((el) => {
+            const postedMessageEl = el.find('.post-message__text')[0];
+            return Boolean(postedMessageEl && postedMessageEl.textContent.includes(message));
+        });
+    };
+
+    // Wait for 5 seconds with 200ms check interval
+    const options = {
+        timeout: TIMEOUTS.SMALL,
+        interval: 200,
+        errorMsg: `Expected "${message}" to be in the last message posted but not found.`,
+    };
+
+    return cy.waitUntil(checkFn, options);
 });
 
 Cypress.Commands.add('getLastPostIdRHS', () => {
@@ -381,119 +405,6 @@ Cypress.Commands.add('updateChannelHeader', (text) => {
         type(text).
         type('{enter}').
         wait(TIMEOUTS.TINY);
-});
-
-/**
- * On default "ad-1" team, create and visit a new channel
- */
-Cypress.Commands.add('createAndVisitNewChannel', (channelName = 'channel-test') => {
-    cy.visit('/ad-1/channels/town-square');
-
-    cy.getCurrentTeamId().then((teamId) => {
-        cy.apiCreateChannel(teamId, channelName, 'Channel Test').then((res) => {
-            const channel = res.body;
-
-            // # Visit the new channel
-            cy.visit(`/ad-1/channels/${channel.name}`);
-
-            // * Verify channel's display name
-            cy.get('#channelHeaderTitle').should('contain', channel.display_name);
-
-            cy.wrap(channel);
-        });
-    });
-});
-
-/**
- * On default "ad-1" team, create and visit a new direct message between user-1 and the provided user
- * @param {String} user - Username of user to open DM with
- */
-Cypress.Commands.add('createAndVisitNewDirectMessageWith', (user) => {
-    cy.visit('/ad-1/channels/town-square');
-
-    cy.apiGetUsers(['user-1', user]).then((userResponse) => {
-        const userEmailArray = [userResponse.body[1].id, userResponse.body[0].id];
-
-        cy.apiCreateDirectChannel(userEmailArray).then((res) => {
-            const channel = res.body;
-
-            // # Visit the new channel
-            cy.visit(`/ad-1/channels/${channel.name}`);
-
-            // * Verify channel's display name
-            cy.get('#channelHeaderTitle').should('contain', channel.display_name);
-
-            cy.wrap(channel);
-        });
-    });
-});
-
-/**
- * On default "ad-1" team, create and visit a new group message between user-1 and the provided users
- * @param {Array} usernames - Array of usernames of the users to open GM with
- */
-Cypress.Commands.add('createAndVisitNewGroupMessageWith', (usernames) => {
-    cy.visit('/ad-1/channels/town-square');
-
-    cy.apiGetUsers(usernames).then((userResponse) => {
-        const userEmailArray = userResponse.body.map((u) => u.id);
-
-        cy.apiCreateGroupChannel(userEmailArray).then((res) => {
-            const channel = res.body;
-
-            // # Visit the new channel
-            cy.visit(`/ad-1/channels/${channel.name}`);
-
-            // The display name does not contain the logged in user
-            const names = channel.display_name.split(', ');
-            names.splice(names.indexOf('user-1'), 1);
-
-            // * Verify channel's display name
-            cy.get('#channelHeaderTitle').should('contain', names.join(', '));
-
-            cy.wrap(channel);
-        });
-    });
-});
-
-// ***********************************************************
-// File Upload
-// ************************************************************
-
-/**
- * Upload a file on target input given a filename and mime type
- * @param {String} targetInput - Target input to upload a file
- * @param {String} fileName - Filename to upload from the fixture
- * @param {String} mimeType - Mime type of a file
- */
-Cypress.Commands.add('fileUpload', (targetInput, fileName = 'mattermost-icon.png', mimeType = 'image/png') => {
-    cy.fixture(fileName).then((fileContent) => {
-        cy.get(targetInput).upload(
-            {fileContent, fileName, mimeType},
-            {subjectType: 'input', force: true},
-        );
-    });
-});
-
-/**
- * Upload a file on target input in binary format -
- * @param {String} targetInput - #LocatorID
- * @param {String} fileName - Filename to upload from the fixture Ex: drawPlugin-binary.tar
- * @param {String} fileType - application/gzip
- */
-Cypress.Commands.add('uploadFile', {prevSubject: true}, (targetInput, fileName, fileType) => {
-    cy.log('Upload process started .FileName:' + fileName);
-    cy.fixture(fileName, 'binary').then((content) => {
-        return Cypress.Blob.binaryStringToBlob(content, fileType).then((blob) => {
-            const el = targetInput[0];
-            cy.log('el:' + el);
-            const testFile = new File([blob], fileName, {type: fileType});
-            const dataTransfer = new DataTransfer();
-            dataTransfer.items.add(testFile);
-            el.files = dataTransfer.files;
-            cy.wrap(targetInput).trigger('change', {force: true});
-        });
-    });
 });
 
 /**
