@@ -6,7 +6,7 @@ exports[`components/sidebar/sidebar_category/sidebar_category_menu should match 
     ariaLabel="Category Menu"
     buttonAriaLabel="Category Menu"
     id="SidebarCategoryMenu-category1"
-    onToggle={[MockFunction]}
+    onToggle={[Function]}
     tooltipText="Category options"
   >
     <MenuGroup>
@@ -57,7 +57,7 @@ exports[`components/sidebar/sidebar_category/sidebar_category_menu should match 
     ariaLabel="Category Menu"
     buttonAriaLabel="Category Menu"
     id="SidebarCategoryMenu-category1"
-    onToggle={[MockFunction]}
+    onToggle={[Function]}
     tooltipText="Category options"
   >
     <MenuGroup />

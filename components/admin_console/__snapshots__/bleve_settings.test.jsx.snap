@@ -80,7 +80,7 @@ exports[`components/BleveSettings should match snapshot, disabled 1`] = `
         id="indexDir"
         label={
           <FormattedMessage
-            defaultMessage="IndexDir:"
+            defaultMessage="Index Directory:"
             id="admin.bleve.indexDirTitle"
             values={Object {}}
           />
@@ -146,7 +146,7 @@ exports[`components/BleveSettings should match snapshot, disabled 1`] = `
         }
         helpText={
           <FormattedMessage
-            defaultMessage="Purging will entirely remove the indexes on the Bleve server. Search results may be incomplete until a bulk index of the existing database is rebuilt."
+            defaultMessage="Purging will entirely remove the content of the Bleve index directory. Search results may be incomplete until a bulk index of the existing database is rebuilt."
             id="admin.bleve.purgeIndexesHelpText"
             values={Object {}}
           />
@@ -181,7 +181,7 @@ exports[`components/BleveSettings should match snapshot, disabled 1`] = `
         }
         helpText={
           <FormattedMessage
-            defaultMessage="Requires a successful connection to the Bleve server. When true, Bleve will be used for all search queries using the latest index. Search results may be incomplete until a bulk index of the existing post database is finished. When false, database search is used."
+            defaultMessage="When true, Bleve will be used for all search queries using the latest index. Search results may be incomplete until a bulk index of the existing post database is finished. When false, database search is used."
             id="admin.bleve.enableSearchingDescription"
             values={Object {}}
           />
@@ -216,7 +216,7 @@ exports[`components/BleveSettings should match snapshot, disabled 1`] = `
         }
         helpText={
           <FormattedMessage
-            defaultMessage="Requires a successful connection to the Bleve server. When true, Bleve will be used for all autocompletion queries on users and channels using the latest index. Autocompletion results may be incomplete until a bulk index of the existing users and channels database is finished. When false, database autocomplete is used."
+            defaultMessage="When true, Bleve will be used for all autocompletion queries on users and channels using the latest index. Autocompletion results may be incomplete until a bulk index of the existing users and channels database is finished. When false, database autocomplete is used."
             id="admin.bleve.enableAutocompleteDescription"
             values={Object {}}
           />
@@ -366,7 +366,7 @@ exports[`components/BleveSettings should match snapshot, enabled 1`] = `
         id="indexDir"
         label={
           <FormattedMessage
-            defaultMessage="IndexDir:"
+            defaultMessage="Index Directory:"
             id="admin.bleve.indexDirTitle"
             values={Object {}}
           />
@@ -432,7 +432,7 @@ exports[`components/BleveSettings should match snapshot, enabled 1`] = `
         }
         helpText={
           <FormattedMessage
-            defaultMessage="Purging will entirely remove the indexes on the Bleve server. Search results may be incomplete until a bulk index of the existing database is rebuilt."
+            defaultMessage="Purging will entirely remove the content of the Bleve index directory. Search results may be incomplete until a bulk index of the existing database is rebuilt."
             id="admin.bleve.purgeIndexesHelpText"
             values={Object {}}
           />
@@ -467,7 +467,7 @@ exports[`components/BleveSettings should match snapshot, enabled 1`] = `
         }
         helpText={
           <FormattedMessage
-            defaultMessage="Requires a successful connection to the Bleve server. When true, Bleve will be used for all search queries using the latest index. Search results may be incomplete until a bulk index of the existing post database is finished. When false, database search is used."
+            defaultMessage="When true, Bleve will be used for all search queries using the latest index. Search results may be incomplete until a bulk index of the existing post database is finished. When false, database search is used."
             id="admin.bleve.enableSearchingDescription"
             values={Object {}}
           />
@@ -502,7 +502,7 @@ exports[`components/BleveSettings should match snapshot, enabled 1`] = `
         }
         helpText={
           <FormattedMessage
-            defaultMessage="Requires a successful connection to the Bleve server. When true, Bleve will be used for all autocompletion queries on users and channels using the latest index. Autocompletion results may be incomplete until a bulk index of the existing users and channels database is finished. When false, database autocomplete is used."
+            defaultMessage="When true, Bleve will be used for all autocompletion queries on users and channels using the latest index. Autocompletion results may be incomplete until a bulk index of the existing users and channels database is finished. When false, database autocomplete is used."
             id="admin.bleve.enableAutocompleteDescription"
             values={Object {}}
           />

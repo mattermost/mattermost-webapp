@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @enterprise @elasticsearch @autocomplete
 
 import {
@@ -23,8 +22,6 @@ describe('Autocomplete with Elasticsearch - Renaming', () => {
     let team;
 
     before(() => {
-        // # Login as admin
-        cy.apiLogin('sysadmin');
         cy.apiSaveTeammateNameDisplayPreference('username');
 
         // * Check if server has license for Elasticsearch

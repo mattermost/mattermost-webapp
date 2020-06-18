@@ -11,7 +11,6 @@ import * as TIMEOUTS from '../../../fixtures/timeouts';
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @enterprise @system_console
 
 const checkboxesTitleToIdMap = {
@@ -162,7 +161,7 @@ const resetSystemSchemePermissionsToDefault = () => {
     cy.visit('/admin_console/user_management/permissions/system_scheme');
     cy.findByTestId('resetPermissionsToDefault').click();
     cy.get('#confirmModalButton').click();
-    saveConfig();
+    saveConfigForScheme();
 };
 
 // # Goes to the permissions page and clicks edit or delete for a team override scheme
@@ -202,8 +201,8 @@ const goToPermissionsAndCreateTeamOverrideScheme = (schemeName) => {
     cy.get('#selectItems').click().type('eligendi');
     cy.get('#multiSelectList').should('be.visible').children().first().click({force: true});
     cy.get('#saveItems').should('be.visible').click();
-    saveConfig(false);
-    cy.wait(1000); //eslint-disable-line cypress/no-unnecessary-waiting
+    saveConfigForScheme(false);
+    cy.wait(TIMEOUTS.TINY * 2);
 };
 
 // # Visits the channel configuration for a channel with channelName
@@ -212,7 +211,29 @@ const visitChannelConfigPage = (channelName) => {
     cy.visit('/admin_console/user_management/channels');
     cy.findByTestId('search-input').type(`${channelName}{enter}`);
     cy.findByTestId(`${channelName}edit`).click();
-    cy.wait(1000); //eslint-disable-line cypress/no-unnecessary-waiting
+    cy.wait(TIMEOUTS.TINY * 2);
+};
+
+// # Saves channel config and navigates back to the channel config page if specified
+const saveConfigForChannel = (channelName = false, clickConfirmationButton = false) => {
+    cy.get('#saveSetting').then((btn) => {
+        if (btn.is(':enabled')) {
+            btn.click();
+
+            if (clickConfirmationButton) {
+                cy.get('#confirmModalButton').click();
+            }
+
+            // # Make sure the save is complete by looking for the search input which is only visible on the teams index page
+            cy.findByTestId('search-input').should('be.visible');
+
+            if (channelName) {
+                // # Search for the channel.
+                cy.findByTestId('search-input').type(`${channelName}{enter}`);
+                cy.findByTestId(`${channelName}edit`).click();
+            }
+        }
+    });
 };
 
 // # Visit the channel configuration page of Autem channel
@@ -223,10 +244,10 @@ const visitAutemChannelConfigPage = () => {
 // Clicks the save button in the system console page.
 // waitUntilConfigSaved: If we need to wait for the save button to go from saving -> save.
 // Usually we need to wait unless we are doing this in team override scheme
-const saveConfig = (waitUntilConfigSaved = true, clickConfirmationButton = false) => {
+const saveConfigForScheme = (waitUntilConfigSaved = true, clickConfirmationButton = false) => {
     // # Save if possible (if previous test ended abruptly all permissions may already be enabled)
     cy.get('#saveSetting').then((btn) => {
-        if (!btn.disabled) {
+        if (btn.is(':enabled')) {
             btn.click();
         }
     });
@@ -252,7 +273,7 @@ const viewManageChannelMembersModal = (viewOrManage) => {
 // # Checks to see if we got a system message warning after using @all/@here/@channel
 const postChannelMentionsAndVerifySystemMessageExist = () => {
     // # Type @all and post it to the channel
-    cy.findByTestId('post_textbox').clear().type('@all{enter}');
+    cy.postMessage('@all');
 
     // # Get last post message text
     cy.getLastPostId().then((postId) => {
@@ -261,7 +282,7 @@ const postChannelMentionsAndVerifySystemMessageExist = () => {
     });
 
     // # Type @here and post it to the channel
-    cy.findByTestId('post_textbox').clear().type('@here{enter}');
+    cy.postMessage('@here');
 
     // # Get last post message text
     cy.getLastPostId().then((postId) => {
@@ -269,7 +290,7 @@ const postChannelMentionsAndVerifySystemMessageExist = () => {
         cy.get(`#postMessageText_${postId}`).should('include.text', 'Channel notifications are disabled in aut-8. The @here did not trigger any notifications.');
     });
 
-    cy.findByTestId('post_textbox').clear().type('@channel{enter}');
+    cy.postMessage('@channel');
 
     // # Type last post message text
     cy.getLastPostId().then((postId) => {
@@ -280,7 +301,7 @@ const postChannelMentionsAndVerifySystemMessageExist = () => {
 
 // # Checks to see if we did not get a system message warning after using @all/@here/@channel
 const postChannelMentionsAndVerifySystemMessageNotExist = () => {
-    cy.findByTestId('post_textbox').clear().type('@all{enter}{enter}{enter}');
+    cy.postMessage('@all');
 
     // # Get last post message text
     cy.getLastPostId().then((postId) => {
@@ -288,7 +309,7 @@ const postChannelMentionsAndVerifySystemMessageNotExist = () => {
         cy.get(`#postMessageText_${postId}`).should('not.have.text', 'Channel notifications are disabled in aut-8. The @all did not trigger any notifications.');
     });
 
-    cy.findByTestId('post_textbox').clear().type('@here{enter}{enter}{enter}');
+    cy.postMessage('@here');
 
     // # Get last post message text
     cy.getLastPostId().then((postId) => {
@@ -296,7 +317,7 @@ const postChannelMentionsAndVerifySystemMessageNotExist = () => {
         cy.get(`#postMessageText_${postId}`).should('not.have.text', 'Channel notifications are disabled in aut-8. The @here did not trigger any notifications.');
     });
 
-    cy.findByTestId('post_textbox').clear().type('@channel{enter}{enter}{enter}');
+    cy.postMessage('@channel');
 
     // # Get last post message text
     cy.getLastPostId().then((postId) => {
@@ -344,7 +365,7 @@ describe('Channel Moderation Test', () => {
         // # Delete all Team Override Schemes
         deleteExistingTeamOverrideSchemes();
 
-        // // # Reset Autem Channel Moderation settings to default (everything on)
+        // # Reset Autem Channel Moderation settings to default (everything on)
         enableDisableAllChannelModeratedPermissionsViaAPI(autemChannelId);
     });
 
@@ -357,7 +378,7 @@ describe('Channel Moderation Test', () => {
 
             // # Uncheck the Create Posts option for Guests and Save
             disableChannelModeratedPermission(checkboxesTitleToIdMap.CREATE_POSTS_GUESTS);
-            saveConfig();
+            saveConfigForChannel();
 
             // # Login as a Guest user and visit the same channel
             visitAutemChannel(loginAs);
@@ -370,7 +391,7 @@ describe('Channel Moderation Test', () => {
             // # As a system admin, check the option to allow Create Posts for Guests and save
             visitAutemChannelConfigPage();
             enableChannelModeratedPermission(checkboxesTitleToIdMap.CREATE_POSTS_GUESTS);
-            saveConfig();
+            saveConfigForChannel();
 
             // # Login as a Guest user and visit the same channel
             visitAutemChannel(loginAs);
@@ -390,7 +411,7 @@ describe('Channel Moderation Test', () => {
 
             // # Uncheck the Create Posts option for Members and Save
             disableChannelModeratedPermission(checkboxesTitleToIdMap.CREATE_POSTS_MEMBERS);
-            saveConfig();
+            saveConfigForChannel();
 
             // # Login as a Guest user and visit Autem channel
             visitAutemChannel(loginAs);
@@ -403,7 +424,7 @@ describe('Channel Moderation Test', () => {
             // # As a system admin, check the option to allow Create Posts for Members and save
             visitAutemChannelConfigPage();
             enableChannelModeratedPermission(checkboxesTitleToIdMap.CREATE_POSTS_MEMBERS);
-            saveConfig();
+            saveConfigForChannel();
 
             // # Login as a Member user and visit the same channel
             visitAutemChannel(loginAs);
@@ -420,9 +441,9 @@ describe('Channel Moderation Test', () => {
         before(() => {
             // Post a few messages in the channel
             visitAutemChannel('sysadmin');
-            cy.findByTestId('post_textbox').clear().type('test123{enter}');
-            cy.findByTestId('post_textbox').clear().type('test123{enter}');
-            cy.findByTestId('post_textbox').clear().type('test123{enter}');
+            cy.postMessage('test123');
+            cy.postMessage('test123');
+            cy.postMessage('test123');
         });
 
         it('Post Reactions option for Guests', () => {
@@ -432,7 +453,7 @@ describe('Channel Moderation Test', () => {
 
             // # Uncheck the post reactions option for Guests and save
             disableChannelModeratedPermission(checkboxesTitleToIdMap.POST_REACTIONS_GUESTS);
-            saveConfig();
+            saveConfigForChannel();
 
             // # Login as a Guest user and visit the same channel
             visitAutemChannel(loginAs);
@@ -447,7 +468,7 @@ describe('Channel Moderation Test', () => {
             // # Visit Autem channel configuration page and enable post reactions for guest and save
             visitAutemChannelConfigPage();
             enableChannelModeratedPermission(checkboxesTitleToIdMap.POST_REACTIONS_GUESTS);
-            saveConfig();
+            saveConfigForChannel();
 
             visitAutemChannel(loginAs);
 
@@ -466,7 +487,7 @@ describe('Channel Moderation Test', () => {
 
             // # Uncheck the Create reactions option for Members and save
             disableChannelModeratedPermission(checkboxesTitleToIdMap.POST_REACTIONS_MEMBERS);
-            saveConfig();
+            saveConfigForChannel();
 
             // # Login as a Member user and visit the same channel
             visitAutemChannel(loginAs);
@@ -481,7 +502,7 @@ describe('Channel Moderation Test', () => {
             // # Visit Autem Channel configuration page and enable post reactions for memebers and save
             visitAutemChannelConfigPage();
             enableChannelModeratedPermission(checkboxesTitleToIdMap.POST_REACTIONS_MEMBERS);
-            saveConfig();
+            saveConfigForChannel();
 
             // # Login as a Member user and visit the same channel
             visitAutemChannel(loginAs);
@@ -498,8 +519,8 @@ describe('Channel Moderation Test', () => {
             // # Login as sysadmin and visit the Permissions page in the system console.
             // # Edit the System Scheme and remove the Post Reaction option for Guests & Save.
             goToSystemScheme();
-            cy.get('#guests-reactions').click();
-            saveConfig();
+            cy.get('#guests-guest_reactions').click();
+            saveConfigForScheme();
 
             // # Visit the Channels page and click on a channel.
             visitAutemChannelConfigPage();
@@ -514,7 +535,7 @@ describe('Channel Moderation Test', () => {
             // # Go to system admin page and then go to the system scheme and remove post reaction option for all members and save
             goToSystemScheme();
             cy.get('#all_users-posts-reactions').click();
-            saveConfig();
+            saveConfigForScheme();
 
             visitAutemChannelConfigPage();
 
@@ -562,10 +583,10 @@ describe('Channel Moderation Test', () => {
             // # Go to system admin page and then go to the system scheme and remove post reaction option for all members and save
             deleteOrEditTeamScheme('post_reactions', 'edit');
             cy.get('#all_users-posts-reactions').click();
-            saveConfig(false);
+            saveConfigForScheme(false);
 
             // # Wait until the groups have been saved (since it redirects you)
-            cy.wait(1000); //eslint-disable-line cypress/no-unnecessary-waiting
+            cy.wait(TIMEOUTS.TINY * 2);
 
             visitAutemChannelConfigPage();
 
@@ -604,7 +625,7 @@ describe('Channel Moderation Test', () => {
             // # Visit Autem channel page and turn off the Manage members for Members and then save
             visitAutemChannelConfigPage();
             disableChannelModeratedPermission(checkboxesTitleToIdMap.MANAGE_MEMBERS_MEMBERS);
-            saveConfig();
+            saveConfigForChannel();
 
             visitAutemChannel('user-1');
             viewManageChannelMembersModal('View');
@@ -615,7 +636,7 @@ describe('Channel Moderation Test', () => {
             // # Visit Autem channel page and turn off the Manage members for Members and then save
             visitAutemChannelConfigPage();
             enableChannelModeratedPermission(checkboxesTitleToIdMap.MANAGE_MEMBERS_MEMBERS);
-            saveConfig();
+            saveConfigForChannel();
 
             visitAutemChannel('user-1');
             viewManageChannelMembersModal('Manage');
@@ -628,7 +649,7 @@ describe('Channel Moderation Test', () => {
             // Edit the System Scheme and remove the Manage Members option for Members & Save.
             goToSystemScheme();
             cy.get('#all_users-public_channel-manage_public_channel_members').click();
-            saveConfig();
+            saveConfigForScheme();
 
             // # Visit Autem channel page and turn off the Manage members for Members and then save
             visitAutemChannelConfigPage();
@@ -653,8 +674,8 @@ describe('Channel Moderation Test', () => {
             goToPermissionsAndCreateTeamOverrideScheme('manage_members');
             deleteOrEditTeamScheme('manage_members', 'edit');
             cy.get('#all_users-public_channel-manage_public_channel_members').click();
-            saveConfig(false);
-            cy.wait(1000); //eslint-disable-line cypress/no-unnecessary-waiting
+            saveConfigForScheme(false);
+            cy.wait(TIMEOUTS.TINY * 2);
 
             // * Assert that Manage Members is disabled for members and a message is displayed
             visitAutemChannelConfigPage();
@@ -677,7 +698,7 @@ describe('Channel Moderation Test', () => {
             // # Uncheck the Channel Mentions option for Guests and save
             visitAutemChannelConfigPage();
             disableChannelModeratedPermission(checkboxesTitleToIdMap.CHANNEL_MENTIONS_GUESTS);
-            saveConfig();
+            saveConfigForChannel();
 
             visitAutemChannel('guest');
 
@@ -689,7 +710,7 @@ describe('Channel Moderation Test', () => {
 
             // # check the channel mentions option for guests and save
             enableChannelModeratedPermission(checkboxesTitleToIdMap.CHANNEL_MENTIONS_GUESTS);
-            saveConfig();
+            saveConfigForChannel();
 
             visitAutemChannel('guest');
 
@@ -703,7 +724,7 @@ describe('Channel Moderation Test', () => {
 
             // # Uncheck the channel mentions option for guests and save
             disableChannelModeratedPermission(checkboxesTitleToIdMap.CHANNEL_MENTIONS_MEMBERS);
-            saveConfig();
+            saveConfigForChannel();
 
             visitAutemChannel('user-1');
 
@@ -715,7 +736,7 @@ describe('Channel Moderation Test', () => {
 
             // # check the channel mentions option for guests and save
             enableChannelModeratedPermission(checkboxesTitleToIdMap.CHANNEL_MENTIONS_MEMBERS);
-            saveConfig();
+            saveConfigForChannel();
 
             visitAutemChannel('user-1');
 
@@ -760,7 +781,7 @@ describe('Channel Moderation Test', () => {
         it('Message when user without channel mention permission uses special channel mentions', () => {
             visitAutemChannelConfigPage();
             disableChannelModeratedPermission(checkboxesTitleToIdMap.CHANNEL_MENTIONS_MEMBERS);
-            saveConfig();
+            saveConfigForChannel();
 
             visitAutemChannel('user-1');
 
@@ -779,26 +800,26 @@ describe('Channel Moderation Test', () => {
             // # Visit Channel page and Search for the channel.
             visitAutemChannelConfigPage();
             disableChannelModeratedPermission(checkboxesTitleToIdMap.CHANNEL_MENTIONS_MEMBERS);
-            saveConfig();
+            saveConfigForChannel();
 
             // # Set @channel and @all confirmation dialog to true
             cy.visit('admin_console/environment/notifications');
             cy.findByTestId('TeamSettings.EnableConfirmNotificationsToChanneltrue').check();
-            saveConfig();
+            saveConfigForScheme();
 
             // # Visit autem channel
             visitAutemChannel('user-1');
 
             // * Type at all and enter that no confirmation dialogue shows up
-            cy.findByTestId('post_textbox').clear().type('@all{enter}');
+            cy.postMessage('@all');
             cy.get('#confirmModalLabel').should('not.exist');
 
             // * Type at channel and enter that no confirmation dialogue shows up
-            cy.findByTestId('post_textbox').clear().type('@channel{enter}');
+            cy.postMessage('@channel');
             cy.get('#confirmModalLabel').should('not.exist');
 
             // * Type at here and enter that no confirmation dialogue shows up
-            cy.findByTestId('post_textbox').clear().type('@here{enter}');
+            cy.postMessage('@here');
             cy.get('#confirmModalLabel').should('not.exist');
         });
     });
@@ -817,15 +838,14 @@ describe('Channel Moderation Test', () => {
             visitAutemChannelConfigPage();
             disableChannelModeratedPermission(checkboxesTitleToIdMap.MANAGE_MEMBERS_MEMBERS);
             disableChannelModeratedPermission(checkboxesTitleToIdMap.CHANNEL_MENTIONS_MEMBERS);
-            saveConfig();
 
             // # check the channel mentions option for guests and save
             enableChannelModeratedPermission(checkboxesTitleToIdMap.MANAGE_MEMBERS_MEMBERS);
-            saveConfig();
+            saveConfigForChannel();
 
             goToSystemScheme();
             cy.get('#all_users-public_channel-manage_public_channel_members').click();
-            saveConfig();
+            saveConfigForScheme();
 
             // * Ensure manange members for members is disabled
             visitAutemChannelConfigPage();
@@ -842,12 +862,12 @@ describe('Channel Moderation Test', () => {
 
         it('Effect of changing System Schemes on a Channel for which Channel Moderation Settings was never modified', () => {
             // # Reset system scheme to default and create a new channel to ensure that this channels moderation settings have never been modified
-            const randomChannelName = 'NeverModifiedChannel' + getRandomId();
+            const randomChannelName = 'NeverModified' + getRandomId();
             createNewChannel(randomChannelName, 'sysadmin');
 
             goToSystemScheme();
             cy.get('#all_users-public_channel-manage_public_channel_members').click();
-            saveConfig();
+            saveConfigForScheme();
 
             // # Visit Channel page and Search for the channel.
             // * ensure manange members for members is disabled
@@ -865,12 +885,12 @@ describe('Channel Moderation Test', () => {
 
         it('Effect of changing Team Override Schemes on a Channel for which Channel Moderation Settings was never modified', () => {
             // # Reset system scheme to default and create a new channel to ensure that this channels moderation settings have never been modified
-            const randomChannelName = 'NeverModifiedChannel' + getRandomId();
+            const randomChannelName = 'NeverModified' + getRandomId();
             createNewChannel(randomChannelName, 'sysadmin');
             goToPermissionsAndCreateTeamOverrideScheme(`${randomChannelName}`);
             deleteOrEditTeamScheme(`${randomChannelName}`, 'edit');
             cy.get('#all_users-public_channel-manage_public_channel_members').click();
-            saveConfig(false);
+            saveConfigForScheme(false);
 
             // # Visit Channel page and Search for the channel.
             // * Assert message for manage member for members appears and that it's disabled
@@ -895,15 +915,16 @@ describe('Channel Moderation Test', () => {
             visitAutemChannelConfigPage();
             disableChannelModeratedPermission(checkboxesTitleToIdMap.MANAGE_MEMBERS_MEMBERS);
             disableChannelModeratedPermission(checkboxesTitleToIdMap.CHANNEL_MENTIONS_MEMBERS);
-            saveConfig();
+            saveConfigForChannel();
 
+            visitAutemChannelConfigPage();
             enableChannelModeratedPermission(checkboxesTitleToIdMap.MANAGE_MEMBERS_MEMBERS);
-            saveConfig();
+            saveConfigForChannel();
 
             goToPermissionsAndCreateTeamOverrideScheme(`${teamOverrideSchemeName}`);
             deleteOrEditTeamScheme(`${teamOverrideSchemeName}`, 'edit');
             cy.get('#all_users-public_channel-manage_public_channel_members').click();
-            saveConfig(false);
+            saveConfigForScheme(false);
 
             // # Visit Channel page and Search for the channel.
             // * Assert message shows and manage members for members is disabled
@@ -931,7 +952,7 @@ describe('Channel Moderation Test', () => {
 
             // * Ensure that manage private channel members is checked
             cy.get('#all_users-private_channel-manage_private_channel_members').children().should('have.class', 'checked');
-            saveConfig(false);
+            saveConfigForScheme(false);
 
             // # Visit Channel page and Search for the channel.
             // * Ensure message is disabled and manage members for members is disabled
@@ -943,7 +964,7 @@ describe('Channel Moderation Test', () => {
 
             // # Turn channel into a private channel
             cy.findByTestId('allow-all-toggle').click();
-            saveConfig(true, true);
+            saveConfigForChannel('autem', true);
 
             // * Ensure it is private and no error message is shown and that manage members for members is not disabled
             cy.findByTestId('allow-all-toggle').should('has.have.text', 'Private');
@@ -953,7 +974,7 @@ describe('Channel Moderation Test', () => {
 
             // # Turn channel back to public channel
             cy.findByTestId('allow-all-toggle').click();
-            saveConfig(true, true);
+            saveConfigForChannel('autem', true);
 
             // * ensure it got reverted back to a Public channel
             cy.findByTestId('allow-all-toggle').should('has.have.text', 'Public');
@@ -968,7 +989,7 @@ describe('Channel Moderation Test', () => {
             deleteOrEditTeamScheme(`${teamOverrideSchemeName}`, 'edit');
             cy.get('#all_users-private_channel-manage_private_channel_members').click();
             cy.get('#all_users-public_channel-manage_public_channel_members').children().should('have.class', 'checked');
-            saveConfig(false);
+            saveConfigForScheme(false);
 
             // # Visit Channel page and Search for the channel.
             visitAutemChannelConfigPage();
@@ -981,7 +1002,7 @@ describe('Channel Moderation Test', () => {
 
             // # Turn it into a private channel
             cy.findByTestId('allow-all-toggle').click();
-            saveConfig(true, true);
+            saveConfigForChannel('autem', true);
 
             // * Ensure it is a private channel and that a message is disabled and also manage members for members is disabled
             cy.findByTestId('allow-all-toggle').should('has.have.text', 'Private');
@@ -991,7 +1012,7 @@ describe('Channel Moderation Test', () => {
 
             // # Turn channel back to public channel
             cy.findByTestId('allow-all-toggle').click();
-            saveConfig(true, true);
+            saveConfigForChannel('autem', true);
 
             // * Ensure it got reset back to a public channel
             cy.findByTestId('allow-all-toggle').should('has.have.text', 'Public');
@@ -999,13 +1020,14 @@ describe('Channel Moderation Test', () => {
 
         it('Check if user is allowed to Edit or Delete their own posts on a Read-Only channel', () => {
             visitAutemChannel('user-1');
-            cy.findByTestId('post_textbox').clear().type('testMessage123123{enter}');
+            cy.postMessage('testMessage123123');
             cy.findByTestId('post_textbox_placeholder').should('not.have.text', 'This channel is read-only. Only members with permission can post here.');
             cy.findByTestId('post_textbox').should('not.be.disabled');
 
             visitChannelConfigPage('autem');
             disableChannelModeratedPermission(checkboxesTitleToIdMap.CREATE_POSTS_MEMBERS);
-            saveConfig();
+
+            saveConfigForChannel();
 
             visitAutemChannel('user-1');
 
@@ -1095,24 +1117,16 @@ describe('Channel Moderation Test', () => {
         cy.findByTestId(`${channelName}edit`).click();
 
         // # Wait until the groups retrieved and show up
-        cy.wait(1000); //eslint-disable-line cypress/no-unnecessary-waiting
+        cy.wait(TIMEOUTS.TINY * 2);
 
         // # Check all the boxes currently unchecked (align with the system scheme permissions)
         enableAllChannelModeratedPermissions();
 
         // # Save if possible (if previous test ended abruptly all permissions may already be enabled)
-        cy.get('#saveSetting').then((btn) => {
-            if (!btn.disabled) {
-                btn.click();
-            }
-        });
-        waitUntilConfigSave();
-
-        // # Reload to ensure it's been saved
-        cy.reload();
+        saveConfigForChannel(channelName);
 
         // # Wait until the groups retrieved and show up
-        cy.wait(1000); //eslint-disable-line cypress/no-unnecessary-waiting
+        cy.wait(TIMEOUTS.TINY * 2);
 
         // * Ensure all checkboxes are checked
         checkBoxes.forEach((buttonId) => {
@@ -1123,14 +1137,10 @@ describe('Channel Moderation Test', () => {
         disableAllChannelModeratedPermissions();
 
         // # Save the page and wait till saving is done
-        cy.get('#saveSetting').click();
-        waitUntilConfigSave();
-
-        // # Reload to ensure it's been saved
-        cy.reload();
+        saveConfigForChannel(channelName);
 
         // # Wait until the groups retrieved and show up
-        cy.wait(1000); //eslint-disable-line cypress/no-unnecessary-waiting
+        cy.wait(TIMEOUTS.TINY * 2);
 
         // * Ensure all checkboxes have the correct unchecked state
         checkBoxes.forEach((buttonId) => {

@@ -79,7 +79,7 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
         event.preventDefault();
         const {id, postId, subMenu, action, root} = this.props;
         const isMobile = Utils.isMobile();
-        const pathPair = Object.entries(event.nativeEvent).find(([key, value]) => key === 'path');
+        const pathPair = Object.entries(event.nativeEvent).find(([key]) => key === 'path');
         let path: HTMLElement[] | undefined;
         if (pathPair) {
             path = pathPair[1];
@@ -131,7 +131,7 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
     }
 
     public render() {
-        const {id, postId, text, subMenu, root, icon, filter, xOffset, ariaLabel, direction, openUp} = this.props;
+        const {id, postId, text, subMenu, root, icon, filter, xOffset, ariaLabel, direction} = this.props;
         const isMobile = Utils.isMobile();
 
         if (filter && !filter(id)) {

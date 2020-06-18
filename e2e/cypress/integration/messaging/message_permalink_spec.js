@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod @smoke
 // Group: @messaging
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
@@ -34,7 +33,7 @@ describe('Message permalink', () => {
     });
 
     afterEach(() => {
-        cy.apiLogin('sysadmin');
+        cy.apiAdminLogin();
         if (testChannel && testChannel.id) {
             cy.apiDeleteChannel(testChannel.id);
         }

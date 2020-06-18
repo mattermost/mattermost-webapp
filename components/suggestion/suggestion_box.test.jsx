@@ -22,6 +22,7 @@ describe('components/SuggestionBox', () => {
         value: 'value',
         containerClass: 'test',
         openOnFocus: true,
+        providers: [],
     };
 
     test('findOverlap', () => {
@@ -186,5 +187,62 @@ describe('components/SuggestionBox', () => {
         wrapper.update();
         instance.clear();
         expect(instance.setState).toHaveBeenCalled();
+    });
+
+    test('should not call clear search resutls when forceSuggestionsWhenBlur is true', () => {
+        const onBlur = jest.fn();
+        const wrapper = shallow(
+            <SuggestionBox
+                {...baseProps}
+                onBlur={onBlur}
+                forceSuggestionsWhenBlur={true}
+            />,
+        );
+
+        wrapper.setState({focused: true});
+        const instance = wrapper.instance();
+        const contains = jest.fn().mockReturnValue(false);
+        const relatedTarget = jest.fn();
+        instance.container = {contains};
+        instance.handleEmitClearSuggestions = jest.fn();
+
+        instance.handleFocusOut({relatedTarget});
+        expect(instance.handleEmitClearSuggestions).not.toHaveBeenCalled();
+        expect(wrapper.state('focused')).toEqual(false);
+        expect(onBlur).toBeCalledTimes(1);
+    });
+
+    test('should call for handlePretextChanged on handleFocusIn and change of pretext', () => {
+        jest.useFakeTimers();
+        const onFocus = jest.fn();
+        const wrapper = shallow(
+            <SuggestionBox
+                {...baseProps}
+                openOnFocus={true}
+                onFocus={onFocus}
+            />,
+        );
+        const instance = wrapper.instance();
+        instance.handlePretextChanged = jest.fn();
+        instance.getTextbox = jest.fn().mockReturnValue({value: 'value'});
+
+        const contains = jest.fn().mockReturnValue(false);
+        const relatedTarget = jest.fn();
+        instance.container = {contains};
+
+        instance.handleFocusIn({relatedTarget});
+        jest.runOnlyPendingTimers();
+        expect(instance.handlePretextChanged).toHaveBeenCalledTimes(1);
+        instance.handleFocusIn({relatedTarget});
+        expect(instance.handlePretextChanged).toHaveBeenCalledTimes(1);
+        expect(onFocus).toHaveBeenCalled();
+    });
+
+    test('should call for handlePretextChanged on componentDidMount', () => {
+        const wrapper = shallow(<SuggestionBox {...baseProps}/>);
+        const instance = wrapper.instance();
+        instance.handlePretextChanged = jest.fn();
+        instance.componentDidMount();
+        expect(instance.handlePretextChanged).toHaveBeenCalledTimes(1);
     });
 });

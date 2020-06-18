@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @messaging
 
 import {titleCase} from '../../utils';
@@ -30,7 +29,7 @@ describe('Messaging', () => {
     });
 
     afterEach(() => {
-        cy.apiLogin('sysadmin');
+        cy.apiAdminLogin();
         if (testPrivateChannel && testPrivateChannel.id) {
             cy.apiDeleteChannel(testPrivateChannel.id);
         }

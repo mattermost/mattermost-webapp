@@ -29,7 +29,7 @@
     position: fixed;
     left: 0;
     height: 100%;
-    z-index: 12;
+    z-index: 16;
     border-right: 1px solid var(--center-channel-color-20);
 
     &.dragging {
@@ -903,7 +903,6 @@
         &.muted {
             div.SidebarChannelLinkLabel_wrapper, > i, .status.status--group {
                 opacity: 0.4;
-                font-weight: 300;
             }
         }
 

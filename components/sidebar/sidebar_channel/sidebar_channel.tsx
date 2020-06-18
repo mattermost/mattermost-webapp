@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {Draggable, NotDraggingStyle, DraggingStyle, DraggableStateSnapshot} from 'react-beautiful-dnd';
+import {Draggable} from 'react-beautiful-dnd';
 import classNames from 'classnames';
 
 import {Channel} from 'mattermost-redux/types/channels';

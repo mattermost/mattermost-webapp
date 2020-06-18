@@ -7,7 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod @smoke
+// Stage: @prod
 // Group: @accessibility
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
@@ -31,8 +31,6 @@ function verifySections(sections) {
 
 describe('Verify Accessibility Support in different sections in Account Settings Dialog', () => {
     before(() => {
-        cy.apiLogin('sysadmin');
-
         // # Update Configs
         cy.apiUpdateConfig({
             ServiceSettings: {
@@ -189,7 +187,7 @@ describe('Verify Accessibility Support in different sections in Account Settings
         cy.findByTestId('cancelSettingPicture').should('have.attr', 'aria-label', 'Cancel');
 
         // # Upload a pic and save
-        cy.fileUpload('[data-testid="uploadPicture"]', 'mattermost-icon.png');
+        cy.findByTestId('uploadPicture').attachFile('mattermost-icon.png');
         cy.findByTestId('saveSettingPicture').should('not.be.disabled').click();
 
         // # Click on Edit Profile Picture
@@ -232,7 +230,7 @@ describe('Verify Accessibility Support in different sections in Account Settings
         cy.get('.user-settings').then((el) => {
             if (el.find('#signinEdit').length) {
                 cy.get('#signinEdit').click();
-                cy.get('#appsEdit').focus().tab({shift: true}).tab().tab();
+                cy.get('#mfaEdit').focus().tab({shift: true}).tab().tab();
                 cy.get('.setting-list a.btn').should('have.class', 'a11y--active a11y--focused').tab();
                 cy.get('#cancelSetting').should('have.class', 'a11y--active a11y--focused');
             }

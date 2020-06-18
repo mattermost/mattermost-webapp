@@ -52,6 +52,7 @@ export default class PermissionSystemSchemeSettings extends React.PureComponent 
                 team_admin: true,
                 channel_admin: true,
             },
+            urlParams: new URLSearchParams(props.location.search),
         };
         this.rolesNeeded = [
             GeneralConstants.SYSTEM_ADMIN_ROLE,
@@ -70,6 +71,12 @@ export default class PermissionSystemSchemeSettings extends React.PureComponent 
         this.props.actions.loadRolesIfNeeded(this.rolesNeeded);
         if (this.rolesNeeded.every((roleName) => this.props.roles[roleName])) {
             this.loadRolesIntoState(this.props);
+        }
+
+        if (this.state.urlParams.get('rowIdFromQuery')) {
+            setTimeout(() => {
+                this.selectRow(this.state.urlParams.get('rowIdFromQuery'));
+            }, 1000);
         }
     }
 

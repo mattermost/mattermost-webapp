@@ -24,9 +24,6 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
         testChannel = null;
         isArchived = false;
 
-        // # Login as sysadmin
-        cy.apiLogin('sysadmin');
-
         // # Enable Experimental View Archived Channels
         cy.apiUpdateConfig({
             TeamSettings: {
@@ -44,7 +41,6 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
 
         // # Create a new channel for later use such as when channel is empty test
         cy.getCurrentTeamId().then((teamId) => {
-            // eslint-disable-next-line no-magic-numbers
             cy.apiCreateChannel(teamId, newChannelName, newChannelName).then((response) => {
                 testChannel = response.body;
             });
@@ -55,7 +51,7 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
     });
 
     afterEach(() => {
-        cy.apiLogin('sysadmin');
+        cy.apiAdminLogin();
         if (testChannel && testChannel.id && !isArchived) {
             cy.apiDeleteChannel(testChannel.id);
         }
@@ -489,7 +485,7 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
         cy.findByLabelText('Flagged posts').click();
 
         // # Expand the flagged message
-        cy.findByLabelText('Expand').click();
+        cy.findByLabelText('Expand Sidebar Icon').click();
 
         // Execute the shortcut
         pressShortcutReactToLastMessage();
@@ -498,13 +494,13 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
         cy.get('#emojiPicker').should('not.exist');
 
         // Close the expanded sidebar
-        cy.findByLabelText('Expand').click();
+        cy.findByLabelText('Collapse Sidebar Icon').click();
 
         // # Open the Pinned Posts
         cy.findByLabelText('Pinned posts').click();
 
         // # Expand the Pinned Posts
-        cy.findByLabelText('Expand').click();
+        cy.findByLabelText('Expand Sidebar Icon').click();
 
         // Execute the shortcut
         pressShortcutReactToLastMessage();
@@ -513,7 +509,7 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
         cy.get('#emojiPicker').should('not.exist');
 
         // Close the expanded sidebar
-        cy.findByLabelText('Expand').click();
+        cy.findByLabelText('Collapse Sidebar Icon').click();
     });
 
     it('Should open the emoji picker for last message by shortcut if RHS is fully expanded for thread and focus is on RHS text box', () => {

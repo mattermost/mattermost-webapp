@@ -236,7 +236,7 @@
         }
     }
 
-    .SidebarMenu {
+    .SidebarMenu, .AddChannelDropdown {
         display: block !important;
 
         .Menu {
@@ -245,7 +245,7 @@
     }
 
     .app__body {
-        .post, .SidebarMenu {
+        .post, .SidebarMenu, .AddChannelDropdown {
             .Menu {
                 @include border-radius(0);
                 border: 0px;
@@ -1416,6 +1416,10 @@
         .mentions {
             font-size: 17px;
             font-weight: bold;
+        }
+
+        .Menu .MenuItem.MenuItem--with-icon .MenuItem__help-text {
+            padding-left: 0;
         }
     }
 

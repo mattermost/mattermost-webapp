@@ -34,6 +34,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelMembers should match
         }
       }
       dialogType={[Function]}
+      id="addChannelMembers"
     >
       <FormattedMessage
         defaultMessage="Add Members"
@@ -43,7 +44,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelMembers should match
     </ModalToggleButton>
   }
   className=""
-  id="channel_members"
+  id="channelMembers"
   subtitleDefault="A list of users who are currently in the channel right now"
   subtitleId="admin.channel_settings.channel_detail.membersDescription"
   titleDefault="Members"
@@ -121,18 +122,26 @@ exports[`admin_console/team_channel_settings/channel/ChannelMembers should match
     users={
       Array [
         Object {
+          "allow_marketing": false,
           "auth_data": "",
           "auth_service": "",
+          "bot_description": "",
+          "bot_last_icon_update": 0,
           "create_at": 0,
           "delete_at": 0,
           "email": "",
           "email_verified": true,
+          "failed_attempts": 0,
           "first_name": "",
           "id": "user-1",
           "is_bot": false,
+          "last_activity_at": 0,
           "last_name": "",
+          "last_password_update": 0,
           "last_picture_update": 0,
           "locale": "",
+          "mfa_active": false,
+          "mfa_secret": "",
           "nickname": "",
           "notify_props": Object {
             "channel": "false",
@@ -146,7 +155,9 @@ exports[`admin_console/team_channel_settings/channel/ChannelMembers should match
             "push": "none",
             "push_status": "offline",
           },
+          "password": "",
           "position": "",
+          "props": Object {},
           "roles": "",
           "terms_of_service_create_at": 0,
           "terms_of_service_id": "",
@@ -154,18 +165,26 @@ exports[`admin_console/team_channel_settings/channel/ChannelMembers should match
           "username": "some-user",
         },
         Object {
+          "allow_marketing": false,
           "auth_data": "",
           "auth_service": "",
+          "bot_description": "",
+          "bot_last_icon_update": 0,
           "create_at": 0,
           "delete_at": 0,
           "email": "",
           "email_verified": true,
+          "failed_attempts": 0,
           "first_name": "",
           "id": "user-2",
           "is_bot": false,
+          "last_activity_at": 0,
           "last_name": "",
+          "last_password_update": 0,
           "last_picture_update": 0,
           "locale": "",
+          "mfa_active": false,
+          "mfa_secret": "",
           "nickname": "",
           "notify_props": Object {
             "channel": "false",
@@ -179,7 +198,9 @@ exports[`admin_console/team_channel_settings/channel/ChannelMembers should match
             "push": "none",
             "push_status": "offline",
           },
+          "password": "",
           "position": "",
+          "props": Object {},
           "roles": "",
           "terms_of_service_create_at": 0,
           "terms_of_service_id": "",
@@ -187,18 +208,26 @@ exports[`admin_console/team_channel_settings/channel/ChannelMembers should match
           "username": "some-user",
         },
         Object {
+          "allow_marketing": false,
           "auth_data": "",
           "auth_service": "",
+          "bot_description": "",
+          "bot_last_icon_update": 0,
           "create_at": 0,
           "delete_at": 0,
           "email": "",
           "email_verified": true,
+          "failed_attempts": 0,
           "first_name": "",
           "id": "user-3",
           "is_bot": false,
+          "last_activity_at": 0,
           "last_name": "",
+          "last_password_update": 0,
           "last_picture_update": 0,
           "locale": "",
+          "mfa_active": false,
+          "mfa_secret": "",
           "nickname": "",
           "notify_props": Object {
             "channel": "false",
@@ -212,7 +241,9 @@ exports[`admin_console/team_channel_settings/channel/ChannelMembers should match
             "push": "none",
             "push_status": "offline",
           },
+          "password": "",
           "position": "",
+          "props": Object {},
           "roles": "",
           "terms_of_service_create_at": 0,
           "terms_of_service_id": "",
@@ -259,6 +290,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelMembers should match
         }
       }
       dialogType={[Function]}
+      id="addChannelMembers"
     >
       <FormattedMessage
         defaultMessage="Add Members"
@@ -268,7 +300,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelMembers should match
     </ModalToggleButton>
   }
   className=""
-  id="channel_members"
+  id="channelMembers"
   subtitleDefault="A list of users who are currently in the channel right now"
   subtitleId="admin.channel_settings.channel_detail.membersDescription"
   titleDefault="Members"

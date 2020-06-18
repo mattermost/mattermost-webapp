@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @messaging
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
@@ -18,7 +17,7 @@ describe('Profile popover', () => {
 
     beforeEach(() => {
         // # Login as sysadmin
-        cy.apiLogin('sysadmin');
+        cy.apiAdminLogin();
 
         // # Save Teammate Name Display Preference to username
         // # Save Message Display Preference to clean

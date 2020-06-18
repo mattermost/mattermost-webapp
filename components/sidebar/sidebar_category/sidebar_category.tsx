@@ -132,6 +132,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
 
         const newSorting = category.sorting === CategorySorting.Recency ? CategorySorting.Alphabetical : CategorySorting.Recency;
         this.props.actions.setCategorySorting(category.id, newSorting);
+        trackEvent('ui', `ui_sidebar_sort_dm_${newSorting}`);
     }
     removeAnimation = () => {
         if (this.newDropBoxRef.current) {
@@ -142,6 +143,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
     handleOpenDirectMessagesModal = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.stopPropagation();
         this.props.handleOpenMoreDirectChannelsModal(e.nativeEvent);
+        trackEvent('ui', 'ui_sidebar_create_direct_message');
     }
 
     handleMenuToggle = (open: boolean) => {
@@ -209,7 +211,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
     }
 
     render() {
-        const {category, categoryIndex, isCollapsed, draggingState, channels} = this.props;
+        const {category, categoryIndex, isCollapsed, channels} = this.props;
         const isNewCategory = this.props.isNewCategory && !channels.length;
 
         if (!category) {
@@ -224,7 +226,6 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
 
         let categoryMenu: JSX.Element;
         let newLabel: JSX.Element;
-        let newDropBox: (isDraggingOver: boolean) => JSX.Element;
         let directMessagesModalButton: JSX.Element;
         let hideArrow = false;
         if (isNewCategory) {

@@ -8,16 +8,12 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @enterprise @elasticsearch @autocomplete
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 describe('Elasticsearch system console', () => {
     before(() => {
-        // # Login as admin
-        cy.apiLogin('sysadmin');
-
         // * Check if server has license for Elasticsearch
         cy.requireLicenseForFeature('Elasticsearch');
 

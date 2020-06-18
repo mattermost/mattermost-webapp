@@ -10,13 +10,12 @@
 // Stage: @prod
 // Group: @enterprise @ldap_group
 
-import uuid from 'uuid/v4';
+import {v4 as uuidv4} from 'uuid';
 const PAGE_SIZE = 10;
 
 describe('Search channels', () => {
     before(() => {
-        // * Login as sysadmin and check if server has license for LDAP Groups
-        cy.apiLogin('sysadmin');
+        // * Check if server has license for LDAP Groups
         cy.requireLicenseForFeature('LDAPGroups');
 
         // Enable LDAP
@@ -40,7 +39,7 @@ describe('Search channels', () => {
     });
 
     it('returns results', function() {
-        const displayName = uuid();
+        const displayName = uuidv4();
         cy.apiGetTeams().then((response) => {
             const teamID = response.body[0].id;
 
@@ -58,7 +57,7 @@ describe('Search channels', () => {
     });
 
     it('results are paginated', function() {
-        const displayName = uuid();
+        const displayName = uuidv4();
         cy.apiGetTeams().then((response) => {
             const teamID = response.body[0].id;
 
@@ -84,7 +83,7 @@ describe('Search channels', () => {
     });
 
     it('clears the results when "x" is clicked', function() {
-        const displayName = uuid();
+        const displayName = uuidv4();
         cy.apiGetTeams().then((response) => {
             const teamID = response.body[0].id;
 
@@ -111,7 +110,7 @@ describe('Search channels', () => {
     });
 
     it('clears the results when the search term is deleted with backspace', function() {
-        const displayName = uuid();
+        const displayName = uuidv4();
         cy.apiGetTeams().then((response) => {
             const teamID = response.body[0].id;
 
