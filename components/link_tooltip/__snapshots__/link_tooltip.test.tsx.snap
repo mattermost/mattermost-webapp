@@ -40,7 +40,10 @@ exports[`components/link_tooltip/link_tooltip should match snapshot with uncommo
         "alignItems": "center",
         "display": "flex",
         "flexDirection": "column",
-        "zIndex": 10,
+        "left": -1000,
+        "position": "absolute",
+        "top": -1000,
+        "zIndex": 1070,
       }
     }
   >
