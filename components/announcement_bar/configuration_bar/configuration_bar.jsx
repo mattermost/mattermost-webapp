@@ -88,8 +88,8 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
                                 id={AnnouncementBarMessages.LICENSE_EXPIRING}
                                 defaultMessage='Enterprise license expires on {date, date, long}. [Please renew](!{link}). [AAE-010-0014](!{link2})'
                                 values={{
-                                    date:  new Date(parseInt(this.props.license.ExpiresAt, 10)),
-                                    link:  renewalLink,
+                                    date: new Date(parseInt(this.props.license.ExpiresAt, 10)),
+                                    link: renewalLink,
                                     link2: AAE_REGISTRY_LINK,
                                 }}
                             />
@@ -122,9 +122,9 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
             const emailMessage = formatMessage({
                 id: AnnouncementBarMessages.PREVIEW_MODE,
                 defaultMessage: 'Preview Mode: Email notifications have not been configured. [AAE-000-0011](!{link})',
-                values={{
+                values: {
                     link: AAE_REGISTRY_LINK,
-                }}
+                },
             });
             return (
                 <TextDismissableBar
@@ -141,18 +141,12 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
             if (this.props.config.EnableSignUpWithGitLab === 'true') {
                 id = t('announcement_bar.error.site_url_gitlab.full');
                 defaultMessage = 'Please configure your [site URL](https://docs.mattermost.com/administration/config-settings.html#site-url) either on the [System Console](/admin_console/environment/web_server) or, if you\'re using GitLab Mattermost, in gitlab.rb. [AAE-010-0013](!{link})';
-                values={{
-                    link: AAE_REGISTRY_LINK,
-                }}
             } else {
                 id = t('announcement_bar.error.site_url.full');
                 defaultMessage = 'Please configure your [site URL](https://docs.mattermost.com/administration/config-settings.html#site-url) on the [System Console](/admin_console/environment/web_server). [AAE-010-0012](!{link})';
-                values={{
-                    link: AAE_REGISTRY_LINK,
-                }}
             }
 
-            const values = {siteURL: this.props.siteURL};
+            const values = {siteURL: this.props.siteURL, link: AAE_REGISTRY_LINK};
             const siteURLMessage = formatMessage({id, defaultMessage}, values);
 
             return (
