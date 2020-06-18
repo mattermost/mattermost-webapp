@@ -51,7 +51,7 @@ function addAutocompleteThenVerifyNoOverlap() {
     cy.get('#channel-header').then((header) => {
         cy.get('#suggestionList').then((list) => {
             // # Wait for suggestions to be fully loaded
-            cy.wait(TIMEOUTS.TINY).then(() => {
+            cy.wait(TIMEOUTS.HALF_SEC).then(() => {
                 // * Suggestion list should visibly render just within the channel header
                 expect(header[0].getBoundingClientRect().top).to.be.lessThan(list[0].getBoundingClientRect().top);
                 expect(header[0].getBoundingClientRect().bottom).to.be.lessThan(list[0].getBoundingClientRect().top);

@@ -19,7 +19,7 @@ describe('Messaging', () => {
         // # Login and go to off-topic to make sure we are in the channel, then go to /
         cy.apiLogin('user-1');
         cy.visit('/ad-1/channels/off-topic');
-        cy.wait(TIMEOUTS.SMALL);
+        cy.wait(TIMEOUTS.FIVE_SEC);
         cy.visit('/ad-1/channels/town-square');
     });
 

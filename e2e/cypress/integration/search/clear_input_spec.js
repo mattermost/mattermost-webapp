@@ -20,7 +20,7 @@ describe('Search', () => {
 
     it('QuickInput clear X', () => {
         // # Wait for the page to be completely loaded
-        cy.wait(TIMEOUTS.SMALL);
+        cy.wait(TIMEOUTS.FIVE_SEC);
 
         // * X should not be visible on empty input
         cy.get('#searchFormContainer').find('.input-clear-x').should('not.be.visible');
