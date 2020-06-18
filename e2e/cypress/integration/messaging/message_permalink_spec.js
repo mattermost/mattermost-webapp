@@ -33,7 +33,7 @@ describe('Message permalink', () => {
     });
 
     afterEach(() => {
-        cy.apiLogin('sysadmin');
+        cy.apiAdminLogin();
         if (testChannel && testChannel.id) {
             cy.apiDeleteChannel(testChannel.id);
         }

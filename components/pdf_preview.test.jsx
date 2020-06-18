@@ -37,18 +37,15 @@ describe('component/PDFPreview', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should return correct state when updateStateFromProps is called', () => {
+    test('should update state with new value from props when prop changes', () => {
         const wrapper = shallow(
             <PDFPreview {...requiredProps}/>,
         );
+        const newFileUrl = 'https://some-new-url';
 
-        wrapper.instance().updateStateFromProps(requiredProps);
-        expect(wrapper.state('pdf')).toBe(null);
-        expect(wrapper.state('pdfPages')).toEqual({});
-        expect(wrapper.state('pdfPagesLoaded')).toEqual({});
-        expect(wrapper.state('numPages')).toEqual(0);
-        expect(wrapper.state('loading')).toBe(true);
-        expect(wrapper.state('success')).toBe(false);
+        wrapper.setProps({fileUrl: newFileUrl});
+        const {prevFileUrl} = wrapper.instance().state;
+        expect(prevFileUrl).toEqual(newFileUrl);
     });
 
     test('should return correct state when onDocumentLoad is called', () => {

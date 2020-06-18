@@ -13,7 +13,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const LiveReloadPlugin = require('webpack-livereload-plugin');
-const BrotliPlugin = require('brotli-webpack-plugin');
 
 const NPM_TARGET = process.env.npm_lifecycle_event; //eslint-disable-line no-process-env
 
@@ -341,13 +340,6 @@ var config = {
         }),
     ],
 };
-
-if (!DEV) {
-    config.plugins.push(new BrotliPlugin({
-        asset: '[file].br',
-        test: /\.(js|css)$/,
-    }));
-}
 
 if (!targetIsStats) {
     config.stats = MYSTATS;
