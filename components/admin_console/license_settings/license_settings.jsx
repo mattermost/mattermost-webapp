@@ -17,6 +17,7 @@ export default class LicenseSettings extends React.PureComponent {
     static propTypes = {
         license: PropTypes.object.isRequired,
         enterpriseReady: PropTypes.bool.isRequired,
+        upgradedFromTE: PropTypes.bool.isRequired,
         stats: PropTypes.object,
         actions: PropTypes.shape({
             getLicenseConfig: PropTypes.func.isRequired,
@@ -24,6 +25,7 @@ export default class LicenseSettings extends React.PureComponent {
             removeLicense: PropTypes.func.isRequired,
             upgradeToE0: PropTypes.func.isRequired,
             restartServer: PropTypes.func.isRequired,
+            ping: PropTypes.func.isRequired,
             upgradeToE0Status: PropTypes.func.isRequired,
             requestTrialLicense: PropTypes.func.isRequired,
         }).isRequired,
@@ -141,6 +143,14 @@ export default class LicenseSettings extends React.PureComponent {
         this.props.actions.getLicenseConfig();
     }
 
+    checkRestarted = () => {
+        this.props.actions.ping().then(() => {
+            window.location.reload();
+        }).catch(() => {
+            setTimeout(this.checkRestarted, 1000);
+        });
+    }
+
     handleRestart = async (e) => {
         e.preventDefault();
         this.setState({restarting: true});
@@ -149,7 +159,7 @@ export default class LicenseSettings extends React.PureComponent {
         } catch (err) {
             this.setState({restarting: false, restartError: err});
         }
-        setTimeout(() => window.location.reload(), 3000);
+        setTimeout(this.checkRestarted, 1000);
     }
 
     render() {
@@ -158,12 +168,13 @@ export default class LicenseSettings extends React.PureComponent {
             gettingTrialError = <p className='form-group has-error'><label className='control-label'>{this.state.gettingTrialError}</label></p>;
         }
 
-        const {license} = this.props;
+        const {license, upgradedFromTE} = this.props;
         const {uploading} = this.state;
 
         let edition;
         let licenseType;
         let licenseContent;
+        let eelicense;
 
         const issued = (
             <React.Fragment>
@@ -253,16 +264,26 @@ export default class LicenseSettings extends React.PureComponent {
                 </div>
             );
 
-            licenseContent = this.renderTEContent();
+            eelicense = this.renderEELicenseText();
         } else if (license.IsLicensed === 'true' && !uploading) {
             // Note: DO NOT LOCALISE THESE STRINGS. Legally we can not since the license is in English.
             const sku = license.SkuShortName ? <React.Fragment>{`Edition: Mattermost Enterprise Edition ${license.SkuShortName}`}<br/></React.Fragment> : null;
             edition = 'Mattermost Enterprise Edition. Enterprise features on this server have been unlocked with a license key and a valid subscription.';
+            if (upgradedFromTE) {
+                eelicense = this.renderEELicenseText();
+            }
             licenseType = (
                 <div>
-                    <p>
-                        {'This software is offered under a commercial license.\n\nSee ENTERPRISE-EDITION-LICENSE.txt in your root install directory for details. See NOTICE.txt for information about open source software used in this system.\n\nYour subscription details are as follows:'}
-                    </p>
+                    {!upgradedFromTE &&
+                        <p>
+                            {'This software is offered under a commercial license.\n\nSee ENTERPRISE-EDITION-LICENSE.txt in your root install directory for details. See NOTICE.txt for information about open source software used in this system.\n\nYour subscription details are as follows:'}
+                        </p>}
+                    {upgradedFromTE &&
+                        <div>
+                            <p>{'When using Mattermost Enterprise Edition, the software is offered under a commercial license. See below for “Enterprise Edition License” for details.'}</p>
+                            <p>{'See NOTICE.txt for information about open source software used in the system.'}</p>
+                            <p>{'Your subscription details are as follows:'}</p>
+                        </div>}
                     {`Name: ${license.Name}`}<br/>
                     {`Company or organization name: ${license.Company}`}<br/>
                     {sku}
@@ -323,7 +344,17 @@ export default class LicenseSettings extends React.PureComponent {
                 </div>
             );
 
-            licenseType = 'This software is offered under a commercial license.\n\nSee ENTERPRISE-EDITION-LICENSE.txt in your root install directory for details. See NOTICE.txt for information about open source software used in this system.';
+            if (upgradedFromTE) {
+                licenseType = (
+                    <div>
+                        <p>{'When using Mattermost Enterprise Edition, the software is offered under a commercial license. See below for “Enterprise Edition License” for details.'}</p>
+                        <p>{'See NOTICE.txt for information about open source software used in the system.'}</p>
+                    </div>
+                );
+                eelicense = this.renderEELicenseText();
+            } else {
+                licenseType = 'This software is offered under a commercial license.\n\nSee ENTERPRISE-EDITION-LICENSE.txt in your root install directory for details. See NOTICE.txt for information about open source software used in this system.';
+            }
 
             licenseContent = this.renderE0Content();
         }
@@ -367,9 +398,14 @@ export default class LicenseSettings extends React.PureComponent {
                                     {licenseType}
                                 </div>
                             </div>
-                            <div className='form-group'>
-                                {licenseContent}
-                            </div>
+                            {licenseContent &&
+                                <div className='form-group'>
+                                    {licenseContent}
+                                </div>}
+                            {eelicense &&
+                                <div className='form-group'>
+                                    {eelicense}
+                                </div>}
                         </form>
                     </div>
                 </div>
@@ -507,7 +543,7 @@ export default class LicenseSettings extends React.PureComponent {
         );
     }
 
-    renderTEContent = () => {
+    renderEELicenseText = () => {
         return (
             <>
                 <label

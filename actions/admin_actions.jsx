@@ -408,6 +408,13 @@ export function restartServer() {
     };
 }
 
+export function ping() {
+    return async () => {
+        const data = await Client4.ping();
+        return data;
+    };
+}
+
 export function requestTrialLicense(users) {
     return async () => {
         try {

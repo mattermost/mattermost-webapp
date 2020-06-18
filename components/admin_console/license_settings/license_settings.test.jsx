@@ -20,12 +20,14 @@ describe('components/admin_console/license_settings/LicenseSettings', () => {
             Company: 'Mattermost Inc.',
             Users: '100',
         },
+        upgradedFromTE: false,
         enterpriseReady: true,
         actions: {
             getLicenseConfig: jest.fn(),
             uploadLicense: jest.fn(),
             removeLicense: jest.fn(),
             upgradeToE0: jest.fn(),
+            ping: jest.fn(),
             requestTrialLicense: jest.fn(),
             restartServer: jest.fn(),
             upgradeToE0Status: jest.fn().mockImplementation(() => Promise.resolve({percentage: 0, error: null})),
@@ -37,8 +39,20 @@ describe('components/admin_console/license_settings/LicenseSettings', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('should match snapshot enterprise build with license and upgraded from TE', () => {
+        const props = {...defaultProps, upgradedFromTE: true};
+        const wrapper = shallow(<LicenseSettings {...props}/>);
+        expect(wrapper).toMatchSnapshot();
+    });
+
     test('should match snapshot enterprise build without license', () => {
         const props = {...defaultProps, license: {IsLicensed: false}};
+        const wrapper = shallow(<LicenseSettings {...props}/>);
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot enterprise build without license and upgrade from TE', () => {
+        const props = {...defaultProps, license: {IsLicensed: false}, upgradedFromTE: true};
         const wrapper = shallow(<LicenseSettings {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
