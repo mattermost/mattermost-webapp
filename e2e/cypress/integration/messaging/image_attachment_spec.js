@@ -24,21 +24,15 @@ function verifyImageInPostFooter(verifyExistence = true) {
 
 describe('Image attachment', () => {
     before(() => {
-        // # Login as sysadmin
-        cy.apiLogin('sysadmin');
-
         // # Login as new user
-        cy.apiCreateAndLoginAsNewUser().then(() => {
-            // # Create new team and visit its URL
-            cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
-                cy.visit(`/${response.body.name}`);
-            });
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
         });
     });
 
     it('Image smaller than 48px in both width and height', () => {
         // # Upload a file on center view
-        cy.fileUpload('#fileUploadInput', 'small-image.png');
+        cy.get('#fileUploadInput').attachFile('small-image.png');
 
         verifyImageInPostFooter();
 
@@ -69,7 +63,7 @@ describe('Image attachment', () => {
 
     it('Image with height smaller than 48px', () => {
         // # Upload a file on center view
-        cy.fileUpload('#fileUploadInput', 'image-small-height.png');
+        cy.get('#fileUploadInput').attachFile('image-small-height.png');
 
         verifyImageInPostFooter();
 
@@ -99,7 +93,7 @@ describe('Image attachment', () => {
 
     it('Image with width smaller than 48px', () => {
         // # Upload a file on center view
-        cy.fileUpload('#fileUploadInput', 'image-small-width.png');
+        cy.get('#fileUploadInput').attachFile('image-small-width.png');
 
         verifyImageInPostFooter();
 
@@ -132,7 +126,7 @@ describe('Image attachment', () => {
 
     it('Image with width and height bigger than 48px', () => {
         // # Upload a file on center view
-        cy.fileUpload('#fileUploadInput', 'MM-logo-horizontal.png');
+        cy.get('#fileUploadInput').attachFile('MM-logo-horizontal.png');
 
         verifyImageInPostFooter();
 
@@ -149,8 +143,8 @@ describe('Image attachment', () => {
 
                 cy.get('@div').find('img').
                     and((img) => {
-                        expect(img.height()).to.be.closeTo(145, 2.0);
-                        expect(img.width()).to.be.closeTo(913, 2.0);
+                        expect(img.height()).to.be.closeTo(155, 2.0);
+                        expect(img.width()).to.be.closeTo(978, 2.0);
                     });
             });
         });
@@ -158,7 +152,7 @@ describe('Image attachment', () => {
 
     it('opens image preview window when image is clicked', () => {
         // # Upload a file on center view
-        cy.fileUpload('#fileUploadInput', 'MM-logo-horizontal.png');
+        cy.get('#fileUploadInput').attachFile('MM-logo-horizontal.png');
 
         verifyImageInPostFooter();
 
@@ -174,8 +168,8 @@ describe('Image attachment', () => {
 
                 cy.get('@div').find('img').
                     and((img) => {
-                        expect(img.height()).to.be.closeTo(145, 2.0);
-                        expect(img.width()).to.be.closeTo(913, 2.0);
+                        expect(img.height()).to.be.closeTo(155, 2.0);
+                        expect(img.width()).to.be.closeTo(978, 2.0);
                     }).
                     click();
             });
@@ -190,7 +184,7 @@ describe('Image attachment', () => {
 
     it('opens image preview window when small image is clicked', () => {
         // # Upload a file on center view
-        cy.fileUpload('#fileUploadInput', 'small-image.png');
+        cy.get('#fileUploadInput').attachFile('small-image.png');
 
         verifyImageInPostFooter();
 

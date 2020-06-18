@@ -7,43 +7,17 @@ import {shallow} from 'enzyme';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {Team} from 'mattermost-redux/types/teams';
 
+import {TestHelper} from '../../utils/test_helper';
+
 import AddUsersToTeamModal from './add_users_to_team_modal';
 
 describe('components/admin_console/add_users_to_team_modal/AddUsersToTeamModal', () => {
     function createUser(id: string, username: string, bot: boolean): UserProfile {
-        return {
+        return TestHelper.getUserMock({
             id,
-            create_at: 1589222794545,
-            update_at: 1589222794545,
-            delete_at: 0,
             username,
-            auth_data: '',
-            auth_service: '',
-            email: '',
-            email_verified: true,
-            nickname: username,
-            first_name: '',
-            last_name: '',
-            position: '',
-            roles: 'system_user',
-            locale: '',
-            notify_props: {
-                desktop: 'none',
-                desktop_sound: 'false',
-                email: 'false',
-                mark_unread: 'mention',
-                push: 'none',
-                push_status: 'online',
-                comments: 'any',
-                first_name: 'false',
-                channel: 'false',
-                mention_keys: '',
-            },
-            terms_of_service_id: '',
-            terms_of_service_create_at: 0,
             is_bot: bot,
-            last_picture_update: 0,
-        };
+        });
     }
 
     const user1 = createUser('userid1', 'user-1', false);

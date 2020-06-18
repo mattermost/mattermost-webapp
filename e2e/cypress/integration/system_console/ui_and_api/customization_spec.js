@@ -16,9 +16,6 @@ describe('Customization', () => {
     let origConfig;
 
     before(() => {
-        // # Login as sysadmin
-        cy.apiLogin('sysadmin');
-
         // Get config
         cy.apiGetConfig().then((response) => {
             origConfig = response.body;
@@ -46,7 +43,7 @@ describe('Customization', () => {
             cy.get('.help-text').should('be.visible').and('have.text', contents);
 
             // # upload the image
-            cy.fileUpload('input');
+            cy.get('input').attachFile('mattermost-icon.png');
         });
 
         // # Save setting

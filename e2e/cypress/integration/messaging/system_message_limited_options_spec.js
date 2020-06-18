@@ -15,7 +15,7 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 describe('Messaging', () => {
     beforeEach(() => {
         // # Login as sysadmin
-        cy.apiLogin('sysadmin');
+        cy.apiAdminLogin();
 
         // # Visit the Town Square channel
         cy.visit('/ad-1/channels/town-square');
