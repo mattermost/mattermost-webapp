@@ -57,8 +57,10 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
                 return (
                     <LinkTooltip
                         href={node.attribs[hrefAttrib]}
-                        title={children[0]}
-                    />
+                        attributes={node.attribs}
+                    >
+                        {children}
+                    </LinkTooltip>
                 );
             },
         });
