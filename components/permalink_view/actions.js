@@ -14,7 +14,7 @@ import {getUserIdFromChannelId} from 'utils/utils';
 
 export function focusPost(postId, returnTo = '', currentUserId) {
     return async (dispatch, getState) => {
-        const {data} = await dispatch(getPostThread(postId));
+        const {data} = await dispatch(getPostThread(postId, false));
 
         if (!data) {
             browserHistory.replace(`/error?type=${ErrorPageTypes.PERMALINK_NOT_FOUND}&returnTo=${returnTo}`);

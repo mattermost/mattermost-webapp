@@ -22,6 +22,7 @@ import RhsComment from 'components/rhs_comment';
 import RhsHeaderPost from 'components/rhs_header_post';
 import RhsRootPost from 'components/rhs_root_post';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
+import LoadingScreen from 'components/loading_screen';
 import {FakePost} from 'types/store/rhs';
 
 export function renderView(props: Record<string, any>) {
@@ -56,7 +57,7 @@ type Props = {
     actions: {
         removePost: (post: ExtendedPost) => void;
         selectPostCard: (post: Post) => void;
-        getPostThread: (rootId: string, root?: boolean) => void;
+        getPostThread: (rootId: string, root?: boolean) => any;
     };
     directTeammate: UserProfile;
 }
@@ -68,6 +69,7 @@ type State = {
     isScrolling: boolean;
     topRhsPostId: string;
     openTime: number;
+    loading: boolean;
     postsArray?: Record<string, any>[];
     isBusy?: boolean;
 }
@@ -90,11 +92,17 @@ export default class RhsThread extends React.Component<Props, State> {
 
         const openTime = (new Date()).getTime();
 
+        let loading = false;
+        if (this.props.posts.length < (Utils.getRootPost(this.props.posts).reply_count + 1)) {
+            loading = true;
+        }
+
         this.state = {
             windowWidth: Utils.windowWidth(),
             windowHeight: Utils.windowHeight(),
             isScrolling: false,
             topRhsPostId: '',
+            loading,
             openTime,
         };
     }
@@ -103,7 +111,9 @@ export default class RhsThread extends React.Component<Props, State> {
         this.scrollToBottom();
         window.addEventListener('resize', this.handleResize);
         if (this.props.posts.length < (Utils.getRootPost(this.props.posts).reply_count + 1)) {
-            this.props.actions.getPostThread(this.props.selected.id, true);
+            this.props.actions.getPostThread(this.props.selected.id, true).finally(() => {
+                this.setState({loading: false});
+            });
         }
     }
 
@@ -116,7 +126,7 @@ export default class RhsThread extends React.Component<Props, State> {
         const curPostsArray = this.props.posts || [];
 
         if (this.props.socketConnectionStatus && !prevProps.socketConnectionStatus) {
-            this.props.actions.getPostThread(this.props.selected.id);
+            this.props.actions.getPostThread(this.props.selected.id, true);
         }
 
         if (prevPostsArray.length >= curPostsArray.length) {
@@ -252,13 +262,16 @@ export default class RhsThread extends React.Component<Props, State> {
         this.scrollStopAction.fireAfter(Constants.SCROLL_DELAY);
     }
 
-    private handleScrollStop = (): void => {
+    handleScrollStop = (): void => {
         this.setState({
             isScrolling: false,
         });
     }
 
-    public render(): JSX.Element {
+    render() {
+        if (this.state.loading) {
+            return (<LoadingScreen/>);
+        }
         if (this.props.posts == null || this.props.selected == null) {
             return (
                 <div/>
