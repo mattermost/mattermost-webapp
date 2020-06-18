@@ -74,14 +74,16 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
             />
           </span>,
           "name": <div
-            className="TeamList_NameText"
+            className="TeamList_NameColumn"
           >
             <TeamIcon
               name="DN"
               size="sm"
               url={null}
             />
-            <div>
+            <div
+              className="TeamList_NameText"
+            >
               <b
                 data-testid="team-display-name"
               >
@@ -179,14 +181,16 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
             />
           </span>,
           "name": <div
-            className="TeamList_NameText"
+            className="TeamList_NameColumn"
           >
             <TeamIcon
               name="DN0"
               size="sm"
               url={null}
             />
-            <div>
+            <div
+              className="TeamList_NameText"
+            >
               <b
                 data-testid="team-display-name"
               >
@@ -221,14 +225,16 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
             />
           </span>,
           "name": <div
-            className="TeamList_NameText"
+            className="TeamList_NameColumn"
           >
             <TeamIcon
               name="DN1"
               size="sm"
               url={null}
             />
-            <div>
+            <div
+              className="TeamList_NameText"
+            >
               <b
                 data-testid="team-display-name"
               >
@@ -263,14 +269,16 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
             />
           </span>,
           "name": <div
-            className="TeamList_NameText"
+            className="TeamList_NameColumn"
           >
             <TeamIcon
               name="DN2"
               size="sm"
               url={null}
             />
-            <div>
+            <div
+              className="TeamList_NameText"
+            >
               <b
                 data-testid="team-display-name"
               >
@@ -305,14 +313,16 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
             />
           </span>,
           "name": <div
-            className="TeamList_NameText"
+            className="TeamList_NameColumn"
           >
             <TeamIcon
               name="DN3"
               size="sm"
               url={null}
             />
-            <div>
+            <div
+              className="TeamList_NameText"
+            >
               <b
                 data-testid="team-display-name"
               >
@@ -347,14 +357,16 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
             />
           </span>,
           "name": <div
-            className="TeamList_NameText"
+            className="TeamList_NameColumn"
           >
             <TeamIcon
               name="DN4"
               size="sm"
               url={null}
             />
-            <div>
+            <div
+              className="TeamList_NameText"
+            >
               <b
                 data-testid="team-display-name"
               >
@@ -389,14 +401,16 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
             />
           </span>,
           "name": <div
-            className="TeamList_NameText"
+            className="TeamList_NameColumn"
           >
             <TeamIcon
               name="DN5"
               size="sm"
               url={null}
             />
-            <div>
+            <div
+              className="TeamList_NameText"
+            >
               <b
                 data-testid="team-display-name"
               >
@@ -431,14 +445,16 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
             />
           </span>,
           "name": <div
-            className="TeamList_NameText"
+            className="TeamList_NameColumn"
           >
             <TeamIcon
               name="DN6"
               size="sm"
               url={null}
             />
-            <div>
+            <div
+              className="TeamList_NameText"
+            >
               <b
                 data-testid="team-display-name"
               >
@@ -473,14 +489,16 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
             />
           </span>,
           "name": <div
-            className="TeamList_NameText"
+            className="TeamList_NameColumn"
           >
             <TeamIcon
               name="DN7"
               size="sm"
               url={null}
             />
-            <div>
+            <div
+              className="TeamList_NameText"
+            >
               <b
                 data-testid="team-display-name"
               >
@@ -515,14 +533,16 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
             />
           </span>,
           "name": <div
-            className="TeamList_NameText"
+            className="TeamList_NameColumn"
           >
             <TeamIcon
               name="DN8"
               size="sm"
               url={null}
             />
-            <div>
+            <div
+              className="TeamList_NameText"
+            >
               <b
                 data-testid="team-display-name"
               >
@@ -557,14 +577,16 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
             />
           </span>,
           "name": <div
-            className="TeamList_NameText"
+            className="TeamList_NameColumn"
           >
             <TeamIcon
               name="DN9"
               size="sm"
               url={null}
             />
-            <div>
+            <div
+              className="TeamList_NameText"
+            >
               <b
                 data-testid="team-display-name"
               >
