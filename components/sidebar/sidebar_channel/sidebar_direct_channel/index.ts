@@ -60,7 +60,7 @@ type Actions = {
     savePreferences: (userId: string, preferences: PreferenceType[]) => Promise<{
         data: boolean;
     }>;
-    leaveDirectChannel: (channelId: any) => Promise<{data: boolean}>;
+    leaveDirectChannel: (channelId: string) => Promise<{data: boolean}>;
 }
 
 function mapDispatchToProps(dispatch: Dispatch) {
