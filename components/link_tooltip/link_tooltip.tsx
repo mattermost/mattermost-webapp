@@ -12,7 +12,10 @@ const tooltipContainerStyles: CSSProperties = {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    zIndex: 10,
+    zIndex: 1070,
+    position: 'absolute',
+    top: -1000,
+    left: -1000
 };
 
 type Props = {
