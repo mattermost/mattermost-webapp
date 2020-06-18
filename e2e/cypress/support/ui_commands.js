@@ -421,7 +421,7 @@ Cypress.Commands.add('checkRunLDAPSync', () => {
             cy.visit('/admin_console/authentication/ldap');
 
             // # Click on AD/LDAP Synchronize Now button
-            cy.findByText('AD/LDAP Synchronize Now').click().wait(1000);
+            cy.findByText('AD/LDAP Synchronize Now').click().wait(TIMEOUTS.ONE_SEC);
 
             // * Get the First row
             cy.findByTestId('jobTable').

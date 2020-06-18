@@ -98,7 +98,7 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
             cy.get('#selectItems input').should('have.attr', 'aria-label', 'Search and add members').and('have.attr', 'aria-autocomplete', 'list');
 
             // # Search for a text and then check up and down arrow
-            cy.get('#selectItems input').type('s', {force: true}).wait(500).type('{downarrow}{downarrow}{downarrow}{uparrow}', {force: true});
+            cy.get('#selectItems input').type('s', {force: true}).wait(TIMEOUTS.HALF_SEC).type('{downarrow}{downarrow}{downarrow}{uparrow}', {force: true});
             cy.get('#multiSelectList').children().eq(2).should('have.class', 'more-modal__row--selected').within(() => {
                 cy.get('.more-modal__name').invoke('text').then((user) => {
                     selectedRowText = user.split(' - ')[0].replace('@', '');
@@ -117,7 +117,7 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
                 });
 
             // # Search for an invalid text
-            cy.get('#selectItems input').type('somethingwhichdoesnotexist', {force: true}).wait(500);
+            cy.get('#selectItems input').type('somethingwhichdoesnotexist', {force: true}).wait(TIMEOUTS.HALF_SEC);
 
             // * Check if reader can read no results
             cy.get('.multi-select__wrapper').should('have.attr', 'aria-live', 'polite').and('have.text', 'No items found');
@@ -217,7 +217,7 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
                 });
 
             // # Search for an invalid text and check if reader can read no results
-            cy.get('#selectItems input').type('somethingwhichdoesnotexist', {force: true}).wait(500);
+            cy.get('#selectItems input').type('somethingwhichdoesnotexist', {force: true}).wait(TIMEOUTS.HALF_SEC);
 
             // * Check if reader can read no results
             cy.get('.multi-select__wrapper').should('have.attr', 'aria-live', 'polite').and('have.text', 'No items found');

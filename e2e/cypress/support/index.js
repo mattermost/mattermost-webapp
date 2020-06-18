@@ -14,7 +14,7 @@ import 'cypress-plugin-tab';
 import addContext from 'mochawesome/addContext';
 
 import './api';
-import './api_commands';
+import './api_commands'; // soon to deprecate
 import './common_login_commands';
 import './db_commands';
 import './fetch_commands';
@@ -23,7 +23,8 @@ import './okta_commands';
 import './saml_commands';
 import './storybook_commands';
 import './task_commands';
-import './ui_commands';
+import './ui';
+import './ui_commands'; // soon to deprecate
 
 import {getAdminAccount} from './env';
 
