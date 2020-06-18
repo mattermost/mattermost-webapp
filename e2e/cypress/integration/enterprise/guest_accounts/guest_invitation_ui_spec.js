@@ -7,7 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod @smoke
+// Stage: @prod
 // Group: @guest_account
 
 /**
@@ -15,11 +15,10 @@
  */
 import {getRandomId} from '../../../utils';
 import * as TIMEOUTS from '../../../fixtures/timeouts';
-import users from '../../../fixtures/users.json';
 
 let testTeam;
 let newUser;
-const user1 = users['user-1'];
+let regularUser;
 
 function changeGuestFeatureSettings(featureFlag = true, emailInvitation = true, whitelistedDomains = '') {
     // # Update Guest Accounts, Email Invitations, and Whitelisted Domains
@@ -110,37 +109,30 @@ function verifyInvitationSuccess(user, successText, verifyGuestBadge = false) {
 }
 
 describe('Guest Account - Guest User Invitation Flow', () => {
-    beforeEach(() => {
-        testTeam = null;
-
-        // # Login as sysadmin
-        cy.apiLogin('sysadmin');
-
+    before(() => {
         // * Check if server has license for Guest Accounts
         cy.requireLicenseForFeature('GuestAccounts');
+    });
+
+    beforeEach(() => {
+        // # Login as sysadmin
+        cy.apiAdminLogin();
 
         // # Reset Guest Feature settings
         changeGuestFeatureSettings();
 
-        // # Create new team and visit its URL
-        cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
-            testTeam = response.body;
+        cy.apiInitSetup().then(({team, user}) => {
+            regularUser = user;
+            testTeam = team;
 
-            // # Create a new user and add it to the new team
-            cy.apiCreateNewUser().then((user) => {
-                newUser = user;
-                cy.apiAddUserToTeam(testTeam.id, user.id);
+            cy.apiCreateUser().then(({user: user1}) => {
+                newUser = user1;
+                cy.apiAddUserToTeam(testTeam.id, newUser.id);
             });
 
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+            // # Go to town square
+            cy.visit(`/${team.name}/channels/town-square`);
         });
-    });
-
-    afterEach(() => {
-        cy.apiLogin('sysadmin');
-        if (testTeam && testTeam.id) {
-            cy.apiDeleteTeam(testTeam.id);
-        }
     });
 
     it('MM-18041 Verify UI Elements of Guest User Invitation Flow', () => {
@@ -229,7 +221,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
         cy.get('.modal-body').should('be.visible').and('have.text', 'You have unsent invitations, are you sure you want to discard them?');
 
         // * Verify the behavior when Yes, Discard button in the confirmation message is clicked
-        cy.get('#confirmModalButton').should('be.visible').and('have.text', 'Yes, Discard').click().wait(TIMEOUTS.TINY);
+        cy.get('#confirmModalButton').should('be.visible').and('have.text', 'Yes, Discard').click().wait(TIMEOUTS.HALF_SEC);
 
         // * Verify it goes back to previous step since back button was pressed
         cy.findByTestId('inviteGuestLink').should('be.visible');
@@ -243,22 +235,22 @@ describe('Guest Account - Guest User Invitation Flow', () => {
         verifyInvitationError(newUser.username, 'This person is already a member.');
 
         // # Search and add an existing member by email who is not part of the team
-        invitePeople(user1.email, 1, user1.username);
+        invitePeople(regularUser.email, 1, regularUser.username);
 
         // * Verify the content and message in next screen
-        verifyInvitationError(user1.username, 'This person is already a member.');
+        verifyInvitationError(regularUser.username, 'This person is already a member.');
 
         // # Demote the user from member to guest
         cy.demoteUser(newUser.id);
 
         // # Search and add an existing guest by first name, who is part of the team but not channel
-        invitePeople(newUser.firstName, 1, newUser.username, 'Off-Topic');
+        invitePeople(newUser.first_name, 1, newUser.username, 'Off-Topic');
 
         // * Verify the content and message in next screen
         verifyInvitationSuccess(newUser.username, 'This guest has been added to the team and channel.');
 
         // # Search and add an existing guest by last name, who is part of the team and channel
-        invitePeople(newUser.lastName, 1, newUser.username);
+        invitePeople(newUser.last_name, 1, newUser.username);
 
         // * Verify the content and message in next screen
         verifyInvitationError(newUser.username, 'This person is already a member of all the channels.', true);
@@ -347,7 +339,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
             cy.get('#searchUsers').should('be.visible').type(user.username);
 
             // # Click on the option to update email
-            cy.wait(TIMEOUTS.TINY);
+            cy.wait(TIMEOUTS.HALF_SEC);
             cy.findByTestId('userListRow').find('.MenuWrapper a').should('be.visible').click();
             cy.findByText('Update Email').should('be.visible').click();
 

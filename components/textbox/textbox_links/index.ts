@@ -3,14 +3,16 @@
 
 import {connect} from 'react-redux';
 
+import {GlobalState} from 'mattermost-redux/types/store';
+
 import Constants from 'utils/constants';
 import {isFeatureEnabled} from 'utils/utils';
 
-import TextboxLinks from './textbox_links.jsx';
+import TextboxLinks from './textbox_links';
 
 const PreReleaseFeatures = Constants.PRE_RELEASE_FEATURES;
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: GlobalState) => {
     return ({
         isMarkdownPreviewEnabled: isFeatureEnabled(PreReleaseFeatures.MARKDOWN_PREVIEW, state),
     });
