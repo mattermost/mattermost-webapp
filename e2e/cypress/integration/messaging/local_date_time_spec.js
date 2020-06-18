@@ -7,28 +7,25 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @messaging
 
-import users from '../../fixtures/users.json';
-
-const sysadmin = users.sysadmin;
+import {getAdminAccount} from '../../support/env';
 
 describe('Messaging', () => {
+    const sysadmin = getAdminAccount();
+
     before(() => {
-        // # Login sysadmin and enable Timezone
-        cy.apiLogin('sysadmin');
+        // # Enable Timezone
         cy.apiUpdateConfig({
             DisplaySettings: {
                 ExperimentalTimezone: true,
             },
         });
 
-        // # Login as user-1
-        cy.apiLogin('user-1');
-
         // # Create and visit new channel
-        cy.createAndVisitNewChannel().then((channel) => {
+        cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
+            cy.visit(`/${team.name}/channels/${channel.name}`);
+
             // # Post messages from the past
             [
                 Date.UTC(2020, 0, 5, 4, 30), // Jan 5, 2020 04:30
@@ -47,18 +44,11 @@ describe('Messaging', () => {
         });
     });
 
-    after(() => {
-        cy.apiPatchMe({
-            locale: 'en',
-            timezone: {automaticTimezone: '', manualTimezone: 'UTC', useAutomaticTimezone: 'false'},
-        });
-    });
-
     describe('MM-21342 Post time should render correct format and locale', () => {
         const testCases = [
             {
                 name: 'in English',
-                channelIntro: 'Beginning of Channel Test',
+                publicChannel: 'PUBLIC CHANNELS',
                 locale: 'en',
                 manualTimezone: 'UTC',
                 localTimes: [
@@ -70,7 +60,7 @@ describe('Messaging', () => {
             },
             {
                 name: 'in Spanish',
-                channelIntro: 'Inicio de Channel Test',
+                publicChannel: 'CANALES PÚBLICOS',
                 locale: 'es',
                 manualTimezone: 'UTC',
                 localTimes: [
@@ -82,7 +72,7 @@ describe('Messaging', () => {
             },
             {
                 name: 'in react-intl unsupported timezone',
-                channelIntro: 'Inicio de Channel Test',
+                publicChannel: 'CANALES PÚBLICOS',
                 locale: 'es',
                 manualTimezone: 'NZ-CHAT',
                 localTimes: [
@@ -106,7 +96,7 @@ describe('Messaging', () => {
                             setLocaleAndTimezone(testCase.locale, testCase.manualTimezone);
 
                             // * Verify that the channel is loaded correctly based on locale
-                            cy.findByText(testCase.channelIntro).should('be.visible');
+                            cy.findByText(testCase.publicChannel).should('be.visible');
 
                             // * Verify that the local time of each post is rendered in 12-hour format based on locale
                             cy.findAllByTestId('postView').eq(index).find('.post__time', {timeout: 500}).should('have.text', localTime.standard);
@@ -123,11 +113,8 @@ describe('Messaging', () => {
                             // # Set user locale and timezone
                             setLocaleAndTimezone(testCase.locale, testCase.manualTimezone);
 
-                            // # Increase viewport to ensure channel intro remains in view.
-                            cy.viewport(1300, 800);
-
                             // * Verify that the channel is loaded correctly based on locale
-                            cy.findByText(testCase.channelIntro).should('be.visible');
+                            cy.findByText(testCase.publicChannel).should('be.visible');
 
                             // * Verify that the local time of each post is rendered in 24-hour format based on locale
                             cy.findAllByTestId('postView').eq(index).find('.post__time', {timeout: 500}).should('have.text', localTime.military);

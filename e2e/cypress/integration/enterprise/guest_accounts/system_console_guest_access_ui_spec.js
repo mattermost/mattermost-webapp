@@ -7,7 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod @smoke
+// Stage: @prod
 // Group: @guest_account
 
 /**
@@ -19,7 +19,6 @@ let guest;
 describe('Guest Account - Verify Guest Access UI', () => {
     before(() => {
         // * Check if server has license for Guest Accounts
-        cy.apiLogin('sysadmin');
         cy.requireLicenseForFeature('GuestAccounts');
 
         // # Enable Guest Account Settings
