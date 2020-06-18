@@ -22,6 +22,7 @@ describe('components/SuggestionBox', () => {
         value: 'value',
         containerClass: 'test',
         openOnFocus: true,
+        providers: [],
     };
 
     test('findOverlap', () => {
@@ -211,7 +212,7 @@ describe('components/SuggestionBox', () => {
         expect(onBlur).toBeCalledTimes(1);
     });
 
-    test('should call for handlePretextChanged on handleFocusIn', () => {
+    test('should call for handlePretextChanged on handleFocusIn and change of pretext', () => {
         jest.useFakeTimers();
         const onFocus = jest.fn();
         const wrapper = shallow(
@@ -230,20 +231,18 @@ describe('components/SuggestionBox', () => {
         instance.container = {contains};
 
         instance.handleFocusIn({relatedTarget});
-        jest.runAllTimers();
-        expect(instance.handlePretextChanged).toHaveBeenCalled();
+        jest.runOnlyPendingTimers();
+        expect(instance.handlePretextChanged).toHaveBeenCalledTimes(1);
+        instance.handleFocusIn({relatedTarget});
+        expect(instance.handlePretextChanged).toHaveBeenCalledTimes(1);
         expect(onFocus).toHaveBeenCalled();
     });
 
-    test('should call for debouncedPretextChanged only on change of pretext', () => {
+    test('should call for handlePretextChanged on componentDidMount', () => {
         const wrapper = shallow(<SuggestionBox {...baseProps}/>);
         const instance = wrapper.instance();
-        instance.debouncedPretextChanged = jest.fn();
-        instance.handlePretextChanged('value');
-        expect(instance.debouncedPretextChanged).toHaveBeenCalledTimes(1);
-        instance.handlePretextChanged('value');
-        expect(instance.debouncedPretextChanged).toHaveBeenCalledTimes(1);
-        instance.handlePretextChanged('change');
-        expect(instance.debouncedPretextChanged).toHaveBeenCalledTimes(2);
+        instance.handlePretextChanged = jest.fn();
+        instance.componentDidMount();
+        expect(instance.handlePretextChanged).toHaveBeenCalledTimes(1);
     });
 });
