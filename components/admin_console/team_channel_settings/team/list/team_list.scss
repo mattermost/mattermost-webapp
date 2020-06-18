@@ -2,10 +2,20 @@
     .DataGrid {
         .DataGrid_cell {
     
-            .TeamList_NameText {
+            .TeamList_NameColumn {
                 display: flex;
                 align-items: center;
                 height: 80px;
+
+                .TeamList_NameText {
+                    overflow: hidden;
+                }
+
+                .TeamList_DescriptionText {
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                }
+
             }
         
             .TeamList_ManagementText {

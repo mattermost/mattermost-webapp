@@ -67,9 +67,13 @@ export default class TeamList extends React.PureComponent {
     }
 
     searchTeams = async (page = 0, term = '') => {
+        let teams = []
+        let total = 0;
         const response = await this.props.actions.searchTeams(term, page, PAGE_SIZE);
-        const teams = page > 0 ? this.state.teams.concat(response.data.teams) : response.data.teams;
-        const total = response.data.total_count;
+        if (response?.data) {
+            teams = page > 0 ? this.state.teams.concat(response.data.teams) : response.data.teams;
+            total = response.data.total_count;
+        }
         this.setState({page, loading: false, teams, total});
     }
 
@@ -157,18 +161,18 @@ export default class TeamList extends React.PureComponent {
             return {
                 id: team.id,
                 name: (
-                    <div className='TeamList_NameText'>
+                    <div className='TeamList_NameColumn'>
                         <TeamIcon
                             size='sm'
                             url={Utils.imageURLForTeam(team)}
                             name={team.display_name}
                         />
-                        <div>
+                        <div className='TeamList_NameText'>
                             <b data-testid='team-display-name'>
                                 {team.display_name}
                             </b>
                             {team.description && (
-                                <div>
+                                <div className='TeamList_DescriptionText'>
                                     {team.description}
                                 </div>
                             )}

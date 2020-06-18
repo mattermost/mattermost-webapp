@@ -77,9 +77,13 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
     }
 
     searchChannels = async (page = 0, term = '') => {
+        let channels = [];
+        let total = 0;
         const response = await this.props.actions.searchAllChannels(term, '', false, page, PAGE_SIZE);
-        const channels = page > 0 ? this.state.channels.concat(response.data.channels) : response.data.channels;
-        const total = response.data.total_count;
+        if (response?.data) {
+            channels = page > 0 ? this.state.channels.concat(response.data.channels) : response.data.channels;
+            total = response.data.total_count;
+        }
         this.setState({page, loading: false, channels, total});
     }
 
