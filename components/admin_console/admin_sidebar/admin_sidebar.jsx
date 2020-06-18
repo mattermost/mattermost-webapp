@@ -242,30 +242,33 @@ class AdminSidebar extends React.PureComponent {
         return sidebarSections;
     }
 
+    isPluginPresentInSections = (plugin) => {
+        return this.state.sections && this.state.sections.indexOf(`plugin_${plugin.id}`) !== -1;
+    }
+
     renderPluginsMenu = () => {
-        const customPlugins = [];
         if (this.props.config.PluginSettings.Enable) {
-            Object.values(this.props.plugins).sort((a, b) => {
+            return Object.values(this.props.plugins).sort((a, b) => {
                 const nameCompare = a.name.localeCompare(b.name);
                 if (nameCompare !== 0) {
                     return nameCompare;
                 }
 
                 return a.id.localeCompare(b.id);
-            }).forEach((p) => {
-                if (this.state.sections !== null && this.state.sections.indexOf(`plugin_${p.id}`) === -1) {
-                    return;
-                }
-                customPlugins.push(
-                    <AdminSidebarSection
-                        key={'customplugin' + p.id}
-                        name={'plugins/plugin_' + p.id}
-                        title={p.name}
-                    />,
-                );
-            });
+            }).
+                filter((plugin) => this.state.sections === null || this.isPluginPresentInSections(plugin)).
+                map((plugin) => {
+                    return (
+                        <AdminSidebarSection
+                            key={'customplugin' + plugin.id}
+                            name={'plugins/plugin_' + plugin.id}
+                            title={plugin.name}
+                        />
+                    );
+                });
         }
-        return customPlugins;
+
+        return [];
     }
 
     handleClearFilter = () => {
