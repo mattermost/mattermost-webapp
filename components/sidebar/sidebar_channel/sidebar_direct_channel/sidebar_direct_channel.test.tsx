@@ -58,6 +58,7 @@ describe('components/sidebar/sidebar_channel/sidebar_direct_channel', () => {
         botIconUrl: null,
         actions: {
             savePreferences: jest.fn(),
+            leaveDirectChannel: jest.fn(),
         },
     };
 
