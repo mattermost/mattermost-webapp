@@ -114,11 +114,10 @@ Cypress.Commands.add('apiCreateUser', ({prefix = 'user', bypassTutorial = true, 
     });
 });
 
-Cypress.Commands.add('apiCreateGuestUser', (options = {}) => {
-    const prefix = options.prefix || 'guest';
-
-    return cy.apiCreateUser({...options, prefix}).then(({user}) => {
+Cypress.Commands.add('apiCreateGuestUser', ({prefix = 'guest', activate = true} = {}) => {
+    return cy.apiCreateUser({prefix}).then(({user}) => {
         cy.demoteUser(user.id);
+        cy.apiActivateUser(user.id, activate);
 
         return cy.wrap({guest: user});
     });
