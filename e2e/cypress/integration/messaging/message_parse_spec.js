@@ -26,7 +26,7 @@ describe('Messaging', () => {
 
         // # type in the message "://///"
         const message = '://///';
-        const textAfterParsed = message.substr(2);
+        const textAfterParsed = `:confused:${message.substr(2)}`;
         cy.postMessage(message);
 
         // # check if message sent correctly, it should parse it as 😕////"

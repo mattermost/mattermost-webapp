@@ -155,8 +155,13 @@
     @include flex(1 1 auto);
     -webkit-overflow-scrolling: touch;
     height: calc(100% - 56px);
-    padding-top: 28px;
     position: relative;
+    padding-top: 28px;
+
+    &.no-results {
+        display: flex;
+        padding-top: 0;
+    }
 }
 
 .search-items-container div.loading {
@@ -292,9 +297,7 @@
 .sidebar--right__subheader {
     // Fighting specificity with _sidebar-right.scss (sidebar--right .sidebar--right__subheader ul)
     ul.search-hint__suggestions-list {
-        padding-left: 0;
-        // to negate the padding in the mentioned element, since we don't know what will be affected if changed there.
-        margin: -18px -14px 0;
+        padding: 10px 0;
     }
 
     .search-hint__suggestions-list__option:first-child {

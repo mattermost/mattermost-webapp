@@ -35,7 +35,7 @@ describe('Message Draft with attachment and Switch Channels', () => {
                 cy.get(`#sidebarItem_${testChannel1.name} #draftIcon`).should('be.not.visible');
 
                 // # Upload a file on center view
-                cy.fileUpload('#fileUploadInput');
+                cy.get('#fileUploadInput').attachFile('mattermost-icon.png');
             });
 
             cy.apiCreateChannel(teamId, channelName2, channelName2, 'O', 'Test channel').then((response) => {

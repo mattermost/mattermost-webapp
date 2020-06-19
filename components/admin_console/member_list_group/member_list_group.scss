@@ -1,0 +1,18 @@
+.MemberListGroup {
+    .DataGrid {
+        display: flex;
+        flex-direction: column;
+        height: calc(90vh - 120px);
+        width: 100%;
+        padding: 0;
+
+        .DataGrid_rows {
+            flex-grow: 500;
+            height: 1px;
+            overflow-y: scroll;
+        }
+        .DataGrid_empty {
+            margin: auto;
+        }
+    }
+}
