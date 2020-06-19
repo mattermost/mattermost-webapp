@@ -53,9 +53,9 @@ describe('Header', () => {
         cy.uiChangeMessageDisplaySetting('COMPACT');
 
         // # Open a DM with user named 'user-2'
-        cy.get('#addDirectChannel').click().wait(TIMEOUTS.TINY);
-        cy.focused().type('user-2', {force: true}).type('{enter}', {force: true}).wait(TIMEOUTS.TINY);
-        cy.get('#saveItems').click().wait(TIMEOUTS.TINY);
+        cy.get('#addDirectChannel').click().wait(TIMEOUTS.HALF_SEC);
+        cy.focused().type('user-2', {force: true}).type('{enter}', {force: true}).wait(TIMEOUTS.HALF_SEC);
+        cy.get('#saveItems').click().wait(TIMEOUTS.HALF_SEC);
 
         // # Update DM channel header
         const header = 'quote newheader newheader newheader newheader newheader newheader newheader newheader newheader newheader';
@@ -77,7 +77,7 @@ describe('Header', () => {
         cy.get('#searchFormContainer').click();
         cy.get('#searchBox').should('be.visible').
             type('London{enter}').
-            wait(1000).
+            wait(TIMEOUTS.ONE_SEC).
             clear();
         cy.get('#searchbar-help-popup').should('be.visible');
         cy.get('#searchFormContainer').type('{esc}');

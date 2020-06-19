@@ -12,7 +12,7 @@ export const visitChannelConfigPage = (channel) => {
     cy.visit('/admin_console/user_management/channels');
     cy.findByTestId('search-input').type(`${channel.name}{enter}`);
     cy.findByText('Edit').click();
-    cy.wait(TIMEOUTS.TINY * 2);
+    cy.wait(TIMEOUTS.ONE_SEC);
 };
 
 // # Disable a specific channel moderated permission in the channel moderation widget
@@ -50,7 +50,7 @@ export const saveConfigForChannel = (channelName = false, clickConfirmationButto
 export const visitChannel = (user, channel, team) => {
     cy.apiLogin(user.username, user.password);
     cy.visit(`/${team.name}/channels/${channel.name}`);
-    cy.get('#postListContent', {timeout: TIMEOUTS.HUGE}).should('be.visible');
+    cy.get('#postListContent', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 };
 
 // # Checks to see if we got a system message warning after using @all/@here/@channel
@@ -168,7 +168,7 @@ export const goToPermissionsAndCreateTeamOverrideScheme = (schemeName, team) => 
     cy.get('#multiSelectList').should('be.visible').children().first().click({force: true});
     cy.get('#saveItems').should('be.visible').click();
     saveConfigForScheme(false);
-    cy.wait(TIMEOUTS.TINY * 2);
+    cy.wait(TIMEOUTS.ONE_SEC);
 };
 
 // # Goes to the permissions page and clicks edit or delete for a team override scheme
