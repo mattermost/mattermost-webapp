@@ -11,7 +11,7 @@
 // Group: @search_date_filter
 
 import {getAdminAccount} from '../../support/env';
-import * as TIMEOUTS from '../../fixtures/timeouts'; 
+import * as TIMEOUTS from '../../fixtures/timeouts';
 
 import {
     getTestMessages,
