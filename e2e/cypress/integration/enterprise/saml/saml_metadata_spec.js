@@ -74,7 +74,7 @@ describe('SystemConsole->SAML 2.0 - Get Metadata from Idp Flow', () => {
         cy.findByTestId('SamlSettings.ServiceProviderIdentifier').then((elem) => {
             Cypress.$(elem).val() === config.SamlSettings.ServiceProviderIdentifier;
         });
-        
+
         //verify that we can successfully save the settings (we have not affected previous state)
         cy.get('#saveSetting').click();
     });
