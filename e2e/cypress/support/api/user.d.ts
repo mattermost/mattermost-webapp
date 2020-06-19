@@ -54,10 +54,5 @@ declare namespace Cypress {
          *   cy.apiCreateGuestUser(options);
          */
         apiCreateGuestUser(options: Record<string, any>): Chainable<Record<string, any>>;
-
-        /**
-         * Do not use. To be deprecated soon.
-         */
-        apiCreateNewUser(options: Record<string, any>): Chainable<Record<string, any>>;
     }
 }
