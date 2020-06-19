@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import React, {ChangeEvent, FormEvent, CSSProperties} from 'react';
 
@@ -182,3 +183,4 @@ const style: { [Key: string]: CSSProperties} = {
     reference: {height: 'auto', width: '100%'},
     placeholder: {overflow: 'hidden', textOverflow: 'ellipsis', opacity: 0.5, pointerEvents: 'none', position: 'absolute', whiteSpace: 'nowrap', background: 'none', borderColor: 'transparent'},
 };
+/* eslint-enable react/no-string-refs */

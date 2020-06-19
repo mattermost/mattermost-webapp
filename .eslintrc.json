@@ -48,7 +48,8 @@
           "component"
         ]
       }
-    ]
+    ],
+    "react/no-string-refs": 2
   },
   "overrides": [
     {
