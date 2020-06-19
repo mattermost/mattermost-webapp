@@ -30,6 +30,7 @@ describe('SystemConsole->SAML 2.0 - Get Metadata from Idp Flow', () => {
             SamlSettings: {
                 Enable: true,
                 AssertionConsumerServiceURL: Cypress.config('baseUrl') + '/login/sso/saml',
+                ServiceProviderIdentifier: Cypress.config('baseUrl') + '/login/sso/saml',
                 IdpMetadataUrl: '',
                 IdpUrl: testIdpUrl,
                 IdpDescriptorUrl: testIdpDescriptorUrl,
@@ -69,6 +70,11 @@ describe('SystemConsole->SAML 2.0 - Get Metadata from Idp Flow', () => {
             Cypress.$(elem).val() === config.SamlSettings.IdpDescriptorUrl;
         });
 
+        //verify that the IdpDescriptorUrl textbox content has been updated
+        cy.findByTestId('SamlSettings.ServiceProviderIdentifier').then((elem) => {
+            Cypress.$(elem).val() === config.SamlSettings.ServiceProviderIdentifier;
+        });
+        
         //verify that we can successfully save the settings (we have not affected previous state)
         cy.get('#saveSetting').click();
     });

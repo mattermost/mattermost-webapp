@@ -42,6 +42,7 @@ context('Okta', () => {
             IdpUrl: idpUrl,
             IdpDescriptorUrl: `http://www.okta.com/${oktaMMEntityId}`,
             IdpMetadataUrl: idpMetadataUrl,
+            ServiceProviderIdentifier: `${Cypress.config('baseUrl')}/login/sso/saml`,
             AssertionConsumerServiceURL: `${Cypress.config('baseUrl')}/login/sso/saml`,
             SignatureAlgorithm: 'RSAwithSHA1',
             CanonicalAlgorithm: 'Canonical1.0',

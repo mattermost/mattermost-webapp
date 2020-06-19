@@ -2957,7 +2957,7 @@ const AdminDefinition = {
                         label: t('admin.saml.serviceProviderIdentifierTitle'),
                         label_default: 'Service Provider Identifier:',
                         help_text: t('admin.saml.serviceProviderIdentifierDesc'),
-                        help_text_default: 'The unique identifier for the Service Provider, usually the same as Service Provider Login Url. In ADFS, this MUST match the Relying Party Identifier.',
+                        help_text_default: 'The unique identifier for the Service Provider, usually the same as Service Provider Login URL. In ADFS, this MUST match the Relying Party Identifier.',
                         placeholder: t('admin.saml.serviceProviderIdentifierEx'),
                         placeholder_default: 'E.g.: "https://<your-mattermost-url>/login/sso/saml"',
                         isDisabled: it.stateIsFalse('SamlSettings.Enable'),
