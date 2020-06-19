@@ -2,27 +2,27 @@
     .DataGrid {
         .DataGrid_cell {
     
-            .TeamList_NameColumn {
+            .TeamList_nameColumn {
                 display: flex;
                 align-items: center;
                 height: 80px;
 
-                .TeamList_NameText {
+                .TeamList_nameText {
                     overflow: hidden;
                 }
 
-                .TeamList_DescriptionText {
+                .TeamList_descriptionText {
                     text-overflow: ellipsis;
                     overflow: hidden;
                 }
 
             }
         
-            .TeamList_ManagementText {
+            .TeamList_managementText {
                 opacity: 0.65;
             }
         
-            .TeamList_EditText {
+            .TeamList_editText {
                 padding-right: 20px;
             }
         }

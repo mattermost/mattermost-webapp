@@ -161,18 +161,18 @@ export default class TeamList extends React.PureComponent {
             return {
                 id: team.id,
                 name: (
-                    <div className='TeamList_NameColumn'>
+                    <div className='TeamList_nameColumn'>
                         <TeamIcon
                             size='sm'
                             url={Utils.imageURLForTeam(team)}
                             name={team.display_name}
                         />
-                        <div className='TeamList_NameText'>
+                        <div className='TeamList_nameText'>
                             <b data-testid='team-display-name'>
                                 {team.display_name}
                             </b>
                             {team.description && (
-                                <div className='TeamList_DescriptionText'>
+                                <div className='TeamList_descriptionText'>
                                     {team.description}
                                 </div>
                             )}
@@ -180,14 +180,14 @@ export default class TeamList extends React.PureComponent {
                     </div>
                 ),
                 management: (
-                    <span className='TeamList_ManagementText'>
+                    <span className='TeamList_managementText'>
                         {this.renderManagementMethodText(team)}
                     </span>
                 ),
                 edit: (
                     <span
                         data-testid={`${team.display_name}edit`}
-                        className='group-actions TeamList_EditText'
+                        className='group-actions TeamList_editText'
                     >
                         <Link to={`/admin_console/user_management/teams/${team.id}`}>
                             <FormattedMessage

@@ -168,7 +168,7 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
                         ) : (
                             <GlobeIcon className='channel-icon channel-icon__globe'/>
                         )}
-                        <span className='TeamList_ChannelDisplayName'>
+                        <span className='TeamList_channelDisplayName'>
                             {channel.display_name}
                         </span>
                     </span>
