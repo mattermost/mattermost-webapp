@@ -17,7 +17,7 @@ describe('Profile popover', () => {
 
     beforeEach(() => {
         // # Login as sysadmin
-        cy.apiLogin('sysadmin');
+        cy.apiAdminLogin();
 
         // # Save Teammate Name Display Preference to username
         // # Save Message Display Preference to clean

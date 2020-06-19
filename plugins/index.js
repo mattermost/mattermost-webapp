@@ -13,6 +13,8 @@ import {unregisterAllPluginWebSocketEvents, unregisterPluginReconnectHandler} fr
 import {unregisterPluginTranslationsSource} from 'actions/views/root';
 import {unregisterAdminConsolePlugin} from 'actions/admin_actions';
 
+import {removeWebappPlugin} from './actions';
+
 // Plugins may have been compiled with the regenerator runtime. Ensure this remains available
 // as a global export even though the webapp does not depend on same.
 window.regeneratorRuntime = regeneratorRuntime;
@@ -83,7 +85,7 @@ export function loadPlugin(manifest) {
 
         if (oldManifest) {
             // upgrading, perform cleanup
-            store.dispatch({type: ActionTypes.REMOVE_WEBAPP_PLUGIN, data: manifest});
+            store.dispatch(removeWebappPlugin(manifest));
         }
 
         function onLoad() {
@@ -136,7 +138,7 @@ export function removePlugin(manifest) {
     }
     console.log('Removing ' + describePlugin(manifest)); //eslint-disable-line no-console
 
-    store.dispatch({type: ActionTypes.REMOVE_WEBAPP_PLUGIN, data: manifest});
+    store.dispatch(removeWebappPlugin(manifest));
 
     const plugin = window.plugins[manifest.id];
     if (plugin && plugin.uninitialize) {

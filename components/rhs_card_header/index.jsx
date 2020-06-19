@@ -12,8 +12,15 @@ import {
     closeRightHandSide,
     toggleRhsExpanded,
 } from 'actions/views/rhs';
+import {getIsRhsExpanded} from 'selectors/rhs';
 
-import RshCardHeader from './rhs_card_header.jsx';
+import RhsCardHeader from './rhs_card_header.jsx';
+
+function mapStateToProps(state) {
+    return {
+        isExpanded: getIsRhsExpanded(state),
+    };
+}
 
 function mapDispatchToProps(dispatch) {
     return {
@@ -28,4 +35,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(null, mapDispatchToProps)(RshCardHeader);
+export default connect(mapStateToProps, mapDispatchToProps)(RhsCardHeader);

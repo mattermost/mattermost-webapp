@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @integrations
 
 /**
@@ -20,9 +19,6 @@ describe('Integrations', () => {
 
     before(() => {
         cy.requireWebhookServer();
-
-        // # Login as sysadmin
-        cy.apiLogin('sysadmin');
 
         // # Create new team and get off-topic channel
         cy.apiCreateTeam('test-team', 'Test Team').then((teamResponse) => {
