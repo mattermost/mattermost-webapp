@@ -121,6 +121,20 @@ describe('group configuration', () => {
     });
 
     describe('adding a channel', () => {
+        it('shows default channels', () => {
+            // # Search for off-topic
+            cy.get('#add_team_or_channel').should('be.visible');
+            cy.get('#add_team_or_channel').click();
+            cy.get('.dropdown-menu').find('#add_channel').should('be.visible');
+            cy.get('.dropdown-menu').find('#add_channel').click();
+            cy.get('#selectItems').type('off-');
+
+            // * Check that the off-topic channels are displayed
+            cy.get('.more-modal__details').should('have.length', 2);
+            cy.get('.more-modal__details').first().find('.channel-name').contains('Off-Topic');
+            cy.get('.more-modal__details').last().find('.channel-name').contains('Off-Topic');
+        });
+
         it('does not add a channel without saving', () => {
             addGroupSyncable('channel', () => {
                 // # Click away

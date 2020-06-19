@@ -282,5 +282,5 @@ function scrollUpAndPostAMessage() {
 
 function scrollUp() {
     // # Scroll up so bottom is not visible
-    cy.get('div.post-list__dynamic').should('be.visible').scrollTo(0, '70%', {duration: 1000}).wait(1000);
+    cy.get('div.post-list__dynamic').should('be.visible').scrollTo(0, '70%', {duration: TIMEOUTS.ONE_SEC}).wait(TIMEOUTS.ONE_SEC);
 }
