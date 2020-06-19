@@ -86,6 +86,8 @@ describe('admin_console/team_channel_settings/channel/ChannelDetails', () => {
             addChannelMember: jest.fn(),
             removeChannelMember: jest.fn(),
             updateChannelMemberSchemeRoles: jest.fn(),
+            deleteChannel: jest.fn(),
+            unarchiveChannel: jest.fn(),
         };
 
         const additionalProps = {

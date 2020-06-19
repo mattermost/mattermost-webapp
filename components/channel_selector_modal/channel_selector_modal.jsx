@@ -24,7 +24,7 @@ export default class ChannelSelectorModal extends React.PureComponent {
         actions: PropTypes.shape({
             loadChannels: PropTypes.func.isRequired,
             setModalSearchTerm: PropTypes.func.isRequired,
-            searchChannels: PropTypes.func.isRequired,
+            searchAllChannels: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -63,7 +63,7 @@ export default class ChannelSelectorModal extends React.PureComponent {
                 this.searchTimeoutId = setTimeout(
                     async () => {
                         this.setChannelsLoadingState(true);
-                        const response = await this.props.actions.searchChannels(searchTerm, this.props.groupID, false);
+                        const response = await this.props.actions.searchAllChannels(searchTerm, this.props.groupID, false);
                         this.setState({channels: response.data});
                         this.setChannelsLoadingState(false);
                     },
