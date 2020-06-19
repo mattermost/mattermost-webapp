@@ -14,8 +14,6 @@
  * Note: This test requires Enterprise license to be uploaded
  */
 
-let guest;
-
 describe('Guest Account - Verify Guest Access UI', () => {
     before(() => {
         // * Check if server has license for Guest Accounts
@@ -29,14 +27,6 @@ describe('Guest Account - Verify Guest Access UI', () => {
             ServiceSettings: {
                 EnableMultifactorAuthentication: false,
             },
-        });
-
-        // # Create guest user account
-        cy.apiCreateNewUser().then((userResponse) => {
-            guest = userResponse;
-
-            // # Demote the current member to a guest user
-            cy.demoteUser(guest.id);
         });
 
         // # Visit System Console Users page

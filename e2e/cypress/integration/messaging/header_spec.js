@@ -77,7 +77,7 @@ describe('Header', () => {
         cy.get('#searchFormContainer').click();
         cy.get('#searchBox').should('be.visible').
             type('London{enter}').
-            wait(1000).
+            wait(TIMEOUTS.ONE_SEC).
             clear();
         cy.get('#searchbar-help-popup').should('be.visible');
         cy.get('#searchFormContainer').type('{esc}');

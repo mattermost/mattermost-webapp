@@ -135,7 +135,10 @@ before(() => {
         // # Reset admin preference, online status and locale
         cy.apiSaveTeammateNameDisplayPreference('username');
         cy.apiUpdateUserStatus('online');
-        cy.apiPatchMe({locale: 'en'});
+        cy.apiPatchMe({
+            locale: 'en',
+            timezone: {automaticTimezone: '', manualTimezone: 'UTC', useAutomaticTimezone: 'false'},
+        });
 
         // # Reset roles
         cy.apiGetClientLicense().then((res) => {

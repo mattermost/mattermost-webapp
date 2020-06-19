@@ -12,21 +12,27 @@
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
-// Username of a test user that you want to start a DM with
-let username = '';
-const baseUrl = Cypress.config('baseUrl');
-
 describe('Remove Last Post', () => {
-    beforeEach(() => {
-        // # Login as sysadmin
-        cy.apiAdminLogin();
+    let testTeam;
+    let testUser;
+    let otherUser;
 
-        // # Use the API to create a new user
-        cy.apiCreateNewUser().then((res) => {
-            username = res.username;
+    before(() => {
+        cy.apiInitSetup().then(({team, channel, user}) => {
+            testTeam = team;
+            testUser = user;
 
-            // # Start DM with new user
-            cy.visit(`/ad-1/messages/@${username}`);
+            cy.apiCreateUser().then(({user: user1}) => {
+                otherUser = user1;
+
+                cy.apiAddUserToTeam(testTeam.id, otherUser.id).then(() => {
+                    cy.apiAddUserToChannel(channel.id, otherUser.id);
+
+                    // # Login as test user and start DM with the other user
+                    cy.apiLogin(testUser.username, testUser.password);
+                    cy.visit(`/${testTeam.name}/messages/@${otherUser.username}`);
+                });
+            });
         });
     });
 
@@ -47,7 +53,8 @@ describe('Remove Last Post', () => {
             cy.get('#deletePostModalButton').click();
 
             // * Check that the user has not been re-directed to another channel
-            cy.url().should('eq', `${baseUrl}/ad-1/messages/@${username}`);
+            const baseUrl = Cypress.config('baseUrl');
+            cy.url().should('eq', `${baseUrl}/${testTeam.name}/messages/@${otherUser.username}`);
         });
     });
 });
