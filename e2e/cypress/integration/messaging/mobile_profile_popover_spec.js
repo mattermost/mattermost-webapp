@@ -7,19 +7,23 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod @smoke
+// Stage: @prod
 // Group: @messaging
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Profile popover', () => {
     before(() => {
-        // # Login and navigate to town-square
-        cy.toMainChannelView('user-1');
+        // # Set view port to mobile
         cy.viewport('iphone-6');
 
-        // # Post a new message to ensure there will be a post to click on
-        cy.postMessage('Test message');
+        // # Login as test user and visit town-square channel
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
+
+            // # Post a new message to ensure there will be a post to click on
+            cy.postMessage('Test message');
+        });
     });
 
     it('M18715 Profile popover should render (standard mode)', () => {
@@ -27,7 +31,7 @@ describe('Profile popover', () => {
         cy.apiSaveMessageDisplayPreference();
         cy.getLastPostId().then((postId) => {
             // add wait time to ensure image is rendered and can be clicked
-            cy.wait(TIMEOUTS.TINY);
+            cy.wait(TIMEOUTS.HALF_SEC);
 
             // # Click on user profile image
             cy.get(`#post_${postId}`).find('.profile-icon > img').click({force: true});

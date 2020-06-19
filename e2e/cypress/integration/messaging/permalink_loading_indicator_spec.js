@@ -9,116 +9,81 @@
 
 // Group: @messaging
 
-import {titleCase} from '../../utils';
-
+import {getRandomId} from '../../utils';
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Messaging', () => {
+    let testTeam;
     let testPrivateChannel;
     let testPublicChannel;
 
-    beforeEach(() => {
-        testPrivateChannel = null;
-        testPublicChannel = null;
+    before(() => {
+        cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
+            testTeam = team;
+            testPublicChannel = channel;
 
-        // # Login as user-1
-        cy.apiLogin('user-1');
+            cy.apiCreateChannel(testTeam.id, 'private', 'Private', 'P').then((res) => {
+                testPrivateChannel = res.body;
+            });
 
-        // # Visit the Town Square channel
-        cy.visit('/ad-1/channels/town-square');
-    });
-
-    afterEach(() => {
-        cy.apiLogin('sysadmin');
-        if (testPrivateChannel && testPrivateChannel.id) {
-            cy.apiDeleteChannel(testPrivateChannel.id);
-        }
-        if (testPublicChannel && testPublicChannel.id) {
-            cy.apiDeleteChannel(testPublicChannel.id);
-        }
+            cy.visit(`/${testTeam.name}/channels/town-square`);
+        });
     });
 
     it('M18701-Permalink to first post in channel shows endless loading indicator above', () => {
-        const dateNow = Date.now();
-        const message = 'Hello' + dateNow;
+        const message = getRandomId();
         const maxMessageCount = 10;
-        const privateChannelName = 'test-private-channel-' + dateNow;
-        const privateChannelDisplayName = titleCase(privateChannelName.replace(/-/g, ' '));
-        const publicChannelName = 'test-public-channel-' + dateNow;
-        const publicChannelDisplayName = titleCase(publicChannelName.replace(/-/g, ' '));
-        let linkText;
-        let permalinkId;
 
-        // # Get current team id
-        cy.getCurrentTeamId().then((teamId) => {
-            // # Create private channel to post message
-            cy.apiCreateChannel(teamId, privateChannelName, privateChannelDisplayName, 'P', 'Test private channel').then((response) => {
-                testPrivateChannel = response.body;
+        // # Click on test private channel
+        cy.get('#sidebarItem_' + testPrivateChannel.name).click({force: true});
 
-                // # Click on test private channel
-                cy.get('#sidebarItem_' + testPrivateChannel.name).click({force: true});
+        // # Post several messages
+        for (let i = 1; i <= maxMessageCount; i++) {
+            cy.postMessage(`${message}-${i}`);
+        }
 
-                // # Post several messages
-                for (let i = 1; i <= maxMessageCount; i++) {
-                    cy.postMessage(`${message}-${i}`);
-                }
+        // # Get first post id from that postlist area
+        cy.getNthPostId(-maxMessageCount).then((permalinkPostId) => {
+            const permalink = `${Cypress.config('baseUrl')}/${testTeam.name}/pl/${permalinkPostId}`;
 
-                // # Get first post id from that postlist area
-                cy.getNthPostId(-maxMessageCount).then((postId) => {
-                    permalinkId = postId;
+            // # Click on ... button of last post
+            cy.clickPostDotMenu(permalinkPostId);
 
-                    // # Click on ... button of last post
-                    cy.clickPostDotMenu(postId);
+            // # Click on "Copy Link"
+            cy.uiClickCopyLink(permalink);
 
-                    // # Click on permalink option
-                    cy.get(`#permalink_${postId}`).should('be.visible').click().wait(TIMEOUTS.SMALL);
+            // # Click on test public channel
+            cy.get('#sidebarItem_' + testPublicChannel.name).click({force: true});
 
-                    // * Check clipboard contains permalink
-                    cy.task('getClipboard').should('contain', `/ad-1/pl/${postId}`).then((text) => {
-                        linkText = text;
-                    });
-                });
+            // # Paste link on postlist area
+            cy.postMessage(permalink);
+            cy.uiWaitUntilMessagePostedIncludes(permalink);
+
+            // # Get last post id from that postlist area
+            cy.getLastPostId().then((postId) => {
+                // # Click on permalink
+                cy.get(`#postMessageText_${postId} > p > .markdown__link`).scrollIntoView().click();
+
+                // * Check if url include the permalink
+                cy.url().should('include', `/${testTeam.name}/channels/${testPrivateChannel.name}/${permalinkPostId}`);
+
+                // * Check if url redirects back to parent path eventually
+                cy.wait(TIMEOUTS.FIVE_SEC).url().should('include', `/${testTeam.name}/channels/${testPrivateChannel.name}`).and('not.include', `/${permalinkPostId}`);
+
+                // * Check if the matching channel intro title is visible
+                cy.get('#channelIntro').contains('.channel-intro__title', `Beginning of ${testPrivateChannel.display_name}`).should('be.visible');
             });
-        });
 
-        // # Get current team id
-        cy.getCurrentTeamId().then((teamId) => {
-            // # Create public channel to post permalink
-            cy.apiCreateChannel(teamId, publicChannelName, publicChannelDisplayName, 'O', 'Test public channel').then((response) => {
-                testPublicChannel = response.body;
+            // # Get last post id from open channel
+            cy.getLastPostId().then((clickedPostId) => {
+                // * Check the sent message
+                cy.get(`#postMessageText_${clickedPostId}`).scrollIntoView().should('be.visible').and('have.text', `${message}-${maxMessageCount}`);
 
-                // # Click on test public channel
-                cy.get('#sidebarItem_' + testPublicChannel.name).click({force: true});
+                // * Check if the loading indicator is not visible
+                cy.get('.loading-screen').should('not.be.visible');
 
-                // # Paste link on postlist area
-                cy.postMessage(linkText);
-
-                // # Get last post id from that postlist area
-                cy.getLastPostId().then((postId) => {
-                    // # Click on permalink
-                    cy.get(`#postMessageText_${postId} > p > .markdown__link`).scrollIntoView().click();
-
-                    // * Check if url include the permalink
-                    cy.url().should('include', `/ad-1/channels/${testPrivateChannel.name}/${permalinkId}`);
-
-                    // * Check if url redirects back to parent path eventually
-                    cy.wait(TIMEOUTS.SMALL).url().should('include', `/ad-1/channels/${testPrivateChannel.name}`).and('not.include', `/${permalinkId}`);
-
-                    // * Check if the matching channel intro title is visible
-                    cy.get('#channelIntro').contains('.channel-intro__title', `Beginning of ${testPrivateChannel.display_name}`).should('be.visible');
-                });
-
-                // # Get last post id from open channel
-                cy.getLastPostId().then((clickedPostId) => {
-                    // * Check the sent message
-                    cy.get(`#postMessageText_${clickedPostId}`).scrollIntoView().should('be.visible').and('have.text', `${message}-${maxMessageCount}`);
-
-                    // * Check if the loading indicator is not visible
-                    cy.get('.loading-screen').should('not.be.visible');
-
-                    // * Check if the more messages text is not visible
-                    cy.get('.more-messages-text').should('not.be.visible');
-                });
+                // * Check if the more messages text is not visible
+                cy.get('.more-messages-text').should('not.be.visible');
             });
         });
     });

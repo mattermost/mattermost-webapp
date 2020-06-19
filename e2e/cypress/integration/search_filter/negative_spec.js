@@ -7,7 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod @smoke
+// Stage: @prod
 // Group: @search_date_filter
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
@@ -17,17 +17,17 @@ describe('Negative search filters will omit results', () => {
 
     function search(query) {
         cy.reload();
-        cy.get('#searchBox').clear().wait(500).type(query).wait(500).type('{enter}');
+        cy.get('#searchBox').clear().wait(TIMEOUTS.HALF_SEC).type(query).wait(TIMEOUTS.HALF_SEC).type('{enter}');
 
         cy.get('#loadingSpinner').should('not.be.visible');
-        cy.get('#search-items-container', {timeout: TIMEOUTS.HUGE}).should('be.visible');
+        cy.get('#search-items-container', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
     }
 
     function searchAndVerify(query) {
         search(query);
 
         // * Verify the amount of results matches the amount of our expected results
-        cy.queryAllByTestId('search-item-container').should('have.length', 1).then((results) => {
+        cy.findAllByTestId('search-item-container').should('have.length', 1).then((results) => {
             // * Verify text of each result
             cy.wrap(results).first().find('.post-message').should('have.text', message);
         });
@@ -41,21 +41,19 @@ describe('Negative search filters will omit results', () => {
         cy.get('.search-item__container').should('not.exist');
     }
 
+    let testUser;
+
     before(() => {
-        // # Login as the sysadmin.
-        cy.apiLogin('sysadmin');
+        // # Login as test user and go to town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team, user}) => {
+            testUser = user;
 
-        // # Create a new team
-        cy.apiCreateTeam('filter-test', 'filter-test').its('body').as('team');
-
-        // # Get team name and visit that team
-        cy.get('@team').then((team) => {
             cy.visit(`/${team.name}/channels/town-square`);
-        });
 
-        // # Create a post from today
-        cy.get('#postListContent', {timeout: TIMEOUTS.LARGE}).should('be.visible');
-        cy.postMessage(message);
+            // # Create a post from today
+            cy.get('#postListContent', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible');
+            cy.postMessage(message);
+        });
     });
 
     it('just search query', () => {
@@ -86,7 +84,7 @@ describe('Negative search filters will omit results', () => {
     });
 
     it('-from:', () => {
-        const query = `from:sysadmin ${message}`;
+        const query = `from:${testUser.username} ${message}`;
         searchAndVerify(query);
     });
 });

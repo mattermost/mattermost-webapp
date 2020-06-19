@@ -7,14 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-import users from '../../../fixtures/users.json';
 import * as TIMEOUTS from '../../../fixtures/timeouts';
-
-let team;
-let channel;
-let user1;
-let user2;
-let sysadmin;
 
 const saveConfig = () => {
     // # Click save
@@ -25,63 +18,37 @@ const saveConfig = () => {
 };
 
 describe('Channel members test', () => {
+    let testChannel;
+    let user1;
+    let user2;
+    let sysadmin;
+
     before(() => {
         // # Login as sysadmin
-        cy.apiLogin('sysadmin');
+        cy.apiAdminLogin().then((res) => {
+            sysadmin = res.body;
+        });
 
         // * Check if server has license
         cy.requireLicense();
 
-        // # Create a new team and channel that are not group constrained
-        cy.apiCreateTeam('test-team', 'Test Team').then((teamRes) => {
-            team = teamRes.body;
-            cy.apiCreateChannel(team.id, 'channel-members-test-channel', 'Channel members test channel').then((channelRes) => {
-                channel = channelRes.body;
+        cy.apiInitSetup().then(({team, channel, user}) => {
+            user1 = user;
+            testChannel = channel;
 
-                // # Make sure user1 is in the team and channel initially
-                cy.apiGetUserByEmail(users['user-1'].email).then((user1Res) => {
-                    user1 = user1Res.body;
-                    cy.apiAddUserToTeam(team.id, user1.id).then(() => {
-                        cy.apiAddUserToChannel(channel.id, user1.id);
-                    });
-                });
+            cy.apiCreateUser().then(({user: newUser}) => {
+                user2 = newUser;
 
-                // # Make sure user2 is in the team and channel initially
-                cy.apiGetUserByEmail(users['user-2'].email).then((user2Res) => {
-                    user2 = user2Res.body;
-                    cy.apiAddUserToTeam(team.id, user2.id).then(() => {
-                        cy.apiAddUserToChannel(channel.id, user2.id);
-                    });
-                });
-
-                // # Make sure sysadmin is in the team and channel initially
-                cy.apiGetUserByEmail(users.sysadmin.email).then((sysadminRes) => {
-                    sysadmin = sysadminRes.body;
-                    cy.apiAddUserToTeam(team.id, sysadmin.id).then(() => {
-                        cy.apiAddUserToChannel(channel.id, sysadmin.id);
-                    });
+                cy.apiAddUserToTeam(team.id, user2.id).then(() => {
+                    cy.apiAddUserToChannel(testChannel.id, user2.id);
                 });
             });
         });
     });
 
-    after(() => {
-        // # Login as sysadmin
-        cy.apiLogin('sysadmin');
-
-        // # Reset data after running tests
-        if (channel?.id) {
-            cy.apiDeleteChannel(channel.id).then(() => {
-                if (team?.id) {
-                    cy.apiDeleteTeam(team.id, true);
-                }
-            });
-        }
-    });
-
     it('MM-23938 - Channel members block is only visible when channel is not group synced', () => {
         // # Visit the channel page
-        cy.visit(`/admin_console/user_management/channels/${channel.id}`);
+        cy.visit(`/admin_console/user_management/channels/${testChannel.id}`);
 
         // * Assert that the members block is visible on non group synced channel
         cy.get('#channelMembers').scrollIntoView().should('be.visible');
@@ -95,14 +62,14 @@ describe('Channel members test', () => {
 
     it('MM-23938 - Channel Members block can search for users, remove users, add users and modify their roles', () => {
         // # Visit the channel page
-        cy.visit(`/admin_console/user_management/channels/${channel.id}`);
+        cy.visit(`/admin_console/user_management/channels/${testChannel.id}`);
 
         // * Assert that the members block is visible on non group synced team
         cy.get('#channelMembers').scrollIntoView().should('be.visible');
 
         // # Search for user1 that we know is in the team
         cy.get('#channelMembers .DataGrid_search input').clear().type(user1.email);
-        cy.wait(TIMEOUTS.TINY); // Timeout required to wait for timeout that happens when search input changes
+        cy.wait(TIMEOUTS.HALF_SEC); // Timeout required to wait for timeout that happens when search input changes
 
         // # Wait till loading complete and then remove the only visible user
         cy.get('#channelMembers .DataGrid_loading').should('not.be.visible');
@@ -119,7 +86,7 @@ describe('Channel members test', () => {
 
         // # Search for user2 that we know is in the team
         cy.get('#channelMembers .DataGrid_search input').clear().type(user2.email);
-        cy.wait(TIMEOUTS.TINY); // Timeout required to wait for timeout that happens when search input changes
+        cy.wait(TIMEOUTS.HALF_SEC); // Timeout required to wait for timeout that happens when search input changes
 
         // # Wait till loading complete and then remove the only visible user
         cy.get('#channelMembers .DataGrid_loading').should('not.be.visible');
@@ -138,18 +105,18 @@ describe('Channel members test', () => {
         cy.get('#channelMembers').should('not.be.visible');
 
         // # Visit the channel page
-        cy.visit(`/admin_console/user_management/channels/${channel.id}`);
+        cy.visit(`/admin_console/user_management/channels/${testChannel.id}`);
 
         // # Search for user1 that we know is no longer in the team
         cy.get('#channelMembers .DataGrid_search input').scrollIntoView().clear().type(user1.email);
-        cy.wait(TIMEOUTS.TINY); // Timeout required to wait for timeout that happens when search input changes
+        cy.wait(TIMEOUTS.HALF_SEC); // Timeout required to wait for timeout that happens when search input changes
 
         // * Assert that no matching users found
         cy.get('#channelMembers .DataGrid_rows').should('contain', 'No users found');
 
         // # Search for user2 that we know is no longer in the team
         cy.get('#channelMembers .DataGrid_search input').clear().type(user2.email);
-        cy.wait(TIMEOUTS.TINY); // Timeout required to wait for timeout that happens when search input changes
+        cy.wait(TIMEOUTS.HALF_SEC); // Timeout required to wait for timeout that happens when search input changes
 
         // * Assert that no matching users found
         cy.get('#channelMembers .DataGrid_rows').should('contain', 'No users found');
@@ -165,7 +132,7 @@ describe('Channel members test', () => {
 
         // # Search for user1
         cy.get('#channelMembers .DataGrid_search input').clear().type(user1.email);
-        cy.wait(TIMEOUTS.TINY); // Timeout required to wait for timeout that happens when search input changes
+        cy.wait(TIMEOUTS.HALF_SEC); // Timeout required to wait for timeout that happens when search input changes
 
         // * Assert that the user is now added to the members block and contains text denoting that they are New
         cy.get('#channelMembers .DataGrid_rows').children(0).should('contain', user1.email).and('contain', 'New');
@@ -182,14 +149,14 @@ describe('Channel members test', () => {
 
         // # Search for user2
         cy.get('#channelMembers .DataGrid_search input').clear().type(user2.email);
-        cy.wait(TIMEOUTS.TINY); // Timeout required to wait for timeout that happens when search input changes
+        cy.wait(TIMEOUTS.HALF_SEC); // Timeout required to wait for timeout that happens when search input changes
 
         // * Assert that the user is now added to the members block and contains text denoting that they are New
         cy.get('#channelMembers .DataGrid_rows').children(0).should('contain', user2.email).and('contain', 'New');
 
         // # Search for sysadmin
         cy.get('#channelMembers .DataGrid_search input').clear().type(sysadmin.email);
-        cy.wait(TIMEOUTS.TINY); // Timeout required to wait for timeout that happens when search input changes
+        cy.wait(TIMEOUTS.HALF_SEC); // Timeout required to wait for timeout that happens when search input changes
 
         // * Assert that searching for users after adding users returns only relevant search results
         cy.get('#channelMembers .DataGrid_rows').children(0).should('contain', sysadmin.email);
@@ -198,11 +165,11 @@ describe('Channel members test', () => {
         saveConfig();
 
         // # Visit the channel page
-        cy.visit(`/admin_console/user_management/channels/${channel.id}`);
+        cy.visit(`/admin_console/user_management/channels/${testChannel.id}`);
 
         // # Search user1 that we know is now in the team again
         cy.get('#channelMembers .DataGrid_search input').scrollIntoView().clear().type(user1.email);
-        cy.wait(TIMEOUTS.TINY); // Timeout required to wait for timeout that happens when search input changes
+        cy.wait(TIMEOUTS.HALF_SEC); // Timeout required to wait for timeout that happens when search input changes
         cy.get('#channelMembers .DataGrid_loading').should('not.be.visible');
 
         // * Assert that the user is now saved as an admin
@@ -222,7 +189,7 @@ describe('Channel members test', () => {
 
         // # Search user2 that we know is now in the team again
         cy.get('#channelMembers .DataGrid_search input').scrollIntoView().clear().type(user2.email);
-        cy.wait(TIMEOUTS.TINY); // Timeout required to wait for timeout that happens when search input changes
+        cy.wait(TIMEOUTS.HALF_SEC); // Timeout required to wait for timeout that happens when search input changes
         cy.get('#channelMembers .DataGrid_loading').should('not.be.visible');
 
         // * Assert user2 is now saved as a regular member

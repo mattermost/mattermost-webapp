@@ -63,7 +63,7 @@ export default class ChannelSelectorModal extends React.PureComponent {
                 this.searchTimeoutId = setTimeout(
                     async () => {
                         this.setChannelsLoadingState(true);
-                        const response = await this.props.actions.searchChannels(searchTerm, this.props.groupID, true);
+                        const response = await this.props.actions.searchChannels(searchTerm, this.props.groupID, false);
                         this.setState({channels: response.data});
                         this.setChannelsLoadingState(false);
                     },
@@ -115,7 +115,7 @@ export default class ChannelSelectorModal extends React.PureComponent {
     handlePageChange = (page, prevPage) => {
         if (page > prevPage) {
             this.setChannelsLoadingState(true);
-            this.props.actions.loadChannels(page, CHANNELS_PER_PAGE + 1, this.props.groupID, true).then((response) => {
+            this.props.actions.loadChannels(page, CHANNELS_PER_PAGE + 1, this.props.groupID, false).then((response) => {
                 const newState = [...this.state.channels];
                 const stateChannelIDs = this.state.channels.map((stateChannel) => stateChannel.id);
                 response.data.forEach((serverChannel) => {
@@ -157,10 +157,10 @@ export default class ChannelSelectorModal extends React.PureComponent {
                 <div
                     className='more-modal__details'
                 >
-                    {option.type === 'P' &&
-                        <i className='icon icon-globe'/>}
-                    {option.type === 'O' &&
+                    {option.type === Constants.PRIVATE_CHANNEL &&
                         <i className='icon icon-lock-outline'/>}
+                    {option.type === Constants.OPEN_CHANNEL &&
+                        <i className='icon icon-globe'/>}
                     <span className='channel-name'>{option.display_name}</span>
                     <span className='team-name'>{'(' + option.team_display_name + ')'}</span>
                 </div>
