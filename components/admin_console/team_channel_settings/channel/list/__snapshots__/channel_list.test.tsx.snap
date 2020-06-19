@@ -91,7 +91,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               className="channel-icon channel-icon__globe"
             />
             <span
-              className="TeamList_ChannelDisplayName"
+              className="TeamList_channelDisplayName"
             >
               DN
             </span>
@@ -208,7 +208,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               className="channel-icon channel-icon__globe"
             />
             <span
-              className="TeamList_ChannelDisplayName"
+              className="TeamList_channelDisplayName"
             >
               DN0
             </span>
@@ -252,7 +252,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               className="channel-icon channel-icon__globe"
             />
             <span
-              className="TeamList_ChannelDisplayName"
+              className="TeamList_channelDisplayName"
             >
               DN1
             </span>
@@ -296,7 +296,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               className="channel-icon channel-icon__globe"
             />
             <span
-              className="TeamList_ChannelDisplayName"
+              className="TeamList_channelDisplayName"
             >
               DN2
             </span>
@@ -340,7 +340,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               className="channel-icon channel-icon__globe"
             />
             <span
-              className="TeamList_ChannelDisplayName"
+              className="TeamList_channelDisplayName"
             >
               DN3
             </span>
@@ -384,7 +384,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               className="channel-icon channel-icon__globe"
             />
             <span
-              className="TeamList_ChannelDisplayName"
+              className="TeamList_channelDisplayName"
             >
               DN4
             </span>
@@ -428,7 +428,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               className="channel-icon channel-icon__globe"
             />
             <span
-              className="TeamList_ChannelDisplayName"
+              className="TeamList_channelDisplayName"
             >
               DN5
             </span>
@@ -472,7 +472,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               className="channel-icon channel-icon__globe"
             />
             <span
-              className="TeamList_ChannelDisplayName"
+              className="TeamList_channelDisplayName"
             >
               DN6
             </span>
@@ -516,7 +516,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               className="channel-icon channel-icon__globe"
             />
             <span
-              className="TeamList_ChannelDisplayName"
+              className="TeamList_channelDisplayName"
             >
               DN7
             </span>
@@ -560,7 +560,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               className="channel-icon channel-icon__globe"
             />
             <span
-              className="TeamList_ChannelDisplayName"
+              className="TeamList_channelDisplayName"
             >
               DN8
             </span>
@@ -604,7 +604,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               className="channel-icon channel-icon__globe"
             />
             <span
-              className="TeamList_ChannelDisplayName"
+              className="TeamList_channelDisplayName"
             >
               DN9
             </span>
