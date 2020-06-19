@@ -2,47 +2,100 @@
 // See LICENSE.txt for license information.
 
 // ***************************************************************
-// [#] indicates a test step (e.g. # Go to a page)
-// [*] indicates an assertion (e.g. * Check the title)
-// Use element ID when selecting an element. Create one if none.
+// - [#] indicates a test step (e.g. # Go to a page)
+// - [*] indicates an assertion (e.g. * Check the title)
+// - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
 // Stage: @prod
 // Group: @messaging
 
+/**
+* Pin post by cliking on [...] then 'Pin to channel'
+* @param {String} postId - post ID of the post to pin
+*/
+function pinPost(index) {
+    cy.getNthPostId(index).then((postId) => {
+        cy.clickPostDotMenu(postId);
+        cy.get(`#pin_post_${postId}`).click();
+    });
+}
+
 describe('Messaging', () => {
     before(() => {
-        // # Login as "user-1" and go to /
-        cy.apiLogin('user-1');
-        cy.visit('/ad-1/channels/town-square');
-    });
-
-    it('M17444 - correctly parses "://///" as Markdown and does not break the channel', () => {
-        // # Go to Town Square as test channel
-        cy.get('#sidebarItem_town-square').click({force: true});
-
-        // # Validate if the channel has been opened
-        cy.url().should('include', '/channels/town-square');
-
-        // # type in the message "://///"
-        const message = '://///';
-        const textAfterParsed = `:confused:${message.substr(2)}`;
-        cy.postMessage(message);
-
-        // # check if message sent correctly, it should parse it as 😕////"
-        cy.getLastPostId().then((postId) => {
-            verifyPostedMessage(postId, textAfterParsed);
-
-            // # check if message still correctly parses after reload
-            cy.reload();
-            verifyPostedMessage(postId, textAfterParsed);
+        // # Login as test user and visit town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
         });
     });
 
-    function verifyPostedMessage(postId, text) {
-        cy.get(`#postMessageText_${postId}`).should('be.visible').within((el) => {
-            cy.wrap(el).should('have.text', text);
-            cy.get('.emoticon').should('be.visible').and('have.attr', 'title', ':confused:');
+    it('M15010 Pinning or un-pinning older post does not cause it to display at bottom of channel', () => {
+        // * Post a message
+        cy.postMessage('Hello');
+
+        // # Post messages
+        const olderPost = 7;
+        for (let i = olderPost; i > 0; --i) {
+            cy.postMessage(i);
+        }
+
+        // # Ensure there are a couple of pinned posts in the channel already:
+        // # Pin 4th and 6th posts from latest
+        pinPost(-4);
+        pinPost(-6);
+
+        // # Click on Pinned Posts channel header button
+        cy.get('#channelHeaderPinButton').click();
+
+        // * Verify the pinned posts (4 & 6) are added to the Pinned Posts list on the right hand side
+        cy.get('#search-items-container').children().should('have.length', 2);
+
+        // # Close out of the Pinned Post side bar
+        cy.get('#searchResultsCloseButton').click();
+
+        // # Get last post (7th)
+        cy.getNthPostId(-olderPost).then((postId) => {
+            // # Scroll into view
+            cy.get(`#post_${postId}`).scrollIntoView();
+
+            // # Click [...] > Pin to channel
+            pinPost(-olderPost);
+
+            // # Store the post message of the 20th post as pinnedPostText
+            cy.get(`#postMessageText_${postId}`).invoke('text').then((pinnedPostText) => {
+                // # Store the last post ID as lastPostId
+                cy.getLastPostId().then((lastPostId) => {
+                    // # Scroll down to the last post
+                    cy.get(`#post_${lastPostId}`).scrollIntoView();
+
+                    // * Verify that message just pinned does not display at bottom in center channel as newest in channel
+                    cy.get(`#postMessageText_${lastPostId}`).should('not.contain', pinnedPostText);
+
+                    // # Click pin icon to view pinned posts in right-hand-side
+                    cy.get('#channelHeaderPinButton').click();
+
+                    // * Verify that there are now 3 pinned messages in the right-hand-side
+                    cy.get('#search-items-container').children().should('have.length', 3);
+
+                    // * Verify sorted by newest at top: 1st post is the newest, and 3rd post is the oldest
+                    cy.get('#search-items-container').children().eq(0).get(`#postMessageText_${lastPostId}`);
+                    cy.get('#search-items-container').children().eq(2).get(`#postMessageText_${postId}`).and('contain', pinnedPostText);
+
+                    // # Scroll back up to the last pinned post.
+                    cy.get(`#post_${postId}`).scrollIntoView();
+
+                    // * When un-pinned in center, post disappears from pinned posts list in right-hand-side:
+                    // # Click [...] > Un-pin from channel
+                    cy.clickPostDotMenu(postId);
+                    cy.get(`#unpin_post_${postId}`).click();
+
+                    // * Right-hand-side only has 2 initially pinned posts
+                    cy.get('#search-items-container').children().should('have.length', 2);
+
+                    // * Right-hand-side does not have the last pinned post.
+                    cy.get('#search-items-container').children().should('not.contain', `#rhsPostMessageText_${postId}`);
+                });
+            });
         });
-    }
+    });
 });

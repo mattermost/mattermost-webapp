@@ -11,11 +11,18 @@
 // Group: @search
 
 describe('Search', () => {
-    it('S14548 Search results Right-Hand-Side: Post a comment', () => {
-        // # Login and navigate to the app
-        cy.apiLogin('user-1');
-        cy.visit('/ad-1/channels/town-square');
+    before(() => {
+        // # Login as test user and visit town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
 
+            Cypress._.times(5, () => {
+                cy.postMessage(`asparagus${Date.now()}`);
+            });
+        });
+    });
+
+    it('S14548 Search results Right-Hand-Side: Post a comment', () => {
         const message = `asparagus${Date.now()}`;
         const comment = 'Replying to asparagus';
 

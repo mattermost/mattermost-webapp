@@ -12,9 +12,15 @@
 
 describe('Search', () => {
     before(() => {
-        // # Login and navigate to the app
-        cy.apiLogin('user-1');
-        cy.visit('/ad-1/channels/town-square');
+        // # Login as test user and visit town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
+
+            Cypress._.times(5, () => {
+                cy.postMessage(`apple${Date.now()}`);
+                cy.postMessage(`banana${Date.now()}`);
+            });
+        });
     });
 
     it('S19944 Highlighting does not change to what is being typed in the search input box', () => {
