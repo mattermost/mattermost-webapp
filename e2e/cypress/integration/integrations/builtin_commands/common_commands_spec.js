@@ -38,7 +38,7 @@ describe('I18456 Built-in slash commands: common', () => {
 
         // * Suggestion list should be visible
         // # Scroll to bottom and verify that the last command "/shrug" is visible
-        cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('be.visible').scrollTo('bottom').then((container) => {
+        cy.get('#suggestionList', {timeout: TIMEOUTS.FIVE_SEC}).should('be.visible').scrollTo('bottom').then((container) => {
             cy.contains('/away', {container}).should('not.be.visible');
             cy.contains('/shrug [message]', {container}).should('be.visible');
         });

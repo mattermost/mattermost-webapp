@@ -80,7 +80,7 @@ function verifyColorPickerChange(stylesText, iconButtonId, modalId, iconValueId,
 
     // # Enter hex value
     cy.get(modalId).within(() => {
-        cy.get('input').clear({force: true}).invoke('val', hexValue).wait(TIMEOUTS.TINY).type(' {backspace}{enter}', {force: true});
+        cy.get('input').clear({force: true}).invoke('val', hexValue).wait(TIMEOUTS.HALF_SEC).type(' {backspace}{enter}', {force: true});
     });
 
     // # Toggle theme colors the custom theme

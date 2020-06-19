@@ -5,7 +5,6 @@
     "aws-sdk": "2.696.0",
     "axios": "0.19.2",
     "chalk": "4.1.0",
-    "clipboardy": "2.3.0",
     "cypress": "4.8.0",
     "cypress-file-upload": "4.0.7",
     "cypress-multi-reporters": "1.4.0",

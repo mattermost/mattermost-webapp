@@ -218,8 +218,8 @@ class DataGrid extends React.PureComponent<Props, State> {
             }
 
             footer = (
-                <div className='DataGrid_row'>
-                    <div className='DataGrid_cell DataGrid_footer'>
+                <div className='DataGrid_footer'>
+                    <div className='DataGrid_cell'>
                         <FormattedMessage
                             id='admin.data_grid.paginatorCount'
                             defaultMessage='{startCount, number} - {endCount, number} of {total, number}'
