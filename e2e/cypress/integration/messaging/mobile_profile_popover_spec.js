@@ -7,7 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod @smoke
+// Stage: @prod
 // Group: @messaging
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
@@ -27,7 +27,7 @@ describe('Profile popover', () => {
         cy.apiSaveMessageDisplayPreference();
         cy.getLastPostId().then((postId) => {
             // add wait time to ensure image is rendered and can be clicked
-            cy.wait(TIMEOUTS.TINY);
+            cy.wait(TIMEOUTS.HALF_SEC);
 
             // # Click on user profile image
             cy.get(`#post_${postId}`).find('.profile-icon > img').click({force: true});

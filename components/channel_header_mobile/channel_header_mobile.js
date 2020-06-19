@@ -40,6 +40,16 @@ export default class ChannelHeaderMobile extends React.PureComponent {
         isMuted: PropTypes.bool,
 
         /**
+         * Bool whether the right hand side is open
+         */
+        isRHSOpen: PropTypes.bool,
+
+        /**
+         * Relative url for the team, used to redirect if a link in the channel header is clicked
+         */
+        currentRelativeTeamUrl: PropTypes.string,
+
+        /**
          * Object with action creators
          */
         actions: PropTypes.shape({
@@ -69,7 +79,7 @@ export default class ChannelHeaderMobile extends React.PureComponent {
     }
 
     render() {
-        const {user, channel, isMuted} = this.props;
+        const {user, channel, isMuted, isReadOnly, isRHSOpen, currentRelativeTeamUrl} = this.props;
 
         return (
             <nav
@@ -94,7 +104,9 @@ export default class ChannelHeaderMobile extends React.PureComponent {
                                 <ChannelInfoButton
                                     ref='headerOverlay'
                                     channel={channel}
-                                    isReadOnly={this.props.isReadOnly}
+                                    isReadOnly={isReadOnly}
+                                    isRHSOpen={isRHSOpen}
+                                    currentRelativeTeamUrl={currentRelativeTeamUrl}
                                 />
                                 <ShowSearchButton/>
                                 <MobileChannelHeaderPlug

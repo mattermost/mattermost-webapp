@@ -22,8 +22,7 @@ describe('Draw plugin : Post message', () => {
     const pluginId = 'com.mattermost.draw-plugin';
 
     before(() => {
-        // # Login as sysadmin and update config
-        cy.apiLogin('sysadmin');
+        // # Update config
         cy.apiUpdateConfig({
             PluginSettings: {
                 Enable: true,
@@ -44,7 +43,7 @@ describe('Draw plugin : Post message', () => {
 
     after(() => {
         // # UnInstall Draw plugin
-        cy.apiLogin('sysadmin');
+        cy.apiAdminLogin();
         cy.apiRemovePluginById(pluginId);
     });
 
@@ -59,7 +58,7 @@ describe('Draw plugin : Post message', () => {
         cy.get('canvas').trigger('pointerdown').trigger('pointerup').click();
         cy.findByText('Upload').should('be.visible').click();
         cy.get('#post_textbox').
-            should('be.visible').wait(TIMEOUTS.TINY).
+            should('be.visible').wait(TIMEOUTS.HALF_SEC).
             should('have.text', 'This check is for draw plugin');
 
         //Assertion 2 :Cancel draw plugin upload and check Message doesn't post
@@ -71,7 +70,7 @@ describe('Draw plugin : Post message', () => {
         // * Cancel the file upload process and verify drafted message still exist in textbox
         cy.findByText('Cancel').should('be.visible').click();
         cy.get('#post_textbox').
-            should('be.visible').wait(TIMEOUTS.TINY).
+            should('be.visible').wait(TIMEOUTS.HALF_SEC).
             should('have.text', 'This check is for draw plugin');
 
         //Assertion 3 : click on Your Computer and check message doesn't post
@@ -81,7 +80,7 @@ describe('Draw plugin : Post message', () => {
         cy.get('#fileUploadOptions').findByText('Your computer').click();
 
         // * Click on my computer and verify drafted message still exist in textbox
-        cy.get('#post_textbox').should('be.visible').wait(TIMEOUTS.TINY).
+        cy.get('#post_textbox').should('be.visible').wait(TIMEOUTS.HALF_SEC).
             should('have.text', 'This check is for draw plugin');
     });
 });

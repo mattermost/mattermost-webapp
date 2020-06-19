@@ -52,7 +52,7 @@ describe('Compact view: Markdown quotation', () => {
     function resetRoot() {
         // # Write a message from SysAdmin to make sure we have the root on compact mode
         cy.apiLogout();
-        cy.apiLogin('sysadmin');
+        cy.apiAdminLogin();
         cy.visit('/ad-1/messages/@user-1');
         cy.postMessage('Hello' + Date.now());
 

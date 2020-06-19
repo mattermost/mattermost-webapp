@@ -7,13 +7,12 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod @smoke
+// Stage: @prod
 // Group: @enterprise @system_console
 
 describe('System Console', () => {
     before(() => {
-        // * Login as sysadmin and check if server has license for ID Loaded Push Notifications
-        cy.apiLogin('sysadmin');
+        // * Check if server has license for ID Loaded Push Notifications
         cy.requireLicenseForFeature('IDLoadedPushNotifications');
 
         // # Update to default config
