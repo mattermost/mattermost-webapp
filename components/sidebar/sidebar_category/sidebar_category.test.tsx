@@ -19,7 +19,7 @@ describe('components/sidebar/sidebar_category', () => {
             type: CategoryTypes.CUSTOM,
             display_name: 'custom_category_1',
             channel_ids: ['channel_id'],
-            sorting: CategorySorting.Recency,
+            sorting: CategorySorting.Alphabetical,
         },
         channels: [
             {
@@ -137,6 +137,7 @@ describe('components/sidebar/sidebar_category', () => {
             category: {
                 ...baseProps.category,
                 type: CategoryTypes.DIRECT_MESSAGES,
+                sorting: CategorySorting.Recency,
             },
             channels: [],
         };
