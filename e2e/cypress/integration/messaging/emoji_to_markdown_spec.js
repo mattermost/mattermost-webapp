@@ -7,7 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod @smoke
+// Stage: @prod
 // Group: @messaging
 
 function createMessages(message, aliases) {
@@ -17,7 +17,7 @@ function createMessages(message, aliases) {
         cy.clickPostCommentIcon(postId);
     });
 
-    cy.postMessageReplyInRHS(message + '{enter}');
+    cy.postMessageReplyInRHS(message);
     cy.getLastPostId().then((postId) => {
         cy.get(`#postMessageText_${postId}`).as(aliases[1]);
     });

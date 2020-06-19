@@ -315,7 +315,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
                 },
                 Object {
                   "order": 5,
-                  "text": "Nederlands (Beta)",
+                  "text": "Nederlands",
                   "value": "nl",
                 },
                 Object {
@@ -340,7 +340,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
                 },
                 Object {
                   "order": 10,
-                  "text": "Pусский (Beta)",
+                  "text": "Pусский",
                   "value": "ru",
                 },
                 Object {
@@ -429,7 +429,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
                 },
                 Object {
                   "order": 5,
-                  "text": "Nederlands (Beta)",
+                  "text": "Nederlands",
                   "value": "nl",
                 },
                 Object {
@@ -454,7 +454,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
                 },
                 Object {
                   "order": 10,
-                  "text": "Pусский (Beta)",
+                  "text": "Pусский",
                   "value": "ru",
                 },
                 Object {

@@ -27,7 +27,9 @@ export default class PostEmoji extends React.PureComponent<PostEmojiProps, {}> {
                 className='emoticon'
                 title={emojiText}
                 style={{backgroundImage: 'url(' + this.props.imageUrl + ')'}}
-            />
+            >
+                {emojiText}
+            </span>
         );
     }
 }

@@ -7,7 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod @smoke
+// Stage: @prod
 // Group: @messaging
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
@@ -27,7 +27,7 @@ describe('Messaging', () => {
         for (let i = 9; i >= 0; i--) {
             message += i + '{enter}';
         }
-        cy.get('#post_textbox', {timeout: TIMEOUTS.LARGE}).clear().type(message, {delay: 0});
+        cy.get('#post_textbox', {timeout: TIMEOUTS.HALF_MIN}).clear().type(message, {delay: 0});
 
         for (let i = 10; i > 0; i--) {
             cy.getNthPostId(-i).then((postId) => {

@@ -68,6 +68,24 @@ describe('components/post_view/PostAddChannelMember', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('should match snapshot, more than 3 users', () => {
+        const userIds = ['user_id_1', 'user_id_2', 'user_id_3', 'user_id_4'];
+        const usernames = ['username_1', 'username_2', 'username_3', 'username_4'];
+        const props = {
+            ...requiredProps,
+            userIds,
+            usernames,
+        };
+
+        const wrapper = shallow(<PostAddChannelMember {...props}/>);
+        expect(wrapper.state('expanded')).toEqual(false);
+        expect(wrapper).toMatchSnapshot();
+
+        wrapper.find('.PostBody_otherUsersLink').simulate('click');
+        expect(wrapper.state('expanded')).toEqual(true);
+        expect(wrapper).toMatchSnapshot();
+    });
+
     test('actions should have been called', () => {
         const actions = {
             removePost: jest.fn(),
@@ -78,7 +96,7 @@ describe('components/post_view/PostAddChannelMember', () => {
             <PostAddChannelMember {...props}/>,
         );
 
-        wrapper.find('a').simulate('click');
+        wrapper.find('.PostBody_addChannelMemberLink').simulate('click');
 
         expect(actions.addChannelMember).toHaveBeenCalledTimes(1);
         expect(actions.addChannelMember).toHaveBeenCalledWith(post.channel_id, requiredProps.userIds[0]);
@@ -100,7 +118,7 @@ describe('components/post_view/PostAddChannelMember', () => {
             <PostAddChannelMember {...props}/>,
         );
 
-        wrapper.find('a').simulate('click');
+        wrapper.find('.PostBody_addChannelMemberLink').simulate('click');
         expect(actions.addChannelMember).toHaveBeenCalledTimes(4);
     });
 

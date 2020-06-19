@@ -12,7 +12,7 @@
 
 // # Goes to the System Scheme page as System Admin
 const goToSessionLengths = () => {
-    cy.apiLogin('sysadmin');
+    cy.apiAdminLogin();
     cy.visit('/admin_console/environment/session_lengths');
 };
 
@@ -41,7 +41,7 @@ const saveConfig = (waitUntilConfigSaved = true, clickConfirmationButton = false
     }
 };
 
-describe('Session Lengths', () => {
+describe('MM-T2574 Session Lengths', () => {
     before(() => {
         goToSessionLengths();
     });
