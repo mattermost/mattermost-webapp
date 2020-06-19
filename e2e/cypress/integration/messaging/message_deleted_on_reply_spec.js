@@ -7,7 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod @smoke
+// Stage: @prod
 // Group: @messaging
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
@@ -44,7 +44,7 @@ describe('Messaging', () => {
         });
 
         // # Wait for the message to be deleted and hit enter
-        cy.wait(TIMEOUTS.TINY);
+        cy.wait(TIMEOUTS.HALF_SEC);
         cy.get('#reply_textbox').type('{enter}');
 
         // * Post Deleted Modal should be visible
@@ -75,9 +75,9 @@ describe('Messaging', () => {
         cy.get('#reply_textbox').should('contain', '123');
 
         // # Change to the other user and go to Town Square
-        cy.apiLogin('sysadmin');
+        cy.apiAdminLogin();
         cy.visit('/ad-1/channels/town-square');
-        cy.wait(TIMEOUTS.SMALL);
+        cy.wait(TIMEOUTS.FIVE_SEC);
 
         // * Post should not exist
         cy.get('@postId').then((postId) => {

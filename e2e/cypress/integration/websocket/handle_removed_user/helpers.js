@@ -7,11 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-import {testWithConfig} from '../../support/hooks';
-
-import {getRandomId} from '../../utils';
-
-function createNewTeamAndMoveToOffTopic(teamName, sidebarItemClass) {
+export function createNewTeamAndMoveToOffTopic(teamName, sidebarItemClass) {
     // # Start with a new team
     cy.createNewTeam(teamName, teamName);
 
@@ -26,7 +22,7 @@ function createNewTeamAndMoveToOffTopic(teamName, sidebarItemClass) {
     cy.get('#channelHeaderTitle').should('be.visible').should('contain', 'Off-Topic');
 }
 
-function removeMeFromCurrentChannel() {
+export function removeMeFromCurrentChannel() {
     // # Remove the Guest User from channel
     let channelId;
     return cy.getCurrentChannelId().then((res) => {
@@ -38,7 +34,7 @@ function removeMeFromCurrentChannel() {
     });
 }
 
-function verifyRHS(teamName, sidebarItemClass, postId) {
+export function verifyRHS(teamName, sidebarItemClass, postId) {
     // # Dismiss the modal informing the user they were kicked out
     cy.get('#removedChannelBtn').click();
 
@@ -53,7 +49,7 @@ function verifyRHS(teamName, sidebarItemClass, postId) {
     cy.get(`#rhsPostMessageText_${postId}`).should('not.exist');
 }
 
-function shouldRemoveMentionsInRHS(teamName, sidebarItemClass) {
+export function shouldRemoveMentionsInRHS(teamName, sidebarItemClass) {
     let postId;
 
     // # Post a unique message with a mention and retrieve its ID
@@ -77,7 +73,7 @@ function shouldRemoveMentionsInRHS(teamName, sidebarItemClass) {
     });
 }
 
-function shouldRemoveFlaggedPostsInRHS(teamName, sidebarItemClass) {
+export function shouldRemoveFlaggedPostsInRHS(teamName, sidebarItemClass) {
     let postId;
 
     // # Post a unique message and retrieve its ID
@@ -101,76 +97,3 @@ function shouldRemoveFlaggedPostsInRHS(teamName, sidebarItemClass) {
         verifyRHS(teamName, sidebarItemClass, postId);
     });
 }
-
-describe('Handle removed user - old sidebar', () => {
-    const sidebarItemClass = '.sidebar-item';
-
-    before(() => {
-        cy.apiLogin('user-1');
-
-        cy.visit('/');
-    });
-
-    it('should be redirected to last channel when a user is removed from their current channel', () => {
-        const teamName = `team-${getRandomId()}`;
-        createNewTeamAndMoveToOffTopic(teamName, sidebarItemClass);
-
-        removeMeFromCurrentChannel().then(() => {
-            // * Verify that the channel changed back to Town Square and that Off-Topic has been removed
-            cy.url().should('include', `/${teamName}/channels/town-square`);
-            cy.get('#channelHeaderTitle').should('be.visible').should('contain', 'Town Square');
-            cy.get(`${sidebarItemClass}:contains(Off-Topic)`).should('not.exist');
-        });
-    });
-
-    it('should remove mentions from RHS', () => {
-        const teamName = `team-${getRandomId()}`;
-        createNewTeamAndMoveToOffTopic(teamName, sidebarItemClass);
-        shouldRemoveMentionsInRHS(teamName, sidebarItemClass);
-    });
-
-    it('should remove flagged posts from RHS', () => {
-        const teamName = `team-${getRandomId()}`;
-        createNewTeamAndMoveToOffTopic(teamName, sidebarItemClass);
-        shouldRemoveFlaggedPostsInRHS(teamName, sidebarItemClass);
-    });
-});
-
-describe('Handle removed user - new sidebar', () => {
-    const sidebarItemClass = '.SidebarChannel';
-
-    testWithConfig({
-        ServiceSettings: {
-            ExperimentalChannelSidebarOrganization: 'default_on',
-        },
-    });
-
-    before(() => {
-        cy.apiLogin('user-1');
-
-        cy.visit('/');
-    });
-
-    it('should be redirected to last channel when a user is removed from their current channel', () => {
-        const teamName = `team-${getRandomId()}`;
-        createNewTeamAndMoveToOffTopic(teamName, sidebarItemClass);
-
-        removeMeFromCurrentChannel().then(() => {
-            // * Verify that the channel changed back to Town Square
-            cy.url().should('include', `/${teamName}/channels/town-square`);
-            cy.get('#channelHeaderTitle').should('be.visible').should('contain', 'Town Square');
-        });
-    });
-
-    it('should remove mentions from RHS', () => {
-        const teamName = `team-${getRandomId()}`;
-        createNewTeamAndMoveToOffTopic(teamName, sidebarItemClass);
-        shouldRemoveMentionsInRHS(teamName, sidebarItemClass);
-    });
-
-    it('should remove flagged posts from RHS', () => {
-        const teamName = `team-${getRandomId()}`;
-        createNewTeamAndMoveToOffTopic(teamName, sidebarItemClass);
-        shouldRemoveFlaggedPostsInRHS(teamName, sidebarItemClass);
-    });
-});

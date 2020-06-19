@@ -7,7 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod @smoke
+// Stage: @prod
 // Group: @markdown
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
@@ -29,8 +29,7 @@ const testCases = [
 
 describe('Markdown message', () => {
     before(() => {
-        // # Login as sysadmin and enable local image proxy so our expected URLs match
-        cy.apiLogin('sysadmin');
+        // # Enable local image proxy so our expected URLs match
         const newSettings = {
             ImageProxySettings: {
                 Enable: true,
@@ -41,19 +40,16 @@ describe('Markdown message', () => {
         };
         cy.apiUpdateConfig(newSettings);
 
-        // # Login as new user
-        cy.apiCreateAndLoginAsNewUser().then(() => {
-            // # Create new team and visit its URL
-            cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
-                cy.visit(`/${response.body.name}`);
-            });
+        // # Login as new user, create new team and visit its URL
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
         });
     });
 
     testCases.forEach((testCase) => {
         it(testCase.name, () => {
             // #  Post markdown message
-            cy.postMessageFromFile(`markdown/${testCase.fileKey}.md`).wait(TIMEOUTS.SMALL);
+            cy.postMessageFromFile(`markdown/${testCase.fileKey}.md`).wait(TIMEOUTS.FIVE_SEC);
 
             // * Verify that HTML Content is correct
             cy.compareLastPostHTMLContentFromFile(`markdown/${testCase.fileKey}.html`);
@@ -69,11 +65,11 @@ describe('Markdown message', () => {
 </blockquote>`;
 
         // #  Post markdown message
-        cy.postMessageFromFile('markdown/markdown_block_quotes_2.md').wait(TIMEOUTS.SMALL);
+        cy.postMessageFromFile('markdown/markdown_block_quotes_2.md').wait(TIMEOUTS.FIVE_SEC);
 
         // * Verify that HTML Content is correct
         cy.getLastPostId().then((postId) => {
-            cy.get(`#postMessageText_${postId}`, {timeout: TIMEOUTS.MEDIUM}).should('have.html', expectedHtml);
+            cy.get(`#postMessageText_${postId}`, {timeout: TIMEOUTS.TEN_SEC}).should('have.html', expectedHtml);
         });
     });
 });

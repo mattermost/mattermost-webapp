@@ -7,7 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod @smoke
+// Stage: @prod
 // Group: @messaging
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
@@ -27,7 +27,7 @@ describe('Messaging', () => {
         cy.get('#post_textbox').click().type('{leftarrow}b');
 
         // # Wait for the cursor to move in failing case
-        cy.wait(TIMEOUTS.SMALL);
+        cy.wait(TIMEOUTS.FIVE_SEC);
 
         // # Write another letter
         cy.get('#post_textbox').type('c');

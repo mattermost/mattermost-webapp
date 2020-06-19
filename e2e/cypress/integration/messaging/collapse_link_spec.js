@@ -13,7 +13,7 @@
 describe('Messaging', () => {
     beforeEach(() => {
         // # Login as sysadmin
-        cy.apiLogin('sysadmin');
+        cy.apiAdminLogin();
 
         // # Enable Link Previews
         cy.apiUpdateConfig({
@@ -54,7 +54,7 @@ describe('Messaging', () => {
             cy.get(`#${postId}_message`).find('.attachment__image').should('exist');
 
             // # Log-in to the other user
-            cy.apiLogin('sysadmin');
+            cy.apiAdminLogin();
             cy.visit('/ad-1/channels/town-square');
 
             // * Check the preview is shown
@@ -73,7 +73,7 @@ describe('Messaging', () => {
             cy.get(`#${postId}_message`).find('.attachment__image').should('not.exist');
 
             // # Log-in to the other user
-            cy.apiLogin('sysadmin');
+            cy.apiAdminLogin();
             cy.visit('/ad-1/channels/town-square');
 
             // * Check the preview is shown
@@ -94,7 +94,7 @@ describe('Messaging', () => {
             cy.get(`#${postId}_message`).find('.attachment__image').should('not.exist');
 
             // # Log-in to the other user
-            cy.apiLogin('sysadmin');
+            cy.apiAdminLogin();
             cy.visit('/ad-1/channels/town-square');
 
             // * Preview should not exist
