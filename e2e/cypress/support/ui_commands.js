@@ -12,13 +12,6 @@ Cypress.Commands.add('logout', () => {
     cy.get('#logout').click({force: true});
 });
 
-Cypress.Commands.add('toMainChannelView', (username = 'user-1', password) => {
-    cy.apiLogin(username, password);
-    cy.visit('/ad-1/channels/town-square');
-
-    cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
-});
-
 Cypress.Commands.add('getCurrentUserId', () => {
     return cy.wrap(new Promise((resolve) => {
         cy.getCookie('MMUSERID').then((cookie) => {

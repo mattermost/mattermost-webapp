@@ -46,6 +46,7 @@ declare namespace Cypress {
         /**
          * Creates a new guest user with an options to set name prefix and be able to bypass tutorial steps
          * @param {string} options.prefix - 'guest' (default) or any prefix to easily identify a guest
+         * @param {string} options.activate - true (default) to activate guest user
          * @param {boolean} options.bypassTutorial - true (default) or false for guest to go thru tutorial steps
          * @returns {Object} `out` Cypress-chainable, yielded with element passed into .wrap().
          * @returns {UserProfile} `out.guest` as `UserProfile` object
