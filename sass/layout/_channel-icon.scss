@@ -7,10 +7,13 @@
     width: 15px;
 }
 
-.channel-icon__lock {
+.channel-icon__lock,
+.channel-icon__globe {
     top: 1px;
 }
 
-.channel-icon__globe {
-    top: 1px;
+.channel-icon__archive,
+.channel-icon__unarchive {
+    left: -2px;
+    top: 2px;
 }

@@ -71,7 +71,7 @@ describe('Messaging', () => {
     it('M15406 - Focus move from Recent Mentions to main input box when a character key is selected', () => {
         // # Click the flag icon to open the flagged posts RHS to move the focus out of the main input box
         cy.get('#channelHeaderFlagButton').click();
-        cy.get('#searchContainer', {timeout: TIMEOUTS.SMALL}).contains('Search').should('be.visible');
+        cy.get('#searchContainer', {timeout: TIMEOUTS.FIVE_SEC}).contains('Search').should('be.visible');
         cy.get('#post_textbox').should('not.be.focused');
 
         // # Push a character key such as "A"
@@ -81,7 +81,7 @@ describe('Messaging', () => {
 
         // # Click the @ icon to open the Recent mentions RHS to move the focus out of the main input box
         cy.get('#channelHeaderMentionButton').click({force: true});
-        cy.get('#searchContainer', {timeout: TIMEOUTS.SMALL}).contains('Search').should('be.visible');
+        cy.get('#searchContainer', {timeout: TIMEOUTS.FIVE_SEC}).contains('Search').should('be.visible');
         cy.get('#post_textbox').should('not.be.focused');
 
         // # Push a character key such as "B"
@@ -110,7 +110,7 @@ describe('Messaging', () => {
         cy.get('#quickSwitchHint').should('be.visible');
 
         //# Type channel name 'Off-Topic' and select it
-        cy.get('#quickSwitchInput').type('Off-Topic').wait(TIMEOUTS.TINY).type('{enter}');
+        cy.get('#quickSwitchInput').type('Off-Topic').wait(TIMEOUTS.HALF_SEC).type('{enter}');
 
         //* Verify that it redirected into selected channel 'Off-Topic'
         cy.get('#channelHeaderTitle').should('be.visible').should('contain', 'Off-Topic');
@@ -163,7 +163,7 @@ describe('Messaging', () => {
     it('M17455 - Focus does not move for non-character keys', () => {
         // # Click the flag icon to open the flagged posts RHS to move the focus out of the main input box
         cy.get('#channelHeaderFlagButton').click();
-        cy.get('#searchContainer', {timeout: TIMEOUTS.SMALL}).contains('Search').should('be.visible');
+        cy.get('#searchContainer', {timeout: TIMEOUTS.FIVE_SEC}).contains('Search').should('be.visible');
         cy.get('#post_textbox').should('not.be.focused');
 
         // Keycodes for keys that don't have a special character sequence for cypress.type()

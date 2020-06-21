@@ -13,6 +13,7 @@ exports[`components/ChannelHeaderMobile/ChannelInfoButton should match snapshot,
       "id": "channel_id",
     }
   }
+  isRHSOpen={false}
   isReadOnly={false}
 >
   <OverlayTrigger
@@ -26,14 +27,18 @@ exports[`components/ChannelHeaderMobile/ChannelInfoButton should match snapshot,
         popoverSize="sm"
         popoverStyle="info"
       >
-        <Connect(Markdown)
-          message="channel header"
-          options={
-            Object {
-              "mentionHighlight": false,
+        <span
+          onClick={[Function]}
+        >
+          <Connect(Markdown)
+            message="channel header"
+            options={
+              Object {
+                "mentionHighlight": false,
+              }
             }
-          }
-        />
+          />
+        </span>
         <div
           className="close visible-xs-block"
           onClick={[Function]}
@@ -88,14 +93,18 @@ exports[`components/ChannelHeaderMobile/ChannelInfoButton should match snapshot,
           popoverSize="sm"
           popoverStyle="info"
         >
-          <Connect(Markdown)
-            message="channel header"
-            options={
-              Object {
-                "mentionHighlight": false,
+          <span
+            onClick={[Function]}
+          >
+            <Connect(Markdown)
+              message="channel header"
+              options={
+                Object {
+                  "mentionHighlight": false,
+                }
               }
-            }
-          />
+            />
+          </span>
           <div
             className="close visible-xs-block"
             onClick={[Function]}
@@ -180,6 +189,7 @@ exports[`components/ChannelHeaderMobile/ChannelInfoButton should match snapshot,
       "id": "channel_id",
     }
   }
+  isRHSOpen={false}
   isReadOnly={false}
 >
   <OverlayTrigger
@@ -193,34 +203,38 @@ exports[`components/ChannelHeaderMobile/ChannelInfoButton should match snapshot,
         popoverSize="sm"
         popoverStyle="info"
       >
-        <div>
-          <FormattedMessage
-            defaultMessage="No channel header yet."
-            id="navbar.noHeader"
-            values={Object {}}
-          />
-          <React.Fragment>
-            <br />
+        <span
+          onClick={[Function]}
+        >
+          <div>
             <FormattedMessage
-              defaultMessage="{clickHere} to add one."
-              id="navbar.clickToAddHeader"
-              values={
-                Object {
-                  "clickHere": <a
-                    href="#"
-                    onClick={[Function]}
-                  >
-                    <FormattedMessage
-                      defaultMessage="Click here"
-                      id="navbar.click"
-                      values={Object {}}
-                    />
-                  </a>,
-                }
-              }
+              defaultMessage="No channel header yet."
+              id="navbar.noHeader"
+              values={Object {}}
             />
-          </React.Fragment>
-        </div>
+            <React.Fragment>
+              <br />
+              <FormattedMessage
+                defaultMessage="{clickHere} to add one."
+                id="navbar.clickToAddHeader"
+                values={
+                  Object {
+                    "clickHere": <a
+                      href="#"
+                      onClick={[Function]}
+                    >
+                      <FormattedMessage
+                        defaultMessage="Click here"
+                        id="navbar.click"
+                        values={Object {}}
+                      />
+                    </a>,
+                  }
+                }
+              />
+            </React.Fragment>
+          </div>
+        </span>
         <div
           className="close visible-xs-block"
           onClick={[Function]}
@@ -275,34 +289,38 @@ exports[`components/ChannelHeaderMobile/ChannelInfoButton should match snapshot,
           popoverSize="sm"
           popoverStyle="info"
         >
-          <div>
-            <FormattedMessage
-              defaultMessage="No channel header yet."
-              id="navbar.noHeader"
-              values={Object {}}
-            />
-            <React.Fragment>
-              <br />
+          <span
+            onClick={[Function]}
+          >
+            <div>
               <FormattedMessage
-                defaultMessage="{clickHere} to add one."
-                id="navbar.clickToAddHeader"
-                values={
-                  Object {
-                    "clickHere": <a
-                      href="#"
-                      onClick={[Function]}
-                    >
-                      <FormattedMessage
-                        defaultMessage="Click here"
-                        id="navbar.click"
-                        values={Object {}}
-                      />
-                    </a>,
-                  }
-                }
+                defaultMessage="No channel header yet."
+                id="navbar.noHeader"
+                values={Object {}}
               />
-            </React.Fragment>
-          </div>
+              <React.Fragment>
+                <br />
+                <FormattedMessage
+                  defaultMessage="{clickHere} to add one."
+                  id="navbar.clickToAddHeader"
+                  values={
+                    Object {
+                      "clickHere": <a
+                        href="#"
+                        onClick={[Function]}
+                      >
+                        <FormattedMessage
+                          defaultMessage="Click here"
+                          id="navbar.click"
+                          values={Object {}}
+                        />
+                      </a>,
+                    }
+                  }
+                />
+              </React.Fragment>
+            </div>
+          </span>
           <div
             className="close visible-xs-block"
             onClick={[Function]}
