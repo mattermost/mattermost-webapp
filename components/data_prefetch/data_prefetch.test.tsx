@@ -15,7 +15,6 @@ jest.mock('actions/user_actions.jsx', () => ({
 }));
 
 describe('/components/create_team', () => {
-    jest.useFakeTimers();
     const defaultProps = {
         currentChannelId: '',
         actions: {
@@ -150,7 +149,6 @@ describe('/components/create_team', () => {
 
         });
 
-        jest.runAllTimers();
         await props.actions.prefetchChannelPosts();
         expect(instance.prefetchPosts).toHaveBeenCalledTimes(5);
         expect(instance.prefetchPosts).toHaveBeenCalledWith('mentionChannel5');
@@ -185,7 +183,6 @@ describe('/components/create_team', () => {
             },
         });
 
-        jest.runAllTimers();
         await props.actions.prefetchChannelPosts();
         expect(instance.prefetchPosts).toHaveBeenCalledTimes(5);
         expect(instance.prefetchPosts).toHaveBeenCalledWith('mentionChannel5');

@@ -213,7 +213,7 @@ describe('component/legacy_sidebar/sidebar_channel/SidebarChannel', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match snapshot, when isDataPrefechEnabled is false', () => {
+    test('should match snapshot that is not to have DataPrefetch mounted, when isDataPrefechEnabled is false', () => {
         const wrapper = shallowWithIntl(
             <Sidebar
                 {...{

@@ -54,17 +54,9 @@ export default class DataPrefetch extends React.PureComponent<Props, {}> {
             this.prefetchData();
         } else if (prevProps.prefetchQueueObj !== prefetchQueueObj) {
             clearTimeout(this.prefetchTimeout);
-            queue.clear();
-
-            // Added delay because queue wasnt getting cleared all that well.
-            this.prefetchTimeout = window.setTimeout(() => {
-                this.prefetchData();
-            }, 0);
+            await queue.clear();
+            this.prefetchData();
         }
-    }
-
-    public componentWillUnmount(): void {
-        clearTimeout(this.prefetchTimeout);
     }
 
     public prefetchPosts = (channelId: string) => {
