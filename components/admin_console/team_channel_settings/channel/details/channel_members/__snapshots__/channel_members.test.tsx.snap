@@ -141,11 +141,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelMembers should match
           "last_picture_update": 0,
           "locale": "",
           "mfa_active": false,
-<<<<<<< HEAD
-          "mfa_secret": "secret",
-=======
           "mfa_secret": "",
->>>>>>> upstream/master
           "nickname": "",
           "notify_props": Object {
             "channel": "false",
@@ -159,11 +155,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelMembers should match
             "push": "none",
             "push_status": "offline",
           },
-<<<<<<< HEAD
-          "password": "some-password",
-=======
           "password": "",
->>>>>>> upstream/master
           "position": "",
           "props": Object {},
           "roles": "",
@@ -192,11 +184,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelMembers should match
           "last_picture_update": 0,
           "locale": "",
           "mfa_active": false,
-<<<<<<< HEAD
-          "mfa_secret": "secret",
-=======
           "mfa_secret": "",
->>>>>>> upstream/master
           "nickname": "",
           "notify_props": Object {
             "channel": "false",
@@ -210,11 +198,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelMembers should match
             "push": "none",
             "push_status": "offline",
           },
-<<<<<<< HEAD
-          "password": "some-password",
-=======
           "password": "",
->>>>>>> upstream/master
           "position": "",
           "props": Object {},
           "roles": "",
@@ -243,11 +227,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelMembers should match
           "last_picture_update": 0,
           "locale": "",
           "mfa_active": false,
-<<<<<<< HEAD
-          "mfa_secret": "secret",
-=======
           "mfa_secret": "",
->>>>>>> upstream/master
           "nickname": "",
           "notify_props": Object {
             "channel": "false",
@@ -261,11 +241,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelMembers should match
             "push": "none",
             "push_status": "offline",
           },
-<<<<<<< HEAD
-          "password": "some-password",
-=======
           "password": "",
->>>>>>> upstream/master
           "position": "",
           "props": Object {},
           "roles": "",

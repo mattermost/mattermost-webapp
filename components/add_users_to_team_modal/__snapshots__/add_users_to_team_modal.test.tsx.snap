@@ -106,11 +106,7 @@ exports[`components/admin_console/add_users_to_team_modal/AddUsersToTeamModal sh
             "last_picture_update": 0,
             "locale": "",
             "mfa_active": false,
-<<<<<<< HEAD
-            "mfa_secret": "secret",
-=======
             "mfa_secret": "",
->>>>>>> upstream/master
             "nickname": "",
             "notify_props": Object {
               "channel": "false",
@@ -124,11 +120,7 @@ exports[`components/admin_console/add_users_to_team_modal/AddUsersToTeamModal sh
               "push": "none",
               "push_status": "offline",
             },
-<<<<<<< HEAD
-            "password": "some-password",
-=======
             "password": "",
->>>>>>> upstream/master
             "position": "",
             "props": Object {},
             "roles": "",
@@ -159,11 +151,7 @@ exports[`components/admin_console/add_users_to_team_modal/AddUsersToTeamModal sh
             "last_picture_update": 0,
             "locale": "",
             "mfa_active": false,
-<<<<<<< HEAD
-            "mfa_secret": "secret",
-=======
             "mfa_secret": "",
->>>>>>> upstream/master
             "nickname": "",
             "notify_props": Object {
               "channel": "false",
@@ -177,11 +165,7 @@ exports[`components/admin_console/add_users_to_team_modal/AddUsersToTeamModal sh
               "push": "none",
               "push_status": "offline",
             },
-<<<<<<< HEAD
-            "password": "some-password",
-=======
             "password": "",
->>>>>>> upstream/master
             "position": "",
             "props": Object {},
             "roles": "",
@@ -309,11 +293,7 @@ exports[`components/admin_console/add_users_to_team_modal/AddUsersToTeamModal sh
             "last_picture_update": 0,
             "locale": "",
             "mfa_active": false,
-<<<<<<< HEAD
-            "mfa_secret": "secret",
-=======
             "mfa_secret": "",
->>>>>>> upstream/master
             "nickname": "",
             "notify_props": Object {
               "channel": "false",
@@ -327,11 +307,7 @@ exports[`components/admin_console/add_users_to_team_modal/AddUsersToTeamModal sh
               "push": "none",
               "push_status": "offline",
             },
-<<<<<<< HEAD
-            "password": "some-password",
-=======
             "password": "",
->>>>>>> upstream/master
             "position": "",
             "props": Object {},
             "roles": "",
@@ -362,11 +338,7 @@ exports[`components/admin_console/add_users_to_team_modal/AddUsersToTeamModal sh
             "last_picture_update": 0,
             "locale": "",
             "mfa_active": false,
-<<<<<<< HEAD
-            "mfa_secret": "secret",
-=======
             "mfa_secret": "",
->>>>>>> upstream/master
             "nickname": "",
             "notify_props": Object {
               "channel": "false",
@@ -380,11 +352,7 @@ exports[`components/admin_console/add_users_to_team_modal/AddUsersToTeamModal sh
               "push": "none",
               "push_status": "offline",
             },
-<<<<<<< HEAD
-            "password": "some-password",
-=======
             "password": "",
->>>>>>> upstream/master
             "position": "",
             "props": Object {},
             "roles": "",
