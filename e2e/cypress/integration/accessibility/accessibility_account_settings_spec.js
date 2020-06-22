@@ -31,8 +31,6 @@ function verifySections(sections) {
 
 describe('Verify Accessibility Support in different sections in Account Settings Dialog', () => {
     before(() => {
-        cy.apiLogin('sysadmin');
-
         // # Update Configs
         cy.apiUpdateConfig({
             ServiceSettings: {
@@ -189,7 +187,7 @@ describe('Verify Accessibility Support in different sections in Account Settings
         cy.findByTestId('cancelSettingPicture').should('have.attr', 'aria-label', 'Cancel');
 
         // # Upload a pic and save
-        cy.fileUpload('[data-testid="uploadPicture"]', 'mattermost-icon.png');
+        cy.findByTestId('uploadPicture').attachFile('mattermost-icon.png');
         cy.findByTestId('saveSettingPicture').should('not.be.disabled').click();
 
         // # Click on Edit Profile Picture
@@ -210,7 +208,7 @@ describe('Verify Accessibility Support in different sections in Account Settings
         cy.findByTestId('cancelSettingPicture').should('have.class', 'a11y--active a11y--focused');
 
         // # Remove the profile picture and check the tab behavior
-        cy.findByTestId('removeSettingPicture').click().wait(TIMEOUTS.TINY);
+        cy.findByTestId('removeSettingPicture').click().wait(TIMEOUTS.HALF_SEC);
         cy.findByTestId('inputSettingPictureButton').focus().tab({shift: true}).tab();
         cy.findByTestId('inputSettingPictureButton').should('have.class', 'a11y--active a11y--focused').tab();
         cy.findByTestId('saveSettingPicture').should('have.class', 'a11y--active a11y--focused').tab();

@@ -8,7 +8,10 @@ exports[`components/link_tooltip/link_tooltip should match snapshot 1`] = `
         "alignItems": "center",
         "display": "flex",
         "flexDirection": "column",
-        "zIndex": 10,
+        "left": -1000,
+        "position": "absolute",
+        "top": -1000,
+        "zIndex": 1070,
       }
     }
   >
@@ -25,6 +28,49 @@ exports[`components/link_tooltip/link_tooltip should match snapshot 1`] = `
     onMouseOver={[Function]}
   >
     test title
+  </span>
+</Fragment>
+`;
+
+exports[`components/link_tooltip/link_tooltip should match snapshot with uncommon link structure 1`] = `
+<Fragment>
+  <div
+    style={
+      Object {
+        "alignItems": "center",
+        "display": "flex",
+        "flexDirection": "column",
+        "left": -1000,
+        "position": "absolute",
+        "top": -1000,
+        "zIndex": 1070,
+      }
+    }
+  >
+    <Connect(Pluggable)
+      href="https://www.google.com"
+      pluggableName="LinkTooltip"
+    />
+  </div>
+  <span
+    onMouseLeave={[Function]}
+    onMouseOver={[Function]}
+  >
+    <span
+      className="codespan__pre-wrap"
+    >
+      <code>
+        foo
+      </code>
+    </span>
+     and 
+    <span
+      className="codespan__pre-wrap"
+    >
+      <code>
+        bar
+      </code>
+    </span>
   </span>
 </Fragment>
 `;

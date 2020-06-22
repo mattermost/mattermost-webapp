@@ -13,34 +13,26 @@
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 describe('Account Settings > Sidebar > Channel Switcher', () => {
+    let testUser;
     let testChannel;
     let testTeam;
 
     before(() => {
-        // # Login as user-1
-        cy.apiLogin('user-1');
+        // # Login as test user
+        cy.apiInitSetup({loginAfter: true}).then(({team, channel, user}) => {
+            testUser = user;
+            testChannel = channel;
+            testTeam = team;
 
-        // # Create a test team and channels
-        cy.apiCreateTeam('test-team', 'Test Team').then((teamRes) => {
-            testTeam = teamRes.body;
-
+            // # Create more test channels
             const numberOfChannels = 14;
             Cypress._.forEach(Array(numberOfChannels), (_, index) => {
-                cy.apiCreateChannel(testTeam.id, 'channel-switcher', `Channel Switcher ${index.toString()}`).then((response) => {
-                    if (index === 0) {
-                        testChannel = response.body;
-                    }
-                });
+                cy.apiCreateChannel(testTeam.id, 'channel-switcher', `Channel Switcher ${index.toString()}`);
             });
-        });
-    });
 
-    after(() => {
-        // # Delete the test team as sysadmin
-        if (testTeam && testTeam.id) {
-            cy.apiLogin('sysadmin');
-            cy.apiDeleteTeam(testTeam.id, true);
-        }
+            // # Visit town-square
+            cy.visit(`/${team.name}/channels/town-square`);
+        });
     });
 
     it('set channel switcher setting to On and test on click of sidebar switcher button', () => {
@@ -108,7 +100,7 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
 
     it('Cmd/Ctrl+Shift+M closes Channel Switch modal and sets focus to mentions', () => {
         // # patch user info
-        cy.apiPatchMe({notify_props: {first_name: 'false', mention_keys: 'user-1'}});
+        cy.apiPatchMe({notify_props: {first_name: 'false', mention_keys: testUser.username}});
 
         // # Go to a known team and channel
         cy.visit(`/${testTeam.name}/channels/town-square`);
@@ -127,7 +119,7 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
         cy.get('#suggestionList').should('not.be.visible');
 
         // * searchbox should appear
-        cy.get('#searchBox').should('have.attr', 'value', 'user-1 @user-1 ');
+        cy.get('#searchBox').should('have.attr', 'value', `${testUser.username} @${testUser.username} `);
         cy.get('.sidebar--right__title').should('contain', 'Recent Mentions');
     });
 });
@@ -138,7 +130,7 @@ function verifyChannelSwitch(team, channel) {
 
     // # Type channel display name on Channel switcher input
     cy.get('#quickSwitchInput').type(channel.display_name);
-    cy.wait(TIMEOUTS.TINY);
+    cy.wait(TIMEOUTS.HALF_SEC);
 
     // * Suggestion list should be visible
     cy.get('#suggestionList').should('be.visible');
