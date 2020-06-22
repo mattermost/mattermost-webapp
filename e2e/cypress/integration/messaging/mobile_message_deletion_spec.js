@@ -14,9 +14,13 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Delete Parent Message', () => {
     before(() => {
-        // # Go to Main Channel View with "user-1"
+        // # Set view port to mobile
         cy.viewport('iphone-6');
-        cy.toMainChannelView('user-1');
+
+        // # Login as test user and visit town-square channel
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
+        });
     });
 
     it('M14270 Deleting parent message should also delete replies from center and RHS', () => {
@@ -36,7 +40,7 @@ describe('Delete Parent Message', () => {
                 cy.get('#reply_textbox').type('Reply').type('{enter}');
 
                 // add wait time to ensure that a post gets posted and not on pending state
-                cy.wait(TIMEOUTS.TINY);
+                cy.wait(TIMEOUTS.HALF_SEC);
             }
 
             cy.getLastPostId().then((replyPostId) => {

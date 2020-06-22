@@ -15,11 +15,13 @@ describe('Messaging', () => {
         // # Change viewport to tablet
         cy.viewport('ipad-2');
 
-        // # Login and navigate to town-square
-        cy.toMainChannelView('user-1');
+        // # Login as test user and visit town-square channel
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
 
-        // # Post a new message to ensure there will be a post to click on
-        cy.postMessage('Hello ' + Date.now());
+            // # Post a new message to ensure there will be a post to click on
+            cy.postMessage('Hello ' + Date.now());
+        });
     });
 
     it('M18705-Center channel input box does not overlap with RHS', () => {
