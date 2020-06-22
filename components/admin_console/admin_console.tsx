@@ -22,9 +22,8 @@ import AdminSidebar from './admin_sidebar';
 import Highlight from './highlight';
 import AdminDefinition from './admin_definition';
 
-
 type Props = {
-    config: Partial<AdminConfig>;
+    config: DeepPartial<AdminConfig>;
     adminDefinition: typeof AdminDefinition;
     environmentConfig?: Partial<EnvironmentConfig>;
     license: ClientLicense;
@@ -55,7 +54,7 @@ type State = {
 // not every page in the system console will need the license and config, but the vast majority will
 type ExtraProps = {
     license?: Record<string, any>;
-    config?: Partial<AdminConfig>;
+    config?: DeepPartial<AdminConfig>;
     environmentConfig?: Partial<EnvironmentConfig>;
     setNavigationBlocked?: () => void;
     roles?: {
@@ -66,7 +65,7 @@ type ExtraProps = {
 }
 
 type Item = {
-    isHidden?: (config?: Partial<AdminConfig>, state?: Record<string, any>, license?: Record<string, any>, buildEnterpriseReady?: boolean) => void;
+    isHidden?: (config?: DeepPartial<AdminConfig>, state?: Record<string, any>, license?: Record<string, any>, buildEnterpriseReady?: boolean) => void;
     schema: Record<string, any>;
     url: string;
 }
@@ -91,7 +90,7 @@ export default class AdminConsole extends React.PureComponent<Props, State> {
         this.setState({filter});
     }
 
-    private mainRolesLoaded(roles: Record<string, any>) {
+    private mainRolesLoaded(roles: Dictionary<Role>) {
         return (
             roles &&
             roles.channel_admin &&
@@ -104,8 +103,8 @@ export default class AdminConsole extends React.PureComponent<Props, State> {
     }
 
     private renderRoutes = (extraProps: ExtraProps) => {
-        const schemas = Object.values(this.props.adminDefinition).reduce((acc, section: Item[]) => {
-            const items = Object.values(section).filter((item: Item) => {
+        const schemas = Object.values(this.props.adminDefinition).reduce((acc, section) => {
+            const items = Object.values(section).filter((item) => {
                 if (item.isHidden && item.isHidden(this.props.config, {}, this.props.license, this.props.buildEnterpriseReady)) {
                     return false;
                 }
@@ -115,7 +114,7 @@ export default class AdminConsole extends React.PureComponent<Props, State> {
                 return true;
             });
             return acc.concat(items);
-        }, []);
+        }, [] as Item[]);
         const schemaRoutes = schemas.map((item: Item) => {
             return (
                 <Route

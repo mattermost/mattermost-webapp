@@ -4,14 +4,16 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
+import {TestHelper} from 'utils/test_helper';
+
 import ChannelList from './channel_list';
 
 describe('admin_console/team_channel_settings/channel/ChannelList', () => {
     test('should match snapshot', () => {
-        const testChannels = [{
+        const testChannels = [TestHelper.getChannelMock({
             id: '123',
             display_name: 'DN',
-        }];
+        })];
 
         const actions = {
             getData: jest.fn().mockResolvedValue(testChannels),
@@ -37,10 +39,10 @@ describe('admin_console/team_channel_settings/channel/ChannelList', () => {
     test('should match snapshot with paging', () => {
         const testChannels = [];
         for (let i = 0; i < 30; i++) {
-            testChannels.push({
+            testChannels.push(TestHelper.getChannelMock({
                 id: 'id' + i,
                 display_name: 'DN' + i,
-            });
+            }));
         }
         const actions = {
             getData: jest.fn().mockResolvedValue(Promise.resolve(testChannels)),

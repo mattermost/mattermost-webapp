@@ -4,49 +4,17 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {shallow} from 'enzyme';
-import {UserNotifyProps, UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from 'mattermost-redux/types/users';
 import {ActionResult} from 'mattermost-redux/types/actions';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
+import {TestHelper} from 'utils/test_helper';
 
 import ResetPasswordModal from './reset_password_modal';
 
 describe('components/admin_console/reset_password_modal/reset_password_modal.tsx', () => {
     const emptyFunction = jest.fn();
-    const notifyProps: UserNotifyProps = {
-        channel: 'true',
-        comments: 'never',
-        desktop: 'default',
-        desktop_sound: 'true',
-        email: 'true',
-        first_name: 'true',
-        mark_unread: 'all',
-        mention_keys: '',
-        push: 'default',
-        push_status: 'ooo',
-    };
-    const user: UserProfile = {
-        auth_data: '',
-        auth_service: 'test',
-        create_at: 0,
-        delete_at: 0,
-        email: '',
-        email_verified: false,
-        first_name: '',
-        id: '1',
-        is_bot: false,
-        last_name: '',
-        last_picture_update: 0,
-        locale: '',
-        nickname: '',
-        notify_props: notifyProps,
-        position: '',
-        roles: '',
-        terms_of_service_create_at: 0,
-        terms_of_service_id: '',
-        update_at: 0,
-        username: '',
-    };
+    const user: UserProfile = TestHelper.getUserMock();
     const baseProps = {
         actions: {updateUserPassword: jest.fn<ActionResult, {}[]>(() => ({data: ''}))},
         currentUserId: '1',

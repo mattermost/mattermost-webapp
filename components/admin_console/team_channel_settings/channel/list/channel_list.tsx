@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {ChannelWithTeamData} from 'mattermost-redux/types/channels';
+import {ChannelWithTeamData, Channel} from 'mattermost-redux/types/channels';
 import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
 import {FormattedMessage} from 'react-intl';
 
@@ -22,7 +22,7 @@ interface ChannelListProps {
         searchAllChannels: (term: string, notAssociatedToGroup?: string, excludeDefaultChannels?: boolean, page?: number, perPage?: number) => ActionFunc | ActionResult;
         getData: (page: number, perPage: number, notAssociatedToGroup? : string, excludeDefaultChannels?: boolean) => ActionFunc | ActionResult | Promise<ChannelWithTeamData[]>;
     };
-    data?: {id: string; display_name: string}[];
+    data?: Channel[];
     total?: number;
     removeGroup?: () => void;
     onPageChangedCallback?: () => void;

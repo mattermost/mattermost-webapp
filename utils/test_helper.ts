@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 import {Channel, ChannelMembership, ChannelNotifyProps} from 'mattermost-redux/types/channels';
 import {Bot} from 'mattermost-redux/types/bots';
+import {Role} from 'mattermost-redux/types/roles';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {Team, TeamMembership} from 'mattermost-redux/types/teams';
 
@@ -11,6 +12,7 @@ export class TestHelper {
             id: 'user_id',
             roles: '',
             username: 'some-user',
+            password: 'some-password',
             auth_data: '',
             auth_service: '',
             create_at: 0,
@@ -39,6 +41,15 @@ export class TestHelper {
                 push: 'none',
                 push_status: 'offline',
             },
+            allow_marketing: false,
+            props: {},
+            last_password_update: 0,
+            failed_attempts: 0,
+            mfa_active: false,
+            mfa_secret: 'secret',
+            last_activity_at: 0,
+            bot_description: '',
+            bot_last_icon_update: 0,
         };
         return Object.assign({}, defaultUser, override);
     }
@@ -137,5 +148,21 @@ export class TestHelper {
             scheme_admin: false,
         };
         return Object.assign({}, defaultMembership, override);
+    }
+
+    public static getRoleMock(override: Partial<Role> = {}): Role {
+        const defaultRole: Role = {
+            id: 'role_id',
+            name: 'role_name',
+            display_name: 'role_display_name',
+            description: 'role_description',
+            create_at: 0,
+            update_at: 0,
+            delete_at: 0,
+            permissions: [],
+            scheme_managed: false,
+            built_in: false,
+        };
+        return Object.assign({}, defaultRole, override);
     }
 }

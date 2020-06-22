@@ -35,7 +35,7 @@ type Props = {
     experimentalEnableAuthenticationTransfer: boolean;
     index: number;
     totalUsers: number;
-    config: AdminConfig;
+    config: DeepPartial<AdminConfig>;
     bots: Dictionary<Bot>;
     isLicensed: boolean;
     actions: {
