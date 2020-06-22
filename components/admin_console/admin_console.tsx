@@ -7,7 +7,9 @@ import React from 'react';
 import {Route, Switch, Redirect} from 'react-router-dom';
 
 import {ActionFunc} from 'mattermost-redux/types/actions';
+import {AdminConfig, EnvironmentConfig, ClientLicense} from 'mattermost-redux/types/config';
 import {Role} from 'mattermost-redux/types/roles';
+import {Dictionary} from 'mattermost-redux/types/utilities';
 
 import AnnouncementBar from 'components/announcement_bar';
 import SystemNotice from 'components/system_notice';
@@ -18,17 +20,17 @@ import DiscardChangesModal from 'components/discard_changes_modal';
 
 import AdminSidebar from './admin_sidebar';
 import Highlight from './highlight';
+import AdminDefinition from './admin_definition';
+
 
 type Props = {
-    config: Record<string, any>;
-    adminDefinition: Record<string, any>;
-    environmentConfig?: Record<string, any>;
-    license: Record<string, any>;
+    config: Partial<AdminConfig>;
+    adminDefinition: typeof AdminDefinition;
+    environmentConfig?: Partial<EnvironmentConfig>;
+    license: ClientLicense;
     unauthorizedRoute: string;
     buildEnterpriseReady: boolean;
-    roles: {
-        [x: string]: string | object;
-    };
+    roles: Dictionary<Role>;
     match: { url: string };
     showNavigationPrompt: boolean;
     isCurrentUserSystemAdmin: boolean;
@@ -42,7 +44,7 @@ type Props = {
         selectChannel: (channelId: string) => void;
         selectTeam: (teamId: string) => void;
         editRole: (role: Role) => void;
-        updateConfig?: (config: Record<string, any>) => ActionFunc;
+        updateConfig?: (config: AdminConfig) => ActionFunc;
     };
 }
 
@@ -53,18 +55,18 @@ type State = {
 // not every page in the system console will need the license and config, but the vast majority will
 type ExtraProps = {
     license?: Record<string, any>;
-    config?: Record<string, any>;
-    environmentConfig?: Record<string, any>;
+    config?: Partial<AdminConfig>;
+    environmentConfig?: Partial<EnvironmentConfig>;
     setNavigationBlocked?: () => void;
     roles?: {
         [x: string]: string | object;
     };
     editRole?: (role: Role) => void;
-    updateConfig?: (config: Record<string, any>) => ActionFunc;
+    updateConfig?: (config: AdminConfig) => ActionFunc;
 }
 
 type Item = {
-    isHidden?: (config?: Record<string, any>, state?: Record<string, any>, license?: Record<string, any>, buildEnterpriseReady?: boolean) => void;
+    isHidden?: (config?: Partial<AdminConfig>, state?: Record<string, any>, license?: Record<string, any>, buildEnterpriseReady?: boolean) => void;
     schema: Record<string, any>;
     url: string;
 }
