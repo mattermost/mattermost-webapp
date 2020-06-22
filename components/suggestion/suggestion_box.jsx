@@ -683,12 +683,9 @@ export default class SuggestionBox extends React.PureComponent {
 
     handleClick = () => {
         if (this.props.closeOnClick) {
-            // Close the list on clik only if these conditions are met:
-            //   - the element was not just focused. This avoids the case where
-            //     onClick is triggered right after onFocus.
-            //   - the input text is empty. This avoids weird behaviour where the
-            //     user can click on an already entered text to modify it.
-            if (!this.state.justFocused && this.props.value === '') {
+            // Close the list on click only if the element was not just focused,
+            // avoiding the case where onClick is triggered right after onFocus.
+            if (!this.state.justFocused) {
                 this.setState({focused: !this.state.focused});
             }
         }
