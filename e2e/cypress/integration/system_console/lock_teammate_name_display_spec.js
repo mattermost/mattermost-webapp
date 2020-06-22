@@ -12,8 +12,6 @@
 
 describe('System Console', () => {
     it('MM-19309 Allow System Admins to control Teammate Name Display at the system level', () => {
-        cy.apiLogin('sysadmin');
-
         // # Go to system admin page
         cy.visit('/admin_console/site_config/users_and_teams');
 

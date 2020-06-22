@@ -49,7 +49,6 @@ function markNewChannelAsUnread(channelName) {
 
 describe('Verify Accessibility Support in Channel Sidebar Navigation', () => {
     before(() => {
-        cy.apiLogin('sysadmin');
         cy.apiSaveSidebarSettingPreference();
 
         // # Update Configs
@@ -144,7 +143,7 @@ describe('Verify Accessibility Support in Channel Sidebar Navigation', () => {
             cy.apiCreateChannel(teamId, 'public', 'public').then(() => {
                 cy.apiCreateChannel(teamId, 'public2', 'public2').then(() => {
                     // # Wait for few seconds
-                    cy.wait(TIMEOUTS.SMALL);
+                    cy.wait(TIMEOUTS.FIVE_SEC);
 
                     // # Press tab to the Add Public Channel button
                     cy.get('#createPublicChannel').focus().tab({shift: true}).tab().should('have.attr', 'aria-label', 'create a public channel');
@@ -171,7 +170,7 @@ describe('Verify Accessibility Support in Channel Sidebar Navigation', () => {
             cy.apiCreateChannel(teamId, 'private', 'private', 'P').then(() => {
                 cy.apiCreateChannel(teamId, 'private2', 'private2', 'P').then(() => {
                     // # Wait for few seconds
-                    cy.wait(TIMEOUTS.SMALL);
+                    cy.wait(TIMEOUTS.FIVE_SEC);
 
                     // # Press tab to the Add Private Channel button
                     cy.get('#createPrivateChannel').focus().tab({shift: true}).tab().should('have.attr', 'aria-label', 'create a private channel');
@@ -201,7 +200,7 @@ describe('Verify Accessibility Support in Channel Sidebar Navigation', () => {
         cy.get('.more-modal__row.clickable').eq(1).click();
         cy.get('#saveItems').click();
 
-        cy.wait(TIMEOUTS.SMALL);
+        cy.wait(TIMEOUTS.FIVE_SEC);
 
         // # Press tab to the Create DM button
         cy.get('#addDirectChannel').focus().tab({shift: true}).tab().should('have.attr', 'aria-label', 'write a direct message');
