@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/compass/Label should match snapshot 1`] = `
+<span
+  className="Label Label___small"
+>
+  text
+</span>
+`;

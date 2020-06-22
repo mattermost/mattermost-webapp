@@ -2,18 +2,24 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import classNames from 'classnames';
 
-import './label.scss';
-
-export default class Label extends React.PureComponent {
-    render() {
-        return (
-            <span
-                className='Label Label___standard'
-                title='Lorem ipsum dolor sit amet, consectetur adipiscing.'
-            >
-                {'Lorem ipsum dolor sit amet, consectetur adipiscing.'}
-            </span>
-        );
-    }
+interface Props {
+    children: React.ReactNode;
+    size: string;
+    wrap?: boolean;
+    onMouseOver?: () => void;
 }
+
+const Label: React.FC<Props> = ({children, size, wrap, onMouseOver}: Props) => {
+    return (
+        <span
+            className={classNames([`Label Label___${size}`, {Label___wrap: wrap}])}
+            onMouseOver={onMouseOver}
+        >
+            {children}
+        </span>
+    );
+};
+
+export default Label;

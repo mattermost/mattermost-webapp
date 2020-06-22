@@ -4,9 +4,9 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import LabelCommon from './label_common';
+import Label from './label';
 
-describe('components/compass/menu/LabelCommon', () => {
+describe('components/compass/Label', () => {
     test('should match snapshot', () => {
         const Props = {
             children: 'text',
@@ -14,7 +14,7 @@ describe('components/compass/menu/LabelCommon', () => {
         };
 
         const wrapper = shallow(
-            <LabelCommon
+            <Label
                 {...Props}
             />,
         );
