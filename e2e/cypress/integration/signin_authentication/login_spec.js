@@ -17,7 +17,6 @@ let config;
 describe('Login page', () => {
     before(() => {
         // Disable other auth options
-        cy.apiLogin('sysadmin');
         const newSettings = {
             Office365Settings: {Enable: false},
             LdapSettings: {Enable: false},

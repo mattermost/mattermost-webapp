@@ -12,15 +12,11 @@
 
 describe('Account Settings > Display > Channel Display Mode', () => {
     before(() => {
-        cy.apiLogin('user-1');
-
-        // # Set default preference of a user on channel and message display
-        cy.apiSaveChannelDisplayModePreference('centered');
-        cy.apiSaveMessageDisplayPreference();
-
-        // Post a message to a channel
-        cy.visit('/ad-1/channels/town-square');
-        cy.postMessage('Test for channel display mode');
+        // # Login as new user, visit town-square and post a message
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
+            cy.postMessage('Test for channel display mode');
+        });
     });
 
     beforeEach(() => {
@@ -45,7 +41,7 @@ describe('Account Settings > Display > Channel Display Mode', () => {
 
         // * Check the min setting view if each element is present and contains expected text values
         cy.get('#channel_display_modeTitle').should('be.visible').should('contain', 'Channel Display');
-        cy.get('#channel_display_modeDesc').should('be.visible').should('contain', 'Fixed width');
+        cy.get('#channel_display_modeDesc').should('be.visible').should('contain', 'Full width');
         cy.get('#channel_display_modeEdit').should('be.visible').should('contain', 'Edit');
         cy.get('#accountSettingsHeader > .close').should('be.visible');
     });

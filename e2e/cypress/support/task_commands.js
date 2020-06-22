@@ -45,7 +45,7 @@ Cypress.Commands.add('postIncomingWebhook', ({url, data}) => {
 Cypress.Commands.add('externalRequest', ({user, method, path, data}) => {
     const baseUrl = Cypress.config('baseUrl');
 
-    cy.task('externalRequest', {baseUrl, user, method, path, data}).its('status').should('be.equal', 200);
+    return cy.task('externalRequest', {baseUrl, user, method, path, data}).its('status').should('be.equal', 200);
 });
 
 /**
