@@ -33,7 +33,7 @@ describe('Messaging', () => {
 
         // # upload an image
         const IMAGE_NAME = 'huge-image.jpg';
-        cy.fileUpload('#fileUploadInput', IMAGE_NAME);
+        cy.get('#fileUploadInput').attachFile(IMAGE_NAME);
         waitForImageUpload();
 
         // # post it with a message
@@ -65,7 +65,7 @@ describe('Messaging', () => {
 
         // # upload an image
         const IMAGE_NAME = 'huge-image.jpg';
-        cy.fileUpload('#fileUploadInput', IMAGE_NAME);
+        cy.get('#fileUploadInput').attachFile(IMAGE_NAME);
         waitForImageUpload();
 
         // # post it with a message

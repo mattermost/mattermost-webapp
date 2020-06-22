@@ -34,6 +34,7 @@ export default class GroupDetails extends React.PureComponent {
         actions: PropTypes.shape({
             getGroup: PropTypes.func.isRequired,
             getMembers: PropTypes.func.isRequired,
+            getGroupStats: PropTypes.func.isRequired,
             getGroupSyncables: PropTypes.func.isRequired,
             link: PropTypes.func.isRequired,
             unlink: PropTypes.func.isRequired,
@@ -80,6 +81,7 @@ export default class GroupDetails extends React.PureComponent {
         Promise.all([
             actions.getGroupSyncables(groupID, Groups.SYNCABLE_TYPE_TEAM),
             actions.getGroupSyncables(groupID, Groups.SYNCABLE_TYPE_CHANNEL),
+            actions.getGroupStats(groupID),
         ]).then(() => {
             this.setState({
                 loadingTeamsAndChannels: false,
