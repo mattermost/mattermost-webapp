@@ -20,7 +20,7 @@ describe('Search teams', () => {
     });
 
     beforeEach(() => {
-        cy.apiLogin('sysadmin');
+        cy.apiAdminLogin();
         cy.visit('/admin_console/user_management/teams');
         cy.wrap([]).as('createdTeamIDs');
     });

@@ -32,6 +32,7 @@ describe('components/admin_console/group_settings/group_details/GroupDetails', (
         actions: {
             getGroup: jest.fn().mockReturnValue(Promise.resolve()),
             getMembers: jest.fn().mockReturnValue(Promise.resolve()),
+            getGroupStats: jest.fn().mockReturnValue(Promise.resolve()),
             getGroupSyncables: jest.fn().mockReturnValue(Promise.resolve()),
             link: jest.fn(),
             unlink: jest.fn(),
@@ -71,6 +72,7 @@ describe('components/admin_console/group_settings/group_details/GroupDetails', (
     test('should load data on mount', () => {
         const actions = {
             getGroupSyncables: jest.fn().mockReturnValue(Promise.resolve()),
+            getGroupStats: jest.fn().mockReturnValue(Promise.resolve()),
             getGroup: jest.fn().mockReturnValue(Promise.resolve()),
             getMembers: jest.fn(),
             link: jest.fn(),
@@ -94,6 +96,7 @@ describe('components/admin_console/group_settings/group_details/GroupDetails', (
     test('should set state for each channel when addChannels is called', async () => {
         const actions = {
             getGroupSyncables: jest.fn().mockReturnValue(Promise.resolve()),
+            getGroupStats: jest.fn().mockReturnValue(Promise.resolve()),
             getGroup: jest.fn().mockReturnValue(Promise.resolve()),
             getMembers: jest.fn(),
             link: jest.fn().mockReturnValue(Promise.resolve()),
@@ -122,6 +125,7 @@ describe('components/admin_console/group_settings/group_details/GroupDetails', (
     test('should set state for each team when addTeams is called', async () => {
         const actions = {
             getGroupSyncables: jest.fn().mockReturnValue(Promise.resolve()),
+            getGroupStats: jest.fn().mockReturnValue(Promise.resolve()),
             getGroup: jest.fn().mockReturnValue(Promise.resolve()),
             getMembers: jest.fn(),
             link: jest.fn().mockReturnValue(Promise.resolve()),

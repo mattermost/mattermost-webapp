@@ -9,6 +9,8 @@
 
 // Group: @enterprise @ldap_group
 
+import * as TIMEOUTS from '../../../fixtures/timeouts';
+
 // # Function to get all the teams associated to group and unlink them
 const getTeamsAssociatedToGroupAndUnlink = (groupId) => {
     cy.request({
@@ -47,9 +49,6 @@ const getChannelsAssociatedToGroupAndUnlink = (groupId) => {
 
 describe('System Console', () => {
     before(() => {
-        // # Login as sysadmin
-        cy.apiLogin('sysadmin');
-
         // * Check if server has license for LDAP Groups
         cy.requireLicenseForFeature('LDAPGroups');
 
@@ -91,7 +90,7 @@ describe('System Console', () => {
         });
 
         // # Wait until the groups retrieved and show up
-        cy.wait(500); //eslint-disable-line cypress/no-unnecessary-waiting
+        cy.wait(TIMEOUTS.HALF_SEC); //eslint-disable-line cypress/no-unnecessary-waiting
 
         // # Add the first team in the group list then save
         cy.get('#add_team_or_channel').click();
@@ -106,7 +105,7 @@ describe('System Console', () => {
         cy.get('#saveItems').click();
 
         // # Wait until the groups retrieved and show up
-        cy.wait(500); //eslint-disable-line cypress/no-unnecessary-waiting
+        cy.wait(TIMEOUTS.HALF_SEC); //eslint-disable-line cypress/no-unnecessary-waiting
 
         cy.get('#team_and_channel_membership_table').then((el) => {
             // * Ensure that the text in the roles column is Member as default text for each row

@@ -14,15 +14,22 @@
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Post Header', () => {
+    let testTeam;
+
+    before(() => {
+        // # Login as test user and visit town-square channel
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            testTeam = team;
+
+            cy.visit(`/${testTeam.name}/channels/town-square`);
+        });
+    });
+
     beforeEach(() => {
-        // # Go to Main Channel View with "user-1"
-        cy.toMainChannelView('user-1');
+        cy.visit(`/${testTeam.name}/channels/town-square`);
     });
 
     it('should render permalink view on click of post timestamp at center view', () => {
-        // # Go to a known team and channel
-        cy.visit('/ad-1/channels/town-square');
-
         // # Post a message
         cy.postMessage('test for permalink');
 
@@ -36,16 +43,16 @@ describe('Post Header', () => {
             cy.clickPostTime(postId);
 
             // * Check if url include the permalink
-            cy.url().should('include', `/ad-1/channels/town-square/${postId}`);
+            cy.url().should('include', `/${testTeam.name}/channels/town-square/${postId}`);
 
             // * Check if url redirects back to parent path eventually
-            cy.wait(TIMEOUTS.SMALL).url().should('include', '/ad-1/channels/town-square').and('not.include', `/${postId}`);
+            cy.wait(TIMEOUTS.FIVE_SEC).url().should('include', `/${testTeam.name}/channels/town-square`).and('not.include', `/${postId}`);
 
             // * Check that the post is highlighted on permalink view
             cy.get(divPostId).should('be.visible').and('have.class', 'post--highlight');
 
             // * Check that the highlight is removed after a period of time
-            cy.wait(TIMEOUTS.TINY).get(divPostId).should('be.visible').and('not.have.class', 'post--highlight');
+            cy.wait(TIMEOUTS.HALF_SEC).get(divPostId).should('be.visible').and('not.have.class', 'post--highlight');
 
             // * Check the said post not highlighted
             cy.get(divPostId).should('be.visible').should('not.have.class', 'post--highlight');
@@ -53,9 +60,6 @@ describe('Post Header', () => {
     });
 
     it('should flag a post on click to flag icon at center view', () => {
-        // # Go to a known team and channel
-        cy.visit('/ad-1/channels/town-square');
-
         // # Post a message
         cy.postMessage('test for flagged post');
 
@@ -81,9 +85,6 @@ describe('Post Header', () => {
     });
 
     it('should open dropdown menu on click of dot menu icon', () => {
-        // # Go to a known team and channel
-        cy.visit('/ad-1/channels/town-square');
-
         // # Post a message
         cy.postMessage('test for dropdown menu');
 
@@ -115,9 +116,6 @@ describe('Post Header', () => {
     });
 
     it('should open and close Emoji Picker on click of reaction icon', () => {
-        // # Go to a known team and channel
-        cy.visit('/ad-1/channels/town-square');
-
         // # Post a message
         cy.postMessage('test for reaction and emoji picker');
 
@@ -148,9 +146,6 @@ describe('Post Header', () => {
     });
 
     it('should open RHS on click of comment icon and close on RHS\' close button', () => {
-        // # Go to a known team and channel
-        cy.visit('/ad-1/channels/town-square');
-
         // # Post a message
         cy.postMessage('test for opening and closing RHS');
 
@@ -168,9 +163,6 @@ describe('Post Header', () => {
     });
 
     it('M14577 Un-pinning and pinning a post removes and adds badge', () => {
-        // # Go to a known team and channel
-        cy.visit('/ad-1/channels/town-square');
-
         // # Post a message
         cy.postMessage('test for pinning/unpinning a post');
 
@@ -222,9 +214,6 @@ describe('Post Header', () => {
         cy.delayRequestToRoutes(['pinned', 'flagged'], 5000);
         cy.reload();
 
-        // # Go to Town-Square channel
-        cy.visit('/ad-1/channels/town-square');
-
         // Pin and flag last post before clicking on Pinned and Flagged post icons
         cy.postMessage('Post');
 
@@ -241,7 +230,7 @@ describe('Post Header', () => {
         // * Verify that the RHS for pinned posts is opened.
         cy.get('#searchContainer').should('be.visible').within(() => {
             // * Check that searching indicator appears before the pinned posts are loaded
-            cy.get('#loadingSpinner', {timeout: TIMEOUTS.SMALL}).should('be.visible').and('have.text', 'Searching...');
+            cy.get('#loadingSpinner', {timeout: TIMEOUTS.FIVE_SEC}).should('be.visible').and('have.text', 'Searching...');
             cy.get('#search-items-container').should('be.visible');
 
             // # Close the RHS
