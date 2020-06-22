@@ -10,6 +10,8 @@ import {ActionResult} from 'mattermost-redux/types/actions';
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 import {TestHelper} from 'utils/test_helper';
 
+import {TestHelper} from '../../../utils/test_helper';
+
 import ResetPasswordModal from './reset_password_modal';
 
 describe('components/admin_console/reset_password_modal/reset_password_modal.tsx', () => {
@@ -27,30 +29,13 @@ describe('components/admin_console/reset_password_modal/reset_password_modal.tsx
         push_status: 'ooo',
     };
     const user: UserProfile = TestHelper.getUserMock({
-        auth_data: '',
         auth_service: 'test',
-        create_at: 0,
-        delete_at: 0,
-        email: '',
-        email_verified: false,
-        first_name: '',
-        id: '1',
-        is_bot: false,
-        last_name: '',
-        last_picture_update: 0,
-        locale: '',
-        nickname: '',
         notify_props: notifyProps,
-        position: '',
-        roles: '',
-        terms_of_service_create_at: 0,
-        terms_of_service_id: '',
-        update_at: 0,
-        username: '',
     });
+
     const baseProps = {
         actions: {updateUserPassword: jest.fn<ActionResult, {}[]>(() => ({data: ''}))},
-        currentUserId: '1',
+        currentUserId: user.id,
         user,
         show: true,
         onModalSubmit: emptyFunction,

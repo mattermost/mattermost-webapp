@@ -27,7 +27,7 @@ describe('Messaging', () => {
         cy.get('#post_textbox').click().type('{leftarrow}b');
 
         // # Wait for the cursor to move in failing case
-        cy.wait(TIMEOUTS.SMALL);
+        cy.wait(TIMEOUTS.FIVE_SEC);
 
         // # Write another letter
         cy.get('#post_textbox').type('c');

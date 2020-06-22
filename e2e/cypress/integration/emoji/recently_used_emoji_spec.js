@@ -36,7 +36,7 @@ describe('Recent Emoji', () => {
         cy.get('#create_post').submit();
 
         // # Wait 500 millisecond
-        cy.wait(TIMEOUTS.TINY);
+        cy.wait(TIMEOUTS.HALF_SEC);
 
         // # Post reaction to post
         cy.clickPostReactionIcon();
