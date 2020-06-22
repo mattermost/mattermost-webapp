@@ -9,13 +9,10 @@
 
 // Group: @channel_sidebar
 
-import users from '../../fixtures/users';
-
 import {testWithConfig} from '../../support/hooks';
 
 import {getRandomId} from '../../utils';
-
-const sysadmin = users.sysadmin;
+import {getAdminAccount} from '../../support/env';
 
 describe('Channel switching', () => {
     testWithConfig({
@@ -24,10 +21,13 @@ describe('Channel switching', () => {
         },
     });
 
-    before(() => {
-        cy.apiLogin('user-1');
+    const sysadmin = getAdminAccount();
 
-        cy.visit('/');
+    before(() => {
+        // # Login as test user and visit town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
+        });
     });
 
     const cmdOrCtrl = Cypress.platform === 'darwin' ? '{cmd}' : '{ctrl}';
@@ -66,7 +66,6 @@ describe('Channel switching', () => {
         cy.getCurrentChannelId().as('townSquareId');
 
         // # Create a new channel
-        // cy.createAndVisitNewChannel().as('testChannel');
         cy.getCurrentTeamId().then((teamId) => {
             cy.apiCreateChannel(teamId, 'test-channel', 'Test Channel').then((response) => {
                 expect(response.status).to.equal(201);
