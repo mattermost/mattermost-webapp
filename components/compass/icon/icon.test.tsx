@@ -4,9 +4,9 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import IconCommon from './icon_common';
+import Icon from './icon';
 
-describe('components/compass/menu/IconCommon', () => {
+describe('components/compass/Icon', () => {
     test('should match snapshot', () => {
         const Props = {
             glyph: 'emoticon-happy-outline',
@@ -15,7 +15,7 @@ describe('components/compass/menu/IconCommon', () => {
         };
 
         const wrapper = shallow(
-            <IconCommon
+            <Icon
                 {...Props}
             />,
         );

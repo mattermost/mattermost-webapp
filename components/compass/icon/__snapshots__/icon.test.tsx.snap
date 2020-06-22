@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/compass/Icon should match snapshot 1`] = `
+<i
+  aria-label="icon"
+  className="Icon Icon___xsmall icon-emoticon-happy-outline"
+/>
+`;
