@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/compass/menu/ButtonCommon should match snapshot 1`] = `
+exports[`components/compass/Button should match snapshot 1`] = `
 <div
   className="Button__wrapper"
 >

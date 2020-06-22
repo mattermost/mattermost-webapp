@@ -4,9 +4,9 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import ButtonCommon from './button_common';
+import Button from './button';
 
-describe('components/compass/menu/ButtonCommon', () => {
+describe('components/compass/Button', () => {
     test('should match snapshot', () => {
         const Props = {
             style: 'primary',
@@ -15,7 +15,7 @@ describe('components/compass/menu/ButtonCommon', () => {
         };
 
         const wrapper = shallow(
-            <ButtonCommon
+            <Button
                 {...Props}
             />,
         );
