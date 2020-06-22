@@ -15,13 +15,13 @@ import * as TIMEOUTS from '../../../fixtures/timeouts';
 const saveAndNavigateBackTo = (name) => {
     cy.get('#saveSetting').should('be.enabled').click({force: true});
 
-    cy.findByTestId('search-input').should('be.visible').type(`${name}{enter}`).wait(TIMEOUTS.TINY);
+    cy.findByTestId('search-input').should('be.visible').type(`${name}{enter}`).wait(TIMEOUTS.HALF_SEC);
     cy.findByTestId(`${name}edit`).should('be.visible').click();
 };
 
 const changeRoleTo = (role) => {
     cy.get('#role-to-be > button').should('be.visible').and('have.text', role).click();
-    cy.findByTestId('current-role').should('have.text', role).wait(TIMEOUTS.TINY);
+    cy.findByTestId('current-role').should('have.text', role).wait(TIMEOUTS.HALF_SEC);
 };
 
 describe('System Console', () => {
@@ -29,9 +29,6 @@ describe('System Console', () => {
     let team;
 
     before(() => {
-        // # Login as sysadmin
-        cy.apiLogin('sysadmin');
-
         // * Check if server has license for LDAP Groups
         cy.requireLicenseForFeature('LDAPGroups');
 

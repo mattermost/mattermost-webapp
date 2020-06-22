@@ -25,9 +25,7 @@ function verifyArrowKeysEmojiNavigation(arrowKey, count) {
 
 describe('Verify Accessibility Support in Popovers', () => {
     before(() => {
-        cy.apiLogin('sysadmin');
-
-        // Visit the Off Topic channel
+        // # Visit the Off Topic channel
         cy.visit('/ad-1/channels/off-topic');
         cy.findAllByTestId('postView').should('be.visible');
 

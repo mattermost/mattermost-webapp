@@ -42,7 +42,7 @@ describe('admin_console/team_channel_settings/team/TeamMembers', () => {
             getTeamStats: jest.fn(),
             loadProfilesAndReloadTeamMembers: jest.fn(),
             searchProfilesAndTeamMembers: jest.fn(),
-            setModalSearchTerm: jest.fn(),
+            setSystemUsersSearch: jest.fn(),
         },
     };
 

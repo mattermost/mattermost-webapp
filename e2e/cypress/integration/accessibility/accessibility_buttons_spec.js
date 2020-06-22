@@ -12,8 +12,6 @@
 
 describe('Verify Accessibility Support in different Buttons', () => {
     before(() => {
-        cy.apiLogin('sysadmin');
-
         // # Visit the Off Topic channel
         cy.visit('/ad-1/channels/off-topic');
         cy.findAllByTestId('postView').should('be.visible');

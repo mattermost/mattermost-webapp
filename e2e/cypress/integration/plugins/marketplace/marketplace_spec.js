@@ -15,7 +15,7 @@ describe('Plugin Marketplace', () => {
     describe('should not render in main menu', () => {
         it('for non-admin', () => {
             // # Login as sysadmin
-            cy.apiLogin('sysadmin');
+            cy.apiAdminLogin();
 
             // # Enable Plugin Marketplace
             cy.apiUpdateConfig({
@@ -33,7 +33,7 @@ describe('Plugin Marketplace', () => {
 
         it('when marketplace disabled', () => {
             // # Login as sysadmin
-            cy.apiLogin('sysadmin');
+            cy.apiAdminLogin();
 
             // # Disable Plugin Marketplace
             cy.apiUpdateConfig({
@@ -50,7 +50,7 @@ describe('Plugin Marketplace', () => {
 
         it('when plugins disabled', () => {
             // # Login as sysadmin
-            cy.apiLogin('sysadmin');
+            cy.apiAdminLogin();
 
             // # Disable Plugin
             // # Enable Plugin Marketplace
@@ -70,7 +70,7 @@ describe('Plugin Marketplace', () => {
     describe('invalid marketplace, should', () => {
         beforeEach(() => {
             // # Login as sysadmin
-            cy.apiLogin('sysadmin');
+            cy.apiAdminLogin();
 
             // # Enable Plugin Marketplace and Remote Marketplace
             cy.apiUpdateConfig({
@@ -88,7 +88,7 @@ describe('Plugin Marketplace', () => {
             // # Visit the Town Square channel
             cy.visit('/ad-1/channels/town-square');
 
-            cy.wait(TIMEOUTS.TINY).get('#lhsHeader').should('be.visible').within(() => {
+            cy.wait(TIMEOUTS.HALF_SEC).get('#lhsHeader').should('be.visible').within(() => {
                 // # Click hamburger main menu
                 cy.get('#sidebarHeaderDropdownButton').click();
 
@@ -161,7 +161,7 @@ describe('Plugin Marketplace', () => {
             // # Visit the Town Square channel
             cy.visit('/ad-1/channels/town-square');
 
-            cy.wait(TIMEOUTS.TINY).get('#lhsHeader').should('be.visible').within(() => {
+            cy.wait(TIMEOUTS.HALF_SEC).get('#lhsHeader').should('be.visible').within(() => {
                 // # Click hamburger main menu
                 cy.get('#sidebarHeaderDropdownButton').click();
 
@@ -374,7 +374,7 @@ describe('Plugin Marketplace', () => {
             cy.visit('/ad-1/channels/town-square');
 
             // # Click hamburger main menu
-            cy.wait(TIMEOUTS.TINY).get('#sidebarHeaderDropdownButton').click();
+            cy.wait(TIMEOUTS.HALF_SEC).get('#sidebarHeaderDropdownButton').click();
 
             // # Open up marketplace modal
             cy.get('#marketplaceModal').click();

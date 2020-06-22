@@ -14,23 +14,21 @@ import {enableElasticSearch, getTestUsers} from './helpers';
 describe('Autocomplete with Elasticsearch - Users', () => {
     const timestamp = Date.now();
     const testUsers = getTestUsers();
-    let team;
+    let testTeam;
 
     before(() => {
-        // # Login as admin
-        cy.apiLogin('sysadmin');
-        cy.apiSaveTeammateNameDisplayPreference('username');
-
         // * Check if server has license for Elasticsearch
         cy.requireLicenseForFeature('Elasticsearch');
 
         // # Create new team for tests
         cy.apiCreateTeam(`elastic-${timestamp}`, `elastic-${timestamp}`).then((response) => {
-            team = response.body;
+            testTeam = response.body;
 
             // # Create pool of users for tests
-            Cypress._.forEach(testUsers, (user) => {
-                cy.apiCreateNewUser(user, [team.id]);
+            Cypress._.forEach(testUsers, (testUser) => {
+                cy.apiCreateUser({user: testUser}).then(({user}) => {
+                    cy.apiAddUserToTeam(testTeam.id, user.id);
+                });
             });
         });
 
@@ -60,7 +58,7 @@ describe('Autocomplete with Elasticsearch - Users', () => {
                     expectedtestUsers.forEach((user) => {
                         cy.findByTestId(`mentionSuggestion_${user.username}`, {exact: false}).within((name) => {
                             cy.wrap(name).find('.mention--align').should('have.text', `@${user.username}`);
-                            cy.wrap(name).find('.ml-2').should('have.text', `${user.firstName} ${user.lastName} (${user.nickname})`);
+                            cy.wrap(name).find('.ml-2').should('have.text', `${user.first_name} ${user.last_name} (${user.nickname})`);
                         });
                     });
                 },
@@ -68,7 +66,7 @@ describe('Autocomplete with Elasticsearch - Users', () => {
 
             before(() => {
                 // # Navigate to the new teams town square
-                cy.visit(`/${team.name}/channels/town-square`);
+                cy.visit(`/${testTeam.name}/channels/town-square`);
             });
 
             describe('by @username', () => {
@@ -184,14 +182,14 @@ describe('Autocomplete with Elasticsearch - Users', () => {
                     expectedtestUsers.forEach((user) => {
                         cy.findByTestId(user.username).
                             should('be.visible').
-                            and('have.text', `@${user.username} - ${user.firstName} ${user.lastName} (${user.nickname})`);
+                            and('have.text', `@${user.username} - ${user.first_name} ${user.last_name} (${user.nickname})`);
                     });
                 },
             };
 
             before(() => {
                 // # Navigate to the new teams town square
-                cy.visit(`/${team.name}/channels/town-square`);
+                cy.visit(`/${testTeam.name}/channels/town-square`);
                 cy.typeCmdOrCtrl().type('k');
                 cy.get('#quickSwitchInput').should('be.visible');
             });
@@ -301,23 +299,17 @@ describe('Autocomplete with Elasticsearch - Users', () => {
             const thor = testUsers.thor;
             const loki = testUsers.loki;
 
-            // # Navigate to town square
-            cy.visit(`/${team.name}/channels/town-square`);
+            // # Create new channel and add user to channel
+            const channelName = `new-channel-${timestamp}`;
+            cy.apiCreateChannel(testTeam.id, channelName, channelName).then((channelResponse) => {
+                const channel = channelResponse.body;
 
-            // # Get the current team id, create new channel, and add user to channel
-            cy.getCurrentTeamId().then((teamId) => {
-                const channelName = `new-channel-${timestamp}`;
-
-                cy.apiCreateChannel(teamId, channelName, channelName).then((channelResponse) => {
-                    const channel = channelResponse.body;
-
-                    cy.apiGetUserByEmail(thor.email).then((emailResponse) => {
-                        const user = emailResponse.body;
-                        cy.apiAddUserToChannel(channel.id, user.id);
-                    });
-
-                    cy.visit(`/${team.name}/channels/${channel.name}`);
+                cy.apiGetUserByEmail(thor.email).then((emailResponse) => {
+                    const user = emailResponse.body;
+                    cy.apiAddUserToChannel(channel.id, user.id);
                 });
+
+                cy.visit(`/${testTeam.name}/channels/${channel.name}`);
             });
 
             // # Start an at mention that should return 2 users (in this case, the users share a last name)
@@ -331,14 +323,14 @@ describe('Autocomplete with Elasticsearch - Users', () => {
             cy.findByTestId(thor.username, {exact: false}).within((name) => {
                 cy.wrap(name).prev('.suggestion-list__divider').should('have.text', 'Channel Members');
                 cy.wrap(name).find('.mention--align').should('have.text', `@${thor.username}`);
-                cy.wrap(name).find('.ml-2').should('have.text', `${thor.firstName} ${thor.lastName} (${thor.nickname})`);
+                cy.wrap(name).find('.ml-2').should('have.text', `${thor.first_name} ${thor.last_name} (${thor.nickname})`);
             });
 
             // * Loki should NOT be a channel member
             cy.findByTestId(loki.username, {exact: false}).within((name) => {
                 cy.wrap(name).prev('.suggestion-list__divider').should('have.text', 'Not in Channel');
                 cy.wrap(name).find('.mention--align').should('have.text', `@${loki.username}`);
-                cy.wrap(name).find('.ml-2').should('have.text', `${loki.firstName} ${loki.lastName} (${loki.nickname})`);
+                cy.wrap(name).find('.ml-2').should('have.text', `${loki.first_name} ${loki.last_name} (${loki.nickname})`);
             });
         });
 
@@ -363,7 +355,7 @@ describe('Autocomplete with Elasticsearch - Users', () => {
             // * Result should have appropriate text
             cy.get('@result').
                 find('.more-modal__name').
-                should('have.text', `@${thor.username} - ${thor.firstName} ${thor.lastName} (${thor.nickname})`);
+                should('have.text', `@${thor.username} - ${thor.first_name} ${thor.last_name} (${thor.nickname})`);
 
             cy.get('@result').
                 find('.more-modal__description').

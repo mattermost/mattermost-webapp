@@ -14,8 +14,7 @@ import {getRandomId} from '../../utils';
 
 describe('Integrations page', () => {
     before(() => {
-        // # Login as sysadmin and set ServiceSettings to expected values
-        cy.apiLogin('sysadmin');
+        // # Set ServiceSettings to expected values
         const newSettings = {
             ServiceSettings: {
                 EnableOAuthServiceProvider: true,
