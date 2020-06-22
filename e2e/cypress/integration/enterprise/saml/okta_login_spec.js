@@ -37,6 +37,7 @@ context('Okta', () => {
             IdpUrl: Cypress.env('oktaBaseUrl') + '/app/' + Cypress.env('oktaMMAppName') + '/' + Cypress.env('oktaMMEntityId') + '/sso/saml',
             IdpDescriptorUrl: 'http://www.okta.com/' + Cypress.env('oktaMMEntityId'),
             IdpMetadataUrl: Cypress.env('oktaBaseUrl') + '/app/' + Cypress.env('oktaMMEntityId') + '/sso/saml/metadata',
+            ServiceProviderIdentifier: Cypress.config('baseUrl') + '/login/sso/saml',
             AssertionConsumerServiceURL: Cypress.config('baseUrl') + '/login/sso/saml',
             SignatureAlgorithm: 'RSAwithSHA1',
             CanonicalAlgorithm: 'Canonical1.0',
