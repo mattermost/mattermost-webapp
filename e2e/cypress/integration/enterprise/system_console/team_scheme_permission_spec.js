@@ -42,7 +42,7 @@ describe('Team Scheme Channel Mentions Permissions Test', () => {
         // # Give the new team scheme a name
         cy.get('#scheme-name').type('Test Team Scheme');
 
-        // # Assign the new team scheme to the eligendi team using the add teams modal
+        // # Assign the new team scheme to the test team using the add teams modal
         cy.findByTestId('add-teams').click();
 
         cy.get('#selectItems').type(testTeam.display_name);
@@ -171,7 +171,7 @@ const checkChannelPermission = (permissionName, hasChannelPermissionCheckFunc, n
     setUserTeamAndChannelMemberships(testUser, testTeam, testChannel);
 
     // * Ensure user can use channel mentions by default
-    cy.apiLogin(testUser.username, testUser.password);
+    cy.apiLogin(testUser);
     cy.visit(channelUrl);
     hasChannelPermissionCheckFunc();
 
@@ -231,7 +231,7 @@ const checkChannelPermission = (permissionName, hasChannelPermissionCheckFunc, n
         setUserTeamAndChannelMemberships(testUser, testTeam, testChannel);
 
         // * Ensure user cannot use channel mentions
-        cy.apiLogin(testUser.username, testUser.password);
+        cy.apiLogin(testUser);
         cy.visit(channelUrl);
         notHasChannelPermissionCheckFunc();
 
@@ -239,7 +239,7 @@ const checkChannelPermission = (permissionName, hasChannelPermissionCheckFunc, n
         setUserTeamAndChannelMemberships(testUser, testTeam, testChannel, true, false);
 
         // * Ensure user can use channel mentions as channel admin
-        cy.apiLogin(testUser.username, testUser.password);
+        cy.apiLogin(testUser);
         cy.visit(channelUrl);
         hasChannelPermissionCheckFunc();
 
@@ -253,7 +253,7 @@ const checkChannelPermission = (permissionName, hasChannelPermissionCheckFunc, n
         cy.visit(url);
 
         // # Log back in as regular user
-        cy.apiLogin(testUser.username, testUser.password);
+        cy.apiLogin(testUser);
         cy.visit(channelUrl);
 
         // * Ensure user cannot use channel mentions as channel admin
@@ -263,7 +263,7 @@ const checkChannelPermission = (permissionName, hasChannelPermissionCheckFunc, n
         setUserTeamAndChannelMemberships(testUser, testTeam, testChannel, true, true);
 
         // * Ensure user can use channel mentions as team admin
-        cy.apiLogin(testUser.username, testUser.password);
+        cy.apiLogin(testUser);
         cy.visit(channelUrl);
         hasChannelPermissionCheckFunc();
 
@@ -277,7 +277,7 @@ const checkChannelPermission = (permissionName, hasChannelPermissionCheckFunc, n
         cy.visit(url);
 
         // # Log back in as regular user
-        cy.apiLogin(testUser.username, testUser.password);
+        cy.apiLogin(testUser);
         cy.visit(channelUrl);
 
         // * Ensure user cannot use channel mentions as team admin

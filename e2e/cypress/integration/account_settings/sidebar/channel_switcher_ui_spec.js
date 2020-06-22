@@ -18,7 +18,11 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
                 ExperimentalChannelSidebarOrganization: 'disabled',
             },
         });
-        cy.visit('/ad-1/channels/town-square');
+
+        // # Login as test user and visit town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
+        });
     });
 
     beforeEach(() => {

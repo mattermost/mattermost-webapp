@@ -43,7 +43,7 @@ describe('Group Synced Team - Bot invitation flow', () => {
 
         // # Logout sysadmin and login as an LDAP Group synced user
         cy.apiLogout();
-        cy.apiLogin('test.one', 'Password1');
+        cy.apiLogin({username: 'test.one', password: 'Password1'});
 
         // # Visit the group constrained team
         cy.visit(`/${groupConstrainedTeam.name}`);

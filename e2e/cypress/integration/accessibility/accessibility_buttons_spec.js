@@ -12,19 +12,13 @@
 
 describe('Verify Accessibility Support in different Buttons', () => {
     before(() => {
-        // # Visit the Off Topic channel
-        cy.visit('/ad-1/channels/off-topic');
-        cy.findAllByTestId('postView').should('be.visible');
+        // # Login as test user and visit town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/off-topic`);
 
-        // # Remove from Favorites if already set
-        cy.get('#channelHeaderInfo').then((el) => {
-            if (el.find('#toggleFavorite.active').length) {
-                cy.get('#toggleFavorite').click();
-            }
+            // # Post a message
+            cy.postMessage(`hello from test user: ${Date.now()}`);
         });
-
-        // # Post a message
-        cy.postMessage(`hello from sysadmin: ${Date.now()}`);
     });
 
     it('MM-22624 Accessibility Support in RHS expand and close icons', () => {

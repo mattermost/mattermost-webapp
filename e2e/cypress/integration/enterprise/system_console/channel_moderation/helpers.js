@@ -48,7 +48,7 @@ export const saveConfigForChannel = (channelName = false, clickConfirmationButto
 
 // # Visits a channel as the member specified
 export const visitChannel = (user, channel, team) => {
-    cy.apiLogin(user.username, user.password);
+    cy.apiLogin(user);
     cy.visit(`/${team.name}/channels/${channel.name}`);
     cy.get('#postListContent', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 };

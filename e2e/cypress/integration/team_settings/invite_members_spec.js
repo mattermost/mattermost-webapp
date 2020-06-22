@@ -122,7 +122,7 @@ describe('Invite Members', () => {
     // By default, member don't have "InviteGuest" permission
     // should go directly to "InviteMembers" modal
     it('Invite Members to Team as Member', () => {
-        cy.apiLogin(testUser.username, testUser.password);
+        cy.apiLogin(testUser);
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # function to open and select invite menu item

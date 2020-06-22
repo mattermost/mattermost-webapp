@@ -36,7 +36,7 @@ describe('Message permalink', () => {
 
                 cy.apiAddUserToTeam(testTeam.id, otherUser.id).then(() => {
                     // # Login as test user and create DM with other user
-                    cy.apiLogin(testUser.username, testUser.password);
+                    cy.apiLogin(testUser);
                     cy.apiCreateDirectChannel([testUser.id, otherUser.id]);
                 });
             });
