@@ -45,7 +45,7 @@ describe('MM-13697 Edit Post with attachment', () => {
             cy.get('#edit_textbox').
                 should('be.visible').
                 and('be.focused').
-                wait(TIMEOUTS.TINY).
+                wait(TIMEOUTS.HALF_SEC).
                 type('{leftarrow}{leftarrow}{leftarrow}{leftarrow}').type('add ');
 
             // # Click button Edit

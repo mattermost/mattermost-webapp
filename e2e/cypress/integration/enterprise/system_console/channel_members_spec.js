@@ -69,7 +69,7 @@ describe('Channel members test', () => {
 
         // # Search for user1 that we know is in the team
         cy.get('#channelMembers .DataGrid_search input').clear().type(user1.email);
-        cy.wait(TIMEOUTS.TINY); // Timeout required to wait for timeout that happens when search input changes
+        cy.wait(TIMEOUTS.HALF_SEC); // Timeout required to wait for timeout that happens when search input changes
 
         // # Wait till loading complete and then remove the only visible user
         cy.get('#channelMembers .DataGrid_loading').should('not.be.visible');
@@ -86,7 +86,7 @@ describe('Channel members test', () => {
 
         // # Search for user2 that we know is in the team
         cy.get('#channelMembers .DataGrid_search input').clear().type(user2.email);
-        cy.wait(TIMEOUTS.TINY); // Timeout required to wait for timeout that happens when search input changes
+        cy.wait(TIMEOUTS.HALF_SEC); // Timeout required to wait for timeout that happens when search input changes
 
         // # Wait till loading complete and then remove the only visible user
         cy.get('#channelMembers .DataGrid_loading').should('not.be.visible');
@@ -109,14 +109,14 @@ describe('Channel members test', () => {
 
         // # Search for user1 that we know is no longer in the team
         cy.get('#channelMembers .DataGrid_search input').scrollIntoView().clear().type(user1.email);
-        cy.wait(TIMEOUTS.TINY); // Timeout required to wait for timeout that happens when search input changes
+        cy.wait(TIMEOUTS.HALF_SEC); // Timeout required to wait for timeout that happens when search input changes
 
         // * Assert that no matching users found
         cy.get('#channelMembers .DataGrid_rows').should('contain', 'No users found');
 
         // # Search for user2 that we know is no longer in the team
         cy.get('#channelMembers .DataGrid_search input').clear().type(user2.email);
-        cy.wait(TIMEOUTS.TINY); // Timeout required to wait for timeout that happens when search input changes
+        cy.wait(TIMEOUTS.HALF_SEC); // Timeout required to wait for timeout that happens when search input changes
 
         // * Assert that no matching users found
         cy.get('#channelMembers .DataGrid_rows').should('contain', 'No users found');
@@ -132,7 +132,7 @@ describe('Channel members test', () => {
 
         // # Search for user1
         cy.get('#channelMembers .DataGrid_search input').clear().type(user1.email);
-        cy.wait(TIMEOUTS.TINY); // Timeout required to wait for timeout that happens when search input changes
+        cy.wait(TIMEOUTS.HALF_SEC); // Timeout required to wait for timeout that happens when search input changes
 
         // * Assert that the user is now added to the members block and contains text denoting that they are New
         cy.get('#channelMembers .DataGrid_rows').children(0).should('contain', user1.email).and('contain', 'New');
@@ -149,14 +149,14 @@ describe('Channel members test', () => {
 
         // # Search for user2
         cy.get('#channelMembers .DataGrid_search input').clear().type(user2.email);
-        cy.wait(TIMEOUTS.TINY); // Timeout required to wait for timeout that happens when search input changes
+        cy.wait(TIMEOUTS.HALF_SEC); // Timeout required to wait for timeout that happens when search input changes
 
         // * Assert that the user is now added to the members block and contains text denoting that they are New
         cy.get('#channelMembers .DataGrid_rows').children(0).should('contain', user2.email).and('contain', 'New');
 
         // # Search for sysadmin
         cy.get('#channelMembers .DataGrid_search input').clear().type(sysadmin.email);
-        cy.wait(TIMEOUTS.TINY); // Timeout required to wait for timeout that happens when search input changes
+        cy.wait(TIMEOUTS.HALF_SEC); // Timeout required to wait for timeout that happens when search input changes
 
         // * Assert that searching for users after adding users returns only relevant search results
         cy.get('#channelMembers .DataGrid_rows').children(0).should('contain', sysadmin.email);
@@ -169,7 +169,7 @@ describe('Channel members test', () => {
 
         // # Search user1 that we know is now in the team again
         cy.get('#channelMembers .DataGrid_search input').scrollIntoView().clear().type(user1.email);
-        cy.wait(TIMEOUTS.TINY); // Timeout required to wait for timeout that happens when search input changes
+        cy.wait(TIMEOUTS.HALF_SEC); // Timeout required to wait for timeout that happens when search input changes
         cy.get('#channelMembers .DataGrid_loading').should('not.be.visible');
 
         // * Assert that the user is now saved as an admin
@@ -189,7 +189,7 @@ describe('Channel members test', () => {
 
         // # Search user2 that we know is now in the team again
         cy.get('#channelMembers .DataGrid_search input').scrollIntoView().clear().type(user2.email);
-        cy.wait(TIMEOUTS.TINY); // Timeout required to wait for timeout that happens when search input changes
+        cy.wait(TIMEOUTS.HALF_SEC); // Timeout required to wait for timeout that happens when search input changes
         cy.get('#channelMembers .DataGrid_loading').should('not.be.visible');
 
         // * Assert user2 is now saved as a regular member

@@ -40,7 +40,7 @@ describe('System Console', () => {
 
         // # User should get redirected to town square
         cy.get('#adminConsoleWrapper').should('not.exist');
-        cy.get('#postListContent', {timeout: TIMEOUTS.LARGE}).should('be.visible');
+        cy.get('#postListContent', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible');
         cy.url().should('include', 'town-square');
     });
 });

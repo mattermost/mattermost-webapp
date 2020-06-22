@@ -47,10 +47,40 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
             "update_at": 0,
           }
         }
+        isArchived={false}
+        onToggleArchive={[Function]}
         team={
           Object {
             "display_name": "test",
           }
+        }
+      />
+      <ConfirmModal
+        confirmButtonClass="btn btn-primary"
+        confirmButtonText={
+          <FormattedMessage
+            defaultMessage="Save and Archive Channel"
+            id="admin.channel_settings.channel_detail.archive_confirm.button"
+            values={Object {}}
+          />
+        }
+        message={
+          <FormattedMessage
+            defaultMessage="Saving will archive the channel from the team and make its contents inaccessible for all users. Are you sure you wish to save and archive this channel?"
+            id="admin.channel_settings.channel_detail.archive_confirm.message"
+            values={Object {}}
+          />
+        }
+        modalClass=""
+        onCancel={[Function]}
+        onConfirm={[Function]}
+        show={false}
+        title={
+          <FormattedMessage
+            defaultMessage="Save and Archive Channel"
+            id="admin.channel_settings.channel_detail.archive_confirm.title"
+            values={Object {}}
+          />
         }
       />
       <ConvertConfirmModal
@@ -59,6 +89,13 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
         onConfirm={[Function]}
         show={false}
         toPublic={true}
+      />
+      <ChannelModeration
+        guestAccountsEnabled={true}
+        isPublic={true}
+        onChannelPermissionsChanged={[Function]}
+        teamSchemeDisplayName="asdf"
+        teamSchemeID="asdf"
       />
       <RemoveConfirmModal
         amount={0}
@@ -80,13 +117,6 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
         isPublic={true}
         isSynced={false}
         onToggle={[Function]}
-      />
-      <ChannelModeration
-        guestAccountsEnabled={true}
-        isPublic={true}
-        onChannelPermissionsChanged={[Function]}
-        teamSchemeDisplayName="asdf"
-        teamSchemeID="asdf"
       />
       <ChannelGroups
         channel={
@@ -203,7 +233,37 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
             "update_at": 0,
           }
         }
+        isArchived={false}
+        onToggleArchive={[Function]}
         team={Object {}}
+      />
+      <ConfirmModal
+        confirmButtonClass="btn btn-primary"
+        confirmButtonText={
+          <FormattedMessage
+            defaultMessage="Save and Archive Channel"
+            id="admin.channel_settings.channel_detail.archive_confirm.button"
+            values={Object {}}
+          />
+        }
+        message={
+          <FormattedMessage
+            defaultMessage="Saving will archive the channel from the team and make its contents inaccessible for all users. Are you sure you wish to save and archive this channel?"
+            id="admin.channel_settings.channel_detail.archive_confirm.message"
+            values={Object {}}
+          />
+        }
+        modalClass=""
+        onCancel={[Function]}
+        onConfirm={[Function]}
+        show={false}
+        title={
+          <FormattedMessage
+            defaultMessage="Save and Archive Channel"
+            id="admin.channel_settings.channel_detail.archive_confirm.title"
+            values={Object {}}
+          />
+        }
       />
       <ConvertConfirmModal
         displayName="name"
@@ -211,6 +271,13 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
         onConfirm={[Function]}
         show={false}
         toPublic={true}
+      />
+      <ChannelModeration
+        guestAccountsEnabled={true}
+        isPublic={true}
+        onChannelPermissionsChanged={[Function]}
+        teamSchemeDisplayName="asdf"
+        teamSchemeID="asdf"
       />
       <RemoveConfirmModal
         amount={0}
@@ -232,13 +299,6 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
         isPublic={true}
         isSynced={false}
         onToggle={[Function]}
-      />
-      <ChannelModeration
-        guestAccountsEnabled={true}
-        isPublic={true}
-        onChannelPermissionsChanged={[Function]}
-        teamSchemeDisplayName="asdf"
-        teamSchemeID="asdf"
       />
       <ChannelGroups
         channel={

@@ -627,7 +627,7 @@ function verifyLastPost() {
 
 function verifyEphemeralMessage(message) {
     // # Checking if we got the ephemeral message with the selection we made
-    cy.wait(TIMEOUTS.TINY).getLastPostId().then((botLastPostId) => {
+    cy.wait(TIMEOUTS.HALF_SEC).getLastPostId().then((botLastPostId) => {
         cy.get(`#post_${botLastPostId}`).within(() => {
             // * Check if Bot message only visible to you
             cy.findByText('(Only visible to you)').should('exist');

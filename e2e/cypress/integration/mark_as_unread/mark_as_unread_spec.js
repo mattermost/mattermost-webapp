@@ -280,7 +280,7 @@ function switchToChannel(channel) {
     cy.get('#channelHeaderTitle').should('contain', channel.display_name);
 
     // # Wait some time for the channel to set state
-    cy.wait(TIMEOUTS.TINY);
+    cy.wait(TIMEOUTS.HALF_SEC);
 }
 
 function beRead(items) {

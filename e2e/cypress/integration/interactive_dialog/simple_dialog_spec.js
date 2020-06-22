@@ -90,7 +90,7 @@ describe('Interactive Dialog', () => {
 
             // # Click "X" button from the modal
             cy.get('.modal-header').should('be.visible').within(($elForm) => {
-                cy.wrap($elForm).find('button.close').should('be.visible').click().wait(TIMEOUTS.SMALL);
+                cy.wrap($elForm).find('button.close').should('be.visible').click().wait(TIMEOUTS.FIVE_SEC);
             });
 
             // * Verify that the interactive dialog modal is closed
@@ -108,7 +108,7 @@ describe('Interactive Dialog', () => {
             cy.get('#interactiveDialogModal').should('be.visible');
 
             // # Click cancel from the modal
-            cy.get('#interactiveDialogCancel').click().wait(TIMEOUTS.SMALL);
+            cy.get('#interactiveDialogCancel').click().wait(TIMEOUTS.FIVE_SEC);
 
             // * Verify that the interactive dialog modal is closed
             cy.get('#interactiveDialogModal').should('not.be.visible');

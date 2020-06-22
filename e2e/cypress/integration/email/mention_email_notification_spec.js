@@ -51,7 +51,7 @@ describe('Email notification', () => {
         cy.postMessage(text);
 
         // Wait for a while to ensure that email notification is sent.
-        cy.wait(TIMEOUTS.SMALL);
+        cy.wait(TIMEOUTS.FIVE_SEC);
 
         const baseUrl = Cypress.config('baseUrl');
         const mailUrl = getEmailUrl(baseUrl);
