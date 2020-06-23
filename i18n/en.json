@@ -727,6 +727,7 @@
   "admin.group_settings.group_detail.groupUsersDescription": "Listing of users in Mattermost associated with this group.",
   "admin.group_settings.group_detail.groupUsersTitle": "Users",
   "admin.group_settings.group_detail.introBanner": "Configure default teams and channels and view users belonging to this group.",
+  "admin.group_settings.group_detail.invalid_length": "Name must be 1 to 64 lowercase alphanumeric characters.",
   "admin.group_settings.group_detail.invalidOrReservedMentionNameError": "Only letters (a-z), numbers (0-9), periods, dashes and underscores are allowed.",
   "admin.group_settings.group_details.add_channel": "Add Channel",
   "admin.group_settings.group_details.add_team": "Add Team",
