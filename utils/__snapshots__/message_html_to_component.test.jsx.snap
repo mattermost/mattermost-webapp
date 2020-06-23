@@ -162,8 +162,9 @@ exports[`messageHtmlToComponent link with enabled a tooltip plugin 1`] = `
         }
       }
       href="http://www.dolor.com"
-      title="www.dolor.com"
-    />
+    >
+      www.dolor.com
+    </LinkTooltip>
   </a>
    sit amet
 </p>

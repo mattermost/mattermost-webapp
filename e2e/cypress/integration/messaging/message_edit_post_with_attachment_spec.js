@@ -28,7 +28,7 @@ describe('MM-13697 Edit Post with attachment', () => {
         cy.url().should('include', '/ad-1/channels/town-square');
 
         // # Upload a file on center view
-        cy.fileUpload('#fileUploadInput');
+        cy.get('#fileUploadInput').attachFile('mattermost-icon.png');
 
         // # Type 'This is sample text' and submit
         cy.postMessage('This is sample text');
@@ -45,7 +45,7 @@ describe('MM-13697 Edit Post with attachment', () => {
             cy.get('#edit_textbox').
                 should('be.visible').
                 and('be.focused').
-                wait(TIMEOUTS.TINY).
+                wait(TIMEOUTS.HALF_SEC).
                 type('{leftarrow}{leftarrow}{leftarrow}{leftarrow}').type('add ');
 
             // # Click button Edit

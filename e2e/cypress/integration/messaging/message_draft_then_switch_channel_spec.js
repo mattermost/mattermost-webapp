@@ -7,24 +7,19 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @messaging
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
-let testTeam;
-
 describe('Message Draft and Switch Channels', () => {
-    before(() => {
-        // # Login as sysadmin
-        cy.apiLogin('sysadmin');
+    let testTeam;
 
-        // # Login as new user
-        cy.apiCreateAndLoginAsNewUser().then(() => {
-            // # Create new team and visit its URL
-            cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
-                testTeam = response.body;
-                cy.visit(`/${testTeam.name}`);
-            });
+    before(() => {
+        // # Create new team and new user and visit Town Square channel
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            testTeam = team;
+            cy.visit(`/${testTeam.name}/channels/town-square`);
         });
     });
 
@@ -57,7 +52,7 @@ describe('Message Draft and Switch Channels', () => {
 
         // # Type the first few letters of the channel name you typed the message draft in
         cy.get('#quickSwitchInput').type('tow');
-        cy.wait(TIMEOUTS.TINY);
+        cy.wait(TIMEOUTS.HALF_SEC);
 
         // * Suggestion list should be visible
         cy.get('#suggestionList').should('be.visible');
