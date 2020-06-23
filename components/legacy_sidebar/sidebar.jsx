@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import $ from 'jquery';
 import React from 'react';
@@ -772,3 +773,4 @@ class LegacySidebar extends React.PureComponent {
 }
 
 export default injectIntl(LegacySidebar);
+/* eslint-enable react/no-string-refs */
