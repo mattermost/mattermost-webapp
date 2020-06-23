@@ -20,7 +20,7 @@ function mapStateToProps(state: GlobalState) {
 }
 
 type Actions = {
-    requestTrialLicens: () => Promise<{error?: string; data?: null}>;
+    requestTrialLicense: () => Promise<{error?: string; data?: null}>;
     getLicenseConfig: () => void;
 }
 
