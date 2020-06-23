@@ -92,10 +92,7 @@ export default class Logs extends React.PureComponent {
                 />
 
                 <div className='admin-console__wrapper'>
-                    <div
-                        id='admin-logs-content'
-                        className='admin-console__content'
-                    >
+                    <div className='admin-logs-content admin-console__content'>
                         <div className='banner'>
                             <div className='banner__content'>
                                 <FormattedMessage

@@ -947,8 +947,8 @@
     }
 }
 
-#admin-logs-content {
-    max-width: none;
+.admin-logs-content {
+    max-width: none !important;
 
     // We keep the banner the same width and only expand the content box.
     .banner {
