@@ -73,12 +73,10 @@ function verifyInvitationSuccess(user, team, successText) {
 
 function loginAsNewUser(team) {
     // # Login as new user and get the user id
-    cy.apiCreateNewUser().then((newUser) => {
-        cy.apiAddUserToTeam(team.id, newUser.id);
+    cy.apiCreateUser().then(({user}) => {
+        cy.apiAddUserToTeam(team.id, user.id);
 
-        // # Logout sysadmin, then login as new user
-        cy.apiLogout();
-        cy.apiLogin(newUser.username, newUser.password);
+        cy.apiLogin(user.username, user.password);
         cy.visit(`/${team.name}`);
     });
 }
@@ -108,7 +106,7 @@ describe('Guest Account - Member Invitation Flow', () => {
             testTeam = team;
 
             // # Go to town square
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visit(`/${testTeam.name}/channels/town-square`);
         });
     });
 
@@ -142,12 +140,7 @@ describe('Guest Account - Member Invitation Flow', () => {
 
         // * Verify Share Link Input field
         const baseUrl = Cypress.config('baseUrl');
-        cy.getCurrentTeamId().then((teamId) => {
-            cy.apiGetTeam(teamId).then((response) => {
-                const inviteId = response.body.invite_id;
-                cy.findByTestId('shareLinkInput').should('be.visible').and('have.value', `${baseUrl}/signup_user_complete/?id=${inviteId}`);
-            });
-        });
+        cy.findByTestId('shareLinkInput').should('be.visible').and('have.value', `${baseUrl}/signup_user_complete/?id=${testTeam.invite_id}`);
 
         // * Verify Copy Link button text
         cy.findByTestId('shareLinkInputButton').should('be.visible').and('have.text', 'Copy Link');

@@ -15,9 +15,7 @@
  */
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 import {getRandomId} from '../../../utils';
-import users from '../../../fixtures/users.json';
-
-let guest;
+import {getAdminAccount} from '../../../support/env';
 
 function verifyGuest(userStatus = 'Guest ') {
     // * Verify if Guest User is displayed
@@ -26,6 +24,11 @@ function verifyGuest(userStatus = 'Guest ') {
 }
 
 describe('Guest Account - Verify Manage Guest Users', () => {
+    const admin = getAdminAccount();
+    let guestUser;
+    let testTeam;
+    let testChannel;
+
     before(() => {
         // * Check if server has license for Guest Accounts
         cy.requireLicenseForFeature('GuestAccounts');
@@ -37,12 +40,18 @@ describe('Guest Account - Verify Manage Guest Users', () => {
             },
         });
 
-        // # Create guest user account
-        cy.apiCreateNewUser().then((userResponse) => {
-            guest = userResponse;
+        // # Create team and guest user account
+        cy.apiInitSetup().then(({team, channel}) => {
+            testTeam = team;
+            testChannel = channel;
 
-            // # Demote the current member to a guest user
-            cy.demoteUser(guest.id);
+            cy.apiCreateGuestUser().then(({guest}) => {
+                guestUser = guest;
+
+                cy.apiAddUserToTeam(testTeam.id, guestUser.id).then(() => {
+                    cy.apiAddUserToChannel(testChannel.id, guestUser.id);
+                });
+            });
         });
 
         // # Visit System Console Users page
@@ -54,7 +63,7 @@ describe('Guest Account - Verify Manage Guest Users', () => {
         cy.reload();
 
         // # Search for Guest User by username
-        cy.get('#searchUsers').should('be.visible').type(guest.username);
+        cy.get('#searchUsers').should('be.visible').type(guestUser.username);
     });
 
     it('MM-18048 Verify the manage options displayed for Guest User', () => {
@@ -84,8 +93,8 @@ describe('Guest Account - Verify Manage Guest Users', () => {
 
         // * Verify the confirmation message displayed
         cy.get('#confirmModal').should('be.visible').within(() => {
-            cy.get('#confirmModalLabel').should('be.visible').and('have.text', `Deactivate ${guest.username}`);
-            cy.get('.modal-body').should('be.visible').and('have.text', `This action deactivates ${guest.username}. They will be logged out and not have access to any teams or channels on this system. Are you sure you want to deactivate ${guest.username}?`);
+            cy.get('#confirmModalLabel').should('be.visible').and('have.text', `Deactivate ${guestUser.username}`);
+            cy.get('.modal-body').should('be.visible').and('have.text', `This action deactivates ${guestUser.username}. They will be logged out and not have access to any teams or channels on this system. Are you sure you want to deactivate ${guestUser.username}?`);
         });
 
         // * Verify the behavior when Cancel button in the confirmation message is clicked
@@ -102,7 +111,7 @@ describe('Guest Account - Verify Manage Guest Users', () => {
 
         // # Reload and verify if behavior is same
         cy.reload();
-        cy.get('#searchUsers').should('be.visible').type(guest.username);
+        cy.get('#searchUsers').should('be.visible').type(guestUser.username);
         verifyGuest('Inactive ');
     });
 
@@ -116,7 +125,7 @@ describe('Guest Account - Verify Manage Guest Users', () => {
 
         // # Reload and verify if behavior is same
         cy.reload();
-        cy.get('#searchUsers').should('be.visible').type(guest.username);
+        cy.get('#searchUsers').should('be.visible').type(guestUser.username);
         verifyGuest();
     });
 
@@ -137,7 +146,7 @@ describe('Guest Account - Verify Manage Guest Users', () => {
 
         // # Reload and verify if behavior is same
         cy.reload();
-        cy.get('#searchUsers').should('be.visible').type(guest.username);
+        cy.get('#searchUsers').should('be.visible').type(guestUser.username);
         cy.findByText(email).should('be.visible');
     });
 
@@ -148,8 +157,8 @@ describe('Guest Account - Verify Manage Guest Users', () => {
 
         // * Verify the confirmation message displayed
         cy.get('#confirmModal').should('be.visible').within(() => {
-            cy.get('#confirmModalLabel').should('be.visible').and('have.text', `Revoke Sessions for ${guest.username}`);
-            cy.get('.modal-body').should('be.visible').and('have.text', `This action revokes all sessions for ${guest.username}. They will be logged out from all devices. Are you sure you want to revoke all sessions for ${guest.username}?`);
+            cy.get('#confirmModalLabel').should('be.visible').and('have.text', `Revoke Sessions for ${guestUser.username}`);
+            cy.get('.modal-body').should('be.visible').and('have.text', `This action revokes all sessions for ${guestUser.username}. They will be logged out from all devices. Are you sure you want to revoke all sessions for ${guestUser.username}?`);
         });
 
         // * Verify the behavior when Cancel button in the confirmation message is clicked
@@ -158,15 +167,15 @@ describe('Guest Account - Verify Manage Guest Users', () => {
 
         // # Logout sysadmin and login as Guest User to verify if Revoke Session works
         cy.apiLogout();
-        cy.apiLogin(guest.username, guest.password);
-        cy.visit('/ad-1/channels/town-square');
-        cy.get('#sidebarItem_town-square').click({force: true});
+        cy.apiLogin(guestUser.username, guestUser.password);
+        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+        cy.get(`#sidebarItem_${testChannel.name}`).click({force: true});
 
         // # Issue a Request to Revoke All Sessions as SysAdmin
         const baseUrl = Cypress.config('baseUrl');
-        cy.externalRequest({user: users.sysadmin, method: 'post', baseUrl, path: `users/${guest.id}/sessions/revoke/all`}).then(() => {
-            // # Initiate browser activity like visit on "/"
-            cy.visit('/ad-1/channels/town-square');
+        cy.externalRequest({user: admin, method: 'post', baseUrl, path: `users/${guestUser.id}/sessions/revoke/all`}).then(() => {
+            // # Initiate browser activity like visit on test channel
+            cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 
             // * Verify if the regular member is logged out and redirected to login page
             cy.url({timeout: TIMEOUTS.HALF_MIN}).should('include', '/login');

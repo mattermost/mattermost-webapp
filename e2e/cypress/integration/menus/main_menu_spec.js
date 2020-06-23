@@ -11,9 +11,19 @@
 // Group: @menu
 
 describe('Main menu', () => {
+    let testTeam;
+    let testUser;
+
+    before(() => {
+        cy.apiInitSetup().then(({team, user}) => {
+            testTeam = team;
+            testUser = user;
+        });
+    });
+
     it('MM-20861 - Click on menu item should toggle the menu', () => {
-        cy.apiLogin('user-1');
-        cy.visit('/ad-1/channels/town-square');
+        cy.apiLogin(testUser.username, testUser.password);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
 
         cy.get('#lhsHeader').should('be.visible').within(() => {
             cy.get('#sidebarHeaderDropdownButton').click();
@@ -24,8 +34,8 @@ describe('Main menu', () => {
     });
 
     it('MM-20861 - Click on menu divider shouldn\'t toggle the menu', () => {
-        cy.apiLogin('user-1');
-        cy.visit('/ad-1/channels/town-square');
+        cy.apiLogin(testUser.username, testUser.password);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
 
         cy.get('#lhsHeader').should('be.visible').within(() => {
             cy.get('#sidebarHeaderDropdownButton').click();
@@ -39,7 +49,7 @@ describe('Main menu', () => {
     describe('should show integrations option', () => {
         it('for system administrator', () => {
             cy.apiAdminLogin();
-            cy.visit('/ad-1/channels/town-square');
+            cy.visit(`/${testTeam.name}/channels/town-square`);
 
             cy.get('#lhsHeader').should('be.visible').within(() => {
                 cy.get('#sidebarHeaderDropdownButton').click();
@@ -52,11 +62,8 @@ describe('Main menu', () => {
 
     describe('should not show integrations option', () => {
         it('for team member without permissions', () => {
-            cy.apiGetTeamByName('ad-1').then((res) => {
-                const team = res.body;
-                cy.apiCreateAndLoginAsNewUser({}, [team.id]);
-                cy.visit('/ad-1/channels/town-square');
-            });
+            cy.apiLogin(testUser.username, testUser.password);
+            cy.visit(`/${testTeam.name}/channels/town-square`);
 
             cy.get('#lhsHeader').should('be.visible').within(() => {
                 cy.get('#sidebarHeaderDropdownButton').click();

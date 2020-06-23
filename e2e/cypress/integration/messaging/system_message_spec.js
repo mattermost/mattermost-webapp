@@ -50,14 +50,13 @@ function getLines(e) {
 }
 
 describe('System Message', () => {
-    before(() => {
-        // # Login and and set user preference
-        cy.apiLogin('user-1');
-        cy.apiSaveTeammateNameDisplayPreference('username');
+    let testUsername;
 
-        // # Create new test team
-        cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
-            cy.visit(`/${response.body.name}`);
+    before(() => {
+        // # Login as test user and visit town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team, user}) => {
+            testUsername = user.username;
+            cy.visit(`/${team.name}/channels/town-square`);
         });
     });
 
@@ -70,7 +69,7 @@ describe('System Message', () => {
         // * Check the status update
         cy.getLastPost().
             should('contain', 'System').
-            and('contain', '@user-1 updated the channel header to:').
+            and('contain', `@${testUsername} updated the channel header to:`).
             and('contain', newHeader);
 
         const validateSingle = (desc) => {
@@ -86,7 +85,7 @@ describe('System Message', () => {
         // * Check that the status is updated and is spread on more than one line
         cy.getLastPost().
             should('contain', 'System').
-            and('contain', '@user-1 updated the channel header from:').
+            and('contain', `@${testUsername} updated the channel header from:`).
             and('contain', newHeader).
             and('contain', 'to:').
             and('contain', newHeader.repeat(20));
