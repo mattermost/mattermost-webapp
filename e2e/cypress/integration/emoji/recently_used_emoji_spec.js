@@ -19,7 +19,7 @@ describe('Recent Emoji', () => {
         cy.visit('/ad-1/channels/town-square');
     });
 
-    it('M14014 Recently used emojis are shown 1st', async () => {
+    it('M14014 Recently used emojis are shown 1st', () => {
         // 2 before test delete all recent emoji on local storage
         cy.clearLocalStorage(/recent_emojis/);
 
