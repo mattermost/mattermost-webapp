@@ -38,7 +38,7 @@ describe('components/analytics/format.tsx', () => {
     });
 
     test('should not add empty data', () => {
-        const data1 = [];
+        let data1 = [];
         const labels = ['date1', 'date2', 'date3', 'date4'];
         const chartData = formatUsersWithPostsPerDayData(labels, data1);
         expect(chartData.labels.length).toBe(0);
@@ -58,7 +58,7 @@ describe('components/analytics/format.tsx', () => {
         const chartData = formatUsersWithPostsPerDayData(labels, data1);
         expect(chartData.labels.length).toBe(4);
         expect(chartData.datasets[0].data.length).toBe(4);
-        expect(chartData.datasets[0].data[2].value).toBe(0);
-        expect(chartData.datasets[0].data[3].value).toBe(0);
+        expect(chartData.datasets[0].data[0]).toBe(0);
+        expect(chartData.datasets[0].data[3]).toBe(0);
     });
 });
