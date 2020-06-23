@@ -29,24 +29,19 @@ function verifySystemMessage(post) {
 
 describe('System message', () => {
     before(() => {
-        // # Login and go to /
-        cy.apiLogin('user-1');
-        cy.visit('/ad-1/channels/town-square');
+        // # Login as test user and visit town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
+            cy.visit(`/${team.name}/channels/${channel.name}`);
 
-        // # Post a regular message
-        cy.postMessage('Test for no status of a system message');
+            // # Post a regular message
+            cy.postMessage('Test for no status of a system message');
 
-        // # Update the header
-        const newHeader = `Update header with ${getRandomId()}`;
-        cy.getCurrentChannelId().then((channelId) => {
-            cy.apiPatchChannel(
-                channelId,
-                {header: newHeader},
-            );
+            const newHeader = `Update header with ${getRandomId()}`;
+            cy.apiPatchChannel(channel.id, {header: newHeader});
+
+            // # Wait until the system message gets posted.
+            cy.uiWaitUntilMessagePostedIncludes(newHeader);
         });
-
-        // # Wait until the system message gets posted.
-        cy.uiWaitUntilMessagePostedIncludes(newHeader);
     });
 
     const displayTypes = ['compact', 'clean'];

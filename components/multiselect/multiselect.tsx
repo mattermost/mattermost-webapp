@@ -5,7 +5,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import ReactSelect from 'react-select';
 
-import {ActionMeta} from 'react-select/src/types';
+import {InputActionMeta} from 'react-select/src/types';
 import {getOptionValue} from 'react-select/src/builtins';
 
 import {Constants, A11yCustomEventTypes} from 'utils/constants';
@@ -161,7 +161,6 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
             this.reactSelectRef.current.select.handleInputChange(
                 {currentTarget: {value: ''}} as React.KeyboardEvent<HTMLInputElement>,
             );
-            this.onInput('');
             this.reactSelectRef.current.focus();
         }
 
@@ -171,7 +170,7 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
         }
     }
 
-    private onInput = (input: string, change: ActionMeta | { action: string } = {action: ''}) => {
+    private onInput = (input: string, change: InputActionMeta) => {
         if (!change) {
             return;
         }

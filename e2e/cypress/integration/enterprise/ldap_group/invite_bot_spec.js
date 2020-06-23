@@ -36,7 +36,7 @@ describe('Group Synced Team - Bot invitation flow', () => {
         });
     });
 
-    it('MM-21793 Invite and remove a bot within a group synced team', async () => {
+    it('MM-21793 Invite and remove a bot within a group synced team', () => {
         if (!groupConstrainedTeam || !bot) {
             return;
         }

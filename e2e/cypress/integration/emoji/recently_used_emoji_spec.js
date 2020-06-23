@@ -20,7 +20,7 @@ describe('Recent Emoji', () => {
         });
     });
 
-    it('M14014 Recently used emojis are shown 1st', async () => {
+    it('M14014 Recently used emojis are shown 1st', () => {
         // 2 before test delete all recent emoji on local storage
         cy.clearLocalStorage(/recent_emojis/);
 

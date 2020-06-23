@@ -41,7 +41,7 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
     render() {
         // System administrators
         if (this.props.canViewSystemErrors) {
-            const renewalLink = RENEWAL_LINK + '?id=' + this.props.license.id + '&user_count=' + this.props.totalUsers;
+            const renewalLink = `${RENEWAL_LINK}?id=${this.props.license.Id}&user_count=${this.props.totalUsers}`;
             if (isLicensePastGracePeriod(this.props.license)) {
                 return (
                     <AnnouncementBar

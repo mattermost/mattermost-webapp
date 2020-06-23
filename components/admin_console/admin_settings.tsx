@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import React from 'react';
 import {Overlay, Tooltip} from 'react-bootstrap';
@@ -270,3 +271,4 @@ export default abstract class AdminSettings extends React.PureComponent<Props, S
     }
 }
 
+/* eslint-enable react/no-string-refs */

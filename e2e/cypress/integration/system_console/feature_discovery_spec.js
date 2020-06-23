@@ -12,7 +12,7 @@ describe('Feature discovery', () => {
         cy.visit('/admin_console');
     });
 
-    const testCallsToAction = async () => {
+    const testCallsToAction = () => {
         cy.get("a[data-testid$='CallToAction']").each(($el) => {
             cy.wrap($el).should('have.attr', 'href').and('not.eq', '');
             cy.wrap($el).should('have.attr', 'target', '_blank');

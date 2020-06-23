@@ -12,11 +12,12 @@
 
 describe('Messaging', () => {
     before(() => {
-        // # Login as "user-1" and go to /
-        cy.apiLogin('user-1');
-        cy.visit('/ad-1/channels/town-square');
-        cy.get('#post_textbox').clear();
+        // # Login as test user and visit town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
+        });
     });
+
     it('M23348 - Selecting an emoji from emoji picker should insert it at the cursor position', () => {
         // # Write some text in the send box.
         cy.get('#post_textbox').type('HelloWorld!');

@@ -12,20 +12,6 @@ Cypress.Commands.add('logout', () => {
     cy.get('#logout').click({force: true});
 });
 
-Cypress.Commands.add('getSubpath', () => {
-    cy.visit('/ad-1/channels/town-square');
-    cy.url().then((url) => {
-        cy.location().its('origin').then((origin) => {
-            if (url === origin) {
-                return '';
-            }
-
-            // Remove trailing slash
-            return url.replace(origin, '').substring(0, url.length - origin.length - 1);
-        });
-    });
-});
-
 Cypress.Commands.add('getCurrentUserId', () => {
     return cy.wrap(new Promise((resolve) => {
         cy.getCookie('MMUSERID').then((cookie) => {
