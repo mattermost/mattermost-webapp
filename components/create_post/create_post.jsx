@@ -824,11 +824,14 @@ class CreatePost extends React.PureComponent {
         if (isGitHubCodeBlock(table.className)) {
             const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste(this.state.caretPosition, message, clipboardData);
             const newCaretPosition = this.state.caretPosition + formattedCodeBlock.length;
-            this.setMessageAndCaretPostion(formattedMessage, newCaretPosition, clipboardData);
+            this.setMessageAndCaretPostion(formattedMessage, newCaretPosition);
             return;
         }
-        message = formatMarkdownTableMessage(table, message.trim());
-        this.setState({message});
+
+        const originalSize = message.length;
+        message = formatMarkdownTableMessage(table, message.trim(), this.state.caretPosition);
+        const newCaretPosition = message.length - (originalSize - this.state.caretPosition);
+        this.setMessageAndCaretPostion(message, newCaretPosition);
     }
 
     handleFileUploadChange = () => {
