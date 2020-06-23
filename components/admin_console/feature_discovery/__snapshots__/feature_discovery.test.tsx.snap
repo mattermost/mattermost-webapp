@@ -29,15 +29,18 @@ exports[`components/feature_discovery FeatureDiscovery should match snapshot 1`]
     <a
       className="btn"
       data-testid="featureDiscovery_primaryCallToAction"
-      href="https://test.mattermost.com/primary/"
-      rel="noopener noreferrer"
-      target="_blank"
+      onClick={[Function]}
     >
-      <FormattedMessage
-        defaultMessage=""
-        id="admin.ldap_feature_discovery.call_to_action.primary"
-        values={Object {}}
-      />
+      <LoadingWrapper
+        loading={false}
+        text="Getting trial"
+      >
+        <FormattedMessage
+          defaultMessage=""
+          id="admin.ldap_feature_discovery.call_to_action.primary"
+          values={Object {}}
+        />
+      </LoadingWrapper>
     </a>
     <a
       className="btn btn-secondary"

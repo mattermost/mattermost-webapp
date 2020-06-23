@@ -91,6 +91,9 @@ export default class LicenseSettings extends React.PureComponent {
 
     requestLicense = async (e) => {
         e.preventDefault();
+        if (this.state.gettingTrial) {
+            return;
+        }
         this.setState({gettingTrial: true, gettingTrialError: null});
         const requestedUsers = Math.max(this.props.stats.TOTAL_USERS, 30);
         const {error} = await this.props.actions.requestTrialLicense(requestedUsers);

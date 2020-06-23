@@ -6,7 +6,7 @@ import React from 'react';
 import {t} from 'utils/i18n';
 import ldap from 'images/feature-discovery/ldap.png';
 
-import FeatureDiscovery from './feature_discovery';
+import FeatureDiscovery from './index';
 
 const LDAPFeatureDiscovery: React.FC = () => {
     return (
@@ -15,8 +15,7 @@ const LDAPFeatureDiscovery: React.FC = () => {
             titleDefault='Integrate Active Directory / LDAP with Mattermost Enterprise E10'
             copyID='admin.ldap_feature_discovery.copy'
             copyDefault={'When you connect Mattermost with your organization\'s Active Directory / LDAP, users can log in without having to create new usernames and passwords.'}
-            primaryURL='https://www.mattermost.com/trial/?utm_medium=product&utm_source=product-feature-discovery&utm_content=adldap'
-            secondaryURL='https://www.mattermost.com/docs-adldap/?utm_medium=product&utm_source=product-feature-discovery&utm_content=adldap'
+            learnMoreURL='https://www.mattermost.com/docs-adldap/?utm_medium=product&utm_source=product-feature-discovery&utm_content=adldap'
             imgPath={ldap}
         />
     );

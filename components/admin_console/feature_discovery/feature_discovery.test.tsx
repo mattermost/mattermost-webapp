@@ -15,9 +15,13 @@ describe('components/feature_discovery', () => {
                     titleDefault='Foo'
                     copyID='translation.test.copy'
                     copyDefault={'Bar'}
-                    primaryURL='https://test.mattermost.com/primary/'
-                    secondaryURL='https://test.mattermost.com/secondary/'
+                    learnMoreURL='https://test.mattermost.com/secondary/'
                     imgPath='foo/bar.png'
+                    stats={{TOTAL_USERS: 20}}
+                    actions={{
+                        requestTrialLicense: jest.fn(),
+                        getLicenseConfig: jest.fn(),
+                    }}
                 />,
             );
             expect(wrapper).toMatchSnapshot();
