@@ -20,7 +20,7 @@ describe('Messaging', () => {
 
     it('M18711-Input box on main thread can expand with RHS closed', () => {
         // # Wait until site is loaded
-        cy.wait(TIMEOUTS.SMALL);
+        cy.wait(TIMEOUTS.FIVE_SEC);
 
         // # Check whether the RHS Close button exist, and click it in case it exist.
         cy.get('body').then((body) => {

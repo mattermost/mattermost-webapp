@@ -47,7 +47,7 @@ describe('Messaging', () => {
         });
 
         // # Post a message as another user
-        cy.postMessageAs({sender: userOne, message: 'abc', channelId: testChannel.id}).wait(TIMEOUTS.SMALL);
+        cy.postMessageAs({sender: userOne, message: 'abc', channelId: testChannel.id}).wait(TIMEOUTS.FIVE_SEC);
 
         // # Click "Reply"
         cy.getLastPostId().then((rootPostId) => {
@@ -69,7 +69,7 @@ describe('Messaging', () => {
                 cy.postMessageAs({sender: userOne, message: 'ghi', channelId: testChannel.id, rootId: rootPostId});
 
                 // # Wait a short time to check whether the message appears or not
-                cy.wait(TIMEOUTS.SMALL);
+                cy.wait(TIMEOUTS.FIVE_SEC);
 
                 // * Verify that only "def" is posted and not "ghi"
                 cy.get('#rhsPostList').should('be.visible').children().should('have.length', 1);
@@ -83,7 +83,7 @@ describe('Messaging', () => {
                     });
 
                     // # Wait for sockets to be connected
-                    cy.wait(TIMEOUTS.MEDIUM);
+                    cy.wait(TIMEOUTS.TEN_SEC);
 
                     // * Verify that both "def" and "ghi" are posted on websocket reconnect
                     cy.get('#rhsPostList').should('be.visible').children().should('have.length', 2);

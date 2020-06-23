@@ -38,9 +38,6 @@ describe('Channel Moderation', () => {
                 cy.apiAddUserToTeam(testTeam.id, guestUser.id).then(() => {
                     cy.apiAddUserToChannel(testChannel.id, guestUser.id);
                 });
-
-                // # Activate guest user
-                cy.apiActivateUser(guestUser.id, true);
             });
         });
     });
@@ -55,7 +52,7 @@ describe('Channel Moderation', () => {
         cy.findByText('Edit').click();
 
         // # Wait until the groups retrieved and show up
-        cy.wait(TIMEOUTS.TINY * 2);
+        cy.wait(TIMEOUTS.ONE_SEC);
 
         // # Check all the boxes currently unchecked (align with the system scheme permissions)
         enableAllChannelModeratedPermissions();
@@ -64,7 +61,7 @@ describe('Channel Moderation', () => {
         saveConfigForChannel(testChannel.display_name);
 
         // # Wait until the groups retrieved and show up
-        cy.wait(TIMEOUTS.TINY * 2);
+        cy.wait(TIMEOUTS.ONE_SEC);
 
         // * Ensure all checkboxes are checked
         checkBoxes.forEach((buttonId) => {
@@ -78,7 +75,7 @@ describe('Channel Moderation', () => {
         saveConfigForChannel(testChannel.display_name);
 
         // # Wait until the groups retrieved and show up
-        cy.wait(TIMEOUTS.TINY * 2);
+        cy.wait(TIMEOUTS.ONE_SEC);
 
         // * Ensure all checkboxes have the correct unchecked state
         checkBoxes.forEach((buttonId) => {

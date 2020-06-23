@@ -95,7 +95,7 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
     setPreference = (pref: string, clearIfNotChecked?: boolean) => {
         if (!this.state.rememberChecked) {
             if (clearIfNotChecked) {
-                BrowserStore.clearLandingPreference();
+                BrowserStore.clearLandingPreference(this.props.siteUrl);
             }
             return;
         }
