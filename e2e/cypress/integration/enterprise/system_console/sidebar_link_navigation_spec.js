@@ -15,8 +15,8 @@ import * as TIMEOUTS from '../../../fixtures/timeouts';
 describe('System Console - Enterprise', () => {
     const testCases = [
         {
-            header: 'Groups (Beta)',
-            sidebar: 'Groups (Beta)',
+            header: 'Groups',
+            sidebar: 'Groups',
             url: 'admin_console/user_management/groups',
         },
         {
