@@ -217,7 +217,6 @@ export default class TeamList extends React.PureComponent {
             />
         );
 
-
         if (searchErrored) {
             placeholderEmpty = (
                 <FormattedMessage
