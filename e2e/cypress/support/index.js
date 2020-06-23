@@ -25,6 +25,7 @@ import './storybook_commands';
 import './task_commands';
 import './ui';
 import './ui_commands'; // soon to deprecate
+import './util_commands';
 
 import {getAdminAccount} from './env';
 
@@ -149,36 +150,8 @@ before(() => {
             }
         });
 
-        // # Check if default "ad-1" team is present, and
-        // # create if not found.
-        const defaultTeamName = 'ad-1';
-        cy.apiGetTeams().then((teamsRes) => {
-            const teams = teamsRes.body;
-            const defaultTeam = teams && teams.length > 0 && teams.find((team) => team.name === defaultTeamName);
-
-            if (!defaultTeam) {
-                cy.apiCreateTeam(defaultTeamName, 'eligendi', 'O', false);
-            } else if (defaultTeam && Cypress.env('resetBeforeTest')) {
-                teams.forEach((team) => {
-                    if (team.name !== defaultTeamName) {
-                        cy.apiDeleteTeam(team.id);
-                    }
-                });
-
-                cy.apiGetChannelsForUser('me', defaultTeam.id).then((channelsRes) => {
-                    const channels = channelsRes.body;
-
-                    channels.forEach((channel) => {
-                        if (
-                            (channel.team_id === defaultTeam.id || channel.team_name === defaultTeam.name) &&
-                            (channel.name !== 'town-square' && channel.name !== 'off-topic')
-                        ) {
-                            cy.apiDeleteChannel(channel.id);
-                        }
-                    });
-                });
-            }
-        });
+        // # Reset teams and channels
+        cy.utilResetTeamsAndChannels(Cypress.env('resetBeforeTest'));
     });
 });
 
