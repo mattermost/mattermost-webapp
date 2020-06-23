@@ -34,6 +34,7 @@ export default class TeamList extends React.PureComponent {
             teams: [],
             page: 0,
             total: 0,
+            searchErrored: false,
         };
     }
 
@@ -69,12 +70,14 @@ export default class TeamList extends React.PureComponent {
     searchTeams = async (page = 0, term = '') => {
         let teams = [];
         let total = 0;
+        let searchErrored = true;
         const response = await this.props.actions.searchTeams(term, page, PAGE_SIZE);
         if (response?.data) {
             teams = page > 0 ? this.state.teams.concat(response.data.teams) : response.data.teams;
             total = response.data.total_count;
+            searchErrored = false;
         }
-        this.setState({page, loading: false, teams, total});
+        this.setState({page, loading: false, teams, total, searchErrored});
     }
 
     searchTeamsDebounced = debounce((page, term) => this.searchTeams(page, term), 300);
@@ -202,17 +205,27 @@ export default class TeamList extends React.PureComponent {
     }
 
     render() {
-        const {term} = this.state;
+        const {term, searchErrored} = this.state;
         const rows = this.getRows();
         const columns = this.getColumns();
         const {startCount, endCount, total} = this.getPaginationProps();
 
-        const placeholderEmpty = (
+        let placeholderEmpty = (
             <FormattedMessage
                 id='admin.team_settings.team_list.no_teams_found'
                 defaultMessage='No teams found'
             />
         );
+
+
+        if (searchErrored) {
+            placeholderEmpty = (
+                <FormattedMessage
+                    id='admin.team_settings.team_list.search_teams_errored'
+                    defaultMessage="Something went wrong. For some reason, the server wasn't able to complete your search. Try again"
+                />
+            );
+        }
 
         const rowsContainerStyles = {
             minHeight: `${rows.length * ROW_HEIGHT}px`,

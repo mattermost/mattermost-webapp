@@ -31,6 +31,7 @@ interface ChannelListState {
     loading: boolean;
     page: number;
     total: number;
+    searchErrored: boolean;
 }
 
 const ROW_HEIGHT = 40;
@@ -44,6 +45,7 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
             channels: [],
             page: 0,
             total: 0,
+            searchErrored: false,
         };
     }
 
@@ -79,12 +81,14 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
     searchChannels = async (page = 0, term = '') => {
         let channels = [];
         let total = 0;
+        let searchErrored = true;
         const response = await this.props.actions.searchAllChannels(term, '', false, page, PAGE_SIZE);
         if (response?.data) {
             channels = page > 0 ? this.state.channels.concat(response.data.channels) : response.data.channels;
             total = response.data.total_count;
+            searchErrored = false;
         }
-        this.setState({page, loading: false, channels, total});
+        this.setState({page, loading: false, channels, total, searchErrored});
     }
 
     searchChannelsDebounced = debounce((page, term) => this.searchChannels(page, term), 300, false, () => {});
@@ -204,17 +208,26 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
     }
 
     render = (): JSX.Element => {
-        const {term} = this.state;
+        const {term, searchErrored} = this.state;
         const rows: Row[] = this.getRows();
         const columns: Column[] = this.getColumns();
         const {startCount, endCount, total} = this.getPaginationProps();
 
-        const placeholderEmpty: JSX.Element = (
+        let placeholderEmpty: JSX.Element = (
             <FormattedMessage
                 id='admin.channel_settings.channel_list.no_channels_found'
                 defaultMessage='No channels found'
             />
         );
+
+        if (searchErrored) {
+            placeholderEmpty = (
+                <FormattedMessage
+                    id='admin.channel_settings.channel_list.search_channels_errored'
+                    defaultMessage="Something went wrong. For some reason, the server wasn't able to complete your search. Try again"
+                />
+            );
+        }
 
         const rowsContainerStyles = {
             minHeight: `${rows.length * ROW_HEIGHT}px`,
