@@ -12,6 +12,16 @@
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 describe('Plugin Marketplace', () => {
+    let townsquareLink;
+    let regularUser;
+
+    before(() => {
+        cy.apiInitSetup().then(({team, user}) => {
+            regularUser = user;
+            townsquareLink = `/${team.name}/channels/town-square`;
+        });
+    });
+
     describe('should not render in main menu', () => {
         it('for non-admin', () => {
             // # Login as sysadmin
@@ -27,8 +37,8 @@ describe('Plugin Marketplace', () => {
             });
 
             // # Login as non admin user
-            cy.apiLogin('user-1');
-            cy.visit('/ad-1/channels/town-square');
+            cy.apiLogin(regularUser.username, regularUser.password);
+            cy.visit(townsquareLink);
         });
 
         it('when marketplace disabled', () => {
@@ -45,7 +55,7 @@ describe('Plugin Marketplace', () => {
             });
 
             // # Visit town-square channel
-            cy.visit('/ad-1/channels/town-square');
+            cy.visit(townsquareLink);
         });
 
         it('when plugins disabled', () => {
@@ -63,7 +73,7 @@ describe('Plugin Marketplace', () => {
             });
 
             // # Visit town-square channel
-            cy.visit('/ad-1/channels/town-square');
+            cy.visit(townsquareLink);
         });
     });
 
@@ -86,7 +96,7 @@ describe('Plugin Marketplace', () => {
             uninstallAllPlugins();
 
             // # Visit the Town Square channel
-            cy.visit('/ad-1/channels/town-square');
+            cy.visit(townsquareLink);
 
             cy.wait(TIMEOUTS.HALF_SEC).get('#lhsHeader').should('be.visible').within(() => {
                 // # Click hamburger main menu
@@ -159,7 +169,7 @@ describe('Plugin Marketplace', () => {
             uninstallAllPlugins();
 
             // # Visit the Town Square channel
-            cy.visit('/ad-1/channels/town-square');
+            cy.visit(townsquareLink);
 
             cy.wait(TIMEOUTS.HALF_SEC).get('#lhsHeader').should('be.visible').within(() => {
                 // # Click hamburger main menu
@@ -371,7 +381,7 @@ describe('Plugin Marketplace', () => {
             });
 
             // # Visit town-square channel
-            cy.visit('/ad-1/channels/town-square');
+            cy.visit(townsquareLink);
 
             // # Click hamburger main menu
             cy.wait(TIMEOUTS.HALF_SEC).get('#sidebarHeaderDropdownButton').click();

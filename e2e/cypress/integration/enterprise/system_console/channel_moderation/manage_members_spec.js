@@ -52,9 +52,6 @@ describe('MM-23102 - Channel Moderation - Manage Members', () => {
                 cy.apiAddUserToTeam(testTeam.id, guestUser.id).then(() => {
                     cy.apiAddUserToChannel(testChannel.id, guestUser.id);
                 });
-
-                // # Activate guest user
-                cy.apiActivateUser(guestUser.id, true);
             });
         });
     });

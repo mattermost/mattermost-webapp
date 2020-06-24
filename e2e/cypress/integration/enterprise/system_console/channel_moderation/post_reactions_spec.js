@@ -50,9 +50,6 @@ describe('MM-23102 - Channel Moderation - Post Reactions', () => {
                     cy.apiAddUserToChannel(testChannel.id, guestUser.id);
                 });
 
-                // # Activate guest user
-                cy.apiActivateUser(guestUser.id, true);
-
                 // Post a few messages in the channel
                 visitChannel(admin, testChannel, testTeam);
                 for (let i = 0; i < 3; i++) {

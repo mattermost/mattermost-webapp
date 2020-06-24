@@ -10,6 +10,7 @@ import {
     getMyCurrentChannelMembership,
     isCurrentChannelReadOnly,
 } from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
 import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 
 import {
@@ -17,6 +18,8 @@ import {
     closeMenu as closeRhsMenu,
 } from 'actions/views/rhs';
 import {close as closeLhs} from 'actions/views/lhs';
+
+import {getIsRhsOpen} from 'selectors/rhs';
 
 import ChannelHeaderMobile from './channel_header_mobile';
 
@@ -30,6 +33,8 @@ const mapStateToProps = (state) => ({
     channel: getCurrentChannel(state),
     isMuted: isCurrentChannelMuted(state),
     isReadOnly: isCurrentChannelReadOnly(state),
+    isRHSOpen: getIsRhsOpen(state),
+    currentRelativeTeamUrl: getCurrentRelativeTeamUrl(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({

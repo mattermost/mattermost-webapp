@@ -54,6 +54,9 @@ async function runTests() {
         BROWSER,
         BUILD_ID,
         HEADLESS,
+        ENABLE_VISUAL_TEST,
+        APPLITOOLS_API_KEY,
+        APPLITOOLS_BATCH_NAME,
     } = process.env;
 
     const browser = BROWSER || 'chrome';
@@ -85,6 +88,11 @@ async function runTests() {
             config: {
                 screenshotsFolder: `${MOCHAWESOME_REPORT_DIR}/screenshots`,
                 trashAssetsBeforeRuns: false,
+            },
+            env: {
+                enableVisualTest: ENABLE_VISUAL_TEST,
+                enableApplitools: Boolean(APPLITOOLS_API_KEY),
+                batchName: APPLITOOLS_BATCH_NAME,
             },
             reporter: 'cypress-multi-reporters',
             reporterOptions:

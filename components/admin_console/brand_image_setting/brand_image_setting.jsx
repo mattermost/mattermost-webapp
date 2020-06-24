@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import $ from 'jquery';
 import PropTypes from 'prop-types';
@@ -259,3 +260,4 @@ export default class BrandImageSetting extends React.PureComponent {
         );
     }
 }
+/* eslint-enable react/no-string-refs */
