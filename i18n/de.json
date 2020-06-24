@@ -3168,8 +3168,6 @@
     "rhs_header.details": "Thread",
     "rhs_header.expandSidebarTooltip": "Seitenleiste erweitern",
     "rhs_header.expandSidebarTooltip.icon": "Seitenleistensymbol erweitern",
-    "rhs_header.expandTooltip.icon": "Seitenleistensymbol verkleinern",
-    "rhs_header.shrinkSidebarTooltip": "Seitenleiste verkleinern",
     "rhs_root.mobile.add_reaction": "Reaktion hinzufügen",
     "rhs_root.mobile.flag": "Markieren",
     "rhs_root.mobile.unflag": "Markierung entfernen",

@@ -3168,8 +3168,6 @@
     "rhs_header.details": "讨论串",
     "rhs_header.expandSidebarTooltip": "展开侧栏",
     "rhs_header.expandSidebarTooltip.icon": "展开侧栏图标",
-    "rhs_header.expandTooltip.icon": "缩小侧栏图标",
-    "rhs_header.shrinkSidebarTooltip": "缩小侧栏图标",
     "rhs_root.mobile.add_reaction": "添加互动",
     "rhs_root.mobile.flag": "标记",
     "rhs_root.mobile.unflag": "取消标记",

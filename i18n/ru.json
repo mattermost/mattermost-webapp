@@ -3168,8 +3168,6 @@
     "rhs_header.details": "Нить",
     "rhs_header.expandSidebarTooltip": "Раскрыть боковую панель",
     "rhs_header.expandSidebarTooltip.icon": "Значок раскрытия боковой панели",
-    "rhs_header.expandTooltip.icon": "Значок сжатия боковой панели",
-    "rhs_header.shrinkSidebarTooltip": "Сжать боковую панель",
     "rhs_root.mobile.add_reaction": "Добавить реакцию",
     "rhs_root.mobile.flag": "Отметить",
     "rhs_root.mobile.unflag": "Снять отметку",
