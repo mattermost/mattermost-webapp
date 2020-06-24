@@ -298,7 +298,7 @@ const AdminDefinition = {
         groups: {
             url: 'user_management/groups',
             title: t('admin.sidebar.groups'),
-            title_default: 'Groups (Beta)',
+            title_default: 'Groups',
             isHidden: it.either(
                 it.isnt(it.licensedForFeature('LDAPGroups')),
             ),
