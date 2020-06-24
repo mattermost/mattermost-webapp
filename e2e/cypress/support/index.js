@@ -25,6 +25,7 @@ import './storybook_commands';
 import './task_commands';
 import './ui';
 import './ui_commands'; // soon to deprecate
+import './visual_commands';
 
 import {getAdminAccount} from './env';
 
