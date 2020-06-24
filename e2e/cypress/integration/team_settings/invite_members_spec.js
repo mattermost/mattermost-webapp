@@ -32,7 +32,7 @@ function verifyClickInvitePeopleDialog() {
     cy.get('#inviteMembersSectionDescription').click();
 }
 
-function verifyInvitationTable(tableTitle, user, reason) {
+function verifyInvitationTable($subel, tableTitle, user, reason) {
     cy.wrap($subel).find('h2 > span').should('have.text', tableTitle);
     cy.wrap($subel).find('.people-header').should('have.text', 'People');
     cy.wrap($subel).find('.details-header').should('have.text', 'Details');
@@ -48,12 +48,12 @@ function verifyInvitationResult(team, user, title, reason, isInvitationSent) {
         if (isInvitationSent) {
             cy.wrap($el).find('div.invitation-modal-confirm-not-sent').should('not.exist');
             cy.wrap($el).find('div.invitation-modal-confirm-sent').should('be.visible').within(($subel) => {
-                verifyInvitationTable('Successful Invites', user, reason);
+                verifyInvitationTable($subel, 'Successful Invites', user, reason);
             });
         } else {
             cy.wrap($el).find('div.invitation-modal-confirm-sent').should('not.exist');
             cy.wrap($el).find('div.invitation-modal-confirm-not-sent').should('be.visible').within(($subel) => {
-                verifyInvitationTable('Invitations Not Sent', user, reason);
+                verifyInvitationTable($subel, 'Invitations Not Sent', user, reason);
             });
         }
 
@@ -63,11 +63,11 @@ function verifyInvitationResult(team, user, title, reason, isInvitationSent) {
 }
 
 function verifyInvitationSuccess(team, user) {
-    verifyInvitationResult(team, user, '1 person has been invited', 'This member has been added to the team.', true)
+    verifyInvitationResult(team, user, '1 person has been invited', 'This member has been added to the team.', true);
 }
 
 function verifyInvitationError(team, user) {
-    verifyInvitationResult(team, user, '1 invitation was not sent', 'This person is already a team member.', false)
+    verifyInvitationResult(team, user, '1 invitation was not sent', 'This person is already a team member.', false);
 }
 
 function verifyInviteMembersModal(team) {
