@@ -115,16 +115,6 @@ describe('Guest Account - Guest User Invitation Flow', () => {
     });
 
     beforeEach(() => {
-        testTeam = null;
-
-        // # Login as sysadmin
-        cy.apiLogin('sysadmin');
-
-        // * Check if server has license for Guest Accounts
-        cy.requireLicenseForFeature('GuestAccounts');
-    });
-
-    beforeEach(() => {
         // # Login as sysadmin
         cy.apiAdminLogin();
 

@@ -20,6 +20,7 @@ declare namespace Cypress {
         /**
          * Creates a new user and make it a member of the new public team and its channels - one public channel, town-square and off-topic.
          * Created user has an option to log in after all are setup.
+         * Requires sysadmin session to initiate this command.
          * @param {boolean} options.loginAfter - false (default) or true if wants to login as the new user after setting up
          * @param {string} options.userPrefix - 'user' (default) or any prefix to easily identify a user
          * @returns {Object} `out` Cypress-chainable, yielded with element passed into .wrap().

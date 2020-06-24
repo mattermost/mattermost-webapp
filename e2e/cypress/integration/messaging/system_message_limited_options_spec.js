@@ -13,12 +13,16 @@
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Messaging', () => {
-    beforeEach(() => {
-        // # Login as sysadmin
-        cy.apiAdminLogin();
+    let townsquareLink;
+    let otherUser;
 
-        // # Visit the Town Square channel
-        cy.visit('/ad-1/channels/town-square');
+    before(() => {
+        // # Visit town-square
+        cy.apiInitSetup().then(({team, user}) => {
+            otherUser = user;
+            townsquareLink = `/${team.name}/channels/town-square`;
+            cy.visit(townsquareLink);
+        });
     });
 
     it('M17458 - System message limited options', () => {
@@ -51,8 +55,8 @@ describe('Messaging', () => {
             });
 
             // # Log-in as a different user
-            cy.apiLogin('user-1');
-            cy.visit('/ad-1/channels/town-square');
+            cy.apiLogin(otherUser.username, otherUser.password);
+            cy.visit(townsquareLink);
 
             // # Mouse over the post to show the options
             cy.get(`#post_${lastPostId}`).trigger('mouseover', {force: true});

@@ -89,7 +89,7 @@ describe('Verify Accessibility Support in Dropdown Menus', () => {
         // * Verify the accessibility support in the Main Menu Dropdown items
         cy.apiGetConfig().then((response) => {
             const siteName = response.body.TeamSettings.SiteName;
-            const labels = ['Account Settings dialog', 'Invite People dialog', 'Team Settings dialog', 'Manage Members dialog', '', '', 'Leave Team dialog', '', 'Plugin Marketplace dialog', '', '', '', '', '', `About ${siteName} dialog`, ''];
+            const labels = ['Account Settings dialog', 'Invite People dialog', 'Team Settings dialog', 'Manage Members dialog', '', 'Leave Team dialog', '', 'Plugin Marketplace dialog', '', '', '', '', '', `About ${siteName} dialog`, ''];
             verifyMenuItems('#sidebarDropdownMenu', labels);
         });
 
@@ -104,7 +104,7 @@ describe('Verify Accessibility Support in Dropdown Menus', () => {
 
     it('MM-22627 Accessibility Support in Status Dropdown', () => {
         // # Press tab from Add Team button
-        cy.get('#select_teamTeamButton').focus().wait(TIMEOUTS.HALF_SEC).tab({shift: true}).tab().tab();
+        cy.get('#create_teamTeamButton').focus().wait(TIMEOUTS.HALF_SEC).tab({shift: true}).tab().tab();
 
         // * Verify the aria-label in status menu button
         cy.get('.status-wrapper button.status').should('have.attr', 'aria-label', 'set status').and('have.class', 'a11y--active a11y--focused').click();
