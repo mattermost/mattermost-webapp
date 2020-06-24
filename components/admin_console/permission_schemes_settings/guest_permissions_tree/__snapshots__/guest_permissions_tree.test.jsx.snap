@@ -33,7 +33,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       additionalValues={
         Object {
           "guest_edit_post": Object {
-            "editTimeLimitButton": <Connect(EditPostTimeLimitButton)
+            "editTimeLimitButton": <UNDEFINED
               onClick={[Function]}
             />,
           },
@@ -151,7 +151,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       additionalValues={
         Object {
           "guest_edit_post": Object {
-            "editTimeLimitButton": <Connect(EditPostTimeLimitButton)
+            "editTimeLimitButton": <UNDEFINED
               onClick={[Function]}
             />,
           },
@@ -269,7 +269,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       additionalValues={
         Object {
           "guest_edit_post": Object {
-            "editTimeLimitButton": <Connect(EditPostTimeLimitButton)
+            "editTimeLimitButton": <UNDEFINED
               onClick={[Function]}
             />,
           },
@@ -380,7 +380,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       additionalValues={
         Object {
           "guest_edit_post": Object {
-            "editTimeLimitButton": <Connect(EditPostTimeLimitButton)
+            "editTimeLimitButton": <UNDEFINED
               onClick={[Function]}
             />,
           },
@@ -498,7 +498,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       additionalValues={
         Object {
           "guest_edit_post": Object {
-            "editTimeLimitButton": <Connect(EditPostTimeLimitButton)
+            "editTimeLimitButton": <UNDEFINED
               onClick={[Function]}
             />,
           },
@@ -616,7 +616,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       additionalValues={
         Object {
           "guest_edit_post": Object {
-            "editTimeLimitButton": <Connect(EditPostTimeLimitButton)
+            "editTimeLimitButton": <UNDEFINED
               onClick={[Function]}
             />,
           },
@@ -734,7 +734,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       additionalValues={
         Object {
           "guest_edit_post": Object {
-            "editTimeLimitButton": <Connect(EditPostTimeLimitButton)
+            "editTimeLimitButton": <UNDEFINED
               onClick={[Function]}
             />,
           },
