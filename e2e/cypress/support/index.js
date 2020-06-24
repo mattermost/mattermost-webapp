@@ -25,6 +25,7 @@ import './storybook_commands';
 import './task_commands';
 import './ui';
 import './ui_commands'; // soon to deprecate
+import './visual_commands';
 
 import {getAdminAccount} from './env';
 
@@ -134,6 +135,8 @@ before(() => {
 
         // # Reset admin preference, online status and locale
         cy.apiSaveTeammateNameDisplayPreference('username');
+        cy.apiSaveLinkPreviewsPreference('true');
+        cy.apiSaveCollapsePreviewsPreference('false');
         cy.apiUpdateUserStatus('online');
         cy.apiPatchMe({
             locale: 'en',

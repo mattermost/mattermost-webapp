@@ -97,7 +97,7 @@ export default class ChannelInfoModal extends React.PureComponent {
 
         if (channelIsArchived) {
             channelIcon = (
-                <ArchiveIcon className='icon icon__archive'/>
+                <ArchiveIcon className='icon icon__archive svg-text-color'/>
             );
         } else if (channel.type === 'O') {
             channelIcon = (
