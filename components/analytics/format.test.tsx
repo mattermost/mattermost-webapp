@@ -38,7 +38,7 @@ describe('components/analytics/format.tsx', () => {
     });
 
     test('should not add empty data', () => {
-        let data1 = [];
+        const data1: any[] = [];
         const labels = ['date1', 'date2', 'date3', 'date4'];
         const chartData = formatUsersWithPostsPerDayData(labels, data1);
         expect(chartData.labels.length).toBe(0);
