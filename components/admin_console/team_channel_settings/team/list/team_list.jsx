@@ -221,7 +221,7 @@ export default class TeamList extends React.PureComponent {
             placeholderEmpty = (
                 <FormattedMessage
                     id='admin.team_settings.team_list.search_teams_errored'
-                    defaultMessage="Something went wrong. Try again"
+                    defaultMessage='Something went wrong. Try again'
                 />
             );
         }
