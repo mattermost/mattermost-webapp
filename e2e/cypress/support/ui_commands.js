@@ -399,6 +399,10 @@ Cypress.Commands.add('checkRunLDAPSync', () => {
             // # Go to system admin LDAP page and run the group sync
             cy.visit('/admin_console/authentication/ldap');
 
+            // # Click on AD/LDAP Synchronize Now button and verify if succesful
+            cy.findByText('AD/LDAP Test').click();
+            cy.findByText('AD/LDAP Test Successful').should('be.visible');
+
             // # Click on AD/LDAP Synchronize Now button
             cy.findByText('AD/LDAP Synchronize Now').click().wait(TIMEOUTS.ONE_SEC);
 

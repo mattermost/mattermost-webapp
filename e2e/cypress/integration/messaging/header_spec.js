@@ -22,7 +22,7 @@ describe('Header', () => {
                 cy.apiAddUserToTeam(team.id, otherUser.id);
             });
 
-            cy.apiLogin(user.username, user.password);
+            cy.apiLogin(user);
             cy.visit(`/${team.name}/channels/town-square`);
         });
     });

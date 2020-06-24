@@ -18,7 +18,7 @@ describe('Channel Settings', () => {
                 cy.apiAddUserToChannel(res.body.id, user.id);
             });
 
-            cy.apiLogin(user.username, user.password);
+            cy.apiLogin(user);
 
             // # Visit town-square channel
             cy.visit(`/${team.name}/channels/town-square`);

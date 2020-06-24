@@ -2,7 +2,9 @@
 // See LICENSE.txt for license information.
 
 import * as TIMEOUTS from '../../../../fixtures/timeouts';
-import users from '../../../../fixtures/users.json';
+import {getAdminAccount} from '../../../../support/env';
+
+const admin = getAdminAccount();
 
 function withTimestamp(string, timestamp) {
     return string + '-' + timestamp;
@@ -153,7 +155,7 @@ module.exports = {
 
         // As the sysadmin, create a private channel
         return cy.task('externalRequest', {
-            user: users.sysadmin,
+            user: admin,
             method: 'post',
             baseUrl,
             path: 'channels',
@@ -177,7 +179,7 @@ module.exports = {
 
                     // Add user to team
                     cy.task('externalRequest', {
-                        user: users.sysadmin,
+                        user: admin,
                         method: 'post',
                         baseUrl,
                         path: `channels/${channel.id}/members`,
