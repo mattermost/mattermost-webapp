@@ -52,6 +52,7 @@ export default class DataPrefetch extends React.PureComponent<Props, {}> {
             queue.add(async () => this.prefetchPosts(currentChannelId));
             await loadProfilesForSidebar();
             this.prefetchData();
+            this.props.actions.trackDMGMOpenChannels();
         } else if (prevProps.prefetchQueueObj !== prefetchQueueObj) {
             clearTimeout(this.prefetchTimeout);
             await queue.clear();

@@ -17,10 +17,11 @@ import {
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeamId, getTeamMember} from 'mattermost-redux/selectors/entities/teams';
 import * as Selectors from 'mattermost-redux/selectors/entities/users';
-import {makeFilterAutoclosedDMs, makeFilterManuallyClosedDMs} from 'mattermost-redux/selectors/entities/channel_categories';
+import {makeFilterAutoclosedDMs, makeFilterManuallyClosedDMs, makeGetChannelsForCategory, makeGetCategoriesForTeam} from 'mattermost-redux/selectors/entities/channel_categories';
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 
 import {loadStatusesForProfilesList, loadStatusesForProfilesMap} from 'actions/status_actions.jsx';
+import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import store from 'stores/redux_store.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {Constants, Preferences, UserStatuses} from 'utils/constants';
@@ -417,5 +418,19 @@ export function autoResetStatus() {
         }
 
         return userStatus;
+    };
+}
+
+export function trackDMGMOpenChannels() {
+    return async (doDispatch, doGetState) => {
+        const getChannelsForCategory = makeGetChannelsForCategory();
+        const getCategoriesForTeam = makeGetCategoriesForTeam();
+        const state = doGetState();
+
+        const currentTeamId = getCurrentTeamId(state);
+        const categories = getCategoriesForTeam(state, currentTeamId);
+        const DMGMCategory = categories.find((category) => category.type === CategoryTypes.DIRECT_MESSAGES);
+        const channels = getChannelsForCategory(state, DMGMCategory);
+        trackEvent('ui', 'LHS_DM_GM_Count', {count: channels.length});
     };
 }

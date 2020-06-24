@@ -11,6 +11,7 @@ import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 import * as UserActions from 'actions/user_actions';
 import {getState} from 'stores/redux_store';
 import TestHelper from 'tests/helpers/client-test-helper';
+import {trackEvent} from 'actions/diagnostics_actions.jsx';
 
 const mockStore = configureStore([thunk]);
 
@@ -32,13 +33,19 @@ jest.mock('mattermost-redux/actions/users', () => {
 jest.mock('mattermost-redux/selectors/entities/channel_categories', () => {
     const GeneralTypes = require.requireActual('mattermost-redux/constants').General;
     const original = require.requireActual('mattermost-redux/selectors/entities/channel_categories');
+    const CategoryTypesObj = require.requireActual('mattermost-redux/constants/channel_categories').CategoryTypes;
 
     const mockChannelsObj = [{id: 'gmChannel', type: GeneralTypes.GM_CHANNEL}];
     const mockFunc = jest.fn();
+    const mockDMGMChannels = [{id: 'dmChannel1', type: GeneralTypes.DM_CHANNEL}, {id: 'gmChannel', type: GeneralTypes.GM_CHANNEL}];
+    const categories = [{type: CategoryTypesObj.DIRECT_MESSAGES}];
+
     return {
         ...original,
         makeFilterAutoclosedDMs: jest.fn().mockReturnValue(mockFunc),
         makeFilterManuallyClosedDMs: () => jest.fn().mockReturnValue(mockChannelsObj),
+        makeGetChannelsForCategory: () => jest.fn().mockReturnValue(mockDMGMChannels),
+        makeGetCategoriesForTeam: () => jest.fn().mockReturnValue(categories),
     };
 });
 
@@ -71,6 +78,14 @@ jest.mock('stores/redux_store', () => {
     return {
         dispatch: jest.fn(),
         getState: jest.fn(),
+    };
+});
+
+jest.mock('actions/diagnostics_actions.jsx', () => {
+    const original = require.requireActual('actions/diagnostics_actions.jsx');
+    return {
+        ...original,
+        trackEvent: jest.fn(),
     };
 });
 
@@ -348,5 +363,11 @@ describe('Actions.User', () => {
         await UserActions.loadProfilesForGM();
         expect(UserActions.queue.onEmpty).toHaveBeenCalled();
         expect(UserActions.queue.add).toHaveBeenCalled();
+    });
+
+    test('trackDMGMOpenChannels', async () => {
+        const testStore = await mockStore(initialState);
+        await testStore.dispatch(UserActions.trackDMGMOpenChannels(initialState, mockChannelsObj1));
+        expect(trackEvent).toHaveBeenCalledWith('ui', 'LHS_DM_GM_Count', {count: 2});
     });
 });
