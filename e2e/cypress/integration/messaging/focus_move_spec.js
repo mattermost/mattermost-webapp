@@ -48,30 +48,31 @@ function verifyFocusInAddChannelMemberModal() {
 }
 
 describe('Messaging', () => {
+    let testTeam;
     let testChannel;
 
-    beforeEach(() => {
-        testChannel = null;
+    before(() => {
+        // # Login as test user and visit town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
+            testTeam = team;
+            testChannel = channel;
 
-        // # Login as user-1
-        cy.apiLogin('user-1');
-
-        // # Visit the Town Square channel
-        cy.visit('/ad-1/channels/town-square');
-        cy.get('#post_textbox').should('be.visible');
+            cy.visit(`/${testTeam.name}/channels/town-square`);
+        });
     });
 
-    afterEach(() => {
-        cy.apiLogin('sysadmin');
-        if (testChannel && testChannel.id) {
-            cy.apiDeleteChannel(testChannel.id);
-        }
+    beforeEach(() => {
+        cy.visit(`/${testTeam.name}/channels/town-square`);
     });
 
     it('M15406 - Focus move from Recent Mentions to main input box when a character key is selected', () => {
-        // # Click the flag icon to open the flagged posts RHS to move the focus out of the main input box
-        cy.get('#channelHeaderFlagButton').click();
-        cy.get('#searchContainer', {timeout: TIMEOUTS.SMALL}).contains('Search').should('be.visible');
+        // # Post a message
+        cy.postMessage('Hello');
+
+        // # Click the flag icon to move focus out of the main input box
+        cy.get('#channelHeaderFlagButton').
+            click().
+            should('have.class', 'channel-header__icon channel-header__icon--active');
         cy.get('#post_textbox').should('not.be.focused');
 
         // # Push a character key such as "A"
@@ -79,13 +80,14 @@ describe('Messaging', () => {
         cy.get('body').type('A');
         cy.get('#post_textbox').should('be.focused');
 
-        // # Click the @ icon to open the Recent mentions RHS to move the focus out of the main input box
-        cy.get('#channelHeaderMentionButton').click({force: true});
-        cy.get('#searchContainer', {timeout: TIMEOUTS.SMALL}).contains('Search').should('be.visible');
+        // # Click the @-mention icon to move focus out of the main input box
+        cy.get('#channelHeaderMentionButton').
+            click().
+            should('have.class', 'channel-header__icon channel-header__icon--active');
         cy.get('#post_textbox').should('not.be.focused');
 
         // # Push a character key such as "B"
-        // # Expect to have "A" value in main input
+        // # Expect to have "B" value in main input
         cy.get('body').type('B');
         cy.get('#post_textbox').should('be.focused');
     });
@@ -110,7 +112,7 @@ describe('Messaging', () => {
         cy.get('#quickSwitchHint').should('be.visible');
 
         //# Type channel name 'Off-Topic' and select it
-        cy.get('#quickSwitchInput').type('Off-Topic').wait(TIMEOUTS.TINY).type('{enter}');
+        cy.get('#quickSwitchInput').type('Off-Topic').wait(TIMEOUTS.HALF_SEC).type('{enter}');
 
         //* Verify that it redirected into selected channel 'Off-Topic'
         cy.get('#channelHeaderTitle').should('be.visible').should('contain', 'Off-Topic');
@@ -143,27 +145,24 @@ describe('Messaging', () => {
     });
 
     it('M17452 Focus does not move when it has already been set elsewhere', () => {
-        cy.getCurrentTeamId().then((teamId) => {
-            // # Create new test channel
-            cy.apiCreateChannel(teamId, 'channel-test', 'Channel Test').then((res) => {
-                testChannel = res.body;
+        // # Select the channel on the left hand side
+        cy.get(`#sidebarItem_${testChannel.name}`).click({force: true});
 
-                // # Select the channel on the left hand side
-                cy.get(`#sidebarItem_${testChannel.name}`).click({force: true});
+        // * Channel's display name should be visible at the top of the center pane
+        cy.get('#channelHeaderTitle').should('contain', testChannel.display_name);
 
-                // * Channel's display name should be visible at the top of the center pane
-                cy.get('#channelHeaderTitle').should('contain', testChannel.display_name);
-
-                // # Verify Focus in add channel member modal
-                verifyFocusInAddChannelMemberModal();
-            });
-        });
+        // # Verify Focus in add channel member modal
+        verifyFocusInAddChannelMemberModal();
     });
 
     it('M17455 - Focus does not move for non-character keys', () => {
-        // # Click the flag icon to open the flagged posts RHS to move the focus out of the main input box
-        cy.get('#channelHeaderFlagButton').click();
-        cy.get('#searchContainer', {timeout: TIMEOUTS.SMALL}).contains('Search').should('be.visible');
+        // # Post a message
+        cy.postMessage('Hello');
+
+        // # Click the flag icon to move focus out of the main input box
+        cy.get('#channelHeaderFlagButton').
+            click().
+            should('have.class', 'channel-header__icon channel-header__icon--active');
         cy.get('#post_textbox').should('not.be.focused');
 
         // Keycodes for keys that don't have a special character sequence for cypress.type()

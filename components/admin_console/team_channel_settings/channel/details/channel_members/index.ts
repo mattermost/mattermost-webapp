@@ -18,7 +18,7 @@ import {getChannelMembersInChannels, getAllChannelStats, getChannel} from 'matte
 import {searchProfilesInChannel, makeGetProfilesInChannel, filterProfiles} from 'mattermost-redux/selectors/entities/users';
 
 import {loadProfilesAndReloadChannelMembers, searchProfilesAndChannelMembers} from 'actions/user_actions';
-import {setModalSearchTerm} from 'actions/views/search';
+import {setSystemUsersSearch} from 'actions/views/search';
 import {GlobalState} from 'types/store';
 
 import ChannelMembers from './channel_members';
@@ -39,7 +39,7 @@ type Actions = {
     searchProfilesAndChannelMembers: (term: string, options?: {}) => Promise<{
         data: boolean;
     }>;
-    setModalSearchTerm: (term: string) => Promise<{
+    setSystemUsersSearch: (term: string) => Promise<{
         data: boolean;
     }>;
 };
@@ -69,7 +69,7 @@ function makeMapStateToProps() {
             guest_count: 0,
         };
 
-        const searchTerm = state.views.search.modalSearch;
+        const searchTerm = state.views.search.systemUsersSearch?.term || '';
         let users = [];
         if (searchTerm) {
             users = searchProfilesInChannel(state, channelId, searchTerm, false, true);
@@ -97,7 +97,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             getChannelStats,
             loadProfilesAndReloadChannelMembers,
             searchProfilesAndChannelMembers,
-            setModalSearchTerm,
+            setSystemUsersSearch,
         }, dispatch),
     };
 }
