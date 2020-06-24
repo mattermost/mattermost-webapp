@@ -224,7 +224,7 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
             placeholderEmpty = (
                 <FormattedMessage
                     id='admin.channel_settings.channel_list.search_channels_errored'
-                    defaultMessage="Something went wrong. For some reason, the server wasn't able to complete your search. Try again"
+                    defaultMessage="Something went wrong. Try again"
                 />
             );
         }
