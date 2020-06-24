@@ -84,7 +84,7 @@ describe('Message permalink', () => {
             const link = `/${testTeam.name}/messages/@${otherUser.username}/${postId}`;
             cy.visit(link);
             cy.url().should('include', link);
-            cy.get(`#post_${postId}`, {timeout: TIMEOUTS.LARGE}).should('have.class', 'post--highlight');
+            cy.get(`#post_${postId}`, {timeout: TIMEOUTS.HALF_MIN}).should('have.class', 'post--highlight');
             cy.clock();
             cy.tick(6000);
             cy.get(`#post_${postId}`).should('not.have.class', 'post--highlight');

@@ -39,7 +39,7 @@ describe('toasts', () => {
     beforeEach(() => {
         // # Click on town-square then off-topic channels in LHS
         cy.get('#sidebarItem_town-square').should('be.visible').click();
-        cy.get('#sidebarItem_off-topic').should('be.visible').click().wait(TIMEOUTS.TINY);
+        cy.get('#sidebarItem_off-topic').should('be.visible').click().wait(TIMEOUTS.HALF_SEC);
 
         // * Verify that off-topic channel is loaded
         cy.get('#channelIntro').should('be.visible').contains('Beginning of Off-Topic');
