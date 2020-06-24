@@ -6,7 +6,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {localizeMessage} from 'utils/utils.jsx';
-import BackstageList from 'components/backstage/components/backstage_list.jsx';
+import BackstageList from 'components/backstage/components/backstage_list';
 import InstalledOAuthApp from '../installed_oauth_app';
 import {matchesFilter} from '../installed_oauth_app/installed_oauth_app';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';

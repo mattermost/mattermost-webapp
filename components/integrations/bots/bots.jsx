@@ -8,7 +8,7 @@ import {FormattedMessage} from 'react-intl';
 import {getSiteURL} from 'utils/url';
 
 import * as Utils from 'utils/utils.jsx';
-import BackstageList from 'components/backstage/components/backstage_list.jsx';
+import BackstageList from 'components/backstage/components/backstage_list';
 import Constants from 'utils/constants';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
