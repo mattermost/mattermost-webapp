@@ -47,7 +47,7 @@ exports[`components/ChannelInfoModal should match snapshot 1`] = `
       />
       <strong>
         <ArchiveIcon
-          className="icon icon__archive"
+          className="icon icon__archive svg-text-color"
         />
       </strong>
     </ModalTitle>
@@ -136,7 +136,7 @@ exports[`components/ChannelInfoModal should match snapshot with channel props 1`
       />
       <strong>
         <ArchiveIcon
-          className="icon icon__archive"
+          className="icon icon__archive svg-text-color"
         />
       </strong>
     </ModalTitle>
