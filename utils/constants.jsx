@@ -98,6 +98,7 @@ export const Preferences = {
     NAME_NAME_FORMAT: 'name_format',
     CATEGORY_SYSTEM_NOTICE: 'system_notice',
     TEAMS_ORDER: 'teams_order',
+    RECOMMENDED_NEXT_STEPS: 'recommended_next_steps',
 };
 
 export const ActionTypes = keyMirror({
@@ -347,6 +348,13 @@ export const TutorialSteps = {
     CHANNEL_POPOVER: 2,
     MENU_POPOVER: 3,
     FINISHED: 999,
+};
+
+export const RecommendedNextSteps = {
+    COMPLETE_PROFILE: 'complete_profile',
+    TEAM_SETUP: 'team_setup',
+    INVITE_MEMBERS: 'invite_members',
+    HIDE: 'hide',
 };
 
 export const PostTypes = {
