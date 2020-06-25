@@ -31,7 +31,7 @@ describe('toasts', () => {
                 cy.apiAddUserToTeam(testTeam.id, otherUser.id);
             });
 
-            cy.apiLogin(user.username, user.password);
+            cy.apiLogin(user);
             cy.visit(`/${testTeam.name}/channels/town-square`);
         });
     });

@@ -129,7 +129,7 @@ describe('at-mention', () => {
             });
 
             // # Login as receiver and visit off-topic channel
-            cy.apiLogin(receiver.username, receiver.password);
+            cy.apiLogin(receiver);
             cy.visit(`/${testTeam.name}/channels/off-topic`);
         });
     });

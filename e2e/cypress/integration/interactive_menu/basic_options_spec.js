@@ -65,7 +65,7 @@ describe('Interactive Menu', () => {
                 incomingWebhook = hook;
             });
 
-            cy.apiLogin(testUser.username, testUser.password);
+            cy.apiLogin(testUser);
             cy.visit(`/${team.name}/channels/${testChannel.name}`);
         });
     });

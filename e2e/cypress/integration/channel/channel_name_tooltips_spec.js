@@ -52,7 +52,7 @@ describe('channel name tooltips', () => {
                 cy.apiAddUserToTeam(testTeam.id, loggedUser.id);
             });
 
-            cy.apiLogin(loggedUser.username, loggedUser.password);
+            cy.apiLogin(loggedUser);
             cy.visit(`/${testTeam.name}/channels/town-square`);
         });
     });

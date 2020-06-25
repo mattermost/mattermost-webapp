@@ -26,19 +26,9 @@ function pinPost(index) {
 
 describe('Messaging', () => {
     before(() => {
-        // # Login as user-1
-        cy.apiLogin('user-1');
-
-        // # Create a new team and visit default town-square channel
-        cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
-            cy.visit(`/${response.body.name}`);
-        });
-    });
-
-    // Unpin all posts at the end of the test
-    after(() => {
-        pinnedPosts.forEach((pinnedPost) => {
-            cy.apiUnpinPosts(pinnedPost);
+        // # Login as test user and visit town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
         });
     });
 

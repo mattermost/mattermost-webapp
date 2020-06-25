@@ -44,7 +44,7 @@ describe('Teams Suite', () => {
             cy.apiUpdateTeamMemberSchemeRole(team.id, user.id, {scheme_admin: true, scheme_user: true});
 
             // # Login as test user and visit town-square
-            cy.apiLogin(user.username, user.password);
+            cy.apiLogin(user);
             cy.visit(`/${team.name}/channels/town-square`);
         });
     });
