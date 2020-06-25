@@ -95,7 +95,7 @@ export default class StatusDropdown extends React.Component {
                 { (title) => (
                     <i
                         className={'fa fa-caret-down'}
-                        title={title}
+                        ariaLabel={title}
                     />)
                 }
             </FormattedMessage>
