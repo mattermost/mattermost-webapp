@@ -15,12 +15,11 @@
  */
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
-let guest;
-
 describe('Guest Account - Guest User Experience', () => {
+    let guestUser;
+
     before(() => {
         // * Check if server has license for Guest Accounts
-        cy.apiLogin('sysadmin');
         cy.requireLicenseForFeature('GuestAccounts');
 
         // # Enable Guest Account Settings
@@ -33,15 +32,23 @@ describe('Guest Account - Guest User Experience', () => {
             },
         });
 
-        // # Login as a guest user and go to /
-        cy.loginAsNewGuestUser().then(({user, team}) => {
-            guest = user;
-            cy.visit(`/${team.name}/channels/town-square`);
+        cy.apiInitSetup().then(({team, channel}) => {
+            // # Create new team and visit its URL
+            cy.apiCreateGuestUser().then(({guest}) => {
+                guestUser = guest;
+
+                cy.apiAddUserToTeam(team.id, guestUser.id).then(() => {
+                    cy.apiAddUserToChannel(channel.id, guestUser.id).then(() => {
+                        cy.apiLogin(guestUser);
+                        cy.visit(`/${team.name}/channels/${channel.name}`);
+                    });
+                });
+            });
         });
     });
 
     it('MM-18043 Verify Guest User Restrictions', () => {
-        // *Verify Reduced Options in Main Menu
+        // * Verify Reduced Options in Main Menu
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
         const missingMainOptions = ['#invitePeople', '#teamSettings', '#manageMembers', '#createTeam', '#joinTeam', '#integrations', '#systemConsole'];
         const includeMainOptions = ['#accountSettings', '#viewMembers', '#leaveTeam'];
@@ -52,14 +59,13 @@ describe('Guest Account - Guest User Experience', () => {
             cy.get(includeOption).should('be.visible');
         });
 
-        // *Verify Reduced Options in LHS
+        // * Verify Reduced Options in LHS
         const missingLHSOptions = ['#createPublicChannel', "li[data-testid='morePublicButton']", '#createPrivateChannel'];
         missingLHSOptions.forEach((missingOption) => {
             cy.get(missingOption).should('not.exist');
         });
 
         // * Verify Guest Badge in Channel Header
-        cy.get('#sidebarItem_town-square').click({force: true});
         cy.get('#channelHeaderDescription').within(($el) => {
             cy.wrap($el).find('.has-guest-header').should('be.visible').and('have.text', 'This channel has guests');
         });
@@ -67,33 +73,32 @@ describe('Guest Account - Guest User Experience', () => {
         // * Verify list of Users and Guest Badge in Channel Members List
         cy.get('#member_popover').click();
         cy.get('#member-list-popover').should('be.visible').within(($el) => {
-            cy.wrap($el).findAllByTestId('popoverListMembersItem').should('have.length', 2).each(($elChild) => {
+            cy.wrap($el).findAllByTestId('popoverListMembersItem').should('have.length', 3).each(($elChild) => {
                 cy.wrap($elChild).invoke('attr', 'aria-label').then((username) => {
-                    if (username === guest.username) {
+                    if (username === guestUser.username) {
                         cy.wrap($elChild).find('.Badge').should('be.visible').and('have.text', 'GUEST');
                     }
                 });
             });
         });
 
-        // #Close the Channel Members Popover
+        // # Close the Channel Members Popover
         cy.get('#member_popover').click();
 
         // * Verify list of Users in Direct Messages Dialog
-        cy.get('#addDirectChannel').click().wait(TIMEOUTS.SMALL);
+        cy.get('#addDirectChannel').click().wait(TIMEOUTS.FIVE_SEC);
         cy.get('#multiSelectList').should('be.visible').within(($el) => {
-            // * Verify only 2 users - Current User and Sysadmin is listed
-            cy.wrap($el).children().should('have.length', 2);
+            // * Verify only 3 users - Guest, regular member and sysadmin is listed
+            cy.wrap($el).children().should('have.length', 3);
         });
         cy.get('.modal-header .close').click();
 
         // * Verify Guest Badge when guest user posts a message
-        cy.get('#sidebarItem_town-square').click({force: true});
         cy.postMessage('testing');
         cy.getLastPostId().then((postId) => {
             cy.get(`#post_${postId}`).within(($el) => {
                 cy.wrap($el).find('.post__header .Badge').should('be.visible');
-                cy.wrap($el).find('.post__header .user-popover').should('be.visible').click().wait(TIMEOUTS.TINY);
+                cy.wrap($el).find('.post__header .user-popover').should('be.visible').click().wait(TIMEOUTS.HALF_SEC);
             });
         });
 
@@ -105,13 +110,13 @@ describe('Guest Account - Guest User Experience', () => {
         // # Close the profile popover
         cy.get('#channel-header').click();
 
-        // * Verify Guest User can see only 2 channels in LHS
-        cy.get('#publicChannelList').find('a').should('have.length', 2);
+        // * Verify Guest User can see only 1 channel in LHS
+        cy.get('#publicChannelList').find('a').should('have.length', 1);
 
         // * Verify list of Users a Guest User can see in Team Members dialog
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
-        cy.get('#viewMembers').click().wait(TIMEOUTS.SMALL);
-        cy.get('#searchableUserListTotal').should('be.visible').and('have.text', '1 - 2 members of 2 total');
+        cy.get('#viewMembers').click().wait(TIMEOUTS.FIVE_SEC);
+        cy.get('#searchableUserListTotal').should('be.visible').and('have.text', '1 - 3 members of 3 total');
     });
 
     it('MM-18049 Verify Guest User Restrictions is removed when promoted', () => {
@@ -119,9 +124,9 @@ describe('Guest Account - Guest User Experience', () => {
         cy.reload();
 
         // # Promote a Guest user to a member and reload
-        cy.promoteUser(guest.id);
+        cy.promoteUser(guestUser.id);
 
-        // *Verify Options in Main Menu are changed
+        // * Verify Options in Main Menu are changed
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
         const includeMainOptions = ['#accountSettings', '#viewMembers', '#leaveTeam', '#invitePeople', '#createTeam'];
         includeMainOptions.forEach((includeOption) => {
@@ -131,7 +136,7 @@ describe('Guest Account - Guest User Experience', () => {
         // # Close the main menu
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
 
-        // *Verify Options in LHS are changed
+        // * Verify Options in LHS are changed
         const missingLHSOptions = ['#createPublicChannel', "li[data-testid='morePublicButton']", '#createPrivateChannel'];
         missingLHSOptions.forEach((missingOption) => {
             cy.get(missingOption).should('be.visible');
@@ -146,16 +151,16 @@ describe('Guest Account - Guest User Experience', () => {
         // * Verify Guest Badge is removed in Channel Members List
         cy.get('#member_popover').click();
         cy.get('#member-list-popover').should('be.visible').within(($el) => {
-            cy.wrap($el).findAllByTestId('popoverListMembersItem').should('have.length', 2).each(($elChild) => {
+            cy.wrap($el).findAllByTestId('popoverListMembersItem').should('have.length', 3).each(($elChild) => {
                 cy.wrap($elChild).invoke('attr', 'aria-label').then((username) => {
-                    if (username === guest.username) {
+                    if (username === guestUser.username) {
                         cy.wrap($elChild).find('.Badge').should('not.exist');
                     }
                 });
             });
         });
 
-        // #Close the Channel Members Popover
+        // # Close the Channel Members Popover
         cy.get('#member_popover').click();
 
         // * Verify Guest Badge is removed when user posts a message
@@ -164,7 +169,7 @@ describe('Guest Account - Guest User Experience', () => {
         cy.getLastPostId().then((postId) => {
             cy.get(`#post_${postId}`).within(($el) => {
                 cy.wrap($el).find('.post__header .Badge').should('not.exist');
-                cy.wrap($el).find('.post__header .user-popover').should('be.visible').click().wait(TIMEOUTS.TINY);
+                cy.wrap($el).find('.post__header .user-popover').should('be.visible').click().wait(TIMEOUTS.HALF_SEC);
             });
         });
 

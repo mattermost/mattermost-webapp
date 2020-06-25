@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import users from '../../../fixtures/users.json';
+import {getAdminAccount} from '../../../support/env';
 
 // ***************************************************************
 // - [#] indicates a test step (e.g. # Go to a page)
@@ -12,23 +12,26 @@ import users from '../../../fixtures/users.json';
 // Group: @enterprise @extend_session
 
 describe('MM-T2575 Extend Session - Email Login', () => {
-    const townSquarePage = '/ad-1/channels/town-square';
+    let townSquarePage;
     const oneDay = 24 * 60 * 60 * 1000;
-    const testUser = 'user-1';
+    const admin = getAdminAccount();
+    let testUser;
 
     before(() => {
-        // # Login as sysadmin and check if with license and has matching database
-        cy.apiLogin('sysadmin');
+        // # Check if with license and has matching database
         cy.requireLicense();
         cy.requireServerDBToMatch();
+
+        cy.apiInitSetup().then(({team, user}) => {
+            testUser = user;
+            townSquarePage = `/${team.name}/channels/town-square`;
+        });
     });
 
     beforeEach(() => {
         // # Login as sysadmin and revoke sessions of the test user
-        cy.apiLogin('sysadmin');
-        cy.dbGetUser({username: testUser}).then(({user}) => {
-            cy.apiRevokeUserSessions(user.id);
-        });
+        cy.apiAdminLogin();
+        cy.apiRevokeUserSessions(testUser.id);
     });
 
     it('should redirect to login page when session expired', () => {
@@ -46,7 +49,7 @@ describe('MM-T2575 Extend Session - Email Login', () => {
         cy.visit(townSquarePage);
 
         // # Get active user sessions as baseline reference
-        cy.dbGetActiveUserSessions({username: testUser}).then(({sessions: initialSessions}) => {
+        cy.dbGetActiveUserSessions({username: testUser.username}).then(({sessions: initialSessions}) => {
             // Post a message to a channel
             cy.postMessage(Date.now());
 
@@ -62,7 +65,7 @@ describe('MM-T2575 Extend Session - Email Login', () => {
                 expect(parseDateTime(updatedSession.expiresat)).to.equal(expiredSession);
 
                 // # Invalidate cache and reload to take effect the expired session
-                cy.externalRequest({user: users.sysadmin, method: 'POST', path: 'caches/invalidate'});
+                cy.externalRequest({user: admin, method: 'POST', path: 'caches/invalidate'});
                 cy.reload();
 
                 // # Try to visit town-square channel
@@ -72,7 +75,7 @@ describe('MM-T2575 Extend Session - Email Login', () => {
                 cy.url().should('include', `/login?redirect_to=${townSquarePage.replace(/\//g, '%2F')}`);
 
                 // * Get user's active session of test user and verify that it remained as expired and is not extended
-                cy.dbGetActiveUserSessions({username: testUser}).then(({sessions: activeSessions}) => {
+                cy.dbGetActiveUserSessions({username: testUser.username}).then(({sessions: activeSessions}) => {
                     expect(activeSessions.length).to.equal(0);
 
                     cy.dbGetUserSession({sessionId: initialSessions[0].id}).then(({session: unExtendedSession}) => {
@@ -128,7 +131,7 @@ describe('MM-T2575 Extend Session - Email Login', () => {
             cy.visit(townSquarePage);
 
             // # Get active user sessions as baseline reference
-            cy.dbGetActiveUserSessions({username: testUser}).then(({sessions: initialSessions}) => {
+            cy.dbGetActiveUserSessions({username: testUser.username}).then(({sessions: initialSessions}) => {
                 const initialSession = initialSessions[0];
 
                 // Post a message to a channel
@@ -148,7 +151,7 @@ describe('MM-T2575 Extend Session - Email Login', () => {
                     expect(parseDateTime(updatedSession.expiresat)).to.equal(elapsedAboveThreshold);
 
                     // # Invalidate cache and reload to take effect the new session
-                    cy.externalRequest({user: users.sysadmin, method: 'POST', path: 'caches/invalidate'});
+                    cy.externalRequest({user: admin, method: 'POST', path: 'caches/invalidate'});
                     cy.reload();
 
                     // # Visit a channel or post a message
@@ -156,7 +159,7 @@ describe('MM-T2575 Extend Session - Email Login', () => {
                     testCase.fn(now);
 
                     // * Get active session of test user and verify that the session has been extended depending on SessionLengthWebInDays setting
-                    cy.dbGetActiveUserSessions({username: testUser}).then(({sessions: extendedSessions}) => {
+                    cy.dbGetActiveUserSessions({username: testUser.username}).then(({sessions: extendedSessions}) => {
                         expect(extendedSessions[0].id).to.equal(updatedSession.id);
                         expect(parseDateTime(extendedSessions[0].expiresat)).to.be.greaterThan(parseDateTime(updatedSession.expiresat));
 
@@ -184,7 +187,7 @@ describe('MM-T2575 Extend Session - Email Login', () => {
             cy.visit(townSquarePage);
 
             // # Get active user sessions as baseline reference
-            cy.dbGetActiveUserSessions({username: testUser}).then(({sessions: initialSessions}) => {
+            cy.dbGetActiveUserSessions({username: testUser.username}).then(({sessions: initialSessions}) => {
                 const initialSession = initialSessions[0];
 
                 // Post a message to a channel
@@ -204,7 +207,7 @@ describe('MM-T2575 Extend Session - Email Login', () => {
                     expect(parseDateTime(updatedSession.expiresat)).to.equal(elapsedBelowThreshold);
 
                     // # Invalidate cache and reload to take effect the new session
-                    cy.externalRequest({user: users.sysadmin, method: 'POST', path: 'caches/invalidate'});
+                    cy.externalRequest({user: admin, method: 'POST', path: 'caches/invalidate'});
                     cy.reload();
 
                     // # Visit a channel or post a message
@@ -212,7 +215,7 @@ describe('MM-T2575 Extend Session - Email Login', () => {
                     testCase.fn(now);
 
                     // * Get active session of test user and verify that the session has remained the same and has not extended
-                    cy.dbGetActiveUserSessions({username: testUser}).then(({sessions: unExtendedSessions}) => {
+                    cy.dbGetActiveUserSessions({username: testUser.username}).then(({sessions: unExtendedSessions}) => {
                         const unExtendedSession = unExtendedSessions[0];
                         expect(initialSession.id).to.equal(unExtendedSession.id);
                         expect(elapsedBelowThreshold).to.equal(parseDateTime(unExtendedSession.expiresat));

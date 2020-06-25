@@ -10,12 +10,6 @@
 // Stage: @prod
 // Group: @team_settings
 
-import users from '../../fixtures/users.json';
-
-let testTeam;
-const user1 = users['user-1'];
-const user2 = users['user-2'];
-
 function openClickInviteMenuItem() {
     // * validating the side bar is visible
     cy.get('#sidebarHeaderDropdownButton').should('be.visible');
@@ -38,10 +32,10 @@ function verifyClickInvitePeopleDialog() {
     cy.get('#inviteMembersSectionDescription').click();
 }
 
-function verifyInvitationSuccess() {
+function verifyInvitationSuccess(team) {
     // * Verify the content and success message in the Invitation Modal
     cy.findByTestId('invitationModal').within(($el) => {
-        cy.wrap($el).find('h1').should('have.text', `Members Invited to ${testTeam.display_name}`);
+        cy.wrap($el).find('h1').should('have.text', `Members Invited to ${team.display_name}`);
         cy.wrap($el).find('h2.subtitle > span').should('have.text', '1 person has been invited');
         cy.wrap($el).find('div.invitation-modal-confirm-not-sent').should('not.exist');
         cy.wrap($el).find('div.invitation-modal-confirm-sent').should('be.visible').within(($subel) => {
@@ -54,10 +48,10 @@ function verifyInvitationSuccess() {
     });
 }
 
-function verifyInviteMembersModal() {
+function verifyInviteMembersModal(team) {
     // * Verify the header has changed in the modal
     cy.findByTestId('invitationModal').within(($el) => {
-        cy.wrap($el).find('h1').should('have.text', `Invite Members to ${testTeam.display_name}`);
+        cy.wrap($el).find('h1').should('have.text', `Invite Members to ${team.display_name}`);
     });
 
     // * Verify Share Link Header and helper text
@@ -88,12 +82,12 @@ function closeAndComplete() {
 }
 
 describe('Invite Members', () => {
-    beforeEach(() => {
-        testTeam = null;
+    let testUser;
+    let userOne;
+    let userTwo;
+    let testTeam;
 
-        // # Login as sysadmin
-        cy.apiLogin('sysadmin');
-
+    before(() => {
         // # Enable API Team Deletion
         // # Disable Require Email Verification
         cy.apiUpdateConfig({
@@ -104,41 +98,47 @@ describe('Invite Members', () => {
                 RequireEmailVerification: false,
             },
         });
-
-        // # Login as new user
-        cy.apiCreateAndLoginAsNewUser().then(() => {
-            // # Create new team and visit its URL
-            cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
-                testTeam = response.body;
-                cy.visit(`/${testTeam.name}`);
-            });
-        });
     });
 
-    afterEach(() => {
-        cy.apiLogin('sysadmin');
-        if (testTeam && testTeam.id) {
-            cy.apiDeleteTeam(testTeam.id);
-        }
+    beforeEach(() => {
+        cy.apiAdminLogin();
+
+        cy.apiInitSetup().then(({team, user}) => {
+            testUser = user;
+            testTeam = team;
+
+            cy.apiCreateUser({bypassTutorial: false}).then(({user: user1}) => {
+                userOne = user1;
+                cy.apiAddUserToTeam(testTeam.id, userOne.id);
+            });
+
+            cy.apiCreateUser({bypassTutorial: false}).then(({user: user2}) => {
+                userTwo = user2;
+                cy.apiAddUserToTeam(testTeam.id, userTwo.id);
+            });
+        });
     });
 
     // By default, member don't have "InviteGuest" permission
     // should go directly to "InviteMembers" modal
     it('Invite Members to Team as Member', () => {
+        cy.apiLogin(testUser);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
+
         // # function to open and select invite menu item
         openClickInviteMenuItem();
 
         // * verify Invite Members
-        verifyInviteMembersModal();
+        verifyInviteMembersModal(testTeam);
 
         // # invite existing user
-        inviteUser(user1);
+        inviteUser(userOne);
 
         // * verify Invitation was created successfully
-        verifyInvitationSuccess();
+        verifyInvitationSuccess(testTeam);
 
         // * verify returned to "InviteMembers" modal
-        verifyInviteMembersModal();
+        verifyInviteMembersModal(testTeam);
 
         // # close modal
         closeAndComplete();
@@ -147,8 +147,8 @@ describe('Invite Members', () => {
     // By default, sysadmin can Invite Guests, should go to "InvitePeople" modal
     it('Invite Members to Team as SysAdmin', () => {
         // # login and visit
-        cy.apiLogin('sysadmin');
-        cy.visit(`/${testTeam.name}`);
+        cy.apiAdminLogin();
+        cy.visit(`/${testTeam.name}/channels/off-topic`);
 
         // # function to open and select invite menu item
         openClickInviteMenuItem();
@@ -157,13 +157,13 @@ describe('Invite Members', () => {
         verifyClickInvitePeopleDialog();
 
         // * verify Invite Members
-        verifyInviteMembersModal();
+        verifyInviteMembersModal(testTeam);
 
         // # invite existing user
-        inviteUser(user2);
+        inviteUser(userTwo);
 
         // * verify Invitation was created successfully
-        verifyInvitationSuccess();
+        verifyInvitationSuccess(testTeam);
 
         // * verify returned to "InviteMembers" modal
         verifyClickInvitePeopleDialog();

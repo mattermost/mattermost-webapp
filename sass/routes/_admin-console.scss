@@ -70,7 +70,11 @@
     }
 
     .filtered-user-list {
-        height: calc(100vh - 160px);
+        height: calc(100vh - 175px);
+
+        .announcement-bar--fixed & {
+            height: calc(100vh - 205px);
+        }
     }
 
     .Select-value-label {
@@ -940,5 +944,14 @@
 #error-tooltip {
     .tooltip-inner {
         max-width: none;
+    }
+}
+
+.admin-console .admin-console__content.admin-logs-content {
+    max-width: none;
+
+    // We keep the banner the same width and only expand the content box.
+    .banner {
+        max-width: 920px;
     }
 }
