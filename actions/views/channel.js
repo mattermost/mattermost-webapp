@@ -387,14 +387,15 @@ export function syncPostsInChannel(channelId, since, prefetch = false) {
 export function prefetchChannelPosts(channelId, jitter) {
     return async (dispatch, getState) => {
         const state = getState();
-        if (!state.entities.posts.postsInChannel[channelId]) {
+        const recentPostIdInChannel = getMostRecentPostIdInChannel(state, channelId);
+
+        if (!state.entities.posts.postsInChannel[channelId] || !recentPostIdInChannel) {
             if (jitter) {
                 await new Promise((resolve) => setTimeout(resolve, jitter));
             }
             return dispatch(loadUnreads(channelId, true));
         }
 
-        const recentPostIdInChannel = getMostRecentPostIdInChannel(state, channelId);
         const recentPost = getPost(state, recentPostIdInChannel);
         return dispatch(syncPostsInChannel(channelId, recentPost.create_at, true));
     };

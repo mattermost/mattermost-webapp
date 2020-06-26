@@ -677,7 +677,7 @@ describe('channel view actions', () => {
             expect(PostActions.getPostsUnread).toHaveBeenCalledWith('channelid1');
         });
 
-        test('should call for syncPostsInChannel if there are no posts in channel', async () => {
+        test('should call for syncPostsInChannel if there are posts in channel', async () => {
             store = mockStore({
                 ...initialState,
                 entities: {
@@ -708,6 +708,40 @@ describe('channel view actions', () => {
 
             await store.dispatch(Actions.prefetchChannelPosts('channelid1'));
             expect(PostActions.getPostsSince).toHaveBeenCalledWith('channelid1', 1234);
+        });
+
+        test('should not call for getPostsUnread and not syncPostsInChannel if there are posts but not recent chunk', async () => {
+            store = mockStore({
+                ...initialState,
+                entities: {
+                    ...initialState.entities,
+                    posts: {
+                        ...initialState.entities.posts,
+                        postsInChannel: {
+                            channelid1: [{order: ['postId'], recent: false}],
+                        },
+                        posts: {
+                            postId: {create_at: 1234},
+                        },
+                    },
+                },
+                views: {
+                    ...initialState.views,
+                    channel: {
+                        ...initialState.views.channel,
+                        lastGetPosts: {
+                            channelid1: 12345,
+                        },
+                    },
+                },
+                websocket: {
+                    lastDisconnectAt: 12344,
+                },
+            });
+
+            await store.dispatch(Actions.prefetchChannelPosts('channelid1'));
+            expect(PostActions.getPostsUnread).toHaveBeenCalledWith('channelid1');
+            expect(PostActions.getPostsSince).not.toHaveBeenCalled();
         });
 
         test('should call for loadUnreads after a delay', async () => {
