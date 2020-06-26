@@ -128,7 +128,7 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
         // # Create atleast 2 channels
         cy.apiCreateChannel(testTeam.id, 'accessibility', 'accessibility');
         cy.apiCreateChannel(testTeam.id, 'accessibility', 'accessibility').then(() => {
-            cy.apiLogin(testUser.username, testUser.password).then(() => {
+            cy.apiLogin(testUser).then(() => {
                 cy.reload();
 
                 // * Verify the aria-label in more public channels button

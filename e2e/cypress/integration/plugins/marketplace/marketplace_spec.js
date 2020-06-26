@@ -37,7 +37,7 @@ describe('Plugin Marketplace', () => {
             });
 
             // # Login as non admin user
-            cy.apiLogin(regularUser.username, regularUser.password);
+            cy.apiLogin(regularUser);
             cy.visit(townsquareLink);
         });
 

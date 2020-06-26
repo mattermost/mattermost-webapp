@@ -34,7 +34,7 @@ describe('Test Tutorial Navigation', () => {
                 testUser = user1;
                 cy.apiAddUserToTeam(testTeam.id, testUser.id);
 
-                cy.apiLogin(testUser.username, testUser.password);
+                cy.apiLogin(testUser);
                 cy.visit(`/${testTeam.name}/channels/town-square`);
             });
         });
@@ -98,7 +98,7 @@ describe('Test Tutorial Navigation', () => {
         checkOffTopicChannel();
 
         // # Log in as another new user with the tutorial bypass flag set to false.
-        cy.apiLogin(otherUser.username, otherUser.password);
+        cy.apiLogin(otherUser);
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // * Verify that the first step of the tutorial displays.

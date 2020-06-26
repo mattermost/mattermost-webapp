@@ -45,7 +45,7 @@ describe('MM-T2575 Extend Session - Email Login', () => {
         cy.apiUpdateConfig(setting);
 
         // # Login as test user and go to town-square channel
-        cy.apiLogin(testUser.username, testUser.password);
+        cy.apiLogin(testUser);
         cy.visit(townSquarePage);
 
         // # Get active user sessions as baseline reference
@@ -127,7 +127,7 @@ describe('MM-T2575 Extend Session - Email Login', () => {
             cy.apiUpdateConfig(setting);
 
             // # Login as test user and go to town-square channel
-            cy.apiLogin(testUser.username, testUser.password);
+            cy.apiLogin(testUser);
             cy.visit(townSquarePage);
 
             // # Get active user sessions as baseline reference
@@ -183,7 +183,7 @@ describe('MM-T2575 Extend Session - Email Login', () => {
             cy.apiUpdateConfig(setting);
 
             // # Login as test user and go to town-square channel
-            cy.apiLogin(testUser.username, testUser.password);
+            cy.apiLogin(testUser);
             cy.visit(townSquarePage);
 
             // # Get active user sessions as baseline reference

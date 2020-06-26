@@ -13,9 +13,10 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Leave Channel Command', () => {
     before(() => {
-        // # Login and go to town-square
-        cy.apiLogin();
-        cy.visit('/ad-1/channels/town-square');
+        // # Login as test user and go to town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
+        });
     });
 
     it('Should be redirected to last channel when user leaves channelw with /leave command', () => {
