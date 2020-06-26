@@ -30,11 +30,21 @@ describe('components/user_settings/notifications/DesktopNotificationSettings', (
         active: true,
         saving: false,
         focused: false,
+        selectedSound: 'Bing',
     };
 
     test('should match snapshot, on max setting', () => {
         const wrapper = shallow(
             <DesktopNotificationSettings {...baseProps}/>,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot, on max setting with sound enabled', () => {
+        const props = {...baseProps, sound: 'true'};
+        const wrapper = shallow(
+            <DesktopNotificationSettings {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
