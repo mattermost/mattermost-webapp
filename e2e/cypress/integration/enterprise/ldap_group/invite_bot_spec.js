@@ -22,8 +22,8 @@ describe('Group Synced Team - Bot invitation flow', () => {
         cy.apiUpdateConfig({LdapSettings: {Enable: true}});
 
         // # Get the first group constrained team available on the server
-        cy.apiGetAllTeams().then((response) => {
-            response.body.forEach((team) => {
+        cy.apiGetAllTeams().then(({teams}) => {
+            teams.forEach((team) => {
                 if (team.group_constrained && !groupConstrainedTeam) {
                     groupConstrainedTeam = team;
                 }
