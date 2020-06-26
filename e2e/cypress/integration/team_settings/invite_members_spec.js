@@ -28,7 +28,7 @@ function verifyClickInvitePeopleDialog() {
     // * Verify the team settings dialog is open
     cy.get('#invitation_modal_title').should('be.visible').and('contain', 'Invite people');
 
-    // # Click on edit button
+    // # Click on Invite Members selection description
     cy.get('#inviteMembersSectionDescription').click();
 }
 
