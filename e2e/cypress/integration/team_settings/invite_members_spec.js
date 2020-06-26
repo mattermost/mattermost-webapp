@@ -97,7 +97,7 @@ function inviteUser(user) {
 
 function inviteUserToTeamAsMember(testUser, testTeam, user) {
     // # Login and visit
-    cy.apiLogin(testUser.username, testUser.password);
+    cy.apiLogin(testUser);
     cy.visit(`/${testTeam.name}/channels/town-square`);
 
     // # Open and select invite menu item
