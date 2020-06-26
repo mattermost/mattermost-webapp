@@ -5,10 +5,7 @@ import xor from 'lodash.xor';
 import merge from 'merge-deep';
 
 import {getRandomId} from '../utils';
-
-import users from '../fixtures/users.json';
 import partialDefaultConfig from '../fixtures/partial_default_config.json';
-
 import theme from '../fixtures/theme.json';
 
 import {getAdminAccount} from './env';
@@ -24,12 +21,12 @@ import {getAdminAccount} from './env';
 // https://api.mattermost.com/#tag/authentication
 // *****************************************************************************
 
-Cypress.Commands.add('apiLogin', (username = 'user-1', password = null) => {
+Cypress.Commands.add('apiLogin', (user) => {
     cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: '/api/v4/users/login',
         method: 'POST',
-        body: {login_id: username, password: password || users[username].password},
+        body: {login_id: user.username, password: user.password},
     }).then((response) => {
         expect(response.status).to.equal(200);
         return cy.wrap(response);
@@ -39,7 +36,7 @@ Cypress.Commands.add('apiLogin', (username = 'user-1', password = null) => {
 Cypress.Commands.add('apiAdminLogin', () => {
     const admin = getAdminAccount();
 
-    return cy.apiLogin(admin.username, admin.password);
+    return cy.apiLogin(admin);
 });
 
 Cypress.Commands.add('apiLogout', () => {
@@ -1029,25 +1026,6 @@ Cypress.Commands.add('apiGetGroups', (page = 0, perPage = 100) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: `/api/v4/groups?page=${page}&per_page=${perPage}`,
-        method: 'GET',
-        timeout: 60000,
-    }).then((response) => {
-        expect(response.status).to.equal(200);
-        return cy.wrap(response);
-    });
-});
-
-/**
- * Get LDAP groups
- *
- * @param {Integer} page - The desired page of the paginated list
- * @param {Integer} perPage - The number of groups per page
- *
- */
-Cypress.Commands.add('apiGetLDAPGroups', (page = 0, perPage = 100) => {
-    return cy.request({
-        headers: {'X-Requested-With': 'XMLHttpRequest'},
-        url: `/api/v4/ldap/groups?page=${page}&per_page=${perPage}`,
         method: 'GET',
         timeout: 60000,
     }).then((response) => {

@@ -10,26 +10,16 @@
 // Stage: @prod
 // Group: @accessibility
 
-import * as TIMEOUTS from '../../fixtures/timeouts';
-import users from '../../fixtures/users.json';
+import {getRandomId} from '../../utils';
 
-const otherUser = users['user-2'];
-let message;
-
-function postMessages(count = 1) {
-    cy.getCurrentChannelId().then((channelId) => {
-        cy.apiGetUserByEmail(otherUser.email).then((emailResponse) => {
-            cy.apiAddUserToChannel(channelId, emailResponse.body.id);
-            for (let index = 0; index < count; index++) {
-                // # Post Message as Current user
-                message = `hello from sysadmin: ${Date.now()}`;
-                cy.postMessage(message);
-                message = `hello from ${otherUser.username}: ${Date.now()}`;
-                cy.postMessageAs({sender: otherUser, message, channelId});
-            }
-            cy.wait(TIMEOUTS.ONE_SEC); // eslint-disable-line cypress/no-unnecessary-waiting
-        });
-    });
+function postMessages(testChannel, otherUser, count) {
+    for (let index = 0; index < count; index++) {
+        // # Post Message as Current user
+        const message = `hello from current user: ${getRandomId()}`;
+        cy.postMessage(message);
+        const otherMessage = `hello from ${otherUser.username}: ${getRandomId()}`;
+        cy.postMessageAs({sender: otherUser, message: otherMessage, channelId: testChannel.id});
+    }
 }
 
 function verifyNavSupport(element, label, tabOrder) {
@@ -40,12 +30,28 @@ function verifyNavSupport(element, label, tabOrder) {
 }
 
 describe('Verify Quick Navigation support across different regions in the app', () => {
-    before(() => {
-        // Visit the Town Square channel
-        cy.visit('/ad-1/channels/town-square');
+    let otherUser;
+    let testChannel;
 
-        // # Post few messages
-        postMessages(2);
+    before(() => {
+        cy.apiInitSetup().then(({team, channel, user}) => {
+            testChannel = channel;
+
+            cy.apiCreateUser({prefix: 'other'}).then(({user: user1}) => {
+                otherUser = user1;
+
+                cy.apiAddUserToTeam(team.id, otherUser.id).then(() => {
+                    cy.apiAddUserToChannel(testChannel.id, otherUser.id).then(() => {
+                        // # Login as test user, visit town-square and post few messages
+                        cy.apiLogin(user);
+                        cy.visit(`/${team.name}/channels/${testChannel.name}`);
+
+                        // # Post few messages
+                        postMessages(testChannel, otherUser, 5);
+                    });
+                });
+            });
+        });
     });
 
     it('MM-22626 Verify Navigation Support in Post List & Post Input', () => {

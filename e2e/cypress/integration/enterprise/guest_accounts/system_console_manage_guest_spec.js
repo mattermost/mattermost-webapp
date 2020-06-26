@@ -167,7 +167,7 @@ describe('Guest Account - Verify Manage Guest Users', () => {
 
         // # Logout sysadmin and login as Guest User to verify if Revoke Session works
         cy.apiLogout();
-        cy.apiLogin(guestUser.username, guestUser.password);
+        cy.apiLogin(guestUser);
         cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
         cy.get(`#sidebarItem_${testChannel.name}`).click({force: true});
 

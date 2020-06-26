@@ -55,7 +55,7 @@ describe('Messaging', () => {
             cy.get(`#${postId}_message`).find('.attachment__image').should('exist');
 
             // # Log-in back to the first user
-            cy.apiLogin(testUser.username, testUser.password);
+            cy.apiLogin(testUser);
             cy.visit(townSquareLink);
 
             // # Collapse the preview
@@ -74,7 +74,7 @@ describe('Messaging', () => {
             cy.get(`#${postId}_message`).find('.attachment__image').should('exist');
 
             // # Log-in back to the first user
-            cy.apiLogin(testUser.username, testUser.password);
+            cy.apiLogin(testUser);
             cy.visit(townSquareLink);
 
             // # Remove the preview
@@ -87,7 +87,7 @@ describe('Messaging', () => {
             cy.get(`#${postId}_message`).find('.attachment__image').should('not.exist');
 
             // # Log-in to the other user
-            cy.apiLogin(testUser.username, testUser.password);
+            cy.apiAdminLogin();
             cy.visit(townSquareLink);
 
             // * Preview should not exist

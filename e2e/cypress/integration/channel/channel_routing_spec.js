@@ -34,7 +34,7 @@ describe('Channel routing', () => {
             });
 
             // # Login as test user and go to town square
-            cy.apiLogin(testUser.username, testUser.password);
+            cy.apiLogin(testUser);
             cy.visit(`/${team.name}/channels/town-square`);
         });
     });

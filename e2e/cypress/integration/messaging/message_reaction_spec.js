@@ -30,7 +30,7 @@ describe("Click another user's emoji reaction to add it", () => {
 
     it("M15113 - Click another user's emoji reaction to add it", () => {
         // # Login as userOne and visit town-square
-        cy.apiLogin(userOne.username, userOne.password);
+        cy.apiLogin(userOne);
         cy.visit(townsquareLink);
 
         // # Post a message
@@ -40,7 +40,7 @@ describe("Click another user's emoji reaction to add it", () => {
         cy.apiLogout();
 
         // # Login as userTwo and visit town-square
-        cy.apiLogin(userTwo.username, userTwo.password);
+        cy.apiLogin(userTwo);
         cy.visit(townsquareLink);
 
         // # Mouseover the last post
@@ -61,7 +61,7 @@ describe("Click another user's emoji reaction to add it", () => {
         cy.apiLogout();
 
         // # Login as userOne and visit town-square
-        cy.apiLogin(userOne.username, userOne.password);
+        cy.apiLogin(userOne);
         cy.visit(townsquareLink);
 
         cy.getLastPostId().then((postId) => {

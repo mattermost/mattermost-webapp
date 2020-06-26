@@ -29,7 +29,7 @@ describe('Channel', () => {
                 otherChannel = res.body;
             });
 
-            cy.apiLogin(testUser.username, testUser.password);
+            cy.apiLogin(testUser);
             cy.visit(`/${team.name}/channels/town-square`);
         });
     });
@@ -80,7 +80,7 @@ describe('Channel', () => {
             expect(res).to.equal(200);
 
             // # Login as test user and visit the test team
-            cy.apiLogin(testUser.username, testUser.password);
+            cy.apiLogin(testUser);
             cy.visit(`/${testTeam.name}/channels/town-square`);
 
             // # Type "~"

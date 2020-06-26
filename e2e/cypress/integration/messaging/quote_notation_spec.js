@@ -29,7 +29,7 @@ describe('Compact view: Markdown quotation', () => {
     });
 
     it('M18704-Compact view: Markdown quotation', () => {
-        cy.apiLogin(userOne.username, userOne.password);
+        cy.apiLogin(userOne);
         cy.apiCreateDirectChannel([userOne.id, userTwo.id]).then(() => {
             cy.visit(`/${testTeam.name}/messages/@${userTwo.username}`);
 
@@ -58,13 +58,13 @@ describe('Compact view: Markdown quotation', () => {
     function resetRoot(team, user1, user2) {
         // # Write a message from user2 to make sure we have the root on compact mode
         cy.apiLogout();
-        cy.apiLogin(user2.username, user2.password);
+        cy.apiLogin(user2);
         cy.visit(`/${testTeam.name}/messages/@${user1.username}`);
         cy.postMessage('Hello' + Date.now());
 
         // # Get back to user1
         cy.apiLogout();
-        cy.apiLogin(user1.username, user1.password);
+        cy.apiLogin(user1);
         cy.visit(`/${testTeam.name}/messages/@${user2.username}`);
     }
 

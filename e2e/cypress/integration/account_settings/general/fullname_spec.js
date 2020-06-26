@@ -31,7 +31,7 @@ describe('Account Settings > Sidebar > General', () => {
             });
 
             // # Login as test user, visit town-square and go to the Account Settings
-            cy.apiLogin(testUser.username, testUser.password);
+            cy.apiLogin(testUser);
             cy.visit(`/${team.name}/channels/town-square`);
             cy.toAccountSettingsModal();
 
@@ -50,7 +50,7 @@ describe('Account Settings > Sidebar > General', () => {
     });
 
     it('M17459 - Filtering by first name with Korean characters', () => {
-        cy.apiLogin(otherUser.username, otherUser.password);
+        cy.apiLogin(otherUser);
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # type in user`s firstName substring
