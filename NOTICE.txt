@@ -2864,7 +2864,7 @@ This product contains 'semver' by Semver.
 * HOMEPAGE:
   * https://github.com/semver/semver
 
-* LICENSE:
+* LICENSE: MIT
 
 ---
 
