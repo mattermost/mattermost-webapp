@@ -17,18 +17,18 @@ function openClickInviteMenuItem() {
     // # Click on the side bar
     cy.get('#sidebarHeaderDropdownButton').click();
 
-    // * Verify team settings button is visible
+    // * Verify Invite People button is visible
     cy.get('#invitePeople').should('be.visible').and('contain', 'Invite People');
 
-    // # Click on the Team settings button
+    // # Click on the Invite People button
     cy.get('#invitePeople').click();
 }
 
 function verifyClickInvitePeopleDialog() {
-    // * Verify the team settings dialog is open
+    // * Verify the Invite People dialog is open
     cy.get('#invitation_modal_title').should('be.visible').and('contain', 'Invite people');
 
-    // # Click on edit button
+    // # Click on Invite Members selection description
     cy.get('#inviteMembersSectionDescription').click();
 }
 
