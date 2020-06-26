@@ -613,7 +613,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
               defaultInputValue=""
               defaultMenuIsOpen={false}
               defaultValue={null}
-              id="displayLanguage"
+              id="displaySoundNotification"
               isSearchable={false}
               onChange={[Function]}
               options={

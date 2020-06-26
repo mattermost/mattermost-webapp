@@ -73,7 +73,7 @@ export default class DesktopNotificationSettings extends React.PureComponent {
                 notificationSelection = (<div className='pt-2'>
                     <ReactSelect
                         className='notification-sound-dropdown'
-                        id='displayLanguage'
+                        id='displaySoundNotification'
                         options={options}
                         clearable={false}
                         onChange={this.setDesktopNotificationSound}
