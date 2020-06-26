@@ -125,6 +125,9 @@ class SearchableUserList extends React.PureComponent {
         } else {
             startCount = this.props.page * this.props.usersPerPage;
             endCount = Math.min(startCount + this.props.usersPerPage, total);
+            if (this.props.users.length < endCount) {
+                endCount = this.props.users.length;
+            }
         }
 
         if (this.props.renderCount) {
