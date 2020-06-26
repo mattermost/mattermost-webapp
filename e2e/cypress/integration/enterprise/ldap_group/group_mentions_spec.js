@@ -40,7 +40,7 @@ const assertGroupMentionDisabled = (groupName) => {
     cy.visit(`/${testTeam.name}/channels/town-square`);
 
     // # Type suggestion in channel post text box
-    cy.get('#post_textbox').should('be.visible').clear().type(`@${suggestion}`).wait(TIMEOUTS.TINY);
+    cy.get('#post_textbox').should('be.visible').clear().type(`@${suggestion}`).wait(TIMEOUTS.HALF_SEC);
 
     // * Should not open up suggestion list for groups
     cy.get('#suggestionList').should('not.be.visible');
@@ -56,7 +56,7 @@ const assertGroupMentionDisabled = (groupName) => {
     });
 
     // # Login as board user
-    cy.apiLogin(boardUser.username, boardUser.password);
+    cy.apiLogin(boardUser);
 
     // # Visit town-square
     cy.visit(`/${testTeam.name}/channels/town-square`);
@@ -80,7 +80,7 @@ const assertGroupMentionEnabled = (groupName) => {
     cy.visit(`/${testTeam.name}/channels/town-square`);
 
     // # Type suggestion in channel post text box
-    cy.get('#post_textbox').should('be.visible').clear().type(`@${suggestion}`).wait(TIMEOUTS.TINY);
+    cy.get('#post_textbox').should('be.visible').clear().type(`@${suggestion}`).wait(TIMEOUTS.HALF_SEC);
 
     // * Should open up suggestion list for groups
     // * Should match group item and group label
@@ -99,7 +99,7 @@ const assertGroupMentionEnabled = (groupName) => {
     });
 
     // # Login as board user
-    cy.apiLogin(boardUser.username, boardUser.password);
+    cy.apiLogin(boardUser);
 
     // # Visit town-square
     cy.visit(`/${testTeam.name}/channels/town-square`);
@@ -164,7 +164,7 @@ describe('System Console', () => {
 
         // # Login once as board user to ensure the user is created in the system
         boardUser = users['board-1'];
-        cy.apiLogin(boardUser.username, boardUser.password);
+        cy.apiLogin(boardUser);
 
         // # Login as sysadmin and add board-one to test team
         cy.apiAdminLogin();
@@ -243,7 +243,7 @@ describe('System Console', () => {
         saveConfig();
 
         // # Login as a normal user
-        cy.apiLogin(regularUser.username, regularUser.password);
+        cy.apiLogin(regularUser);
 
         // * Assert that the group mention works as expected since the group is enabled and user has permission to mention
         assertGroupMentionEnabled(groupName);
@@ -261,7 +261,7 @@ describe('System Console', () => {
         saveConfig();
 
         // # Login as a regular member
-        cy.apiLogin(regularUser.username, regularUser.password);
+        cy.apiLogin(regularUser);
 
         // * Assert that the group mention does not do anything since the user does not have the permission to mention the group
         assertGroupMentionDisabled(groupName);

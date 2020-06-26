@@ -15,6 +15,7 @@ describe('admin_console/team_channel_settings/channel/ChannelProfile', () => {
         const testChannel: Partial<Channel> = {display_name: 'test'};
         const wrapper = shallow(
             <ChannelProfile
+                isArchived={false}
                 team={testTeam}
                 channel={testChannel}
             />,

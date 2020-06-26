@@ -14,7 +14,7 @@ import 'cypress-plugin-tab';
 import addContext from 'mochawesome/addContext';
 
 import './api';
-import './api_commands';
+import './api_commands'; // soon to deprecate
 import './common_login_commands';
 import './db_commands';
 import './fetch_commands';
@@ -23,7 +23,9 @@ import './okta_commands';
 import './saml_commands';
 import './storybook_commands';
 import './task_commands';
-import './ui_commands';
+import './ui';
+import './ui_commands'; // soon to deprecate
+import './visual_commands';
 
 import {getAdminAccount} from './env';
 
@@ -133,8 +135,13 @@ before(() => {
 
         // # Reset admin preference, online status and locale
         cy.apiSaveTeammateNameDisplayPreference('username');
+        cy.apiSaveLinkPreviewsPreference('true');
+        cy.apiSaveCollapsePreviewsPreference('false');
         cy.apiUpdateUserStatus('online');
-        cy.apiPatchMe({locale: 'en'});
+        cy.apiPatchMe({
+            locale: 'en',
+            timezone: {automaticTimezone: '', manualTimezone: 'UTC', useAutomaticTimezone: 'false'},
+        });
 
         // # Reset roles
         cy.apiGetClientLicense().then((res) => {
@@ -143,18 +150,21 @@ before(() => {
             }
         });
 
-        // # Check if default "ad-1" team is present, and
-        // # create if not found.
-        const defaultTeamName = 'ad-1';
+        // # Check if default team is present; create if not found.
         cy.apiGetTeams().then((teamsRes) => {
+            // Default team is meant for sysadmin's primary team,
+            // selected for compatibility with existing local development.
+            // It is not exported since it should not be used for testing.
+            const DEFAULT_TEAM = {name: 'ad-1', display_name: 'eligendi', type: 'O'};
+
             const teams = teamsRes.body;
-            const defaultTeam = teams && teams.length > 0 && teams.find((team) => team.name === defaultTeamName);
+            const defaultTeam = teams && teams.length > 0 && teams.find((team) => team.name === DEFAULT_TEAM.name);
 
             if (!defaultTeam) {
-                cy.apiCreateTeam(defaultTeamName, 'eligendi', 'O', false);
+                cy.apiCreateTeam(DEFAULT_TEAM.name, DEFAULT_TEAM.display_name, 'O', false);
             } else if (defaultTeam && Cypress.env('resetBeforeTest')) {
                 teams.forEach((team) => {
-                    if (team.name !== defaultTeamName) {
+                    if (team.name !== DEFAULT_TEAM.name) {
                         cy.apiDeleteTeam(team.id);
                     }
                 });

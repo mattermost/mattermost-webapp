@@ -23,7 +23,7 @@ exports[`components/ChannelInfoModal should match snapshot 1`] = `
       "remove": [Function],
     }
   }
-  onExited={[Function]}
+  onExited={[MockFunction]}
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
@@ -47,7 +47,7 @@ exports[`components/ChannelInfoModal should match snapshot 1`] = `
       />
       <strong>
         <ArchiveIcon
-          className="icon icon__archive"
+          className="icon icon__archive svg-text-color"
         />
       </strong>
     </ModalTitle>
@@ -112,7 +112,7 @@ exports[`components/ChannelInfoModal should match snapshot with channel props 1`
       "remove": [Function],
     }
   }
-  onExited={[Function]}
+  onExited={[MockFunction]}
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
@@ -136,7 +136,7 @@ exports[`components/ChannelInfoModal should match snapshot with channel props 1`
       />
       <strong>
         <ArchiveIcon
-          className="icon icon__archive"
+          className="icon icon__archive svg-text-color"
         />
       </strong>
     </ModalTitle>
@@ -177,6 +177,7 @@ exports[`components/ChannelInfoModal should match snapshot with channel props 1`
       </div>
       <div
         className="info__value"
+        onClick={[Function]}
       >
         <Connect(Markdown)
           message="See ~test"
