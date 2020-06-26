@@ -18,7 +18,9 @@ export default class DesktopNotificationSettings extends React.PureComponent {
         const selectedOption = {value: props.selectedSound, label: props.selectedSound};
         this.state = {
             selectedOption,
+            blurDropdown: false,
         };
+        this.dropdownSoundRef = React.createRef();
     }
 
     handleMinUpdateSection = (section) => {
@@ -41,6 +43,15 @@ export default class DesktopNotificationSettings extends React.PureComponent {
         this.props.setParentState('desktopNotificationSound', selectedOption.value);
         this.setState({selectedOption});
         Utils.tryNotificationSound(selectedOption.value);
+    }
+
+    blurDropdown() {
+        if (!this.state.blurDropdown) {
+            this.setState({blurDropdown: true});
+            if (this.dropdownSoundRef.current) {
+                this.dropdownSoundRef.current.blur();
+            }
+        }
     }
 
     buildMaximizedSetting = () => {
@@ -79,6 +90,7 @@ export default class DesktopNotificationSettings extends React.PureComponent {
                         onChange={this.setDesktopNotificationSound}
                         value={this.state.selectedOption}
                         isSearchable={false}
+                        ref={this.dropdownSoundRef}
                     />
                 </div>);
             }
@@ -295,6 +307,10 @@ export default class DesktopNotificationSettings extends React.PureComponent {
                 updateSection={this.handleMinUpdateSection}
             />
         );
+    }
+
+    componentDidUpdate() {
+        this.blurDropdown();
     }
 
     render() {
