@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import React from 'react';
 import {Modal} from 'react-bootstrap';
@@ -245,3 +246,4 @@ export default class ResetPasswordModal extends React.PureComponent<Props, State
         );
     }
 }
+/* eslint-enable react/no-string-refs */

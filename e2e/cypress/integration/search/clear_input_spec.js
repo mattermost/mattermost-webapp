@@ -14,8 +14,10 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Search', () => {
     before(() => {
-        // # Visit town-square channel
-        cy.visit('/ad-1/channels/town-square');
+        // # Login as test user and visit town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
+        });
     });
 
     it('QuickInput clear X', () => {
