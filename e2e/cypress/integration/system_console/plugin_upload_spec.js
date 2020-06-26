@@ -20,6 +20,7 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Draw Plugin - Upload', () => {
     const pluginId = 'com.mattermost.draw-plugin';
+
     before(() => {
         // # Update config
         cy.apiUpdateConfig({
@@ -29,13 +30,15 @@ describe('Draw Plugin - Upload', () => {
             },
         });
 
-        // # Visit town-square channel
-        cy.visit('/ad-1/channels/town-square');
+        // # Initialize setup and visit town-square
+        cy.apiInitSetup().then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
 
-        // #If draw plugin is already enabled , unInstall it
-        cy.apiRemovePluginById(pluginId);
-        cy.visit('/admin_console/plugins/plugin_management');
-        cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'Plugin Management');
+            // #If draw plugin is already enabled , unInstall it
+            cy.apiRemovePluginById(pluginId);
+            cy.visit('/admin_console/plugins/plugin_management');
+            cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'Plugin Management');
+        });
     });
 
     /**

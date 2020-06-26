@@ -30,7 +30,7 @@ describe('Profile popover', () => {
                 cy.apiAddUserToTeam(testTeam.id, otherUser.id).then(() => {
                     cy.apiAddUserToChannel(testChannel.id, otherUser.id).then(() => {
                         // # Login as test user and visit town-square
-                        cy.apiLogin(testUser.username, testUser.password);
+                        cy.apiLogin(testUser);
                         cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 
                         // # Post a message from the other user

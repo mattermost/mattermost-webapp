@@ -11,6 +11,15 @@
 // Group: @system_console
 
 describe('System Console', () => {
+    let townsquareUrl;
+
+    before(() => {
+        // # Initialize setup and visit town-square
+        cy.apiInitSetup().then(({team}) => {
+            townsquareUrl = `/${team.name}/channels/town-square`;
+        });
+    });
+
     it('MM-19309 Allow System Admins to control Teammate Name Display at the system level', () => {
         // # Go to system admin page
         cy.visit('/admin_console/site_config/users_and_teams');
@@ -26,7 +35,7 @@ describe('System Console', () => {
         cy.get('#saveSetting').click();
 
         // # Go to main page
-        cy.visit('/ad-1/channels/town-square');
+        cy.visit(townsquareUrl);
 
         // # Go to Account settings
         cy.toAccountSettingsModal();
@@ -57,7 +66,7 @@ describe('System Console', () => {
         cy.get('#saveSetting').click();
 
         // # Go to main page
-        cy.visit('/ad-1/channels/town-square');
+        cy.visit(townsquareUrl);
 
         // # Go to Account settings
         cy.toAccountSettingsModal();

@@ -26,15 +26,18 @@ const changeRoleTo = (role) => {
 
 describe('System Console', () => {
     const groupDisplayName = 'board';
-    let team;
+    let testTeam;
+    let teamName;
+    let channelName;
 
     before(() => {
         // * Check if server has license for LDAP Groups
         cy.requireLicenseForFeature('LDAPGroups');
 
-        // # Get the test team and link "board" group
-        cy.apiGetTeamByName('ad-1').then((resTeam) => {
-            team = resTeam.body;
+        cy.apiInitSetup().then(({team, channel}) => {
+            testTeam = team;
+            teamName = team.display_name;
+            channelName = channel.display_name;
 
             cy.apiGetLDAPGroups().then((res) => {
                 res.body.groups.forEach((group) => {
@@ -47,19 +50,17 @@ describe('System Console', () => {
     });
 
     beforeEach(() => {
-        cy.apiGetTeamGroups(team.id).then((resGroups) => {
+        cy.apiGetTeamGroups(testTeam.id).then((resGroups) => {
             resGroups.body.groups.forEach((group) => {
                 if (group.display_name === groupDisplayName) {
-                    cy.apiDeleteLinkFromTeamToGroup(group.id, team.id);
+                    cy.apiDeleteLinkFromTeamToGroup(group.id, testTeam.id);
                 }
             });
         });
     });
 
     it('MM-20059 - System Admin can map roles to groups from Team Configuration screen', () => {
-        const teamName = 'eligendi';
-
-        // # Go to system admin page and to team configuration page of channel "eligendi"
+        // # Go to system admin page and to team configuration page
         cy.visit('/admin_console/user_management/teams');
 
         // # Search for the team.
@@ -127,9 +128,7 @@ describe('System Console', () => {
     });
 
     it('MM-21789 - Add a group and change the role and then save and ensure the role was updated on team configuration page', () => {
-        const teamName = 'eligendi';
-
-        // # Go to system admin page and to team configuration page of channel "eligendi"
+        // # Go to system admin page and to team configuration page
         cy.visit('/admin_console/user_management/teams');
 
         // # Search for the team.
@@ -161,8 +160,6 @@ describe('System Console', () => {
     });
 
     it('MM-20646 - System Admin can map roles to groups from Channel Configuration screen', () => {
-        const channelName = 'autem';
-
         // # Go to system admin page and to channel configuration page of channel "autem"
         cy.visit('/admin_console/user_management/channels');
 
@@ -213,8 +210,6 @@ describe('System Console', () => {
     });
 
     it('MM-21789 - Add a group and change the role and then save and ensure the role was updated on channel configuration page', () => {
-        const channelName = 'autem';
-
         // # Go to system admin page and to channel configuration page of channel "autem"
         cy.visit('/admin_console/user_management/channels');
 

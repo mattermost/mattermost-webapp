@@ -14,9 +14,10 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Recent Emoji', () => {
     before(() => {
-        // # Login and go to /
-        cy.apiLogin();
-        cy.visit('/ad-1/channels/town-square');
+        // # Login as test user and visit town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
+        });
     });
 
     it('M14014 Recently used emojis are shown 1st', () => {

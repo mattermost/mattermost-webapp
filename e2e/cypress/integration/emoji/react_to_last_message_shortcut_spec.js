@@ -12,18 +12,15 @@
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 import * as MESSAGES from '../../fixtures/messages';
-import users from '../../fixtures/users.json';
 
 describe('Keyboard shortcut for adding reactions to last message in channel or thread', () => {
-    const newChannelName = `channel-react-to-last-message-${Date.now()}`;
-    let testChannel;
-    let channelId;
-    let isArchived;
+    let testUser;
+    let otherUser;
+    let testTeam;
+    let townsquareChannel;
+    let emptyChannel;
 
-    beforeEach(() => {
-        testChannel = null;
-        isArchived = false;
-
+    before(() => {
         // # Enable Experimental View Archived Channels
         cy.apiUpdateConfig({
             TeamSettings: {
@@ -31,30 +28,32 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
             },
         });
 
-        // # Visit the Town Square channel
-        cy.visit('/ad-1/channels/town-square');
+        cy.apiInitSetup().then(({team, channel, user}) => {
+            testUser = user;
+            testTeam = team;
+            emptyChannel = channel;
 
-        // # Get the current channels Id for later use such as posting message with other user
-        cy.getCurrentChannelId().then((id) => {
-            channelId = id;
-        });
+            cy.apiCreateUser({prefix: 'other'}).then(({user: user1}) => {
+                otherUser = user1;
 
-        // # Create a new channel for later use such as when channel is empty test
-        cy.getCurrentTeamId().then((teamId) => {
-            cy.apiCreateChannel(teamId, newChannelName, newChannelName).then((response) => {
-                testChannel = response.body;
+                cy.apiGetChannelByName(testTeam.name, 'town-square').then((res) => {
+                    townsquareChannel = res.body;
+                });
+
+                cy.apiAddUserToTeam(testTeam.id, otherUser.id).then(() => {
+                    cy.apiAddUserToChannel(emptyChannel.id, otherUser.id);
+                });
             });
         });
+    });
+
+    beforeEach(() => {
+        // # Login as test user and visit town-square
+        cy.apiLogin(testUser);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # Make sure there is at least a message without reaction for each test
         cy.postMessage(MESSAGES.TINY);
-    });
-
-    afterEach(() => {
-        cy.apiAdminLogin();
-        if (testChannel && testChannel.id && !isArchived) {
-            cy.apiDeleteChannel(testChannel.id);
-        }
     });
 
     it('Should open emoji picker for last message by shortcut in the channel view when focus is on the center text box', () => {
@@ -251,9 +250,9 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
 
         // # In meanwhile new messages pops up
         cy.postMessageAs({
-            sender: users['user-2'],
+            sender: otherUser,
             message: MESSAGES.TINY,
-            channelId,
+            channelId: townsquareChannel.id,
         });
         cy.wait(TIMEOUTS.FIVE_SEC);
 
@@ -292,9 +291,9 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
 
         // # Incoming posts from other user
         cy.postMessageAs({
-            sender: users['user-2'],
+            sender: otherUser,
             message: MESSAGES.MEDIUM,
-            channelId,
+            channelId: townsquareChannel.id,
         });
         cy.wait(TIMEOUTS.FIVE_SEC);
 
@@ -346,9 +345,9 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
 
         // # Incoming posts from other user
         cy.postMessageAs({
-            sender: users['user-2'],
+            sender: otherUser,
             message: MESSAGES.MEDIUM,
-            channelId,
+            channelId: townsquareChannel.id,
         });
         cy.wait(TIMEOUTS.FIVE_SEC);
 
@@ -450,7 +449,7 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
         verifyShortcutReactToLastMessageIsBlocked();
 
         // * Open view members modal and verify shortcut is blocked
-        openMainMenuOptions('Manage Members');
+        openMainMenuOptions('View Members');
         verifyShortcutReactToLastMessageIsBlocked();
 
         // * Open about mattermost modal and verify shortcut is blocked
@@ -540,7 +539,7 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
 
     it('Should not open emoji picker by shortcut if last post is a system message', () => {
         // # Visit the new empty channel
-        cy.visit(`/ad-1/channels/${testChannel.name}`);
+        cy.visit(`/${testTeam.name}/channels/${emptyChannel.name}`);
 
         // * Check that there are no posts except you joined message
         cy.findAllByTestId('postView').should('have.length', 1);
@@ -575,8 +574,7 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
         cy.postMessage(MESSAGES.TINY);
 
         // # Archive the channel after posting a message
-        cy.apiDeleteChannel(testChannel.id);
-        isArchived = true;
+        cy.apiDeleteChannel(emptyChannel.id);
 
         // # Emulate react to last message shortcut
         pressShortcutReactToLastMessage();
