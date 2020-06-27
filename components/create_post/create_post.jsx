@@ -21,7 +21,7 @@ import {
     splitMessageBasedOnCaretPosition,
     groupsMentionedInText,
 } from 'utils/post_utils.jsx';
-import {getTable, formatMarkdownTableMessage, formatGithubCodePaste, isGitHubCodeBlock} from 'utils/paste';
+import {clipboardToMarkdown} from 'utils/clipboard_to_markdown';
 import {intlShape} from 'utils/react_intl';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
@@ -319,6 +319,7 @@ class CreatePost extends React.PureComponent {
             currentChannel: props.currentChannel,
             mentions: [],
             memberNotifyCount: 0,
+            isShiftPressed: false,
         };
 
         this.lastBlurAt = 0;
@@ -807,31 +808,18 @@ class CreatePost extends React.PureComponent {
         this.draftsForChannel[channelId] = draft;
     }
 
+    smartPaste = (clipboardData) => {
+        const {message, caretPosition} = clipboardToMarkdown(clipboardData, this.state.message, this.state.caretPosition);
+        this.setMessageAndCaretPostion(message, caretPosition);
+    }
+
     pasteHandler = (e) => {
         if (!e.clipboardData || !e.clipboardData.items || e.target.id !== 'post_textbox') {
             return;
         }
 
-        const {clipboardData} = e;
-        const table = getTable(clipboardData);
-        if (!table) {
-            return;
-        }
-
         e.preventDefault();
-
-        let message = this.state.message;
-        if (isGitHubCodeBlock(table.className)) {
-            const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste(this.state.caretPosition, message, clipboardData);
-            const newCaretPosition = this.state.caretPosition + formattedCodeBlock.length;
-            this.setMessageAndCaretPostion(formattedMessage, newCaretPosition);
-            return;
-        }
-
-        const originalSize = message.length;
-        message = formatMarkdownTableMessage(table, message.trim(), this.state.caretPosition);
-        const newCaretPosition = message.length - (originalSize - this.state.caretPosition);
-        this.setMessageAndCaretPostion(message, newCaretPosition);
+        this.smartPaste(e.clipboardData);
     }
 
     handleFileUploadChange = () => {
@@ -968,6 +956,11 @@ class CreatePost extends React.PureComponent {
     }
 
     documentKeyHandler = (e) => {
+        if (e.shiftKey && (e.ctrlKey || e.metaKey) && Utils.isKeyPressed(e, KeyCodes.V)) {
+            this.setState({isShiftPressed: true});
+            return;
+        }
+
         const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
         const shortcutModalKeyCombo = ctrlOrMetaKeyPressed && Utils.isKeyPressed(e, KeyCodes.FORWARD_SLASH);
         const lastMessageReactionKeyCombo = ctrlOrMetaKeyPressed && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.BACK_SLASH);
