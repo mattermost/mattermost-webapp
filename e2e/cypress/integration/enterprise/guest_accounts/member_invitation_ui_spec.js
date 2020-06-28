@@ -76,7 +76,7 @@ function loginAsNewUser(team) {
     cy.apiCreateUser().then(({user}) => {
         cy.apiAddUserToTeam(team.id, user.id);
 
-        cy.apiLogin(user.username, user.password);
+        cy.apiLogin(user);
         cy.visit(`/${team.name}`);
     });
 }

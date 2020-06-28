@@ -382,7 +382,10 @@ class CreateComment extends React.PureComponent {
             message = formattedMessage;
             this.setCaretPosition(newCaretPosition);
         } else {
-            message = formatMarkdownTableMessage(table, draft.message.trim());
+            const originalSize = draft.message.length;
+            message = formatMarkdownTableMessage(table, draft.message.trim(), this.state.caretPosition);
+            const newCaretPosition = message.length - (originalSize - this.state.caretPosition);
+            this.setCaretPosition(newCaretPosition);
         }
 
         const updatedDraft = {...draft, message};
