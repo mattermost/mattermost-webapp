@@ -72,6 +72,7 @@
     "semver": "7.3.2",
     "superagent": "5.2.2",
     "turndown": "6.0.0",
+    "turndown-plugin-gfm": "1.0.2",
     "typescript": "3.9.5",
     "xregexp": "4.3.0",
     "zen-observable": "0.8.15"

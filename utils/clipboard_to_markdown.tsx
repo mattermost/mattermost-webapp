@@ -1,10 +1,14 @@
 import TurndownService from 'turndown';
+import {gfm} from 'turndown-plugin-gfm';
 import detectLang from 'lang-detector';
 
 import {getTable, formatMarkdownTableMessage, formatGithubCodePaste, isGitHubCodeBlock} from 'utils/paste';
 import {
     splitMessageBasedOnCaretPosition,
 } from 'utils/post_utils.jsx';
+
+const turndownService: any = new TurndownService();
+turndownService.use(gfm)
 
 export function clipboardToMarkdown(clipboard: DataTransfer, message: string, currentCaretPosition: number): {message: string; caretPosition: number} {
     const {firstPiece, lastPiece} = splitMessageBasedOnCaretPosition(currentCaretPosition, message);
@@ -14,9 +18,9 @@ export function clipboardToMarkdown(clipboard: DataTransfer, message: string, cu
     let formattedMessage = '';
 
     const text = clipboard.getData('text/plain');
-    const lang = detectLang(text);
-    if (lang !== "Unknown") {
-        formattedMessage = "```"+lang.toLowerCase()+"\n" + text + "\n```";
+    const lang = detectLang(text, {statistics: true});
+    if (!html && lang.detected != 'Unknown' && (lang.statistics.Unknown/text.length) < (lang.statistics[lang.detected] / (4*text.length))) {
+        formattedMessage = "```"+lang.detected.toLowerCase()+"\n" + text + "\n```";
     } else if (table) {
         if (isGitHubCodeBlock(table.className)) {
             const {newCodeBlock} = formatGithubCodePaste(currentCaretPosition, message, clipboard);
@@ -39,6 +43,5 @@ export function clipboardToMarkdown(clipboard: DataTransfer, message: string, cu
 }
 
 function htmlToMarkdown(html: string): string {
-    const turndownService = new TurndownService();
     return turndownService.turndown(html);
 }
