@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @search
 
 function openSidebarMenu() {
@@ -26,13 +27,21 @@ function verifyLoadingSpinnerIsGone() {
 }
 
 describe('Mobile Search', () => {
-    beforeEach(() => {
-        // # Login and navigate to the app
-        cy.apiLogin('user-1');
-        cy.visit('/ad-1/channels/town-square');
+    let townsquareLink;
 
+    before(() => {
+        // # Login as test user
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            townsquareLink = `/${team.name}/channels/town-square`;
+        });
+    });
+
+    beforeEach(() => {
         // # Resize window to mobile view
         cy.viewport('iphone-6');
+
+        // # Visit town-square
+        cy.visit(townsquareLink);
     });
 
     it('Opening the Recent Mentions eventually loads the results', () => {

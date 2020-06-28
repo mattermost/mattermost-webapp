@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -18,7 +19,7 @@ import SwitchChannelProvider from 'components/suggestion/switch_channel_provider
 import SwitchTeamProvider from 'components/suggestion/switch_team_provider.jsx';
 import NoResultsIndicator from 'components/no_results_indicator/no_results_indicator.tsx';
 
-import {NoResultsVariant} from '../no_results_indicator/types';
+import {NoResultsVariant} from 'components/no_results_indicator/types';
 
 const CHANNEL_MODE = 'channel';
 const TEAM_MODE = 'team';
@@ -318,11 +319,12 @@ export default class QuickSwitchModal extends React.PureComponent {
                             openWhenEmpty={true}
                             onSuggestionsReceived={this.handleSuggestionsReceived}
                             suppressLoadingSpinner={!this.state.hasSuggestions}
+                            forceSuggestionsWhenBlur={true}
                         />
                         {!this.state.hasSuggestions &&
                         <NoResultsIndicator
                             variant={NoResultsVariant.ChannelSearch}
-                            formattedMessageValues={{channelName: `"${this.state.pretext}"`}}
+                            titleValues={{channelName: `"${this.state.pretext}"`}}
                         />
                         }
                     </div>
@@ -331,3 +333,4 @@ export default class QuickSwitchModal extends React.PureComponent {
         );
     }
 }
+/* eslint-enable react/no-string-refs */

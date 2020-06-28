@@ -10,65 +10,72 @@
 // Stage: @prod
 
 describe('Keyboard Shortcuts', () => {
-    let team;
+    let sysadmin;
+    let dmWithSysadmin;
+    let townSquare;
+    let offTopic;
+    let testTeam;
     let publicChannel;
     let privateChannel;
 
     before(() => {
-        // # Login as sysadmin
-        cy.apiLogin('sysadmin');
+        cy.apiGetMe().then(({user: adminUser}) => {
+            sysadmin = adminUser;
 
-        // # Create and login as new user
-        cy.apiCreateAndLoginAsNewUser();
-        cy.apiSaveTeammateNameDisplayPreference('username');
+            // # Create and login as new user
+            // # Create a test team and channel, then visit
+            cy.apiInitSetup({loginAfter: true}).then(({team, channel, user}) => {
+                testTeam = team;
+                publicChannel = channel;
 
-        // # Create a test team and channel, then visit
-        cy.apiCreateTeam('test-team', 'Test Team').then((teamResponse) => {
-            team = teamResponse.body;
-            cy.apiCreateChannel(team.id, 'public-a', 'Public A').then((channelResponse) => {
-                publicChannel = channelResponse.body;
-            });
-
-            cy.apiCreateChannel(team.id, 'private-a', 'Private B', 'P').then((channelResponse) => {
-                privateChannel = channelResponse.body;
+                cy.apiCreateChannel(testTeam.id, 'private-a', 'Private B', 'P').then((channelResponse) => {
+                    privateChannel = channelResponse.body;
+                });
+                cy.apiCreateDirectChannel([sysadmin.id, user.id]).then((response) => {
+                    dmWithSysadmin = response.body;
+                    dmWithSysadmin.name = sysadmin.username;
+                    dmWithSysadmin.display_name = sysadmin.username;
+                });
+                cy.apiGetChannelByName(testTeam.name, 'town-square').then((response) => {
+                    townSquare = response.body;
+                });
+                cy.apiGetChannelByName(testTeam.name, 'off-topic').then((response) => {
+                    offTopic = response.body;
+                });
             });
         });
     });
 
-    const sysadmin = {display_name: 'sysadmin', name: 'sysadmin', type: 'D'};
-    const townSquare = {display_name: 'Town Square', name: 'town-square', type: 'O'};
-    const offTopic = {display_name: 'Off-Topic', name: 'off-topic', type: 'O'};
-
     it('Alt/Option + Up', () => {
-        cy.visit(`/${team.name}/messages/@sysadmin`);
+        cy.visit(`/${testTeam.name}/messages/@${sysadmin.username}`);
 
         // * Verify that the channel is loaded
-        cy.get('#channelHeaderTitle').should('contain', 'sysadmin');
+        cy.get('#channelHeaderTitle').should('contain', sysadmin.username);
 
         // * Switch to channels by Alt+Up/Down keypress and verify
-        verifyChannelSwitch(team.name, privateChannel, sysadmin, '{uparrow}');
-        verifyChannelSwitch(team.name, townSquare, privateChannel, '{uparrow}');
-        verifyChannelSwitch(team.name, publicChannel, townSquare, '{uparrow}');
-        verifyChannelSwitch(team.name, offTopic, publicChannel, '{uparrow}');
+        verifyChannelSwitch(testTeam.name, privateChannel, dmWithSysadmin, '{uparrow}');
+        verifyChannelSwitch(testTeam.name, townSquare, privateChannel, '{uparrow}');
+        verifyChannelSwitch(testTeam.name, offTopic, townSquare, '{uparrow}');
+        verifyChannelSwitch(testTeam.name, publicChannel, offTopic, '{uparrow}');
 
         // * Should switch to bottom of channel list when current channel is at the very top
-        verifyChannelSwitch(team.name, sysadmin, offTopic, '{uparrow}');
+        verifyChannelSwitch(testTeam.name, dmWithSysadmin, publicChannel, '{uparrow}');
     });
 
     it('Alt/Option + Down', () => {
-        cy.visit(`/${team.name}/channels/off-topic`);
+        cy.visit(`/${testTeam.name}/channels/${publicChannel.name}`);
 
         // * Verify that the channel is loaded
-        cy.get('#channelHeaderTitle').should('contain', 'Off-Topic');
+        cy.get('#channelHeaderTitle').should('contain', publicChannel.display_name);
 
         // # Switch to channels by Alt+Up/Down keypress and verify
-        verifyChannelSwitch(team.name, publicChannel, offTopic, '{downarrow}');
-        verifyChannelSwitch(team.name, townSquare, publicChannel, '{downarrow}');
-        verifyChannelSwitch(team.name, privateChannel, townSquare, '{downarrow}');
-        verifyChannelSwitch(team.name, sysadmin, privateChannel, '{downarrow}');
+        verifyChannelSwitch(testTeam.name, offTopic, publicChannel, '{downarrow}');
+        verifyChannelSwitch(testTeam.name, townSquare, offTopic, '{downarrow}');
+        verifyChannelSwitch(testTeam.name, privateChannel, townSquare, '{downarrow}');
+        verifyChannelSwitch(testTeam.name, dmWithSysadmin, privateChannel, '{downarrow}');
 
         // * Should switch to top of channel list when current channel is at the very bottom
-        verifyChannelSwitch(team.name, offTopic, sysadmin, '{downarrow}');
+        verifyChannelSwitch(testTeam.name, publicChannel, dmWithSysadmin, '{downarrow}');
     });
 });
 

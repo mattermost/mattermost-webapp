@@ -18,8 +18,7 @@ describe('Group Synced Team - Bot invitation flow', () => {
         // * Check if server has license for LDAP Groups
         cy.requireLicenseForFeature('LDAPGroups');
 
-        // # Login as sysadmin and enable LDAP
-        cy.apiLogin('sysadmin');
+        // # Enable LDAP
         cy.apiUpdateConfig({LdapSettings: {Enable: true}});
 
         // # Get the first group constrained team available on the server
@@ -37,14 +36,14 @@ describe('Group Synced Team - Bot invitation flow', () => {
         });
     });
 
-    it('MM-21793 Invite and remove a bot within a group synced team', async () => {
+    it('MM-21793 Invite and remove a bot within a group synced team', () => {
         if (!groupConstrainedTeam || !bot) {
             return;
         }
 
         // # Logout sysadmin and login as an LDAP Group synced user
         cy.apiLogout();
-        cy.apiLogin('test.one', 'Password1');
+        cy.apiLogin({username: 'test.one', password: 'Password1'});
 
         // # Visit the group constrained team
         cy.visit(`/${groupConstrainedTeam.name}`);

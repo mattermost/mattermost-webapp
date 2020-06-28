@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -117,19 +118,23 @@ export default class ViewImageModal extends React.PureComponent {
         }
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (nextProps.show === true && this.props.show === false) {
-            this.onModalShown(nextProps);
-        } else if (nextProps.show === false && this.props.show === true) {
+    componentDidUpdate(prevProps) {
+        if (this.props.show === true && prevProps.show === false) {
+            this.onModalShown(this.props);
+        } else if (this.props.show === false && prevProps.show === true) {
             this.onModalHidden();
         }
+    }
 
-        if (this.props.fileInfos.length !== nextProps.fileInfos.length) {
-            this.setState({
-                loaded: Utils.fillArray(false, nextProps.fileInfos.length),
-                progress: Utils.fillArray(0, nextProps.fileInfos.length),
-            });
+    static getDerivedStateFromProps(props, state) {
+        if (props.fileInfos.length !== state.prevFileInfosCount) {
+            return {
+                loaded: Utils.fillArray(false, props.fileInfos.length),
+                progress: Utils.fillArray(0, props.fileInfos.length),
+                prevFileInfosCount: props.fileInfos.length,
+            };
         }
+        return null;
     }
 
     showImage = (id) => {
@@ -278,6 +283,7 @@ export default class ViewImageModal extends React.PureComponent {
                     <preview.component
                         fileInfo={fileInfo}
                         post={this.props.post}
+                        onModalDismissed={this.props.onModalDismissed}
                     />
                 );
                 break;
@@ -370,3 +376,4 @@ export default class ViewImageModal extends React.PureComponent {
         );
     }
 }
+/* eslint-enable react/no-string-refs */

@@ -7,29 +7,36 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod @smoke
-// Group: @onboarding
-
-const appDownloadLink = 'https://about.mattermost.com/downloads/';
+// Stage: @prod
+// Group: @onboarding @smoke
 
 describe('Test Tutorial Navigation', () => {
-    let team;
+    let testUser;
+    let otherUser;
+    let testTeam;
+    let config;
 
     before(() => {
-        cy.apiLogin('sysadmin');
-        cy.apiUpdateConfig({
-            NativeAppSettings: {
-                AppDownloadLink: appDownloadLink,
-            },
-            SupportSettings: {
-                SupportEmail: 'feedback@mattermost.com',
-            },
+        cy.apiGetConfig().then((res) => {
+            config = res.body;
         });
-        cy.apiGetTeamByName('ad-1').then((res) => {
-            team = res.body;
 
-            cy.apiCreateAndLoginAsNewUser({}, [team.id], false);
-            cy.visit(`/${team.name}/channels/town-square`);
+        // # Create new team and new user and visit Town Square channel
+        cy.apiInitSetup().then(({team}) => {
+            testTeam = team;
+
+            cy.apiCreateUser({bypassTutorial: false}).then(({user: user2}) => {
+                otherUser = user2;
+                cy.apiAddUserToTeam(testTeam.id, otherUser.id);
+            });
+
+            cy.apiCreateUser({bypassTutorial: false}).then(({user: user1}) => {
+                testUser = user1;
+                cy.apiAddUserToTeam(testTeam.id, testUser.id);
+
+                cy.apiLogin(testUser);
+                cy.visit(`/${testTeam.name}/channels/town-square`);
+            });
         });
     });
 
@@ -41,7 +48,7 @@ describe('Test Tutorial Navigation', () => {
         cy.get('#tutorialIntroCircle1').click();
 
         // * Verify the second step displays.
-        checkStepTwo();
+        checkStepTwo(config.NativeAppSettings.AppDownloadLink);
 
         // # Click the third dot.
         cy.get('#tutorialIntroCircle2').click();
@@ -59,7 +66,7 @@ describe('Test Tutorial Navigation', () => {
         cy.get('#tutorialNextButton').click();
 
         // * Verify that the second step displays.
-        checkStepTwo();
+        checkStepTwo(config.NativeAppSettings.AppDownloadLink);
 
         // * Test the App Download Image link to ensure it returns a 200 result.
         cy.get('#appDownloadImage').should('have.attr', 'href').then((href) => {
@@ -76,7 +83,7 @@ describe('Test Tutorial Navigation', () => {
         cy.get('#sidebarItem_off-topic').parent().should('have.class', 'active');
 
         // * Verify that the second step of the tutorial still displays:
-        checkStepTwo();
+        checkStepTwo(config.NativeAppSettings.AppDownloadLink);
 
         // # Click the Next button
         cy.get('#tutorialNextButton').click();
@@ -90,13 +97,9 @@ describe('Test Tutorial Navigation', () => {
         // * Verify that the Off-Topic channel displays.
         checkOffTopicChannel();
 
-        // # Log the current user out.
-        cy.apiLogout();
-
-        // # Create another new user with the tutorial bypass flag set to false.
-        cy.apiLogin('sysadmin');
-        cy.apiCreateAndLoginAsNewUser({}, [team.id], false);
-        cy.visit(`/${team.name}/channels/town-square`);
+        // # Log in as another new user with the tutorial bypass flag set to false.
+        cy.apiLogin(otherUser);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // * Verify that the first step of the tutorial displays.
         checkStepOne();
@@ -128,7 +131,7 @@ function checkStepOne() {
 *    This function checks the contents of the second step of the tutorial.
 */
 
-function checkStepTwo() {
+function checkStepTwo(appDownloadLink) {
     cy.get('#tutorialIntroTwo').should('be.visible').
         and('contain', 'Communication happens in public discussion channels, private channels and direct messages.').
         and('contain', 'Everything is archived and searchable from any web-enabled desktop, laptop or phone.').

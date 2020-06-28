@@ -128,7 +128,7 @@ export default class BleveSettings extends AdminSettings {
                     label={
                         <FormattedMessage
                             id='admin.bleve.indexDirTitle'
-                            defaultMessage='IndexDir:'
+                            defaultMessage='Index Directory:'
                         />
                     }
                     helpText={
@@ -178,7 +178,7 @@ export default class BleveSettings extends AdminSettings {
                     helpText={
                         <FormattedMessage
                             id='admin.bleve.purgeIndexesHelpText'
-                            defaultMessage='Purging will entirely remove the indexes on the Bleve server. Search results may be incomplete until a bulk index of the existing database is rebuilt.'
+                            defaultMessage='Purging will entirely remove the content of the Bleve index directory. Search results may be incomplete until a bulk index of the existing database is rebuilt.'
                         />
                     }
                     buttonText={
@@ -214,7 +214,7 @@ export default class BleveSettings extends AdminSettings {
                     helpText={
                         <FormattedMessage
                             id='admin.bleve.enableSearchingDescription'
-                            defaultMessage='Requires a successful connection to the Bleve server. When true, Bleve will be used for all search queries using the latest index. Search results may be incomplete until a bulk index of the existing post database is finished. When false, database search is used.'
+                            defaultMessage='When true, Bleve will be used for all search queries using the latest index. Search results may be incomplete until a bulk index of the existing post database is finished. When false, database search is used.'
                         />
                     }
                     value={this.state.enableSearching}
@@ -233,7 +233,7 @@ export default class BleveSettings extends AdminSettings {
                     helpText={
                         <FormattedMessage
                             id='admin.bleve.enableAutocompleteDescription'
-                            defaultMessage='Requires a successful connection to the Bleve server. When true, Bleve will be used for all autocompletion queries on users and channels using the latest index. Autocompletion results may be incomplete until a bulk index of the existing users and channels database is finished. When false, database autocomplete is used.'
+                            defaultMessage='When true, Bleve will be used for all autocompletion queries on users and channels using the latest index. Autocompletion results may be incomplete until a bulk index of the existing users and channels database is finished. When false, database autocomplete is used.'
                         />
                     }
                     value={this.state.enableAutocomplete}

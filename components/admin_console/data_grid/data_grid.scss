@@ -12,7 +12,6 @@
         border-bottom: solid 1px rgba(0, 0, 0, 0.1);
         display: flex;
         flex-direction: row;
-        font-size: 1.1em;
         font-weight: bold;
         padding: .5em 0;
 
@@ -41,11 +40,11 @@
             }
 
             .DataGrid_searchIcon {
-                top: 6px;
-                left: 9px;
+                top: 5px;
+                left: 10px;
                 position: absolute;
                 pointer-events: none;
-                fill: var(--center-channel-color-56);
+                color: $dark-gray;
             }
         }
     }
@@ -82,8 +81,6 @@
         }
 
         .DataGrid_row {
-            min-height: 50px;
-
             &:nth-child(odd) {
                 background: $bg--gray;
             }
@@ -110,6 +107,22 @@
     }
 
     .DataGrid_footer {
+        display: flex;
+        flex-direction: row;
+        height: auto;
+
         text-align: right;
+        background: $white;
+        border-top: solid 1px rgba(0, 0, 0, 0.1);
+        border-bottom: solid 1px rgba(0, 0, 0, 0.1);
+        padding: 5px 0;
+
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.1em;
+
+        .DataGrid_cell {
+            width: 100%;
+            text-align: right;
+        }
     }
 }

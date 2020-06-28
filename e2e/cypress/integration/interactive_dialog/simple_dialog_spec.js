@@ -7,7 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod @smoke
+// Stage: @prod
 // Group: @interactive_dialog
 
 /**
@@ -26,8 +26,7 @@ describe('Interactive Dialog', () => {
         before(() => {
             cy.requireWebhookServer();
 
-            // # Login as sysadmin and ensure that teammate name display setting is set to default 'username'
-            cy.apiLogin('sysadmin');
+            // # Ensure that teammate name display setting is set to default 'username'
             cy.apiSaveTeammateNameDisplayPreference('username');
 
             // # Create new team and create command on it
@@ -91,7 +90,7 @@ describe('Interactive Dialog', () => {
 
             // # Click "X" button from the modal
             cy.get('.modal-header').should('be.visible').within(($elForm) => {
-                cy.wrap($elForm).find('button.close').should('be.visible').click().wait(TIMEOUTS.SMALL);
+                cy.wrap($elForm).find('button.close').should('be.visible').click().wait(TIMEOUTS.FIVE_SEC);
             });
 
             // * Verify that the interactive dialog modal is closed
@@ -109,7 +108,7 @@ describe('Interactive Dialog', () => {
             cy.get('#interactiveDialogModal').should('be.visible');
 
             // # Click cancel from the modal
-            cy.get('#interactiveDialogCancel').click().wait(TIMEOUTS.SMALL);
+            cy.get('#interactiveDialogCancel').click().wait(TIMEOUTS.FIVE_SEC);
 
             // * Verify that the interactive dialog modal is closed
             cy.get('#interactiveDialogModal').should('not.be.visible');
