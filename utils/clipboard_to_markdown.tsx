@@ -23,14 +23,16 @@ export function clipboardToMarkdown(clipboard: DataTransfer, message: string, cu
         formattedMessage = "```"+lang.detected.toLowerCase()+"\n" + text + "\n```";
     } else if (table) {
         if (isGitHubCodeBlock(table.className)) {
-            const {newCodeBlock} = formatGithubCodePaste(currentCaretPosition, message, clipboard);
-            formattedMessage = newCodeBlock;
+            console.log(formatGithubCodePaste(currentCaretPosition, message, clipboard));
+            const {formattedCodeBlock} = formatGithubCodePaste(currentCaretPosition, message, clipboard);
+            formattedMessage = formattedCodeBlock;
         } else {
             formattedMessage = formatMarkdownTableMessage(table, message.trim(), currentCaretPosition);
         }
     } else if (html) {
         formattedMessage = htmlToMarkdown(html);
-    } else {
+    }
+    if (!formattedMessage) {
         formattedMessage = text;
     }
 
