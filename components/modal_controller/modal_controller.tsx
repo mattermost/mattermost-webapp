@@ -1,29 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
-
-export default class ModalController extends React.PureComponent {
-    static propTypes = {
-
-        /**
-         * Object that has map of modal's id and element
-         */
-        modals: PropTypes.object.isRequired,
-
-        /**
-         * Object with action creators
-         */
-        actions: PropTypes.shape({
-
-            /**
-             * Action creator to close modal
-             */
-            closeModal: PropTypes.func.isRequired,
-        }).isRequired,
-    }
-
+type Props = {
+      modals: any;
+      actions: {
+        closeModal: () => void; 
+      }
+       
+}
+export default class ModalController extends React.PureComponent<Props> {
     render() {
         const {modals, ...props} = this.props;
         const {modalState} = modals;

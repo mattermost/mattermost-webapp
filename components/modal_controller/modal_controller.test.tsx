@@ -8,6 +8,7 @@ import configureStore from 'redux-mock-store';
 import {mount} from 'enzyme';
 
 import ModalController from 'components/modal_controller';
+import { closeModal } from 'actions/views/modals';
 
 class TestModal extends React.PureComponent {
     render() {
