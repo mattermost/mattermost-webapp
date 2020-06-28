@@ -132,8 +132,9 @@ describe('components/emoji_picker/EmojiPicker', () => {
         expect(wrapper.find('.emoji-picker__items').prop('style')).toStrictEqual({overflowY: 'hidden'});
         expect(wrapper.find(EmojiPickerCategorySection).length).toBe(2);
 
-        jest.runAllTimers();
+        jest.runOnlyPendingTimers();
         wrapper.update();
+        jest.runOnlyPendingTimers();
 
         expect(wrapper.state('renderAllCategories')).toEqual(true);
         expect(wrapper.find(EmojiPickerCategorySection).length).toBe(10);

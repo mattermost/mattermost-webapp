@@ -12,6 +12,7 @@ import {splitMessageBasedOnCaretPosition, postMessageOnKeyPress} from 'utils/pos
 
 import {intlShape} from 'utils/react_intl';
 import * as Utils from 'utils/utils.jsx';
+import {getTable, formatMarkdownTableMessage, isGitHubCodeBlock, formatGithubCodePaste} from 'utils/paste';
 
 import DeletePostModal from 'components/delete_post_modal';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
@@ -74,6 +75,14 @@ class EditPostModal extends React.PureComponent {
         }
 
         return null;
+    }
+
+    componentDidMount() {
+        document.addEventListener('paste', this.handlePaste);
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('paste', this.handlePaste);
     }
 
     setShowPreview = (newPreviewValue) => {
@@ -214,6 +223,39 @@ class EditPostModal extends React.PureComponent {
         const message = e.target.value;
         this.setState({
             editText: message,
+        });
+    }
+
+    handlePaste = (e) => {
+        if (!e.clipboardData || !e.clipboardData.items || !this.props.canEditPost || e.target.id !== 'edit_textbox') {
+            return;
+        }
+        const {clipboardData} = e;
+        const table = getTable(clipboardData);
+        if (!table) {
+            return;
+        }
+
+        e.preventDefault();
+
+        const {editText} = this.state;
+        let message = editText;
+        let newCaretPosition = this.state.caretPosition;
+
+        if (isGitHubCodeBlock(table.className)) {
+            const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste(this.state.caretPosition, message, clipboardData);
+            newCaretPosition = this.state.caretPosition + formattedCodeBlock.length;
+            message = formattedMessage;
+        } else {
+            message = formatMarkdownTableMessage(table, editText.trim(), newCaretPosition);
+            newCaretPosition = message.length - (editText.length - newCaretPosition);
+        }
+
+        this.setState({
+            editText: message,
+            caretPosition: newCaretPosition,
+        }, () => {
+            Utils.setCaretPosition(this.editbox.getInputBox(), newCaretPosition);
         });
     }
 

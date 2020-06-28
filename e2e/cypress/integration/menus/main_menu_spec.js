@@ -22,7 +22,7 @@ describe('Main menu', () => {
     });
 
     it('MM-20861 - Click on menu item should toggle the menu', () => {
-        cy.apiLogin(testUser.username, testUser.password);
+        cy.apiLogin(testUser);
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
         cy.get('#lhsHeader').should('be.visible').within(() => {
@@ -34,7 +34,7 @@ describe('Main menu', () => {
     });
 
     it('MM-20861 - Click on menu divider shouldn\'t toggle the menu', () => {
-        cy.apiLogin(testUser.username, testUser.password);
+        cy.apiLogin(testUser);
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
         cy.get('#lhsHeader').should('be.visible').within(() => {
@@ -62,7 +62,7 @@ describe('Main menu', () => {
 
     describe('should not show integrations option', () => {
         it('for team member without permissions', () => {
-            cy.apiLogin(testUser.username, testUser.password);
+            cy.apiLogin(testUser);
             cy.visit(`/${testTeam.name}/channels/town-square`);
 
             cy.get('#lhsHeader').should('be.visible').within(() => {
