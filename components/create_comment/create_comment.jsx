@@ -13,6 +13,7 @@ import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 import * as GlobalActions from 'actions/global_actions.jsx';
 
 import Constants, {Locations} from 'utils/constants';
+import {clipboardToMarkdown} from 'utils/clipboard_to_markdown';
 import {intlShape} from 'utils/react_intl';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
@@ -360,38 +361,21 @@ class CreateComment extends React.PureComponent {
         });
     }
 
+    smartPaste = (clipboardData) => {
+        const {message, caretPosition} = clipboardToMarkdown(clipboardData, this.state.draft.message, this.state.caretPosition);
+        this.setCaretPosition(caretPosition);
+        const updatedDraft = {...this.state.draft, message};
+        this.props.onUpdateCommentDraft(updatedDraft);
+        this.setState({draft: updatedDraft});
+    }
+
     pasteHandler = (e) => {
         if (!e.clipboardData || !e.clipboardData.items || e.target.id !== 'reply_textbox') {
             return;
         }
 
-        const {clipboardData} = e;
-        const table = getTable(clipboardData);
-        if (!table) {
-            return;
-        }
-
         e.preventDefault();
-
-        const {draft} = this.state;
-        let message = draft.message;
-
-        if (isGitHubCodeBlock(table.className)) {
-            const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste(this.state.caretPosition, message, clipboardData);
-            const newCaretPosition = this.state.caretPosition + formattedCodeBlock.length;
-            message = formattedMessage;
-            this.setCaretPosition(newCaretPosition);
-        } else {
-            const originalSize = draft.message.length;
-            message = formatMarkdownTableMessage(table, draft.message.trim(), this.state.caretPosition);
-            const newCaretPosition = message.length - (originalSize - this.state.caretPosition);
-            this.setCaretPosition(newCaretPosition);
-        }
-
-        const updatedDraft = {...draft, message};
-
-        this.props.onUpdateCommentDraft(updatedDraft);
-        this.setState({draft: updatedDraft});
+        this.smartPaste(e.clipboardData);
     }
 
     handleNotifyAllConfirmation = (e) => {

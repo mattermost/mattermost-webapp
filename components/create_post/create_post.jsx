@@ -956,11 +956,6 @@ class CreatePost extends React.PureComponent {
     }
 
     documentKeyHandler = (e) => {
-        if (e.shiftKey && (e.ctrlKey || e.metaKey) && Utils.isKeyPressed(e, KeyCodes.V)) {
-            this.setState({isShiftPressed: true});
-            return;
-        }
-
         const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
         const shortcutModalKeyCombo = ctrlOrMetaKeyPressed && Utils.isKeyPressed(e, KeyCodes.FORWARD_SLASH);
         const lastMessageReactionKeyCombo = ctrlOrMetaKeyPressed && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.BACK_SLASH);
