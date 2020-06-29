@@ -150,18 +150,21 @@ before(() => {
             }
         });
 
-        // # Check if default "ad-1" team is present, and
-        // # create if not found.
-        const defaultTeamName = 'ad-1';
+        // # Check if default team is present; create if not found.
         cy.apiGetTeams().then((teamsRes) => {
+            // Default team is meant for sysadmin's primary team,
+            // selected for compatibility with existing local development.
+            // It is not exported since it should not be used for testing.
+            const DEFAULT_TEAM = {name: 'ad-1', display_name: 'eligendi', type: 'O'};
+
             const teams = teamsRes.body;
-            const defaultTeam = teams && teams.length > 0 && teams.find((team) => team.name === defaultTeamName);
+            const defaultTeam = teams && teams.length > 0 && teams.find((team) => team.name === DEFAULT_TEAM.name);
 
             if (!defaultTeam) {
-                cy.apiCreateTeam(defaultTeamName, 'eligendi', 'O', false);
+                cy.apiCreateTeam(DEFAULT_TEAM.name, DEFAULT_TEAM.display_name, 'O', false);
             } else if (defaultTeam && Cypress.env('resetBeforeTest')) {
                 teams.forEach((team) => {
-                    if (team.name !== defaultTeamName) {
+                    if (team.name !== DEFAULT_TEAM.name) {
                         cy.apiDeleteTeam(team.id);
                     }
                 });

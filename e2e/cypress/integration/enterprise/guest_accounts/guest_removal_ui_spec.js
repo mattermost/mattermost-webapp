@@ -56,7 +56,7 @@ describe('Guest Account - Guest User Removal Experience', () => {
                     team2 = response.body;
                     cy.apiAddUserToTeam(team1.id, guest.id);
                     cy.apiAddUserToTeam(team2.id, guest.id).then(() => {
-                        cy.apiLogin(guest.username, guest.password);
+                        cy.apiLogin(guest);
                         cy.visit(`/${team2.name}/channels/town-square`);
                     });
                 });

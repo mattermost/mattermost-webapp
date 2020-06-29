@@ -7,7 +7,6 @@ const axios = require('axios');
 const webhookUtils = require('./utils/webhook_utils');
 
 const postMessageAs = require('./cypress/plugins/post_message_as');
-const users = require('./cypress/fixtures/users.json');
 
 const port = 3000;
 
@@ -157,6 +156,8 @@ function getWebhookBaseUrl() {
 
 // Convenient way to send response in a channel by using sysadmin account
 function sendSysadminResponse(message, channelId) {
+    const username = process.env.CYPRESS_adminUsername || 'sysadmin';
+    const password = process.env.CYPRESS_adminPassword || 'Sys@dmin-sample1';
     const baseUrl = process.env.CYPRESS_baseUrl || 'http://localhost:8065';
-    postMessageAs({sender: users.sysadmin, message, channelId, baseUrl});
+    postMessageAs({sender: {username, password}, message, channelId, baseUrl});
 }

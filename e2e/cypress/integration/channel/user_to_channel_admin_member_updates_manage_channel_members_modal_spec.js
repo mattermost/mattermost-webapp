@@ -54,7 +54,7 @@ describe('Change Roles', () => {
                 cy.apiAddUserToTeam(team.id, otherUser.id);
             });
 
-            cy.apiLogin(testUser.username, testUser.password);
+            cy.apiLogin(testUser);
             cy.visit(`/${team.name}/channels/town-square`);
 
             // # Get channel membership

@@ -30,7 +30,7 @@ describe('Channel users interactions', () => {
                 });
             });
 
-            cy.apiLogin(receiver.username, receiver.password);
+            cy.apiLogin(receiver);
 
             // # Visit a test channel and post a message
             cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);

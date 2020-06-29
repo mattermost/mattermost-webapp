@@ -39,7 +39,7 @@ describe('Guest Account - Guest User Experience', () => {
 
                 cy.apiAddUserToTeam(team.id, guestUser.id).then(() => {
                     cy.apiAddUserToChannel(channel.id, guestUser.id).then(() => {
-                        cy.apiLogin(guestUser.username, guestUser.password);
+                        cy.apiLogin(guestUser);
                         cy.visit(`/${team.name}/channels/${channel.name}`);
                     });
                 });
