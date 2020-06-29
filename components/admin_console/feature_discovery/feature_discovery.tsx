@@ -124,7 +124,7 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
                         >
                             <FormattedMessage
                                 id='admin.ldap_feature_discovery.call_to_action.primary'
-                                defaultMessage='Start a trial'
+                                defaultMessage='Start trial'
                             />
                         </LoadingWrapper>
                     </button>
@@ -165,7 +165,7 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
                         <label htmlFor='accept-receive-emails'>
                             <FormattedMarkdownMessage
                                 id='admin.license.trial-request.accept-receive-emails'
-                                defaultMessage='By checking this box, I consent to receive emails from Mattermost with product updates, promotions, and company news. I have read the Privacy Policy and understand that I can unsubscribe at any time.'
+                                defaultMessage='By checking this box, I consent to receive emails from Mattermost with product updates, promotions, and company news. I have read the [Privacy Policy](!https://mattermost.com/privacy-policy/) and understand that I can unsubscribe at any time.'
                             />
                         </label>
                     </p>
