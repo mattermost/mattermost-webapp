@@ -53,7 +53,7 @@ function tableHeaders(row: HTMLTableRowElement): string[] {
     return Array.from(row.querySelectorAll('td, th')).map(columnText);
 }
 
-export function formatMarkdownTableMessage(table: HTMLTableElement, message?: string): string {
+export function formatMarkdownTableMessage(table: HTMLTableElement, message?: string, caretPosition?: number): string {
     const rows = Array.from(table.querySelectorAll('tr'));
 
     const headerRow = rows.shift();
@@ -66,8 +66,14 @@ export function formatMarkdownTableMessage(table: HTMLTableElement, message?: st
     }).join('\n');
 
     const formattedTable = `${header}${body}\n`;
-
-    return message ? `${message}\n\n${formattedTable}` : formattedTable;
+    if (!message) {
+        return formattedTable;
+    }
+    if (typeof caretPosition === 'undefined') {
+        return `${message}\n\n${formattedTable}`;
+    }
+    const newMessage = [message.slice(0, caretPosition), formattedTable, message.slice(caretPosition)];
+    return newMessage.join('\n');
 }
 
 export function formatGithubCodePaste(caretPosition: number, message: string, clipboardData: DataTransfer): {formattedMessage: string; formattedCodeBlock: string} {

@@ -52,17 +52,23 @@ function removeAndConfirm(name) {
 
 describe('group configuration', () => {
     let groupID;
+    let testTeam;
+    let testChannel;
 
-    beforeEach(() => {
+    before(() => {
         cy.requireLicenseForFeature('LDAP');
 
+        cy.apiInitSetup({teamPrefix: {name: 'aaa-test', displayName: 'AAA Test'}}).then(({team, channel}) => {
+            testTeam = team;
+            testChannel = channel;
+        });
+    });
+
+    beforeEach(() => {
         // # Link a group
         cy.apiGetLDAPGroups().then((result) => {
             cy.apiLinkGroup(result.body.groups[0].primary_key).then((response) => {
                 groupID = response.body.id;
-
-                // # Login as sysadmin
-                cy.apiAdminLogin();
 
                 // # Go to the group configuration view of the linked group
                 cy.visit(`/admin_console/user_management/groups/${groupID}`);
@@ -130,9 +136,8 @@ describe('group configuration', () => {
             cy.get('#selectItems').type('off-');
 
             // * Check that the off-topic channels are displayed
-            cy.get('.more-modal__details').should('have.length', 2);
-            cy.get('.more-modal__details').first().find('.channel-name').contains('Off-Topic');
-            cy.get('.more-modal__details').last().find('.channel-name').contains('Off-Topic');
+            cy.get('.more-modal__details').should('have.length.greaterThan', 1);
+            cy.findByText('(AAA Test ee8dad)').should('exist');
         });
 
         it('does not add a channel without saving', () => {
@@ -239,75 +244,69 @@ describe('group configuration', () => {
 
     describe('removing a channel', () => {
         it('does not remove a channel without saving', () => {
-            cy.apiGetChannelByName('ad-1', 'aut-8').then((response) => {
-                // # Link a channel
-                const channel = response.body;
-                cy.apiLinkGroupChannel(groupID, channel.id);
+            // # Link a channel
+            cy.apiLinkGroupChannel(groupID, testChannel.id);
 
-                // # Reload the page
-                cy.visit(`/admin_console/user_management/groups/${groupID}`);
+            // # Reload the page
+            cy.visit(`/admin_console/user_management/groups/${groupID}`);
 
-                // * Check that the channel was added to the view
-                teamOrChannelIsPresent(channel.display_name);
+            // * Check that the channel was added to the view
+            teamOrChannelIsPresent(testChannel.display_name);
 
-                // # Click remove
-                cy.get(`button[data-testid='${channel.display_name}_groupsyncable_remove']`).click();
-                cy.get('#confirmModalButton').should('be.visible');
-                cy.get('#confirmModalButton').click();
+            // # Click remove
+            cy.get(`button[data-testid='${testChannel.display_name}_groupsyncable_remove']`).click();
+            cy.get('#confirmModalButton').should('be.visible');
+            cy.get('#confirmModalButton').click();
 
-                // # Click away
-                cy.get('.sidebar-section').first().click();
+            // # Click away
+            cy.get('.sidebar-section').first().click();
 
-                // * Ensure that discard warning appears
-                cy.get('.discard-changes-modal').should('be.visible');
+            // * Ensure that discard warning appears
+            cy.get('.discard-changes-modal').should('be.visible');
 
-                // # Cancel navigating away
-                cy.get('#cancelModalButton').click();
+            // # Cancel navigating away
+            cy.get('#cancelModalButton').click();
 
-                // # Reload the page
-                cy.visit(`/admin_console/user_management/groups/${groupID}`);
+            // # Reload the page
+            cy.visit(`/admin_console/user_management/groups/${groupID}`);
 
-                // * Check that the team is still visible
-                teamOrChannelIsPresent(channel.display_name);
-            });
+            // * Check that the team is still visible
+            teamOrChannelIsPresent(testChannel.display_name);
         });
 
         it('does remove a channel when saved', () => {
-            cy.apiGetChannelByName('ad-1', 'aut-8').then((response) => {
-                // # Link a channel
-                const channel = response.body;
-                cy.apiLinkGroupChannel(groupID, channel.id);
+            // # Link a channel
+            cy.apiLinkGroupChannel(groupID, testChannel.id);
 
-                // # Reload the page
-                cy.visit(`/admin_console/user_management/groups/${groupID}`);
+            // # Reload the page
+            cy.visit(`/admin_console/user_management/groups/${groupID}`);
 
-                // * Check that the channel was added to the view
-                teamOrChannelIsPresent(channel.display_name);
-                cy.get('.group-teams-and-channels-row').should('have.length', 2);
+            // * Check that the channel was added to the view
+            teamOrChannelIsPresent(testChannel.display_name);
+            cy.get('.group-teams-and-channels-row').should('have.length', 2);
 
-                // # Click remove
-                cy.get(`button[data-testid='${channel.display_name}_groupsyncable_remove']`).click();
-                cy.get('#confirmModalButton').should('be.visible');
-                cy.get('#confirmModalButton').click();
+            // # Click remove
+            cy.get(`button[data-testid='${testChannel.display_name}_groupsyncable_remove']`).click();
+            cy.get('#confirmModalButton').should('be.visible');
+            cy.get('#confirmModalButton').click();
 
-                // # Click away
-                cy.get('.sidebar-section').first().click();
+            // # Click away
+            cy.get('.sidebar-section').first().click();
 
-                // * Ensure that discard warning appears
-                cy.get('.discard-changes-modal').should('be.visible');
+            // * Ensure that discard warning appears
+            cy.get('.discard-changes-modal').should('be.visible');
 
-                // # Cancel navigating away
-                cy.get('#cancelModalButton').click();
+            // # Cancel navigating away
+            cy.get('#cancelModalButton').click();
 
-                // # Save the settings
-                savePage();
+            // # Save the settings
+            savePage();
 
-                // # Reload the page
-                cy.visit(`/admin_console/user_management/groups/${groupID}`);
+            // # Reload the page
+            cy.visit(`/admin_console/user_management/groups/${groupID}`);
 
-                // * Check that the channel is no longer present
-                cy.get('.group-teams-and-channels-row').should('have.length', 1);
-            });
+            // * Check that the channel is no longer present
+            cy.get('.group-teams-and-channels-row').should('have.length', 1);
         });
     });
 
@@ -339,105 +338,96 @@ describe('group configuration', () => {
         });
 
         it('updates the role for an existing team', () => {
-            cy.apiGetTeams().then((response) => {
-                // # Link a team
-                const team = response.body[0];
-                cy.apiLinkGroupTeam(groupID, team.id);
+            // # Link a team
+            cy.apiLinkGroupTeam(groupID, testTeam.id);
 
-                // # Reload the page
-                cy.visit(`/admin_console/user_management/groups/${groupID}`);
+            // # Reload the page
+            cy.visit(`/admin_console/user_management/groups/${groupID}`);
 
-                // * Check that the team was added to the view
-                teamOrChannelIsPresent(team.display_name);
+            // * Check that the team was added to the view
+            teamOrChannelIsPresent(testTeam.display_name);
 
-                // # Change the role
-                changeRole(team.display_name);
+            // # Change the role
+            changeRole(testTeam.display_name);
 
-                // # Click away
-                cy.get('.sidebar-section').first().click();
+            // # Click away
+            cy.get('.sidebar-section').first().click();
 
-                // * Ensure that discard warning appears
-                cy.get('.discard-changes-modal').should('be.visible');
+            // * Ensure that discard warning appears
+            cy.get('.discard-changes-modal').should('be.visible');
 
-                // # Cancel navigating away
-                cy.get('#cancelModalButton').click();
+            // # Cancel navigating away
+            cy.get('#cancelModalButton').click();
 
-                // # Save settings
-                savePage();
+            // # Save settings
+            savePage();
 
-                // # Reload the page
-                cy.visit(`/admin_console/user_management/groups/${groupID}`);
+            // # Reload the page
+            cy.visit(`/admin_console/user_management/groups/${groupID}`);
 
-                // * Ensure the new role is visible
-                cy.get(`div[data-testid=${team.display_name}_current_role]`).findByText('Team Admin');
-            });
+            // * Ensure the new role is visible
+            cy.get(`div[data-testid=${testTeam.display_name}_current_role]`).findByText('Team Admin');
         });
 
         it('does not update the role if not saved', () => {
-            cy.apiGetTeams().then((response) => {
-                // # Link a team
-                const team = response.body[0];
-                cy.apiLinkGroupTeam(groupID, team.id);
+            // # Link a team
+            cy.apiLinkGroupTeam(groupID, testTeam.id);
 
-                // # Reload the page
-                cy.visit(`/admin_console/user_management/groups/${groupID}`);
+            // # Reload the page
+            cy.visit(`/admin_console/user_management/groups/${groupID}`);
 
-                // * Check that the team was added to the view
-                teamOrChannelIsPresent(team.display_name);
+            // * Check that the team was added to the view
+            teamOrChannelIsPresent(testTeam.display_name);
 
-                // # Change the role
-                changeRole(team.display_name);
+            // # Change the role
+            changeRole(testTeam.display_name);
 
-                // # Click away
-                cy.get('.sidebar-section').first().click();
+            // # Click away
+            cy.get('.sidebar-section').first().click();
 
-                // * Ensure that discard warning appears
-                cy.get('.discard-changes-modal').should('be.visible');
+            // * Ensure that discard warning appears
+            cy.get('.discard-changes-modal').should('be.visible');
 
-                // # Cancel navigating away
-                cy.get('#cancelModalButton').click();
+            // # Cancel navigating away
+            cy.get('#cancelModalButton').click();
 
-                // # Reload the page
-                cy.visit(`/admin_console/user_management/groups/${groupID}`);
+            // # Reload the page
+            cy.visit(`/admin_console/user_management/groups/${groupID}`);
 
-                // * Ensure the new role is visible
-                cy.get(`div[data-testid=${team.display_name}_current_role]`).findByText('Member');
-            });
+            // * Ensure the new role is visible
+            cy.get(`div[data-testid=${testTeam.display_name}_current_role]`).findByText('Member');
         });
 
         it('does not update the role of a removed team', () => {
-            cy.apiGetTeams().then((response) => {
-                // # Link a team
-                const team = response.body[0];
-                cy.apiLinkGroupTeam(groupID, team.id);
+            // # Link a team
+            cy.apiLinkGroupTeam(groupID, testTeam.id);
 
-                // # Reload the page
-                cy.visit(`/admin_console/user_management/groups/${groupID}`);
+            // # Reload the page
+            cy.visit(`/admin_console/user_management/groups/${groupID}`);
 
-                // * Check that the team was added to the view
-                teamOrChannelIsPresent(team.display_name);
+            // * Check that the team was added to the view
+            teamOrChannelIsPresent(testTeam.display_name);
 
-                // # Change the role
-                changeRole(team.display_name);
+            // # Change the role
+            changeRole(testTeam.display_name);
 
-                removeAndConfirm(team.display_name);
+            removeAndConfirm(testTeam.display_name);
 
-                // # Click away
-                cy.get('.sidebar-section').first().click();
+            // # Click away
+            cy.get('.sidebar-section').first().click();
 
-                // * Ensure that discard warning appears
-                cy.get('.discard-changes-modal').should('be.visible');
+            // * Ensure that discard warning appears
+            cy.get('.discard-changes-modal').should('be.visible');
 
-                // # Cancel navigating away
-                cy.get('#cancelModalButton').click();
+            // # Cancel navigating away
+            cy.get('#cancelModalButton').click();
 
-                // # Save settings
-                savePage();
+            // # Save settings
+            savePage();
 
-                // * Check the groupteam via the API to ensure its role wasn't updated
-                cy.apiGetGroupTeam(groupID, team.id).then(({body}) => {
-                    expect(body.scheme_admin).to.eq(false);
-                });
+            // * Check the groupteam via the API to ensure its role wasn't updated
+            cy.apiGetGroupTeam(groupID, testTeam.id).then(({body}) => {
+                expect(body.scheme_admin).to.eq(false);
             });
         });
     });
@@ -470,107 +460,98 @@ describe('group configuration', () => {
         });
 
         it('updates the role for an existing channel', () => {
-            cy.apiGetChannelByName('ad-1', 'aut-8').then((response) => {
-                // # Link a channel
-                const channel = response.body;
-                cy.apiLinkGroupChannel(groupID, channel.id);
+            // # Link a channel
+            cy.apiLinkGroupChannel(groupID, testChannel.id);
 
-                // # Reload the page
-                cy.visit(`/admin_console/user_management/groups/${groupID}`);
+            // # Reload the page
+            cy.visit(`/admin_console/user_management/groups/${groupID}`);
 
-                // * Check that the channel was added to the view
-                teamOrChannelIsPresent(channel.display_name);
+            // * Check that the channel was added to the view
+            teamOrChannelIsPresent(testChannel.display_name);
 
-                // # Change the role
-                changeRole(channel.display_name);
+            // # Change the role
+            changeRole(testChannel.display_name);
 
-                // # Click away
-                cy.get('.sidebar-section').first().click();
+            // # Click away
+            cy.get('.sidebar-section').first().click();
 
-                // * Ensure that discard warning appears
-                cy.get('.discard-changes-modal').should('be.visible');
+            // * Ensure that discard warning appears
+            cy.get('.discard-changes-modal').should('be.visible');
 
-                // # Cancel navigating away
-                cy.get('#cancelModalButton').click();
+            // # Cancel navigating away
+            cy.get('#cancelModalButton').click();
 
-                // # Save settings
-                savePage();
+            // # Save settings
+            savePage();
 
-                // # Reload the page
-                cy.visit(`/admin_console/user_management/groups/${groupID}`);
+            // # Reload the page
+            cy.visit(`/admin_console/user_management/groups/${groupID}`);
 
-                // * Ensure the new role is visible
-                cy.get(`div[data-testid=${channel.display_name}_current_role]`).findByText('Channel Admin');
-            });
+            // * Ensure the new role is visible
+            cy.get(`div[data-testid=${testChannel.display_name}_current_role]`).findByText('Channel Admin');
         });
 
         it('does not update the role if not saved', () => {
-            cy.apiGetChannelByName('ad-1', 'aut-8').then((response) => {
-                // # Link a channel
-                const channel = response.body;
-                cy.apiLinkGroupChannel(groupID, channel.id);
+            // # Link a channel
+            cy.apiLinkGroupChannel(groupID, testChannel.id);
 
-                // # Reload the page
-                cy.visit(`/admin_console/user_management/groups/${groupID}`);
+            // # Reload the page
+            cy.visit(`/admin_console/user_management/groups/${groupID}`);
 
-                // * Check that the channel was added to the view
-                teamOrChannelIsPresent(channel.display_name);
+            // * Check that the channel was added to the view
+            teamOrChannelIsPresent(testChannel.display_name);
 
-                // # Change the role
-                changeRole(channel.display_name);
+            // # Change the role
+            changeRole(testChannel.display_name);
 
-                // # Click away
-                cy.get('.sidebar-section').first().click();
+            // # Click away
+            cy.get('.sidebar-section').first().click();
 
-                // * Ensure that discard warning appears
-                cy.get('.discard-changes-modal').should('be.visible');
+            // * Ensure that discard warning appears
+            cy.get('.discard-changes-modal').should('be.visible');
 
-                // # Cancel navigating away
-                cy.get('#cancelModalButton').click();
+            // # Cancel navigating away
+            cy.get('#cancelModalButton').click();
 
-                // # Reload the page
-                cy.visit(`/admin_console/user_management/groups/${groupID}`);
+            // # Reload the page
+            cy.visit(`/admin_console/user_management/groups/${groupID}`);
 
-                // * Ensure the new role is visible
-                cy.get(`div[data-testid=${channel.display_name}_current_role]`).findByText('Member');
-            });
+            // * Ensure the new role is visible
+            cy.get(`div[data-testid=${testChannel.display_name}_current_role]`).findByText('Member');
         });
 
         it('does not update the role of a removed channel', () => {
-            cy.apiGetChannelByName('ad-1', 'aut-8').then((response) => {
-                // # Link a channel
-                const channel = response.body;
-                cy.apiLinkGroupChannel(groupID, channel.id);
+            // # Link a channel
+            cy.apiLinkGroupChannel(groupID, testChannel.id);
 
-                // # Reload the page
-                cy.visit(`/admin_console/user_management/groups/${groupID}`);
+            // # Reload the page
+            cy.visit(`/admin_console/user_management/groups/${groupID}`);
 
-                // * Check that the channel was added to the view
-                teamOrChannelIsPresent(channel.display_name);
+            // * Check that the channel was added to the view
+            teamOrChannelIsPresent(testChannel.display_name);
 
-                // # Change the role
-                changeRole(channel.display_name);
+            // # Change the role
+            changeRole(testChannel.display_name);
 
-                cy.get(`button[data-testid='${channel.display_name}_groupsyncable_remove']`).click();
-                cy.get('#confirmModalButton').should('be.visible');
-                cy.get('#confirmModalButton').click();
+            cy.get(`button[data-testid='${testChannel.display_name}_groupsyncable_remove']`).click();
+            cy.get('#confirmModalButton').should('be.visible');
+            cy.get('#confirmModalButton').click();
 
-                // # Click away
-                cy.get('.sidebar-section').first().click();
+            // # Click away
+            cy.get('.sidebar-section').first().click();
 
-                // * Ensure that discard warning appears
-                cy.get('.discard-changes-modal').should('be.visible');
+            // * Ensure that discard warning appears
+            cy.get('.discard-changes-modal').should('be.visible');
 
-                // # Cancel navigating away
-                cy.get('#cancelModalButton').click();
+            // # Cancel navigating away
+            cy.get('#cancelModalButton').click();
 
-                // # Save settings
-                savePage();
+            // # Save settings
+            savePage();
 
-                // * Check the groupteam via the API to ensure its role wasn't updated
-                cy.apiGetGroupChannel(groupID, channel.id).then(({body}) => {
-                    expect(body.scheme_admin).to.eq(false);
-                });
+            // * Check the groupteam via the API to ensure its role wasn't updated
+            cy.apiGetGroupChannel(groupID, testChannel.id).then(({body}) => {
+                expect(body.scheme_admin).to.eq(false);
             });
         });
     });

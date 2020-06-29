@@ -14,14 +14,13 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Messaging', () => {
     before(() => {
-        // # Login and go to /
-        cy.apiLogin('user-1');
-        cy.visit('/ad-1/channels/town-square');
+        // # Login as test user and visit town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
+        });
     });
 
     it('M18698-Posts change order when being sent quickly', () => {
-        cy.visit('/ad-1/channels/town-square');
-
         // # Build a message and send
         let message = '';
         for (let i = 9; i >= 0; i--) {

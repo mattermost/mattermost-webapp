@@ -9,6 +9,22 @@ import {getAdminAccount} from '../env';
 // https://api.mattermost.com/#tag/users
 // *****************************************************************************
 
+/**
+ * Gets current user
+ * This API assume that the user is logged
+ * no params required because we are using /me to refer to current user
+ */
+Cypress.Commands.add('apiGetMe', () => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: 'api/v4/users/me',
+        method: 'GET',
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        cy.wrap({user: response.body});
+    });
+});
+
 Cypress.Commands.add('apiGetUserByEmail', (email) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
@@ -157,4 +173,16 @@ Cypress.Commands.add('apiRevokeUserSessions', (userId) => {
         expect(response.status).to.equal(200);
         cy.wrap(response);
     });
+});
+
+/**
+ * Activate/Deactivate a User directly via API
+ * @param {String} userId - The user ID
+ * @param {Boolean} active - Whether to activate or deactivate - true/false
+ */
+Cypress.Commands.add('apiActivateUser', (userId, active = true) => {
+    const baseUrl = Cypress.config('baseUrl');
+    const admin = getAdminAccount();
+
+    cy.externalRequest({user: admin, method: 'put', baseUrl, path: `users/${userId}/active`, data: {active}});
 });

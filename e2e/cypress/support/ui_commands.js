@@ -12,20 +12,6 @@ Cypress.Commands.add('logout', () => {
     cy.get('#logout').click({force: true});
 });
 
-Cypress.Commands.add('getSubpath', () => {
-    cy.visit('/ad-1/channels/town-square');
-    cy.url().then((url) => {
-        cy.location().its('origin').then((origin) => {
-            if (url === origin) {
-                return '';
-            }
-
-            // Remove trailing slash
-            return url.replace(origin, '').substring(0, url.length - origin.length - 1);
-        });
-    });
-});
-
 Cypress.Commands.add('getCurrentUserId', () => {
     return cy.wrap(new Promise((resolve) => {
         cy.getCookie('MMUSERID').then((cookie) => {
@@ -412,6 +398,10 @@ Cypress.Commands.add('checkRunLDAPSync', () => {
         if (jobs.length === 0 || jobs[0].status === 'error' || ((currentTime - (new Date(jobs[0].last_activity_at))) > 8640000)) {
             // # Go to system admin LDAP page and run the group sync
             cy.visit('/admin_console/authentication/ldap');
+
+            // # Click on AD/LDAP Synchronize Now button and verify if succesful
+            cy.findByText('AD/LDAP Test').click();
+            cy.findByText('AD/LDAP Test Successful').should('be.visible');
 
             // # Click on AD/LDAP Synchronize Now button
             cy.findByText('AD/LDAP Synchronize Now').click().wait(TIMEOUTS.ONE_SEC);

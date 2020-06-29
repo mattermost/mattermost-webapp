@@ -501,7 +501,7 @@ class RhsComment extends React.PureComponent {
                     }
                 >
                     <button
-                        className='post-menu__item post-menu__item--show'
+                        className='card-icon__container icon--show style--none'
                         onClick={(e) => {
                             e.preventDefault();
                             this.props.handleCardClick(this.props.post);

@@ -48,7 +48,7 @@ describe('MM-18045 Verify Guest User Identification in different screens', () =>
             });
 
             // # Login as regular user and go to town square
-            cy.apiLogin(regularUser.username, regularUser.password);
+            cy.apiLogin(regularUser);
             cy.visit(`/${team.name}/channels/${testChannel.name}`);
         });
     });
@@ -194,7 +194,6 @@ describe('MM-18045 Verify Guest User Identification in different screens', () =>
         // # Open a GM with Guest User and Sysadmin
         cy.get('#addDirectChannel').click().wait(TIMEOUTS.HALF_SEC);
         cy.focused().type(guest.username, {force: true}).type('{enter}', {force: true}).wait(TIMEOUTS.HALF_SEC);
-        cy.focused().type('sysadmin', {force: true}).type('{enter}', {force: true}).wait(TIMEOUTS.HALF_SEC);
         cy.get('#saveItems').click().wait(TIMEOUTS.HALF_SEC);
 
         // * Verify Guest Badge in GM header
