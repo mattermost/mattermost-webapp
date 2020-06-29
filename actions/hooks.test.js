@@ -111,7 +111,7 @@ describe('runMessageWillBePostedHooks', () => {
                     resolve({post: {...post, message: post.message + 'async'}});
                 }, 100);
 
-                jest.runAllTimers();
+                jest.runOnlyPendingTimers();
             });
         });
 
@@ -264,7 +264,7 @@ describe('runSlashCommandWillBePostedHooks', () => {
                     resolve({message: message + 'async', args});
                 }, 100);
 
-                jest.runAllTimers();
+                jest.runOnlyPendingTimers();
             });
         });
 
