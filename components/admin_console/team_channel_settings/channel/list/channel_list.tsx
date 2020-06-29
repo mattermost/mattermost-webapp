@@ -9,6 +9,8 @@ import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
 import {ChannelWithTeamData} from 'mattermost-redux/types/channels';
 import {debounce} from 'mattermost-redux/actions/helpers';
 
+import {browserHistory} from 'utils/browser_history';
+
 import {Constants} from 'utils/constants';
 import DataGrid, {Row, Column} from 'components/admin_console/data_grid/data_grid';
 import {PAGE_SIZE} from 'components/admin_console/team_channel_settings/abstract_list.jsx';
@@ -161,48 +163,51 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
 
         return channelsToDisplay.map((channel) => {
             return {
-                id: channel.id,
-                name: (
-                    <span
-                        className='group-name overflow--ellipsis row-content'
-                        data-testid='channel-display-name'
-                    >
-                        {channel.type === Constants.PRIVATE_CHANNEL ? (
-                            <LockIcon className='channel-icon channel-icon__lock channel-icon___lowerOpacity'/>
-                        ) : (
-                            <GlobeIcon className='channel-icon channel-icon__globe channel-icon___lowerOpacity'/>
-                        )}
-                        <span className='TeamList_channelDisplayName'>
-                            {channel.display_name}
+                cells: {
+                    id: channel.id,
+                    name: (
+                        <span
+                            className='group-name overflow--ellipsis row-content'
+                            data-testid='channel-display-name'
+                        >
+                            {channel.type === Constants.PRIVATE_CHANNEL ? (
+                                <LockIcon className='channel-icon channel-icon__lock channel-icon___lowerOpacity'/>
+                            ) : (
+                                <GlobeIcon className='channel-icon channel-icon__globe channel-icon___lowerOpacity'/>
+                            )}
+                            <span className='TeamList_channelDisplayName'>
+                                {channel.display_name}
+                            </span>
                         </span>
-                    </span>
-                ),
-                team: (
-                    <span className='group-description row-content'>
-                        {channel.team_display_name}
-                    </span>
-                ),
-                management: (
-                    <span className='group-description adjusted row-content'>
-                        <FormattedMessage
-                            id={`admin.channel_settings.channel_row.managementMethod.${channel.group_constrained ? 'group' : 'manual'}`}
-                            defaultMessage={channel.group_constrained ? 'Group Sync' : 'Manual Invites'}
-                        />
-                    </span>
-                ),
-                edit: (
-                    <span
-                        className='group-actions TeamList_editRow'
-                        data-testid={`${channel.display_name}edit`}
-                    >
-                        <Link to={`/admin_console/user_management/channels/${channel.id}`} >
+                    ),
+                    team: (
+                        <span className='group-description row-content'>
+                            {channel.team_display_name}
+                        </span>
+                    ),
+                    management: (
+                        <span className='group-description adjusted row-content'>
                             <FormattedMessage
-                                id='admin.channel_settings.channel_row.configure'
-                                defaultMessage='Edit'
+                                id={`admin.channel_settings.channel_row.managementMethod.${channel.group_constrained ? 'group' : 'manual'}`}
+                                defaultMessage={channel.group_constrained ? 'Group Sync' : 'Manual Invites'}
                             />
-                        </Link>
-                    </span>
-                ),
+                        </span>
+                    ),
+                    edit: (
+                        <span
+                            className='group-actions TeamList_editRow'
+                            data-testid={`${channel.display_name}edit`}
+                        >
+                            <Link to={`/admin_console/user_management/channels/${channel.id}`} >
+                                <FormattedMessage
+                                    id='admin.channel_settings.channel_row.configure'
+                                    defaultMessage='Edit'
+                                />
+                            </Link>
+                        </span>
+                    ),
+                },
+                onClick: () => browserHistory.push(`/admin_console/user_management/channels/${channel.id}`),
             };
         });
     }

@@ -1,5 +1,9 @@
 .TeamsList {
     .DataGrid {
+        .DataGrid_row {
+            cursor: pointer;
+        }
+
         .DataGrid_cell {
     
             .TeamList_nameColumn {

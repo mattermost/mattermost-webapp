@@ -7,6 +7,8 @@ import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 import {debounce} from 'mattermost-redux/actions/helpers';
 
+import {browserHistory} from 'utils/browser_history';
+
 import * as Utils from 'utils/utils.jsx';
 
 import DataGrid from 'components/admin_console/data_grid/data_grid';
@@ -162,46 +164,49 @@ export default class TeamList extends React.PureComponent {
 
         return teamsToDisplay.map((team) => {
             return {
-                id: team.id,
-                name: (
-                    <div className='TeamList_nameColumn'>
-                        <div className='TeamList__lowerOpacity'>
-                            <TeamIcon
-                                size='sm'
-                                url={Utils.imageURLForTeam(team)}
-                                name={team.display_name}
-                            />
+                cells: {
+                    id: team.id,
+                    name: (
+                        <div className='TeamList_nameColumn'>
+                            <div className='TeamList__lowerOpacity'>
+                                <TeamIcon
+                                    size='sm'
+                                    url={Utils.imageURLForTeam(team)}
+                                    name={team.display_name}
+                                />
+                            </div>
+                            <div className='TeamList_nameText'>
+                                <b data-testid='team-display-name'>
+                                    {team.display_name}
+                                </b>
+                                {team.description && (
+                                    <div className='TeamList_descriptionText'>
+                                        {team.description}
+                                    </div>
+                                )}
+                            </div>
                         </div>
-                        <div className='TeamList_nameText'>
-                            <b data-testid='team-display-name'>
-                                {team.display_name}
-                            </b>
-                            {team.description && (
-                                <div className='TeamList_descriptionText'>
-                                    {team.description}
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                ),
-                management: (
-                    <span className='TeamList_managementText'>
-                        {this.renderManagementMethodText(team)}
-                    </span>
-                ),
-                edit: (
-                    <span
-                        data-testid={`${team.display_name}edit`}
-                        className='group-actions TeamList_editText'
-                    >
-                        <Link to={`/admin_console/user_management/teams/${team.id}`}>
-                            <FormattedMessage
-                                id='admin.team_settings.team_row.configure'
-                                defaultMessage='Edit'
-                            />
-                        </Link>
-                    </span>
-                ),
+                    ),
+                    management: (
+                        <span className='TeamList_managementText'>
+                            {this.renderManagementMethodText(team)}
+                        </span>
+                    ),
+                    edit: (
+                        <span
+                            data-testid={`${team.display_name}edit`}
+                            className='group-actions TeamList_editText'
+                        >
+                            <Link to={`/admin_console/user_management/teams/${team.id}`}>
+                                <FormattedMessage
+                                    id='admin.team_settings.team_row.configure'
+                                    defaultMessage='Edit'
+                                />
+                            </Link>
+                        </span>
+                    ),
+                },
+                onClick: () => browserHistory.push(`/admin_console/user_management/teams/${team.id}`),
             };
         });
     }
