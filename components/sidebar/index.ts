@@ -7,6 +7,7 @@ import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
 import {fetchMyCategories} from 'mattermost-redux/actions/channel_categories';
 import Permissions from 'mattermost-redux/constants/permissions';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
@@ -20,6 +21,8 @@ import Sidebar from './sidebar';
 
 function mapStateToProps(state: GlobalState) {
     const currentTeam = getCurrentTeam(state);
+    const config = getConfig(state);
+    const isDataPrefechEnabled = config.ExperimentalDataPrefetch === 'true';
 
     let canCreatePublicChannel = false;
     let canCreatePrivateChannel = false;
@@ -37,6 +40,7 @@ function mapStateToProps(state: GlobalState) {
         canCreatePublicChannel,
         canJoinPublicChannel,
         isOpen: getIsLhsOpen(state),
+        isDataPrefechEnabled,
     };
 }
 

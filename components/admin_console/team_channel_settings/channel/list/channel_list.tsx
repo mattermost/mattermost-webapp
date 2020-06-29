@@ -19,8 +19,8 @@ import ChannelRow from './channel_row';
 
 interface ChannelListProps {
     actions: {
-        searchAllChannels: (term: string, notAssociatedToGroup?: string, excludeDefaultChannels?: boolean, page?: number, perPage?: number) => ActionFunc | ActionResult;
-        getData: (page: number, perPage: number, notAssociatedToGroup? : string, excludeDefaultChannels?: boolean) => ActionFunc | ActionResult | Promise<ChannelWithTeamData[]>;
+        searchAllChannels: (term: string, notAssociatedToGroup?: string, excludeDefaultChannels?: boolean, page?: number, perPage?: number, includeDeleted?: boolean) => ActionFunc | ActionResult;
+        getData: (page: number, perPage: number, notAssociatedToGroup? : string, excludeDefaultChannels?: boolean, includeDeleted?: boolean) => ActionFunc | ActionResult | Promise<ChannelWithTeamData[]>;
     };
     data?: {id: string; display_name: string}[];
     total?: number;
@@ -91,7 +91,7 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
         const {searchString} = this.state;
         if (key === Constants.KeyCodes.ENTER[0]) {
             if (searchString.length > 1) {
-                const response = await this.props.actions.searchAllChannels(searchString, '', false, 0, PAGE_SIZE);
+                const response = await this.props.actions.searchAllChannels(searchString, '', false, 0, PAGE_SIZE, true);
                 if ('data' in response) {
                     this.setState({searchMode: true, channels: response.data.channels, searchTotalCount: response.data.total_count, pageResetKey: Date.now()});
                 }
@@ -99,7 +99,7 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
         }
     };
     private getDataBySearch = async (page: number, perPage: number): Promise<ChannelWithTeamData[]> => {
-        const response = await this.props.actions.searchAllChannels(this.state.searchString, '', false, page, perPage);
+        const response = await this.props.actions.searchAllChannels(this.state.searchString, '', false, page, perPage, true);
         const channels = new Array(page * perPage); // Pad the array with empty entries because AbstractList expects to slice the results based on the pagination offset.
         if ('data' in response) {
             return channels.concat(response.data.channels);

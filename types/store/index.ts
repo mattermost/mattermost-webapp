@@ -50,6 +50,9 @@ export type GlobalState = BaseGlobalState & {
             lastGetPosts: {
                 [channelId: string]: number;
             };
+            channelPrefetchStatus: {
+                [channelId: string]: string;
+            };
         };
 
         rhs: RhsViewState;

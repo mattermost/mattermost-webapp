@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import $ from 'jquery';
 import PropTypes from 'prop-types';
@@ -381,7 +382,10 @@ class CreateComment extends React.PureComponent {
             message = formattedMessage;
             this.setCaretPosition(newCaretPosition);
         } else {
-            message = formatMarkdownTableMessage(table, draft.message.trim());
+            const originalSize = draft.message.length;
+            message = formatMarkdownTableMessage(table, draft.message.trim(), this.state.caretPosition);
+            const newCaretPosition = message.length - (originalSize - this.state.caretPosition);
+            this.setCaretPosition(newCaretPosition);
         }
 
         const updatedDraft = {...draft, message};
@@ -1275,3 +1279,4 @@ class CreateComment extends React.PureComponent {
 }
 
 export default injectIntl(CreateComment);
+/* eslint-enable react/no-string-refs */

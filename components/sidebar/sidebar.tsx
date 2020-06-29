@@ -9,6 +9,7 @@ import {ChannelType} from 'mattermost-redux/types/channels';
 import {trackEvent} from 'actions/diagnostics_actions';
 import EditCategoryModal from 'components/edit_category_modal';
 import MoreDirectChannels from 'components/more_direct_channels';
+import DataPrefetch from 'components/data_prefetch';
 import MoreChannels from 'components/more_channels';
 import NewChannelFlow from 'components/new_channel_flow';
 import Pluggable from 'plugins/pluggable';
@@ -27,6 +28,7 @@ type Props = {
     canCreatePrivateChannel: boolean;
     canJoinPublicChannel: boolean;
     isOpen: boolean;
+    isDataPrefechEnabled: boolean;
     actions: {
         fetchMyCategories: (teamId: string) => {data: boolean};
         createCategory: (teamId: string, categoryName: string) => {data: string};
@@ -196,6 +198,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                     onDragStart={this.onDragStart}
                     onDragEnd={this.onDragEnd}
                 />
+                {this.props.isDataPrefechEnabled && <DataPrefetch/>}
                 {this.renderModals()}
             </div>
         );

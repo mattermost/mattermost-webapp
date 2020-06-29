@@ -47,7 +47,7 @@ function verifyForgotPasswordEmail(response, toUser, config, messageSeparator) {
     // * Should return success status
     expect(status).to.equal(200);
 
-    // * Verify that email is addressed to user-1
+    // * Verify that email is addressed to toUser
     expect(data.to.length).to.equal(1);
     expect(data.to[0]).to.contain(toUser.email);
 

@@ -3,6 +3,7 @@
 
 import $ from 'jquery';
 
+import {rudderAnalytics} from 'mattermost-redux/client';
 import PropTypes from 'prop-types';
 import React from 'react';
 import FastClick from 'fastclick';
@@ -157,105 +158,41 @@ export default class Root extends React.PureComponent {
             enableDevModeFeatures();
         }
 
-        const segmentKey = Constants.DIAGNOSTICS_SEGMENT_KEY;
         const diagnosticId = this.props.diagnosticId;
-
-        /*eslint-disable */
-        if (segmentKey != null && segmentKey !== '' && !segmentKey.startsWith('placeholder') && this.props.diagnosticsEnabled) {
-            !function(){var analytics=global.window.analytics=global.window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","group","track","ready","alias","page","once","off","on"];analytics.factory=function(t){return function(...args){var e=Array.prototype.slice.call(args);e.unshift(t);analytics.push(e);return analytics}};for(var t=0;t<analytics.methods.length;t++){var e=analytics.methods[t];analytics[e]=analytics.factory(e)}analytics.load=function(t){var e=document.createElement("script");e.type="text/javascript";e.async=!0;e.src=("https:"===document.location.protocol ? "https://":"http://")+"cdn.segment.com/analytics.js/v1/"+t+"/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(e,n)};analytics.SNIPPET_VERSION="3.0.1";
-                analytics.load(segmentKey);
-
-                analytics.identify(diagnosticId, {}, {
-                    context: {
-                        ip: '0.0.0.0',
-                    },
-                    page: {
-                        path: '',
-                        referrer: '',
-                        search: '',
-                        title: '',
-                        url: '',
-                    },
-                    anonymousId: '00000000000000000000000000',
-                });
-
-                analytics.page('ApplicationLoaded', {
-                        path: '',
-                        referrer: '',
-                        search: '',
-                        title: '',
-                        url: '',
-                    },
-                    {
-                        context: {
-                            ip: '0.0.0.0'
-                        },
-                        anonymousId: '00000000000000000000000000'
-                    });
-            }}();
-        }
-        /*eslint-enable */
 
         const rudderKey = Constants.DIAGNOSTICS_RUDDER_KEY;
         const rudderUrl = Constants.DIAGNOSTICS_RUDDER_DATAPLANE_URL;
 
         if (rudderKey != null && rudderKey !== '' && !rudderKey.startsWith('placeholder') && rudderUrl != null && rudderUrl !== '' && !rudderUrl.startsWith('placeholder') && this.props.diagnosticsEnabled) {
-            if (!global.window.rudderanalytics) {
-                global.window.rudderanalytics = [];
-            }
-            const rudderAnalytics = global.window.rudderanalytics;
+            rudderAnalytics.load(rudderKey, rudderUrl);
 
-            if (rudderAnalytics.invoked) {
-                console.error('Rudder snippet included twice.'); //eslint-disable-line no-console
-            } else {
-                rudderAnalytics.invoked = true;
-
-                for (let methods = ['load', 'page', 'track', 'alias', 'group', 'identify', 'ready', 'reset'], i = 0; i < methods.length; i++) {
-                    const method = methods[i];
-                    rudderAnalytics[method] = ((d) => {
-                        return (...args) => {
-                            rudderAnalytics.push([d, ...args]);
-                        };
-                    })(method);
-                }
-
-                const e = document.createElement('script');
-                e.type = 'text/javascript';
-                e.async = true;
-                e.src = (document.location.protocol === 'https:' ? 'https://' : 'http://') + 'cdn.rudderlabs.com/rudder-analytics.min.js';
-                const n = document.getElementsByTagName('script')[0];
-                n.parentNode.insertBefore(e, n);
-
-                rudderAnalytics.load(rudderKey, rudderUrl);
-
-                rudderAnalytics.identify(diagnosticId, {}, {
-                    context: {
-                        ip: '0.0.0.0',
-                    },
-                    page: {
-                        path: '',
-                        referrer: '',
-                        search: '',
-                        title: '',
-                        url: '',
-                    },
-                    anonymousId: '00000000000000000000000000',
-                });
-
-                rudderAnalytics.page('ApplicationLoaded', {
+            rudderAnalytics.identify(diagnosticId, {}, {
+                context: {
+                    ip: '0.0.0.0',
+                },
+                page: {
                     path: '',
                     referrer: '',
                     search: '',
                     title: '',
                     url: '',
                 },
-                {
-                    context: {
-                        ip: '0.0.0.0',
-                    },
-                    anonymousId: '00000000000000000000000000',
-                });
-            }
+                anonymousId: '00000000000000000000000000',
+            });
+
+            rudderAnalytics.page('ApplicationLoaded', {
+                path: '',
+                referrer: '',
+                search: '',
+                title: '',
+                url: '',
+            },
+            {
+                context: {
+                    ip: '0.0.0.0',
+                },
+                anonymousId: '00000000000000000000000000',
+            });
         }
 
         if (this.props.location.pathname === '/' && this.props.noAccounts) {

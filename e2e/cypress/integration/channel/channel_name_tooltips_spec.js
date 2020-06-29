@@ -18,7 +18,7 @@ function verifyChannel(res, verifyExistence = true) {
     const channel = res.body;
 
     // # Wait for Channel to be c
-    cy.wait(TIMEOUTS.TINY);
+    cy.wait(TIMEOUTS.HALF_SEC);
 
     // # Hover on the channel name
     cy.get(`#sidebarItem_${channel.name}`).should('be.visible').trigger('mouseover');
@@ -52,7 +52,7 @@ describe('channel name tooltips', () => {
                 cy.apiAddUserToTeam(testTeam.id, loggedUser.id);
             });
 
-            cy.apiLogin(loggedUser.username, loggedUser.password);
+            cy.apiLogin(loggedUser);
             cy.visit(`/${testTeam.name}/channels/town-square`);
         });
     });
