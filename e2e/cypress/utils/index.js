@@ -58,26 +58,3 @@ export function getMessageMenusPayload({dataSource, options, prefix = Date.now()
 }
 
 export const reUrl = /(https?:\/\/[^ ]*)/;
-
-export const percentEncoding = {
-    ':': '%3A',
-    '/': '%2F',
-    '?': '%3F',
-    '#': '%23',
-    '[': '%5B',
-    ']': '%5D',
-    '@': '%40',
-    '!': '%21',
-    '$': '%24',
-    '&': '%26',
-    "'": '%27',
-    '(': '%28',
-    ')': '%29',
-    '*': '%2A',
-    '+': '%2B',
-    ',': '%2C',
-    ';': '%3B',
-    '=': '%3D',
-    '%': '%25',
-    ' ': '+',
-};

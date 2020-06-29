@@ -27,8 +27,6 @@ import './ui';
 import './ui_commands'; // soon to deprecate
 import './visual_commands';
 
-import {percentEncoding} from '../utils';
-
 import {getAdminAccount} from './env';
 
 Cypress.on('test:after:run', (test, runnable) => {
@@ -82,7 +80,7 @@ Cypress.on('test:after:run', (test, runnable) => {
         // and consequently Cypress appends some text to the file name
         const hookName = test.hookName ? ' -- ' + test.hookName + ' hook' : '';
 
-        const filename = `${parentNames}${testTitle}${hookName} (failed).png`.split('').map((w) => percentEncoding[w] || w).join('');
+        const filename = encodeURIComponent(`${parentNames}${testTitle}${hookName} (failed).png`);
 
         // Add context to the mochawesome report which includes the screenshot
         addContext({test}, {

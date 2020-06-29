@@ -9,7 +9,7 @@
 
 // Group: @incoming_webhook
 
-import {getRandomId, percentEncoding} from '../../../utils';
+import {getRandomId} from '../../../utils';
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
@@ -67,7 +67,7 @@ describe('Incoming webhook', () => {
             cy.get('.post__header').find('.user-popover').should('have.text', payload1.username);
 
             // * Verify that the user icon is overridden per webhook payload
-            const encodedIconUrl = payload1.icon_url.split('').map((c) => percentEncoding[c] || c).join('');
+            const encodedIconUrl = encodeURIComponent(payload1.icon_url);
             cy.get('.profile-icon > img').should('have.attr', 'src', `${Cypress.config('baseUrl')}/api/v4/image?url=${encodedIconUrl}`);
         });
 
