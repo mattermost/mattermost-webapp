@@ -26,9 +26,10 @@ exports[`components/feature_discovery FeatureDiscovery should match snapshot 1`]
         values={Object {}}
       />
     </div>
-    <a
-      className="btn"
+    <button
+      className="btn btn-primary"
       data-testid="featureDiscovery_primaryCallToAction"
+      disabled={true}
       onClick={[Function]}
     >
       <LoadingWrapper
@@ -36,12 +37,12 @@ exports[`components/feature_discovery FeatureDiscovery should match snapshot 1`]
         text="Getting trial"
       >
         <FormattedMessage
-          defaultMessage=""
+          defaultMessage="Start a trial"
           id="admin.ldap_feature_discovery.call_to_action.primary"
           values={Object {}}
         />
       </LoadingWrapper>
-    </a>
+    </button>
     <a
       className="btn btn-secondary"
       data-testid="featureDiscovery_secondaryCallToAction"
@@ -50,11 +51,47 @@ exports[`components/feature_discovery FeatureDiscovery should match snapshot 1`]
       target="_blank"
     >
       <FormattedMessage
-        defaultMessage=""
+        defaultMessage="Learn more"
         id="admin.ldap_feature_discovery.call_to_action.secondary"
         values={Object {}}
       />
     </a>
+    <p
+      className="trial-checkbox"
+    >
+      <input
+        checked={false}
+        id="accept-terms"
+        onChange={[Function]}
+        type="checkbox"
+      />
+      <label
+        htmlFor="accept-terms"
+      >
+        <injectIntl(FormattedMarkdownMessage)
+          defaultMessage="I have read and agree to the [Mattermost Software Evaluation Agreement](!https://mattermost.com/software-evaluation-agreement/) and [Privacy Policy](!https://mattermost.com/privacy-policy/)."
+          id="admin.license.trial-request.accept-terms"
+        />
+      </label>
+    </p>
+    <p
+      className="trial-checkbox"
+    >
+      <input
+        checked={false}
+        id="accept-receive-emails"
+        onChange={[Function]}
+        type="checkbox"
+      />
+      <label
+        htmlFor="accept-receive-emails"
+      >
+        <injectIntl(FormattedMarkdownMessage)
+          defaultMessage="By checking this box, I consent to receive emails from Mattermost with product updates, promotions, and company news. I have read the Privacy Policy and understand that I can unsubscribe at any time."
+          id="admin.license.trial-request.accept-receive-emails"
+        />
+      </label>
+    </p>
   </div>
   <div
     className="FeatureDiscovery_imageWrapper"
