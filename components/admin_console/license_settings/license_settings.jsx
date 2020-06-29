@@ -101,6 +101,8 @@ export default class LicenseSettings extends React.PureComponent {
         const {error} = await this.props.actions.requestTrialLicense(requestedUsers, this.state.termsAccepted, this.state.receiveEmailsAccepted, 'license');
         if (error) {
             this.setState({gettingTrialError: error});
+        } else {
+            this.setState({termsAccepted: false, receiveEmailsAccepted: false});
         }
         this.setState({gettingTrial: false});
         this.props.actions.getLicenseConfig();
