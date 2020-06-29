@@ -22,9 +22,10 @@ describe('Channel sidebar', () => {
     });
 
     before(() => {
-        cy.apiLogin('user-1');
-
-        cy.visit('/');
+        // # Login as test user and visit town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
+        });
     });
 
     it('should create a new channel when using the new channel dropdown', () => {

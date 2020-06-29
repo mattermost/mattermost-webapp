@@ -390,7 +390,7 @@
         "AdvertiseAddress": "",
         "UseIpAddress": true,
         "UseExperimentalGossip": false,
-        "ReadOnlyConfig": true,
+        "ReadOnlyConfig": false,
         "GossipPort": 8074,
         "StreamingPort": 8075,
         "MaxIdleConns": 100,

@@ -240,6 +240,7 @@ export const ModalIdentifiers = {
     ADD_GROUPS_TO_CHANNEL: 'add_groups_to_channel',
     MANAGE_TEAM_GROUPS: 'manage_team_groups',
     MANAGE_CHANNEL_GROUPS: 'manage_channel_groups',
+    GROUP_MEMBERS: 'group_members',
     MOBILE_SUBMENU: 'mobile_submenu',
     PLUGIN_MARKETPLACE: 'plugin_marketplace',
 };
@@ -847,6 +848,7 @@ export const Constants = {
     MOBILE_VIDEO_WIDTH: 480,
     MOBILE_VIDEO_HEIGHT: 360,
     MOBILE_SCREEN_WIDTH: 768,
+    POST_MODAL_PADDING: 170,
     SCROLL_DELAY: 2000,
     SCROLL_PAGE_FRACTION: 3,
     DEFAULT_CHANNEL: 'town-square',
@@ -1425,7 +1427,6 @@ export const Constants = {
     AUTOCOMPLETE_SPLIT_CHARACTERS: ['.', '-', '_'],
     ANIMATION_TIMEOUT: 1000,
     SEARCH_TIMEOUT_MILLISECONDS: 100,
-    DIAGNOSTICS_SEGMENT_KEY: 'placeholder_segment_key',
     DIAGNOSTICS_RUDDER_KEY: 'placeholder_rudder_key',
     DIAGNOSTICS_RUDDER_DATAPLANE_URL: 'placeholder_rudder_dataplane_url',
     TEAMMATE_NAME_DISPLAY: {

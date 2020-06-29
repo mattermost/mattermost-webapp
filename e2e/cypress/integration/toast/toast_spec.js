@@ -7,40 +7,39 @@
 // Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @toast
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
-import users from '../../fixtures/users.json';
-
-const otherUser = users['user-2'];
-let testTeam;
-let townsquareChannelId;
 
 describe('toasts', () => {
+    let otherUser;
+    let testTeam;
+    let townsquareChannelId;
+
     before(() => {
-        // # Build data to test and login as user-1
-        cy.apiLogin('user-1');
-        cy.apiSaveMessageDisplayPreference();
-        cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
-            testTeam = response.body;
+        // # Build data to test and login as testUser
+        cy.apiInitSetup().then(({team, user}) => {
+            testTeam = team;
 
-            cy.apiGetUserByEmail(otherUser.email).then((eRes) => {
-                const user = eRes.body;
-                cy.apiAddUserToTeam(testTeam.id, user.id);
+            cy.apiGetChannelByName(testTeam.name, 'town-square').then((res) => {
+                townsquareChannelId = res.body.id;
             });
 
+            cy.apiCreateUser().then(({user: user1}) => {
+                otherUser = user1;
+
+                cy.apiAddUserToTeam(testTeam.id, otherUser.id);
+            });
+
+            cy.apiLogin(user);
             cy.visit(`/${testTeam.name}/channels/town-square`);
-            cy.getCurrentChannelId().then((id) => {
-                townsquareChannelId = id;
-            });
         });
     });
 
     beforeEach(() => {
         // # Click on town-square then off-topic channels in LHS
         cy.get('#sidebarItem_town-square').should('be.visible').click();
-        cy.get('#sidebarItem_off-topic').should('be.visible').click().wait(TIMEOUTS.TINY);
+        cy.get('#sidebarItem_off-topic').should('be.visible').click().wait(TIMEOUTS.HALF_SEC);
 
         // * Verify that off-topic channel is loaded
         cy.get('#channelIntro').should('be.visible').contains('Beginning of Off-Topic');
@@ -71,7 +70,7 @@ describe('toasts', () => {
 
     it('should show new message indicator when posts arrive and user is not at bottom', () => {
         visitTownSquareAndWaitForPageToLoad();
-        scrollUpAndPostAMessage().then(() => {
+        scrollUpAndPostAMessage(otherUser, townsquareChannelId).then(() => {
             // * find the toast
             cy.get('div.toast').should('be.visible');
 
@@ -82,7 +81,7 @@ describe('toasts', () => {
 
     it('New message toast should not have action button when at bottom and hide toast in a sec', () => {
         visitTownSquareAndWaitForPageToLoad();
-        scrollUpAndPostAMessage().then(() => {
+        scrollUpAndPostAMessage(otherUser, townsquareChannelId).then(() => {
             // * find the toast
             cy.get('div.toast').should('be.visible');
             cy.get('div.post-list__dynamic').should('be.visible').scrollTo('bottom', {duration: 1000});
@@ -135,7 +134,7 @@ describe('toasts', () => {
 
     it('new message toast should be removed on clicking remove button', () => {
         visitTownSquareAndWaitForPageToLoad();
-        scrollUpAndPostAMessage().then(() => {
+        scrollUpAndPostAMessage(otherUser, townsquareChannelId).then(() => {
             cy.get('div.toast').should('be.visible');
 
             // # Click on toast dismiss button to close the toast
@@ -166,7 +165,7 @@ describe('toasts', () => {
 
     it('New message count should increase with incoming messages', () => {
         visitTownSquareAndWaitForPageToLoad();
-        scrollUpAndPostAMessage().then(() => {
+        scrollUpAndPostAMessage(otherUser, townsquareChannelId).then(() => {
             cy.get('div.toast').should('be.visible');
             cy.get('div.toast__message>span').should('be.visible').first().contains('1 new message');
             cy.postMessageAs({sender: otherUser, message: 'This is another new message', channelId: townsquareChannelId}).then(() => {
@@ -177,7 +176,7 @@ describe('toasts', () => {
 
     it('New message count should reset when dismissed', () => {
         visitTownSquareAndWaitForPageToLoad();
-        scrollUpAndPostAMessage();
+        scrollUpAndPostAMessage(otherUser, townsquareChannelId);
 
         cy.get('div.toast').should('be.visible');
         cy.get('div.toast__message>span').should('be.visible').first().contains('1 new message');
@@ -271,17 +270,17 @@ function visitTownSquareAndWaitForPageToLoad() {
     cy.findAllByTestId('postView').should('be.visible');
 }
 
-function scrollUpAndPostAMessage() {
+function scrollUpAndPostAMessage(sender, channelId) {
     scrollUp();
 
     // # Without the wait the tests seem to fun flaky. Possibly because of ScrollTo having a race with post of message
-    cy.wait(20); // eslint-disable-line cypress/no-unnecessary-waiting
+    cy.wait(TIMEOUTS.HALF_SEC); // eslint-disable-line cypress/no-unnecessary-waiting
 
     // # Post a new message
-    return cy.postMessageAs({sender: otherUser, message: 'This is a new message', channelId: townsquareChannelId});
+    return cy.postMessageAs({sender, message: 'This is a new message', channelId});
 }
 
 function scrollUp() {
     // # Scroll up so bottom is not visible
-    cy.get('div.post-list__dynamic').should('be.visible').scrollTo(0, '70%', {duration: 1000}).wait(1000);
+    cy.get('div.post-list__dynamic').should('be.visible').scrollTo(0, '70%', {duration: TIMEOUTS.ONE_SEC}).wait(TIMEOUTS.ONE_SEC);
 }

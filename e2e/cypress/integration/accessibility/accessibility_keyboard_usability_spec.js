@@ -10,40 +10,47 @@
 // Stage: @prod
 // Group: @accessibility
 
-import users from '../../fixtures/users.json';
+import {getRandomId} from '../../utils';
 
-const otherUser = users['user-2'];
-const count = 5;
-let message;
-
-function postMessages(cnt = 1) {
-    cy.getCurrentChannelId().then((channelId) => {
-        cy.apiGetUserByEmail(otherUser.email).then((emailResponse) => {
-            cy.apiAddUserToChannel(channelId, emailResponse.body.id);
-            for (let index = 0; index < cnt; index++) {
-                // # Post Message as Current user
-                message = `hello from sysadmin: ${Date.now()}`;
-                cy.postMessage(message);
-                message = `hello from ${otherUser.username}: ${Date.now()}`;
-                cy.postMessageAs({sender: otherUser, message, channelId});
-            }
-            cy.wait(1000); // eslint-disable-line cypress/no-unnecessary-waiting
-        });
-    });
+function postMessages(testChannel, otherUser, count) {
+    for (let index = 0; index < count; index++) {
+        // # Post Message as Current user
+        const message = `hello from current user: ${getRandomId()}`;
+        cy.postMessage(message);
+        const otherMessage = `hello from ${otherUser.username}: ${getRandomId()}`;
+        cy.postMessageAs({sender: otherUser, message: otherMessage, channelId: testChannel.id});
+    }
 }
 
 describe('Verify Accessibility keyboard usability across different regions in the app', () => {
+    const count = 5;
+    let testUser;
+    let otherUser;
+    let testChannel;
+
     before(() => {
-        cy.apiLogin('sysadmin');
+        cy.apiInitSetup().then(({team, channel, user}) => {
+            testUser = user;
+            testChannel = channel;
 
-        // Visit the Town Square channel
-        cy.visit('/ad-1/channels/town-square');
+            cy.apiCreateUser({prefix: 'other'}).then(({user: user1}) => {
+                otherUser = user1;
 
-        // # Post few messages
-        postMessages(count);
+                cy.apiAddUserToTeam(team.id, otherUser.id).then(() => {
+                    cy.apiAddUserToChannel(testChannel.id, otherUser.id).then(() => {
+                        // # Login as test user, visit town-square and post few messages
+                        cy.apiLogin(user);
+                        cy.visit(`/${team.name}/channels/${testChannel.name}`);
+                    });
+                });
+            });
+        });
     });
 
     it('MM-24051 Verify Keyboard support in Search Results', () => {
+        // # Post few messages
+        postMessages(testChannel, otherUser, count);
+
         // # Search for a term
         cy.get('#searchBox').type('hello').type('{enter}', {force: true});
 
@@ -75,21 +82,20 @@ describe('Verify Accessibility keyboard usability across different regions in th
 
     it('MM-24051 Verify Keyboard support in RHS', () => {
         // # Post Message as Current user
-        message = `hello from sysadmin: ${Date.now()}`;
+        const message = `hello from ${testUser.username}: ${getRandomId()}`;
         cy.postMessage(message);
 
         // # Post few replies on RHS
         cy.getLastPostId().then((postId) => {
             cy.clickPostCommentIcon(postId);
             cy.get('#rhsContainer').should('be.visible');
-            cy.getCurrentChannelId().then((channelId) => {
-                for (let index = 0; index < count; index++) {
-                    const replyMessage = `A reply ${Date.now()}`;
-                    cy.postMessageReplyInRHS(replyMessage);
-                    message = `reply from ${otherUser.username}: ${Date.now()}`;
-                    cy.postMessageAs({sender: otherUser, message, channelId, rootId: postId});
-                }
-            });
+
+            for (let index = 0; index < count; index++) {
+                const replyMessage = `A reply ${getRandomId()}`;
+                cy.postMessageReplyInRHS(replyMessage);
+                const messageFromOther = `reply from ${otherUser.username}: ${getRandomId()}`;
+                cy.postMessageAs({sender: otherUser, message: messageFromOther, channelId: testChannel.id, rootId: postId});
+            }
         });
 
         // * Verify that the highlight order is in the reverse direction in RHS

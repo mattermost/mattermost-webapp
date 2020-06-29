@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @enterprise @ldap
 
 import users from '../../../fixtures/ldap_users.json';
@@ -36,8 +35,6 @@ context('ldap', () => {
         before(() => {
             // * Check if server has license for LDAP
             cy.requireLicenseForFeature('LDAP');
-
-            cy.apiLogin('sysadmin');
 
             cy.apiGetConfig().then((response) => {
                 testSettings = setLDAPTestSettings(response.body);
@@ -81,7 +78,7 @@ context('ldap', () => {
                     UserFilter: '(cn=no_users)',
                 },
             };
-            cy.apiLogin('sysadmin').then(() => {
+            cy.apiAdminLogin().then(() => {
                 cy.apiUpdateConfig(ldapSetting).then(() => {
                     cy.doLDAPLogin(testSettings).then(() => {
                         cy.checkLoginFailed(testSettings);
@@ -97,7 +94,7 @@ context('ldap', () => {
                     UserFilter: '(cn=test*)',
                 },
             };
-            cy.apiLogin('sysadmin').then(() => {
+            cy.apiAdminLogin().then(() => {
                 cy.apiUpdateConfig(ldapSetting).then(() => {
                     cy.doLDAPLogin(testSettings).then(() => {
                         cy.doMemberLogout(testSettings);
@@ -115,10 +112,11 @@ context('ldap', () => {
                     GuestFilter: '(cn=no_guests)',
                 },
             };
-            cy.apiLogin('sysadmin').then(() => {
+            cy.apiAdminLogin().then(() => {
                 cy.apiUpdateConfig(ldapSetting).then(() => {
                     cy.doLDAPLogin(testSettings).then(() => {
-                        cy.checkLoginFailed(testSettings);
+                        cy.get('#createPublicChannel').should('be.visible');
+                        cy.doMemberLogout(testSettings);
                     });
                 });
             });
@@ -131,7 +129,7 @@ context('ldap', () => {
                     GuestFilter: '(cn=board*)',
                 },
             };
-            cy.apiLogin('sysadmin').then(() => {
+            cy.apiAdminLogin().then(() => {
                 cy.apiUpdateConfig(ldapSetting).then(() => {
                     cy.doLDAPLogin(testSettings).then(() => {
                         cy.doGuestLogout(testSettings);
@@ -143,7 +141,7 @@ context('ldap', () => {
 
     describe('LDAP Add Member and Guest to teams and test logins', () => {
         before(() => {
-            cy.apiLogin('sysadmin');
+            cy.apiAdminLogin();
 
             cy.apiGetTeamByName(testSettings.teamName).then((r) => {
                 const teamId = r.body.id;

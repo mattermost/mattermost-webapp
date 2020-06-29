@@ -34,7 +34,7 @@ export default class SuggestionBox extends React.PureComponent {
         /**
          * Array of suggestion providers
          */
-        providers: PropTypes.arrayOf(PropTypes.object),
+        providers: PropTypes.arrayOf(PropTypes.object).isRequired,
 
         /**
          * Where the list will be displayed relative to the input box, defaults to 'top'
@@ -142,6 +142,11 @@ export default class SuggestionBox extends React.PureComponent {
          * Suppress loading spinner when necessary
          */
         suppressLoadingSpinner: PropTypes.bool,
+
+        /**
+         * To show suggestions even when focus is lost
+         */
+        forceSuggestionsWhenBlur: PropTypes.bool,
     }
 
     static defaultProps = {
@@ -156,6 +161,7 @@ export default class SuggestionBox extends React.PureComponent {
         openWhenEmpty: false,
         replaceAllInputOnSelect: false,
         listenForMentionKeyClick: false,
+        forceSuggestionsWhenBlur: false,
     }
 
     constructor(props) {
@@ -198,6 +204,7 @@ export default class SuggestionBox extends React.PureComponent {
         if (this.props.listenForMentionKeyClick) {
             EventEmitter.addListener('mention_key_click', this.handleMentionKeyClick);
         }
+        this.handlePretextChanged(this.pretext);
     }
 
     componentWillUnmount() {
@@ -288,7 +295,9 @@ export default class SuggestionBox extends React.PureComponent {
             return;
         }
 
-        this.handleEmitClearSuggestions();
+        if (!this.props.forceSuggestionsWhenBlur) {
+            this.handleEmitClearSuggestions();
+        }
 
         this.setState({focused: false});
 
@@ -314,7 +323,9 @@ export default class SuggestionBox extends React.PureComponent {
                 if (textbox) {
                     const pretext = textbox.value.substring(0, textbox.selectionEnd);
                     if (this.props.openWhenEmpty || pretext.length >= this.props.requiredCharacters) {
-                        this.handlePretextChanged(pretext);
+                        if (this.pretext !== pretext) {
+                            this.handlePretextChanged(pretext);
+                        }
                     }
                 }
             });
@@ -693,6 +704,7 @@ export default class SuggestionBox extends React.PureComponent {
         Reflect.deleteProperty(props, 'contextId');
         Reflect.deleteProperty(props, 'listenForMentionKeyClick');
         Reflect.deleteProperty(props, 'wrapperHeight');
+        Reflect.deleteProperty(props, 'forceSuggestionsWhenBlur');
 
         // This needs to be upper case so React doesn't think it's an html tag
         const SuggestionListComponent = listComponent;
@@ -723,7 +735,7 @@ export default class SuggestionBox extends React.PureComponent {
                     <div style={{width: this.state.width}}>
                         <SuggestionListComponent
                             ariaLiveRef={this.suggestionReadOut}
-                            open={this.state.focused}
+                            open={this.state.focused || this.props.forceSuggestionsWhenBlur}
                             pretext={this.pretext}
                             location={listStyle}
                             renderDividers={renderDividers}

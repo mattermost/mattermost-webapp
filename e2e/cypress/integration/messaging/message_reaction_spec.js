@@ -7,15 +7,31 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @messaging
 
-import users from '../../fixtures/users.json';
-
 describe("Click another user's emoji reaction to add it", () => {
+    let townsquareLink;
+    let userOne;
+    let userTwo;
+
+    before(() => {
+        // # Login as test user and visit town-square
+        cy.apiInitSetup().then(({team, user}) => {
+            userOne = user;
+            townsquareLink = `/${team.name}/channels/town-square`;
+
+            cy.apiCreateUser().then(({user: user2}) => {
+                userTwo = user2;
+                cy.apiAddUserToTeam(team.id, userTwo.id);
+            });
+        });
+    });
+
     it("M15113 - Click another user's emoji reaction to add it", () => {
-        // # Login as "user-1" and go to /
-        cy.apiLogin('user-1');
-        cy.visit('/ad-1/channels/town-square');
+        // # Login as userOne and visit town-square
+        cy.apiLogin(userOne);
+        cy.visit(townsquareLink);
 
         // # Post a message
         cy.postMessage('test');
@@ -23,10 +39,9 @@ describe("Click another user's emoji reaction to add it", () => {
         // # Logout
         cy.apiLogout();
 
-        // # Login as "user-2" and go to /
-        const user2 = users['user-2'];
-        cy.apiLogin(user2.username, user2.password);
-        cy.visit('/ad-1/channels/town-square');
+        // # Login as userTwo and visit town-square
+        cy.apiLogin(userTwo);
+        cy.visit(townsquareLink);
 
         // # Mouseover the last post
         cy.getLastPost().trigger('mouseover');
@@ -45,9 +60,9 @@ describe("Click another user's emoji reaction to add it", () => {
         // # Logout
         cy.apiLogout();
 
-        // # Login as "user-1" and go to /
-        cy.apiLogin('user-1');
-        cy.visit('/ad-1/channels/town-square');
+        // # Login as userOne and visit town-square
+        cy.apiLogin(userOne);
+        cy.visit(townsquareLink);
 
         cy.getLastPostId().then((postId) => {
             // # Click on the "slightly_frowning_face" emoji of the last post and the background color changes

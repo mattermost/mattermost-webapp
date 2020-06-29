@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -318,6 +319,7 @@ export default class QuickSwitchModal extends React.PureComponent {
                             openWhenEmpty={true}
                             onSuggestionsReceived={this.handleSuggestionsReceived}
                             suppressLoadingSpinner={!this.state.hasSuggestions}
+                            forceSuggestionsWhenBlur={true}
                         />
                         {!this.state.hasSuggestions &&
                         <NoResultsIndicator
@@ -331,3 +333,4 @@ export default class QuickSwitchModal extends React.PureComponent {
         );
     }
 }
+/* eslint-enable react/no-string-refs */
