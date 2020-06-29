@@ -11,6 +11,7 @@ describe('components/feature_discovery', () => {
         test('should match snapshot', () => {
             const wrapper = shallow(
                 <FeatureDiscovery
+                    featureName='test'
                     titleID='translation.test.title'
                     titleDefault='Foo'
                     copyID='translation.test.copy'
