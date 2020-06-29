@@ -414,7 +414,7 @@ class CreatePost extends React.PureComponent {
         }
 
         if (this.lastOrientation && orientation !== this.lastOrientation && (document.activeElement || {}).id === 'post_textbox') {
-            this.refs.textbox.getWrappedInstance().blur();
+            this.refs.textbox.blur();
         }
 
         this.lastOrientation = orientation;
@@ -740,11 +740,11 @@ class CreatePost extends React.PureComponent {
     focusTextbox = (keepFocus = false) => {
         const postTextboxDisabled = this.props.readOnlyChannel || !this.props.canPost;
         if (this.refs.textbox && postTextboxDisabled) {
-            this.refs.textbox.getWrappedInstance().blur(); // Fixes Firefox bug which causes keyboard shortcuts to be ignored (MM-22482)
+            this.refs.textbox.blur(); // Fixes Firefox bug which causes keyboard shortcuts to be ignored (MM-22482)
             return;
         }
         if (this.refs.textbox && (keepFocus || !UserAgent.isMobile())) {
-            this.refs.textbox.getWrappedInstance().focus();
+            this.refs.textbox.focus();
         }
     }
 
@@ -762,7 +762,7 @@ class CreatePost extends React.PureComponent {
         if (allowSending) {
             e.persist();
             if (this.refs.textbox) {
-                this.refs.textbox.getWrappedInstance().blur();
+                this.refs.textbox.blur();
             }
 
             if (withClosedCodeBlock && message) {
@@ -930,8 +930,8 @@ class CreatePost extends React.PureComponent {
                     uploadsInProgress,
                 };
 
-                if (this.refs.fileUpload && this.refs.fileUpload.getWrappedInstance()) {
-                    this.refs.fileUpload.getWrappedInstance().cancelUpload(id);
+                if (this.refs.fileUpload && this.refs.fileUpload) {
+                    this.refs.fileUpload.cancelUpload(id);
                 }
             }
         } else {
@@ -992,7 +992,7 @@ class CreatePost extends React.PureComponent {
 
     getFileUploadTarget = () => {
         if (this.refs.textbox) {
-            return this.refs.textbox.getWrappedInstance();
+            return this.refs.textbox;
         }
 
         return null;
@@ -1058,7 +1058,7 @@ class CreatePost extends React.PureComponent {
             type = Utils.localizeMessage('create_post.post', Posts.MESSAGE_TYPES.POST);
         }
         if (this.refs.textbox) {
-            this.refs.textbox.getWrappedInstance().blur();
+            this.refs.textbox.blur();
         }
         this.props.actions.setEditingPost(lastPost.id, this.props.commentCountForPost, 'post_textbox', type);
     }
@@ -1122,7 +1122,7 @@ class CreatePost extends React.PureComponent {
     }
 
     setMessageAndCaretPostion = (newMessage, newCaretPosition) => {
-        const textbox = this.refs.textbox.getWrappedInstance().getInputBox();
+        const textbox = this.refs.textbox.getInputBox();
 
         this.setState({
             message: newMessage,

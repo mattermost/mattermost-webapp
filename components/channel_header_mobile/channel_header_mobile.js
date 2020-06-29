@@ -102,7 +102,6 @@ export default class ChannelHeaderMobile extends React.PureComponent {
                                     )}
                                 </div>
                                 <ChannelInfoButton
-                                    ref='headerOverlay'
                                     channel={channel}
                                     isReadOnly={isReadOnly}
                                     isRHSOpen={isRHSOpen}
