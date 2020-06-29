@@ -78,7 +78,7 @@ context('ldap', () => {
                     UserFilter: '(cn=no_users)',
                 },
             };
-            cy.cy.apiAdminLogin().then(() => {
+            cy.apiAdminLogin().then(() => {
                 cy.apiUpdateConfig(ldapSetting).then(() => {
                     cy.doLDAPLogin(testSettings).then(() => {
                         cy.checkLoginFailed(testSettings);
@@ -94,7 +94,7 @@ context('ldap', () => {
                     UserFilter: '(cn=test*)',
                 },
             };
-            cy.cy.apiAdminLogin().then(() => {
+            cy.apiAdminLogin().then(() => {
                 cy.apiUpdateConfig(ldapSetting).then(() => {
                     cy.doLDAPLogin(testSettings).then(() => {
                         cy.doMemberLogout(testSettings);
@@ -112,7 +112,7 @@ context('ldap', () => {
                     GuestFilter: '(cn=no_guests)',
                 },
             };
-            cy.cy.apiAdminLogin().then(() => {
+            cy.apiAdminLogin().then(() => {
                 cy.apiUpdateConfig(ldapSetting).then(() => {
                     cy.doLDAPLogin(testSettings).then(() => {
                         cy.get('#createPublicChannel').should('be.visible');
@@ -129,7 +129,7 @@ context('ldap', () => {
                     GuestFilter: '(cn=board*)',
                 },
             };
-            cy.cy.apiAdminLogin().then(() => {
+            cy.apiAdminLogin().then(() => {
                 cy.apiUpdateConfig(ldapSetting).then(() => {
                     cy.doLDAPLogin(testSettings).then(() => {
                         cy.doGuestLogout(testSettings);

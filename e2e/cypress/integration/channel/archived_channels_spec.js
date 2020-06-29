@@ -50,7 +50,7 @@ describe('Leave an archived channel', () => {
         cy.get('#channelLeaveChannel').click();
 
         // # Wait to make sure that the Loading page does not get back
-        cy.wait(TIMEOUTS.SMALL);
+        cy.wait(TIMEOUTS.FIVE_SEC);
 
         // * Verify sure that we have switched channels
         cy.get('#channelHeaderTitle').should('not.contain', testChannel.display_name);

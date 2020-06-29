@@ -10,6 +10,7 @@
 // Stage: @prod
 // Group: @channel_sidebar
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
 import {testWithConfig} from '../../support/hooks';
 import {getAdminAccount} from '../../support/env';
 import {getRandomId} from '../../utils';
@@ -120,7 +121,7 @@ describe('Channel sidebar', () => {
         // Wait for state to settle
         // This is necessary since we have no observable way of finding out when the state actually settles so that it persists on reload
         // eslint-disable-next-line cypress/no-unnecessary-waiting
-        cy.wait(1000);
+        cy.wait(TIMEOUTS.ONE_SEC);
 
         // # Reload the page
         cy.reload();
@@ -136,7 +137,7 @@ describe('Channel sidebar', () => {
 
         // Wait for state to settle
         // eslint-disable-next-line cypress/no-unnecessary-waiting
-        cy.wait(1000);
+        cy.wait(TIMEOUTS.ONE_SEC);
 
         // # Reload the page
         cy.reload();

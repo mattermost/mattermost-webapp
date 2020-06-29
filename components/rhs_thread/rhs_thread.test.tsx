@@ -8,6 +8,8 @@ import {Channel} from 'mattermost-redux/types/channels';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {Post} from 'mattermost-redux/src/types/posts';
 
+import {TestHelper} from '../../utils/test_helper';
+
 import RhsThread from './rhs_thread';
 
 describe('components/RhsThread', () => {
@@ -67,44 +69,7 @@ describe('components/RhsThread', () => {
         getPostThread: jest.fn(),
     };
 
-    const directTeammate: UserProfile = {
-        id: '',
-        create_at: 0,
-        update_at: 0,
-        delete_at: 0,
-        username: '',
-        auth_data: '',
-        auth_service: '',
-        email: '',
-        email_verified: true,
-        nickname: '',
-        first_name: '',
-        last_name: '',
-        position: '',
-        roles: '',
-        locale: '',
-        notify_props: {
-            desktop: 'default',
-            desktop_sound: 'true',
-            email: 'true',
-            mark_unread: 'all',
-            push: 'default',
-            push_status: 'ooo',
-            comments: 'never',
-            first_name: 'true',
-            channel: 'true',
-            mention_keys: '',
-        },
-        terms_of_service_id: '',
-        terms_of_service_create_at: 0,
-        timezone: {
-            useAutomaticTimezone: true,
-            automaticTimezone: '',
-            manualTimezone: '',
-        },
-        is_bot: true,
-        last_picture_update: 0,
-    };
+    const directTeammate: UserProfile = TestHelper.getUserMock();
 
     const baseProps = {
         posts: [post],

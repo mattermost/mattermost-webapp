@@ -29,14 +29,14 @@ describe('Channel', () => {
                 otherChannel = res.body;
             });
 
-            cy.apiLogin(testUser.username, testUser.password);
+            cy.apiLogin(testUser);
             cy.visit(`/${team.name}/channels/town-square`);
         });
     });
 
     it('Channel autocomplete should have both lists populated correctly', () => {
         // # Type "~"
-        cy.get('#post_textbox').should('be.visible').clear().type('~').wait(TIMEOUTS.TINY);
+        cy.get('#post_textbox').should('be.visible').clear().type('~').wait(TIMEOUTS.HALF_SEC);
         cy.get('#loadingSpinner').should('not.exist');
 
         // * Should open up suggestion list for channels
@@ -53,13 +53,13 @@ describe('Channel', () => {
 
     it('Joining a channel should alter channel mention autocomplete lists accordingly', () => {
         // # Join a channel by /join slash command
-        cy.get('#post_textbox').should('be.visible').clear().wait(TIMEOUTS.TINY).type(`/join ~${otherChannel.name}`).type('{enter}').wait(TIMEOUTS.TINY);
+        cy.get('#post_textbox').should('be.visible').clear().wait(TIMEOUTS.HALF_SEC).type(`/join ~${otherChannel.name}`).type('{enter}').wait(TIMEOUTS.HALF_SEC);
 
         // * Verify that it redirects into the channel
         cy.url().should('include', `/${testTeam.name}/channels/${otherChannel.name}`);
 
         // # Type "~"
-        cy.get('#post_textbox').should('be.visible').type('~').wait(TIMEOUTS.TINY);
+        cy.get('#post_textbox').should('be.visible').type('~').wait(TIMEOUTS.HALF_SEC);
         cy.get('#loadingSpinner').should('not.exist');
 
         // * Should open up suggestion list for channels
@@ -80,11 +80,11 @@ describe('Channel', () => {
             expect(res).to.equal(200);
 
             // # Login as test user and visit the test team
-            cy.apiLogin(testUser.username, testUser.password);
+            cy.apiLogin(testUser);
             cy.visit(`/${testTeam.name}/channels/town-square`);
 
             // # Type "~"
-            cy.get('#post_textbox').should('be.visible').clear().type('~').wait(TIMEOUTS.TINY);
+            cy.get('#post_textbox').should('be.visible').clear().type('~').wait(TIMEOUTS.HALF_SEC);
             cy.get('#loadingSpinner').should('not.exist');
 
             // * Should open up suggestion list for channels
