@@ -117,12 +117,13 @@ export default class AdminConsole extends React.PureComponent<Props, State> {
             let items: Item[] = [];
 
             let isSectionHidden = false;
-            Object.entries(section).find(entry => {
-                if(entry[0] == 'isHidden' && typeof entry[1] === "function") {
-                    let isHiddenFunc = entry[1] as ((config?: Record<string, any>, state?: Record<string, any>, license?: Record<string, any>, buildEnterpriseReady?: boolean, globalstate?: any, func?: OutputParametricSelector<GlobalState, SysConsoleItemOptions, boolean, (res1: Set<string>, res2: string[]) => boolean>) => boolean);
+            Object.entries(section).find((entry) => {
+                if (entry[0] === 'isHidden' && typeof entry[1] === 'function') {
+                    const isHiddenFunc = entry[1] as ((config?: Record<string, any>, state?: Record<string, any>, license?: Record<string, any>, buildEnterpriseReady?: boolean, globalstate?: any, func?: OutputParametricSelector<GlobalState, SysConsoleItemOptions, boolean, (res1: Set<string>, res2: string[]) => boolean>) => boolean);
 
-                    isSectionHidden = isHiddenFunc(this.props.config, {}, this.props.license, this.props.buildEnterpriseReady, this.props.globalstate, haveINoPermissionOnSysConsoleItem)
+                    isSectionHidden = isHiddenFunc(this.props.config, {}, this.props.license, this.props.buildEnterpriseReady, this.props.globalstate, haveINoPermissionOnSysConsoleItem);
                 }
+                return null;
             });
 
             if (!isSectionHidden) {
