@@ -37,7 +37,7 @@ exports[`components/feature_discovery FeatureDiscovery should match snapshot 1`]
         text="Getting trial"
       >
         <FormattedMessage
-          defaultMessage="Start a trial"
+          defaultMessage="Start trial"
           id="admin.ldap_feature_discovery.call_to_action.primary"
           values={Object {}}
         />
@@ -87,7 +87,7 @@ exports[`components/feature_discovery FeatureDiscovery should match snapshot 1`]
         htmlFor="accept-receive-emails"
       >
         <injectIntl(FormattedMarkdownMessage)
-          defaultMessage="By checking this box, I consent to receive emails from Mattermost with product updates, promotions, and company news. I have read the Privacy Policy and understand that I can unsubscribe at any time."
+          defaultMessage="By checking this box, I consent to receive emails from Mattermost with product updates, promotions, and company news. I have read the [Privacy Policy](!https://mattermost.com/privacy-policy/) and understand that I can unsubscribe at any time."
           id="admin.license.trial-request.accept-receive-emails"
         />
       </label>
