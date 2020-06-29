@@ -128,15 +128,15 @@ describe('actions/invite_actions', () => {
                 notSent: [
                     {
                         email: 'email-one@email-one.com',
-                        reason: 'Unable to add the user to the team.',
+                        reason: 'Error trying to send the invite to the especified email',
                     },
                     {
                         email: 'email-two@email-two.com',
-                        reason: 'Unable to add the user to the team.',
+                        reason: 'Error trying to send the invite to the especified email',
                     },
                     {
                         email: 'email-three@email-three.com',
-                        reason: 'Unable to add the user to the team.',
+                        reason: 'Error trying to send the invite to the especified email',
                     },
                 ],
             });
