@@ -2847,6 +2847,7 @@
   "invite.guests.unable-to-add-the-user-to-the-channels": "Unable to add the guest to the channels.",
   "invite.members.added-to-team": "This member has been added to the team.",
   "invite.members.already-member": "This person is already a team member.",
+  "invite.members.error-while-trying-to-send-invite": "Error trying to send the invite to the especified email",
   "invite.members.invite-sent": "An invitation email has been sent.",
   "invite.members.unable-to-add-the-user-to-the-team": "Unable to add the user to the team.",
   "invite.members.user-is-guest": "Contact your admin to make this guest a full member.",

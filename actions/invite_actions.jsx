@@ -53,7 +53,7 @@ export function sendMembersInvites(teamId, users, emails) {
             for (const email of emails) {
                 const inviteWithError = invitesWithErrors.find((i) => email === i.email && i.error);
                 if (inviteWithError) {
-                    notSent.push({email, reason: inviteWithError.error.message});
+                    notSent.push({email, reason: localizeMessage('invite.members.error-while-trying-to-send-invite', 'Error trying to send the invite to the especified email')});
                 } else {
                     sent.push({email, reason: localizeMessage('invite.members.invite-sent', 'An invitation email has been sent.')});
                 }
