@@ -200,6 +200,8 @@ export const ActionTypes = keyMirror({
     UPDATE_TOAST_STATUS: null,
     TRACK_ANNOUNCEMENT_BAR: null,
     DISMISS_ANNOUNCEMENT_BAR: null,
+
+    PREFETCH_POSTS_FOR_CHANNEL: null,
 });
 
 export const PostRequestTypes = keyMirror({
@@ -846,6 +848,7 @@ export const Constants = {
     MOBILE_VIDEO_WIDTH: 480,
     MOBILE_VIDEO_HEIGHT: 360,
     MOBILE_SCREEN_WIDTH: 768,
+    POST_MODAL_PADDING: 170,
     SCROLL_DELAY: 2000,
     SCROLL_PAGE_FRACTION: 3,
     DEFAULT_CHANNEL: 'town-square',
@@ -1424,7 +1427,6 @@ export const Constants = {
     AUTOCOMPLETE_SPLIT_CHARACTERS: ['.', '-', '_'],
     ANIMATION_TIMEOUT: 1000,
     SEARCH_TIMEOUT_MILLISECONDS: 100,
-    DIAGNOSTICS_SEGMENT_KEY: 'placeholder_segment_key',
     DIAGNOSTICS_RUDDER_KEY: 'placeholder_rudder_key',
     DIAGNOSTICS_RUDDER_DATAPLANE_URL: 'placeholder_rudder_dataplane_url',
     TEAMMATE_NAME_DISPLAY: {

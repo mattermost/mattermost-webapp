@@ -9,19 +9,19 @@
 
 // Group: @messaging
 
-import * as TIMEOUTS from '../../fixtures/timeouts';
-
 describe('Messaging', () => {
     before(() => {
-        // # Login and go to "sint" channel (from sample data)
-        cy.apiLogin('user-1');
-        cy.visit('/ad-1/channels/suscipit-4');
+        // # Login as test user and visit test channel
+        cy.apiInitSetup({loginAfter: true}).then(({team, channel, user}) => {
+            cy.visit(`/${team.name}/channels/${channel.name}`);
+
+            Cypress._.times(30, (i) => {
+                cy.postMessageAs({sender: user, message: `[${i}]`, channelId: channel.id});
+            });
+        });
     });
 
     it('M18711-Input box on main thread can expand with RHS closed', () => {
-        // # Wait until site is loaded
-        cy.wait(TIMEOUTS.SMALL);
-
         // # Check whether the RHS Close button exist, and click it in case it exist.
         cy.get('body').then((body) => {
             if (body.find('rhsCloseButton').length) {
@@ -74,7 +74,7 @@ describe('Messaging', () => {
         cy.get('#post_textbox').should('be.visible').clear();
 
         // # Scroll to a previous post
-        cy.getNthPostId(-20).then((postId) => {
+        cy.getNthPostId(-29).then((postId) => {
             cy.get(`#postMessageText_${postId}`).scrollIntoView();
         });
 
@@ -84,7 +84,7 @@ describe('Messaging', () => {
         }
 
         // * Previous post should be visible
-        cy.getNthPostId(-20).then((postId) => {
+        cy.getNthPostId(-29).then((postId) => {
             cy.get(`#postMessageText_${postId}`).should('be.visible');
         });
     });

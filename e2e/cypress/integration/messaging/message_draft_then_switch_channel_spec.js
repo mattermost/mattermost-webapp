@@ -52,7 +52,7 @@ describe('Message Draft and Switch Channels', () => {
 
         // # Type the first few letters of the channel name you typed the message draft in
         cy.get('#quickSwitchInput').type('tow');
-        cy.wait(TIMEOUTS.TINY);
+        cy.wait(TIMEOUTS.HALF_SEC);
 
         // * Suggestion list should be visible
         cy.get('#suggestionList').should('be.visible');
