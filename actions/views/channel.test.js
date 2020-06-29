@@ -755,7 +755,7 @@ describe('channel view actions', () => {
             PostActions.getPostsUnread.mockReturnValue(() => ({data: posts}));
             store.dispatch(Actions.prefetchChannelPosts('channelid1', 500));
             expect(PostActions.getPostsUnread).not.toHaveBeenCalled();
-            jest.runAllTimers();
+            jest.runOnlyPendingTimers();
             await Promise.resolve();
             expect(PostActions.getPostsUnread).toHaveBeenCalledWith('channelid1');
         });
