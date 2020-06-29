@@ -493,6 +493,24 @@
     .trial {
         margin-top: 15px;
     }
+    .trial-error {
+        color: $dark-gray;
+        font-weight: 400;
+        margin-top: 10px;
+    }
+    .trial-checkbox {
+        margin-top: 10px;
+        margin-bottom: 0;
+        input {
+            position: absolute;
+        }
+        label {
+            margin-left: 25px;
+            display: inline-block;
+            color: $dark-gray;
+            font-weight: 400;
+        }
+    }
 }
 
 .job-table__cancel-button {

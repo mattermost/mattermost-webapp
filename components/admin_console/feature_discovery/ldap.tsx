@@ -11,6 +11,7 @@ import FeatureDiscovery from './index';
 const LDAPFeatureDiscovery: React.FC = () => {
     return (
         <FeatureDiscovery
+            featureName='ldap'
             titleID='admin.ldap_feature_discovery.title'
             titleDefault='Integrate Active Directory / LDAP with Mattermost Enterprise E10'
             copyID='admin.ldap_feature_discovery.copy'

@@ -9,11 +9,14 @@ import {AnalyticsRow} from 'mattermost-redux/types/admin';
 
 import * as Utils from 'utils/utils.jsx';
 
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 
 import './feature_discovery.scss';
 
 type Props = {
+    featureName: string;
+
     titleID: string;
     titleDefault: string;
 
@@ -26,7 +29,7 @@ type Props = {
 
     stats?: Dictionary<number | AnalyticsRow[]>;
     actions: {
-        requestTrialLicense: (users: number) => Promise<{error?: string; data?: null}>;
+        requestTrialLicense: (users: number, termsAccepted: boolean, receiveEmailsAccepted: boolean, featureName: string) => Promise<{error?: string; data?: null}>;
         getLicenseConfig: () => void;
     };
 }
@@ -34,6 +37,8 @@ type Props = {
 type State = {
     gettingTrial: boolean;
     gettingTrialError: string | null;
+    termsAccepted: boolean;
+    receiveEmailsAccepted: boolean;
 }
 
 export default class FeatureDiscovery extends React.PureComponent<Props, State> {
@@ -43,12 +48,14 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
         this.state = {
             gettingTrial: false,
             gettingTrialError: null,
+            termsAccepted: false,
+            receiveEmailsAccepted: false,
         };
     }
 
     requestLicense = async (e: React.MouseEvent) => {
         e.preventDefault();
-        if (this.state.gettingTrial) {
+        if (this.state.gettingTrial || !this.state.termsAccepted) {
             return;
         }
         this.setState({gettingTrial: true, gettingTrialError: null});
@@ -57,7 +64,7 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
             users = this.props.stats.TOTAL_USERS;
         }
         const requestedUsers = Math.max(users, 30);
-        const {error} = await this.props.actions.requestTrialLicense(requestedUsers);
+        const {error} = await this.props.actions.requestTrialLicense(requestedUsers, this.state.termsAccepted, this.state.receiveEmailsAccepted, this.props.featureName);
         if (error) {
             this.setState({gettingTrialError: error});
         }
@@ -77,7 +84,14 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
 
         let gettingTrialError: React.ReactNode = '';
         if (this.state.gettingTrialError) {
-            gettingTrialError = <p className='form-group has-error'><label className='control-label'>{this.state.gettingTrialError}</label></p>;
+            gettingTrialError = (
+                <p className='trial-error'>
+                    <FormattedMarkdownMessage
+                        id='admin.license.trial-request.error'
+                        defaultMessage='Trial license could not be retrieved. Visit [https://mattermost.com/trial/](https://mattermost.com/trial/) to request a license.'
+                    />
+                </p>
+            );
         }
         return (
             <div className='FeatureDiscovery'>
@@ -98,9 +112,10 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
                             defaultMessage={copyDefault}
                         />
                     </div>
-                    <a
-                        className='btn'
+                    <button
+                        className='btn btn-primary'
                         data-testid='featureDiscovery_primaryCallToAction'
+                        disabled={!this.state.termsAccepted}
                         onClick={this.requestLicense}
                     >
                         <LoadingWrapper
@@ -109,10 +124,10 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
                         >
                             <FormattedMessage
                                 id='admin.ldap_feature_discovery.call_to_action.primary'
-                                defaultMessage=''
+                                defaultMessage='Start a trial'
                             />
                         </LoadingWrapper>
-                    </a>
+                    </button>
                     <a
                         className='btn btn-secondary'
                         href={learnMoreURL}
@@ -122,10 +137,38 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
                     >
                         <FormattedMessage
                             id='admin.ldap_feature_discovery.call_to_action.secondary'
-                            defaultMessage=''
+                            defaultMessage='Learn more'
                         />
                     </a>
                     {gettingTrialError}
+                    <p className='trial-checkbox'>
+                        <input
+                            type='checkbox'
+                            id='accept-terms'
+                            checked={this.state.termsAccepted}
+                            onChange={() => this.setState({termsAccepted: !this.state.termsAccepted})}
+                        />
+                        <label htmlFor='accept-terms'>
+                            <FormattedMarkdownMessage
+                                id='admin.license.trial-request.accept-terms'
+                                defaultMessage='I have read and agree to the [Mattermost Software Evaluation Agreement](!https://mattermost.com/software-evaluation-agreement/) and [Privacy Policy](!https://mattermost.com/privacy-policy/).'
+                            />
+                        </label>
+                    </p>
+                    <p className='trial-checkbox'>
+                        <input
+                            type='checkbox'
+                            id='accept-receive-emails'
+                            checked={this.state.receiveEmailsAccepted}
+                            onChange={() => this.setState({receiveEmailsAccepted: !this.state.receiveEmailsAccepted})}
+                        />
+                        <label htmlFor='accept-receive-emails'>
+                            <FormattedMarkdownMessage
+                                id='admin.license.trial-request.accept-receive-emails'
+                                defaultMessage='By checking this box, I consent to receive emails from Mattermost with product updates, promotions, and company news. I have read the Privacy Policy and understand that I can unsubscribe at any time.'
+                            />
+                        </label>
+                    </p>
                 </div>
 
                 <div className='FeatureDiscovery_imageWrapper'>

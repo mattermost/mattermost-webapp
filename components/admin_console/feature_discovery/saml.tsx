@@ -11,6 +11,7 @@ import FeatureDiscovery from './index';
 const SAMLFeatureDiscovery: React.FC = () => {
     return (
         <FeatureDiscovery
+            featureName='saml'
             titleID='admin.saml_feature_discovery.title'
             titleDefault='Integrate SAML 2.0 with Mattermost Enterprise E20'
             copyID='admin.saml_feature_discovery.copy'

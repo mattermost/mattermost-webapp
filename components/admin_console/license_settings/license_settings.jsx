@@ -37,6 +37,8 @@ export default class LicenseSettings extends React.PureComponent {
             gettingTrial: false,
             removing: false,
             uploading: false,
+            termsAccepted: false,
+            receiveEmailsAccepted: false,
         };
     }
 
@@ -91,12 +93,12 @@ export default class LicenseSettings extends React.PureComponent {
 
     requestLicense = async (e) => {
         e.preventDefault();
-        if (this.state.gettingTrial) {
+        if (this.state.gettingTrial || !this.state.termsAccepted) {
             return;
         }
         this.setState({gettingTrial: true, gettingTrialError: null});
         const requestedUsers = Math.max(this.props.stats.TOTAL_USERS, 30);
-        const {error} = await this.props.actions.requestTrialLicense(requestedUsers);
+        const {error} = await this.props.actions.requestTrialLicense(requestedUsers, this.state.termsAccepted, this.state.receiveEmailsAccepted, 'license');
         if (error) {
             this.setState({gettingTrialError: error});
         }
@@ -111,7 +113,14 @@ export default class LicenseSettings extends React.PureComponent {
         }
         let gettingTrialError = '';
         if (this.state.gettingTrialError) {
-            gettingTrialError = <p className='form-group has-error'><label className='control-label'>{this.state.gettingTrialError}</label></p>;
+            gettingTrialError = (
+                <p className='trial-error'>
+                    <FormattedMarkdownMessage
+                        id='admin.license.trial-request.error'
+                        defaultMessage='Trial license could not be retrieved. Visit [https://mattermost.com/trial/](https://mattermost.com/trial/) to request a license.'
+                    />
+                </p>
+            );
         }
 
         var btnClass = 'btn';
@@ -206,6 +215,7 @@ export default class LicenseSettings extends React.PureComponent {
                     <p className='trial'>
                         <button
                             className='btn btn-primary'
+                            disabled={!this.state.termsAccepted}
                             onClick={this.requestLicense}
                         >
                             <LoadingWrapper
@@ -218,20 +228,35 @@ export default class LicenseSettings extends React.PureComponent {
                                 />
                             </LoadingWrapper>
                         </button>
-                        {gettingTrialError}
                     </p>
-                    <p className='help-text'>
-                        <FormattedMessage
-                            id='admin.license.trial-request.different-data'
-                            defaultMessage='Or get a trial license manually at '
+                    {gettingTrialError}
+                    <p className='trial-checkbox'>
+                        <input
+                            type='checkbox'
+                            id='accept-terms'
+                            checked={this.state.termsAccepted}
+                            onChange={() => this.setState({termsAccepted: !this.state.termsAccepted})}
                         />
-                        <a
-                            target='_blank'
-                            rel='noopener noreferrer'
-                            href='https://mattermost.com/trial/?utm_medium=product&utm_source=product-trial'
-                        >
-                            {'https://mattermost.com/trial/'}
-                        </a>
+                        <label htmlFor='accept-terms'>
+                            <FormattedMarkdownMessage
+                                id='admin.license.trial-request.accept-terms'
+                                defaultMessage='I have read and agree to the [Mattermost Software Evaluation Agreement](!https://mattermost.com/software-evaluation-agreement/) and [Privacy Policy](!https://mattermost.com/privacy-policy/).'
+                            />
+                        </label>
+                    </p>
+                    <p className='trial-checkbox'>
+                        <input
+                            type='checkbox'
+                            id='accept-receive-emails'
+                            checked={this.state.receiveEmailsAccepted}
+                            onChange={() => this.setState({receiveEmailsAccepted: !this.state.receiveEmailsAccepted})}
+                        />
+                        <label htmlFor='accept-receive-emails'>
+                            <FormattedMarkdownMessage
+                                id='admin.license.trial-request.accept-receive-emails'
+                                defaultMessage='By checking this box, I consent to receive emails from Mattermost with product updates, promotions, and company news. I have read the Privacy Policy and understand that I can unsubscribe at any time.'
+                            />
+                        </label>
                     </p>
                 </div>
             );
