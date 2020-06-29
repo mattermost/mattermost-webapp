@@ -32,7 +32,7 @@ function removeUserFromAllChannels(verifyAlert, user) {
         if (channel === 'Town Square' || verifyAlert) {
             cy.get('#removeFromChannelModalLabel').should('be.visible').and('have.text', `Removed from ${channel}`);
             cy.get('.modal-body').should('be.visible').contains(`removed you from ${channel}`);
-            cy.get('#removedChannelBtn').should('be.visible').and('have.text', 'Okay').click().wait(TIMEOUTS.TINY);
+            cy.get('#removedChannelBtn').should('be.visible').and('have.text', 'Okay').click().wait(TIMEOUTS.HALF_SEC);
         }
     });
 }
@@ -56,7 +56,7 @@ describe('Guest Account - Guest User Removal Experience', () => {
                     team2 = response.body;
                     cy.apiAddUserToTeam(team1.id, guest.id);
                     cy.apiAddUserToTeam(team2.id, guest.id).then(() => {
-                        cy.apiLogin(guest.username, guest.password);
+                        cy.apiLogin(guest);
                         cy.visit(`/${team2.name}/channels/town-square`);
                     });
                 });

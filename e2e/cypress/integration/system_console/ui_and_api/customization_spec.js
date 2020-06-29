@@ -411,5 +411,5 @@ function saveSetting() {
         and('be.enabled').
         click().
         should('be.disabled').
-        wait(TIMEOUTS.TINY);
+        wait(TIMEOUTS.HALF_SEC);
 }

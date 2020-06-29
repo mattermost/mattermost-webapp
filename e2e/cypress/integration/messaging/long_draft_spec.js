@@ -12,25 +12,30 @@
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Messaging', () => {
+    let testTeam;
+
     before(() => {
         // # Make sure the viewport is the expected one, so written lines always create new lines
         cy.viewport(1000, 660);
 
-        // # Login and go to off-topic to make sure we are in the channel, then go to /
-        cy.apiLogin('user-1');
-        cy.visit('/ad-1/channels/off-topic');
-        cy.wait(TIMEOUTS.SMALL);
-        cy.visit('/ad-1/channels/town-square');
+        // # Login as test user and visit town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            testTeam = team;
+            cy.visit(`/${testTeam.name}/channels/town-square`);
+        });
     });
 
     it('M18699-Leave a long draft in the main input box', () => {
-        const lines = ['Lorem ipsum dolor sit amet,',
+        const lines = [
+            'Lorem ipsum dolor sit amet,',
             'consectetur adipiscing elit.',
             'Nulla ac consectetur quam.',
             'Phasellus libero lorem,',
-            'facilisis in purus sed, auctor.'];
+            'facilisis in purus sed, auctor.',
+        ];
 
-        cy.visit('/ad-1/channels/town-square');
+        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.postMessage('Hello');
 
         // # Get the height before starting to write
         cy.get('#post_textbox').should('be.visible').clear().then((post) => {
@@ -55,15 +60,16 @@ describe('Messaging', () => {
         }
 
         // # Visit a different channel and verify textbox
-        cy.get('#sidebarItem_off-topic').click({force: true});
+        cy.get('#sidebarItem_off-topic').click({force: true}).wait(TIMEOUTS.HALF_SEC);
         verifyPostTextbox('@initialHeight', '');
 
         // # Return to the channel and verify textbox
-        cy.get('#sidebarItem_town-square').click({force: true});
+        cy.get('#sidebarItem_town-square').click({force: true}).wait(TIMEOUTS.HALF_SEC);
         verifyPostTextbox('@previousHeight', lines.join('\n'));
 
         // # Clear the textbox
         cy.get('#post_textbox').clear();
+        cy.postMessage('World!');
 
         // # Write again all lines
         cy.get('#post_textbox').type(lines[0]);
@@ -71,12 +77,17 @@ describe('Messaging', () => {
             cy.get('#post_textbox').type('{shift}{enter}').type(lines[i]);
         }
 
+        // # Wait some time to save draft into storage
+        cy.wait(TIMEOUTS.HALF_SEC);
+
         // # Visit a different channel by URL and verify textbox
-        cy.visit('/ad-1/channels/off-topic');
+        cy.visit(`/${testTeam.name}/channels/off-topic`).wait(TIMEOUTS.HALF_SEC);
         verifyPostTextbox('@initialHeight', '');
 
-        // # Return to the channel by URL and verify textbox
-        cy.visit('/ad-1/channels/town-square');
+        // # Should have returned to the channel by URL. However, Cypress is clearing storage for some reason.
+        // # Does not happened on actual user interaction.
+        // * Verify textbox
+        cy.get('#sidebarItem_town-square').click({force: true}).wait(TIMEOUTS.HALF_SEC);
         verifyPostTextbox('@previousHeight', lines.join('\n'));
     });
 });
@@ -84,7 +95,7 @@ describe('Messaging', () => {
 function verifyPostTextbox(targetHeightSelector, text) {
     cy.get('#post_textbox').should('be.visible').and('have.text', text).then((el) => {
         cy.get(targetHeightSelector).then((height) => {
-            expect(el[0].clientHeight).to.equal(height);
+            expect(el[0].clientHeight).to.be.equal(height);
         });
     });
 }

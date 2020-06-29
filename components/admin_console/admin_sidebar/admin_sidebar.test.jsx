@@ -63,7 +63,7 @@ describe('components/AdminSidebar', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match snapshot, not render the plugin in the sidebar because does not have settings', () => {
+    test('should match snapshot, render plugins without any settings as well', () => {
         const props = {
             license: {},
             config: {
