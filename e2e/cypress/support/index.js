@@ -5,7 +5,7 @@
 // Read more at: https://on.cypress.io/configuration
 // ***********************************************************
 
-/* eslint-disable no-loop-func, quote-props */
+/* eslint-disable no-loop-func */
 
 import '@testing-library/cypress/add-commands';
 import 'cypress-file-upload';
@@ -27,30 +27,9 @@ import './ui';
 import './ui_commands'; // soon to deprecate
 import './visual_commands';
 
-import {getAdminAccount} from './env';
+import {percentEncoding} from '../utils';
 
-const percentEncoding = {
-    ':': '%3A',
-    '/': '%2F',
-    '?': '%3F',
-    '#': '%23',
-    '[': '%5B',
-    ']': '%5D',
-    '@': '%40',
-    '!': '%21',
-    '$': '%24',
-    '&': '%26',
-    "'": '%27',
-    '(': '%28',
-    ')': '%29',
-    '*': '%2A',
-    '+': '%2B',
-    ',': '%2C',
-    ';': '%3B',
-    '=': '%3D',
-    '%': '%25',
-    ' ': '+',
-};
+import {getAdminAccount} from './env';
 
 Cypress.on('test:after:run', (test, runnable) => {
     // Only if the test is failed do we want to add

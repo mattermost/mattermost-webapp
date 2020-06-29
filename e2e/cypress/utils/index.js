@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+/* eslint-disable no-loop-func, quote-props */
+
 import {v4 as uuidv4} from 'uuid';
 
 import messageMenusData from '../fixtures/hooks/message_menus.json';
@@ -56,3 +58,26 @@ export function getMessageMenusPayload({dataSource, options, prefix = Date.now()
 }
 
 export const reUrl = /(https?:\/\/[^ ]*)/;
+
+export const percentEncoding = {
+    ':': '%3A',
+    '/': '%2F',
+    '?': '%3F',
+    '#': '%23',
+    '[': '%5B',
+    ']': '%5D',
+    '@': '%40',
+    '!': '%21',
+    '$': '%24',
+    '&': '%26',
+    "'": '%27',
+    '(': '%28',
+    ')': '%29',
+    '*': '%2A',
+    '+': '%2B',
+    ',': '%2C',
+    ';': '%3B',
+    '=': '%3D',
+    '%': '%25',
+    ' ': '+',
+};
