@@ -168,9 +168,9 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
                         data-testid='channel-display-name'
                     >
                         {channel.type === Constants.PRIVATE_CHANNEL ? (
-                            <LockIcon className='channel-icon channel-icon__lock'/>
+                            <LockIcon className='channel-icon channel-icon__lock channel-icon___lowerOpacity'/>
                         ) : (
-                            <GlobeIcon className='channel-icon channel-icon__globe'/>
+                            <GlobeIcon className='channel-icon channel-icon__globe channel-icon___lowerOpacity'/>
                         )}
                         <span className='TeamList_channelDisplayName'>
                             {channel.display_name}

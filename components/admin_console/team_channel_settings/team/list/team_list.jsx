@@ -165,11 +165,13 @@ export default class TeamList extends React.PureComponent {
                 id: team.id,
                 name: (
                     <div className='TeamList_nameColumn'>
-                        <TeamIcon
-                            size='sm'
-                            url={Utils.imageURLForTeam(team)}
-                            name={team.display_name}
-                        />
+                        <div className='TeamList__lowerOpacity'>
+                            <TeamIcon
+                                size='sm'
+                                url={Utils.imageURLForTeam(team)}
+                                name={team.display_name}
+                            />
+                        </div>
                         <div className='TeamList_nameText'>
                             <b data-testid='team-display-name'>
                                 {team.display_name}
