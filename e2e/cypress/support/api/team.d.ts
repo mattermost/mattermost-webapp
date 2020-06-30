@@ -90,7 +90,6 @@ declare namespace Cypress {
          * See https://api.mattermost.com/#tag/teams/paths/~1teams/get
          * @param {String} queryParams.page - Page to select, 0 (default)
          * @param {String} queryParams.perPage - The number of teams per page, 60 (default)
-         * @param {Boolean} queryParams.includeTotalCount - false (default) or true to include total count
          * @returns {Team[]} `out.teams` as `Team[]`
          * @returns {number} `out.totalCount` as `number`
          *

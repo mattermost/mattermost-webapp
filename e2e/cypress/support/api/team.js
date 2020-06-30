@@ -60,23 +60,14 @@ Cypress.Commands.add('apiGetTeamByName', (name) => {
     });
 });
 
-Cypress.Commands.add('apiGetAllTeams', ({page = 0, perPage = 60, includeTotalCount = false} = {}) => {
+Cypress.Commands.add('apiGetAllTeams', ({page = 0, perPage = 60} = {}) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
-        url: `api/v4/teams?page=${page}&per_page=${perPage}&include_total_count=${includeTotalCount}`,
+        url: `api/v4/teams?page=${page}&per_page=${perPage}`,
         method: 'GET',
     }).then((response) => {
         expect(response.status).to.equal(200);
-        let teams;
-        let totalCount;
-
-        if (includeTotalCount) {
-            teams = response.body.teams;
-            totalCount = response.body.total_count;
-        } else {
-            teams = response.body;
-        }
-        cy.wrap({teams, totalCount});
+        cy.wrap({teams: response.body});
     });
 });
 
