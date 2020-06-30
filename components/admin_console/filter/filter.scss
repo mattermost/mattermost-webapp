@@ -1,0 +1,107 @@
+.Filter {
+    padding-left: 8px;
+    position: relative;
+    display: inline-block;
+
+    .Filter_button {
+        width: 88px;;
+        height: 32px;
+
+        /* Light / Center Channel BG */
+        background: #FFFFFF;
+        border-radius: 4px;
+        border: 1px solid #FFFFFF;
+        color: #166DE0;
+        font-size: 0.95em;
+
+        &.Filter__active, &:hover, &:focus {
+            background: linear-gradient(0deg, rgba(22, 109, 224, 0.12), rgba(22, 109, 224, 0.12)), #FFFFFF;
+        }
+    }
+
+    .menu-icon {
+        fill: #166DE0;
+        margin-right: 8px
+    }
+
+    .Filter_content {
+        display: none;
+        position: absolute;
+        padding: 16px;
+        padding-top: 8px;
+        min-width: 160px;
+
+        background: #FFFFFF;
+        /* Light / 8% Center Channel Text */
+
+        border: 1px solid rgba(61, 60, 64, 0.08);
+        box-sizing: border-box;
+        /* Elevation 4 */
+
+        box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.12);
+        border-radius: 4px;
+        z-index: 1;
+
+        &.Filter__show {
+            display: block;
+        }
+
+        hr {
+            margin: 8px -16px;
+            padding: 0;
+        }
+    }
+
+    .Filter_title {
+        font-weight: bold;
+        font-size: 14px;
+
+        padding: 8px;
+
+        /* Light / Center Channel Text */
+        color: #3D3C40;
+    }
+
+    .Filter_lists {
+        white-space: nowrap;
+    }
+
+    .Filter_apply {
+        float: right;
+        margin: 10px;
+    }
+
+    .FilterList {
+        display: inline-block;
+        width: 140px;
+        padding: 16px 16px 16px 8px;
+        font-size: 14px;
+
+        .FilterList__full {
+            width: 280px;
+            display: block;
+        }
+
+        .FilterList_name {
+            font-size: 12px;
+            font-weight: normal;
+            padding-bottom: 8px;
+        }
+
+        .FilterList_checkbox {
+            /* Light / Center Channel Text */
+            color: #3D3C40;
+
+            input {
+                vertical-align: bottom;
+                position: relative;
+                top: -4px;
+                margin-right: 8px
+            }
+
+            label {
+                font-weight: normal;
+            }
+        }
+    }
+}
