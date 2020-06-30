@@ -87,7 +87,7 @@ declare namespace Cypress {
          * Get teams.
          * For regular users only returns open teams.
          * Users with the "manage_system" permission will return teams regardless of type.
-         * See https://api.mattermost.com/#tag/teams/paths/~1teams~1name~1{name}/get
+         * See https://api.mattermost.com/#tag/teams/paths/~1teams/get
          * @param {String} queryParams.page - Page to select, 0 (default)
          * @param {String} queryParams.perPage - The number of teams per page, 60 (default)
          * @param {Boolean} queryParams.includeTotalCount - false (default) or true to include total count
