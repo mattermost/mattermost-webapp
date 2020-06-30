@@ -54,13 +54,9 @@ export class CommandSuggestion extends Suggestion {
 }
 
 export default class CommandProvider extends Provider {
-    constructor(props) {
+    constructor({channelId, rootId}) {
         super();
 
-        this.setProps(props);
-    }
-
-    setProps({channelId, rootId}) {
         this.channelId = channelId;
         this.rootId = rootId;
     }
