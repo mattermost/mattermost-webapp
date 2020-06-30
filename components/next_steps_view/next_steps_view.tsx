@@ -4,14 +4,15 @@
 import React from "react";
 import {FormattedMessage} from "react-intl";
 
+import professionalLogo from 'images/cloud-logos/professional.svg';
+
 import './next_steps_view.scss'
 
 type Props = {
-
+    skuName: string;
 };
 
 export default class NextStepsView extends React.PureComponent<Props> {
-
     getBottomText = () => {
         // lmao
         const {isFinished} = {isFinished: false};
@@ -33,11 +34,20 @@ export default class NextStepsView extends React.PureComponent<Props> {
         )
     }
 
+    getLogo = () => {
+        // TODO: Switch logos based on edition once we have the other logos
+
+        switch (this.props.skuName) {
+            default:
+                return professionalLogo;
+        }
+    }
+
     render() {
         return (
             <div
                 id='app-content'
-                className='app__content'
+                className='app__content NextStepsView'
             >
                 <div className='NextStepsView__header'>
                     <div className='NextStepsView__header-headerText'>
@@ -52,12 +62,11 @@ export default class NextStepsView extends React.PureComponent<Props> {
                         </div>
                     </div>
                     <div className='NextStepsView__header-logo'>
-
+                        <img src={this.getLogo()}/>
                     </div>
                 </div>
                 <div className='NextStepsView__body'>
                     <div className='NextStepsView__body-main'>
-
                     </div>
                     <div className='NextStepsView__body-graphic'/>
                 </div>

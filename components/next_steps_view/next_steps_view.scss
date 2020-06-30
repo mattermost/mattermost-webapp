@@ -1,3 +1,11 @@
+#app-content.NextStepsView {
+    background-image: url(../../images/onboarding-bg.svg);
+    background-repeat: no-repeat;
+    background-position-y: bottom;
+    background-position-x: -305px;
+    background-size: calc(100% + 305px);
+}
+
 .NextStepsView__header {
     padding: 32px 40px;
     display: flex;
@@ -22,40 +30,16 @@
 
 .NextStepsView__header-logo {
     margin-left: auto;
-
-    // TODO DEVIN: temp
-    width: 272px;
-    height: 100%;
-    background-color: red;
+    align-self: center;
 }
 
 .NextStepsView__body {
     display: flex;
-    background-image: url(../../images/waves.svg);
-    background-repeat: no-repeat;
-    background-position-y: bottom;
-    background-position-x: -305px;
-    background-size: calc(100% + 305px);
     height: 100%;
 }
 
 .NextStepsView__body-main {
     flex: 3 0 75%;
-
-    &:after {
-        background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4bWxuczpkYz0iaHR0cDovL3B1cmwub3JnL2RjL2VsZW1lbnRzLzEuMS8iIHhtbG5zOmNjPSJodHRwOi8vd2ViLnJlc291cmNlLm9yZy9jYy8iIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyIgeG1sbnM6c29kaXBvZGk9Imh0dHA6Ly9zb2RpcG9kaS5zb3VyY2Vmb3JnZS5uZXQvRFREL3NvZGlwb2RpLTAuZHRkIiB4bWxuczppbmtzY2FwZT0iaHR0cDovL3d3dy5pbmtzY2FwZS5vcmcvbmFtZXNwYWNlcy9pbmtzY2FwZSIgdmVyc2lvbj0iMS4xIiBiYXNlUHJvZmlsZT0iZnVsbCIgd2lkdGg9IjhweCIgaGVpZ2h0PSI4cHgiIHZpZXdCb3g9IjAgMCA4IDgiIHByZXNlcnZlQXNwZWN0UmF0aW89InhNaWRZTWlkIG1lZXQiIGlkPSJzdmdfZG9jdW1lbnQiIHN0eWxlPSJ6b29tOiAxOyI+CiAgICA8dGl0bGUgaWQ9InN2Z19kb2N1bWVudF90aXRsZSI+VW50aXRsZWQuc3ZnPC90aXRsZT4KICAgIDxkZWZzIGlkPSJzdmdfZG9jdW1lbnRfZGVmcyI+PC9kZWZzPgogICAgPGcgaWQ9Im1haW5fZ3JvdXAiPgogICAgICAgIDxyZWN0IGlkPSJiYWNrZ3JvdW5kX3JlY3QiIGZpbGw9IiMxNjZERTAiIHg9IjBweCIgeT0iMHB4IiB3aWR0aD0iMXB4IiBoZWlnaHQ9IjFweCI+PC9yZWN0PgogICAgPC9nPgo8L3N2Zz4=) repeat;
-        background-size: 30px 30px;
-        opacity: 0.16;
-        transform: matrix(0.71, 0.64, -0.78, 0.71, 0, 0);
-        display: block;
-        content: "";
-
-        height: 50vh;
-        width: 50vh;
-        position: absolute;
-        left: 83%;
-        bottom: 3%;
-    }
 }
 
 .NextStepsView__body-graphic {
