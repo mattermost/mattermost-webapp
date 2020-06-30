@@ -769,7 +769,7 @@ const AdminDefinition = {
                         placeholder: t('admin.image.amazonS3PathPrefixExample'),
                         placeholder_default: 'E.g.: "subdir1/" or you can leave it .',
                         isDisabled: it.isnt(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
-                    },                    
+                    },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
                         key: 'FileSettings.AmazonS3Region',
