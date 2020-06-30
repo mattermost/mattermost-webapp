@@ -42,7 +42,7 @@ function dispatchPluginComponentAction(name, pluginId, component, id = generateI
 }
 
 const resolveReactElement = (element) => {
-    if (typeof element === 'function') {
+    if (element && !React.isValidElement(element) && typeof element !== 'string') {
         // Allow element to be passed as the name of the component, instead of a React element.
         return React.createElement(element);
     }

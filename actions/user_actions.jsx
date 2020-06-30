@@ -284,9 +284,8 @@ export function loadProfilesForGroupChannels(groupChannels) {
     };
 }
 
-export function loadProfilesForSidebar() {
-    loadProfilesForDM();
-    loadProfilesForGM();
+export async function loadProfilesForSidebar() {
+    await Promise.all([loadProfilesForDM(), loadProfilesForGM()]);
 }
 
 export function filterGMsDMs(state, channels) {

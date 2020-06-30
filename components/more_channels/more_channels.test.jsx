@@ -252,7 +252,7 @@ describe('components/MoreChannels', () => {
         expect(setTimeout).toHaveBeenCalledTimes(1);
         expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 100);
 
-        jest.runAllTimers();
+        jest.runOnlyPendingTimers();
         expect(instance.props.actions.searchMoreChannels).toHaveBeenCalledTimes(1);
         expect(instance.props.actions.searchMoreChannels).toHaveBeenCalledWith('fail', false);
         process.nextTick(() => {
@@ -280,7 +280,7 @@ describe('components/MoreChannels', () => {
         expect(setTimeout).toHaveBeenCalledTimes(1);
         expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 100);
 
-        jest.runAllTimers();
+        jest.runOnlyPendingTimers();
         expect(instance.props.actions.searchMoreChannels).toHaveBeenCalledTimes(1);
         expect(instance.props.actions.searchMoreChannels).toHaveBeenCalledWith('channel', false);
         process.nextTick(() => {
@@ -308,7 +308,7 @@ describe('components/MoreChannels', () => {
         expect(setTimeout).toHaveBeenCalledTimes(1);
         expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 100);
 
-        jest.runAllTimers();
+        jest.runOnlyPendingTimers();
         expect(instance.props.actions.searchMoreChannels).toHaveBeenCalledTimes(1);
         expect(instance.props.actions.searchMoreChannels).toHaveBeenCalledWith('channel', true);
         process.nextTick(() => {

@@ -67,7 +67,7 @@ describe('CS15445 Join/leave messages', () => {
                 });
             }
 
-            cy.apiLogin(user.username, user.password);
+            cy.apiLogin(user);
         });
     });
 

@@ -32,9 +32,24 @@ export default class ChannelInfoModal extends React.PureComponent {
         channel: PropTypes.object.isRequired,
 
         /**
+         * Current channel object, used to determine if the current channel is different from the one this modal was instantiated with
+         */
+        currentChannel: PropTypes.object.isRequired,
+
+        /**
          * Current team object
          */
         currentTeam: PropTypes.object.isRequired,
+
+        /**
+         * Boolean whether the RHS is open, used to check if we need to hide the channel info modal
+         */
+        isRHSOpen: PropTypes.bool,
+
+        /**
+         * Relative url for the team, used to redirect to another channel within the team from the modal
+         */
+        currentRelativeTeamUrl: PropTypes.string,
     };
 
     constructor(props) {
@@ -47,9 +62,19 @@ export default class ChannelInfoModal extends React.PureComponent {
         ));
     }
 
+    componentDidUpdate(prevProps) {
+        const RHSChanged = !prevProps.isRHSOpen && this.props.isRHSOpen;
+        const channelChanged = prevProps.channel?.id !== this.props.currentChannel?.id;
+        if (RHSChanged || channelChanged) {
+            this.onHide();
+        }
+    }
+
     onHide = () => {
         this.setState({show: false});
     }
+
+    handleFormattedTextClick = (e) => Utils.handleFormattedTextClick(e, this.props.currentRelativeTeamUrl);
 
     render() {
         let channel = this.props.channel;
@@ -72,7 +97,7 @@ export default class ChannelInfoModal extends React.PureComponent {
 
         if (channelIsArchived) {
             channelIcon = (
-                <ArchiveIcon className='icon icon__archive'/>
+                <ArchiveIcon className='icon icon__archive svg-text-color'/>
             );
         } else if (channel.type === 'O') {
             channelIcon = (
@@ -123,7 +148,10 @@ export default class ChannelInfoModal extends React.PureComponent {
                             defaultMessage='Header:'
                         />
                     </div>
-                    <div className='info__value'>
+                    <div
+                        onClick={this.handleFormattedTextClick}
+                        className='info__value'
+                    >
                         <Markdown
                             message={channel.header}
                             options={this.getHeaderMarkdownOptions(channelNamesMap)}

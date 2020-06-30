@@ -29,5 +29,18 @@ declare namespace Cypress {
          *   cy.uiWaitUntilMessagePostedIncludes(message);
          */
         uiWaitUntilMessagePostedIncludes(message: string): boolean;
+
+        /**
+         * Get nth post from the post list
+         * @param {number} index - an identifier of a post
+         * - zero (0)         : oldest post
+         * - positive number  : from old to latest post
+         * - negative number  : from new to oldest post
+         * @returns {Response} response: Cypress-chainable response
+         *
+         * @example
+         *   cy.uiGetNthPost(-1);
+         */
+        uiGetNthPost(index: number): Chainable<Response>;
     }
 }

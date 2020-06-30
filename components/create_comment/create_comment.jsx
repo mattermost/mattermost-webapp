@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import $ from 'jquery';
 import PropTypes from 'prop-types';
@@ -350,7 +351,7 @@ class CreateComment extends React.PureComponent {
     }
 
     setCaretPosition = (newCaretPosition) => {
-        const textbox = this.refs.textbox.getWrappedInstance().getInputBox();
+        const textbox = this.refs.textbox.getInputBox();
 
         this.setState({
             caretPosition: newCaretPosition,
@@ -381,7 +382,10 @@ class CreateComment extends React.PureComponent {
             message = formattedMessage;
             this.setCaretPosition(newCaretPosition);
         } else {
-            message = formatMarkdownTableMessage(table, draft.message.trim());
+            const originalSize = draft.message.length;
+            message = formatMarkdownTableMessage(table, draft.message.trim(), this.state.caretPosition);
+            const newCaretPosition = message.length - (originalSize - this.state.caretPosition);
+            this.setCaretPosition(newCaretPosition);
         }
 
         const updatedDraft = {...draft, message};
@@ -640,7 +644,7 @@ class CreateComment extends React.PureComponent {
         if (allowSending) {
             e.persist();
             if (this.refs.textbox) {
-                this.refs.textbox.getWrappedInstance().blur();
+                this.refs.textbox.blur();
             }
 
             if (withClosedCodeBlock && message) {
@@ -739,7 +743,7 @@ class CreateComment extends React.PureComponent {
         if (!e.ctrlKey && !e.metaKey && !e.altKey && !e.shiftKey && Utils.isKeyPressed(e, Constants.KeyCodes.UP) && message === '') {
             e.preventDefault();
             if (this.refs.textbox) {
-                this.refs.textbox.getWrappedInstance().blur();
+                this.refs.textbox.blur();
             }
 
             const {data: canEditNow} = this.props.onEditLatestPost();
@@ -864,8 +868,8 @@ class CreateComment extends React.PureComponent {
             if (index !== -1) {
                 uploadsInProgress.splice(index, 1);
 
-                if (this.refs.fileUpload && this.refs.fileUpload.getWrappedInstance()) {
-                    this.refs.fileUpload.getWrappedInstance().cancelUpload(id);
+                if (this.refs.fileUpload && this.refs.fileUpload) {
+                    this.refs.fileUpload.cancelUpload(id);
                 }
             }
         } else {
@@ -896,7 +900,7 @@ class CreateComment extends React.PureComponent {
     }
 
     getFileUploadTarget = () => {
-        return this.refs.textbox.getWrappedInstance();
+        return this.refs.textbox;
     }
 
     getCreateCommentControls = () => {
@@ -905,7 +909,7 @@ class CreateComment extends React.PureComponent {
 
     focusTextbox = (keepFocus = false) => {
         if (this.refs.textbox && (keepFocus || !UserAgent.isMobile())) {
-            this.refs.textbox.getWrappedInstance().focus();
+            this.refs.textbox.focus();
         }
     }
 
@@ -1162,7 +1166,7 @@ class CreateComment extends React.PureComponent {
 
         const textboxRef = this.refs.textbox;
         if (textboxRef) {
-            const textboxPosTop = textboxRef.getWrappedInstance().getInputBox().getBoundingClientRect().top;
+            const textboxPosTop = textboxRef.getInputBox().getBoundingClientRect().top;
             if (textboxPosTop < Constants.SUGGESTION_LIST_SPACE_RHS) {
                 this.setState({suggestionListStyle: 'bottom'});
             } else {
@@ -1275,3 +1279,4 @@ class CreateComment extends React.PureComponent {
 }
 
 export default injectIntl(CreateComment);
+/* eslint-enable react/no-string-refs */

@@ -38,7 +38,7 @@ describe('Search', () => {
                 cy.apiAddUserToTeam(testTeam.id, userThree.id);
             });
 
-            cy.apiLogin(testUser.username, testUser.password);
+            cy.apiLogin(testUser);
         });
     });
 

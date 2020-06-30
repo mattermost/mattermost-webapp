@@ -31,7 +31,15 @@ exports[`admin_console/team_channel_settings/team/TeamMembers should match snaps
           },
         }
       }
-      dialogType={[Function]}
+      dialogType={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "displayName": "Connect(AddUsersToTeamModal)",
+          "type": [Function],
+        }
+      }
       id="addTeamMembers"
     >
       <FormattedMessage
@@ -261,7 +269,15 @@ exports[`admin_console/team_channel_settings/team/TeamMembers should match snaps
           },
         }
       }
-      dialogType={[Function]}
+      dialogType={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "displayName": "Connect(AddUsersToTeamModal)",
+          "type": [Function],
+        }
+      }
       id="addTeamMembers"
     >
       <FormattedMessage

@@ -17,7 +17,7 @@ describe('Negative search filters will omit results', () => {
 
     function search(query) {
         cy.reload();
-        cy.get('#searchBox').clear().wait(500).type(query).wait(500).type('{enter}');
+        cy.get('#searchBox').clear().wait(TIMEOUTS.HALF_SEC).type(query).wait(TIMEOUTS.HALF_SEC).type('{enter}');
 
         cy.get('#loadingSpinner').should('not.be.visible');
         cy.get('#search-items-container', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
