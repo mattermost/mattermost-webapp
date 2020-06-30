@@ -1,0 +1,52 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/next_steps_view should match snapshot 1`] = `
+<div
+  className="app__content NextStepsView"
+  id="app-content"
+>
+  <div
+    className="NextStepsView__header"
+  >
+    <div
+      className="NextStepsView__header-headerText"
+    >
+      <div
+        className="NextStepsView__header-headerTopText"
+      >
+        <FormattedMessage
+          defaultMessage="Welcome to Mattermost"
+          id="next_steps_view.welcomeToMattermost"
+          values={Object {}}
+        />
+      </div>
+      <div
+        className="NextStepsView__header-headerBottomText"
+      >
+        <FormattedMessage
+          defaultMessage="Here are some recommended next steps to help you collaborate"
+          id="next_steps_view.hereAreSomeNextSteps"
+          values={Object {}}
+        />
+      </div>
+    </div>
+    <div
+      className="NextStepsView__header-logo"
+    >
+      <img
+        src={null}
+      />
+    </div>
+  </div>
+  <div
+    className="NextStepsView__body"
+  >
+    <div
+      className="NextStepsView__body-main"
+    />
+    <div
+      className="NextStepsView__body-graphic"
+    />
+  </div>
+</div>
+`;
