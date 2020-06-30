@@ -126,7 +126,7 @@ describe('Actions', () => {
             const history = {replace: jest.fn()};
 
             await testStore.dispatch(goToChannelByChannelId({params: {team: 'team1', identifier: 'channel_id3'}}, history));
-            expect(joinChannel).toHaveBeenCalledWith('current_user_id', 'team_id1', 'channel_id3', null);
+            expect(joinChannel).toHaveBeenCalledWith('current_user_id', 'team_id1', 'channel_id3', '');
             expect(history.replace).toHaveBeenCalledWith('/team1/channels/achannel3');
         });
     });
@@ -143,7 +143,7 @@ describe('Actions', () => {
             const testStore = await mockStore(initialState);
 
             await testStore.dispatch(goToChannelByChannelName({params: {team: 'team1', identifier: 'achannel3'}}, {}));
-            expect(joinChannel).toHaveBeenCalledWith('current_user_id', 'team_id1', null, 'achannel3');
+            expect(joinChannel).toHaveBeenCalledWith('current_user_id', 'team_id1', '', 'achannel3');
             expect(emitChannelClickEvent).toHaveBeenCalledWith(channel3);
         });
     });
