@@ -26,7 +26,10 @@ export type Column = {
 }
 
 export type Row = {
-    [key: string]: JSX.Element | string;
+    cells: {
+        [key: string]: JSX.Element | string;
+    };
+    onClick?: () => void;
 }
 
 type Props = {
