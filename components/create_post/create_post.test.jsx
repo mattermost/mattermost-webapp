@@ -247,7 +247,6 @@ describe('components/create_post', () => {
         expect(wrapper.state('showEmojiPicker')).toBe(false);
     });
 
-    /*
     it('Check for emoji click message states', () => {
         const wrapper = shallowWithIntl(createPost());
         const mockImpl = () => {
@@ -256,7 +255,7 @@ describe('components/create_post', () => {
                 focus: jest.fn(),
             };
         };
-        wrapper.instance().refs = {textbox: {getWrappedInstance: () => ({getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()})}};
+        wrapper.instance().refs = {textbox: {getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()}};
 
         wrapper.find('.emoji-picker__container').simulate('click');
         expect(wrapper.state('showEmojiPicker')).toBe(true);
@@ -278,7 +277,7 @@ describe('components/create_post', () => {
 
         wrapper.instance().handleEmojiClick({name: 'smile'});
         expect(wrapper.state('message')).toBe('test  :smile: ');
-    });*/
+    });
 
     it('onChange textbox should call setDraft and change message state', () => {
         const setDraft = jest.fn();
@@ -303,15 +302,14 @@ describe('components/create_post', () => {
         expect(setDraft).toHaveBeenCalledWith(StoragePrefixes.DRAFT + currentChannelProp.id, draft);
     });
 
-    /*
     it('onKeyPress textbox should call emitLocalUserTypingEvent', () => {
         const wrapper = shallowWithIntl(createPost());
-        wrapper.instance().refs = {textbox: {getWrappedInstance: () => ({blur: jest.fn()})}};
+        wrapper.instance().refs = {textbox: {blur: jest.fn()}};
 
         const postTextbox = wrapper.find('#post_textbox');
-        postTextbox.simulate('KeyPress', {key: KeyCodes.ENTER[0], preventDefault: jest.fn(), persist: jest.fn()});
+        postTextbox.simulate('KeyPress', {key: Constants.KeyCodes.ENTER[0], preventDefault: jest.fn(), persist: jest.fn()});
         expect(GlobalActions.emitLocalUserTypingEvent).toHaveBeenCalledWith(currentChannelProp.id, '');
-    });*/
+    });
 
     it('onSubmit test for @all', () => {
         const wrapper = shallowWithIntl(createPost());
@@ -897,20 +895,19 @@ describe('components/create_post', () => {
         expect(GlobalActions.toggleShortcutsModal).toHaveBeenCalled();
     });
 
-    /*
     it('Should just return as ctrlSend is enabled and its ctrl+enter', () => {
         const wrapper = shallowWithIntl(createPost({
             ctrlSend: true,
         }));
 
         const instance = wrapper.instance();
-        instance.refs = {textbox: {getWrappedInstance: () => ({blur: jest.fn()})}};
+        instance.refs = {textbox: {blur: jest.fn()}};
 
         instance.handleKeyDown({ctrlKey: true, key: Constants.KeyCodes.ENTER[0], keyCode: Constants.KeyCodes.ENTER[1], preventDefault: jest.fn(), persist: jest.fn()});
         setTimeout(() => {
             expect(GlobalActions.emitLocalUserTypingEvent).toHaveBeenCalledWith(currentChannelProp.id, '');
         }, 0);
-    });*/
+    });
 
     it('Should call edit action as comment for arrow up', () => {
         const setEditingPost = jest.fn();
@@ -1136,7 +1133,6 @@ describe('components/create_post', () => {
         );
     });
 
-    /*
     it('should be able to format a pasted markdown table', () => {
         const wrapper = shallowWithIntl(createPost());
         const mockImpl = () => {
@@ -1145,7 +1141,7 @@ describe('components/create_post', () => {
                 focus: jest.fn(),
             };
         };
-        wrapper.instance().refs = {textbox: {getWrappedInstance: () => ({getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()})}};
+        wrapper.instance().refs = {textbox: {getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()}};
 
         const event = {
             target: {
@@ -1165,7 +1161,7 @@ describe('components/create_post', () => {
 
         wrapper.instance().pasteHandler(event);
         expect(wrapper.state('message')).toBe(markdownTable);
-    });*/
+    });
 
     it('should preserve the original message after pasting a markdown table', () => {
         const wrapper = shallowWithIntl(createPost());
@@ -1205,13 +1201,13 @@ describe('components/create_post', () => {
             };
         };
 
-        wrapper.instance().refs = {textbox: {getWrappedInstance: () => ({getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()})}};
+        wrapper.instance().refs = {textbox: {getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()}};
 
         wrapper.instance().pasteHandler(event);
         expect(wrapper.state('message')).toBe(expectedMessage);
     });
 
-    /*it('should be able to format a github codeblock (pasted as a table)', () => {
+    it('should be able to format a github codeblock (pasted as a table)', () => {
         const wrapper = shallowWithIntl(createPost());
         const mockImpl = () => {
             return {
@@ -1219,7 +1215,7 @@ describe('components/create_post', () => {
                 focus: jest.fn(),
             };
         };
-        wrapper.instance().refs = {textbox: {getWrappedInstance: () => ({getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()})}};
+        wrapper.instance().refs = {textbox: {getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()}};
 
         const event = {
             target: {
@@ -1252,7 +1248,7 @@ describe('components/create_post', () => {
                 focus: jest.fn(),
             };
         };
-        wrapper.instance().refs = {textbox: {getWrappedInstance: () => ({getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()})}};
+        wrapper.instance().refs = {textbox: {getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()}};
         wrapper.setState({
             message: 'test',
             caretPosition: 'test'.length, // cursor is at the end
@@ -1279,7 +1275,7 @@ describe('components/create_post', () => {
 
         wrapper.instance().pasteHandler(event);
         expect(wrapper.state('message')).toBe(codeBlockMarkdown);
-    });*/
+    });
 
     it('should not enable the save button when message empty', () => {
         const wrapper = shallowWithIntl(createPost());
