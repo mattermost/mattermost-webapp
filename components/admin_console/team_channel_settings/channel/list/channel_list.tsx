@@ -6,7 +6,7 @@ import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
-import {ChannelWithTeamData, Channel} from 'mattermost-redux/types/channels';
+import {ChannelWithTeamData} from 'mattermost-redux/types/channels';
 import {debounce} from 'mattermost-redux/actions/helpers';
 
 import {browserHistory} from 'utils/browser_history';
@@ -23,8 +23,8 @@ interface ChannelListProps {
         searchAllChannels: (term: string, notAssociatedToGroup?: string, excludeDefaultChannels?: boolean, page?: number, perPage?: number) => Promise<{ data: any }>;
         getData: (page: number, perPage: number, notAssociatedToGroup? : string, excludeDefaultChannels?: boolean) => ActionFunc | ActionResult | Promise<ChannelWithTeamData[]>;
     };
-    data?: Channel[];
-    total?: number;
+    data: ChannelWithTeamData[];
+    total: number;
     removeGroup?: () => void;
     onPageChangedCallback?: () => void;
     emptyListTextId?: string;
