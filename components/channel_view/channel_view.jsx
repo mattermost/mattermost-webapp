@@ -28,6 +28,7 @@ export default class ChannelView extends React.PureComponent {
             }).isRequired,
         }).isRequired,
         showTutorial: PropTypes.bool.isRequired,
+        showNextSteps: PropTypes.bool.isRequired,
         channelIsArchived: PropTypes.bool.isRequired,
         viewArchivedChannels: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
@@ -126,7 +127,7 @@ export default class ChannelView extends React.PureComponent {
 
         if (this.props.showNextSteps) {
             return (
-                <NextStepsView />
+                <NextStepsView/>
             );
         }
 

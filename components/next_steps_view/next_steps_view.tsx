@@ -1,12 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from "react";
-import {FormattedMessage} from "react-intl";
+import React from 'react';
+import {FormattedMessage} from 'react-intl';
 
 import professionalLogo from 'images/cloud-logos/professional.svg';
 
-import './next_steps_view.scss'
+import './next_steps_view.scss';
 
 type Props = {
     skuName: string;
@@ -21,7 +21,7 @@ export default class NextStepsView extends React.PureComponent<Props> {
             return (
                 <FormattedMessage
                     id='next_steps_view.allSetToGo'
-                    defaultMessage={`You're all set to go!`}
+                    defaultMessage={'You\'re all set to go!'}
                 />
             );
         }
@@ -31,15 +31,15 @@ export default class NextStepsView extends React.PureComponent<Props> {
                 id='next_steps_view.hereAreSomeNextSteps'
                 defaultMessage='Here are some recommended next steps to help you collaborate'
             />
-        )
+        );
     }
 
     getLogo = () => {
         // TODO: Switch logos based on edition once we have the other logos
 
         switch (this.props.skuName) {
-            default:
-                return professionalLogo;
+        default:
+            return professionalLogo;
         }
     }
 
@@ -66,8 +66,7 @@ export default class NextStepsView extends React.PureComponent<Props> {
                     </div>
                 </div>
                 <div className='NextStepsView__body'>
-                    <div className='NextStepsView__body-main'>
-                    </div>
+                    <div className='NextStepsView__body-main'/>
                     <div className='NextStepsView__body-graphic'/>
                 </div>
             </div>
