@@ -124,6 +124,9 @@ class SearchableUserList extends React.Component {
         } else {
             startCount = this.props.page * this.props.usersPerPage;
             endCount = Math.min(startCount + this.props.usersPerPage, total);
+            if (this.props.users.length < endCount) {
+                endCount = this.props.users.length;
+            }
         }
 
         if (this.props.renderCount) {
@@ -171,10 +174,14 @@ class SearchableUserList extends React.Component {
             usersToDisplay = this.props.users;
         } else if (!this.props.term) {
             const pageStart = this.props.page * this.props.usersPerPage;
-            const pageEnd = pageStart + this.props.usersPerPage;
+            let pageEnd = pageStart + this.props.usersPerPage;
+            if (this.props.users.length < pageEnd) {
+                pageEnd = this.props.users.length;
+            }
+
             usersToDisplay = this.props.users.slice(pageStart, pageEnd);
 
-            if (pageEnd < this.props.users.length) {
+            if (pageEnd < this.props.total) {
                 nextButton = (
                     <button
                         id='searchableUserListNextBtn'
