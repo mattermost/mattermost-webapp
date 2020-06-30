@@ -492,6 +492,13 @@
 
     .trial {
         margin-top: 15px;
+        button {
+            &:disabled {
+                background: $light-gray;
+                color: $dark-gray;
+                border-color: transparent;
+            }
+        }
     }
     .trial-error {
         color: $dark-gray;
