@@ -5,16 +5,10 @@ import React from "react";
 import {FormattedMessage} from "react-intl";
 
 import './next_steps_view.scss'
-import { Form } from "react-bootstrap/lib/Navbar";
-
 
 type Props = {
-    
+
 };
-
-type State = {
-
-}
 
 export default class NextStepsView extends React.PureComponent<Props> {
 
@@ -62,6 +56,10 @@ export default class NextStepsView extends React.PureComponent<Props> {
                     </div>
                 </div>
                 <div className='NextStepsView__body'>
+                    <div className='NextStepsView__body-main'>
+
+                    </div>
+                    <div className='NextStepsView__body-graphic'/>
                 </div>
             </div>
         );
