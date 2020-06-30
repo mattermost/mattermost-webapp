@@ -9,6 +9,7 @@ import {getProfilesNotInChannel, searchProfiles, getStatus} from 'mattermost-red
 import {getProfilesNotInCurrentChannel, getUserStatuses} from 'mattermost-redux/selectors/entities/users';
 
 import {addUsersToChannel} from 'actions/channel_actions';
+import {loadStatusesForProfilesList} from 'actions/status_actions.jsx';
 
 import ChannelInviteModal from './channel_invite_modal.jsx';
 
@@ -28,6 +29,7 @@ function mapDispatchToProps(dispatch) {
             getTeamStats,
             searchProfiles,
             getStatus,
+            loadStatusesForProfilesList,
         }, dispatch),
     };
 }

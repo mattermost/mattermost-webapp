@@ -33,6 +33,7 @@ export default class ChannelInviteModal extends React.Component {
             getTeamStats: PropTypes.func.isRequired,
             searchProfiles: PropTypes.func.isRequired,
             getStatus: PropTypes.func.isRequired,
+            loadStatusesForProfilesList: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -62,6 +63,7 @@ export default class ChannelInviteModal extends React.Component {
     componentDidMount() {
         this.props.actions.getProfilesNotInChannel(this.props.channel.team_id, this.props.channel.id, this.props.channel.group_constrained, 0).then(() => {
             this.setUsersLoadingState(false);
+            this.props.actions.loadStatusesForProfilesList(this.props.profilesNotInCurrentChannel);
         });
         this.props.actions.getTeamStats(this.props.channel.team_id);
     }
@@ -94,6 +96,7 @@ export default class ChannelInviteModal extends React.Component {
             this.setUsersLoadingState(true);
             this.props.actions.getProfilesNotInChannel(this.props.channel.team_id, this.props.channel.id, this.props.channel.group_constrained, page + 1, USERS_PER_PAGE).then(() => {
                 this.setUsersLoadingState(false);
+                this.props.actions.loadStatusesForProfilesList(this.props.profilesNotInCurrentChannel);
             });
         }
     };
@@ -158,8 +161,6 @@ export default class ChannelInviteModal extends React.Component {
         if (isSelected) {
             rowSelected = 'more-modal__row--selected';
         }
-
-        this.props.actions.getStatus(option.id);
 
         return (
             <div
