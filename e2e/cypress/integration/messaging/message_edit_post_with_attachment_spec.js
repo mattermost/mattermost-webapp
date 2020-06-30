@@ -13,11 +13,14 @@
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('MM-13697 Edit Post with attachment', () => {
+    let townsquareLink;
+
     before(() => {
-        // # Login, set display preference and go to /
-        cy.apiLogin('user-1');
-        cy.apiSaveMessageDisplayPreference();
-        cy.visit('/ad-1/channels/town-square');
+        // # Login as test user and visit town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            townsquareLink = `/${team.name}/channels/town-square`;
+            cy.visit(townsquareLink);
+        });
     });
 
     it('Pasted text should be pasted where the cursor is', () => {
@@ -25,7 +28,7 @@ describe('MM-13697 Edit Post with attachment', () => {
         cy.get('#sidebarItem_town-square').click({force: true});
 
         // * Validate if the channel has been opened
-        cy.url().should('include', '/ad-1/channels/town-square');
+        cy.url().should('include', townsquareLink);
 
         // # Upload a file on center view
         cy.get('#fileUploadInput').attachFile('mattermost-icon.png');

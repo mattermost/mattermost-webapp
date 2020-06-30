@@ -2,111 +2,119 @@
 
 exports[`admin_console/team_channel_settings/channel/ChannelList should match snapshot 1`] = `
 <div
-  className="groups-list groups-list-no-padding"
+  className="ChannelsList"
 >
-  <div
-    className="groups-list--global-actions"
-  >
-    <div
-      className="group-list-search"
-    >
-      <input
-        data-testid="search-input"
-        onChange={[Function]}
-        onKeyUp={[Function]}
-        placeholder="Search"
-        type="text"
-        value=""
-      />
-      <SearchIcon
-        aria-hidden="true"
-        className="search__icon"
-        id="searchIcon"
-      />
-      <i
-        className="fa fa-times-circle group-filter-action hidden"
-        data-testid="clear-search"
-        onClick={[Function]}
-      />
-    </div>
-  </div>
-  <AbstractList
-    actions={
-      Object {
-        "getData": [MockFunction],
-        "removeGroup": [MockFunction],
-        "searchAllChannels": [MockFunction],
-      }
-    }
-    data={
+  <DataGrid
+    columns={
       Array [
         Object {
-          "create_at": 0,
-          "creator_id": "id",
-          "delete_at": 0,
-          "display_name": "DN",
-          "extra_update_at": 0,
-          "group_constrained": false,
-          "header": "header",
-          "id": "123",
-          "last_post_at": 0,
-          "name": "DN",
-          "purpose": "purpose",
-          "scheme_id": "id",
-          "team_id": "team_id",
-          "total_msg_count": 0,
-          "type": "O",
-          "update_at": 0,
-        },
-      ]
-    }
-    emptyListTextDefaultMessage="test"
-    emptyListTextId="test"
-    header={
-      <div
-        className="groups-list--header"
-      >
-        <div
-          className="group-name adjusted"
-        >
-          <FormattedMessage
+          "field": "name",
+          "fixed": true,
+          "name": <FormattedMessage
             defaultMessage="Name"
             id="admin.channel_settings.channel_list.nameHeader"
             values={Object {}}
-          />
-        </div>
-        <div
-          className="group-content"
-        >
-          <div
-            className="group-description"
-          >
-            <FormattedMessage
-              defaultMessage="Team"
-              id="admin.channel_settings.channel_list.teamHeader"
-              values={Object {}}
-            />
-          </div>
-          <div
-            className="group-description adjusted"
-          >
-            <FormattedMessage
-              defaultMessage="Management"
-              id="admin.channel_settings.channel_list.managementHeader"
-              values={Object {}}
-            />
-          </div>
-          <div
-            className="group-actions"
-          />
-        </div>
-      </div>
+          />,
+          "width": 4,
+        },
+        Object {
+          "field": "team",
+          "fixed": true,
+          "name": <FormattedMessage
+            defaultMessage="Team"
+            id="admin.channel_settings.channel_list.teamHeader"
+            values={Object {}}
+          />,
+          "width": 1.5,
+        },
+        Object {
+          "field": "management",
+          "fixed": true,
+          "name": <FormattedMessage
+            defaultMessage="Management"
+            id="admin.channel_settings.channel_list.managementHeader"
+            values={Object {}}
+          />,
+        },
+        Object {
+          "field": "edit",
+          "fixed": true,
+          "name": "",
+          "textAlign": "right",
+        },
+      ]
     }
-    key="0"
-    noPadding={true}
-    onPageChangedCallback={[Function]}
-    removeGroup={[MockFunction]}
-    renderRow={[Function]}
+    endCount={1}
+    loading={false}
+    nextPage={[Function]}
+    page={0}
+    placeholderEmpty={
+      <FormattedMessage
+        defaultMessage="No channels found"
+        id="admin.channel_settings.channel_list.no_channels_found"
+        values={Object {}}
+      />
+    }
+    previousPage={[Function]}
+    rows={
+      Array [
+        Object {
+          "cells": Object {
+            "edit": <span
+              className="group-actions TeamList_editRow"
+              data-testid="DNedit"
+            >
+              <ForwardRef
+                to="/admin_console/user_management/channels/123"
+              >
+                <FormattedMessage
+                  defaultMessage="Edit"
+                  id="admin.channel_settings.channel_row.configure"
+                  values={Object {}}
+                />
+              </ForwardRef>
+            </span>,
+            "id": "123",
+            "management": <span
+              className="group-description adjusted row-content"
+            >
+              <FormattedMessage
+                defaultMessage="Manual Invites"
+                id="admin.channel_settings.channel_row.managementMethod.manual"
+                values={Object {}}
+              />
+            </span>,
+            "name": <span
+              className="group-name overflow--ellipsis row-content"
+              data-testid="channel-display-name"
+            >
+              <GlobeIcon
+                className="channel-icon channel-icon__globe channel-icon___lowerOpacity"
+              />
+              <span
+                className="TeamList_channelDisplayName"
+              >
+                DN
+              </span>
+            </span>,
+            "team": <span
+              className="group-description row-content"
+            >
+              teamDisplayName
+            </span>,
+          },
+          "onClick": [Function],
+        },
+      ]
+    }
+    rowsContainerStyles={
+      Object {
+        "minHeight": "40px",
+      }
+    }
+    search={[Function]}
+    startCount={1}
+    term=""
     total={1}
   />
 </div>
@@ -114,633 +122,542 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
 
 exports[`admin_console/team_channel_settings/channel/ChannelList should match snapshot with paging 1`] = `
 <div
-  className="groups-list groups-list-no-padding"
+  className="ChannelsList"
 >
-  <div
-    className="groups-list--global-actions"
-  >
-    <div
-      className="group-list-search"
-    >
-      <input
-        data-testid="search-input"
-        onChange={[Function]}
-        onKeyUp={[Function]}
-        placeholder="Search"
-        type="text"
-        value=""
-      />
-      <SearchIcon
-        aria-hidden="true"
-        className="search__icon"
-        id="searchIcon"
-      />
-      <i
-        className="fa fa-times-circle group-filter-action hidden"
-        data-testid="clear-search"
-        onClick={[Function]}
-      />
-    </div>
-  </div>
-  <AbstractList
-    actions={
-      Object {
-        "getData": [MockFunction],
-        "removeGroup": [MockFunction],
-        "searchAllChannels": [MockFunction],
-      }
-    }
-    data={
+  <DataGrid
+    columns={
       Array [
         Object {
-          "create_at": 0,
-          "creator_id": "id",
-          "delete_at": 0,
-          "display_name": "DN0",
-          "extra_update_at": 0,
-          "group_constrained": false,
-          "header": "header",
-          "id": "id0",
-          "last_post_at": 0,
-          "name": "DN",
-          "purpose": "purpose",
-          "scheme_id": "id",
-          "team_id": "team_id",
-          "total_msg_count": 0,
-          "type": "O",
-          "update_at": 0,
-        },
-        Object {
-          "create_at": 0,
-          "creator_id": "id",
-          "delete_at": 0,
-          "display_name": "DN1",
-          "extra_update_at": 0,
-          "group_constrained": false,
-          "header": "header",
-          "id": "id1",
-          "last_post_at": 0,
-          "name": "DN",
-          "purpose": "purpose",
-          "scheme_id": "id",
-          "team_id": "team_id",
-          "total_msg_count": 0,
-          "type": "O",
-          "update_at": 0,
-        },
-        Object {
-          "create_at": 0,
-          "creator_id": "id",
-          "delete_at": 0,
-          "display_name": "DN2",
-          "extra_update_at": 0,
-          "group_constrained": false,
-          "header": "header",
-          "id": "id2",
-          "last_post_at": 0,
-          "name": "DN",
-          "purpose": "purpose",
-          "scheme_id": "id",
-          "team_id": "team_id",
-          "total_msg_count": 0,
-          "type": "O",
-          "update_at": 0,
-        },
-        Object {
-          "create_at": 0,
-          "creator_id": "id",
-          "delete_at": 0,
-          "display_name": "DN3",
-          "extra_update_at": 0,
-          "group_constrained": false,
-          "header": "header",
-          "id": "id3",
-          "last_post_at": 0,
-          "name": "DN",
-          "purpose": "purpose",
-          "scheme_id": "id",
-          "team_id": "team_id",
-          "total_msg_count": 0,
-          "type": "O",
-          "update_at": 0,
-        },
-        Object {
-          "create_at": 0,
-          "creator_id": "id",
-          "delete_at": 0,
-          "display_name": "DN4",
-          "extra_update_at": 0,
-          "group_constrained": false,
-          "header": "header",
-          "id": "id4",
-          "last_post_at": 0,
-          "name": "DN",
-          "purpose": "purpose",
-          "scheme_id": "id",
-          "team_id": "team_id",
-          "total_msg_count": 0,
-          "type": "O",
-          "update_at": 0,
-        },
-        Object {
-          "create_at": 0,
-          "creator_id": "id",
-          "delete_at": 0,
-          "display_name": "DN5",
-          "extra_update_at": 0,
-          "group_constrained": false,
-          "header": "header",
-          "id": "id5",
-          "last_post_at": 0,
-          "name": "DN",
-          "purpose": "purpose",
-          "scheme_id": "id",
-          "team_id": "team_id",
-          "total_msg_count": 0,
-          "type": "O",
-          "update_at": 0,
-        },
-        Object {
-          "create_at": 0,
-          "creator_id": "id",
-          "delete_at": 0,
-          "display_name": "DN6",
-          "extra_update_at": 0,
-          "group_constrained": false,
-          "header": "header",
-          "id": "id6",
-          "last_post_at": 0,
-          "name": "DN",
-          "purpose": "purpose",
-          "scheme_id": "id",
-          "team_id": "team_id",
-          "total_msg_count": 0,
-          "type": "O",
-          "update_at": 0,
-        },
-        Object {
-          "create_at": 0,
-          "creator_id": "id",
-          "delete_at": 0,
-          "display_name": "DN7",
-          "extra_update_at": 0,
-          "group_constrained": false,
-          "header": "header",
-          "id": "id7",
-          "last_post_at": 0,
-          "name": "DN",
-          "purpose": "purpose",
-          "scheme_id": "id",
-          "team_id": "team_id",
-          "total_msg_count": 0,
-          "type": "O",
-          "update_at": 0,
-        },
-        Object {
-          "create_at": 0,
-          "creator_id": "id",
-          "delete_at": 0,
-          "display_name": "DN8",
-          "extra_update_at": 0,
-          "group_constrained": false,
-          "header": "header",
-          "id": "id8",
-          "last_post_at": 0,
-          "name": "DN",
-          "purpose": "purpose",
-          "scheme_id": "id",
-          "team_id": "team_id",
-          "total_msg_count": 0,
-          "type": "O",
-          "update_at": 0,
-        },
-        Object {
-          "create_at": 0,
-          "creator_id": "id",
-          "delete_at": 0,
-          "display_name": "DN9",
-          "extra_update_at": 0,
-          "group_constrained": false,
-          "header": "header",
-          "id": "id9",
-          "last_post_at": 0,
-          "name": "DN",
-          "purpose": "purpose",
-          "scheme_id": "id",
-          "team_id": "team_id",
-          "total_msg_count": 0,
-          "type": "O",
-          "update_at": 0,
-        },
-        Object {
-          "create_at": 0,
-          "creator_id": "id",
-          "delete_at": 0,
-          "display_name": "DN10",
-          "extra_update_at": 0,
-          "group_constrained": false,
-          "header": "header",
-          "id": "id10",
-          "last_post_at": 0,
-          "name": "DN",
-          "purpose": "purpose",
-          "scheme_id": "id",
-          "team_id": "team_id",
-          "total_msg_count": 0,
-          "type": "O",
-          "update_at": 0,
-        },
-        Object {
-          "create_at": 0,
-          "creator_id": "id",
-          "delete_at": 0,
-          "display_name": "DN11",
-          "extra_update_at": 0,
-          "group_constrained": false,
-          "header": "header",
-          "id": "id11",
-          "last_post_at": 0,
-          "name": "DN",
-          "purpose": "purpose",
-          "scheme_id": "id",
-          "team_id": "team_id",
-          "total_msg_count": 0,
-          "type": "O",
-          "update_at": 0,
-        },
-        Object {
-          "create_at": 0,
-          "creator_id": "id",
-          "delete_at": 0,
-          "display_name": "DN12",
-          "extra_update_at": 0,
-          "group_constrained": false,
-          "header": "header",
-          "id": "id12",
-          "last_post_at": 0,
-          "name": "DN",
-          "purpose": "purpose",
-          "scheme_id": "id",
-          "team_id": "team_id",
-          "total_msg_count": 0,
-          "type": "O",
-          "update_at": 0,
-        },
-        Object {
-          "create_at": 0,
-          "creator_id": "id",
-          "delete_at": 0,
-          "display_name": "DN13",
-          "extra_update_at": 0,
-          "group_constrained": false,
-          "header": "header",
-          "id": "id13",
-          "last_post_at": 0,
-          "name": "DN",
-          "purpose": "purpose",
-          "scheme_id": "id",
-          "team_id": "team_id",
-          "total_msg_count": 0,
-          "type": "O",
-          "update_at": 0,
-        },
-        Object {
-          "create_at": 0,
-          "creator_id": "id",
-          "delete_at": 0,
-          "display_name": "DN14",
-          "extra_update_at": 0,
-          "group_constrained": false,
-          "header": "header",
-          "id": "id14",
-          "last_post_at": 0,
-          "name": "DN",
-          "purpose": "purpose",
-          "scheme_id": "id",
-          "team_id": "team_id",
-          "total_msg_count": 0,
-          "type": "O",
-          "update_at": 0,
-        },
-        Object {
-          "create_at": 0,
-          "creator_id": "id",
-          "delete_at": 0,
-          "display_name": "DN15",
-          "extra_update_at": 0,
-          "group_constrained": false,
-          "header": "header",
-          "id": "id15",
-          "last_post_at": 0,
-          "name": "DN",
-          "purpose": "purpose",
-          "scheme_id": "id",
-          "team_id": "team_id",
-          "total_msg_count": 0,
-          "type": "O",
-          "update_at": 0,
-        },
-        Object {
-          "create_at": 0,
-          "creator_id": "id",
-          "delete_at": 0,
-          "display_name": "DN16",
-          "extra_update_at": 0,
-          "group_constrained": false,
-          "header": "header",
-          "id": "id16",
-          "last_post_at": 0,
-          "name": "DN",
-          "purpose": "purpose",
-          "scheme_id": "id",
-          "team_id": "team_id",
-          "total_msg_count": 0,
-          "type": "O",
-          "update_at": 0,
-        },
-        Object {
-          "create_at": 0,
-          "creator_id": "id",
-          "delete_at": 0,
-          "display_name": "DN17",
-          "extra_update_at": 0,
-          "group_constrained": false,
-          "header": "header",
-          "id": "id17",
-          "last_post_at": 0,
-          "name": "DN",
-          "purpose": "purpose",
-          "scheme_id": "id",
-          "team_id": "team_id",
-          "total_msg_count": 0,
-          "type": "O",
-          "update_at": 0,
-        },
-        Object {
-          "create_at": 0,
-          "creator_id": "id",
-          "delete_at": 0,
-          "display_name": "DN18",
-          "extra_update_at": 0,
-          "group_constrained": false,
-          "header": "header",
-          "id": "id18",
-          "last_post_at": 0,
-          "name": "DN",
-          "purpose": "purpose",
-          "scheme_id": "id",
-          "team_id": "team_id",
-          "total_msg_count": 0,
-          "type": "O",
-          "update_at": 0,
-        },
-        Object {
-          "create_at": 0,
-          "creator_id": "id",
-          "delete_at": 0,
-          "display_name": "DN19",
-          "extra_update_at": 0,
-          "group_constrained": false,
-          "header": "header",
-          "id": "id19",
-          "last_post_at": 0,
-          "name": "DN",
-          "purpose": "purpose",
-          "scheme_id": "id",
-          "team_id": "team_id",
-          "total_msg_count": 0,
-          "type": "O",
-          "update_at": 0,
-        },
-        Object {
-          "create_at": 0,
-          "creator_id": "id",
-          "delete_at": 0,
-          "display_name": "DN20",
-          "extra_update_at": 0,
-          "group_constrained": false,
-          "header": "header",
-          "id": "id20",
-          "last_post_at": 0,
-          "name": "DN",
-          "purpose": "purpose",
-          "scheme_id": "id",
-          "team_id": "team_id",
-          "total_msg_count": 0,
-          "type": "O",
-          "update_at": 0,
-        },
-        Object {
-          "create_at": 0,
-          "creator_id": "id",
-          "delete_at": 0,
-          "display_name": "DN21",
-          "extra_update_at": 0,
-          "group_constrained": false,
-          "header": "header",
-          "id": "id21",
-          "last_post_at": 0,
-          "name": "DN",
-          "purpose": "purpose",
-          "scheme_id": "id",
-          "team_id": "team_id",
-          "total_msg_count": 0,
-          "type": "O",
-          "update_at": 0,
-        },
-        Object {
-          "create_at": 0,
-          "creator_id": "id",
-          "delete_at": 0,
-          "display_name": "DN22",
-          "extra_update_at": 0,
-          "group_constrained": false,
-          "header": "header",
-          "id": "id22",
-          "last_post_at": 0,
-          "name": "DN",
-          "purpose": "purpose",
-          "scheme_id": "id",
-          "team_id": "team_id",
-          "total_msg_count": 0,
-          "type": "O",
-          "update_at": 0,
-        },
-        Object {
-          "create_at": 0,
-          "creator_id": "id",
-          "delete_at": 0,
-          "display_name": "DN23",
-          "extra_update_at": 0,
-          "group_constrained": false,
-          "header": "header",
-          "id": "id23",
-          "last_post_at": 0,
-          "name": "DN",
-          "purpose": "purpose",
-          "scheme_id": "id",
-          "team_id": "team_id",
-          "total_msg_count": 0,
-          "type": "O",
-          "update_at": 0,
-        },
-        Object {
-          "create_at": 0,
-          "creator_id": "id",
-          "delete_at": 0,
-          "display_name": "DN24",
-          "extra_update_at": 0,
-          "group_constrained": false,
-          "header": "header",
-          "id": "id24",
-          "last_post_at": 0,
-          "name": "DN",
-          "purpose": "purpose",
-          "scheme_id": "id",
-          "team_id": "team_id",
-          "total_msg_count": 0,
-          "type": "O",
-          "update_at": 0,
-        },
-        Object {
-          "create_at": 0,
-          "creator_id": "id",
-          "delete_at": 0,
-          "display_name": "DN25",
-          "extra_update_at": 0,
-          "group_constrained": false,
-          "header": "header",
-          "id": "id25",
-          "last_post_at": 0,
-          "name": "DN",
-          "purpose": "purpose",
-          "scheme_id": "id",
-          "team_id": "team_id",
-          "total_msg_count": 0,
-          "type": "O",
-          "update_at": 0,
-        },
-        Object {
-          "create_at": 0,
-          "creator_id": "id",
-          "delete_at": 0,
-          "display_name": "DN26",
-          "extra_update_at": 0,
-          "group_constrained": false,
-          "header": "header",
-          "id": "id26",
-          "last_post_at": 0,
-          "name": "DN",
-          "purpose": "purpose",
-          "scheme_id": "id",
-          "team_id": "team_id",
-          "total_msg_count": 0,
-          "type": "O",
-          "update_at": 0,
-        },
-        Object {
-          "create_at": 0,
-          "creator_id": "id",
-          "delete_at": 0,
-          "display_name": "DN27",
-          "extra_update_at": 0,
-          "group_constrained": false,
-          "header": "header",
-          "id": "id27",
-          "last_post_at": 0,
-          "name": "DN",
-          "purpose": "purpose",
-          "scheme_id": "id",
-          "team_id": "team_id",
-          "total_msg_count": 0,
-          "type": "O",
-          "update_at": 0,
-        },
-        Object {
-          "create_at": 0,
-          "creator_id": "id",
-          "delete_at": 0,
-          "display_name": "DN28",
-          "extra_update_at": 0,
-          "group_constrained": false,
-          "header": "header",
-          "id": "id28",
-          "last_post_at": 0,
-          "name": "DN",
-          "purpose": "purpose",
-          "scheme_id": "id",
-          "team_id": "team_id",
-          "total_msg_count": 0,
-          "type": "O",
-          "update_at": 0,
-        },
-        Object {
-          "create_at": 0,
-          "creator_id": "id",
-          "delete_at": 0,
-          "display_name": "DN29",
-          "extra_update_at": 0,
-          "group_constrained": false,
-          "header": "header",
-          "id": "id29",
-          "last_post_at": 0,
-          "name": "DN",
-          "purpose": "purpose",
-          "scheme_id": "id",
-          "team_id": "team_id",
-          "total_msg_count": 0,
-          "type": "O",
-          "update_at": 0,
-        },
-      ]
-    }
-    emptyListTextDefaultMessage="test"
-    emptyListTextId="test"
-    header={
-      <div
-        className="groups-list--header"
-      >
-        <div
-          className="group-name adjusted"
-        >
-          <FormattedMessage
+          "field": "name",
+          "fixed": true,
+          "name": <FormattedMessage
             defaultMessage="Name"
             id="admin.channel_settings.channel_list.nameHeader"
             values={Object {}}
-          />
-        </div>
-        <div
-          className="group-content"
-        >
-          <div
-            className="group-description"
-          >
-            <FormattedMessage
-              defaultMessage="Team"
-              id="admin.channel_settings.channel_list.teamHeader"
-              values={Object {}}
-            />
-          </div>
-          <div
-            className="group-description adjusted"
-          >
-            <FormattedMessage
-              defaultMessage="Management"
-              id="admin.channel_settings.channel_list.managementHeader"
-              values={Object {}}
-            />
-          </div>
-          <div
-            className="group-actions"
-          />
-        </div>
-      </div>
+          />,
+          "width": 4,
+        },
+        Object {
+          "field": "team",
+          "fixed": true,
+          "name": <FormattedMessage
+            defaultMessage="Team"
+            id="admin.channel_settings.channel_list.teamHeader"
+            values={Object {}}
+          />,
+          "width": 1.5,
+        },
+        Object {
+          "field": "management",
+          "fixed": true,
+          "name": <FormattedMessage
+            defaultMessage="Management"
+            id="admin.channel_settings.channel_list.managementHeader"
+            values={Object {}}
+          />,
+        },
+        Object {
+          "field": "edit",
+          "fixed": true,
+          "name": "",
+          "textAlign": "right",
+        },
+      ]
     }
-    key="0"
-    noPadding={true}
-    onPageChangedCallback={[Function]}
-    removeGroup={[MockFunction]}
-    renderRow={[Function]}
+    endCount={10}
+    loading={false}
+    nextPage={[Function]}
+    page={0}
+    placeholderEmpty={
+      <FormattedMessage
+        defaultMessage="No channels found"
+        id="admin.channel_settings.channel_list.no_channels_found"
+        values={Object {}}
+      />
+    }
+    previousPage={[Function]}
+    rows={
+      Array [
+        Object {
+          "cells": Object {
+            "edit": <span
+              className="group-actions TeamList_editRow"
+              data-testid="DN0edit"
+            >
+              <ForwardRef
+                to="/admin_console/user_management/channels/id0"
+              >
+                <FormattedMessage
+                  defaultMessage="Edit"
+                  id="admin.channel_settings.channel_row.configure"
+                  values={Object {}}
+                />
+              </ForwardRef>
+            </span>,
+            "id": "id0",
+            "management": <span
+              className="group-description adjusted row-content"
+            >
+              <FormattedMessage
+                defaultMessage="Manual Invites"
+                id="admin.channel_settings.channel_row.managementMethod.manual"
+                values={Object {}}
+              />
+            </span>,
+            "name": <span
+              className="group-name overflow--ellipsis row-content"
+              data-testid="channel-display-name"
+            >
+              <GlobeIcon
+                className="channel-icon channel-icon__globe channel-icon___lowerOpacity"
+              />
+              <span
+                className="TeamList_channelDisplayName"
+              >
+                DN0
+              </span>
+            </span>,
+            "team": <span
+              className="group-description row-content"
+            >
+              teamDisplayName
+            </span>,
+          },
+          "onClick": [Function],
+        },
+        Object {
+          "cells": Object {
+            "edit": <span
+              className="group-actions TeamList_editRow"
+              data-testid="DN1edit"
+            >
+              <ForwardRef
+                to="/admin_console/user_management/channels/id1"
+              >
+                <FormattedMessage
+                  defaultMessage="Edit"
+                  id="admin.channel_settings.channel_row.configure"
+                  values={Object {}}
+                />
+              </ForwardRef>
+            </span>,
+            "id": "id1",
+            "management": <span
+              className="group-description adjusted row-content"
+            >
+              <FormattedMessage
+                defaultMessage="Manual Invites"
+                id="admin.channel_settings.channel_row.managementMethod.manual"
+                values={Object {}}
+              />
+            </span>,
+            "name": <span
+              className="group-name overflow--ellipsis row-content"
+              data-testid="channel-display-name"
+            >
+              <GlobeIcon
+                className="channel-icon channel-icon__globe channel-icon___lowerOpacity"
+              />
+              <span
+                className="TeamList_channelDisplayName"
+              >
+                DN1
+              </span>
+            </span>,
+            "team": <span
+              className="group-description row-content"
+            >
+              teamDisplayName
+            </span>,
+          },
+          "onClick": [Function],
+        },
+        Object {
+          "cells": Object {
+            "edit": <span
+              className="group-actions TeamList_editRow"
+              data-testid="DN2edit"
+            >
+              <ForwardRef
+                to="/admin_console/user_management/channels/id2"
+              >
+                <FormattedMessage
+                  defaultMessage="Edit"
+                  id="admin.channel_settings.channel_row.configure"
+                  values={Object {}}
+                />
+              </ForwardRef>
+            </span>,
+            "id": "id2",
+            "management": <span
+              className="group-description adjusted row-content"
+            >
+              <FormattedMessage
+                defaultMessage="Manual Invites"
+                id="admin.channel_settings.channel_row.managementMethod.manual"
+                values={Object {}}
+              />
+            </span>,
+            "name": <span
+              className="group-name overflow--ellipsis row-content"
+              data-testid="channel-display-name"
+            >
+              <GlobeIcon
+                className="channel-icon channel-icon__globe channel-icon___lowerOpacity"
+              />
+              <span
+                className="TeamList_channelDisplayName"
+              >
+                DN2
+              </span>
+            </span>,
+            "team": <span
+              className="group-description row-content"
+            >
+              teamDisplayName
+            </span>,
+          },
+          "onClick": [Function],
+        },
+        Object {
+          "cells": Object {
+            "edit": <span
+              className="group-actions TeamList_editRow"
+              data-testid="DN3edit"
+            >
+              <ForwardRef
+                to="/admin_console/user_management/channels/id3"
+              >
+                <FormattedMessage
+                  defaultMessage="Edit"
+                  id="admin.channel_settings.channel_row.configure"
+                  values={Object {}}
+                />
+              </ForwardRef>
+            </span>,
+            "id": "id3",
+            "management": <span
+              className="group-description adjusted row-content"
+            >
+              <FormattedMessage
+                defaultMessage="Manual Invites"
+                id="admin.channel_settings.channel_row.managementMethod.manual"
+                values={Object {}}
+              />
+            </span>,
+            "name": <span
+              className="group-name overflow--ellipsis row-content"
+              data-testid="channel-display-name"
+            >
+              <GlobeIcon
+                className="channel-icon channel-icon__globe channel-icon___lowerOpacity"
+              />
+              <span
+                className="TeamList_channelDisplayName"
+              >
+                DN3
+              </span>
+            </span>,
+            "team": <span
+              className="group-description row-content"
+            >
+              teamDisplayName
+            </span>,
+          },
+          "onClick": [Function],
+        },
+        Object {
+          "cells": Object {
+            "edit": <span
+              className="group-actions TeamList_editRow"
+              data-testid="DN4edit"
+            >
+              <ForwardRef
+                to="/admin_console/user_management/channels/id4"
+              >
+                <FormattedMessage
+                  defaultMessage="Edit"
+                  id="admin.channel_settings.channel_row.configure"
+                  values={Object {}}
+                />
+              </ForwardRef>
+            </span>,
+            "id": "id4",
+            "management": <span
+              className="group-description adjusted row-content"
+            >
+              <FormattedMessage
+                defaultMessage="Manual Invites"
+                id="admin.channel_settings.channel_row.managementMethod.manual"
+                values={Object {}}
+              />
+            </span>,
+            "name": <span
+              className="group-name overflow--ellipsis row-content"
+              data-testid="channel-display-name"
+            >
+              <GlobeIcon
+                className="channel-icon channel-icon__globe channel-icon___lowerOpacity"
+              />
+              <span
+                className="TeamList_channelDisplayName"
+              >
+                DN4
+              </span>
+            </span>,
+            "team": <span
+              className="group-description row-content"
+            >
+              teamDisplayName
+            </span>,
+          },
+          "onClick": [Function],
+        },
+        Object {
+          "cells": Object {
+            "edit": <span
+              className="group-actions TeamList_editRow"
+              data-testid="DN5edit"
+            >
+              <ForwardRef
+                to="/admin_console/user_management/channels/id5"
+              >
+                <FormattedMessage
+                  defaultMessage="Edit"
+                  id="admin.channel_settings.channel_row.configure"
+                  values={Object {}}
+                />
+              </ForwardRef>
+            </span>,
+            "id": "id5",
+            "management": <span
+              className="group-description adjusted row-content"
+            >
+              <FormattedMessage
+                defaultMessage="Manual Invites"
+                id="admin.channel_settings.channel_row.managementMethod.manual"
+                values={Object {}}
+              />
+            </span>,
+            "name": <span
+              className="group-name overflow--ellipsis row-content"
+              data-testid="channel-display-name"
+            >
+              <GlobeIcon
+                className="channel-icon channel-icon__globe channel-icon___lowerOpacity"
+              />
+              <span
+                className="TeamList_channelDisplayName"
+              >
+                DN5
+              </span>
+            </span>,
+            "team": <span
+              className="group-description row-content"
+            >
+              teamDisplayName
+            </span>,
+          },
+          "onClick": [Function],
+        },
+        Object {
+          "cells": Object {
+            "edit": <span
+              className="group-actions TeamList_editRow"
+              data-testid="DN6edit"
+            >
+              <ForwardRef
+                to="/admin_console/user_management/channels/id6"
+              >
+                <FormattedMessage
+                  defaultMessage="Edit"
+                  id="admin.channel_settings.channel_row.configure"
+                  values={Object {}}
+                />
+              </ForwardRef>
+            </span>,
+            "id": "id6",
+            "management": <span
+              className="group-description adjusted row-content"
+            >
+              <FormattedMessage
+                defaultMessage="Manual Invites"
+                id="admin.channel_settings.channel_row.managementMethod.manual"
+                values={Object {}}
+              />
+            </span>,
+            "name": <span
+              className="group-name overflow--ellipsis row-content"
+              data-testid="channel-display-name"
+            >
+              <GlobeIcon
+                className="channel-icon channel-icon__globe channel-icon___lowerOpacity"
+              />
+              <span
+                className="TeamList_channelDisplayName"
+              >
+                DN6
+              </span>
+            </span>,
+            "team": <span
+              className="group-description row-content"
+            >
+              teamDisplayName
+            </span>,
+          },
+          "onClick": [Function],
+        },
+        Object {
+          "cells": Object {
+            "edit": <span
+              className="group-actions TeamList_editRow"
+              data-testid="DN7edit"
+            >
+              <ForwardRef
+                to="/admin_console/user_management/channels/id7"
+              >
+                <FormattedMessage
+                  defaultMessage="Edit"
+                  id="admin.channel_settings.channel_row.configure"
+                  values={Object {}}
+                />
+              </ForwardRef>
+            </span>,
+            "id": "id7",
+            "management": <span
+              className="group-description adjusted row-content"
+            >
+              <FormattedMessage
+                defaultMessage="Manual Invites"
+                id="admin.channel_settings.channel_row.managementMethod.manual"
+                values={Object {}}
+              />
+            </span>,
+            "name": <span
+              className="group-name overflow--ellipsis row-content"
+              data-testid="channel-display-name"
+            >
+              <GlobeIcon
+                className="channel-icon channel-icon__globe channel-icon___lowerOpacity"
+              />
+              <span
+                className="TeamList_channelDisplayName"
+              >
+                DN7
+              </span>
+            </span>,
+            "team": <span
+              className="group-description row-content"
+            >
+              teamDisplayName
+            </span>,
+          },
+          "onClick": [Function],
+        },
+        Object {
+          "cells": Object {
+            "edit": <span
+              className="group-actions TeamList_editRow"
+              data-testid="DN8edit"
+            >
+              <ForwardRef
+                to="/admin_console/user_management/channels/id8"
+              >
+                <FormattedMessage
+                  defaultMessage="Edit"
+                  id="admin.channel_settings.channel_row.configure"
+                  values={Object {}}
+                />
+              </ForwardRef>
+            </span>,
+            "id": "id8",
+            "management": <span
+              className="group-description adjusted row-content"
+            >
+              <FormattedMessage
+                defaultMessage="Manual Invites"
+                id="admin.channel_settings.channel_row.managementMethod.manual"
+                values={Object {}}
+              />
+            </span>,
+            "name": <span
+              className="group-name overflow--ellipsis row-content"
+              data-testid="channel-display-name"
+            >
+              <GlobeIcon
+                className="channel-icon channel-icon__globe channel-icon___lowerOpacity"
+              />
+              <span
+                className="TeamList_channelDisplayName"
+              >
+                DN8
+              </span>
+            </span>,
+            "team": <span
+              className="group-description row-content"
+            >
+              teamDisplayName
+            </span>,
+          },
+          "onClick": [Function],
+        },
+        Object {
+          "cells": Object {
+            "edit": <span
+              className="group-actions TeamList_editRow"
+              data-testid="DN9edit"
+            >
+              <ForwardRef
+                to="/admin_console/user_management/channels/id9"
+              >
+                <FormattedMessage
+                  defaultMessage="Edit"
+                  id="admin.channel_settings.channel_row.configure"
+                  values={Object {}}
+                />
+              </ForwardRef>
+            </span>,
+            "id": "id9",
+            "management": <span
+              className="group-description adjusted row-content"
+            >
+              <FormattedMessage
+                defaultMessage="Manual Invites"
+                id="admin.channel_settings.channel_row.managementMethod.manual"
+                values={Object {}}
+              />
+            </span>,
+            "name": <span
+              className="group-name overflow--ellipsis row-content"
+              data-testid="channel-display-name"
+            >
+              <GlobeIcon
+                className="channel-icon channel-icon__globe channel-icon___lowerOpacity"
+              />
+              <span
+                className="TeamList_channelDisplayName"
+              >
+                DN9
+              </span>
+            </span>,
+            "team": <span
+              className="group-description row-content"
+            >
+              teamDisplayName
+            </span>,
+          },
+          "onClick": [Function],
+        },
+      ]
+    }
+    rowsContainerStyles={
+      Object {
+        "minHeight": "400px",
+      }
+    }
+    search={[Function]}
+    startCount={1}
+    term=""
     total={30}
   />
 </div>

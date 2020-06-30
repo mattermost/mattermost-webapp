@@ -21,6 +21,10 @@ class DataGridSearch extends React.PureComponent<Props> {
         this.props.onSearch(term);
     }
 
+    resetSearch = () => {
+        this.props.onSearch('');
+    }
+
     render() {
         let {placeholder} = this.props;
         if (!placeholder) {
@@ -41,6 +45,11 @@ class DataGridSearch extends React.PureComponent<Props> {
                         placeholder={Utils.localizeMessage('search_bar.search', 'Search')}
                         onChange={this.handleSearch}
                         value={this.props.term}
+                    />
+                    <i
+                        className={'DataGrid_clearButton fa fa-times-circle ' + (this.props.term.length ? '' : 'hidden')}
+                        onClick={this.resetSearch}
+                        data-testid='clear-search'
                     />
                 </div>
             </div>

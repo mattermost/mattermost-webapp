@@ -2,7 +2,10 @@
     "compilerOptions": {
         "allowJs": true,
         "baseUrl": "../node_modules",
-        "types": ["cypress"]
+        "types": [
+            "cypress",
+            "@applitools/eyes-cypress",
+        ]
     },
     "include": ["**/*.*"]
 }

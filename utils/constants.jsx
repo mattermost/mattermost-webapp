@@ -200,6 +200,8 @@ export const ActionTypes = keyMirror({
     UPDATE_TOAST_STATUS: null,
     TRACK_ANNOUNCEMENT_BAR: null,
     DISMISS_ANNOUNCEMENT_BAR: null,
+
+    PREFETCH_POSTS_FOR_CHANNEL: null,
 });
 
 export const PostRequestTypes = keyMirror({

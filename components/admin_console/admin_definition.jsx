@@ -298,7 +298,7 @@ const AdminDefinition = {
         groups: {
             url: 'user_management/groups',
             title: t('admin.sidebar.groups'),
-            title_default: 'Groups (Beta)',
+            title_default: 'Groups',
             isHidden: it.either(
                 it.isnt(it.licensedForFeature('LDAPGroups')),
             ),
@@ -4522,6 +4522,15 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.experimentalChannelOrganization.desc'),
                         help_text_default: 'Enables channel sidebar organization options in **Account Settings > Sidebar > Channel grouping and sorting** including options for grouping unread channels, sorting channels by most recent post and combining all channel types into a single list. These settings are not available if **Account Settings > Sidebar > Experimental Sidebar Features** are enabled.',
                         help_text_markdown: true,
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'DisplaySettings.ExperimentalDataPrefetch',
+                        label: t('admin.experimental.experimentalDataPrefetch.title'),
+                        label_default: 'Preload messages in unread channels:',
+                        help_text: t('admin.experimental.experimentalDataPrefetch.desc'),
+                        help_text_default: 'When true, messages in unread channels are preloaded to reduce channel loading time. When false, messages are not loaded from the server until users switch channels.',
+                        help_text_markdown: false,
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,

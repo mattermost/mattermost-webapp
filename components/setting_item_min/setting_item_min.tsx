@@ -34,26 +34,14 @@ interface Props {
      */
     describe?: JSX.Element | string;
 
-    /**
-     * Shows the previous active section for focusing
-     */
-    previousActiveSection?: string;
-
-    /**
-     * Actions
-     * Update the active section for focusing
-     */
-    actions: {updateActiveSection: (newActiveSection: string) => {type: string; data: string}};
 }
 
 export default class SettingItemMin extends React.PureComponent<Props> {
     private edit: HTMLButtonElement | null = null;
 
     componentDidMount() {
-        if (this.props.previousActiveSection === this.props.section) {
-            if (this.edit) {
-                this.edit.focus();
-            }
+        if (this.edit) {
+            this.edit.focus();
         }
     }
 
@@ -63,7 +51,6 @@ export default class SettingItemMin extends React.PureComponent<Props> {
 
     handleUpdateSection = (e: React.MouseEvent<HTMLElement>) => {
         e.preventDefault();
-        this.props.actions.updateActiveSection(this.props.section);
         this.props.updateSection(this.props.section);
     }
 

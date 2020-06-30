@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import $ from 'jquery';
 import PropTypes from 'prop-types';
@@ -271,3 +272,4 @@ class SearchableUserList extends React.PureComponent {
 }
 
 export default injectIntl(SearchableUserList);
+/* eslint-enable react/no-string-refs */
