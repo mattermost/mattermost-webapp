@@ -165,15 +165,20 @@ describe('PostList', () => {
             {
                 name: 'when viewing the top of the post list',
                 scrollOffset: 0,
-                expected: false,
+                expected: true,
             },
             {
                 name: 'when 11 pixel from the bottom',
                 scrollOffset: 489,
-                expected: false,
+                expected: true,
             },
             {
                 name: 'when 9 pixel from the bottom also considered to be bottom',
+                scrollOffset: 490,
+                expected: true,
+            },
+            {
+                name: 'when  pixel from the bottom also considered to be bottom',
                 scrollOffset: 490,
                 expected: true,
             },
