@@ -29,7 +29,6 @@ exports[`components/feature_discovery FeatureDiscovery should match snapshot 1`]
     <button
       className="btn btn-primary"
       data-testid="featureDiscovery_primaryCallToAction"
-      disabled={true}
       onClick={[Function]}
     >
       <LoadingWrapper
@@ -57,40 +56,12 @@ exports[`components/feature_discovery FeatureDiscovery should match snapshot 1`]
       />
     </a>
     <p
-      className="trial-checkbox"
+      className="trial-legal-terms"
     >
-      <input
-        checked={false}
-        id="accept-terms"
-        onChange={[Function]}
-        type="checkbox"
+      <injectIntl(FormattedMarkdownMessage)
+        defaultMessage="By clicking \\"Start a trial,\\" I agree to the [Mattermost Software Evaluation Agreement](!https://mattermost.com/software-evaluation-agreement/), [Privacy Policy](!https://mattermost.com/privacy-policy/), and receiving product emails."
+        id="admin.license.trial-request.accept-terms"
       />
-      <label
-        htmlFor="accept-terms"
-      >
-        <injectIntl(FormattedMarkdownMessage)
-          defaultMessage="I have read and agree to the [Mattermost Software Evaluation Agreement](!https://mattermost.com/software-evaluation-agreement/) and [Privacy Policy](!https://mattermost.com/privacy-policy/)."
-          id="admin.license.trial-request.accept-terms"
-        />
-      </label>
-    </p>
-    <p
-      className="trial-checkbox"
-    >
-      <input
-        checked={false}
-        id="accept-receive-emails"
-        onChange={[Function]}
-        type="checkbox"
-      />
-      <label
-        htmlFor="accept-receive-emails"
-      >
-        <injectIntl(FormattedMarkdownMessage)
-          defaultMessage="By checking this box, I consent to receive emails from Mattermost with product updates, promotions, and company news. I have read the [Privacy Policy](!https://mattermost.com/privacy-policy/) and understand that I can unsubscribe at any time."
-          id="admin.license.trial-request.accept-receive-emails"
-        />
-      </label>
     </p>
   </div>
   <div
