@@ -107,10 +107,6 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
     });
 
     it('MM-T305 Changes to Account Settings are not saved when user does not click on Save button', () => {
-        // # Go to a known team and channel
-        cy.visit(`/${testTeam.name}/channels/town-square`);
-        cy.get('#channelHeaderTitle').should('be.visible').should('contain', 'Town Square');
-
         // # Go to Account Settings modal > Sidebar > Channel Switcher and set setting to Off
         enableOrDisableChannelSwitcher(false);
 
