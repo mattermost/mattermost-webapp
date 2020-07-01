@@ -29,6 +29,7 @@ class EditPostModal extends React.PureComponent {
         codeBlockOnCtrlEnter: PropTypes.bool,
         ctrlSend: PropTypes.bool,
         smartPaste: PropTypes.bool,
+        smartPasteCodeBlocks: PropTypes.bool,
         config: PropTypes.object.isRequired,
         intl: intlShape.isRequired,
         maxPostSize: PropTypes.number.isRequired,
@@ -81,12 +82,14 @@ class EditPostModal extends React.PureComponent {
 
     componentDidMount() {
         document.addEventListener('paste', this.handlePaste);
-        document.addEventListener('keydown', this.documentKeyHandler);
+        document.addEventListener('keydown', this.setIsShiftPressed);
+        document.addEventListener('keyup', this.setIsShiftPressed);
     }
 
     componentWillUnmount() {
         document.removeEventListener('paste', this.handlePaste);
-        document.removeEventListener('keydown', this.documentKeyHandler);
+        document.removeEventListener('keydown', this.setIsShiftPressed);
+        document.removeEventListener('keyup', this.setIsShiftPressed);
     }
 
     setShowPreview = (newPreviewValue) => {
@@ -230,19 +233,19 @@ class EditPostModal extends React.PureComponent {
         });
     }
 
-    documentKeyHandler = (e) => {
+    setIsShiftPressed = (e) => {
         this.setState({isShiftPressed: e.shiftKey});
     }
 
     smartPaste = (clipboardData) => {
-        const {message, caretPosition} = clipboardToMarkdown(clipboardData, this.state.editText, this.state.caretPosition);
+        const {message, caretPosition} = clipboardToMarkdown(clipboardData, this.state.editText, this.state.caretPosition, {tables: this.props.smartPaste, html: this.props.smartPaste, code: this.props.smartPasteCodeBlocks});
         this.setState({editText: message, caretPosition}, () => {
             Utils.setCaretPosition(this.editbox.getInputBox(), caretPosition);
         });
     }
 
     handlePaste = (e) => {
-        if (!e.clipboardData || !e.clipboardData.items || !this.props.canEditPost || e.target.id !== 'edit_textbox' || this.state.isShiftPressed || !this.props.smartPaste) {
+        if (!e.clipboardData || !e.clipboardData.items || !this.props.canEditPost || e.target.id !== 'edit_textbox' || this.state.isShiftPressed || (!this.props.smartPaste && !this.props.smartPasteCodeBlocks)) {
             return;
         }
 

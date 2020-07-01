@@ -1368,10 +1368,6 @@ export const Constants = {
             label: 'markdown_preview', // github issue: https://github.com/mattermost/platform/pull/1389
             description: 'Show markdown preview option in message input box',
         },
-        SMART_PASTE: {
-            label: 'smart_paste',
-            description: 'Try to transform the pasted text into a well formatted markdown',
-        },
     },
     OVERLAY_TIME_DELAY_SMALL: 100,
     OVERLAY_TIME_DELAY: 400,

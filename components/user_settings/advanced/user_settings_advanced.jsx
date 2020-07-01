@@ -25,6 +25,8 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
         advancedSettingsCategory: PropTypes.array.isRequired,
         sendOnCtrlEnter: PropTypes.string.isRequired,
         codeBlockOnCtrlEnter: PropTypes.bool,
+        smartPaste: PropTypes.bool,
+        smartPasteCodeBlocks: PropTypes.bool,
         formatting: PropTypes.string.isRequired,
         joinLeave: PropTypes.string.isRequired,
         updateSection: PropTypes.func,
@@ -51,6 +53,8 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
         const settings = {
             send_on_ctrl_enter: this.props.sendOnCtrlEnter,
             code_block_ctrl_enter: this.props.codeBlockOnCtrlEnter,
+            smart_paste: this.props.smartPaste,
+            smart_paste_code_blocks: this.props.smartPasteCodeBlocks,
             formatting: this.props.formatting,
             join_leave: this.props.joinLeave,
         };
@@ -213,6 +217,21 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
         };
     }
 
+    getSmartPasteText = () => {
+        const description = {
+            id: t('user.settings.advance.smartPasteDesc'),
+            defaultMessage: 'When enabled, paste text in the input box is automatically formated with markdown (based on the original text format). You can press shift while you paste to skip entirely smart paste.',
+        };
+        const title = {
+            id: t('user.settings.advance.smartPasteTitle'),
+            defaultMessage: 'Smart paste',
+        };
+        return {
+            smartPasteTitle: title,
+            smartPasteDesc: description,
+        };
+    }
+
     renderOnOffLabel(enabled) {
         if (enabled === 'false') {
             return (
@@ -227,6 +246,39 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
             <FormattedMessage
                 id='user.settings.advance.on'
                 defaultMessage='On'
+            />
+        );
+    }
+
+    renderSmartPasteLabel() {
+        const smartPaste = this.state.settings.smart_paste;
+        const smartPasteCodeBlocks = this.state.settings.smart_paste_code_blocks;
+        if (smartPaste === 'true' && smartPasteCodeBlocks === 'true') {
+            return (
+                <FormattedMessage
+                    id='user.settings.advance.onForAllSmartPasteFeatures'
+                    defaultMessage='Enabled'
+                />
+            );
+        } else if (smartPaste === 'true' && smartPasteCodeBlocks === 'false') {
+            return (
+                <FormattedMessage
+                    id='user.settings.advance.onWithoutCodeAutoDetect'
+                    defaultMessage='Enabled without code auto-detection'
+                />
+            );
+        } else if (smartPaste === 'false' && smartPasteCodeBlocks === 'true') {
+            return (
+                <FormattedMessage
+                    id='user.settings.advance.onForCodeAutoDetect'
+                    defaultMessage='Enabled only for code auto-detection'
+                />
+            );
+        }
+        return (
+            <FormattedMessage
+                id='user.settings.advance.off'
+                defaultMessage='Off'
             />
         );
     }
@@ -348,13 +400,6 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
                     defaultMessage='Show markdown preview option in message input box'
                 />
             );
-        case 'SMART_PASTE':
-            return (
-                <FormattedMessage
-                    id='user.settings.advance.smart_paste'
-                    defaultMessage='Try to transform the pasted text into a well formatted markdown'
-                />
-            );
         default:
             return null;
         }
@@ -460,6 +505,129 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
                     }
                     describe={this.renderCtrlEnterLabel()}
                     section={'advancedCtrlSend'}
+                    updateSection={this.handleUpdateSection}
+                />
+            );
+        }
+
+        let smartPasteSection;
+        const {smartPasteTitle, smartPasteDesc} = this.getSmartPasteText();
+        const smartPasteSectionDivider = <div className='divider-light'/>;
+        if (this.props.activeSection === 'advancedSmartPaste') {
+            const smartPasteActive = [
+                this.state.settings.smart_paste === 'true' && this.state.settings.smart_paste_code_blocks === 'true',
+                this.state.settings.smart_paste === 'true' && this.state.settings.smart_paste_code_blocks === 'false',
+                this.state.settings.smart_paste === 'false' && this.state.settings.smart_paste_code_blocks === 'true',
+                this.state.settings.smart_paste === 'false' && this.state.settings.smart_paste_code_blocks === 'false',
+            ];
+
+            const inputs = [
+                <fieldset key='smartPasteSetting'>
+                    <legend className='form-legend hidden-label'>
+                        <FormattedMessage {...smartPasteTitle}/>
+                    </legend>
+                    <div className='radio'>
+                        <label>
+                            <input
+                                id='smartPasteOn'
+                                type='radio'
+                                name='smartPaste'
+                                checked={smartPasteActive[0]}
+                                onChange={() => {
+                                    this.updateSetting('smart_paste', 'true');
+                                    this.updateSetting('smart_paste_code_blocks', 'true');
+                                }}
+                            />
+                            <FormattedMessage
+                                id='user.settings.advance.smartPasteOn'
+                                defaultMessage='Enable smart paste feature'
+                            />
+                        </label>
+                        <br/>
+                    </div>
+                    <div className='radio'>
+                        <label>
+                            <input
+                                id='smartPasteOnWithoutCodeBlocks'
+                                type='radio'
+                                name='smartPaste'
+                                checked={smartPasteActive[1]}
+                                onChange={() => {
+                                    this.updateSetting('smart_paste', 'true');
+                                    this.updateSetting('smart_paste_code_blocks', 'false');
+                                }}
+                            />
+                            <FormattedMessage
+                                id='user.settings.advance.smartPasteOnWithoutCodeBlocks'
+                                defaultMessage='Enable smart paste without auto-detection of code blocks'
+                            />
+                        </label>
+                        <br/>
+                    </div>
+                    <div className='radio'>
+                        <label>
+                            <input
+                                id='smartPasteOnOnlyCodeBlocks'
+                                type='radio'
+                                name='smartPaste'
+                                checked={smartPasteActive[2]}
+                                onChange={() => {
+                                    this.updateSetting('smart_paste', 'false');
+                                    this.updateSetting('smart_paste_code_blocks', 'true');
+                                }}
+                            />
+                            <FormattedMessage
+                                id='user.settings.advance.smartPasteOnOnlyCodeBlocks'
+                                defaultMessage='Only use smart paste to auto-detect code blocks'
+                            />
+                        </label>
+                        <br/>
+                    </div>
+                    <div className='radio'>
+                        <label>
+                            <input
+                                id='smartPasteOff'
+                                type='radio'
+                                name='smartPaste'
+                                checked={smartPasteActive[3]}
+                                onChange={() => {
+                                    this.updateSetting('smart_paste', 'false');
+                                    this.updateSetting('smart_paste_code_blocks', 'false');
+                                }}
+                            />
+                            <FormattedMessage
+                                id='user.settings.advance.off'
+                                defaultMessage='Off'
+                            />
+                        </label>
+                        <br/>
+                    </div>
+                    <div>
+                        <br/>
+                        <FormattedMessage {...smartPasteDesc}/>
+                    </div>
+                </fieldset>,
+            ];
+            smartPasteSection = (
+                <SettingItemMax
+                    title={
+                        <FormattedMessage {...smartPasteTitle}/>
+                    }
+                    inputs={inputs}
+                    submit={this.handleSubmit.bind(this, ['smart_paste', 'smart_paste_code_blocks'])}
+                    saving={this.state.isSaving}
+                    server_error={serverError}
+                    updateSection={this.handleUpdateSection}
+                />
+            );
+        } else {
+            smartPasteSection = (
+                <SettingItemMin
+                    title={
+                        <FormattedMessage {...smartPasteTitle}/>
+                    }
+                    describe={this.renderSmartPasteLabel()}
+                    section={'advancedSmartPaste'}
                     updateSection={this.handleUpdateSection}
                 />
             );
@@ -666,6 +834,8 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
                     </h3>
                     <div className='divider-dark first'/>
                     {ctrlSendSection}
+                    {smartPasteSectionDivider}
+                    {smartPasteSection}
                     {formattingSectionDivider}
                     {formattingSection}
                     <div className='divider-light'/>

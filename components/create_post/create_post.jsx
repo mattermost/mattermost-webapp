@@ -99,6 +99,11 @@ class CreatePost extends React.PureComponent {
         smartPaste: PropTypes.bool,
 
         /**
+         *  Flag used for smart paste code blocks feature
+         */
+        smartPasteCodeBlocks: PropTypes.bool,
+
+        /**
          *  Flag used for adding a class center to Postbox based on user pref
          */
         fullWidthTextBox: PropTypes.bool,
@@ -347,6 +352,8 @@ class CreatePost extends React.PureComponent {
         this.focusTextbox();
         document.addEventListener('paste', this.pasteHandler);
         document.addEventListener('keydown', this.documentKeyHandler);
+        document.addEventListener('keyup', this.setIsShiftPressed);
+        document.addEventListener('keydown', this.setIsShiftPressed);
         this.setOrientationListeners();
 
         if (useGroupMentions) {
@@ -377,6 +384,8 @@ class CreatePost extends React.PureComponent {
     componentWillUnmount() {
         document.removeEventListener('paste', this.pasteHandler);
         document.removeEventListener('keydown', this.documentKeyHandler);
+        document.removeEventListener('keyup', this.setIsShiftPressed);
+        document.removeEventListener('keydown', this.setIsShiftPressed);
         this.removeOrientationListeners();
         if (this.saveDraftFrame) {
             const channelId = this.props.currentChannel.id;
@@ -815,12 +824,12 @@ class CreatePost extends React.PureComponent {
     }
 
     smartPaste = (clipboardData) => {
-        const {message, caretPosition} = clipboardToMarkdown(clipboardData, this.state.message, this.state.caretPosition);
+        const {message, caretPosition} = clipboardToMarkdown(clipboardData, this.state.message, this.state.caretPosition, {tables: this.props.smartPaste, html: this.props.smartPaste, code: this.props.smartPasteCodeBlocks});
         this.setMessageAndCaretPostion(message, caretPosition);
     }
 
     pasteHandler = (e) => {
-        if (!e.clipboardData || !e.clipboardData.items || e.target.id !== 'post_textbox' || this.state.isShiftPressed || !this.props.smartPaste) {
+        if (!e.clipboardData || !e.clipboardData.items || e.target.id !== 'post_textbox' || this.state.isShiftPressed || (!this.props.smartPaste && !this.props.smartPasteCodeBlocks)) {
             return;
         }
 
@@ -961,8 +970,11 @@ class CreatePost extends React.PureComponent {
         }
     }
 
-    documentKeyHandler = (e) => {
+    setIsShiftPressed = (e) => {
         this.setState({isShiftPressed: e.shiftKey});
+    }
+
+    documentKeyHandler = (e) => {
         const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
         const shortcutModalKeyCombo = ctrlOrMetaKeyPressed && Utils.isKeyPressed(e, KeyCodes.FORWARD_SLASH);
         const lastMessageReactionKeyCombo = ctrlOrMetaKeyPressed && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.BACK_SLASH);

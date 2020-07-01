@@ -98,6 +98,11 @@ class CreateComment extends React.PureComponent {
         smartPaste: PropTypes.bool,
 
         /**
+         *  Flag used for smart paste code blocks feature
+         */
+        smartPasteCodeBlocks: PropTypes.bool,
+
+        /**
          * The id of the latest post in this channel
          */
         latestPostId: PropTypes.string,
@@ -288,6 +293,8 @@ class CreateComment extends React.PureComponent {
         this.focusTextbox();
         document.addEventListener('paste', this.pasteHandler);
         document.addEventListener('keydown', this.focusTextboxIfNecessary);
+        document.addEventListener('keyup', this.setIsShiftPressed);
+        document.addEventListener('keydown', this.setIsShiftPressed);
         if (useGroupMentions) {
             getChannelMemberCountsByGroup(channelId);
         }
@@ -304,6 +311,8 @@ class CreateComment extends React.PureComponent {
         this.props.resetCreatePostRequest();
         document.removeEventListener('paste', this.pasteHandler);
         document.removeEventListener('keydown', this.focusTextboxIfNecessary);
+        document.removeEventListener('keyup', this.setIsShiftPressed);
+        document.removeEventListener('keydown', this.setIsShiftPressed);
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -338,9 +347,11 @@ class CreateComment extends React.PureComponent {
         this.props.setShowPreview(newPreviewValue);
     }
 
-    focusTextboxIfNecessary = (e) => {
+    setIsShiftPressed = (e) => {
         this.setState({isShiftPressed: e.shiftKey});
+    }
 
+    focusTextboxIfNecessary = (e) => {
         // Should only focus if RHS is expanded
         if (!this.props.rhsExpanded) {
             return;
@@ -369,7 +380,7 @@ class CreateComment extends React.PureComponent {
     }
 
     smartPaste = (clipboardData) => {
-        const {message, caretPosition} = clipboardToMarkdown(clipboardData, this.state.draft.message, this.state.caretPosition);
+        const {message, caretPosition} = clipboardToMarkdown(clipboardData, this.state.draft.message, this.state.caretPosition, {tables: this.props.smartPaste, html: this.props.smartPaste, code: this.props.smartPasteCodeBlocks});
         this.setCaretPosition(caretPosition);
         const updatedDraft = {...this.state.draft, message};
         this.props.onUpdateCommentDraft(updatedDraft);
@@ -377,7 +388,7 @@ class CreateComment extends React.PureComponent {
     }
 
     pasteHandler = (e) => {
-        if (!e.clipboardData || !e.clipboardData.items || e.target.id !== 'reply_textbox' || this.state.isShiftPressed || !this.props.smartPaste) {
+        if (!e.clipboardData || !e.clipboardData.items || e.target.id !== 'reply_textbox' || this.state.isShiftPressed || (!this.props.smartPaste && !this.props.smartPasteCodeBlocks)) {
             return;
         }
 
