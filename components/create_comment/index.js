@@ -84,6 +84,7 @@ function makeMapStateToProps() {
             channelMembersCount,
             codeBlockOnCtrlEnter: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'code_block_ctrl_enter', true),
             ctrlSend: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'),
+            smartPaste: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'feature_enabled_smart_paste'),
             createPostErrorId: err.server_error_id,
             readOnlyChannel: !isCurrentUserSystemAdmin(state) && config.ExperimentalTownSquareIsReadOnly === 'true' && channel.name === Constants.DEFAULT_CHANNEL,
             enableConfirmNotificationsToChannel,

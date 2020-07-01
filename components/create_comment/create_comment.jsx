@@ -93,6 +93,11 @@ class CreateComment extends React.PureComponent {
         ctrlSend: PropTypes.bool,
 
         /**
+         *  Flag used for smart paste feature
+         */
+        smartPaste: PropTypes.bool,
+
+        /**
          * The id of the latest post in this channel
          */
         latestPostId: PropTypes.string,
@@ -267,6 +272,7 @@ class CreateComment extends React.PureComponent {
             suggestionListStyle: 'top',
             mentions: [],
             memberNotifyCount: 0,
+            isShiftPressed: false,
         };
         this.lastBlurAt = 0;
         this.draftsForPost = {};
@@ -333,6 +339,8 @@ class CreateComment extends React.PureComponent {
     }
 
     focusTextboxIfNecessary = (e) => {
+        this.setState({isShiftPressed: e.shiftKey});
+
         // Should only focus if RHS is expanded
         if (!this.props.rhsExpanded) {
             return;
@@ -369,7 +377,7 @@ class CreateComment extends React.PureComponent {
     }
 
     pasteHandler = (e) => {
-        if (!e.clipboardData || !e.clipboardData.items || e.target.id !== 'reply_textbox') {
+        if (!e.clipboardData || !e.clipboardData.items || e.target.id !== 'reply_textbox' || this.state.isShiftPressed || !this.props.smartPaste) {
             return;
         }
 

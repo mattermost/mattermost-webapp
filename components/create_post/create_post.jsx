@@ -94,6 +94,11 @@ class CreatePost extends React.PureComponent {
         ctrlSend: PropTypes.bool,
 
         /**
+         *  Flag used for smart paste feature
+         */
+        smartPaste: PropTypes.bool,
+
+        /**
          *  Flag used for adding a class center to Postbox based on user pref
          */
         fullWidthTextBox: PropTypes.bool,
@@ -815,7 +820,7 @@ class CreatePost extends React.PureComponent {
     }
 
     pasteHandler = (e) => {
-        if (!e.clipboardData || !e.clipboardData.items || e.target.id !== 'post_textbox' || this.state.isShiftPressed) {
+        if (!e.clipboardData || !e.clipboardData.items || e.target.id !== 'post_textbox' || this.state.isShiftPressed || !this.props.smartPaste) {
             return;
         }
 

@@ -28,6 +28,7 @@ class EditPostModal extends React.PureComponent {
         canDeletePost: PropTypes.bool,
         codeBlockOnCtrlEnter: PropTypes.bool,
         ctrlSend: PropTypes.bool,
+        smartPaste: PropTypes.bool,
         config: PropTypes.object.isRequired,
         intl: intlShape.isRequired,
         maxPostSize: PropTypes.number.isRequired,
@@ -63,6 +64,7 @@ class EditPostModal extends React.PureComponent {
             errorClass: null,
             showEmojiPicker: false,
             prevShowState: props.editingPost.show,
+            isShiftPressed: false,
         };
     }
 
@@ -79,10 +81,12 @@ class EditPostModal extends React.PureComponent {
 
     componentDidMount() {
         document.addEventListener('paste', this.handlePaste);
+        document.addEventListener('keydown', this.documentKeyHandler);
     }
 
     componentWillUnmount() {
         document.removeEventListener('paste', this.handlePaste);
+        document.removeEventListener('keydown', this.documentKeyHandler);
     }
 
     setShowPreview = (newPreviewValue) => {
@@ -226,6 +230,10 @@ class EditPostModal extends React.PureComponent {
         });
     }
 
+    documentKeyHandler = (e) => {
+        this.setState({isShiftPressed: e.shiftKey});
+    }
+
     smartPaste = (clipboardData) => {
         const {message, caretPosition} = clipboardToMarkdown(clipboardData, this.state.editText, this.state.caretPosition);
         this.setState({editText: message, caretPosition}, () => {
@@ -234,7 +242,7 @@ class EditPostModal extends React.PureComponent {
     }
 
     handlePaste = (e) => {
-        if (!e.clipboardData || !e.clipboardData.items || !this.props.canEditPost || e.target.id !== 'edit_textbox') {
+        if (!e.clipboardData || !e.clipboardData.items || !this.props.canEditPost || e.target.id !== 'edit_textbox' || this.state.isShiftPressed || !this.props.smartPaste) {
             return;
         }
 

@@ -348,6 +348,13 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
                     defaultMessage='Show markdown preview option in message input box'
                 />
             );
+        case 'SMART_PASTE':
+            return (
+                <FormattedMessage
+                    id='user.settings.advance.smart_paste'
+                    defaultMessage='Try to transform the pasted text into a well formatted markdown'
+                />
+            );
         default:
             return null;
         }
