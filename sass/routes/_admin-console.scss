@@ -492,31 +492,17 @@
 
     .trial {
         margin-top: 15px;
-        button {
-            &:disabled {
-                background: $light-gray;
-                color: $dark-gray;
-                border-color: transparent;
-            }
-        }
     }
     .trial-error {
         color: $dark-gray;
         font-weight: 400;
         margin-top: 10px;
     }
-    .trial-checkbox {
+    .trial-legal-terms {
         margin-top: 10px;
         margin-bottom: 0;
-        input {
-            position: absolute;
-        }
-        label {
-            margin-left: 25px;
-            display: inline-block;
-            color: $dark-gray;
-            font-weight: 400;
-        }
+        color: $dark-gray;
+        font-weight: 400;
     }
 }
 

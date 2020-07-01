@@ -37,8 +37,6 @@ export default class LicenseSettings extends React.PureComponent {
             gettingTrial: false,
             removing: false,
             uploading: false,
-            termsAccepted: false,
-            receiveEmailsAccepted: false,
         };
     }
 
@@ -93,16 +91,14 @@ export default class LicenseSettings extends React.PureComponent {
 
     requestLicense = async (e) => {
         e.preventDefault();
-        if (this.state.gettingTrial || !this.state.termsAccepted) {
+        if (this.state.gettingTrial) {
             return;
         }
         this.setState({gettingTrial: true, gettingTrialError: null});
         const requestedUsers = Math.max(this.props.stats.TOTAL_USERS, 30);
-        const {error} = await this.props.actions.requestTrialLicense(requestedUsers, this.state.termsAccepted, this.state.receiveEmailsAccepted, 'license');
+        const {error} = await this.props.actions.requestTrialLicense(requestedUsers, true, true, 'license');
         if (error) {
             this.setState({gettingTrialError: error});
-        } else {
-            this.setState({termsAccepted: false, receiveEmailsAccepted: false});
         }
         this.setState({gettingTrial: false});
         this.props.actions.getLicenseConfig();
@@ -217,7 +213,6 @@ export default class LicenseSettings extends React.PureComponent {
                     <p className='trial'>
                         <button
                             className='btn btn-primary'
-                            disabled={!this.state.termsAccepted}
                             onClick={this.requestLicense}
                         >
                             <LoadingWrapper
@@ -232,33 +227,11 @@ export default class LicenseSettings extends React.PureComponent {
                         </button>
                     </p>
                     {gettingTrialError}
-                    <p className='trial-checkbox'>
-                        <input
-                            type='checkbox'
-                            id='accept-terms'
-                            checked={this.state.termsAccepted}
-                            onChange={() => this.setState({termsAccepted: !this.state.termsAccepted})}
+                    <p className='trial-legal-terms'>
+                        <FormattedMarkdownMessage
+                            id='admin.license.trial-request.accept-terms'
+                            defaultMessage='By clicking "Start a trial", I agree to the [Mattermost Software Evaluation Agreement](!https://mattermost.com/software-evaluation-agreement/), [Privacy Policy](!https://mattermost.com/privacy-policy/), and receiving product emails.'
                         />
-                        <label htmlFor='accept-terms'>
-                            <FormattedMarkdownMessage
-                                id='admin.license.trial-request.accept-terms'
-                                defaultMessage='I have read and agree to the [Mattermost Software Evaluation Agreement](!https://mattermost.com/software-evaluation-agreement/) and [Privacy Policy](!https://mattermost.com/privacy-policy/).'
-                            />
-                        </label>
-                    </p>
-                    <p className='trial-checkbox'>
-                        <input
-                            type='checkbox'
-                            id='accept-receive-emails'
-                            checked={this.state.receiveEmailsAccepted}
-                            onChange={() => this.setState({receiveEmailsAccepted: !this.state.receiveEmailsAccepted})}
-                        />
-                        <label htmlFor='accept-receive-emails'>
-                            <FormattedMarkdownMessage
-                                id='admin.license.trial-request.accept-receive-emails'
-                                defaultMessage='By checking this box, I consent to receive emails from Mattermost with product updates, promotions, and company news. I have read the [Privacy Policy](!https://mattermost.com/privacy-policy/) and understand that I can unsubscribe at any time.'
-                            />
-                        </label>
                     </p>
                 </div>
             );
