@@ -192,19 +192,17 @@ export default class ChannelHeaderPlug extends React.PureComponent {
                             )}
                         >
                             <div>
-                                <React.Fragment>
-                                    <Icon
-                                        id='pluginChannelHeaderIcon'
-                                        className='icon icon--standard icon__pluginChannelHeader'
-                                        aria-hidden='true'
-                                    />
-                                    <span
-                                        id='pluginCount'
-                                        className='icon__text'
-                                    >
-                                        {plugs.length}
-                                    </span>
-                                </React.Fragment>
+                                <Icon
+                                    id='pluginChannelHeaderIcon'
+                                    className='icon icon--standard icon__pluginChannelHeader'
+                                    aria-hidden='true'
+                                />
+                                <span
+                                    id='pluginCount'
+                                    className='icon__text'
+                                >
+                                    {plugs.length}
+                                </span>
                             </div>
                         </OverlayTrigger>
                     </CustomToggle>

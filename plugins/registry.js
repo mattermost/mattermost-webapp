@@ -139,6 +139,8 @@ export default class PluginRegistry {
     // - action - a function called when the button is clicked, passed the channel and channel member as arguments
     // - dropdown_text - string or React element shown for the dropdown button description
     // - tooltip_text - string shown for tooltip appear on hover
+    // Returns an unique identifier
+    // Minimum required version: 5.25
     registerChannelHeaderCallButtonAction(icon, action, dropdownText, tooltipText) {
         const id = generateId();
 
