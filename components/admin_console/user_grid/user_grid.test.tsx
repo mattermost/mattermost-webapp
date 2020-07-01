@@ -7,7 +7,7 @@ import {shallow} from 'enzyme';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {TeamMembership} from 'mattermost-redux/types/teams';
 
-import {TestHelper} from '../../../utils/test_helper';
+import {TestHelper} from 'utils/test_helper';
 
 import UserGrid from './user_grid';
 

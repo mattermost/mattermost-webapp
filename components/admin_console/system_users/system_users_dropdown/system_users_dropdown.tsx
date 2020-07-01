@@ -5,6 +5,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import * as UserUtils from 'mattermost-redux/utils/user_utils';
 import {Permissions} from 'mattermost-redux/constants';
+import {AdminConfig} from 'mattermost-redux/types/config';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {ServerError} from 'mattermost-redux/types/errors';
 import {Dictionary} from 'mattermost-redux/types/utilities';
@@ -27,14 +28,14 @@ const ROWS_FROM_BOTTOM_TO_OPEN_UP = 3;
 const TOTAL_USERS_TO_OPEN_UP = 5;
 
 type Props = {
-    user: UserProfile & {mfa_active: boolean};
+    user: UserProfile;
     currentUser: UserProfile;
     mfaEnabled: boolean;
     enableUserAccessTokens: boolean;
     experimentalEnableAuthenticationTransfer: boolean;
     index: number;
     totalUsers: number;
-    config: any;
+    config: DeepPartial<AdminConfig>;
     bots: Dictionary<Bot>;
     isLicensed: boolean;
     actions: {

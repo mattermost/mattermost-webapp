@@ -5,6 +5,8 @@
 import React from 'react';
 import {Overlay, Tooltip} from 'react-bootstrap';
 
+import {AdminConfig, EnvironmentConfig} from 'mattermost-redux/types/config';
+
 import {localizeMessage} from 'utils/utils.jsx';
 import SaveButton from 'components/save_button';
 import FormError from 'components/form_error';
@@ -12,10 +14,10 @@ import FormError from 'components/form_error';
 import AdminHeader from 'components/widgets/admin_console/admin_header';
 
 type Props = {
-    config?: object;
-    environmentConfig?: object;
+    config?: AdminConfig;
+    environmentConfig?: EnvironmentConfig;
     setNavigationBlocked?: (blocked: boolean) => void;
-    updateConfig?: (config: object) => {data: object; error: ClientErrorPlaceholder};
+    updateConfig?: (config: AdminConfig) => {data: AdminConfig; error: ClientErrorPlaceholder};
 }
 
 type State = {
@@ -51,15 +53,15 @@ export default abstract class AdminSettings extends React.PureComponent<Props, S
         }
     }
 
-    protected abstract getStateFromConfig(config: object): State;
+    protected abstract getStateFromConfig(config: AdminConfig): State;
 
-    protected abstract getConfigFromState(config: object): object;
+    protected abstract getConfigFromState(config: AdminConfig): object;
 
     protected abstract renderTitle(): React.ReactElement;
 
     protected abstract renderSettings(): React.ReactElement;
 
-    protected handleSaved?: ((config: object) => React.ReactElement);
+    protected handleSaved?: ((config: AdminConfig) => React.ReactElement);
 
     protected canSave?: () => boolean;
 
@@ -195,7 +197,7 @@ export default abstract class AdminSettings extends React.PureComponent<Props, S
         return n;
     };
 
-    private getConfigValue(config: object, path: string) {
+    private getConfigValue(config: AdminConfig | EnvironmentConfig, path: string) {
         const pathParts = path.split('.');
 
         return pathParts.reduce((obj: object|null, pathPart) => {
@@ -206,7 +208,7 @@ export default abstract class AdminSettings extends React.PureComponent<Props, S
         }, config);
     }
 
-    private setConfigValue(config: object, path: string, value: any) {
+    private setConfigValue(config: AdminConfig, path: string, value: any) {
         function setValue(obj: object, pathParts: string[]) {
             const part = pathParts[0] as keyof object;
 
