@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {browserHistory} from 'utils/browser_history';
+import {browserHistory} from 'utils/browser_history.jsx';
 
 import ChannelIdentifierRouter from './channel_identifier_router';
 
@@ -47,7 +47,7 @@ describe('components/channel_layout/CenterChannel', () => {
         // expect(propsTest.match).toEqual(props2.match);
 
         //Should clear the timeout if url is changed
-        expect(clearTimeout).toHaveBeenCalledWith(instance.replaceUrlTimeout);
+        expect(clearTimeout).toHaveBeenCalledWith((instance as any).replaceUrlTimeout);
         expect(baseProps.actions.onChannelByIdentifierEnter).toHaveBeenCalledTimes(2);
         expect(baseProps.actions.onChannelByIdentifierEnter).toHaveBeenLastCalledWith({
             ...baseProps,
