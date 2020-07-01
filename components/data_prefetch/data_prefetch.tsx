@@ -18,6 +18,7 @@ type Props = {
     unreadChannels: Channel[];
     actions: {
         prefetchChannelPosts: (channelId: string, delay?: number) => Promise<any>;
+        trackDMGMOpenChannels: () => Promise<void>;
     };
 }
 

@@ -19,6 +19,7 @@ describe('/components/create_team', () => {
         currentChannelId: '',
         actions: {
             prefetchChannelPosts: jest.fn(() => Promise.resolve({})),
+            trackDMGMOpenChannels: jest.fn(() => Promise.resolve()),
         },
         prefetchQueueObj: {
             1: ['mentionChannel'],
@@ -71,6 +72,7 @@ describe('/components/create_team', () => {
         instance.prefetchPosts = jest.fn();
         wrapper.setProps({currentChannelId: 'currentChannelId'});
         expect(instance.prefetchPosts).toHaveBeenCalledWith('currentChannelId');
+        expect(defaultProps.actions.trackDMGMOpenChannels).toHaveBeenCalledWith('currentChannelId');
     });
 
     test('should call for LHS profiles and also call for posts based on prefetchQueueObj', async () => {

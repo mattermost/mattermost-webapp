@@ -23,6 +23,7 @@ import DataPrefetch from './data_prefetch';
 
 type Actions = {
     prefetchChannelPosts: (channelId: string, delay?: number) => Promise<{data: {}}>;
+    trackDMGMOpenChannels: () => Promise<void>;
 };
 
 enum Priority {
@@ -76,7 +77,7 @@ function mapStateToProps(state: GlobalState) {
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
-        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, any>({
             prefetchChannelPosts,
             trackDMGMOpenChannels,
         }, dispatch),
