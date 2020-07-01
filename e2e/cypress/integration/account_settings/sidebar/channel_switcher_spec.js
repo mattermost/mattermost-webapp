@@ -36,7 +36,7 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
         // # Visit town-square
         cy.visit(`/${testTeam.name}/channels/town-square`);
         cy.get('#channelHeaderTitle').should('be.visible').should('contain', 'Town Square');
-    })
+    });
 
     it('set channel switcher setting to On and test on click of sidebar switcher button', () => {
         // # Go to Account Settings modal > Sidebar > Channel Switcher and set setting to On
