@@ -14,11 +14,13 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Messaging', () => {
     before(() => {
-        // # Login and navigate to town-square
-        cy.toMainChannelView('user-1');
+        // # Login as test user and visit town-square channel
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
 
-        // # Post a new message to ensure there will be a post to click on
-        cy.postMessage('Hello ' + Date.now());
+            // # Post a new message to ensure there will be a post to click on
+            cy.postMessage('Hello ' + Date.now());
+        });
     });
 
     it('M18706-Input box on reply thread can expand', () => {
@@ -66,7 +68,7 @@ describe('Messaging', () => {
         // # Get first reply and scroll into view
         cy.getNthPostId(-maxReplyCount).then((replyId) => {
             cy.get(`#postMessageText_${replyId}`).scrollIntoView();
-            cy.wait(TIMEOUTS.TINY);
+            cy.wait(TIMEOUTS.HALF_SEC);
         });
 
         // # Type new message to reply text box and verify last reply

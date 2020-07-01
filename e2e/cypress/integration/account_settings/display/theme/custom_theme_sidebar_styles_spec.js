@@ -47,7 +47,7 @@ describe('AS14318 Theme Colors - Custom Sidebar Styles input change', () => {
 
             // # Enter hex value
             cy.get('.color-popover').scrollIntoView().within(() => {
-                cy.get('input').clear({force: true}).invoke('val', testCase.value).wait(TIMEOUTS.TINY).type(' {backspace}{enter}', {force: true});
+                cy.get('input').clear({force: true}).invoke('val', testCase.value).wait(TIMEOUTS.HALF_SEC).type(' {backspace}{enter}', {force: true});
             });
 
             // * Check that icon color change

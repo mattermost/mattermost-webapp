@@ -41,7 +41,7 @@ describe('Account Settings > General', () => {
         cy.get('#sidebarDropdownMenu').find('.dropdown-menu').should('be.visible');
 
         // # Post a message as other user and wait for it to reach
-        cy.postMessageAs({sender: otherUser, message: 'abc', channelId: testChannel.id}).wait(TIMEOUTS.SMALL);
+        cy.postMessageAs({sender: otherUser, message: 'abc', channelId: testChannel.id}).wait(TIMEOUTS.FIVE_SEC);
 
         // * Menu should still be visible
         cy.get('#sidebarDropdownMenu').find('.dropdown-menu').should('be.visible');

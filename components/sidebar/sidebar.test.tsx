@@ -12,11 +12,20 @@ describe('components/sidebar', () => {
         canCreatePrivateChannel: true,
         canJoinPublicChannel: true,
         isOpen: false,
+        isDataPrefechEnabled: true,
     };
 
     test('should match snapshot', () => {
         const wrapper = shallow(
             <Sidebar {...baseProps}/>,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot when isDataPrefechEnabled is disabled', () => {
+        const wrapper = shallow(
+            <Sidebar {...{...baseProps, isDataPrefechEnabled: false}}/>,
         );
 
         expect(wrapper).toMatchSnapshot();

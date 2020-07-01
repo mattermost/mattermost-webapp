@@ -25,12 +25,22 @@ Cypress.Commands.add('postMessageAs', ({sender, message, channelId, rootId, crea
 * @param {String} url - incoming webhook URL
 * @param {Object} data - payload on incoming webhook
 */
-Cypress.Commands.add('postIncomingWebhook', ({url, data}) => {
+Cypress.Commands.add('postIncomingWebhook', ({url, data, waitFor = 'attachment-pretext'}) => {
     cy.task('postIncomingWebhook', {url, data}).its('status').should('be.equal', 200);
 
     cy.waitUntil(() => cy.getLastPost().then((el) => {
-        const postedMessageEl = el.find('.attachment__thumb-pretext > p')[0];
-        return Boolean(postedMessageEl && postedMessageEl.textContent.includes(data.attachments[0].pretext));
+        switch (waitFor) {
+        case 'text': {
+            const textEl = el.find('.post-message__text > p')[0];
+            return Boolean(textEl && textEl.textContent.includes(data.text));
+        }
+        case 'attachment-pretext': {
+            const attachmentPretextEl = el.find('.attachment__thumb-pretext > p')[0];
+            return Boolean(attachmentPretextEl && attachmentPretextEl.textContent.includes(data.attachments[0].pretext));
+        }
+        default:
+            return false;
+        }
     }));
 });
 
@@ -45,7 +55,7 @@ Cypress.Commands.add('postIncomingWebhook', ({url, data}) => {
 Cypress.Commands.add('externalRequest', ({user, method, path, data}) => {
     const baseUrl = Cypress.config('baseUrl');
 
-    cy.task('externalRequest', {baseUrl, user, method, path, data}).its('status').should('be.equal', 200);
+    return cy.task('externalRequest', {baseUrl, user, method, path, data}).its('status').should('be.equal', 200);
 });
 
 /**
