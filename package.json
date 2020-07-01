@@ -37,7 +37,11 @@
     "localforage-observable": "2.0.1",
     "mark.js": "8.11.1",
     "marked": "github:mattermost/marked#87769262aa02e1784570f61f4f962050e07cc335",
+<<<<<<< HEAD
     "mattermost-redux": "github:mattermost/mattermost-redux#1bb38b3134640e110b459d89458cb18c1db03837",
+=======
+    "mattermost-redux": "github:mattermost/mattermost-redux#12b20ac456b8d12438f1dd135d6c7ee26a811d96",
+>>>>>>> master
     "moment-timezone": "0.5.31",
     "p-queue": "^6.4.0",
     "pdfjs-dist": "2.0.489",
@@ -57,7 +61,7 @@
     "react-inlinesvg": "1.2.0",
     "react-intl": "3.9.1",
     "react-overlays": "1.2.0",
-    "react-redux": "5.1.1",
+    "react-redux": "7.2.0",
     "react-router-dom": "5.2.0",
     "react-select": "2.4.4",
     "react-transition-group": "4.4.1",

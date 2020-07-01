@@ -6,7 +6,6 @@ import React from 'react';
 import {ChannelType} from 'mattermost-redux/types/channels';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
-
 import {TestHelper} from 'utils/test_helper';
 
 import SidebarDirectChannel from 'components/sidebar/sidebar_channel/sidebar_direct_channel/sidebar_direct_channel';

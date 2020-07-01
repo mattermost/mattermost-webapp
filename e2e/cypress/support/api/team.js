@@ -8,15 +8,6 @@ import {getRandomId} from '../../utils';
 // https://api.mattermost.com/#tag/teams
 // *****************************************************************************
 
-/**
- * Creates a team directly via API
- * This API assume that the user is logged in and has cookie to access
- * @param {String} name - Unique handler for a team, will be present in the team URL
- * @param {String} displayName - Non-unique UI name for the team
- * @param {String} type - 'O' for open (default), 'I' for invite only
- * @param {Boolean} unique - if true (default), it will create with unique/random team namae.
- * All parameters required
- */
 Cypress.Commands.add('apiCreateTeam', (name, displayName, type = 'O', unique = true) => {
     const randomSuffix = getRandomId();
 
@@ -31,21 +22,18 @@ Cypress.Commands.add('apiCreateTeam', (name, displayName, type = 'O', unique = t
         },
     }).then((response) => {
         expect(response.status).to.equal(201);
-        cy.wrap(response);
+        cy.wrap({team: response.body});
     });
 });
 
-/**
- * Deletes a team directly via API
- * This API assume that the user is logged in and has cookie to access
- * @param {String} teamId - The team ID to be deleted
- * All parameter required
- */
 Cypress.Commands.add('apiDeleteTeam', (teamId, permanent = false) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: '/api/v4/teams/' + teamId + (permanent ? '?permanent=true' : ''),
         method: 'DELETE',
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        cy.wrap({data: response.body});
     });
 });
 
@@ -57,14 +45,10 @@ Cypress.Commands.add('apiPatchTeam', (teamId, teamData) => {
         body: teamData,
     }).then((response) => {
         expect(response.status).to.equal(200);
-        cy.wrap(response);
+        cy.wrap({team: response.body});
     });
 });
 
-/**
- * Get a team based on provided name string
- * @param {String} name - name of a team
- */
 Cypress.Commands.add('apiGetTeamByName', (name) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
@@ -76,15 +60,14 @@ Cypress.Commands.add('apiGetTeamByName', (name) => {
     });
 });
 
-/**
- * Gets a list of all of the teams on the server
- * This API assume that the user is logged in as sysadmin
- */
-Cypress.Commands.add('apiGetAllTeams', () => {
+Cypress.Commands.add('apiGetAllTeams', ({page = 0, perPage = 60} = {}) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
-        url: 'api/v4/teams',
+        url: `api/v4/teams?page=${page}&per_page=${perPage}`,
         method: 'GET',
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        cy.wrap({teams: response.body});
     });
 });
 

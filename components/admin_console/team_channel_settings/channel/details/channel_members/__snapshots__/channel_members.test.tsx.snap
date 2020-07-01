@@ -33,7 +33,15 @@ exports[`admin_console/team_channel_settings/channel/ChannelMembers should match
           "teamId": "team_id",
         }
       }
-      dialogType={[Function]}
+      dialogType={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "displayName": "Connect(ChannelInviteModal)",
+          "type": [Function],
+        }
+      }
       id="addChannelMembers"
     >
       <FormattedMessage
@@ -289,7 +297,15 @@ exports[`admin_console/team_channel_settings/channel/ChannelMembers should match
           "teamId": "team_id",
         }
       }
-      dialogType={[Function]}
+      dialogType={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "displayName": "Connect(ChannelInviteModal)",
+          "type": [Function],
+        }
+      }
       id="addChannelMembers"
     >
       <FormattedMessage
