@@ -40,8 +40,8 @@ describe('Search teams', () => {
         const displayName = uuidv4();
 
         // # Create a new team.
-        cy.apiCreateTeam('team-search', displayName).then((response) => {
-            this.createdTeamIDs.push(response.body.id);
+        cy.apiCreateTeam('team-search', displayName).then(({team}) => {
+            this.createdTeamIDs.push(team.id);
         });
 
         // # Search for the new team.
@@ -56,8 +56,8 @@ describe('Search teams', () => {
 
         // # Create enough new teams with common name prefixes to get multiple pages of search results.
         for (let i = 0; i < PAGE_SIZE + 2; i++) {
-            cy.apiCreateTeam('team-search-paged-' + i, displayName + ' ' + i).then((response) => {
-                this.createdTeamIDs.push(response.body.id);
+            cy.apiCreateTeam('team-search-paged-' + i, displayName + ' ' + i).then(({team}) => {
+                this.createdTeamIDs.push(team.id);
             });
         }
 
@@ -78,8 +78,8 @@ describe('Search teams', () => {
         const displayName = uuidv4();
 
         // # Create a new team.
-        cy.apiCreateTeam('team-search', displayName).then((response) => {
-            this.createdTeamIDs.push(response.body.id);
+        cy.apiCreateTeam('team-search', displayName).then(({team}) => {
+            this.createdTeamIDs.push(team.id);
         });
 
         // # Search for the team.
@@ -102,8 +102,8 @@ describe('Search teams', () => {
         const displayName = uuidv4();
 
         // # Create a team.
-        cy.apiCreateTeam('team-search', displayName).then((response) => {
-            this.createdTeamIDs.push(response.body.id);
+        cy.apiCreateTeam('team-search', displayName).then(({team}) => {
+            this.createdTeamIDs.push(team.id);
         });
 
         // # Search for the team.
