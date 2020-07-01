@@ -175,37 +175,39 @@ export default class UserGrid extends React.PureComponent<Props, State> {
         return usersToDisplay.map((user) => {
             const membership = membershipsToUpdate[user.id] || memberships[user.id] || this.newMembership(user);
             return {
-                id: user.id,
-                name: (
-                    <UserGridName
-                        user={user}
-                    />
-                ),
-                new: (
-                    <Badge
-                        className='NewUserBadge'
-                        show={Boolean(includeUsers[user.id])}
-                    >
-                        <FormattedMessage
-                            id='admin.user_grid.new'
-                            defaultMessage='New'
+                cells: {
+                    id: user.id,
+                    name: (
+                        <UserGridName
+                            user={user}
                         />
-                    </Badge>
-                ),
-                role: (
-                    <UserGridRoleDropdown
-                        user={user}
-                        membership={membership}
-                        handleUpdateMembership={this.updateMembership}
-                        scope={scope}
-                    />
-                ),
-                remove: (
-                    <UserGridRemove
-                        user={user}
-                        removeUser={this.removeUser}
-                    />
-                ),
+                    ),
+                    new: (
+                        <Badge
+                            className='NewUserBadge'
+                            show={Boolean(includeUsers[user.id])}
+                        >
+                            <FormattedMessage
+                                id='admin.user_grid.new'
+                                defaultMessage='New'
+                            />
+                        </Badge>
+                    ),
+                    role: (
+                        <UserGridRoleDropdown
+                            user={user}
+                            membership={membership}
+                            handleUpdateMembership={this.updateMembership}
+                            scope={scope}
+                        />
+                    ),
+                    remove: (
+                        <UserGridRemove
+                            user={user}
+                            removeUser={this.removeUser}
+                        />
+                    ),
+                }
             };
         });
     }
