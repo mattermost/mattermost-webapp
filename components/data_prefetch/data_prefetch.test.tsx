@@ -72,7 +72,8 @@ describe('/components/create_team', () => {
         instance.prefetchPosts = jest.fn();
         wrapper.setProps({currentChannelId: 'currentChannelId'});
         expect(instance.prefetchPosts).toHaveBeenCalledWith('currentChannelId');
-        expect(defaultProps.actions.trackDMGMOpenChannels).toHaveBeenCalledWith('currentChannelId');
+        await loadProfilesForSidebar();
+        expect(defaultProps.actions.trackDMGMOpenChannels).toHaveBeenCalled();
     });
 
     test('should call for LHS profiles and also call for posts based on prefetchQueueObj', async () => {
