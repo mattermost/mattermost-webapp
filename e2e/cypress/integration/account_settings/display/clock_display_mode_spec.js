@@ -61,17 +61,14 @@ function navigateToClockDisplaySettings() {
     // # Go to Account Settings
     cy.toAccountSettingsModal();
 
-    // * Check that the Sidebar tab is loaded
-    cy.get('#displayButton').should('be.visible');
-
     // # Click the display tab
-    cy.get('#displayButton').click();
+    cy.get('#displayButton').should('be.visible').click();
 
     // # Click "Edit" to the right of "Clock Display"
-    cy.get('#clockEdit').click();
+    cy.get('#clockEdit').should('be.visible').click();
 
     // # Scroll a bit to show the "Save" button
-    cy.get('.section-max').scrollIntoView();
+    cy.get('.section-max').should('be.visible').scrollIntoView();
 }
 
 function setClockDisplayTo(clockFormat) {
@@ -79,11 +76,11 @@ function setClockDisplayTo(clockFormat) {
     navigateToClockDisplaySettings();
 
     // # Click the radio button
-    cy.get(`#${clockFormat}`).click();
+    cy.get(`#${clockFormat}`).should('be.visible').click();
 
     // # Click Save button and close Account Settings modal
-    cy.get('#saveSetting').click();
-    cy.get('#accountSettingsHeader > .close').click();
+    cy.get('#saveSetting').should('be.visible').click();
+    cy.get('#accountSettingsHeader > .close').should('be.visible').click();
 }
 
 function setClockDisplayTo12Hour() {
