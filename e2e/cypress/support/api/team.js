@@ -95,12 +95,6 @@ Cypress.Commands.add('apiAddUserToTeam', (teamId, userId) => {
     });
 });
 
-/**
- * Join teammates directly via API
- * @param {String} teamId - The team GUID
- * @param {Array} teamMembers - The user IDs to join
- * All parameter required
- */
 Cypress.Commands.add('apiAddUsersToTeam', (teamId, teamMembers) => {
     return cy.request({
         method: 'POST',
@@ -109,7 +103,7 @@ Cypress.Commands.add('apiAddUsersToTeam', (teamId, teamMembers) => {
         body: teamMembers,
     }).then((response) => {
         expect(response.status).to.equal(201);
-        cy.wrap(response);
+        cy.wrap({members: response.body});
     });
 });
 

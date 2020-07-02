@@ -141,6 +141,20 @@ declare namespace Cypress {
         apiGetTeamMembers(teamId: string): Chainable<TeamMembership[]>;
 
         /**
+         * Add a number of users to the team.
+         * See https://api.mattermost.com/#tag/teams/paths/~1teams~1{team_id}~1members~1batch/post
+         * @param {string} teamId - team ID
+         * @param {TeamMembership[]} teamMembers - users to add
+         * @returns {TeamMembership[]} `out.members` as `TeamMembership[]`
+         *
+         * @example
+         *   cy.apiAddUsersToTeam(teamId, [{team_id: 'team-id', user_id: 'user-id'}]).then(({members}) => {
+         *       // do something with members
+         *   });
+         */
+        apiAddUsersToTeam(teamId: string, teamMembers: TeamMembership[]): Chainable<TeamMembership[]>;
+
+        /**
          * Update the scheme-derived roles of a team member.
          * Requires sysadmin session to initiate this command.
          * See https://api.mattermost.com/#tag/teams/paths/~1teams~1{team_id}~1members~1{user_id}~1schemeRoles/put
