@@ -128,13 +128,12 @@ before(() => {
         });
 
         // # Check if default team is present; create if not found.
-        cy.apiGetTeams().then((teamsRes) => {
+        cy.apiGetTeamsForUser().then(({teams}) => {
             // Default team is meant for sysadmin's primary team,
             // selected for compatibility with existing local development.
             // It is not exported since it should not be used for testing.
             const DEFAULT_TEAM = {name: 'ad-1', display_name: 'eligendi', type: 'O'};
 
-            const teams = teamsRes.body;
             const defaultTeam = teams && teams.length > 0 && teams.find((team) => team.name === DEFAULT_TEAM.name);
 
             if (!defaultTeam) {
