@@ -8,7 +8,6 @@
 
     *:first-child {
         @include unselectable;
-        cursor: pointer;
     }
 }
 
