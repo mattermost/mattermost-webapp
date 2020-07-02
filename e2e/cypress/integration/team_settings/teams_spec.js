@@ -172,8 +172,8 @@ describe('Teams Suite', () => {
         cy.apiLogin(testUser);
 
         // # Leave all teams
-        cy.apiGetTeams().then((response) => {
-            response.body.forEach((team) => {
+        cy.apiGetTeamsForUser().then(({teams}) => {
+            teams.forEach((team) => {
                 cy.visit(`/${team.name}/channels/town-square`);
                 cy.get('#headerTeamName').should('be.visible').and('have.text', team.display_name);
                 cy.leaveTeam();
