@@ -128,7 +128,7 @@ describe('actions/invite_actions', () => {
                 notSent: [
                     {
                         email: 'email-one@email-one.com',
-                        reason: 'Error trying to send the invite to the especified email',
+                        reason: 'Error trying to send the invite to the specified email',
                     },
                     {
                         email: 'email-two@email-two.com',
