@@ -31,6 +31,10 @@ export default function smartPaste(clipboard: DataTransfer, message: string, cur
         formattedMessage = codeDetectionFormatter(text);
     }
 
+    if (!formattedMessage && options.tables && !options.html) {
+        formattedMessage = githubTableFormatter(clipboard, message, currentCaretPosition);
+    }
+
     if (!formattedMessage && options.tables) {
         formattedMessage = tableFormatter(clipboard, message, currentCaretPosition);
     }
@@ -59,7 +63,7 @@ function codeDetectionFormatter(text: string): string {
     return '';
 }
 
-function tableFormatter(clipboard: DataTransfer, message: string, currentCaretPosition: number): string {
+function githubTableFormatter(clipboard: DataTransfer, message: string, currentCaretPosition: number): string {
     const table = getTable(clipboard);
     if (table === null) {
         return '';
@@ -67,6 +71,14 @@ function tableFormatter(clipboard: DataTransfer, message: string, currentCaretPo
     if (isGitHubCodeBlock(table.className)) {
         const {formattedCodeBlock} = formatGithubCodePaste(currentCaretPosition, message, clipboard);
         return formattedCodeBlock;
+    }
+    return '';
+}
+
+function tableFormatter(clipboard: DataTransfer, message: string, currentCaretPosition: number): string {
+    const table = getTable(clipboard);
+    if (table === null) {
+        return '';
     }
     return formatMarkdownTableMessage(table, message.trim(), currentCaretPosition);
 }
