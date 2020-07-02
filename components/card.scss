@@ -1,0 +1,16 @@
+.Card {
+    border: 1px solid var(--center-channel-color-08);
+    box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.12);
+    border-radius: 4px;
+    background-color: var(--center-channel-bg);
+}
+
+.Card__header {
+    margin: 12px;
+}
+
+.Card__body {
+    margin: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--center-channel-color-08);
+}

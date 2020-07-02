@@ -7,6 +7,7 @@ import {FormattedMessage} from 'react-intl';
 import professionalLogo from 'images/cloud-logos/professional.svg';
 
 import './next_steps_view.scss';
+import Card from 'components/card';
 
 type Props = {
     skuName: string; 
@@ -66,7 +67,18 @@ export default class NextStepsView extends React.PureComponent<Props> {
                     </div>
                 </div>
                 <div className='NextStepsView__body'>
-                    <div className='NextStepsView__body-main'/>
+                    <div className='NextStepsView__body-main'>
+                        <Card>
+                            <Card.Header>
+                                <span>{'Card Header'}</span>
+                            </Card.Header>
+                            <Card.Body>
+                                <div>
+                                    {'Card Body'}
+                                </div>
+                            </Card.Body>
+                        </Card>
+                    </div>
                     <div className='NextStepsView__body-graphic'/>
                 </div>
             </div>
