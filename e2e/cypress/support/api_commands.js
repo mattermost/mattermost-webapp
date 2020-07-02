@@ -662,6 +662,20 @@ Cypress.Commands.add('promoteUser', (userId) => {
     cy.externalRequest({user: admin, method: 'post', baseUrl, path: `users/${userId}/promote`});
 });
 
+/**
+ * Add a user to a team directly via API
+ * @param {String} teamId - The team ID
+ * @param {String} userId - The user ID
+ * All parameter required
+ */
+
+Cypress.Commands.add('addUserToTeam', (teamId, userId) => {
+    const baseUrl = Cypress.config('baseUrl');
+    const admin = getAdminAccount();
+
+    cy.externalRequest({user: admin, method: 'post', baseUrl, path: `teams/${teamId}/members`, data: {team_id: teamId, user_id: userId}});
+});
+
 // *****************************************************************************
 // Plugins
 // https://api.mattermost.com/#tag/plugins
