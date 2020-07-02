@@ -337,9 +337,7 @@ class EditPostModal extends React.PureComponent {
     }
 
     setEditboxRef = (ref) => {
-        if (ref && ref.getWrappedInstance) {
-            this.editbox = ref;
-        }
+        this.editbox = ref;
 
         if (this.editbox) {
             this.editbox.focus();
