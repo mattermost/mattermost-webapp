@@ -823,18 +823,15 @@ class CreatePost extends React.PureComponent {
         this.draftsForChannel[channelId] = draft;
     }
 
-    smartPaste = (clipboardData) => {
-        const {message, caretPosition} = smartPaste(clipboardData, this.state.message, this.state.caretPosition, {tables: true, html: this.props.smartPaste, code: this.props.smartPasteCodeBlocks});
-        this.setMessageAndCaretPostion(message, caretPosition);
-    }
-
     pasteHandler = (e) => {
-        if (!e.clipboardData || !e.clipboardData.items || e.target.id !== 'post_textbox' || this.state.isShiftPressed || (!this.props.smartPaste && !this.props.smartPasteCodeBlocks)) {
+        if (!e.clipboardData || !e.clipboardData.items || e.target.id !== 'post_textbox' || this.state.isShiftPressed) {
             return;
         }
 
         e.preventDefault();
-        this.smartPaste(e.clipboardData);
+
+        const {message, caretPosition} = smartPaste(e.clipboardData, this.state.message, this.state.caretPosition, {tables: true, html: this.props.smartPaste, code: this.props.smartPasteCodeBlocks});
+        this.setMessageAndCaretPostion(message, caretPosition);
     }
 
     handleFileUploadChange = () => {

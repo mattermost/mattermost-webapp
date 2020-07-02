@@ -237,20 +237,17 @@ class EditPostModal extends React.PureComponent {
         this.setState({isShiftPressed: e.shiftKey});
     }
 
-    smartPaste = (clipboardData) => {
-        const {message, caretPosition} = smartPaste(clipboardData, this.state.editText, this.state.caretPosition, {tables: true, html: this.props.smartPaste, code: this.props.smartPasteCodeBlocks});
-        this.setState({editText: message, caretPosition}, () => {
-            Utils.setCaretPosition(this.editbox.getInputBox(), caretPosition);
-        });
-    }
-
     handlePaste = (e) => {
-        if (!e.clipboardData || !e.clipboardData.items || !this.props.canEditPost || e.target.id !== 'edit_textbox' || this.state.isShiftPressed || (!this.props.smartPaste && !this.props.smartPasteCodeBlocks)) {
+        if (!e.clipboardData || !e.clipboardData.items || !this.props.canEditPost || e.target.id !== 'edit_textbox' || this.state.isShiftPressed) {
             return;
         }
 
         e.preventDefault();
-        this.smartPaste(e.clipboardData);
+
+        const {message, caretPosition} = smartPaste(e.clipboardData, this.state.editText, this.state.caretPosition, {tables: true, html: this.props.smartPaste, code: this.props.smartPasteCodeBlocks});
+        this.setState({editText: message, caretPosition}, () => {
+            Utils.setCaretPosition(this.editbox.getInputBox(), caretPosition);
+        });
     }
 
     handleEditKeyPress = (e) => {

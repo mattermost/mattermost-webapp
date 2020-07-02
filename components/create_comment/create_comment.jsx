@@ -379,21 +379,18 @@ class CreateComment extends React.PureComponent {
         });
     }
 
-    smartPaste = (clipboardData) => {
-        const {message, caretPosition} = smartPaste(clipboardData, this.state.draft.message, this.state.caretPosition, {tables: true, html: this.props.smartPaste, code: this.props.smartPasteCodeBlocks});
-        this.setCaretPosition(caretPosition);
-        const updatedDraft = {...this.state.draft, message};
-        this.props.onUpdateCommentDraft(updatedDraft);
-        this.setState({draft: updatedDraft});
-    }
-
     pasteHandler = (e) => {
-        if (!e.clipboardData || !e.clipboardData.items || e.target.id !== 'reply_textbox' || this.state.isShiftPressed || (!this.props.smartPaste && !this.props.smartPasteCodeBlocks)) {
+        if (!e.clipboardData || !e.clipboardData.items || e.target.id !== 'reply_textbox' || this.state.isShiftPressed) {
             return;
         }
 
         e.preventDefault();
-        this.smartPaste(e.clipboardData);
+
+        const {message, caretPosition} = smartPaste(e.clipboardData, this.state.draft.message, this.state.caretPosition, {tables: true, html: this.props.smartPaste, code: this.props.smartPasteCodeBlocks});
+        this.setCaretPosition(caretPosition);
+        const updatedDraft = {...this.state.draft, message};
+        this.props.onUpdateCommentDraft(updatedDraft);
+        this.setState({draft: updatedDraft});
     }
 
     handleNotifyAllConfirmation = (e) => {
