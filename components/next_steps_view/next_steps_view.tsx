@@ -4,16 +4,28 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import Card from 'components/card';
 import professionalLogo from 'images/cloud-logos/professional.svg';
 
 import './next_steps_view.scss';
-import Card from 'components/card';
 
 type Props = {
     skuName: string; 
 };
 
-export default class NextStepsView extends React.PureComponent<Props> {
+type State = {
+    collapsed: boolean;
+}
+
+export default class NextStepsView extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
+        super(props);
+
+        this.state = {
+            collapsed: false,
+        };
+    }
+
     getBottomText = () => {
         // TODO: will be stored in user prefs at a later date
         const {isFinished} = {isFinished: false};
@@ -44,6 +56,10 @@ export default class NextStepsView extends React.PureComponent<Props> {
         }
     }
 
+    handleButton = () => {
+        this.setState({collapsed: !this.state.collapsed});
+    }
+
     render() {
         return (
             <div
@@ -68,7 +84,8 @@ export default class NextStepsView extends React.PureComponent<Props> {
                 </div>
                 <div className='NextStepsView__body'>
                     <div className='NextStepsView__body-main'>
-                        <Card>
+                        <button onClick={this.handleButton}>{'Collapse'}</button>
+                        <Card collapsed={this.state.collapsed}>
                             <Card.Header>
                                 <span>{'Card Header'}</span>
                             </Card.Header>

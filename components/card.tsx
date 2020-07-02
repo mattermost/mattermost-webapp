@@ -4,6 +4,11 @@
 import React from 'react';
 
 import './card.scss';
+import classNames from 'classnames';
+
+type Props = {
+    collapsed: boolean;
+}
 
 const CardHeader: React.FC<{children: JSX.Element}> = ({children}) => {
     return (
@@ -21,18 +26,20 @@ const CardBody: React.FC<{children: JSX.Element}> = ({children}) => {
     );
 }
 
-type Props = {
-
-}
-
 export default class Card extends React.PureComponent<Props> {
     public static Header = CardHeader;
     public static Body = CardBody;
 
     render() {
+        const {collapsed, children} = this.props;
+
         return (
-            <div className='Card'>
-                {this.props.children}
+            <div
+                className={classNames('Card', {
+                    collapsed,
+                })}
+            >
+                {children}
             </div>
         );
     }
