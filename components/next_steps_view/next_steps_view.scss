@@ -49,11 +49,13 @@
     background-position-y: 33%;
     flex: 1 0 25%;
     z-index: 2;
+    min-width: 192px;
 }
 
 @media screen and (max-width: 768px) {
     #app-content.NextStepsView {
         background-size: auto;
+        background-position-y: top;
     }
 
     .NextStepsView__header {
@@ -65,15 +67,21 @@
         line-height: 32px;
     }
 
-    .NextStepsView__header-logo {
-        display: none;
-    }
-
     .NextStepsView__body-main {
         flex: 1 1 100%;
     }
 
     .NextStepsView__body-graphic {
         flex: 0 0 0%;
+    }
+}
+
+@media screen and (max-width: 1020px) {
+    .NextStepsView__header-logo {
+        display: none;
+    }
+
+    .NextStepsView__body-main {
+        min-width: 536px;
     }
 }
