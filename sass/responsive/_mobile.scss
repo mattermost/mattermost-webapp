@@ -236,14 +236,6 @@
         }
     }
 
-    .SidebarMenu, .AddChannelDropdown {
-        display: block !important;
-
-        .Menu {
-            top: 0 !important;
-        }
-    }
-
     .app__body {
         .post, .SidebarMenu, .AddChannelDropdown {
             .Menu {
@@ -1600,6 +1592,18 @@
 
                         &::before {
                             height: 45px;
+                        }
+
+                        .SidebarMenu {
+                            display: block;
+                    
+                            .Menu {
+                                top: 0 !important;
+                            }
+                        }
+
+                        .badge + .SidebarMenu {
+                            display: none;
                         }
                     }
 
