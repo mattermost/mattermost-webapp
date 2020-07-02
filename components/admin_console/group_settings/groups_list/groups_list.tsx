@@ -3,7 +3,7 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {GroupSearchOpts} from 'mattermost-redux/types/groups';
+import {GroupSearchOpts, MixedUnlinkedGroupRedux} from 'mattermost-redux/types/groups';
 
 import * as Utils from 'utils/utils';
 
@@ -17,7 +17,7 @@ import {Constants} from 'utils/constants';
 const LDAP_GROUPS_PAGE_SIZE = 200;
 
 type Props = {
-    groups: any[];
+    groups: MixedUnlinkedGroupRedux[];
     total: number;
     actions: {
         getLdapGroups: (page?: number, perPage?: number, opts?: GroupSearchOpts) => Promise<any>;

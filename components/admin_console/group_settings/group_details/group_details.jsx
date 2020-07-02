@@ -352,8 +352,15 @@ export default class GroupDetails extends React.PureComponent {
                     result.error.server_error_id === 'api.ldap_groups.existing_user_name_error' ||
                     result.error.server_error_id === 'api.ldap_groups.existing_group_name_error') {
                     serverError = GroupNameIsTakenError;
+                } else if (result.error.server_error_id === 'model.group.name.invalid_length.app_error') {
+                    serverError = (
+                        <FormattedMessage
+                            id='admin.group_settings.group_detail.invalid_length'
+                            defaultMessage='Name must be 1 to 64 lowercase alphanumeric characters.'
+                        />
+                    );
                 } else {
-                    serverError = <FormError error={result.error?.message}/>;
+                    serverError = result.error?.message;
                 }
             }
             this.setState({allowReference, groupMentionName: lcGroupMentionName, serverError});

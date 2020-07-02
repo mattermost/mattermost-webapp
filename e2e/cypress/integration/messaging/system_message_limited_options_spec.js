@@ -55,7 +55,7 @@ describe('Messaging', () => {
             });
 
             // # Log-in as a different user
-            cy.apiLogin(otherUser.username, otherUser.password);
+            cy.apiLogin(otherUser);
             cy.visit(townsquareLink);
 
             // # Mouse over the post to show the options

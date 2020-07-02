@@ -10,10 +10,12 @@
 // Stage: @prod
 // Group: @system_console
 
-import users from '../../fixtures/users.json';
 import * as TIMEOUTS from '../../fixtures/timeouts';
+import {getAdminAccount} from '../../support/env';
 
 describe('SC17020 - Revoke All Sessions from System Console', () => {
+    const admin = getAdminAccount();
+
     it('Verify for System Admin', () => {
         // # Login as System Admin
         cy.apiAdminLogin();
@@ -57,7 +59,7 @@ describe('SC17020 - Revoke All Sessions from System Console', () => {
 
             // # Issue a Request to Revoke All Sessions as SysAdmin
             const baseUrl = Cypress.config('baseUrl');
-            cy.externalRequest({user: users.sysadmin, method: 'post', baseUrl, path: 'users/sessions/revoke/all'}).then(() => {
+            cy.externalRequest({user: admin, method: 'post', baseUrl, path: 'users/sessions/revoke/all'}).then(() => {
                 // # Initiate browser activity like visit to town-square
                 cy.visit(`/${team.name}/channels/town-square`);
 

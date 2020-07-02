@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+/* eslint-disable no-loop-func, quote-props */
+
 import {v4 as uuidv4} from 'uuid';
 
 import messageMenusData from '../fixtures/hooks/message_menus.json';

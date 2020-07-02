@@ -37,7 +37,7 @@ describe('Teams Suite', () => {
 
     it('TS12995 Cancel out of leaving a team', () => {
         // # Login and go to /
-        cy.apiLogin(testUser.username, testUser.password);
+        cy.apiLogin(testUser);
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // * check the team name
@@ -130,7 +130,7 @@ describe('Teams Suite', () => {
             });
 
             // # Login as user added to Team and reload
-            cy.apiLogin(otherUser.username, otherUser.password);
+            cy.apiLogin(otherUser);
 
             // # Visit the new team and verify that it's in the correct team view
             cy.visit(`/${testTeam.name}/channels/town-square`);
@@ -169,11 +169,11 @@ describe('Teams Suite', () => {
         cy.apiUpdateConfig({EmailSettings: {RequireEmailVerification: false}});
 
         // // # Login as test user
-        cy.apiLogin(testUser.username, testUser.password);
+        cy.apiLogin(testUser);
 
         // # Leave all teams
-        cy.apiGetTeams().then((response) => {
-            response.body.forEach((team) => {
+        cy.apiGetTeamsForUser().then(({teams}) => {
+            teams.forEach((team) => {
                 cy.visit(`/${team.name}/channels/town-square`);
                 cy.get('#headerTeamName').should('be.visible').and('have.text', team.display_name);
                 cy.leaveTeam();
