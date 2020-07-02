@@ -1206,6 +1206,7 @@ class CreateComment extends React.PureComponent {
                                 emojiEnabled={this.props.enableEmojiPicker}
                                 initialText=''
                                 channelId={this.props.channelId}
+                                rootId={this.props.rootId}
                                 isRHS={true}
                                 popoverMentionKeyClick={true}
                                 id='reply_textbox'
