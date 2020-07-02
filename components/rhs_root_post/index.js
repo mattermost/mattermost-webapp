@@ -59,4 +59,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(RhsRootPost);
+export default connect(mapStateToProps, mapDispatchToProps, {forwardRef: true})(RhsRootPost);
