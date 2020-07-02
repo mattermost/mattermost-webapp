@@ -1594,16 +1594,8 @@
                             height: 45px;
                         }
 
-                        .SidebarMenu {
-                            display: block;
-                    
-                            .Menu {
-                                top: 0 !important;
-                            }
-                        }
-
                         .badge + .SidebarMenu {
-                            display: none;
+                            display: none !important;
                         }
                     }
 
@@ -1638,6 +1630,14 @@
                         background: transparent;
                     }
                 }
+            }
+        }
+
+        .SidebarMenu, .AddChannelDropdown {
+            display: block !important;
+    
+            .Menu {
+                top: 0 !important;
             }
         }
     }
