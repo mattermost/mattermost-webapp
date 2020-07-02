@@ -125,7 +125,7 @@ describe('Actions', () => {
             const testStore = await mockStore(initialState);
             const history = {replace: jest.fn()};
 
-            await testStore.dispatch((goToChannelByChannelId({params: {team: 'team1', identifier: 'channel_id3', path: '/'}, url: ''}, history) as any));
+            await testStore.dispatch((goToChannelByChannelId({params: {team: 'team1', identifier: 'channel_id3', path: '/'}, url: ''}, history as any) as any));
             expect(joinChannel).toHaveBeenCalledWith('current_user_id', 'team_id1', 'channel_id3', '');
             expect(history.replace).toHaveBeenCalledWith('/team1/channels/achannel3');
         });
@@ -135,14 +135,14 @@ describe('Actions', () => {
         test('switch to channel on different team with same name', async () => {
             const testStore = await mockStore(initialState);
 
-            await testStore.dispatch((goToChannelByChannelName({params: {team: 'team2', identifier: 'achannel', path: '/'}, url: ''}, {}) as any));
+            await testStore.dispatch((goToChannelByChannelName({params: {team: 'team2', identifier: 'achannel', path: '/'}, url: ''}, {} as any) as any));
             expect(emitChannelClickEvent).toHaveBeenCalledWith(channel2);
         });
 
         test('switch to public channel we have locally but need to join', async () => {
             const testStore = await mockStore(initialState);
 
-            await testStore.dispatch((goToChannelByChannelName({params: {team: 'team1', identifier: 'achannel3', path: '/'}, url: ''}, {}) as any));
+            await testStore.dispatch((goToChannelByChannelName({params: {team: 'team1', identifier: 'achannel3', path: '/'}, url: ''}, {} as any) as any));
             expect(joinChannel).toHaveBeenCalledWith('current_user_id', 'team_id1', '', 'achannel3');
             expect(emitChannelClickEvent).toHaveBeenCalledWith(channel3);
         });
@@ -153,7 +153,7 @@ describe('Actions', () => {
             const testStore = await mockStore(initialState);
             const history = {replace: jest.fn()};
 
-            await testStore.dispatch((goToDirectChannelByUserId({params: {team: 'team1', identifier: 'channel', path: '/'}, url: ''}, history, 'user_id2') as any));
+            await testStore.dispatch((goToDirectChannelByUserId({params: {team: 'team1', identifier: 'channel', path: '/'}, url: ''}, history as any, 'user_id2') as any));
             expect(history.replace).toHaveBeenCalledWith('/team1/messages/@user2');
         });
 
@@ -161,7 +161,7 @@ describe('Actions', () => {
             const testStore = await mockStore(initialState);
             const history = {replace: jest.fn()};
 
-            await testStore.dispatch((goToDirectChannelByUserId({params: {team: 'team2', identifier: 'channel', path: '/'}, url: ''}, history, 'user_id2') as any));
+            await testStore.dispatch((goToDirectChannelByUserId({params: {team: 'team2', identifier: 'channel', path: '/'}, url: ''}, history as any, 'user_id2') as any));
             expect(history.replace).toHaveBeenCalledWith('/team2/messages/@user2');
         });
     });
@@ -171,7 +171,7 @@ describe('Actions', () => {
             const testStore = await mockStore(initialState);
             const history = {replace: jest.fn()};
 
-            await testStore.dispatch((goToDirectChannelByUserIds({params: {team: 'team1', identifier: 'current_user_id__user_id2', path: '/'}, url: ''}, history) as any));
+            await testStore.dispatch((goToDirectChannelByUserIds({params: {team: 'team1', identifier: 'current_user_id__user_id2', path: '/'}, url: ''}, history as any) as any));
             expect(history.replace).toHaveBeenCalledWith('/team1/messages/@user2');
         });
 
@@ -179,7 +179,7 @@ describe('Actions', () => {
             const testStore = await mockStore(initialState);
             const history = {replace: jest.fn()};
 
-            await testStore.dispatch((goToDirectChannelByUserIds({params: {team: 'team2', identifier: 'current_user_id__user_id2', path: '/'}, url: ''}, history) as any));
+            await testStore.dispatch((goToDirectChannelByUserIds({params: {team: 'team2', identifier: 'current_user_id__user_id2', path: '/'}, url: ''}, history as any) as any));
             expect(history.replace).toHaveBeenCalledWith('/team2/messages/@user2');
         });
     });
@@ -189,7 +189,7 @@ describe('Actions', () => {
             const testStore = await mockStore(initialState);
             const history = {replace: jest.fn()};
 
-            await testStore.dispatch((goToDirectChannelByEmail({params: {team: 'team1', identifier: 'user2@bladekick.com', path: '/'}, url: ''}, history) as any));
+            await testStore.dispatch((goToDirectChannelByEmail({params: {team: 'team1', identifier: 'user2@bladekick.com', path: '/'}, url: ''}, history as any) as any));
             expect(getUserByEmail).not.toHaveBeenCalled();
             expect(history.replace).toHaveBeenCalledWith('/team1/messages/@user2');
         });
@@ -198,7 +198,7 @@ describe('Actions', () => {
             const testStore = await mockStore(initialState);
             const history = {replace: jest.fn()};
 
-            await testStore.dispatch((goToDirectChannelByEmail({params: {team: 'team1', identifier: 'user3@bladekick.com', path: '/'}, url: ''}, history) as any));
+            await testStore.dispatch((goToDirectChannelByEmail({params: {team: 'team1', identifier: 'user3@bladekick.com', path: '/'}, url: ''}, history as any) as any));
             expect(getUserByEmail).toHaveBeenCalledWith('user3@bladekick.com');
             expect(history.replace).toHaveBeenCalledWith('/team1/messages/@user3');
         });
