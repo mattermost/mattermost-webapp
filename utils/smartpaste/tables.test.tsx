@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {parseTable, getTable, formatMarkdownTableMessage, formatGithubCodePaste} from './paste';
+import {parseTable, getTable, formatMarkdownTableMessage, formatGithubCodePaste} from './tables';
 
 const validClipboardData: any = {
     items: [1],

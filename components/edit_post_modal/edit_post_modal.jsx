@@ -12,7 +12,7 @@ import {splitMessageBasedOnCaretPosition, postMessageOnKeyPress} from 'utils/pos
 
 import {intlShape} from 'utils/react_intl';
 import * as Utils from 'utils/utils.jsx';
-import {clipboardToMarkdown} from 'utils/clipboard_to_markdown';
+import smartPaste from 'utils/smartpaste';
 
 import DeletePostModal from 'components/delete_post_modal';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
@@ -238,7 +238,7 @@ class EditPostModal extends React.PureComponent {
     }
 
     smartPaste = (clipboardData) => {
-        const {message, caretPosition} = clipboardToMarkdown(clipboardData, this.state.editText, this.state.caretPosition, {tables: this.props.smartPaste, html: this.props.smartPaste, code: this.props.smartPasteCodeBlocks});
+        const {message, caretPosition} = smartPaste(clipboardData, this.state.editText, this.state.caretPosition, {tables: true, html: this.props.smartPaste, code: this.props.smartPasteCodeBlocks});
         this.setState({editText: message, caretPosition}, () => {
             Utils.setCaretPosition(this.editbox.getInputBox(), caretPosition);
         });

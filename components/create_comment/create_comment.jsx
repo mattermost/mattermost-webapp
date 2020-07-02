@@ -13,7 +13,7 @@ import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 import * as GlobalActions from 'actions/global_actions.jsx';
 
 import Constants, {Locations} from 'utils/constants';
-import {clipboardToMarkdown} from 'utils/clipboard_to_markdown';
+import smartPaste from 'utils/smartpaste';
 import {intlShape} from 'utils/react_intl';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
@@ -380,7 +380,7 @@ class CreateComment extends React.PureComponent {
     }
 
     smartPaste = (clipboardData) => {
-        const {message, caretPosition} = clipboardToMarkdown(clipboardData, this.state.draft.message, this.state.caretPosition, {tables: this.props.smartPaste, html: this.props.smartPaste, code: this.props.smartPasteCodeBlocks});
+        const {message, caretPosition} = smartPaste(clipboardData, this.state.draft.message, this.state.caretPosition, {tables: true, html: this.props.smartPaste, code: this.props.smartPasteCodeBlocks});
         this.setCaretPosition(caretPosition);
         const updatedDraft = {...this.state.draft, message};
         this.props.onUpdateCommentDraft(updatedDraft);

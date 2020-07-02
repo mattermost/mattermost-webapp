@@ -21,7 +21,7 @@ import {
     splitMessageBasedOnCaretPosition,
     groupsMentionedInText,
 } from 'utils/post_utils.jsx';
-import {clipboardToMarkdown} from 'utils/clipboard_to_markdown';
+import smartPaste from 'utils/smartpaste';
 import {intlShape} from 'utils/react_intl';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
@@ -824,7 +824,7 @@ class CreatePost extends React.PureComponent {
     }
 
     smartPaste = (clipboardData) => {
-        const {message, caretPosition} = clipboardToMarkdown(clipboardData, this.state.message, this.state.caretPosition, {tables: this.props.smartPaste, html: this.props.smartPaste, code: this.props.smartPasteCodeBlocks});
+        const {message, caretPosition} = smartPaste(clipboardData, this.state.message, this.state.caretPosition, {tables: true, html: this.props.smartPaste, code: this.props.smartPasteCodeBlocks});
         this.setMessageAndCaretPostion(message, caretPosition);
     }
 

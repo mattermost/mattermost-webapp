@@ -8,20 +8,20 @@ export function parseTable(html: string): HTMLTableElement | null {
     return el.querySelector('table');
 }
 
-export function getTable(clipboardData: DataTransfer): HTMLTableElement | boolean {
+export function getTable(clipboardData: DataTransfer): HTMLTableElement | null {
     if (Array.from(clipboardData.types).indexOf('text/html') === -1) {
-        return false;
+        return null;
     }
 
     const html = clipboardData.getData('text/html');
 
     if (!(/<table/i).test(html)) {
-        return false;
+        return null;
     }
 
     const table = parseTable(html);
     if (!table) {
-        return false;
+        return null;
     }
 
     return table;
