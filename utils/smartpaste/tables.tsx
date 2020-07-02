@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {splitMessageBasedOnCaretPosition} from 'utils/post_utils.jsx';
-
 export function parseTable(html: string): HTMLTableElement | null {
     const el = document.createElement('div');
     el.innerHTML = html;
