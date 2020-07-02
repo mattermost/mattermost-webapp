@@ -9,7 +9,7 @@ import {
     splitMessageBasedOnCaretPosition,
 } from 'utils/post_utils.jsx';
 
-import {getTable, formatMarkdownTableMessage, formatGithubCodePaste, isGitHubCodeBlock} from './tables';
+import {getTable, formatMarkdownTableMessage, isGitHubCodeBlock} from './tables';
 
 const turndownService = new TurndownService();
 turndownService.use(gfm);
@@ -24,19 +24,37 @@ export default function smartPaste(clipboard: DataTransfer, message: string, cur
     const {firstPiece, lastPiece} = splitMessageBasedOnCaretPosition(currentCaretPosition, message);
 
     const html = clipboard.getData('text/html');
-    let formattedMessage = '';
-
     const text = clipboard.getData('text/plain');
+
+    let formattedMessage = '';
     if (options.code && !html) {
         formattedMessage = codeDetectionFormatter(text);
     }
 
     if (!formattedMessage && options.tables && !options.html) {
-        formattedMessage = githubTableFormatter(clipboard, message, currentCaretPosition);
+        formattedMessage = githubCodeBlockFormatter(html, text);
+        if (formattedMessage) {
+            const requireStartLF = firstPiece === '' ? '' : '\n';
+            const requireEndLF = lastPiece === '' ? '' : '\n';
+            const formattedCodeBlock = requireStartLF + '```\n' + formattedMessage + '\n```' + requireEndLF;
+            const newMessage = `${firstPiece}${formattedCodeBlock}${lastPiece}`;
+            return {message: newMessage, caretPosition: currentCaretPosition + formattedCodeBlock.length};
+        }
     }
 
-    if (!formattedMessage && options.tables) {
-        formattedMessage = tableFormatter(clipboard, message, currentCaretPosition);
+    if (!formattedMessage && options.tables && !options.html) {
+        formattedMessage = tableFormatter(html);
+        if (formattedMessage) {
+            if (!message) {
+                return {message: formattedMessage, caretPosition: formattedMessage.length};
+            }
+            if (typeof currentCaretPosition === 'undefined') {
+                const newMessage = `${message}\n\n${formattedMessage}`;
+                return {message: newMessage, caretPosition: newMessage.length};
+            }
+            const newMessage = [firstPiece, formattedMessage, lastPiece];
+            return {message: newMessage.join('\n'), caretPosition: currentCaretPosition + formattedMessage.length};
+        }
     }
 
     if (!formattedMessage && options.html) {
@@ -63,24 +81,29 @@ function codeDetectionFormatter(text: string): string {
     return '';
 }
 
-function githubTableFormatter(clipboard: DataTransfer, message: string, currentCaretPosition: number): string {
-    const table = getTable(clipboard);
+export function githubCodeBlockFormatter(html: string, text: string): string {
+    if (!html) {
+        return '';
+    }
+    const table = getTable(html);
     if (table === null) {
         return '';
     }
     if (isGitHubCodeBlock(table.className)) {
-        const {formattedCodeBlock} = formatGithubCodePaste(currentCaretPosition, message, clipboard);
-        return formattedCodeBlock;
+        return text;
     }
     return '';
 }
 
-function tableFormatter(clipboard: DataTransfer, message: string, currentCaretPosition: number): string {
-    const table = getTable(clipboard);
+function tableFormatter(html: string): string {
+    if (!html) {
+        return '';
+    }
+    const table = getTable(html);
     if (table === null) {
         return '';
     }
-    return formatMarkdownTableMessage(table, message.trim(), currentCaretPosition);
+    return formatMarkdownTableMessage(table);
 }
 
 function htmlToMarkdown(html: string): string {

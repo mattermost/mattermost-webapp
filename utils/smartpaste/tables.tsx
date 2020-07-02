@@ -9,13 +9,7 @@ export function parseTable(html: string): HTMLTableElement | null {
     return el.querySelector('table');
 }
 
-export function getTable(clipboardData: DataTransfer): HTMLTableElement | null {
-    if (Array.from(clipboardData.types).indexOf('text/html') === -1) {
-        return null;
-    }
-
-    const html = clipboardData.getData('text/html');
-
+export function getTable(html: string): HTMLTableElement | null {
     if (!(/<table/i).test(html)) {
         return null;
     }
@@ -26,16 +20,6 @@ export function getTable(clipboardData: DataTransfer): HTMLTableElement | null {
     }
 
     return table;
-}
-
-export function getPlainText(clipboardData: DataTransfer): string | boolean {
-    if (Array.from(clipboardData.types).indexOf('text/plain') === -1) {
-        return false;
-    }
-
-    const plainText = clipboardData.getData('text/plain');
-
-    return plainText;
 }
 
 export function isGitHubCodeBlock(tableClassName: string): boolean {
@@ -54,7 +38,7 @@ function tableHeaders(row: HTMLTableRowElement): string[] {
     return Array.from(row.querySelectorAll('td, th')).map(columnText);
 }
 
-export function formatMarkdownTableMessage(table: HTMLTableElement, message?: string, caretPosition?: number): string {
+export function formatMarkdownTableMessage(table: HTMLTableElement): string {
     const rows = Array.from(table.querySelectorAll('tr'));
 
     const headerRow = rows.shift();
@@ -66,25 +50,5 @@ export function formatMarkdownTableMessage(table: HTMLTableElement, message?: st
         return `|${Array.from(row.querySelectorAll('td')).map(columnText).join(' | ')}|`;
     }).join('\n');
 
-    const formattedTable = `${header}${body}\n`;
-    if (!message) {
-        return formattedTable;
-    }
-    if (typeof caretPosition === 'undefined') {
-        return `${message}\n\n${formattedTable}`;
-    }
-    const newMessage = [message.slice(0, caretPosition), formattedTable, message.slice(caretPosition)];
-    return newMessage.join('\n');
-}
-
-export function formatGithubCodePaste(caretPosition: number, message: string, clipboardData: DataTransfer): {formattedMessage: string; formattedCodeBlock: string} {
-    const {firstPiece, lastPiece} = splitMessageBasedOnCaretPosition(caretPosition, message);
-
-    // Add new lines if content exists before or after the cursor.
-    const requireStartLF = firstPiece === '' ? '' : '\n';
-    const requireEndLF = lastPiece === '' ? '' : '\n';
-    const formattedCodeBlock = requireStartLF + '```\n' + getPlainText(clipboardData) + '\n```' + requireEndLF;
-    const formattedMessage = `${firstPiece}${formattedCodeBlock}${lastPiece}`;
-
-    return {formattedMessage, formattedCodeBlock};
+    return `${header}${body}\n`;
 }
