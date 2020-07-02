@@ -8,6 +8,8 @@ import {getCurrentUserId, getUserByUsername as selectUserByUsername, getUser as 
 import {getChannelByName, getOtherChannels, getChannel, getChannelsNameMapInTeam, getRedirectChannelNameForTeam} from 'mattermost-redux/selectors/entities/channels';
 import {GetStateFunc, DispatchFunc, ActionFunc} from 'mattermost-redux/types/actions';
 import {GlobalState} from 'mattermost-redux/types/store';
+import {Channel} from 'mattermost-redux/types/channels';
+import {History} from 'history';
 
 import {Constants} from 'utils/constants';
 import {openDirectChannelToUserId} from 'actions/channel_actions';
@@ -15,8 +17,6 @@ import * as GlobalActions from 'actions/global_actions.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import {Match, MatchAndHistory} from './channel_identifier_router';
-import { Channel } from 'mattermost-redux/types/channels';
-import { History } from 'history';
 
 const LENGTH_OF_ID = 26;
 const LENGTH_OF_GROUP_ID = 40;
