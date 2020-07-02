@@ -25,8 +25,12 @@ Cypress.Commands.add('postMessageAs', ({sender, message, channelId, rootId, crea
 * @param {String} url - incoming webhook URL
 * @param {Object} data - payload on incoming webhook
 */
-Cypress.Commands.add('postIncomingWebhook', ({url, data, waitFor = 'attachment-pretext'}) => {
+Cypress.Commands.add('postIncomingWebhook', ({url, data, waitFor}) => {
     cy.task('postIncomingWebhook', {url, data}).its('status').should('be.equal', 200);
+
+    if (!waitFor) {
+        return;
+    }
 
     cy.waitUntil(() => cy.getLastPost().then((el) => {
         switch (waitFor) {
