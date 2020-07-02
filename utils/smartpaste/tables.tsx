@@ -1,30 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-export function parseTable(html: string): HTMLTableElement | null {
-    const el = document.createElement('div');
-    el.innerHTML = html;
-    return el.querySelector('table');
-}
-
-export function getTable(html: string): HTMLTableElement | null {
-    if (!(/<table/i).test(html)) {
-        return null;
-    }
-
-    const table = parseTable(html);
-    if (!table) {
-        return null;
-    }
-
-    return table;
-}
-
-export function isGitHubCodeBlock(tableClassName: string): boolean {
-    const result = (/\b(js|blob|diff)-./).test(tableClassName);
-    return result;
-}
-
 function columnText(column: Element): string {
     const noBreakSpace = '\u00A0';
     const text = column.textContent == null ?
@@ -50,3 +26,12 @@ export function formatMarkdownTableMessage(table: HTMLTableElement): string {
 
     return `${header}${body}\n`;
 }
+
+export const tableTurndownRule = {
+    filter: (node: Node): boolean => {
+        return node.nodeName === 'TABLE' && !(/\b(js|blob|diff)-./).test((node as HTMLTableElement).className);
+    },
+    replacement: (content: string, node: Node): string => {
+        return formatMarkdownTableMessage(node as HTMLTableElement);
+    }
+};
