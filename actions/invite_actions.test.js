@@ -132,11 +132,11 @@ describe('actions/invite_actions', () => {
                     },
                     {
                         email: 'email-two@email-two.com',
-                        reason: 'Error trying to send the invite to the especified email',
+                        reason: 'Error trying to send the invite to the specified email',
                     },
                     {
                         email: 'email-three@email-three.com',
-                        reason: 'Error trying to send the invite to the especified email',
+                        reason: 'Error trying to send the invite to the specified email',
                     },
                 ],
             });
