@@ -63,14 +63,11 @@ export default class PDFPreview extends React.PureComponent {
     }
 
     componentDidUpdate(prevProps) {
-<<<<<<< HEAD
         if (this.props.fileUrl !== prevProps.fileUrl) {
             this.getPdfDocument();
             this.pdfPagesRendered = {};
         }
 
-=======
->>>>>>> Refactor and fixes issue with zoom in
         if (this.state.success) {
             for (let i = 0; i < this.state.numPages; i++) {
                 this.renderPDFPage(i, prevProps);
