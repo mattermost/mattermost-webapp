@@ -446,16 +446,10 @@ exports[`components/ViewImageModal should match snapshot when plugin overrides t
                   "id": "file_id",
                 }
               }
-<<<<<<< HEAD
-            }
-            onModalDismissed={[MockFunction]}
-            post={Object {}}
-          />
-=======
+              onModalDismissed={[MockFunction]}
               post={Object {}}
             />
           </div>
->>>>>>> Fix for scrollbar background and code view
         </div>
         <PopoverBar
           canDownloadFiles={true}
