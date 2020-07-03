@@ -9,13 +9,12 @@ import {
     splitMessageBasedOnCaretPosition,
 } from 'utils/post_utils.jsx';
 
-import {tableTurndownRule} from './tables';
+import {tableTurndownRuleBuilder} from './tables';
 import {githubCodeTurndownRuleBuilder} from './githubcode';
 
 const turndownService = new TurndownService().remove('style');
 turndownService.use(strikethrough);
 turndownService.use(taskListItems);
-turndownService.addRule('table', tableTurndownRule);
 
 type SmartPasteOptions = {
     html: boolean;
@@ -36,6 +35,7 @@ export default function smartPaste(clipboard: DataTransfer, message: string, cur
 
     if (!formattedMessage && options.html) {
         turndownService.addRule('github-code', githubCodeTurndownRuleBuilder(firstPiece.length > 0, lastPiece.length > 0, text));
+        turndownService.addRule('table', tableTurndownRuleBuilder(firstPiece.length > 0, lastPiece.length > 0));
         formattedMessage = htmlToMarkdown(html);
         formattedMessage = formattedMessage.replace(/#\*#\*NEW_LINE_REPLACEMENT\*#\*#/g, '\n');
     }

@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {Rule} from 'turndown';
+
 function columnText(column: Element): string {
     const noBreakSpace = '\u00A0';
     const text = column.textContent == null ? noBreakSpace : column.textContent.trim().replace(/\|/g, '\\|').replace(/\n/g, ' ');
@@ -23,14 +25,24 @@ export function formatMarkdownTableMessage(table: HTMLTableElement): string {
         return `|${Array.from(row.querySelectorAll('td')).map(columnText).join(' | ')}|`;
     }).join('\n');
 
-    return `${header}${body}\n`;
+    return `${header}${body}`;
 }
 
-export const tableTurndownRule = {
-    filter: (node: Node): boolean => {
-        return node.nodeName === 'TABLE' && !(/\b(js|blob|diff)-./).test((node as HTMLTableElement).className);
-    },
-    replacement: (content: string, node: Node): string => {
-        return formatMarkdownTableMessage(node as HTMLTableElement);
-    }
-};
+export function tableTurndownRuleBuilder(hasFirstPart: boolean, hasLastPart: boolean): Rule {
+    return {
+        filter: (node: Node): boolean => {
+            return node.nodeName === 'TABLE' && !(/\b(js|blob|diff)-./).test((node as HTMLTableElement).className);
+        },
+        replacement: (content: string, node: Node): string => {
+            let result = '';
+            if (hasFirstPart) {
+                result += '#*#*NEW_LINE_REPLACEMENT*#*#';
+            }
+            result += formatMarkdownTableMessage(node as HTMLTableElement);
+            if (hasLastPart) {
+                result += '#*#*NEW_LINE_REPLACEMENT*#*#';
+            }
+            return result;
+        }
+    };
+}

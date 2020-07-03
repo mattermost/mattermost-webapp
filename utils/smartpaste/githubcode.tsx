@@ -1,6 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-//
+
 import {Rule} from 'turndown';
 
 export function githubCodeTurndownRuleBuilder(hasFirstPart: boolean, hasLastPart: boolean, text: string): Rule {
