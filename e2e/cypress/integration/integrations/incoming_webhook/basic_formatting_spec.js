@@ -44,6 +44,7 @@ describe('Incoming webhook', () => {
     });
 
     it('MM-T619 Webhook with @-mention, username and profile pic, and basic formatting', () => {
+        const baseUrl = Cypress.config('baseUrl');
         const payload = getPayload(testChannel, otherUser);
         cy.postIncomingWebhook({url: incomingWebhook.url, data: payload});
 
@@ -58,7 +59,7 @@ describe('Incoming webhook', () => {
 
             // * Verify that the user icon is overridden per webhook payload
             const encodedIconUrl = encodeURIComponent(payload.icon_url);
-            cy.get('.profile-icon > img').should('have.attr', 'src', `${Cypress.config('baseUrl')}/api/v4/image?url=${encodedIconUrl}`);
+            cy.get('.profile-icon > img').should('have.attr', 'src', `${baseUrl}/api/v4/image?url=${encodedIconUrl}`);
 
             // * Verify that the BOT label appears
             cy.get('.Badge').should('be.visible').and('have.text', 'BOT');
@@ -88,9 +89,9 @@ describe('Incoming webhook', () => {
                 cy.wrap(el).should('contain', 'The following should be markdown formatted');
                 cy.wrap(el).should('contain', '(mouse emoji, strawberry emoji, then formatting as indicated):');
                 cy.get('.emoticon').eq(0).parent().
-                    should('have.html', '<span alt=":hamster:" class="emoticon" title=":hamster:" style="background-image: url(&quot;http://localhost:8065/static/emoji/1f439.png&quot;);">:hamster:</span>');
+                    should('have.html', `<span alt=":hamster:" class="emoticon" title=":hamster:" style="background-image: url(&quot;${baseUrl}/static/emoji/1f439.png&quot;);">:hamster:</span>`);
                 cy.get('.emoticon').eq(1).parent().
-                    should('have.html', '<span alt=":strawberry:" class="emoticon" title=":strawberry:" style="background-image: url(&quot;http://localhost:8065/static/emoji/1f353.png&quot;);">:strawberry:</span>');
+                    should('have.html', `<span alt=":strawberry:" class="emoticon" title=":strawberry:" style="background-image: url(&quot;${baseUrl}/static/emoji/1f353.png&quot;);">:strawberry:</span>`);
                 cy.wrap(el).find('strong').should('have.text', 'bold');
                 cy.wrap(el).find('em').should('have.text', 'italic');
                 cy.wrap(el).find('strong').should('have.text', 'bold');
