@@ -493,6 +493,17 @@
     .trial {
         margin-top: 15px;
     }
+    .trial-error {
+        color: $dark-gray;
+        font-weight: 400;
+        margin-top: 10px;
+    }
+    .trial-legal-terms {
+        margin-top: 10px;
+        margin-bottom: 0;
+        color: $dark-gray;
+        font-weight: 400;
+    }
 }
 
 .job-table__cancel-button {
