@@ -19,7 +19,6 @@ turndownService.use(taskListItems);
 type SmartPasteOptions = {
     html: boolean;
     code: boolean;
-    tables: boolean;
 }
 
 export default function smartPaste(clipboard: DataTransfer, message: string, currentCaretPosition: number, options: SmartPasteOptions): {message: string; caretPosition: number} {
