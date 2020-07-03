@@ -15,7 +15,7 @@ import FeatureDiscovery from './feature_discovery';
 
 function mapStateToProps(state: GlobalState) {
     return {
-        stats: state.entities.admin.analytics,
+        stats: (state.entities.admin as any).analytics,
     };
 }
 

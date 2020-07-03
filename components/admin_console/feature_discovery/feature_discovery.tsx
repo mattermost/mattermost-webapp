@@ -5,7 +5,6 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {Dictionary} from 'mattermost-redux/types/utilities';
-import {AnalyticsRow} from 'mattermost-redux/types/admin';
 
 import * as Utils from 'utils/utils.jsx';
 
@@ -27,7 +26,7 @@ type Props = {
 
     imgPath: string;
 
-    stats?: Dictionary<number | AnalyticsRow[]>;
+    stats?: Dictionary<number | any[]>;
     actions: {
         requestTrialLicense: (users: number, termsAccepted: boolean, receiveEmailsAccepted: boolean, featureName: string) => Promise<{error?: string; data?: null}>;
         getLicenseConfig: () => void;
