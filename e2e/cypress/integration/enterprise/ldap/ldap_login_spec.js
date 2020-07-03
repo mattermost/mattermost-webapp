@@ -143,13 +143,12 @@ context('ldap', () => {
         before(() => {
             cy.apiAdminLogin();
 
-            cy.apiGetTeamByName(testSettings.teamName).then((r) => {
-                const teamId = r.body.id;
+            cy.apiGetTeamByName(testSettings.teamName).then(({team}) => {
                 cy.apiGetChannelByName(testSettings.teamName, 'town-square').then((r2) => {
                     const channelId = r2.body.id;
                     cy.apiGetUserByEmail(guest1.email).then((res) => {
                         const user = res.body;
-                        cy.apiAddUserToTeam(teamId, user.id).then(() => {
+                        cy.apiAddUserToTeam(team.id, user.id).then(() => {
                             cy.apiAddUserToChannel(channelId, user.id);
                         });
                     });
@@ -157,7 +156,7 @@ context('ldap', () => {
                     // add member user to team
                     cy.apiGetUserByEmail(user1.email).then((res) => {
                         const user = res.body;
-                        cy.apiAddUserToTeam(teamId, user.id);
+                        cy.apiAddUserToTeam(team.id, user.id);
                     });
                 });
             });

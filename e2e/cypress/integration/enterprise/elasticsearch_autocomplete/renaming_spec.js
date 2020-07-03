@@ -26,8 +26,8 @@ describe('Autocomplete with Elasticsearch - Renaming', () => {
         cy.requireLicenseForFeature('Elasticsearch');
 
         // # Create new team for tests
-        cy.apiCreateTeam(`elastic-${timestamp}`, `elastic-${timestamp}`).then((response) => {
-            testTeam = response.body;
+        cy.apiCreateTeam(`elastic-${timestamp}`, `elastic-${timestamp}`).then(({team}) => {
+            testTeam = team;
         });
 
         // # Enable Elasticsearch
@@ -129,7 +129,7 @@ describe('Autocomplete with Elasticsearch - Renaming', () => {
             });
 
             // # Rename the team
-            cy.apiPatchTeam(testTeam.id, {name: 'updatedteam' + timestamp});
+            cy.apiPatchTeam(testTeam.id, {display_name: 'updatedteam' + timestamp});
         });
 
         it('correctly searches for user', () => {

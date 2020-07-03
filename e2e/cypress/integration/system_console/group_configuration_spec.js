@@ -175,9 +175,9 @@ describe('group configuration', () => {
 
     describe('removing a team', () => {
         it('does not remove a team without saving', () => {
-            cy.apiGetTeams().then((response) => {
+            cy.apiGetTeamsForUser().then(({teams}) => {
                 // # Link a team
-                const team = response.body[0];
+                const team = teams[0];
                 cy.apiLinkGroupTeam(groupID, team.id);
 
                 // # Reload the page
@@ -207,9 +207,9 @@ describe('group configuration', () => {
         });
 
         it('does remove a team when saved', () => {
-            cy.apiGetTeams().then((response) => {
+            cy.apiGetTeamsForUser().then(({teams}) => {
                 // # Link a team
-                const team = response.body[0];
+                const team = teams[0];
                 cy.apiLinkGroupTeam(groupID, team.id);
 
                 // # Reload the page

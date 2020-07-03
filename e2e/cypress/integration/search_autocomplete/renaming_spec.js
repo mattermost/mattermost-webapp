@@ -67,8 +67,8 @@ describe('Autocomplete without Elasticsearch - Renaming', () => {
         });
 
         // # Create new team for tests
-        cy.apiCreateTeam(`search-${timestamp}`, `search-${timestamp}`).then((response) => {
-            testTeam = response.body;
+        cy.apiCreateTeam(`search-${timestamp}`, `search-${timestamp}`).then(({team}) => {
+            testTeam = team;
         });
     });
 
@@ -167,7 +167,7 @@ describe('Autocomplete without Elasticsearch - Renaming', () => {
             });
 
             // # Rename the team
-            cy.apiPatchTeam(testTeam.id, {name: 'updatedteam' + timestamp});
+            cy.apiPatchTeam(testTeam.id, {display_name: 'updatedteam' + timestamp});
         });
 
         it('correctly searches for user', () => {

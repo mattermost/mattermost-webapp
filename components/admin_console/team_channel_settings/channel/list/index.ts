@@ -2,23 +2,18 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators, Dispatch} from 'redux';
+import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 import {createSelector} from 'reselect';
 
 import {getAllChannelsWithCount as getData, searchAllChannels} from 'mattermost-redux/actions/channels';
 import {getAllChannels} from 'mattermost-redux/selectors/entities/channels';
-import {GenericAction} from 'mattermost-redux/types/actions';
-import {Channel} from 'mattermost-redux/types/channels';
+import {GenericAction, ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
+import {ChannelWithTeamData} from 'mattermost-redux/types/channels';
 
-import {t} from 'utils/i18n';
 import {GlobalState} from 'types/store';
 import {Constants} from 'utils/constants';
 
 import List from './channel_list';
-
-type Props = {
-    channel: Partial<Channel>;
-};
 
 const compareByDisplayName = (a: {display_name: string}, b: {display_name: string}) => a.display_name.localeCompare(b.display_name);
 
@@ -31,16 +26,19 @@ const getSortedListOfChannels = createSelector(
 
 function mapStateToProps(state: GlobalState) {
     return {
-        data: getSortedListOfChannels(state),
+        data: getSortedListOfChannels(state) as ChannelWithTeamData[],
         total: state.entities.channels.totalCount,
-        emptyListTextId: t('admin.channel_settings.channel_list.no_channels_found'),
-        emptyListTextDefaultMessage: 'No channels found',
     };
+}
+
+type Actions = {
+    searchAllChannels: (term: string, notAssociatedToGroup?: string, excludeDefaultChannels?: boolean, page?: number, perPage?: number) => Promise<{ data: any }>;
+    getData: (page: number, perPage: number, notAssociatedToGroup? : string, excludeDefaultChannels?: boolean) => ActionFunc | ActionResult | Promise<ChannelWithTeamData[]>;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
-        actions: bindActionCreators({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
             getData,
             searchAllChannels,
         }, dispatch),
