@@ -55,7 +55,10 @@ Cypress.Commands.add('postIncomingWebhook', ({url, data, waitFor = 'attachment-p
 Cypress.Commands.add('externalRequest', ({user, method, path, data}) => {
     const baseUrl = Cypress.config('baseUrl');
 
-    return cy.task('externalRequest', {baseUrl, user, method, path, data}).its('status').should('be.equal', 200);
+    return cy.task('externalRequest', {baseUrl, user, method, path, data}).then((response) => {
+        expect(response.status).to.be.oneOf([200, 201, 204]);
+        return cy.wrap(response);
+    });
 });
 
 /**
