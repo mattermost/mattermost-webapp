@@ -20,7 +20,6 @@ const tooltipContainerStyles: CSSProperties = {
 
 type Props = {
     href: string;
-    title: string;
     attributes: {[attribute: string]: string};
 }
 
@@ -90,7 +89,7 @@ export default class LinkTooltip extends React.PureComponent<Props> {
     };
 
     public render() {
-        const {href, title, attributes} = this.props;
+        const {href, children, attributes} = this.props;
 
         const dataAttributes = {
             'data-hashtag': attributes['data-hashtag'],
@@ -116,7 +115,7 @@ export default class LinkTooltip extends React.PureComponent<Props> {
                     onMouseLeave={this.hideTooltip}
                     {...dataAttributes}
                 >
-                    {title}
+                    {children}
                 </span>
             </React.Fragment>
         );

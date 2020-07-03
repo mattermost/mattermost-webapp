@@ -1168,7 +1168,10 @@ describe('components/create_post', () => {
         const wrapper = shallowWithIntl(createPost());
 
         const message = 'original message';
-        wrapper.setState({message});
+        wrapper.setState({
+            message,
+            caretPosition: message.length,
+        });
 
         const event = {
             target: {
@@ -1184,8 +1187,22 @@ describe('components/create_post', () => {
             },
         };
 
-        const markdownTable = '|test | test|\n|--- | ---|\n|test | test|\n';
-        const expectedMessage = `${message}\n\n${markdownTable}`;
+        const markdownTable = '|test | test|\n|--- | ---|\n|test | test|\n\n';
+        const expectedMessage = `${message}\n${markdownTable}`;
+
+        const mockTop = () => {
+            return document.createElement('div');
+        };
+
+        const mockImpl = () => {
+            return {
+                setSelectionRange: jest.fn(),
+                getBoundingClientRect: jest.fn(mockTop),
+                focus: jest.fn(),
+            };
+        };
+
+        wrapper.instance().refs = {textbox: {getWrappedInstance: () => ({getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()})}};
 
         wrapper.instance().pasteHandler(event);
         expect(wrapper.state('message')).toBe(expectedMessage);

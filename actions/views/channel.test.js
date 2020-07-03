@@ -21,9 +21,14 @@ jest.mock('utils/browser_history', () => ({
     },
 }));
 
-jest.mock('utils/channel_utils.jsx', () => ({
-    getRedirectChannelNameForTeam: () => 'town-square',
-}));
+jest.mock('utils/channel_utils.jsx', () => {
+    const original = jest.requireActual('utils/channel_utils.jsx');
+
+    return {
+        ...original,
+        getRedirectChannelNameForTeam: () => 'town-square',
+    };
+});
 
 jest.mock('actions/channel_actions.jsx', () => ({
     openDirectChannelToUserId: jest.fn(() => ({type: ''})),
