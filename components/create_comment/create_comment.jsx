@@ -348,7 +348,11 @@ class CreateComment extends React.PureComponent {
     }
 
     setIsShiftPressed = (e) => {
-        this.setState({isShiftPressed: e.shiftKey});
+        if (Utils.isMac()) {
+            this.setState({isShiftPressed: e.shiftKey && e.altKey});
+        } else {
+            this.setState({isShiftPressed: e.shiftKey});
+        }
     }
 
     focusTextboxIfNecessary = (e) => {
