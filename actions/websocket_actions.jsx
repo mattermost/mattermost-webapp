@@ -358,6 +358,10 @@ export function handleEvent(msg) {
         dispatch(handleDirectAddedEvent(msg));
         break;
 
+    case SocketEvents.GROUP_ADDED:
+        dispatch(handleGroupAddedEvent(msg));
+        break;
+
     case SocketEvents.PREFERENCE_CHANGED:
         handlePreferenceChangedEvent(msg);
         break;
@@ -745,13 +749,11 @@ function handleUpdateMemberRoleEvent(msg) {
 }
 
 function handleDirectAddedEvent(msg) {
-    return async (doDispatch) => {
-        const {data, error} = await doDispatch(getChannelAndMyMember(msg.broadcast.channel_id));
+    return fetchChannelAndAddToSidebar(msg.broadcast.channel_id);
+}
 
-        if (!error) {
-            doDispatch(addChannelToInitialCategory(data.channel));
-        }
-    };
+function handleGroupAddedEvent(msg) {
+    return fetchChannelAndAddToSidebar(msg.broadcast.channel_id);
 }
 
 function handleUserAddedEvent(msg) {
@@ -776,11 +778,17 @@ function handleUserAddedEvent(msg) {
         const currentTeamId = getCurrentTeamId(doGetState());
         const currentUserId = getCurrentUserId(doGetState());
         if (currentTeamId === msg.data.team_id && currentUserId === msg.data.user_id) {
-            const {data, error} = await doDispatch(getChannelAndMyMember(msg.broadcast.channel_id));
+            doDispatch(fetchChannelAndAddToSidebar(msg.broadcast.channel_id));
+        }
+    };
+}
 
-            if (!error) {
-                doDispatch(addChannelToInitialCategory(data.channel));
-            }
+function fetchChannelAndAddToSidebar(channelId) {
+    return async (doDispatch) => {
+        const {data, error} = await doDispatch(getChannelAndMyMember(channelId));
+
+        if (!error) {
+            doDispatch(addChannelToInitialCategory(data.channel));
         }
     };
 }

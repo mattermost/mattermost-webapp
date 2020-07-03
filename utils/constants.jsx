@@ -313,6 +313,7 @@ export const SocketEvents = {
     CHANNEL_MEMBER_UPDATED: 'channel_member_updated',
     CHANNEL_SCHEME_UPDATED: 'channel_scheme_updated',
     DIRECT_ADDED: 'direct_added',
+    GROUP_ADDED: 'group_added',
     NEW_USER: 'new_user',
     ADDED_TO_TEAM: 'added_to_team',
     JOIN_TEAM: 'join_team',
