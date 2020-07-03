@@ -17,7 +17,7 @@ describe('components/admin_console/group_settings/GroupsList.tsx', () => {
                     link: jest.fn(),
                     unlink: jest.fn(),
                 }}
-            />
+            />,
         );
         wrapper.setState({loading: true});
         expect(wrapper).toMatchSnapshot();
@@ -27,7 +27,7 @@ describe('components/admin_console/group_settings/GroupsList.tsx', () => {
         const wrapper = shallow<GroupsList>(
             <GroupsList
                 groups={[
-                    {primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test1', name: 'test1'},
                     {primary_key: 'test2', name: 'test2', mattermost_group_id: 'group-id-1', has_syncables: false},
                 ]}
                 total={2}
@@ -36,7 +36,7 @@ describe('components/admin_console/group_settings/GroupsList.tsx', () => {
                     link: jest.fn(),
                     unlink: jest.fn(),
                 }}
-            />
+            />,
         );
         wrapper.setState({checked: {test2: true}});
         expect(wrapper).toMatchSnapshot();
@@ -46,7 +46,7 @@ describe('components/admin_console/group_settings/GroupsList.tsx', () => {
         const wrapper = shallow(
             <GroupsList
                 groups={[
-                    {primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test1', name: 'test1'},
                     {primary_key: 'test2', name: 'test2', mattermost_group_id: 'group-id-1', has_syncables: false},
                 ]}
                 total={2}
@@ -55,7 +55,7 @@ describe('components/admin_console/group_settings/GroupsList.tsx', () => {
                     link: jest.fn(),
                     unlink: jest.fn(),
                 }}
-            />
+            />,
         );
         wrapper.setState({checked: {test1: true}});
         expect(wrapper).toMatchSnapshot();
@@ -65,7 +65,7 @@ describe('components/admin_console/group_settings/GroupsList.tsx', () => {
         const wrapper = shallow(
             <GroupsList
                 groups={[
-                    {primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test1', name: 'test1'},
                     {primary_key: 'test2', name: 'test2', mattermost_group_id: 'group-id-1', has_syncables: false},
                 ]}
                 total={2}
@@ -74,7 +74,7 @@ describe('components/admin_console/group_settings/GroupsList.tsx', () => {
                     link: jest.fn(),
                     unlink: jest.fn(),
                 }}
-            />
+            />,
         );
         wrapper.setState({checked: {test1: true, test2: true}});
         expect(wrapper).toMatchSnapshot();
@@ -84,7 +84,7 @@ describe('components/admin_console/group_settings/GroupsList.tsx', () => {
         const wrapper = shallow(
             <GroupsList
                 groups={[
-                    {primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test1', name: 'test1'},
                     {primary_key: 'test2', name: 'test2', mattermost_group_id: 'group-id-1', has_syncables: false},
                 ]}
                 total={2}
@@ -93,7 +93,7 @@ describe('components/admin_console/group_settings/GroupsList.tsx', () => {
                     link: jest.fn(),
                     unlink: jest.fn(),
                 }}
-            />
+            />,
         );
         wrapper.setState({checked: {}});
         expect(wrapper).toMatchSnapshot();
@@ -103,7 +103,7 @@ describe('components/admin_console/group_settings/GroupsList.tsx', () => {
         const wrapper = shallow<GroupsList>(
             <GroupsList
                 groups={[
-                    {primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test1', name: 'test1'},
                     {primary_key: 'test2', name: 'test2', mattermost_group_id: 'group-id-1', has_syncables: false},
                 ]}
                 total={2}
@@ -112,7 +112,7 @@ describe('components/admin_console/group_settings/GroupsList.tsx', () => {
                     link: jest.fn(),
                     unlink: jest.fn(),
                 }}
-            />
+            />,
         );
         const instance = wrapper.instance();
         expect(wrapper.state().checked).toEqual({});
@@ -131,7 +131,7 @@ describe('components/admin_console/group_settings/GroupsList.tsx', () => {
         const wrapper = shallow<GroupsList>(
             <GroupsList
                 groups={[
-                    {primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test1', name: 'test1'},
                     {primary_key: 'test2', name: 'test2', mattermost_group_id: 'group-id-1', has_syncables: false},
                 ]}
                 total={2}
@@ -140,7 +140,7 @@ describe('components/admin_console/group_settings/GroupsList.tsx', () => {
                     link,
                     unlink: jest.fn(),
                 }}
-            />
+            />,
         );
         const instance = wrapper.instance();
         expect(wrapper.state().checked).toEqual({});
@@ -156,10 +156,10 @@ describe('components/admin_console/group_settings/GroupsList.tsx', () => {
         const wrapper = shallow<GroupsList>(
             <GroupsList
                 groups={[
-                    {primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test1', name: 'test1'},
                     {primary_key: 'test2', name: 'test2', mattermost_group_id: 'group-id-1', has_syncables: false},
                     {primary_key: 'test3', name: 'test3', mattermost_group_id: 'group-id-1', has_syncables: false},
-                    {primary_key: 'test4', name: 'test4', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test4', name: 'test4'},
                 ]}
                 total={4}
                 actions={{
@@ -167,7 +167,7 @@ describe('components/admin_console/group_settings/GroupsList.tsx', () => {
                     link: jest.fn(),
                     unlink,
                 }}
-            />
+            />,
         );
         const instance = wrapper.instance();
         expect(wrapper.state().checked).toEqual({});
@@ -188,7 +188,7 @@ describe('components/admin_console/group_settings/GroupsList.tsx', () => {
                     link: jest.fn(),
                     unlink: jest.fn(),
                 }}
-            />
+            />,
         );
         wrapper.setState({loading: false});
         expect(wrapper).toMatchSnapshot();
@@ -198,7 +198,7 @@ describe('components/admin_console/group_settings/GroupsList.tsx', () => {
         const wrapper = shallow(
             <GroupsList
                 groups={[
-                    {primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test1', name: 'test1'},
                     {primary_key: 'test2', name: 'test2', mattermost_group_id: 'group-id-1', has_syncables: false},
                     {primary_key: 'test3', name: 'test3', mattermost_group_id: 'group-id-2', has_syncables: true},
                 ]}
@@ -208,7 +208,7 @@ describe('components/admin_console/group_settings/GroupsList.tsx', () => {
                     link: jest.fn(),
                     unlink: jest.fn(),
                 }}
-            />
+            />,
         );
         wrapper.setState({loading: false});
         expect(wrapper).toMatchSnapshot();
@@ -218,16 +218,16 @@ describe('components/admin_console/group_settings/GroupsList.tsx', () => {
         const wrapper = shallow(
             <GroupsList
                 groups={[
-                    {primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test1', name: 'test1'},
                     {primary_key: 'test2', name: 'test2', mattermost_group_id: 'group-id-1', has_syncables: false},
                     {primary_key: 'test3', name: 'test3', mattermost_group_id: 'group-id-2', has_syncables: true},
-                    {primary_key: 'test4', name: 'test4', mattermost_group_id: null, has_syncables: null},
-                    {primary_key: 'test5', name: 'test5', mattermost_group_id: null, has_syncables: null},
-                    {primary_key: 'test6', name: 'test6', mattermost_group_id: null, has_syncables: null},
-                    {primary_key: 'test7', name: 'test7', mattermost_group_id: null, has_syncables: null},
-                    {primary_key: 'test8', name: 'test8', mattermost_group_id: null, has_syncables: null},
-                    {primary_key: 'test9', name: 'test9', mattermost_group_id: null, has_syncables: null},
-                    {primary_key: 'test10', name: 'test10', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test4', name: 'test4'},
+                    {primary_key: 'test5', name: 'test5'},
+                    {primary_key: 'test6', name: 'test6'},
+                    {primary_key: 'test7', name: 'test7'},
+                    {primary_key: 'test8', name: 'test8'},
+                    {primary_key: 'test9', name: 'test9'},
+                    {primary_key: 'test10', name: 'test10'},
                 ]}
                 total={33}
                 actions={{
@@ -235,7 +235,7 @@ describe('components/admin_console/group_settings/GroupsList.tsx', () => {
                     link: jest.fn(),
                     unlink: jest.fn(),
                 }}
-            />
+            />,
         );
         wrapper.setState({page: 1, loading: false});
         expect(wrapper).toMatchSnapshot();
@@ -245,16 +245,16 @@ describe('components/admin_console/group_settings/GroupsList.tsx', () => {
         const wrapper = shallow(
             <GroupsList
                 groups={[
-                    {primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test1', name: 'test1'},
                     {primary_key: 'test2', name: 'test2', mattermost_group_id: 'group-id-1', has_syncables: false},
                     {primary_key: 'test3', name: 'test3', mattermost_group_id: 'group-id-2', has_syncables: true},
-                    {primary_key: 'test4', name: 'test4', mattermost_group_id: null, has_syncables: null},
-                    {primary_key: 'test5', name: 'test5', mattermost_group_id: null, has_syncables: null},
-                    {primary_key: 'test6', name: 'test6', mattermost_group_id: null, has_syncables: null},
-                    {primary_key: 'test7', name: 'test7', mattermost_group_id: null, has_syncables: null},
-                    {primary_key: 'test8', name: 'test8', mattermost_group_id: null, has_syncables: null},
-                    {primary_key: 'test9', name: 'test9', mattermost_group_id: null, has_syncables: null},
-                    {primary_key: 'test10', name: 'test10', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test4', name: 'test4'},
+                    {primary_key: 'test5', name: 'test5'},
+                    {primary_key: 'test6', name: 'test6'},
+                    {primary_key: 'test7', name: 'test7'},
+                    {primary_key: 'test8', name: 'test8'},
+                    {primary_key: 'test9', name: 'test9'},
+                    {primary_key: 'test10', name: 'test10'},
                 ]}
                 total={13}
                 actions={{
@@ -262,7 +262,7 @@ describe('components/admin_console/group_settings/GroupsList.tsx', () => {
                     link: jest.fn(),
                     unlink: jest.fn(),
                 }}
-            />
+            />,
         );
         wrapper.setState({loading: false});
         expect(wrapper).toMatchSnapshot();
@@ -272,7 +272,7 @@ describe('components/admin_console/group_settings/GroupsList.tsx', () => {
         const wrapper = shallow(
             <GroupsList
                 groups={[
-                    {primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test1', name: 'test1'},
                     {primary_key: 'test2', name: 'test2', mattermost_group_id: 'group-id-1', has_syncables: false},
                     {primary_key: 'test3', name: 'test3', mattermost_group_id: 'group-id-2', has_syncables: true},
                 ]}
@@ -282,7 +282,7 @@ describe('components/admin_console/group_settings/GroupsList.tsx', () => {
                     link: jest.fn(),
                     unlink: jest.fn(),
                 }}
-            />
+            />,
         );
         wrapper.setState({page: 1, loading: false});
         expect(wrapper).toMatchSnapshot();
@@ -293,7 +293,7 @@ describe('components/admin_console/group_settings/GroupsList.tsx', () => {
         const wrapper = shallow<GroupsList>(
             <GroupsList
                 groups={[
-                    {primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test1', name: 'test1'},
                     {primary_key: 'test2', name: 'test2', mattermost_group_id: 'group-id-1', has_syncables: false},
                     {primary_key: 'test3', name: 'test3', mattermost_group_id: 'group-id-2', has_syncables: true},
                 ]}
@@ -303,7 +303,7 @@ describe('components/admin_console/group_settings/GroupsList.tsx', () => {
                     link: jest.fn(),
                     unlink: jest.fn(),
                 }}
-            />
+            />,
         );
         wrapper.setState({page: 1, checked: {test1: true, test2: true}});
 
@@ -320,7 +320,7 @@ describe('components/admin_console/group_settings/GroupsList.tsx', () => {
         const wrapper = shallow<GroupsList>(
             <GroupsList
                 groups={[
-                    {primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test1', name: 'test1'},
                     {primary_key: 'test2', name: 'test2', mattermost_group_id: 'group-id-1', has_syncables: false},
                     {primary_key: 'test3', name: 'test3', mattermost_group_id: 'group-id-2', has_syncables: true},
                 ]}
@@ -330,7 +330,7 @@ describe('components/admin_console/group_settings/GroupsList.tsx', () => {
                     link: jest.fn(),
                     unlink: jest.fn(),
                 }}
-            />
+            />,
         );
         wrapper.setState({page: 0, checked: {test1: true, test2: true}});
 
@@ -347,16 +347,16 @@ describe('components/admin_console/group_settings/GroupsList.tsx', () => {
         const wrapper = shallow<GroupsList>(
             <GroupsList
                 groups={[
-                    {primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test1', name: 'test1'},
                     {primary_key: 'test2', name: 'test2', mattermost_group_id: 'group-id-1', has_syncables: false},
                     {primary_key: 'test3', name: 'test3', mattermost_group_id: 'group-id-2', has_syncables: true},
-                    {primary_key: 'test4', name: 'test4', mattermost_group_id: null, has_syncables: null},
-                    {primary_key: 'test5', name: 'test5', mattermost_group_id: null, has_syncables: null},
-                    {primary_key: 'test6', name: 'test6', mattermost_group_id: null, has_syncables: null},
-                    {primary_key: 'test7', name: 'test7', mattermost_group_id: null, has_syncables: null},
-                    {primary_key: 'test8', name: 'test8', mattermost_group_id: null, has_syncables: null},
-                    {primary_key: 'test9', name: 'test9', mattermost_group_id: null, has_syncables: null},
-                    {primary_key: 'test10', name: 'test10', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test4', name: 'test4'},
+                    {primary_key: 'test5', name: 'test5'},
+                    {primary_key: 'test6', name: 'test6'},
+                    {primary_key: 'test7', name: 'test7'},
+                    {primary_key: 'test8', name: 'test8'},
+                    {primary_key: 'test9', name: 'test9'},
+                    {primary_key: 'test10', name: 'test10'},
                 ]}
                 total={20}
                 actions={{
@@ -364,7 +364,7 @@ describe('components/admin_console/group_settings/GroupsList.tsx', () => {
                     link: jest.fn(),
                     unlink: jest.fn(),
                 }}
-            />
+            />,
         );
         wrapper.setState({page: 0, checked: {test1: true, test2: true}});
 
@@ -385,7 +385,7 @@ describe('components/admin_console/group_settings/GroupsList.tsx', () => {
                     link: jest.fn(),
                     unlink: jest.fn(),
                 }}
-            />
+            />,
         );
         wrapper.setState({showFilters: true, filterIsLinked: true, filterIsUnlinked: true});
         expect(wrapper).toMatchSnapshot();
@@ -401,7 +401,7 @@ describe('components/admin_console/group_settings/GroupsList.tsx', () => {
                     link: jest.fn(),
                     unlink: jest.fn(),
                 }}
-            />
+            />,
         );
         wrapper.setState({searchString: 'foo'});
         wrapper.find('i.fa-times-circle').first().simulate('click');
@@ -418,7 +418,7 @@ describe('components/admin_console/group_settings/GroupsList.tsx', () => {
                     link: jest.fn(),
                     unlink: jest.fn(),
                 }}
-            />
+            />,
         );
         expect(wrapper.state().showFilters).toEqual(false);
         wrapper.find('i.fa-caret-down').first().simulate('click');
@@ -436,7 +436,7 @@ describe('components/admin_console/group_settings/GroupsList.tsx', () => {
                     link: jest.fn(),
                     unlink: jest.fn(),
                 }}
-            />
+            />,
         );
         wrapper.setState({showFilters: true, searchString: 'foo iS:ConfiGuReD is:notlinked'});
         expect(wrapper.state().filterIsConfigured).toEqual(false);
@@ -460,7 +460,7 @@ describe('components/admin_console/group_settings/GroupsList.tsx', () => {
                     link: jest.fn(),
                     unlink: jest.fn(),
                 }}
-            />
+            />,
         );
         wrapper.setState({showFilters: true, searchString: 'foo'});
         wrapper.find('span.filter-check').first().simulate('click');
@@ -478,7 +478,7 @@ describe('components/admin_console/group_settings/GroupsList.tsx', () => {
                     link: jest.fn(),
                     unlink: jest.fn(),
                 }}
-            />
+            />,
         );
         wrapper.setState({showFilters: true, searchString: 'foo is:linked', filterIsLinked: true});
         wrapper.find('span.filter-check').first().simulate('click');

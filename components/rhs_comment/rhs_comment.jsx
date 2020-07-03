@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -9,7 +10,7 @@ import {Posts} from 'mattermost-redux/constants/index';
 import {
     isPostEphemeral,
     isPostPendingOrFailed,
-    isMeMessage as checkIsMeMessage
+    isMeMessage as checkIsMeMessage,
 } from 'mattermost-redux/utils/post_utils';
 
 import Constants, {Locations, A11yCustomEventTypes} from 'utils/constants';
@@ -71,7 +72,7 @@ class RhsComment extends React.PureComponent {
             /**
              * Function to set or unset emoji picker for last message
              */
-            emitShortcutReactToLastPostFrom: PropTypes.func
+            emitShortcutReactToLastPostFrom: PropTypes.func,
         }),
         emojiMap: PropTypes.object.isRequired,
     };
@@ -500,7 +501,7 @@ class RhsComment extends React.PureComponent {
                     }
                 >
                     <button
-                        className='post-menu__item post-menu__item--show'
+                        className='card-icon__container icon--show style--none'
                         onClick={(e) => {
                             e.preventDefault();
                             this.props.handleCardClick(this.props.post);
@@ -579,3 +580,4 @@ class RhsComment extends React.PureComponent {
 }
 
 export default injectIntl(RhsComment);
+/* eslint-enable react/no-string-refs */

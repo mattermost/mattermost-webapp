@@ -1221,6 +1221,7 @@
                 text-align: left;
                 vertical-align: top;
                 white-space: nowrap;
+                -moz-user-select: all;    /* Firefox all */
             }
 
             .colon {
@@ -1285,7 +1286,7 @@
                     -webkit-user-select: none; /* Chrome all / Safari all */
                     -moz-user-select: none;    /* Firefox all */
                     -ms-user-select: none;     /* IE 10+ */
-                    user-select: none;                
+                    user-select: none;
                 }
             }
         }

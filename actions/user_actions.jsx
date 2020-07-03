@@ -12,7 +12,7 @@ import {
     getCurrentChannelId,
     getMyChannels,
     getMyChannelMember,
-    getChannelMembersInChannels
+    getChannelMembersInChannels,
 } from 'mattermost-redux/selectors/entities/channels';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeamId, getTeamMember} from 'mattermost-redux/selectors/entities/teams';
@@ -49,7 +49,7 @@ export function loadProfilesAndReloadTeamMembers(page, perPage, teamId, options 
         if (data) {
             await Promise.all([
                 doDispatch(loadTeamMembersForProfilesList(data, newTeamId, true)),
-                doDispatch(loadStatusesForProfilesList(data))
+                doDispatch(loadStatusesForProfilesList(data)),
             ]);
         }
 
@@ -64,7 +64,7 @@ export function loadProfilesAndReloadChannelMembers(page, perPage, channelId, so
         if (data) {
             await Promise.all([
                 doDispatch(loadChannelMembersForProfilesList(data, newChannelId, true)),
-                doDispatch(loadStatusesForProfilesList(data))
+                doDispatch(loadStatusesForProfilesList(data)),
             ]);
         }
 
@@ -92,7 +92,7 @@ export function searchProfilesAndTeamMembers(term = '', options = {}) {
         if (data) {
             await Promise.all([
                 doDispatch(loadTeamMembersForProfilesList(data, newTeamId)),
-                doDispatch(loadStatusesForProfilesList(data))
+                doDispatch(loadStatusesForProfilesList(data)),
             ]);
         }
 
@@ -102,12 +102,12 @@ export function searchProfilesAndTeamMembers(term = '', options = {}) {
 
 export function searchProfilesAndChannelMembers(term, options = {}) {
     return async (doDispatch, doGetState) => {
-        const newChannelId = options.channel_id || getCurrentChannelId(doGetState());
+        const newChannelId = options.in_channel_id || getCurrentChannelId(doGetState());
         const {data} = await doDispatch(UserActions.searchProfiles(term, options));
         if (data) {
             await Promise.all([
                 doDispatch(loadChannelMembersForProfilesList(data, newChannelId)),
-                doDispatch(loadStatusesForProfilesList(data))
+                doDispatch(loadStatusesForProfilesList(data)),
             ]);
         }
 
@@ -284,9 +284,8 @@ export function loadProfilesForGroupChannels(groupChannels) {
     };
 }
 
-export function loadProfilesForSidebar() {
-    loadProfilesForDM();
-    loadProfilesForGM();
+export async function loadProfilesForSidebar() {
+    await Promise.all([loadProfilesForDM(), loadProfilesForGM()]);
 }
 
 export function filterGMsDMs(state, channels) {

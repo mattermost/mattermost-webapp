@@ -41,13 +41,13 @@ describe('admin_console/team_channel_settings/channel/ChannelMembers', () => {
             getChannelStats: jest.fn(),
             loadProfilesAndReloadChannelMembers: jest.fn(),
             searchProfilesAndChannelMembers: jest.fn(),
-            setModalSearchTerm: jest.fn(),
-        }
+            setSystemUsersSearch: jest.fn(),
+        },
     };
 
     test('should match snapshot', () => {
         const wrapper = shallow(
-            <ChannelMembers {...baseProps}/>
+            <ChannelMembers {...baseProps}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -60,7 +60,7 @@ describe('admin_console/team_channel_settings/channel/ChannelMembers', () => {
                 channelMembers={{}}
                 totalCount={0}
                 loading={true}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });

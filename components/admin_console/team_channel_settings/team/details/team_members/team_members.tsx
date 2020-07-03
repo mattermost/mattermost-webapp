@@ -43,7 +43,7 @@ type Props = {
         searchProfilesAndTeamMembers: (term: string, options?: {}) => Promise<{
             data: boolean;
         }>;
-        setModalSearchTerm: (term: string) => Promise<{
+        setSystemUsersSearch: (term: string) => Promise<{
             data: boolean;
         }>;
     };
@@ -70,9 +70,9 @@ export default class TeamMembers extends React.PureComponent<Props, State> {
 
     public componentDidMount() {
         const {teamId} = this.props;
-        const {loadProfilesAndReloadTeamMembers, getTeamStats, setModalSearchTerm} = this.props.actions;
+        const {loadProfilesAndReloadTeamMembers, getTeamStats, setSystemUsersSearch} = this.props.actions;
         Promise.all([
-            setModalSearchTerm(''),
+            setSystemUsersSearch(''),
             getTeamStats(teamId),
             loadProfilesAndReloadTeamMembers(0, PROFILE_CHUNK_SIZE * 2, teamId),
         ]).then(() => this.setStateLoading(false));
@@ -92,14 +92,14 @@ export default class TeamMembers extends React.PureComponent<Props, State> {
 
             const searchTimeoutId = window.setTimeout(
                 async () => {
-                    await prevProps.actions.searchProfilesAndTeamMembers(searchTerm, {team_id: this.props.teamId});
+                    await prevProps.actions.searchProfilesAndTeamMembers(searchTerm, {team_id: this.props.teamId, allow_inactive: false});
 
                     if (searchTimeoutId !== this.searchTimeoutId) {
                         return;
                     }
                     this.setStateLoading(false);
                 },
-                Constants.SEARCH_TIMEOUT_MILLISECONDS
+                Constants.SEARCH_TIMEOUT_MILLISECONDS,
             );
 
             this.searchTimeoutId = searchTimeoutId;
@@ -125,7 +125,7 @@ export default class TeamMembers extends React.PureComponent<Props, State> {
     }
 
     private search = async (term: string) => {
-        this.props.actions.setModalSearchTerm(term);
+        this.props.actions.setSystemUsersSearch(term);
     }
 
     private updateMembership = (membership: BaseMembership) => {
@@ -136,13 +136,14 @@ export default class TeamMembers extends React.PureComponent<Props, State> {
         const {users, team, usersToAdd, usersToRemove, teamMembers, totalCount, searchTerm} = this.props;
         return (
             <AdminPanel
-                id='team_members'
+                id='teamMembers'
                 titleId={t('admin.team_settings.team_detail.membersTitle')}
                 titleDefault='Members'
                 subtitleId={t('admin.team_settings.team_detail.membersDescription')}
                 subtitleDefault='A list of users who are currently in the team right now'
                 button={
                     <ToggleModalButton
+                        id='addTeamMembers'
                         className='btn btn-primary'
                         dialogType={AddUsersToTeamModal}
                         dialogProps={{

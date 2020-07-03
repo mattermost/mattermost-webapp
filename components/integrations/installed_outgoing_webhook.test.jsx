@@ -49,7 +49,7 @@ describe('components/integrations/InstalledOutgoingWebhook', () => {
 
     test('should match snapshot', () => {
         const wrapper = shallow(
-            <InstalledOutgoingWebhook {...baseProps}/>
+            <InstalledOutgoingWebhook {...baseProps}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -58,14 +58,14 @@ describe('components/integrations/InstalledOutgoingWebhook', () => {
         const newCanChange = false;
         const props = {...baseProps, canChange: newCanChange};
         const wrapper = shallow(
-            <InstalledOutgoingWebhook {...props}/>
+            <InstalledOutgoingWebhook {...props}/>,
         );
         expect(wrapper.find('.item-actions').length).toBe(0);
     });
 
     test('should have edit and delete actions if user can change webhook', () => {
         const wrapper = shallow(
-            <InstalledOutgoingWebhook {...baseProps}/>
+            <InstalledOutgoingWebhook {...baseProps}/>,
         );
         expect(wrapper.find('.item-actions').find(Link).exists()).toBe(true);
         expect(wrapper.find('.item-actions').find(DeleteIntegration).exists()).toBe(true);
@@ -75,7 +75,7 @@ describe('components/integrations/InstalledOutgoingWebhook', () => {
         const newCanChange = false;
         const props = {...baseProps, canChange: newCanChange};
         const wrapper = shallow(
-            <InstalledOutgoingWebhook {...props}/>
+            <InstalledOutgoingWebhook {...props}/>,
         );
 
         expect(wrapper.find('.item-details__description').text()).toBe('build status');
@@ -86,7 +86,7 @@ describe('components/integrations/InstalledOutgoingWebhook', () => {
         const newOutgoingWebhook = {...outgoingWebhook, description: null};
         const props = {...baseProps, outgoingWebhook: newOutgoingWebhook};
         const wrapper = shallow(
-            <InstalledOutgoingWebhook {...props}/>
+            <InstalledOutgoingWebhook {...props}/>,
         );
 
         expect(wrapper.find('.item-details__description').length).toBe(0);
@@ -96,7 +96,7 @@ describe('components/integrations/InstalledOutgoingWebhook', () => {
         const newFilter = 'someLongText';
         const props = {...baseProps, filter: newFilter};
         const wrapper = shallow(
-            <InstalledOutgoingWebhook {...props}/>
+            <InstalledOutgoingWebhook {...props}/>,
         );
 
         expect(wrapper.getElement()).toBe(null);
@@ -106,7 +106,7 @@ describe('components/integrations/InstalledOutgoingWebhook', () => {
         const newFilter = 'buil';
         const props = {...baseProps, filter: newFilter};
         const wrapper = shallow(
-            <InstalledOutgoingWebhook {...props}/>
+            <InstalledOutgoingWebhook {...props}/>,
         );
 
         expect(wrapper.find('.item-details').exists()).toBe(true);
@@ -118,7 +118,7 @@ describe('components/integrations/InstalledOutgoingWebhook', () => {
         const props = {...baseProps, filter: newFilter, onRegenToken: newOnRegenToken};
 
         const wrapper = shallow(
-            <InstalledOutgoingWebhook {...props}/>
+            <InstalledOutgoingWebhook {...props}/>,
         );
 
         wrapper.find('.item-actions button').first().simulate('click', {preventDefault() {
@@ -133,7 +133,7 @@ describe('components/integrations/InstalledOutgoingWebhook', () => {
         const props = {...baseProps, filter: newFilter, onDelete: newOnDelete};
 
         const wrapper = shallow(
-            <InstalledOutgoingWebhook {...props}/>
+            <InstalledOutgoingWebhook {...props}/>,
         );
 
         wrapper.find(DeleteIntegration).first().prop('onDelete')();
@@ -142,7 +142,7 @@ describe('components/integrations/InstalledOutgoingWebhook', () => {
 
     test('Should match snapshot of makeDisplayName', () => {
         const wrapper = shallow(
-            <InstalledOutgoingWebhook {...baseProps}/>
+            <InstalledOutgoingWebhook {...baseProps}/>,
         );
 
         // displays webhook's display name

@@ -106,17 +106,17 @@ class LastUsers extends React.PureComponent {
 
         const firstUserMessage = formatMessage(
             {id: 'last_users_message.first', defaultMessage: '{firstUser} and '},
-            {firstUser}
+            {firstUser},
         );
 
         const otherUsersMessage = formatMessage(
             {id: 'last_users_message.others', defaultMessage: '{numOthers} others '},
-            {numOthers: lastIndex}
+            {numOthers: lastIndex},
         );
 
         const actorMessage = formatMessage(
             {id: typeMessage[postType].id, defaultMessage: typeMessage[postType].defaultMessage},
-            {actor}
+            {actor},
         );
 
         return (

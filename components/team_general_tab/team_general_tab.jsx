@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import $ from 'jquery';
 import PropTypes from 'prop-types';
@@ -19,7 +20,7 @@ import {t} from 'utils/i18n.jsx';
 
 const ACCEPTED_TEAM_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/bmp'];
 
-export default class GeneralTab extends React.Component {
+export default class GeneralTab extends React.PureComponent {
     static propTypes = {
         updateSection: PropTypes.func.isRequired,
         team: PropTypes.object.isRequired,
@@ -489,7 +490,7 @@ export default class GeneralTab extends React.Component {
                             }}
                         />
                     </div>
-                </div>
+                </div>,
             );
 
             inviteSection = (
@@ -547,7 +548,7 @@ export default class GeneralTab extends React.Component {
                             onFocus={Utils.moveCursorToEnd}
                         />
                     </div>
-                </div>
+                </div>,
             );
 
             const nameExtraInfo = <span>{Utils.localizeMessage('general_tab.teamNameInfo', 'Set the name of the team as it appears on your sign-in screen and at the top of the left-hand sidebar.')}</span>;
@@ -609,7 +610,7 @@ export default class GeneralTab extends React.Component {
                             onFocus={Utils.moveCursorToEnd}
                         />
                     </div>
-                </div>
+                </div>,
             );
 
             const descriptionExtraInfo = <span>{Utils.localizeMessage('general_tab.teamDescriptionInfo', 'Team description provides additional information to help users select the right team. Maximum of 50 characters.')}</span>;
@@ -734,7 +735,7 @@ export default class GeneralTab extends React.Component {
                             aria-label={Utils.localizeMessage('general_tab.allowedDomains.ariaLabel', 'Allowed Domains')}
                         />
                     </div>
-                </div>
+                </div>,
             );
 
             const allowedDomainsInfo = <span>{Utils.localizeMessage('general_tab.AllowedDomainsInfo', 'Users can only join the team if their email matches a specific domain (e.g. "mattermost.org") or list of comma-separated domains (e.g. "corp.mattermost.com, mattermost.org").')}</span>;
@@ -836,3 +837,4 @@ export default class GeneralTab extends React.Component {
         );
     }
 }
+/* eslint-enable react/no-string-refs */

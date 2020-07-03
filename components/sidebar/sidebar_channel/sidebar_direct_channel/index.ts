@@ -15,6 +15,8 @@ import {getCurrentChannelId, getRedirectChannelNameForTeam} from 'mattermost-red
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUser, getUser} from 'mattermost-redux/selectors/entities/users';
 
+import {leaveDirectChannel} from 'actions/views/channel';
+
 import SidebarDirectChannel from './sidebar_direct_channel';
 
 type OwnProps = {
@@ -58,12 +60,14 @@ type Actions = {
     savePreferences: (userId: string, preferences: PreferenceType[]) => Promise<{
         data: boolean;
     }>;
+    leaveDirectChannel: (channelId: string) => Promise<{data: boolean}>;
 }
 
 function mapDispatchToProps(dispatch: Dispatch) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
             savePreferences,
+            leaveDirectChannel,
         }, dispatch),
     };
 }

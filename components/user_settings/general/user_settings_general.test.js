@@ -109,7 +109,7 @@ describe('components/user_settings/general/UserSettingsGeneral', () => {
         let wrapper = mountWithIntl(
             <Provider store={store}>
                 <UserSettingsGeneral {...props}/>
-            </Provider>
+            </Provider>,
         );
         expect(wrapper.find('#position').length).toBe(1);
         expect(wrapper.find('#position').is('input')).toBeTruthy();
@@ -120,7 +120,7 @@ describe('components/user_settings/general/UserSettingsGeneral', () => {
         wrapper = mountWithIntl(
             <Provider store={store}>
                 <UserSettingsGeneral {...props}/>
-            </Provider>
+            </Provider>,
         );
         expect(wrapper.find('#position').length).toBe(0);
 
@@ -131,7 +131,7 @@ describe('components/user_settings/general/UserSettingsGeneral', () => {
         wrapper = mountWithIntl(
             <Provider store={store}>
                 <UserSettingsGeneral {...props}/>
-            </Provider>
+            </Provider>,
         );
         expect(wrapper.find('#position').length).toBe(0);
     });
@@ -147,7 +147,7 @@ describe('components/user_settings/general/UserSettingsGeneral', () => {
         let wrapper = mountWithIntl(
             <Provider store={store}>
                 <UserSettingsGeneral {...props}/>
-            </Provider>
+            </Provider>,
         );
         expect(wrapper.find('.profile-img').exists()).toBeTruthy();
 
@@ -155,7 +155,7 @@ describe('components/user_settings/general/UserSettingsGeneral', () => {
         wrapper = mountWithIntl(
             <Provider store={store}>
                 <UserSettingsGeneral {...props}/>
-            </Provider>
+            </Provider>,
         );
         expect(wrapper.find('.profile-img').exists()).toBeFalsy();
     });

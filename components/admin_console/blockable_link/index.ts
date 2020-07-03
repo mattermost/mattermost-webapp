@@ -3,24 +3,24 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
-import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {deferNavigation} from 'actions/admin_actions';
 import {getNavigationBlocked} from 'selectors/views/admin';
+import {GlobalState} from 'types/store';
 
 import BlockableLink from './blockable_link';
 
-function mapStateToProps(state: object) {
+function mapStateToProps(state: GlobalState) {
     return {
-        blocked: getNavigationBlocked(state)
+        blocked: getNavigationBlocked(state),
     };
 }
 
-function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
+function mapDispatchToProps(dispatch: Dispatch) {
     return {
         actions: bindActionCreators({
-            deferNavigation
-        }, dispatch)
+            deferNavigation,
+        }, dispatch),
     };
 }
 

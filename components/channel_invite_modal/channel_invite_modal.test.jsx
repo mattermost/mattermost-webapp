@@ -66,7 +66,7 @@ describe('components/channel_invite_modal', () => {
                 {...baseProps}
                 profilesNotInCurrentChannel={users}
                 profilesNotInCurrentTeam={[]}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -84,7 +84,7 @@ describe('components/channel_invite_modal', () => {
                             label: 'user-3',
                             value: 'user-3',
                             delete_at: 0,
-                        }
+                        },
                     }
                 }
                 excludeUsers={
@@ -94,17 +94,17 @@ describe('components/channel_invite_modal', () => {
                             label: 'user-1',
                             value: 'user-1',
                             delete_at: 0,
-                        }
+                        },
                     }
                 }
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match state when onHide is called', () => {
         const wrapper = shallow(
-            <ChannelInviteModal {...baseProps}/>
+            <ChannelInviteModal {...baseProps}/>,
         );
 
         wrapper.setState({show: true});
@@ -114,7 +114,7 @@ describe('components/channel_invite_modal', () => {
 
     test('should have called props.onHide when Modal.onExited is called', () => {
         const wrapper = shallow(
-            <ChannelInviteModal {...baseProps}/>
+            <ChannelInviteModal {...baseProps}/>,
         );
 
         wrapper.find(Modal).props().onExited();
@@ -125,7 +125,7 @@ describe('components/channel_invite_modal', () => {
         const wrapper = shallow(
             <ChannelInviteModal
                 {...baseProps}
-            />
+            />,
         );
 
         wrapper.setState({values: users, show: true});
@@ -154,7 +154,7 @@ describe('components/channel_invite_modal', () => {
         const wrapper = shallow(
             <ChannelInviteModal
                 {...props}
-            />
+            />,
         );
 
         wrapper.setState({values: users, show: true});
@@ -180,7 +180,7 @@ describe('components/channel_invite_modal', () => {
         const wrapper = shallow(
             <ChannelInviteModal
                 {...props}
-            />
+            />,
         );
 
         wrapper.setState({values: users, show: true});
@@ -191,7 +191,7 @@ describe('components/channel_invite_modal', () => {
 
     test('should trim the search term', () => {
         const wrapper = shallow(
-            <ChannelInviteModal {...baseProps}/>
+            <ChannelInviteModal {...baseProps}/>,
         );
 
         wrapper.instance().search(' something ');

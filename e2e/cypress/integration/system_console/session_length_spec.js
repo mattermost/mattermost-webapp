@@ -12,7 +12,7 @@
 
 // # Goes to the System Scheme page as System Admin
 const goToSessionLengths = () => {
-    cy.apiLogin('sysadmin');
+    cy.apiAdminLogin();
     cy.visit('/admin_console/environment/session_lengths');
 };
 
@@ -29,7 +29,7 @@ const waitUntilConfigSave = () => {
 const saveConfig = (waitUntilConfigSaved = true, clickConfirmationButton = false) => {
     // # Save if possible (if previous test ended abruptly all permissions may already be enabled)
     cy.get('#saveSetting').then((btn) => {
-        if (!btn.disabled) {
+        if (btn.is(':enabled')) {
             btn.click();
         }
     });
@@ -41,7 +41,7 @@ const saveConfig = (waitUntilConfigSaved = true, clickConfirmationButton = false
     }
 };
 
-describe('Session Lengths', () => {
+describe('MM-T2574 Session Lengths', () => {
     before(() => {
         goToSessionLengths();
     });

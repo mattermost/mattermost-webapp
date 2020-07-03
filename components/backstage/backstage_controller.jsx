@@ -41,7 +41,7 @@ const BackstageRoute = ({component: Component, extraProps, ...rest}) => ( //esli
     />
 );
 
-export default class BackstageController extends React.Component {
+export default class BackstageController extends React.PureComponent {
     static propTypes = {
 
         /**

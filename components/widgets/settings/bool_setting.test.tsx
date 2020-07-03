@@ -13,7 +13,7 @@ describe('components/widgets/settings/BoolSetting', () => {
                 label='some label'
                 value={true}
                 placeholder='Text aligned with checkbox'
-            />
+            />,
         );
         expect(wrapper).toMatchInlineSnapshot(`
 <Setting
@@ -50,7 +50,7 @@ describe('components/widgets/settings/BoolSetting', () => {
                 value={true}
                 placeholder='Text aligned with checkbox'
                 onChange={onChange}
-            />
+            />,
         );
 
         wrapper.find('input').simulate('change', {target: {checked: true}});

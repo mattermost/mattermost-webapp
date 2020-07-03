@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import React, {ChangeEvent, FormEvent, CSSProperties} from 'react';
 
@@ -14,7 +15,7 @@ type Props = {
     placeholder?: string;
 }
 
-export default class AutosizeTextarea extends React.Component<Props> {
+export default class AutosizeTextarea extends React.PureComponent<Props> {
     private height: number;
     constructor(props: Props) {
         super(props);
@@ -119,7 +120,7 @@ export default class AutosizeTextarea extends React.Component<Props> {
 
         const heightProps = {
             rows: 0,
-            height: 0
+            height: 0,
         };
 
         if (this.height <= 0) {
@@ -182,3 +183,4 @@ const style: { [Key: string]: CSSProperties} = {
     reference: {height: 'auto', width: '100%'},
     placeholder: {overflow: 'hidden', textOverflow: 'ellipsis', opacity: 0.5, pointerEvents: 'none', position: 'absolute', whiteSpace: 'nowrap', background: 'none', borderColor: 'transparent'},
 };
+/* eslint-enable react/no-string-refs */

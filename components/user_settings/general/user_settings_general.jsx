@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -85,7 +86,7 @@ const holders = defineMessages({
     },
 });
 
-class UserSettingsGeneralTab extends React.Component {
+class UserSettingsGeneralTab extends React.PureComponent {
     static propTypes = {
         intl: intlShape.isRequired,
         user: PropTypes.object.isRequired,
@@ -465,7 +466,7 @@ class UserSettingsGeneralTab extends React.Component {
                                 <label className='control-label word-break--all text-left'>{this.state.originalEmail}</label>
                             </div>
                         </div>
-                    </div>
+                    </div>,
                 );
 
                 inputs.push(
@@ -490,7 +491,7 @@ class UserSettingsGeneralTab extends React.Component {
                                 />
                             </div>
                         </div>
-                    </div>
+                    </div>,
                 );
 
                 inputs.push(
@@ -514,7 +515,7 @@ class UserSettingsGeneralTab extends React.Component {
                                 />
                             </div>
                         </div>
-                    </div>
+                    </div>,
                 );
 
                 inputs.push(
@@ -538,7 +539,7 @@ class UserSettingsGeneralTab extends React.Component {
                             </div>
                         </div>
                         {helpText}
-                    </div>
+                    </div>,
                 );
 
                 submit = this.submitEmail;
@@ -558,7 +559,7 @@ class UserSettingsGeneralTab extends React.Component {
                             />
                         </div>
                         {helpText}
-                    </div>
+                    </div>,
                 );
             } else if (this.props.user.auth_service === Constants.GOOGLE_SERVICE) {
                 inputs.push(
@@ -576,7 +577,7 @@ class UserSettingsGeneralTab extends React.Component {
                             />
                         </div>
                         {helpText}
-                    </div>
+                    </div>,
                 );
             } else if (this.props.user.auth_service === Constants.OFFICE365_SERVICE) {
                 inputs.push(
@@ -594,7 +595,7 @@ class UserSettingsGeneralTab extends React.Component {
                             />
                         </div>
                         {helpText}
-                    </div>
+                    </div>,
                 );
             } else if (this.props.user.auth_service === Constants.LDAP_SERVICE) {
                 inputs.push(
@@ -611,7 +612,7 @@ class UserSettingsGeneralTab extends React.Component {
                                 }}
                             />
                         </div>
-                    </div>
+                    </div>,
                 );
             } else if (this.props.user.auth_service === Constants.SAML_SERVICE) {
                 inputs.push(
@@ -629,7 +630,7 @@ class UserSettingsGeneralTab extends React.Component {
                             />
                         </div>
                         {helpText}
-                    </div>
+                    </div>,
                 );
             }
 
@@ -781,7 +782,7 @@ class UserSettingsGeneralTab extends React.Component {
                                 aria-label={formatMessage({id: 'user.settings.general.firstName', defaultMessage: 'First Name'})}
                             />
                         </div>
-                    </div>
+                    </div>,
                 );
 
                 inputs.push(
@@ -806,7 +807,7 @@ class UserSettingsGeneralTab extends React.Component {
                                 aria-label={formatMessage({id: 'user.settings.general.lastName', defaultMessage: 'Last Name'})}
                             />
                         </div>
-                    </div>
+                    </div>,
                 );
 
                 function notifClick(e) {
@@ -933,7 +934,7 @@ class UserSettingsGeneralTab extends React.Component {
                                 aria-label={formatMessage({id: 'user.settings.general.nickname', defaultMessage: 'Nickname'})}
                             />
                         </div>
-                    </div>
+                    </div>,
                 );
 
                 extraInfo = (
@@ -1026,7 +1027,7 @@ class UserSettingsGeneralTab extends React.Component {
                                 aria-label={formatMessage({id: 'user.settings.general.username', defaultMessage: 'Username'})}
                             />
                         </div>
-                    </div>
+                    </div>,
                 );
 
                 extraInfo = (
@@ -1117,7 +1118,7 @@ class UserSettingsGeneralTab extends React.Component {
                                 aria-label={formatMessage({id: 'user.settings.general.position', defaultMessage: 'Position'})}
                             />
                         </div>
-                    </div>
+                    </div>,
                 );
 
                 extraInfo = (
@@ -1327,3 +1328,4 @@ class UserSettingsGeneralTab extends React.Component {
 }
 
 export default injectIntl(UserSettingsGeneralTab);
+/* eslint-enable react/no-string-refs */

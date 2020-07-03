@@ -27,7 +27,7 @@ describe('components/admin_console/data_grid/DataGrid', () => {
         const wrapper = shallow(
             <DataGrid
                 {...baseProps}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -37,7 +37,7 @@ describe('components/admin_console/data_grid/DataGrid', () => {
             <DataGrid
                 {...baseProps}
                 loading={true}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -47,15 +47,15 @@ describe('components/admin_console/data_grid/DataGrid', () => {
             <DataGrid
                 {...baseProps}
                 rows={[
-                    {name: 'Joe Schmoe', team: 'Admin Team'},
-                    {name: 'Foo Bar', team: 'Admin Team'},
-                    {name: 'Some Guy', team: 'Admin Team'},
+                    {cells: {name: 'Joe Schmoe', team: 'Admin Team'}},
+                    {cells: {name: 'Foo Bar', team: 'Admin Team'}},
+                    {cells: {name: 'Some Guy', team: 'Admin Team'}},
                 ]}
                 columns={[
                     {name: 'Name', field: 'name', width: 3, overflow: 'hidden'},
                     {name: 'Team', field: 'team', textAlign: 'center'},
                 ]}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });

@@ -91,7 +91,7 @@ exports[`components/MoreChannels should match snapshot and state 1`] = `
       loading={false}
       nextPage={[Function]}
       noResultsText={
-        <Connect(TeamPermissionGate)
+        <UNDEFINED
           permissions={
             Array [
               "create_public_channel",
@@ -109,7 +109,7 @@ exports[`components/MoreChannels should match snapshot and state 1`] = `
               values={Object {}}
             />
           </p>
-        </Connect(TeamPermissionGate)>
+        </UNDEFINED>
       }
       search={[Function]}
       shouldShowArchivedChannels={false}

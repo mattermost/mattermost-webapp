@@ -8,6 +8,7 @@ import {UserNotifyProps, UserProfile} from 'mattermost-redux/types/users';
 import {ActionResult} from 'mattermost-redux/types/actions';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
+import {TestHelper} from 'utils/test_helper';
 
 import ResetPasswordModal from './reset_password_modal';
 
@@ -23,33 +24,16 @@ describe('components/admin_console/reset_password_modal/reset_password_modal.tsx
         mark_unread: 'all',
         mention_keys: '',
         push: 'default',
-        push_status: 'ooo'
+        push_status: 'ooo',
     };
-    const user: UserProfile = {
-        auth_data: '',
+    const user: UserProfile = TestHelper.getUserMock({
         auth_service: 'test',
-        create_at: 0,
-        delete_at: 0,
-        email: '',
-        email_verified: false,
-        first_name: '',
-        id: '1',
-        is_bot: false,
-        last_name: '',
-        last_picture_update: 0,
-        locale: '',
-        nickname: '',
         notify_props: notifyProps,
-        position: '',
-        roles: '',
-        terms_of_service_create_at: 0,
-        terms_of_service_id: '',
-        update_at: 0,
-        username: '',
-    };
+    });
+
     const baseProps = {
         actions: {updateUserPassword: jest.fn<ActionResult, {}[]>(() => ({data: ''}))},
-        currentUserId: '1',
+        currentUserId: user.id,
         user,
         show: true,
         onModalSubmit: emptyFunction,
@@ -65,7 +49,7 @@ describe('components/admin_console/reset_password_modal/reset_password_modal.tsx
 
     test('should match snapshot', () => {
         const wrapper = shallow(
-            <ResetPasswordModal {...baseProps}/>
+            <ResetPasswordModal {...baseProps}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -73,7 +57,7 @@ describe('components/admin_console/reset_password_modal/reset_password_modal.tsx
     test('should match snapshot when there is no user', () => {
         const props = {...baseProps, user: undefined};
         const wrapper = shallow(
-            <ResetPasswordModal {...props}/>
+            <ResetPasswordModal {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });

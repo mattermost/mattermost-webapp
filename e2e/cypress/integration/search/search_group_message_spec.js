@@ -7,59 +7,76 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod @smoke
+// Stage: @prod
 // Group: @search
 
-const groupMembers = ['aaron.peterson', 'aaron.ward', 'samuel.tucker'];
-
 describe('Search', () => {
+    let testTeam;
+    let testUser;
+    let userOne;
+    let userTwo;
+    let userThree;
+
     before(() => {
-        // # Login as sysadmin
-        cy.apiLogin('sysadmin');
+        // # Create new team and users
+        cy.apiInitSetup().then(({team, user}) => {
+            testUser = user;
+            testTeam = team;
 
-        // # Create and login as a new user
-        cy.apiCreateAndLoginAsNewUser().then(() => {
-            cy.apiSaveTeammateNameDisplayPreference('username');
-
-            cy.apiGetUsers(groupMembers).then((res) => {
-                const userIds = res.body.map((user) => user.id);
-
-                cy.apiCreateGroupChannel(userIds).then((resp) => {
-                    cy.apiGetTeams().then((response) => {
-                        const team = response.body[0];
-                        cy.visit(`/${team.name}/messages/${resp.body.name}`);
-                    });
-                });
+            cy.apiCreateUser({prefix: 'aaa'}).then(({user: user1}) => {
+                userOne = user1;
+                cy.apiAddUserToTeam(testTeam.id, userOne.id);
             });
+
+            cy.apiCreateUser({prefix: 'bbb'}).then(({user: user2}) => {
+                userTwo = user2;
+                cy.apiAddUserToTeam(testTeam.id, userTwo.id);
+            });
+
+            cy.apiCreateUser({prefix: 'ccc'}).then(({user: user3}) => {
+                userThree = user3;
+                cy.apiAddUserToTeam(testTeam.id, userThree.id);
+            });
+
+            cy.apiLogin(testUser);
         });
     });
 
     it('S14673 - Search "in:[username]" returns results in GMs', () => {
-        const message = `hello${Date.now()}`;
+        const groupMembers = [testUser, userOne, userTwo, userThree];
+        cy.apiCreateGroupChannel(groupMembers.map((member) => member.id)).then((resp) => {
+            cy.visit(`/${testTeam.name}/messages/${resp.body.name}`);
 
-        // # Post a message
-        cy.postMessage(message);
+            const message = `hello${Date.now()}`;
 
-        //# Type "in:" text in search input
-        cy.get('#searchBox').type('in:');
+            // # Post a message
+            cy.postMessage(message);
 
-        //# Search group members in the menu
-        cy.get('#search-autocomplete__popover').should('be.visible').within(() => {
-            cy.findAllByTestId('listItem').contains(groupMembers.join(',')).click();
-        });
+            //# Type "in:" text in search input
+            cy.get('#searchBox').type('in:');
 
-        //# Press enter to select
-        cy.get('#searchBox').type('{enter}');
+            const sortedUsernames = groupMembers.
+                map((member) => member.username).
+                sort((a, b) => a.localeCompare(b, 'en', {numeric: true}));
 
-        //# Search for the message
-        cy.get('#searchbarContainer').should('be.visible').within(() => {
-            cy.get('#searchBox').clear().type(`${message}{enter}`);
-        });
+            //# Search group members in the menu
+            cy.get('#search-autocomplete__popover').should('be.visible').within(() => {
+                cy.findAllByTestId('listItem').contains(sortedUsernames.join(',')).click();
+            });
 
-        // * Should return exactly one result from the group channel and matches the message
-        cy.findAllByTestId('search-item-container').should('be.visible').and('have.length', 1).within(() => {
-            cy.get('.search-channel__name').should('be.visible').and('have.text', groupMembers.join(', '));
-            cy.get('.search-highlight').should('be.visible').and('have.text', message);
+            //# Press enter to select
+            cy.get('#searchBox').type('{enter}');
+
+            //# Search for the message
+            cy.get('#searchbarContainer').should('be.visible').within(() => {
+                cy.get('#searchBox').clear().type(`${message}{enter}`);
+            });
+
+            // * Should return exactly one result from the group channel and matches the message
+            cy.findAllByTestId('search-item-container').should('be.visible').and('have.length', 1).within(() => {
+                cy.get('.search-channel__name').should('be.visible').and('have.text', sortedUsernames.filter((username) => username !== testUser.username).join(', '));
+                cy.get('.search-highlight').should('be.visible').and('have.text', message);
+            });
         });
     });
 });

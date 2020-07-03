@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-/* eslint-disable no-magic-numbers */
 import keyMirror from 'key-mirror';
 
 import Permissions from 'mattermost-redux/constants/permissions';
@@ -139,7 +138,6 @@ export const ActionTypes = keyMirror({
     BROWSER_CHANGE_FOCUS: null,
 
     RECEIVED_PLUGIN_COMPONENT: null,
-    RECEIVED_PLUGIN_RHS_ICONS: null,
     REMOVED_PLUGIN_COMPONENT: null,
     RECEIVED_PLUGIN_POST_COMPONENT: null,
     RECEIVED_PLUGIN_POST_CARD_COMPONENT: null,
@@ -202,6 +200,8 @@ export const ActionTypes = keyMirror({
     UPDATE_TOAST_STATUS: null,
     TRACK_ANNOUNCEMENT_BAR: null,
     DISMISS_ANNOUNCEMENT_BAR: null,
+
+    PREFETCH_POSTS_FOR_CHANNEL: null,
 });
 
 export const PostRequestTypes = keyMirror({
@@ -240,6 +240,7 @@ export const ModalIdentifiers = {
     ADD_GROUPS_TO_CHANNEL: 'add_groups_to_channel',
     MANAGE_TEAM_GROUPS: 'manage_team_groups',
     MANAGE_CHANNEL_GROUPS: 'manage_channel_groups',
+    GROUP_MEMBERS: 'group_members',
     MOBILE_SUBMENU: 'mobile_submenu',
     PLUGIN_MARKETPLACE: 'plugin_marketplace',
 };
@@ -264,7 +265,7 @@ export const EventTypes = Object.assign(
     },
     keyMirror({
         POST_LIST_SCROLL_TO_BOTTOM: null,
-    })
+    }),
 );
 
 export const A11yClassNames = {
@@ -745,7 +746,7 @@ export const Locations = {
     RHS_ROOT: 'RHS_ROOT',
     RHS_COMMENT: 'RHS_COMMENT',
     SEARCH: 'SEARCH',
-    NO_WHERE: 'NO_WHERE'
+    NO_WHERE: 'NO_WHERE',
 };
 
 export const PostListRowListIds = {
@@ -847,6 +848,7 @@ export const Constants = {
     MOBILE_VIDEO_WIDTH: 480,
     MOBILE_VIDEO_HEIGHT: 360,
     MOBILE_SCREEN_WIDTH: 768,
+    POST_MODAL_PADDING: 170,
     SCROLL_DELAY: 2000,
     SCROLL_PAGE_FRACTION: 3,
     DEFAULT_CHANNEL: 'town-square',
@@ -1318,6 +1320,7 @@ export const Constants = {
         objectivec: {name: 'Objective C', extensions: ['mm', 'objc', 'obj-c'], aliases: ['objective_c', 'objc']},
         ocaml: {name: 'OCaml', extensions: ['ml']},
         perl: {name: 'Perl', extensions: ['perl', 'pl'], aliases: ['pl']},
+        pgsql: {name: 'PostgreSQL', extensions: ['pgsql', 'postgres', 'postgresql'], aliases: ['postgres', 'postgresql']},
         php: {name: 'PHP', extensions: ['php', 'php3', 'php4', 'php5', 'php6'], aliases: ['php3', 'php4', 'php5']},
         powershell: {name: 'PowerShell', extensions: ['ps', 'ps1'], aliases: ['posh']},
         puppet: {name: 'Puppet', extensions: ['pp'], aliases: ['pp']},
@@ -1424,7 +1427,6 @@ export const Constants = {
     AUTOCOMPLETE_SPLIT_CHARACTERS: ['.', '-', '_'],
     ANIMATION_TIMEOUT: 1000,
     SEARCH_TIMEOUT_MILLISECONDS: 100,
-    DIAGNOSTICS_SEGMENT_KEY: 'placeholder_segment_key',
     DIAGNOSTICS_RUDDER_KEY: 'placeholder_rudder_key',
     DIAGNOSTICS_RUDDER_DATAPLANE_URL: 'placeholder_rudder_dataplane_url',
     TEAMMATE_NAME_DISPLAY: {
@@ -1446,7 +1448,7 @@ export const searchHintOptions = [{searchTerm: 'From:', message: {id: t('search_
     {searchTerm: 'On:', message: {id: t('search_list_option.on'), defaultMessage: 'Messages on a date'}},
     {searchTerm: 'Before:', message: {id: t('search_list_option.before'), defaultMessage: 'Messages before a date'}},
     {searchTerm: 'After:', message: {id: t('search_list_option.after'), defaultMessage: 'Messages after a date'}},
-    {searchTerm: '-', message: {id: t('search_list_option.exclude'), defaultMessage: 'Exclude search terms'}},
+    {searchTerm: '-', message: {id: t('search_list_option.exclude'), defaultMessage: 'Exclude search terms'}, additionalDisplay: '—'},
     {searchTerm: '""', message: {id: t('search_list_option.phrases'), defaultMessage: 'Messages with phrases'}},
 ];
 
