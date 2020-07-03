@@ -71,7 +71,7 @@ exports[`components/channel_header/components/UserGuideDropdown should match sna
         id="keyboardShortcuts"
         onClick={[Function]}
         show={true}
-        text="Keyboard Shortcuts"
+        text="Keyboard shortcuts"
       />
     </MenuGroup>
   </Menu>
