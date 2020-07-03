@@ -9,12 +9,12 @@ import professionalLogo from 'images/cloud-logos/professional.svg';
 import './next_steps_view.scss';
 
 type Props = {
-    skuName: string;
+    skuName: string; 
 };
 
 export default class NextStepsView extends React.PureComponent<Props> {
     getBottomText = () => {
-        // lmao
+        // TODO: will be stored in user prefs at a later date
         const {isFinished} = {isFinished: false};
 
         if (isFinished) {
