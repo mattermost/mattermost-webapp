@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import TurndownService from 'turndown';
-import {gfm} from 'turndown-plugin-gfm';
+import {strikethrough, taskListItems} from 'turndown-plugin-gfm';
 import detectLang from 'lang-detector';
 
 import {
@@ -10,12 +10,12 @@ import {
 } from 'utils/post_utils.jsx';
 
 import {tableTurndownRule} from './tables';
-import {githubCodeTurndownRule} from './githubcode';
+import {githubCodeTurndownRuleBuilder} from './githubcode';
 
 const turndownService = new TurndownService().remove('style');
-turndownService.use(gfm);
+turndownService.use(strikethrough);
+turndownService.use(taskListItems);
 turndownService.addRule('table', tableTurndownRule);
-turndownService.addRule('github-code', githubCodeTurndownRule);
 
 type SmartPasteOptions = {
     html: boolean;
@@ -35,7 +35,9 @@ export default function smartPaste(clipboard: DataTransfer, message: string, cur
     }
 
     if (!formattedMessage && options.html) {
+        turndownService.addRule('github-code', githubCodeTurndownRuleBuilder(firstPiece.length > 0, lastPiece.length > 0, text));
         formattedMessage = htmlToMarkdown(html);
+        formattedMessage = formattedMessage.replace(/#\*#\*NEW_LINE_REPLACEMENT\*#\*#/g, '\n');
     }
 
     if (!formattedMessage) {

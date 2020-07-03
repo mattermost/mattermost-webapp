@@ -1,14 +1,26 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+//
+import {Rule} from 'turndown';
 
-export const githubCodeTurndownRule = {
-    filter: (node: Node): boolean => {
-        return node.nodeName === 'TABLE' && (/\b(js|blob|diff)-./).test((node as HTMLTableElement).className);
-    },
-    replacement: (content: string): string => {
-        if (content) {
-            return '```\n' + content + '\n```';
-        }
-        return '';
-    }
-};
+export function githubCodeTurndownRuleBuilder(hasFirstPart: boolean, hasLastPart: boolean, text: string): Rule {
+    return {
+        filter: (node: Node): boolean => {
+            if (node.nodeName === 'TABLE' && (/\b(js|blob|diff)-./).test((node as HTMLTableElement).className)) {
+                return true;
+            }
+            return false;
+        },
+        replacement: (): string => {
+            let result = '';
+            if (hasFirstPart) {
+                result += '#*#*NEW_LINE_REPLACEMENT*#*#';
+            }
+            result += '```\n' + text + '\n```';
+            if (hasLastPart) {
+                result += '#*#*NEW_LINE_REPLACEMENT*#*#';
+            }
+            return result;
+        },
+    };
+}

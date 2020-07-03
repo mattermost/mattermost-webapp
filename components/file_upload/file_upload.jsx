@@ -14,7 +14,6 @@ import {
     isIosChrome,
     isMobileApp,
 } from 'utils/user_agent';
-import {getTable} from 'utils/smartpaste/tables';
 import {intlShape} from 'utils/react_intl';
 import {
     clearFileInput,
@@ -442,7 +441,7 @@ class FileUpload extends PureComponent {
     pasteUpload = (e) => {
         const {formatMessage} = this.props.intl;
 
-        if (!e.clipboardData || !e.clipboardData.items || getTable(e.clipboardData)) {
+        if (!e.clipboardData || !e.clipboardData.items) {
             return;
         }
 

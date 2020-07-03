@@ -19,7 +19,7 @@ describe('Paste.formatGithubCodePaste', () => {
         const expectedMessage = "```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```";
         const expectedCaretPosition = expectedMessage.length;
 
-        const result = smartPaste(clipboardData, '', 0, {tables: true, html: false, code: false});
+        const result = smartPaste(clipboardData, '', 0, {html: true, code: false});
         expect(result.message).toBe(expectedMessage);
         expect(result.caretPosition).toBe(expectedCaretPosition);
     });
@@ -28,7 +28,7 @@ describe('Paste.formatGithubCodePaste', () => {
         const expectedMessage = "test\n```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```";
         const expectedCaretPosition = expectedMessage.length;
 
-        const result = smartPaste(clipboardData, 'test', 4, {tables: true, html: false, code: false});
+        const result = smartPaste(clipboardData, 'test', 4, {html: true, code: false});
         expect(result.message).toBe(expectedMessage);
         expect(result.caretPosition).toBe(expectedCaretPosition);
     });
@@ -37,7 +37,7 @@ describe('Paste.formatGithubCodePaste', () => {
         const expectedMessage = "```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```\ntest";
         const expectedCaretPosition = expectedMessage.length - 4;
 
-        const result = smartPaste(clipboardData, 'test', 0, {tables: true, html: false, code: false});
+        const result = smartPaste(clipboardData, 'test', 0, {html: true, code: false});
         expect(result.message).toBe(expectedMessage);
         expect(result.caretPosition).toBe(expectedCaretPosition);
     });
@@ -46,7 +46,7 @@ describe('Paste.formatGithubCodePaste', () => {
         const expectedMessage = "te\n```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```\nst";
         const expectedCaretPosition = expectedMessage.length - 2;
 
-        const result = smartPaste(clipboardData, 'test', 2, {tables: true, html: false, code: false});
+        const result = smartPaste(clipboardData, 'test', 2, {html: true, code: false});
         expect(result.message).toBe(expectedMessage);
         expect(result.caretPosition).toBe(expectedCaretPosition);
     });
