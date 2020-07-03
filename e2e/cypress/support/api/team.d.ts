@@ -101,6 +101,33 @@ declare namespace Cypress {
         apiGetAllTeams(queryParams: Record<string, any>): Chainable<Team[]>;
 
         /**
+         * Get a list of teams that a user is on.
+         * See https://api.mattermost.com/#tag/teams/paths/~1users~1{user_id}~1teams/get
+         * @param {String} userId - User ID to get teams, or 'me' (default)
+         * @returns {Team[]} `out.teams` as `Team[]`
+         *
+         * @example
+         *   cy.apiGetTeamsForUser().then(({teams}) => {
+         *       // do something with teams
+         *   });
+         */
+        apiGetTeamsForUser(userId: string): Chainable<Team[]>;
+
+        /**
+         * Add user to the team by user_id.
+         * See https://api.mattermost.com/#tag/teams/paths/~1teams~1{team_id}~1members/post
+         * @param {String} teamId - Team ID
+         * @param {String} userId - User ID to be added into a team
+         * @returns {TeamMembership} `out.member` as `TeamMembership`
+         *
+         * @example
+         *   cy.apiAddUserToTeam('team-id', 'user-id').then(({member}) => {
+         *       // do something with member
+         *   });
+         */
+        apiAddUserToTeam(teamId: string, userId: string): Chainable<TeamMembership>;
+
+        /**
          * Get team members.
          * See https://api.mattermost.com/#tag/teams/paths/~1teams~1{team_id}~1members/get
          * @param {string} teamId - team ID
@@ -112,6 +139,20 @@ declare namespace Cypress {
          *   });
          */
         apiGetTeamMembers(teamId: string): Chainable<TeamMembership[]>;
+
+        /**
+         * Add a number of users to the team.
+         * See https://api.mattermost.com/#tag/teams/paths/~1teams~1{team_id}~1members~1batch/post
+         * @param {string} teamId - team ID
+         * @param {TeamMembership[]} teamMembers - users to add
+         * @returns {TeamMembership[]} `out.members` as `TeamMembership[]`
+         *
+         * @example
+         *   cy.apiAddUsersToTeam(teamId, [{team_id: 'team-id', user_id: 'user-id'}]).then(({members}) => {
+         *       // do something with members
+         *   });
+         */
+        apiAddUsersToTeam(teamId: string, teamMembers: TeamMembership[]): Chainable<TeamMembership[]>;
 
         /**
          * Update the scheme-derived roles of a team member.
