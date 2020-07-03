@@ -43,7 +43,10 @@ type Props = {
         searchProfilesAndTeamMembers: (term: string, options?: {}) => Promise<{
             data: boolean;
         }>;
-        setSystemUsersSearch: (term: string) => Promise<{
+        setUserGridSearch: (term: string) => Promise<{
+            data: boolean;
+        }>;
+        setUserGridFilters: (filters: FilterOptions) => Promise<{
             data: boolean;
         }>;
     };
@@ -70,9 +73,10 @@ export default class TeamMembers extends React.PureComponent<Props, State> {
 
     public componentDidMount() {
         const {teamId} = this.props;
-        const {loadProfilesAndReloadTeamMembers, getTeamStats, setSystemUsersSearch} = this.props.actions;
+        const {loadProfilesAndReloadTeamMembers, getTeamStats, setUserGridSearch, setUserGridFilters} = this.props.actions;
         Promise.all([
-            setSystemUsersSearch(''),
+            setUserGridSearch(''),
+            setUserGridFilters({}),
             getTeamStats(teamId),
             loadProfilesAndReloadTeamMembers(0, PROFILE_CHUNK_SIZE * 2, teamId),
         ]).then(() => this.setStateLoading(false));
@@ -125,7 +129,32 @@ export default class TeamMembers extends React.PureComponent<Props, State> {
     }
 
     private search = async (term: string) => {
-        this.props.actions.setSystemUsersSearch(term);
+        this.props.actions.setUserGridSearch(term);
+    }
+
+    private onFilter = async (filterOptions: FilterOptions) => {
+        const roles = filterOptions.role.values;
+        const systemRoles = [];
+        const teamRoles = [];
+        if (roles.system_guest.value) {
+            systemRoles.push('system_guest');
+        }
+        if (roles.system_user.value) {
+            systemRoles.push('system_user');
+        }
+        if (roles.system_admin.value) {
+            systemRoles.push('system_admin');
+        }
+        if (roles.team_admin.value) {
+            teamRoles.push('team_admin');
+        }
+
+        if (systemRoles.length > 0 || teamRoles.length > 0) {
+            this.props.actions.setUserGridFilters({ 'system_roles': systemRoles, 'team_roles': teamRoles });
+        } else {
+            this.props.actions.setUserGridFilters({})
+        }
+
     }
 
     private updateMembership = (membership: BaseMembership) => {
@@ -134,6 +163,50 @@ export default class TeamMembers extends React.PureComponent<Props, State> {
 
     public render = () => {
         const {users, team, usersToAdd, usersToRemove, teamMembers, totalCount, searchTerm} = this.props;
+
+        const filterOptions: FilterOptions = {
+            'role': {
+                name: 'Role',
+                values: {
+                    'system_guest': {
+                        name: <FormattedMessage
+                            id='admin.user_grid.filters.system_guest'
+                            defaultMessage='Guest'
+                        />,
+                        value: false,
+                    },
+                    'system_user': {
+                        name: <FormattedMessage
+                            id='admin.user_grid.filters.system_member'
+                            defaultMessage='Member'
+                        />,
+                        value: false,
+                    },
+                    'team_admin': {
+                        name: <FormattedMessage
+                            id='admin.user_grid.filters.team_admin'
+                            defaultMessage='Team Admin'
+                        />,
+                        value: false,
+                    },
+                    'system_admin': {
+                        name: <FormattedMessage
+                            id='admin.user_grid.filters.system_admin'
+                            defaultMessage='System Admin'
+                        />,
+                        value: false,
+                    },
+                },
+                keys: ['system_guest', 'system_user', 'team_admin', 'system_admin'],
+            },
+        };
+        const filterKeys = ['role'];
+        const filterProps = {
+            options: filterOptions,
+            keys: filterKeys,
+            onFilter: this.onFilter,
+        }
+
         return (
             <AdminPanel
                 id='teamMembers'
@@ -175,6 +248,7 @@ export default class TeamMembers extends React.PureComponent<Props, State> {
                     includeUsers={usersToAdd}
                     excludeUsers={usersToRemove}
                     scope={'team'}
+                    filterProps={filterProps}
                 />
             </AdminPanel>
         );

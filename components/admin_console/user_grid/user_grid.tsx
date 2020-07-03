@@ -14,6 +14,7 @@ import DataGrid, {Row, Column} from 'components/admin_console/data_grid/data_gri
 import UserGridName from './user_grid_name';
 import UserGridRemove from './user_grid_remove';
 import UserGridRoleDropdown, {BaseMembership} from './user_grid_role_dropdown';
+import {FilterOptions} from 'components/admin_console/filter/filter';
 
 import './user_grid.scss';
 
@@ -33,6 +34,12 @@ type Props = {
     totalCount: number;
     loading: boolean;
     term: string;
+
+    filterProps?: {
+        options: FilterOptions;
+        keys: string[];
+        onFilter: (options: FilterOptions) => void;
+    }
 }
 
 type State = {
@@ -285,6 +292,7 @@ export default class UserGrid extends React.PureComponent<Props, State> {
                 term={this.props.term || ''}
                 placeholderEmpty={placeholderEmpty}
                 rowsContainerStyles={rowsContainerStyles}
+                filterProps={this.props.filterProps}
             />
         );
     }

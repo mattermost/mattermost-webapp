@@ -17,7 +17,7 @@ import {getProfilesInTeam, searchProfilesInTeam, filterProfiles} from 'mattermos
 
 import {GlobalState} from 'types/store';
 import {loadProfilesAndReloadTeamMembers, searchProfilesAndTeamMembers} from 'actions/user_actions.jsx';
-import {setSystemUsersSearch} from 'actions/views/search';
+import {setUserGridSearch, setUserGridFilters} from 'actions/views/search';
 
 import TeamMembers from './team_members';
 
@@ -37,7 +37,10 @@ type Actions = {
     searchProfilesAndTeamMembers: (term: string, options?: {}) => Promise<{
         data: boolean;
     }>;
-    setSystemUsersSearch: (term: string) => Promise<{
+    setUserGridSearch: (term: string) => Promise<{
+        data: boolean;
+    }>;
+    setUserGridFilters: (filters: any) => Promise<{
         data: boolean;
     }>;
 };
@@ -57,7 +60,7 @@ function mapStateToProps(state: GlobalState, props: Props) {
     const team = getTeam(state, teamId) || {};
     const stats = getTeamStats(state)[teamId] || {active_member_count: 0};
 
-    const searchTerm = state.views.search.systemUsersSearch?.term || '';
+    const searchTerm = state.views.search.userGridSearch?.term || '';
     let users = [];
     if (searchTerm) {
         users = searchProfilesInTeam(state, teamId, searchTerm, false, {skipInactive: true});
@@ -83,7 +86,8 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             getTeamStats: loadTeamStats,
             loadProfilesAndReloadTeamMembers,
             searchProfilesAndTeamMembers,
-            setSystemUsersSearch,
+            setUserGridSearch,
+            setUserGridFilters,
         }, dispatch),
     };
 }

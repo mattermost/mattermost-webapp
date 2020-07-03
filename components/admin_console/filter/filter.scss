@@ -1,3 +1,5 @@
+@import 'utils/variables';
+
 .Filter {
     padding-left: 8px;
     position: relative;
@@ -29,7 +31,7 @@
         position: absolute;
         padding: 16px;
         padding-top: 8px;
-        min-width: 160px;
+        min-width: 256px;
 
         background: #FFFFFF;
         /* Light / 8% Center Channel Text */
@@ -58,8 +60,7 @@
 
         padding: 8px;
 
-        /* Light / Center Channel Text */
-        color: #3D3C40;
+        color: var(--center-channel-color);
     }
 
     .Filter_lists {
@@ -68,7 +69,14 @@
 
     .Filter_apply {
         float: right;
-        margin: 10px;
+        margin: 0 8px 8px 0px;
+        border-radius: 4px;
+        font-size: 12px;
+
+        &:disabled {
+            background: rgba(61, 60, 64, 0.1);
+            color: var(--center-channel-color);
+        }
     }
 
     .FilterList {
@@ -89,8 +97,7 @@
         }
 
         .FilterList_checkbox {
-            /* Light / Center Channel Text */
-            color: #3D3C40;
+            color: var(--center-channel-color);
 
             input {
                 vertical-align: bottom;

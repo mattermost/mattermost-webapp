@@ -6,7 +6,7 @@ import React from 'react';
 type Props = {
     name: string;
     checked: boolean;
-    label: string;
+    label: string | JSX.Element;
     updateOption: (checked: boolean, name: string) => void;
 }
 

@@ -7,7 +7,7 @@ import FaSearchIcon from 'components/widgets/icons/fa_search_icon';
 
 import * as Utils from 'utils/utils.jsx';
 
-import Filter, {FilterOption} from 'components/admin_console/filter/filter';
+import Filter, {FilterOption, FilterOptions} from 'components/admin_console/filter/filter';
 
 import './data_grid.scss';
 
@@ -16,13 +16,16 @@ type Props = {
     placeholder: string;
     term: string;
 
-    filters?: FilterOption[];
-    onFilter?: (options: FilterOption[]) => void;
+    filterProps?: {
+        options: FilterOptions;
+        keys: string[];
+        onFilter: (options: FilterOptions) => void;
+    }
 }
 
 type State = {
     term: string,
-    filters: FilterOption[];
+    filtersEnabled: boolean;
 }
 
 class DataGridSearch extends React.PureComponent<Props, State> {
@@ -31,7 +34,7 @@ class DataGridSearch extends React.PureComponent<Props, State> {
 
         this.state = {
             term: '',
-            filters: this.props.filters || [],
+            filtersEnabled: Boolean(props.filterProps),
         }
     }
 
@@ -45,24 +48,23 @@ class DataGridSearch extends React.PureComponent<Props, State> {
         this.props.onSearch('');
     };
 
-    onFilter = (filters: any) => {
-        this.setState({filters});
+    onFilter = (filters: FilterOptions) => {
+        if (this.state.filtersEnabled) {
+            this.props.filterProps.onFilter(filters);
+        }
     };
 
     render() {
-        let {placeholder} = this.props;
+        let {placeholder, filterProps} = this.props;
         if (!placeholder) {
             placeholder = Utils.localizeMessage('search_bar.search', 'Search');
         }
 
-        let dgFilter;
+        let filter;
 
-        dgFilter = (
-            <Filter
-                filterOptions={[]}
-                onFilter={this.onFilter}
-            />
-        );
+        if (this.state.filtersEnabled) {
+            filter = <Filter {...filterProps}/>;
+        }
 
         return (
             <div className='DataGrid_search'>
@@ -87,7 +89,7 @@ class DataGridSearch extends React.PureComponent<Props, State> {
                     />
                 </div>
 
-                {dgFilter}
+                {filter}
             </div>
         );
     }

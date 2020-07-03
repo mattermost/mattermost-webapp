@@ -10,7 +10,7 @@ import FilterList from './filter_list';
 import './filter.scss';
 
 export type FilterValue = {
-    name: string;
+    name: string | JSX.Element;
     value: boolean | string | string[];
 };
 
@@ -19,12 +19,13 @@ export type FilterValues = {
 };
 
 export type FilterOption = {
-    // Display name of the filter option eg. 'Channels', 'Roles'
-    name: string;
+    // Display name of the filter option eg. 'Channels', 'Roles' or <FormattedMessage .../>
+    name: string | JSX.Element;
 
     // List of keys that match the filter values, used to define the order in which the filters appear
     keys: string[];
 
+    // Key value map of filter values with keys matching the keys above
     values: FilterValues;
 
     // Filter Component type, optional parameter defaults to FilterCheckbox
@@ -36,15 +37,16 @@ export type FilterOptions = {
 }
 
 type Props = {
-    onFilter: (filters: any) => void;
-    options?: FilterOptions;
-    keys?: string[];
+    onFilter: (filters: FilterOptions) => void;
+    options: FilterOptions;
+    keys: string[];
 }
 
 type State = {
     show: boolean;
     options: FilterOptions;
     keys: string[];
+    optionsModified: boolean;
 }
 
 class Filter extends React.PureComponent<Props, State> {
@@ -54,57 +56,33 @@ class Filter extends React.PureComponent<Props, State> {
     public constructor(props: Props) {
         super(props);
 
-        const show = false;
-        const keys = ['role', 'something', 'something2'];
-        const options = {
-            'role': {
-                name: 'Role',
-                values: {
-                    'admin': {
-                        name: 'Admin',
-                        value: false,
-                    },
-                    'guest': {
-                        name: 'Guest',
-                        value: false,
+        let options = props.options;
+        let keys = props.keys;
+        let error = '';
+        keys.forEach((key) => {
+            const option = options[key];
+            if (!option) {
+                error = `Invalid Filter key: ${key}, no matching option for given key`;
+            } else {
+                option.keys.forEach((optionKey) => {
+                    if (!option.values[optionKey]) {
+                        error = `Invalid Filter option key: ${optionKey}, no matching value for given option key`
                     }
-                },
-                keys: ['admin', 'guest']
-            },
-            'something': {
-                name: 'Something',
-                values: {
-                    'admin': {
-                        name: 'Admin',
-                        value: false,
-                    },
-                    'guest': {
-                        name: 'Guest',
-                        value: false,
-                    }
-                },
-                keys: ['admin', 'guest']
-            },
-            'something2': {
-                name: 'Something2',
-                values: {
-                    'admin': {
-                        name: 'Admin',
-                        value: false,
-                    },
-                    'guest': {
-                        name: 'Guest',
-                        value: false,
-                    }
-                },
-                keys: ['admin', 'guest']
-            },
-        };
+                });
+            }
+        });
+
+        if (error) {
+            options = {};
+            keys = [];
+            console.error(error);
+        }
 
         this.state = {
-            show,
+            show: false,
             options,
             keys,
+            optionsModified: false,
         }
 
         this.filterRef = React.createRef();
@@ -143,11 +121,16 @@ class Filter extends React.PureComponent<Props, State> {
     updateValues = async (values: FilterValues, optionKey: string) => {
         const options = {...this.state.options};
         options[optionKey].values = {...values};
-        this.setState({options});
+        this.setState({options, optionsModified: true});
+    }
+
+    onFilter = () => {
+        const {options} = this.state;
+        this.props.onFilter(options)
+        this.setState({optionsModified: false, show: false})
     }
 
     renderFilterOptions = () => {
-        // const {keys} = this.props;
         const {keys, options} = this.state;
         return keys.map((key: string) => {
             const filter = options[key];
@@ -180,7 +163,7 @@ class Filter extends React.PureComponent<Props, State> {
                     <MenuIcon className='menu-icon'/>
 
                     <FormattedMessage
-                        id='data_grid.filters'
+                        id='filter.filters'
                         defaultMessage='Filters'
                     />
                 </button>
@@ -190,7 +173,7 @@ class Filter extends React.PureComponent<Props, State> {
                 >
                     <div className='Filter_title'>
                         <FormattedMessage
-                            id='data_grid.filters_title'
+                            id='filter.title'
                             defaultMessage='Filter by'
                         />
                     </div>
@@ -201,8 +184,15 @@ class Filter extends React.PureComponent<Props, State> {
                         {filters}
                     </div>
 
-                    <button className='Filter_apply btn'>
-                        {'Apply'}
+                    <button
+                        className='Filter_apply style--none btn btn-primary'
+                        disabled={!this.state.optionsModified}
+                        onClick={this.onFilter}
+                    >
+                        <FormattedMessage
+                            id='filter.apply'
+                            defaultMessage='Apply'
+                        />
                     </button>
                 </div>
             </div>

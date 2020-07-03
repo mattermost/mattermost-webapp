@@ -12,6 +12,8 @@ import DataGridHeader from './data_grid_header';
 import DataGridRow from './data_grid_row';
 import DataGridSearch from './data_grid_search';
 
+import {FilterOptions} from 'components/admin_console/filter/filter';
+
 import './data_grid.scss';
 
 export type Column = {
@@ -54,6 +56,12 @@ type Props = {
     search: (term: string) => void;
     term: string;
     searchPlaceholder?: string;
+
+    filterProps?: {
+        options: FilterOptions;
+        keys: string[];
+        onFilter: (options: FilterOptions) => void;
+    }
 };
 
 type State = {
@@ -182,6 +190,7 @@ class DataGrid extends React.PureComponent<Props, State> {
                 onSearch={this.search}
                 placeholder={this.props.searchPlaceholder || ''}
                 term={this.props.term}
+                filterProps={this.props.filterProps}
             />
         );
     }
