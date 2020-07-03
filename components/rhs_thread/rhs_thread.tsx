@@ -359,7 +359,7 @@ export default class RhsThread extends React.Component<Props, State> {
                     >
                         <FormattedMessage
                             id='create_post.deactivated'
-                            defaultMessage='You are viewing an archived channel with a deactivated user.'
+                            defaultMessage='You are viewing an archived channel with a **deactivated user**. New messages cannot be posted.'
                         />
                     </div>
                 );
