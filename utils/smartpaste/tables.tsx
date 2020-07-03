@@ -3,8 +3,7 @@
 
 function columnText(column: Element): string {
     const noBreakSpace = '\u00A0';
-    const text = column.textContent == null ?
-        noBreakSpace : column.textContent.trim().replace(/\|/g, '\\|').replace(/\n/g, ' ');
+    const text = column.textContent == null ? noBreakSpace : column.textContent.trim().replace(/\|/g, '\\|').replace(/\n/g, ' ');
     return text;
 }
 

@@ -12,7 +12,7 @@ import {
 import {tableTurndownRule} from './tables';
 import {githubCodeTurndownRule} from './githubcode';
 
-const turndownService = new TurndownService();
+const turndownService = new TurndownService().remove('style');
 turndownService.use(gfm);
 turndownService.addRule('table', tableTurndownRule);
 turndownService.addRule('github-code', githubCodeTurndownRule);
