@@ -213,23 +213,17 @@ export default class ViewImageModal extends React.PureComponent {
     handleZoomIn = () => {
         let newScale = this.state.scale;
         newScale = Math.min(newScale + ZoomSettings.SCALE_DELTA, ZoomSettings.MAX_SCALE);
-        this.setState(() => ({
-            scale: newScale,
-        }));
+        this.setState({scale: newScale});
     };
 
     handleZoomOut = () => {
         let newScale = this.state.scale;
         newScale = Math.max(newScale - ZoomSettings.SCALE_DELTA, ZoomSettings.MIN_SCALE);
-        this.setState(() => ({
-            scale: newScale,
-        }));
+        this.setState({scale: newScale});
     };
 
     handleZoomReset = () => {
-        this.setState(() => ({
-            scale: ZoomSettings.DEFAULT_SCALE,
-        }));
+        this.setState({scale: ZoomSettings.DEFAULT_SCALE});
     }
 
     handleModalClose = () => {
