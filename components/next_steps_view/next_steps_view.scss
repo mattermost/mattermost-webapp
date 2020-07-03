@@ -70,15 +70,16 @@
     .NextStepsView__body-main {
         flex: 1 1 100%;
     }
-
-    .NextStepsView__body-graphic {
-        flex: 0 0 0%;
-    }
 }
 
 @media screen and (max-width: 1020px) {
     .NextStepsView__header-logo {
         display: none;
+    }
+
+    .NextStepsView__body-graphic {
+        flex: 0 0 0%;
+        min-width: 0;
     }
 
     .NextStepsView__body-main {
