@@ -204,7 +204,7 @@ describe('Guest Account - Guest User Experience', () => {
             cy.reload();
 
             // # As a sysadmin, add the guest user to this team
-            cy.addUserToTeam(teamTwo.id, guestUser.id).then(() => {
+            cy.externalAddUserToTeam(teamTwo.id, guestUser.id).then(() => {
                 cy.get(`#${teamTwo.name}TeamButton`).should('be.visible').click();
 
                 // * Verify if Channel Not found is displayed

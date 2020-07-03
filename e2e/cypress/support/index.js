@@ -26,6 +26,7 @@ import './task_commands';
 import './ui';
 import './ui_commands'; // soon to deprecate
 import './visual_commands';
+import './external_commands';
 
 import {getAdminAccount} from './env';
 
