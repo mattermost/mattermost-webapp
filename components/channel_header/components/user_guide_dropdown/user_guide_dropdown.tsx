@@ -66,7 +66,7 @@ class UserGuideDropdown extends React.PureComponent<Props, State> {
                 <Menu.ItemAction
                     id='keyboardShortcuts'
                     onClick={this.toggleShortcutsModal}
-                    text={intl.formatMessage({id: 'navbar_dropdown.keyboardShortcuts', defaultMessage: 'Keyboard Shortcuts'})}
+                    text={intl.formatMessage({id: 'userGuideHelp.keyboardShortcuts', defaultMessage: 'Keyboard shortcuts'})}
                 />
             </Menu.Group>
         );
@@ -100,7 +100,7 @@ class UserGuideDropdown extends React.PureComponent<Props, State> {
                     <OverlayTrigger
                         delayShow={500}
                         placement='bottom'
-                        overlay={tooltip}
+                        overlay={this.state.buttonActive ? <></> : tooltip}
                     >
                         <UserGuideIcon className='icon'/>
                     </OverlayTrigger>

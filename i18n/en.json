@@ -3903,6 +3903,7 @@
   "user.settings.tokens.userAccessTokensNone": "No personal access tokens.",
   "userGuideHelp.askTheCommunity": "Ask the community",
   "userGuideHelp.helpResources": "Help resources",
+  "userGuideHelp.keyboardShortcuts": "Keyboard shortcuts",
   "userGuideHelp.reportAProblem": "Report a problem",
   "version_bar.new": "A new version of Mattermost is available.",
   "version_bar.refresh": "Refresh the app now",
