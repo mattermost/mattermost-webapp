@@ -8,6 +8,7 @@ declare namespace Cypress {
     type Channel = import('mattermost-redux/types/channels').Channel;
     type ChannelMembership = import('mattermost-redux/types/channels').ChannelMembership;
     type ChannelType = import('mattermost-redux/types/channels').ChannelType;
+    type Team = import('mattermost-redux/types/teams').Team;
     type TeamMembership = import('mattermost-redux/types/teams').TeamMembership;
     type UserProfile = import('mattermost-redux/types/users').UserProfile;
 }

@@ -22,6 +22,7 @@ import * as Utils from 'utils/utils.jsx';
 type Props = {
     id: string;
     channelId?: string;
+    rootId?: string;
     value: string;
     onChange: (e: ChangeEvent) => void;
     onKeyPress: (e: KeyboardEvent) => void;
@@ -85,7 +86,10 @@ export default class Textbox extends React.PureComponent<Props> {
         ];
 
         if (props.supportsCommands) {
-            this.suggestionProviders.push(new CommandProvider());
+            this.suggestionProviders.push(new CommandProvider({
+                channelId: this.props.channelId,
+                rootId: this.props.rootId,
+            }));
         }
 
         this.checkMessageLength(props.value);

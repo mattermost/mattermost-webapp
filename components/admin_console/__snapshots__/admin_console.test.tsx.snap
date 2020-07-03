@@ -158,13 +158,13 @@ exports[`components/AdminConsole should generate the routes 1`] = `
           render={[Function]}
         />
         <Route
-          key="authentication/discover-ldap"
-          path="/authentication/discover-ldap"
+          key="authentication/ldap"
+          path="/authentication/ldap"
           render={[Function]}
         />
         <Route
-          key="authentication/discover-saml"
-          path="/authentication/discover-saml"
+          key="authentication/saml"
+          path="/authentication/saml"
           render={[Function]}
         />
         <Route

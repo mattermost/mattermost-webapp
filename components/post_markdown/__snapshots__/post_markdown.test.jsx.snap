@@ -85,7 +85,7 @@ exports[`components/PostMarkdown should render header change properly 1`] = `
     id="api.channel.post_update_channel_header_message_and_forget.updated_from"
     values={
       Object {
-        "new": <Connect(Markdown)
+        "new": <UNDEFINED
           message="now ~test"
           options={
             Object {
@@ -101,7 +101,7 @@ exports[`components/PostMarkdown should render header change properly 1`] = `
           postId="post_id"
           postType="system_header_change"
         />,
-        "old": <Connect(Markdown)
+        "old": <UNDEFINED
           message="see ~test"
           options={
             Object {
@@ -117,7 +117,7 @@ exports[`components/PostMarkdown should render header change properly 1`] = `
           postId="post_id"
           postType="system_header_change"
         />,
-        "username": <Connect(Markdown)
+        "username": <UNDEFINED
           message="@user"
           options={
             Object {

@@ -62,7 +62,7 @@ export default class MemberListTeam extends React.PureComponent<Props, State> {
 
     async componentDidMount() {
         await Promise.all([
-            this.props.actions.loadProfilesAndTeamMembers(0, Constants.PROFILE_CHUNK_SIZE, this.props.currentTeamId),
+            this.props.actions.loadProfilesAndTeamMembers(0, Constants.PROFILE_CHUNK_SIZE, this.props.currentTeamId, {active: true}),
             this.props.actions.getTeamMembers(this.props.currentTeamId, 0, Constants.DEFAULT_MAX_USERS_PER_TEAM,
                 {
                     sort: Teams.SORT_USERNAME_OPTION,
@@ -124,13 +124,15 @@ export default class MemberListTeam extends React.PureComponent<Props, State> {
 
     nextPage = async (page: number) => {
         this.setState({loading: true});
-        this.props.actions.loadProfilesAndTeamMembers(page, USERS_PER_PAGE);
-        await this.props.actions.getTeamMembers(this.props.currentTeamId, page, Constants.DEFAULT_MAX_USERS_PER_TEAM,
-            {
-                sort: Teams.SORT_USERNAME_OPTION,
-                exclude_deleted_users: true,
-            } as GetTeamMembersOpts,
-        );
+        await Promise.all([
+            this.props.actions.loadProfilesAndTeamMembers(page, USERS_PER_PAGE, this.props.currentTeamId, {active: true}),
+            this.props.actions.getTeamMembers(this.props.currentTeamId, page, Constants.DEFAULT_MAX_USERS_PER_TEAM,
+                {
+                    sort: Teams.SORT_USERNAME_OPTION,
+                    exclude_deleted_users: true,
+                } as GetTeamMembersOpts,
+            ),
+        ]);
         this.loadComplete();
     }
 
