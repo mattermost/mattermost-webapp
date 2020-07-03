@@ -8,13 +8,14 @@ import Card from 'components/card';
 import professionalLogo from 'images/cloud-logos/professional.svg';
 
 import './next_steps_view.scss';
+import Accordion from 'components/accordion';
 
 type Props = {
     skuName: string; 
 };
 
 type State = {
-    collapsed: boolean;
+    expandedKey: string;
 }
 
 export default class NextStepsView extends React.PureComponent<Props, State> {
@@ -22,7 +23,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
         super(props);
 
         this.state = {
-            collapsed: false,
+            expandedKey: 'Card_1',
         };
     }
 
@@ -56,8 +57,8 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
         }
     }
 
-    handleButton = () => {
-        this.setState({collapsed: !this.state.collapsed});
+    handleButton = (expandedKey: string) => {
+        this.setState({expandedKey});
     }
 
     render() {
@@ -84,17 +85,49 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                 </div>
                 <div className='NextStepsView__body'>
                     <div className='NextStepsView__body-main'>
-                        <button onClick={this.handleButton}>{'Collapse'}</button>
-                        <Card collapsed={this.state.collapsed}>
-                            <Card.Header>
-                                <span>{'Card Header'}</span>
-                            </Card.Header>
-                            <Card.Body>
-                                <div>
-                                    {'Card Body'}
-                                </div>
-                            </Card.Body>
-                        </Card>
+                        <Accordion
+                            expandedKey={this.state.expandedKey}
+                        >
+                            <Card 
+                                key='Card_1'
+                            >
+                                <Card.Header>
+                                    <span>{'Card Header 1'}</span>
+                                    <button onClick={() => this.handleButton('Card_1')}></button>
+                                </Card.Header>
+                                <Card.Body>
+                                    <div>
+                                        {'Card Body 1'}
+                                    </div>
+                                </Card.Body>
+                            </Card>
+                            <Card 
+                                key='Card_2'
+                            >
+                                <Card.Header>
+                                    <span>{'Card Header 2'}</span>
+                                    <button onClick={() => this.handleButton('Card_2')}></button>
+                                </Card.Header>
+                                <Card.Body>
+                                    <div>
+                                        {'Card Body 2'}
+                                    </div>
+                                </Card.Body>
+                            </Card>
+                            <Card 
+                                key='Card_3'
+                            >
+                                <Card.Header>
+                                    <span>{'Card Header 3'}</span>
+                                    <button onClick={() => this.handleButton('Card_3')}></button>
+                                </Card.Header>
+                                <Card.Body>
+                                    <div>
+                                        {'Card Body 3'}
+                                    </div>
+                                </Card.Body>
+                            </Card>
+                        </Accordion>
                     </div>
                     <div className='NextStepsView__body-graphic'/>
                 </div>

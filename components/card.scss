@@ -14,11 +14,11 @@
     padding-top: 12px;
     border-top: 1px solid var(--center-channel-color-08);
     overflow: hidden;
-}
 
-.Card.collapsed .Card__body {
-    height: 0;
-    padding-top: 0;
-    margin: 0 12px;
-    border-top: none;
+    &.collapsed {
+        height: 0;
+        padding-top: 0;
+        margin: 0 12px;
+        border-top: none;
+    }
 }

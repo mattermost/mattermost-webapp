@@ -1,12 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, { Children, isValidElement, cloneElement } from 'react';
 
 import './card.scss';
 import classNames from 'classnames';
 
 type Props = {
+    key: string;
     collapsed: boolean;
 }
 
@@ -18,9 +19,9 @@ const CardHeader: React.FC<{children: JSX.Element}> = ({children}) => {
     );
 }
 
-const CardBody: React.FC<{children: JSX.Element}> = ({children}) => {
+const CardBody: React.FC<{children: JSX.Element, collapsed?: boolean}> = ({children, collapsed}) => {
     return (
-        <div className='Card__body'>
+        <div className={classNames('Card__body', {collapsed})}>
             {children}
         </div>
     );
@@ -33,13 +34,20 @@ export default class Card extends React.PureComponent<Props> {
     render() {
         const {collapsed, children} = this.props;
 
+        const childrenWithProps = Children.map(children, child => {
+            // Checking isValidElement is the safe way and avoids a TS error too.
+            if (isValidElement(child)) {
+                return cloneElement(child, {collapsed});
+            }
+        
+            return child;
+        });
+
         return (
             <div
-                className={classNames('Card', {
-                    collapsed,
-                })}
+                className={'Card'}
             >
-                {children}
+                {childrenWithProps}
             </div>
         );
     }
