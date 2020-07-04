@@ -127,7 +127,7 @@ class EditPostModal extends React.PureComponent {
 
     setEditText(editText, prevCaretPosition, force) {
         this.setState({editText});
-        this.undoHistory.record({message: editText, cartPosition: prevCaretPosition}, force);
+        this.undoHistory.record({message: editText, caretPosition: prevCaretPosition}, force);
     }
 
     resetEditText() {

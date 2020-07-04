@@ -1062,7 +1062,7 @@ class CreatePost extends React.PureComponent {
 
     setMessage(message, prevCaretPosition, force) {
         this.setState({message});
-        this.undoHistory.record({message, cartPosition: prevCaretPosition}, force);
+        this.undoHistory.record({message, caretPosition: prevCaretPosition}, force);
     }
 
     resetMessage() {
