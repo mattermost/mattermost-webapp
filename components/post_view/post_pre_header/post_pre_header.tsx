@@ -2,11 +2,14 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedMessage, injectIntl} from 'react-intl';
+import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
+
+import {t} from 'utils/i18n';
 
 import FlagIconFilled from 'components/widgets/icons/flag_icon_filled';
 
 export type Props = {
+    intl: IntlShape;
     isFlagged: boolean;
     isPinned: boolean;
     skipPinned?: boolean;
@@ -33,8 +36,8 @@ enum MessageInfoKey {
 
 class PostPreHeader extends React.PureComponent<Props> {
     messageInfos = {
-        flagged: {id: 'post_pre_header.flagged', defaultMessage: 'Saved'},
-        pinned: {id: 'post_pre_header.pinned', defaultMessage: 'Pinned'},
+        flagged: {id: t('post_pre_header.flagged'), defaultMessage: 'Saved'},
+        pinned: {id: t('post_pre_header.pinned'), defaultMessage: 'Pinned'},
     };
 
     getPostStatus(isFlagged: boolean, isPinned: boolean): PostPinnedOrFlagged {
