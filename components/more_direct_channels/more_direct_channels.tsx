@@ -37,6 +37,7 @@ type Props = {
     users: UserProfile[];
     groupChannels: Array<{profiles: UserProfile[]} & Channel>;
     myDirectChannels: Channel[];
+    recentDirectChannelUsers: UserProfile[];
     statuses: RelationOneToOne<UserProfile, string>;
     totalCount?: number;
 
@@ -458,6 +459,10 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
             return false;
         });
 
+        const recentDirectChannelUserIds = this.props.recentDirectChannelUsers.map((user: UserProfile) => user.id);
+        const filterUsersInRecentChannels = (user: UserProfile) => !recentDirectChannelUserIds.includes(user.id);
+        users = users.filter(filterUsersInRecentChannels);
+
         const usersValues = users.map((user) => {
             return {label: user.username, value: user.id, ...user};
         });
@@ -467,12 +472,16 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
             return {label: group.display_name, value: group.id, ...group};
         });
 
-        const options: OptionType[] = [...usersValues, ...groupChannelsValues];
+        const recentDirectChannelsValues = this.props.recentDirectChannelUsers.map((user) => {
+            return {label: user.username, value: user.id, ...user};
+        });
+
+        const options: OptionType[] = [...recentDirectChannelsValues, ...usersValues, ...groupChannelsValues];
         const body = (
             <MultiSelect<OptionType>
                 key='moreDirectChannelsList'
                 ref={this.multiselect}
-                options={options}
+                options={options.slice(0, 20)}
                 optionRenderer={this.renderOption}
                 values={this.state.values}
                 valueRenderer={this.renderValue}

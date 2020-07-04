@@ -35,6 +35,7 @@ describe('components/MoreDirectChannels', () => {
                 delete_at: 0,
             }],
         myDirectChannels: [],
+        recentDirectChannelUsers: [],
         groupChannels: [],
         statuses: {user_id_1: 'online', user_id_2: 'away'},
         currentChannelMembers: [
@@ -295,5 +296,83 @@ describe('components/MoreDirectChannels', () => {
         const props = {...baseProps, users, myDirectChannels, currentChannelMembers};
         const wrapper = shallow(<MoreDirectChannels {...props}/>);
         expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should limit the recent channels, users, groups to 20', () => {
+        const recentDirectChannelUsers = [
+            {
+                id: 'user_id_98',
+                label: 'z_user_id_98',
+                value: 'z_user_id_98',
+                delete_at: 0,
+            },
+            {
+                id: 'user_id_99',
+                label: 'a_user_id_99',
+                value: 'a_user_id_99',
+                delete_at: 0,
+            },
+        ];
+
+        const users = [];
+        for (let i = 0; i < 20; i++) {
+            users.push(
+                {
+                    id: 'user_id_' + i,
+                    label: 'user_id' + i,
+                    value: 'user_id' + i,
+                    delete_at: 0,
+                },
+            );
+        }
+
+        const groupChannels = [
+            {
+                display_name: 'group_name_1',
+                id: 'group_1',
+            },
+            {
+                display_name: 'group_name_2',
+                id: 'group_2',
+            },
+
+        ];
+
+        const props = {...baseProps, users, recentDirectChannelUsers, groupChannels};
+
+        const wrapper = shallow(<MoreDirectChannels {...props}/>);
+        const multiselect = wrapper.find('MultiSelect');
+        const options = multiselect.prop('options');
+        expect(options.length).toBe(20);
+    });
+
+    test('should not include the users in the recent direct channel list again', () => {
+        const user1 = {
+            id: 'user_id_1',
+            username: 'z_user_id_1',
+            delete_at: 0,
+        };
+
+        const user2 = {
+            id: 'user_id_2',
+            username: 'a_user_id_2',
+            delete_at: 0,
+        };
+
+        const user3 = {
+            id: 'user_id_3',
+            username: 'a_user_id_3',
+            delete_at: 0,
+        };
+
+        const recentDirectChannelUsers = [user1, user2];
+        const users = [user1, user2, user3];
+
+        const props = {...baseProps, users, recentDirectChannelUsers};
+
+        const wrapper = shallow(<MoreDirectChannels {...props}/>);
+        const multiselect = wrapper.find('MultiSelect');
+        const options = multiselect.prop('options');
+        expect(options.length).toBe(3);
     });
 });

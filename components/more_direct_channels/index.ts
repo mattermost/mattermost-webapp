@@ -18,8 +18,10 @@ import {
     getProfilesInCurrentTeam, searchProfiles as searchProfilesSelector,
     searchProfilesInCurrentTeam,
     getTotalUsersStats as getTotalUsersStatsSelector,
+    getUser,
 } from 'mattermost-redux/selectors/entities/users';
 import {getChannelsWithUserProfiles, getAllChannels} from 'mattermost-redux/selectors/entities/channels';
+import {getUserIdFromChannelName} from 'mattermost-redux/utils/channel_utils';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {ActionFunc} from 'mattermost-redux/types/actions';
@@ -27,6 +29,8 @@ import {Channel} from 'mattermost-redux/types/channels';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {sortByUsername, filterProfilesMatchingTerm} from 'mattermost-redux/utils/user_utils';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
+
+import {RelationOneToOne} from 'mattermost-redux/types/utilities';
 
 import {openDirectChannelToUserId, openGroupChannelToUserIds} from 'actions/channel_actions';
 import {loadStatusesForProfilesList} from 'actions/status_actions.jsx';
@@ -68,6 +72,11 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
 
     const filteredGroupChannels = filterGroupChannels(getChannelsWithUserProfiles(state), searchTerm);
     const myDirectChannels = filterDirectChannels(getAllChannels(state), currentUserId);
+    const myRecentDirectChannels = filterRecentChannels(getAllChannels(state), currentUserId).sort((a: Channel, b: Channel) => b.last_post_at - a.last_post_at);
+    const recentDirectChannelUsers = myRecentDirectChannels.map((channel: Channel) => {
+        const dmUserId = getUserIdFromChannelName(currentUserId, channel.name);
+        return getUser(state, dmUserId);
+    });
 
     const team = getCurrentTeam(state);
     const stats = getTotalUsersStatsSelector(state) || {total_users_count: 0};
@@ -83,7 +92,9 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         currentChannelMembers,
         currentUserId,
         restrictDirectMessage,
+        recentDirectChannelUsers,
         totalCount: stats.total_users_count,
+        myRecentDirectChannels,
     };
 }
 
@@ -105,6 +116,18 @@ const filterDirectChannels = memoizeResult((channels: Channel[], userId: string)
         return true;
     });
 });
+
+const filterRecentChannels = (channels: RelationOneToOne<Channel, Channel>, userId: string) => {
+    return Object.values(channels).filter((channel) => {
+        if (channel.type !== 'D' || channel.last_post_at === 0) {
+            return false;
+        }
+        if (channel.name && channel.name.indexOf(userId) < 0) {
+            return false;
+        }
+        return true;
+    });
+};
 
 type Actions = {
     getProfiles: (page?: number | undefined, perPage?: number | undefined, options?: any) => Promise<any>;
