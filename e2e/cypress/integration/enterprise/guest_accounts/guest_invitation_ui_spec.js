@@ -361,4 +361,40 @@ describe('Guest Account - Guest User Invitation Flow', () => {
         // * Verify the content and message in next screen
         verifyInvitationSuccess(email.toLowerCase(), testTeam, 'An invitation email has been sent.');
     });
+
+    it('MM-T1414 Add Guest from Add New Members dialog', () => {
+        // # Demote the user from member to guest
+        cy.demoteUser(newUser.id);
+
+        // # Open Invite People
+        cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
+        cy.get('#invitePeople').should('be.visible').click();
+
+        // # Click on the next icon to invite members
+        cy.findByTestId('inviteMembersLink').find('.arrow').click();
+
+        // # Search and add a member
+        cy.findByTestId('inputPlaceholder').should('be.visible').within(($el) => {
+            cy.wrap($el).get('input').type(newUser.username, {force: true});
+            cy.wrap($el).get('.users-emails-input__menu').
+                children().should('have.length', 1).eq(0).should('contain', newUser.username).click();
+        });
+
+        // # Click Invite Members
+        cy.get('#inviteMembersButton').scrollIntoView().click();
+
+        // * Verify the content and error message in the Invitation Modal
+        cy.findByTestId('invitationModal').within(() => {
+            cy.get('h2.subtitle > span').should('have.text', '1 invitation was not sent');
+            cy.get('div.invitation-modal-confirm-sent').should('not.exist');
+            cy.get('div.invitation-modal-confirm-not-sent').should('be.visible').within(() => {
+                cy.get('h2 > span').should('have.text', 'Invitations Not Sent');
+                cy.get('.people-header').should('have.text', 'People');
+                cy.get('.details-header').should('have.text', 'Details');
+                cy.get('.username-or-icon').should('contain', newUser.username);
+                cy.get('.reason').should('have.text', 'Contact your admin to make this guest a full member.');
+                cy.get('.username-or-icon .Badge').should('be.visible').and('have.text', 'GUEST');
+            });
+        });
+    });
 });
