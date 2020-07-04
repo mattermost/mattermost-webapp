@@ -13,6 +13,7 @@ import {splitMessageBasedOnCaretPosition, postMessageOnKeyPress} from 'utils/pos
 import {intlShape} from 'utils/react_intl';
 import * as Utils from 'utils/utils.jsx';
 import smartPaste from 'utils/smartpaste';
+import UndoHistory from 'utils/undoredo/undoredo';
 
 import DeletePostModal from 'components/delete_post_modal';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
@@ -58,6 +59,7 @@ class EditPostModal extends React.PureComponent {
     constructor(props) {
         super(props);
 
+        this.undoHistory = new UndoHistory({message: '', caretPosition: 0}, 5);
         this.state = {
             editText: '',
             caretPosition: ''.length,
@@ -80,16 +82,63 @@ class EditPostModal extends React.PureComponent {
         return null;
     }
 
+    componentDidUpdate(prevProps) {
+        if (this.props.editingPost.show && !prevProps.editingPost.show) {
+            const message = this.props.editingPost.post.message_source || this.props.editingPost.post.message;
+            this.undoHistory.reset({message, caretPosition: message.length});
+        }
+    }
+
     componentDidMount() {
         document.addEventListener('paste', this.handlePaste);
         document.addEventListener('keydown', this.setIsShiftPressed);
         document.addEventListener('keyup', this.setIsShiftPressed);
+        document.addEventListener('keydown', this.undoRedoHandler);
     }
 
     componentWillUnmount() {
         document.removeEventListener('paste', this.handlePaste);
         document.removeEventListener('keydown', this.setIsShiftPressed);
         document.removeEventListener('keyup', this.setIsShiftPressed);
+        document.removeEventListener('keydown', this.undoRedoHandler);
+    }
+
+    undoRedoHandler = (e) => {
+        if (e.target.id !== 'edit_textbox') {
+            return;
+        }
+
+        const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
+        const undoKeyCombo = ctrlOrMetaKeyPressed && Utils.isKeyPressed(e, KeyCodes.Z);
+        const redoKeyCombo = ctrlOrMetaKeyPressed && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.Z);
+
+        if (redoKeyCombo) {
+            e.preventDefault();
+            const inputData = this.undoHistory.redo();
+            this.setState({editText: inputData.message, caretPosition: inputData.caretPosition});
+            const textbox = document.getElementById('edit_textbox');
+            if (textbox) {
+                Utils.setCaretPosition(textbox, inputData.caretPosition);
+            }
+        } else if (undoKeyCombo) {
+            e.preventDefault();
+            const inputData = this.undoHistory.undo();
+            this.setState({editText: inputData.message, caretPosition: inputData.caretPosition});
+            const textbox = document.getElementById('edit_textbox');
+            if (textbox) {
+                Utils.setCaretPosition(textbox, inputData.caretPosition);
+            }
+        }
+    }
+
+    setEditText(editText, prevCaretPosition, force) {
+        this.setState({editText});
+        this.undoHistory.record({message: editText, cartPosition: prevCaretPosition}, force);
+    }
+
+    resetEditText() {
+        this.setState({editText: '', caretPosition: 0});
+        this.undoHistory.reset();
     }
 
     setShowPreview = (newPreviewValue) => {
@@ -123,7 +172,7 @@ class EditPostModal extends React.PureComponent {
         }
 
         if (this.state.editText === '') {
-            this.setState({editText: ':' + emojiAlias + ': '});
+            this.setEditText(':' + emojiAlias + ': ', this.state.caretPosition, true);
         } else {
             const {editText} = this.state;
             const {firstPiece, lastPiece} = splitMessageBasedOnCaretPosition(this.state.caretPosition, editText);
@@ -153,10 +202,10 @@ class EditPostModal extends React.PureComponent {
 
     handleGifClick = (gif) => {
         if (this.state.editText === '') {
-            this.setState({editText: gif});
+            this.setEditText(gif, this.state.caretPosition, true);
         } else {
             const newMessage = ((/\s+$/).test(this.state.editText)) ? this.state.editText + gif : this.state.editText + ' ' + gif;
-            this.setState({editText: newMessage});
+            this.setEditText(newMessage, this.state.caretPosition, true);
         }
         this.setState({showEmojiPicker: false});
         this.editbox.focus();
@@ -249,6 +298,7 @@ class EditPostModal extends React.PureComponent {
         e.preventDefault();
 
         const {message, caretPosition} = smartPaste(e.clipboardData, this.state.editText, this.state.caretPosition, {tables: true, html: this.props.smartPaste, code: this.props.smartPasteCodeBlocks});
+        this.undoHistory.record({message, caretPosition: this.state.caretPosition}, true);
         this.setState({editText: message, caretPosition}, () => {
             Utils.setCaretPosition(this.editbox.getInputBox(), caretPosition);
         });
@@ -283,7 +333,7 @@ class EditPostModal extends React.PureComponent {
         // listen for line break key combo and insert new line character
         if (Utils.isUnhandledLineBreakKeyCombo(e)) {
             e.stopPropagation(); // perhaps this should happen in all of these cases? or perhaps Modal should not be listening?
-            this.setState({editText: Utils.insertLineBreakFromKeyEvent(e)});
+            this.setEditText(Utils.insertLineBreakFromKeyEvent(e), this.state.caretPosition, true);
         } else if (this.props.ctrlSend && Utils.isKeyPressed(e, KeyCodes.ENTER) && e.ctrlKey === true) {
             this.handleEdit();
         } else if (Utils.isKeyPressed(e, KeyCodes.ESCAPE) && !this.state.showEmojiPicker) {
@@ -328,6 +378,7 @@ class EditPostModal extends React.PureComponent {
 
         this.refocusId = null;
         this.setState({editText: '', postError: '', errorClass: null, showEmojiPicker: false, prevShowState: false});
+        this.undoHistory.reset();
         this.props.actions.setShowPreview(false);
     }
 

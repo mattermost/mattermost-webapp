@@ -357,6 +357,7 @@ class CreatePost extends React.PureComponent {
         this.focusTextbox();
         document.addEventListener('paste', this.pasteHandler);
         document.addEventListener('keydown', this.documentKeyHandler);
+        document.addEventListener('keydown', this.undoRedoHandler);
         document.addEventListener('keyup', this.setIsShiftPressed);
         document.addEventListener('keydown', this.setIsShiftPressed);
         this.setOrientationListeners();
@@ -389,6 +390,7 @@ class CreatePost extends React.PureComponent {
     componentWillUnmount() {
         document.removeEventListener('paste', this.pasteHandler);
         document.removeEventListener('keydown', this.documentKeyHandler);
+        document.removeEventListener('keydown', this.undoRedoHandler);
         document.removeEventListener('keyup', this.setIsShiftPressed);
         document.removeEventListener('keydown', this.setIsShiftPressed);
         this.removeOrientationListeners();
@@ -987,12 +989,13 @@ class CreatePost extends React.PureComponent {
         }
     }
 
-    documentKeyHandler = (e) => {
+    undoRedoHandler = (e) => {
+        if (e.target.id !== 'post_textbox') {
+            return;
+        }
         const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
-        const shortcutModalKeyCombo = ctrlOrMetaKeyPressed && Utils.isKeyPressed(e, KeyCodes.FORWARD_SLASH);
         const undoKeyCombo = ctrlOrMetaKeyPressed && Utils.isKeyPressed(e, KeyCodes.Z);
         const redoKeyCombo = ctrlOrMetaKeyPressed && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.Z);
-        const lastMessageReactionKeyCombo = ctrlOrMetaKeyPressed && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.BACK_SLASH);
 
         if (redoKeyCombo) {
             e.preventDefault();
@@ -1010,7 +1013,16 @@ class CreatePost extends React.PureComponent {
             if (textbox) {
                 Utils.setCaretPosition(textbox, inputData.caretPosition);
             }
-        } else if (shortcutModalKeyCombo) {
+        }
+    }
+
+
+    documentKeyHandler = (e) => {
+        const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
+        const shortcutModalKeyCombo = ctrlOrMetaKeyPressed && Utils.isKeyPressed(e, KeyCodes.FORWARD_SLASH);
+        const lastMessageReactionKeyCombo = ctrlOrMetaKeyPressed && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.BACK_SLASH);
+
+        if (shortcutModalKeyCombo) {
             e.preventDefault();
 
             GlobalActions.toggleShortcutsModal();
