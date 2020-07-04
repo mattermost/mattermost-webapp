@@ -12,10 +12,20 @@
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 describe('Plugin Marketplace', () => {
+    let townsquareLink;
+    let regularUser;
+
+    before(() => {
+        cy.apiInitSetup().then(({team, user}) => {
+            regularUser = user;
+            townsquareLink = `/${team.name}/channels/town-square`;
+        });
+    });
+
     describe('should not render in main menu', () => {
         it('for non-admin', () => {
             // # Login as sysadmin
-            cy.apiLogin('sysadmin');
+            cy.apiAdminLogin();
 
             // # Enable Plugin Marketplace
             cy.apiUpdateConfig({
@@ -27,13 +37,13 @@ describe('Plugin Marketplace', () => {
             });
 
             // # Login as non admin user
-            cy.apiLogin('user-1');
-            cy.visit('/ad-1/channels/town-square');
+            cy.apiLogin(regularUser);
+            cy.visit(townsquareLink);
         });
 
         it('when marketplace disabled', () => {
             // # Login as sysadmin
-            cy.apiLogin('sysadmin');
+            cy.apiAdminLogin();
 
             // # Disable Plugin Marketplace
             cy.apiUpdateConfig({
@@ -45,12 +55,12 @@ describe('Plugin Marketplace', () => {
             });
 
             // # Visit town-square channel
-            cy.visit('/ad-1/channels/town-square');
+            cy.visit(townsquareLink);
         });
 
         it('when plugins disabled', () => {
             // # Login as sysadmin
-            cy.apiLogin('sysadmin');
+            cy.apiAdminLogin();
 
             // # Disable Plugin
             // # Enable Plugin Marketplace
@@ -63,14 +73,14 @@ describe('Plugin Marketplace', () => {
             });
 
             // # Visit town-square channel
-            cy.visit('/ad-1/channels/town-square');
+            cy.visit(townsquareLink);
         });
     });
 
     describe('invalid marketplace, should', () => {
         beforeEach(() => {
             // # Login as sysadmin
-            cy.apiLogin('sysadmin');
+            cy.apiAdminLogin();
 
             // # Enable Plugin Marketplace and Remote Marketplace
             cy.apiUpdateConfig({
@@ -86,9 +96,9 @@ describe('Plugin Marketplace', () => {
             uninstallAllPlugins();
 
             // # Visit the Town Square channel
-            cy.visit('/ad-1/channels/town-square');
+            cy.visit(townsquareLink);
 
-            cy.wait(TIMEOUTS.TINY).get('#lhsHeader').should('be.visible').within(() => {
+            cy.wait(TIMEOUTS.HALF_SEC).get('#lhsHeader').should('be.visible').within(() => {
                 // # Click hamburger main menu
                 cy.get('#sidebarHeaderDropdownButton').click();
 
@@ -159,9 +169,9 @@ describe('Plugin Marketplace', () => {
             uninstallAllPlugins();
 
             // # Visit the Town Square channel
-            cy.visit('/ad-1/channels/town-square');
+            cy.visit(townsquareLink);
 
-            cy.wait(TIMEOUTS.TINY).get('#lhsHeader').should('be.visible').within(() => {
+            cy.wait(TIMEOUTS.HALF_SEC).get('#lhsHeader').should('be.visible').within(() => {
                 // # Click hamburger main menu
                 cy.get('#sidebarHeaderDropdownButton').click();
 
@@ -371,10 +381,10 @@ describe('Plugin Marketplace', () => {
             });
 
             // # Visit town-square channel
-            cy.visit('/ad-1/channels/town-square');
+            cy.visit(townsquareLink);
 
             // # Click hamburger main menu
-            cy.wait(TIMEOUTS.TINY).get('#sidebarHeaderDropdownButton').click();
+            cy.wait(TIMEOUTS.HALF_SEC).get('#sidebarHeaderDropdownButton').click();
 
             // # Open up marketplace modal
             cy.get('#marketplaceModal').click();

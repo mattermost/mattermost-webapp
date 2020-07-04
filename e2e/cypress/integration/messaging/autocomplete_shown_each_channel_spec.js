@@ -11,14 +11,17 @@
 // Group: @messaging
 
 describe('Identical Message Drafts', () => {
-    before(() => {
-        // # Login and go to /
-        cy.apiLogin('user-1');
-        cy.visit('/ad-1/channels/town-square');
+    let testTeam;
+    let testChannel;
 
-        // # Clear channel textbox
-        cy.clearPostTextbox('town-square');
-        cy.clearPostTextbox('autem-2');
+    before(() => {
+        // # Login as test user and visit test channel
+        cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
+            testTeam = team;
+            testChannel = channel;
+
+            cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+        });
     });
 
     it('M14432 shows Autocomplete in each channel', () => {
@@ -35,11 +38,11 @@ describe('Identical Message Drafts', () => {
         cy.get('#suggestionList').should('be.visible');
 
         // # Go to test Channel B on sidebar
-        cy.get('#sidebarItem_autem-2').click({force: true});
+        cy.get(`#sidebarItem_${testChannel.name}`).click({force: true});
 
         // * Validate if the newly navigated channel is open
         // * autocomplete should not be visible in channel
-        cy.url().should('include', '/channels/autem-2');
+        cy.url().should('include', `/channels/${testChannel.name}`);
         cy.get('#suggestionList').should('not.be.visible');
 
         // # Start a draft in Channel B containing just "@"
@@ -55,12 +58,6 @@ describe('Identical Message Drafts', () => {
         // * At mention auto-complete is preserved in Channel A
         cy.url().should('include', '/channels/town-square');
         cy.get('#suggestionList').should('be.visible');
-    });
-
-    after(() => {
-        // # Clear channel textbox
-        cy.clearPostTextbox('town-square');
-        cy.clearPostTextbox('autem-2');
     });
 });
 

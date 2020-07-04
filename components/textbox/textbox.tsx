@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import React, {ChangeEvent, FocusEvent, KeyboardEvent, MouseEvent} from 'react';
 import {FormattedMessage} from 'react-intl';
@@ -21,6 +22,7 @@ import * as Utils from 'utils/utils.jsx';
 type Props = {
     id: string;
     channelId?: string;
+    rootId?: string;
     value: string;
     onChange: (e: ChangeEvent) => void;
     onKeyPress: (e: KeyboardEvent) => void;
@@ -84,7 +86,10 @@ export default class Textbox extends React.PureComponent<Props> {
         ];
 
         if (props.supportsCommands) {
-            this.suggestionProviders.push(new CommandProvider());
+            this.suggestionProviders.push(new CommandProvider({
+                channelId: this.props.channelId,
+                rootId: this.props.rootId,
+            }));
         }
 
         this.checkMessageLength(props.value);
@@ -268,3 +273,4 @@ export default class Textbox extends React.PureComponent<Props> {
         );
     }
 }
+/* eslint-enable react/no-string-refs */

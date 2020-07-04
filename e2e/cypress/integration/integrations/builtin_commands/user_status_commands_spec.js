@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @integrations
 
 const testCases = [
@@ -17,10 +18,13 @@ const testCases = [
 ];
 
 describe('Integrations', () => {
+    let testChannelUrl;
+
     before(() => {
-        // # Login as user-1, go to "/" and set user status to online
-        cy.apiLogin('user-1');
-        cy.apiUpdateUserStatus('online');
+        // # Login as test user, go to town-square and set user status to online
+        cy.apiInitSetup().then(({team}) => {
+            testChannelUrl = `/${team.name}/channels/town-square`;
+        });
     });
 
     after(() => {
@@ -30,7 +34,7 @@ describe('Integrations', () => {
 
     it('I18456 Built-in slash commands: change user status via post', () => {
         cy.apiSaveMessageDisplayPreference('compact');
-        cy.visit('/ad-1/channels/town-square');
+        cy.visit(testChannelUrl);
 
         testCases.forEach((testCase) => {
             cy.postMessage(testCase.command + ' ');
@@ -41,7 +45,7 @@ describe('Integrations', () => {
 
     it('I18456 Built-in slash commands: change user status via suggestion list', () => {
         cy.apiSaveMessageDisplayPreference('clean');
-        cy.visit('/ad-1/channels/town-square');
+        cy.visit(testChannelUrl);
 
         testCases.forEach((testCase) => {
             // # Type "/" on textbox
@@ -63,6 +67,8 @@ describe('Integrations', () => {
 function verifyUserStatus(testCase, isCompactMode) {
     // * Verify that the user status is as indicated
     cy.get('#lhsHeader').find('svg').should('be.visible').and('have.attr', 'aria-label', testCase.ariaLabel);
+
+    cy.uiWaitUntilMessagePostedIncludes(testCase.message);
 
     // * Verify that ephemeral message is posted as expected
     cy.getLastPostId().then((postId) => {

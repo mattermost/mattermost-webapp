@@ -161,4 +161,4 @@ function makeMapDispatchToProps() {
     };
 }
 
-export default connect(makeMapStateToProps, makeMapDispatchToProps)(CreateComment);
+export default connect(makeMapStateToProps, makeMapDispatchToProps, null, {forwardRef: true})(CreateComment);

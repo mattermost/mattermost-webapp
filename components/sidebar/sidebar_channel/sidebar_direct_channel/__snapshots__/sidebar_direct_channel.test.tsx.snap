@@ -30,7 +30,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_direct_channel should match 
     />
   }
   label="channel_display_name"
-  link="/team_name/messages/@"
+  link="/team_name/messages/@some-user"
 />
 `;
 
@@ -68,7 +68,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_direct_channel should match 
     />
   }
   label="channel_display_name"
-  link="/team_name/messages/@"
+  link="/team_name/messages/@some-user"
 />
 `;
 
@@ -102,7 +102,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_direct_channel should match 
     />
   }
   label="channel_display_name (you)"
-  link="/team_name/messages/@"
+  link="/team_name/messages/@some-user"
 />
 `;
 
@@ -135,6 +135,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_direct_channel should match 
     />
   }
   label="channel_display_name"
-  link="/team_name/messages/@"
+  link="/team_name/messages/@some-user"
 />
 `;
