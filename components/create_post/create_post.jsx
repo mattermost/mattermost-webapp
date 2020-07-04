@@ -13,6 +13,7 @@ import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import Constants, {StoragePrefixes, ModalIdentifiers, Locations, A11yClassNames} from 'utils/constants';
 import {t} from 'utils/i18n';
+import UndoHistory from 'utils/undoredo/undoredo';
 import {
     containsAtChannel,
     postMessageOnKeyPress,
@@ -316,6 +317,10 @@ class CreatePost extends React.PureComponent {
 
     constructor(props) {
         super(props);
+        this.undoHistory = new UndoHistory({
+            message: this.props.draft.message,
+            caretPosition: this.props.draft.message.length,
+        }, 5);
         this.state = {
             message: this.props.draft.message,
             caretPosition: this.props.draft.message.length,
@@ -489,7 +494,9 @@ class CreatePost extends React.PureComponent {
 
         const isReaction = Utils.REACTION_PATTERN.exec(post.message);
         if (post.message.indexOf('/') === 0 && !ignoreSlash) {
-            this.setState({message: '', postError: null});
+            this.setState({postError: null});
+            const historyBackup = this.undoHistory.save();
+            this.resetMessage();
             let args = {};
             args.channel_id = channelId;
             args.team_id = this.props.currentTeamId;
@@ -523,18 +530,18 @@ class CreatePost extends React.PureComponent {
                             },
                             message: post.message,
                         });
+                        this.undoHistory.restore(historyBackup);
                     }
                 }
             }
         } else if (isReaction && this.props.emojiMap.has(isReaction[2])) {
             this.sendReaction(isReaction);
-
-            this.setState({message: ''});
+            this.resetMessage();
         } else {
             const {error} = await this.sendMessage(post);
 
             if (!error) {
-                this.setState({message: ''});
+                this.resetMessage();
             }
         }
 
@@ -644,7 +651,7 @@ class CreatePost extends React.PureComponent {
 
             this.props.actions.openModal(resetStatusModalData);
 
-            this.setState({message: ''});
+            this.resetMessage();
             return;
         }
 
@@ -657,7 +664,7 @@ class CreatePost extends React.PureComponent {
 
             this.props.actions.openModal(editChannelHeaderModalData);
 
-            this.setState({message: ''});
+            this.resetMessage();
             return;
         }
 
@@ -671,13 +678,13 @@ class CreatePost extends React.PureComponent {
 
             this.props.actions.openModal(editChannelPurposeModalData);
 
-            this.setState({message: ''});
+            this.resetMessage();
             return;
         }
 
         if (!isDirectOrGroup && trimRight(this.state.message) === '/rename') {
             GlobalActions.showChannelNameUpdateModal(updateChannel);
-            this.setState({message: ''});
+            this.resetMessage();
             return;
         }
 
@@ -782,6 +789,9 @@ class CreatePost extends React.PureComponent {
             }
 
             if (withClosedCodeBlock && message) {
+                if (message !== this.state.message) {
+                    this.undoHistory.record({message, caretPosition: this.state.caretPosition});
+                }
                 this.setState({message}, () => this.handleSubmit(e));
             } else {
                 this.handleSubmit(e);
@@ -811,6 +821,8 @@ class CreatePost extends React.PureComponent {
             message,
             serverError,
         });
+        const caretPosition = Utils.getCaretPosition(e.target);
+        this.undoHistory.record({message, caretPosition});
 
         const draft = {
             ...this.props.draft,
@@ -978,9 +990,27 @@ class CreatePost extends React.PureComponent {
     documentKeyHandler = (e) => {
         const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
         const shortcutModalKeyCombo = ctrlOrMetaKeyPressed && Utils.isKeyPressed(e, KeyCodes.FORWARD_SLASH);
+        const undoKeyCombo = ctrlOrMetaKeyPressed && Utils.isKeyPressed(e, KeyCodes.Z);
+        const redoKeyCombo = ctrlOrMetaKeyPressed && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.Z);
         const lastMessageReactionKeyCombo = ctrlOrMetaKeyPressed && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.BACK_SLASH);
 
-        if (shortcutModalKeyCombo) {
+        if (redoKeyCombo) {
+            e.preventDefault();
+            const inputData = this.undoHistory.redo();
+            this.setState(inputData);
+            const textbox = document.getElementById('post_textbox');
+            if (textbox) {
+                Utils.setCaretPosition(textbox, inputData.caretPosition);
+            }
+        } else if (undoKeyCombo) {
+            e.preventDefault();
+            const inputData = this.undoHistory.undo();
+            this.setState(inputData);
+            const textbox = document.getElementById('post_textbox');
+            if (textbox) {
+                Utils.setCaretPosition(textbox, inputData.caretPosition);
+            }
+        } else if (shortcutModalKeyCombo) {
             e.preventDefault();
 
             GlobalActions.toggleShortcutsModal();
@@ -1016,14 +1046,23 @@ class CreatePost extends React.PureComponent {
             this.setState({
                 message: lastMessage,
             });
+            this.undoHistory.reset(lastMessage);
         }
     }
 
     handleMouseUpKeyUp = (e) => {
         const caretPosition = Utils.getCaretPosition(e.target);
-        this.setState({
-            caretPosition,
-        });
+        this.setState({caretPosition});
+    }
+
+    setMessage(message, prevCaretPosition, force) {
+        this.setState({message});
+        this.undoHistory.record({message, cartPosition: prevCaretPosition}, force);
+    }
+
+    resetMessage() {
+        this.setState({message: '', caretPosition: 0});
+        this.undoHistory.reset();
     }
 
     handleKeyDown = (e) => {
@@ -1037,7 +1076,7 @@ class CreatePost extends React.PureComponent {
 
         // listen for line break key combo and insert new line character
         if (Utils.isUnhandledLineBreakKeyCombo(e)) {
-            this.setState({message: Utils.insertLineBreakFromKeyEvent(e)});
+            this.setMessage(Utils.insertLineBreakFromKeyEvent(e), this.state.caretPosition, true);
         } else if (ctrlEnterKeyCombo) {
             this.postMsgKeyPress(e);
         } else if (upKeyOnly && messageIsEmpty) {
@@ -1130,12 +1169,13 @@ class CreatePost extends React.PureComponent {
     }
 
     setMessageAndCaretPostion = (newMessage, newCaretPosition) => {
+        this.undoHistory.record({message: newMessage, caretPosition: this.state.caretPosition}, true);
         this.setState({
             message: newMessage,
             caretPosition: newCaretPosition,
         }, () => {
-            if (this.textbox.current) {
-                const textbox = this.textbox.current.getInputBox();
+            const textbox = document.getElementById('post_textbox');
+            if (textbox) {
                 Utils.setCaretPosition(textbox, newCaretPosition);
             }
         });
@@ -1150,7 +1190,7 @@ class CreatePost extends React.PureComponent {
         }
 
         if (this.state.message === '') {
-            this.setState({message: ':' + emojiAlias + ': '});
+            this.setMessage(':' + emojiAlias + ': ', this.state.caretPosition, true);
         } else {
             const {message} = this.state;
             const {firstPiece, lastPiece} = splitMessageBasedOnCaretPosition(this.state.caretPosition, message);
@@ -1167,10 +1207,10 @@ class CreatePost extends React.PureComponent {
 
     handleGifClick = (gif) => {
         if (this.state.message === '') {
-            this.setState({message: gif});
+            this.setMessage(gif, this.state.caretPosition, true);
         } else {
             const newMessage = ((/\s+$/).test(this.state.message)) ? this.state.message + gif : this.state.message + ' ' + gif;
-            this.setState({message: newMessage});
+            this.setMessage(newMessage, this.state.caretPosition, true)
         }
         this.handleEmojiClose();
     }
