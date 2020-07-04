@@ -116,18 +116,12 @@ class EditPostModal extends React.PureComponent {
             e.preventDefault();
             const inputData = this.undoHistory.redo();
             this.setState({editText: inputData.message, caretPosition: inputData.caretPosition});
-            const textbox = document.getElementById('edit_textbox');
-            if (textbox) {
-                Utils.setCaretPosition(textbox, inputData.caretPosition);
-            }
+            Utils.setCaretPosition(e.target, inputData.caretPosition);
         } else if (undoKeyCombo) {
             e.preventDefault();
             const inputData = this.undoHistory.undo();
             this.setState({editText: inputData.message, caretPosition: inputData.caretPosition});
-            const textbox = document.getElementById('edit_textbox');
-            if (textbox) {
-                Utils.setCaretPosition(textbox, inputData.caretPosition);
-            }
+            Utils.setCaretPosition(e.target, inputData.caretPosition);
         }
     }
 
@@ -277,9 +271,8 @@ class EditPostModal extends React.PureComponent {
 
     handleChange = (e) => {
         const message = e.target.value;
-        this.setState({
-            editText: message,
-        });
+        const caretPosition = Utils.getCaretPosition(e.target);
+        this.setEditText(message, caretPosition);
     }
 
     setIsShiftPressed = (e) => {
