@@ -11,10 +11,14 @@ import {
 
 import {tableTurndownRuleBuilder} from './tables';
 import {githubCodeTurndownRuleBuilder} from './githubcode';
+import {channelMentionsRule, hashtagsRule, filePreviewButtonRule} from './mattermost';
 
 const turndownService = new TurndownService().remove('style');
 turndownService.use(strikethrough);
 turndownService.use(taskListItems);
+turndownService.addRule('channel-mentions', channelMentionsRule);
+turndownService.addRule('hashtags', hashtagsRule);
+turndownService.addRule('file-preview-button', filePreviewButtonRule);
 
 type SmartPasteOptions = {
     html: boolean;
