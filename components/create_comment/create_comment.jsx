@@ -17,6 +17,7 @@ import smartPaste from 'utils/smartpaste';
 import {intlShape} from 'utils/react_intl';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
+import UndoHistory from 'utils/undoredo/undoredo';
 import {
     containsAtChannel,
     postMessageOnKeyPress,
@@ -265,6 +266,11 @@ class CreateComment extends React.PureComponent {
     constructor(props) {
         super(props);
 
+        this.undoHistory = new UndoHistory({
+            message: this.props.draft.message,
+            caretPosition: this.props.draft.message.length,
+        }, 5);
+
         this.state = {
             showPostDeletedModal: false,
             showConfirmModal: false,
@@ -291,6 +297,7 @@ class CreateComment extends React.PureComponent {
         this.focusTextbox();
         document.addEventListener('paste', this.pasteHandler);
         document.addEventListener('keydown', this.focusTextboxIfNecessary);
+        document.addEventListener('keydown', this.undoRedoHandler);
         document.addEventListener('keyup', this.setIsShiftPressed);
         document.addEventListener('keydown', this.setIsShiftPressed);
         if (useGroupMentions) {
@@ -309,6 +316,7 @@ class CreateComment extends React.PureComponent {
         this.props.resetCreatePostRequest();
         document.removeEventListener('paste', this.pasteHandler);
         document.removeEventListener('keydown', this.focusTextboxIfNecessary);
+        document.removeEventListener('keydown', this.undoRedoHandler);
         document.removeEventListener('keyup', this.setIsShiftPressed);
         document.removeEventListener('keydown', this.setIsShiftPressed);
     }
@@ -371,6 +379,27 @@ class CreateComment extends React.PureComponent {
         }
     }
 
+    undoRedoHandler = (e) => {
+        if (e.target.id !== 'reply_textbox') {
+            return;
+        }
+        const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
+        const undoKeyCombo = ctrlOrMetaKeyPressed && Utils.isKeyPressed(e, KeyCodes.Z);
+        const redoKeyCombo = ctrlOrMetaKeyPressed && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.Z);
+
+        if (redoKeyCombo) {
+            e.preventDefault();
+            const inputData = this.undoHistory.redo();
+            this.setState({draft: {...this.state.draft, message: inputData.message}, caretPosition: inputData.caretPosition});
+            Utils.setCaretPosition(e.target, inputData.caretPosition);
+        } else if (undoKeyCombo) {
+            e.preventDefault();
+            const inputData = this.undoHistory.undo();
+            this.setState({draft: {...this.state.draft, message: inputData.message}, caretPosition: inputData.caretPosition});
+            Utils.setCaretPosition(e.target, inputData.caretPosition);
+        }
+    }
+
     setCaretPosition = (newCaretPosition) => {
         const textbox = this.refs.textbox.getInputBox();
 
@@ -392,6 +421,7 @@ class CreateComment extends React.PureComponent {
         this.setCaretPosition(caretPosition);
         const updatedDraft = {...this.state.draft, message};
         this.props.onUpdateCommentDraft(updatedDraft);
+        this.undoHistory.record({message: updatedDraft.message, caretPosition: this.state.caretPosition}, true);
         this.setState({draft: updatedDraft});
     }
 
@@ -444,7 +474,7 @@ class CreateComment extends React.PureComponent {
             ...draft,
             message: newMessage,
         };
-
+        this.undoHistory.record({message: newMessage, caretPosition: this.state.caretPosition}, true);
         this.props.onUpdateCommentDraft(modifiedDraft);
         this.draftsForPost[this.props.rootId] = modifiedDraft;
 
@@ -474,6 +504,7 @@ class CreateComment extends React.PureComponent {
 
         this.props.onUpdateCommentDraft(modifiedDraft);
         this.draftsForPost[this.props.rootId] = modifiedDraft;
+        this.undoHistory.record({message: newMessage, caretPosition: this.state.caretPosition}, true);
 
         this.setState({
             showEmojiPicker: false,
@@ -622,6 +653,7 @@ class CreateComment extends React.PureComponent {
                 postError: null,
                 serverError: null,
             });
+            this.undoHistory.reset();
         } catch (err) {
             if (isErrorInvalidSlashCommand(err)) {
                 this.props.onUpdateCommentDraft(draft);
@@ -652,6 +684,7 @@ class CreateComment extends React.PureComponent {
                 const {draft} = this.state;
                 const updatedDraft = {...draft, message};
                 this.props.onUpdateCommentDraft(updatedDraft);
+                this.undoHistory.record({message, caretPosition: this.state.caretPosition});
                 this.setState({draft: updatedDraft}, () => this.handleSubmit(e));
                 this.draftsForPost[this.props.rootId] = updatedDraft;
             } else {
@@ -700,6 +733,7 @@ class CreateComment extends React.PureComponent {
         const {draft} = this.state;
         const updatedDraft = {...draft, message};
         this.props.onUpdateCommentDraft(updatedDraft);
+        this.undoHistory.record({message, caretPosition: Utils.getCaretPosition(e.target)});
         this.setState({draft: updatedDraft, serverError}, () => {
             this.scrollToBottom();
         });
@@ -719,6 +753,7 @@ class CreateComment extends React.PureComponent {
 
         // listen for line break key combo and insert new line character
         if (Utils.isUnhandledLineBreakKeyCombo(e)) {
+            this.undoHistory.record({message: Utils.insertLineBreakFromKeyEvent(e), caretPosition: this.state.caretPosition}, true);
             this.setState({
                 draft: {
                     ...this.state.draft,
