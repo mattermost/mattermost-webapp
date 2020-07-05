@@ -6,7 +6,7 @@ import {Rule} from 'turndown';
 export function githubCodeTurndownRuleBuilder(hasFirstPart: boolean, hasLastPart: boolean, text: string): Rule {
     return {
         filter: (node: Node): boolean => {
-            return node.nodeName === 'TABLE' && (/\b(js|blob|diff)-./).test((node as HTMLTableElement).className);
+            return (node.parentNode as HTMLElement)?.id === 'turndown-root' && node.nodeName === 'TABLE' && (/\b(js|blob|diff)-./).test((node as HTMLTableElement).className);
         },
         replacement: (): string => {
             let result = '';
