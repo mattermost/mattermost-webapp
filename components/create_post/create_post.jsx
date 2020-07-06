@@ -1215,7 +1215,7 @@ class CreatePost extends React.PureComponent {
             this.setMessage(gif, this.state.caretPosition, true);
         } else {
             const newMessage = ((/\s+$/).test(this.state.message)) ? this.state.message + gif : this.state.message + ' ' + gif;
-            this.setMessage(newMessage, this.state.caretPosition, true)
+            this.setMessage(newMessage, this.state.caretPosition, true);
         }
         this.handleEmojiClose();
     }
