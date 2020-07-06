@@ -8,16 +8,16 @@ import {FormattedMessage} from 'react-intl';
 import {Channel} from 'mattermost-redux/types/channels';
 
 import AutosizeTextarea from '../../components/autosize_textarea';
-import PostMarkdown from 'components/post_markdown';
-import Provider from 'components/suggestion/provider';
-import AtMentionProvider from 'components/suggestion/at_mention_provider';
-import ChannelMentionProvider from 'components/suggestion/channel_mention_provider.jsx';
-import CommandProvider from 'components/suggestion/command_provider.jsx';
-import EmoticonProvider from 'components/suggestion/emoticon_provider.jsx';
-import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
-import SuggestionList from 'components/suggestion/suggestion_list.jsx';
+import PostMarkdown from '../../components/post_markdown';
+import Provider from '../../components/suggestion/provider';
+import AtMentionProvider from '../../components/suggestion/at_mention_provider';
+import ChannelMentionProvider from '../../components/suggestion/channel_mention_provider.jsx';
+import CommandProvider from '../../components/suggestion/command_provider.jsx';
+import EmoticonProvider from '../../components/suggestion/emoticon_provider.jsx';
+import SuggestionBox from '../../components/suggestion/suggestion_box.jsx';
+import SuggestionList from '../../components/suggestion/suggestion_list.jsx';
 
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from '../../utils/utils.jsx';
 
 type Props = {
     id: string;
