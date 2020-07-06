@@ -7,31 +7,30 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod @smoke
+// Stage: @prod
 // Group: @signin_authentication
 
-import users from '../../fixtures/users.json';
-
-let config;
-
 describe('Login page', () => {
+    let config;
+    let testUser;
+
     before(() => {
         // Disable other auth options
-        cy.apiLogin('sysadmin');
         const newSettings = {
             Office365Settings: {Enable: false},
             LdapSettings: {Enable: false},
         };
-        cy.apiUpdateConfig(newSettings);
-
-        cy.apiGetConfig().then((response) => {
+        cy.apiUpdateConfig(newSettings).then((response) => {
             config = response.body;
         });
 
-        // # Go to login page
-        cy.apiLogout();
+        // # Create new team and users
+        cy.apiInitSetup().then(({user}) => {
+            testUser = user;
 
-        cy.visit('/login');
+            cy.apiLogout();
+            cy.visit('/login');
+        });
     });
 
     it('should render', () => {
@@ -84,14 +83,12 @@ describe('Login page', () => {
             and('have.attr', 'href', config.SupportSettings.HelpLink);
     });
 
-    it('should login then logout by user-1', () => {
-        const user = users['user-1'];
+    it('should login then logout by test user', () => {
+        // # Enter username on Email or Username input box
+        cy.get('#loginId').should('be.visible').type(testUser.username);
 
-        // # Enter "user-1" on Email or Username input box
-        cy.get('#loginId').should('be.visible').type(user.username);
-
-        // # Enter "user-1" on "Password" input box
-        cy.get('#loginPassword').should('be.visible').type(user.password);
+        // # Enter password on "Password" input box
+        cy.get('#loginPassword').should('be.visible').type(testUser.password);
 
         // # Click "Sign in" button
         cy.get('#loginButton').should('be.visible').click();

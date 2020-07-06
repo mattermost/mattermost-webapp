@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -22,7 +23,7 @@ const holders = defineMessages({
     },
 });
 
-class TeamImportTab extends React.Component {
+class TeamImportTab extends React.PureComponent {
     static propTypes = {
         closeModal: PropTypes.func.isRequired,
         collapseModal: PropTypes.func.isRequired,
@@ -255,3 +256,4 @@ TeamImportTab.propTypes = {
 };
 
 export default injectIntl(TeamImportTab);
+/* eslint-enable react/no-string-refs */

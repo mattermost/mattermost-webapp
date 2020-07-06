@@ -35,7 +35,7 @@ describe('components/ProfilePopover', () => {
         const props = {...baseProps};
 
         const wrapper = shallowWithIntl(
-            <ProfilePopover {...props}/>
+            <ProfilePopover {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -50,14 +50,14 @@ describe('components/ProfilePopover', () => {
         };
 
         const wrapper = shallowWithIntl(
-            <ProfilePopover {...props}/>
+            <ProfilePopover {...props}/>,
         );
         expect(wrapper.containsMatchingElement(
             <div
                 key='bot-description'
             >
                 {'bot description'}
-            </div>
+            </div>,
         )).toEqual(true);
     });
 
@@ -66,7 +66,7 @@ describe('components/ProfilePopover', () => {
         props.isInCurrentTeam = false;
 
         const wrapper = shallowWithIntl(
-            <ProfilePopover {...props}/>
+            <ProfilePopover {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -77,7 +77,7 @@ describe('components/ProfilePopover', () => {
         const props = {...baseProps, hide, status};
 
         const wrapper = shallowWithIntl(
-            <ProfilePopover {...props}/>
+            <ProfilePopover {...props}/>,
         );
 
         const pluggableProps = {

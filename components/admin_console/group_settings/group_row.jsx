@@ -11,7 +11,7 @@ import {localizeMessage} from 'utils/utils.jsx';
 import CheckboxCheckedIcon from 'components/widgets/icons/checkbox_checked_icon.jsx';
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 
-export default class GroupRow extends React.Component {
+export default class GroupRow extends React.PureComponent {
     static propTypes = {
         primary_key: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,

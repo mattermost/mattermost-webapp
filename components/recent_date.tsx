@@ -40,7 +40,7 @@ class RecentDate extends React.PureComponent<Props> {
             weekday: 'short',
             month: 'short',
             day: '2-digit',
-            year: 'numeric'
+            year: 'numeric',
         };
         const formattedDate = this.props.intl.formatDate(value, options);
 

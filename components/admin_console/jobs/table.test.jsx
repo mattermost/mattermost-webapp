@@ -84,7 +84,7 @@ describe('components/admin_console/jobs/table', () => {
 
     test('should call create job func', () => {
         const wrapper = shallowWithIntl(
-            <JobTable {...baseProps}/>
+            <JobTable {...baseProps}/>,
         );
 
         wrapper.find('.job-table__create-button > div > .btn-default').simulate('click', {preventDefault: jest.fn()});
@@ -93,7 +93,7 @@ describe('components/admin_console/jobs/table', () => {
 
     test('should call cancel job func', () => {
         const wrapper = shallowWithIntl(
-            <JobTable {...baseProps}/>
+            <JobTable {...baseProps}/>,
         );
 
         wrapper.find('.job-table__cancel-button').first().simulate('click', {preventDefault: jest.fn(), currentTarget: {getAttribute: () => '1234'}});

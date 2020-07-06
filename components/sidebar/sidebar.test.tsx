@@ -12,11 +12,20 @@ describe('components/sidebar', () => {
         canCreatePrivateChannel: true,
         canJoinPublicChannel: true,
         isOpen: false,
+        isDataPrefechEnabled: true,
     };
 
     test('should match snapshot', () => {
         const wrapper = shallow(
-            <Sidebar {...baseProps}/>
+            <Sidebar {...baseProps}/>,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot when isDataPrefechEnabled is disabled', () => {
+        const wrapper = shallow(
+            <Sidebar {...{...baseProps, isDataPrefechEnabled: false}}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -24,7 +33,7 @@ describe('components/sidebar', () => {
 
     test('should match snapshot when direct channels modal is open', () => {
         const wrapper = shallow(
-            <Sidebar {...baseProps}/>
+            <Sidebar {...baseProps}/>,
         );
 
         wrapper.instance().setState({showDirectChannelsModal: true});
@@ -33,7 +42,7 @@ describe('components/sidebar', () => {
 
     test('should match snapshot when more channels modal is open', () => {
         const wrapper = shallow(
-            <Sidebar {...baseProps}/>
+            <Sidebar {...baseProps}/>,
         );
 
         wrapper.instance().setState({showMoreChannelsModal: true});
@@ -42,7 +51,7 @@ describe('components/sidebar', () => {
 
     test('should toggle direct messages modal correctly', () => {
         const wrapper = shallow<Sidebar>(
-            <Sidebar {...baseProps}/>
+            <Sidebar {...baseProps}/>,
         );
         const instance = wrapper.instance();
         const mockEvent: Partial<Event> = {preventDefault: jest.fn()};

@@ -11,7 +11,7 @@ module.exports = async ({baseUrl, urlSuffix, method = 'get', token, data = {}}) 
             url: baseUrl + urlSuffix,
             headers: {
                 'X-Requested-With': 'XMLHttpRequest',
-                Authorization: token
+                Authorization: token,
             },
             method,
             data,

@@ -7,16 +7,31 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod @smoke
+// Stage: @prod
 // Group: @messaging
 
-import users from '../../fixtures/users.json';
-
 describe("Click another user's emoji reaction to add it", () => {
+    let townsquareLink;
+    let userOne;
+    let userTwo;
+
+    before(() => {
+        // # Login as test user and visit town-square
+        cy.apiInitSetup().then(({team, user}) => {
+            userOne = user;
+            townsquareLink = `/${team.name}/channels/town-square`;
+
+            cy.apiCreateUser().then(({user: user2}) => {
+                userTwo = user2;
+                cy.apiAddUserToTeam(team.id, userTwo.id);
+            });
+        });
+    });
+
     it("M15113 - Click another user's emoji reaction to add it", () => {
-        // # Login as "user-1" and go to /
-        cy.apiLogin('user-1');
-        cy.visit('/ad-1/channels/town-square');
+        // # Login as userOne and visit town-square
+        cy.apiLogin(userOne);
+        cy.visit(townsquareLink);
 
         // # Post a message
         cy.postMessage('test');
@@ -24,10 +39,9 @@ describe("Click another user's emoji reaction to add it", () => {
         // # Logout
         cy.apiLogout();
 
-        // # Login as "user-2" and go to /
-        const user2 = users['user-2'];
-        cy.apiLogin(user2.username, user2.password);
-        cy.visit('/ad-1/channels/town-square');
+        // # Login as userTwo and visit town-square
+        cy.apiLogin(userTwo);
+        cy.visit(townsquareLink);
 
         // # Mouseover the last post
         cy.getLastPost().trigger('mouseover');
@@ -37,7 +51,7 @@ describe("Click another user's emoji reaction to add it", () => {
             cy.clickPostReactionIcon(postId);
 
             // # Choose "slightly_frowning_face" emoji
-            cy.get('#emoji-1f641').click();
+            cy.get('#emoji-1f641').should('be.visible').click({force: true});
 
             // * The number shown on the reaction is incremented by 1
             cy.get(`#postReaction-${postId}-slightly_frowning_face .post-reaction__count`).should('have.text', '1');
@@ -46,9 +60,9 @@ describe("Click another user's emoji reaction to add it", () => {
         // # Logout
         cy.apiLogout();
 
-        // # Login as "user-1" and go to /
-        cy.apiLogin('user-1');
-        cy.visit('/ad-1/channels/town-square');
+        // # Login as userOne and visit town-square
+        cy.apiLogin(userOne);
+        cy.visit(townsquareLink);
 
         cy.getLastPostId().then((postId) => {
             // # Click on the "slightly_frowning_face" emoji of the last post and the background color changes
@@ -56,7 +70,7 @@ describe("Click another user's emoji reaction to add it", () => {
                 should('be.visible').
                 click().
                 should('have.css', 'background-color').
-                and('eq', 'rgba(35, 137, 215, 0.1)');
+                and('eq', 'rgba(22, 109, 224, 0.08)');
 
             // * The number shown on the "slightly_frowning_face" reaction is incremented by 1
             cy.get(`#postReaction-${postId}-slightly_frowning_face .post-reaction__count`).should('have.text', '2');
@@ -68,7 +82,7 @@ describe("Click another user's emoji reaction to add it", () => {
             cy.get('#emojiPicker').should('be.visible');
 
             // # Select the "scream" emoji
-            cy.get('#emoji-1f631').click();
+            cy.get('#emoji-1f631').should('be.visible').click({force: true});
 
             // * The emoji picker is no longer open
             cy.get('#emojiPicker').should('be.not.visible');

@@ -13,7 +13,7 @@ import {t} from 'utils/i18n';
 
 const INT32_MAX = 2147483647;
 
-export default class EditPostTimeLimitModal extends React.Component {
+export default class EditPostTimeLimitModal extends React.PureComponent {
     static propTypes = {
         config: PropTypes.object.isRequired,
         show: PropTypes.bool,

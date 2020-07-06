@@ -20,7 +20,7 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             loadChannels,
             setModalSearchTerm,
-            searchChannels: searchAllChannels,
+            searchAllChannels,
         }, dispatch),
     };
 }

@@ -16,7 +16,7 @@ describe('components/ProfilePicture', () => {
     test('should match snapshot, no user specified, default props', () => {
         const props = baseProps;
         const wrapper = shallow(
-            <ProfilePicture {...props}/>
+            <ProfilePicture {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -30,7 +30,7 @@ describe('components/ProfilePicture', () => {
             src: 'http://example.com/emoji.png',
         };
         const wrapper = shallow(
-            <ProfilePicture {...props}/>
+            <ProfilePicture {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -44,7 +44,7 @@ describe('components/ProfilePicture', () => {
             hasMention: true,
         };
         const wrapper = shallow(
-            <ProfilePicture {...props}/>
+            <ProfilePicture {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -58,7 +58,7 @@ describe('components/ProfilePicture', () => {
             },
         };
         const wrapper = shallow(
-            <ProfilePicture {...props}/>
+            <ProfilePicture {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -75,7 +75,7 @@ describe('components/ProfilePicture', () => {
             hasMention: true,
         };
         const wrapper = shallow(
-            <ProfilePicture {...props}/>
+            <ProfilePicture {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();

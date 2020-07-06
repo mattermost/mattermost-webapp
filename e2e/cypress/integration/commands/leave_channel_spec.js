@@ -7,14 +7,16 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod @smoke
 // Group: @commands
+
+import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Leave Channel Command', () => {
     before(() => {
-        // # Login and go to town-square
-        cy.apiLogin();
-        cy.visit('/ad-1/channels/town-square');
+        // # Login as test user and go to town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
+        });
     });
 
     it('Should be redirected to last channel when user leaves channelw with /leave command', () => {
@@ -27,7 +29,7 @@ describe('Leave Channel Command', () => {
 
                 // # Post /leave command in center channel
                 cy.postMessage('/leave');
-                cy.wait(2000); // eslint-disable-line cypress/no-unnecessary-waiting
+                cy.wait(TIMEOUTS.TWO_SEC); // eslint-disable-line cypress/no-unnecessary-waiting
 
                 // * Assert that user is redirected to townsquare
                 cy.url().should('include', '/channels/town-square');

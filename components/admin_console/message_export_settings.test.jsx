@@ -21,7 +21,7 @@ describe('components/MessageExportSettings', () => {
         const wrapper = shallow(
             <MessageExportSettings
                 config={config}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
 
@@ -52,7 +52,7 @@ describe('components/MessageExportSettings', () => {
         const wrapper = shallow(
             <MessageExportSettings
                 config={config}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
 
@@ -89,7 +89,7 @@ describe('components/MessageExportSettings', () => {
         const wrapper = shallow(
             <MessageExportSettings
                 config={config}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
 
@@ -133,7 +133,7 @@ describe('components/MessageExportSettings', () => {
         const wrapper = shallow(
             <MessageExportSettings
                 config={config}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
 

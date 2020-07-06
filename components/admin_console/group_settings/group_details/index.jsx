@@ -8,12 +8,14 @@ import {
     linkGroupSyncable,
     unlinkGroupSyncable,
     getGroup as fetchGroup,
-    getGroupMembers as fetchMembers,
+    getGroupStats,
     getGroupSyncables as fetchGroupSyncables,
     patchGroupSyncable,
-    patchGroup
+    patchGroup,
 } from 'mattermost-redux/actions/groups';
-import {getGroup, getGroupTeams, getGroupChannels, getGroupMembers, getGroupMemberCount} from 'mattermost-redux/selectors/entities/groups';
+import {getProfilesInGroup} from 'mattermost-redux/actions/users';
+import {getGroup, getGroupTeams, getGroupChannels, getGroupMemberCount} from 'mattermost-redux/selectors/entities/groups';
+import {getProfilesInGroup as selectProfilesInGroup} from 'mattermost-redux/selectors/entities/users';
 
 import {setNavigationBlocked} from 'actions/admin_actions';
 
@@ -24,7 +26,7 @@ function mapStateToProps(state, props) {
     const group = getGroup(state, groupID);
     const groupTeams = getGroupTeams(state, groupID);
     const groupChannels = getGroupChannels(state, groupID);
-    const members = getGroupMembers(state, groupID);
+    const members = selectProfilesInGroup(state, groupID);
     const memberCount = getGroupMemberCount(state, groupID);
 
     return {
@@ -42,7 +44,8 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             setNavigationBlocked,
             getGroup: fetchGroup,
-            getMembers: fetchMembers,
+            getMembers: getProfilesInGroup,
+            getGroupStats,
             getGroupSyncables: fetchGroupSyncables,
             link: linkGroupSyncable,
             unlink: unlinkGroupSyncable,

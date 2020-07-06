@@ -10,7 +10,7 @@
 // Stage: @prod
 // Group: @enterprise @system_console
 
-import uuid from 'uuid/v4';
+import {v4 as uuidv4} from 'uuid';
 const PAGE_SIZE = 10;
 
 describe('Search teams', () => {
@@ -20,7 +20,7 @@ describe('Search teams', () => {
     });
 
     beforeEach(() => {
-        cy.apiLogin('sysadmin');
+        cy.apiAdminLogin();
         cy.visit('/admin_console/user_management/teams');
         cy.wrap([]).as('createdTeamIDs');
     });
@@ -37,11 +37,11 @@ describe('Search teams', () => {
     });
 
     it('returns results', function() {
-        const displayName = uuid();
+        const displayName = uuidv4();
 
         // # Create a new team.
-        cy.apiCreateTeam('team-search', displayName).then((response) => {
-            this.createdTeamIDs.push(response.body.id);
+        cy.apiCreateTeam('team-search', displayName).then(({team}) => {
+            this.createdTeamIDs.push(team.id);
         });
 
         // # Search for the new team.
@@ -52,12 +52,12 @@ describe('Search teams', () => {
     });
 
     it('results are paginated', function() {
-        const displayName = uuid();
+        const displayName = uuidv4();
 
         // # Create enough new teams with common name prefixes to get multiple pages of search results.
         for (let i = 0; i < PAGE_SIZE + 2; i++) {
-            cy.apiCreateTeam('team-search-paged-' + i, displayName + ' ' + i).then((response) => {
-                this.createdTeamIDs.push(response.body.id);
+            cy.apiCreateTeam('team-search-paged-' + i, displayName + ' ' + i).then(({team}) => {
+                this.createdTeamIDs.push(team.id);
             });
         }
 
@@ -75,11 +75,11 @@ describe('Search teams', () => {
     });
 
     it('clears the results when "x" is clicked', function() {
-        const displayName = uuid();
+        const displayName = uuidv4();
 
         // # Create a new team.
-        cy.apiCreateTeam('team-search', displayName).then((response) => {
-            this.createdTeamIDs.push(response.body.id);
+        cy.apiCreateTeam('team-search', displayName).then(({team}) => {
+            this.createdTeamIDs.push(team.id);
         });
 
         // # Search for the team.
@@ -99,11 +99,11 @@ describe('Search teams', () => {
     });
 
     it('clears the results when the search term is deleted with backspace', function() {
-        const displayName = uuid();
+        const displayName = uuidv4();
 
         // # Create a team.
-        cy.apiCreateTeam('team-search', displayName).then((response) => {
-            this.createdTeamIDs.push(response.body.id);
+        cy.apiCreateTeam('team-search', displayName).then(({team}) => {
+            this.createdTeamIDs.push(team.id);
         });
 
         // # Search for the team.

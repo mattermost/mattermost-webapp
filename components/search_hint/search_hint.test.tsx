@@ -21,14 +21,14 @@ describe('components/SearchHint', () => {
             withTitle: true,
         };
         const wrapper = shallow(
-            <SearchHint {...props}/>
+            <SearchHint {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot, without title', () => {
         const wrapper = shallow(
-            <SearchHint {...baseProps}/>
+            <SearchHint {...baseProps}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });

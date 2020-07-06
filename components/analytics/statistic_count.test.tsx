@@ -11,7 +11,7 @@ describe('components/analytics/statistic_count.tsx', () => {
             <StatisticCount
                 title='Test'
                 icon='test-icon'
-            />
+            />,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -23,7 +23,7 @@ describe('components/analytics/statistic_count.tsx', () => {
                 title='Test'
                 icon='test-icon'
                 count={4}
-            />
+            />,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -35,7 +35,7 @@ describe('components/analytics/statistic_count.tsx', () => {
                 title='Test Zero'
                 icon='test-icon'
                 count={0}
-            />
+            />,
         );
 
         expect(wrapper).toMatchSnapshot();

@@ -19,12 +19,12 @@ import MoreChannels from './more_channels.jsx';
 
 const getNotArchivedOtherChannels = createSelector(
     getOtherChannels,
-    (channels) => channels && channels.filter((c) => c.delete_at === 0)
+    (channels) => channels && channels.filter((c) => c.delete_at === 0),
 );
 
 const getArchivedOtherChannels = createSelector(
     getChannelsInCurrentTeam,
-    (channels) => channels && channels.filter((c) => c.delete_at !== 0)
+    (channels) => channels && channels.filter((c) => c.delete_at !== 0),
 );
 
 function mapStateToProps(state) {

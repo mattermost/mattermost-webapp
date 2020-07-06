@@ -46,7 +46,7 @@ describe('components/integrations/bots/Bots', () => {
                 owners={{}}
                 users={users}
                 actions={actions}
-            />
+            />,
         );
         wrapperFull.instance().setState({loading: false});
         const wrapper = shallow(<div>{wrapperFull.instance().bots()[0]}</div>);
@@ -60,7 +60,7 @@ describe('components/integrations/bots/Bots', () => {
                 accessTokens={{}}
                 team={team}
                 actions={actions}
-            />
+            />,
         )).toEqual(true);
         expect(wrapper.find('EnabledSection').shallow().contains(
             <Bot
@@ -71,7 +71,7 @@ describe('components/integrations/bots/Bots', () => {
                 accessTokens={{}}
                 team={team}
                 actions={actions}
-            />
+            />,
         )).toEqual(true);
         expect(wrapper.find('EnabledSection').shallow().contains(
             <Bot
@@ -82,7 +82,7 @@ describe('components/integrations/bots/Bots', () => {
                 accessTokens={{}}
                 team={team}
                 actions={actions}
-            />
+            />,
         )).toEqual(true);
     });
 
@@ -124,7 +124,7 @@ describe('components/integrations/bots/Bots', () => {
                 owners={owners}
                 users={users}
                 actions={actions}
-            />
+            />,
         );
         wrapperFull.instance().setState({loading: false});
         const wrapper = shallow(<div>{wrapperFull.instance().bots()[0]}</div>);
@@ -138,7 +138,7 @@ describe('components/integrations/bots/Bots', () => {
                 accessTokens={passedTokens}
                 team={team}
                 actions={actions}
-            />
+            />,
         )).toEqual(true);
     });
 });
