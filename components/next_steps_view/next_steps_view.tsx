@@ -4,14 +4,14 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import Card from 'components/card';
+import Card from 'components/card/card';
 import professionalLogo from 'images/cloud-logos/professional.svg';
 
 import './next_steps_view.scss';
 import Accordion from 'components/accordion';
 
 type Props = {
-    skuName: string; 
+    skuName: string;
 };
 
 export default class NextStepsView extends React.PureComponent<Props> {
@@ -76,7 +76,7 @@ export default class NextStepsView extends React.PureComponent<Props> {
                                         <Card expanded={expandedKey === 'Card_1'}>
                                             <Card.Header>
                                                 <span>{'Card Header 1'}</span>
-                                                <button onClick={() => setExpanded('Card_1')}></button>
+                                                <button onClick={() => setExpanded('Card_1')}>{'Toggle'}</button>
                                             </Card.Header>
                                             <Card.Body>
                                                 <div>
@@ -87,7 +87,7 @@ export default class NextStepsView extends React.PureComponent<Props> {
                                         <Card expanded={expandedKey === 'Card_2'}>
                                             <Card.Header>
                                                 <span>{'Card Header 2'}</span>
-                                                <button onClick={() => setExpanded('Card_2')}></button>
+                                                <button onClick={() => setExpanded('Card_2')}>{'Toggle'}</button>
                                             </Card.Header>
                                             <Card.Body>
                                                 <div>
@@ -98,7 +98,7 @@ export default class NextStepsView extends React.PureComponent<Props> {
                                         <Card expanded={expandedKey === 'Card_3'}>
                                             <Card.Header>
                                                 <span>{'Card Header 3'}</span>
-                                                <button onClick={() => setExpanded('Card_3')}></button>
+                                                <button onClick={() => setExpanded('Card_3')}>{'Toggle'}</button>
                                             </Card.Header>
                                             <Card.Body>
                                                 <div>
@@ -109,7 +109,7 @@ export default class NextStepsView extends React.PureComponent<Props> {
                                             </Card.Body>
                                         </Card>
                                     </>
-                                )
+                                );
                             }}
                         </Accordion>
                     </div>
