@@ -89,7 +89,7 @@ class ToastWrapper extends React.PureComponent {
         }
 
         // show unread toast on mount when channel is not at bottom and unread count greater than 0
-        if (typeof showUnreadToast === 'undefined' && props.atBottom !== null) {
+        if (typeof showUnreadToast === 'undefined' && props.atBottom !== null && props.initScrollOffsetFromBottom > 1000) {
             showUnreadToast = unreadCount > 0 && !props.atBottom;
         }
 
