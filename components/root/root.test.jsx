@@ -4,6 +4,8 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
+import {client4} from 'mattermost-redux/client';
+
 import Root from 'components/root/root';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import * as Utils from 'utils/utils';
@@ -25,6 +27,28 @@ jest.mock('utils/utils', () => ({
     isDevMode: jest.fn(),
     enableDevModeFeatures: jest.fn(),
 }));
+
+jest.mock('mattermost-redux/client', () => {
+    const original = require.requireActual('mattermost-redux/client');
+
+    return {
+        ...original,
+        client4: {
+            ...original.client4,
+            enableRudderEvents: jest.fn(),
+        },
+    };
+});
+
+jest.mock('utils/constants', () => {
+    const original = require.requireActual('utils/constants');
+
+    return {
+        ...original,
+        DIAGNOSTICS_RUDDER_KEY: 'testKey',
+        DIAGNOSTICS_RUDDER_DATAPLANE_URL: 'url',
+    };
+});
 
 describe('components/Root', () => {
     const baseProps = {
@@ -166,5 +190,12 @@ describe('components/Root', () => {
         };
         wrapper.setProps(props2);
         expect(props.history.push).toHaveBeenLastCalledWith('/signup_user_complete');
+    });
+
+    test('should call for enableRudderEvents on call of onConfigLoaded if url and key for rudder is set', () => {
+        const wrapper = shallow(<Root {...baseProps}/>);
+        wrapper.instance().onConfigLoaded();
+
+        expect(client4.enableRudderEvents).toHaveBeenCalledTimes(1);
     });
 });
