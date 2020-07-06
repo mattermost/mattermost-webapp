@@ -44,7 +44,8 @@ const cypress = require('cypress');
 const argv = require('yargs').argv;
 
 const {getTestFiles, getSkippedFiles} = require('./utils/file');
-const {MOCHAWESOME_REPORT_DIR} = require('./utils/constants');
+const {writeJsonToFile} = require('./utils/report');
+const {MOCHAWESOME_REPORT_DIR, RESULTS_DIR} = require('./utils/constants');
 
 require('dotenv').config();
 
@@ -81,7 +82,7 @@ async function runTests() {
         console.log(chalk.magenta.bold(`${invert ? 'All Except --> ' : ''}${testStage}${stage && group ? '| ' : ''}${testGroup}`));
         console.log(chalk.magenta(`(Testing ${i + 1} of ${finalTestFiles.length})  - `, testFile));
 
-        await cypress.run({
+        const result = await cypress.run({
             browser,
             headless,
             spec: testFile,
@@ -119,6 +120,21 @@ async function runTests() {
                     },
                 },
         });
+
+        // Write test environment details once only
+        if (i === 0) {
+            const environment = {
+                cypressVersion: result.cypressVersion,
+                browserName: result.browserName,
+                browserVersion: result.browserVersion,
+                headless,
+                osName: result.osName,
+                osVersion: result.osVersion,
+                nodeVersion: process.version,
+            };
+
+            writeJsonToFile(environment, 'environment.json', RESULTS_DIR);
+        }
     }
 }
 

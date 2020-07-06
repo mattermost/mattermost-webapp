@@ -40,7 +40,7 @@ interface ChannelDetailsProps {
     groups: Group[];
     totalGroups: number;
     channelPermissions?: Array<ChannelPermissions>;
-    allGroups: {[gid: string]: Group}; // hashmap of groups
+    allGroups: Dictionary<Group>;
     teamScheme?: Scheme;
     guestAccountsEnabled: boolean;
     actions: {

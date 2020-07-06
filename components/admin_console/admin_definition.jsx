@@ -2825,7 +2825,8 @@ const AdminDefinition = {
             },
         },
         ldap_feature_discovery: {
-            url: 'authentication/discover-ldap',
+            url: 'authentication/ldap',
+            isDiscovery: true,
             title: t('admin.sidebar.ldap'),
             title_default: 'AD/LDAP',
             isHidden: it.either(
@@ -3271,7 +3272,8 @@ const AdminDefinition = {
             },
         },
         saml_feature_discovery: {
-            url: 'authentication/discover-saml',
+            url: 'authentication/saml',
+            isDiscovery: true,
             title: t('admin.sidebar.saml'),
             title_default: 'SAML 2.0',
             isHidden: it.either(

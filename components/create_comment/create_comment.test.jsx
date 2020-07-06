@@ -150,7 +150,6 @@ describe('components/CreateComment', () => {
         expect(wrapper.state().showEmojiPicker).toBe(false);
     });
 
-    /* Broken by react-redux update
     test('should correctly update draft when handleEmojiClick is called', () => {
         const onUpdateCommentDraft = jest.fn();
         const draft = {
@@ -177,7 +176,7 @@ describe('components/CreateComment', () => {
             return document.createElement('div');
         };
 
-        wrapper.instance().refs = {textbox: {getWrappedInstance: () => ({getInputBox: jest.fn(mockImpl), getBoundingClientRect: jest.fn(), focus: jest.fn()})}};
+        wrapper.instance().refs = {textbox: {getInputBox: jest.fn(mockImpl), getBoundingClientRect: jest.fn(), focus: jest.fn()}};
 
         wrapper.instance().handleEmojiClick({name: 'smile'});
         expect(onUpdateCommentDraft).toHaveBeenCalled();
@@ -212,7 +211,6 @@ describe('components/CreateComment', () => {
 
         expect(wrapper.state().showEmojiPicker).toBe(false);
     });
-    */
 
     test('handlePostError should update state with the correct error', () => {
         const wrapper = shallowWithIntl(
@@ -1115,7 +1113,6 @@ describe('components/CreateComment', () => {
         expect(instance.focusTextbox).toHaveBeenCalledTimes(1);
     });
 
-    /*
     test('should call functions on handleKeyDown', () => {
         const onMoveHistoryIndexBack = jest.fn();
         const onMoveHistoryIndexForward = jest.fn();
@@ -1149,7 +1146,7 @@ describe('components/CreateComment', () => {
             return document.createElement('div');
         };
 
-        instance.refs = {textbox: {getWrappedInstance: () => ({blur, focus, getInputBox: jest.fn(mockImpl)})}};
+        instance.refs = {textbox: {blur, focus, getInputBox: jest.fn(mockImpl)}};
 
         const commentMsgKey = {
             preventDefault: jest.fn(),
@@ -1197,7 +1194,7 @@ describe('components/CreateComment', () => {
         expect(onEditLatestPost).toHaveBeenCalledTimes(2);
         expect(instance.focusTextbox).toHaveBeenCalledTimes(1);
         expect(instance.focusTextbox).toHaveBeenCalledWith(true);
-    });*/
+    });
 
     test('should the RHS thread scroll to bottom one time after mount when props.draft.message is not empty', () => {
         const draft = {
@@ -1278,7 +1275,7 @@ describe('components/CreateComment', () => {
             };
         };
 
-        wrapper.instance().refs = {textbox: {getWrappedInstance: () => ({getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()})}};
+        wrapper.instance().refs = {textbox: {getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()}};
 
         const event = {
             target: {
@@ -1300,7 +1297,6 @@ describe('components/CreateComment', () => {
         expect(wrapper.state('draft').message).toBe(markdownTable);
     });
 
-    /*
     it('should be able to format a github codeblock (pasted as a table)', () => {
         const draft = {
             message: '',
@@ -1327,7 +1323,7 @@ describe('components/CreateComment', () => {
             };
         };
 
-        wrapper.instance().refs = {textbox: {getWrappedInstance: () => ({getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()})}};
+        wrapper.instance().refs = {textbox: {getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()}};
 
         const event = {
             target: {
@@ -1378,7 +1374,7 @@ describe('components/CreateComment', () => {
             };
         };
 
-        wrapper.instance().refs = {textbox: {getWrappedInstance: () => ({getInputBox: jest.fn(mockImpl), getBoundingClientRect: jest.fn(), focus: jest.fn()})}};
+        wrapper.instance().refs = {textbox: {getInputBox: jest.fn(mockImpl), getBoundingClientRect: jest.fn(), focus: jest.fn()}};
         wrapper.setState({
             draft: {
                 ...draft,
@@ -1427,7 +1423,7 @@ describe('components/CreateComment', () => {
         expect(instance.focusTextbox).not.toBeCalled();
         wrapper.setProps({shouldShowPreview: false});
         expect(instance.focusTextbox).toBeCalled();
-    });*/
+    });
 
     testComponentForLineBreak((value) => (
         <CreateComment
