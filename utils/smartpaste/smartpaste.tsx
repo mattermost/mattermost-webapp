@@ -11,14 +11,15 @@ import {
 
 import {tableTurndownRuleBuilder} from './tables';
 import {githubCodeTurndownRuleBuilder} from './githubcode';
-import {channelMentionsRule, hashtagsRule, filePreviewButtonRule} from './mattermost';
+import {channelMentionsRule, hashtagsRule, filePreviewButtonRule, codeBlockRule} from './mattermost';
 
-const turndownService = new TurndownService().remove('style');
+const turndownService = new TurndownService({codeBlockStyle: 'fenced'}).remove('style');
 turndownService.use(strikethrough);
 turndownService.use(taskListItems);
 turndownService.addRule('channel-mentions', channelMentionsRule);
 turndownService.addRule('hashtags', hashtagsRule);
 turndownService.addRule('file-preview-button', filePreviewButtonRule);
+turndownService.addRule('mattermost-code-block', codeBlockRule);
 
 type SmartPasteOptions = {
     html: boolean;

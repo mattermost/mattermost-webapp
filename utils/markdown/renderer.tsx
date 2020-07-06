@@ -86,6 +86,10 @@ export default class Renderer extends marked.Renderer {
             }
         }
 
+        if (usedLanguage) {
+            codeClassName = `${codeClassName} language-${usedLanguage}`;
+        }
+
         return (
             '<div class="' + className + '">' +
                 header +

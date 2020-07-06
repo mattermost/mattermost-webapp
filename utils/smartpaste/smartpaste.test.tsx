@@ -51,3 +51,86 @@ describe('Paste.formatGithubCodePaste', () => {
         expect(result.caretPosition).toBe(expectedCaretPosition);
     });
 });
+
+describe('Mattermost user mentions, channel mentions and hashtags', () => {
+    const clipboardData: any = {
+        items: [],
+        types: ['text/plain', 'text/html'],
+        getData: (type: any) => {
+            if (type === 'text/plain') {
+                return 'Test post with some styling mention to @sysadmin, a channel mention ~autem and a #hashtag';
+            }
+            return 'Test post with <strong>some styling</strong> mention to <span class="mention--highlight"><span data-mention="sysadmin"><span><a class="mention-link">@sysadmin</a></span></span></span>, a channel mention ~autem and a <a class="mention-link" href="http://localhost:8065/ad-1/channels/suscipit-4#" data-hashtag="#hashtag">#hashtag</a>';
+        },
+    };
+
+    test('All must be correctly transformed during smart paste', () => {
+        const expectedMessage = 'Test post with **some styling** mention to @sysadmin, a channel mention ~autem and a #hashtag';
+        const expectedCaretPosition = expectedMessage.length;
+
+        const result = smartPaste(clipboardData, '', 0, {html: true, code: true});
+        expect(result.message).toBe(expectedMessage);
+        expect(result.caretPosition).toBe(expectedCaretPosition);
+    });
+});
+
+describe('Tables', () => {
+    const clipboardData: any = {
+        items: [],
+        types: ['text/plain', 'text/html'],
+        getData: (type: any) => {
+            if (type === 'text/plain') {
+                return 'test1\ttest-two\ntest-three\ttest4';
+            }
+            return '<table><tr><td>test1</td><td>test-two</td></tr><tr><td>test-three</td><td>test4</td></tr></table>';
+        },
+    };
+    test('The table must be properly rendered', () => {
+        const expectedMessage = '|test1 | test-two|\n|--- | ---|\n|test-three | test4|';
+        const expectedCaretPosition = expectedMessage.length;
+
+        const result = smartPaste(clipboardData, '', 0, {html: true, code: true});
+        expect(result.message).toBe(expectedMessage);
+        expect(result.caretPosition).toBe(expectedCaretPosition);
+    });
+});
+
+describe('Mattermost code block', () => {
+    test('Should render the code properly with language', () => {
+        const clipboardData: any = {
+            items: [],
+            types: ['text/plain', 'text/html'],
+            getData: (type: any) => {
+                if (type === 'text/plain') {
+                    return 'This is some code\nwhatever()';
+                }
+                return '<p>This is some code</p><div class="post-code"></div><code class="hljs hljs-ln language-go"><div class="hljs-ln-numbers"><span class="hljs-code">whatever()</span></div></code>';
+            },
+        };
+        const expectedMessage = 'This is some code\n\n```go\nwhatever()\n```';
+        const expectedCaretPosition = expectedMessage.length;
+
+        const result = smartPaste(clipboardData, '', 0, {html: true, code: true});
+        expect(result.message).toBe(expectedMessage);
+        expect(result.caretPosition).toBe(expectedCaretPosition);
+    });
+
+    test('Should render the code properly without language', () => {
+        const clipboardData: any = {
+            items: [],
+            types: ['text/plain', 'text/html'],
+            getData: (type: any) => {
+                if (type === 'text/plain') {
+                    return 'This is some code\nwhatever()';
+                }
+                return '<p>This is some code</p><div class="post-code"></div><code class="hljs hljs-ln"><div class="hljs-ln-numbers"><span class="hljs-code">whatever()</span></div></code>';
+            },
+        };
+        const expectedMessage = 'This is some code\n\n```\nwhatever()\n```';
+        const expectedCaretPosition = expectedMessage.length;
+
+        const result = smartPaste(clipboardData, '', 0, {html: true, code: true});
+        expect(result.message).toBe(expectedMessage);
+        expect(result.caretPosition).toBe(expectedCaretPosition);
+    });
+});
