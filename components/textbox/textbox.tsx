@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {Channel} from 'mattermost-redux/types/channels';
 
-import AutosizeTextarea from 'components/autosize_textarea';
+import AutosizeTextarea from '../../components/autosize_textarea';
 import PostMarkdown from 'components/post_markdown';
 import Provider from 'components/suggestion/provider';
 import AtMentionProvider from 'components/suggestion/at_mention_provider';
