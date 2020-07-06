@@ -142,6 +142,8 @@ function createPost({
             canPost={true}
             useChannelMentions={true}
             useGroupMentions={useGroupMentions}
+            smartPaste={true}
+            smartPasteCodeBlocks={true}
         />
     );
 }
@@ -1157,7 +1159,7 @@ describe('components/create_post', () => {
             },
         };
 
-        const markdownTable = '|test | test|\n|--- | ---|\n|test | test|\n';
+        const markdownTable = '|test | test|\n|--- | ---|\n|test | test|';
 
         wrapper.instance().pasteHandler(event);
         expect(wrapper.state('message')).toBe(markdownTable);
@@ -1186,7 +1188,7 @@ describe('components/create_post', () => {
             },
         };
 
-        const markdownTable = '|test | test|\n|--- | ---|\n|test | test|\n\n';
+        const markdownTable = '|test | test|\n|--- | ---|\n|test | test|';
         const expectedMessage = `${message}\n${markdownTable}`;
 
         const mockTop = () => {
