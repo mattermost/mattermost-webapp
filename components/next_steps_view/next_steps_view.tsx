@@ -14,19 +14,7 @@ type Props = {
     skuName: string; 
 };
 
-type State = {
-    expandedKey: string;
-}
-
-export default class NextStepsView extends React.PureComponent<Props, State> {
-    constructor(props: Props) {
-        super(props);
-
-        this.state = {
-            expandedKey: 'Card_1',
-        };
-    }
-
+export default class NextStepsView extends React.PureComponent<Props> {
     getBottomText = () => {
         // TODO: will be stored in user prefs at a later date
         const {isFinished} = {isFinished: false};
@@ -57,10 +45,6 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
         }
     }
 
-    handleButton = (expandedKey: string) => {
-        this.setState({expandedKey});
-    }
-
     render() {
         return (
             <div
@@ -85,48 +69,48 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                 </div>
                 <div className='NextStepsView__body'>
                     <div className='NextStepsView__body-main'>
-                        <Accordion
-                            expandedKey={this.state.expandedKey}
-                        >
-                            <Card 
-                                key='Card_1'
-                            >
-                                <Card.Header>
-                                    <span>{'Card Header 1'}</span>
-                                    <button onClick={() => this.handleButton('Card_1')}></button>
-                                </Card.Header>
-                                <Card.Body>
-                                    <div>
-                                        {'Card Body 1'}
-                                    </div>
-                                </Card.Body>
-                            </Card>
-                            <Card 
-                                key='Card_2'
-                            >
-                                <Card.Header>
-                                    <span>{'Card Header 2'}</span>
-                                    <button onClick={() => this.handleButton('Card_2')}></button>
-                                </Card.Header>
-                                <Card.Body>
-                                    <div>
-                                        {'Card Body 2'}
-                                    </div>
-                                </Card.Body>
-                            </Card>
-                            <Card 
-                                key='Card_3'
-                            >
-                                <Card.Header>
-                                    <span>{'Card Header 3'}</span>
-                                    <button onClick={() => this.handleButton('Card_3')}></button>
-                                </Card.Header>
-                                <Card.Body>
-                                    <div>
-                                        {'Card Body 3'}
-                                    </div>
-                                </Card.Body>
-                            </Card>
+                        <Accordion defaultExpandedKey={'Card_1'}>
+                            {(setExpanded, expandedKey) => {
+                                return (
+                                    <>
+                                        <Card expanded={expandedKey === 'Card_1'}>
+                                            <Card.Header>
+                                                <span>{'Card Header 1'}</span>
+                                                <button onClick={() => setExpanded('Card_1')}></button>
+                                            </Card.Header>
+                                            <Card.Body>
+                                                <div>
+                                                    {'Card Body 1'}
+                                                </div>
+                                            </Card.Body>
+                                        </Card>
+                                        <Card expanded={expandedKey === 'Card_2'}>
+                                            <Card.Header>
+                                                <span>{'Card Header 2'}</span>
+                                                <button onClick={() => setExpanded('Card_2')}></button>
+                                            </Card.Header>
+                                            <Card.Body>
+                                                <div>
+                                                    {'Card Body 2'}
+                                                </div>
+                                            </Card.Body>
+                                        </Card>
+                                        <Card expanded={expandedKey === 'Card_3'}>
+                                            <Card.Header>
+                                                <span>{'Card Header 3'}</span>
+                                                <button onClick={() => setExpanded('Card_3')}></button>
+                                            </Card.Header>
+                                            <Card.Body>
+                                                <div>
+                                                    {'Card Body 3'}
+                                                    <br/>
+                                                    {'Bigger Card Body'}
+                                                </div>
+                                            </Card.Body>
+                                        </Card>
+                                    </>
+                                )
+                            }}
                         </Accordion>
                     </div>
                     <div className='NextStepsView__body-graphic'/>

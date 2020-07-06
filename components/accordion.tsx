@@ -1,35 +1,38 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, { Children, isValidElement, cloneElement } from 'react';
-
-import Card from './card';
+import React from 'react';
 
 import './accordion.scss';
 
 type Props = {
+    defaultExpandedKey: string;
+    children: (setExpanded: (expandedKey: string) => void, expandedKey: string) => React.ReactNode;
+};
+
+type State = {
     expandedKey: string;
-    children: Card[];
-}
+};
 
-export default class Accordion extends React.PureComponent<Props> {
+export default class Accordion extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
+        super(props);
+
+        this.state = {
+            expandedKey: props.defaultExpandedKey,
+        };
+    }
+
+    setExpanded = (expandedKey: string) => {
+        this.setState({expandedKey});
+    }
+
     render() {
-        const {children} = this.props;
-
-        const childrenWithProps = Children.map(children, child => {
-            // Checking isValidElement is the safe way and avoids a TS error too.
-            if (isValidElement(child)) {
-                return cloneElement(child, {collapsed: child.props.key !== this.props.expandedKey});
-            }
-        
-            return child;
-        });
-
         return (
             <div
                 className={'Accordion'}
             >
-                {childrenWithProps}
+                {this.props.children(this.setExpanded, this.state.expandedKey)}
             </div>
         );
     }

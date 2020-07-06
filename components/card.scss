@@ -3,22 +3,31 @@
     box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.12);
     border-radius: 4px;
     background-color: var(--center-channel-bg);
+
+    & + .Card {
+        margin-top: 16px;
+    }
 }
 
 .Card__header {
-    margin: 12px;
+    margin: 12px 12px 0 12px;
+    padding-bottom: 12px;
+    
+    &.expanded {
+        border-bottom: 1px solid var(--center-channel-color-08);
+    }
 }
 
 .Card__body {
-    margin: 12px;
-    padding-top: 12px;
-    border-top: 1px solid var(--center-channel-color-08);
     overflow: hidden;
+    height: 0;
+    margin: 0 12px;
 
-    &.collapsed {
-        height: 0;
-        padding-top: 0;
-        margin: 0 12px;
-        border-top: none;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-in-out;
+    transition-property: height, margin;
+
+    &.expanded { 
+        margin: 12px;       
     }
 }
