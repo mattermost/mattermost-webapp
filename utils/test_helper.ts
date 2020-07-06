@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 import {Channel, ChannelMembership, ChannelNotifyProps} from 'mattermost-redux/types/channels';
 import {Bot} from 'mattermost-redux/types/bots';
+import {Role} from 'mattermost-redux/types/roles';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {Team, TeamMembership} from 'mattermost-redux/types/teams';
 import {Group} from 'mattermost-redux/types/groups';
@@ -148,6 +149,22 @@ export class TestHelper {
             scheme_admin: false,
         };
         return Object.assign({}, defaultMembership, override);
+    }
+
+    public static getRoleMock(override: Partial<Role> = {}): Role {
+        const defaultRole: Role = {
+            id: 'role_id',
+            name: 'role_name',
+            display_name: 'role_display_name',
+            description: 'role_description',
+            create_at: 0,
+            update_at: 0,
+            delete_at: 0,
+            permissions: [],
+            scheme_managed: false,
+            built_in: false,
+        };
+        return Object.assign({}, defaultRole, override);
     }
 
     public static getGroupMock(override: Partial<Group>): Group {

@@ -73,7 +73,7 @@ describe('Interactive Menu', () => {
     it('matches elements', () => {
         // # Post an incoming webhook
         const payload = getMessageMenusPayload({options});
-        cy.postIncomingWebhook({url: incomingWebhook.url, data: payload});
+        cy.postIncomingWebhook({url: incomingWebhook.url, data: payload, waitFor: 'attachment-pretext'});
 
         // # Get message attachment from the last post
         cy.getLastPostId().then((postId) => {
@@ -108,7 +108,7 @@ describe('Interactive Menu', () => {
     it('IM15887 - Selected Option is displayed, Ephemeral message is posted', () => {
         // # Post an incoming webhook
         const payload = getMessageMenusPayload({options});
-        cy.postIncomingWebhook({url: incomingWebhook.url, data: payload});
+        cy.postIncomingWebhook({url: incomingWebhook.url, data: payload, waitFor: 'attachment-pretext'});
 
         // # Get message attachment from the last post
         cy.getLastPostId().then((postId) => {
@@ -128,7 +128,7 @@ describe('Interactive Menu', () => {
     it('IM15887 - Reply is displayed in center channel with "commented on [user\'s] message: [text]"', () => {
         // # Post an incoming webhook
         const payload = getMessageMenusPayload({options});
-        cy.postIncomingWebhook({url: incomingWebhook.url, data: payload});
+        cy.postIncomingWebhook({url: incomingWebhook.url, data: payload, waitFor: 'attachment-pretext'});
 
         // # Get last post
         cy.getLastPostId().then((parentMessageId) => {
@@ -173,7 +173,7 @@ describe('Interactive Menu', () => {
         const searchOptionsPayload = getMessageMenusPayload({options: searchOptions});
 
         // # Post an incoming webhook for interactive menu with search options
-        cy.postIncomingWebhook({url: incomingWebhook.url, data: searchOptionsPayload});
+        cy.postIncomingWebhook({url: incomingWebhook.url, data: searchOptionsPayload, waitFor: 'attachment-pretext'});
 
         // # Get message attachment from the last post
         cy.getLastPostId().then((postId) => {
@@ -200,7 +200,7 @@ describe('Interactive Menu', () => {
         const userOptions = getMessageMenusPayload({dataSource: 'users'});
 
         // # Post an incoming webhook for interactive menu with user options
-        cy.postIncomingWebhook({url: incomingWebhook.url, data: userOptions});
+        cy.postIncomingWebhook({url: incomingWebhook.url, data: userOptions, waitFor: 'attachment-pretext'});
 
         // # Get message attachment from the last post
         cy.getLastPostId().then((postId) => {
@@ -220,7 +220,7 @@ describe('Interactive Menu', () => {
         const basicOptions = getMessageMenusPayload({options});
 
         // # Post an incoming webhook for interactive menu with basic options
-        cy.postIncomingWebhook({url: incomingWebhook.url, data: basicOptions});
+        cy.postIncomingWebhook({url: incomingWebhook.url, data: basicOptions, waitFor: 'attachment-pretext'});
 
         // # Get message attachment from the last post
         cy.getLastPostId().then((postId) => {
@@ -258,7 +258,7 @@ describe('Interactive Menu', () => {
         const basicOptions = getMessageMenusPayload({options: withLongBasicOption});
 
         // # Post an incoming webhook for interactive menu with basic options and verify the post
-        cy.postIncomingWebhook({url: incomingWebhook.url, data: basicOptions}).then(() => {
+        cy.postIncomingWebhook({url: incomingWebhook.url, data: basicOptions, waitFor: 'attachment-pretext'}).then(() => {
             verifyLastPost();
         });
     });
@@ -267,7 +267,7 @@ describe('Interactive Menu', () => {
         const userOptions = getMessageMenusPayload({dataSource: 'users'});
 
         // # Post an incoming webhook for interactive menu with user options and verify the post
-        cy.postIncomingWebhook({url: incomingWebhook.url, data: userOptions}).then(() => {
+        cy.postIncomingWebhook({url: incomingWebhook.url, data: userOptions, waitFor: 'attachment-pretext'}).then(() => {
             verifyLastPost();
         });
     });
@@ -279,7 +279,7 @@ describe('Interactive Menu', () => {
             // # Create channel with long display name
             cy.apiCreateChannel(teamId, 'test-channel', `AAAA Very Long Display Name of a Channel ${Date.now()}`).then(() => {
                 // # Post an incoming webhook for interactive menu with channel options and verify the post
-                cy.postIncomingWebhook({url: incomingWebhook.url, data: channelOptions}).then(() => {
+                cy.postIncomingWebhook({url: incomingWebhook.url, data: channelOptions, waitFor: 'attachment-pretext'}).then(() => {
                     verifyLastPost();
                 });
             });
@@ -289,7 +289,7 @@ describe('Interactive Menu', () => {
     it('IM21037 - Clicking in / Tapping on the message attachment menu box opens list of selections', () => {
         // # Create a message attachment with menu
         const basicOptionPayload = getMessageMenusPayload({options});
-        cy.postIncomingWebhook({url: incomingWebhook.url, data: basicOptionPayload});
+        cy.postIncomingWebhook({url: incomingWebhook.url, data: basicOptionPayload, waitFor: 'attachment-pretext'});
 
         // # Get the last posted message id
         cy.getLastPostId().then((lastPostId) => {
@@ -322,7 +322,7 @@ describe('Interactive Menu', () => {
         // # Create a message attachment with menu
         const distinctOptions = messageMenusOptions['distinct-options'];
         const distinctOptionsPayload = getMessageMenusPayload({options: distinctOptions});
-        cy.postIncomingWebhook({url: incomingWebhook.url, data: distinctOptionsPayload});
+        cy.postIncomingWebhook({url: incomingWebhook.url, data: distinctOptionsPayload, waitFor: 'attachment-pretext'});
 
         // # Get the last posted message id
         cy.getLastPostId().then((lastPostId) => {
@@ -379,7 +379,7 @@ describe('Interactive Menu', () => {
         const manyOptionsPayload = getMessageMenusPayload({options: manyOptions});
 
         // # Create a message attachment with long menu options
-        cy.postIncomingWebhook({url: incomingWebhook.url, data: manyOptionsPayload});
+        cy.postIncomingWebhook({url: incomingWebhook.url, data: manyOptionsPayload, waitFor: 'attachment-pretext'});
 
         // # Get the last posted message id
         cy.getLastPostId().then((lastPostId) => {
@@ -428,7 +428,7 @@ describe('Interactive Menu', () => {
         // # Create a webhook with distinct options
         const distinctOptions = messageMenusOptions['distinct-options'];
         const distinctListOptionPayload = getMessageMenusPayload({options: distinctOptions});
-        cy.postIncomingWebhook({url: incomingWebhook.url, data: distinctListOptionPayload});
+        cy.postIncomingWebhook({url: incomingWebhook.url, data: distinctListOptionPayload, waitFor: 'attachment-pretext'});
 
         const selectedItem = distinctOptions[2].text;
         const firstFewLettersOfSelectedItem = selectedItem.substring(0, 3); // Make sure the options have minimum length of 3
@@ -478,7 +478,7 @@ describe('Interactive Menu', () => {
         // # Create a webhook with distinct options
         const distinctOptions = messageMenusOptions['distinct-options'];
         const distinctListOptionPayload = getMessageMenusPayload({options: distinctOptions});
-        cy.postIncomingWebhook({url: incomingWebhook.url, data: distinctListOptionPayload});
+        cy.postIncomingWebhook({url: incomingWebhook.url, data: distinctListOptionPayload, waitFor: 'attachment-pretext'});
 
         const firstSelectedItem = distinctOptions[2].text;
         const secondSelectedItem = distinctOptions[7].text;
@@ -540,7 +540,7 @@ describe('Interactive Menu', () => {
     it('IM21038 - Selected options with long usernames are not cut off in the RHS', () => {
         // # Make webhook request to get list of all the users
         const userOptions = getMessageMenusPayload({dataSource: 'users'});
-        cy.postIncomingWebhook({url: incomingWebhook.url, data: userOptions});
+        cy.postIncomingWebhook({url: incomingWebhook.url, data: userOptions, waitFor: 'attachment-pretext'});
 
         // # Go to last webhook message with users list
         cy.getLastPostId().then((lastPostId) => {

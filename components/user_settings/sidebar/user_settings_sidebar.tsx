@@ -737,9 +737,7 @@ export default class UserSettingsSidebar extends React.PureComponent<UserSetting
                             defaultMessage='Channel Grouping and Sorting'
                         />
                     }
-
-                    // todo: describe is expecting JSX. Element | string, but we're passing an array. Should the type be changed to JSX.Element[] or just pass only one value here?
-                    describe={this.renderOrganizationLabel() as any}
+                    describe={this.renderOrganizationLabel()}
                     section={'groupChannels'}
                     updateSection={this.updateSection}
                 />
