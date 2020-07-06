@@ -1,11 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import Permissions from 'mattermost-redux/constants/permissions';
+import {Channel} from 'mattermost-redux/types/channels';
+import {ActionResult} from 'mattermost-redux/types/actions';
 
 import {browserHistory} from 'utils/browser_history';
 
@@ -18,28 +19,42 @@ const CHANNELS_CHUNK_SIZE = 50;
 const CHANNELS_PER_PAGE = 50;
 const SEARCH_TIMEOUT_MILLISECONDS = 100;
 
-export default class MoreChannels extends React.PureComponent {
-    static propTypes = {
-        channels: PropTypes.array.isRequired,
-        archivedChannels: PropTypes.array.isRequired,
-        currentUserId: PropTypes.string.isRequired,
-        teamId: PropTypes.string.isRequired,
-        teamName: PropTypes.string.isRequired,
-        onModalDismissed: PropTypes.func,
-        handleNewChannel: PropTypes.func,
-        channelsRequestStarted: PropTypes.bool,
-        bodyOnly: PropTypes.bool,
-        canShowArchivedChannels: PropTypes.bool,
-        morePublicChannelsModalType: PropTypes.string,
-        actions: PropTypes.shape({
-            getChannels: PropTypes.func.isRequired,
-            getArchivedChannels: PropTypes.func.isRequired,
-            joinChannel: PropTypes.func.isRequired,
-            searchMoreChannels: PropTypes.func.isRequired,
-        }).isRequired,
-    }
+type Actions = {
+    getChannels: (teamId: string, page: number, perPage: number) => void;
+    getArchivedChannels: (teamId: string, page: number, channelsPerPage: number) => void;
+    joinChannel: (currentUserId: string, teamId: string, channelId: string) => Promise<ActionResult>;
+    searchMoreChannels: (term: string, shouldShowArchivedChannels: boolean) => Promise<{data: Channel[]}>;
+}
 
-    constructor(props) {
+type Props = {
+    channels: Channel[];
+    archivedChannels: Channel[];
+    currentUserId: string;
+    teamId: string;
+    teamName: string;
+    onModalDismissed?: () => void;
+    handleNewChannel?: () => void;
+    channelsRequestStarted?: boolean;
+    bodyOnly?: boolean;
+    canShowArchivedChannels?: boolean;
+    morePublicChannelsModalType?: string;
+    actions: Actions;
+}
+
+type State = {
+    show: boolean;
+    shouldShowArchivedChannels: boolean;
+    search: boolean;
+    searchedChannels: Channel[];
+    serverError: React.ReactNode | string;
+    searching: boolean;
+    searchTerm: string;
+}
+
+export default class MoreChannels extends React.PureComponent<Props, State> {
+    private searchTimeoutId: number;
+
+    constructor(props: Props) {
         super(props);
 
         this.searchTimeoutId = 0;
@@ -68,15 +83,15 @@ export default class MoreChannels extends React.PureComponent {
         if (this.props.bodyOnly) {
             this.handleExit();
         }
-    }
+    };
 
     handleExit = () => {
         if (this.props.onModalDismissed) {
             this.props.onModalDismissed();
         }
-    }
+    };
 
-    onChange = (force) => {
+    onChange = (force: boolean) => {
         if (this.state.search && !force) {
             return;
         }
@@ -85,56 +100,55 @@ export default class MoreChannels extends React.PureComponent {
             searchedChannels: [],
             serverError: null,
         });
-    }
-
-    nextPage = (page) => {
-        this.props.actions.getChannels(this.props.teamId, page + 1, CHANNELS_PER_PAGE);
-    }
-
-    handleJoin = (channel, done) => {
-        const {actions, currentUserId, teamId, teamName} = this.props;
-        actions.joinChannel(currentUserId, teamId, channel.id).then((result) => {
-            if (result.error) {
-                this.setState({serverError: result.error.message});
-            } else {
-                browserHistory.push(getRelativeChannelURL(teamName, channel.name));
-                this.handleHide();
-            }
-
-            if (done) {
-                done();
-            }
-        });
     };
 
-    search = (term) => {
+    nextPage = (page: number) => {
+        this.props.actions.getChannels(this.props.teamId, page + 1, CHANNELS_PER_PAGE);
+    };
+
+    handleJoin = async (channel: Channel, done: () => void) => {
+        const {actions, currentUserId, teamId, teamName} = this.props;
+        const result: any = await actions.joinChannel(currentUserId, teamId, channel.id);
+
+        if (result.error) {
+            this.setState({serverError: result.error.message});
+        } else {
+            browserHistory.push(getRelativeChannelURL(teamName, channel.name));
+            this.handleHide();
+        }
+
+        if (done) {
+            done();
+        }
+    };
+
+    search = (term: string) => {
         clearTimeout(this.searchTimeoutId);
 
         if (term === '') {
             this.onChange(true);
             this.setState({search: false, searchedChannels: [], searching: false, searchTerm: term});
-            this.searchTimeoutId = '';
+            this.searchTimeoutId = 0;
             return;
         }
         this.setState({search: true, searching: true, searchTerm: term});
 
-        const searchTimeoutId = setTimeout(
-            () => {
-                this.props.actions.searchMoreChannels(term, this.state.shouldShowArchivedChannels).
-                    then((result) => {
-                        if (searchTimeoutId !== this.searchTimeoutId) {
-                            return;
-                        }
+        const searchTimeoutId = window.setTimeout(
+            async () => {
+                try {
+                    const {data} = await this.props.actions.searchMoreChannels(term, this.state.shouldShowArchivedChannels);
+                    if (searchTimeoutId !== this.searchTimeoutId) {
+                        return;
+                    }
 
-                        if (result.data) {
-                            this.setSearchResults(result.data);
-                        } else {
-                            this.setState({searchedChannels: [], searching: false});
-                        }
-                    }).
-                    catch(() => {
+                    if (data) {
+                        this.setSearchResults(data);
+                    } else {
                         this.setState({searchedChannels: [], searching: false});
-                    });
+                    }
+                } catch (ignoredErr) {
+                    this.setState({searchedChannels: [], searching: false});
+                }
             },
             SEARCH_TIMEOUT_MILLISECONDS,
         );
@@ -142,11 +156,11 @@ export default class MoreChannels extends React.PureComponent {
         this.searchTimeoutId = searchTimeoutId;
     };
 
-    setSearchResults = (channels) => {
+    setSearchResults = (channels: Channel[]) => {
         this.setState({searchedChannels: this.state.shouldShowArchivedChannels ? channels.filter((c) => c.delete_at !== 0) : channels.filter((c) => c.delete_at === 0), searching: false});
     };
 
-    toggleArchivedChannels = (shouldShowArchivedChannels) => {
+    toggleArchivedChannels = (shouldShowArchivedChannels: boolean) => {
         // search again when switching channels to update search results
         this.search(this.state.searchTerm);
         this.setState({shouldShowArchivedChannels});
