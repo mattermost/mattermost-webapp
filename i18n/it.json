@@ -3174,7 +3174,6 @@
   "admin.ldap.guestFilterTitle": "Filtro ospite:",
   "admin.ldap.pictureAttrEx": "E.s.: \"thumbnailPhoto\" o \"jpegPhoto\"",
   "admin.ldap.pictureAttrTitle": "Attributo immagine profilo:",
-  "admin.license.trial-request.different-data": "Oppure ottieni una licenza di prova manualmente a ",
   "admin.license.trial-request.loading": "Ottieni prova",
   "admin.license.trial-request.submit": "Avvia una prova",
   "admin.lockTeammateNameDisplay": "Blocca il nome del collega per tutti gli utenti: ",

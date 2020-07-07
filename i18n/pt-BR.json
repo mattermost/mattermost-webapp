@@ -3898,7 +3898,6 @@
   "admin.jobTable.statusWarning": "Aviso",
   "no_results.pinned_posts.title": "Sem postagens fixadas ainda",
   "admin.license.trial-request.submit": "Iniciar um teste",
-  "admin.license.trial-request.different-data": "Ou obtenha uma licença experimental em ",
   "admin.group_settings.group_detail.invalid_length": "Nome deve ter entre 1 e 64 caracteres minúsculos alfanuméricos.",
   "admin.experimental.experimentalDataPrefetch.title": "Pré-carregar mensagens em canais não lidos",
   "admin.cluster.EnableExperimentalGossipEncryptionDesc": "Quando verdadeiro, todas as comunicações através do protocolo \"gossip\" serão encriptadas.",

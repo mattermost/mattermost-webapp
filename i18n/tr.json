@@ -3115,7 +3115,6 @@
   "accessibility.button.attachment": "ek dosya",
   "admin.license.trial-request.submit": "Denemeyi başlat",
   "admin.license.trial-request.loading": "Deneme sürümünü edinmek",
-  "admin.license.trial-request.different-data": "Ya da şuradan bir deneme lisansı edinin ",
   "admin.channel_settings.channel_detail.archive_confirm.title": "Kanalı Kaydedip Arşivle",
   "admin.channel_settings.channel_details.archiveChannel": "Kanalı Arşivle",
   "admin.channel_settings.channel_details.unarchiveChannel": "Kanalı Arşivden Çıkar",

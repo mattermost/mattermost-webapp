@@ -2981,7 +2981,6 @@
   "admin.license.trial-request.loading": "Bezig met proeflicentie aan te vragen",
   "admin.license.trial-request.submit": "Start een proeflicentie",
   "admin.plugin.enable_plugin": "Schakel Plugin in: ",
-  "admin.license.trial-request.different-data": "Of vraag manueel een proeflicentie aan op< ",
   "admin.environment.notifications.enable.label": "Inschakelen van E-mail Meldingen:",
   "admin.environment.notifications.enableConfirmNotificationsToChannel.label": "Toon @channel en @all en groepvermeldingen bevestigingsdialoog:",
   "admin.guest_access.enableTitle": "Gasttoegang Inschakelen: ",

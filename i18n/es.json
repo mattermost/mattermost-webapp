@@ -3909,7 +3909,6 @@
   "admin.saml.serviceProviderIdentifierDesc": "El identificador único para el proveedor de servicios, generalmente el mismo que la URL de inicio de sesión del proveedor de servicios. En ADFS, esto DEBE coincidir con el Identificador de la Parte Confiable.",
   "admin.license.trial-request.submit": "Comenzar prueba",
   "admin.license.trial-request.loading": "Obtener prueba",
-  "admin.license.trial-request.different-data": "U obtenga una licencia de prueba manualmente en ",
   "admin.group_settings.group_detail.invalid_length": "El nombre debe tener entre 1 y 64 caracteres alfanuméricos en minúsculas.",
   "admin.experimental.experimentalDataPrefetch.title": "Precargar mensajes en canales no leídos",
   "admin.experimental.experimentalDataPrefetch.desc": "Cuando es verdadero, los mensajes en canales no leídos se cargan previamente para reducir el tiempo de carga del canal. Cuando es falso, los mensajes no se cargan desde el servidor hasta que los usuarios cambian de canal.",
