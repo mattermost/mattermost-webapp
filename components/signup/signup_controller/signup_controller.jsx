@@ -30,6 +30,7 @@ export default class SignupController extends React.PureComponent {
         enableSignUpWithGitLab: PropTypes.bool.isRequired,
         enableSignUpWithGoogle: PropTypes.bool.isRequired,
         enableSignUpWithOffice365: PropTypes.bool.isRequired,
+        enableSignUpWithOpenId: PropTypes.bool.isRequired,
         enableLDAP: PropTypes.bool.isRequired,
         enableSAML: PropTypes.bool.isRequired,
         samlLoginButtonText: PropTypes.string,
@@ -225,6 +226,26 @@ export default class SignupController extends React.PureComponent {
                             <FormattedMessage
                                 id='signup.office365'
                                 defaultMessage='Office 365'
+                            />
+                        </span>
+                    </span>
+                </a>,
+            );
+        }
+
+        if (this.props.isLicensed && this.props.enableSignUpWithOpenId) {
+            signupControls.push(
+                <a
+                    className='btn btn-custom-login btn--full google'
+                    key='openid'
+                    href={Client4.getOAuthRoute() + '/openid/signup' + window.location.search}
+                >
+                    <span>
+                        <span className='icon'/>
+                        <span>
+                            <FormattedMessage
+                                id='signup.openid'
+                                defaultMessage='OpenId Connect'
                             />
                         </span>
                     </span>

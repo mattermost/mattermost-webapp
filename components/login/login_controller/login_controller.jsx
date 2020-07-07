@@ -53,6 +53,7 @@ class LoginController extends React.PureComponent {
         enableSignUpWithGitLab: PropTypes.bool.isRequired,
         enableSignUpWithGoogle: PropTypes.bool.isRequired,
         enableSignUpWithOffice365: PropTypes.bool.isRequired,
+        enableSignUpWithOpenId: PropTypes.bool.isRequired,
         experimentalPrimaryTeam: PropTypes.string,
         ldapLoginFieldName: PropTypes.string,
         samlLoginButtonText: PropTypes.string,
@@ -423,6 +424,7 @@ class LoginController extends React.PureComponent {
         return this.props.enableSignUpWithEmail ||
             this.props.enableSignUpWithGitLab ||
             this.props.enableSignUpWithOffice365 ||
+            this.props.enableSignUpWithOpenId ||
             this.props.enableSignUpWithGoogle ||
             this.props.enableLdap ||
             this.props.enableSaml;
@@ -537,6 +539,7 @@ class LoginController extends React.PureComponent {
         const gitlabSigninEnabled = this.props.enableSignUpWithGitLab;
         const googleSigninEnabled = this.props.enableSignUpWithGoogle;
         const office365SigninEnabled = this.props.enableSignUpWithOffice365;
+        const openIdSigninEnabled = this.props.enableSignUpWithOpenId;
         const samlSigninEnabled = this.state.samlEnabled;
         const usernameSigninEnabled = this.state.usernameSigninEnabled;
         const emailSigninEnabled = this.state.emailSigninEnabled;
@@ -726,6 +729,26 @@ class LoginController extends React.PureComponent {
                             <FormattedMessage
                                 id='login.office365'
                                 defaultMessage='Office 365'
+                            />
+                        </span>
+                    </span>
+                </a>,
+            );
+        }
+
+        if (openIdSigninEnabled) {
+            loginControls.push(
+                <a
+                    className='btn btn-custom-login office365'
+                    key='openid'
+                    href={Client4.getOAuthRoute() + '/openid/login' + this.props.location.search}
+                >
+                    <span>
+                        <span className='icon'/>
+                        <span>
+                            <FormattedMessage
+                                id='login.openid'
+                                defaultMessage='Open Id'
                             />
                         </span>
                     </span>
