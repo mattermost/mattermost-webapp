@@ -26,12 +26,14 @@ export default class CardBody extends React.PureComponent<Props> {
     }
 
     componentDidUpdate(prevProps: Props) {
-        if (this.card.current) {
-            if (this.props.expanded !== prevProps.expanded && this.props.expanded) {
-                this.card.current.style.height = `${this.card.current.scrollHeight}px`;
-            } else {
-                this.card.current.style.height = '';
-            }
+        if (!this.card.current) {
+            return;
+        }
+
+        if (this.props.expanded !== prevProps.expanded && this.props.expanded) {
+            this.card.current.style.height = `${this.card.current.scrollHeight}px`;
+        } else {
+            this.card.current.style.height = '';
         }
     }
 
