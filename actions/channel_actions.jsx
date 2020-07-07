@@ -14,7 +14,7 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import {loadNewDMIfNeeded, loadNewGMIfNeeded, loadProfilesForSidebar} from 'actions/user_actions.jsx';
 import {browserHistory} from 'utils/browser_history';
-import {Constants, Preferences} from 'utils/constants';
+import {Constants, Preferences, NotificationLevels} from 'utils/constants';
 import {getDirectChannelName} from 'utils/utils';
 
 export function openDirectChannelToUserId(userId) {
@@ -156,4 +156,16 @@ export function addUsersToChannel(channelId, userIds) {
             return {error};
         }
     };
+}
+
+export function unmuteChannel(userId, channelId) {
+    return ChannelActions.updateChannelNotifyProps(userId, channelId, {
+        mark_unread: NotificationLevels.ALL,
+    });
+}
+
+export function muteChannel(userId, channelId) {
+    return ChannelActions.updateChannelNotifyProps(userId, channelId, {
+        mark_unread: NotificationLevels.MENTION,
+    });
 }
