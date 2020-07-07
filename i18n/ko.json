@@ -17,7 +17,7 @@
   "about.teamEditionSt": "모든 팀 커뮤니케이션을 한 곳에 모아 빠르게 찾고, 공유하세요.",
   "about.teamEditiont0": "팀 에디션",
   "about.teamEditiont1": "엔터프라이즈 에디션",
-  "about.title": "{appTitle} 정보",
+  "about.title": "{appTitle}에 대하여",
   "about.tos": "이용약관",
   "about.version": "Mattermost 버전:",
   "access_history.title": "접근 기록",
@@ -3895,5 +3895,6 @@
   "accessibility.button.Search": "검색",
   "accessibility.button.Info": "정보",
   "accessibility.button.dialog": "{dialogName} 다이얼로그",
-  "accessibility.button.attachment": "첨부"
+  "accessibility.button.attachment": "첨부",
+  "admin.channel_settings.channel_detail.archive_confirm.button": "채널 저장하고 보관하기"
 }
