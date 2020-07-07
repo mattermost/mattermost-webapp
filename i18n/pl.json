@@ -3895,5 +3895,8 @@
   "admin.guest_access.disableConfirmButton": "Save and Disable Guest Access",
   "admin.group_teams_and_channels_row.teamAdmin": "Administrator zespołu",
   "admin.group_teams_and_channels_row.member": "Użytkownik",
-  "admin.group_teams_and_channels_row.channelAdmin": "Administrator kanału"
+  "admin.group_teams_and_channels_row.channelAdmin": "Administrator kanału",
+  "admin.channel_settings.channel_detail.archive_confirm.title": "Zapisz i archiwizuj kanał",
+  "admin.channel_settings.channel_detail.archive_confirm.message": "Zapisywanie spowoduje zarchiwizowanie kanału z zespołu i sprawi, że jego zawartość będzie niedostępna dla wszystkich użytkowników. Czy na pewno chcesz zapisać i zarchiwizować ten kanał?",
+  "admin.channel_settings.channel_detail.archive_confirm.button": "Zapisz i archiwizuj kanał"
 }
