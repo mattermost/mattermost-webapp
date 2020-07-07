@@ -73,7 +73,6 @@ import store from 'stores/redux_store.jsx';
 import WebSocketClient from 'client/web_websocket_client.jsx';
 import {loadPlugin, loadPluginsIfNecessary, removePlugin} from 'plugins';
 import {ActionTypes, Constants, AnnouncementBarMessages, SocketEvents, UserStatuses, ModalIdentifiers} from 'utils/constants';
-import {fromAutoResponder} from 'utils/post_utils';
 import {getSiteURL} from 'utils/url';
 import {isGuest} from 'utils/utils';
 import RemovedFromChannelModal from 'components/removed_from_channel_modal';
@@ -544,7 +543,16 @@ export function handleNewPostEvent(msg) {
 
         getProfilesAndStatusesForPosts([post], myDispatch, myGetState);
 
-        if (post.user_id !== getCurrentUserId(myGetState()) && !fromAutoResponder(post) && !getIsManualStatusForUserId(myGetState(), post.user_id)) {
+        // Since status updates aren't real time, assume another user is online if they have posted and:
+        // 1. The user hasn't set their status manually to something that isn't online
+        // 2. The server hasn't told the client not to set the user to online. This happens when:
+        //     a. The post is from the auto responder
+        //     b. The post is a response to a push notification
+        if (
+            post.user_id !== getCurrentUserId(myGetState()) &&
+            !getIsManualStatusForUserId(myGetState(), post.user_id) &&
+            msg.data.set_online
+        ) {
             myDispatch({
                 type: UserTypes.RECEIVED_STATUSES,
                 data: [{user_id: post.user_id, status: UserStatuses.ONLINE}],
