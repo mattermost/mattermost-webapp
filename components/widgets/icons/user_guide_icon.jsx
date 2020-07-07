@@ -16,7 +16,7 @@ export default class UserGuideIcon extends React.PureComponent {
                         <svg
                             width='18px'
                             height='18px'
-                            viewBox='0 0 22 22'
+                            viewBox='1 1 22 22'
                             role='img'
                             aria-label={ariaLabel}
                             style={{width: '18px', height: '18px'}}
