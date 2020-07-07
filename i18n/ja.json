@@ -3895,5 +3895,7 @@
   "admin.authentication.signup": "利用登録",
   "admin.authentication.mfa": "多要素認証",
   "admin.authentication.guest_access": "ゲストアカウント(ベータ版)",
-  "add_outgoing_webhook.token.message": "このBotアカウントを、連携させたいチームやチャンネルに追加してください。詳しくは[説明文書](https://mattermost.com/pl/default-bot-accounts)を参照してください。"
+  "add_outgoing_webhook.token.message": "このBotアカウントを、連携させたいチームやチャンネルに追加してください。詳しくは[説明文書](https://mattermost.com/pl/default-bot-accounts)を参照してください。",
+  "admin.group_settings.group_detail.invalid_length": "名前は1~64文字の小文字の英数字にしてください",
+  "status_dropdown.set_your_status": "状態"
 }
