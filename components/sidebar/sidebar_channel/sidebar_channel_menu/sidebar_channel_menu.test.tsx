@@ -148,7 +148,6 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
         );
 
         expect(wrapper.find('#copyLink-channel_id')).toHaveLength(1);
-
         expect(wrapper).toMatchSnapshot();
     });
 
