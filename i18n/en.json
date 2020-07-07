@@ -2049,6 +2049,7 @@
   "bots.token.confirm": "Delete",
   "bots.token.confirm_text": "Are you sure you want to delete the token?",
   "bots.token.delete": "Delete Token",
+  "call_button.menuAriaLabel": "Call type selector",
   "center_panel.archived.closeChannel": "Close Channel",
   "center_panel.direct.closeDirectMessage": "Close Direct Message",
   "center_panel.direct.closeGroupMessage": "Close Group Message",
