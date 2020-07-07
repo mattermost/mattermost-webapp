@@ -397,7 +397,7 @@ class SearchResultsItem extends React.PureComponent {
                     </div>
                     <PostPreHeader
                         isFlagged={this.props.isFlagged}
-                        isPinned={post.is_pinned || false}
+                        isPinned={post.is_pinned}
                         skipPinned={this.props.isPinnedPosts}
                         skipFlagged={this.props.isFlaggedPosts}
                         channelId={post.channel_id}

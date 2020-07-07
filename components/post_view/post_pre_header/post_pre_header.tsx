@@ -41,11 +41,15 @@ class PostPreHeader extends React.PureComponent<Props> {
     };
 
     getPostStatus(isFlagged: boolean, isPinned: boolean): PostPinnedOrFlagged {
-        if (isFlagged && isPinned) {
-            return PostPinnedOrFlagged.PinnedAndFlagged;
-        } else if (isFlagged) {
+        if (isFlagged) {
+            if (isPinned) {
+                return PostPinnedOrFlagged.PinnedAndFlagged;
+            }
+
             return PostPinnedOrFlagged.Flagged;
-        } else if (isPinned) {
+        }
+
+        if (isPinned) {
             return PostPinnedOrFlagged.Pinned;
         }
 
@@ -60,14 +64,22 @@ class PostPreHeader extends React.PureComponent<Props> {
         if (postStatus === PostPinnedOrFlagged.PinnedAndFlagged) {
             if (!skipPinned && !skipFlagged) {
                 return MessageInfoKey.PinnedAndFlagged;
-            } else if (skipPinned) {
+            }
+
+            if (skipPinned) {
                 return MessageInfoKey.Flagged;
-            } else if (skipFlagged) {
+            }
+
+            if (skipFlagged) {
                 return MessageInfoKey.Pinned;
             }
-        } else if (postStatus === PostPinnedOrFlagged.Flagged && !skipFlagged) {
+        }
+
+        if (postStatus === PostPinnedOrFlagged.Flagged && !skipFlagged) {
             return MessageInfoKey.Flagged;
-        } else if (postStatus === PostPinnedOrFlagged.Pinned && !skipPinned) {
+        }
+
+        if (postStatus === PostPinnedOrFlagged.Pinned && !skipPinned) {
             return MessageInfoKey.Pinned;
         }
 

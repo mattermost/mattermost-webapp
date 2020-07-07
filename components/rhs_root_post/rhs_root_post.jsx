@@ -396,7 +396,7 @@ class RhsRootPost extends React.PureComponent {
             >
                 <PostPreHeader
                     isFlagged={this.props.isFlagged}
-                    isPinned={post.is_pinned || false}
+                    isPinned={post.is_pinned}
                     channelId={post.channel_id}
                 />
                 <div

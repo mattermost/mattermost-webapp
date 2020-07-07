@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
+import classNames from 'classnames';
 
 import OverlayTrigger from 'components/overlay_trigger';
 import FlagIcon from 'components/widgets/icons/flag_icon';
@@ -84,21 +85,17 @@ export default class PostFlagIcon extends React.PureComponent {
     render() {
         const isFlagged = this.props.isFlagged;
 
-        const flagVisible = isFlagged ? 'visible' : '';
-
-        const iconClass = 'icon icon--small';
-
         let flagIcon;
         if (isFlagged) {
-            flagIcon = <FlagIconFilled className={iconClass + ' icon--small-filled'}/>;
+            flagIcon = <FlagIconFilled className={classNames('icon', 'icon--small', 'icon--small-filled')}/>;
         } else {
-            flagIcon = <FlagIcon className={iconClass}/>;
+            flagIcon = <FlagIcon className={classNames('icon', 'icon--small')}/>;
         }
 
         return (
             <OverlayTrigger
                 className='hidden-xs'
-                key={'flagtooltipkey' + flagVisible}
+                key='flagtooltipkey'
                 delayShow={Constants.OVERLAY_TIME_DELAY}
                 placement='top'
                 overlay={
@@ -117,7 +114,7 @@ export default class PostFlagIcon extends React.PureComponent {
                     ref={this.buttonRef}
                     id={`${this.props.location}_flagIcon_${this.props.postId}`}
                     aria-label={isFlagged ? localizeMessage('flag_post.unflag', 'Remove from Saved').toLowerCase() : localizeMessage('flag_post.flag', 'Save').toLowerCase()}
-                    className={'post-menu__item ' + flagVisible}
+                    className='post-menu__item'
                     onClick={this.handlePress}
                 >
                     {flagIcon}

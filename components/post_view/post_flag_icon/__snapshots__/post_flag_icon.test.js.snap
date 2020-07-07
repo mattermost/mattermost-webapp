@@ -30,7 +30,7 @@ exports[`components/post_view/PostFlagIcon should match snapshot 1`] = `
 >
   <button
     aria-label="save"
-    className="post-menu__item "
+    className="post-menu__item"
     id="CENTER_flagIcon_post_id"
     onClick={[Function]}
   >
@@ -46,7 +46,7 @@ exports[`components/post_view/PostFlagIcon should match snapshot 2`] = `
   className="hidden-xs"
   defaultOverlayShown={false}
   delayShow={400}
-  key="flagtooltipkeyvisible"
+  key="flagtooltipkey"
   overlay={
     <Tooltip
       bsClass="tooltip"
@@ -71,7 +71,7 @@ exports[`components/post_view/PostFlagIcon should match snapshot 2`] = `
 >
   <button
     aria-label="remove from saved"
-    className="post-menu__item visible"
+    className="post-menu__item"
     id="CENTER_flagIcon_post_id"
     onClick={[Function]}
   >
