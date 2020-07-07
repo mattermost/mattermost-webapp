@@ -11,7 +11,7 @@ import {getConfig as getGeneralConfig, getLicense} from 'mattermost-redux/select
 import {getRoles} from 'mattermost-redux/selectors/entities/roles';
 import {selectChannel} from 'mattermost-redux/actions/channels';
 import {selectTeam} from 'mattermost-redux/actions/teams';
-import {isCurrentUserSystemAdmin, isCurrentUserInSystemAdminsRole, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {isCurrentUserSystemAdmin, currentUserHasAnAdminRole, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getTeam} from 'mattermost-redux/selectors/entities/teams';
 
 import {General} from 'mattermost-redux/constants';
@@ -44,7 +44,7 @@ function mapStateToProps(state: GlobalState) {
         navigationBlocked: getNavigationBlocked(state),
         showNavigationPrompt: showNavigationPrompt(state),
         isCurrentUserSystemAdmin: isCurrentUserSystemAdmin(state),
-        isCurrentUserInSystemAdminsRole: isCurrentUserInSystemAdminsRole(state),
+        currentUserHasAnAdminRole: currentUserHasAnAdminRole(state),
         roles: getRoles(state),
         adminDefinition,
         globalstate: state,

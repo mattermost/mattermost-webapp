@@ -8,7 +8,7 @@ import {FormattedMessage, injectIntl} from 'react-intl';
 import Scrollbars from 'react-custom-scrollbars';
 import isEqual from 'lodash/isEqual';
 
-import {haveINoPermissionOnSysConsoleItem} from 'mattermost-redux/selectors/entities/roles';
+import {haveIPermissionOnSysConsoleItem} from 'mattermost-redux/selectors/entities/roles';
 
 import * as Utils from 'utils/utils.jsx';
 import {generateIndex} from 'utils/admin_console_index.jsx';
@@ -156,7 +156,7 @@ class AdminSidebar extends React.PureComponent {
                 return false;
             }
 
-            if (item.isHidden && item.isHidden(this.props.config, {}, this.props.license, this.props.buildEnterpriseReady, this.props.globalstate, haveINoPermissionOnSysConsoleItem)) {
+            if (item.isHidden && item.isHidden(this.props.config, {}, this.props.license, this.props.buildEnterpriseReady, this.props.globalstate, !haveIPermissionOnSysConsoleItem)) {
                 return false;
             }
             return true;
@@ -175,7 +175,7 @@ class AdminSidebar extends React.PureComponent {
     renderRootMenu = (definition) => {
         const sidebarSections = [];
         Object.values(definition).forEach((section, sectionIndex) => {
-            const isSectionHidden = section.isHidden && section.isHidden(this.props.config, {}, this.props.license, this.props.buildEnterpriseReady, this.props.globalstate, haveINoPermissionOnSysConsoleItem);
+            const isSectionHidden = section.isHidden && section.isHidden(this.props.config, {}, this.props.license, this.props.buildEnterpriseReady, this.props.globalstate, !haveIPermissionOnSysConsoleItem);
             if (!isSectionHidden) {
                 const sidebarItems = [];
                 Object.values(section).forEach((item, itemIndex) => {

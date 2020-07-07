@@ -12,7 +12,7 @@ import {ActionFunc} from 'mattermost-redux/types/actions';
 import {AdminConfig, EnvironmentConfig, ClientLicense} from 'mattermost-redux/types/config';
 import {Role} from 'mattermost-redux/types/roles';
 import {GlobalState} from 'mattermost-redux/types/store';
-import {haveINoPermissionOnSysConsoleItem, haveINoWritePermissionOnSysConsoleItem} from 'mattermost-redux/selectors/entities/roles';
+import {haveIPermissionOnSysConsoleItem, haveIWritePermissionOnSysConsoleItem} from 'mattermost-redux/selectors/entities/roles';
 import {SysConsoleItemOptions} from 'mattermost-redux/selectors/entities/roles_helpers';
 import {Dictionary} from 'mattermost-redux/types/utilities';
 
@@ -38,7 +38,7 @@ type Props = {
     match: { url: string };
     showNavigationPrompt: boolean;
     isCurrentUserSystemAdmin: boolean;
-    isCurrentUserInSystemAdminsRole: boolean;
+    currentUserHasAnAdminRole: boolean;
     globalstate: any;
     actions: {
         getConfig: () => ActionFunc;
@@ -122,7 +122,7 @@ export default class AdminConsole extends React.PureComponent<Props, State> {
                 if (entry[0] === 'isHidden' && typeof entry[1] === 'function') {
                     const isHiddenFunc = entry[1] as ((config?: Record<string, any>, state?: Record<string, any>, license?: Record<string, any>, buildEnterpriseReady?: boolean, globalstate?: any, func?: OutputParametricSelector<GlobalState, SysConsoleItemOptions, boolean, (res1: Set<string>, res2: string[]) => boolean>) => boolean);
 
-                    isSectionHidden = isHiddenFunc(this.props.config, {}, this.props.license, this.props.buildEnterpriseReady, this.props.globalstate, haveINoPermissionOnSysConsoleItem);
+                    isSectionHidden = isHiddenFunc(this.props.config, {}, this.props.license, this.props.buildEnterpriseReady, this.props.globalstate, !haveIPermissionOnSysConsoleItem);
                 }
                 return null;
             });
@@ -138,7 +138,7 @@ export default class AdminConsole extends React.PureComponent<Props, State> {
             return acc.concat(items);
         }, [] as Item[]);
         const schemaRoutes = schemas.map((item: Item) => {
-            const isItemDisabled = item.isDisabled && item.isDisabled(this.props.config, {}, this.props.license, this.props.globalstate, haveINoWritePermissionOnSysConsoleItem);
+            const isItemDisabled = item.isDisabled && item.isDisabled(this.props.config, {}, this.props.license, this.props.globalstate, !haveIWritePermissionOnSysConsoleItem);
 
             return (
                 <Route
@@ -176,7 +176,7 @@ export default class AdminConsole extends React.PureComponent<Props, State> {
         } = this.props;
         const {setNavigationBlocked, cancelNavigation, confirmNavigation, editRole, updateConfig} = this.props.actions;
 
-        if (!this.props.isCurrentUserInSystemAdminsRole) {
+        if (!this.props.currentUserHasAnAdminRole) {
             return (
                 <Redirect to={this.props.unauthorizedRoute}/>
             );
