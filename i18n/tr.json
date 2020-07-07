@@ -3890,7 +3890,7 @@
   "sidebar.moreDmAria": "Diğer doğrudan iletileri görüntüle",
   "sidebar.morePublicAria": "Diğer herkese açık kanalları görüntüle",
   "signup_team.guest_without_channels": "Konuk hesabınız herhangi bir kanal ile ilişkilendirilmemiş. Lütfen bir yönetici ile görüşün.",
-  "status_dropdown.set_your_status": "Durumunuzu ayarlayın",
+  "status_dropdown.set_your_status": "Durum",
   "suggestion.archive": "Arşivlenmiş Kanallar",
   "suggestion.user.isCurrent": "(siz)",
   "system_notice.body.ie11_deprecation": "IE11 web tarayıcısını kullanıyorsunuz. Bu tarayıcı gelecek sürümlerde desteklenmeyecek. [Tek adımda başka bir web tarayıcıya nasıl geçebileceğinizi buradan öğrenebilirsiniz](!https://forum.mattermost.org/t/mattermost-is-dropping-support-for-internet-explorer-ie11-in-v5-16/7575).",
@@ -3914,5 +3914,7 @@
   "admin.saml.serviceProviderIdentifierEx": "Örnek: \"https://<mattermost-adresiniz>/login/sso/saml\"",
   "admin.saml.serviceProviderIdentifierDesc": "Hizmet Sağlayıcının tekil belirteci. Genellikle Hizmet Sağlayıcı oturum açma adresi ile aynıdır. ADFS içinde, bu değer Bağlı Olan Taraf Tanımlayıcısı ile aynı olmalıdır.",
   "admin.saml.serviceProviderIdentifierTitle": "Hizmet Sağlayıcı Belirteci:",
-  "admin.group_settings.group_detail.invalid_length": "Ad içinde 1 ile 64 arasında küçük alfasayısal karakterler kullanılmalıdır."
+  "admin.group_settings.group_detail.invalid_length": "Ad içinde 1 ile 64 arasında küçük alfasayısal karakterler kullanılmalıdır.",
+  "admin.experimental.experimentalDataPrefetch.title": "Okunmamış kanallardaki önceden yüklenen mesajlar",
+  "admin.experimental.experimentalDataPrefetch.desc": "Doğru olduğunda, kanalın yüklenme süresini azaltmak için okunmamış kanallardaki mesajlar önceden yüklenir. Yanlışsa kullanıcılar kanal değiştirene kadar mesajlar sunucudan yüklenmez."
 }
