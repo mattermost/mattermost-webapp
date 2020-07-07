@@ -41,9 +41,7 @@ describe('components/admin_console/system_users/system_users_dropdown/system_use
             demoteUserToGuest: jest.fn().mockResolvedValue({data: true}),
             loadBots: jest.fn(() => Promise.resolve({})),
         },
-        config: {
-            ServiceSettings: {},
-        },
+        config: {},
         bots: {},
     };
 

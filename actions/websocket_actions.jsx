@@ -16,6 +16,7 @@ import {
     PreferenceTypes,
 } from 'mattermost-redux/action_types';
 import {WebsocketEvents, General, Permissions} from 'mattermost-redux/constants';
+import {addChannelToInitialCategory} from 'mattermost-redux/actions/channel_categories';
 import {
     getChannelAndMyMember,
     getMyChannelMember,
@@ -298,7 +299,7 @@ export function handleEvent(msg) {
         break;
 
     case SocketEvents.USER_ADDED:
-        handleUserAddedEvent(msg);
+        dispatch(handleUserAddedEvent(msg));
         break;
 
     case SocketEvents.USER_REMOVED:
@@ -354,7 +355,11 @@ export function handleEvent(msg) {
         break;
 
     case SocketEvents.DIRECT_ADDED:
-        handleDirectAddedEvent(msg);
+        dispatch(handleDirectAddedEvent(msg));
+        break;
+
+    case SocketEvents.GROUP_ADDED:
+        dispatch(handleGroupAddedEvent(msg));
         break;
 
     case SocketEvents.PREFERENCE_CHANGED:
@@ -744,31 +749,48 @@ function handleUpdateMemberRoleEvent(msg) {
 }
 
 function handleDirectAddedEvent(msg) {
-    dispatch(getChannelAndMyMember(msg.broadcast.channel_id));
+    return fetchChannelAndAddToSidebar(msg.broadcast.channel_id);
+}
+
+function handleGroupAddedEvent(msg) {
+    return fetchChannelAndAddToSidebar(msg.broadcast.channel_id);
 }
 
 function handleUserAddedEvent(msg) {
-    const state = getState();
-    const config = getConfig(state);
-    const license = getLicense(state);
-    const isTimezoneEnabled = config.ExperimentalTimezone === 'true';
-    const currentChannelId = getCurrentChannelId(state);
-    if (currentChannelId === msg.broadcast.channel_id) {
-        dispatch(getChannelStats(currentChannelId));
-        dispatch({
-            type: UserTypes.RECEIVED_PROFILE_IN_CHANNEL,
-            data: {id: msg.broadcast.channel_id, user_id: msg.data.user_id},
-        });
-        if (license?.IsLicensed === 'true' && license?.LDAPGroups === 'true') {
-            dispatch(getChannelMemberCountsByGroup(currentChannelId, isTimezoneEnabled));
+    return async (doDispatch, doGetState) => {
+        const state = doGetState();
+        const config = getConfig(state);
+        const license = getLicense(state);
+        const isTimezoneEnabled = config.ExperimentalTimezone === 'true';
+        const currentChannelId = getCurrentChannelId(state);
+        if (currentChannelId === msg.broadcast.channel_id) {
+            doDispatch(getChannelStats(currentChannelId));
+            doDispatch({
+                type: UserTypes.RECEIVED_PROFILE_IN_CHANNEL,
+                data: {id: msg.broadcast.channel_id, user_id: msg.data.user_id},
+            });
+            if (license?.IsLicensed === 'true' && license?.LDAPGroups === 'true') {
+                doDispatch(getChannelMemberCountsByGroup(currentChannelId, isTimezoneEnabled));
+            }
         }
-    }
 
-    const currentTeamId = getCurrentTeamId(getState());
-    const currentUserId = getCurrentUserId(getState());
-    if (currentTeamId === msg.data.team_id && currentUserId === msg.data.user_id) {
-        dispatch(getChannelAndMyMember(msg.broadcast.channel_id));
-    }
+        // Load the channel so that it appears in the sidebar
+        const currentTeamId = getCurrentTeamId(doGetState());
+        const currentUserId = getCurrentUserId(doGetState());
+        if (currentTeamId === msg.data.team_id && currentUserId === msg.data.user_id) {
+            doDispatch(fetchChannelAndAddToSidebar(msg.broadcast.channel_id));
+        }
+    };
+}
+
+function fetchChannelAndAddToSidebar(channelId) {
+    return async (doDispatch) => {
+        const {data, error} = await doDispatch(getChannelAndMyMember(channelId));
+
+        if (!error) {
+            doDispatch(addChannelToInitialCategory(data.channel));
+        }
+    };
 }
 
 export async function handleUserRemovedEvent(msg) {

@@ -5,6 +5,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import AdminDefinition from 'components/admin_console/admin_definition';
+import {TestHelper} from 'utils/test_helper';
 
 import AdminConsole from './admin_console';
 
@@ -23,12 +24,12 @@ describe('components/AdminConsole', () => {
             url: '',
         },
         roles: {
-            channel_admin: 'test',
-            channel_user: 'test',
-            team_admin: 'test',
-            team_user: 'test',
-            system_admin: 'test',
-            system_user: 'test',
+            channel_admin: TestHelper.getRoleMock(),
+            channel_user: TestHelper.getRoleMock(),
+            team_admin: TestHelper.getRoleMock(),
+            team_user: TestHelper.getRoleMock(),
+            system_admin: TestHelper.getRoleMock(),
+            system_user: TestHelper.getRoleMock(),
         },
         showNavigationPrompt: false,
         isCurrentUserSystemAdmin: false,

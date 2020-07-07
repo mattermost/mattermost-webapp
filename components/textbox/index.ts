@@ -48,4 +48,4 @@ const mapDispatchToProps = (dispatch: Dispatch<GenericAction>) => ({
     }, dispatch),
 });
 
-export default connect(makeMapStateToProps, mapDispatchToProps)(Textbox);
+export default connect(makeMapStateToProps, mapDispatchToProps, null, {forwardRef: true})(Textbox);

@@ -18,6 +18,7 @@ exports[`components/sidebar should match snapshot 1`] = `
       <injectIntl(AddChannelDropdown)
         canCreateChannel={true}
         canJoinPublicChannel={true}
+        showCreateCategoryModal={[Function]}
         showMoreChannelsModal={[Function]}
         showNewChannelModal={[Function]}
       />
@@ -28,6 +29,8 @@ exports[`components/sidebar should match snapshot 1`] = `
   />
   <Connect(SidebarCategoryList)
     handleOpenMoreDirectChannelsModal={[Function]}
+    onDragEnd={[Function]}
+    onDragStart={[Function]}
   />
   <Connect(DataPrefetch) />
   <Connect(NewChannelFlow)
@@ -58,6 +61,7 @@ exports[`components/sidebar should match snapshot when direct channels modal is 
       <injectIntl(AddChannelDropdown)
         canCreateChannel={true}
         canJoinPublicChannel={true}
+        showCreateCategoryModal={[Function]}
         showMoreChannelsModal={[Function]}
         showNewChannelModal={[Function]}
       />
@@ -68,6 +72,8 @@ exports[`components/sidebar should match snapshot when direct channels modal is 
   />
   <Connect(SidebarCategoryList)
     handleOpenMoreDirectChannelsModal={[Function]}
+    onDragEnd={[Function]}
+    onDragStart={[Function]}
   />
   <Connect(DataPrefetch) />
   <Connect(NewChannelFlow)
@@ -102,6 +108,7 @@ exports[`components/sidebar should match snapshot when isDataPrefechEnabled is d
       <injectIntl(AddChannelDropdown)
         canCreateChannel={true}
         canJoinPublicChannel={true}
+        showCreateCategoryModal={[Function]}
         showMoreChannelsModal={[Function]}
         showNewChannelModal={[Function]}
       />
@@ -112,6 +119,8 @@ exports[`components/sidebar should match snapshot when isDataPrefechEnabled is d
   />
   <Connect(SidebarCategoryList)
     handleOpenMoreDirectChannelsModal={[Function]}
+    onDragEnd={[Function]}
+    onDragStart={[Function]}
   />
   <Connect(NewChannelFlow)
     canCreatePrivateChannel={true}
@@ -141,6 +150,7 @@ exports[`components/sidebar should match snapshot when more channels modal is op
       <injectIntl(AddChannelDropdown)
         canCreateChannel={true}
         canJoinPublicChannel={true}
+        showCreateCategoryModal={[Function]}
         showMoreChannelsModal={[Function]}
         showNewChannelModal={[Function]}
       />
@@ -151,6 +161,8 @@ exports[`components/sidebar should match snapshot when more channels modal is op
   />
   <Connect(SidebarCategoryList)
     handleOpenMoreDirectChannelsModal={[Function]}
+    onDragEnd={[Function]}
+    onDragStart={[Function]}
   />
   <Connect(DataPrefetch) />
   <Connect(NewChannelFlow)
