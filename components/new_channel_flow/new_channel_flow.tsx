@@ -44,7 +44,7 @@ export type Props = {
     /**
      * Function to call when modal is dimissed
      */
-    onModalDismissed: () => void;
+    onModalDismissed: (channel: Channel) => void;
 
     /**
      * The current team ID
@@ -163,7 +163,7 @@ export default class NewChannelFlow extends React.PureComponent<Props, State> {
                 return;
             }
 
-            this.props.onModalDismissed();
+            this.props.onModalDismissed(result.data);
             actions.switchToChannel(result.data);
         });
     };
