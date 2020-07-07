@@ -95,16 +95,6 @@ class CreatePost extends React.PureComponent {
         ctrlSend: PropTypes.bool,
 
         /**
-         *  Flag used for smart paste feature
-         */
-        smartPaste: PropTypes.bool,
-
-        /**
-         *  Flag used for smart paste code blocks feature
-         */
-        smartPasteCodeBlocks: PropTypes.bool,
-
-        /**
          *  Flag used for adding a class center to Postbox based on user pref
          */
         fullWidthTextBox: PropTypes.bool,
@@ -844,7 +834,7 @@ class CreatePost extends React.PureComponent {
 
         e.preventDefault();
 
-        const {message, caretPosition} = smartPaste(e.clipboardData, this.state.message, this.state.caretPosition, {tables: true, html: this.props.smartPaste, code: this.props.smartPasteCodeBlocks});
+        const {message, caretPosition} = smartPaste(e.clipboardData, this.state.message, this.state.caretPosition);
         this.setMessageAndCaretPostion(message, caretPosition);
     }
 

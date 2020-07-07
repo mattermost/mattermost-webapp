@@ -19,7 +19,7 @@ describe('Paste.formatGithubCodePaste', () => {
         const expectedMessage = "```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```";
         const expectedCaretPosition = expectedMessage.length;
 
-        const result = smartPaste(clipboardData, '', 0, {html: true, code: false});
+        const result = smartPaste(clipboardData, '', 0);
         expect(result.message).toBe(expectedMessage);
         expect(result.caretPosition).toBe(expectedCaretPosition);
     });
@@ -28,7 +28,7 @@ describe('Paste.formatGithubCodePaste', () => {
         const expectedMessage = "test\n```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```";
         const expectedCaretPosition = expectedMessage.length;
 
-        const result = smartPaste(clipboardData, 'test', 4, {html: true, code: false});
+        const result = smartPaste(clipboardData, 'test', 4);
         expect(result.message).toBe(expectedMessage);
         expect(result.caretPosition).toBe(expectedCaretPosition);
     });
@@ -37,7 +37,7 @@ describe('Paste.formatGithubCodePaste', () => {
         const expectedMessage = "```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```\ntest";
         const expectedCaretPosition = expectedMessage.length - 4;
 
-        const result = smartPaste(clipboardData, 'test', 0, {html: true, code: false});
+        const result = smartPaste(clipboardData, 'test', 0);
         expect(result.message).toBe(expectedMessage);
         expect(result.caretPosition).toBe(expectedCaretPosition);
     });
@@ -46,7 +46,7 @@ describe('Paste.formatGithubCodePaste', () => {
         const expectedMessage = "te\n```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```\nst";
         const expectedCaretPosition = expectedMessage.length - 2;
 
-        const result = smartPaste(clipboardData, 'test', 2, {html: true, code: false});
+        const result = smartPaste(clipboardData, 'test', 2);
         expect(result.message).toBe(expectedMessage);
         expect(result.caretPosition).toBe(expectedCaretPosition);
     });
@@ -68,7 +68,7 @@ describe('Mattermost user mentions, channel mentions and hashtags', () => {
         const expectedMessage = 'Test post with **some styling** mention to @sysadmin, a channel mention ~autem and a #hashtag';
         const expectedCaretPosition = expectedMessage.length;
 
-        const result = smartPaste(clipboardData, '', 0, {html: true, code: true});
+        const result = smartPaste(clipboardData, '', 0);
         expect(result.message).toBe(expectedMessage);
         expect(result.caretPosition).toBe(expectedCaretPosition);
     });
@@ -89,7 +89,7 @@ describe('Tables', () => {
         const expectedMessage = '|test1 | test-two|\n|--- | ---|\n|test-three | test4|';
         const expectedCaretPosition = expectedMessage.length;
 
-        const result = smartPaste(clipboardData, '', 0, {html: true, code: true});
+        const result = smartPaste(clipboardData, '', 0);
         expect(result.message).toBe(expectedMessage);
         expect(result.caretPosition).toBe(expectedCaretPosition);
     });
@@ -110,7 +110,7 @@ describe('Mattermost code block', () => {
         const expectedMessage = 'This is some code\n\n```go\nwhatever()\n```';
         const expectedCaretPosition = expectedMessage.length;
 
-        const result = smartPaste(clipboardData, '', 0, {html: true, code: true});
+        const result = smartPaste(clipboardData, '', 0);
         expect(result.message).toBe(expectedMessage);
         expect(result.caretPosition).toBe(expectedCaretPosition);
     });
@@ -129,7 +129,7 @@ describe('Mattermost code block', () => {
         const expectedMessage = 'This is some code\n\n```\nwhatever()\n```';
         const expectedCaretPosition = expectedMessage.length;
 
-        const result = smartPaste(clipboardData, '', 0, {html: true, code: true});
+        const result = smartPaste(clipboardData, '', 0);
         expect(result.message).toBe(expectedMessage);
         expect(result.caretPosition).toBe(expectedCaretPosition);
     });

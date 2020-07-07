@@ -29,8 +29,6 @@ class EditPostModal extends React.PureComponent {
         canDeletePost: PropTypes.bool,
         codeBlockOnCtrlEnter: PropTypes.bool,
         ctrlSend: PropTypes.bool,
-        smartPaste: PropTypes.bool,
-        smartPasteCodeBlocks: PropTypes.bool,
         config: PropTypes.object.isRequired,
         intl: intlShape.isRequired,
         maxPostSize: PropTypes.number.isRequired,
@@ -290,7 +288,7 @@ class EditPostModal extends React.PureComponent {
 
         e.preventDefault();
 
-        const {message, caretPosition} = smartPaste(e.clipboardData, this.state.editText, this.state.caretPosition, {tables: true, html: this.props.smartPaste, code: this.props.smartPasteCodeBlocks});
+        const {message, caretPosition} = smartPaste(e.clipboardData, this.state.editText, this.state.caretPosition);
         this.undoHistory.record({message, caretPosition: this.state.caretPosition}, true);
         this.setState({editText: message, caretPosition}, () => {
             Utils.setCaretPosition(this.editbox.getInputBox(), caretPosition);

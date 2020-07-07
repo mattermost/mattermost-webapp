@@ -56,8 +56,6 @@ describe('components/CreateComment', () => {
         useChannelMentions: true,
         getChannelMemberCountsByGroup: jest.fn(),
         useGroupMentions: true,
-        smartPaste: true,
-        smartPasteCodeBlocks: true,
     };
 
     test('should match snapshot, empty comment', () => {

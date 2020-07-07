@@ -94,16 +94,6 @@ class CreateComment extends React.PureComponent {
         ctrlSend: PropTypes.bool,
 
         /**
-         *  Flag used for smart paste feature
-         */
-        smartPaste: PropTypes.bool,
-
-        /**
-         *  Flag used for smart paste code blocks feature
-         */
-        smartPasteCodeBlocks: PropTypes.bool,
-
-        /**
          * The id of the latest post in this channel
          */
         latestPostId: PropTypes.string,
@@ -417,7 +407,7 @@ class CreateComment extends React.PureComponent {
 
         e.preventDefault();
 
-        const {message, caretPosition} = smartPaste(e.clipboardData, this.state.draft.message, this.state.caretPosition, {tables: true, html: this.props.smartPaste, code: this.props.smartPasteCodeBlocks});
+        const {message, caretPosition} = smartPaste(e.clipboardData, this.state.draft.message, this.state.caretPosition);
         this.setCaretPosition(caretPosition);
         const updatedDraft = {...this.state.draft, message};
         this.props.onUpdateCommentDraft(updatedDraft);

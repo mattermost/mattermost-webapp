@@ -27,8 +27,6 @@ function makeMapStateToProps() {
             advancedSettingsCategory: getAdvancedSettingsCategory(state, Preferences.CATEGORY_ADVANCED_SETTINGS),
             sendOnCtrlEnter: get(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter', 'false'),
             codeBlockOnCtrlEnter: get(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'code_block_ctrl_enter', 'true'),
-            smartPaste: get(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'smart_paste', 'false'),
-            smartPasteCodeBlocks: get(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'smart_paste_code_blocks', 'false'),
             formatting: get(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'formatting', 'true'),
             joinLeave: get(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'join_leave', 'true'),
             currentUser: getCurrentUser(state),

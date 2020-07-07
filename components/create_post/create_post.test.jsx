@@ -142,8 +142,6 @@ function createPost({
             canPost={true}
             useChannelMentions={true}
             useGroupMentions={useGroupMentions}
-            smartPaste={true}
-            smartPasteCodeBlocks={true}
         />
     );
 }

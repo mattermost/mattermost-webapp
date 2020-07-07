@@ -21,23 +21,18 @@ turndownService.addRule('hashtags', hashtagsRule);
 turndownService.addRule('file-preview-button', filePreviewButtonRule);
 turndownService.addRule('mattermost-code-block', codeBlockRule);
 
-type SmartPasteOptions = {
-    html: boolean;
-    code: boolean;
-}
-
-export default function smartPaste(clipboard: DataTransfer, message: string, currentCaretPosition: number, options: SmartPasteOptions): {message: string; caretPosition: number} {
+export default function smartPaste(clipboard: DataTransfer, message: string, currentCaretPosition: number): {message: string; caretPosition: number} {
     const {firstPiece, lastPiece} = splitMessageBasedOnCaretPosition(currentCaretPosition, message);
 
     const html = clipboard.getData('text/html');
     const text = clipboard.getData('text/plain');
 
     let formattedMessage = '';
-    if (options.code && !html) {
+    if (!html) {
         formattedMessage = codeDetectionFormatter(text);
     }
 
-    if (!formattedMessage && options.html) {
+    if (!formattedMessage) {
         turndownService.addRule('github-code', githubCodeTurndownRuleBuilder(firstPiece.length > 0, lastPiece.length > 0, text));
         turndownService.addRule('table', tableTurndownRuleBuilder(firstPiece.length > 0, lastPiece.length > 0));
         formattedMessage = htmlToMarkdown(html);
