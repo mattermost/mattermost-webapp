@@ -43,7 +43,7 @@ describe('Interactive Menu', () => {
         const payload = getPayload(Cypress.env().webhookBaseUrl);
 
         // # Post an incoming webhook
-        cy.postIncomingWebhook({url: incomingWebhook.url, data: payload});
+        cy.postIncomingWebhook({url: incomingWebhook.url, data: payload, waitFor: 'attachment-pretext'});
 
         // # Click on "Skip Parsing" button
         cy.findByText('Skip Parsing').should('be.visible').click({force: true});
