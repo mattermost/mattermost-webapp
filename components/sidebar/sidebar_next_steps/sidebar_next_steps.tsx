@@ -26,6 +26,11 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
         };
     }
 
+    closeNextSteps = () => {
+        // TODO: Using this to test the progress bar for now
+        this.setState({complete: (this.state.complete + 1) % 4});
+    }
+
     render() {
         // TODO: Temporary values
         const total = 3;
@@ -39,9 +44,12 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
                             defaultMessage='Getting Started'
                         />
                     </span>
-                    <div className='SidebarNextSteps__close'>
+                    <button
+                        className='SidebarNextSteps__close'
+                        onClick={this.closeNextSteps}
+                    >
                         <i className='icon icon-close'/>
-                    </div>
+                    </button>
                 </div>
                 <div className='SidebarNextSteps__middle'>
                     <span>
@@ -56,10 +64,10 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
                     </span>
                 </div>
                 <div className='SidebarNextSteps__progressBar'>
-                    <button onClick={() => this.setState({complete: (this.state.complete + 1) % 4})}>{'Progress'}</button>
                     <ProgressBar
                         current={this.state.complete}
                         total={total}
+                        basePercentage={4}
                     />
                 </div>
             </div>
