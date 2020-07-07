@@ -21,6 +21,7 @@ import SidebarHeader from './sidebar_header';
 import ChannelNavigator from './channel_navigator';
 import ChannelFilter from './channel_filter';
 import SidebarCategoryList from './sidebar_category_list';
+import SidebarNextSteps from './sidebar_next_steps/sidebar_next_steps';
 
 type Props = {
     teamId: string;
@@ -199,6 +200,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                     onDragEnd={this.onDragEnd}
                 />
                 {this.props.isDataPrefechEnabled && <DataPrefetch/>}
+                <SidebarNextSteps/>
                 {this.renderModals()}
             </div>
         );
