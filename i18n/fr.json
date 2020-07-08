@@ -756,7 +756,7 @@
   "admin.group_settings.groups_list.no_groups_found": "Aucun groupe n'a été trouvé",
   "admin.group_settings.groups_list.paginatorCount": "{startCount, number} - {endCount, number} de {total, number}",
   "admin.group_settings.groups_list.unlink_selected": "Dissocier les groupes sélectionnés",
-  "admin.group_settings.groupsPageTitle": "Groupes (Expérimental)",
+  "admin.group_settings.groupsPageTitle": "Groupes",
   "admin.group_settings.introBanner": "Les groupes sont un moyen d'organiser les utilisateurs et d'appliquer des actions à tous les utilisateurs de ce groupe.\nPour en savoir plus sur les groupes, consultez la [documentation](!https://www.mattermost.com/default-ad-ldap-groups).",
   "admin.group_settings.ldapGroupsDescription": "Connect AD/LDAP and create groups in Mattermost. To get started, configure group attributes on the [AD/LDAP]({siteURL}/admin_console/authentication/ldap) configuration page.",
   "admin.group_settings.ldapGroupsTitle": "Groupes AD/LDAP",
@@ -1533,7 +1533,7 @@
   "admin.sidebar.filter": "Trouver des paramètres",
   "admin.sidebar.gif": "GIF (Expérimental)",
   "admin.sidebar.gitlab": "GitLab",
-  "admin.sidebar.groups": "Groupes (Expérimental)",
+  "admin.sidebar.groups": "Groupes",
   "admin.sidebar.guest_access": "Accès utilisateur invité (Expérimental)",
   "admin.sidebar.highAvailability": "Haute disponibilité",
   "admin.sidebar.imageProxy": "Proxy d'images",
@@ -3887,5 +3887,6 @@
   "yourcomputer": "Votre ordinateur",
   "admin.saml.serviceProviderIdentifierEx": "Ex. : « https://<your-mattermost-url>/login/sso/saml »",
   "rhs_header.collapseSidebarTooltip.icon": "Icône réduire la barre latérale",
-  "rhs_header.collapseSidebarTooltip": "Réduire la barre latérale"
+  "rhs_header.collapseSidebarTooltip": "Réduire la barre latérale",
+  "admin.group_settings.group_detail.invalid_length": "Le nom doit être compris entre 1 et 64 caractères alphanumériques en minuscules."
 }

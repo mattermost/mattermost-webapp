@@ -756,7 +756,7 @@
   "admin.group_settings.groups_list.no_groups_found": "グループが見付かりませんでした",
   "admin.group_settings.groups_list.paginatorCount": "全 {total, number} 中: {startCount, number} - {endCount, number} ",
   "admin.group_settings.groups_list.unlink_selected": "選択されたグループのリンクを解除しました",
-  "admin.group_settings.groupsPageTitle": "グループ (ベータ版)",
+  "admin.group_settings.groupsPageTitle": "グループ",
   "admin.group_settings.introBanner": "グループは、ユーザーを編制し、グループ内の全ユーザーにアクションを適用するための方法です。\nグループについて詳しくは[説明文書](!https://www.mattermost.com/default-ad-ldap-groups)を参照してください。",
   "admin.group_settings.ldapGroupsDescription": "AD/LDAPに接続し、Mattermost内にグループを作成します。まず最初に[AD/LDAP]({siteURL}/admin_console/authentication/ldap)設定ページでグループ属性の設定を行ってください。",
   "admin.group_settings.ldapGroupsTitle": "AD/LDAPグループ",
@@ -1533,7 +1533,7 @@
   "admin.sidebar.filter": "設定の検索",
   "admin.sidebar.gif": "GIF (ベータ版)",
   "admin.sidebar.gitlab": "GitLab",
-  "admin.sidebar.groups": "グループ (ベータ版)",
+  "admin.sidebar.groups": "グループ",
   "admin.sidebar.guest_access": "ゲストアカウント(ベータ版)",
   "admin.sidebar.highAvailability": "高可用",
   "admin.sidebar.imageProxy": "画像プロキシ",
@@ -3887,5 +3887,6 @@
   "yourcomputer": "あなたのコンピューター",
   "admin.saml.serviceProviderIdentifierEx": "例: \"https://<your-mattermost-url>/login/sso/saml\"",
   "rhs_header.collapseSidebarTooltip.icon": "サイドバー縮小アイコン",
-  "rhs_header.collapseSidebarTooltip": "サイドバーを縮小する"
+  "rhs_header.collapseSidebarTooltip": "サイドバーを縮小する",
+  "admin.group_settings.group_detail.invalid_length": "名前は1~64文字の小文字の英数字にしてください"
 }
