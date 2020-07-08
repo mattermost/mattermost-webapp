@@ -158,7 +158,7 @@ class EditPostModal extends React.PureComponent {
     }
 
     getTarget = () => {
-        return this.refs.editModalFooter;
+        return this.refs.editPostEmoji;
     }
 
     handlePostError = (postError) => {
@@ -476,9 +476,7 @@ class EditPostModal extends React.PureComponent {
                         </div>
                     </div>
                 </Modal.Body>
-                <Modal.Footer
-                    style={{position: 'relative'}}
-                >
+                <Modal.Footer>
                     <button
                         type='button'
                         className='btn btn-link'
@@ -496,15 +494,10 @@ class EditPostModal extends React.PureComponent {
                         disabled={this.isSaveDisabled()}
                         onClick={this.handleEdit}
                     >
-                        <span
-                            id='editModalFooter'
-                            ref='editModalFooter'
-                        >
-                            <FormattedMessage
-                                id='edit_post.save'
-                                defaultMessage='Save'
-                            />
-                        </span>
+                        <FormattedMessage
+                            id='edit_post.save'
+                            defaultMessage='Save'
+                        />
                     </button>
                 </Modal.Footer>
             </Modal>
