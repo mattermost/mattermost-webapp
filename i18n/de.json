@@ -756,7 +756,7 @@
   "admin.group_settings.groups_list.no_groups_found": "Keine Gruppen gefunden",
   "admin.group_settings.groups_list.paginatorCount": "{startCount, number} - {endCount, number} von {total, number}",
   "admin.group_settings.groups_list.unlink_selected": "Verbindung ausgewählter Gruppen auflösen",
-  "admin.group_settings.groupsPageTitle": "Gruppen (Beta)",
+  "admin.group_settings.groupsPageTitle": "Gruppen",
   "admin.group_settings.introBanner": "Gruppen sind ein Weg, Benutzer zu organisieren und Aktionen auf alle Benutzer innerhalb dieser Gruppe anzuwenden.\nWeitere Informationen zu Gruppen finden Sie in der [Dokumentation](!https://www.mattermost.com/default-ad-ldap-groups).",
   "admin.group_settings.ldapGroupsDescription": "Connect AD/LDAP and create groups in Mattermost. To get started, configure group attributes on the [AD/LDAP]({siteURL}/admin_console/authentication/ldap) configuration page.",
   "admin.group_settings.ldapGroupsTitle": "AD/LDAP-Gruppen",
@@ -1533,7 +1533,7 @@
   "admin.sidebar.filter": "Einstellungen finden",
   "admin.sidebar.gif": "GIF (Beta)",
   "admin.sidebar.gitlab": "GitLab",
-  "admin.sidebar.groups": "Gruppen (Beta)",
+  "admin.sidebar.groups": "Gruppen",
   "admin.sidebar.guest_access": "Gastzugang (Beta)",
   "admin.sidebar.highAvailability": "Hochverfügbarkeit",
   "admin.sidebar.imageProxy": "Bild-Proxy",
@@ -3197,7 +3197,7 @@
   "search_results.usage.dataRetention": "Nur Nachrichten, die in den letzten {days} Tagen gesendet wurden werden ausgegeben. Kontaktieren Sie ihren Systemadministrator für mehr Detail.",
   "search_results.usageFlag1": "Sie haben bisher keine Nachrichten markiert.",
   "search_results.usageFlag2": "Sie können Nachrichten und Kommentare markieren, indem Sie das {flagIcon} Symbol neben dem Zeitstempel klicken.",
-  "search_results.usageFlag4": "Markierungen dienen als Möglichkeit Nachrichten für eine Wiedervorlage zu markieren. Ihre Markierungen sind persönlich und können nicht von anderen Benutzern gesehen werden.",
+  "search_results.usageFlag4": "Markierungen dienen als Möglichkeit, Nachrichten für eine Wiedervorlage zu markieren. Ihre Markierungen sind persönlich und können nicht von anderen Benutzern gesehen werden.",
   "search_results.usagePin1": "Es gibt bisher keine angeheftete Nachrichten.",
   "search_results.usagePin2": "Alle Mitglieder dieses Kanals können wichtige oder nützliche Nachrichten anheften.",
   "search_results.usagePin3": "Angeheftete Nachrichten sind für alle Kanalmitglieder sichtbar.",
@@ -3306,7 +3306,6 @@
   "sidebar.createPublicPrivateChannel": "Neuen öffentlichen oder privaten Kanal erstellen",
   "sidebar.directchannel.you": "{displayname} (Sie)",
   "sidebar.leave": "Den Kanal verlassen",
-  "sidebar.mainMenu": "Hauptmenü",
   "sidebar.moreDmAria": "Mehr Direktnachrichten anzeigen",
   "sidebar.moreElips": "Mehr...",
   "sidebar.morePublicAria": "Mehr öffentliche Kanäle anzeigen",
@@ -3888,5 +3887,6 @@
   "yourcomputer": "Ihr Computer",
   "admin.saml.serviceProviderIdentifierEx": "Z.B.: \"https://<ihre-mattermost-url>/login/sso/saml\"",
   "rhs_header.collapseSidebarTooltip.icon": "\"Seitenleiste schrumpfen\"-Symbol",
-  "rhs_header.collapseSidebarTooltip": "Seitenleiste verkleinern"
+  "rhs_header.collapseSidebarTooltip": "Seitenleiste verkleinern",
+  "admin.group_settings.group_detail.invalid_length": "Der Name darf aus 1 bis 64 Kleinbuchstaben bestehen"
 }

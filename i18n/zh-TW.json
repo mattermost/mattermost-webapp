@@ -3887,5 +3887,6 @@
   "yourcomputer": "您的電腦",
   "admin.saml.serviceProviderIdentifierEx": "如：\"https://<您的 mattermost 網址>/login/sso/saml\"",
   "rhs_header.collapseSidebarTooltip.icon": "縮小側邊欄圖示",
-  "rhs_header.collapseSidebarTooltip": "關閉側邊欄"
+  "rhs_header.collapseSidebarTooltip": "關閉側邊欄",
+  "admin.group_settings.group_detail.invalid_length": "名稱必須是長度為1到64之間的小寫英數字元"
 }

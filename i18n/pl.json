@@ -756,7 +756,7 @@
   "admin.group_settings.groups_list.no_groups_found": "Nie znaleziono grup",
   "admin.group_settings.groups_list.paginatorCount": "{startCount, number} - {endCount, number} z {total, number}",
   "admin.group_settings.groups_list.unlink_selected": "Rozłącz Wybrany Grupy",
-  "admin.group_settings.groupsPageTitle": "Grupy (Beta)",
+  "admin.group_settings.groupsPageTitle": "Grupy",
   "admin.group_settings.introBanner": "Grupy to sposób na uporządkowanie użytkowników i zastosowanie działań dla wszystkich użytkowników w tej grupie.\nWięcej informacji o Grupach znajduje się w [dokumentacji](!https://www.mattermost.com/default-ad-ldap-groups).",
   "admin.group_settings.ldapGroupsDescription": "Connect AD/LDAP and create groups in Mattermost. To get started, configure group attributes on the [AD/LDAP]({siteURL}/admin_console/authentication/ldap) configuration page.",
   "admin.group_settings.ldapGroupsTitle": "Grupy AD/LDAP",
@@ -1533,7 +1533,7 @@
   "admin.sidebar.filter": "Wyszukaj ustawienia",
   "admin.sidebar.gif": "GIF (Beta)",
   "admin.sidebar.gitlab": "GitLab",
-  "admin.sidebar.groups": "Grupy (Beta)",
+  "admin.sidebar.groups": "Grupy",
   "admin.sidebar.guest_access": "Dostęp dla gości (Beta)",
   "admin.sidebar.highAvailability": "Wysoka Dostępność",
   "admin.sidebar.imageProxy": "Proxy obrazków",
@@ -3887,5 +3887,6 @@
   "yourcomputer": "Twój komputer",
   "admin.saml.serviceProviderIdentifierEx": "Np.: \"https://<your-mattermost-url>/login/sso/saml\"",
   "rhs_header.collapseSidebarTooltip.icon": "Ikona zmniejszania paska bocznego",
-  "rhs_header.collapseSidebarTooltip": "Skróć pasek boczny"
+  "rhs_header.collapseSidebarTooltip": "Skróć pasek boczny",
+  "admin.group_settings.group_detail.invalid_length": "Nazwa musi być złożona z 1 do 64 małych znaków alfanumerycznych"
 }

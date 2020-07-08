@@ -756,7 +756,7 @@
   "admin.group_settings.groups_list.no_groups_found": "Группы не найдены",
   "admin.group_settings.groups_list.paginatorCount": "{startCount, number} - {endCount, number} из {total, number}",
   "admin.group_settings.groups_list.unlink_selected": "Отменить связь выбранных групп",
-  "admin.group_settings.groupsPageTitle": "Группы (Бета)",
+  "admin.group_settings.groupsPageTitle": "Группы",
   "admin.group_settings.introBanner": "Группы - это способ организации пользователей и применения действий ко всем пользователям внутри этой группы.\nДля подробной информации о группах, см. [документацию](!https://www.mattermost.com/default-ad-ldap-groups).",
   "admin.group_settings.ldapGroupsDescription": "Подключите AD/LDAP и создайте группы в Mattermost. Для начала настройте атрибуты группы на странице конфигурации [AD/LDAP]({siteURL}/admin_console/authentication/ldap).",
   "admin.group_settings.ldapGroupsTitle": "Группы AD/LDAP",
@@ -1533,7 +1533,7 @@
   "admin.sidebar.filter": "Поиск",
   "admin.sidebar.gif": "GIF (Бета)",
   "admin.sidebar.gitlab": "GitLab",
-  "admin.sidebar.groups": "Группы (Бета)",
+  "admin.sidebar.groups": "Группы",
   "admin.sidebar.guest_access": "Гостевой доступ (Бета)",
   "admin.sidebar.highAvailability": "Высокая доступность",
   "admin.sidebar.imageProxy": "Прокси-сервер изображений",
@@ -3885,10 +3885,12 @@
   "widgets.users_emails_input.no_user_found_matching": "Никого соответствующего **{text}** не найдено, введите адрес электронной почты",
   "widgets.users_emails_input.valid_email": "Добавить **{email}**",
   "yourcomputer": "Ваш компьютер",
-  "admin.license.trial-request.different-data": "Или получите пробную лицензию вручную на ",
   "admin.license.trial-request.loading": "Получение пробной версии",
   "admin.license.trial-request.submit": "Начать использовать пробную версию",
   "rhs_header.collapseSidebarTooltip": "Свернуть боковую панель",
   "rhs_header.collapseSidebarTooltip.icon": "значок сворачивания боковой панели",
-  "admin.saml.serviceProviderIdentifierEx": "Например: \"https://<your-mattermost-url>/login/sso/saml\""
+  "admin.saml.serviceProviderIdentifierEx": "Например: \"https://<your-mattermost-url>/login/sso/saml\"",
+  "admin.group_settings.group_detail.invalid_length": "Имя должно быть иметь длину от 1 до 64 символов, содержащих буквы и цифры в нижнем регистре",
+  "admin.saml.serviceProviderIdentifierTitle": "Идентификатор поставщика услуг:",
+  "admin.saml.serviceProviderIdentifierDesc": "Уникальный идентификатор поставщика услуг, обычно совпадает с URL-адресом входа поставщика услуг. В ADFS это ДОЛЖНО совпадать с идентификатором проверяющей стороны."
 }
