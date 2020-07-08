@@ -8,7 +8,7 @@ import {FormattedMessage} from 'react-intl';
 import {Overlay, Tooltip} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 
-import {haveIWritePermissionOnSysConsoleItem} from 'mattermost-redux/selectors/entities/roles';
+import {haveINoWritePermissionOnSysConsoleItem} from 'mattermost-redux/selectors/entities/roles';
 
 import * as I18n from 'i18n/i18n.jsx';
 
@@ -351,7 +351,7 @@ export default class SchemaAdminSettings extends React.PureComponent {
 
     isDisabled = (setting) => {
         if (typeof setting.isDisabled === 'function') {
-            var result = setting.isDisabled(this.props.config, this.state, this.props.license, this.props.globalstate, !haveIWritePermissionOnSysConsoleItem);
+            var result = setting.isDisabled(this.props.config, this.state, this.props.license, this.props.globalstate, haveINoWritePermissionOnSysConsoleItem);
             return result;
         }
         return Boolean(setting.isDisabled);

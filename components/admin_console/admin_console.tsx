@@ -12,7 +12,7 @@ import {ActionFunc} from 'mattermost-redux/types/actions';
 import {AdminConfig, EnvironmentConfig, ClientLicense} from 'mattermost-redux/types/config';
 import {Role} from 'mattermost-redux/types/roles';
 import {GlobalState} from 'mattermost-redux/types/store';
-import {haveIPermissionOnSysConsoleItem, haveIWritePermissionOnSysConsoleItem} from 'mattermost-redux/selectors/entities/roles';
+import {haveINoPermissionOnSysConsoleItem, haveINoWritePermissionOnSysConsoleItem} from 'mattermost-redux/selectors/entities/roles';
 import {SysConsoleItemOptions} from 'mattermost-redux/selectors/entities/roles_helpers';
 import {Dictionary} from 'mattermost-redux/types/utilities';
 
@@ -89,7 +89,7 @@ export default class AdminConsole extends React.PureComponent<Props, State> {
     public componentDidMount(): void {
         this.props.actions.getConfig();
         this.props.actions.getEnvironmentConfig();
-        this.props.actions.loadRolesIfNeeded(['channel_user', 'team_user', 'system_user', 'channel_admin', 'team_admin', 'system_admin', 'system_user_manager', 'system_console_viewer', 'system_junior_admin']);
+        this.props.actions.loadRolesIfNeeded(['channel_user', 'team_user', 'system_user', 'channel_admin', 'team_admin', 'system_admin', 'system_user_manager', 'system_read_only_admin', 'system_restricted_admin']);
         this.props.actions.selectChannel('');
         this.props.actions.selectTeam('');
     }
@@ -108,8 +108,8 @@ export default class AdminConsole extends React.PureComponent<Props, State> {
             roles.system_admin &&
             roles.system_user &&
             roles.system_user_manager &&
-            roles.system_console_viewer &&
-            roles.system_junior_admin
+            roles.system_read_only_admin &&
+            roles.system_restricted_admin
         );
     }
 
@@ -122,7 +122,7 @@ export default class AdminConsole extends React.PureComponent<Props, State> {
                 if (entry[0] === 'isHidden' && typeof entry[1] === 'function') {
                     const isHiddenFunc = entry[1] as ((config?: Record<string, any>, state?: Record<string, any>, license?: Record<string, any>, buildEnterpriseReady?: boolean, globalstate?: any, func?: OutputParametricSelector<GlobalState, SysConsoleItemOptions, boolean, (res1: Set<string>, res2: string[]) => boolean>) => boolean);
 
-                    isSectionHidden = isHiddenFunc(this.props.config, {}, this.props.license, this.props.buildEnterpriseReady, this.props.globalstate, !haveIPermissionOnSysConsoleItem);
+                    isSectionHidden = isHiddenFunc(this.props.config, {}, this.props.license, this.props.buildEnterpriseReady, this.props.globalstate, haveINoPermissionOnSysConsoleItem);
                 }
                 return null;
             });
@@ -138,7 +138,7 @@ export default class AdminConsole extends React.PureComponent<Props, State> {
             return acc.concat(items);
         }, [] as Item[]);
         const schemaRoutes = schemas.map((item: Item) => {
-            const isItemDisabled = item.isDisabled && item.isDisabled(this.props.config, {}, this.props.license, this.props.globalstate, !haveIWritePermissionOnSysConsoleItem);
+            const isItemDisabled = item.isDisabled && item.isDisabled(this.props.config, {}, this.props.license, this.props.globalstate, haveINoWritePermissionOnSysConsoleItem);
 
             return (
                 <Route
