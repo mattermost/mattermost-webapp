@@ -10,8 +10,9 @@
 // Group: @incoming_webhook
 
 import {getRandomId} from '../../../utils';
-
 import * as TIMEOUTS from '../../../fixtures/timeouts';
+
+import {enableUsernameAndIconOverride} from './helpers';
 
 describe('Incoming webhook', () => {
     let sysadmin;
@@ -109,16 +110,6 @@ describe('Incoming webhook', () => {
         });
     });
 });
-
-function enableUsernameAndIconOverride(enable) {
-    cy.visit('/admin_console/integrations/integration_management');
-    cy.findByTestId('ServiceSettings.EnablePostUsernameOverride' + enable).check({force: true});
-    cy.findByTestId('ServiceSettings.EnablePostIconOverride' + enable).check({force: true});
-
-    // # Save the settings
-    cy.get('#saveSetting').should('be.enabled').click({force: true});
-    cy.get('#saveSetting').should('be.disabled');
-}
 
 function getPayload(channel, iconUrl) {
     return {

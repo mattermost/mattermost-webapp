@@ -415,12 +415,12 @@ export function ping() {
     };
 }
 
-export function requestTrialLicense(users) {
+export function requestTrialLicense(users, termsAccepted, receiveEmailsAccepted, page) {
     return async () => {
         try {
-            trackEvent('api', 'api_request_trial_license');
+            trackEvent('api', 'api_request_trial_license', {from_page: page});
             const response = await Client4.doFetch(`${Client4.getBaseRoute()}/trial-license`, {
-                method: 'POST', body: JSON.stringify({users}),
+                method: 'POST', body: JSON.stringify({users, terms_accepted: termsAccepted, receive_emails_accepted: receiveEmailsAccepted}),
             });
             return {data: response};
         } catch (e) {
