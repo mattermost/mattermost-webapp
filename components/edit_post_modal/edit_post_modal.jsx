@@ -21,6 +21,8 @@ import Textbox from 'components/textbox';
 import TextboxLinks from 'components/textbox/textbox_links';
 
 const KeyCodes = Constants.KeyCodes;
+const TOP_OFFSET = 15;
+const RIGHT_OFFSET = 0;
 
 class EditPostModal extends React.PureComponent {
     static propTypes = {
@@ -155,8 +157,8 @@ class EditPostModal extends React.PureComponent {
         this.editbox.focus();
     }
 
-    getEditPostControls = () => {
-        return this.refs.editPostEmoji;
+    getTarget = () => {
+        return this.refs.editModalFooter;
     }
 
     handlePostError = (postError) => {
@@ -375,12 +377,13 @@ class EditPostModal extends React.PureComponent {
                     <EmojiPickerOverlay
                         show={this.state.showEmojiPicker}
                         container={this.getContainer}
-                        target={this.getEditPostControls}
+                        target={this.getTarget}
                         onHide={this.hideEmojiPicker}
                         onEmojiClick={this.handleEmojiClick}
                         onGifClick={this.handleGifClick}
                         enableGifPicker={this.props.config.EnableGifPicker === 'true'}
-                        topOffset={-20}
+                        topOffset={TOP_OFFSET}
+                        rightOffset={RIGHT_OFFSET}
                     />
                     <button
                         aria-label={emojiButtonAriaLabel}
@@ -473,7 +476,9 @@ class EditPostModal extends React.PureComponent {
                         </div>
                     </div>
                 </Modal.Body>
-                <Modal.Footer>
+                <Modal.Footer
+                    style={{position: 'relative'}}
+                >
                     <button
                         type='button'
                         className='btn btn-link'
@@ -491,10 +496,15 @@ class EditPostModal extends React.PureComponent {
                         disabled={this.isSaveDisabled()}
                         onClick={this.handleEdit}
                     >
-                        <FormattedMessage
-                            id='edit_post.save'
-                            defaultMessage='Save'
-                        />
+                        <span
+                            id='editModalFooter'
+                            ref='editModalFooter'
+                        >
+                            <FormattedMessage
+                                id='edit_post.save'
+                                defaultMessage='Save'
+                            />
+                        </span>
                     </button>
                 </Modal.Footer>
             </Modal>

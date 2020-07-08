@@ -95,11 +95,12 @@ exports[`components/EditPostModal should disable the button on not canDeletePost
               onEmojiClick={[Function]}
               onGifClick={[Function]}
               onHide={[Function]}
+              rightOffset={0}
               show={false}
               spaceRequiredAbove={476}
               spaceRequiredBelow={497}
               target={[Function]}
-              topOffset={-20}
+              topOffset={15}
             />
             <button
               aria-label="emoji picker"
@@ -132,6 +133,11 @@ exports[`components/EditPostModal should disable the button on not canDeletePost
   <ModalFooter
     bsClass="modal-footer"
     componentClass="div"
+    style={
+      Object {
+        "position": "relative",
+      }
+    }
   >
     <button
       className="btn btn-link"
@@ -151,11 +157,15 @@ exports[`components/EditPostModal should disable the button on not canDeletePost
       onClick={[Function]}
       type="button"
     >
-      <FormattedMessage
-        defaultMessage="Save"
-        id="edit_post.save"
-        values={Object {}}
-      />
+      <span
+        id="editModalFooter"
+      >
+        <FormattedMessage
+          defaultMessage="Save"
+          id="edit_post.save"
+          values={Object {}}
+        />
+      </span>
     </button>
   </ModalFooter>
 </Modal>
@@ -256,11 +266,12 @@ exports[`components/EditPostModal should disable the button on not canEditPost a
               onEmojiClick={[Function]}
               onGifClick={[Function]}
               onHide={[Function]}
+              rightOffset={0}
               show={false}
               spaceRequiredAbove={476}
               spaceRequiredBelow={497}
               target={[Function]}
-              topOffset={-20}
+              topOffset={15}
             />
             <button
               aria-label="emoji picker"
@@ -293,6 +304,11 @@ exports[`components/EditPostModal should disable the button on not canEditPost a
   <ModalFooter
     bsClass="modal-footer"
     componentClass="div"
+    style={
+      Object {
+        "position": "relative",
+      }
+    }
   >
     <button
       className="btn btn-link"
@@ -312,11 +328,15 @@ exports[`components/EditPostModal should disable the button on not canEditPost a
       onClick={[Function]}
       type="button"
     >
-      <FormattedMessage
-        defaultMessage="Save"
-        id="edit_post.save"
-        values={Object {}}
-      />
+      <span
+        id="editModalFooter"
+      >
+        <FormattedMessage
+          defaultMessage="Save"
+          id="edit_post.save"
+          values={Object {}}
+        />
+      </span>
     </button>
   </ModalFooter>
 </Modal>
@@ -417,11 +437,12 @@ exports[`components/EditPostModal should match snapshot with useChannelMentions 
               onEmojiClick={[Function]}
               onGifClick={[Function]}
               onHide={[Function]}
+              rightOffset={0}
               show={false}
               spaceRequiredAbove={476}
               spaceRequiredBelow={497}
               target={[Function]}
-              topOffset={-20}
+              topOffset={15}
             />
             <button
               aria-label="emoji picker"
@@ -454,6 +475,11 @@ exports[`components/EditPostModal should match snapshot with useChannelMentions 
   <ModalFooter
     bsClass="modal-footer"
     componentClass="div"
+    style={
+      Object {
+        "position": "relative",
+      }
+    }
   >
     <button
       className="btn btn-link"
@@ -473,11 +499,15 @@ exports[`components/EditPostModal should match snapshot with useChannelMentions 
       onClick={[Function]}
       type="button"
     >
-      <FormattedMessage
-        defaultMessage="Save"
-        id="edit_post.save"
-        values={Object {}}
-      />
+      <span
+        id="editModalFooter"
+      >
+        <FormattedMessage
+          defaultMessage="Save"
+          id="edit_post.save"
+          values={Object {}}
+        />
+      </span>
     </button>
   </ModalFooter>
 </Modal>
@@ -578,11 +608,12 @@ exports[`components/EditPostModal should match with default config 1`] = `
               onEmojiClick={[Function]}
               onGifClick={[Function]}
               onHide={[Function]}
+              rightOffset={0}
               show={false}
               spaceRequiredAbove={476}
               spaceRequiredBelow={497}
               target={[Function]}
-              topOffset={-20}
+              topOffset={15}
             />
             <button
               aria-label="emoji picker"
@@ -615,6 +646,11 @@ exports[`components/EditPostModal should match with default config 1`] = `
   <ModalFooter
     bsClass="modal-footer"
     componentClass="div"
+    style={
+      Object {
+        "position": "relative",
+      }
+    }
   >
     <button
       className="btn btn-link"
@@ -634,11 +670,15 @@ exports[`components/EditPostModal should match with default config 1`] = `
       onClick={[Function]}
       type="button"
     >
-      <FormattedMessage
-        defaultMessage="Save"
-        id="edit_post.save"
-        values={Object {}}
-      />
+      <span
+        id="editModalFooter"
+      >
+        <FormattedMessage
+          defaultMessage="Save"
+          id="edit_post.save"
+          values={Object {}}
+        />
+      </span>
     </button>
   </ModalFooter>
 </Modal>
@@ -751,6 +791,11 @@ exports[`components/EditPostModal should match without emoji picker 1`] = `
   <ModalFooter
     bsClass="modal-footer"
     componentClass="div"
+    style={
+      Object {
+        "position": "relative",
+      }
+    }
   >
     <button
       className="btn btn-link"
@@ -770,11 +815,15 @@ exports[`components/EditPostModal should match without emoji picker 1`] = `
       onClick={[Function]}
       type="button"
     >
-      <FormattedMessage
-        defaultMessage="Save"
-        id="edit_post.save"
-        values={Object {}}
-      />
+      <span
+        id="editModalFooter"
+      >
+        <FormattedMessage
+          defaultMessage="Save"
+          id="edit_post.save"
+          values={Object {}}
+        />
+      </span>
     </button>
   </ModalFooter>
 </Modal>
@@ -875,11 +924,12 @@ exports[`components/EditPostModal should not disable the button on not canDelete
               onEmojiClick={[Function]}
               onGifClick={[Function]}
               onHide={[Function]}
+              rightOffset={0}
               show={false}
               spaceRequiredAbove={476}
               spaceRequiredBelow={497}
               target={[Function]}
-              topOffset={-20}
+              topOffset={15}
             />
             <button
               aria-label="emoji picker"
@@ -912,6 +962,11 @@ exports[`components/EditPostModal should not disable the button on not canDelete
   <ModalFooter
     bsClass="modal-footer"
     componentClass="div"
+    style={
+      Object {
+        "position": "relative",
+      }
+    }
   >
     <button
       className="btn btn-link"
@@ -931,11 +986,15 @@ exports[`components/EditPostModal should not disable the button on not canDelete
       onClick={[Function]}
       type="button"
     >
-      <FormattedMessage
-        defaultMessage="Save"
-        id="edit_post.save"
-        values={Object {}}
-      />
+      <span
+        id="editModalFooter"
+      >
+        <FormattedMessage
+          defaultMessage="Save"
+          id="edit_post.save"
+          values={Object {}}
+        />
+      </span>
     </button>
   </ModalFooter>
 </Modal>
@@ -1036,11 +1095,12 @@ exports[`components/EditPostModal should not disable the button on not canEditPo
               onEmojiClick={[Function]}
               onGifClick={[Function]}
               onHide={[Function]}
+              rightOffset={0}
               show={false}
               spaceRequiredAbove={476}
               spaceRequiredBelow={497}
               target={[Function]}
-              topOffset={-20}
+              topOffset={15}
             />
             <button
               aria-label="emoji picker"
@@ -1073,6 +1133,11 @@ exports[`components/EditPostModal should not disable the button on not canEditPo
   <ModalFooter
     bsClass="modal-footer"
     componentClass="div"
+    style={
+      Object {
+        "position": "relative",
+      }
+    }
   >
     <button
       className="btn btn-link"
@@ -1092,11 +1157,15 @@ exports[`components/EditPostModal should not disable the button on not canEditPo
       onClick={[Function]}
       type="button"
     >
-      <FormattedMessage
-        defaultMessage="Save"
-        id="edit_post.save"
-        values={Object {}}
-      />
+      <span
+        id="editModalFooter"
+      >
+        <FormattedMessage
+          defaultMessage="Save"
+          id="edit_post.save"
+          values={Object {}}
+        />
+      </span>
     </button>
   </ModalFooter>
 </Modal>
@@ -1197,11 +1266,12 @@ exports[`components/EditPostModal should not disable the save button on not canD
               onEmojiClick={[Function]}
               onGifClick={[Function]}
               onHide={[Function]}
+              rightOffset={0}
               show={false}
               spaceRequiredAbove={476}
               spaceRequiredBelow={497}
               target={[Function]}
-              topOffset={-20}
+              topOffset={15}
             />
             <button
               aria-label="emoji picker"
@@ -1234,6 +1304,11 @@ exports[`components/EditPostModal should not disable the save button on not canD
   <ModalFooter
     bsClass="modal-footer"
     componentClass="div"
+    style={
+      Object {
+        "position": "relative",
+      }
+    }
   >
     <button
       className="btn btn-link"
@@ -1253,11 +1328,15 @@ exports[`components/EditPostModal should not disable the save button on not canD
       onClick={[Function]}
       type="button"
     >
-      <FormattedMessage
-        defaultMessage="Save"
-        id="edit_post.save"
-        values={Object {}}
-      />
+      <span
+        id="editModalFooter"
+      >
+        <FormattedMessage
+          defaultMessage="Save"
+          id="edit_post.save"
+          values={Object {}}
+        />
+      </span>
     </button>
   </ModalFooter>
 </Modal>
@@ -1358,11 +1437,12 @@ exports[`components/EditPostModal should show emojis on emojis click 1`] = `
               onEmojiClick={[Function]}
               onGifClick={[Function]}
               onHide={[Function]}
+              rightOffset={0}
               show={true}
               spaceRequiredAbove={476}
               spaceRequiredBelow={497}
               target={[Function]}
-              topOffset={-20}
+              topOffset={15}
             />
             <button
               aria-label="emoji picker"
@@ -1395,6 +1475,11 @@ exports[`components/EditPostModal should show emojis on emojis click 1`] = `
   <ModalFooter
     bsClass="modal-footer"
     componentClass="div"
+    style={
+      Object {
+        "position": "relative",
+      }
+    }
   >
     <button
       className="btn btn-link"
@@ -1414,11 +1499,15 @@ exports[`components/EditPostModal should show emojis on emojis click 1`] = `
       onClick={[Function]}
       type="button"
     >
-      <FormattedMessage
-        defaultMessage="Save"
-        id="edit_post.save"
-        values={Object {}}
-      />
+      <span
+        id="editModalFooter"
+      >
+        <FormattedMessage
+          defaultMessage="Save"
+          id="edit_post.save"
+          values={Object {}}
+        />
+      </span>
     </button>
   </ModalFooter>
 </Modal>
@@ -1519,11 +1608,12 @@ exports[`components/EditPostModal should show errors when it is set in the state
               onEmojiClick={[Function]}
               onGifClick={[Function]}
               onHide={[Function]}
+              rightOffset={0}
               show={false}
               spaceRequiredAbove={476}
               spaceRequiredBelow={497}
               target={[Function]}
-              topOffset={-20}
+              topOffset={15}
             />
             <button
               aria-label="emoji picker"
@@ -1562,6 +1652,11 @@ exports[`components/EditPostModal should show errors when it is set in the state
   <ModalFooter
     bsClass="modal-footer"
     componentClass="div"
+    style={
+      Object {
+        "position": "relative",
+      }
+    }
   >
     <button
       className="btn btn-link"
@@ -1581,11 +1676,15 @@ exports[`components/EditPostModal should show errors when it is set in the state
       onClick={[Function]}
       type="button"
     >
-      <FormattedMessage
-        defaultMessage="Save"
-        id="edit_post.save"
-        values={Object {}}
-      />
+      <span
+        id="editModalFooter"
+      >
+        <FormattedMessage
+          defaultMessage="Save"
+          id="edit_post.save"
+          values={Object {}}
+        />
+      </span>
     </button>
   </ModalFooter>
 </Modal>
