@@ -42,7 +42,7 @@ exports[`comoponents/rhs_card/RhsCard should match on post when no plugin defini
             id="rhs_card.message_by"
             values={
               Object {
-                "avatar": <UNDEFINED
+                "avatar": <Memo(Connect(PostProfilePicture))
                   compactDisplay={false}
                   post={
                     Object {
@@ -54,7 +54,7 @@ exports[`comoponents/rhs_card/RhsCard should match on post when no plugin defini
                     }
                   }
                 />,
-                "user": <UNDEFINED
+                "user": <Memo(Connect(UserProfile))
                   disablePopover={true}
                   hideStatus={true}
                 />,
@@ -125,7 +125,7 @@ exports[`comoponents/rhs_card/RhsCard should match on post when plugin defining 
             id="rhs_card.message_by"
             values={
               Object {
-                "avatar": <UNDEFINED
+                "avatar": <Memo(Connect(PostProfilePicture))
                   compactDisplay={false}
                   post={
                     Object {
@@ -137,7 +137,7 @@ exports[`comoponents/rhs_card/RhsCard should match on post when plugin defining 
                     }
                   }
                 />,
-                "user": <UNDEFINED
+                "user": <Memo(Connect(UserProfile))
                   disablePopover={true}
                   hideStatus={true}
                 />,
@@ -214,7 +214,7 @@ exports[`comoponents/rhs_card/RhsCard should match on post when plugin defining 
             id="rhs_card.message_by"
             values={
               Object {
-                "avatar": <UNDEFINED
+                "avatar": <Memo(Connect(PostProfilePicture))
                   compactDisplay={false}
                   post={
                     Object {
@@ -226,7 +226,7 @@ exports[`comoponents/rhs_card/RhsCard should match on post when plugin defining 
                     }
                   }
                 />,
-                "user": <UNDEFINED
+                "user": <Memo(Connect(UserProfile))
                   disablePopover={true}
                   hideStatus={true}
                 />,
