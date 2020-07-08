@@ -53,6 +53,84 @@
     min-width: 192px;
 }
 
+.NextStepsView__body .Card__header {
+    margin: 0 12px;
+    padding: 0;
+}
+
+.NextStepsView__cardHeader {
+    display: flex;
+    border: none;
+    background: none;
+    padding: 12px 0;
+    width: 100%;
+
+    > span {
+        margin-left: 14px;
+        font-size: 14px;
+        line-height: 20px;
+        font-weight: 600;
+        color: var(--center-channel-color);
+        align-self: center;
+    }
+}
+
+.NextStepsView__cardHeaderBadge {
+    width: 26px;
+    height: 26px;
+    background-color: var(--center-channel-color-16);
+    color: var(--center-channel-color);
+    border-radius: 14px;
+    display: flex;
+    justify-content: center;
+
+    span {
+        align-self: center;
+        font-size: 14px;
+        line-height: 14px;
+        font-weight: 600;
+    }
+}
+
+.Card__header.expanded .NextStepsView__cardHeaderBadge {
+    color: var(--button-color);
+    background-color: var(--sidebar-text-active-border);
+}
+
+.Card.complete {
+    border: none;
+    box-shadow: none;
+
+    & + .Card {
+        margin-top: 12px;
+    }
+
+    .Card__header {
+        margin: 0;
+        border: none;
+    }
+
+    .Card__body {
+        display: none;
+    }
+
+    .NextStepsView__cardHeader {
+        padding: 0;
+
+        > span {
+            color: var(--online-indicator);
+            margin-left: 8px;
+        }
+
+        i {
+            align-self: center;
+            font-size: 16px;
+            line-height: 16px;
+            color: var(--online-indicator);
+        }
+    }
+}
+
 @media screen and (max-width: 768px) {
     #app-content.NextStepsView {
         background-size: auto;

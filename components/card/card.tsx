@@ -10,6 +10,7 @@ import './card.scss';
 
 type Props = {
     expanded?: boolean;
+    className?: string;
 }
 
 export default class Card extends React.PureComponent<Props> {
@@ -29,7 +30,7 @@ export default class Card extends React.PureComponent<Props> {
 
         return (
             <div
-                className={'Card'}
+                className={`Card ${this.props.className}`}
             >
                 {childrenWithProps}
             </div>
