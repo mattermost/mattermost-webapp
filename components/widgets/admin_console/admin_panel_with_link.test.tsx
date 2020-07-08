@@ -8,15 +8,15 @@ import AdminPanelWithLink from './admin_panel_with_link';
 
 describe('components/widgets/admin_console/AdminPanelWithLink', () => {
     const defaultProps = {
-        className: "test-class-name",
-        id: "test-id",
-        titleId: "test-title-id",
-        titleDefault: "test-title-default",
-        subtitleId: "test-subtitle-id",
-        subtitleDefault: "test-subtitle-default",
-        url: "/path",
-        linkTextId: "test-button-text-id",
-        linkTextDefault: "test-button-text-default",
+        className: 'test-class-name',
+        id: 'test-id',
+        titleId: 'test-title-id',
+        titleDefault: 'test-title-default',
+        subtitleId: 'test-subtitle-id',
+        subtitleDefault: 'test-subtitle-default',
+        url: '/path',
+        linkTextId: 'test-button-text-id',
+        linkTextDefault: 'test-button-text-default',
         disabled: false,
     };
 
