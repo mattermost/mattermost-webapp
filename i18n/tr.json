@@ -842,10 +842,10 @@
   "admin.jobTable.statusPending": "Bekliyor",
   "admin.jobTable.statusSuccess": "Tamamlandı",
   "admin.jobTable.statusWarning": "Uyarı",
-  "admin.ldap_feature_discovery.call_to_action.primary": "Deneme isteği yap",
+  "admin.ldap_feature_discovery.call_to_action.primary": "Denemeyi başlat",
   "admin.ldap_feature_discovery.call_to_action.secondary": "Ayrıntılı bilgi alın",
-  "admin.ldap_feature_discovery.copy": "Mattermost sunucusunu kuruluşunuzun Active Directory / LDAP dizini ile bağlandığınızda, kullanıcılar, yeni kullanıcı adı ve parola oluşturması gerekmeden oturum açabilir.",
-  "admin.ldap_feature_discovery.title": "Mattermost Enterprise E10, Active Directory / LDAP Bütünleştirmesi",
+  "admin.ldap_feature_discovery.copy": "Mattermost sunucusunu kuruluşunuzun Active Directory/LDAP dizini ile bağlandığınızda, kullanıcılar, yeni kullanıcı adı ve parola oluşturması gerekmeden oturum açabilir.",
+  "admin.ldap_feature_discovery.title": "Mattermost Enterprise E10, Active Directory/LDAP Bütünleştirmesi",
   "admin.ldap.adminFilterEx": "Örnek: \"(objectClass=user)\"",
   "admin.ldap.adminFilterFilterDesc": "(İsteğe bağlı) Sistem Yöneticilerini belirlemek için kullanılacak bir AD/LDAP süzgeci yazın. Sorgu tarafından seçilen kullanıcılar Mattermost sunucunuza Sistem Yöneticisi rolüyle erişebilir. Sistem Yöneticileri varsayılan olarak Mattermost Sistem Panosuna kısıtlamasız erişebilir.\n\nBu özellik kullanılarak var olan kullanıcılardan seçilen üyelerin rolleri, bir sonraki oturum açmalarında Sistem Yöneticiliği rolüne yükseltilir. Sonraki oturum açma zamanı **Sistem Panosu > Oturum Süreleri** bölümündeki oturum uzunluğuna göre belirlenir. Erişimin hemen kısıtlanması için **Sistem Panosu > Kullanıcı Yönetimi** bölümünden kullanıcıların rollerinin el ile üye rolüne indirilmesi önemle önerilir.\n\nNot: Bu süzgeç kaldırılır ya da değiştirilir ise, bu süzgeç ile Sistem Yöneticiliği rolüne yükseltilmiş kullanıcılar üye rolüne indirilir ve Sistem Panosuna erişimleri engellenir. Bu süzgeç kullanılmadığında, kullanıcıların rolleri **Sistem Panosu > Kullanıcı Yönetimi** bölümünden el ile Sistem Yöneticiliği rolüne yükseltilebilir ya da üye rolüne indirilebilir.",
   "admin.ldap.adminFilterTitle": "Yönetici Süzgeci:",
@@ -2221,7 +2221,7 @@
   "create_post.fileProcessing": "İşleniyor...",
   "create_post.icon": "Bir ileti yazın",
   "create_post.post": "İleti",
-  "create_post.read_only": "Kanal salt okunur. Yalnız izni olan üyeler buraya ileti gönderebilir.",
+  "create_post.read_only": "Bu kanal salt okunur. Buraya yalnız izni olan kullanıcılar ileti gönderebilir.",
   "create_post.send_message": "İleti gönder",
   "create_post.shortcutsNotSupported": "Kullandığınız aygıt kısayol tuşlarını desteklemiyor.",
   "create_post.tutorialTip.title": "İletiler Gönderiliyor",
@@ -3893,5 +3893,7 @@
   "admin.saml.serviceProviderIdentifierTitle": "Hizmet Sağlayıcı Belirteci:",
   "admin.saml.serviceProviderIdentifierEx": "Örnek: \"https://<mattermost-adresiniz>/login/sso/saml\"",
   "admin.saml.serviceProviderIdentifierDesc": "Hizmet Sağlayıcının tekil belirteci. Genellikle Hizmet Sağlayıcı oturum açma adresi ile aynıdır. ADFS içinde, bu değer Bağlı Olan Taraf Tanımlayıcısı ile aynı olmalıdır.",
-  "admin.group_settings.group_detail.invalid_length": "Ad içinde 1 ile 64 arasında küçük alfasayısal karakterler kullanılmalıdır."
+  "admin.group_settings.group_detail.invalid_length": "Ad içinde 1 ile 64 arasında küçük alfasayısal karakterler kullanılmalıdır.",
+  "admin.license.trial-request.error": "Deneme lisansı alınamadı.Lisans isteğinde bulunmak için [https://mattermost.com/trial/](https://mattermost.com/trial/) adresine gidin.",
+  "admin.license.trial-request.accept-terms": "**Denemeyi başlat** üzerine tıklayarak, [Mattermost Yazılım Değerlendirme Sözleşmesi](!https://mattermost.com/software-evaluation-agreement/) ve [Gizlilik İlkesi](!https://mattermost.com/privacy-policy/) metinlerini ve ürün ile ilgili e-postaları almayı kabul ediyorum."
 }
