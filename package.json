@@ -175,7 +175,6 @@
     "testPathIgnorePatterns": [
       "/node_modules/"
     ],
-    "cacheDirectory": ".cache/jest",
     "clearMocks": true,
     "collectCoverageFrom": [
       "actions/**/*.{js,jsx}",
