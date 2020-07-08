@@ -2975,7 +2975,6 @@
   "web.header.logout": "Deconectare",
   "web.root.signup_info": "Toate comunicările echipei într-un singur loc, cautari instante și accesibile oriunde",
   "yourcomputer": "Computerul tău",
-  "admin.license.trial-request.different-data": "Sau obțineți manual o licență de încercare la ",
   "admin.license.trial-request.loading": "Primeste versiune de test",
   "add_command.trigger.placeholder": "Command trigger de ex. \"salut\", fără a include slash-ul",
   "add_command.iconUrl.placeholder": "https://www.example.com/myicon.png",

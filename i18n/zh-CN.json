@@ -3054,7 +3054,6 @@
   "accessibility.button.attachment": "附件",
   "admin.license.trial-request.submit": "开始试用",
   "admin.license.trial-request.loading": "获取试用",
-  "admin.license.trial-request.different-data": "或手动获取试用证书： ",
   "intro_messages.creatorPrivate": "这是{name}私有频道的开端，由{creator}于{date}建立。",
   "date_separator.yesterday": "昨天",
   "date_separator.today": "今天",
