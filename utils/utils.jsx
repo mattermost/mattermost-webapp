@@ -601,6 +601,7 @@ export function applyTheme(theme) {
     }
 
     if (theme.centerChannelBg) {
+        changeCss('.app__body #channel_view.channel-view', `background: ${theme.centerChannelBg}`);
         changeCss('@media(max-width: 768px){.app__body .post .MenuWrapper .dropdown-menu button', 'background:' + theme.centerChannelBg);
         changeCss('@media(max-width: 320px){.tutorial-steps__container', 'background:' + theme.centerChannelBg);
         changeCss('.app__body .post-card--info, .app__body .bg--white, .app__body .system-notice, .app__body .channel-header__info .channel-header__description:before, .app__body .app__content, .app__body .markdown__table, .app__body .markdown__table tbody tr, .app__body .modal .modal-footer, .app__body .status-wrapper .status, .app__body .alert.alert-transparent', 'background:' + theme.centerChannelBg);
@@ -891,7 +892,10 @@ export function applyTheme(theme) {
             // TODO: phase out changeOpacity() here
             'sidebar-bg': theme.sidebarBg,
             'sidebar-text': theme.sidebarText,
+            'sidebar-text-08': changeOpacity(theme.sidebarText, 0.08),
+            'sidebar-text-16': changeOpacity(theme.sidebarText, 0.16),
             'sidebar-text-30': changeOpacity(theme.sidebarText, 0.3),
+            'sidebar-text-40': changeOpacity(theme.sidebarText, 0.4),
             'sidebar-text-50': changeOpacity(theme.sidebarText, 0.5),
             'sidebar-text-60': changeOpacity(theme.sidebarText, 0.6),
             'sidebar-text-72': changeOpacity(theme.sidebarText, 0.72),

@@ -26,11 +26,11 @@ export class CommandSuggestion extends Suggestion {
             className += ' suggestion--selected';
         }
         let symbol = '/';
-        if (item.iconData === 'enter') {
+        if (item.iconData === EXECUTE_CURRENT_COMMAND_ITEM_ID) {
             symbol = '↵';
         }
         let icon = <div className='slash-command__icon'><span>{symbol}</span></div>;
-        if (item.iconData !== '' && item.iconData !== 'enter') {
+        if (item.iconData !== '' && item.iconData !== EXECUTE_CURRENT_COMMAND_ITEM_ID) {
             icon = (
                 <div
                     className='slash-command__icon'
@@ -150,7 +150,7 @@ export default class CommandProvider extends Provider {
                         suggestion: '/Execute Current Command',
                         hint: '',
                         description: 'Select this option or use ' + cmd + '+Enter to execute the current command.',
-                        iconData: 'enter',
+                        iconData: EXECUTE_CURRENT_COMMAND_ITEM_ID,
                     });
                 }
                 data.forEach((sug) => {

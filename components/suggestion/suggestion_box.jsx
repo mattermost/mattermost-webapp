@@ -471,8 +471,17 @@ export default class SuggestionBox extends React.PureComponent {
 
         this.inputRef.current.focus();
 
+        let simulateEnter = false;
+        if (Utils.isKeyPressed(e, Constants.KeyCodes.TAB)) {
+            e.preventDefault();
+            simulateEnter = true;
+        }
+        if (!e) {
+            simulateEnter = true;
+        }
+
         let ke = e;
-        if (!e || Utils.isKeyPressed(e, Constants.KeyCodes.TAB)) {
+        if (simulateEnter) {
             ke = new KeyboardEvent('keydown', {
                 bubbles: true, cancelable: true, keyCode: 13,
             });
@@ -483,9 +492,9 @@ export default class SuggestionBox extends React.PureComponent {
             return true;
         }
 
-        for (const provider of this.props.providers) {
-            if (provider.handleCompleteWord) {
-                if (!finish) {
+        if (!finish) {
+            for (const provider of this.props.providers) {
+                if (provider.handleCompleteWord) {
                     provider.handleCompleteWord(fixedTerm, matchedPretext, this.handlePretextChanged);
                 }
             }
@@ -706,6 +715,7 @@ export default class SuggestionBox extends React.PureComponent {
             dateComponent,
             listStyle,
             renderNoResults,
+            suppressLoadingSpinner,
             ...props
         } = this.props;
 
@@ -730,6 +740,7 @@ export default class SuggestionBox extends React.PureComponent {
         Reflect.deleteProperty(props, 'listenForMentionKeyClick');
         Reflect.deleteProperty(props, 'wrapperHeight');
         Reflect.deleteProperty(props, 'forceSuggestionsWhenBlur');
+        Reflect.deleteProperty(props, 'onSuggestionsReceived');
 
         // This needs to be upper case so React doesn't think it's an html tag
         const SuggestionListComponent = listComponent;
@@ -777,7 +788,7 @@ export default class SuggestionBox extends React.PureComponent {
                             wrapperHeight={this.props.wrapperHeight}
                             inputRef={this.inputRef}
                             onLoseVisibility={this.blur}
-                            suppressLoadingSpinner={this.props.suppressLoadingSpinner}
+                            suppressLoadingSpinner={suppressLoadingSpinner}
                         />
                     </div>
                 }
