@@ -21,7 +21,7 @@ import Textbox from 'components/textbox';
 import TextboxLinks from 'components/textbox/textbox_links';
 
 const KeyCodes = Constants.KeyCodes;
-const TOP_OFFSET = 15;
+const TOP_OFFSET = 0;
 const RIGHT_OFFSET = 0;
 
 class EditPostModal extends React.PureComponent {
