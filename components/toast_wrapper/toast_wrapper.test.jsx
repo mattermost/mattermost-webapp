@@ -130,7 +130,6 @@ describe('components/ToastWrapper', () => {
                 ],
                 channelMarkedAsUnread: false,
                 atBottom: true,
-                initScrollOffsetFromBottom: 1220,
             };
             const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
             expect(wrapper.state('showUnreadToast')).toBe(false);
