@@ -16,6 +16,7 @@ import {
     PreferenceTypes,
 } from 'mattermost-redux/action_types';
 import {WebsocketEvents, General, Permissions} from 'mattermost-redux/constants';
+import {addChannelToInitialCategory} from 'mattermost-redux/actions/channel_categories';
 import {
     getChannelAndMyMember,
     getMyChannelMember,
@@ -72,7 +73,6 @@ import store from 'stores/redux_store.jsx';
 import WebSocketClient from 'client/web_websocket_client.jsx';
 import {loadPlugin, loadPluginsIfNecessary, removePlugin} from 'plugins';
 import {ActionTypes, Constants, AnnouncementBarMessages, SocketEvents, UserStatuses, ModalIdentifiers} from 'utils/constants';
-import {fromAutoResponder} from 'utils/post_utils';
 import {getSiteURL} from 'utils/url';
 import {isGuest} from 'utils/utils';
 import RemovedFromChannelModal from 'components/removed_from_channel_modal';
@@ -298,7 +298,7 @@ export function handleEvent(msg) {
         break;
 
     case SocketEvents.USER_ADDED:
-        handleUserAddedEvent(msg);
+        dispatch(handleUserAddedEvent(msg));
         break;
 
     case SocketEvents.USER_REMOVED:
@@ -354,7 +354,11 @@ export function handleEvent(msg) {
         break;
 
     case SocketEvents.DIRECT_ADDED:
-        handleDirectAddedEvent(msg);
+        dispatch(handleDirectAddedEvent(msg));
+        break;
+
+    case SocketEvents.GROUP_ADDED:
+        dispatch(handleGroupAddedEvent(msg));
         break;
 
     case SocketEvents.PREFERENCE_CHANGED:
@@ -539,7 +543,16 @@ export function handleNewPostEvent(msg) {
 
         getProfilesAndStatusesForPosts([post], myDispatch, myGetState);
 
-        if (post.user_id !== getCurrentUserId(myGetState()) && !fromAutoResponder(post) && !getIsManualStatusForUserId(myGetState(), post.user_id)) {
+        // Since status updates aren't real time, assume another user is online if they have posted and:
+        // 1. The user hasn't set their status manually to something that isn't online
+        // 2. The server hasn't told the client not to set the user to online. This happens when:
+        //     a. The post is from the auto responder
+        //     b. The post is a response to a push notification
+        if (
+            post.user_id !== getCurrentUserId(myGetState()) &&
+            !getIsManualStatusForUserId(myGetState(), post.user_id) &&
+            msg.data.set_online
+        ) {
             myDispatch({
                 type: UserTypes.RECEIVED_STATUSES,
                 data: [{user_id: post.user_id, status: UserStatuses.ONLINE}],
@@ -744,31 +757,48 @@ function handleUpdateMemberRoleEvent(msg) {
 }
 
 function handleDirectAddedEvent(msg) {
-    dispatch(getChannelAndMyMember(msg.broadcast.channel_id));
+    return fetchChannelAndAddToSidebar(msg.broadcast.channel_id);
+}
+
+function handleGroupAddedEvent(msg) {
+    return fetchChannelAndAddToSidebar(msg.broadcast.channel_id);
 }
 
 function handleUserAddedEvent(msg) {
-    const state = getState();
-    const config = getConfig(state);
-    const license = getLicense(state);
-    const isTimezoneEnabled = config.ExperimentalTimezone === 'true';
-    const currentChannelId = getCurrentChannelId(state);
-    if (currentChannelId === msg.broadcast.channel_id) {
-        dispatch(getChannelStats(currentChannelId));
-        dispatch({
-            type: UserTypes.RECEIVED_PROFILE_IN_CHANNEL,
-            data: {id: msg.broadcast.channel_id, user_id: msg.data.user_id},
-        });
-        if (license?.IsLicensed === 'true' && license?.LDAPGroups === 'true') {
-            dispatch(getChannelMemberCountsByGroup(currentChannelId, isTimezoneEnabled));
+    return async (doDispatch, doGetState) => {
+        const state = doGetState();
+        const config = getConfig(state);
+        const license = getLicense(state);
+        const isTimezoneEnabled = config.ExperimentalTimezone === 'true';
+        const currentChannelId = getCurrentChannelId(state);
+        if (currentChannelId === msg.broadcast.channel_id) {
+            doDispatch(getChannelStats(currentChannelId));
+            doDispatch({
+                type: UserTypes.RECEIVED_PROFILE_IN_CHANNEL,
+                data: {id: msg.broadcast.channel_id, user_id: msg.data.user_id},
+            });
+            if (license?.IsLicensed === 'true' && license?.LDAPGroups === 'true') {
+                doDispatch(getChannelMemberCountsByGroup(currentChannelId, isTimezoneEnabled));
+            }
         }
-    }
 
-    const currentTeamId = getCurrentTeamId(getState());
-    const currentUserId = getCurrentUserId(getState());
-    if (currentTeamId === msg.data.team_id && currentUserId === msg.data.user_id) {
-        dispatch(getChannelAndMyMember(msg.broadcast.channel_id));
-    }
+        // Load the channel so that it appears in the sidebar
+        const currentTeamId = getCurrentTeamId(doGetState());
+        const currentUserId = getCurrentUserId(doGetState());
+        if (currentTeamId === msg.data.team_id && currentUserId === msg.data.user_id) {
+            doDispatch(fetchChannelAndAddToSidebar(msg.broadcast.channel_id));
+        }
+    };
+}
+
+function fetchChannelAndAddToSidebar(channelId) {
+    return async (doDispatch) => {
+        const {data, error} = await doDispatch(getChannelAndMyMember(channelId));
+
+        if (!error) {
+            doDispatch(addChannelToInitialCategory(data.channel));
+        }
+    };
 }
 
 export async function handleUserRemovedEvent(msg) {
