@@ -12,6 +12,7 @@ import {
 import {tableTurndownRuleBuilder} from './tables';
 import {githubCodeTurndownRuleBuilder} from './githubcode';
 import {channelMentionsRule, hashtagsRule, filePreviewButtonRule, codeBlockRule} from './mattermost';
+import {fixNestedLists} from './htmlfix';
 
 const turndownService = new TurndownService({codeBlockStyle: 'fenced'}).remove('style');
 turndownService.use(strikethrough);
@@ -32,10 +33,14 @@ export default function smartPaste(clipboard: DataTransfer, message: string, cur
         formattedMessage = codeDetectionFormatter(text);
     }
 
-    if (!formattedMessage) {
+    if (!formattedMessage && html) {
         turndownService.addRule('github-code', githubCodeTurndownRuleBuilder(firstPiece.length > 0, lastPiece.length > 0, text));
         turndownService.addRule('table', tableTurndownRuleBuilder(firstPiece.length > 0, lastPiece.length > 0));
-        formattedMessage = htmlToMarkdown(html);
+
+        let doc = stringToHTML(html);
+        doc = fixNestedLists(doc);
+
+        formattedMessage = htmlToMarkdown(doc);
         formattedMessage = formattedMessage.replace(/#\*#\*NEW_LINE_REPLACEMENT\*#\*#/g, '\n');
     }
 
@@ -59,9 +64,15 @@ function codeDetectionFormatter(text: string): string {
     return '';
 }
 
-function htmlToMarkdown(html: string): string {
-    if (!html) {
-        return '';
-    }
-    return turndownService.turndown(html);
+function htmlToMarkdown(doc: Document): string {
+    return turndownService.turndown(doc);
 }
+
+export function stringToHTML(html: string): Document {
+    const doc = document.implementation.createHTMLDocument('');
+    doc.open();
+    doc.write('<x-turndown id="turndown-root">' + html + '</x-turndown>');
+    doc.close();
+    return doc;
+}
+
