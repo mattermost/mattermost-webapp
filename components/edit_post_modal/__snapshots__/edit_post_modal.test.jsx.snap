@@ -100,7 +100,7 @@ exports[`components/EditPostModal should disable the button on not canDeletePost
               spaceRequiredAbove={476}
               spaceRequiredBelow={497}
               target={[Function]}
-              topOffset={15}
+              topOffset={0}
             />
             <button
               aria-label="emoji picker"
@@ -262,7 +262,7 @@ exports[`components/EditPostModal should disable the button on not canEditPost a
               spaceRequiredAbove={476}
               spaceRequiredBelow={497}
               target={[Function]}
-              topOffset={15}
+              topOffset={0}
             />
             <button
               aria-label="emoji picker"
@@ -424,7 +424,7 @@ exports[`components/EditPostModal should match snapshot with useChannelMentions 
               spaceRequiredAbove={476}
               spaceRequiredBelow={497}
               target={[Function]}
-              topOffset={15}
+              topOffset={0}
             />
             <button
               aria-label="emoji picker"
@@ -586,7 +586,7 @@ exports[`components/EditPostModal should match with default config 1`] = `
               spaceRequiredAbove={476}
               spaceRequiredBelow={497}
               target={[Function]}
-              topOffset={15}
+              topOffset={0}
             />
             <button
               aria-label="emoji picker"
@@ -884,7 +884,7 @@ exports[`components/EditPostModal should not disable the button on not canDelete
               spaceRequiredAbove={476}
               spaceRequiredBelow={497}
               target={[Function]}
-              topOffset={15}
+              topOffset={0}
             />
             <button
               aria-label="emoji picker"
@@ -1046,7 +1046,7 @@ exports[`components/EditPostModal should not disable the button on not canEditPo
               spaceRequiredAbove={476}
               spaceRequiredBelow={497}
               target={[Function]}
-              topOffset={15}
+              topOffset={0}
             />
             <button
               aria-label="emoji picker"
@@ -1208,7 +1208,7 @@ exports[`components/EditPostModal should not disable the save button on not canD
               spaceRequiredAbove={476}
               spaceRequiredBelow={497}
               target={[Function]}
-              topOffset={15}
+              topOffset={0}
             />
             <button
               aria-label="emoji picker"
@@ -1370,7 +1370,7 @@ exports[`components/EditPostModal should show emojis on emojis click 1`] = `
               spaceRequiredAbove={476}
               spaceRequiredBelow={497}
               target={[Function]}
-              topOffset={15}
+              topOffset={0}
             />
             <button
               aria-label="emoji picker"
@@ -1532,7 +1532,7 @@ exports[`components/EditPostModal should show errors when it is set in the state
               spaceRequiredAbove={476}
               spaceRequiredBelow={497}
               target={[Function]}
-              topOffset={15}
+              topOffset={0}
             />
             <button
               aria-label="emoji picker"
