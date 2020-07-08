@@ -8,15 +8,15 @@ import AdminPanelWithLink from './admin_panel_with_link';
 
 describe('components/widgets/admin_console/AdminPanelWithLink', () => {
     const defaultProps = {
-        className: 'test-class-name',
-        id: 'test-id',
-        titleId: 'test-title-id',
-        titleDefault: 'test-title-default',
-        subtitleId: 'test-subtitle-id',
-        subtitleDefault: 'test-subtitle-default',
-        url: '/path',
-        linkTextId: 'test-button-text-id',
-        linkTextDefault: 'test-button-text-default',
+        className: "test-class-name",
+        id: "test-id",
+        titleId: "test-title-id",
+        titleDefault: "test-title-default",
+        subtitleId: "test-subtitle-id",
+        subtitleDefault: "test-subtitle-default",
+        url: "/path",
+        linkTextId: "test-button-text-id",
+        linkTextDefault: "test-button-text-default",
         disabled: false,
     };
 
@@ -26,29 +26,29 @@ describe('components/widgets/admin_console/AdminPanelWithLink', () => {
         );
         expect(wrapper).toMatchInlineSnapshot(`
         <AdminPanel
-            button={
-                <Link
-                    className='btn btn-primary'
-                    data-testid='test-id-link'
-                    onClick={[Function]}
-                    to='/path'
-                >
-                    <FormattedMessage
-                    defaultMessage='test-button-text-default'
-                    id='test-button-text-id'
-                    values={Object {}}
-                    />
-                </Link>
-            }
-            className='AdminPanelWithLink test-class-name'
-            data-testid='test-id'
-            id='test-id'
-            subtitleDefault='test-subtitle-default'
-            subtitleId='test-subtitle-id'
-            titleDefault='test-title-default'
-            titleId='test-title-id'
+          button={
+            <Link
+              className="btn btn-primary"
+              data-testid="test-id-link"
+              onClick={[Function]}
+              to="/path"
+            >
+              <FormattedMessage
+                defaultMessage="test-button-text-default"
+                id="test-button-text-id"
+                values={Object {}}
+              />
+            </Link>
+          }
+          className="AdminPanelWithLink test-class-name"
+          data-testid="test-id"
+          id="test-id"
+          subtitleDefault="test-subtitle-default"
+          subtitleId="test-subtitle-id"
+          titleDefault="test-title-default"
+          titleId="test-title-id"
         >
-            Test
+          Test
         </AdminPanel>
         `);
     });
@@ -64,29 +64,29 @@ describe('components/widgets/admin_console/AdminPanelWithLink', () => {
         );
         expect(wrapper).toMatchInlineSnapshot(`
         <AdminPanel
-            button={
-                <Link
-                    className='btn btn-primary'
-                    data-testid='test-id-link'
-                    onClick={[Function]}
-                    to='/path'
-                >
-                    <FormattedMessage
-                    defaultMessage='test-button-text-default'
-                    id='test-button-text-id'
-                    values={Object {}}
-                    />
-                </Link>
-            }
-            className='AdminPanelWithLink test-class-name'
-            data-testid='test-id'
-            id='test-id'
-            subtitleDefault='test-subtitle-default'
-            subtitleId='test-subtitle-id'
-            titleDefault='test-title-default'
-            titleId='test-title-id'
+          button={
+            <Link
+              className="btn btn-primary"
+              data-testid="test-id-link"
+              onClick={[Function]}
+              to="/path"
+            >
+              <FormattedMessage
+                defaultMessage="test-button-text-default"
+                id="test-button-text-id"
+                values={Object {}}
+              />
+            </Link>
+          }
+          className="AdminPanelWithLink test-class-name"
+          data-testid="test-id"
+          id="test-id"
+          subtitleDefault="test-subtitle-default"
+          subtitleId="test-subtitle-id"
+          titleDefault="test-title-default"
+          titleId="test-title-id"
         >
-            Test
+          Test
         </AdminPanel>
         `);
     });
