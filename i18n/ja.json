@@ -842,10 +842,10 @@
   "admin.jobTable.statusPending": "保留中",
   "admin.jobTable.statusSuccess": "成功",
   "admin.jobTable.statusWarning": "Warning",
-  "admin.ldap_feature_discovery.call_to_action.primary": "リクエスト試行",
+  "admin.ldap_feature_discovery.call_to_action.primary": "トライアル開始",
   "admin.ldap_feature_discovery.call_to_action.secondary": "詳しく知る",
-  "admin.ldap_feature_discovery.copy": "Mattermostをあなたの組織のActive Directory / LDAPに接続すると、ユーザーはログインするための新たなユーザー名とパスワードを作成する必要がなくなります。",
-  "admin.ldap_feature_discovery.title": "Mattermost Enterprise E10 を Active Directory / LDAP と統合する",
+  "admin.ldap_feature_discovery.copy": "Mattermostをあなたの組織のActive Directory/LDAPに接続すると、ユーザーはログインするための新たなユーザー名とパスワードを作成する必要がなくなります。",
+  "admin.ldap_feature_discovery.title": "Mattermost Enterprise E10 を Active Directory/LDAP と統合する",
   "admin.ldap.adminFilterEx": "例: \"(objectClass=user)\"",
   "admin.ldap.adminFilterFilterDesc": "(オプション) システム管理者を指定するために利用されるAD/LDAPフィルターを入力してください。クエリによって選択されたユーザーは、Mattermostサーバーにシステム管理者としてアクセスできます。デフォルトでは、システム管理者Mattermostのシステムコンソールへの完全なアクセス権を持ちます。\n \nこの属性によって識別されていた既存のユーザーは、次回のログイン以降、メンバーからシステム管理者に昇格します。次回のログインは **システムコンソール > セッション維持期間** で設定されたセッション維持期間に基づきます。すぐにアクセス制限を行うためにも、**システムコンソール > ユーザー管理** から手動でユーザーをメンバーに降格することを強く推奨します。\n \n注意: このフィルターが削除/変更された場合、このフィルターによる昇格されたシステム管理者はメンバーへ降格し、システムコンソールへアクセスできなくなります。このフィルターが利用されていない場合、システム管理者は **システムコンソール > ユーザー管理** から手動で昇格/降格できます。",
   "admin.ldap.adminFilterTitle": "管理者フィルター:",
@@ -3888,5 +3888,11 @@
   "admin.saml.serviceProviderIdentifierEx": "例: \"https://<your-mattermost-url>/login/sso/saml\"",
   "rhs_header.collapseSidebarTooltip.icon": "サイドバー縮小アイコン",
   "rhs_header.collapseSidebarTooltip": "サイドバーを縮小する",
-  "admin.group_settings.group_detail.invalid_length": "名前は1~64文字の小文字の英数字にしてください"
+  "admin.group_settings.group_detail.invalid_length": "名前は1~64文字の小文字の英数字にしてください",
+  "admin.saml.serviceProviderIdentifierTitle": "サービスプロバイダ識別子:",
+  "admin.saml.serviceProviderIdentifierDesc": "サービスプロバイダのユニークな識別子です。一般的にサービスプロバイダのログインURLと同じになります。ADFSでは、リライングパーティー識別子と一致する必要があります。",
+  "admin.license.trial-request.submit": "トライアル開始",
+  "admin.license.trial-request.loading": "トライアルを開始する",
+  "admin.license.trial-request.error": "トライアルライセンスを取得できませんでした。[https://mattermost.com/trial/](https://mattermost.com/trial/)からライセンスをリクエストしてください。",
+  "admin.license.trial-request.accept-terms": "**トライアル開始**をクリックすると、[Mattermost Software Evaluation Agreement](!https://mattermost.com/software-evaluation-agreement/) と [プライバシーポリシー](!https://mattermost.com/privacy-policy/) に同意し、製品に関する電子メールを受信するようになります。"
 }
