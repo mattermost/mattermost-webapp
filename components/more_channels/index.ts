@@ -8,7 +8,7 @@ import {createSelector} from 'reselect';
 import {RequestStatus} from 'mattermost-redux/constants';
 import {Channel} from 'mattermost-redux/types/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
+import {ActionFunc} from 'mattermost-redux/types/actions';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getChannels, getArchivedChannels, joinChannel} from 'mattermost-redux/actions/channels';
@@ -45,10 +45,10 @@ function mapStateToProps(state: GlobalState) {
 }
 
 type Actions = {
-    getChannels: (teamId: string, page: number, perPage: number) => void;
-    getArchivedChannels: (teamId: string, page: number, channelsPerPage: number) => void;
-    joinChannel: (currentUserId: string, teamId: string, channelId: string) => Promise<ActionResult>;
-    searchMoreChannels: (term: string, shouldShowArchivedChannels: boolean) => Promise<{data: Channel[]}>;
+    getChannels: (teamId: string, page: number, perPage: number) => ActionFunc | void;
+    getArchivedChannels: (teamId: string, page: number, channelsPerPage: number) => ActionFunc | void;
+    joinChannel: (currentUserId: string, teamId: string, channelId: string) => ActionFunc;
+    searchMoreChannels: (term: string, shouldShowArchivedChannels: boolean) => ActionFunc;
 }
 
 function mapDispatchToProps(dispatch: Dispatch) {

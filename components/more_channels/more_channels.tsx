@@ -4,9 +4,10 @@
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
-import Permissions from 'mattermost-redux/constants/permissions';
+
 import {Channel} from 'mattermost-redux/types/channels';
-import {ActionResult} from 'mattermost-redux/types/actions';
+import {ActionFunc} from 'mattermost-redux/types/actions';
+import Permissions from 'mattermost-redux/constants/permissions';
 
 import {browserHistory} from 'utils/browser_history';
 
@@ -20,13 +21,13 @@ const CHANNELS_PER_PAGE = 50;
 const SEARCH_TIMEOUT_MILLISECONDS = 100;
 
 type Actions = {
-    getChannels: (teamId: string, page: number, perPage: number) => void;
-    getArchivedChannels: (teamId: string, page: number, channelsPerPage: number) => void;
-    joinChannel: (currentUserId: string, teamId: string, channelId: string) => Promise<ActionResult>;
-    searchMoreChannels: (term: string, shouldShowArchivedChannels: boolean) => Promise<{data: Channel[]}>;
+    getChannels: (teamId: string, page: number, perPage: number) => ActionFunc | void;
+    getArchivedChannels: (teamId: string, page: number, channelsPerPage: number) => ActionFunc | void;
+    joinChannel: (currentUserId: string, teamId: string, channelId: string) => ActionFunc;
+    searchMoreChannels: (term: string, shouldShowArchivedChannels: boolean) => ActionFunc | Promise<{data: Channel[]}>;
 }
 
-type Props = {
+export type Props = {
     channels: Channel[];
     archivedChannels: Channel[];
     currentUserId: string;
@@ -136,7 +137,7 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
         const searchTimeoutId = window.setTimeout(
             async () => {
                 try {
-                    const {data} = await this.props.actions.searchMoreChannels(term, this.state.shouldShowArchivedChannels);
+                    const {data}: any = await this.props.actions.searchMoreChannels(term, this.state.shouldShowArchivedChannels);
                     if (searchTimeoutId !== this.searchTimeoutId) {
                         return;
                     }
@@ -194,7 +195,8 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
 
         let serverError;
         if (serverErrorState) {
-            serverError = <div className='form-group has-error'><label className='control-label'>{serverErrorState}</label></div>;
+            serverError =
+                <div className='form-group has-error'><label className='control-label'>{serverErrorState}</label></div>;
         }
 
         const createNewChannelButton = (
