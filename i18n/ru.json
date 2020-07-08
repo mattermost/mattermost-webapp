@@ -3885,7 +3885,6 @@
   "widgets.users_emails_input.no_user_found_matching": "Никого соответствующего **{text}** не найдено, введите адрес электронной почты",
   "widgets.users_emails_input.valid_email": "Добавить **{email}**",
   "yourcomputer": "Ваш компьютер",
-  "admin.license.trial-request.different-data": "Или получите пробную лицензию вручную на ",
   "admin.license.trial-request.loading": "Получение пробной версии",
   "admin.license.trial-request.submit": "Начать использовать пробную версию",
   "rhs_header.collapseSidebarTooltip": "Свернуть боковую панель",

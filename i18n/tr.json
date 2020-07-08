@@ -3885,7 +3885,6 @@
   "widgets.users_emails_input.no_user_found_matching": "**{text}** ile eşleşen kimse bulunamadı, e-posta adresini yazın",
   "widgets.users_emails_input.valid_email": "**{email}** Ekle",
   "yourcomputer": "Bilgisayarınız",
-  "admin.license.trial-request.different-data": "Ya da şuradan bir deneme lisansı edinin ",
   "rhs_header.collapseSidebarTooltip": "Yan Çubuğu Daralt",
   "rhs_header.collapseSidebarTooltip.icon": "Yan Çubuğu Daralt Simgesi",
   "admin.license.trial-request.loading": "Deneme sürümünü edinmek",

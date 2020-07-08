@@ -3885,7 +3885,6 @@
   "widgets.users_emails_input.no_user_found_matching": "Niemand gevonden overeenstemmend met **{text}**, tik e-mailadres",
   "widgets.users_emails_input.valid_email": "Toevoegen **{email}**",
   "yourcomputer": "Jouw computer",
-  "admin.license.trial-request.different-data": "Of vraag manueel een proeflicentie aan op< ",
   "admin.license.trial-request.loading": "Bezig met proeflicentie aan te vragen",
   "admin.license.trial-request.submit": "Probeerversie starten",
   "rhs_header.collapseSidebarTooltip": "Zijbalk Invouwen",

@@ -3885,7 +3885,6 @@
   "widgets.users_emails_input.no_user_found_matching": "未找到匹配 **{text}** 的用户，输入邮箱地址",
   "widgets.users_emails_input.valid_email": "添加 **{email}**",
   "yourcomputer": "您的电脑",
-  "admin.license.trial-request.different-data": "或手动获取试用证书： ",
   "rhs_header.collapseSidebarTooltip": "关闭侧栏",
   "admin.license.trial-request.loading": "获取试用",
   "admin.license.trial-request.submit": "开始试用",
