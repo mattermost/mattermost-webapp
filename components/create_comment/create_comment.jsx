@@ -196,8 +196,6 @@ class CreateComment extends React.PureComponent {
          */
         selectedPostFocussedAt: PropTypes.number.isRequired,
 
-        isMarkdownPreviewEnabled: PropTypes.bool.isRequired,
-
         /**
          * Function to set or unset emoji picker for last message
          */
@@ -1243,7 +1241,6 @@ class CreateComment extends React.PureComponent {
                                     showPreview={this.props.shouldShowPreview}
                                     updatePreview={this.setShowPreview}
                                     message={readOnlyChannel ? '' : this.state.message}
-                                    isMarkdownPreviewEnabled={this.props.isMarkdownPreviewEnabled}
                                 />
                             </div>
                         </div>

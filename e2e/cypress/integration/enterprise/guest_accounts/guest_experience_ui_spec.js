@@ -15,6 +15,17 @@
  */
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
+function demoteGuestUser(guestUser) {
+    // # Demote user as guest user before each test
+    cy.apiAdminLogin();
+    cy.apiGetUserByEmail(guestUser.email).then((emailResponse) => {
+        const user = emailResponse.body;
+        if (user.roles !== 'system_guest') {
+            cy.demoteUser(guestUser.id);
+        }
+    });
+}
+
 describe('Guest Account - Guest User Experience', () => {
     let guestUser;
 
@@ -180,5 +191,30 @@ describe('Guest Account - Guest User Experience', () => {
 
         // # Close the profile popover
         cy.get('#channel-header').click();
+    });
+
+    it('MM-T1417 Add Guest User to New Team from System Console', () => {
+        // # Demote Guest user if applicable
+        demoteGuestUser(guestUser);
+
+        // # Ceate a new team
+        cy.apiCreateTeam('test-team2', 'Test Team2').then(({team: teamTwo}) => {
+            // # Login as guest user
+            cy.apiLogin(guestUser);
+            cy.reload();
+
+            // # As a sysadmin, add the guest user to this team
+            cy.externalAddUserToTeam(teamTwo.id, guestUser.id).then(() => {
+                cy.get(`#${teamTwo.name}TeamButton`).should('be.visible').click();
+
+                // * Verify if Channel Not found is displayed
+                cy.findByText('Channel Not Found').should('be.visible');
+                cy.findByText('Your guest account has no channels assigned. Please contact an administrator.').should('be.visible');
+                cy.findByText('Back').should('be.visible').click();
+
+                // * Verify if user is redirected to a valid channel
+                cy.findByTestId('post_textbox').should('be.visible');
+            });
+        });
     });
 });

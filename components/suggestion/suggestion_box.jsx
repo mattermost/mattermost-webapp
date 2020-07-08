@@ -706,6 +706,7 @@ export default class SuggestionBox extends React.PureComponent {
             dateComponent,
             listStyle,
             renderNoResults,
+            suppressLoadingSpinner,
             ...props
         } = this.props;
 
@@ -730,6 +731,7 @@ export default class SuggestionBox extends React.PureComponent {
         Reflect.deleteProperty(props, 'listenForMentionKeyClick');
         Reflect.deleteProperty(props, 'wrapperHeight');
         Reflect.deleteProperty(props, 'forceSuggestionsWhenBlur');
+        Reflect.deleteProperty(props, 'onSuggestionsReceived');
 
         // This needs to be upper case so React doesn't think it's an html tag
         const SuggestionListComponent = listComponent;
@@ -777,7 +779,7 @@ export default class SuggestionBox extends React.PureComponent {
                             wrapperHeight={this.props.wrapperHeight}
                             inputRef={this.inputRef}
                             onLoseVisibility={this.blur}
-                            suppressLoadingSpinner={this.props.suppressLoadingSpinner}
+                            suppressLoadingSpinner={suppressLoadingSpinner}
                         />
                     </div>
                 }
