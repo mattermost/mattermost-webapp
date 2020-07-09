@@ -24,7 +24,7 @@ describe('Account Settings > Display > Timezone Mode', () => {
     const timezoneCanonical = {type: 'Canonical', actualValue: 'Asia/Hong_Kong', expectedValue: 'Asia/Hong_Kong'};
     const timezoneUTC = {type: 'Default', actualValue: 'UTC', expectedValue: 'UTC'};
     const timezoneInvalid = {type: 'Invalid', actualValue: 'NZ-Chat', expectedValue: 'UTC'};
-    const timeFormat = 'h:m A';
+    const timeFormat = 'h:mm A';
     const utcFormattedTimes = [
         moment(date1).tz(timezoneUTC.expectedValue).format(timeFormat),
         moment(date2).tz(timezoneUTC.expectedValue).format(timeFormat),
