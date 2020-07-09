@@ -114,7 +114,7 @@ export default class AdminConsole extends React.PureComponent<Props, State> {
     }
 
     private renderRoutes = (extraProps: ExtraProps) => {
-        const schemas = Object.values(this.props.adminDefinition).reduce((acc, section: Item[]) => {
+        const schemas: Item[] = Object.values(this.props.adminDefinition).reduce((acc, section) => {
             let items: Item[] = [];
 
             let isSectionHidden = false;
