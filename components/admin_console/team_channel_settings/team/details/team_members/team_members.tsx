@@ -190,7 +190,7 @@ export default class TeamMembers extends React.PureComponent<Props, State> {
                     [GeneralConstants.SYSTEM_GUEST_ROLE]: {
                         name: (
                             <FormattedMessage
-                                id='admin.user_grid.filters.system_guest'
+                                id='admin.user_grid.guest'
                                 defaultMessage='Guest'
                             />
                         ),
@@ -199,7 +199,7 @@ export default class TeamMembers extends React.PureComponent<Props, State> {
                     [GeneralConstants.TEAM_USER_ROLE]: {
                         name: (
                             <FormattedMessage
-                                id='admin.user_grid.filters.member'
+                                id='admin.user_item.member'
                                 defaultMessage='Member'
                             />
                         ),
@@ -208,7 +208,7 @@ export default class TeamMembers extends React.PureComponent<Props, State> {
                     [GeneralConstants.TEAM_ADMIN_ROLE]: {
                         name: (
                             <FormattedMessage
-                                id='admin.user_grid.filters.team_admin'
+                                id='admin.user_grid.team_admin'
                                 defaultMessage='Team Admin'
                             />
                         ),
@@ -217,7 +217,7 @@ export default class TeamMembers extends React.PureComponent<Props, State> {
                     [GeneralConstants.SYSTEM_ADMIN_ROLE]: {
                         name: (
                             <FormattedMessage
-                                id='admin.user_grid.filters.system_admin'
+                                id='admin.user_grid.system_admin'
                                 defaultMessage='System Admin'
                             />
                         ),

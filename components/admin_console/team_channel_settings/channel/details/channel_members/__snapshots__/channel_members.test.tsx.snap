@@ -79,7 +79,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelMembers should match
               "channel_admin": Object {
                 "name": <FormattedMessage
                   defaultMessage="Channel Admin"
-                  id="admin.user_grid.filters.channel_admin"
+                  id="admin.user_grid.channel_admin"
                   values={Object {}}
                 />,
                 "value": false,
@@ -87,7 +87,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelMembers should match
               "channel_user": Object {
                 "name": <FormattedMessage
                   defaultMessage="Member"
-                  id="admin.user_grid.filters.member"
+                  id="admin.user_item.member"
                   values={Object {}}
                 />,
                 "value": false,
@@ -95,7 +95,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelMembers should match
               "system_admin": Object {
                 "name": <FormattedMessage
                   defaultMessage="System Admin"
-                  id="admin.user_grid.filters.system_admin"
+                  id="admin.user_grid.system_admin"
                   values={Object {}}
                 />,
                 "value": false,
@@ -103,7 +103,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelMembers should match
               "system_guest": Object {
                 "name": <FormattedMessage
                   defaultMessage="Guest"
-                  id="admin.user_grid.filters.system_guest"
+                  id="admin.user_grid.guest"
                   values={Object {}}
                 />,
                 "value": false,
@@ -396,7 +396,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelMembers should match
               "channel_admin": Object {
                 "name": <FormattedMessage
                   defaultMessage="Channel Admin"
-                  id="admin.user_grid.filters.channel_admin"
+                  id="admin.user_grid.channel_admin"
                   values={Object {}}
                 />,
                 "value": false,
@@ -404,7 +404,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelMembers should match
               "channel_user": Object {
                 "name": <FormattedMessage
                   defaultMessage="Member"
-                  id="admin.user_grid.filters.member"
+                  id="admin.user_item.member"
                   values={Object {}}
                 />,
                 "value": false,
@@ -412,7 +412,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelMembers should match
               "system_admin": Object {
                 "name": <FormattedMessage
                   defaultMessage="System Admin"
-                  id="admin.user_grid.filters.system_admin"
+                  id="admin.user_grid.system_admin"
                   values={Object {}}
                 />,
                 "value": false,
@@ -420,7 +420,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelMembers should match
               "system_guest": Object {
                 "name": <FormattedMessage
                   defaultMessage="Guest"
-                  id="admin.user_grid.filters.system_guest"
+                  id="admin.user_grid.guest"
                   values={Object {}}
                 />,
                 "value": false,

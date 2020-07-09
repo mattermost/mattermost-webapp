@@ -192,7 +192,7 @@ export default class ChannelMembers extends React.PureComponent<Props, State> {
                     [GeneralConstants.SYSTEM_GUEST_ROLE]: {
                         name: (
                             <FormattedMessage
-                                id='admin.user_grid.filters.system_guest'
+                                id='admin.user_grid.guest'
                                 defaultMessage='Guest'
                             />
                         ),
@@ -201,7 +201,7 @@ export default class ChannelMembers extends React.PureComponent<Props, State> {
                     [GeneralConstants.CHANNEL_USER_ROLE]: {
                         name: (
                             <FormattedMessage
-                                id='admin.user_grid.filters.member'
+                                id='admin.user_item.member'
                                 defaultMessage='Member'
                             />
                         ),
@@ -210,7 +210,7 @@ export default class ChannelMembers extends React.PureComponent<Props, State> {
                     [GeneralConstants.CHANNEL_ADMIN_ROLE]: {
                         name: (
                             <FormattedMessage
-                                id='admin.user_grid.filters.channel_admin'
+                                id='admin.user_grid.channel_admin'
                                 defaultMessage='Channel Admin'
                             />
                         ),
@@ -219,7 +219,7 @@ export default class ChannelMembers extends React.PureComponent<Props, State> {
                     [GeneralConstants.SYSTEM_ADMIN_ROLE]: {
                         name: (
                             <FormattedMessage
-                                id='admin.user_grid.filters.system_admin'
+                                id='admin.user_grid.system_admin'
                                 defaultMessage='System Admin'
                             />
                         ),
