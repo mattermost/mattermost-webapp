@@ -16,6 +16,7 @@ import {trackEvent} from 'actions/diagnostics_actions';
 import OverlayTrigger from 'components/overlay_trigger';
 import {DraggingState} from 'types/store';
 import Constants, {A11yCustomEventTypes, DraggingStateTypes, DraggingStates} from 'utils/constants';
+import {t} from 'utils/i18n';
 import {isKeyPressed} from 'utils/utils';
 
 import SidebarChannel from '../sidebar_channel';
@@ -402,3 +403,8 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
         );
     }
 }
+
+// Adding references to translations for i18n-extract
+t('sidebar.types.channels');
+t('sidebar.types.direct_messages');
+t('sidebar.types.favorites');

@@ -13,13 +13,13 @@ describe('Archived channels', () => {
     before(() => {
         cy.requireLicense();
 
-        cy.apiInitSetup().then(({team}) => {
-            cy.apiCreateChannel(team.id, `aaa-archive-${Date.now()}`, 'AAA Archive Test').then((response) => {
-                testChannel = response.body;
+        cy.apiInitSetup({
+            channelPrefix: {name: 'aaa-archive', displayName: 'AAA Archive Test'},
+        }).then(({channel}) => {
+            testChannel = channel;
 
-                // # Archive the channel
-                cy.apiDeleteChannel(testChannel.id);
-            });
+            // # Archive the channel
+            cy.apiDeleteChannel(testChannel.id);
         });
     });
 
@@ -37,7 +37,7 @@ describe('Archived channels', () => {
         cy.visit('/admin_console/user_management/channels');
 
         // # Search for the archived channel
-        cy.get('[data-testid=search-input]').type(`${testChannel.display_name}{enter}`);
+        cy.findByPlaceholderText('Search').type(`${testChannel.display_name}{enter}`);
 
         // * Confirm that the archived channel is in the results
         cy.findByText(testChannel.display_name).should('be.visible');
