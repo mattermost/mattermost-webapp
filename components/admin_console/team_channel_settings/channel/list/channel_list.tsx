@@ -20,7 +20,7 @@ import LockIcon from 'components/widgets/icons/lock_icon';
 import './channel_list.scss';
 interface ChannelListProps {
     actions: {
-        searchAllChannels: (term: string, notAssociatedToGroup?: string, excludeDefaultChannels?: boolean, page?: number, perPage?: number) => Promise<{ data: any }>;
+        searchAllChannels: (term: string, notAssociatedToGroup?: string, excludeDefaultChannels?: boolean, page?: number, perPage?: number, includeDeleted?: boolean) => Promise<{ data: any }>;
         getData: (page: number, perPage: number, notAssociatedToGroup? : string, excludeDefaultChannels?: boolean) => ActionFunc | ActionResult | Promise<ChannelWithTeamData[]>;
     };
     data: ChannelWithTeamData[];
