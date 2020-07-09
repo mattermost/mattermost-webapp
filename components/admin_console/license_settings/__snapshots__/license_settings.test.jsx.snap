@@ -645,7 +645,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                     text="Getting trial"
                   >
                     <FormattedMessage
-                      defaultMessage="Start a trial"
+                      defaultMessage="Start trial"
                       id="admin.license.trial-request.submit"
                       values={Object {}}
                     />
@@ -653,20 +653,12 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                 </button>
               </p>
               <p
-                className="help-text"
+                className="trial-legal-terms"
               >
-                <FormattedMessage
-                  defaultMessage="Or get a trial license manually at "
-                  id="admin.license.trial-request.different-data"
-                  values={Object {}}
+                <injectIntl(FormattedMarkdownMessage)
+                  defaultMessage="By clicking **Start trial**, I agree to the [Mattermost Software Evaluation Agreement](!https://mattermost.com/software-evaluation-agreement/), [Privacy Policy](!https://mattermost.com/privacy-policy/), and receiving product emails."
+                  id="admin.license.trial-request.accept-terms"
                 />
-                <a
-                  href="https://mattermost.com/trial/?utm_medium=product&utm_source=product-trial"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  https://mattermost.com/trial/
-                </a>
               </p>
             </div>
           </div>
@@ -810,7 +802,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                     text="Getting trial"
                   >
                     <FormattedMessage
-                      defaultMessage="Start a trial"
+                      defaultMessage="Start trial"
                       id="admin.license.trial-request.submit"
                       values={Object {}}
                     />
@@ -818,20 +810,12 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                 </button>
               </p>
               <p
-                className="help-text"
+                className="trial-legal-terms"
               >
-                <FormattedMessage
-                  defaultMessage="Or get a trial license manually at "
-                  id="admin.license.trial-request.different-data"
-                  values={Object {}}
+                <injectIntl(FormattedMarkdownMessage)
+                  defaultMessage="By clicking **Start trial**, I agree to the [Mattermost Software Evaluation Agreement](!https://mattermost.com/software-evaluation-agreement/), [Privacy Policy](!https://mattermost.com/privacy-policy/), and receiving product emails."
+                  id="admin.license.trial-request.accept-terms"
                 />
-                <a
-                  href="https://mattermost.com/trial/?utm_medium=product&utm_source=product-trial"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  https://mattermost.com/trial/
-                </a>
               </p>
             </div>
           </div>
