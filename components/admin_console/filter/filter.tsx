@@ -4,8 +4,6 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import MenuIcon from 'components/widgets/icons/menu_icon';
-
 import FilterList from './filter_list';
 import './filter.scss';
 

@@ -44,8 +44,8 @@ describe('admin_console/team_channel_settings/team/TeamMembers', () => {
             loadProfilesAndReloadTeamMembers: jest.fn(),
             searchProfilesAndTeamMembers: jest.fn(),
             getFilteredUsersStats: jest.fn(),
-            setUserGridSearch:  jest.fn(),
-            setUserGridFilters:  jest.fn(),
+            setUserGridSearch: jest.fn(),
+            setUserGridFilters: jest.fn(),
         },
     };
 
