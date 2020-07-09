@@ -219,10 +219,6 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
             return null;
         }
 
-        if (category.type !== CategoryTypes.DIRECT_MESSAGES && category.type !== CategoryTypes.CUSTOM && !channels?.length) {
-            return null;
-        }
-
         const renderedChannels = channels.map(this.renderChannel);
 
         let categoryMenu: JSX.Element;
