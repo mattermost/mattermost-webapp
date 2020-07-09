@@ -5,7 +5,8 @@ import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
 import {Dictionary} from 'mattermost-redux/types/utilities';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {ServerError} from 'mattermost-redux/types/errors';
+import {UserProfile, UsersStats, GetFilteredUsersStatsOpts} from 'mattermost-redux/types/users';
 
 import {filterProfilesMatchingTerm, profileListToMap} from 'mattermost-redux/utils/user_utils';
 
@@ -13,12 +14,13 @@ import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
 import {ChannelStats} from 'mattermost-redux/types/channels';
 
 import {getChannelStats} from 'mattermost-redux/actions/channels';
+import {getFilteredUsersStats} from 'mattermost-redux/actions/users';
 
 import {getChannelMembersInChannels, getAllChannelStats, getChannel} from 'mattermost-redux/selectors/entities/channels';
-import {searchProfilesInChannel, makeGetProfilesInChannel, filterProfiles} from 'mattermost-redux/selectors/entities/users';
+import {makeGetProfilesInChannel, makeSearchProfilesInChannel, filterProfiles} from 'mattermost-redux/selectors/entities/users';
 
 import {loadProfilesAndReloadChannelMembers, searchProfilesAndChannelMembers} from 'actions/user_actions';
-import {setUserGridSearch} from 'actions/views/search';
+import {setUserGridSearch, setUserGridFilters} from 'actions/views/search';
 import {GlobalState} from 'types/store';
 
 import ChannelMembers from './channel_members';
@@ -39,7 +41,14 @@ type Actions = {
     searchProfilesAndChannelMembers: (term: string, options?: {}) => Promise<{
         data: boolean;
     }>;
+    getFilteredUsersStats: (filters: GetFilteredUsersStatsOpts) => Promise<{
+        data?: UsersStats;
+        error?: ServerError;
+    }>;
     setUserGridSearch: (term: string) => Promise<{
+        data: boolean;
+    }>;
+    setUserGridFilters: (filters: GetFilteredUsersStatsOpts) => Promise<{
         data: boolean;
     }>;
 };
@@ -53,6 +62,7 @@ function searchUsersToAdd(users: Dictionary<UserProfile>, term: string): Diction
 
 function makeMapStateToProps() {
     const doGetProfilesInChannel = makeGetProfilesInChannel();
+    const doSearchProfilesInChannel = makeSearchProfilesInChannel();
 
     return function mapStateToProps(state: GlobalState, props: Props) {
         const {channelId, usersToRemove} = props;
@@ -70,15 +80,17 @@ function makeMapStateToProps() {
         };
 
         const searchTerm = state.views.search.userGridSearch?.term || '';
+        const filters = state.views.search.userGridSearch?.filters || {};
         let users = [];
         if (searchTerm) {
-            users = searchProfilesInChannel(state, channelId, searchTerm, false, true);
+            users = doSearchProfilesInChannel(state, channelId, searchTerm, false, {...filters, active: true});
             usersToAdd = searchUsersToAdd(usersToAdd, searchTerm);
         } else {
-            users = doGetProfilesInChannel(state, channelId, true);
+            users = doGetProfilesInChannel(state, channelId, {...filters, active: true});
         }
 
         return {
+            filters,
             channelId,
             channel,
             users,
@@ -97,7 +109,9 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             getChannelStats,
             loadProfilesAndReloadChannelMembers,
             searchProfilesAndChannelMembers,
+            getFilteredUsersStats,
             setUserGridSearch,
+            setUserGridFilters,
         }, dispatch),
     };
 }

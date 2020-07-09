@@ -6,8 +6,10 @@ import {FormattedMessage} from 'react-intl';
 
 import {Dictionary} from 'mattermost-redux/types/utilities';
 
-import {UserProfile} from 'mattermost-redux/types/users';
+import {ServerError} from 'mattermost-redux/types/errors';
+import {UserProfile, UsersStats, GetFilteredUsersStatsOpts} from 'mattermost-redux/types/users';
 import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
+import GeneralConstants from 'mattermost-redux/constants/general';
 
 import {t} from 'utils/i18n';
 import Constants from 'utils/constants';
@@ -17,10 +19,12 @@ import UserGrid from 'components/admin_console/user_grid/user_grid';
 import {BaseMembership} from 'components/admin_console/user_grid/user_grid_role_dropdown';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import ToggleModalButton from 'components/toggle_modal_button';
+import {FilterOptions} from 'components/admin_console/filter/filter';
 
 type Props = {
     channelId: string;
     channel: Channel;
+    filters: GetFilteredUsersStatsOpts;
 
     users: UserProfile[];
     usersToRemove: Dictionary<UserProfile>;
@@ -46,13 +50,21 @@ type Props = {
         searchProfilesAndChannelMembers: (term: string, options?: {}) => Promise<{
             data: boolean;
         }>;
+        getFilteredUsersStats: (filters: GetFilteredUsersStatsOpts) => Promise<{
+            data?: UsersStats;
+            error?: ServerError;
+        }>;
         setUserGridSearch: (term: string) => Promise<{
+            data: boolean;
+        }>;
+        setUserGridFilters: (filters: GetFilteredUsersStatsOpts) => Promise<{
             data: boolean;
         }>;
     };
 }
 
 type State = {
+    filteredTotalCount: number;
     loading: boolean;
 }
 
@@ -67,25 +79,27 @@ export default class ChannelMembers extends React.PureComponent<Props, State> {
         this.searchTimeoutId = 0;
 
         this.state = {
+            filteredTotalCount: -1,
             loading: true,
         };
     }
 
     public componentDidMount() {
         const {channelId} = this.props;
-        const {loadProfilesAndReloadChannelMembers, getChannelStats, setUserGridSearch} = this.props.actions;
+        const {loadProfilesAndReloadChannelMembers, getChannelStats, setUserGridSearch, setUserGridFilters} = this.props.actions;
         Promise.all([
             setUserGridSearch(''),
+            setUserGridFilters({}),
             getChannelStats(channelId),
-            loadProfilesAndReloadChannelMembers(0, PROFILE_CHUNK_SIZE * 2, channelId),
+            loadProfilesAndReloadChannelMembers(0, PROFILE_CHUNK_SIZE * 2, channelId, '', {active: true}),
         ]).then(() => this.setStateLoading(false));
     }
 
     public componentDidUpdate(prevProps: Props) {
-        if (prevProps.searchTerm !== this.props.searchTerm) {
+        if (JSON.stringify(prevProps.filters) !== JSON.stringify(this.props.filters) || prevProps.searchTerm !== this.props.searchTerm) {
             this.setStateLoading(true);
             clearTimeout(this.searchTimeoutId);
-            const searchTerm = this.props.searchTerm;
+            const {searchTerm, filters} = this.props;
 
             if (searchTerm === '') {
                 this.searchTimeoutId = 0;
@@ -95,7 +109,7 @@ export default class ChannelMembers extends React.PureComponent<Props, State> {
 
             const searchTimeoutId = window.setTimeout(
                 async () => {
-                    await prevProps.actions.searchProfilesAndChannelMembers(searchTerm, {in_channel_id: this.props.channelId, allow_inactive: false});
+                    await prevProps.actions.searchProfilesAndChannelMembers(searchTerm, {...filters, in_channel_id: this.props.channelId, allow_inactive: false});
 
                     if (searchTimeoutId !== this.searchTimeoutId) {
                         return;
@@ -115,8 +129,8 @@ export default class ChannelMembers extends React.PureComponent<Props, State> {
 
     private loadPage = async (page: number) => {
         const {loadProfilesAndReloadChannelMembers} = this.props.actions;
-        const {channelId} = this.props;
-        await loadProfilesAndReloadChannelMembers(page + 1, PROFILE_CHUNK_SIZE, channelId);
+        const {channelId, filters} = this.props;
+        await loadProfilesAndReloadChannelMembers(page + 1, PROFILE_CHUNK_SIZE, channelId, '', {active: true, ...filters});
     }
 
     private removeUser = (user: UserProfile) => {
@@ -135,8 +149,92 @@ export default class ChannelMembers extends React.PureComponent<Props, State> {
         this.props.updateRole(membership.user_id, membership.scheme_user, membership.scheme_admin);
     }
 
+    private onFilter = async (filterOptions: FilterOptions) => {
+        const roles = filterOptions.role.values;
+        const systemRoles: string[] = [];
+        const channelRoles: string[] = [];
+        let filters = {};
+        Object.keys(roles).forEach((filterKey: string) => {
+            if (roles[filterKey].value) {
+                if (filterKey.includes('channel')) {
+                    channelRoles.push(filterKey);
+                } else {
+                    systemRoles.push(filterKey);
+                }
+            }
+        });
+
+        if (systemRoles.length > 0 || channelRoles.length > 0) {
+            if (systemRoles.length > 0) {
+                filters = {roles: systemRoles};
+            }
+            if (channelRoles.length > 0) {
+                filters = {...filters, channel_roles: channelRoles};
+            }
+            this.props.actions.setUserGridFilters(filters);
+            const {data} = await this.props.actions.getFilteredUsersStats({in_channel: this.props.channelId, include_bots: true, ...filters});
+            const filteredTotalCount = data?.total_users_count || 0; // eslint-disable-line camelcase, @typescript-eslint/camelcase
+            this.setState({filteredTotalCount});
+        } else {
+            this.props.actions.setUserGridFilters(filters);
+            this.setState({filteredTotalCount: -1});
+        }
+    }
+
     render = () => {
         const {users, channel, channelId, usersToAdd, usersToRemove, channelMembers, totalCount, searchTerm} = this.props;
+        const {filteredTotalCount} = this.state;
+
+        const filterOptions: FilterOptions = {
+            role: {
+                name: 'Role',
+                values: {
+                    [GeneralConstants.SYSTEM_GUEST_ROLE]: {
+                        name: (
+                            <FormattedMessage
+                                id='admin.user_grid.filters.system_guest'
+                                defaultMessage='Guest'
+                            />
+                        ),
+                        value: false,
+                    },
+                    [GeneralConstants.CHANNEL_USER_ROLE]: {
+                        name: (
+                            <FormattedMessage
+                                id='admin.user_grid.filters.member'
+                                defaultMessage='Member'
+                            />
+                        ),
+                        value: false,
+                    },
+                    [GeneralConstants.CHANNEL_ADMIN_ROLE]: {
+                        name: (
+                            <FormattedMessage
+                                id='admin.user_grid.filters.channel_admin'
+                                defaultMessage='Channel Admin'
+                            />
+                        ),
+                        value: false,
+                    },
+                    [GeneralConstants.SYSTEM_ADMIN_ROLE]: {
+                        name: (
+                            <FormattedMessage
+                                id='admin.user_grid.filters.system_admin'
+                                defaultMessage='System Admin'
+                            />
+                        ),
+                        value: false,
+                    },
+                },
+                keys: [GeneralConstants.SYSTEM_GUEST_ROLE, GeneralConstants.CHANNEL_USER_ROLE, GeneralConstants.CHANNEL_ADMIN_ROLE, GeneralConstants.SYSTEM_ADMIN_ROLE],
+            },
+        };
+        const filterProps = {
+            options: filterOptions,
+            keys: ['role'],
+            onFilter: this.onFilter,
+        };
+
         return (
             <AdminPanel
                 id='channelMembers'
@@ -171,7 +269,7 @@ export default class ChannelMembers extends React.PureComponent<Props, State> {
                     users={users}
                     loadPage={this.loadPage}
                     removeUser={this.removeUser}
-                    totalCount={totalCount}
+                    totalCount={filteredTotalCount === -1 ? totalCount : filteredTotalCount}
                     memberships={channelMembers}
                     updateMembership={this.updateMembership}
                     search={this.search}
@@ -179,6 +277,7 @@ export default class ChannelMembers extends React.PureComponent<Props, State> {
                     excludeUsers={usersToRemove}
                     term={searchTerm}
                     scope={'channel'}
+                    filterProps={filterProps}
                 />
             </AdminPanel>
         );

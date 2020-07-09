@@ -7,12 +7,11 @@ import {FormattedMessage} from 'react-intl';
 import NextIcon from 'components/widgets/icons/fa_next_icon';
 import PreviousIcon from 'components/widgets/icons/fa_previous_icon';
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
+import {FilterOptions} from 'components/admin_console/filter/filter';
 
 import DataGridHeader from './data_grid_header';
 import DataGridRow from './data_grid_row';
 import DataGridSearch from './data_grid_search';
-
-import {FilterOptions} from 'components/admin_console/filter/filter';
 
 import './data_grid.scss';
 
@@ -61,7 +60,7 @@ type Props = {
         options: FilterOptions;
         keys: string[];
         onFilter: (options: FilterOptions) => void;
-    }
+    };
 };
 
 type State = {

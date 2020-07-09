@@ -5,12 +5,14 @@ import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
 import {Dictionary} from 'mattermost-redux/types/utilities';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {ServerError} from 'mattermost-redux/types/errors';
+import {UserProfile, UsersStats, GetFilteredUsersStatsOpts} from 'mattermost-redux/types/users';
 import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
 
 import {filterProfilesMatchingTerm, profileListToMap} from 'mattermost-redux/utils/user_utils';
 
 import {getTeamStats as loadTeamStats} from 'mattermost-redux/actions/teams';
+import {getFilteredUsersStats} from 'mattermost-redux/actions/users';
 
 import {getMembersInTeams, getTeamStats, getTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getProfilesInTeam, searchProfilesInTeam, filterProfiles} from 'mattermost-redux/selectors/entities/users';
@@ -37,10 +39,14 @@ type Actions = {
     searchProfilesAndTeamMembers: (term: string, options?: {}) => Promise<{
         data: boolean;
     }>;
+    getFilteredUsersStats: (filters: GetFilteredUsersStatsOpts) => Promise<{
+        data?: UsersStats;
+        error?: ServerError;
+    }>;
     setUserGridSearch: (term: string) => Promise<{
         data: boolean;
     }>;
-    setUserGridFilters: (filters: any) => Promise<{
+    setUserGridFilters: (filters: GetFilteredUsersStatsOpts) => Promise<{
         data: boolean;
     }>;
 };
@@ -61,15 +67,17 @@ function mapStateToProps(state: GlobalState, props: Props) {
     const stats = getTeamStats(state)[teamId] || {active_member_count: 0};
 
     const searchTerm = state.views.search.userGridSearch?.term || '';
+    const filters = state.views.search.userGridSearch?.filters || {};
     let users = [];
     if (searchTerm) {
-        users = searchProfilesInTeam(state, teamId, searchTerm, false, {skipInactive: true});
+        users = searchProfilesInTeam(state, teamId, searchTerm, false, {active: true, ...filters});
         usersToAdd = searchUsersToAdd(usersToAdd, searchTerm);
     } else {
-        users = getProfilesInTeam(state, teamId, {skipInactive: true});
+        users = getProfilesInTeam(state, teamId, {active: true, ...filters});
     }
 
     return {
+        filters,
         teamId,
         team,
         users,
@@ -86,6 +94,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             getTeamStats: loadTeamStats,
             loadProfilesAndReloadTeamMembers,
             searchProfilesAndTeamMembers,
+            getFilteredUsersStats,
             setUserGridSearch,
             setUserGridFilters,
         }, dispatch),

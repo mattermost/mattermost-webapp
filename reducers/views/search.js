@@ -32,20 +32,19 @@ function userGridSearch(state = {}, action) {
         return {
             ...state,
             term,
-        }
+        };
     }
     case SearchTypes.SET_USER_GRID_FILTERS: {
         const filters = action.data;
         return {
             ...state,
             filters,
-        }
+        };
     }
     default:
         return state;
     }
 }
-
 
 export default combineReducers({
     modalSearch,

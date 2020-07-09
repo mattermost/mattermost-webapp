@@ -7,7 +7,7 @@ import FaSearchIcon from 'components/widgets/icons/fa_search_icon';
 
 import * as Utils from 'utils/utils.jsx';
 
-import Filter, {FilterOption, FilterOptions} from 'components/admin_console/filter/filter';
+import Filter, {FilterOptions} from 'components/admin_console/filter/filter';
 
 import './data_grid.scss';
 
@@ -20,22 +20,22 @@ type Props = {
         options: FilterOptions;
         keys: string[];
         onFilter: (options: FilterOptions) => void;
-    }
+    };
 }
 
 type State = {
-    term: string,
+    term: string;
     filtersEnabled: boolean;
 }
 
 class DataGridSearch extends React.PureComponent<Props, State> {
     public constructor(props: Props) {
-        super(props)
+        super(props);
 
         this.state = {
             term: '',
             filtersEnabled: Boolean(props.filterProps),
-        }
+        };
     }
 
     handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -49,20 +49,19 @@ class DataGridSearch extends React.PureComponent<Props, State> {
     };
 
     onFilter = (filters: FilterOptions) => {
-        if (this.state.filtersEnabled) {
-            this.props.filterProps.onFilter(filters);
-        }
+        this.props.filterProps?.onFilter(filters);
     };
 
     render() {
-        let {placeholder, filterProps} = this.props;
+        const {filterProps} = this.props;
+
+        let {placeholder} = this.props;
         if (!placeholder) {
             placeholder = Utils.localizeMessage('search_bar.search', 'Search');
         }
 
         let filter;
-
-        if (this.state.filtersEnabled) {
+        if (this.state.filtersEnabled && filterProps) {
             filter = <Filter {...filterProps}/>;
         }
 

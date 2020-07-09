@@ -2,9 +2,9 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+
 import {FilterOption, FilterValues} from './filter';
 import FilterCheckbox from './filter_checkbox';
-
 import './filter.scss';
 
 type Props = {
@@ -14,12 +14,8 @@ type Props = {
 }
 
 class FilterList extends React.PureComponent<Props> {
-    public constructor(props: Props) {
-        super(props);
-    }
-
     updateOption = async (value: boolean, key: string) => {
-        const values = {...this.props.option.values}
+        const values = {...this.props.option.values};
         values[key].value = value;
         await this.props.updateValues(values, this.props.optionKey);
         this.forceUpdate(); // hack figure out a better solution?
@@ -27,16 +23,19 @@ class FilterList extends React.PureComponent<Props> {
 
     render() {
         const {option} = this.props;
-        const valuesToRender = option.keys.map((key: string, index: number) => {
-            const currentValue = option.values[key];
+        const valuesToRender = option.keys.map((optionKey: string, index: number) => {
+            const currentValue = option.values[optionKey];
             const {value, name} = currentValue;
             const FilterItem = option.type || FilterCheckbox;
 
             return (
-                <div className='FilterList_item'>
+                <div
+                    key={index}
+                    className='FilterList_item'
+                >
                     <FilterItem
                         key={index}
-                        name={key}
+                        name={optionKey}
                         checked={value}
                         label={name}
                         updateOption={this.updateOption}
@@ -55,7 +54,6 @@ class FilterList extends React.PureComponent<Props> {
             </div>
         );
     }
-
 }
 
 export default FilterList;

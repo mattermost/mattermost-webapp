@@ -8,13 +8,9 @@ type Props = {
     checked: boolean;
     label: string | JSX.Element;
     updateOption: (checked: boolean, name: string) => void;
-}
+};
 
 class FilterList extends React.PureComponent<Props> {
-    public constructor(props: Props) {
-        super(props);
-    }
-
     toggleOption = () => {
         const {checked, name, updateOption} = this.props;
         updateOption(!checked, name);
@@ -38,7 +34,6 @@ class FilterList extends React.PureComponent<Props> {
             </div>
         );
     }
-
 }
 
 export default FilterList;

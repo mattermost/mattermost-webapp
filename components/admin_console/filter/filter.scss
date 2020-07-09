@@ -6,24 +6,26 @@
     display: inline-block;
 
     .Filter_button {
-        width: 88px;;
+        width: auto;
         height: 32px;
 
         /* Light / Center Channel BG */
         background: #FFFFFF;
         border-radius: 4px;
-        border: 1px solid #FFFFFF;
+        border: 0px;
+        /* Light / Button BG */
         color: #166DE0;
-        font-size: 0.95em;
+        font-size: 12px;
+        padding: 0 10px;
 
         &.Filter__active, &:hover, &:focus {
             background: linear-gradient(0deg, rgba(22, 109, 224, 0.12), rgba(22, 109, 224, 0.12)), #FFFFFF;
         }
     }
 
-    .menu-icon {
-        fill: #166DE0;
-        margin-right: 8px
+    .Icon {
+        margin-right: 2px;
+        font-size: 14px;
     }
 
     .Filter_content {
@@ -32,14 +34,13 @@
         padding: 16px;
         padding-top: 8px;
         min-width: 256px;
+        margin-bottom: 24px;
 
         background: #FFFFFF;
         /* Light / 8% Center Channel Text */
 
         border: 1px solid rgba(61, 60, 64, 0.08);
         box-sizing: border-box;
-        /* Elevation 4 */
-
         box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.12);
         border-radius: 4px;
         z-index: 1;
@@ -54,13 +55,24 @@
         }
     }
 
-    .Filter_title {
-        font-weight: bold;
-        font-size: 14px;
+    .Filter_header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
 
-        padding: 8px;
+        .Filter_title {
+            font-weight: bold;
+            font-size: 14px;
+            line-height: 14px;
+            padding: 8px;
+            color: var(--center-channel-color);
+        }
 
-        color: var(--center-channel-color);
+        .Filter_reset {
+            font-size: 12px;
+            line-height: 16px;
+            padding: 8px
+        }
     }
 
     .Filter_lists {

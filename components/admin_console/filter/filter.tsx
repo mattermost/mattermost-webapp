@@ -5,9 +5,13 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import MenuIcon from 'components/widgets/icons/menu_icon';
-import FilterList from './filter_list';
 
+import FilterList from './filter_list';
 import './filter.scss';
+
+export type Filters = {
+    [filterKey: string]: string[];
+};
 
 export type FilterValue = {
     name: string | JSX.Element;
@@ -19,6 +23,7 @@ export type FilterValues = {
 };
 
 export type FilterOption = {
+
     // Display name of the filter option eg. 'Channels', 'Roles' or <FormattedMessage .../>
     name: string | JSX.Element;
 
@@ -47,6 +52,7 @@ type State = {
     options: FilterOptions;
     keys: string[];
     optionsModified: boolean;
+    filterCount: number;
 }
 
 class Filter extends React.PureComponent<Props, State> {
@@ -61,29 +67,29 @@ class Filter extends React.PureComponent<Props, State> {
         let error = '';
         keys.forEach((key) => {
             const option = options[key];
-            if (!option) {
-                error = `Invalid Filter key: ${key}, no matching option for given key`;
-            } else {
+            if (option) {
                 option.keys.forEach((optionKey) => {
                     if (!option.values[optionKey]) {
-                        error = `Invalid Filter option key: ${optionKey}, no matching value for given option key`
+                        error = `Invalid Filter option key: ${optionKey}, no matching value for given option key`;
                     }
                 });
+            } else {
+                error = `Invalid Filter key: ${key}, no matching option for given key`;
             }
         });
 
         if (error) {
             options = {};
             keys = [];
-            console.error(error);
         }
 
         this.state = {
             show: false,
-            options,
-            keys,
+            options: {...options},
+            keys: [...keys],
             optionsModified: false,
-        }
+            filterCount: 0,
+        };
 
         this.filterRef = React.createRef();
         this.buttonRef = React.createRef();
@@ -125,9 +131,28 @@ class Filter extends React.PureComponent<Props, State> {
     }
 
     onFilter = () => {
-        const {options} = this.state;
-        this.props.onFilter(options)
-        this.setState({optionsModified: false, show: false})
+        this.props.onFilter(this.state.options);
+        this.setState({optionsModified: false, show: false, filterCount: this.calculateFilterCount()});
+    }
+
+    calculateFilterCount = () => {
+        const options = this.state.options;
+        let filterCount = 0;
+        this.props.keys.forEach((key) => {
+            const {values, keys} = options[key];
+            keys.forEach((filterKey: string) => {
+                if (values[filterKey].value instanceof Array) {
+                    filterCount += (values[filterKey].value as string[]).length;
+                } else if (values[filterKey].value) {
+                    filterCount += 1;
+                }
+            });
+        });
+        return filterCount;
+    }
+
+    resetFilters = () => {
+        this.setState({options: {...this.props.options}}, this.onFilter);
     }
 
     renderFilterOptions = () => {
@@ -149,6 +174,7 @@ class Filter extends React.PureComponent<Props, State> {
 
     render() {
         const filters = this.renderFilterOptions();
+        const {filterCount} = this.state;
 
         return (
             <div
@@ -160,22 +186,35 @@ class Filter extends React.PureComponent<Props, State> {
                     onClick={this.togglePopover}
                     ref={this.buttonRef}
                 >
-                    <MenuIcon className='menu-icon'/>
+                    <i className='Icon icon-filter-variant'/>
 
                     <FormattedMessage
                         id='filter.filters'
                         defaultMessage='Filters'
                     />
+                    {filterCount > 0 && ` (${filterCount})`}
                 </button>
 
                 <div
                     className={this.state.show ? 'Filter_content Filter__show' : 'Filter_content'}
                 >
-                    <div className='Filter_title'>
-                        <FormattedMessage
-                            id='filter.title'
-                            defaultMessage='Filter by'
-                        />
+                    <div className='Filter_header'>
+                        <div className='Filter_title'>
+                            <FormattedMessage
+                                id='filter.title'
+                                defaultMessage='Filter by'
+                            />
+                        </div>
+
+                        <a
+                            className='Filter_reset'
+                            onClick={this.resetFilters}
+                        >
+                            <FormattedMessage
+                                id='filter.reset'
+                                defaultMessage='Reset filters'
+                            />
+                        </a>
                     </div>
 
                     <hr/>
