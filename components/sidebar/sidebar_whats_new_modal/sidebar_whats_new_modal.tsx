@@ -53,7 +53,6 @@ export default class SidebarWhatsNewModal extends React.PureComponent<Props, Sta
                         defaultMessage={'What\'s new'}
                     />
                 )}
-                handleConfirm={() => {}}
                 confirmButtonText={(
                     <FormattedMessage
                         id={'sidebar_whats_new_modal.confirm'}

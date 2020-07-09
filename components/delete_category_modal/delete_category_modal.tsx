@@ -46,7 +46,6 @@ export default class DeleteCategoryModal extends React.PureComponent<Props, Stat
                         defaultMessage='Delete this category?'
                     />
                 )}
-                handleCancel={() => {}}
                 handleConfirm={this.handleConfirm}
                 confirmButtonText={(
                     <FormattedMessage
