@@ -92,6 +92,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
       />
       <ChannelModeration
         guestAccountsEnabled={true}
+        isDisabled={false}
         isPublic={true}
         onChannelPermissionsChanged={[Function]}
         teamSchemeDisplayName="asdf"
@@ -114,6 +115,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
       />
       <ChannelModes
         isDefault={false}
+        isDisabled={false}
         isPublic={true}
         isSynced={false}
         onToggle={[Function]}
@@ -159,6 +161,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
             },
           ]
         }
+        isDisabled={false}
         onAddCallback={[Function]}
         onGroupRemoved={[Function]}
         removedGroups={Array []}
@@ -178,6 +181,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
   </div>
   <SaveChangesPanel
     cancelLink="/admin_console/user_management/channels"
+    isDisabled={false}
     onClick={[Function]}
     saveNeeded={false}
     saving={false}
@@ -274,6 +278,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
       />
       <ChannelModeration
         guestAccountsEnabled={true}
+        isDisabled={false}
         isPublic={true}
         onChannelPermissionsChanged={[Function]}
         teamSchemeDisplayName="asdf"
@@ -296,6 +301,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
       />
       <ChannelModes
         isDefault={false}
+        isDisabled={false}
         isPublic={true}
         isSynced={false}
         onToggle={[Function]}
@@ -341,6 +347,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
             },
           ]
         }
+        isDisabled={false}
         onAddCallback={[Function]}
         onGroupRemoved={[Function]}
         removedGroups={Array []}
@@ -360,6 +367,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
   </div>
   <SaveChangesPanel
     cancelLink="/admin_console/user_management/channels"
+    isDisabled={false}
     onClick={[Function]}
     saveNeeded={false}
     saving={false}

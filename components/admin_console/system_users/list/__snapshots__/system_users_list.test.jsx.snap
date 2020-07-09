@@ -12,6 +12,7 @@ exports[`components/admin_console/system_users/list should match default snapsho
         "doPasswordReset": [Function],
         "enableUserAccessTokens": false,
         "experimentalEnableAuthenticationTransfer": false,
+        "isDisabled": undefined,
         "mfaEnabled": false,
       }
     }
@@ -96,6 +97,7 @@ exports[`components/admin_console/system_users/list should match default snapsho
         "doPasswordReset": [Function],
         "enableUserAccessTokens": false,
         "experimentalEnableAuthenticationTransfer": false,
+        "isDisabled": undefined,
         "mfaEnabled": false,
       }
     }
@@ -299,6 +301,7 @@ exports[`components/admin_console/system_users/list should match default snapsho
         "doPasswordReset": [Function],
         "enableUserAccessTokens": false,
         "experimentalEnableAuthenticationTransfer": false,
+        "isDisabled": undefined,
         "mfaEnabled": true,
       }
     }

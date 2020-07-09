@@ -295,7 +295,7 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
     <Connect(SystemPermissionGate)
       permissions={
         Array [
-          "manage_system",
+          "read_settings",
         ]
       }
     >
