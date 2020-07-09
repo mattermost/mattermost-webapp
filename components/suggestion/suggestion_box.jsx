@@ -472,7 +472,7 @@ export default class SuggestionBox extends React.PureComponent {
         this.inputRef.current.focus();
 
         let simulateEnter = false;
-        if (Utils.isKeyPressed(e, Constants.KeyCodes.TAB)) {
+        if (e && Utils.isKeyPressed(e, Constants.KeyCodes.TAB)) {
             e.preventDefault();
             simulateEnter = true;
         }
