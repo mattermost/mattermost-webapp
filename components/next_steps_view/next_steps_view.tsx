@@ -10,48 +10,17 @@ import {PreferenceType} from 'mattermost-redux/types/preferences';
 import Accordion from 'components/accordion';
 import Card from 'components/card/card';
 import professionalLogo from 'images/cloud-logos/professional.svg';
-import {RecommendedNextSteps, Preferences} from 'utils/constants';
-import {localizeMessage} from 'utils/utils';
+import {Preferences} from 'utils/constants';
 
-import CompleteProfileStep from './steps/complete_profile_step';
+import {Steps, StepType} from './steps';
 import './next_steps_view.scss';
-
-export type StepComponentProps = {
-    id: string;
-    onSkip: (id: string) => void;
-    onFinish: (id: string) => void;
-}
-
-type StepType = {
-    id: string;
-    title: string;
-    component: React.ComponentType<StepComponentProps>;
-}
-
-const steps: StepType[] = [
-    {
-        id: RecommendedNextSteps.COMPLETE_PROFILE,
-        title: localizeMessage('next_steps_view.titles.completeProfile', 'Complete your profile'),
-        component: CompleteProfileStep,
-    },
-    {
-        id: RecommendedNextSteps.TEAM_SETUP,
-        title: localizeMessage('next_steps_view.titles.teamSetup', 'Name your team'),
-        component: CompleteProfileStep,
-    },
-    {
-        id: RecommendedNextSteps.INVITE_MEMBERS,
-        title: localizeMessage('next_steps_view.titles.inviteMembers', 'Invite members to the team'),
-        component: CompleteProfileStep,
-    },
-];
 
 type Props = {
     currentUserId: string;
     preferences: PreferenceType[];
     skuName: string;
     actions: {
-        savePreferences: (userId: string, preferences: PreferenceType[]) => Promise<{data: boolean}>;
+        savePreferences: (userId: string, preferences: PreferenceType[]) => void;
     };
 };
 
@@ -122,11 +91,11 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
     }
 
     nextStep = (setExpanded: (expandedKey: string) => void, id: string) => {
-        const currentIndex = steps.findIndex((step) => step.id === id);
-        if ((currentIndex + 1) > (steps.length - 1)) {
+        const currentIndex = Steps.findIndex((step) => step.id === id);
+        if ((currentIndex + 1) > (Steps.length - 1)) {
             this.setState({showFinalScreen: true});
         } else {
-            setExpanded(steps[currentIndex + 1].id);
+            setExpanded(Steps[currentIndex + 1].id);
         }
     }
 
@@ -179,11 +148,11 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
     }
 
     renderMainBody = () => {
-        const renderedSteps = steps.map(this.renderStep);
+        const renderedSteps = Steps.map(this.renderStep);
 
         return (
             <>
-                <Accordion defaultExpandedKey={steps[0].id}>
+                <Accordion defaultExpandedKey={Steps[0].id}>
                     {(setExpanded, expandedKey) => {
                         return (
                             <>

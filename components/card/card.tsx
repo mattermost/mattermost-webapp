@@ -30,7 +30,7 @@ export default class Card extends React.PureComponent<Props> {
 
         return (
             <div
-                className={`Card ${this.props.className}`}
+                className={`Card${this.props.className ? ` ${this.props.className}` : ''}`}
             >
                 {childrenWithProps}
             </div>

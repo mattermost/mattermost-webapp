@@ -8,7 +8,12 @@ import NextStepsView from 'components/next_steps_view/next_steps_view';
 
 describe('components/next_steps_view', () => {
     const baseProps = {
+        currentUserId: 'user_id',
+        preferences: [],
         skuName: '',
+        actions: {
+            savePreferences: jest.fn(),
+        },
     };
 
     test('should match snapshot', () => {

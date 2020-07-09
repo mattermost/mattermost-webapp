@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {StepComponentProps} from '../next_steps_view';
+import {StepComponentProps} from '../steps';
 
 type Props = StepComponentProps & {
 };
