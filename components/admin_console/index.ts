@@ -8,7 +8,7 @@ import {loadRolesIfNeeded, editRole} from 'mattermost-redux/actions/roles';
 import * as Selectors from 'mattermost-redux/selectors/entities/admin';
 import {withRouter} from 'react-router-dom';
 import {getConfig as getGeneralConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
-import {getRoles} from 'mattermost-redux/selectors/entities/roles';
+import {getRoles, haveINoPermissionOnSysConsoleItem, haveINoWritePermissionOnSysConsoleItem} from 'mattermost-redux/selectors/entities/roles';
 import {selectChannel} from 'mattermost-redux/actions/channels';
 import {selectTeam} from 'mattermost-redux/actions/teams';
 import {isCurrentUserSystemAdmin, currentUserHasAnAdminRole, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
@@ -35,6 +35,19 @@ function mapStateToProps(state: GlobalState) {
     const team = getTeam(state, teamId || '');
     const unauthorizedRoute = team ? `/${team.name}/channels/${General.DEFAULT_CHANNEL}` : '/';
 
+    const readAccessMap: Record<string, boolean> = {};
+    const writeAccessMap: Record<string, boolean> = {};
+    Object.entries(adminDefinition).forEach(([key]) => {
+        readAccessMap[key] = !haveINoPermissionOnSysConsoleItem(state, {resourceId: key});
+        writeAccessMap[key] = !haveINoWritePermissionOnSysConsoleItem(state, {resourceId: key});
+        if (key === 'user_management') {
+            ['users', 'groups', 'teams', 'channels', 'permissions'].forEach((userManagementKey) => {
+                const subKey = `${key}.${userManagementKey}`;
+                writeAccessMap[subKey] = !haveINoWritePermissionOnSysConsoleItem(state, {resourceId: subKey});
+            });
+        }
+    });
+
     return {
         config: Selectors.getConfig(state),
         environmentConfig: Selectors.getEnvironmentConfig(state),
@@ -47,7 +60,8 @@ function mapStateToProps(state: GlobalState) {
         currentUserHasAnAdminRole: currentUserHasAnAdminRole(state),
         roles: getRoles(state),
         adminDefinition,
-        globalstate: state,
+        readAccessMap,
+        writeAccessMap,
     };
 }
 

@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {getPlugins} from 'mattermost-redux/actions/admin';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
+import {haveINoPermissionOnSysConsoleItem, haveINoWritePermissionOnSysConsoleItem} from 'mattermost-redux/selectors/entities/roles';
 
 import {getNavigationBlocked} from 'selectors/views/admin';
 import {getAdminDefinition} from 'selectors/admin_console';
@@ -18,6 +19,19 @@ function mapStateToProps(state) {
     const siteName = config.SiteName;
     const adminDefinition = getAdminDefinition(state);
 
+    const readAccessMap = {};
+    const writeAccessMap = {};
+    Object.entries(adminDefinition).forEach(([key]) => {
+        readAccessMap[key] = !haveINoPermissionOnSysConsoleItem(state, {resourceId: key});
+        writeAccessMap[key] = !haveINoWritePermissionOnSysConsoleItem(state, {resourceId: key});
+        if (key === 'user_management') {
+            ['users', 'groups', 'teams', 'channels', 'permissions'].forEach((userManagementKey) => {
+                const subKey = `${key}.${userManagementKey}`;
+                writeAccessMap[subKey] = !haveINoWritePermissionOnSysConsoleItem(state, {resourceId: subKey});
+            });
+        }
+    });
+
     return {
         license,
         config: state.entities.admin.config,
@@ -26,7 +40,8 @@ function mapStateToProps(state) {
         buildEnterpriseReady,
         siteName,
         adminDefinition,
-        globalstate: state,
+        readAccessMap,
+        writeAccessMap,
     };
 }
 

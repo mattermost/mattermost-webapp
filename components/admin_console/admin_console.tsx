@@ -6,14 +6,9 @@ import 'bootstrap';
 import React from 'react';
 import {Route, Switch, Redirect} from 'react-router-dom';
 
-import {OutputParametricSelector} from 'reselect';
-
 import {ActionFunc} from 'mattermost-redux/types/actions';
 import {AdminConfig, EnvironmentConfig, ClientLicense} from 'mattermost-redux/types/config';
 import {Role} from 'mattermost-redux/types/roles';
-import {GlobalState} from 'mattermost-redux/types/store';
-import {haveINoPermissionOnSysConsoleItem, haveINoWritePermissionOnSysConsoleItem} from 'mattermost-redux/selectors/entities/roles';
-import {SysConsoleItemOptions} from 'mattermost-redux/selectors/entities/roles_helpers';
 import {Dictionary} from 'mattermost-redux/types/utilities';
 
 import AnnouncementBar from 'components/announcement_bar';
@@ -39,7 +34,8 @@ type Props = {
     showNavigationPrompt: boolean;
     isCurrentUserSystemAdmin: boolean;
     currentUserHasAnAdminRole: boolean;
-    globalstate: any;
+    readAccessMap: Record<string, boolean>;
+    writeAccessMap: Record<string, boolean>;
     actions: {
         getConfig: () => ActionFunc;
         getEnvironmentConfig: () => ActionFunc;
@@ -72,8 +68,8 @@ type ExtraProps = {
 }
 
 type Item = {
-    isHidden?: (config?: Record<string, any>, state?: Record<string, any>, license?: Record<string, any>, buildEnterpriseReady?: boolean, globalstate?: any, func?: ActionFunc) => boolean;
-    isDisabled?: (config?: Record<string, any>, state?: Record<string, any>, license?: Record<string, any>, globalstate?: any, func?: OutputParametricSelector<GlobalState, SysConsoleItemOptions, boolean, (res1: Set<string>, res2: string[]) => boolean>) => boolean;
+    isHidden?: (config?: Record<string, any>, state?: Record<string, any>, license?: Record<string, any>, buildEnterpriseReady?: boolean, readAccessMap?: Record<string, boolean>, writeAccessMap?: Record<string, boolean>) => boolean;
+    isDisabled?: (config?: Record<string, any>, state?: Record<string, any>, license?: Record<string, any>, readAccessMap?: Record<string, boolean>, writeAccessMap?: Record<string, boolean>) => boolean;
     schema: Record<string, any>;
     url: string;
 }
@@ -120,9 +116,9 @@ export default class AdminConsole extends React.PureComponent<Props, State> {
             let isSectionHidden = false;
             Object.entries(section).find((entry) => {
                 if (entry[0] === 'isHidden' && typeof entry[1] === 'function') {
-                    const isHiddenFunc = entry[1] as ((config?: Record<string, any>, state?: Record<string, any>, license?: Record<string, any>, buildEnterpriseReady?: boolean, globalstate?: any, func?: OutputParametricSelector<GlobalState, SysConsoleItemOptions, boolean, (res1: Set<string>, res2: string[]) => boolean>) => boolean);
+                    const isHiddenFunc = entry[1] as ((config?: Record<string, any>, state?: Record<string, any>, license?: Record<string, any>, buildEnterpriseReady?: boolean, readAccessMap?: Record<string, boolean>, writeAccessMap?: Record<string, boolean>) => boolean);
 
-                    isSectionHidden = isHiddenFunc(this.props.config, {}, this.props.license, this.props.buildEnterpriseReady, this.props.globalstate, haveINoPermissionOnSysConsoleItem);
+                    isSectionHidden = isHiddenFunc(this.props.config, {}, this.props.license, this.props.buildEnterpriseReady, this.props.readAccessMap, this.props.writeAccessMap);
                 }
                 return null;
             });
@@ -138,7 +134,7 @@ export default class AdminConsole extends React.PureComponent<Props, State> {
             return acc.concat(items);
         }, [] as Item[]);
         const schemaRoutes = schemas.map((item: Item) => {
-            const isItemDisabled = item.isDisabled && item.isDisabled(this.props.config, {}, this.props.license, this.props.globalstate, haveINoWritePermissionOnSysConsoleItem);
+            const isItemDisabled = item.isDisabled && item.isDisabled(this.props.config, {}, this.props.license, this.props.readAccessMap, this.props.writeAccessMap);
 
             return (
                 <Route
@@ -148,8 +144,9 @@ export default class AdminConsole extends React.PureComponent<Props, State> {
                         <SchemaAdminSettings
                             {...extraProps}
                             {...props}
+                            readAccessMap={this.props.readAccessMap}
+                            writeAccessMap={this.props.writeAccessMap}
                             schema={item.schema}
-                            globalstate={this.props.globalstate}
                             isDisabled={isItemDisabled}
                         />
                     )}

@@ -8,8 +8,6 @@ import {FormattedMessage, injectIntl} from 'react-intl';
 import Scrollbars from 'react-custom-scrollbars';
 import isEqual from 'lodash/isEqual';
 
-import {haveINoPermissionOnSysConsoleItem} from 'mattermost-redux/selectors/entities/roles';
-
 import * as Utils from 'utils/utils.jsx';
 import {generateIndex} from 'utils/admin_console_index.jsx';
 import {browserHistory} from 'utils/browser_history';
@@ -53,7 +51,8 @@ class AdminSidebar extends React.PureComponent {
         siteName: PropTypes.string,
         onFilterChange: PropTypes.func.isRequired,
         navigationBlocked: PropTypes.bool.isRequired,
-        globalstate: PropTypes.object.isRequired,
+        readAccessMap: PropTypes.object,
+        writeAccessMap: PropTypes.object,
         intl: intlShape.isRequired,
         actions: PropTypes.shape({
 
@@ -156,7 +155,7 @@ class AdminSidebar extends React.PureComponent {
                 return false;
             }
 
-            if (item.isHidden && item.isHidden(this.props.config, {}, this.props.license, this.props.buildEnterpriseReady, this.props.globalstate, haveINoPermissionOnSysConsoleItem)) {
+            if (item.isHidden && item.isHidden(this.props.config, {}, this.props.license, this.props.buildEnterpriseReady, this.props.readAccessMap, this.props.writeAccessMap)) {
                 return false;
             }
             return true;
@@ -175,7 +174,7 @@ class AdminSidebar extends React.PureComponent {
     renderRootMenu = (definition) => {
         const sidebarSections = [];
         Object.values(definition).forEach((section, sectionIndex) => {
-            const isSectionHidden = section.isHidden && section.isHidden(this.props.config, {}, this.props.license, this.props.buildEnterpriseReady, this.props.globalstate, haveINoPermissionOnSysConsoleItem);
+            const isSectionHidden = section.isHidden && section.isHidden(this.props.config, {}, this.props.license, this.props.buildEnterpriseReady, this.props.readAccessMap, this.props.writeAccessMap);
             if (!isSectionHidden) {
                 const sidebarItems = [];
                 Object.values(section).forEach((item, itemIndex) => {

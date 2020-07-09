@@ -8,8 +8,6 @@ import {FormattedMessage} from 'react-intl';
 import {Overlay, Tooltip} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 
-import {haveINoWritePermissionOnSysConsoleItem} from 'mattermost-redux/selectors/entities/roles';
-
 import * as I18n from 'i18n/i18n.jsx';
 
 import Constants from 'utils/constants';
@@ -50,8 +48,9 @@ export default class SchemaAdminSettings extends React.PureComponent {
         license: PropTypes.object,
         editRole: PropTypes.func,
         updateConfig: PropTypes.func.isRequired,
-        globalstate: PropTypes.object,
         isDisabled: PropTypes.bool,
+        readAccessMap: PropTypes.object,
+        writeAccessMap: PropTypes.object,
     }
 
     constructor(props) {
@@ -351,7 +350,7 @@ export default class SchemaAdminSettings extends React.PureComponent {
 
     isDisabled = (setting) => {
         if (typeof setting.isDisabled === 'function') {
-            var result = setting.isDisabled(this.props.config, this.state, this.props.license, this.props.globalstate, haveINoWritePermissionOnSysConsoleItem);
+            var result = setting.isDisabled(this.props.config, this.state, this.props.license, this.props.readAccessMap, this.props.writeAccessMap);
             return result;
         }
         return Boolean(setting.isDisabled);

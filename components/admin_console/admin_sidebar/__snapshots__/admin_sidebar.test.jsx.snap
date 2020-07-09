@@ -169,7 +169,7 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
             }
           >
             <AdminSidebarSection
-              key="3"
+              key="4"
               name="reporting/system_analytics"
               parentLink=""
               subsection={false}
@@ -182,7 +182,7 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              key="4"
+              key="5"
               name="reporting/team_statistics"
               parentLink=""
               subsection={false}
@@ -195,7 +195,7 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              key="5"
+              key="6"
               name="reporting/server_logs"
               parentLink=""
               subsection={false}
@@ -234,6 +234,58 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
                 />
               }
             />
+            <AdminSidebarSection
+              key="7"
+              name="user_management/groups"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Groups"
+                  id="admin.sidebar.groups"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="9"
+              name="user_management/teams"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Teams"
+                  id="admin.sidebar.teams"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="11"
+              name="user_management/channels"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Channels"
+                  id="admin.sidebar.channels"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="15"
+              name="user_management/permissions/"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Permissions"
+                  id="admin.sidebar.permissions"
+                  values={Object {}}
+                />
+              }
+            />
           </AdminSidebarCategory>
           <AdminSidebarCategory
             icon="fa-server"
@@ -249,7 +301,7 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
             }
           >
             <AdminSidebarSection
-              key="3"
+              key="4"
               name="environment/web_server"
               parentLink=""
               subsection={false}
@@ -262,7 +314,7 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              key="4"
+              key="5"
               name="environment/database"
               parentLink=""
               subsection={false}
@@ -276,6 +328,19 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
             />
             <AdminSidebarSection
               key="6"
+              name="environment/elasticsearch"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Elasticsearch"
+                  id="admin.sidebar.elasticsearch"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="7"
               name="environment/file_storage"
               parentLink=""
               subsection={false}
@@ -288,7 +353,7 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              key="7"
+              key="8"
               name="environment/image_proxy"
               parentLink=""
               subsection={false}
@@ -301,7 +366,7 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              key="8"
+              key="9"
               name="environment/smtp"
               parentLink=""
               subsection={false}
@@ -314,7 +379,7 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              key="9"
+              key="10"
               name="environment/push_notification_server"
               parentLink=""
               subsection={false}
@@ -328,6 +393,19 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
             />
             <AdminSidebarSection
               key="11"
+              name="environment/high_availability"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="High Availability"
+                  id="admin.sidebar.highAvailability"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="12"
               name="environment/rate_limiting"
               parentLink=""
               subsection={false}
@@ -340,7 +418,7 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              key="12"
+              key="13"
               name="environment/logging"
               parentLink=""
               subsection={false}
@@ -353,7 +431,7 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              key="13"
+              key="14"
               name="environment/session_lengths"
               parentLink=""
               subsection={false}
@@ -367,6 +445,19 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
             />
             <AdminSidebarSection
               key="15"
+              name="environment/performance_monitoring"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Performance Monitoring"
+                  id="admin.sidebar.metrics"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="16"
               name="environment/developer"
               parentLink=""
               subsection={false}
@@ -393,7 +484,7 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
             }
           >
             <AdminSidebarSection
-              key="3"
+              key="4"
               name="site_config/customization"
               parentLink=""
               subsection={false}
@@ -406,7 +497,7 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              key="4"
+              key="5"
               name="site_config/localization"
               parentLink=""
               subsection={false}
@@ -419,7 +510,7 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              key="5"
+              key="6"
               name="site_config/users_and_teams"
               parentLink=""
               subsection={false}
@@ -432,7 +523,7 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              key="6"
+              key="7"
               name="environment/notifications"
               parentLink=""
               subsection={false}
@@ -446,6 +537,19 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
             />
             <AdminSidebarSection
               key="8"
+              name="site_config/announcement_banner"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Announcement Banner"
+                  id="admin.sidebar.announcement"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="9"
               name="site_config/emoji"
               parentLink=""
               subsection={false}
@@ -458,7 +562,7 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              key="9"
+              key="10"
               name="site_config/posts"
               parentLink=""
               subsection={false}
@@ -471,7 +575,7 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              key="10"
+              key="11"
               name="site_config/file_sharing_downloads"
               parentLink=""
               subsection={false}
@@ -484,7 +588,7 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              key="11"
+              key="12"
               name="site_config/public_links"
               parentLink=""
               subsection={false}
@@ -511,7 +615,7 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
             }
           >
             <AdminSidebarSection
-              key="3"
+              key="4"
               name="authentication/signup"
               parentLink=""
               subsection={false}
@@ -524,7 +628,7 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              key="4"
+              key="5"
               name="authentication/email"
               parentLink=""
               subsection={false}
@@ -537,7 +641,7 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              key="5"
+              key="6"
               name="authentication/password"
               parentLink=""
               subsection={false}
@@ -550,7 +654,7 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              key="6"
+              key="7"
               name="authentication/mfa"
               parentLink=""
               subsection={false}
@@ -564,6 +668,19 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
             />
             <AdminSidebarSection
               key="8"
+              name="authentication/ldap"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="AD/LDAP"
+                  id="admin.sidebar.ldap"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="9"
               name="authentication/ldap"
               parentLink=""
               subsection={false}
@@ -590,6 +707,19 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
             />
             <AdminSidebarSection
               key="11"
+              name="authentication/saml"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="SAML 2.0"
+                  id="admin.sidebar.saml"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="12"
               name="authentication/gitlab"
               parentLink=""
               subsection={false}
@@ -597,6 +727,32 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
                 <FormattedMessage
                   defaultMessage="GitLab"
                   id="admin.sidebar.gitlab"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="13"
+              name="authentication/oauth"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="OAuth 2.0"
+                  id="admin.sidebar.oauth"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="14"
+              name="authentication/guest_access"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Guest Access (Beta)"
+                  id="admin.sidebar.guest_access"
                   values={Object {}}
                 />
               }
@@ -616,7 +772,7 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
             }
           >
             <AdminSidebarSection
-              key="4"
+              key="5"
               name="plugins/plugin_management"
               parentLink=""
               subsection={false}
@@ -650,7 +806,7 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
             }
           >
             <AdminSidebarSection
-              key="4"
+              key="5"
               name="integrations/integration_management"
               parentLink=""
               subsection={false}
@@ -663,7 +819,7 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              key="5"
+              key="6"
               name="integrations/bot_accounts"
               parentLink=""
               subsection={false}
@@ -676,7 +832,7 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              key="6"
+              key="7"
               name="integrations/gif"
               parentLink=""
               subsection={false}
@@ -689,7 +845,7 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              key="7"
+              key="8"
               name="integrations/cors"
               parentLink=""
               subsection={false}
@@ -697,6 +853,72 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
                 <FormattedMessage
                   defaultMessage="CORS"
                   id="admin.sidebar.cors"
+                  values={Object {}}
+                />
+              }
+            />
+          </AdminSidebarCategory>
+          <AdminSidebarCategory
+            icon="fa-list"
+            key="8"
+            parentLink="/admin_console"
+            sectionClass=""
+            title={
+              <FormattedMessage
+                defaultMessage="Compliance"
+                id="admin.sidebar.compliance"
+                values={Object {}}
+              />
+            }
+          >
+            <AdminSidebarSection
+              key="4"
+              name="compliance/data_retention"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Data Retention Policy"
+                  id="admin.sidebar.dataRetentionPolicy"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="5"
+              name="compliance/export"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Compliance Export (Beta)"
+                  id="admin.sidebar.complianceExport"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="6"
+              name="compliance/monitoring"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Compliance Monitoring"
+                  id="admin.sidebar.complianceMonitoring"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="7"
+              name="compliance/custom_terms_of_service"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Custom Terms of Service (Beta)"
+                  id="admin.sidebar.customTermsOfService"
                   values={Object {}}
                 />
               }
@@ -716,7 +938,7 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
             }
           >
             <AdminSidebarSection
-              key="3"
+              key="4"
               name="experimental/features"
               parentLink=""
               subsection={false}
@@ -729,7 +951,7 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              key="4"
+              key="5"
               name="experimental/blevesearch"
               parentLink=""
               subsection={false}
@@ -800,6 +1022,33 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
           className="nav nav-pills nav-stacked"
         >
           <AdminSidebarCategory
+            icon="fa-info-circle"
+            key="0"
+            parentLink="/admin_console"
+            sectionClass=""
+            title={
+              <FormattedMessage
+                defaultMessage="About"
+                id="admin.sidebar.about"
+                values={Object {}}
+              />
+            }
+          >
+            <AdminSidebarSection
+              key="3"
+              name="about/license"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Edition and License"
+                  id="admin.sidebar.license"
+                  values={Object {}}
+                />
+              }
+            />
+          </AdminSidebarCategory>
+          <AdminSidebarCategory
             icon="fa-bar-chart"
             key="1"
             parentLink="/admin_console"
@@ -813,7 +1062,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
             }
           >
             <AdminSidebarSection
-              key="3"
+              key="4"
               name="reporting/system_analytics"
               parentLink=""
               subsection={false}
@@ -826,7 +1075,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              key="4"
+              key="5"
               name="reporting/team_statistics"
               parentLink=""
               subsection={false}
@@ -839,7 +1088,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              key="5"
+              key="6"
               name="reporting/server_logs"
               parentLink=""
               subsection={false}
@@ -878,6 +1127,58 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
                 />
               }
             />
+            <AdminSidebarSection
+              key="7"
+              name="user_management/groups"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Groups"
+                  id="admin.sidebar.groups"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="9"
+              name="user_management/teams"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Teams"
+                  id="admin.sidebar.teams"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="11"
+              name="user_management/channels"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Channels"
+                  id="admin.sidebar.channels"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="15"
+              name="user_management/permissions/"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Permissions"
+                  id="admin.sidebar.permissions"
+                  values={Object {}}
+                />
+              }
+            />
           </AdminSidebarCategory>
           <AdminSidebarCategory
             icon="fa-server"
@@ -893,7 +1194,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
             }
           >
             <AdminSidebarSection
-              key="3"
+              key="4"
               name="environment/web_server"
               parentLink=""
               subsection={false}
@@ -906,7 +1207,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              key="4"
+              key="5"
               name="environment/database"
               parentLink=""
               subsection={false}
@@ -920,6 +1221,19 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
             />
             <AdminSidebarSection
               key="6"
+              name="environment/elasticsearch"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Elasticsearch"
+                  id="admin.sidebar.elasticsearch"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="7"
               name="environment/file_storage"
               parentLink=""
               subsection={false}
@@ -932,7 +1246,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              key="7"
+              key="8"
               name="environment/image_proxy"
               parentLink=""
               subsection={false}
@@ -945,7 +1259,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              key="8"
+              key="9"
               name="environment/smtp"
               parentLink=""
               subsection={false}
@@ -958,7 +1272,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              key="9"
+              key="10"
               name="environment/push_notification_server"
               parentLink=""
               subsection={false}
@@ -972,6 +1286,19 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
             />
             <AdminSidebarSection
               key="11"
+              name="environment/high_availability"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="High Availability"
+                  id="admin.sidebar.highAvailability"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="12"
               name="environment/rate_limiting"
               parentLink=""
               subsection={false}
@@ -984,7 +1311,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              key="12"
+              key="13"
               name="environment/logging"
               parentLink=""
               subsection={false}
@@ -997,7 +1324,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              key="13"
+              key="14"
               name="environment/session_lengths"
               parentLink=""
               subsection={false}
@@ -1011,6 +1338,19 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
             />
             <AdminSidebarSection
               key="15"
+              name="environment/performance_monitoring"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Performance Monitoring"
+                  id="admin.sidebar.metrics"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="16"
               name="environment/developer"
               parentLink=""
               subsection={false}
@@ -1037,7 +1377,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
             }
           >
             <AdminSidebarSection
-              key="3"
+              key="4"
               name="site_config/customization"
               parentLink=""
               subsection={false}
@@ -1050,7 +1390,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              key="4"
+              key="5"
               name="site_config/localization"
               parentLink=""
               subsection={false}
@@ -1063,7 +1403,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              key="5"
+              key="6"
               name="site_config/users_and_teams"
               parentLink=""
               subsection={false}
@@ -1076,7 +1416,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              key="6"
+              key="7"
               name="environment/notifications"
               parentLink=""
               subsection={false}
@@ -1090,6 +1430,19 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
             />
             <AdminSidebarSection
               key="8"
+              name="site_config/announcement_banner"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Announcement Banner"
+                  id="admin.sidebar.announcement"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="9"
               name="site_config/emoji"
               parentLink=""
               subsection={false}
@@ -1102,7 +1455,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              key="9"
+              key="10"
               name="site_config/posts"
               parentLink=""
               subsection={false}
@@ -1115,7 +1468,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              key="10"
+              key="11"
               name="site_config/file_sharing_downloads"
               parentLink=""
               subsection={false}
@@ -1128,7 +1481,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              key="11"
+              key="12"
               name="site_config/public_links"
               parentLink=""
               subsection={false}
@@ -1155,7 +1508,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
             }
           >
             <AdminSidebarSection
-              key="3"
+              key="4"
               name="authentication/signup"
               parentLink=""
               subsection={false}
@@ -1168,7 +1521,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              key="4"
+              key="5"
               name="authentication/email"
               parentLink=""
               subsection={false}
@@ -1181,7 +1534,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              key="5"
+              key="6"
               name="authentication/password"
               parentLink=""
               subsection={false}
@@ -1194,7 +1547,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              key="6"
+              key="7"
               name="authentication/mfa"
               parentLink=""
               subsection={false}
@@ -1207,7 +1560,59 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
+              key="8"
+              name="authentication/ldap"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="AD/LDAP"
+                  id="admin.sidebar.ldap"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="9"
+              name="authentication/ldap"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="AD/LDAP"
+                  id="admin.sidebar.ldap"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="10"
+              name="authentication/saml"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="SAML 2.0"
+                  id="admin.sidebar.saml"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
               key="11"
+              name="authentication/saml"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="SAML 2.0"
+                  id="admin.sidebar.saml"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="12"
               name="authentication/gitlab"
               parentLink=""
               subsection={false}
@@ -1215,6 +1620,32 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
                 <FormattedMessage
                   defaultMessage="GitLab"
                   id="admin.sidebar.gitlab"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="13"
+              name="authentication/oauth"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="OAuth 2.0"
+                  id="admin.sidebar.oauth"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="14"
+              name="authentication/guest_access"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Guest Access (Beta)"
+                  id="admin.sidebar.guest_access"
                   values={Object {}}
                 />
               }
@@ -1234,7 +1665,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
             }
           >
             <AdminSidebarSection
-              key="4"
+              key="5"
               name="plugins/plugin_management"
               parentLink=""
               subsection={false}
@@ -1268,7 +1699,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
             }
           >
             <AdminSidebarSection
-              key="4"
+              key="5"
               name="integrations/integration_management"
               parentLink=""
               subsection={false}
@@ -1281,7 +1712,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              key="5"
+              key="6"
               name="integrations/bot_accounts"
               parentLink=""
               subsection={false}
@@ -1294,7 +1725,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              key="6"
+              key="7"
               name="integrations/gif"
               parentLink=""
               subsection={false}
@@ -1307,7 +1738,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              key="7"
+              key="8"
               name="integrations/cors"
               parentLink=""
               subsection={false}
@@ -1315,6 +1746,72 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
                 <FormattedMessage
                   defaultMessage="CORS"
                   id="admin.sidebar.cors"
+                  values={Object {}}
+                />
+              }
+            />
+          </AdminSidebarCategory>
+          <AdminSidebarCategory
+            icon="fa-list"
+            key="8"
+            parentLink="/admin_console"
+            sectionClass=""
+            title={
+              <FormattedMessage
+                defaultMessage="Compliance"
+                id="admin.sidebar.compliance"
+                values={Object {}}
+              />
+            }
+          >
+            <AdminSidebarSection
+              key="4"
+              name="compliance/data_retention"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Data Retention Policy"
+                  id="admin.sidebar.dataRetentionPolicy"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="5"
+              name="compliance/export"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Compliance Export (Beta)"
+                  id="admin.sidebar.complianceExport"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="6"
+              name="compliance/monitoring"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Compliance Monitoring"
+                  id="admin.sidebar.complianceMonitoring"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="7"
+              name="compliance/custom_terms_of_service"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Custom Terms of Service (Beta)"
+                  id="admin.sidebar.customTermsOfService"
                   values={Object {}}
                 />
               }
@@ -1334,7 +1831,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
             }
           >
             <AdminSidebarSection
-              key="3"
+              key="4"
               name="experimental/features"
               parentLink=""
               subsection={false}
@@ -1347,7 +1844,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              key="4"
+              key="5"
               name="experimental/blevesearch"
               parentLink=""
               subsection={false}
@@ -1418,6 +1915,33 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
           className="nav nav-pills nav-stacked"
         >
           <AdminSidebarCategory
+            icon="fa-info-circle"
+            key="0"
+            parentLink="/admin_console"
+            sectionClass=""
+            title={
+              <FormattedMessage
+                defaultMessage="About"
+                id="admin.sidebar.about"
+                values={Object {}}
+              />
+            }
+          >
+            <AdminSidebarSection
+              key="3"
+              name="about/license"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Edition and License"
+                  id="admin.sidebar.license"
+                  values={Object {}}
+                />
+              }
+            />
+          </AdminSidebarCategory>
+          <AdminSidebarCategory
             icon="fa-bar-chart"
             key="1"
             parentLink="/admin_console"
@@ -1431,7 +1955,7 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
             }
           >
             <AdminSidebarSection
-              key="3"
+              key="4"
               name="reporting/system_analytics"
               parentLink=""
               subsection={false}
@@ -1444,7 +1968,7 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
               }
             />
             <AdminSidebarSection
-              key="4"
+              key="5"
               name="reporting/team_statistics"
               parentLink=""
               subsection={false}
@@ -1457,7 +1981,7 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
               }
             />
             <AdminSidebarSection
-              key="5"
+              key="6"
               name="reporting/server_logs"
               parentLink=""
               subsection={false}
@@ -1496,6 +2020,58 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
                 />
               }
             />
+            <AdminSidebarSection
+              key="7"
+              name="user_management/groups"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Groups"
+                  id="admin.sidebar.groups"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="9"
+              name="user_management/teams"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Teams"
+                  id="admin.sidebar.teams"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="11"
+              name="user_management/channels"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Channels"
+                  id="admin.sidebar.channels"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="15"
+              name="user_management/permissions/"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Permissions"
+                  id="admin.sidebar.permissions"
+                  values={Object {}}
+                />
+              }
+            />
           </AdminSidebarCategory>
           <AdminSidebarCategory
             icon="fa-server"
@@ -1511,7 +2087,7 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
             }
           >
             <AdminSidebarSection
-              key="3"
+              key="4"
               name="environment/web_server"
               parentLink=""
               subsection={false}
@@ -1524,7 +2100,7 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
               }
             />
             <AdminSidebarSection
-              key="4"
+              key="5"
               name="environment/database"
               parentLink=""
               subsection={false}
@@ -1538,6 +2114,19 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
             />
             <AdminSidebarSection
               key="6"
+              name="environment/elasticsearch"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Elasticsearch"
+                  id="admin.sidebar.elasticsearch"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="7"
               name="environment/file_storage"
               parentLink=""
               subsection={false}
@@ -1550,7 +2139,7 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
               }
             />
             <AdminSidebarSection
-              key="7"
+              key="8"
               name="environment/image_proxy"
               parentLink=""
               subsection={false}
@@ -1563,7 +2152,7 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
               }
             />
             <AdminSidebarSection
-              key="8"
+              key="9"
               name="environment/smtp"
               parentLink=""
               subsection={false}
@@ -1576,7 +2165,7 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
               }
             />
             <AdminSidebarSection
-              key="9"
+              key="10"
               name="environment/push_notification_server"
               parentLink=""
               subsection={false}
@@ -1590,6 +2179,19 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
             />
             <AdminSidebarSection
               key="11"
+              name="environment/high_availability"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="High Availability"
+                  id="admin.sidebar.highAvailability"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="12"
               name="environment/rate_limiting"
               parentLink=""
               subsection={false}
@@ -1602,7 +2204,7 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
               }
             />
             <AdminSidebarSection
-              key="12"
+              key="13"
               name="environment/logging"
               parentLink=""
               subsection={false}
@@ -1615,7 +2217,7 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
               }
             />
             <AdminSidebarSection
-              key="13"
+              key="14"
               name="environment/session_lengths"
               parentLink=""
               subsection={false}
@@ -1629,6 +2231,19 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
             />
             <AdminSidebarSection
               key="15"
+              name="environment/performance_monitoring"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Performance Monitoring"
+                  id="admin.sidebar.metrics"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="16"
               name="environment/developer"
               parentLink=""
               subsection={false}
@@ -1655,7 +2270,7 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
             }
           >
             <AdminSidebarSection
-              key="3"
+              key="4"
               name="site_config/customization"
               parentLink=""
               subsection={false}
@@ -1668,7 +2283,7 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
               }
             />
             <AdminSidebarSection
-              key="4"
+              key="5"
               name="site_config/localization"
               parentLink=""
               subsection={false}
@@ -1681,7 +2296,7 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
               }
             />
             <AdminSidebarSection
-              key="5"
+              key="6"
               name="site_config/users_and_teams"
               parentLink=""
               subsection={false}
@@ -1694,7 +2309,7 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
               }
             />
             <AdminSidebarSection
-              key="6"
+              key="7"
               name="environment/notifications"
               parentLink=""
               subsection={false}
@@ -1708,6 +2323,19 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
             />
             <AdminSidebarSection
               key="8"
+              name="site_config/announcement_banner"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Announcement Banner"
+                  id="admin.sidebar.announcement"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="9"
               name="site_config/emoji"
               parentLink=""
               subsection={false}
@@ -1720,7 +2348,7 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
               }
             />
             <AdminSidebarSection
-              key="9"
+              key="10"
               name="site_config/posts"
               parentLink=""
               subsection={false}
@@ -1733,7 +2361,7 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
               }
             />
             <AdminSidebarSection
-              key="10"
+              key="11"
               name="site_config/file_sharing_downloads"
               parentLink=""
               subsection={false}
@@ -1746,7 +2374,7 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
               }
             />
             <AdminSidebarSection
-              key="11"
+              key="12"
               name="site_config/public_links"
               parentLink=""
               subsection={false}
@@ -1773,7 +2401,7 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
             }
           >
             <AdminSidebarSection
-              key="3"
+              key="4"
               name="authentication/signup"
               parentLink=""
               subsection={false}
@@ -1786,7 +2414,7 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
               }
             />
             <AdminSidebarSection
-              key="4"
+              key="5"
               name="authentication/email"
               parentLink=""
               subsection={false}
@@ -1799,7 +2427,7 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
               }
             />
             <AdminSidebarSection
-              key="5"
+              key="6"
               name="authentication/password"
               parentLink=""
               subsection={false}
@@ -1812,7 +2440,7 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
               }
             />
             <AdminSidebarSection
-              key="6"
+              key="7"
               name="authentication/mfa"
               parentLink=""
               subsection={false}
@@ -1825,7 +2453,59 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
               }
             />
             <AdminSidebarSection
+              key="8"
+              name="authentication/ldap"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="AD/LDAP"
+                  id="admin.sidebar.ldap"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="9"
+              name="authentication/ldap"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="AD/LDAP"
+                  id="admin.sidebar.ldap"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="10"
+              name="authentication/saml"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="SAML 2.0"
+                  id="admin.sidebar.saml"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
               key="11"
+              name="authentication/saml"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="SAML 2.0"
+                  id="admin.sidebar.saml"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="12"
               name="authentication/gitlab"
               parentLink=""
               subsection={false}
@@ -1833,6 +2513,32 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
                 <FormattedMessage
                   defaultMessage="GitLab"
                   id="admin.sidebar.gitlab"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="13"
+              name="authentication/oauth"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="OAuth 2.0"
+                  id="admin.sidebar.oauth"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="14"
+              name="authentication/guest_access"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Guest Access (Beta)"
+                  id="admin.sidebar.guest_access"
                   values={Object {}}
                 />
               }
@@ -1852,7 +2558,7 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
             }
           >
             <AdminSidebarSection
-              key="4"
+              key="5"
               name="plugins/plugin_management"
               parentLink=""
               subsection={false}
@@ -1886,7 +2592,7 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
             }
           >
             <AdminSidebarSection
-              key="4"
+              key="5"
               name="integrations/integration_management"
               parentLink=""
               subsection={false}
@@ -1899,7 +2605,7 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
               }
             />
             <AdminSidebarSection
-              key="5"
+              key="6"
               name="integrations/bot_accounts"
               parentLink=""
               subsection={false}
@@ -1912,7 +2618,7 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
               }
             />
             <AdminSidebarSection
-              key="6"
+              key="7"
               name="integrations/gif"
               parentLink=""
               subsection={false}
@@ -1925,7 +2631,7 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
               }
             />
             <AdminSidebarSection
-              key="7"
+              key="8"
               name="integrations/cors"
               parentLink=""
               subsection={false}
@@ -1933,6 +2639,72 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
                 <FormattedMessage
                   defaultMessage="CORS"
                   id="admin.sidebar.cors"
+                  values={Object {}}
+                />
+              }
+            />
+          </AdminSidebarCategory>
+          <AdminSidebarCategory
+            icon="fa-list"
+            key="8"
+            parentLink="/admin_console"
+            sectionClass=""
+            title={
+              <FormattedMessage
+                defaultMessage="Compliance"
+                id="admin.sidebar.compliance"
+                values={Object {}}
+              />
+            }
+          >
+            <AdminSidebarSection
+              key="4"
+              name="compliance/data_retention"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Data Retention Policy"
+                  id="admin.sidebar.dataRetentionPolicy"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="5"
+              name="compliance/export"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Compliance Export (Beta)"
+                  id="admin.sidebar.complianceExport"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="6"
+              name="compliance/monitoring"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Compliance Monitoring"
+                  id="admin.sidebar.complianceMonitoring"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="7"
+              name="compliance/custom_terms_of_service"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Custom Terms of Service (Beta)"
+                  id="admin.sidebar.customTermsOfService"
                   values={Object {}}
                 />
               }
@@ -1952,7 +2724,7 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
             }
           >
             <AdminSidebarSection
-              key="3"
+              key="4"
               name="experimental/features"
               parentLink=""
               subsection={false}
@@ -1965,7 +2737,7 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
               }
             />
             <AdminSidebarSection
-              key="4"
+              key="5"
               name="experimental/blevesearch"
               parentLink=""
               subsection={false}
@@ -2036,6 +2808,33 @@ exports[`components/AdminSidebar should match snapshot, render plugins without a
           className="nav nav-pills nav-stacked"
         >
           <AdminSidebarCategory
+            icon="fa-info-circle"
+            key="0"
+            parentLink="/admin_console"
+            sectionClass=""
+            title={
+              <FormattedMessage
+                defaultMessage="About"
+                id="admin.sidebar.about"
+                values={Object {}}
+              />
+            }
+          >
+            <AdminSidebarSection
+              key="3"
+              name="about/license"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Edition and License"
+                  id="admin.sidebar.license"
+                  values={Object {}}
+                />
+              }
+            />
+          </AdminSidebarCategory>
+          <AdminSidebarCategory
             icon="fa-bar-chart"
             key="1"
             parentLink="/admin_console"
@@ -2049,7 +2848,7 @@ exports[`components/AdminSidebar should match snapshot, render plugins without a
             }
           >
             <AdminSidebarSection
-              key="3"
+              key="4"
               name="reporting/system_analytics"
               parentLink=""
               subsection={false}
@@ -2062,7 +2861,7 @@ exports[`components/AdminSidebar should match snapshot, render plugins without a
               }
             />
             <AdminSidebarSection
-              key="4"
+              key="5"
               name="reporting/team_statistics"
               parentLink=""
               subsection={false}
@@ -2075,7 +2874,7 @@ exports[`components/AdminSidebar should match snapshot, render plugins without a
               }
             />
             <AdminSidebarSection
-              key="5"
+              key="6"
               name="reporting/server_logs"
               parentLink=""
               subsection={false}
@@ -2114,6 +2913,58 @@ exports[`components/AdminSidebar should match snapshot, render plugins without a
                 />
               }
             />
+            <AdminSidebarSection
+              key="7"
+              name="user_management/groups"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Groups"
+                  id="admin.sidebar.groups"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="9"
+              name="user_management/teams"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Teams"
+                  id="admin.sidebar.teams"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="11"
+              name="user_management/channels"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Channels"
+                  id="admin.sidebar.channels"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="15"
+              name="user_management/permissions/"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Permissions"
+                  id="admin.sidebar.permissions"
+                  values={Object {}}
+                />
+              }
+            />
           </AdminSidebarCategory>
           <AdminSidebarCategory
             icon="fa-server"
@@ -2129,7 +2980,7 @@ exports[`components/AdminSidebar should match snapshot, render plugins without a
             }
           >
             <AdminSidebarSection
-              key="3"
+              key="4"
               name="environment/web_server"
               parentLink=""
               subsection={false}
@@ -2142,7 +2993,7 @@ exports[`components/AdminSidebar should match snapshot, render plugins without a
               }
             />
             <AdminSidebarSection
-              key="4"
+              key="5"
               name="environment/database"
               parentLink=""
               subsection={false}
@@ -2156,6 +3007,19 @@ exports[`components/AdminSidebar should match snapshot, render plugins without a
             />
             <AdminSidebarSection
               key="6"
+              name="environment/elasticsearch"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Elasticsearch"
+                  id="admin.sidebar.elasticsearch"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="7"
               name="environment/file_storage"
               parentLink=""
               subsection={false}
@@ -2168,7 +3032,7 @@ exports[`components/AdminSidebar should match snapshot, render plugins without a
               }
             />
             <AdminSidebarSection
-              key="7"
+              key="8"
               name="environment/image_proxy"
               parentLink=""
               subsection={false}
@@ -2181,7 +3045,7 @@ exports[`components/AdminSidebar should match snapshot, render plugins without a
               }
             />
             <AdminSidebarSection
-              key="8"
+              key="9"
               name="environment/smtp"
               parentLink=""
               subsection={false}
@@ -2194,7 +3058,7 @@ exports[`components/AdminSidebar should match snapshot, render plugins without a
               }
             />
             <AdminSidebarSection
-              key="9"
+              key="10"
               name="environment/push_notification_server"
               parentLink=""
               subsection={false}
@@ -2208,6 +3072,19 @@ exports[`components/AdminSidebar should match snapshot, render plugins without a
             />
             <AdminSidebarSection
               key="11"
+              name="environment/high_availability"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="High Availability"
+                  id="admin.sidebar.highAvailability"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="12"
               name="environment/rate_limiting"
               parentLink=""
               subsection={false}
@@ -2220,7 +3097,7 @@ exports[`components/AdminSidebar should match snapshot, render plugins without a
               }
             />
             <AdminSidebarSection
-              key="12"
+              key="13"
               name="environment/logging"
               parentLink=""
               subsection={false}
@@ -2233,7 +3110,7 @@ exports[`components/AdminSidebar should match snapshot, render plugins without a
               }
             />
             <AdminSidebarSection
-              key="13"
+              key="14"
               name="environment/session_lengths"
               parentLink=""
               subsection={false}
@@ -2247,6 +3124,19 @@ exports[`components/AdminSidebar should match snapshot, render plugins without a
             />
             <AdminSidebarSection
               key="15"
+              name="environment/performance_monitoring"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Performance Monitoring"
+                  id="admin.sidebar.metrics"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="16"
               name="environment/developer"
               parentLink=""
               subsection={false}
@@ -2273,7 +3163,7 @@ exports[`components/AdminSidebar should match snapshot, render plugins without a
             }
           >
             <AdminSidebarSection
-              key="3"
+              key="4"
               name="site_config/customization"
               parentLink=""
               subsection={false}
@@ -2286,7 +3176,7 @@ exports[`components/AdminSidebar should match snapshot, render plugins without a
               }
             />
             <AdminSidebarSection
-              key="4"
+              key="5"
               name="site_config/localization"
               parentLink=""
               subsection={false}
@@ -2299,7 +3189,7 @@ exports[`components/AdminSidebar should match snapshot, render plugins without a
               }
             />
             <AdminSidebarSection
-              key="5"
+              key="6"
               name="site_config/users_and_teams"
               parentLink=""
               subsection={false}
@@ -2312,7 +3202,7 @@ exports[`components/AdminSidebar should match snapshot, render plugins without a
               }
             />
             <AdminSidebarSection
-              key="6"
+              key="7"
               name="environment/notifications"
               parentLink=""
               subsection={false}
@@ -2326,6 +3216,19 @@ exports[`components/AdminSidebar should match snapshot, render plugins without a
             />
             <AdminSidebarSection
               key="8"
+              name="site_config/announcement_banner"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Announcement Banner"
+                  id="admin.sidebar.announcement"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="9"
               name="site_config/emoji"
               parentLink=""
               subsection={false}
@@ -2338,7 +3241,7 @@ exports[`components/AdminSidebar should match snapshot, render plugins without a
               }
             />
             <AdminSidebarSection
-              key="9"
+              key="10"
               name="site_config/posts"
               parentLink=""
               subsection={false}
@@ -2351,7 +3254,7 @@ exports[`components/AdminSidebar should match snapshot, render plugins without a
               }
             />
             <AdminSidebarSection
-              key="10"
+              key="11"
               name="site_config/file_sharing_downloads"
               parentLink=""
               subsection={false}
@@ -2364,7 +3267,7 @@ exports[`components/AdminSidebar should match snapshot, render plugins without a
               }
             />
             <AdminSidebarSection
-              key="11"
+              key="12"
               name="site_config/public_links"
               parentLink=""
               subsection={false}
@@ -2391,7 +3294,7 @@ exports[`components/AdminSidebar should match snapshot, render plugins without a
             }
           >
             <AdminSidebarSection
-              key="3"
+              key="4"
               name="authentication/signup"
               parentLink=""
               subsection={false}
@@ -2404,7 +3307,7 @@ exports[`components/AdminSidebar should match snapshot, render plugins without a
               }
             />
             <AdminSidebarSection
-              key="4"
+              key="5"
               name="authentication/email"
               parentLink=""
               subsection={false}
@@ -2417,7 +3320,7 @@ exports[`components/AdminSidebar should match snapshot, render plugins without a
               }
             />
             <AdminSidebarSection
-              key="5"
+              key="6"
               name="authentication/password"
               parentLink=""
               subsection={false}
@@ -2430,7 +3333,7 @@ exports[`components/AdminSidebar should match snapshot, render plugins without a
               }
             />
             <AdminSidebarSection
-              key="6"
+              key="7"
               name="authentication/mfa"
               parentLink=""
               subsection={false}
@@ -2443,7 +3346,59 @@ exports[`components/AdminSidebar should match snapshot, render plugins without a
               }
             />
             <AdminSidebarSection
+              key="8"
+              name="authentication/ldap"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="AD/LDAP"
+                  id="admin.sidebar.ldap"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="9"
+              name="authentication/ldap"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="AD/LDAP"
+                  id="admin.sidebar.ldap"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="10"
+              name="authentication/saml"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="SAML 2.0"
+                  id="admin.sidebar.saml"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
               key="11"
+              name="authentication/saml"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="SAML 2.0"
+                  id="admin.sidebar.saml"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="12"
               name="authentication/gitlab"
               parentLink=""
               subsection={false}
@@ -2451,6 +3406,32 @@ exports[`components/AdminSidebar should match snapshot, render plugins without a
                 <FormattedMessage
                   defaultMessage="GitLab"
                   id="admin.sidebar.gitlab"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="13"
+              name="authentication/oauth"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="OAuth 2.0"
+                  id="admin.sidebar.oauth"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="14"
+              name="authentication/guest_access"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Guest Access (Beta)"
+                  id="admin.sidebar.guest_access"
                   values={Object {}}
                 />
               }
@@ -2470,7 +3451,7 @@ exports[`components/AdminSidebar should match snapshot, render plugins without a
             }
           >
             <AdminSidebarSection
-              key="4"
+              key="5"
               name="plugins/plugin_management"
               parentLink=""
               subsection={false}
@@ -2504,7 +3485,7 @@ exports[`components/AdminSidebar should match snapshot, render plugins without a
             }
           >
             <AdminSidebarSection
-              key="4"
+              key="5"
               name="integrations/integration_management"
               parentLink=""
               subsection={false}
@@ -2517,7 +3498,7 @@ exports[`components/AdminSidebar should match snapshot, render plugins without a
               }
             />
             <AdminSidebarSection
-              key="5"
+              key="6"
               name="integrations/bot_accounts"
               parentLink=""
               subsection={false}
@@ -2530,7 +3511,7 @@ exports[`components/AdminSidebar should match snapshot, render plugins without a
               }
             />
             <AdminSidebarSection
-              key="6"
+              key="7"
               name="integrations/gif"
               parentLink=""
               subsection={false}
@@ -2543,7 +3524,7 @@ exports[`components/AdminSidebar should match snapshot, render plugins without a
               }
             />
             <AdminSidebarSection
-              key="7"
+              key="8"
               name="integrations/cors"
               parentLink=""
               subsection={false}
@@ -2551,6 +3532,72 @@ exports[`components/AdminSidebar should match snapshot, render plugins without a
                 <FormattedMessage
                   defaultMessage="CORS"
                   id="admin.sidebar.cors"
+                  values={Object {}}
+                />
+              }
+            />
+          </AdminSidebarCategory>
+          <AdminSidebarCategory
+            icon="fa-list"
+            key="8"
+            parentLink="/admin_console"
+            sectionClass=""
+            title={
+              <FormattedMessage
+                defaultMessage="Compliance"
+                id="admin.sidebar.compliance"
+                values={Object {}}
+              />
+            }
+          >
+            <AdminSidebarSection
+              key="4"
+              name="compliance/data_retention"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Data Retention Policy"
+                  id="admin.sidebar.dataRetentionPolicy"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="5"
+              name="compliance/export"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Compliance Export (Beta)"
+                  id="admin.sidebar.complianceExport"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="6"
+              name="compliance/monitoring"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Compliance Monitoring"
+                  id="admin.sidebar.complianceMonitoring"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="7"
+              name="compliance/custom_terms_of_service"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Custom Terms of Service (Beta)"
+                  id="admin.sidebar.customTermsOfService"
                   values={Object {}}
                 />
               }
@@ -2570,7 +3617,7 @@ exports[`components/AdminSidebar should match snapshot, render plugins without a
             }
           >
             <AdminSidebarSection
-              key="3"
+              key="4"
               name="experimental/features"
               parentLink=""
               subsection={false}
@@ -2583,7 +3630,7 @@ exports[`components/AdminSidebar should match snapshot, render plugins without a
               }
             />
             <AdminSidebarSection
-              key="4"
+              key="5"
               name="experimental/blevesearch"
               parentLink=""
               subsection={false}
@@ -2694,7 +3741,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
             }
           >
             <AdminSidebarSection
-              key="3"
+              key="4"
               name="reporting/system_analytics"
               parentLink=""
               subsection={false}
@@ -2707,7 +3754,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               }
             />
             <AdminSidebarSection
-              key="4"
+              key="5"
               name="reporting/team_statistics"
               parentLink=""
               subsection={false}
@@ -2720,7 +3767,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               }
             />
             <AdminSidebarSection
-              key="5"
+              key="6"
               name="reporting/server_logs"
               parentLink=""
               subsection={false}
@@ -2760,7 +3807,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               }
             />
             <AdminSidebarSection
-              key="6"
+              key="7"
               name="user_management/groups"
               parentLink=""
               subsection={false}
@@ -2773,7 +3820,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               }
             />
             <AdminSidebarSection
-              key="8"
+              key="9"
               name="user_management/teams"
               parentLink=""
               subsection={false}
@@ -2786,7 +3833,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               }
             />
             <AdminSidebarSection
-              key="10"
+              key="11"
               name="user_management/channels"
               parentLink=""
               subsection={false}
@@ -2799,7 +3846,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               }
             />
             <AdminSidebarSection
-              key="14"
+              key="15"
               name="user_management/permissions/"
               parentLink=""
               subsection={false}
@@ -2826,7 +3873,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
             }
           >
             <AdminSidebarSection
-              key="3"
+              key="4"
               name="environment/web_server"
               parentLink=""
               subsection={false}
@@ -2839,7 +3886,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               }
             />
             <AdminSidebarSection
-              key="4"
+              key="5"
               name="environment/database"
               parentLink=""
               subsection={false}
@@ -2852,7 +3899,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               }
             />
             <AdminSidebarSection
-              key="5"
+              key="6"
               name="environment/elasticsearch"
               parentLink=""
               subsection={false}
@@ -2865,7 +3912,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               }
             />
             <AdminSidebarSection
-              key="6"
+              key="7"
               name="environment/file_storage"
               parentLink=""
               subsection={false}
@@ -2878,7 +3925,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               }
             />
             <AdminSidebarSection
-              key="7"
+              key="8"
               name="environment/image_proxy"
               parentLink=""
               subsection={false}
@@ -2891,7 +3938,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               }
             />
             <AdminSidebarSection
-              key="8"
+              key="9"
               name="environment/smtp"
               parentLink=""
               subsection={false}
@@ -2904,7 +3951,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               }
             />
             <AdminSidebarSection
-              key="9"
+              key="10"
               name="environment/push_notification_server"
               parentLink=""
               subsection={false}
@@ -2917,7 +3964,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               }
             />
             <AdminSidebarSection
-              key="10"
+              key="11"
               name="environment/high_availability"
               parentLink=""
               subsection={false}
@@ -2930,7 +3977,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               }
             />
             <AdminSidebarSection
-              key="11"
+              key="12"
               name="environment/rate_limiting"
               parentLink=""
               subsection={false}
@@ -2943,7 +3990,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               }
             />
             <AdminSidebarSection
-              key="12"
+              key="13"
               name="environment/logging"
               parentLink=""
               subsection={false}
@@ -2956,7 +4003,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               }
             />
             <AdminSidebarSection
-              key="13"
+              key="14"
               name="environment/session_lengths"
               parentLink=""
               subsection={false}
@@ -2969,7 +4016,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               }
             />
             <AdminSidebarSection
-              key="14"
+              key="15"
               name="environment/performance_monitoring"
               parentLink=""
               subsection={false}
@@ -2982,7 +4029,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               }
             />
             <AdminSidebarSection
-              key="15"
+              key="16"
               name="environment/developer"
               parentLink=""
               subsection={false}
@@ -3009,7 +4056,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
             }
           >
             <AdminSidebarSection
-              key="3"
+              key="4"
               name="site_config/customization"
               parentLink=""
               subsection={false}
@@ -3022,7 +4069,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               }
             />
             <AdminSidebarSection
-              key="4"
+              key="5"
               name="site_config/localization"
               parentLink=""
               subsection={false}
@@ -3035,7 +4082,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               }
             />
             <AdminSidebarSection
-              key="5"
+              key="6"
               name="site_config/users_and_teams"
               parentLink=""
               subsection={false}
@@ -3048,7 +4095,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               }
             />
             <AdminSidebarSection
-              key="6"
+              key="7"
               name="environment/notifications"
               parentLink=""
               subsection={false}
@@ -3061,7 +4108,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               }
             />
             <AdminSidebarSection
-              key="7"
+              key="8"
               name="site_config/announcement_banner"
               parentLink=""
               subsection={false}
@@ -3074,7 +4121,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               }
             />
             <AdminSidebarSection
-              key="8"
+              key="9"
               name="site_config/emoji"
               parentLink=""
               subsection={false}
@@ -3087,7 +4134,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               }
             />
             <AdminSidebarSection
-              key="9"
+              key="10"
               name="site_config/posts"
               parentLink=""
               subsection={false}
@@ -3100,7 +4147,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               }
             />
             <AdminSidebarSection
-              key="10"
+              key="11"
               name="site_config/file_sharing_downloads"
               parentLink=""
               subsection={false}
@@ -3113,7 +4160,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               }
             />
             <AdminSidebarSection
-              key="11"
+              key="12"
               name="site_config/public_links"
               parentLink=""
               subsection={false}
@@ -3140,7 +4187,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
             }
           >
             <AdminSidebarSection
-              key="3"
+              key="4"
               name="authentication/signup"
               parentLink=""
               subsection={false}
@@ -3153,7 +4200,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               }
             />
             <AdminSidebarSection
-              key="4"
+              key="5"
               name="authentication/email"
               parentLink=""
               subsection={false}
@@ -3166,7 +4213,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               }
             />
             <AdminSidebarSection
-              key="5"
+              key="6"
               name="authentication/password"
               parentLink=""
               subsection={false}
@@ -3179,7 +4226,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               }
             />
             <AdminSidebarSection
-              key="6"
+              key="7"
               name="authentication/mfa"
               parentLink=""
               subsection={false}
@@ -3192,7 +4239,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               }
             />
             <AdminSidebarSection
-              key="7"
+              key="8"
               name="authentication/ldap"
               parentLink=""
               subsection={false}
@@ -3206,6 +4253,32 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
             />
             <AdminSidebarSection
               key="9"
+              name="authentication/ldap"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="AD/LDAP"
+                  id="admin.sidebar.ldap"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="10"
+              name="authentication/saml"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="SAML 2.0"
+                  id="admin.sidebar.saml"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="11"
               name="authentication/saml"
               parentLink=""
               subsection={false}
@@ -3219,6 +4292,19 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
             />
             <AdminSidebarSection
               key="12"
+              name="authentication/gitlab"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="GitLab"
+                  id="admin.sidebar.gitlab"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="13"
               name="authentication/oauth"
               parentLink=""
               subsection={false}
@@ -3231,7 +4317,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               }
             />
             <AdminSidebarSection
-              key="13"
+              key="14"
               name="authentication/guest_access"
               parentLink=""
               subsection={false}
@@ -3258,7 +4344,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
             }
           >
             <AdminSidebarSection
-              key="4"
+              key="5"
               name="plugins/plugin_management"
               parentLink=""
               subsection={false}
@@ -3292,7 +4378,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
             }
           >
             <AdminSidebarSection
-              key="4"
+              key="5"
               name="integrations/integration_management"
               parentLink=""
               subsection={false}
@@ -3305,7 +4391,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               }
             />
             <AdminSidebarSection
-              key="5"
+              key="6"
               name="integrations/bot_accounts"
               parentLink=""
               subsection={false}
@@ -3318,7 +4404,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               }
             />
             <AdminSidebarSection
-              key="6"
+              key="7"
               name="integrations/gif"
               parentLink=""
               subsection={false}
@@ -3331,7 +4417,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               }
             />
             <AdminSidebarSection
-              key="7"
+              key="8"
               name="integrations/cors"
               parentLink=""
               subsection={false}
@@ -3358,7 +4444,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
             }
           >
             <AdminSidebarSection
-              key="3"
+              key="4"
               name="compliance/data_retention"
               parentLink=""
               subsection={false}
@@ -3371,7 +4457,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               }
             />
             <AdminSidebarSection
-              key="4"
+              key="5"
               name="compliance/export"
               parentLink=""
               subsection={false}
@@ -3384,7 +4470,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               }
             />
             <AdminSidebarSection
-              key="5"
+              key="6"
               name="compliance/monitoring"
               parentLink=""
               subsection={false}
@@ -3397,7 +4483,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               }
             />
             <AdminSidebarSection
-              key="6"
+              key="7"
               name="compliance/custom_terms_of_service"
               parentLink=""
               subsection={false}
@@ -3424,7 +4510,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
             }
           >
             <AdminSidebarSection
-              key="3"
+              key="4"
               name="experimental/features"
               parentLink=""
               subsection={false}
@@ -3437,7 +4523,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               }
             />
             <AdminSidebarSection
-              key="4"
+              key="5"
               name="experimental/blevesearch"
               parentLink=""
               subsection={false}
@@ -3548,7 +4634,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
             }
           >
             <AdminSidebarSection
-              key="3"
+              key="4"
               name="reporting/system_analytics"
               parentLink=""
               subsection={false}
@@ -3561,7 +4647,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               }
             />
             <AdminSidebarSection
-              key="4"
+              key="5"
               name="reporting/team_statistics"
               parentLink=""
               subsection={false}
@@ -3574,7 +4660,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               }
             />
             <AdminSidebarSection
-              key="5"
+              key="6"
               name="reporting/server_logs"
               parentLink=""
               subsection={false}
@@ -3614,7 +4700,46 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               }
             />
             <AdminSidebarSection
-              key="14"
+              key="7"
+              name="user_management/groups"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Groups"
+                  id="admin.sidebar.groups"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="9"
+              name="user_management/teams"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Teams"
+                  id="admin.sidebar.teams"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="11"
+              name="user_management/channels"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Channels"
+                  id="admin.sidebar.channels"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="15"
               name="user_management/permissions/"
               parentLink=""
               subsection={false}
@@ -3641,7 +4766,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
             }
           >
             <AdminSidebarSection
-              key="3"
+              key="4"
               name="environment/web_server"
               parentLink=""
               subsection={false}
@@ -3654,7 +4779,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               }
             />
             <AdminSidebarSection
-              key="4"
+              key="5"
               name="environment/database"
               parentLink=""
               subsection={false}
@@ -3668,6 +4793,19 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
             />
             <AdminSidebarSection
               key="6"
+              name="environment/elasticsearch"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Elasticsearch"
+                  id="admin.sidebar.elasticsearch"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="7"
               name="environment/file_storage"
               parentLink=""
               subsection={false}
@@ -3680,7 +4818,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               }
             />
             <AdminSidebarSection
-              key="7"
+              key="8"
               name="environment/image_proxy"
               parentLink=""
               subsection={false}
@@ -3693,7 +4831,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               }
             />
             <AdminSidebarSection
-              key="8"
+              key="9"
               name="environment/smtp"
               parentLink=""
               subsection={false}
@@ -3706,7 +4844,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               }
             />
             <AdminSidebarSection
-              key="9"
+              key="10"
               name="environment/push_notification_server"
               parentLink=""
               subsection={false}
@@ -3720,6 +4858,19 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
             />
             <AdminSidebarSection
               key="11"
+              name="environment/high_availability"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="High Availability"
+                  id="admin.sidebar.highAvailability"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="12"
               name="environment/rate_limiting"
               parentLink=""
               subsection={false}
@@ -3732,7 +4883,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               }
             />
             <AdminSidebarSection
-              key="12"
+              key="13"
               name="environment/logging"
               parentLink=""
               subsection={false}
@@ -3745,7 +4896,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               }
             />
             <AdminSidebarSection
-              key="13"
+              key="14"
               name="environment/session_lengths"
               parentLink=""
               subsection={false}
@@ -3759,6 +4910,19 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
             />
             <AdminSidebarSection
               key="15"
+              name="environment/performance_monitoring"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Performance Monitoring"
+                  id="admin.sidebar.metrics"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="16"
               name="environment/developer"
               parentLink=""
               subsection={false}
@@ -3785,7 +4949,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
             }
           >
             <AdminSidebarSection
-              key="3"
+              key="4"
               name="site_config/customization"
               parentLink=""
               subsection={false}
@@ -3798,7 +4962,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               }
             />
             <AdminSidebarSection
-              key="4"
+              key="5"
               name="site_config/localization"
               parentLink=""
               subsection={false}
@@ -3811,7 +4975,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               }
             />
             <AdminSidebarSection
-              key="5"
+              key="6"
               name="site_config/users_and_teams"
               parentLink=""
               subsection={false}
@@ -3824,7 +4988,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               }
             />
             <AdminSidebarSection
-              key="6"
+              key="7"
               name="environment/notifications"
               parentLink=""
               subsection={false}
@@ -3837,7 +5001,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               }
             />
             <AdminSidebarSection
-              key="7"
+              key="8"
               name="site_config/announcement_banner"
               parentLink=""
               subsection={false}
@@ -3850,7 +5014,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               }
             />
             <AdminSidebarSection
-              key="8"
+              key="9"
               name="site_config/emoji"
               parentLink=""
               subsection={false}
@@ -3863,7 +5027,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               }
             />
             <AdminSidebarSection
-              key="9"
+              key="10"
               name="site_config/posts"
               parentLink=""
               subsection={false}
@@ -3876,7 +5040,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               }
             />
             <AdminSidebarSection
-              key="10"
+              key="11"
               name="site_config/file_sharing_downloads"
               parentLink=""
               subsection={false}
@@ -3889,7 +5053,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               }
             />
             <AdminSidebarSection
-              key="11"
+              key="12"
               name="site_config/public_links"
               parentLink=""
               subsection={false}
@@ -3916,7 +5080,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
             }
           >
             <AdminSidebarSection
-              key="3"
+              key="4"
               name="authentication/signup"
               parentLink=""
               subsection={false}
@@ -3929,7 +5093,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               }
             />
             <AdminSidebarSection
-              key="4"
+              key="5"
               name="authentication/email"
               parentLink=""
               subsection={false}
@@ -3942,7 +5106,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               }
             />
             <AdminSidebarSection
-              key="5"
+              key="6"
               name="authentication/password"
               parentLink=""
               subsection={false}
@@ -3955,7 +5119,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               }
             />
             <AdminSidebarSection
-              key="6"
+              key="7"
               name="authentication/mfa"
               parentLink=""
               subsection={false}
@@ -3981,6 +5145,19 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               }
             />
             <AdminSidebarSection
+              key="9"
+              name="authentication/ldap"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="AD/LDAP"
+                  id="admin.sidebar.ldap"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
               key="10"
               name="authentication/saml"
               parentLink=""
@@ -3994,7 +5171,33 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               }
             />
             <AdminSidebarSection
+              key="11"
+              name="authentication/saml"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="SAML 2.0"
+                  id="admin.sidebar.saml"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
               key="12"
+              name="authentication/gitlab"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="GitLab"
+                  id="admin.sidebar.gitlab"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="13"
               name="authentication/oauth"
               parentLink=""
               subsection={false}
@@ -4007,7 +5210,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               }
             />
             <AdminSidebarSection
-              key="13"
+              key="14"
               name="authentication/guest_access"
               parentLink=""
               subsection={false}
@@ -4034,7 +5237,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
             }
           >
             <AdminSidebarSection
-              key="4"
+              key="5"
               name="plugins/plugin_management"
               parentLink=""
               subsection={false}
@@ -4068,7 +5271,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
             }
           >
             <AdminSidebarSection
-              key="4"
+              key="5"
               name="integrations/integration_management"
               parentLink=""
               subsection={false}
@@ -4081,7 +5284,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               }
             />
             <AdminSidebarSection
-              key="5"
+              key="6"
               name="integrations/bot_accounts"
               parentLink=""
               subsection={false}
@@ -4094,7 +5297,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               }
             />
             <AdminSidebarSection
-              key="6"
+              key="7"
               name="integrations/gif"
               parentLink=""
               subsection={false}
@@ -4107,7 +5310,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               }
             />
             <AdminSidebarSection
-              key="7"
+              key="8"
               name="integrations/cors"
               parentLink=""
               subsection={false}
@@ -4134,7 +5337,33 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
             }
           >
             <AdminSidebarSection
+              key="4"
+              name="compliance/data_retention"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Data Retention Policy"
+                  id="admin.sidebar.dataRetentionPolicy"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
               key="5"
+              name="compliance/export"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Compliance Export (Beta)"
+                  id="admin.sidebar.complianceExport"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="6"
               name="compliance/monitoring"
               parentLink=""
               subsection={false}
@@ -4142,6 +5371,19 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
                 <FormattedMessage
                   defaultMessage="Compliance Monitoring"
                   id="admin.sidebar.complianceMonitoring"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="7"
+              name="compliance/custom_terms_of_service"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Custom Terms of Service (Beta)"
+                  id="admin.sidebar.customTermsOfService"
                   values={Object {}}
                 />
               }
@@ -4161,7 +5403,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
             }
           >
             <AdminSidebarSection
-              key="3"
+              key="4"
               name="experimental/features"
               parentLink=""
               subsection={false}
@@ -4174,7 +5416,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               }
             />
             <AdminSidebarSection
-              key="4"
+              key="5"
               name="experimental/blevesearch"
               parentLink=""
               subsection={false}
