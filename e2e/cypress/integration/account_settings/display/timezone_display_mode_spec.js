@@ -207,12 +207,7 @@ function setTimezoneDisplayTo(isAutomatic, timezone) {
 
     // * Verify timezone description is correct
     cy.get('#timezoneDesc').should('be.visible').invoke('text').then((timezoneDesc) => {
-        if (timezone.type === 'Invalid') {
-            // * Verify timezone description is UTC if new one is invalid
-            expect(timezoneDesc).to.be.equal(expectedTimezoneValue);
-        } else {
-            expect(expectedTimezoneValue.replace('_', ' ')).to.contain(timezoneDesc);
-        }
+        expect(expectedTimezoneValue.replace('_', ' ')).to.contain(timezoneDesc);
     });
 
     // # Close Account Settings modal
