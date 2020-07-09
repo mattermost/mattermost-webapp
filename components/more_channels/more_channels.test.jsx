@@ -10,7 +10,7 @@ import SearchableChannelList from 'components/searchable_channel_list.jsx';
 /* eslint-disable global-require */
 
 jest.mock('utils/browser_history', () => {
-    const original = require.requireActual('utils/browser_history');
+    const original = jest.requireActual('utils/browser_history');
     return {
         ...original,
         browserHistory: {

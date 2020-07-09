@@ -10,14 +10,20 @@
 // Group: @account_setting
 
 describe('Account Settings > Display > Clock Display Mode', () => {
+    const mainMessage = 'Test for clock display mode';
+    const replyMessage1 = 'Reply 1 for clock display mode';
+    const replyMessage2 = 'Reply 2 for clock display mode';
+
     before(() => {
         // # Login as new user, visit town-square and post a message
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
             cy.visit(`/${team.name}/channels/town-square`);
-            cy.postMessage('Test for clock display mode');
+            cy.postMessage(mainMessage);
 
-            // # Open RHS
+            // # Open RHS and post two consecutive replies
             cy.clickPostCommentIcon();
+            cy.postMessageReplyInRHS(replyMessage1);
+            cy.postMessageReplyInRHS(replyMessage2);
         });
     });
 
@@ -30,14 +36,19 @@ describe('Account Settings > Display > Clock Display Mode', () => {
         // # Set clock display to 12-hour
         setClockDisplayTo12Hour();
 
-        // * Verify clock format is 12-hour in center channel
-        cy.get('#post-list').within(() => {
-            verifyClockFormatIs12Hour();
+        // * Verify clock format is 12-hour for main message
+        cy.getNthPostId(1).then((postId) => {
+            verifyClockFormatIs12HourForPostWithMessage(postId, mainMessage);
         });
 
-        // * Verify clock format is 12-hour in RHS
-        cy.get('#sidebar-right').within(() => {
-            verifyClockFormatIs12Hour();
+        // * Verify clock format is 12-hour for reply message 1
+        cy.getNthPostId(-2).then((postId) => {
+            verifyClockFormatIs12HourForPostWithMessage(postId, replyMessage1);
+        });
+
+        // * Verify clock format is 12-hour for reply message 2
+        cy.getNthPostId(-1).then((postId) => {
+            verifyClockFormatIs12HourForPostWithMessage(postId, replyMessage2);
         });
     });
 
@@ -45,14 +56,19 @@ describe('Account Settings > Display > Clock Display Mode', () => {
         // # Set clock display to 24-hour
         setClockDisplayTo24Hour();
 
-        // * Verify clock format is 24-hour in center channel
-        cy.get('#post-list').within(() => {
-            verifyClockFormatIs24Hour();
+        // * Verify clock format is 24-hour for main message
+        cy.getNthPostId(1).then((postId) => {
+            verifyClockFormatIs24HourForPostWithMessage(postId, mainMessage);
         });
 
-        // * Verify clock format is 24-hour in RHS
-        cy.get('#sidebar-right').within(() => {
-            verifyClockFormatIs24Hour();
+        // * Verify clock format is 24-hour for reply message 1
+        cy.getNthPostId(-2).then((postId) => {
+            verifyClockFormatIs24HourForPostWithMessage(postId, replyMessage1);
+        });
+
+        // * Verify clock format is 24-hour for reply message 2
+        cy.getNthPostId(-1).then((postId) => {
+            verifyClockFormatIs24HourForPostWithMessage(postId, replyMessage2);
         });
     });
 });
@@ -76,7 +92,7 @@ function setClockDisplayTo(clockFormat) {
     navigateToClockDisplaySettings();
 
     // # Click the radio button
-    cy.get(`#${clockFormat}`).should('be.visible').click();
+    cy.get(`#${clockFormat}`).should('be.visible').click({force: true});
 
     // # Click Save button and close Account Settings modal
     cy.get('#saveSetting').should('be.visible').click();
@@ -95,7 +111,7 @@ function verifyClockFormat(isHour12) {
     cy.get('time').first().then(($timeEl) => {
         cy.wrap($timeEl).invoke('attr', 'datetime').then((dateTimeString) => {
             const formattedDateTime = new Date(dateTimeString).toLocaleString('en-US', {hour: 'numeric', minute: 'numeric', hour12: isHour12});
-            cy.wrap($timeEl).should('have.text', formattedDateTime);
+            cy.wrap($timeEl).should('be.visible').and('have.text', formattedDateTime);
         });
     });
 }
@@ -106,4 +122,32 @@ function verifyClockFormatIs12Hour() {
 
 function verifyClockFormatIs24Hour() {
     verifyClockFormat(false);
+}
+
+function verifyClockFormatIs12HourForPostWithMessage(postId, message) {
+    // * Verify clock format is 12-hour in center channel within the post
+    cy.get(`#post_${postId}`).within(($postEl) => {
+        cy.wrap($postEl).find('.post-message__text').should('have.text', message);
+        verifyClockFormatIs12Hour();
+    });
+
+    // * Verify clock format is 12-hour in RHS within the RHS post
+    cy.get(`#rhsPost_${postId}`).within(($rhsPostEl) => {
+        cy.wrap($rhsPostEl).find('.post-message__text').should('have.text', message);
+        verifyClockFormatIs12Hour();
+    });
+}
+
+function verifyClockFormatIs24HourForPostWithMessage(postId, message) {
+    // * Verify clock format is 24-hour in center channel within the post
+    cy.get(`#post_${postId}`).within(($postEl) => {
+        cy.wrap($postEl).find('.post-message__text').should('have.text', message);
+        verifyClockFormatIs24Hour();
+    });
+
+    // * Verify clock format is 24-hour in RHS within the RHS post
+    cy.get(`#rhsPost_${postId}`).within(($rhsPostEl) => {
+        cy.wrap($rhsPostEl).find('.post-message__text').should('have.text', message);
+        verifyClockFormatIs24Hour();
+    });
 }
