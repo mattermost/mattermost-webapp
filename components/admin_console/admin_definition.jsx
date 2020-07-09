@@ -140,18 +140,18 @@ const MINIMUM_IDLE_TIMEOUT = 5;
 //   - fileType: A list of extensions separated by ",". E.g. ".jpg,.png,.gif".
 
 export const it = {
-    not: (func) => (config, state, license, enterpriseReady, readAccessMap, writeAccessMap) => !func(config, state, license, enterpriseReady, readAccessMap, writeAccessMap),
-    all: (...funcs) => (config, state, license, enterpriseReady, readAccessMap, writeAccessMap) => {
+    not: (func) => (config, state, license, enterpriseReady, consoleAccess) => !func(config, state, license, enterpriseReady, consoleAccess),
+    all: (...funcs) => (config, state, license, enterpriseReady, consoleAccess) => {
         for (const func of funcs) {
-            if (!func(config, state, license, enterpriseReady, readAccessMap, writeAccessMap)) {
+            if (!func(config, state, license, enterpriseReady, consoleAccess)) {
                 return false;
             }
         }
         return true;
     },
-    any: (...funcs) => (config, state, license, enterpriseReady, readAccessMap, writeAccessMap) => {
+    any: (...funcs) => (config, state, license, enterpriseReady, consoleAccess) => {
         for (const func of funcs) {
-            if (func(config, state, license, enterpriseReady, readAccessMap, writeAccessMap)) {
+            if (func(config, state, license, enterpriseReady, consoleAccess)) {
                 return true;
             }
         }
@@ -166,8 +166,8 @@ export const it = {
     enterpriseReady: (config, state, license, enterpriseReady) => enterpriseReady,
     licensed: (config, state, license) => license.IsLicensed === 'true',
     licensedForFeature: (feature) => (config, state, license) => license.IsLicensed && license[feature] === 'true',
-    userHasReadPermissionOnResource: (key) => (config, state, license, enterpriseReady, readAccessMap) => readAccessMap && readAccessMap[key],
-    userHasWritePermissionOnResource: (key) => (config, state, license, enterpriseReady, readAccessMap, writeAccessMap) => writeAccessMap && writeAccessMap[key],
+    userHasReadPermissionOnResource: (key) => (config, state, license, enterpriseReady, consoleAccess) => consoleAccess?.read?.[key],
+    userHasWritePermissionOnResource: (key) => (config, state, license, enterpriseReady, consoleAccess) => consoleAccess?.write?.[key],
 };
 
 const AdminDefinition = {

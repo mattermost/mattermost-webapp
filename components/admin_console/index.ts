@@ -13,6 +13,7 @@ import {selectChannel} from 'mattermost-redux/actions/channels';
 import {selectTeam} from 'mattermost-redux/actions/teams';
 import {isCurrentUserSystemAdmin, currentUserHasAnAdminRole, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getTeam} from 'mattermost-redux/selectors/entities/teams';
+import {ConsoleAccess} from 'mattermost-redux/types/admin';
 
 import {General} from 'mattermost-redux/constants';
 import {GenericAction} from 'mattermost-redux/types/actions';
@@ -35,15 +36,14 @@ function mapStateToProps(state: GlobalState) {
     const team = getTeam(state, teamId || '');
     const unauthorizedRoute = team ? `/${team.name}/channels/${General.DEFAULT_CHANNEL}` : '/';
 
-    const readAccessMap: Record<string, boolean> = {};
-    const writeAccessMap: Record<string, boolean> = {};
+    const consoleAccess: ConsoleAccess = {read: {}, write: {}};
     Object.entries(adminDefinition).forEach(([key]) => {
-        readAccessMap[key] = !haveINoPermissionOnSysConsoleItem(state, {resourceId: key});
-        writeAccessMap[key] = !haveINoWritePermissionOnSysConsoleItem(state, {resourceId: key});
+        consoleAccess.read[key] = !haveINoPermissionOnSysConsoleItem(state, {resourceId: key});
+        consoleAccess.write[key] = !haveINoWritePermissionOnSysConsoleItem(state, {resourceId: key});
         if (key === 'user_management') {
             ['users', 'groups', 'teams', 'channels', 'permissions'].forEach((userManagementKey) => {
                 const subKey = `${key}.${userManagementKey}`;
-                writeAccessMap[subKey] = !haveINoWritePermissionOnSysConsoleItem(state, {resourceId: subKey});
+                consoleAccess.write[subKey] = !haveINoWritePermissionOnSysConsoleItem(state, {resourceId: subKey});
             });
         }
     });
@@ -60,8 +60,7 @@ function mapStateToProps(state: GlobalState) {
         currentUserHasAnAdminRole: currentUserHasAnAdminRole(state),
         roles: getRoles(state),
         adminDefinition,
-        readAccessMap,
-        writeAccessMap,
+        consoleAccess,
     };
 }
 

@@ -51,8 +51,7 @@ class AdminSidebar extends React.PureComponent {
         siteName: PropTypes.string,
         onFilterChange: PropTypes.func.isRequired,
         navigationBlocked: PropTypes.bool.isRequired,
-        readAccessMap: PropTypes.object,
-        writeAccessMap: PropTypes.object,
+        consoleAccess: PropTypes.object,
         intl: intlShape.isRequired,
         actions: PropTypes.shape({
 
@@ -155,7 +154,7 @@ class AdminSidebar extends React.PureComponent {
                 return false;
             }
 
-            if (item.isHidden && item.isHidden(this.props.config, {}, this.props.license, this.props.buildEnterpriseReady, this.props.readAccessMap, this.props.writeAccessMap)) {
+            if (item.isHidden && item.isHidden(this.props.config, {}, this.props.license, this.props.buildEnterpriseReady, this.props.consoleAccess)) {
                 return false;
             }
             return true;
@@ -174,7 +173,7 @@ class AdminSidebar extends React.PureComponent {
     renderRootMenu = (definition) => {
         const sidebarSections = [];
         Object.values(definition).forEach((section, sectionIndex) => {
-            const isSectionHidden = section.isHidden && section.isHidden(this.props.config, {}, this.props.license, this.props.buildEnterpriseReady, this.props.readAccessMap, this.props.writeAccessMap);
+            const isSectionHidden = section.isHidden && section.isHidden(this.props.config, {}, this.props.license, this.props.buildEnterpriseReady, this.props.consoleAccess);
             if (!isSectionHidden) {
                 const sidebarItems = [];
                 Object.values(section).forEach((item, itemIndex) => {

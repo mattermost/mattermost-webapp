@@ -9,6 +9,7 @@ import {Route, Switch, Redirect} from 'react-router-dom';
 import {ActionFunc} from 'mattermost-redux/types/actions';
 import {AdminConfig, EnvironmentConfig, ClientLicense} from 'mattermost-redux/types/config';
 import {Role} from 'mattermost-redux/types/roles';
+import {ConsoleAccess} from 'mattermost-redux/types/admin';
 import {Dictionary} from 'mattermost-redux/types/utilities';
 
 import AnnouncementBar from 'components/announcement_bar';
@@ -34,8 +35,7 @@ type Props = {
     showNavigationPrompt: boolean;
     isCurrentUserSystemAdmin: boolean;
     currentUserHasAnAdminRole: boolean;
-    readAccessMap: Record<string, boolean>;
-    writeAccessMap: Record<string, boolean>;
+    consoleAccess: ConsoleAccess;
     actions: {
         getConfig: () => ActionFunc;
         getEnvironmentConfig: () => ActionFunc;
@@ -68,8 +68,8 @@ type ExtraProps = {
 }
 
 type Item = {
-    isHidden?: (config?: Record<string, any>, state?: Record<string, any>, license?: Record<string, any>, buildEnterpriseReady?: boolean, readAccessMap?: Record<string, boolean>, writeAccessMap?: Record<string, boolean>) => boolean;
-    isDisabled?: (config?: Record<string, any>, state?: Record<string, any>, license?: Record<string, any>, readAccessMap?: Record<string, boolean>, writeAccessMap?: Record<string, boolean>) => boolean;
+    isHidden?: (config?: Record<string, any>, state?: Record<string, any>, license?: Record<string, any>, buildEnterpriseReady?: boolean, consoleAccess?: ConsoleAccess) => boolean;
+    isDisabled?: (config?: Record<string, any>, state?: Record<string, any>, license?: Record<string, any>, consoleAccess?: ConsoleAccess) => boolean;
     schema: Record<string, any>;
     url: string;
 }
@@ -85,7 +85,7 @@ export default class AdminConsole extends React.PureComponent<Props, State> {
     public componentDidMount(): void {
         this.props.actions.getConfig();
         this.props.actions.getEnvironmentConfig();
-        this.props.actions.loadRolesIfNeeded(['channel_user', 'team_user', 'system_user', 'channel_admin', 'team_admin', 'system_admin', 'system_user_manager', 'system_read_only_admin', 'system_restricted_admin']);
+        this.props.actions.loadRolesIfNeeded(['channel_user', 'team_user', 'system_user', 'channel_admin', 'team_admin', 'system_admin', 'system_user_manager', 'system_read_only_admin', 'system_restricted_admin']); // expand the system admin roles from a constant
         this.props.actions.selectChannel('');
         this.props.actions.selectTeam('');
     }
@@ -116,9 +116,9 @@ export default class AdminConsole extends React.PureComponent<Props, State> {
             let isSectionHidden = false;
             Object.entries(section).find((entry) => {
                 if (entry[0] === 'isHidden' && typeof entry[1] === 'function') {
-                    const isHiddenFunc = entry[1] as ((config?: Record<string, any>, state?: Record<string, any>, license?: Record<string, any>, buildEnterpriseReady?: boolean, readAccessMap?: Record<string, boolean>, writeAccessMap?: Record<string, boolean>) => boolean);
+                    const isHiddenFunc = entry[1] as ((config?: Record<string, any>, state?: Record<string, any>, license?: Record<string, any>, buildEnterpriseReady?: boolean, consoleAccess?: ConsoleAccess) => boolean);
 
-                    isSectionHidden = isHiddenFunc(this.props.config, {}, this.props.license, this.props.buildEnterpriseReady, this.props.readAccessMap, this.props.writeAccessMap);
+                    isSectionHidden = isHiddenFunc(this.props.config, {}, this.props.license, this.props.buildEnterpriseReady, this.props.consoleAccess);
                 }
                 return null;
             });
@@ -134,7 +134,7 @@ export default class AdminConsole extends React.PureComponent<Props, State> {
             return acc.concat(items);
         }, [] as Item[]);
         const schemaRoutes = schemas.map((item: Item) => {
-            const isItemDisabled = item.isDisabled && item.isDisabled(this.props.config, {}, this.props.license, this.props.readAccessMap, this.props.writeAccessMap);
+            const isItemDisabled = item.isDisabled && item.isDisabled(this.props.config, {}, this.props.license, this.props.consoleAccess);
 
             return (
                 <Route
@@ -144,8 +144,7 @@ export default class AdminConsole extends React.PureComponent<Props, State> {
                         <SchemaAdminSettings
                             {...extraProps}
                             {...props}
-                            readAccessMap={this.props.readAccessMap}
-                            writeAccessMap={this.props.writeAccessMap}
+                            consoleAccess={this.props.consoleAccess}
                             schema={item.schema}
                             isDisabled={isItemDisabled}
                         />

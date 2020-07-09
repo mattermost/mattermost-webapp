@@ -19,15 +19,14 @@ function mapStateToProps(state) {
     const siteName = config.SiteName;
     const adminDefinition = getAdminDefinition(state);
 
-    const readAccessMap = {};
-    const writeAccessMap = {};
+    const consoleAccess = {read: {}, write: {}};
     Object.entries(adminDefinition).forEach(([key]) => {
-        readAccessMap[key] = !haveINoPermissionOnSysConsoleItem(state, {resourceId: key});
-        writeAccessMap[key] = !haveINoWritePermissionOnSysConsoleItem(state, {resourceId: key});
+        consoleAccess.read[key] = !haveINoPermissionOnSysConsoleItem(state, {resourceId: key});
+        consoleAccess.write[key] = !haveINoWritePermissionOnSysConsoleItem(state, {resourceId: key});
         if (key === 'user_management') {
             ['users', 'groups', 'teams', 'channels', 'permissions'].forEach((userManagementKey) => {
                 const subKey = `${key}.${userManagementKey}`;
-                writeAccessMap[subKey] = !haveINoWritePermissionOnSysConsoleItem(state, {resourceId: subKey});
+                consoleAccess.write[subKey] = !haveINoWritePermissionOnSysConsoleItem(state, {resourceId: subKey});
             });
         }
     });
@@ -40,8 +39,7 @@ function mapStateToProps(state) {
         buildEnterpriseReady,
         siteName,
         adminDefinition,
-        readAccessMap,
-        writeAccessMap,
+        consoleAccess,
     };
 }
 

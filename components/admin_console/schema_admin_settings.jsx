@@ -49,8 +49,7 @@ export default class SchemaAdminSettings extends React.PureComponent {
         editRole: PropTypes.func,
         updateConfig: PropTypes.func.isRequired,
         isDisabled: PropTypes.bool,
-        readAccessMap: PropTypes.object,
-        writeAccessMap: PropTypes.object,
+        consoleAccess: PropTypes.object,
     }
 
     constructor(props) {
@@ -350,7 +349,7 @@ export default class SchemaAdminSettings extends React.PureComponent {
 
     isDisabled = (setting) => {
         if (typeof setting.isDisabled === 'function') {
-            var result = setting.isDisabled(this.props.config, this.state, this.props.license, this.props.readAccessMap, this.props.writeAccessMap);
+            var result = setting.isDisabled(this.props.config, this.state, this.props.license, this.props.consoleAccess);
             return result;
         }
         return Boolean(setting.isDisabled);
