@@ -143,7 +143,9 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
     renderFinalScreen = () => {
         // TODO
         return (
-            <div/>
+            <div>
+                {'Placeholder for Final Screen'}
+            </div>
         );
     }
 
@@ -152,40 +154,6 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
 
         return (
             <>
-                <Accordion defaultExpandedKey={Steps[0].id}>
-                    {(setExpanded, expandedKey) => {
-                        return (
-                            <>
-                                {renderedSteps.map((step) => step(setExpanded, expandedKey))}
-                            </>
-                        );
-                    }}
-                </Accordion>
-                <div className='NextStepsView__skipGettingStarted'>
-                    <button
-                        onClick={this.skipAll}
-                    >
-                        <FormattedMessage
-                            id='next_steps_view.skipGettingStarted'
-                            defaultMessage='Skip Getting Started'
-                        />
-                    </button>
-                </div>
-            </>
-        );
-    }
-
-    render() {
-        let mainBody = this.renderMainBody();
-        if (this.state.showFinalScreen) {
-            mainBody = this.renderFinalScreen();
-        }
-
-        return (
-            <div
-                id='app-content'
-                className='app__content NextStepsView'
-            >
                 <div className='NextStepsView__header'>
                     <div className='NextStepsView__header-headerText'>
                         <div className='NextStepsView__header-headerTopText'>
@@ -204,10 +172,44 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                 </div>
                 <div className='NextStepsView__body'>
                     <div className='NextStepsView__body-main'>
-                        {mainBody}
+                        <Accordion defaultExpandedKey={Steps[0].id}>
+                            {(setExpanded, expandedKey) => {
+                                return (
+                                    <>
+                                        {renderedSteps.map((step) => step(setExpanded, expandedKey))}
+                                    </>
+                                );
+                            }}
+                        </Accordion>
+                        <div className='NextStepsView__skipGettingStarted'>
+                            <button
+                                onClick={this.skipAll}
+                            >
+                                <FormattedMessage
+                                    id='next_steps_view.skipGettingStarted'
+                                    defaultMessage='Skip Getting Started'
+                                />
+                            </button>
+                        </div>
                     </div>
                     <div className='NextStepsView__body-graphic'/>
                 </div>
+            </>
+        );
+    }
+
+    render() {
+        let mainBody = this.renderMainBody();
+        if (this.state.showFinalScreen) {
+            mainBody = this.renderFinalScreen();
+        }
+
+        return (
+            <div
+                id='app-content'
+                className='app__content NextStepsView'
+            >
+                {mainBody}
             </div>
         );
     }
