@@ -2458,9 +2458,7 @@
   "sidebar.tutorialScreen3.body2": "De asemenea, puteți crea un canal nou, făcând clic pe * * simbolul \" + \" ** lângă canal public sau privat antet.",
   "sidebar.tutorialScreen3.title": "Crearea și Aderarea Canale",
   "sidebar.types.alpha": "CANALE",
-  "sidebar.types.channels": "CANALE",
   "sidebar.types.direct": "MESAJE DIRECTE",
-  "sidebar.types.direct_messages": "MESAJE DIRECTE",
   "sidebar.types.favorite": "CANALE FAVORITE",
   "sidebar.types.private": "CANALE PRIVATE",
   "sidebar.types.public": "CANALE PUBLICE",
@@ -3921,5 +3919,14 @@
   "admin.channel_settings.channel_detail.archive_confirm.title": "Salvați și arhivați canalul",
   "admin.channel_settings.channel_detail.archive_confirm.message": "Salvarea va arhiva canalul de la echipă și va face conținutul său inaccesibil pentru toți utilizatorii. Sigur doriți să salvați și să arhivați acest canal?",
   "admin.channel_settings.channel_detail.archive_confirm.button": "Salvați și arhivați canalul",
-  "status_dropdown.set_your_status": "Stare"
+  "status_dropdown.set_your_status": "Stare",
+  "sidebar_left.sidebar_channel_menu.unmuteChannel": "Reactivarea Canal",
+  "sidebar_left.sidebar_channel_menu.muteChannel": "Canal mut",
+  "sidebar_left.sidebar_channel_menu.leaveChannel": "Părăsiți canalul",
+  "sidebar_left.sidebar_channel_menu.favoriteChannel": "Favorit",
+  "sidebar_left.sidebar_channel_menu.copyLink": "Copiază link",
+  "sidebar_left.sidebar_channel_menu.addMembers": "Adăugați membri",
+  "edit_category_modal.cancel": "Anulează",
+  "delete_category_modal.delete": "Șterge",
+  "create_category_modal.create": "Creează"
 }
