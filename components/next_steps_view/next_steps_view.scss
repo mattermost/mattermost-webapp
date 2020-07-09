@@ -92,6 +92,22 @@
     }
 }
 
+.NextStepsView__skipGettingStarted {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 12px;
+
+    button {
+        border: none;
+        background: none;
+        padding: 10px 16px;
+        font-weight: 600;
+        font-size: 12px;
+        line-height: 9px;
+        color: var(--button-bg);
+    }
+}
+
 .Card__header.expanded .NextStepsView__cardHeaderBadge {
     color: var(--button-color);
     background-color: var(--sidebar-text-active-border);

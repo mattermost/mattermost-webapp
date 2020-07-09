@@ -55,7 +55,19 @@ type Props = {
     };
 };
 
-export default class NextStepsView extends React.PureComponent<Props> {
+type State = {
+    showFinalScreen: boolean;
+}
+
+export default class NextStepsView extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
+        super(props);
+
+        this.state = {
+            showFinalScreen: false,
+        };
+    }
+
     getBottomText = () => {
         // TODO: will be stored in user prefs at a later date
         const {isFinished} = {isFinished: false};
@@ -88,7 +100,7 @@ export default class NextStepsView extends React.PureComponent<Props> {
 
     onSkip = (setExpanded: (expandedKey: string) => void) => {
         return (id: string) => {
-            setExpanded(this.getNextStep(id));
+            this.nextStep(setExpanded, id);
         };
     }
 
@@ -101,15 +113,21 @@ export default class NextStepsView extends React.PureComponent<Props> {
                 value: 'true',
             }]);
 
-            setExpanded(this.getNextStep(id));
+            this.nextStep(setExpanded, id);
         };
     }
 
-    getNextStep = (id: string) => {
-        const currentIndex = steps.findIndex((step) => step.id === id);
+    skipAll = () => {
+        this.setState({showFinalScreen: true});
+    }
 
-        // TODO: Logic to stop once you've hit the final step
-        return steps[(currentIndex + 1) % steps.length].id;
+    nextStep = (setExpanded: (expandedKey: string) => void, id: string) => {
+        const currentIndex = steps.findIndex((step) => step.id === id);
+        if ((currentIndex + 1) > (steps.length - 1)) {
+            this.setState({showFinalScreen: true});
+        } else {
+            setExpanded(steps[currentIndex + 1].id);
+        }
     }
 
     isStepComplete = (id: string) => {
@@ -153,8 +171,46 @@ export default class NextStepsView extends React.PureComponent<Props> {
         );
     }
 
-    render() {
+    renderFinalScreen = () => {
+        // TODO
+        return (
+            <div/>
+        );
+    }
+
+    renderMainBody = () => {
         const renderedSteps = steps.map(this.renderStep);
+
+        return (
+            <>
+                <Accordion defaultExpandedKey={steps[0].id}>
+                    {(setExpanded, expandedKey) => {
+                        return (
+                            <>
+                                {renderedSteps.map((step) => step(setExpanded, expandedKey))}
+                            </>
+                        );
+                    }}
+                </Accordion>
+                <div className='NextStepsView__skipGettingStarted'>
+                    <button
+                        onClick={this.skipAll}
+                    >
+                        <FormattedMessage
+                            id='next_steps_view.skipGettingStarted'
+                            defaultMessage='Skip Getting Started'
+                        />
+                    </button>
+                </div>
+            </>
+        );
+    }
+
+    render() {
+        let mainBody = this.renderMainBody();
+        if (this.state.showFinalScreen) {
+            mainBody = this.renderFinalScreen();
+        }
 
         return (
             <div
@@ -179,15 +235,7 @@ export default class NextStepsView extends React.PureComponent<Props> {
                 </div>
                 <div className='NextStepsView__body'>
                     <div className='NextStepsView__body-main'>
-                        <Accordion defaultExpandedKey={steps[0].id}>
-                            {(setExpanded, expandedKey) => {
-                                return (
-                                    <>
-                                        {renderedSteps.map((step) => step(setExpanded, expandedKey))}
-                                    </>
-                                );
-                            }}
-                        </Accordion>
+                        {mainBody}
                     </div>
                     <div className='NextStepsView__body-graphic'/>
                 </div>
