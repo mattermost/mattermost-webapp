@@ -259,7 +259,7 @@ export default class RhsThread extends React.Component<Props, State> {
     }
 
     public render(): JSX.Element {
-        if (this.props.posts == null || this.props.selected == null) {
+        if (this.props.posts == null || this.props.selected == null || !this.props.channel) {
             return (
                 <div/>
             );

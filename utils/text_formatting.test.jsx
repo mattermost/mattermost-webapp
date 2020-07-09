@@ -194,6 +194,11 @@ describe('handleUnicodeEmoji', () => {
             output: '<span data-emoticon="+1_dark_skin_tone">👍🏿</span><span data-emoticon="+1_light_skin_tone">👍🏻</span>',
         },
         {
+            description: 'should correctly match more emojis with skin tones',
+            text: '✊🏻✊🏿',
+            output: '<span data-emoticon="fist_raised_light_skin_tone">✊🏻</span><span data-emoticon="fist_raised_dark_skin_tone">✊🏿</span>',
+        },
+        {
             description: 'should correctly match combined emojis',
             text: '👨‍👩‍👧‍👦👨‍❤️‍👨',
             output: '<span data-emoticon="family_man_woman_girl_boy">👨‍👩‍👧‍👦</span><span data-emoticon="couple_with_heart_man_man">👨‍❤️‍👨</span>',

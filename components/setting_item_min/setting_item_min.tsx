@@ -32,7 +32,7 @@ interface Props {
     /**
      * Settings description
      */
-    describe?: JSX.Element | string;
+    describe?: JSX.Element | JSX.Element[] | string;
 
 }
 

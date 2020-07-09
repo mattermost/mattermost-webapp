@@ -361,4 +361,71 @@ describe('Guest Account - Guest User Invitation Flow', () => {
         // * Verify the content and message in next screen
         verifyInvitationSuccess(email.toLowerCase(), testTeam, 'An invitation email has been sent.');
     });
+
+    it('MM-T1414 Add Guest from Add New Members dialog', () => {
+        // # Demote the user from member to guest
+        cy.demoteUser(newUser.id);
+
+        // # Open Invite People
+        cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
+        cy.get('#invitePeople').should('be.visible').click();
+
+        // # Click on the next icon to invite members
+        cy.findByTestId('inviteMembersLink').find('.arrow').click();
+
+        // # Search and add a member
+        cy.findByTestId('inputPlaceholder').should('be.visible').within(($el) => {
+            cy.wrap($el).get('input').type(newUser.username, {force: true});
+            cy.wrap($el).get('.users-emails-input__menu').
+                children().should('have.length', 1).eq(0).should('contain', newUser.username).click();
+        });
+
+        // # Click Invite Members
+        cy.get('#inviteMembersButton').scrollIntoView().click();
+
+        // * Verify the content and error message in the Invitation Modal
+        cy.findByTestId('invitationModal').within(() => {
+            cy.get('h2.subtitle > span').should('have.text', '1 invitation was not sent');
+            cy.get('div.invitation-modal-confirm-sent').should('not.exist');
+            cy.get('div.invitation-modal-confirm-not-sent').should('be.visible').within(() => {
+                cy.get('h2 > span').should('have.text', 'Invitations Not Sent');
+                cy.get('.people-header').should('have.text', 'People');
+                cy.get('.details-header').should('have.text', 'Details');
+                cy.get('.username-or-icon').should('contain', newUser.username);
+                cy.get('.reason').should('have.text', 'Contact your admin to make this guest a full member.');
+                cy.get('.username-or-icon .Badge').should('be.visible').and('have.text', 'GUEST');
+            });
+        });
+    });
+
+    it('MM-T1415 Check Previous button on successful/failed invites', () => {
+        // # Search and add an existing member by username who is part of the team
+        invitePeople(newUser.username, 1, newUser.username);
+
+        // * Verify the content and message in next screen
+        cy.findByText('This person is already a member.').should('be.visible');
+
+        // # Click on previous button
+        cy.get('#backIcon').click();
+
+        // * Verify the channel is preselected
+        cy.findByTestId('channelPlaceholder').should('be.visible').within(() => {
+            cy.get('.public-channel-icon').should('be.visible');
+            cy.findByText('Town Square').should('be.visible');
+        });
+
+        // * Verify the email field is empty
+        cy.findByTestId('emailPlaceholder').should('be.visible').within(() => {
+            cy.get('.users-emails-input__multi-value').should('not.exist');
+            const email = `temp-${getRandomId()}@mattermost.com`;
+            cy.get('input').type(email, {force: true});
+            cy.get('.users-emails-input__menu').children().should('have.length', 1).eq(0).should('contain', email).click();
+        });
+
+        // # Click Invite Guests Button
+        cy.get('#inviteGuestButton').scrollIntoView().click();
+
+        // * Verify previous button is not displayed
+        cy.get('#backIcon').should('not.exist');
+    });
 });
