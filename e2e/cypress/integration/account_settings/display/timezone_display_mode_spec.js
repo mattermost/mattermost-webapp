@@ -9,19 +9,20 @@
 
 // Group: @account_setting
 
-import {getAdminAccount} from '../../../support/env';
 import moment from 'moment-timezone';
+
+import {getAdminAccount} from '../../../support/env';
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 describe('Account Settings > Display > Timezone Mode', () => {
     const sysadmin = getAdminAccount();
-    const date1 = Date.UTC(2020, 0, 5, 4, 30);  // Jan 5, 2020 04:30
+    const date1 = Date.UTC(2020, 0, 5, 4, 30); // Jan 5, 2020 04:30
     const date2 = Date.UTC(2020, 0, 5, 12, 30); // Jan 5, 2020 12:30
     const date3 = Date.UTC(2020, 0, 5, 20, 30); // Jan 5, 2020 20:30
-    const date4 = Date.UTC(2020, 0, 6, 0, 30);  // Jan 6, 2020 00:30
+    const date4 = Date.UTC(2020, 0, 6, 0, 30); // Jan 6, 2020 00:30
     const timezoneLocal = {type: 'Canonical', actualValue: moment.tz.guess(), expectedValue: moment.tz.guess()};
     const timezoneCanonical = {type: 'Canonical', actualValue: 'Asia/Hong_Kong', expectedValue: 'Asia/Hong_Kong'};
-    const timezoneUTC = {type: 'Default', actualValue: 'UTC', expectedValue: 'UTC'};             
+    const timezoneUTC = {type: 'Default', actualValue: 'UTC', expectedValue: 'UTC'};
     const timezoneInvalid = {type: 'Invalid', actualValue: 'NZ-Chat', expectedValue: 'UTC'};
     const timeFormat = 'h:m A';
     const utcFormattedTimes = [
@@ -29,7 +30,7 @@ describe('Account Settings > Display > Timezone Mode', () => {
         moment(date2).tz(timezoneUTC.expectedValue).format(timeFormat),
         moment(date3).tz(timezoneUTC.expectedValue).format(timeFormat),
         moment(date4).tz(timezoneUTC.expectedValue).format(timeFormat),
-    ]
+    ];
 
     before(() => {
         // # Enable Timezone
