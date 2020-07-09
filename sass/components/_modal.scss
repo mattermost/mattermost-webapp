@@ -740,7 +740,11 @@
         overflow: hidden;
         padding-left: 10px;
         text-overflow: ellipsis;
-
+        display: flex;
+        .more-modal__last_post_at {
+            padding-top: 10px;
+            text-align: right;
+        }
         .more-modal__name {
             margin: 5px 0;
             display: flex;
@@ -816,9 +820,22 @@
             background: v(center-channel-color-08);
 
             .more-modal__actions--round {
+                display: block;
                 opacity: .5;
             }
+
+            .more-modal__lastPostAt {
+                display: none;
+            }
         }
+
+    }
+
+    .more-modal__lastPostAt {
+        display: block;
+    }
+    .more-modal__actions--round {
+        display: none
     }
 
     .more-modal__placeholder-row {

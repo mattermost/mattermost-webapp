@@ -20,14 +20,15 @@ import GuestBadge from 'components/widgets/badges/guest_badge';
 import BotBadge from 'components/widgets/badges/bot_badge';
 
 import GroupMessageOption from './group_message_option';
+import { LastPostAt } from './last_post_at';
 
 const USERS_PER_PAGE = 50;
 const MAX_SELECTABLE_VALUES = Constants.MAX_USERS_IN_GM - 1;
-
+type UserProfileWithLastPostedAt = (UserProfile & {last_post_at: number })
 type UserProfileValue = (UserProfile & Value);
 type GroupChannelValue = (Channel & Value & {profiles: UserProfile[]});
 
-type OptionType = UserProfileValue | GroupChannelValue;
+type OptionType = UserProfileValue | GroupChannelValue | UserProfileWithLastPostedAt;
 
 type Props = {
     currentUserId: string;
@@ -37,7 +38,7 @@ type Props = {
     users: UserProfile[];
     groupChannels: Array<{profiles: UserProfile[]} & Channel>;
     myDirectChannels: Channel[];
-    recentDirectChannelUsers: UserProfile[];
+    recentDirectChannelUsers: UserProfileWithLastPostedAt[];
     statuses: RelationOneToOne<UserProfile, string>;
     totalCount?: number;
 
@@ -352,6 +353,7 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
 
         const status = option.delete_at || (option as UserProfileValue).is_bot ? null : this.props.statuses[option.id];
         const email = (option as UserProfileValue).is_bot ? null : (option as UserProfileValue).email;
+        const lastPostAt = (option as UserProfileWithLastPostedAt).last_post_at;
 
         return (
             <div
@@ -369,6 +371,7 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
                 <div
                     className='more-modal__details'
                 >
+                    <div className='more-modal__name_email'>
                     <div className='more-modal__name'>
                         {modalName}
                         <BotBadge
@@ -383,6 +386,10 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
                     <div className='more-modal__description'>
                         {email}
                     </div>
+                </div>
+                </div>
+                <div className="more-modal__lastPostAt">
+                    <LastPostAt lastPostAt={lastPostAt}/>
                 </div>
                 <div className='more-modal__actions'>
                     <div className='more-modal__actions--round'>

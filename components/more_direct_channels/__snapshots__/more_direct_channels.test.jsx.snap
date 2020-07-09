@@ -187,7 +187,7 @@ exports[`components/MoreDirectChannels should match renderOption snapshot 1`] = 
     className="more-modal__details"
   >
     <div
-      className="more-modal__name"
+      className="more-modal__name_email"
     >
       <span
         id="displayedUserNameusername1"
@@ -197,20 +197,35 @@ exports[`components/MoreDirectChannels should match renderOption snapshot 1`] = 
           className="light"
         >
           
+      <div
+        className="more-modal__name"
+      >
+        <span>
+          @undefined
+          <span
+            className="light"
+          >
+            
+          </span>
         </span>
-      </span>
-      <BotBadge
-        className="badge-popoverlist"
-        show={false}
-      />
-      <GuestBadge
-        className="badge-popoverlist"
-        show={false}
+        <BotBadge
+          className="badge-popoverlist"
+          show={false}
+        />
+        <GuestBadge
+          className="badge-popoverlist"
+          show={false}
+        />
+      </div>
+      <div
+        className="more-modal__description"
       />
     </div>
-    <div
-      className="more-modal__description"
-    />
+  </div>
+  <div
+    className="more-modal__lastPostAt"
+  >
+    <LastPostAt />
   </div>
   <div
     className="more-modal__actions"
