@@ -8,7 +8,7 @@ import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 import {fetchMyCategories} from 'mattermost-redux/actions/channel_categories';
 import Permissions from 'mattermost-redux/constants/permissions';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
+import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
 
@@ -29,9 +29,9 @@ function mapStateToProps(state: GlobalState) {
     let canJoinPublicChannel = false;
 
     if (currentTeam) {
-        canCreatePublicChannel = haveITeamPermission(state, {team: currentTeam.id, permission: Permissions.CREATE_PUBLIC_CHANNEL});
-        canCreatePrivateChannel = haveITeamPermission(state, {team: currentTeam.id, permission: Permissions.CREATE_PRIVATE_CHANNEL});
-        canJoinPublicChannel = haveITeamPermission(state, {team: currentTeam.id, permission: Permissions.JOIN_PUBLIC_CHANNELS});
+        canCreatePublicChannel = haveIChannelPermission(state, {team: currentTeam.id, permission: Permissions.CREATE_PUBLIC_CHANNEL});
+        canCreatePrivateChannel = haveIChannelPermission(state, {team: currentTeam.id, permission: Permissions.CREATE_PRIVATE_CHANNEL});
+        canJoinPublicChannel = haveIChannelPermission(state, {team: currentTeam.id, permission: Permissions.JOIN_PUBLIC_CHANNELS});
     }
 
     return {
