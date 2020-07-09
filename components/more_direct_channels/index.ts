@@ -76,7 +76,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const recentDirectChannelUsers = myRecentDirectChannels.map((channel: Channel) => {
         const dmUserId = getUserIdFromChannelName(currentUserId, channel.name);
         const user = getUser(state, dmUserId);
-        return {...user, last_post_at: channel.last_post_at}
+        return {...user, last_post_at: channel.last_post_at};
     });
 
     const team = getCurrentTeam(state);
