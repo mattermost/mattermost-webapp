@@ -34,6 +34,7 @@ describe('components/admin_console/system_users/system_users_dropdown/system_use
         teamUrl: 'teamUrl',
         index: 0,
         totalUsers: 10,
+        isDisabled: false,
         actions: {
             updateUserActive: jest.fn().mockResolvedValue({data: true}),
             revokeAllSessionsForUser: jest.fn().mockResolvedValue({data: true}),

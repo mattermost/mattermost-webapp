@@ -33,6 +33,8 @@ describe('components/AdminConsole', () => {
         },
         showNavigationPrompt: false,
         isCurrentUserSystemAdmin: false,
+        currentUserHasAnAdminRole: false,
+        globalstate: {},
         actions: {
             getConfig: jest.fn(),
             getEnvironmentConfig: jest.fn(),

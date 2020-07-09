@@ -48,6 +48,7 @@ describe('components/sidebar/sidebar_category', () => {
         handleOpenMoreDirectChannelsModal: jest.fn(),
         isNewCategory: false,
         isCollapsed: false,
+        isDisabled: false,
         actions: {
             setCategoryCollapsed: jest.fn(),
             setCategorySorting: jest.fn(),
