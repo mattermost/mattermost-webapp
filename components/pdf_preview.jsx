@@ -75,6 +75,12 @@ export default class PDFPreview extends React.PureComponent {
         }
     }
 
+    downloadFile = (e) => {
+        const fileDownloadUrl = this.props.fileInfo.link || getFileDownloadUrl(this.props.fileInfo.id);
+        e.preventDefault();
+        window.location.href = fileDownloadUrl;
+    }
+
     renderPDFPage = (pageIndex, prevProps) => {
         if ((this.pdfPagesRendered[pageIndex] || !this.state.pdfPagesLoaded[pageIndex]) &&
             (prevProps.scale === this.props.scale)) {
@@ -165,8 +171,6 @@ export default class PDFPreview extends React.PureComponent {
         }
 
         if (this.state.pdf.numPages > MAX_PDF_PAGES) {
-            const fileDownloadUrl = this.props.fileInfo.link || getFileDownloadUrl(this.props.fileInfo.id);
-
             pdfCanvases.push(
                 <div
                     className='pdf-max-pages'
@@ -174,10 +178,7 @@ export default class PDFPreview extends React.PureComponent {
                 >
                     <button
                         className='btn btn-primary'
-                        onClick={(e) => {
-                            e.preventDefault();
-                            window.location.href = fileDownloadUrl;
-                        }}
+                        onClick={this.downloadFile}
                     >
                         {<i className='icon icon-download-outline pdf-download-btn-spacer'/> }
                         <FormattedMessage

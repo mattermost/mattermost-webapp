@@ -129,12 +129,15 @@ export default class ViewImageModal extends React.PureComponent {
     }
 
     static getDerivedStateFromProps(props, state) {
+        const updatedProps = {};
+        if (props.fileInfos[state.imageIndex].extension === FileTypes.PDF) {
+            updatedProps.showZoomControls = true;
+        }
         if (props.fileInfos.length !== state.prevFileInfosCount) {
-            return {
-                loaded: Utils.fillArray(false, props.fileInfos.length),
-                progress: Utils.fillArray(0, props.fileInfos.length),
-                prevFileInfosCount: props.fileInfos.length,
-            };
+            updatedProps.loaded = Utils.fillArray(false, props.fileInfos.length);
+            updatedProps.progress = Utils.fillArray(0, props.fileInfos.length);
+            updatedProps.prevFileInfosCount = props.fileInfos.length;
+            return updatedProps;
         }
         return null;
     }
@@ -239,6 +242,7 @@ export default class ViewImageModal extends React.PureComponent {
         const fileInfo = this.props.fileInfos[this.state.imageIndex];
         const showPublicLink = !fileInfo.link;
         const fileName = fileInfo.link || fileInfo.name;
+        const fileType = Utils.getFileType(fileInfo.extension);
         const fileUrl = fileInfo.link || getFileUrl(fileInfo.id);
         const fileDownloadUrl = fileInfo.link || getFileDownloadUrl(fileInfo.id);
         const isExternalFile = !fileInfo.id;
@@ -246,8 +250,6 @@ export default class ViewImageModal extends React.PureComponent {
 
         let content;
         if (this.state.loaded[this.state.imageIndex]) {
-            const fileType = Utils.getFileType(fileInfo.extension);
-
             if (fileType === FileTypes.IMAGE || fileType === FileTypes.SVG) {
                 content = (
                     <ImagePreview
@@ -262,8 +264,7 @@ export default class ViewImageModal extends React.PureComponent {
                         fileUrl={fileUrl}
                     />
                 );
-            } else if (fileInfo && fileInfo.extension && fileInfo.extension === FileTypes.PDF) {
-                this.setState({showZoomControls: true});
+            } else if (fileType === FileTypes.PDF) {
                 content = (
                     <React.Suspense fallback={null}>
                         <PDFPreview
