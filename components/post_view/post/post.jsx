@@ -223,6 +223,9 @@ class Post extends React.PureComponent {
 
         if (!this.state.fadeOutHighlight && this.props.shouldHighlight) {
             className += ' post--highlight';
+            if (post.is_pinned || this.props.isFlagged) {
+                className += ' post--pinned-or-flagged-highlight';
+            }
         }
 
         let rootUser = '';

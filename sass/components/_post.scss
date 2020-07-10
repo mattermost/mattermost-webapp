@@ -2027,3 +2027,14 @@
     animation-delay: 5s;
     animation-fill-mode: forwards;
 }
+
+@keyframes postPinnedOrFlaggedHighlight {
+    100% {
+      background: initial;
+      background-color: var(--mention-highlight-bg-12);
+    }
+}
+
+.app__body .app__content .post.post--pinned-or-flagged-highlight {
+    animation-name: postPinnedOrFlaggedHighlight;
+}

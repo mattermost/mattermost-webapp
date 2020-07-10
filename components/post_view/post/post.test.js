@@ -106,6 +106,27 @@ describe('Post', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('should handle highlighting properly when jumping to pinned or flagged posts', () => {
+        jest.useFakeTimers();
+
+        const props = {
+            ...baseProps,
+            shouldHighlight: true,
+            isFlagged: true,
+        };
+
+        const wrapper = shallowWithIntl(<Post {...props}/>);
+        expect(wrapper.state('fadeOutHighlight')).toBe(false);
+        expect(wrapper.find('div.post').hasClass('post--highlight')).toBe(true);
+        expect(wrapper.find('div.post').hasClass('post--pinned-or-flagged-highlight')).toBe(true);
+        expect(wrapper).toMatchSnapshot();
+        jest.runOnlyPendingTimers();
+        expect(wrapper.state('fadeOutHighlight')).toBe(true);
+        expect(wrapper.find('div.post').hasClass('post--highlight')).toBe(false);
+        expect(wrapper.find('div.post').hasClass('post--pinned-or-flagged-highlight')).toBe(false);
+        expect(wrapper).toMatchSnapshot();
+    });
+
     test('should pass props correctly to PostPreHeader', () => {
         const wrapper = shallowWithIntl(
             <Post {...baseProps}/>,
