@@ -9,6 +9,7 @@ import {Tooltip} from 'react-bootstrap';
 
 import Permissions from 'mattermost-redux/constants/permissions';
 
+import {doPluginAction} from 'actions/plugins';
 import {Locations, ModalIdentifiers, Constants} from 'utils/constants';
 import DeletePostModal from 'components/delete_post_modal';
 import OverlayTrigger from 'components/overlay_trigger';
@@ -45,6 +46,7 @@ export default class DotMenu extends React.PureComponent {
         enableEmojiPicker: PropTypes.bool.isRequired,
         channelIsArchived: PropTypes.bool.isRequired,
         currentTeamUrl: PropTypes.string.isRequired,
+        pluginIntegrations: PropTypes.array.isRequired,
 
         /*
          * Components for overriding provided by plugins
@@ -87,6 +89,7 @@ export default class DotMenu extends React.PureComponent {
              * Function to set the unread mark at given post
              */
             markPostAsUnread: PropTypes.func.isRequired,
+            fetchMobilePluginIntegrations: PropTypes.func.isRequired,
         }).isRequired,
 
         canEdit: PropTypes.bool.isRequired,
@@ -134,6 +137,7 @@ export default class DotMenu extends React.PureComponent {
 
     componentDidMount() {
         this.disableCanEditPostByTime();
+        this.props.actions.fetchMobilePluginIntegrations('webapp');
     }
 
     static getDerivedStateFromProps(props) {
@@ -301,6 +305,19 @@ export default class DotMenu extends React.PureComponent {
                 );
             });
 
+        const pluginIntegrationsItems = this.props.pluginIntegrations.filter((item) => {
+            return item.location === 'POST_ACTION';
+        }).map((item, i) => {
+            return (
+                <Menu.ItemAction
+                    text={item.extra}
+                    key={item.id + '_' + i}
+                    onClick={() => {
+                        doPluginAction(item.id, item.request_url, {post_id: this.props.post.id});
+                    }}
+                />
+            );
+        });
         if (!this.state.canDelete && !this.state.canEdit && pluginItems.length === 0 && isSystemMessage) {
             return null;
         }
@@ -398,8 +415,9 @@ export default class DotMenu extends React.PureComponent {
                         onClick={this.handleDeleteMenuItemActivated}
                         isDangerous={true}
                     />
-                    {(pluginItems.length > 0 || (this.props.components[PLUGGABLE_COMPONENT] && this.props.components[PLUGGABLE_COMPONENT].length > 0)) && this.renderDivider('plugins')}
+                    {(pluginItems.length > 0 || pluginIntegrationsItems.length > 0 || (this.props.components[PLUGGABLE_COMPONENT] && this.props.components[PLUGGABLE_COMPONENT].length > 0)) && this.renderDivider('plugins')}
                     {pluginItems}
+                    {pluginIntegrationsItems}
                     <Pluggable
                         postId={this.props.post.id}
                         pluggableName={PLUGGABLE_COMPONENT}

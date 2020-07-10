@@ -8,6 +8,8 @@ import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId, getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
+import {getPluginIntegrations} from 'mattermost-redux/selectors/entities/plugins';
+import {fetchMobilePluginIntegrations} from 'mattermost-redux/actions/plugins';
 
 import {openModal} from 'actions/views/modals';
 import {
@@ -35,6 +37,8 @@ function mapStateToProps(state, ownProps) {
     const currentTeam = getCurrentTeam(state) || {};
     const currentTeamUrl = `${getSiteURL()}/${currentTeam.name}`;
 
+    const pluginIntegrations = getPluginIntegrations(state);
+
     return {
         channelIsArchived: isArchivedChannel(channel),
         components: state.plugins.components,
@@ -46,6 +50,7 @@ function mapStateToProps(state, ownProps) {
         canEdit: PostUtils.canEditPost(state, post, license, config, channel, userId),
         canDelete: PostUtils.canDeletePost(state, post, channel),
         currentTeamUrl,
+        pluginIntegrations,
     };
 }
 
@@ -59,6 +64,7 @@ function mapDispatchToProps(dispatch) {
             unpinPost,
             openModal,
             markPostAsUnread,
+            fetchMobilePluginIntegrations,
         }, dispatch),
     };
 }
