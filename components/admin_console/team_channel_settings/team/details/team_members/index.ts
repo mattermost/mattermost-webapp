@@ -15,7 +15,7 @@ import {getTeamStats as loadTeamStats} from 'mattermost-redux/actions/teams';
 import {getFilteredUsersStats} from 'mattermost-redux/actions/users';
 
 import {getMembersInTeams, getTeamStats, getTeam} from 'mattermost-redux/selectors/entities/teams';
-import {getProfilesInTeam, searchProfilesInTeam, filterProfiless, getFilteredUsersStats as selectFilteredUsersStats} from 'mattermost-redux/selectors/entities/users';
+import {getProfilesInTeam, searchProfilesInTeam, filterProfiles, getFilteredUsersStats as selectFilteredUsersStats} from 'mattermost-redux/selectors/entities/users';
 
 import {GlobalState} from 'types/store';
 import {loadProfilesAndReloadTeamMembers, searchProfilesAndTeamMembers} from 'actions/user_actions.jsx';
