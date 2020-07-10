@@ -40,9 +40,6 @@ describe('Account Settings > Display > Timezone Mode', () => {
             },
         });
 
-        // # Reset timezone
-        resetTimezone();
-
         // # Create and visit new channel
         cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
             cy.visit(`/${team.name}/channels/${channel.name}`);
@@ -58,11 +55,6 @@ describe('Account Settings > Display > Timezone Mode', () => {
             // # Reload to re-arrange posts
             cy.reload();
         });
-    });
-
-    after(() => {
-        // # Reset timezone
-        resetTimezone();
     });
 
     describe('MM-T301 Change timezone automatically', () => {
@@ -185,13 +177,6 @@ describe('Account Settings > Display > Timezone Mode', () => {
         });
     });
 });
-
-function resetTimezone() {
-    cy.apiPatchMe({
-        locale: 'en',
-        timezone: {automaticTimezone: '', manualTimezone: 'UTC', useAutomaticTimezone: 'false'},
-    });
-}
 
 function navigateToTimezoneDisplaySettings() {
     // # Go to Account Settings

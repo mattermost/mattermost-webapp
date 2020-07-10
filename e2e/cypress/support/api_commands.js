@@ -6,7 +6,6 @@ import merge from 'merge-deep';
 
 import {getRandomId} from '../utils';
 import partialDefaultConfig from '../fixtures/partial_default_config.json';
-import theme from '../fixtures/theme.json';
 
 import {getAdminAccount} from './env';
 
