@@ -11,8 +11,14 @@ describe('components/sidebar', () => {
         canCreatePublicChannel: true,
         canCreatePrivateChannel: true,
         canJoinPublicChannel: true,
-        isOpen: false,
         isDataPrefechEnabled: true,
+        isOpen: false,
+        teamId: 'fake_team_id',
+        actions: {
+            createCategory: jest.fn(),
+            fetchMyCategories: jest.fn(),
+            openModal: jest.fn(),
+        },
     };
 
     test('should match snapshot', () => {

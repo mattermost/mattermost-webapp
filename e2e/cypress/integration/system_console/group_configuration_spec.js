@@ -7,18 +7,19 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Group: @system_console
+
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 function teamOrChannelIsPresent(name) {
-    cy.get('.group-teams-and-channels-row').should('be.visible');
-    cy.get('.group-teams-and-channels-row').findByText(name);
+    cy.get('.group-teams-and-channels--body', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').within(() => {
+        cy.findByText(name).should('be.visible');
+    });
 }
 
 function addGroupSyncable(type, callback) {
-    cy.get('#add_team_or_channel').should('be.visible');
-    cy.get('#add_team_or_channel').click();
-    cy.get('.dropdown-menu').find(`#add_${type}`).should('be.visible');
-    cy.get('.dropdown-menu').find(`#add_${type}`).click();
+    cy.get('#add_team_or_channel').should('be.visible').click();
+    cy.get('.dropdown-menu').find(`#add_${type}`).should('be.visible').click();
     cy.get(`.${type}-selector-modal`).should('be.visible');
     cy.get('#multiSelectList').find('.more-modal__row').find(type === 'channel' ? '.channel-name' : '.title').then(($elements) => {
         const name = $elements[0].innerText;
@@ -33,9 +34,9 @@ function addGroupSyncable(type, callback) {
     });
 }
 
-function changeRole(name) {
-    cy.get(`div[data-testid=${name}_current_role]`).click();
-    cy.get(`#${name}_change_role_options`).find('button').click();
+function changeRole(teamOrChannel, newRole) {
+    cy.findByTestId(`${teamOrChannel}_current_role`).click();
+    cy.get('.Menu__content').should('be.visible').findByText(newRole).click();
 }
 
 function savePage() {
@@ -44,10 +45,9 @@ function savePage() {
 }
 
 function removeAndConfirm(name) {
-    cy.get(`button[data-testid='${name}_groupsyncable_remove']`).click();
-    cy.get('#confirmModalButton').should('be.visible');
-    cy.get('#confirmModalButton').click();
-    cy.get('.group-teams-and-channels-empty').should('be.visible');
+    cy.findByTestId(`${name}_groupsyncable_remove`).click();
+    cy.get('#confirmModalButton').should('be.visible').click();
+    cy.findByText('No teams or channels specified yet').should('be.visible');
 }
 
 describe('group configuration', () => {
@@ -72,9 +72,11 @@ describe('group configuration', () => {
 
                 // # Go to the group configuration view of the linked group
                 cy.visit(`/admin_console/user_management/groups/${groupID}`);
+                cy.get('#adminConsoleWrapper', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').
+                    find('.admin-console__header').should('have.text', 'Group Configuration');
 
                 // * Check that it has no associated teams or channels
-                cy.get('.group-teams-and-channels-empty').should('be.visible');
+                cy.findByText('No teams or channels specified yet', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
             });
         });
     });
@@ -105,7 +107,7 @@ describe('group configuration', () => {
                 cy.visit(`/admin_console/user_management/groups/${groupID}`);
 
                 // * Check that the team that was added dissappears
-                cy.get('.group-teams-and-channels-empty').should('be.visible');
+                cy.findByText('No teams or channels specified yet').should('be.visible');
             });
         });
 
@@ -129,15 +131,13 @@ describe('group configuration', () => {
     describe('adding a channel', () => {
         it('shows default channels', () => {
             // # Search for off-topic
-            cy.get('#add_team_or_channel').should('be.visible');
-            cy.get('#add_team_or_channel').click();
-            cy.get('.dropdown-menu').find('#add_channel').should('be.visible');
-            cy.get('.dropdown-menu').find('#add_channel').click();
+            cy.get('#add_team_or_channel').should('be.visible').click();
+            cy.get('.dropdown-menu').find('#add_channel').should('be.visible').click();
             cy.get('#selectItems').type('off-');
 
             // * Check that the off-topic channels are displayed
             cy.get('.more-modal__details').should('have.length.greaterThan', 1);
-            cy.findByText('(AAA Test ee8dad)').should('exist');
+            cy.findByText(`(${testTeam.display_name})`).should('exist');
         });
 
         it('does not add a channel without saving', () => {
@@ -152,7 +152,7 @@ describe('group configuration', () => {
                 cy.visit(`/admin_console/user_management/groups/${groupID}`);
 
                 // * Check that the channel that was added dissappears
-                cy.get('.group-teams-and-channels-empty').should('be.visible');
+                cy.findByText('No teams or channels specified yet').should('be.visible');
             });
         });
 
@@ -237,7 +237,7 @@ describe('group configuration', () => {
                 cy.visit(`/admin_console/user_management/groups/${groupID}`);
 
                 // * Check that the team is no longer present
-                cy.get('.group-teams-and-channels-empty').should('be.visible');
+                cy.findByText('No teams or channels specified yet').should('be.visible');
             });
         });
     });
@@ -254,9 +254,8 @@ describe('group configuration', () => {
             teamOrChannelIsPresent(testChannel.display_name);
 
             // # Click remove
-            cy.get(`button[data-testid='${testChannel.display_name}_groupsyncable_remove']`).click();
-            cy.get('#confirmModalButton').should('be.visible');
-            cy.get('#confirmModalButton').click();
+            cy.findByTestId(`${testChannel.display_name}_groupsyncable_remove`).click();
+            cy.get('#confirmModalButton').should('be.visible').click();
 
             // # Click away
             cy.get('.sidebar-section').first().click();
@@ -283,12 +282,11 @@ describe('group configuration', () => {
 
             // * Check that the channel was added to the view
             teamOrChannelIsPresent(testChannel.display_name);
-            cy.get('.group-teams-and-channels-row').should('have.length', 2);
+            cy.get('.group-teams-and-channels-row', {timeout: TIMEOUTS.ONE_MIN}).should('have.length', 2);
 
             // # Click remove
-            cy.get(`button[data-testid='${testChannel.display_name}_groupsyncable_remove']`).click();
-            cy.get('#confirmModalButton').should('be.visible');
-            cy.get('#confirmModalButton').click();
+            cy.findByTestId(`${testChannel.display_name}_groupsyncable_remove`).click();
+            cy.get('#confirmModalButton').should('be.visible').click();
 
             // # Click away
             cy.get('.sidebar-section').first().click();
@@ -306,7 +304,7 @@ describe('group configuration', () => {
             cy.visit(`/admin_console/user_management/groups/${groupID}`);
 
             // * Check that the channel is no longer present
-            cy.get('.group-teams-and-channels-row').should('have.length', 1);
+            cy.get('.group-teams-and-channels-row', {timeout: TIMEOUTS.ONE_MIN}).should('have.length', 1);
         });
     });
 
@@ -315,7 +313,8 @@ describe('group configuration', () => {
             // # Add a new team
             addGroupSyncable('team', (teamName) => {
                 // # Update the role
-                changeRole(teamName);
+                const newRole = 'Team Admin';
+                changeRole(teamName, newRole);
 
                 // # Click away
                 cy.get('.sidebar-section').first().click();
@@ -333,7 +332,7 @@ describe('group configuration', () => {
                 cy.visit(`/admin_console/user_management/groups/${groupID}`);
 
                 // * Ensure the new role is visible
-                cy.get(`div[data-testid=${teamName}_current_role]`).findByText('Team Admin');
+                cy.findByTestId(`${teamName}_current_role`).findByText(newRole);
             });
         });
 
@@ -348,7 +347,8 @@ describe('group configuration', () => {
             teamOrChannelIsPresent(testTeam.display_name);
 
             // # Change the role
-            changeRole(testTeam.display_name);
+            const newRole = 'Team Admin';
+            changeRole(testTeam.display_name, newRole);
 
             // # Click away
             cy.get('.sidebar-section').first().click();
@@ -366,7 +366,7 @@ describe('group configuration', () => {
             cy.visit(`/admin_console/user_management/groups/${groupID}`);
 
             // * Ensure the new role is visible
-            cy.get(`div[data-testid=${testTeam.display_name}_current_role]`).findByText('Team Admin');
+            cy.findByTestId(`${testTeam.display_name}_current_role`).findByText(newRole);
         });
 
         it('does not update the role if not saved', () => {
@@ -380,7 +380,7 @@ describe('group configuration', () => {
             teamOrChannelIsPresent(testTeam.display_name);
 
             // # Change the role
-            changeRole(testTeam.display_name);
+            changeRole(testTeam.display_name, 'Team Admin');
 
             // # Click away
             cy.get('.sidebar-section').first().click();
@@ -395,7 +395,7 @@ describe('group configuration', () => {
             cy.visit(`/admin_console/user_management/groups/${groupID}`);
 
             // * Ensure the new role is visible
-            cy.get(`div[data-testid=${testTeam.display_name}_current_role]`).findByText('Member');
+            cy.findByTestId(`${testTeam.display_name}_current_role`).findByText('Member');
         });
 
         it('does not update the role of a removed team', () => {
@@ -409,7 +409,7 @@ describe('group configuration', () => {
             teamOrChannelIsPresent(testTeam.display_name);
 
             // # Change the role
-            changeRole(testTeam.display_name);
+            changeRole(testTeam.display_name, 'Team Admin');
 
             removeAndConfirm(testTeam.display_name);
 
@@ -437,7 +437,8 @@ describe('group configuration', () => {
             // # Add a new channel
             addGroupSyncable('channel', (channelName) => {
                 // # Update the role
-                changeRole(channelName);
+                const newRole = 'Channel Admin';
+                changeRole(channelName, newRole);
 
                 // # Click away
                 cy.get('.sidebar-section').first().click();
@@ -455,7 +456,7 @@ describe('group configuration', () => {
                 cy.visit(`/admin_console/user_management/groups/${groupID}`);
 
                 // * Ensure the new role is visible
-                cy.get(`div[data-testid=${channelName}_current_role]`).findByText('Channel Admin');
+                cy.findByTestId(`${channelName}_current_role`).findByText(newRole);
             });
         });
 
@@ -470,7 +471,8 @@ describe('group configuration', () => {
             teamOrChannelIsPresent(testChannel.display_name);
 
             // # Change the role
-            changeRole(testChannel.display_name);
+            const newRole = 'Channel Admin';
+            changeRole(testChannel.display_name, newRole);
 
             // # Click away
             cy.get('.sidebar-section').first().click();
@@ -488,7 +490,7 @@ describe('group configuration', () => {
             cy.visit(`/admin_console/user_management/groups/${groupID}`);
 
             // * Ensure the new role is visible
-            cy.get(`div[data-testid=${testChannel.display_name}_current_role]`).findByText('Channel Admin');
+            cy.findByTestId(`${testChannel.display_name}_current_role`).findByText(newRole);
         });
 
         it('does not update the role if not saved', () => {
@@ -502,7 +504,7 @@ describe('group configuration', () => {
             teamOrChannelIsPresent(testChannel.display_name);
 
             // # Change the role
-            changeRole(testChannel.display_name);
+            changeRole(testChannel.display_name, 'Channel Admin');
 
             // # Click away
             cy.get('.sidebar-section').first().click();
@@ -517,7 +519,7 @@ describe('group configuration', () => {
             cy.visit(`/admin_console/user_management/groups/${groupID}`);
 
             // * Ensure the new role is visible
-            cy.get(`div[data-testid=${testChannel.display_name}_current_role]`).findByText('Member');
+            cy.findByTestId(`${testChannel.display_name}_current_role`).findByText('Member');
         });
 
         it('does not update the role of a removed channel', () => {
@@ -531,11 +533,10 @@ describe('group configuration', () => {
             teamOrChannelIsPresent(testChannel.display_name);
 
             // # Change the role
-            changeRole(testChannel.display_name);
+            changeRole(testChannel.display_name, 'Channel Admin');
 
-            cy.get(`button[data-testid='${testChannel.display_name}_groupsyncable_remove']`).click();
-            cy.get('#confirmModalButton').should('be.visible');
-            cy.get('#confirmModalButton').click();
+            cy.findByTestId(`${testChannel.display_name}_groupsyncable_remove`).click();
+            cy.get('#confirmModalButton').should('be.visible').click();
 
             // # Click away
             cy.get('.sidebar-section').first().click();
