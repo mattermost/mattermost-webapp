@@ -3478,6 +3478,7 @@
   "textbox.preview": "Preview",
   "textbox.quote": ">quote",
   "textbox.strike": "strike",
+  "timestamp.datetime": "{relativeOrDate} at {time}",
   "tutorial_intro.allSet": "You're all set",
   "tutorial_intro.end": "Click \"Next\" to enter {channel}. This is the first channel teammates see when they sign up. Use it for posting updates everyone needs to know.",
   "tutorial_intro.invite": "Invite Teammates",
