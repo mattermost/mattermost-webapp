@@ -27,7 +27,6 @@ import * as UserAgent from 'utils/user_agent';
 import CenterChannel from 'components/channel_layout/center_channel';
 import LoadingScreen from 'components/loading_screen';
 import FaviconTitleHandler from 'components/favicon_title_handler';
-import SidebarWhatsNewModal from 'components/sidebar/sidebar_whats_new_modal';
 
 export default class ChannelController extends React.Component {
     static propTypes = {
@@ -89,7 +88,6 @@ export default class ChannelController extends React.Component {
                     <EditPostModal/>
                     <ResetStatusModal/>
                     <LeavePrivateChannelModal/>
-                    <SidebarWhatsNewModal/>
                     <ShortcutsModal isMac={Utils.isMac()}/>
                     <ModalController/>
                 </div>

@@ -6,8 +6,10 @@ import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
 import {fetchMyCategories} from 'mattermost-redux/actions/channel_categories';
+import {Preferences} from 'mattermost-redux/constants';
 import Permissions from 'mattermost-redux/constants/permissions';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
@@ -41,6 +43,12 @@ function mapStateToProps(state: GlobalState) {
         canJoinPublicChannel,
         isOpen: getIsLhsOpen(state),
         isDataPrefechEnabled,
+        hasSeenModal: getBool(
+            state,
+            Preferences.CATEGORY_WHATS_NEW_MODAL,
+            Preferences.HAS_SEEN_SIDEBAR_WHATS_NEW_MODAL,
+            false,
+        ),
     };
 }
 

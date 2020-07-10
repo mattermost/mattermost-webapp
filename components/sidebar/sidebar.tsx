@@ -21,6 +21,7 @@ import SidebarHeader from './sidebar_header';
 import ChannelNavigator from './channel_navigator';
 import ChannelFilter from './channel_filter';
 import SidebarCategoryList from './sidebar_category_list';
+import SidebarWhatsNewModal from './sidebar_whats_new_modal';
 
 type Props = {
     teamId: string;
@@ -29,6 +30,7 @@ type Props = {
     canJoinPublicChannel: boolean;
     isOpen: boolean;
     isDataPrefechEnabled: boolean;
+    hasSeenModal: boolean;
     actions: {
         fetchMyCategories: (teamId: string) => {data: boolean};
         createCategory: (teamId: string, categoryName: string) => {data: string};
@@ -59,6 +61,13 @@ export default class Sidebar extends React.PureComponent<Props, State> {
     componentDidMount() {
         if (this.props.teamId) {
             this.props.actions.fetchMyCategories(this.props.teamId);
+        }
+
+        if (!this.props.hasSeenModal) {
+            this.props.actions.openModal({
+                modalId: ModalIdentifiers.SIDEBAR_WHATS_NEW_MODAL,
+                dialogType: SidebarWhatsNewModal,
+            });
         }
     }
 

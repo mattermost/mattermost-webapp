@@ -8,31 +8,19 @@ import {Preferences} from 'mattermost-redux/constants';
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 
 import GenericModal from 'components/generic_modal';
+import {ModalIdentifiers} from 'utils/constants';
 
 import './sidebar_whats_new_modal.scss';
 
 type Props = {
     currentUserId: string;
-    hasSeenModal: boolean;
-    newSidebarPreference: boolean;
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => void;
+        closeModal: (modalId: string) => void;
     };
 }
 
-type State = {
-    isUsingNewSidebar: boolean;
-}
-
-export default class SidebarWhatsNewModal extends React.PureComponent<Props, State> {
-    constructor(props: Props) {
-        super(props);
-
-        this.state = {
-            isUsingNewSidebar: props.newSidebarPreference,
-        };
-    }
-
+export default class SidebarWhatsNewModal extends React.PureComponent<Props> {
     onHide = () => {
         this.props.actions.savePreferences(this.props.currentUserId, [{
             user_id: this.props.currentUserId,
@@ -40,13 +28,16 @@ export default class SidebarWhatsNewModal extends React.PureComponent<Props, Sta
             name: Preferences.HAS_SEEN_SIDEBAR_WHATS_NEW_MODAL,
             value: 'true',
         }]);
+
+        this.props.actions.closeModal(ModalIdentifiers.SIDEBAR_WHATS_NEW_MODAL);
     }
 
     render() {
         return (
             <GenericModal
-                show={!this.props.hasSeenModal && this.state.isUsingNewSidebar}
+                show={true}
                 onHide={this.onHide}
+                handleConfirm={this.onHide}
                 modalHeaderText={(
                     <FormattedMessage
                         id={'sidebar_whats_new_modal.header'}
