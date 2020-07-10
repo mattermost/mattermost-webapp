@@ -26,7 +26,7 @@ declare namespace Cypress {
         /**
          * Save a list of the user's preferences.
          * See https://api.mattermost.com/#tag/preferences/paths/~1users~1{user_id}~1preferences/put
-         * @param {object[]} preferences - List of preference objects
+         * @param {PreferenceType[]} preferences - List of preference objects
          * @param {string} userId - User ID
          * @returns {Response} response: Cypress-chainable response which should have successful HTTP status of 200 OK to continue or pass.
          *
