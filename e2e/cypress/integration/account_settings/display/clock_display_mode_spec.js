@@ -139,28 +139,28 @@ function verifyClockFormatIs24Hour() {
 
 function verifyClockFormatIs12HourForPostWithMessage(postId, message) {
     // * Verify clock format is 12-hour in center channel within the post
-    cy.get(`#post_${postId}`).within(() => {
-        cy.find('.post-message__text').should('have.text', message);
+    cy.get(`#post_${postId}`).within(($postEl) => {
+        cy.wrap($postEl).find('.post-message__text').should('have.text', message);
         verifyClockFormatIs12Hour();
     });
 
     // * Verify clock format is 12-hour in RHS within the RHS post
-    cy.get(`#rhsPost_${postId}`).within(() => {
-        cy.find('.post-message__text').should('have.text', message);
+    cy.get(`#rhsPost_${postId}`).within(($rhsPostEl) => {
+        cy.wrap($rhsPostEl).find('.post-message__text').should('have.text', message);
         verifyClockFormatIs12Hour();
     });
 }
 
 function verifyClockFormatIs24HourForPostWithMessage(postId, message) {
     // * Verify clock format is 24-hour in center channel within the post
-    cy.get(`#post_${postId}`).within(() => {
-        cy.find('.post-message__text').should('have.text', message);
+    cy.get(`#post_${postId}`).within(($postEl) => {
+        cy.wrap($postEl).find('.post-message__text').should('have.text', message);
         verifyClockFormatIs24Hour();
     });
 
     // * Verify clock format is 24-hour in RHS within the RHS post
-    cy.get(`#rhsPost_${postId}`).within(() => {
-        cy.find('.post-message__text').should('have.text', message);
+    cy.get(`#rhsPost_${postId}`).within(($rhsPostEl) => {
+        cy.wrap($rhsPostEl).find('.post-message__text').should('have.text', message);
         verifyClockFormatIs24Hour();
     });
 }
