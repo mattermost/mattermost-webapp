@@ -67,6 +67,16 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
         }
     }
 
+    getStartingStep = () => {
+        for (let i = 0; i < Steps.length; i++) {
+            if (!this.props.preferences.some((pref) => pref.name === Steps[i].id && pref.value)) {
+                return Steps[i].id;
+            }
+        }
+
+        return Steps[0].id;
+    }
+
     onSkip = (setExpanded: (expandedKey: string) => void) => {
         return (id: string) => {
             this.nextStep(setExpanded, id);
@@ -172,7 +182,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                 </div>
                 <div className='NextStepsView__body'>
                     <div className='NextStepsView__body-main'>
-                        <Accordion defaultExpandedKey={Steps[0].id}>
+                        <Accordion defaultExpandedKey={this.getStartingStep()}>
                             {(setExpanded, expandedKey) => {
                                 return (
                                     <>
