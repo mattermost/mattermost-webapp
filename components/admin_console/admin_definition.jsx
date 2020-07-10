@@ -761,6 +761,17 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'FileSettings.AmazonSPathPrefix',
+                        label: t('admin.image.amazonS3PathPrefixTitle'),
+                        label_default: 'Amazon S3 Path Prefix:',
+                        help_text: t('admin.image.amazonS3PathPrefixDescription'),
+                        help_text_default: 'Prefix you selected for your S3 bucket in AWS.',
+                        placeholder: t('admin.image.amazonS3PathPrefixExample'),
+                        placeholder_default: 'E.g.: "subdir1/" or you can leave it .',
+                        isDisabled: it.isnt(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
                         key: 'FileSettings.AmazonS3Region',
                         label: t('admin.image.amazonS3RegionTitle'),
                         label_default: 'Amazon S3 Region:',
