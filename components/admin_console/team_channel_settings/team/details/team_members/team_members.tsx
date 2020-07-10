@@ -90,8 +90,10 @@ export default class TeamMembers extends React.PureComponent<Props, State> {
         ]).then(() => this.setStateLoading(false));
     }
 
-    public componentDidUpdate(prevProps: Props) {
-        if (JSON.stringify(prevProps.filters) !== JSON.stringify(this.props.filters) || prevProps.searchTerm !== this.props.searchTerm) {
+    public async componentDidUpdate(prevProps: Props) {
+        const filtersModified = JSON.stringify(prevProps.filters) !== JSON.stringify(this.props.filters);
+        const searchTermModified = prevProps.searchTerm !== this.props.searchTerm;
+        if (filtersModified || searchTermModified) {
             this.setStateLoading(true);
             clearTimeout(this.searchTimeoutId);
             const searchTerm = this.props.searchTerm;
@@ -99,6 +101,9 @@ export default class TeamMembers extends React.PureComponent<Props, State> {
 
             if (searchTerm === '') {
                 this.searchTimeoutId = 0;
+                if (filtersModified) {
+                    await prevProps.actions.loadProfilesAndReloadTeamMembers(0, PROFILE_CHUNK_SIZE * 2, prevProps.teamId, {active: true, ...filters});
+                }
                 this.setStateLoading(false);
                 return;
             }

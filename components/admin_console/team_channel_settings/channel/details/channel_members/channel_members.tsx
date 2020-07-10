@@ -93,14 +93,19 @@ export default class ChannelMembers extends React.PureComponent<Props, State> {
         ]).then(() => this.setStateLoading(false));
     }
 
-    public componentDidUpdate(prevProps: Props) {
-        if (JSON.stringify(prevProps.filters) !== JSON.stringify(this.props.filters) || prevProps.searchTerm !== this.props.searchTerm) {
+    public async componentDidUpdate(prevProps: Props) {
+        const filtersModified = JSON.stringify(prevProps.filters) !== JSON.stringify(this.props.filters);
+        const searchTermModified = prevProps.searchTerm !== this.props.searchTerm;
+        if (filtersModified || searchTermModified) {
             this.setStateLoading(true);
             clearTimeout(this.searchTimeoutId);
             const {searchTerm, filters} = this.props;
 
             if (searchTerm === '') {
                 this.searchTimeoutId = 0;
+                if (filtersModified) {
+                    await prevProps.actions.loadProfilesAndReloadChannelMembers(0, PROFILE_CHUNK_SIZE * 2, prevProps.channelId, '', {active: true, ...filters});
+                }
                 this.setStateLoading(false);
                 return;
             }
