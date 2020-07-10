@@ -199,6 +199,6 @@ declare namespace Cypress {
          * @example
          *   cy.apiSaveUserPreference([{user_id: 'user-id', category: 'display_settings', name: 'channel_display_mode', value: 'full'}], 'user-id');
          */
-        apiSaveUserPreference(preferences: Array<object>, userId: string): Chainable<Response>; 
+        apiSaveUserPreference(preferences: Array<object>, userId: string): Chainable<Response>;
     }
 }

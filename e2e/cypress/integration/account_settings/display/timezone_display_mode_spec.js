@@ -84,7 +84,7 @@ describe('Account Settings > Display > Timezone Mode', () => {
                     // # Set timezone display to automatic
                     setTimezoneDisplayToAutomatic(testCase.timezone);
                 });
-                
+
                 describe('Clock Mode: 12-hour', () => {
                     before(() => {
                         // # Save Clock Display Mode to 12-hour
@@ -173,7 +173,7 @@ describe('Account Settings > Display > Timezone Mode', () => {
                         // # Save Clock Display Mode to 24-hour
                         cy.apiSaveClockDisplayMode24HourPreference(true);
                     });
-                    
+
                     testCase.localTimes.forEach((localTime) => {
                         it('Post: ' + localTime.postIndex + ', UTC: ' + datesInUTC[localTime.postIndex].format(DATE_TIME_FORMAT.TIME_24_HOUR) + ', New: ' + localTime.dateInTimezone.format(DATE_TIME_FORMAT.TIME_24_HOUR), () => {
                             // * Verify local time is timezone formatted 24-hour
