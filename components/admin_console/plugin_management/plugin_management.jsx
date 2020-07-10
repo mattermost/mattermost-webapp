@@ -157,6 +157,7 @@ const PluginItem = ({
     handleRemove,
     showInstances,
     hasSettings,
+    isDisabled,
 }) => {
     let activateButton;
     const activating = pluginStatus.state === PluginState.PLUGIN_STATE_STARTING;
@@ -166,7 +167,7 @@ const PluginItem = ({
         activateButton = (
             <a
                 data-plugin-id={pluginStatus.id}
-                disabled={deactivating}
+                className={deactivating || isDisabled ? 'disabled' : ''}
                 onClick={handleDisable}
             >
                 {deactivating ?
@@ -185,7 +186,7 @@ const PluginItem = ({
         activateButton = (
             <a
                 data-plugin-id={pluginStatus.id}
-                disabled={activating}
+                className={activating || isDisabled ? 'disabled' : ''}
                 onClick={handleEnable}
             >
                 {activating ?
@@ -240,7 +241,7 @@ const PluginItem = ({
             {' - '}
             <a
                 data-plugin-id={pluginStatus.id}
-                disabled={removing}
+                className={removing || isDisabled ? 'disabled' : ''}
                 onClick={handleRemove}
             >
                 {removeButtonText}
@@ -376,6 +377,7 @@ PluginItem.propTypes = {
     handleRemove: PropTypes.func.isRequired,
     showInstances: PropTypes.bool.isRequired,
     hasSettings: PropTypes.bool.isRequired,
+    isDisabled: PropTypes.bool.isRequired,
 };
 
 export default class PluginManagement extends AdminSettings {
@@ -631,6 +633,9 @@ export default class PluginManagement extends AdminSettings {
     }
 
     showRemovePluginModal = (e) => {
+        if (this.props.isDisabled) {
+            return;
+        }
         e.preventDefault();
         const pluginId = e.currentTarget.getAttribute('data-plugin-id');
         this.setState({showRemoveModal: true, removing: pluginId});
@@ -657,6 +662,9 @@ export default class PluginManagement extends AdminSettings {
 
     handleEnable = async (e) => {
         e.preventDefault();
+        if (this.props.isDisabled) {
+            return;
+        }
         this.setState({lastMessage: null, serverError: null});
         const pluginId = e.currentTarget.getAttribute('data-plugin-id');
 
@@ -668,8 +676,11 @@ export default class PluginManagement extends AdminSettings {
     }
 
     handleDisable = async (e) => {
-        this.setState({lastMessage: null, serverError: null});
         e.preventDefault();
+        if (this.props.isDisabled) {
+            return;
+        }
+        this.setState({lastMessage: null, serverError: null});
         const pluginId = e.currentTarget.getAttribute('data-plugin-id');
 
         const {error} = await this.props.actions.disablePlugin(pluginId);
@@ -867,6 +878,7 @@ export default class PluginManagement extends AdminSettings {
                         handleRemove={this.showRemovePluginModal}
                         showInstances={showInstances}
                         hasSettings={hasSettings}
+                        isDisabled={this.props.isDisabled}
                     />
                 );
             });
@@ -1000,7 +1012,7 @@ export default class PluginManagement extends AdminSettings {
                                 <div className='file__upload'>
                                     <button
                                         className={classNames(['btn', {'btn-primary': enableUploads}])}
-                                        disabled={!enableUploadButton}
+                                        disabled={!enableUploadButton || this.props.isDisabled}
                                     >
                                         <FormattedMessage
                                             id='admin.plugin.choose'
@@ -1012,7 +1024,7 @@ export default class PluginManagement extends AdminSettings {
                                         type='file'
                                         accept='.gz'
                                         onChange={this.handleUpload}
-                                        disabled={!enableUploadButton}
+                                        disabled={!enableUploadButton || this.props.isDisabled}
                                     />
                                 </div>
                                 <button
