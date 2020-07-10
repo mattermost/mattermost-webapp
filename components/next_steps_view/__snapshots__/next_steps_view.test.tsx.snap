@@ -24,7 +24,7 @@ exports[`components/next_steps_view should match snapshot 1`] = `
         className="NextStepsView__header-headerBottomText"
       >
         <FormattedMessage
-          defaultMessage="Here are some recommended next steps to help you collaborate"
+          defaultMessage="Here are some recommended next steps to help you get started"
           id="next_steps_view.hereAreSomeNextSteps"
           values={Object {}}
         />

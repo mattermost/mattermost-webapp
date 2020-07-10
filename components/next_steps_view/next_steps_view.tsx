@@ -29,7 +29,7 @@ export default class NextStepsView extends React.PureComponent<Props> {
         return (
             <FormattedMessage
                 id='next_steps_view.hereAreSomeNextSteps'
-                defaultMessage='Here are some recommended next steps to help you collaborate'
+                defaultMessage='Here are some recommended next steps to help you get started'
             />
         );
     }

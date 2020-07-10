@@ -3068,7 +3068,7 @@
   "navbar.viewInfo": "View Info",
   "navbar.viewPinnedPosts": "View Pinned Posts",
   "next_steps_view.allSetToGo": "You're all set to go!",
-  "next_steps_view.hereAreSomeNextSteps": "Here are some recommended next steps to help you collaborate",
+  "next_steps_view.hereAreSomeNextSteps": "Here are some recommended next steps to help you get started",
   "next_steps_view.welcomeToMattermost": "Welcome to Mattermost",
   "no_results.channel_search.subtitle": "Check the spelling or try another search.",
   "no_results.channel_search.title": "No results for {channelName}",
