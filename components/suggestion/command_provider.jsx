@@ -189,6 +189,8 @@ export default class CommandProvider extends Provider {
         if (pretext[pretext.length - 1] === ' ') {
             return true;
         }
+
+        // If suggestion is empty it means that user can input any text so we allow them to execute.
         return data.findIndex((item) => item.Suggestion === '') !== -1;
     }
 
