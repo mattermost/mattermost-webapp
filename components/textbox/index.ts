@@ -48,4 +48,9 @@ const mapDispatchToProps = (dispatch: Dispatch<GenericAction>) => ({
     }, dispatch),
 });
 
-export default connect(makeMapStateToProps, mapDispatchToProps, null, {forwardRef: true})(Textbox);
+const connectedTextbox = connect(makeMapStateToProps, mapDispatchToProps, null, {forwardRef: true})(Textbox);
+export default connectedTextbox;
+
+// Attach the Textbox to the window object so that plugins can use it.
+window.Textbox = connectedTextbox;
+
