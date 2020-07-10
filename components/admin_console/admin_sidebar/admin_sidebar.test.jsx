@@ -11,7 +11,7 @@ import AdminDefinition from 'components/admin_console/admin_definition';
 import {generateIndex} from 'utils/admin_console_index';
 
 jest.mock('utils/utils', () => {
-    const original = require.requireActual('utils/utils');
+    const original = jest.requireActual('utils/utils');
     return {
         ...original,
         isMobile: jest.fn(() => true),

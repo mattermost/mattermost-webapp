@@ -246,8 +246,16 @@
         }
     }
 
+    .SidebarMenu, .AddChannelDropdown {
+        display: block !important;
+
+        .Menu {
+            top: 0 !important;
+        }
+    }
+
     .app__body {
-        .post {
+        .post, .SidebarMenu, .AddChannelDropdown {
             .Menu {
                 @include border-radius(0);
                 border: 0px;
@@ -1850,10 +1858,9 @@
         .MenuWrapper {
             .Menu {
                 .dropdown-menu {
-                    max-height: none;
-                    max-width: none;
-                    right: 0;
-                    left: inherit;
+                    right: 20%;
+                    top: 35%;
+                    left: unset;
                 }
             }
         }
