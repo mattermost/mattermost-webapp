@@ -1,5 +1,3 @@
-@import 'utils/variables';
-
 .Filter {
     padding-left: 8px;
     position: relative;
@@ -9,17 +7,15 @@
         width: auto;
         height: 32px;
 
-        /* Light / Center Channel BG */
-        background: #FFFFFF;
+        background: var(--sys-center-channel-bg);
         border-radius: 4px;
         border: 0px;
-        /* Light / Button BG */
-        color: #166DE0;
+        color: var(--sys-button-bg);
         font-size: 12px;
         padding: 0 10px;
 
         &.Filter__active, &:hover, &:focus {
-            background: linear-gradient(0deg, rgba(22, 109, 224, 0.12), rgba(22, 109, 224, 0.12)), #FFFFFF;
+            background: linear-gradient(0deg, rgba(var(--sys-button-bg-rgb), 0.12), rgba(var(--sys-button-bg-rgb), 0.12)), var(--sys-center-channel-bg);
         }
     }
 
@@ -36,10 +32,9 @@
         min-width: 256px;
         margin-bottom: 24px;
 
-        background: #FFFFFF;
-        /* Light / 8% Center Channel Text */
+        background: var(--sys-center-channel-bg);
 
-        border: 1px solid rgba(61, 60, 64, 0.08);
+        border: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.08);
         box-sizing: border-box;
         box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.12);
         border-radius: 4px;
@@ -65,7 +60,7 @@
             font-size: 14px;
             line-height: 14px;
             padding: 8px;
-            color: var(--center-channel-color);
+            color: var(--sys-center-channel-color);
         }
 
         .Filter_reset {
@@ -86,8 +81,8 @@
         font-size: 12px;
 
         &:disabled {
-            background: rgba(61, 60, 64, 0.1);
-            color: var(--center-channel-color);
+            background: rgba(var(--sys-center-channel-color-rgb), 0.1);
+            color: var(--sys-center-channel-color);
         }
     }
 
@@ -109,7 +104,7 @@
         }
 
         .FilterList_checkbox {
-            color: var(--center-channel-color);
+            color: var(--sys-center-channel-color);
 
             input {
                 vertical-align: bottom;
