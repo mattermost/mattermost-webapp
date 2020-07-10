@@ -5152,6 +5152,7 @@ const AdminDefinition = {
             title: t('admin.sidebar.blevesearch'),
             title_default: 'Bleve',
             isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
+            isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
             searchableStrings: [
                 'admin.bleve.title',
                 'admin.bleve.enableIndexingTitle',
