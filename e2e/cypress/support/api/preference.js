@@ -1,12 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import theme from '../../fixtures/theme.json';
+
 // *****************************************************************************
 // Preferences
 // https://api.mattermost.com/#tag/preferences
 // *****************************************************************************
-
-import theme from '../../fixtures/theme.json';
 
 /**
  * Saves user's preference directly via API
