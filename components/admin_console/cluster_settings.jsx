@@ -235,6 +235,7 @@ export default class ClusterSettings extends AdminSettings {
                     value={this.state.EnableExperimentalGossipEncryption}
                     onChange={this.overrideHandleChange}
                     setByEnv={this.isSetByEnv('ClusterSettings.EnableExperimentalGossipEncryption')}
+                    disabled={this.props.isDisabled}
                 />
                 <TextSetting
                     id='GossipPort'
