@@ -30,7 +30,7 @@ exports[`components/ChannelHeaderMobile/ChannelInfoButton should match snapshot,
         <span
           onClick={[Function]}
         >
-          <UNDEFINED
+          <Memo(Connect(Markdown))
             message="channel header"
             options={
               Object {
@@ -98,7 +98,7 @@ exports[`components/ChannelHeaderMobile/ChannelInfoButton should match snapshot,
           <span
             onClick={[Function]}
           >
-            <UNDEFINED
+            <Memo(Connect(Markdown))
               message="channel header"
               options={
                 Object {
