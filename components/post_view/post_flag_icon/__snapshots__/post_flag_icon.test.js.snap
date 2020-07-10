@@ -46,7 +46,7 @@ exports[`components/post_view/PostFlagIcon should match snapshot 2`] = `
   className="hidden-xs"
   defaultOverlayShown={false}
   delayShow={400}
-  key="flagtooltipkey"
+  key="flagtooltipkeyflagged"
   overlay={
     <Tooltip
       bsClass="tooltip"

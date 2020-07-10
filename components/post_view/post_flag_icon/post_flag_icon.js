@@ -95,7 +95,7 @@ export default class PostFlagIcon extends React.PureComponent {
         return (
             <OverlayTrigger
                 className='hidden-xs'
-                key='flagtooltipkey'
+                key={`flagtooltipkey${isFlagged ? 'flagged' : ''}`}
                 delayShow={Constants.OVERLAY_TIME_DELAY}
                 placement='top'
                 overlay={
