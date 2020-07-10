@@ -15,7 +15,7 @@
  */
 
 describe('Guest Account - Verify Guest Access UI', () => {
-    before(() => {
+    beforeEach(() => {
         // * Check if server has license for Guest Accounts
         cy.requireLicenseForFeature('GuestAccounts');
 
@@ -64,5 +64,45 @@ describe('Guest Account - Verify Guest Access UI', () => {
 
         // * Verify Guest MFA field when System MFA is enabled
         cy.findByTestId('GuestAccountsSettings.EnforceMultifactorAuthenticationhelp-text').should('be.visible').and('have.text', 'Multi-factor authentication is currently not enforced.');
+    });
+
+    it('MM-T1410 Confirmation Modal when Guest Access is disabled', () => {
+        // # Disable Guest Access and save
+        cy.findByTestId('GuestAccountsSettings.Enablefalse').click();
+
+        // * Verify the warning message
+        cy.get('.error-message').should('be.visible').within(() => {
+            cy.findByText('All current guest account sessions will be revoked, and marked as inactive').should('be.visible');
+        });
+
+        // # Click on the Save Settings
+        cy.get('#saveSetting').should('be.visible').click();
+
+        // * Verify the confirmation message displayed
+        cy.get('#confirmModal').should('be.visible').within(() => {
+            cy.get('#confirmModalLabel').should('be.visible').and('have.text', 'Save and Disable Guest Access?');
+            cy.get('.modal-body').should('be.visible').and('have.text', 'Disabling guest access will revoke all current Guest Account sessions. Guests will no longer be able to login and new guests cannot be invited into Mattermost. Guest users will be marked as inactive in user lists. Enabling this feature will not reinstate previous guest accounts. Are you sure you wish to remove these users?');
+            cy.get('#confirmModalButton').should('have.text', 'Save and Disable Guest Access');
+        });
+
+        // * Verify the behavior when Cancel button in the confirmation message is clicked
+        cy.get('#cancelModalButton').click();
+        cy.get('#confirmModal').should('not.exist');
+        cy.get('.error-message').should('be.visible');
+
+        // # Click on the Save Settings and confirm
+        cy.get('#saveSetting').should('be.visible').click();
+        cy.get('#confirmModalButton').should('be.visible').click();
+
+        // # Visit the chat facing application
+        cy.visit('/');
+
+        // # Open Invite People
+        cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
+        cy.get('#invitePeople').should('be.visible').click();
+
+        // * Verify that an option to Invite via Guest should not be available
+        cy.findByTestId('inviteGuestLink').should('not.exist');
+        cy.findByTestId('inputPlaceholder').should('be.visible');
     });
 });

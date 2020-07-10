@@ -9,7 +9,7 @@ import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 import FileAttachment from './file_attachment';
 
 jest.mock('utils/utils.jsx', () => {
-    const original = require.requireActual('utils/utils.jsx');
+    const original = jest.requireActual('utils/utils.jsx');
     return {
         ...original,
         loadImage: jest.fn((id, callback) => callback()),

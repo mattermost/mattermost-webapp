@@ -13,7 +13,7 @@ import FileUpload from 'components/file_upload/file_upload.jsx';
 const generatedIdRegex = /[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}/;
 
 jest.mock('utils/file_utils', () => {
-    const original = require.requireActual('utils/file_utils');
+    const original = jest.requireActual('utils/file_utils');
     return {
         ...original,
         canDownloadFiles: jest.fn(() => true),
@@ -21,7 +21,7 @@ jest.mock('utils/file_utils', () => {
 });
 
 jest.mock('utils/utils', () => {
-    const original = require.requireActual('utils/utils');
+    const original = jest.requireActual('utils/utils');
     return {
         ...original,
         clearFileInput: jest.fn(),
