@@ -54,7 +54,7 @@ export default class ChannelView extends React.PureComponent {
         const focusedPostId = props.match.params.postid;
 
         if (props.match.url !== state.url && props.channelId !== state.channelId) {
-            updatedState = {deferredPostView: ChannelView.createDeferredPostView(), url: props.match.url, focusedPostId};
+            updatedState = {deferredPostView: ChannelView.createDeferredPostView(), url: props.match.url, focusedPostId, showNextSteps: false};
         }
 
         if (props.channelId !== state.channelId) {
@@ -79,6 +79,7 @@ export default class ChannelView extends React.PureComponent {
             url: props.match.url,
             channelId: props.channelId,
             deferredPostView: ChannelView.createDeferredPostView(),
+            showNextSteps: props.showNextSteps,
         };
     }
 
@@ -125,7 +126,7 @@ export default class ChannelView extends React.PureComponent {
             );
         }
 
-        if (this.props.showNextSteps) {
+        if (this.state.showNextSteps) {
             return (
                 <NextStepsView/>
             );

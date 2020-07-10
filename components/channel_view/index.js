@@ -16,6 +16,7 @@ import {getDirectTeammate} from 'utils/utils.jsx';
 import {TutorialSteps, Preferences} from 'utils/constants';
 
 import {goToLastViewedChannel} from 'actions/views/channel';
+import {showNextSteps} from 'components/next_steps_view/steps';
 
 import ChannelView from './channel_view.jsx';
 
@@ -57,7 +58,7 @@ function mapStateToProps(state) {
         channelRolesLoading,
         deactivatedChannel: channel ? getDeactivatedChannel(state, channel.id) : false,
         showTutorial: enableTutorial && tutorialStep <= TutorialSteps.INTRO_SCREENS,
-        showNextSteps: true,
+        showNextSteps: showNextSteps(state),
         channelIsArchived: channel ? channel.delete_at !== 0 : false,
         viewArchivedChannels,
     };

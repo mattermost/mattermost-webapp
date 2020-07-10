@@ -1,7 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+import {createSelector} from 'reselect';
 
-import {RecommendedNextSteps} from 'utils/constants';
+import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
+import {GlobalState} from 'mattermost-redux/types/store';
+
+import {RecommendedNextSteps, Preferences} from 'utils/constants';
 import {localizeMessage} from 'utils/utils';
 
 import CompleteProfileStep from './steps/complete_profile_step';
@@ -35,3 +39,12 @@ export const Steps: StepType[] = [
         component: CompleteProfileStep,
     },
 ];
+
+const getCategory = makeGetCategory();
+export const showNextSteps = createSelector(
+    (state: GlobalState) => getCategory(state, Preferences.RECOMMENDED_NEXT_STEPS),
+    (stepPreferences) => {
+        const checkPref = (step: StepType) => stepPreferences.some((pref) => pref.name === step.id && pref.value);
+        return !Steps.every(checkPref);
+    }
+);
