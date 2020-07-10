@@ -61,7 +61,6 @@ type Props = {
 }
 
 type State = {
-    filteredTotalCount: number;
     loading: boolean;
 }
 
@@ -76,7 +75,6 @@ export default class TeamMembers extends React.PureComponent<Props, State> {
         this.searchTimeoutId = 0;
 
         this.state = {
-            filteredTotalCount: -1,
             loading: true,
         };
     }
@@ -166,12 +164,9 @@ export default class TeamMembers extends React.PureComponent<Props, State> {
                 filters = {...filters, team_roles: teamRoles};
             }
             this.props.actions.setUserGridFilters({roles: systemRoles, team_roles: teamRoles});
-            const {data} = await this.props.actions.getFilteredUsersStats({in_team: this.props.teamId, include_bots: true, ...filters});
-            const filteredTotalCount = data?.total_users_count || 0; // eslint-disable-line camelcase, @typescript-eslint/camelcase
-            this.setState({filteredTotalCount});
+            this.props.actions.getFilteredUsersStats({in_team: this.props.teamId, include_bots: true, ...filters});
         } else {
             this.props.actions.setUserGridFilters(filters);
-            this.setState({filteredTotalCount: -1});
         }
     }
 
@@ -181,7 +176,6 @@ export default class TeamMembers extends React.PureComponent<Props, State> {
 
     public render = () => {
         const {users, team, usersToAdd, usersToRemove, teamMembers, totalCount, searchTerm} = this.props;
-        const {filteredTotalCount} = this.state;
 
         const filterOptions: FilterOptions = {
             role: {
@@ -267,7 +261,7 @@ export default class TeamMembers extends React.PureComponent<Props, State> {
                     users={users}
                     loadPage={this.loadPage}
                     removeUser={this.removeUser}
-                    totalCount={filteredTotalCount === -1 ? totalCount : filteredTotalCount}
+                    totalCount={totalCount}
                     memberships={teamMembers}
                     updateMembership={this.updateMembership}
                     search={this.search}

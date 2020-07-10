@@ -17,7 +17,7 @@ import {getChannelStats} from 'mattermost-redux/actions/channels';
 import {getFilteredUsersStats} from 'mattermost-redux/actions/users';
 
 import {getChannelMembersInChannels, getAllChannelStats, getChannel} from 'mattermost-redux/selectors/entities/channels';
-import {makeGetProfilesInChannel, makeSearchProfilesInChannel, filterProfiles} from 'mattermost-redux/selectors/entities/users';
+import {makeGetProfilesInChannel, makeSearchProfilesInChannel, filterProfiles, getFilteredUsersStats as selectFilteredUsersStats} from 'mattermost-redux/selectors/entities/users';
 
 import {loadProfilesAndReloadChannelMembers, searchProfilesAndChannelMembers} from 'actions/user_actions';
 import {setUserGridSearch, setUserGridFilters} from 'actions/views/search';
@@ -69,18 +69,26 @@ function makeMapStateToProps() {
         let {usersToAdd} = props;
 
         const channelMembers = getChannelMembersInChannels(state)[channelId] || {};
-
         const channel = getChannel(state, channelId) || {channel_id: channelId};
-
-        const stats: ChannelStats = getAllChannelStats(state)[channelId] || {
-            member_count: 0,
-            channel_id: channelId,
-            pinnedpost_count: 0,
-            guest_count: 0,
-        };
-
         const searchTerm = state.views.search.userGridSearch?.term || '';
         const filters = state.views.search.userGridSearch?.filters || {};
+
+        let totalCount: number;
+        if (Object.keys(filters).length === 0) {
+            const stats: ChannelStats = getAllChannelStats(state)[channelId] || {
+                member_count: 0,
+                channel_id: channelId,
+                pinnedpost_count: 0,
+                guest_count: 0,
+            };
+            totalCount = stats.member_count;
+        } else {
+            const filteredUserStats: UsersStats = selectFilteredUsersStats(state) || {
+                total_users_count: 0,
+            };
+            totalCount = filteredUserStats.total_users_count;
+        }
+
         let users = [];
         if (searchTerm) {
             users = doSearchProfilesInChannel(state, channelId, searchTerm, false, {...filters, active: true});
@@ -97,7 +105,7 @@ function makeMapStateToProps() {
             channelMembers,
             usersToAdd,
             usersToRemove,
-            totalCount: stats.member_count,
+            totalCount,
             searchTerm,
         };
     };

@@ -15,7 +15,7 @@ import {getTeamStats as loadTeamStats} from 'mattermost-redux/actions/teams';
 import {getFilteredUsersStats} from 'mattermost-redux/actions/users';
 
 import {getMembersInTeams, getTeamStats, getTeam} from 'mattermost-redux/selectors/entities/teams';
-import {getProfilesInTeam, searchProfilesInTeam, filterProfiles} from 'mattermost-redux/selectors/entities/users';
+import {getProfilesInTeam, searchProfilesInTeam, filterProfiless, getFilteredUsersStats as selectFilteredUsersStats} from 'mattermost-redux/selectors/entities/users';
 
 import {GlobalState} from 'types/store';
 import {loadProfilesAndReloadTeamMembers, searchProfilesAndTeamMembers} from 'actions/user_actions.jsx';
@@ -64,10 +64,20 @@ function mapStateToProps(state: GlobalState, props: Props) {
 
     const teamMembers = getMembersInTeams(state)[teamId] || {};
     const team = getTeam(state, teamId) || {};
-    const stats = getTeamStats(state)[teamId] || {active_member_count: 0};
-
     const searchTerm = state.views.search.userGridSearch?.term || '';
     const filters = state.views.search.userGridSearch?.filters || {};
+
+    let totalCount: number;
+    if (Object.keys(filters).length === 0) {
+        const stats = getTeamStats(state)[teamId] || {active_member_count: 0};
+        totalCount = stats.active_member_count;
+    } else {
+        const filteredUserStats: UsersStats = selectFilteredUsersStats(state) || {
+            total_users_count: 0,
+        };
+        totalCount = filteredUserStats.total_users_count;
+    }
+
     let users = [];
     if (searchTerm) {
         users = searchProfilesInTeam(state, teamId, searchTerm, false, {active: true, ...filters});
@@ -84,7 +94,7 @@ function mapStateToProps(state: GlobalState, props: Props) {
         teamMembers,
         usersToAdd,
         usersToRemove,
-        totalCount: stats.active_member_count,
+        totalCount,
         searchTerm,
     };
 }

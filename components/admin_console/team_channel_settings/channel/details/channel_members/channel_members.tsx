@@ -64,7 +64,6 @@ type Props = {
 }
 
 type State = {
-    filteredTotalCount: number;
     loading: boolean;
 }
 
@@ -79,7 +78,6 @@ export default class ChannelMembers extends React.PureComponent<Props, State> {
         this.searchTimeoutId = 0;
 
         this.state = {
-            filteredTotalCount: -1,
             loading: true,
         };
     }
@@ -172,19 +170,14 @@ export default class ChannelMembers extends React.PureComponent<Props, State> {
                 filters = {...filters, channel_roles: channelRoles};
             }
             this.props.actions.setUserGridFilters(filters);
-            const {data} = await this.props.actions.getFilteredUsersStats({in_channel: this.props.channelId, include_bots: true, ...filters});
-            const filteredTotalCount = data?.total_users_count || 0; // eslint-disable-line camelcase, @typescript-eslint/camelcase
-            this.setState({filteredTotalCount});
+            this.props.actions.getFilteredUsersStats({in_channel: this.props.channelId, include_bots: true, ...filters});
         } else {
             this.props.actions.setUserGridFilters(filters);
-            this.setState({filteredTotalCount: -1});
         }
     }
 
     render = () => {
         const {users, channel, channelId, usersToAdd, usersToRemove, channelMembers, totalCount, searchTerm} = this.props;
-        const {filteredTotalCount} = this.state;
-
         const filterOptions: FilterOptions = {
             role: {
                 name: 'Role',
@@ -269,7 +262,7 @@ export default class ChannelMembers extends React.PureComponent<Props, State> {
                     users={users}
                     loadPage={this.loadPage}
                     removeUser={this.removeUser}
-                    totalCount={filteredTotalCount === -1 ? totalCount : filteredTotalCount}
+                    totalCount={totalCount}
                     memberships={channelMembers}
                     updateMembership={this.updateMembership}
                     search={this.search}

@@ -18,7 +18,7 @@ class FilterList extends React.PureComponent<Props> {
         const values = {...this.props.option.values};
         values[key].value = value;
         await this.props.updateValues(values, this.props.optionKey);
-        this.forceUpdate(); // hack figure out a better solution?
+        this.forceUpdate();
     }
 
     render() {
