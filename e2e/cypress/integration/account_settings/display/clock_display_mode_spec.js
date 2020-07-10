@@ -123,8 +123,7 @@ function setClockDisplayTo24Hour() {
 function verifyClockFormat(timeFormat) {
     cy.get('time').first().then(($timeEl) => {
         cy.wrap($timeEl).invoke('attr', 'datetime').then((dateTimeString) => {
-            const date = moment(dateTimeString);
-            const formattedTime = date.format(timeFormat);
+            const formattedTime = moment(dateTimeString).format(timeFormat);
             cy.wrap($timeEl).should('be.visible').and('have.text', formattedTime);
         });
     });
