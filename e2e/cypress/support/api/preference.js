@@ -6,7 +6,7 @@
 // https://api.mattermost.com/#tag/preferences
 // *****************************************************************************
 
-import theme from '../fixtures/theme.json';
+import theme from '../../fixtures/theme.json';
 
 /**
  * Saves user's preference directly via API
