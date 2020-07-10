@@ -11,7 +11,7 @@ describe('Archived channels', () => {
     let testChannel;
 
     before(() => {
-        cy.requireLicense();
+        cy.apiRequireLicense();
 
         cy.apiInitSetup({
             channelPrefix: {name: 'aaa-archive', displayName: 'AAA Archive Test'},

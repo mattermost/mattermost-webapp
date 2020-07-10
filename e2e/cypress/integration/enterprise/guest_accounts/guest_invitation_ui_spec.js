@@ -111,7 +111,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
 
     before(() => {
         // * Check if server has license for Guest Accounts
-        cy.requireLicenseForFeature('GuestAccounts');
+        cy.apiRequireLicenseForFeature('GuestAccounts');
     });
 
     beforeEach(() => {

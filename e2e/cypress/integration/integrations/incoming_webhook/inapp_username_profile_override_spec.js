@@ -28,8 +28,8 @@ describe('Incoming webhook', () => {
                 EnablePostUsernameOverride: true,
                 EnablePostIconOverride: true,
             },
-        }).then((response) => {
-            siteName = response.body.TeamSettings.SiteName;
+        }).then(({config}) => {
+            siteName = config.TeamSettings.SiteName;
         });
 
         // # Create and visit new channel and create incoming webhook
