@@ -281,6 +281,24 @@ Cypress.Commands.add('apiSaveUserPreference', (preferences = [], userId = 'me') 
 });
 
 /**
+ * Saves clock display mode 24-hour preference of a user directly via API
+ * This API assume that the user is logged in and has cookie to access
+ * @param {Boolean} is24Hour - Either true (default) or false
+ */
+Cypress.Commands.add('apiSaveClockDisplayMode24HourPreference', (is24Hour = true) => {
+    return cy.getCookie('MMUSERID').then((cookie) => {
+        const preference = {
+            user_id: cookie.value,
+            category: 'display_settings',
+            name: 'use_military_time',
+            value: is24Hour.toString(),
+        };
+
+        return cy.apiSaveUserPreference([preference]);
+    });
+});
+
+/**
  * Saves channel display mode preference of a user directly via API
  * This API assume that the user is logged in and has cookie to access
  * @param {String} value - Either "full" (default) or "centered"

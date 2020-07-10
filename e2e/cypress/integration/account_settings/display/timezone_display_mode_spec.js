@@ -12,6 +12,7 @@
 import moment from 'moment-timezone';
 
 import {getAdminAccount} from '../../../support/env';
+import * as DATE_TIME_FORMAT from '../../../fixtures/date_time_format';
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 describe('Account Settings > Display > Timezone Mode', () => {
@@ -24,12 +25,11 @@ describe('Account Settings > Display > Timezone Mode', () => {
     const timezoneCanonical = {type: 'Canonical', actualValue: 'Asia/Hong_Kong', expectedValue: 'Asia/Hong_Kong'};
     const timezoneUTC = {type: 'Default', actualValue: 'UTC', expectedValue: 'UTC'};
     const timezoneInvalid = {type: 'Invalid', actualValue: 'NZ-Chat', expectedValue: 'UTC'};
-    const timeFormat = 'h:mm A';
-    const utcFormattedTimes = [
-        moment(date1).tz(timezoneUTC.expectedValue).format(timeFormat),
-        moment(date2).tz(timezoneUTC.expectedValue).format(timeFormat),
-        moment(date3).tz(timezoneUTC.expectedValue).format(timeFormat),
-        moment(date4).tz(timezoneUTC.expectedValue).format(timeFormat),
+    const datesInUTC = [
+        moment(date1).tz(timezoneUTC.expectedValue),
+        moment(date2).tz(timezoneUTC.expectedValue),
+        moment(date3).tz(timezoneUTC.expectedValue),
+        moment(date4).tz(timezoneUTC.expectedValue),
     ];
 
     before(() => {
@@ -70,10 +70,10 @@ describe('Account Settings > Display > Timezone Mode', () => {
             {
                 timezone: timezoneLocal,
                 localTimes: [
-                    {postIndex: 0, formattedTime: moment(date1).tz(timezoneLocal.expectedValue).format(timeFormat)},
-                    {postIndex: 1, formattedTime: moment(date2).tz(timezoneLocal.expectedValue).format(timeFormat)},
-                    {postIndex: 2, formattedTime: moment(date3).tz(timezoneLocal.expectedValue).format(timeFormat)},
-                    {postIndex: 3, formattedTime: moment(date4).tz(timezoneLocal.expectedValue).format(timeFormat)},
+                    {postIndex: 0, dateInTimezone: moment(date1).tz(timezoneLocal.expectedValue)},
+                    {postIndex: 1, dateInTimezone: moment(date2).tz(timezoneLocal.expectedValue)},
+                    {postIndex: 2, dateInTimezone: moment(date3).tz(timezoneLocal.expectedValue)},
+                    {postIndex: 3, dateInTimezone: moment(date4).tz(timezoneLocal.expectedValue)},
                 ],
             },
         ];
@@ -84,11 +84,32 @@ describe('Account Settings > Display > Timezone Mode', () => {
                     // # Set timezone display to automatic
                     setTimezoneDisplayToAutomatic(testCase.timezone);
                 });
+                
+                describe('Clock Mode: 12-hour', () => {
+                    before(() => {
+                        // # Save Clock Display Mode to 12-hour
+                        cy.apiSaveClockDisplayMode24HourPreference(false);
+                    });
 
-                testCase.localTimes.forEach((localTime) => {
-                    it('Post: ' + localTime.postIndex + ', UTC: ' + utcFormattedTimes[localTime.postIndex] + ', New: ' + localTime.formattedTime, () => {
-                        // * Verify local time is timezone formatted
-                        verifyLocalTimeIsTimezoneFormatted(localTime);
+                    testCase.localTimes.forEach((localTime) => {
+                        it('Post: ' + localTime.postIndex + ', UTC: ' + datesInUTC[localTime.postIndex].format(DATE_TIME_FORMAT.TIME_12_HOUR) + ', New: ' + localTime.dateInTimezone.format(DATE_TIME_FORMAT.TIME_12_HOUR), () => {
+                            // * Verify local time is timezone formatted 12-hour
+                            verifyLocalTimeIsTimezoneFormatted12Hour(localTime);
+                        });
+                    });
+                });
+
+                describe('Clock Mode: 24-hour', () => {
+                    before(() => {
+                        // # Save Clock Display Mode to 24-hour
+                        cy.apiSaveClockDisplayMode24HourPreference(true);
+                    });
+
+                    testCase.localTimes.forEach((localTime) => {
+                        it('Post: ' + localTime.postIndex + ', UTC: ' + datesInUTC[localTime.postIndex].format(DATE_TIME_FORMAT.TIME_24_HOUR) + ', New: ' + localTime.dateInTimezone.format(DATE_TIME_FORMAT.TIME_24_HOUR), () => {
+                            // * Verify local time is timezone formatted 24-hour
+                            verifyLocalTimeIsTimezoneFormatted24Hour(localTime);
+                        });
                     });
                 });
             });
@@ -100,28 +121,28 @@ describe('Account Settings > Display > Timezone Mode', () => {
             {
                 timezone: timezoneCanonical,
                 localTimes: [
-                    {postIndex: 0, formattedTime: moment(date1).tz(timezoneCanonical.expectedValue).format(timeFormat)},
-                    {postIndex: 1, formattedTime: moment(date2).tz(timezoneCanonical.expectedValue).format(timeFormat)},
-                    {postIndex: 2, formattedTime: moment(date3).tz(timezoneCanonical.expectedValue).format(timeFormat)},
-                    {postIndex: 3, formattedTime: moment(date4).tz(timezoneCanonical.expectedValue).format(timeFormat)},
+                    {postIndex: 0, dateInTimezone: moment(date1).tz(timezoneCanonical.expectedValue)},
+                    {postIndex: 1, dateInTimezone: moment(date2).tz(timezoneCanonical.expectedValue)},
+                    {postIndex: 2, dateInTimezone: moment(date3).tz(timezoneCanonical.expectedValue)},
+                    {postIndex: 3, dateInTimezone: moment(date4).tz(timezoneCanonical.expectedValue)},
                 ],
             },
             {
                 timezone: timezoneUTC,
                 localTimes: [
-                    {postIndex: 0, formattedTime: moment(date1).tz(timezoneUTC.expectedValue).format(timeFormat)},
-                    {postIndex: 1, formattedTime: moment(date2).tz(timezoneUTC.expectedValue).format(timeFormat)},
-                    {postIndex: 2, formattedTime: moment(date3).tz(timezoneUTC.expectedValue).format(timeFormat)},
-                    {postIndex: 3, formattedTime: moment(date4).tz(timezoneUTC.expectedValue).format(timeFormat)},
+                    {postIndex: 0, dateInTimezone: moment(date1).tz(timezoneUTC.expectedValue)},
+                    {postIndex: 1, dateInTimezone: moment(date2).tz(timezoneUTC.expectedValue)},
+                    {postIndex: 2, dateInTimezone: moment(date3).tz(timezoneUTC.expectedValue)},
+                    {postIndex: 3, dateInTimezone: moment(date4).tz(timezoneUTC.expectedValue)},
                 ],
             },
             {
                 timezone: timezoneInvalid,
                 localTimes: [
-                    {postIndex: 0, formattedTime: moment(date1).tz(timezoneInvalid.expectedValue).format(timeFormat)},
-                    {postIndex: 1, formattedTime: moment(date2).tz(timezoneInvalid.expectedValue).format(timeFormat)},
-                    {postIndex: 2, formattedTime: moment(date3).tz(timezoneInvalid.expectedValue).format(timeFormat)},
-                    {postIndex: 3, formattedTime: moment(date4).tz(timezoneInvalid.expectedValue).format(timeFormat)},
+                    {postIndex: 0, dateInTimezone: moment(date1).tz(timezoneInvalid.expectedValue)},
+                    {postIndex: 1, dateInTimezone: moment(date2).tz(timezoneInvalid.expectedValue)},
+                    {postIndex: 2, dateInTimezone: moment(date3).tz(timezoneInvalid.expectedValue)},
+                    {postIndex: 3, dateInTimezone: moment(date4).tz(timezoneInvalid.expectedValue)},
                 ],
             },
         ];
@@ -133,10 +154,31 @@ describe('Account Settings > Display > Timezone Mode', () => {
                     setTimezoneDisplayToManual(testCase.timezone);
                 });
 
-                testCase.localTimes.forEach((localTime) => {
-                    it('Post: ' + localTime.postIndex + ', UTC: ' + utcFormattedTimes[localTime.postIndex] + ', New: ' + localTime.formattedTime, () => {
-                        // * Verify local time is timezone formatted
-                        verifyLocalTimeIsTimezoneFormatted(localTime);
+                describe('Clock Mode: 12-hour', () => {
+                    before(() => {
+                        // # Save Clock Display Mode to 12-hour
+                        cy.apiSaveClockDisplayMode24HourPreference(false);
+                    });
+
+                    testCase.localTimes.forEach((localTime) => {
+                        it('Post: ' + localTime.postIndex + ', UTC: ' + datesInUTC[localTime.postIndex].format(DATE_TIME_FORMAT.TIME_12_HOUR) + ', New: ' + localTime.dateInTimezone.format(DATE_TIME_FORMAT.TIME_12_HOUR), () => {
+                            // * Verify local time is timezone formatted 12-hour
+                            verifyLocalTimeIsTimezoneFormatted12Hour(localTime);
+                        });
+                    });
+                });
+
+                describe('Clock Mode: 24-hour', () => {
+                    before(() => {
+                        // # Save Clock Display Mode to 24-hour
+                        cy.apiSaveClockDisplayMode24HourPreference(true);
+                    });
+                    
+                    testCase.localTimes.forEach((localTime) => {
+                        it('Post: ' + localTime.postIndex + ', UTC: ' + datesInUTC[localTime.postIndex].format(DATE_TIME_FORMAT.TIME_24_HOUR) + ', New: ' + localTime.dateInTimezone.format(DATE_TIME_FORMAT.TIME_24_HOUR), () => {
+                            // * Verify local time is timezone formatted 24-hour
+                            verifyLocalTimeIsTimezoneFormatted24Hour(localTime);
+                        });
                     });
                 });
             });
@@ -222,7 +264,16 @@ function setTimezoneDisplayToManual(timezone) {
     setTimezoneDisplayTo(false, timezone);
 }
 
-function verifyLocalTimeIsTimezoneFormatted(localTime) {
+function verifyLocalTimeIsTimezoneFormatted(localTime, timeFormat) {
     // * Verify that the local time of each post is in timezone format
-    cy.findAllByTestId('postView').eq(localTime.postIndex).find('time', {timeout: TIMEOUTS.HALF_SEC}).should('have.text', localTime.formattedTime);
+    const formattedTime = localTime.dateInTimezone.format(timeFormat);
+    cy.findAllByTestId('postView').eq(localTime.postIndex).find('time', {timeout: TIMEOUTS.HALF_SEC}).should('have.text', formattedTime);
+}
+
+function verifyLocalTimeIsTimezoneFormatted12Hour(localTime) {
+    verifyLocalTimeIsTimezoneFormatted(localTime, DATE_TIME_FORMAT.TIME_12_HOUR);
+}
+
+function verifyLocalTimeIsTimezoneFormatted24Hour(localTime) {
+    verifyLocalTimeIsTimezoneFormatted(localTime, DATE_TIME_FORMAT.TIME_24_HOUR);
 }
