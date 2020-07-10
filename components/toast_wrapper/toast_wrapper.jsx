@@ -6,13 +6,18 @@ import PropTypes from 'prop-types';
 import {FormattedMessage, injectIntl} from 'react-intl';
 
 import Toast from 'components/toast/toast';
-import {isToday, default as RecentDate} from 'components/recent_date';
+import Timestamp, {RelativeRanges} from 'components/timestamp';
 import {isIdNotPost, getNewMessageIndex} from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
+import {isToday} from 'utils/datetime';
 import Constants from 'utils/constants';
 import {browserHistory} from 'utils/browser_history';
 
 const TOAST_TEXT_COLLAPSE_WIDTH = 500;
+
+const TOAST_REL_RANGES = [
+    RelativeRanges.TODAY_YESTERDAY,
+];
 
 class ToastWrapper extends React.PureComponent {
     static propTypes = {
@@ -221,9 +226,10 @@ class ToastWrapper extends React.PureComponent {
                         count,
                         isToday: isToday(new Date(since)).toString(),
                         date: (
-                            <RecentDate
+                            <Timestamp
                                 value={since}
-                                useTitleCase={false}
+                                useTime={false}
+                                ranges={TOAST_REL_RANGES}
                             />
                         ),
                     }}

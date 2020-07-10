@@ -1,0 +1,126 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/Timestamp should be wrapped in SemanticTime 1`] = `
+<SemanticTime
+  rawDate={2020-06-05T10:20:30.000Z}
+>
+  <FormattedMessage
+    defaultMessage="{relative}{date}{separated, select, yes { at } no {}}{time}"
+    id="timestamp.datetime"
+    values={
+      Object {
+        "date": "June 05",
+        "relative": undefined,
+        "separated": "no",
+        "time": undefined,
+      }
+    }
+  />
+</SemanticTime>
+`;
+
+exports[`components/Timestamp should render Today 1`] = `
+<Timestamp
+  day="2-digit"
+  hour="numeric"
+  hourCycle="h12"
+  intl={
+    Object {
+      "defaultFormats": Object {},
+      "defaultLocale": "en",
+      "formatDate": [Function],
+      "formatDateToParts": [Function],
+      "formatHTMLMessage": [Function],
+      "formatList": [Function],
+      "formatMessage": [Function],
+      "formatNumber": [Function],
+      "formatNumberToParts": [Function],
+      "formatPlural": [Function],
+      "formatRelativeTime": [Function],
+      "formatTime": [Function],
+      "formatTimeToParts": [Function],
+      "formats": Object {},
+      "formatters": Object {
+        "getDateTimeFormat": [Function],
+        "getListFormat": [Function],
+        "getMessageFormat": [Function],
+        "getNumberFormat": [Function],
+        "getPluralRules": [Function],
+        "getRelativeTimeFormat": [Function],
+      },
+      "locale": "en",
+      "messages": Object {},
+      "onError": [Function],
+      "textComponent": "span",
+      "timeZone": "Etc/UTC",
+    }
+  }
+  minute="numeric"
+  momentFallbackFormat="weekday, month day, year, hour:minute:second"
+  month="long"
+  numeric="auto"
+  ranges={
+    Array [
+      Object {
+        "display": <FormattedMessage
+          defaultMessage="Today"
+          id="date_separator.today"
+          values={Object {}}
+        />,
+        "equals": Array [
+          "day",
+          0,
+          0,
+        ],
+      },
+    ]
+  }
+  relValue={1}
+  roundingFactor={0.5}
+  second="numeric"
+  style="narrow"
+  timeZoneName="short"
+  useTime={false}
+  value={2020-06-22T21:33:10.845Z}
+  weekday="long"
+  year="numeric"
+>
+  <SemanticTime
+    rawDate={2020-06-22T21:33:10.845Z}
+  >
+    <time
+      aria-label="Mon Jun 22 2020 16:33:10 GMT-0500 (Central Daylight Time)"
+      dateTime="2020-06-22T21:33:10.845Z"
+    >
+      <FormattedMessage
+        defaultMessage="{relative}{date}{separated, select, yes { at } no {}}{time}"
+        id="timestamp.datetime"
+        values={
+          Object {
+            "date": undefined,
+            "relative": <FormattedMessage
+              defaultMessage="Today"
+              id="date_separator.today"
+              values={Object {}}
+            />,
+            "separated": "no",
+            "time": undefined,
+          }
+        }
+      >
+        <span>
+          <FormattedMessage
+            defaultMessage="Today"
+            id="date_separator.today"
+            values={Object {}}
+          >
+            <span>
+              Today
+            </span>
+          </FormattedMessage>
+        </span>
+      </FormattedMessage>
+    </time>
+  </SemanticTime>
+</Timestamp>
+`;

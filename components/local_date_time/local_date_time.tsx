@@ -4,7 +4,7 @@
 import React from 'react';
 import {
     injectIntl,
-    IntlShape
+    IntlShape,
 } from 'react-intl';
 import moment from 'moment-timezone';
 
@@ -28,7 +28,7 @@ type Props = {
     /*
      * Current timezone of the user
      */
-    timeZone?: string | null | undefined;
+    timeZone?: string | null;
 
     /*
      * Enable timezone feature

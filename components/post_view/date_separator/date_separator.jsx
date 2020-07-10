@@ -4,9 +4,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import RecentDate from 'components/recent_date';
+import Timestamp, {RelativeRanges} from 'components/timestamp';
 
 import BasicSeparator from 'components/widgets/separator/basic-separator';
+
+const DATE_RANGES = [
+    RelativeRanges.TODAY_TITLE_CASE,
+    RelativeRanges.YESTERDAY_TITLE_CASE,
+];
 
 export default class DateSeparator extends React.PureComponent {
     static propTypes = {
@@ -14,23 +19,15 @@ export default class DateSeparator extends React.PureComponent {
             PropTypes.number,
             PropTypes.instanceOf(Date),
         ]).isRequired,
-        timeZone: PropTypes.string,
-        enableTimezone: PropTypes.bool,
     }
 
     render() {
-        const {
-            date,
-            enableTimezone,
-            timeZone,
-        } = this.props;
-        const timezoneProps = enableTimezone && timeZone ? {timeZone} : {};
-
         return (
             <BasicSeparator>
-                <RecentDate
-                    {...timezoneProps}
-                    value={date}
+                <Timestamp
+                    value={this.props.date}
+                    useTime={false}
+                    ranges={DATE_RANGES}
                 />
             </BasicSeparator>
         );

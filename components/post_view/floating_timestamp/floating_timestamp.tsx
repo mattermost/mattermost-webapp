@@ -4,7 +4,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import RecentDate from 'components/recent_date';
+import Timestamp from 'components/timestamp';
 
 type Props = {
     isScrolling: boolean;
@@ -22,12 +22,6 @@ export default class FloatingTimestamp extends React.PureComponent<Props> {
             return null;
         }
 
-        const dateString = (
-            <RecentDate
-                value={createAt}
-            />
-        );
-
         const classes = classNames('post-list__timestamp', {
             scrolling: isScrolling,
             rhs: isRhsPost,
@@ -40,7 +34,12 @@ export default class FloatingTimestamp extends React.PureComponent<Props> {
                 data-testid='floatingTimestamp'
             >
                 <div>
-                    <span>{dateString}</span>
+                    <span>
+                        <Timestamp
+                            value={createAt}
+                            useTime={false}
+                        />
+                    </span>
                 </div>
             </div>
         );
