@@ -57,7 +57,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
 
     const searchTerm = state.views.search.modalSearch;
 
-    let users;
+    let users: UserProfile[];
     if (searchTerm) {
         if (restrictDirectMessage === 'any') {
             users = searchProfilesSelector(state, searchTerm, false);
@@ -73,12 +73,15 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const filteredGroupChannels = filterGroupChannels(getChannelsWithUserProfiles(state), searchTerm);
     const myDirectChannels = filterDirectChannels(getAllChannels(state), currentUserId);
     const myRecentDirectChannels = filterRecentChannels(getAllChannels(state), currentUserId).sort((a: Channel, b: Channel) => b.last_post_at - a.last_post_at);
-    const recentDirectChannelUsers = myRecentDirectChannels.map((channel: Channel) => {
+    let recentDirectChannelUsers = myRecentDirectChannels.map((channel: Channel) => {
         const dmUserId = getUserIdFromChannelName(currentUserId, channel.name);
         const user = getUser(state, dmUserId);
         return {...user, last_post_at: channel.last_post_at};
     });
 
+    if (searchTerm) {
+        recentDirectChannelUsers = recentDirectChannelUsers.filter((recent) => users.find((user: UserProfile) => user.id === recent.id));
+    }
     const team = getCurrentTeam(state);
     const stats = getTotalUsersStatsSelector(state) || {total_users_count: 0};
 
