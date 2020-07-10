@@ -30,8 +30,6 @@ describe('Incoming webhook', () => {
 
             cy.apiCreateWebhook(newIncomingHook).then((hook) => {
                 incomingWebhook = hook;
-
-                // cy.visit(`/${testTeam.name}/channels/town-square`);
             });
         });
     });
@@ -86,10 +84,11 @@ function editIncomingWebhook(incomingWebhookId, teamName, lockToChannel) {
     });
 
     // # Check or uncheck "Lock to this channel"
+    cy.findByLabelText('Lock to this channel').should('exist').as('lockChannel');
     if (lockToChannel) {
-        cy.findByLabelText('Lock to this channel').should('exist').check();
+        cy.get('@lockChannel').check();
     } else {
-        cy.findByLabelText('Lock to this channel').should('exist').uncheck();
+        cy.get('@lockChannel').uncheck();
     }
 
     // # Click update and verify it redirects to incoming webhook page
