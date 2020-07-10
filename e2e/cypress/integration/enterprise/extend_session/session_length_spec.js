@@ -43,7 +43,7 @@ const saveConfig = (waitUntilConfigSaved = true, clickConfirmationButton = false
 
 describe('MM-T2574 Session Lengths', () => {
     before(() => {
-        cy.requireLicense();
+        cy.apiRequireLicense();
         goToSessionLengths();
     });
 

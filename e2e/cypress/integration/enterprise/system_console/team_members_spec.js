@@ -32,7 +32,7 @@ describe('Team members test', () => {
         });
 
         // * Check if server has license
-        cy.requireLicense();
+        cy.apiRequireLicense();
 
         cy.apiInitSetup().then(({team, channel, user}) => {
             user1 = user;

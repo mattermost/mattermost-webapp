@@ -36,18 +36,18 @@ declare namespace Cypress {
          * @returns {ClientLicense} `out.license` as `ClientLicense`
          *
          * @example
-         *   cy.requireLicenseForFeature('LDAP');
+         *   cy.apiRequireLicenseForFeature('LDAP');
          */
-        requireLicenseForFeature(feature: string): Chainable<ClientLicense>;
+        apiRequireLicenseForFeature(feature: string): Chainable<ClientLicense>;
 
         /**
          * Verifies if server has license and fail test if not found.
          * @returns {ClientLicense} `out.license` as `ClientLicense`
          *
          * @example
-         *   cy.requireLicense();
+         *   cy.apiRequireLicense();
          */
-        requireLicense(): Chainable<ClientLicense>;
+        apiRequireLicense(): Chainable<ClientLicense>;
 
         /**
          * Update configuration.

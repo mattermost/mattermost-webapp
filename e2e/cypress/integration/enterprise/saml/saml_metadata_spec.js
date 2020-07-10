@@ -23,7 +23,7 @@ let config;
 describe('SystemConsole->SAML 2.0 - Get Metadata from Idp Flow', () => {
     before(() => {
         // * Check if server has license for SAML
-        cy.requireLicenseForFeature('SAML');
+        cy.apiRequireLicenseForFeature('SAML');
 
         cy.apiUpdateConfig({
             SamlSettings: {

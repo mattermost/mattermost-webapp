@@ -17,7 +17,7 @@ Cypress.Commands.add('apiGetClientLicense', () => {
     });
 });
 
-Cypress.Commands.add('requireLicenseForFeature', (key = '') => {
+Cypress.Commands.add('apiRequireLicenseForFeature', (key = '') => {
     return cy.apiGetClientLicense().then(({license}) => {
         expect(license.IsLicensed, 'Server has no Enterprise license.').to.equal('true');
 
@@ -35,7 +35,7 @@ Cypress.Commands.add('requireLicenseForFeature', (key = '') => {
     });
 });
 
-Cypress.Commands.add('requireLicense', () => {
+Cypress.Commands.add('apiRequireLicense', () => {
     return cy.apiGetClientLicense().then(({license}) => {
         expect(license.IsLicensed, 'Server has no Enterprise license.').to.equal('true');
 
