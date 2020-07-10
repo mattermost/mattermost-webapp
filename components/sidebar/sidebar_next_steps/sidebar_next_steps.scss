@@ -2,10 +2,22 @@
     width: 100%;
     color: var(--sidebar-text);
     padding: 8px 16px 18px 14px;
-    border-left: 2px solid var(--sidebar-text-active-border);
+    position: absolute;
+    bottom: 0;
 
     &.active {
         background-color: var(--sidebar-text-hover-bg);
+
+        &::before {
+            content: '';
+            height: 100%;
+            position: absolute;
+            left: -2px;
+            top: 0;
+            width: 4px;
+            background: var(--sidebar-text-active-border);
+            border-radius: 4px;
+        }
     }
 }
 
