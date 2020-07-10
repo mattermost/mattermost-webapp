@@ -127,9 +127,13 @@ export default class LicenseSettings extends React.PureComponent {
         if (this.state.upgradingPercentage > 0) {
             return;
         }
-        this.setState({upgradingPercetage: 1});
-        await this.props.actions.upgradeToE0();
-        await this.reloadPercentage();
+        try {
+            await this.props.actions.upgradeToE0();
+            this.setState({upgradingPercetage: 1});
+            await this.reloadPercentage();
+        } catch (error) {
+            this.setState({upgradeError: error.message, upgradingPercetage: 0});
+        }
     }
 
     requestLicense = async (e) => {
