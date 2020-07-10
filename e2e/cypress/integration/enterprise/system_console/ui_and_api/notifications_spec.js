@@ -76,8 +76,8 @@ describe('System Console', () => {
                 and('have.value', option.value);
             cy.get('#saveSetting').click();
 
-            cy.apiGetConfig().then((response) => {
-                expect(response.body.EmailSettings.PushNotificationContents).to.equal(option.value);
+            cy.apiGetConfig().then(({config}) => {
+                expect(config.EmailSettings.PushNotificationContents).to.equal(option.value);
             });
         });
     });

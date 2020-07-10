@@ -34,8 +34,8 @@ describe('SystemConsole->SAML 2.0 - Get Metadata from Idp Flow', () => {
                 IdpUrl: testIdpUrl,
                 IdpDescriptorUrl: testIdpDescriptorUrl,
             },
-        }).then((response) => {
-            config = response.body;
+        }).then((data) => {
+            ({config} = data);
         });
 
         //make sure we can navigate to SAML settings

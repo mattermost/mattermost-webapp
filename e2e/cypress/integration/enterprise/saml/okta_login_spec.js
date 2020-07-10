@@ -96,8 +96,8 @@ context('Okta', () => {
             cy.apiGetMetadataFromIdp(idpMetadataUrl);
 
             cy.oktaAddUsers(users);
-            cy.apiUpdateConfig(newConfig).then((response) => {
-                cy.setTestSettings(loginButtonText, response.body).then((_response) => {
+            cy.apiUpdateConfig(newConfig).then(({config}) => {
+                cy.setTestSettings(loginButtonText, config).then((_response) => {
                     testSettings = _response;
                 });
             });
