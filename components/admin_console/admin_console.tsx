@@ -69,7 +69,7 @@ type ExtraProps = {
 
 type Item = {
     isHidden?: (config?: Record<string, any>, state?: Record<string, any>, license?: Record<string, any>, buildEnterpriseReady?: boolean, consoleAccess?: ConsoleAccess) => boolean;
-    isDisabled?: (config?: Record<string, any>, state?: Record<string, any>, license?: Record<string, any>, consoleAccess?: ConsoleAccess) => boolean;
+    isDisabled?: (config?: Record<string, any>, state?: Record<string, any>, license?: Record<string, any>, buildEnterpriseReady?: boolean, consoleAccess?: ConsoleAccess) => boolean;
     schema: Record<string, any>;
     url: string;
 }
@@ -115,10 +115,13 @@ export default class AdminConsole extends React.PureComponent<Props, State> {
 
             let isSectionHidden = false;
             Object.entries(section).find((entry) => {
-                if (entry[0] === 'isHidden' && typeof entry[1] === 'function') {
-                    const isHiddenFunc = entry[1] as ((config?: Record<string, any>, state?: Record<string, any>, license?: Record<string, any>, buildEnterpriseReady?: boolean, consoleAccess?: ConsoleAccess) => boolean);
-
-                    isSectionHidden = isHiddenFunc(this.props.config, {}, this.props.license, this.props.buildEnterpriseReady, this.props.consoleAccess);
+                if (entry[0] === 'isHidden') {
+                    if (typeof entry[1] === 'function') {
+                        const isHiddenFunc = entry[1] as ((config?: Record<string, any>, state?: Record<string, any>, license?: Record<string, any>, buildEnterpriseReady?: boolean, consoleAccess?: ConsoleAccess) => boolean);
+                        isSectionHidden = isHiddenFunc(this.props.config, {}, this.props.license, this.props.buildEnterpriseReady, this.props.consoleAccess);
+                    } else {
+                        isSectionHidden = entry[1];
+                    }
                 }
                 return null;
             });
@@ -134,7 +137,13 @@ export default class AdminConsole extends React.PureComponent<Props, State> {
             return acc.concat(items);
         }, [] as Item[]);
         const schemaRoutes = schemas.map((item: Item) => {
-            const isItemDisabled = item.isDisabled && item.isDisabled(this.props.config, {}, this.props.license, this.props.consoleAccess);
+            let isItemDisabled: boolean;
+
+            if (typeof item.isDisabled === 'function') {
+                isItemDisabled = item.isDisabled(this.props.config, this.state, this.props.license, this.props.buildEnterpriseReady, this.props.consoleAccess);
+            } else {
+                isItemDisabled = Boolean(item.isDisabled);
+            }
 
             return (
                 <Route

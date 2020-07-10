@@ -54,7 +54,7 @@ describe('components/AdminConsole', () => {
             unauthorizedRoute: '/team-id/channels/town-square',
             isCurrentUserSystemAdmin: false,
             currentUserHasAnAdminRole: false,
-            consoleAccess: {},
+            consoleAccess: {read: {}, write: {}},
         };
         const wrapper = shallow(
             <AdminConsole {...props}/>,
@@ -68,7 +68,7 @@ describe('components/AdminConsole', () => {
             unauthorizedRoute: '/team-id/channels/town-square',
             isCurrentUserSystemAdmin: true,
             currentUserHasAnAdminRole: false,
-            consoleAccess: {},
+            consoleAccess: {read: {}, write: {}},
         };
         const wrapper = shallow(
             <AdminConsole {...props}/>,
