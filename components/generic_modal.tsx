@@ -10,13 +10,13 @@ import './generic_modal.scss';
 
 type Props = {
     onHide: () => void;
-    modalHeaderText: string | JSX.Element;
+    modalHeaderText: React.ReactNode;
     show?: boolean;
     handleCancel?: () => void;
     handleConfirm?: () => void;
-    confirmButtonText?: string | JSX.Element;
+    confirmButtonText?: React.ReactNode;
     confirmButtonClassName?: string;
-    cancelButtonText?: string | JSX.Element;
+    cancelButtonText?: React.ReactNode;
     isConfirmDisabled?: boolean;
 };
 
@@ -60,18 +60,14 @@ export default class GenericModal extends React.PureComponent<Props, State> {
     render() {
         let confirmButton;
         if (this.props.handleConfirm) {
-            let confirmButtonText = (
+            let confirmButtonText: React.ReactNode = (
                 <FormattedMessage
                     id='generic_modal.confirm'
                     defaultMessage='Confirm'
                 />
             );
             if (this.props.confirmButtonText) {
-                confirmButtonText = (
-                    <React.Fragment>
-                        {this.props.confirmButtonText}
-                    </React.Fragment>
-                );
+                confirmButtonText = this.props.confirmButtonText;
             }
 
             confirmButton = (
@@ -90,18 +86,14 @@ export default class GenericModal extends React.PureComponent<Props, State> {
 
         let cancelButton;
         if (this.props.handleCancel) {
-            let cancelButtonText = (
+            let cancelButtonText: React.ReactNode = (
                 <FormattedMessage
                     id='generic_modal.cancel'
                     defaultMessage='Cancel'
                 />
             );
             if (this.props.cancelButtonText) {
-                cancelButtonText = (
-                    <React.Fragment>
-                        {this.props.cancelButtonText}
-                    </React.Fragment>
-                );
+                cancelButtonText = this.props.cancelButtonText;
             }
 
             cancelButton = (
