@@ -842,10 +842,10 @@
   "admin.jobTable.statusPending": "В ожидании",
   "admin.jobTable.statusSuccess": "Успешно",
   "admin.jobTable.statusWarning": "Предупреждение",
-  "admin.ldap_feature_discovery.call_to_action.primary": "Запросить пробную версию",
+  "admin.ldap_feature_discovery.call_to_action.primary": "Начать использовать пробную версию",
   "admin.ldap_feature_discovery.call_to_action.secondary": "Узнать больше",
-  "admin.ldap_feature_discovery.copy": "Когда вы подключаете Mattermost к Active Directory / LDAP вашей организации, пользователи могут войти в систему, не создавая новые имена пользователей и пароли.",
-  "admin.ldap_feature_discovery.title": "Интегрируйте Active Directory / LDAP с Mattermost Корпоративный E10",
+  "admin.ldap_feature_discovery.copy": "Когда вы подключаете Mattermost к Active Directory/LDAP вашей организации, пользователи могут войти в систему, не создавая новые имена пользователей и пароли.",
+  "admin.ldap_feature_discovery.title": "Интегрируйте Active Directory/LDAP с Mattermost Корпоративный E10",
   "admin.ldap.adminFilterEx": "Например: \"(objectClass=user)\"",
   "admin.ldap.adminFilterFilterDesc": "(Необязательно) Введите фильтр AD/LDAP для использования при назначении системных администраторов. Пользователи, выбранные по запросу, будут иметь доступ к вашему серверу Mattermost в качестве системных администраторов. По умолчанию системные администраторы имеют полный доступ к Системной консоли Mattermost.\n\nСуществующие участники, которые определены этим атрибутом, будут повышены от участника до системного администратора при следующем входе в систему. Следующий вход в систему основан на продолжительности сеанса, установленной в **Системная консоль> Продолжительность сессий**. Настоятельно рекомендуется вручную понижать пользователей до участников в **Системная консоль > Управление пользователями**, чтобы быть уверенными в том, что ограничения будут применены немедленно.\n\nПримечание. Если этот фильтр удален/изменен, системные администраторы, которые были повышены с помощью этого фильтра, будут понижены в должности до участников и не сохранят доступ к системной консоли. Когда этот фильтр не используется, системные администраторы могут повышаться/понижаться в должности в **Системная консоль > Управление пользователями *.",
   "admin.ldap.adminFilterTitle": "Фильтр администратора:",
@@ -3892,5 +3892,7 @@
   "admin.saml.serviceProviderIdentifierEx": "Например: \"https://<your-mattermost-url>/login/sso/saml\"",
   "admin.group_settings.group_detail.invalid_length": "Имя должно быть иметь длину от 1 до 64 символов, содержащих буквы и цифры в нижнем регистре",
   "admin.saml.serviceProviderIdentifierTitle": "Идентификатор поставщика услуг:",
-  "admin.saml.serviceProviderIdentifierDesc": "Уникальный идентификатор поставщика услуг, обычно совпадает с URL-адресом входа поставщика услуг. В ADFS это ДОЛЖНО совпадать с идентификатором проверяющей стороны."
+  "admin.saml.serviceProviderIdentifierDesc": "Уникальный идентификатор поставщика услуг, обычно совпадает с URL-адресом входа поставщика услуг. В ADFS это ДОЛЖНО совпадать с идентификатором проверяющей стороны.",
+  "admin.license.trial-request.error": "Пробная лицензия не может быть получена. Посетите [https://mattermost.com/trial/](https://mattermost.com/trial/), чтобы запросить лицензию.",
+  "admin.license.trial-request.accept-terms": "Нажав **Начать использовать пробную версию**, я принимаю [Соглашение об оценке программного обеспечения Mattermost](!https://mattermost.com/software-evaluation-agreement/), [Политику конфиденциальности](!https://mattermost.com/privacy-policy/), и получение сообщений электронной почты о продукте."
 }
