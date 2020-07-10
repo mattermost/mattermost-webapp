@@ -8,7 +8,7 @@ import Constants from 'utils/constants';
 import PopoverListMembers from 'components/popover_list_members/popover_list_members.jsx';
 
 jest.mock('utils/browser_history', () => {
-    const original = require.requireActual('utils/browser_history');
+    const original = jest.requireActual('utils/browser_history');
     return {
         ...original,
         browserHistory: {

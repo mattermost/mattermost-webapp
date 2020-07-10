@@ -78,5 +78,21 @@ declare namespace Cypress {
          *   cy.apiCreateGuestUser(options);
          */
         apiCreateGuestUser(options: Record<string, any>): Chainable<Record<string, any>>;
+
+        /**
+         * Get list of users that are not team members
+         * See https://api.mattermost.com/#tag/users/paths/~1users/post
+         * @param {String} queryParams.teamId - Team ID
+         * @param {String} queryParams.page - Page to select, 0 (default)
+         * @param {String} queryParams.perPage - The number of users per page, 60 (default)
+         * @returns {Object} `out` Cypress-chainable, yielded with element passed into .wrap().
+         * @returns {UserProfile[]} `out.users` as `UserProfile[]` object
+         *
+         * @example
+         *   cy.apiGetUsersNotInTeam({teamId: 'team-id'}).then(({users}) => {
+         *       // do something with users
+         *   });
+         */
+        apiGetUsersNotInTeam(queryParams: Record<string, any>): Chainable<UserProfile[]>;
     }
 }

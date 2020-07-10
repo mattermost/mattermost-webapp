@@ -1226,7 +1226,7 @@ Cypress.Commands.add('apiGetSAMLCertificateStatus', () => {
         url: '/api/v4/saml/certificate/status',
         method: 'GET',
     }).then((response) => {
-        expect(response.status).to.equal(200);
+        expect(response.status).to.be.oneOf([200, 201]);
         return cy.wrap(response);
     });
 });
@@ -1253,7 +1253,7 @@ Cypress.Commands.add('apiGetMetadataFromIdp', (samlMetadataUrl) => {
  * @param {String} filename
  */
 Cypress.Commands.add('apiUploadSAMLIDPCert', (filename) => {
-    cy.apiUploadFile('certificate', filename, {url: '/api/v4/saml/certificate/idp', method: 'POST', successStatus: 201});
+    cy.apiUploadFile('certificate', filename, {url: '/api/v4/saml/certificate/idp', method: 'POST', successStatus: 200});
 });
 
 /**

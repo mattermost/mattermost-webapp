@@ -15,4 +15,4 @@ const mapStateToProps = (state, ownProps) => {
     };
 };
 
-export default connect(mapStateToProps)(SearchChannelSuggestion);
+export default connect(mapStateToProps, null, null, {forwardRef: true})(SearchChannelSuggestion);
