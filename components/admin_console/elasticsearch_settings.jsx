@@ -301,7 +301,7 @@ export default class ElasticsearchSettings extends AdminSettings {
                         id: t('admin.elasticsearch.testConfigSuccess'),
                         defaultMessage: 'Test successful. Configuration saved.',
                     }}
-                    disabled={!this.state.enableIndexing}
+                    disabled={!this.state.enableIndexing || this.props.isDisabled}
                 />
                 <div className='form-group'>
                     <label
@@ -316,7 +316,7 @@ export default class ElasticsearchSettings extends AdminSettings {
                         <div className='job-table-setting'>
                             <JobsTable
                                 jobType={JobTypes.ELASTICSEARCH_POST_INDEXING}
-                                disabled={!this.state.canPurgeAndIndex}
+                                disabled={!this.state.canPurgeAndIndex || this.props.isDisabled}
                                 createJobButtonText={
                                     <FormattedMessage
                                         id='admin.elasticsearch.createJob.title'
