@@ -348,8 +348,9 @@ export default class SchemaAdminSettings extends React.PureComponent {
     }
 
     isDisabled = (setting) => {
+        const enterpriseReady = this.props.config.BuildEnterpriseReady === 'true';
         if (typeof setting.isDisabled === 'function') {
-            return setting.isDisabled(this.props.config, this.state, this.props.license, this.props.consoleAccess);
+            return setting.isDisabled(this.props.config, this.state, this.props.license, enterpriseReady, this.props.consoleAccess);
         }
         return Boolean(setting.isDisabled);
     }

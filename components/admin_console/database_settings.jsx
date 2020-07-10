@@ -299,6 +299,7 @@ export default class DatabaseSettings extends AdminSettings {
                     value={this.state.disableDatabaseSearch}
                     onChange={this.handleChange}
                     setByEnv={this.isSetByEnv('SqlSettings.DisableDatabaseSearch')}
+                    disabled={this.props.isDisabled}
                 />
             </SettingsGroup>
         );
