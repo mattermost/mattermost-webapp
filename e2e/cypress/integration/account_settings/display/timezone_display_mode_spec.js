@@ -88,7 +88,7 @@ describe('Account Settings > Display > Timezone Mode', () => {
                 describe('Clock Mode: 12-hour', () => {
                     before(() => {
                         // # Save Clock Display Mode to 12-hour
-                        cy.apiSaveClockDisplayMode24HourPreference(false);
+                        cy.apiSaveClockDisplayModeTo24HourPreference(false);
                     });
 
                     testCase.localTimes.forEach((localTime) => {
@@ -102,7 +102,7 @@ describe('Account Settings > Display > Timezone Mode', () => {
                 describe('Clock Mode: 24-hour', () => {
                     before(() => {
                         // # Save Clock Display Mode to 24-hour
-                        cy.apiSaveClockDisplayMode24HourPreference(true);
+                        cy.apiSaveClockDisplayModeTo24HourPreference(true);
                     });
 
                     testCase.localTimes.forEach((localTime) => {
@@ -157,7 +157,7 @@ describe('Account Settings > Display > Timezone Mode', () => {
                 describe('Clock Mode: 12-hour', () => {
                     before(() => {
                         // # Save Clock Display Mode to 12-hour
-                        cy.apiSaveClockDisplayMode24HourPreference(false);
+                        cy.apiSaveClockDisplayModeTo24HourPreference(false);
                     });
 
                     testCase.localTimes.forEach((localTime) => {
@@ -171,7 +171,7 @@ describe('Account Settings > Display > Timezone Mode', () => {
                 describe('Clock Mode: 24-hour', () => {
                     before(() => {
                         // # Save Clock Display Mode to 24-hour
-                        cy.apiSaveClockDisplayMode24HourPreference(true);
+                        cy.apiSaveClockDisplayModeTo24HourPreference(true);
                     });
 
                     testCase.localTimes.forEach((localTime) => {

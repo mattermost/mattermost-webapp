@@ -91,7 +91,7 @@ describe('Messaging', () => {
                     testCase.localTimes.forEach((localTime, index) => {
                         it('post ' + index + ' should match', () => {
                             // # Change user preference to 12-hour format
-                            cy.apiSaveClockDisplayMode24HourPreference(false);
+                            cy.apiSaveClockDisplayModeTo24HourPreference(false);
 
                             // # Set user locale and timezone
                             setLocaleAndTimezone(testCase.locale, testCase.manualTimezone);
@@ -109,7 +109,7 @@ describe('Messaging', () => {
                     testCase.localTimes.forEach((localTime, index) => {
                         it('post ' + index + ' should match', () => {
                             // # Change user preference to 24-hour format
-                            cy.apiSaveClockDisplayMode24HourPreference(true);
+                            cy.apiSaveClockDisplayModeTo24HourPreference(true);
 
                             // # Set user locale and timezone
                             setLocaleAndTimezone(testCase.locale, testCase.manualTimezone);
