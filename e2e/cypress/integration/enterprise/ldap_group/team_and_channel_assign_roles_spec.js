@@ -35,7 +35,7 @@ describe('System Console', () => {
 
     before(() => {
         // * Check if server has license for LDAP Groups
-        cy.requireLicenseForFeature('LDAPGroups');
+        cy.apiRequireLicenseForFeature('LDAPGroups');
 
         cy.apiInitSetup({
             teamPrefix: {name: 'a-team', displayName: 'A Team'},

@@ -31,7 +31,7 @@ describe('Guest Account - Guest User Experience', () => {
 
     before(() => {
         // * Check if server has license for Guest Accounts
-        cy.requireLicenseForFeature('GuestAccounts');
+        cy.apiRequireLicenseForFeature('GuestAccounts');
 
         // # Enable Guest Account Settings
         cy.apiUpdateConfig({
