@@ -9,7 +9,7 @@ import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 
 jest.mock('utils/user_agent', () => {
-    const original = require.requireActual('utils/user_agent');
+    const original = jest.requireActual('utils/user_agent');
     return {
         ...original,
         isIos: jest.fn().mockReturnValue(true),
@@ -22,6 +22,7 @@ describe('components/SuggestionBox', () => {
         value: 'value',
         containerClass: 'test',
         openOnFocus: true,
+        providers: [],
     };
 
     test('findOverlap', () => {
@@ -211,14 +212,13 @@ describe('components/SuggestionBox', () => {
         expect(onBlur).toBeCalledTimes(1);
     });
 
-    test('should not call for pretext change on call of handleFocusIn when forceSuggestionsWhenBlur is true', () => {
+    test('should call for handlePretextChanged on handleFocusIn and change of pretext', () => {
         jest.useFakeTimers();
         const onFocus = jest.fn();
         const wrapper = shallow(
             <SuggestionBox
                 {...baseProps}
                 openOnFocus={true}
-                forceSuggestionsWhenBlur={true}
                 onFocus={onFocus}
             />,
         );
@@ -231,8 +231,18 @@ describe('components/SuggestionBox', () => {
         instance.container = {contains};
 
         instance.handleFocusIn({relatedTarget});
-        jest.runAllTimers();
-        expect(instance.handlePretextChanged).not.toHaveBeenCalled();
+        jest.runOnlyPendingTimers();
+        expect(instance.handlePretextChanged).toHaveBeenCalledTimes(1);
+        instance.handleFocusIn({relatedTarget});
+        expect(instance.handlePretextChanged).toHaveBeenCalledTimes(1);
         expect(onFocus).toHaveBeenCalled();
+    });
+
+    test('should call for handlePretextChanged on componentDidMount', () => {
+        const wrapper = shallow(<SuggestionBox {...baseProps}/>);
+        const instance = wrapper.instance();
+        instance.handlePretextChanged = jest.fn();
+        instance.componentDidMount();
+        expect(instance.handlePretextChanged).toHaveBeenCalledTimes(1);
     });
 });

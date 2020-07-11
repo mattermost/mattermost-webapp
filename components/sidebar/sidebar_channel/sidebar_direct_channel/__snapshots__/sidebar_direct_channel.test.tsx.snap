@@ -29,8 +29,9 @@ exports[`components/sidebar/sidebar_channel/sidebar_direct_channel should match 
       status=""
     />
   }
+  isCollapsed={false}
   label="channel_display_name"
-  link="/team_name/messages/@"
+  link="/team_name/messages/@some-user"
 />
 `;
 
@@ -67,8 +68,9 @@ exports[`components/sidebar/sidebar_channel/sidebar_direct_channel should match 
       uniquifyIDs={false}
     />
   }
+  isCollapsed={false}
   label="channel_display_name"
-  link="/team_name/messages/@"
+  link="/team_name/messages/@some-user"
 />
 `;
 
@@ -101,8 +103,9 @@ exports[`components/sidebar/sidebar_channel/sidebar_direct_channel should match 
       status=""
     />
   }
+  isCollapsed={false}
   label="channel_display_name (you)"
-  link="/team_name/messages/@"
+  link="/team_name/messages/@some-user"
 />
 `;
 
@@ -134,7 +137,8 @@ exports[`components/sidebar/sidebar_channel/sidebar_direct_channel should match 
       className="icon icon-archive-outline"
     />
   }
+  isCollapsed={false}
   label="channel_display_name"
-  link="/team_name/messages/@"
+  link="/team_name/messages/@some-user"
 />
 `;

@@ -41,6 +41,7 @@ exports[`components/CreateComment should match snapshot read only channel 1`] = 
           onMouseUp={[Function]}
           popoverMentionKeyClick={true}
           preview={false}
+          rootId=""
           suggestionListStyle="top"
           useChannelMentions={true}
           value=""
@@ -69,7 +70,6 @@ exports[`components/CreateComment should match snapshot read only channel 1`] = 
         >
           <Connect(TextboxLinks)
             characterLimit={4000}
-            isMarkdownPreviewEnabled={true}
             message=""
             showPreview={false}
             updatePreview={[Function]}
@@ -154,6 +154,7 @@ exports[`components/CreateComment should match snapshot when cannot post 1`] = `
           onMouseUp={[Function]}
           popoverMentionKeyClick={true}
           preview={false}
+          rootId=""
           suggestionListStyle="top"
           useChannelMentions={true}
           value=""
@@ -182,7 +183,6 @@ exports[`components/CreateComment should match snapshot when cannot post 1`] = `
         >
           <Connect(TextboxLinks)
             characterLimit={4000}
-            isMarkdownPreviewEnabled={true}
             message=""
             showPreview={false}
             updatePreview={[Function]}
@@ -267,6 +267,7 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
           onMouseUp={[Function]}
           popoverMentionKeyClick={true}
           preview={false}
+          rootId=""
           suggestionListStyle="top"
           useChannelMentions={true}
           value="Test message"
@@ -331,7 +332,6 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
         >
           <Connect(TextboxLinks)
             characterLimit={4000}
-            isMarkdownPreviewEnabled={true}
             showPreview={false}
             updatePreview={[Function]}
           />
@@ -415,6 +415,7 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
           onMouseUp={[Function]}
           popoverMentionKeyClick={true}
           preview={false}
+          rootId=""
           suggestionListStyle="top"
           useChannelMentions={true}
           value="Test message"
@@ -455,7 +456,6 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
         >
           <Connect(TextboxLinks)
             characterLimit={4000}
-            isMarkdownPreviewEnabled={true}
             showPreview={false}
             updatePreview={[Function]}
           />
@@ -551,6 +551,7 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
           onMouseUp={[Function]}
           popoverMentionKeyClick={true}
           preview={false}
+          rootId=""
           suggestionListStyle="top"
           useChannelMentions={true}
           value=""
@@ -615,7 +616,6 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
         >
           <Connect(TextboxLinks)
             characterLimit={4000}
-            isMarkdownPreviewEnabled={true}
             showPreview={false}
             updatePreview={[Function]}
           />
@@ -699,6 +699,7 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
           onMouseUp={[Function]}
           popoverMentionKeyClick={true}
           preview={false}
+          rootId=""
           suggestionListStyle="top"
           useChannelMentions={true}
           value="Test message"
@@ -763,7 +764,6 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
         >
           <Connect(TextboxLinks)
             characterLimit={4000}
-            isMarkdownPreviewEnabled={true}
             showPreview={false}
             updatePreview={[Function]}
           />

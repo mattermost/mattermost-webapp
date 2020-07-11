@@ -12,9 +12,8 @@
 
 describe('System Console', () => {
     before(() => {
-        // * Login as sysadmin and check if server has license for ID Loaded Push Notifications
-        cy.apiLogin('sysadmin');
-        cy.requireLicenseForFeature('IDLoadedPushNotifications');
+        // * Check if server has license for ID Loaded Push Notifications
+        cy.apiRequireLicenseForFeature('IDLoadedPushNotifications');
 
         // # Update to default config
         cy.apiUpdateConfig({
@@ -77,8 +76,8 @@ describe('System Console', () => {
                 and('have.value', option.value);
             cy.get('#saveSetting').click();
 
-            cy.apiGetConfig().then((response) => {
-                expect(response.body.EmailSettings.PushNotificationContents).to.equal(option.value);
+            cy.apiGetConfig().then(({config}) => {
+                expect(config.EmailSettings.PushNotificationContents).to.equal(option.value);
             });
         });
     });

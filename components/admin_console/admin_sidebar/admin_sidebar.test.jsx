@@ -11,7 +11,7 @@ import AdminDefinition from 'components/admin_console/admin_definition';
 import {generateIndex} from 'utils/admin_console_index';
 
 jest.mock('utils/utils', () => {
-    const original = require.requireActual('utils/utils');
+    const original = jest.requireActual('utils/utils');
     return {
         ...original,
         isMobile: jest.fn(() => true),
@@ -63,7 +63,7 @@ describe('components/AdminSidebar', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match snapshot, not render the plugin in the sidebar because does not have settings', () => {
+    test('should match snapshot, render plugins without any settings as well', () => {
         const props = {
             license: {},
             config: {

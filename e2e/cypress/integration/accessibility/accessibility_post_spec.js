@@ -10,31 +10,23 @@
 // Stage: @prod
 // Group: @accessibility
 
-import users from '../../fixtures/users.json';
+import {getRandomId} from '../../utils';
 
-const otherUser = users['user-2'];
-const currentUser = users.sysadmin;
-let message;
+function postMessages(testChannel, otherUser, count) {
+    let lastMessage;
 
-function postMessages(count = 1) {
-    cy.getCurrentChannelId().then((channelId) => {
-        cy.apiGetUserByEmail(otherUser.email).then((emailResponse) => {
-            cy.apiAddUserToChannel(channelId, emailResponse.body.id);
-            for (let index = 0; index < count; index++) {
-                // # Post Message as Current user
-                message = `hello from sysadmin: ${Date.now()}`;
-                cy.postMessage(message);
-                message = `hello from ${otherUser.username}: ${Date.now()}`;
-                cy.postMessageAs({sender: otherUser, message, channelId});
-            }
-            cy.wait(1000); // eslint-disable-line cypress/no-unnecessary-waiting
-        });
-    });
+    for (let index = 0; index < count; index++) {
+        // # Post Message as Current user
+        const message = `hello from current user: ${getRandomId()}`;
+        cy.postMessage(message);
+        lastMessage = `hello from ${otherUser.username}: ${getRandomId()}`;
+        cy.postMessageAs({sender: otherUser, message: lastMessage, channelId: testChannel.id});
+    }
+
+    return {lastMessage};
 }
 
-function postAndPerformActions() {
-    postMessages();
-
+function performActionsToLastPost() {
     // # Take some actions on the last post
     cy.getLastPostId().then((postId) => {
         // # Add couple of Reactions
@@ -70,25 +62,44 @@ function verifyPostLabel(elementId, username, labelSuffix) {
 }
 
 describe('Verify Accessibility Support in Post', () => {
-    before(() => {
-        cy.apiLogin('sysadmin');
+    let testUser;
+    let otherUser;
+    let testTeam;
+    let testChannel;
 
+    before(() => {
         // # Update Configs
         cy.apiUpdateConfig({
             ServiceSettings: {
                 ExperimentalChannelOrganization: false,
             },
         });
+
+        cy.apiInitSetup().then(({team, channel, user}) => {
+            testUser = user;
+            testTeam = team;
+            testChannel = channel;
+
+            cy.apiCreateUser({prefix: 'other'}).then(({user: user1}) => {
+                otherUser = user1;
+
+                cy.apiAddUserToTeam(testTeam.id, otherUser.id).then(() => {
+                    cy.apiAddUserToChannel(testChannel.id, otherUser.id);
+                });
+            });
+        });
     });
 
     beforeEach(() => {
-        // # Visit the Town Square channel
-        cy.visit('/ad-1/channels/off-topic');
+        // # Login as test user and visit the Town Square channel
+        cy.apiLogin(testUser);
+        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
         cy.get('#postListContent').should('be.visible');
     });
 
     it('MM-22631 Verify Reader reads out the post correctly on Center Channel', () => {
-        postAndPerformActions();
+        const {lastMessage} = postMessages(testChannel, otherUser, 1);
+        performActionsToLastPost();
 
         // # Shift focus to the last post
         cy.get('#fileUploadButton').focus().tab({shift: true}).tab({shift: true});
@@ -97,12 +108,13 @@ describe('Verify Accessibility Support in Post', () => {
         // * Verify post message in Center Channel
         cy.getLastPostId().then((postId) => {
             // * Verify reader reads out the post correctly
-            verifyPostLabel(`#post_${postId}`, otherUser.username, `wrote, ${message}, 2 reactions, message is flagged and pinned`);
+            verifyPostLabel(`#post_${postId}`, otherUser.username, `wrote, ${lastMessage}, 2 reactions, message is flagged and pinned`);
         });
     });
 
     it('MM-22631 Verify Reader reads out the post correctly on RHS', () => {
-        postAndPerformActions();
+        const {lastMessage} = postMessages(testChannel, otherUser, 1);
+        performActionsToLastPost();
 
         // # Post a reply on RHS
         cy.getLastPostId().then((postId) => {
@@ -117,7 +129,7 @@ describe('Verify Accessibility Support in Post', () => {
                 cy.get('#fileUploadButton').focus().tab({shift: true}).tab({shift: true}).type('{uparrow}');
 
                 // * Verify reader reads out the post correctly
-                verifyPostLabel(`#rhsPost_${postId}`, otherUser.username, `wrote, ${message}, 2 reactions, message is flagged and pinned`);
+                verifyPostLabel(`#rhsPost_${postId}`, otherUser.username, `wrote, ${lastMessage}, 2 reactions, message is flagged and pinned`);
             });
 
             // * Verify reply message in RHS
@@ -127,14 +139,14 @@ describe('Verify Accessibility Support in Post', () => {
                     cy.get('#fileUploadButton').focus().tab({shift: true}).tab({shift: true}).type('{uparrow}{downarrow}');
 
                     // * Verify reader reads out the post correctly
-                    verifyPostLabel(`#rhsPost_${replyId}`, currentUser.username, `replied, ${replyMessage}`);
+                    verifyPostLabel(`#rhsPost_${replyId}`, testUser.username, `replied, ${replyMessage}`);
                 });
             });
         });
     });
 
     it('MM-22631 Verify different Post Focus on Center Channel', () => {
-        postMessages(5);
+        postMessages(testChannel, otherUser, 5);
 
         // # Shift focus to the last post
         cy.get('#fileUploadButton').focus().tab({shift: true}).tab({shift: true}).type('{uparrow}');
@@ -158,21 +170,20 @@ describe('Verify Accessibility Support in Post', () => {
 
     it('MM-22631 Verify different Post Focus on RHS', () => {
         // # Post Message as Current user
-        message = `hello from sysadmin: ${Date.now()}`;
+        const message = `hello from current user: ${getRandomId()}`;
         cy.postMessage(message);
 
         // # Post few replies on RHS
         cy.getLastPostId().then((postId) => {
             cy.clickPostCommentIcon(postId);
             cy.get('#rhsContainer').should('be.visible');
-            cy.getCurrentChannelId().then((channelId) => {
-                for (let index = 0; index < 3; index++) {
-                    const replyMessage = `A reply ${Date.now()}`;
-                    cy.postMessageReplyInRHS(replyMessage);
-                    message = `reply from ${otherUser.username}: ${Date.now()}`;
-                    cy.postMessageAs({sender: otherUser, message, channelId, rootId: postId});
-                }
-            });
+
+            for (let index = 0; index < 3; index++) {
+                const replyMessage = `A reply ${getRandomId()}`;
+                cy.postMessageReplyInRHS(replyMessage);
+                const otherMessage = `reply from ${otherUser.username}: ${getRandomId()}`;
+                cy.postMessageAs({sender: otherUser, message: otherMessage, channelId: testChannel.id, rootId: postId});
+            }
         });
 
         cy.get('#rhsContainer').within(() => {
@@ -198,7 +209,7 @@ describe('Verify Accessibility Support in Post', () => {
     });
 
     it('MM-22631 Verify Tab support on Post on Center Channel', () => {
-        postMessages();
+        postMessages(testChannel, otherUser, 1);
 
         // # Shift focus to the last post
         cy.get('#fileUploadButton').focus().tab({shift: true}).tab({shift: true});
@@ -239,19 +250,18 @@ describe('Verify Accessibility Support in Post', () => {
 
     it('MM-22631 Verify Tab support on Post on RHS', () => {
         // # Post Message as Current user
-        message = `hello from sysadmin: ${Date.now()}`;
+        const message = `hello from current user: ${getRandomId()}`;
         cy.postMessage(message);
 
         // # Post few replies on RHS
         cy.getLastPostId().then((postId) => {
             cy.clickPostCommentIcon(postId);
             cy.get('#rhsContainer').should('be.visible');
-            cy.getCurrentChannelId().then((channelId) => {
-                const replyMessage = `A reply ${Date.now()}`;
-                cy.postMessageReplyInRHS(replyMessage);
-                message = `reply from ${otherUser.username}: ${Date.now()}`;
-                cy.postMessageAs({sender: otherUser, message, channelId, rootId: postId});
-            });
+
+            const replyMessage = `A reply ${getRandomId()}`;
+            cy.postMessageReplyInRHS(replyMessage);
+            const otherMessage = `reply from ${otherUser.username}: ${getRandomId()}`;
+            cy.postMessageAs({sender: otherUser, message: otherMessage, channelId: testChannel.id, rootId: postId});
         });
 
         cy.get('#rhsContainer').within(() => {
@@ -291,10 +301,8 @@ describe('Verify Accessibility Support in Post', () => {
 
     it('MM-24078 Verify incoming messages are read', () => {
         // # Submit a post as another user
-        cy.getCurrentChannelId().then((channelId) => {
-            message = `verify incoming message from ${otherUser.username}: ${Date.now()}`;
-            cy.postMessageAs({sender: otherUser, message, channelId});
-        });
+        const message = `verify incoming message from ${otherUser.username}: ${getRandomId()}`;
+        cy.postMessageAs({sender: otherUser, message, channelId: testChannel.id});
 
         // # Get the element which stores the incoming messages
         cy.get('#postListContent').within(() => {

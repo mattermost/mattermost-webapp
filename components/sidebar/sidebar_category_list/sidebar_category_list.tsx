@@ -4,16 +4,20 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import Scrollbars from 'react-custom-scrollbars';
+import {DragDropContext, Droppable, DropResult, DragStart, BeforeCapture} from 'react-beautiful-dnd';
 import {Spring, SpringSystem} from 'rebound';
 import classNames from 'classnames';
 import debounce from 'lodash/debounce';
 
+import {General} from 'mattermost-redux/constants';
 import {Channel} from 'mattermost-redux/types/channels';
 import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
 import {Team} from 'mattermost-redux/types/teams';
 
+import {trackEvent} from 'actions/diagnostics_actions';
 import UnreadChannelIndicator from 'components/unread_channel_indicator';
-import {Constants} from 'utils/constants';
+import {DraggingState} from 'types/store';
+import {Constants, DraggingStates, DraggingStateTypes} from 'utils/constants';
 import * as Utils from 'utils/utils';
 import * as ChannelUtils from 'utils/channel_utils.jsx';
 
@@ -49,11 +53,23 @@ type Props = {
     categories: ChannelCategory[];
     unreadChannelIds: string[];
     isUnreadFilterEnabled: boolean;
-    handleOpenMoreDirectChannelsModal: (e: Event) => void;
     displayedChannels: Channel[];
+    newCategoryIds: string[];
+    draggingState: DraggingState;
+    categoryCollapsedState: Record<string, boolean>;
+
+    handleOpenMoreDirectChannelsModal: (e: Event) => void;
+    onDragStart: (initial: DragStart) => void;
+    onDragEnd: (result: DropResult) => void;
+
     actions: {
+        moveChannelToCategory: (categoryId: string, channelId: string, newIndex: number) => void;
+        moveCategory: (teamId: string, categoryId: string, newIndex: number) => void;
         switchToChannelById: (channelId: string) => void;
         close: () => void;
+        setDraggingState: (data: DraggingState) => void;
+        stopDragging: () => void;
+        expandCategory: (categoryId: string) => void;
     };
 };
 
@@ -215,6 +231,14 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
     }
 
     updateUnreadIndicators = () => {
+        if (this.props.draggingState.state) {
+            this.setState({
+                showTopUnread: false,
+                showBottomUnread: false,
+            });
+            return;
+        }
+
         let showTopUnread = false;
         let showBottomUnread = false;
 
@@ -309,14 +333,16 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
         }
     };
 
-    renderCategory = (category: ChannelCategory) => {
+    renderCategory = (category: ChannelCategory, index: number) => {
         return (
             <SidebarCategory
                 key={category.id}
                 category={category}
+                categoryIndex={index}
                 setChannelRef={this.setChannelRef}
                 handleOpenMoreDirectChannelsModal={this.props.handleOpenMoreDirectChannelsModal}
                 getChannelRef={this.getChannelRef}
+                isNewCategory={this.props.newCategoryIds.includes(category.id)}
             />
         );
     }
@@ -328,6 +354,59 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
     onTransitionEnd = debounce(() => {
         this.updateUnreadIndicators();
     }, 100);
+
+    onBeforeCapture = (before: BeforeCapture) => {
+        // // Ensure no channels are animating
+        this.channelRefs.forEach((ref) => ref.classList.remove('animating'));
+
+        // Turn off scrolling temporarily so that dimensions can be captured
+        const droppable = [...document.querySelectorAll<HTMLDivElement>('[data-rbd-droppable-id*="droppable-categories"]')];
+        droppable[0].style.height = `${droppable[0].scrollHeight}px`;
+
+        const draggingState: DraggingState = {
+            state: DraggingStates.CAPTURE,
+            id: before.draggableId,
+        };
+
+        if (this.props.categories.some((category) => category.id === before.draggableId)) {
+            draggingState.type = DraggingStateTypes.CATEGORY;
+        } else {
+            const draggingChannel = this.props.displayedChannels.find((channel) => channel.id === before.draggableId);
+            draggingState.type = (draggingChannel?.type === General.DM_CHANNEL || draggingChannel?.type === General.GM_CHANNEL) ? DraggingStateTypes.DM : DraggingStateTypes.CHANNEL;
+        }
+
+        this.props.actions.setDraggingState(draggingState);
+    }
+
+    onBeforeDragStart = () => {
+        this.props.actions.setDraggingState({state: DraggingStates.BEFORE});
+    }
+
+    onDragStart = (initial: DragStart) => {
+        this.props.onDragStart(initial);
+
+        this.props.actions.setDraggingState({state: DraggingStates.DURING});
+
+        // Re-enable scroll box resizing
+        const droppable = [...document.querySelectorAll<HTMLDivElement>('[data-rbd-droppable-id*="droppable-categories"]')];
+        droppable[0].style.height = '';
+    }
+
+    onDragEnd = (result: DropResult) => {
+        this.props.onDragEnd(result);
+
+        if (result.reason === 'DROP' && result.destination) {
+            if (result.type === 'SIDEBAR_CHANNEL') {
+                this.props.actions.moveChannelToCategory(result.destination.droppableId, result.draggableId, result.destination.index);
+                trackEvent('ui', 'ui_sidebar_dragdrop_dropped_channel');
+            } else if (result.type === 'SIDEBAR_CATEGORY') {
+                this.props.actions.moveCategory(this.props.currentTeam.id, result.draggableId, result.destination.index);
+                trackEvent('ui', 'ui_sidebar_dragdrop_dropped_category');
+            }
+        }
+
+        this.props.actions.stopDragging();
+    }
 
     render() {
         const {categories} = this.props;
@@ -352,7 +431,10 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
             // NOTE: id attribute added to temporarily support the desktop app's at-mention DOM scraping of the old sidebar
             <div
                 id='sidebar-left'
-                className={classNames('SidebarNavContainer a11y__region', {disabled: this.props.isUnreadFilterEnabled})}
+                className={classNames('SidebarNavContainer a11y__region', {
+                    disabled: this.props.isUnreadFilterEnabled,
+                })}
+                data-a11y-disable-nav={Boolean(this.props.draggingState.type)}
                 data-a11y-sort-order='7'
                 onTransitionEnd={this.onTransitionEnd}
             >
@@ -381,7 +463,29 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
                     onScroll={this.onScroll}
                     style={{position: 'absolute'}}
                 >
-                    {renderedCategories}
+                    <DragDropContext
+                        onDragEnd={this.onDragEnd}
+                        onBeforeDragStart={this.onBeforeDragStart}
+                        onBeforeCapture={this.onBeforeCapture}
+                        onDragStart={this.onDragStart}
+                    >
+                        <Droppable
+                            droppableId='droppable-categories'
+                            type='SIDEBAR_CATEGORY'
+                        >
+                            {(provided) => {
+                                return (
+                                    <div
+                                        ref={provided.innerRef}
+                                        {...provided.droppableProps}
+                                    >
+                                        {renderedCategories}
+                                        {provided.placeholder}
+                                    </div>
+                                );
+                            }}
+                        </Droppable>
+                    </DragDropContext>
                 </Scrollbars>
             </div>
         );

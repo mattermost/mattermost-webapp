@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import $ from 'jquery';
 import {FormattedMessage} from 'react-intl';
@@ -259,7 +260,7 @@ export default class RhsThread extends React.Component<Props, State> {
     }
 
     public render(): JSX.Element {
-        if (this.props.posts == null || this.props.selected == null) {
+        if (this.props.posts == null || this.props.selected == null || !this.props.channel) {
             return (
                 <div/>
             );
@@ -429,3 +430,4 @@ export default class RhsThread extends React.Component<Props, State> {
         );
     }
 }
+/* eslint-enable react/no-string-refs */

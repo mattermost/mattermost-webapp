@@ -25,8 +25,10 @@ type Props = {
     redirectChannel: string;
     active: boolean;
     botIconUrl: string | null;
+    isCollapsed: boolean;
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => Promise<{data: boolean}>;
+        leaveDirectChannel: (channelId: string) => Promise<{data: boolean}>;
     };
 };
 
@@ -49,6 +51,7 @@ class SidebarDirectChannel extends React.PureComponent<Props, State> {
 
         const currentUserId = this.props.currentUserId;
         this.props.actions.savePreferences(currentUserId, [{user_id: currentUserId, category, name: id!, value: 'false'}]).then(callback);
+        this.props.actions.leaveDirectChannel(this.props.channel.name);
 
         trackEvent('ui', 'ui_direct_channel_x_button_clicked');
 
@@ -141,6 +144,7 @@ class SidebarDirectChannel extends React.PureComponent<Props, State> {
                 label={displayName}
                 closeHandler={this.handleLeaveChannel}
                 icon={this.getIcon()}
+                isCollapsed={this.props.isCollapsed}
             />
         );
     }

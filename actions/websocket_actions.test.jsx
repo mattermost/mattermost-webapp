@@ -438,7 +438,12 @@ describe('handleNewPostEvent', () => {
         const testStore = configureStore(initialState);
 
         const post = {id: 'post1', channel_id: 'channel1', user_id: 'user1'};
-        const msg = {data: {post: JSON.stringify(post)}};
+        const msg = {
+            data: {
+                post: JSON.stringify(post),
+                set_online: true,
+            },
+        };
 
         testStore.dispatch(handleNewPostEvent(msg));
         expect(getProfilesAndStatusesForPosts).toHaveBeenCalledWith([post], expect.anything(), expect.anything());
@@ -449,7 +454,12 @@ describe('handleNewPostEvent', () => {
         const testStore = configureStore(initialState);
 
         const post = {id: 'post1', channel_id: 'channel1', user_id: 'user2'};
-        const msg = {data: {post: JSON.stringify(post)}};
+        const msg = {
+            data: {
+                post: JSON.stringify(post),
+                set_online: true,
+            },
+        };
 
         testStore.dispatch(handleNewPostEvent(msg));
 
@@ -463,7 +473,12 @@ describe('handleNewPostEvent', () => {
         const testStore = configureStore(initialState);
 
         const post = {id: 'post1', channel_id: 'channel1', user_id: 'user2', type: Constants.AUTO_RESPONDER};
-        const msg = {data: {post: JSON.stringify(post)}};
+        const msg = {
+            data: {
+                post: JSON.stringify(post),
+                set_online: false,
+            },
+        };
 
         testStore.dispatch(handleNewPostEvent(msg));
 
@@ -488,7 +503,31 @@ describe('handleNewPostEvent', () => {
         });
 
         const post = {id: 'post1', channel_id: 'channel1', user_id: 'user2'};
-        const msg = {data: {post: JSON.stringify(post)}};
+        const msg = {
+            data: {
+                post: JSON.stringify(post),
+                set_online: true,
+            },
+        };
+
+        testStore.dispatch(handleNewPostEvent(msg));
+
+        expect(testStore.getActions()).not.toContainEqual({
+            type: UserTypes.RECEIVED_STATUSES,
+            data: [{user_id: post.user_id, status: UserStatuses.ONLINE}],
+        });
+    });
+
+    test('should not set other user to online based on data from the server', () => {
+        const testStore = configureStore(initialState);
+
+        const post = {id: 'post1', channel_id: 'channel1', user_id: 'user2'};
+        const msg = {
+            data: {
+                post: JSON.stringify(post),
+                set_online: false,
+            },
+        };
 
         testStore.dispatch(handleNewPostEvent(msg));
 
