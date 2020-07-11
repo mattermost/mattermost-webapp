@@ -72,7 +72,11 @@ exports[`admin_console/team_channel_settings/team/TeamMembers should match snaps
               "team_admin",
               "system_admin",
             ],
-            "name": "Role",
+            "name": <FormattedMessage
+              defaultMessage="Role"
+              id="admin.user_grid.role"
+              values={Object {}}
+            />,
             "values": Object {
               "system_admin": Object {
                 "name": <FormattedMessage
@@ -363,7 +367,11 @@ exports[`admin_console/team_channel_settings/team/TeamMembers should match snaps
               "team_admin",
               "system_admin",
             ],
-            "name": "Role",
+            "name": <FormattedMessage
+              defaultMessage="Role"
+              id="admin.user_grid.role"
+              values={Object {}}
+            />,
             "values": Object {
               "system_admin": Object {
                 "name": <FormattedMessage

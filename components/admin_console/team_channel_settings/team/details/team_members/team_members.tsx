@@ -184,7 +184,12 @@ export default class TeamMembers extends React.PureComponent<Props, State> {
 
         const filterOptions: FilterOptions = {
             role: {
-                name: 'Role',
+                name: (
+                    <FormattedMessage
+                        id='admin.user_grid.role'
+                        defaultMessage='Role'
+                    />
+                ),
                 values: {
                     [GeneralConstants.SYSTEM_GUEST_ROLE]: {
                         name: (
