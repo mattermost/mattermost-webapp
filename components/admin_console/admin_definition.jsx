@@ -140,10 +140,12 @@ const MINIMUM_IDLE_TIMEOUT = 5;
 //   - fileType: A list of extensions separated by ",". E.g. ".jpg,.png,.gif".
 
 export const it = {
-    not: (func) => (config, state, license, enterpriseReady, consoleAccess) => !func(config, state, license, enterpriseReady, consoleAccess),
+    not: (func) => (config, state, license, enterpriseReady, consoleAccess) => {
+        return typeof func === 'function' ? !func(config, state, license, enterpriseReady, consoleAccess) : !func;
+    },
     all: (...funcs) => (config, state, license, enterpriseReady, consoleAccess) => {
         for (const func of funcs) {
-            if (!func(config, state, license, enterpriseReady, consoleAccess)) {
+            if (typeof func === 'function' ? !func(config, state, license, enterpriseReady, consoleAccess) : !func) {
                 return false;
             }
         }
@@ -151,7 +153,7 @@ export const it = {
     },
     any: (...funcs) => (config, state, license, enterpriseReady, consoleAccess) => {
         for (const func of funcs) {
-            if (func(config, state, license, enterpriseReady, consoleAccess)) {
+            if (typeof func === 'function' ? func(config, state, license, enterpriseReady, consoleAccess) : func) {
                 return true;
             }
         }
