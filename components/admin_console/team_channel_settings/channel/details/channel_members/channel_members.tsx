@@ -185,7 +185,12 @@ export default class ChannelMembers extends React.PureComponent<Props, State> {
         const {users, channel, channelId, usersToAdd, usersToRemove, channelMembers, totalCount, searchTerm} = this.props;
         const filterOptions: FilterOptions = {
             role: {
-                name: 'Role',
+                name: (
+                    <FormattedMessage
+                        id='admin.user_grid.role'
+                        defaultMessage='Role'
+                    />
+                ),
                 values: {
                     [GeneralConstants.SYSTEM_GUEST_ROLE]: {
                         name: (
