@@ -815,7 +815,7 @@ const AdminDefinition = {
                         help_text_default: 'Prefix you selected for your S3 bucket in AWS.',
                         placeholder: t('admin.image.amazonS3PathPrefixExample'),
                         placeholder_default: 'E.g.: "subdir1/" or you can leave it .',
-                        isDisabled: it.isnt(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
+                        isDisabled: it.not(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
