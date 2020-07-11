@@ -97,6 +97,8 @@ export default class PopoverBar extends React.PureComponent {
         }
 
         let zoomInButton;
+        let zoomOutButton;
+        let zoomResetButton;
         if (this.props.showZoomControls) {
             if (this.props.scale < ZoomSettings.MAX_SCALE) {
                 zoomInButton = (
@@ -130,10 +132,7 @@ export default class PopoverBar extends React.PureComponent {
                     {zoomInButton}
                 </OverlayTrigger>
             );
-        }
 
-        let zoomOutButton;
-        if (this.props.showZoomControls) {
             if (this.props.scale > ZoomSettings.MIN_SCALE) {
                 zoomOutButton = (
                     <span className='modal-zoom-btn'>
@@ -165,10 +164,7 @@ export default class PopoverBar extends React.PureComponent {
                     {zoomOutButton}
                 </OverlayTrigger>
             );
-        }
 
-        let zoomResetButton;
-        if (this.props.showZoomControls) {
             if (this.props.scale > ZoomSettings.DEFAULT_SCALE) {
                 zoomResetButton = (
                     <span className='modal-zoom-btn'>

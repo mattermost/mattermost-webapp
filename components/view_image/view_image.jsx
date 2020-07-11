@@ -137,9 +137,8 @@ export default class ViewImageModal extends React.PureComponent {
             updatedProps.loaded = Utils.fillArray(false, props.fileInfos.length);
             updatedProps.progress = Utils.fillArray(0, props.fileInfos.length);
             updatedProps.prevFileInfosCount = props.fileInfos.length;
-            return updatedProps;
         }
-        return null;
+        return Object.keys(updatedProps).length ? updatedProps : null;
     }
 
     showImage = (id) => {
