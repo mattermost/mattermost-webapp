@@ -133,6 +133,7 @@ export default class SessionLengthSettings extends AdminSettings {
                     value={this.state.extendSessionLengthWithActivity}
                     onChange={this.handleChange}
                     setByEnv={this.isSetByEnv('ServiceSettings.ExtendSessionLengthWithActivity')}
+                    disabled={this.props.isDisabled}
                 />
                 <TextSetting
                     id='sessionLengthWebInDays'

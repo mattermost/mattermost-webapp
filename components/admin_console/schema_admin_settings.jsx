@@ -468,7 +468,7 @@ export default class SchemaAdminSettings extends React.PureComponent {
                 id={setting.key}
                 label={this.renderLabel(setting)}
                 helpText={this.renderHelpText(setting)}
-                value={(!this.isDisabled(setting) && this.state[setting.key]) || false}
+                value={this.state[setting.key] || false}
                 disabled={this.isDisabled(setting)}
                 setByEnv={this.isSetByEnv(setting.key)}
                 onChange={this.handleChange}
@@ -483,7 +483,7 @@ export default class SchemaAdminSettings extends React.PureComponent {
                 id={setting.key}
                 label={this.renderLabel(setting)}
                 helpText={this.renderHelpText(setting)}
-                value={(!this.isDisabled(setting) && this.state[setting.key]) || false}
+                value={this.state[setting.key] || false}
                 disabled={this.isDisabled(setting)}
                 setByEnv={this.isSetByEnv(setting.key)}
                 onChange={this.handlePermissionChange}
