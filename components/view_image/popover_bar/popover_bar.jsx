@@ -44,7 +44,7 @@ export default class PopoverBar extends React.PureComponent {
                 <span>
                     <a
                         href='#'
-                        className='public-link text'
+                        className='text'
                         data-title='Public Image'
                         onClick={this.props.onGetPublicLink}
                     >
@@ -81,7 +81,7 @@ export default class PopoverBar extends React.PureComponent {
             }
 
             downloadLinks = (
-                <div className='image-links'>
+                <span className='modal-bar-links'>
                     {publicLink}
                     <a
                         href={this.props.fileURL}
@@ -92,7 +92,7 @@ export default class PopoverBar extends React.PureComponent {
                     >
                         {downloadLinkText}
                     </a>
-                </div>
+                </span>
             );
         }
 
@@ -212,24 +212,26 @@ export default class PopoverBar extends React.PureComponent {
                 ref='imageFooter'
                 className='modal-button-bar'
             >
-                <span className='pull-left text'>
-                    <FormattedMessage
-                        id='view_image_popover.file'
-                        defaultMessage='File {count, number} of {total, number}'
-                        values={{
-                            count: (this.props.fileIndex + 1),
-                            total: this.props.totalFiles,
-                        }}
-                    />
-                </span>
-                <span className='modal-zoom-controls'>
+                <div className='modal-column text'>
+                    <span className='modal-bar-file-count'>
+                        <FormattedMessage
+                            id='view_image_popover.file'
+                            defaultMessage='File {count, number} of {total, number}'
+                            values={{
+                                count: (this.props.fileIndex + 1),
+                                total: this.props.totalFiles,
+                            }}
+                        />
+                    </span>
+                </div>
+                <div className='modal-column'>
                     {zoomOutButton}
                     {zoomResetButton}
                     {zoomInButton}
-                </span>
-                <span className='pull-right text'>
+                </div>
+                <div className='modal-column text'>
                     {downloadLinks}
-                </span>
+                </div>
             </div>
         );
     }

@@ -342,8 +342,8 @@
         }
 
         .modal-image__content {
-            height: 90vh;
-            width: 90vw;
+            height: 85vh;
+            width: 85vw;
             overflow-x: hidden;
             overflow-y: visible;
         }
@@ -409,14 +409,6 @@
                 transition: opacity .6s;
                 width: 37px;
                 z-index: 9999;  
-            }
-
-            .modal-zoom-controls {
-                position: absolute;
-                bottom: -23px;
-                left: 50%;
-                margin-right: -50%;
-                transform: translate(-50%, -50%);
             }
 
             .modal-zoom-btn {
@@ -520,18 +512,20 @@
         }
 
         .modal-button-bar {
+            display: flex;
+            justify-content: center;
             overflow: hidden;
             background-color: $black;
             line-height: 40px;
             max-width: 100%;
             padding: 0 10px;
 
-            .image-links {
+            .modal-bar-file-count {
+                float: left;
+            }
 
-                a,
-                span {
-                    float: right;
-                }
+            .modal-bar-links {
+                float: right;
             }
 
             .text {
@@ -540,9 +534,8 @@
                 margin-left: 5px;
                 vertical-align: middle;
             }
-
-            .public-link {
-                margin-right: 5px;
+            .modal-column {
+                flex: 1;
             }
         }
     }
