@@ -7,18 +7,9 @@ exports[`components/AnnouncementBar should match snapshot, bar not showing 1`] =
 >
   <OverlayTrigger
     defaultOverlayShown={false}
+    delayHide={1000}
     delayShow={400}
-    overlay={
-      <Tooltip
-        bsClass="tooltip"
-        id="announcement-bar__tooltip"
-        placement="right"
-      >
-        <injectIntl(FormattedMarkdownMessage)
-          id="text"
-        />
-      </Tooltip>
-    }
+    overlay={<React.Fragment />}
     placement="bottom"
     trigger={
       Array [
@@ -43,18 +34,9 @@ exports[`components/AnnouncementBar should match snapshot, bar showing 1`] = `
 >
   <OverlayTrigger
     defaultOverlayShown={false}
+    delayHide={1000}
     delayShow={400}
-    overlay={
-      <Tooltip
-        bsClass="tooltip"
-        id="announcement-bar__tooltip"
-        placement="right"
-      >
-        <injectIntl(FormattedMarkdownMessage)
-          id="text"
-        />
-      </Tooltip>
-    }
+    overlay={<React.Fragment />}
     placement="bottom"
     trigger={
       Array [
@@ -79,18 +61,9 @@ exports[`components/AnnouncementBar should match snapshot, bar showing, no dismi
 >
   <OverlayTrigger
     defaultOverlayShown={false}
+    delayHide={1000}
     delayShow={400}
-    overlay={
-      <Tooltip
-        bsClass="tooltip"
-        id="announcement-bar__tooltip"
-        placement="right"
-      >
-        <injectIntl(FormattedMarkdownMessage)
-          id="text"
-        />
-      </Tooltip>
-    }
+    overlay={<React.Fragment />}
     placement="bottom"
     trigger={
       Array [
@@ -115,18 +88,9 @@ exports[`components/AnnouncementBar should match snapshot, dismissal 1`] = `
 >
   <OverlayTrigger
     defaultOverlayShown={false}
+    delayHide={1000}
     delayShow={400}
-    overlay={
-      <Tooltip
-        bsClass="tooltip"
-        id="announcement-bar__tooltip"
-        placement="right"
-      >
-        <injectIntl(FormattedMarkdownMessage)
-          id="text"
-        />
-      </Tooltip>
-    }
+    overlay={<React.Fragment />}
     placement="bottom"
     trigger={
       Array [
@@ -151,18 +115,9 @@ exports[`components/AnnouncementBar should match snapshot, dismissal 2`] = `
 >
   <OverlayTrigger
     defaultOverlayShown={false}
+    delayHide={1000}
     delayShow={400}
-    overlay={
-      <Tooltip
-        bsClass="tooltip"
-        id="announcement-bar__tooltip"
-        placement="right"
-      >
-        <injectIntl(FormattedMarkdownMessage)
-          id="text"
-        />
-      </Tooltip>
-    }
+    overlay={<React.Fragment />}
     placement="bottom"
     trigger={
       Array [
@@ -187,18 +142,9 @@ exports[`components/AnnouncementBar should match snapshot, dismissal 3`] = `
 >
   <OverlayTrigger
     defaultOverlayShown={false}
+    delayHide={1000}
     delayShow={400}
-    overlay={
-      <Tooltip
-        bsClass="tooltip"
-        id="announcement-bar__tooltip"
-        placement="right"
-      >
-        <injectIntl(FormattedMarkdownMessage)
-          id="text"
-        />
-      </Tooltip>
-    }
+    overlay={<React.Fragment />}
     placement="bottom"
     trigger={
       Array [
@@ -223,18 +169,9 @@ exports[`components/AnnouncementBar should match snapshot, props change 1`] = `
 >
   <OverlayTrigger
     defaultOverlayShown={false}
+    delayHide={1000}
     delayShow={400}
-    overlay={
-      <Tooltip
-        bsClass="tooltip"
-        id="announcement-bar__tooltip"
-        placement="right"
-      >
-        <injectIntl(FormattedMarkdownMessage)
-          id="text"
-        />
-      </Tooltip>
-    }
+    overlay={<React.Fragment />}
     placement="bottom"
     trigger={
       Array [
@@ -259,18 +196,9 @@ exports[`components/AnnouncementBar should match snapshot, props change 2`] = `
 >
   <OverlayTrigger
     defaultOverlayShown={false}
+    delayHide={1000}
     delayShow={400}
-    overlay={
-      <Tooltip
-        bsClass="tooltip"
-        id="announcement-bar__tooltip"
-        placement="right"
-      >
-        <injectIntl(FormattedMarkdownMessage)
-          id="text"
-        />
-      </Tooltip>
-    }
+    overlay={<React.Fragment />}
     placement="bottom"
     trigger={
       Array [
@@ -295,18 +223,9 @@ exports[`components/AnnouncementBar should match snapshot, props change 3`] = `
 >
   <OverlayTrigger
     defaultOverlayShown={false}
+    delayHide={1000}
     delayShow={400}
-    overlay={
-      <Tooltip
-        bsClass="tooltip"
-        id="announcement-bar__tooltip"
-        placement="right"
-      >
-        <injectIntl(FormattedMarkdownMessage)
-          id="text"
-        />
-      </Tooltip>
-    }
+    overlay={<React.Fragment />}
     placement="bottom"
     trigger={
       Array [
@@ -331,18 +250,9 @@ exports[`components/AnnouncementBar should match snapshot, props change 4`] = `
 >
   <OverlayTrigger
     defaultOverlayShown={false}
+    delayHide={1000}
     delayShow={400}
-    overlay={
-      <Tooltip
-        bsClass="tooltip"
-        id="announcement-bar__tooltip"
-        placement="right"
-      >
-        <injectIntl(FormattedMarkdownMessage)
-          id="text"
-        />
-      </Tooltip>
-    }
+    overlay={<React.Fragment />}
     placement="bottom"
     trigger={
       Array [

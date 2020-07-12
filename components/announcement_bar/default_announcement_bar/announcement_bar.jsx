@@ -32,10 +32,23 @@ export default class AnnouncementBar extends React.PureComponent {
         handleClose: null,
     }
 
+    constructor(props) {
+        super(props);
+        this.messageRef = React.createRef();
+    }
+
     componentDidMount() {
         this.props.actions.incrementAnnouncementBarCount();
 
         document.body.classList.add('announcement-bar--fixed');
+    }
+
+    enableToolTipIfNeeded = () => {
+        const elm = this.messageRef.current;
+        if(elm) {
+            return elm.offsetWidth < elm.scrollWidth;
+        }
+        return false;
     }
 
     componentWillUnmount() {
@@ -57,7 +70,7 @@ export default class AnnouncementBar extends React.PureComponent {
         if (!this.props.message) {
             return null;
         }
-
+        
         let barClass = 'announcement-bar';
         const barStyle = {};
         const linkStyle = {};
@@ -93,12 +106,11 @@ export default class AnnouncementBar extends React.PureComponent {
                 <FormattedMarkdownMessage id={this.props.message}/>
             );
         }
-
-        const announcementTooltip = (
-            <Tooltip id='announcement-bar__tooltip'>
+        const announcementTooltip = this.enableToolTipIfNeeded() ? (
+            <Tooltip className='tooltip-announcement-bar' id='announcement-bar__tooltip'>
                 {message}
             </Tooltip>
-        );
+        ) : (<></>);
 
         return (
             <div
@@ -109,8 +121,9 @@ export default class AnnouncementBar extends React.PureComponent {
                     delayShow={Constants.OVERLAY_TIME_DELAY}
                     placement='bottom'
                     overlay={announcementTooltip}
+                    delayHide={Constants.OVERLAY_ANNOUCMENT_HIDE_DELAY}
                 >
-                    <span>
+                    <span ref={this.messageRef}>
                         {message}
                     </span>
                 </OverlayTrigger>

@@ -2,12 +2,19 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow} from 'enzyme';
+import {shallow, mount} from 'enzyme';
+import {Provider} from 'react-redux';
+import configureStore from 'redux-mock-store';
 import 'tests/helpers/localstorage.jsx';
-
+import {mountWithIntl} from 'tests/helpers/intl-test-helper';
+import {Tooltip} from 'react-bootstrap';
+import OverlayTrigger from 'components/overlay_trigger';
+import {AnnouncementBarTypes} from 'utils/constants';
+import {FormattedMessage} from 'react-intl';
 import AnnouncementBar from 'components/announcement_bar/default_announcement_bar/announcement_bar.jsx';
 
 describe('components/AnnouncementBar', () => {
+    
     const baseProps = {
         isLoggedIn: true,
         canViewSystemErrors: false,
@@ -99,5 +106,27 @@ describe('components/AnnouncementBar', () => {
         newProps.bannerText = 'Some new text';
         wrapper.setProps(newProps);
         expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should enable tooltip when needed', () => {
+        const props = baseProps;
+        const wrapper = mountWithIntl(
+            <AnnouncementBar
+                    {...baseProps}
+                />
+    );
+        const instance = wrapper.instance();
+
+        instance.messageRef = {
+            current: {
+                offsetWidth: 50,
+                scrollWidth: 60,
+            },
+        };
+
+        //forcing a re-render so messageRef gets updated.
+        wrapper.setProps({props});
+        const overlayWrapper = wrapper.find(OverlayTrigger).first();
+        expect(overlayWrapper.prop('overlay').type).toEqual(Tooltip);
     });
 });

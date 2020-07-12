@@ -4,6 +4,13 @@
     word-wrap: break-word;
     max-width: 220px;
     pointer-events: none;
+    z-index: 10000;
+
+    &.tooltip-announcement-bar {
+        //in current tooltip, this property is set to none, which will prevent
+        //clicking on content inside Tooltip that should be clickable.
+        pointer-events: auto;
+    }
 
     .tooltip-inner {
         max-width: 100%;
