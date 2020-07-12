@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @messaging
 
 import {getAdminAccount} from '../../support/env';
@@ -129,7 +130,7 @@ describe('at-mention', () => {
             });
 
             // # Login as receiver and visit off-topic channel
-            cy.apiLogin(receiver.username, receiver.password);
+            cy.apiLogin(receiver);
             cy.visit(`/${testTeam.name}/channels/off-topic`);
         });
     });

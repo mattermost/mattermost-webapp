@@ -34,10 +34,10 @@ context('ldap', () => {
     describe('LDAP Login flow - Admin Login', () => {
         before(() => {
             // * Check if server has license for LDAP
-            cy.requireLicenseForFeature('LDAP');
+            cy.apiRequireLicenseForFeature('LDAP');
 
-            cy.apiGetConfig().then((response) => {
-                testSettings = setLDAPTestSettings(response.body);
+            cy.apiGetConfig().then(({config}) => {
+                testSettings = setLDAPTestSettings(config);
             });
         });
 
@@ -78,7 +78,7 @@ context('ldap', () => {
                     UserFilter: '(cn=no_users)',
                 },
             };
-            cy.cy.apiAdminLogin().then(() => {
+            cy.apiAdminLogin().then(() => {
                 cy.apiUpdateConfig(ldapSetting).then(() => {
                     cy.doLDAPLogin(testSettings).then(() => {
                         cy.checkLoginFailed(testSettings);
@@ -94,7 +94,7 @@ context('ldap', () => {
                     UserFilter: '(cn=test*)',
                 },
             };
-            cy.cy.apiAdminLogin().then(() => {
+            cy.apiAdminLogin().then(() => {
                 cy.apiUpdateConfig(ldapSetting).then(() => {
                     cy.doLDAPLogin(testSettings).then(() => {
                         cy.doMemberLogout(testSettings);
@@ -112,7 +112,7 @@ context('ldap', () => {
                     GuestFilter: '(cn=no_guests)',
                 },
             };
-            cy.cy.apiAdminLogin().then(() => {
+            cy.apiAdminLogin().then(() => {
                 cy.apiUpdateConfig(ldapSetting).then(() => {
                     cy.doLDAPLogin(testSettings).then(() => {
                         cy.get('#createPublicChannel').should('be.visible');
@@ -129,7 +129,7 @@ context('ldap', () => {
                     GuestFilter: '(cn=board*)',
                 },
             };
-            cy.cy.apiAdminLogin().then(() => {
+            cy.apiAdminLogin().then(() => {
                 cy.apiUpdateConfig(ldapSetting).then(() => {
                     cy.doLDAPLogin(testSettings).then(() => {
                         cy.doGuestLogout(testSettings);
@@ -143,13 +143,12 @@ context('ldap', () => {
         before(() => {
             cy.apiAdminLogin();
 
-            cy.apiGetTeamByName(testSettings.teamName).then((r) => {
-                const teamId = r.body.id;
+            cy.apiGetTeamByName(testSettings.teamName).then(({team}) => {
                 cy.apiGetChannelByName(testSettings.teamName, 'town-square').then((r2) => {
                     const channelId = r2.body.id;
                     cy.apiGetUserByEmail(guest1.email).then((res) => {
                         const user = res.body;
-                        cy.apiAddUserToTeam(teamId, user.id).then(() => {
+                        cy.apiAddUserToTeam(team.id, user.id).then(() => {
                             cy.apiAddUserToChannel(channelId, user.id);
                         });
                     });
@@ -157,7 +156,7 @@ context('ldap', () => {
                     // add member user to team
                     cy.apiGetUserByEmail(user1.email).then((res) => {
                         const user = res.body;
-                        cy.apiAddUserToTeam(teamId, user.id);
+                        cy.apiAddUserToTeam(team.id, user.id);
                     });
                 });
             });

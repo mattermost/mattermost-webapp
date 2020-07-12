@@ -22,7 +22,7 @@ describe('MM-18045 Verify Guest User Identification in different screens', () =>
 
     before(() => {
         // * Check if server has license for Guest Accounts
-        cy.requireLicenseForFeature('GuestAccounts');
+        cy.apiRequireLicenseForFeature('GuestAccounts');
 
         // # Enable Guest Account Settings
         cy.apiUpdateConfig({
@@ -48,7 +48,7 @@ describe('MM-18045 Verify Guest User Identification in different screens', () =>
             });
 
             // # Login as regular user and go to town square
-            cy.apiLogin(regularUser.username, regularUser.password);
+            cy.apiLogin(regularUser);
             cy.visit(`/${team.name}/channels/${testChannel.name}`);
         });
     });
@@ -194,13 +194,12 @@ describe('MM-18045 Verify Guest User Identification in different screens', () =>
         // # Open a GM with Guest User and Sysadmin
         cy.get('#addDirectChannel').click().wait(TIMEOUTS.HALF_SEC);
         cy.focused().type(guest.username, {force: true}).type('{enter}', {force: true}).wait(TIMEOUTS.HALF_SEC);
-        cy.focused().type('sysadmin', {force: true}).type('{enter}', {force: true}).wait(TIMEOUTS.HALF_SEC);
         cy.get('#saveItems').click().wait(TIMEOUTS.HALF_SEC);
 
         // * Verify Guest Badge in GM header
         cy.get('#channelHeaderTitle').should('be.visible').find('.Badge').should('be.visible').and('have.text', 'GUEST');
         cy.get('#channelHeaderDescription').within(($el) => {
-            cy.wrap($el).find('.has-guest-header').should('be.visible').and('have.text', 'This group message has guests');
+            cy.wrap($el).find('.has-guest-header').should('be.visible').and('have.text', 'This channel has guests');
         });
     });
 
@@ -227,5 +226,23 @@ describe('MM-18045 Verify Guest User Identification in different screens', () =>
 
         // # Close and Clear the Search Autocomplete
         cy.get('#searchFormContainer').find('.input-clear-x').click({force: true});
+    });
+
+    it('MM-T1419 Deactivating a Guest removes "This channel has guests" message from channel header', () => {
+        // Visit the channel which has guests
+        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+
+        // * Verify the text 'This channel has guests' is displayed in the header
+        cy.get('#channelHeaderDescription').within(($el) => {
+            cy.wrap($el).find('.has-guest-header').should('be.visible').and('have.text', 'This channel has guests');
+        });
+
+        // # Deactivate Guest user
+        cy.apiActivateUser(guest.id, false).wait(TIMEOUTS.FIVE_SEC);
+
+        // * Verify the text 'This channel has guests' is removed from the header
+        cy.get('#channelHeaderDescription').within(($el) => {
+            cy.wrap($el).find('.has-guest-header').should('not.exist');
+        });
     });
 });

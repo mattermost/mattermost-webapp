@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @enterprise @ldap_group
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
@@ -56,7 +57,7 @@ const assertGroupMentionDisabled = (groupName) => {
     });
 
     // # Login as board user
-    cy.apiLogin(boardUser.username, boardUser.password);
+    cy.apiLogin(boardUser);
 
     // # Visit town-square
     cy.visit(`/${testTeam.name}/channels/town-square`);
@@ -99,7 +100,7 @@ const assertGroupMentionEnabled = (groupName) => {
     });
 
     // # Login as board user
-    cy.apiLogin(boardUser.username, boardUser.password);
+    cy.apiLogin(boardUser);
 
     // # Visit town-square
     cy.visit(`/${testTeam.name}/channels/town-square`);
@@ -128,7 +129,7 @@ const saveConfig = () => {
 describe('System Console', () => {
     before(() => {
         // * Check if server has license for LDAP Groups
-        cy.requireLicenseForFeature('LDAPGroups');
+        cy.apiRequireLicenseForFeature('LDAPGroups');
 
         // # Enable LDAP
         cy.apiUpdateConfig({LdapSettings: {Enable: true}});
@@ -164,7 +165,7 @@ describe('System Console', () => {
 
         // # Login once as board user to ensure the user is created in the system
         boardUser = users['board-1'];
-        cy.apiLogin(boardUser.username, boardUser.password);
+        cy.apiLogin(boardUser);
 
         // # Login as sysadmin and add board-one to test team
         cy.apiAdminLogin();
@@ -243,7 +244,7 @@ describe('System Console', () => {
         saveConfig();
 
         // # Login as a normal user
-        cy.apiLogin(regularUser.username, regularUser.password);
+        cy.apiLogin(regularUser);
 
         // * Assert that the group mention works as expected since the group is enabled and user has permission to mention
         assertGroupMentionEnabled(groupName);
@@ -261,7 +262,7 @@ describe('System Console', () => {
         saveConfig();
 
         // # Login as a regular member
-        cy.apiLogin(regularUser.username, regularUser.password);
+        cy.apiLogin(regularUser);
 
         // * Assert that the group mention does not do anything since the user does not have the permission to mention the group
         assertGroupMentionDisabled(groupName);

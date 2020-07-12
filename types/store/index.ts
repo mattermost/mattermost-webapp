@@ -9,6 +9,12 @@ import {I18nState} from './i18n';
 import {RhsViewState} from './rhs';
 import {PluginsState} from './plugins';
 
+export type DraggingState = {
+    state?: string;
+    type?: string;
+    id?: string;
+}
+
 export type GlobalState = BaseGlobalState & {
     plugins: PluginsState;
     storage: {
@@ -43,6 +49,9 @@ export type GlobalState = BaseGlobalState & {
             keepChannelIdAsUnread: Channel | null;
             lastGetPosts: {
                 [channelId: string]: number;
+            };
+            channelPrefetchStatus: {
+                [channelId: string]: string;
             };
         };
 
@@ -115,6 +124,8 @@ export type GlobalState = BaseGlobalState & {
 
         channelSidebar: {
             unreadFilterEnabled: boolean;
+            draggingState: DraggingState;
+            newCategoryIds: string[];
         };
     };
 };

@@ -17,7 +17,7 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import AnnouncementBar from '../default_announcement_bar';
 import TextDismissableBar from '../text_dismissable_bar';
 
-const RENEWAL_LINK = 'https://licensing.mattermost.com/renew';
+const RENEWAL_LINK = 'https://mattermost.com/renew/';
 
 class ConfigurationAnnouncementBar extends React.PureComponent {
     static propTypes = {
@@ -41,7 +41,7 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
     render() {
         // System administrators
         if (this.props.canViewSystemErrors) {
-            const renewalLink = RENEWAL_LINK + '?id=' + this.props.license.id + '&user_count=' + this.props.totalUsers;
+            const renewalLink = `${RENEWAL_LINK}?id=${this.props.license.Id}&user_count=${this.props.totalUsers}`;
             if (isLicensePastGracePeriod(this.props.license)) {
                 return (
                     <AnnouncementBar

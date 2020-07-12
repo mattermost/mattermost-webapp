@@ -188,33 +188,5 @@ declare namespace Cypress {
          *   });
          */
         apiAddUserToChannel(channelId: string, userId: string): Chainable<Response>;
-
-        // *******************************************************************************
-        // Users
-        // https://api.mattermost.com/#tag/users
-        // *******************************************************************************
-
-        /**
-         * Login to server via API.
-         * See https://api.mattermost.com/#tag/users/paths/~1users~1login/post
-         * @param {string} username
-         * @param {string} password
-         * @returns {Response} response: Cypress-chainable response which should have successful HTTP status of 200 OK to continue or pass.
-         * @returns {UserProfile} response.body: `UserProfile` object
-         *
-         * @example
-         *   cy.apiLogin('sysadmin');
-         */
-        apiLogin(username: string, password?: string): Chainable<Response>;
-
-        /**
-         * Logout a user's active session from server via API.
-         * See https://api.mattermost.com/#tag/users/paths/~1users~1logout/post
-         * Clears all cookies espececially `MMAUTHTOKEN`, `MMUSERID` and `MMCSRF`.
-         *
-         * @example
-         *   cy.apiLogout();
-         */
-        apiLogout();
     }
 }

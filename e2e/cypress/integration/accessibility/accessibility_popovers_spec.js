@@ -25,12 +25,13 @@ function verifyArrowKeysEmojiNavigation(arrowKey, count) {
 
 describe('Verify Accessibility Support in Popovers', () => {
     before(() => {
-        // # Visit the Off Topic channel
-        cy.visit('/ad-1/channels/off-topic');
-        cy.findAllByTestId('postView').should('be.visible');
+        // # Login as test user and visit town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/off-topic`);
 
-        // # Post a message
-        cy.postMessage(`hello from sysadmin: ${Date.now()}`);
+            // # Post a message
+            cy.postMessage(`hello from test user: ${Date.now()}`);
+        });
     });
 
     it('MM-22627 Accessibility Support in Emoji Popover on click of Emoji Reaction button', () => {

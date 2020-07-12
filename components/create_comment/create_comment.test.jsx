@@ -176,7 +176,7 @@ describe('components/CreateComment', () => {
             return document.createElement('div');
         };
 
-        wrapper.instance().refs = {textbox: {getWrappedInstance: () => ({getInputBox: jest.fn(mockImpl), getBoundingClientRect: jest.fn(), focus: jest.fn()})}};
+        wrapper.instance().refs = {textbox: {getInputBox: jest.fn(mockImpl), getBoundingClientRect: jest.fn(), focus: jest.fn()}};
 
         wrapper.instance().handleEmojiClick({name: 'smile'});
         expect(onUpdateCommentDraft).toHaveBeenCalled();
@@ -1144,7 +1144,7 @@ describe('components/CreateComment', () => {
             return document.createElement('div');
         };
 
-        instance.refs = {textbox: {getWrappedInstance: () => ({blur, focus, getInputBox: jest.fn(mockImpl)})}};
+        instance.refs = {textbox: {blur, focus, getInputBox: jest.fn(mockImpl)}};
 
         const commentMsgKey = {
             preventDefault: jest.fn(),
@@ -1261,6 +1261,20 @@ describe('components/CreateComment', () => {
             />,
         );
 
+        const mockTop = () => {
+            return document.createElement('div');
+        };
+
+        const mockImpl = () => {
+            return {
+                setSelectionRange: jest.fn(),
+                getBoundingClientRect: jest.fn(mockTop),
+                focus: jest.fn(),
+            };
+        };
+
+        wrapper.instance().refs = {textbox: {getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()}};
+
         const event = {
             target: {
                 id: 'reply_textbox',
@@ -1307,7 +1321,7 @@ describe('components/CreateComment', () => {
             };
         };
 
-        wrapper.instance().refs = {textbox: {getWrappedInstance: () => ({getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()})}};
+        wrapper.instance().refs = {textbox: {getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()}};
 
         const event = {
             target: {
@@ -1358,7 +1372,7 @@ describe('components/CreateComment', () => {
             };
         };
 
-        wrapper.instance().refs = {textbox: {getWrappedInstance: () => ({getInputBox: jest.fn(mockImpl), getBoundingClientRect: jest.fn(), focus: jest.fn()})}};
+        wrapper.instance().refs = {textbox: {getInputBox: jest.fn(mockImpl), getBoundingClientRect: jest.fn(), focus: jest.fn()}};
         wrapper.setState({
             draft: {
                 ...draft,

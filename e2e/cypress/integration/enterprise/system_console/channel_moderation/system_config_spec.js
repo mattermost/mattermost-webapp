@@ -26,7 +26,7 @@ describe('Channel Moderation', () => {
 
     before(() => {
         // * Check if server has license
-        cy.requireLicense();
+        cy.apiRequireLicense();
 
         cy.apiInitSetup().then(({team, channel}) => {
             testTeam = team;
@@ -48,7 +48,7 @@ describe('Channel Moderation', () => {
         cy.visit('/admin_console/user_management/channels');
 
         // # Search for the channel.
-        cy.findByTestId('search-input').type(`${testChannel.name}{enter}`);
+        cy.findByPlaceholderText('Search').type(`${testChannel.name}{enter}`);
         cy.findByText('Edit').click();
 
         // # Wait until the groups retrieved and show up

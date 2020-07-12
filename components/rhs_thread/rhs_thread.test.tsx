@@ -8,7 +8,7 @@ import {Channel} from 'mattermost-redux/types/channels';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {Post} from 'mattermost-redux/src/types/posts';
 
-import {TestHelper} from '../../utils/test_helper';
+import {TestHelper} from 'utils/test_helper';
 
 import RhsThread from './rhs_thread';
 
