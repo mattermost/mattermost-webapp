@@ -99,6 +99,17 @@ describe('components/ToastWrapper', () => {
             const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
             expect(wrapper.state('showUnreadToast')).toBe(true);
         });
+        test('Should have not have unread toast if initScrollOffsetFromBottom is less than 1000', () => {
+            const props = {
+                ...baseProps,
+                unreadCountInChannel: 10,
+                newRecentMessagesCount: 5,
+                initScrollOffsetFromBottom: 850,
+            };
+
+            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+            expect(wrapper.state('showUnreadToast')).toBe(false);
+        });
 
         test('Should set state of have unread toast when atBottom changes from undefined', () => {
             const props = {
