@@ -13,6 +13,7 @@ import {browserHistory} from 'utils/browser_history';
 
 import {Constants} from 'utils/constants';
 import DataGrid, {Row, Column} from 'components/admin_console/data_grid/data_grid';
+import {FilterOptions} from 'components/admin_console/filter/filter';
 import {PAGE_SIZE} from 'components/admin_console/team_channel_settings/abstract_list.jsx';
 import GlobeIcon from 'components/widgets/icons/globe_icon';
 import LockIcon from 'components/widgets/icons/lock_icon';
@@ -38,6 +39,7 @@ interface ChannelListState {
     page: number;
     total: number;
     searchErrored: boolean;
+    filters: ChannelSearchOpts;
 }
 
 const ROW_HEIGHT = 40;
@@ -52,6 +54,7 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
             page: 0,
             total: 0,
             searchErrored: false,
+            filters: {},
         };
     }
 
@@ -60,22 +63,23 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
     }
 
     getPaginationProps = () => {
-        const {page, term} = this.state;
-        const total = term === '' ? this.props.total : this.state.total;
+        const {page, term, filters} = this.state;
+        const isSearching = term.length > 0 || JSON.stringify(filters) != JSON.stringify({});
+        const total = isSearching ? this.state.total : this.props.total;
         const startCount = (page * PAGE_SIZE) + 1;
         let endCount = (page + 1) * PAGE_SIZE;
         endCount = endCount > total ? total : endCount;
         return {startCount, endCount, total};
     }
 
-    loadPage = async (page = 0, term = '') => {
-        this.setState({loading: true, term});
-
-        if (term.length > 0) {
+    loadPage = async (page = 0, term = '', filters = {}) => {
+        this.setState({loading: true, term, filters});
+        const isSearching = term.length > 0 || JSON.stringify(filters) != JSON.stringify({});
+        if (isSearching) {
             if (page > 0) {
-                this.searchChannels(page, term);
+                this.searchChannels(page, term, filters);
             } else {
-                this.searchChannelsDebounced(page, term);
+                this.searchChannelsDebounced(page, term, filters);
             }
             return;
         }
@@ -84,11 +88,11 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
         this.setState({page, loading: false});
     }
 
-    searchChannels = async (page = 0, term = '') => {
+    searchChannels = async (page = 0, term = '', filters = {}) => {
         let channels = [];
         let total = 0;
         let searchErrored = true;
-        const response = await this.props.actions.searchAllChannels(term, {page, per_page: PAGE_SIZE});
+        const response = await this.props.actions.searchAllChannels(term, {page, per_page: PAGE_SIZE, ...filters});
         if (response?.data) {
             channels = page > 0 ? this.state.channels.concat(response.data.channels) : response.data.channels;
             total = response.data.total_count;
@@ -97,10 +101,10 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
         this.setState({page, loading: false, channels, total, searchErrored});
     }
 
-    searchChannelsDebounced = debounce((page, term) => this.searchChannels(page, term), 300, false, () => {});
+    searchChannelsDebounced = debounce((page, term, filters = {}) => this.searchChannels(page, term, filters), 300, false, () => {});
 
     nextPage = () => {
-        this.loadPage(this.state.page + 1, this.state.term);
+        this.loadPage(this.state.page + 1, this.state.term, this.state.filters);
     }
 
     previousPage = () => {
@@ -108,7 +112,7 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
     }
 
     search = async (term = '') => {
-        this.loadPage(0, term);
+        this.loadPage(0, term, this.state.filters);
     }
 
     getColumns = (): Column[] => {
@@ -160,9 +164,10 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
 
     getRows = (): Row[] => {
         const {data} = this.props;
-        const {term, channels} = this.state;
+        const {term, filters, channels} = this.state;
         const {startCount, endCount} = this.getPaginationProps();
-        let channelsToDisplay = term.length > 0 ? channels : data;
+        const isSearching = term.length > 0 || JSON.stringify(filters) != JSON.stringify({});
+        let channelsToDisplay = (isSearching) ? channels : data;
         channelsToDisplay = channelsToDisplay.slice(startCount - 1, endCount);
 
         return channelsToDisplay.map((channel) => {
@@ -216,6 +221,22 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
         });
     }
 
+    onFilter = (filterOptions: FilterOptions) => {
+        const filters: ChannelSearchOpts = {};
+        const {group_constrained: groupConstrained, exclude_group_constrained: excludeGroupConstrained} = filterOptions.management.values;
+        const {public: publicChannels, private: privateChannels, deleted} = filterOptions.channels.values;
+        if (publicChannels.value || privateChannels.value || deleted.value || groupConstrained.value || excludeGroupConstrained.value) {
+            filters.public = publicChannels.value;
+            filters.private = privateChannels.value;
+            filters.deleted = deleted.value
+            if (!(groupConstrained.value && excludeGroupConstrained.value)) {
+                filters.group_constrained = groupConstrained.value
+                filters.exclude_group_constrained = excludeGroupConstrained.value
+            }
+        }
+        this.loadPage(0, this.state.term, filters);
+    }
+
     render = (): JSX.Element => {
         const {term, searchErrored} = this.state;
         const rows: Row[] = this.getRows();
@@ -242,6 +263,71 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
             minHeight: `${rows.length * ROW_HEIGHT}px`,
         };
 
+        const filterOptions: FilterOptions = {
+            management: {
+                name: 'Management',
+                values: {
+                    group_constrained: {
+                        name: (
+                            <FormattedMessage
+                                id='admin.channel_list.group_sync'
+                                defaultMessage='Group Sync'
+                            />
+                        ),
+                        value: false,
+                    },
+                    exclude_group_constrained: {
+                        name: (
+                            <FormattedMessage
+                            id='admin.channel_list.manual_invites'
+                                defaultMessage='Manual Invites'
+                            />
+                        ),
+                        value: false,
+                    },
+                },
+                keys: ['group_constrained', 'exclude_group_constrained'],
+            },
+            channels: {
+                name: 'Channels',
+                values: {
+                    public: {
+                        name: (
+                            <FormattedMessage
+                                id='admin.channel_list.public'
+                                defaultMessage='Public'
+                            />
+                        ),
+                        value: false,
+                    },
+                    private: {
+                        name: (
+                            <FormattedMessage
+                                id='admin.channel_list.private'
+                                defaultMessage='Private'
+                            />
+                        ),
+                        value: false,
+                    },
+                    deleted: {
+                        name: (
+                            <FormattedMessage
+                                id='admin.channel_list.archived'
+                                defaultMessage='Archived'
+                            />
+                        ),
+                        value: false,
+                    },
+                },
+                keys: ['public', 'private', 'deleted'],
+            },
+        };
+        const filterProps = {
+            options: filterOptions,
+            keys: ['channels', 'management'],
+            onFilter: this.onFilter,
+        };
+
         return (
             <div className='ChannelsList'>
                 <DataGrid
@@ -258,6 +344,7 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
                     term={term}
                     placeholderEmpty={placeholderEmpty}
                     rowsContainerStyles={rowsContainerStyles}
+                    filterProps={filterProps}
                 />
             </div>
         );
