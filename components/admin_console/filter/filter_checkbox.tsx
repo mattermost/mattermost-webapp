@@ -10,7 +10,7 @@ type Props = {
     updateOption: (checked: boolean, name: string) => void;
 };
 
-class FilterList extends React.PureComponent<Props> {
+class FilterCheckbox extends React.PureComponent<Props> {
     toggleOption = () => {
         const {checked, name, updateOption} = this.props;
         updateOption(!checked, name);
@@ -36,4 +36,4 @@ class FilterList extends React.PureComponent<Props> {
     }
 }
 
-export default FilterList;
+export default FilterCheckbox;
