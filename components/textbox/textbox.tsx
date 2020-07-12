@@ -174,7 +174,7 @@ export default class Textbox extends React.PureComponent<Props> {
     }
 
     focus = () => {
-        const textbox = this.refs.message;
+        const textbox = this.message.current;
         if (textbox) {
             textbox.focus();
 
@@ -183,7 +183,9 @@ export default class Textbox extends React.PureComponent<Props> {
         }
     }
     blur = () => {
-        this.refs.message.blur();
+        if (this.message.current) {
+            this.message.current.blur();
+        }
     };
 
     recalculateSize = () => {
@@ -202,8 +204,8 @@ export default class Textbox extends React.PureComponent<Props> {
         if (this.props.badConnection) {
             textboxClassName += ' bad-connection';
         }
-        if (this.wrapper.current && this.refs.message) {
-            wrapperHeight = this.refs.message.getClientHeight();
+        if (this.wrapper.current && this.message.current) {
+            wrapperHeight = this.message.current.getClientHeight();
         }
         if (this.props.preview) {
             textboxClassName += ' custom-textarea--preview';
