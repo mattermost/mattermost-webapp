@@ -44,7 +44,7 @@ export default class PopoverBar extends React.PureComponent {
                 <span>
                     <a
                         href='#'
-                        className='text'
+                        className='public-link text'
                         data-title='Public Image'
                         onClick={this.props.onGetPublicLink}
                     >
@@ -103,7 +103,7 @@ export default class PopoverBar extends React.PureComponent {
             if (this.props.scale < ZoomSettings.MAX_SCALE) {
                 zoomInButton = (
                     <span className='modal-zoom-btn'>
-                        <a onClick={debounce(this.props.handleZoomIn, 100, {maxWait: 100})}>
+                        <a onClick={debounce(this.props.handleZoomIn, 300, {maxWait: 300})}>
                             {<i className='icon icon-plus'/>}
                         </a>
                     </span>
@@ -136,7 +136,7 @@ export default class PopoverBar extends React.PureComponent {
             if (this.props.scale > ZoomSettings.MIN_SCALE) {
                 zoomOutButton = (
                     <span className='modal-zoom-btn'>
-                        <a onClick={debounce(this.props.handleZoomOut, 100, {maxWait: 100})}>
+                        <a onClick={debounce(this.props.handleZoomOut, 300, {maxWait: 300})}>
                             {<i className='icon icon-minus'/>}
                         </a>
                     </span>
