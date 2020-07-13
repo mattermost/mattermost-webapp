@@ -147,8 +147,7 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
             <SidebarChannelMenu {...props}/>,
         );
 
-        expect(wrapper.find('#copyLink-channel_id')).toHaveLength(0);
-
+        expect(wrapper.find('#copyLink-channel_id')).toHaveLength(1);
         expect(wrapper).toMatchSnapshot();
     });
 

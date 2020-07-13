@@ -16,7 +16,7 @@ const PAGE_SIZE = 10;
 describe('Search teams', () => {
     before(() => {
         // * Check if server has license
-        cy.requireLicense();
+        cy.apiRequireLicense();
     });
 
     beforeEach(() => {
