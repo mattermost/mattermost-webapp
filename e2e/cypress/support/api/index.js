@@ -3,5 +3,6 @@
 
 import './setup';
 import './preference';
+import './system';
 import './team';
 import './user';

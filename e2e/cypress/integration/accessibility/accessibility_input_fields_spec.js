@@ -56,7 +56,7 @@ describe('Verify Accessibility Support in different input fields', () => {
 
     before(() => {
         // * Check if server has license for Guest Accounts
-        cy.requireLicenseForFeature('GuestAccounts');
+        cy.apiRequireLicenseForFeature('GuestAccounts');
 
         cy.apiInitSetup().then(({team}) => {
             testTeam = team;
