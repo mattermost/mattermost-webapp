@@ -1,0 +1,40 @@
+.TeamsList {
+    .DataGrid {
+        .DataGrid_row {
+            cursor: pointer;
+        }
+
+        .DataGrid_cell {
+    
+            .TeamList_nameColumn {
+                display: flex;
+                align-items: center;
+                height: 80px;
+
+                .TeamList_nameText {
+                    overflow: hidden;
+                    padding-right: 40px;
+                    opacity: 0.8;
+                }
+
+                .TeamList__lowerOpacity {
+                    opacity: 0.8;
+                }
+
+                .TeamList_descriptionText {
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                }
+
+            }
+        
+            .TeamList_managementText {
+                opacity: 0.65;
+            }
+        
+            .TeamList_editText {
+                padding-right: 20px;
+            }
+        }
+    }
+}

@@ -3,8 +3,9 @@
 
 import React from 'react';
 
+import FaSearchIcon from 'components/widgets/icons/fa_search_icon';
+
 import * as Utils from 'utils/utils.jsx';
-import SearchIcon from 'components/widgets/icons/search_icon';
 
 import './data_grid.scss';
 
@@ -20,6 +21,10 @@ class DataGridSearch extends React.PureComponent<Props> {
         this.props.onSearch(term);
     }
 
+    resetSearch = () => {
+        this.props.onSearch('');
+    }
+
     render() {
         let {placeholder} = this.props;
         if (!placeholder) {
@@ -28,15 +33,23 @@ class DataGridSearch extends React.PureComponent<Props> {
         return (
             <div className='DataGrid_search'>
                 <div className='DataGrid_searchBar'>
-                    <SearchIcon
+                    <span
                         className='DataGrid_searchIcon'
                         aria-hidden='true'
-                    />
+                    >
+                        <FaSearchIcon/>
+                    </span>
+
                     <input
                         type='text'
                         placeholder={Utils.localizeMessage('search_bar.search', 'Search')}
                         onChange={this.handleSearch}
                         value={this.props.term}
+                    />
+                    <i
+                        className={'DataGrid_clearButton fa fa-times-circle ' + (this.props.term.length ? '' : 'hidden')}
+                        onClick={this.resetSearch}
+                        data-testid='clear-search'
                     />
                 </div>
             </div>

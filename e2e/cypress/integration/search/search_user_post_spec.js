@@ -8,9 +8,7 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @search
-
-import users from '../../fixtures/users.json';
+// Group: @search @smoke
 
 /**
  * create new DM channel
@@ -28,17 +26,36 @@ function createNewDMChannel(channelname) {
 }
 
 describe('Search in DMs', () => {
+    let otherUser;
+
+    before(() => {
+        // # Log in as test user and visit test channel
+        cy.apiInitSetup().then(({team, channel, user: testUser}) => {
+            Cypress._.times(5, (i) => {
+                cy.apiCreateUser().then(({user}) => {
+                    if (i === 0) {
+                        otherUser = user;
+                    }
+
+                    cy.apiAddUserToTeam(team.id, user.id).then(() => {
+                        cy.apiAddUserToChannel(channel.id, user.id);
+                    });
+                });
+            });
+
+            cy.apiLogin(testUser);
+            cy.visit(`/${team.name}/channels/${channel.name}`);
+        });
+    });
+
     it('S14672 Search "in:[username]" returns results in DMs', () => {
-        // # Login and navigate to the app
-        cy.apiLogin('user-1');
-        cy.visit('/ad-1/channels/town-square');
         const message = 'Hello' + Date.now();
 
         // # Ensure Direct Message is visible in LHS sidebar
         cy.get('#directChannel').scrollIntoView().should('be.visible');
 
         // # Create new DM channel with user's email
-        createNewDMChannel(users['user-2'].email);
+        createNewDMChannel(otherUser.email);
 
         // # Post message to user
         cy.postMessage(message);
@@ -47,10 +64,10 @@ describe('Search in DMs', () => {
         cy.get('#searchBox').type('in:');
 
         // # Select user from suggestion list
-        cy.contains('.search-autocomplete__item', `@${users['user-2'].username}`).scrollIntoView().click();
+        cy.contains('.search-autocomplete__item', `@${otherUser.username}`).scrollIntoView().click();
 
         // # Validate searchbox contains the username
-        cy.get('#searchBox').should('have.value', 'in:@' + users['user-2'].username + ' ');
+        cy.get('#searchBox').should('have.value', 'in:@' + otherUser.username + ' ');
 
         // # Press Enter in searchbox
         cy.get('#searchBox').type(message).type('{enter}');

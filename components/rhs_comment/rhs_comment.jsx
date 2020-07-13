@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -500,7 +501,7 @@ class RhsComment extends React.PureComponent {
                     }
                 >
                     <button
-                        className='post-menu__item post-menu__item--show'
+                        className='card-icon__container icon--show style--none'
                         onClick={(e) => {
                             e.preventDefault();
                             this.props.handleCardClick(this.props.post);
@@ -579,3 +580,4 @@ class RhsComment extends React.PureComponent {
 }
 
 export default injectIntl(RhsComment);
+/* eslint-enable react/no-string-refs */

@@ -12,7 +12,7 @@
 
 // # Goes to the System Scheme page as System Admin
 const goToSessionLengths = () => {
-    cy.apiLogin('sysadmin');
+    cy.apiAdminLogin();
     cy.visit('/admin_console/environment/session_lengths');
 };
 
@@ -41,7 +41,7 @@ const saveConfig = (waitUntilConfigSaved = true, clickConfirmationButton = false
     }
 };
 
-describe('Session Lengths', () => {
+describe('MM-T2574 Session Lengths', () => {
     before(() => {
         goToSessionLengths();
     });
@@ -66,8 +66,8 @@ describe('Session Lengths', () => {
             cy.get('#extendSessionLengthWithActivitytrue').should('be.checked');
         });
         it('Setting "Extend session length with activity" to TRUE is saved in the server configuration', () => {
-            cy.apiGetConfig().then((response) => {
-                const setting = response.body.ServiceSettings.ExtendSessionLengthWithActivity;
+            cy.apiGetConfig().then(({config}) => {
+                const setting = config.ServiceSettings.ExtendSessionLengthWithActivity;
                 expect(setting).to.be.true;
             });
         });
@@ -77,8 +77,8 @@ describe('Session Lengths', () => {
             cy.get('#extendSessionLengthWithActivityfalse').should('be.checked');
         });
         it('Setting "Extend session length with activity" to FALSE is saved in the server configuration', () => {
-            cy.apiGetConfig().then((response) => {
-                const setting = response.body.ServiceSettings.ExtendSessionLengthWithActivity;
+            cy.apiGetConfig().then(({config}) => {
+                const setting = config.ServiceSettings.ExtendSessionLengthWithActivity;
                 expect(setting).to.be.false;
             });
         });
@@ -90,8 +90,8 @@ describe('Session Lengths', () => {
             cy.get('#sessionLengthWebInDays').should('have.value', '31');
         });
         it('Setting "Session Length AD/LDAP and Email (days)" should be saved in the server configuration', () => {
-            cy.apiGetConfig().then((response) => {
-                const setting = response.body.ServiceSettings.SessionLengthWebInDays;
+            cy.apiGetConfig().then(({config}) => {
+                const setting = config.ServiceSettings.SessionLengthWebInDays;
                 expect(setting).to.equal(31);
             });
         });
@@ -103,8 +103,8 @@ describe('Session Lengths', () => {
             cy.get('#sessionLengthMobileInDays').should('have.value', '31');
         });
         it('Setting "Session Length Mobile (days)" should be saved in the server configuration', () => {
-            cy.apiGetConfig().then((response) => {
-                const setting = response.body.ServiceSettings.SessionLengthMobileInDays;
+            cy.apiGetConfig().then(({config}) => {
+                const setting = config.ServiceSettings.SessionLengthMobileInDays;
                 expect(setting).to.equal(31);
             });
         });
@@ -116,8 +116,8 @@ describe('Session Lengths', () => {
             cy.get('#sessionLengthSSOInDays').should('have.value', '31');
         });
         it('Setting "Session Length SSO (days)" should be saved in the server configuration', () => {
-            cy.apiGetConfig().then((response) => {
-                const setting = response.body.ServiceSettings.SessionLengthSSOInDays;
+            cy.apiGetConfig().then(({config}) => {
+                const setting = config.ServiceSettings.SessionLengthSSOInDays;
                 expect(setting).to.equal(31);
             });
         });
@@ -129,8 +129,8 @@ describe('Session Lengths', () => {
             cy.get('#sessionCacheInMinutes').should('have.value', '11');
         });
         it('Setting "Session Cache (minutes)" should be saved in the server configuration', () => {
-            cy.apiGetConfig().then((response) => {
-                const setting = response.body.ServiceSettings.SessionCacheInMinutes;
+            cy.apiGetConfig().then(({config}) => {
+                const setting = config.ServiceSettings.SessionCacheInMinutes;
                 expect(setting).to.equal(11);
             });
         });

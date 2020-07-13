@@ -14,11 +14,8 @@ import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 describe('Elasticsearch system console', () => {
     before(() => {
-        // # Login as admin
-        cy.apiLogin('sysadmin');
-
         // * Check if server has license for Elasticsearch
-        cy.requireLicenseForFeature('Elasticsearch');
+        cy.apiRequireLicenseForFeature('Elasticsearch');
 
         // # Enable Elasticsearch
         cy.apiUpdateConfig({
@@ -53,20 +50,20 @@ describe('Elasticsearch system console', () => {
         cy.contains('button', 'Index Now').click();
 
         // # Small wait to ensure new row is added
-        cy.wait(TIMEOUTS.TINY);
+        cy.wait(TIMEOUTS.HALF_SEC);
 
         // * First row should now say Pending
         cy.get('.job-table__table').
             find('tbody > tr').
             eq(0).
             as('firstRow').
-            find('.status-icon-warning', {timeout: TIMEOUTS.LARGE}).
+            find('.status-icon-warning', {timeout: TIMEOUTS.HALF_MIN}).
             should('be.visible').
             and('have.text', 'Pending');
 
         // * First row should update to say In Progress
         cy.get('@firstRow').
-            find('.status-icon-warning', {timeout: TIMEOUTS.GIGANTIC}).
+            find('.status-icon-warning', {timeout: TIMEOUTS.TWO_MIN}).
             should('be.visible').
             and('have.text', 'In Progress');
 
@@ -77,8 +74,8 @@ describe('Elasticsearch system console', () => {
             });
         }
         , {
-            timeout: TIMEOUTS.FOUR_MINS,
-            interval: 2000,
+            timeout: TIMEOUTS.FIVE_MIN,
+            interval: TIMEOUTS.TWO_SEC,
             errorMsg: 'Reindex did not succeed in time',
         });
 
@@ -96,8 +93,7 @@ describe('Elasticsearch system console', () => {
         cy.get('#saveSetting').click();
 
         // * Get config from API and verify that EnableAutocomplete setting is false
-        cy.apiGetConfig().then((configResponse) => {
-            const config = configResponse.body;
+        cy.apiGetConfig().then(({config}) => {
             expect(config.ElasticsearchSettings.EnableAutocomplete).to.be.false;
         });
     });

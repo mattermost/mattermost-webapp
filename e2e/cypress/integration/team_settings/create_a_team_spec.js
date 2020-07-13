@@ -8,28 +8,27 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @team_settings
+// Group: @team_settings @smoke
 
 import {getRandomId} from '../../utils';
 
 describe('Teams Suite', () => {
     before(() => {
-        // # Login and go to /
-        cy.apiLogin('user-1');
-        cy.visit('/ad-1/channels/town-square');
+        // # Login as test user and visit town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
+        });
     });
 
-    it('TS13872 Create a team', async () => {
-        const teamURL = `team-test-${getRandomId()}`;
-
+    it('TS13872 Create a team', () => {
         // # Click hamburger main menu
         cy.get('#sidebarHeaderDropdownButton').click();
 
         // * Dropdown menu should be visible
-        cy.get('#sidebarDropdownMenu').should('be.visible');
-
-        // # Click "Create a New Team"
-        cy.get('#createTeam').click();
+        cy.get('#sidebarDropdownMenu').should('exist').within(() => {
+            // # Click "Create a Team"
+            cy.findByText('Create a Team').should('be.visible').click();
+        });
 
         // # Input team name as Team Test
         cy.get('#teamNameInput').should('be.visible').type('Team Test');
@@ -38,6 +37,7 @@ describe('Teams Suite', () => {
         cy.get('#teamNameNextButton').should('be.visible').click();
 
         // # Input team URL as variable teamURl
+        const teamURL = `team-${getRandomId()}`;
         cy.get('#teamURLInput').should('be.visible').type(teamURL);
 
         // # Click finish button

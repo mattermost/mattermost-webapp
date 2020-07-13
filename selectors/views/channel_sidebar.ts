@@ -26,7 +26,7 @@ export function isUnreadFilterEnabled(state: GlobalState) {
     return state.views.channelSidebar.unreadFilterEnabled;
 }
 
-function makeGetCollapsedStateForAllCategoriesByTeam(): (state: GlobalState, teamId: string) => Record<string, boolean> {
+export function makeGetCollapsedStateForAllCategoriesByTeam(): (state: GlobalState, teamId: string) => Record<string, boolean> {
     const getCategoriesForTeam = makeGetCategoriesForTeam();
 
     return createSelector(
@@ -76,4 +76,8 @@ export function makeGetCurrentlyDisplayedChannelsForTeam(): (state: GlobalState,
             }).flat();
         },
     );
+}
+
+export function getDraggingState(state: GlobalState) {
+    return state.views.channelSidebar.draggingState;
 }

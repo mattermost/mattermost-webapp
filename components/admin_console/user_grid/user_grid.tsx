@@ -45,6 +45,8 @@ const USERS_PER_PAGE = 10;
 const ROW_HEIGHT = 80;
 
 export default class UserGrid extends React.PureComponent<Props, State> {
+    private pageLoaded = 0;
+
     public constructor(props: Props) {
         super(props);
 
@@ -164,43 +166,48 @@ export default class UserGrid extends React.PureComponent<Props, State> {
             const pageToLoad = page + pagesOfUsersRemoved + 1;
 
             // Directly call action to load more users from parent component to load more users into the state
-            this.props.loadPage(pageToLoad);
+            if (pageToLoad > this.pageLoaded) {
+                this.props.loadPage(pageToLoad);
+                this.pageLoaded = pageToLoad;
+            }
         }
 
         return usersToDisplay.map((user) => {
             const membership = membershipsToUpdate[user.id] || memberships[user.id] || this.newMembership(user);
             return {
-                id: user.id,
-                name: (
-                    <UserGridName
-                        user={user}
-                    />
-                ),
-                new: (
-                    <Badge
-                        className='NewUserBadge'
-                        show={Boolean(includeUsers[user.id])}
-                    >
-                        <FormattedMessage
-                            id='admin.user_grid.new'
-                            defaultMessage='New'
+                cells: {
+                    id: user.id,
+                    name: (
+                        <UserGridName
+                            user={user}
                         />
-                    </Badge>
-                ),
-                role: (
-                    <UserGridRoleDropdown
-                        user={user}
-                        membership={membership}
-                        handleUpdateMembership={this.updateMembership}
-                        scope={scope}
-                    />
-                ),
-                remove: (
-                    <UserGridRemove
-                        user={user}
-                        removeUser={this.removeUser}
-                    />
-                ),
+                    ),
+                    new: (
+                        <Badge
+                            className='NewUserBadge'
+                            show={Boolean(includeUsers[user.id])}
+                        >
+                            <FormattedMessage
+                                id='admin.user_grid.new'
+                                defaultMessage='New'
+                            />
+                        </Badge>
+                    ),
+                    role: (
+                        <UserGridRoleDropdown
+                            user={user}
+                            membership={membership}
+                            handleUpdateMembership={this.updateMembership}
+                            scope={scope}
+                        />
+                    ),
+                    remove: (
+                        <UserGridRemove
+                            user={user}
+                            removeUser={this.removeUser}
+                        />
+                    ),
+                }
             };
         });
     }

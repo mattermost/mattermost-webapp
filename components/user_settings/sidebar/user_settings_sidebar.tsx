@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
@@ -736,9 +737,7 @@ export default class UserSettingsSidebar extends React.PureComponent<UserSetting
                             defaultMessage='Channel Grouping and Sorting'
                         />
                     }
-
-                    // todo: describe is expecting JSX. Element | string, but we're passing an array. Should the type be changed to JSX.Element[] or just pass only one value here?
-                    describe={this.renderOrganizationLabel() as any}
+                    describe={this.renderOrganizationLabel()}
                     section={'groupChannels'}
                     updateSection={this.updateSection}
                 />
@@ -916,3 +915,4 @@ export default class UserSettingsSidebar extends React.PureComponent<UserSetting
         );
     }
 }
+/* eslint-disable react/no-string-refs */

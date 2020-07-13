@@ -1,16 +1,19 @@
 .channel-icon {
     display: inline-block;
-    margin: 0 7px 0 1px;
+    margin: 0 8px 0 0px;
     position: relative;
     text-align: left;
     vertical-align: top;
     width: 15px;
 }
 
-.channel-icon__lock {
+.channel-icon__lock,
+.channel-icon__globe {
     top: 1px;
 }
 
-.channel-icon__globe {
-    top: 1px;
+.channel-icon__archive,
+.channel-icon__unarchive {
+    left: -2px;
+    top: 2px;
 }
