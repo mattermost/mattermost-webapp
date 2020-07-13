@@ -56,7 +56,7 @@ describe('group configuration', () => {
     let testChannel;
 
     before(() => {
-        cy.requireLicenseForFeature('LDAP');
+        cy.apiRequireLicenseForFeature('LDAP');
 
         cy.apiInitSetup({teamPrefix: {name: 'aaa-test', displayName: 'AAA Test'}}).then(({team, channel}) => {
             testTeam = team;

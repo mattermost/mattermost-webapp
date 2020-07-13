@@ -241,7 +241,7 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
         );
 
         let copyLink;
-        if (channel.type === Constants.OPEN_CHANNEL) {
+        if (channel.type === Constants.OPEN_CHANNEL || channel.type === Constants.PRIVATE_CHANNEL) {
             copyLink = (
                 <Menu.ItemAction
                     id={`copyLink-${channel.id}`}

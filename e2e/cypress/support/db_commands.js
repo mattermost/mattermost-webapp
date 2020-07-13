@@ -7,9 +7,8 @@ const dbConfig = {
 };
 
 Cypress.Commands.add('requireServerDBToMatch', () => {
-    cy.apiGetConfig().then((response) => {
-        const sqlSettings = response.body.SqlSettings;
-        expect(sqlSettings.DriverName, 'Should match server DB. Also manually check that the connection string is correct and match the one being used by the server.').to.equal(Cypress.env('dbClient'));
+    cy.apiGetConfig().then(({config}) => {
+        expect(config.SqlSettings.DriverName, 'Should match server DB. Also manually check that the connection string is correct and match the one being used by the server.').to.equal(Cypress.env('dbClient'));
     });
 });
 
