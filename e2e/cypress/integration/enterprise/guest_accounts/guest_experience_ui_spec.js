@@ -239,7 +239,7 @@ describe('Guest Account - Guest User Experience', () => {
         cy.get('#loginPassword').type('passwd');
         cy.findByText('Sign in').click();
 
-        // # Verify if guest account is deactivated
+        // * Verify if guest account is deactivated
         cy.findByText('Login failed because your account has been deactivated. Please contact an administrator.').should('be.visible');
     });
 });
