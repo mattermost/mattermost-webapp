@@ -84,6 +84,7 @@
     border-radius: 14px;
     display: flex;
     justify-content: center;
+    transition: all 200ms ease-in-out;
 
     span {
         align-self: center;
@@ -183,6 +184,21 @@
     }
 }
 
+@media screen and (max-width: 1020px) {
+    .NextStepsView__header-logo {
+        display: none;
+    }
+
+    .NextStepsView__body-graphic {
+        flex: 0 0 0%;
+        min-width: 0;
+    }
+
+    .NextStepsView__body-main {
+        padding: 0 40px;
+    }
+}
+
 @media screen and (max-width: 768px) {
     #app-content.NextStepsView {
         background-size: auto;
@@ -200,20 +216,6 @@
 
     .NextStepsView__body-main {
         flex: 1 1 100%;
-    }
-}
-
-@media screen and (max-width: 1020px) {
-    .NextStepsView__header-logo {
-        display: none;
-    }
-
-    .NextStepsView__body-graphic {
-        flex: 0 0 0%;
-        min-width: 0;
-    }
-
-    .NextStepsView__body-main {
-        min-width: 536px;
+        padding: 0 12px;
     }
 }

@@ -104,6 +104,8 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
         const currentIndex = Steps.findIndex((step) => step.id === id);
         if ((currentIndex + 1) > (Steps.length - 1)) {
             this.setState({showFinalScreen: true});
+        } else if (this.isStepComplete(Steps[currentIndex + 1].id)) {
+            this.nextStep(setExpanded, Steps[currentIndex + 1].id);
         } else {
             setExpanded(Steps[currentIndex + 1].id);
         }
@@ -133,6 +135,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                 <Card.Header>
                     <button
                         onClick={() => setExpanded(step.id)}
+                        disabled={this.isStepComplete(step.id)}
                         className='NextStepsView__cardHeader'
                     >
                         {icon}
