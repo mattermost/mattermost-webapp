@@ -33,6 +33,7 @@ exports[`components/sidebar should match snapshot 1`] = `
     onDragStart={[Function]}
   />
   <Connect(DataPrefetch) />
+  <SidebarNextSteps />
   <Connect(NewChannelFlow)
     canCreatePrivateChannel={true}
     canCreatePublicChannel={true}
@@ -76,6 +77,7 @@ exports[`components/sidebar should match snapshot when direct channels modal is 
     onDragStart={[Function]}
   />
   <Connect(DataPrefetch) />
+  <SidebarNextSteps />
   <Connect(NewChannelFlow)
     canCreatePrivateChannel={true}
     canCreatePublicChannel={true}
@@ -122,6 +124,7 @@ exports[`components/sidebar should match snapshot when isDataPrefechEnabled is d
     onDragEnd={[Function]}
     onDragStart={[Function]}
   />
+  <SidebarNextSteps />
   <Connect(NewChannelFlow)
     canCreatePrivateChannel={true}
     canCreatePublicChannel={true}
@@ -165,6 +168,7 @@ exports[`components/sidebar should match snapshot when more channels modal is op
     onDragStart={[Function]}
   />
   <Connect(DataPrefetch) />
+  <SidebarNextSteps />
   <Connect(NewChannelFlow)
     canCreatePrivateChannel={true}
     canCreatePublicChannel={true}
