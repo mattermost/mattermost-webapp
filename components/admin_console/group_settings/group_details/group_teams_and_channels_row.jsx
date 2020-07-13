@@ -25,6 +25,7 @@ export default class GroupTeamsAndChannelsRow extends React.PureComponent {
         onToggleCollapse: PropTypes.func.isRequired,
         onChangeRoles: PropTypes.func.isRequired,
         schemeAdmin: PropTypes.bool,
+        isDisabled: PropTypes.bool,
     }
 
     constructor(props) {
@@ -48,7 +49,7 @@ export default class GroupTeamsAndChannelsRow extends React.PureComponent {
     }
 
     displayAssignedRolesDropdown = () => {
-        const {schemeAdmin, name} = this.props;
+        const {schemeAdmin, name, isDisabled} = this.props;
         const channelAdmin = (
             <FormattedMessage
                 id='admin.group_teams_and_channels_row.channelAdmin'
@@ -77,7 +78,9 @@ export default class GroupTeamsAndChannelsRow extends React.PureComponent {
             }
             dropDown = (
                 <div >
-                    <MenuWrapper>
+                    <MenuWrapper
+                        isDisabled={isDisabled}
+                    >
                         <div data-testid={`${name}_current_role`}>
                             <a>
                                 <span>{currentRole} </span>
@@ -220,6 +223,7 @@ export default class GroupTeamsAndChannelsRow extends React.PureComponent {
                         className='btn btn-link'
                         onClick={() => this.setState({showConfirmationModal: true})}
                         data-testid={`${this.props.name}_groupsyncable_remove`}
+                        disabled={this.props.isDisabled}
                     >
                         <FormattedMessage
                             id='admin.group_settings.group_details.group_teams_and_channels_row.remove'

@@ -300,6 +300,7 @@ const AdminDefinition = {
         group_detail: {
             url: 'user_management/groups/:group_id',
             isHidden: it.not(it.licensedForFeature('LDAPGroups')),
+            isDisabled: it.not(it.userHasWritePermissionOnResource('user_management.groups')),
             schema: {
                 id: 'GroupDetail',
                 component: GroupDetails,
