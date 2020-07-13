@@ -11,6 +11,7 @@ import {
 
 import {setRhsExpanded, showPinnedPosts, openRHSSearch, closeRightHandSide, openAtPrevious, updateSearchTerms} from 'actions/views/rhs';
 import {
+    getSearchTerms,
     getIsRhsExpanded,
     getIsRhsOpen,
     getRhsState,
@@ -52,6 +53,7 @@ function mapStateToProps(state) {
         rhsChannel,
         selectedPostId,
         selectedPostCardId,
+        searchTerms: getSearchTerms(state),
     };
 }
 

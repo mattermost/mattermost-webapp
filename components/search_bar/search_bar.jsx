@@ -262,7 +262,7 @@ export default class SearchBar extends React.PureComponent {
     }
 
     renderHintPopover() {
-        if (Utils.isMobile() || this.props.isRhsOpen) {
+        if (Utils.isMobile()) {
             return null;
         }
 

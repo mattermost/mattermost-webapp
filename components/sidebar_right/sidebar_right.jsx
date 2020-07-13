@@ -34,6 +34,7 @@ export default class SidebarRight extends React.PureComponent {
         rhsChannel: PropTypes.object,
         selectedPostId: PropTypes.string,
         selectedPostCardId: PropTypes.string,
+        searchTerms: PropTypes.string,
         actions: PropTypes.shape({
             setRhsExpanded: PropTypes.func.isRequired,
             showPinnedPosts: PropTypes.func.isRequired,
@@ -141,7 +142,10 @@ export default class SidebarRight extends React.PureComponent {
     };
 
     handleUpdateSearchTerms = (term) => {
-        this.props.actions.updateSearchTerms(term);
+        const pretextArray = this.props.searchTerms.split(' ');
+        pretextArray.pop();
+        pretextArray.push(term.toLowerCase());
+        this.props.actions.updateSearchTerms(pretextArray.join(' '));
         this.focusSearchBar();
     }
 
