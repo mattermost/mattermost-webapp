@@ -3,6 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import {Client4} from 'mattermost-redux/client';
 import {FormattedDate, FormattedMessage, FormattedTime, injectIntl} from 'react-intl';
 
 import {JobStatuses} from 'utils/constants';
@@ -47,6 +48,12 @@ class JobTable extends React.PureComponent {
          */
         jobType: PropTypes.string.isRequired,
 
+
+        /**
+         * A variable set in config.json to determine if results can be downloaded or not.
+         */
+        downloadExportResults: PropTypes.bool,
+
         actions: PropTypes.shape({
             getJobsByType: PropTypes.func.isRequired,
             cancelJob: PropTypes.func.isRequired,
@@ -75,6 +82,25 @@ class JobTable extends React.PureComponent {
         if (this.interval) {
             clearInterval(this.interval);
         }
+    }
+
+    getDownloadLink = (job) => {
+        const {downloadExportResults} = this.props;
+        if (downloadExportResults && job.data?.is_downloadable === 'true') {
+            return (
+                <a
+                    key={job.id}
+                    href={`${Client4.getJobsRoute()}/${job.id}/download`}
+                >
+                    <FormattedMessage
+                        id='admin.jobTable.downloadLink'
+                        defaultMessage='Download'
+                    />
+                </a>
+            )
+        }
+
+        return '--';
     }
 
     getStatus = (job) => {
@@ -324,6 +350,7 @@ class JobTable extends React.PureComponent {
                         {this.getCancelButton(job)}
                     </td>
                     <td className='whitespace--nowrap'>{this.getStatus(job)}</td>
+                    <td className='whitespace--nowrap'>{this.getDownloadLink(job)}</td>
                     <td className='whitespace--nowrap'>{this.getFinishAt(job.status, job.last_activity_at)}</td>
                     <td className='whitespace--nowrap'>{this.getRunLength(job)}</td>
                     <td>{this.getExtraInfoText(job)}</td>
@@ -359,6 +386,12 @@ class JobTable extends React.PureComponent {
                                     <FormattedMessage
                                         id='admin.jobTable.headerStatus'
                                         defaultMessage='Status'
+                                    />
+                                </th>
+                                <th>
+                                    <FormattedMessage
+                                        id='admin.jobTable.headerFiles'
+                                        defaultMessage='Files'
                                     />
                                 </th>
                                 <th>
