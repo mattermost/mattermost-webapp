@@ -580,6 +580,10 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
 
     private onToggleArchive = () => {
         const {isLocalArchived, serverError, previousServerError} = this.state;
+        const {isDisabled} = this.props;
+        if (isDisabled) {
+            return;
+        }
         const newState: any = {
             saveNeeded: true,
             isLocalArchived: !isLocalArchived,
@@ -715,6 +719,7 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
                             team={team}
                             onToggleArchive={this.onToggleArchive}
                             isArchived={isLocalArchived}
+                            isDisabled={this.props.isDisabled}
                         />
                         <ConfirmModal
                             show={showArchiveConfirmModal}

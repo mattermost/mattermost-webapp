@@ -19,10 +19,11 @@ interface ChannelProfileProps {
     team: Partial<Team>;
     onToggleArchive?: () => void;
     isArchived: boolean;
+    isDisabled?: boolean;
 }
 
 export const ChannelProfile: React.SFC<ChannelProfileProps> = (props: ChannelProfileProps): JSX.Element => {
-    const {team, channel, isArchived} = props;
+    const {team, channel, isArchived, isDisabled} = props;
 
     let archiveBtnID;
     let archiveBtnDefault;
@@ -34,6 +35,12 @@ export const ChannelProfile: React.SFC<ChannelProfileProps> = (props: ChannelPro
         t('admin.channel_settings.channel_details.archiveChannel');
         archiveBtnID = 'admin.channel_settings.channel_details.archiveChannel';
         archiveBtnDefault = 'Archive Channel';
+    }
+
+    let archiveButtonClassName = 'btn btn-secondary ArchiveButton';
+    archiveButtonClassName = isArchived ? `${archiveButtonClassName} ArchiveButton___archived` : `${archiveButtonClassName} ArchiveButton___unarchived`;
+    if (isDisabled) {
+        archiveButtonClassName = `${archiveButtonClassName} disabled`;
     }
 
     return (
@@ -64,7 +71,7 @@ export const ChannelProfile: React.SFC<ChannelProfileProps> = (props: ChannelPro
                     </div>
                     <div className='AdminChannelDetails_archiveContainer'>
                         <button
-                            className={'btn btn-secondary ArchiveButton ' + (isArchived ? 'ArchiveButton___archived' : 'ArchiveButton___unarchived')}
+                            className={archiveButtonClassName}
                             onClick={props.onToggleArchive}
                         >
                             {isArchived ? <UnarchiveIcon className='channel-icon channel-icon__unarchive'/> : <ArchiveIcon className='channel-icon channel-icon__archive'/>}
