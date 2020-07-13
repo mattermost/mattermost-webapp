@@ -578,6 +578,7 @@ export default class PermissionTeamSchemeSettings extends React.PureComponent {
                                         key={team.id}
                                         team={team}
                                         onRemoveTeam={this.removeTeam}
+                                        isDisabled={this.props.isDisabled}
                                     />
                                 ))}
                             </div>
