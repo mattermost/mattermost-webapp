@@ -36,6 +36,7 @@ jest.mock('mattermost-redux/client', () => {
         ...original,
         Client4: {
             ...original.Client4,
+            setUrl: jest.fn(),
             enableRudderEvents: jest.fn(),
         },
     };
