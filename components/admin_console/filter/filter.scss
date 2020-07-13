@@ -89,19 +89,20 @@
     .FilterList {
         display: inline-block;
         vertical-align: top;
-        width: 140px;
+        width: 160px;
         padding: 16px 16px 16px 8px;
         font-size: 14px;
 
-        .FilterList__full {
-            width: 280px;
+        &.FilterList__full {
+            width: 320px;
             display: block;
         }
 
         .FilterList_name {
             font-size: 12px;
-            font-weight: normal;
+            font-weight: 600;
             padding-bottom: 8px;
+            color: rgba(var(--sys-center-channel-color-rgb), 0.64);
         }
 
         .FilterList_checkbox {

@@ -48,6 +48,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
     filterProps={
       Object {
         "keys": Array [
+          "teams",
           "channels",
           "management",
         ],
@@ -109,6 +110,29 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
                   values={Object {}}
                 />,
                 "value": false,
+              },
+            },
+          },
+          "teams": Object {
+            "keys": Array [
+              "team_ids",
+            ],
+            "name": "Teams",
+            "type": Object {
+              "$$typeof": Symbol(react.memo),
+              "WrappedComponent": [Function],
+              "compare": null,
+              "displayName": "Connect(TeamFilterDropdown)",
+              "type": [Function],
+            },
+            "values": Object {
+              "team_ids": Object {
+                "name": <FormattedMessage
+                  defaultMessage="Teams"
+                  id="admin.team_settings.title"
+                  values={Object {}}
+                />,
+                "value": Array [],
               },
             },
           },
@@ -238,6 +262,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
     filterProps={
       Object {
         "keys": Array [
+          "teams",
           "channels",
           "management",
         ],
@@ -299,6 +324,29 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
                   values={Object {}}
                 />,
                 "value": false,
+              },
+            },
+          },
+          "teams": Object {
+            "keys": Array [
+              "team_ids",
+            ],
+            "name": "Teams",
+            "type": Object {
+              "$$typeof": Symbol(react.memo),
+              "WrappedComponent": [Function],
+              "compare": null,
+              "displayName": "Connect(TeamFilterDropdown)",
+              "type": [Function],
+            },
+            "values": Object {
+              "team_ids": Object {
+                "name": <FormattedMessage
+                  defaultMessage="Teams"
+                  id="admin.team_settings.title"
+                  values={Object {}}
+                />,
+                "value": Array [],
               },
             },
           },
