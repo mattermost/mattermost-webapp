@@ -48,7 +48,6 @@ class JobTable extends React.PureComponent {
          */
         jobType: PropTypes.string.isRequired,
 
-
         /**
          * A variable set in config.json to determine if results can be downloaded or not.
          * Note that there is NO front-end associated with this setting due to security.
@@ -88,7 +87,7 @@ class JobTable extends React.PureComponent {
 
     getDownloadLink = (job) => {
         const {downloadExportResults} = this.props;
-        if (downloadExportResults && job.data?.is_downloadable === 'true') {
+        if (downloadExportResults && job.data?.is_downloadable === 'true') { // eslint-disable-line camelcase
             return (
                 <a
                     key={job.id}
