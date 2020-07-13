@@ -373,6 +373,7 @@ const AdminDefinition = {
                 it.not(it.licensed),
                 it.not(it.licensedForFeature('CustomPermissionsSchemes')),
             ),
+            isDisabled: it.not(it.userHasWritePermissionOnResource('user_management.permissions')),
             schema: {
                 id: 'PermissionSystemScheme',
                 component: PermissionTeamSchemeSettings,

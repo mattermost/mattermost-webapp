@@ -136,6 +136,7 @@ export default class PermissionSchemesSettings extends React.PureComponent {
                 scheme={scheme}
                 history={this.props.history}
                 key={scheme.id}
+                isDisabled={this.props.isDisabled}
             />
         ));
         const hasCustomSchemes = this.props.license.CustomPermissionsSchemes === 'true';

@@ -26,7 +26,7 @@ const AdminPanelWithButton: React.FC<Props> = (props: Props) => {
         const buttonId = (props.buttonTextDefault || '').split(' ').join('-').toLowerCase();
         button = (
             <a
-                className='btn btn-primary'
+                className={props.disabled ? 'btn btn-primary disabled' : 'btn btn-primary'}
                 onClick={props.disabled ? (e) => e.preventDefault() : props.onButtonClick}
                 data-testid={buttonId}
             >
