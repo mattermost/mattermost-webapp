@@ -41,8 +41,8 @@ describe('Interactive Dialog', () => {
         cy.apiSaveTeammateNameDisplayPreference('username');
 
         // # Get config
-        cy.apiGetConfig().then((res) => {
-            config = res.body;
+        cy.apiGetConfig().then((data) => {
+            ({config} = data);
         });
 
         // # Create new team and create command on it

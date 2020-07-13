@@ -2,10 +2,8 @@
 // See LICENSE.txt for license information.
 
 import xor from 'lodash.xor';
-import merge from 'merge-deep';
 
 import {getRandomId} from '../utils';
-import partialDefaultConfig from '../fixtures/partial_default_config.json';
 import theme from '../fixtures/theme.json';
 
 import {getAdminAccount} from './env';
@@ -467,107 +465,6 @@ Cypress.Commands.add('apiUnpinPosts', (postId) => {
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: '/api/v4/posts/' + postId + '/unpin',
         method: 'POST',
-    });
-});
-
-// *****************************************************************************
-// System config
-// https://api.mattermost.com/#tag/system
-// *****************************************************************************
-
-Cypress.Commands.add('apiGetClientLicense', () => {
-    return cy.request('/api/v4/license/client?format=old').then((response) => {
-        expect(response.status).to.equal(200);
-        cy.wrap(response);
-    });
-});
-
-Cypress.Commands.add('requireLicenseForFeature', (key = '') => {
-    cy.apiGetClientLicense().then((response) => {
-        const license = response.body;
-        expect(license.IsLicensed, 'Server has no Enterprise license.').to.equal('true');
-
-        let hasLicenseKey = false;
-        for (const [k, v] of Object.entries(license)) {
-            if (k === key && v === 'true') {
-                hasLicenseKey = true;
-                break;
-            }
-        }
-
-        expect(hasLicenseKey, `No license for feature: ${key}`).to.equal(true);
-    });
-});
-
-Cypress.Commands.add('requireLicense', () => {
-    cy.apiGetClientLicense().then((response) => {
-        const license = response.body;
-        expect(license.IsLicensed, 'Server has no Enterprise license.').to.equal('true');
-    });
-});
-
-const getDefaultConfig = () => {
-    const fromCypressEnv = {
-        LdapSettings: {
-            LdapServer: Cypress.env('ldapServer'),
-            LdapPort: Cypress.env('ldapPort'),
-        },
-    };
-
-    return merge(partialDefaultConfig, fromCypressEnv);
-};
-
-Cypress.Commands.add('apiUpdateConfig', (newSettings = {}) => {
-    // # Get current settings
-    return cy.request('/api/v4/config').then((response) => {
-        const oldSettings = response.body;
-
-        const settings = merge(oldSettings, getDefaultConfig(), newSettings);
-
-        // # Set the modified settings
-        return cy.request({
-            url: '/api/v4/config',
-            headers: {'X-Requested-With': 'XMLHttpRequest'},
-            method: 'PUT',
-            body: settings,
-        }).then((updateResponse) => {
-            expect(updateResponse.status).to.equal(200);
-            cy.wrap(response);
-        });
-    });
-});
-
-Cypress.Commands.add('apiGetConfig', () => {
-    // # Get current settings
-    return cy.request('/api/v4/config').then((response) => {
-        expect(response.status).to.equal(200);
-        cy.wrap(response);
-    });
-});
-
-/**
- * Get some analytics data about the system.
- */
-Cypress.Commands.add('apiGetAnalytics', () => {
-    cy.apiAdminLogin();
-
-    return cy.request('/api/v4/analytics/old').then((response) => {
-        expect(response.status).to.equal(200);
-        cy.wrap(response);
-    });
-});
-
-/**
- * Invalidate all the caches
- */
-Cypress.Commands.add('apiInvalidateCache', () => {
-    return cy.request({
-        url: '/api/v4/caches/invalidate',
-        headers: {'X-Requested-With': 'XMLHttpRequest'},
-        method: 'POST',
-    }).then((response) => {
-        expect(response.status).to.equal(200);
-        cy.wrap(response);
     });
 });
 

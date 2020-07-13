@@ -73,7 +73,7 @@ context('Okta', () => {
     describe('SAML Login flow', () => {
         before(() => {
             // * Check if server has license for SAML
-            cy.requireLicenseForFeature('SAML');
+            cy.apiRequireLicenseForFeature('SAML');
 
             // # Get certificates status and upload as necessary
             cy.apiGetSAMLCertificateStatus().then((resp) => {
@@ -96,8 +96,8 @@ context('Okta', () => {
             cy.apiGetMetadataFromIdp(idpMetadataUrl);
 
             cy.oktaAddUsers(users);
-            cy.apiUpdateConfig(newConfig).then((response) => {
-                cy.setTestSettings(loginButtonText, response.body).then((_response) => {
+            cy.apiUpdateConfig(newConfig).then(({config}) => {
+                cy.setTestSettings(loginButtonText, config).then((_response) => {
                     testSettings = _response;
                 });
             });
