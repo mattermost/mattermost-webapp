@@ -14,7 +14,7 @@ jest.mock('utils/utils', () => {
 });
 
 jest.mock('utils/post_utils', () => {
-    const original = require.requireActual('utils/post_utils');
+    const original = jest.requireActual('utils/post_utils');
     return {
         ...original,
         isSystemMessage: jest.fn(() => true),

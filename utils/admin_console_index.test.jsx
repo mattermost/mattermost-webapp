@@ -24,12 +24,10 @@ describe('AdminConsoleIndex.generateIndex', () => {
             'authentication/saml',
             'experimental/features',
             'authentication/email',
-            'authentication/discover-ldap',
             'authentication/guest_access',
         ]);
         expect(idx.search('saml')).toEqual([
             'authentication/saml',
-            'authentication/discover-saml',
             'environment/session_lengths',
             'authentication/email',
             'experimental/features',
@@ -55,13 +53,11 @@ describe('AdminConsoleIndex.generateIndex', () => {
             'authentication/saml',
             'experimental/features',
             'authentication/email',
-            'authentication/discover-ldap',
             'environment/session_lengths',
             'authentication/guest_access',
         ].sort());
         expect(idx.search('saml').sort()).toEqual([
             'authentication/saml',
-            'authentication/discover-saml',
             'environment/session_lengths',
             'authentication/email',
             'experimental/features',

@@ -761,6 +761,17 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'FileSettings.AmazonSPathPrefix',
+                        label: t('admin.image.amazonS3PathPrefixTitle'),
+                        label_default: 'Amazon S3 Path Prefix:',
+                        help_text: t('admin.image.amazonS3PathPrefixDescription'),
+                        help_text_default: 'Prefix you selected for your S3 bucket in AWS.',
+                        placeholder: t('admin.image.amazonS3PathPrefixExample'),
+                        placeholder_default: 'E.g.: "subdir1/" or you can leave it .',
+                        isDisabled: it.isnt(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
                         key: 'FileSettings.AmazonS3Region',
                         label: t('admin.image.amazonS3RegionTitle'),
                         label_default: 'Amazon S3 Region:',
@@ -2814,7 +2825,8 @@ const AdminDefinition = {
             },
         },
         ldap_feature_discovery: {
-            url: 'authentication/discover-ldap',
+            url: 'authentication/ldap',
+            isDiscovery: true,
             title: t('admin.sidebar.ldap'),
             title_default: 'AD/LDAP',
             isHidden: it.either(
@@ -3260,7 +3272,8 @@ const AdminDefinition = {
             },
         },
         saml_feature_discovery: {
-            url: 'authentication/discover-saml',
+            url: 'authentication/saml',
+            isDiscovery: true,
             title: t('admin.sidebar.saml'),
             title_default: 'SAML 2.0',
             isHidden: it.either(

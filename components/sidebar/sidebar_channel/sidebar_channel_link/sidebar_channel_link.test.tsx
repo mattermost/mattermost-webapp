@@ -35,6 +35,7 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_link', () => {
         unreadMsgs: 0,
         showUnreadForMsgs: false,
         isMuted: false,
+        isCollapsed: false,
     };
 
     test('should match snapshot', () => {
@@ -46,7 +47,7 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_link', () => {
     });
 
     test('should match snapshot for desktop', () => {
-        const userAgentMock = require.requireMock('utils/user_agent');
+        const userAgentMock = jest.requireMock('utils/user_agent');
         userAgentMock.isDesktopApp.mockImplementation(() => false);
 
         const wrapper = shallow(
