@@ -16,6 +16,7 @@ describe('components/channel_view', () => {
             params: {},
         },
         showTutorial: false,
+        showNextSteps: false,
         channelIsArchived: false,
         viewArchivedChannels: false,
         actions: {

@@ -1,0 +1,88 @@
+#app-content.NextStepsView {
+    background-image: url(../../images/onboarding-bg.svg);
+    background-repeat: no-repeat;
+    background-position-y: bottom;
+    background-position-x: -305px;
+    background-size: calc(100% + 305px);
+}
+
+.NextStepsView__header {
+    padding: 32px 40px;
+    display: flex;
+}
+
+.NextStepsView__header-headerText {
+    flex-grow: 1;
+}
+
+.NextStepsView__header-headerTopText {
+    font-weight: 600;
+    font-size: 32px;
+    line-height: 40px;
+    letter-spacing: -0.02em;
+    margin: 0;
+}
+
+.NextStepsView__header-headerBottomText {
+    font-size: 16px;
+    line-height: 24px;
+    margin-top: 8px;
+    margin-bottom: 0;
+}
+
+.NextStepsView__header-logo {
+    margin-top: 8px;
+}
+
+.NextStepsView__body {
+    display: flex;
+    height: 100%;
+}
+
+.NextStepsView__body-main {
+    flex: 3 0 75%;
+}
+
+.NextStepsView__body-graphic {
+    background-image: url(../../images/getting-started.svg);
+    background-repeat: no-repeat;
+    background-size: 120%;
+    background-position-y: 33%;
+    flex: 1 0 25%;
+    z-index: 2;
+    min-width: 192px;
+}
+
+@media screen and (max-width: 768px) {
+    #app-content.NextStepsView {
+        background-size: auto;
+    }
+
+    .NextStepsView__header {
+        padding: 24px 28px;
+    }
+    
+    .NextStepsView__header-headerTopText {
+        font-size: 24px;
+        line-height: 32px;
+    }
+
+    .NextStepsView__body-main {
+        flex: 1 1 100%;
+    }
+}
+
+@media screen and (max-width: 1020px) {
+    .NextStepsView__header-logo {
+        display: none;
+    }
+
+    .NextStepsView__body-graphic {
+        flex: 0 0 0%;
+        min-width: 0;
+    }
+
+    .NextStepsView__body-main {
+        min-width: 536px;
+    }
+}
