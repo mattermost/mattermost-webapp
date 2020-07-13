@@ -45,31 +45,31 @@ export default class NextStepsView extends React.PureComponent<Props> {
 
     render() {
         return (
-            <div
+            <section
                 id='app-content'
                 className='app__content NextStepsView'
             >
-                <div className='NextStepsView__header'>
+                <header className='NextStepsView__header'>
                     <div className='NextStepsView__header-headerText'>
-                        <div className='NextStepsView__header-headerTopText'>
+                        <h1 className='NextStepsView__header-headerTopText'>
                             <FormattedMessage
                                 id='next_steps_view.welcomeToMattermost'
                                 defaultMessage='Welcome to Mattermost'
                             />
-                        </div>
-                        <div className='NextStepsView__header-headerBottomText'>
+                        </h1>
+                        <h2 className='NextStepsView__header-headerBottomText'>
                             {this.getBottomText()}
-                        </div>
+                        </h2>
                     </div>
                     <div className='NextStepsView__header-logo'>
                         <img src={this.getLogo()}/>
                     </div>
-                </div>
+                </header>
                 <div className='NextStepsView__body'>
                     <div className='NextStepsView__body-main'/>
                     <div className='NextStepsView__body-graphic'/>
                 </div>
-            </div>
+            </section>
         );
     }
 }
