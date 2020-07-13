@@ -350,6 +350,7 @@ export default class TeamDetails extends React.PureComponent {
                                 usersToAdd={this.state.usersToAdd}
                                 updateRole={this.addRolesToUpdate}
                                 teamId={this.props.teamID}
+                                isDisabled={this.props.isDisabled}
                             />
                         }
                     </div>

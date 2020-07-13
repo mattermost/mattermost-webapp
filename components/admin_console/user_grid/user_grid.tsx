@@ -33,6 +33,7 @@ type Props = {
     totalCount: number;
     loading: boolean;
     term: string;
+    readOnly?: boolean;
 }
 
 type State = {
@@ -148,9 +149,9 @@ export default class UserGrid extends React.PureComponent<Props, State> {
 
     private getRows = (): Row[] => {
         const {page, membershipsToUpdate} = this.state;
-        const {memberships, users, excludeUsers, includeUsers, totalCount, term, scope} = this.props;
+        const {memberships, users, excludeUsers, includeUsers, totalCount, term, scope, readOnly} = this.props;
         const {startCount, endCount} = this.getPaginationProps();
-
+console.log('UserGrid#readOnly', readOnly);
         let usersToDisplay = users;
         const includeUsersList = Object.values(includeUsers);
 
@@ -199,12 +200,14 @@ export default class UserGrid extends React.PureComponent<Props, State> {
                             membership={membership}
                             handleUpdateMembership={this.updateMembership}
                             scope={scope}
+                            isDisabled={readOnly}
                         />
                     ),
                     remove: (
                         <UserGridRemove
                             user={user}
                             removeUser={this.removeUser}
+                            isDisabled={readOnly}
                         />
                     ),
                 }

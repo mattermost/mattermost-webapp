@@ -49,6 +49,7 @@ export const TeamGroups = ({onGroupRemoved, syncChecked, team, onAddCallback, to
             onGroupRemoved={onGroupRemoved}
             setNewGroupRole={setNewGroupRole}
             type='team'
+            isDisabled={isDisabled}
         />
     </AdminPanel>);
 
