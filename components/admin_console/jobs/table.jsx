@@ -51,6 +51,8 @@ class JobTable extends React.PureComponent {
 
         /**
          * A variable set in config.json to determine if results can be downloaded or not.
+         * Note that there is NO front-end associated with this setting due to security.
+         * Only the person with access to the config.json file can enable this option.
          */
         downloadExportResults: PropTypes.bool,
 
