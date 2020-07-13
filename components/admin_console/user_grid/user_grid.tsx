@@ -151,7 +151,7 @@ export default class UserGrid extends React.PureComponent<Props, State> {
         const {page, membershipsToUpdate} = this.state;
         const {memberships, users, excludeUsers, includeUsers, totalCount, term, scope, readOnly} = this.props;
         const {startCount, endCount} = this.getPaginationProps();
-console.log('UserGrid#readOnly', readOnly);
+
         let usersToDisplay = users;
         const includeUsersList = Object.values(includeUsers);
 

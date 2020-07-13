@@ -131,7 +131,7 @@ export default class UserGridRoleDropdown extends React.PureComponent<Props> {
         if (!dropdownEnabled) {
             return localizedRole;
         }
-console.log('UserGridRoleDropDown#isDisabled', isDisabled);
+
         return (
             <MenuWrapper
                 isDisabled={isDisabled}
