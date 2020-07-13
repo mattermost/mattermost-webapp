@@ -99,7 +99,7 @@ class JobTable extends React.PureComponent {
                         defaultMessage='Download'
                     />
                 </a>
-            )
+            );
         }
 
         return '--';
