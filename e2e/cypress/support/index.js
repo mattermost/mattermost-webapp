@@ -26,6 +26,7 @@ import './task_commands';
 import './ui';
 import './ui_commands'; // soon to deprecate
 import './visual_commands';
+import './external_commands';
 
 import {getAdminAccount} from './env';
 
@@ -121,8 +122,8 @@ before(() => {
         });
 
         // # Reset roles
-        cy.apiGetClientLicense().then((res) => {
-            if (res.body.IsLicensed === 'true') {
+        cy.apiGetClientLicense().then(({license}) => {
+            if (license.IsLicensed === 'true') {
                 cy.apiResetRoles();
             }
         });
