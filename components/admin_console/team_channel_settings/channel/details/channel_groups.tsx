@@ -64,6 +64,7 @@ export const ChannelGroups: React.SFC<ChannelGroupsProps> = (props: ChannelGroup
                     setNewGroupRole={setNewGroupRole}
                     isModeSync={synced}
                     type='channel'
+                    isDisabled={isDisabled}
                 />
             )}
         </AdminPanel>

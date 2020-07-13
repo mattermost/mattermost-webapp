@@ -694,6 +694,7 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
                         usersToAdd={usersToAdd}
                         updateRole={this.addRolesToUpdate}
                         channelId={this.props.channelID}
+                        isDisabled={this.props.isDisabled}
                     />
                 }
             </>
