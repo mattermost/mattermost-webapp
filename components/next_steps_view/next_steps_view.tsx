@@ -66,7 +66,7 @@ export default class NextStepsView extends React.PureComponent<Props> {
                     <div className='NextStepsView__header-logo'>
                         <img src={this.getLogo()}/>
                     </div>
-                </div>
+                </header>
                 <div className='NextStepsView__body'>
                     <div className='NextStepsView__body-main'>
                         <Accordion defaultExpandedKey={'Card_1'}>
