@@ -24,8 +24,11 @@ type Props = {
 }
 
 type Actions = {
+    // eslint-disable-next-line @typescript-eslint/ban-types
     getProfilesInGroup: (groupID: string, page: number, perPage: number) => Promise<{data: {}}>;
+    // eslint-disable-next-line @typescript-eslint/ban-types
     getGroupStats: (groupID: string) => Promise<{data: {}}>;
+    // eslint-disable-next-line @typescript-eslint/ban-types
     searchProfiles: (term: string, options?: {}) => Promise<{data: UserProfile[]}>;
     setModalSearchTerm: (term: string) => Promise<{
         data: boolean;

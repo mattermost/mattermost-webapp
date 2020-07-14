@@ -35,7 +35,7 @@ const makeMapStateToProps = () => {
             currentTeamId: teamId,
             profilesInChannel: getProfilesInChannel(state, ownProps.channelId, true),
             profilesNotInChannel: getProfilesNotInChannel(state, ownProps.channelId, true),
-            autocompleteGroups: getAssociatedGroupsForReference(state, teamId, ownProps.channelId)
+            autocompleteGroups: getAssociatedGroupsForReference(state, teamId, ownProps.channelId),
         };
     };
 };

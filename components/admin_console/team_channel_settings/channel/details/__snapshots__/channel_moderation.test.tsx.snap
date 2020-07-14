@@ -25,21 +25,18 @@ exports[`admin_console/team_channel_settings/channel/ChannelModeration Should ma
               <FormattedMessage
                 defaultMessage="Permissions"
                 id="admin.channel_settings.channel_moderation.permissions"
-                values={Object {}}
               />
             </th>
             <th>
               <FormattedMessage
                 defaultMessage="Guests"
                 id="admin.channel_settings.channel_moderation.guests"
-                values={Object {}}
               />
             </th>
             <th>
               <FormattedMessage
                 defaultMessage="Members"
                 id="admin.channel_settings.channel_moderation.members"
-                values={Object {}}
               />
             </th>
           </tr>
@@ -116,21 +113,18 @@ exports[`admin_console/team_channel_settings/channel/ChannelModeration Should ma
               <FormattedMessage
                 defaultMessage="Permissions"
                 id="admin.channel_settings.channel_moderation.permissions"
-                values={Object {}}
               />
             </th>
             <th>
               <FormattedMessage
                 defaultMessage="Guests"
                 id="admin.channel_settings.channel_moderation.guests"
-                values={Object {}}
               />
             </th>
             <th>
               <FormattedMessage
                 defaultMessage="Members"
                 id="admin.channel_settings.channel_moderation.members"
-                values={Object {}}
               />
             </th>
           </tr>
@@ -179,21 +173,18 @@ exports[`admin_console/team_channel_settings/channel/ChannelModeration Should ma
               <FormattedMessage
                 defaultMessage="Permissions"
                 id="admin.channel_settings.channel_moderation.permissions"
-                values={Object {}}
               />
             </th>
             <th>
               <FormattedMessage
                 defaultMessage="Guests"
                 id="admin.channel_settings.channel_moderation.guests"
-                values={Object {}}
               />
             </th>
             <th>
               <FormattedMessage
                 defaultMessage="Members"
                 id="admin.channel_settings.channel_moderation.members"
-                values={Object {}}
               />
             </th>
           </tr>
@@ -219,7 +210,6 @@ exports[`admin_console/team_channel_settings/channel/ChannelModeration Should ma
                   <FormattedMessage
                     defaultMessage="Guests and members can not use channel mentions without the ability to create posts."
                     id="admin.channel_settings.channel_moderation.channelMentions.disabledBothDueToCreatePosts"
-                    values={Object {}}
                   />
                 </div>,
               ]
@@ -249,7 +239,6 @@ exports[`admin_console/team_channel_settings/channel/ChannelModeration Should ma
       <FormattedMessage
         defaultMessage="Create Posts"
         id="admin.channel_settings.channel_moderation.createPosts"
-        values={Object {}}
       />
     </label>
     <div
@@ -258,7 +247,6 @@ exports[`admin_console/team_channel_settings/channel/ChannelModeration Should ma
       <FormattedMessage
         defaultMessage="The ability for members and guests to create posts in the channel."
         id="admin.channel_settings.channel_moderation.createPostsDesc"
-        values={Object {}}
       />
     </div>
     <Component />
@@ -295,7 +283,6 @@ exports[`admin_console/team_channel_settings/channel/ChannelModeration Should ma
       <FormattedMessage
         defaultMessage="Create Posts"
         id="admin.channel_settings.channel_moderation.createPosts"
-        values={Object {}}
       />
     </label>
     <div
@@ -304,7 +291,6 @@ exports[`admin_console/team_channel_settings/channel/ChannelModeration Should ma
       <FormattedMessage
         defaultMessage="The ability for members to create posts in the channel."
         id="admin.channel_settings.channel_moderation.createPostsDescMembers"
-        values={Object {}}
       />
     </div>
     <Component />
@@ -347,21 +333,18 @@ exports[`admin_console/team_channel_settings/channel/ChannelModeration Should ma
               <FormattedMessage
                 defaultMessage="Permissions"
                 id="admin.channel_settings.channel_moderation.permissions"
-                values={Object {}}
               />
             </th>
             <th>
               <FormattedMessage
                 defaultMessage="Guests"
                 id="admin.channel_settings.channel_moderation.guests"
-                values={Object {}}
               />
             </th>
             <th>
               <FormattedMessage
                 defaultMessage="Members"
                 id="admin.channel_settings.channel_moderation.members"
-                values={Object {}}
               />
             </th>
           </tr>
@@ -387,7 +370,6 @@ exports[`admin_console/team_channel_settings/channel/ChannelModeration Should ma
                   <FormattedMessage
                     defaultMessage="Guests can not use channel mentions without the ability to create posts."
                     id="admin.channel_settings.channel_moderation.channelMentions.disabledGuestsDueToCreatePosts"
-                    values={Object {}}
                   />
                 </div>,
                 <div
@@ -447,14 +429,12 @@ exports[`admin_console/team_channel_settings/channel/ChannelModeration Should ma
               <FormattedMessage
                 defaultMessage="Permissions"
                 id="admin.channel_settings.channel_moderation.permissions"
-                values={Object {}}
               />
             </th>
             <th>
               <FormattedMessage
                 defaultMessage="Members"
                 id="admin.channel_settings.channel_moderation.members"
-                values={Object {}}
               />
             </th>
           </tr>
@@ -503,21 +483,18 @@ exports[`admin_console/team_channel_settings/channel/ChannelModeration Should ma
               <FormattedMessage
                 defaultMessage="Permissions"
                 id="admin.channel_settings.channel_moderation.permissions"
-                values={Object {}}
               />
             </th>
             <th>
               <FormattedMessage
                 defaultMessage="Guests"
                 id="admin.channel_settings.channel_moderation.guests"
-                values={Object {}}
               />
             </th>
             <th>
               <FormattedMessage
                 defaultMessage="Members"
                 id="admin.channel_settings.channel_moderation.members"
-                values={Object {}}
               />
             </th>
           </tr>
@@ -543,7 +520,6 @@ exports[`admin_console/team_channel_settings/channel/ChannelModeration Should ma
                   <FormattedMessage
                     defaultMessage="Members can not use channel mentions without the ability to create posts."
                     id="admin.channel_settings.channel_moderation.channelMentions.disabledMemberDueToCreatePosts"
-                    values={Object {}}
                   />
                 </div>,
                 <div

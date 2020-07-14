@@ -5,7 +5,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
-import Chart from 'chart.js';
+import Chart, {ChartData} from 'chart.js';
 
 import * as Utils from 'utils/utils.jsx';
 
@@ -13,7 +13,7 @@ type Props = {
     title: React.ReactNode;
     width: number;
     height: number;
-    data?: object;
+    data?: ChartData;
 }
 
 export default class DoughnutChart extends React.PureComponent<Props> {

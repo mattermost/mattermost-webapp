@@ -23,7 +23,6 @@ describe('components/AdminConsole/CustomEnableDisableGuestAccountsSetting', () =
         <FormattedMessage
             defaultMessage='All current guest account sessions will be revoked, and marked as inactive'
             id='admin.guest_access.disableConfirmWarning'
-            values={{}}
         />
     );
 

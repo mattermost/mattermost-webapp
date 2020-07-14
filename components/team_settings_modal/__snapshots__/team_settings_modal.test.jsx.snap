@@ -44,7 +44,6 @@ exports[`components/team_settings_modal should match snapshot 1`] = `
       <FormattedMessage
         defaultMessage="Team Settings"
         id="team_settings_modal.title"
-        values={Object {}}
       />
     </ModalTitle>
   </ModalHeader>

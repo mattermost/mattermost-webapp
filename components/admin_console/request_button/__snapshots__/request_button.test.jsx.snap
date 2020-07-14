@@ -21,7 +21,6 @@ exports[`components/admin_console/request_button/request_button.jsx should match
           <FormattedMessage
             defaultMessage="Button Text"
             id="test"
-            values={Object {}}
           />
         </LoadingWrapper>
       </button>
@@ -32,7 +31,6 @@ exports[`components/admin_console/request_button/request_button.jsx should match
       <FormattedMessage
         defaultMessage="Help Text"
         id="test"
-        values={Object {}}
       />
     </div>
   </div>
@@ -45,7 +43,6 @@ exports[`components/admin_console/request_button/request_button.jsx should match
     <FormattedMessage
       defaultMessage="Button Text"
       id="test"
-      values={Object {}}
     />
   }
   disabled={false}
@@ -59,7 +56,6 @@ exports[`components/admin_console/request_button/request_button.jsx should match
     <FormattedMessage
       defaultMessage="Help Text"
       id="test"
-      values={Object {}}
     />
   }
   id={null}
@@ -109,7 +105,6 @@ exports[`components/admin_console/request_button/request_button.jsx should match
             <FormattedMessage
               defaultMessage="Button Text"
               id="test"
-              values={Object {}}
             >
               <span>
                 Button Text
@@ -137,11 +132,14 @@ exports[`components/admin_console/request_button/request_button.jsx should match
                 <FormattedMessage
                   defaultMessage="Warning Icon"
                   id="generic_icons.warning"
-                  values={Object {}}
                 >
                   <i
                     className="fa fa-warning"
-                    title="Warning Icon"
+                    title={
+                      Array [
+                        "Warning Icon",
+                      ]
+                    }
                   />
                 </FormattedMessage>
               </LocalizedIcon>
@@ -168,7 +166,6 @@ exports[`components/admin_console/request_button/request_button.jsx should match
         <FormattedMessage
           defaultMessage="Help Text"
           id="test"
-          values={Object {}}
         >
           <span>
             Help Text
@@ -186,7 +183,6 @@ exports[`components/admin_console/request_button/request_button.jsx should match
     <FormattedMessage
       defaultMessage="Button Text"
       id="test"
-      values={Object {}}
     />
   }
   disabled={false}
@@ -200,7 +196,6 @@ exports[`components/admin_console/request_button/request_button.jsx should match
     <FormattedMessage
       defaultMessage="Help Text"
       id="test"
-      values={Object {}}
     />
   }
   id={null}
@@ -258,7 +253,6 @@ exports[`components/admin_console/request_button/request_button.jsx should match
             <FormattedMessage
               defaultMessage="Button Text"
               id="test"
-              values={Object {}}
             >
               <span>
                 Button Text
@@ -286,11 +280,14 @@ exports[`components/admin_console/request_button/request_button.jsx should match
                 <FormattedMessage
                   defaultMessage="Warning Icon"
                   id="generic_icons.warning"
-                  values={Object {}}
                 >
                   <i
                     className="fa fa-warning"
-                    title="Warning Icon"
+                    title={
+                      Array [
+                        "Warning Icon",
+                      ]
+                    }
                   />
                 </FormattedMessage>
               </LocalizedIcon>
@@ -317,7 +314,6 @@ exports[`components/admin_console/request_button/request_button.jsx should match
         <FormattedMessage
           defaultMessage="Help Text"
           id="test"
-          values={Object {}}
         >
           <span>
             Help Text
@@ -335,7 +331,6 @@ exports[`components/admin_console/request_button/request_button.jsx should match
     <FormattedMessage
       defaultMessage="Button Text"
       id="test"
-      values={Object {}}
     />
   }
   disabled={false}
@@ -349,7 +344,6 @@ exports[`components/admin_console/request_button/request_button.jsx should match
     <FormattedMessage
       defaultMessage="Help Text"
       id="test"
-      values={Object {}}
     />
   }
   id={null}
@@ -399,7 +393,6 @@ exports[`components/admin_console/request_button/request_button.jsx should match
             <FormattedMessage
               defaultMessage="Button Text"
               id="test"
-              values={Object {}}
             >
               <span>
                 Button Text
@@ -415,18 +408,20 @@ exports[`components/admin_console/request_button/request_button.jsx should match
               <FormattedMessage
                 defaultMessage="Success Icon"
                 id="generic_icons.success"
-                values={Object {}}
               >
                 <i
                   className="fa fa-check"
-                  title="Success Icon"
+                  title={
+                    Array [
+                      "Success Icon",
+                    ]
+                  }
                 />
               </FormattedMessage>
             </SuccessIcon>
             <FormattedMessage
               defaultMessage="Success Message"
               id="success.message"
-              values={Object {}}
             >
               <span>
                 Success Message
@@ -441,7 +436,6 @@ exports[`components/admin_console/request_button/request_button.jsx should match
         <FormattedMessage
           defaultMessage="Help Text"
           id="test"
-          values={Object {}}
         >
           <span>
             Help Text
@@ -459,7 +453,6 @@ exports[`components/admin_console/request_button/request_button.jsx should match
     <FormattedMessage
       defaultMessage="Button Text"
       id="test"
-      values={Object {}}
     />
   }
   disabled={false}
@@ -473,7 +466,6 @@ exports[`components/admin_console/request_button/request_button.jsx should match
     <FormattedMessage
       defaultMessage="Help Text"
       id="test"
-      values={Object {}}
     />
   }
   id={null}
@@ -531,7 +523,6 @@ exports[`components/admin_console/request_button/request_button.jsx should match
             <FormattedMessage
               defaultMessage="Button Text"
               id="test"
-              values={Object {}}
             >
               <span>
                 Button Text
@@ -546,7 +537,6 @@ exports[`components/admin_console/request_button/request_button.jsx should match
         <FormattedMessage
           defaultMessage="Help Text"
           id="test"
-          values={Object {}}
         >
           <span>
             Help Text

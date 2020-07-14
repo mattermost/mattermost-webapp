@@ -36,7 +36,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <FormattedMessage
         defaultMessage="Display Settings"
         id="user.settings.display.title"
-        values={Object {}}
       />
     </h4>
   </div>
@@ -50,7 +49,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <FormattedMessage
         defaultMessage="Display Settings"
         id="user.settings.display.title"
-        values={Object {}}
       />
     </h3>
     <div
@@ -63,7 +61,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Clock Display"
             id="user.settings.display.clockDisplay"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -78,7 +75,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Show first and last name"
             id="user.settings.display.teammateNameDisplayFullname"
-            values={Object {}}
           />
         }
         section="name_format"
@@ -86,7 +82,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Teammate Name Display"
             id="user.settings.display.teammateNameDisplayTitle"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -102,7 +97,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Website Link Previews"
             id="user.settings.display.linkPreviewDisplay"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -118,7 +112,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Default Appearance of Image Previews"
             id="user.settings.display.collapseDisplay"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -134,7 +127,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Message Display"
             id="user.settings.display.messageDisplayTitle"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -157,7 +149,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
                 <FormattedMessage
                   defaultMessage="Channel Display"
                   id="user.settings.display.channelDisplayTitle"
-                  values={Object {}}
                 />
               </legend>
               <div
@@ -174,7 +165,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
                   <FormattedMessage
                     defaultMessage="Full width"
                     id="user.settings.display.fullScreen"
-                    values={Object {}}
                   />
                 </label>
                 <br />
@@ -193,7 +183,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
                   <FormattedMessage
                     defaultMessage="Fixed width, centered"
                     id="user.settings.display.fixedWidthCentered"
-                    values={Object {}}
                   />
                 </label>
                 <br />
@@ -203,7 +192,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
                 <FormattedMessage
                   defaultMessage="Select the width of the center channel."
                   id="user.settings.display.channeldisplaymode"
-                  values={Object {}}
                 />
               </div>
             </fieldset>,
@@ -216,7 +204,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Channel Display"
             id="user.settings.display.channelDisplayTitle"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -233,7 +220,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Language"
             id="user.settings.display.language"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -283,7 +269,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <FormattedMessage
         defaultMessage="Display Settings"
         id="user.settings.display.title"
-        values={Object {}}
       />
     </h4>
   </div>
@@ -297,7 +282,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <FormattedMessage
         defaultMessage="Display Settings"
         id="user.settings.display.title"
-        values={Object {}}
       />
     </h3>
     <div
@@ -317,7 +301,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
                 <FormattedMessage
                   defaultMessage="Clock Display"
                   id="user.settings.display.clockDisplay"
-                  values={Object {}}
                 />
               </legend>
               <div
@@ -334,7 +317,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
                   <FormattedMessage
                     defaultMessage="12-hour clock (example: 4:00 PM)"
                     id="user.settings.display.normalClock"
-                    values={Object {}}
                   />
                 </label>
                 <br />
@@ -353,7 +335,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
                   <FormattedMessage
                     defaultMessage="24-hour clock (example: 16:00)"
                     id="user.settings.display.militaryClock"
-                    values={Object {}}
                   />
                 </label>
                 <br />
@@ -363,7 +344,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
                 <FormattedMessage
                   defaultMessage="Select how you prefer time displayed."
                   id="user.settings.display.preferTime"
-                  values={Object {}}
                 />
               </div>
             </fieldset>,
@@ -376,7 +356,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Clock Display"
             id="user.settings.display.clockDisplay"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -391,7 +370,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Show first and last name"
             id="user.settings.display.teammateNameDisplayFullname"
-            values={Object {}}
           />
         }
         section="name_format"
@@ -399,7 +377,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Teammate Name Display"
             id="user.settings.display.teammateNameDisplayTitle"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -415,7 +392,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Website Link Previews"
             id="user.settings.display.linkPreviewDisplay"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -431,7 +407,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Default Appearance of Image Previews"
             id="user.settings.display.collapseDisplay"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -447,7 +422,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Message Display"
             id="user.settings.display.messageDisplayTitle"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -463,7 +437,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Channel Display"
             id="user.settings.display.channelDisplayTitle"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -480,7 +453,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Language"
             id="user.settings.display.language"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -530,7 +502,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <FormattedMessage
         defaultMessage="Display Settings"
         id="user.settings.display.title"
-        values={Object {}}
       />
     </h4>
   </div>
@@ -544,7 +515,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <FormattedMessage
         defaultMessage="Display Settings"
         id="user.settings.display.title"
-        values={Object {}}
       />
     </h3>
     <div
@@ -557,7 +527,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Clock Display"
             id="user.settings.display.clockDisplay"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -572,7 +541,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Show first and last name"
             id="user.settings.display.teammateNameDisplayFullname"
-            values={Object {}}
           />
         }
         section="name_format"
@@ -580,7 +548,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Teammate Name Display"
             id="user.settings.display.teammateNameDisplayTitle"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -596,7 +563,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Website Link Previews"
             id="user.settings.display.linkPreviewDisplay"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -619,7 +585,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
                 <FormattedMessage
                   defaultMessage="Default Appearance of Image Previews"
                   id="user.settings.display.collapseDisplay"
-                  values={Object {}}
                 />
               </legend>
               <div
@@ -636,7 +601,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
                   <FormattedMessage
                     defaultMessage="On"
                     id="user.settings.display.collapseOn"
-                    values={Object {}}
                   />
                 </label>
                 <br />
@@ -655,7 +619,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
                   <FormattedMessage
                     defaultMessage="Off"
                     id="user.settings.display.collapseOff"
-                    values={Object {}}
                   />
                 </label>
                 <br />
@@ -665,7 +628,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
                 <FormattedMessage
                   defaultMessage="Set whether previews of image links and image attachment thumbnails show as expanded or collapsed by default. This setting can also be controlled using the slash commands /expand and /collapse."
                   id="user.settings.display.collapseDesc"
-                  values={Object {}}
                 />
               </div>
             </fieldset>,
@@ -678,7 +640,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Default Appearance of Image Previews"
             id="user.settings.display.collapseDisplay"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -694,7 +655,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Message Display"
             id="user.settings.display.messageDisplayTitle"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -710,7 +670,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Channel Display"
             id="user.settings.display.channelDisplayTitle"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -727,7 +686,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Language"
             id="user.settings.display.language"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -777,7 +735,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <FormattedMessage
         defaultMessage="Display Settings"
         id="user.settings.display.title"
-        values={Object {}}
       />
     </h4>
   </div>
@@ -791,7 +748,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <FormattedMessage
         defaultMessage="Display Settings"
         id="user.settings.display.title"
-        values={Object {}}
       />
     </h3>
     <div
@@ -804,7 +760,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Clock Display"
             id="user.settings.display.clockDisplay"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -819,7 +774,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Show first and last name"
             id="user.settings.display.teammateNameDisplayFullname"
-            values={Object {}}
           />
         }
         section="name_format"
@@ -827,7 +781,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Teammate Name Display"
             id="user.settings.display.teammateNameDisplayTitle"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -843,7 +796,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Website Link Previews"
             id="user.settings.display.linkPreviewDisplay"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -859,7 +811,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Default Appearance of Image Previews"
             id="user.settings.display.collapseDisplay"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -875,7 +826,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Message Display"
             id="user.settings.display.messageDisplayTitle"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -891,7 +841,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Channel Display"
             id="user.settings.display.channelDisplayTitle"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -961,7 +910,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <FormattedMessage
         defaultMessage="Display Settings"
         id="user.settings.display.title"
-        values={Object {}}
       />
     </h4>
   </div>
@@ -975,7 +923,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <FormattedMessage
         defaultMessage="Display Settings"
         id="user.settings.display.title"
-        values={Object {}}
       />
     </h3>
     <div
@@ -988,7 +935,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Clock Display"
             id="user.settings.display.clockDisplay"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -1003,7 +949,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Show first and last name"
             id="user.settings.display.teammateNameDisplayFullname"
-            values={Object {}}
           />
         }
         section="name_format"
@@ -1011,7 +956,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Teammate Name Display"
             id="user.settings.display.teammateNameDisplayTitle"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -1027,7 +971,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Default Appearance of Image Previews"
             id="user.settings.display.collapseDisplay"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -1043,7 +986,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Message Display"
             id="user.settings.display.messageDisplayTitle"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -1059,7 +1001,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Channel Display"
             id="user.settings.display.channelDisplayTitle"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -1076,7 +1017,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Language"
             id="user.settings.display.language"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -1126,7 +1066,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <FormattedMessage
         defaultMessage="Display Settings"
         id="user.settings.display.title"
-        values={Object {}}
       />
     </h4>
   </div>
@@ -1140,7 +1079,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <FormattedMessage
         defaultMessage="Display Settings"
         id="user.settings.display.title"
-        values={Object {}}
       />
     </h3>
     <div
@@ -1153,7 +1091,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Clock Display"
             id="user.settings.display.clockDisplay"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -1168,7 +1105,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Show first and last name"
             id="user.settings.display.teammateNameDisplayFullname"
-            values={Object {}}
           />
         }
         section="name_format"
@@ -1176,7 +1112,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Teammate Name Display"
             id="user.settings.display.teammateNameDisplayTitle"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -1199,7 +1134,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
                 <FormattedMessage
                   defaultMessage="Website Link Previews"
                   id="user.settings.display.linkPreviewDisplay"
-                  values={Object {}}
                 />
               </legend>
               <div
@@ -1216,7 +1150,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
                   <FormattedMessage
                     defaultMessage="On"
                     id="user.settings.display.linkPreviewOn"
-                    values={Object {}}
                   />
                 </label>
                 <br />
@@ -1235,7 +1168,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
                   <FormattedMessage
                     defaultMessage="Off"
                     id="user.settings.display.linkPreviewOff"
-                    values={Object {}}
                   />
                 </label>
                 <br />
@@ -1245,7 +1177,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
                 <FormattedMessage
                   defaultMessage="When available, the first web link in a message will show a preview of the website content below the message."
                   id="user.settings.display.linkPreviewDesc"
-                  values={Object {}}
                 />
               </div>
             </fieldset>,
@@ -1258,7 +1189,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Website Link Previews"
             id="user.settings.display.linkPreviewDisplay"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -1274,7 +1204,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Default Appearance of Image Previews"
             id="user.settings.display.collapseDisplay"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -1290,7 +1219,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Message Display"
             id="user.settings.display.messageDisplayTitle"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -1306,7 +1234,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Channel Display"
             id="user.settings.display.channelDisplayTitle"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -1323,7 +1250,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Language"
             id="user.settings.display.language"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -1373,7 +1299,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <FormattedMessage
         defaultMessage="Display Settings"
         id="user.settings.display.title"
-        values={Object {}}
       />
     </h4>
   </div>
@@ -1387,7 +1312,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <FormattedMessage
         defaultMessage="Display Settings"
         id="user.settings.display.title"
-        values={Object {}}
       />
     </h3>
     <div
@@ -1400,7 +1324,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Clock Display"
             id="user.settings.display.clockDisplay"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -1415,7 +1338,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Show first and last name"
             id="user.settings.display.teammateNameDisplayFullname"
-            values={Object {}}
           />
         }
         section="name_format"
@@ -1423,7 +1345,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Teammate Name Display"
             id="user.settings.display.teammateNameDisplayTitle"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -1439,7 +1360,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Website Link Previews"
             id="user.settings.display.linkPreviewDisplay"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -1455,7 +1375,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Default Appearance of Image Previews"
             id="user.settings.display.collapseDisplay"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -1478,7 +1397,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
                 <FormattedMessage
                   defaultMessage="Message Display"
                   id="user.settings.display.messageDisplayTitle"
-                  values={Object {}}
                 />
               </legend>
               <div
@@ -1495,7 +1413,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
                   <FormattedMessage
                     defaultMessage="Standard"
                     id="user.settings.display.messageDisplayClean"
-                    values={Object {}}
                   />
                   : 
                   <span
@@ -1504,7 +1421,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
                     <FormattedMessage
                       defaultMessage="Easy to scan and read."
                       id="user.settings.display.messageDisplayCleanDes"
-                      values={Object {}}
                     />
                   </span>
                 </label>
@@ -1524,7 +1440,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
                   <FormattedMessage
                     defaultMessage="Compact"
                     id="user.settings.display.messageDisplayCompact"
-                    values={Object {}}
                   />
                   : 
                   <span
@@ -1533,7 +1448,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
                     <FormattedMessage
                       defaultMessage="Fit as many messages on the screen as we can."
                       id="user.settings.display.messageDisplayCompactDes"
-                      values={Object {}}
                     />
                   </span>
                 </label>
@@ -1544,7 +1458,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
                 <FormattedMessage
                   defaultMessage="Select how messages in a channel should be displayed."
                   id="user.settings.display.messageDisplayDescription"
-                  values={Object {}}
                 />
               </div>
             </fieldset>,
@@ -1557,7 +1470,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Message Display"
             id="user.settings.display.messageDisplayTitle"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -1573,7 +1485,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Channel Display"
             id="user.settings.display.channelDisplayTitle"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -1590,7 +1501,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Language"
             id="user.settings.display.language"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -1640,7 +1550,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <FormattedMessage
         defaultMessage="Display Settings"
         id="user.settings.display.title"
-        values={Object {}}
       />
     </h4>
   </div>
@@ -1654,7 +1563,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <FormattedMessage
         defaultMessage="Display Settings"
         id="user.settings.display.title"
-        values={Object {}}
       />
     </h3>
     <div
@@ -1667,7 +1575,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Clock Display"
             id="user.settings.display.clockDisplay"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -1682,7 +1589,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Show first and last name"
             id="user.settings.display.teammateNameDisplayFullname"
-            values={Object {}}
           />
         }
         section="name_format"
@@ -1690,7 +1596,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Teammate Name Display"
             id="user.settings.display.teammateNameDisplayTitle"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -1706,7 +1611,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Website Link Previews"
             id="user.settings.display.linkPreviewDisplay"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -1722,7 +1626,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Default Appearance of Image Previews"
             id="user.settings.display.collapseDisplay"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -1738,7 +1641,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Message Display"
             id="user.settings.display.messageDisplayTitle"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -1754,7 +1656,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Channel Display"
             id="user.settings.display.channelDisplayTitle"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -1771,7 +1672,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Language"
             id="user.settings.display.language"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -1821,7 +1721,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <FormattedMessage
         defaultMessage="Display Settings"
         id="user.settings.display.title"
-        values={Object {}}
       />
     </h4>
   </div>
@@ -1835,7 +1734,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <FormattedMessage
         defaultMessage="Display Settings"
         id="user.settings.display.title"
-        values={Object {}}
       />
     </h3>
     <div
@@ -1848,7 +1746,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Clock Display"
             id="user.settings.display.clockDisplay"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -1863,7 +1760,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Show first and last name"
             id="user.settings.display.teammateNameDisplayFullname"
-            values={Object {}}
           />
         }
         section="name_format"
@@ -1871,7 +1767,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Teammate Name Display"
             id="user.settings.display.teammateNameDisplayTitle"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -1887,7 +1782,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Website Link Previews"
             id="user.settings.display.linkPreviewDisplay"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -1903,7 +1797,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Default Appearance of Image Previews"
             id="user.settings.display.collapseDisplay"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -1919,7 +1812,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Message Display"
             id="user.settings.display.messageDisplayTitle"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -1935,7 +1827,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Channel Display"
             id="user.settings.display.channelDisplayTitle"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -1952,7 +1843,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Language"
             id="user.settings.display.language"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -2002,7 +1892,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <FormattedMessage
         defaultMessage="Display Settings"
         id="user.settings.display.title"
-        values={Object {}}
       />
     </h4>
   </div>
@@ -2016,7 +1905,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <FormattedMessage
         defaultMessage="Display Settings"
         id="user.settings.display.title"
-        values={Object {}}
       />
     </h3>
     <div
@@ -2029,7 +1917,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Clock Display"
             id="user.settings.display.clockDisplay"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -2044,7 +1931,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Show first and last name"
             id="user.settings.display.teammateNameDisplayFullname"
-            values={Object {}}
           />
         }
         section="name_format"
@@ -2052,7 +1938,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Teammate Name Display"
             id="user.settings.display.teammateNameDisplayTitle"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -2068,7 +1953,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Website Link Previews"
             id="user.settings.display.linkPreviewDisplay"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -2084,7 +1968,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Default Appearance of Image Previews"
             id="user.settings.display.collapseDisplay"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -2100,7 +1983,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Message Display"
             id="user.settings.display.messageDisplayTitle"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -2116,7 +1998,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Channel Display"
             id="user.settings.display.channelDisplayTitle"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -2133,7 +2014,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Language"
             id="user.settings.display.language"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -2183,7 +2063,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <FormattedMessage
         defaultMessage="Display Settings"
         id="user.settings.display.title"
-        values={Object {}}
       />
     </h4>
   </div>
@@ -2197,7 +2076,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <FormattedMessage
         defaultMessage="Display Settings"
         id="user.settings.display.title"
-        values={Object {}}
       />
     </h3>
     <div
@@ -2221,7 +2099,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Clock Display"
             id="user.settings.display.clockDisplay"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -2236,7 +2113,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Show first and last name"
             id="user.settings.display.teammateNameDisplayFullname"
-            values={Object {}}
           />
         }
         section="name_format"
@@ -2244,7 +2120,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Teammate Name Display"
             id="user.settings.display.teammateNameDisplayTitle"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -2260,7 +2135,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Website Link Previews"
             id="user.settings.display.linkPreviewDisplay"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -2276,7 +2150,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Default Appearance of Image Previews"
             id="user.settings.display.collapseDisplay"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -2292,7 +2165,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Message Display"
             id="user.settings.display.messageDisplayTitle"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -2308,7 +2180,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Channel Display"
             id="user.settings.display.channelDisplayTitle"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -2325,7 +2196,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Language"
             id="user.settings.display.language"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -2375,7 +2245,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <FormattedMessage
         defaultMessage="Display Settings"
         id="user.settings.display.title"
-        values={Object {}}
       />
     </h4>
   </div>
@@ -2389,7 +2258,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <FormattedMessage
         defaultMessage="Display Settings"
         id="user.settings.display.title"
-        values={Object {}}
       />
     </h3>
     <div
@@ -2402,7 +2270,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Clock Display"
             id="user.settings.display.clockDisplay"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -2417,7 +2284,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Show first and last name"
             id="user.settings.display.teammateNameDisplayFullname"
-            values={Object {}}
           />
         }
         section="name_format"
@@ -2425,7 +2291,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Teammate Name Display"
             id="user.settings.display.teammateNameDisplayTitle"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -2441,7 +2306,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Website Link Previews"
             id="user.settings.display.linkPreviewDisplay"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -2457,7 +2321,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Default Appearance of Image Previews"
             id="user.settings.display.collapseDisplay"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -2473,7 +2336,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Message Display"
             id="user.settings.display.messageDisplayTitle"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -2489,7 +2351,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Channel Display"
             id="user.settings.display.channelDisplayTitle"
-            values={Object {}}
           />
         }
         updateSection={[Function]}
@@ -2506,7 +2367,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Language"
             id="user.settings.display.language"
-            values={Object {}}
           />
         }
         updateSection={[Function]}

@@ -50,7 +50,6 @@ exports[`components/delete_post_modal should match snapshot for delete_post_moda
             "term": <FormattedMessage
               defaultMessage="Post"
               id="delete_post.post"
-              values={Object {}}
             />,
           }
         }
@@ -69,7 +68,6 @@ exports[`components/delete_post_modal should match snapshot for delete_post_moda
           "term": <FormattedMessage
             defaultMessage="Post"
             id="delete_post.post"
-            values={Object {}}
           />,
         }
       }
@@ -89,7 +87,6 @@ exports[`components/delete_post_modal should match snapshot for delete_post_moda
       <FormattedMessage
         defaultMessage="Cancel"
         id="delete_post.cancel"
-        values={Object {}}
       />
     </button>
     <button
@@ -102,7 +99,6 @@ exports[`components/delete_post_modal should match snapshot for delete_post_moda
       <FormattedMessage
         defaultMessage="Delete"
         id="delete_post.del"
-        values={Object {}}
       />
     </button>
   </ModalFooter>
@@ -159,7 +155,6 @@ exports[`components/delete_post_modal should match snapshot for delete_post_moda
             "term": <FormattedMessage
               defaultMessage="Post"
               id="delete_post.post"
-              values={Object {}}
             />,
           }
         }
@@ -178,7 +173,6 @@ exports[`components/delete_post_modal should match snapshot for delete_post_moda
           "term": <FormattedMessage
             defaultMessage="Post"
             id="delete_post.post"
-            values={Object {}}
           />,
         }
       }
@@ -207,7 +201,6 @@ exports[`components/delete_post_modal should match snapshot for delete_post_moda
       <FormattedMessage
         defaultMessage="Cancel"
         id="delete_post.cancel"
-        values={Object {}}
       />
     </button>
     <button
@@ -220,7 +213,6 @@ exports[`components/delete_post_modal should match snapshot for delete_post_moda
       <FormattedMessage
         defaultMessage="Delete"
         id="delete_post.del"
-        values={Object {}}
       />
     </button>
   </ModalFooter>
@@ -277,7 +269,6 @@ exports[`components/delete_post_modal should match snapshot for post with 1 comm
             "term": <FormattedMessage
               defaultMessage="Comment"
               id="delete_post.comment"
-              values={Object {}}
             />,
           }
         }
@@ -296,7 +287,6 @@ exports[`components/delete_post_modal should match snapshot for post with 1 comm
           "term": <FormattedMessage
             defaultMessage="Comment"
             id="delete_post.comment"
-            values={Object {}}
           />,
         }
       }
@@ -316,7 +306,6 @@ exports[`components/delete_post_modal should match snapshot for post with 1 comm
       <FormattedMessage
         defaultMessage="Cancel"
         id="delete_post.cancel"
-        values={Object {}}
       />
     </button>
     <button
@@ -329,7 +318,6 @@ exports[`components/delete_post_modal should match snapshot for post with 1 comm
       <FormattedMessage
         defaultMessage="Delete"
         id="delete_post.del"
-        values={Object {}}
       />
     </button>
   </ModalFooter>

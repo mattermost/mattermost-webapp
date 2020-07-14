@@ -40,7 +40,6 @@ exports[`components/ConfigurationBar should match snapshot, expired, regular use
     <FormattedMessage
       defaultMessage="Enterprise license is expired and some features may be disabled. Please contact your System Administrator for details."
       id="announcement_bar.error.past_grace"
-      values={Object {}}
     />
   }
   type="critical"

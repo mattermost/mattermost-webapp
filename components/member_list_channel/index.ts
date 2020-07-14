@@ -11,7 +11,7 @@ import {getChannelStats, getChannelMembers} from 'mattermost-redux/actions/chann
 import {searchProfiles} from 'mattermost-redux/actions/users';
 import {sortByUsername} from 'mattermost-redux/utils/user_utils';
 import {UserProfile} from 'mattermost-redux/types/users';
-import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
+import {Channel, ChannelStats, ChannelMembership} from 'mattermost-redux/types/channels';
 import {ActionFunc} from 'mattermost-redux/types/actions';
 
 import {
@@ -83,9 +83,9 @@ function mapStateToProps(state: GlobalState) {
 }
 
 type Actions = {
-    searchProfiles: (term: string, options?: {}) => Promise<{data: UserProfile[]}>;
+    searchProfiles: (term: string, options?: {[key: string]: any}) => Promise<{data: UserProfile[]}>;
     getChannelMembers: (channelId: string) => Promise<{data: ChannelMembership[]}>;
-    getChannelStats: (channelId: string) => Promise<{data: {}}>;
+    getChannelStats: (channelId: string) => Promise<{data: ChannelStats}>;
     setModalSearchTerm: (term: string) => Promise<{
         data: boolean;
     }>;

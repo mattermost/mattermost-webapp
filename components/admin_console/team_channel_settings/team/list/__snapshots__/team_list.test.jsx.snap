@@ -13,7 +13,6 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
           "name": <FormattedMessage
             defaultMessage="Name"
             id="admin.team_settings.team_list.nameHeader"
-            values={Object {}}
           />,
           "width": 4,
         },
@@ -23,7 +22,6 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
           "name": <FormattedMessage
             defaultMessage="Management"
             id="admin.team_settings.team_list.mappingHeader"
-            values={Object {}}
           />,
         },
         Object {
@@ -42,7 +40,6 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
       <FormattedMessage
         defaultMessage="No teams found"
         id="admin.team_settings.team_list.no_teams_found"
-        values={Object {}}
       />
     }
     previousPage={[Function]}
@@ -60,7 +57,6 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
                 <FormattedMessage
                   defaultMessage="Edit"
                   id="admin.team_settings.team_row.configure"
-                  values={Object {}}
                 />
               </Link>
             </span>,
@@ -71,7 +67,6 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
               <FormattedMessage
                 defaultMessage="Invite Only"
                 id="admin.team_settings.team_row.managementMethod.inviteOnly"
-                values={Object {}}
               />
             </span>,
             "name": <div
@@ -127,7 +122,6 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
           "name": <FormattedMessage
             defaultMessage="Name"
             id="admin.team_settings.team_list.nameHeader"
-            values={Object {}}
           />,
           "width": 4,
         },
@@ -137,7 +131,6 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
           "name": <FormattedMessage
             defaultMessage="Management"
             id="admin.team_settings.team_list.mappingHeader"
-            values={Object {}}
           />,
         },
         Object {
@@ -156,7 +149,6 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
       <FormattedMessage
         defaultMessage="No teams found"
         id="admin.team_settings.team_list.no_teams_found"
-        values={Object {}}
       />
     }
     previousPage={[Function]}
@@ -174,7 +166,6 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
                 <FormattedMessage
                   defaultMessage="Edit"
                   id="admin.team_settings.team_row.configure"
-                  values={Object {}}
                 />
               </Link>
             </span>,
@@ -185,7 +176,6 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
               <FormattedMessage
                 defaultMessage="Invite Only"
                 id="admin.team_settings.team_row.managementMethod.inviteOnly"
-                values={Object {}}
               />
             </span>,
             "name": <div
@@ -225,7 +215,6 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
                 <FormattedMessage
                   defaultMessage="Edit"
                   id="admin.team_settings.team_row.configure"
-                  values={Object {}}
                 />
               </Link>
             </span>,
@@ -236,7 +225,6 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
               <FormattedMessage
                 defaultMessage="Invite Only"
                 id="admin.team_settings.team_row.managementMethod.inviteOnly"
-                values={Object {}}
               />
             </span>,
             "name": <div
@@ -276,7 +264,6 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
                 <FormattedMessage
                   defaultMessage="Edit"
                   id="admin.team_settings.team_row.configure"
-                  values={Object {}}
                 />
               </Link>
             </span>,
@@ -287,7 +274,6 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
               <FormattedMessage
                 defaultMessage="Invite Only"
                 id="admin.team_settings.team_row.managementMethod.inviteOnly"
-                values={Object {}}
               />
             </span>,
             "name": <div
@@ -327,7 +313,6 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
                 <FormattedMessage
                   defaultMessage="Edit"
                   id="admin.team_settings.team_row.configure"
-                  values={Object {}}
                 />
               </Link>
             </span>,
@@ -338,7 +323,6 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
               <FormattedMessage
                 defaultMessage="Invite Only"
                 id="admin.team_settings.team_row.managementMethod.inviteOnly"
-                values={Object {}}
               />
             </span>,
             "name": <div
@@ -378,7 +362,6 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
                 <FormattedMessage
                   defaultMessage="Edit"
                   id="admin.team_settings.team_row.configure"
-                  values={Object {}}
                 />
               </Link>
             </span>,
@@ -389,7 +372,6 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
               <FormattedMessage
                 defaultMessage="Invite Only"
                 id="admin.team_settings.team_row.managementMethod.inviteOnly"
-                values={Object {}}
               />
             </span>,
             "name": <div
@@ -429,7 +411,6 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
                 <FormattedMessage
                   defaultMessage="Edit"
                   id="admin.team_settings.team_row.configure"
-                  values={Object {}}
                 />
               </Link>
             </span>,
@@ -440,7 +421,6 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
               <FormattedMessage
                 defaultMessage="Invite Only"
                 id="admin.team_settings.team_row.managementMethod.inviteOnly"
-                values={Object {}}
               />
             </span>,
             "name": <div
@@ -480,7 +460,6 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
                 <FormattedMessage
                   defaultMessage="Edit"
                   id="admin.team_settings.team_row.configure"
-                  values={Object {}}
                 />
               </Link>
             </span>,
@@ -491,7 +470,6 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
               <FormattedMessage
                 defaultMessage="Invite Only"
                 id="admin.team_settings.team_row.managementMethod.inviteOnly"
-                values={Object {}}
               />
             </span>,
             "name": <div
@@ -531,7 +509,6 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
                 <FormattedMessage
                   defaultMessage="Edit"
                   id="admin.team_settings.team_row.configure"
-                  values={Object {}}
                 />
               </Link>
             </span>,
@@ -542,7 +519,6 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
               <FormattedMessage
                 defaultMessage="Invite Only"
                 id="admin.team_settings.team_row.managementMethod.inviteOnly"
-                values={Object {}}
               />
             </span>,
             "name": <div
@@ -582,7 +558,6 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
                 <FormattedMessage
                   defaultMessage="Edit"
                   id="admin.team_settings.team_row.configure"
-                  values={Object {}}
                 />
               </Link>
             </span>,
@@ -593,7 +568,6 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
               <FormattedMessage
                 defaultMessage="Invite Only"
                 id="admin.team_settings.team_row.managementMethod.inviteOnly"
-                values={Object {}}
               />
             </span>,
             "name": <div
@@ -633,7 +607,6 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
                 <FormattedMessage
                   defaultMessage="Edit"
                   id="admin.team_settings.team_row.configure"
-                  values={Object {}}
                 />
               </Link>
             </span>,
@@ -644,7 +617,6 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
               <FormattedMessage
                 defaultMessage="Invite Only"
                 id="admin.team_settings.team_row.managementMethod.inviteOnly"
-                values={Object {}}
               />
             </span>,
             "name": <div

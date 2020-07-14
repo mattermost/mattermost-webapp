@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import PQueue from 'p-queue';
+
 import {getChannelAndMyMember, getChannelMembersByIds} from 'mattermost-redux/actions/channels';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {getTeamMembersByIds} from 'mattermost-redux/actions/teams';

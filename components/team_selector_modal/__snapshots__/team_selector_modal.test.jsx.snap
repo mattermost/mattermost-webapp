@@ -56,14 +56,12 @@ exports[`components/TeamSelectorModal should match snapshot 1`] = `
         <FormattedMessage
           defaultMessage="Yes, Move Team"
           id="add_teams_to_scheme.confirmation.accept"
-          values={Object {}}
         />
       }
       message={
         <FormattedMessage
           defaultMessage="This team is already selected in another team scheme, are you sure you want to move it to this team scheme?"
           id="add_teams_to_scheme.confirmation.message"
-          values={Object {}}
         />
       }
       modalClass=""
@@ -74,7 +72,6 @@ exports[`components/TeamSelectorModal should match snapshot 1`] = `
         <FormattedMessage
           defaultMessage="Team Override Scheme Change?"
           id="add_teams_to_scheme.confirmation.title"
-          values={Object {}}
         />
       }
     />
@@ -92,7 +89,6 @@ exports[`components/TeamSelectorModal should match snapshot 1`] = `
         <FormattedMessage
           defaultMessage="Use ↑↓ to browse, ↵ to select."
           id="multiselect.selectTeams"
-          values={Object {}}
         />
       }
       optionRenderer={[Function]}

@@ -30,7 +30,7 @@ jest.mock('utils/utils', () => ({
 }));
 
 jest.mock('mattermost-redux/client', () => {
-    const original = require.requireActual('mattermost-redux/client');
+    const original = jest.requireActual('mattermost-redux/client');
 
     return {
         ...original,

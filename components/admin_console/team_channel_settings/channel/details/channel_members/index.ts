@@ -33,10 +33,10 @@ type Actions = {
     getChannelStats: (channelId: string) => Promise<{
         data: boolean;
     }>;
-    loadProfilesAndReloadChannelMembers: (page: number, perPage: number, channelId?: string, sort?: string, options?: {}) => Promise<{
+    loadProfilesAndReloadChannelMembers: (page: number, perPage: number, channelId?: string, sort?: string, options?: {[key: string]: any}) => Promise<{
         data: boolean;
     }>;
-    searchProfilesAndChannelMembers: (term: string, options?: {}) => Promise<{
+    searchProfilesAndChannelMembers: (term: string, options?: {[key: string]: any}) => Promise<{
         data: boolean;
     }>;
     setSystemUsersSearch: (term: string) => Promise<{

@@ -16,7 +16,7 @@ interface MessageSubmitErrorProps {
     submittedMessage?: string;
 }
 
-class MessageSubmitError extends React.PureComponent<MessageSubmitErrorProps, {}> {
+class MessageSubmitError extends React.PureComponent<MessageSubmitErrorProps> {
     public renderSlashCommandError = (): string | ReactFragment => {
         if (!this.props.submittedMessage) {
             return this.props.error.message;

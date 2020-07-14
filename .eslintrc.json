@@ -4,6 +4,7 @@
     "plugin:cypress/recommended"
   ],
   "plugins": [
+    "babel",
     "mattermost",
     "import",
     "cypress"
@@ -16,13 +17,17 @@
     "import/resolver": "webpack",
     "react": {
         "pragma": "React",
-        "version": "16.4"
+        "version": "16.13.1"
     }
   },
   "rules": {
-    "import/no-unresolved": 2,
+    "no-unused-expressions": 0,
+    "babel/no-unused-expressions": 2,
+    "import/no-unresolved": [
+      2
+    ],
     "import/order": [
-      "error",
+      2,
       {
         "newlines-between": "always-and-inside-groups",
         "groups": [
@@ -53,18 +58,36 @@
   },
   "overrides": [
     {
+      "parser": "@typescript-eslint/parser",
       "files": ["**/*.tsx", "**/*.ts"],
       "extends": [
         "plugin:@typescript-eslint/recommended"
       ],
       "rules": {
-        "comma-dangle": 0,
-        "no-unused-expressions": 0,
-        "@typescript-eslint/no-unused-expressions": 2,
-        "@typescript-eslint/camelcase": [
+        "import/no-unresolved": 0, // ts handles this better
+        "camelcase": 0,
+        "@typescript-eslint/naming-convention": [
           2,
           {
-            "properties": "never"
+            "selector": "default",
+            "format": ["camelCase"]
+          },
+          {
+            "selector": "variable",
+            "format": ["camelCase", "PascalCase", "UPPER_CASE"]
+          },
+          {
+            "selector": "parameter",
+            "format": ["camelCase", "PascalCase"],
+            "leadingUnderscore": "allow"
+          },
+          {
+            "selector": "memberLike",
+            "format": ["camelCase", "PascalCase", "snake_case"]
+          },
+          {
+            "selector": "typeLike",
+            "format": ["PascalCase"]
           }
         ],
         "@typescript-eslint/no-non-null-assertion": 0,
@@ -98,7 +121,7 @@
       }
     },
     {
-      "files": ["tests/**"],
+      "files": ["tests/**", "**/*.test.*"],
       "env": {
         "jest": true
       },
@@ -106,7 +129,8 @@
         "func-names": 0,
         "global-require": 0,
         "new-cap": 0,
-        "prefer-arrow-callback": 0
+        "prefer-arrow-callback": 0,
+        "no-import-assign": 0
       }
     },
     {
@@ -116,7 +140,7 @@
         "import/no-unresolved": 0,
         "max-nested-callbacks": 0,
         "no-process-env": 0,
-        "no-unused-expressions": 0
+        "babel/no-unused-expressions": 0
       }
     }
   ]

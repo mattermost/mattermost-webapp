@@ -15,7 +15,6 @@ exports[`components/search_bar/SearchBar should match snapshot with search 1`] =
       <FormattedMessage
         defaultMessage="Back Icon"
         id="generic_icons.back"
-        values={Object {}}
       >
         <Component />
       </FormattedMessage>
@@ -118,7 +117,6 @@ exports[`components/search_bar/SearchBar should match snapshot without search 1`
       <FormattedMessage
         defaultMessage="Back Icon"
         id="generic_icons.back"
-        values={Object {}}
       >
         <Component />
       </FormattedMessage>
@@ -290,7 +288,6 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
       <FormattedMessage
         defaultMessage="Back Icon"
         id="generic_icons.back"
-        values={Object {}}
       >
         <Component />
       </FormattedMessage>
@@ -462,7 +459,6 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
       <FormattedMessage
         defaultMessage="Back Icon"
         id="generic_icons.back"
-        values={Object {}}
       >
         <Component />
       </FormattedMessage>

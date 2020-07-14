@@ -9,16 +9,7 @@ import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
 
-import UserSettingsModal from './user_settings_modal';
-
-type Actions = {
-    sendVerificationEmail: (email: string) => Promise<{
-        data: {};
-        error: {
-            err: string;
-        };
-    }>;
-}
+import UserSettingsModal, {Props} from './user_settings_modal';
 
 function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
@@ -39,7 +30,7 @@ function mapStateToProps(state: GlobalState) {
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
-        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Props['actions']>({
             sendVerificationEmail,
         }, dispatch),
     };

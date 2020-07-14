@@ -60,7 +60,6 @@ exports[`components/ProfilePopover should hide add-to-channel option if not on t
       <FormattedMessage
         defaultMessage="Send Message"
         id="user_profile.send.dm"
-        values={Object {}}
       />
     </a>
   </div>
@@ -139,7 +138,6 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
       <FormattedMessage
         defaultMessage="Send Message"
         id="user_profile.send.dm"
-        values={Object {}}
       />
     </a>
   </div>

@@ -33,7 +33,7 @@ describe('components/FormattedMarkdownMessage', () => {
             values: {
                 b: (...content) => `<b>${content}</b>`,
                 script: (...content) => `<script>${content}</script>`,
-            }
+            },
         };
         const wrapper = mount(wrapProvider(<FormattedMarkdownMessage {...props}/>));
         expect(wrapper).toMatchSnapshot();

@@ -10,7 +10,6 @@ exports[`components/admin_console/group_settings/GroupSettings should match snap
     <FormattedMessage
       defaultMessage="Groups"
       id="admin.group_settings.groupsPageTitle"
-      values={Object {}}
     />
   </div>
   <div

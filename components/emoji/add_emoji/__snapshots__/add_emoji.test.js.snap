@@ -11,13 +11,11 @@ exports[`components/emoji/components/AddEmoji should match snapshot 1`] = `
       <FormattedMessage
         defaultMessage="Custom Emoji"
         id="emoji_list.header"
-        values={Object {}}
       />
     </Link>
     <FormattedMessage
       defaultMessage="Add"
       id="add_emoji.header"
-      values={Object {}}
     />
   </BackstageHeader>
   <div
@@ -37,7 +35,6 @@ exports[`components/emoji/components/AddEmoji should match snapshot 1`] = `
           <FormattedMessage
             defaultMessage="Name"
             id="add_emoji.name"
-            values={Object {}}
           />
         </label>
         <div
@@ -57,7 +54,6 @@ exports[`components/emoji/components/AddEmoji should match snapshot 1`] = `
             <FormattedMessage
               defaultMessage="Name your emoji. The name can be up to 64 characters, and can contain lowercase letters, numbers, and the symbols '-' and '_'."
               id="add_emoji.name.help"
-              values={Object {}}
             />
           </div>
         </div>
@@ -72,7 +68,6 @@ exports[`components/emoji/components/AddEmoji should match snapshot 1`] = `
           <FormattedMessage
             defaultMessage="Image"
             id="add_emoji.image"
-            values={Object {}}
           />
         </label>
         <div
@@ -88,7 +83,6 @@ exports[`components/emoji/components/AddEmoji should match snapshot 1`] = `
                 <FormattedMessage
                   defaultMessage="Select"
                   id="add_emoji.image.button"
-                  values={Object {}}
                 />
               </button>
               <input
@@ -105,7 +99,6 @@ exports[`components/emoji/components/AddEmoji should match snapshot 1`] = `
               <FormattedMessage
                 defaultMessage="Specify a .gif, .png, or .jpg file of up to 64 KB for your emoji. The dimensions can be up to 128 pixels by 128 pixels."
                 id="add_emoji.image.help"
-                values={Object {}}
               />
             </div>
           </div>
@@ -126,7 +119,6 @@ exports[`components/emoji/components/AddEmoji should match snapshot 1`] = `
           <FormattedMessage
             defaultMessage="Cancel"
             id="add_emoji.cancel"
-            values={Object {}}
           />
         </Link>
         <SpinnerButton
@@ -139,7 +131,6 @@ exports[`components/emoji/components/AddEmoji should match snapshot 1`] = `
           <FormattedMessage
             defaultMessage="Save"
             id="add_emoji.save"
-            values={Object {}}
           />
         </SpinnerButton>
       </div>
@@ -159,13 +150,11 @@ exports[`components/emoji/components/AddEmoji should select a file and match sna
       <FormattedMessage
         defaultMessage="Custom Emoji"
         id="emoji_list.header"
-        values={Object {}}
       />
     </Link>
     <FormattedMessage
       defaultMessage="Add"
       id="add_emoji.header"
-      values={Object {}}
     />
   </BackstageHeader>
   <div
@@ -185,7 +174,6 @@ exports[`components/emoji/components/AddEmoji should select a file and match sna
           <FormattedMessage
             defaultMessage="Name"
             id="add_emoji.name"
-            values={Object {}}
           />
         </label>
         <div
@@ -205,7 +193,6 @@ exports[`components/emoji/components/AddEmoji should select a file and match sna
             <FormattedMessage
               defaultMessage="Name your emoji. The name can be up to 64 characters, and can contain lowercase letters, numbers, and the symbols '-' and '_'."
               id="add_emoji.name.help"
-              values={Object {}}
             />
           </div>
         </div>
@@ -220,7 +207,6 @@ exports[`components/emoji/components/AddEmoji should select a file and match sna
           <FormattedMessage
             defaultMessage="Image"
             id="add_emoji.image"
-            values={Object {}}
           />
         </label>
         <div
@@ -236,7 +222,6 @@ exports[`components/emoji/components/AddEmoji should select a file and match sna
                 <FormattedMessage
                   defaultMessage="Select"
                   id="add_emoji.image.button"
-                  values={Object {}}
                 />
               </button>
               <input
@@ -256,7 +241,6 @@ exports[`components/emoji/components/AddEmoji should select a file and match sna
               <FormattedMessage
                 defaultMessage="Specify a .gif, .png, or .jpg file of up to 64 KB for your emoji. The dimensions can be up to 128 pixels by 128 pixels."
                 id="add_emoji.image.help"
-                values={Object {}}
               />
             </div>
           </div>
@@ -272,7 +256,6 @@ exports[`components/emoji/components/AddEmoji should select a file and match sna
           <FormattedMessage
             defaultMessage="Preview"
             id="add_emoji.preview"
-            values={Object {}}
           />
         </label>
         <div
@@ -311,7 +294,6 @@ exports[`components/emoji/components/AddEmoji should select a file and match sna
           <FormattedMessage
             defaultMessage="Cancel"
             id="add_emoji.cancel"
-            values={Object {}}
           />
         </Link>
         <SpinnerButton
@@ -324,7 +306,6 @@ exports[`components/emoji/components/AddEmoji should select a file and match sna
           <FormattedMessage
             defaultMessage="Save"
             id="add_emoji.save"
-            values={Object {}}
           />
         </SpinnerButton>
       </div>
@@ -344,13 +325,11 @@ exports[`components/emoji/components/AddEmoji should update emoji name and match
       <FormattedMessage
         defaultMessage="Custom Emoji"
         id="emoji_list.header"
-        values={Object {}}
       />
     </Link>
     <FormattedMessage
       defaultMessage="Add"
       id="add_emoji.header"
-      values={Object {}}
     />
   </BackstageHeader>
   <div
@@ -370,7 +349,6 @@ exports[`components/emoji/components/AddEmoji should update emoji name and match
           <FormattedMessage
             defaultMessage="Name"
             id="add_emoji.name"
-            values={Object {}}
           />
         </label>
         <div
@@ -390,7 +368,6 @@ exports[`components/emoji/components/AddEmoji should update emoji name and match
             <FormattedMessage
               defaultMessage="Name your emoji. The name can be up to 64 characters, and can contain lowercase letters, numbers, and the symbols '-' and '_'."
               id="add_emoji.name.help"
-              values={Object {}}
             />
           </div>
         </div>
@@ -405,7 +382,6 @@ exports[`components/emoji/components/AddEmoji should update emoji name and match
           <FormattedMessage
             defaultMessage="Image"
             id="add_emoji.image"
-            values={Object {}}
           />
         </label>
         <div
@@ -421,7 +397,6 @@ exports[`components/emoji/components/AddEmoji should update emoji name and match
                 <FormattedMessage
                   defaultMessage="Select"
                   id="add_emoji.image.button"
-                  values={Object {}}
                 />
               </button>
               <input
@@ -438,7 +413,6 @@ exports[`components/emoji/components/AddEmoji should update emoji name and match
               <FormattedMessage
                 defaultMessage="Specify a .gif, .png, or .jpg file of up to 64 KB for your emoji. The dimensions can be up to 128 pixels by 128 pixels."
                 id="add_emoji.image.help"
-                values={Object {}}
               />
             </div>
           </div>
@@ -459,7 +433,6 @@ exports[`components/emoji/components/AddEmoji should update emoji name and match
           <FormattedMessage
             defaultMessage="Cancel"
             id="add_emoji.cancel"
-            values={Object {}}
           />
         </Link>
         <SpinnerButton
@@ -472,7 +445,6 @@ exports[`components/emoji/components/AddEmoji should update emoji name and match
           <FormattedMessage
             defaultMessage="Save"
             id="add_emoji.save"
-            values={Object {}}
           />
         </SpinnerButton>
       </div>

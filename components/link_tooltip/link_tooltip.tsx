@@ -15,7 +15,7 @@ const tooltipContainerStyles: CSSProperties = {
     zIndex: 1070,
     position: 'absolute',
     top: -1000,
-    left: -1000
+    left: -1000,
 };
 
 type Props = {

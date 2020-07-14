@@ -9,7 +9,6 @@ exports[`components/activity_log_modal/MoreInfo should match snapshot extra info
   <FormattedMessage
     defaultMessage="More info"
     id="activity_log.moreInfo"
-    values={Object {}}
   />
 </a>
 `;

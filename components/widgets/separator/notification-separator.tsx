@@ -5,7 +5,7 @@ import React from 'react';
 import './separator.scss';
 import './notification-separator.scss';
 
-export default class NotificationSeparator extends React.PureComponent<React.PropsWithChildren<{}>> {
+export default class NotificationSeparator extends React.PureComponent<React.PropsWithChildren<any>> {
     public render() {
         const {children} = this.props;
         return (

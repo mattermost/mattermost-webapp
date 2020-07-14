@@ -7,14 +7,12 @@ exports[`components/integrations/EditOutgoingWebhook should have match renderExt
     <FormattedMessage
       defaultMessage="Update"
       id="update_outgoing_webhook.update"
-      values={Object {}}
     />
   }
   message={
     <FormattedMessage
       defaultMessage="Your changes may break the existing outgoing webhook. Are you sure you would like to update it?"
       id="update_outgoing_webhook.question"
-      values={Object {}}
     />
   }
   modalClass=""
@@ -25,7 +23,6 @@ exports[`components/integrations/EditOutgoingWebhook should have match renderExt
     <FormattedMessage
       defaultMessage="Edit Outgoing Webhook"
       id="update_outgoing_webhook.confirm"
-      values={Object {}}
     />
   }
 />
@@ -85,14 +82,12 @@ exports[`components/integrations/EditOutgoingWebhook should match snapshot 1`] =
         <FormattedMessage
           defaultMessage="Update"
           id="update_outgoing_webhook.update"
-          values={Object {}}
         />
       }
       message={
         <FormattedMessage
           defaultMessage="Your changes may break the existing outgoing webhook. Are you sure you would like to update it?"
           id="update_outgoing_webhook.question"
-          values={Object {}}
         />
       }
       modalClass=""
@@ -103,7 +98,6 @@ exports[`components/integrations/EditOutgoingWebhook should match snapshot 1`] =
         <FormattedMessage
           defaultMessage="Edit Outgoing Webhook"
           id="update_outgoing_webhook.confirm"
-          values={Object {}}
         />
       }
     />
@@ -172,14 +166,12 @@ exports[`components/integrations/EditOutgoingWebhook should match snapshot when 
         <FormattedMessage
           defaultMessage="Update"
           id="update_outgoing_webhook.update"
-          values={Object {}}
         />
       }
       message={
         <FormattedMessage
           defaultMessage="Your changes may break the existing outgoing webhook. Are you sure you would like to update it?"
           id="update_outgoing_webhook.question"
-          values={Object {}}
         />
       }
       modalClass=""
@@ -190,7 +182,6 @@ exports[`components/integrations/EditOutgoingWebhook should match snapshot when 
         <FormattedMessage
           defaultMessage="Edit Outgoing Webhook"
           id="update_outgoing_webhook.confirm"
-          values={Object {}}
         />
       }
     />

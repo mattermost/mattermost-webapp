@@ -149,7 +149,6 @@ exports[`components/QuickInput should render clear button with default tooltip t
         <FormattedMessage
           defaultMessage="Clear"
           id="input.clear"
-          values={Object {}}
         />
       </Tooltip>
     }
@@ -174,7 +173,6 @@ exports[`components/QuickInput should render clear button with default tooltip t
           <FormattedMessage
             defaultMessage="Clear"
             id="input.clear"
-            values={Object {}}
           />
         </OverlayWrapper>
       }

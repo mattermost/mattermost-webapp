@@ -3,7 +3,7 @@
 
 import React from 'react';
 import {UserProfile} from 'mattermost-redux/types/users';
-import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
+import {Channel, ChannelStats, ChannelMembership} from 'mattermost-redux/types/channels';
 
 import Constants from 'utils/constants';
 import * as UserAgent from 'utils/user_agent';
@@ -29,9 +29,9 @@ type Props = {
     totalChannelMembers: number;
     channel: Channel;
     actions: {
-        searchProfiles: (term: string, options?: {}) => Promise<{data: UserProfile[]}>;
+        searchProfiles: (term: string, options?: {[key: string]: any}) => Promise<{data: UserProfile[]}>;
         getChannelMembers: (channelId: string) => Promise<{data: ChannelMembership[]}>;
-        getChannelStats: (channelId: string) => Promise<{data: {}}>;
+        getChannelStats: (channelId: string) => Promise<{data: ChannelStats}>;
         setModalSearchTerm: (term: string) => Promise<{
             data: boolean;
         }>;

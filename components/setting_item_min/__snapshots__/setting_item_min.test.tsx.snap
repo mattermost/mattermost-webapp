@@ -27,7 +27,6 @@ exports[`components/SettingItemMin should match snapshot 1`] = `
         <FormattedMessage
           defaultMessage="Edit"
           id="setting_item_min.edit"
-          values={Object {}}
         />
       </button>
     </div>

@@ -20,7 +20,6 @@ exports[`components/post_view/PostFlagIcon should match snapshot 1`] = `
         <FormattedMessage
           defaultMessage="Flag for follow up"
           id="flag_post.flag"
-          values={Object {}}
         />
       </Tooltip>
     }
@@ -59,7 +58,6 @@ exports[`components/post_view/PostFlagIcon should match snapshot 2`] = `
         <FormattedMessage
           defaultMessage="Unflag"
           id="flag_post.unflag"
-          values={Object {}}
         />
       </Tooltip>
     }

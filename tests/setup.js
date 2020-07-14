@@ -75,6 +75,23 @@ afterEach(() => {
     }
 });
 
+jest.mock('react-intl', () => {
+    const reactIntl = jest.requireActual('react-intl');
+
+    const intl = reactIntl.createIntl({
+        locale: 'en',
+        defaultLocale: 'en',
+        timeZone: 'Etc/UTC',
+        messages: require('i18n/en.json'),
+        textComponent: 'span',
+    });
+
+    return {
+        ...reactIntl,
+        useIntl: () => intl,
+    };
+});
+
 expect.extend({
     arrayContainingExactly(received, actual) {
         const pass = received.sort().join(',') === actual.sort().join(',');

@@ -7,14 +7,12 @@ exports[`components/integrations/EditCommand should have match renderExtra 1`] =
     <FormattedMessage
       defaultMessage="Update"
       id="update_command.update"
-      values={Object {}}
     />
   }
   message={
     <FormattedMessage
       defaultMessage="Your changes may break the existing slash command. Are you sure you would like to update it?"
       id="update_command.question"
-      values={Object {}}
     />
   }
   modalClass=""
@@ -25,7 +23,6 @@ exports[`components/integrations/EditCommand should have match renderExtra 1`] =
     <FormattedMessage
       defaultMessage="Edit Slash Command"
       id="update_command.confirm"
-      values={Object {}}
     />
   }
 />
@@ -80,14 +77,12 @@ exports[`components/integrations/EditCommand should match snapshot 1`] = `
         <FormattedMessage
           defaultMessage="Update"
           id="update_command.update"
-          values={Object {}}
         />
       }
       message={
         <FormattedMessage
           defaultMessage="Your changes may break the existing slash command. Are you sure you would like to update it?"
           id="update_command.question"
-          values={Object {}}
         />
       }
       modalClass=""
@@ -98,7 +93,6 @@ exports[`components/integrations/EditCommand should match snapshot 1`] = `
         <FormattedMessage
           defaultMessage="Edit Slash Command"
           id="update_command.confirm"
-          values={Object {}}
         />
       }
     />

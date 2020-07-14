@@ -4,7 +4,6 @@ exports[`components/channel_notifications_modal/ExtraInfo should match snapshot,
 <FormattedMessage
   defaultMessage="Send desktop notifications"
   id="channel_notifications.sendDesktop"
-  values={Object {}}
 />
 `;
 
@@ -12,7 +11,6 @@ exports[`components/channel_notifications_modal/ExtraInfo should match snapshot,
 <FormattedMessage
   defaultMessage="Mute Channel"
   id="channel_notifications.muteChannel.settings"
-  values={Object {}}
 />
 `;
 
@@ -20,6 +18,5 @@ exports[`components/channel_notifications_modal/ExtraInfo should match snapshot,
 <FormattedMessage
   defaultMessage="Send mobile push notifications"
   id="channel_notifications.push"
-  values={Object {}}
 />
 `;

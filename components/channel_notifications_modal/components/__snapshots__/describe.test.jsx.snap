@@ -4,7 +4,6 @@ exports[`components/channel_notifications_modal/NotificationSection should match
 <FormattedMessage
   defaultMessage="For all activity"
   id="channel_notifications.allActivity"
-  values={Object {}}
 />
 `;
 
@@ -12,7 +11,6 @@ exports[`components/channel_notifications_modal/NotificationSection should match
 <FormattedMessage
   defaultMessage="Off"
   id="channel_notifications.muteChannel.off.title"
-  values={Object {}}
 />
 `;
 
@@ -20,7 +18,6 @@ exports[`components/channel_notifications_modal/NotificationSection should match
 <FormattedMessage
   defaultMessage="Only for mentions"
   id="channel_notifications.onlyMentions"
-  values={Object {}}
 />
 `;
 
@@ -28,7 +25,6 @@ exports[`components/channel_notifications_modal/NotificationSection should match
 <FormattedMessage
   defaultMessage="Never"
   id="channel_notifications.never"
-  values={Object {}}
 />
 `;
 
@@ -41,7 +37,6 @@ exports[`components/channel_notifications_modal/NotificationSection should match
       "notifyLevel": <FormattedMessage
         defaultMessage="default"
         id="channel_notifications.levels.default"
-        values={Object {}}
       />,
     }
   }

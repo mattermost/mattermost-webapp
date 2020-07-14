@@ -115,14 +115,12 @@ exports[`components/integrations/InstalledOutgoingWebhooks should match snapshot
     <FormattedMessage
       defaultMessage="Add Outgoing Webhook"
       id="installed_outgoing_webhooks.add"
-      values={Object {}}
     />
   }
   emptyText={
     <FormattedMessage
       defaultMessage="No outgoing webhooks found"
       id="installed_outgoing_webhooks.empty"
-      values={Object {}}
     />
   }
   emptyTextSearch={
@@ -135,7 +133,6 @@ exports[`components/integrations/InstalledOutgoingWebhooks should match snapshot
     <FormattedMessage
       defaultMessage="Installed Outgoing Webhooks"
       id="installed_outgoing_webhooks.header"
-      values={Object {}}
     />
   }
   helpText={
@@ -152,7 +149,6 @@ exports[`components/integrations/InstalledOutgoingWebhooks should match snapshot
             <FormattedMessage
               defaultMessage="App Directory"
               id="installed_outgoing_webhooks.help.appDirectory"
-              values={Object {}}
             />
           </a>,
           "buildYourOwn": <a
@@ -163,7 +159,6 @@ exports[`components/integrations/InstalledOutgoingWebhooks should match snapshot
             <FormattedMessage
               defaultMessage="Build your own"
               id="installed_outgoing_webhooks.help.buildYourOwn"
-              values={Object {}}
             />
           </a>,
         }

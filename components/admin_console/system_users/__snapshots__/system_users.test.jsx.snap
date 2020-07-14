@@ -52,7 +52,6 @@ exports[`components/admin_console/system_users should match default snapshot 1`]
             <FormattedMessage
               defaultMessage="Revoke All Sessions"
               id="admin.system_users.revoke_all_sessions_button"
-              values={Object {}}
             />
           }
           message={
@@ -71,7 +70,6 @@ exports[`components/admin_console/system_users should match default snapshot 1`]
             <FormattedMessage
               defaultMessage="Revoke all sessions in the system"
               id="admin.system_users.revoke_all_sessions_modal_title"
-              values={Object {}}
             />
           }
         />
@@ -86,7 +84,6 @@ exports[`components/admin_console/system_users should match default snapshot 1`]
             <FormattedMessage
               defaultMessage="Revoke All Sessions"
               id="admin.system_users.revokeAllSessions"
-              values={Object {}}
             />
           </button>
         </div>

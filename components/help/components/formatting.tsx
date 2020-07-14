@@ -9,7 +9,7 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import Markdown from 'components/markdown';
 import {getSiteURL} from 'utils/url';
 
-export default function HelpFormatting(): JSX.Element {
+export default (): JSX.Element => {
     const renderRawExample = (example: string | React.ReactNode): JSX.Element => {
         return (
             <div className='post-code post-code--wrap'>
@@ -466,4 +466,4 @@ export default function HelpFormatting(): JSX.Element {
             </ul>
         </div>
     );
-}
+};

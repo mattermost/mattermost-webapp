@@ -13,7 +13,6 @@ exports[`admin_console/team_channel_settings/group/GroupUsers should match snaps
       <FormattedMessage
         defaultMessage="Name"
         id="admin.team_channel_settings.user_list.nameHeader"
-        values={Object {}}
       />
     </div>
     <div
@@ -25,7 +24,6 @@ exports[`admin_console/team_channel_settings/group/GroupUsers should match snaps
         <FormattedMessage
           defaultMessage="Role"
           id="admin.team_channel_settings.user_list.roleHeader"
-          values={Object {}}
         />
       </div>
       <div
@@ -34,7 +32,6 @@ exports[`admin_console/team_channel_settings/group/GroupUsers should match snaps
         <FormattedMessage
           defaultMessage="Groups"
           id="admin.team_channel_settings.user_list.groupsHeader"
-          values={Object {}}
         />
       </div>
     </div>
@@ -246,7 +243,6 @@ exports[`admin_console/team_channel_settings/group/GroupUsers should match snaps
       <FormattedMessage
         defaultMessage="Name"
         id="admin.team_channel_settings.user_list.nameHeader"
-        values={Object {}}
       />
     </div>
     <div
@@ -258,7 +254,6 @@ exports[`admin_console/team_channel_settings/group/GroupUsers should match snaps
         <FormattedMessage
           defaultMessage="Role"
           id="admin.team_channel_settings.user_list.roleHeader"
-          values={Object {}}
         />
       </div>
       <div
@@ -267,7 +262,6 @@ exports[`admin_console/team_channel_settings/group/GroupUsers should match snaps
         <FormattedMessage
           defaultMessage="Groups"
           id="admin.team_channel_settings.user_list.groupsHeader"
-          values={Object {}}
         />
       </div>
     </div>
@@ -479,7 +473,6 @@ exports[`admin_console/team_channel_settings/group/GroupUsers should match snaps
       <FormattedMessage
         defaultMessage="Name"
         id="admin.team_channel_settings.user_list.nameHeader"
-        values={Object {}}
       />
     </div>
     <div
@@ -491,7 +484,6 @@ exports[`admin_console/team_channel_settings/group/GroupUsers should match snaps
         <FormattedMessage
           defaultMessage="Role"
           id="admin.team_channel_settings.user_list.roleHeader"
-          values={Object {}}
         />
       </div>
       <div
@@ -500,7 +492,6 @@ exports[`admin_console/team_channel_settings/group/GroupUsers should match snaps
         <FormattedMessage
           defaultMessage="Groups"
           id="admin.team_channel_settings.user_list.groupsHeader"
-          values={Object {}}
         />
       </div>
     </div>
@@ -561,7 +552,6 @@ exports[`admin_console/team_channel_settings/group/GroupUsers should match snaps
       <FormattedMessage
         defaultMessage="Name"
         id="admin.team_channel_settings.user_list.nameHeader"
-        values={Object {}}
       />
     </div>
     <div
@@ -573,7 +563,6 @@ exports[`admin_console/team_channel_settings/group/GroupUsers should match snaps
         <FormattedMessage
           defaultMessage="Role"
           id="admin.team_channel_settings.user_list.roleHeader"
-          values={Object {}}
         />
       </div>
       <div
@@ -582,7 +571,6 @@ exports[`admin_console/team_channel_settings/group/GroupUsers should match snaps
         <FormattedMessage
           defaultMessage="Groups"
           id="admin.team_channel_settings.user_list.groupsHeader"
-          values={Object {}}
         />
       </div>
     </div>
@@ -794,7 +782,6 @@ exports[`admin_console/team_channel_settings/group/GroupUsers should match snaps
       <FormattedMessage
         defaultMessage="Name"
         id="admin.team_channel_settings.user_list.nameHeader"
-        values={Object {}}
       />
     </div>
     <div
@@ -806,7 +793,6 @@ exports[`admin_console/team_channel_settings/group/GroupUsers should match snaps
         <FormattedMessage
           defaultMessage="Role"
           id="admin.team_channel_settings.user_list.roleHeader"
-          values={Object {}}
         />
       </div>
       <div
@@ -815,7 +801,6 @@ exports[`admin_console/team_channel_settings/group/GroupUsers should match snaps
         <FormattedMessage
           defaultMessage="Groups"
           id="admin.team_channel_settings.user_list.groupsHeader"
-          values={Object {}}
         />
       </div>
     </div>

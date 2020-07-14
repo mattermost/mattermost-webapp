@@ -50,7 +50,6 @@ exports[`components/ChannelMembersModal should match snapshot 1`] = `
         <FormattedMessage
           defaultMessage=" Members"
           id="channel_members_modal.members"
-          values={Object {}}
         />
       </ModalTitle>
       <a
@@ -62,7 +61,6 @@ exports[`components/ChannelMembersModal should match snapshot 1`] = `
         <FormattedMessage
           defaultMessage=" Add Members"
           id="channel_members_modal.addNew"
-          values={Object {}}
         />
       </a>
     </ModalHeader>
@@ -147,7 +145,6 @@ exports[`components/ChannelMembersModal should match snapshot with archived chan
         <FormattedMessage
           defaultMessage=" Members"
           id="channel_members_modal.members"
-          values={Object {}}
         />
       </ModalTitle>
     </ModalHeader>

@@ -12,17 +12,11 @@ exports[`components/localized_input/localized_input should match snapshot 1`] = 
   }
   value="test value"
 >
-  <FormattedMessage
-    defaultMessage="placeholder to test"
-    id="test.placeholder"
-    values={Object {}}
-  >
-    <input
-      className="test-class"
-      onChange={[MockFunction]}
-      placeholder="placeholder to test"
-      value="test value"
-    />
-  </FormattedMessage>
+  <input
+    className="test-class"
+    onChange={[MockFunction]}
+    placeholder="placeholder to test"
+    value="test value"
+  />
 </LocalizedInput>
 `;

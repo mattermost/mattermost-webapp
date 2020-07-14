@@ -31,7 +31,6 @@ exports[`components/CopyUrlContextMenu should copy absolute url on click 1`] = `
       <FormattedMessage
         defaultMessage="Copy Link"
         id="copy_url_context_menu.getChannelLink"
-        values={Object {}}
       />
     </MenuItem>
   </ContextMenu>
@@ -85,7 +84,6 @@ exports[`components/CopyUrlContextMenu should copy relative url on click 1`] = `
       <FormattedMessage
         defaultMessage="Copy Link"
         id="copy_url_context_menu.getChannelLink"
-        values={Object {}}
       />
     </MenuItem>
   </ContextMenu>

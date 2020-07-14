@@ -4,7 +4,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import configureStore from 'redux-mock-store';
-import {shallow, ShallowWrapper} from 'enzyme';
+import {shallow} from 'enzyme';
 
 import {UserProfile} from 'mattermost-redux/types/users';
 
@@ -69,7 +69,7 @@ describe('components/user_settings/sidebar/UserSettingsSidebar', () => {
         const newUpdateSection = jest.fn();
         const updateArg = 'unreadChannels';
         const props: UserSettingsSidebarProps = {...defaultProps, updateSection: newUpdateSection};
-        const wrapper: ShallowWrapper<{}, {}, UserSettingsSidebar> = shallow(<UserSettingsSidebar {...props}/>);
+        const wrapper = shallow<UserSettingsSidebar>(<UserSettingsSidebar {...props}/>);
 
         wrapper.setState({isSaving: true,
             settings: {

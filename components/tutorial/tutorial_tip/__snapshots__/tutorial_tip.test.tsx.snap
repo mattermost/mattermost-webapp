@@ -76,7 +76,6 @@ exports[`components/tutorial/tutorial_tip/tutorial_tip should match snapshot 1`]
             <FormattedMessage
               defaultMessage="Next"
               id="tutorial_tip.next"
-              values={Object {}}
             />
           </button>
           <div
@@ -85,7 +84,6 @@ exports[`components/tutorial/tutorial_tip/tutorial_tip should match snapshot 1`]
             <FormattedMessage
               defaultMessage="Seen this before? "
               id="tutorial_tip.seen"
-              values={Object {}}
             />
             <a
               href="#"
@@ -94,7 +92,6 @@ exports[`components/tutorial/tutorial_tip/tutorial_tip should match snapshot 1`]
               <FormattedMessage
                 defaultMessage="Opt out of these tips."
                 id="tutorial_tip.out"
-                values={Object {}}
               />
             </a>
           </div>

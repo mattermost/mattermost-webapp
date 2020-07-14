@@ -58,7 +58,6 @@ exports[`components/MarketplaceItem MarketplaceItem should render 1`] = `
           <FormattedMessage
             defaultMessage="Install"
             id="marketplace_modal.list.Install"
-            values={Object {}}
           />
         </LoadingWrapper>
       </button>
@@ -131,7 +130,6 @@ exports[`components/MarketplaceItem MarketplaceItem should render installed plug
           <FormattedMessage
             defaultMessage="Configure"
             id="marketplace_modal.list.configure"
-            values={Object {}}
           />
         </button>
       </Link>
@@ -206,7 +204,6 @@ exports[`components/MarketplaceItem MarketplaceItem should render when not from 
           <FormattedMessage
             defaultMessage="Install"
             id="marketplace_modal.list.Install"
-            values={Object {}}
           />
         </LoadingWrapper>
       </button>
@@ -281,7 +278,6 @@ exports[`components/MarketplaceItem MarketplaceItem should render with empty lis
           <FormattedMessage
             defaultMessage="Install"
             id="marketplace_modal.list.Install"
-            values={Object {}}
           />
         </LoadingWrapper>
       </button>
@@ -352,7 +348,6 @@ exports[`components/MarketplaceItem MarketplaceItem should render with no plugin
           <FormattedMessage
             defaultMessage="Install"
             id="marketplace_modal.list.Install"
-            values={Object {}}
           />
         </LoadingWrapper>
       </button>
@@ -433,7 +428,6 @@ exports[`components/MarketplaceItem MarketplaceItem should render with one label
           <FormattedMessage
             defaultMessage="Install"
             id="marketplace_modal.list.Install"
-            values={Object {}}
           />
         </LoadingWrapper>
       </button>
@@ -508,7 +502,6 @@ exports[`components/MarketplaceItem MarketplaceItem should render with server er
           <FormattedMessage
             defaultMessage="Try Again"
             id="marketplace_modal.list.try_again"
-            values={Object {}}
           />
         </LoadingWrapper>
       </button>
@@ -595,7 +588,6 @@ exports[`components/MarketplaceItem MarketplaceItem should render with two label
           <FormattedMessage
             defaultMessage="Install"
             id="marketplace_modal.list.Install"
-            values={Object {}}
           />
         </LoadingWrapper>
       </button>
@@ -669,7 +661,6 @@ exports[`components/MarketplaceItem MarketplaceItem should render with update an
           <FormattedMessage
             defaultMessage="Configure"
             id="marketplace_modal.list.configure"
-            values={Object {}}
           />
         </button>
       </Link>
@@ -743,7 +734,6 @@ exports[`components/MarketplaceItem MarketplaceItem should render with update av
           <FormattedMessage
             defaultMessage="Configure"
             id="marketplace_modal.list.configure"
-            values={Object {}}
           />
         </button>
       </Link>
@@ -815,7 +805,6 @@ exports[`components/MarketplaceItem MarketplaceItem should render wtih no homepa
           <FormattedMessage
             defaultMessage="Install"
             id="marketplace_modal.list.Install"
-            values={Object {}}
           />
         </LoadingWrapper>
       </button>
@@ -839,7 +828,6 @@ exports[`components/MarketplaceItem UpdateConfirmationModal should add extra war
     <FormattedMessage
       defaultMessage="Update"
       id="marketplace_modal.list.update_confirmation.confirm_button"
-      values={Object {}}
     />
   }
   message={
@@ -891,7 +879,6 @@ exports[`components/MarketplaceItem UpdateConfirmationModal should add extra war
     <FormattedMessage
       defaultMessage="Confirm Plugin Update"
       id="marketplace_modal.list.update_confirmation.title"
-      values={Object {}}
     />
   }
 />
@@ -904,7 +891,6 @@ exports[`components/MarketplaceItem UpdateConfirmationModal should add extra war
     <FormattedMessage
       defaultMessage="Update"
       id="marketplace_modal.list.update_confirmation.confirm_button"
-      values={Object {}}
     />
   }
   message={
@@ -938,7 +924,6 @@ exports[`components/MarketplaceItem UpdateConfirmationModal should add extra war
         <FormattedMessage
           defaultMessage="This update may contain breaking changes."
           id="marketplace_modal.list.update_confirmation.message.warning_major_version"
-          values={Object {}}
         />
       </p>,
     ]
@@ -951,7 +936,6 @@ exports[`components/MarketplaceItem UpdateConfirmationModal should add extra war
     <FormattedMessage
       defaultMessage="Confirm Plugin Update"
       id="marketplace_modal.list.update_confirmation.title"
-      values={Object {}}
     />
   }
 />
@@ -966,7 +950,6 @@ exports[`components/MarketplaceItem UpdateConfirmationModal should render withou
     <FormattedMessage
       defaultMessage="Update"
       id="marketplace_modal.list.update_confirmation.confirm_button"
-      values={Object {}}
     />
   }
   message={
@@ -1004,7 +987,6 @@ exports[`components/MarketplaceItem UpdateConfirmationModal should render withou
     <FormattedMessage
       defaultMessage="Confirm Plugin Update"
       id="marketplace_modal.list.update_confirmation.title"
-      values={Object {}}
     />
   }
 />
@@ -1025,7 +1007,6 @@ exports[`components/MarketplaceItem UpdateDetails should render with release not
     <FormattedMessage
       defaultMessage="Update available:"
       id="marketplace_modal.list.update_available"
-      values={Object {}}
     >
       <span>
         Update available:
@@ -1052,7 +1033,6 @@ exports[`components/MarketplaceItem UpdateDetails should render with release not
         <FormattedMessage
           defaultMessage="Update"
           id="marketplace_modal.list.update"
-          values={Object {}}
         >
           <span>
             Update
@@ -1079,7 +1059,6 @@ exports[`components/MarketplaceItem UpdateDetails should render without release 
     <FormattedMessage
       defaultMessage="Update available:"
       id="marketplace_modal.list.update_available"
-      values={Object {}}
     >
       <span>
         Update available:
@@ -1100,7 +1079,6 @@ exports[`components/MarketplaceItem UpdateDetails should render without release 
         <FormattedMessage
           defaultMessage="Update"
           id="marketplace_modal.list.update"
-          values={Object {}}
         >
           <span>
             Update

@@ -27,7 +27,6 @@ exports[`components/ShouldVerifyEmail should match snapshot 1`] = `
           <FormattedMessage
             defaultMessage="Please verify your email address. Check your inbox for an email."
             id="email_verify.notVerifiedBody"
-            values={Object {}}
           />
         </p>
         <button
@@ -37,7 +36,6 @@ exports[`components/ShouldVerifyEmail should match snapshot 1`] = `
           <FormattedMessage
             defaultMessage="Resend Email"
             id="email_verify.resend"
-            values={Object {}}
           />
         </button>
       </div>

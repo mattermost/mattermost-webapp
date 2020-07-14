@@ -13,7 +13,6 @@ exports[`components/admin_console/group_settings/group_details/GroupProfile shou
       <FormattedMessage
         defaultMessage="Name:"
         id="admin.group_settings.group_details.group_profile.name"
-        values={Object {}}
       />
     </label>
     <div

@@ -22,7 +22,6 @@ exports[`components/PopoverListMembers should match snapshot 1`] = `
           <FormattedMessage
             defaultMessage="Members"
             id="channel_header.channelMembers"
-            values={Object {}}
           />
         </Tooltip>
       }
@@ -72,7 +71,6 @@ exports[`components/PopoverListMembers should match snapshot 1`] = `
         <FormattedMessage
           defaultMessage="Channel Members"
           id="members_popover.title"
-          values={Object {}}
         />
       </div>
       <div
@@ -134,7 +132,6 @@ exports[`components/PopoverListMembers should match snapshot with archived chann
           <FormattedMessage
             defaultMessage="Members"
             id="channel_header.channelMembers"
-            values={Object {}}
           />
         </Tooltip>
       }
@@ -184,7 +181,6 @@ exports[`components/PopoverListMembers should match snapshot with archived chann
         <FormattedMessage
           defaultMessage="Channel Members"
           id="members_popover.title"
-          values={Object {}}
         />
       </div>
       <div
@@ -246,7 +242,6 @@ exports[`components/PopoverListMembers should match snapshot with group-constrai
           <FormattedMessage
             defaultMessage="Members"
             id="channel_header.channelMembers"
-            values={Object {}}
           />
         </Tooltip>
       }
@@ -296,7 +291,6 @@ exports[`components/PopoverListMembers should match snapshot with group-constrai
         <FormattedMessage
           defaultMessage="Channel Members"
           id="members_popover.title"
-          values={Object {}}
         />
         <div
           className="subhead"
@@ -304,7 +298,6 @@ exports[`components/PopoverListMembers should match snapshot with group-constrai
           <FormattedMessage
             defaultMessage="Members managed by linked groups."
             id="channel_header.groupConstrained"
-            values={Object {}}
           />
         </div>
       </div>

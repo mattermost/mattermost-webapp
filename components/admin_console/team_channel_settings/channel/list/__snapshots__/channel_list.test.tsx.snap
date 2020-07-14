@@ -13,7 +13,6 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
           "name": <FormattedMessage
             defaultMessage="Name"
             id="admin.channel_settings.channel_list.nameHeader"
-            values={Object {}}
           />,
           "width": 4,
         },
@@ -23,7 +22,6 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
           "name": <FormattedMessage
             defaultMessage="Team"
             id="admin.channel_settings.channel_list.teamHeader"
-            values={Object {}}
           />,
           "width": 1.5,
         },
@@ -33,7 +31,6 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
           "name": <FormattedMessage
             defaultMessage="Management"
             id="admin.channel_settings.channel_list.managementHeader"
-            values={Object {}}
           />,
         },
         Object {
@@ -52,7 +49,6 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
       <FormattedMessage
         defaultMessage="No channels found"
         id="admin.channel_settings.channel_list.no_channels_found"
-        values={Object {}}
       />
     }
     previousPage={[Function]}
@@ -70,7 +66,6 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
                 <FormattedMessage
                   defaultMessage="Edit"
                   id="admin.channel_settings.channel_row.configure"
-                  values={Object {}}
                 />
               </Link>
             </span>,
@@ -81,7 +76,6 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               <FormattedMessage
                 defaultMessage="Manual Invites"
                 id="admin.channel_settings.channel_row.managementMethod.manual"
-                values={Object {}}
               />
             </span>,
             "name": <span
@@ -133,7 +127,6 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
           "name": <FormattedMessage
             defaultMessage="Name"
             id="admin.channel_settings.channel_list.nameHeader"
-            values={Object {}}
           />,
           "width": 4,
         },
@@ -143,7 +136,6 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
           "name": <FormattedMessage
             defaultMessage="Team"
             id="admin.channel_settings.channel_list.teamHeader"
-            values={Object {}}
           />,
           "width": 1.5,
         },
@@ -153,7 +145,6 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
           "name": <FormattedMessage
             defaultMessage="Management"
             id="admin.channel_settings.channel_list.managementHeader"
-            values={Object {}}
           />,
         },
         Object {
@@ -172,7 +163,6 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
       <FormattedMessage
         defaultMessage="No channels found"
         id="admin.channel_settings.channel_list.no_channels_found"
-        values={Object {}}
       />
     }
     previousPage={[Function]}
@@ -190,7 +180,6 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
                 <FormattedMessage
                   defaultMessage="Edit"
                   id="admin.channel_settings.channel_row.configure"
-                  values={Object {}}
                 />
               </Link>
             </span>,
@@ -201,7 +190,6 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               <FormattedMessage
                 defaultMessage="Manual Invites"
                 id="admin.channel_settings.channel_row.managementMethod.manual"
-                values={Object {}}
               />
             </span>,
             "name": <span
@@ -237,7 +225,6 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
                 <FormattedMessage
                   defaultMessage="Edit"
                   id="admin.channel_settings.channel_row.configure"
-                  values={Object {}}
                 />
               </Link>
             </span>,
@@ -248,7 +235,6 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               <FormattedMessage
                 defaultMessage="Manual Invites"
                 id="admin.channel_settings.channel_row.managementMethod.manual"
-                values={Object {}}
               />
             </span>,
             "name": <span
@@ -284,7 +270,6 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
                 <FormattedMessage
                   defaultMessage="Edit"
                   id="admin.channel_settings.channel_row.configure"
-                  values={Object {}}
                 />
               </Link>
             </span>,
@@ -295,7 +280,6 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               <FormattedMessage
                 defaultMessage="Manual Invites"
                 id="admin.channel_settings.channel_row.managementMethod.manual"
-                values={Object {}}
               />
             </span>,
             "name": <span
@@ -331,7 +315,6 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
                 <FormattedMessage
                   defaultMessage="Edit"
                   id="admin.channel_settings.channel_row.configure"
-                  values={Object {}}
                 />
               </Link>
             </span>,
@@ -342,7 +325,6 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               <FormattedMessage
                 defaultMessage="Manual Invites"
                 id="admin.channel_settings.channel_row.managementMethod.manual"
-                values={Object {}}
               />
             </span>,
             "name": <span
@@ -378,7 +360,6 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
                 <FormattedMessage
                   defaultMessage="Edit"
                   id="admin.channel_settings.channel_row.configure"
-                  values={Object {}}
                 />
               </Link>
             </span>,
@@ -389,7 +370,6 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               <FormattedMessage
                 defaultMessage="Manual Invites"
                 id="admin.channel_settings.channel_row.managementMethod.manual"
-                values={Object {}}
               />
             </span>,
             "name": <span
@@ -425,7 +405,6 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
                 <FormattedMessage
                   defaultMessage="Edit"
                   id="admin.channel_settings.channel_row.configure"
-                  values={Object {}}
                 />
               </Link>
             </span>,
@@ -436,7 +415,6 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               <FormattedMessage
                 defaultMessage="Manual Invites"
                 id="admin.channel_settings.channel_row.managementMethod.manual"
-                values={Object {}}
               />
             </span>,
             "name": <span
@@ -472,7 +450,6 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
                 <FormattedMessage
                   defaultMessage="Edit"
                   id="admin.channel_settings.channel_row.configure"
-                  values={Object {}}
                 />
               </Link>
             </span>,
@@ -483,7 +460,6 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               <FormattedMessage
                 defaultMessage="Manual Invites"
                 id="admin.channel_settings.channel_row.managementMethod.manual"
-                values={Object {}}
               />
             </span>,
             "name": <span
@@ -519,7 +495,6 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
                 <FormattedMessage
                   defaultMessage="Edit"
                   id="admin.channel_settings.channel_row.configure"
-                  values={Object {}}
                 />
               </Link>
             </span>,
@@ -530,7 +505,6 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               <FormattedMessage
                 defaultMessage="Manual Invites"
                 id="admin.channel_settings.channel_row.managementMethod.manual"
-                values={Object {}}
               />
             </span>,
             "name": <span
@@ -566,7 +540,6 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
                 <FormattedMessage
                   defaultMessage="Edit"
                   id="admin.channel_settings.channel_row.configure"
-                  values={Object {}}
                 />
               </Link>
             </span>,
@@ -577,7 +550,6 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               <FormattedMessage
                 defaultMessage="Manual Invites"
                 id="admin.channel_settings.channel_row.managementMethod.manual"
-                values={Object {}}
               />
             </span>,
             "name": <span
@@ -613,7 +585,6 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
                 <FormattedMessage
                   defaultMessage="Edit"
                   id="admin.channel_settings.channel_row.configure"
-                  values={Object {}}
                 />
               </Link>
             </span>,
@@ -624,7 +595,6 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               <FormattedMessage
                 defaultMessage="Manual Invites"
                 id="admin.channel_settings.channel_row.managementMethod.manual"
-                values={Object {}}
               />
             </span>,
             "name": <span

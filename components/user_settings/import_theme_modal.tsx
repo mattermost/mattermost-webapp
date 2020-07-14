@@ -17,11 +17,11 @@ type State = {
     value: string;
     inputError: any;
     show: boolean;
-    callback: ((args: {}) => void) | null;
+    callback: ((args: Theme) => void) | null;
 }
 
-export default class ImportThemeModal extends React.PureComponent<{}, State> {
-    public constructor(props: {}) {
+export default class ImportThemeModal extends React.PureComponent<any, State> {
+    public constructor(props: any) {
         super(props);
 
         this.state = {
@@ -64,22 +64,35 @@ export default class ImportThemeModal extends React.PureComponent<{}, State> {
             return;
         }
 
-        const colors = text.split(',');
-        const theme = {type: 'custom'};
+        const [
+            sidebarBg, // 0
+            sidebarHeaderBg, // 1
+            sidebarTextActiveBorder, // 2
+            sidebarTextActiveColor, // 3
+            sidebarTextHoverBg, // 4
+            sidebarText, // 5
+            onlineIndicator, // 6
+            mentionBg, // 7
+        ] = text.split(',');
 
-        (theme as Theme).sidebarBg = colors[0];
-        (theme as Theme).sidebarText = colors[5];
-        (theme as Theme).sidebarUnreadText = colors[5];
-        (theme as Theme).sidebarTextHoverBg = colors[4];
-        (theme as Theme).sidebarTextActiveBorder = colors[2];
-        (theme as Theme).sidebarTextActiveColor = colors[3];
-        (theme as Theme).sidebarHeaderBg = colors[1];
-        (theme as Theme).sidebarHeaderTextColor = colors[5];
-        (theme as Theme).onlineIndicator = colors[6];
-        (theme as Theme).mentionBg = colors[7];
+        const theme: Partial<Theme> = {
+            type: 'custom',
+            sidebarBg,
+            sidebarText,
+            sidebarUnreadText: sidebarText,
+            sidebarTextHoverBg,
+            sidebarTextActiveBorder,
+            sidebarTextActiveColor,
+            sidebarHeaderBg,
+            sidebarHeaderTextColor: sidebarText,
+            onlineIndicator,
+            mentionBg,
+        };
+
         setThemeDefaults(theme as Theme);
 
-        this.state.callback!(theme);
+        this.state.callback?.(theme as Theme);
+
         this.setState({
             show: false,
             callback: null,

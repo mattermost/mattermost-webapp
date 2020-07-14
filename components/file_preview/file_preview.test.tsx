@@ -30,6 +30,7 @@ describe('FilePreview', () => {
     ];
     const uploadsInProgress = ['clientID_1'];
     const uploadsProgressPercent = {
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         clientID_1: {
             width: 100,
             height: 100,

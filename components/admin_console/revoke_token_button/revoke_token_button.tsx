@@ -14,7 +14,7 @@ interface RevokeTokenButtonProps {
     onError: (errorMessage: string) => void;
 }
 
-export default class RevokeTokenButton extends React.PureComponent<RevokeTokenButtonProps, {}> {
+export default class RevokeTokenButton extends React.PureComponent<RevokeTokenButtonProps> {
     private handleClick = async (e: React.MouseEvent) => {
         e.preventDefault();
 

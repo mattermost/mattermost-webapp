@@ -17,7 +17,6 @@ exports[`component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannelB
       <FormattedMessage
         defaultMessage="Remove from this list"
         id="sidebar.removeList"
-        values={Object {}}
       />
     </Tooltip>
   }
@@ -51,7 +50,6 @@ exports[`component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannelB
       <FormattedMessage
         defaultMessage="Remove from this list"
         id="sidebar.removeList"
-        values={Object {}}
       />
     </Tooltip>
   }
@@ -85,7 +83,6 @@ exports[`component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannelB
       <FormattedMessage
         defaultMessage="Leave the channel"
         id="sidebar.leave"
-        values={Object {}}
       />
     </Tooltip>
   }
@@ -119,7 +116,6 @@ exports[`component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannelB
       <FormattedMessage
         defaultMessage="Leave the channel"
         id="sidebar.leave"
-        values={Object {}}
       />
     </Tooltip>
   }

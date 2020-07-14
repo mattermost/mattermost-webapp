@@ -17,7 +17,6 @@ exports[`components/ResetStatusModal should match snapshot 1`] = `
     <FormattedMessage
       defaultMessage="Do not ask me again"
       id="modal.manual_status.ask"
-      values={Object {}}
     />
   }
   confirmButtonClass="btn btn-primary"
@@ -79,7 +78,6 @@ exports[`components/ResetStatusModal should match snapshot, render modal for OOF
     <FormattedMessage
       defaultMessage="Do not ask me again"
       id="modal.manual_status.ask"
-      values={Object {}}
     />
   }
   confirmButtonClass="btn btn-primary"

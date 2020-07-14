@@ -8,7 +8,6 @@ exports[`components/integrations/InstalledOutgoingWebhook Should match snapshot 
 <FormattedMessage
   defaultMessage="A Private Webhook"
   id="installed_outgoing_webhooks.unknown_channel"
-  values={Object {}}
 />
 `;
 
@@ -37,7 +36,6 @@ exports[`components/integrations/InstalledOutgoingWebhook should match snapshot 
           <FormattedMessage
             defaultMessage="Regen Token"
             id="installed_integrations.regenToken"
-            values={Object {}}
           />
         </button>
          - 
@@ -47,7 +45,6 @@ exports[`components/integrations/InstalledOutgoingWebhook should match snapshot 
           <FormattedMessage
             defaultMessage="Edit"
             id="installed_integrations.edit"
-            values={Object {}}
           />
         </Link>
          - 
@@ -114,7 +111,6 @@ exports[`components/integrations/InstalledOutgoingWebhook should match snapshot 
               "triggerWhen": <FormattedMessage
                 defaultMessage="First word matches a trigger word exactly"
                 id="add_outgoing_webhook.triggerWordsTriggerWhenFullWord"
-                values={Object {}}
               />,
             }
           }

@@ -7,7 +7,7 @@ import {Link} from 'react-router-dom';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
-export default function HelpAttaching(): JSX.Element {
+export default (): JSX.Element => {
     return (
         <div>
             <h1 className='markdown__heading'>
@@ -216,4 +216,4 @@ export default function HelpAttaching(): JSX.Element {
             </ul>
         </div>
     );
-}
+};

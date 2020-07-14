@@ -45,7 +45,6 @@ exports[`components/EditChannelHeaderModal edit direct message channel 1`] = `
       <FormattedMessage
         defaultMessage="Edit Header"
         id="edit_channel_header_modal.title_dm"
-        values={Object {}}
       />
     </ModalTitle>
   </ModalHeader>
@@ -58,7 +57,6 @@ exports[`components/EditChannelHeaderModal edit direct message channel 1`] = `
         <FormattedMessage
           defaultMessage="Edit the text appearing next to the channel name in the channel header."
           id="edit_channel_header_modal.description"
-          values={Object {}}
         />
       </p>
       <div
@@ -103,7 +101,6 @@ exports[`components/EditChannelHeaderModal edit direct message channel 1`] = `
       <FormattedMessage
         defaultMessage="Cancel"
         id="edit_channel_header_modal.cancel"
-        values={Object {}}
       />
     </button>
     <button
@@ -115,7 +112,6 @@ exports[`components/EditChannelHeaderModal edit direct message channel 1`] = `
       <FormattedMessage
         defaultMessage="Save"
         id="edit_channel_header_modal.save"
-        values={Object {}}
       />
     </button>
   </ModalFooter>
@@ -184,7 +180,6 @@ exports[`components/EditChannelHeaderModal error with intl message 1`] = `
         <FormattedMessage
           defaultMessage="Edit the text appearing next to the channel name in the channel header."
           id="edit_channel_header_modal.description"
-          values={Object {}}
         />
       </p>
       <div
@@ -239,7 +234,6 @@ exports[`components/EditChannelHeaderModal error with intl message 1`] = `
       <FormattedMessage
         defaultMessage="Cancel"
         id="edit_channel_header_modal.cancel"
-        values={Object {}}
       />
     </button>
     <button
@@ -251,7 +245,6 @@ exports[`components/EditChannelHeaderModal error with intl message 1`] = `
       <FormattedMessage
         defaultMessage="Save"
         id="edit_channel_header_modal.save"
-        values={Object {}}
       />
     </button>
   </ModalFooter>
@@ -320,7 +313,6 @@ exports[`components/EditChannelHeaderModal error without intl message 1`] = `
         <FormattedMessage
           defaultMessage="Edit the text appearing next to the channel name in the channel header."
           id="edit_channel_header_modal.description"
-          values={Object {}}
         />
       </p>
       <div
@@ -375,7 +367,6 @@ exports[`components/EditChannelHeaderModal error without intl message 1`] = `
       <FormattedMessage
         defaultMessage="Cancel"
         id="edit_channel_header_modal.cancel"
-        values={Object {}}
       />
     </button>
     <button
@@ -387,7 +378,6 @@ exports[`components/EditChannelHeaderModal error without intl message 1`] = `
       <FormattedMessage
         defaultMessage="Save"
         id="edit_channel_header_modal.save"
-        values={Object {}}
       />
     </button>
   </ModalFooter>
@@ -456,7 +446,6 @@ exports[`components/EditChannelHeaderModal should match snapshot, init 1`] = `
         <FormattedMessage
           defaultMessage="Edit the text appearing next to the channel name in the channel header."
           id="edit_channel_header_modal.description"
-          values={Object {}}
         />
       </p>
       <div
@@ -501,7 +490,6 @@ exports[`components/EditChannelHeaderModal should match snapshot, init 1`] = `
       <FormattedMessage
         defaultMessage="Cancel"
         id="edit_channel_header_modal.cancel"
-        values={Object {}}
       />
     </button>
     <button
@@ -513,7 +501,6 @@ exports[`components/EditChannelHeaderModal should match snapshot, init 1`] = `
       <FormattedMessage
         defaultMessage="Save"
         id="edit_channel_header_modal.save"
-        values={Object {}}
       />
     </button>
   </ModalFooter>
@@ -582,7 +569,6 @@ exports[`components/EditChannelHeaderModal submitted 1`] = `
         <FormattedMessage
           defaultMessage="Edit the text appearing next to the channel name in the channel header."
           id="edit_channel_header_modal.description"
-          values={Object {}}
         />
       </p>
       <div
@@ -627,7 +613,6 @@ exports[`components/EditChannelHeaderModal submitted 1`] = `
       <FormattedMessage
         defaultMessage="Cancel"
         id="edit_channel_header_modal.cancel"
-        values={Object {}}
       />
     </button>
     <button
@@ -639,7 +624,6 @@ exports[`components/EditChannelHeaderModal submitted 1`] = `
       <FormattedMessage
         defaultMessage="Save"
         id="edit_channel_header_modal.save"
-        values={Object {}}
       />
     </button>
   </ModalFooter>

@@ -135,10 +135,13 @@ exports[`components/ChannelHeaderMobile/ChannelInfoButton should match snapshot,
             <FormattedMessage
               defaultMessage="Info Icon"
               id="generic_icons.info"
-              values={Object {}}
             >
               <svg
-                aria-label="Info Icon"
+                aria-label={
+                  Array [
+                    "Info Icon",
+                  ]
+                }
                 height="18px"
                 role="img"
                 viewBox="0 0 22 22"
@@ -212,7 +215,6 @@ exports[`components/ChannelHeaderMobile/ChannelInfoButton should match snapshot,
             <FormattedMessage
               defaultMessage="No channel header yet."
               id="navbar.noHeader"
-              values={Object {}}
             />
             <React.Fragment>
               <br />
@@ -228,7 +230,6 @@ exports[`components/ChannelHeaderMobile/ChannelInfoButton should match snapshot,
                       <FormattedMessage
                         defaultMessage="Click here"
                         id="navbar.click"
-                        values={Object {}}
                       />
                     </a>,
                   }
@@ -300,7 +301,6 @@ exports[`components/ChannelHeaderMobile/ChannelInfoButton should match snapshot,
               <FormattedMessage
                 defaultMessage="No channel header yet."
                 id="navbar.noHeader"
-                values={Object {}}
               />
               <React.Fragment>
                 <br />
@@ -316,7 +316,6 @@ exports[`components/ChannelHeaderMobile/ChannelInfoButton should match snapshot,
                         <FormattedMessage
                           defaultMessage="Click here"
                           id="navbar.click"
-                          values={Object {}}
                         />
                       </a>,
                     }
@@ -353,10 +352,13 @@ exports[`components/ChannelHeaderMobile/ChannelInfoButton should match snapshot,
             <FormattedMessage
               defaultMessage="Info Icon"
               id="generic_icons.info"
-              values={Object {}}
             >
               <svg
-                aria-label="Info Icon"
+                aria-label={
+                  Array [
+                    "Info Icon",
+                  ]
+                }
                 height="18px"
                 role="img"
                 viewBox="0 0 22 22"

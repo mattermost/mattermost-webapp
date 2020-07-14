@@ -41,23 +41,6 @@ describe('OverlayTrigger', () => {
         console.error = originalConsoleError;
     });
 
-    test('base OverlayTrigger should fail to pass intl to overlay', () => {
-        const wrapper = mount(
-            <IntlProvider {...intlProviderProps}>
-                <BaseOverlayTrigger {...baseProps}>
-                    <span/>
-                </BaseOverlayTrigger>
-            </IntlProvider>,
-        );
-
-        const overlay = mount(wrapper.find(BaseOverlayTrigger).prop('overlay'));
-
-        expect(overlay.text()).toBe('Default value');
-
-        // console.error will have been called by FormattedMessage because its intl context is missing
-        expect(console.error).toHaveBeenCalled();
-    });
-
     test('custom OverlayTrigger should pass intl to overlay', () => {
         const wrapper = mount(
             <IntlProvider {...intlProviderProps}>

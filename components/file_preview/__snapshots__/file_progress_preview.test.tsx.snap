@@ -51,7 +51,6 @@ exports[`component/file_preview/file_progress_preview should match snapshot 1`] 
           <FormattedMessage
             defaultMessage="Uploading..."
             id="admin.plugin.uploading"
-            values={Object {}}
           />
           <span>
              (50%)
@@ -135,7 +134,6 @@ exports[`component/file_preview/file_progress_preview snapshot for percent value
           <FormattedMessage
             defaultMessage="Uploading..."
             id="admin.plugin.uploading"
-            values={Object {}}
           />
           <span>
              (0%)

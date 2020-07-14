@@ -9,7 +9,7 @@ type Props = {
     displayName: string;
 }
 
-export default class TeamButton extends React.PureComponent<Props, {}> {
+export default class TeamButton extends React.PureComponent<Props> {
     public render(): JSX.Element {
         const {small, teamIconUrl} = this.props;
         const classModifier = small ? 'small' : 'large';

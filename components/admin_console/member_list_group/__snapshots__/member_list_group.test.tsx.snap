@@ -12,7 +12,6 @@ exports[`admin_console/team_channel_settings/group/GroupList should match snapsh
           "name": <FormattedMessage
             defaultMessage="Name"
             id="admin.member_list_group.name"
-            values={Object {}}
           />,
         },
       ]
@@ -25,7 +24,6 @@ exports[`admin_console/team_channel_settings/group/GroupList should match snapsh
       <FormattedMessage
         defaultMessage="No users found"
         id="admin.member_list_group.notFound"
-        values={Object {}}
       />
     }
     previousPage={[Function]}
@@ -573,7 +571,6 @@ exports[`admin_console/team_channel_settings/group/GroupList should match snapsh
           "name": <FormattedMessage
             defaultMessage="Name"
             id="admin.member_list_group.name"
-            values={Object {}}
           />,
         },
       ]
@@ -586,7 +583,6 @@ exports[`admin_console/team_channel_settings/group/GroupList should match snapsh
       <FormattedMessage
         defaultMessage="No users found"
         id="admin.member_list_group.notFound"
-        values={Object {}}
       />
     }
     previousPage={[Function]}

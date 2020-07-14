@@ -5,11 +5,13 @@ import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 import {ServerError} from 'mattermost-redux/types/errors';
 import {ActionFunc} from 'mattermost-redux/types/actions';
+import {Bot} from 'mattermost-redux/types/bots';
 
 import {updateUserActive, revokeAllSessionsForUser, promoteGuestToUser, demoteUserToGuest} from 'mattermost-redux/actions/users';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getBotAccounts} from 'mattermost-redux/selectors/entities/bots';
 import {loadBots} from 'mattermost-redux/actions/bots';
+
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 
 import * as Selectors from 'mattermost-redux/selectors/entities/admin';
@@ -23,7 +25,7 @@ type Actions = {
     revokeAllSessionsForUser: (id: string) => Promise<{error: ServerError; data: any}>;
     promoteGuestToUser: (id: string) => Promise<{error: ServerError}>;
     demoteUserToGuest: (id: string) => Promise<{error: ServerError}>;
-    loadBots: (page?: number, size?: number) => Promise<{}>;
+    loadBots: (page?: number, size?: number) => Promise<Bot[]>;
 }
 
 function mapStateToProps(state: GlobalState) {

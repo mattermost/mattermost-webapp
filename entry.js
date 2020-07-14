@@ -6,7 +6,7 @@
 // production. The window variable is updated by the server after configuring SiteURL and
 // restarting or by running the `mattermost config subpath` command.
 window.publicPath = process.env.PUBLIC_PATH || window.publicPath || '/static/'; // eslint-disable-line no-process-env
-__webpack_public_path__ = window.publicPath; // eslint-disable-line camelcase, @typescript-eslint/camelcase, no-undef
+__webpack_public_path__ = window.publicPath; // eslint-disable-line camelcase, @typescript-eslint/naming-convention, no-undef
 
 // Define the subpath at which Mattermost is running. Extract this from the publicPath above to
 // avoid depending on Redux state before it is even loaded. This actual global export is used

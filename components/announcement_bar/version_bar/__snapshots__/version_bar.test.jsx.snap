@@ -9,7 +9,6 @@ exports[`components/VersionBar should match snapshot - bar rendered after server
       <FormattedMessage
         defaultMessage="A new version of Mattermost is available."
         id="version_bar.new"
-        values={Object {}}
       />
        
       <a
@@ -18,7 +17,6 @@ exports[`components/VersionBar should match snapshot - bar rendered after server
         <FormattedMessage
           defaultMessage="Refresh the app now"
           id="version_bar.refresh"
-          values={Object {}}
         />
       </a>
       .

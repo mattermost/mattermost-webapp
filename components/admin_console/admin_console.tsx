@@ -30,7 +30,7 @@ type Props = {
     unauthorizedRoute: string;
     buildEnterpriseReady: boolean;
     roles: Dictionary<Role>;
-    match: { url: string };
+    match: {url: string};
     showNavigationPrompt: boolean;
     isCurrentUserSystemAdmin: boolean;
     actions: {
@@ -57,9 +57,7 @@ type ExtraProps = {
     config?: DeepPartial<AdminConfig>;
     environmentConfig?: Partial<EnvironmentConfig>;
     setNavigationBlocked?: () => void;
-    roles?: {
-        [x: string]: string | object;
-    };
+    roles?: Dictionary<Role>;
     editRole?: (role: Role) => void;
     updateConfig?: (config: AdminConfig) => ActionFunc;
 }

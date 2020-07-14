@@ -4,7 +4,7 @@
 import React from 'react';
 import './separator.scss';
 
-export default class BasicSeparator extends React.PureComponent<React.PropsWithChildren<{}>> {
+export default class BasicSeparator extends React.PureComponent<React.PropsWithChildren<any>> {
     public render() {
         const {children} = this.props;
         return (

@@ -34,7 +34,6 @@ exports[`components/TeamSettings hide invite code if no permissions for team inv
       <FormattedMessage
         defaultMessage="General Settings"
         id="general_tab.title"
-        values={Object {}}
       />
     </h4>
   </div>
@@ -47,7 +46,6 @@ exports[`components/TeamSettings hide invite code if no permissions for team inv
       <FormattedMessage
         defaultMessage="General Settings"
         id="general_tab.title"
-        values={Object {}}
       />
     </h3>
     <div
@@ -66,7 +64,6 @@ exports[`components/TeamSettings hide invite code if no permissions for team inv
         <FormattedMessage
           defaultMessage="Click 'Edit' to add a team description."
           id="general_tab.emptyDescription"
-          values={Object {}}
         />
       }
       section="description"
@@ -104,7 +101,6 @@ exports[`components/TeamSettings hide invite code if no permissions for team inv
         <FormattedMessage
           defaultMessage="Click 'Edit' to add an email domain whitelist."
           id="general_tab.allowedDomainsEdit"
-          values={Object {}}
         />
       }
       section="allowed_domains"
@@ -170,7 +166,6 @@ exports[`components/TeamSettings hide invite code if no permissions for team inv
       <FormattedMessage
         defaultMessage="General Settings"
         id="general_tab.title"
-        values={Object {}}
       />
     </h4>
   </div>
@@ -183,7 +178,6 @@ exports[`components/TeamSettings hide invite code if no permissions for team inv
       <FormattedMessage
         defaultMessage="General Settings"
         id="general_tab.title"
-        values={Object {}}
       />
     </h3>
     <div
@@ -202,7 +196,6 @@ exports[`components/TeamSettings hide invite code if no permissions for team inv
         <FormattedMessage
           defaultMessage="Click 'Edit' to add a team description."
           id="general_tab.emptyDescription"
-          values={Object {}}
         />
       }
       section="description"
@@ -240,7 +233,6 @@ exports[`components/TeamSettings hide invite code if no permissions for team inv
         <FormattedMessage
           defaultMessage="Click 'Edit' to add an email domain whitelist."
           id="general_tab.allowedDomainsEdit"
-          values={Object {}}
         />
       }
       section="allowed_domains"
@@ -300,7 +292,6 @@ exports[`components/TeamSettings should match snapshot when team is group constr
       <FormattedMessage
         defaultMessage="General Settings"
         id="general_tab.title"
-        values={Object {}}
       />
     </h4>
   </div>
@@ -313,7 +304,6 @@ exports[`components/TeamSettings should match snapshot when team is group constr
       <FormattedMessage
         defaultMessage="General Settings"
         id="general_tab.title"
-        values={Object {}}
       />
     </h3>
     <div

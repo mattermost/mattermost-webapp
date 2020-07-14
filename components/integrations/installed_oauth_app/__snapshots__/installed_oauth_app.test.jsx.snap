@@ -36,7 +36,6 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot 1`] = `
           <FormattedMessage
             defaultMessage="Show Secret"
             id="installed_integrations.showSecret"
-            values={Object {}}
           />
         </button>
          - 
@@ -48,7 +47,6 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot 1`] = `
           <FormattedMessage
             defaultMessage="Regenerate Secret"
             id="installed_integrations.regenSecret"
-            values={Object {}}
           />
         </button>
          - 
@@ -58,7 +56,6 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot 1`] = `
           <FormattedMessage
             defaultMessage="Edit"
             id="installed_integrations.edit"
-            values={Object {}}
           />
         </Link>
          - 
@@ -196,7 +193,6 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot, on err
         <FormattedMessage
           defaultMessage="Unnamed OAuth 2.0 Application"
           id="installed_integrations.unnamed_oauth_app"
-          values={Object {}}
         />
       </strong>
       <div
@@ -210,7 +206,6 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot, on err
           <FormattedMessage
             defaultMessage="Show Secret"
             id="installed_integrations.showSecret"
-            values={Object {}}
           />
         </button>
          - 
@@ -222,7 +217,6 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot, on err
           <FormattedMessage
             defaultMessage="Regenerate Secret"
             id="installed_integrations.regenSecret"
-            values={Object {}}
           />
         </button>
          - 
@@ -232,7 +226,6 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot, on err
           <FormattedMessage
             defaultMessage="Edit"
             id="installed_integrations.edit"
-            values={Object {}}
           />
         </Link>
          - 
@@ -374,7 +367,6 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot, when o
         <FormattedMessage
           defaultMessage="Unnamed OAuth 2.0 Application"
           id="installed_integrations.unnamed_oauth_app"
-          values={Object {}}
         />
       </strong>
       <div
@@ -388,7 +380,6 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot, when o
           <FormattedMessage
             defaultMessage="Show Secret"
             id="installed_integrations.showSecret"
-            values={Object {}}
           />
         </button>
          - 
@@ -400,7 +391,6 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot, when o
           <FormattedMessage
             defaultMessage="Regenerate Secret"
             id="installed_integrations.regenSecret"
-            values={Object {}}
           />
         </button>
          - 
@@ -410,7 +400,6 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot, when o
           <FormattedMessage
             defaultMessage="Edit"
             id="installed_integrations.edit"
-            values={Object {}}
           />
         </Link>
          - 

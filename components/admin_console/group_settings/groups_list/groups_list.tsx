@@ -55,7 +55,7 @@ type State = {
     filterIsUnlinked?: boolean;
 }
 
-type filterUpdates = [string, boolean];
+type FilterUpdates = [string, boolean];
 
 const FILTER_STATE_SEARCH_KEY_MAPPING: FilterSearchMap = {
     filterIsConfigured: {filter: 'is:configured', option: {is_configured: true}},
@@ -323,9 +323,9 @@ export default class GroupsList extends React.PureComponent<Props, State> {
         return newSearchString.replace(/\s{2,}/g, ' ');
     }
 
-    public handleFilterCheck(updates: filterUpdates[]) {
+    public handleFilterCheck(updates: FilterUpdates[]) {
         let {searchString} = this.state;
-        updates.forEach((item: filterUpdates) => {
+        updates.forEach((item: FilterUpdates) => {
             searchString = this.newSearchString(searchString, item[0], item[1]);
             this.setState({[item[0]]: item[1]} as any);
         });

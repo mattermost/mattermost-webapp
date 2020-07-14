@@ -31,7 +31,6 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
       <FormattedMessage
         defaultMessage="No teams found"
         id="admin.team_settings.team_list.no_teams_found"
-        values={Object {}}
       />
     </div>
   </div>

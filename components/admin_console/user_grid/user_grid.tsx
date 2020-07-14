@@ -207,7 +207,7 @@ export default class UserGrid extends React.PureComponent<Props, State> {
                             removeUser={this.removeUser}
                         />
                     ),
-                }
+                },
             };
         });
     }

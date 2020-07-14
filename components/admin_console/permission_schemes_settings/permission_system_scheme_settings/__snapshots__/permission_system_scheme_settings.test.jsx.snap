@@ -15,7 +15,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
       <FormattedMessage
         defaultMessage="System Scheme"
         id="admin.permissions.systemScheme"
-        values={Object {}}
       />
     </div>
   </div>
@@ -196,7 +195,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
         <FormattedMessage
           defaultMessage="Save"
           id="save_button.save"
-          values={Object {}}
         />
       }
       disabled={true}
@@ -212,7 +210,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
       <FormattedMessage
         defaultMessage="Cancel"
         id="admin.permissions.permissionSchemes.cancel"
-        values={Object {}}
       />
     </Connect(BlockableLink)>
     <a
@@ -223,7 +220,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
       <FormattedMessage
         defaultMessage="Reset to Defaults"
         id="admin.permissions.systemScheme.resetDefaultsButton"
-        values={Object {}}
       />
     </a>
     <div
@@ -241,14 +237,12 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
       <FormattedMessage
         defaultMessage="Yes, Reset"
         id="admin.permissions.systemScheme.resetDefaultsConfirmationButton"
-        values={Object {}}
       />
     }
     message={
       <FormattedMessage
         defaultMessage="This will reset all selections on this page to their default settings. Are you sure you want to reset?"
         id="admin.permissions.systemScheme.resetDefaultsButtonModalBody"
-        values={Object {}}
       />
     }
     modalClass=""
@@ -259,7 +253,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
       <FormattedMessage
         defaultMessage="Reset to Default?"
         id="admin.permissions.systemScheme.resetDefaultsButtonModalTitle"
-        values={Object {}}
       />
     }
   />
@@ -375,7 +368,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
       <FormattedMessage
         defaultMessage="System Scheme"
         id="admin.permissions.systemScheme"
-        values={Object {}}
       />
     </div>
   </div>
@@ -534,7 +526,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
         <FormattedMessage
           defaultMessage="Save"
           id="save_button.save"
-          values={Object {}}
         />
       }
       disabled={true}
@@ -550,7 +541,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
       <FormattedMessage
         defaultMessage="Cancel"
         id="admin.permissions.permissionSchemes.cancel"
-        values={Object {}}
       />
     </Connect(BlockableLink)>
     <a
@@ -561,7 +551,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
       <FormattedMessage
         defaultMessage="Reset to Defaults"
         id="admin.permissions.systemScheme.resetDefaultsButton"
-        values={Object {}}
       />
     </a>
     <div
@@ -579,14 +568,12 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
       <FormattedMessage
         defaultMessage="Yes, Reset"
         id="admin.permissions.systemScheme.resetDefaultsConfirmationButton"
-        values={Object {}}
       />
     }
     message={
       <FormattedMessage
         defaultMessage="This will reset all selections on this page to their default settings. Are you sure you want to reset?"
         id="admin.permissions.systemScheme.resetDefaultsButtonModalBody"
-        values={Object {}}
       />
     }
     modalClass=""
@@ -597,7 +584,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
       <FormattedMessage
         defaultMessage="Reset to Default?"
         id="admin.permissions.systemScheme.resetDefaultsButtonModalTitle"
-        values={Object {}}
       />
     }
   />
@@ -619,7 +605,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
       <FormattedMessage
         defaultMessage="System Scheme"
         id="admin.permissions.systemScheme"
-        values={Object {}}
       />
     </div>
   </div>
@@ -778,7 +763,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
         <FormattedMessage
           defaultMessage="Save"
           id="save_button.save"
-          values={Object {}}
         />
       }
       disabled={true}
@@ -794,7 +778,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
       <FormattedMessage
         defaultMessage="Cancel"
         id="admin.permissions.permissionSchemes.cancel"
-        values={Object {}}
       />
     </Connect(BlockableLink)>
     <a
@@ -805,7 +788,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
       <FormattedMessage
         defaultMessage="Reset to Defaults"
         id="admin.permissions.systemScheme.resetDefaultsButton"
-        values={Object {}}
       />
     </a>
     <div
@@ -823,14 +805,12 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
       <FormattedMessage
         defaultMessage="Yes, Reset"
         id="admin.permissions.systemScheme.resetDefaultsConfirmationButton"
-        values={Object {}}
       />
     }
     message={
       <FormattedMessage
         defaultMessage="This will reset all selections on this page to their default settings. Are you sure you want to reset?"
         id="admin.permissions.systemScheme.resetDefaultsButtonModalBody"
-        values={Object {}}
       />
     }
     modalClass=""
@@ -841,7 +821,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
       <FormattedMessage
         defaultMessage="Reset to Default?"
         id="admin.permissions.systemScheme.resetDefaultsButtonModalTitle"
-        values={Object {}}
       />
     }
   />
@@ -863,7 +842,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
       <FormattedMessage
         defaultMessage="System Scheme"
         id="admin.permissions.systemScheme"
-        values={Object {}}
       />
     </div>
   </div>
@@ -1022,7 +1000,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
         <FormattedMessage
           defaultMessage="Save"
           id="save_button.save"
-          values={Object {}}
         />
       }
       disabled={true}
@@ -1038,7 +1015,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
       <FormattedMessage
         defaultMessage="Cancel"
         id="admin.permissions.permissionSchemes.cancel"
-        values={Object {}}
       />
     </Connect(BlockableLink)>
     <a
@@ -1049,7 +1025,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
       <FormattedMessage
         defaultMessage="Reset to Defaults"
         id="admin.permissions.systemScheme.resetDefaultsButton"
-        values={Object {}}
       />
     </a>
     <div
@@ -1067,14 +1042,12 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
       <FormattedMessage
         defaultMessage="Yes, Reset"
         id="admin.permissions.systemScheme.resetDefaultsConfirmationButton"
-        values={Object {}}
       />
     }
     message={
       <FormattedMessage
         defaultMessage="This will reset all selections on this page to their default settings. Are you sure you want to reset?"
         id="admin.permissions.systemScheme.resetDefaultsButtonModalBody"
-        values={Object {}}
       />
     }
     modalClass=""
@@ -1085,7 +1058,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
       <FormattedMessage
         defaultMessage="Reset to Default?"
         id="admin.permissions.systemScheme.resetDefaultsButtonModalTitle"
-        values={Object {}}
       />
     }
   />
@@ -1107,7 +1079,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
       <FormattedMessage
         defaultMessage="System Scheme"
         id="admin.permissions.systemScheme"
-        values={Object {}}
       />
     </div>
   </div>
@@ -1266,7 +1237,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
         <FormattedMessage
           defaultMessage="Save"
           id="save_button.save"
-          values={Object {}}
         />
       }
       disabled={true}
@@ -1282,7 +1252,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
       <FormattedMessage
         defaultMessage="Cancel"
         id="admin.permissions.permissionSchemes.cancel"
-        values={Object {}}
       />
     </Connect(BlockableLink)>
     <a
@@ -1293,7 +1262,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
       <FormattedMessage
         defaultMessage="Reset to Defaults"
         id="admin.permissions.systemScheme.resetDefaultsButton"
-        values={Object {}}
       />
     </a>
     <div
@@ -1311,14 +1279,12 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
       <FormattedMessage
         defaultMessage="Yes, Reset"
         id="admin.permissions.systemScheme.resetDefaultsConfirmationButton"
-        values={Object {}}
       />
     }
     message={
       <FormattedMessage
         defaultMessage="This will reset all selections on this page to their default settings. Are you sure you want to reset?"
         id="admin.permissions.systemScheme.resetDefaultsButtonModalBody"
-        values={Object {}}
       />
     }
     modalClass=""
@@ -1329,7 +1295,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
       <FormattedMessage
         defaultMessage="Reset to Default?"
         id="admin.permissions.systemScheme.resetDefaultsButtonModalTitle"
-        values={Object {}}
       />
     }
   />

@@ -222,7 +222,7 @@ export default class ClusterSettings extends AdminSettings {
                         />
                     }
                     helpText={
-                        <FormattedHTMLMessage
+                        <FormattedMessage
                             id='admin.cluster.EnableExperimentalGossipEncryptionDesc'
                             defaultMessage='When true, all communication through the gossip protocol will be encrypted.'
                         />

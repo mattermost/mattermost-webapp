@@ -11,13 +11,11 @@ exports[`components/integrations/AbstractOutgoingWebhook should match snapshot 1
       <FormattedMessage
         defaultMessage="Outgoing Webhooks"
         id="installed_outgoing_webhooks.header"
-        values={Object {}}
       />
     </Link>
     <FormattedMessage
       defaultMessage="add"
       id="add"
-      values={Object {}}
     />
   </BackstageHeader>
   <div
@@ -37,7 +35,6 @@ exports[`components/integrations/AbstractOutgoingWebhook should match snapshot 1
           <FormattedMessage
             defaultMessage="Title"
             id="add_outgoing_webhook.displayName"
-            values={Object {}}
           />
         </label>
         <div
@@ -57,7 +54,6 @@ exports[`components/integrations/AbstractOutgoingWebhook should match snapshot 1
             <FormattedMessage
               defaultMessage="Specify a title, of up to 64 characters, for the webhook settings page."
               id="add_outgoing_webhook.displayName.help"
-              values={Object {}}
             />
           </div>
         </div>
@@ -72,7 +68,6 @@ exports[`components/integrations/AbstractOutgoingWebhook should match snapshot 1
           <FormattedMessage
             defaultMessage="Description"
             id="add_outgoing_webhook.description"
-            values={Object {}}
           />
         </label>
         <div
@@ -92,7 +87,6 @@ exports[`components/integrations/AbstractOutgoingWebhook should match snapshot 1
             <FormattedMessage
               defaultMessage="Describe your outgoing webhook."
               id="add_outgoing_webhook.description.help"
-              values={Object {}}
             />
           </div>
         </div>
@@ -107,7 +101,6 @@ exports[`components/integrations/AbstractOutgoingWebhook should match snapshot 1
           <FormattedMessage
             defaultMessage="Content Type"
             id="add_outgoing_webhook.content_Type"
-            values={Object {}}
           />
         </label>
         <div
@@ -135,7 +128,6 @@ exports[`components/integrations/AbstractOutgoingWebhook should match snapshot 1
             <FormattedMessage
               defaultMessage="Specify the content type by which to send the request."
               id="add_outgoing_webhook.contentType.help1"
-              values={Object {}}
             />
           </div>
           <div
@@ -144,7 +136,6 @@ exports[`components/integrations/AbstractOutgoingWebhook should match snapshot 1
             <FormattedMessage
               defaultMessage="For the server to encode the parameters in a URL format in the request body, select application/x-www-form-urlencoded."
               id="add_outgoing_webhook.contentType.help2"
-              values={Object {}}
             />
           </div>
           <div
@@ -153,7 +144,6 @@ exports[`components/integrations/AbstractOutgoingWebhook should match snapshot 1
             <FormattedMessage
               defaultMessage="For the server to format the request body as JSON, select application/json."
               id="add_outgoing_webhook.contentType.help3"
-              values={Object {}}
             />
           </div>
         </div>
@@ -168,7 +158,6 @@ exports[`components/integrations/AbstractOutgoingWebhook should match snapshot 1
           <FormattedMessage
             defaultMessage="Channel"
             id="add_outgoing_webhook.channel"
-            values={Object {}}
           />
         </label>
         <div
@@ -186,7 +175,6 @@ exports[`components/integrations/AbstractOutgoingWebhook should match snapshot 1
             <FormattedMessage
               defaultMessage="This field is optional if you specify at least one trigger word. Specify the public channel that delivers the payload to the webhook."
               id="add_outgoing_webhook.channel.help"
-              values={Object {}}
             />
           </div>
         </div>
@@ -201,7 +189,6 @@ exports[`components/integrations/AbstractOutgoingWebhook should match snapshot 1
           <FormattedMessage
             defaultMessage="Trigger Words (One Per Line)"
             id="add_outgoing_webhook.triggerWords"
-            values={Object {}}
           />
         </label>
         <div
@@ -221,7 +208,6 @@ exports[`components/integrations/AbstractOutgoingWebhook should match snapshot 1
             <FormattedMessage
               defaultMessage="Specify the trigger words that send an HTTP POST request to your application.  The trigger can be for the channel, the outgoing webhook, or both. If you select only Channel, trigger words are optional. If you select both, the message must match both values."
               id="add_outgoing_webhook.triggerWords.help"
-              values={Object {}}
             />
           </div>
         </div>
@@ -236,7 +222,6 @@ exports[`components/integrations/AbstractOutgoingWebhook should match snapshot 1
           <FormattedMessage
             defaultMessage="Trigger When"
             id="add_outgoing_webhook.triggerWordsTriggerWhen"
-            values={Object {}}
           />
         </label>
         <div
@@ -264,7 +249,6 @@ exports[`components/integrations/AbstractOutgoingWebhook should match snapshot 1
             <FormattedMessage
               defaultMessage="Specify when to trigger the outgoing webhook."
               id="add_outgoing_webhook.triggerWordsTriggerWhen.help"
-              values={Object {}}
             />
           </div>
         </div>
@@ -279,7 +263,6 @@ exports[`components/integrations/AbstractOutgoingWebhook should match snapshot 1
           <FormattedMessage
             defaultMessage="Callback URLs (One Per Line)"
             id="add_outgoing_webhook.callbackUrls"
-            values={Object {}}
           />
         </label>
         <div
@@ -309,7 +292,6 @@ exports[`components/integrations/AbstractOutgoingWebhook should match snapshot 1
                     <FormattedMessage
                       defaultMessage="trusted internal connection"
                       id="add_outgoing_webhook.callbackUrls.helpLinkText"
-                      values={Object {}}
                     />
                   </a>,
                 }
@@ -338,7 +320,6 @@ exports[`components/integrations/AbstractOutgoingWebhook should match snapshot 1
           <FormattedMessage
             defaultMessage="Cancel"
             id="add_outgoing_webhook.cancel"
-            values={Object {}}
           />
         </Link>
         <SpinnerButton
@@ -352,7 +333,6 @@ exports[`components/integrations/AbstractOutgoingWebhook should match snapshot 1
           <FormattedMessage
             defaultMessage="save"
             id="save"
-            values={Object {}}
           />
         </SpinnerButton>
       </div>

@@ -4,7 +4,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-export default function() {
+export default () => {
     return (
         <div className='alert alert-warning'>
             <FormattedMessage
@@ -13,4 +13,4 @@ export default function() {
             />
         </div>
     );
-}
+};

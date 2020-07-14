@@ -40,10 +40,10 @@ type Props = {
         getChannelStats: (channelId: string) => Promise<{
             data: boolean;
         }>;
-        loadProfilesAndReloadChannelMembers: (page: number, perPage: number, channelId?: string, sort?: string, options?: {}) => Promise<{
+        loadProfilesAndReloadChannelMembers: (page: number, perPage: number, channelId?: string, sort?: string, options?: {[key: string]: any}) => Promise<{
             data: boolean;
         }>;
-        searchProfilesAndChannelMembers: (term: string, options?: {}) => Promise<{
+        searchProfilesAndChannelMembers: (term: string, options?: {[key: string]: any}) => Promise<{
             data: boolean;
         }>;
         setSystemUsersSearch: (term: string) => Promise<{
@@ -152,7 +152,7 @@ export default class ChannelMembers extends React.PureComponent<Props, State> {
                         dialogProps={{
                             channel,
                             channelId,
-                            teamId: channel?.team_id, // eslint-disable-line camelcase, @typescript-eslint/camelcase
+                            teamId: channel?.team_id, // eslint-disable-line camelcase
                             onAddCallback: this.onAddCallback,
                             skipCommit: true,
                             excludeUsers: usersToAdd,

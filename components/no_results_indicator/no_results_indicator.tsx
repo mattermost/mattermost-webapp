@@ -1,8 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {ReactNode} from 'react';
 import {FormattedMessage, MessageDescriptor} from 'react-intl';
+import {Dictionary} from 'mattermost-redux/types/utilities';
 
 import {t} from 'utils/i18n';
 
@@ -15,8 +16,8 @@ import {NoResultsVariant} from './types';
 
 interface Props {
     variant: NoResultsVariant;
-    titleValues?: {[key: string]: string};
-    subtitleValues?: {[key: string]: string} | {[key: string]: {}};
+    titleValues?: Dictionary<ReactNode>;
+    subtitleValues?: Dictionary<ReactNode>
 }
 
 const iconMap: {[key in NoResultsVariant]: React.ReactNode } = {

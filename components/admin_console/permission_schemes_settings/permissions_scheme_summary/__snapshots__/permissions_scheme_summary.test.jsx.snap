@@ -19,7 +19,6 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
           <FormattedMessage
             defaultMessage="Yes, Delete"
             id="admin.permissions.permissionsSchemeSummary.deleteConfirmButton"
-            values={Object {}}
           />
         </LoadingWrapper>
       }
@@ -74,7 +73,6 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
         <FormattedMessage
           defaultMessage="Edit"
           id="admin.permissions.permissionsSchemeSummary.edit"
-          values={Object {}}
         />
       </Link>
       -
@@ -86,7 +84,6 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
         <FormattedMessage
           defaultMessage="Delete"
           id="admin.permissions.permissionsSchemeSummary.delete"
-          values={Object {}}
         />
       </a>
     </div>
@@ -140,7 +137,6 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
           <FormattedMessage
             defaultMessage="Yes, Delete"
             id="admin.permissions.permissionsSchemeSummary.deleteConfirmButton"
-            values={Object {}}
           />
         </LoadingWrapper>
       }
@@ -195,7 +191,6 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
         <FormattedMessage
           defaultMessage="Edit"
           id="admin.permissions.permissionsSchemeSummary.edit"
-          values={Object {}}
         />
       </Link>
       -
@@ -207,7 +202,6 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
         <FormattedMessage
           defaultMessage="Delete"
           id="admin.permissions.permissionsSchemeSummary.delete"
-          values={Object {}}
         />
       </a>
     </div>
@@ -336,7 +330,6 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
           <FormattedMessage
             defaultMessage="Yes, Delete"
             id="admin.permissions.permissionsSchemeSummary.deleteConfirmButton"
-            values={Object {}}
           />
         </LoadingWrapper>
       }
@@ -391,7 +384,6 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
         <FormattedMessage
           defaultMessage="Edit"
           id="admin.permissions.permissionsSchemeSummary.edit"
-          values={Object {}}
         />
       </Link>
       -
@@ -403,7 +395,6 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
         <FormattedMessage
           defaultMessage="Delete"
           id="admin.permissions.permissionsSchemeSummary.delete"
-          values={Object {}}
         />
       </a>
     </div>

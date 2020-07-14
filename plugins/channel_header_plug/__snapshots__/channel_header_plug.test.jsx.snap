@@ -234,7 +234,6 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
                         <FormattedMessage
                           defaultMessage="Plugins"
                           id="generic_icons.plugins"
-                          values={Object {}}
                         />
                       </div>
                     </Tooltip>
@@ -295,7 +294,6 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
                           <FormattedMessage
                             defaultMessage="Plugins"
                             id="generic_icons.plugins"
-                            values={Object {}}
                           />
                         </div>
                       </OverlayWrapper>
@@ -321,10 +319,13 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
                         <FormattedMessage
                           defaultMessage="Plugins"
                           id="generic_icons.plugins"
-                          values={Object {}}
                         >
                           <svg
-                            aria-label="Plugins"
+                            aria-label={
+                              Array [
+                                "Plugins",
+                              ]
+                            }
                             height="16px"
                             role="img"
                             version="1.1"

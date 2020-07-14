@@ -44,7 +44,6 @@ exports[`components/RenameChannelModal should match snapshot 1`] = `
       <FormattedMessage
         defaultMessage="Rename Channel"
         id="rename_channel.title"
-        values={Object {}}
       />
     </ModalTitle>
   </ModalHeader>
@@ -64,7 +63,6 @@ exports[`components/RenameChannelModal should match snapshot 1`] = `
           <FormattedMessage
             defaultMessage="Display Name"
             id="rename_channel.displayName"
-            values={Object {}}
           />
         </label>
         <LocalizedInput
@@ -137,7 +135,6 @@ exports[`components/RenameChannelModal should match snapshot 1`] = `
           <FormattedMessage
             defaultMessage="You can use lowercase letters, numbers, dashes, and underscores."
             id="change_url.helpText"
-            values={Object {}}
           />
         </p>
       </div>
@@ -154,7 +151,6 @@ exports[`components/RenameChannelModal should match snapshot 1`] = `
         <FormattedMessage
           defaultMessage="Cancel"
           id="rename_channel.cancel"
-          values={Object {}}
         />
       </button>
       <button
@@ -166,7 +162,6 @@ exports[`components/RenameChannelModal should match snapshot 1`] = `
         <FormattedMessage
           defaultMessage="Save"
           id="rename_channel.save"
-          values={Object {}}
         />
       </button>
     </ModalFooter>

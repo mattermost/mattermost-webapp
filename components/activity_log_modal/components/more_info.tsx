@@ -22,7 +22,7 @@ type Props = {
     moreInfo: boolean;
 };
 
-export default function MoreInfo(props: Props) {
+export default (props: Props) => {
     const {locale, currentSession, handleMoreInfo, moreInfo} = props;
 
     if (moreInfo) {
@@ -96,4 +96,4 @@ export default function MoreInfo(props: Props) {
             />
         </a>
     );
-}
+};

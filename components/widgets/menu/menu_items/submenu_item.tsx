@@ -36,8 +36,8 @@ type Props = {
     text: React.ReactNode;
     subMenu?: Props[];
     icon?: React.ReactNode;
-    action?: (id?: string) => {};
-    filter?: (id?: string) => {};
+    action?: (id?: string) => void;
+    filter?: (id?: string) => boolean;
     xOffset?: number;
     ariaLabel?: string;
     root?: boolean;
@@ -93,13 +93,23 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
             } else if (action) { // leaf node in the tree handles action only
                 action(postId);
             }
-        } else if (path && // the first 2 elements in path match original event id
+        } else if (
+            path && // the first 2 elements in path match original event id
             path.slice(0, 2).find((e) => e.id === id) &&
-            action) {
+            action
+        ) {
             action(postId);
-        } else if (!path && !event.nativeEvent.composedPath && action) { //for tests only that don't contain `path` or `composedPath`
+        } else if (
+            !path &&
+            !event.nativeEvent.composedPath &&
+            action
+        ) { //for tests only that don't contain `path` or `composedPath`
             action(postId);
-        } else if (!path && (event.nativeEvent.composedPath() as HTMLElement[]).slice(0, 2).find((e) => e.id === id) && action) {
+        } else if (
+            !path &&
+            (event.nativeEvent.composedPath() as HTMLElement[]).slice(0, 2).find((e) => e.id === id) &&
+            action
+        ) {
             action(postId);
         }
     }

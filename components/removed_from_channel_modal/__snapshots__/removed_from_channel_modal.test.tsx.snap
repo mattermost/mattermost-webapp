@@ -43,7 +43,6 @@ exports[`components/RemoveFromChannelModal should match snapshot 1`] = `
       <FormattedMessage
         defaultMessage="Removed from "
         id="removed_channel.from"
-        values={Object {}}
       />
       <span
         className="name"
@@ -82,7 +81,6 @@ exports[`components/RemoveFromChannelModal should match snapshot 1`] = `
       <FormattedMessage
         defaultMessage="Okay"
         id="removed_channel.okay"
-        values={Object {}}
       />
     </button>
   </ModalFooter>

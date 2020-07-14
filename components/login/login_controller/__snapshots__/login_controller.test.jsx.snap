@@ -31,7 +31,6 @@ exports[`components/login/LoginController should match snapshot 1`] = `
               <FormattedMessage
                 defaultMessage="No sign-in methods are enabled. Please contact your System Administrator."
                 id="login.noMethods"
-                values={Object {}}
               />
             }
             errors={Array []}
@@ -81,7 +80,6 @@ exports[`components/login/LoginController should match snapshot when expired 1`]
             <FormattedMessage
               defaultMessage="Your session has expired. Please log in again."
               id="login.session_expired"
-              values={Object {}}
             />
              
             <Link
@@ -99,7 +97,6 @@ exports[`components/login/LoginController should match snapshot when expired 1`]
               <FormattedMessage
                 defaultMessage="No sign-in methods are enabled. Please contact your System Administrator."
                 id="login.noMethods"
-                values={Object {}}
               />
             }
             errors={Array []}
@@ -156,7 +153,6 @@ exports[`components/login/LoginController should show session expiry notificatio
             <FormattedMessage
               defaultMessage="Your session has expired. Please log in again."
               id="login.session_expired"
-              values={Object {}}
             />
              
             <Link
@@ -174,7 +170,6 @@ exports[`components/login/LoginController should show session expiry notificatio
               <FormattedMessage
                 defaultMessage="No sign-in methods are enabled. Please contact your System Administrator."
                 id="login.noMethods"
-                values={Object {}}
               />
             }
             errors={Array []}
@@ -221,7 +216,6 @@ exports[`components/login/LoginController should suppress session expiry notific
             <FormattedMessage
               defaultMessage=" Sign-in method changed successfully"
               id="login.changed"
-              values={Object {}}
             />
           </div>
           <FormError
@@ -229,7 +223,6 @@ exports[`components/login/LoginController should suppress session expiry notific
               <FormattedMessage
                 defaultMessage="No sign-in methods are enabled. Please contact your System Administrator."
                 id="login.noMethods"
-                values={Object {}}
               />
             }
             errors={Array []}
