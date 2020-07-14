@@ -24,7 +24,6 @@ export default class UserProfile extends PureComponent {
         overwriteIcon: PropTypes.node,
         user: PropTypes.object,
         userId: PropTypes.string,
-        showGuestBadge: PropTypes.bool,
     };
 
     static defaultProps = {
@@ -35,7 +34,6 @@ export default class UserProfile extends PureComponent {
         isRHS: false,
         overwriteImage: '',
         overwriteName: '',
-        showGuestBadge: true,
     };
 
     hideProfilePopover = () => {
@@ -61,7 +59,6 @@ export default class UserProfile extends PureComponent {
             overwriteIcon,
             user,
             userId,
-            showGuestBadge,
         } = this.props;
 
         let name;
@@ -118,13 +115,10 @@ export default class UserProfile extends PureComponent {
                     show={Boolean(user && user.is_bot)}
                     className='badge-popoverlist'
                 />
-                {
-                    showGuestBadge &&
-                    <GuestBadge
-                        show={Boolean(user && isGuest(user))}
-                        className='badge-popoverlist'
-                    />
-                }
+                <GuestBadge
+                    show={Boolean(user && isGuest(user))}
+                    className='badge-popoverlist'
+                />
             </React.Fragment>
         );
     }

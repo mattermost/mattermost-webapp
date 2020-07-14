@@ -55,7 +55,7 @@ export default class CommentedOn extends PureComponent {
         const username = this.makeUsername();
         const message = this.makeCommentedOnMessage();
         const parentPostUser = this.props.parentPostUser;
-        const parentPostUserId = parentPostUser && parentPostUser.id && parentPostUser.id;
+        const parentPostUserId = parentPostUser && parentPostUser.id;
 
         const parentUserProfile = (
             <UserProfile
@@ -78,7 +78,7 @@ export default class CommentedOn extends PureComponent {
                         id='post_body.commentedOn'
                         defaultMessage="Commented on {name}'s message: "
                         values={{
-                            name: <a className='theme'>{parentUserProfile}</a>,
+                            name: <a className='theme user_name'>{parentUserProfile}</a>,
                         }}
                     />
                     <a
