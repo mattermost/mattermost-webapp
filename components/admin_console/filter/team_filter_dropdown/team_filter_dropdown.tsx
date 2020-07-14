@@ -49,11 +49,21 @@ const getSelectedTeams = createSelector(
     (selectedTeamIds, teams) => teams.filter((team) => selectedTeamIds.includes(team.id)),
 );
 
+const getFilteredTeams = createSelector(
+    (term: string) => term.trim().toLowerCase(),
+    (term: string, teams: Team[]) => teams,
+    (term: string, teams: Team[]) => {
+        return teams.filter((team: Team) => team?.display_name?.includes(term)); // eslint-disable-line camelcase, @typescript-eslint/camelcase
+    },
+);
+
 const TEAMS_PER_PAGE = 5;
-const MAX_BUTTON_TEXT_LENGTH = 25;
+const MAX_BUTTON_TEXT_LENGTH = 30;
 class TeamFilterDropdown extends React.PureComponent<Props, State> {
     private ref: React.RefObject<HTMLDivElement>;
     private searchRef: React.RefObject<HTMLInputElement>;
+    private clearRef: React.RefObject<HTMLInputElement>;
+    private listRef: React.RefObject<HTMLDivElement>;
 
     public constructor(props: Props) {
         super(props);
@@ -70,6 +80,8 @@ class TeamFilterDropdown extends React.PureComponent<Props, State> {
 
         this.ref = React.createRef();
         this.searchRef = React.createRef();
+        this.clearRef = React.createRef();
+        this.listRef = React.createRef();
     }
 
     componentDidMount() {
@@ -85,9 +97,13 @@ class TeamFilterDropdown extends React.PureComponent<Props, State> {
         this.setState({show: false});
     }
 
-    togglePopover = () => {
+    togglePopover = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         if (this.state.show) {
             this.hidePopover();
+            return;
+        }
+
+        if (this.clearRef?.current?.contains(event.target as Node)) {
             return;
         }
 
@@ -96,6 +112,9 @@ class TeamFilterDropdown extends React.PureComponent<Props, State> {
         const savedSelectedTeams = selectedTeams.sort((a, b) => a.display_name.localeCompare(b.display_name));
         this.setState({show: true, savedSelectedTeams, searchTerm: ''}, () => {
             this.searchRef?.current?.focus();
+            if (this.listRef?.current) {
+                this.listRef.current.scrollTop = 0;
+            }
         });
     }
 
@@ -223,6 +242,8 @@ class TeamFilterDropdown extends React.PureComponent<Props, State> {
         if (this.state.searchTerm.length === 0) {
             visibleTeams = this.props.teams.filter((team) => !this.state.savedSelectedTeams.some((selectedTeam) => selectedTeam.id === team.id));
             selectedTeams = this.state.savedSelectedTeams.map(createFilterCheckbox);
+        } else {
+            visibleTeams = getFilteredTeams(this.state.searchTerm, visibleTeams);
         }
         const teamsToDisplay = visibleTeams.map(createFilterCheckbox);
         const chevron = this.state.show ? (<i className='Icon icon-chevron-up'/>) : (<i className='Icon icon-chevron-down'/>);
@@ -261,6 +282,7 @@ class TeamFilterDropdown extends React.PureComponent<Props, State> {
                             <i
                                 className={'TeamFilterDropdownButton_clear fa fa-times-circle'}
                                 onClick={this.resetTeams}
+                                ref={this.clearRef}
                             />
                         )}
 
@@ -302,7 +324,10 @@ class TeamFilterDropdown extends React.PureComponent<Props, State> {
                             </div>
                         )}
 
-                        <div className='TeamFilterDropdownOptions_list'>
+                        <div
+                            className='TeamFilterDropdownOptions_list'
+                            ref={this.listRef}
+                        >
                             {selectedTeams}
 
                             {selectedTeams.length > 0 && <div className='TeamFilterDropdown_divider'/>}
@@ -326,6 +351,7 @@ class TeamFilterDropdown extends React.PureComponent<Props, State> {
                                     />
                                 </div>
                             )}
+
                             {teamsToDisplay.length === 0 && selectedTeams.length === 0 && !this.state.loading && (
                                 <div className='TeamFilterDropdown_empty'>
                                     <FormattedMessage

@@ -27,6 +27,7 @@
             flex-grow: 3;
             max-width: 230px;
             overflow-x: hidden;
+            text-overflow: ellipsis;
         }
 
         .TeamFilterDropdownButton_more {
@@ -52,9 +53,11 @@
         .TeamFilterDropdownButton_clear {
             display: none;
             margin-top: -2px;
-            padding: 10px 0 0 0;
+            padding: 9.5px 0 0 0;
             min-width: 36px;
             height: 32px;
+            font-size: 14px;
+            color: rgba(var(--sys-center-channel-color-rgb), 0.56);
         }
 
         &:hover {
@@ -70,8 +73,7 @@
 
     .TeamFilterDropdownOptions {
         position: absolute;
-        padding: 16px;
-        padding-bottom: 8px;
+        padding: 16px 16px 0 16px;
         margin-top: 2px;
         background: var(--sys-center-channel-bg);
         border: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.08);
@@ -84,12 +86,18 @@
         overflow: hidden;
         text-overflow: ellipsis;
         display: none;
+        max-width: 304px;
 
         .TeamFilterDropdownOptions_list {
             overflow-y: scroll;
-            margin: 0 -16px -16px -16px;
-            padding-bottom: 16px;
+            overflow-x: hidden;
+            margin: 0 -12px 8px -16px;
+            padding-bottom: 8px;
             max-height: 184px;
+
+            &::-webkit-scrollbar-track {
+                background: rgba(var(--sys-center-channel-bg-rgb), 0);
+            }
         }
     }
 
@@ -124,7 +132,9 @@
             width: 100%;
             padding-top: 6px;
             height: 32px;
-
+            text-overflow: ellipsis;
+            display: inline-block;
+            overflow: hidden;
             &:hover {
                 cursor: pointer;
             }
@@ -139,6 +149,8 @@
     .TeamFilterDropdown_search {
         height: 32px;
         width: 100%;
+        color: var(--sys-center-channel-color);
+        font-weight: 400;
         border: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.2);
         box-sizing: border-box;
         border-radius: 4px;
@@ -177,7 +189,7 @@
         font-weight: normal;
         color: rgba(var(--sys-center-channel-color-rgb), 0.64);
         padding-top: 8px;
-        padding-bottom: 8px;
         margin-left: 16px;
+        margin-bottom: 0;
     }
 }
