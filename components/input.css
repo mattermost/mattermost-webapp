@@ -62,6 +62,7 @@
     border-radius: 4px;
     z-index: 3;
     padding: 0 1px;
+    margin-top: 10px;
 }
 
 .Input-fieldset:focus-within {
@@ -72,6 +73,10 @@
 .Input-fieldset-legend {
     top: -6px;
     margin-bottom: -5px;
+}
+
+.Input-fieldset-legend + .Input-info {
+    margin-top: 0;
 }
 
 .Input-fieldset-error {
