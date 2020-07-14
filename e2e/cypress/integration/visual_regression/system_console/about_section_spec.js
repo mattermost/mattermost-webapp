@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @enterprise @system_console @visual_regression
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
@@ -25,7 +26,7 @@ describe('System Console - About', () => {
 
     before(() => {
         // * Check if server has license for feature
-        cy.requireLicenseForFeature('Elasticsearch');
+        cy.apiRequireLicenseForFeature('Elasticsearch');
 
         // # Go to system admin then verify admin console URL and header
         cy.visit('/admin_console/about/license');

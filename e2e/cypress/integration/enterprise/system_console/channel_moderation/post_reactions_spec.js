@@ -36,7 +36,7 @@ describe('MM-23102 - Channel Moderation - Post Reactions', () => {
 
     before(() => {
         // * Check if server has license
-        cy.requireLicense();
+        cy.apiRequireLicense();
 
         cy.apiInitSetup().then(({team, channel, user}) => {
             regularUser = user;

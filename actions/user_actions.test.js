@@ -19,7 +19,7 @@ const mockChannelsObj1 = [{id: 'gmChannel1', type: General.GM_CHANNEL}];
 const mockChannelsObj2 = [{id: 'gmChannel', type: General.GM_CHANNEL}];
 
 jest.mock('mattermost-redux/actions/users', () => {
-    const original = require.requireActual('mattermost-redux/actions/users');
+    const original = jest.requireActual('mattermost-redux/actions/users');
     return {
         ...original,
         searchProfiles: (...args) => ({type: 'MOCK_SEARCH_PROFILES', args}),
@@ -50,7 +50,7 @@ jest.mock('mattermost-redux/selectors/entities/channel_categories', () => {
 });
 
 jest.mock('mattermost-redux/actions/teams', () => {
-    const original = require.requireActual('mattermost-redux/actions/teams');
+    const original = jest.requireActual('mattermost-redux/actions/teams');
     return {
         ...original,
         getTeamMembersByIds: (...args) => ({type: 'MOCK_GET_TEAM_MEMBERS_BY_IDS', args}),
@@ -58,7 +58,7 @@ jest.mock('mattermost-redux/actions/teams', () => {
 });
 
 jest.mock('mattermost-redux/actions/channels', () => {
-    const original = require.requireActual('mattermost-redux/actions/channels');
+    const original = jest.requireActual('mattermost-redux/actions/channels');
     return {
         ...original,
         getChannelMembersByIds: (...args) => ({type: 'MOCK_GET_CHANNEL_MEMBERS_BY_IDS', args}),
@@ -66,7 +66,7 @@ jest.mock('mattermost-redux/actions/channels', () => {
 });
 
 jest.mock('mattermost-redux/actions/preferences', () => {
-    const original = require.requireActual('mattermost-redux/actions/preferences');
+    const original = jest.requireActual('mattermost-redux/actions/preferences');
     return {
         ...original,
         deletePreferences: (...args) => ({type: 'MOCK_DELETE_PREFERENCES', args}),
