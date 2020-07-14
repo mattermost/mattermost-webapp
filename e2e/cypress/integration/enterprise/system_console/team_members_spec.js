@@ -7,6 +7,8 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 const saveConfig = () => {
@@ -30,7 +32,7 @@ describe('Team members test', () => {
         });
 
         // * Check if server has license
-        cy.requireLicense();
+        cy.apiRequireLicense();
 
         cy.apiInitSetup().then(({team, channel, user}) => {
             user1 = user;

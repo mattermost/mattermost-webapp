@@ -22,8 +22,8 @@ describe('Signin/Authentication', () => {
         cy.apiEmailTest();
 
         // # Get config
-        cy.apiGetConfig().then((response) => {
-            testConfig = response.body;
+        cy.apiGetConfig().then(({config}) => {
+            testConfig = config;
         });
 
         // # Create new team and users
