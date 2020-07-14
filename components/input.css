@@ -1,14 +1,14 @@
 .Input {
     width: 100%;
-    height: 40px;
     position: relative;
     left: 0px;
     border: 0;
     outline: 0;
-    color: rgba(var(--center-channel-color), 0.16);
-    padding: 10px 16px;
-    font-size: 14px;
-    line-height: 20px;
+    color: var(--center-channel-color);
+    /*margin-right: 15px;*/
+    padding: 0 12px;
+    font-size: 12px;
+    line-height: 30px;
     box-shadow: none;
     z-index: 2;
 }
@@ -18,17 +18,15 @@
 }
 
 .Input-border-error {
-    border-color: #DB3214;
+    border-color: var(--error-text);
 }
 
 .Input::placeholder {
-    color: #213F6B;
-    opacity: 0.5;
-    font-size: 18px;
+    color: rgba(var(--center-channel-color-rgb), 0.64);
 }
 
 .Input-focus {
-    top: -5px;
+    margin-top: -5px;
 }
 
 .Input-error {
@@ -37,7 +35,7 @@
     line-height: 24px;
     text-align: left;
     margin-top: 4px;
-    color: #DB3214;
+    color: var(--error-text);
 }
 
 .Input-info {
@@ -55,49 +53,54 @@
 
 .Input-fieldset {
     width: 100%;
-    height: 40px;
+    /*height: 48px;*/
     position: relative;
-    border: 1px solid var(--center-channel-color-16);
+    border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
     color: rgba(34, 64, 109, 0.4);
     box-sizing: border-box;
     border-radius: 4px;
     z-index: 3;
+    padding: 0 1px;
 }
 
 .Input-fieldset:focus-within {
-    border: 2px solid #0058cc;
-    color: #0058cc;
+    border: 2px solid var(--button-bg);
+    color: var(--button-bg);
 }
 
 .Input-fieldset-legend {
-    height: 53px;
     top: -6px;
     margin-bottom: -5px;
 }
 
 .Input-fieldset-error {
-    color: #DB3214;
-    border-color: #DB3214;
+    color: var(--error-text);
+    border-color: var(--error-text);
 }
 .Input-fieldset-error:focus-within {
-    color: #DB3214;
-    border-color: #DB3214;
+    color: var(--error-text);
+    border-color: var(--error-text);
 }
 .Input-legend {
     display: none;
     position: relative;
     width: max-content;
-    padding: 0 2px;
-    margin-left: 9px;
+    padding: 0 4px;
+    margin-left: 8px;
     margin-bottom: 0px;
-    font-weight: 600;
     font-size: 10px;
-    line-height: 13px;
+    line-height: 16px;
     text-align: left;
     z-index: 4;
     border: none;
+    color: rgba(var(--center-channel-color-rgb), 0.64);
+}
+
+.Input-fieldset-error .Input-legend{
+    color: var(--error-text);
 }
 
 .Input-legend-focus {
     display: inline;
+    color: var(--button-bg);
 }

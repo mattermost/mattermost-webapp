@@ -26,7 +26,7 @@ export default class CompleteProfileStep extends React.PureComponent<Props, Stat
     }
 
     private handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        this.setState({fullName: event.target.value, fullNameError: 'This is an error.'});
+        this.setState({fullName: event.target.value, fullNameError: event.target.value ? 'This is an error.' : undefined});
     }
 
     onSkip = () => {
@@ -40,7 +40,14 @@ export default class CompleteProfileStep extends React.PureComponent<Props, Stat
     render() {
         return (
             <div>
-                <div style={{padding: '12px'}}>
+                <div
+                    style={{
+
+                        // TODO temp for textbox demo
+                        margin: '24px',
+                        minHeight: '200px',
+                    }}
+                >
                     <Input
                         name='fullName'
                         type='text'
