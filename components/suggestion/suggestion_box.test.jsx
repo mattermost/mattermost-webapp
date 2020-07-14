@@ -84,7 +84,7 @@ describe('components/SuggestionBox', () => {
         );
         const instance = wrapper.instance();
         instance.handlePretextChanged = jest.fn();
-        instance.inputCompRef.current = {getPretext: jest.fn().mockReturnValue('value')};
+        instance.inputRef.current = {getPretext: jest.fn().mockReturnValue('value')};
 
         wrapper.setProps({...baseProps});
         expect(instance.handlePretextChanged).not.toBeCalled();
@@ -121,7 +121,7 @@ describe('components/SuggestionBox', () => {
         );
         const instance = wrapper.instance();
         instance.handlePretextChanged = jest.fn();
-        instance.inputCompRef.current = {getPretext: jest.fn().mockReturnValue('')};
+        instance.inputRef.current = {getPretext: jest.fn().mockReturnValue('')};
 
         instance.handleCompositionUpdate({data: '@ㅈ'});
         expect(instance.handlePretextChanged).toBeCalledWith('@ㅈ');
@@ -224,7 +224,7 @@ describe('components/SuggestionBox', () => {
         );
         const instance = wrapper.instance();
         instance.handlePretextChanged = jest.fn();
-        instance.getTextbox = jest.fn().mockReturnValue({value: 'value'});
+        instance.inputRef.current = {getPretext: jest.fn().mockReturnValue('value')};
 
         const contains = jest.fn().mockReturnValue(false);
         const relatedTarget = jest.fn();

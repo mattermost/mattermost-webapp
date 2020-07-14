@@ -310,8 +310,9 @@ export default class SuggestionBox extends React.PureComponent {
         this.setState({focused: true});
 
         if (this.props.openOnFocus || this.props.openWhenEmpty) {
+            const pretext = this.inputRef.current.getPretext();
+
             setTimeout(() => {
-                const pretext = this.inputRef.current.getPretext();
                 if (this.props.openWhenEmpty || pretext.length >= this.props.requiredCharacters) {
                     this.handlePretextChanged(pretext);
                 }

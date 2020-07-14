@@ -174,6 +174,7 @@ export default class SearchBar extends React.PureComponent {
             this.props.actions.updateRhsState(RHSStates.SEARCH);
         }
         this.props.actions.updateSearchTerms('');
+        this.setState({focused: true});
     }
 
     handleUserFocus = () => {
