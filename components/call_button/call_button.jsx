@@ -9,7 +9,7 @@ import {intlShape} from 'utils/react_intl';
 
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
-import AttachmentIcon from 'components/widgets/icons/attachment_icon';
+import CameraIcon from 'components/widgets/icons/camera_icon';
 
 const customStyles = {
     left: 'inherit',
@@ -104,7 +104,7 @@ class CallButton extends PureComponent {
                                 id='callButton'
                                 className='icon icon--attachment'
                             >
-                                <AttachmentIcon className='d-flex'/>
+                                <CameraIcon className='d-flex'/>
                             </div>
                         </button>
                         <Menu
