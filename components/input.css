@@ -40,6 +40,10 @@
     color: var(--error-text);
 }
 
+.Input-error i {
+    margin-right: 8px;
+}
+
 .Input-info {
     color: rgba(var(--center-channel-color-rgb), 0.56);
 }

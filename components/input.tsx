@@ -77,7 +77,7 @@ export default class Input extends React.PureComponent<Props, State> {
         return (
             <div className='Input-error'>
                 <i className='icon icon-alert-outline'/>
-                {' ' + error}
+                {error}
             </div>
         );
     }
