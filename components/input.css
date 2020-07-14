@@ -1,0 +1,103 @@
+.Input {
+    width: 100%;
+    height: 40px;
+    position: relative;
+    left: 0px;
+    border: 0;
+    outline: 0;
+    color: rgba(var(--center-channel-color), 0.16);
+    padding: 10px 16px;
+    font-size: 14px;
+    line-height: 20px;
+    box-shadow: none;
+    z-index: 2;
+}
+
+.Input-container {
+    width: 100%;
+}
+
+.Input-border-error {
+    border-color: #DB3214;
+}
+
+.Input::placeholder {
+    color: #213F6B;
+    opacity: 0.5;
+    font-size: 18px;
+}
+
+.Input-focus {
+    top: -5px;
+}
+
+.Input-error {
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 24px;
+    text-align: left;
+    margin-top: 4px;
+    color: #DB3214;
+}
+
+.Input-info {
+    font-weight: 600;
+    text-align: left;
+    margin-top: 4px;
+    font-size: 12px;
+    line-height: 16px;
+    color: rgba(61, 60, 64, 0.56);
+}
+
+.Input-info > span.valid {
+    margin-left: 7px;
+}
+
+.Input-fieldset {
+    width: 100%;
+    height: 40px;
+    position: relative;
+    border: 1px solid var(--center-channel-color-16);
+    color: rgba(34, 64, 109, 0.4);
+    box-sizing: border-box;
+    border-radius: 4px;
+    z-index: 3;
+}
+
+.Input-fieldset:focus-within {
+    border: 2px solid #0058cc;
+    color: #0058cc;
+}
+
+.Input-fieldset-legend {
+    height: 53px;
+    top: -6px;
+    margin-bottom: -5px;
+}
+
+.Input-fieldset-error {
+    color: #DB3214;
+    border-color: #DB3214;
+}
+.Input-fieldset-error:focus-within {
+    color: #DB3214;
+    border-color: #DB3214;
+}
+.Input-legend {
+    display: none;
+    position: relative;
+    width: max-content;
+    padding: 0 2px;
+    margin-left: 9px;
+    margin-bottom: 0px;
+    font-weight: 600;
+    font-size: 10px;
+    line-height: 13px;
+    text-align: left;
+    z-index: 4;
+    border: none;
+}
+
+.Input-legend-focus {
+    display: inline;
+}

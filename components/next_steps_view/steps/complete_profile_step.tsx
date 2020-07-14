@@ -4,15 +4,31 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import Input from 'components/input';
+import {localizeMessage} from 'utils/utils';
 import {StepComponentProps} from '../steps';
 
 type Props = StepComponentProps & {
 };
 
 type State = {
+    fullName: string;
+    fullNameError?: string;
 };
 
 export default class CompleteProfileStep extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
+        super(props);
+
+        this.state = {
+            fullName: '',
+        };
+    }
+
+    private handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        this.setState({fullName: event.target.value, fullNameError: 'This is an error.'});
+    }
+
     onSkip = () => {
         this.props.onSkip(this.props.id);
     }
@@ -24,7 +40,16 @@ export default class CompleteProfileStep extends React.PureComponent<Props, Stat
     render() {
         return (
             <div>
-                {'AAAAAAAA'}
+                <div style={{padding: '12px'}}>
+                    <Input
+                        name='fullName'
+                        type='text'
+                        value={this.state.fullName}
+                        onChange={this.handleInputChange}
+                        placeholder={'Your full name'}
+                        error={this.state.fullNameError}
+                    />
+                </div>
                 <div className='NextStepsView__wizardButtons'>
                     <button
                         className='NextStepsView__button cancel'
