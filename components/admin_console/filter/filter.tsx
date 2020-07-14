@@ -123,8 +123,15 @@ class Filter extends React.PureComponent<Props, State> {
     }
 
     updateValues = async (values: FilterValues, optionKey: string) => {
-        const options = {...this.state.options};
-        options[optionKey].values = {...values};
+        const options = {
+            ...this.state.options,
+            [optionKey]: {
+                ...this.state.options[optionKey],
+                values: {
+                    ...values
+                },
+            },
+        };
         this.setState({options, optionsModified: true});
     }
 
