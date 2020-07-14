@@ -29,22 +29,19 @@
     margin-top: -5px;
 }
 
-.Input-error {
-    font-weight: 600;
+.Input-error, .Input-info {
     font-size: 12px;
     line-height: 24px;
     text-align: left;
     margin-top: 4px;
+}
+
+.Input-error {
     color: var(--error-text);
 }
 
 .Input-info {
-    font-weight: 600;
-    text-align: left;
-    margin-top: 4px;
-    font-size: 12px;
-    line-height: 16px;
-    color: rgba(61, 60, 64, 0.56);
+    color: rgba(var(--center-channel-color-rgb), 0.56);
 }
 
 .Input-info > span.valid {

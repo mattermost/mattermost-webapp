@@ -57,6 +57,7 @@ export default class CompleteProfileStep extends React.PureComponent<Props, Stat
                         onChange={this.handleInputChange}
                         placeholder={'Your full name'}
                         error={this.state.fullNameError}
+                        info={'Your name will be displayed with your messages'}
                     />
                 </div>
                 <div className='NextStepsView__wizardButtons'>

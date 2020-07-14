@@ -6,6 +6,7 @@ import React from 'react';
 import './input.css';
 
 interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
+    info?: string;
     error?: string;
     required?: boolean;
     hasError?: boolean;
@@ -81,6 +82,18 @@ export default class Input extends React.PureComponent<Props, State> {
         );
     }
 
+    private renderInfo() {
+        if (!this.props.info) {
+            return null;
+        }
+
+        return (
+            <div className='Input-info'>
+                {this.props.info}
+            </div>
+        );
+    }
+
     public render() {
         const {value, placeholder, className, error: propError, hasError, addon, name, ...otherProps} = this.props;
         const {focused, error: stateError} = this.state;
@@ -112,7 +125,7 @@ export default class Input extends React.PureComponent<Props, State> {
                     />
                     {addon}
                 </fieldset>
-                {this.renderError(error)}
+                {error ? this.renderError(error) : this.renderInfo()}
             </div>
         );
     }
