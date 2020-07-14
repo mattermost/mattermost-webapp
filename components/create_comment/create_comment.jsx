@@ -1162,11 +1162,11 @@ class CreateComment extends React.PureComponent {
         }
 
         const textboxRef = this.refs.textbox;
-        let suggestionListStyle = "top"
+        let suggestionListStyle = 'top';
         if (textboxRef) {
             const textboxPosTop = textboxRef.getInputBox().getBoundingClientRect().top;
             if (textboxPosTop < Constants.SUGGESTION_LIST_SPACE_RHS) {
-                suggestionListStyle = 'bottom'
+                suggestionListStyle = 'bottom';
             }
         }
 
