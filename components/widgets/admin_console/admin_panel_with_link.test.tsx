@@ -27,7 +27,7 @@ describe('components/widgets/admin_console/AdminPanelWithLink', () => {
         expect(wrapper).toMatchInlineSnapshot(`
       <AdminPanel
         button={
-          <ForwardRef
+          <Link
             className="btn btn-primary"
             data-testid="test-id-link"
             onClick={[Function]}
@@ -38,7 +38,7 @@ describe('components/widgets/admin_console/AdminPanelWithLink', () => {
               id="test-button-text-id"
               values={Object {}}
             />
-          </ForwardRef>
+          </Link>
         }
         className="AdminPanelWithLink test-class-name"
         data-testid="test-id"
@@ -65,7 +65,7 @@ describe('components/widgets/admin_console/AdminPanelWithLink', () => {
         expect(wrapper).toMatchInlineSnapshot(`
       <AdminPanel
         button={
-          <ForwardRef
+          <Link
             className="btn btn-primary"
             data-testid="test-id-link"
             onClick={[Function]}
@@ -76,7 +76,7 @@ describe('components/widgets/admin_console/AdminPanelWithLink', () => {
               id="test-button-text-id"
               values={Object {}}
             />
-          </ForwardRef>
+          </Link>
         }
         className="AdminPanelWithLink test-class-name"
         data-testid="test-id"

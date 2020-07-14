@@ -17,8 +17,8 @@ describe('Test Tutorial Navigation', () => {
     let config;
 
     before(() => {
-        cy.apiGetConfig().then((res) => {
-            config = res.body;
+        cy.apiGetConfig().then((data) => {
+            ({config} = data);
         });
 
         // # Create new team and new user and visit Town Square channel

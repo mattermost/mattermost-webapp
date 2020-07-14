@@ -51,7 +51,7 @@ describe('Interactive Menu', () => {
         const searchOptionsPayload = getMessageMenusPayload({options: searchOptions});
 
         // # Post an incoming webhook for interactive menu with search options
-        cy.postIncomingWebhook({url: incomingWebhook.url, data: searchOptionsPayload});
+        cy.postIncomingWebhook({url: incomingWebhook.url, data: searchOptionsPayload, waitFor: 'attachment-pretext'});
 
         // # Get message attachment from the last post
         cy.getLastPostId().then((postId) => {

@@ -2,33 +2,33 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import ChannelView from 'components/channel_view/index';
 import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants.jsx';
 
-export default class ChannelIdentifierRouter extends React.PureComponent {
-    static propTypes = {
+export interface Match {
+    params: {
+        identifier: string;
+        team: string;
+        postid?: string;
+        path: string;
+    };
+    url: string;
+}
 
-        /*
-         * Object from react-router
-         */
-        match: PropTypes.shape({
-            params: PropTypes.shape({
-                identifier: PropTypes.string.isRequired,
-                team: PropTypes.string.isRequired,
-                postid: PropTypes.string,
-            }).isRequired,
-            url: PropTypes.string.isRequired,
-        }).isRequired,
+export type MatchAndHistory = Pick<Props, 'match' | 'history'>
 
-        actions: PropTypes.shape({
-            onChannelByIdentifierEnter: PropTypes.func.isRequired,
-        }).isRequired,
-    }
+interface Props {
+    match: Match;
+    actions: {
+        onChannelByIdentifierEnter: (props: MatchAndHistory) => any;
+    };
+    history: any;
+}
 
-    constructor(props) {
+export default class ChannelIdentifierRouter extends React.PureComponent<Props> {
+    constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -36,7 +36,9 @@ export default class ChannelIdentifierRouter extends React.PureComponent {
         };
     }
 
-    componentDidUpdate(prevProps) {
+    private replaceUrlTimeout!: NodeJS.Timeout;
+
+    componentDidUpdate(prevProps: Props) {
         if (this.props.match.params.team !== prevProps.match.params.team ||
             this.props.match.params.identifier !== prevProps.match.params.identifier) {
             clearTimeout(this.replaceUrlTimeout);

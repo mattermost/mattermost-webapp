@@ -186,3 +186,14 @@ Cypress.Commands.add('apiActivateUser', (userId, active = true) => {
 
     cy.externalRequest({user: admin, method: 'put', baseUrl, path: `users/${userId}/active`, data: {active}});
 });
+
+Cypress.Commands.add('apiGetUsersNotInTeam', ({teamId, page = 0, perPage = 60} = {}) => {
+    return cy.request({
+        method: 'GET',
+        url: `/api/v4/users?not_in_team=${teamId}&page=${page}&per_page=${perPage}`,
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        cy.wrap({users: response.body});
+    });
+});

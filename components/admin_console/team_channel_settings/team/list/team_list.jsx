@@ -85,7 +85,7 @@ export default class TeamList extends React.PureComponent {
     searchTeamsDebounced = debounce((page, term) => this.searchTeams(page, term), 300);
 
     nextPage = () => {
-        this.loadPage(this.state.page + 1);
+        this.loadPage(this.state.page + 1, this.state.term);
     }
 
     previousPage = () => {
