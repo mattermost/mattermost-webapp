@@ -65,7 +65,7 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
 
     getPaginationProps = () => {
         const {page, term, filters} = this.state;
-        const isSearching = term.length > 0 || JSON.stringify(filters) !== JSON.stringify({});
+        const isSearching = term.length > 0 || JSON.stringify(filters) !== '{}';
         const total = isSearching ? this.state.total : this.props.total;
         const startCount = (page * PAGE_SIZE) + 1;
         let endCount = (page + 1) * PAGE_SIZE;
@@ -75,7 +75,7 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
 
     loadPage = async (page = 0, term = '', filters = {}) => {
         this.setState({loading: true, term, filters});
-        const isSearching = term.length > 0 || JSON.stringify(filters) !== JSON.stringify({});
+        const isSearching = term.length > 0 || JSON.stringify(filters) !== '{}';
         if (isSearching) {
             if (page > 0) {
                 this.searchChannels(page, term, filters);
@@ -167,7 +167,7 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
         const {data} = this.props;
         const {term, filters, channels} = this.state;
         const {startCount, endCount} = this.getPaginationProps();
-        const isSearching = term.length > 0 || JSON.stringify(filters) !== JSON.stringify({});
+        const isSearching = term.length > 0 || JSON.stringify(filters) !== '{}';
         let channelsToDisplay = (isSearching) ? channels : data;
         channelsToDisplay = channelsToDisplay.slice(startCount - 1, endCount);
 

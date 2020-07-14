@@ -53,6 +53,7 @@ const TEAMS_PER_PAGE = 5;
 const MAX_BUTTON_TEXT_LENGTH = 25;
 class TeamFilterDropdown extends React.PureComponent<Props, State> {
     private ref: React.RefObject<HTMLDivElement>;
+    private searchRef: React.RefObject<HTMLInputElement>;
 
     public constructor(props: Props) {
         super(props);
@@ -68,6 +69,7 @@ class TeamFilterDropdown extends React.PureComponent<Props, State> {
         };
 
         this.ref = React.createRef();
+        this.searchRef = React.createRef();
     }
 
     componentDidMount() {
@@ -92,7 +94,9 @@ class TeamFilterDropdown extends React.PureComponent<Props, State> {
         const selectedTeamIds = this.props.option.values.team_ids.value as string[];
         const selectedTeams = getSelectedTeams(selectedTeamIds, this.props.teams);
         const savedSelectedTeams = selectedTeams.sort((a, b) => a.display_name.localeCompare(b.display_name));
-        this.setState({show: true, savedSelectedTeams, searchTerm: ''});
+        this.setState({show: true, savedSelectedTeams, searchTerm: ''}, () => {
+            this.searchRef?.current?.focus();
+        });
     }
 
     handleClickOutside = (event: MouseEvent) => {
@@ -126,8 +130,9 @@ class TeamFilterDropdown extends React.PureComponent<Props, State> {
         let searchTotal = 0;
         const response = await this.props.actions.searchTeams(term, page, TEAMS_PER_PAGE);
         if (response?.data) {
-            searchResults = page > 0 ? this.state.searchResults.concat(response.data.teams) : response.data.teams;
-            searchTotal = response.data.total_count;
+            const {data} = response;
+            searchResults = page > 0 ? this.state.searchResults.concat(data.teams) : data.teams;
+            searchTotal = data.total_count;
         }
         this.setState({page, loading: false, searchResults, searchTotal, searchTerm: term});
     }
@@ -137,7 +142,10 @@ class TeamFilterDropdown extends React.PureComponent<Props, State> {
     handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
         const searchTerm = e.target.value;
         if (searchTerm.length === 0) {
-            this.setState({searchTerm, searchResults: [], searchTotal: 0, page: 0});
+            const selectedTeamIds = this.props.option.values.team_ids.value as string[];
+            const selectedTeams = getSelectedTeams(selectedTeamIds, this.props.teams);
+            const savedSelectedTeams = selectedTeams.sort((a, b) => a.display_name.localeCompare(b.display_name));
+            this.setState({searchTerm, savedSelectedTeams, searchResults: [], searchTotal: 0, page: 0});
             return;
         }
         this.setState({loading: true, searchTerm, searchResults: [], searchTotal: 0, page: 0});
@@ -249,6 +257,13 @@ class TeamFilterDropdown extends React.PureComponent<Props, State> {
                             </div>
                         )}
 
+                        {selectedTeamIds.length > 0 && (
+                            <i
+                                className={'TeamFilterDropdownButton_clear fa fa-times-circle'}
+                                onClick={this.resetTeams}
+                            />
+                        )}
+
                         <div className='TeamFilterDropdownButton_icon'>
                             {chevron}
                         </div>
@@ -261,6 +276,7 @@ class TeamFilterDropdown extends React.PureComponent<Props, State> {
                             placeholder={Utils.localizeMessage('search_bar.search', 'Search')}
                             value={this.state.searchTerm}
                             onChange={this.handleSearch}
+                            ref={this.searchRef}
                         />
 
                         {selectedTeamIds.length > 0 && (
@@ -286,38 +302,39 @@ class TeamFilterDropdown extends React.PureComponent<Props, State> {
                             </div>
                         )}
 
-                        {selectedTeams}
+                        <div className='TeamFilterDropdownOptions_list'>
+                            {selectedTeams}
 
-                        {selectedTeams.length > 0 && <div className={'TeamFilterDropdown_divider'}/>}
+                            {selectedTeams.length > 0 && <div className='TeamFilterDropdown_divider'/>}
 
-                        {teamsToDisplay.length === 0 && selectedTeams.length === 0 && !this.state.loading && (
-                            <div className='TeamFilterDropdown_empty'>
-                                <FormattedMessage
-                                    id='admin.filter.no_results'
-                                    defaultMessage='No items match'
-                                />
-                            </div>
-                        )}
+                            <InfiniteScroll
+                                hasMore={this.hasMore()}
+                                loadMore={this.loadMore}
+                                threshold={1}
+                                useWindow={false}
+                                initialLoad={false}
+                            >
+                                {teamsToDisplay}
+                            </InfiniteScroll>
 
-                        <InfiniteScroll
-                            hasMore={this.hasMore()}
-                            loadMore={this.loadMore}
-                            threshold={1}
-                            useWindow={false}
-                            initialLoad={false}
-                        >
-                            {teamsToDisplay}
-                        </InfiniteScroll>
-
-                        {this.state.loading && (
-                            <div className='TeamFilterDropdown_loading'>
-                                <LoadingSpinner/>
-                                <FormattedMessage
-                                    id='admin.data_grid.loading'
-                                    defaultMessage='Loading'
-                                />
-                            </div>
-                        )}
+                            {this.state.loading && (
+                                <div className='TeamFilterDropdown_loading'>
+                                    <LoadingSpinner/>
+                                    <FormattedMessage
+                                        id='admin.data_grid.loading'
+                                        defaultMessage='Loading'
+                                    />
+                                </div>
+                            )}
+                            {teamsToDisplay.length === 0 && selectedTeams.length === 0 && !this.state.loading && (
+                                <div className='TeamFilterDropdown_empty'>
+                                    <FormattedMessage
+                                        id='admin.filter.no_results'
+                                        defaultMessage='No items match'
+                                    />
+                                </div>
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>
