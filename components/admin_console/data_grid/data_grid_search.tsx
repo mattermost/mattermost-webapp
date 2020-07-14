@@ -25,7 +25,6 @@ type Props = {
 
 type State = {
     term: string;
-    filtersEnabled: boolean;
 }
 
 class DataGridSearch extends React.PureComponent<Props, State> {
@@ -34,7 +33,6 @@ class DataGridSearch extends React.PureComponent<Props, State> {
 
         this.state = {
             term: '',
-            filtersEnabled: Boolean(props.filterProps),
         };
     }
 
@@ -61,7 +59,7 @@ class DataGridSearch extends React.PureComponent<Props, State> {
         }
 
         let filter;
-        if (this.state.filtersEnabled && filterProps) {
+        if (filterProps) {
             filter = <Filter {...filterProps}/>;
         }
 
