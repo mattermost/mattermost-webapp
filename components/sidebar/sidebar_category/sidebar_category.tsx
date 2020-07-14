@@ -219,7 +219,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
             return null;
         }
 
-        if (category.type !== CategoryTypes.DIRECT_MESSAGES && category.type !== CategoryTypes.CUSTOM && !channels?.length) {
+        if (category.type === CategoryTypes.FAVORITES && !channels?.length) {
             return null;
         }
 

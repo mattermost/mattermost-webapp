@@ -26,8 +26,8 @@ describe('System Console', () => {
         // # Select inactive users
         cy.get('#selectUserStatus').select('Inactive');
 
-        cy.apiGetAnalytics().then((res) => {
-            const inactiveUsers = res.body.filter((d) => {
+        cy.apiGetAnalytics().then(({analytics}) => {
+            const inactiveUsers = analytics.filter((d) => {
                 return d.name === 'inactive_user_count';
             }).reduce((_, item) => {
                 return item.value;
