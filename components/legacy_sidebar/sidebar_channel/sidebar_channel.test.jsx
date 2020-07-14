@@ -17,7 +17,7 @@ jest.mock('actions/diagnostics_actions.jsx', () => {
 });
 
 jest.mock('utils/browser_history', () => {
-    const original = require.requireActual('utils/browser_history');
+    const original = jest.requireActual('utils/browser_history');
     return {
         ...original,
         browserHistory: {
@@ -27,7 +27,7 @@ jest.mock('utils/browser_history', () => {
 });
 
 jest.mock('utils/utils.jsx', () => {
-    const original = require.requireActual('utils/utils.jsx');
+    const original = jest.requireActual('utils/utils.jsx');
     return {
         ...original,
         isMobile: jest.fn(() => true),
@@ -35,7 +35,7 @@ jest.mock('utils/utils.jsx', () => {
 });
 
 jest.mock('actions/global_actions.jsx', () => {
-    const original = require.requireActual('actions/global_actions.jsx');
+    const original = jest.requireActual('actions/global_actions.jsx');
     return {
         ...original,
         showLeavePrivateChannelModal: jest.fn(),
