@@ -11,7 +11,7 @@ import FlagIconFilled from 'components/widgets/icons/flag_icon_filled';
 export type Props = {
     intl: IntlShape;
     isFlagged: boolean;
-    isPinned: boolean;
+    isPinned?: boolean;
     skipPinned?: boolean;
     skipFlagged?: boolean;
     channelId: string;

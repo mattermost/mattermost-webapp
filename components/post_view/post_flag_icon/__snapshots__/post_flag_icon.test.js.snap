@@ -76,7 +76,7 @@ exports[`components/post_view/PostFlagIcon should match snapshot 2`] = `
     onClick={[Function]}
   >
     <FlagIconFilled
-      className="icon icon--small icon--small-filled"
+      className="icon icon--small icon--small-filled post-menu__item--selected"
     />
   </button>
 </OverlayTrigger>

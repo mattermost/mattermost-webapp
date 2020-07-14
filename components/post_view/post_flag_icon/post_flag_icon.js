@@ -87,7 +87,7 @@ export default class PostFlagIcon extends React.PureComponent {
 
         let flagIcon;
         if (isFlagged) {
-            flagIcon = <FlagIconFilled className={classNames('icon', 'icon--small', 'icon--small-filled')}/>;
+            flagIcon = <FlagIconFilled className={classNames('icon', 'icon--small', 'icon--small-filled', {'post-menu__item--selected': isFlagged})}/>;
         } else {
             flagIcon = <FlagIcon className={classNames('icon', 'icon--small')}/>;
         }

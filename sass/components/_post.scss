@@ -1185,8 +1185,8 @@
                     margin-left: 9px;
                 }
 
-                &.icon-pin {
-                    padding-top: 2px;
+                &.icon-pin::before {
+                    line-height: 10px;
                 }
             }
         }
@@ -1198,7 +1198,7 @@
 
             .post-pre-header__link-separator {
                 margin: 0px 5px;
-                color: var(--center-channel-color-64);
+                color: var(--center-channel-color-32);
                 font-size: 4px;
                 vertical-align: top;
             }
