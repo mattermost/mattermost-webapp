@@ -35,7 +35,7 @@ describe('MM-23102 - Channel Moderation - Manage Members', () => {
 
     before(() => {
         // * Check if server has license
-        cy.requireLicense();
+        cy.apiRequireLicense();
     });
 
     beforeEach(() => {

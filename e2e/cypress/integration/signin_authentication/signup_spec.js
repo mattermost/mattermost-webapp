@@ -21,8 +21,8 @@ describe('Signup Email page', () => {
         };
         cy.apiUpdateConfig(newSettings);
 
-        cy.apiGetConfig().then((response) => {
-            config = response.body;
+        cy.apiGetConfig().then((data) => {
+            ({config} = data);
         });
         cy.apiLogout();
 

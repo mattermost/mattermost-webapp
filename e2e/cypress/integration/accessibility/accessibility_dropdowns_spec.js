@@ -87,8 +87,8 @@ describe('Verify Accessibility Support in Dropdown Menus', () => {
         cy.focused().tab();
 
         // * Verify the accessibility support in the Main Menu Dropdown items
-        cy.apiGetConfig().then((response) => {
-            const siteName = response.body.TeamSettings.SiteName;
+        cy.apiGetConfig().then(({config}) => {
+            const siteName = config.TeamSettings.SiteName;
             const labels = ['Account Settings dialog', 'Invite People dialog', 'Team Settings dialog', 'Manage Members dialog', '', 'Leave Team dialog', '', 'Plugin Marketplace dialog', '', '', '', '', '', `About ${siteName} dialog`, ''];
             verifyMenuItems('#sidebarDropdownMenu', labels);
         });

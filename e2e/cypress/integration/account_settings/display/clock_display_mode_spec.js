@@ -91,11 +91,20 @@ function setClockDisplayTo(clockFormat) {
     // # Navigate to Clock Display Settings
     navigateToClockDisplaySettings();
 
-    // # Click the radio button
-    cy.get(`#${clockFormat}`).should('be.visible').click({force: true});
+    // # Click the radio button and verify checked
+    cy.get(`#${clockFormat}`).should('be.visible').click({force: true}).should('be.checked');
 
-    // # Click Save button and close Account Settings modal
+    // # Click Save button
     cy.get('#saveSetting').should('be.visible').click();
+
+    // * Verify clock description
+    if (clockFormat === 'clockFormatA') {
+        cy.get('#clockDesc').should('have.text', '12-hour clock (example: 4:00 PM)');
+    } else {
+        cy.get('#clockDesc').should('have.text', '24-hour clock (example: 16:00)');
+    }
+
+    // # Close Account Settings modal
     cy.get('#accountSettingsHeader > .close').should('be.visible').click();
 }
 
