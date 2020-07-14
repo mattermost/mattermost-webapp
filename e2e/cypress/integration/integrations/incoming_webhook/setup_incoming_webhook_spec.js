@@ -20,8 +20,8 @@ describe('Incoming webhook', () => {
     let siteName;
 
     before(() => {
-        cy.apiGetConfig().then((response) => {
-            siteName = response.body.TeamSettings.SiteName;
+        cy.apiGetConfig().then(({config}) => {
+            siteName = config.TeamSettings.SiteName;
         });
         cy.apiInitSetup().then(({team, channel}) => {
             testTeam = team;
