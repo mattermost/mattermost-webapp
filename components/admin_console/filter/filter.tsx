@@ -194,7 +194,7 @@ class Filter extends React.PureComponent<Props, State> {
                     <i className='Icon icon-filter-variant'/>
 
                     <FormattedMessage
-                        id='filter.filters'
+                        id='admin.filter.filters'
                         defaultMessage='Filters'
                     />
                     {filterCount > 0 && ` (${filterCount})`}
@@ -206,7 +206,7 @@ class Filter extends React.PureComponent<Props, State> {
                     <div className='Filter_header'>
                         <div className='Filter_title'>
                             <FormattedMessage
-                                id='filter.title'
+                                id='admin.filter.title'
                                 defaultMessage='Filter by'
                             />
                         </div>
@@ -216,7 +216,7 @@ class Filter extends React.PureComponent<Props, State> {
                             onClick={this.resetFilters}
                         >
                             <FormattedMessage
-                                id='filter.reset'
+                                id='admin.filter.reset'
                                 defaultMessage='Reset filters'
                             />
                         </a>
@@ -234,7 +234,7 @@ class Filter extends React.PureComponent<Props, State> {
                         onClick={this.onFilter}
                     >
                         <FormattedMessage
-                            id='filter.apply'
+                            id='admin.filter.apply'
                             defaultMessage='Apply'
                         />
                     </button>

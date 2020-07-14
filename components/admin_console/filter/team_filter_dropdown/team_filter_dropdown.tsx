@@ -167,7 +167,7 @@ class TeamFilterDropdown extends React.PureComponent<Props, State> {
             return {
                 buttonText: (
                     <FormattedMessage
-                        id='filter.all_teams'
+                        id='admin.filter.all_teams'
                         defaultMessage='All Teams'
                     />
                 ),
@@ -242,7 +242,7 @@ class TeamFilterDropdown extends React.PureComponent<Props, State> {
                         {buttonMore > 0 && (
                             <div className='TeamFilterDropdownButton_more'>
                                 <FormattedMessage
-                                    id='filter.count_more'
+                                    id='admin.filter.count_more'
                                     defaultMessage='+{count, number} more'
                                     values={{count: buttonMore}}
                                 />
@@ -269,7 +269,7 @@ class TeamFilterDropdown extends React.PureComponent<Props, State> {
                                 onClick={this.resetTeams}
                             >
                                 <FormattedMessage
-                                    id='filter.reset_teams'
+                                    id='admin.filter.reset_teams'
                                     defaultMessage='Reset to all teams'
                                 />
                             </a>
@@ -280,7 +280,7 @@ class TeamFilterDropdown extends React.PureComponent<Props, State> {
                                 className='TeamFilterDropdown_allTeams'
                             >
                                 <FormattedMessage
-                                    id='filter.showing_all_teams'
+                                    id='admin.filter.showing_all_teams'
                                     defaultMessage='Showing all teams'
                                 />
                             </div>
@@ -293,7 +293,7 @@ class TeamFilterDropdown extends React.PureComponent<Props, State> {
                         {teamsToDisplay.length === 0 && selectedTeams.length === 0 && !this.state.loading && (
                             <div className='TeamFilterDropdown_empty'>
                                 <FormattedMessage
-                                    id='filter.no_results'
+                                    id='admin.filter.no_results'
                                     defaultMessage='No items match'
                                 />
                             </div>
