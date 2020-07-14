@@ -3,7 +3,7 @@
 
 import React from 'react';
 import {Modal} from 'react-bootstrap';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, WrappedComponentProps, injectIntl} from 'react-intl';
 
 import {setThemeDefaults} from 'mattermost-redux/utils/theme_utils';
 import {Theme} from 'mattermost-redux/types/preferences';
@@ -20,8 +20,8 @@ type State = {
     callback: ((args: Theme) => void) | null;
 }
 
-export default class ImportThemeModal extends React.PureComponent<any, State> {
-    public constructor(props: any) {
+class ImportThemeModal extends React.PureComponent<WrappedComponentProps, State> {
+    public constructor(props: WrappedComponentProps) {
         super(props);
 
         this.state = {
@@ -232,3 +232,4 @@ export default class ImportThemeModal extends React.PureComponent<any, State> {
         );
     }
 }
+export default injectIntl(ImportThemeModal);
