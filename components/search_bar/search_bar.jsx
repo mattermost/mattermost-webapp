@@ -21,6 +21,7 @@ import MentionsIcon from 'components/widgets/icons/mentions_icon';
 import SearchIcon from 'components/widgets/icons/search_icon';
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 import Popover from 'components/widgets/popover';
+import UserGuideDropdown from 'components/channel_header/components/user_guide_dropdown';
 
 const {KeyCodes} = Constants;
 
@@ -312,6 +313,7 @@ export default class SearchBar extends React.PureComponent {
     render() {
         let mentionBtn;
         let flagBtn;
+        let userGuideBtn;
         if (this.props.showMentionFlagBtns) {
             mentionBtn = (
                 <HeaderIconWrapper
@@ -347,6 +349,8 @@ export default class SearchBar extends React.PureComponent {
                     isRhsOpen={this.props.isRhsOpen}
                 />
             );
+
+            userGuideBtn = (<UserGuideDropdown/>);
         }
 
         let searchFormClass = 'search__form';
@@ -422,6 +426,7 @@ export default class SearchBar extends React.PureComponent {
                 </div>
                 {mentionBtn}
                 {flagBtn}
+                {userGuideBtn}
             </div>
         );
     }
