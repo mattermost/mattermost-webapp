@@ -8,6 +8,8 @@ import Input from 'components/input';
 import {localizeMessage} from 'utils/utils';
 import {StepComponentProps} from '../steps';
 
+import './complete_profile_step.scss';
+
 type Props = StepComponentProps & {
 };
 
