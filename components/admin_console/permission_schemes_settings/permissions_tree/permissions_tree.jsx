@@ -40,7 +40,11 @@ export default class PermissionsTree extends React.PureComponent {
 
         this.ADDITIONAL_VALUES = {
             edit_post: {
-                editTimeLimitButton: <EditPostTimeLimitButton onClick={this.openPostTimeLimitModal}/>,
+                editTimeLimitButton:
+    <EditPostTimeLimitButton
+        onClick={this.openPostTimeLimitModal}
+        isDisabled={this.props.readOnly}
+    />,
             },
         };
 
