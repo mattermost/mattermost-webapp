@@ -53,5 +53,6 @@ exports[`components/next_steps_view should match snapshot 1`] = `
     <div
       className="NextStepsView__body-graphic"
     />
+  </div>
 </section>
 `;

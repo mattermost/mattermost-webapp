@@ -1,5 +1,5 @@
 .Card {
-    border: 1px solid var(--center-channel-color-08);
+    border: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
     box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.12);
     border-radius: 4px;
     background-color: var(--center-channel-bg);
@@ -14,7 +14,7 @@
     padding-bottom: 12px;
     
     &.expanded {
-        border-bottom: 1px solid var(--center-channel-color-08);
+        border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
     }
 }
 
