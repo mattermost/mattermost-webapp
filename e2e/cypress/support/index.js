@@ -122,8 +122,8 @@ before(() => {
         });
 
         // # Reset roles
-        cy.apiGetClientLicense().then((res) => {
-            if (res.body.IsLicensed === 'true') {
+        cy.apiGetClientLicense().then(({license}) => {
+            if (license.IsLicensed === 'true') {
                 cy.apiResetRoles();
             }
         });
