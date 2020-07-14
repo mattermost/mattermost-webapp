@@ -12,11 +12,12 @@ exports[`components/post_view/CommentedOn should match snapshot 1`] = `
       values={
         Object {
           "name": <a
-            className="theme"
+            className="theme user_name"
           >
             <UserProfile
               disablePopover={false}
               displayName="user_displayName"
+              displayUsername={false}
               hasMention={true}
               hideStatus={false}
               isRHS={false}
@@ -50,11 +51,12 @@ exports[`components/post_view/CommentedOn should match snapshot 2`] = `
       values={
         Object {
           "name": <a
-            className="theme"
+            className="theme user_name"
           >
             <UserProfile
               disablePopover={false}
               displayName="override_username"
+              displayUsername={false}
               hasMention={true}
               hideStatus={false}
               isRHS={false}
@@ -88,11 +90,12 @@ exports[`components/post_view/CommentedOn should match snapshot 3`] = `
       values={
         Object {
           "name": <a
-            className="theme"
+            className="theme user_name"
           >
             <UserProfile
               disablePopover={false}
               displayName="user_displayName"
+              displayUsername={false}
               hasMention={true}
               hideStatus={false}
               isRHS={false}
@@ -167,11 +170,12 @@ exports[`components/post_view/CommentedOn should match snapshots for post with p
       values={
         Object {
           "name": <a
-            className="theme"
+            className="theme user_name"
           >
             <UserProfile
               disablePopover={false}
               displayName="override_username"
+              displayUsername={false}
               hasMention={true}
               hideStatus={false}
               isRHS={false}
@@ -205,11 +209,12 @@ exports[`components/post_view/CommentedOn should match snapshots for post with p
       values={
         Object {
           "name": <a
-            className="theme"
+            className="theme user_name"
           >
             <UserProfile
               disablePopover={false}
               displayName="override_username"
+              displayUsername={false}
               hasMention={true}
               hideStatus={false}
               isRHS={false}
@@ -243,11 +248,12 @@ exports[`components/post_view/CommentedOn should match snapshots for post with p
       values={
         Object {
           "name": <a
-            className="theme"
+            className="theme user_name"
           >
             <UserProfile
               disablePopover={false}
               displayName="override_username"
+              displayUsername={false}
               hasMention={true}
               hideStatus={false}
               isRHS={false}
