@@ -2,14 +2,14 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {bindActionCreators, Dispatch} from 'redux';
 import {withRouter} from 'react-router-dom';
+import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {onChannelByIdentifierEnter} from './actions';
+import ChannelIdentifierRouter from './channel_identifier_router';
 
-import ChannelIdentifierRouter from './channel_identifier_router.jsx';
-
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
             onChannelByIdentifierEnter,
