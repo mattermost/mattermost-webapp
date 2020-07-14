@@ -62,21 +62,21 @@ class Filter extends React.PureComponent<Props, State> {
 
         let options = props.options;
         let keys = props.keys;
-        let error = '';
+        let valid = true;
         keys.forEach((key) => {
             const option = options[key];
-            if (option) {
+            if (option && valid) {
                 option.keys.forEach((optionKey) => {
                     if (!option.values[optionKey]) {
-                        error = `Invalid Filter option key: ${optionKey}, no matching value for given option key`;
+                        valid = false;
                     }
                 });
             } else {
-                error = `Invalid Filter key: ${key}, no matching option for given key`;
+                valid = false;
             }
         });
 
-        if (error) {
+        if (!valid) {
             options = {};
             keys = [];
         }
