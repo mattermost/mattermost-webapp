@@ -18,6 +18,7 @@ type Props = {
     intl: IntlShape;
     helpLink: string;
     reportAProblemLink: string;
+    enableAskCommunityLink: string;
 };
 
 type State = {
@@ -48,11 +49,13 @@ class UserGuideDropdown extends React.PureComponent<Props, State> {
 
         return (
             <Menu.Group>
-                <Menu.ItemExternalLink
-                    id='askTheCommunityLink'
-                    url={askTheCommunityUrl}
-                    text={intl.formatMessage({id: 'userGuideHelp.askTheCommunity', defaultMessage: 'Ask the community'})}
-                />
+                {this.props.enableAskCommunityLink === 'true' && (
+                    <Menu.ItemExternalLink
+                        id='askTheCommunityLink'
+                        url={askTheCommunityUrl}
+                        text={intl.formatMessage({id: 'userGuideHelp.askTheCommunity', defaultMessage: 'Ask the community'})}
+                    />
+                )}
                 <Menu.ItemExternalLink
                     id='helpResourcesLink'
                     url={this.props.helpLink}
