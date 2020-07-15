@@ -30,8 +30,13 @@ describe('components/channel_header/components/UserGuideDropdown', () => {
     });
 
     test('should match snapshot for false of enableAskCommunityLink', () => {
+        const props = {
+            ...baseProps,
+            enableAskCommunityLink: 'false',
+        };
+
         const wrapper = shallowWithIntl(
-            <UserGuideDropdown {...baseProps}/>,
+            <UserGuideDropdown {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
