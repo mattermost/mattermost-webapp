@@ -86,8 +86,7 @@ class JobTable extends React.PureComponent {
     }
 
     getDownloadLink = (job) => {
-        const {downloadExportResults} = this.props;
-        if (downloadExportResults && job.data?.is_downloadable === 'true') { // eslint-disable-line camelcase
+        if (job.data?.is_downloadable === 'true') { // eslint-disable-line camelcase
             return (
                 <a
                     key={job.id}
@@ -351,7 +350,9 @@ class JobTable extends React.PureComponent {
                         {this.getCancelButton(job)}
                     </td>
                     <td className='whitespace--nowrap'>{this.getStatus(job)}</td>
-                    <td className='whitespace--nowrap'>{this.getDownloadLink(job)}</td>
+                    {this.props.downloadExportResults && 
+                        <td className='whitespace--nowrap'>{this.getDownloadLink(job)}</td>
+                    }
                     <td className='whitespace--nowrap'>{this.getFinishAt(job.status, job.last_activity_at)}</td>
                     <td className='whitespace--nowrap'>{this.getRunLength(job)}</td>
                     <td>{this.getExtraInfoText(job)}</td>
@@ -389,12 +390,14 @@ class JobTable extends React.PureComponent {
                                         defaultMessage='Status'
                                     />
                                 </th>
-                                <th>
-                                    <FormattedMessage
-                                        id='admin.jobTable.headerFiles'
-                                        defaultMessage='Files'
-                                    />
-                                </th>
+                                {this.props.downloadExportResults && 
+                                    <th>
+                                        <FormattedMessage
+                                            id='admin.jobTable.headerFiles'
+                                            defaultMessage='Files'
+                                        />
+                                    </th>
+                                }
                                 <th>
                                     <FormattedMessage
                                         id='admin.jobTable.headerFinishAt'
