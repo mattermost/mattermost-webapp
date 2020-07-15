@@ -18,7 +18,7 @@
     "import/resolver": "webpack",
     "react": {
         "pragma": "React",
-        "version": "16.13.1"
+        "version": "detect"
     }
   },
   "rules": {
