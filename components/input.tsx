@@ -77,7 +77,7 @@ export default class Input extends React.PureComponent<Props, State> {
         return (
             <div className='Input-error'>
                 <i className='icon icon-alert-outline'/>
-                {error}
+                <span>{error}</span>
             </div>
         );
     }
@@ -111,7 +111,7 @@ export default class Input extends React.PureComponent<Props, State> {
         return (
             <div className='Input-container'>
                 <fieldset className={error || hasError ? fieldsetErrorClass : fieldsetClass}>
-                    <legend className={showLegend ? 'Input-legend Input-legend-focus' : 'Input-legend'}>{placeholder}</legend>
+                    <legend className={showLegend ? 'Input-legend Input-legend-focus' : 'Input-legend'}>{showLegend ? placeholder : null}</legend>
                     <input
                         id={`input_${name}`}
                         className={inputClass}
