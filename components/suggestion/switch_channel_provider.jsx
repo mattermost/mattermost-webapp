@@ -177,7 +177,7 @@ function mapStateToPropsForSwitchChannelSuggestion(state, ownProps) {
     };
 }
 
-const ConnectedSwitchChannelSuggestion = connect(mapStateToPropsForSwitchChannelSuggestion, null, null, {forwardRef: true})(SwitchChannelSuggestion);
+const ConnectedSwitchChannelSuggestion = connect(mapStateToPropsForSwitchChannelSuggestion)(SwitchChannelSuggestion);
 
 let prefix = '';
 
