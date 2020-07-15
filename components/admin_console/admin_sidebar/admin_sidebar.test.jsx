@@ -350,6 +350,11 @@ describe('components/AdminSidebar', () => {
             actions: {
                 getPlugins: jest.fn(),
             },
+            consoleAccess: {
+                read: {
+                    plugins: true,
+                },
+            },
         };
 
         test('should match snapshot', () => {

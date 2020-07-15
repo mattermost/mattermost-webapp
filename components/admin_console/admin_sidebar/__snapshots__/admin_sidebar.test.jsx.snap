@@ -49,7 +49,29 @@ exports[`components/AdminSidebar Plugins should filter plugins 1`] = `
       >
         <ul
           className="nav nav-pills nav-stacked"
-        />
+        >
+          <AdminSidebarCategory
+            icon="fa-plug"
+            key="6"
+            parentLink="/admin_console"
+            sectionClass=""
+            title={
+              <FormattedMessage
+                defaultMessage="Plugins (Beta)"
+                id="admin.sidebar.plugins"
+                values={Object {}}
+              />
+            }
+          >
+            <AdminSidebarSection
+              key="custompluginmattermost-autolink"
+              name="plugins/plugin_mattermost-autolink"
+              parentLink=""
+              subsection={false}
+              title="Autolink"
+            />
+          </AdminSidebarCategory>
+        </ul>
       </Highlight>
     </div>
   </Scrollbars>
@@ -105,7 +127,42 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
       >
         <ul
           className="nav nav-pills nav-stacked"
-        />
+        >
+          <AdminSidebarCategory
+            icon="fa-plug"
+            key="6"
+            parentLink="/admin_console"
+            sectionClass=""
+            title={
+              <FormattedMessage
+                defaultMessage="Plugins (Beta)"
+                id="admin.sidebar.plugins"
+                values={Object {}}
+              />
+            }
+          >
+            <AdminSidebarSection
+              key="5"
+              name="plugins/plugin_management"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Plugin Management"
+                  id="admin.plugins.pluginManagement"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="custompluginmattermost-autolink"
+              name="plugins/plugin_mattermost-autolink"
+              parentLink=""
+              subsection={false}
+              title="Autolink"
+            />
+          </AdminSidebarCategory>
+        </ul>
       </Highlight>
     </div>
   </Scrollbars>
