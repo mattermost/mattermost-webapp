@@ -9,6 +9,7 @@
     "import",
     "cypress"
   ],
+  "parser": "@typescript-eslint/parser",
   "env": {
     "jest": true,
     "cypress/globals": true
@@ -58,7 +59,6 @@
   },
   "overrides": [
     {
-      "parser": "@typescript-eslint/parser",
       "files": ["**/*.tsx", "**/*.ts"],
       "extends": [
         "plugin:@typescript-eslint/recommended"
