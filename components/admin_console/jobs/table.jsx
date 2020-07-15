@@ -350,7 +350,7 @@ class JobTable extends React.PureComponent {
                         {this.getCancelButton(job)}
                     </td>
                     <td className='whitespace--nowrap'>{this.getStatus(job)}</td>
-                    {this.props.downloadExportResults && 
+                    {this.props.downloadExportResults &&
                         <td className='whitespace--nowrap'>{this.getDownloadLink(job)}</td>
                     }
                     <td className='whitespace--nowrap'>{this.getFinishAt(job.status, job.last_activity_at)}</td>
@@ -390,7 +390,7 @@ class JobTable extends React.PureComponent {
                                         defaultMessage='Status'
                                     />
                                 </th>
-                                {this.props.downloadExportResults && 
+                                {this.props.downloadExportResults &&
                                     <th>
                                         <FormattedMessage
                                             id='admin.jobTable.headerFiles'
