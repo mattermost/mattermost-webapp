@@ -122,7 +122,6 @@ export default class UserListRowWithError extends React.PureComponent {
                             <div
                                 id={userCountID}
                                 className='more-modal__name'
-                                disabled={this.props.isDisabled}
                             >
                                 <Link to={'/admin_console/user_management/user/' + this.props.user.id}>
                                     {Utils.displayEntireNameForUser(this.props.user)}
