@@ -20,7 +20,7 @@ export default class PermissionsSchemeSummary extends React.PureComponent {
     static propTypes = {
         scheme: PropTypes.object.isRequired,
         teams: PropTypes.array,
-        isDisabled: PropTypes.boolean,
+        isDisabled: PropTypes.func,
         actions: PropTypes.shape({
             deleteScheme: PropTypes.func.isRequired,
         }).isRequired,

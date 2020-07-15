@@ -14,7 +14,7 @@ import {getSiteURL} from 'utils/url';
 
 export default class GroupSettings extends React.PureComponent {
     static propTypes = {
-        isDisabled: PropTypes.boolean,
+        isDisabled: PropTypes.func,
     }
 
     render = () => {
