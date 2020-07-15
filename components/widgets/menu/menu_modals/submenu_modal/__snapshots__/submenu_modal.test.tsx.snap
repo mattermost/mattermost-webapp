@@ -45,6 +45,7 @@ exports[`components/submenu_modal should match snapshot 1`] = `
       >
         <SubMenuItem
           action={[MockFunction]}
+          direction="left"
           id="A"
           key="A"
           root={false}
@@ -54,6 +55,7 @@ exports[`components/submenu_modal should match snapshot 1`] = `
         />
         <SubMenuItem
           action={[MockFunction]}
+          direction="left"
           id="B"
           key="B"
           root={false}
@@ -62,6 +64,7 @@ exports[`components/submenu_modal should match snapshot 1`] = `
             Array [
               Object {
                 "action": [MockFunction],
+                "direction": "left",
                 "id": "C",
                 "text": "Text C",
               },

@@ -4,22 +4,21 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import NotLoggedIn from 'components/header_footer_template/header_footer_template.jsx';
+import NotLoggedIn from 'components/header_footer_template/header_footer_template';
 
 describe('components/HeaderFooterTemplate', () => {
-    const RealDate = Date;
+    const RealDate: DateConstructor = Date;
 
-    function mockDate(date) {
-        global.Date = class extends RealDate {
-            constructor() {
-                super();
-                return new RealDate(date);
-            }
-        };
+    function mockDate(date: Date) {
+        function MockDate() {
+            return new RealDate(date);
+        }
+        MockDate.now = () => date.getTime();
+        global.Date = MockDate as any;
     }
 
     beforeEach(() => {
-        mockDate('2017-06-01');
+        mockDate(new Date(2017, 6, 1));
 
         const elm = document.createElement('div');
         elm.setAttribute('id', 'root');
@@ -91,22 +90,24 @@ describe('components/HeaderFooterTemplate', () => {
 
     test('should set classes on body and #root on mount', () => {
         expect(document.body.classList.contains('sticky')).toBe(false);
-        expect(document.getElementById('root').classList.contains('container-fluid')).toBe(true);
+        const rootElement: HTMLElement | null = document.getElementById('root');
+        expect(rootElement?.classList?.contains('container-fluid')).toBe(true);
         shallow(<NotLoggedIn config={{AboutLink: 'http://testaboutlink'}}/>);
         expect(document.body.classList.contains('sticky')).toBe(true);
-        expect(document.getElementById('root').classList.contains('container-fluid')).toBe(true);
+        expect(rootElement?.classList?.contains('container-fluid')).toBe(true);
     });
 
     test('should unset classes on body and #root on unmount', () => {
         expect(document.body.classList.contains('sticky')).toBe(false);
-        expect(document.getElementById('root').classList.contains('container-fluid')).toBe(true);
+        const rootElement: HTMLElement | null = document.getElementById('root');
+        expect(rootElement?.classList?.contains('container-fluid')).toBe(true);
         const wrapper = shallow(
             <NotLoggedIn config={{AboutLink: 'http://testaboutlink'}}/>,
         );
         expect(document.body.classList.contains('sticky')).toBe(true);
-        expect(document.getElementById('root').classList.contains('container-fluid')).toBe(true);
+        expect(rootElement?.classList?.contains('container-fluid')).toBe(true);
         wrapper.unmount();
         expect(document.body.classList.contains('sticky')).toBe(false);
-        expect(document.getElementById('root').classList.contains('container-fluid')).toBe(false);
+        expect(rootElement?.classList?.contains('container-fluid')).toBe(false);
     });
 });

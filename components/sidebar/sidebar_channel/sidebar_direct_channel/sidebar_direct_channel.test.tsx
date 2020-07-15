@@ -36,6 +36,7 @@ describe('components/sidebar/sidebar_channel/sidebar_direct_channel', () => {
         redirectChannel: 'redirect-channel',
         active: false,
         botIconUrl: null,
+        isCollapsed: false,
         actions: {
             savePreferences: jest.fn(),
             leaveDirectChannel: jest.fn(),
