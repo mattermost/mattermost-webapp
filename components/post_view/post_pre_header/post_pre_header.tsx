@@ -40,7 +40,7 @@ class PostPreHeader extends React.PureComponent<Props> {
         pinned: {id: t('post_pre_header.pinned'), defaultMessage: 'Pinned'},
     };
 
-    getPostStatus(isFlagged: boolean, isPinned: boolean): PostPinnedOrFlagged {
+    getPostStatus(isFlagged: boolean, isPinned?: boolean): PostPinnedOrFlagged {
         if (isFlagged) {
             if (isPinned) {
                 return PostPinnedOrFlagged.PinnedAndFlagged;
