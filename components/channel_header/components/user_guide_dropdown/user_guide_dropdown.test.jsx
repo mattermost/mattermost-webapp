@@ -18,11 +18,25 @@ describe('components/channel_header/components/UserGuideDropdown', () => {
     const baseProps = {
         helpLink: 'helpLink',
         reportAProblemLink: 'reportAProblemLink',
+        enableAskCommunityLink: 'true',
     };
 
     test('should match snapshot', () => {
         const wrapper = shallowWithIntl(
             <UserGuideDropdown {...baseProps}/>,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot for false of enableAskCommunityLink', () => {
+        const props = {
+            ...baseProps,
+            enableAskCommunityLink: 'false',
+        };
+
+        const wrapper = shallowWithIntl(
+            <UserGuideDropdown {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
