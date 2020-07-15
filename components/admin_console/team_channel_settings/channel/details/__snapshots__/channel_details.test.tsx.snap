@@ -48,6 +48,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
           }
         }
         isArchived={false}
+        isDisabled={false}
         onToggleArchive={[Function]}
         team={
           Object {
@@ -92,9 +93,9 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
       />
       <ChannelModeration
         guestAccountsEnabled={true}
-        isDisabled={false}
         isPublic={true}
         onChannelPermissionsChanged={[Function]}
+        readOnly={false}
         teamSchemeDisplayName="asdf"
         teamSchemeID="asdf"
       />
@@ -171,6 +172,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
       />
       <Connect(ChannelMembers)
         channelId="123"
+        isDisabled={false}
         onAddCallback={[Function]}
         onRemoveCallback={[Function]}
         updateRole={[Function]}
@@ -238,6 +240,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
           }
         }
         isArchived={false}
+        isDisabled={false}
         onToggleArchive={[Function]}
         team={Object {}}
       />
@@ -278,9 +281,9 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
       />
       <ChannelModeration
         guestAccountsEnabled={true}
-        isDisabled={false}
         isPublic={true}
         onChannelPermissionsChanged={[Function]}
+        readOnly={false}
         teamSchemeDisplayName="asdf"
         teamSchemeID="asdf"
       />
@@ -357,6 +360,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
       />
       <Connect(ChannelMembers)
         channelId="123"
+        isDisabled={false}
         onAddCallback={[Function]}
         onRemoveCallback={[Function]}
         updateRole={[Function]}

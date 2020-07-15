@@ -34,6 +34,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
         Object {
           "edit_post": Object {
             "editTimeLimitButton": <Memo(Connect(EditPostTimeLimitButton))
+              isDisabled={false}
               onClick={[Function]}
             />,
           },
@@ -168,6 +169,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
         Object {
           "edit_post": Object {
             "editTimeLimitButton": <Memo(Connect(EditPostTimeLimitButton))
+              isDisabled={false}
               onClick={[Function]}
             />,
           },
@@ -310,6 +312,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
         Object {
           "edit_post": Object {
             "editTimeLimitButton": <Memo(Connect(EditPostTimeLimitButton))
+              isDisabled={false}
               onClick={[Function]}
             />,
           },
@@ -452,6 +455,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
         Object {
           "edit_post": Object {
             "editTimeLimitButton": <Memo(Connect(EditPostTimeLimitButton))
+              isDisabled={true}
               onClick={[Function]}
             />,
           },
@@ -594,6 +598,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
         Object {
           "edit_post": Object {
             "editTimeLimitButton": <Memo(Connect(EditPostTimeLimitButton))
+              isDisabled={false}
               onClick={[Function]}
             />,
           },
@@ -736,6 +741,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
         Object {
           "edit_post": Object {
             "editTimeLimitButton": <Memo(Connect(EditPostTimeLimitButton))
+              isDisabled={false}
               onClick={[Function]}
             />,
           },
@@ -878,6 +884,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
         Object {
           "edit_post": Object {
             "editTimeLimitButton": <Memo(Connect(EditPostTimeLimitButton))
+              isDisabled={false}
               onClick={[Function]}
             />,
           },

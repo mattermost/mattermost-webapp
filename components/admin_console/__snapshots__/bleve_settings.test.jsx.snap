@@ -408,7 +408,6 @@ exports[`components/BleveSettings should match snapshot, enabled 1`] = `
                   values={Object {}}
                 />
               }
-              disabled={false}
               getExtraInfoText={[Function]}
               jobType="bleve_post_indexing"
             />

@@ -149,7 +149,6 @@ exports[`components/PluginManagement should match snapshot 1`] = `
               >
                 <button
                   className="btn btn-primary"
-                  disabled={false}
                 >
                   <FormattedMessage
                     defaultMessage="Choose File"
@@ -159,7 +158,6 @@ exports[`components/PluginManagement should match snapshot 1`] = `
                 </button>
                 <input
                   accept=".gz"
-                  disabled={false}
                   onChange={[Function]}
                   type="file"
                 />
@@ -505,7 +503,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
               >
                 <button
                   className="btn btn-primary"
-                  disabled={false}
                 >
                   <FormattedMessage
                     defaultMessage="Choose File"
@@ -515,7 +512,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
                 </button>
                 <input
                   accept=".gz"
-                  disabled={false}
                   onChange={[Function]}
                   type="file"
                 />
@@ -827,7 +823,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Plugins
               >
                 <button
                   className="btn btn-primary"
-                  disabled={false}
                 >
                   <FormattedMessage
                     defaultMessage="Choose File"
@@ -837,7 +832,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Plugins
                 </button>
                 <input
                   accept=".gz"
-                  disabled={false}
                   onChange={[Function]}
                   type="file"
                 />
@@ -1183,7 +1177,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
               >
                 <button
                   className="btn btn-primary"
-                  disabled={false}
                 >
                   <FormattedMessage
                     defaultMessage="Choose File"
@@ -1193,7 +1186,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
                 </button>
                 <input
                   accept=".gz"
-                  disabled={false}
                   onChange={[Function]}
                   type="file"
                 />
@@ -1895,7 +1887,6 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
               >
                 <button
                   className="btn btn-primary"
-                  disabled={false}
                 >
                   <FormattedMessage
                     defaultMessage="Choose File"
@@ -1905,7 +1896,6 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
                 </button>
                 <input
                   accept=".gz"
-                  disabled={false}
                   onChange={[Function]}
                   type="file"
                 />
@@ -2256,7 +2246,6 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
               >
                 <button
                   className="btn btn-primary"
-                  disabled={false}
                 >
                   <FormattedMessage
                     defaultMessage="Choose File"
@@ -2266,7 +2255,6 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
                 </button>
                 <input
                   accept=".gz"
-                  disabled={false}
                   onChange={[Function]}
                   type="file"
                 />
@@ -2940,7 +2928,6 @@ exports[`components/PluginManagement should match snapshot, text entered into th
               >
                 <button
                   className="btn btn-primary"
-                  disabled={false}
                 >
                   <FormattedMessage
                     defaultMessage="Choose File"
@@ -2950,7 +2937,6 @@ exports[`components/PluginManagement should match snapshot, text entered into th
                 </button>
                 <input
                   accept=".gz"
-                  disabled={false}
                   onChange={[Function]}
                   type="file"
                 />
@@ -3652,7 +3638,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               >
                 <button
                   className="btn btn-primary"
-                  disabled={false}
                 >
                   <FormattedMessage
                     defaultMessage="Choose File"
@@ -3662,7 +3647,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                 </button>
                 <input
                   accept=".gz"
-                  disabled={false}
                   onChange={[Function]}
                   type="file"
                 />
@@ -4069,7 +4053,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               >
                 <button
                   className="btn btn-primary"
-                  disabled={false}
                 >
                   <FormattedMessage
                     defaultMessage="Choose File"
@@ -4079,7 +4062,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                 </button>
                 <input
                   accept=".gz"
-                  disabled={false}
                   onChange={[Function]}
                   type="file"
                 />
@@ -4455,7 +4437,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               >
                 <button
                   className="btn btn-primary"
-                  disabled={false}
                 >
                   <FormattedMessage
                     defaultMessage="Choose File"
@@ -4465,7 +4446,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                 </button>
                 <input
                   accept=".gz"
-                  disabled={false}
                   onChange={[Function]}
                   type="file"
                 />
@@ -4841,7 +4821,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               >
                 <button
                   className="btn btn-primary"
-                  disabled={false}
                 >
                   <FormattedMessage
                     defaultMessage="Choose File"
@@ -4851,7 +4830,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                 </button>
                 <input
                   accept=".gz"
-                  disabled={false}
                   onChange={[Function]}
                   type="file"
                 />
@@ -5227,7 +5205,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               >
                 <button
                   className="btn btn-primary"
-                  disabled={false}
                 >
                   <FormattedMessage
                     defaultMessage="Choose File"
@@ -5237,7 +5214,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                 </button>
                 <input
                   accept=".gz"
-                  disabled={false}
                   onChange={[Function]}
                   type="file"
                 />
