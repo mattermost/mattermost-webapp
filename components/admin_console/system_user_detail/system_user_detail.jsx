@@ -443,6 +443,7 @@ export default class SystemUserDetail extends React.PureComponent {
                                 userId={this.props.user.id}
                                 userDetailCallback={this.setTeamsData}
                                 refreshTeams={this.state.refreshTeams}
+                                readOnly={this.props.isDisabled}
                             />
                         </AdminPanel>
                     </div>
