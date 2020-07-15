@@ -30,22 +30,28 @@ jest.mock('mattermost-redux/actions/users', () => {
     };
 });
 
+jest.mock('mattermost-redux/selectors/entities/channels', () => {
+    const GeneralTypes = require.requireActual('mattermost-redux/constants').General;
+    const original = jest.requireActual('mattermost-redux/selectors/entities/channels');
+    const mockDmGmUsersInLhs = [{id: 'gmChannel', type: GeneralTypes.GM_CHANNEL}, {id: 'dmChannel', type: GeneralTypes.DM_CHANNEL}];
+
+    return {
+        ...original,
+        getDirectChannels: jest.fn().mockReturnValue(mockDmGmUsersInLhs),
+    };
+});
+
 jest.mock('mattermost-redux/selectors/entities/channel_categories', () => {
     const GeneralTypes = require.requireActual('mattermost-redux/constants').General;
     const original = require.requireActual('mattermost-redux/selectors/entities/channel_categories');
-    const CategoryTypesObj = require.requireActual('mattermost-redux/constants/channel_categories').CategoryTypes;
 
     const mockChannelsObj = [{id: 'gmChannel', type: GeneralTypes.GM_CHANNEL}];
     const mockFunc = jest.fn();
-    const mockDMGMChannels = [{id: 'dmChannel1', type: GeneralTypes.DM_CHANNEL}, {id: 'gmChannel', type: GeneralTypes.GM_CHANNEL}];
-    const categories = [{type: CategoryTypesObj.DIRECT_MESSAGES}];
 
     return {
         ...original,
         makeFilterAutoclosedDMs: jest.fn().mockReturnValue(mockFunc),
         makeFilterManuallyClosedDMs: () => jest.fn().mockReturnValue(mockChannelsObj),
-        makeGetChannelsForCategory: () => jest.fn().mockReturnValue(mockDMGMChannels),
-        makeGetCategoriesForTeam: () => jest.fn().mockReturnValue(categories),
     };
 });
 
@@ -367,7 +373,7 @@ describe('Actions.User', () => {
 
     test('trackDMGMOpenChannels', async () => {
         const testStore = await mockStore(initialState);
-        await testStore.dispatch(UserActions.trackDMGMOpenChannels(initialState, mockChannelsObj1));
+        await testStore.dispatch(UserActions.trackDMGMOpenChannels());
         expect(trackEvent).toHaveBeenCalledWith('ui', 'LHS_DM_GM_Count', {count: 2});
     });
 });
