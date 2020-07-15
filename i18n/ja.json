@@ -180,7 +180,7 @@
   "admin.cluster.loadedFrom": "この設定ファイルはノードID {clusterId} からロードされます。ロードバランサーを通じてシステムコンソールにアクセスしている場合や問題が発生している場合は、[説明文書](!http://docs.mattermost.com/deployment/cluster.html) のTroubleshooting Guideを参照してください。",
   "admin.cluster.noteDescription": "このセクションでの設定値の変更を有効にするには、サーバーを再起動する必要があります。",
   "admin.cluster.OverrideHostname": "ホスト名を上書きする:",
-  "admin.cluster.OverrideHostnameDesc": "デフォルト値の <blank> はOSからホスト名を取得しようとするか、IPアドレスを使用します。  この設定により、このサーバーのホスト名を上書きすることもできます。  必要も無くホスト名を上書きすることは推奨されません。この設定値では特定のIPアドレスを設定することもできます。",
+  "admin.cluster.OverrideHostnameDesc": "デフォルト値の '<blank>' はOSからホスト名を取得しようとするか、IPアドレスを使用します。  この設定により、このサーバーのホスト名を上書きすることもできます。  必要も無くホスト名を上書きすることは推奨されません。この設定値では特定のIPアドレスを設定することもできます。",
   "admin.cluster.OverrideHostnameEx": "例: \"app-server-01\"",
   "admin.cluster.should_not_change": "警告: これらの設定はクラスター内の他のサーバーと同期されません。高可用なノード間接続は、全てのサーバーのconfig.jsonを同一に設定し、Mattermostを再起動するまで開始されません。クラスターからサーバーを追加/削除する方法については[説明文書](!http://docs.mattermost.com/deployment/cluster.html)を参照してください。 ロードバランサーを通じてシステムコンソールにアクセスしている場合や問題が発生している場合は、[説明文書](!http://docs.mattermost.com/deployment/cluster.html) のTroubleshooting Guideを参照してください。",
   "admin.cluster.status_table.config_hash": "設定ファイルのMD5ハッシュ値",
