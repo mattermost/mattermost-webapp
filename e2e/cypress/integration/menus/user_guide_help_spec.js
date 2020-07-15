@@ -16,8 +16,8 @@ describe('Main menu', () => {
     let testConfig;
 
     before(() => {
-        cy.apiGetConfig().then((response) => {
-            testConfig = response.body;
+        cy.apiGetConfig().then(({config}) => {
+            testConfig = config;
         });
         cy.apiInitSetup().then(({team, user}) => {
             testTeam = team;
