@@ -33,7 +33,7 @@ function mapStateToProps(state: GlobalState) {
 
 type Actions = {
     searchAllChannels: (term: string, notAssociatedToGroup?: string, excludeDefaultChannels?: boolean, page?: number, perPage?: number, includeDeleted?: boolean) => Promise<{ data: any }>;
-    getData: (page: number, perPage: number, notAssociatedToGroup? : string, excludeDefaultChannels?: boolean) => ActionFunc | ActionResult | Promise<ChannelWithTeamData[]>;
+    getData: (page: number, perPage: number, notAssociatedToGroup? : string, excludeDefaultChannels?: boolean, includeDeleted?: boolean) => ActionFunc | ActionResult | Promise<ChannelWithTeamData[]>;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {

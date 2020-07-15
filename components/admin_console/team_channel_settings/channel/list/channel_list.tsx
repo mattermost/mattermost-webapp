@@ -21,7 +21,7 @@ import './channel_list.scss';
 interface ChannelListProps {
     actions: {
         searchAllChannels: (term: string, notAssociatedToGroup?: string, excludeDefaultChannels?: boolean, page?: number, perPage?: number, includeDeleted?: boolean) => Promise<{ data: any }>;
-        getData: (page: number, perPage: number, notAssociatedToGroup? : string, excludeDefaultChannels?: boolean) => ActionFunc | ActionResult | Promise<ChannelWithTeamData[]>;
+        getData: (page: number, perPage: number, notAssociatedToGroup? : string, excludeDefaultChannels?: boolean, includeDeleted?: boolean) => ActionFunc | ActionResult | Promise<ChannelWithTeamData[]>;
     };
     data: ChannelWithTeamData[];
     total: number;
@@ -80,7 +80,7 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
             return;
         }
 
-        await this.props.actions.getData(page, PAGE_SIZE);
+        await this.props.actions.getData(page, PAGE_SIZE, '', false, true);
         this.setState({page, loading: false});
     }
 
