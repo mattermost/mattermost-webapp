@@ -1638,6 +1638,8 @@
   "admin.support.aboutTitle": "About Link:",
   "admin.support.emailHelp": "Email address displayed on email notifications and during tutorial for end users to ask support questions.",
   "admin.support.emailTitle": "Support Email:",
+  "admin.support.enableAskCommunityDesc": "When true, \"Ask the community\" link appears on the Mattermost user interface and Main Menu, which allows users to join the Mattermost Community to ask questions and help others troubleshoot issues. When false, the link is hidden from users.",
+  "admin.support.enableAskCommunityTitle": "Enable Ask Community Link:",
   "admin.support.enableTermsOfServiceHelp": "When true, new users must accept the terms of service before accessing any Mattermost teams on desktop, web or mobile. Existing users must accept them after login or a page refresh.\n \nTo update terms of service link displayed in account creation and login pages, go to [Site Configuration > Customization](../site_config/customization).",
   "admin.support.enableTermsOfServiceTitle": "Enable Custom Terms of Service:",
   "admin.support.helpDesc": "The URL for the Help link on the Mattermost login page, sign-up pages, and Main Menu. If this field is empty, the Help link is hidden from users.",
