@@ -45,7 +45,7 @@ export default class AnnouncementBar extends React.PureComponent {
 
     enableToolTipIfNeeded = () => {
         const elm = this.messageRef.current;
-        if(elm) {
+        if (elm) {
             return elm.offsetWidth < elm.scrollWidth;
         }
         return false;
@@ -70,7 +70,7 @@ export default class AnnouncementBar extends React.PureComponent {
         if (!this.props.message) {
             return null;
         }
-        
+
         let barClass = 'announcement-bar';
         const barStyle = {};
         const linkStyle = {};
@@ -107,7 +107,10 @@ export default class AnnouncementBar extends React.PureComponent {
             );
         }
         const announcementTooltip = this.enableToolTipIfNeeded() ? (
-            <Tooltip className='tooltip-announcement-bar' id='announcement-bar__tooltip'>
+            <Tooltip
+                className='tooltip-announcement-bar'
+                id='announcement-bar__tooltip'
+            >
                 {message}
             </Tooltip>
         ) : (<></>);
