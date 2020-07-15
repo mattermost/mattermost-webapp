@@ -377,7 +377,7 @@ PluginItem.propTypes = {
     handleRemove: PropTypes.func.isRequired,
     showInstances: PropTypes.bool.isRequired,
     hasSettings: PropTypes.bool.isRequired,
-    isDisabled: PropTypes.bool.isRequired,
+    isDisabled: PropTypes.bool,
 };
 
 export default class PluginManagement extends AdminSettings {
