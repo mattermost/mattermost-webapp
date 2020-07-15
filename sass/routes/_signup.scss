@@ -25,7 +25,7 @@ body {
 
 .signup-team__container {
     margin: 0 auto;
-    max-width: 800px;
+    max-width: 400px;
     padding: 100px 0 50px;
     position: relative;
 
@@ -480,6 +480,10 @@ body {
     .color--light {
         color: #777777;
     }
+}
+
+.select-team__container {
+    max-width: 800px;
 }
 
 .signup-team-all {
