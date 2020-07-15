@@ -32,7 +32,7 @@ type Props = {
     onHide?: () => void;
 
     actions: {
-        getProfilesNotInTeam: (teamId: string, groupConstrained: boolean, page: number, perPage?: number, options?: {[key: string]: any}) => Promise<{ data: UserProfile[] }>;
+        getProfilesNotInTeam: (teamId: string, groupConstrained: boolean, page: number, perPage?: number, options?: Record<string, any>) => Promise<{ data: UserProfile[] }>;
         searchProfiles: (term: string, options?: Record<string, any>) => Promise<{ data: UserProfile[] }>;
     };
 }
