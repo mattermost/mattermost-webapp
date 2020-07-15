@@ -12,7 +12,7 @@
 .Card__header {
     margin: 12px 12px 0 12px;
     padding-bottom: 12px;
-    
+
     &.expanded {
         border-bottom: 1px solid var(--center-channel-color-08);
     }
@@ -27,7 +27,13 @@
     transition-timing-function: ease-in-out;
     transition-property: height, margin;
 
-    &.expanded { 
-        margin: 12px;       
+    &.expanded {
+        margin: 12px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .Card + .Card {
+        margin-top: 12px;
     }
 }

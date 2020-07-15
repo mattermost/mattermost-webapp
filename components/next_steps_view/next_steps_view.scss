@@ -151,28 +151,34 @@
 }
 
 .Card.complete {
-    border: none;
+    border-color: transparent;
     box-shadow: none;
+    transition: border-color 0.3s ease-in-out;
 
     & + .Card {
         margin-top: 12px;
+        transition: margin 0.3s ease-in-out;
     }
 
     .Card__header {
         margin: 0;
-        border: none;
+        border-color: transparent;
+
+        transition: all 0.3s ease-in-out;
     }
 
     .Card__body {
-        display: none;
+        height: 0;
     }
 
     .NextStepsView__cardHeader {
         padding: 0;
+        transition: padding 0.3s ease-in-out;
 
         > span {
             color: var(--online-indicator);
             margin-left: 8px;
+            transition: all 0.3s ease-in-out;
         }
 
         i {
@@ -180,6 +186,7 @@
             font-size: 16px;
             line-height: 16px;
             color: var(--online-indicator);
+            transition: all 0.3s ease-in-out;
         }
     }
 }
@@ -217,5 +224,9 @@
     .NextStepsView__body-main {
         flex: 1 1 100%;
         padding: 0 12px;
+    }
+
+    .Card.complete .NextStepsView__cardHeader {
+        margin-left: 12px;
     }
 }
