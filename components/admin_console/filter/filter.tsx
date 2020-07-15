@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+import classNames from 'classnames';
 
 import FilterList from './filter_list';
 import './filter.scss';
@@ -60,8 +61,8 @@ class Filter extends React.PureComponent<Props, State> {
     public constructor(props: Props) {
         super(props);
 
-        let options = props.options;
-        let keys = props.keys;
+        let options = {...props.options};
+        let keys = [...props.keys];
         let valid = true;
         keys.forEach((key) => {
             const option = options[key];
@@ -83,8 +84,8 @@ class Filter extends React.PureComponent<Props, State> {
 
         this.state = {
             show: false,
-            options: {...options},
-            keys: [...keys],
+            options,
+            keys,
             optionsModified: false,
             filterCount: 0,
         };
@@ -187,7 +188,7 @@ class Filter extends React.PureComponent<Props, State> {
                 ref={this.filterRef}
             >
                 <button
-                    className={this.state.show ? 'Filter_button Filter__active' : 'Filter_button'}
+                    className={classNames('Filter_button', {Filter__active: this.state.show})}
                     onClick={this.togglePopover}
                     ref={this.buttonRef}
                 >
@@ -201,7 +202,7 @@ class Filter extends React.PureComponent<Props, State> {
                 </button>
 
                 <div
-                    className={this.state.show ? 'Filter_content Filter__show' : 'Filter_content'}
+                    className={classNames('Filter_content', {Filter__show: this.state.show})}
                 >
                     <div className='Filter_header'>
                         <div className='Filter_title'>

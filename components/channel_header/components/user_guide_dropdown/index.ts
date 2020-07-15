@@ -9,10 +9,11 @@ import {GlobalState} from 'types/store';
 import UserGuideDropdown from './user_guide_dropdown';
 
 function mapStateToProps(state: GlobalState) {
-    const {HelpLink, ReportAProblemLink} = getConfig(state);
+    const {HelpLink, ReportAProblemLink, EnableAskCommunityLink} = getConfig(state);
     return {
         helpLink: HelpLink!,
         reportAProblemLink: ReportAProblemLink!,
+        enableAskCommunityLink: EnableAskCommunityLink!,
     };
 }
 
