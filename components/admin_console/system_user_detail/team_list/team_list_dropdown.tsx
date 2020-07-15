@@ -14,7 +14,7 @@ type Props = {
     doRemoveUserFromTeam: (teamId: string) => void;
     doMakeUserTeamAdmin: (teamId: string) => void;
     doMakeUserTeamMember: (teamId: string) => void;
-    isDisabled: boolean;
+    isDisabled?: boolean;
 }
 
 type State = {

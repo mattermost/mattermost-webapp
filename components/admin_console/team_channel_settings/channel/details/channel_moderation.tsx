@@ -181,7 +181,7 @@ interface Props {
     teamSchemeDisplayName?: string;
     guestAccountsEnabled: boolean;
     isPublic: boolean;
-    readOnly: boolean;
+    readOnly?: boolean;
 }
 
 interface RowProps {

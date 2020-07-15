@@ -18,7 +18,7 @@ interface GroupRowProps {
     key?: string;
     setNewGroupRole: (gid: string) => void;
     type: string;
-    isDisabled: boolean;
+    isDisabled?: boolean;
 }
 
 export default class GroupRow extends React.PureComponent<GroupRowProps> {
