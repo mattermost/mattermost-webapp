@@ -43,7 +43,13 @@ exports[`components/next_steps_view should match snapshot 1`] = `
   >
     <div
       className="NextStepsView__body-main"
-    />
+    >
+      <Accordion
+        defaultExpandedKey="Card_1"
+      >
+        <Component />
+      </Accordion>
+    </div>
     <div
       className="NextStepsView__body-graphic"
     />
