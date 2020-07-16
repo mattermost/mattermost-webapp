@@ -26,7 +26,7 @@ export default class CompleteProfileStep extends React.PureComponent<Props, Stat
             <div>
                 {'AAAAAAAA'}
                 <div className='NextStepsView__wizardButtons'>
-                    <button
+                    {/* <button
                         className='NextStepsView__button cancel'
                         onClick={this.onSkip}
                     >
@@ -34,7 +34,7 @@ export default class CompleteProfileStep extends React.PureComponent<Props, Stat
                             id='next_steps_view.skipForNow'
                             defaultMessage='Skip for now'
                         />
-                    </button>
+                    </button> */}
                     <button
                         className='NextStepsView__button confirm'
                         onClick={this.onFinish}
