@@ -27,6 +27,7 @@ function mapStateToProps(state) {
             ['users', 'groups', 'teams', 'channels', 'permissions'].forEach((userManagementKey) => {
                 const subKey = `${key}.${userManagementKey}`;
                 consoleAccess.write[subKey] = !haveINoWritePermissionOnSysConsoleItem(state, {resourceId: subKey});
+                consoleAccess.read[subKey] = !haveINoWritePermissionOnSysConsoleItem(state, {resourceId: subKey});
             });
         }
     });
