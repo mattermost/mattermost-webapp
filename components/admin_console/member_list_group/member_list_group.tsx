@@ -15,7 +15,7 @@ const USERS_PER_PAGE = 10;
 
 import './member_list_group.scss';
 
-type Props = {
+export type Props = {
     searchTerm: string;
     users: Array<UserProfile>;
     groupID: string;
