@@ -16,7 +16,7 @@ import {setModalSearchTerm} from 'actions/views/search';
 
 import {GlobalState} from 'types/store';
 
-import MemberListGroup, {Props} from './member_list_group';
+import MemberListGroup, {Props as MemberListGroupProps} from './member_list_group';
 
 type Props = {
     groupID: string;
@@ -41,7 +41,7 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
 
 function mapDispatchToProps(dispatch: Dispatch) {
     return {
-        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Props['actions']>({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, MemberListGroupProps['actions']>({
             getProfilesInGroup,
             searchProfiles,
             setModalSearchTerm,
