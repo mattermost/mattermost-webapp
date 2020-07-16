@@ -45,7 +45,7 @@ class UserGuideDropdown extends React.PureComponent<Props, State> {
         });
     }
 
-    askTheCommunityClick = (e) => {
+    askTheCommunityClick = (e: React.MouseEvent) => {
         trackEvent('ui', 'help_ask_the_community');
         e.stopPropagation();
         e.preventDefault();
