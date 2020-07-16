@@ -1597,6 +1597,10 @@
                         .badge + .SidebarMenu {
                             display: none !important;
                         }
+
+                        &:hover .SidebarMenu {
+                            display: block !important;
+                        }
                     }
 
                     &.has-close {
