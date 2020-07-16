@@ -54,7 +54,7 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
               className="group-actions TeamList_editText"
               data-testid="DNedit"
             >
-              <ForwardRef
+              <Link
                 to="/admin_console/user_management/teams/123"
               >
                 <FormattedMessage
@@ -62,7 +62,7 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
                   id="admin.team_settings.team_row.configure"
                   values={Object {}}
                 />
-              </ForwardRef>
+              </Link>
             </span>,
             "id": "123",
             "management": <span
@@ -168,7 +168,7 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
               className="group-actions TeamList_editText"
               data-testid="DN0edit"
             >
-              <ForwardRef
+              <Link
                 to="/admin_console/user_management/teams/id0"
               >
                 <FormattedMessage
@@ -176,7 +176,7 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
                   id="admin.team_settings.team_row.configure"
                   values={Object {}}
                 />
-              </ForwardRef>
+              </Link>
             </span>,
             "id": "id0",
             "management": <span
@@ -219,7 +219,7 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
               className="group-actions TeamList_editText"
               data-testid="DN1edit"
             >
-              <ForwardRef
+              <Link
                 to="/admin_console/user_management/teams/id1"
               >
                 <FormattedMessage
@@ -227,7 +227,7 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
                   id="admin.team_settings.team_row.configure"
                   values={Object {}}
                 />
-              </ForwardRef>
+              </Link>
             </span>,
             "id": "id1",
             "management": <span
@@ -270,7 +270,7 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
               className="group-actions TeamList_editText"
               data-testid="DN2edit"
             >
-              <ForwardRef
+              <Link
                 to="/admin_console/user_management/teams/id2"
               >
                 <FormattedMessage
@@ -278,7 +278,7 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
                   id="admin.team_settings.team_row.configure"
                   values={Object {}}
                 />
-              </ForwardRef>
+              </Link>
             </span>,
             "id": "id2",
             "management": <span
@@ -321,7 +321,7 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
               className="group-actions TeamList_editText"
               data-testid="DN3edit"
             >
-              <ForwardRef
+              <Link
                 to="/admin_console/user_management/teams/id3"
               >
                 <FormattedMessage
@@ -329,7 +329,7 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
                   id="admin.team_settings.team_row.configure"
                   values={Object {}}
                 />
-              </ForwardRef>
+              </Link>
             </span>,
             "id": "id3",
             "management": <span
@@ -372,7 +372,7 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
               className="group-actions TeamList_editText"
               data-testid="DN4edit"
             >
-              <ForwardRef
+              <Link
                 to="/admin_console/user_management/teams/id4"
               >
                 <FormattedMessage
@@ -380,7 +380,7 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
                   id="admin.team_settings.team_row.configure"
                   values={Object {}}
                 />
-              </ForwardRef>
+              </Link>
             </span>,
             "id": "id4",
             "management": <span
@@ -423,7 +423,7 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
               className="group-actions TeamList_editText"
               data-testid="DN5edit"
             >
-              <ForwardRef
+              <Link
                 to="/admin_console/user_management/teams/id5"
               >
                 <FormattedMessage
@@ -431,7 +431,7 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
                   id="admin.team_settings.team_row.configure"
                   values={Object {}}
                 />
-              </ForwardRef>
+              </Link>
             </span>,
             "id": "id5",
             "management": <span
@@ -474,7 +474,7 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
               className="group-actions TeamList_editText"
               data-testid="DN6edit"
             >
-              <ForwardRef
+              <Link
                 to="/admin_console/user_management/teams/id6"
               >
                 <FormattedMessage
@@ -482,7 +482,7 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
                   id="admin.team_settings.team_row.configure"
                   values={Object {}}
                 />
-              </ForwardRef>
+              </Link>
             </span>,
             "id": "id6",
             "management": <span
@@ -525,7 +525,7 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
               className="group-actions TeamList_editText"
               data-testid="DN7edit"
             >
-              <ForwardRef
+              <Link
                 to="/admin_console/user_management/teams/id7"
               >
                 <FormattedMessage
@@ -533,7 +533,7 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
                   id="admin.team_settings.team_row.configure"
                   values={Object {}}
                 />
-              </ForwardRef>
+              </Link>
             </span>,
             "id": "id7",
             "management": <span
@@ -576,7 +576,7 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
               className="group-actions TeamList_editText"
               data-testid="DN8edit"
             >
-              <ForwardRef
+              <Link
                 to="/admin_console/user_management/teams/id8"
               >
                 <FormattedMessage
@@ -584,7 +584,7 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
                   id="admin.team_settings.team_row.configure"
                   values={Object {}}
                 />
-              </ForwardRef>
+              </Link>
             </span>,
             "id": "id8",
             "management": <span
@@ -627,7 +627,7 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
               className="group-actions TeamList_editText"
               data-testid="DN9edit"
             >
-              <ForwardRef
+              <Link
                 to="/admin_console/user_management/teams/id9"
               >
                 <FormattedMessage
@@ -635,7 +635,7 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
                   id="admin.team_settings.team_row.configure"
                   values={Object {}}
                 />
-              </ForwardRef>
+              </Link>
             </span>,
             "id": "id9",
             "management": <span
