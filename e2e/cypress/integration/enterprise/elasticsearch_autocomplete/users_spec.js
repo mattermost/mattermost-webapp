@@ -18,11 +18,11 @@ describe('Autocomplete with Elasticsearch - Users', () => {
 
     before(() => {
         // * Check if server has license for Elasticsearch
-        cy.requireLicenseForFeature('Elasticsearch');
+        cy.apiRequireLicenseForFeature('Elasticsearch');
 
         // # Create new team for tests
-        cy.apiCreateTeam(`elastic-${timestamp}`, `elastic-${timestamp}`).then((response) => {
-            testTeam = response.body;
+        cy.apiCreateTeam(`elastic-${timestamp}`, `elastic-${timestamp}`).then(({team}) => {
+            testTeam = team;
 
             // # Create pool of users for tests
             Cypress._.forEach(testUsers, (testUser) => {

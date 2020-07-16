@@ -8,12 +8,12 @@
 }
 
 .NextStepsView__header {
-    padding: 32px 40px;
+    padding: 32px 40px 24px 40px;
     display: flex;
 }
 
 .NextStepsView__header-headerText {
-
+    flex-grow: 1;
 }
 
 .NextStepsView__header-headerTopText {
@@ -21,6 +21,7 @@
     font-size: 32px;
     line-height: 40px;
     letter-spacing: -0.02em;
+    margin: 0;
 }
 
 .NextStepsView__header-headerBottomText {
@@ -31,7 +32,7 @@
 
 .NextStepsView__header-logo {
     margin-left: auto;
-    align-self: center;
+    margin-top: 8px;
 }
 
 .NextStepsView__body {
@@ -151,35 +152,47 @@
 }
 
 .Card.complete {
-    border: none;
+    border-color: transparent;
     box-shadow: none;
+    transition: border-color 0.3s ease-in-out;
+    background-color: transparent;
 
     & + .Card {
         margin-top: 12px;
+        transition: margin 0.3s ease-in-out;
     }
 
     .Card__header {
-        margin: 0;
-        border: none;
+        //margin: 0;
+        border-color: transparent;
+
+        transition: all 0.3s ease-in-out;
     }
 
     .Card__body {
-        display: none;
+        height: 0;
     }
 
     .NextStepsView__cardHeader {
         padding: 0;
+        transition: padding 0.3s ease-in-out;
 
         > span {
             color: var(--online-indicator);
-            margin-left: 8px;
+            //margin-left: 8px;
+            transition: all 0.3s ease-in-out;
         }
 
         i {
             align-self: center;
-            font-size: 16px;
-            line-height: 16px;
+            font-size: 26px;
+            line-height: 26px;
             color: var(--online-indicator);
+            transition: all 0.3s ease-in-out;
+
+            &::before {
+                margin: 0;
+            }
         }
     }
 }
@@ -202,7 +215,6 @@
 @media screen and (max-width: 768px) {
     #app-content.NextStepsView {
         background-size: auto;
-        background-position-y: top;
     }
 
     .NextStepsView__header {
@@ -217,5 +229,9 @@
     .NextStepsView__body-main {
         flex: 1 1 100%;
         padding: 0 12px;
+    }
+
+    .Card.complete .NextStepsView__cardHeader {
+        margin-left: 12px;
     }
 }

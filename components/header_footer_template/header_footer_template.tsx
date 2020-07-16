@@ -5,7 +5,13 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-export default class NotLoggedIn extends React.PureComponent {
+import {ClientConfig} from 'mattermost-redux/types/config';
+
+type Props = {
+    config: Partial<ClientConfig> | undefined;
+}
+
+export default class NotLoggedIn extends React.PureComponent<Props> {
     static propTypes = {
 
         /*
@@ -21,15 +27,25 @@ export default class NotLoggedIn extends React.PureComponent {
 
     componentDidMount() {
         document.body.classList.add('sticky');
-        document.getElementById('root').classList.add('container-fluid');
+        const rootElement: HTMLElement | null = document.getElementById('root');
+        if (rootElement) {
+            rootElement.classList.add('container-fluid');
+        }
     }
     componentWillUnmount() {
         document.body.classList.remove('sticky');
-        document.getElementById('root').classList.remove('container-fluid');
+        const rootElement: HTMLElement | null = document.getElementById('root');
+        if (rootElement) {
+            rootElement.classList.remove('container-fluid');
+        }
     }
 
     render() {
         const content = [];
+
+        if (!this.props.config) {
+            return null;
+        }
 
         if (this.props.config.AboutLink) {
             content.push(
