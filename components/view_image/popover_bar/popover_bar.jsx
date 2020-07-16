@@ -96,10 +96,12 @@ export default class PopoverBar extends React.PureComponent {
             );
         }
 
-        let zoomInButton;
-        let zoomOutButton;
-        let zoomResetButton;
+        let zoomControls = [];
         if (this.props.showZoomControls) {
+            let zoomInButton;
+            let zoomOutButton;
+            let zoomResetButton;
+
             if (this.props.scale < ZoomSettings.MAX_SCALE) {
                 zoomInButton = (
                     <span className='modal-zoom-btn'>
@@ -116,9 +118,10 @@ export default class PopoverBar extends React.PureComponent {
                     </span>
                 );
             }
-            zoomInButton = (
+            zoomControls.push(
                 <OverlayTrigger
                     delayShow={Constants.OVERLAY_TIME_DELAY}
+                    key='zoomIn'
                     placement='top'
                     overlay={
                         <Tooltip id='zoom-in-icon-tooltip'>
@@ -130,39 +133,7 @@ export default class PopoverBar extends React.PureComponent {
                     }
                 >
                     {zoomInButton}
-                </OverlayTrigger>
-            );
-
-            if (this.props.scale > ZoomSettings.MIN_SCALE) {
-                zoomOutButton = (
-                    <span className='modal-zoom-btn'>
-                        <a onClick={debounce(this.props.handleZoomOut, 300, {maxWait: 300})}>
-                            {<i className='icon icon-minus'/>}
-                        </a>
-                    </span>
-                );
-            } else {
-                zoomOutButton = (
-                    <span className='btn-inactive'>
-                        {<i className='icon icon-minus'/>}
-                    </span>
-                );
-            }
-            zoomOutButton = (
-                <OverlayTrigger
-                    delayShow={Constants.OVERLAY_TIME_DELAY}
-                    placement='top'
-                    overlay={
-                        <Tooltip id='zoom-out-icon-tooltip'>
-                            <FormattedMessage
-                                id='view_image.zoom_out'
-                                defaultMessage='Zoom Out'
-                            />
-                        </Tooltip>
-                    }
-                >
-                    {zoomOutButton}
-                </OverlayTrigger>
+                </OverlayTrigger>,
             );
 
             if (this.props.scale > ZoomSettings.DEFAULT_SCALE) {
@@ -188,9 +159,10 @@ export default class PopoverBar extends React.PureComponent {
                     </span>
                 );
             }
-            zoomResetButton = (
+            zoomControls.push(
                 <OverlayTrigger
                     delayShow={Constants.OVERLAY_TIME_DELAY}
+                    key='zoomReset'
                     placement='top'
                     overlay={
                         <Tooltip id='zoom-reset-icon-tooltip'>
@@ -202,7 +174,46 @@ export default class PopoverBar extends React.PureComponent {
                     }
                 >
                     {zoomResetButton}
-                </OverlayTrigger>
+                </OverlayTrigger>,
+            );
+
+            if (this.props.scale > ZoomSettings.MIN_SCALE) {
+                zoomOutButton = (
+                    <span className='modal-zoom-btn'>
+                        <a onClick={debounce(this.props.handleZoomOut, 300, {maxWait: 300})}>
+                            {<i className='icon icon-minus'/>}
+                        </a>
+                    </span>
+                );
+            } else {
+                zoomOutButton = (
+                    <span className='btn-inactive'>
+                        {<i className='icon icon-minus'/>}
+                    </span>
+                );
+            }
+            zoomControls.push(
+                <OverlayTrigger
+                    delayShow={Constants.OVERLAY_TIME_DELAY}
+                    key='zoomOut'
+                    placement='top'
+                    overlay={
+                        <Tooltip id='zoom-out-icon-tooltip'>
+                            <FormattedMessage
+                                id='view_image.zoom_out'
+                                defaultMessage='Zoom Out'
+                            />
+                        </Tooltip>
+                    }
+                >
+                    {zoomOutButton}
+                </OverlayTrigger>,
+            );
+
+            zoomControls = (
+                <div className='modal-column'>
+                    {zoomControls}
+                </div>
             );
         }
 
@@ -224,11 +235,7 @@ export default class PopoverBar extends React.PureComponent {
                         />
                     </span>
                 </div>
-                <div className='modal-column'>
-                    {zoomOutButton}
-                    {zoomResetButton}
-                    {zoomInButton}
-                </div>
+                {zoomControls}
                 <div className='modal-column text'>
                     {downloadLinks}
                 </div>

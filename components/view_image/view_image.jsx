@@ -251,42 +251,52 @@ export default class ViewImageModal extends React.PureComponent {
         if (this.state.loaded[this.state.imageIndex]) {
             if (fileType === FileTypes.IMAGE || fileType === FileTypes.SVG) {
                 content = (
-                    <ImagePreview
-                        fileInfo={fileInfo}
-                        canDownloadFiles={this.props.canDownloadFiles}
-                    />
+                    <div className='modal-image__content'>
+                        <ImagePreview
+                            fileInfo={fileInfo}
+                            canDownloadFiles={this.props.canDownloadFiles}
+                        />
+                    </div>
                 );
             } else if (fileType === FileTypes.VIDEO || fileType === FileTypes.AUDIO) {
                 content = (
-                    <AudioVideoPreview
-                        fileInfo={fileInfo}
-                        fileUrl={fileUrl}
-                    />
+                    <div className='modal-image__content'>
+                        <AudioVideoPreview
+                            fileInfo={fileInfo}
+                            fileUrl={fileUrl}
+                        />
+                    </div>
                 );
             } else if (fileType === FileTypes.PDF) {
                 content = (
-                    <React.Suspense fallback={null}>
-                        <PDFPreview
-                            fileInfo={fileInfo}
-                            fileUrl={fileUrl}
-                            scale={this.state.scale}
-                        />
-                    </React.Suspense>
+                    <div className='modal-image__content pdf'>
+                        <React.Suspense fallback={null}>
+                            <PDFPreview
+                                fileInfo={fileInfo}
+                                fileUrl={fileUrl}
+                                scale={this.state.scale}
+                            />
+                        </React.Suspense>
+                    </div>
                 );
             } else if (CodePreview.supports(fileInfo)) {
                 dialogClassName += ' modal-code';
                 content = (
-                    <CodePreview
-                        fileInfo={fileInfo}
-                        fileUrl={fileUrl}
-                    />
+                    <div className='modal-image__content'>
+                        <CodePreview
+                            fileInfo={fileInfo}
+                            fileUrl={fileUrl}
+                        />
+                    </div>
                 );
             } else {
                 content = (
-                    <FileInfoPreview
-                        fileInfo={fileInfo}
-                        fileUrl={fileUrl}
-                    />
+                    <div className='modal-image__content'>
+                        <FileInfoPreview
+                            fileInfo={fileInfo}
+                            fileUrl={fileUrl}
+                        />
+                    </div>
                 );
             }
         } else {

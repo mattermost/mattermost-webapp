@@ -342,10 +342,16 @@
         }
 
         .modal-image__content {
-            height: 75vh;
-            width: 85vw;
+            max-height: 91.5vh;
+            max-width: 96vw;
             overflow-x: hidden;
             overflow-y: visible;
+
+            .pdf {
+            height: 91.5vh;
+            width: 96vw;
+            }
+
         }
 
         .post-code__container {

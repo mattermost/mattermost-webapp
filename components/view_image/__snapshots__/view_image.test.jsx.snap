@@ -223,15 +223,19 @@ exports[`components/ViewImageModal should match snapshot on onModalShown and onM
           <div
             className="modal-image__content"
           >
-            <ImagePreview
-              canDownloadFiles={true}
-              fileInfo={
-                Object {
-                  "extension": "gif",
-                  "id": "file_id_1",
+            <div
+              className="modal-image__content"
+            >
+              <ImagePreview
+                canDownloadFiles={true}
+                fileInfo={
+                  Object {
+                    "extension": "gif",
+                    "id": "file_id_1",
+                  }
                 }
-              }
-            />
+              />
+            </div>
           </div>
         </div>
         <PopoverBar
@@ -331,15 +335,19 @@ exports[`components/ViewImageModal should match snapshot on onModalShown and onM
           <div
             className="modal-image__content"
           >
-            <AudioVideoPreview
-              fileInfo={
-                Object {
-                  "extension": "wma",
-                  "id": "file_id_2",
+            <div
+              className="modal-image__content"
+            >
+              <AudioVideoPreview
+                fileInfo={
+                  Object {
+                    "extension": "wma",
+                    "id": "file_id_2",
+                  }
                 }
-              }
-              fileUrl="/api/v4/files/file_id_2"
-            />
+                fileUrl="/api/v4/files/file_id_2"
+              />
+            </div>
           </div>
         </div>
         <PopoverBar
@@ -528,15 +536,19 @@ exports[`components/ViewImageModal should match snapshot, loaded 1`] = `
           <div
             className="modal-image__content"
           >
-            <ImagePreview
-              canDownloadFiles={true}
-              fileInfo={
-                Object {
-                  "extension": "jpg",
-                  "id": "file_id",
+            <div
+              className="modal-image__content"
+            >
+              <ImagePreview
+                canDownloadFiles={true}
+                fileInfo={
+                  Object {
+                    "extension": "jpg",
+                    "id": "file_id",
+                  }
                 }
-              }
-            />
+              />
+            </div>
           </div>
         </div>
         <PopoverBar
@@ -616,15 +628,19 @@ exports[`components/ViewImageModal should match snapshot, loaded and showing foo
           <div
             className="modal-image__content"
           >
-            <ImagePreview
-              canDownloadFiles={true}
-              fileInfo={
-                Object {
-                  "extension": "jpg",
-                  "id": "file_id",
+            <div
+              className="modal-image__content"
+            >
+              <ImagePreview
+                canDownloadFiles={true}
+                fileInfo={
+                  Object {
+                    "extension": "jpg",
+                    "id": "file_id",
+                  }
                 }
-              }
-            />
+              />
+            </div>
           </div>
         </div>
         <PopoverBar
@@ -704,15 +720,19 @@ exports[`components/ViewImageModal should match snapshot, loaded with .js file 1
           <div
             className="modal-image__content"
           >
-            <CodePreview
-              fileInfo={
-                Object {
-                  "extension": "js",
-                  "id": "file_id",
+            <div
+              className="modal-image__content"
+            >
+              <CodePreview
+                fileInfo={
+                  Object {
+                    "extension": "js",
+                    "id": "file_id",
+                  }
                 }
-              }
-              fileUrl="/api/v4/files/file_id"
-            />
+                fileUrl="/api/v4/files/file_id"
+              />
+            </div>
           </div>
         </div>
         <PopoverBar
@@ -792,15 +812,19 @@ exports[`components/ViewImageModal should match snapshot, loaded with .m4a file 
           <div
             className="modal-image__content"
           >
-            <AudioVideoPreview
-              fileInfo={
-                Object {
-                  "extension": "m4a",
-                  "id": "file_id",
+            <div
+              className="modal-image__content"
+            >
+              <AudioVideoPreview
+                fileInfo={
+                  Object {
+                    "extension": "m4a",
+                    "id": "file_id",
+                  }
                 }
-              }
-              fileUrl="/api/v4/files/file_id"
-            />
+                fileUrl="/api/v4/files/file_id"
+              />
+            </div>
           </div>
         </div>
         <PopoverBar
@@ -880,15 +904,19 @@ exports[`components/ViewImageModal should match snapshot, loaded with .mov file 
           <div
             className="modal-image__content"
           >
-            <AudioVideoPreview
-              fileInfo={
-                Object {
-                  "extension": "mov",
-                  "id": "file_id",
+            <div
+              className="modal-image__content"
+            >
+              <AudioVideoPreview
+                fileInfo={
+                  Object {
+                    "extension": "mov",
+                    "id": "file_id",
+                  }
                 }
-              }
-              fileUrl="/api/v4/files/file_id"
-            />
+                fileUrl="/api/v4/files/file_id"
+              />
+            </div>
           </div>
         </div>
         <PopoverBar
@@ -968,15 +996,19 @@ exports[`components/ViewImageModal should match snapshot, loaded with footer 1`]
           <div
             className="modal-image__content"
           >
-            <ImagePreview
-              canDownloadFiles={true}
-              fileInfo={
-                Object {
-                  "extension": "gif",
-                  "id": "file_id_1",
+            <div
+              className="modal-image__content"
+            >
+              <ImagePreview
+                canDownloadFiles={true}
+                fileInfo={
+                  Object {
+                    "extension": "gif",
+                    "id": "file_id_1",
+                  }
                 }
-              }
-            />
+              />
+            </div>
           </div>
         </div>
         <PopoverBar
@@ -1076,15 +1108,19 @@ exports[`components/ViewImageModal should match snapshot, loaded with image 1`] 
           <div
             className="modal-image__content"
           >
-            <ImagePreview
-              canDownloadFiles={true}
-              fileInfo={
-                Object {
-                  "extension": "jpg",
-                  "id": "file_id",
+            <div
+              className="modal-image__content"
+            >
+              <ImagePreview
+                canDownloadFiles={true}
+                fileInfo={
+                  Object {
+                    "extension": "jpg",
+                    "id": "file_id",
+                  }
                 }
-              }
-            />
+              />
+            </div>
           </div>
         </div>
         <PopoverBar
@@ -1164,15 +1200,19 @@ exports[`components/ViewImageModal should match snapshot, loaded with left and r
           <div
             className="modal-image__content"
           >
-            <ImagePreview
-              canDownloadFiles={true}
-              fileInfo={
-                Object {
-                  "extension": "gif",
-                  "id": "file_id_1",
+            <div
+              className="modal-image__content"
+            >
+              <ImagePreview
+                canDownloadFiles={true}
+                fileInfo={
+                  Object {
+                    "extension": "gif",
+                    "id": "file_id_1",
+                  }
                 }
-              }
-            />
+              />
+            </div>
           </div>
         </div>
         <PopoverBar
@@ -1272,15 +1312,19 @@ exports[`components/ViewImageModal should match snapshot, loaded with left and r
           <div
             className="modal-image__content"
           >
-            <AudioVideoPreview
-              fileInfo={
-                Object {
-                  "extension": "wma",
-                  "id": "file_id_2",
+            <div
+              className="modal-image__content"
+            >
+              <AudioVideoPreview
+                fileInfo={
+                  Object {
+                    "extension": "wma",
+                    "id": "file_id_2",
+                  }
                 }
-              }
-              fileUrl="/api/v4/files/file_id_2"
-            />
+                fileUrl="/api/v4/files/file_id_2"
+              />
+            </div>
           </div>
         </div>
         <PopoverBar
@@ -1380,15 +1424,19 @@ exports[`components/ViewImageModal should match snapshot, loaded with left and r
           <div
             className="modal-image__content"
           >
-            <AudioVideoPreview
-              fileInfo={
-                Object {
-                  "extension": "wma",
-                  "id": "file_id_2",
+            <div
+              className="modal-image__content"
+            >
+              <AudioVideoPreview
+                fileInfo={
+                  Object {
+                    "extension": "wma",
+                    "id": "file_id_2",
+                  }
                 }
-              }
-              fileUrl="/api/v4/files/file_id_2"
-            />
+                fileUrl="/api/v4/files/file_id_2"
+              />
+            </div>
           </div>
         </div>
         <PopoverBar
@@ -1488,15 +1536,19 @@ exports[`components/ViewImageModal should match snapshot, loaded with other file
           <div
             className="modal-image__content"
           >
-            <Connect(FileInfoPreview)
-              fileInfo={
-                Object {
-                  "extension": "other",
-                  "id": "file_id",
+            <div
+              className="modal-image__content"
+            >
+              <Connect(FileInfoPreview)
+                fileInfo={
+                  Object {
+                    "extension": "other",
+                    "id": "file_id",
+                  }
                 }
-              }
-              fileUrl="/api/v4/files/file_id"
-            />
+                fileUrl="/api/v4/files/file_id"
+              />
+            </div>
           </div>
         </div>
         <PopoverBar
