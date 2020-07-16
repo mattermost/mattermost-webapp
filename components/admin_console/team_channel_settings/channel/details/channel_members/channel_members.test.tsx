@@ -38,6 +38,7 @@ describe('admin_console/team_channel_settings/channel/ChannelMembers', () => {
         },
         totalCount: 3,
         searchTerm: '',
+        enableGuestAccounts: true,
         actions: {
             getChannelStats: jest.fn(),
             loadProfilesAndReloadChannelMembers: jest.fn(),

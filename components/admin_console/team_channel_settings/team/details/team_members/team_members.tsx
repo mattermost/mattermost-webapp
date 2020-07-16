@@ -21,9 +21,10 @@ import ToggleModalButton from 'components/toggle_modal_button';
 import {FilterOptions} from 'components/admin_console/filter/filter';
 
 type Props = {
-    filters: GetFilteredUsersStatsOpts;
     teamId: string;
     team: Team;
+    filters: GetFilteredUsersStatsOpts;
+
     users: UserProfile[];
     usersToRemove: Dictionary<UserProfile>;
     usersToAdd: Dictionary<UserProfile>;
@@ -32,6 +33,7 @@ type Props = {
     totalCount: number;
     searchTerm: string;
     loading?: boolean;
+    enableGuestAccounts: boolean;
 
     onAddCallback: (users: UserProfile[]) => void;
     onRemoveCallback: (user: UserProfile) => void;
@@ -231,6 +233,10 @@ export default class TeamMembers extends React.PureComponent<Props, State> {
                 keys: [GeneralConstants.SYSTEM_GUEST_ROLE, GeneralConstants.TEAM_USER_ROLE, GeneralConstants.TEAM_ADMIN_ROLE, GeneralConstants.SYSTEM_ADMIN_ROLE],
             },
         };
+        if (!this.props.enableGuestAccounts) {
+            delete filterOptions.role.values[GeneralConstants.SYSTEM_GUEST_ROLE];
+            filterOptions.role.keys = [GeneralConstants.TEAM_USER_ROLE, GeneralConstants.TEAM_ADMIN_ROLE, GeneralConstants.SYSTEM_ADMIN_ROLE];
+        }
         const filterKeys = ['role'];
         const filterProps = {
             options: filterOptions,

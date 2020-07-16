@@ -30,15 +30,15 @@ type Props = {
     usersToRemove: Dictionary<UserProfile>;
     usersToAdd: Dictionary<UserProfile>;
     channelMembers: Dictionary<ChannelMembership>;
-    totalCount: number;
 
+    totalCount: number;
+    searchTerm: string;
     loading?: boolean;
+    enableGuestAccounts: boolean;
 
     onAddCallback: (users: UserProfile[]) => void;
     onRemoveCallback: (user: UserProfile) => void;
     updateRole: (userId: string, schemeUser: boolean, schemeAdmin: boolean) => void;
-
-    searchTerm: string;
 
     actions: {
         getChannelStats: (channelId: string) => Promise<{
@@ -232,6 +232,11 @@ export default class ChannelMembers extends React.PureComponent<Props, State> {
                 keys: [GeneralConstants.SYSTEM_GUEST_ROLE, GeneralConstants.CHANNEL_USER_ROLE, GeneralConstants.CHANNEL_ADMIN_ROLE, GeneralConstants.SYSTEM_ADMIN_ROLE],
             },
         };
+
+        if (!this.props.enableGuestAccounts) {
+            delete filterOptions.role.values[GeneralConstants.SYSTEM_GUEST_ROLE];
+            filterOptions.role.keys = [GeneralConstants.CHANNEL_USER_ROLE, GeneralConstants.CHANNEL_ADMIN_ROLE, GeneralConstants.SYSTEM_ADMIN_ROLE];
+        }
         const filterProps = {
             options: filterOptions,
             keys: ['role'],
