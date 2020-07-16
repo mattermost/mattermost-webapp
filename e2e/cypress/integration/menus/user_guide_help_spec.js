@@ -25,16 +25,6 @@ describe('Main menu', () => {
             testTeam = team;
             testUser = user;
         });
-
-        cy.apiGetConfig().then((response) => {
-            testConfig = response.body;
-        });
-
-        cy.apiUpdateConfig({
-            SupportSettings: {
-                EnableAskCommunityLink: true,
-            },
-        });
     });
 
     describe('user help guide', () => {
