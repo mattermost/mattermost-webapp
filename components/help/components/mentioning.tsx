@@ -7,7 +7,7 @@ import {Link} from 'react-router-dom';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
-export default (): JSX.Element => {
+export default function Mentioning(): JSX.Element {
     return (
         <div>
             <h1 className='markdown__heading'>
@@ -156,4 +156,4 @@ export default (): JSX.Element => {
             </ul>
         </div>
     );
-};
+}

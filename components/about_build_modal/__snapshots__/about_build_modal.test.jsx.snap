@@ -122,7 +122,7 @@ exports[`components/AboutBuildModal should match snapshot for enterprise edition
             defaultMessage="Licensed to:"
             id="about.licensed"
           />
-          <_default />
+          <Nbsp />
           Mattermost Inc
         </div>
       </div>
@@ -206,21 +206,21 @@ exports[`components/AboutBuildModal should match snapshot for enterprise edition
           defaultMessage="Build Hash:"
           id="about.hash"
         />
-        <_default />
+        <Nbsp />
         abcdef1234567890
         <br />
         <FormattedMessage
           defaultMessage="EE Build Hash:"
           id="about.hashee"
         />
-        <_default />
+        <Nbsp />
         0123456789abcdef
         <br />
         <FormattedMessage
           defaultMessage="Webapp Build Hash:"
           id="about.hashwebapp"
         />
-        <_default />
+        <Nbsp />
         0a1b2c3d4f
       </p>
       <p>
@@ -228,7 +228,7 @@ exports[`components/AboutBuildModal should match snapshot for enterprise edition
           defaultMessage="Build Date:"
           id="about.date"
         />
-        <_default />
+        <Nbsp />
         21 January 2017
       </p>
     </div>
@@ -432,20 +432,20 @@ exports[`components/AboutBuildModal should match snapshot for team edition 1`] =
           defaultMessage="Build Hash:"
           id="about.hash"
         />
-        <_default />
+        <Nbsp />
         abcdef1234567890
         <br />
         <FormattedMessage
           defaultMessage="EE Build Hash:"
           id="about.hashee"
         />
-        <_default />
+        <Nbsp />
         <br />
         <FormattedMessage
           defaultMessage="Webapp Build Hash:"
           id="about.hashwebapp"
         />
-        <_default />
+        <Nbsp />
         0a1b2c3d4f
       </p>
       <p>
@@ -453,7 +453,7 @@ exports[`components/AboutBuildModal should match snapshot for team edition 1`] =
           defaultMessage="Build Date:"
           id="about.date"
         />
-        <_default />
+        <Nbsp />
         21 January 2017
       </p>
     </div>
@@ -668,20 +668,20 @@ exports[`components/AboutBuildModal should show ci if a ci build 1`] = `
           defaultMessage="Build Hash:"
           id="about.hash"
         />
-        <_default />
+        <Nbsp />
         abcdef1234567890
         <br />
         <FormattedMessage
           defaultMessage="EE Build Hash:"
           id="about.hashee"
         />
-        <_default />
+        <Nbsp />
         <br />
         <FormattedMessage
           defaultMessage="Webapp Build Hash:"
           id="about.hashwebapp"
         />
-        <_default />
+        <Nbsp />
         0a1b2c3d4f
       </p>
       <p>
@@ -689,7 +689,7 @@ exports[`components/AboutBuildModal should show ci if a ci build 1`] = `
           defaultMessage="Build Date:"
           id="about.date"
         />
-        <_default />
+        <Nbsp />
         21 January 2017
       </p>
     </div>
@@ -893,20 +893,20 @@ exports[`components/AboutBuildModal should show dev if this is a dev build 1`] =
           defaultMessage="Build Hash:"
           id="about.hash"
         />
-        <_default />
+        <Nbsp />
         abcdef1234567890
         <br />
         <FormattedMessage
           defaultMessage="EE Build Hash:"
           id="about.hashee"
         />
-        <_default />
+        <Nbsp />
         <br />
         <FormattedMessage
           defaultMessage="Webapp Build Hash:"
           id="about.hashwebapp"
         />
-        <_default />
+        <Nbsp />
         0a1b2c3d4f
       </p>
       <p>
@@ -914,7 +914,7 @@ exports[`components/AboutBuildModal should show dev if this is a dev build 1`] =
           defaultMessage="Build Date:"
           id="about.date"
         />
-        <_default />
+        <Nbsp />
         21 January 2017
       </p>
     </div>

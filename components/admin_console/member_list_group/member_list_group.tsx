@@ -5,6 +5,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {UserProfile} from 'mattermost-redux/types/users';
+import {GroupStats} from 'mattermost-redux/types/groups';
 
 import Constants from 'utils/constants';
 import UserGridName from 'components/admin_console/user_grid/user_grid_name';
@@ -20,15 +21,10 @@ type Props = {
     groupID: string;
     total: number;
     actions: {
-        // eslint-disable-next-line @typescript-eslint/ban-types
-        getProfilesInGroup: (groupID: string, page: number, perPage: number) => Promise<{data: {}}>;
-        // eslint-disable-next-line @typescript-eslint/ban-types
-        getGroupStats: (groupID: string) => Promise<{data: {}}>;
-        // eslint-disable-next-line @typescript-eslint/ban-types
-        searchProfiles: (term: string, options?: {}) => Promise<{data: UserProfile[]}>;
-        setModalSearchTerm: (term: string) => Promise<{
-            data: boolean;
-        }>;
+        getProfilesInGroup: (groupID: string, page: number, perPage: number) => Promise<{data: UserProfile[]}>;
+        getGroupStats: (groupID: string) => Promise<{data: GroupStats}>;
+        searchProfiles: (term: string, options?: Record<string, unknown>) => Promise<{data: UserProfile[]}>;
+        setModalSearchTerm: (term: string) => Promise<{data: boolean;}>;
     };
 }
 
