@@ -161,7 +161,7 @@
     }
 
     .Card__header {
-        margin: 0;
+        //margin: 0;
         border-color: transparent;
 
         transition: all 0.3s ease-in-out;
@@ -172,21 +172,25 @@
     }
 
     .NextStepsView__cardHeader {
-        padding: 0;
+        //padding: 0;
         transition: padding 0.3s ease-in-out;
 
         > span {
             color: var(--online-indicator);
-            margin-left: 8px;
+            //margin-left: 8px;
             transition: all 0.3s ease-in-out;
         }
 
         i {
             align-self: center;
-            font-size: 16px;
-            line-height: 16px;
+            font-size: 26px;
+            line-height: 26px;
             color: var(--online-indicator);
             transition: all 0.3s ease-in-out;
+
+            &::before {
+                margin: 0;
+            }
         }
     }
 }
