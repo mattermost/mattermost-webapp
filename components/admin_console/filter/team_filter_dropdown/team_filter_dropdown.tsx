@@ -59,11 +59,14 @@ const getFilteredTeams = createSelector(
 
 const TEAMS_PER_PAGE = 5;
 const MAX_BUTTON_TEXT_LENGTH = 30;
+const INITIAL_SEARCH_RETRY_TIMEOUT = 300;
 class TeamFilterDropdown extends React.PureComponent<Props, State> {
     private ref: React.RefObject<HTMLDivElement>;
     private searchRef: React.RefObject<HTMLInputElement>;
     private clearRef: React.RefObject<HTMLInputElement>;
     private listRef: React.RefObject<HTMLDivElement>;
+    private searchRetryInterval: number;
+    private searchRetryId: number;
 
     public constructor(props: Props) {
         super(props);
@@ -82,6 +85,8 @@ class TeamFilterDropdown extends React.PureComponent<Props, State> {
         this.searchRef = React.createRef();
         this.clearRef = React.createRef();
         this.listRef = React.createRef();
+        this.searchRetryInterval = INITIAL_SEARCH_RETRY_TIMEOUT;
+        this.searchRetryId = 0;
     }
 
     componentDidMount() {
@@ -152,14 +157,24 @@ class TeamFilterDropdown extends React.PureComponent<Props, State> {
             const {data} = response;
             searchResults = page > 0 ? this.state.searchResults.concat(data.teams) : data.teams;
             searchTotal = data.total_count;
+            this.setState({page, loading: false, searchResults, searchTotal, searchTerm: term});
+            return;
         }
-        this.setState({page, loading: false, searchResults, searchTotal, searchTerm: term});
+        this.searchRetryInterval = this.searchRetryInterval * 2;
+        this.searchRetryId = window.setTimeout(this.searchTeams.bind(null, term, page), this.searchRetryInterval)
     }
 
-    searchTeamsDebounced = debounce((page, term) => this.searchTeams(term, page), 300, false, () => {});
+    searchTeamsDebounced = debounce((page, term) => this.searchTeams(term, page), INITIAL_SEARCH_RETRY_TIMEOUT, false, () => {});
 
     handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
         const searchTerm = e.target.value;
+
+        if (this.searchRetryId !== 0) {
+            clearTimeout(this.searchRetryId);
+            this.searchRetryId = 0;
+            this.searchRetryInterval = INITIAL_SEARCH_RETRY_TIMEOUT;
+        }
+
         if (searchTerm.length === 0) {
             const selectedTeamIds = this.props.option.values.team_ids.value as string[];
             const selectedTeams = getSelectedTeams(selectedTeamIds, this.props.teams);
