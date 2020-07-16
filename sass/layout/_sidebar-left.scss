@@ -792,6 +792,10 @@
         padding: 0;
     }
 
+    .SidebarChannelGroup .SidebarChannel.newChannelSpacer {
+        height: 0px;
+    }
+
     /* Channels */
     .SidebarChannel {
         display: block;
@@ -825,10 +829,6 @@
 
         &.noFloat {
             transform: none !important;
-        }
-
-        &.newChannelSpacer {
-            height: 0;
         }
 
         .btn-close {
