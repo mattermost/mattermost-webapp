@@ -236,14 +236,6 @@
         }
     }
 
-    .SidebarMenu, .AddChannelDropdown {
-        display: block !important;
-
-        .Menu {
-            top: 0 !important;
-        }
-    }
-
     .app__body {
         .post, .SidebarMenu, .AddChannelDropdown {
             .Menu {
@@ -1563,6 +1555,10 @@
             display: block;
         }
 
+        .SidebarContainer_filterAddChannel {
+            width: 100%;
+        }
+
         .SidebarChannelGroup {
             div {
                 &.dropdown.open {
@@ -1590,9 +1586,21 @@
                 .SidebarChannel {
                     height: 45px;
 
-                    a,
-                    button {
+                    .SidebarLink {
                         height: 45px;
+                        align-items: center;
+
+                        &::before {
+                            height: 45px;
+                        }
+
+                        .badge + .SidebarMenu {
+                            display: none !important;
+                        }
+
+                        &:hover .SidebarMenu {
+                            display: block !important;
+                        }
                     }
 
                     &.has-close {
@@ -1605,6 +1613,10 @@
                             height: 30px;
                             line-height: 30px;
                         }
+                    }
+
+                    .SidebarMenu_menuButton {
+                        margin-top: 1px;
                     }
                 }
 
@@ -1622,6 +1634,14 @@
                         background: transparent;
                     }
                 }
+            }
+        }
+
+        .SidebarMenu, .AddChannelDropdown {
+            display: block !important;
+    
+            .Menu {
+                top: 0 !important;
             }
         }
     }

@@ -51,6 +51,7 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
         // # Login as test user and visit town-square
         cy.apiLogin(testUser);
         cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.get('#channelHeaderTitle').should('be.visible').and('contain', 'Town Square');
 
         // # Make sure there is at least a message without reaction for each test
         cy.postMessage(MESSAGES.TINY);
@@ -538,6 +539,9 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
     });
 
     it('Should not open emoji picker by shortcut if last post is a system message', () => {
+        // # Login as admin to test against recent system message
+        cy.apiAdminLogin();
+
         // # Visit the new empty channel
         cy.visit(`/${testTeam.name}/channels/${emptyChannel.name}`);
 
