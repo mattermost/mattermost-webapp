@@ -344,6 +344,8 @@
         .modal-image__content {
             max-height: 91.5vh;
             max-width: 96vw;
+            min-height: 240px;
+            min-width: 440px;
             overflow-x: hidden;
             overflow-y: visible;
 

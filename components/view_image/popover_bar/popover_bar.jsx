@@ -98,41 +98,40 @@ export default class PopoverBar extends React.PureComponent {
 
         let zoomControls = [];
         if (this.props.showZoomControls) {
-            let zoomInButton;
-            let zoomOutButton;
             let zoomResetButton;
+            let zoomOutButton;
+            let zoomInButton;
 
-            if (this.props.scale < ZoomSettings.MAX_SCALE) {
-                zoomInButton = (
+            if (this.props.scale > ZoomSettings.MIN_SCALE) {
+                zoomOutButton = (
                     <span className='modal-zoom-btn'>
-                        <a onClick={debounce(this.props.handleZoomIn, 300, {maxWait: 300})}>
-                            {<i className='icon icon-plus'/>}
+                        <a onClick={debounce(this.props.handleZoomOut, 300, {maxWait: 300})}>
+                            {<i className='icon icon-minus'/>}
                         </a>
                     </span>
-
                 );
             } else {
-                zoomInButton = (
+                zoomOutButton = (
                     <span className='btn-inactive'>
-                        {<i className='icon icon-plus'/>}
+                        {<i className='icon icon-minus'/>}
                     </span>
                 );
             }
             zoomControls.push(
                 <OverlayTrigger
                     delayShow={Constants.OVERLAY_TIME_DELAY}
-                    key='zoomIn'
+                    key='zoomOut'
                     placement='top'
                     overlay={
-                        <Tooltip id='zoom-in-icon-tooltip'>
+                        <Tooltip id='zoom-out-icon-tooltip'>
                             <FormattedMessage
-                                id='view_image.zoom_in'
-                                defaultMessage='Zoom In'
+                                id='view_image.zoom_out'
+                                defaultMessage='Zoom Out'
                             />
                         </Tooltip>
                     }
                 >
-                    {zoomInButton}
+                    {zoomOutButton}
                 </OverlayTrigger>,
             );
 
@@ -177,36 +176,37 @@ export default class PopoverBar extends React.PureComponent {
                 </OverlayTrigger>,
             );
 
-            if (this.props.scale > ZoomSettings.MIN_SCALE) {
-                zoomOutButton = (
+            if (this.props.scale < ZoomSettings.MAX_SCALE) {
+                zoomInButton = (
                     <span className='modal-zoom-btn'>
-                        <a onClick={debounce(this.props.handleZoomOut, 300, {maxWait: 300})}>
-                            {<i className='icon icon-minus'/>}
+                        <a onClick={debounce(this.props.handleZoomIn, 300, {maxWait: 300})}>
+                            {<i className='icon icon-plus' />}
                         </a>
                     </span>
+
                 );
             } else {
-                zoomOutButton = (
+                zoomInButton = (
                     <span className='btn-inactive'>
-                        {<i className='icon icon-minus'/>}
+                        {<i className='icon icon-plus' />}
                     </span>
                 );
             }
             zoomControls.push(
                 <OverlayTrigger
                     delayShow={Constants.OVERLAY_TIME_DELAY}
-                    key='zoomOut'
+                    key='zoomIn'
                     placement='top'
                     overlay={
-                        <Tooltip id='zoom-out-icon-tooltip'>
+                        <Tooltip id='zoom-in-icon-tooltip'>
                             <FormattedMessage
-                                id='view_image.zoom_out'
-                                defaultMessage='Zoom Out'
+                                id='view_image.zoom_in'
+                                defaultMessage='Zoom In'
                             />
                         </Tooltip>
                     }
                 >
-                    {zoomOutButton}
+                    {zoomInButton}
                 </OverlayTrigger>,
             );
 
