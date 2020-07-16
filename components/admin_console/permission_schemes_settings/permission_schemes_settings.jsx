@@ -152,7 +152,7 @@ export default class PermissionSchemesSettings extends React.PureComponent {
                     subtitleId={t('admin.permissions.teamOverrideSchemesBannerText')}
                     subtitleDefault='Use when specific teams need permission exceptions to the [System Scheme](!https://about.mattermost.com/default-system-scheme).'
                     url='/admin_console/user_management/permissions/team_override_scheme'
-                    disabled={teamOverrideView !== null}
+                    disabled={(teamOverrideView !== null) || this.props.isDisabled}
                     linkTextId={t('admin.permissions.teamOverrideSchemesNewButton')}
                     linkTextDefault='New Team Override Scheme'
                 >

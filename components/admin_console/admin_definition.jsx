@@ -5081,6 +5081,7 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.experimentalDataPrefetch.desc'),
                         help_text_default: 'When true, messages in unread channels are preloaded to reduce channel loading time. When false, messages are not loaded from the server until users switch channels.',
                         help_text_markdown: false,
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
