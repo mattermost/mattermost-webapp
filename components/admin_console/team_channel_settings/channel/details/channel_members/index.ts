@@ -18,6 +18,7 @@ import {getFilteredUsersStats} from 'mattermost-redux/actions/users';
 
 import {getChannelMembersInChannels, getAllChannelStats, getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {makeGetProfilesInChannel, makeSearchProfilesInChannel, filterProfiles, getFilteredUsersStats as selectFilteredUsersStats} from 'mattermost-redux/selectors/entities/users';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {loadProfilesAndReloadChannelMembers, searchProfilesAndChannelMembers} from 'actions/user_actions';
 import {setUserGridSearch, setUserGridFilters} from 'actions/views/search';
@@ -68,6 +69,7 @@ function makeMapStateToProps() {
         const {channelId, usersToRemove} = props;
         let {usersToAdd} = props;
 
+        const config = getConfig(state);
         const channelMembers = getChannelMembersInChannels(state)[channelId] || {};
         const channel = getChannel(state, channelId) || {channel_id: channelId};
         const searchTerm = state.views.search.userGridSearch?.term || '';
@@ -107,6 +109,7 @@ function makeMapStateToProps() {
             usersToRemove,
             totalCount,
             searchTerm,
+            enableGuestAccounts: config.EnableGuestAccounts === 'true',
         };
     };
 }

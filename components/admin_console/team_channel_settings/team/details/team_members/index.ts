@@ -16,6 +16,7 @@ import {getFilteredUsersStats} from 'mattermost-redux/actions/users';
 
 import {getMembersInTeams, getTeamStats, getTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getProfilesInTeam, searchProfilesInTeam, filterProfiles, getFilteredUsersStats as selectFilteredUsersStats} from 'mattermost-redux/selectors/entities/users';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {GlobalState} from 'types/store';
 import {loadProfilesAndReloadTeamMembers, searchProfilesAndTeamMembers} from 'actions/user_actions.jsx';
@@ -64,6 +65,7 @@ function mapStateToProps(state: GlobalState, props: Props) {
 
     const teamMembers = getMembersInTeams(state)[teamId] || {};
     const team = getTeam(state, teamId) || {};
+    const config = getConfig(state);
     const searchTerm = state.views.search.userGridSearch?.term || '';
     const filters = state.views.search.userGridSearch?.filters || {};
 
@@ -96,6 +98,7 @@ function mapStateToProps(state: GlobalState, props: Props) {
         usersToRemove,
         totalCount,
         searchTerm,
+        enableGuestAccounts: config.EnableGuestAccounts === 'true',
     };
 }
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {

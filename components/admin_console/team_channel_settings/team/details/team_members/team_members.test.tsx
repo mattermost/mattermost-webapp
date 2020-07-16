@@ -31,6 +31,7 @@ describe('admin_console/team_channel_settings/team/TeamMembers', () => {
             [user2.id]: membership2,
             [user3.id]: membership3,
         },
+        enableGuestAccounts: true,
 
         totalCount: 3,
         loading: false,

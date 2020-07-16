@@ -23,7 +23,7 @@ import './channel_list.scss';
 interface ChannelListProps {
     actions: {
         searchAllChannels: (term: string, opts: ChannelSearchOpts) => Promise<{ data: any }>;
-        getData: (page: number, perPage: number, notAssociatedToGroup? : string, excludeDefaultChannels?: boolean) => ActionFunc | ActionResult | Promise<ChannelWithTeamData[]>;
+        getData: (page: number, perPage: number, notAssociatedToGroup? : string, excludeDefaultChannels?: boolean, includeDeleted?: boolean) => ActionFunc | ActionResult | Promise<ChannelWithTeamData[]>;
     };
     data: ChannelWithTeamData[];
     total: number;
@@ -85,7 +85,7 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
             return;
         }
 
-        await this.props.actions.getData(page, PAGE_SIZE);
+        await this.props.actions.getData(page, PAGE_SIZE, '', false, true);
         this.setState({page, loading: false});
     }
 
@@ -93,7 +93,7 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
         let channels = [];
         let total = 0;
         let searchErrored = true;
-        const response = await this.props.actions.searchAllChannels(term, {page, per_page: PAGE_SIZE, ...filters});
+        const response = await this.props.actions.searchAllChannels(term, {page, per_page: PAGE_SIZE, ...filters, includeDeleted: true});
         if (response?.data) {
             channels = page > 0 ? this.state.channels.concat(response.data.channels) : response.data.channels;
             total = response.data.total_count;
