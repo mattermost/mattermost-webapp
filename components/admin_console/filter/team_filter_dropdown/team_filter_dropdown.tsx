@@ -161,7 +161,7 @@ class TeamFilterDropdown extends React.PureComponent<Props, State> {
             return;
         }
         this.searchRetryInterval = this.searchRetryInterval * 2;
-        this.searchRetryId = window.setTimeout(this.searchTeams.bind(null, term, page), this.searchRetryInterval)
+        this.searchRetryId = window.setTimeout(this.searchTeams.bind(null, term, page), this.searchRetryInterval);
     }
 
     searchTeamsDebounced = debounce((page, term) => this.searchTeams(term, page), INITIAL_SEARCH_RETRY_TIMEOUT, false, () => {});
