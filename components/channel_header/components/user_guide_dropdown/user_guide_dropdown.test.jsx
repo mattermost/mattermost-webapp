@@ -14,6 +14,12 @@ jest.mock('actions/global_actions', () => ({
     toggleShortcutsModal: jest.fn(),
 }));
 
+jest.mock('actions/diagnostics_actions.jsx', () => {
+    return {
+        trackEvent: jest.fn(),
+    };
+});
+
 describe('components/channel_header/components/UserGuideDropdown', () => {
     const baseProps = {
         helpLink: 'helpLink',
@@ -59,5 +65,15 @@ describe('components/channel_header/components/UserGuideDropdown', () => {
 
         wrapper.find(Menu.ItemAction).prop('onClick')({preventDefault: jest.fn()});
         expect(GlobalActions.toggleShortcutsModal).toHaveBeenCalled();
+    });
+
+    test('Should call for track event on click of askTheCommunityLink', () => {
+        const trackEvent = require('actions/diagnostics_actions.jsx').trackEvent;
+        const wrapper = shallowWithIntl(
+            <UserGuideDropdown {...baseProps}/>,
+        );
+
+        wrapper.find(Menu.ItemExternalLink).find('#askTheCommunityLink').prop('onClick')({preventDefault: jest.fn(), stopPropagation: jest.fn()});
+        expect(trackEvent).toBeCalledWith('ui', 'help_ask_the_community');
     });
 });
