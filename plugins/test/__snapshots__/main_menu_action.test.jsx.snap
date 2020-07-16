@@ -295,7 +295,21 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
     <Connect(SystemPermissionGate)
       permissions={
         Array [
-          "read_settings",
+          "read_sysconsole_about",
+          "read_sysconsole_reporting",
+          "read_sysconsole_user_management",
+          "read_sysconsole_user_management_users",
+          "read_sysconsole_user_management_groups",
+          "read_sysconsole_user_management_teams",
+          "read_sysconsole_user_management_channels",
+          "read_sysconsole_user_management_permissions",
+          "read_sysconsole_environment",
+          "read_sysconsole_site",
+          "read_sysconsole_authentication",
+          "read_sysconsole_plugins",
+          "read_sysconsole_integrations",
+          "read_sysconsole_compliance",
+          "read_sysconsole_experimental",
         ]
       }
     >

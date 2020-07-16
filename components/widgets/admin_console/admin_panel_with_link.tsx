@@ -16,7 +16,7 @@ type Props = {
     subtitleId: string;
     subtitleDefault: string;
     url: string;
-    disabled: boolean;
+    disabled?: boolean;
     linkTextId: string;
     linkTextDefault: string;
 }
