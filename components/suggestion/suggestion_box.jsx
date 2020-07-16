@@ -542,7 +542,7 @@ export default class SuggestionBox extends React.PureComponent {
                 components: [],
                 selection: '',
             });
-            this.handlePretextChanged("");
+            this.handlePretextChanged('');
         }
     }
 
