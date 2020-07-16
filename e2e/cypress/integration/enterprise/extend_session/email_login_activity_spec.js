@@ -9,6 +9,7 @@ import {getAdminAccount} from '../../../support/env';
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @enterprise @extend_session
 
 describe('MM-T2575 Extend Session - Email Login', () => {
@@ -19,7 +20,7 @@ describe('MM-T2575 Extend Session - Email Login', () => {
 
     before(() => {
         // # Check if with license and has matching database
-        cy.requireLicense();
+        cy.apiRequireLicense();
         cy.requireServerDBToMatch();
 
         cy.apiInitSetup().then(({team, user}) => {

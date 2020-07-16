@@ -13,7 +13,7 @@
 describe('System Console', () => {
     before(() => {
         // * Check if server has license for ID Loaded Push Notifications
-        cy.requireLicenseForFeature('IDLoadedPushNotifications');
+        cy.apiRequireLicenseForFeature('IDLoadedPushNotifications');
 
         // # Update to default config
         cy.apiUpdateConfig({
@@ -76,8 +76,8 @@ describe('System Console', () => {
                 and('have.value', option.value);
             cy.get('#saveSetting').click();
 
-            cy.apiGetConfig().then((response) => {
-                expect(response.body.EmailSettings.PushNotificationContents).to.equal(option.value);
+            cy.apiGetConfig().then(({config}) => {
+                expect(config.EmailSettings.PushNotificationContents).to.equal(option.value);
             });
         });
     });
