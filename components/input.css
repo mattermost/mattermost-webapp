@@ -27,7 +27,6 @@
 }
 
 .Input-focus {
-    margin-top: -4px;
 }
 
 .Input-error, .Input-info {
@@ -66,26 +65,22 @@
     border-radius: 4px;
     z-index: 3;
     padding: 0 1px;
-    margin-top: 10px;
 }
 
 .Input-fieldset:focus-within {
-    margin-top: 0px;
     border: 2px solid var(--button-bg);
     color: var(--button-bg);
 }
 
 .Input-fieldset-legend {
-    top: -6px;
-    margin-bottom: -7px;
 }
 
 .Input-fieldset-legend + .Input-info {
-    margin-top: 3px;
+    margin-top: 6px;
 }
 
 .Input-fieldset:focus-within + .Input-error {
-    margin-top: 7px;
+    margin-top: 6px;
 }
 
 .Input-fieldset-error {
@@ -100,9 +95,8 @@
     opacity: 0;
     position: relative;
     width: max-content;
+    margin: 0;
     padding: 0;
-    margin-left: 8px;
-    margin-bottom: 0px;
     font-size: 10px;
     line-height: 16px;
     text-align: left;
@@ -112,7 +106,9 @@
     transition-duration: 0.15s;
     transition-property: opacity, transform;
     transition-timing-function: ease-in-out;
-    transform: translateY(16px);
+    transform: translateY(8px);
+    height: 0;
+    top: -8px;
 }
 
 .Input-fieldset-error .Input-legend{
