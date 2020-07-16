@@ -4,10 +4,10 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import MoreChannels from 'components/more_channels/more_channels.jsx';
-import SearchableChannelList from 'components/searchable_channel_list.jsx';
+import {ActionResult} from 'mattermost-redux/types/actions';
 
-/* eslint-disable global-require */
+import MoreChannels, {Props} from 'components/more_channels/more_channels';
+import SearchableChannelList from 'components/searchable_channel_list.jsx';
 
 jest.mock('utils/browser_history', () => {
     const original = require.requireActual('utils/browser_history');
@@ -37,7 +37,7 @@ describe('components/MoreChannels', () => {
     };
 
     const channelActions = {
-        joinChannelAction: (userId, teamId, channelId) => {
+        joinChannelAction: (userId: string, teamId: string, channelId: string): Promise<ActionResult> => {
             return new Promise((resolve) => {
                 if (channelId !== 'channel-1') {
                     return resolve({
@@ -47,11 +47,11 @@ describe('components/MoreChannels', () => {
                     });
                 }
 
-                return {data: true};
+                return resolve({data: true});
             });
         },
-        // eslint-disable-next-line
-        searchMoreChannels: (term, shouldShowArchivedChannels) => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        searchMoreChannels: (term: string, shouldShowArchivedChannels: boolean): Promise<ActionResult> => {
             return new Promise((resolve) => {
                 if (term === 'fail') {
                     return resolve({
@@ -66,9 +66,43 @@ describe('components/MoreChannels', () => {
         },
     };
 
-    const baseProps = {
-        channels: [{id: 'channel_id_1', delete_at: 0, name: 'channel-1'}],
-        archivedChannels: [{id: 'channel_id_2', delete_at: 0, name: 'channel-2'}],
+    const baseProps: Props = {
+        channels: [{
+            id: 'channel_id_1',
+            create_at: 0,
+            update_at: 0,
+            delete_at: 0,
+            team_id: 'channel_team_1',
+            type: 'O',
+            display_name: 'channel-1',
+            name: 'channel-1',
+            header: 'channel-1-header',
+            purpose: 'channel-1-purpose',
+            last_post_at: 0,
+            total_msg_count: 0,
+            extra_update_at: 0,
+            creator_id: 'channel_1_creator',
+            scheme_id: 'channel_1_scheme',
+            group_constrained: false,
+        }],
+        archivedChannels: [{
+            id: 'channel_id_2',
+            create_at: 0,
+            update_at: 0,
+            delete_at: 0,
+            team_id: 'channel_team_2',
+            type: 'O',
+            display_name: 'channel-2',
+            name: 'channel-2',
+            header: 'channel-2-header',
+            purpose: 'channel-2-purpose',
+            last_post_at: 0,
+            total_msg_count: 0,
+            extra_update_at: 0,
+            creator_id: 'channel_2_creator',
+            scheme_id: 'channel_2_scheme',
+            group_constrained: false,
+        }],
         currentUserId: 'user-1',
         teamId: 'team_id',
         teamName: 'team_name',
@@ -79,8 +113,8 @@ describe('components/MoreChannels', () => {
         actions: {
             getChannels: jest.fn(),
             getArchivedChannels: jest.fn(),
-            joinChannel: jest.spyOn(channelActions, 'joinChannelAction'),
-            searchMoreChannels: jest.spyOn(channelActions, 'searchMoreChannels'),
+            joinChannel: jest.fn(channelActions.joinChannelAction),
+            searchMoreChannels: jest.fn(channelActions.searchMoreChannels),
         },
     };
 
@@ -98,8 +132,9 @@ describe('components/MoreChannels', () => {
         expect(wrapper.state('searching')).toEqual(false);
 
         // on componentDidMount
-        expect(wrapper.instance().props.actions.getChannels).toHaveBeenCalledTimes(1);
-        expect(wrapper.instance().props.actions.getChannels).toHaveBeenCalledWith(wrapper.instance().props.teamId, 0, 100);
+        const instance = wrapper.instance() as MoreChannels;
+        expect(instance.props.actions.getChannels).toHaveBeenCalledTimes(1);
+        expect(instance.props.actions.getChannels).toHaveBeenCalledWith(instance.props.teamId, 0, 100);
     });
 
     test('should match state on handleHide', () => {
@@ -107,7 +142,9 @@ describe('components/MoreChannels', () => {
             <MoreChannels {...baseProps}/>,
         );
         wrapper.setState({show: true});
-        wrapper.instance().handleHide();
+
+        const instance = wrapper.instance() as MoreChannels;
+        instance.handleHide();
         expect(wrapper.state('show')).toEqual(false);
     });
 
@@ -117,7 +154,8 @@ describe('components/MoreChannels', () => {
             <MoreChannels {...props}/>,
         );
 
-        wrapper.instance().handleExit();
+        const instance = wrapper.instance() as MoreChannels;
+        instance.handleExit();
         expect(props.onModalDismissed).toHaveBeenCalledTimes(1);
         expect(props.onModalDismissed).toHaveBeenCalledWith();
     });
@@ -127,12 +165,16 @@ describe('components/MoreChannels', () => {
             <MoreChannels {...baseProps}/>,
         );
         wrapper.setState({searchedChannels: [{id: 'other_channel_id'}]});
-        wrapper.instance().onChange();
+
+        let instance = wrapper.instance() as MoreChannels;
+        instance.onChange(true);
         expect(wrapper.state('searchedChannels')).toEqual([]);
 
         // on search
         wrapper.setState({search: true});
-        expect(wrapper.instance().onChange(false)).toEqual();
+
+        instance = wrapper.instance() as MoreChannels;
+        expect(instance.onChange(false)).toEqual(undefined);
     });
 
     test('should call props.getChannels on nextPage', () => {
@@ -140,7 +182,7 @@ describe('components/MoreChannels', () => {
             <MoreChannels {...baseProps}/>,
         );
 
-        const instance = wrapper.instance();
+        const instance = wrapper.instance() as MoreChannels;
         instance.nextPage(1);
 
         expect(instance.props.actions.getChannels).toHaveBeenCalledTimes(2);
@@ -176,7 +218,7 @@ describe('components/MoreChannels', () => {
             <MoreChannels {...props}/>,
         );
 
-        const instance = wrapper.instance();
+        const instance = wrapper.instance() as MoreChannels;
         const callback = jest.fn();
         instance.handleJoin(baseProps.channels[0], callback);
         expect(instance.props.actions.joinChannel).toHaveBeenCalledTimes(1);
@@ -189,6 +231,7 @@ describe('components/MoreChannels', () => {
     });
 
     test('should join the channel', (done) => {
+        // eslint-disable-next-line global-require
         const browserHistory = require('utils/browser_history').browserHistory;
         const props = {
             ...baseProps,
@@ -206,7 +249,7 @@ describe('components/MoreChannels', () => {
             <MoreChannels {...props}/>,
         );
 
-        const instance = wrapper.instance();
+        const instance = wrapper.instance() as MoreChannels;
         const callback = jest.fn();
         instance.handleJoin(baseProps.channels[0], callback);
         expect(instance.props.actions.joinChannel).toHaveBeenCalledTimes(1);
@@ -224,7 +267,7 @@ describe('components/MoreChannels', () => {
             <MoreChannels {...baseProps}/>,
         );
 
-        const instance = wrapper.instance();
+        const instance = wrapper.instance() as MoreChannels;
         instance.onChange = jest.fn();
         instance.search('');
         expect(clearTimeout).toHaveBeenCalledTimes(1);
@@ -232,7 +275,7 @@ describe('components/MoreChannels', () => {
         expect(instance.onChange).toHaveBeenCalledWith(true);
         expect(wrapper.state('search')).toEqual(false);
         expect(wrapper.state('searching')).toEqual(false);
-        expect(instance.searchTimeoutId).toEqual('');
+        expect(instance.searchTimeoutId).toEqual(0);
     });
 
     test('should handle a failed search', (done) => {
@@ -240,7 +283,7 @@ describe('components/MoreChannels', () => {
             <MoreChannels {...baseProps}/>,
         );
 
-        const instance = wrapper.instance();
+        const instance = wrapper.instance() as MoreChannels;
         instance.onChange = jest.fn();
         instance.setSearchResults = jest.fn();
         instance.search('fail');
@@ -269,7 +312,7 @@ describe('components/MoreChannels', () => {
             <MoreChannels {...baseProps}/>,
         );
 
-        const instance = wrapper.instance();
+        const instance = wrapper.instance() as MoreChannels;
         instance.onChange = jest.fn();
         instance.search('channel');
         expect(clearTimeout).toHaveBeenCalledTimes(1);
@@ -296,7 +339,7 @@ describe('components/MoreChannels', () => {
             <MoreChannels {...baseProps}/>,
         );
 
-        const instance = wrapper.instance();
+        const instance = wrapper.instance() as MoreChannels;
         instance.onChange = jest.fn();
         instance.setState({shouldShowArchivedChannels: true});
         instance.search('channel');
