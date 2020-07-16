@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React, {Children, isValidElement, cloneElement} from 'react';
+import classNames from 'classnames';
 
 import CardHeader from './card_header';
 import CardBody from './card_body';
@@ -29,7 +30,9 @@ export default class Card extends React.PureComponent<Props> {
 
         return (
             <div
-                className={'Card'}
+                className={classNames('Card', {
+                    expanded,
+                })}
             >
                 {childrenWithProps}
             </div>
