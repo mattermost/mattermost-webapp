@@ -18,19 +18,12 @@ describe('Main menu', () => {
     let testConfig;
     const sysadmin = getAdminAccount();
     before(() => {
+        cy.apiGetConfig().then(({config}) => {
+            testConfig = config;
+        });
         cy.apiInitSetup().then(({team, user}) => {
             testTeam = team;
             testUser = user;
-        });
-
-        cy.apiGetConfig().then((response) => {
-            testConfig = response.body;
-        });
-
-        cy.apiUpdateConfig({
-            SupportSettings: {
-                EnableAskCommunityLink: true,
-            },
         });
     });
 
