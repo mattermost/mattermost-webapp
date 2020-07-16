@@ -77,7 +77,7 @@ describe('Channel', () => {
         // # Remove test user from the test channel
         cy.apiAdminLogin();
         cy.removeUserFromChannel(otherChannel.id, testUser.id).then((res) => {
-            expect(res).to.equal(200);
+            expect(res.status).to.equal(200);
 
             // # Login as test user and visit the test team
             cy.apiLogin(testUser);
