@@ -1,17 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/next_steps_view should match snapshot 1`] = `
-<div
+<section
   className="app__content NextStepsView"
   id="app-content"
 >
-  <div
+  <header
     className="NextStepsView__header"
   >
     <div
       className="NextStepsView__header-headerText"
     >
-      <div
+      <h1
         className="NextStepsView__header-headerTopText"
       >
         <FormattedMessage
@@ -19,16 +19,16 @@ exports[`components/next_steps_view should match snapshot 1`] = `
           id="next_steps_view.welcomeToMattermost"
           values={Object {}}
         />
-      </div>
-      <div
+      </h1>
+      <h2
         className="NextStepsView__header-headerBottomText"
       >
         <FormattedMessage
-          defaultMessage="Here are some recommended next steps to help you collaborate"
+          defaultMessage="Here are some recommended next steps to help you get started"
           id="next_steps_view.hereAreSomeNextSteps"
           values={Object {}}
         />
-      </div>
+      </h2>
     </div>
     <div
       className="NextStepsView__header-logo"
@@ -37,7 +37,7 @@ exports[`components/next_steps_view should match snapshot 1`] = `
         src={null}
       />
     </div>
-  </div>
+  </header>
   <div
     className="NextStepsView__body"
   >
@@ -45,27 +45,14 @@ exports[`components/next_steps_view should match snapshot 1`] = `
       className="NextStepsView__body-main"
     >
       <Accordion
-        defaultExpandedKey="complete_profile"
+        defaultExpandedKey="Card_1"
       >
         <Component />
       </Accordion>
-      <div
-        className="NextStepsView__skipGettingStarted"
-      >
-        <button
-          onClick={[Function]}
-        >
-          <FormattedMessage
-            defaultMessage="Skip Getting Started"
-            id="next_steps_view.skipGettingStarted"
-            values={Object {}}
-          />
-        </button>
-      </div>
     </div>
     <div
       className="NextStepsView__body-graphic"
     />
   </div>
-</div>
+</section>
 `;

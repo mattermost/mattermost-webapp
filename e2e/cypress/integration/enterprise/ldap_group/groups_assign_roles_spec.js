@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @enterprise @ldap_group
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
@@ -50,7 +51,7 @@ const getChannelsAssociatedToGroupAndUnlink = (groupId) => {
 describe('System Console', () => {
     before(() => {
         // * Check if server has license for LDAP Groups
-        cy.requireLicenseForFeature('LDAPGroups');
+        cy.apiRequireLicenseForFeature('LDAPGroups');
 
         // Enable LDAP
         cy.apiUpdateConfig({LdapSettings: {Enable: true, EnableSync: true}});

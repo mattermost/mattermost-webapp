@@ -25,8 +25,12 @@ Cypress.Commands.add('postMessageAs', ({sender, message, channelId, rootId, crea
 * @param {String} url - incoming webhook URL
 * @param {Object} data - payload on incoming webhook
 */
-Cypress.Commands.add('postIncomingWebhook', ({url, data, waitFor = 'attachment-pretext'}) => {
+Cypress.Commands.add('postIncomingWebhook', ({url, data, waitFor}) => {
     cy.task('postIncomingWebhook', {url, data}).its('status').should('be.equal', 200);
+
+    if (!waitFor) {
+        return;
+    }
 
     cy.waitUntil(() => cy.getLastPost().then((el) => {
         switch (waitFor) {
@@ -55,7 +59,10 @@ Cypress.Commands.add('postIncomingWebhook', ({url, data, waitFor = 'attachment-p
 Cypress.Commands.add('externalRequest', ({user, method, path, data}) => {
     const baseUrl = Cypress.config('baseUrl');
 
-    return cy.task('externalRequest', {baseUrl, user, method, path, data}).its('status').should('be.equal', 200);
+    return cy.task('externalRequest', {baseUrl, user, method, path, data}).then((response) => {
+        expect(response.status).to.be.oneOf([200, 201, 204]);
+        return cy.wrap(response);
+    });
 });
 
 /**

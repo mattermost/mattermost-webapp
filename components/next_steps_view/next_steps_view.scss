@@ -13,7 +13,7 @@
 }
 
 .NextStepsView__header-headerText {
-
+    flex-grow: 1;
 }
 
 .NextStepsView__header-headerTopText {
@@ -21,6 +21,7 @@
     font-size: 32px;
     line-height: 40px;
     letter-spacing: -0.02em;
+    margin: 0;
 }
 
 .NextStepsView__header-headerBottomText {
@@ -214,7 +215,6 @@
 @media screen and (max-width: 768px) {
     #app-content.NextStepsView {
         background-size: auto;
-        background-position-y: top;
     }
 
     .NextStepsView__header {

@@ -19,9 +19,13 @@
 .TeamIcon__initials {
     &.TeamIcon__initials__lg {
         font-size: 3em;
+        width: 94px;
+        height: 94px;
     }
     &.TeamIcon__initials__sm {
         font-size: 14px;
+        width: 40px;
+        height: 40px;
     }
 }
 .TeamIcon {
@@ -35,7 +39,7 @@
     text-transform: capitalize;
     vertical-align: top;
     width: 45px;
-    margin-right: 20px;
+    margin-right: 12px;
 
     &.TeamIcon__lg {
         width: 94px;

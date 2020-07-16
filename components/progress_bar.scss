@@ -1,0 +1,12 @@
+.ProgressBar {
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+.ProgressBar__progress {
+    flex-shrink: 0;
+    flex-grow: 0;
+    background-color: white;
+    transition: all 0.25s ease-in;
+}

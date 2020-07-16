@@ -29,10 +29,11 @@ const {
     generateTestReport,
     removeOldGeneratedReports,
     sendReport,
+    readJsonFromFile,
     writeJsonToFile,
 } = require('./utils/report');
 const {saveArtifacts} = require('./utils/artifacts');
-const {MOCHAWESOME_REPORT_DIR} = require('./utils/constants');
+const {MOCHAWESOME_REPORT_DIR, RESULTS_DIR} = require('./utils/constants');
 const {saveDashboard} = require('./utils/dashboard');
 
 require('dotenv').config();
@@ -76,8 +77,9 @@ const saveReport = async () => {
     }
 
     // Send test report to "QA: UI Test Automation" channel via webhook
-    if (TYPE && WEBHOOK_URL) {
-        const data = generateTestReport(summary, result && result.success, result && result.reportLink);
+    if (TYPE && TYPE !== 'NONE' && WEBHOOK_URL) {
+        const environment = readJsonFromFile(`${RESULTS_DIR}/environment.json`);
+        const data = generateTestReport(summary, result && result.success, result && result.reportLink, environment);
         await sendReport('summary report to Community channel', WEBHOOK_URL, data);
     }
 
