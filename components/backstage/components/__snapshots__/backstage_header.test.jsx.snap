@@ -14,7 +14,6 @@ exports[`components/backstage/components/BackstageHeader should match snapshot w
     >
       <LocalizedIcon
         className="fa fa-angle-right"
-        component="i"
         title={
           Object {
             "defaultMessage": "Breadcrumb Icon",

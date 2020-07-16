@@ -49,7 +49,6 @@ exports[`components/ProfilePopover should hide add-to-channel option if not on t
     >
       <LocalizedIcon
         className="fa fa-paper-plane"
-        component="i"
         title={
           Object {
             "defaultMessage": "Send Message Icon",
@@ -127,7 +126,6 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
     >
       <LocalizedIcon
         className="fa fa-paper-plane"
-        component="i"
         title={
           Object {
             "defaultMessage": "Send Message Icon",
@@ -176,7 +174,6 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
       >
         <LocalizedIcon
           className="fa fa-user-plus"
-          component="i"
           title={
             Object {
               "defaultMessage": "Add User to Channel Icon",

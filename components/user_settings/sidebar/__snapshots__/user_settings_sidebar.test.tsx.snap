@@ -28,7 +28,6 @@ exports[`components/user_settings/sidebar/UserSettingsSidebar should match snaps
       >
         <LocalizedIcon
           className="fa fa-angle-left"
-          component="i"
           title={
             Object {
               "defaultMessage": "Collapse Icon",

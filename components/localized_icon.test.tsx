@@ -18,20 +18,24 @@ describe('LocalizedIcon', () => {
     test('should render localized title', () => {
         const wrapper = mountWithIntl(<LocalizedIcon {...baseProps}/>);
 
-        expect(wrapper.find('i').prop('title')).toEqual([baseProps.title.defaultMessage]);
+        expect(wrapper.find('i').prop('title')).toBe(baseProps.title.defaultMessage);
     });
 
     test('should render using given component', () => {
         const props = {
             ...baseProps,
-            component: 'span',
         };
 
-        const wrapper = mountWithIntl(<LocalizedIcon {...props}/>);
+        const wrapper = mountWithIntl(
+            <LocalizedIcon
+                component='span'
+                {...props}
+            />,
+        );
 
         expect(wrapper.find('i').exists()).toBe(false);
         expect(wrapper.find('span').exists()).toBe(true);
-        expect(wrapper.find('span').prop('title')).toEqual([baseProps.title.defaultMessage]);
+        expect(wrapper.find('span').prop('title')).toBe(baseProps.title.defaultMessage);
     });
 
     test('should pass other props to component', () => {

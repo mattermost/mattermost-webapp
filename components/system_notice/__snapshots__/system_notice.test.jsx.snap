@@ -28,7 +28,6 @@ exports[`components/SystemNotice should match snapshot for admin, admin notice 1
   >
     <LocalizedIcon
       className="fa fa-eye"
-      component="i"
       title={
         Object {
           "defaultMessage": "Only visible to System Admins Icon",

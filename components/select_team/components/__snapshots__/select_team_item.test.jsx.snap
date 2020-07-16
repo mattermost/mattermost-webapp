@@ -46,7 +46,6 @@ exports[`components/select_team/components/SelectTeamItem should match snapshot,
     </span>
     <LocalizedIcon
       className="fa fa-lock light"
-      component="i"
       title={
         Object {
           "defaultMessage": "Private team",
@@ -85,7 +84,6 @@ exports[`components/select_team/components/SelectTeamItem should match snapshot,
     </span>
     <LocalizedIcon
       className="fa fa-lock light"
-      component="i"
       title={
         Object {
           "defaultMessage": "Private team",

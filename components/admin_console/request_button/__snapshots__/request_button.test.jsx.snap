@@ -121,7 +121,6 @@ exports[`components/admin_console/request_button/request_button.jsx should match
             >
               <LocalizedIcon
                 className="fa fa-warning"
-                component="i"
                 title={
                   Object {
                     "defaultMessage": "Warning Icon",
@@ -129,19 +128,10 @@ exports[`components/admin_console/request_button/request_button.jsx should match
                   }
                 }
               >
-                <FormattedMessage
-                  defaultMessage="Warning Icon"
-                  id="generic_icons.warning"
-                >
-                  <i
-                    className="fa fa-warning"
-                    title={
-                      Array [
-                        "Warning Icon",
-                      ]
-                    }
-                  />
-                </FormattedMessage>
+                <i
+                  className="fa fa-warning"
+                  title="Warning Icon"
+                />
               </LocalizedIcon>
             </WarningIcon>
             <FormattedMessage
@@ -269,7 +259,6 @@ exports[`components/admin_console/request_button/request_button.jsx should match
             >
               <LocalizedIcon
                 className="fa fa-warning"
-                component="i"
                 title={
                   Object {
                     "defaultMessage": "Warning Icon",
@@ -277,19 +266,10 @@ exports[`components/admin_console/request_button/request_button.jsx should match
                   }
                 }
               >
-                <FormattedMessage
-                  defaultMessage="Warning Icon"
-                  id="generic_icons.warning"
-                >
-                  <i
-                    className="fa fa-warning"
-                    title={
-                      Array [
-                        "Warning Icon",
-                      ]
-                    }
-                  />
-                </FormattedMessage>
+                <i
+                  className="fa fa-warning"
+                  title="Warning Icon"
+                />
               </LocalizedIcon>
             </WarningIcon>
             <FormattedMessage

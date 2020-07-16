@@ -21,7 +21,6 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
       >
         <LocalizedIcon
           className="fa fa-plus"
-          component="i"
           title={
             Object {
               "defaultMessage": "Expand Icon",
@@ -31,7 +30,6 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
         />
         <LocalizedIcon
           className="fa fa-minus"
-          component="i"
           title={
             Object {
               "defaultMessage": "Collapse Icon",
@@ -271,7 +269,6 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
       >
         <LocalizedIcon
           className="fa fa-plus"
-          component="i"
           title={
             Object {
               "defaultMessage": "Expand Icon",
@@ -281,7 +278,6 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
         />
         <LocalizedIcon
           className="fa fa-minus"
-          component="i"
           title={
             Object {
               "defaultMessage": "Collapse Icon",
@@ -493,7 +489,6 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
       >
         <LocalizedIcon
           className="fa fa-plus"
-          component="i"
           title={
             Object {
               "defaultMessage": "Expand Icon",
@@ -503,7 +498,6 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
         />
         <LocalizedIcon
           className="fa fa-minus"
-          component="i"
           title={
             Object {
               "defaultMessage": "Collapse Icon",

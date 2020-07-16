@@ -89,7 +89,6 @@ exports[`components/create_post Show tutorial 1`] = `
           >
             <LocalizedIcon
               className="fa fa-paper-plane"
-              component="i"
               title={
                 Object {
                   "defaultMessage": "Create a post",
@@ -264,7 +263,6 @@ exports[`components/create_post should match snapshot for center textbox 1`] = `
           >
             <LocalizedIcon
               className="fa fa-paper-plane"
-              component="i"
               title={
                 Object {
                   "defaultMessage": "Create a post",
@@ -374,7 +372,6 @@ exports[`components/create_post should match snapshot for read only channel 1`] 
           >
             <LocalizedIcon
               className="fa fa-paper-plane"
-              component="i"
               title={
                 Object {
                   "defaultMessage": "Create a post",
@@ -519,7 +516,6 @@ exports[`components/create_post should match snapshot when cannot post 1`] = `
           >
             <LocalizedIcon
               className="fa fa-paper-plane"
-              component="i"
               title={
                 Object {
                   "defaultMessage": "Create a post",
@@ -664,7 +660,6 @@ exports[`components/create_post should match snapshot when file upload disabled 
           >
             <LocalizedIcon
               className="fa fa-paper-plane"
-              component="i"
               title={
                 Object {
                   "defaultMessage": "Create a post",
@@ -809,7 +804,6 @@ exports[`components/create_post should match snapshot, init 1`] = `
           >
             <LocalizedIcon
               className="fa fa-paper-plane"
-              component="i"
               title={
                 Object {
                   "defaultMessage": "Create a post",
