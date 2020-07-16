@@ -6,7 +6,7 @@ import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {Channel} from 'mattermost-redux/types/channels';
-import {ActionFunc} from 'mattermost-redux/types/actions';
+import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
 import Permissions from 'mattermost-redux/constants/permissions';
 
 import {browserHistory} from 'utils/browser_history';
@@ -23,8 +23,8 @@ const SEARCH_TIMEOUT_MILLISECONDS = 100;
 type Actions = {
     getChannels: (teamId: string, page: number, perPage: number) => ActionFunc | void;
     getArchivedChannels: (teamId: string, page: number, channelsPerPage: number) => ActionFunc | void;
-    joinChannel: (currentUserId: string, teamId: string, channelId: string) => ActionFunc;
-    searchMoreChannels: (term: string, shouldShowArchivedChannels: boolean) => ActionFunc | Promise<{data: Channel[]}>;
+    joinChannel: (currentUserId: string, teamId: string, channelId: string) => Promise<ActionResult>;
+    searchMoreChannels: (term: string, shouldShowArchivedChannels: boolean) => Promise<ActionResult>;
 }
 
 export type Props = {
@@ -53,7 +53,7 @@ type State = {
 }
 
 export default class MoreChannels extends React.PureComponent<Props, State> {
-    private searchTimeoutId: number;
+    public searchTimeoutId: number;
 
     constructor(props: Props) {
         super(props);
@@ -109,7 +109,7 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
 
     handleJoin = async (channel: Channel, done: () => void) => {
         const {actions, currentUserId, teamId, teamName} = this.props;
-        const result: any = await actions.joinChannel(currentUserId, teamId, channel.id);
+        const result = await actions.joinChannel(currentUserId, teamId, channel.id) as { error: any };
 
         if (result.error) {
             this.setState({serverError: result.error.message});
@@ -137,7 +137,7 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
         const searchTimeoutId = window.setTimeout(
             async () => {
                 try {
-                    const {data}: any = await this.props.actions.searchMoreChannels(term, this.state.shouldShowArchivedChannels);
+                    const {data} = await this.props.actions.searchMoreChannels(term, this.state.shouldShowArchivedChannels) as { data: any };
                     if (searchTimeoutId !== this.searchTimeoutId) {
                         return;
                     }
