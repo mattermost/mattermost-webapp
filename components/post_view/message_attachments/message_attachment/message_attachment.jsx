@@ -161,12 +161,6 @@ export default class MessageAttachment extends React.PureComponent {
         const actionCookie = e.currentTarget.getAttribute('data-action-cookie');
 
         this.props.actions.doPostActionWithCookie(this.props.postId, actionId, actionCookie).then(() => {
-            var extUrlOption = this.getActionOption(actionOptions, 'ExternalUrl');
-            if (extUrlOption) {
-                const mailtoPayload = JSON.parse(extUrlOption.value);
-                window.location.href = 'mailto:' + mailtoPayload.mail_recipient + '?cc=' + mailtoPayload.mail_cc + '&subject=' + encodeURIComponent(mailtoPayload.mail_subject) + '&body=' + encodeURIComponent(mailtoPayload.mail_body);
-            }
-
             if (actionExecutingMessage) {
                 this.setState({actionExecuting: false, actionExecutingMessage: null});
             }

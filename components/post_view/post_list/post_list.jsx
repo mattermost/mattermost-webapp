@@ -77,6 +77,11 @@ export default class PostList extends React.PureComponent {
          */
         changeUnreadChunkTimeStamp: PropTypes.func.isRequired,
 
+        /*
+         * Used for skipping the call on load
+         */
+        isPrefetchingInProcess: PropTypes.bool.isRequired,
+
         actions: PropTypes.shape({
 
             /*
@@ -160,19 +165,23 @@ export default class PostList extends React.PureComponent {
     }
 
     postsOnLoad = async (channelId) => {
-        if (this.props.focusedPostId) {
-            await this.props.actions.loadPostsAround(channelId, this.props.focusedPostId);
-        } else if (this.props.isFirstLoad) {
-            await this.props.actions.loadUnreads(channelId);
-        } else if (this.props.latestPostTimeStamp) {
-            await this.props.actions.syncPostsInChannel(channelId, this.props.latestPostTimeStamp, false);
+        const {focusedPostId, isFirstLoad, latestPostTimeStamp, isPrefetchingInProcess, actions} = this.props;
+        if (focusedPostId) {
+            await actions.loadPostsAround(channelId, this.props.focusedPostId);
+        } else if (isFirstLoad) {
+            if (!isPrefetchingInProcess) {
+                await actions.loadUnreads(channelId);
+            }
+        } else if (latestPostTimeStamp) {
+            await actions.syncPostsInChannel(channelId, this.props.latestPostTimeStamp, false);
         } else {
-            await this.props.actions.loadLatestPosts(channelId);
+            await actions.loadLatestPosts(channelId);
         }
 
-        if (!this.props.focusedPostId) {
-            this.markChannelAsReadAndViewed(this.props.channelId);
+        if (!focusedPostId) {
+            this.markChannelAsReadAndViewed(channelId);
         }
+
         if (this.mounted) {
             this.setState({
                 loadingOlderPosts: false,

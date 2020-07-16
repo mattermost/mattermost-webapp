@@ -46,6 +46,12 @@
                 pointer-events: none;
                 color: $dark-gray;
             }
+
+            .DataGrid_clearButton {
+                display: flex;
+                align-items: center;
+                margin-right: 5px;
+            }
         }
     }
 
@@ -81,13 +87,20 @@
         }
 
         .DataGrid_row {
+            border-left: 2px solid transparent;
+            
             &:nth-child(odd) {
-                background: $bg--gray;
+                background-color: $bg--gray;
             }
+
+            &:hover {
+                background-color: lighten($primary-color, 45%);
+                border-left: 2px solid $primary-color;
+            }
+
             .DataGrid_cell {
                 margin: auto;
                 text-overflow: ellipsis;
-                padding-right: 10px;
                 overflow: hidden;
                 white-space: nowrap;
             }
@@ -97,7 +110,7 @@
     .DataGrid_row, .DataGrid_header {
         display: flex;
         flex-direction: row;
-        padding-left: 20px;
+        padding-left: 18px;
         height: auto;
 
         .DataGrid_cell {

@@ -17,7 +17,10 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import AnnouncementBar from '../default_announcement_bar';
 import TextDismissableBar from '../text_dismissable_bar';
 
-const RENEWAL_LINK = 'https://licensing.mattermost.com/renew';
+import ackIcon from 'images/icons/check-circle-outline.svg';
+import alertIcon from 'images/icons/round-white-info-icon.svg';
+
+const RENEWAL_LINK = 'https://mattermost.com/renew/';
 
 class ConfigurationAnnouncementBar extends React.PureComponent {
     static propTypes = {
@@ -29,6 +32,7 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
         totalUsers: PropTypes.number,
         dismissedExpiringLicense: PropTypes.bool,
         dismissedNumberOfActiveUsersWarnMetricStatus: PropTypes.bool,
+        dismissedNumberOfActiveUsersWarnMetricStatusAck: PropTypes.bool,
         siteURL: PropTypes.string.isRequired,
         warnMetricsStatus: PropTypes.object,
         actions: PropTypes.shape({
@@ -44,26 +48,67 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
         this.props.actions.dismissNotice(AnnouncementBarMessages.NUMBER_OF_ACTIVE_USERS_WARN_METRIC_STATUS);
     }
 
+    dismissNumberOfActiveUsersWarnMetricAck = () => {
+        this.props.actions.dismissNotice(AnnouncementBarMessages.NUMBER_OF_ACTIVE_USERS_WARN_METRIC_STATUS_ACK);
+    }
+
     getNoticeForWarnMetric = (warnMetricStatus) => {
         if (!warnMetricStatus) {
             return null;
         }
 
+        var message = '';
+        var type = '';
+        var showModal = false;
+        var dismissFunc = null;
+        var isDismissedFunc = null;
+
         switch (warnMetricStatus.id) {
         case WarnMetricTypes.SYSTEM_WARN_METRIC_NUMBER_OF_ACTIVE_USERS_500:
-            var message = (
-                <FormattedMarkdownMessage
-                    id={AnnouncementBarMessages.NUMBER_OF_ACTIVE_USERS_WARN_METRIC_STATUS}
-                    defaultMessage={'Team exceeds {limit} users. Consider activating user management access controls to ensure compliance.'}
-                    values={{
-                        limit: warnMetricStatus.limit,
-                    }}
-                />
-            );
+            if (warnMetricStatus.acked) {
+                message = (
+                    <React.Fragment>
+                        <img
+                            className='advisor-icon'
+                            src={ackIcon}
+                        />
+                        <FormattedMarkdownMessage
+                            id={t('announcement_bar.error.number_active_users_warn_metric_status_ack.text')}
+                            defaultMessage={'Your trial has started! Go to the [System Console](/admin_console/environment/web_server) to check out the new features.'}
+                        />
+                    </React.Fragment>
+                );
+                type = AnnouncementBarTypes.ADVISOR_ACK;
+                showModal = false;
+                dismissFunc = this.dismissNumberOfActiveUsersWarnMetricAck;
+                isDismissedFunc = this.props.dismissedNumberOfActiveUsersWarnMetricStatusAck;
+            } else {
+                message = (
+                    <React.Fragment>
+                        <img
+                            className='advisor-icon'
+                            src={alertIcon}
+                        />
+                        <FormattedMarkdownMessage
+                            id={t('announcement_bar.error.number_active_users_warn_metric_status.text')}
+                            defaultMessage={'You now have over {limit} users. We strongly recommend that you upgrade to our Enterprise edition.'}
+                            values={{
+                                limit: warnMetricStatus.limit,
+                            }}
+                        />
+                    </React.Fragment>
+                );
+                type = AnnouncementBarTypes.ADVISOR;
+                showModal = true;
+                dismissFunc = this.dismissNumberOfActiveUsersWarnMetric;
+                isDismissedFunc = this.props.dismissedNumberOfActiveUsersWarnMetricStatus;
+            }
             return {
                 Message: message,
-                DismissFunc: this.dismissNumberOfActiveUsersWarnMetric,
-                IsDismissed: this.props.dismissedNumberOfActiveUsersWarnMetricStatus,
+                DismissFunc: dismissFunc,
+                IsDismissed: isDismissedFunc,
+                Type: type,
+                ShowModal: showModal,
             };
         default:
             return null;
@@ -127,8 +172,11 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
                     />
                 );
             }
-            if ((this.props.config.BuildEnterpriseReady === 'false' || (this.props.config.BuildEnterpriseReady === 'true' && this.props.license.IsLicensed === 'false')) && this.props.warnMetricsStatus) {
+            if (this.props.warnMetricsStatus) {
                 for (const status of Object.values(this.props.warnMetricsStatus)) {
+                    if (this.props.license.IsLicensed === 'true' && status.acked !== true) {
+                        continue;
+                    }
                     var notice = this.getNoticeForWarnMetric(status);
                     if (!notice || notice.IsDismissed) {
                         continue;
@@ -138,10 +186,10 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
                         <AnnouncementBar
                             showCloseButton={true}
                             handleClose={notice.DismissFunc}
-                            type={AnnouncementBarTypes.LICENSE_EXPIRED}
-                            showModal={true}
+                            type={notice.Type}
+                            showModal={notice.ShowModal}
                             modalButtonText={t('announcement_bar.error.warn_metric_status.link')}
-                            modalButtonDefaultText={'Contact Support'}
+                            modalButtonDefaultText={'Learn More'}
                             warnMetricStatus={status}
                             message={notice.Message}
                         />

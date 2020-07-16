@@ -41,7 +41,7 @@ exports[`components/WarnMetricAckModal error display 1`] = `
       id="warnMetricAckHeaderModalLabel"
     >
       <FormattedMessage
-        defaultMessage="Warning"
+        defaultMessage="Upgrade to Mattermost Enterprise Edition"
         id="warn_metric_ack_modal.header.title"
         values={Object {}}
       />
@@ -53,16 +53,11 @@ exports[`components/WarnMetricAckModal error display 1`] = `
   >
     <div>
       <FormattedMessage
-        defaultMessage="\\"Team exceeds {limit} users. Consider activating user management controls to ensure compliance. {link}\\""
+        defaultMessage="Mattermost strongly recommends that deployments of over {limit} users upgrade to Mattermost Enterprise E20, which offers features such as user management, server clustering, and performance monitoring"
         id="warn_metric_ack_modal.number_of_active_users.description"
         values={
           Object {
             "limit": 500,
-            "link": <ErrorLink
-              defaultMessage="aae_id"
-              messageId="aae_id"
-              url="https://mattermost.com/pl/default-aae-faq"
-            />,
           }
         }
       />
@@ -75,43 +70,11 @@ exports[`components/WarnMetricAckModal error display 1`] = `
           className="control-label"
         >
           <FormattedMessage
-            defaultMessage="We were unable to reach support. {link} instead to contact support"
-            id="warn_metric_ack_modal.mailto.message"
-            values={
-              Object {
-                "link": <WarnMetricAckErrorLink
-                  defaultMessage="Email us"
-                  messageId="warn_metric_ack_modal.mailto.link"
-                  onClickHandler={[Function]}
-                  url="mailto:support@mattermost.com?cc=a@test.com&subject=Mattermost%20support%20request%3Aaae_id&body=Mattermost%20support%20request%20for%20aae_id%3A%20Team%20exceeds%20500%20users.%20Consider%20activating%20user%20management%20access%20controls%20to%20ensure%20compliance.%0D%0AContact%20Fake%20Person%0D%0AEmail%20a%40test.com%0D%0ASite%20URL%20http%3A%2F%2Flocalhost%3A8065%0D%0ADiagnostic%20Id%20diag_0%0D%0AIf%20you%20have%20any%20additional%20inquiries%2C%20please%20contact%20support%40mattermost.com"
-                />,
-              }
-            }
+            defaultMessage="The license could not be retrieved. Please try again or visit https://mattermost.com/trial/ to request a license."
+            id="warn_metric_ack_modal.error.body"
+            values={Object {}}
           />
         </label>
-      </div>
-      <br />
-      <div
-        className="help__format-text"
-        style={
-          Object {
-            "opacity": "0.45",
-          }
-        }
-      >
-        <FormattedMessage
-          defaultMessage="Contacting support sends your contact information to Mattermost, Inc. {link}"
-          id="warn_metric_ack_modal.mailto.body.sub_text"
-          values={
-            Object {
-              "link": <ErrorLink
-                defaultMessage="Learn More"
-                messageId="warn_metric_ack_modal.learn_more.link"
-                url="https://mattermost.com/pl/default-aae-faq"
-              />,
-            }
-          }
-        />
       </div>
     </div>
   </ModalBody>
@@ -120,29 +83,20 @@ exports[`components/WarnMetricAckModal error display 1`] = `
     componentClass="div"
   >
     <button
-      className="btn btn-link cancel-button"
+      className="btn btn-primary"
+      data-testid="featureDiscovery_primaryCallToAction"
       onClick={[Function]}
-      type="button"
     >
-      <FormattedMessage
-        defaultMessage="Cancel"
-        id="warn_metric_ack_modal.cancel"
-        values={Object {}}
-      />
-    </button>
-    <button
-      autoFocus={true}
-      className="btn btn-primary save-button"
-      data-dismiss="modal"
-      disabled={false}
-      onClick={[Function]}
-      type="button"
-    >
-      <FormattedMessage
-        defaultMessage="Contact Support"
-        id="warn_metric_ack_modal.contact_support"
-        values={Object {}}
-      />
+      <LoadingWrapper
+        loading={false}
+        text="Getting trial"
+      >
+        <FormattedMessage
+          defaultMessage="Start trial"
+          id="warn_metric_ack_modal.start_trial"
+          values={Object {}}
+        />
+      </LoadingWrapper>
     </button>
   </ModalFooter>
 </Modal>
@@ -189,7 +143,7 @@ exports[`components/WarnMetricAckModal should match snapshot, init 1`] = `
       id="warnMetricAckHeaderModalLabel"
     >
       <FormattedMessage
-        defaultMessage="Warning"
+        defaultMessage="Upgrade to Mattermost Enterprise Edition"
         id="warn_metric_ack_modal.header.title"
         values={Object {}}
       />
@@ -201,43 +155,15 @@ exports[`components/WarnMetricAckModal should match snapshot, init 1`] = `
   >
     <div>
       <FormattedMessage
-        defaultMessage="\\"Team exceeds {limit} users. Consider activating user management controls to ensure compliance. {link}\\""
+        defaultMessage="Mattermost strongly recommends that deployments of over {limit} users upgrade to Mattermost Enterprise E20, which offers features such as user management, server clustering, and performance monitoring"
         id="warn_metric_ack_modal.number_of_active_users.description"
         values={
           Object {
             "limit": 500,
-            "link": <ErrorLink
-              defaultMessage="aae_id"
-              messageId="aae_id"
-              url="https://mattermost.com/pl/default-aae-faq"
-            />,
           }
         }
       />
       <br />
-      <br />
-      <div
-        className="help__format-text"
-        style={
-          Object {
-            "opacity": "0.45",
-          }
-        }
-      >
-        <FormattedMessage
-          defaultMessage="Contacting support sends your contact information to Mattermost, Inc. {link}"
-          id="warn_metric_ack_modal.mailto.body.sub_text"
-          values={
-            Object {
-              "link": <ErrorLink
-                defaultMessage="Learn More"
-                messageId="warn_metric_ack_modal.learn_more.link"
-                url="https://mattermost.com/pl/default-aae-faq"
-              />,
-            }
-          }
-        />
-      </div>
     </div>
   </ModalBody>
   <ModalFooter
@@ -245,29 +171,20 @@ exports[`components/WarnMetricAckModal should match snapshot, init 1`] = `
     componentClass="div"
   >
     <button
-      className="btn btn-link cancel-button"
+      className="btn btn-primary"
+      data-testid="featureDiscovery_primaryCallToAction"
       onClick={[Function]}
-      type="button"
     >
-      <FormattedMessage
-        defaultMessage="Cancel"
-        id="warn_metric_ack_modal.cancel"
-        values={Object {}}
-      />
-    </button>
-    <button
-      autoFocus={true}
-      className="btn btn-primary save-button"
-      data-dismiss="modal"
-      disabled={false}
-      onClick={[Function]}
-      type="button"
-    >
-      <FormattedMessage
-        defaultMessage="Contact Support"
-        id="warn_metric_ack_modal.contact_support"
-        values={Object {}}
-      />
+      <LoadingWrapper
+        loading={false}
+        text="Getting trial"
+      >
+        <FormattedMessage
+          defaultMessage="Start trial"
+          id="warn_metric_ack_modal.start_trial"
+          values={Object {}}
+        />
+      </LoadingWrapper>
     </button>
   </ModalFooter>
 </Modal>

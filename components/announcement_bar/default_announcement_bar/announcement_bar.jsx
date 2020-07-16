@@ -83,6 +83,10 @@ export default class AnnouncementBar extends React.PureComponent {
             barClass = 'announcement-bar announcement-bar-critical';
         } else if (this.props.type === AnnouncementBarTypes.SUCCESS) {
             barClass = 'announcement-bar announcement-bar-success';
+        } else if (this.props.type === AnnouncementBarTypes.ADVISOR) {
+            barClass = 'announcement-bar announcement-bar-advisor';
+        } else if (this.props.type === AnnouncementBarTypes.ADVISOR_ACK) {
+            barClass = 'announcement-bar announcement-bar-advisor-ack';
         }
 
         let closeButton;
@@ -123,29 +127,30 @@ export default class AnnouncementBar extends React.PureComponent {
                 >
                     <span>
                         {message}
-                        &nbsp;
-                        {this.props.showModal &&
-                            <FormattedMessage
-                                id={this.props.modalButtonText}
-                                defaultMessage={this.props.modalButtonDefaultText}
-                            >
-                                {(linkmessage) => (
-                                    <ToggleModalButtonRedux
-                                        accessibilityLabel={linkmessage}
-                                        className={'color--link--adminack'}
-                                        dialogType={WarnMetricAckModal}
-                                        onClick={() => trackEvent('admin', 'click_warn_metric_ack_button')}
-                                        modalId={ModalIdentifiers.WARN_METRIC_ACK}
-                                        dialogProps={{
-                                            warnMetricStatus: this.props.warnMetricStatus,
-                                            closeParentComponent: this.props.handleClose,
-                                        }}
-                                    >
-                                        {linkmessage}
-                                    </ToggleModalButtonRedux>
-                                )}
-                            </FormattedMessage>
-                        }
+                        <span className='announcement-bar__link'>
+                            {this.props.showModal &&
+                                <FormattedMessage
+                                    id={this.props.modalButtonText}
+                                    defaultMessage={this.props.modalButtonDefaultText}
+                                >
+                                    {(linkmessage) => (
+                                        <ToggleModalButtonRedux
+                                            accessibilityLabel={linkmessage}
+                                            className={'color--link--adminack'}
+                                            dialogType={WarnMetricAckModal}
+                                            onClick={() => trackEvent('admin', 'click_warn_metric_ack_button')}
+                                            modalId={ModalIdentifiers.WARN_METRIC_ACK}
+                                            dialogProps={{
+                                                warnMetricStatus: this.props.warnMetricStatus,
+                                                closeParentComponent: this.props.handleClose,
+                                            }}
+                                        >
+                                            {linkmessage}
+                                        </ToggleModalButtonRedux>
+                                    )}
+                                </FormattedMessage>
+                            }
+                        </span>
                     </span>
                 </OverlayTrigger>
                 {closeButton}

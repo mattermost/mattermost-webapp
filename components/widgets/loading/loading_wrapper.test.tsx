@@ -51,7 +51,7 @@ describe('components/widgets/loading/LoadingWrapper', () => {
                     {testCase.children}
                 </LoadingWrapper>,
             );
-            expect(wrapper).toMatchInlineSnapshot(testCase.snapshot, '""');
+            expect(wrapper).toMatchInlineSnapshot(testCase.snapshot);
         });
     }
 });

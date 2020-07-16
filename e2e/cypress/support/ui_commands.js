@@ -101,7 +101,7 @@ function postMessageAndWait(textboxSelector, message) {
 }
 
 function waitUntilPermanentPost() {
-    cy.get('#postListContent').should('be.visible');
+    cy.get('#postListContent', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible');
     cy.waitUntil(() => cy.findAllByTestId('postView').last().then((el) => !(el[0].id.includes(':'))));
 }
 
@@ -158,6 +158,12 @@ Cypress.Commands.add('getNthPostId', (index = 0) => {
 
     cy.findAllByTestId('postView').eq(index).should('have.attr', 'id').and('not.include', ':').
         invoke('replace', 'post_', '');
+});
+
+Cypress.Commands.add('uiGetNthPost', (index) => {
+    waitUntilPermanentPost();
+
+    cy.findAllByTestId('postView').eq(index);
 });
 
 /**

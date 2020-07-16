@@ -6,11 +6,14 @@ import {connect} from 'react-redux';
 
 import {GlobalState} from 'mattermost-redux/types/store';
 import {ActionFunc} from 'mattermost-redux/types/actions';
-import {getStandardAnalytics, sendWarnMetricAck} from 'mattermost-redux/actions/admin';
+import {getStandardAnalytics, requestTrialLicenseAndAckWarnMetric} from 'mattermost-redux/actions/admin';
+import {getLicenseConfig} from 'mattermost-redux/actions/general';
+
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/common';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 
 import {closeModal} from 'actions/views/modals';
+
 import {isModalOpen} from '../../selectors/views/modals';
 import {ModalIdentifiers} from '../../utils/constants';
 
@@ -36,7 +39,8 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
 type Actions = {
     closeModal: (arg: string) => void;
     getStandardAnalytics: () => any;
-    sendWarnMetricAck: (arg0: string, arg1: boolean) => ActionFunc & Partial<{error: Error}>;
+    requestTrialLicenseAndAckWarnMetric: (arg0: string) => ActionFunc & Partial<{error?: string}>;
+    getLicenseConfig: () => void;
 };
 
 function mapDispatchToProps(dispatch: Dispatch) {
@@ -45,7 +49,8 @@ function mapDispatchToProps(dispatch: Dispatch) {
             {
                 closeModal,
                 getStandardAnalytics,
-                sendWarnMetricAck,
+                requestTrialLicenseAndAckWarnMetric,
+                getLicenseConfig,
             },
             dispatch,
         ),

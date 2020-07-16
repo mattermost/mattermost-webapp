@@ -17,8 +17,7 @@ describe('Teams Suite', () => {
             const requiredMembersCount = 60;
 
             // # Get users not in team and add into the team
-            cy.apiGetUsersNotInTeam(team.id, 0, 200).then((res) => {
-                const users = res.body;
+            cy.apiGetUsersNotInTeam({teamId: team.id, page: 0, perPage: 200}).then(({users}) => {
                 const usersToAdd = users.
                     filter((u) => u.delete_at === 0).
                     slice(0, requiredMembersCount - 3).

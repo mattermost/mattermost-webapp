@@ -7,6 +7,10 @@ exports[`components/post_view/message_attachments/action_button.jsx should match
   key="action_id_1"
   onClick={[Function]}
 >
+  <LoadingWrapper
+    loading={true}
+    text={null}
+  >
   <Connect(Markdown)
     message="action_name_1"
     options={
@@ -17,5 +21,6 @@ exports[`components/post_view/message_attachments/action_button.jsx should match
       }
     }
   />
+  </LoadingWrapper>
 </button>
 `;
