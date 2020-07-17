@@ -3954,5 +3954,8 @@
   "delete_category_modal.deleteCategory": "Bu kategori silinsin mi?",
   "delete_category_modal.delete": "Sil",
   "create_category_modal.createCategory": "Kategori Ekle",
-  "create_category_modal.create": "Ekle"
+  "create_category_modal.create": "Ekle",
+  "sidebar.types.favorites": "BEĞENİLENLER",
+  "sidebar.types.direct_messages": "DOĞRUDAN İLETİLER",
+  "sidebar.types.channels": "KANALLAR"
 }

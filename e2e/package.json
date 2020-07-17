@@ -18,7 +18,7 @@
     "lodash.mapkeys": "4.6.0",
     "lodash.without": "4.4.0",
     "lodash.xor": "4.5.0",
-    "mattermost-redux": "5.23.0",
+    "mattermost-redux": "github:mattermost/mattermost-redux#8b003ea1aa10bf64b306a006e8a0ed7477924704",
     "merge-deep": "3.0.2",
     "mime-types": "2.1.27",
     "mocha": "7.1.1",

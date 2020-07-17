@@ -43,7 +43,7 @@ const saveConfig = (waitUntilConfigSaved = true, clickConfirmationButton = false
 
 describe('MM-T2574 Session Lengths', () => {
     before(() => {
-        cy.requireLicense();
+        cy.apiRequireLicense();
         goToSessionLengths();
     });
 
@@ -73,8 +73,8 @@ describe('MM-T2574 Session Lengths', () => {
             cy.get('#sessionIdleTimeoutInMinutes').should('have.value', '43201');
         });
         it('Setting "Session Cache (minutes)" should be saved in the server configuration', () => {
-            cy.apiGetConfig().then((response) => {
-                const setting = response.body.ServiceSettings.SessionIdleTimeoutInMinutes;
+            cy.apiGetConfig().then(({config}) => {
+                const setting = config.ServiceSettings.SessionIdleTimeoutInMinutes;
                 expect(setting).to.equal(43201);
             });
         });
