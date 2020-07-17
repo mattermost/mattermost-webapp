@@ -172,10 +172,8 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
             if (channel.type === Constants.PRIVATE_CHANNEL) {
                 iconToDisplay = <LockIcon className='channel-icon channel-icon__lock channel-icon___lowerOpacity'/>;
             } else if (isArchivedChannel(channel)) {
-                iconToDisplay = <ArchiveIcon className='channel-icon channel-icon__archive channel-icon___lowerOpacity'/>
+                iconToDisplay = <ArchiveIcon className='channel-icon channel-icon__archive channel-icon___lowerOpacity'/>;
             }
-
-
 
             return {
                 cells: {
