@@ -364,12 +364,12 @@ export default class DotMenu extends React.PureComponent {
                     />
                     <Menu.ItemAction
                         show={isMobile && !isSystemMessage && this.props.isFlagged}
-                        text={Utils.localizeMessage('rhs_root.mobile.unflag', 'Unflag')}
+                        text={Utils.localizeMessage('rhs_root.mobile.unflag', 'Remove from Saved')}
                         onClick={this.handleFlagMenuItemActivated}
                     />
                     <Menu.ItemAction
                         show={isMobile && !isSystemMessage && !this.props.isFlagged}
-                        text={Utils.localizeMessage('rhs_root.mobile.flag', 'Flag')}
+                        text={Utils.localizeMessage('rhs_root.mobile.flag', 'Save')}
                         onClick={this.handleFlagMenuItemActivated}
                     />
                     <Menu.ItemAction

@@ -55,6 +55,12 @@ describe('components/admin_console/user_grid/UserGrid', () => {
         totalCount: 2,
         loading: false,
         term: '',
+
+        filterProps: {
+            options: {},
+            keys: [],
+            onFilter: jest.fn(),
+        }
     };
 
     test('should match snapshot with 2 users', () => {
