@@ -35,6 +35,13 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
     ]
   }
   endCount={2}
+  filterProps={
+    Object {
+      "keys": Array [],
+      "onFilter": [Function],
+      "options": Object {},
+    }
+  }
   loading={false}
   nextPage={[Function]}
   page={0}
@@ -436,6 +443,13 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
     ]
   }
   endCount={3}
+  filterProps={
+    Object {
+      "keys": Array [],
+      "onFilter": [Function],
+      "options": Object {},
+    }
+  }
   loading={false}
   nextPage={[Function]}
   page={0}
@@ -1002,6 +1016,13 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
     ]
   }
   endCount={1}
+  filterProps={
+    Object {
+      "keys": Array [],
+      "onFilter": [Function],
+      "options": Object {},
+    }
+  }
   loading={false}
   nextPage={[Function]}
   page={0}

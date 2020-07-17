@@ -28,7 +28,7 @@ type Actions = {
 function mapStateToProps(state: GlobalState, props: Props) {
     const {id: teamId} = props.team;
 
-    let filterOptions: {[key: string]: any} = {skipInactive: true};
+    let filterOptions: {[key: string]: any} = {active: true};
     if (props.filterExcludeGuests) {
         filterOptions = {role: 'system_user', ...filterOptions};
     }

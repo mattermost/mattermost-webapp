@@ -23,7 +23,7 @@ describe('components/widgets/admin_console/AdminPanel', () => {
         );
         expect(wrapper).toMatchInlineSnapshot(`
       <div
-        className="AdminPanel test-class-name"
+        className="AdminPanel clearfix test-class-name"
         id="test-id"
       >
         <div
@@ -67,7 +67,7 @@ describe('components/widgets/admin_console/AdminPanel', () => {
         );
         expect(wrapper).toMatchInlineSnapshot(`
       <div
-        className="AdminPanel test-class-name"
+        className="AdminPanel clearfix test-class-name"
         id="test-id"
       >
         <div
@@ -118,7 +118,7 @@ describe('components/widgets/admin_console/AdminPanel', () => {
         );
         expect(wrapper).toMatchInlineSnapshot(`
       <div
-        className="AdminPanel test-class-name"
+        className="AdminPanel clearfix test-class-name"
         id="test-id"
       >
         <div
