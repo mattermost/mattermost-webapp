@@ -20,8 +20,8 @@ describe('Login page', () => {
             Office365Settings: {Enable: false},
             LdapSettings: {Enable: false},
         };
-        cy.apiUpdateConfig(newSettings).then((response) => {
-            config = response.body;
+        cy.apiUpdateConfig(newSettings).then((data) => {
+            ({config} = data);
         });
 
         // # Create new team and users

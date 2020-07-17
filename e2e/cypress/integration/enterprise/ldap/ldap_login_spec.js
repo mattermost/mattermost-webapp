@@ -34,10 +34,10 @@ context('ldap', () => {
     describe('LDAP Login flow - Admin Login', () => {
         before(() => {
             // * Check if server has license for LDAP
-            cy.requireLicenseForFeature('LDAP');
+            cy.apiRequireLicenseForFeature('LDAP');
 
-            cy.apiGetConfig().then((response) => {
-                testSettings = setLDAPTestSettings(response.body);
+            cy.apiGetConfig().then(({config}) => {
+                testSettings = setLDAPTestSettings(config);
             });
         });
 

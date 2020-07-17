@@ -24,7 +24,7 @@ describe('Autocomplete with Elasticsearch - Channel', () => {
 
     before(() => {
         // * Check if server has license for Elasticsearch
-        cy.requireLicenseForFeature('Elasticsearch');
+        cy.apiRequireLicenseForFeature('Elasticsearch');
 
         // # Enable Elasticsearch
         enableElasticSearch();
