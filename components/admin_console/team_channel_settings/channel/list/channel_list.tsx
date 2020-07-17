@@ -169,11 +169,11 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
 
         return channelsToDisplay.map((channel) => {
             let iconToDisplay = <GlobeIcon className='channel-icon channel-icon__globe channel-icon___lowerOpacity'/>;
-            
+
             if (channel.type === Constants.PRIVATE_CHANNEL) {
                 iconToDisplay = <LockIcon className='channel-icon channel-icon__lock channel-icon___lowerOpacity'/>;
-            } 
-            
+            }
+
             if (isArchivedChannel(channel)) {
                 iconToDisplay = <ArchiveIcon className='channel-icon channel-icon__archive channel-icon___lowerOpacity'/>;
             }
