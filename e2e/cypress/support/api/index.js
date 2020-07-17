@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import './setup';
+import './preference';
 import './system';
 import './team';
 import './user';
