@@ -42,7 +42,7 @@ export default class EditCategoryModal extends React.PureComponent<Props, State>
         this.setState({categoryName: ''});
     }
 
-    handleChange = (e: any) => {
+    handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({categoryName: e.target.value});
     }
 
@@ -57,6 +57,11 @@ export default class EditCategoryModal extends React.PureComponent<Props, State>
             this.props.actions.createCategory(this.props.currentTeamId, this.state.categoryName, this.props.channelIdsToAdd);
             trackEvent('ui', 'ui_sidebar_created_category');
         }
+    }
+
+    isConfirmDisabled = () => {
+        return !this.state.categoryName ||
+            (Boolean(this.props.initialCategoryName) && this.props.initialCategoryName === this.state.categoryName);
     }
 
     getText = () => {
@@ -101,7 +106,7 @@ export default class EditCategoryModal extends React.PureComponent<Props, State>
                 handleConfirm={this.handleConfirm}
                 handleCancel={this.handleCancel}
                 confirmButtonText={editButtonText}
-                isConfirmDisabled={!this.state.categoryName || (Boolean(this.props.initialCategoryName) && this.props.initialCategoryName === this.state.categoryName)}
+                isConfirmDisabled={this.isConfirmDisabled()}
             >
                 <QuickInput
                     autoFocus={true}

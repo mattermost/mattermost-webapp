@@ -20,45 +20,43 @@ type Props = {
     };
 }
 
-export default class SidebarWhatsNewModal extends React.PureComponent<Props> {
-    onHide = () => {
-        this.props.actions.savePreferences(this.props.currentUserId, [{
-            user_id: this.props.currentUserId,
+export default function SidebarWhatsNewModal(props: Props) {
+    const onHide = () => {
+        props.actions.savePreferences(props.currentUserId, [{
+            user_id: props.currentUserId,
             category: Preferences.CATEGORY_WHATS_NEW_MODAL,
             name: Preferences.HAS_SEEN_SIDEBAR_WHATS_NEW_MODAL,
             value: 'true',
         }]);
 
-        this.props.actions.closeModal(ModalIdentifiers.SIDEBAR_WHATS_NEW_MODAL);
-    }
+        props.actions.closeModal(ModalIdentifiers.SIDEBAR_WHATS_NEW_MODAL);
+    };
 
-    render() {
-        return (
-            <GenericModal
-                show={true}
-                onHide={this.onHide}
-                handleConfirm={this.onHide}
-                modalHeaderText={(
-                    <FormattedMessage
-                        id={'sidebar_whats_new_modal.header'}
-                        defaultMessage={'What\'s new'}
-                    />
-                )}
-                confirmButtonText={(
-                    <FormattedMessage
-                        id={'sidebar_whats_new_modal.confirm'}
-                        defaultMessage='Got it'
-                    />
-                )}
-            >
-                <span className='SidebarWhatsNewModal__helpText'>
-                    <FormattedMessage
-                        id={'sidebar_whats_new_modal.whatsNewText'}
-                        defaultMessage='Create custom categories in your sidebar. Drag and drop to organize channels and categories.'
-                    />
-                </span>
-                <div className='SidebarWhatsNewModal__img'/>
-            </GenericModal>
-        );
-    }
+    return (
+        <GenericModal
+            show={true}
+            onHide={onHide}
+            handleConfirm={onHide}
+            modalHeaderText={(
+                <FormattedMessage
+                    id={'sidebar_whats_new_modal.header'}
+                    defaultMessage={'What\'s new'}
+                />
+            )}
+            confirmButtonText={(
+                <FormattedMessage
+                    id={'sidebar_whats_new_modal.confirm'}
+                    defaultMessage='Got it'
+                />
+            )}
+        >
+            <span className='SidebarWhatsNewModal__helpText'>
+                <FormattedMessage
+                    id={'sidebar_whats_new_modal.whatsNewText'}
+                    defaultMessage='Create custom categories in your sidebar. Drag and drop to organize channels and categories.'
+                />
+            </span>
+            <div className='SidebarWhatsNewModal__img'/>
+        </GenericModal>
+    );
 }
