@@ -6,8 +6,7 @@ import {connect} from 'react-redux';
 
 import {GlobalState} from 'mattermost-redux/types/store';
 import {ActionFunc} from 'mattermost-redux/types/actions';
-import {getStandardAnalytics, requestTrialLicenseAndAckWarnMetric} from 'mattermost-redux/actions/admin';
-import {getLicenseConfig} from 'mattermost-redux/actions/general';
+import {getStandardAnalytics, sendWarnMetricAck} from 'mattermost-redux/actions/admin';
 
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/common';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
@@ -39,8 +38,7 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
 type Actions = {
     closeModal: (arg: string) => void;
     getStandardAnalytics: () => any;
-    requestTrialLicenseAndAckWarnMetric: (arg0: string) => ActionFunc & Partial<{error?: string}>;
-    getLicenseConfig: () => void;
+    sendWarnMetricAck: (arg0: string, arg1: boolean) => ActionFunc & Partial<{error?: string}>;
 };
 
 function mapDispatchToProps(dispatch: Dispatch) {
@@ -49,8 +47,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
             {
                 closeModal,
                 getStandardAnalytics,
-                requestTrialLicenseAndAckWarnMetric,
-                getLicenseConfig,
+                sendWarnMetricAck,
             },
             dispatch,
         ),

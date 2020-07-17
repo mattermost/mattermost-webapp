@@ -16,7 +16,7 @@ jest.mock('react-dom', () => ({
 }));
 
 describe('components/WarnMetricAckModal', () => {
-    const gettingTrialError = 'some error';
+    const serverError = 'some error';
 
     const baseProps = {
         stats: {
@@ -39,8 +39,7 @@ describe('components/WarnMetricAckModal', () => {
         actions: {
             closeModal: jest.fn(),
             getStandardAnalytics: jest.fn(),
-            requestTrialLicenseAndAckWarnMetric: jest.fn(),
-            getLicenseConfig: jest.fn()
+            sendWarnMetricAck: jest.fn(),
         },
     };
 
@@ -56,7 +55,7 @@ describe('components/WarnMetricAckModal', () => {
             <WarnMetricAckModal {...baseProps}/>,
         );
 
-        wrapper.setState({gettingTrialError});
+        wrapper.setState({serverError});
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -65,9 +64,9 @@ describe('components/WarnMetricAckModal', () => {
             <WarnMetricAckModal {...baseProps}/>,
         );
 
-        wrapper.setState({gettingTrial: true});
+        wrapper.setState({saving: true});
         wrapper.instance().onHide();
-        expect(wrapper.state('gettingTrial')).toEqual(false);
+        expect(wrapper.state('saving')).toEqual(false);
     });
 
     test('should match state when onHideWithParent is called', () => {
@@ -75,11 +74,11 @@ describe('components/WarnMetricAckModal', () => {
             <WarnMetricAckModal {...baseProps}/>,
         );
 
-        wrapper.setState({gettingTrial: true});
+        wrapper.setState({saving: true});
         wrapper.instance().onHideWithParent();
 
         expect(baseProps.closeParentComponent).toHaveBeenCalledTimes(1);
-        expect(wrapper.state('gettingTrial')).toEqual(false);
+        expect(wrapper.state('saving')).toEqual(false);
     });
 
     test('send ack on acknowledge button click', () => {
@@ -87,9 +86,9 @@ describe('components/WarnMetricAckModal', () => {
             <WarnMetricAckModal {...baseProps}/>,
         );
 
-        wrapper.setState({gettingTrial: true});
-        wrapper.find('button').simulate('click');
-        expect(baseProps.actions.requestTrialLicenseAndAckWarnMetric).toHaveBeenCalledTimes(1);
+        wrapper.setState({saving: false});
+        wrapper.find('.save-button').simulate('click');
+        expect(baseProps.actions.sendWarnMetricAck).toHaveBeenCalledTimes(1);
     });
 
     test('should have called props.onHide when Modal.onExited is called', () => {

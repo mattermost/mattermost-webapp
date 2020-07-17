@@ -172,11 +172,8 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
                     />
                 );
             }
-            if (this.props.warnMetricsStatus) {
+            if (this.props.license.IsLicensed === 'false' && this.props.warnMetricsStatus) {
                 for (const status of Object.values(this.props.warnMetricsStatus)) {
-                    if (this.props.license.IsLicensed === 'true' && status.acked !== true) {
-                        continue;
-                    }
                     var notice = this.getNoticeForWarnMetric(status);
                     if (!notice || notice.IsDismissed) {
                         continue;

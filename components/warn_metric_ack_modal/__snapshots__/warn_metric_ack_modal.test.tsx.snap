@@ -70,9 +70,19 @@ exports[`components/WarnMetricAckModal error display 1`] = `
           className="control-label"
         >
           <FormattedMessage
-            defaultMessage="The license could not be retrieved. Please try again or visit https://mattermost.com/trial/ to request a license."
-            id="warn_metric_ack_modal.error.body"
-            values={Object {}}
+            defaultMessage="Support could not be reached. Please {link} instead"
+            id="warn_metric_ack_modal.mailto.message"
+            values={
+              Object {
+                "link": <WarnMetricAckErrorLink
+                  defaultMessage="email support"
+                  forceAck={true}
+                  messageId="warn_metric_ack_modal.mailto.link"
+                  onClickHandler={[Function]}
+                  url="mailto:support@mattermost.com?cc=a@test.com&subject=Mattermost%20support%20request&body=Mattermost%20support%20request.%20My%20team%20now%20has%20500%20users.%20I%20am%20considering%20enterprise%20features%20that%20can%20help%20with%20scale%2C%20such%20as%20user%20management%2C%20server%20clustering%20and%20performance%20monitoring.%0D%0AContact%20Fake%20Person%0D%0AEmail%20a%40test.com%0D%0ASite%20URL%20http%3A%2F%2Flocalhost%3A8065%0D%0ADiagnostic%20Id%20diag_0%0D%0AIf%20you%20have%20any%20additional%20inquiries%2C%20please%20contact%20support%40mattermost.com"
+                />,
+              }
+            }
           />
         </label>
       </div>
@@ -83,17 +93,19 @@ exports[`components/WarnMetricAckModal error display 1`] = `
     componentClass="div"
   >
     <button
-      className="btn btn-primary"
-      data-testid="featureDiscovery_primaryCallToAction"
+      autoFocus={true}
+      className="btn btn-primary save-button"
+      data-dismiss="modal"
+      disabled={false}
       onClick={[Function]}
     >
       <LoadingWrapper
         loading={false}
-        text="Getting trial"
+        text="Sending email"
       >
         <FormattedMessage
-          defaultMessage="Start trial"
-          id="warn_metric_ack_modal.start_trial"
+          defaultMessage="Contact us"
+          id="warn_metric_ack_modal.contact_support"
           values={Object {}}
         />
       </LoadingWrapper>
@@ -171,17 +183,19 @@ exports[`components/WarnMetricAckModal should match snapshot, init 1`] = `
     componentClass="div"
   >
     <button
-      className="btn btn-primary"
-      data-testid="featureDiscovery_primaryCallToAction"
+      autoFocus={true}
+      className="btn btn-primary save-button"
+      data-dismiss="modal"
+      disabled={false}
       onClick={[Function]}
     >
       <LoadingWrapper
         loading={false}
-        text="Getting trial"
+        text="Sending email"
       >
         <FormattedMessage
-          defaultMessage="Start trial"
-          id="warn_metric_ack_modal.start_trial"
+          defaultMessage="Contact us"
+          id="warn_metric_ack_modal.contact_support"
           values={Object {}}
         />
       </LoadingWrapper>

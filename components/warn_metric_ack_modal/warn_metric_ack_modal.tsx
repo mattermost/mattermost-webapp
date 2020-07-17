@@ -10,11 +10,16 @@ import {Dictionary} from 'mattermost-redux/src/types/utilities';
 import {AnalyticsRow} from 'mattermost-redux/types/admin';
 import {ActionFunc} from 'mattermost-redux/types/actions';
 
-import {ModalIdentifiers} from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
+import {getSiteURL} from 'utils/url';
+import {Constants, ModalIdentifiers} from 'utils/constants';
+import {t} from 'utils/i18n';
 
 import {trackEvent} from 'actions/diagnostics_actions';
 import * as AdminActions from 'actions/admin_actions.jsx';
+
+const StatTypes = Constants.StatTypes;
+
+import * as Utils from 'utils/utils.jsx';
 
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 
@@ -29,22 +34,23 @@ type Props = {
     actions: {
         closeModal: (arg: string) => void;
         getStandardAnalytics: () => any;
-        requestTrialLicenseAndAckWarnMetric: (arg0: string) => ActionFunc & Partial<{error?: string}>;
-        getLicenseConfig: () => void;
+        sendWarnMetricAck: (arg0: string, arg1: boolean) => ActionFunc & Partial<{error?: string}>;
     };
 }
 
 type State = {
-    gettingTrial: boolean;
-    gettingTrialError: string | null;
+    forceAck: boolean;
+    serverError: string | null;
+    saving: boolean;
 }
 
 export default class WarnMetricAckModal extends React.PureComponent<Props, State> {
     public constructor(props: Props) {
         super(props);
         this.state = {
-            gettingTrial: false,
-            gettingTrialError: null,
+            forceAck: false,
+            saving: false,
+            serverError: null,
         };
     }
 
@@ -52,26 +58,28 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
         AdminActions.getStandardAnalytics();
     }
 
-    requestLicenseAndAckWarnMetric = async (e: React.MouseEvent) => {
-        trackEvent('admin', 'click_warn_metric_ack_start_trial', {metric: this.props.warnMetricStatus.id});
+    onContactSupportClick = async (e: any) => {
+        trackEvent('admin', 'click_warn_metric_ack_contact_support', {metric: this.props.warnMetricStatus.id});
 
-        e.preventDefault();
-        if (this.state.gettingTrial) {
+        if (this.state.saving) {
             return;
         }
-        this.setState({gettingTrial: true, gettingTrialError: null});
-        const {error} = await this.props.actions.requestTrialLicenseAndAckWarnMetric(this.props.warnMetricStatus.id);
+
+        let forceAck = false;
+        if (e && e.target && e.target.dataset && e.target.dataset.forceack) {
+            forceAck = true;
+        }
+
+        const {error} = await this.props.actions.sendWarnMetricAck(this.props.warnMetricStatus.id, forceAck);
         if (error) {
-            this.setState({gettingTrialError: error});
+            this.setState({serverError: error, saving: false, forceAck: false});
         } else {
             this.onHideWithParent();
         }
-        this.setState({gettingTrial: false});
-        this.props.actions.getLicenseConfig();
     }
 
     onHide = () => {
-        this.setState({gettingTrialError: null, gettingTrial: false});
+        this.setState({serverError: null, saving: false, forceAck: false});
         this.props.actions.closeModal(ModalIdentifiers.WARN_METRIC_ACK);
     }
 
@@ -83,18 +91,52 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
     }
 
     renderError = () => {
-        const {gettingTrialError} = this.state;
-        if (!gettingTrialError) {
+        const {serverError} = this.state;
+        if (!serverError) {
             return '';
         }
+
+        const mailRecipient = 'support@mattermost.com';
+        const mailSubject = 'Mattermost support request';
+        let mailBody = 'Mattermost support request. My team now has ' + this.props.warnMetricStatus.limit + ' users. I am considering enterprise features that can help with scale, such as user management, server clustering and performance monitoring.';
+        mailBody += '\r\n';
+        mailBody += 'Contact ' + this.props.user.first_name + ' ' + this.props.user.last_name;
+        mailBody += '\r\n';
+        mailBody += 'Email ' + this.props.user.email;
+        mailBody += '\r\n';
+
+        if (this.props.stats && this.props.stats[StatTypes.TOTAL_USERS]) {
+            mailBody += 'Registered Users ' + this.props.stats[StatTypes.TOTAL_USERS];
+            mailBody += '\r\n';
+        }
+        mailBody += 'Site URL ' + getSiteURL();
+        mailBody += '\r\n';
+
+        mailBody += 'Diagnostic Id ' + this.props.diagnosticId;
+        mailBody += '\r\n';
+
+        mailBody += 'If you have any additional inquiries, please contact support@mattermost.com';
+
+        const mailToLinkText = 'mailto:' + mailRecipient + '?cc=' + this.props.user.email + '&subject=' + encodeURIComponent(mailSubject) + '&body=' + encodeURIComponent(mailBody);
 
         return (
             <div className='form-group has-error'>
                 <br/>
                 <label className='control-label'>
                     <FormattedMessage
-                        id='warn_metric_ack_modal.error.body'
-                        defaultMessage='The license could not be retrieved. Please try again or visit https://mattermost.com/trial/ to request a license.'
+                        id='warn_metric_ack_modal.mailto.message'
+                        defaultMessage='Support could not be reached. Please {link}.'
+                        values={{
+                            link: (
+                                <WarnMetricAckErrorLink
+                                    url={mailToLinkText}
+                                    messageId={t('warn_metric_ack_modal.mailto.link')}
+                                    forceAck={true}
+                                    defaultMessage={'email us'}
+                                    onClickHandler={this.onContactSupportClick}
+                                />
+                            ),
+                        }}
                     />
                 </label>
             </div>
@@ -115,6 +157,13 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
                 values={{
                     limit: this.props.warnMetricStatus.limit,
                 }}
+            />
+        );
+
+        const buttonText = (
+            <FormattedMessage
+                id='warn_metric_ack_modal.contact_support'
+                defaultMessage='Contact us'
             />
         );
 
@@ -145,18 +194,17 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
                 </Modal.Body>
                 <Modal.Footer>
                     <button
-                        className='btn btn-primary'
-                        data-testid='featureDiscovery_primaryCallToAction'
-                        onClick={this.requestLicenseAndAckWarnMetric}
+                        className='btn btn-primary save-button'
+                        data-dismiss='modal'
+                        disabled={this.state.saving}
+                        autoFocus={true}
+                        onClick={this.onContactSupportClick}
                     >
                         <LoadingWrapper
-                            loading={this.state.gettingTrial}
-                            text={Utils.localizeMessage('admin.license.trial-request.loading', 'Getting trial')}
+                            loading={this.state.saving}
+                            text={Utils.localizeMessage('admin.warn_metric.sending-email', 'Sending email')}
                         >
-                            <FormattedMessage
-                                id='warn_metric_ack_modal.start_trial'
-                                defaultMessage='Start trial'
-                            />
+                            {buttonText}
                         </LoadingWrapper>
                     </button>
                 </Modal.Footer>
@@ -164,3 +212,32 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
         );
     }
 }
+
+type ErrorLinkProps = {
+    defaultMessage: string;
+    messageId: string;
+    onClickHandler: (e: React.MouseEvent<HTMLAnchorElement>) => Promise<void>;
+    url: string;
+    forceAck: boolean;
+}
+
+const WarnMetricAckErrorLink: React.FC<ErrorLinkProps> = ({defaultMessage, messageId, onClickHandler, url, forceAck}: ErrorLinkProps) => {
+    return (
+        <a
+            href={url}
+            rel='noopener noreferrer'
+            target='_blank'
+            data-forceAck={forceAck}
+            onClick={
+                (e) => {
+                    onClickHandler(e);
+                }
+            }
+        >
+            <FormattedMessage
+                id={messageId}
+                defaultMessage={defaultMessage}
+            />
+        </a>
+    );
+};
