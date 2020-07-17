@@ -63,10 +63,13 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
         this.loadPage();
     }
 
+    isSearching = () => {
+        return this.state.term.length > 0 || Object.keys(this.state.filters).length > 0;
+    }
+
     getPaginationProps = () => {
-        const {page, term, filters} = this.state;
-        const isSearching = term.length > 0 || JSON.stringify(filters) !== '{}';
-        const total = isSearching ? this.state.total : this.props.total;
+        const {page} = this.state;
+        const total = this.isSearching() ? this.state.total : this.props.total;
         const startCount = (page * PAGE_SIZE) + 1;
         let endCount = (page + 1) * PAGE_SIZE;
         endCount = endCount > total ? total : endCount;
@@ -75,8 +78,7 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
 
     loadPage = async (page = 0, term = '', filters = {}) => {
         this.setState({loading: true, term, filters});
-        const isSearching = term.length > 0 || JSON.stringify(filters) !== '{}';
-        if (isSearching) {
+        if (this.isSearching()) {
             if (page > 0) {
                 this.searchChannels(page, term, filters);
             } else {
@@ -165,10 +167,9 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
 
     getRows = (): Row[] => {
         const {data} = this.props;
-        const {term, filters, channels} = this.state;
+        const {channels} = this.state;
         const {startCount, endCount} = this.getPaginationProps();
-        const isSearching = term.length > 0 || JSON.stringify(filters) !== '{}';
-        let channelsToDisplay = (isSearching) ? channels : data;
+        let channelsToDisplay = this.isSearching() ? channels : data;
         channelsToDisplay = channelsToDisplay.slice(startCount - 1, endCount);
 
         return channelsToDisplay.map((channel) => {
