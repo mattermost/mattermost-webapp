@@ -3955,5 +3955,7 @@
   "create_category_modal.create": "Crea",
   "admin.license.trial-request.error": "Errore nella ricezione della licenza del periodo di prova. Visitare [https://mattermost.com/trial/](https://mattermost.com/trial/) per ottenere una licenza.",
   "admin.image.amazonS3PathPrefixExample": "Es.: \"subdir1\" o lasciare vuoto.",
-  "admin.image.amazonS3PathPrefixDescription": "Il prefisso selezionato del S3 bucket di AWS."
+  "admin.image.amazonS3PathPrefixDescription": "Il prefisso selezionato del S3 bucket di AWS.",
+  "admin.license.trial-request.accept-terms": "Cliccando **Inizia prova**, Acconsento all'[Accordo di Valutazione del Software Mattermost](!https://mattermost.com/software-evaluation-agreement/), [Privacy Policy](!https://mattermost.com/privacy-policy/) e di ricevere email sul prodotto.",
+  "admin.image.amazonS3PathPrefixTitle": "Prefisso percorso Amazon S3:"
 }
