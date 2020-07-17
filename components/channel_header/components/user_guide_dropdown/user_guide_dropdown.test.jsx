@@ -76,7 +76,7 @@ describe('components/channel_header/components/UserGuideDropdown', () => {
             <UserGuideDropdown {...baseProps}/>,
         );
 
-        wrapper.find(Menu.ItemExternalLink).find('#askTheCommunityLink').prop('onClick')({preventDefault: jest.fn(), stopPropagation: jest.fn()});
+        wrapper.find(Menu.ItemExternalLink).find('#askTheCommunityLink').prop('onClick')();
         expect(trackEvent).toBeCalledWith('ui', 'help_ask_the_community');
     });
 });
