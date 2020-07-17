@@ -3525,7 +3525,7 @@
   "admin.channel_settings.channel_details.syncGroupMembers": "Sincronizar Membros do Grupo",
   "admin.channel_settings.channel_details.isPublicDescr": "Se `público`, o canal pode ser descoberto e qualquer usuário pode participar, ou se forem `privados` convites são necessários. Alterne para converter canais públicos em privados. Quando a sincronização de grupo está ativada, os canais privados não podem ser convertidos em público.",
   "admin.channel_settings.channel_details.isPublic": "Canal público ou canal privado",
-  "admin.channel_settings.channel_details.isDefaultDescr": "Esse canal padrão não pode ser convertido em um canal privado.",
+  "admin.channel_settings.channel_details.isDefaultDescr": "Este canal padrão não pode ser convertido em um canal privado.",
   "admin.channel_settings.channel_details.add_group": "Adicionar Grupo",
   "admin.channel_settings.channel_detail.syncedGroupsTitle": "Grupos Sincronizados",
   "admin.channel_settings.channel_detail.syncedGroupsDescription": "Adiciona e remove membros do canal com base em sua associação ao grupo.",
@@ -3957,5 +3957,8 @@
   "delete_category_modal.deleteCategory": "Excluir esta categoria?",
   "delete_category_modal.delete": "Excluir",
   "create_category_modal.createCategory": "Criar Categoria",
-  "create_category_modal.create": "Criar"
+  "create_category_modal.create": "Criar",
+  "admin.image.amazonS3PathPrefixTitle": "Prefixo do Caminho do Amazon S3:",
+  "admin.image.amazonS3PathPrefixExample": "Ex.: \"subdir1\" ou você pode deixá-lo vazio.",
+  "admin.image.amazonS3PathPrefixDescription": "Prefixo que você selecionou para seu bucket S3 na AWS."
 }
