@@ -43,7 +43,7 @@ export type Props = {
         revokeAllSessionsForUser: (id: string) => Promise<{error: ServerError; data: any}>;
         promoteGuestToUser: (id: string) => Promise<{error: ServerError}>;
         demoteUserToGuest: (id: string) => Promise<{error: ServerError}>;
-        loadBots: (page?: number, size?: number) => Promise<Bot[]>;
+        loadBots: (page?: number, size?: number) => Promise<unknown>;
     };
     doPasswordReset: (user: UserProfile) => void;
     doEmailReset: (user: UserProfile) => void;

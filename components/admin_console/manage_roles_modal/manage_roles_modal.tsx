@@ -8,7 +8,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {Client4} from 'mattermost-redux/client';
 import {General} from 'mattermost-redux/constants';
-import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
+import {ActionResult} from 'mattermost-redux/types/actions';
 import {UserProfile} from 'mattermost-redux/types/users';
 import * as UserUtils from 'mattermost-redux/utils/user_utils';
 
@@ -27,7 +27,7 @@ export type Props = {
     // defining custom function type instead of using React.MouseEventHandler
     // to make the event optional
     onModalDismissed: (e?: React.MouseEvent<HTMLButtonElement>) => void;
-    actions: { updateUserRoles: (userId: string, roles: string) => ActionFunc}; // TODO add generics to ActionFunc
+    actions: { updateUserRoles: (userId: string, roles: string) => Promise<ActionResult>};
 }
 
 type State = {
@@ -133,7 +133,7 @@ export default class ManageRolesModal extends React.PureComponent<Props, State> 
             }
         }
 
-        const result = await (this.props.actions.updateUserRoles(this.props.user!.id, roles) as unknown as Promise<ActionResult>);
+        const result = await this.props.actions.updateUserRoles(this.props.user!.id, roles);
         this.trackRoleChanges(roles, this.props.user!.roles);
 
         if (isSuccess(result)) {
