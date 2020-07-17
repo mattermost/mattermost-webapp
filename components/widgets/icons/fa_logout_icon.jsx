@@ -2,23 +2,16 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import {useIntl} from 'react-intl';
 
-import {FormattedMessage} from 'react-intl';
+import {t} from 'utils/i18n';
 
-export default class LogoutIcon extends React.PureComponent {
-    render() {
-        return (
-            <FormattedMessage
-                id='generic_icons.logout'
-                defaultMessage='Logout Icon'
-            >
-                {(title) => (
-                    <i
-                        className='fa fa-1x fa-angle-left'
-                        title={title}
-                    />
-                )}
-            </FormattedMessage>
-        );
-    }
+export default function LogoutIcon() {
+    const {formatMessage} = useIntl();
+    return (
+        <i
+            className='fa fa-1x fa-angle-left'
+            title={formatMessage({id: t('generic_icons.logout'), defaultMessage: 'Logout Icon'})}
+        />
+    );
 }
