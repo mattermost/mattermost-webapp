@@ -449,6 +449,22 @@ export function handleEvent(msg) {
         handleGroupNotAssociatedToChannelEvent(msg);
         break;
 
+    case SocketEvents.SIDEBAR_CATEGORY_CREATED:
+        handleSidebarCategoryCreated(msg);
+        break;
+
+    case SocketEvents.SIDEBAR_CATEGORY_UPDATED:
+        handleSidebarCategoryUpdated();
+        break;
+
+    case SocketEvents.SIDEBAR_CATEGORY_DELETED:
+        handleSidebarCategoryDeleted(msg);
+        break;
+
+    case SocketEvents.SIDEBAR_CATEGORY_ORDER_UPDATED:
+        handleSidebarCategoryOrderUpdated(msg);
+        break;
+
     default:
     }
 
@@ -1218,5 +1234,32 @@ function handleGroupNotAssociatedToChannelEvent(msg) {
     store.dispatch({
         type: GroupTypes.RECEIVED_GROUP_NOT_ASSOCIATED_TO_CHANNEL,
         data: {channelID: msg.broadcast.channel_id, groups: [{id: msg.data.group_id}]},
+    });
+}
+
+function handleSidebarCategoryCreated(msg) {
+    store.dispatch({
+        type: ActionTypes.SIDEBAR_CATEGORY_CREATED,
+        data: {categoryId: msg.category_id},
+    });
+}
+
+function handleSidebarCategoryUpdated() {
+    store.dispatch({
+        type: ActionTypes.SIDEBAR_CATEGORY_UPDATED,
+    });
+}
+
+function handleSidebarCategoryDeleted(msg) {
+    store.dispatch({
+        type: ActionTypes.SIDEBAR_CATEGORY_DELETED,
+        data: {categoryId: msg.category_id},
+    });
+}
+
+function handleSidebarCategoryOrderUpdated(msg) {
+    store.dispatch({
+        type: ActionTypes.SIDEBAR_CATEGORY_ORDER_UPDATED,
+        data: {categoryOrder: msg.order},
     });
 }

@@ -207,6 +207,11 @@ export const ActionTypes = keyMirror({
     DISMISS_ANNOUNCEMENT_BAR: null,
 
     PREFETCH_POSTS_FOR_CHANNEL: null,
+
+    SIDEBAR_CATEGORY_CREATED: null,
+    SIDEBAR_CATEGORY_UPDATED: null,
+    SIDEBAR_CATEGORY_DELETED: null,
+    SIDEBAR_CATEGORY_ORDER_UPDATED: null,
 });
 
 export const PostRequestTypes = keyMirror({
@@ -350,6 +355,10 @@ export const SocketEvents = {
     RECEIVED_GROUP_NOT_ASSOCIATED_TO_TEAM: 'received_group_not_associated_to_team',
     RECEIVED_GROUP_ASSOCIATED_TO_CHANNEL: 'received_group_associated_to_channel',
     RECEIVED_GROUP_NOT_ASSOCIATED_TO_CHANNEL: 'received_group_not_associated_to_channel',
+    SIDEBAR_CATEGORY_CREATED: 'sidebar_category_created',
+    SIDEBAR_CATEGORY_UPDATED: 'sidebar_category_updated',
+    SIDEBAR_CATEGORY_DELETED: 'sidebar_category_deleted',
+    SIDEBAR_CATEGORY_ORDER_UPDATED: 'sidebar_category_order_updated',
 };
 
 export const TutorialSteps = {
