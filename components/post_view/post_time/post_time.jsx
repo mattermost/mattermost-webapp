@@ -54,7 +54,7 @@ export default class PostTime extends React.PureComponent {
     };
 
     render() {
-        const timestamp = (
+        const postTime = (
             <Timestamp
                 value={this.props.eventTime}
                 className='post__time'
@@ -73,7 +73,7 @@ export default class PostTime extends React.PureComponent {
                 role='presentation'
                 className='post__permalink'
             >
-                {timestamp}
+                {postTime}
             </div>
         ) : (
             <Link
@@ -82,7 +82,7 @@ export default class PostTime extends React.PureComponent {
                 className='post__permalink'
                 onClick={this.handleClick}
             >
-                {timestamp}
+                {postTime}
             </Link>
         );
 
@@ -92,6 +92,7 @@ export default class PostTime extends React.PureComponent {
                 placement='top'
                 overlay={
                     <Tooltip
+                        id={this.props.eventTime}
                         className='hidden-xs'
                     >
                         <Timestamp
