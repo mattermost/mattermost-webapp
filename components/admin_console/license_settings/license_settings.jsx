@@ -7,6 +7,7 @@ import React from 'react';
 import {FormattedDate, FormattedTime, FormattedMessage} from 'react-intl';
 
 import * as Utils from 'utils/utils.jsx';
+import {format} from 'utils/markdown';
 
 import * as AdminActions from 'actions/admin_actions.jsx';
 
@@ -233,7 +234,9 @@ export default class LicenseSettings extends React.PureComponent {
                             {this.state.upgradeError &&
                                 <div className='col-sm-12'>
                                     <div className='form-group has-error'>
-                                        <label className='control-label'>{this.state.upgradeError}</label>
+                                        <label className='control-label'>
+                                            <span dangerouslySetInnerHTML={{__html: format(this.state.upgradeError)}}/>
+                                        </label>
                                     </div>
                                 </div>}
                         </div>}
