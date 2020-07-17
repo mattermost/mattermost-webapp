@@ -165,7 +165,7 @@ export default class QuickSwitchModal extends React.PureComponent {
 
     handleSuggestionsReceived = (suggestions) => {
         const noLoadingProp = suggestions.items.some((item) => !item.loading);
-        this.setState({hasSuggestions: !suggestions.matchedPretext || (suggestions.items.length > 0 && noLoadingProp), pretext: suggestions.matchedPretext});
+        this.setState({hasSuggestions: (suggestions.items.length > 0 && noLoadingProp) || !suggestions.matchedPretext, pretext: suggestions.matchedPretext});
     }
 
     render() {
