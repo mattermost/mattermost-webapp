@@ -9,6 +9,12 @@ import {I18nState} from './i18n';
 import {RhsViewState} from './rhs';
 import {PluginsState} from './plugins';
 
+export type DraggingState = {
+    state?: string;
+    type?: string;
+    id?: string;
+}
+
 export type GlobalState = BaseGlobalState & {
     plugins: PluginsState;
     storage: {
@@ -90,6 +96,14 @@ export type GlobalState = BaseGlobalState & {
                 team: string;
                 filter: string;
             };
+            userGridSearch: {
+                term: string;
+                filters: {
+                    roles?: string[];
+                    channel_roles?: string[];
+                    team_roles?: string[];
+                };
+            };
         };
 
         notice: {
@@ -118,6 +132,8 @@ export type GlobalState = BaseGlobalState & {
 
         channelSidebar: {
             unreadFilterEnabled: boolean;
+            draggingState: DraggingState;
+            newCategoryIds: string[];
         };
     };
 };
