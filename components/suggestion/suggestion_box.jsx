@@ -34,7 +34,7 @@ export default class SuggestionBox extends React.PureComponent {
         /**
          * Array of suggestion providers
          */
-        providers: PropTypes.arrayOf(PropTypes.object),
+        providers: PropTypes.arrayOf(PropTypes.object).isRequired,
 
         /**
          * Where the list will be displayed relative to the input box, defaults to 'top'
@@ -204,6 +204,7 @@ export default class SuggestionBox extends React.PureComponent {
         if (this.props.listenForMentionKeyClick) {
             EventEmitter.addListener('mention_key_click', this.handleMentionKeyClick);
         }
+        this.handlePretextChanged(this.pretext);
     }
 
     componentWillUnmount() {
@@ -316,13 +317,15 @@ export default class SuggestionBox extends React.PureComponent {
 
         this.setState({focused: true});
 
-        if ((this.props.openOnFocus || this.props.openWhenEmpty) && !this.props.forceSuggestionsWhenBlur) {
+        if (this.props.openOnFocus || this.props.openWhenEmpty) {
             setTimeout(() => {
                 const textbox = this.getTextbox();
                 if (textbox) {
                     const pretext = textbox.value.substring(0, textbox.selectionEnd);
                     if (this.props.openWhenEmpty || pretext.length >= this.props.requiredCharacters) {
-                        this.handlePretextChanged(pretext);
+                        if (this.pretext !== pretext) {
+                            this.handlePretextChanged(pretext);
+                        }
                     }
                 }
             });
@@ -678,6 +681,7 @@ export default class SuggestionBox extends React.PureComponent {
             dateComponent,
             listStyle,
             renderNoResults,
+            suppressLoadingSpinner,
             ...props
         } = this.props;
 
@@ -702,6 +706,7 @@ export default class SuggestionBox extends React.PureComponent {
         Reflect.deleteProperty(props, 'listenForMentionKeyClick');
         Reflect.deleteProperty(props, 'wrapperHeight');
         Reflect.deleteProperty(props, 'forceSuggestionsWhenBlur');
+        Reflect.deleteProperty(props, 'onSuggestionsReceived');
 
         // This needs to be upper case so React doesn't think it's an html tag
         const SuggestionListComponent = listComponent;
@@ -749,7 +754,7 @@ export default class SuggestionBox extends React.PureComponent {
                             wrapperHeight={this.props.wrapperHeight}
                             inputRef={this.inputRef}
                             onLoseVisibility={this.blur}
-                            suppressLoadingSpinner={this.props.suppressLoadingSpinner}
+                            suppressLoadingSpinner={suppressLoadingSpinner}
                         />
                     </div>
                 }

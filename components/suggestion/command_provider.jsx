@@ -54,6 +54,13 @@ export class CommandSuggestion extends Suggestion {
 }
 
 export default class CommandProvider extends Provider {
+    constructor({channelId, rootId}) {
+        super();
+
+        this.channelId = channelId;
+        this.rootId = rootId;
+    }
+
     handlePretextChanged(pretext, resultCallback) {
         if (!pretext.startsWith('/')) {
             return false;
@@ -115,7 +122,14 @@ export default class CommandProvider extends Provider {
 
     handleWebapp(pretext, resultCallback) {
         const command = pretext.toLowerCase();
-        Client4.getCommandAutocompleteSuggestionsList(command, getCurrentTeamId(store.getState())).then(
+        const teamId = getCurrentTeamId(store.getState());
+
+        const args = {
+            channel_id: this.channelId,
+            ...(this.rootId && {root_id: this.rootId, parent_id: this.rootId}),
+        };
+
+        Client4.getCommandAutocompleteSuggestionsList(command, teamId, args).then(
             (data) => {
                 const matches = [];
                 data.forEach((sug) => {

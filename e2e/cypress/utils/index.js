@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+/* eslint-disable no-loop-func, quote-props */
+
 import {v4 as uuidv4} from 'uuid';
 
 import messageMenusData from '../fixtures/hooks/message_menus.json';
@@ -53,16 +55,6 @@ export function getMessageMenusPayload({dataSource, options, prefix = Date.now()
     data.attachments[0].actions[0].integration.url = callbackUrl;
 
     return data;
-}
-
-export function titleCase(str) {
-    const splitStr = str.toLowerCase().split(' ');
-
-    for (let i = 0; i < splitStr.length; i++) {
-        splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
-    }
-
-    return splitStr.join(' ');
 }
 
 export const reUrl = /(https?:\/\/[^ ]*)/;

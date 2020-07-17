@@ -10,18 +10,18 @@
 // Stage: @prod
 // Group: @accessibility
 
-import users from '../../fixtures/users.json';
-
-const otherUser = users['user-1'];
-
 // * Verify the accessibility support in the different images
 
 describe('Verify Accessibility Support in Different Images', () => {
-    before(() => {
-        cy.apiLogin('sysadmin');
+    let otherUser;
 
-        // Visit the Off Topic channel
-        cy.visit('/ad-1/channels/off-topic');
+    before(() => {
+        cy.apiInitSetup().then(({team, user}) => {
+            otherUser = user;
+
+            // Visit the Off Topic channel
+            cy.visit(`/${team.name}/channels/off-topic`);
+        });
     });
 
     it('MM-24075 Accessibility support in different images', () => {
@@ -31,7 +31,7 @@ describe('Verify Accessibility Support in Different Images', () => {
         });
 
         // # Upload an image in the post
-        cy.fileUpload('#fileUploadInput', 'small-image.png');
+        cy.get('#fileUploadInput').attachFile('small-image.png');
         cy.postMessage('Image upload');
 
         // * Verify accessibility in images uploaded in a post
@@ -43,11 +43,8 @@ describe('Verify Accessibility Support in Different Images', () => {
 
         // # Post a message as a different user
         cy.getCurrentChannelId().then((channelId) => {
-            cy.apiGetUserByEmail(otherUser.email).then((emailResponse) => {
-                cy.apiAddUserToChannel(channelId, emailResponse.body.id);
-                const message = `hello from ${otherUser.username}: ${Date.now()}`;
-                cy.postMessageAs({sender: otherUser, message, channelId});
-            });
+            const message = `hello from ${otherUser.username}: ${Date.now()}`;
+            cy.postMessageAs({sender: otherUser, message, channelId});
         });
 
         // # Open profile popover

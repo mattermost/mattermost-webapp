@@ -8,11 +8,16 @@
     "integrationFolder": "..",
     "testFiles": "**/*_spec.js",
     "env": {
+        "adminUsername": "sysadmin",
+        "adminPassword": "Sys@dmin-sample1",
         "dbClient": "mysql",
         "dbConnection": "mysql://mmuser:mostest@localhost:3306/mattermost_test?charset=utf8mb4&readTimeout=30s&writeTimeout=30s",
+        "enableApplitools": false,
+        "enableVisualTest": false,
         "ldapServer": "localhost",
         "ldapPort": 389,
         "runLDAPSync": true,
+        "resetBeforeTest": false,
         "storybookUrl": "http://localhost:6006/",
         "webhookBaseUrl": "http://localhost:3000"
     }

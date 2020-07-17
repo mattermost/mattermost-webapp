@@ -10,7 +10,7 @@ import SearchableChannelList from 'components/searchable_channel_list.jsx';
 /* eslint-disable global-require */
 
 jest.mock('utils/browser_history', () => {
-    const original = require.requireActual('utils/browser_history');
+    const original = jest.requireActual('utils/browser_history');
     return {
         ...original,
         browserHistory: {
@@ -252,7 +252,7 @@ describe('components/MoreChannels', () => {
         expect(setTimeout).toHaveBeenCalledTimes(1);
         expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 100);
 
-        jest.runAllTimers();
+        jest.runOnlyPendingTimers();
         expect(instance.props.actions.searchMoreChannels).toHaveBeenCalledTimes(1);
         expect(instance.props.actions.searchMoreChannels).toHaveBeenCalledWith('fail', false);
         process.nextTick(() => {
@@ -280,7 +280,7 @@ describe('components/MoreChannels', () => {
         expect(setTimeout).toHaveBeenCalledTimes(1);
         expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 100);
 
-        jest.runAllTimers();
+        jest.runOnlyPendingTimers();
         expect(instance.props.actions.searchMoreChannels).toHaveBeenCalledTimes(1);
         expect(instance.props.actions.searchMoreChannels).toHaveBeenCalledWith('channel', false);
         process.nextTick(() => {
@@ -308,7 +308,7 @@ describe('components/MoreChannels', () => {
         expect(setTimeout).toHaveBeenCalledTimes(1);
         expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 100);
 
-        jest.runAllTimers();
+        jest.runOnlyPendingTimers();
         expect(instance.props.actions.searchMoreChannels).toHaveBeenCalledTimes(1);
         expect(instance.props.actions.searchMoreChannels).toHaveBeenCalledWith('channel', true);
         process.nextTick(() => {

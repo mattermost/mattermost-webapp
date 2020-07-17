@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -90,9 +91,12 @@ export default class LicenseSettings extends React.PureComponent {
 
     requestLicense = async (e) => {
         e.preventDefault();
+        if (this.state.gettingTrial) {
+            return;
+        }
         this.setState({gettingTrial: true, gettingTrialError: null});
         const requestedUsers = Math.max(this.props.stats.TOTAL_USERS, 30);
-        const {error} = await this.props.actions.requestTrialLicense(requestedUsers);
+        const {error} = await this.props.actions.requestTrialLicense(requestedUsers, true, true, 'license');
         if (error) {
             this.setState({gettingTrialError: error});
         }
@@ -107,7 +111,14 @@ export default class LicenseSettings extends React.PureComponent {
         }
         let gettingTrialError = '';
         if (this.state.gettingTrialError) {
-            gettingTrialError = <p className='form-group has-error'><label className='control-label'>{this.state.gettingTrialError}</label></p>;
+            gettingTrialError = (
+                <p className='trial-error'>
+                    <FormattedMarkdownMessage
+                        id='admin.license.trial-request.error'
+                        defaultMessage='Trial license could not be retrieved. Visit [https://mattermost.com/trial/](https://mattermost.com/trial/) to request a license.'
+                    />
+                </p>
+            );
         }
 
         var btnClass = 'btn';
@@ -210,24 +221,17 @@ export default class LicenseSettings extends React.PureComponent {
                             >
                                 <FormattedMessage
                                     id='admin.license.trial-request.submit'
-                                    defaultMessage='Start a trial'
+                                    defaultMessage='Start trial'
                                 />
                             </LoadingWrapper>
                         </button>
-                        {gettingTrialError}
                     </p>
-                    <p className='help-text'>
-                        <FormattedMessage
-                            id='admin.license.trial-request.different-data'
-                            defaultMessage='Or get a trial license manually at '
+                    {gettingTrialError}
+                    <p className='trial-legal-terms'>
+                        <FormattedMarkdownMessage
+                            id='admin.license.trial-request.accept-terms'
+                            defaultMessage='By clicking **Start trial**, I agree to the [Mattermost Software Evaluation Agreement](!https://mattermost.com/software-evaluation-agreement/), [Privacy Policy](!https://mattermost.com/privacy-policy/), and receiving product emails.'
                         />
-                        <a
-                            target='_blank'
-                            rel='noopener noreferrer'
-                            href='https://mattermost.com/trial/?utm_medium=product&utm_source=product-trial'
-                        >
-                            {'https://mattermost.com/trial/'}
-                        </a>
                     </p>
                 </div>
             );
@@ -357,3 +361,4 @@ export default class LicenseSettings extends React.PureComponent {
         );
     }
 }
+/* eslint-enable react/no-string-refs */
