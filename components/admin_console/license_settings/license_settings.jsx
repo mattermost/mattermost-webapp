@@ -252,7 +252,7 @@ export default class LicenseSettings extends React.PureComponent {
                                 >
                                     <LoadingWrapper
                                         loading={this.state.restarting}
-                                        text={Utils.localizeMessage('admin.license.enterprise.restart', 'Restarting')}
+                                        text={Utils.localizeMessage('admin.license.enterprise.restarting', 'Restarting')}
                                     >
                                         <FormattedMessage
                                             id='admin.license.enterprise.restart'
