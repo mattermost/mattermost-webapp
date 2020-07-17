@@ -23,7 +23,7 @@ describe('Autocomplete with Elasticsearch - Renaming', () => {
 
     before(() => {
         // * Check if server has license for Elasticsearch
-        cy.requireLicenseForFeature('Elasticsearch');
+        cy.apiRequireLicenseForFeature('Elasticsearch');
 
         // # Create new team for tests
         cy.apiCreateTeam(`elastic-${timestamp}`, `elastic-${timestamp}`).then(({team}) => {

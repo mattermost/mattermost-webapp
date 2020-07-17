@@ -96,7 +96,7 @@ describe('System Console - Enterprise', () => {
 
     before(() => {
         // * Check if server has license for feature
-        cy.requireLicenseForFeature('Elasticsearch');
+        cy.apiRequireLicenseForFeature('Elasticsearch');
 
         // # Go to system admin then verify admin console URL and header
         cy.visit('/admin_console/about/license');

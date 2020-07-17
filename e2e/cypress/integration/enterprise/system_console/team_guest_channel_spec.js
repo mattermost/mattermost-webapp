@@ -51,7 +51,7 @@ const verifyAllGuestPermissions = (selected) => {
 describe('Team Scheme Guest Permissions Test', () => {
     before(() => {
         // * Check if server has license
-        cy.requireLicense();
+        cy.apiRequireLicense();
     });
 
     it('MM- - Enable and Disable all guest permission', () => {
