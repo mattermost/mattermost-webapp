@@ -15,13 +15,6 @@ import OverlayTrigger from 'components/overlay_trigger';
 
 import Timestamp, {RelativeRanges} from 'components/timestamp';
 
-const POST_TIME_RANGES = [
-    {within: ['second', -15], display: ['second', 0]},
-    {within: ['second', -54], display: ['second', 10]},
-    {within: ['hour', -1], display: ['minute']},
-    {within: ['hour', -24], display: ['hour']},
-];
-
 const POST_TOOLTIP_RANGES = [
     RelativeRanges.TODAY_TITLE_CASE,
     RelativeRanges.YESTERDAY_TITLE_CASE,
@@ -65,7 +58,6 @@ export default class PostTime extends React.PureComponent {
             <Timestamp
                 value={this.props.eventTime}
                 className='post__time'
-                ranges={POST_TIME_RANGES}
                 useDate={false}
             />
         );
