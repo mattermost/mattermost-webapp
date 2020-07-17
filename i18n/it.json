@@ -3957,5 +3957,7 @@
   "admin.image.amazonS3PathPrefixExample": "Es.: \"subdir1\" o lasciare vuoto.",
   "admin.image.amazonS3PathPrefixDescription": "Il prefisso selezionato del S3 bucket di AWS.",
   "admin.license.trial-request.accept-terms": "Facendo click su **Inizia il periodo di prova**, accetto gli [Accordi di utilizzo di Mattermost Software Evaluation](https://mattermost.com/software-evaluation-agreement/), le [Condizioni sulla Privacy](!https://mattermost.com/privacy-policy/), e la ricezione di email sui prodotti.",
-  "admin.image.amazonS3PathPrefixTitle": "Prefisso percorso Amazon S3:"
+  "admin.image.amazonS3PathPrefixTitle": "Prefisso percorso Amazon S3:",
+  "edit_category_modal.helpText": "Puoi trascinare i canali in categorie per organizzare la tua barra laterale.",
+  "delete_category_modal.helpText": "I canali in **{category_name}** torneranno nelle categorie Canali e Messaggi Diretti. Non sarai rimosso da nessun canale."
 }
