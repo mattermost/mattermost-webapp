@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {client4} from 'mattermost-redux/client';
+import {Client4} from 'mattermost-redux/client';
 
 import Root from 'components/root/root';
 import * as GlobalActions from 'actions/global_actions.jsx';
@@ -34,8 +34,9 @@ jest.mock('mattermost-redux/client', () => {
 
     return {
         ...original,
-        client4: {
-            ...original.client4,
+        Client4: {
+            ...original.Client4,
+            setUrl: jest.fn(),
             enableRudderEvents: jest.fn(),
         },
     };
@@ -186,7 +187,7 @@ describe('components/Root', () => {
     test('should not call enableRudderEvents on call of onConfigLoaded if url and key for rudder is not set', () => {
         const wrapper = shallow(<Root {...baseProps}/>);
         wrapper.instance().onConfigLoaded();
-        expect(client4.enableRudderEvents).not.toHaveBeenCalled();
+        expect(Client4.enableRudderEvents).not.toHaveBeenCalled();
     });
 
     test('should call for enableRudderEvents on call of onConfigLoaded if url and key for rudder is set', () => {
@@ -195,6 +196,6 @@ describe('components/Root', () => {
 
         const wrapper = shallow(<Root {...baseProps}/>);
         wrapper.instance().onConfigLoaded();
-        expect(client4.enableRudderEvents).toHaveBeenCalled();
+        expect(Client4.enableRudderEvents).toHaveBeenCalled();
     });
 });
