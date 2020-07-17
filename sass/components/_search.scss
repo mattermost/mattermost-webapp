@@ -211,6 +211,12 @@
             opacity: 0.5;
             float: right;
         }
+
+        .post-pre-header__icons-container {
+            padding-right: 10px; // If the padding of post__img changes, this needs to be adjusted accordingly
+            width: 53px; // If the width of post__img changes, this needs to be adjusted accordingly
+            margin-left: 0px; // if left margin of post__content changes, this needs to be adjusted accordingly
+        }
     }
 }
 

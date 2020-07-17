@@ -64,6 +64,12 @@
             }
         }
 
+        .post-pre-header__icons-container {
+            padding-right: 12px; // If the padding of post__img changes, this needs to be adjusted accordingly
+            width: 60px; // If the width of post__img changes, this needs to be adjusted accordingly
+            margin-left: 0px; // if left margin of post__content changes, this needs to be adjusted accordingly
+        }
+
         .post__header {
             .post-menu {
                 text-align: right;
@@ -93,12 +99,6 @@
                             opacity: .6;
                         }
                     }
-
-                    .flag-icon__container, .card-icon__container {
-                        left: auto;
-                        position: relative;
-                        top: 2px;
-                    }
                 }
             }
 
@@ -116,8 +116,8 @@
         }
 
         .post__img {
-            width: 60px;
-            padding: 2px 12px 0 0;
+            width: 60px; // if this changes, the width of post-pre-header__icons-container needs to be adjusted accordingly
+            padding: 2px 12px 0 0; // if the right padding changes, the padding of post-pre-header__icons-container needs to be adjusted accordingly
         }
     }
 
