@@ -168,8 +168,20 @@ export const it = {
     enterpriseReady: (config, state, license, enterpriseReady) => enterpriseReady,
     licensed: (config, state, license) => license.IsLicensed === 'true',
     licensedForFeature: (feature) => (config, state, license) => license.IsLicensed && license[feature] === 'true',
-    userHasReadPermissionOnResource: (key) => (config, state, license, enterpriseReady, consoleAccess) => consoleAccess?.read?.[key],
-    userHasWritePermissionOnResource: (key) => (config, state, license, enterpriseReady, consoleAccess) => consoleAccess?.write?.[key],
+    userHasReadPermissionOnResource: (key) => (config, state, license, enterpriseReady, consoleAccess) => {
+        const keyParts = key.split('.');
+        if (keyParts.length > 1) {
+            return consoleAccess?.read?.[keyParts[0]] || consoleAccess?.read?.[key];
+        }
+        return consoleAccess?.read?.[key];
+    },
+    userHasWritePermissionOnResource: (key) => (config, state, license, enterpriseReady, consoleAccess) => {
+        const keyParts = key.split('.');
+        if (keyParts.length > 1) {
+            return consoleAccess?.write?.[keyParts[0]] || consoleAccess?.write?.[key];
+        }
+        return consoleAccess?.write?.[key];
+    },
 };
 
 const AdminDefinition = {
