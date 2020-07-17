@@ -423,9 +423,11 @@ export function autoResetStatus() {
 }
 
 export function trackDMGMOpenChannels() {
-    return async (doDispatch, doGetState) => {
+    return (doDispatch, doGetState) => {
         const state = doGetState();
         const channels = getDirectChannels(state);
         trackEvent('ui', 'LHS_DM_GM_Count', {count: channels.length});
+
+        return {data: true};
     };
 }

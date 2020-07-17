@@ -77,7 +77,7 @@ function mapStateToProps(state: GlobalState) {
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
-        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, any>({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
             prefetchChannelPosts,
             trackDMGMOpenChannels,
         }, dispatch),
