@@ -33,6 +33,7 @@ export default class DotMenu extends React.PureComponent {
         teamId: PropTypes.string,
         location: PropTypes.oneOf([Locations.CENTER, Locations.RHS_ROOT, Locations.RHS_COMMENT, Locations.SEARCH]).isRequired,
         commentCount: PropTypes.number,
+        reactionCount: PropTypes.number,
         isFlagged: PropTypes.bool,
         handleCommentClick: PropTypes.func,
         handleDropdownOpened: PropTypes.func,
@@ -268,6 +269,7 @@ export default class DotMenu extends React.PureComponent {
     render() {
         const isSystemMessage = PostUtils.isSystemMessage(this.props.post);
         const isMobile = Utils.isMobile();
+        const showAddReactionMenuItem = this.props.reactionCount < Constants.POST_REACTIONS_LIMIT;
 
         const pluginItems = this.props.pluginMenuItems.
             filter((item) => {
@@ -345,7 +347,7 @@ export default class DotMenu extends React.PureComponent {
                         permissions={[Permissions.ADD_REACTION]}
                     >
                         <Menu.ItemAction
-                            show={isMobile && !isSystemMessage && !this.props.isReadOnly && this.props.enableEmojiPicker}
+                            show={isMobile && !isSystemMessage && !this.props.isReadOnly && this.props.enableEmojiPicker && showAddReactionMenuItem}
                             text={Utils.localizeMessage('rhs_root.mobile.add_reaction', 'Add Reaction')}
                             onClick={this.handleAddReactionMenuItemActivated}
                         />

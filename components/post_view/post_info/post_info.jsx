@@ -219,6 +219,7 @@ export default class PostInfo extends React.PureComponent {
                 <DotMenu
                     post={post}
                     commentCount={this.props.replyCount}
+                    reactionCount={reactionCount}
                     isFlagged={this.props.isFlagged}
                     handleCommentClick={this.props.handleCommentClick}
                     handleDropdownOpened={this.handleDotMenuOpened}

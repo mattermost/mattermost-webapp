@@ -167,6 +167,7 @@ exports[`components/post_view/PostInfo should match snapshot, hover 1`] = `
   >
     <Connect(DotMenu)
       commentCount={0}
+      reactionCount={25}
       enableEmojiPicker={false}
       handleAddReactionClick={[Function]}
       handleCommentClick={[MockFunction]}
@@ -270,6 +271,7 @@ exports[`components/post_view/PostInfo toggleEmojiPicker, should have called pro
   >
     <Connect(DotMenu)
       commentCount={0}
+      reactionCount={25}
       enableEmojiPicker={true}
       handleAddReactionClick={[Function]}
       handleCommentClick={[MockFunction]}
