@@ -18,6 +18,7 @@ import {
     getPost,
     makeGetCommentCountForPost,
     makeGetMessageInHistoryItem,
+    makeGetReactionsForPost,
 } from 'mattermost-redux/selectors/entities/posts';
 import {
     getAssociatedGroupsForReference,
@@ -46,6 +47,7 @@ import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
 import {openModal} from 'actions/views/modals';
 import {Constants, Preferences, StoragePrefixes, TutorialSteps, UserStatuses} from 'utils/constants';
 import {canUploadFiles} from 'utils/file_utils';
+import {getReactionsStatistics} from 'utils/post_utils';
 
 import CreatePost from './create_post.jsx';
 
@@ -61,6 +63,8 @@ function makeMapStateToProps() {
         const recentPostIdInChannel = getMostRecentPostIdInChannel(state, currentChannel.id);
         const post = getPost(state, recentPostIdInChannel);
         const latestReplyablePostId = getLatestReplyablePostId(state);
+        const getReactionsForLatestPost = makeGetReactionsForPost();
+        const latestReplyablePostReactionCount = getReactionsStatistics(getReactionsForLatestPost(state, latestReplyablePostId));
         const currentChannelMembersCount = getCurrentChannelStats(state) ? getCurrentChannelStats(state).member_count : 1;
         const enableTutorial = config.EnableTutorial === 'true';
         const tutorialStep = getInt(state, Preferences.TUTORIAL_STEP, getCurrentUserId(state), TutorialSteps.FINISHED);
@@ -107,6 +111,7 @@ function makeMapStateToProps() {
             draft,
             commentCountForPost: getCommentCountForPost(state, {post}),
             latestReplyablePostId,
+            latestReplyablePostReactionCount,
             locale: getCurrentLocale(state),
             currentUsersLatestPost: getCurrentUsersLatestPost(state),
             readOnlyChannel: ownProps.readOnlyChannel || (!isCurrentUserSystemAdmin(state) && config.ExperimentalTownSquareIsReadOnly === 'true' && currentChannel.name === Constants.DEFAULT_CHANNEL),

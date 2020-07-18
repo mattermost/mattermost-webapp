@@ -126,6 +126,10 @@ class CreatePost extends React.PureComponent {
          *  Data used dispatching handleViewAction ex: edit post
          */
         latestReplyablePostId: PropTypes.string,
+
+        /** Data used to challenge post reaction for latest replyable post */
+        latestReplyablePostReactionCount: PropTypes.number,
+
         locale: PropTypes.string.isRequired,
 
         /**
@@ -511,8 +515,20 @@ class CreatePost extends React.PureComponent {
                 }
             }
         } else if (isReaction && this.props.emojiMap.has(isReaction[2])) {
-            this.sendReaction(isReaction);
+            if (isReaction[1] === '+' && this.props.latestReplyablePostReactionCount >= Constants.POST_REACTIONS_LIMIT) {
+                const errorMessage = (
+                    <FormattedMessage
+                        id='create_post.reaction_limit_message'
+                        defaultMessage='Reaction limit exceeded for this message.'
+                    />
+                );
+                setTimeout(() => this.handlePostError(errorMessage), 100);
+                this.setState({submitting: false});
+                this.handlePostSubmit(channelId);
+                return;
+            }
 
+            this.sendReaction(isReaction);
             this.setState({message: ''});
         } else {
             const {error} = await this.sendMessage(post);
@@ -527,6 +543,10 @@ class CreatePost extends React.PureComponent {
             postError: null,
         });
 
+        this.handlePostSubmit(channelId);
+    }
+
+    handlePostSubmit = (channelId) => {
         cancelAnimationFrame(this.saveDraftFrame);
         this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, null);
         this.draftsForChannel[channelId] = null;

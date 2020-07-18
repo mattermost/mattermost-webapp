@@ -2265,6 +2265,7 @@
   "create_post.fileProcessing": "Processing...",
   "create_post.icon": "Create a post",
   "create_post.post": "Post",
+  "create_post.reaction_limit_message": "Reaction limit exceeded for this message.",
   "create_post.read_only": "This channel is read-only. Only members with permission can post here.",
   "create_post.send_message": "Send a message",
   "create_post.shortcutsNotSupported": "Keyboard shortcuts are not supported on your device.",
