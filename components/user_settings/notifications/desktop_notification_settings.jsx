@@ -11,6 +11,8 @@ import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
+import semver from 'semver';
+import {isDesktopApp} from 'utils/user_agent';
 
 export default class DesktopNotificationSettings extends React.PureComponent {
     constructor(props) {
@@ -81,18 +83,25 @@ export default class DesktopNotificationSettings extends React.PureComponent {
                 const options = sounds.map((sound) => {
                     return {value: sound, label: sound};
                 });
-                notificationSelection = (<div className='pt-2'>
-                    <ReactSelect
-                        className='notification-sound-dropdown'
-                        id='displaySoundNotification'
-                        options={options}
-                        clearable={false}
-                        onChange={this.setDesktopNotificationSound}
-                        value={this.state.selectedOption}
-                        isSearchable={false}
-                        ref={this.dropdownSoundRef}
-                    />
-                </div>);
+
+                let allowNotificationSelection = true;
+                if (isDesktopApp() && window.desktop && semver.lte(window.desktop.version, '4.6.0')) {
+                    allowNotificationSelection = false
+                }
+
+                if (allowNotificationSelection) {
+                    notificationSelection = (<div className='pt-2'>
+                        <ReactSelect
+                            className='notification-sound-dropdown'
+                            id='displaySoundNotification'
+                            options={options}
+                            clearable={false}
+                            onChange={this.setDesktopNotificationSound}
+                            value={this.state.selectedOption}
+                            isSearchable={false}
+                            ref={this.dropdownSoundRef}
+                        /></div>);
+                }
             }
 
             if (Utils.hasSoundOptions()) {

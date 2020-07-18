@@ -141,20 +141,20 @@ export function sendDesktopNotification(post, msgProps) {
         const activeChannel = getCurrentChannel(state);
         const channelId = channel ? channel.id : null;
         const notify = (activeChannel && activeChannel.id !== channelId) || !state.views.browser.focused;
+        const soundName = user.notify_props === undefined ? 'Bing' : user.notify_props.desktop_notification_sound;
 
         if (notify) {
             dispatch(notifyMe(title, body, channel, teamId, !sound));
 
             //Don't add extra sounds on native desktop clients
             if (sound && !isWindowsApp() && !isMacApp() && !isMobileApp()) {
-                const soundName = user.notify_props === undefined ? 'Bing' : user.notify_props.desktop_notification_sound;
                 Utils.ding(soundName);
             }
         }
     };
 }
 
-const notifyMe = (title, body, channel, teamId, silent) => (dispatch, getState) => {
+const notifyMe = (title, body, channel, teamId, silent, soundName) => (dispatch, getState) => {
     // handle notifications in desktop app >= 4.3.0
     if (isDesktopApp() && window.desktop && semver.gte(window.desktop.version, '4.3.0')) {
         // get the desktop app to trigger the notification
@@ -167,6 +167,7 @@ const notifyMe = (title, body, channel, teamId, silent) => (dispatch, getState) 
                     channel,
                     teamId,
                     silent,
+                    soundName
                 },
             },
             window.location.origin,
