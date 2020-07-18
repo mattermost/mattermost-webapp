@@ -8,6 +8,9 @@ import {Preferences} from 'mattermost-redux/constants';
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 
 import GenericModal from 'components/generic_modal';
+
+import whatsNewImg from 'images/whats-new-1.5.gif';
+
 import {ModalIdentifiers} from 'utils/constants';
 
 import './sidebar_whats_new_modal.scss';
@@ -56,7 +59,10 @@ export default function SidebarWhatsNewModal(props: Props) {
                     defaultMessage='Create custom categories in your sidebar. Drag and drop to organize channels and categories.'
                 />
             </span>
-            <div className='SidebarWhatsNewModal__img'/>
+            <img
+                className='SidebarWhatsNewModal__img'
+                src={whatsNewImg}
+            />
         </GenericModal>
     );
 }
