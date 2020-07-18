@@ -342,6 +342,9 @@
         }
 
         .modal-image__content {
+            align-items: center;
+            display: flex;
+            justify-content: center;
             max-height: 91.5vh;
             max-width: 96vw;
             min-height: 240px;
