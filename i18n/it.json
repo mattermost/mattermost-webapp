@@ -2044,7 +2044,7 @@
   "channel_header.leave": "Abbandona canale",
   "channel_header.manageMembers": "Gestione membri",
   "channel_header.menuAriaLabel": "Menu Canale",
-  "channel_header.mute": "Silenzia Canale",
+  "channel_header.mute": "Silenzia il canale",
   "channel_header.pinnedPosts": "Pubblicazioni bloccate",
   "channel_header.recentMentions": "Citazioni Recenti",
   "channel_header.rename": "Rinomina Canale",
@@ -2052,7 +2052,7 @@
   "channel_header.setHeader": "Modifica titolo canale",
   "channel_header.setPurpose": "Modifica scopo canale",
   "channel_header.unarchive": "Archivia Canale",
-  "channel_header.unmute": "Togli Silenzioso al Canale",
+  "channel_header.unmute": "De-Silenzia il canale",
   "channel_header.viewMembers": "Mostra membri",
   "channel_info.about": "Riguardo a",
   "channel_info.header": "Titolo:",
@@ -3887,10 +3887,12 @@
   "yourcomputer": "Il tuo pc",
   "rhs_header.collapseSidebarTooltip": "Riduci barra laterale",
   "admin.license.trial-request.loading": "Ottieni prova",
-  "admin.license.trial-request.submit": "Avvia una prova",
+  "admin.license.trial-request.submit": "Richiedi prova",
   "rhs_header.collapseSidebarTooltip.icon": "Riduci icona barra laterale",
   "admin.saml.serviceProviderIdentifierEx": "Es.: \"https://<your-mattermost-url>/login/sso/saml\"",
   "admin.saml.serviceProviderIdentifierTitle": "Identificativo fornitore del servizio:",
   "admin.saml.serviceProviderIdentifierDesc": "L'identificatore univoco per il fornitore del servizio, normalmente lo stesso dell'URL di login al fornitore del servizio. In ADFS, questo DEVE combaciare con l'identificatore del gruppo di riferimento.",
-  "admin.group_settings.group_detail.invalid_length": "Il nome deve avere lunghezza compresa tra 1 e 64 caratteri alfanumerici in minuscolo."
+  "admin.group_settings.group_detail.invalid_length": "Il nome deve avere lunghezza compresa tra 1 e 64 caratteri alfanumerici in minuscolo.",
+  "admin.license.trial-request.error": "Errore nella ricezione della licenza del periodo di prova. Visitare [https://mattermost.com/trial/](https://mattermost.com/trial/) per ottenere una licenza.",
+  "admin.license.trial-request.accept-terms": "Facendo click su **Inizia il periodo di prova**, accetto gli [Accordi di utilizzo di Mattermost Software Evaluation](https://mattermost.com/software-evaluation-agreement/), le [Condizioni sulla Privacy](!https://mattermost.com/privacy-policy/), e la ricezione di email sui prodotti."
 }

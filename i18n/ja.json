@@ -2044,7 +2044,7 @@
   "channel_header.leave": "チャンネルから脱退する",
   "channel_header.manageMembers": "メンバー管理",
   "channel_header.menuAriaLabel": "チャンネルメニュー",
-  "channel_header.mute": "チャンネルをミュート",
+  "channel_header.mute": "チャンネルをミュートする",
   "channel_header.pinnedPosts": "ピン留めされた投稿",
   "channel_header.recentMentions": "最近のあなたについての投稿",
   "channel_header.rename": "チャンネル名を変更",

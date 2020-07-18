@@ -842,10 +842,10 @@
   "admin.jobTable.statusPending": "Pendente",
   "admin.jobTable.statusSuccess": "Sucesso",
   "admin.jobTable.statusWarning": "Aviso",
-  "admin.ldap_feature_discovery.call_to_action.primary": "Solicitar avaliação",
+  "admin.ldap_feature_discovery.call_to_action.primary": "Iniciar avaliação",
   "admin.ldap_feature_discovery.call_to_action.secondary": "Saiba Mais",
-  "admin.ldap_feature_discovery.copy": "Quando você conecta ao Mattermost com o Active Directory / LDAP da organização, os usuários podem fazer login sem ter que criar novos nomes de usuários e senhas.",
-  "admin.ldap_feature_discovery.title": "Integrar o Active Directory / LDAP com o Mattermost Enterprise E10",
+  "admin.ldap_feature_discovery.copy": "Quando você conecta ao Mattermost com o Active Directory/LDAP da organização, os usuários podem fazer login sem ter que criar novos nomes de usuários e senhas.",
+  "admin.ldap_feature_discovery.title": "Integrar o Active Directory/LDAP com o Mattermost Enterprise E10",
   "admin.ldap.adminFilterEx": "Ex. \"(objectClass=user)\"",
   "admin.ldap.adminFilterFilterDesc": "(Opcional) Digite um filtro AD/LDAP a ser usado para designar administradores do sistema. Os usuários selecionados pela consulta terão acesso ao servidor Mattermost como Administradores do Sistema. Por padrão, os Administradores do Sistema têm acesso completo ao Console do Sistema do Mattermost.\n \nOs membros existentes identificados por esse atributo serão promovidos de membro para administrador do sistema no próximo login. O próximo logon é baseado nas durações de sessão definidos em **Console do Sistema > Durações da Sessão**. É altamente recomendável rebaixar manualmente os usuários para membros em ** Console do Sistema > Gerenciamento de Usuários** para garantir que o acesso seja restrito imediatamente.\n \nNota: Se esse filtro for removido/alterado, os Administradores do sistema promovidos por esse filtro serão rebaixados para os membros e não manterão o acesso ao console do sistema. Quando esse filtro não está em uso, os Administradores do Sistema podem ser promovidos/rebaixados manualmente em ** Console do Sistema > Gerenciamento de Usuários**.",
   "admin.ldap.adminFilterTitle": "Filtro Admin:",
@@ -3888,5 +3888,11 @@
   "admin.saml.serviceProviderIdentifierEx": "Ex \"https://<sua-url-mattermost>/login/sso/saml\"",
   "rhs_header.collapseSidebarTooltip.icon": "Ícone Recolher Barra lateral",
   "rhs_header.collapseSidebarTooltip": "Reduzir a Barra Lateral",
-  "admin.group_settings.group_detail.invalid_length": "Nome deve ter de 1 a 64 caracteres alfanuméricos minusculos"
+  "admin.group_settings.group_detail.invalid_length": "Nome deve ter de 1 a 64 caracteres alfanuméricos minusculos",
+  "admin.license.trial-request.error": "Não foi possível recuperar a licença de avaliação. Visite [https://mattermost.com/trial/](https://mattermost.com/trial/) para solicitar uma licença.",
+  "admin.license.trial-request.accept-terms": "Ao clicar em **Iniciar avaliação**, concordo com o [Mattermost Software Evaluation Agreement](!https://mattermost.com/software-evaluation-agreement/), [Política de privacidade](!https://mattermost.com/privacy-policy/) e recebimento de emails do produto.",
+  "admin.saml.serviceProviderIdentifierTitle": "Identificador do Provedor de Serviços:",
+  "admin.saml.serviceProviderIdentifierDesc": "O identificador exclusivo para o Provedor de Serviços, geralmente a mesma URL de login do Provedor de Serviços. No ADFS, isso DEVE corresponder ao Identificador da Parte Confiável.",
+  "admin.license.trial-request.submit": "Iniciar avaliação",
+  "admin.license.trial-request.loading": "Obter avaliação"
 }

@@ -842,7 +842,7 @@
   "admin.jobTable.statusPending": "待处理",
   "admin.jobTable.statusSuccess": "成功",
   "admin.jobTable.statusWarning": "警告",
-  "admin.ldap_feature_discovery.call_to_action.primary": "请求试用",
+  "admin.ldap_feature_discovery.call_to_action.primary": "开始试用",
   "admin.ldap_feature_discovery.call_to_action.secondary": "了解更多",
   "admin.ldap_feature_discovery.copy": "当您连接 Mattermost 到活动目录/LDAP 时，用户可以不需要创建新账户时登入。",
   "admin.ldap_feature_discovery.title": "使用 Mattermost 企业 E10 整合活动目录/LDAP",
