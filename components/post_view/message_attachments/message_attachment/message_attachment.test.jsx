@@ -80,7 +80,7 @@ describe('components/post_view/MessageAttachment', () => {
     });
 
     test('should call actions.doPostActionWithCookie on handleAction', () => {
-        let promise = Promise.resolve(123);
+        const promise = Promise.resolve(123);
         const doPostActionWithCookie = jest.fn(() => promise);
         const actionId = 'action_id_1';
         const newAttachment = {
