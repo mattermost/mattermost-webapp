@@ -48,7 +48,8 @@
           "component"
         ]
       }
-    ]
+    ],
+    "react/no-string-refs": 2
   },
   "overrides": [
     {
@@ -57,6 +58,9 @@
         "plugin:@typescript-eslint/recommended"
       ],
       "rules": {
+        "comma-dangle": 0,
+        "no-unused-expressions": 0,
+        "@typescript-eslint/no-unused-expressions": 2,
         "@typescript-eslint/camelcase": [
           2,
           {

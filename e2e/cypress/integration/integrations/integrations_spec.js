@@ -14,8 +14,7 @@ import {getRandomId} from '../../utils';
 
 describe('Integrations page', () => {
     before(() => {
-        // # Login as sysadmin and set ServiceSettings to expected values
-        cy.apiLogin('sysadmin');
+        // # Set ServiceSettings to expected values
         const newSettings = {
             ServiceSettings: {
                 EnableOAuthServiceProvider: true,
@@ -27,15 +26,17 @@ describe('Integrations page', () => {
         };
         cy.apiUpdateConfig(newSettings);
 
-        // # Go to integrations
-        cy.visit('/ad-1/integrations');
+        cy.apiInitSetup().then(({team}) => {
+            // # Go to integrations
+            cy.visit(`/${team.name}/integrations`);
 
-        // * Validate that all sections are enabled
-        cy.get('#incomingWebhooks').should('be.visible');
-        cy.get('#outgoingWebhooks').should('be.visible');
-        cy.get('#slashCommands').should('be.visible');
-        cy.get('#botAccounts').should('be.visible');
-        cy.get('#oauthApps').should('be.visible');
+            // * Validate that all sections are enabled
+            cy.get('#incomingWebhooks').should('be.visible');
+            cy.get('#outgoingWebhooks').should('be.visible');
+            cy.get('#slashCommands').should('be.visible');
+            cy.get('#botAccounts').should('be.visible');
+            cy.get('#oauthApps').should('be.visible');
+        });
     });
 
     it('should should display correct message when incoming webhook not found', () => {

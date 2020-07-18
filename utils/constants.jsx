@@ -198,8 +198,15 @@ export const ActionTypes = keyMirror({
 
     SET_UNREAD_FILTER_ENABLED: null,
     UPDATE_TOAST_STATUS: null,
+
+    SIDEBAR_DRAGGING_SET_STATE: null,
+    SIDEBAR_DRAGGING_STOP: null,
+    ADD_NEW_CATEGORY_ID: null,
+
     TRACK_ANNOUNCEMENT_BAR: null,
     DISMISS_ANNOUNCEMENT_BAR: null,
+
+    PREFETCH_POSTS_FOR_CHANNEL: null,
 });
 
 export const PostRequestTypes = keyMirror({
@@ -238,8 +245,11 @@ export const ModalIdentifiers = {
     ADD_GROUPS_TO_CHANNEL: 'add_groups_to_channel',
     MANAGE_TEAM_GROUPS: 'manage_team_groups',
     MANAGE_CHANNEL_GROUPS: 'manage_channel_groups',
+    GROUP_MEMBERS: 'group_members',
     MOBILE_SUBMENU: 'mobile_submenu',
     PLUGIN_MARKETPLACE: 'plugin_marketplace',
+    EDIT_CATEGORY: 'edit_category',
+    DELETE_CATEGORY: 'delete_category',
 };
 
 export const UserStatuses = {
@@ -279,6 +289,7 @@ export const A11yAttributeNames = {
     ORDER_REVERSE: 'data-a11y-order-reversed',
     FOCUS_CHILD: 'data-a11y-focus-child',
     LOOP_NAVIGATION: 'data-a11y-loop-navigation',
+    DISABLE_NAVIGATION: 'data-a11y-disable-nav',
 };
 
 export const A11yCustomEventTypes = {
@@ -302,6 +313,7 @@ export const SocketEvents = {
     CHANNEL_MEMBER_UPDATED: 'channel_member_updated',
     CHANNEL_SCHEME_UPDATED: 'channel_scheme_updated',
     DIRECT_ADDED: 'direct_added',
+    GROUP_ADDED: 'group_added',
     NEW_USER: 'new_user',
     ADDED_TO_TEAM: 'added_to_team',
     JOIN_TEAM: 'join_team',
@@ -437,6 +449,8 @@ export const UserFilters = {
 export const SearchTypes = keyMirror({
     SET_MODAL_SEARCH: null,
     SET_SYSTEM_USERS_SEARCH: null,
+    SET_USER_GRID_SEARCH: null,
+    SET_USER_GRID_FILTERS: null,
 });
 
 export const StorageTypes = keyMirror({
@@ -584,6 +598,18 @@ export const GroupUnreadChannels = {
 export const SidebarChannelGroups = {
     UNREADS: 'unreads',
     FAVORITE: 'favorite',
+};
+
+export const DraggingStates = {
+    CAPTURE: 'capture',
+    BEFORE: 'before',
+    DURING: 'during',
+};
+
+export const DraggingStateTypes = {
+    CATEGORY: 'category',
+    CHANNEL: 'channel',
+    DM: 'DM',
 };
 
 export const AboutLinks = {
@@ -845,6 +871,7 @@ export const Constants = {
     MOBILE_VIDEO_WIDTH: 480,
     MOBILE_VIDEO_HEIGHT: 360,
     MOBILE_SCREEN_WIDTH: 768,
+    POST_MODAL_PADDING: 170,
     SCROLL_DELAY: 2000,
     SCROLL_PAGE_FRACTION: 3,
     DEFAULT_CHANNEL: 'town-square',
@@ -1423,7 +1450,6 @@ export const Constants = {
     AUTOCOMPLETE_SPLIT_CHARACTERS: ['.', '-', '_'],
     ANIMATION_TIMEOUT: 1000,
     SEARCH_TIMEOUT_MILLISECONDS: 100,
-    DIAGNOSTICS_SEGMENT_KEY: 'placeholder_segment_key',
     DIAGNOSTICS_RUDDER_KEY: 'placeholder_rudder_key',
     DIAGNOSTICS_RUDDER_DATAPLANE_URL: 'placeholder_rudder_dataplane_url',
     TEAMMATE_NAME_DISPLAY: {
@@ -1445,7 +1471,7 @@ export const searchHintOptions = [{searchTerm: 'From:', message: {id: t('search_
     {searchTerm: 'On:', message: {id: t('search_list_option.on'), defaultMessage: 'Messages on a date'}},
     {searchTerm: 'Before:', message: {id: t('search_list_option.before'), defaultMessage: 'Messages before a date'}},
     {searchTerm: 'After:', message: {id: t('search_list_option.after'), defaultMessage: 'Messages after a date'}},
-    {searchTerm: '-', message: {id: t('search_list_option.exclude'), defaultMessage: 'Exclude search terms'}},
+    {searchTerm: '-', message: {id: t('search_list_option.exclude'), defaultMessage: 'Exclude search terms'}, additionalDisplay: '—'},
     {searchTerm: '""', message: {id: t('search_list_option.phrases'), defaultMessage: 'Messages with phrases'}},
 ];
 

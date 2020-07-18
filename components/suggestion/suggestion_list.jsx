@@ -218,7 +218,7 @@ export default class SuggestionList extends React.PureComponent {
         let maxHeight = Constants.SUGGESTION_LIST_MAXHEIGHT;
         if (this.props.wrapperHeight) {
             maxHeight = Math.min(
-                windowHeight() - (this.props.wrapperHeight + Constants.SUGGESTION_LIST_MAXHEIGHT),
+                windowHeight() - (this.props.wrapperHeight + Constants.POST_MODAL_PADDING),
                 Constants.SUGGESTION_LIST_MAXHEIGHT,
             );
         }

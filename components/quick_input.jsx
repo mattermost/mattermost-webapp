@@ -97,7 +97,9 @@ export default class QuickInput extends React.PureComponent {
         this.input = input;
     }
 
-    onClear = () => {
+    onClear = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
         if (this.props.onClear) {
             this.props.onClear();
         }
@@ -141,7 +143,7 @@ export default class QuickInput extends React.PureComponent {
             {clearable && value && this.props.onClear &&
                 <div
                     className='input-clear visible'
-                    onClick={this.onClear}
+                    onMouseDown={this.onClear}
                 >
                     <OverlayTrigger
                         delayShow={Constants.OVERLAY_TIME_DELAY}

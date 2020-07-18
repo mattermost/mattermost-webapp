@@ -31,7 +31,15 @@ exports[`admin_console/team_channel_settings/team/TeamMembers should match snaps
           },
         }
       }
-      dialogType={[Function]}
+      dialogType={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "displayName": "Connect(AddUsersToTeamModal)",
+          "type": [Function],
+        }
+      }
       id="addTeamMembers"
     >
       <FormattedMessage
@@ -50,6 +58,63 @@ exports[`admin_console/team_channel_settings/team/TeamMembers should match snaps
 >
   <UserGrid
     excludeUsers={Object {}}
+    filterProps={
+      Object {
+        "keys": Array [
+          "role",
+        ],
+        "onFilter": [Function],
+        "options": Object {
+          "role": Object {
+            "keys": Array [
+              "system_guest",
+              "team_user",
+              "team_admin",
+              "system_admin",
+            ],
+            "name": <FormattedMessage
+              defaultMessage="Role"
+              id="admin.user_grid.role"
+              values={Object {}}
+            />,
+            "values": Object {
+              "system_admin": Object {
+                "name": <FormattedMessage
+                  defaultMessage="System Admin"
+                  id="admin.user_grid.system_admin"
+                  values={Object {}}
+                />,
+                "value": false,
+              },
+              "system_guest": Object {
+                "name": <FormattedMessage
+                  defaultMessage="Guest"
+                  id="admin.user_grid.guest"
+                  values={Object {}}
+                />,
+                "value": false,
+              },
+              "team_admin": Object {
+                "name": <FormattedMessage
+                  defaultMessage="Team Admin"
+                  id="admin.user_grid.team_admin"
+                  values={Object {}}
+                />,
+                "value": false,
+              },
+              "team_user": Object {
+                "name": <FormattedMessage
+                  defaultMessage="Member"
+                  id="admin.user_item.member"
+                  values={Object {}}
+                />,
+                "value": false,
+              },
+            },
+          },
+        },
+      }
+    }
     includeUsers={Object {}}
     loadPage={[Function]}
     loading={true}
@@ -96,18 +161,26 @@ exports[`admin_console/team_channel_settings/team/TeamMembers should match snaps
     users={
       Array [
         Object {
+          "allow_marketing": false,
           "auth_data": "",
           "auth_service": "",
+          "bot_description": "",
+          "bot_last_icon_update": 0,
           "create_at": 0,
           "delete_at": 0,
           "email": "",
           "email_verified": true,
+          "failed_attempts": 0,
           "first_name": "",
           "id": "user-1",
           "is_bot": false,
+          "last_activity_at": 0,
           "last_name": "",
+          "last_password_update": 0,
           "last_picture_update": 0,
           "locale": "",
+          "mfa_active": false,
+          "mfa_secret": "",
           "nickname": "",
           "notify_props": Object {
             "channel": "false",
@@ -121,7 +194,9 @@ exports[`admin_console/team_channel_settings/team/TeamMembers should match snaps
             "push": "none",
             "push_status": "offline",
           },
+          "password": "",
           "position": "",
+          "props": Object {},
           "roles": "",
           "terms_of_service_create_at": 0,
           "terms_of_service_id": "",
@@ -129,18 +204,26 @@ exports[`admin_console/team_channel_settings/team/TeamMembers should match snaps
           "username": "some-user",
         },
         Object {
+          "allow_marketing": false,
           "auth_data": "",
           "auth_service": "",
+          "bot_description": "",
+          "bot_last_icon_update": 0,
           "create_at": 0,
           "delete_at": 0,
           "email": "",
           "email_verified": true,
+          "failed_attempts": 0,
           "first_name": "",
           "id": "user-2",
           "is_bot": false,
+          "last_activity_at": 0,
           "last_name": "",
+          "last_password_update": 0,
           "last_picture_update": 0,
           "locale": "",
+          "mfa_active": false,
+          "mfa_secret": "",
           "nickname": "",
           "notify_props": Object {
             "channel": "false",
@@ -154,7 +237,9 @@ exports[`admin_console/team_channel_settings/team/TeamMembers should match snaps
             "push": "none",
             "push_status": "offline",
           },
+          "password": "",
           "position": "",
+          "props": Object {},
           "roles": "",
           "terms_of_service_create_at": 0,
           "terms_of_service_id": "",
@@ -162,18 +247,26 @@ exports[`admin_console/team_channel_settings/team/TeamMembers should match snaps
           "username": "some-user",
         },
         Object {
+          "allow_marketing": false,
           "auth_data": "",
           "auth_service": "",
+          "bot_description": "",
+          "bot_last_icon_update": 0,
           "create_at": 0,
           "delete_at": 0,
           "email": "",
           "email_verified": true,
+          "failed_attempts": 0,
           "first_name": "",
           "id": "user-3",
           "is_bot": false,
+          "last_activity_at": 0,
           "last_name": "",
+          "last_password_update": 0,
           "last_picture_update": 0,
           "locale": "",
+          "mfa_active": false,
+          "mfa_secret": "",
           "nickname": "",
           "notify_props": Object {
             "channel": "false",
@@ -187,7 +280,9 @@ exports[`admin_console/team_channel_settings/team/TeamMembers should match snaps
             "push": "none",
             "push_status": "offline",
           },
+          "password": "",
           "position": "",
+          "props": Object {},
           "roles": "",
           "terms_of_service_create_at": 0,
           "terms_of_service_id": "",
@@ -231,7 +326,15 @@ exports[`admin_console/team_channel_settings/team/TeamMembers should match snaps
           },
         }
       }
-      dialogType={[Function]}
+      dialogType={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "displayName": "Connect(AddUsersToTeamModal)",
+          "type": [Function],
+        }
+      }
       id="addTeamMembers"
     >
       <FormattedMessage
@@ -250,6 +353,63 @@ exports[`admin_console/team_channel_settings/team/TeamMembers should match snaps
 >
   <UserGrid
     excludeUsers={Object {}}
+    filterProps={
+      Object {
+        "keys": Array [
+          "role",
+        ],
+        "onFilter": [Function],
+        "options": Object {
+          "role": Object {
+            "keys": Array [
+              "system_guest",
+              "team_user",
+              "team_admin",
+              "system_admin",
+            ],
+            "name": <FormattedMessage
+              defaultMessage="Role"
+              id="admin.user_grid.role"
+              values={Object {}}
+            />,
+            "values": Object {
+              "system_admin": Object {
+                "name": <FormattedMessage
+                  defaultMessage="System Admin"
+                  id="admin.user_grid.system_admin"
+                  values={Object {}}
+                />,
+                "value": false,
+              },
+              "system_guest": Object {
+                "name": <FormattedMessage
+                  defaultMessage="Guest"
+                  id="admin.user_grid.guest"
+                  values={Object {}}
+                />,
+                "value": false,
+              },
+              "team_admin": Object {
+                "name": <FormattedMessage
+                  defaultMessage="Team Admin"
+                  id="admin.user_grid.team_admin"
+                  values={Object {}}
+                />,
+                "value": false,
+              },
+              "team_user": Object {
+                "name": <FormattedMessage
+                  defaultMessage="Member"
+                  id="admin.user_item.member"
+                  values={Object {}}
+                />,
+                "value": false,
+              },
+            },
+          },
+        },
+      }
+    }
     includeUsers={Object {}}
     loadPage={[Function]}
     loading={true}

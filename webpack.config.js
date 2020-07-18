@@ -13,7 +13,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const LiveReloadPlugin = require('webpack-livereload-plugin');
-const BrotliPlugin = require('brotli-webpack-plugin');
 
 const NPM_TARGET = process.env.npm_lifecycle_event; //eslint-disable-line no-process-env
 
@@ -215,7 +214,15 @@ var config = {
                     {
                         loader: 'html-loader',
                         options: {
-                            attrs: 'link:href',
+                            attributes: {
+                                list: [
+                                    {
+                                        tag: 'link',
+                                        attribute: 'href',
+                                        type: 'src',
+                                    },
+                                ],
+                            },
                         },
                     },
                 ],
@@ -261,17 +268,19 @@ var config = {
                 },
             },
         }),
-        new CopyWebpackPlugin([
-            {from: 'images/emoji', to: 'emoji'},
-            {from: 'images/img_trans.gif', to: 'images'},
-            {from: 'images/logo-email.png', to: 'images'},
-            {from: 'images/circles.png', to: 'images'},
-            {from: 'images/favicon', to: 'images/favicon'},
-            {from: 'images/appIcons.png', to: 'images'},
-            {from: 'images/warning.png', to: 'images'},
-            {from: 'images/logo-email.png', to: 'images'},
-            {from: 'images/browser-icons', to: 'images/browser-icons'},
-        ]),
+        new CopyWebpackPlugin({
+            patterns: [
+                {from: 'images/emoji', to: 'emoji'},
+                {from: 'images/img_trans.gif', to: 'images'},
+                {from: 'images/logo-email.png', to: 'images'},
+                {from: 'images/circles.png', to: 'images'},
+                {from: 'images/favicon', to: 'images/favicon'},
+                {from: 'images/appIcons.png', to: 'images'},
+                {from: 'images/warning.png', to: 'images'},
+                {from: 'images/logo-email.png', to: 'images'},
+                {from: 'images/browser-icons', to: 'images/browser-icons'},
+            ],
+        }),
 
         // Generate manifest.json, honouring any configured publicPath. This also handles injecting
         // <link rel="apple-touch-icon" ... /> and <meta name="apple-*" ... /> tags into root.html.
@@ -341,13 +350,6 @@ var config = {
         }),
     ],
 };
-
-if (!DEV) {
-    config.plugins.push(new BrotliPlugin({
-        asset: '[file].br',
-        test: /\.(js|css)$/,
-    }));
-}
 
 if (!targetIsStats) {
     config.stats = MYSTATS;

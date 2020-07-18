@@ -69,7 +69,7 @@ export default class ModalToggleButton extends React.PureComponent {
 
 ModalToggleButton.propTypes = {
     children: PropTypes.node.isRequired,
-    dialogType: PropTypes.func.isRequired,
+    dialogType: PropTypes.any.isRequired,
     dialogProps: PropTypes.object,
     onClick: PropTypes.func,
     className: PropTypes.string,

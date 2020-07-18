@@ -7,6 +7,12 @@
         display: flex;
         align-items: center;
 
+        &.MenuItem--with-icon {
+            .MenuItem__help-text {
+                padding-left: 28px;
+            }
+        }
+
         .MenuItem__icon {
             text-align: center;
             width: 20px;
@@ -14,14 +20,16 @@
         }
 
         span.icon {
-            width: 30px;
-            padding-right: 15px;
+            width: 28px; // less 12px padding is 16px
+            height: 16px; // less 3px top padding is 16px;
+            padding-right: 12px;
+            line-height: 16px;
             display: inline-block;
-            text-align: center;
+            align-self: center;
         }
 
         span.MenuItem__primary-text {
-            display: block;
+            display: inline-flex;
             white-space: normal;
             line-height: 22px;
             padding: 5px 0;
@@ -104,10 +112,23 @@
             &:hover {
                 background: alpha-color($black, .08);
             }
-        }
 
-        &.MenuItem__dangerous {
-            color: $red;
+            &.MenuItem__dangerous {
+                color: var(--dnd-indicator);
+
+                i {
+                    color: var(--dnd-indicator) !important;
+                }
+
+                &:hover {
+                    background-color: var(--dnd-indicator) !important;
+                    color: var(--sidebar-text);
+
+                    i {
+                        color: var(--sidebar-text) !important;
+                    }
+                }
+            }
         }
     }
 }
@@ -133,6 +154,7 @@
     padding: 0 8px 0 9px;
     position: relative;
     top: 0;
+    width: 0;
 
     &.mobile {
         padding: 0 4px 0 9px;
@@ -142,9 +164,10 @@
 .SubMenu__icon-right {
     color: inherit;
     font-size: 19px;
-    padding: 0;
+    padding: 4px 9px 0 8px;
     margin-left: auto;
     top: 0;
+    float: right;
 }
 
 .SubMenu__icon-right-empty {

@@ -1,0 +1,207 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/StatusDropdown should match snapshot in default state 1`] = `
+<MenuWrapper
+  animationComponent={[Function]}
+  className="status-dropdown-menu"
+>
+  <div
+    className="status-wrapper status-selector"
+  >
+    <button
+      aria-label="Set a status"
+      className="status style--none"
+    >
+      <StatusIcon
+        button={true}
+        className=""
+        status="offline"
+      />
+    </button>
+    <span
+      className="status status-edit edit"
+    >
+      <FormattedMessage
+        defaultMessage="Dropdown Icon"
+        id="generic_icons.dropdown"
+        values={Object {}}
+      >
+        <Component />
+      </FormattedMessage>
+    </span>
+  </div>
+  <Menu
+    ariaLabel="Set a status"
+    id="statusDropdownMenu"
+  >
+    <MenuHeader>
+      <FormattedMessage
+        defaultMessage="Status"
+        id="status_dropdown.set_your_status"
+        values={Object {}}
+      />
+    </MenuHeader>
+    <MenuGroup>
+      <MenuItemAction
+        ariaLabel="out of office"
+        extraText="Automatic Replies are enabled"
+        onClick={[Function]}
+        show={false}
+        text="Out of office"
+      />
+    </MenuGroup>
+    <MenuGroup>
+      <MenuItemAction
+        ariaLabel="online"
+        icon={
+          <StatusOnlineIcon
+            className="online--icon"
+          />
+        }
+        id="status-menu-online"
+        onClick={[Function]}
+        show={true}
+        text="Online"
+      />
+      <MenuItemAction
+        ariaLabel="away"
+        icon={
+          <StatusAwayIcon
+            className="away--icon"
+          />
+        }
+        id="status-menu-away"
+        onClick={[Function]}
+        show={true}
+        text="Away"
+      />
+      <MenuItemAction
+        ariaLabel="do not disturb. disables desktop, email and push notifications"
+        extraText="Disables all notifications"
+        icon={
+          <StatusDndIcon
+            className="dnd--icon"
+          />
+        }
+        id="status-menu-dnd"
+        onClick={[Function]}
+        show={true}
+        text="Do not disturb"
+      />
+      <MenuItemAction
+        ariaLabel="offline"
+        icon={<StatusOfflineIcon />}
+        id="status-menu-offline"
+        onClick={[Function]}
+        show={true}
+        text="Offline"
+      />
+    </MenuGroup>
+  </Menu>
+</MenuWrapper>
+`;
+
+exports[`components/StatusDropdown should match snapshot with profile picture URL 1`] = `
+<MenuWrapper
+  animationComponent={[Function]}
+  className="status-dropdown-menu"
+>
+  <div
+    className="status-wrapper status-selector"
+  >
+    <Avatar
+      size="lg"
+      url="http://localhost:8065/api/v4/users/jsx5jmdiyjyuzp9rzwfaf5pwjo/image?_=1590519110944"
+    />
+    <button
+      aria-label="Set a status"
+      className="status style--none"
+    >
+      <StatusIcon
+        button={true}
+        className=""
+        status="offline"
+      />
+    </button>
+    <span
+      className="status status-edit edit"
+    >
+      <FormattedMessage
+        defaultMessage="Dropdown Icon"
+        id="generic_icons.dropdown"
+        values={Object {}}
+      >
+        <Component />
+      </FormattedMessage>
+    </span>
+  </div>
+  <Menu
+    ariaLabel="Set a status"
+    id="statusDropdownMenu"
+  >
+    <MenuHeader>
+      <FormattedMessage
+        defaultMessage="Status"
+        id="status_dropdown.set_your_status"
+        values={Object {}}
+      />
+    </MenuHeader>
+    <MenuGroup>
+      <MenuItemAction
+        ariaLabel="out of office"
+        extraText="Automatic Replies are enabled"
+        onClick={[Function]}
+        show={false}
+        text="Out of office"
+      />
+    </MenuGroup>
+    <MenuGroup>
+      <MenuItemAction
+        ariaLabel="online"
+        icon={
+          <StatusOnlineIcon
+            className="online--icon"
+          />
+        }
+        id="status-menu-online"
+        onClick={[Function]}
+        show={true}
+        text="Online"
+      />
+      <MenuItemAction
+        ariaLabel="away"
+        icon={
+          <StatusAwayIcon
+            className="away--icon"
+          />
+        }
+        id="status-menu-away"
+        onClick={[Function]}
+        show={true}
+        text="Away"
+      />
+      <MenuItemAction
+        ariaLabel="do not disturb. disables desktop, email and push notifications"
+        extraText="Disables all notifications"
+        icon={
+          <StatusDndIcon
+            className="dnd--icon"
+          />
+        }
+        id="status-menu-dnd"
+        onClick={[Function]}
+        show={true}
+        text="Do not disturb"
+      />
+      <MenuItemAction
+        ariaLabel="offline"
+        icon={<StatusOfflineIcon />}
+        id="status-menu-offline"
+        onClick={[Function]}
+        show={true}
+        text="Offline"
+      />
+    </MenuGroup>
+  </Menu>
+</MenuWrapper>
+`;

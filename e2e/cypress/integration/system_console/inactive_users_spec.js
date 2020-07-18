@@ -7,7 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod @smoke
+// Stage: @prod
 // Group: @system_console
 
 /**
@@ -20,15 +20,14 @@ const perPage = 50;
 
 describe('System Console', () => {
     it('SC18512 List pages of inactive users', () => {
-        // # Login as sysadmin and go to users management page
-        cy.apiLogin('sysadmin');
+        // # Go to users management page
         cy.visit('/admin_console/user_management/users');
 
         // # Select inactive users
         cy.get('#selectUserStatus').select('Inactive');
 
-        cy.apiGetAnalytics().then((res) => {
-            const inactiveUsers = res.body.filter((d) => {
+        cy.apiGetAnalytics().then(({analytics}) => {
+            const inactiveUsers = analytics.filter((d) => {
                 return d.name === 'inactive_user_count';
             }).reduce((_, item) => {
                 return item.value;

@@ -15,15 +15,14 @@ let config;
 describe('Signup Email page', () => {
     before(() => {
         // Disable other auth options
-        cy.apiLogin('sysadmin');
         const newSettings = {
             Office365Settings: {Enable: false},
             LdapSettings: {Enable: false},
         };
         cy.apiUpdateConfig(newSettings);
 
-        cy.apiGetConfig().then((response) => {
-            config = response.body;
+        cy.apiGetConfig().then((data) => {
+            ({config} = data);
         });
         cy.apiLogout();
 

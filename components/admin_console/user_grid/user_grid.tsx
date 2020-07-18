@@ -9,6 +9,7 @@ import {TeamMembership} from 'mattermost-redux/types/teams';
 import {ChannelMembership} from 'mattermost-redux/types/channels';
 
 import Badge from 'components/widgets/badges/badge';
+import {FilterOptions} from 'components/admin_console/filter/filter';
 import DataGrid, {Row, Column} from 'components/admin_console/data_grid/data_grid';
 
 import UserGridName from './user_grid_name';
@@ -33,18 +34,26 @@ type Props = {
     totalCount: number;
     loading: boolean;
     term: string;
-}
+
+    filterProps: {
+        options: FilterOptions;
+        keys: string[];
+        onFilter: (options: FilterOptions) => void;
+    };
+};
 
 type State = {
     loading: boolean;
     page: number;
     membershipsToUpdate: { [userId: string]: BaseMembership | TeamMembership | ChannelMembership };
-}
+};
 
 const USERS_PER_PAGE = 10;
 const ROW_HEIGHT = 80;
 
 export default class UserGrid extends React.PureComponent<Props, State> {
+    private pageLoaded = 0;
+
     public constructor(props: Props) {
         super(props);
 
@@ -71,6 +80,11 @@ export default class UserGrid extends React.PureComponent<Props, State> {
 
     private search = async (term: string) => {
         this.props.search(term);
+        this.setState({page: 0});
+    }
+
+    private onFilter = async (filters: FilterOptions) => {
+        this.props.filterProps?.onFilter(filters);
         this.setState({page: 0});
     }
 
@@ -164,43 +178,48 @@ export default class UserGrid extends React.PureComponent<Props, State> {
             const pageToLoad = page + pagesOfUsersRemoved + 1;
 
             // Directly call action to load more users from parent component to load more users into the state
-            this.props.loadPage(pageToLoad);
+            if (pageToLoad > this.pageLoaded) {
+                this.props.loadPage(pageToLoad);
+                this.pageLoaded = pageToLoad;
+            }
         }
 
         return usersToDisplay.map((user) => {
             const membership = membershipsToUpdate[user.id] || memberships[user.id] || this.newMembership(user);
             return {
-                id: user.id,
-                name: (
-                    <UserGridName
-                        user={user}
-                    />
-                ),
-                new: (
-                    <Badge
-                        className='NewUserBadge'
-                        show={Boolean(includeUsers[user.id])}
-                    >
-                        <FormattedMessage
-                            id='admin.user_grid.new'
-                            defaultMessage='New'
+                cells: {
+                    id: user.id,
+                    name: (
+                        <UserGridName
+                            user={user}
                         />
-                    </Badge>
-                ),
-                role: (
-                    <UserGridRoleDropdown
-                        user={user}
-                        membership={membership}
-                        handleUpdateMembership={this.updateMembership}
-                        scope={scope}
-                    />
-                ),
-                remove: (
-                    <UserGridRemove
-                        user={user}
-                        removeUser={this.removeUser}
-                    />
-                ),
+                    ),
+                    new: (
+                        <Badge
+                            className='NewUserBadge'
+                            show={Boolean(includeUsers[user.id])}
+                        >
+                            <FormattedMessage
+                                id='admin.user_grid.new'
+                                defaultMessage='New'
+                            />
+                        </Badge>
+                    ),
+                    role: (
+                        <UserGridRoleDropdown
+                            user={user}
+                            membership={membership}
+                            handleUpdateMembership={this.updateMembership}
+                            scope={scope}
+                        />
+                    ),
+                    remove: (
+                        <UserGridRemove
+                            user={user}
+                            removeUser={this.removeUser}
+                        />
+                    ),
+                }
             };
         });
     }
@@ -278,6 +297,7 @@ export default class UserGrid extends React.PureComponent<Props, State> {
                 term={this.props.term || ''}
                 placeholderEmpty={placeholderEmpty}
                 rowsContainerStyles={rowsContainerStyles}
+                filterProps={{...this.props.filterProps, onFilter: this.onFilter}}
             />
         );
     }
