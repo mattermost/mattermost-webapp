@@ -81,56 +81,33 @@ exports[`components/PostMarkdown should correctly pass postId down 1`] = `
 `;
 
 exports[`components/PostMarkdown should render header change properly 1`] = `
-<div>
-  <FormattedMessage
-    defaultMessage="{username} updated the channel header from: {old} to: {new}"
-    id="api.channel.post_update_channel_header_message_and_forget.updated_from"
-    values={
-      Object {
-        "new": <Memo(Connect(Markdown))
-          message="now ~test"
-          options={
-            Object {
-              "channelNamesMap": Object {
-                "test": Object {
-                  "display_name": "Test",
-                },
-              },
-              "mentionHighlight": true,
-              "singleline": true,
-            }
-          }
-          postId="post_id"
-          postType="system_header_change"
-        />,
-        "old": <Memo(Connect(Markdown))
-          message="see ~test"
-          options={
-            Object {
-              "channelNamesMap": Object {
-                "test": Object {
-                  "display_name": "Test",
-                },
-              },
-              "mentionHighlight": true,
-              "singleline": true,
-            }
-          }
-          postId="post_id"
-          postType="system_header_change"
-        />,
-        "username": <Memo(Connect(Markdown))
-          message="@user"
-          options={
-            Object {
-              "markdown": false,
-            }
-          }
-        />,
-      }
+<Connect(Markdown)
+  channelNamesMap={
+    Object {
+      "test": Object {
+        "display_name": "Test",
+      },
     }
-  />
-</div>
+  }
+  imageProps={Object {}}
+  isRHS={false}
+  mentionKeys={
+    Array [
+      "a",
+      "b",
+      "c",
+    ]
+  }
+  message="message"
+  options={
+    Object {
+      "disableGroupHighlight": false,
+      "mentionHighlight": true,
+    }
+  }
+  postId="post_id"
+  proxyImages={true}
+/>
 `;
 
 exports[`components/PostMarkdown should render properly with a post 1`] = `

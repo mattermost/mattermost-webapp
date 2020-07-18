@@ -39,7 +39,6 @@ type Props = {
 }
 
 type State = {
-    forceAck: boolean;
     serverError: string | null;
     saving: boolean;
 }
@@ -48,7 +47,6 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
     public constructor(props: Props) {
         super(props);
         this.state = {
-            forceAck: false,
             saving: false,
             serverError: null,
         };
@@ -58,12 +56,13 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
         AdminActions.getStandardAnalytics();
     }
 
-    onContactSupportClick = async (e: any) => {
+    onContactUsClick = async (e: any) => {
         trackEvent('admin', 'click_warn_metric_ack_contact_support', {metric: this.props.warnMetricStatus.id});
 
         if (this.state.saving) {
             return;
         }
+        this.setState({saving: true, serverError: null});
 
         let forceAck = false;
         if (e && e.target && e.target.dataset && e.target.dataset.forceack) {
@@ -72,14 +71,14 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
 
         const {error} = await this.props.actions.sendWarnMetricAck(this.props.warnMetricStatus.id, forceAck);
         if (error) {
-            this.setState({serverError: error, saving: false, forceAck: false});
+            this.setState({serverError: error, saving: false});
         } else {
             this.onHideWithParent();
         }
     }
 
     onHide = () => {
-        this.setState({serverError: null, saving: false, forceAck: false});
+        this.setState({serverError: null, saving: false});
         this.props.actions.closeModal(ModalIdentifiers.WARN_METRIC_ACK);
     }
 
@@ -133,7 +132,7 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
                                     messageId={t('warn_metric_ack_modal.mailto.link')}
                                     forceAck={true}
                                     defaultMessage={'email us'}
-                                    onClickHandler={this.onContactSupportClick}
+                                    onClickHandler={this.onContactUsClick}
                                 />
                             ),
                         }}
@@ -198,7 +197,7 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
                         data-dismiss='modal'
                         disabled={this.state.saving}
                         autoFocus={true}
-                        onClick={this.onContactSupportClick}
+                        onClick={this.onContactUsClick}
                     >
                         <LoadingWrapper
                             loading={this.state.saving}

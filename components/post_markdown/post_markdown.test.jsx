@@ -25,14 +25,8 @@ describe('components/PostMarkdown', () => {
     });
 
     test('should render properly with an empty post', () => {
-        const props = {
-            ...baseProps,
-            post: {
-                type: null,
-            },
-        };
         const wrapper = shallow(
-            <PostMarkdown {...props}/>,
+            <PostMarkdown {...baseProps}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -42,7 +36,6 @@ describe('components/PostMarkdown', () => {
             ...baseProps,
             message: 'See ~test',
             post: {
-                type: Posts.POST_TYPES.HEADER_CHANGE,
                 props: {
                     channel_mentions: {
                         test: {
@@ -62,11 +55,6 @@ describe('components/PostMarkdown', () => {
         const props = {
             ...baseProps,
             message: 'No highlight',
-            post: {
-                type: Posts.POST_TYPES.HEADER_CHANGE,
-                props: {
-                },
-            },
             options: {
                 mentionHighlight: false,
             },
@@ -83,7 +71,6 @@ describe('components/PostMarkdown', () => {
             message: 'No @group highlight',
             options: {},
             post: {
-                type: Posts.POST_TYPES.HEADER_CHANGE,
                 props: {
                     disable_group_highlight: true,
                 },
@@ -100,9 +87,6 @@ describe('components/PostMarkdown', () => {
             ...baseProps,
             post: {
                 id: 'post_id',
-                type: null,
-                props: {
-                },
             },
         };
         const wrapper = shallow(
@@ -117,7 +101,6 @@ describe('components/PostMarkdown', () => {
             ...baseProps,
             post: {
                 id: 'post_id',
-                type: Posts.POST_TYPES.HEADER_CHANGE,
                 props: {
                     username: 'user',
                     old_header: 'see ~test',
@@ -141,7 +124,6 @@ describe('components/PostMarkdown', () => {
             ...baseProps,
             message: 'world',
             post: {
-                type: Posts.POST_TYPES.HEADER_CHANGE,
                 message: 'world',
                 props: {
                     channel_mentions: {

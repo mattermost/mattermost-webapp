@@ -3,7 +3,6 @@
 
 import {getClientConfig, getLicenseConfig} from 'mattermost-redux/actions/general';
 import * as UserActions from 'mattermost-redux/actions/users';
-
 import {Client4} from 'mattermost-redux/client';
 
 import {ActionTypes} from 'utils/constants';

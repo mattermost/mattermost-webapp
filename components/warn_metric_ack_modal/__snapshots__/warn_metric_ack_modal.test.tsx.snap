@@ -70,12 +70,12 @@ exports[`components/WarnMetricAckModal error display 1`] = `
           className="control-label"
         >
           <FormattedMessage
-            defaultMessage="Support could not be reached. Please {link} instead"
+            defaultMessage="Support could not be reached. Please {link}."
             id="warn_metric_ack_modal.mailto.message"
             values={
               Object {
                 "link": <WarnMetricAckErrorLink
-                  defaultMessage="email support"
+                  defaultMessage="email us"
                   forceAck={true}
                   messageId="warn_metric_ack_modal.mailto.link"
                   onClickHandler={[Function]}

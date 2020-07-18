@@ -56,11 +56,6 @@ export type Team = {
     displayName: string;
 };
 
-export type WarnMetricStatus = {
-    id: string;
-    aae_id: string;
-    limit: number;
-};
 interface TextFormattingOptionsBase {
 
     /**
@@ -202,6 +197,7 @@ export function formatText(
     if (!text || typeof text !== 'string') {
         return '';
     }
+
     let output = text;
     const options = Object.assign({}, inputOptions);
     const hasPhrases = (/"([^"]*)"/).test(options.searchTerm || '');
@@ -384,36 +380,6 @@ export function autolinkAtMentions(text: string, tokens: Tokens) {
         output = output.replace(AT_MENTION_PATTERN, replaceAtMentionWithToken);
         match = output.match(AT_MENTION_PATTERN);
     }
-
-    return output;
-}
-
-export function autolinkWarnMetricStatus(text: string, tokens: Tokens) {
-    function replaceWarnMetricStatusWithToken(fullMatch: string) {
-        let originalText = fullMatch;
-
-        // Deliberately remove all leading underscores since regex matches leading underscore by treating it as non word boundary
-        while (originalText[0] === '_') {
-            originalText = originalText.substring(1);
-        }
-
-        const index = tokens.size;
-        const alias = `$MM_WARNMETRICSTATUS${index}$`;
-
-        tokens.set(alias, {
-            value: '<span data-warn-metric-status="Contact Support">Contact Support</span>',
-            originalText,
-        });
-
-        return alias;
-    }
-
-    let output = text;
-
-    output = output.replace(
-        Constants.SPECIAL_CONTACT_LINK_REGEX,
-        replaceWarnMetricStatusWithToken,
-    );
 
     return output;
 }
