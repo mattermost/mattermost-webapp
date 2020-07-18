@@ -454,7 +454,7 @@ export function handleEvent(msg) {
         break;
 
     case SocketEvents.SIDEBAR_CATEGORY_UPDATED:
-        handleSidebarCategoryUpdated();
+        handleSidebarCategoryUpdated(msg);
         break;
 
     case SocketEvents.SIDEBAR_CATEGORY_DELETED:
@@ -1244,9 +1244,10 @@ function handleSidebarCategoryCreated(msg) {
     });
 }
 
-function handleSidebarCategoryUpdated() {
+function handleSidebarCategoryUpdated(msg) {
     store.dispatch({
         type: ActionTypes.SIDEBAR_CATEGORY_UPDATED,
+        data: {categoryIds: msg.category_ids},
     });
 }
 
