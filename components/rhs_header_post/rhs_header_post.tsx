@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
@@ -12,27 +11,25 @@ import Constants, {RHSStates} from 'utils/constants';
 import {isMobile} from 'utils/utils.jsx';
 import {browserHistory} from 'utils/browser_history';
 
-export default class RhsHeaderPost extends React.PureComponent {
-    static propTypes = {
-        rootPostId: PropTypes.string.isRequired,
-        channel: PropTypes.object.isRequired,
-        previousRhsState: PropTypes.oneOf(
-            Object.values(RHSStates),
-        ),
-        isExpanded: PropTypes.bool.isRequired,
-        relativeTeamUrl: PropTypes.string.isRequired,
-        actions: PropTypes.shape({
-            setRhsExpanded: PropTypes.func,
-            showMentions: PropTypes.func,
-            showSearchResults: PropTypes.func,
-            showFlaggedPosts: PropTypes.func,
-            showPinnedPosts: PropTypes.func,
-            closeRightHandSide: PropTypes.func,
-            toggleRhsExpanded: PropTypes.func,
-        }),
+interface RhsHeaderPostProps {
+    isExpanded: boolean;
+    rootPostId: string;
+    previousRhsState?: string;
+    relativeTeamUrl: string;
+    channel: {display_name: string};
+    actions: {
+        setRhsExpanded: Function;
+        showMentions: Function;
+        showSearchResults: Function;
+        showFlaggedPosts: Function;
+        showPinnedPosts: Function;
+        closeRightHandSide: (e?: React.MouseEvent) => void;
+        toggleRhsExpanded: (e: React.MouseEvent) => void;
     };
+}
 
-    handleBack = (e) => {
+export default class RhsHeaderPost extends React.PureComponent<RhsHeaderPostProps> {
+    handleBack = (e: React.MouseEvent) => {
         e.preventDefault();
 
         switch (this.props.previousRhsState) {
@@ -146,7 +143,7 @@ export default class RhsHeaderPost extends React.PureComponent {
                             id='generic_icons.back'
                             defaultMessage='Back Icon'
                         >
-                            {(ariaLabel) => (
+                            {(ariaLabel: string) => (
                                 <i
                                     className='icon icon-arrow-back-ios'
                                     aria-label={ariaLabel}
@@ -191,7 +188,7 @@ export default class RhsHeaderPost extends React.PureComponent {
                                 id='rhs_header.expandSidebarTooltip.icon'
                                 defaultMessage='Expand Sidebar Icon'
                             >
-                                {(ariaLabel) => (
+                                {(ariaLabel: string) => (
                                     <i
                                         className='icon icon-arrow-expand'
                                         aria-label={ariaLabel}
@@ -202,7 +199,7 @@ export default class RhsHeaderPost extends React.PureComponent {
                                 id='rhs_header.collapseSidebarTooltip.icon'
                                 defaultMessage='Collapse Sidebar Icon'
                             >
-                                {(ariaLabel) => (
+                                {(ariaLabel: string) => (
                                     <i
                                         className='icon icon-arrow-collapse'
                                         aria-label={ariaLabel}
@@ -228,7 +225,7 @@ export default class RhsHeaderPost extends React.PureComponent {
                                 id='rhs_header.closeTooltip.icon'
                                 defaultMessage='Close Sidebar Icon'
                             >
-                                {(ariaLabel) => (
+                                {(ariaLabel: string) => (
                                     <i
                                         className='icon icon-close'
                                         aria-label={ariaLabel}
