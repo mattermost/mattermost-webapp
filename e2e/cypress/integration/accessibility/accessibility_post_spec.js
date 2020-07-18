@@ -108,7 +108,7 @@ describe('Verify Accessibility Support in Post', () => {
         // * Verify post message in Center Channel
         cy.getLastPostId().then((postId) => {
             // * Verify reader reads out the post correctly
-            verifyPostLabel(`#post_${postId}`, otherUser.username, `wrote, ${lastMessage}, 2 reactions, message is flagged and pinned`);
+            verifyPostLabel(`#post_${postId}`, otherUser.username, `wrote, ${lastMessage}, 2 reactions, message is saved and pinned`);
         });
     });
 
@@ -129,7 +129,7 @@ describe('Verify Accessibility Support in Post', () => {
                 cy.get('#fileUploadButton').focus().tab({shift: true}).tab({shift: true}).type('{uparrow}');
 
                 // * Verify reader reads out the post correctly
-                verifyPostLabel(`#rhsPost_${postId}`, otherUser.username, `wrote, ${lastMessage}, 2 reactions, message is flagged and pinned`);
+                verifyPostLabel(`#rhsPost_${postId}`, otherUser.username, `wrote, ${lastMessage}, 2 reactions, message is saved and pinned`);
             });
 
             // * Verify reply message in RHS
@@ -226,16 +226,16 @@ describe('Verify Accessibility Support in Post', () => {
                 cy.get(`#CENTER_time_${postId}`).should('have.class', 'a11y--active a11y--focused');
                 cy.focused().tab();
 
-                // * Verify focus is on the flag icon
-                cy.get(`#CENTER_flagIcon_${postId}`).should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'flag for follow up');
-                cy.focused().tab();
-
                 // * Verify focus is on the actions button
                 cy.get(`#CENTER_button_${postId}`).should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'more actions');
                 cy.focused().tab();
 
                 // * Verify focus is on the reactions button
                 cy.get(`#CENTER_reaction_${postId}`).should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'add reaction');
+                cy.focused().tab();
+
+                // * Verify focus is on the save post button
+                cy.get(`#CENTER_flagIcon_${postId}`).should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'save');
                 cy.focused().tab();
 
                 // * Verify focus is on the comment button
@@ -276,16 +276,16 @@ describe('Verify Accessibility Support in Post', () => {
                 cy.get(`#rhsPostMessageText_${postId}`).should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-readonly', 'true');
                 cy.focused().tab({shift: true});
 
+                // * Verify focus is on the flag icon
+                cy.get(`#RHS_COMMENT_flagIcon_${postId}`).should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'save');
+                cy.focused().tab({shift: true});
+
                 // * Verify focus is on the reactions button
                 cy.get(`#RHS_COMMENT_reaction_${postId}`).should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'add reaction');
                 cy.focused().tab({shift: true});
 
                 // * Verify focus is on the actions button
                 cy.get(`#RHS_COMMENT_button_${postId}`).should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'more actions');
-                cy.focused().tab({shift: true});
-
-                // * Verify focus is on the flag icon
-                cy.get(`#RHS_COMMENT_flagIcon_${postId}`).should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'flag for follow up');
                 cy.focused().tab({shift: true});
 
                 // * Verify focus is on the time
