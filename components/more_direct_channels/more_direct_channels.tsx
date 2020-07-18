@@ -118,7 +118,7 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
         };
     }
 
-    componentDidMount() {
+    loadModalData = () => {
         this.getUserProfiles();
         this.props.actions.getTotalUsersStats();
         this.loadProfilesMissingStatus(this.props.users, this.props.statuses);
@@ -507,6 +507,7 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
                 show={this.state.show}
                 onHide={this.handleHide}
                 onExited={this.handleExit}
+                onEntered={this.loadModalData}
                 role='dialog'
                 aria-labelledby='moreDmModalLabel'
                 id='moreDmModal'
