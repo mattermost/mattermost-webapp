@@ -96,8 +96,8 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
         }
 
         const mailRecipient = 'support@mattermost.com';
-        const mailSubject = 'Mattermost support request';
-        let mailBody = 'Mattermost support request. My team now has ' + this.props.warnMetricStatus.limit + ' users. I am considering enterprise features that can help with scale, such as user management, server clustering and performance monitoring.';
+        const mailSubject = 'Mattermost Contact Us request';
+        let mailBody = 'Mattermost Contact Us request. My team now has ' + this.props.warnMetricStatus.limit + ' users and I am considering Mattermost Enterprise Edition.';
         mailBody += '\r\n';
         mailBody += 'Contact ' + this.props.user.first_name + ' ' + this.props.user.last_name;
         mailBody += '\r\n';
