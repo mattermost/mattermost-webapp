@@ -160,11 +160,6 @@ exports[`components/post_view/PostInfo should match snapshot, hide emoji picker 
       isPermalink={true}
       postId="e584uzbwwpny9kengqayx5ayzw"
     />
-    <Connect(PostFlagIcon)
-      isEphemeral={false}
-      isFlagged={false}
-      postId="e584uzbwwpny9kengqayx5ayzw"
-    />
   </div>
   <div
     className="col post-menu"
@@ -198,6 +193,10 @@ exports[`components/post_view/PostInfo should match snapshot, hide emoji picker 
         }
       }
       reactionCount={40}
+    />
+    <Connect(PostFlagIcon)
+      isFlagged={false}
+      postId="e584uzbwwpny9kengqayx5ayzw"
     />
     <CommentIcon
       commentCount={0}
