@@ -1232,7 +1232,7 @@ function handleGroupNotAssociatedToChannelEvent(msg) {
 function handleWarnMetricStatusReceivedEvent(msg) {
     store.dispatch(batchActions([
         {
-            type: GroupTypes.WARN_METRIC_STATUS_RECEIVED,
+            type: GeneralTypes.WARN_METRIC_STATUS_RECEIVED,
             data: JSON.parse(msg.data.warnMetricStatus),
         },
         {
