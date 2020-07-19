@@ -174,6 +174,7 @@ export const ActionTypes = keyMirror({
     STORE_REHYDRATION_FAILED: null,
 
     DISMISS_NOTICE: null,
+    SHOW_NOTICE: null,
 
     SELECT_ATTACHMENT_MENU_ACTION: null,
 

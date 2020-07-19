@@ -79,3 +79,4 @@ export function loadTranslations(locale, url) {
         });
     };
 }
+
