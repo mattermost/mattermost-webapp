@@ -42,6 +42,7 @@ const showTutorialTipProp = false;
 const fullWidthTextBoxProp = true;
 const recentPostIdInChannelProp = 'a';
 const latestReplyablePostIdProp = 'a';
+const latestReplyablePostReactionCountProp = 24;
 const localeProp = 'en';
 
 const currentChannelProp = {
@@ -99,6 +100,7 @@ function createPost({
     draft = draftProp,
     recentPostIdInChannel = recentPostIdInChannelProp,
     latestReplyablePostId = latestReplyablePostIdProp,
+    latestReplyablePostReactionCount = latestReplyablePostReactionCountProp,
     locale = localeProp,
     actions = actionsProp,
     ctrlSend = ctrlSendProp,
@@ -121,6 +123,7 @@ function createPost({
             draft={draft}
             recentPostIdInChannel={recentPostIdInChannel}
             latestReplyablePostId={latestReplyablePostId}
+            latestReplyablePostReactionCount={latestReplyablePostReactionCount}
             locale={locale}
             ctrlSend={ctrlSend}
             currentUsersLatestPost={currentUsersLatestPost}
@@ -694,6 +697,25 @@ describe('components/create_post', () => {
 
         await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
         expect(addReaction).toHaveBeenCalledWith('a', 'smile');
+    });
+
+    it('Should post error if reaction limit is exceeed and +:emoji: is submitted', () => {
+        const addReaction = jest.fn();
+        const wrapper = shallowWithIntl(
+            createPost({
+                actions: {
+                    ...actionsProp,
+                    addReaction,
+                },
+                latestReplyablePostReactionCount: 40,
+            }),
+        );
+
+        wrapper.setState({
+            message: '+:volcano:',
+        });
+        wrapper.instance().handleSubmit({preventDefault: jest.fn()});
+        expect(wrapper.state('postError')).not.toBeNull();
     });
 
     it('onSubmit test for removeReaction message', () => {

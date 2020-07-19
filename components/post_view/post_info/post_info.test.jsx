@@ -117,6 +117,18 @@ describe('components/post_view/PostInfo', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('should match snapshot, hide emoji picker when reaction limit reached', () => {
+        const wrapper = shallow(
+            <PostInfo
+                {...requiredProps}
+                enableEmojiPicker={true}
+                reactionCount={40}
+                hover={true}
+            />,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
     test('toggleEmojiPicker, should have called props.handleDropdownOpened', () => {
         const handleDropdownOpened = jest.fn();
         const requiredPropsWithHandleDropdownOpened = {...requiredProps, handleDropdownOpened, enableEmojiPicker: true};

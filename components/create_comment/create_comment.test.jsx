@@ -10,11 +10,14 @@ import Constants from 'utils/constants';
 import CreateComment from 'components/create_comment/create_comment.jsx';
 import FileUpload from 'components/file_upload';
 import FilePreview from 'components/file_preview';
+import EmojiMap from 'utils/emoji_map';
 
 describe('components/CreateComment', () => {
     const channelId = 'g6139tbospd18cmxroesdk3kkc';
     const rootId = '';
     const latestPostId = '3498nv24823948v23m4nv34';
+    const latestPostReactionsCount = 24;
+    const emojiMap = new EmojiMap(new Map());
 
     const baseProps = {
         channelId,
@@ -29,6 +32,8 @@ describe('components/CreateComment', () => {
         enableAddButton: true,
         ctrlSend: false,
         latestPostId,
+        latestPostReactionsCount,
+        emojiMap,
         locale: 'en',
         clearCommentDraftUploads: jest.fn(),
         onUpdateCommentDraft: jest.fn(),
@@ -1404,6 +1409,25 @@ describe('components/CreateComment', () => {
 
         wrapper.instance().pasteHandler(event);
         expect(wrapper.state('draft').message).toBe(codeBlockMarkdown);
+    });
+
+    it('should set PostError correctly when +:emoji: is submitted even when reaction limit is reached', () => {
+        const draft = {
+            message: '+:smile:',
+            uploadsInProgress: [],
+            fileInfos: [],
+        };
+
+        const wrapper = shallowWithIntl(
+            <CreateComment
+                {...baseProps}
+                draft={draft}
+                latestPostReactionsCount={45}
+            />,
+        );
+
+        wrapper.instance().handleSubmit({preventDefault: jest.fn()});
+        expect(wrapper.state('postError')).not.toBeNull();
     });
 
     test('should show preview and edit mode, and return focus on preview disable', () => {
