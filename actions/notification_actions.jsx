@@ -144,7 +144,7 @@ export function sendDesktopNotification(post, msgProps) {
         const soundName = user.notify_props === undefined ? 'Bing' : user.notify_props.desktop_notification_sound;
 
         if (notify) {
-            dispatch(notifyMe(title, body, channel, teamId, !sound));
+            dispatch(notifyMe(title, body, channel, teamId, !sound, soundName));
 
             //Don't add extra sounds on native desktop clients
             if (sound && !isWindowsApp() && !isMacApp() && !isMobileApp()) {
