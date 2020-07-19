@@ -229,7 +229,7 @@ class RhsRootPost extends React.PureComponent {
     };
 
     render() {
-        const {post, isReadOnly, teamId, channelIsArchived, channelType, channelDisplayName, reactionCount} = this.props;
+        const {post, isReadOnly, teamId, channelIsArchived, reactionCount} = this.props;
 
         const isPostDeleted = post && post.state === Posts.POST_DELETED;
         const isEphemeral = Utils.isPostEphemeral(post);
