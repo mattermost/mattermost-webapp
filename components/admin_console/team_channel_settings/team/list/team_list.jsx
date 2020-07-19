@@ -16,7 +16,6 @@ import {PAGE_SIZE} from 'components/admin_console/team_channel_settings/abstract
 import TeamIcon from 'components/widgets/team_icon/team_icon';
 
 import './team_list.scss';
-import { group } from 'yargs';
 
 const ROW_HEIGHT = 80;
 export default class TeamList extends React.PureComponent {
@@ -104,11 +103,11 @@ export default class TeamList extends React.PureComponent {
 
     onFilter = (filterOptions) => {
         const filters = {};
-        const {group_constrained, allow_open_invite, invite_only} = filterOptions.management.values;
-        const allowOpenInvite = allow_open_invite.value;
-        const inviteOnly = invite_only.value;
-        const groupConstrained =  group_constrained.value;
-        const filtersList = [allowOpenInvite, inviteOnly, groupConstrained]
+        const {group_constrained, allow_open_invite, invite_only} = filterOptions.management.values; // eslint-disable-line camelcase, @typescript-eslint/camelcase
+        const allowOpenInvite = allow_open_invite.value; // eslint-disable-line camelcase, @typescript-eslint/camelcase
+        const inviteOnly = invite_only.value; // eslint-disable-line camelcase, @typescript-eslint/camelcase
+        const groupConstrained = group_constrained.value; // eslint-disable-line camelcase, @typescript-eslint/camelcase
+        const filtersList = [allowOpenInvite, inviteOnly, groupConstrained];
 
         // If all filters or no filters do nothing
         if (filtersList.includes(false) && filtersList.includes(true)) {
@@ -118,7 +117,7 @@ export default class TeamList extends React.PureComponent {
                 filters.include_group_constrained = groupConstrained;
             } else if (allowOpenInvite) {
                 filters.allow_open_invite = true;
-                filters.include_group_constrained = groupConstrained
+                filters.include_group_constrained = groupConstrained;
             } else {
                 filters.group_constrained = true;
             }
@@ -294,7 +293,7 @@ export default class TeamList extends React.PureComponent {
                     group_constrained: {
                         name: (
                             <FormattedMessage
-                            id='admin.team_settings.team_row.managementMethod.groupSync'
+                                id='admin.team_settings.team_row.managementMethod.groupSync'
                                 defaultMessage='Group Sync'
                             />
                         ),
