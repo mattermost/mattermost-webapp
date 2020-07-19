@@ -96,6 +96,14 @@ export type GlobalState = BaseGlobalState & {
                 team: string;
                 filter: string;
             };
+            userGridSearch: {
+                term: string;
+                filters: {
+                    roles?: string[];
+                    channel_roles?: string[];
+                    team_roles?: string[];
+                };
+            };
         };
 
         notice: {
