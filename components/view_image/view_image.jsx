@@ -212,6 +212,8 @@ export default class ViewImageModal extends React.PureComponent {
         if (this.props.fileInfos.length < 1 || this.props.fileInfos.length - 1 < this.state.imageIndex) {
             return null;
         }
+        // TODO: Receive this from the config
+        const unoconvEnabled = true;
 
         const fileInfo = this.props.fileInfos[this.state.imageIndex];
         const showPublicLink = !fileInfo.link;
@@ -245,6 +247,15 @@ export default class ViewImageModal extends React.PureComponent {
                         <PDFPreview
                             fileInfo={fileInfo}
                             fileUrl={fileUrl}
+                        />
+                    </React.Suspense>
+                );
+            } else if (unoconvEnabled && fileInfo && fileInfo.extension && [FileTypes.DOCX, FileTypes.PPTX, FileTypes.DOC, FileTypes.PPT, FileTypes.ODT, FileTypes.ODP].indexOf(fileInfo.extension) !== -1) {
+                content = (
+                    <React.Suspense fallback={null}>
+                        <PDFPreview
+                            fileInfo={fileInfo}
+                            fileUrl={fileUrl + '?pdf=true'}
                         />
                     </React.Suspense>
                 );

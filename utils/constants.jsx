@@ -545,6 +545,12 @@ export const FileTypes = {
     PATCH: 'patch',
     SVG: 'svg',
     OTHER: 'other',
+    DOCX: 'docx',
+    PPTX: 'pptx',
+    DOC: 'doc',
+    PPT: 'ppt',
+    ODT: 'odt',
+    ODP: 'odp',
 };
 
 export const NotificationLevels = {
