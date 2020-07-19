@@ -96,6 +96,13 @@ class CreateComment extends React.PureComponent {
          * The id of the latest post in this channel
          */
         latestPostId: PropTypes.string,
+
+        /** Data used to challenge post reaction for latest replyable post */
+        latestPostReactionsCount: PropTypes.number,
+
+        /** To check if reaction is available in map */
+        emojiMap: PropTypes.object,
+
         locale: PropTypes.string.isRequired,
 
         /**
@@ -592,6 +599,21 @@ class CreateComment extends React.PureComponent {
             setTimeout(() => {
                 this.setState({errorClass: null});
             }, Constants.ANIMATION_TIMEOUT);
+        }
+
+        const isReaction = Utils.REACTION_PATTERN.exec(draft.message);
+        if (isReaction && isReaction[1] === '+' && this.props.emojiMap.has(isReaction[2]) && this.props.latestPostReactionsCount <= Constants.POST_REACTIONS_LIMIT) {
+            const errorMessage = (
+                <FormattedMessage
+                    id='create_post.reaction_limit_message'
+                    defaultMessage='Reaction limit exceeded for this message.'
+                />
+            );
+            setTimeout(() => this.handlePostError(errorMessage), 100);
+            return;
+        }
+
+        if (this.state.postError) {
             return;
         }
 

@@ -8,7 +8,7 @@ import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/user
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getAllChannelStats, getChannelMemberCountsByGroup as selectChannelMemberCountsByGroup} from 'mattermost-redux/selectors/entities/channels';
-import {makeGetMessageInHistoryItem} from 'mattermost-redux/selectors/entities/posts';
+import {makeGetMessageInHistoryItem, makeGetReactionsForPost} from 'mattermost-redux/selectors/entities/posts';
 import {resetCreatePostRequest, resetHistoryIndex} from 'mattermost-redux/actions/posts';
 import {getChannelTimezones, getChannelMemberCountsByGroup} from 'mattermost-redux/actions/channels';
 import {Permissions, Preferences, Posts} from 'mattermost-redux/constants';
@@ -19,6 +19,7 @@ import {
 import {connectionErrorCount} from 'selectors/views/system';
 
 import {Constants, StoragePrefixes} from 'utils/constants';
+import {getReactionsStatistics} from 'utils/post_utils';
 import {getCurrentLocale} from 'selectors/i18n';
 
 import {
@@ -32,6 +33,7 @@ import {emitShortcutReactToLastPostFrom} from 'actions/post_actions';
 import {getPostDraft, getIsRhsExpanded, getSelectedPostFocussedAt} from 'selectors/rhs';
 import {showPreviewOnCreateComment} from 'selectors/views/textbox';
 import {setShowPreviewOnCreateComment} from 'actions/views/textbox';
+import {getEmojiMap} from 'selectors/emojis';
 
 import CreateComment from './create_comment.jsx';
 
@@ -76,6 +78,11 @@ function makeMapStateToProps() {
             permission: Permissions.USE_GROUP_MENTIONS,
         });
         const channelMemberCountsByGroup = selectChannelMemberCountsByGroup(state, ownProps.channelId);
+        const latestPostId = ownProps.latestPostId;
+        const getlatestPostReactions = makeGetReactionsForPost();
+        const latestPostReactionsCount = getReactionsStatistics(getlatestPostReactions(state, latestPostId));
+
+        const emojiMap = getEmojiMap(state);
 
         return {
             draft,
@@ -101,6 +108,8 @@ function makeMapStateToProps() {
             groupsWithAllowReference: new Map(getAssociatedGroupsForReference(state, channel.team_id, channel.id).map((group) => [`@${group.name}`, group])),
             useGroupMentions,
             channelMemberCountsByGroup,
+            latestPostReactionsCount,
+            emojiMap,
         };
     };
 }
