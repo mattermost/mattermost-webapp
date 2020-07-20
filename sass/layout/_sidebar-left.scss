@@ -904,7 +904,7 @@
 
 
         &.muted {
-            div.SidebarChannelLinkLabel_wrapper, > i, .status.status--group {
+            div.SidebarChannelLinkLabel_wrapper, > i, .status.status--group, .badge {
                 opacity: 0.4;
             }
         }
