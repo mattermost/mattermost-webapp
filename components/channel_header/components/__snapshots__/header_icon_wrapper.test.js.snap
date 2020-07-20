@@ -15,7 +15,7 @@ exports[`components/channel_header/components/HeaderIconWrapper should match sna
         placement="right"
       >
         <FormattedMessage
-          defaultMessage="Flagged posts"
+          defaultMessage="Saved posts"
           id="channel_header.flagged"
           values={Object {}}
         />
