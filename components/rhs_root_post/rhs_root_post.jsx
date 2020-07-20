@@ -26,6 +26,7 @@ import BotBadge from 'components/widgets/badges/bot_badge';
 import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 
 import UserProfile from 'components/user_profile';
+import PostPreHeader from 'components/post_view/post_pre_header';
 
 class RhsRootPost extends React.PureComponent {
     static propTypes = {
@@ -36,7 +37,7 @@ class RhsRootPost extends React.PureComponent {
         commentCount: PropTypes.number.isRequired,
         author: PropTypes.string,
         reactions: PropTypes.object,
-        isFlagged: PropTypes.bool,
+        isFlagged: PropTypes.bool.isRequired,
         previewCollapsed: PropTypes.string,
         previewEnabled: PropTypes.bool,
         isBusy: PropTypes.bool,
@@ -181,10 +182,6 @@ class RhsRootPost extends React.PureComponent {
             className += ' post--compact';
         }
 
-        if (post.is_pinned) {
-            className += ' post--pinned';
-        }
-
         if (this.state.dropdownOpened || this.state.showEmojiPicker) {
             className += ' post--hovered';
         }
@@ -315,18 +312,6 @@ class RhsRootPost extends React.PureComponent {
             postClass += ' post--edited';
         }
 
-        let pinnedBadge;
-        if (post.is_pinned) {
-            pinnedBadge = (
-                <span className='post__pinned-badge'>
-                    <FormattedMessage
-                        id='post_info.pinned'
-                        defaultMessage='Pinned'
-                    />
-                </span>
-            );
-        }
-
         const dotMenu = (
             <DotMenu
                 post={this.props.post}
@@ -341,6 +326,18 @@ class RhsRootPost extends React.PureComponent {
             />
         );
 
+        let postFlagIcon;
+        const showFlagIcon = !isEphemeral && !post.failed && !isSystemMessage && !Utils.isMobile();
+        if (showFlagIcon) {
+            postFlagIcon = (
+                <PostFlagIcon
+                    location={Locations.RHS_ROOT}
+                    postId={post.id}
+                    isFlagged={this.props.isFlagged}
+                />
+            );
+        }
+
         let dotMenuContainer;
         if (!isPostDeleted && this.props.post.type !== Constants.PostTypes.FAKE_PARENT_DELETED) {
             dotMenuContainer = (
@@ -350,19 +347,8 @@ class RhsRootPost extends React.PureComponent {
                 >
                     {dotMenu}
                     {postReaction}
+                    {postFlagIcon}
                 </div>
-            );
-        }
-
-        let postFlagIcon;
-        const showFlagIcon = !isEphemeral && !post.failed && !isSystemMessage;
-        if (showFlagIcon) {
-            postFlagIcon = (
-                <PostFlagIcon
-                    location={Locations.RHS_ROOT}
-                    postId={post.id}
-                    isFlagged={this.props.isFlagged}
-                />
             );
         }
 
@@ -408,6 +394,11 @@ class RhsRootPost extends React.PureComponent {
                 onFocus={this.handlePostFocus}
                 data-a11y-sort-order='0'
             >
+                <PostPreHeader
+                    isFlagged={this.props.isFlagged}
+                    isPinned={post.is_pinned}
+                    channelId={post.channel_id}
+                />
                 <div
                     role='application'
                     className='post__content'
@@ -432,9 +423,7 @@ class RhsRootPost extends React.PureComponent {
                             </div>
                             <div className='col'>
                                 {this.renderPostTime(isEphemeral)}
-                                {pinnedBadge}
                                 {postInfoIcon}
-                                {postFlagIcon}
                             </div>
                             {dotMenuContainer}
                         </div>

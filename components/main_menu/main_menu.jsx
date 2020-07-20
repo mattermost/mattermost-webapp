@@ -161,8 +161,8 @@ class MainMenu extends React.PureComponent {
                         id='flaggedPosts'
                         show={this.props.mobile}
                         onClick={this.getFlagged}
-                        icon={this.props.mobile && <i className='fa fa-flag'/>}
-                        text={formatMessage({id: 'sidebar_right_menu.flagged', defaultMessage: 'Flagged Posts'})}
+                        icon={this.props.mobile && <i className='fa fa-bookmark'/>}
+                        text={formatMessage({id: 'sidebar_right_menu.flagged', defaultMessage: 'Saved Posts'})}
                     />
                 </Menu.Group>
                 <Menu.Group>

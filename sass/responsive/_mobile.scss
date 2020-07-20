@@ -20,6 +20,16 @@
 
     .post-right__container {
         height: 100%;
+
+        .post {
+            &.post--thread {
+                .post-pre-header__icons-container {
+                    padding-right: 12px; // If the padding of post__img changes, this needs to be adjusted accordingly 
+                    width: 60px; // If the width of post__img changes, this needs to be adjusted accordingly
+                    margin-left: 0px; // if left margin of post__content changes, this needs to be adjusted accordingly
+                }
+            }
+        }
     }
 
     .line-switch__toggle {
@@ -655,12 +665,16 @@
             }
         }
 
-        &.same--root {
-            &.same--user {
-                .flag-icon__container {
-                    left: auto;
-                    position: relative;
-                    top: 1px;
+        .post-pre-header {    
+            .post-pre-header__icons-container {
+                padding-right: 8px; // If the padding of post__img changes, this needs to be adjusted accordingly
+                width: 40px; // If the width of post__img changes, this needs to be adjusted accordingly
+                margin-left: 0px;
+    
+                .icon--post-pre-header {
+                    &:nth-of-type(even) {
+                        margin-left: 8px;
+                    }
                 }
             }
         }
@@ -816,7 +830,7 @@
         }
 
         .post__img {
-            width: 40px;
+            width: 40px; // if this changes, the width of post-pre-header__icons-container needs to be adjusted accordingly
 
             img {
                 height: 32px;
