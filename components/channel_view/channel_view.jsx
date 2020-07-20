@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -126,12 +127,26 @@ export default class ChannelView extends React.PureComponent {
         if (this.props.deactivatedChannel) {
             createPost = (
                 <div
-                    className='post-create-message'
+                    className='post-create__container'
+                    id='post-create'
                 >
-                    <FormattedMessage
-                        id='create_post.deactivated'
-                        defaultMessage='You are viewing an archived channel with a deactivated user.'
-                    />
+                    <div
+                        className='channel-archived__message'
+                    >
+                        <FormattedMarkdownMessage
+                            id='create_post.deactivated'
+                            defaultMessage='You are viewing an archived channel with a **deactivated user**. New messages cannot be posted.'
+                        />
+                        <button
+                            className='btn btn-primary channel-archived__close-btn'
+                            onClick={this.onClickCloseChannel}
+                        >
+                            <FormattedMessage
+                                id='center_panel.archived.closeChannel'
+                                defaultMessage='Close Channel'
+                            />
+                        </button>
+                    </div>
                 </div>
             );
         } else if (channelIsArchived) {
@@ -194,3 +209,4 @@ export default class ChannelView extends React.PureComponent {
         );
     }
 }
+/* eslint-enable react/no-string-refs */

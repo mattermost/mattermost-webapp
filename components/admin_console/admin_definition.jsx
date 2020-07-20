@@ -298,7 +298,7 @@ const AdminDefinition = {
         groups: {
             url: 'user_management/groups',
             title: t('admin.sidebar.groups'),
-            title_default: 'Groups (Beta)',
+            title_default: 'Groups',
             isHidden: it.either(
                 it.isnt(it.licensedForFeature('LDAPGroups')),
             ),
@@ -757,6 +757,17 @@ const AdminDefinition = {
                         help_text_default: 'Name you selected for your S3 bucket in AWS.',
                         placeholder: t('admin.image.amazonS3BucketExample'),
                         placeholder_default: 'E.g.: "mattermost-media"',
+                        isDisabled: it.isnt(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'FileSettings.AmazonSPathPrefix',
+                        label: t('admin.image.amazonS3PathPrefixTitle'),
+                        label_default: 'Amazon S3 Path Prefix:',
+                        help_text: t('admin.image.amazonS3PathPrefixDescription'),
+                        help_text_default: 'Prefix you selected for your S3 bucket in AWS.',
+                        placeholder: t('admin.image.amazonS3PathPrefixExample'),
+                        placeholder_default: 'E.g.: "subdir1/" or you can leave it .',
                         isDisabled: it.isnt(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
                     },
                     {
@@ -1447,6 +1458,14 @@ const AdminDefinition = {
                         help_text_default: 'Text that will appear below your custom brand image on your login screen. Supports Markdown-formatted text. Maximum 500 characters allowed.',
                         isDisabled: it.stateIsFalse('TeamSettings.EnableCustomBrand'),
                         max_length: Constants.MAX_CUSTOM_BRAND_TEXT_LENGTH,
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'SupportSettings.EnableAskCommunityLink',
+                        label: t('admin.support.enableAskCommunityTitle'),
+                        label_default: 'Enable Ask Community Link:',
+                        help_text: t('admin.support.enableAskCommunityDesc'),
+                        help_text_default: 'When true, "Ask the community" link appears on the Mattermost user interface and Main Menu, which allows users to join the Mattermost Community to ask questions and help others troubleshoot issues. When false, the link is hidden from users.',
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -2814,7 +2833,8 @@ const AdminDefinition = {
             },
         },
         ldap_feature_discovery: {
-            url: 'authentication/discover-ldap',
+            url: 'authentication/ldap',
+            isDiscovery: true,
             title: t('admin.sidebar.ldap'),
             title_default: 'AD/LDAP',
             isHidden: it.either(
@@ -3260,7 +3280,8 @@ const AdminDefinition = {
             },
         },
         saml_feature_discovery: {
-            url: 'authentication/discover-saml',
+            url: 'authentication/saml',
+            isDiscovery: true,
             title: t('admin.sidebar.saml'),
             title_default: 'SAML 2.0',
             isHidden: it.either(
@@ -4522,6 +4543,15 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.experimentalChannelOrganization.desc'),
                         help_text_default: 'Enables channel sidebar organization options in **Account Settings > Sidebar > Channel grouping and sorting** including options for grouping unread channels, sorting channels by most recent post and combining all channel types into a single list. These settings are not available if **Account Settings > Sidebar > Experimental Sidebar Features** are enabled.',
                         help_text_markdown: true,
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'DisplaySettings.ExperimentalDataPrefetch',
+                        label: t('admin.experimental.experimentalDataPrefetch.title'),
+                        label_default: 'Preload messages in unread channels:',
+                        help_text: t('admin.experimental.experimentalDataPrefetch.desc'),
+                        help_text_default: 'When true, messages in unread channels are preloaded to reduce channel loading time. When false, messages are not loaded from the server until users switch channels.',
+                        help_text_markdown: false,
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,

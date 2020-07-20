@@ -29,7 +29,7 @@ describe('Remove Last Post', () => {
                     cy.apiAddUserToChannel(channel.id, otherUser.id);
 
                     // # Login as test user and start DM with the other user
-                    cy.apiLogin(testUser.username, testUser.password);
+                    cy.apiLogin(testUser);
                     cy.visit(`/${testTeam.name}/messages/@${otherUser.username}`);
                 });
             });

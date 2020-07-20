@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import React from 'react';
 import {defineMessages, FormattedDate, FormattedMessage, injectIntl, IntlShape} from 'react-intl';
@@ -1364,3 +1365,4 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
 }
 
 export default injectIntl(UserSettingsGeneralTab);
+/* eslint-enable react/no-string-refs */

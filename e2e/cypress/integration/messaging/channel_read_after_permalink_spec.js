@@ -27,7 +27,7 @@ describe('Messaging', () => {
                 otherUser = user1;
 
                 cy.apiAddUserToTeam(testTeam.id, otherUser.id).then(() => {
-                    cy.apiLogin(testUser.username, testUser.password);
+                    cy.apiLogin(testUser);
                     cy.visit(`/${testTeam.name}/channels/town-square`);
                 });
             });
@@ -65,7 +65,7 @@ describe('Messaging', () => {
                 // # Change user
                 cy.apiLogout();
                 cy.reload();
-                cy.apiLogin(otherUser.username, otherUser.password);
+                cy.apiLogin(otherUser);
                 cy.apiSaveSidebarSettingPreference();
                 cy.visit(`/${testTeam.name}/channels/town-square`);
 

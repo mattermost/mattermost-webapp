@@ -54,7 +54,7 @@ describe('Mark as Unread', () => {
                 });
             });
 
-            cy.apiLogin(testUser.username, testUser.password);
+            cy.apiLogin(testUser);
             cy.visit(`/${team.name}/channels/town-square`);
         });
     });

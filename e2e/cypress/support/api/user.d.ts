@@ -19,6 +19,29 @@ declare namespace Cypress {
     interface Chainable<Subject = any> {
 
         /**
+         * Login to server via API.
+         * See https://api.mattermost.com/#tag/users/paths/~1users~1login/post
+         * @param {string} user.username - username of a user
+         * @param {string} user.password - password of  user
+         * @returns {Response} response: Cypress-chainable response which should have successful HTTP status of 200 OK to continue or pass.
+         * @returns {UserProfile} response.body: `UserProfile` object
+         *
+         * @example
+         *   cy.apiLogin({username: 'sysadmin', password: 'secret'});
+         */
+        apiLogin(user: UserProfile): Chainable<Response>;
+
+        /**
+         * Logout a user's active session from server via API.
+         * See https://api.mattermost.com/#tag/users/paths/~1users~1logout/post
+         * Clears all cookies espececially `MMAUTHTOKEN`, `MMUSERID` and `MMCSRF`.
+         *
+         * @example
+         *   cy.apiLogout();
+         */
+        apiLogout();
+
+        /**
          * Creates an admin account based from the env variables defined in Cypress env
          * @param {string} options.namePrefix - 'user' (default) or any prefix to easily identify a user
          * @param {boolean} options.bypassTutorial - true (default) or false for user to go thru tutorial steps
@@ -55,5 +78,21 @@ declare namespace Cypress {
          *   cy.apiCreateGuestUser(options);
          */
         apiCreateGuestUser(options: Record<string, any>): Chainable<Record<string, any>>;
+
+        /**
+         * Get list of users that are not team members
+         * See https://api.mattermost.com/#tag/users/paths/~1users/post
+         * @param {String} queryParams.teamId - Team ID
+         * @param {String} queryParams.page - Page to select, 0 (default)
+         * @param {String} queryParams.perPage - The number of users per page, 60 (default)
+         * @returns {Object} `out` Cypress-chainable, yielded with element passed into .wrap().
+         * @returns {UserProfile[]} `out.users` as `UserProfile[]` object
+         *
+         * @example
+         *   cy.apiGetUsersNotInTeam({teamId: 'team-id'}).then(({users}) => {
+         *       // do something with users
+         *   });
+         */
+        apiGetUsersNotInTeam(queryParams: Record<string, any>): Chainable<UserProfile[]>;
     }
 }

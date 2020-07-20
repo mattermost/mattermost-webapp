@@ -18,7 +18,7 @@ describe('channel groups', () => {
     let teamName;
 
     before(() => {
-        cy.requireLicenseForFeature('LDAP');
+        cy.apiRequireLicenseForFeature('LDAP');
 
         // # Link 2 groups
         cy.apiGetLDAPGroups().then((result) => {
@@ -31,7 +31,7 @@ describe('channel groups', () => {
 
         cy.apiUpdateConfig({LdapSettings: {Enable: true}, ServiceSettings: {EnableTutorial: false}});
 
-        cy.apiLogin('board.one', 'Password1');
+        cy.apiLogin({username: 'board.one', password: 'Password1'});
 
         // # Create a new team and associate one group to the team
         teamName = `team-${getRandomId()}`;
@@ -73,7 +73,7 @@ describe('channel groups', () => {
         // # Group-constrain the parent team
         cy.apiAdminLogin();
         cy.apiPatchTeam(teamID, {group_constrained: true});
-        cy.apiLogin('board.one', 'Password1');
+        cy.apiLogin({username: 'board.one', password: 'Password1'});
         cy.visit(`/${teamName}/channels/off-topic`);
 
         // # Close and re-open the Add Groups modal again
