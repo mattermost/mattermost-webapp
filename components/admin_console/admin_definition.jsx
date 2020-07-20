@@ -4561,6 +4561,7 @@ const AdminDefinition = {
             title: t('admin.sidebar.complianceMonitoring'),
             title_default: 'Compliance Monitoring',
             isHidden: it.not(it.licensed),
+            isDisabled: it.not(it.userHasWritePermissionOnResource('compliance')),
             searchableStrings: [
                 'admin.audits.title',
                 'admin.audits.reload',

@@ -15,6 +15,7 @@ import ReloadIcon from 'components/widgets/icons/fa_reload_icon';
 type Props = {
     isLicensed: boolean;
     audits: Audit[];
+    isDisabled?: boolean;
     actions: {
         getAudits: () => Promise<{data: Audit[]}>;
     };
@@ -81,7 +82,7 @@ export default class Audits extends React.PureComponent<Props, State> {
         if (!this.props.isLicensed) {
             return <div/>;
         }
-        return <ComplianceReports/>;
+        return <ComplianceReports readOnly={this.props.isDisabled}/>;
     };
 
     public render() {

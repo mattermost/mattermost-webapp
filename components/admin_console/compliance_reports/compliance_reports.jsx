@@ -35,6 +35,8 @@ export default class ComplianceReports extends React.PureComponent {
          */
         serverError: PropTypes.string,
 
+        readOnly: PropTypes.bool,
+
         actions: PropTypes.shape({
 
             /*
@@ -324,6 +326,7 @@ export default class ComplianceReports extends React.PureComponent {
                             id='desc'
                             ref={this.descInput}
                             placeholder={{id: t('admin.compliance_reports.desc_placeholder'), defaultMessage: 'E.g. "Audit 445 for HR"'}}
+                            disabled={this.props.readOnly}
                         />
                     </div>
                     <div className='col-sm-3 col-md-2 form-group'>
@@ -339,6 +342,7 @@ export default class ComplianceReports extends React.PureComponent {
                             id='from'
                             ref={this.fromInput}
                             placeholder={{id: t('admin.compliance_reports.from_placeholder'), defaultMessage: 'E.g. "2016-03-11"'}}
+                            disabled={this.props.readOnly}
                         />
                     </div>
                     <div className='col-sm-3 col-md-2 form-group'>
@@ -354,6 +358,7 @@ export default class ComplianceReports extends React.PureComponent {
                             id='to'
                             ref={this.toInput}
                             placeholder={{id: t('admin.compliance_reports.to_placeholder'), defaultMessage: 'E.g. "2016-03-15"'}}
+                            disabled={this.props.readOnly}
                         />
                     </div>
                 </div>
@@ -371,6 +376,7 @@ export default class ComplianceReports extends React.PureComponent {
                             id='emails'
                             ref={this.emailsInput}
                             placeholder={{id: t('admin.compliance_reports.emails_placeholder'), defaultMessage: 'E.g. "bill@example.com, bob@example.com"'}}
+                            disabled={this.props.readOnly}
                         />
                     </div>
                     <div className='col-sm-6 col-md-4 form-group'>
@@ -386,6 +392,7 @@ export default class ComplianceReports extends React.PureComponent {
                             id='keywords'
                             ref={this.keywordsInput}
                             placeholder={{id: t('admin.compliance_reports.keywords_placeholder'), defaultMessage: 'E.g. "shorting stock"'}}
+                            disabled={this.props.readOnly}
                         />
                     </div>
                 </div>
@@ -395,6 +402,7 @@ export default class ComplianceReports extends React.PureComponent {
                         type='submit'
                         className='btn btn-primary'
                         onClick={this.runReport}
+                        disabled={this.props.readOnly}
                     >
                         <FormattedMessage
                             id='admin.compliance_reports.run'
