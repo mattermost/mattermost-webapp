@@ -20,7 +20,7 @@ describe('Messaging', () => {
         });
     });
 
-    it("At-mention user autocomplete should open below the textbox in RHS when only one message is present", () => {
+    it('At-mention user autocomplete should open below the textbox in RHS when only one message is present', () => {
         // # Add a single message to center textbox
         cy.postMessage(MESSAGES.TINY);
 
@@ -31,20 +31,20 @@ describe('Messaging', () => {
         cy.get('#rhsContainer').should('be.visible');
 
         // # Enter @ to allow opening of autocomplete box
-        cy.get("#reply_textbox", {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').clear().type(`@`);
+        cy.get('#reply_textbox', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').clear().type('@');
 
         cy.get('#reply_textbox').then((replyTextbox) => {
             cy.get('#suggestionList').then((suggestionList) => {
                 // * Verify that the suggestion box opened below the textbox
-                expect(replyTextbox[0].getBoundingClientRect().top).to.be.lessThan(suggestionList[0].getBoundingClientRect().top)
-            })
-        })
+                expect(replyTextbox[0].getBoundingClientRect().top).to.be.lessThan(suggestionList[0].getBoundingClientRect().top);
+            });
+        });
 
         // # Close the RHS
         cy.closeRHS();
-    })
+    });
 
-    it("At-mention user autocomplete should open above the textbox in RHS is filled with messages", () => {
+    it('At-mention user autocomplete should open above the textbox in RHS is filled with messages', () => {
         // # Add a single message to center textbox
         cy.postMessage(MESSAGES.TINY);
 
@@ -67,18 +67,18 @@ describe('Messaging', () => {
             type(' {backspace}{enter}');
 
         // # Enter @ to allow opening of autocomplete box
-        cy.get("#reply_textbox", {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').clear().type(`@`);
+        cy.get('#reply_textbox', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').clear().type('@');
 
         cy.get('#reply_textbox').then((replyTextbox) => {
             cy.get('#suggestionList').then((suggestionList) => {
                 // * Verify that the suggestion box opened above the textbox
-                expect(replyTextbox[0].getBoundingClientRect().top).to.be.greaterThan(suggestionList[0].getBoundingClientRect().top)
-            })
-        })
+                expect(replyTextbox[0].getBoundingClientRect().top).to.be.greaterThan(suggestionList[0].getBoundingClientRect().top);
+            });
+        });
 
         // # Close the RHS
         cy.closeRHS();
-    })
+    });
 
     it('M18667-At-mention user autocomplete does not overlap with channel header when drafting a long message containing a file attachment (standard viewport)', () => {
         // # Upload file, add message, add mention, verify no overlap
