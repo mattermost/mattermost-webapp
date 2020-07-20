@@ -366,6 +366,7 @@ const AdminDefinition = {
             title: t('admin.sidebar.channels'),
             title_default: 'Channels',
             isHidden: it.not(it.licensedForFeature('LDAPGroups')),
+            isDisabled: it.not(it.userHasWritePermissionOnResource('user_management.channels')),
             schema: {
                 id: 'Channels',
                 component: ChannelSettings,
