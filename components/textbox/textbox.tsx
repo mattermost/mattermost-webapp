@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 /* eslint-disable react/no-string-refs */
 
-import React, {ChangeEvent, FocusEvent, KeyboardEvent, MouseEvent} from 'react';
+import React, {ChangeEvent, FocusEvent, KeyboardEvent, MouseEvent, ReactElement} from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {Channel} from 'mattermost-redux/types/channels';
@@ -54,6 +54,7 @@ type Props = {
         searchAssociatedGroupsForReference: (prefix: string, teamId: string, channelId: string | undefined) => (dispatch: any, getState: any) => Promise<{ data: any }>;
     };
     useChannelMentions: boolean;
+    inputComponent?: ReactElement | string | null;
 };
 
 export default class Textbox extends React.PureComponent<Props> {
@@ -234,6 +235,7 @@ export default class Textbox extends React.PureComponent<Props> {
                 </div>
             );
         }
+        const inputComponent = this.props.inputComponent || AutosizeTextarea;
 
         return (
             <div
@@ -255,7 +257,7 @@ export default class Textbox extends React.PureComponent<Props> {
                     onBlur={this.handleBlur}
                     onHeightChange={this.handleHeightChange}
                     style={{visibility: this.props.preview ? 'hidden' : 'visible'}}
-                    inputComponent={AutosizeTextarea}
+                    inputComponent={inputComponent}
                     listComponent={SuggestionList}
                     listStyle={this.props.suggestionListStyle}
                     providers={this.suggestionProviders}
