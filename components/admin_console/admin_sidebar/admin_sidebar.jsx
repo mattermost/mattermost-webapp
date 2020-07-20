@@ -171,14 +171,24 @@ class AdminSidebar extends React.PureComponent {
     }
 
     renderRootMenu = (definition) => {
+        const {config, license, buildEnterpriseReady, consoleAccess} = this.props;
         const sidebarSections = [];
         Object.values(definition).forEach((section, sectionIndex) => {
-            const isSectionHidden = section.isHidden && section.isHidden(this.props.config, {}, this.props.license, this.props.buildEnterpriseReady, this.props.consoleAccess);
+            let isSectionHidden = false;
+            if (section.isHidden) {
+                isSectionHidden = typeof section.isHidden === 'function' ? section.isHidden(config, this.state, license, buildEnterpriseReady, consoleAccess) : Boolean(section.isHidden);
+            }
             if (!isSectionHidden) {
                 const sidebarItems = [];
                 Object.values(section).forEach((item, itemIndex) => {
                     if (!item.title) {
                         return;
+                    }
+
+                    if (item.isHidden) {
+                        if (typeof item.isHidden === 'function' ? item.isHidden(config, this.state, license, buildEnterpriseReady, consoleAccess) : Boolean(item.isHidden)) {
+                            return;
+                        }
                     }
 
                     if (this.state.sections !== null) {

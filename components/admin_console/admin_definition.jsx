@@ -204,7 +204,7 @@ const AdminDefinition = {
                 'Mattermost Enterprise Edition. Unlock enterprise features in this software through the purchase of a subscription from ',
                 'This software is offered under a commercial license.\n\nSee ENTERPRISE-EDITION-LICENSE.txt in your root install directory for details. See NOTICE.txt for information about open source software used in this system.',
             ],
-            isHidden: it.all(
+            isHidden: it.any(
                 it.not(it.enterpriseReady),
                 it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
             ),
@@ -287,7 +287,14 @@ const AdminDefinition = {
         icon: 'fa-users',
         sectionTitle: t('admin.sidebar.userManagement'),
         sectionTitleDefault: 'User Management',
-        isHidden: it.not(it.userHasReadPermissionOnResource('user_management')),
+        isHidden: it.all(
+            it.not(it.userHasReadPermissionOnResource('user_management')),
+            it.not(it.userHasReadPermissionOnResource('user_management.users')),
+            it.not(it.userHasReadPermissionOnResource('user_management.groups')),
+            it.not(it.userHasReadPermissionOnResource('user_management.teams')),
+            it.not(it.userHasReadPermissionOnResource('user_management.channels')),
+            it.not(it.userHasReadPermissionOnResource('user_management.permissions')),
+        ),
         system_users: {
             url: 'user_management/users',
             title: t('admin.sidebar.users'),
@@ -296,6 +303,7 @@ const AdminDefinition = {
                 ['admin.system_users.title', {siteName: ''}],
             ],
             isDisabled: it.not(it.userHasWritePermissionOnResource('user_management.users')),
+            isHidden: it.not(it.userHasReadPermissionOnResource('user_management.users')),
             schema: {
                 id: 'SystemUsers',
                 component: SystemUsers,
@@ -311,7 +319,6 @@ const AdminDefinition = {
         },
         group_detail: {
             url: 'user_management/groups/:group_id',
-            isHidden: it.not(it.licensedForFeature('LDAPGroups')),
             isDisabled: it.not(it.userHasWritePermissionOnResource('user_management.groups')),
             schema: {
                 id: 'GroupDetail',
@@ -324,6 +331,7 @@ const AdminDefinition = {
             title_default: 'Groups',
             isHidden: it.any(
                 it.not(it.licensedForFeature('LDAPGroups')),
+                it.not(it.userHasReadPermissionOnResource('user_management.groups')),
             ),
             isDisabled: it.not(it.userHasWritePermissionOnResource('user_management.groups')),
             schema: {
@@ -334,7 +342,6 @@ const AdminDefinition = {
         team_detail: {
             id: 'user_management.team_detail',
             url: 'user_management/teams/:team_id',
-            isHidden: it.not(it.licensedForFeature('LDAPGroups')),
             isDisabled: it.not(it.userHasWritePermissionOnResource('user_management.teams')),
             schema: {
                 id: 'TeamDetail',
@@ -346,7 +353,10 @@ const AdminDefinition = {
             url: 'user_management/teams',
             title: t('admin.sidebar.teams'),
             title_default: 'Teams',
-            isHidden: it.not(it.licensedForFeature('LDAPGroups')),
+            isHidden: it.any(
+                it.not(it.licensedForFeature('LDAPGroups')),
+                it.not(it.userHasReadPermissionOnResource('user_management.teams')),
+            ),
             schema: {
                 id: 'Teams',
                 component: TeamSettings,
@@ -354,7 +364,6 @@ const AdminDefinition = {
         },
         channel_detail: {
             url: 'user_management/channels/:channel_id',
-            isHidden: it.not(it.licensedForFeature('LDAPGroups')),
             isDisabled: it.not(it.userHasWritePermissionOnResource('user_management.channels')),
             schema: {
                 id: 'ChannelDetail',
@@ -365,7 +374,10 @@ const AdminDefinition = {
             url: 'user_management/channels',
             title: t('admin.sidebar.channels'),
             title_default: 'Channels',
-            isHidden: it.not(it.licensedForFeature('LDAPGroups')),
+            isHidden: it.any(
+                it.not(it.licensedForFeature('LDAPGroups')),
+                it.not(it.userHasReadPermissionOnResource('user_management.channels')),
+            ),
             isDisabled: it.not(it.userHasWritePermissionOnResource('user_management.channels')),
             schema: {
                 id: 'Channels',
@@ -374,7 +386,6 @@ const AdminDefinition = {
         },
         systemScheme: {
             url: 'user_management/permissions/system_scheme',
-            isHidden: it.not(it.licensed),
             isDisabled: it.not(it.userHasWritePermissionOnResource('user_management.permissions')),
             schema: {
                 id: 'PermissionSystemScheme',
@@ -383,10 +394,6 @@ const AdminDefinition = {
         },
         teamSchemeDetail: {
             url: 'user_management/permissions/team_override_scheme/:scheme_id',
-            isHidden: it.any(
-                it.not(it.licensed),
-                it.not(it.licensedForFeature('CustomPermissionsSchemes')),
-            ),
             isDisabled: it.not(it.userHasWritePermissionOnResource('user_management.permissions')),
             schema: {
                 id: 'PermissionSystemScheme',
@@ -395,10 +402,6 @@ const AdminDefinition = {
         },
         teamScheme: {
             url: 'user_management/permissions/team_override_scheme',
-            isHidden: it.any(
-                it.not(it.licensed),
-                it.not(it.licensedForFeature('CustomPermissionsSchemes')),
-            ),
             isDisabled: it.not(it.userHasWritePermissionOnResource('user_management.permissions')),
             schema: {
                 id: 'PermissionSystemScheme',
@@ -422,7 +425,10 @@ const AdminDefinition = {
                 'admin.permissions.teamOverrideSchemesBannerText',
                 'admin.permissions.teamOverrideSchemesNewButton',
             ],
-            isHidden: it.not(it.licensed),
+            isHidden: it.any(
+                it.not(it.licensed),
+                it.not(it.userHasReadPermissionOnResource('user_management.permissions')),
+            ),
             isDisabled: it.not(it.userHasWritePermissionOnResource('user_management.permissions')),
             schema: {
                 id: 'PermissionSchemes',
