@@ -86,7 +86,7 @@ class JobTable extends React.PureComponent {
     }
 
     getDownloadLink = (job) => {
-        if (job.data?.is_downloadable === 'true') { // eslint-disable-line camelcase
+        if (job.data?.is_downloadable === 'true' && parseInt(job.data?.messages_exported, 10) > 0) { // eslint-disable-line camelcase
             return (
                 <a
                     key={job.id}
