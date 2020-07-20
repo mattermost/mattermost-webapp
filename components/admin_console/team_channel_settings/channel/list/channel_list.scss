@@ -3,6 +3,7 @@
         .DataGrid_row {
             min-height: 40px;
             cursor: pointer;
+            padding-left: 16px;
         }
         
         .DataGrid_cell {
@@ -18,6 +19,19 @@
 
             .channel-icon___lowerOpacity {
                 opacity: 0.8;
+            }
+
+            .channel-icon___left2Pixel {
+                left: 2px;
+            }
+
+            .channel-icon___removeLeft2Pixel {
+                left: 0px;
+            }
+
+            	
+            .channel-icon___increaseMargin {
+                margin: 0 10px 0 0px;
             }
         }
     }
