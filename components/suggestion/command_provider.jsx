@@ -25,11 +25,11 @@ export class CommandSuggestion extends Suggestion {
         if (isSelection) {
             className += ' suggestion--selected';
         }
-        let symbol = '/';
+        let symbolSpan = <span>{'/'}</span>;
         if (item.iconData === EXECUTE_CURRENT_COMMAND_ITEM_ID) {
-            symbol = '↵';
+            symbolSpan = <span className='block mt-1'>{'↵'}</span>;
         }
-        let icon = <div className='slash-command__icon'><span>{symbol}</span></div>;
+        let icon = <div className='slash-command__icon'>{symbolSpan}</div>;
         if (item.iconData !== '' && item.iconData !== EXECUTE_CURRENT_COMMAND_ITEM_ID) {
             icon = (
                 <div
