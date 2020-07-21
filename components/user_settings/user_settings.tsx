@@ -3,14 +3,14 @@
 
 import React from 'react';
 
+import {UserProfile} from 'mattermost-redux/types/users';
+
 import AdvancedTab from './advanced';
 import DisplayTab from './display';
 import GeneralTab from './general';
 import NotificationsTab from './notifications';
 import SecurityTab from './security';
 import SidebarTab from './sidebar';
-
-import {UserProfile} from 'mattermost-redux/types/users';
 
 type Props = {
     user: UserProfile;
