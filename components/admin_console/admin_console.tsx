@@ -110,17 +110,18 @@ export default class AdminConsole extends React.PureComponent<Props, State> {
     }
 
     private renderRoutes = (extraProps: ExtraProps) => {
-        const schemas: Item[] = Object.values(this.props.adminDefinition).reduce((acc, section) => {
+        const {adminDefinition, config, license, buildEnterpriseReady, consoleAccess} = this.props;
+
+        const schemas: Item[] = Object.values(adminDefinition).reduce((acc, section) => {
             let items: Item[] = [];
 
             let isSectionHidden = false;
-            Object.entries(section).find((entry) => {
-                if (entry[0] === 'isHidden') {
-                    if (typeof entry[1] === 'function') {
-                        const isHiddenFunc = entry[1] as ((config?: Record<string, any>, state?: Record<string, any>, license?: Record<string, any>, buildEnterpriseReady?: boolean, consoleAccess?: ConsoleAccess) => boolean);
-                        isSectionHidden = isHiddenFunc(this.props.config, {}, this.props.license, this.props.buildEnterpriseReady, this.props.consoleAccess);
+            Object.entries(section).find(([key, value]) => {
+                if (key === 'isHidden') {
+                    if (typeof value === 'function') {
+                        isSectionHidden = value(config, this.state, license, buildEnterpriseReady, consoleAccess);
                     } else {
-                        isSectionHidden = entry[1];
+                        isSectionHidden = Boolean(value);
                     }
                 }
                 return null;
@@ -140,7 +141,7 @@ export default class AdminConsole extends React.PureComponent<Props, State> {
             let isItemDisabled: boolean;
 
             if (typeof item.isDisabled === 'function') {
-                isItemDisabled = item.isDisabled(this.props.config, this.state, this.props.license, this.props.buildEnterpriseReady, this.props.consoleAccess);
+                isItemDisabled = item.isDisabled(config, this.state, license, buildEnterpriseReady, consoleAccess);
             } else {
                 isItemDisabled = Boolean(item.isDisabled);
             }
