@@ -68,6 +68,7 @@
 }
 
 .Input-fieldset:focus-within {
+    border-color: transparent;
     box-shadow: 0 0 0 2px var(--button-bg);
     color: var(--button-bg);
 }
@@ -77,6 +78,7 @@
 
 .Input-fieldset-error {
     color: var(--error-text);
+    border-color: transparent;
     box-shadow: 0 0 0 1px var(--error-text);
 }
 .Input-fieldset-error:focus-within {
