@@ -116,7 +116,7 @@ describe('components/AdminSidebar', () => {
                     compliance: false,
                     experimental: false,
                 },
-            }
+            },
         };
         const props = {...defaultProps, ...ca};
         const wrapper = shallowWithIntl(<AdminSidebar {...props}/>);
