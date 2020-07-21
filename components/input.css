@@ -83,24 +83,24 @@
     color: var(--error-text);
     box-shadow: 0 0 0 2px var(--error-text);
 }
+
 .Input-legend {
-    opacity: 0;
-    position: relative;
-    width: max-content;
-    margin: 0;
-    padding: 0;
-    font-size: 10px;
-    line-height: 16px;
-    text-align: left;
-    z-index: 4;
-    border: none;
-    color: rgba(var(--center-channel-color-rgb), 0.64);
+    display: flex;
+    width: auto;
     transition-duration: 0.15s;
     transition-property: opacity, transform;
     transition-timing-function: ease-in-out;
     transform: translateY(8px);
-    height: 0;
-    top: -8px;
+    opacity: 0;
+    position: absolute;
+    font-size: 10px;
+    line-height: 16px;
+    z-index: 4;
+    top: -10px;
+    background-color: var(--center-channel-bg);
+    padding: 0 4px;
+    white-space: nowrap;
+    border: none;
 }
 
 .Input-fieldset-error .Input-legend{
