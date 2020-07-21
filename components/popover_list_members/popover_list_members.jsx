@@ -17,6 +17,8 @@ import Popover from 'components/widgets/popover';
 
 import PopoverListMembersItem from 'components/popover_list_members/popover_list_members_item';
 
+const NOT_DELETED = 0;
+
 export default class PopoverListMembers extends React.PureComponent {
     static propTypes = {
         channel: PropTypes.object.isRequired,
@@ -100,7 +102,7 @@ export default class PopoverListMembers extends React.PureComponent {
     render() {
         const isDirectChannel = this.props.channel.type === Constants.DM_CHANNEL;
 
-        const activeUsers = this.props.sortedUsers.filter((user) => user.delete_at === 0);
+        const activeUsers = this.props.sortedUsers.filter((user) => user.delete_at === NOT_DELETED);
         const items = activeUsers.map((user) => (
             <PopoverListMembersItem
                 key={user.id}
