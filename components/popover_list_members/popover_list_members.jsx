@@ -100,7 +100,8 @@ export default class PopoverListMembers extends React.PureComponent {
     render() {
         const isDirectChannel = this.props.channel.type === Constants.DM_CHANNEL;
 
-        const items = this.props.sortedUsers.map((user) => (
+        const activeUsers = this.props.sortedUsers.filter((user) => user.delete_at === 0);
+        const items = activeUsers.map((user) => (
             <PopoverListMembersItem
                 key={user.id}
                 onItemClick={this.handleShowDirectChannel}
