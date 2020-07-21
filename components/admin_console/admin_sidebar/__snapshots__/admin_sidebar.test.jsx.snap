@@ -564,7 +564,7 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
             />
             <AdminSidebarSection
               key="8"
-              name="authentication/discover-ldap"
+              name="authentication/ldap"
               parentLink=""
               subsection={false}
               title={
@@ -577,7 +577,7 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
             />
             <AdminSidebarSection
               key="10"
-              name="authentication/discover-saml"
+              name="authentication/saml"
               parentLink=""
               subsection={false}
               title={
@@ -3969,7 +3969,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
             />
             <AdminSidebarSection
               key="8"
-              name="authentication/discover-ldap"
+              name="authentication/ldap"
               parentLink=""
               subsection={false}
               title={
@@ -3982,7 +3982,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
             />
             <AdminSidebarSection
               key="10"
-              name="authentication/discover-saml"
+              name="authentication/saml"
               parentLink=""
               subsection={false}
               title={

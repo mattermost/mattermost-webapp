@@ -18,7 +18,7 @@ describe('channel groups', () => {
     let teamName;
 
     before(() => {
-        cy.requireLicenseForFeature('LDAP');
+        cy.apiRequireLicenseForFeature('LDAP');
 
         // # Link 2 groups
         cy.apiGetLDAPGroups().then((result) => {

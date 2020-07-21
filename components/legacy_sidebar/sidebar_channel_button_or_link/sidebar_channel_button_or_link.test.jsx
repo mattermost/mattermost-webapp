@@ -55,15 +55,15 @@ describe('component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannel
     });
 
     test('should trackEvent, mark and add history entry on desktop on click', () => {
-        const browserHistoryMock = require.requireMock('utils/browser_history');
-        const telemetryActionsMock = require.requireMock('actions/telemetry_actions.jsx');
+        const browserHistoryMock = jest.requireMock('utils/browser_history');
+        const telemetryActionsMock = jest.requireMock('actions/telemetry_actions.jsx');
         expect(telemetryActionsMock.trackEvent).not.toBeCalled();
         expect(telemetryActionsMock.mark).not.toBeCalled();
         expect(browserHistoryMock.browserHistory.push).not.toBeCalled();
     });
 
     test('should match snapshot, on non-desktop with mentions badge', () => {
-        const userAgentMock = require.requireMock('utils/user_agent');
+        const userAgentMock = jest.requireMock('utils/user_agent');
         userAgentMock.isDesktopApp.mockImplementation(() => false);
 
         const props = {...baseProps, badge: true};
@@ -74,7 +74,7 @@ describe('component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannel
     });
 
     test('should match snapshot, on non-desktop without badge', () => {
-        const userAgentMock = require.requireMock('utils/user_agent');
+        const userAgentMock = jest.requireMock('utils/user_agent');
         userAgentMock.isDesktopApp.mockImplementation(() => false);
 
         const wrapper = shallow(
@@ -84,11 +84,11 @@ describe('component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannel
     });
 
     test('should trackEvent and mark but not add history entry on non-desktop on click', () => {
-        const userAgentMock = require.requireMock('utils/user_agent');
+        const userAgentMock = jest.requireMock('utils/user_agent');
         userAgentMock.isDesktopApp.mockImplementation(() => false);
 
-        const browserHistoryMock = require.requireMock('utils/browser_history');
-        const telemetryActionsMock = require.requireMock('actions/telemetry_actions.jsx');
+        const browserHistoryMock = jest.requireMock('utils/browser_history');
+        const telemetryActionsMock = jest.requireMock('actions/telemetry_actions.jsx');
         expect(telemetryActionsMock.trackEvent).not.toBeCalled();
         expect(telemetryActionsMock.mark).not.toBeCalled();
         expect(browserHistoryMock.browserHistory.push).not.toBeCalled();

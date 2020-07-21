@@ -8,7 +8,7 @@ exports[`messageHtmlToComponent At mention 1`] = `
     <span
       data-mention="joram"
     >
-      <Connect(AtMention)
+      <Memo(Connect(AtMention))
         disableGroupHighlight={false}
         disableHighlight={false}
         hasMention={true}
@@ -16,7 +16,7 @@ exports[`messageHtmlToComponent At mention 1`] = `
         mentionName="joram"
       >
         @joram
-      </Connect(AtMention)>
+      </Memo(Connect(AtMention))>
     </span>
   </span>
 </p>
@@ -27,7 +27,7 @@ exports[`messageHtmlToComponent At mention 2`] = `
   <span
     data-mention="joram"
   >
-    <Connect(AtMention)
+    <Memo(Connect(AtMention))
       disableGroupHighlight={false}
       disableHighlight={true}
       hasMention={true}
@@ -35,7 +35,7 @@ exports[`messageHtmlToComponent At mention 2`] = `
       mentionName="joram"
     >
       @joram
-    </Connect(AtMention)>
+    </Memo(Connect(AtMention))>
   </span>
 </p>
 `;
@@ -45,7 +45,7 @@ exports[`messageHtmlToComponent At mention with group highlight disabled 1`] = `
   <span
     data-mention="developers"
   >
-    <Connect(AtMention)
+    <Memo(Connect(AtMention))
       disableGroupHighlight={false}
       disableHighlight={false}
       hasMention={true}
@@ -53,7 +53,7 @@ exports[`messageHtmlToComponent At mention with group highlight disabled 1`] = `
       mentionName="developers"
     >
       @developers
-    </Connect(AtMention)>
+    </Memo(Connect(AtMention))>
   </span>
 </p>
 `;
@@ -63,7 +63,7 @@ exports[`messageHtmlToComponent At mention with group highlight disabled 2`] = `
   <span
     data-mention="developers"
   >
-    <Connect(AtMention)
+    <Memo(Connect(AtMention))
       disableGroupHighlight={true}
       disableHighlight={false}
       hasMention={true}
@@ -71,7 +71,7 @@ exports[`messageHtmlToComponent At mention with group highlight disabled 2`] = `
       mentionName="developers"
     >
       @developers
-    </Connect(AtMention)>
+    </Memo(Connect(AtMention))>
   </span>
 </p>
 `;
@@ -131,10 +131,10 @@ Array [
   </p>,
   "
 ",
-  <Connect(LatexBlock)
+  <Memo(Connect(LatexBlock))
     content="x^2 + y^2 = z^2"
   />,
-  <Connect(LatexBlock)
+  <Memo(Connect(LatexBlock))
     content="F_m - 2 = F_0 F_1 \\\\dots F_{m-1}"
   />,
   <p>

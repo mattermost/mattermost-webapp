@@ -13,6 +13,26 @@ export function setModalSearchTerm(term) {
     };
 }
 
+export function setUserGridSearch(term) {
+    return async (dispatch) => {
+        dispatch({
+            type: SearchTypes.SET_USER_GRID_SEARCH,
+            data: term,
+        });
+        return {data: true};
+    };
+}
+
+export function setUserGridFilters(filters = {}) {
+    return async (dispatch) => {
+        dispatch({
+            type: SearchTypes.SET_USER_GRID_FILTERS,
+            data: filters,
+        });
+        return {data: true};
+    };
+}
+
 export function setSystemUsersSearch(term, team = '', filter = '') {
     return async (dispatch) => {
         dispatch({
