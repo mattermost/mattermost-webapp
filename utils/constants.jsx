@@ -1304,6 +1304,10 @@ export const Constants = {
         COMPOSING: ['Composing', 229],
     },
     CODE_PREVIEW_MAX_FILE_SIZE: 500000, // 500 KB
+
+    // TODO add support for all languages defined in 
+    // https://github.com/highlightjs/highlight.js/blob/master/SUPPORTED_LANGUAGES.md
+    // since now we are dynamically loading
     HighlightedLanguages: {
         actionscript: {name: 'ActionScript', extensions: ['as'], aliases: ['as', 'as3']},
         applescript: {name: 'AppleScript', extensions: ['applescript', 'osascript', 'scpt']},

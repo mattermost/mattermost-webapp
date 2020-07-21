@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import hlJS from 'highlight.js';
+import hlJS from 'highlight.js/lib/core';
 
 import Constants from './constants';
 import * as TextFormatting from './text_formatting';
@@ -40,7 +40,11 @@ export function highlight(lang: string, code: string, addLineNumbers = false) {
 
     if (language) {
         try {
+            // Require the language highlight support dynamically and register
+            hlJS.registerLanguage(language, require(`highlight.js/lib/languages/${language}`));
+
             const codeValue = hlJS.highlight(language, code).value;
+
             if (addLineNumbers) {
                 return formatHighLight(codeValue);
             }
