@@ -4,8 +4,12 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import Timestamp from 'components/timestamp';
+import Timestamp, {RelativeRanges} from 'components/timestamp';
 
+const DATE_RANGES = [
+    RelativeRanges.TODAY_TITLE_CASE,
+    RelativeRanges.YESTERDAY_TITLE_CASE,
+];
 type Props = {
     isScrolling: boolean;
     isMobile: boolean;
@@ -38,6 +42,7 @@ export default class FloatingTimestamp extends React.PureComponent<Props> {
                         <Timestamp
                             value={createAt}
                             useTime={false}
+                            ranges={DATE_RANGES}
                         />
                     </span>
                 </div>
