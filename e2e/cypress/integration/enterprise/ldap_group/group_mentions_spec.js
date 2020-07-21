@@ -128,7 +128,7 @@ const saveConfig = () => {
 describe('System Console', () => {
     before(() => {
         // * Check if server has license for LDAP Groups
-        cy.requireLicenseForFeature('LDAPGroups');
+        cy.apiRequireLicenseForFeature('LDAPGroups');
 
         // # Enable LDAP
         cy.apiUpdateConfig({LdapSettings: {Enable: true}});
@@ -170,9 +170,7 @@ describe('System Console', () => {
         cy.apiAdminLogin();
 
         // # Add board user to test team to ensure that it exists in the team and set its preferences to skip tutorial step
-        cy.apiGetUserByEmail(boardUser.email).then((eRes) => {
-            const user = eRes.body;
-
+        cy.apiGetUserByEmail(boardUser.email).then(({user}) => {
             cy.apiGetChannelByName(testTeam.name, 'town-square').then((channelRes) => {
                 const channelId = channelRes.body.id;
                 cy.apiAddUserToTeam(testTeam.id, user.id).then(() => {

@@ -64,7 +64,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               className="group-actions TeamList_editRow"
               data-testid="DNedit"
             >
-              <ForwardRef
+              <Link
                 to="/admin_console/user_management/channels/123"
               >
                 <FormattedMessage
@@ -72,7 +72,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
                   id="admin.channel_settings.channel_row.configure"
                   values={Object {}}
                 />
-              </ForwardRef>
+              </Link>
             </span>,
             "id": "123",
             "management": <span
@@ -184,7 +184,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               className="group-actions TeamList_editRow"
               data-testid="DN0edit"
             >
-              <ForwardRef
+              <Link
                 to="/admin_console/user_management/channels/id0"
               >
                 <FormattedMessage
@@ -192,7 +192,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
                   id="admin.channel_settings.channel_row.configure"
                   values={Object {}}
                 />
-              </ForwardRef>
+              </Link>
             </span>,
             "id": "id0",
             "management": <span
@@ -231,7 +231,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               className="group-actions TeamList_editRow"
               data-testid="DN1edit"
             >
-              <ForwardRef
+              <Link
                 to="/admin_console/user_management/channels/id1"
               >
                 <FormattedMessage
@@ -239,7 +239,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
                   id="admin.channel_settings.channel_row.configure"
                   values={Object {}}
                 />
-              </ForwardRef>
+              </Link>
             </span>,
             "id": "id1",
             "management": <span
@@ -278,7 +278,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               className="group-actions TeamList_editRow"
               data-testid="DN2edit"
             >
-              <ForwardRef
+              <Link
                 to="/admin_console/user_management/channels/id2"
               >
                 <FormattedMessage
@@ -286,7 +286,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
                   id="admin.channel_settings.channel_row.configure"
                   values={Object {}}
                 />
-              </ForwardRef>
+              </Link>
             </span>,
             "id": "id2",
             "management": <span
@@ -325,7 +325,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               className="group-actions TeamList_editRow"
               data-testid="DN3edit"
             >
-              <ForwardRef
+              <Link
                 to="/admin_console/user_management/channels/id3"
               >
                 <FormattedMessage
@@ -333,7 +333,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
                   id="admin.channel_settings.channel_row.configure"
                   values={Object {}}
                 />
-              </ForwardRef>
+              </Link>
             </span>,
             "id": "id3",
             "management": <span
@@ -372,7 +372,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               className="group-actions TeamList_editRow"
               data-testid="DN4edit"
             >
-              <ForwardRef
+              <Link
                 to="/admin_console/user_management/channels/id4"
               >
                 <FormattedMessage
@@ -380,7 +380,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
                   id="admin.channel_settings.channel_row.configure"
                   values={Object {}}
                 />
-              </ForwardRef>
+              </Link>
             </span>,
             "id": "id4",
             "management": <span
@@ -419,7 +419,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               className="group-actions TeamList_editRow"
               data-testid="DN5edit"
             >
-              <ForwardRef
+              <Link
                 to="/admin_console/user_management/channels/id5"
               >
                 <FormattedMessage
@@ -427,7 +427,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
                   id="admin.channel_settings.channel_row.configure"
                   values={Object {}}
                 />
-              </ForwardRef>
+              </Link>
             </span>,
             "id": "id5",
             "management": <span
@@ -466,7 +466,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               className="group-actions TeamList_editRow"
               data-testid="DN6edit"
             >
-              <ForwardRef
+              <Link
                 to="/admin_console/user_management/channels/id6"
               >
                 <FormattedMessage
@@ -474,7 +474,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
                   id="admin.channel_settings.channel_row.configure"
                   values={Object {}}
                 />
-              </ForwardRef>
+              </Link>
             </span>,
             "id": "id6",
             "management": <span
@@ -513,7 +513,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               className="group-actions TeamList_editRow"
               data-testid="DN7edit"
             >
-              <ForwardRef
+              <Link
                 to="/admin_console/user_management/channels/id7"
               >
                 <FormattedMessage
@@ -521,7 +521,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
                   id="admin.channel_settings.channel_row.configure"
                   values={Object {}}
                 />
-              </ForwardRef>
+              </Link>
             </span>,
             "id": "id7",
             "management": <span
@@ -560,7 +560,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               className="group-actions TeamList_editRow"
               data-testid="DN8edit"
             >
-              <ForwardRef
+              <Link
                 to="/admin_console/user_management/channels/id8"
               >
                 <FormattedMessage
@@ -568,7 +568,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
                   id="admin.channel_settings.channel_row.configure"
                   values={Object {}}
                 />
-              </ForwardRef>
+              </Link>
             </span>,
             "id": "id8",
             "management": <span
@@ -607,7 +607,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               className="group-actions TeamList_editRow"
               data-testid="DN9edit"
             >
-              <ForwardRef
+              <Link
                 to="/admin_console/user_management/channels/id9"
               >
                 <FormattedMessage
@@ -615,7 +615,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
                   id="admin.channel_settings.channel_row.configure"
                   values={Object {}}
                 />
-              </ForwardRef>
+              </Link>
             </span>,
             "id": "id9",
             "management": <span

@@ -111,7 +111,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
 
     before(() => {
         // * Check if server has license for Guest Accounts
-        cy.requireLicenseForFeature('GuestAccounts');
+        cy.apiRequireLicenseForFeature('GuestAccounts');
     });
 
     beforeEach(() => {
@@ -396,5 +396,36 @@ describe('Guest Account - Guest User Invitation Flow', () => {
                 cy.get('.username-or-icon .Badge').should('be.visible').and('have.text', 'GUEST');
             });
         });
+    });
+
+    it('MM-T1415 Check Previous button on successful/failed invites', () => {
+        // # Search and add an existing member by username who is part of the team
+        invitePeople(newUser.username, 1, newUser.username);
+
+        // * Verify the content and message in next screen
+        cy.findByText('This person is already a member.').should('be.visible');
+
+        // # Click on previous button
+        cy.get('#backIcon').click();
+
+        // * Verify the channel is preselected
+        cy.findByTestId('channelPlaceholder').should('be.visible').within(() => {
+            cy.get('.public-channel-icon').should('be.visible');
+            cy.findByText('Town Square').should('be.visible');
+        });
+
+        // * Verify the email field is empty
+        cy.findByTestId('emailPlaceholder').should('be.visible').within(() => {
+            cy.get('.users-emails-input__multi-value').should('not.exist');
+            const email = `temp-${getRandomId()}@mattermost.com`;
+            cy.get('input').type(email, {force: true});
+            cy.get('.users-emails-input__menu').children().should('have.length', 1).eq(0).should('contain', email).click();
+        });
+
+        // # Click Invite Guests Button
+        cy.get('#inviteGuestButton').scrollIntoView().click();
+
+        // * Verify previous button is not displayed
+        cy.get('#backIcon').should('not.exist');
     });
 });

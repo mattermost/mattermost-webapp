@@ -10,7 +10,7 @@ import {checkBoxes} from './constants';
 export const visitChannelConfigPage = (channel) => {
     cy.apiAdminLogin();
     cy.visit('/admin_console/user_management/channels');
-    cy.findByTestId('search-input').type(`${channel.name}{enter}`);
+    cy.findByPlaceholderText('Search').type(`${channel.name}{enter}`);
     cy.findByText('Edit').click();
     cy.wait(TIMEOUTS.ONE_SEC);
 };
@@ -35,11 +35,11 @@ export const saveConfigForChannel = (channelName = false, clickConfirmationButto
             }
 
             // # Make sure the save is complete by looking for the search input which is only visible on the teams index page
-            cy.findByTestId('search-input').should('be.visible');
+            cy.findByPlaceholderText('Search').should('be.visible');
 
             if (channelName) {
                 // # Search for the channel.
-                cy.findByTestId('search-input').type(`${channelName}{enter}`);
+                cy.findByPlaceholderText('Search').type(`${channelName}{enter}`);
                 cy.findByText('Edit').click();
             }
         }

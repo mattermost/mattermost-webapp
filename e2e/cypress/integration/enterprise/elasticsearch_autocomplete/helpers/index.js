@@ -174,9 +174,7 @@ module.exports = {
             // If we have a user to add to the team, add them now
             if (userToAdd) {
                 // First get the user details by email of the user
-                return cy.apiGetUserByEmail(userToAdd.email).then((userResponse) => {
-                    const user = userResponse.body;
-
+                return cy.apiGetUserByEmail(userToAdd.email).then(({user}) => {
                     // Add user to team
                     cy.task('externalRequest', {
                         user: admin,

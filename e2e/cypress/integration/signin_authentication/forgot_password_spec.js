@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @signin_authentication
 
 import {getEmailUrl, getEmailMessageSeparator, reUrl} from '../../utils';
@@ -22,8 +21,8 @@ describe('Signin/Authentication', () => {
         cy.apiEmailTest();
 
         // # Get config
-        cy.apiGetConfig().then((response) => {
-            testConfig = response.body;
+        cy.apiGetConfig().then(({config}) => {
+            testConfig = config;
         });
 
         // # Create new team and users
