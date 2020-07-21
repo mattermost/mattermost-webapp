@@ -76,7 +76,7 @@ declare namespace Cypress {
         apiGetUserByEmail(email: string): Chainable<UserProfile>;
 
         /**
-         * Get a user by email
+         * Get users by usernames
          * See https://api.mattermost.com/#tag/users/paths/~1users~1usernames/post
          * @param {String[]} usernames - list of usernames to get profiles
          * @returns {UserProfile[]} response.body: list of `UserProfile` objects
