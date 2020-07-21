@@ -55,6 +55,32 @@ describe('components/AdminSidebar', () => {
         actions: {
             getPlugins: jest.fn(),
         },
+        consoleAccess: {
+            read: {
+                about: true,
+                reporting: true,
+                user_management: true,
+                environment: true,
+                site_configuration: true,
+                authentication: true,
+                plugins: true,
+                integrations: true,
+                compliance: true,
+                experimental: true,
+            },
+            write: {
+                about: true,
+                reporting: true,
+                user_management: true,
+                environment: true,
+                site_configuration: true,
+                authentication: true,
+                plugins: true,
+                integrations: true,
+                compliance: true,
+                experimental: true,
+            },
+        },
     };
 
     test('should match snapshot', () => {
