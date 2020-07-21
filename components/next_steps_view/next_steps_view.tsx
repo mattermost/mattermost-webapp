@@ -69,7 +69,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
 
     getStartingStep = () => {
         for (let i = 0; i < Steps.length; i++) {
-            if (!this.props.preferences.some((pref) => pref.name === Steps[i].id && pref.value)) {
+            if (!this.isStepComplete(Steps[i].id)) {
                 return Steps[i].id;
             }
         }
