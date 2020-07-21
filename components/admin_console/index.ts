@@ -8,7 +8,7 @@ import {loadRolesIfNeeded, editRole} from 'mattermost-redux/actions/roles';
 import * as Selectors from 'mattermost-redux/selectors/entities/admin';
 import {withRouter} from 'react-router-dom';
 import {getConfig as getGeneralConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
-import {getRoles, haveINoPermissionOnSysConsoleItem, haveINoWritePermissionOnSysConsoleItem} from 'mattermost-redux/selectors/entities/roles';
+import {getRoles} from 'mattermost-redux/selectors/entities/roles';
 import {selectChannel} from 'mattermost-redux/actions/channels';
 import {selectTeam} from 'mattermost-redux/actions/teams';
 import {isCurrentUserSystemAdmin, currentUserHasAnAdminRole, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
@@ -20,7 +20,7 @@ import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {setNavigationBlocked, deferNavigation, cancelNavigation, confirmNavigation} from 'actions/admin_actions.jsx';
 import {getNavigationBlocked, showNavigationPrompt} from 'selectors/views/admin';
-import {getAdminDefinition} from 'selectors/admin_console';
+import {getAdminDefinition, getConsoleAccess} from 'selectors/admin_console';
 
 import LocalStorageStore from 'stores/local_storage_store';
 
@@ -35,19 +35,7 @@ function mapStateToProps(state: GlobalState) {
     const teamId = LocalStorageStore.getPreviousTeamId(getCurrentUserId(state));
     const team = getTeam(state, teamId || '');
     const unauthorizedRoute = team ? `/${team.name}/channels/${General.DEFAULT_CHANNEL}` : '/';
-
-    const consoleAccess: ConsoleAccess = {read: {}, write: {}};
-    Object.entries(adminDefinition).forEach(([key]) => {
-        consoleAccess.read[key] = !haveINoPermissionOnSysConsoleItem(state, {resourceId: key});
-        consoleAccess.write[key] = !haveINoWritePermissionOnSysConsoleItem(state, {resourceId: key});
-        if (key === 'user_management') {
-            ['users', 'groups', 'teams', 'channels', 'permissions'].forEach((userManagementKey) => {
-                const subKey = `${key}.${userManagementKey}`;
-                consoleAccess.read[subKey] = !haveINoPermissionOnSysConsoleItem(state, {resourceId: subKey});
-                consoleAccess.write[subKey] = !haveINoWritePermissionOnSysConsoleItem(state, {resourceId: subKey});
-            });
-        }
-    });
+    const consoleAccess: ConsoleAccess = getConsoleAccess(state);
 
     return {
         config: Selectors.getConfig(state),

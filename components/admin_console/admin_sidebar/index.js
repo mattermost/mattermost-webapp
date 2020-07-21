@@ -5,10 +5,9 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {getPlugins} from 'mattermost-redux/actions/admin';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
-import {haveINoPermissionOnSysConsoleItem, haveINoWritePermissionOnSysConsoleItem} from 'mattermost-redux/selectors/entities/roles';
 
 import {getNavigationBlocked} from 'selectors/views/admin';
-import {getAdminDefinition} from 'selectors/admin_console';
+import {getAdminDefinition, getConsoleAccess} from 'selectors/admin_console';
 
 import AdminSidebar from './admin_sidebar.jsx';
 
@@ -18,19 +17,7 @@ function mapStateToProps(state) {
     const buildEnterpriseReady = config.BuildEnterpriseReady === 'true';
     const siteName = config.SiteName;
     const adminDefinition = getAdminDefinition(state);
-
-    const consoleAccess = {read: {}, write: {}};
-    Object.entries(adminDefinition).forEach(([key]) => {
-        consoleAccess.read[key] = !haveINoPermissionOnSysConsoleItem(state, {resourceId: key});
-        consoleAccess.write[key] = !haveINoWritePermissionOnSysConsoleItem(state, {resourceId: key});
-        if (key === 'user_management') {
-            ['users', 'groups', 'teams', 'channels', 'permissions'].forEach((userManagementKey) => {
-                const subKey = `${key}.${userManagementKey}`;
-                consoleAccess.read[subKey] = !haveINoPermissionOnSysConsoleItem(state, {resourceId: subKey});
-                consoleAccess.write[subKey] = !haveINoWritePermissionOnSysConsoleItem(state, {resourceId: subKey});
-            });
-        }
-    });
+    const consoleAccess = getConsoleAccess(state);
 
     return {
         license,
