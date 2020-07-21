@@ -154,12 +154,12 @@
 .Card.complete {
     border-color: transparent;
     box-shadow: none;
-    transition: border-color 0.3s ease-in-out;
+    transition-property: box-shadow, border-color;
     background-color: transparent;
 
     & + .Card {
         margin-top: 12px;
-        transition: margin 0.3s ease-in-out;
+        transition-property: box-shadow, border-color, margin;
     }
 
     .Card__header {
