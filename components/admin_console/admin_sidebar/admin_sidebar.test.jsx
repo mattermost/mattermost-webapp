@@ -89,6 +89,40 @@ describe('components/AdminSidebar', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('should match snapshot, no access', () => {
+        const ca = {
+            consoleAccess: {
+                read: {
+                    about: false,
+                    reporting: false,
+                    user_management: false,
+                    environment: false,
+                    site_configuration: false,
+                    authentication: false,
+                    plugins: false,
+                    integrations: false,
+                    compliance: false,
+                    experimental: false,
+                },
+                write: {
+                    about: false,
+                    reporting: false,
+                    user_management: false,
+                    environment: false,
+                    site_configuration: false,
+                    authentication: false,
+                    plugins: false,
+                    integrations: false,
+                    compliance: false,
+                    experimental: false,
+                },
+            }
+        };
+        const props = {...defaultProps, ...ca};
+        const wrapper = shallowWithIntl(<AdminSidebar {...props}/>);
+        expect(wrapper).toMatchSnapshot();
+    });
+
     test('should match snapshot, render plugins without any settings as well', () => {
         const props = {
             license: {},
