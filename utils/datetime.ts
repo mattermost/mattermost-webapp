@@ -18,11 +18,12 @@ const shouldTruncate = new Map<Unit, boolean>([
 export function isWithin(
     a: Date,
     b: Date,
+    timeZone: string | undefined,
     unit: Unit,
     threshold = 1,
     truncateEndpoints = shouldTruncate.get(unit) || false,
 ): boolean {
-    const diff = getDiff(a, b, unit, truncateEndpoints);
+    const diff = getDiff(a, b, timeZone, unit, truncateEndpoints);
     return threshold >= 0 ?
         diff <= threshold && diff >= 0 :
         diff >= threshold && diff <= 0;
@@ -31,24 +32,31 @@ export function isWithin(
 export function isEqual(
     a: Date,
     b: Date,
+    timeZone: string | undefined,
     unit: Unit,
     threshold = 1,
     truncateEndpoints = shouldTruncate.get(unit) || false,
 ): boolean {
-    return threshold === getDiff(a, b, unit, truncateEndpoints);
+    return threshold === getDiff(a, b, timeZone, unit, truncateEndpoints);
 }
 
 export function getDiff(
     a: Date,
     b: Date,
+    timeZone: string | undefined,
     unit: Unit,
     truncateEndpoints = shouldTruncate.get(unit) || false,
 ): number {
-    const momentA = moment(a);
-    const momentB = moment(b);
+    const momentA = moment.utc(a.getTime());
+    const momentB = moment.utc(b.getTime());
+
+    if (timeZone) {
+        momentA.tz(timeZone);
+        momentB.tz(timeZone);
+    }
 
     return truncateEndpoints ?
-        momentA.startOf(unit).diff(momentB.startOf(unit), unit) :
+        momentA.startOf('day').diff(momentB.startOf('day'), unit) :
         momentA.diff(b, unit, true);
 }
 

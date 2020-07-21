@@ -6,12 +6,12 @@ import {mount} from 'enzyme';
 
 import SemanticTime from './semantic_time';
 
-describe('SemanticTime', () => {
+describe('components/timestamp/SemanticTime', () => {
     test('should render time semantically', () => {
         const date = new Date('2020-06-05T10:20:30Z');
         const wrapper = mount(
             <SemanticTime
-                rawDate={date}
+                value={date}
             />
         );
         expect(wrapper).toMatchSnapshot();
@@ -22,7 +22,7 @@ describe('SemanticTime', () => {
         const date = new Date('2020-06-05T10:20:30Z');
         const wrapper = mount(
             <SemanticTime
-                rawDate={date}
+                value={date}
             >
                 {'10:20'}
             </SemanticTime>
@@ -36,7 +36,7 @@ describe('SemanticTime', () => {
         const date = new Date('2020-06-05T10:20:30Z');
         const wrapper = mount(
             <SemanticTime
-                rawDate={date}
+                value={date}
             >
                 {'10:20'}
             </SemanticTime>

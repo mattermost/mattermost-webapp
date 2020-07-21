@@ -5,47 +5,53 @@ import React from 'react';
 import moment from 'moment';
 
 import {shallowWithIntl, mountWithIntl} from 'tests/helpers/intl-test-helper';
+import {fakeDate} from 'tests/helpers/date';
 
 import Timestamp from './timestamp';
 import SemanticTime from './semantic_time';
 
 import {RelativeRanges} from './index';
 
-function daysFromNow(diff: number) {
-    const date = new Date();
-    date.setDate(date.getDate() + diff);
-    return date;
-}
+describe('components/timestamp/Timestamp', () => {
+    let resetFakeDate: () => void;
 
-describe('components/Timestamp', () => {
+    beforeEach(() => {
+        resetFakeDate = fakeDate(new Date('2019-05-03T13:20:00Z'));
+    });
+
+    afterEach(() => {
+        resetFakeDate();
+    });
+
+    function daysFromNow(diff: number) {
+        const date = new Date();
+        date.setDate(date.getDate() + diff);
+        return date;
+    }
+
     test('should be wrapped in SemanticTime', () => {
-        const date = new Date('2020-06-05T10:20:30Z');
         const wrapper = shallowWithIntl(
             <Timestamp
-                value={date}
                 useTime={false}
-
             />
         );
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find(SemanticTime).exists());
     });
 
-    test('should render Today', () => {
+    test('should render title-case Today', () => {
         const wrapper = mountWithIntl(
             <Timestamp
-                value={daysFromNow(0)}
                 useTime={false}
                 ranges={[
                     RelativeRanges.TODAY_TITLE_CASE
                 ]}
             />
         );
-        expect(wrapper).toMatchSnapshot();
         expect(wrapper.text()).toEqual('Today');
     });
 
-    test('should render today', () => {
+    test('should render normal today', () => {
         const wrapper = mountWithIntl(
             <Timestamp
                 value={daysFromNow(0)}
@@ -55,11 +61,10 @@ describe('components/Timestamp', () => {
                 ]}
             />
         );
-
         expect(wrapper.text()).toEqual('today');
     });
 
-    test('should render Yesterday', () => {
+    test('should render title-case Yesterday', () => {
         const wrapper = mountWithIntl(
             <Timestamp
                 value={daysFromNow(-1)}
@@ -69,11 +74,10 @@ describe('components/Timestamp', () => {
                 ]}
             />
         );
-
         expect(wrapper.text()).toEqual('Yesterday');
     });
 
-    test('should render yesterday', () => {
+    test('should render normal yesterday', () => {
         const wrapper = mountWithIntl(
             <Timestamp
                 value={daysFromNow(-1)}
@@ -83,7 +87,6 @@ describe('components/Timestamp', () => {
                 ]}
             />
         );
-
         expect(wrapper.text()).toEqual('yesterday');
     });
 
@@ -95,7 +98,6 @@ describe('components/Timestamp', () => {
                 unit='day'
             />
         );
-
         expect(wrapper.text()).toEqual('3 days ago');
     });
 
@@ -107,8 +109,7 @@ describe('components/Timestamp', () => {
                 useTime={false}
             />
         );
-
-        expect(wrapper.text()).toEqual(moment(date).format('dddd'));
+        expect(wrapper.text()).toEqual(moment.utc(date).format('dddd'));
     });
 
     test('should render 6 days ago as weekday', () => {
@@ -133,308 +134,127 @@ describe('components/Timestamp', () => {
             />
         );
 
-        expect(wrapper.text()).toEqual(moment(date).tz('Asia/Manila').format('dddd'));
+        expect(wrapper.text()).toEqual(moment.utc(date).tz('Asia/Manila').format('dddd'));
+    });
+
+    test('should render date in current year', () => {
+        const date = daysFromNow(-20);
+        const wrapper = mountWithIntl(
+            <Timestamp
+                value={date}
+                useTime={false}
+            />
+        );
+
+        expect(wrapper.text()).toEqual(moment.utc(date).format('MMMM DD'));
+    });
+
+    test('should render date from previous year', () => {
+        const date = daysFromNow(-365);
+        const wrapper = mountWithIntl(
+            <Timestamp
+                value={date}
+                useTime={false}
+            />
+        );
+
+        expect(wrapper.text()).toEqual(moment.utc(date).format('MMMM DD, YYYY'));
+    });
+
+    test('should render time without timezone', () => {
+        const wrapper = mountWithIntl(
+            <Timestamp
+                value={new Date('Fri Jan 12 2018 20:15:13 GMT+0800 (+08)').getTime()}
+                useDate={false}
+            />,
+        );
+        expect(wrapper.text()).toBe('12:15 PM');
+    });
+
+    test('should render time without timezone, in military time', () => {
+        const wrapper = mountWithIntl(
+            <Timestamp
+                value={new Date('Fri Jan 12 2018 23:15:13 GMT+0800 (+08)').getTime()}
+                hourCycle='h23'
+                useDate={false}
+            />,
+        );
+        expect(wrapper.find('time').prop('dateTime')).toBe('2018-01-12T15:15:13.000Z');
+        expect(wrapper.text()).toBe('15:15');
     });
 
     test('should render date without timezone', () => {
         const wrapper = mountWithIntl(
             <Timestamp
-                value={new Date('Fri Jan 12 2018 20:15:13 GMT+0800 (+08)').getTime()}
-                useDate={false}
+                value={new Date('Fri Jan 12 2018 23:15:13 GMT+0800 (+08)').getTime()}
+                useTime={false}
             />,
         );
 
-        expect(wrapper.find('time').prop('title')).toBe('Fri Jan 12 2018 12:15:13 GMT+0000');
-        expect(wrapper.find('span').text()).toBe('12:15 PM');
+        expect(wrapper.find('time').prop('dateTime')).toBe('2018-01-12T15:15:13.000Z');
+        expect(wrapper.text()).toBe('January 12, 2018');
     });
 
-    test('should render date without timezone enabled', () => {
-        const wrapper = mountWithIntl(
-            <Timestamp
-                value={new Date('Fri Jan 12 2018 20:15:13 GMT+0800 (+08)').getTime()}
-                useDate={false}
-                timeZone={'Australia/Sydney'}
-            />,
-        );
-
-        expect(wrapper.find('time').prop('title')).toBe('Fri Jan 12 2018 12:15:13 GMT+0000');
-        expect(wrapper.find('span').text()).toBe('12:15 PM');
-    });
-
-    test('should render date without timezone enabled, in military time', () => {
-        const wrapper = mountWithIntl(
-            <Timestamp
-                eventTime={new Date('Fri Jan 12 2018 23:15:13 GMT+0800 (+08)').getTime()}
-                useMilitaryTime={true}
-                enableTimezone={false}
-                timeZone={'Australia/Sydney'}
-            />,
-        );
-
-        expect(wrapper.find('time').prop('title')).toBe('Fri Jan 12 2018 15:15:13 GMT+0000');
-        expect(wrapper.find('span').text()).toBe('15:15');
-    });
-
-    test('should render date with timezone enabled, but no timezone defined', () => {
+    test('should render time with timezone enabled', () => {
         const wrapper = mountWithIntl(
             <Timestamp
                 value={new Date('Fri Jan 12 2018 20:15:13 GMT+0000 (+00)').getTime()}
-                enableTimezone={true}
+                useDate={false}
+                timeZone='Australia/Sydney'
             />,
         );
-
-        // Can't do an exact match here, since without a default, the timezone gets set to local
-        // and will vary from machine to machine.
-        expect(wrapper.find('time').prop('title')).toEqual(expect.not.stringContaining('undefined'));
+        expect(wrapper.find('time').prop('dateTime')).toBe('2018-01-12T20:15:13.000Z');
+        expect(wrapper.text()).toBe('7:15 AM');
     });
 
-    test('should render date with timezone enabled', () => {
-        const baseProps = {
-            eventTime: new Date('Fri Jan 12 2018 20:15:13 GMT+0000 (+00)').getTime(),
-            enableTimezone: true,
-            timeZone: 'Australia/Sydney',
-        };
-
-        const wrapper = mountWithIntl(<Timestamp {...baseProps}/>);
-        expect(wrapper.find('time').prop('title')).toBe('Sat Jan 13 2018 07:15:13 GMT+1100 (Australia/Sydney)');
-        expect(wrapper.find('span').text()).toBe('7:15 AM');
-    });
-
-    test('should render date with unsupported timezone enabled', () => {
-        const baseProps = {
-            eventTime: new Date('Fri Jan 12 2018 20:15:13 GMT+0000 (+00)').getTime(),
-            enableTimezone: true,
-            timeZone: 'US/Hawaii',
-        };
-
+    test('should render time with unsupported timezone', () => {
         const wrapper = mountWithIntl(
             <Timestamp
-                {...baseProps}
+                value={new Date('Fri Jan 12 2018 20:15:13 GMT+0000 (+00)').getTime()}
+                useDate={false}
+                timeZone='US/Hawaii'
             />,
         );
-        expect(wrapper.find('time').prop('title')).toBe('Fri Jan 12 2018 10:15:13 GMT-1000 (US/Hawaii)');
-        expect(wrapper.find('span').text()).toBe('10:15 AM');
+        expect(wrapper.find('time').prop('dateTime')).toBe('2018-01-12T20:15:13.000Z');
+        expect(wrapper.text()).toBe('10:15 AM');
     });
 
-    test('should render date with timezone enabled, in military time', () => {
-        const baseProps = {
-            eventTime: new Date('Fri Jan 12 2018 20:15:13 GMT-0800 (+00)').getTime(),
-            useMilitaryTime: true,
-            enableTimezone: true,
-            timeZone: 'Australia/Sydney',
-        };
-
-        const wrapper = mountWithIntl(<Timestamp {...baseProps}/>);
-
-        expect(wrapper.find('time').prop('title')).toBe('Sat Jan 13 2018 15:15:13 GMT+1100 (Australia/Sydney)');
-        expect(wrapper.find('span').text()).toBe('15:15');
-    });
-
-    test('should render date with unsupported timezone enabled, in military time', () => {
-        const baseProps = {
-            eventTime: new Date('Fri Jan 12 2018 20:15:13 GMT-0800 (+00)').getTime(),
-            useMilitaryTime: true,
-            enableTimezone: true,
-            timeZone: 'US/Alaska',
-        };
-
+    test('should render date with unsupported timezone', () => {
         const wrapper = mountWithIntl(
             <Timestamp
-                {...baseProps}
+                value={new Date('Fri Jan 12 2018 20:15:13 GMT+0000 (+00)').getTime()}
+                useTime={false}
+                timeZone='US/Hawaii'
             />,
         );
-        expect(wrapper.find('time').prop('title')).toBe('Fri Jan 12 2018 19:15:13 GMT-0900 (US/Alaska)');
-        expect(wrapper.find('span').text()).toBe('19:15');
+        expect(wrapper.find('time').prop('dateTime')).toBe('2018-01-12T20:15:13.000Z');
+        expect(wrapper.find('time').prop('aria-label')).toBe('Fri Jan 12 2018 10:15:13 GMT-1000 (US/Hawaii)');
+        expect(wrapper.text()).toBe('January 12, 2018');
     });
 
-    // test('should render title-case "Yesterday" yesterday', () => {
-    //     const yesterday = new Date();
-    //     yesterday.setDate(yesterday.getDate() - 1);
+    test('should render datetime with timezone enabled, in military time', () => {
+        const wrapper = mountWithIntl(
+            <Timestamp
+                value={new Date('Fri Jan 12 2018 20:15:13 GMT-0800').getTime()}
+                hourCycle='h23'
+                timeZone='Australia/Sydney'
+            />
+        );
+        expect(wrapper.find('time').prop('dateTime')).toBe('2018-01-13T04:15:13.000Z');
+        expect(wrapper.find('time').prop('aria-label')).toBe('Sat Jan 13 2018 15:15:13 GMT+1100 (Australia/Sydney)');
+        expect(wrapper.text()).toBe('January 13, 2018 at 15:15');
+    });
 
-    //     const props = {
-    //         value: yesterday,
-    //     };
-
-    //     const wrapper = shallowWithIntl(<Timestamp {...props}/>);
-
-    //     expect(wrapper.find(FormattedMessage).exists()).toBe(true);
-    //     expect(wrapper.find(FormattedMessage).prop('id')).toBe('date_separator.yesterday');
-    // });
-
-    // test('should render "today" today', () => {
-    //     const today = new Date();
-
-    //     const props = {
-    //         value: today,
-    //         useTitleCase: false
-    //     };
-
-    //     const wrapper = shallowWithIntl(<Timestamp {...props}/>);
-
-    //     expect(wrapper.find(FormattedRelativeTime).exists()).toBe(true);
-    //     expect(wrapper.find(FormattedRelativeTime).prop('value')).toBe(0);
-    //     expect(wrapper.find(FormattedRelativeTime).prop('unit')).toBe('day');
-    // });
-
-    // test('should render "yesterday" yesterday', () => {
-    //     const yesterday = new Date();
-    //     yesterday.setDate(yesterday.getDate() - 1);
-
-    //     const props = {
-    //         value: yesterday,
-    //         useTitleCase: false
-    //     };
-
-    //     const wrapper = shallowWithIntl(<Timestamp {...props}/>);
-
-    //     expect(wrapper.find(FormattedRelativeTime).exists()).toBe(true);
-    //     expect(wrapper.find(FormattedRelativeTime).prop('value')).toBe(-1);
-    //     expect(wrapper.find(FormattedRelativeTime).prop('unit')).toBe('day');
-    // });
-
-    // test('should render date two days ago', () => {
-    //     const twoDaysAgo = new Date();
-    //     twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
-
-    //     const props = {
-    //         value: twoDaysAgo,
-    //     };
-
-    //     const wrapper = shallowWithIntl(<Timestamp {...props}/>);
-
-    //     expect(WEEKDAYS).toContain(wrapper.text());
-    // });
-
-    // test('should render date two days ago for supported timezone', () => {
-    //     const twoDaysAgo = new Date();
-    //     twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
-
-    //     const props = {
-    //         timeZone: 'Asia/Manila',
-    //         value: twoDaysAgo,
-    //     };
-
-    //     const wrapper = shallowWithIntl(<Timestamp {...props}/>);
-
-    //     expect(WEEKDAYS).toContain(wrapper.text());
-    // });
-
-    // test('should render date two days ago', () => {
-    //     const twoDaysAgo = new Date();
-    //     twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
-
-    //     const props = {
-    //         value: twoDaysAgo,
-    //     };
-
-    //     const wrapper = shallowWithIntl(<Timestamp {...props}/>);
-
-    //     expect(WEEKDAYS).toContain(wrapper.text());
-    // });
-
-    // test('should render date from eleven days ago', () => {
-    //     const xAgo = new Date();
-    //     xAgo.setDate(xAgo.getDate() - 11);
-
-    //     const props = {
-    //         value: xAgo,
-    //     };
-
-    //     const wrapper = shallowWithIntl(<Timestamp {...props}/>);
-
-    //     expect(wrapper.text()).toMatch(xAgo.getFullYear() === NOW.getFullYear() ? MONTH_DAY : MONTH_DAY_YEAR);
-    // });
-
-    // test('should render date from 365 days ago', () => {
-    //     const xAgo = new Date();
-    //     xAgo.setDate(xAgo.getDate() - 365);
-
-    //     const props = {
-    //         value: xAgo,
-    //     };
-
-    //     const wrapper = shallowWithIntl(<Timestamp {...props}/>);
-
-    //     expect(wrapper.text()).toMatch(MONTH_DAY_YEAR);
-    // });
-
-    // test('should render 2 days ago with explicit format options', () => {
-    //     const xAgo = new Date();
-    //     xAgo.setDate(xAgo.getDate() - 2);
-
-    //     const props = {
-    //         value: xAgo,
-    //     };
-
-    //     const wrapper = shallowWithIntl(<Timestamp {...props}/>);
-
-    //     expect(wrapper.text()).toMatch(MONTH_DAY_YEAR);
-    // });
+    test('should render time with unsupported timezone enabled, in military time', () => {
+        const wrapper = mountWithIntl(
+            <Timestamp
+                value={new Date('Fri Jan 12 2018 20:15:13 GMT-0800 (+00)').getTime()}
+                hourCycle='h23'
+                useDate={false}
+                timeZone='US/Alaska'
+            />,
+        );
+        expect(wrapper.find('time').prop('aria-label')).toBe('Fri Jan 12 2018 19:15:13 GMT-0900 (US/Alaska)');
+        expect(wrapper.text()).toBe('19:15');
+    });
 });
-
-// describe('isToday and isYesterday', () => {
-//     test('tomorrow at 12am', () => {
-//         const date = new Date();
-//         date.setDate(date.getDate() + 1);
-//         date.setHours(0);
-//         date.setMinutes(0);
-
-//         expect(isToday(date)).toBe(false);
-//         expect(isYesterday(date)).toBe(false);
-//     });
-
-//     test('now', () => {
-//         const date = new Date();
-
-//         expect(isToday(date)).toBe(true);
-//         expect(isYesterday(date)).toBe(false);
-//     });
-
-//     test('today at 12am', () => {
-//         const date = new Date();
-//         date.setHours(0);
-//         date.setMinutes(0);
-
-//         expect(isToday(date)).toBe(true);
-//         expect(isYesterday(date)).toBe(false);
-//     });
-
-//     test('today at 11:59pm', () => {
-//         const date = new Date();
-//         date.setHours(23);
-//         date.setMinutes(59);
-
-//         expect(isToday(date)).toBe(true);
-//         expect(isYesterday(date)).toBe(false);
-//     });
-
-//     test('yesterday at 11:59pm', () => {
-//         const date = new Date();
-//         date.setDate(date.getDate() - 1);
-//         date.setHours(23);
-//         date.setMinutes(59);
-
-//         expect(isToday(date)).toBe(false);
-//         expect(isYesterday(date)).toBe(true);
-//     });
-
-//     test('yesterday at 12am', () => {
-//         const date = new Date();
-//         date.setDate(date.getDate() - 1);
-//         date.setHours(0);
-//         date.setMinutes(0);
-
-//         expect(isToday(date)).toBe(false);
-//         expect(isYesterday(date)).toBe(true);
-//     });
-
-//     test('two days ago at 11:59pm', () => {
-//         const date = new Date();
-//         date.setDate(date.getDate() - 2);
-//         date.setHours(23);
-//         date.setMinutes(59);
-
-//         expect(isToday(date)).toBe(false);
-//         expect(isYesterday(date)).toBe(false);
-//     });
-// });

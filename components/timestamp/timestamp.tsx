@@ -11,7 +11,7 @@ import {
 } from 'react-intl';
 import {isValidElementType} from 'react-is';
 import {Unit} from '@formatjs/intl-relativetimeformat';
-import moment from 'moment-timezone';
+import moment, {Moment} from 'moment-timezone';
 
 import {isSameYear, isWithin, isEqual, getDiff} from 'utils/datetime';
 import {Resolvable, resolve} from 'utils/resolvable';
@@ -24,16 +24,30 @@ import SemanticTime from './semantic_time';
 // See https://github.com/microsoft/TypeScript/issues/34399
 export const supportsHourCycle = Boolean(((new Intl.DateTimeFormat('en-US', {hour: 'numeric'})).resolvedOptions() as DateTimeOptions).hourCycle);
 
-export type DateTimeOptions = FormatDateOptions & {hourCycle?: string};
+function is12HourTime(hourCycle: DateTimeOptions['hourCycle']) {
+    return !(hourCycle === 'h23' || hourCycle === 'h24');
+}
+
+export type DateTimeOptions = FormatDateOptions & {
+    hourCycle?: string;
+};
+
 export type RelativeOptions = FormatRelativeTimeOptions & {
-    unit?: Unit;
+    unit: Unit;
     relNearest?: number;
     truncateEndpoints?: boolean;
     updateIntervalInSeconds?: number;
 };
+function isRelative(format: ResolvedFormats['relative']): format is RelativeOptions {
+    return Boolean((format as RelativeOptions)?.unit);
+}
+
 export type SimpleRelativeOptions = {
     message: ReactNode;
     updateIntervalInSeconds?: number;
+}
+function isSimpleRelative(format: ResolvedFormats['relative']): format is SimpleRelativeOptions {
+    return Boolean((format as SimpleRelativeOptions)?.message);
 }
 
 const defaultRefreshIntervals = new Map<Unit, number /* seconds */>([
@@ -42,18 +56,21 @@ const defaultRefreshIntervals = new Map<Unit, number /* seconds */>([
     ['second', 1],
 ]);
 
-type FormatOptions = DateTimeOptions & RelativeOptions;
+type FormatOptions = DateTimeOptions & Partial<RelativeOptions>;
 
 type UnitDescriptor = [Unit, number?, boolean?];
 
 type Breakpoint = RequireOnlyOne<{
     within: UnitDescriptor;
     equals: UnitDescriptor;
-}>
-export type RangeDescriptor = Breakpoint & {
-    display?: UnitDescriptor | ReactNode;
+}>;
+
+type DisplayAs = {
+    display: UnitDescriptor | ReactNode;
     updateIntervalInSeconds?: number;
 };
+
+export type RangeDescriptor = Breakpoint & DisplayAs;
 
 export type ResolvedFormats = {
     relative: RelativeOptions | SimpleRelativeOptions | false;
@@ -70,15 +87,16 @@ type FormattedParts = {
 export type Props = FormatOptions & {
     value?: string | number | Date;
 
-    useRelative?: Resolvable<ResolvedFormats['relative'], {rawDate: Date}, FormatOptions>;
+    useRelative?: Resolvable<ResolvedFormats['relative'], {value: Date}, FormatOptions>;
     ranges?: RangeDescriptor[];
 
-    useDate?: Resolvable<Exclude<ResolvedFormats['date'], 'timeZone'> | false, {rawDate: Date}, FormatOptions>;
-    useTime?: Resolvable<Exclude<ResolvedFormats['time'], 'timeZone' | 'hourCycle' | 'hour12'> | false, {rawDate: Date}, FormatOptions>;
+    useDate?: Resolvable<Exclude<ResolvedFormats['date'], 'timeZone'> | false, {value: Date}, FormatOptions>;
+    useTime?: Resolvable<Exclude<ResolvedFormats['time'], 'timeZone' | 'hourCycle' | 'hour12'> | false, {value: Date}, FormatOptions>;
 
-    children?: Resolvable<ReactNode, {rawDate: Date} & FormattedParts, ResolvedFormats>;
+    children?: Resolvable<ReactNode, {value: Date; formatted: ReactNode} & FormattedParts, ResolvedFormats>;
     className?: string;
     label?: string;
+    useSemanticOutput?: boolean;
 
     intl: IntlShape;
 };
@@ -116,98 +134,109 @@ class Timestamp extends PureComponent<Props, State> {
 
     nextUpdate: ReturnType<typeof setTimeout> | null = null;
 
-    formatDynamic(rawDate: Date, {relative: relFormat, date: dateFormat, time: timeFormat}: ResolvedFormats): FormattedParts {
+    formatParts(value: Date, {relative: relFormat, date: dateFormat, time: timeFormat}: ResolvedFormats): FormattedParts {
         try {
-            let relative;
-            let date;
-            let time;
+            let relative: FormattedParts['relative'];
+            let date: FormattedParts['date'];
+            let time: FormattedParts['time'];
 
-            if (relFormat) {
-                const message = (relFormat as SimpleRelativeOptions).message;
-                const unit = (relFormat as RelativeOptions).unit;
+            if (isSimpleRelative(relFormat)) {
+                relative = relFormat.message;
+            } else if (isRelative(relFormat)) {
+                relative = this.formatRelative(value, relFormat);
 
-                if (message != null) {
-                    relative = message;
-                } else if (unit) {
-                    const {relNearest, truncateEndpoints, ...format} = relFormat as RelativeOptions;
-                    let diff;
-
-                    if (relNearest === 0) {
-                        diff = 0;
-                    } else {
-                        diff = getDiff(rawDate, this.state.now, unit, truncateEndpoints);
-                        if (relNearest != null) {
-                            diff = Math.round(diff / relNearest) * relNearest;
-                        }
-                    }
-
-                    relative = this.props.intl.formatRelativeTime(diff, unit, format);
-
-                    if (unit !== 'day' || !timeFormat) {
-                        return {relative};
-                    }
+                if (relFormat.unit !== 'day' || !timeFormat) {
+                    return {relative};
                 }
             }
 
             if (relative == null && dateFormat) {
-                date = this.format(rawDate, dateFormat);
+                date = this.formatDateTime(value, dateFormat);
             }
 
             if (timeFormat) {
-                const {hourCycle, hour12} = this.props;
-                time = this.format(rawDate, {hourCycle, hour12, ...timeFormat});
+                const {hourCycle, hour12 = supportsHourCycle ? undefined : is12HourTime(hourCycle)} = this.props;
+
+                time = this.formatDateTime(value, {hourCycle, hour12, ...timeFormat});
             }
 
             return {relative, date, time};
         } catch {
+            // fallback to moment for unsupported timezones
             const {timeZone, hourCycle, hour12} = this.props;
+
+            const momentValue = moment.utc(value.getTime());
+
+            if (timeZone) {
+                momentValue.tz(timeZone);
+            }
+
             return {
-                date: dateFormat && Timestamp.formatMoment(rawDate, {timeZone, ...dateFormat}),
-                time: timeFormat && Timestamp.formatMoment(rawDate, {timeZone, hourCycle, hour12, ...timeFormat})
+                date: dateFormat && Timestamp.momentDate(momentValue, {...dateFormat}),
+                time: timeFormat && Timestamp.momentTime(momentValue, {hourCycle, hour12, ...timeFormat})
             };
         }
     }
 
-    format(rawDate: Date, format: DateTimeOptions): string {
+    formatRelative(value: Date, relFormat: ResolvedFormats['relative']): string {
+        const {unit, relNearest, truncateEndpoints, ...format} = relFormat as RelativeOptions;
+        let diff: number;
+
+        if (relNearest === 0) {
+            diff = 0;
+        } else {
+            diff = getDiff(value, this.state.now, this.props.timeZone, unit, truncateEndpoints);
+            if (relNearest != null) {
+                diff = Math.round(diff / relNearest) * relNearest;
+            }
+        }
+
+        return this.props.intl.formatRelativeTime(diff, unit, format);
+    }
+
+    formatDateTime(value: Date, format: DateTimeOptions): string {
         const {timeZone, intl: {locale}} = this.props;
 
-        return (new Intl.DateTimeFormat(locale, {timeZone, ...format})).format(rawDate);
+        return (new Intl.DateTimeFormat(locale, {timeZone, ...format})).format(value);
     }
 
-    static formatMoment(rawDate: Date, {hour, minute, weekday, day, month, year, hourCycle, hour12, timeZone}: DateTimeOptions): string {
-        const date = moment(rawDate);
-
-        if (timeZone) {
-            date.tz(timeZone);
-        }
-
+    static momentTime(value: Moment, {hour, minute, hourCycle, hour12}: DateTimeOptions): string | undefined {
         if (hour && minute) {
-            const useMilitaryTime = hourCycle === 'h23' || hourCycle === 'h24' || hour12 === false;
-            return date.format(useMilitaryTime ? 'HH:mm' : 'h:mm A');
-        } else if (day && month) {
-            return date.format(year ? 'MMMM D, YYYY' : 'MMMM D');
-        } else if (weekday) {
-            return date.format('dddd');
+            const useMilitaryTime = (!is12HourTime(hourCycle) && hour12 == null) || hour12 === false;
+            return value.format(useMilitaryTime ? 'HH:mm' : 'h:mm A');
         }
-        return date.format('dddd, MMMM D, YYYY');
+        return undefined;
     }
 
-    autoRange(rawDate: Date, ranges: Props['ranges'] = this.props.ranges): Partial<RangeDescriptor> {
+    static momentDate(value: Moment, {weekday, day, month, year}: DateTimeOptions): string | undefined {
+        if (weekday && day && month && year) {
+            return value.format('dddd, MMMM DD, YYYY');
+        } else if (day && month && year) {
+            return value.format('MMMM DD, YYYY');
+        } else if (day && month) {
+            return value.format('MMMM DD');
+        } else if (weekday) {
+            return value.format('dddd');
+        }
+        return undefined;
+    }
+
+    autoRange(value: Date, ranges: Props['ranges'] = this.props.ranges): DisplayAs {
         return ranges?.find(({equals, within}: Breakpoint) => {
             if (equals != null) {
-                return isEqual(rawDate, this.state.now, ...equals);
+                return isEqual(value, this.state.now, this.props.timeZone, ...equals);
             }
             if (within != null) {
-                return isWithin(rawDate, this.state.now, ...within);
+                return isWithin(value, this.state.now, this.props.timeZone, ...within);
             }
             return false;
         }) ?? {
             display: [this.props.unit],
             updateIntervalInSeconds: this.props.updateIntervalInSeconds
-        } as RangeDescriptor;
+        };
     }
 
-    private getFormats(rawDate: Date): ResolvedFormats {
+    private getFormats(value: Date): ResolvedFormats {
         const {
             numeric,
             style,
@@ -215,14 +244,14 @@ class Timestamp extends PureComponent<Props, State> {
                 const {
                     display,
                     updateIntervalInSeconds,
-                } = this.autoRange(rawDate);
+                } = this.autoRange(value);
 
                 if (display) {
                     if (isValidElementType(display) || !Array.isArray(display)) {
                         return {
                             message: display,
                             updateIntervalInSeconds,
-                        } as SimpleRelativeOptions;
+                        };
                     }
 
                     const [
@@ -239,7 +268,7 @@ class Timestamp extends PureComponent<Props, State> {
                             numeric,
                             style,
                             updateIntervalInSeconds: updateIntervalInSeconds ?? defaultRefreshIntervals.get(unit),
-                        } as RelativeOptions;
+                        };
                     }
                 }
 
@@ -251,11 +280,12 @@ class Timestamp extends PureComponent<Props, State> {
             weekday,
             hour,
             minute,
+            timeZone,
             useDate = (): ResolvedFormats['date'] => {
-                if (isWithin(rawDate, this.state.now, 'day', -6)) {
+                if (isWithin(value, this.state.now, timeZone, 'day', -6)) {
                     return {weekday};
                 }
-                if (isSameYear(rawDate)) {
+                if (isSameYear(value)) {
                     return {day, month};
                 }
 
@@ -264,9 +294,9 @@ class Timestamp extends PureComponent<Props, State> {
             useTime = {hour, minute},
         } = this.props;
 
-        const relative = resolve(useRelative, {rawDate}, this.props);
-        const date = !relative && resolve(useDate, {rawDate}, this.props);
-        const time = resolve(useTime, {rawDate}, this.props);
+        const relative = resolve(useRelative, {value}, this.props);
+        const date = !relative && resolve(useDate, {value}, this.props);
+        const time = resolve(useTime, {value}, this.props);
 
         return {relative, date, time};
     }
@@ -286,41 +316,63 @@ class Timestamp extends PureComponent<Props, State> {
         return setTimeout(() => this.setState({now: new Date()}), relative.updateIntervalInSeconds * 1000);
     }
 
+    static format({relative, date, time}: FormattedParts): ReactNode {
+        return (relative || date) && time ? (
+            <FormattedMessage
+                id='timestamp.datetime'
+                defaultMessage='{relativeOrDate} at {time}'
+                values={{
+                    relativeOrDate: relative || date,
+                    time,
+                }}
+            />
+        ) : relative || date || time;
+    }
+
+    static formatLabel(value: Date, timeZone?: string) {
+        const momentValue = moment(value);
+
+        if (timeZone) {
+            momentValue.tz(timeZone);
+        }
+
+        return `${momentValue.toString()} (${momentValue.tz()})`;
+    }
+
     render() {
         const {
-            value = this.state.now,
+            value: unparsed = this.state.now,
             children,
-            className
+            useSemanticOutput = true,
+            timeZone,
+            label,
+            className,
         } = this.props;
 
-        const rawDate = new Date(value);
-        const formats = this.getFormats(rawDate);
-        const {relative, date, time} = this.formatDynamic(rawDate, formats);
+        const value = unparsed instanceof Date ? unparsed : new Date(unparsed);
+        const formats = this.getFormats(value);
+        const parts = this.formatParts(value, formats);
+        const formatted = Timestamp.format(parts);
 
         this.nextUpdate = this.maybeUpdate(formats.relative);
 
         if (children) {
-            return resolve(children, {rawDate, relative, date, time}, formats);
+            return resolve(children, {value, formatted, ...parts}, formats);
         }
 
-        return (
-            <SemanticTime
-                value={rawDate}
-                className={className}
-            >
-                {(relative || date) && time ?
-                    <FormattedMessage
-                        id='timestamp.datetime'
-                        defaultMessage='{relativeOrDate} at {time}'
-                        values={{
-                            relativeOrDate: relative ?? date,
-                            time,
-                        }}
-                    /> :
-                    relative ?? date ?? time
-                }
-            </SemanticTime>
-        );
+        if (useSemanticOutput) {
+            return (
+                <SemanticTime
+                    value={value}
+                    label={label || Timestamp.formatLabel(value, timeZone)}
+                    className={className}
+                >
+                    {formatted}
+                </SemanticTime>
+            );
+        }
+
+        return formatted;
     }
 }
 

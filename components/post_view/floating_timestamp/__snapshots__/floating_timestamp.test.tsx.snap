@@ -7,7 +7,8 @@ exports[`components/post_view/FloatingTimestamp should match snapshot 1`] = `
 >
   <div>
     <span>
-      <injectIntl(RecentDate)
+      <Connect(injectIntl(Timestamp))
+        useTime={false}
         value={1234}
       />
     </span>
