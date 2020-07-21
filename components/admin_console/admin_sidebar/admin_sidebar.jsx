@@ -145,6 +145,7 @@ class AdminSidebar extends React.PureComponent {
     }
 
     visibleSections = () => {
+        const {config, license, buildEnterpriseReady, consoleAccess, adminDefinition} = this.props;
         const isVisible = (item) => {
             if (!item.schema) {
                 return false;
@@ -154,13 +155,13 @@ class AdminSidebar extends React.PureComponent {
                 return false;
             }
 
-            if (item.isHidden && item.isHidden(this.props.config, {}, this.props.license, this.props.buildEnterpriseReady, this.props.consoleAccess)) {
+            if (item.isHidden && item.isHidden(config, this.state, license, buildEnterpriseReady, consoleAccess)) {
                 return false;
             }
             return true;
         };
         const result = new Set();
-        for (const section of Object.values(this.props.adminDefinition)) {
+        for (const section of Object.values(adminDefinition)) {
             for (const item of Object.values(section)) {
                 if (isVisible(item)) {
                     result.add(item.url);
