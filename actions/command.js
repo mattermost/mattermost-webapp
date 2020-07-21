@@ -4,11 +4,10 @@
 import {Client4} from 'mattermost-redux/client';
 import {unfavoriteChannel} from 'mattermost-redux/actions/channels';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
-import {getCurrentChannel, getRedirectChannelNameForTeam} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentChannel, getRedirectChannelNameForTeam, isFavoriteChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentRelativeTeamUrl, getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {IntegrationTypes} from 'mattermost-redux/action_types';
-import {isFavoriteChannel} from 'mattermost-redux/utils/channel_utils';
 
 import {openModal} from 'actions/views/modals';
 import * as GlobalActions from 'actions/global_actions.jsx';
@@ -78,7 +77,7 @@ export function executeCommand(message, args) {
                 browserHistory.push(`${teamUrl}/channels/${redirectChannel}`);
 
                 dispatch(savePreferences(currentUserId, [{category, name, user_id: currentUserId, value: 'false'}]));
-                if (isFavoriteChannel(channel)) {
+                if (isFavoriteChannel(state, channel.id)) {
                     dispatch(unfavoriteChannel(channel.id));
                 }
 
