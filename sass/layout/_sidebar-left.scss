@@ -271,8 +271,7 @@
         background: transparent;
         border: none;
         color: var(--sidebar-text-80);
-        font-size: 18px;
-        line-height: 16px;
+        font-size: 20px;
         height: 28px;
         width: 28px;
         border-radius: 4px;
@@ -955,8 +954,9 @@
         color: var(--sidebar-unread-text);
     }
     .SidebarChannel .SidebarLink > i {
-        font-size: 12px;
+        font-size: 16px;
         margin-right: 5px;
+        display: flex;
     }
 
     .SidebarChannel span.SidebarChannelLinkLabel {
