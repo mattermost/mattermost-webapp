@@ -5,6 +5,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {StepComponentProps} from '../steps';
+import PictureSelector from 'components/picture_selector';
 
 type Props = StepComponentProps & {
 };
@@ -24,7 +25,16 @@ export default class CompleteProfileStep extends React.PureComponent<Props, Stat
     render() {
         return (
             <div>
-                {'AAAAAAAA'}
+                <div
+                    style={{
+
+                        // TODO temp for textbox demo
+                        margin: '24px',
+                        minHeight: '200px',
+                    }}
+                >
+                    <PictureSelector/>
+                </div>
                 <div className='NextStepsView__wizardButtons'>
                     {/* <button
                         className='NextStepsView__button cancel'
