@@ -482,7 +482,7 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
 
     it('Should not open the emoji picker by shortcut if RHS is fully expanded for search results, recent mentions, flagged and pinned posts', () => {
         // # Open the flagged message
-        cy.findByLabelText('Flagged posts').click();
+        cy.findByLabelText('Saved posts').click();
 
         // # Expand the flagged message
         cy.findByLabelText('Expand Sidebar Icon').click();
