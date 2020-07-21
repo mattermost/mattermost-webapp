@@ -5,6 +5,8 @@ import React from 'react';
 import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
+import {Channel} from 'mattermost-redux/types/channels';
+
 import OverlayTrigger from 'components/overlay_trigger';
 
 import Constants, {RHSStates} from 'utils/constants';
@@ -16,13 +18,13 @@ interface RhsHeaderPostProps {
     rootPostId: string;
     previousRhsState?: string;
     relativeTeamUrl: string;
-    channel: {display_name: string};
+    channel: Channel;
     actions: {
-        setRhsExpanded: Function;
-        showMentions: Function;
-        showSearchResults: Function;
-        showFlaggedPosts: Function;
-        showPinnedPosts: Function;
+        setRhsExpanded: (b: boolean) => void;
+        showMentions: () => void;
+        showSearchResults: () => void;
+        showFlaggedPosts: () => void;
+        showPinnedPosts: () => void;
         closeRightHandSide: (e?: React.MouseEvent) => void;
         toggleRhsExpanded: (e: React.MouseEvent) => void;
     };
