@@ -9,11 +9,43 @@ import {getAdminAccount} from '../env';
 // https://api.mattermost.com/#tag/users
 // *****************************************************************************
 
-/**
- * Gets current user
- * This API assume that the user is logged
- * no params required because we are using /me to refer to current user
- */
+Cypress.Commands.add('apiLogin', (user) => {
+    cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/users/login',
+        method: 'POST',
+        body: {login_id: user.username, password: user.password},
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap({user: response.body});
+    });
+});
+
+Cypress.Commands.add('apiAdminLogin', () => {
+    const admin = getAdminAccount();
+
+    return cy.apiLogin(admin);
+});
+
+Cypress.Commands.add('apiLogout', () => {
+    cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/users/logout',
+        method: 'POST',
+        log: false,
+    });
+
+    // Ensure we clear out these specific cookies
+    ['MMAUTHTOKEN', 'MMUSERID', 'MMCSRF'].forEach((cookie) => {
+        cy.clearCookie(cookie);
+    });
+
+    // Clear remainder of cookies
+    cy.clearCookies();
+
+    cy.getCookies({log: false}).should('be.empty');
+});
+
 Cypress.Commands.add('apiGetMe', () => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
@@ -31,16 +63,19 @@ Cypress.Commands.add('apiGetUserByEmail', (email) => {
         url: '/api/v4/users/email/' + email,
     }).then((response) => {
         expect(response.status).to.equal(200);
-        cy.wrap(response);
+        cy.wrap({user: response.body});
     });
 });
 
-Cypress.Commands.add('apiGetUsers', (usernames = []) => {
+Cypress.Commands.add('apiGetUsersByUsernames', (usernames = []) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: '/api/v4/users/usernames',
         method: 'POST',
         body: usernames,
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        cy.wrap({users: response.body});
     });
 });
 

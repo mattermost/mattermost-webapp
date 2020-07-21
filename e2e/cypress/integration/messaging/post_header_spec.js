@@ -8,7 +8,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @messaging
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
@@ -56,31 +55,6 @@ describe('Post Header', () => {
 
             // * Check the said post not highlighted
             cy.get(divPostId).should('be.visible').should('not.have.class', 'post--highlight');
-        });
-    });
-
-    it('should flag a post on click to flag icon at center view', () => {
-        // # Post a message
-        cy.postMessage('test for flagged post');
-
-        cy.getLastPostId().then((postId) => {
-            // * Check that the center flag icon of a post is not visible
-            cy.get(`#CENTER_flagIcon_${postId}`).should('not.be.visible');
-
-            // # Click the center flag icon of a post
-            cy.clickPostFlagIcon(postId);
-
-            // * Check that the center flag icon of a post becomes visible
-            cy.get(`#CENTER_flagIcon_${postId}`).should('be.visible').should('have.class', 'style--none flag-icon__container visible');
-
-            // # Click again the center flag icon of a post
-            cy.clickPostFlagIcon(postId);
-
-            // # Click on textbox to focus away from flag area
-            cy.get('#post_textbox').click();
-
-            // * Check that the center flag icon of a post is now hidden.
-            cy.get(`#CENTER_flagIcon_${postId}`).should('not.be.visible');
         });
     });
 
@@ -160,54 +134,6 @@ describe('Post Header', () => {
 
         // * Check that the RHS is close
         cy.get('#rhsContainer').should('not.be.visible');
-    });
-
-    it('M14577 Un-pinning and pinning a post removes and adds badge', () => {
-        // # Post a message
-        cy.postMessage('test for pinning/unpinning a post');
-
-        cy.getLastPostId().then((postId) => {
-            // * Check that the center flag icon of the post is not visible
-            cy.get(`#CENTER_flagIcon_${postId}`).should('not.exist');
-
-            // * Check that the pinned badge of the post is not visible
-            cy.get(`#post_${postId}`).should('not.have.class', 'post--pinned');
-
-            // # Pin the post.
-            cy.getPostMenu(postId, 'Pin to Channel').click();
-
-            // # Click the center flag icon of a post
-            cy.clickPostFlagIcon(postId);
-
-            // # click RHS list
-            cy.get('#channelHeaderFlagButton').click();
-
-            // * Check that message exists in RHS flagged posts list
-            cy.get(`#rhsPostMessageText_${postId}`).contains('test for pinning/unpinning a post');
-
-            // * Check that post is be pinned in center
-            // * Check that post is be pinned in RHS
-            cy.get(`#post_${postId}`).should('have.class', 'post--pinned');
-            cy.get(`#SEARCH_flagIcon_${postId}`).siblings('.post__pinned-badge').should('exist');
-
-            // # unpin the post
-            cy.getPostMenu(postId, 'Unpin from Channel').click();
-
-            // * Check that message exists in RHS flagged posts list
-            // * Check that post is not be pinned in center
-            // * Check that post is not be pinned in RHS
-            cy.get(`#rhsPostMessageText_${postId}`).contains('test for pinning/unpinning a post');
-            cy.get(`#post_${postId}`).should('not.have.class', 'post--pinned');
-            cy.get(`#SEARCH_flagIcon_${postId}`).siblings('.post__pinned-badge').should('not.exist');
-
-            // # Pin the post again.
-            cy.getPostMenu(postId, 'Pin to Channel').click();
-
-            // * Check that post is be pinned in center
-            // * Check that post is be pinned in RHS
-            cy.get(`#post_${postId}`).should('have.class', 'post--pinned');
-            cy.get(`#SEARCH_flagIcon_${postId}`).siblings('.post__pinned-badge').should('exist');
-        });
     });
 
     it('M17442 Visual verification of "Searching" animation for Flagged and Pinned posts', () => {

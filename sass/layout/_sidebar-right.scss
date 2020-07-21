@@ -73,10 +73,6 @@
             .card-icon__container {
                 margin: 0px 0 0 6px;
             }
-
-            .post__pinned-badge {
-                margin: 0 8px 0 5px;
-            }
         }
 
         &.post--comment {
@@ -94,10 +90,6 @@
                 &.Badge {
                     flex: none;
                 }
-            }
-
-            .flag-icon__container, .card-icon__container {
-                z-index: 5;
             }
         }
     }
