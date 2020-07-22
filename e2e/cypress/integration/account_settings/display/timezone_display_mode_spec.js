@@ -40,13 +40,15 @@ describe('Account Settings > Display > Timezone Mode', () => {
             },
         });
 
-        // # Create and visit new channel
-        cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
-            cy.visit(`/${team.name}/channels/${channel.name}`);
+        // # Create and visit town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
 
             // # Post messages from the past
             [date1, date2, date3, date4].forEach((createAt, index) => {
-                cy.postMessageAs({sender: sysadmin, message: `Hello from ${index}`, channelId: channel.id, createAt});
+                cy.getCurrentChannelId().then((channelId) => {
+                    cy.postMessageAs({sender: sysadmin, message: `Hello from ${index}`, channelId, createAt});
+                });
             });
 
             // # Post messages from now
@@ -252,7 +254,9 @@ function setTimezoneDisplayToManual(timezone) {
 function verifyLocalTimeIsTimezoneFormatted(localTime, timeFormat) {
     // * Verify that the local time of each post is in timezone format
     const formattedTime = localTime.dateInTimezone.format(timeFormat);
-    cy.findAllByTestId('postView').eq(localTime.postIndex).find('time', {timeout: TIMEOUTS.HALF_SEC}).should('have.text', formattedTime);
+    cy.findAllByTestId('postView', {timeout: TIMEOUTS.ONE_MIN}).
+        eq(localTime.postIndex).find('time', {timeout: TIMEOUTS.HALF_SEC}).
+        should('have.text', formattedTime);
 }
 
 function verifyLocalTimeIsTimezoneFormatted12Hour(localTime) {
