@@ -22,6 +22,7 @@ import {
     getRedirectChannelNameForTeam,
     getMyChannels,
     getMyChannelMemberships,
+    isFavoriteChannel,
     isManuallyUnread,
     isFavoriteChannel,
 } from 'mattermost-redux/selectors/entities/channels';

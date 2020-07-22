@@ -10,10 +10,10 @@ import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {
     getCurrentChannelId,
     getChannelsNameMapInCurrentTeam,
-    makeGetChannel,
-    shouldHideDefaultChannel,
     getRedirectChannelNameForTeam,
     isFavoriteChannel,
+    makeGetChannel,
+    shouldHideDefaultChannel,
 } from 'mattermost-redux/selectors/entities/channels';
 import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';

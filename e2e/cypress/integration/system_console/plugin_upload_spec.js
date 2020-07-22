@@ -62,18 +62,23 @@ describe('Draw Plugin - Upload', () => {
         cy.findByText('Upload', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
         cy.get('#uploadPlugin').and('be.disabled');
 
-        // * Verify that the Draw Plugin is shown on successful upload
-        cy.findByText('Draw Plugin').should('be.visible');
-
         // # Draw plugin ID should be visible
         cy.findByTestId('com.mattermost.draw-plugin').should('be.visible').within(() => {
+            // * Verify that the Draw Plugin is shown on successful upload
+            cy.findByText('Draw Plugin').should('be.visible');
+
             // #Enable draw plugin and check plugin is running
             cy.wait(TIMEOUTS.HALF_SEC).findByText('Enable').click();
             cy.findByText('This plugin is running.').should('be.visible');
 
-            // #Disable draw plugin and check plugin is not enabled
+            // #Disable draw plugin
             cy.findByText('Disable').click();
-            cy.findByText('This plugin is not enabled.').should('be.visible');
+        });
+
+        // # Need to re-query DOM elements as they are updated asynchronously
+        cy.findByTestId('com.mattermost.draw-plugin').should('be.visible').within(() => {
+            // * Check plugin is not enabled
+            cy.wait(TIMEOUTS.HALF_SEC).findByText('This plugin is not enabled.').should('be.visible');
 
             // * Click on remove
             cy.findByText('Remove').click();
