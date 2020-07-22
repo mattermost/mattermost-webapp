@@ -53,11 +53,11 @@ const getFilteredTeams = createSelector(
     (term: string) => term.trim().toLowerCase(),
     (term: string, teams: Team[]) => teams,
     (term: string, teams: Team[]) => {
-        return teams.filter((team: Team) => team?.display_name?.includes(term)); // eslint-disable-line camelcase, @typescript-eslint/camelcase
+        return teams.filter((team: Team) => team?.display_name?.toLowerCase().includes(term)); // eslint-disable-line camelcase, @typescript-eslint/camelcase
     },
 );
 
-const TEAMS_PER_PAGE = 5;
+const TEAMS_PER_PAGE = 50;
 const MAX_BUTTON_TEXT_LENGTH = 30;
 const INITIAL_SEARCH_RETRY_TIMEOUT = 300;
 class TeamFilterDropdown extends React.PureComponent<Props, State> {
