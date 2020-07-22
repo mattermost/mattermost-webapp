@@ -4,13 +4,15 @@
 import React from 'react';
 import {Provider} from 'react-redux';
 import configureStore from 'redux-mock-store';
+import {UserProfile} from 'mattermost-redux/types/users';
 
 import {shallowWithIntl, mountWithIntl} from 'tests/helpers/intl-test-helper';
+import {TestHelper} from 'utils/test_helper';
 
 import UserSettingsGeneral, {UserSettingsGeneralTab} from './user_settings_general';
 
 describe('components/user_settings/general/UserSettingsGeneral', () => {
-    const user = {
+    const user: UserProfile = TestHelper.getUserMock({
         id: 'user_id',
         username: 'user_name',
         first_name: 'first_name',
@@ -21,7 +23,7 @@ describe('components/user_settings/general/UserSettingsGeneral', () => {
         password: '',
         auth_service: '',
         last_picture_update: 0,
-    };
+    });
 
     const requiredProps = {
         user,
