@@ -21,11 +21,20 @@ declare namespace Cypress {
          * Makes an external request as a sysadmin and adds a user to a team directly via API
          * @param {String} teamId - The team ID
          * @param {String} userId - The user ID
-         * All parameter required
          *
          * @example
          *   cy.externalAddUserToTeam('team-id', 'user-id');
          */
         externalAddUserToTeam(teamId: string, userId: string): Chainable;
+
+        /**
+         * Makes an external request as a sysadmin and activate/deactivate a user directly via API
+         * @param {String} userId - The user ID
+         * @param {Boolean} active - Whether to activate or deactivate - true/false
+         *
+         * @example
+         *   cy.externalActivateUser('user-id', false);
+         */
+        externalActivateUser(userId: string, activate: boolean): Chainable;
     }
 }
