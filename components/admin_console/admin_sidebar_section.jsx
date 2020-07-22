@@ -18,6 +18,7 @@ export default class AdminSidebarSection extends React.PureComponent {
             subsection: PropTypes.bool,
             children: PropTypes.node,
             action: PropTypes.node,
+            definitionKey: PropTypes.string,
         };
     }
 
@@ -90,7 +91,10 @@ export default class AdminSidebarSection extends React.PureComponent {
         }
 
         return (
-            <li className={className}>
+            <li
+                className={className}
+                data-testid={this.props.definitionKey}
+            >
                 {sidebarItem}
                 {clonedChildren}
             </li>

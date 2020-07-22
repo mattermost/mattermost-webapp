@@ -174,14 +174,14 @@ class AdminSidebar extends React.PureComponent {
     renderRootMenu = (definition) => {
         const {config, license, buildEnterpriseReady, consoleAccess} = this.props;
         const sidebarSections = [];
-        Object.values(definition).forEach((section, sectionIndex) => {
+        Object.entries(definition).forEach(([key, section]) => {
             let isSectionHidden = false;
             if (section.isHidden) {
                 isSectionHidden = typeof section.isHidden === 'function' ? section.isHidden(config, this.state, license, buildEnterpriseReady, consoleAccess) : Boolean(section.isHidden);
             }
             if (!isSectionHidden) {
                 const sidebarItems = [];
-                Object.values(section).forEach((item, itemIndex) => {
+                Object.entries(section).forEach(([subKey, item]) => {
                     if (!item.title) {
                         return;
                     }
@@ -203,10 +203,11 @@ class AdminSidebar extends React.PureComponent {
                             return;
                         }
                     }
-
+                    const subDefinitionKey = `${key}.${subKey}`;
                     sidebarItems.push((
                         <AdminSidebarSection
-                            key={itemIndex}
+                            key={subDefinitionKey}
+                            definitionKey={subDefinitionKey}
                             name={item.url}
                             title={
                                 <FormattedMessage
@@ -232,7 +233,8 @@ class AdminSidebar extends React.PureComponent {
                 if (sidebarItems.length || moreSidebarItems.length) {
                     sidebarSections.push((
                         <AdminSidebarCategory
-                            key={sectionIndex}
+                            key={key}
+                            definitionKey={key}
                             parentLink='/admin_console'
                             icon={section.icon}
                             sectionClass=''

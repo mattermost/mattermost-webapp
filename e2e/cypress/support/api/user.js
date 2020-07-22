@@ -199,3 +199,15 @@ Cypress.Commands.add('apiGetUsersNotInTeam', ({teamId, page = 0, perPage = 60} =
         cy.wrap({users: response.body});
     });
 });
+
+Cypress.Commands.add('apiPatchUserRoles', (userId, roleNames = ['system_user']) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: `/api/v4/users/${userId}/roles`,
+        method: 'PUT',
+        body: {roles: roleNames.join(' ')},
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        cy.wrap({user: response.body});
+    });
+});
