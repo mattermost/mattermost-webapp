@@ -16,9 +16,11 @@ window.Redux = require('redux');
 window.ReactRedux = require('react-redux');
 window.ReactBootstrap = require('react-bootstrap');
 window.ReactRouterDom = require('react-router-dom');
-window.PostUtils = {formatText, messageHtmlToComponent};
 window.PropTypes = require('prop-types');
 window.PDFJS = require('pdfjs-dist');
+
+// Functions and components exposed on window for plugins to use.
+window.PostUtils = {formatText, messageHtmlToComponent};
 window.openInteractiveDialog = openInteractiveDialog;
 window.WebappUtils = {browserHistory};
 window.Textbox = Textbox;
