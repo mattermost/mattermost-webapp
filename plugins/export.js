@@ -23,4 +23,4 @@ window.PDFJS = require('pdfjs-dist');
 window.PostUtils = {formatText, messageHtmlToComponent};
 window.openInteractiveDialog = openInteractiveDialog;
 window.WebappUtils = {browserHistory};
-window.Textbox = Textbox;
+window.Components = {Textbox};
