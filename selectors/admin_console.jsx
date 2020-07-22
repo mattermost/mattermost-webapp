@@ -4,7 +4,8 @@
 import {createSelector} from 'reselect';
 import {cloneDeep} from 'lodash';
 
-import {haveINoPermissionOnSysConsoleItem, haveINoWritePermissionOnSysConsoleItem} from 'mattermost-redux/selectors/entities/roles';
+import {getMySystemPermissions} from 'mattermost-redux/selectors/entities/roles_helpers';
+import {ResourceToSysConsolePermissionsTable} from 'mattermost-redux/constants/permissions_sysconsole';
 
 import AdminDefinition from 'components/admin_console/admin_definition.jsx';
 
@@ -24,19 +25,25 @@ export const getAdminConsoleCustomComponents = (state, pluginId) =>
     state.plugins.adminConsoleCustomComponents[pluginId] || {};
 
 export const getConsoleAccess = createSelector(
-    (state) => state,
     getAdminDefinition,
-    (state, adminDefinition) => {
+    getMySystemPermissions,
+    (adminDefinition, mySystemPermissions) => {
         const consoleAccess = {read: {}, write: {}};
 
         const mapAccessValuesForKey = ([key]) => {
-            consoleAccess.read[key] = !haveINoPermissionOnSysConsoleItem(state, {resourceId: key});
-            consoleAccess.write[key] = !haveINoWritePermissionOnSysConsoleItem(state, {resourceId: key});
+            const permissionsForKey = ResourceToSysConsolePermissionsTable[key].filter((x) => mySystemPermissions.has(x));
+
+            consoleAccess.read[key] = permissionsForKey.length !== 0;
+            consoleAccess.write[key] = !consoleAccess.read[key] || !permissionsForKey.some((permission) => permission.startsWith('write'));
+
             if (key === 'user_management') {
                 ['users', 'groups', 'teams', 'channels', 'permissions'].forEach((userManagementKey) => {
                     const subKey = `${key}.${userManagementKey}`;
-                    consoleAccess.read[subKey] = !haveINoPermissionOnSysConsoleItem(state, {resourceId: subKey});
-                    consoleAccess.write[subKey] = !haveINoWritePermissionOnSysConsoleItem(state, {resourceId: subKey});
+
+                    const permissionsForSubkey = ResourceToSysConsolePermissionsTable[subKey].filter((x) => mySystemPermissions.has(x));
+
+                    consoleAccess.read[subKey] = permissionsForSubkey.length !== 0;
+                    consoleAccess.write[subKey] = !consoleAccess.read[key] || !permissionsForSubkey.some((permission) => permission.startsWith('write'));
                 });
             }
         };
