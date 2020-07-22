@@ -44,7 +44,7 @@ describe('Account Settings > Display > Message Display', () => {
                 cy.clickPostDotMenu(postId);
 
                 // # click edit post
-                cy.get(`#edit_post_${postId}`).should('be.visible').click();
+                cy.get(`#edit_post_${postId}`).scrollIntoView().should('be.visible').click();
 
                 // # Add ",edited" to the text
                 cy.get('#edit_textbox').type(',edited');
