@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @account_setting
 
 import moment from 'moment-timezone';
@@ -41,13 +40,15 @@ describe('Account Settings > Display > Timezone Mode', () => {
             },
         });
 
-        // # Create and visit new channel
-        cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
-            cy.visit(`/${team.name}/channels/${channel.name}`);
+        // # Create and visit town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
 
             // # Post messages from the past
             [date1, date2, date3, date4].forEach((createAt, index) => {
-                cy.postMessageAs({sender: sysadmin, message: `Hello from ${index}`, channelId: channel.id, createAt});
+                cy.getCurrentChannelId().then((channelId) => {
+                    cy.postMessageAs({sender: sysadmin, message: `Hello from ${index}`, channelId, createAt});
+                });
             });
 
             // # Post messages from now
