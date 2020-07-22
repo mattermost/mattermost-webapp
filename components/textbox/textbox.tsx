@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 /* eslint-disable react/no-string-refs */
 
-import React, {ChangeEvent, FocusEvent, KeyboardEvent, MouseEvent, ReactElement} from 'react';
+import React, {ChangeEvent, ElementType, FocusEvent, KeyboardEvent, MouseEvent} from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {Channel} from 'mattermost-redux/types/channels';
@@ -54,7 +54,7 @@ type Props = {
         searchAssociatedGroupsForReference: (prefix: string, teamId: string, channelId: string | undefined) => (dispatch: any, getState: any) => Promise<{ data: any }>;
     };
     useChannelMentions: boolean;
-    inputComponent?: ReactElement | string;
+    inputComponent?: ElementType;
 };
 
 export default class Textbox extends React.PureComponent<Props> {
