@@ -54,7 +54,7 @@ type Props = {
         searchAssociatedGroupsForReference: (prefix: string, teamId: string, channelId: string | undefined) => (dispatch: any, getState: any) => Promise<{ data: any }>;
     };
     useChannelMentions: boolean;
-    inputComponent?: ReactElement | string | null;
+    inputComponent?: ReactElement | string;
 };
 
 export default class Textbox extends React.PureComponent<Props> {
@@ -67,6 +67,7 @@ export default class Textbox extends React.PureComponent<Props> {
         supportsCommands: true,
         isRHS: false,
         listenForMentionKeyClick: false,
+        inputComponent: AutosizeTextarea,
     };
 
     constructor(props: Props) {
@@ -235,7 +236,6 @@ export default class Textbox extends React.PureComponent<Props> {
                 </div>
             );
         }
-        const inputComponent = this.props.inputComponent || AutosizeTextarea;
 
         return (
             <div
@@ -257,7 +257,7 @@ export default class Textbox extends React.PureComponent<Props> {
                     onBlur={this.handleBlur}
                     onHeightChange={this.handleHeightChange}
                     style={{visibility: this.props.preview ? 'hidden' : 'visible'}}
-                    inputComponent={inputComponent}
+                    inputComponent={this.props.inputComponent}
                     listComponent={SuggestionList}
                     listStyle={this.props.suggestionListStyle}
                     providers={this.suggestionProviders}
