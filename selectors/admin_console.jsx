@@ -36,7 +36,7 @@ export const getConsoleAccess = createSelector(
             const permissionsForKey = ResourceToSysConsolePermissionsTable[key].filter((x) => mySystemPermissions.has(x));
 
             consoleAccess.read[key] = permissionsForKey.length !== 0;
-            consoleAccess.write[key] = !consoleAccess.read[key] || !permissionsForKey.some((permission) => permission.startsWith('write'));
+            consoleAccess.write[key] = permissionsForKey.some((permission) => permission.startsWith('write'));
 
             if (key === 'user_management') {
                 ['users', 'groups', 'teams', 'channels', 'permissions'].forEach((userManagementKey) => {
@@ -45,7 +45,7 @@ export const getConsoleAccess = createSelector(
                     const permissionsForSubkey = ResourceToSysConsolePermissionsTable[subKey].filter(has);
 
                     consoleAccess.read[subKey] = permissionsForSubkey.length !== 0;
-                    consoleAccess.write[subKey] = !consoleAccess.read[key] || !permissionsForSubkey.some((permission) => permission.startsWith('write'));
+                    consoleAccess.write[subKey] = permissionsForSubkey.some((permission) => permission.startsWith('write'));
                 });
             }
         };
