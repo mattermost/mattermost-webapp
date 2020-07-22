@@ -48,11 +48,5 @@ const mapDispatchToProps = (dispatch: Dispatch<GenericAction>) => ({
     }, dispatch),
 });
 
-const connectedTextbox = connect(makeMapStateToProps, mapDispatchToProps, null, {forwardRef: true})(Textbox);
-export default connectedTextbox;
-
-// Attach the Textbox to the window object so that plugins can use it.
-// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-// @ts-ignore
-window.Textbox = connectedTextbox;
+export default connect(makeMapStateToProps, mapDispatchToProps, null, {forwardRef: true})(Textbox);
 
