@@ -67,6 +67,7 @@ class TeamFilterDropdown extends React.PureComponent<Props, State> {
     private listRef: React.RefObject<HTMLDivElement>;
     private searchRetryInterval: number;
     private searchRetryId: number;
+    private scrollPosition: number;
 
     public constructor(props: Props) {
         super(props);
@@ -87,6 +88,7 @@ class TeamFilterDropdown extends React.PureComponent<Props, State> {
         this.listRef = React.createRef();
         this.searchRetryInterval = INITIAL_SEARCH_RETRY_TIMEOUT;
         this.searchRetryId = 0;
+        this.scrollPosition = 0;
     }
 
     componentDidMount() {
@@ -130,11 +132,17 @@ class TeamFilterDropdown extends React.PureComponent<Props, State> {
         this.hidePopover();
     }
 
+    setScrollPosition = (event: React.UIEvent<HTMLDivElement, UIEvent>) => {
+        this.scrollPosition = (event.target as HTMLDivElement).scrollTop;
+    }
+
     hasMore = (): boolean => {
-        if (this.state.searchTerm.length > 0) {
-            return !this.state.loading && this.state.searchTotal > this.state.searchResults.length;
+        if (this.state.loading) {
+            return false;
+        } else if (this.state.searchTerm.length > 0) {
+            return this.state.searchTotal > this.state.searchResults.length;
         }
-        return !this.state.loading && this.props.total > this.props.teams.length;
+        return this.props.total > this.props.teams.length;
     }
 
     loadMore = async () => {
@@ -149,6 +157,11 @@ class TeamFilterDropdown extends React.PureComponent<Props, State> {
         } else {
             await this.props.actions.getData(page, TEAMS_PER_PAGE);
         }
+
+        if (this.listRef?.current) {
+            this.listRef.current.scrollTop = this.scrollPosition;
+        }
+
         this.setState({page, loading: false});
     }
 
@@ -345,6 +358,7 @@ class TeamFilterDropdown extends React.PureComponent<Props, State> {
                         <div
                             className='TeamFilterDropdownOptions_list'
                             ref={this.listRef}
+                            onScroll={this.setScrollPosition}
                         >
                             {selectedTeams}
 
@@ -353,7 +367,7 @@ class TeamFilterDropdown extends React.PureComponent<Props, State> {
                             <InfiniteScroll
                                 hasMore={this.hasMore()}
                                 loadMore={this.loadMore}
-                                threshold={1}
+                                threshold={50}
                                 useWindow={false}
                                 initialLoad={false}
                             >
