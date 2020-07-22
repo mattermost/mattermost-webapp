@@ -26,6 +26,10 @@ class SwitchTeamSuggestion extends Suggestion {
             <div
                 onClick={this.handleClick}
                 className={className}
+                onMouseMove={this.handleMouseMove}
+                ref={(node) => {
+                    this.node = node;
+                }}
                 {...Suggestion.baseProps}
             >
                 <div className='status'>

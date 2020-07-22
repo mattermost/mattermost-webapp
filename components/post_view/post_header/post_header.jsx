@@ -74,6 +74,16 @@ export default class PostHeader extends React.PureComponent {
          * If the user that made the post is a guest.
          */
         isGuest: PropTypes.bool.isRequired,
+
+        /**
+         * To Check if the current post is last in the list
+         */
+        isLastPost: PropTypes.bool,
+
+        /**
+         * Source of image that should be override current user profile.
+         */
+        overwriteIcon: PropTypes.string,
     }
 
     render() {
@@ -98,6 +108,7 @@ export default class PostHeader extends React.PureComponent {
                         userId={post.user_id}
                         hideStatus={true}
                         overwriteName={post.props.override_username}
+                        overwriteIcon={this.props.overwriteIcon}
                     />
                 );
             } else {
@@ -171,6 +182,7 @@ export default class PostHeader extends React.PureComponent {
                         isFirstReply={this.props.isFirstReply}
                         showTimeWithoutHover={this.props.showTimeWithoutHover}
                         hover={this.props.hover}
+                        isLastPost={this.props.isLastPost}
                     />
                 </div>
             </div>

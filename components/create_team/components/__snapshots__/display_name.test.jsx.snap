@@ -46,7 +46,7 @@ exports[`/components/create_team/components/display_name should match snapshot 1
       />
     </div>
     <button
-      className="btn btn-primary margin--extra"
+      className="btn btn-primary mt-8"
       id="teamNameNextButton"
       onClick={[Function]}
       type="submit"

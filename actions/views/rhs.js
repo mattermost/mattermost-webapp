@@ -20,11 +20,37 @@ import {getUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
 import {getUserCurrentTimezone} from 'mattermost-redux/utils/timezone_utils';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
-import {getSearchTerms, getRhsState, getPluginId} from 'selectors/rhs';
+import {getSearchTerms, getRhsState, getPluggableId} from 'selectors/rhs';
 import {ActionTypes, RHSStates} from 'utils/constants';
 import * as Utils from 'utils/utils';
 
 import {getBrowserUtcOffset, getUtcOffsetForTimeZone} from 'utils/timezone';
+
+function selectPostFromRightHandSideSearchWithPreviousState(post, previousRhsState) {
+    return async (dispatch, getState) => {
+        const postRootId = Utils.getRootId(post);
+        await dispatch(PostActions.getPostThread(postRootId));
+
+        dispatch({
+            type: ActionTypes.SELECT_POST,
+            postId: postRootId,
+            channelId: post.channel_id,
+            previousRhsState: previousRhsState || getRhsState(getState()),
+            timestamp: Date.now(),
+        });
+    };
+}
+
+function selectPostCardFromRightHandSideSearchWithPreviousState(post, previousRhsState) {
+    return async (dispatch, getState) => {
+        dispatch({
+            type: ActionTypes.SELECT_POST_CARD,
+            postId: post.id,
+            channelId: post.channel_id,
+            previousRhsState: previousRhsState || getRhsState(getState()),
+        });
+    };
+}
 
 export function updateRhsState(rhsState, channelId) {
     return (dispatch, getState) => {
@@ -42,29 +68,11 @@ export function updateRhsState(rhsState, channelId) {
 }
 
 export function selectPostFromRightHandSideSearch(post) {
-    return async (dispatch, getState) => {
-        const postRootId = Utils.getRootId(post);
-        await dispatch(PostActions.getPostThread(postRootId));
-
-        dispatch({
-            type: ActionTypes.SELECT_POST,
-            postId: postRootId,
-            channelId: post.channel_id,
-            previousRhsState: getRhsState(getState()),
-            timestamp: Date.now(),
-        });
-    };
+    return selectPostFromRightHandSideSearchWithPreviousState(post);
 }
 
 export function selectPostCardFromRightHandSideSearch(post) {
-    return async (dispatch, getState) => {
-        dispatch({
-            type: ActionTypes.SELECT_POST_CARD,
-            postId: post.id,
-            channelId: post.channel_id,
-            previousRhsState: getRhsState(getState()),
-        });
-    };
+    return selectPostCardFromRightHandSideSearchWithPreviousState(post);
 }
 
 export function selectPostFromRightHandSideSearchByPostId(postId) {
@@ -103,43 +111,47 @@ export function performSearch(terms, isMentionSearch) {
     };
 }
 
-export function showSearchResults() {
+export function showSearchResults(isMentionSearch = false) {
     return (dispatch, getState) => {
         const searchTerms = getSearchTerms(getState());
 
-        dispatch(updateRhsState(RHSStates.SEARCH));
+        if (isMentionSearch) {
+            dispatch(updateRhsState(RHSStates.MENTION));
+        } else {
+            dispatch(updateRhsState(RHSStates.SEARCH));
+        }
         dispatch(updateSearchResultsTerms(searchTerms));
 
         return dispatch(performSearch(searchTerms));
     };
 }
 
-export function showRHSPlugin(pluginId) {
+export function showRHSPlugin(pluggableId) {
     const action = {
         type: ActionTypes.UPDATE_RHS_STATE,
         state: RHSStates.PLUGIN,
-        pluginId,
+        pluggableId,
     };
 
     return action;
 }
 
-export function hideRHSPlugin(pluginId) {
+export function hideRHSPlugin(pluggableId) {
     return (dispatch, getState) => {
-        if (getPluginId(getState()) === pluginId) {
+        if (getPluggableId(getState()) === pluggableId) {
             dispatch(closeRightHandSide());
         }
     };
 }
 
-export function toggleRHSPlugin(pluginId) {
+export function toggleRHSPlugin(pluggableId) {
     return (dispatch, getState) => {
-        if (getPluginId(getState()) === pluginId) {
-            dispatch(hideRHSPlugin(pluginId));
+        if (getPluggableId(getState()) === pluggableId) {
+            dispatch(hideRHSPlugin(pluggableId));
             return;
         }
 
-        dispatch(showRHSPlugin(pluginId));
+        dispatch(showRHSPlugin(pluggableId));
     };
 }
 
@@ -291,5 +303,36 @@ export function openRHSSearch() {
         dispatch(updateSearchResultsTerms(''));
 
         dispatch(updateRhsState(RHSStates.SEARCH));
+    };
+}
+
+export function openAtPrevious(previous) {
+    return (dispatch, getState) => {
+        if (!previous) {
+            return openRHSSearch()(dispatch);
+        }
+
+        if (previous.isMentionSearch) {
+            return showMentions()(dispatch, getState);
+        }
+        if (previous.isPinnedPosts) {
+            return showPinnedPosts()(dispatch, getState);
+        }
+        if (previous.isFlaggedPosts) {
+            return showFlaggedPosts()(dispatch, getState);
+        }
+        if (previous.selectedPostId) {
+            const post = getPost(getState(), previous.selectedPostId);
+            return post ? selectPostFromRightHandSideSearchWithPreviousState(post, previous.previousRhsState)(dispatch, getState) : openRHSSearch()(dispatch);
+        }
+        if (previous.selectedPostCardId) {
+            const post = getPost(getState(), previous.selectedPostCardId);
+            return post ? selectPostCardFromRightHandSideSearchWithPreviousState(post, previous.previousRhsState)(dispatch, getState) : openRHSSearch()(dispatch);
+        }
+        if (previous.searchVisible) {
+            return showSearchResults()(dispatch, getState);
+        }
+
+        return openRHSSearch()(dispatch);
     };
 }

@@ -36,12 +36,13 @@ describe('components/login/LoginController', () => {
             login: jest.fn(),
             addUserToTeamFromInvite: jest.fn(),
         },
+        emojiMap: {},
     };
 
     it('should match snapshot', () => {
         const wrapper = shallowWithIntl(
-            <LoginController {...baseProps}/>
-        ).dive();
+            <LoginController {...baseProps}/>,
+        );
 
         expect(wrapper).toMatchSnapshot();
     });
@@ -51,8 +52,8 @@ describe('components/login/LoginController', () => {
             ...baseProps,
         };
         const wrapper = shallowWithIntl(
-            <LoginController {...props}/>
-        ).dive();
+            <LoginController {...props}/>,
+        );
         wrapper.setState({sessionExpired: true});
 
         expect(wrapper).toMatchSnapshot();
@@ -64,8 +65,8 @@ describe('components/login/LoginController', () => {
             initializing: true,
         };
         const wrapper = shallowWithIntl(
-            <LoginController {...props}/>
-        ).dive();
+            <LoginController {...props}/>,
+        );
 
         expect(wrapper).toMatchSnapshot();
     });
@@ -78,8 +79,8 @@ describe('components/login/LoginController', () => {
 
         LocalStorageStore.setWasLoggedIn(true);
         const wrapper = shallowWithIntl(
-            <LoginController {...props}/>
-        ).dive();
+            <LoginController {...props}/>,
+        );
 
         expect(wrapper).toMatchSnapshot();
     });
@@ -95,8 +96,8 @@ describe('components/login/LoginController', () => {
 
         LocalStorageStore.setWasLoggedIn(true);
         const wrapper = shallowWithIntl(
-            <LoginController {...props}/>
-        ).dive();
+            <LoginController {...props}/>,
+        );
 
         expect(wrapper).toMatchSnapshot();
     });
@@ -111,8 +112,8 @@ describe('components/login/LoginController', () => {
         };
 
         const wrapper = shallowWithIntl(
-            <LoginController {...props}/>
-        ).dive();
+            <LoginController {...props}/>,
+        );
 
         wrapper.setState({sessionExpired: true});
 

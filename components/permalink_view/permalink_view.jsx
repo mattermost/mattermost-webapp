@@ -3,12 +3,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {FormattedMessage, intlShape} from 'react-intl';
-import {Link} from 'react-router-dom';
-
-import ChannelHeader from 'components/channel_header';
-import PostView from 'components/post_view';
-import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -16,8 +10,6 @@ import * as Utils from 'utils/utils.jsx';
 export default class PermalinkView extends React.PureComponent {
     static propTypes = {
         channelId: PropTypes.string,
-        channelName: PropTypes.string,
-        channelIsArchived: PropTypes.bool,
 
         /*
          * Object from react-router
@@ -32,10 +24,7 @@ export default class PermalinkView extends React.PureComponent {
         actions: PropTypes.shape({
             focusPost: PropTypes.func.isRequired,
         }).isRequired,
-    };
-
-    static contextTypes = {
-        intl: intlShape.isRequired,
+        currentUserId: PropTypes.string.isRequired,
     };
 
     static getDerivedStateFromProps(props, state) {
@@ -50,19 +39,12 @@ export default class PermalinkView extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {valid: false};
-
-        this.permalink = React.createRef();
     }
 
     componentDidMount() {
+        this.mounted = true;
         this.doPermalinkEvent(this.props);
         document.body.classList.add('app__body');
-
-        window.addEventListener('keydown', this.onShortcutKeyDown);
-    }
-
-    componentWillUnmount() {
-        window.removeEventListener('keydown', this.onShortcutKeyDown);
     }
 
     componentDidUpdate() {
@@ -71,10 +53,16 @@ export default class PermalinkView extends React.PureComponent {
         }
     }
 
+    componentWillUnmount() {
+        this.mounted = false;
+    }
+
     doPermalinkEvent = async (props) => {
         const postId = props.match.params.postid;
-        await this.props.actions.focusPost(postId, this.props.returnTo);
-        this.setState({valid: true});
+        await this.props.actions.focusPost(postId, this.props.returnTo, this.props.currentUserId);
+        if (this.mounted) {
+            this.setState({valid: true});
+        }
     }
 
     isStateValid = () => {
@@ -88,15 +76,6 @@ export default class PermalinkView extends React.PureComponent {
     }
 
     render() {
-        const {
-            channelId,
-            channelName,
-            channelIsArchived,
-            match,
-            teamName,
-        } = this.props;
-        const {formatMessage} = this.context.intl;
-
         if (!this.isStateValid()) {
             return (
                 <div
@@ -106,44 +85,6 @@ export default class PermalinkView extends React.PureComponent {
             );
         }
 
-        return (
-            <div
-                id='app-content'
-                className='app__content'
-            >
-                <ChannelHeader
-                    channelId={channelId}
-                />
-                <PostView
-                    channelId={channelId}
-                    focusedPostId={match.params.postid}
-                />
-                <div
-                    id='archive-link-home'
-                >
-                    <Link
-                        to={'/' + teamName + '/channels/' + channelName}
-                        className='a11y__region'
-                        data-a11y-sort-order='2'
-                        innerRef={this.permalink}
-                    >
-                        {channelIsArchived &&
-                            <FormattedMarkdownMessage
-                                id='center_panel.permalink.archivedChannel'
-                                defaultMessage='You are viewing an **archived channel**. '
-                            />
-                        }
-                        <FormattedMessage
-                            id='center_panel.recent'
-                            defaultMessage='Click here to jump to recent messages. '
-                        />
-                        <i
-                            className='fa fa-arrow-down'
-                            title={formatMessage({id: 'center_panel.recent.icon', defaultMessage: 'Jump to recent messages Icon'})}
-                        />
-                    </Link>
-                </div>
-            </div>
-        );
+        return null;
     }
 }

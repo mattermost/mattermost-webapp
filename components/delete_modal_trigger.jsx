@@ -7,7 +7,7 @@ import React from 'react';
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 
-import ConfirmModal from './confirm_modal.jsx';
+import ConfirmModal from './confirm_modal';
 
 export default class DeleteModalTrigger extends React.PureComponent {
     static propTypes = {

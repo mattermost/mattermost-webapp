@@ -7,7 +7,10 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-import {getRandomInt} from '../../utils';
+// Stage: @prod
+// Group: @integrations
+
+import {getRandomId} from '../../utils';
 
 describe('Integrations page', () => {
     before(() => {
@@ -23,18 +26,17 @@ describe('Integrations page', () => {
         };
         cy.apiUpdateConfig(newSettings);
 
-        // # Login as sysadmin
-        cy.apiLogin('sysadmin');
+        cy.apiInitSetup().then(({team}) => {
+            // # Go to integrations
+            cy.visit(`/${team.name}/integrations`);
 
-        // # Go to integrations
-        cy.visit('/ad-1/integrations');
-
-        // * Validate that all sections are enabled
-        cy.get('#incomingWebhooks').should('be.visible');
-        cy.get('#outgoingWebhooks').should('be.visible');
-        cy.get('#slashCommands').should('be.visible');
-        cy.get('#botAccounts').should('be.visible');
-        cy.get('#oauthApps').should('be.visible');
+            // * Validate that all sections are enabled
+            cy.get('#incomingWebhooks').should('be.visible');
+            cy.get('#outgoingWebhooks').should('be.visible');
+            cy.get('#slashCommands').should('be.visible');
+            cy.get('#botAccounts').should('be.visible');
+            cy.get('#oauthApps').should('be.visible');
+        });
     });
 
     it('should should display correct message when incoming webhook not found', () => {
@@ -128,9 +130,9 @@ describe('Integrations page', () => {
         cy.get('#addOauthApp').click();
 
         // # Fill in dummy details
-        cy.get('#name').type(`test-name${getRandomInt(10000)}`);
-        cy.get('#description').type(`test-descr${getRandomInt(10000)}`);
-        cy.get('#homepage').type(`https://dummy${getRandomInt(10000)}`);
+        cy.get('#name').type(`test-name${getRandomId()}`);
+        cy.get('#description').type(`test-descr${getRandomId()}`);
+        cy.get('#homepage').type(`https://dummy${getRandomId()}`);
         cy.get('#callbackUrls').type('https://dummy');
 
         // # Save
@@ -158,7 +160,7 @@ describe('Integrations page', () => {
         cy.get('#addBotAccount').click();
 
         // # Fill in dummy details
-        cy.get('#username').type(`test-bot${getRandomInt(10000)}`);
+        cy.get('#username').type(`test-bot${getRandomId()}`);
 
         // # Save
         cy.get('#saveBot').click();

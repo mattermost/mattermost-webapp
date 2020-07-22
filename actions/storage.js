@@ -11,7 +11,7 @@ export function setItem(name, value) {
         dispatch({
             type: StorageTypes.SET_ITEM,
             data: {prefix, name, value, timestamp: new Date()},
-        }, getState);
+        });
         return {data: true};
     };
 }
@@ -23,47 +23,47 @@ export function removeItem(name) {
         dispatch({
             type: StorageTypes.REMOVE_ITEM,
             data: {prefix, name},
-        }, getState);
+        });
         return {data: true};
     };
 }
 
 export function setGlobalItem(name, value) {
-    return (dispatch, getState) => {
+    return (dispatch) => {
         dispatch({
             type: StorageTypes.SET_GLOBAL_ITEM,
             data: {name, value, timestamp: new Date()},
-        }, getState);
+        });
         return {data: true};
     };
 }
 
 export function removeGlobalItem(name) {
-    return (dispatch, getState) => {
+    return (dispatch) => {
         dispatch({
             type: StorageTypes.REMOVE_GLOBAL_ITEM,
             data: {name},
-        }, getState);
+        });
         return {data: true};
     };
 }
 
 export function clear(options = {exclude: []}) {
-    return (dispatch, getState) => {
+    return (dispatch) => {
         dispatch({
             type: StorageTypes.CLEAR,
             data: options,
-        }, getState);
+        });
         return {data: true};
     };
 }
 
 export function actionOnGlobalItemsWithPrefix(prefix, action) {
-    return (dispatch, getState) => {
+    return (dispatch) => {
         dispatch({
             type: StorageTypes.ACTION_ON_GLOBAL_ITEMS_WITH_PREFIX,
             data: {prefix, action},
-        }, getState);
+        });
         return {data: true};
     };
 }
@@ -75,7 +75,7 @@ export function actionOnItemsWithPrefix(prefix, action) {
         dispatch({
             type: StorageTypes.ACTION_ON_ITEMS_WITH_PREFIX,
             data: {globalPrefix, prefix, action},
-        }, getState);
+        });
         return {data: true};
     };
 }

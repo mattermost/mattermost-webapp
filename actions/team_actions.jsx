@@ -4,10 +4,13 @@
 import {TeamTypes} from 'mattermost-redux/action_types';
 import {viewChannel, getChannelStats} from 'mattermost-redux/actions/channels';
 import * as TeamActions from 'mattermost-redux/actions/teams';
-import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentChannelId, isManuallyUnread} from 'mattermost-redux/selectors/entities/channels';
 import {getUser} from 'mattermost-redux/actions/users';
+import {savePreferences} from 'mattermost-redux/actions/preferences';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {browserHistory} from 'utils/browser_history';
+import {Preferences} from 'utils/constants';
 
 export function removeUserFromTeamAndGetStats(teamId, userId) {
     return async (dispatch, getState) => {
@@ -65,7 +68,7 @@ export function addUserToTeam(teamId, userId) {
 
 export function addUsersToTeam(teamId, userIds) {
     return async (dispatch, getState) => {
-        const {data, error} = await dispatch(TeamActions.addUsersToTeam(teamId, userIds));
+        const {data, error} = await dispatch(TeamActions.addUsersToTeamGracefully(teamId, userIds));
 
         if (error) {
             return {error};
@@ -79,7 +82,26 @@ export function addUsersToTeam(teamId, userIds) {
 
 export function switchTeam(url) {
     return (dispatch, getState) => {
-        dispatch(viewChannel(getCurrentChannelId(getState())));
+        const state = getState();
+        const currentChannelId = getCurrentChannelId(state);
+        if (!isManuallyUnread(state, currentChannelId)) {
+            dispatch(viewChannel(currentChannelId));
+        }
+
         browserHistory.push(url);
+    };
+}
+
+export function updateTeamsOrderForUser(teamIds) {
+    return async (dispatch, getState) => {
+        const state = getState();
+        const currentUserId = getCurrentUserId(state);
+        const teamOrderPreferences = [{
+            user_id: currentUserId,
+            name: '',
+            category: Preferences.TEAMS_ORDER,
+            value: teamIds.join(','),
+        }];
+        dispatch(savePreferences(currentUserId, teamOrderPreferences));
     };
 }

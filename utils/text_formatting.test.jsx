@@ -3,9 +3,10 @@
 
 import emojiRegex from 'emoji-regex';
 
-import {formatText, autolinkAtMentions, highlightSearchTerms, handleUnicodeEmoji, parseSearchTerms} from 'utils/text_formatting.jsx';
 import {getEmojiMap} from 'selectors/emojis';
 import store from 'stores/redux_store.jsx';
+
+import {formatText, autolinkAtMentions, highlightSearchTerms, handleUnicodeEmoji, parseSearchTerms} from 'utils/text_formatting';
 import LinkOnlyRenderer from 'utils/markdown/link_only_renderer';
 
 describe('formatText', () => {
@@ -35,7 +36,14 @@ describe('autolinkAtMentions', () => {
             const tokens = new Map();
 
             const output = autolinkAtMentions(text, tokens);
-            expect(output).toBe(`${leadingText}$MM_ATMENTION0$${trailingText}`);
+            let expected = `${leadingText}$MM_ATMENTION0$${trailingText}`;
+
+            // Deliberately remove all leading underscores since regex replaces underscore by treating it as non word boundary
+            while (expected[0] === '_') {
+                expected = expected.substring(1);
+            }
+
+            expect(output).toBe(expected);
             expect(tokens.get('$MM_ATMENTION0$').value).toBe(`<span data-mention="${testCase}">${mention}</span>`);
         });
     }
@@ -48,6 +56,17 @@ describe('autolinkAtMentions', () => {
             const output = autolinkAtMentions(text, tokens);
             expect(output).toBe(text);
             expect(tokens.get('$MM_ATMENTION0$')).toBeUndefined();
+        });
+    }
+    function runUnsuccessfulAtMentionTestsMatchingNonSpecialMentions(leadingText = '', trailingText = '') {
+        mentionTestCases.forEach((testCase) => {
+            const mention = `@${testCase}`;
+            const text = `${leadingText}${mention}${trailingText}`;
+            const tokens = new Map();
+
+            const output = autolinkAtMentions(text, tokens);
+            expect(output).toBe(`${leadingText}$MM_ATMENTION0$`);
+            expect(tokens.get('$MM_ATMENTION0$').value).toBe(`<span data-mention="${testCase}${trailingText}">${mention}${trailingText}</span>`);
         });
     }
 
@@ -67,25 +86,57 @@ describe('autolinkAtMentions', () => {
     test('@channel, @all, @here should highlight properly with a trailing period', () => {
         runSuccessfulAtMentionTests('', '.');
     });
+    test('@channel, @all, @here should highlight properly with multiple leading and trailing periods', () => {
+        runSuccessfulAtMentionTests('...', '...');
+    });
     test('@channel, @all, @here should highlight properly with a leading dash', () => {
         runSuccessfulAtMentionTests('-', '');
     });
     test('@channel, @all, @here should highlight properly with a trailing dash', () => {
         runSuccessfulAtMentionTests('', '-');
     });
+    test('@channel, @all, @here should highlight properly with multiple leading and trailing dashes', () => {
+        runSuccessfulAtMentionTests('---', '---');
+    });
+    test('@channel, @all, @here should highlight properly with a trailing underscore', () => {
+        runSuccessfulAtMentionTests('', '____');
+    });
+    test('@channel, @all, @here should highlight properly with multiple trailing underscores', () => {
+        runSuccessfulAtMentionTests('', '____');
+    });
     test('@channel, @all, @here should highlight properly within a typical sentance', () => {
         runSuccessfulAtMentionTests('This is a typical sentance, ', ' check out this sentance!');
     });
-
-    // cases where highlights should be unseccessful
-    test('@channel, @all, @here should not highlight with a leading underscore', () => {
-        runUnsuccessfulAtMentionTests('_');
+    test('@channel, @all, @here should highlight with a leading underscore', () => {
+        runSuccessfulAtMentionTests('_');
     });
+
+    // cases where highlights should be unsuccessful
     test('@channel, @all, @here should not highlight when the last part of a word', () => {
         runUnsuccessfulAtMentionTests('testing');
     });
     test('@channel, @all, @here should not highlight when in the middle of a word', () => {
         runUnsuccessfulAtMentionTests('test', 'ing');
+    });
+
+    // cases where highlights should be unsucessful but a non special mention should be created
+    test('@channel, @all, @here should be treated as non special mentions with trailing period followed by a word', () => {
+        runUnsuccessfulAtMentionTestsMatchingNonSpecialMentions('Hello ', '.developers');
+    });
+    test('@channel, @all, @here should be treated as non special mentions with multiple trailing periods followed by a word', () => {
+        runUnsuccessfulAtMentionTestsMatchingNonSpecialMentions('Hello ', '...developers');
+    });
+    test('@channel, @all, @here should be treated as non special mentions with trailing dash followed by a word', () => {
+        runUnsuccessfulAtMentionTestsMatchingNonSpecialMentions('Hello ', '-developers');
+    });
+    test('@channel, @all, @here should be treated as non special mentions with multiple trailing dashes followed by a word', () => {
+        runUnsuccessfulAtMentionTestsMatchingNonSpecialMentions('Hello ', '---developers');
+    });
+    test('@channel, @all, @here should be treated as non special mentions with trailing underscore followed by a word', () => {
+        runUnsuccessfulAtMentionTestsMatchingNonSpecialMentions('Hello ', '_developers');
+    });
+    test('@channel, @all, @here should be treated as non special mentions with multiple trailing underscores followed by a word', () => {
+        runUnsuccessfulAtMentionTestsMatchingNonSpecialMentions('Hello ', '___developers');
     });
 });
 
@@ -113,22 +164,53 @@ describe('highlightSearchTerms', () => {
 });
 
 describe('handleUnicodeEmoji', () => {
-    test('unicode emoji with image support should get replaced with an image', () => {
-        const text = '👍';
-        const emojiMap = getEmojiMap(store.getState());
-        const UNICODE_EMOJI_REGEX = emojiRegex();
+    const emojiMap = getEmojiMap(store.getState());
+    const UNICODE_EMOJI_REGEX = emojiRegex();
 
-        const output = handleUnicodeEmoji(text, emojiMap, UNICODE_EMOJI_REGEX);
-        expect(output).toBe('<span data-emoticon="+1">👍</span>');
-    });
-    test('unicode emoji without image support should get wrapped in a span tag', () => {
-        const text = '🤟'; // note, this test will fail as soon as this emoji gets a corresponding image
-        const emojiMap = getEmojiMap(store.getState());
-        const UNICODE_EMOJI_REGEX = emojiRegex();
+    const tests = [
+        {
+            description: 'should replace supported emojis with an image',
+            text: '👍',
+            output: '<span data-emoticon="+1">👍</span>',
+        },
+        {
+            description: 'should not replace unsupported emojis with an image',
+            text: '🤟', // Note, this test will fail as soon as this emoji gets a corresponding image
+            output: '<span class="emoticon emoticon--unicode">🤟</span>',
+        },
+        {
+            description: 'should correctly match gendered emojis',
+            text: '🙅‍♀️🙅‍♂️',
+            output: '<span data-emoticon="no_good_woman">🙅‍♀️</span><span data-emoticon="no_good_man">🙅‍♂️</span>',
+        },
+        {
+            description: 'should correctly match flags',
+            text: '🏳️🇨🇦🇫🇮',
+            output: '<span data-emoticon="white_flag">🏳️</span><span data-emoticon="canada">🇨🇦</span><span data-emoticon="finland">🇫🇮</span>',
+        },
+        {
+            description: 'should correctly match emojis with skin tones',
+            text: '👍🏿👍🏻',
+            output: '<span data-emoticon="+1_dark_skin_tone">👍🏿</span><span data-emoticon="+1_light_skin_tone">👍🏻</span>',
+        },
+        {
+            description: 'should correctly match more emojis with skin tones',
+            text: '✊🏻✊🏿',
+            output: '<span data-emoticon="fist_raised_light_skin_tone">✊🏻</span><span data-emoticon="fist_raised_dark_skin_tone">✊🏿</span>',
+        },
+        {
+            description: 'should correctly match combined emojis',
+            text: '👨‍👩‍👧‍👦👨‍❤️‍👨',
+            output: '<span data-emoticon="family_man_woman_girl_boy">👨‍👩‍👧‍👦</span><span data-emoticon="couple_with_heart_man_man">👨‍❤️‍👨</span>',
+        },
+    ];
 
-        const output = handleUnicodeEmoji(text, emojiMap, UNICODE_EMOJI_REGEX);
-        expect(output).toBe('<span class="emoticon emoticon--unicode">🤟</span>');
-    });
+    for (const t of tests) {
+        test(t.description, () => {
+            const output = handleUnicodeEmoji(t.text, emojiMap, UNICODE_EMOJI_REGEX);
+            expect(output).toBe(t.output);
+        });
+    }
 });
 
 describe('linkOnlyMarkdown', () => {
@@ -211,6 +293,31 @@ describe('parseSearchTerms', () => {
         {
             description: 'with search flags before and after',
             input: 'from:someone someword "some phrase" in:somechannel',
+            expected: ['someword', 'some phrase'],
+        },
+        {
+            description: 'with date search flags before and after',
+            input: 'on:1970-01-01 someword "some phrase" after:1970-01-01 before: 1970-01-01',
+            expected: ['someword', 'some phrase'],
+        },
+        {
+            description: 'with negative search flags after',
+            input: 'someword "some phrase" -from:someone -in:somechannel',
+            expected: ['someword', 'some phrase'],
+        },
+        {
+            description: 'with negative search flags before',
+            input: '-from:someone -in: channel someword "some phrase"',
+            expected: ['someword', 'some phrase'],
+        },
+        {
+            description: 'with negative search flags before and after',
+            input: '-from:someone someword "some phrase" -in:somechannel',
+            expected: ['someword', 'some phrase'],
+        },
+        {
+            description: 'with negative date search flags before and after',
+            input: '-on:1970-01-01 someword "some phrase" -after:1970-01-01 -before: 1970-01-01',
             expected: ['someword', 'some phrase'],
         },
     ];

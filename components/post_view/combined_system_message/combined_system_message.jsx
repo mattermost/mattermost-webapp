@@ -3,11 +3,12 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {intlShape} from 'react-intl';
+import {injectIntl} from 'react-intl';
 
 import {Posts} from 'mattermost-redux/constants';
 
 import {t} from 'utils/i18n';
+import {intlShape} from 'utils/react_intl';
 
 import Markdown from 'components/markdown';
 
@@ -165,12 +166,13 @@ const postTypeMessage = {
     },
 };
 
-export default class CombinedSystemMessage extends React.PureComponent {
+class CombinedSystemMessage extends React.PureComponent {
     static propTypes = {
         allUserIds: PropTypes.array.isRequired,
         allUsernames: PropTypes.array.isRequired,
         currentUserId: PropTypes.string.isRequired,
         currentUsername: PropTypes.string.isRequired,
+        intl: intlShape.isRequired,
         messageData: PropTypes.array.isRequired,
         showJoinLeave: PropTypes.bool.isRequired,
         userProfiles: PropTypes.array.isRequired,
@@ -183,10 +185,6 @@ export default class CombinedSystemMessage extends React.PureComponent {
     static defaultProps = {
         allUserIds: [],
         allUsernames: [],
-    };
-
-    static contextTypes = {
-        intl: intlShape,
     };
 
     componentDidMount() {
@@ -218,7 +216,7 @@ export default class CombinedSystemMessage extends React.PureComponent {
             currentUsername,
             userProfiles,
         } = this.props;
-        const {formatMessage} = this.context.intl;
+        const {formatMessage} = this.props.intl;
         const usernames = userProfiles.reduce((acc, user) => {
             acc[user.id] = user.username;
             acc[user.username] = user.username;
@@ -239,7 +237,7 @@ export default class CombinedSystemMessage extends React.PureComponent {
         const {currentUserId, currentUsername} = this.props;
         const allUsernames = this.getAllUsernames();
 
-        const {formatMessage} = this.context.intl;
+        const {formatMessage} = this.props.intl;
         const someone = formatMessage({id: t('channel_loader.someone'), defaultMessage: 'Someone'});
 
         const usernames = userIds.
@@ -262,7 +260,7 @@ export default class CombinedSystemMessage extends React.PureComponent {
     }
 
     renderFormattedMessage(postType, userIds, actorId) {
-        const {formatMessage} = this.context.intl;
+        const {formatMessage} = this.props.intl;
         const {currentUserId, currentUsername} = this.props;
         const usernames = this.getUsernamesByIds(userIds);
         let actor = actorId ? this.getUsernamesByIds([actorId])[0] : '';
@@ -373,3 +371,5 @@ export default class CombinedSystemMessage extends React.PureComponent {
         );
     }
 }
+
+export default injectIntl(CombinedSystemMessage);

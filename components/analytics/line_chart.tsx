@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -51,17 +52,15 @@ export default class LineChart extends React.PureComponent<Props> {
         this.initChart();
     }
 
-    public UNSAFE_componentWillUpdate(nextProps: Props): void { // eslint-disable-line camelcase
-        const willHaveData = nextProps.data && nextProps.data.labels.length > 0;
+    public componentDidUpdate(prevProps: Props): void {
+        const currentData = this.props.data && this.props.data.labels.length > 0;
 
-        if (!willHaveData && this.chart) {
+        if (!currentData && this.chart) {
             // Clean up the rendered chart before we render and destroy its context
             this.chart.destroy();
             this.chart = null;
         }
-    }
 
-    public componentDidUpdate(prevProps: Props): void {
         if (Utils.areObjectsEqual(prevProps.data, this.props.data)) {
             return;
         }
@@ -138,3 +137,4 @@ export default class LineChart extends React.PureComponent<Props> {
         );
     }
 }
+/* eslint-enable react/no-string-refs */

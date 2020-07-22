@@ -12,17 +12,21 @@ describe('components/MenuItemAction', () => {
             <MenuItemActionImpl
                 onClick={jest.fn()}
                 text='Whatever'
-            />
+            />,
         );
 
         expect(wrapper).toMatchInlineSnapshot(`
-<button
-  className="style--none"
-  onClick={[MockFunction]}
->
-  Whatever
-</button>
-`);
+      <button
+        className="style--none"
+        onClick={[MockFunction]}
+      >
+        <span
+          className="MenuItem__primary-text"
+        >
+          Whatever
+        </span>
+      </button>
+    `);
     });
     test('should match snapshot with extra text', () => {
         const wrapper = shallow(
@@ -30,21 +34,25 @@ describe('components/MenuItemAction', () => {
                 onClick={jest.fn()}
                 text='Whatever'
                 extraText='Extra Text'
-            />
+            />,
         );
 
         expect(wrapper).toMatchInlineSnapshot(`
-<button
-  className="style--none MenuItem__help"
-  onClick={[MockFunction]}
->
-  Whatever
-  <span
-    className="extra-text"
-  >
-    Extra Text
-  </span>
-</button>
-`);
+      <button
+        className="style--none MenuItem__with-help"
+        onClick={[MockFunction]}
+      >
+        <span
+          className="MenuItem__primary-text"
+        >
+          Whatever
+        </span>
+        <span
+          className="MenuItem__help-text"
+        >
+          Extra Text
+        </span>
+      </button>
+    `);
     });
 });

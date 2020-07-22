@@ -101,7 +101,7 @@ exports[`/components/create_team/components/display_name should match snapshot 1
       </li>
     </ul>
     <div
-      className="margin--extra"
+      className="mt-8"
     >
       <Button
         active={false}
@@ -121,7 +121,7 @@ exports[`/components/create_team/components/display_name should match snapshot 1
       </Button>
     </div>
     <div
-      className="margin--extra"
+      className="mt-8"
     >
       <a
         href="#"

@@ -7,7 +7,7 @@ import {Modal} from 'react-bootstrap';
 import modalsReducer from 'reducers/views/modals';
 import {ActionTypes, ModalIdentifiers} from 'utils/constants';
 
-class TestModal extends React.Component {
+class TestModal extends React.PureComponent {
     render() {
         return (
             <Modal
@@ -24,7 +24,7 @@ describe('Reducers.Modals', () => {
     test('Initial state', () => {
         const nextState = modalsReducer(
             {},
-            {}
+            {},
         );
 
         const expectedState = {
@@ -47,7 +47,7 @@ describe('Reducers.Modals', () => {
                 modalId: ModalIdentifiers.DELETE_CHANNEL,
                 dialogType,
                 dialogProps,
-            }
+            },
         );
 
         const expectedState = {
@@ -69,7 +69,7 @@ describe('Reducers.Modals', () => {
             {
                 type: ActionTypes.MODAL_CLOSE,
                 modalId: ModalIdentifiers.DELETE_CHANNEL,
-            }
+            },
         );
 
         const expectedState = {

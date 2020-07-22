@@ -39,7 +39,7 @@ exports[`components/AddGroupsToChannelModal should match snapshot 1`] = `
       componentClass="h4"
     >
       <FormattedMessage
-        defaultMessage="Add New Groups To {channelName} Channel"
+        defaultMessage="Add New Groups to {channelName} Channel"
         id="add_groups_to_channel.title"
         values={
           Object {
@@ -98,6 +98,7 @@ exports[`components/AddGroupsToChannelModal should match when renderOption is ca
 <div
   className="more-modal__row clickable "
   onClick={[Function]}
+  onMouseMove={[Function]}
 >
   <img
     alt="group picture"
@@ -146,6 +147,7 @@ exports[`components/AddGroupsToChannelModal should match when renderOption is ca
 <div
   className="more-modal__row clickable more-modal__row--selected"
   onClick={[Function]}
+  onMouseMove={[Function]}
 >
   <img
     alt="group picture"
@@ -194,6 +196,7 @@ exports[`components/AddGroupsToChannelModal should match when renderOption is ca
 <div
   className="more-modal__row clickable more-modal__row--selected"
   onClick={[Function]}
+  onMouseMove={[Function]}
 >
   <img
     alt="group picture"

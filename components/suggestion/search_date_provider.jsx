@@ -1,30 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
-
-import DayPicker from 'react-day-picker';
-
 import Provider from './provider.jsx';
-import Suggestion from './suggestion.jsx';
-
-import 'react-day-picker/lib/style.css';
-
-class SearchDateSuggestion extends Suggestion {
-    handleDayClick = (day) => {
-        const dayString = day.toISOString().split('T')[0];
-        this.props.onClick(dayString, this.props.matchedPretext);
-    }
-
-    render() {
-        return (
-            <DayPicker
-                onDayClick={this.handleDayClick}
-                showOutsideDays={true}
-            />
-        );
-    }
-}
+import SearchDateSuggestion from './search_date_suggestion';
 
 export default class SearchDateProvider extends Provider {
     handlePretextChanged(pretext, resultsCallback) {

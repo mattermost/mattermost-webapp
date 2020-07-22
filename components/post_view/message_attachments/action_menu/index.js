@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
 import {autocompleteChannels} from 'actions/channel_actions';
+import {autocompleteUsers} from 'actions/user_actions';
 import {selectAttachmentMenuAction} from 'actions/views/posts';
 
 import ActionMenu from './action_menu.jsx';
@@ -23,6 +24,7 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             selectAttachmentMenuAction,
             autocompleteChannels,
+            autocompleteUsers,
         }, dispatch),
     };
 }

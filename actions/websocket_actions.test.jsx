@@ -117,7 +117,7 @@ const mockState = {
                 team: ['channel1', 'channel2'],
             },
             membersInChannel: {
-                otherChannel: {}
+                otherChannel: {},
             },
         },
         preferences: {
@@ -154,6 +154,11 @@ const mockState = {
         },
     },
     websocket: {},
+    plugins: {
+        components: {
+            RightHandSidebarComponent: [],
+        },
+    },
 };
 
 jest.mock('stores/redux_store', () => {
@@ -424,6 +429,7 @@ describe('handleNewPostEvent', () => {
         entities: {
             users: {
                 currentUserId: 'user1',
+                isManualStatus: {},
             },
         },
     };
@@ -432,7 +438,12 @@ describe('handleNewPostEvent', () => {
         const testStore = configureStore(initialState);
 
         const post = {id: 'post1', channel_id: 'channel1', user_id: 'user1'};
-        const msg = {data: {post: JSON.stringify(post)}};
+        const msg = {
+            data: {
+                post: JSON.stringify(post),
+                set_online: true,
+            },
+        };
 
         testStore.dispatch(handleNewPostEvent(msg));
         expect(getProfilesAndStatusesForPosts).toHaveBeenCalledWith([post], expect.anything(), expect.anything());
@@ -443,7 +454,12 @@ describe('handleNewPostEvent', () => {
         const testStore = configureStore(initialState);
 
         const post = {id: 'post1', channel_id: 'channel1', user_id: 'user2'};
-        const msg = {data: {post: JSON.stringify(post)}};
+        const msg = {
+            data: {
+                post: JSON.stringify(post),
+                set_online: true,
+            },
+        };
 
         testStore.dispatch(handleNewPostEvent(msg));
 
@@ -457,7 +473,61 @@ describe('handleNewPostEvent', () => {
         const testStore = configureStore(initialState);
 
         const post = {id: 'post1', channel_id: 'channel1', user_id: 'user2', type: Constants.AUTO_RESPONDER};
-        const msg = {data: {post: JSON.stringify(post)}};
+        const msg = {
+            data: {
+                post: JSON.stringify(post),
+                set_online: false,
+            },
+        };
+
+        testStore.dispatch(handleNewPostEvent(msg));
+
+        expect(testStore.getActions()).not.toContainEqual({
+            type: UserTypes.RECEIVED_STATUSES,
+            data: [{user_id: post.user_id, status: UserStatuses.ONLINE}],
+        });
+    });
+
+    test('should not set other user to online if status was manually set', () => {
+        const testStore = configureStore({
+            ...initialState,
+            entities: {
+                ...initialState.entities,
+                users: {
+                    ...initialState.entities.users,
+                    isManualStatus: {
+                        user2: true,
+                    },
+                },
+            },
+        });
+
+        const post = {id: 'post1', channel_id: 'channel1', user_id: 'user2'};
+        const msg = {
+            data: {
+                post: JSON.stringify(post),
+                set_online: true,
+            },
+        };
+
+        testStore.dispatch(handleNewPostEvent(msg));
+
+        expect(testStore.getActions()).not.toContainEqual({
+            type: UserTypes.RECEIVED_STATUSES,
+            data: [{user_id: post.user_id, status: UserStatuses.ONLINE}],
+        });
+    });
+
+    test('should not set other user to online based on data from the server', () => {
+        const testStore = configureStore(initialState);
+
+        const post = {id: 'post1', channel_id: 'channel1', user_id: 'user2'};
+        const msg = {
+            data: {
+                post: JSON.stringify(post),
+                set_online: false,
+            },
+        };
 
         testStore.dispatch(handleNewPostEvent(msg));
 
@@ -506,7 +576,7 @@ describe('handleNewPostEvents', () => {
 describe('reconnect', () => {
     test('should call syncPostsInChannel when socket reconnects', () => {
         reconnect(false);
-        expect(syncPostsInChannel).toHaveBeenCalledWith('otherChannel', '12345', false);
+        expect(syncPostsInChannel).toHaveBeenCalledWith('otherChannel', '12345');
     });
 });
 
@@ -551,7 +621,7 @@ describe('handleUserTypingEvent', () => {
         });
     });
 
-    test('should possibly load missing users', () => {
+    test('should possibly load missing users and not get again the state', () => {
         const testStore = configureStore(initialState);
 
         const userId = 'otheruser';
@@ -568,15 +638,23 @@ describe('handleUserTypingEvent', () => {
         testStore.dispatch(handleUserTypingEvent(msg));
 
         expect(getMissingProfilesByIds).toHaveBeenCalledWith([userId]);
+        expect(getStatusesByIds).not.toHaveBeenCalled();
     });
 
-    test('should load statuses for users that are not online', () => {
+    test('should load statuses for users that are not online but are in the store', async () => {
         const testStore = configureStore({
             ...initialState,
             entities: {
                 ...initialState.entities,
                 users: {
                     ...initialState.entities.users,
+                    profiles: {
+                        ...initialState.entities.users.profiles,
+                        otheruser: {
+                            id: 'otheruser',
+                            roles: 'system_user',
+                        },
+                    },
                     statuses: {
                         ...initialState.entities.users.statuses,
                         otheruser: General.AWAY,
@@ -596,7 +674,7 @@ describe('handleUserTypingEvent', () => {
             },
         };
 
-        testStore.dispatch(handleUserTypingEvent(msg));
+        await testStore.dispatch(handleUserTypingEvent(msg));
 
         expect(getStatusesByIds).toHaveBeenCalled();
     });
@@ -835,14 +913,19 @@ describe('handlePluginEnabled/handlePluginDisabled', () => {
 
             expect(store.dispatch).toHaveBeenCalledTimes(3);
             const dispatchRemovedArg = store.dispatch.mock.calls[1][0];
-            expect(dispatchRemovedArg.type).toBe(ActionTypes.REMOVED_WEBAPP_PLUGIN);
-            expect(dispatchRemovedArg.data).toBe(manifestv2);
+            expect(typeof dispatchRemovedArg).toBe('function');
+            dispatchRemovedArg(store.dispatch);
 
             const dispatchReceivedArg2 = store.dispatch.mock.calls[2][0];
             expect(dispatchReceivedArg2.type).toBe(ActionTypes.RECEIVED_PLUGIN_COMPONENT);
             expect(dispatchReceivedArg2.name).toBe('Root');
             expect(dispatchReceivedArg2.data.component).toBe(mockComponent2);
             expect(dispatchReceivedArg2.data.pluginId).toBe(manifest.id);
+
+            expect(store.dispatch).toHaveBeenCalledTimes(5);
+            const dispatchReceivedArg4 = store.dispatch.mock.calls[4][0];
+            expect(dispatchReceivedArg4.type).toBe(ActionTypes.REMOVED_WEBAPP_PLUGIN);
+            expect(dispatchReceivedArg4.data).toBe(manifestv2);
 
             expect(console.error).toHaveBeenCalledTimes(0);
         });
@@ -908,8 +991,14 @@ describe('handlePluginEnabled/handlePluginDisabled', () => {
 
             expect(store.dispatch).toHaveBeenCalledTimes(2);
             const dispatchRemovedArg = store.dispatch.mock.calls[0][0];
-            expect(dispatchRemovedArg.type).toBe(ActionTypes.REMOVED_WEBAPP_PLUGIN);
-            expect(dispatchRemovedArg.data).toBe(manifest);
+            expect(typeof dispatchRemovedArg).toBe('function');
+            dispatchRemovedArg(store.dispatch);
+
+            expect(store.dispatch).toHaveBeenCalledTimes(4);
+            const dispatchReceivedArg3 = store.dispatch.mock.calls[3][0];
+            expect(dispatchReceivedArg3.type).toBe(ActionTypes.REMOVED_WEBAPP_PLUGIN);
+            expect(dispatchReceivedArg3.data).toBe(manifest);
+
             expect(console.error).toHaveBeenCalledTimes(0);
         });
     });

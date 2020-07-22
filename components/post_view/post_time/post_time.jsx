@@ -69,7 +69,6 @@ export default class PostTime extends React.PureComponent {
 
         return (
             <Link
-                role='presentation'
                 id={`${location}_time_${postId}`}
                 to={`${teamUrl}/pl/${postId}`}
                 className='post__permalink'

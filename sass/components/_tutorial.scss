@@ -166,17 +166,14 @@
 }
 
 .tutorial-steps__container {
-    display: table;
-    height: 100%;
-    left: 0;
-    position: absolute;
-    text-align: center;
-    top: 0;
-    width: 100%;
+    display: flex;
+    overflow: auto;
+    justify-content: center;
+    height: 100vh;
+    align-items: center;
+    flex-wrap: wrap;
 
     .tutorial__content {
-        display: table-cell;
-        vertical-align: middle;
 
         .tutorial__steps {
             display: inline-block;

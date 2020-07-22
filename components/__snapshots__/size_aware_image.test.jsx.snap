@@ -1,9 +1,52 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`components/SizeAwareImage should match snapshot when handleSmallImageContainer prop is passed 1`] = `
+<Fragment>
+  <div
+    className="image-loading__container class"
+    style={
+      Object {
+        "maxWidth": 300,
+      }
+    }
+  >
+    <svg
+      style={
+        Object {
+          "maxHeight": 200,
+          "maxWidth": 300,
+          "verticalAlign": "middle",
+        }
+      }
+      viewBox="0 0 300 200"
+      xmlns="http://www.w3.org/2000/svg"
+    />
+  </div>
+  <div
+    className="file-preview__button"
+    style={
+      Object {
+        "display": "none",
+      }
+    }
+  >
+    <img
+      aria-label="file thumbnail"
+      className="class"
+      onError={[Function]}
+      onKeyDown={[Function]}
+      onLoad={[Function]}
+      src="https://example.com/image.png"
+      tabIndex="0"
+    />
+  </div>
+</Fragment>
+`;
+
 exports[`components/SizeAwareImage should render a placeholder and has loader when showLoader is true 1`] = `
 <Fragment>
   <div
-    className="image-loading__container undefined"
+    className="image-loading__container class"
     style={
       Object {
         "maxWidth": 300,
@@ -29,6 +72,7 @@ exports[`components/SizeAwareImage should render a placeholder and has loader wh
         Object {
           "maxHeight": 200,
           "maxWidth": 300,
+          "verticalAlign": "middle",
         }
       }
       viewBox="0 0 300 200"
@@ -36,20 +80,16 @@ exports[`components/SizeAwareImage should render a placeholder and has loader wh
     />
   </div>
   <div
-    className="style--none file-preview__button"
+    className="file-preview__button"
     style={
       Object {
-        "height": 1,
-        "overflow": "hidden",
-        "position": "absolute",
-        "top": 0,
-        "visibility": "hidden",
-        "width": 1,
+        "display": "none",
       }
     }
   >
     <img
       aria-label="file thumbnail"
+      className="class"
       onError={[Function]}
       onKeyDown={[Function]}
       onLoad={[Function]}

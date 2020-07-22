@@ -1,9 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {Button, OverlayTrigger, Tooltip} from 'react-bootstrap';
+import {Button, Tooltip} from 'react-bootstrap';
 import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
@@ -13,6 +14,7 @@ import * as URL from 'utils/url';
 import logoImage from 'images/logo.png';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import OverlayTrigger from 'components/overlay_trigger';
 
 export default class TeamUrl extends React.PureComponent {
     static propTypes = {
@@ -59,6 +61,7 @@ export default class TeamUrl extends React.PureComponent {
 
     submitBack = (e) => {
         e.preventDefault();
+        trackEvent('signup', 'click_back');
         const newState = this.props.state;
         newState.wizard = 'display_name';
         this.props.updateParent(newState);
@@ -66,6 +69,7 @@ export default class TeamUrl extends React.PureComponent {
 
     submitNext = async (e) => {
         e.preventDefault();
+        trackEvent('signup', 'click_finish');
 
         const name = ReactDOM.findDOMNode(this.refs.name).value.trim();
         const cleanedName = URL.cleanUpUrlable(name);
@@ -251,7 +255,7 @@ export default class TeamUrl extends React.PureComponent {
                             />
                         </li>
                     </ul>
-                    <div className='margin--extra'>
+                    <div className='mt-8'>
                         <Button
                             id='teamURLFinishButton'
                             type='submit'
@@ -262,7 +266,7 @@ export default class TeamUrl extends React.PureComponent {
                             {finishMessage}
                         </Button>
                     </div>
-                    <div className='margin--extra'>
+                    <div className='mt-8'>
                         <a
                             href='#'
                             onClick={this.submitBack}
@@ -278,3 +282,4 @@ export default class TeamUrl extends React.PureComponent {
         );
     }
 }
+/* eslint-enable react/no-string-refs */

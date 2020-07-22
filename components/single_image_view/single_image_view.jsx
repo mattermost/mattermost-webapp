@@ -21,6 +21,7 @@ export default class SingleImageView extends React.PureComponent {
         postId: PropTypes.string.isRequired,
         fileInfo: PropTypes.object.isRequired,
         isRhsOpen: PropTypes.bool.isRequired,
+        compactDisplay: PropTypes.bool,
         isEmbedVisible: PropTypes.bool,
         actions: PropTypes.shape({
             toggleEmbedVisibility: PropTypes.func.isRequired,
@@ -29,6 +30,7 @@ export default class SingleImageView extends React.PureComponent {
 
     static defaultProps = {
         fileInfo: {},
+        compactDisplay: false,
     };
 
     constructor(props) {
@@ -83,7 +85,7 @@ export default class SingleImageView extends React.PureComponent {
     }
 
     render() {
-        const {fileInfo} = this.props;
+        const {fileInfo, compactDisplay} = this.props;
         const {
             loaded,
         } = this.state;
@@ -107,25 +109,37 @@ export default class SingleImageView extends React.PureComponent {
             }
         }
 
+        // Add compact display class to image class if in compact mode
+        if (compactDisplay) {
+            minPreviewClass += ' compact-display';
+        }
+
         const toggle = (
             <button
                 key='toggle'
-                className='style--none post__embed-visibility color--link'
+                className='style--none post__embed-visibility'
                 data-expanded={this.props.isEmbedVisible}
                 aria-label='Toggle Embed Visibility'
                 onClick={this.toggleEmbedVisibility}
             />
         );
 
+        let imageNameClass = 'image-name';
+        if (compactDisplay) {
+            imageNameClass += ' compact-display';
+        }
+
         const fileHeader = (
             <div
                 data-testid='image-name'
-                className='image-name'
+                className={imageNameClass}
             >
-                {toggle}
-                <div onClick={this.handleImageClick}>
+                <div
+                    onClick={this.handleImageClick}
+                >
                     {fileInfo.name}
                 </div>
+                {toggle}
             </div>
         );
 
@@ -188,6 +202,7 @@ export default class SingleImageView extends React.PureComponent {
                                 fileInfo={this.props.fileInfo}
                                 onImageLoaded={this.imageLoaded}
                                 showLoader={this.props.isEmbedVisible}
+                                handleSmallImageContainer={true}
                             />
                         </div>
                     </div>

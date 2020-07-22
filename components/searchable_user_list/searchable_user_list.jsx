@@ -1,11 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, injectIntl} from 'react-intl';
 
 import QuickInput from 'components/quick_input';
 import UserList from 'components/user_list.jsx';
@@ -15,7 +16,7 @@ import {t} from 'utils/i18n';
 
 const NEXT_BUTTON_TIMEOUT = 500;
 
-export default class SearchableUserList extends React.Component {
+class SearchableUserList extends React.PureComponent {
     static propTypes = {
         users: PropTypes.arrayOf(PropTypes.object),
         usersPerPage: PropTypes.number,
@@ -31,10 +32,10 @@ export default class SearchableUserList extends React.Component {
         renderCount: PropTypes.func,
         filter: PropTypes.string,
         renderFilterRow: PropTypes.func,
-
         page: PropTypes.number.isRequired,
         term: PropTypes.string.isRequired,
         onTermChange: PropTypes.func.isRequired,
+        intl: PropTypes.any,
 
         // the type of user list row to render
         rowComponentType: PropTypes.func,
@@ -42,7 +43,7 @@ export default class SearchableUserList extends React.Component {
 
     static defaultProps = {
         users: [],
-        usersPerPage: 50, // eslint-disable-line no-magic-numbers
+        usersPerPage: 50,
         extraInfo: {},
         actions: [],
         actionProps: {},
@@ -124,6 +125,9 @@ export default class SearchableUserList extends React.Component {
         } else {
             startCount = this.props.page * this.props.usersPerPage;
             endCount = Math.min(startCount + this.props.usersPerPage, total);
+            if (this.props.users.length < endCount) {
+                endCount = this.props.users.length;
+            }
         }
 
         if (this.props.renderCount) {
@@ -165,15 +169,20 @@ export default class SearchableUserList extends React.Component {
         let nextButton;
         let previousButton;
         let usersToDisplay;
+        const {formatMessage} = this.props.intl;
 
         if (this.props.term || !this.props.users) {
             usersToDisplay = this.props.users;
         } else if (!this.props.term) {
             const pageStart = this.props.page * this.props.usersPerPage;
-            const pageEnd = pageStart + this.props.usersPerPage;
+            let pageEnd = pageStart + this.props.usersPerPage;
+            if (this.props.users.length < pageEnd) {
+                pageEnd = this.props.users.length;
+            }
+
             usersToDisplay = this.props.users.slice(pageStart, pageEnd);
 
-            if (pageEnd < this.props.users.length) {
+            if (pageEnd < this.props.total) {
                 nextButton = (
                     <button
                         id='searchableUserListNextBtn'
@@ -209,16 +218,27 @@ export default class SearchableUserList extends React.Component {
         if (this.props.renderFilterRow) {
             filterRow = this.props.renderFilterRow(this.handleInput);
         } else {
+            const searchUsersPlaceholder = {id: t('filtered_user_list.search'), defaultMessage: 'Search users'};
             filterRow = (
                 <div className='col-xs-12'>
+                    <label
+                        className='hidden-label'
+                        htmlFor='searchUsersInput'
+                    >
+                        <FormattedMessage
+                            id='filtered_user_list.search'
+                            defaultMessage='Search users'
+                        />
+                    </label>
                     <QuickInput
                         id='searchUsersInput'
                         ref='filter'
                         className='form-control filter-textbox'
-                        placeholder={{id: t('filtered_user_list.search'), defaultMessage: 'Search users'}}
+                        placeholder={searchUsersPlaceholder}
                         inputComponent={LocalizedInput}
                         value={this.props.term}
                         onInput={this.handleInput}
+                        aria-label={formatMessage(searchUsersPlaceholder).toLowerCase()}
                     />
                 </div>
             );
@@ -257,3 +277,6 @@ export default class SearchableUserList extends React.Component {
         );
     }
 }
+
+export default injectIntl(SearchableUserList);
+/* eslint-enable react/no-string-refs */

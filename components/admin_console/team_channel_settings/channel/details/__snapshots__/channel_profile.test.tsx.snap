@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`admin_console/team_channel_settings/channel/ChannelProfile should match snapshot 1`] = `
+<AdminPanel
+  className=""
+  id="channel_profile"
+  subtitleDefault="Summary of the channel, including the channel name."
+  subtitleId="admin.channel_settings.channel_detail.profileDescription"
+  titleDefault="Channel Profile"
+  titleId="admin.channel_settings.channel_detail.profileTitle"
+>
+  <div
+    className="group-teams-and-channels AdminChannelDetails"
+  >
+    <div
+      className="group-teams-and-channels--body channel-desc-col"
+    >
+      <div
+        className="channel-name"
+      >
+        <injectIntl(FormattedMarkdownMessage)
+          defaultMessage="**Name**"
+          id="admin.channel_settings.channel_detail.channelName"
+        />
+        <br />
+        test
+      </div>
+      <div
+        className="channel-team"
+      >
+        <injectIntl(FormattedMarkdownMessage)
+          defaultMessage="**Team**"
+          id="admin.channel_settings.channel_detail.channelTeam"
+        />
+        <br />
+        test
+      </div>
+      <div
+        className="AdminChannelDetails_archiveContainer"
+      >
+        <button
+          className="btn btn-secondary ArchiveButton ArchiveButton___unarchived"
+        >
+          <ArchiveIcon
+            className="channel-icon channel-icon__archive"
+          />
+          <FormattedMessage
+            defaultMessage="Archive Channel"
+            id="admin.channel_settings.channel_details.archiveChannel"
+            values={Object {}}
+          />
+        </button>
+      </div>
+    </div>
+  </div>
+</AdminPanel>
+`;

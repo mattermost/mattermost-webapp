@@ -81,9 +81,9 @@ export default class InstalledIncomingWebhooks extends React.PureComponent {
             this.props.actions.loadIncomingHooksAndProfilesForTeam(
                 this.props.teamId,
                 Constants.Integrations.START_PAGE_NUM,
-                Constants.Integrations.PAGE_SIZE
+                Constants.Integrations.PAGE_SIZE,
             ).then(
-                () => this.setState({loading: false})
+                () => this.setState({loading: false}),
             );
         }
     }
@@ -169,7 +169,7 @@ export default class InstalledIncomingWebhooks extends React.PureComponent {
                                 >
                                     <FormattedMessage
                                         id='installed_incoming_webhooks.help.buildYourOwn'
-                                        defaultMessage='Build your own'
+                                        defaultMessage='Build Your Own'
                                     />
                                 </a>
                             ),

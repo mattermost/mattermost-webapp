@@ -69,7 +69,7 @@ export default class ManageAutoResponder extends React.PureComponent {
                 id='autoResponderMessage'
                 key='autoResponderMessage'
             >
-                <div className='padding-top'>
+                <div className='pt-2'>
                     <AutosizeTextarea
                         style={{resize: 'none'}}
                         id='autoResponderMessageInput'
@@ -92,7 +92,7 @@ export default class ManageAutoResponder extends React.PureComponent {
         inputs.push((
             <div
                 key='autoResponderHint'
-                className='margin-top x3'
+                className='mt-5'
             >
                 <FormattedHTMLMessage
                     id='user.settings.notifications.autoResponderHint'

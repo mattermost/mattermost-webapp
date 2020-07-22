@@ -21,11 +21,11 @@ function mapStateToProps(state, ownProps) {
             channel: channel.id,
             team: channel.team_id,
             permission: Permissions.MANAGE_CHANNEL_ROLES,
-        }
+        },
     );
     const license = getLicense(state);
     const isLicensed = license.IsLicensed === 'true';
-    const canRemoveMember = canManageMembers(channel);
+    const canRemoveMember = canManageMembers(state, channel);
 
     return {
         currentUserId: getCurrentUserId(state),

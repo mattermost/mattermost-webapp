@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -34,7 +35,7 @@ function getDisplayStateFromProps(props) {
     };
 }
 
-export default class UserSettingsDisplay extends React.Component {
+export default class UserSettingsDisplay extends React.PureComponent {
     static propTypes = {
         user: PropTypes.object,
         updateSection: PropTypes.func,
@@ -324,7 +325,10 @@ export default class UserSettingsDisplay extends React.Component {
             }
 
             let inputs = [
-                <div key={key}>
+                <fieldset key={key}>
+                    <legend className='form-legend hidden-label'>
+                        {messageTitle}
+                    </legend>
                     <div className='radio'>
                         <label>
                             <input
@@ -360,7 +364,7 @@ export default class UserSettingsDisplay extends React.Component {
                         <br/>
                         {messageDesc}
                     </div>
-                </div>,
+                </fieldset>,
             ];
 
             if (display === 'teammateNameDisplay' && disabled) {
@@ -421,7 +425,7 @@ export default class UserSettingsDisplay extends React.Component {
             defaultDisplay: 'false',
             title: {
                 id: t('user.settings.display.collapseDisplay'),
-                message: 'Default appearance of image previews',
+                message: 'Default Appearance of Image Previews',
             },
             firstOption: {
                 value: 'false',
@@ -542,7 +546,7 @@ export default class UserSettingsDisplay extends React.Component {
                 id: t('user.settings.display.teammateNameDisplayDescription'),
                 message: 'Set how to display other user\'s names in posts and the Direct Messages list.',
             },
-            disabled: this.props.lockTeammateNameDisplay
+            disabled: this.props.lockTeammateNameDisplay,
         });
 
         let timezoneSelection;
@@ -761,3 +765,4 @@ export default class UserSettingsDisplay extends React.Component {
         );
     }
 }
+/* eslint-enable react/no-string-refs */

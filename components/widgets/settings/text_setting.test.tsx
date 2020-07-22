@@ -14,7 +14,7 @@ describe('components/widgets/settings/TextSetting', () => {
                 label='some label'
                 value='some value'
                 onChange={onChange}
-            />
+            />,
         );
         expect(wrapper).toMatchInlineSnapshot(`
           <Setting
@@ -25,6 +25,7 @@ describe('components/widgets/settings/TextSetting', () => {
           >
             <input
               className="form-control"
+              data-testid="string.idinput"
               id="string.id"
               maxLength={-1}
               onChange={[Function]}
@@ -44,7 +45,7 @@ describe('components/widgets/settings/TextSetting', () => {
                 value='some value'
                 type='textarea'
                 onChange={onChange}
-            />
+            />,
         );
         expect(wrapper).toMatchInlineSnapshot(`
           <Setting
@@ -55,6 +56,7 @@ describe('components/widgets/settings/TextSetting', () => {
           >
             <textarea
               className="form-control"
+              data-testid="string.idinput"
               id="string.id"
               maxLength={-1}
               onChange={[Function]}
@@ -74,7 +76,7 @@ describe('components/widgets/settings/TextSetting', () => {
                 label='some label'
                 value='some value'
                 onChange={onChange}
-            />
+            />,
         );
 
         wrapper.find('input').simulate('change', {target: {value: 'somenewvalue'}});

@@ -1,27 +1,28 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {shallow} from 'enzyme';
 import React from 'react';
-
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import ChannelsInput from './channels_input.jsx';
 
 describe('components/widgets/inputs/ChannelsInput', () => {
     test('should match snapshot', () => {
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <ChannelsInput
                 placeholder='test'
+                ariaLabel='test'
                 onChange={jest.fn()}
                 channelsLoader={jest.fn()}
                 value={[
                     {id: 'test-channel-1', type: 'O', display_name: 'test channel 1'},
                     {id: 'test-channel-2', type: 'P', display_name: 'test channel 2'},
                 ]}
-            />
+            />,
         );
         expect(wrapper).toMatchInlineSnapshot(`
 <Async
+  aria-label="test"
   cacheOptions={false}
   className="ChannelsInput"
   classNamePrefix="channels-input"

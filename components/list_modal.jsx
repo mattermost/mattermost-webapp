@@ -191,6 +191,12 @@ export default class ListModal extends React.PureComponent {
                         <div className='filtered-user-list'>
                             <div className='filter-row'>
                                 <div className='col-xs-12'>
+                                    <label
+                                        className='hidden-label'
+                                        htmlFor='searchUsersInput'
+                                    >
+                                        {this.props.searchPlaceholderText}
+                                    </label>
                                     <input
                                         id='searchUsersInput'
                                         className='form-control filter-textbox'

@@ -4,12 +4,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, injectIntl} from 'react-intl';
 
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 
-export default class EditChannelPurposeModal extends React.PureComponent {
+class EditChannelPurposeModal extends React.PureComponent {
     static propTypes = {
 
         /*
@@ -26,6 +26,8 @@ export default class EditChannelPurposeModal extends React.PureComponent {
          * Check should we send purpose on CTRL + ENTER
          */
         ctrlSend: PropTypes.bool.isRequired,
+
+        intl: PropTypes.any,
 
         /*
          * Object with redux action creators
@@ -56,7 +58,7 @@ export default class EditChannelPurposeModal extends React.PureComponent {
             this.setState({
                 serverError: Utils.localizeMessage(
                     'edit_channel_purpose_modal.error',
-                    'This channel purpose is too long, please enter a shorter one'
+                    'This channel purpose is too long, please enter a shorter one',
                 ),
             });
         } else {
@@ -79,7 +81,11 @@ export default class EditChannelPurposeModal extends React.PureComponent {
     handleKeyDown = (e) => {
         const {ctrlSend} = this.props;
 
-        if (ctrlSend && Utils.isKeyPressed(e, Constants.KeyCodes.ENTER) && e.ctrlKey) {
+        // listen for line break key combo and insert new line character
+        if (Utils.isUnhandledLineBreakKeyCombo(e)) {
+            e.preventDefault();
+            this.setState({purpose: Utils.insertLineBreakFromKeyEvent(e)});
+        } else if (ctrlSend && Utils.isKeyPressed(e, Constants.KeyCodes.ENTER) && e.ctrlKey) {
             e.preventDefault();
             this.handleSave(e);
         } else if (!ctrlSend && Utils.isKeyPressed(e, Constants.KeyCodes.ENTER) && !e.shiftKey && !e.altKey) {
@@ -118,6 +124,8 @@ export default class EditChannelPurposeModal extends React.PureComponent {
 
     render() {
         let serverError = null;
+        const {formatMessage} = this.props.intl;
+
         if (this.state.serverError) {
             serverError = (
                 <div className='form-group has-error'>
@@ -162,6 +170,7 @@ export default class EditChannelPurposeModal extends React.PureComponent {
             );
         }
 
+        const ariaLabelForTitle = formatMessage({id: 'edit_channel_purpose_modal.title1', defaultMessage: 'Edit Purpose'}).toLowerCase();
         return (
             <Modal
                 dialogClassName='a11y__modal'
@@ -192,6 +201,7 @@ export default class EditChannelPurposeModal extends React.PureComponent {
                         value={this.state.purpose}
                         onKeyDown={this.handleKeyDown}
                         onChange={this.handleChange}
+                        aria-label={ariaLabelForTitle}
                     />
                     {serverError}
                 </Modal.Body>
@@ -222,3 +232,5 @@ export default class EditChannelPurposeModal extends React.PureComponent {
         );
     }
 }
+
+export default injectIntl(EditChannelPurposeModal);

@@ -3,8 +3,10 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {OverlayTrigger, Tooltip} from 'react-bootstrap';
+import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
+
+import OverlayTrigger from 'components/overlay_trigger';
 
 import * as Utils from 'utils/utils.jsx';
 
@@ -78,6 +80,7 @@ export default class Reaction extends React.PureComponent {
              */
             removeReaction: PropTypes.func.isRequired,
         }),
+        sortedUsers: PropTypes.object.isRequired,
     }
 
     handleAddReaction = (e) => {
@@ -91,32 +94,9 @@ export default class Reaction extends React.PureComponent {
         this.props.actions.removeReaction(this.props.post.id, this.props.emojiName);
     }
 
-    loadMissingProfiles = () => {
+    loadMissingProfiles = async () => {
         const ids = this.props.reactions.map((reaction) => reaction.user_id);
         this.props.actions.getMissingProfilesByIds(ids);
-    }
-
-    getSortedUsers = (getDisplayName) => {
-        // Sort users by who reacted first with "you" being first if the current user reacted
-        let currentUserReacted = false;
-        const sortedReactions = this.props.reactions.sort((a, b) => a.create_at - b.create_at);
-        const users = sortedReactions.reduce((accumulator, current) => {
-            if (current.user_id === this.props.currentUserId) {
-                currentUserReacted = true;
-            } else {
-                const user = this.props.profiles.find((u) => u.id === current.user_id);
-                if (user) {
-                    accumulator.push(getDisplayName(user));
-                }
-            }
-            return accumulator;
-        }, []);
-
-        if (currentUserReacted) {
-            users.unshift(Utils.localizeMessage('reaction.you', 'You'));
-        }
-
-        return {currentUserReacted, users};
     }
 
     render() {
@@ -124,7 +104,7 @@ export default class Reaction extends React.PureComponent {
             return null;
         }
 
-        const {currentUserReacted, users} = this.getSortedUsers(Utils.getDisplayNameByUser);
+        const {currentUserReacted, users} = this.props.sortedUsers;
 
         const otherUsersCount = this.props.otherUsersCount;
         let names;
@@ -251,7 +231,7 @@ export default class Reaction extends React.PureComponent {
                 onClick={handleClick}
             >
                 <OverlayTrigger
-                    delayShow={1000}
+                    delayShow={500}
                     placement='top'
                     shouldUpdatePosition={true}
                     overlay={
@@ -263,7 +243,7 @@ export default class Reaction extends React.PureComponent {
                     }
                     onEnter={this.loadMissingProfiles}
                 >
-                    <span>
+                    <span className='d-flex align-items-center'>
                         <span
                             className='post-reaction__emoji emoticon'
                             style={{backgroundImage: 'url(' + this.props.emojiImageUrl + ')'}}

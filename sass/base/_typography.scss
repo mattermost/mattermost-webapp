@@ -48,7 +48,7 @@ label {
 }
 
 .light {
-    @include opacity(.6);
+    @include opacity(.56);
 }
 
 .word-break--all {
@@ -76,14 +76,6 @@ ol {
 }
 
 .fa {
-    &.fa-margin--left {
-        margin-left: 3px;
-    }
-
-    &.fa-margin--right {
-        margin-right: 3px;
-    }
-
     &.fa-1x {
         font-size: 1.6rem;
     }
@@ -91,6 +83,10 @@ ol {
 
 .font-weight--normal {
     font-weight: normal;
+}
+
+.font-weight--semibold {
+    font-weight: 600;
 }
 
 .cursor--pointer {

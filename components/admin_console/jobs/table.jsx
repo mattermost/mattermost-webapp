@@ -3,9 +3,10 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedDate, FormattedMessage, FormattedTime, injectIntl, intlShape} from 'react-intl';
+import {FormattedDate, FormattedMessage, FormattedTime, injectIntl} from 'react-intl';
 
 import {JobStatuses} from 'utils/constants';
+import {intlShape} from 'utils/react_intl';
 import * as Utils from 'utils/utils.jsx';
 
 class JobTable extends React.PureComponent {
@@ -64,7 +65,7 @@ class JobTable extends React.PureComponent {
 
     componentDidMount() {
         this.props.actions.getJobsByType(this.props.jobType).then(
-            () => this.setState({loading: false})
+            () => this.setState({loading: false}),
         );
 
         this.interval = setInterval(this.reload, 15000);
@@ -111,6 +112,18 @@ class JobTable extends React.PureComponent {
                     <FormattedMessage
                         id='admin.jobTable.statusSuccess'
                         defaultMessage='Success'
+                    />
+                </span>
+            );
+        } else if (job.status === JobStatuses.WARNING) {
+            return (
+                <span
+                    className='status-icon-warning'
+                    title={formatMessage({id: 'admin.jobTable.jobId', defaultMessage: 'Job ID: '}) + job.id}
+                >
+                    <FormattedMessage
+                        id='admin.jobTable.statusWarning'
+                        defaultMessage='Warning'
                     />
                 </span>
             );
@@ -259,7 +272,7 @@ class JobTable extends React.PureComponent {
                 this.setState({
                     loading: false,
                 });
-            }
+            },
         );
     };
 
@@ -335,7 +348,10 @@ class JobTable extends React.PureComponent {
                     </div>
                 </div>
                 <div className='job-table__table'>
-                    <table className='table'>
+                    <table
+                        className='table'
+                        data-testid='jobTable'
+                    >
                         <thead>
                             <tr>
                                 <th width='30px'/>

@@ -17,6 +17,7 @@ describe('components/interactive_dialog/DialogElement', () => {
         maxLength: 100,
         actions: {
             autocompleteChannels: jest.fn(),
+            autocompleteUsers: jest.fn(),
         },
     };
     const baseTextSettingProps = {
@@ -36,13 +37,13 @@ describe('components/interactive_dialog/DialogElement', () => {
             <DialogElement
                 {...baseDialogProps}
                 subtype=''
-            />
+            />,
         );
         expect(wrapper.matchesElement(
             <TextSetting
                 {...baseTextSettingProps}
                 type='input'
-            />
+            />,
         )).toEqual(true);
     });
 
@@ -51,13 +52,13 @@ describe('components/interactive_dialog/DialogElement', () => {
             <DialogElement
                 {...baseDialogProps}
                 subtype='email'
-            />
+            />,
         );
         expect(wrapper.matchesElement(
             <TextSetting
                 {...baseTextSettingProps}
                 type='email'
-            />
+            />,
         )).toEqual(true);
     });
 
@@ -66,13 +67,13 @@ describe('components/interactive_dialog/DialogElement', () => {
             <DialogElement
                 {...baseDialogProps}
                 subtype='invalid'
-            />
+            />,
         );
         expect(wrapper.matchesElement(
             <TextSetting
                 {...baseTextSettingProps}
                 type='input'
-            />
+            />,
         )).toEqual(true);
     });
 
@@ -81,13 +82,13 @@ describe('components/interactive_dialog/DialogElement', () => {
             <DialogElement
                 {...baseDialogProps}
                 subtype='password'
-            />
+            />,
         );
         expect(wrapper.matchesElement(
             <TextSetting
                 {...baseTextSettingProps}
                 type='password'
-            />
+            />,
         )).toEqual(true);
     });
 
@@ -104,7 +105,7 @@ describe('components/interactive_dialog/DialogElement', () => {
                     type='radio'
                     options={radioOptions}
                     onChange={jest.fn()}
-                />
+                />,
             );
 
             expect(wrapper.find(RadioSetting).exists()).toBe(true);
@@ -117,7 +118,7 @@ describe('components/interactive_dialog/DialogElement', () => {
                     type='radio'
                     options={null}
                     onChange={jest.fn()}
-                />
+                />,
             );
 
             expect(wrapper.find(RadioSetting).exists()).toBe(true);
@@ -131,7 +132,7 @@ describe('components/interactive_dialog/DialogElement', () => {
                     options={null}
                     value={null}
                     onChange={jest.fn()}
-                />
+                />,
             );
 
             expect(wrapper.find(RadioSetting).exists()).toBe(true);
@@ -145,7 +146,7 @@ describe('components/interactive_dialog/DialogElement', () => {
                     options={null}
                     value={'a'}
                     onChange={jest.fn()}
-                />
+                />,
             );
 
             expect(wrapper.find(RadioSetting).exists()).toBe(true);
@@ -159,7 +160,7 @@ describe('components/interactive_dialog/DialogElement', () => {
                     options={radioOptions}
                     value={'a'}
                     onChange={jest.fn()}
-                />
+                />,
             );
 
             expect(wrapper.find(RadioSetting).exists()).toBe(true);
@@ -172,7 +173,7 @@ describe('components/interactive_dialog/DialogElement', () => {
                     type='radio'
                     options={radioOptions}
                     onChange={jest.fn()}
-                />
+                />,
             );
             expect(wrapper.find({options: radioOptions}).props.value).toBeUndefined();
         });
@@ -185,7 +186,7 @@ describe('components/interactive_dialog/DialogElement', () => {
                     options={radioOptions}
                     value={radioOptions[1].value}
                     onChange={jest.fn()}
-                />
+                />,
             );
             expect(wrapper.find({options: radioOptions, value: radioOptions[1].value}).exists()).toBe(true);
         });

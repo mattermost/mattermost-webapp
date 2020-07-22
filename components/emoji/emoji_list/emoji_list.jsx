@@ -20,7 +20,7 @@ import {t} from 'utils/i18n.jsx';
 const EMOJI_PER_PAGE = 50;
 const EMOJI_SEARCH_DELAY_MILLISECONDS = 200;
 
-export default class EmojiList extends React.Component {
+export default class EmojiList extends React.PureComponent {
     static propTypes = {
 
         /**
@@ -154,7 +154,7 @@ export default class EmojiList extends React.Component {
                     <td colSpan='4'>
                         <LoadingScreen key='loading'/>
                     </td>
-                </tr>
+                </tr>,
             );
         } else if (this.props.emojiIds.length === 0 || (searchEmojis && searchEmojis.length === 0)) {
             emojis.push(
@@ -168,7 +168,7 @@ export default class EmojiList extends React.Component {
                             defaultMessage='No custom emoji found'
                         />
                     </td>
-                </tr>
+                </tr>,
             );
         } else if (searchEmojis) {
             searchEmojis.forEach((emojiId) => {
@@ -177,7 +177,7 @@ export default class EmojiList extends React.Component {
                         key={'emoji_search_item' + emojiId}
                         emojiId={emojiId}
                         onDelete={this.deleteFromSearch}
-                    />
+                    />,
                 );
             });
         } else {
@@ -190,7 +190,7 @@ export default class EmojiList extends React.Component {
                     <EmojiListItem
                         key={'emoji_list_item' + emojiId}
                         emojiId={emojiId}
-                    />
+                    />,
                 );
             });
 
@@ -201,7 +201,7 @@ export default class EmojiList extends React.Component {
                             id='filtered_user_list.next'
                             defaultMessage='Next'
                         />
-                        <NextIcon additionalClassName='margin-left'/>
+                        <NextIcon additionalClassName='ml-2'/>
                     </span>
                 );
 
@@ -224,7 +224,7 @@ export default class EmojiList extends React.Component {
                         className='btn btn-link'
                         onClick={this.previousPage}
                     >
-                        <PreviousIcon additionalClassName='margin-right'/>
+                        <PreviousIcon additionalClassName='mr-2'/>
                         <FormattedMessage
                             id='filtered_user_list.prev'
                             defaultMessage='Previous'
@@ -297,7 +297,7 @@ export default class EmojiList extends React.Component {
                         </tbody>
                     </table>
                 </div>
-                <div className='filter-controls padding-top x2'>
+                <div className='filter-controls pt-3'>
                     {previousButton}
                     {nextButton}
                 </div>

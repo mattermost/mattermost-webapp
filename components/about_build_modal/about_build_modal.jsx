@@ -168,15 +168,6 @@ export default class AboutBuildModal extends React.PureComponent {
             </a>
         );
 
-        let tosPrivacyHyphen;
-        if (config.TermsOfServiceLink && config.PrivacyPolicyLink) {
-            tosPrivacyHyphen = (
-                <span>
-                    {' - '}
-                </span>
-            );
-        }
-
         // Only show build number if it's a number (so only builds from Jenkins)
         let buildnumber = (
             <div>
@@ -224,7 +215,7 @@ export default class AboutBuildModal extends React.PureComponent {
                         </div>
                         <div>
                             <h3 className='about-modal__title'>{'Mattermost'} {title}</h3>
-                            <p className='about-modal__subtitle padding-bottom'>{subTitle}</p>
+                            <p className='about-modal__subtitle pb-2'>{subTitle}</p>
                             <div className='form-group less'>
                                 <div>
                                     <FormattedMessage
@@ -266,12 +257,12 @@ export default class AboutBuildModal extends React.PureComponent {
                             </div>
                             <div className='about-modal__links'>
                                 {termsOfService}
-                                {tosPrivacyHyphen}
+                                {' - '}
                                 {privacyPolicy}
                             </div>
                         </div>
                     </div>
-                    <div className='about-modal__notice form-group padding-top x2'>
+                    <div className='about-modal__notice form-group pt-3'>
                         <p>
                             <FormattedMarkdownMessage
                                 id='about.notice'

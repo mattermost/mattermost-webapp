@@ -57,7 +57,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       className="divider-dark first"
     />
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         section="clock"
         title={
           <FormattedMessage
@@ -73,7 +73,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         describe={
           <FormattedMessage
             defaultMessage="Show first and last name"
@@ -96,7 +96,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         section="linkpreview"
         title={
           <FormattedMessage
@@ -112,11 +112,11 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         section="collapse"
         title={
           <FormattedMessage
-            defaultMessage="Default appearance of image previews"
+            defaultMessage="Default Appearance of Image Previews"
             id="user.settings.display.collapseDisplay"
             values={Object {}}
           />
@@ -128,7 +128,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         section="message_display"
         title={
           <FormattedMessage
@@ -150,7 +150,16 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         infoPosition="bottom"
         inputs={
           Array [
-            <div>
+            <fieldset>
+              <legend
+                className="form-legend hidden-label"
+              >
+                <FormattedMessage
+                  defaultMessage="Channel Display"
+                  id="user.settings.display.channelDisplayTitle"
+                  values={Object {}}
+                />
+              </legend>
               <div
                 className="radio"
               >
@@ -197,7 +206,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
                   values={Object {}}
                 />
               </div>
-            </div>,
+            </fieldset>,
           ]
         }
         saving={false}
@@ -217,7 +226,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         describe="English"
         section="languages"
         title={
@@ -301,7 +310,16 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         infoPosition="bottom"
         inputs={
           Array [
-            <div>
+            <fieldset>
+              <legend
+                className="form-legend hidden-label"
+              >
+                <FormattedMessage
+                  defaultMessage="Clock Display"
+                  id="user.settings.display.clockDisplay"
+                  values={Object {}}
+                />
+              </legend>
               <div
                 className="radio"
               >
@@ -348,7 +366,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
                   values={Object {}}
                 />
               </div>
-            </div>,
+            </fieldset>,
           ]
         }
         saving={false}
@@ -368,7 +386,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         describe={
           <FormattedMessage
             defaultMessage="Show first and last name"
@@ -391,7 +409,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         section="linkpreview"
         title={
           <FormattedMessage
@@ -407,11 +425,11 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         section="collapse"
         title={
           <FormattedMessage
-            defaultMessage="Default appearance of image previews"
+            defaultMessage="Default Appearance of Image Previews"
             id="user.settings.display.collapseDisplay"
             values={Object {}}
           />
@@ -423,7 +441,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         section="message_display"
         title={
           <FormattedMessage
@@ -439,7 +457,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         section="channel_display_mode"
         title={
           <FormattedMessage
@@ -455,7 +473,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         describe="English"
         section="languages"
         title={
@@ -533,7 +551,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       className="divider-dark first"
     />
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         section="clock"
         title={
           <FormattedMessage
@@ -549,7 +567,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         describe={
           <FormattedMessage
             defaultMessage="Show first and last name"
@@ -572,7 +590,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         section="linkpreview"
         title={
           <FormattedMessage
@@ -594,7 +612,16 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         infoPosition="bottom"
         inputs={
           Array [
-            <div>
+            <fieldset>
+              <legend
+                className="form-legend hidden-label"
+              >
+                <FormattedMessage
+                  defaultMessage="Default Appearance of Image Previews"
+                  id="user.settings.display.collapseDisplay"
+                  values={Object {}}
+                />
+              </legend>
               <div
                 className="radio"
               >
@@ -641,7 +668,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
                   values={Object {}}
                 />
               </div>
-            </div>,
+            </fieldset>,
           ]
         }
         saving={false}
@@ -649,7 +676,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         submit={[Function]}
         title={
           <FormattedMessage
-            defaultMessage="Default appearance of image previews"
+            defaultMessage="Default Appearance of Image Previews"
             id="user.settings.display.collapseDisplay"
             values={Object {}}
           />
@@ -661,7 +688,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         section="message_display"
         title={
           <FormattedMessage
@@ -677,7 +704,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         section="channel_display_mode"
         title={
           <FormattedMessage
@@ -693,7 +720,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         describe="English"
         section="languages"
         title={
@@ -771,7 +798,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       className="divider-dark first"
     />
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         section="clock"
         title={
           <FormattedMessage
@@ -787,7 +814,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         describe={
           <FormattedMessage
             defaultMessage="Show first and last name"
@@ -810,7 +837,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         section="linkpreview"
         title={
           <FormattedMessage
@@ -826,11 +853,11 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         section="collapse"
         title={
           <FormattedMessage
-            defaultMessage="Default appearance of image previews"
+            defaultMessage="Default Appearance of Image Previews"
             id="user.settings.display.collapseDisplay"
             values={Object {}}
           />
@@ -842,7 +869,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         section="message_display"
         title={
           <FormattedMessage
@@ -858,7 +885,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         section="channel_display_mode"
         title={
           <FormattedMessage
@@ -955,7 +982,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       className="divider-dark first"
     />
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         section="clock"
         title={
           <FormattedMessage
@@ -971,7 +998,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         describe={
           <FormattedMessage
             defaultMessage="Show first and last name"
@@ -994,11 +1021,11 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         section="collapse"
         title={
           <FormattedMessage
-            defaultMessage="Default appearance of image previews"
+            defaultMessage="Default Appearance of Image Previews"
             id="user.settings.display.collapseDisplay"
             values={Object {}}
           />
@@ -1010,7 +1037,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         section="message_display"
         title={
           <FormattedMessage
@@ -1026,7 +1053,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         section="channel_display_mode"
         title={
           <FormattedMessage
@@ -1042,7 +1069,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         describe="English"
         section="languages"
         title={
@@ -1120,7 +1147,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       className="divider-dark first"
     />
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         section="clock"
         title={
           <FormattedMessage
@@ -1136,7 +1163,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         describe={
           <FormattedMessage
             defaultMessage="Show first and last name"
@@ -1165,7 +1192,16 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         infoPosition="bottom"
         inputs={
           Array [
-            <div>
+            <fieldset>
+              <legend
+                className="form-legend hidden-label"
+              >
+                <FormattedMessage
+                  defaultMessage="Website Link Previews"
+                  id="user.settings.display.linkPreviewDisplay"
+                  values={Object {}}
+                />
+              </legend>
               <div
                 className="radio"
               >
@@ -1212,7 +1248,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
                   values={Object {}}
                 />
               </div>
-            </div>,
+            </fieldset>,
           ]
         }
         saving={false}
@@ -1232,11 +1268,11 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         section="collapse"
         title={
           <FormattedMessage
-            defaultMessage="Default appearance of image previews"
+            defaultMessage="Default Appearance of Image Previews"
             id="user.settings.display.collapseDisplay"
             values={Object {}}
           />
@@ -1248,7 +1284,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         section="message_display"
         title={
           <FormattedMessage
@@ -1264,7 +1300,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         section="channel_display_mode"
         title={
           <FormattedMessage
@@ -1280,7 +1316,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         describe="English"
         section="languages"
         title={
@@ -1358,7 +1394,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       className="divider-dark first"
     />
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         section="clock"
         title={
           <FormattedMessage
@@ -1374,7 +1410,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         describe={
           <FormattedMessage
             defaultMessage="Show first and last name"
@@ -1397,7 +1433,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         section="linkpreview"
         title={
           <FormattedMessage
@@ -1413,11 +1449,11 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         section="collapse"
         title={
           <FormattedMessage
-            defaultMessage="Default appearance of image previews"
+            defaultMessage="Default Appearance of Image Previews"
             id="user.settings.display.collapseDisplay"
             values={Object {}}
           />
@@ -1435,7 +1471,16 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         infoPosition="bottom"
         inputs={
           Array [
-            <div>
+            <fieldset>
+              <legend
+                className="form-legend hidden-label"
+              >
+                <FormattedMessage
+                  defaultMessage="Message Display"
+                  id="user.settings.display.messageDisplayTitle"
+                  values={Object {}}
+                />
+              </legend>
               <div
                 className="radio"
               >
@@ -1502,7 +1547,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
                   values={Object {}}
                 />
               </div>
-            </div>,
+            </fieldset>,
           ]
         }
         saving={false}
@@ -1522,7 +1567,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         section="channel_display_mode"
         title={
           <FormattedMessage
@@ -1538,7 +1583,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         describe="English"
         section="languages"
         title={
@@ -1616,7 +1661,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       className="divider-dark first"
     />
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         section="clock"
         title={
           <FormattedMessage
@@ -1632,7 +1677,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         describe={
           <FormattedMessage
             defaultMessage="Show first and last name"
@@ -1655,7 +1700,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         section="linkpreview"
         title={
           <FormattedMessage
@@ -1671,11 +1716,11 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         section="collapse"
         title={
           <FormattedMessage
-            defaultMessage="Default appearance of image previews"
+            defaultMessage="Default Appearance of Image Previews"
             id="user.settings.display.collapseDisplay"
             values={Object {}}
           />
@@ -1687,7 +1732,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         section="message_display"
         title={
           <FormattedMessage
@@ -1703,7 +1748,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         section="channel_display_mode"
         title={
           <FormattedMessage
@@ -1719,7 +1764,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         describe="English"
         section="languages"
         title={
@@ -1797,7 +1842,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       className="divider-dark first"
     />
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         section="clock"
         title={
           <FormattedMessage
@@ -1813,7 +1858,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         describe={
           <FormattedMessage
             defaultMessage="Show first and last name"
@@ -1836,7 +1881,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         section="linkpreview"
         title={
           <FormattedMessage
@@ -1852,11 +1897,11 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         section="collapse"
         title={
           <FormattedMessage
-            defaultMessage="Default appearance of image previews"
+            defaultMessage="Default Appearance of Image Previews"
             id="user.settings.display.collapseDisplay"
             values={Object {}}
           />
@@ -1868,7 +1913,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         section="message_display"
         title={
           <FormattedMessage
@@ -1884,7 +1929,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         section="channel_display_mode"
         title={
           <FormattedMessage
@@ -1900,7 +1945,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         describe="English"
         section="languages"
         title={
@@ -1978,7 +2023,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       className="divider-dark first"
     />
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         section="clock"
         title={
           <FormattedMessage
@@ -1994,7 +2039,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         describe={
           <FormattedMessage
             defaultMessage="Show first and last name"
@@ -2017,7 +2062,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         section="linkpreview"
         title={
           <FormattedMessage
@@ -2033,11 +2078,11 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         section="collapse"
         title={
           <FormattedMessage
-            defaultMessage="Default appearance of image previews"
+            defaultMessage="Default Appearance of Image Previews"
             id="user.settings.display.collapseDisplay"
             values={Object {}}
           />
@@ -2049,7 +2094,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         section="message_display"
         title={
           <FormattedMessage
@@ -2065,7 +2110,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         section="channel_display_mode"
         title={
           <FormattedMessage
@@ -2081,7 +2126,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         describe="English"
         section="languages"
         title={
@@ -2170,7 +2215,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         section="clock"
         title={
           <FormattedMessage
@@ -2186,7 +2231,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         describe={
           <FormattedMessage
             defaultMessage="Show first and last name"
@@ -2209,7 +2254,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         section="linkpreview"
         title={
           <FormattedMessage
@@ -2225,11 +2270,11 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         section="collapse"
         title={
           <FormattedMessage
-            defaultMessage="Default appearance of image previews"
+            defaultMessage="Default Appearance of Image Previews"
             id="user.settings.display.collapseDisplay"
             values={Object {}}
           />
@@ -2241,7 +2286,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         section="message_display"
         title={
           <FormattedMessage
@@ -2257,7 +2302,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         section="channel_display_mode"
         title={
           <FormattedMessage
@@ -2273,7 +2318,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         describe="English"
         section="languages"
         title={
@@ -2351,7 +2396,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       className="divider-dark first"
     />
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         section="clock"
         title={
           <FormattedMessage
@@ -2367,7 +2412,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         describe={
           <FormattedMessage
             defaultMessage="Show first and last name"
@@ -2390,7 +2435,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         section="linkpreview"
         title={
           <FormattedMessage
@@ -2406,11 +2451,11 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         section="collapse"
         title={
           <FormattedMessage
-            defaultMessage="Default appearance of image previews"
+            defaultMessage="Default Appearance of Image Previews"
             id="user.settings.display.collapseDisplay"
             values={Object {}}
           />
@@ -2422,7 +2467,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         section="message_display"
         title={
           <FormattedMessage
@@ -2438,7 +2483,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         section="channel_display_mode"
         title={
           <FormattedMessage
@@ -2454,7 +2499,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
+      <SettingItemMin
         describe="English"
         section="languages"
         title={

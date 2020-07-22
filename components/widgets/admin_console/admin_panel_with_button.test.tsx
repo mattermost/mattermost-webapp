@@ -24,13 +24,14 @@ describe('components/widgets/admin_console/AdminPanelWithButton', () => {
         const wrapper = shallow(
             <AdminPanelWithButton {...defaultProps}>
                 {'Test'}
-            </AdminPanelWithButton>
+            </AdminPanelWithButton>,
         );
         expect(wrapper).toMatchInlineSnapshot(`
 <AdminPanel
   button={
     <a
       className="btn btn-primary"
+      data-testid="test-button-text-default"
       onClick={[MockFunction]}
     >
       <FormattedMessage
@@ -49,7 +50,7 @@ describe('components/widgets/admin_console/AdminPanelWithButton', () => {
 >
   Test
 </AdminPanel>
-`
+`,
         );
     });
 
@@ -60,13 +61,14 @@ describe('components/widgets/admin_console/AdminPanelWithButton', () => {
                 disabled={true}
             >
                 {'Test'}
-            </AdminPanelWithButton>
+            </AdminPanelWithButton>,
         );
         expect(wrapper).toMatchInlineSnapshot(`
 <AdminPanel
   button={
     <a
       className="btn btn-primary"
+      data-testid="test-button-text-default"
       onClick={[Function]}
     >
       <FormattedMessage
@@ -85,7 +87,7 @@ describe('components/widgets/admin_console/AdminPanelWithButton', () => {
 >
   Test
 </AdminPanel>
-`
+`,
         );
     });
 });

@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
@@ -13,18 +14,19 @@ import LoadingScreen from 'components/loading_screen';
 
 import {Value} from './multiselect';
 
-export type Props = {
-    ariaLabelRenderer: getOptionValue<Value>;
+export type Props<T extends Value> = {
+    ariaLabelRenderer: getOptionValue<T>;
     loading?: boolean;
-    onAdd: (value: Value) => void;
+    onAdd: (value: T) => void;
     onPageChange?: (newPage: number, currentPage: number) => void;
-    onSelect: (value: Value | null) => void;
+    onSelect: (value: T | null) => void;
     optionRenderer: (
-        option: Value,
+        option: T,
         isSelected: boolean,
-        onAdd: (value: Value) => void
+        onAdd: (value: T) => void,
+        onMouseMove: (value: T) => void
     ) => void;
-    options: Value[];
+    options: T[];
     page: number;
     perPage: number;
 }
@@ -34,7 +36,7 @@ type State = {
 }
 const KeyCodes = Constants.KeyCodes;
 
-export default class MultiSelectList extends React.Component<Props, State> {
+export default class MultiSelectList<T extends Value> extends React.PureComponent<Props<T>, State> {
     public static defaultProps = {
         options: [],
         perPage: 50,
@@ -45,7 +47,7 @@ export default class MultiSelectList extends React.Component<Props, State> {
     private listRef = React.createRef<HTMLDivElement>()
     private selectedRef = React.createRef<HTMLDivElement>()
 
-    public constructor(props: Props) {
+    public constructor(props: Props<T>) {
         super(props);
 
         this.state = {
@@ -61,7 +63,7 @@ export default class MultiSelectList extends React.Component<Props, State> {
         document.removeEventListener('keydown', this.handleArrowPress);
     }
 
-    public componentDidUpdate(_: Props, prevState: State) {
+    public componentDidUpdate(_: Props<T>, prevState: State) {
         const options = this.props.options;
         if (options && options.length > 0 && this.state.selected >= 0) {
             this.props.onSelect(options[this.state.selected]);
@@ -125,7 +127,7 @@ export default class MultiSelectList extends React.Component<Props, State> {
         this.props.onSelect(options[selected]);
     }
 
-    private defaultOptionRenderer = (option: Value, isSelected: boolean, onAdd: Props['onAdd']) => {
+    private defaultOptionRenderer = (option: T, isSelected: boolean, onAdd: Props<T>['onAdd'], onMouseMove: (value: T) => void) => {
         let rowSelected = '';
         if (isSelected) {
             rowSelected = 'more-modal__row--selected';
@@ -137,10 +139,20 @@ export default class MultiSelectList extends React.Component<Props, State> {
                 className={rowSelected}
                 key={'multiselectoption' + option.value}
                 onClick={() => onAdd(option)}
+                onMouseMove={() => onMouseMove(option)}
             >
                 {option.label}
             </div>
         );
+    }
+
+    private onMouseMove = (option: T) => {
+        const i = this.props.options.indexOf(option);
+        if (i !== -1) {
+            if (this.state.selected !== i) {
+                this.setSelected(i);
+            }
+        }
     }
 
     public render() {
@@ -171,14 +183,14 @@ export default class MultiSelectList extends React.Component<Props, State> {
                 </div>
             );
         } else {
-            let renderer: Props['optionRenderer'];
+            let renderer: Props<T>['optionRenderer'];
             if (this.props.optionRenderer) {
                 renderer = this.props.optionRenderer;
             } else {
                 renderer = this.defaultOptionRenderer;
             }
 
-            const optionControls = options.map((o, i) => renderer(o, this.state.selected === i, this.props.onAdd));
+            const optionControls = options.map((o, i) => renderer(o, this.state.selected === i, this.props.onAdd, this.onMouseMove));
 
             const selectedOption = options[this.state.selected];
             const ariaLabel = this.props.ariaLabelRenderer(selectedOption);
@@ -215,3 +227,4 @@ export default class MultiSelectList extends React.Component<Props, State> {
     }
 }
 
+/* eslint-enable react/no-string-refs */

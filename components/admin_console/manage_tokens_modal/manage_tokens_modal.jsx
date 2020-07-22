@@ -51,11 +51,11 @@ export default class ManageTokensModal extends React.PureComponent {
         this.state = {error: null};
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
+    componentDidUpdate(prevProps) {
         const userId = this.props.user ? this.props.user.id : null;
-        const nextUserId = nextProps.user ? nextProps.user.id : null;
-        if (nextUserId && nextUserId !== userId) {
-            this.props.actions.getUserAccessTokensForUser(nextUserId, 0, 200);
+        const prevUserId = prevProps.user ? prevProps.user.id : null;
+        if (userId && prevUserId !== userId) {
+            this.props.actions.getUserAccessTokensForUser(userId, 0, 200);
         }
     }
 
@@ -146,7 +146,7 @@ export default class ManageTokensModal extends React.PureComponent {
                         </div>
                     </div>
                 </div>
-                <div className='padding-top x2'>
+                <div className='pt-3'>
                     <FormattedMarkdownMessage
                         id='admin.manage_tokens.userAccessTokensDescription'
                         defaultMessage='Personal access tokens function similarly to session tokens and can be used by integrations to [interact with this Mattermost server](!https://about.mattermost.com/default-api-authentication). Tokens are disabled if the user is deactivated. Learn more about [personal access tokens](!https://about.mattermost.com/default-user-access-tokens).'

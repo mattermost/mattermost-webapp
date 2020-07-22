@@ -13,7 +13,20 @@ describe('components/invitation_modal/InvitationModalInitialStep', () => {
                 teamName='test'
                 goToMembers={jest.fn()}
                 goToGuests={jest.fn()}
-            />
+                emailInvitationsEnabled={true}
+            />,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match the snapshot when email invitations are disabled', () => {
+        const wrapper = shallow(
+            <InvitationModalInitialStep
+                teamName='test'
+                goToMembers={jest.fn()}
+                goToGuests={jest.fn()}
+                emailInvitationsEnabled={false}
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });

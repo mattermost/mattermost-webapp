@@ -26,21 +26,12 @@ exports[`admin_console/team_channel_settings/team/TeamSettings should match snap
       <AdminPanel
         className=""
         id="teams"
-        subtitleDefault="Showing {startCount, number} - {endCount, number} of {total, number} teams. Manage team settings."
+        subtitleDefault="Manage team settings."
         subtitleId="admin.team_settings.description"
-        subtitleValues={
-          Object {
-            "endCount": 1,
-            "startCount": 0,
-            "total": 0,
-          }
-        }
         titleDefault="Teams"
         titleId="admin.team_settings.title"
       >
-        <Connect(TeamList)
-          onPageChangedCallback={[Function]}
-        />
+        <Connect(TeamList) />
       </AdminPanel>
     </div>
   </div>

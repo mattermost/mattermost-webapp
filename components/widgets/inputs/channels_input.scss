@@ -11,7 +11,7 @@
     .channels-input__control {
         min-height: 48px;
         background: var(--center-channel-bg);
-        color: var(--center-channel-color-60);
+        color: var(--center-channel-color-64);
         box-shadow: none;
         border-color: var(--center-channel-color-20);
         padding: 3px;
@@ -46,7 +46,7 @@
         padding: 0;
     }
     .channels-input__placeholder {
-        color: var(--center-channel-color-60);
+        color: var(--center-channel-color-64);
         margin-left: 8px;
     }
     .channels-input__input {
@@ -81,7 +81,7 @@
         align-items: center;
         font-size: 16px;
         &--no-matches {
-            color: var(--center-channel-color-50);
+            color: var(--center-channel-color-56);
             text-align: center;
             span {
                 width: 100%;
@@ -96,8 +96,8 @@
         &:last-child {
             border-radius: 0 0 4px 4px;
         }
-        &:hover, &--is-focused {
-            background: var(--button-bg-10);
+        &--is-focused {
+            background: var(--button-bg-08);
         }
         &--no-matches:hover{
             background: none;
@@ -112,7 +112,7 @@
             svg {
                 width: 18px;
                 height: 18px;
-                fill: var(--center-channel-color-50);
+                fill: var(--center-channel-color-56);
             }
         }
         .channel-name {
@@ -133,7 +133,7 @@
     }
     .channels-input__multi-value {
         align-items: center;
-        background: var(--center-channel-color-10);
+        background: var(--center-channel-color-08);
         padding: 4px;
         border-radius: 16px;
         color: var(--center-channel-color);
@@ -154,7 +154,7 @@
             width: 24px;
             height: 24px;
             border-radius: 16px;
-            background: var(--center-channel-color-50);
+            background: var(--center-channel-color-56);
             padding: 4px;
             margin-right: 4px;
         }
@@ -191,7 +191,7 @@
         svg {
             height: 16px;
             width: 16px;
-            fill: var(--center-channel-color-60);
+            fill: var(--center-channel-color-64);
             &:hover {
                 fill: var(--center-channel-color-80);
             }

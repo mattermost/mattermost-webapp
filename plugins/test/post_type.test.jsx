@@ -26,11 +26,12 @@ describe('plugins/PostMessageView', () => {
         emojis: {name: 'smile'},
         theme: {id: 'theme_id'},
         enableFormatting: true,
+        currentRelativeTeamUrl: 'team_url',
     };
 
     test('should match snapshot with extended post type', () => {
         const wrapper = mount(
-            <PostMessageView {...requiredProps}/>
+            <PostMessageView {...requiredProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -40,7 +41,7 @@ describe('plugins/PostMessageView', () => {
     test('should match snapshot with no extended post type', () => {
         const props = {...requiredProps, pluginPostTypes: {}};
         const wrapper = shallow(
-            <PostMessageView {...props}/>
+            <PostMessageView {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();

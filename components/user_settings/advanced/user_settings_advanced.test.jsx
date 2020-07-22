@@ -5,8 +5,10 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import AdvancedSettingsDisplay from 'components/user_settings/advanced/user_settings_advanced.jsx';
+import * as Utils from 'utils/utils';
 
 jest.mock('actions/global_actions.jsx');
+jest.mock('utils/utils');
 
 describe('components/user_settings/display/UserSettingsDisplay', () => {
     const user = {
@@ -86,5 +88,21 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         await wrapper.instance().handleDeactivateAccountSubmit();
 
         expect(wrapper.state().serverError).toEqual(error.message);
+    });
+
+    test('function getCtrlSendText should return correct value for Mac', () => {
+        Utils.isMac.mockReturnValue(true);
+        const props = {...requiredProps};
+
+        const wrapper = shallow(<AdvancedSettingsDisplay {...props}/>);
+        expect(wrapper.instance().getCtrlSendText().ctrlSendTitle.defaultMessage).toEqual('Send Messages on ⌘+ENTER');
+    });
+
+    test('function getCtrlSendText should return correct value for Windows', () => {
+        Utils.isMac.mockReturnValue(false);
+        const props = {...requiredProps};
+
+        const wrapper = shallow(<AdvancedSettingsDisplay {...props}/>);
+        expect(wrapper.instance().getCtrlSendText().ctrlSendTitle.defaultMessage).toEqual('Send Messages on CTRL+ENTER');
     });
 });

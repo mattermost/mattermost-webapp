@@ -49,11 +49,9 @@ export default class PermissionSchemesSettings extends React.PureComponent {
         schemes: {},
     };
 
-    async UNSAFE_componentWillMount() { // eslint-disable-line camelcase
-        let schemes;
+    componentDidMount() {
         let phase2MigrationIsComplete = true; // Assume migration is complete unless HTTP status code says otherwise.
-        try {
-            schemes = await this.props.actions.loadSchemes('team', 0, PAGE_SIZE);
+        this.props.actions.loadSchemes('team', 0, PAGE_SIZE).then((schemes) => {
             if (schemes.error.status_code === PHASE_2_MIGRATION_IMCOMPLETE_STATUS_CODE) {
                 phase2MigrationIsComplete = false;
             }
@@ -62,9 +60,9 @@ export default class PermissionSchemesSettings extends React.PureComponent {
                 promises.push(this.props.actions.loadSchemeTeams(scheme.id));
             }
             Promise.all(promises).then(() => this.setState({loading: false, phase2MigrationIsComplete}));
-        } catch (err) {
+        }).catch(() => {
             this.setState({loading: false, phase2MigrationIsComplete});
-        }
+        });
     }
 
     loadMoreSchemes = () => {
@@ -106,7 +104,7 @@ export default class PermissionSchemesSettings extends React.PureComponent {
             return this.teamOverrideUnavalableView(
                 t('admin.permissions.teamOverrideSchemesInProgress'),
                 'Migration job in progress: Team Override Schemes are not available until the job server completes the permissions migration. Learn more in the {documentationLink}.',
-                docLink
+                docLink,
             );
         }
 
@@ -145,6 +143,7 @@ export default class PermissionSchemesSettings extends React.PureComponent {
         if (hasCustomSchemes) {
             return (
                 <AdminPanelWithLink
+                    id='team-override-schemes'
                     className='permissions-block'
                     titleId={t('admin.permissions.teamOverrideSchemesTitle')}
                     titleDefault='Team Override Schemes'
@@ -258,6 +257,8 @@ t('admin.permissions.permission.create_direct_channel.description');
 t('admin.permissions.permission.create_direct_channel.name');
 t('admin.permissions.permission.create_group_channel.description');
 t('admin.permissions.permission.create_group_channel.name');
+t('admin.permissions.permission.create_post.description');
+t('admin.permissions.permission.create_post.name');
 t('admin.permissions.permission.create_private_channel.description');
 t('admin.permissions.permission.create_private_channel.name');
 t('admin.permissions.permission.create_public_channel.description');
@@ -277,6 +278,20 @@ t('admin.permissions.permission.delete_public_channel.name');
 t('admin.permissions.permission.edit_other_users.description');
 t('admin.permissions.permission.edit_other_users.name');
 t('admin.permissions.permission.edit_post.description');
+t('admin.permissions.group.guest_reactions.description');
+t('admin.permissions.group.guest_reactions.name');
+t('admin.permissions.group.guest_create_post.description');
+t('admin.permissions.group.guest_create_post.name');
+t('admin.permissions.group.guest_create_private_channel.description');
+t('admin.permissions.group.guest_create_private_channel.name');
+t('admin.permissions.group.guest_delete_post.description');
+t('admin.permissions.group.guest_delete_post.name');
+t('admin.permissions.group.guest_edit_post.description');
+t('admin.permissions.group.guest_edit_post.name');
+t('admin.permissions.group.guest_use_channel_mentions.description');
+t('admin.permissions.group.guest_use_channel_mentions.name');
+t('admin.permissions.group.guest_use_group_mentions.description');
+t('admin.permissions.group.guest_use_group_mentions.name');
 t('admin.permissions.permission.edit_post.name');
 t('admin.permissions.permission.import_team.description');
 t('admin.permissions.permission.import_team.name');
@@ -330,6 +345,10 @@ t('admin.permissions.permission.revoke_user_access_token.description');
 t('admin.permissions.permission.revoke_user_access_token.name');
 t('admin.permissions.permission.upload_file.description');
 t('admin.permissions.permission.upload_file.name');
+t('admin.permissions.permission.use_channel_mentions.description');
+t('admin.permissions.permission.use_channel_mentions.name');
+t('admin.permissions.permission.use_group_mentions.description');
+t('admin.permissions.permission.use_group_mentions.name');
 t('admin.permissions.permission.view_team.description');
 t('admin.permissions.permission.view_team.name');
 t('admin.permissions.permission.edit_others_posts.description');

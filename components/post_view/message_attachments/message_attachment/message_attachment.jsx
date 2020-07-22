@@ -1,13 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import PropTypes from 'prop-types';
 import React from 'react';
 import truncate from 'lodash/truncate';
 
 import {isUrlSafe} from 'utils/url';
-import {handleFormattedTextClick} from 'utils/utils';
 import {Constants} from 'utils/constants';
+import * as Utils from 'utils/utils';
 
 import ExternalImage from 'components/external_image';
 import Markdown from 'components/markdown';
@@ -44,6 +45,8 @@ export default class MessageAttachment extends React.PureComponent {
         actions: PropTypes.shape({
             doPostActionWithCookie: PropTypes.func.isRequired,
         }).isRequired,
+
+        currentRelativeTeamUrl: PropTypes.string.isRequired,
     }
 
     constructor(props) {
@@ -116,7 +119,7 @@ export default class MessageAttachment extends React.PureComponent {
                         postId={this.props.postId}
                         action={action}
                         disabled={action.disabled}
-                    />
+                    />,
                 );
                 break;
             case 'button':
@@ -127,7 +130,7 @@ export default class MessageAttachment extends React.PureComponent {
                         action={action}
                         disabled={action.disabled}
                         handleAction={this.handleAction}
-                    />
+                    />,
                 );
                 break;
             }
@@ -182,7 +185,7 @@ export default class MessageAttachment extends React.PureComponent {
                                 {bodyCols}
                             </tr>
                         </tbody>
-                    </table>
+                    </table>,
                 );
                 headerCols = [];
                 bodyCols = [];
@@ -200,7 +203,7 @@ export default class MessageAttachment extends React.PureComponent {
                         message={field.title}
                         options={markdown}
                     />
-                </th>
+                </th>,
             );
 
             bodyCols.push(
@@ -209,7 +212,7 @@ export default class MessageAttachment extends React.PureComponent {
                     key={'attachment__field-' + i + '__' + nrTables}
                 >
                     <Markdown message={field.value}/>
-                </td>
+                </td>,
             );
             rowPos += 1;
             lastWasLong = !(field.short === true);
@@ -230,7 +233,7 @@ export default class MessageAttachment extends React.PureComponent {
                             {bodyCols}
                         </tr>
                     </tbody>
-                </table>
+                </table>,
             );
         }
         return (
@@ -239,6 +242,8 @@ export default class MessageAttachment extends React.PureComponent {
             </div>
         );
     };
+
+    handleFormattedTextClick = (e) => Utils.handleFormattedTextClick(e, this.props.currentRelativeTeamUrl);
 
     render() {
         const {attachment, options} = this.props;
@@ -272,7 +277,7 @@ export default class MessageAttachment extends React.PureComponent {
                                 width='14'
                             />
                         )}
-                    </ExternalImage>
+                    </ExternalImage>,
                 );
             }
             if (attachment.author_name) {
@@ -282,7 +287,7 @@ export default class MessageAttachment extends React.PureComponent {
                         key={'attachment__author-name'}
                     >
                         {attachment.author_name}
-                    </span>
+                    </span>,
                 );
             }
         }
@@ -447,7 +452,7 @@ export default class MessageAttachment extends React.PureComponent {
                         <div>
                             <div
                                 className={thumb ? 'attachment__body' : 'attachment__body attachment__body--no_thumb'}
-                                onClick={handleFormattedTextClick}
+                                onClick={this.handleFormattedTextClick}
                             >
                                 {attachmentText}
                                 {image}
@@ -468,3 +473,4 @@ export default class MessageAttachment extends React.PureComponent {
 const style = {
     footer: {clear: 'both'},
 };
+/* eslint-enable react/no-string-refs */

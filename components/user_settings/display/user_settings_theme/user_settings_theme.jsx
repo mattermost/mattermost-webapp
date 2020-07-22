@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import $ from 'jquery';
 import PropTypes from 'prop-types';
@@ -49,16 +50,14 @@ export default class ThemeSetting extends React.PureComponent {
         }
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps) {
+        if (prevProps.selected && !this.props.selected) {
+            this.resetFields();
+        }
+
         if (this.props.selected) {
             $('.color-btn').removeClass('active-border');
             $(ReactDOM.findDOMNode(this.refs[this.state.theme])).addClass('active-border');
-        }
-    }
-
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (this.props.selected && !nextProps.selected) {
-            this.resetFields();
         }
     }
 
@@ -208,7 +207,7 @@ export default class ThemeSetting extends React.PureComponent {
                             />
                         </label>
                         <br/>
-                    </div>
+                    </div>,
                 );
             }
 
@@ -233,7 +232,7 @@ export default class ThemeSetting extends React.PureComponent {
                                 defaultMessage='Custom Theme'
                             />
                         </label>
-                    </div>
+                    </div>,
                 );
 
                 inputs.push(custom);
@@ -252,13 +251,13 @@ export default class ThemeSetting extends React.PureComponent {
                                 defaultMessage='See other themes'
                             />
                         </a>
-                    </div>
+                    </div>,
                 );
 
                 inputs.push(
                     <div
                         key='importSlackThemeButton'
-                        className='padding-top'
+                        className='pt-2'
                     >
                         <button
                             id='slackImportTheme'
@@ -270,7 +269,7 @@ export default class ThemeSetting extends React.PureComponent {
                                 defaultMessage='Import theme colors from Slack'
                             />
                         </button>
-                    </div>
+                    </div>,
                 );
             }
 
@@ -299,6 +298,7 @@ export default class ThemeSetting extends React.PureComponent {
                     inputs={inputs}
                     submitExtra={allTeamsCheckbox}
                     submit={this.submitTheme}
+                    disableEnterSubmit={true}
                     saving={this.state.isSaving}
                     server_error={serverError}
                     width='full'
@@ -330,3 +330,4 @@ export default class ThemeSetting extends React.PureComponent {
         return themeUI;
     }
 }
+/* eslint-enable react/no-string-refs */

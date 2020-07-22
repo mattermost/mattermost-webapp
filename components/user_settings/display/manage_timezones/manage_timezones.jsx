@@ -151,7 +151,7 @@ export default class ManageTimezones extends React.PureComponent {
 
         const timezoneRegion = (
             <div
-                className='section-describe padding-top'
+                className='section-describe pt-2'
             >
                 {useAutomaticTimezone && getTimezoneRegion(automaticTimezone)}
             </div>
@@ -186,7 +186,7 @@ export default class ManageTimezones extends React.PureComponent {
                         defaultMessage='Change timezone'
                     />
                 </label>
-                <div className='padding-top'>
+                <div className='pt-2'>
                     <SuggestionBox
                         ref={this.setSwitchBoxRef}
                         className='form-control focused'
@@ -222,7 +222,7 @@ export default class ManageTimezones extends React.PureComponent {
                     id='user.settings.timezones.promote'
                     defaultMessage='Select the time zone used for timestamps in the user interface and email notifications.'
                 />
-            </div>
+            </div>,
         );
 
         return (

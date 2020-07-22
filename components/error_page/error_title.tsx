@@ -44,7 +44,15 @@ const ErrorTitle: React.FC<Props> = ({type, title}: Props) => {
             errorTitle = (
                 <FormattedMessage
                     id='error.oauth_missing_code.title'
-                    defaultMessage='Mattermost needs your help'
+                    defaultMessage='Mattermost Needs Your Help'
+                />
+            );
+            break;
+        case ErrorPageTypes.OAUTH_INVALID_PARAM:
+            errorTitle = (
+                <FormattedMessage
+                    id='error.oauth_invalid_param.title'
+                    defaultMessage='OAuth Parameter Error'
                 />
             );
             break;

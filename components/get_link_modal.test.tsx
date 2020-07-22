@@ -5,7 +5,7 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {shallow} from 'enzyme';
 
-import {shallowWithIntl, mountWithIntl} from 'tests/helpers/intl-test-helper';
+import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 import GetLinkModal from 'components/get_link_modal';
 
 describe('components/GetLinkModal', () => {
@@ -21,16 +21,16 @@ describe('components/GetLinkModal', () => {
         const helpText = 'help text';
         const props = {...requiredProps, helpText};
 
-        const wrapper = shallowWithIntl(
-            <GetLinkModal {...props}/>
+        const wrapper = shallow(
+            <GetLinkModal {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot when helpText is not set', () => {
-        const wrapper = shallowWithIntl(
-            <GetLinkModal {...requiredProps}/>
+        const wrapper = shallow(
+            <GetLinkModal {...requiredProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -41,7 +41,7 @@ describe('components/GetLinkModal', () => {
         const props = {...requiredProps, onHide: newOnHide};
 
         const wrapper = shallow(
-            <GetLinkModal {...props}/>
+            <GetLinkModal {...props}/>,
         );
 
         wrapper.find(Modal).first().props().onHide();
@@ -61,7 +61,7 @@ describe('components/GetLinkModal', () => {
 
     test('should have handle copyLink', () => {
         const wrapper = mountWithIntl(
-            <GetLinkModal {...requiredProps}/>
+            <GetLinkModal {...requiredProps}/>,
         );
         wrapper.find('#linkModalTextArea').simulate('click');
         expect(wrapper.state('copiedLink')).toBe(true);

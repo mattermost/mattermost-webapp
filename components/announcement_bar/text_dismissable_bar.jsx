@@ -4,9 +4,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import * as TextFormatting from 'utils/text_formatting.jsx';
+import {trackEvent} from 'actions/diagnostics_actions.jsx';
+import Markdown from 'components/markdown';
 
-import AnnouncementBar from './announcement_bar.jsx';
+import AnnouncementBar from './default_announcement_bar';
 
 const localStoragePrefix = '__announcement__';
 
@@ -38,6 +39,8 @@ export default class TextDismissableBar extends React.PureComponent {
         if (!this.props.allowDismissal) {
             return;
         }
+        trackEvent('signup', 'click_dismiss_bar');
+
         localStorage.setItem(localStoragePrefix + this.props.text, true);
         this.setState({
             dismissed: true,
@@ -58,8 +61,12 @@ export default class TextDismissableBar extends React.PureComponent {
                 showCloseButton={allowDismissal}
                 handleClose={this.handleDismiss}
                 message={
-                    <span
-                        dangerouslySetInnerHTML={{__html: TextFormatting.formatText(text, {singleline: true, mentionHighlight: false})}}
+                    <Markdown
+                        message={text}
+                        options={{
+                            singleline: true,
+                            mentionHighlight: false,
+                        }}
                     />
                 }
             />

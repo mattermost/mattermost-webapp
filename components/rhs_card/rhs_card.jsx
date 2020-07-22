@@ -90,10 +90,6 @@ export default class RhsCard extends React.Component {
         });
     }
 
-    getSidebarBody = () => {
-        return this.refs.sidebarbody;
-    }
-
     handleClick = () => {
         if (Utils.isMobile()) {
             GlobalActions.emitCloseRightHandSide();
@@ -147,10 +143,7 @@ export default class RhsCard extends React.Component {
         );
 
         return (
-            <div
-                className='sidebar-right__body sidebar-right__card'
-                ref='sidebarbody'
-            >
+            <div className='sidebar-right__body sidebar-right__card'>
                 <RhsCardHeader previousRhsState={this.props.previousRhsState}/>
                 <Scrollbars
                     autoHide={true}

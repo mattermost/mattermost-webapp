@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {shallow} from 'enzyme';
+import {FormattedMessage} from 'react-intl';
 
 import SchemaText from 'components/admin_console/schema_text';
 
@@ -247,7 +248,7 @@ describe('components/admin_console/SchemaAdminSettings', () => {
                 environmentConfig={environmentConfig}
                 schema={{...schema}}
                 updateConfig={jest.fn()}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -259,7 +260,7 @@ describe('components/admin_console/SchemaAdminSettings', () => {
                 environmentConfig={environmentConfig}
                 schema={{component: () => <p>{'Test'}</p>}}
                 updateConfig={jest.fn()}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -306,5 +307,23 @@ describe('components/admin_console/SchemaAdminSettings', () => {
             text: footerText,
             isMarkdown: true,
         });
+    });
+
+    test('should render page not found', () => {
+        const props = {
+            config,
+            environmentConfig,
+            schema: null,
+            updateConfig: jest.fn(),
+        };
+
+        const wrapper = shallow(<SchemaAdminSettings {...props}/>);
+
+        expect(wrapper.contains(
+            <FormattedMessage
+                id='error.plugin_not_found.title'
+                defaultMessage='Plugin Not Found'
+            />,
+        )).toEqual(true);
     });
 });

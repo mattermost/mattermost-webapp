@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-export default class SystemPermissionGate extends React.Component {
+export default class SystemPermissionGate extends React.PureComponent {
     static defaultProps = {
         invert: false,
     }
@@ -18,8 +18,11 @@ export default class SystemPermissionGate extends React.Component {
 
         /**
          * Has permission
+         * This prop is will always be passed by the mapStateToProps function
+         * it should be required when this component is converted to TS, for now its optional to make the TS compiler quite.
+         * about this prop not being passed from where this component is used
          */
-        hasPermission: PropTypes.bool.isRequired,
+        hasPermission: PropTypes.bool,
 
         /**
          * Invert the permission (used for else)

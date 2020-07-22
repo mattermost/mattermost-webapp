@@ -7,8 +7,14 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+// Group: @enterprise @system_console
+
 describe('System Console', () => {
     before(() => {
+        // * Check if server has license for ID Loaded Push Notifications
+        cy.apiRequireLicenseForFeature('IDLoadedPushNotifications');
+
         // # Update to default config
         cy.apiUpdateConfig({
             EmailSettings: {
@@ -16,8 +22,7 @@ describe('System Console', () => {
             },
         });
 
-        // # Login as sysadmin and visit Notifications admin console page
-        cy.apiLogin('sysadmin');
+        // #  Visit Notifications admin console page
         cy.visit('/admin_console/environment/notifications');
         cy.get('.admin-console__header').should('be.visible').and('have.text', 'Notifications');
     });
@@ -71,8 +76,8 @@ describe('System Console', () => {
                 and('have.value', option.value);
             cy.get('#saveSetting').click();
 
-            cy.apiGetConfig().then((response) => {
-                expect(response.body.EmailSettings.PushNotificationContents).to.equal(option.value);
+            cy.apiGetConfig().then(({config}) => {
+                expect(config.EmailSettings.PushNotificationContents).to.equal(option.value);
             });
         });
     });

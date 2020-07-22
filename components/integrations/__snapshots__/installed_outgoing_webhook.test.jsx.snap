@@ -165,7 +165,7 @@ exports[`components/integrations/InstalledOutgoingWebhook should match snapshot 
       className="item-details__row"
     >
       <span
-        className="item-details__url"
+        className="item-details__url word-break--all"
       >
         <FormattedMessage
           defaultMessage="Callback URLs: {urls}"

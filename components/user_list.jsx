@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -10,7 +11,7 @@ import LoadingScreen from 'components/loading_screen';
 
 import UserListRow from './user_list_row';
 
-export default class UserList extends React.Component {
+export default class UserList extends React.PureComponent {
     static propTypes = {
         users: PropTypes.arrayOf(PropTypes.object),
         extraInfo: PropTypes.object,
@@ -64,6 +65,7 @@ export default class UserList extends React.Component {
                 <div
                     key='no-users-found'
                     className='more-modal__placeholder-row'
+                    data-testid='noUsersFound'
                 >
                     <p>
                         <FormattedMessage
@@ -82,3 +84,4 @@ export default class UserList extends React.Component {
         );
     }
 }
+/* eslint-enable react/no-string-refs */

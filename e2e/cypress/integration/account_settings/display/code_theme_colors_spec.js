@@ -7,6 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+// Group: @account_setting
+
 const THEMES = [{name: 'github', backgroundColor: 'rgb(248, 248, 248)', color: 'rgb(51, 51, 51)'},
     {name: 'monokai', backgroundColor: 'rgb(39, 40, 34)', color: 'rgb(221, 221, 221)'},
     {name: 'solarized-light', backgroundColor: 'rgb(253, 246, 227)', color: 'rgb(101, 123, 131)'},
@@ -26,7 +29,7 @@ function verifyLastPostStyle(codeTheme) {
 
 function navigateToThemeSettings() {
     // Change theme to desired theme (keeps settings modal open)
-    cy.toAccountSettingsModal(null, true);
+    cy.toAccountSettingsModal();
     cy.get('#displayButton').click();
     cy.get('#displaySettingsTitle').should('exist');
 
@@ -38,27 +41,11 @@ function navigateToThemeSettings() {
 
 describe('AS14319 Theme Colors - Code', () => {
     before(() => {
-        // # Login and navigate to the app
-        cy.apiLogin('user-1');
-        cy.visit('/');
-
-        // # Enter in code block for message
-        cy.get('#post_textbox').clear().type('```\ncode\n```{enter}');
-    });
-
-    // reset settings to default mattermost theme
-    after(() => {
-        navigateToThemeSettings();
-
-        // # Select the Theme Colors radio
-        cy.get('#standardThemes').check().should('be.checked');
-
-        // # Select the Mattermost pre-made theme
-        cy.get('#premadeThemeMattermost').first().click();
-
-        // # Save and close settings modal
-        cy.get('#saveSetting').click();
-        cy.get('#accountSettingsHeader > .close').click();
+        // # Login as new user, visit town-square and post a message
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
+            cy.get('#post_textbox').clear().type('```\ncode\n```{enter}');
+        });
     });
 
     THEMES.forEach((THEME) => {

@@ -2,12 +2,27 @@
 
 .color-input {
     position: relative;
+
+    input {
+        height: 36px;
+    }
 }
 
 .color-icon {
     display: inline-block;
-    width: 16px;
-    height: 16px;
+    width: 24px;
+    height: 24px;
+    border-radius: 2px;
+    border:  1px solid v(center-channel-color-32);
+    cursor: pointer;
+}
+
+.color-pad {
+    border-radius: 0 2px 2px 0;
+    background: v(center-channel-bg) !important;
+    border-color: v(center-channel-color-32) !important;
+    padding: 5px;
+    line-height: 0;
 }
 
 .color-popover {
@@ -16,4 +31,9 @@
     right: 0;
     padding-top: 8px;
     z-index: 12;
+}
+
+/* hiding hex input from color picker */
+.chrome-picker .flexbox-fix:nth-child(2) {
+    display: none !important;
 }

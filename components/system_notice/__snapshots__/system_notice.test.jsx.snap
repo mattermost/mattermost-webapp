@@ -26,9 +26,15 @@ exports[`components/SystemNotice should match snapshot for admin, admin notice 1
   <div
     className="system-notice__info"
   >
-    <i
+    <LocalizedIcon
       className="fa fa-eye"
-      title="Only visible to System Admins Icon"
+      component="i"
+      title={
+        Object {
+          "defaultMessage": "Only visible to System Admins Icon",
+          "id": "system_notice.adminVisible.icon",
+        }
+      }
     />
     <FormattedMessage
       defaultMessage="Only visible to System Admins"
@@ -45,7 +51,7 @@ exports[`components/SystemNotice should match snapshot for admin, admin notice 1
       onClick={[Function]}
     >
       <FormattedMessage
-        defaultMessage="Remind me later"
+        defaultMessage="Remind Me Later"
         id="system_notice.remind_me"
         values={Object {}}
       />
@@ -56,7 +62,7 @@ exports[`components/SystemNotice should match snapshot for admin, admin notice 1
       onClick={[Function]}
     >
       <FormattedMessage
-        defaultMessage="Don't show again"
+        defaultMessage="Don't Show Again"
         id="system_notice.dont_show"
         values={Object {}}
       />
@@ -97,7 +103,7 @@ exports[`components/SystemNotice should match snapshot for admin, regular notice
       onClick={[Function]}
     >
       <FormattedMessage
-        defaultMessage="Remind me later"
+        defaultMessage="Remind Me Later"
         id="system_notice.remind_me"
         values={Object {}}
       />
@@ -108,7 +114,7 @@ exports[`components/SystemNotice should match snapshot for admin, regular notice
       onClick={[Function]}
     >
       <FormattedMessage
-        defaultMessage="Don't show again"
+        defaultMessage="Don't Show Again"
         id="system_notice.dont_show"
         values={Object {}}
       />
@@ -149,7 +155,7 @@ exports[`components/SystemNotice should match snapshot for regular user, admin a
       onClick={[Function]}
     >
       <FormattedMessage
-        defaultMessage="Remind me later"
+        defaultMessage="Remind Me Later"
         id="system_notice.remind_me"
         values={Object {}}
       />
@@ -160,7 +166,7 @@ exports[`components/SystemNotice should match snapshot for regular user, admin a
       onClick={[Function]}
     >
       <FormattedMessage
-        defaultMessage="Don't show again"
+        defaultMessage="Don't Show Again"
         id="system_notice.dont_show"
         values={Object {}}
       />
@@ -209,7 +215,7 @@ exports[`components/SystemNotice should match snapshot for regular user, regular
       onClick={[Function]}
     >
       <FormattedMessage
-        defaultMessage="Remind me later"
+        defaultMessage="Remind Me Later"
         id="system_notice.remind_me"
         values={Object {}}
       />
@@ -220,7 +226,7 @@ exports[`components/SystemNotice should match snapshot for regular user, regular
       onClick={[Function]}
     >
       <FormattedMessage
-        defaultMessage="Don't show again"
+        defaultMessage="Don't Show Again"
         id="system_notice.dont_show"
         values={Object {}}
       />
@@ -263,7 +269,7 @@ exports[`components/SystemNotice should match snapshot for show function returni
       onClick={[Function]}
     >
       <FormattedMessage
-        defaultMessage="Remind me later"
+        defaultMessage="Remind Me Later"
         id="system_notice.remind_me"
         values={Object {}}
       />
@@ -274,7 +280,7 @@ exports[`components/SystemNotice should match snapshot for show function returni
       onClick={[Function]}
     >
       <FormattedMessage
-        defaultMessage="Don't show again"
+        defaultMessage="Don't Show Again"
         id="system_notice.dont_show"
         values={Object {}}
       />
@@ -315,7 +321,7 @@ exports[`components/SystemNotice should match snapshot for with allowForget equa
       onClick={[Function]}
     >
       <FormattedMessage
-        defaultMessage="Remind me later"
+        defaultMessage="Remind Me Later"
         id="system_notice.remind_me"
         values={Object {}}
       />

@@ -26,6 +26,7 @@ describe('components/ProfilePopover', () => {
             getMembershipForCurrentEntities: jest.fn(),
             openDirectChannelToUserId: jest.fn(),
             openModal: jest.fn(),
+            closeModal: jest.fn(),
             loadBot: jest.fn(),
         },
     };
@@ -34,8 +35,8 @@ describe('components/ProfilePopover', () => {
         const props = {...baseProps};
 
         const wrapper = shallowWithIntl(
-            <ProfilePopover {...props}/>
-        ).dive();
+            <ProfilePopover {...props}/>,
+        );
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -49,14 +50,14 @@ describe('components/ProfilePopover', () => {
         };
 
         const wrapper = shallowWithIntl(
-            <ProfilePopover {...props}/>
-        ).dive();
+            <ProfilePopover {...props}/>,
+        );
         expect(wrapper.containsMatchingElement(
             <div
                 key='bot-description'
             >
                 {'bot description'}
-            </div>
+            </div>,
         )).toEqual(true);
     });
 
@@ -65,8 +66,8 @@ describe('components/ProfilePopover', () => {
         props.isInCurrentTeam = false;
 
         const wrapper = shallowWithIntl(
-            <ProfilePopover {...props}/>
-        ).dive();
+            <ProfilePopover {...props}/>,
+        );
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -76,8 +77,8 @@ describe('components/ProfilePopover', () => {
         const props = {...baseProps, hide, status};
 
         const wrapper = shallowWithIntl(
-            <ProfilePopover {...props}/>
-        ).dive();
+            <ProfilePopover {...props}/>,
+        );
 
         const pluggableProps = {
             hide,

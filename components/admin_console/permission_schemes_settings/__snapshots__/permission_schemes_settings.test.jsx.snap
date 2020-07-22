@@ -29,7 +29,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
           className="banner__content"
         >
           <span>
-            <InjectIntl(FormattedMarkdownMessage)
+            <injectIntl(FormattedMarkdownMessage)
               defaultMessage="Permission Schemes set the default permissions for Team Admins, Channel Admins and everyone else. Learn more about permission schemes in our [documentation](!https://about.mattermost.com/default-advanced-permissions)."
               id="admin.permissions.introBanner"
             />
@@ -50,6 +50,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
       <AdminPanelWithLink
         className="permissions-block"
         disabled={false}
+        id="team-override-schemes"
         linkTextDefault="New Team Override Scheme"
         linkTextId="admin.permissions.teamOverrideSchemesNewButton"
         subtitleDefault="Use when specific teams need permission exceptions to the [System Scheme](!https://about.mattermost.com/default-system-scheme)."
@@ -116,7 +117,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
           className="banner__content"
         >
           <span>
-            <InjectIntl(FormattedMarkdownMessage)
+            <injectIntl(FormattedMarkdownMessage)
               defaultMessage="Permission Schemes set the default permissions for Team Admins, Channel Admins and everyone else. Learn more about permission schemes in our [documentation](!https://about.mattermost.com/default-advanced-permissions)."
               id="admin.permissions.introBanner"
             />
@@ -137,6 +138,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
       <AdminPanelWithLink
         className="permissions-block"
         disabled={false}
+        id="team-override-schemes"
         linkTextDefault="New Team Override Scheme"
         linkTextId="admin.permissions.teamOverrideSchemesNewButton"
         subtitleDefault="Use when specific teams need permission exceptions to the [System Scheme](!https://about.mattermost.com/default-system-scheme)."
@@ -182,7 +184,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
           className="banner__content"
         >
           <span>
-            <InjectIntl(FormattedMarkdownMessage)
+            <injectIntl(FormattedMarkdownMessage)
               defaultMessage="Permission Schemes set the default permissions for Team Admins, Channel Admins and everyone else. Learn more about permission schemes in our [documentation](!https://about.mattermost.com/default-advanced-permissions)."
               id="admin.permissions.introBanner"
             />
@@ -203,6 +205,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
       <AdminPanelWithLink
         className="permissions-block"
         disabled={true}
+        id="team-override-schemes"
         linkTextDefault="New Team Override Scheme"
         linkTextId="admin.permissions.teamOverrideSchemesNewButton"
         subtitleDefault="Use when specific teams need permission exceptions to the [System Scheme](!https://about.mattermost.com/default-system-scheme)."
@@ -296,7 +299,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
           className="banner__content"
         >
           <span>
-            <InjectIntl(FormattedMarkdownMessage)
+            <injectIntl(FormattedMarkdownMessage)
               defaultMessage="Permission Schemes set the default permissions for Team Admins, Channel Admins and everyone else. Learn more about permission schemes in our [documentation](!https://about.mattermost.com/default-advanced-permissions)."
               id="admin.permissions.introBanner"
             />
@@ -317,6 +320,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
       <AdminPanelWithLink
         className="permissions-block"
         disabled={true}
+        id="team-override-schemes"
         linkTextDefault="New Team Override Scheme"
         linkTextId="admin.permissions.teamOverrideSchemesNewButton"
         subtitleDefault="Use when specific teams need permission exceptions to the [System Scheme](!https://about.mattermost.com/default-system-scheme)."
@@ -410,7 +414,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
           className="banner__content"
         >
           <span>
-            <InjectIntl(FormattedMarkdownMessage)
+            <injectIntl(FormattedMarkdownMessage)
               defaultMessage="Permission Schemes set the default permissions for Team Admins, Channel Admins and everyone else. Learn more about permission schemes in our [documentation](!https://about.mattermost.com/default-advanced-permissions)."
               id="admin.permissions.introBanner"
             />
@@ -431,6 +435,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
       <AdminPanelWithLink
         className="permissions-block"
         disabled={false}
+        id="team-override-schemes"
         linkTextDefault="New Team Override Scheme"
         linkTextId="admin.permissions.teamOverrideSchemesNewButton"
         subtitleDefault="Use when specific teams need permission exceptions to the [System Scheme](!https://about.mattermost.com/default-system-scheme)."

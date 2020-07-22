@@ -12,14 +12,18 @@ describe('components/MenuItemLink', () => {
             <MenuItemLinkImpl
                 to='/wherever'
                 text='Whatever'
-            />
+            />,
         );
 
         expect(wrapper).toMatchInlineSnapshot(`
 <Link
   to="/wherever"
 >
-  Whatever
+  <span
+    className="MenuItem__primary-text"
+  >
+    Whatever
+  </span>
 </Link>
 `);
     });

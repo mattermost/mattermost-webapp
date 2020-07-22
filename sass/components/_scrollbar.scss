@@ -45,15 +45,18 @@ body {
 .scrollbar--horizontal,
 .scrollbar--vertical {
     @include border-radius(2px);
-    @include alpha-property(background-color, $black, .5);
+    background-color: #999;
 }
 
 .scrollbar--view {
-    -ms-overflow-style: none;
-
     .browser--ie & {
         margin: 0 !important;
         overflow-x: hidden !important;
+        -ms-overflow-style: none;
+
+        .scrollbar--vertical {
+            visibility: hidden;
+        }
     }
 }
 

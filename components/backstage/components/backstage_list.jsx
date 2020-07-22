@@ -9,7 +9,7 @@ import * as Utils from 'utils/utils.jsx';
 import LoadingScreen from 'components/loading_screen';
 import SearchIcon from 'components/widgets/icons/fa_search_icon';
 
-export default class BackstageList extends React.Component {
+export default class BackstageList extends React.PureComponent {
     static propTypes = {
         children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
         header: PropTypes.node.isRequired,
@@ -60,19 +60,19 @@ export default class BackstageList extends React.Component {
                 if (!filter) {
                     if (this.props.emptyText) {
                         children = (
-                            <span className='backstage-list__item backstage-list__empty'>
+                            <div className='backstage-list__item backstage-list__empty'>
                                 {this.props.emptyText}
-                            </span>
+                            </div>
                         );
                     }
                 } else if (this.props.emptyTextSearch) {
                     children = (
-                        <span
+                        <div
                             className='backstage-list__item backstage-list__empty'
                             id='emptySearchResultsMessage'
                         >
                             {React.cloneElement(this.props.emptyTextSearch, {values: {searchTerm: filter}})}
-                        </span>
+                        </div>
                     );
                 }
             }

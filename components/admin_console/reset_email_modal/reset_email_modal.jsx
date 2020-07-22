@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -10,7 +11,7 @@ import {isEmail} from 'mattermost-redux/utils/helpers';
 
 import {adminResetEmail} from 'actions/admin_actions.jsx';
 
-export default class ResetEmailModal extends React.Component {
+export default class ResetEmailModal extends React.PureComponent {
     static propTypes = {
         user: PropTypes.object,
         show: PropTypes.bool.isRequired,
@@ -62,7 +63,7 @@ export default class ResetEmailModal extends React.Component {
             (err) => {
                 const serverError = err.message ? err.message : err;
                 this.setState({error: serverError});
-            }
+            },
         );
     }
 
@@ -134,7 +135,6 @@ export default class ResetEmailModal extends React.Component {
                                         className='form-control'
                                         maxLength='128'
                                         autoFocus={true}
-                                        tabIndex='1'
                                     />
                                 </div>
                                 {errorMsg}
@@ -156,7 +156,6 @@ export default class ResetEmailModal extends React.Component {
                             onClick={this.doSubmit}
                             type='submit'
                             className='btn btn-primary'
-                            tabIndex='2'
                             data-testid='resetEmailButton'
                         >
                             <FormattedMessage
@@ -170,3 +169,4 @@ export default class ResetEmailModal extends React.Component {
         );
     }
 }
+/* eslint-enable react/no-string-refs */

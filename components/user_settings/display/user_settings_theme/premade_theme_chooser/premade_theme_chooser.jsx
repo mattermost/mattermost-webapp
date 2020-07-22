@@ -41,6 +41,7 @@ export default class PremadeThemeChooser extends React.PureComponent {
         return (
             <div
                 className='theme-preview'
+                id={`premadeTheme${theme.display_name.replace(' ', '')}`}
                 style={{backgroundColor: theme.centerChannelBg}}
             >
                 <div

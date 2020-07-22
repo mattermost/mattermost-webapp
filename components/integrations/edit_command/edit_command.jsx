@@ -8,7 +8,7 @@ import {FormattedMessage} from 'react-intl';
 import {browserHistory} from 'utils/browser_history';
 import {t} from 'utils/i18n';
 import LoadingScreen from 'components/loading_screen';
-import ConfirmModal from 'components/confirm_modal.jsx';
+import ConfirmModal from 'components/confirm_modal';
 import AbstractCommand from '../abstract_command.jsx';
 
 const HEADER = {id: t('integrations.edit'), defaultMessage: 'Edit'};
@@ -69,7 +69,7 @@ export default class EditCommand extends React.PureComponent {
                     this.setState({
                         originalCommand: Object.values(this.props.commands).filter((command) => command.id === this.props.commandId)[0],
                     });
-                }
+                },
             );
         }
     }

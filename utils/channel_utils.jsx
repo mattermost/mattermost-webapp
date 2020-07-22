@@ -2,33 +2,31 @@
 // See LICENSE.txt for license information.
 
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
-import {getRedirectChannelNameForTeam as getRedirectChannelNameForTeamRedux} from 'mattermost-redux/selectors/entities/channels';
 import Permissions from 'mattermost-redux/constants/permissions';
 
-import store from 'stores/redux_store.jsx';
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 
-export function canManageMembers(channel) {
+export function canManageMembers(state, channel) {
     if (channel.type === Constants.PRIVATE_CHANNEL) {
         return haveIChannelPermission(
-            store.getState(),
+            state,
             {
                 channel: channel.id,
                 team: channel.team_id,
                 permission: Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS,
-            }
+            },
         );
     }
 
     if (channel.type === Constants.OPEN_CHANNEL) {
         return haveIChannelPermission(
-            store.getState(),
+            state,
             {
                 channel: channel.id,
                 team: channel.team_id,
                 permission: Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS,
-            }
+            },
         );
     }
 
@@ -49,6 +47,6 @@ export function findNextUnreadChannelId(curChannelId, allChannelIds, unreadChann
     return -1;
 }
 
-export function getRedirectChannelNameForTeam(teamId) {
-    return getRedirectChannelNameForTeamRedux(store.getState(), teamId);
+export function isArchivedChannel(channel) {
+    return Boolean(channel && channel.delete_at !== 0);
 }

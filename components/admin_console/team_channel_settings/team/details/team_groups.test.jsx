@@ -26,11 +26,12 @@ describe('admin_console/team_channel_settings/team/TeamGroups', () => {
                 syncChecked={true}
                 onAddCallback={jest.fn()}
                 onGroupRemoved={jest.fn()}
+                setNewGroupRole={jest.fn()}
                 removedGroups={[]}
                 groups={groups}
                 team={testTeam}
                 totalGroups={1}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });

@@ -83,7 +83,7 @@ export default class ElasticsearchSettings extends AdminSettings {
         });
     }
 
-    canSave() {
+    canSave = () => {
         return this.state.canSave;
     }
 
@@ -107,7 +107,7 @@ export default class ElasticsearchSettings extends AdminSettings {
                     canSave: false,
                 });
                 error(err);
-            }
+            },
         );
     }
 

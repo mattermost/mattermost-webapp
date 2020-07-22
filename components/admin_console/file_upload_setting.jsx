@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import $ from 'jquery';
 import PropTypes from 'prop-types';
@@ -112,7 +113,7 @@ export default class FileUploadSetting extends Setting {
                             defaultMessage='Upload'
                         />
                     </button>
-                    <div className='help-text no-margin'>
+                    <div className='help-text m-0'>
                         {fileName}
                     </div>
                     {serverError}
@@ -121,3 +122,4 @@ export default class FileUploadSetting extends Setting {
         );
     }
 }
+/* eslint-enable react/no-string-refs */

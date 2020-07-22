@@ -6,11 +6,11 @@
 
 .TeamIcon__content {
     @include single-transition(all, .25s, ease);
-    @include opacity(.5);
     @include border-radius(3px);
-    background-color: alpha-color($black, .3);
+    background-color: alpha-color($black, .12);
     overflow: hidden;
     height: 100%;
+
     &.no-hover {
         transition:none;
     }
@@ -19,9 +19,13 @@
 .TeamIcon__initials {
     &.TeamIcon__initials__lg {
         font-size: 3em;
+        width: 94px;
+        height: 94px;
     }
     &.TeamIcon__initials__sm {
         font-size: 14px;
+        width: 40px;
+        height: 40px;
     }
 }
 .TeamIcon {
@@ -35,7 +39,7 @@
     text-transform: capitalize;
     vertical-align: top;
     width: 45px;
-    margin-right: 20px;
+    margin-right: 12px;
 
     &.TeamIcon__lg {
         width: 94px;
@@ -47,17 +51,6 @@
         width: 40px;
         height: 40px;
         line-height: 38px;
-    }
-
-
-    &:hover {
-        .TeamIcon__content {
-            @include opacity(.8);
-
-            &.no-hover {
-                @include opacity(.5);
-            }
-        }
     }
 
     .TeamIcon__image {

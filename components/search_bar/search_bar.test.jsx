@@ -7,7 +7,7 @@ import {shallow} from 'enzyme';
 import SearchBar from './search_bar';
 
 jest.mock('utils/utils', () => {
-    const original = require.requireActual('utils/utils');
+    const original = jest.requireActual('utils/utils');
     return {
         ...original,
         isMobile: jest.fn(() => false),
@@ -29,19 +29,20 @@ describe('components/search_bar/SearchBar', () => {
             showFlaggedPosts: jest.fn(),
             closeRightHandSide: jest.fn(),
             autocompleteChannelsForSearch: jest.fn(),
+            autocompleteUsersInTeam: jest.fn(),
         },
     };
 
     it('should match snapshot without search', () => {
         const wrapper = shallow(
-            <SearchBar {...baseProps}/>
+            <SearchBar {...baseProps}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
 
     it('should match snapshot without search on focus', () => {
         const wrapper = shallow(
-            <SearchBar {...baseProps}/>
+            <SearchBar {...baseProps}/>,
         );
         wrapper.setState({focused: true});
         expect(wrapper).toMatchSnapshot();
@@ -52,7 +53,7 @@ describe('components/search_bar/SearchBar', () => {
         utils.isMobile.mockReturnValue(true);
 
         const wrapper = shallow(
-            <SearchBar {...baseProps}/>
+            <SearchBar {...baseProps}/>,
         );
         wrapper.setState({focused: true});
         expect(wrapper).toMatchSnapshot();
@@ -66,7 +67,7 @@ describe('components/search_bar/SearchBar', () => {
         };
 
         const wrapper = shallow(
-            <SearchBar {...props}/>
+            <SearchBar {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });

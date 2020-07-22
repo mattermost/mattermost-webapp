@@ -2,85 +2,120 @@
 
 exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChannels should match snapshot, with teams, with channels and loaded 1`] = `
 <div
-  className="group-teams-and-channels"
+  className="AdminPanel__content"
 >
-  <div
-    className="group-teams-and-channels--header"
+  <table
+    className="AdminPanel__table group-teams-and-channels"
+    id="team_and_channel_membership_table"
   >
-    <FormattedMessage
-      defaultMessage="Name"
-      id="admin.group_settings.group_profile.group_teams_and_channels.name"
-      values={Object {}}
-    />
-  </div>
-  <div
-    className="group-teams-and-channels--body"
-  >
-    <GroupTeamsAndChannelsRow
-      hasChildren={true}
-      id="11111111111111111111111111"
-      implicit={false}
-      key="11111111111111111111111111"
-      name="Team 1"
-      onRemoveItem={[Function]}
-      onToggleCollapse={[Function]}
-      type="public-team"
-    />
-    <GroupTeamsAndChannelsRow
-      id="44444444444444444444444444"
-      key="44444444444444444444444444"
-      name="Channel 4"
-      onRemoveItem={[Function]}
-      onToggleCollapse={[Function]}
-      type="public-channel"
-    />
-    <GroupTeamsAndChannelsRow
-      hasChildren={false}
-      id="22222222222222222222222222"
-      implicit={false}
-      key="22222222222222222222222222"
-      name="Team 2"
-      onRemoveItem={[Function]}
-      onToggleCollapse={[Function]}
-      type="private-team"
-    />
-    <GroupTeamsAndChannelsRow
-      hasChildren={false}
-      id="33333333333333333333333333"
-      implicit={false}
-      key="33333333333333333333333333"
-      name="Team 3"
-      onRemoveItem={[Function]}
-      onToggleCollapse={[Function]}
-      type="private-team"
-    />
-    <GroupTeamsAndChannelsRow
-      hasChildren={true}
-      id="99999999999999999999999999"
-      implicit={true}
-      key="99999999999999999999999999"
-      name="Team 9"
-      onRemoveItem={[Function]}
-      onToggleCollapse={[Function]}
-      type="public-team"
-    />
-    <GroupTeamsAndChannelsRow
-      id="55555555555555555555555555"
-      key="55555555555555555555555555"
-      name="Channel 5"
-      onRemoveItem={[Function]}
-      onToggleCollapse={[Function]}
-      type="private-channel"
-    />
-    <GroupTeamsAndChannelsRow
-      id="55555555555555555555555555"
-      key="55555555555555555555555555"
-      name="Channel 5"
-      onRemoveItem={[Function]}
-      onToggleCollapse={[Function]}
-      type="private-channel"
-    />
-  </div>
+    <thead
+      className="group-teams-and-channels--header"
+    >
+      <tr>
+        <th
+          width="30%"
+        >
+          <FormattedMessage
+            defaultMessage="Name"
+            id="admin.group_settings.group_profile.group_teams_and_channels.name"
+            values={Object {}}
+          />
+        </th>
+        <th
+          width="25%"
+        >
+          <FormattedMessage
+            defaultMessage="Type"
+            id="admin.group_settings.group_profile.group_teams_and_channels.type"
+            values={Object {}}
+          />
+        </th>
+        <th
+          width="25%"
+        >
+          <FormattedMessage
+            defaultMessage="Assigned Roles"
+            id="admin.group_settings.group_profile.group_teams_and_channels.assignedRoles"
+            values={Object {}}
+          />
+        </th>
+        <th
+          width="20%"
+        />
+      </tr>
+    </thead>
+    <tbody
+      className="group-teams-and-channels--body"
+    >
+      <GroupTeamsAndChannelsRow
+        hasChildren={true}
+        id="11111111111111111111111111"
+        key="11111111111111111111111111"
+        name="Team 1"
+        onChangeRoles={[Function]}
+        onRemoveItem={[Function]}
+        onToggleCollapse={[Function]}
+        type="public-team"
+      />
+      <GroupTeamsAndChannelsRow
+        id="44444444444444444444444444"
+        key="44444444444444444444444444"
+        name="Channel 4"
+        onChangeRoles={[Function]}
+        onRemoveItem={[Function]}
+        onToggleCollapse={[Function]}
+        type="public-channel"
+      />
+      <GroupTeamsAndChannelsRow
+        hasChildren={false}
+        id="22222222222222222222222222"
+        key="22222222222222222222222222"
+        name="Team 2"
+        onChangeRoles={[Function]}
+        onRemoveItem={[Function]}
+        onToggleCollapse={[Function]}
+        type="private-team"
+      />
+      <GroupTeamsAndChannelsRow
+        hasChildren={false}
+        id="33333333333333333333333333"
+        key="33333333333333333333333333"
+        name="Team 3"
+        onChangeRoles={[Function]}
+        onRemoveItem={[Function]}
+        onToggleCollapse={[Function]}
+        type="private-team"
+      />
+      <GroupTeamsAndChannelsRow
+        hasChildren={true}
+        id="99999999999999999999999999"
+        key="99999999999999999999999999"
+        name="Team 9"
+        onChangeRoles={[Function]}
+        onRemoveItem={[Function]}
+        onToggleCollapse={[Function]}
+        type="public-team"
+      />
+      <GroupTeamsAndChannelsRow
+        id="55555555555555555555555555"
+        key="55555555555555555555555555"
+        name="Channel 5"
+        onChangeRoles={[Function]}
+        onRemoveItem={[Function]}
+        onToggleCollapse={[Function]}
+        type="private-channel"
+      />
+      <GroupTeamsAndChannelsRow
+        id="55555555555555555555555555"
+        key="55555555555555555555555555"
+        name="Channel 5"
+        onChangeRoles={[Function]}
+        onRemoveItem={[Function]}
+        onToggleCollapse={[Function]}
+        type="private-channel"
+      />
+    </tbody>
+  </table>
 </div>
 `;
 

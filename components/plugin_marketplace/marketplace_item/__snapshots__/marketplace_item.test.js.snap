@@ -25,7 +25,6 @@ exports[`components/MarketplaceItem MarketplaceItem should render 1`] = `
         target="_blank"
       >
         name
-         
         <span
           className="light subtitle"
         >
@@ -101,7 +100,6 @@ exports[`components/MarketplaceItem MarketplaceItem should render installed plug
         target="_blank"
       >
         name
-         
         <span
           className="light subtitle"
         >
@@ -175,46 +173,11 @@ exports[`components/MarketplaceItem MarketplaceItem should render when not from 
         target="_blank"
       >
         name
-         
         <span
           className="light subtitle"
         >
           (1.0.0)
         </span>
-        <OverlayTrigger
-          defaultOverlayShown={false}
-          delayShow={400}
-          overlay={
-            <Tooltip
-              bsClass="tooltip"
-              id="plugin-marketplace__local-tooltop"
-              placement="right"
-            >
-              <FormattedMessage
-                defaultMessage="This plugin is not listed in the marketplace but was installed manually."
-                id="marketplace_modal.list.local.tooltip"
-                values={Object {}}
-              />
-            </Tooltip>
-          }
-          placement="top"
-          trigger={
-            Array [
-              "hover",
-              "focus",
-            ]
-          }
-        >
-          <span
-            className="tag"
-          >
-            <FormattedMessage
-              defaultMessage="LOCAL"
-              id="marketplace_modal.list.local"
-              values={Object {}}
-            />
-          </span>
-        </OverlayTrigger>
         <p
           className="more-modal__description"
         >
@@ -233,7 +196,82 @@ exports[`components/MarketplaceItem MarketplaceItem should render when not from 
     >
       <button
         className="btn btn-primary"
-        disabled={true}
+        disabled={false}
+        onClick={[Function]}
+      >
+        <LoadingWrapper
+          loading={false}
+          text="Installing..."
+        >
+          <FormattedMessage
+            defaultMessage="Install"
+            id="marketplace_modal.list.Install"
+            values={Object {}}
+          />
+        </LoadingWrapper>
+      </button>
+    </div>
+    <UpdateConfirmationModal
+      installedVersion=""
+      name="name"
+      onCancel={[Function]}
+      onUpdate={[Function]}
+      show={false}
+      version="1.0.0"
+    />
+  </div>
+</Fragment>
+`;
+
+exports[`components/MarketplaceItem MarketplaceItem should render with empty list of labels 1`] = `
+<Fragment>
+  <div
+    className="more-modal__row more-modal__row--link"
+    id="marketplace-plugin-id"
+    key="id"
+  >
+    <div
+      className="icon__plugin icon__plugin--background"
+    >
+      <img
+        src="icon"
+      />
+    </div>
+    <div
+      className="more-modal__details"
+    >
+      <a
+        aria-label="name, test plugin"
+        className="style--none more-modal__row--link"
+        href="http://example.com"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        name
+        <span
+          className="light subtitle"
+        >
+          (1.0.0)
+        </span>
+        <p
+          className="more-modal__description"
+        >
+          test plugin
+        </p>
+      </a>
+      <UpdateDetails
+        installedVersion=""
+        isInstalling={false}
+        onUpdate={[Function]}
+        version="1.0.0"
+      />
+    </div>
+    <div
+      className="more-modal__actions"
+    >
+      <button
+        className="btn btn-primary"
+        disabled={false}
         onClick={[Function]}
       >
         <LoadingWrapper
@@ -281,12 +319,92 @@ exports[`components/MarketplaceItem MarketplaceItem should render with no plugin
         target="_blank"
       >
         name
-         
         <span
           className="light subtitle"
         >
           (1.0.0)
         </span>
+        <p
+          className="more-modal__description"
+        >
+          test plugin
+        </p>
+      </a>
+      <UpdateDetails
+        installedVersion=""
+        isInstalling={false}
+        onUpdate={[Function]}
+        version="1.0.0"
+      />
+    </div>
+    <div
+      className="more-modal__actions"
+    >
+      <button
+        className="btn btn-primary"
+        disabled={false}
+        onClick={[Function]}
+      >
+        <LoadingWrapper
+          loading={false}
+          text="Installing..."
+        >
+          <FormattedMessage
+            defaultMessage="Install"
+            id="marketplace_modal.list.Install"
+            values={Object {}}
+          />
+        </LoadingWrapper>
+      </button>
+    </div>
+    <UpdateConfirmationModal
+      installedVersion=""
+      name="name"
+      onCancel={[Function]}
+      onUpdate={[Function]}
+      show={false}
+      version="1.0.0"
+    />
+  </div>
+</Fragment>
+`;
+
+exports[`components/MarketplaceItem MarketplaceItem should render with one labels 1`] = `
+<Fragment>
+  <div
+    className="more-modal__row more-modal__row--link"
+    id="marketplace-plugin-id"
+    key="id"
+  >
+    <div
+      className="icon__plugin icon__plugin--background"
+    >
+      <img
+        src="icon"
+      />
+    </div>
+    <div
+      className="more-modal__details"
+    >
+      <a
+        aria-label="name, test plugin"
+        className="style--none more-modal__row--link"
+        href="http://example.com"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        name
+        <span
+          className="light subtitle"
+        >
+          (1.0.0)
+        </span>
+        <Label
+          description="some description"
+          key="someName"
+          name="someName"
+          url="http://example.com/info"
+        />
         <p
           className="more-modal__description"
         >
@@ -357,7 +475,6 @@ exports[`components/MarketplaceItem MarketplaceItem should render with server er
         target="_blank"
       >
         name
-         
         <span
           className="light subtitle"
         >
@@ -408,6 +525,93 @@ exports[`components/MarketplaceItem MarketplaceItem should render with server er
 </Fragment>
 `;
 
+exports[`components/MarketplaceItem MarketplaceItem should render with two labels 1`] = `
+<Fragment>
+  <div
+    className="more-modal__row more-modal__row--link"
+    id="marketplace-plugin-id"
+    key="id"
+  >
+    <div
+      className="icon__plugin icon__plugin--background"
+    >
+      <img
+        src="icon"
+      />
+    </div>
+    <div
+      className="more-modal__details"
+    >
+      <a
+        aria-label="name, test plugin"
+        className="style--none more-modal__row--link"
+        href="http://example.com"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        name
+        <span
+          className="light subtitle"
+        >
+          (1.0.0)
+        </span>
+        <Label
+          description="some description"
+          key="someName"
+          name="someName"
+          url="http://example.com/info"
+        />
+        <Label
+          description="some description2"
+          key="someName2"
+          name="someName2"
+          url="http://example.com/info2"
+        />
+        <p
+          className="more-modal__description"
+        >
+          test plugin
+        </p>
+      </a>
+      <UpdateDetails
+        installedVersion=""
+        isInstalling={false}
+        onUpdate={[Function]}
+        version="1.0.0"
+      />
+    </div>
+    <div
+      className="more-modal__actions"
+    >
+      <button
+        className="btn btn-primary"
+        disabled={false}
+        onClick={[Function]}
+      >
+        <LoadingWrapper
+          loading={false}
+          text="Installing..."
+        >
+          <FormattedMessage
+            defaultMessage="Install"
+            id="marketplace_modal.list.Install"
+            values={Object {}}
+          />
+        </LoadingWrapper>
+      </button>
+    </div>
+    <UpdateConfirmationModal
+      installedVersion=""
+      name="name"
+      onCancel={[Function]}
+      onUpdate={[Function]}
+      show={false}
+      version="1.0.0"
+    />
+  </div>
+</Fragment>
+`;
+
 exports[`components/MarketplaceItem MarketplaceItem should render with update and release notes available 1`] = `
 <Fragment>
   <div
@@ -433,7 +637,6 @@ exports[`components/MarketplaceItem MarketplaceItem should render with update an
         target="_blank"
       >
         name
-         
         <span
           className="light subtitle"
         >
@@ -509,7 +712,6 @@ exports[`components/MarketplaceItem MarketplaceItem should render with update av
         target="_blank"
       >
         name
-         
         <span
           className="light subtitle"
         >
@@ -580,7 +782,6 @@ exports[`components/MarketplaceItem MarketplaceItem should render wtih no homepa
         className="style--none"
       >
         name
-         
         <span
           className="light subtitle"
         >
@@ -659,6 +860,7 @@ exports[`components/MarketplaceItem UpdateConfirmationModal should add extra war
         <FormattedHTMLMessage
           defaultMessage="You currently have 0.0.1 installed. View the <a href=\\"http://example.com/release\\" target='_blank' rel='noopener noreferrer'>release notes</a> to learn about the changes included in this update."
           id="marketplace_modal.list.update_confirmation.message.current_with_release_notes"
+          tagName="span"
           values={
             Object {
               "installedVersion": "0.0.1",
@@ -673,6 +875,7 @@ exports[`components/MarketplaceItem UpdateConfirmationModal should add extra war
         <FormattedHTMLMessage
           defaultMessage="This update may contain breaking changes. Consult the <a href=\\"http://example.com/release\\" target='_blank' rel='noopener noreferrer'>release notes</a> before upgrading."
           id="marketplace_modal.list.update_confirmation.message.warning_major_version_with_release_notes"
+          tagName="span"
           values={
             Object {
               "releaseNotesUrl": "http://example.com/release",
@@ -812,33 +1015,7 @@ exports[`components/MarketplaceItem UpdateConfirmationModal should render withou
 exports[`components/MarketplaceItem UpdateDetails should render with release notes url 1`] = `
 <UpdateDetails
   installedVersion="0.0.1"
-  intl={
-    Object {
-      "defaultFormats": Object {},
-      "defaultLocale": "en",
-      "formatDate": [Function],
-      "formatHTMLMessage": [Function],
-      "formatMessage": [Function],
-      "formatNumber": [Function],
-      "formatPlural": [Function],
-      "formatRelative": [Function],
-      "formatTime": [Function],
-      "formats": Object {},
-      "formatters": Object {
-        "getDateTimeFormat": [Function],
-        "getMessageFormat": [Function],
-        "getNumberFormat": [Function],
-        "getPluralFormat": [Function],
-        "getRelativeFormat": [Function],
-      },
-      "locale": "en",
-      "messages": Object {},
-      "now": [Function],
-      "onError": [Function],
-      "textComponent": "span",
-      "timeZone": "Etc/UTC",
-    }
-  }
+  isDefaultMarketplace={true}
   isInstalling={false}
   onUpdate={[Function]}
   releaseNotesUrl="http://example.com/release"
@@ -892,33 +1069,7 @@ exports[`components/MarketplaceItem UpdateDetails should render with release not
 exports[`components/MarketplaceItem UpdateDetails should render without release notes url 1`] = `
 <UpdateDetails
   installedVersion="0.0.1"
-  intl={
-    Object {
-      "defaultFormats": Object {},
-      "defaultLocale": "en",
-      "formatDate": [Function],
-      "formatHTMLMessage": [Function],
-      "formatMessage": [Function],
-      "formatNumber": [Function],
-      "formatPlural": [Function],
-      "formatRelative": [Function],
-      "formatTime": [Function],
-      "formats": Object {},
-      "formatters": Object {
-        "getDateTimeFormat": [Function],
-        "getMessageFormat": [Function],
-        "getNumberFormat": [Function],
-        "getPluralFormat": [Function],
-        "getRelativeFormat": [Function],
-      },
-      "locale": "en",
-      "messages": Object {},
-      "now": [Function],
-      "onError": [Function],
-      "textComponent": "span",
-      "timeZone": "Etc/UTC",
-    }
-  }
+  isDefaultMarketplace={true}
   isInstalling={false}
   onUpdate={[Function]}
   releaseNotesUrl=""

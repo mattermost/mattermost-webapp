@@ -6,7 +6,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {JobTypes} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
-import ConfirmModal from 'components/confirm_modal.jsx';
+import ConfirmModal from 'components/confirm_modal';
 
 import AdminSettings from './admin_settings';
 import DropdownSetting from './dropdown_setting.jsx';
@@ -74,14 +74,14 @@ export default class DataRetentionSettings extends AdminSettings {
                             </strong>
                         ),
                     }}
-                />
+                />,
             );
         } else {
             messageList.push(
                 <FormattedMessage
                     id='admin.data_retention.confirmChangesModal.description.itemMessageIndefinite'
                     defaultMessage='All messages will be retained indefinitely.'
-                />
+                />,
             );
         }
 
@@ -97,14 +97,14 @@ export default class DataRetentionSettings extends AdminSettings {
                             </strong>
                         ),
                     }}
-                />
+                />,
             );
         } else {
             messageList.push(
                 <FormattedMessage
                     id='admin.data_retention.confirmChangesModal.description.itemFileIndefinite'
                     defaultMessage='All files will be retained indefinitely.'
-                />
+                />,
             );
         }
 

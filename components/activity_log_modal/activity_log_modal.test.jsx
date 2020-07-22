@@ -3,8 +3,6 @@
 
 import React from 'react';
 import {shallow} from 'enzyme';
-import $ from 'jquery';
-require('perfect-scrollbar/jquery')($);
 
 import {General} from 'mattermost-redux/constants';
 
@@ -25,7 +23,7 @@ describe('components/ActivityLogModal', () => {
 
     test('should match snapshot', () => {
         const wrapper = shallow(
-            <ActivityLogModal {...baseProps}/>
+            <ActivityLogModal {...baseProps}/>,
         );
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find(LoadingScreen).exists()).toBe(false);
@@ -41,7 +39,7 @@ describe('components/ActivityLogModal', () => {
                 return new Promise((resolve) => {
                     process.nextTick(() => resolve());
                 });
-            }
+            },
         );
         const actions = {
             getSessions: jest.fn(),
@@ -50,7 +48,7 @@ describe('components/ActivityLogModal', () => {
 
         const props = {...baseProps, actions};
         const wrapper = shallow(
-            <ActivityLogModal {...props}/>
+            <ActivityLogModal {...props}/>,
         );
 
         wrapper.instance().submitRevoke('altId', {preventDefault: jest.fn()});
@@ -66,7 +64,7 @@ describe('components/ActivityLogModal', () => {
         };
         const props = {...baseProps, actions};
         const wrapper = shallow(
-            <ActivityLogModal {...props}/>
+            <ActivityLogModal {...props}/>,
         );
 
         wrapper.instance().onShow();
@@ -75,7 +73,7 @@ describe('components/ActivityLogModal', () => {
 
     test('should match state when onHide is called', () => {
         const wrapper = shallow(
-            <ActivityLogModal {...baseProps}/>
+            <ActivityLogModal {...baseProps}/>,
         );
 
         wrapper.setState({show: true});

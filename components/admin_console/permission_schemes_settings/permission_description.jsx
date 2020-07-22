@@ -1,15 +1,17 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {FormattedMessage, FormattedHTMLMessage, injectIntl, intlShape} from 'react-intl';
+import {FormattedMessage, FormattedHTMLMessage, injectIntl} from 'react-intl';
 import {Overlay, Tooltip} from 'react-bootstrap';
 
 import {generateId} from 'utils/utils.jsx';
+import {intlShape} from 'utils/react_intl';
 import Constants from 'utils/constants';
 
-export class PermissionDescription extends React.Component {
+export class PermissionDescription extends React.PureComponent {
     static propTypes = {
         intl: intlShape.isRequired,
         id: PropTypes.string.isRequired,
@@ -107,3 +109,4 @@ export class PermissionDescription extends React.Component {
 }
 
 export default injectIntl(PermissionDescription);
+/* eslint-enable react/no-string-refs */

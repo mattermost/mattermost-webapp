@@ -6,7 +6,7 @@ import React from 'react';
 import {ContextMenu, ContextMenuTrigger, MenuItem} from 'react-contextmenu';
 import {FormattedMessage} from 'react-intl';
 
-export default class CopyUrlContextMenu extends React.Component {
+export default class CopyUrlContextMenu extends React.PureComponent {
     static propTypes = {
 
         // The child component that will be right-clicked on to show the context menu

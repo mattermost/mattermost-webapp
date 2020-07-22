@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -26,7 +27,7 @@ function getNotificationsStateFromProps(props) {
     let autoResponderActive = false;
     let autoResponderMessage = Utils.localizeMessage(
         'user.settings.notifications.autoResponderDefault',
-        'Hello, I am out of office and unable to respond to messages.'
+        'Hello, I am out of office and unable to respond to messages.',
     );
 
     if (user.notify_props) {
@@ -107,14 +108,13 @@ function getNotificationsStateFromProps(props) {
     };
 }
 
-export default class NotificationsTab extends React.Component {
+export default class NotificationsTab extends React.PureComponent {
     static propTypes = {
         user: PropTypes.object,
         updateSection: PropTypes.func,
         activeSection: PropTypes.string,
         closeModal: PropTypes.func.isRequired,
         collapseModal: PropTypes.func.isRequired,
-        siteName: PropTypes.string,
         sendPushNotifications: PropTypes.bool,
         enableAutoResponder: PropTypes.bool,
         actions: PropTypes.shape({
@@ -148,7 +148,7 @@ export default class NotificationsTab extends React.Component {
         if (!data.auto_responder_message || data.auto_responder_message === '') {
             data.auto_responder_message = Utils.localizeMessage(
                 'user.settings.notifications.autoResponderDefault',
-                'Hello, I am out of office and unable to respond to messages.'
+                'Hello, I am out of office and unable to respond to messages.',
             );
         }
 
@@ -395,7 +395,7 @@ export default class NotificationsTab extends React.Component {
                                     />
                                 </label>
                             </div>
-                            <div className='margin-top x3'>
+                            <div className='mt-5'>
                                 <FormattedMessage
                                     id='user.settings.push_notification.info'
                                     defaultMessage='Notification alerts are pushed to your mobile device when there is activity in Mattermost.'
@@ -404,7 +404,7 @@ export default class NotificationsTab extends React.Component {
                         </fieldset>
                         <hr/>
                         {pushStatusSettings}
-                    </div>
+                    </div>,
                 );
 
                 submit = this.handleSubmit;
@@ -412,19 +412,19 @@ export default class NotificationsTab extends React.Component {
                 inputs.push(
                     <div
                         key='oauthEmailInfo'
-                        className='padding-top'
+                        className='pt-2'
                     >
                         <FormattedMessage
                             id='user.settings.push_notification.disabled_long'
                             defaultMessage='Push notifications have not been enabled by your System Administrator.'
                         />
-                    </div>
+                    </div>,
                 );
             }
 
             return (
                 <SettingItemMax
-                    title={Utils.localizeMessage('user.settings.notifications.push', 'Mobile push notifications')}
+                    title={Utils.localizeMessage('user.settings.notifications.push', 'Mobile Push Notifications')}
                     extraInfo={extraInfo}
                     inputs={inputs}
                     submit={submit}
@@ -499,7 +499,7 @@ export default class NotificationsTab extends React.Component {
 
         return (
             <SettingItemMin
-                title={Utils.localizeMessage('user.settings.notifications.push', 'Mobile push notifications')}
+                title={Utils.localizeMessage('user.settings.notifications.push', 'Mobile Push Notifications')}
                 describe={describe}
                 section={'push'}
                 updateSection={this.handleUpdateSection}
@@ -538,7 +538,7 @@ export default class NotificationsTab extends React.Component {
                                 />
                             </label>
                         </div>
-                    </div>
+                    </div>,
                 );
             }
 
@@ -564,7 +564,7 @@ export default class NotificationsTab extends React.Component {
                             />
                         </label>
                     </div>
-                </div>
+                </div>,
             );
 
             const handleUpdateChannelKey = (e) => {
@@ -586,7 +586,7 @@ export default class NotificationsTab extends React.Component {
                             />
                         </label>
                     </div>
-                </div>
+                </div>,
             );
 
             inputs.push(
@@ -617,7 +617,7 @@ export default class NotificationsTab extends React.Component {
                         onFocus={Utils.moveCursorToEnd}
                         aria-labelledby='notificationTriggerCustom'
                     />
-                </div>
+                </div>,
             );
 
             const extraInfo = (
@@ -634,7 +634,7 @@ export default class NotificationsTab extends React.Component {
 
             keysSection = (
                 <SettingItemMax
-                    title={Utils.localizeMessage('user.settings.notifications.wordsTrigger', 'Words that trigger mentions')}
+                    title={Utils.localizeMessage('user.settings.notifications.wordsTrigger', 'Words That Trigger Mentions')}
                     inputs={inputs}
                     submit={this.handleSubmit}
                     saving={this.state.isSaving}
@@ -681,7 +681,7 @@ export default class NotificationsTab extends React.Component {
 
             keysSection = (
                 <SettingItemMin
-                    title={Utils.localizeMessage('user.settings.notifications.wordsTrigger', 'Words that trigger mentions')}
+                    title={Utils.localizeMessage('user.settings.notifications.wordsTrigger', 'Words That Trigger Mentions')}
                     describe={describe}
                     section={'keys'}
                     updateSection={this.handleUpdateSection}
@@ -754,7 +754,7 @@ export default class NotificationsTab extends React.Component {
                             />
                         </label>
                     </div>
-                </fieldset>
+                </fieldset>,
             );
 
             const extraInfo = (
@@ -932,7 +932,6 @@ export default class NotificationsTab extends React.Component {
                         onChange={this.handleEmailRadio}
                         saving={this.state.isSaving}
                         serverError={this.state.serverError}
-                        siteName={this.props.siteName}
                     />
                     <div className='divider-light'/>
                     {pushNotificationSection}
@@ -949,3 +948,4 @@ export default class NotificationsTab extends React.Component {
         );
     }
 }
+/* eslint-enable react/no-string-refs */

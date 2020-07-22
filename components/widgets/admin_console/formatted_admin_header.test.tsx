@@ -12,17 +12,17 @@ describe('components/widgets/admin_console/FormattedAdminHeader', () => {
             <FormattedAdminHeader
                 id='string.id'
                 defaultMessage='default message'
-            />
+            />,
         );
         expect(wrapper).toMatchInlineSnapshot(`
 <AdminHeader>
-  <InjectIntl(FormattedMarkdownMessage)
+  <injectIntl(FormattedMarkdownMessage)
     defaultMessage="default message"
     id="string.id"
     values={Object {}}
   />
 </AdminHeader>
-`
+`,
         );
     });
 
@@ -34,11 +34,11 @@ describe('components/widgets/admin_console/FormattedAdminHeader', () => {
                 values={{
                     a_key: 'a_value',
                 }}
-            />
+            />,
         );
         expect(wrapper).toMatchInlineSnapshot(`
 <AdminHeader>
-  <InjectIntl(FormattedMarkdownMessage)
+  <injectIntl(FormattedMarkdownMessage)
     defaultMessage="default message"
     id="string.id"
     values={
@@ -48,7 +48,7 @@ describe('components/widgets/admin_console/FormattedAdminHeader', () => {
     }
   />
 </AdminHeader>
-`
+`,
         );
     });
 });

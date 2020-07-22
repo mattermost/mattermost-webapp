@@ -7,6 +7,7 @@ import {isMobile} from 'utils/utils';
 
 import SubMenuItem from './menu_items/submenu_item';
 
+import MenuHeader from './menu_header';
 import MenuGroup from './menu_group';
 import MenuItemAction from './menu_items/menu_item_action';
 import MenuItemExternalLink from './menu_items/menu_item_external_link';
@@ -25,6 +26,7 @@ type Props = {
 }
 
 export default class Menu extends React.PureComponent<Props> {
+    public static Header = MenuHeader
     public static Group = MenuGroup
     public static ItemAction = MenuItemAction
     public static ItemExternalLink = MenuItemExternalLink
@@ -96,6 +98,13 @@ export default class Menu extends React.PureComponent<Props> {
         return null;
     }
 
+    handleMenuClick = (e: React.MouseEvent) => {
+        if (e.target === this.node.current) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+    }
+
     public render() {
         const {children, openUp, openLeft, id, ariaLabel, customStyles} = this.props;
         let styles: React.CSSProperties = {};
@@ -123,6 +132,7 @@ export default class Menu extends React.PureComponent<Props> {
                     ref={this.node}
                     style={styles}
                     className='Menu__content dropdown-menu'
+                    onClick={this.handleMenuClick}
                 >
                     {children}
                 </ul>

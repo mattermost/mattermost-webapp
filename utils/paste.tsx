@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+import {splitMessageBasedOnCaretPosition} from 'utils/post_utils.jsx';
 
 export function parseTable(html: string): HTMLTableElement | null {
     const el = document.createElement('div');
@@ -26,6 +27,21 @@ export function getTable(clipboardData: DataTransfer): HTMLTableElement | boolea
     return table;
 }
 
+export function getPlainText(clipboardData: DataTransfer): string | boolean {
+    if (Array.from(clipboardData.types).indexOf('text/plain') === -1) {
+        return false;
+    }
+
+    const plainText = clipboardData.getData('text/plain');
+
+    return plainText;
+}
+
+export function isGitHubCodeBlock(tableClassName: string): boolean {
+    const result = (/\b(js|blob|diff)-./).test(tableClassName);
+    return result;
+}
+
 function columnText(column: Element): string {
     const noBreakSpace = '\u00A0';
     const text = column.textContent == null ?
@@ -37,7 +53,7 @@ function tableHeaders(row: HTMLTableRowElement): string[] {
     return Array.from(row.querySelectorAll('td, th')).map(columnText);
 }
 
-export function formatMarkdownTableMessage(table: HTMLTableElement, message?: string): string {
+export function formatMarkdownTableMessage(table: HTMLTableElement, message?: string, caretPosition?: number): string {
     const rows = Array.from(table.querySelectorAll('tr'));
 
     const headerRow = rows.shift();
@@ -50,6 +66,24 @@ export function formatMarkdownTableMessage(table: HTMLTableElement, message?: st
     }).join('\n');
 
     const formattedTable = `${header}${body}\n`;
+    if (!message) {
+        return formattedTable;
+    }
+    if (typeof caretPosition === 'undefined') {
+        return `${message}\n\n${formattedTable}`;
+    }
+    const newMessage = [message.slice(0, caretPosition), formattedTable, message.slice(caretPosition)];
+    return newMessage.join('\n');
+}
 
-    return message ? `${message}\n\n${formattedTable}` : formattedTable;
+export function formatGithubCodePaste(caretPosition: number, message: string, clipboardData: DataTransfer): {formattedMessage: string; formattedCodeBlock: string} {
+    const {firstPiece, lastPiece} = splitMessageBasedOnCaretPosition(caretPosition, message);
+
+    // Add new lines if content exists before or after the cursor.
+    const requireStartLF = firstPiece === '' ? '' : '\n';
+    const requireEndLF = lastPiece === '' ? '' : '\n';
+    const formattedCodeBlock = requireStartLF + '```\n' + getPlainText(clipboardData) + '\n```' + requireEndLF;
+    const formattedMessage = `${firstPiece}${formattedCodeBlock}${lastPiece}`;
+
+    return {formattedMessage, formattedCodeBlock};
 }

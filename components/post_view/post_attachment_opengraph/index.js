@@ -20,7 +20,7 @@ function mapStateToProps(state, ownProps) {
     return {
         currentUserId: getCurrentUserId(state),
         enableLinkPreviews: config.EnableLinkPreviews === 'true',
-        openGraphData: getOpenGraphMetadataForUrl(state, ownProps.link),
+        openGraphData: getOpenGraphMetadataForUrl(state, ownProps.postId, ownProps.link),
         previewEnabled: getBool(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.LINK_PREVIEW_DISPLAY, true),
     };
 }

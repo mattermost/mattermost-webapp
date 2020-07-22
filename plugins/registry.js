@@ -42,7 +42,7 @@ function dispatchPluginComponentAction(name, pluginId, component, id = generateI
 }
 
 const resolveReactElement = (element) => {
-    if (typeof element === 'function') {
+    if (element && !React.isValidElement(element) && typeof element !== 'string') {
         // Allow element to be passed as the name of the component, instead of a React element.
         return React.createElement(element);
     }
@@ -225,6 +225,28 @@ export default class PluginRegistry {
         return id;
     }
 
+    // Register a channel menu list item by providing some text and an action function.
+    // Accepts the following:
+    // - text - A string or React element to display in the menu
+    // - action - A function that receives the channelId and is called when the menu items is clicked.
+    // Returns a unique identifier.
+    registerChannelHeaderMenuAction(text, action) {
+        const id = generateId();
+
+        store.dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
+            name: 'ChannelHeader',
+            data: {
+                id,
+                pluginId: this.id,
+                text: resolveReactElement(text),
+                action,
+            },
+        });
+
+        return id;
+    }
+
     // Register a post menu list item by providing some text and an action function.
     // Accepts the following:
     // - text - A string or React element to display in the menu
@@ -254,7 +276,9 @@ export default class PluginRegistry {
     // - text - A string or React element to display in the menu
     // - action - A function to trigger when component is clicked on
     // - filter - A function whether to apply the plugin into the post' dropdown menu
+    //
     // Returns an unique identifier for the root submenu, and a function to register submenu items.
+    // At this time, only one level of nesting is allowed to avoid rendering issue in the RHS.
     registerPostDropdownSubMenuAction(text, action, filter) {
         function registerMenuItem(pluginId, id, parentMenuId, innerText, innerAction, innerFilter) {
             store.dispatch({
@@ -271,6 +295,10 @@ export default class PluginRegistry {
                 },
             });
             return function registerSubMenuItem(t, a, f) {
+                if (parentMenuId) {
+                    throw new Error('Submenus are currently limited to a single level.');
+                }
+
                 return registerMenuItem(pluginId, generateId(), id, t, a, f);
             };
         }
@@ -555,5 +583,61 @@ export default class PluginRegistry {
         });
 
         return {id, showRHSPlugin: showRHSPlugin(id), hideRHSPlugin: hideRHSPlugin(id), toggleRHSPlugin: toggleRHSPlugin(id)};
+    }
+
+    // Register a Needs Team component by providing a route past /:team/:pluginId/ to be displayed at.
+    // Accepts the following:
+    // - route - The route to be displayed at.
+    // - component - A react component to display.
+    // Returns:
+    // - id: a unique identifier
+    registerNeedsTeamRoute(route, component) {
+        const id = generateId();
+        let fixedRoute = route.trim();
+        if (fixedRoute[0] === '/') {
+            fixedRoute = fixedRoute.substring(1);
+        }
+        fixedRoute = this.id + '/' + fixedRoute;
+
+        store.dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
+            name: 'NeedsTeamComponent',
+            data: {
+                id,
+                pluginId: this.id,
+                component,
+                route: fixedRoute,
+            },
+        });
+
+        return id;
+    }
+
+    // Register a component to be displayed at a custom route under /plug/:pluginId
+    // Accepts the following:
+    // - route - The route to be displayed at.
+    // - component - A react component to display.
+    // Returns:
+    // - id: a unique identifier
+    registerCustomRoute(route, component) {
+        const id = generateId();
+        let fixedRoute = route.trim();
+        if (fixedRoute[0] === '/') {
+            fixedRoute = fixedRoute.substring(1);
+        }
+        fixedRoute = this.id + '/' + fixedRoute;
+
+        store.dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
+            name: 'CustomRouteComponent',
+            data: {
+                id,
+                pluginId: this.id,
+                component,
+                route: fixedRoute,
+            },
+        });
+
+        return id;
     }
 }

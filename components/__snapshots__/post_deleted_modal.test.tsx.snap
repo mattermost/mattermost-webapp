@@ -7,6 +7,7 @@ exports[`components/ChannelInfoModal should match snapshot when modal is not sho
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
+  data-testid="postDeletedModal"
   dialogClassName="a11y__modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
@@ -65,6 +66,7 @@ exports[`components/ChannelInfoModal should match snapshot when modal is not sho
     <button
       autoFocus={true}
       className="btn btn-primary"
+      data-testid="postDeletedModalOkButton"
       onClick={[Function]}
       type="button"
     >
@@ -85,6 +87,7 @@ exports[`components/ChannelInfoModal should match snapshot when modal is showing
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
+  data-testid="postDeletedModal"
   dialogClassName="a11y__modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
@@ -143,6 +146,7 @@ exports[`components/ChannelInfoModal should match snapshot when modal is showing
     <button
       autoFocus={true}
       className="btn btn-primary"
+      data-testid="postDeletedModalOkButton"
       onClick={[Function]}
       type="button"
     >

@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {shallow} from 'enzyme';
 import React from 'react';
 
 import * as PostListUtils from 'mattermost-redux/utils/post_list';
@@ -11,7 +12,6 @@ import DateSeparator from 'components/post_view/date_separator';
 import NewMessageSeparator from 'components/post_view/new_message_separator/new_message_separator';
 import ChannelIntroMessage from 'components/post_view/channel_intro_message/';
 
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import {PostListRowListIds} from 'utils/constants';
 
 import PostListRow from './post_list_row.jsx';
@@ -22,8 +22,8 @@ describe('components/post_view/post_list_row', () => {
         const props = {
             listId,
         };
-        const wrapper = shallowWithIntl(
-            <PostListRow {...props}/>
+        const wrapper = shallow(
+            <PostListRow {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -35,8 +35,8 @@ describe('components/post_view/post_list_row', () => {
             listId,
             loadOlderPosts,
         };
-        const wrapper = shallowWithIntl(
-            <PostListRow {...props}/>
+        const wrapper = shallow(
+            <PostListRow {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
         wrapper.prop('onClick')();
@@ -53,8 +53,8 @@ describe('components/post_view/post_list_row', () => {
             listId,
         };
 
-        const wrapper = shallowWithIntl(
-            <PostListRow {...props}/>
+        const wrapper = shallow(
+            <PostListRow {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find(ChannelIntroMessage).exists()).toBe(true);
@@ -65,8 +65,8 @@ describe('components/post_view/post_list_row', () => {
         const props = {
             listId,
         };
-        const wrapper = shallowWithIntl(
-            <PostListRow {...props}/>
+        const wrapper = shallow(
+            <PostListRow {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find(NewMessageSeparator).exists()).toBe(true);
@@ -77,8 +77,8 @@ describe('components/post_view/post_list_row', () => {
         const props = {
             listId,
         };
-        const wrapper = shallowWithIntl(
-            <PostListRow {...props}/>
+        const wrapper = shallow(
+            <PostListRow {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find(DateSeparator).exists()).toBe(true);
@@ -90,8 +90,8 @@ describe('components/post_view/post_list_row', () => {
             listId: `${PostListUtils.COMBINED_USER_ACTIVITY}1234-5678`,
             previousListId: 'abcd',
         };
-        const wrapper = shallowWithIntl(
-            <PostListRow {...props}/>
+        const wrapper = shallow(
+            <PostListRow {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find(CombinedUserActivityPost).exists()).toBe(true);
@@ -103,8 +103,8 @@ describe('components/post_view/post_list_row', () => {
             listId: '1234',
             previousListId: 'abcd',
         };
-        const wrapper = shallowWithIntl(
-            <PostListRow {...props}/>
+        const wrapper = shallow(
+            <PostListRow {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find(Post).exists()).toBe(true);

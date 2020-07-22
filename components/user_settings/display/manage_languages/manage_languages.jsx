@@ -12,7 +12,7 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx'
 import {isKeyPressed} from 'utils/utils.jsx';
 import Constants from 'utils/constants';
 
-export default class ManageLanguage extends React.Component {
+export default class ManageLanguage extends React.PureComponent {
     static propTypes = {
         user: PropTypes.object.isRequired,
         locale: PropTypes.string.isRequired,
@@ -130,7 +130,7 @@ export default class ManageLanguage extends React.Component {
 
         languages.forEach((lang) => {
             options.push(
-                {value: lang.value, label: lang.name}
+                {value: lang.value, label: lang.name},
             );
         });
 
@@ -144,7 +144,10 @@ export default class ManageLanguage extends React.Component {
         const input = (
             <div key='changeLanguage'>
                 <br/>
-                <label className='control-label'>
+                <label
+                    className='control-label'
+                    id='changeInterfaceLanguageLabel'
+                >
                     <FormattedMessage
                         id='user.settings.languages.change'
                         defaultMessage='Change interface language'
@@ -152,7 +155,7 @@ export default class ManageLanguage extends React.Component {
                 </label>
                 <div
                     ref={this.reactSelectContainer}
-                    className='padding-top'
+                    className='pt-2'
                 >
                     <ReactSelect
                         className='react-select react-select-top'
@@ -168,6 +171,7 @@ export default class ManageLanguage extends React.Component {
                         value={this.state.selectedOption}
                         onMenuClose={this.handleMenuClose}
                         onMenuOpen={this.handleMenuOpen}
+                        aria-labelledby='changeInterfaceLanguageLabel'
                     />
                     {serverError}
                 </div>

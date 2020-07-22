@@ -3,10 +3,8 @@
 
 import React from 'react';
 
-import {autocompleteUsersInTeam} from 'actions/user_actions.jsx';
 import * as Utils from 'utils/utils.jsx';
 import BotBadge from 'components/widgets/badges/bot_badge';
-import SelectIcon from 'components/widgets/icons/fa_select_icon';
 import Avatar from 'components/widgets/users/avatar';
 
 import Provider from './provider.jsx';
@@ -25,35 +23,37 @@ class SearchUserSuggestion extends Suggestion {
         let description = '';
 
         if ((item.first_name || item.last_name) && item.nickname) {
-            description = `- ${Utils.getFullName(item)} (${item.nickname})`;
+            description = `${Utils.getFullName(item)} (${item.nickname})`;
         } else if (item.nickname) {
-            description = `- (${item.nickname})`;
+            description = `(${item.nickname})`;
         } else if (item.first_name || item.last_name) {
-            description = `- ${Utils.getFullName(item)}`;
+            description = `${Utils.getFullName(item)}`;
         }
 
         return (
             <div
                 className={className}
+                ref={(node) => {
+                    this.node = node;
+                }}
                 onClick={this.handleClick}
+                onMouseMove={this.handleMouseMove}
                 {...Suggestion.baseProps}
             >
-                <SelectIcon/>
                 <Avatar
-                    size='xs'
+                    size='sm'
                     username={username}
-                    url={Utils.imageURLForUser(item)}
+                    url={Utils.imageURLForUser(item.id, item.last_picture_update)}
                 />
-                <div className='mention--align'>
+                <div className='mention--align ml-3'>
                     <span>
-                        {username}
+                        {'@'}{username}
                     </span>
                     <BotBadge
                         show={Boolean(item.is_bot)}
                         className='badge-autocomplete'
                     />
-                    <span className='mention__fullname'>
-                        {' '}
+                    <span className='ml-2 mention__fullname'>
                         {description}
                     </span>
                 </div>
@@ -63,37 +63,46 @@ class SearchUserSuggestion extends Suggestion {
 }
 
 export default class SearchUserProvider extends Provider {
+    constructor(userSearchFunc) {
+        super();
+        this.autocompleteUsersInTeam = userSearchFunc;
+    }
+
     handlePretextChanged(pretext, resultsCallback) {
         const captured = (/\bfrom:\s*(\S*)$/i).exec(pretext.toLowerCase());
-        if (captured) {
-            const usernamePrefix = captured[1];
 
-            this.startNewRequest(usernamePrefix);
-
-            autocompleteUsersInTeam(
-                usernamePrefix,
-                (data) => {
-                    if (this.shouldCancelDispatch(usernamePrefix)) {
-                        return;
-                    }
-
-                    const users = Object.assign([], data.users);
-                    const mentions = users.map((user) => user.username);
-
-                    resultsCallback({
-                        matchedPretext: usernamePrefix,
-                        terms: mentions,
-                        items: users,
-                        component: SearchUserSuggestion,
-                    });
-                }
-            );
-        }
+        this.doAutocomplete(captured, resultsCallback);
 
         return Boolean(captured);
     }
 
+    async doAutocomplete(captured, resultsCallback) {
+        if (!captured) {
+            return;
+        }
+
+        const usernamePrefix = captured[1];
+
+        this.startNewRequest(usernamePrefix);
+
+        const data = await this.autocompleteUsersInTeam(usernamePrefix);
+
+        if (this.shouldCancelDispatch(usernamePrefix)) {
+            return;
+        }
+
+        const users = Object.assign([], data.users);
+        const mentions = users.map((user) => user.username);
+
+        resultsCallback({
+            matchedPretext: usernamePrefix,
+            terms: mentions,
+            items: users,
+            component: SearchUserSuggestion,
+        });
+    }
+
     allowDividers() {
-        return false;
+        return true;
     }
 }

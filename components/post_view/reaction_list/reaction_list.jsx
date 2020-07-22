@@ -1,15 +1,18 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {OverlayTrigger, Tooltip} from 'react-bootstrap';
+import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import Permissions from 'mattermost-redux/constants/permissions';
 
 import Constants from 'utils/constants';
 import Reaction from 'components/post_view/reaction';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
+import AddReactionIcon from 'components/widgets/icons/add_reaction_icon';
+import OverlayTrigger from 'components/overlay_trigger';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 import {localizeMessage} from 'utils/utils.jsx';
 
@@ -122,7 +125,7 @@ export default class ReactionList extends React.PureComponent {
                 <Tooltip id='addReactionTooltip'>
                     <FormattedMessage
                         id='reaction_list.addReactionTooltip'
-                        defaultMessage='Add reaction'
+                        defaultMessage='Add a reaction'
                     />
                 </Tooltip>
             );
@@ -138,18 +141,18 @@ export default class ReactionList extends React.PureComponent {
                         rightOffset={rightOffset}
                         topOffset={-5}
                     />
-                    <OverlayTrigger
-                        placement='top'
-                        delayShow={Constants.OVERLAY_TIME_DELAY}
-                        overlay={addReactionTooltip}
+                    <ChannelPermissionGate
+                        channelId={this.props.post.channel_id}
+                        teamId={this.props.teamId}
+                        permissions={[Permissions.ADD_REACTION]}
                     >
-                        <ChannelPermissionGate
-                            channelId={this.props.post.channel_id}
-                            teamId={this.props.teamId}
-                            permissions={[Permissions.ADD_REACTION]}
+                        <OverlayTrigger
+                            placement='top'
+                            delayShow={Constants.OVERLAY_TIME_DELAY}
+                            overlay={addReactionTooltip}
                         >
                             <button
-                                aria-label={localizeMessage('reaction.add.ariaLabel', 'add reaction')}
+                                aria-label={localizeMessage('reaction.add.ariaLabel', 'Add a reaction')}
                                 className='style--none post-reaction'
                                 onClick={this.toggleEmojiPicker}
                             >
@@ -158,11 +161,11 @@ export default class ReactionList extends React.PureComponent {
                                     className='post-reaction__add'
                                     ref='addReactionButton'
                                 >
-                                    {'+'}
+                                    <AddReactionIcon/>
                                 </span>
                             </button>
-                        </ChannelPermissionGate>
-                    </OverlayTrigger>
+                        </OverlayTrigger>
+                    </ChannelPermissionGate>
                 </span>
             );
         }
@@ -185,3 +188,4 @@ export default class ReactionList extends React.PureComponent {
         );
     }
 }
+/* eslint-enable react/no-string-refs */

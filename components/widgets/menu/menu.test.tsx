@@ -12,7 +12,7 @@ import Menu from './menu';
 };
 
 jest.mock('utils/utils', () => {
-    const original = require.requireActual('utils/utils');
+    const original = jest.requireActual('utils/utils');
     return {
         ...original,
         isMobile: jest.fn(() => false),
@@ -31,6 +31,7 @@ describe('components/Menu', () => {
 >
   <ul
     className="Menu__content dropdown-menu"
+    onClick={[Function]}
     style={Object {}}
   >
     text
@@ -46,7 +47,7 @@ describe('components/Menu', () => {
                 ariaLabel='test-label'
             >
                 {'text'}
-            </Menu>
+            </Menu>,
         );
 
         expect(wrapper).toMatchInlineSnapshot(`
@@ -58,6 +59,7 @@ describe('components/Menu', () => {
 >
   <ul
     className="Menu__content dropdown-menu"
+    onClick={[Function]}
     style={Object {}}
   >
     text
@@ -77,7 +79,7 @@ describe('components/Menu', () => {
                 ariaLabel='test-label'
             >
                 {'text'}
-            </Menu>
+            </Menu>,
         );
 
         expect(wrapper).toMatchInlineSnapshot(`
@@ -88,6 +90,7 @@ describe('components/Menu', () => {
 >
   <ul
     className="Menu__content dropdown-menu"
+    onClick={[Function]}
     style={Object {}}
   >
     text
@@ -107,7 +110,7 @@ describe('components/Menu', () => {
                 ariaLabel='test-label'
             >
                 {'text'}
-            </Menu>
+            </Menu>,
         );
 
         expect(wrapper).toMatchInlineSnapshot(`
@@ -118,6 +121,7 @@ describe('components/Menu', () => {
 >
   <ul
     className="Menu__content dropdown-menu"
+    onClick={[Function]}
     style={
       Object {
         "bottom": "100%",

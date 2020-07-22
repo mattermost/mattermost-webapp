@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -9,7 +10,7 @@ import {PostRequestTypes} from 'utils/constants';
 
 import {getOldestPostId, getLatestPostId} from 'utils/post_utils.jsx';
 
-import VirtPostList from './post_list_virtualized.jsx';
+import VirtPostList from 'components/post_view/post_list_virtualized/post_list_virtualized';
 
 const MAX_NUMBER_OF_AUTO_RETRIES = 3;
 export const MAX_EXTRA_PAGES_LOADED = 10;
@@ -62,11 +63,25 @@ export default class PostList extends React.PureComponent {
         latestAriaLabelFunc: PropTypes.func,
 
         /*
+         * Used for handling the read logic when unmounting the component
+         */
+        channelManuallyUnread: PropTypes.bool.isRequired,
+
+        /**
+         * Lastest post id of the current post list, this doesnt include timestamps etc, just actual posts
+         */
+        latestPostId: PropTypes.string,
+
+        /*
          * Used for passing down to virt list so it can change the chunk of posts selected
          */
         changeUnreadChunkTimeStamp: PropTypes.func.isRequired,
 
-        prevChannelId: PropTypes.string.isRequired,
+        /*
+         * Used for skipping the call on load
+         */
+        isPrefetchingInProcess: PropTypes.bool.isRequired,
+
         actions: PropTypes.shape({
 
             /*
@@ -100,9 +115,11 @@ export default class PostList extends React.PureComponent {
              */
             loadLatestPosts: PropTypes.func.isRequired,
 
-            markChannelAsViewed: PropTypes.func.isRequred,
+            markChannelAsViewed: PropTypes.func.isRequired,
 
-            markChannelAsRead: PropTypes.func.isRequred,
+            markChannelAsRead: PropTypes.func.isRequired,
+            updateNewMessagesAtInChannel: PropTypes.func.isRequired,
+
         }).isRequired,
     }
 
@@ -122,6 +139,7 @@ export default class PostList extends React.PureComponent {
             checkAndSetMobileView: props.actions.checkAndSetMobileView,
             canLoadMorePosts: this.canLoadMorePosts,
             changeUnreadChunkTimeStamp: props.changeUnreadChunkTimeStamp,
+            updateNewMessagesAtInChannel: this.props.actions.updateNewMessagesAtInChannel,
         };
     }
 
@@ -139,28 +157,37 @@ export default class PostList extends React.PureComponent {
     }
 
     componentWillUnmount() {
+        if (!this.props.channelManuallyUnread) {
+            this.markChannelAsReadAndViewed(this.props.channelId);
+        }
+
         this.mounted = false;
     }
 
     postsOnLoad = async (channelId) => {
-        if (this.props.focusedPostId) {
-            await this.props.actions.loadPostsAround(channelId, this.props.focusedPostId);
-        } else if (this.props.isFirstLoad) {
-            await this.props.actions.loadUnreads(channelId);
-        } else if (this.props.latestPostTimeStamp) {
-            await this.props.actions.syncPostsInChannel(channelId, this.props.latestPostTimeStamp, false);
+        const {focusedPostId, isFirstLoad, latestPostTimeStamp, isPrefetchingInProcess, actions} = this.props;
+        if (focusedPostId) {
+            await actions.loadPostsAround(channelId, this.props.focusedPostId);
+        } else if (isFirstLoad) {
+            if (!isPrefetchingInProcess) {
+                await actions.loadUnreads(channelId);
+            }
+        } else if (latestPostTimeStamp) {
+            await actions.syncPostsInChannel(channelId, this.props.latestPostTimeStamp, false);
         } else {
-            await this.props.actions.loadLatestPosts(channelId);
+            await actions.loadLatestPosts(channelId);
         }
 
-        if (!this.props.focusedPostId) {
-            this.markChannelAsReadAndViewed();
+        if (!focusedPostId) {
+            this.markChannelAsReadAndViewed(channelId);
         }
 
-        this.setState({
-            loadingOlderPosts: false,
-            loadingNewerPosts: false,
-        });
+        if (this.mounted) {
+            this.setState({
+                loadingOlderPosts: false,
+                loadingNewerPosts: false,
+            });
+        }
     }
 
     callLoadPosts = async (channelId, postId, type) => {
@@ -196,15 +223,11 @@ export default class PostList extends React.PureComponent {
         return {error};
     }
 
-    markChannelAsReadAndViewed = () => {
-        const currentChannelId = this.props.channelId;
-        const prevChannelId = this.props.prevChannelId;
-
-        // Mark previous and next channel as read
+    markChannelAsReadAndViewed = (channelId) => {
         // Posts are marked as read from here to not cause a race when loading posts
         // marking channel as read and viewed after calling for posts in channel
-        this.props.actions.markChannelAsViewed(currentChannelId, prevChannelId);
-        this.props.actions.markChannelAsRead(currentChannelId, prevChannelId);
+        this.props.actions.markChannelAsViewed(channelId);
+        this.props.actions.markChannelAsRead(channelId);
     }
 
     getOldestVisiblePostId = () => {
@@ -297,6 +320,7 @@ export default class PostList extends React.PureComponent {
                             postListIds={this.props.formattedPostIds}
                             latestPostTimeStamp={this.props.latestPostTimeStamp}
                             latestAriaLabelFunc={this.props.latestAriaLabelFunc}
+                            latestPostId={this.props.latestPostId}
                         />
                     </div>
                 </div>
@@ -304,3 +328,4 @@ export default class PostList extends React.PureComponent {
         );
     }
 }
+/* eslint-enable react/no-string-refs */

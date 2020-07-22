@@ -14,7 +14,7 @@ import {logout, loadMe} from 'mattermost-redux/actions/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId, getMyTeams, getTeam, getMyTeamMember, getTeamMemberships} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUser, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {getCurrentChannelStats, getCurrentChannelId, getMyChannelMember, getRedirectChannelNameForTeam, getChannelsNameMapInTeam} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentChannelStats, getCurrentChannelId, getMyChannelMember, getRedirectChannelNameForTeam, getChannelsNameMapInTeam, getAllDirectChannels} from 'mattermost-redux/selectors/entities/channels';
 import {ChannelTypes} from 'mattermost-redux/action_types';
 
 import {browserHistory} from 'utils/browser_history';
@@ -62,9 +62,8 @@ export function emitChannelClickEvent(channel) {
         const isRHSOpened = getIsRhsOpen(state);
         const isPinnedPostsShowing = getRhsState(state) === RHSStates.PIN;
         const member = getMyChannelMember(state, chan.id);
-
+        const currentChannelId = getCurrentChannelId(state);
         dispatch(getChannelStats(chan.id));
-
         if (chan.delete_at === 0) {
             const penultimate = LocalStorageStore.getPreviousChannelName(userId, teamId);
             if (penultimate !== chan.name) {
@@ -79,7 +78,9 @@ export function emitChannelClickEvent(channel) {
             dispatch(updateRhsState(RHSStates.PIN, chan.id));
         }
 
-        loadProfilesForSidebar();
+        if (currentChannelId) {
+            loadProfilesForSidebar();
+        }
 
         dispatch(batchActions([{
             type: ChannelTypes.SELECT_CHANNEL,
@@ -100,11 +101,19 @@ export function emitChannelClickEvent(channel) {
             },
             () => {
                 browserHistory.push('/' + this.state.currentTeam.name);
-            }
+            },
         );
     } else {
         switchToChannel(channel);
     }
+}
+
+export function updateNewMessagesAtInChannel(channelId, last_viewed_at = Date.now()) {
+    return {
+        type: ActionTypes.UPDATE_CHANNEL_LAST_VIEWED_AT,
+        channel_id: channelId,
+        last_viewed_at,
+    };
 }
 
 export function emitCloseRightHandSide() {
@@ -131,14 +140,6 @@ export function showChannelNameUpdateModal(channel) {
         type: ActionTypes.TOGGLE_CHANNEL_NAME_UPDATE_MODAL,
         value: true,
         channel,
-    });
-}
-
-export function showGetPostLinkModal(post) {
-    AppDispatcher.handleViewAction({
-        type: ActionTypes.TOGGLE_GET_POST_LINK_MODAL,
-        value: true,
-        post,
     });
 }
 
@@ -275,7 +276,7 @@ export function emitBrowserFocus(focus) {
     });
 }
 
-async function getTeamRedirectChannelIfIsAccesible(user, team) {
+export async function getTeamRedirectChannelIfIsAccesible(user, team) {
     let state = getState();
     let channel = null;
 
@@ -292,8 +293,14 @@ async function getTeamRedirectChannelIfIsAccesible(user, team) {
         teamChannels = getChannelsNameMapInTeam(state, team.id);
     }
 
-    let channelName = LocalStorageStore.getPreviousChannelName(user.id, team.id);
+    const channelName = LocalStorageStore.getPreviousChannelName(user.id, team.id);
     channel = teamChannels[channelName];
+
+    if (typeof channel === 'undefined') {
+        const dmList = getAllDirectChannels(state);
+        channel = dmList.find((directChannel) => directChannel.name === channelName);
+    }
+
     let channelMember = getMyChannelMember(state, channel && channel.id);
 
     if (!channel || !channelMember) {
@@ -306,8 +313,8 @@ async function getTeamRedirectChannelIfIsAccesible(user, team) {
     }
 
     if (!channel || !channelMember) {
-        channelName = getRedirectChannelNameForTeam(state, team.id);
-        channel = teamChannels[channelName];
+        const redirectedChannelName = getRedirectChannelNameForTeam(state, team.id);
+        channel = teamChannels[redirectedChannelName];
         channelMember = getMyChannelMember(state, channel && channel.id);
     }
 
@@ -344,7 +351,7 @@ export async function redirectUserToDefaultTeam() {
     }
 
     const team = getTeam(state, teamId);
-    if (team) {
+    if (team && team.delete_at === 0) {
         const channel = await getTeamRedirectChannelIfIsAccesible(user, team);
         if (channel) {
             dispatch(selectChannel(channel.id));

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import BackButton from 'components/common/back_button.jsx';
+import BackButton from 'components/common/back_button';
 import SuccessIcon from 'components/widgets/icons/fa_success_icon';
 
 export default class ShouldVerifyEmail extends React.PureComponent {

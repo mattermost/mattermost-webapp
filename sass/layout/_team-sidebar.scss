@@ -6,7 +6,7 @@
     position: fixed;
     text-align: center;
     width: 65px;
-    z-index: 13;
+    z-index: 17;
 
     body.announcement-bar--fixed & {
         height: calc(100% - #{$announcement-bar-height});
@@ -45,6 +45,66 @@
             text-align: center;
             width: 100%;
 
+            &:before {
+                @include border-radius(4px);
+                content: '';
+                transform-origin: center center;
+                position: absolute;
+                top: 0;
+                left: 0;
+                transition: all 0.1s;
+                width: 8px;
+                height: 32px;
+            }
+
+            &:not(.unread) {
+                &:before {
+                    transform: translateX(-100%) translateY(22%) scaleY(0);
+                }
+            }
+
+            &.isDragging {
+                transition-timing-function: ease-in;
+                &:before,
+                &:hover::before,
+                &.unread:before,
+                &.active:before  {
+                    transform: translateX(-100%) translateY(22%) scaleY(0);
+                }
+            }
+
+            &:hover::before {
+                transform: translateX(-50%) translateY(22%) scaleY(1);
+            }
+
+            &.special {
+                &:before {
+                    display: none;
+                }
+            }
+
+            &.active {
+                &:before {
+                    transform: translateX(-50%) translateY(22%) scaleY(1.25);
+                }
+
+                &:hover::before {
+                    transform: translateX(-50%) translateY(22%) scaleY(1);
+                }
+            }
+
+            &.unread {
+                &:before {
+                    border-radius: 100%;
+                    transform: translateX(0px) translateY(22%) scaleX(0.8) scaleY(0.2);
+                }
+
+                &:hover::before {
+                    border-radius: 8px;
+                    transform: translateX(-50%) translateY(22%) scaleY(1);
+                }
+            }
+
             a {
                 display: block;
                 height: 100%;
@@ -57,37 +117,48 @@
                 }
             }
 
+            .TeamIcon__content {
+                @include opacity(.5);
+                &:hover {
+                    @include opacity(.8);
+
+                    &.no-hover {
+                        @include opacity(.5);
+                    }
+                }
+            }
+
             button {
                 border: none;
                 padding: 0;
                 text-decoration: none;
             }
 
-            &.active:before {
-                @include border-radius(4px);
-                background: $black;
-                content: '';
-                height: 42px;
-                left: 0;
-                position: absolute;
-                top: 1px;
-                width: 5px;
-            }
-
-            &.unread:before {
-                background: $black;
-                border-radius: 50%;
-                content: '';
-                height: 5px;
-                left: 0;
-                position: absolute;
-                top: 18px;
-                width: 5px;
-            }
 
             a.team-disabled {
                 @include opacity(.5);
                 cursor: not-allowed;
+            }
+
+            .team-btn {
+                color: var(--sidebar-header-text-color);
+            }
+
+            .order-indicator {
+                position: absolute;
+                width: 16px;
+                height: 16px;
+                left: 12px;
+                top: 28px;
+                background: #000000;
+                border-radius: 4px;
+                display: flex;
+                justify-content: center;
+                text-align: center;
+                color: #FFFFFF;
+                font-style: normal;
+                font-weight: 500;
+                font-size: 12px;
             }
         }
 
@@ -108,5 +179,11 @@
 
     .app__content {
         margin-left: 285px;
+    }
+    .team-sidebar {
+        .team-wrapper {
+            .team-container {
+            }
+        }
     }
 }

@@ -5,7 +5,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 
-export default class RootPortal extends React.Component {
+export default class RootPortal extends React.PureComponent {
     static propTypes = {
         children: PropTypes.node,
     }
@@ -16,11 +16,17 @@ export default class RootPortal extends React.Component {
     }
 
     componentDidMount() {
-        document.getElementById('root-portal').appendChild(this.el);
+        const rootPortal = document.getElementById('root-portal');
+        if (rootPortal) {
+            rootPortal.appendChild(this.el);
+        }
     }
 
     componentWillUnmount() {
-        document.getElementById('root-portal').removeChild(this.el);
+        const rootPortal = document.getElementById('root-portal');
+        if (rootPortal) {
+            rootPortal.removeChild(this.el);
+        }
     }
 
     render() {

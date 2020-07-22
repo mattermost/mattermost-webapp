@@ -1,8 +1,84 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`messageHtmlToComponent At mention 1`] = `
+<p>
+  <span
+    className="mention--highlight"
+  >
+    <span
+      data-mention="joram"
+    >
+      <Memo(Connect(AtMention))
+        disableGroupHighlight={false}
+        disableHighlight={false}
+        hasMention={true}
+        isRHS={false}
+        mentionName="joram"
+      >
+        @joram
+      </Memo(Connect(AtMention))>
+    </span>
+  </span>
+</p>
+`;
+
+exports[`messageHtmlToComponent At mention 2`] = `
+<p>
+  <span
+    data-mention="joram"
+  >
+    <Memo(Connect(AtMention))
+      disableGroupHighlight={false}
+      disableHighlight={true}
+      hasMention={true}
+      isRHS={false}
+      mentionName="joram"
+    >
+      @joram
+    </Memo(Connect(AtMention))>
+  </span>
+</p>
+`;
+
+exports[`messageHtmlToComponent At mention with group highlight disabled 1`] = `
+<p>
+  <span
+    data-mention="developers"
+  >
+    <Memo(Connect(AtMention))
+      disableGroupHighlight={false}
+      disableHighlight={false}
+      hasMention={true}
+      isRHS={false}
+      mentionName="developers"
+    >
+      @developers
+    </Memo(Connect(AtMention))>
+  </span>
+</p>
+`;
+
+exports[`messageHtmlToComponent At mention with group highlight disabled 2`] = `
+<p>
+  <span
+    data-mention="developers"
+  >
+    <Memo(Connect(AtMention))
+      disableGroupHighlight={true}
+      disableHighlight={false}
+      hasMention={true}
+      isRHS={false}
+      mentionName="developers"
+    >
+      @developers
+    </Memo(Connect(AtMention))>
+  </span>
+</p>
+`;
+
 exports[`messageHtmlToComponent Inline markdown image 1`] = `
 <div
-  className="style--none"
+  className="markdown-inline-img__container"
 >
   <MarkdownImage
     alt="Mattermost"
@@ -10,14 +86,24 @@ exports[`messageHtmlToComponent Inline markdown image 1`] = `
     imageIsLink={false}
     imageMetadata={Object {}}
     postId="post_id"
+    postType="system_header_change"
     src="/images/icon.png"
   />
+   and a 
+  <a
+    className="theme markdown__link"
+    href="http://link"
+    rel="noreferrer"
+    target="_blank"
+  >
+    link
+  </a>
 </div>
 `;
 
 exports[`messageHtmlToComponent Inline markdown image where image is link 1`] = `
 <div
-  className="style--none"
+  className="markdown-inline-img__container"
 >
   <a
     className="theme markdown__link"
@@ -31,6 +117,7 @@ exports[`messageHtmlToComponent Inline markdown image where image is link 1`] = 
       imageIsLink={true}
       imageMetadata={Object {}}
       postId="post_id"
+      postType="system_header_change"
       src="images/icon.png"
     />
   </a>
@@ -44,10 +131,10 @@ Array [
   </p>,
   "
 ",
-  <Connect(LatexBlock)
+  <Memo(Connect(LatexBlock))
     content="x^2 + y^2 = z^2"
   />,
-  <Connect(LatexBlock)
+  <Memo(Connect(LatexBlock))
     content="F_m - 2 = F_0 F_1 \\\\dots F_{m-1}"
   />,
   <p>
@@ -66,9 +153,18 @@ exports[`messageHtmlToComponent link with enabled a tooltip plugin 1`] = `
     target="_blank"
   >
     <LinkTooltip
+      attributes={
+        Object {
+          "class": "theme markdown__link",
+          "href": "http://www.dolor.com",
+          "rel": "noreferrer",
+          "target": "_blank",
+        }
+      }
       href="http://www.dolor.com"
-      title="www.dolor.com"
-    />
+    >
+      www.dolor.com
+    </LinkTooltip>
   </a>
    sit amet
 </p>

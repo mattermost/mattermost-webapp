@@ -4,6 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
+import {Constants} from 'utils/constants';
 import SystemUserDetail from 'components/admin_console/system_user_detail/system_user_detail.jsx';
 
 jest.mock('actions/admin_actions.jsx');
@@ -61,6 +62,7 @@ describe('components/admin_console/system_user_detail', () => {
                 ...defaultProps.user,
                 mfa_active: 'MFA',
             },
+            mfaEnabled: true,
         };
         const wrapper = shallow(<SystemUserDetail {...props}/>);
         expect(wrapper).toMatchSnapshot();
@@ -73,6 +75,31 @@ describe('components/admin_console/system_user_detail', () => {
                 ...defaultProps.user,
                 nickname: null,
             },
+        };
+        const wrapper = shallow(<SystemUserDetail {...props}/>);
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot if LDAP Authentication', () => {
+        const props = {
+            ...defaultProps,
+            user: {
+                ...defaultProps.user,
+                auth_service: Constants.LDAP_SERVICE,
+            },
+        };
+        const wrapper = shallow(<SystemUserDetail {...props}/>);
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot if SAML Authentication', () => {
+        const props = {
+            ...defaultProps,
+            user: {
+                ...defaultProps.user,
+                auth_service: Constants.SAML_SERVICE,
+            },
+            mfaEnabled: true,
         };
         const wrapper = shallow(<SystemUserDetail {...props}/>);
         expect(wrapper).toMatchSnapshot();

@@ -1,19 +1,21 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {OverlayTrigger, Tooltip} from 'react-bootstrap';
+import {Tooltip} from 'react-bootstrap';
 
 import {Posts} from 'mattermost-redux/constants';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
-import Constants from 'utils/constants';
-import CommentIcon from 'components/common/comment_icon.jsx';
+import Constants, {Locations} from 'utils/constants';
+import CommentIcon from 'components/common/comment_icon';
 import DotMenu from 'components/dot_menu';
+import OverlayTrigger from 'components/overlay_trigger';
 import PostFlagIcon from 'components/post_view/post_flag_icon';
 import PostReaction from 'components/post_view/post_reaction';
 import PostTime from 'components/post_view/post_time';
@@ -97,13 +99,30 @@ export default class PostInfo extends React.PureComponent {
          */
         isReadOnly: PropTypes.bool,
 
+        /**
+         * To check if the state of emoji for last message and from where it was emitted
+         */
+        shortcutReactToLastPostEmittedFrom: PropTypes.string,
+
+        /**
+         * To Check if the current post is last in the list
+         */
+        isLastPost: PropTypes.bool,
+
         actions: PropTypes.shape({
 
-            /*
+            /**
              * Function to remove the post
              */
             removePost: PropTypes.func.isRequired,
+
+            /**
+             * Function to set or unset emoji picker for last message
+             */
+            emitShortcutReactToLastPostFrom: PropTypes.func,
         }).isRequired,
+
+        shouldShowDotMenu: PropTypes.bool.isRequired,
     };
 
     constructor(props) {
@@ -111,13 +130,19 @@ export default class PostInfo extends React.PureComponent {
 
         this.state = {
             showEmojiPicker: false,
+            showOptionsMenuWithoutHover: false,
         };
+
+        this.postHeaderRef = React.createRef();
     }
 
     toggleEmojiPicker = () => {
         const showEmojiPicker = !this.state.showEmojiPicker;
 
-        this.setState({showEmojiPicker});
+        this.setState({
+            showEmojiPicker,
+            showOptionsMenuWithoutHover: false,
+        });
         this.props.handleDropdownOpened(showEmojiPicker || this.state.showDotMenu);
     };
 
@@ -147,12 +172,12 @@ export default class PostInfo extends React.PureComponent {
     };
 
     buildOptions = (post, isSystemMessage, fromAutoResponder) => {
-        if (!PostUtils.shouldShowDotMenu(post)) {
+        if (!this.props.shouldShowDotMenu) {
             return null;
         }
 
         const {isMobile, isReadOnly} = this.props;
-        const hover = this.props.hover || this.state.showEmojiPicker || this.state.showDotMenu;
+        const hover = this.props.hover || this.state.showEmojiPicker || this.state.showDotMenu || this.state.showOptionsMenuWithoutHover;
 
         const showCommentIcon = fromAutoResponder ||
         (!isSystemMessage && (isMobile || hover || (!post.root_id && Boolean(this.props.replyCount)) || this.props.isFirstReply));
@@ -195,8 +220,20 @@ export default class PostInfo extends React.PureComponent {
                     handleCommentClick={this.props.handleCommentClick}
                     handleDropdownOpened={this.handleDotMenuOpened}
                     handleAddReactionClick={this.toggleEmojiPicker}
+                    isMenuOpen={this.state.showDotMenu}
                     isReadOnly={isReadOnly}
                     enableEmojiPicker={this.props.enableEmojiPicker}
+                />
+            );
+        }
+
+        const showFlagIcon = !isSystemMessage && !isMobile && (hover || this.props.isFlagged);
+        let postFlagIcon;
+        if (showFlagIcon) {
+            postFlagIcon = (
+                <PostFlagIcon
+                    postId={post.id}
+                    isFlagged={this.props.isFlagged}
                 />
             );
         }
@@ -204,14 +241,57 @@ export default class PostInfo extends React.PureComponent {
         return (
             <div
                 ref='dotMenu'
-                className={'col col__reply'}
+                data-testid={`post-menu-${post.id}`}
+                className={'col post-menu'}
             >
                 {dotMenu}
                 {postReaction}
+                {postFlagIcon}
                 {commentIcon}
             </div>
         );
     };
+
+    handleShortcutReactToLastPost = (isLastPost) => {
+        if (isLastPost) {
+            const {post, isReadOnly, enableEmojiPicker, isMobile,
+                actions: {emitShortcutReactToLastPostFrom}} = this.props;
+
+            // Setting the last message emoji action to empty to clean up the redux state
+            emitShortcutReactToLastPostFrom(Locations.NO_WHERE);
+
+            // Following are the types of posts on which adding reaction is not possible
+            const isDeletedPost = post && post.state === Posts.POST_DELETED;
+            const isEphemeralPost = post && Utils.isPostEphemeral(post);
+            const isSystemMessage = post && PostUtils.isSystemMessage(post);
+            const isAutoRespondersPost = post && PostUtils.fromAutoResponder(post);
+            const isFailedPost = post && post.failed;
+
+            // Checking if post is at scroll view of the user
+            const boundingRectOfPostInfo = this.postHeaderRef.current.getBoundingClientRect();
+            const isPostHeaderVisibleToUser = (boundingRectOfPostInfo.top - 65) > 0 &&
+                boundingRectOfPostInfo.bottom < (window.innerHeight - 85);
+
+            if (isPostHeaderVisibleToUser && !isEphemeralPost && !isSystemMessage && !isAutoRespondersPost &&
+                    !isFailedPost && !isDeletedPost && !isReadOnly && !isMobile && enableEmojiPicker) {
+                this.setState({
+                    showOptionsMenuWithoutHover: true,
+                }, () => {
+                    this.toggleEmojiPicker();
+                });
+            }
+        }
+    }
+
+    componentDidUpdate(prevProps) {
+        const {shortcutReactToLastPostEmittedFrom, isLastPost} = this.props;
+
+        const shortcutReactToLastPostEmittedFromCenter = prevProps.shortcutReactToLastPostEmittedFrom !== shortcutReactToLastPostEmittedFrom &&
+        shortcutReactToLastPostEmittedFrom === Locations.CENTER;
+        if (shortcutReactToLastPostEmittedFromCenter) {
+            this.handleShortcutReactToLastPost(isLastPost);
+        }
+    }
 
     render() {
         const post = this.props.post;
@@ -219,18 +299,6 @@ export default class PostInfo extends React.PureComponent {
         const isEphemeral = Utils.isPostEphemeral(post);
         const isSystemMessage = PostUtils.isSystemMessage(post);
         const fromAutoResponder = PostUtils.fromAutoResponder(post);
-
-        const showFlagIcon = !isEphemeral && !post.failed && !isSystemMessage && (this.props.hover || this.props.isFlagged);
-        let postFlagIcon;
-        if (showFlagIcon) {
-            postFlagIcon = (
-                <PostFlagIcon
-                    postId={post.id}
-                    isFlagged={this.props.isFlagged}
-                    isEphemeral={isEphemeral}
-                />
-            );
-        }
 
         let postInfoIcon;
         if (post.props && post.props.card) {
@@ -286,18 +354,6 @@ export default class PostInfo extends React.PureComponent {
             );
         }
 
-        let pinnedBadge;
-        if (post.is_pinned) {
-            pinnedBadge = (
-                <span className='post__pinned-badge'>
-                    <FormattedMessage
-                        id='post_info.pinned'
-                        defaultMessage='Pinned'
-                    />
-                </span>
-            );
-        }
-
         const showPostTime = this.props.hover || this.props.showTimeWithoutHover;
         let postTime;
         if (showPostTime) {
@@ -314,12 +370,13 @@ export default class PostInfo extends React.PureComponent {
         }
 
         return (
-            <div className='post__header--info'>
+            <div
+                className='post__header--info'
+                ref={this.postHeaderRef}
+            >
                 <div className='col'>
                     {postTime}
-                    {pinnedBadge}
                     {postInfoIcon}
-                    {postFlagIcon}
                     {visibleMessage}
                 </div>
                 {options}
@@ -327,3 +384,4 @@ export default class PostInfo extends React.PureComponent {
         );
     }
 }
+/* eslint-enable react/no-string-refs */

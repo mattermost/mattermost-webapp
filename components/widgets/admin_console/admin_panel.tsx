@@ -10,7 +10,7 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 type Props = {
     id?: string;
-    className: string;
+    className?: string;
     onHeaderClick?: React.EventHandler<React.MouseEvent>;
     titleId: string;
     titleDefault: string;
@@ -23,7 +23,7 @@ type Props = {
 
 const AdminPanel: React.FC<Props> = (props: Props) => (
     <div
-        className={'AdminPanel ' + props.className}
+        className={'AdminPanel clearfix ' + props.className}
         id={props.id}
     >
         <div
@@ -37,13 +37,13 @@ const AdminPanel: React.FC<Props> = (props: Props) => (
                         defaultMessage={props.titleDefault}
                     />
                 </h3>
-                <span>
+                <div className='mt-2'>
                     <FormattedMarkdownMessage
                         id={props.subtitleId}
                         defaultMessage={props.subtitleDefault}
                         values={props.subtitleValues}
                     />
-                </span>
+                </div>
             </div>
             {props.button &&
                 <div className='button'>

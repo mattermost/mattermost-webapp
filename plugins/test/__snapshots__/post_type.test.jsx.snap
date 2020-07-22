@@ -2,6 +2,7 @@
 
 exports[`plugins/PostMessageView should match snapshot with extended post type 1`] = `
 <PostMessageView
+  currentRelativeTeamUrl="team_url"
   currentUser={
     Object {
       "username": "username",
