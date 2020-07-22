@@ -10,6 +10,7 @@
 // Group: @messaging
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
+import * as MESSAGES from '../../fixtures/messages';
 
 describe('Messaging', () => {
     before(() => {
@@ -19,9 +20,69 @@ describe('Messaging', () => {
         });
     });
 
+    it('At-mention user autocomplete should open below the textbox in RHS when only one message is present', () => {
+        // # Add a single message to center textbox
+        cy.postMessage(MESSAGES.TINY);
+
+        // # Mouseover the last post and click post comment icon to open in RHS
+        cy.clickPostCommentIcon();
+
+        // * Check that the RHS is open
+        cy.get('#rhsContainer').should('be.visible');
+
+        // # Enter @ to allow opening of autocomplete box
+        cy.get('#reply_textbox', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').clear().type('@');
+
+        cy.get('#reply_textbox').then((replyTextbox) => {
+            cy.get('#suggestionList').then((suggestionList) => {
+                // * Verify that the suggestion box opened below the textbox
+                expect(replyTextbox[0].getBoundingClientRect().top).to.be.lessThan(suggestionList[0].getBoundingClientRect().top);
+            });
+        });
+
+        // # Close the RHS
+        cy.closeRHS();
+    });
+
+    it('At-mention user autocomplete should open above the textbox in RHS is filled with messages', () => {
+        // # Add a single message to center textbox
+        cy.postMessage(MESSAGES.TINY);
+
+        // # Mouseover the last post and click post comment icon to open in RHS
+        cy.clickPostCommentIcon();
+
+        // * Check that the RHS is open
+        cy.get('#rhsContainer').should('be.visible');
+
+        // # Make a series of post so we are way past the first message in terms of scroll
+        cy.get('#reply_textbox').
+            clear().
+            invoke('val', MESSAGES.HUGE).
+            wait(TIMEOUTS.ONE_SEC).
+            type(' {backspace}{enter}');
+        cy.get('#reply_textbox').
+            clear().
+            invoke('val', MESSAGES.HUGE).
+            wait(TIMEOUTS.ONE_SEC).
+            type(' {backspace}{enter}');
+
+        // # Enter @ to allow opening of autocomplete box
+        cy.get('#reply_textbox', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').clear().type('@');
+
+        cy.get('#reply_textbox').then((replyTextbox) => {
+            cy.get('#suggestionList').then((suggestionList) => {
+                // * Verify that the suggestion box opened above the textbox
+                expect(replyTextbox[0].getBoundingClientRect().top).to.be.greaterThan(suggestionList[0].getBoundingClientRect().top);
+            });
+        });
+
+        // # Close the RHS
+        cy.closeRHS();
+    });
+
     it('M18667-At-mention user autocomplete does not overlap with channel header when drafting a long message containing a file attachment (standard viewport)', () => {
         // # Upload file, add message, add mention, verify no overlap
-        addAutocompleteThenVerifyNoOverlap();
+        uploadFileAndAddAutocompleteThenVerifyNoOverlap();
     });
 
     it('M18667-At-mention user autocomplete does not overlap with channel header when drafting a long message containing a file attachment (1280x900 viewport)', () => {
@@ -29,11 +90,11 @@ describe('Messaging', () => {
         cy.viewport(1280, 900);
 
         // # Upload file, add message, add mention, verify no overlap
-        addAutocompleteThenVerifyNoOverlap();
+        uploadFileAndAddAutocompleteThenVerifyNoOverlap();
     });
 });
 
-function addAutocompleteThenVerifyNoOverlap() {
+function uploadFileAndAddAutocompleteThenVerifyNoOverlap() {
     // # Upload file
     cy.get('#fileUploadInput').attachFile('mattermost-icon.png');
 

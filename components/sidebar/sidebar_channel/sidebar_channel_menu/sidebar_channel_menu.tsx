@@ -100,6 +100,7 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
                 channelIdsToAdd: [this.props.channel.id],
             },
         });
+        trackEvent('ui', 'ui_sidebar_channel_menu_createCategory');
     }
 
     copyLink = () => {
