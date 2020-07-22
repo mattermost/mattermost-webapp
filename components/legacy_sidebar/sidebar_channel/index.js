@@ -157,4 +157,4 @@ function botIconImageUrl(botUser) {
     return `${Client4.getBotRoute(botUser.id)}/icon?_=${(botUser.bot_last_icon_update || 0)}`;
 }
 
-export default connect(makeMapStateToProps, mapDispatchToProps, null, {withRef: true})(SidebarChannel);
+export default connect(makeMapStateToProps, mapDispatchToProps, null, {forwardRef: true})(SidebarChannel);

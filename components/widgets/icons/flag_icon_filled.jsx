@@ -10,13 +10,13 @@ export default class FlagIconFilled extends React.PureComponent {
             <span {...this.props}>
                 <FormattedMessage
                     id='generic_icons.flagged'
-                    defaultMessage='Flagged Icon'
+                    defaultMessage='Saved Icon'
                 >
                     {(ariaLabel) => (
                         <svg
-                            width='16px'
-                            height='16px'
-                            viewBox='0 0 16 16'
+                            width='12px'
+                            height='15px'
+                            viewBox='0 0 12 15'
                             role='img'
                             aria-label={ariaLabel}
                         >
@@ -34,7 +34,7 @@ export default class FlagIconFilled extends React.PureComponent {
                                     <g transform='translate(-1.000000, 0.000000)'>
                                         <g transform='translate(1064.000000, 22.000000)'>
                                             <g transform='translate(10.000000, 11.000000)'>
-                                                <path d='M8,1 L2,1 C2,0.447 1.553,0 1,0 C0.447,0 0,0.447 0,1 L0,15.5 C0,15.776 0.224,16 0.5,16 L1.5,16 C1.776,16 2,15.776 2,15.5 L2,11 L7,11 L7,12 C7,12.553 7.447,13 8,13 L15,13 C15.553,13 16,12.553 16,12 L16,4 C16,3.447 15.553,3 15,3 L9,3 L9,2 C9,1.447 8.553,1 8,1 Z'/>
+                                                <path d='M9.76172 0.800049H2.23828C1.83984 0.800049 1.48828 0.952393 1.18359 1.25708C0.902344 1.53833 0.761719 1.88989 0.761719 2.31177V14.3L6 12.05L11.2383 14.3V2.31177C11.2383 1.88989 11.0859 1.53833 10.7812 1.25708C10.5 0.952393 10.1602 0.800049 9.76172 0.800049Z'/>
                                             </g>
                                         </g>
                                     </g>

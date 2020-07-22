@@ -38,7 +38,7 @@ describe('MM-23102 - Channel Moderation - Higher Scoped Scheme', () => {
 
     before(() => {
         // * Check if server has license
-        cy.requireLicense();
+        cy.apiRequireLicense();
     });
 
     beforeEach(() => {

@@ -24,6 +24,7 @@ exports[`components/MoreDirectChannels should exclude deleted users if there is 
       "remove": [Function],
     }
   }
+  onEntered={[Function]}
   onExited={[Function]}
   onHide={[Function]}
   renderBackdrop={[Function]}
@@ -245,6 +246,7 @@ exports[`components/MoreDirectChannels should match snapshot 1`] = `
       "remove": [Function],
     }
   }
+  onEntered={[Function]}
   onExited={[Function]}
   onHide={[Function]}
   renderBackdrop={[Function]}

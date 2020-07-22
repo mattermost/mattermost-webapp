@@ -15,11 +15,10 @@ import {mark, trackEvent} from 'actions/diagnostics_actions';
 import {localizeMessage} from 'utils/utils';
 import {isDesktopApp} from 'utils/user_agent';
 import Constants from 'utils/constants';
-import {browserHistory} from 'utils/browser_history';
 
 import ChannelMentionBadge from '../channel_mention_badge';
-import SidebarChannelClose from '../sidebar_channel_close';
 import SidebarChannelIcon from '../sidebar_channel_icon';
+import SidebarChannelMenu from '../sidebar_channel_menu';
 
 type Props = {
     channel: Channel;
@@ -48,6 +47,11 @@ type Props = {
      * Checks if the current channel is muted
      */
     isMuted: boolean;
+
+    /**
+     * Checks if channel is collapsed
+     */
+    isCollapsed: boolean;
 };
 
 type State = {
@@ -55,7 +59,7 @@ type State = {
 };
 
 export default class SidebarChannelLink extends React.PureComponent<Props, State> {
-    labelRef: React.RefObject<HTMLSpanElement>;
+    labelRef: React.RefObject<HTMLDivElement>;
     gmItemRef: React.RefObject<HTMLDivElement>;
 
     constructor(props: Props) {
@@ -81,7 +85,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
 
     // TODO: Is there a better way to do this?
     enableToolTipIfNeeded = () => {
-        const element = this.labelRef.current;
+        const element = this.gmItemRef.current || this.labelRef.current;
         if (element && element.offsetWidth < element.scrollWidth) {
             this.setState({showTooltip: true});
         } else {
@@ -123,11 +127,6 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
         trackEvent('ui', 'ui_channel_selected_v2');
     }
 
-    handleClick = () => {
-        this.trackChannelSelectedEvent();
-        browserHistory.push(this.props.link);
-    }
-
     /**
      * Show as unread if you have unread mentions
      * OR if you have unread messages and the channel can be marked unread by preferences
@@ -138,70 +137,21 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
 
     render() {
         const {link, label, channel, unreadMentions, icon, isMuted} = this.props;
-        const content = (
-            <React.Fragment>
-                <SidebarChannelIcon
-                    channel={channel}
-                    icon={icon}
-                />
-                <span
-                    className={'SidebarChannelLinkLabel'}
-                    ref={this.labelRef}
-                >
-                    {label}
-                </span>
-                <ChannelMentionBadge
-                    channelId={channel.id}
-                    unreadMentions={unreadMentions}
-                />
-                <SidebarChannelClose
-                    channel={channel}
-                    show={!this.showChannelAsUnread()}
-                    closeHandler={this.props.closeHandler}
-                />
-            </React.Fragment>
+
+        let hoverLabel: JSX.Element = (
+            <span
+                className={'SidebarChannelLinkLabel'}
+            >
+                {label}
+            </span>
         );
-
-        let element;
-
-        // NOTE: class added to temporarily support the desktop app's at-mention DOM scraping of the old sidebar
-        const oldUnreadClass = this.showChannelAsUnread() ? 'unread-title' : '';
-        if (isDesktopApp()) {
-            element = (
-                <CopyUrlContextMenu
-                    link={this.props.link}
-                    menuId={channel.id}
-                >
-                    <button
-                        className={classNames(['btn btn-link SidebarLink', {muted: isMuted}, oldUnreadClass])}
-                        aria-label={this.getAriaLabel()}
-                        onClick={this.handleClick}
-                    >
-                        {content}
-                    </button>
-                </CopyUrlContextMenu>
-            );
-        } else {
-            element = (
-                <Link
-                    className={classNames(['SidebarLink', {muted: isMuted}, oldUnreadClass])}
-                    id={`sidebarItem_${channel.name}`}
-                    aria-label={this.getAriaLabel()}
-                    to={link}
-                    onClick={this.trackChannelSelectedEvent}
-                >
-                    {content}
-                </Link>
-            );
-        }
-
         if (this.state.showTooltip) {
             const displayNameToolTip = (
                 <Tooltip id='channel-displayname__tooltip'>
                     {label}
                 </Tooltip>
             );
-            element = (
+            hoverLabel = (
                 <OverlayTrigger
                     delayShow={Constants.OVERLAY_TIME_DELAY}
                     placement='top'
@@ -209,9 +159,61 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
                     onEntering={this.removeTooltipLink}
                 >
                     <div ref={this.gmItemRef}>
-                        {element}
+                        {hoverLabel}
                     </div>
                 </OverlayTrigger>
+            );
+        }
+
+        const content = (
+            <React.Fragment>
+                <SidebarChannelIcon
+                    channel={channel}
+                    icon={icon}
+                />
+                <div
+                    className={'SidebarChannelLinkLabel_wrapper'}
+                    ref={this.labelRef}
+                >
+                    {hoverLabel}
+                </div>
+                <ChannelMentionBadge
+                    channelId={channel.id}
+                    unreadMentions={unreadMentions}
+                />
+                <SidebarChannelMenu
+                    channel={channel}
+                    isUnread={this.showChannelAsUnread()}
+                    isCollapsed={this.props.isCollapsed}
+                    closeHandler={this.props.closeHandler}
+                    channelLink={link}
+                />
+            </React.Fragment>
+        );
+
+        // NOTE: class added to temporarily support the desktop app's at-mention DOM scraping of the old sidebar
+        const oldUnreadClass = this.showChannelAsUnread() ? 'unread-title' : '';
+        let element = (
+            <Link
+                className={classNames(['SidebarLink', {muted: isMuted}, oldUnreadClass])}
+                id={`sidebarItem_${channel.name}`}
+                aria-label={this.getAriaLabel()}
+                to={link}
+                onClick={this.trackChannelSelectedEvent}
+                tabIndex={this.props.isCollapsed ? -1 : 0}
+            >
+                {content}
+            </Link>
+        );
+
+        if (isDesktopApp()) {
+            element = (
+                <CopyUrlContextMenu
+                    link={this.props.link}
+                    menuId={channel.id}
+                >
+                    {element}
+                </CopyUrlContextMenu>
             );
         }
 

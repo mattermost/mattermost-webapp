@@ -33,8 +33,8 @@ const makeMapStateToProps = () => {
         return {
             currentUserId: getCurrentUserId(state),
             currentTeamId: teamId,
-            profilesInChannel: getProfilesInChannel(state, ownProps.channelId, true),
-            profilesNotInChannel: getProfilesNotInChannel(state, ownProps.channelId, true),
+            profilesInChannel: getProfilesInChannel(state, ownProps.channelId, {active: true}),
+            profilesNotInChannel: getProfilesNotInChannel(state, ownProps.channelId, {active: true}),
             autocompleteGroups: getAssociatedGroupsForReference(state, teamId, ownProps.channelId)
         };
     };
@@ -48,4 +48,4 @@ const mapDispatchToProps = (dispatch: Dispatch<GenericAction>) => ({
     }, dispatch),
 });
 
-export default connect(makeMapStateToProps, mapDispatchToProps, null, {withRef: true})(Textbox);
+export default connect(makeMapStateToProps, mapDispatchToProps, null, {forwardRef: true})(Textbox);

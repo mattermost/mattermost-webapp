@@ -26,8 +26,8 @@ describe('Email notification', () => {
         cy.apiEmailTest();
 
         // # Get config
-        cy.apiGetConfig().then((response) => {
-            config = response.body;
+        cy.apiGetConfig().then((data) => {
+            ({config} = data);
         });
 
         cy.apiInitSetup().then(({team, user}) => {
