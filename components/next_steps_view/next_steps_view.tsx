@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import {FormattedMessage} from 'react-intl';
 
 import {PreferenceType} from 'mattermost-redux/types/preferences';
+import {UserProfile} from 'mattermost-redux/types/users';
 
 import Accordion from 'components/accordion';
 import Card from 'components/card/card';
@@ -16,7 +17,7 @@ import {Steps, StepType} from './steps';
 import './next_steps_view.scss';
 
 type Props = {
-    currentUserId: string;
+    currentUser: UserProfile;
     preferences: PreferenceType[];
     skuName: string;
     actions: {
@@ -85,9 +86,9 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
 
     onFinish = (setExpanded: (expandedKey: string) => void) => {
         return (id: string) => {
-            this.props.actions.savePreferences(this.props.currentUserId, [{
+            this.props.actions.savePreferences(this.props.currentUser.id, [{
                 category: Preferences.RECOMMENDED_NEXT_STEPS,
-                user_id: this.props.currentUserId,
+                user_id: this.props.currentUser.id,
                 name: id,
                 value: 'true',
             }]);
@@ -145,6 +146,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                 <Card.Body>
                     <step.component
                         id={step.id}
+                        currentUser={this.props.currentUser}
                         onFinish={this.onFinish(setExpanded)}
                         onSkip={this.onSkip(setExpanded)}
                     />

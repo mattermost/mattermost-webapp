@@ -4,22 +4,39 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {StepComponentProps} from '../steps';
 import PictureSelector from 'components/picture_selector';
+import * as Utils from 'utils/utils';
+
+import {StepComponentProps} from '../steps';
 
 type Props = StepComponentProps & {
 };
 
 type State = {
+    profilePicture?: File;
 };
 
 export default class CompleteProfileStep extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
+        super(props);
+
+        this.state = {};
+    }
+
     onSkip = () => {
         this.props.onSkip(this.props.id);
     }
 
     onFinish = () => {
         this.props.onFinish(this.props.id);
+    }
+
+    onSelectPicture = (profilePicture: File) => {
+        this.setState({profilePicture});
+    }
+
+    onRemovePicture = () => {
+        this.setState({profilePicture: undefined});
     }
 
     render() {
@@ -33,7 +50,12 @@ export default class CompleteProfileStep extends React.PureComponent<Props, Stat
                         minHeight: '200px',
                     }}
                 >
-                    <PictureSelector/>
+                    <PictureSelector
+                        onSelect={this.onSelectPicture}
+                        onRemove={this.onRemovePicture}
+                        src={Utils.imageURLForUser(this.props.currentUser.id, this.props.currentUser.last_picture_update)}
+                        defaultSrc={Utils.defaultImageURLForUser(this.props.currentUser.id)}
+                    />
                 </div>
                 <div className='NextStepsView__wizardButtons'>
                     {/* <button
