@@ -10,6 +10,7 @@ import * as Utils from 'utils/utils.jsx';
 import {format} from 'utils/markdown';
 
 import * as AdminActions from 'actions/admin_actions.jsx';
+import {trackEvent} from 'actions/diagnostics_actions';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
@@ -72,6 +73,11 @@ export default class LicenseSettings extends React.PureComponent {
             if (this.interval) {
                 clearInterval(this.interval);
                 this.interval = null;
+                if (error) {
+                    trackEvent('api', 'upgrade_to_e0_failed', {error});
+                } else {
+                    trackEvent('api', 'upgrade_to_e0_success');
+                }
             }
         } else if (percentage > 0 && !this.interval) {
             this.interval = setInterval(this.reloadPercentage, 2000);
@@ -133,6 +139,7 @@ export default class LicenseSettings extends React.PureComponent {
             this.setState({upgradingPercetage: 1});
             await this.reloadPercentage();
         } catch (error) {
+            trackEvent('api', 'upgrade_to_e0_failed', {error: error.message});
             this.setState({upgradeError: error.message, upgradingPercetage: 0});
         }
     }

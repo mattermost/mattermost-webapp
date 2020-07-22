@@ -389,6 +389,7 @@ export async function setSamlIdpCertificateFromMetadata(success, error, certData
 
 export function upgradeToE0() {
     return async () => {
+        trackEvent('api', 'upgrade_to_e0_requested');
         const data = await Client4.upgradeToEnterprise();
         return data;
     };
