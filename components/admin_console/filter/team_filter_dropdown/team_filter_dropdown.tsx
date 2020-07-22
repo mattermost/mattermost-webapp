@@ -271,7 +271,7 @@ class TeamFilterDropdown extends React.PureComponent<Props, State> {
         let visibleTeams = this.state.searchResults;
         let selectedTeams: JSX.Element[] = [];
         if (this.state.searchTerm.length === 0) {
-            visibleTeams = this.props.teams.filter((team) => !this.state.savedSelectedTeams.some((selectedTeam) => selectedTeam.id === team.id));
+            visibleTeams = this.props.teams.slice(0, (this.state.page + 1) * TEAMS_PER_PAGE).filter((team) => !this.state.savedSelectedTeams.some((selectedTeam) => selectedTeam.id === team.id));
             selectedTeams = this.state.savedSelectedTeams.map(createFilterCheckbox);
         } else {
             visibleTeams = getFilteredTeams(this.state.searchTerm, visibleTeams);
