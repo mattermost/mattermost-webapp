@@ -167,7 +167,7 @@ const notifyMe = (title, body, channel, teamId, silent, soundName) => (dispatch,
                     channel,
                     teamId,
                     silent,
-                    soundName
+                    soundName,
                 },
             },
             window.location.origin,

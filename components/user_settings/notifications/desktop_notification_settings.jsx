@@ -6,12 +6,13 @@ import React from 'react';
 import ReactSelect from 'react-select';
 import {FormattedMessage} from 'react-intl';
 
+import semver from 'semver';
+
 import {NotificationLevels} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
-import semver from 'semver';
 import {isDesktopApp} from 'utils/user_agent';
 
 export default class DesktopNotificationSettings extends React.PureComponent {
@@ -86,7 +87,7 @@ export default class DesktopNotificationSettings extends React.PureComponent {
 
                 let allowNotificationSelection = true;
                 if (isDesktopApp() && window.desktop && semver.lte(window.desktop.version, '4.6.0')) {
-                    allowNotificationSelection = false
+                    allowNotificationSelection = false;
                 }
 
                 if (allowNotificationSelection) {
