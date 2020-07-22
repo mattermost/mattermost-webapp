@@ -82,7 +82,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
             modalId: ModalIdentifiers.EDIT_CATEGORY,
             dialogType: EditCategoryModal,
         });
-        trackEvent('ui', 'ui_sidebar_menu_create_category');
+        trackEvent('ui', 'ui_sidebar_menu_createCategory');
     }
 
     handleCreateCategory = (categoryName: string) => {
