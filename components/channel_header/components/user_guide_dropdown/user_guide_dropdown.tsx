@@ -11,6 +11,7 @@ import UserGuideIcon from 'components/widgets/icons/user_guide_icon';
 import Menu from 'components/widgets/menu/menu';
 import OverlayTrigger from 'components/overlay_trigger';
 import * as GlobalActions from 'actions/global_actions.jsx';
+import {trackEvent} from 'actions/diagnostics_actions.jsx';
 
 const askTheCommunityUrl = 'https://mattermost.com/pl/default-ask-mattermost-community/';
 
@@ -18,6 +19,7 @@ type Props = {
     intl: IntlShape;
     helpLink: string;
     reportAProblemLink: string;
+    enableAskCommunityLink: string;
 };
 
 type State = {
@@ -43,16 +45,23 @@ class UserGuideDropdown extends React.PureComponent<Props, State> {
         });
     }
 
+    askTheCommunityClick = () => {
+        trackEvent('ui', 'help_ask_the_community');
+    }
+
     renderDropdownItems = (): React.ReactNode => {
         const {intl} = this.props;
 
         return (
             <Menu.Group>
-                <Menu.ItemExternalLink
-                    id='askTheCommunityLink'
-                    url={askTheCommunityUrl}
-                    text={intl.formatMessage({id: 'userGuideHelp.askTheCommunity', defaultMessage: 'Ask the community'})}
-                />
+                {this.props.enableAskCommunityLink === 'true' && (
+                    <Menu.ItemExternalLink
+                        id='askTheCommunityLink'
+                        url={askTheCommunityUrl}
+                        text={intl.formatMessage({id: 'userGuideHelp.askTheCommunity', defaultMessage: 'Ask the community'})}
+                        onClick={this.askTheCommunityClick}
+                    />
+                )}
                 <Menu.ItemExternalLink
                     id='helpResourcesLink'
                     url={this.props.helpLink}

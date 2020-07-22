@@ -10,14 +10,16 @@
 // Stage: @prod
 // Group: @menu
 
+import {getAdminAccount} from '../../support/env';
+
 describe('Main menu', () => {
     let testTeam;
     let testUser;
     let testConfig;
-
+    const sysadmin = getAdminAccount();
     before(() => {
-        cy.apiGetConfig().then((response) => {
-            testConfig = response.body;
+        cy.apiGetConfig().then(({config}) => {
+            testConfig = config;
         });
         cy.apiInitSetup().then(({team, user}) => {
             testTeam = team;
@@ -45,6 +47,39 @@ describe('Main menu', () => {
                     cy.get('#keyboardShortcuts button').click();
                     cy.get('#shortcutsModalLabel').should('be.visible');
                 });
+            });
+        });
+
+        it('Should not have askTheCommunityLink button when system console setting is false', () => {
+            cy.apiLogin(sysadmin);
+
+            // # Update config to turn EnableAskCommunityLink config setting
+            cy.apiUpdateConfig({
+                SupportSettings: {
+                    EnableAskCommunityLink: false,
+                },
+            });
+            cy.visit(`/${testTeam.name}/channels/town-square`);
+
+            cy.get('#channel-header').should('be.visible').then(() => {
+                // # Click user help button
+                cy.get('#channelHeaderUserGuideButton').click();
+                cy.get('.dropdown-menu').should('be.visible').then(() => {
+                    // * Check that Ask the community button is not visible
+                    cy.get('#askTheCommunityLink').should('be.not.visible');
+                    cy.get('#helpResourcesLink').should('be.visible');
+                });
+            });
+        });
+
+        it('Should have askTheCommunityLink system console setting', () => {
+            cy.apiLogin(sysadmin);
+            cy.visit('/admin_console/site_config/customization');
+
+            // # Click user help button
+            cy.get('#adminConsoleWrapper').should('be.visible').then(() => {
+                // * Check that enable ask community div exists
+                cy.get("div[data-testid='SupportSettings.EnableAskCommunityLink']").scrollIntoView().should('be.visible');
             });
         });
     });

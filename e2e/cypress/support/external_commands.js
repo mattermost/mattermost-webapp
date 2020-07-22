@@ -3,16 +3,16 @@
 
 import {getAdminAccount} from './env';
 
-/**
- * Add a user to a team directly via API
- * @param {String} teamId - The team ID
- * @param {String} userId - The user ID
- * All parameter required
- */
-
 Cypress.Commands.add('externalAddUserToTeam', (teamId, userId) => {
     const baseUrl = Cypress.config('baseUrl');
     const admin = getAdminAccount();
 
     cy.externalRequest({user: admin, method: 'post', baseUrl, path: `teams/${teamId}/members`, data: {team_id: teamId, user_id: userId}});
+});
+
+Cypress.Commands.add('externalActivateUser', (userId, active = true) => {
+    const baseUrl = Cypress.config('baseUrl');
+    const admin = getAdminAccount();
+
+    cy.externalRequest({user: admin, method: 'put', baseUrl, path: `users/${userId}/active`, data: {active}});
 });
