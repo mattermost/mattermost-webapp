@@ -58,6 +58,7 @@ describe('components/PostMarkdown', () => {
             options: {
                 mentionHighlight: false,
             },
+            post: {},
         };
         const wrapper = shallow(
             <PostMarkdown {...props}/>,
@@ -85,6 +86,7 @@ describe('components/PostMarkdown', () => {
     test('should correctly pass postId down', () => {
         const props = {
             ...baseProps,
+            type: Posts.POST_TYPES.HEADER_CHANGE,
             post: {
                 id: 'post_id',
             },
@@ -157,7 +159,6 @@ describe('components/PostMarkdown', () => {
             ...baseProps,
             message: 'world',
             post: {
-                type: Posts.POST_TYPES.HEADER_CHANGE,
                 message: 'world',
                 props: {
                     channel_mentions: {

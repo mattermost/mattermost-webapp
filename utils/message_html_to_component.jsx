@@ -5,7 +5,6 @@ import React from 'react';
 import {Parser, ProcessNodeDefinitions} from 'html-to-react';
 
 import AtMention from 'components/at_mention';
-
 import LatexBlock from 'components/latex_block';
 import LinkTooltip from 'components/link_tooltip/link_tooltip';
 import MarkdownImage from 'components/markdown_image';
@@ -28,6 +27,7 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
     if (!html) {
         return null;
     }
+
     const parser = new Parser();
     const processNodeDefinitions = new ProcessNodeDefinitions(React);
 

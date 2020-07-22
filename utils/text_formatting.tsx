@@ -55,7 +55,6 @@ export type Team = {
     name: string;
     displayName: string;
 };
-
 interface TextFormattingOptionsBase {
 
     /**
