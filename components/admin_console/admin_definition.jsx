@@ -4393,7 +4393,7 @@ const AdminDefinition = {
                         label: t('admin.experimental.defaultTheme.title'),
                         label_default: 'Default Theme:',
                         help_text: t('admin.experimental.defaultTheme.desc'),
-                        help_text_default: 'Set a default theme that applies to all new users on the system with options "default", "organization", "mattermostDark", and "windows10".',
+                        help_text_default: 'Set a default theme that applies to all new users on the system.',
                         help_text_markdown: true,
                         options: [
                             {
