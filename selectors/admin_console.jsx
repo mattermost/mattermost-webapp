@@ -30,6 +30,8 @@ export const getConsoleAccess = createSelector(
     (adminDefinition, mySystemPermissions) => {
         const consoleAccess = {read: {}, write: {}};
 
+        const has = (x) => mySystemPermissions.has(x);
+
         const mapAccessValuesForKey = ([key]) => {
             const permissionsForKey = ResourceToSysConsolePermissionsTable[key].filter((x) => mySystemPermissions.has(x));
 
@@ -40,7 +42,7 @@ export const getConsoleAccess = createSelector(
                 ['users', 'groups', 'teams', 'channels', 'permissions'].forEach((userManagementKey) => {
                     const subKey = `${key}.${userManagementKey}`;
 
-                    const permissionsForSubkey = ResourceToSysConsolePermissionsTable[subKey].filter((x) => mySystemPermissions.has(x));
+                    const permissionsForSubkey = ResourceToSysConsolePermissionsTable[subKey].filter(has);
 
                     consoleAccess.read[subKey] = permissionsForSubkey.length !== 0;
                     consoleAccess.write[subKey] = !consoleAccess.read[key] || !permissionsForSubkey.some((permission) => permission.startsWith('write'));
