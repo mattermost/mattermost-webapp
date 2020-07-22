@@ -51,8 +51,9 @@ exports[`components/AdminSidebar Plugins should filter plugins 1`] = `
           className="nav nav-pills nav-stacked"
         >
           <AdminSidebarCategory
+            definitionKey="plugins"
             icon="fa-plug"
-            key="6"
+            key="plugins"
             parentLink="/admin_console"
             sectionClass=""
             title={
@@ -129,8 +130,9 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
           className="nav nav-pills nav-stacked"
         >
           <AdminSidebarCategory
+            definitionKey="plugins"
             icon="fa-plug"
-            key="6"
+            key="plugins"
             parentLink="/admin_console"
             sectionClass=""
             title={
@@ -142,7 +144,8 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
             }
           >
             <AdminSidebarSection
-              key="5"
+              definitionKey="plugins.plugin_management"
+              key="plugins.plugin_management"
               name="plugins/plugin_management"
               parentLink=""
               subsection={false}
@@ -220,8 +223,9 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
           className="nav nav-pills nav-stacked"
         >
           <AdminSidebarCategory
+            definitionKey="reporting"
             icon="fa-bar-chart"
-            key="1"
+            key="reporting"
             parentLink="/admin_console"
             sectionClass=""
             title={
@@ -233,7 +237,8 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
             }
           >
             <AdminSidebarSection
-              key="4"
+              definitionKey="reporting.system_analytics"
+              key="reporting.system_analytics"
               name="reporting/system_analytics"
               parentLink=""
               subsection={false}
@@ -246,7 +251,8 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              key="5"
+              definitionKey="reporting.team_statistics"
+              key="reporting.team_statistics"
               name="reporting/team_statistics"
               parentLink=""
               subsection={false}
@@ -259,7 +265,8 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              key="6"
+              definitionKey="reporting.server_logs"
+              key="reporting.server_logs"
               name="reporting/server_logs"
               parentLink=""
               subsection={false}
@@ -273,8 +280,9 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
             />
           </AdminSidebarCategory>
           <AdminSidebarCategory
+            definitionKey="user_management"
             icon="fa-users"
-            key="2"
+            key="user_management"
             parentLink="/admin_console"
             sectionClass=""
             title={
@@ -286,7 +294,8 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
             }
           >
             <AdminSidebarSection
-              key="4"
+              definitionKey="user_management.system_users"
+              key="user_management.system_users"
               name="user_management/users"
               parentLink=""
               subsection={false}
@@ -300,8 +309,9 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
             />
           </AdminSidebarCategory>
           <AdminSidebarCategory
+            definitionKey="environment"
             icon="fa-server"
-            key="3"
+            key="environment"
             parentLink="/admin_console"
             sectionClass=""
             title={
@@ -313,7 +323,8 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
             }
           >
             <AdminSidebarSection
-              key="4"
+              definitionKey="environment.web_server"
+              key="environment.web_server"
               name="environment/web_server"
               parentLink=""
               subsection={false}
@@ -326,7 +337,8 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              key="5"
+              definitionKey="environment.database"
+              key="environment.database"
               name="environment/database"
               parentLink=""
               subsection={false}
@@ -339,7 +351,8 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              key="7"
+              definitionKey="environment.storage"
+              key="environment.storage"
               name="environment/file_storage"
               parentLink=""
               subsection={false}
@@ -352,7 +365,8 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              key="8"
+              definitionKey="environment.image_proxy"
+              key="environment.image_proxy"
               name="environment/image_proxy"
               parentLink=""
               subsection={false}
@@ -365,7 +379,8 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              key="9"
+              definitionKey="environment.smtp"
+              key="environment.smtp"
               name="environment/smtp"
               parentLink=""
               subsection={false}
@@ -378,7 +393,8 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              key="10"
+              definitionKey="environment.push_notification_server"
+              key="environment.push_notification_server"
               name="environment/push_notification_server"
               parentLink=""
               subsection={false}
@@ -391,7 +407,8 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              key="12"
+              definitionKey="environment.rate_limiting"
+              key="environment.rate_limiting"
               name="environment/rate_limiting"
               parentLink=""
               subsection={false}
@@ -404,7 +421,8 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              key="13"
+              definitionKey="environment.logging"
+              key="environment.logging"
               name="environment/logging"
               parentLink=""
               subsection={false}
@@ -417,7 +435,8 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              key="14"
+              definitionKey="environment.session_lengths"
+              key="environment.session_lengths"
               name="environment/session_lengths"
               parentLink=""
               subsection={false}
@@ -430,7 +449,8 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              key="16"
+              definitionKey="environment.developer"
+              key="environment.developer"
               name="environment/developer"
               parentLink=""
               subsection={false}
@@ -444,8 +464,9 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
             />
           </AdminSidebarCategory>
           <AdminSidebarCategory
+            definitionKey="authentication"
             icon="fa-shield"
-            key="5"
+            key="authentication"
             parentLink="/admin_console"
             sectionClass=""
             title={
@@ -457,7 +478,8 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
             }
           >
             <AdminSidebarSection
-              key="4"
+              definitionKey="authentication.signup"
+              key="authentication.signup"
               name="authentication/signup"
               parentLink=""
               subsection={false}
@@ -470,7 +492,8 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              key="5"
+              definitionKey="authentication.email"
+              key="authentication.email"
               name="authentication/email"
               parentLink=""
               subsection={false}
@@ -483,7 +506,8 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              key="6"
+              definitionKey="authentication.password"
+              key="authentication.password"
               name="authentication/password"
               parentLink=""
               subsection={false}
@@ -496,7 +520,8 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              key="7"
+              definitionKey="authentication.mfa"
+              key="authentication.mfa"
               name="authentication/mfa"
               parentLink=""
               subsection={false}
@@ -509,7 +534,8 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              key="12"
+              definitionKey="authentication.gitlab"
+              key="authentication.gitlab"
               name="authentication/gitlab"
               parentLink=""
               subsection={false}
@@ -523,8 +549,9 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
             />
           </AdminSidebarCategory>
           <AdminSidebarCategory
+            definitionKey="plugins"
             icon="fa-plug"
-            key="6"
+            key="plugins"
             parentLink="/admin_console"
             sectionClass=""
             title={
@@ -536,7 +563,8 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
             }
           >
             <AdminSidebarSection
-              key="5"
+              definitionKey="plugins.plugin_management"
+              key="plugins.plugin_management"
               name="plugins/plugin_management"
               parentLink=""
               subsection={false}
@@ -557,8 +585,9 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
             />
           </AdminSidebarCategory>
           <AdminSidebarCategory
+            definitionKey="integrations"
             icon="fa-sitemap"
-            key="7"
+            key="integrations"
             parentLink="/admin_console"
             sectionClass=""
             title={
@@ -570,7 +599,8 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
             }
           >
             <AdminSidebarSection
-              key="5"
+              definitionKey="integrations.integration_management"
+              key="integrations.integration_management"
               name="integrations/integration_management"
               parentLink=""
               subsection={false}
@@ -583,7 +613,8 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              key="6"
+              definitionKey="integrations.bot_accounts"
+              key="integrations.bot_accounts"
               name="integrations/bot_accounts"
               parentLink=""
               subsection={false}
@@ -596,7 +627,8 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              key="7"
+              definitionKey="integrations.gif"
+              key="integrations.gif"
               name="integrations/gif"
               parentLink=""
               subsection={false}
@@ -609,7 +641,8 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              key="8"
+              definitionKey="integrations.cors"
+              key="integrations.cors"
               name="integrations/cors"
               parentLink=""
               subsection={false}
@@ -623,8 +656,9 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
             />
           </AdminSidebarCategory>
           <AdminSidebarCategory
+            definitionKey="experimental"
             icon="fa-flask"
-            key="9"
+            key="experimental"
             parentLink="/admin_console"
             sectionClass=""
             title={
@@ -636,7 +670,8 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
             }
           >
             <AdminSidebarSection
-              key="4"
+              definitionKey="experimental.experimental_features"
+              key="experimental.experimental_features"
               name="experimental/features"
               parentLink=""
               subsection={false}
@@ -649,7 +684,8 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              key="5"
+              definitionKey="experimental.bleve"
+              key="experimental.bleve"
               name="experimental/blevesearch"
               parentLink=""
               subsection={false}
