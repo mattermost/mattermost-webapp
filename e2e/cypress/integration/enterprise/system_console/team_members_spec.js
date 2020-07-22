@@ -20,7 +20,7 @@ describe('Team members test', () => {
     before(() => {
         // # Login as sysadmin
         cy.apiAdminLogin().then((res) => {
-            sysadmin = res.body;
+            sysadmin = res.user;
         });
 
         // * Check if server has license

@@ -21,13 +21,13 @@ describe('Channel routing', () => {
             testTeam = team;
             testUser = user;
 
-            cy.apiCreateUser().then(({user: newUser}) => {
+            cy.apiCreateUser({prefix: 'otherA'}).then(({user: newUser}) => {
                 otherUser1 = newUser;
 
                 cy.apiAddUserToTeam(team.id, newUser.id);
             });
 
-            cy.apiCreateUser().then(({user: newUser}) => {
+            cy.apiCreateUser({prefix: 'otherB'}).then(({user: newUser}) => {
                 otherUser2 = newUser;
 
                 cy.apiAddUserToTeam(team.id, newUser.id);
