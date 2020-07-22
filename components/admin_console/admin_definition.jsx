@@ -4388,7 +4388,7 @@ const AdminDefinition = {
                     //     isDisabled: it.stateIsTrue('ThemeSettings.EnableThemeSelection'),
                     // },
                     {
-                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        type: Constants.SettingsTypes.TYPE_DROPDOWN,
                         key: 'ThemeSettings.DefaultTheme',
                         label: t('admin.experimental.defaultTheme.title'),
                         label_default: 'Default Theme:',
