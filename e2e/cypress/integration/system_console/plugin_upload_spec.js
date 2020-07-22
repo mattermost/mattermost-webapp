@@ -78,7 +78,7 @@ describe('Draw Plugin - Upload', () => {
         // # Need to re-query DOM elements as they are updated asynchronously
         cy.findByTestId('com.mattermost.draw-plugin').should('be.visible').within(() => {
             // * Check plugin is not enabled
-            cy.findByText('This plugin is not enabled.').should('be.visible');
+            cy.wait(TIMEOUTS.HALF_SEC).findByText('This plugin is not enabled.').should('be.visible');
 
             // * Click on remove
             cy.findByText('Remove').click();
