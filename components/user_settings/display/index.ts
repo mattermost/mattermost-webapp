@@ -2,7 +2,8 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
+import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {getSupportedTimezones} from 'mattermost-redux/actions/general';
@@ -16,6 +17,7 @@ import {getUserCurrentTimezone} from 'mattermost-redux/utils/timezone_utils';
 import {Preferences} from 'utils/constants';
 
 import UserSettingsDisplay from './user_settings_display.jsx';
+import { ActionFunc } from 'mattermost-redux/types/actions';
 
 function mapStateToProps(state) {
     const config = getConfig(state);
@@ -54,9 +56,15 @@ function mapStateToProps(state) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+type Actions = {
+    getSupportedTimezones:() => ActionFunc | void
+    autoUpdateTimezone:() => Promise<ActionResult>;
+    savePreferences:() => Promise<ActionResult>;
+}
+
+function mapDispatchToProps(dispatch: Dispatch) {
     return {
-        actions: bindActionCreators({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
             getSupportedTimezones,
             autoUpdateTimezone,
             savePreferences,
