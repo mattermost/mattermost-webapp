@@ -141,10 +141,10 @@ export function sendDesktopNotification(post, msgProps) {
         const activeChannel = getCurrentChannel(state);
         const channelId = channel ? channel.id : null;
         const notify = (activeChannel && activeChannel.id !== channelId) || !state.views.browser.focused;
-        const soundName = user.notify_props === undefined ? 'Bing' : user.notify_props.desktop_notification_sound;
+        const soundName = user.notify_props !== undefined && user.notify_props.desktop_notification_sound !== undefined ? user.notify_props.desktop_notification_sound : 'Bing';
 
         if (notify) {
-            dispatch(notifyMe(title, body, channel, teamId, !sound, user.notify_props === undefined ? 'native' : soundName));
+            dispatch(notifyMe(title, body, channel, teamId, !sound, soundName));
 
             //Don't add extra sounds on native desktop clients
             if (sound && !isWindowsApp() && !isMacApp() && !isMobileApp()) {
