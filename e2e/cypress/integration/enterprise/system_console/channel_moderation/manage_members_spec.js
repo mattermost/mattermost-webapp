@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @enterprise @system_console @channel_moderation
 
 import * as TIMEOUTS from '../../../../fixtures/timeouts';
@@ -35,7 +36,7 @@ describe('MM-23102 - Channel Moderation - Manage Members', () => {
 
     before(() => {
         // * Check if server has license
-        cy.requireLicense();
+        cy.apiRequireLicense();
     });
 
     beforeEach(() => {

@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @enterprise @system_console @channel_moderation
 
 import * as TIMEOUTS from '../../../../fixtures/timeouts';
@@ -26,7 +27,7 @@ describe('Channel Moderation', () => {
 
     before(() => {
         // * Check if server has license
-        cy.requireLicense();
+        cy.apiRequireLicense();
 
         cy.apiInitSetup().then(({team, channel}) => {
             testTeam = team;

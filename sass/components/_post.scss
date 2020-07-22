@@ -709,7 +709,6 @@
         .card-icon__container,
         .reacticon,
         .post-menu__item,
-        .flag-icon__container,
         .post__reply,
         .post-reaction,
         .post__remove {
@@ -780,12 +779,6 @@
                         width: 51px;
 
                     }
-
-                    .flag-icon__container, .card-icon__container {
-                        left: 37px;
-                        position: absolute;
-                        top: 3px;
-                    }
                 }
             }
         }
@@ -805,14 +798,6 @@
 
             > div {
                 margin-bottom: 0;
-            }
-        }
-
-        &.same--root {
-            &.same--user {
-                .post__header {
-                    height: 0;
-                }
             }
         }
 
@@ -1108,12 +1093,6 @@
                 }
             }
 
-            .flag-icon__container, .card-icon__container {
-                left: 37px;
-                position: absolute;
-                top: 4px;
-            }
-
             .post__img {
                 .status-wrapper {
                     display: none;
@@ -1135,6 +1114,11 @@
                 .post-menu {
                     top: -1px;
                 }
+            }
+
+            .post-pre-header {
+                padding-top: 5px;
+                padding-bottom: 5px;
             }
         }
 
@@ -1177,10 +1161,54 @@
         }
     }
 
+    .post-pre-header {
+        display: flex;
+        height: 25px;
+        padding-bottom: 10px;
+
+        .post-pre-header__icons-container {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding-right: 9px; // If the padding of post__img changes, this needs to be adjusted accordingly
+            width: 52px; // If the width of post__img changes, this needs to be adjusted accordingly
+            margin-left: 5px; // if left margin of post__content changes, this needs to be adjusted accordingly
+
+            .icon--post-pre-header {
+                height: 10px;
+                width: 10px;
+                fill: var(--link-color);
+                color: var(--link-color);
+                font-size: 12px;
+
+                &:nth-of-type(even) {
+                    margin-left: 9px;
+                }
+
+                &.icon-pin::before {
+                    line-height: 10px;
+                }
+            }
+        }
+
+        .post-pre-header__text-container {
+            color: var(--link-color);
+            font-size: 12px;
+            line-height: 15px;
+
+            .post-pre-header__link-separator {
+                margin: 0px 5px;
+                color: var(--center-channel-color-32);
+                font-size: 4px;
+                vertical-align: top;
+            }
+        }
+    }
+
     .post__content {
         display: table;
         margin: 0 auto;
-        padding: 0 8px 0 5px;
+        padding: 0 8px 0 5px; // if the left margin changes, the margin of post-pre-header__icons-container needs to be adjusted accordingly
         position: relative;
         table-layout: fixed;
         width: 100%;
@@ -1254,9 +1282,9 @@
     }
 
     .post__img {
-        padding-right: 10px;
+        padding-right: 10px; // if this changes, the padding of post-pre-header__icons-container needs to be adjusted accordingly
         text-align: right;
-        width: 53px;
+        width: 53px; // if this changes, the width of post-pre-header__icons-container needs to be adjusted accordingly
 
         .icon {
             fill: v(center-channel-color);
@@ -1757,41 +1785,6 @@
         }
     }
 
-    .flag-icon__container {
-        display: inline-block;
-        height: 15px;
-        width: 15px;
-        position: relative;
-        top: 2px;
-        vertical-align: top;
-        visibility: hidden;
-
-        &.visible {
-            visibility: visible;
-        }
-
-        svg {
-            width: 12px;
-        }
-
-        path {
-            fill: inherit;
-        }
-
-        .fa-star-o {
-            @include opacity(.8);
-        }
-
-        &:focus {
-            outline: none;
-        }
-
-        &.icon--visible {
-            visibility: visible;
-        }
-
-    }
-
     .web-embed-data {
         @include border-radius(2px);
         @include alpha-property(background, $black, 0.05);
@@ -1823,12 +1816,8 @@
     }
 }
 
-.post__pinned-badge {
-    border-radius: 2px;
-    font-family: inherit;
-    font-size: 10px;
-    font-weight: 600;
-    padding: 1px 4px;
+.post--pinned-or-flagged {
+    background-color: var(--mention-highlight-bg-12);
 }
 
 .Badge {
@@ -1846,12 +1835,6 @@
         background: rgba(61, 60, 64, 0.15);
         display: inline;
     }
-}
-
-.post__pinned-badge {
-    margin: 0 8px 0 4px;
-    position: relative;
-    top: -1px;
 }
 
 .permalink-text {
@@ -2043,4 +2026,15 @@
     animation-name: postHighlight;
     animation-delay: 5s;
     animation-fill-mode: forwards;
+}
+
+@keyframes postPinnedOrFlaggedHighlight {
+    100% {
+      background: initial;
+      background-color: var(--mention-highlight-bg-12);
+    }
+}
+
+.app__body .app__content .post.post--pinned-or-flagged-highlight {
+    animation-name: postPinnedOrFlaggedHighlight;
 }

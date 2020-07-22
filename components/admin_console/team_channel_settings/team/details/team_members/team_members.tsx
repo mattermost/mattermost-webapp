@@ -4,9 +4,11 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {Dictionary} from 'mattermost-redux/types/utilities';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {ServerError} from 'mattermost-redux/types/errors';
+import {UserProfile, UsersStats, GetFilteredUsersStatsOpts} from 'mattermost-redux/types/users';
 import {TeamMembership, Team} from 'mattermost-redux/types/teams';
+import {Dictionary} from 'mattermost-redux/types/utilities';
+import GeneralConstants from 'mattermost-redux/constants/general';
 
 import {t} from 'utils/i18n';
 import Constants from 'utils/constants';
@@ -16,10 +18,13 @@ import UserGrid from 'components/admin_console/user_grid/user_grid';
 import {BaseMembership} from 'components/admin_console/user_grid/user_grid_role_dropdown';
 import AddUsersToTeamModal from 'components/add_users_to_team_modal';
 import ToggleModalButton from 'components/toggle_modal_button';
+import {FilterOptions} from 'components/admin_console/filter/filter';
 
 type Props = {
     teamId: string;
     team: Team;
+    filters: GetFilteredUsersStatsOpts;
+
     users: UserProfile[];
     usersToRemove: Dictionary<UserProfile>;
     usersToAdd: Dictionary<UserProfile>;
@@ -28,6 +33,7 @@ type Props = {
     totalCount: number;
     searchTerm: string;
     loading?: boolean;
+    enableGuestAccounts: boolean;
 
     onAddCallback: (users: UserProfile[]) => void;
     onRemoveCallback: (user: UserProfile) => void;
@@ -43,7 +49,14 @@ type Props = {
         searchProfilesAndTeamMembers: (term: string, options?: {}) => Promise<{
             data: boolean;
         }>;
-        setSystemUsersSearch: (term: string) => Promise<{
+        getFilteredUsersStats: (filters: GetFilteredUsersStatsOpts) => Promise<{
+            data?: UsersStats;
+            error?: ServerError;
+        }>;
+        setUserGridSearch: (term: string) => Promise<{
+            data: boolean;
+        }>;
+        setUserGridFilters: (filters: GetFilteredUsersStatsOpts) => Promise<{
             data: boolean;
         }>;
     };
@@ -70,29 +83,36 @@ export default class TeamMembers extends React.PureComponent<Props, State> {
 
     public componentDidMount() {
         const {teamId} = this.props;
-        const {loadProfilesAndReloadTeamMembers, getTeamStats, setSystemUsersSearch} = this.props.actions;
+        const {loadProfilesAndReloadTeamMembers, getTeamStats, setUserGridSearch, setUserGridFilters} = this.props.actions;
         Promise.all([
-            setSystemUsersSearch(''),
+            setUserGridSearch(''),
+            setUserGridFilters({}),
             getTeamStats(teamId),
-            loadProfilesAndReloadTeamMembers(0, PROFILE_CHUNK_SIZE * 2, teamId),
+            loadProfilesAndReloadTeamMembers(0, PROFILE_CHUNK_SIZE * 2, teamId, {active: true}),
         ]).then(() => this.setStateLoading(false));
     }
 
-    public componentDidUpdate(prevProps: Props) {
-        if (prevProps.searchTerm !== this.props.searchTerm) {
+    public async componentDidUpdate(prevProps: Props) {
+        const filtersModified = JSON.stringify(prevProps.filters) !== JSON.stringify(this.props.filters);
+        const searchTermModified = prevProps.searchTerm !== this.props.searchTerm;
+        if (filtersModified || searchTermModified) {
             this.setStateLoading(true);
             clearTimeout(this.searchTimeoutId);
             const searchTerm = this.props.searchTerm;
+            const filters = this.props.filters;
 
             if (searchTerm === '') {
                 this.searchTimeoutId = 0;
+                if (filtersModified) {
+                    await prevProps.actions.loadProfilesAndReloadTeamMembers(0, PROFILE_CHUNK_SIZE * 2, prevProps.teamId, {active: true, ...filters});
+                }
                 this.setStateLoading(false);
                 return;
             }
 
             const searchTimeoutId = window.setTimeout(
                 async () => {
-                    await prevProps.actions.searchProfilesAndTeamMembers(searchTerm, {team_id: this.props.teamId, allow_inactive: false});
+                    await prevProps.actions.searchProfilesAndTeamMembers(searchTerm, {...filters, team_id: this.props.teamId, allow_inactive: false});
 
                     if (searchTimeoutId !== this.searchTimeoutId) {
                         return;
@@ -112,8 +132,8 @@ export default class TeamMembers extends React.PureComponent<Props, State> {
 
     private loadPage = async (page: number) => {
         const {loadProfilesAndReloadTeamMembers} = this.props.actions;
-        const {teamId} = this.props;
-        await loadProfilesAndReloadTeamMembers(page + 1, PROFILE_CHUNK_SIZE, teamId);
+        const {teamId, filters} = this.props;
+        await loadProfilesAndReloadTeamMembers(page + 1, PROFILE_CHUNK_SIZE, teamId, {active: true, ...filters});
     }
 
     private removeUser = (user: UserProfile) => {
@@ -125,7 +145,36 @@ export default class TeamMembers extends React.PureComponent<Props, State> {
     }
 
     private search = async (term: string) => {
-        this.props.actions.setSystemUsersSearch(term);
+        this.props.actions.setUserGridSearch(term);
+    }
+
+    private onFilter = async (filterOptions: FilterOptions) => {
+        const roles = filterOptions.role.values;
+        const systemRoles: string[] = [];
+        const teamRoles: string[] = [];
+        let filters = {};
+        Object.keys(roles).forEach((filterKey: string) => {
+            if (roles[filterKey].value) {
+                if (filterKey.includes('team')) {
+                    teamRoles.push(filterKey);
+                } else {
+                    systemRoles.push(filterKey);
+                }
+            }
+        });
+
+        if (systemRoles.length > 0 || teamRoles.length > 0) {
+            if (systemRoles.length > 0) {
+                filters = {roles: systemRoles};
+            }
+            if (teamRoles.length > 0) {
+                filters = {...filters, team_roles: teamRoles};
+            }
+            this.props.actions.setUserGridFilters({roles: systemRoles, team_roles: teamRoles});
+            this.props.actions.getFilteredUsersStats({in_team: this.props.teamId, include_bots: true, ...filters});
+        } else {
+            this.props.actions.setUserGridFilters(filters);
+        }
     }
 
     private updateMembership = (membership: BaseMembership) => {
@@ -134,6 +183,67 @@ export default class TeamMembers extends React.PureComponent<Props, State> {
 
     public render = () => {
         const {users, team, usersToAdd, usersToRemove, teamMembers, totalCount, searchTerm} = this.props;
+
+        const filterOptions: FilterOptions = {
+            role: {
+                name: (
+                    <FormattedMessage
+                        id='admin.user_grid.role'
+                        defaultMessage='Role'
+                    />
+                ),
+                values: {
+                    [GeneralConstants.SYSTEM_GUEST_ROLE]: {
+                        name: (
+                            <FormattedMessage
+                                id='admin.user_grid.guest'
+                                defaultMessage='Guest'
+                            />
+                        ),
+                        value: false,
+                    },
+                    [GeneralConstants.TEAM_USER_ROLE]: {
+                        name: (
+                            <FormattedMessage
+                                id='admin.user_item.member'
+                                defaultMessage='Member'
+                            />
+                        ),
+                        value: false,
+                    },
+                    [GeneralConstants.TEAM_ADMIN_ROLE]: {
+                        name: (
+                            <FormattedMessage
+                                id='admin.user_grid.team_admin'
+                                defaultMessage='Team Admin'
+                            />
+                        ),
+                        value: false,
+                    },
+                    [GeneralConstants.SYSTEM_ADMIN_ROLE]: {
+                        name: (
+                            <FormattedMessage
+                                id='admin.user_grid.system_admin'
+                                defaultMessage='System Admin'
+                            />
+                        ),
+                        value: false,
+                    },
+                },
+                keys: [GeneralConstants.SYSTEM_GUEST_ROLE, GeneralConstants.TEAM_USER_ROLE, GeneralConstants.TEAM_ADMIN_ROLE, GeneralConstants.SYSTEM_ADMIN_ROLE],
+            },
+        };
+        if (!this.props.enableGuestAccounts) {
+            delete filterOptions.role.values[GeneralConstants.SYSTEM_GUEST_ROLE];
+            filterOptions.role.keys = [GeneralConstants.TEAM_USER_ROLE, GeneralConstants.TEAM_ADMIN_ROLE, GeneralConstants.SYSTEM_ADMIN_ROLE];
+        }
+        const filterKeys = ['role'];
+        const filterProps = {
+            options: filterOptions,
+            keys: filterKeys,
+            onFilter: this.onFilter,
+        };
+
         return (
             <AdminPanel
                 id='teamMembers'
@@ -175,6 +285,7 @@ export default class TeamMembers extends React.PureComponent<Props, State> {
                     includeUsers={usersToAdd}
                     excludeUsers={usersToRemove}
                     scope={'team'}
+                    filterProps={filterProps}
                 />
             </AdminPanel>
         );

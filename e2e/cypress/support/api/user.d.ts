@@ -23,13 +23,22 @@ declare namespace Cypress {
          * See https://api.mattermost.com/#tag/users/paths/~1users~1login/post
          * @param {string} user.username - username of a user
          * @param {string} user.password - password of  user
-         * @returns {Response} response: Cypress-chainable response which should have successful HTTP status of 200 OK to continue or pass.
          * @returns {UserProfile} response.body: `UserProfile` object
          *
          * @example
          *   cy.apiLogin({username: 'sysadmin', password: 'secret'});
          */
-        apiLogin(user: UserProfile): Chainable<Response>;
+        apiLogin(user: UserProfile): Chainable<UserProfile>;
+
+        /**
+         * Login as admin via API.
+         * See https://api.mattermost.com/#tag/users/paths/~1users~1login/post
+         * @returns {UserProfile} response.body: `UserProfile` object
+         *
+         * @example
+         *   cy.apiAdminLogin();
+         */
+        apiAdminLogin(): Chainable<UserProfile>;
 
         /**
          * Logout a user's active session from server via API.
@@ -40,6 +49,44 @@ declare namespace Cypress {
          *   cy.apiLogout();
          */
         apiLogout();
+
+        /**
+         * Gets current user
+         * See https://api.mattermost.com/#tag/users/paths/~1users~1{user_id}/get
+         * @returns {UserProfile} response.body: `UserProfile` object
+         *
+         * @example
+         *   cy.apiGetMe().then(({user}) => {
+         *       // do something with user
+         *   });
+         */
+        apiGetMe(): Chainable<UserProfile>;
+
+        /**
+         * Get a user by email
+         * See https://api.mattermost.com/#tag/users/paths/~1users~1email~1{email}/get
+         * @param {String} email - email address of a user to get profile
+         * @returns {UserProfile} response.body: `UserProfile` object
+         *
+         * @example
+         *   cy.apiGetUserByEmail().then(({user}) => {
+         *       // do something with user
+         *   });
+         */
+        apiGetUserByEmail(email: string): Chainable<UserProfile>;
+
+        /**
+         * Get users by usernames
+         * See https://api.mattermost.com/#tag/users/paths/~1users~1usernames/post
+         * @param {String[]} usernames - list of usernames to get profiles
+         * @returns {UserProfile[]} response.body: list of `UserProfile` objects
+         *
+         * @example
+         *   cy.apiGetUsersByUsernames().then(({users}) => {
+         *       // do something with users
+         *   });
+         */
+        apiGetUsersByUsernames(usernames: string[]): Chainable<UserProfile[]>;
 
         /**
          * Creates an admin account based from the env variables defined in Cypress env
