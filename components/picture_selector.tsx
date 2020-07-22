@@ -7,6 +7,8 @@ import {FormattedMessage} from 'react-intl';
 import {localizeMessage} from 'utils/utils';
 import * as FileUtils from 'utils/file_utils';
 
+import './picture_selector.scss';
+
 type Props = {
     src?: string;
     defaultSrc?: string;
@@ -49,7 +51,11 @@ const PictureSelector: React.FC<Props> = (props: Props) => {
 
     const handleRemove = () => {
         props.onRemove();
-        setImage(undefined);
+        if (props.defaultSrc) {
+            setImage(props.defaultSrc);
+        } else {
+            setImage(undefined);
+        }
     };
 
     useEffect(() => {
@@ -61,6 +67,23 @@ const PictureSelector: React.FC<Props> = (props: Props) => {
             }
         }
     });
+
+    let removeButton;
+    if (image && image !== props.defaultSrc) {
+        removeButton = (
+            <button
+                data-testid='PictureSelector__removeButton'
+                className='PictureSelector__removeButton'
+                disabled={props.loadingPicture}
+                onClick={handleRemove}
+            >
+                <FormattedMessage
+                    id='picture_selector.remove_picture'
+                    defaultMessage='Remove picture'
+                />
+            </button>
+        );
+    }
 
     return (
         <div className='PictureSelector'>
@@ -93,17 +116,7 @@ const PictureSelector: React.FC<Props> = (props: Props) => {
                     <i className='icon icon-pencil-outline'/>
                 </button>
             </div>
-            <button
-                data-testid='PictureSelector__removeButton'
-                className='PictureSelector__removeButton'
-                disabled={props.loadingPicture}
-                onClick={handleRemove}
-            >
-                <FormattedMessage
-                    id='picture_selector.remove_picture'
-                    defaultMessage='Remove picture'
-                />
-            </button>
+            {removeButton}
         </div>
     );
 };
