@@ -138,7 +138,10 @@ class TeamFilterDropdown extends React.PureComponent<Props, State> {
     }
 
     loadMore = async () => {
-        const {searchTerm} = this.state;
+        const {searchTerm, loading} = this.state;
+        if (loading) {
+            return;
+        }
         this.setState({loading: true});
         const page = this.state.page + 1;
         if (searchTerm.length > 0) {
