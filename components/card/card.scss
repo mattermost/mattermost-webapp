@@ -15,12 +15,6 @@
 }
 
 .Card__header {
-    margin: 12px 12px 0 12px;
-    padding-bottom: 12px;
-
-    &.expanded {
-        border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
-    }
 }
 
 .Card__body {
@@ -33,7 +27,9 @@
     transition-property: height, margin;
 
     &.expanded {
-        margin: 12px;
+        margin: 0 12px 12px 12px;
+        padding-top: 12px;
+        border-top: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
     }
 }
 

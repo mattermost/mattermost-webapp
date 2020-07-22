@@ -56,15 +56,14 @@
 }
 
 .NextStepsView__body .Card__header {
-    margin: 0 12px;
-    padding: 0;
+    padding: 1px 0;
 }
 
 .NextStepsView__cardHeader {
     display: flex;
     border: none;
     background: none;
-    padding: 12px 0;
+    padding: 12px;
     width: 100%;
 
     > span {
@@ -146,9 +145,15 @@
     }
 }
 
-.Card__header.expanded .NextStepsView__cardHeaderBadge {
-    color: var(--button-color);
-    background-color: var(--sidebar-text-active-border);
+.Card__header.expanded {
+    .NextStepsView__cardHeader {
+        cursor: default;
+    }
+
+    .NextStepsView__cardHeaderBadge {
+        color: var(--button-color);
+        background-color: var(--sidebar-text-active-border);
+    }
 }
 
 .Card.complete {
