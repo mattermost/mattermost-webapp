@@ -87,7 +87,7 @@ Cypress.Commands.add('apiPatchUser', (userId, userData) => {
         body: userData,
     }).then((response) => {
         expect(response.status).to.equal(200);
-        cy.wrap(response);
+        cy.wrap({user: response.body});
     });
 });
 
@@ -99,7 +99,7 @@ Cypress.Commands.add('apiPatchMe', (data) => {
         body: data,
     }).then((response) => {
         expect(response.status).to.equal(200);
-        cy.wrap(response);
+        cy.wrap({user: response.body});
     });
 });
 
@@ -168,30 +168,9 @@ Cypress.Commands.add('apiCreateUser', ({prefix = 'user', bypassTutorial = true, 
 Cypress.Commands.add('apiCreateGuestUser', ({prefix = 'guest', activate = true} = {}) => {
     return cy.apiCreateUser({prefix}).then(({user}) => {
         cy.demoteUser(user.id);
-        cy.apiActivateUser(user.id, activate);
+        cy.externalActivateUser(user.id, activate);
 
         return cy.wrap({guest: user});
-    });
-});
-
-/**
- * Saves channel display mode preference of a user directly via API
- * This API assume that the user is logged in and has cookie to access
- * @param {String} status - "online" (default), "offline", "away" or "dnd"
- */
-Cypress.Commands.add('apiUpdateUserStatus', (status = 'online') => {
-    return cy.getCookie('MMUSERID').then((cookie) => {
-        const data = {user_id: cookie.value, status};
-
-        return cy.request({
-            headers: {'X-Requested-With': 'XMLHttpRequest'},
-            url: '/api/v4/users/me/status',
-            method: 'PUT',
-            body: data,
-        }).then((response) => {
-            expect(response.status).to.equal(200);
-            cy.wrap({status: response.body});
-        });
     });
 });
 
@@ -206,20 +185,8 @@ Cypress.Commands.add('apiRevokeUserSessions', (userId) => {
         method: 'POST',
     }).then((response) => {
         expect(response.status).to.equal(200);
-        cy.wrap(response);
+        cy.wrap({data: response.body});
     });
-});
-
-/**
- * Activate/Deactivate a User directly via API
- * @param {String} userId - The user ID
- * @param {Boolean} active - Whether to activate or deactivate - true/false
- */
-Cypress.Commands.add('apiActivateUser', (userId, active = true) => {
-    const baseUrl = Cypress.config('baseUrl');
-    const admin = getAdminAccount();
-
-    cy.externalRequest({user: admin, method: 'put', baseUrl, path: `users/${userId}/active`, data: {active}});
 });
 
 Cypress.Commands.add('apiGetUsersNotInTeam', ({teamId, page = 0, perPage = 60} = {}) => {

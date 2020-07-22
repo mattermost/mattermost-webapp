@@ -661,18 +661,6 @@ Cypress.Commands.add('apiDeleteScheme', (schemeId) => {
     });
 });
 
-/**
- * Activate/Deactivate a User directly via API
- * @param {String} userId - The user ID
- * @param {Boolean} active - Whether to activate or deactivate - true/false
- */
-Cypress.Commands.add('apiActivateUser', (userId, active = true) => {
-    const baseUrl = Cypress.config('baseUrl');
-    const admin = getAdminAccount();
-
-    cy.externalRequest({user: admin, method: 'put', baseUrl, path: `users/${userId}/active`, data: {active}});
-});
-
 // *****************************************************************************
 // Groups
 // https://api.mattermost.com/#tag/groups
