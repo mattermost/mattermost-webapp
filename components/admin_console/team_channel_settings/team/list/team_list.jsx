@@ -111,14 +111,18 @@ export default class TeamList extends React.PureComponent {
 
         // If all filters or no filters do nothing
         if (filtersList.includes(false) && filtersList.includes(true)) {
-            if (inviteOnly) {
-                filters.exclude_allow_open_invite = !allowOpenInvite;
-                filters.exclude_group_constrained = !groupConstrained;
+            if (inviteOnly && allowOpenInvite) {
+                filters.group_constrained = false;
+            } else if (inviteOnly && groupConstrained) {
+                filters.allow_open_invite = false;
                 filters.include_group_constrained = groupConstrained;
+            } else if (inviteOnly) {
+                filters.allow_open_invite = false;
+                filters.group_constrained = false;
             } else if (allowOpenInvite) {
                 filters.allow_open_invite = true;
                 filters.include_group_constrained = groupConstrained;
-            } else {
+            } else if (groupConstrained) {
                 filters.group_constrained = true;
             }
         }
