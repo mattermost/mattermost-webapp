@@ -3896,5 +3896,17 @@
   "accessibility.button.Search": "搜尋",
   "accessibility.button.Info": "相關資訊",
   "accessibility.button.dialog": "{dialogName} 對話",
-  "accessibility.button.attachment": "附加檔案"
+  "accessibility.button.attachment": "附加檔案",
+  "admin.channel_settings.channel_list.search_channels_errored": "發生錯誤。請再嘗試一遍",
+  "admin.channel_settings.channel_detail.archive_confirm.title": "儲存並封存頻道",
+  "admin.channel_settings.channel_detail.archive_confirm.message": "儲存將會封存頻道，所有的使用者將無法存取該頻道內容。請確認要儲存並封存頻道。",
+  "admin.channel_settings.channel_detail.archive_confirm.button": "儲存並封存頻道",
+  "admin.image.amazonS3PathPrefixTitle": "Amazon S3 路徑前綴：",
+  "admin.image.amazonS3PathPrefixExample": "如：\"subdir1\" 或是留空。",
+  "admin.image.amazonS3PathPrefixDescription": "AWS S3 儲存貯體的路徑前綴",
+  "admin.group_settings.group_detail.invalid_length": "名稱必須是長度為1到64之間的小寫英數字元",
+  "admin.experimental.experimentalDataPrefetch.title": "預先讀取未讀頻道的訊息",
+  "admin.experimental.experimentalDataPrefetch.desc": "啟用時，將預先讀取尚未閱讀頻道的訊息以減少頻道讀取時間。停用時，在使用者切換頻道前將不會從伺服器讀取訊息。",
+  "admin.cluster.EnableExperimentalGossipEncryptionDesc": "啟用時，將加密所有使用 Gossip 協定的通訊資料。",
+  "admin.cluster.EnableExperimentalGossipEncryption": "啟用實驗性質的 Gossip 加密："
 }
