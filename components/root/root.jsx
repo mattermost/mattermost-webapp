@@ -165,8 +165,8 @@ export default class Root extends React.PureComponent {
         let rudderUrl = Constants.DIAGNOSTICS_RUDDER_DATAPLANE_URL;
 
         if (rudderKey.startsWith('placeholder') && rudderUrl.startsWith('placeholder')) {
-            rudderKey = process.env.RUDDER_KEY;
-            rudderUrl = process.env.RUDDER_DATAPLANE_URL;
+            rudderKey = process.env.RUDDER_KEY; //eslint-disable-line no-process-env
+            rudderUrl = process.env.RUDDER_DATAPLANE_URL; //eslint-disable-line no-process-env
         }
 
         if (rudderKey != null && rudderKey !== '' && this.props.diagnosticsEnabled) {
