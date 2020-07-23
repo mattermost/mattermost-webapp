@@ -61,7 +61,7 @@ describe('components/user_settings/general/UserSettingsGeneral', () => {
         const props = {...requiredProps, actions: {...requiredProps.actions, updateMe}};
         const wrapper = shallowWithIntl(<UserSettingsGeneral {...props}/>);
 
-        (wrapper.instance() as UserSettingsGeneralTab).submitUser(requiredProps.user, '');
+        (wrapper.instance() as UserSettingsGeneralTab).submitUser(requiredProps.user, false);
         expect(updateMe).toHaveBeenCalledTimes(1);
         expect(updateMe).toHaveBeenCalledWith(requiredProps.user);
     });
@@ -72,7 +72,7 @@ describe('components/user_settings/general/UserSettingsGeneral', () => {
         const props = {...requiredProps, actions: {...requiredProps.actions, updateMe, getMe}};
         const wrapper = shallowWithIntl(<UserSettingsGeneral {...props}/>);
 
-        await (wrapper.instance() as UserSettingsGeneralTab).submitUser(requiredProps.user, '');
+        await (wrapper.instance() as UserSettingsGeneralTab).submitUser(requiredProps.user, false);
         expect(getMe).toHaveBeenCalledTimes(1);
         expect(getMe).toHaveBeenCalledWith();
     });
@@ -92,7 +92,7 @@ describe('components/user_settings/general/UserSettingsGeneral', () => {
         const wrapper = shallowWithIntl(<UserSettingsGeneral {...props}/>);
 
         const mockFile = {type: 'image/jpeg', size: requiredProps.maxFileSize};
-        const event = {target: {files: [mockFile]}};
+        const event:any = {target: {files: [mockFile]}};
 
         (wrapper.instance() as UserSettingsGeneralTab).updatePicture(event);
 
