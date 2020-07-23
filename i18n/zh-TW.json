@@ -3909,5 +3909,22 @@
     "admin.channel_settings.channel_list.search_channels_errored": "發生錯誤。請再嘗試一遍",
     "admin.channel_settings.channel_detail.archive_confirm.title": "儲存並封存頻道",
     "admin.channel_settings.channel_detail.archive_confirm.message": "儲存將會封存頻道，所有的使用者將無法存取該頻道內容。請確認要儲存並封存頻道。",
-    "admin.channel_settings.channel_detail.archive_confirm.button": "儲存並封存頻道"
+    "admin.channel_settings.channel_detail.archive_confirm.button": "儲存並封存頻道",
+    "post_pre_header.pinned": "已釘選",
+    "status_dropdown.set_your_status": "狀態",
+    "sidebar_left.sidebar_channel_menu.unmuteChannel": "取消靜音頻道",
+    "sidebar_left.sidebar_channel_menu.muteChannel": "靜音頻道",
+    "sidebar_left.sidebar_channel_menu.leaveChannel": "離開頻道",
+    "sidebar_left.sidebar_channel_menu.favoriteChannel": "我的最愛",
+    "sidebar_left.sidebar_channel_menu.copyLink": "複製連結",
+    "sidebar_left.sidebar_channel_menu.addMembers": "新增成員",
+    "generic_icons.userGuide": "說明",
+    "edit_category_modal.cancel": "取消",
+    "delete_category_modal.delete": "刪除",
+    "create_category_modal.create": "建立",
+    "channel_header.userHelpGuide": "說明",
+    "admin.team_settings.team_list.search_teams_errored": "發生錯誤。請再嘗試一遍",
+    "admin.license.trial-request.submit": "要求測試",
+    "generic_modal.confirm": "確認",
+    "generic_modal.cancel": "取消"
 }

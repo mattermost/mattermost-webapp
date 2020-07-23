@@ -3933,5 +3933,7 @@
     "sidebar.types.direct_messages": "MESAJE DIRECTE",
     "sidebar.types.channels": "CANALE",
     "generic_icons.userGuide": "Ajutor",
-    "channel_header.userHelpGuide": "Ajutor"
+    "channel_header.userHelpGuide": "Ajutor",
+    "generic_modal.confirm": "Confirma",
+    "generic_modal.cancel": "Anulează"
 }

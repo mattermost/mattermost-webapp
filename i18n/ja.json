@@ -3963,5 +3963,7 @@
     "channel_header.userHelpGuide": "ヘルプ",
     "admin.image.amazonS3PathPrefixTitle": "Amazon S3 Pathプリフィックス:",
     "admin.image.amazonS3PathPrefixExample": "例: \"subdir1\"、もしくは空のままにもできます。",
-    "admin.image.amazonS3PathPrefixDescription": "AWSのS3バケットのプリフィックスです。"
+    "admin.image.amazonS3PathPrefixDescription": "AWSのS3バケットのプリフィックスです。",
+    "generic_modal.confirm": "確認",
+    "generic_modal.cancel": "キャンセル"
 }
