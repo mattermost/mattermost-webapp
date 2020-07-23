@@ -3917,5 +3917,9 @@
   "admin.channel_settings.channel_detail.archive_confirm.message": "保存将存档团队中的频道并使所有用户无法访问其内容。 您确定要保存并存档此频道吗？",
   "admin.channel_settings.channel_detail.archive_confirm.button": "保存并归档频道",
   "admin.experimental.experimentalDataPrefetch.title": "预加载频道中的未读消息",
-  "admin.experimental.experimentalDataPrefetch.desc": "当为是时，频道中的未读消息将预加载以降低频道加载时间。当为否时，消息将在用户切换频道前不从服务器加载。"
+  "admin.experimental.experimentalDataPrefetch.desc": "当为是时，频道中的未读消息将预加载以降低频道加载时间。当为否时，消息将在用户切换频道前不从服务器加载。",
+  "admin.channel_list.archived": "已归档",
+  "admin.channel_list.group_sync": "组同步",
+  "admin.channel_list.private": "私有",
+  "admin.channel_list.public": "公开"
 }
