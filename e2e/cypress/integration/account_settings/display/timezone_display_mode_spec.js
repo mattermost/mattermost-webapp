@@ -53,10 +53,12 @@ describe('Account Settings > Display > Timezone Mode', () => {
 
             // # Post messages from now
             cy.postMessage('Hello from now');
-
-            // # Reload to re-arrange posts
-            cy.reload();
         });
+    });
+
+    beforeEach(() => {
+        // # Reload to re-arrange posts
+        cy.reload();
     });
 
     describe('MM-T301 Change timezone automatically', () => {
