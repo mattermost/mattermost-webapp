@@ -31,7 +31,6 @@
 }
 
 .NextStepsView__header-logo {
-    margin-left: auto;
     margin-top: 8px;
 }
 
@@ -84,7 +83,10 @@
     border-radius: 14px;
     display: flex;
     justify-content: center;
-    transition: all 200ms ease-in-out;
+
+    transition-property: color, background-color;
+    transition-duration: 200ms;
+    transition-timing-function: ease-in-out;
 
     span {
         align-self: center;
@@ -110,38 +112,36 @@
     }
 }
 
-.Card {
-    .NextStepsView__button {
-        padding: 12px 20px;
-        line-height: 14px;
-        font-size: 14px;
-        font-weight: 600;
-        border: none;
+.NextStepsView__button {
+    padding: 12px 20px;
+    line-height: 14px;
+    font-size: 14px;
+    font-weight: 600;
+    border: none;
 
-        &.cancel {
-            background: var(--center-channel-bg);
-            color: var(--button-bg);
-        }
+    &.cancel {
+        background: var(--center-channel-bg);
+        color: var(--button-bg);
+    }
 
-        &.confirm {
-            background: var(--button-bg);
-            border-radius: 4px;
-            color: var(--button-color);
+    &.confirm {
+        background: var(--button-bg);
+        border-radius: 4px;
+        color: var(--button-color);
 
-            &.disabled {
-                color: rgba(var(--center-channel-color-rgb), 0.32);
-                background: rgba(var(--center-channel-color-rgb), 0.08);
-            }
+        &.disabled {
+            color: rgba(var(--center-channel-color-rgb), 0.32);
+            background: rgba(var(--center-channel-color-rgb), 0.08);
         }
     }
-    .NextStepsView__wizardButtons {
-        display: flex;
-        justify-content: flex-end;
-        margin: 4px;
+}
+.NextStepsView__wizardButtons {
+    display: flex;
+    justify-content: flex-end;
+    margin: 4px;
 
-        .NextStepsView__button + .NextStepsView__button {
-            margin-left: 8px;
-        }
+    .NextStepsView__button + .NextStepsView__button {
+        margin-left: 8px;
     }
 }
 
