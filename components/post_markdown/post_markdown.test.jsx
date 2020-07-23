@@ -86,7 +86,6 @@ describe('components/PostMarkdown', () => {
     test('should correctly pass postId down', () => {
         const props = {
             ...baseProps,
-            type: Posts.POST_TYPES.HEADER_CHANGE,
             post: {
                 id: 'post_id',
             },
@@ -103,6 +102,7 @@ describe('components/PostMarkdown', () => {
             ...baseProps,
             post: {
                 id: 'post_id',
+                type: Posts.POST_TYPES.HEADER_CHANGE,
                 props: {
                     username: 'user',
                     old_header: 'see ~test',
