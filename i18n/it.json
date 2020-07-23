@@ -3920,10 +3920,10 @@
   "admin.experimental.experimentalDataPrefetch.desc": "Se vero, i messaggi non letti nei canali sono precaricati per ridurre il tempo di caricamento del canale. Se falso, i messaggi non sono caricati dal server finché gli utenti non aprono i canali.",
   "admin.team_settings.team_list.search_teams_errored": "Qualcosa è andato storto. Riprovare",
   "admin.channel_settings.channel_list.search_channels_errored": "Qualcosa è andato storto. Riprovare",
-  "admin.channel_list.public": "",
-  "admin.channel_list.private": "",
-  "admin.channel_list.group_sync": "",
-  "admin.channel_list.archived": "",
+  "admin.channel_list.public": "Pubblico",
+  "admin.channel_list.private": "Privato",
+  "admin.channel_list.group_sync": "Sincronia gruppo",
+  "admin.channel_list.archived": "Archiviato",
   "admin.image.amazonS3PathPrefixDescription": "Il prefisso selezionato del S3 bucket di AWS.",
   "admin.image.amazonS3PathPrefixExample": "Es.: \"subdir1\" o lasciare vuoto.",
   "admin.image.amazonS3PathPrefixTitle": "Prefisso percorso Amazon S3:",
@@ -3966,5 +3966,7 @@
   "sidebar_left.sidebar_channel_menu.copyLink": "Copia collegamento",
   "sidebar_left.sidebar_channel_menu.dropdownAriaLabel": "Modifica il menù dei canali",
   "rename_category_modal.rename": "Rinomina",
-  "rename_category_modal.renameCategory": "Rinomina la categoria"
+  "rename_category_modal.renameCategory": "Rinomina la categoria",
+  "sidebar_left.sidebar_channel_menu.unmuteChannel": "De-Silenzia il canale",
+  "sidebar_left.sidebar_channel_menu.muteChannel": "Silenzia Canale"
 }

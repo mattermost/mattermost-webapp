@@ -3916,8 +3916,8 @@
   "admin.group_settings.group_detail.invalid_length": "Nazwa musi być złożona z 1 do 64 małych znaków alfanumerycznych",
   "generic_modal.confirm": "Potwierdź",
   "generic_modal.cancel": "Anuluj",
-  "admin.channel_list.public": "",
-  "admin.channel_list.private": "",
-  "admin.channel_list.group_sync": "",
-  "admin.channel_list.archived": ""
+  "admin.channel_list.public": "Publiczny",
+  "admin.channel_list.private": "Prywatny",
+  "admin.channel_list.group_sync": "Synchronizacja grup",
+  "admin.channel_list.archived": "Zarchiwizowane"
 }

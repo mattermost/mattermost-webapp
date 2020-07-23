@@ -3963,8 +3963,8 @@
   "admin.image.amazonS3PathPrefixDescription": "Prefixo que você selecionou para seu bucket S3 na AWS.",
   "generic_modal.confirm": "Confirmar",
   "generic_modal.cancel": "Cancelar",
-  "admin.channel_list.public": "",
-  "admin.channel_list.private": "",
-  "admin.channel_list.group_sync": "",
-  "admin.channel_list.archived": ""
+  "admin.channel_list.public": "Público",
+  "admin.channel_list.private": "Privado",
+  "admin.channel_list.group_sync": "Sincronização de Grupo",
+  "admin.channel_list.archived": "Arquivado"
 }
