@@ -162,6 +162,11 @@
     transition-property: box-shadow, border-color;
     background-color: transparent;
 
+    &:hover {
+        border-color: transparent;
+        box-shadow: none;
+    }
+
     & + .Card {
         margin-top: 12px;
         transition-property: box-shadow, border-color, margin;
