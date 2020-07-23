@@ -50,9 +50,6 @@ const initialState = {
                 },
             },
         },
-        preferences: {
-            myPreferences: {},
-        },
     },
     views: {
         rhs: {

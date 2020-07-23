@@ -24,7 +24,6 @@ import {
     getMyChannelMemberships,
     isFavoriteChannel,
     isManuallyUnread,
-    isFavoriteChannel,
 } from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentRelativeTeamUrl, getCurrentTeam, getCurrentTeamId, getTeamsList} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId, getUserByUsername} from 'mattermost-redux/selectors/entities/users';
