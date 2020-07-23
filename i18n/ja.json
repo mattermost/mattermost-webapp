@@ -3741,7 +3741,7 @@
   "admin.system_users.revoke_all_sessions_button": "すべてのセッションを破棄する",
   "admin.system_users.guest": "ゲスト",
   "admin.sql.disableDatabaseSearchTitle": "データベース検索の無効化: ",
-  "admin.sql.disableDatabaseSearchDescription": "検索実行のためのデータベースの使用を無効にします。他の[検索エンジン](!https://mattermost.com/pl/default-search-engine)が設定された場合にのみ使用され流はずです。",
+  "admin.sql.disableDatabaseSearchDescription": "検索実行のためのデータベースの使用を無効にします。他の[検索エンジン](!https://mattermost.com/pl/default-search-engine)が設定された場合にのみ使用されるはずです。",
   "admin.site.usersAndTeams": "ユーザーとチーム",
   "admin.site.public_links": "公開リンク",
   "admin.site.posts": "投稿",
