@@ -97,33 +97,39 @@ export default class TeamList extends React.PureComponent {
         this.setState({page: this.state.page - 1});
     }
 
-    search = (term) => {
-        this.loadPage(0, term);
+    search = (term = '') => {
+        this.loadPage(0, term, this.state.filters);
     };
 
     onFilter = (filterOptions) => {
         const filters = {};
-        const {group_constrained, allow_open_invite, invite_only} = filterOptions.management.values; // eslint-disable-line camelcase, @typescript-eslint/camelcase
-        const allowOpenInvite = allow_open_invite.value; // eslint-disable-line camelcase, @typescript-eslint/camelcase
-        const inviteOnly = invite_only.value; // eslint-disable-line camelcase, @typescript-eslint/camelcase
-        const groupConstrained = group_constrained.value; // eslint-disable-line camelcase, @typescript-eslint/camelcase
+
+        /*  eslint-disable-line camelcase, @typescript-eslint/camelcase */
+        const {group_constrained, allow_open_invite, invite_only} = filterOptions.management.values;
+        const allowOpenInvite = allow_open_invite.value;
+        const inviteOnly = invite_only.value;
+        const groupConstrained = group_constrained.value;
+        /*  eslint-disable-line camelcase, @typescript-eslint/camelcase */
+
         const filtersList = [allowOpenInvite, inviteOnly, groupConstrained];
 
         // If all filters or no filters do nothing
         if (filtersList.includes(false) && filtersList.includes(true)) {
-            if (inviteOnly && allowOpenInvite) {
+
+            // If requesting private and public teams then just exclude all group constrained teams in the results
+            if (allowOpenInvite && inviteOnly) {
                 filters.group_constrained = false;
-            } else if (inviteOnly && groupConstrained) {
-                filters.allow_open_invite = false;
-                filters.include_group_constrained = groupConstrained;
-            } else if (inviteOnly) {
-                filters.allow_open_invite = false;
-                filters.group_constrained = false;
-            } else if (allowOpenInvite) {
-                filters.allow_open_invite = true;
-                filters.include_group_constrained = groupConstrained;
-            } else if (groupConstrained) {
-                filters.group_constrained = true;
+            } else {
+
+                // Since the API returns different results if a filter is set to false vs not set at all
+                // we only set filters when needed and if not leave the filter option blank
+                if (groupConstrained) {
+                    filters.group_constrained = true;
+                }
+
+                if (allowOpenInvite || inviteOnly) {
+                    filters.allow_open_invite = allowOpenInvite;
+                }
             }
         }
 
