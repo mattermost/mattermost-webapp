@@ -18,6 +18,8 @@ type Props = {
 };
 
 const PictureSelector: React.FC<Props> = (props: Props) => {
+    const {src, defaultSrc, loadingPicture, onSelect, onRemove} = props;
+
     const [image, setImage] = useState<string>();
     const [orientationStyles, setOrientationStyles] = useState<{transform: any; transformOrigin: any}>();
 
@@ -36,7 +38,7 @@ const PictureSelector: React.FC<Props> = (props: Props) => {
             };
             reader.readAsArrayBuffer(file);
 
-            props.onSelect(file);
+            onSelect(file);
         }
     };
 
@@ -50,9 +52,9 @@ const PictureSelector: React.FC<Props> = (props: Props) => {
     };
 
     const handleRemove = () => {
-        props.onRemove();
-        if (props.defaultSrc) {
-            setImage(props.defaultSrc);
+        onRemove();
+        if (defaultSrc) {
+            setImage(defaultSrc);
         } else {
             setImage(undefined);
         }
@@ -60,21 +62,21 @@ const PictureSelector: React.FC<Props> = (props: Props) => {
 
     useEffect(() => {
         if (!image) {
-            if (props.src) {
-                setImage(props.src);
-            } else if (props.defaultSrc) {
-                setImage(props.defaultSrc);
+            if (src) {
+                setImage(src);
+            } else if (defaultSrc) {
+                setImage(defaultSrc);
             }
         }
-    });
+    }, [src, setImage]);
 
     let removeButton;
-    if (image && image !== props.defaultSrc) {
+    if (image && image !== defaultSrc) {
         removeButton = (
             <button
                 data-testid='PictureSelector__removeButton'
                 className='PictureSelector__removeButton'
-                disabled={props.loadingPicture}
+                disabled={loadingPicture}
                 onClick={handleRemove}
             >
                 <FormattedMessage
@@ -94,12 +96,13 @@ const PictureSelector: React.FC<Props> = (props: Props) => {
                 accept='.jpg,.png,.bmp'
                 type='file'
                 onChange={handleFileChange}
-                disabled={props.loadingPicture}
+                disabled={loadingPicture}
                 aria-hidden={true}
                 tabIndex={-1}
             />
             <div className='PictureSelector__imageContainer'>
                 <div
+                    aria-label={localizeMessage('picture_selector.image.ariaLabel', 'Picture selector image')}
                     className='PictureSelector__image'
                     style={{
                         backgroundImage: 'url(' + image + ')',
@@ -109,7 +112,7 @@ const PictureSelector: React.FC<Props> = (props: Props) => {
                 <button
                     data-testid='PictureSelector__selectButton'
                     className='PictureSelector__selectButton'
-                    disabled={props.loadingPicture}
+                    disabled={loadingPicture}
                     onClick={handleInputFile}
                     aria-label={localizeMessage('picture_selector.select_button.ariaLabel', 'Select picture')}
                 >

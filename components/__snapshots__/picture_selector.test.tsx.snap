@@ -17,6 +17,7 @@ exports[`components/picture_selector should match snapshot, default picture prov
     className="PictureSelector__imageContainer"
   >
     <div
+      aria-label="Picture selector image"
       className="PictureSelector__image"
       style={
         Object {
@@ -55,6 +56,7 @@ exports[`components/picture_selector should match snapshot, existing picture pro
     className="PictureSelector__imageContainer"
   >
     <div
+      aria-label="Picture selector image"
       className="PictureSelector__image"
       style={
         Object {
@@ -93,6 +95,7 @@ exports[`components/picture_selector should match snapshot, no picture selected 
     className="PictureSelector__imageContainer"
   >
     <div
+      aria-label="Picture selector image"
       className="PictureSelector__image"
       style={
         Object {
