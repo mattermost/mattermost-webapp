@@ -56,15 +56,14 @@
 }
 
 .NextStepsView__body .Card__header {
-    margin: 0 12px;
-    padding: 0;
+    padding: 1px 0;
 }
 
 .NextStepsView__cardHeader {
     display: flex;
     border: none;
     background: none;
-    padding: 12px 0;
+    padding: 12px;
     width: 100%;
 
     > span {
@@ -85,7 +84,10 @@
     border-radius: 14px;
     display: flex;
     justify-content: center;
-    transition: all 200ms ease-in-out;
+
+    transition-property: color, background-color;
+    transition-duration: 200ms;
+    transition-timing-function: ease-in-out;
 
     span {
         align-self: center;
@@ -111,55 +113,65 @@
     }
 }
 
-.Card {
-    .NextStepsView__button {
-        padding: 12px 20px;
-        line-height: 14px;
-        font-size: 14px;
-        font-weight: 600;
-        border: none;
+.NextStepsView__button {
+    padding: 12px 20px;
+    line-height: 14px;
+    font-size: 14px;
+    font-weight: 600;
+    border: none;
 
-        &.cancel {
-            background: var(--center-channel-bg);
-            color: var(--button-bg);
-        }
-
-        &.confirm {
-            background: var(--button-bg);
-            border-radius: 4px;
-            color: var(--button-color);
-
-            &.disabled {
-                color: rgba(var(--center-channel-color-rgb), 0.32);
-                background: rgba(var(--center-channel-color-rgb), 0.08);
-            }
-        }
+    &.cancel {
+        background: var(--center-channel-bg);
+        color: var(--button-bg);
     }
-    .NextStepsView__wizardButtons {
-        display: flex;
-        justify-content: flex-end;
-        margin: 4px;
 
-        .NextStepsView__button + .NextStepsView__button {
-            margin-left: 8px;
+    &.confirm {
+        background: var(--button-bg);
+        border-radius: 4px;
+        color: var(--button-color);
+
+        &.disabled {
+            color: rgba(var(--center-channel-color-rgb), 0.32);
+            background: rgba(var(--center-channel-color-rgb), 0.08);
         }
     }
 }
+.NextStepsView__wizardButtons {
+    display: flex;
+    justify-content: flex-end;
+    margin: 4px;
 
-.Card__header.expanded .NextStepsView__cardHeaderBadge {
-    color: var(--button-color);
-    background-color: var(--sidebar-text-active-border);
+    .NextStepsView__button + .NextStepsView__button {
+        margin-left: 8px;
+    }
+}
+
+.Card__header.expanded {
+    .NextStepsView__cardHeader {
+        cursor: default;
+    }
+
+    .NextStepsView__cardHeaderBadge {
+        color: var(--button-color);
+        background-color: var(--sidebar-text-active-border);
+    }
 }
 
 .Card.complete {
     border-color: transparent;
     box-shadow: none;
-    transition: border-color 0.3s ease-in-out;
+    transition-property: box-shadow, border-color;
     background-color: transparent;
+    margin-left: 12px;
+
+    &:hover {
+        border-color: transparent;
+        box-shadow: none;
+    }
 
     & + .Card {
         margin-top: 12px;
-        transition: margin 0.3s ease-in-out;
+        transition-property: box-shadow, border-color, margin;
     }
 
     .Card__header {
