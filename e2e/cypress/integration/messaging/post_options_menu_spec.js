@@ -45,14 +45,14 @@ describe('Messaging', () => {
 
             // * Check if modal for post options have opened
             cy.get(dropDownMenuOfPostOptionsID).should('be.visible').within(() => {
-                // * Check if atleast 1 item is present
+                // * Check if at least 1 item is present
                 cy.get('li').should('have.length.greaterThan', 0);
 
                 // * Check if one of the options are as follows
                 cy.findByText('Add Reaction').should('be.visible');
                 cy.findByText('Mark as Unread').should('be.visible');
                 cy.findByText('Copy Link').should('be.visible');
-                cy.findByText('Flag').should('be.visible');
+                cy.findByText('Save').should('be.visible');
                 cy.findByText('Pin to Channel').should('be.visible');
                 cy.findByText('Edit').should('be.visible');
                 cy.findByText('Delete').should('be.visible');

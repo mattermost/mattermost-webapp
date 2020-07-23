@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {changeOpacity} from 'mattermost-redux/utils/theme_utils';
 
+import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 import Markdown from 'components/markdown';
 
 export default class ActionButton extends React.PureComponent {
@@ -13,6 +14,8 @@ export default class ActionButton extends React.PureComponent {
         handleAction: PropTypes.func.isRequired,
         disabled: PropTypes.bool,
         theme: PropTypes.object.isRequired,
+        actionExecuting: PropTypes.bool,
+        actionExecutingMessage: PropTypes.string,
     }
 
     getStatusColors(theme) {
@@ -53,17 +56,22 @@ export default class ActionButton extends React.PureComponent {
                 data-action-cookie={action.cookie}
                 disabled={disabled}
                 key={action.id}
-                onClick={handleAction}
+                onClick={(e) => handleAction(e, this.props.action.options)}
                 style={customButtonStyle}
             >
-                <Markdown
-                    message={action.name}
-                    options={{
-                        mentionHighlight: false,
-                        markdown: false,
-                        autolinkedUrlSchemes: [],
-                    }}
-                />
+                <LoadingWrapper
+                    loading={this.props.actionExecuting}
+                    text={this.props.actionExecutingMessage}
+                >
+                    <Markdown
+                        message={action.name}
+                        options={{
+                            mentionHighlight: false,
+                            markdown: false,
+                            autolinkedUrlSchemes: [],
+                        }}
+                    />
+                </LoadingWrapper>
             </button>
         );
     }

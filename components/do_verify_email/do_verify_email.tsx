@@ -56,9 +56,9 @@ export default class DoVerifyEmail extends React.PureComponent<Props, State> {
             GlobalActions.redirectUserToDefaultTeam();
         } else {
             let link = '/login?extra=verified';
-            const email = encodeURIComponent((new URLSearchParams(this.props.location.search)).get('email') || '');
+            const email = (new URLSearchParams(this.props.location.search)).get('email');
             if (email) {
-                link += '&email=' + email;
+                link += '&email=' + encodeURIComponent(email);
             }
             const redirectTo = (new URLSearchParams(this.props.location.search)).get('redirect_to');
             if (redirectTo) {
