@@ -3964,9 +3964,5 @@
   "channel_header.userHelpGuide": "Yardım",
   "generic_modal.confirm": "Onayla",
   "generic_modal.cancel": "İptal",
-  "filter.title": "Şuna göre süz",
-  "filter.reset": "Süzgeçleri sıfırla",
-  "filter.filters": "Süzgeçler",
-  "filter.apply": "Uygula",
   "announcement_bar.error.warn_metric_status.link": "Ayrıntılı bilgi alın"
 }
