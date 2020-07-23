@@ -75,6 +75,6 @@ describe('I18456 Built-in slash commands: common', () => {
 });
 
 function loginAndVisitDefaultChannel(user, channelUrl) {
-    cy.apiLogin(user.username, user.password);
+    cy.apiLogin(user);
     cy.visit(channelUrl);
 }

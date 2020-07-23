@@ -11,12 +11,18 @@
 // Group: @messaging
 
 describe('MM-13064 - Emoji picker keyboard usability', () => {
-    beforeEach(() => {
-        // # Login as user-1
-        cy.apiLogin('user-1');
+    let townsquareLink;
 
+    before(() => {
+        // # Login as test user and visit town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            townsquareLink = `/${team.name}/channels/town-square`;
+        });
+    });
+
+    beforeEach(() => {
         // # Visit the Town Square channel
-        cy.visit('/ad-1/channels/town-square');
+        cy.visit(townsquareLink);
 
         // # Open emoji picker
         cy.get('#emojiPickerButton').click();

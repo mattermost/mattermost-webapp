@@ -29,7 +29,7 @@ describe('Channel', () => {
                 otherChannel = res.body;
             });
 
-            cy.apiLogin(testUser.username, testUser.password);
+            cy.apiLogin(testUser);
             cy.visit(`/${team.name}/channels/town-square`);
         });
     });
@@ -77,10 +77,10 @@ describe('Channel', () => {
         // # Remove test user from the test channel
         cy.apiAdminLogin();
         cy.removeUserFromChannel(otherChannel.id, testUser.id).then((res) => {
-            expect(res).to.equal(200);
+            expect(res.status).to.equal(200);
 
             // # Login as test user and visit the test team
-            cy.apiLogin(testUser.username, testUser.password);
+            cy.apiLogin(testUser);
             cy.visit(`/${testTeam.name}/channels/town-square`);
 
             // # Type "~"

@@ -5,7 +5,7 @@
 // Read more at: https://on.cypress.io/configuration
 // ***********************************************************
 
-/* eslint-disable no-loop-func, quote-props */
+/* eslint-disable no-loop-func */
 
 import '@testing-library/cypress/add-commands';
 import 'cypress-file-upload';
@@ -25,31 +25,10 @@ import './storybook_commands';
 import './task_commands';
 import './ui';
 import './ui_commands'; // soon to deprecate
+import './visual_commands';
+import './external_commands';
 
 import {getAdminAccount} from './env';
-
-const percentEncoding = {
-    ':': '%3A',
-    '/': '%2F',
-    '?': '%3F',
-    '#': '%23',
-    '[': '%5B',
-    ']': '%5D',
-    '@': '%40',
-    '!': '%21',
-    '$': '%24',
-    '&': '%26',
-    "'": '%27',
-    '(': '%28',
-    ')': '%29',
-    '*': '%2A',
-    '+': '%2B',
-    ',': '%2C',
-    ';': '%3B',
-    '=': '%3D',
-    '%': '%25',
-    ' ': '+',
-};
 
 Cypress.on('test:after:run', (test, runnable) => {
     // Only if the test is failed do we want to add
@@ -102,7 +81,7 @@ Cypress.on('test:after:run', (test, runnable) => {
         // and consequently Cypress appends some text to the file name
         const hookName = test.hookName ? ' -- ' + test.hookName + ' hook' : '';
 
-        const filename = `${parentNames}${testTitle}${hookName} (failed).png`.split('').map((w) => percentEncoding[w] || w).join('');
+        const filename = encodeURIComponent(`${parentNames}${testTitle}${hookName} (failed).png`);
 
         // Add context to the mochawesome report which includes the screenshot
         addContext({test}, {
@@ -134,6 +113,8 @@ before(() => {
 
         // # Reset admin preference, online status and locale
         cy.apiSaveTeammateNameDisplayPreference('username');
+        cy.apiSaveLinkPreviewsPreference('true');
+        cy.apiSaveCollapsePreviewsPreference('false');
         cy.apiUpdateUserStatus('online');
         cy.apiPatchMe({
             locale: 'en',
@@ -141,24 +122,26 @@ before(() => {
         });
 
         // # Reset roles
-        cy.apiGetClientLicense().then((res) => {
-            if (res.body.IsLicensed === 'true') {
+        cy.apiGetClientLicense().then(({license}) => {
+            if (license.IsLicensed === 'true') {
                 cy.apiResetRoles();
             }
         });
 
-        // # Check if default "ad-1" team is present, and
-        // # create if not found.
-        const defaultTeamName = 'ad-1';
-        cy.apiGetTeams().then((teamsRes) => {
-            const teams = teamsRes.body;
-            const defaultTeam = teams && teams.length > 0 && teams.find((team) => team.name === defaultTeamName);
+        // # Check if default team is present; create if not found.
+        cy.apiGetTeamsForUser().then(({teams}) => {
+            // Default team is meant for sysadmin's primary team,
+            // selected for compatibility with existing local development.
+            // It is not exported since it should not be used for testing.
+            const DEFAULT_TEAM = {name: 'ad-1', display_name: 'eligendi', type: 'O'};
+
+            const defaultTeam = teams && teams.length > 0 && teams.find((team) => team.name === DEFAULT_TEAM.name);
 
             if (!defaultTeam) {
-                cy.apiCreateTeam(defaultTeamName, 'eligendi', 'O', false);
+                cy.apiCreateTeam(DEFAULT_TEAM.name, DEFAULT_TEAM.display_name, 'O', false);
             } else if (defaultTeam && Cypress.env('resetBeforeTest')) {
                 teams.forEach((team) => {
-                    if (team.name !== defaultTeamName) {
+                    if (team.name !== DEFAULT_TEAM.name) {
                         cy.apiDeleteTeam(team.id);
                     }
                 });

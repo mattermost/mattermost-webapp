@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @enterprise @ldap_group
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
@@ -50,7 +51,7 @@ const getChannelsAssociatedToGroupAndUnlink = (groupId) => {
 describe('System Console', () => {
     before(() => {
         // * Check if server has license for LDAP Groups
-        cy.requireLicenseForFeature('LDAPGroups');
+        cy.apiRequireLicenseForFeature('LDAPGroups');
 
         // Enable LDAP
         cy.apiUpdateConfig({LdapSettings: {Enable: true, EnableSync: true}});
@@ -62,7 +63,7 @@ describe('System Console', () => {
     });
 
     it('MM-20058 - System Admin can map roles to teams and channels via group configuration page', () => {
-        // # Go to system admin page and to team configuration page of channel "eligendi"
+        // # Go to system admin page and to team configuration page
         cy.visit('/admin_console/user_management/groups');
         cy.get('#developers_group').then((el) => {
             if (el.text().includes('Edit')) {

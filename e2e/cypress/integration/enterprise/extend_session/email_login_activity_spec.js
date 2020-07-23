@@ -9,6 +9,7 @@ import {getAdminAccount} from '../../../support/env';
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @enterprise @extend_session
 
 describe('MM-T2575 Extend Session - Email Login', () => {
@@ -19,7 +20,7 @@ describe('MM-T2575 Extend Session - Email Login', () => {
 
     before(() => {
         // # Check if with license and has matching database
-        cy.requireLicense();
+        cy.apiRequireLicense();
         cy.requireServerDBToMatch();
 
         cy.apiInitSetup().then(({team, user}) => {
@@ -45,7 +46,7 @@ describe('MM-T2575 Extend Session - Email Login', () => {
         cy.apiUpdateConfig(setting);
 
         // # Login as test user and go to town-square channel
-        cy.apiLogin(testUser.username, testUser.password);
+        cy.apiLogin(testUser);
         cy.visit(townSquarePage);
 
         // # Get active user sessions as baseline reference
@@ -127,7 +128,7 @@ describe('MM-T2575 Extend Session - Email Login', () => {
             cy.apiUpdateConfig(setting);
 
             // # Login as test user and go to town-square channel
-            cy.apiLogin(testUser.username, testUser.password);
+            cy.apiLogin(testUser);
             cy.visit(townSquarePage);
 
             // # Get active user sessions as baseline reference
@@ -183,7 +184,7 @@ describe('MM-T2575 Extend Session - Email Login', () => {
             cy.apiUpdateConfig(setting);
 
             // # Login as test user and go to town-square channel
-            cy.apiLogin(testUser.username, testUser.password);
+            cy.apiLogin(testUser);
             cy.visit(townSquarePage);
 
             // # Get active user sessions as baseline reference

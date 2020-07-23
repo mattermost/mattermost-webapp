@@ -99,7 +99,7 @@ export default class StatusDropdown extends React.PureComponent {
                 { (title) => (
                     <i
                         className={'fa fa-caret-down'}
-                        ariaLabel={title}
+                        aria-label={title}
                     />)
                 }
             </FormattedMessage>
@@ -144,7 +144,7 @@ export default class StatusDropdown extends React.PureComponent {
                     <Menu.Header>
                         <FormattedMessage
                             id='status_dropdown.set_your_status'
-                            defaultMessage='Set your status'
+                            defaultMessage='Status'
                         />
                     </Menu.Header>
                     <Menu.Group>

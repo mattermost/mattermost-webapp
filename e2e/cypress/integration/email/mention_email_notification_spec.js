@@ -26,8 +26,8 @@ describe('Email notification', () => {
         cy.apiEmailTest();
 
         // # Get config
-        cy.apiGetConfig().then((response) => {
-            config = response.body;
+        cy.apiGetConfig().then((data) => {
+            ({config} = data);
         });
 
         cy.apiInitSetup().then(({team, user}) => {
@@ -40,7 +40,7 @@ describe('Email notification', () => {
             });
 
             // # Login as test user and go to town square
-            cy.apiLogin(testUser.username, testUser.password);
+            cy.apiLogin(testUser);
             cy.visit(`/${team.name}/channels/town-square`);
         });
     });

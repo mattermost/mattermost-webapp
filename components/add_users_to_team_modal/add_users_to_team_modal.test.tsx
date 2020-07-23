@@ -7,7 +7,7 @@ import {shallow} from 'enzyme';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {Team} from 'mattermost-redux/types/teams';
 
-import {TestHelper} from '../../utils/test_helper';
+import {TestHelper} from 'utils/test_helper';
 
 import AddUsersToTeamModal from './add_users_to_team_modal';
 

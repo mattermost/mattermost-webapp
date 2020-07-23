@@ -7,24 +7,19 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-let testChannel;
-
 describe('Archived channels', () => {
-    beforeEach(() => {
-        cy.apiLogin('sysadmin');
-    });
+    let testChannel;
 
     before(() => {
-        cy.requireLicense();
+        cy.apiRequireLicense();
 
-        // # Create a channel
-        cy.apiGetTeamByName('ad-1').then((res) => {
-            cy.apiCreateChannel(res.body.id, `archive-test-${Date.now()}`, 'Archive Test').then((response) => {
-                testChannel = response.body;
+        cy.apiInitSetup({
+            channelPrefix: {name: 'aaa-archive', displayName: 'AAA Archive Test'},
+        }).then(({channel}) => {
+            testChannel = channel;
 
-                // # Archive the channel
-                cy.apiDeleteChannel(testChannel.id);
-            });
+            // # Archive the channel
+            cy.apiDeleteChannel(testChannel.id);
         });
     });
 
@@ -34,7 +29,7 @@ describe('Archived channels', () => {
 
         // # Find the archived channel
         // * Check that deleted channel displays the correct icon
-        cy.get('[data-testid=channel-display-name]').findByText(testChannel.display_name).find('.channel-icon__archive');
+        cy.findByText(testChannel.display_name).should('be.visible').find('.channel-icon__archive');
     });
 
     it('appear in the search results of the channels list view', () => {
@@ -42,10 +37,10 @@ describe('Archived channels', () => {
         cy.visit('/admin_console/user_management/channels');
 
         // # Search for the archived channel
-        cy.get('[data-testid=search-input]').type(`${testChannel.display_name}{enter}`);
+        cy.findByPlaceholderText('Search').type(`${testChannel.display_name}{enter}`);
 
         // * Confirm that the archived channel is in the results
-        cy.get('[data-testid=channel-display-name]').findByText(testChannel.display_name);
+        cy.findByText(testChannel.display_name).should('be.visible');
     });
 
     it('display an unarchive button and a limited set of other UI elements', () => {

@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -101,7 +102,6 @@ export default class ChannelHeaderMobile extends React.PureComponent {
                                     )}
                                 </div>
                                 <ChannelInfoButton
-                                    ref='headerOverlay'
                                     channel={channel}
                                     isReadOnly={isReadOnly}
                                     isRHSOpen={isRHSOpen}
@@ -121,3 +121,4 @@ export default class ChannelHeaderMobile extends React.PureComponent {
         );
     }
 }
+/* eslint-enable react/no-string-refs */

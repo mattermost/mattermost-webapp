@@ -29,7 +29,7 @@ describe('Channels', () => {
                 cy.apiAddUserToTeam(testTeam.id, otherUser.id);
             });
 
-            cy.apiLogin(testUser.username, testUser.password).then(() => {
+            cy.apiLogin(testUser).then(() => {
                 // # Create new test channel
                 cy.apiCreateChannel(testTeam.id, 'channel-test', 'Channel').then((channelRes) => {
                     testChannel = channelRes.body;
@@ -55,7 +55,7 @@ describe('Channels', () => {
         });
 
         // # Login as new user and go to "/"
-        cy.apiLogin(otherUser.username, otherUser.password);
+        cy.apiLogin(otherUser);
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # Go to LHS and click "More..." under Public Channels group
@@ -85,7 +85,7 @@ describe('Channels', () => {
         cy.url().should('include', `/${testTeam.name}/channels/${testChannel.name}`);
 
         // # Login as channel admin and go directly to the channel
-        cy.apiLogin(testUser.username, testUser.password);
+        cy.apiLogin(testUser);
         cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 
         // # Click channel header to open channel menu
@@ -157,7 +157,7 @@ function verifyMoreChannelsModalWithArchivedSelection(isEnabled, testUser, testT
     verifyMoreChannelsModal(isEnabled);
 
     // # Login as regular user and verify more channels modal
-    cy.apiLogin(testUser.username, testUser.password);
+    cy.apiLogin(testUser);
     cy.visit(`/${testTeam.name}/channels/town-square`);
     verifyMoreChannelsModal(isEnabled);
 }
