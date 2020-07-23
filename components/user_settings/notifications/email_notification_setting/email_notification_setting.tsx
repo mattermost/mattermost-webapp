@@ -25,7 +25,6 @@ type Props = {
     onChange: (enableEmail: boolean) => void;
     serverError?: string;
     saving?: boolean;
-    focused?: boolean;
     sendEmailNotifications: boolean;
     enableEmailBatching: boolean;
     actions: {
@@ -152,7 +151,6 @@ export default class EmailNotificationSetting extends React.PureComponent<Props,
     renderMinSettingView = () => {
         const {
             enableEmail,
-            focused,
             sendEmailNotifications,
         } = this.props;
 
