@@ -3961,5 +3961,7 @@
   "sidebar_left.sidebar_channel_menu.unmuteChannel": "De-Silenzia il canale",
   "post_pre_header.pinned": "Bloccato",
   "generic_icons.userGuide": "Aiuto",
-  "channel_header.userHelpGuide": "Aiuto"
+  "channel_header.userHelpGuide": "Aiuto",
+  "generic_modal.confirm": "Conferma",
+  "generic_modal.cancel": "Annulla"
 }

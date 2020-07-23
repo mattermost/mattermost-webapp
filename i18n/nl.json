@@ -3961,5 +3961,7 @@
   "admin.image.amazonS3PathPrefixDescription": "Voorvoegsel dat je selecteerde voor je S3 bucket in AWS.",
   "post_pre_header.pinned": "Vastgemaakt",
   "generic_icons.userGuide": "Help",
-  "channel_header.userHelpGuide": "Help"
+  "channel_header.userHelpGuide": "Help",
+  "generic_modal.confirm": "Bevestigen",
+  "generic_modal.cancel": "Annuleren"
 }

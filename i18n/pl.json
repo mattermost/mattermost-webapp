@@ -3913,5 +3913,7 @@
   "create_category_modal.create": "Utwórz",
   "admin.group_settings.group_detail.invalid_length": "Nazwa musi być złożona z 1 do 64 małych znaków alfanumerycznych",
   "status_dropdown.set_your_status": "Stan",
-  "admin.license.trial-request.submit": "Request trial"
+  "admin.license.trial-request.submit": "Request trial",
+  "generic_modal.confirm": "Potwierdź",
+  "generic_modal.cancel": "Anuluj"
 }

@@ -3972,5 +3972,7 @@
   "filter.filters": "Фильтры",
   "filter.apply": "Применить",
   "channel_header.userHelpGuide": "Помощь",
-  "admin.support.enableAskCommunityTitle": "Включить ссылку \"Спросить сообщество\":"
+  "admin.support.enableAskCommunityTitle": "Включить ссылку \"Спросить сообщество\":",
+  "generic_modal.confirm": "Подтвердить",
+  "generic_modal.cancel": "Отмена"
 }

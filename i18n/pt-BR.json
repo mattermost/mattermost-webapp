@@ -3961,5 +3961,7 @@
   "admin.image.amazonS3PathPrefixDescription": "Prefixo que você selecionou para seu bucket S3 na AWS.",
   "post_pre_header.pinned": "Fixado",
   "generic_icons.userGuide": "Ajuda",
-  "channel_header.userHelpGuide": "Ajuda"
+  "channel_header.userHelpGuide": "Ajuda",
+  "generic_modal.confirm": "Confirmar",
+  "generic_modal.cancel": "Cancelar"
 }

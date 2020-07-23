@@ -3910,5 +3910,7 @@
   "create_category_modal.create": "Створити",
   "admin.group_settings.group_detail.invalid_length": "Ім'я повинно складатися з 2 або більше малих літер і цифр",
   "status_dropdown.set_your_status": "Статус",
-  "admin.license.trial-request.submit": "Request trial"
+  "admin.license.trial-request.submit": "Request trial",
+  "generic_modal.confirm": "Підтвердьте",
+  "generic_modal.cancel": "Відміна"
 }

@@ -3910,5 +3910,7 @@
   "sidebar_left.sidebar_channel_menu.addMembers": "Mitglieder hinzufügen",
   "delete_category_modal.delete": "Löschen",
   "create_category_modal.create": "Erstellen",
-  "admin.license.trial-request.submit": "Request trial"
+  "admin.license.trial-request.submit": "Request trial",
+  "generic_modal.confirm": "Bestätigen",
+  "generic_modal.cancel": "Abbrechen"
 }

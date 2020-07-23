@@ -3961,5 +3961,7 @@
   "admin.image.amazonS3PathPrefixDescription": "AWSのS3バケットのプリフィックスです。",
   "post_pre_header.pinned": "ピン留め",
   "generic_icons.userGuide": "ヘルプ",
-  "channel_header.userHelpGuide": "ヘルプ"
+  "channel_header.userHelpGuide": "ヘルプ",
+  "generic_modal.confirm": "確認",
+  "generic_modal.cancel": "キャンセル"
 }

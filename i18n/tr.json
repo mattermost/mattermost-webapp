@@ -3961,5 +3961,7 @@
   "admin.image.amazonS3PathPrefixDescription": "AWS üzerindeki S3 klasörünüz için seçtiğiniz ön ek.",
   "post_pre_header.pinned": "Sabitlenmiş",
   "generic_icons.userGuide": "Yardım",
-  "channel_header.userHelpGuide": "Yardım"
+  "channel_header.userHelpGuide": "Yardım",
+  "generic_modal.confirm": "Onayla",
+  "generic_modal.cancel": "İptal"
 }
