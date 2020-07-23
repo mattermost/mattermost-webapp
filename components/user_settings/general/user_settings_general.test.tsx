@@ -92,7 +92,7 @@ describe('components/user_settings/general/UserSettingsGeneral', () => {
         const wrapper = shallowWithIntl(<UserSettingsGeneral {...props}/>);
 
         const mockFile = {type: 'image/jpeg', size: requiredProps.maxFileSize};
-        const event:any = {target: {files: [mockFile]}};
+        const event: any = {target: {files: [mockFile]}};
 
         (wrapper.instance() as UserSettingsGeneralTab).updatePicture(event);
 
