@@ -3914,5 +3914,9 @@
   "admin.group_settings.group_detail.invalid_length": "이름은 반드시 1글자 이상 64글자 이하 영문 또는 숫자여야 합니다.",
   "admin.channel_settings.channel_detail.archive_confirm.title": "채널 저장하고 보관하기",
   "generic_modal.confirm": "확인",
-  "generic_modal.cancel": "취소"
+  "generic_modal.cancel": "취소",
+  "admin.channel_list.public": "",
+  "admin.channel_list.private": "",
+  "admin.channel_list.group_sync": "",
+  "admin.channel_list.archived": ""
 }

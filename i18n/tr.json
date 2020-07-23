@@ -3963,5 +3963,9 @@
   "admin.image.amazonS3PathPrefixExample": "Örnek: \"altklasor1\". Boş da bırakabilirsiniz.",
   "admin.image.amazonS3PathPrefixDescription": "AWS üzerindeki S3 klasörünüz için seçtiğiniz ön ek.",
   "generic_modal.confirm": "Onayla",
-  "generic_modal.cancel": "İptal"
+  "generic_modal.cancel": "İptal",
+  "admin.channel_list.public": "Herkese Açık",
+  "admin.channel_list.private": "Özel",
+  "admin.channel_list.group_sync": "Grup ile Eşitlenen",
+  "admin.channel_list.archived": "Arşivlenmiş"
 }

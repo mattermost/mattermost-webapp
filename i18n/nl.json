@@ -3963,5 +3963,9 @@
   "admin.image.amazonS3PathPrefixExample": "Bijv.: \"submap1\" of je kan dit ook leeg laten.",
   "admin.image.amazonS3PathPrefixDescription": "Voorvoegsel dat je selecteerde voor je S3 bucket in AWS.",
   "generic_modal.confirm": "Bevestigen",
-  "generic_modal.cancel": "Annuleren"
+  "generic_modal.cancel": "Annuleren",
+  "admin.channel_list.public": "",
+  "admin.channel_list.private": "",
+  "admin.channel_list.group_sync": "",
+  "admin.channel_list.archived": ""
 }

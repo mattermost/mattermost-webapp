@@ -3912,5 +3912,9 @@
   "channel_header.userHelpGuide": "Hilfe",
   "admin.license.trial-request.submit": "Request trial",
   "generic_modal.confirm": "Bestätigen",
-  "generic_modal.cancel": "Abbrechen"
+  "generic_modal.cancel": "Abbrechen",
+  "admin.channel_list.public": "Öffentlich",
+  "admin.channel_list.private": "Privat",
+  "admin.channel_list.group_sync": "Grunpensynchronisierung",
+  "admin.channel_list.archived": "Archiviert"
 }

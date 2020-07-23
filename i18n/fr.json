@@ -3912,5 +3912,9 @@
   "admin.license.trial-request.submit": "Request trial",
   "admin.group_settings.group_detail.invalid_length": "Le nom doit être compris entre 1 et 64 caractères alphanumériques en minuscules.",
   "generic_modal.confirm": "Confirmer",
-  "generic_modal.cancel": "Annuler"
+  "generic_modal.cancel": "Annuler",
+  "admin.channel_list.public": "",
+  "admin.channel_list.private": "",
+  "admin.channel_list.group_sync": "",
+  "admin.channel_list.archived": ""
 }

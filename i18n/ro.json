@@ -3933,5 +3933,9 @@
   "generic_icons.userGuide": "Ajutor",
   "channel_header.userHelpGuide": "Ajutor",
   "generic_modal.confirm": "Confirma",
-  "generic_modal.cancel": "Anulează"
+  "generic_modal.cancel": "Anulează",
+  "admin.channel_list.public": "Public",
+  "admin.channel_list.private": "Privat",
+  "admin.channel_list.group_sync": "Sincronizare de grup",
+  "admin.channel_list.archived": "Arhivat"
 }

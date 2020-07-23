@@ -3915,5 +3915,9 @@
   "admin.license.trial-request.submit": "Request trial",
   "admin.group_settings.group_detail.invalid_length": "Nazwa musi być złożona z 1 do 64 małych znaków alfanumerycznych",
   "generic_modal.confirm": "Potwierdź",
-  "generic_modal.cancel": "Anuluj"
+  "generic_modal.cancel": "Anuluj",
+  "admin.channel_list.public": "",
+  "admin.channel_list.private": "",
+  "admin.channel_list.group_sync": "",
+  "admin.channel_list.archived": ""
 }
