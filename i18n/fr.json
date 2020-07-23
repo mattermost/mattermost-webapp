@@ -3913,8 +3913,8 @@
   "admin.group_settings.group_detail.invalid_length": "Le nom doit être compris entre 1 et 64 caractères alphanumériques en minuscules.",
   "generic_modal.confirm": "Confirmer",
   "generic_modal.cancel": "Annuler",
-  "admin.channel_list.public": "",
-  "admin.channel_list.private": "",
-  "admin.channel_list.group_sync": "",
-  "admin.channel_list.archived": ""
+  "admin.channel_list.public": "Public",
+  "admin.channel_list.private": "Privé",
+  "admin.channel_list.group_sync": "Synchronisation de groupes",
+  "admin.channel_list.archived": "Archivé"
 }

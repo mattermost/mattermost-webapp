@@ -3964,8 +3964,8 @@
   "admin.image.amazonS3PathPrefixDescription": "Voorvoegsel dat je selecteerde voor je S3 bucket in AWS.",
   "generic_modal.confirm": "Bevestigen",
   "generic_modal.cancel": "Annuleren",
-  "admin.channel_list.public": "",
-  "admin.channel_list.private": "",
+  "admin.channel_list.public": "Publiek",
+  "admin.channel_list.private": "Privé",
   "admin.channel_list.group_sync": "Groepssynchronisatie",
   "admin.channel_list.archived": "Gearchiveerd",
   "admin.channel_list.manual_invites": "Manueel uitnodigen"
