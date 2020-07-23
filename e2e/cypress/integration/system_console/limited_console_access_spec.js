@@ -21,91 +21,70 @@ describe('Limited console access', () => {
         Cypress._.forEach(roleNames, (roleName) => {
             cy.apiCreateUser().then(({user}) => {
                 testUsers[roleName] = user;
+
+                // # Create a user for each of the new admin roles.
                 cy.apiPatchUserRoles(user.id, ['system_user', roleName]);
             });
         });
     });
 
     it('sidebar menu items are visible or hidden', () => {
+        const notExists = (section) => {
+            cy.get(`[data-testid="${section}"]`).should('not.exist');
+        };
+        const exists = (section) => {
+            cy.get(`[data-testid="${section}"]`).should('exist');
+        };
+        forEachConsoleSection(notExists, exists, exists);
+    });
+
+    it('sections are read-only to roles', () => {
+        const noOp = () => null;
+        const checkDisabled = checkInputsShould('be.disabled');
+        forEachConsoleSection(noOp, checkDisabled, noOp);
+    });
+
+    it('sections are read-write to roles', () => {
+        const noOp = () => null;
+        const checkEnabled = checkInputsShould('be.enabled');
+        forEachConsoleSection(noOp, noOp, checkEnabled);
+    });
+
+    const checkInputsShould = (shouldString) => (section) => {
+        const {disabledInputs} = disabledTests.find((item) => item.section === section);
+        Cypress._.forEach(disabledInputs, ({path, selector}) => {
+            if (path.length && selector.length) {
+                cy.visit(path, {timeout: 30000});
+                cy.get(selector).should(shouldString);
+            }
+        });
+    };
+
+    function forEachConsoleSection(noAccessF, readOnlyF, readWriteF) {
         Cypress._.forEach(roleNames, (roleName) => {
             const user = testUsers[roleName];
-            cy.apiLogin(user);
-            cy.visit('/admin_console');
 
-            cy.log(`testing sidebar access of ${roleName}`);
+            // # Login as each new role.
+            cy.apiLogin(user);
+
+            // # Go the system console.
+            cy.visit('/admin_console');
 
             accessRules.forEach((rule) => {
                 const {section} = rule;
                 const access = rule[roleName];
                 switch (access) {
                 case ACCESS_NONE:
-                    cy.get(`[data-testid="${section}"]`).should('not.exist');
+                    noAccessF(section);
                     break;
                 case ACCESS_READ_ONLY:
+                    readOnlyF(section);
+                    break;
                 case ACCESS_READ_WRITE:
-                    cy.get(`[data-testid="${section}"]`).should('exist');
+                    readWriteF(section);
                     break;
                 }
             });
         });
-    });
-
-    it('sections are read-only to roles', () => {
-        Cypress._.forEach(roleNames, (roleName) => {
-            const user = testUsers[roleName];
-            cy.apiLogin(user);
-            cy.visit('/admin_console');
-
-            cy.log(`testing read-only access of ${roleName}`);
-
-            Cypress._.forEach(accessRules, (rule) => {
-                const {section} = rule;
-                const access = rule[roleName];
-                if (access === ACCESS_READ_ONLY) {
-                    // Look at one input element per section to see that it's disabled in read-only mode.
-                    const {disabledInputs} = disabledTests.find((item) => item.section === section);
-
-                    Cypress._.forEach(disabledInputs, ({path, selector}) => {
-                        if (path.length && selector.length) {
-                            cy.visit(path, {timeout: 30000});
-
-                            cy.log(`testing that ${selector} at ${path} is disabled`);
-
-                            cy.get(selector).should('be.disabled');
-                        }
-                    });
-                }
-            });
-        });
-    });
-
-    it('sections are read-write to roles', () => {
-        Cypress._.forEach(roleNames, (roleName) => {
-            const user = testUsers[roleName];
-            cy.apiLogin(user);
-            cy.visit('/admin_console');
-
-            cy.log(`testing read-write access of ${roleName}`);
-
-            Cypress._.forEach(accessRules, (rule) => {
-                const {section} = rule;
-                const access = rule[roleName];
-
-                if (access === ACCESS_READ_WRITE) {
-                    // Look at one input element per section to see that it's disabled in read-only mode.
-                    const {disabledInputs} = disabledTests.find((item) => item.section === section);
-
-                    Cypress._.forEach(disabledInputs, ({path, selector}) => {
-                        if (path.length && selector.length) {
-                            cy.visit(path, {timeout: 30000});
-
-                            cy.log(`testing that ${selector} at ${path} is not disabled`);
-
-                            cy.get(selector).should('be.enabled');
-                        }
-                    });
-                }
-            });
-        });
-    });
+    }
 });
