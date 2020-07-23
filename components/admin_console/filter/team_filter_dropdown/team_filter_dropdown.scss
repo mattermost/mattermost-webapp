@@ -1,0 +1,196 @@
+
+.TeamFilterDropdown {
+    .TeamFilterDropdownButton {
+        background: var(--sys-center-channel-bg);
+        border: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.16);
+        box-sizing: border-box;
+        border-radius: 4px;
+        width: 100%;
+        height: 32px;
+        display: flex;
+        justify-content: space-between;
+
+        font-style: normal;
+        font-weight: normal;
+        font-size: 12px;
+        line-height: 28px;
+        color: rgba(var(--sys-center-channel-color-rgb), 0.64);
+        padding: 1px 0px 1px 4px;
+
+        &:hover {
+            border: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.48);
+        }
+
+        .TeamFilterDropdownButton_text {
+            text-align: left;
+            padding-left: 8px;
+            flex-grow: 3;
+            max-width: 230px;
+            overflow-x: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .TeamFilterDropdownButton_more {
+            color: rgba(var(--sys-center-channel-color-rgb), 0.6);
+            margin-right: 8px;
+        }
+
+        .TeamFilterDropdownButton_icon {
+            min-width: 32px;
+            height: 31px;
+            border-left: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.16);
+            margin-top: -1px;
+            .Icon {
+                display: flex;
+                width: 14px;
+                height: 14px;
+                padding-top: 8px;
+                margin-left: 6px;
+                margin-right: 0;
+            }
+        }
+
+        .TeamFilterDropdownButton_clear {
+            display: none;
+            margin-top: -2px;
+            padding: 9.5px 0 0 0;
+            min-width: 36px;
+            height: 32px;
+            font-size: 14px;
+            color: rgba(var(--sys-center-channel-color-rgb), 0.56);
+        }
+
+        &:hover {
+            .TeamFilterDropdownButton_more {
+                margin-right: 0;
+            }
+
+            .TeamFilterDropdownButton_clear {
+                display: block;
+            }
+        }
+    }
+
+    .TeamFilterDropdownOptions {
+        position: absolute;
+        padding: 16px 16px 0 16px;
+        margin-top: 2px;
+        background: var(--sys-center-channel-bg);
+        border: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.08);
+        box-sizing: border-box;
+        box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.12);
+        border-radius: 4px;
+        z-index: 1;
+        min-width: 304px;
+        max-height: 260px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: none;
+        max-width: 304px;
+
+        .TeamFilterDropdownOptions_list {
+            overflow-y: scroll;
+            overflow-x: hidden;
+            margin: 0 -12px 8px -16px;
+            padding-bottom: 8px;
+            max-height: 184px;
+
+            &::-webkit-scrollbar-track {
+                background: rgba(var(--sys-center-channel-bg-rgb), 0);
+            }
+        }
+    }
+
+    .TeamFilterDropdownOptions__active {
+        display: block;
+    }
+
+    .TeamFilterDropdown_checkbox {
+        color: rgba(var(--sys-center-channel-color-rgb), .8);
+        height: 32px;
+        margin-right: 4px;
+
+        input {
+            vertical-align: bottom;
+            position: relative;
+            top: -4px;
+            margin-right: 8px;
+            margin-left: 20px;
+            padding-top: 6px;
+
+            &:hover {
+                cursor: pointer;
+            }
+
+            opacity: 0.64;
+            &:checked {
+                opacity: 1;
+            }
+        }
+
+        label {
+            font-weight: normal;
+            width: 100%;
+            padding-top: 6px;
+            height: 32px;
+            text-overflow: ellipsis;
+            display: inline-block;
+            overflow: hidden;
+            &:hover {
+                cursor: pointer;
+            }
+        }
+
+        &:hover {
+            background: rgba(var(--sys-center-channel-color-rgb), 0.08);
+            cursor: pointer;
+        }
+    }
+
+    .TeamFilterDropdown_search {
+        height: 32px;
+        width: 100%;
+        color: var(--sys-center-channel-color);
+        font-weight: 400;
+        border: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.2);
+        box-sizing: border-box;
+        border-radius: 4px;
+
+        padding: 8px 12px;
+        font-size: 12px;
+        line-height: 16px;
+
+        &:focus {
+            margin-left: -1px;
+            border: 2px solid var(--sys-button-bg);
+        }
+    }
+
+    .TeamFilterDropdown_reset {
+        display: block;
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--sys-link-color);
+        padding: 4px 0px 8px 1px;
+    }
+
+    .TeamFilterDropdown_allTeams {
+        font-weight: normal;
+        font-size: 12px;
+        padding: 4px 0px 8px 1px;
+        color: rgba(var(--sys-center-channel-color-rgb), 0.64);
+    }
+
+    .TeamFilterDropdown_divider {
+        border-top: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.12);
+        margin: 4px -16px;
+    }
+
+    .TeamFilterDropdown_empty, .TeamFilterDropdown_loading {
+        font-weight: normal;
+        color: rgba(var(--sys-center-channel-color-rgb), 0.64);
+        padding-top: 8px;
+        margin-left: 16px;
+        margin-bottom: 0;
+    }
+}
