@@ -104,23 +104,21 @@ export default class TeamList extends React.PureComponent {
     onFilter = (filterOptions) => {
         const filters = {};
 
-        /*  eslint-disable-line camelcase, @typescript-eslint/camelcase */
+        /* eslint-disable camelcase, @typescript-eslint/camelcase */
         const {group_constrained, allow_open_invite, invite_only} = filterOptions.management.values;
         const allowOpenInvite = allow_open_invite.value;
         const inviteOnly = invite_only.value;
         const groupConstrained = group_constrained.value;
-        /*  eslint-disable-line camelcase, @typescript-eslint/camelcase */
+        /* eslint-enable camelcase, @typescript-eslint/camelcase */
 
         const filtersList = [allowOpenInvite, inviteOnly, groupConstrained];
 
         // If all filters or no filters do nothing
         if (filtersList.includes(false) && filtersList.includes(true)) {
-
             // If requesting private and public teams then just exclude all group constrained teams in the results
             if (allowOpenInvite && inviteOnly) {
                 filters.group_constrained = false;
             } else {
-
                 // Since the API returns different results if a filter is set to false vs not set at all
                 // we only set filters when needed and if not leave the filter option blank
                 if (groupConstrained) {
