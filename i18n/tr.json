@@ -3949,7 +3949,6 @@
   "rename_category_modal.rename": "Yeniden adlandır",
   "edit_category_modal.placeholder": "Bir kategori adı seçin",
   "edit_category_modal.helpText": "Yan çubuğu düzenlemek için kanalları sürükleyip kategoriler üzerine bırakabilirsiniz.",
-  "edit_category_modal.cancel": "İptal",
   "delete_category_modal.deleteCategory": "Bu kategori silinsin mi?",
   "delete_category_modal.delete": "Sil",
   "create_category_modal.createCategory": "Kategori Ekle",

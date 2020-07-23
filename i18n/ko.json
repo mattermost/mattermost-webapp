@@ -3907,7 +3907,6 @@
   "sidebar_left.sidebar_channel_menu.favoriteChannel": "즐겨찾기",
   "sidebar_left.sidebar_channel_menu.copyLink": "링크 복사",
   "sidebar_left.sidebar_channel_menu.addMembers": "멤버 추가",
-  "edit_category_modal.cancel": "취소",
   "delete_category_modal.delete": "삭제",
   "create_category_modal.create": "Create",
   "admin.group_settings.group_detail.invalid_length": "이름은 반드시 1글자 이상 64글자 이하 영문 또는 숫자여야 합니다.",

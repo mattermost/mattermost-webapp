@@ -3908,7 +3908,6 @@
   "sidebar_left.sidebar_channel_menu.favoriteChannel": "Favoriten",
   "sidebar_left.sidebar_channel_menu.copyLink": "Link kopieren",
   "sidebar_left.sidebar_channel_menu.addMembers": "Mitglieder hinzufügen",
-  "edit_category_modal.cancel": "Abbrechen",
   "delete_category_modal.delete": "Löschen",
   "create_category_modal.create": "Erstellen",
   "admin.license.trial-request.submit": "Request trial"

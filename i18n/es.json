@@ -3949,7 +3949,6 @@
   "rename_category_modal.rename": "Cambiar nombre",
   "edit_category_modal.placeholder": "Elige un nombre de categoría",
   "edit_category_modal.helpText": "Puedes arrastrar canales a categorías para organizar tu barra lateral.",
-  "edit_category_modal.cancel": "Cancelar",
   "delete_category_modal.helpText": "Canales en **{category_name}** serán movidos nuevamente a las categorías de Canales y Mensajes Directos. No eres eliminado de ninguno de los canales.",
   "delete_category_modal.deleteCategory": "¿Eliminar esta Categoría?",
   "delete_category_modal.delete": "Eliminar",

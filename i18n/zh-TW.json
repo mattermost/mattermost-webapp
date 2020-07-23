@@ -3918,7 +3918,6 @@
   "sidebar_left.sidebar_channel_menu.favoriteChannel": "我的最愛",
   "sidebar_left.sidebar_channel_menu.copyLink": "複製連結",
   "sidebar_left.sidebar_channel_menu.addMembers": "新增成員",
-  "edit_category_modal.cancel": "取消",
   "delete_category_modal.delete": "刪除",
   "create_category_modal.create": "建立",
   "admin.team_settings.team_list.search_teams_errored": "發生錯誤。請再嘗試一遍",

@@ -3906,7 +3906,6 @@
   "sidebar_left.sidebar_channel_menu.favoriteChannel": "Favoris",
   "sidebar_left.sidebar_channel_menu.copyLink": "Copier le lien",
   "sidebar_left.sidebar_channel_menu.addMembers": "Ajouter Membres",
-  "edit_category_modal.cancel": "Annuler",
   "delete_category_modal.delete": "Supprimer",
   "create_category_modal.create": "Créer",
   "admin.group_settings.group_detail.invalid_length": "Le nom doit être compris entre 1 et 64 caractères alphanumériques en minuscules.",

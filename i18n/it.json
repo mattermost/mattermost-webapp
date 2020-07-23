@@ -3947,7 +3947,6 @@
   "rename_category_modal.renameCategory": "Rinomina la categoria",
   "rename_category_modal.rename": "Rinomina",
   "edit_category_modal.placeholder": "Selezionare una categoria",
-  "edit_category_modal.cancel": "Annulla",
   "delete_category_modal.deleteCategory": "Eliminare la categoria?",
   "delete_category_modal.delete": "Elimina",
   "create_category_modal.createCategory": "Crea una categoria",

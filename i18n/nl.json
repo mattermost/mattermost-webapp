@@ -3951,7 +3951,6 @@
   "rename_category_modal.rename": "Hernoemen",
   "edit_category_modal.placeholder": "Kies een categorienaam",
   "edit_category_modal.helpText": "Je kan kanalen in categorieën slepen om je zijbalk te organiseren.",
-  "edit_category_modal.cancel": "Annuleren",
   "delete_category_modal.helpText": "Kanalen in **{category_name}** worden terug geplaatst naar categorieën Kanalen en Direct Berichten . Je wordt niet verwijderd uit een kanaal.",
   "delete_category_modal.deleteCategory": "Deze categorie verwijderen?",
   "delete_category_modal.delete": "Verwijderen",

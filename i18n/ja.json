@@ -3951,7 +3951,6 @@
   "rename_category_modal.renameCategory": "カテゴリの名前を変更する",
   "edit_category_modal.placeholder": "カテゴリ名を選択してください",
   "edit_category_modal.helpText": "チャンネルをカテゴリにドラッグすることで、サイドバーを整理することができます。",
-  "edit_category_modal.cancel": "キャンセル",
   "delete_category_modal.helpText": "**{category_name}**内のチャンネルをチャンネルとダイレクトメッセージのカテゴリへ戻します。チャンネルから削除されることはありません。",
   "delete_category_modal.deleteCategory": "このカテゴリを削除しますか?",
   "delete_category_modal.delete": "削除する",

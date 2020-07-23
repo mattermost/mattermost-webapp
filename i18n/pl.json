@@ -3909,7 +3909,6 @@
   "sidebar_left.sidebar_channel_menu.favoriteChannel": "Ulubiony",
   "sidebar_left.sidebar_channel_menu.copyLink": "Kopiuj odnośnik",
   "sidebar_left.sidebar_channel_menu.addMembers": "Dodaj Użytkowników",
-  "edit_category_modal.cancel": "Anuluj",
   "delete_category_modal.delete": "Usuń",
   "create_category_modal.create": "Utwórz",
   "admin.group_settings.group_detail.invalid_length": "Nazwa musi być złożona z 1 do 64 małych znaków alfanumerycznych",

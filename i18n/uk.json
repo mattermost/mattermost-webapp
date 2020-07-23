@@ -3906,7 +3906,6 @@
   "sidebar_left.sidebar_channel_menu.favoriteChannel": "Вибрані",
   "sidebar_left.sidebar_channel_menu.copyLink": "Скопіювати посилання",
   "sidebar_left.sidebar_channel_menu.addMembers": "Додати учасників",
-  "edit_category_modal.cancel": "Відміна",
   "delete_category_modal.delete": "Видалити",
   "create_category_modal.create": "Створити",
   "admin.group_settings.group_detail.invalid_length": "Ім'я повинно складатися з 2 або більше малих літер і цифр",

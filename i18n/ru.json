@@ -3951,7 +3951,6 @@
   "rename_category_modal.rename": "Переименовать",
   "edit_category_modal.placeholder": "Выберите название категории",
   "edit_category_modal.helpText": "Вы можете перетащить каналы в категории, чтобы организовать боковую панель.",
-  "edit_category_modal.cancel": "Отмена",
   "delete_category_modal.helpText": "Каналы из **{category_name}** возвращаются в раздел Каналы и Личные сообщения. Вы не удалены из каких-либо каналов.",
   "delete_category_modal.deleteCategory": "Удалить эту категорию?",
   "delete_category_modal.delete": "Удалить",

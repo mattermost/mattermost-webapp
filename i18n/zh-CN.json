@@ -3953,7 +3953,6 @@
   "filter.apply": "应用",
   "edit_category_modal.placeholder": "选择分类名",
   "edit_category_modal.helpText": "您可以拖动频道到分类以整理您的侧栏。",
-  "edit_category_modal.cancel": "取消",
   "delete_category_modal.deleteCategory": "删除此分类？",
   "delete_category_modal.delete": "删除",
   "sidebar_left.sidebar_category_menu.dropdownAriaLabel": "编辑分类菜单",
