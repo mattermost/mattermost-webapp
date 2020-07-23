@@ -161,6 +161,7 @@
     box-shadow: none;
     transition-property: box-shadow, border-color;
     background-color: transparent;
+    margin-left: 12px;
 
     &:hover {
         border-color: transparent;
