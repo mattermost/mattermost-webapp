@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -191,7 +192,7 @@ class SidebarChannel extends React.PureComponent {
             this.props.actions.savePreferences(currentUserId, [{user_id: currentUserId, category, name: id, value: 'false'}]).then(
                 () => {
                     this.isLeaving = false;
-                }
+                },
             );
 
             trackEvent('ui', 'ui_direct_channel_x_button_clicked');
@@ -325,3 +326,4 @@ class SidebarChannel extends React.PureComponent {
 const wrappedComponent = injectIntl(SidebarChannel, {forwardRef: true});
 wrappedComponent.displayName = 'injectIntl(SidebarChannel)';
 export default wrappedComponent;
+/* eslint-enable react/no-string-refs */

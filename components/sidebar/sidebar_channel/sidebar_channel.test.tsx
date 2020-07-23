@@ -28,6 +28,7 @@ describe('components/sidebar/sidebar_channel', () => {
             scheme_id: '',
             group_constrained: false,
         },
+        channelIndex: 0,
         currentTeamName: 'team_name',
         unreadMentions: 0,
         unreadMsgs: 0,
@@ -36,14 +37,23 @@ describe('components/sidebar/sidebar_channel', () => {
         setChannelRef: jest.fn(),
         isCategoryCollapsed: false,
         isCurrentChannel: false,
+        isDMCategory: false,
+        isCategoryDragged: false,
+        isDropDisabled: false,
+        draggingState: {},
     };
 
     test('should match snapshot', () => {
         const wrapper = shallow(
-            <SidebarChannel {...baseProps}/>
+            <SidebarChannel {...baseProps}/>,
         );
 
-        expect(wrapper).toMatchSnapshot();
+        const draggable = wrapper.dive().find('PrivateDraggable').first();
+        const children: any = draggable.prop('children')!;
+        const inner = shallow(
+            children({}, {}),
+        );
+        expect(inner).toMatchSnapshot();
     });
 
     test('should match snapshot when collapsed', () => {
@@ -53,10 +63,15 @@ describe('components/sidebar/sidebar_channel', () => {
         };
 
         const wrapper = shallow(
-            <SidebarChannel {...props}/>
+            <SidebarChannel {...props}/>,
         );
 
-        expect(wrapper).toMatchSnapshot();
+        const draggable = wrapper.dive().find('PrivateDraggable').first();
+        const children: any = draggable.prop('children')!;
+        const inner = shallow(
+            children({}, {}),
+        );
+        expect(inner).toMatchSnapshot();
     });
 
     test('should match snapshot when unread', () => {
@@ -66,10 +81,15 @@ describe('components/sidebar/sidebar_channel', () => {
         };
 
         const wrapper = shallow(
-            <SidebarChannel {...props}/>
+            <SidebarChannel {...props}/>,
         );
 
-        expect(wrapper).toMatchSnapshot();
+        const draggable = wrapper.dive().find('PrivateDraggable').first();
+        const children: any = draggable.prop('children')!;
+        const inner = shallow(
+            children({}, {}),
+        );
+        expect(inner).toMatchSnapshot();
     });
 
     test('should match snapshot when active', () => {
@@ -79,10 +99,15 @@ describe('components/sidebar/sidebar_channel', () => {
         };
 
         const wrapper = shallow(
-            <SidebarChannel {...props}/>
+            <SidebarChannel {...props}/>,
         );
 
-        expect(wrapper).toMatchSnapshot();
+        const draggable = wrapper.dive().find('PrivateDraggable').first();
+        const children: any = draggable.prop('children')!;
+        const inner = shallow(
+            children({}, {}),
+        );
+        expect(inner).toMatchSnapshot();
     });
 
     test('should match snapshot when DM channel', () => {
@@ -91,14 +116,19 @@ describe('components/sidebar/sidebar_channel', () => {
             channel: {
                 ...baseProps.channel,
                 type: 'D' as ChannelType,
-            }
+            },
         };
 
         const wrapper = shallow(
-            <SidebarChannel {...props}/>
+            <SidebarChannel {...props}/>,
         );
 
-        expect(wrapper).toMatchSnapshot();
+        const draggable = wrapper.dive().find('PrivateDraggable').first();
+        const children: any = draggable.prop('children')!;
+        const inner = shallow(
+            children({}, {}),
+        );
+        expect(inner).toMatchSnapshot();
     });
 
     test('should match snapshot when GM channel', () => {
@@ -107,14 +137,19 @@ describe('components/sidebar/sidebar_channel', () => {
             channel: {
                 ...baseProps.channel,
                 type: 'G' as ChannelType,
-            }
+            },
         };
 
         const wrapper = shallow(
-            <SidebarChannel {...props}/>
+            <SidebarChannel {...props}/>,
         );
 
-        expect(wrapper).toMatchSnapshot();
+        const draggable = wrapper.dive().find('PrivateDraggable').first();
+        const children: any = draggable.prop('children')!;
+        const inner = shallow(
+            children({}, {}),
+        );
+        expect(inner).toMatchSnapshot();
     });
 
     test('should not be collapsed when there are unread messages', () => {
@@ -124,7 +159,7 @@ describe('components/sidebar/sidebar_channel', () => {
         };
 
         const wrapper = shallow<SidebarChannel>(
-            <SidebarChannel {...props}/>
+            <SidebarChannel {...props}/>,
         );
 
         wrapper.instance().isUnread = jest.fn(() => true);
@@ -139,7 +174,7 @@ describe('components/sidebar/sidebar_channel', () => {
         };
 
         const wrapper = shallow<SidebarChannel>(
-            <SidebarChannel {...props}/>
+            <SidebarChannel {...props}/>,
         );
 
         expect(wrapper.instance().isCollapsed(wrapper.instance().props)).toBe(false);

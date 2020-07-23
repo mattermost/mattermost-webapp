@@ -27,7 +27,7 @@ import LocalizedInput from 'components/localized_input/localized_input';
 
 import TeamInList from './team_in_list';
 
-export default class PermissionTeamSchemeSettings extends React.Component {
+export default class PermissionTeamSchemeSettings extends React.PureComponent {
     static propTypes = {
         schemeId: PropTypes.string,
         scheme: PropTypes.object,
@@ -63,6 +63,7 @@ export default class PermissionTeamSchemeSettings extends React.Component {
                 channel_admin: true,
                 guests: true,
             },
+            urlParams: new URLSearchParams(props.location.search),
         };
     }
 
@@ -84,6 +85,12 @@ export default class PermissionTeamSchemeSettings extends React.Component {
                 ]);
             });
             this.props.actions.loadSchemeTeams(this.props.schemeId);
+        }
+
+        if (this.state.urlParams.get('rowIdFromQuery')) {
+            setTimeout(() => {
+                this.selectRow(this.state.urlParams.get('rowIdFromQuery'));
+            }, 1000);
         }
     }
 
@@ -276,12 +283,12 @@ export default class PermissionTeamSchemeSettings extends React.Component {
         let derived = this.deriveRolesFromAllUsers(
             roles.team_user,
             roles.channel_user,
-            allUsers
+            allUsers,
         );
         derived = this.restoreExcludedPermissions(
             roles.team_user,
             roles.channel_user,
-            derived
+            derived,
         );
         teamUser = derived.team_user;
         channelUser = derived.channel_user;
@@ -289,12 +296,12 @@ export default class PermissionTeamSchemeSettings extends React.Component {
         let derivedGuests = this.deriveRolesFromGuests(
             roles.team_guest,
             roles.channel_guest,
-            guests
+            guests,
         );
         derivedGuests = this.restoreGuestPermissions(
             roles.team_guest,
             roles.channel_guest,
-            derivedGuests
+            derivedGuests,
         );
         teamGuest = derivedGuests.team_guest;
         channelGuest = derivedGuests.channel_guest;

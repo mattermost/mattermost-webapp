@@ -21,18 +21,35 @@ import Constants from 'utils/constants';
 const USERS_PER_PAGE = 50;
 const MAX_SELECTABLE_VALUES = 20;
 
-export default class ChannelInviteModal extends React.Component {
+export default class ChannelInviteModal extends React.PureComponent {
     static propTypes = {
         profilesNotInCurrentChannel: PropTypes.array.isRequired,
         profilesNotInCurrentTeam: PropTypes.array.isRequired,
         onHide: PropTypes.func.isRequired,
         channel: PropTypes.object.isRequired,
+
+        // skipCommit = true used with onAddCallback will result in users not being committed immediately
+        skipCommit: PropTypes.bool,
+
+        // onAddCallback takes an array of UserProfiles and should set usersToAdd in state of parent component
+        onAddCallback: PropTypes.func,
+
+        // Dictionaries of userid mapped users to exclude or include from this list
+        excludeUsers: PropTypes.object,
+        includeUsers: PropTypes.object,
+
         actions: PropTypes.shape({
             addUsersToChannel: PropTypes.func.isRequired,
             getProfilesNotInChannel: PropTypes.func.isRequired,
             getTeamStats: PropTypes.func.isRequired,
             searchProfiles: PropTypes.func.isRequired,
         }).isRequired,
+    };
+
+    static defaultProps = {
+        includeUsers: {},
+        excludeUsers: {},
+        skipCommit: false,
     };
 
     constructor(props) {
@@ -108,6 +125,16 @@ export default class ChannelInviteModal extends React.Component {
             return;
         }
 
+        if (this.props.skipCommit && this.props.onAddCallback) {
+            this.props.onAddCallback(this.state.values);
+            this.setState({
+                saving: false,
+                inviteError: null,
+            });
+            this.onHide();
+            return;
+        }
+
         this.setState({saving: true});
 
         actions.addUsersToChannel(channel.id, userIds).then((result) => {
@@ -132,6 +159,10 @@ export default class ChannelInviteModal extends React.Component {
 
         this.searchTimeoutId = setTimeout(
             async () => {
+                if (!term) {
+                    return;
+                }
+
                 this.setUsersLoadingState(true);
                 const options = {
                     team_id: this.props.channel.team_id,
@@ -141,7 +172,7 @@ export default class ChannelInviteModal extends React.Component {
                 await this.props.actions.searchProfiles(term, options);
                 this.setUsersLoadingState(false);
             },
-            Constants.SEARCH_TIMEOUT_MILLISECONDS
+            Constants.SEARCH_TIMEOUT_MILLISECONDS,
         );
     };
 
@@ -215,9 +246,14 @@ export default class ChannelInviteModal extends React.Component {
         const buttonSubmitText = localizeMessage('multiselect.add', 'Add');
         const buttonSubmitLoadingText = localizeMessage('multiselect.adding', 'Adding...');
 
-        const users = filterProfilesMatchingTerm(this.props.profilesNotInCurrentChannel, this.state.term).filter((user) => {
-            return user.delete_at === 0 && !this.props.profilesNotInCurrentTeam.includes(user);
+        let users = filterProfilesMatchingTerm(this.props.profilesNotInCurrentChannel, this.state.term).filter((user) => {
+            return user.delete_at === 0 && !this.props.profilesNotInCurrentTeam.includes(user) && !this.props.excludeUsers[user.id];
         });
+
+        if (this.props.includeUsers) {
+            const includeUsers = Object.values(this.props.includeUsers);
+            users = [...users, ...includeUsers];
+        }
 
         const content = (
             <MultiSelect

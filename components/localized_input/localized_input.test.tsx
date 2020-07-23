@@ -24,7 +24,7 @@ describe('components/localized_input/localized_input', () => {
                 messages={{}}
             >
                 <LocalizedInput {...baseProps}/>
-            </IntlProvider>
+            </IntlProvider>,
         ).childAt(0);
 
         expect(wrapper).toMatchSnapshot();
@@ -47,7 +47,7 @@ describe('components/localized_input/localized_input', () => {
                 messages={{}}
             >
                 <LocalizedInput {...props}/>
-            </IntlProvider>
+            </IntlProvider>,
         );
 
         expect(ref.current).toBe(wrapper.find('input').instance());

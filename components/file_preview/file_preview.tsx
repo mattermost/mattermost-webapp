@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import React, {ReactNode} from 'react';
 import {getFileThumbnailUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
@@ -110,7 +111,7 @@ export default class FilePreview extends React.PureComponent<Props> {
                             </a>
                         </div>
                     </div>
-                </div>
+                </div>,
             );
         });
 
@@ -125,7 +126,7 @@ export default class FilePreview extends React.PureComponent<Props> {
                             clientId={clientId}
                             fileInfo={fileInfo}
                             handleRemove={this.handleRemove}
-                        />
+                        />,
                     );
                 }
             });
@@ -141,3 +142,4 @@ export default class FilePreview extends React.PureComponent<Props> {
         );
     }
 }
+/* eslint-enable react/no-string-refs */

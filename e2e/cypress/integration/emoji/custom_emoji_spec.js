@@ -12,11 +12,19 @@
 
 describe('Custom emojis', () => {
     before(() => {
-        cy.apiLogin('user-1');
-        cy.visit('/ad-1/channels/town-square');
+        cy.apiUpdateConfig({
+            ServiceSettings: {
+                EnableCustomEmoji: true,
+            },
+        });
+
+        // # Visit town-square
+        cy.apiInitSetup().then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
+        });
     });
 
-    it('MM-9777 User cant add custom emoji with the same name as a system one', async () => {
+    it('MM-9777 User cant add custom emoji with the same name as a system one', () => {
         // #Open sidebar
         cy.get('#sidebarHeaderDropdownButton').click();
 

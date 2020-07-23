@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -37,7 +38,7 @@ import FormattedAdminHeader from 'components/widgets/admin_console/formatted_adm
 
 import Setting from './setting';
 
-export default class SchemaAdminSettings extends React.Component {
+export default class SchemaAdminSettings extends React.PureComponent {
     static propTypes = {
         config: PropTypes.object,
         environmentConfig: PropTypes.object,
@@ -1081,3 +1082,4 @@ export default class SchemaAdminSettings extends React.Component {
         );
     }
 }
+/* eslint-disable react/no-string-refs */

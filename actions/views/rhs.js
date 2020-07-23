@@ -20,7 +20,7 @@ import {getUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
 import {getUserCurrentTimezone} from 'mattermost-redux/utils/timezone_utils';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
-import {getSearchTerms, getRhsState, getPluginId} from 'selectors/rhs';
+import {getSearchTerms, getRhsState, getPluggableId} from 'selectors/rhs';
 import {ActionTypes, RHSStates} from 'utils/constants';
 import * as Utils from 'utils/utils';
 
@@ -111,43 +111,47 @@ export function performSearch(terms, isMentionSearch) {
     };
 }
 
-export function showSearchResults() {
+export function showSearchResults(isMentionSearch = false) {
     return (dispatch, getState) => {
         const searchTerms = getSearchTerms(getState());
 
-        dispatch(updateRhsState(RHSStates.SEARCH));
+        if (isMentionSearch) {
+            dispatch(updateRhsState(RHSStates.MENTION));
+        } else {
+            dispatch(updateRhsState(RHSStates.SEARCH));
+        }
         dispatch(updateSearchResultsTerms(searchTerms));
 
         return dispatch(performSearch(searchTerms));
     };
 }
 
-export function showRHSPlugin(pluginId) {
+export function showRHSPlugin(pluggableId) {
     const action = {
         type: ActionTypes.UPDATE_RHS_STATE,
         state: RHSStates.PLUGIN,
-        pluginId,
+        pluggableId,
     };
 
     return action;
 }
 
-export function hideRHSPlugin(pluginId) {
+export function hideRHSPlugin(pluggableId) {
     return (dispatch, getState) => {
-        if (getPluginId(getState()) === pluginId) {
+        if (getPluggableId(getState()) === pluggableId) {
             dispatch(closeRightHandSide());
         }
     };
 }
 
-export function toggleRHSPlugin(pluginId) {
+export function toggleRHSPlugin(pluggableId) {
     return (dispatch, getState) => {
-        if (getPluginId(getState()) === pluginId) {
-            dispatch(hideRHSPlugin(pluginId));
+        if (getPluggableId(getState()) === pluggableId) {
+            dispatch(hideRHSPlugin(pluggableId));
             return;
         }
 
-        dispatch(showRHSPlugin(pluginId));
+        dispatch(showRHSPlugin(pluggableId));
     };
 }
 

@@ -13,16 +13,22 @@
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Edit Message', () => {
+    let townsquareLink;
+
     before(() => {
-        // # Login as "user-1"
-        cy.apiLogin('user-1');
+        // # Login as test user
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            townsquareLink = `/${team.name}/channels/town-square`;
+        });
+    });
+
+    beforeEach(() => {
+        // # Visit town-square
+        cy.visit(townsquareLink);
     });
 
     it('M13909 Escape should not close modal when an autocomplete drop down is in use', () => {
-        // # and go to /
-        cy.visit('/ad-1/channels/town-square');
-
-        // # Post message "Hello"
+        // # Post a message
         cy.postMessage('Hello World!');
 
         // # Hit the up arrow to open the "edit modal"
@@ -35,7 +41,7 @@ describe('Edit Message', () => {
         cy.get('#suggestionList').should('be.visible');
 
         // # Press the escape key
-        cy.get('#edit_textbox').wait(TIMEOUTS.TINY).focus().type('{esc}');
+        cy.get('#edit_textbox').wait(TIMEOUTS.HALF_SEC).focus().type('{esc}');
 
         // * Check if the textbox contains expected text
         cy.get('#edit_textbox').should('have.value', 'Hello World! @');
@@ -50,7 +56,7 @@ describe('Edit Message', () => {
         cy.get('#suggestionList').should('be.visible');
 
         // # Press the escape key
-        cy.get('#edit_textbox').wait(TIMEOUTS.TINY).type('{esc}');
+        cy.get('#edit_textbox').wait(TIMEOUTS.HALF_SEC).type('{esc}');
 
         // * Check if the textbox contains expected text
         cy.get('#edit_textbox').should('have.value', 'Hello World! @ ~');
@@ -65,16 +71,13 @@ describe('Edit Message', () => {
         cy.get('#emojiPicker').should('be.visible');
 
         // * Press the escape key
-        cy.get('#edit_textbox').wait(TIMEOUTS.TINY).type('{esc}');
+        cy.get('#edit_textbox').wait(TIMEOUTS.HALF_SEC).type('{esc}');
 
         // * Assert emoji picker is not visible
         cy.get('#emojiPicker').should('not.exist');
     });
 
     it('M13482 Display correct timestamp for edited message', () => {
-        // # and go to /
-        cy.visit('/ad-1/channels/town-square');
-
         // # Post a message
         cy.postMessage('Checking timestamp');
 
@@ -117,37 +120,35 @@ describe('Edit Message', () => {
     });
 
     it('M15519 Open edit modal immediately after making a post when post is pending', () => {
-        // # and go to /. We set fetch to null here so that we can intercept XHR network requests
-        cy.visit('/ad-1/channels/town-square');
-
         // # Enter first message
-        cy.postMessage('Hello');
+        const firstMessage = 'Hello';
+        cy.postMessage(firstMessage);
 
         // * Verify first message is sent and not pending
         cy.getLastPostId().then((postId) => {
             const postText = `#postMessageText_${postId}`;
-            cy.get(postText).should('have.text', 'Hello');
+            cy.get(postText).should('have.text', firstMessage);
         });
 
         // # Enter second message
-        cy.postMessage('World!');
+        const secondMessage = 'World!';
+        cy.postMessage(secondMessage);
 
         // * Verify second message is sent and not pending
         cy.getLastPostId().then((postId) => {
             const postText = `#postMessageText_${postId}`;
-            cy.get(postText).should('have.text', 'World!');
+            cy.get(postText).should('have.text', secondMessage);
 
             // # Edit the last post
             cy.get('#post_textbox').type('{uparrow}');
 
             // * Edit post modal should appear, and edit the post
             cy.get('#editPostModal').should('be.visible');
-            cy.get('#edit_textbox').should('have.text', 'World!').type(' Another new message{enter}');
+            cy.get('#edit_textbox').should('have.text', secondMessage).type(' Another new message{enter}');
             cy.get('#editPostModal').should('be.not.visible');
 
             // * Check the second post and verify that it contains new edited message.
-            cy.get(postText).should('have.text', 'World! Another new message');
+            cy.get(postText).should('have.text', `${secondMessage} Another new message`);
         });
     });
 });
-

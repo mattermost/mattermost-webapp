@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
@@ -35,7 +36,7 @@ type State = {
 }
 const KeyCodes = Constants.KeyCodes;
 
-export default class MultiSelectList<T extends Value> extends React.Component<Props<T>, State> {
+export default class MultiSelectList<T extends Value> extends React.PureComponent<Props<T>, State> {
     public static defaultProps = {
         options: [],
         perPage: 50,
@@ -226,3 +227,4 @@ export default class MultiSelectList<T extends Value> extends React.Component<Pr
     }
 }
 
+/* eslint-enable react/no-string-refs */

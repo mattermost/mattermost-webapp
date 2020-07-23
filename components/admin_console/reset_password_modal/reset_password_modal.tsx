@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import React from 'react';
 import {Modal} from 'react-bootstrap';
@@ -8,10 +9,6 @@ import {UserProfile} from 'mattermost-redux/types/users';
 import {ActionResult} from 'mattermost-redux/types/actions';
 
 import * as Utils from 'utils/utils.jsx';
-
-interface Error {
-    message: string;
-}
 
 interface PasswordConfig {
     minimumLength: number;
@@ -38,7 +35,7 @@ type Props = {
     };
 }
 
-export default class ResetPasswordModal extends React.Component<Props, State> {
+export default class ResetPasswordModal extends React.PureComponent<Props, State> {
     public static defaultProps: Partial<Props> = {
         show: false,
     };
@@ -245,3 +242,4 @@ export default class ResetPasswordModal extends React.Component<Props, State> {
         );
     }
 }
+/* eslint-enable react/no-string-refs */

@@ -84,7 +84,7 @@ type State = {
     loadingUsers: boolean;
 }
 
-export default class MoreDirectChannels extends React.Component<Props, State> {
+export default class MoreDirectChannels extends React.PureComponent<Props, State> {
     searchTimeoutId: any;
     exitToChannel?: string;
     multiselect: React.RefObject<MultiSelect<OptionType>>;
@@ -118,7 +118,7 @@ export default class MoreDirectChannels extends React.Component<Props, State> {
         };
     }
 
-    componentDidMount() {
+    loadModalData = () => {
         this.getUserProfiles();
         this.props.actions.getTotalUsersStats();
         this.loadProfilesMissingStatus(this.props.users, this.props.statuses);
@@ -150,7 +150,7 @@ export default class MoreDirectChannels extends React.Component<Props, State> {
                         this.resetPaging();
                         this.setUsersLoadingState(false);
                     },
-                    Constants.SEARCH_TIMEOUT_MILLISECONDS
+                    Constants.SEARCH_TIMEOUT_MILLISECONDS,
                 );
             }
         }
@@ -507,6 +507,7 @@ export default class MoreDirectChannels extends React.Component<Props, State> {
                 show={this.state.show}
                 onHide={this.handleHide}
                 onExited={this.handleExit}
+                onEntered={this.loadModalData}
                 role='dialog'
                 aria-labelledby='moreDmModalLabel'
                 id='moreDmModal'

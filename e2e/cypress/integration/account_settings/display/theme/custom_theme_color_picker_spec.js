@@ -7,16 +7,16 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @account_setting
 
 import * as TIMEOUTS from '../../../../fixtures/timeouts';
 
 describe('AS14318 Theme Colors - Color Picker', () => {
     before(() => {
-        // Login as user-1 and visit town-square channel
-        cy.apiLogin('user-1');
-        cy.visit('/ad-1/channels/town-square');
+        // # Login as new user and visit town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
+        });
     });
 
     beforeEach(() => {
@@ -25,10 +25,6 @@ describe('AS14318 Theme Colors - Color Picker', () => {
         cy.get('#displayButton').click();
         cy.get('#themeTitle').click();
         cy.get('#customThemes').click();
-    });
-
-    after(() => {
-        cy.apiSaveThemePreference();
     });
 
     afterEach(() => {
@@ -45,7 +41,7 @@ describe('AS14318 Theme Colors - Color Picker', () => {
             '#sidebarBg-ChromePickerModal',
             '#sidebarBg-squareColorIconValue',
             '#bb123e',
-            'rgb(187, 18, 62)'
+            'rgb(187, 18, 62)',
         );
     });
 
@@ -57,7 +53,7 @@ describe('AS14318 Theme Colors - Color Picker', () => {
             '#centerChannelBg-ChromePickerModal',
             '#centerChannelBg-squareColorIconValue',
             '#ff8800',
-            'rgb(255, 136, 0)'
+            'rgb(255, 136, 0)',
         );
     });
 
@@ -69,7 +65,7 @@ describe('AS14318 Theme Colors - Color Picker', () => {
             '#linkColor-ChromePickerModal',
             '#linkColor-squareColorIconValue',
             '#ffe577',
-            'rgb(255, 229, 119)'
+            'rgb(255, 229, 119)',
         );
     });
 });
@@ -83,7 +79,7 @@ function verifyColorPickerChange(stylesText, iconButtonId, modalId, iconValueId,
 
     // # Enter hex value
     cy.get(modalId).within(() => {
-        cy.get('input').clear({force: true}).invoke('val', hexValue).wait(TIMEOUTS.TINY).type(' {backspace}{enter}', {force: true});
+        cy.get('input').clear({force: true}).invoke('val', hexValue).wait(TIMEOUTS.HALF_SEC).type(' {backspace}{enter}', {force: true});
     });
 
     // # Toggle theme colors the custom theme

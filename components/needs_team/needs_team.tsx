@@ -66,6 +66,7 @@ type Props = {
             team: string;
         };
     };
+    previousTeamId?: string;
     history: {
         push(path: string): void;
     };
@@ -109,7 +110,7 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
             team,
             finishedFetchingChannels: false,
             prevTeam: this.props.match.params.team,
-            teamsList: this.props.teamsList
+            teamsList: this.props.teamsList,
         };
 
         if (!team) {
@@ -124,7 +125,7 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
                     teamObj.name === nextProps.match.params.team) : null;
             return {
                 prevTeam: nextProps.match.params.team,
-                team: (team || null)
+                team: (team || null),
             };
         }
         return {prevTeam: nextProps.match.params.team};
@@ -198,7 +199,7 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
 
     joinTeam = async (props: Props) => {
         const {data: team} = await this.props.actions.getTeamByName(props.match.params.team);
-        if (team) {
+        if (team && team.delete_at === 0) {
             const {error} = await props.actions.addUserToTeam(team.id, props.currentUser && props.currentUser.id);
             if (error) {
                 props.history.push('/error?type=team_not_found');
@@ -212,12 +213,15 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
     }
 
     initTeam = (team: Team) => {
+        if (team.id !== this.props.previousTeamId) {
+            GlobalActions.emitCloseRightHandSide();
+        }
+
         // If current team is set, then this is not first load
         // The first load action pulls team unreads
         this.props.actions.getMyTeamUnreads();
         this.props.actions.selectTeam(team);
         this.props.actions.setPreviousTeamId(team.id);
-        GlobalActions.emitCloseRightHandSide();
 
         if (Utils.isGuest(this.props.currentUser)) {
             this.setState({finishedFetchingChannels: false});
@@ -227,7 +231,7 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
                 this.setState({
                     finishedFetchingChannels: true,
                 });
-            }
+            },
         );
 
         this.props.actions.loadStatusesForChannelAndSidebar();

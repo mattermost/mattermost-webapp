@@ -1,0 +1,35 @@
+@charset 'UTF-8';
+
+.GenericModal {
+    width: 692px;
+
+    .modal-content {
+        padding: 16px 15px;
+    }
+
+    .SidebarWhatsNewModal__helpText {
+        margin-top: 8px;
+    }
+
+    .SidebarWhatsNewModal__img {
+        margin-top: 40px;
+        border: 1px solid var(--center-channel-color-16);
+        border-radius: 4px;
+    }
+
+    .modal-footer {
+        margin-top: 20px;
+    }
+}
+
+// Styles to override global styles
+.modal {
+    .GenericModal.modal-dialog {
+        height: unset;
+        margin-top: calc(50vh - 307px);
+    }
+
+    .GenericModal .modal-footer {
+        position: relative;
+    }
+}

@@ -10,80 +10,67 @@
 // Stage: @prod
 // Group: @enterprise @system_console
 
-import uuid from 'uuid/v4';
+import {v4 as uuidv4} from 'uuid';
 const PAGE_SIZE = 10;
 
 describe('Search teams', () => {
     before(() => {
         // * Check if server has license
-        cy.requireLicense();
+        cy.apiRequireLicense();
     });
 
     beforeEach(() => {
-        cy.apiLogin('sysadmin');
+        cy.apiAdminLogin();
         cy.visit('/admin_console/user_management/teams');
-        cy.wrap([]).as('createdTeamIDs');
-    });
-
-    afterEach(function() {
-        this.createdTeamIDs.forEach((teamID) => {
-            cy.apiDeleteTeam(teamID);
-        });
     });
 
     it('loads with no search text', () => {
         // * Check the search input is empty.
-        cy.findByTestId('search-input').should('be.visible').and('have.text', '');
+        cy.findByPlaceholderText('Search').should('be.visible').and('have.text', '');
     });
 
-    it('returns results', function() {
-        const displayName = uuid();
+    it('returns results', () => {
+        const displayName = uuidv4();
 
         // # Create a new team.
-        cy.apiCreateTeam('team-search', displayName).then((response) => {
-            this.createdTeamIDs.push(response.body.id);
-        });
+        cy.apiCreateTeam('team-search', displayName);
 
         // # Search for the new team.
-        cy.findByTestId('search-input').type(displayName + '{enter}');
+        cy.findByPlaceholderText('Search').type(displayName + '{enter}');
 
         // * Check that the search results contain the team.
         cy.findAllByTestId('team-display-name').contains(displayName);
     });
 
-    it('results are paginated', function() {
-        const displayName = uuid();
+    it('results are paginated', () => {
+        const displayName = uuidv4();
 
         // # Create enough new teams with common name prefixes to get multiple pages of search results.
-        for (let i = 0; i < PAGE_SIZE + 2; i++) {
-            cy.apiCreateTeam('team-search-paged-' + i, displayName + ' ' + i).then((response) => {
-                this.createdTeamIDs.push(response.body.id);
-            });
-        }
+        Cypress._.times(PAGE_SIZE + 2, (i) => {
+            cy.apiCreateTeam('team-search-paged-' + i, displayName + ' ' + i);
+        });
 
         // # Search using the common team name prefix.
-        cy.findByTestId('search-input').type(displayName + '{enter}');
+        cy.findByPlaceholderText('Search').type(displayName + '{enter}');
 
         // * Check that the first page of results is full.
         cy.findAllByTestId('team-display-name').should('have.length', PAGE_SIZE);
 
         // # Click the next pagination arrow.
-        cy.findByTestId('page-link-next').should('be.enabled').click();
+        cy.findByTitle('Next Icon').parent().should('be.enabled').click();
 
         // * Check that the 2nd page of results has the expected amount.
         cy.findAllByTestId('team-display-name').should('have.length', 2);
     });
 
-    it('clears the results when "x" is clicked', function() {
-        const displayName = uuid();
+    it('clears the results when "x" is clicked', () => {
+        const displayName = uuidv4();
 
         // # Create a new team.
-        cy.apiCreateTeam('team-search', displayName).then((response) => {
-            this.createdTeamIDs.push(response.body.id);
-        });
+        cy.apiCreateTeam('team-search', displayName);
 
         // # Search for the team.
-        cy.get('[data-testid=search-input]').as('searchInput').type(displayName + '{enter}');
+        cy.findByPlaceholderText('Search').as('searchInput').type(displayName + '{enter}');
 
         // * Check that the list of teams is in search results mode.
         cy.findAllByTestId('team-display-name').should('have.length', 1);
@@ -98,16 +85,14 @@ describe('Search teams', () => {
         cy.findAllByTestId('team-display-name').should('have.length', PAGE_SIZE);
     });
 
-    it('clears the results when the search term is deleted with backspace', function() {
-        const displayName = uuid();
+    it('clears the results when the search term is deleted with backspace', () => {
+        const displayName = uuidv4();
 
         // # Create a team.
-        cy.apiCreateTeam('team-search', displayName).then((response) => {
-            this.createdTeamIDs.push(response.body.id);
-        });
+        cy.apiCreateTeam('team-search', displayName);
 
         // # Search for the team.
-        cy.get('[data-testid=search-input]').as('searchInput').type(displayName + '{enter}');
+        cy.findByPlaceholderText('Search').as('searchInput').type(displayName + '{enter}');
 
         // * Check that the list of teams is in search results mode.
         cy.findAllByTestId('team-display-name').should('have.length', 1);

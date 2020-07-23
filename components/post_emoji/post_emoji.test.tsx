@@ -20,6 +20,12 @@ describe('PostEmoji', () => {
         });
     });
 
+    test('should render shortcode text within span when imageUrl is provided', () => {
+        const wrapper = shallow(<PostEmoji {...baseProps}/>);
+
+        expect(wrapper.find('span').text()).toBe(`:${baseProps.name}:`);
+    });
+
     test('should render original text when imageUrl is empty', () => {
         const props = {
             ...baseProps,
@@ -28,6 +34,7 @@ describe('PostEmoji', () => {
 
         const wrapper = shallow(<PostEmoji {...props}/>);
 
+        expect(wrapper.find('span')).toHaveLength(0);
         expect(wrapper.text()).toBe(`:${props.name}:`);
     });
 });

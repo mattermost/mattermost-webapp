@@ -7,15 +7,17 @@
 // Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @messaging
 
 describe('Messaging', () => {
     before(() => {
-        // # Login as "user-1" and go to /
-        cy.apiLogin('user-1');
-        cy.visit('/ad-1/channels/town-square');
-        cy.get('#post_textbox').clear();
+        // # Login as test user and visit town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
+        });
     });
+
     it('M23348 - Selecting an emoji from emoji picker should insert it at the cursor position', () => {
         // # Write some text in the send box.
         cy.get('#post_textbox').type('HelloWorld!');
@@ -32,6 +34,6 @@ describe('Messaging', () => {
         cy.get('#post_textbox').type('{enter}');
 
         // * The emoji should be displayed in the post at the position inserted.
-        cy.getLastPost().find('p').should('have.html', `Hello <span data-emoticon="grinning"><span alt=":grinning:" class="emoticon" title=":grinning:" style="background-image: url(&quot;${Cypress.config('baseUrl')}/static/emoji/1f600.png&quot;);"></span></span> World!`);
+        cy.getLastPost().find('p').should('have.html', `Hello <span data-emoticon="grinning"><span alt=":grinning:" class="emoticon" title=":grinning:" style="background-image: url(&quot;${Cypress.config('baseUrl')}/static/emoji/1f600.png&quot;);">:grinning:</span></span> World!`);
     });
 });
