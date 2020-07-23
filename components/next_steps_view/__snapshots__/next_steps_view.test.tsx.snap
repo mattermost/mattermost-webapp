@@ -45,10 +45,23 @@ exports[`components/next_steps_view should match snapshot 1`] = `
       className="NextStepsView__body-main"
     >
       <Accordion
-        defaultExpandedKey="Card_1"
+        defaultExpandedKey="complete_profile"
       >
         <Component />
       </Accordion>
+      <div
+        className="NextStepsView__skipGettingStarted"
+      >
+        <button
+          onClick={[Function]}
+        >
+          <FormattedMessage
+            defaultMessage="Skip Getting Started"
+            id="next_steps_view.skipGettingStarted"
+            values={Object {}}
+          />
+        </button>
+      </div>
     </div>
     <div
       className="NextStepsView__body-graphic"

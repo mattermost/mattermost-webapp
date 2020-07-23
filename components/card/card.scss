@@ -3,6 +3,7 @@
     box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.08);
     border-radius: 4px;
     background-color: var(--center-channel-bg);
+    transition: box-shadow 0.3s ease-in-out;
 
     & + .Card {
         margin-top: 16px;
@@ -11,15 +12,15 @@
     &.expanded {
         box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.12);
     }
+
+    &:not(.expanded):hover {
+        border-color: rgba(var(--center-channel-color-rgb), 0.16);
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.12);
+        transition-duration: 0.15s;
+    }
 }
 
 .Card__header {
-    margin: 12px 12px 0 12px;
-    padding-bottom: 12px;
-    
-    &.expanded {
-        border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
-    }
 }
 
 .Card__body {
@@ -31,7 +32,15 @@
     transition-timing-function: ease-in-out;
     transition-property: height, margin;
 
-    &.expanded { 
-        margin: 12px;       
+    &.expanded {
+        margin: 0 12px 12px 12px;
+        padding-top: 12px;
+        border-top: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .Card + .Card {
+        margin-top: 12px;
     }
 }

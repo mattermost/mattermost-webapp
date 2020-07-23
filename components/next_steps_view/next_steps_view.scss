@@ -4,10 +4,11 @@
     background-position-y: bottom;
     background-position-x: -305px;
     background-size: calc(100% + 305px);
+    height: 100%;
 }
 
 .NextStepsView__header {
-    padding: 32px 40px;
+    padding: 32px 40px 24px 40px;
     display: flex;
 }
 
@@ -27,7 +28,6 @@
     font-size: 16px;
     line-height: 24px;
     margin-top: 8px;
-    margin-bottom: 0;
 }
 
 .NextStepsView__header-logo {
@@ -54,22 +54,157 @@
     min-width: 192px;
 }
 
-@media screen and (max-width: 768px) {
-    #app-content.NextStepsView {
-        background-size: auto;
+.NextStepsView__body .Card__header {
+    padding: 1px 0;
+}
+
+.NextStepsView__cardHeader {
+    display: flex;
+    border: none;
+    background: none;
+    padding: 12px;
+    width: 100%;
+
+    > span {
+        margin-left: 14px;
+        font-size: 14px;
+        line-height: 20px;
+        font-weight: 600;
+        color: var(--center-channel-color);
+        align-self: center;
+    }
+}
+
+.NextStepsView__cardHeaderBadge {
+    width: 26px;
+    height: 26px;
+    background-color: var(--center-channel-color-16);
+    color: var(--center-channel-color);
+    border-radius: 14px;
+    display: flex;
+    justify-content: center;
+
+    transition-property: color, background-color;
+    transition-duration: 200ms;
+    transition-timing-function: ease-in-out;
+
+    span {
+        align-self: center;
+        font-size: 14px;
+        line-height: 14px;
+        font-weight: 600;
+    }
+}
+
+.NextStepsView__skipGettingStarted {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 12px;
+
+    button {
+        border: none;
+        background: none;
+        padding: 10px 16px;
+        font-weight: 600;
+        font-size: 12px;
+        line-height: 9px;
+        color: var(--button-bg);
+    }
+}
+
+.NextStepsView__button {
+    padding: 12px 20px;
+    line-height: 14px;
+    font-size: 14px;
+    font-weight: 600;
+    border: none;
+
+    &.cancel {
+        background: var(--center-channel-bg);
+        color: var(--button-bg);
     }
 
-    .NextStepsView__header {
-        padding: 24px 28px;
+    &.confirm {
+        background: var(--button-bg);
+        border-radius: 4px;
+        color: var(--button-color);
+
+        &.disabled {
+            color: rgba(var(--center-channel-color-rgb), 0.32);
+            background: rgba(var(--center-channel-color-rgb), 0.08);
+        }
     }
-    
-    .NextStepsView__header-headerTopText {
-        font-size: 24px;
-        line-height: 32px;
+}
+.NextStepsView__wizardButtons {
+    display: flex;
+    justify-content: flex-end;
+    margin: 4px;
+
+    .NextStepsView__button + .NextStepsView__button {
+        margin-left: 8px;
+    }
+}
+
+.Card__header.expanded {
+    .NextStepsView__cardHeader {
+        cursor: default;
     }
 
-    .NextStepsView__body-main {
-        flex: 1 1 100%;
+    .NextStepsView__cardHeaderBadge {
+        color: var(--button-color);
+        background-color: var(--sidebar-text-active-border);
+    }
+}
+
+.Card.complete {
+    border-color: transparent;
+    box-shadow: none;
+    transition-property: box-shadow, border-color;
+    background-color: transparent;
+    margin-left: 12px;
+
+    &:hover {
+        border-color: transparent;
+        box-shadow: none;
+    }
+
+    & + .Card {
+        margin-top: 12px;
+        transition-property: box-shadow, border-color, margin;
+    }
+
+    .Card__header {
+        //margin: 0;
+        border-color: transparent;
+
+        transition: all 0.3s ease-in-out;
+    }
+
+    .Card__body {
+        height: 0;
+    }
+
+    .NextStepsView__cardHeader {
+        padding: 0;
+        transition: padding 0.3s ease-in-out;
+
+        > span {
+            color: var(--online-indicator);
+            //margin-left: 8px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        i {
+            align-self: center;
+            font-size: 26px;
+            line-height: 26px;
+            color: var(--online-indicator);
+            transition: all 0.3s ease-in-out;
+
+            &::before {
+                margin: 0;
+            }
+        }
     }
 }
 
@@ -84,6 +219,26 @@
     }
 
     .NextStepsView__body-main {
-        min-width: 536px;
+        padding: 0 40px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    #app-content.NextStepsView {
+        background-size: auto;
+    }
+
+    .NextStepsView__header {
+        padding: 24px 28px;
+    }
+
+    .NextStepsView__header-headerTopText {
+        font-size: 24px;
+        line-height: 32px;
+    }
+
+    .NextStepsView__body-main {
+        flex: 1 1 100%;
+        padding: 0 12px;
     }
 }

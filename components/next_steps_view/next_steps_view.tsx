@@ -2,19 +2,41 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import classNames from 'classnames';
 import {FormattedMessage} from 'react-intl';
 
+import {PreferenceType} from 'mattermost-redux/types/preferences';
+
+import Accordion from 'components/accordion';
 import Card from 'components/card/card';
 import professionalLogo from 'images/cloud-logos/professional.svg';
+import {Preferences} from 'utils/constants';
 
+import {Steps, StepType} from './steps';
 import './next_steps_view.scss';
-import Accordion from 'components/accordion';
 
 type Props = {
+    currentUserId: string;
+    preferences: PreferenceType[];
     skuName: string;
+    actions: {
+        savePreferences: (userId: string, preferences: PreferenceType[]) => void;
+    };
 };
 
-export default class NextStepsView extends React.PureComponent<Props> {
+type State = {
+    showFinalScreen: boolean;
+}
+
+export default class NextStepsView extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
+        super(props);
+
+        this.state = {
+            showFinalScreen: false,
+        };
+    }
+
     getBottomText = () => {
         // TODO: will be stored in user prefs at a later date
         const {isFinished} = {isFinished: false};
@@ -45,12 +67,106 @@ export default class NextStepsView extends React.PureComponent<Props> {
         }
     }
 
-    render() {
-        return (
-            <section
-                id='app-content'
-                className='app__content NextStepsView'
+    getStartingStep = () => {
+        for (let i = 0; i < Steps.length; i++) {
+            if (!this.isStepComplete(Steps[i].id)) {
+                return Steps[i].id;
+            }
+        }
+
+        return Steps[0].id;
+    }
+
+    onSkip = (setExpanded: (expandedKey: string) => void) => {
+        return (id: string) => {
+            this.nextStep(setExpanded, id);
+        };
+    }
+
+    onFinish = (setExpanded: (expandedKey: string) => void) => {
+        return (id: string) => {
+            this.props.actions.savePreferences(this.props.currentUserId, [{
+                category: Preferences.RECOMMENDED_NEXT_STEPS,
+                user_id: this.props.currentUserId,
+                name: id,
+                value: 'true',
+            }]);
+
+            this.nextStep(setExpanded, id);
+        };
+    }
+
+    skipAll = () => {
+        this.setState({showFinalScreen: true});
+    }
+
+    nextStep = (setExpanded: (expandedKey: string) => void, id: string) => {
+        const currentIndex = Steps.findIndex((step) => step.id === id);
+        if ((currentIndex + 1) > (Steps.length - 1)) {
+            this.setState({showFinalScreen: true});
+        } else if (this.isStepComplete(Steps[currentIndex + 1].id)) {
+            this.nextStep(setExpanded, Steps[currentIndex + 1].id);
+        } else {
+            setExpanded(Steps[currentIndex + 1].id);
+        }
+    }
+
+    isStepComplete = (id: string) => {
+        return this.props.preferences.some((pref) => pref.name === id && Boolean(pref.value));
+    }
+
+    renderStep = (step: StepType, index: number) => {
+        let icon = (
+            <div className='NextStepsView__cardHeaderBadge'>
+                <span>{index + 1}</span>
+            </div>
+        );
+        if (this.isStepComplete(step.id)) {
+            icon = (
+                <i className='icon icon-check-circle'/>
+            );
+        }
+
+        return (setExpanded: (expandedKey: string) => void, expandedKey: string) => (
+            <Card
+                className={classNames({complete: this.isStepComplete(step.id)})}
+                expanded={expandedKey === step.id}
             >
+                <Card.Header>
+                    <button
+                        onClick={() => setExpanded(step.id)}
+                        disabled={this.isStepComplete(step.id)}
+                        className='NextStepsView__cardHeader'
+                    >
+                        {icon}
+                        <span>{step.title}</span>
+                    </button>
+                </Card.Header>
+                <Card.Body>
+                    <step.component
+                        id={step.id}
+                        onFinish={this.onFinish(setExpanded)}
+                        onSkip={this.onSkip(setExpanded)}
+                    />
+                </Card.Body>
+            </Card>
+        );
+    }
+
+    renderFinalScreen = () => {
+        // TODO
+        return (
+            <div>
+                {'Placeholder for Final Screen'}
+            </div>
+        );
+    }
+
+    renderMainBody = () => {
+        const renderedSteps = Steps.map(this.renderStep);
+
+        return (
+            <>
                 <header className='NextStepsView__header'>
                     <div className='NextStepsView__header-headerText'>
                         <h1 className='NextStepsView__header-headerTopText'>
@@ -69,52 +185,44 @@ export default class NextStepsView extends React.PureComponent<Props> {
                 </header>
                 <div className='NextStepsView__body'>
                     <div className='NextStepsView__body-main'>
-                        <Accordion defaultExpandedKey={'Card_1'}>
+                        <Accordion defaultExpandedKey={this.getStartingStep()}>
                             {(setExpanded, expandedKey) => {
                                 return (
                                     <>
-                                        <Card expanded={expandedKey === 'Card_1'}>
-                                            <Card.Header>
-                                                <span>{'Card Header 1'}</span>
-                                                <button onClick={() => setExpanded('Card_1')}>{'Toggle'}</button>
-                                            </Card.Header>
-                                            <Card.Body>
-                                                <div>
-                                                    {'Card Body 1'}
-                                                </div>
-                                            </Card.Body>
-                                        </Card>
-                                        <Card expanded={expandedKey === 'Card_2'}>
-                                            <Card.Header>
-                                                <span>{'Card Header 2'}</span>
-                                                <button onClick={() => setExpanded('Card_2')}>{'Toggle'}</button>
-                                            </Card.Header>
-                                            <Card.Body>
-                                                <div>
-                                                    {'Card Body 2'}
-                                                </div>
-                                            </Card.Body>
-                                        </Card>
-                                        <Card expanded={expandedKey === 'Card_3'}>
-                                            <Card.Header>
-                                                <span>{'Card Header 3'}</span>
-                                                <button onClick={() => setExpanded('Card_3')}>{'Toggle'}</button>
-                                            </Card.Header>
-                                            <Card.Body>
-                                                <div>
-                                                    {'Card Body 3'}
-                                                    <br/>
-                                                    {'Bigger Card Body'}
-                                                </div>
-                                            </Card.Body>
-                                        </Card>
+                                        {renderedSteps.map((step) => step(setExpanded, expandedKey))}
                                     </>
                                 );
                             }}
                         </Accordion>
+                        <div className='NextStepsView__skipGettingStarted'>
+                            <button
+                                onClick={this.skipAll}
+                            >
+                                <FormattedMessage
+                                    id='next_steps_view.skipGettingStarted'
+                                    defaultMessage='Skip Getting Started'
+                                />
+                            </button>
+                        </div>
                     </div>
                     <div className='NextStepsView__body-graphic'/>
                 </div>
+            </>
+        );
+    }
+
+    render() {
+        let mainBody = this.renderMainBody();
+        if (this.state.showFinalScreen) {
+            mainBody = this.renderFinalScreen();
+        }
+
+        return (
+            <section
+                id='app-content'
+                className='app__content NextStepsView'
+            >
+                {mainBody}
             </section>
         );
     }
