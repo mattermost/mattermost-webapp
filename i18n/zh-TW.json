@@ -3908,5 +3908,20 @@
   "admin.experimental.experimentalDataPrefetch.title": "預先讀取未讀頻道的訊息",
   "admin.experimental.experimentalDataPrefetch.desc": "啟用時，將預先讀取尚未閱讀頻道的訊息以減少頻道讀取時間。停用時，在使用者切換頻道前將不會從伺服器讀取訊息。",
   "admin.cluster.EnableExperimentalGossipEncryptionDesc": "啟用時，將加密所有使用 Gossip 協定的通訊資料。",
-  "admin.cluster.EnableExperimentalGossipEncryption": "啟用實驗性質的 Gossip 加密："
+  "admin.cluster.EnableExperimentalGossipEncryption": "啟用實驗性質的 Gossip 加密：",
+  "post_pre_header.pinned": "已釘選",
+  "generic_icons.userGuide": "說明",
+  "channel_header.userHelpGuide": "說明",
+  "sidebar_left.sidebar_channel_menu.unmuteChannel": "取消靜音頻道",
+  "sidebar_left.sidebar_channel_menu.muteChannel": "靜音頻道",
+  "sidebar_left.sidebar_channel_menu.leaveChannel": "離開頻道",
+  "sidebar_left.sidebar_channel_menu.favoriteChannel": "我的最愛",
+  "sidebar_left.sidebar_channel_menu.copyLink": "複製連結",
+  "sidebar_left.sidebar_channel_menu.addMembers": "新增成員",
+  "edit_category_modal.cancel": "取消",
+  "delete_category_modal.delete": "刪除",
+  "create_category_modal.create": "建立",
+  "admin.team_settings.team_list.search_teams_errored": "發生錯誤。請再嘗試一遍",
+  "status_dropdown.set_your_status": "狀態",
+  "admin.license.trial-request.submit": "要求測試"
 }

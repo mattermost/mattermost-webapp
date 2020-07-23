@@ -3959,5 +3959,8 @@
   "create_category_modal.create": "Aanmaken",
   "admin.image.amazonS3PathPrefixTitle": "Voorvoegsel Amazon S3 pad:",
   "admin.image.amazonS3PathPrefixExample": "Bijv.: \"submap1\" of je kan dit ook leeg laten.",
-  "admin.image.amazonS3PathPrefixDescription": "Voorvoegsel dat je selecteerde voor je S3 bucket in AWS."
+  "admin.image.amazonS3PathPrefixDescription": "Voorvoegsel dat je selecteerde voor je S3 bucket in AWS.",
+  "post_pre_header.pinned": "Vastgemaakt",
+  "generic_icons.userGuide": "Help",
+  "channel_header.userHelpGuide": "Help"
 }

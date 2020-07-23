@@ -3959,5 +3959,8 @@
   "create_category_modal.create": "Criar",
   "admin.image.amazonS3PathPrefixTitle": "Prefixo do Caminho do Amazon S3:",
   "admin.image.amazonS3PathPrefixExample": "Ex.: \"subdir1\" ou você pode deixá-lo vazio.",
-  "admin.image.amazonS3PathPrefixDescription": "Prefixo que você selecionou para seu bucket S3 na AWS."
+  "admin.image.amazonS3PathPrefixDescription": "Prefixo que você selecionou para seu bucket S3 na AWS.",
+  "post_pre_header.pinned": "Fixado",
+  "generic_icons.userGuide": "Ajuda",
+  "channel_header.userHelpGuide": "Ajuda"
 }

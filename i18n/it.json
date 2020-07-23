@@ -3959,5 +3959,8 @@
   "admin.image.amazonS3PathPrefixTitle": "Prefisso percorso Amazon S3:",
   "edit_category_modal.helpText": "Puoi trascinare i canali in categorie per organizzare la tua barra laterale.",
   "delete_category_modal.helpText": "I canali in **{category_name}** torneranno nelle categorie Canali e Messaggi Diretti. Non sarai rimosso da nessun canale.",
-  "sidebar_left.sidebar_channel_menu.unmuteChannel": "De-Silenzia il canale"
+  "sidebar_left.sidebar_channel_menu.unmuteChannel": "De-Silenzia il canale",
+  "post_pre_header.pinned": "Bloccato",
+  "generic_icons.userGuide": "Aiuto",
+  "channel_header.userHelpGuide": "Aiuto"
 }

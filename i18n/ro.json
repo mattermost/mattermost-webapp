@@ -3927,5 +3927,10 @@
   "sidebar_left.sidebar_channel_menu.addMembers": "Adăugați membri",
   "edit_category_modal.cancel": "Anulează",
   "delete_category_modal.delete": "Șterge",
-  "create_category_modal.create": "Creează"
+  "create_category_modal.create": "Creează",
+  "post_pre_header.pinned": "Fixat",
+  "generic_icons.userGuide": "Ajutor",
+  "channel_header.userHelpGuide": "Ajutor",
+  "sidebar.types.direct_messages": "MESAJE DIRECTE",
+  "sidebar.types.channels": "CANALE"
 }

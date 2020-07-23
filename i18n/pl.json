@@ -3899,5 +3899,20 @@
   "admin.group_teams_and_channels_row.channelAdmin": "Administrator kanału",
   "admin.channel_settings.channel_detail.archive_confirm.title": "Zapisz i archiwizuj kanał",
   "admin.channel_settings.channel_detail.archive_confirm.message": "Zapisywanie spowoduje zarchiwizowanie kanału z zespołu i sprawi, że jego zawartość będzie niedostępna dla wszystkich użytkowników. Czy na pewno chcesz zapisać i zarchiwizować ten kanał?",
-  "admin.channel_settings.channel_detail.archive_confirm.button": "Zapisz i archiwizuj kanał"
+  "admin.channel_settings.channel_detail.archive_confirm.button": "Zapisz i archiwizuj kanał",
+  "post_pre_header.pinned": "Przypięty",
+  "generic_icons.userGuide": "Pomoc",
+  "channel_header.userHelpGuide": "Pomoc",
+  "sidebar_left.sidebar_channel_menu.unmuteChannel": "Wyłącz Wyciszenie Kanału",
+  "sidebar_left.sidebar_channel_menu.muteChannel": "Wycisz kanał",
+  "sidebar_left.sidebar_channel_menu.leaveChannel": "Opuść Kanał",
+  "sidebar_left.sidebar_channel_menu.favoriteChannel": "Ulubiony",
+  "sidebar_left.sidebar_channel_menu.copyLink": "Kopiuj odnośnik",
+  "sidebar_left.sidebar_channel_menu.addMembers": "Dodaj Użytkowników",
+  "edit_category_modal.cancel": "Anuluj",
+  "delete_category_modal.delete": "Usuń",
+  "create_category_modal.create": "Utwórz",
+  "admin.group_settings.group_detail.invalid_length": "Nazwa musi być złożona z 1 do 64 małych znaków alfanumerycznych",
+  "status_dropdown.set_your_status": "Stan",
+  "admin.license.trial-request.submit": "Request trial"
 }
