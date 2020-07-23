@@ -68,7 +68,7 @@ describe('Channel sidebar', () => {
     it('should move category to correct place', () => {
         // * Verify that we've switched to the new team
         cy.get('#headerTeamName', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').should('contain', teamName);
-        
+
         // # Get channel group button and wait for Channels to be visible since for some reason it shows up later...
         cy.get('.SidebarChannelGroupHeader_groupButton > div[data-rbd-drag-handle-draggable-id]').should('be.visible').as('fromChannelGroup');
         cy.get('@fromChannelGroup').should('contain', 'CHANNELS');
