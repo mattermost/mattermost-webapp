@@ -3966,6 +3966,7 @@
   "generic_modal.cancel": "Annuleren",
   "admin.channel_list.public": "",
   "admin.channel_list.private": "",
-  "admin.channel_list.group_sync": "",
-  "admin.channel_list.archived": ""
+  "admin.channel_list.group_sync": "Groepssynchronisatie",
+  "admin.channel_list.archived": "Gearchiveerd",
+  "admin.channel_list.manual_invites": "Manueel uitnodigen"
 }
