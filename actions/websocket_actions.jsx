@@ -16,7 +16,7 @@ import {
     PreferenceTypes,
 } from 'mattermost-redux/action_types';
 import {WebsocketEvents, General, Permissions} from 'mattermost-redux/constants';
-import {addChannelToInitialCategory} from 'mattermost-redux/actions/channel_categories';
+import {addChannelToInitialCategory, fetchMyCategories, receivedCategoryOrder} from 'mattermost-redux/actions/channel_categories';
 import {
     getChannelAndMyMember,
     getMyChannelMember,
@@ -450,19 +450,19 @@ export function handleEvent(msg) {
         break;
 
     case SocketEvents.SIDEBAR_CATEGORY_CREATED:
-        handleSidebarCategoryCreated(msg);
+        dispatch(handleSidebarCategoryCreated(msg));
         break;
 
     case SocketEvents.SIDEBAR_CATEGORY_UPDATED:
-        handleSidebarCategoryUpdated(msg);
+        dispatch(handleSidebarCategoryUpdated(msg));
         break;
 
     case SocketEvents.SIDEBAR_CATEGORY_DELETED:
-        handleSidebarCategoryDeleted(msg);
+        dispatch(handleSidebarCategoryDeleted(msg));
         break;
 
     case SocketEvents.SIDEBAR_CATEGORY_ORDER_UPDATED:
-        handleSidebarCategoryOrderUpdated(msg);
+        dispatch(handleSidebarCategoryOrderUpdated(msg));
         break;
 
     default:
@@ -1238,29 +1238,48 @@ function handleGroupNotAssociatedToChannelEvent(msg) {
 }
 
 function handleSidebarCategoryCreated(msg) {
-    store.dispatch({
-        type: ActionTypes.SIDEBAR_CATEGORY_CREATED,
-        data: {categoryId: msg.category_id},
-    });
+    return (doDispatch, doGetState) => {
+        const state = doGetState();
+
+        if (msg.broadcast.team_id !== getCurrentTeamId(state)) {
+            // The new category will be loaded when we switch teams.
+            return;
+        }
+
+        // Fetch all categories, including ones that weren't explicitly updated, in case any other categories had channels
+        // moved out of them.
+        doDispatch(fetchMyCategories(msg.broadcast.team_id));
+    };
 }
 
 function handleSidebarCategoryUpdated(msg) {
-    store.dispatch({
-        type: ActionTypes.SIDEBAR_CATEGORY_UPDATED,
-        data: {categoryIds: msg.category_ids},
-    });
+    return (doDispatch, doGetState) => {
+        const state = doGetState();
+
+        if (msg.broadcast.team_id !== getCurrentTeamId(state)) {
+            // The updated categories will be loaded when we switch teams.
+            return;
+        }
+
+        // Fetch all categories in case any other categories had channels moved out of them.
+        doDispatch(fetchMyCategories(msg.broadcast.team_id));
+    };
 }
 
 function handleSidebarCategoryDeleted(msg) {
-    store.dispatch({
-        type: ActionTypes.SIDEBAR_CATEGORY_DELETED,
-        data: {categoryId: msg.category_id},
-    });
+    return (doDispatch, doGetState) => {
+        const state = doGetState();
+
+        if (msg.broadcast.team_id !== getCurrentTeamId(state)) {
+            // The category will be removed when we switch teams.
+            return;
+        }
+
+        // Fetch all categories since any channels that were in the deleted category were moved to other categories.
+        doDispatch(fetchMyCategories(msg.broadcast.team_id));
+    };
 }
 
 function handleSidebarCategoryOrderUpdated(msg) {
-    store.dispatch({
-        type: ActionTypes.SIDEBAR_CATEGORY_ORDER_UPDATED,
-        data: {categoryOrder: msg.order},
-    });
+    return receivedCategoryOrder(msg.broadcast.team_id, msg.data.order);
 }

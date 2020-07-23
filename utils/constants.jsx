@@ -207,11 +207,6 @@ export const ActionTypes = keyMirror({
     DISMISS_ANNOUNCEMENT_BAR: null,
 
     PREFETCH_POSTS_FOR_CHANNEL: null,
-
-    SIDEBAR_CATEGORY_CREATED: null,
-    SIDEBAR_CATEGORY_UPDATED: null,
-    SIDEBAR_CATEGORY_DELETED: null,
-    SIDEBAR_CATEGORY_ORDER_UPDATED: null,
 });
 
 export const PostRequestTypes = keyMirror({

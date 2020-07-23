@@ -28,6 +28,8 @@ describe('Channel sidebar', () => {
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
             cy.visit(`/${team.name}/channels/town-square`);
         });
+
+        cy.get('button[type="submit"]').contains('Got it').click();
     });
 
     it('should switch channels when clicking on a channel in the sidebar', () => {
