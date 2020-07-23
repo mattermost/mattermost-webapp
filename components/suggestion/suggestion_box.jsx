@@ -23,6 +23,11 @@ export default class SuggestionBox extends React.PureComponent {
         listComponent: PropTypes.func.isRequired,
 
         /**
+         * The input component to render (it is passed through props to the QuickInput)
+         */
+        inputComponent: PropTypes.elementType,
+
+        /**
          * The date component to render
          */
         dateComponent: PropTypes.func,
@@ -542,6 +547,7 @@ export default class SuggestionBox extends React.PureComponent {
                 components: [],
                 selection: '',
             });
+            this.handlePretextChanged('');
         }
     }
 

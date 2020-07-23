@@ -257,6 +257,7 @@ export const ModalIdentifiers = {
     PLUGIN_MARKETPLACE: 'plugin_marketplace',
     EDIT_CATEGORY: 'edit_category',
     DELETE_CATEGORY: 'delete_category',
+    SIDEBAR_WHATS_NEW_MODAL: 'sidebar_whats_new_modal',
     WARN_METRIC_ACK: 'warn_metric_acknowledgement',
 };
 
