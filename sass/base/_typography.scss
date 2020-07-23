@@ -198,3 +198,15 @@ ol {
 .app__body.font--open_sans {
     font-family: 'Open Sans', sans-serif;
 }
+
+.color--link--adminack {
+    color: $white;
+    padding-left: 20px;
+    text-decoration: underline;
+    cursor: pointer;
+
+    &:hover,
+    &:focus {
+        text-decoration: underline;
+    }
+}
