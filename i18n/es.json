@@ -3974,5 +3974,6 @@
   "admin.support.enableAskCommunityTitle": "Habilitar enlace Preguntar a la comunidad:",
   "admin.support.enableAskCommunityDesc": "Cuando es verdadero, el enlace \"Preguntar a la comunidad\" aparece en la interfaz de usuario de Mattermost y en el Menú principal, que permite a los usuarios unirse a la Comunidad de Mattermost para hacer preguntas y ayudar a otros a solucionar problemas. Cuando es falso, el enlace está oculto para los usuarios.",
   "generic_modal.confirm": "Confirmar",
-  "generic_modal.cancel": "Cancelar"
+  "generic_modal.cancel": "Cancelar",
+  "announcement_bar.error.warn_metric_status.link": "Conocer más"
 }

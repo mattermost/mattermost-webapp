@@ -3977,5 +3977,6 @@
   "generic_modal.cancel": "Отмена",
   "sidebar_whats_new_modal.whatsNewText": "Создайте пользовательские категории на боковой панели. Перетащите, чтобы организовать каналы и категории.",
   "sidebar_whats_new_modal.header": "Что нового",
-  "sidebar_whats_new_modal.confirm": "Понятно"
+  "sidebar_whats_new_modal.confirm": "Понятно",
+  "announcement_bar.error.warn_metric_status.link": "Узнать больше"
 }

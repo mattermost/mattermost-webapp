@@ -3970,5 +3970,6 @@
   "admin.channel_settings.channel_list.search_channels_errored": "出现状况。请重试",
   "admin.license.trial-request.accept-terms": "点击**开始试用**即表示您接受 [Mattermost Software Evaluation Agreement](!https://mattermost.com/software-evaluation-agreement/)、[隐私政策](!https://mattermost.com/privacy-policy/)并接收产品邮件。",
   "generic_modal.confirm": "确认",
-  "generic_modal.cancel": "取消"
+  "generic_modal.cancel": "取消",
+  "announcement_bar.error.warn_metric_status.link": "了解更多"
 }

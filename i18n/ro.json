@@ -3933,5 +3933,6 @@
   "sidebar.types.direct_messages": "MESAJE DIRECTE",
   "sidebar.types.channels": "CANALE",
   "generic_modal.confirm": "Confirma",
-  "generic_modal.cancel": "Anulează"
+  "generic_modal.cancel": "Anulează",
+  "announcement_bar.error.warn_metric_status.link": "Aflați mai multe"
 }

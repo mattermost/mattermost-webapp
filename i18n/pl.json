@@ -3915,5 +3915,6 @@
   "status_dropdown.set_your_status": "Stan",
   "admin.license.trial-request.submit": "Request trial",
   "generic_modal.confirm": "Potwierdź",
-  "generic_modal.cancel": "Anuluj"
+  "generic_modal.cancel": "Anuluj",
+  "announcement_bar.error.warn_metric_status.link": "Dowiedz się więcej"
 }

@@ -3963,5 +3963,6 @@
   "generic_icons.userGuide": "Aiuto",
   "channel_header.userHelpGuide": "Aiuto",
   "generic_modal.confirm": "Conferma",
-  "generic_modal.cancel": "Annulla"
+  "generic_modal.cancel": "Annulla",
+  "announcement_bar.error.warn_metric_status.link": "Scopri di più"
 }

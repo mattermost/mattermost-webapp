@@ -3967,5 +3967,6 @@
   "filter.title": "Şuna göre süz",
   "filter.reset": "Süzgeçleri sıfırla",
   "filter.filters": "Süzgeçler",
-  "filter.apply": "Uygula"
+  "filter.apply": "Uygula",
+  "announcement_bar.error.warn_metric_status.link": "Ayrıntılı bilgi alın"
 }

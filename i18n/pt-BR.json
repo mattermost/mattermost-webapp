@@ -3963,5 +3963,6 @@
   "generic_icons.userGuide": "Ajuda",
   "channel_header.userHelpGuide": "Ajuda",
   "generic_modal.confirm": "Confirmar",
-  "generic_modal.cancel": "Cancelar"
+  "generic_modal.cancel": "Cancelar",
+  "announcement_bar.error.warn_metric_status.link": "Saiba Mais"
 }

@@ -3912,5 +3912,6 @@
   "status_dropdown.set_your_status": "État",
   "admin.license.trial-request.submit": "Request trial",
   "generic_modal.confirm": "Confirmer",
-  "generic_modal.cancel": "Annuler"
+  "generic_modal.cancel": "Annuler",
+  "announcement_bar.error.warn_metric_status.link": "En savoir plus"
 }

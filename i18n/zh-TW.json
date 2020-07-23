@@ -3924,5 +3924,6 @@
   "status_dropdown.set_your_status": "狀態",
   "admin.license.trial-request.submit": "要求測試",
   "generic_modal.confirm": "確認",
-  "generic_modal.cancel": "取消"
+  "generic_modal.cancel": "取消",
+  "announcement_bar.error.warn_metric_status.link": "了解更多"
 }

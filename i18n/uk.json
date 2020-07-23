@@ -3912,5 +3912,6 @@
   "status_dropdown.set_your_status": "Статус",
   "admin.license.trial-request.submit": "Request trial",
   "generic_modal.confirm": "Підтвердьте",
-  "generic_modal.cancel": "Відміна"
+  "generic_modal.cancel": "Відміна",
+  "announcement_bar.error.warn_metric_status.link": "Вчи більше"
 }

@@ -3914,5 +3914,6 @@
   "status_dropdown.set_your_status": "상태",
   "admin.license.trial-request.submit": "Request trial",
   "generic_modal.confirm": "확인",
-  "generic_modal.cancel": "취소"
+  "generic_modal.cancel": "취소",
+  "announcement_bar.error.warn_metric_status.link": "더 알아보기"
 }

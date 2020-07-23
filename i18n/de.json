@@ -3912,5 +3912,6 @@
   "create_category_modal.create": "Erstellen",
   "admin.license.trial-request.submit": "Request trial",
   "generic_modal.confirm": "Bestätigen",
-  "generic_modal.cancel": "Abbrechen"
+  "generic_modal.cancel": "Abbrechen",
+  "announcement_bar.error.warn_metric_status.link": "Mehr erfahren"
 }

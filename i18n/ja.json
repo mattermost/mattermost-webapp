@@ -3977,5 +3977,6 @@
   "filter.reset": "フィルターをリセットする",
   "filter.filters": "フィルター",
   "filter.apply": "適用する",
-  "admin.support.enableAskCommunityDesc": "有効な場合、ユーザーが質問したり、別のユーザーのトラブルシューティングに協力するためのMattermostコミュニティに参加できる \"コミュニティに質問する\" リンクがMattermostのユーザーインターフェースやメインメニューに表示されます。"
+  "admin.support.enableAskCommunityDesc": "有効な場合、ユーザーが質問したり、別のユーザーのトラブルシューティングに協力するためのMattermostコミュニティに参加できる \"コミュニティに質問する\" リンクがMattermostのユーザーインターフェースやメインメニューに表示されます。",
+  "announcement_bar.error.warn_metric_status.link": "詳しく知る"
 }
