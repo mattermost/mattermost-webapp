@@ -37,7 +37,7 @@ export default class Renderer extends marked.Renderer {
         if (usedLanguage === 'texcode' || usedLanguage === 'latexcode') {
             usedLanguage = 'tex';
         }
-        
+
         // treat html as xml to prevent injection attacks
         if (usedLanguage === 'html') {
             usedLanguage = 'xml';
