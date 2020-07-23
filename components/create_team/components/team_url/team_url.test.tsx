@@ -6,7 +6,7 @@ import {shallow} from 'enzyme';
 import {FormattedMessage} from 'react-intl';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
-import TeamUrl from 'components/create_team/components/team_url/team_url.jsx';
+import TeamUrl from 'components/create_team/components/team_url/team_url';
 import Constants from 'utils/constants';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
@@ -67,11 +67,11 @@ describe('/components/create_team/components/display_name', () => {
             <TeamUrl {...props}/>,
         );
 
-        await wrapper.instance().submitNext({preventDefault: jest.fn()});
+        await (wrapper.instance() as unknown as TeamUrl).submitNext({preventDefault: jest.fn()} as unknown as React.MouseEvent<HTMLElement>);
         expect(actions.checkIfTeamExists).toHaveBeenCalledTimes(1);
         expect(actions.createTeam).not.toHaveBeenCalled();
 
-        await wrapper.instance().submitNext({preventDefault: jest.fn()});
+        await (wrapper.instance() as unknown as TeamUrl).submitNext({preventDefault: jest.fn()} as unknown as React.MouseEvent<HTMLElement>);
         expect(actions.checkIfTeamExists).toHaveBeenCalledTimes(2);
         expect(actions.createTeam).toHaveBeenCalledTimes(1);
         expect(actions.createTeam).toBeCalledWith({display_name: 'test-team', name: 'test-team', type: 'O'});
@@ -81,7 +81,7 @@ describe('/components/create_team/components/display_name', () => {
 
     test('should display isRequired error', () => {
         const wrapper = mountWithIntl(<TeamUrl {...defaultProps}/>);
-        wrapper.find('.form-control').instance().value = '';
+        (wrapper.find('.form-control').instance() as unknown as HTMLInputElement).value = '';
         wrapper.find('button').simulate('click', {preventDefault: () => jest.fn()});
 
         expect(wrapper.state('nameError')).toEqual(
@@ -94,18 +94,18 @@ describe('/components/create_team/components/display_name', () => {
 
     test('should display charLength error', () => {
         const wrapper = mountWithIntl(<TeamUrl {...defaultProps}/>);
-        wrapper.find('.form-control').instance().value = 'a';
+        (wrapper.find('.form-control').instance() as unknown as HTMLInputElement).value = 'a';
         wrapper.find('button').simulate('click', {preventDefault: () => jest.fn()});
         expect(wrapper.state('nameError')).toEqual(chatLengthError);
 
-        wrapper.find('.form-control').instance().value = 'should_trigger_an_error_because_it_exceeds_MAX_TEAMNAME_LENGTH';
+        (wrapper.find('.form-control').instance() as unknown as HTMLInputElement).value = 'should_trigger_an_error_because_it_exceeds_MAX_TEAMNAME_LENGTH';
         wrapper.find('button').simulate('click', {preventDefault: () => jest.fn()});
         expect(wrapper.state('nameError')).toEqual(chatLengthError);
     });
 
     test('should display teamUrl regex error', () => {
         const wrapper = mountWithIntl(<TeamUrl {...defaultProps}/>);
-        wrapper.find('.form-control').instance().value = '!!wrongName1';
+        (wrapper.find('.form-control').instance() as unknown as HTMLInputElement).value = '!!wrongName1';
         wrapper.find('button').simulate('click', {preventDefault: () => jest.fn()});
         expect(wrapper.state('nameError')).toEqual(
             <FormattedMessage
@@ -117,7 +117,7 @@ describe('/components/create_team/components/display_name', () => {
 
     test('should display teamUrl taken error', () => {
         const wrapper = mountWithIntl(<TeamUrl {...defaultProps}/>);
-        wrapper.find('.form-control').instance().value = 'channel';
+        (wrapper.find('.form-control').instance() as unknown as HTMLInputElement).value = 'channel';
         wrapper.find('button').simulate('click', {preventDefault: () => jest.fn()});
         expect(wrapper.state('nameError')).toEqual(
             <FormattedMarkdownMessage

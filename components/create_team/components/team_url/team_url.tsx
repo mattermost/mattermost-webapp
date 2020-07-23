@@ -1,13 +1,16 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {Button, Tooltip} from 'react-bootstrap';
 import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
+import {ActionFunc} from 'mattermost-redux/types/actions';
+import {Team} from 'mattermost-redux/types/teams';
+
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
+
 import Constants from 'utils/constants.jsx';
 import * as URL from 'utils/url';
 import logoImage from 'images/logo.png';
@@ -15,37 +18,37 @@ import logoImage from 'images/logo.png';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import OverlayTrigger from 'components/overlay_trigger';
 
-export default class TeamUrl extends React.PureComponent {
-    static propTypes = {
+type Props = {
+
+    /*
+     * Object containing team's display_name and name
+     */
+    state: {team: object; wizard: string};
+
+    /*
+     * Function that updates parent component with state props
+     */
+    updateParent: (state: Props['state']) => void;
+
+    /*
+     * Object with redux action creators
+     */
+    actions: {
 
         /*
-         * Object containing team's display_name and name
+         * Action creator to check if a team already exists
          */
-        state: PropTypes.object,
+        checkIfTeamExists: (teamName: string) => ActionFunc;
 
         /*
-         * Function that updates parent component with state props
-         */
-        updateParent: PropTypes.func,
+     * Action creator to create a new team
+     */
+        createTeam: (team: Team) => ActionFunc;
+    };
+}
 
-        /*
-         * Object with redux action creators
-         */
-        actions: PropTypes.shape({
-
-            /*
-             * Action creator to check if a team already exists
-             */
-            checkIfTeamExists: PropTypes.func.isRequired,
-
-            /*
-             * Action creator to create a new team
-             */
-            createTeam: PropTypes.func.isRequired,
-        }).isRequired,
-    }
-
-    constructor(props) {
+export default class TeamUrl extends React.PureComponent<Props> {
+    public constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -54,11 +57,11 @@ export default class TeamUrl extends React.PureComponent {
         };
     }
 
-    componentDidMount() {
+    public componentDidMount() {
         trackEvent('signup', 'signup_team_02_url');
     }
 
-    submitBack = (e) => {
+    public submitBack = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
         e.preventDefault();
         trackEvent('signup', 'click_back');
         const newState = this.props.state;
@@ -66,11 +69,11 @@ export default class TeamUrl extends React.PureComponent {
         this.props.updateParent(newState);
     }
 
-    submitNext = async (e) => {
+    public submitNext = async (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
         e.preventDefault();
         trackEvent('signup', 'click_finish');
 
-        const name = ReactDOM.findDOMNode(this.refs.name).value.trim();
+        const name = ReactDOM.findDOMNode<>(this.refs.name).value.trim();
         const cleanedName = URL.cleanUpUrlable(name);
         const urlRegex = /^[a-z]+([a-z\-0-9]+|(__)?)[a-z0-9]+$/g;
         const {actions: {checkIfTeamExists, createTeam}} = this.props;
@@ -122,7 +125,7 @@ export default class TeamUrl extends React.PureComponent {
         }
 
         this.setState({isLoading: true});
-        var teamSignup = JSON.parse(JSON.stringify(this.props.state));
+        const teamSignup = JSON.parse(JSON.stringify(this.props.state));
         teamSignup.team.type = 'O';
         teamSignup.team.name = name;
 
@@ -150,12 +153,12 @@ export default class TeamUrl extends React.PureComponent {
         }
     }
 
-    handleFocus = (e) => {
+    public handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
         e.preventDefault();
         e.currentTarget.select();
     }
 
-    render() {
+    public render() {
         let nameError = null;
         let nameDivClass = 'form-group';
         if (this.state.nameError) {
