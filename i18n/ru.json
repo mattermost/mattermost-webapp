@@ -80,7 +80,7 @@
   "add_emoji.name": "Имя",
   "add_emoji.name.help": "Выберите имя для смайлика, длиной до 64 символов, используя строчные буквы, цифры и символы '-' и '_'.",
   "add_emoji.nameInvalid": "Имя смайлика может содержать только цифры, буквы и символы '-' и '_'.",
-  "add_emoji.nameRequired": "Требуется изображение для смайлика",
+  "add_emoji.nameRequired": "Требуется имя для смайлика",
   "add_emoji.nameTaken": "Это имя уже занято. Пожалуйста, выберите другое.",
   "add_emoji.preview": "Предварительный просмотр",
   "add_emoji.preview.sentence": "Это предложение с {image} в нем.",
@@ -3974,5 +3974,8 @@
   "channel_header.userHelpGuide": "Помощь",
   "admin.support.enableAskCommunityTitle": "Включить ссылку \"Спросить сообщество\":",
   "generic_modal.confirm": "Подтвердить",
-  "generic_modal.cancel": "Отмена"
+  "generic_modal.cancel": "Отмена",
+  "sidebar_whats_new_modal.whatsNewText": "Создайте пользовательские категории на боковой панели. Перетащите, чтобы организовать каналы и категории.",
+  "sidebar_whats_new_modal.header": "Что нового",
+  "sidebar_whats_new_modal.confirm": "Понятно"
 }
