@@ -391,10 +391,9 @@ export default class SearchBar extends React.PureComponent {
                         autoComplete='off'
                         aria-labelledby='searchBox'
                     >
-                        <SearchIcon
-                            className='search__icon'
-                            aria-hidden='true'
-                        />
+                        <div className='search__font-icon'>
+                            <i className='icon icon-magnify icon-16'/>
+                        </div>
                         <SuggestionBox
                             ref={this.getSearch}
                             id={this.props.isSideBarRight ? 'sbrSearchBox' : 'searchBox'}

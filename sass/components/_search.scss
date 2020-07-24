@@ -22,6 +22,17 @@
     }
 }
 
+.search__font-icon {
+    pointer-events: none;
+    color: var(--center-channel-color-56);
+    left: 4px;
+    position: absolute;
+    top: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
 .search__icon {
     pointer-events: none;
     fill: v(center-channel-color-56);
