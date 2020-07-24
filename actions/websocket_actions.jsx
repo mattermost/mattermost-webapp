@@ -449,6 +449,14 @@ export function handleEvent(msg) {
         handleGroupNotAssociatedToChannelEvent(msg);
         break;
 
+    case SocketEvents.WARN_METRIC_STATUS_RECEIVED:
+        handleWarnMetricStatusReceivedEvent(msg);
+        break;
+
+    case SocketEvents.WARN_METRIC_STATUS_REMOVED:
+        handleWarnMetricStatusRemovedEvent(msg);
+        break;
+
     case SocketEvents.SIDEBAR_CATEGORY_CREATED:
         dispatch(handleSidebarCategoryCreated(msg));
         break;
@@ -1235,6 +1243,23 @@ function handleGroupNotAssociatedToChannelEvent(msg) {
         type: GroupTypes.RECEIVED_GROUP_NOT_ASSOCIATED_TO_CHANNEL,
         data: {channelID: msg.broadcast.channel_id, groups: [{id: msg.data.group_id}]},
     });
+}
+
+function handleWarnMetricStatusReceivedEvent(msg) {
+    store.dispatch(batchActions([
+        {
+            type: GeneralTypes.WARN_METRIC_STATUS_RECEIVED,
+            data: JSON.parse(msg.data.warnMetricStatus),
+        },
+        {
+            type: ActionTypes.SHOW_NOTICE,
+            data: [AnnouncementBarMessages.NUMBER_OF_ACTIVE_USERS_WARN_METRIC_STATUS],
+        },
+    ]));
+}
+
+function handleWarnMetricStatusRemovedEvent(msg) {
+    store.dispatch({type: GeneralTypes.WARN_METRIC_STATUS_REMOVED, data: {id: msg.data.warnMetricId}});
 }
 
 function handleSidebarCategoryCreated(msg) {
