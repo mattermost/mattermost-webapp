@@ -301,7 +301,7 @@ export default class ElasticsearchSettings extends AdminSettings {
                         id: t('admin.elasticsearch.testConfigSuccess'),
                         defaultMessage: 'Test successful. Configuration saved.',
                     }}
-                    disabled={!this.state.enableIndexing || this.props.isDisabled}
+                    disabled={!this.state.enableIndexing}
                 />
                 <div className='form-group'>
                     <label

@@ -945,7 +945,7 @@ const AdminDefinition = {
                         error_message_default: 'Connection unsuccessful: {error}',
                         success_message: t('admin.s3.s3Success'),
                         success_message_default: 'Connection was successful',
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
+                        isDisabled: it.not(it.userHasReadPermissionOnResource('environment')),
                     },
                 ],
             },
@@ -1129,7 +1129,7 @@ const AdminDefinition = {
                         error_message_default: 'Connection unsuccessful: {error}',
                         success_message: t('admin.environment.smtp.smtpSuccess'),
                         success_message_default: 'No errors were reported while sending an email. Please check your inbox to make sure.',
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
+                        isDisabled: it.not(it.userHasReadPermissionOnResource('environment')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -3084,7 +3084,7 @@ const AdminDefinition = {
                         success_message: t('admin.ldap.testSuccess'),
                         success_message_default: 'AD/LDAP Test Successful',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.not(it.userHasReadPermissionOnResource('authentication')),
                             it.all(
                                 it.stateIsFalse('LdapSettings.Enable'),
                                 it.stateIsFalse('LdapSettings.EnableSync'),
