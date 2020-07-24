@@ -276,7 +276,6 @@ const AdminDefinition = {
                 'admin.logs.bannerDesc',
                 'admin.logs.title',
             ],
-            isDisabled: it.not(it.userHasWritePermissionOnResource('reporting')),
             schema: {
                 id: 'ServerLogs',
                 component: ServerLogs,
