@@ -2231,6 +2231,7 @@
   "claim.oauth_to_email.title": "Switch {type} Account to Email",
   "close_next_steps_modal.confirm": "Remove",
   "close_next_steps_modal.header": "Remove Tip & Next Steps?",
+  "close_next_steps_modal.helpText": "Access Tips & Next Steps any time through the Help section in the Main Menu",
   "close_next_steps_modal.mainText": "This will remove this section from your sidebar, but you can access it later in the Help section of the Main Menu.",
   "combined_system_message.added_to_channel.many_expanded": "{users} and {lastUser} were **added to the channel** by {actor}.",
   "combined_system_message.added_to_channel.one": "{firstUser} **added to the channel** by {actor}.",
