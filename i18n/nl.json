@@ -2294,7 +2294,6 @@
   "post_info.message.visible.compact": " (Enkel zichtbaar voor jou)",
   "post_info.permalink": "Kopieer link",
   "post_info.pin": "Vastmaken aan Kanaal",
-  "post_info.pinned": "Vastgemaakt",
   "post_info.reply": "Antwoord",
   "post_info.system": "Systeem",
   "post_info.tooltip.add_reactions": "Reactie toevoegen",
@@ -3952,7 +3951,6 @@
   "rename_category_modal.rename": "Hernoemen",
   "edit_category_modal.placeholder": "Kies een categorienaam",
   "edit_category_modal.helpText": "Je kan kanalen in categorieën slepen om je zijbalk te organiseren.",
-  "edit_category_modal.cancel": "Annuleren",
   "delete_category_modal.helpText": "Kanalen in **{category_name}** worden terug geplaatst naar categorieën Kanalen en Direct Berichten . Je wordt niet verwijderd uit een kanaal.",
   "delete_category_modal.deleteCategory": "Deze categorie verwijderen?",
   "delete_category_modal.delete": "Verwijderen",
@@ -3960,5 +3958,14 @@
   "create_category_modal.create": "Aanmaken",
   "admin.image.amazonS3PathPrefixTitle": "Voorvoegsel Amazon S3 pad:",
   "admin.image.amazonS3PathPrefixExample": "Bijv.: \"submap1\" of je kan dit ook leeg laten.",
-  "admin.image.amazonS3PathPrefixDescription": "Voorvoegsel dat je selecteerde voor je S3 bucket in AWS."
+  "admin.image.amazonS3PathPrefixDescription": "Voorvoegsel dat je selecteerde voor je S3 bucket in AWS.",
+  "post_pre_header.pinned": "Vastgemaakt",
+  "generic_icons.userGuide": "Help",
+  "channel_header.userHelpGuide": "Help",
+  "generic_modal.confirm": "Bevestigen",
+  "generic_modal.cancel": "Annuleren",
+  "announcement_bar.error.warn_metric_status.link": "Meer Informatie",
+  "admin.channel_list.archived": "Gearchiveerd",
+  "admin.channel_list.manual_invites": "Manueel uitnodigen",
+  "admin.channel_list.group_sync": "Groepssynchronisatie"
 }
