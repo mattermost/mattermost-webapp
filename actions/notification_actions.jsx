@@ -15,7 +15,7 @@ import {displayUsername} from 'mattermost-redux/utils/user_utils';
 import {browserHistory} from 'utils/browser_history';
 import Constants, {NotificationLevels, UserStatuses} from 'utils/constants';
 import {showNotification} from 'utils/notifications';
-import {isDesktopApp, isMacApp, isMobileApp, isWindowsApp} from 'utils/user_agent';
+import {isDesktopApp, isMobileApp} from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
 import {stripMarkdown} from 'utils/markdown';
 
@@ -162,13 +162,13 @@ const notifyMe = (title, body, channel, teamId, silent, soundName) => (dispatch,
             body,
             channel,
             teamId,
-            silent
+            silent,
         };
 
         if (isDesktopApp() && window.desktop && semver.gt(window.desktop.version, '4.6.0')) {
-            msg = {...msg, soundName}
+            msg = {...msg, soundName};
         }
-            
+
         // get the desktop app to trigger the notification
         window.postMessage(
             {
