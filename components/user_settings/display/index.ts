@@ -3,7 +3,7 @@
 
 import {connect} from 'react-redux';
 import {GenericAction, ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
-import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
+import {bindActionCreators, Dispatch} from 'redux';
 
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {getSupportedTimezones} from 'mattermost-redux/actions/general';
@@ -59,13 +59,13 @@ function mapStateToProps(state: GlobalState) {
 
 type Actions = {
     getSupportedTimezones: () => ActionFunc | void;
-    autoUpdateTimezone: (deviceTimezone: string) => Promise<ActionResult>;
+    autoUpdateTimezone: (deviceTimezone: string) => ActionFunc;
     savePreferences: () => Promise<ActionResult>;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
-        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
+        actions: bindActionCreators({
             getSupportedTimezones,
             autoUpdateTimezone,
             savePreferences,
