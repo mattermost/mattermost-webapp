@@ -2,8 +2,8 @@
     width: 100%;
     color: var(--sidebar-text);
     padding: 8px 16px 18px 14px;
-    position: absolute;
-    bottom: 0;
+    align-self: flex-end;
+    background-color: var(--sidebar-bg);
 
     &.active {
         background-color: var(--sidebar-text-hover-bg);
@@ -39,7 +39,7 @@
     margin-left: auto;
     font-size: 14.4px;
     line-height: 14px;
-    
+
     align-self: center;
     width: 28px;
     height: 28px;
@@ -56,7 +56,7 @@
     &:hover {
         background-color: var(--sidebar-text-hover-bg);
 
-        i { 
+        i {
             opacity: 1;
         }
     }

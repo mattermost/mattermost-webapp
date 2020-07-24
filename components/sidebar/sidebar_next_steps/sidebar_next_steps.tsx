@@ -4,13 +4,16 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import {PreferenceType} from 'mattermost-redux/types/preferences';
+
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import {Steps} from 'components/next_steps_view/steps';
 import ProgressBar from 'components/progress_bar';
 
 import './sidebar_next_steps.scss';
 
 type Props = {
-
+    preferences: PreferenceType[];
 };
 
 type State = {
@@ -33,7 +36,8 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
 
     render() {
         // TODO: Temporary values
-        const total = 3;
+        const total = Steps.length;
+        const complete = this.props.preferences.filter((pref) => pref.value).length;
 
         return (
             <div className='SidebarNextSteps'>
@@ -57,7 +61,7 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
                             id='sidebar_next_steps.stepsComplete'
                             defaultMessage='{complete} / {total} steps complete'
                             values={{
-                                complete: this.state.complete,
+                                complete,
                                 total,
                             }}
                         />
@@ -65,7 +69,7 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
                 </div>
                 <div className='SidebarNextSteps__progressBar'>
                     <ProgressBar
-                        current={this.state.complete}
+                        current={complete}
                         total={total}
                         basePercentage={4}
                     />
