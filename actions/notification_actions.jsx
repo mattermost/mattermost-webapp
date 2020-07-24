@@ -15,7 +15,7 @@ import {displayUsername} from 'mattermost-redux/utils/user_utils';
 import {browserHistory} from 'utils/browser_history';
 import Constants, {NotificationLevels, UserStatuses} from 'utils/constants';
 import {showNotification} from 'utils/notifications';
-import {isDesktopApp, isMobileApp} from 'utils/user_agent';
+import {isDesktopApp, isMacApp, isMobileApp, isWindowsApp} from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
 import {stripMarkdown} from 'utils/markdown';
 
@@ -142,12 +142,12 @@ export function sendDesktopNotification(post, msgProps) {
         const channelId = channel ? channel.id : null;
         const notify = (activeChannel && activeChannel.id !== channelId) || !state.views.browser.focused;
         const soundName = user.notify_props !== undefined && user.notify_props.desktop_notification_sound !== undefined ? user.notify_props.desktop_notification_sound : 'None';
-
+        console.log(`SoundName: ${soundName}, DesktopApp: ${isDesktopApp()}`);
         if (notify) {
             dispatch(notifyMe(title, body, channel, teamId, !sound, soundName));
 
             //Don't add extra sounds on native desktop clients
-            if (sound && !isDesktopApp() && !isMobileApp()) {
+            if (sound && !isWindowsApp() && !isMacApp() && !isMobileApp()) {
                 Utils.ding(soundName);
             }
         }
