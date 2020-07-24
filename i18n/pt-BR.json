@@ -2294,7 +2294,6 @@
   "post_info.message.visible.compact": " (Visível somente para você)",
   "post_info.permalink": "Copiar Link",
   "post_info.pin": "Fixar no Canal",
-  "post_info.pinned": "Fixado",
   "post_info.reply": "Responder",
   "post_info.system": "Sistema",
   "post_info.tooltip.add_reactions": "Adicionar Reação",
@@ -3953,12 +3952,17 @@
   "sidebar_left.add_channel_dropdown.createCategory": "Criar Categoria",
   "rename_category_modal.renameCategory": "Renomear Categoria",
   "rename_category_modal.rename": "Renomear",
-  "edit_category_modal.cancel": "Cancelar",
   "delete_category_modal.deleteCategory": "Excluir esta categoria?",
   "delete_category_modal.delete": "Excluir",
   "create_category_modal.createCategory": "Criar Categoria",
   "create_category_modal.create": "Criar",
   "admin.image.amazonS3PathPrefixTitle": "Prefixo do Caminho do Amazon S3:",
   "admin.image.amazonS3PathPrefixExample": "Ex.: \"subdir1\" ou você pode deixá-lo vazio.",
-  "admin.image.amazonS3PathPrefixDescription": "Prefixo que você selecionou para seu bucket S3 na AWS."
+  "admin.image.amazonS3PathPrefixDescription": "Prefixo que você selecionou para seu bucket S3 na AWS.",
+  "post_pre_header.pinned": "Fixado",
+  "generic_icons.userGuide": "Ajuda",
+  "channel_header.userHelpGuide": "Ajuda",
+  "generic_modal.confirm": "Confirmar",
+  "generic_modal.cancel": "Cancelar",
+  "announcement_bar.error.warn_metric_status.link": "Saiba Mais"
 }
