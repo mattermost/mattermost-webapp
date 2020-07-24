@@ -9,6 +9,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {browserHistory} from 'utils/browser_history';
 import {Constants, ModalIdentifiers} from 'utils/constants';
+import {isActive} from 'utils/filter_users';
 import * as Utils from 'utils/utils.jsx';
 import ChannelMembersModal from 'components/channel_members_modal';
 import OverlayTrigger from 'components/overlay_trigger';
@@ -16,8 +17,6 @@ import MemberIcon from 'components/widgets/icons/member_icon';
 import Popover from 'components/widgets/popover';
 
 import PopoverListMembersItem from 'components/popover_list_members/popover_list_members_item';
-
-const NOT_DELETED = 0;
 
 export default class PopoverListMembers extends React.PureComponent {
     static propTypes = {
@@ -102,7 +101,7 @@ export default class PopoverListMembers extends React.PureComponent {
     render() {
         const isDirectChannel = this.props.channel.type === Constants.DM_CHANNEL;
 
-        const activeUsers = this.props.sortedUsers.filter((user) => user.delete_at === NOT_DELETED);
+        const activeUsers = this.props.sortedUsers.filter(isActive);
         const items = activeUsers.map((user) => (
             <PopoverListMembersItem
                 key={user.id}
