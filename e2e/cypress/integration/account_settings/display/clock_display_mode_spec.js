@@ -7,7 +7,12 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @account_setting
+
+import moment from 'moment-timezone';
+
+import * as DATE_TIME_FORMAT from '../../../fixtures/date_time_format';
 
 describe('Account Settings > Display > Clock Display Mode', () => {
     const mainMessage = 'Test for clock display mode';
@@ -116,21 +121,21 @@ function setClockDisplayTo24Hour() {
     setClockDisplayTo('clockFormatB');
 }
 
-function verifyClockFormat(isHour12) {
+function verifyClockFormat(timeFormat) {
     cy.get('time').first().then(($timeEl) => {
         cy.wrap($timeEl).invoke('attr', 'datetime').then((dateTimeString) => {
-            const formattedDateTime = new Date(dateTimeString).toLocaleString('en-US', {hour: 'numeric', minute: 'numeric', hour12: isHour12});
-            cy.wrap($timeEl).should('be.visible').and('have.text', formattedDateTime);
+            const formattedTime = moment(dateTimeString).format(timeFormat);
+            cy.wrap($timeEl).should('be.visible').and('have.text', formattedTime);
         });
     });
 }
 
 function verifyClockFormatIs12Hour() {
-    verifyClockFormat(true);
+    verifyClockFormat(DATE_TIME_FORMAT.TIME_12_HOUR);
 }
 
 function verifyClockFormatIs24Hour() {
-    verifyClockFormat(false);
+    verifyClockFormat(DATE_TIME_FORMAT.TIME_24_HOUR);
 }
 
 function verifyClockFormatIs12HourForPostWithMessage(postId, message) {

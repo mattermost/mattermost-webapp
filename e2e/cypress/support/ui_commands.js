@@ -26,7 +26,7 @@ Cypress.Commands.add('getCurrentUserId', () => {
 
 // Go to Account Settings modal
 Cypress.Commands.add('toAccountSettingsModal', () => {
-    cy.get('#channel_view').should('be.visible');
+    cy.get('#channel_view', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
     cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
     cy.get('#accountSettings').should('be.visible').click();
     cy.get('#accountSettingsModal').should('be.visible');
