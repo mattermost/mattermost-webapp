@@ -34,10 +34,10 @@ context('ldap', () => {
     describe('LDAP Login flow - Admin Login', () => {
         before(() => {
             // * Check if server has license for LDAP
-            cy.requireLicenseForFeature('LDAP');
+            cy.apiRequireLicenseForFeature('LDAP');
 
-            cy.apiGetConfig().then((response) => {
-                testSettings = setLDAPTestSettings(response.body);
+            cy.apiGetConfig().then(({config}) => {
+                testSettings = setLDAPTestSettings(config);
             });
         });
 
@@ -146,16 +146,14 @@ context('ldap', () => {
             cy.apiGetTeamByName(testSettings.teamName).then(({team}) => {
                 cy.apiGetChannelByName(testSettings.teamName, 'town-square').then((r2) => {
                     const channelId = r2.body.id;
-                    cy.apiGetUserByEmail(guest1.email).then((res) => {
-                        const user = res.body;
+                    cy.apiGetUserByEmail(guest1.email).then(({user}) => {
                         cy.apiAddUserToTeam(team.id, user.id).then(() => {
                             cy.apiAddUserToChannel(channelId, user.id);
                         });
                     });
 
                     // add member user to team
-                    cy.apiGetUserByEmail(user1.email).then((res) => {
-                        const user = res.body;
+                    cy.apiGetUserByEmail(user1.email).then(({user}) => {
                         cy.apiAddUserToTeam(team.id, user.id);
                     });
                 });

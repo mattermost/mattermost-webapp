@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @guest_account
 
 /**
@@ -18,8 +17,7 @@ import * as TIMEOUTS from '../../../fixtures/timeouts';
 function demoteGuestUser(guestUser) {
     // # Demote user as guest user before each test
     cy.apiAdminLogin();
-    cy.apiGetUserByEmail(guestUser.email).then((emailResponse) => {
-        const user = emailResponse.body;
+    cy.apiGetUserByEmail(guestUser.email).then(({user}) => {
         if (user.roles !== 'system_guest') {
             cy.demoteUser(guestUser.id);
         }
@@ -31,7 +29,7 @@ describe('Guest Account - Guest User Experience', () => {
 
     before(() => {
         // * Check if server has license for Guest Accounts
-        cy.requireLicenseForFeature('GuestAccounts');
+        cy.apiRequireLicenseForFeature('GuestAccounts');
 
         // # Enable Guest Account Settings
         cy.apiUpdateConfig({
@@ -216,5 +214,30 @@ describe('Guest Account - Guest User Experience', () => {
                 cy.findByTestId('post_textbox').should('be.visible');
             });
         });
+    });
+
+    it('MM-T1412 Revoke Guest User Sessions when Guest feature is disabled', () => {
+        // # Demote Guest user if applicable
+        demoteGuestUser(guestUser);
+
+        // # Disable Guest Access
+        cy.apiUpdateConfig({
+            GuestAccountsSettings: {
+                Enable: false,
+            },
+        });
+
+        // # Wait for page to load and then logout
+        cy.get('#post_textbox').should('be.visible').wait(TIMEOUTS.TWO_SEC);
+        cy.apiLogout();
+        cy.visit('/');
+
+        // # Login with guest user credentials and check the error message
+        cy.get('#loginId').type(guestUser.username);
+        cy.get('#loginPassword').type('passwd');
+        cy.findByText('Sign in').click();
+
+        // * Verify if guest account is deactivated
+        cy.findByText('Login failed because your account has been deactivated. Please contact an administrator.').should('be.visible');
     });
 });

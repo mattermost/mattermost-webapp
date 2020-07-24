@@ -22,6 +22,7 @@ exports[`components/PostMarkdown plugin hooks can build upon other hook message 
   options={
     Object {
       "disableGroupHighlight": false,
+      "mentionHighlight": true,
     }
   }
   proxyImages={true}
@@ -50,6 +51,7 @@ exports[`components/PostMarkdown plugin hooks can overwrite other hooks messages
   options={
     Object {
       "disableGroupHighlight": false,
+      "mentionHighlight": true,
     }
   }
   proxyImages={true}
@@ -153,6 +155,7 @@ exports[`components/PostMarkdown should render properly with a post 1`] = `
   options={
     Object {
       "disableGroupHighlight": false,
+      "mentionHighlight": true,
     }
   }
   proxyImages={true}
@@ -195,6 +198,7 @@ exports[`components/PostMarkdown should render properly without group highlight 
   options={
     Object {
       "disableGroupHighlight": true,
+      "mentionHighlight": true,
     }
   }
   proxyImages={true}
