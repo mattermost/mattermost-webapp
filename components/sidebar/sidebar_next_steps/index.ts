@@ -2,9 +2,15 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
+import {Dispatch, bindActionCreators} from 'redux';
 
+import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
+import {openModal, closeModal} from 'actions/views/modals';
+import {setShowNextStepsView} from 'actions/views/next_steps';
+import {showNextSteps} from 'components/next_steps_view/steps';
 import {GlobalState} from 'types/store';
 import {Preferences} from 'utils/constants';
 
@@ -14,8 +20,22 @@ function makeMapStateToProps() {
     const getCategory = makeGetCategory();
 
     return (state: GlobalState) => ({
+        active: state.views.nextSteps.show,
+        showNextSteps: showNextSteps(state),
+        currentUserId: getCurrentUserId(state),
         preferences: getCategory(state, Preferences.RECOMMENDED_NEXT_STEPS),
     });
 }
 
-export default connect(makeMapStateToProps)(SidebarNextSteps);
+function mapDispatchToProps(dispatch: Dispatch) {
+    return {
+        actions: bindActionCreators({
+            savePreferences,
+            openModal,
+            closeModal,
+            setShowNextStepsView,
+        }, dispatch),
+    };
+}
+
+export default connect(makeMapStateToProps, mapDispatchToProps)(SidebarNextSteps);

@@ -3,6 +3,7 @@
     color: var(--sidebar-text);
     padding: 8px 16px 18px 14px;
     align-self: flex-end;
+    position: relative;
     background-color: var(--sidebar-bg);
 
     &.active {
