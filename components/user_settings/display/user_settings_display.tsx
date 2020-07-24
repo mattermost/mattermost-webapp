@@ -2,10 +2,10 @@
 // See LICENSE.txt for license information.
 /* eslint-disable react/no-string-refs */
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {getTimezoneRegion} from 'mattermost-redux/utils/timezone_utils';
 import {FormattedMessage} from 'react-intl';
+import {PreferenceType} from 'mattermost-redux/types/preferences';
 
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
@@ -24,7 +24,7 @@ import ManageLanguages from './manage_languages';
 
 const Preferences = Constants.Preferences;
 
-function getDisplayStateFromProps(props) {
+function getDisplayStateFromProps(props: any) {
     return {
         militaryTime: props.militaryTime,
         teammateNameDisplay: props.teammateNameDisplay,
@@ -35,40 +35,45 @@ function getDisplayStateFromProps(props) {
     };
 }
 
-export default class UserSettingsDisplay extends React.PureComponent {
-    static propTypes = {
-        user: PropTypes.object,
-        updateSection: PropTypes.func,
-        activeSection: PropTypes.string,
-        closeModal: PropTypes.func.isRequired,
-        collapseModal: PropTypes.func.isRequired,
-        setRequireConfirm: PropTypes.func.isRequired,
-        setEnforceFocus: PropTypes.func.isRequired,
-        timezones: PropTypes.array.isRequired,
-        userTimezone: PropTypes.object.isRequired,
-        allowCustomThemes: PropTypes.bool,
-        enableLinkPreviews: PropTypes.bool,
-        defaultClientLocale: PropTypes.string,
-        enableThemeSelection: PropTypes.bool,
-        configTeammateNameDisplay: PropTypes.string,
-        currentUserTimezone: PropTypes.string,
-        enableTimezone: PropTypes.bool,
-        shouldAutoUpdateTimezone: PropTypes.bool,
-        militaryTime: PropTypes.string,
-        teammateNameDisplay: PropTypes.string,
-        channelDisplayMode: PropTypes.string,
-        messageDisplay: PropTypes.string,
-        collapseDisplay: PropTypes.string,
-        linkPreviewDisplay: PropTypes.string,
-        lockTeammateNameDisplay: PropTypes.bool,
-        actions: PropTypes.shape({
-            getSupportedTimezones: PropTypes.func.isRequired,
-            autoUpdateTimezone: PropTypes.func.isRequired,
-            savePreferences: PropTypes.func.isRequired,
-        }).isRequired,
-    }
+type Props = {
+    user: object;
+    updateSection: () => void;
+    activeSection: string;
+    closeModal?: () => void;
+    collapseModal?: () => void;
+    setRequireConfirm?: () => void;
+    setEnforceFocus?: () => void;
+    timezones: any[];
+    userTimezone: object;
+    allowCustomThemes: boolean;
+    enableLinkPreviews: boolean;
+    defaultClientLocale: string;
+    enableThemeSelection: boolean;
+    configTeammateNameDisplay: string;
+    currentUserTimezone: string;
+    enableTimezone: boolean;
+    shouldAutoUpdateTimezone: boolean;
+    militaryTime: string;
+    teammateNameDisplay: string;
+    channelDisplayMode: string;
+    messageDisplay: string;
+    collapseDisplay: string;
+    linkPreviewDisplay: string;
+    lockTeammateNameDisplay: boolean;
+    actions: {
+        savePreferences: (userId: string, preferences: Array<PreferenceType>) => void;
+        getSupportedTimezones: () => void;
+        autoUpdateTimezone: (deviceTimezone: string) => void;
 
-    constructor(props) {
+    };
+}
+
+type State = {
+    isSaving: boolean;
+}
+
+export default class UserSettingsDisplay extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -98,7 +103,7 @@ export default class UserSettingsDisplay extends React.PureComponent {
         }
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: any) {
         if (this.props.teammateNameDisplay !== prevProps.teammateNameDisplay) {
             this.updateState();
         }
@@ -196,13 +201,15 @@ export default class UserSettingsDisplay extends React.PureComponent {
     updateState = () => {
         const newState = getDisplayStateFromProps(this.props);
         if (!Utils.areObjectsEqual(newState, this.state)) {
-            this.setState(newState);
+            this.setState(
+                
+            );
         }
 
         this.setState({isSaving: false});
     }
 
-    createSection(props) {
+    createSection(props: Props) {
         const {
             section,
             display,

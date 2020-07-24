@@ -59,7 +59,7 @@ function mapStateToProps(state: GlobalState) {
 
 type Actions = {
     getSupportedTimezones: () => ActionFunc | void;
-    autoUpdateTimezone: () => Promise<ActionResult>;
+    autoUpdateTimezone: (deviceTimezone: string) => Promise<ActionResult>;
     savePreferences: () => Promise<ActionResult>;
 }
 
