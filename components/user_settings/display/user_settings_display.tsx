@@ -201,9 +201,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
     updateState = () => {
         const newState = getDisplayStateFromProps(this.props);
         if (!Utils.areObjectsEqual(newState, this.state)) {
-            this.setState(
-                
-            );
+            this.setState(newState);
         }
 
         this.setState({isSaving: false});
