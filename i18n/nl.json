@@ -3964,5 +3964,8 @@
   "channel_header.userHelpGuide": "Help",
   "generic_modal.confirm": "Bevestigen",
   "generic_modal.cancel": "Annuleren",
-  "announcement_bar.error.warn_metric_status.link": "Meer Informatie"
+  "announcement_bar.error.warn_metric_status.link": "Meer Informatie",
+  "admin.channel_list.archived": "Gearchiveerd",
+  "admin.channel_list.manual_invites": "Manueel uitnodigen",
+  "admin.channel_list.group_sync": "Groepssynchronisatie"
 }
