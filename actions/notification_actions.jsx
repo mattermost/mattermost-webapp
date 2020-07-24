@@ -147,7 +147,7 @@ export function sendDesktopNotification(post, msgProps) {
             dispatch(notifyMe(title, body, channel, teamId, !sound, soundName));
 
             //Don't add extra sounds on native desktop clients
-            if (sound && !isWindowsApp() && !isMacApp() && !isMobileApp()) {
+            if (sound && !isDesktopApp() && !isMobileApp()) {
                 Utils.ding(soundName);
             }
         }
@@ -157,18 +157,23 @@ export function sendDesktopNotification(post, msgProps) {
 const notifyMe = (title, body, channel, teamId, silent, soundName) => (dispatch, getState) => {
     // handle notifications in desktop app >= 4.3.0
     if (isDesktopApp() && window.desktop && semver.gte(window.desktop.version, '4.3.0')) {
+        let msg = {
+            title,
+            body,
+            channel,
+            teamId,
+            silent
+        };
+
+        if (isDesktopApp() && window.desktop && semver.gt(window.desktop.version, '4.6.0')) {
+            msg = {...msg, soundName}
+        }
+            
         // get the desktop app to trigger the notification
         window.postMessage(
             {
                 type: 'dispatch-notification',
-                message: {
-                    title,
-                    body,
-                    channel,
-                    teamId,
-                    silent,
-                    soundName,
-                },
+                message: msg,
             },
             window.location.origin,
         );
