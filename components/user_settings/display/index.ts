@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
+import {GenericAction, ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {savePreferences} from 'mattermost-redux/actions/preferences';
@@ -16,10 +16,11 @@ import {getUserCurrentTimezone} from 'mattermost-redux/utils/timezone_utils';
 
 import {Preferences} from 'utils/constants';
 
-import UserSettingsDisplay from './user_settings_display.jsx';
-import { ActionFunc } from 'mattermost-redux/types/actions';
+import {GlobalState} from 'types/store';
 
-function mapStateToProps(state) {
+import UserSettingsDisplay from './user_settings_display';
+
+function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
     const timezones = getTimezones(state);
     const currentUserId = getCurrentUserId(state);
@@ -57,12 +58,12 @@ function mapStateToProps(state) {
 }
 
 type Actions = {
-    getSupportedTimezones:() => ActionFunc | void
-    autoUpdateTimezone:() => Promise<ActionResult>;
-    savePreferences:() => Promise<ActionResult>;
+    getSupportedTimezones: () => ActionFunc | void;
+    autoUpdateTimezone: () => Promise<ActionResult>;
+    savePreferences: () => Promise<ActionResult>;
 }
 
-function mapDispatchToProps(dispatch: Dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
             getSupportedTimezones,
