@@ -15,6 +15,7 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {GlobalState} from 'mattermost-redux/types/store';
 import {ActionFunc} from 'mattermost-redux/types/actions';
+import {UserProfile} from 'mattermost-redux/types/users';
 
 import UserSettingsGeneralTab from './user_settings_general';
 
@@ -22,7 +23,7 @@ type Actions = {
     logError: ({message, type}: {message: any; type: string}, status: boolean) => void;
     clearErrors: () => void;
     getMe: () => void;
-    updateMe: (user: object) => Promise<{
+    updateMe: (user: UserProfile) => Promise<{
         data: boolean;
         error?: {
             server_error_id: string;

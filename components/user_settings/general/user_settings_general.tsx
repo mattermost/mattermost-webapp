@@ -98,7 +98,7 @@ type Props = {
         logError: ({message, type}: {message: any; type: string}, status: boolean) => void;
         clearErrors: () => void;
         getMe: () => void;
-        updateMe: (user: {}) => Promise<{
+        updateMe: (user: UserProfile) => Promise<{
             data: boolean;
             error?: {
                 server_error_id: string;
@@ -292,7 +292,7 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
         this.submitUser(user, true);
     }
 
-    submitUser = (user: object, emailUpdated: boolean) => {
+    submitUser = (user: UserProfile, emailUpdated: boolean) => {
         const {formatMessage} = this.props.intl;
         this.setState({sectionIsSaving: true});
 
@@ -893,7 +893,7 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
                 />
             );
         } else {
-            let describe: any = '';
+            let describe: JSX.Element|string = '';
 
             if (user.first_name && user.last_name) {
                 describe = user.first_name + ' ' + user.last_name;
@@ -1253,7 +1253,7 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
                     defaultImageSrc={Utils.defaultImageURLForUser(user.id)}
                     serverError={serverError}
                     clientError={clientError}
-                    updateSection={(e: any) => {
+                    updateSection={(e: MouseEvent) => {
                         this.updateSection('');
                         e.preventDefault();
                     }}
