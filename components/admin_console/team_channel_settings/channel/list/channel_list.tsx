@@ -6,13 +6,15 @@ import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
-import {ChannelWithTeamData} from 'mattermost-redux/types/channels';
+import {ChannelWithTeamData, ChannelSearchOpts} from 'mattermost-redux/types/channels';
 import {debounce} from 'mattermost-redux/actions/helpers';
 
 import {browserHistory} from 'utils/browser_history';
 
 import {Constants} from 'utils/constants';
 import DataGrid, {Row, Column} from 'components/admin_console/data_grid/data_grid';
+import {FilterOptions} from 'components/admin_console/filter/filter';
+import TeamFilterDropdown from 'components/admin_console/filter/team_filter_dropdown';
 import {PAGE_SIZE} from 'components/admin_console/team_channel_settings/abstract_list.jsx';
 import GlobeIcon from 'components/widgets/icons/globe_icon';
 import LockIcon from 'components/widgets/icons/lock_icon';
@@ -20,7 +22,7 @@ import LockIcon from 'components/widgets/icons/lock_icon';
 import './channel_list.scss';
 interface ChannelListProps {
     actions: {
-        searchAllChannels: (term: string, notAssociatedToGroup?: string, excludeDefaultChannels?: boolean, page?: number, perPage?: number, includeDeleted?: boolean) => Promise<{ data: any }>;
+        searchAllChannels: (term: string, opts: ChannelSearchOpts) => Promise<{ data: any }>;
         getData: (page: number, perPage: number, notAssociatedToGroup? : string, excludeDefaultChannels?: boolean, includeDeleted?: boolean) => ActionFunc | ActionResult | Promise<ChannelWithTeamData[]>;
     };
     data: ChannelWithTeamData[];
@@ -38,6 +40,7 @@ interface ChannelListState {
     page: number;
     total: number;
     searchErrored: boolean;
+    filters: ChannelSearchOpts;
 }
 
 const ROW_HEIGHT = 40;
@@ -52,6 +55,7 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
             page: 0,
             total: 0,
             searchErrored: false,
+            filters: {},
         };
     }
 
@@ -59,23 +63,26 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
         this.loadPage();
     }
 
+    isSearching = (term: string, filters: ChannelSearchOpts) => {
+        return term.length > 0 || Object.keys(filters).length > 0;
+    }
+
     getPaginationProps = () => {
-        const {page, term} = this.state;
-        const total = term === '' ? this.props.total : this.state.total;
+        const {page, term, filters} = this.state;
+        const total = this.isSearching(term, filters) ? this.state.total : this.props.total;
         const startCount = (page * PAGE_SIZE) + 1;
         let endCount = (page + 1) * PAGE_SIZE;
         endCount = endCount > total ? total : endCount;
         return {startCount, endCount, total};
     }
 
-    loadPage = async (page = 0, term = '') => {
-        this.setState({loading: true, term});
-
-        if (term.length > 0) {
+    loadPage = async (page = 0, term = '', filters = {}) => {
+        this.setState({loading: true, term, filters});
+        if (this.isSearching(term, filters)) {
             if (page > 0) {
-                this.searchChannels(page, term);
+                this.searchChannels(page, term, filters);
             } else {
-                this.searchChannelsDebounced(page, term);
+                this.searchChannelsDebounced(page, term, filters);
             }
             return;
         }
@@ -84,11 +91,11 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
         this.setState({page, loading: false});
     }
 
-    searchChannels = async (page = 0, term = '') => {
+    searchChannels = async (page = 0, term = '', filters = {}) => {
         let channels = [];
         let total = 0;
         let searchErrored = true;
-        const response = await this.props.actions.searchAllChannels(term, '', false, page, PAGE_SIZE, true);
+        const response = await this.props.actions.searchAllChannels(term, {...filters, page, per_page: PAGE_SIZE, include_deleted: true});
         if (response?.data) {
             channels = page > 0 ? this.state.channels.concat(response.data.channels) : response.data.channels;
             total = response.data.total_count;
@@ -97,10 +104,10 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
         this.setState({page, loading: false, channels, total, searchErrored});
     }
 
-    searchChannelsDebounced = debounce((page, term) => this.searchChannels(page, term), 300, false, () => {});
+    searchChannelsDebounced = debounce((page, term, filters = {}) => this.searchChannels(page, term, filters), 300, false, () => {});
 
     nextPage = () => {
-        this.loadPage(this.state.page + 1, this.state.term);
+        this.loadPage(this.state.page + 1, this.state.term, this.state.filters);
     }
 
     previousPage = () => {
@@ -108,7 +115,7 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
     }
 
     search = async (term = '') => {
-        this.loadPage(0, term);
+        this.loadPage(0, term, this.state.filters);
     }
 
     getColumns = (): Column[] => {
@@ -160,9 +167,9 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
 
     getRows = (): Row[] => {
         const {data} = this.props;
-        const {term, channels} = this.state;
+        const {channels, term, filters} = this.state;
         const {startCount, endCount} = this.getPaginationProps();
-        let channelsToDisplay = term.length > 0 ? channels : data;
+        let channelsToDisplay = this.isSearching(term, filters) ? channels : data;
         channelsToDisplay = channelsToDisplay.slice(startCount - 1, endCount);
 
         return channelsToDisplay.map((channel) => {
@@ -216,6 +223,24 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
         });
     }
 
+    onFilter = (filterOptions: FilterOptions) => {
+        const filters: ChannelSearchOpts = {};
+        const {group_constrained: groupConstrained, exclude_group_constrained: excludeGroupConstrained} = filterOptions.management.values;
+        const {public: publicChannels, private: privateChannels, deleted} = filterOptions.channels.values;
+        const {team_ids: teamIds} = filterOptions.teams.values;
+        if (publicChannels.value || privateChannels.value || deleted.value || groupConstrained.value || excludeGroupConstrained.value || (teamIds.value as string[]).length) {
+            filters.public = publicChannels.value as boolean;
+            filters.private = privateChannels.value as boolean;
+            filters.deleted = deleted.value as boolean;
+            if (!(groupConstrained.value && excludeGroupConstrained.value)) {
+                filters.group_constrained = groupConstrained.value as boolean;
+                filters.exclude_group_constrained = excludeGroupConstrained.value as boolean;
+            }
+            filters.team_ids = teamIds.value as string[];
+        }
+        this.loadPage(0, this.state.term, filters);
+    }
+
     render = (): JSX.Element => {
         const {term, searchErrored} = this.state;
         const rows: Row[] = this.getRows();
@@ -242,6 +267,87 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
             minHeight: `${rows.length * ROW_HEIGHT}px`,
         };
 
+        const filterOptions: FilterOptions = {
+            teams: {
+                name: 'Teams',
+                values: {
+                    team_ids: {
+                        name: (
+                            <FormattedMessage
+                                id='admin.team_settings.title'
+                                defaultMessage='Teams'
+                            />
+                        ),
+                        value: [],
+                    },
+                },
+                keys: ['team_ids'],
+                type: TeamFilterDropdown,
+            },
+            management: {
+                name: 'Management',
+                values: {
+                    group_constrained: {
+                        name: (
+                            <FormattedMessage
+                                id='admin.channel_list.group_sync'
+                                defaultMessage='Group Sync'
+                            />
+                        ),
+                        value: false,
+                    },
+                    exclude_group_constrained: {
+                        name: (
+                            <FormattedMessage
+                                id='admin.channel_list.manual_invites'
+                                defaultMessage='Manual Invites'
+                            />
+                        ),
+                        value: false,
+                    },
+                },
+                keys: ['group_constrained', 'exclude_group_constrained'],
+            },
+            channels: {
+                name: 'Channels',
+                values: {
+                    public: {
+                        name: (
+                            <FormattedMessage
+                                id='admin.channel_list.public'
+                                defaultMessage='Public'
+                            />
+                        ),
+                        value: false,
+                    },
+                    private: {
+                        name: (
+                            <FormattedMessage
+                                id='admin.channel_list.private'
+                                defaultMessage='Private'
+                            />
+                        ),
+                        value: false,
+                    },
+                    deleted: {
+                        name: (
+                            <FormattedMessage
+                                id='admin.channel_list.archived'
+                                defaultMessage='Archived'
+                            />
+                        ),
+                        value: false,
+                    },
+                },
+                keys: ['public', 'private', 'deleted'],
+            },
+        };
+        const filterProps = {
+            options: filterOptions,
+            keys: ['teams', 'channels', 'management'],
+            onFilter: this.onFilter,
+        };
+
         return (
             <div className='ChannelsList'>
                 <DataGrid
@@ -258,6 +364,7 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
                     term={term}
                     placeholderEmpty={placeholderEmpty}
                     rowsContainerStyles={rowsContainerStyles}
+                    filterProps={filterProps}
                 />
             </div>
         );
