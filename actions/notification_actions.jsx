@@ -142,7 +142,7 @@ export function sendDesktopNotification(post, msgProps) {
         const channelId = channel ? channel.id : null;
         const notify = (activeChannel && activeChannel.id !== channelId) || !state.views.browser.focused;
         const soundName = user.notify_props !== undefined && user.notify_props.desktop_notification_sound !== undefined ? user.notify_props.desktop_notification_sound : 'None';
-        console.log(`SoundName: ${soundName}, DesktopApp: ${isDesktopApp()}`);
+
         if (notify) {
             dispatch(notifyMe(title, body, channel, teamId, !sound, soundName));
 

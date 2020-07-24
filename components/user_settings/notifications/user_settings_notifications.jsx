@@ -6,10 +6,14 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import semver from 'semver';
+
 import Constants, {NotificationLevels} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
+
+import {isDesktopApp} from 'utils/user_agent';
 
 import DesktopNotificationSettings from './desktop_notification_settings.jsx';
 import EmailNotificationSetting from './email_notification_setting';
@@ -143,7 +147,9 @@ export default class NotificationsTab extends React.PureComponent {
         const data = {};
         data.email = this.state.enableEmail;
         data.desktop_sound = this.state.desktopSound;
-        data.desktop_notification_sound = this.state.desktopNotificationSound;
+        if (!isDesktopApp() || (isDesktopApp() && window.desktop && semver.gt(window.desktop.version, '4.6.0'))) {
+            data.desktop_notification_sound = this.state.desktopNotificationSound;
+        }
         data.desktop = this.state.desktopActivity;
         data.push = this.state.pushActivity;
         data.push_status = this.state.pushStatus;
