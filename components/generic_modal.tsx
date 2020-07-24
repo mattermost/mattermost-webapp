@@ -18,6 +18,7 @@ type Props = {
     confirmButtonClassName?: string;
     cancelButtonText?: React.ReactNode;
     isConfirmDisabled?: boolean;
+    id?: string;
 };
 
 type State = {
