@@ -3897,5 +3897,7 @@
   "accessibility.button.Search": "搜尋",
   "accessibility.button.Info": "相關資訊",
   "accessibility.button.dialog": "{dialogName} 對話",
-  "accessibility.button.attachment": "附加檔案"
+  "accessibility.button.attachment": "附加檔案",
+  "sidebar_left.add_channel_dropdown.createCategory": "建立分類",
+  "sidebar_left.sidebar_category_menu.createCategory": "建立分類"
 }
