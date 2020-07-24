@@ -141,7 +141,7 @@ export function sendDesktopNotification(post, msgProps) {
         const activeChannel = getCurrentChannel(state);
         const channelId = channel ? channel.id : null;
         const notify = (activeChannel && activeChannel.id !== channelId) || !state.views.browser.focused;
-        const soundName = user.notify_props !== undefined && user.notify_props.desktop_notification_sound !== undefined ? user.notify_props.desktop_notification_sound : 'Bing';
+        const soundName = user.notify_props !== undefined && user.notify_props.desktop_notification_sound !== undefined ? user.notify_props.desktop_notification_sound : 'None';
 
         if (notify) {
             dispatch(notifyMe(title, body, channel, teamId, !sound, soundName));
@@ -157,7 +157,7 @@ export function sendDesktopNotification(post, msgProps) {
 const notifyMe = (title, body, channel, teamId, silent, soundName) => (dispatch, getState) => {
     // handle notifications in desktop app >= 4.3.0
     if (isDesktopApp() && window.desktop && semver.gte(window.desktop.version, '4.3.0')) {
-        let msg = {
+        const msg = {
             title,
             body,
             channel,
@@ -166,7 +166,7 @@ const notifyMe = (title, body, channel, teamId, silent, soundName) => (dispatch,
         };
 
         if (isDesktopApp() && window.desktop && semver.gt(window.desktop.version, '4.6.0')) {
-            msg = {...msg, soundName};
+            msg.data = {soundName};
         }
 
         // get the desktop app to trigger the notification
