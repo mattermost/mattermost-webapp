@@ -128,7 +128,7 @@ export default class LicenseSettings extends React.PureComponent {
             btnClass = 'btn btn-primary';
         }
 
-        const {license} = this.props;
+        const {license, isDisabled} = this.props;
         const {uploading} = this.state;
 
         let edition;
@@ -218,6 +218,7 @@ export default class LicenseSettings extends React.PureComponent {
                         <button
                             className='btn btn-primary'
                             onClick={this.requestLicense}
+                            disabled={isDisabled}
                         >
                             <LoadingWrapper
                                 loading={this.state.gettingTrial}
