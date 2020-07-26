@@ -173,7 +173,7 @@ describe('Verify Accessibility Support in different input fields', () => {
                     });
 
                     // # Trigger the user autocomplete again
-                    cy.get('#post_textbox').clear().type('@').wait(TIMEOUTS.FIVE_SEC).type('{downarrow}');
+                    cy.get('#post_textbox').clear().type('@').wait(TIMEOUTS.FIVE_SEC).type('{uparrow}{uparrow}{downarrow}');
 
                     // * Verify Accessibility Support in message autocomplete
                     verifyMessageAutocomplete(1);

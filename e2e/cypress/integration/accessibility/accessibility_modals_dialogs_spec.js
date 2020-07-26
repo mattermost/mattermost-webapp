@@ -238,10 +238,11 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
             cy.get('.modal-header button.close').should('have.attr', 'aria-label', 'Close');
 
             // * Verify the accessibility support in search input
-            cy.get('#searchUsersInput').should('have.attr', 'placeholder', 'Search users').focus().type(' {backspace}').wait(TIMEOUTS.HALF_SEC).tab({shift: true}).tab().tab();
+            cy.get('#searchUsersInput').should('have.attr', 'placeholder', 'Search users').focus().type(' {backspace}').wait(TIMEOUTS.HALF_SEC).tab({shift: true}).tab().tab().tab();
+            cy.wait(TIMEOUTS.HALF_SEC);
 
             // * Verify channel name is highlighted and reader reads the channel name
-            cy.get('.more-modal__list>div').children().eq(0).as('selectedRow');
+            cy.get('.more-modal__list>div').children().eq(1).as('selectedRow');
             cy.get('@selectedRow').within(() => {
                 cy.get('button.user-popover').
                     should('have.class', 'a11y--active a11y--focused');
@@ -344,5 +345,6 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
         cy.get('#confirmModal').should('be.visible').and('have.attr', 'aria-modal', 'true').and('have.attr', 'aria-labelledby', 'confirmModalLabel').and('have.attr', 'aria-describedby', 'confirmModalBody');
         cy.get('#confirmModalLabel').should('be.visible').and('have.text', 'Discard Changes');
         cy.get('#confirmModalBody').should('be.visible').and('have.text', 'You have unsent invitations, are you sure you want to discard them?');
+        cy.get('#confirmModalButton').should('be.visible').click();
     });
 });

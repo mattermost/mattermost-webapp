@@ -91,6 +91,7 @@ export default class Root extends React.PureComponent {
         permalinkRedirectTeamName: PropTypes.string,
         actions: PropTypes.shape({
             loadMeAndConfig: PropTypes.func.isRequired,
+            getWarnMetricsStatus: PropTypes.func.isRequired,
         }).isRequired,
         plugins: PropTypes.array,
     }
@@ -242,6 +243,8 @@ export default class Root extends React.PureComponent {
             }
             this.onConfigLoaded();
         });
+
+        this.props.actions.getWarnMetricsStatus();
         trackLoadTime();
     }
 
