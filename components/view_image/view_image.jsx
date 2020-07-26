@@ -51,6 +51,7 @@ export default class ViewImageModal extends React.PureComponent {
 
         canDownloadFiles: PropTypes.bool.isRequired,
         enablePublicLink: PropTypes.bool.isRequired,
+        enableOfficeFilePreviews: PropTypes.bool.isRequired,
         pluginFilePreviewComponents: PropTypes.arrayOf(PropTypes.object),
     };
 
@@ -212,9 +213,6 @@ export default class ViewImageModal extends React.PureComponent {
         if (this.props.fileInfos.length < 1 || this.props.fileInfos.length - 1 < this.state.imageIndex) {
             return null;
         }
-        // TODO: Receive this from the config
-        const unoconvEnabled = true;
-
         const fileInfo = this.props.fileInfos[this.state.imageIndex];
         const showPublicLink = !fileInfo.link;
         const fileName = fileInfo.link || fileInfo.name;
@@ -250,12 +248,13 @@ export default class ViewImageModal extends React.PureComponent {
                         />
                     </React.Suspense>
                 );
-            } else if (unoconvEnabled && fileInfo && fileInfo.extension && [FileTypes.DOCX, FileTypes.PPTX, FileTypes.DOC, FileTypes.PPT, FileTypes.ODT, FileTypes.ODP].indexOf(fileInfo.extension) !== -1) {
+            } else if (this.props.enableOfficeFilePreviews && fileInfo && fileInfo.extension && [FileTypes.DOCX, FileTypes.PPTX, FileTypes.DOC, FileTypes.PPT, FileTypes.ODT, FileTypes.ODP, FileTypes.RTF].indexOf(fileInfo.extension) !== -1) {
+                const previewUrl = getFilePreviewUrl(fileInfo.id);
                 content = (
                     <React.Suspense fallback={null}>
                         <PDFPreview
                             fileInfo={fileInfo}
-                            fileUrl={fileUrl + '?pdf=true'}
+                            fileUrl={previewUrl}
                         />
                     </React.Suspense>
                 );

@@ -551,6 +551,7 @@ export const FileTypes = {
     PPT: 'ppt',
     ODT: 'odt',
     ODP: 'odp',
+    RTF: 'rtf',
 };
 
 export const NotificationLevels = {
