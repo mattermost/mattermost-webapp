@@ -1,9 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import classNames from 'classnames';
 import React from 'react';
-import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
@@ -13,6 +11,7 @@ import QuickInput from 'components/quick_input';
 import {localizeMessage} from 'utils/utils';
 
 import '../category_modal.scss';
+import GenericModal from 'components/generic_modal';
 
 type Props = {
     onHide: () => void;
@@ -28,7 +27,6 @@ type Props = {
 
 type State = {
     categoryName: string;
-    show: boolean;
 }
 
 export default class EditCategoryModal extends React.PureComponent<Props, State> {
@@ -37,7 +35,6 @@ export default class EditCategoryModal extends React.PureComponent<Props, State>
 
         this.state = {
             categoryName: props.initialCategoryName || '',
-            show: true,
         };
     }
 
@@ -45,30 +42,26 @@ export default class EditCategoryModal extends React.PureComponent<Props, State>
         this.setState({categoryName: ''});
     }
 
-    handleChange = (e: any) => {
+    handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({categoryName: e.target.value});
     }
 
-    handleCancel = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        event.preventDefault();
+    handleCancel = () => {
         this.handleClear();
-        this.onHide();
     }
 
-    handleConfirm = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        event.preventDefault();
+    handleConfirm = () => {
         if (this.props.categoryId) {
             this.props.actions.renameCategory(this.props.categoryId, this.state.categoryName);
         } else {
             this.props.actions.createCategory(this.props.currentTeamId, this.state.categoryName, this.props.channelIdsToAdd);
             trackEvent('ui', 'ui_sidebar_created_category');
         }
-
-        this.onHide();
     }
 
-    onHide = () => {
-        this.setState({show: false}, this.props.onHide);
+    isConfirmDisabled = () => {
+        return !this.state.categoryName ||
+            (Boolean(this.props.initialCategoryName) && this.props.initialCategoryName === this.state.categoryName);
     }
 
     getText = () => {
@@ -107,70 +100,32 @@ export default class EditCategoryModal extends React.PureComponent<Props, State>
         const {modalHeaderText, editButtonText} = this.getText();
 
         return (
-            <Modal
-                dialogClassName='a11y__modal edit-category'
-                show={this.state.show}
-                onHide={this.onHide}
-                onExited={this.onHide}
-                enforceFocus={true}
-                restoreFocus={true}
-                role='dialog'
-                aria-labelledby='editCategoryModalLabel'
+            <GenericModal
+                onHide={this.props.onHide}
+                modalHeaderText={modalHeaderText}
+                handleConfirm={this.handleConfirm}
+                handleCancel={this.handleCancel}
+                confirmButtonText={editButtonText}
+                isConfirmDisabled={this.isConfirmDisabled()}
             >
-                <Modal.Header
-                    closeButton={true}
+                <QuickInput
+                    autoFocus={true}
+                    className='form-control filter-textbox'
+                    type='text'
+                    value={this.state.categoryName}
+                    placeholder={localizeMessage('edit_category_modal.placeholder', 'Choose a category name')}
+                    clearable={true}
+                    onClear={this.handleClear}
+                    onChange={this.handleChange}
+                    maxLength={22}
                 />
-                <form>
-                    <Modal.Body>
-                        <div className='edit-category__header'>
-                            <h1 id='editCategoryModalLabel'>
-                                {modalHeaderText}
-                            </h1>
-                        </div>
-                        <div className='edit-category__body'>
-                            <QuickInput
-                                autoFocus={true}
-                                className='form-control filter-textbox'
-                                type='text'
-                                value={this.state.categoryName}
-                                placeholder={localizeMessage('edit_category_modal.placeholder', 'Choose a category name')}
-                                clearable={true}
-                                onClear={this.handleClear}
-                                onChange={this.handleChange}
-                                maxLength={22}
-                            />
-                            <span className='edit-category__helpText'>
-                                <FormattedMessage
-                                    id='edit_category_modal.helpText'
-                                    defaultMessage='You can drag channels into categories to organize your sidebar.'
-                                />
-                            </span>
-                        </div>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <button
-                            type='button'
-                            className='edit_category__button cancel'
-                            onClick={this.handleCancel}
-                        >
-                            <FormattedMessage
-                                id='edit_category_modal.cancel'
-                                defaultMessage='Cancel'
-                            />
-                        </button>
-                        <button
-                            type='submit'
-                            className={classNames('edit_category__button create', {
-                                disabled: !this.state.categoryName || (Boolean(this.props.initialCategoryName) && this.props.initialCategoryName === this.state.categoryName),
-                            })}
-                            onClick={this.handleConfirm}
-                            disabled={!this.state.categoryName || (Boolean(this.props.initialCategoryName) && this.props.initialCategoryName === this.state.categoryName)}
-                        >
-                            {editButtonText}
-                        </button>
-                    </Modal.Footer>
-                </form>
-            </Modal>
+                <span className='edit-category__helpText'>
+                    <FormattedMessage
+                        id='edit_category_modal.helpText'
+                        defaultMessage='You can drag channels into categories to organize your sidebar.'
+                    />
+                </span>
+            </GenericModal>
         );
     }
 }
