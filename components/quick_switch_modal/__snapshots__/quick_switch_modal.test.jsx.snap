@@ -63,7 +63,7 @@ exports[`components/QuickSwitchModal should match snapshot 1`] = `
       className="channel-switcher__suggestion-box"
     >
       <i
-        className="icon icon-magnify"
+        className="icon icon-magnify icon-16"
       />
       <SuggestionBox
         className="form-control focused"
