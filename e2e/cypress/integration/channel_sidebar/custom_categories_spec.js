@@ -37,7 +37,7 @@ describe('Channel sidebar', () => {
     it('should create a new category from category menu', () => {
         const categoryName = createCategoryFromSidebarMenu();
 
-        // # create a category from cateory menu
+        // # create a category from category menu
         cy.get(`button[aria-label='${categoryName}']`).parents('.SidebarChannelGroup').within(() => {
             cy.get('.SidebarMenu').invoke('show').get('.SidebarMenu_menuButton').click();
             cy.get('.icon-folder-plus-outline').parents('button').click();
