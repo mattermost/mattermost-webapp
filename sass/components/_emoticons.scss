@@ -25,6 +25,11 @@
     width: 21px;
     color: transparent;
 
+    &::selection{
+        background-color: transparent;
+        color: transparent;
+    }
+
     &--unicode {
         font-size: 21px;
 
