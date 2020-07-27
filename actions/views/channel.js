@@ -22,6 +22,7 @@ import {
     getRedirectChannelNameForTeam,
     getMyChannels,
     getMyChannelMemberships,
+    getAllDirectChannelsNameMapInCurrentTeam,
     isFavoriteChannel,
     isManuallyUnread,
 } from 'mattermost-redux/selectors/entities/channels';
@@ -57,11 +58,13 @@ export function goToLastViewedChannel() {
         const state = getState();
         const currentChannel = getCurrentChannel(state);
         const channelsInTeam = getChannelsNameMapInCurrentTeam(state);
+        const directChannel = getAllDirectChannelsNameMapInCurrentTeam(state);
+        const channels = Object.assign({}, channelsInTeam, directChannel);
 
-        let channelToSwitchTo = getChannelByName(channelsInTeam, getLastViewedChannelName(state));
+        let channelToSwitchTo = getChannelByName(channels, getLastViewedChannelName(state));
 
         if (currentChannel.id === channelToSwitchTo.id) {
-            channelToSwitchTo = getChannelByName(channelsInTeam, getRedirectChannelNameForTeam(state, getCurrentTeamId(state)));
+            channelToSwitchTo = getChannelByName(channels, getRedirectChannelNameForTeam(state, getCurrentTeamId(state)));
         }
 
         return dispatch(switchToChannel(channelToSwitchTo));

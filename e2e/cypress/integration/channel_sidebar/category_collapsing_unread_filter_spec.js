@@ -37,6 +37,9 @@ describe('Channel sidebar', () => {
     });
 
     it('should display collapsed state when collapsed', () => {
+        // # Close "What's new" modal
+        cy.uiCloseWhatsNewModal();
+
         // # Check that the CHANNELS group header is visible
         cy.get('.SidebarChannelGroupHeader:contains(CHANNELS)').should('be.visible').as('channelsGroup');
 
