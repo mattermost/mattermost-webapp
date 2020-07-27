@@ -22,7 +22,7 @@
     top: 0;
     right: 0;
     border-radius: 100%;
-    background-color: var(--center-channel-bg);
+    background: var(--center-channel-bg);
     border: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.12);
     padding: 4px;
@@ -41,6 +41,28 @@
             margin: 0;
         }
     }
+
+    &:hover {
+        border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
+        box-shadow: 0px 6px 14px rgba(0, 0, 0, 0.12);
+
+        i {
+            color: rgba(var(--center-channel-color-rgb), 0.72);
+        }
+    }
+
+    &:active {
+        background: linear-gradient(0deg, rgba(22, 109, 224, 0.08), rgba(22, 109, 224, 0.08)), #FFFFFF;
+        border: 1px solid rgba(22, 109, 224, 0.16);
+
+        i {
+            color: var(--button-bg);
+        }
+    }
+
+    &:focus {
+        border: 2px solid #166DE0;
+    }
 }
 
 .PictureSelector__removeButton {
@@ -51,4 +73,8 @@
     color: var(--button-bg);
     margin-top: 12px;
     background-color: transparent;
+
+    &:focus {
+        text-decoration-line: underline;
+    }
 }
