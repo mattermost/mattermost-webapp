@@ -9,6 +9,8 @@ function hasBeenDismissed(state = {}, action) {
     switch (action.type) {
     case ActionTypes.DISMISS_NOTICE:
         return {...state, [action.data]: true};
+    case ActionTypes.SHOW_NOTICE:
+        return {...state, [action.data]: false};
     default:
         return state;
     }

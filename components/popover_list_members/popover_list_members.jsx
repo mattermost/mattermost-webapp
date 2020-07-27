@@ -9,6 +9,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {browserHistory} from 'utils/browser_history';
 import {Constants, ModalIdentifiers} from 'utils/constants';
+import {isActive} from 'utils/filter_users';
 import * as Utils from 'utils/utils.jsx';
 import ChannelMembersModal from 'components/channel_members_modal';
 import OverlayTrigger from 'components/overlay_trigger';
@@ -100,7 +101,8 @@ export default class PopoverListMembers extends React.PureComponent {
     render() {
         const isDirectChannel = this.props.channel.type === Constants.DM_CHANNEL;
 
-        const items = this.props.sortedUsers.map((user) => (
+        const activeUsers = this.props.sortedUsers.filter(isActive);
+        const items = activeUsers.map((user) => (
             <PopoverListMembersItem
                 key={user.id}
                 onItemClick={this.handleShowDirectChannel}
