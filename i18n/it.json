@@ -2294,7 +2294,6 @@
   "post_info.message.visible.compact": " (Visibile soltanto a te)",
   "post_info.permalink": "Copia collegamento",
   "post_info.pin": "Blocca al canale",
-  "post_info.pinned": "Bloccato",
   "post_info.reply": "Rispondi",
   "post_info.system": "Sistema",
   "post_info.tooltip.add_reactions": "Aggiungi Reazione",
@@ -3948,7 +3947,6 @@
   "rename_category_modal.renameCategory": "Rinomina la categoria",
   "rename_category_modal.rename": "Rinomina",
   "edit_category_modal.placeholder": "Selezionare una categoria",
-  "edit_category_modal.cancel": "Annulla",
   "delete_category_modal.deleteCategory": "Eliminare la categoria?",
   "delete_category_modal.delete": "Elimina",
   "create_category_modal.createCategory": "Crea una categoria",
@@ -3960,5 +3958,11 @@
   "admin.image.amazonS3PathPrefixTitle": "Prefisso percorso Amazon S3:",
   "edit_category_modal.helpText": "Puoi trascinare i canali in categorie per organizzare la tua barra laterale.",
   "delete_category_modal.helpText": "I canali in **{category_name}** torneranno nelle categorie Canali e Messaggi Diretti. Non sarai rimosso da nessun canale.",
-  "sidebar_left.sidebar_channel_menu.unmuteChannel": "De-Silenzia il canale"
+  "sidebar_left.sidebar_channel_menu.unmuteChannel": "De-Silenzia il canale",
+  "post_pre_header.pinned": "Bloccato",
+  "generic_icons.userGuide": "Aiuto",
+  "channel_header.userHelpGuide": "Aiuto",
+  "generic_modal.confirm": "Conferma",
+  "generic_modal.cancel": "Annulla",
+  "announcement_bar.error.warn_metric_status.link": "Scopri di più"
 }
