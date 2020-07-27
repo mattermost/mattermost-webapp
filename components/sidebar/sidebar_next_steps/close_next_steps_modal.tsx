@@ -5,18 +5,20 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import GenericModal from 'components/generic_modal';
 import closeNextStepsArrow from 'images/close_next_steps_arrow.svg';
 
 import './close_next_steps_modal.scss';
 
 type Props = {
+    screenTitle: string;
     onConfirm: () => void;
     onCancel: () => void;
 }
 
 export default function CloseNextStepsModal(props: Props) {
-    const {onConfirm, onCancel} = props;
+    const {onConfirm, onCancel, screenTitle} = props;
 
     return (
         <>
@@ -27,23 +29,30 @@ export default function CloseNextStepsModal(props: Props) {
                         src={closeNextStepsArrow}
                     />
                     <span className='CloseNextStepsModal__helpText'>
-                        <FormattedMessage
+                        <FormattedMarkdownMessage
                             id='close_next_steps_modal.helpText'
-                            defaultMessage='Access Tips & Next Steps any time through the Help section in the Main Menu'
+                            defaultMessage='Access {title} any time through the Main Menu'
+                            values={{
+                                title: screenTitle,
+                            }}
                         />
                     </span>
                 </div>,
                 document.body as HTMLElement
             )}
             <GenericModal
+                className='CloseNextStepsModal'
                 show={true}
                 onHide={onCancel}
                 handleConfirm={onConfirm}
                 handleCancel={onCancel}
                 modalHeaderText={(
-                    <FormattedMessage
+                    <FormattedMarkdownMessage
                         id={'close_next_steps_modal.header'}
-                        defaultMessage={'Remove Tip & Next Steps?'}
+                        defaultMessage={'Remove {title}?'}
+                        values={{
+                            title: screenTitle,
+                        }}
                     />
                 )}
                 confirmButtonText={(

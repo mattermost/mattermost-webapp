@@ -11,6 +11,7 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx'
 import {Steps} from 'components/next_steps_view/steps';
 import ProgressBar from 'components/progress_bar';
 import {ModalIdentifiers, RecommendedNextSteps, Preferences} from 'utils/constants';
+import {localizeMessage} from 'utils/utils';
 
 import './sidebar_next_steps.scss';
 
@@ -43,10 +44,15 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
     }
 
     closeNextSteps = () => {
+        const screenTitle = this.props.showNextSteps ?
+            localizeMessage('sidebar_next_steps.gettingStarted', 'Getting Started') :
+            localizeMessage('sidebar_next_steps.tipsAndNextSteps', 'Tips & Next Steps');
+
         this.props.actions.openModal({
             modalId: ModalIdentifiers.CLOSE_NEXT_STEPS_MODAL,
             dialogType: CloseNextStepsModal,
             dialogProps: {
+                screenTitle,
                 onConfirm: this.onConfirmModal,
                 onCancel: this.onCloseModal,
             }
@@ -82,6 +88,40 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
         const total = Steps.length;
         const complete = this.props.preferences.filter((pref) => pref.value).length;
 
+        let header = (
+            <FormattedMessage
+                id='sidebar_next_steps.gettingStarted'
+                defaultMessage='Getting Started'
+            />
+        );
+        if (!this.props.showNextSteps) {
+            header = (
+                <FormattedMessage
+                    id='sidebar_next_steps.tipsAndNextSteps'
+                    defaultMessage='Tips & Next Steps'
+                />
+            );
+        }
+
+        let middleSection = (
+            <FormattedMarkdownMessage
+                id='sidebar_next_steps.stepsComplete'
+                defaultMessage='{complete} / {total} steps complete'
+                values={{
+                    complete,
+                    total,
+                }}
+            />
+        );
+        if (!this.props.showNextSteps) {
+            middleSection = (
+                <FormattedMessage
+                    id='sidebar_next_steps.otherAreasToExplore'
+                    defaultMessage='A few other areas to explore'
+                />
+            );
+        }
+
         return (
             <div
                 className={classNames('SidebarNextSteps', {
@@ -90,10 +130,7 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
             >
                 <div className='SidebarNextSteps__top'>
                     <span>
-                        <FormattedMessage
-                            id='sidebar_next_steps.gettingStarted'
-                            defaultMessage='Getting Started'
-                        />
+                        {header}
                     </span>
                     <button
                         className='SidebarNextSteps__close'
@@ -104,23 +141,17 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
                 </div>
                 <div className='SidebarNextSteps__middle'>
                     <span>
-                        <FormattedMarkdownMessage
-                            id='sidebar_next_steps.stepsComplete'
-                            defaultMessage='{complete} / {total} steps complete'
-                            values={{
-                                complete,
-                                total,
-                            }}
-                        />
+                        {middleSection}
                     </span>
                 </div>
+                {this.props.showNextSteps &&
                 <div className='SidebarNextSteps__progressBar'>
                     <ProgressBar
                         current={complete}
                         total={total}
                         basePercentage={4}
                     />
-                </div>
+                </div>}
             </div>
         );
     }

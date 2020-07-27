@@ -9,6 +9,7 @@ import {FormattedMessage} from 'react-intl';
 import './generic_modal.scss';
 
 type Props = {
+    className?: string;
     onHide: () => void;
     modalHeaderText: React.ReactNode;
     show?: boolean;
@@ -109,7 +110,7 @@ export default class GenericModal extends React.PureComponent<Props, State> {
 
         return (
             <Modal
-                dialogClassName='a11y__modal GenericModal'
+                dialogClassName={classNames('a11y__modal GenericModal', this.props.className)}
                 show={this.state.show}
                 onHide={this.onHide}
                 onExited={this.onHide}

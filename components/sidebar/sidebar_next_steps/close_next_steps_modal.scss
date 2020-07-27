@@ -1,11 +1,7 @@
-.modal-backdrop.in {
-    clip-path: polygon(0 0, 65px 0, 65px 63px, 305px 63px, 305px 0, 100% 0, 100% 100%, 0 100%);
-}
-
 .CloseNextStepsModal__helpBox {
     position: fixed;
     top: 16px;
-    left: 266px;
+    left: 201px;
     z-index: 1050;
 }
 
@@ -21,38 +17,52 @@
     margin-top: 4px;
 }
 
-.GenericModal__header {
-    text-align: center;
-    padding-bottom: 8px;
-
-    h1 {
-        font-size: 24px;
-        line-height: 32px;
-    }
-}
-
-.GenericModal__body {
-    text-align: center;
-    color: var(--center-channel-color);
-}
-
-.modal-footer {
-    text-align: center;
-}
-
-.modal .GenericModal .modal-content {
-    padding: 40px 36px 24px 36px;
-}
-
-.GenericModal__button {
-    padding: 13px 20px;
-    line-height: 14px;
-
-    & +.GenericModal__button {
-        margin-left: 10px;
-    }
-}
-
-.modal .GenericModal {
+.modal .CloseNextStepsModal {
     max-width: 514px;
+
+    .GenericModal__header {
+        text-align: center;
+        padding-bottom: 8px;
+
+        h1 {
+            font-size: 24px;
+            line-height: 32px;
+        }
+    }
+
+    .GenericModal__body {
+        text-align: center;
+        color: var(--center-channel-color);
+    }
+
+    .modal-footer {
+        text-align: center;
+    }
+
+    .modal-content {
+        padding: 40px 36px 24px 36px;
+    }
+
+    .GenericModal__button {
+        padding: 13px 20px;
+        line-height: 14px;
+
+        & +.GenericModal__button {
+            margin-left: 10px;
+        }
+    }
+}
+
+.modal-backdrop.in {
+    clip-path: polygon(0 0, 0 63px, 240px 63px, 240px 0, 100% 0, 100% 100%, 0 100%);
+}
+
+.multi-teams {
+    & ~ div .modal-backdrop.in {
+        clip-path: polygon(0 0, 65px 0, 65px 63px, 305px 63px, 305px 0, 100% 0, 100% 100%, 0 100%);
+    }
+
+    & ~ .CloseNextStepsModal__helpBox {
+        left: 266px;
+    }
 }
