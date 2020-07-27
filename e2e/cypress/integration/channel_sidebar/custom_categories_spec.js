@@ -14,6 +14,7 @@ import {getRandomId} from '../../utils';
 
 describe('Channel sidebar', () => {
     before(() => {
+        // # Enable channel sidebar organization
         cy.apiUpdateConfig({
             ServiceSettings: {
                 ExperimentalChannelSidebarOrganization: 'default_on',
