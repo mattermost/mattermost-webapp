@@ -117,12 +117,14 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
     }
 
     renderStep = (step: StepType, index: number) => {
+        const {id, title} = step;
+
         let icon = (
             <div className='NextStepsView__cardHeaderBadge'>
                 <span>{index + 1}</span>
             </div>
         );
-        if (this.isStepComplete(step.id)) {
+        if (this.isStepComplete(id)) {
             icon = (
                 <i className='icon icon-check-circle'/>
             );
@@ -130,22 +132,22 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
 
         return (setExpanded: (expandedKey: string) => void, expandedKey: string) => (
             <Card
-                className={classNames({complete: this.isStepComplete(step.id)})}
-                expanded={expandedKey === step.id}
+                className={classNames({complete: this.isStepComplete(id)})}
+                expanded={expandedKey === id}
             >
                 <Card.Header>
                     <button
-                        onClick={() => setExpanded(step.id)}
-                        disabled={this.isStepComplete(step.id)}
+                        onClick={() => setExpanded(id)}
+                        disabled={this.isStepComplete(id)}
                         className='NextStepsView__cardHeader'
                     >
                         {icon}
-                        <span>{step.title}</span>
+                        <span>{title}</span>
                     </button>
                 </Card.Header>
                 <Card.Body>
                     <step.component
-                        id={step.id}
+                        id={id}
                         currentUser={this.props.currentUser}
                         onFinish={this.onFinish(setExpanded)}
                         onSkip={this.onSkip(setExpanded)}

@@ -40,6 +40,12 @@ export default class CompleteProfileStep extends React.PureComponent<Props, Stat
     }
 
     render() {
+        const {currentUser} = this.props;
+
+        // Make sure picture has been set
+        const pictureSrc = currentUser.last_picture_update ? Utils.imageURLForUser(currentUser.id, currentUser.last_picture_update) : undefined;
+        const defaultSrc = Utils.defaultImageURLForUser(currentUser.id);
+
         return (
             <div>
                 <div
@@ -53,8 +59,8 @@ export default class CompleteProfileStep extends React.PureComponent<Props, Stat
                     <PictureSelector
                         onSelect={this.onSelectPicture}
                         onRemove={this.onRemovePicture}
-                        src={Utils.imageURLForUser(this.props.currentUser.id, this.props.currentUser.last_picture_update)}
-                        defaultSrc={Utils.defaultImageURLForUser(this.props.currentUser.id)}
+                        src={pictureSrc}
+                        defaultSrc={defaultSrc}
                     />
                 </div>
                 <div className='NextStepsView__wizardButtons'>
