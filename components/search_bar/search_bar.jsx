@@ -18,7 +18,6 @@ import HeaderIconWrapper from 'components/channel_header/components/header_icon_
 import SearchHint from 'components/search_hint/search_hint';
 import FlagIcon from 'components/widgets/icons/flag_icon';
 import MentionsIcon from 'components/widgets/icons/mentions_icon';
-import SearchIcon from 'components/widgets/icons/search_icon';
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 import Popover from 'components/widgets/popover';
 import UserGuideDropdown from 'components/channel_header/components/user_guide_dropdown';
