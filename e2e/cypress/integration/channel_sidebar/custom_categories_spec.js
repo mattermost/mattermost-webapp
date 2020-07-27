@@ -25,6 +25,9 @@ describe('Channel sidebar', () => {
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
             cy.visit(`/${team.name}/channels/town-square`);
         });
+
+        // # Close "What's new" modal
+        cy.uiCloseWhatsNewModal();
     });
 
     it('should create a new category from sidebar menu', () => {
@@ -114,7 +117,7 @@ describe('Channel sidebar', () => {
             });
 
             // # click on delete button
-            cy.get('.edit_category__button.delete').click();
+            cy.get('.GenericModal__button.delete').click();
 
             // * check if the deleted category exists
             cy.get(`button[aria-label='${categoryName}']`).should('not.exist');
