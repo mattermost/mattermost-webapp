@@ -6,6 +6,7 @@ import React from 'react';
 import {getTimezoneRegion} from 'mattermost-redux/utils/timezone_utils';
 import {FormattedMessage} from 'react-intl';
 import {PreferenceType} from 'mattermost-redux/types/preferences';
+import {UserProfile,UserTimezone} from 'mattermost-redux/types/users';
 
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
@@ -24,16 +25,7 @@ import ManageLanguages from './manage_languages';
 
 const Preferences = Constants.Preferences;
 
-type getDisplayStateFromProps ={
-    militaryTime: string;
-    teammateNameDisplay: string;
-    channelDisplayMode: string;
-    messageDisplay: string;
-    collapseDisplay: string;
-    linkPreviewDisplay: string;
-}
-
-function getDisplayStateFromProps(props: getDisplayStateFromProps) {
+function getDisplayStateFromProps(props: Props) {
     return {
         militaryTime: props.militaryTime,
         teammateNameDisplay: props.teammateNameDisplay,
@@ -45,24 +37,33 @@ function getDisplayStateFromProps(props: getDisplayStateFromProps) {
 }
 
 type Props = {
-    user: object;
-    updateSection: () => void;
-    activeSection: string;
+    user: UserProfile;
+    updateSection?: () => void;
+    activeSection?: string;
     closeModal?: () => void;
     collapseModal?: () => void;
     setRequireConfirm?: () => void;
     setEnforceFocus?: () => void;
-    section;
-    display;
-    value;
-    title;
-    firstOption;
-    secondOption;
-    thirdOption;
-    description,
-            disabled,
-    timezones: any[];
-    userTimezone: object;
+    section: string;
+    display: string;
+    value: any;
+    title: {
+        id: string;
+        message: string;
+    };
+    firstOption: {
+        value: string;
+        radionButtonText: {
+            id: string;
+            message: string;
+        };
+    };
+    secondOption: any;
+    thirdOption: any;
+    description: any;
+    disabled: boolean;
+    timezones: string[];
+    userTimezone: UserTimezone;
     allowCustomThemes: boolean;
     enableLinkPreviews: boolean;
     defaultClientLocale: string;
@@ -72,6 +73,12 @@ type Props = {
     enableTimezone: boolean;
     shouldAutoUpdateTimezone: boolean;
     lockTeammateNameDisplay: boolean;
+    militaryTime: string;
+    teammateNameDisplay: string;
+    channelDisplayMode: string;
+    messageDisplay: string;
+    collapseDisplay: string;
+    linkPreviewDisplay: string;
     actions: {
         savePreferences: (userId: string, preferences: Array<PreferenceType>) => void;
         getSupportedTimezones: () => void;
@@ -88,9 +95,12 @@ type State = {
     messageDisplay: string;
     collapseDisplay: string;
     linkPreviewDisplay: string;
+    handleSubmit?: () => void;
 }
 
 export default class UserSettingsDisplay extends React.PureComponent<Props, State> {
+    public prevSections: object;
+
     constructor(props: Props) {
         super(props);
 
@@ -207,11 +217,11 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
         this.setState({linkPreviewDisplay});
     }
 
-    handleOnChange(display) {
+    handleOnChange(display: any) {
         this.setState({...display});
     }
 
-    updateSection = (section) => {
+    updateSection = (section: any) => {
         this.updateState();
         this.props.updateSection(section);
     }
