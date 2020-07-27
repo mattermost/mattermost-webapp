@@ -91,7 +91,7 @@ describe('Messaging', () => {
                     testCase.localTimes.forEach((localTime, index) => {
                         it('post ' + index + ' should match', () => {
                             // # Change user preference to 12-hour format
-                            setTo24HourTimeFormat(false);
+                            cy.apiSaveClockDisplayModeTo24HourPreference(false);
 
                             // # Set user locale and timezone
                             setLocaleAndTimezone(testCase.locale, testCase.manualTimezone);
@@ -109,7 +109,7 @@ describe('Messaging', () => {
                     testCase.localTimes.forEach((localTime, index) => {
                         it('post ' + index + ' should match', () => {
                             // # Change user preference to 24-hour format
-                            setTo24HourTimeFormat(true);
+                            cy.apiSaveClockDisplayModeTo24HourPreference(true);
 
                             // # Set user locale and timezone
                             setLocaleAndTimezone(testCase.locale, testCase.manualTimezone);
@@ -135,18 +135,5 @@ function setLocaleAndTimezone(locale, manualTimezone) {
             automaticTimezone: '',
             useAutomaticTimezone: 'false',
         },
-    });
-}
-
-function setTo24HourTimeFormat(is24Hour) {
-    cy.getCookie('MMUSERID').then((cookie) => {
-        const preference = {
-            user_id: cookie.value,
-            category: 'display_settings',
-            name: 'use_military_time',
-            value: is24Hour.toString(),
-        };
-
-        cy.apiSaveUserPreference([preference]);
     });
 }

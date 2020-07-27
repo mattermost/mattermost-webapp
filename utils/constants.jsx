@@ -250,6 +250,7 @@ export const ModalIdentifiers = {
     PLUGIN_MARKETPLACE: 'plugin_marketplace',
     EDIT_CATEGORY: 'edit_category',
     DELETE_CATEGORY: 'delete_category',
+    SIDEBAR_WHATS_NEW_MODAL: 'sidebar_whats_new_modal',
 };
 
 export const UserStatuses = {
@@ -449,6 +450,8 @@ export const UserFilters = {
 export const SearchTypes = keyMirror({
     SET_MODAL_SEARCH: null,
     SET_SYSTEM_USERS_SEARCH: null,
+    SET_USER_GRID_SEARCH: null,
+    SET_USER_GRID_FILTERS: null,
 });
 
 export const StorageTypes = keyMirror({

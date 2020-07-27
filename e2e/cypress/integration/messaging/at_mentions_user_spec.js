@@ -27,7 +27,7 @@ describe('Mention user', () => {
     let testUser;
 
     before(() => {
-        // # Login as test user and visit town-square
+        // # Login as admin and visit town-square
         cy.apiInitSetup().then(({team, user}) => {
             testUser = user;
 
@@ -49,6 +49,36 @@ describe('Mention user', () => {
             {input: `@${testUser.first_name} ${testUser.last_name} `, expected: fullname, withoutSuggestion: true, case: 'should not match on @fullname with trailing space'},
         ].forEach((testCase) => {
             verifySuggestionList(testCase);
+        });
+    });
+});
+
+describe('Mention self', () => {
+    let testUser;
+
+    before(() => {
+        // # Login as test user and visit town-square
+        cy.apiInitSetup().then(({team, user}) => {
+            testUser = user;
+
+            cy.apiLogin(testUser);
+            cy.visit(`/${team.name}/channels/town-square`);
+        });
+    });
+
+    it('should be always highlighted', () => {
+        [
+            `@${testUser.username}`,
+            `@${testUser.username}.`,
+            `@${testUser.username}_`,
+            `@${testUser.username}-`,
+            `@${testUser.username},`,
+        ].forEach((message) => {
+            cy.postMessage(message);
+
+            cy.getLastPostId().then((postId) => {
+                cy.get(`#postMessageText_${postId}`).find('.mention--highlight');
+            });
         });
     });
 });
