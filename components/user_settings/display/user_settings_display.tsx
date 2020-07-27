@@ -24,7 +24,16 @@ import ManageLanguages from './manage_languages';
 
 const Preferences = Constants.Preferences;
 
-function getDisplayStateFromProps(props: any) {
+type getDisplayStateFromProps ={
+    militaryTime: string;
+    teammateNameDisplay: string;
+    channelDisplayMode: string;
+    messageDisplay: string;
+    collapseDisplay: string;
+    linkPreviewDisplay: string;
+}
+
+function getDisplayStateFromProps(props: getDisplayStateFromProps) {
     return {
         militaryTime: props.militaryTime,
         teammateNameDisplay: props.teammateNameDisplay,
@@ -43,6 +52,15 @@ type Props = {
     collapseModal?: () => void;
     setRequireConfirm?: () => void;
     setEnforceFocus?: () => void;
+    section;
+    display;
+    value;
+    title;
+    firstOption;
+    secondOption;
+    thirdOption;
+    description,
+            disabled,
     timezones: any[];
     userTimezone: object;
     allowCustomThemes: boolean;
@@ -53,12 +71,6 @@ type Props = {
     currentUserTimezone: string;
     enableTimezone: boolean;
     shouldAutoUpdateTimezone: boolean;
-    militaryTime: string;
-    teammateNameDisplay: string;
-    channelDisplayMode: string;
-    messageDisplay: string;
-    collapseDisplay: string;
-    linkPreviewDisplay: string;
     lockTeammateNameDisplay: boolean;
     actions: {
         savePreferences: (userId: string, preferences: Array<PreferenceType>) => void;
@@ -70,6 +82,12 @@ type Props = {
 
 type State = {
     isSaving: boolean;
+    militaryTime: string;
+    teammateNameDisplay: string;
+    channelDisplayMode: string;
+    messageDisplay: string;
+    collapseDisplay: string;
+    linkPreviewDisplay: string;
 }
 
 export default class UserSettingsDisplay extends React.PureComponent<Props, State> {
@@ -165,27 +183,27 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
         this.updateSection('');
     }
 
-    handleClockRadio = (militaryTime) => {
+    handleClockRadio = (militaryTime: string) => {
         this.setState({militaryTime});
     }
 
-    handleTeammateNameDisplayRadio = (teammateNameDisplay) => {
+    handleTeammateNameDisplayRadio = (teammateNameDisplay: string) => {
         this.setState({teammateNameDisplay});
     }
 
-    handleChannelDisplayModeRadio(channelDisplayMode) {
+    handleChannelDisplayModeRadio(channelDisplayMode: string) {
         this.setState({channelDisplayMode});
     }
 
-    handlemessageDisplayRadio(messageDisplay) {
+    handlemessageDisplayRadio(messageDisplay: string) {
         this.setState({messageDisplay});
     }
 
-    handleCollapseRadio(collapseDisplay) {
+    handleCollapseRadio(collapseDisplay: string) {
         this.setState({collapseDisplay});
     }
 
-    handleLinkPreviewRadio(linkPreviewDisplay) {
+    handleLinkPreviewRadio(linkPreviewDisplay: string) {
         this.setState({linkPreviewDisplay});
     }
 

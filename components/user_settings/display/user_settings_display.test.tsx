@@ -7,7 +7,7 @@ import {shallow} from 'enzyme';
 import configureStore from 'redux-mock-store';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
-import UserSettingsDisplay from 'components/user_settings/display/user_settings_display.tsx';
+import UserSettingsDisplay from 'components/user_settings/display/user_settings_display';
 
 describe('components/user_settings/display/UserSettingsDisplay', () => {
     const user = {
