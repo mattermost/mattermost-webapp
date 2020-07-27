@@ -10,8 +10,12 @@ import store from 'stores/redux_store.jsx';
 
 import * as UserAgent from 'utils/user_agent';
 
+import * as Utils from 'utils/utils.jsx';
+
 import Suggestion from './suggestion.jsx';
 import Provider from './provider.jsx';
+
+export const EXECUTE_CURRENT_COMMAND_ITEM_ID = '_execute_current_command';
 
 export class CommandSuggestion extends Suggestion {
     render() {
@@ -21,8 +25,12 @@ export class CommandSuggestion extends Suggestion {
         if (isSelection) {
             className += ' suggestion--selected';
         }
-        let icon = <div className='slash-command__icon'><span>{'/'}</span></div>;
-        if (item.iconData !== '') {
+        let symbolSpan = <span>{'/'}</span>;
+        if (item.iconData === EXECUTE_CURRENT_COMMAND_ITEM_ID) {
+            symbolSpan = <span className='block mt-1'>{'↵'}</span>;
+        }
+        let icon = <div className='slash-command__icon'>{symbolSpan}</div>;
+        if (item.iconData !== '' && item.iconData !== EXECUTE_CURRENT_COMMAND_ITEM_ID) {
             icon = (
                 <div
                     className='slash-command__icon'
@@ -132,14 +140,29 @@ export default class CommandProvider extends Provider {
         Client4.getCommandAutocompleteSuggestionsList(command, teamId, args).then(
             (data) => {
                 const matches = [];
-                data.forEach((sug) => {
+                let cmd = 'Ctrl';
+                if (Utils.isMac()) {
+                    cmd = '⌘';
+                }
+                if (this.shouldAddExecuteItem(data, pretext)) {
                     matches.push({
-                        complete: '/' + sug.Complete,
-                        suggestion: '/' + sug.Suggestion,
-                        hint: sug.Hint,
-                        description: sug.Description,
-                        iconData: sug.IconData,
+                        complete: pretext + EXECUTE_CURRENT_COMMAND_ITEM_ID,
+                        suggestion: '/Execute Current Command',
+                        hint: '',
+                        description: 'Select this option or use ' + cmd + '+Enter to execute the current command.',
+                        iconData: EXECUTE_CURRENT_COMMAND_ITEM_ID,
                     });
+                }
+                data.forEach((sug) => {
+                    if (!this.contains(matches, '/' + sug.Complete)) {
+                        matches.push({
+                            complete: '/' + sug.Complete,
+                            suggestion: '/' + sug.Suggestion,
+                            hint: sug.Hint,
+                            description: sug.Description,
+                            iconData: sug.IconData,
+                        });
+                    }
                 });
 
                 // pull out the suggested commands from the returned data
@@ -157,5 +180,21 @@ export default class CommandProvider extends Provider {
         );
 
         return true;
+    }
+
+    shouldAddExecuteItem(data, pretext) {
+        if (data.length === 0) {
+            return false;
+        }
+        if (pretext[pretext.length - 1] === ' ') {
+            return true;
+        }
+
+        // If suggestion is empty it means that user can input any text so we allow them to execute.
+        return data.findIndex((item) => item.Suggestion === '') !== -1;
+    }
+
+    contains(matches, complete) {
+        return matches.findIndex((match) => match.complete === complete) !== -1;
     }
 }

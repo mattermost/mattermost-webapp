@@ -1,6 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import {getUserOptionsFromFilter, searchUserOptionsFromFilter} from './filter_users';
+import {getUserOptionsFromFilter, searchUserOptionsFromFilter, isActive} from './filter_users';
 
 describe('filter_users', () => {
     describe('getUserOptionsFromFilter', () => {
@@ -43,6 +43,16 @@ describe('filter_users', () => {
         it('should return allow_inactive option in case of inactive', () => {
             const filters = searchUserOptionsFromFilter('inactive');
             expect(filters).toEqual({allow_inactive: true});
+        });
+    });
+    describe('isActive', () => {
+        it('should return true for an active user', () => {
+            const active = isActive({delete_at: 0});
+            expect(active).toEqual(true);
+        });
+        it('should return false for an inactive user', () => {
+            const active = isActive({delete_at: 1});
+            expect(active).toEqual(false);
         });
     });
 });
