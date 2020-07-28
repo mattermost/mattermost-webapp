@@ -2294,7 +2294,6 @@
   "post_info.message.visible.compact": " (Vizibil numai dvs.)",
   "post_info.permalink": "Copiază link",
   "post_info.pin": "Pin la canal",
-  "post_info.pinned": "Fixat",
   "post_info.reply": "Răspuns",
   "post_info.system": "Sistem",
   "post_info.tooltip.add_reactions": "Adaugă Reacție",
@@ -3926,7 +3925,14 @@
   "sidebar_left.sidebar_channel_menu.favoriteChannel": "Favorit",
   "sidebar_left.sidebar_channel_menu.copyLink": "Copiază link",
   "sidebar_left.sidebar_channel_menu.addMembers": "Adăugați membri",
-  "edit_category_modal.cancel": "Anulează",
   "delete_category_modal.delete": "Șterge",
-  "create_category_modal.create": "Creează"
+  "create_category_modal.create": "Creează",
+  "post_pre_header.pinned": "Fixat",
+  "generic_icons.userGuide": "Ajutor",
+  "channel_header.userHelpGuide": "Ajutor",
+  "sidebar.types.direct_messages": "MESAJE DIRECTE",
+  "sidebar.types.channels": "CANALE",
+  "generic_modal.confirm": "Confirma",
+  "generic_modal.cancel": "Anulează",
+  "announcement_bar.error.warn_metric_status.link": "Aflați mai multe"
 }

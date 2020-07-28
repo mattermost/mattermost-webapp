@@ -299,7 +299,7 @@ export default class QuickSwitchModal extends React.PureComponent {
                         </div>
                     </div>
                     <div className='channel-switcher__suggestion-box'>
-                        <i className='icon icon-magnify'/>
+                        <i className='icon icon-magnify icon-16'/>
                         <SuggestionBox
                             id='quickSwitchInput'
                             ref={this.setSwitchBoxRef}
