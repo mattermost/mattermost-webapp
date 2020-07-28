@@ -3,9 +3,11 @@
 
 import React from 'react';
 import moment from 'moment';
+import {createIntl} from 'react-intl';
 
 import {shallowWithIntl, mountWithIntl} from 'tests/helpers/intl-test-helper';
 import {fakeDate} from 'tests/helpers/date';
+import defaultMessages from 'i18n/en.json';
 
 import Timestamp from './timestamp';
 import SemanticTime from './semantic_time';
@@ -58,9 +60,13 @@ describe('components/timestamp/Timestamp', () => {
                 timeZone={timeZone}
             />,
             {
-                intl: {
+                intl: createIntl({
                     locale: 'es',
-                },
+                    defaultLocale: 'es',
+                    timeZone: 'Etc/UTC',
+                    messages: defaultMessages,
+                    textComponent: 'span',
+                }),
             },
         );
         expect(wrapper.find('time').prop('dateTime')).toEqual(expect.any(String));
