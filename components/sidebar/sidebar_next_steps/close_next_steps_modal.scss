@@ -17,8 +17,9 @@
     margin-top: 4px;
 }
 
-.modal .CloseNextStepsModal {
+.modal .GenericModal.modal-dialog.CloseNextStepsModal {
     max-width: 514px;
+    margin-top: calc(50vh - 133px);
 
     .GenericModal__header {
         text-align: center;
