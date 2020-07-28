@@ -1,11 +1,11 @@
-.CloseNextStepsModal__helpBox {
+.RemoveNextStepsModal__helpBox {
     position: fixed;
     top: 16px;
     left: 201px;
     z-index: 1050;
 }
 
-.CloseNextStepsModal__helpText {
+.RemoveNextStepsModal__helpText {
     font-weight: 600;
     font-size: 12px;
     line-height: 16px;
@@ -17,7 +17,7 @@
     margin-top: 4px;
 }
 
-.modal .GenericModal.modal-dialog.CloseNextStepsModal {
+.modal .GenericModal.modal-dialog.RemoveNextStepsModal {
     max-width: 514px;
     margin-top: calc(50vh - 133px);
 
@@ -63,7 +63,7 @@
         clip-path: polygon(0 0, 65px 0, 65px 63px, 305px 63px, 305px 0, 100% 0, 100% 100%, 0 100%);
     }
 
-    & ~ .CloseNextStepsModal__helpBox {
+    & ~ .RemoveNextStepsModal__helpBox {
         left: 266px;
     }
 }

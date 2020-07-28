@@ -15,7 +15,7 @@ import {localizeMessage} from 'utils/utils';
 
 import './sidebar_next_steps.scss';
 
-import CloseNextStepsModal from './close_next_steps_modal';
+import RemoveNextStepsModal from './remove_next_steps_modal';
 
 type Props = {
     active: boolean;
@@ -49,8 +49,8 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
             localizeMessage('sidebar_next_steps.tipsAndNextSteps', 'Tips & Next Steps');
 
         this.props.actions.openModal({
-            modalId: ModalIdentifiers.CLOSE_NEXT_STEPS_MODAL,
-            dialogType: CloseNextStepsModal,
+            modalId: ModalIdentifiers.REMOVE_NEXT_STEPS_MODAL,
+            dialogType: RemoveNextStepsModal,
             dialogProps: {
                 screenTitle,
                 onConfirm: this.onConfirmModal,
@@ -60,7 +60,7 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
     }
 
     onCloseModal = () => {
-        this.props.actions.closeModal(ModalIdentifiers.CLOSE_NEXT_STEPS_MODAL);
+        this.props.actions.closeModal(ModalIdentifiers.REMOVE_NEXT_STEPS_MODAL);
     }
 
     onConfirmModal = () => {
