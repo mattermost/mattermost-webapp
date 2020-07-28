@@ -27,8 +27,6 @@ const PictureSelector: React.FC<Props> = (props: Props) => {
     const selectButton: React.RefObject<HTMLButtonElement> = React.createRef();
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        selectButton.current?.blur();
-
         if (e.target.files && e.target.files[0]) {
             const file = e.target.files[0];
 
@@ -49,6 +47,8 @@ const PictureSelector: React.FC<Props> = (props: Props) => {
         if (!inputRef || !inputRef.current) {
             return;
         }
+
+        selectButton.current?.blur();
 
         inputRef.current.value = '';
         inputRef.current.click();
