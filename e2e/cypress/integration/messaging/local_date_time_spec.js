@@ -77,10 +77,10 @@ describe('Messaging', () => {
                 locale: 'es',
                 manualTimezone: 'NZ-CHAT',
                 localTimes: [
-                    {postIndex: 0, standard: '06:15 PM', military: '18:15'},
-                    {postIndex: 1, standard: '02:15 AM', military: '02:15'},
-                    {postIndex: 2, standard: '10:15 AM', military: '10:15'},
-                    {postIndex: 3, standard: '02:15 PM', military: '14:15'},
+                    {postIndex: 0, standard: '6:15 p. m.', military: '18:15'},
+                    {postIndex: 1, standard: '2:15 a. m.', military: '2:15'},
+                    {postIndex: 2, standard: '10:15 a. m.', military: '10:15'},
+                    {postIndex: 3, standard: '2:15 p. m.', military: '14:15'},
                 ],
             },
         ];

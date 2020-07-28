@@ -54,21 +54,23 @@ export default class PostTime extends React.PureComponent {
     };
 
     render() {
-        const postTime = (
-            <Timestamp
-                value={this.props.eventTime}
-                className='post__time'
-                useDate={false}
-            />
-        );
-
         const {
+            eventTime,
+            isPermalink,
             location,
             postId,
             teamUrl,
         } = this.props;
 
-        const content = isMobile() || !this.props.isPermalink ? (
+        const postTime = (
+            <Timestamp
+                value={eventTime}
+                className='post__time'
+                useDate={false}
+            />
+        );
+
+        const content = isMobile() || !isPermalink ? (
             <div
                 role='presentation'
                 className='post__permalink'
@@ -92,11 +94,11 @@ export default class PostTime extends React.PureComponent {
                 placement='top'
                 overlay={
                     <Tooltip
-                        id={this.props.eventTime}
+                        id={eventTime}
                         className='hidden-xs'
                     >
                         <Timestamp
-                            value={this.props.eventTime}
+                            value={eventTime}
                             ranges={POST_TOOLTIP_RANGES}
                         />
                     </Tooltip>

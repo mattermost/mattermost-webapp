@@ -24,13 +24,13 @@ import SemanticTime from './semantic_time';
 // See https://github.com/microsoft/TypeScript/issues/34399
 export const supportsHourCycle = Boolean(((new Intl.DateTimeFormat('en-US', {hour: 'numeric'})).resolvedOptions() as DateTimeOptions).hourCycle);
 
-function is12HourTime(hourCycle: DateTimeOptions['hourCycle']) {
-    return !(hourCycle === 'h23' || hourCycle === 'h24');
-}
-
 export type DateTimeOptions = FormatDateOptions & {
     hourCycle?: string;
 };
+
+function is12HourTime(hourCycle: DateTimeOptions['hourCycle'], hour12?: DateTimeOptions['hour12']) {
+    return hour12 ?? !(hourCycle === 'h23' || hourCycle === 'h24');
+}
 
 export type RelativeOptions = FormatRelativeTimeOptions & {
     unit: Unit;
@@ -38,6 +38,7 @@ export type RelativeOptions = FormatRelativeTimeOptions & {
     truncateEndpoints?: boolean;
     updateIntervalInSeconds?: number;
 };
+
 function isRelative(format: ResolvedFormats['relative']): format is RelativeOptions {
     return Boolean((format as RelativeOptions)?.unit);
 }
@@ -46,8 +47,9 @@ export type SimpleRelativeOptions = {
     message: ReactNode;
     updateIntervalInSeconds?: number;
 }
+
 function isSimpleRelative(format: ResolvedFormats['relative']): format is SimpleRelativeOptions {
-    return Boolean((format as SimpleRelativeOptions)?.message);
+    return (format as SimpleRelativeOptions)?.message != null;
 }
 
 const defaultRefreshIntervals = new Map<Unit, number /* seconds */>([
@@ -105,6 +107,29 @@ type State = {
     now: Date;
 }
 
+/**
+ * A feature-rich, react-intl oriented wrapper around Intl.DateTimeFormat and Intl.RelativeTimeFormat.
+ *
+ * If (for some odd reason) Intl.DateTimeFormat does not support the specified timezone, Moment will be used as a fallback formatter.
+ * This fallback implementation only supports the following non-localized formats:
+ *
+ * TIME:
+ * - `h:mm A`
+ * - `HH:mm`
+ *
+ * DATE:
+ * - `dddd`
+ * - `MMMM DD`
+ * - `MMMM DD, YYYY`
+ * - `dddd, MMMM DD, YYYY`
+ *
+ * `DateTimeOptions.hourCycle` is preferred over `DateTimeOptions.hour12`.
+ *
+ * `hour12` will override the specified `hourCycle` and will defer to the default locale `hourCycle`.
+ * This might result in `H24` behavior. (See https://github.com/formatjs/formatjs/issues/1577)
+ *
+ * @remarks Fallback-formatting should be rare, as `Intl.DateTimeFormat` (in Chrome, Safari, FF, and Edge) supports all timezones that are supported by `moment-timezone`.
+ */
 class Timestamp extends PureComponent<Props, State> {
     constructor(props: Props) {
         super(props);
@@ -155,7 +180,10 @@ class Timestamp extends PureComponent<Props, State> {
             }
 
             if (timeFormat) {
-                const {hourCycle, hour12 = supportsHourCycle ? undefined : is12HourTime(hourCycle)} = this.props;
+                const {
+                    hourCycle,
+                    hour12 = supportsHourCycle ? undefined : is12HourTime(hourCycle),
+                } = this.props;
 
                 time = this.formatDateTime(value, {hourCycle, hour12, ...timeFormat});
             }
@@ -202,8 +230,7 @@ class Timestamp extends PureComponent<Props, State> {
 
     static momentTime(value: Moment, {hour, minute, hourCycle, hour12}: DateTimeOptions): string | undefined {
         if (hour && minute) {
-            const useMilitaryTime = (!is12HourTime(hourCycle) && hour12 == null) || hour12 === false;
-            return value.format(useMilitaryTime ? 'HH:mm' : 'h:mm A');
+            return value.format(is12HourTime(hourCycle, hour12) ? 'h:mm A' : 'HH:mm');
         }
         return undefined;
     }
@@ -336,7 +363,7 @@ class Timestamp extends PureComponent<Props, State> {
             momentValue.tz(timeZone);
         }
 
-        return `${momentValue.toString()} (${momentValue.tz()})`;
+        return momentValue.toString() + (timeZone ? ` (${momentValue.tz()})` : '');
     }
 
     render() {

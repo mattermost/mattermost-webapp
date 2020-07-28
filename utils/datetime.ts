@@ -56,7 +56,7 @@ export function getDiff(
     }
 
     return truncateEndpoints ?
-        momentA.startOf('day').diff(momentB.startOf('day'), unit) :
+        momentA.startOf(unit).diff(momentB.startOf(unit), unit) :
         momentA.diff(b, unit, true);
 }
 

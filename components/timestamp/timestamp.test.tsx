@@ -36,7 +36,35 @@ describe('components/timestamp/Timestamp', () => {
             />
         );
         expect(wrapper).toMatchSnapshot();
-        expect(wrapper.find(SemanticTime).exists());
+        expect(wrapper.find(SemanticTime).exists()).toBeTruthy();
+    });
+
+    test('should not be wrapped in SemanticTime', () => {
+        const wrapper = shallowWithIntl(
+            <Timestamp
+                useTime={false}
+                useSemanticOutput={false}
+            />
+        );
+        expect(wrapper).toMatchSnapshot();
+        expect(wrapper.find(SemanticTime).exists()).toBeFalsy();
+    });
+
+    test.each(moment.tz.names())('should render supported timezone %p', (timeZone) => {
+        const wrapper = mountWithIntl(
+            <Timestamp
+                value={new Date('Fri Jan 12 2018 20:15:13 GMT+0000 (+00)').getTime()}
+                useDate={false}
+                timeZone={timeZone}
+            />,
+            {
+                intl: {
+                    locale: 'es',
+                },
+            },
+        );
+        expect(wrapper.find('time').prop('dateTime')).toEqual(expect.any(String));
+        expect(wrapper.text()).toMatch(/\d{1,2}:\d{2}\s(?:AM|PM|a\.\sm\.|p\.\sm\.)/);
     });
 
     test('should render title-case Today', () => {
@@ -88,6 +116,17 @@ describe('components/timestamp/Timestamp', () => {
             />
         );
         expect(wrapper.text()).toEqual('yesterday');
+    });
+
+    test('should render normal tomorrow', () => {
+        const wrapper = mountWithIntl(
+            <Timestamp
+                value={daysFromNow(1)}
+                useTime={false}
+                unit='day'
+            />
+        );
+        expect(wrapper.text()).toEqual('tomorrow');
     });
 
     test('should render 3 days ago', () => {
