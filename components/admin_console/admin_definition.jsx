@@ -4388,7 +4388,7 @@ const AdminDefinition = {
                     //     isDisabled: it.stateIsTrue('ThemeSettings.EnableThemeSelection'),
                     // },
                     {
-                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        type: Constants.SettingsTypes.TYPE_DROPDOWN,
                         key: 'ThemeSettings.DefaultTheme',
                         label: t('admin.experimental.defaultTheme.title'),
                         label_default: 'Default Theme:',
@@ -4398,23 +4398,23 @@ const AdminDefinition = {
                         options: [
                             {
                                 value: 'default',
-                                display_name: 'default',
-                                display_name_default: 'default',
+                                display_name: 'Mattermost',
+                                display_name_default: 'Mattermost',
                             },
                             {
                                 value: 'organization',
-                                display_name: 'organization',
-                                display_name_default: 'organization',
+                                display_name: 'Organization',
+                                display_name_default: 'Organization',
                             },
                             {
                                 value: 'mattermostDark',
-                                display_name: 'mattermostDark',
-                                display_name_default: 'mattermostDark',
+                                display_name: 'Mattermost Dark',
+                                display_name_default: 'Mattermost Dark',
                             },
                             {
                                 value: 'windows10',
-                                display_name: 'windows10',
-                                display_name_default: 'windows10',
+                                display_name: 'Windows Dark',
+                                display_name_default: 'Windows Dark',
                             },
                         ],
                         isHidden: it.isnt(it.licensed), // E10 and higher
