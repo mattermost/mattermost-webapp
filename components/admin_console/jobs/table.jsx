@@ -9,6 +9,7 @@ import {FormattedDate, FormattedMessage, FormattedTime, injectIntl} from 'react-
 import {JobStatuses} from 'utils/constants';
 import {intlShape} from 'utils/react_intl';
 import * as Utils from 'utils/utils.jsx';
+import {exportFormats} from 'components/admin_console/message_export_settings';
 
 class JobTable extends React.PureComponent {
     static propTypes = {
@@ -86,7 +87,8 @@ class JobTable extends React.PureComponent {
     }
 
     getDownloadLink = (job) => {
-        if (job.data?.is_downloadable === 'true' && parseInt(job.data?.messages_exported, 10) > 0) { // eslint-disable-line camelcase
+        console.log(exportFormats);
+        if (job.data?.is_downloadable === 'true' && parseInt(job.data?.messages_exported, 10) > 0 && job.data?.export_type !== exportFormats.EXPORT_FORMAT_GLOBALRELAY) { // eslint-disable-line camelcase
             return (
                 <a
                     key={job.id}

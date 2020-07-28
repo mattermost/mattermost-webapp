@@ -17,7 +17,7 @@ import SettingsGroup from './settings_group.jsx';
 import TextSetting from './text_setting';
 import RadioSetting from './radio_setting';
 
-const exportFormats = {
+export const exportFormats = {
     EXPORT_FORMAT_CSV: 'csv',
     EXPORT_FORMAT_ACTIANCE: 'actiance',
     EXPORT_FORMAT_GLOBALRELAY: 'globalrelay',
