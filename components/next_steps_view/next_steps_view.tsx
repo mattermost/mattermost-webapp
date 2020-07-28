@@ -10,7 +10,7 @@ import {PreferenceType} from 'mattermost-redux/types/preferences';
 import Accordion from 'components/accordion';
 import Card from 'components/card/card';
 import onboardingSuccess from 'images/onboarding-success.svg';
-import loadingIcon from 'images/spinner-48x48-blue.png';
+import loadingIcon from 'images/spinner-48x48-blue.apng';
 import professionalLogo from 'images/cloud-logos/professional.svg';
 import {Preferences} from 'utils/constants';
 
@@ -40,7 +40,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
 
         this.state = {
             showFinalScreen: false,
-            showTransitionScreen: true, //false,
+            showTransitionScreen: false,
         };
     }
 
