@@ -9,6 +9,8 @@ import {PreferenceType} from 'mattermost-redux/types/preferences';
 
 import Accordion from 'components/accordion';
 import Card from 'components/card/card';
+import onboardingSuccess from 'images/onboarding-success.svg';
+import loadingIcon from 'images/spinner-48x48-blue.png';
 import professionalLogo from 'images/cloud-logos/professional.svg';
 import {Preferences} from 'utils/constants';
 
@@ -38,7 +40,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
 
         this.state = {
             showFinalScreen: false,
-            showTransitionScreen: false,
+            showTransitionScreen: true, //false,
         };
     }
 
@@ -178,7 +180,6 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
     }
 
     renderTransitionScreen = () => {
-        // TODO
         return (
             <div
                 className={classNames('NextStepsView__viewWrapper NextStepsView__transitionView', {
@@ -187,7 +188,22 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                 })}
                 onTransitionEnd={this.setTimerToFinalScreen}
             >
-                {'Placeholder for Transition Screen'}
+                <div className='NextStepsView__transitionBody'>
+                    <img src={onboardingSuccess}/>
+                    <h1 className='NextStepsView__transitionTopText'>
+                        <FormattedMessage
+                            id='next_steps_view.nicelyDone'
+                            defaultMessage='Nicely done! You’re all set.'
+                        />
+                    </h1>
+                    <h2 className='NextStepsView__transitionBottomText'>
+                        <img src={loadingIcon}/>
+                        <FormattedMessage
+                            id='next_steps_view.oneMoment'
+                            defaultMessage='One moment'
+                        />
+                    </h2>
+                </div>
             </div>
         );
     }

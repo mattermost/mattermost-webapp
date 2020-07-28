@@ -24,6 +24,8 @@
 
 .NextStepsView__transitionView {
     left: 100vw;
+    display: flex;
+    justify-content: center;
 
     &.transitioning {
         left: 0;
@@ -177,6 +179,42 @@
 
     .NextStepsView__button + .NextStepsView__button {
         margin-left: 8px;
+    }
+}
+
+.NextStepsView__transitionBody {
+    align-self: center;
+    color: var(--center-channel-color);
+
+    > img {
+        position: relative;
+        left: 2.5%;
+    }
+}
+
+.NextStepsView__transitionTopText {
+    text-align: center;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 32px;
+    margin-top: 12px;
+    margin-bottom: 0;
+}
+
+.NextStepsView__transitionBottomText {
+    text-align: center;
+    font-size: 14px;
+    line-height: 20px;
+    margin-top: 12px;
+    margin-bottom: 0;
+
+    > img {
+        height: 20px;
+        margin-right: 8px;
+    }
+
+    > span {
+        vertical-align: middle;
     }
 }
 
