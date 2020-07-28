@@ -7,29 +7,62 @@ import FaSearchIcon from 'components/widgets/icons/fa_search_icon';
 
 import * as Utils from 'utils/utils.jsx';
 
+import Filter, {FilterOptions} from 'components/admin_console/filter/filter';
+
 import './data_grid.scss';
 
 type Props = {
     onSearch: (term: string) => void;
     placeholder: string;
     term: string;
+
+    filterProps?: {
+        options: FilterOptions;
+        keys: string[];
+        onFilter: (options: FilterOptions) => void;
+    };
 }
 
-class DataGridSearch extends React.PureComponent<Props> {
+type State = {
+    term: string;
+}
+
+class DataGridSearch extends React.PureComponent<Props, State> {
+    public constructor(props: Props) {
+        super(props);
+
+        this.state = {
+            term: '',
+        };
+    }
+
     handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
         const term = e.target.value;
+        this.setState({term});
         this.props.onSearch(term);
     }
 
     resetSearch = () => {
         this.props.onSearch('');
-    }
+    };
+
+    onFilter = (filters: FilterOptions) => {
+        this.props.filterProps?.onFilter(filters);
+    };
 
     render() {
+        const {filterProps} = this.props;
+
         let {placeholder} = this.props;
         if (!placeholder) {
             placeholder = Utils.localizeMessage('search_bar.search', 'Search');
         }
+
+        let filter;
+        if (filterProps) {
+            filter = <Filter {...filterProps}/>;
+        }
+
         return (
             <div className='DataGrid_search'>
                 <div className='DataGrid_searchBar'>
@@ -52,6 +85,8 @@ class DataGridSearch extends React.PureComponent<Props> {
                         data-testid='clear-search'
                     />
                 </div>
+
+                {filter}
             </div>
         );
     }
