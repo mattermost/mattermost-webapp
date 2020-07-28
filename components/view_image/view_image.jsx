@@ -248,7 +248,7 @@ export default class ViewImageModal extends React.PureComponent {
                         />
                     </React.Suspense>
                 );
-            } else if (this.props.enableOfficeFilePreviews && fileInfo && fileInfo.extension && [FileTypes.DOCX, FileTypes.PPTX, FileTypes.DOC, FileTypes.PPT, FileTypes.ODT, FileTypes.ODP, FileTypes.RTF].indexOf(fileInfo.extension) !== -1) {
+            } else if (this.props.enableOfficeFilePreviews && fileInfo && fileInfo.extension && [FileTypes.DOCX, FileTypes.PPTX, FileTypes.XLSX, FileTypes.DOC, FileTypes.PPT, FileTypes.XLS, FileTypes.ODT, FileTypes.ODP, FileTypes.ODS, FileTypes.RTF].indexOf(fileInfo.extension) !== -1) {
                 const previewUrl = getFilePreviewUrl(fileInfo.id);
                 content = (
                     <React.Suspense fallback={null}>

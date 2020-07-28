@@ -562,10 +562,13 @@ export const FileTypes = {
     OTHER: 'other',
     DOCX: 'docx',
     PPTX: 'pptx',
+    XLSX: 'xlsx',
     DOC: 'doc',
     PPT: 'ppt',
+    XLS: 'xls',
     ODT: 'odt',
     ODP: 'odp',
+    ODS: 'ods',
     RTF: 'rtf',
 };
 
