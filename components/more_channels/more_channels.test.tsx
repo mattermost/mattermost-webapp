@@ -8,6 +8,7 @@ import {ActionResult} from 'mattermost-redux/types/actions';
 
 import MoreChannels, {Props} from 'components/more_channels/more_channels';
 import SearchableChannelList from 'components/searchable_channel_list.jsx';
+import {TestHelper} from 'utils/test_helper';
 
 jest.mock('utils/browser_history', () => {
     const original = jest.requireActual('utils/browser_history');
@@ -50,8 +51,7 @@ describe('components/MoreChannels', () => {
                 return resolve({data: true});
             });
         },
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        searchMoreChannels: (term: string, shouldShowArchivedChannels: boolean): Promise<ActionResult> => {
+        searchMoreChannels: (term: string): Promise<ActionResult> => {
             return new Promise((resolve) => {
                 if (term === 'fail') {
                     return resolve({
@@ -67,42 +67,15 @@ describe('components/MoreChannels', () => {
     };
 
     const baseProps: Props = {
-        channels: [{
-            id: 'channel_id_1',
-            create_at: 0,
-            update_at: 0,
-            delete_at: 0,
-            team_id: 'channel_team_1',
-            type: 'O',
-            display_name: 'channel-1',
-            name: 'channel-1',
-            header: 'channel-1-header',
-            purpose: 'channel-1-purpose',
-            last_post_at: 0,
-            total_msg_count: 0,
-            extra_update_at: 0,
-            creator_id: 'channel_1_creator',
-            scheme_id: 'channel_1_scheme',
-            group_constrained: false,
-        }],
-        archivedChannels: [{
+        channels: [TestHelper.getChannelMock({})],
+        archivedChannels: [TestHelper.getChannelMock({
             id: 'channel_id_2',
-            create_at: 0,
-            update_at: 0,
-            delete_at: 0,
             team_id: 'channel_team_2',
-            type: 'O',
             display_name: 'channel-2',
             name: 'channel-2',
             header: 'channel-2-header',
             purpose: 'channel-2-purpose',
-            last_post_at: 0,
-            total_msg_count: 0,
-            extra_update_at: 0,
-            creator_id: 'channel_2_creator',
-            scheme_id: 'channel_2_scheme',
-            group_constrained: false,
-        }],
+        })],
         currentUserId: 'user-1',
         teamId: 'team_id',
         teamName: 'team_name',
