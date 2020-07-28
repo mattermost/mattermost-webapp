@@ -21,7 +21,7 @@ import SidebarHeader from './sidebar_header';
 import ChannelNavigator from './channel_navigator';
 import ChannelFilter from './channel_filter';
 import SidebarCategoryList from './sidebar_category_list';
-import SidebarNextSteps from './sidebar_next_steps/sidebar_next_steps';
+import SidebarNextSteps from './sidebar_next_steps';
 import SidebarWhatsNewModal from './sidebar_whats_new_modal';
 
 type Props = {

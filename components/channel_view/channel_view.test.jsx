@@ -17,10 +17,12 @@ describe('components/channel_view', () => {
         },
         showTutorial: false,
         showNextSteps: false,
+        showNextStepsEphemeral: false,
         channelIsArchived: false,
         viewArchivedChannels: false,
         actions: {
             goToLastViewedChannel: jest.fn(),
+            setShowNextStepsView: jest.fn(),
         },
     };
 
