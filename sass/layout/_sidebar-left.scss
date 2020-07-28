@@ -266,13 +266,12 @@
     .AddChannelDropdown_dropdownButton {
         padding: 0;
         margin-right: 16px;
-        margin-top: 6px;
+        margin-top: 7px;
         z-index: 1;
         background: transparent;
         border: none;
         color: var(--sidebar-text-80);
-        font-size: 18px;
-        line-height: 16px;
+        font-size: 20px;
         height: 28px;
         width: 28px;
         border-radius: 4px;
@@ -852,7 +851,6 @@
         .SidebarMenu_menuButton {
             height: 28px;
             width: 28px;
-            margin-top: -7px;
             margin-right: 11px;
         }
     }
@@ -892,10 +890,10 @@
         position: relative;
         font-size: 14px;
         text-decoration: none;
-        padding: 7px 5px 7px 14px;
+        padding: 0 5px 0 14px;
         display: flex;
         color: var(--sidebar-text-60);
-        align-items: flex-start;
+        align-items: center;
         margin-right: 0;
         width: 100%;
         border-top: 0;
@@ -955,8 +953,9 @@
         color: var(--sidebar-unread-text);
     }
     .SidebarChannel .SidebarLink > i {
-        font-size: 12px;
-        margin-right: 5px;
+        font-size: 14.4px;
+        margin: 0 5px 0 0;
+        display: flex;
     }
 
     .SidebarChannel span.SidebarChannelLinkLabel {
