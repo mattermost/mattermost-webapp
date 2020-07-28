@@ -27,14 +27,13 @@ function mapStateToProps(state: GlobalState) {
     const userTimezone = getUserTimezone(state, currentUserId);
     const automaticTimezoneNotSet = userTimezone && userTimezone.useAutomaticTimezone && !userTimezone.automaticTimezone;
     const shouldAutoUpdateTimezone = !userTimezone || automaticTimezoneNotSet;
-
     const allowCustomThemes = config.AllowCustomThemes === 'true';
     const enableLinkPreviews = config.EnableLinkPreviews === 'true';
-    const defaultClientLocale = config.DefaultClientLocale;
+    const defaultClientLocale = config.DefaultClientLocale as string;
     const enableThemeSelection = config.EnableThemeSelection === 'true';
     const enableTimezone = config.ExperimentalTimezone === 'true';
     const lockTeammateNameDisplay = getLicense(state).LockTeammateNameDisplay === 'true' && config.LockTeammateNameDisplay === 'true';
-    const configTeammateNameDisplay = config.TeammateNameDisplay;
+    const configTeammateNameDisplay = config.TeammateNameDisplay as string;
 
     return {
         lockTeammateNameDisplay,
@@ -47,7 +46,7 @@ function mapStateToProps(state: GlobalState) {
         timezones,
         userTimezone,
         shouldAutoUpdateTimezone,
-        currentUserTimezone: getUserCurrentTimezone(userTimezone),
+        currentUserTimezone: getUserCurrentTimezone(userTimezone) as string,
         militaryTime: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.USE_MILITARY_TIME, Preferences.USE_MILITARY_TIME_DEFAULT),
         teammateNameDisplay: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.NAME_NAME_FORMAT, configTeammateNameDisplay),
         channelDisplayMode: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.CHANNEL_DISPLAY_MODE, Preferences.CHANNEL_DISPLAY_MODE_DEFAULT),
