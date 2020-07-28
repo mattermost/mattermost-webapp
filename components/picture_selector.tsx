@@ -71,7 +71,7 @@ const PictureSelector: React.FC<Props> = (props: Props) => {
                 setImage(defaultSrc);
             }
         }
-    }, [src, setImage]);
+    }, [src, image]);
 
     let removeButton;
     if (image && image !== defaultSrc) {
