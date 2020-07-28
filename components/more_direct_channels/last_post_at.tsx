@@ -4,12 +4,12 @@ import React, {FunctionComponent} from 'react';
 import moment from 'moment-timezone';
 import {FormattedMessage} from 'react-intl';
 
-type LastPostAtProps = {
+type Props = {
     lastPostAt?: number;
 }
 import {t} from 'utils/i18n';
 
-export const LastPostAt: FunctionComponent<LastPostAtProps> = ({lastPostAt}: LastPostAtProps): JSX.Element | null => {
+export const LastPostAt: FunctionComponent<Props> = ({lastPostAt}: Props): JSX.Element | null => {
     if (!lastPostAt) {
         return null;
     }
