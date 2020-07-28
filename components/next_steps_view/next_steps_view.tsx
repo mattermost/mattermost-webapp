@@ -15,6 +15,8 @@ import {Preferences} from 'utils/constants';
 import {Steps, StepType} from './steps';
 import './next_steps_view.scss';
 
+const TRANSITION_SCREEN_TIMEOUT = 1000;
+
 type Props = {
     currentUserId: string;
     preferences: PreferenceType[];
@@ -27,6 +29,7 @@ type Props = {
 
 type State = {
     showFinalScreen: boolean;
+    showTransitionScreen: boolean;
 }
 
 export default class NextStepsView extends React.PureComponent<Props, State> {
@@ -35,6 +38,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
 
         this.state = {
             showFinalScreen: false,
+            showTransitionScreen: false,
         };
     }
 
@@ -97,14 +101,24 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
         };
     }
 
-    skipAll = () => {
+    showFinalScreen = () => {
         this.setState({showFinalScreen: true});
+    }
+
+    transitionToFinalScreen = () => {
+        this.setState({showTransitionScreen: true});
+    }
+
+    setTimerToFinalScreen = () => {
+        setTimeout(() => {
+            this.setState({showFinalScreen: true});
+        }, TRANSITION_SCREEN_TIMEOUT);
     }
 
     nextStep = (setExpanded: (expandedKey: string) => void, id: string) => {
         const currentIndex = Steps.findIndex((step) => step.id === id);
         if ((currentIndex + 1) > (Steps.length - 1)) {
-            this.setState({showFinalScreen: true});
+            this.transitionToFinalScreen();
         } else if (this.isStepComplete(Steps[currentIndex + 1].id)) {
             this.nextStep(setExpanded, Steps[currentIndex + 1].id);
         } else {
@@ -157,8 +171,23 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
     renderFinalScreen = () => {
         // TODO
         return (
-            <div>
+            <div className={classNames('NextStepsView__viewWrapper NextStepsView__completedView', {completed: this.state.showFinalScreen})}>
                 {'Placeholder for Final Screen'}
+            </div>
+        );
+    }
+
+    renderTransitionScreen = () => {
+        // TODO
+        return (
+            <div
+                className={classNames('NextStepsView__viewWrapper NextStepsView__transitionView', {
+                    transitioning: this.state.showTransitionScreen,
+                    completed: this.state.showTransitionScreen && this.state.showFinalScreen,
+                })}
+                onTransitionEnd={this.setTimerToFinalScreen}
+            >
+                {'Placeholder for Transition Screen'}
             </div>
         );
     }
@@ -167,7 +196,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
         const renderedSteps = Steps.map(this.renderStep);
 
         return (
-            <>
+            <div className={classNames('NextStepsView__viewWrapper NextStepsView__mainView', {completed: this.state.showFinalScreen || this.state.showTransitionScreen})}>
                 <header className='NextStepsView__header'>
                     <div className='NextStepsView__header-headerText'>
                         <h1 className='NextStepsView__header-headerTopText'>
@@ -197,7 +226,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                         </Accordion>
                         <div className='NextStepsView__skipGettingStarted'>
                             <button
-                                onClick={this.skipAll}
+                                onClick={this.showFinalScreen}
                             >
                                 <FormattedMessage
                                     id='next_steps_view.skipGettingStarted'
@@ -208,22 +237,19 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                     </div>
                     <div className='NextStepsView__body-graphic'/>
                 </div>
-            </>
+            </div>
         );
     }
 
     render() {
-        let mainBody = this.renderMainBody();
-        if (this.state.showFinalScreen) {
-            mainBody = this.renderFinalScreen();
-        }
-
         return (
             <section
                 id='app-content'
                 className='app__content NextStepsView'
             >
-                {mainBody}
+                {this.renderMainBody()}
+                {this.renderTransitionScreen()}
+                {this.renderFinalScreen()}
             </section>
         );
     }
