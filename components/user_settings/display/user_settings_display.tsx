@@ -36,32 +36,43 @@ function getDisplayStateFromProps(props: Props) {
     };
 }
 
+type Option = {
+    value: string;
+    radionButtonText: {
+        id: string;
+        message: string;
+        moreId?: string;
+        moreMessage?: string;
+    };
+}
+
+type SectionProps ={
+    section: string ;
+    display: string;
+    defaultDisplay: string;
+    value: string;
+    title: {
+        id: string;
+        message: string;
+    };
+    firstOption: Option;
+    secondOption: Option;
+    thirdOption?: Option;
+    description: {
+        id: string;
+        message: string;
+    };
+    disabled?: boolean;
+}
+
 type Props = {
     user: UserProfile;
-    updateSection?: () => void;
+    updateSection: (section: string) => void;
     activeSection?: string;
     closeModal?: () => void;
     collapseModal?: () => void;
     setRequireConfirm?: () => void;
     setEnforceFocus?: () => void;
-    section: string;
-    display: string;
-    value: any;
-    title: {
-        id: string;
-        message: string;
-    };
-    firstOption: {
-        value: string;
-        radionButtonText: {
-            id: string;
-            message: string;
-        };
-    };
-    secondOption: any;
-    thirdOption: any;
-    description: any;
-    disabled: boolean;
     timezones: string[];
     userTimezone: UserTimezone;
     allowCustomThemes: boolean;
@@ -73,6 +84,7 @@ type Props = {
     enableTimezone: boolean;
     shouldAutoUpdateTimezone: boolean;
     lockTeammateNameDisplay: boolean;
+
     militaryTime: string;
     teammateNameDisplay: string;
     channelDisplayMode: string;
@@ -83,7 +95,6 @@ type Props = {
         savePreferences: (userId: string, preferences: Array<PreferenceType>) => void;
         getSupportedTimezones: () => void;
         autoUpdateTimezone: (deviceTimezone: string) => void;
-
     };
 }
 
@@ -96,10 +107,19 @@ type State = {
     collapseDisplay: string;
     linkPreviewDisplay: string;
     handleSubmit?: () => void;
+    serverError?: string;
+    display?: string;
 }
 
 export default class UserSettingsDisplay extends React.PureComponent<Props, State> {
-    public prevSections: object;
+    public prevSections: {
+        theme: string; // dummy value that should never match any section name
+        clock: string;
+        linkpreview: string;
+        message_display: string;
+        channel_display_mode: string;
+        languages: string;
+    };
 
     constructor(props: Props) {
         super(props);
@@ -217,11 +237,11 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
         this.setState({linkPreviewDisplay});
     }
 
-    handleOnChange(display: any) {
+    handleOnChange(display: { display: string }) {
         this.setState({...display});
     }
 
-    updateSection = (section: any) => {
+    updateSection = (section: string) => {
         this.updateState();
         this.props.updateSection(section);
     }
@@ -235,7 +255,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
         this.setState({isSaving: false});
     }
 
-    createSection(props: Props) {
+    createSection(props: SectionProps) {
         const {
             section,
             display,
@@ -248,7 +268,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
             disabled,
         } = props;
         let extraInfo = null;
-        let submit = this.handleSubmit;
+        let submit: (() => Promise<void>) | null = this.handleSubmit;
 
         const firstMessage = (
             <FormattedMessage
@@ -327,19 +347,20 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
             const name = section + 'Format';
             const key = section + 'UserDisplay';
 
-            const firstDisplay = {};
-            firstDisplay[display] = firstOption.value;
+            const firstDisplay = {
+                display: firstOption.value
+            };
 
-            const secondDisplay = {};
-            secondDisplay[display] = secondOption.value;
-
-            const thirdDisplay = {};
-            if (thirdOption) {
-                thirdDisplay[display] = thirdOption.value;
-            }
+            const secondDisplay = {
+                display: secondOption.value
+            };
 
             let thirdSection;
-            if (thirdMessage) {
+            if (thirdOption && thirdMessage) {
+                const thirdDisplay = {
+                    display: thirdOption.value
+                };
+
                 thirdSection = (
                     <div className='radio'>
                         <label>
@@ -609,7 +630,6 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
                                     defaultMessage='Timezone'
                                 />
                             }
-                            width='medium'
                             describe={getTimezoneRegion(this.props.currentUserTimezone)}
                             section={'timezone'}
                             updateSection={this.updateSection}
@@ -715,7 +735,6 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
                                 defaultMessage='Language'
                             />
                         }
-                        width='medium'
                         describe={locale}
                         section={'languages'}
                         updateSection={this.updateSection}
