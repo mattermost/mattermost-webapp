@@ -370,7 +370,7 @@
 
                 button,a {
                     &:before {
-                        background: $black;
+                        background: var(--sidebar-text-active-border);
                         content: '';
                         height: 100%;
                         left: 0;
