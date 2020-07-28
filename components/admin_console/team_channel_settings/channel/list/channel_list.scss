@@ -16,22 +16,18 @@
                 color: #333333;
                 opacity: 0.8;
             }
-
-            .channel-icon___lowerOpacity {
+            
+            .channel-icon {
+                display: inline-flex;
+                justify-content: center;
+                margin-right: 10px;
                 opacity: 0.8;
+                width: 16px;
             }
 
-            .channel-icon___left2Pixel {
-                left: 2px;
-            }
-
-            .channel-icon___removeLeft2Pixel {
-                left: 0px;
-            }
-
-            	
-            .channel-icon___increaseMargin {
-                margin: 0 10px 0 0px;
+            .row-content {
+                display: flex;
+                align-items: center;
             }
         }
     }
