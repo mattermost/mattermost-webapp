@@ -12,7 +12,7 @@ class ModalToggleButtonRedux extends React.PureComponent {
         accessibilityLabel: PropTypes.string,
         children: PropTypes.node.isRequired,
         modalId: PropTypes.string.isRequired,
-        dialogType: PropTypes.func.isRequired,
+        dialogType: PropTypes.elementType.isRequired,
         dialogProps: PropTypes.object,
         intl: intlShape.isRequired,
         onClick: PropTypes.func,

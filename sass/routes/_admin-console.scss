@@ -14,7 +14,6 @@
         display: flex;
         flex-direction: column;
         height: 100vh;
-        height: -webkit-fill-available;
 
         .announcement-bar--fixed & {
             height: calc(100vh - 32px);
@@ -492,6 +491,17 @@
 
     .trial {
         margin-top: 15px;
+    }
+    .trial-error {
+        color: $dark-gray;
+        font-weight: 400;
+        margin-top: 10px;
+    }
+    .trial-legal-terms {
+        margin-top: 10px;
+        margin-bottom: 0;
+        color: $dark-gray;
+        font-weight: 400;
     }
 }
 

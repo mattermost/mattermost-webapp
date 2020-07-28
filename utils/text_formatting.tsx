@@ -836,8 +836,8 @@ export function handleUnicodeEmoji(text: string, emojiMap: EmojiMap, searchPatte
         // convert unicode character to hex string
         const codePoints = [fixedCharCodeAt(emojiMatch, 0)];
 
-        if (emojiMatch.length > 2) {
-            for (let i = 2; i < emojiMatch.length; i++) {
+        if (emojiMatch.length > 1) {
+            for (let i = 1; i < emojiMatch.length; i++) {
                 const codePoint = fixedCharCodeAt(emojiMatch, i);
                 if (codePoint === -1) {
                     // Not a complete character

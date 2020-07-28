@@ -8,7 +8,7 @@ exports[`components/ConfigurationBar should match snapshot, expired 1`] = `
       id="announcement_bar.error.license_expired"
       values={
         Object {
-          "link": "https://licensing.mattermost.com/renew?id=1234&user_count=100",
+          "link": "https://mattermost.com/renew/?id=1234&user_count=100",
         }
       }
     />
@@ -25,7 +25,7 @@ exports[`components/ConfigurationBar should match snapshot, expired, in grace pe
       id="announcement_bar.error.license_expired"
       values={
         Object {
-          "link": "https://licensing.mattermost.com/renew?id=1234&user_count=100",
+          "link": "https://mattermost.com/renew/?id=1234&user_count=100",
         }
       }
     />

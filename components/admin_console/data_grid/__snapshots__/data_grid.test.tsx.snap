@@ -81,8 +81,10 @@ exports[`components/admin_console/data_grid/DataGrid should match snapshot with 
       key="0"
       row={
         Object {
-          "name": "Joe Schmoe",
-          "team": "Admin Team",
+          "cells": Object {
+            "name": "Joe Schmoe",
+            "team": "Admin Team",
+          },
         }
       }
     />
@@ -105,8 +107,10 @@ exports[`components/admin_console/data_grid/DataGrid should match snapshot with 
       key="1"
       row={
         Object {
-          "name": "Foo Bar",
-          "team": "Admin Team",
+          "cells": Object {
+            "name": "Foo Bar",
+            "team": "Admin Team",
+          },
         }
       }
     />
@@ -129,8 +133,10 @@ exports[`components/admin_console/data_grid/DataGrid should match snapshot with 
       key="2"
       row={
         Object {
-          "name": "Some Guy",
-          "team": "Admin Team",
+          "cells": Object {
+            "name": "Some Guy",
+            "team": "Admin Team",
+          },
         }
       }
     />

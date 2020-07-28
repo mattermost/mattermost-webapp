@@ -27,9 +27,7 @@ describe('Interactive Dialog', () => {
         cy.apiSaveTeammateNameDisplayPreference('username');
 
         // # Create new team and create command on it
-        cy.apiCreateTeam('test-team', 'Test Team').then((teamResponse) => {
-            const team = teamResponse.body;
-
+        cy.apiCreateTeam('test-team', 'Test Team').then(({team}) => {
             for (let i = 0; i < 20; i++) {
                 cy.apiCreateChannel(team.id, 'name' + i + Date.now(), 'name' + i + Date.now());
             }
