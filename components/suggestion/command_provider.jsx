@@ -70,7 +70,7 @@ export default class CommandProvider extends Provider {
     }
 
     handlePretextChanged(pretext, resultCallback) {
-        if (!pretext.startsWith('/')) {
+        if (!pretext.startsWith('/') && pretext.indexOf(' /') === -1) {
             return false;
         }
         if (UserAgent.isMobile()) {
@@ -154,9 +154,9 @@ export default class CommandProvider extends Provider {
                     });
                 }
                 data.forEach((sug) => {
-                    if (!this.contains(matches, '/' + sug.Complete)) {
+                    if (!this.contains(matches, sug.Complete)) {
                         matches.push({
-                            complete: '/' + sug.Complete,
+                            complete: sug.Complete,
                             suggestion: '/' + sug.Suggestion,
                             hint: sug.Hint,
                             description: sug.Description,
