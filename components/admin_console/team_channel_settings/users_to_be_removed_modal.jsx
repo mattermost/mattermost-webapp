@@ -18,6 +18,21 @@ export default class UsersToBeRemovedModal extends React.PureComponent {
          */
         total: PropTypes.number.isRequired,
 
+
+        /*
+         * Scope that the users are to be removed from
+         * can be either 'team' or 'channel'
+         *
+         */
+        scope: PropTypes.string.isRequired,
+
+        /*
+         * Id of the scope that the users are to be removed from
+         * can be either a Team ID or a Channel ID
+         *
+         */
+        scopeId: PropTypes.string.isRequired,
+
         /*
          * users to be removed
          */
@@ -46,7 +61,7 @@ export default class UsersToBeRemovedModal extends React.PureComponent {
     }
 
     render() {
-        const {users, total} = this.props;
+        const {users, total, scope, scopeId} = this.props;
         const title = (
             <FormattedMarkdownMessage
                 id='admin.team_channel_settings.usersToBeRemovedModal.title'
@@ -92,6 +107,8 @@ export default class UsersToBeRemovedModal extends React.PureComponent {
                     <GroupsUsers
                         members={users}
                         total={total}
+                        scope={scope}
+                        scopeId={scopeId}
                     />
                 </Modal.Body>
                 <Modal.Footer>

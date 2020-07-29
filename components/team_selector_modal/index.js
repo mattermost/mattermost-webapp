@@ -11,7 +11,7 @@ import {setModalSearchTerm} from 'actions/views/search';
 import TeamSelectorModal from './team_selector_modal.jsx';
 
 function mapStateToProps(state) {
-    const searchTerm = state.views.search.modalSearch;
+    const searchTerm = state.views.search.modalSearch.term;
 
     const teams = Object.values(getTeams(state) || {}).filter((team) => {
         return team.display_name.toLowerCase().startsWith(searchTerm.toLowerCase()) ||

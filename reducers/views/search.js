@@ -5,10 +5,23 @@ import {combineReducers} from 'redux';
 
 import {SearchTypes} from 'utils/constants';
 
-function modalSearch(state = '', action) {
+function modalSearch(state = {}, action) {
     switch (action.type) {
     case SearchTypes.SET_MODAL_SEARCH: {
-        return action.data.trim();
+        const term = action.data.trim();
+        return {
+            ...state,
+            term,
+        };
+    }
+    case SearchTypes.SET_MODAL_FILTERS: {
+        const filters = action.data;
+        console.log("SET MODAL FILTERS");
+        console.log(filters)
+        return {
+            ...state,
+            filters,
+        };
     }
     default:
         return state;

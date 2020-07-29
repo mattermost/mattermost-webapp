@@ -170,7 +170,7 @@ export default class TeamMembers extends React.PureComponent<Props, State> {
             if (teamRoles.length > 0) {
                 filters = {...filters, team_roles: teamRoles};
             }
-            this.props.actions.setUserGridFilters({roles: systemRoles, team_roles: teamRoles});
+            this.props.actions.setUserGridFilters(filters);
             this.props.actions.getFilteredUsersStats({in_team: this.props.teamId, include_bots: true, ...filters});
         } else {
             this.props.actions.setUserGridFilters(filters);

@@ -12,7 +12,7 @@ import {localizeMessage} from 'utils/utils.jsx';
 import FormError from 'components/form_error';
 import {GroupProfileAndSettings} from 'components/admin_console/group_settings/group_details/group_profile_and_settings';
 import GroupTeamsAndChannels from 'components/admin_console/group_settings/group_details/group_teams_and_channels';
-import GroupUsers from 'components/admin_console/group_settings/group_details/group_users/group_users';
+import GroupUsers from 'components/admin_console/group_settings/group_details/group_users';
 import AdminPanel from 'components/widgets/admin_console/admin_panel';
 import BlockableLink from 'components/admin_console/blockable_link';
 

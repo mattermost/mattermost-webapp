@@ -62,7 +62,7 @@ const getUsersAndActionsToDisplay = createSelector(
 );
 
 function mapStateToProps(state: GlobalState) {
-    const searchTerm = state.views.search.modalSearch;
+    const searchTerm = state.views.search.modalSearch.term;
 
     let users;
     if (searchTerm) {

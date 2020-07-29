@@ -12,7 +12,7 @@ import {setModalSearchTerm} from 'actions/views/search';
 import AddGroupsToTeamModal from './add_groups_to_team_modal';
 
 function mapStateToProps(state, ownProps) {
-    const searchTerm = state.views.search.modalSearch;
+    const searchTerm = state.views.search.modalSearch.term;
 
     const team = ownProps.team || getCurrentTeam(state) || {};
 

@@ -13,6 +13,16 @@ export function setModalSearchTerm(term) {
     };
 }
 
+export function setModalFilters(filters = {}) {
+    return async (dispatch) => {
+        dispatch({
+            type: SearchTypes.SET_MODAL_FILTERS,
+            data: filters,
+        });
+        return {data: true};
+    };
+}
+
 export function setUserGridSearch(term) {
     return async (dispatch) => {
         dispatch({

@@ -2,7 +2,10 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+
 import {UserProfile} from 'mattermost-redux/types/users';
+import {TeamMembership} from 'mattermost-redux/types/teams';
+import {ChannelMembership} from 'mattermost-redux/types/channels';
 
 import {Group} from 'mattermost-redux/types/groups';
 
@@ -14,19 +17,62 @@ type ProfileWithGroups = Partial<UserProfile & {
 
 interface GroupUsersRoleProps {
     user: ProfileWithGroups;
+    membership: TeamMembership | ChannelMembership;
+    scope: 'team' | 'channel';
 }
+
+export type Role = 'system_admin' | 'team_admin' | 'team_user' | 'channel_admin' | 'channel_user' | 'guest';
 export default class GroupUsersRole extends React.PureComponent<GroupUsersRoleProps, {}> {
-    renderRolesColumn = (member: ProfileWithGroups) => {
-        return member.roles!.split(' ').map((role) =>
-            Utils.localizeMessage('admin.permissions.roles.' + role + '.name', role),
-        ).join(', ');
-    };
+    private getCurrentRole = (): Role => {
+        const {user, membership, scope} = this.props;
+
+        if (user.roles?.includes('system_admin')) {
+            return 'system_admin';
+        } else if (membership) {
+            if (scope === 'team') {
+                if (membership.scheme_admin) {
+                    return 'team_admin';
+                } else if (membership.scheme_user) {
+                    return 'team_user';
+                }
+            }
+
+            if (scope === 'channel') {
+                if (membership.scheme_admin) {
+                    return 'channel_admin';
+                } else if (membership.scheme_user) {
+                    return 'channel_user';
+                }
+            }
+        }
+
+        return 'guest';
+    }
+
+    private getLocalizedRole = (role: Role) => {
+        switch (role) {
+        case 'system_admin':
+            return Utils.localizeMessage('admin.user_grid.system_admin', 'System Admin');
+        case 'team_admin':
+            return Utils.localizeMessage('admin.user_grid.team_admin', 'Team Admin');
+        case 'team_user':
+            return Utils.localizeMessage('admin.user_grid.team_member', 'Team Member');
+        case 'channel_admin':
+            return Utils.localizeMessage('admin.user_grid.channel_admin', 'Channel Admin');
+        case 'channel_user':
+            return Utils.localizeMessage('admin.user_grid.channel_member', 'Channel Member');
+        default:
+            return Utils.localizeMessage('admin.user_grid.guest', 'Guest');
+        }
+    }
 
     render = () => {
-        const {user} = this.props;
+        const currentRole = this.getCurrentRole();
+        const localizedRole = this.getLocalizedRole(currentRole);
+
         return (
             <div className='GroupUsersRole'>
-                {this.renderRolesColumn(user)}
+                {localizedRole}
             </div>
         );
     };

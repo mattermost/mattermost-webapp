@@ -21,6 +21,13 @@
     }
 
     .GroupUsersGroups {
+        a {
+            text-decoration: none;
+            color: var(--sys-center-channel-color);
 
+            &:hover {
+                text-decoration: underline;
+            }
+        }
     }
 }

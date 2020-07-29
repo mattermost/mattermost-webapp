@@ -25,17 +25,26 @@ export default class GroupUsersGroups extends React.PureComponent<GroupUsersGrou
         if ((groups).length === 1) {
             return groups[0].display_name;
         }
+
+        const message = (
+            <FormattedMessage
+                id={t('team_channel_settings.group.group_user_row.numberOfGroups')}
+                defaultMessage={'{amount, number} {amount, plural, one {Group} other {Groups}}'}
+                values={{amount: groups.length}}
+            />
+        );
+
+        if (groups.length === 0) {
+            return message;
+        }
+
         return (
             <OverlayTrigger
-                placement='top'
+                placement='bottom'
                 overlay={<Tooltip id='groupsTooltip'>{groups.map((g) => g.display_name).join(', ')}</Tooltip>}
             >
                 <a href='#'>
-                    <FormattedMessage
-                        id={t('team_channel_settings.group.group_user_row.numberOfGroups')}
-                        defaultMessage={'{amount, number} {amount, plural, one {Group} other {Groups}}'}
-                        values={{amount: groups.length}}
-                    />
+                   {message}
                 </a>
             </OverlayTrigger>
         );
