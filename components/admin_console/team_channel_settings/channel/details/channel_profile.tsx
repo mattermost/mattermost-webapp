@@ -6,6 +6,7 @@ import React from 'react';
 import {Channel} from 'mattermost-redux/types/channels';
 import {Team} from 'mattermost-redux/types/teams';
 import {FormattedMessage} from 'react-intl';
+import classNames from 'classnames';
 
 import {t} from 'utils/i18n';
 
@@ -37,12 +38,6 @@ export const ChannelProfile: React.SFC<ChannelProfileProps> = (props: ChannelPro
         archiveBtnDefault = 'Archive Channel';
     }
 
-    let archiveButtonClassName = 'btn btn-secondary ArchiveButton';
-    archiveButtonClassName = isArchived ? `${archiveButtonClassName} ArchiveButton___archived` : `${archiveButtonClassName} ArchiveButton___unarchived`;
-    if (isDisabled) {
-        archiveButtonClassName = `${archiveButtonClassName} disabled`;
-    }
-
     return (
         <AdminPanel
             id='channel_profile'
@@ -71,7 +66,7 @@ export const ChannelProfile: React.SFC<ChannelProfileProps> = (props: ChannelPro
                     </div>
                     <div className='AdminChannelDetails_archiveContainer'>
                         <button
-                            className={archiveButtonClassName}
+                            className={classNames('btn', 'btn-secondary', 'ArchiveButton', {ArchiveButton___archived: isArchived}, {ArchiveButton___unarchived: !isArchived}, {disabled: isDisabled})}
                             onClick={props.onToggleArchive}
                         >
                             {isArchived ? <UnarchiveIcon className='channel-icon channel-icon__unarchive'/> : <ArchiveIcon className='channel-icon channel-icon__archive'/>}

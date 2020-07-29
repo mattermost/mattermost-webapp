@@ -128,12 +128,7 @@ export default class AdminConsole extends React.PureComponent<Props, State> {
             });
 
             if (!isSectionHidden) {
-                items = Object.values(section).filter((item: Item) => {
-                    if (!item.schema) {
-                        return false;
-                    }
-                    return true;
-                });
+                items = Object.values(section).filter((item: Item) => Boolean(item.schema));
             }
             return acc.concat(items);
         }, [] as Item[]);
