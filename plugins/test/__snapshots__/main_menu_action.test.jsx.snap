@@ -297,7 +297,6 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
         Array [
           "read_sysconsole_about",
           "read_sysconsole_reporting",
-          "read_sysconsole_user_management",
           "read_sysconsole_user_management_users",
           "read_sysconsole_user_management_groups",
           "read_sysconsole_user_management_teams",

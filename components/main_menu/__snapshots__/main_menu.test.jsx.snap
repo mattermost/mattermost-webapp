@@ -289,7 +289,6 @@ exports[`components/Menu should match snapshot with id 1`] = `
         Array [
           "read_sysconsole_about",
           "read_sysconsole_reporting",
-          "read_sysconsole_user_management",
           "read_sysconsole_user_management_users",
           "read_sysconsole_user_management_groups",
           "read_sysconsole_user_management_teams",
@@ -659,7 +658,6 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
         Array [
           "read_sysconsole_about",
           "read_sysconsole_reporting",
-          "read_sysconsole_user_management",
           "read_sysconsole_user_management_users",
           "read_sysconsole_user_management_groups",
           "read_sysconsole_user_management_teams",
@@ -1075,7 +1073,6 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
         Array [
           "read_sysconsole_about",
           "read_sysconsole_reporting",
-          "read_sysconsole_user_management",
           "read_sysconsole_user_management_users",
           "read_sysconsole_user_management_groups",
           "read_sysconsole_user_management_teams",
@@ -1469,7 +1466,6 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
         Array [
           "read_sysconsole_about",
           "read_sysconsole_reporting",
-          "read_sysconsole_user_management",
           "read_sysconsole_user_management_users",
           "read_sysconsole_user_management_groups",
           "read_sysconsole_user_management_teams",
@@ -1885,7 +1881,6 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
         Array [
           "read_sysconsole_about",
           "read_sysconsole_reporting",
-          "read_sysconsole_user_management",
           "read_sysconsole_user_management_users",
           "read_sysconsole_user_management_groups",
           "read_sysconsole_user_management_teams",
@@ -2296,7 +2291,6 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
         Array [
           "read_sysconsole_about",
           "read_sysconsole_reporting",
-          "read_sysconsole_user_management",
           "read_sysconsole_user_management_users",
           "read_sysconsole_user_management_groups",
           "read_sysconsole_user_management_teams",
@@ -2729,7 +2723,6 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
         Array [
           "read_sysconsole_about",
           "read_sysconsole_reporting",
-          "read_sysconsole_user_management",
           "read_sysconsole_user_management_users",
           "read_sysconsole_user_management_groups",
           "read_sysconsole_user_management_teams",
