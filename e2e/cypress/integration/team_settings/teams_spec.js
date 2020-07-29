@@ -189,4 +189,22 @@ describe('Teams Suite', () => {
         // * Ensure user is logged out
         cy.url({timeout: TIMEOUTS.HALF_MIN}).should('include', 'login');
     });
+
+    it.only('MM-T1535 Team setting / Invite code text', () => {
+        // # Login as Admin and visit /
+        cy.apiAdminLogin();
+        cy.visit(`/${testTeam.name}/channels/town-square`);
+
+        // # Open the hamburger menu
+        cy.findByLabelText('main menu').click();
+
+        // # Click on team settings menu item
+        cy.findByText('Team Settings').should('exist').click();
+
+        // # Open edit settings for invite code
+        cy.findByText('Invite Code').should('exist').click();
+
+        // * Verify invite code help text is visible
+        cy.findByText('The Invite Code is part of the unique team invitation link which is sent to members you’re inviting to this team. Regenerating the code creates a new invitation link and invalidates the previous link.');
+    });
 });
