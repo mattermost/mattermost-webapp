@@ -29,29 +29,21 @@ export const getConsoleAccess = createSelector(
     getMySystemPermissions,
     (adminDefinition, mySystemPermissions) => {
         const consoleAccess = {read: {}, write: {}};
-
-        const has = (x) => mySystemPermissions.has(x);
-
+        const addEntriesForKey = (entryKey) => {
+            const permissions = ResourceToSysConsolePermissionsTable[entryKey].filter((x) => mySystemPermissions.has(x));
+            consoleAccess.read[entryKey] = permissions.length !== 0;
+            consoleAccess.write[entryKey] = permissions.some((permission) => permission.startsWith('write'));
+        };
         const mapAccessValuesForKey = ([key]) => {
-            const permissionsForKey = ResourceToSysConsolePermissionsTable[key].filter((x) => mySystemPermissions.has(x));
-
-            consoleAccess.read[key] = permissionsForKey.length !== 0;
-            consoleAccess.write[key] = permissionsForKey.some((permission) => permission.startsWith('write'));
-
             if (key === 'user_management') {
                 ['users', 'groups', 'teams', 'channels', 'permissions'].forEach((userManagementKey) => {
-                    const subKey = `${key}.${userManagementKey}`;
-
-                    const permissionsForSubkey = ResourceToSysConsolePermissionsTable[subKey].filter(has);
-
-                    consoleAccess.read[subKey] = permissionsForSubkey.length !== 0;
-                    consoleAccess.write[subKey] = permissionsForSubkey.some((permission) => permission.startsWith('write'));
+                    addEntriesForKey(`${key}.${userManagementKey}`);
                 });
+            } else {
+                addEntriesForKey(key);
             }
         };
-
         Object.entries(adminDefinition).forEach(mapAccessValuesForKey);
-
         return consoleAccess;
     },
 );

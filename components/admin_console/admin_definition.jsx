@@ -287,7 +287,6 @@ const AdminDefinition = {
         sectionTitle: t('admin.sidebar.userManagement'),
         sectionTitleDefault: 'User Management',
         isHidden: it.all(
-            it.not(it.userHasReadPermissionOnResource('user_management')),
             it.not(it.userHasReadPermissionOnResource('user_management.users')),
             it.not(it.userHasReadPermissionOnResource('user_management.groups')),
             it.not(it.userHasReadPermissionOnResource('user_management.teams')),
