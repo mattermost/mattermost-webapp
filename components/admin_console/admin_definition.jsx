@@ -47,6 +47,7 @@ import ElasticSearchSettings from './elasticsearch_settings.jsx';
 import BleveSettings from './bleve_settings.jsx';
 import ClusterSettings from './cluster_settings.jsx';
 import CustomTermsOfServiceSettings from './custom_terms_of_service_settings';
+import SessionLengthSettings from './session_length_settings';
 import LDAPFeatureDiscovery from './feature_discovery/ldap.tsx';
 import SAMLFeatureDiscovery from './feature_discovery/saml.tsx';
 
@@ -1455,75 +1456,10 @@ const AdminDefinition = {
                 'admin.service.sessionCache',
                 'admin.service.sessionCacheDesc',
             ],
+            isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
             schema: {
                 id: 'SessionLengths',
-                name: t('admin.environment.sessionLengths'),
-                name_default: 'Session Lengths',
-                settings: [
-                    {
-                        type: Constants.SettingsTypes.TYPE_NUMBER,
-                        key: 'ServiceSettings.SessionLengthWebInDays',
-                        label: t('admin.service.webSessionDays'),
-                        label_default: 'Session Length AD/LDAP and Email (days):',
-                        help_text: t('admin.service.webSessionDaysDesc'),
-                        help_text_default: 'The number of days from the last time a user entered their credentials to the expiry of the users session. After changing this setting, the new session length will take effect after the next time the user enters their credentials.',
-                        placeholder: t('admin.service.sessionDaysEx'),
-                        placeholder_default: 'E.g.: "30"',
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
-                    },
-                    {
-                        type: Constants.SettingsTypes.TYPE_NUMBER,
-                        key: 'ServiceSettings.SessionLengthMobileInDays',
-                        label: t('admin.service.mobileSessionDays'),
-                        label_default: 'Session Length Mobile (days):',
-                        help_text: t('admin.service.mobileSessionDaysDesc'),
-                        help_text_default: 'The number of days from the last time a user entered their credentials to the expiry of the users session. After changing this setting, the new session length will take effect after the next time the user enters their credentials.',
-                        placeholder: t('admin.service.sessionDaysEx'),
-                        placeholder_default: 'E.g.: "30"',
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
-                    },
-                    {
-                        type: Constants.SettingsTypes.TYPE_NUMBER,
-                        key: 'ServiceSettings.SessionLengthSSOInDays',
-                        label: t('admin.service.ssoSessionDays'),
-                        label_default: 'Session Length SSO (days):',
-                        help_text: t('admin.service.ssoSessionDaysDesc'),
-                        help_text_default: 'The number of days from the last time a user entered their credentials to the expiry of the users session. If the authentication method is SAML or GitLab, the user may automatically be logged back in to Mattermost if they are already logged in to SAML or GitLab. After changing this setting, the setting will take effect after the next time the user enters their credentials.',
-                        placeholder: t('admin.service.sessionDaysEx'),
-                        placeholder_default: 'E.g.: "30"',
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
-                    },
-                    {
-                        type: Constants.SettingsTypes.TYPE_NUMBER,
-                        key: 'ServiceSettings.SessionCacheInMinutes',
-                        label: t('admin.service.sessionCache'),
-                        label_default: 'Session Cache (minutes):',
-                        help_text: t('admin.service.sessionCacheDesc'),
-                        help_text_default: 'The number of minutes to cache a session in memory.',
-                        placeholder: t('admin.service.sessionDaysEx'),
-                        placeholder_default: 'E.g.: "30"',
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
-                    },
-                    {
-                        type: Constants.SettingsTypes.TYPE_NUMBER,
-                        key: 'ServiceSettings.SessionIdleTimeoutInMinutes',
-                        label: t('admin.service.sessionIdleTimeout'),
-                        label_default: 'Session Idle Timeout (minutes):',
-                        help_text: t('admin.service.sessionIdleTimeoutDesc'),
-                        help_text_default: 'The number of minutes from the last time a user was active on the system to the expiry of the user\'s session. Once expired, the user will need to log in to continue. Minimum is 5 minutes, and 0 is unlimited.\n \nApplies to the desktop app and browsers. For mobile apps, use an EMM provider to lock the app when not in use. In High Availability mode, enable IP hash load balancing for reliable timeout measurement.',
-                        help_text_markdown: true,
-                        placeholder: t('admin.service.sessionIdleTimeoutEx'),
-                        placeholder_default: 'E.g.: "60"',
-                        onConfigSave: (value) => {
-                            if (value !== 0 && value < MINIMUM_IDLE_TIMEOUT) {
-                                return MINIMUM_IDLE_TIMEOUT;
-                            }
-                            return value;
-                        },
-                        isHidden: it.not(it.licensedForFeature('Compliance')),
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
-                    },
-                ],
+                component: SessionLengthSettings,
             },
         },
         metrics: {
@@ -1838,7 +1774,7 @@ const AdminDefinition = {
                         label: t('admin.team.maxUsersTitle'),
                         label_default: 'Max Users Per Team:',
                         help_text: t('admin.team.maxUsersDescription'),
-                        help_text_default: 'Maximum total number of users per team, including all active and inactive users.',
+                        help_text_default: 'Maximum total number of users per team, including both active and inactive users.',
                         placeholder: t('admin.team.maxUsersExample'),
                         placeholder_default: 'E.g.: "25"',
                         isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
@@ -1849,7 +1785,7 @@ const AdminDefinition = {
                         label: t('admin.team.maxChannelsTitle'),
                         label_default: 'Max Channels Per Team:',
                         help_text: t('admin.team.maxChannelsDescription'),
-                        help_text_default: 'Maximum total number of channels per team, including all active and archived channels.',
+                        help_text_default: 'Maximum total number of channels per team, including both active and archived channels.',
                         placeholder: t('admin.team.maxChannelsExample'),
                         placeholder_default: 'E.g.: "100"',
                         isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
