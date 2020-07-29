@@ -13,9 +13,9 @@ let testSettings;
 const loginButtonText = 'SAML';
 
 // ASSUMPTION: SAML AND LDAP already successfully setup!
-describe('LDAP - SAML Test', () => {
+describe('SAML Test', () => {
 
-    it('Test # 1', () => {
+    it('Test # 1 - Check SAML Metadata without Enable Encryption', () => {
         const newConfig = {
             SamlSettings: {
                 EnableSyncWithLdap: false,
