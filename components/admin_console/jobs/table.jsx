@@ -9,7 +9,7 @@ import {FormattedDate, FormattedMessage, FormattedTime, injectIntl} from 'react-
 import {JobStatuses} from 'utils/constants';
 import {intlShape} from 'utils/react_intl';
 import * as Utils from 'utils/utils.jsx';
-import {exportFormats} from 'components/admin_console/message_export_settings';
+import {exportFormats} from 'utils/constants';
 
 class JobTable extends React.PureComponent {
     static propTypes = {
