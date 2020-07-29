@@ -14,6 +14,7 @@ describe('components/sidebar', () => {
         isDataPrefechEnabled: true,
         isOpen: false,
         teamId: 'fake_team_id',
+        hasSeenModal: true,
         actions: {
             createCategory: jest.fn(),
             fetchMyCategories: jest.fn(),

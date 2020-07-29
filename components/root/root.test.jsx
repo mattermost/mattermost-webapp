@@ -29,6 +29,9 @@ jest.mock('utils/utils', () => ({
     enableDevModeFeatures: jest.fn(),
 }));
 
+jest.mock('mattermost-redux/actions/general', () => ({
+    setUrl: () => {},
+}));
 jest.mock('mattermost-redux/client', () => {
     const original = require.requireActual('mattermost-redux/client');
 
@@ -50,6 +53,7 @@ describe('components/Root', () => {
         showTermsOfService: false,
         actions: {
             loadMeAndConfig: async () => [{}, {}, {data: true}], // eslint-disable-line no-empty-function
+            getWarnMetricsStatus: async () => {},
         },
         location: {
             pathname: '/',

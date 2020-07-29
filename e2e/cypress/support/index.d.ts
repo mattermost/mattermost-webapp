@@ -15,4 +15,5 @@ declare namespace Cypress {
     type Team = import('mattermost-redux/types/teams').Team;
     type TeamMembership = import('mattermost-redux/types/teams').TeamMembership;
     type UserProfile = import('mattermost-redux/types/users').UserProfile;
+    type UserStatus = import('mattermost-redux/types/users').UserStatus;
 }

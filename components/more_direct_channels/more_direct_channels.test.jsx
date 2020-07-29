@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {shallow} from 'enzyme';
+import {Modal} from 'react-bootstrap';
 
 import MoreDirectChannels from 'components/more_direct_channels/more_direct_channels';
 
@@ -79,8 +80,14 @@ describe('components/MoreDirectChannels', () => {
         const props = {...baseProps, actions: {...baseProps.actions, getStatusesByIds: jest.fn()}};
         const wrapper = shallow(<MoreDirectChannels {...props}/>);
         expect(wrapper).toMatchSnapshot();
+    });
 
-        // on componentDidMount
+    test('should call for modal data on callback of modal onEntered', () => {
+        const props = {...baseProps, actions: {...baseProps.actions, getStatusesByIds: jest.fn()}};
+        const wrapper = shallow(<MoreDirectChannels {...props}/>);
+
+        wrapper.find(Modal).prop('onEntered')();
+
         expect(props.actions.getProfiles).toHaveBeenCalledTimes(1);
         expect(props.actions.getTotalUsersStats).toHaveBeenCalledTimes(1);
         expect(props.actions.getProfiles).toBeCalledWith(0, 100);
@@ -95,6 +102,7 @@ describe('components/MoreDirectChannels', () => {
     test('should call actions.getStatusesByIds on loadProfilesMissingStatus', () => {
         const props = {...baseProps, actions: {...baseProps.actions, getStatusesByIds: jest.fn()}};
         const wrapper = shallow(<MoreDirectChannels {...props}/>);
+        wrapper.find(Modal).prop('onEntered')();
 
         wrapper.instance().loadProfilesMissingStatus(props.users, props.statuses);
         expect(props.actions.getStatusesByIds).toHaveBeenCalledTimes(2);
