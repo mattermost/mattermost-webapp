@@ -172,7 +172,7 @@ export default class TeamMembers extends React.PureComponent<Props, State> {
                 filters = {...filters, team_roles: teamRoles};
             }
             [...systemRoles, ...teamRoles].forEach((role) => {
-                trackEvent('admin_team_config_page', `${role}_filter_applied_to_members_block`);
+                trackEvent('admin_team_config_page', `${role}_filter_applied_to_members_block`, {team_id: this.props.teamId});
             });
             this.props.actions.setUserGridFilters({roles: systemRoles, team_roles: teamRoles});
             this.props.actions.getFilteredUsersStats({in_team: this.props.teamId, include_bots: true, ...filters});

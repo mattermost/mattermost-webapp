@@ -180,7 +180,7 @@ export default class TeamDetails extends React.PureComponent {
                     serverError = <FormError error={resultWithError.error.message}/>;
                 }
                 if (count > 0) {
-                    trackEvent('admin_team_config_page', 'members_added_to_team', {count});
+                    trackEvent('admin_team_config_page', 'members_added_to_team', {count, team_id: teamID});
                 }
             }
 
@@ -192,7 +192,7 @@ export default class TeamDetails extends React.PureComponent {
                     serverError = <FormError error={resultWithError.error.message}/>;
                 }
                 if (count > 0) {
-                    trackEvent('admin_team_config_page', 'members_removed_from_team', {count});
+                    trackEvent('admin_team_config_page', 'members_removed_from_team', {count, team_id: teamID});
                 }
             }
 
@@ -204,7 +204,7 @@ export default class TeamDetails extends React.PureComponent {
                     serverError = <FormError error={resultWithError.error.message}/>;
                 }
                 if (count > 0) {
-                    trackEvent('admin_team_config_page', 'members_elevated_to_team_admin', {count});
+                    trackEvent('admin_team_config_page', 'members_elevated_to_team_admin', {count, team_id: teamID});
                 }
             }
 
@@ -216,7 +216,7 @@ export default class TeamDetails extends React.PureComponent {
                     serverError = <FormError error={resultWithError.error.message}/>;
                 }
                 if (count > 0) {
-                    trackEvent('admin_team_config_page', 'admins_demoted_to_team_member', {count});
+                    trackEvent('admin_team_config_page', 'admins_demoted_to_team_member', {count, team_id: teamID});
                 }
             }
         }
