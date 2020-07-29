@@ -4,11 +4,13 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
+import {GenericAction} from 'mattermost-redux/types/actions';
+
 import {closeModal} from 'actions/views/modals';
 
+import {GlobalState} from 'types/store';
+
 import ModalController from './modal_controller';
-import { GlobalState } from 'types/store';
-import {GenericAction} from 'mattermost-redux/types/actions';
 
 function mapStateToProps(state: GlobalState) {
     return {

@@ -3,12 +3,12 @@
 
 import React from 'react';
 type Props = {
-      modals: any;
-      actions: {
-        closeModal: () => void; 
-      }
-       
+    modals: any;
+    actions: {
+        closeModal: () => void;
+    };
 }
+
 export default class ModalController extends React.PureComponent<Props> {
     render() {
         const {modals, ...props} = this.props;
