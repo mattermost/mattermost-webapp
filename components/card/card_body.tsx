@@ -20,6 +20,12 @@ export default class CardBody extends React.PureComponent<Props> {
     }
 
     componentDidMount() {
+        window.addEventListener('resize', this.setInitialHeight);
+
+        this.setInitialHeight();
+    }
+
+    setInitialHeight = () => {
         if (this.card.current && this.props.expanded) {
             this.card.current.style.height = `${this.card.current.scrollHeight}px`;
         }

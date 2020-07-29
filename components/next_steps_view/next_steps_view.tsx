@@ -9,10 +9,14 @@ import {PreferenceType} from 'mattermost-redux/types/preferences';
 
 import Accordion from 'components/accordion';
 import Card from 'components/card/card';
+
+import downloadApps from 'images/download-app.svg';
 import onboardingSuccess from 'images/onboarding-success.svg';
 import loadingIcon from 'images/spinner-48x48-blue.apng';
 import professionalLogo from 'images/cloud-logos/professional.svg';
+
 import {Preferences} from 'utils/constants';
+import * as Utils from 'utils/utils';
 
 import {Steps, StepType} from './steps';
 import './next_steps_view.scss';
@@ -42,27 +46,6 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
             showFinalScreen: false,
             showTransitionScreen: false,
         };
-    }
-
-    getBottomText = () => {
-        // TODO: will be stored in user prefs at a later date
-        const {isFinished} = {isFinished: false};
-
-        if (isFinished) {
-            return (
-                <FormattedMessage
-                    id='next_steps_view.allSetToGo'
-                    defaultMessage={'You\'re all set to go!'}
-                />
-            );
-        }
-
-        return (
-            <FormattedMessage
-                id='next_steps_view.hereAreSomeNextSteps'
-                defaultMessage='Here are some recommended next steps to help you get started'
-            />
-        );
     }
 
     getLogo = () => {
@@ -171,10 +154,157 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
     }
 
     renderFinalScreen = () => {
+        let nonMobileTips;
+        if (!Utils.isMobile()) {
+            nonMobileTips = (
+                <>
+                    <Card expanded={true}>
+                        <Card.Body>
+                            <h3>
+                                <FormattedMessage
+                                    id='next_steps_view.tips.configureLogin'
+                                    defaultMessage='Configure your login method'
+                                />
+                            </h3>
+                            <FormattedMessage
+                                id='next_steps_view.tips.configureLogin.text'
+                                defaultMessage='Set up OAuth, SAML or AD/LDAP authentication.'
+                            />
+                            <button
+                                className='NextStepsView__button confirm'
+                                onClick={() => {}}
+                            >
+                                <FormattedMessage
+                                    id='next_steps_view.tips.configureLogin.button'
+                                    defaultMessage='Configure'
+                                />
+                                <i className='icon icon-chevron-down'/>
+                            </button>
+                        </Card.Body>
+                    </Card>
+                    <Card expanded={true}>
+                        <Card.Body>
+                            <h3>
+                                <FormattedMessage
+                                    id='next_steps_view.tips.addPlugins'
+                                    defaultMessage='Add plugins to Mattermost'
+                                />
+                            </h3>
+                            <FormattedMessage
+                                id='next_steps_view.tips.addPlugins.text'
+                                defaultMessage='Visit the Plugins Marketplace to install and configure plugins.'
+                            />
+                            <button
+                                className='NextStepsView__button confirm'
+                                onClick={() => {}}
+                            >
+                                <FormattedMessage
+                                    id='next_steps_view.tips.addPlugins.button'
+                                    defaultMessage='Add plugins'
+                                />
+                            </button>
+                        </Card.Body>
+                    </Card>
+                </>
+            );
+        }
+
+        let downloadSection;
+        if (Utils.isMobile()) {
+            downloadSection = (
+                <div className='NextStepsView__tipsMobileMessage'>
+                    <Card expanded={true}>
+                        <Card.Body>
+                            <i className='icon icon-laptop'/>
+                            <FormattedMessage
+                                id='next_steps_view.mobile_tips_message'
+                                defaultMessage='To configure your workspace, continue on a desktop computer.'
+                            />
+                        </Card.Body>
+                    </Card>
+                </div>
+            );
+        } else {
+            downloadSection = (
+                <div className='NextStepsView__download'>
+                    <img src={downloadApps}/>
+                    <div className='NextStepsView__downloadText'>
+                        <h3>
+                            <FormattedMessage
+                                id='next_steps_view.downloadDesktopAndMobile'
+                                defaultMessage='Download the Desktop and Mobile apps'
+                            />
+                        </h3>
+                        <div className='NextStepsView__downloadButtons'>
+                            <button
+                                className='NextStepsView__downloadForPlatformButton'
+                                onClick={() => {}}
+                            >
+                                {'TODO Mattermost for Mac'}
+                            </button>
+                            <button
+                                className='NextStepsView__downloadAnyButton'
+                                onClick={() => {}}
+                            >
+                                <FormattedMessage
+                                    id='next_steps_view.seeAllTheApps'
+                                    defaultMessage='See all the apps'
+                                />
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )
+        }
+
         // TODO
         return (
             <div className={classNames('NextStepsView__viewWrapper NextStepsView__completedView', {completed: this.state.showFinalScreen})}>
-                {'Placeholder for Final Screen'}
+                <header className='NextStepsView__header'>
+                    <div className='NextStepsView__header-headerText'>
+                        <h1 className='NextStepsView__header-headerTopText'>
+                            <FormattedMessage
+                                id='next_steps_view.tipsAndNextSteps'
+                                defaultMessage='Tips & Next Steps'
+                            />
+                        </h1>
+                        <h2 className='NextStepsView__header-headerBottomText'>
+                            <FormattedMessage
+                                id='next_steps_view.otherAreasToExplore'
+                                defaultMessage='A few other areas to explore'
+                            />
+                        </h2>
+                    </div>
+                </header>
+                <div className='NextStepsView__body'>
+                    <div className='NextStepsView__nextStepsCards'>
+                        <Card expanded={true}>
+                            <Card.Body>
+                                <h3>
+                                    <FormattedMessage
+                                        id='next_steps_view.tips.takeATour'
+                                        defaultMessage='Take a tour'
+                                    />
+                                </h3>
+                                <FormattedMessage
+                                    id='next_steps_view.tips.takeATour.text'
+                                    defaultMessage='Let us show you around with a guided tour of the interface.'
+                                />
+                                <button
+                                    className='NextStepsView__button confirm'
+                                    onClick={() => {}}
+                                >
+                                    <FormattedMessage
+                                        id='next_steps_view.tips.takeATour.button'
+                                        defaultMessage='Take the tour'
+                                    />
+                                </button>
+                            </Card.Body>
+                        </Card>
+                        {nonMobileTips}
+                    </div>
+                    {downloadSection}
+                </div>
             </div>
         );
     }
@@ -222,7 +352,10 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                             />
                         </h1>
                         <h2 className='NextStepsView__header-headerBottomText'>
-                            {this.getBottomText()}
+                            <FormattedMessage
+                                id='next_steps_view.hereAreSomeNextSteps'
+                                defaultMessage='Here are some recommended next steps to help you get started'
+                            />
                         </h2>
                     </div>
                     <div className='NextStepsView__header-logo'>
