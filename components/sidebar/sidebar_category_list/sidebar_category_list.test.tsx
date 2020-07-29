@@ -91,7 +91,6 @@ describe('components/sidebar/sidebar_category_list', () => {
         handleOpenMoreDirectChannelsModal: jest.fn(),
         onDragStart: jest.fn(),
         onDragEnd: jest.fn(),
-        isDisabled: false,
         actions: {
             switchToChannelById: jest.fn(),
             close: jest.fn(),
