@@ -280,35 +280,6 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
             />
           </AdminSidebarCategory>
           <AdminSidebarCategory
-            definitionKey="user_management"
-            icon="fa-users"
-            key="user_management"
-            parentLink="/admin_console"
-            sectionClass=""
-            title={
-              <FormattedMessage
-                defaultMessage="User Management"
-                id="admin.sidebar.userManagement"
-                values={Object {}}
-              />
-            }
-          >
-            <AdminSidebarSection
-              definitionKey="user_management.system_users"
-              key="user_management.system_users"
-              name="user_management/users"
-              parentLink=""
-              subsection={false}
-              title={
-                <FormattedMessage
-                  defaultMessage="Users"
-                  id="admin.sidebar.users"
-                  values={Object {}}
-                />
-              }
-            />
-          </AdminSidebarCategory>
-          <AdminSidebarCategory
             definitionKey="environment"
             icon="fa-server"
             key="environment"
