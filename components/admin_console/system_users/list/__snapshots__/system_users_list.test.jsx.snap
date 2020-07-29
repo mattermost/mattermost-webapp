@@ -12,7 +12,7 @@ exports[`components/admin_console/system_users/list should match default snapsho
         "doPasswordReset": [Function],
         "enableUserAccessTokens": false,
         "experimentalEnableAuthenticationTransfer": false,
-        "isDisabled": undefined,
+        "isDisabled": false,
         "mfaEnabled": false,
       }
     }
@@ -32,6 +32,7 @@ exports[`components/admin_console/system_users/list should match default snapsho
     extraInfo={Object {}}
     filter=""
     focusOnMount={false}
+    isDisabled={false}
     mfaEnabled={false}
     nextPage={[Function]}
     onTermChange={[MockFunction]}
@@ -97,7 +98,7 @@ exports[`components/admin_console/system_users/list should match default snapsho
         "doPasswordReset": [Function],
         "enableUserAccessTokens": false,
         "experimentalEnableAuthenticationTransfer": false,
-        "isDisabled": undefined,
+        "isDisabled": false,
         "mfaEnabled": false,
       }
     }
@@ -215,6 +216,7 @@ exports[`components/admin_console/system_users/list should match default snapsho
     }
     filter=""
     focusOnMount={false}
+    isDisabled={false}
     mfaEnabled={false}
     nextPage={[Function]}
     onTermChange={[MockFunction]}
@@ -301,7 +303,7 @@ exports[`components/admin_console/system_users/list should match default snapsho
         "doPasswordReset": [Function],
         "enableUserAccessTokens": false,
         "experimentalEnableAuthenticationTransfer": false,
-        "isDisabled": undefined,
+        "isDisabled": false,
         "mfaEnabled": true,
       }
     }
@@ -444,6 +446,7 @@ exports[`components/admin_console/system_users/list should match default snapsho
     }
     filter=""
     focusOnMount={false}
+    isDisabled={false}
     mfaEnabled={true}
     nextPage={[Function]}
     onTermChange={[MockFunction]}

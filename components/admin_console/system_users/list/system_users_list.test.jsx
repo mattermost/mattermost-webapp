@@ -31,6 +31,7 @@ describe('components/admin_console/system_users/list', () => {
             getTeamsForUser: jest.fn(),
             removeUserFromTeam: jest.fn(),
         },
+        isDisabled: false,
     };
 
     test('should match default snapshot', () => {
