@@ -47,7 +47,7 @@ describe('Teams Suite', () => {
         cy.get('#headerTeamName').should('contain', 'Team Test');
     });
 
-    it.only('MM-T1437 Try to create a new team using restricted words', () => {
+    it('MM-T1437 Try to create a new team using restricted words', () => {
         // * Enter different reserved words and verify the error message
         tryReservedTeamURLAndVerifyError('plugins');
         tryReservedTeamURLAndVerifyError('login');
@@ -73,11 +73,11 @@ function openTeamCreationModalFromHamburgerMenu() {
 }
 
 function tryReservedTeamURLAndVerifyError(teamURL) {
-    // # Open the create team fullscreen modal from hamburger menu
+    // # Open the team creation modal from the hamburger menu
     openTeamCreationModalFromHamburgerMenu();
 
-    // # Input a random team name
-    cy.get('#teamNameInput').should('be.visible').type('team-name-123');
+    // # Input passed in team name
+    cy.get('#teamNameInput').should('be.visible').type(teamURL);
 
     // # Click Next button
     cy.findByText('Next').should('be.visible').click();
