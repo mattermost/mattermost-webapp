@@ -21,14 +21,7 @@ describe('Teams Suite', () => {
     });
 
     it('TS13872 Create a team', () => {
-        // # Click hamburger main menu
-        cy.get('#sidebarHeaderDropdownButton').click();
-
-        // * Dropdown menu should be visible
-        cy.get('#sidebarDropdownMenu').should('exist').within(() => {
-            // # Click "Create a Team"
-            cy.findByText('Create a Team').should('be.visible').click();
-        });
+        openTeamCreationModal()
 
         // # Input team name as Team Test
         cy.get('#teamNameInput').should('be.visible').type('Team Test');
@@ -43,7 +36,7 @@ describe('Teams Suite', () => {
         // # Click finish button
         cy.get('#teamURLFinishButton').should('be.visible').click();
 
-        // * Should redirect ot Town Square channel
+        // * Should redirect to Town Square channel
         cy.get('#channelHeaderTitle').should('contain', 'Town Square');
 
         // * check url is correct
@@ -52,4 +45,55 @@ describe('Teams Suite', () => {
         // * Team name should displays correctly at top of LHS
         cy.get('#headerTeamName').should('contain', 'Team Test');
     });
+
+    it('MM-T1437 Try to create a new team using restricted words', () => {
+        openTeamCreationModal()
+
+        // # Input team name as Team Test
+        cy.get('#teamNameInput').should('be.visible').type('plugins');
+
+        // # Click Next button
+        cy.findByText('Next').should('be.visible').click();
+
+        // * Enter different reserved words and verify the error message
+        tryReservedTeamURLAndVerifyError('plugins')
+        tryReservedTeamURLAndVerifyError('login')
+        tryReservedTeamURLAndVerifyError('admin')
+        tryReservedTeamURLAndVerifyError('channel')
+        tryReservedTeamURLAndVerifyError('post')
+        tryReservedTeamURLAndVerifyError('api')
+        tryReservedTeamURLAndVerifyError('oauth')
+        tryReservedTeamURLAndVerifyError('error')
+        tryReservedTeamURLAndVerifyError('help')
+
+        // # Close the modal
+        cy.findByText('Back').click()
+    })
 });
+
+function openTeamCreationModal(){
+    // # Click hamburger main menu
+    cy.get('#sidebarHeaderDropdownButton').click();
+
+    // * Dropdown menu should be visible
+    cy.get('#sidebarDropdownMenu').should('exist').within(() => {
+        // # Click "Create a Team"
+        cy.findByText('Create a Team').should('be.visible').click();
+    });
+}
+
+function tryReservedTeamURLAndVerifyError(teamURL){
+    // # Input a team url
+    cy.get('#teamURLInput').should('be.visible').clear().type(teamURL);
+
+    // # Hit finish button
+    cy.findByText('Finish').should('exist').click()
+
+    // * Verify that we get error message for reserved team url
+    cy.get('form').within(() => {
+        // # Split search into multiple lines as text contains links and new lines
+        cy.findByText(/This URL\s/).should('exist')
+        cy.findByText(/starts with a reserved word/).should('exist')
+        cy.findByText(/\sor is unavailable. Please try another./).should('exist')
+    })
+}
