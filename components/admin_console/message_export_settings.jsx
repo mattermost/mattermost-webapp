@@ -17,7 +17,6 @@ import SettingsGroup from './settings_group.jsx';
 import TextSetting from './text_setting';
 import RadioSetting from './radio_setting';
 
-
 export default class MessageExportSettings extends AdminSettings {
     getConfigFromState = (config) => {
         config.MessageExportSettings.EnableExport = this.state.enableComplianceExport;
