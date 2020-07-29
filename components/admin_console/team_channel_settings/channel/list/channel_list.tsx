@@ -10,6 +10,7 @@ import {ChannelWithTeamData, ChannelSearchOpts} from 'mattermost-redux/types/cha
 import {debounce} from 'mattermost-redux/actions/helpers';
 
 import {browserHistory} from 'utils/browser_history';
+import {trackEvent} from 'actions/diagnostics_actions.jsx';
 
 import {Constants} from 'utils/constants';
 import DataGrid, {Row, Column} from 'components/admin_console/data_grid/data_grid';
@@ -237,6 +238,7 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
                 filters.exclude_group_constrained = excludeGroupConstrained.value as boolean;
             }
             filters.team_ids = teamIds.value as string[];
+            trackEvent('admin_channels_page', 'filters_applied_to_channel_list');
         }
         this.loadPage(0, this.state.term, filters);
     }
