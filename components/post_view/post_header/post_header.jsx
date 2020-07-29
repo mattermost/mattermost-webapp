@@ -101,7 +101,7 @@ export default class PostHeader extends React.PureComponent {
         let indicator;
         let colon;
 
-        if (fromWebhook && !this.props.isBot) {
+        if (fromWebhook) {
             if (post.props.override_username && this.props.enablePostUsernameOverride) {
                 userProfile = (
                     <UserProfile
@@ -120,7 +120,9 @@ export default class PostHeader extends React.PureComponent {
                 );
             }
 
-            indicator = (<BotBadge/>);
+            if (!this.props.isBot) {
+                indicator = (<BotBadge/>);
+            }
         } else if (fromAutoResponder) {
             userProfile = (
                 <UserProfile
