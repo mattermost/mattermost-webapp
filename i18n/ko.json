@@ -3919,5 +3919,7 @@
   "admin.channel_list.public": "공개",
   "admin.channel_list.private": "비공개",
   "admin.channel_list.group_sync": "그룹 동기화",
-  "admin.channel_list.archived": "보관됨"
+  "admin.channel_list.archived": "보관됨",
+  "admin.jobTable.headerFiles": "파일",
+  "admin.jobTable.downloadLink": "다운로드"
 }

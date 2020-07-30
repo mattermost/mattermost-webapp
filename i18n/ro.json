@@ -3996,5 +3996,7 @@
   "sidebar_left.sidebar_channel_menu.muteConversation": "Conversație mută",
   "sidebar_left.sidebar_channel_menu.moveToNewCategory": "Categorie noua",
   "sidebar_left.sidebar_channel_menu.moveTo": "Treceți la",
-  "sidebar_left.sidebar_channel_menu.markAsRead": "Marcheaza ca citit"
+  "sidebar_left.sidebar_channel_menu.markAsRead": "Marcheaza ca citit",
+  "admin.jobTable.headerFiles": "Fişiere",
+  "admin.jobTable.downloadLink": "Descarca"
 }

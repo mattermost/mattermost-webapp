@@ -3996,5 +3996,7 @@
   "sidebar_left.sidebar_channel_menu.moveTo": "移動",
   "sidebar_left.sidebar_channel_menu.markAsRead": "標為已讀",
   "sidebar_left.sidebar_channel_menu.leaveConversation": "關閉對話",
-  "sidebar_left.sidebar_channel_menu.editChannel": "頻道選項"
+  "sidebar_left.sidebar_channel_menu.editChannel": "頻道選項",
+  "admin.jobTable.headerFiles": "檔案",
+  "admin.jobTable.downloadLink": "下載"
 }

@@ -3996,5 +3996,7 @@
   "admin.filter.count_more": "+{count,number} meer",
   "admin.filter.apply": "Toepassen",
   "admin.filter.all_teams": "Alle teams",
-  "admin.filter.reset_teams": "Terugzetten naar alle teams"
+  "admin.filter.reset_teams": "Terugzetten naar alle teams",
+  "admin.jobTable.headerFiles": "Bestanden",
+  "admin.jobTable.downloadLink": "Downloaden"
 }

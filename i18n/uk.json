@@ -3917,5 +3917,7 @@
   "admin.channel_list.public": "Громадський",
   "admin.channel_list.private": "Приватно",
   "admin.channel_list.group_sync": "Group Sync",
-  "admin.channel_list.archived": "Архівувати "
+  "admin.channel_list.archived": "Архівувати ",
+  "admin.jobTable.headerFiles": "Файли ",
+  "admin.jobTable.downloadLink": "Завантажити"
 }
