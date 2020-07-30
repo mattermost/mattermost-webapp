@@ -63,11 +63,10 @@ export class CommandSuggestion extends Suggestion {
 }
 
 export default class CommandProvider extends Provider {
-    constructor({rootId}) {
+    constructor({isInRHS}) {
         super();
 
-        // Starting with a rootId means this CommandProvider is in the RHS thread.
-        this.rootId = rootId;
+        this.isInRHS = isInRHS;
     }
 
     handlePretextChanged(pretext, resultCallback) {
@@ -134,10 +133,10 @@ export default class CommandProvider extends Provider {
 
         const selectedPost = getSelectedPost(store.getState());
         let rootId;
-        if (this.rootId) {
+        if (this.isInRHS) {
             rootId = selectedPost.root_id ? selectedPost.root_id : selectedPost.id;
         }
-        const channel = this.rootId && selectedPost.channel_id ? getChannel(store.getState(), selectedPost.channel_id) : getCurrentChannel(store.getState());
+        const channel = this.isInRHS && selectedPost.channel_id ? getChannel(store.getState(), selectedPost.channel_id) : getCurrentChannel(store.getState());
 
         const args = {
             channel_id: channel.id,
