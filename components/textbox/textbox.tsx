@@ -89,7 +89,6 @@ export default class Textbox extends React.PureComponent<Props> {
 
         if (props.supportsCommands) {
             this.suggestionProviders.push(new CommandProvider({
-                channelId: this.props.channelId,
                 rootId: this.props.rootId,
             }));
         }

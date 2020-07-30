@@ -5,12 +5,13 @@ import React from 'react';
 
 import {Client4} from 'mattermost-redux/client';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {getChannel, getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 
 import store from 'stores/redux_store.jsx';
 
 import * as UserAgent from 'utils/user_agent';
-
 import * as Utils from 'utils/utils.jsx';
+import {getSelectedPost} from 'selectors/rhs';
 
 import Suggestion from './suggestion.jsx';
 import Provider from './provider.jsx';
@@ -62,10 +63,10 @@ export class CommandSuggestion extends Suggestion {
 }
 
 export default class CommandProvider extends Provider {
-    constructor({channelId, rootId}) {
+    constructor({rootId}) {
         super();
 
-        this.channelId = channelId;
+        // Starting with a rootId means this CommandProvider is in the RHS thread.
         this.rootId = rootId;
     }
 
@@ -130,14 +131,20 @@ export default class CommandProvider extends Provider {
 
     handleWebapp(pretext, resultCallback) {
         const command = pretext.toLowerCase();
-        const teamId = getCurrentTeamId(store.getState());
+
+        const selectedPost = getSelectedPost(store.getState());
+        let rootId;
+        if (this.rootId) {
+            rootId = selectedPost.root_id ? selectedPost.root_id : selectedPost.id;
+        }
+        const channel = this.rootId && selectedPost.channel_id ? getChannel(store.getState(), selectedPost.channel_id) : getCurrentChannel(store.getState());
 
         const args = {
-            channel_id: this.channelId,
-            ...(this.rootId && {root_id: this.rootId, parent_id: this.rootId}),
+            channel_id: channel.id,
+            ...(rootId && {root_id: rootId, parent_id: rootId}),
         };
 
-        Client4.getCommandAutocompleteSuggestionsList(command, teamId, args).then(
+        Client4.getCommandAutocompleteSuggestionsList(command, channel.team_id, args).then(
             (data) => {
                 const matches = [];
                 let cmd = 'Ctrl';
