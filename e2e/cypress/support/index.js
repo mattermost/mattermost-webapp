@@ -108,7 +108,7 @@ before(() => {
         }
 
         // # Reset config and invalidate cache
-        // cy.apiUpdateConfig();
+        cy.apiUpdateConfig();
         cy.apiInvalidateCache();
 
         // # Reset admin preference, online status and locale
