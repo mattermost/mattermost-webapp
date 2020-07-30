@@ -147,7 +147,7 @@ export default class TeamDetails extends React.PureComponent {
                     trackEvent('admin_team_config_page', 'groups_removed_from_team', {count: unlink.length, team_id: teamID});
                 }
                 if (link.length > 0) {
-                    trackEvent('admin_team_config_page', 'groups_added_to_team', {count: unlink.length, team_id: teamID});
+                    trackEvent('admin_team_config_page', 'groups_added_to_team', {count: link.length, team_id: teamID});
                 }
                 await actions.getGroups(teamID);
             }
