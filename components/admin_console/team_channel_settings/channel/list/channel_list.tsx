@@ -251,7 +251,7 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
                     trackEvent('admin_channels_page', 'group_sync_filter_applied_to_channel_list');
                 }
                 filters.exclude_group_constrained = excludeGroupConstrained.value as boolean;
-                if (filters.group_constrained) {
+                if (filters.exclude_group_constrained) {
                     trackEvent('admin_channels_page', 'manual_invites_filter_applied_to_channel_list');
                 }
             }
