@@ -287,20 +287,20 @@ exports[`components/Menu should match snapshot with id 1`] = `
     <Connect(SystemPermissionGate)
       permissions={
         Array [
-          "read_sysconsole_about",
-          "read_sysconsole_reporting",
-          "read_sysconsole_user_management_users",
-          "read_sysconsole_user_management_groups",
-          "read_sysconsole_user_management_teams",
-          "read_sysconsole_user_management_channels",
-          "read_sysconsole_user_management_permissions",
-          "read_sysconsole_environment",
-          "read_sysconsole_site",
-          "read_sysconsole_authentication",
-          "read_sysconsole_plugins",
-          "read_sysconsole_integrations",
-          "read_sysconsole_compliance",
-          "read_sysconsole_experimental",
+          "sysconsole_read_about",
+          "sysconsole_read_reporting",
+          "sysconsole_read_user_management_users",
+          "sysconsole_read_user_management_groups",
+          "sysconsole_read_user_management_teams",
+          "sysconsole_read_user_management_channels",
+          "sysconsole_read_user_management_permissions",
+          "sysconsole_read_environment",
+          "sysconsole_read_site",
+          "sysconsole_read_authentication",
+          "sysconsole_read_plugins",
+          "sysconsole_read_integrations",
+          "sysconsole_read_compliance",
+          "sysconsole_read_experimental",
         ]
       }
     >
@@ -656,20 +656,20 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
     <Connect(SystemPermissionGate)
       permissions={
         Array [
-          "read_sysconsole_about",
-          "read_sysconsole_reporting",
-          "read_sysconsole_user_management_users",
-          "read_sysconsole_user_management_groups",
-          "read_sysconsole_user_management_teams",
-          "read_sysconsole_user_management_channels",
-          "read_sysconsole_user_management_permissions",
-          "read_sysconsole_environment",
-          "read_sysconsole_site",
-          "read_sysconsole_authentication",
-          "read_sysconsole_plugins",
-          "read_sysconsole_integrations",
-          "read_sysconsole_compliance",
-          "read_sysconsole_experimental",
+          "sysconsole_read_about",
+          "sysconsole_read_reporting",
+          "sysconsole_read_user_management_users",
+          "sysconsole_read_user_management_groups",
+          "sysconsole_read_user_management_teams",
+          "sysconsole_read_user_management_channels",
+          "sysconsole_read_user_management_permissions",
+          "sysconsole_read_environment",
+          "sysconsole_read_site",
+          "sysconsole_read_authentication",
+          "sysconsole_read_plugins",
+          "sysconsole_read_integrations",
+          "sysconsole_read_compliance",
+          "sysconsole_read_experimental",
         ]
       }
     >
@@ -1071,20 +1071,20 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
     <Connect(SystemPermissionGate)
       permissions={
         Array [
-          "read_sysconsole_about",
-          "read_sysconsole_reporting",
-          "read_sysconsole_user_management_users",
-          "read_sysconsole_user_management_groups",
-          "read_sysconsole_user_management_teams",
-          "read_sysconsole_user_management_channels",
-          "read_sysconsole_user_management_permissions",
-          "read_sysconsole_environment",
-          "read_sysconsole_site",
-          "read_sysconsole_authentication",
-          "read_sysconsole_plugins",
-          "read_sysconsole_integrations",
-          "read_sysconsole_compliance",
-          "read_sysconsole_experimental",
+          "sysconsole_read_about",
+          "sysconsole_read_reporting",
+          "sysconsole_read_user_management_users",
+          "sysconsole_read_user_management_groups",
+          "sysconsole_read_user_management_teams",
+          "sysconsole_read_user_management_channels",
+          "sysconsole_read_user_management_permissions",
+          "sysconsole_read_environment",
+          "sysconsole_read_site",
+          "sysconsole_read_authentication",
+          "sysconsole_read_plugins",
+          "sysconsole_read_integrations",
+          "sysconsole_read_compliance",
+          "sysconsole_read_experimental",
         ]
       }
     >
@@ -1464,20 +1464,20 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
     <Connect(SystemPermissionGate)
       permissions={
         Array [
-          "read_sysconsole_about",
-          "read_sysconsole_reporting",
-          "read_sysconsole_user_management_users",
-          "read_sysconsole_user_management_groups",
-          "read_sysconsole_user_management_teams",
-          "read_sysconsole_user_management_channels",
-          "read_sysconsole_user_management_permissions",
-          "read_sysconsole_environment",
-          "read_sysconsole_site",
-          "read_sysconsole_authentication",
-          "read_sysconsole_plugins",
-          "read_sysconsole_integrations",
-          "read_sysconsole_compliance",
-          "read_sysconsole_experimental",
+          "sysconsole_read_about",
+          "sysconsole_read_reporting",
+          "sysconsole_read_user_management_users",
+          "sysconsole_read_user_management_groups",
+          "sysconsole_read_user_management_teams",
+          "sysconsole_read_user_management_channels",
+          "sysconsole_read_user_management_permissions",
+          "sysconsole_read_environment",
+          "sysconsole_read_site",
+          "sysconsole_read_authentication",
+          "sysconsole_read_plugins",
+          "sysconsole_read_integrations",
+          "sysconsole_read_compliance",
+          "sysconsole_read_experimental",
         ]
       }
     >
@@ -1879,20 +1879,20 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
     <Connect(SystemPermissionGate)
       permissions={
         Array [
-          "read_sysconsole_about",
-          "read_sysconsole_reporting",
-          "read_sysconsole_user_management_users",
-          "read_sysconsole_user_management_groups",
-          "read_sysconsole_user_management_teams",
-          "read_sysconsole_user_management_channels",
-          "read_sysconsole_user_management_permissions",
-          "read_sysconsole_environment",
-          "read_sysconsole_site",
-          "read_sysconsole_authentication",
-          "read_sysconsole_plugins",
-          "read_sysconsole_integrations",
-          "read_sysconsole_compliance",
-          "read_sysconsole_experimental",
+          "sysconsole_read_about",
+          "sysconsole_read_reporting",
+          "sysconsole_read_user_management_users",
+          "sysconsole_read_user_management_groups",
+          "sysconsole_read_user_management_teams",
+          "sysconsole_read_user_management_channels",
+          "sysconsole_read_user_management_permissions",
+          "sysconsole_read_environment",
+          "sysconsole_read_site",
+          "sysconsole_read_authentication",
+          "sysconsole_read_plugins",
+          "sysconsole_read_integrations",
+          "sysconsole_read_compliance",
+          "sysconsole_read_experimental",
         ]
       }
     >
@@ -2289,20 +2289,20 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
     <Connect(SystemPermissionGate)
       permissions={
         Array [
-          "read_sysconsole_about",
-          "read_sysconsole_reporting",
-          "read_sysconsole_user_management_users",
-          "read_sysconsole_user_management_groups",
-          "read_sysconsole_user_management_teams",
-          "read_sysconsole_user_management_channels",
-          "read_sysconsole_user_management_permissions",
-          "read_sysconsole_environment",
-          "read_sysconsole_site",
-          "read_sysconsole_authentication",
-          "read_sysconsole_plugins",
-          "read_sysconsole_integrations",
-          "read_sysconsole_compliance",
-          "read_sysconsole_experimental",
+          "sysconsole_read_about",
+          "sysconsole_read_reporting",
+          "sysconsole_read_user_management_users",
+          "sysconsole_read_user_management_groups",
+          "sysconsole_read_user_management_teams",
+          "sysconsole_read_user_management_channels",
+          "sysconsole_read_user_management_permissions",
+          "sysconsole_read_environment",
+          "sysconsole_read_site",
+          "sysconsole_read_authentication",
+          "sysconsole_read_plugins",
+          "sysconsole_read_integrations",
+          "sysconsole_read_compliance",
+          "sysconsole_read_experimental",
         ]
       }
     >
@@ -2721,20 +2721,20 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
     <Connect(SystemPermissionGate)
       permissions={
         Array [
-          "read_sysconsole_about",
-          "read_sysconsole_reporting",
-          "read_sysconsole_user_management_users",
-          "read_sysconsole_user_management_groups",
-          "read_sysconsole_user_management_teams",
-          "read_sysconsole_user_management_channels",
-          "read_sysconsole_user_management_permissions",
-          "read_sysconsole_environment",
-          "read_sysconsole_site",
-          "read_sysconsole_authentication",
-          "read_sysconsole_plugins",
-          "read_sysconsole_integrations",
-          "read_sysconsole_compliance",
-          "read_sysconsole_experimental",
+          "sysconsole_read_about",
+          "sysconsole_read_reporting",
+          "sysconsole_read_user_management_users",
+          "sysconsole_read_user_management_groups",
+          "sysconsole_read_user_management_teams",
+          "sysconsole_read_user_management_channels",
+          "sysconsole_read_user_management_permissions",
+          "sysconsole_read_environment",
+          "sysconsole_read_site",
+          "sysconsole_read_authentication",
+          "sysconsole_read_plugins",
+          "sysconsole_read_integrations",
+          "sysconsole_read_compliance",
+          "sysconsole_read_experimental",
         ]
       }
     >
