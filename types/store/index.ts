@@ -96,6 +96,14 @@ export type GlobalState = BaseGlobalState & {
                 team: string;
                 filter: string;
             };
+            userGridSearch: {
+                term: string;
+                filters: {
+                    roles?: string[];
+                    channel_roles?: string[];
+                    team_roles?: string[];
+                };
+            };
         };
 
         notice: {
@@ -126,6 +134,10 @@ export type GlobalState = BaseGlobalState & {
             unreadFilterEnabled: boolean;
             draggingState: DraggingState;
             newCategoryIds: string[];
+        };
+
+        nextSteps: {
+            show: boolean;
         };
     };
 };

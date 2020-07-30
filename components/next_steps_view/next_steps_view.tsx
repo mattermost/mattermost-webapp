@@ -22,6 +22,7 @@ type Props = {
     skuName: string;
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => void;
+        setShowNextStepsView: (show: boolean) => void;
     };
 };
 

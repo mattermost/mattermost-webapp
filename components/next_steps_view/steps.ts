@@ -3,9 +3,9 @@
 import {createSelector} from 'reselect';
 
 import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
-import {GlobalState} from 'mattermost-redux/types/store';
 import {UserProfile} from 'mattermost-redux/types/users';
 
+import {GlobalState} from 'types/store';
 import {RecommendedNextSteps, Preferences} from 'utils/constants';
 import {localizeMessage} from 'utils/utils';
 
@@ -46,6 +46,10 @@ const getCategory = makeGetCategory();
 export const showNextSteps = createSelector(
     (state: GlobalState) => getCategory(state, Preferences.RECOMMENDED_NEXT_STEPS),
     (stepPreferences) => {
+        if (stepPreferences.some((pref) => pref.name === RecommendedNextSteps.HIDE && pref.value)) {
+            return false;
+        }
+
         const checkPref = (step: StepType) => stepPreferences.some((pref) => pref.name === step.id && pref.value);
         return !Steps.every(checkPref);
     }

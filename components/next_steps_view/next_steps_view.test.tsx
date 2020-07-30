@@ -13,6 +13,7 @@ describe('components/next_steps_view', () => {
         preferences: [],
         skuName: '',
         actions: {
+            setShowNextStepsView: jest.fn(),
             savePreferences: jest.fn(),
         },
     };

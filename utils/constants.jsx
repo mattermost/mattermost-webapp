@@ -175,6 +175,7 @@ export const ActionTypes = keyMirror({
     STORE_REHYDRATION_FAILED: null,
 
     DISMISS_NOTICE: null,
+    SHOW_NOTICE: null,
 
     SELECT_ATTACHMENT_MENU_ACTION: null,
 
@@ -208,12 +209,20 @@ export const ActionTypes = keyMirror({
     DISMISS_ANNOUNCEMENT_BAR: null,
 
     PREFETCH_POSTS_FOR_CHANNEL: null,
+
+    SET_SHOW_NEXT_STEPS_VIEW: null,
 });
 
 export const PostRequestTypes = keyMirror({
     BEFORE_ID: null,
     AFTER_ID: null,
 });
+
+export const WarnMetricTypes = {
+    SYSTEM_WARN_METRIC_NUMBER_OF_ACTIVE_USERS_200: 'warn_metric_number_of_active_users_200',
+    SYSTEM_WARN_METRIC_NUMBER_OF_ACTIVE_USERS_400: 'warn_metric_number_of_active_users_400',
+    SYSTEM_WARN_METRIC_NUMBER_OF_ACTIVE_USERS_500: 'warn_metric_number_of_active_users_500',
+};
 
 export const ModalIdentifiers = {
     ABOUT: 'about',
@@ -251,6 +260,9 @@ export const ModalIdentifiers = {
     PLUGIN_MARKETPLACE: 'plugin_marketplace',
     EDIT_CATEGORY: 'edit_category',
     DELETE_CATEGORY: 'delete_category',
+    SIDEBAR_WHATS_NEW_MODAL: 'sidebar_whats_new_modal',
+    WARN_METRIC_ACK: 'warn_metric_acknowledgement',
+    REMOVE_NEXT_STEPS_MODAL: 'remove_next_steps_modal',
 };
 
 export const UserStatuses = {
@@ -351,6 +363,8 @@ export const SocketEvents = {
     RECEIVED_GROUP_NOT_ASSOCIATED_TO_TEAM: 'received_group_not_associated_to_team',
     RECEIVED_GROUP_ASSOCIATED_TO_CHANNEL: 'received_group_associated_to_channel',
     RECEIVED_GROUP_NOT_ASSOCIATED_TO_CHANNEL: 'received_group_not_associated_to_channel',
+    WARN_METRIC_STATUS_RECEIVED: 'warn_metric_status_received',
+    WARN_METRIC_STATUS_REMOVED: 'warn_metric_status_removed',
 };
 
 export const TutorialSteps = {
@@ -457,6 +471,8 @@ export const UserFilters = {
 export const SearchTypes = keyMirror({
     SET_MODAL_SEARCH: null,
     SET_SYSTEM_USERS_SEARCH: null,
+    SET_USER_GRID_SEARCH: null,
+    SET_USER_GRID_FILTERS: null,
 });
 
 export const StorageTypes = keyMirror({
@@ -521,6 +537,8 @@ export const AnnouncementBarTypes = {
     CRITICAL: 'critical',
     DEVELOPER: 'developer',
     SUCCESS: 'success',
+    ADVISOR: 'advisor',
+    ADVISOR_ACK: 'advisor-ack',
 };
 
 export const AnnouncementBarMessages = {
@@ -531,6 +549,8 @@ export const AnnouncementBarMessages = {
     LICENSE_PAST_GRACE: t('announcement_bar.error.past_grace'),
     PREVIEW_MODE: t('announcement_bar.error.preview_mode'),
     WEBSOCKET_PORT_ERROR: t('channel_loader.socketError'),
+    NUMBER_OF_ACTIVE_USERS_WARN_METRIC_STATUS: t('announcement_bar.error.number_active_users_warn_metric_status.text'),
+    NUMBER_OF_ACTIVE_USERS_WARN_METRIC_STATUS_ACK: t('announcement_bar.error.number_active_users_warn_metric_status_ack.text'),
 };
 
 export const VerifyEmailErrors = {
