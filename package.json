@@ -11,7 +11,6 @@
     "@types/react-custom-scrollbars": "^4.0.6",
     "@typescript-eslint/parser": "2.7.0",
     "bootstrap": "3.4.1",
-    "bootstrap-colorpicker": "2.5.2",
     "chart.js": "2.9.3",
     "compass-mixins": "0.12.10",
     "core-js": "3.6.5",
