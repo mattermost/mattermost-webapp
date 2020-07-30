@@ -3937,5 +3937,6 @@
   "admin.channel_list.public": "Public",
   "admin.channel_list.private": "Privat",
   "admin.channel_list.group_sync": "Sincronizare de grup",
-  "admin.channel_list.archived": "Arhivat"
+  "admin.channel_list.archived": "Arhivat",
+  "announcement_bar.error.warn_metric_status.link": "Aflați mai multe"
 }

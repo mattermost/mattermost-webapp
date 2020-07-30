@@ -3919,5 +3919,6 @@
   "admin.channel_list.public": "Publiczny",
   "admin.channel_list.private": "Prywatny",
   "admin.channel_list.group_sync": "Synchronizacja grup",
-  "admin.channel_list.archived": "Zarchiwizowane"
+  "admin.channel_list.archived": "Zarchiwizowane",
+  "announcement_bar.error.warn_metric_status.link": "Dowiedz się więcej"
 }

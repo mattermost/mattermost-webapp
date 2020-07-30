@@ -3978,5 +3978,8 @@
   "admin.channel_list.group_sync": "Sincronización de Grupo",
   "admin.channel_list.archived": "Archivado",
   "admin.channel_list.public": "Público",
-  "admin.channel_list.private": "Privado"
+  "admin.channel_list.private": "Privado",
+  "announcement_bar.error.warn_metric_status.link": "Conocer más",
+  "generic_modal.confirm": "Confirmar",
+  "generic_modal.cancel": "Cancelar"
 }

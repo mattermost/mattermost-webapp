@@ -3967,5 +3967,6 @@
   "admin.channel_list.public": "Herkese Açık",
   "admin.channel_list.private": "Özel",
   "admin.channel_list.group_sync": "Grup ile Eşitlenen",
-  "admin.channel_list.archived": "Arşivlenmiş"
+  "admin.channel_list.archived": "Arşivlenmiş",
+  "announcement_bar.error.warn_metric_status.link": "Ayrıntılı bilgi alın"
 }
