@@ -63,7 +63,7 @@
     .badge {
         display: inline-block;
         flex-shrink: 0;
-        margin-right: 14px;
+        margin-right: 3px;
         padding: 0 6px;
         min-width: 22px;
         height: auto;
@@ -368,9 +368,13 @@
         border-radius: 4px;
     }
 
-    .SidebarMenu_menuButton:hover, .SidebarMenu_menuButton:active, .SidebarMenu_menuButton:focus {
-        cursor: pointer;
-        color: var(--sidebar-text);
+    .SidebarMenu_menuButton {
+        &:hover,
+        &:active,
+        &:focus {
+            cursor: pointer;
+            color: var(--sidebar-text);
+        }
     }
 
     .SidebarMenu_menuButton:focus {
@@ -851,7 +855,6 @@
         .SidebarMenu_menuButton {
             height: 28px;
             width: 28px;
-            margin-right: 11px;
         }
     }
 
@@ -890,7 +893,7 @@
         position: relative;
         font-size: 14px;
         text-decoration: none;
-        padding: 0 5px 0 14px;
+        padding: 7px 16px 7px 14px;
         display: flex;
         color: rgba(var(--sidebar-text-rgb), 0.6);
         align-items: center;
@@ -918,6 +921,12 @@
 
     .SidebarChannel .SidebarLink:hover {
         background: rgba(255, 255, 255, 0.08);
+
+        padding-right: 5px;
+
+        .SidebarMenu_menuButton {
+            margin-right: 11px;
+        }
 
         .SidebarMenu {
             display: block;
@@ -961,7 +970,6 @@
     .SidebarChannel span.SidebarChannelLinkLabel {
         width: 100%;
         white-space: nowrap;
-        padding-right: 10px;
         line-height: 18px;
         text-align: justify;
         height: 18px;
@@ -970,7 +978,6 @@
     .SidebarChannelLinkLabel_wrapper {
         overflow: hidden;
         display: flex;
-        margin-right: 16px;
 
         > span {
             text-overflow: ellipsis;
