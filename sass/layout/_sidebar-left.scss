@@ -924,7 +924,13 @@
         }
 
         .badge {
-            display: none;
+            // Hide the badge by giving it 0 width instead of using `display: none` since the desktop app only counts
+            // badges with a non-zero offsetHeight when counting notifications
+            margin: 0px;
+            min-width: 0px;
+            overflow: hidden;
+            padding: 0px;
+            width: 0px;
         }
     }
     .SidebarChannel.active .SidebarLink {
