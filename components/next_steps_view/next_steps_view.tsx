@@ -43,7 +43,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
         super(props);
 
         this.state = {
-            showFinalScreen: true, //false,
+            showFinalScreen: false,
             showTransitionScreen: false,
         };
     }
@@ -95,9 +95,11 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
     }
 
     setTimerToFinalScreen = () => {
-        setTimeout(() => {
-            this.setState({showFinalScreen: true});
-        }, TRANSITION_SCREEN_TIMEOUT);
+        if (this.state.showTransitionScreen) {
+            setTimeout(() => {
+                this.setState({showFinalScreen: true});
+            }, TRANSITION_SCREEN_TIMEOUT);
+        }
     }
 
     nextStep = (setExpanded: (expandedKey: string) => void, id: string) => {

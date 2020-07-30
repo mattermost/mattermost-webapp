@@ -12,7 +12,6 @@
     height: 100%;
     width: 100%;
     transition: left 0.8s ease-in;
-    overflow-y: auto;
 }
 
 .NextStepsView__mainView {
@@ -79,7 +78,7 @@
 
 .NextStepsView__body {
     display: flex;
-    height: auto;
+    height: 100%;
 }
 
 .NextStepsView__body-main {
@@ -417,6 +416,15 @@
         .Card + .Card {
             margin-top: 16px;
         }
+    }
+
+    .NextStepsView__body {
+        height: auto;
+    }
+
+    .NextStepsView__viewWrapper {
+        overflow-y: auto;
+        overflow-x: hidden;
     }
 }
 
