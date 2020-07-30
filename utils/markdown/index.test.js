@@ -103,8 +103,8 @@ this is long text this is long text this is long text this is long text this is 
 
     test('should highlight code with Tex highlighting without rendering', () => {
         const output = format(`~~~texcode
-        \\sqrt{x * y + 2}
-        ~~~`);
+\\sqrt{x * y + 2}
+~~~`);
 
         expect(output).toContain('<span class="post-code__language">TeX</span>');
         expect(output).toContain('<code class="hljs hljs-ln">');
