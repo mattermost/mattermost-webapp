@@ -67,19 +67,14 @@ export default class PasswordSettings extends AdminSettings {
                 }}
             />
         );
-
-        this.lowercase = React.createRef();
-        this.uppercase = React.createRef();
-        this.number = React.createRef();
-        this.symbol = React.createRef();
     }
 
     getConfigFromState = (config) => {
         config.PasswordSettings.MinimumLength = this.parseIntNonZero(this.state.passwordMinimumLength, Constants.MIN_PASSWORD_LENGTH);
-        config.PasswordSettings.Lowercase = this.lowercase.current.checked;
-        config.PasswordSettings.Uppercase = this.uppercase.current.checked;
-        config.PasswordSettings.Number = this.number.current.checked;
-        config.PasswordSettings.Symbol = this.symbol.current.checked;
+        config.PasswordSettings.Lowercase = this.state.passwordLowercase;
+        config.PasswordSettings.Uppercase = this.state.passwordUppercase;
+        config.PasswordSettings.Number = this.state.passwordNumber;
+        config.PasswordSettings.Symbol = this.state.passwordSymbol;
 
         config.ServiceSettings.MaximumLoginAttempts = this.parseIntNonZero(this.state.maximumLoginAttempts);
 
@@ -97,7 +92,7 @@ export default class PasswordSettings extends AdminSettings {
         };
     }
 
-    getSampleErrorMsg = (minLength) => {
+    getSampleErrorMsg = () => {
         if (this.props.config.PasswordSettings.MinimumLength > Constants.MAX_PASSWORD_LENGTH || this.props.config.PasswordSettings.MinimumLength < Constants.MIN_PASSWORD_LENGTH) {
             return (
                 <FormattedMessage
@@ -107,16 +102,16 @@ export default class PasswordSettings extends AdminSettings {
             );
         }
         let sampleErrorMsgId = 'user.settings.security.passwordError';
-        if (this.lowercase.current.checked) {
+        if (this.state.passwordLowercase) {
             sampleErrorMsgId += 'Lowercase';
         }
-        if (this.uppercase.current.checked) {
+        if (this.state.passwordUppercase) {
             sampleErrorMsgId += 'Uppercase';
         }
-        if (this.number.current.checked) {
+        if (this.state.passwordNumber) {
             sampleErrorMsgId += 'Number';
         }
-        if (this.symbol.current.checked) {
+        if (this.state.passwordSymbol) {
             sampleErrorMsgId += 'Symbol';
         }
         return (
@@ -124,7 +119,7 @@ export default class PasswordSettings extends AdminSettings {
                 id={sampleErrorMsgId}
                 default='Your password must contain between {min} and {max} characters.'
                 values={{
-                    min: (minLength || Constants.MIN_PASSWORD_LENGTH),
+                    min: (this.state.passwordMinimumLength || Constants.MIN_PASSWORD_LENGTH),
                     max: Constants.MAX_PASSWORD_LENGTH,
                 }}
             />
@@ -132,13 +127,13 @@ export default class PasswordSettings extends AdminSettings {
     }
 
     handlePasswordLengthChange = (id, value) => {
-        this.sampleErrorMsg = this.getSampleErrorMsg(value);
         this.handleChange(id, value);
     }
 
-    handleCheckboxChange = (id, value) => {
-        this.sampleErrorMsg = this.getSampleErrorMsg(this.state.passwordMinimumLength);
-        this.handleChange(id, value);
+    handleCheckboxChange = (id) => {
+        return ({target: {checked}}) => {
+            this.handleChange(id, checked);
+        };
     }
 
     renderTitle() {
@@ -192,7 +187,7 @@ export default class PasswordSettings extends AdminSettings {
                                     ref={this.lowercase}
                                     defaultChecked={this.state.passwordLowercase}
                                     name='admin.password.lowercase'
-                                    onChange={this.handleCheckboxChange}
+                                    onChange={this.handleCheckboxChange('passwordLowercase')}
                                 />
                                 <FormattedMessage
                                     id='admin.password.lowercase'
@@ -207,7 +202,7 @@ export default class PasswordSettings extends AdminSettings {
                                     ref={this.uppercase}
                                     defaultChecked={this.state.passwordUppercase}
                                     name='admin.password.uppercase'
-                                    onChange={this.handleCheckboxChange}
+                                    onChange={this.handleCheckboxChange('passwordUppercase')}
                                 />
                                 <FormattedMessage
                                     id='admin.password.uppercase'
@@ -222,7 +217,7 @@ export default class PasswordSettings extends AdminSettings {
                                     ref={this.number}
                                     defaultChecked={this.state.passwordNumber}
                                     name='admin.password.number'
-                                    onChange={this.handleCheckboxChange}
+                                    onChange={this.handleCheckboxChange('passwordNumber')}
                                 />
                                 <FormattedMessage
                                     id='admin.password.number'
@@ -237,7 +232,7 @@ export default class PasswordSettings extends AdminSettings {
                                     ref={this.symbol}
                                     defaultChecked={this.state.passwordSymbol}
                                     name='admin.password.symbol'
-                                    onChange={this.handleCheckboxChange}
+                                    onChange={this.handleCheckboxChange('passwordSymbol')}
                                 />
                                 <FormattedMessage
                                     id='admin.password.symbol'
@@ -254,7 +249,7 @@ export default class PasswordSettings extends AdminSettings {
                                 />
                             </label>
                             <br/>
-                            {this.sampleErrorMsg}
+                            {this.getSampleErrorMsg()}
                         </div>
                     </Setting>
                 </div>
