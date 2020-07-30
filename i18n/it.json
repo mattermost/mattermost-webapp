@@ -3165,7 +3165,7 @@
   "admin.integrations.integrationManagement": "Gestione integrazioni",
   "admin.integrations.integrationManagement.title": "Gestione integrazioni",
   "admin.jobTable.statusWarning": "Avviso",
-  "admin.ldap_feature_discovery.call_to_action.primary": "Richiedi prova",
+  "admin.ldap_feature_discovery.call_to_action.primary": "Inizia il periodo di prova",
   "admin.ldap_feature_discovery.call_to_action.secondary": "Scopri di più",
   "admin.ldap_feature_discovery.title": "Integra Active Directory / LDAP con Mattermost Enterprise E10",
   "admin.ldap.adminFilterEx": "E.s.: \"(objectClass=user)\"",
