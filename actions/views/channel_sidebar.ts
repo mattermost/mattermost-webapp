@@ -4,6 +4,7 @@
 import {createCategory as createCategoryRedux, moveChannelToCategory} from 'mattermost-redux/actions/channel_categories';
 import {getCategory, makeGetChannelsForCategory} from 'mattermost-redux/selectors/entities/channel_categories';
 import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
+import {GlobalState} from 'mattermost-redux/types/store';
 import {insertWithoutDuplicates} from 'mattermost-redux/utils/array_utils';
 
 import {setItem} from 'actions/storage';
