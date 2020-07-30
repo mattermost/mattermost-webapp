@@ -3977,5 +3977,6 @@
   "admin.channel_list.public": "公開",
   "admin.channel_list.private": "非公開",
   "admin.channel_list.group_sync": "グループ同期",
-  "admin.channel_list.archived": "アーカイブ"
+  "admin.channel_list.archived": "アーカイブ",
+  "announcement_bar.error.warn_metric_status.link": "詳しく知る"
 }
