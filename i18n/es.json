@@ -3971,5 +3971,9 @@
   "admin.support.enableAskCommunityDesc": "Cuando es verdadero, el enlace \"Preguntar a la comunidad\" aparece en la interfaz de usuario de Mattermost y en el Menú principal, que permite a los usuarios unirse a la Comunidad de Mattermost para hacer preguntas y ayudar a otros a solucionar problemas. Cuando es falso, el enlace está oculto para los usuarios.",
   "generic_modal.confirm": "Confirmar",
   "generic_modal.cancel": "Cancelar",
-  "announcement_bar.error.warn_metric_status.link": "Conocer más"
+  "announcement_bar.error.warn_metric_status.link": "Conocer más",
+  "admin.channel_list.public": "Público",
+  "admin.channel_list.private": "Privado",
+  "admin.channel_list.group_sync": "Sincronización de Grupo",
+  "admin.channel_list.archived": "Archivado"
 }

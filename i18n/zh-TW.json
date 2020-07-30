@@ -3955,5 +3955,7 @@
   "admin.channel_list.private": "私人",
   "admin.channel_list.manual_invites": "手動邀請",
   "admin.channel_list.group_sync": "群組同步",
-  "admin.channel_list.archived": "已封存"
+  "admin.channel_list.archived": "已封存",
+  "sidebar_left.sidebar_category_menu.createCategory": "建立分類",
+  "sidebar_left.add_channel_dropdown.createCategory": "建立分類"
 }

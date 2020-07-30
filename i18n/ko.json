@@ -3915,5 +3915,9 @@
   "admin.license.trial-request.submit": "Request trial",
   "generic_modal.confirm": "확인",
   "generic_modal.cancel": "취소",
-  "announcement_bar.error.warn_metric_status.link": "더 알아보기"
+  "announcement_bar.error.warn_metric_status.link": "더 알아보기",
+  "admin.channel_list.public": "공개",
+  "admin.channel_list.private": "비공개",
+  "admin.channel_list.group_sync": "그룹 동기화",
+  "admin.channel_list.archived": "보관됨"
 }

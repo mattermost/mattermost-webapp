@@ -3964,5 +3964,9 @@
   "channel_header.userHelpGuide": "Yardım",
   "generic_modal.confirm": "Onayla",
   "generic_modal.cancel": "İptal",
-  "announcement_bar.error.warn_metric_status.link": "Ayrıntılı bilgi alın"
+  "announcement_bar.error.warn_metric_status.link": "Ayrıntılı bilgi alın",
+  "admin.channel_list.public": "Herkese Açık",
+  "admin.channel_list.private": "Özel",
+  "admin.channel_list.group_sync": "Grup ile Eşitlenen",
+  "admin.channel_list.archived": "Arşivlenmiş"
 }

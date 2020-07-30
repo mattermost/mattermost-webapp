@@ -3967,5 +3967,7 @@
   "announcement_bar.error.warn_metric_status.link": "Meer Informatie",
   "admin.channel_list.archived": "Gearchiveerd",
   "admin.channel_list.manual_invites": "Manueel uitnodigen",
-  "admin.channel_list.group_sync": "Groepssynchronisatie"
+  "admin.channel_list.group_sync": "Groepssynchronisatie",
+  "admin.channel_list.public": "Publiek",
+  "admin.channel_list.private": "Privé"
 }

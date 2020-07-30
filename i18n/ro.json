@@ -3934,5 +3934,9 @@
   "sidebar.types.channels": "CANALE",
   "generic_modal.confirm": "Confirma",
   "generic_modal.cancel": "Anulează",
-  "announcement_bar.error.warn_metric_status.link": "Aflați mai multe"
+  "announcement_bar.error.warn_metric_status.link": "Aflați mai multe",
+  "admin.channel_list.public": "Public",
+  "admin.channel_list.private": "Privat",
+  "admin.channel_list.group_sync": "Sincronizare de grup",
+  "admin.channel_list.archived": "Arhivat"
 }
