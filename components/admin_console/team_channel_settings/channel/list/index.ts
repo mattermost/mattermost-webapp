@@ -9,6 +9,7 @@ import {getAllChannelsWithCount as getData, searchAllChannels} from 'mattermost-
 import {getAllChannels} from 'mattermost-redux/selectors/entities/channels';
 import {GenericAction, ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
 import {ChannelWithTeamData, ChannelSearchOpts} from 'mattermost-redux/types/channels';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {GlobalState} from 'types/store';
 import {Constants} from 'utils/constants';
@@ -26,6 +27,7 @@ const getSortedListOfChannels = createSelector(
 
 function mapStateToProps(state: GlobalState) {
     return {
+        viewArchivedChannels: getConfig(state).ExperimentalViewArchivedChannels === 'true',
         data: getSortedListOfChannels(state) as ChannelWithTeamData[],
         total: state.entities.channels.totalCount,
     };

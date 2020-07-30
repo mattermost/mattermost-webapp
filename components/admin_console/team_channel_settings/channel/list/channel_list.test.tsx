@@ -13,7 +13,7 @@ import ChannelList from './channel_list';
 describe('admin_console/team_channel_settings/channel/ChannelList', () => {
     const channel: Channel = Object.assign(TestHelper.getChannelMock({id: 'channel-1'}));
 
-    test('should match snapshot', () => {
+    test('should match snapshot with viewArchivedChannels', () => {
         const testChannels = [{
             ...channel,
             id: '123',
@@ -33,13 +33,14 @@ describe('admin_console/team_channel_settings/channel/ChannelList', () => {
                 data={testChannels}
                 total={testChannels.length}
                 actions={actions}
+                viewArchivedChannels={true}
             />);
 
         wrapper.setState({loading: false});
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match snapshot with paging', () => {
+    test('should match snapshot with paging and viewArchivedChannels = false', () => {
         const testChannels = [];
         for (let i = 0; i < 30; i++) {
             testChannels.push({
@@ -61,6 +62,7 @@ describe('admin_console/team_channel_settings/channel/ChannelList', () => {
                 data={testChannels}
                 total={30}
                 actions={actions}
+                viewArchivedChannels={false}
             />);
         wrapper.setState({loading: false});
         expect(wrapper).toMatchSnapshot();

@@ -29,6 +29,7 @@ interface ChannelListProps {
     };
     data: ChannelWithTeamData[];
     total: number;
+    viewArchivedChannels: boolean;
     removeGroup?: () => void;
     onPageChangedCallback?: () => void;
     emptyListTextId?: string;
@@ -350,6 +351,12 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
                 keys: ['public', 'private', 'deleted'],
             },
         };
+
+        if (!this.props.viewArchivedChannels) {
+            delete filterOptions.channels.values.deleted;
+            filterOptions.channels.keys = ['public', 'private'];
+        }
+
         const filterProps = {
             options: filterOptions,
             keys: ['teams', 'channels', 'management'],
