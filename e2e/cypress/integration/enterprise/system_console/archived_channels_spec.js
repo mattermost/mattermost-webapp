@@ -6,9 +6,16 @@
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
+import {testWithConfig} from '../../../support/hooks';
 
 describe('Archived channels', () => {
     let testChannel;
+
+    testWithConfig({
+        TeamSettings: {
+            ExperimentalViewArchivedChannels: true,
+        },
+    });
 
     before(() => {
         cy.apiRequireLicense();
