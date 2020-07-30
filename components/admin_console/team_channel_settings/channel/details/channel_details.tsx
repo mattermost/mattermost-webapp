@@ -458,6 +458,13 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
             if (resultWithError && 'error' in resultWithError) {
                 serverError = <FormError error={resultWithError.error.message}/>;
             } else {
+                if (unlink.length > 0) {
+                    trackEvent('admin_channel_config_page', 'groups_removed_from_channel', {count: unlink.length, channel_id: channelID});
+                }
+                if (link.length > 0) {
+                    trackEvent('admin_channel_config_page', 'groups_added_to_channel', {count: unlink.length, channel_id: channelID});
+                }
+
                 const actionsToAwait: any[] = [actions.getGroups(channelID)];
                 if (isPrivacyChanging) {
                     // If the privacy is changing update the manage_members value for the channel moderation widget
