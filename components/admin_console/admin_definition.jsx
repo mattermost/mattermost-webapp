@@ -814,7 +814,7 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
-                        key: 'FileSettings.AmazonSPathPrefix',
+                        key: 'FileSettings.AmazonS3PathPrefix',
                         label: t('admin.image.amazonS3PathPrefixTitle'),
                         label_default: 'Amazon S3 Path Prefix:',
                         help_text: t('admin.image.amazonS3PathPrefixDescription'),
@@ -1616,6 +1616,7 @@ const AdminDefinition = {
                         label_default: 'Enable Ask Community Link:',
                         help_text: t('admin.support.enableAskCommunityDesc'),
                         help_text_default: 'When true, "Ask the community" link appears on the Mattermost user interface and Main Menu, which allows users to join the Mattermost Community to ask questions and help others troubleshoot issues. When false, the link is hidden from users.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -5015,7 +5016,7 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
-                        key: 'DisplaySettings.ExperimentalDataPrefetch',
+                        key: 'ServiceSettings.ExperimentalDataPrefetch',
                         label: t('admin.experimental.experimentalDataPrefetch.title'),
                         label_default: 'Preload messages in unread channels:',
                         help_text: t('admin.experimental.experimentalDataPrefetch.desc'),
