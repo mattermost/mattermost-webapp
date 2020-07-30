@@ -110,7 +110,7 @@ class SidebarCategoryMenu extends React.PureComponent<Props, State> {
                         id={`create-${category.id}`}
                         onClick={this.createCategory}
                         icon={<i className='icon-folder-plus-outline'/>}
-                        text={intl.formatMessage({id: 'sidebar_left.sidebar_category_menu.createCategory', defaultMessage: 'Create Category'})}
+                        text={intl.formatMessage({id: 'sidebar_left.sidebar_category_menu.createCategory', defaultMessage: 'Create New Category'})}
                     />
                 </Menu.Group>
             </React.Fragment>
