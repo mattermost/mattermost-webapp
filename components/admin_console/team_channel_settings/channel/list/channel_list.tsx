@@ -12,12 +12,14 @@ import {debounce} from 'mattermost-redux/actions/helpers';
 import {browserHistory} from 'utils/browser_history';
 
 import {Constants} from 'utils/constants';
+import {isArchivedChannel} from 'utils/channel_utils';
 import DataGrid, {Row, Column} from 'components/admin_console/data_grid/data_grid';
 import {FilterOptions} from 'components/admin_console/filter/filter';
 import TeamFilterDropdown from 'components/admin_console/filter/team_filter_dropdown';
 import {PAGE_SIZE} from 'components/admin_console/team_channel_settings/abstract_list.jsx';
 import GlobeIcon from 'components/widgets/icons/globe_icon';
 import LockIcon from 'components/widgets/icons/lock_icon';
+import ArchiveIcon from 'components/widgets/icons/archive_icon';
 
 import './channel_list.scss';
 interface ChannelListProps {
@@ -173,6 +175,16 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
         channelsToDisplay = channelsToDisplay.slice(startCount - 1, endCount);
 
         return channelsToDisplay.map((channel) => {
+            let iconToDisplay = <GlobeIcon className='channel-icon'/>;
+
+            if (channel.type === Constants.PRIVATE_CHANNEL) {
+                iconToDisplay = <LockIcon className='channel-icon'/>;
+            }
+
+            if (isArchivedChannel(channel)) {
+                iconToDisplay = <ArchiveIcon className='channel-icon'/>;
+            }
+
             return {
                 cells: {
                     id: channel.id,
@@ -181,11 +193,7 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
                             className='group-name overflow--ellipsis row-content'
                             data-testid='channel-display-name'
                         >
-                            {channel.type === Constants.PRIVATE_CHANNEL ? (
-                                <LockIcon className='channel-icon channel-icon__lock channel-icon___lowerOpacity'/>
-                            ) : (
-                                <GlobeIcon className='channel-icon channel-icon__globe channel-icon___lowerOpacity'/>
-                            )}
+                            {iconToDisplay}
                             <span className='TeamList_channelDisplayName'>
                                 {channel.display_name}
                             </span>
