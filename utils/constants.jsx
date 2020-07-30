@@ -361,6 +361,10 @@ export const SocketEvents = {
     RECEIVED_GROUP_NOT_ASSOCIATED_TO_CHANNEL: 'received_group_not_associated_to_channel',
     WARN_METRIC_STATUS_RECEIVED: 'warn_metric_status_received',
     WARN_METRIC_STATUS_REMOVED: 'warn_metric_status_removed',
+    SIDEBAR_CATEGORY_CREATED: 'sidebar_category_created',
+    SIDEBAR_CATEGORY_UPDATED: 'sidebar_category_updated',
+    SIDEBAR_CATEGORY_DELETED: 'sidebar_category_deleted',
+    SIDEBAR_CATEGORY_ORDER_UPDATED: 'sidebar_category_order_updated',
 };
 
 export const TutorialSteps = {
@@ -497,6 +501,7 @@ export const ErrorPageTypes = {
     OAUTH_ACCESS_DENIED: 'oauth_access_denied',
     OAUTH_MISSING_CODE: 'oauth_missing_code',
     OAUTH_INVALID_PARAM: 'oauth_invalid_param',
+    OAUTH_INVALID_REDIRECT_URL: 'oauth_invalid_redirect_url',
     PAGE_NOT_FOUND: 'page_not_found',
     PERMALINK_NOT_FOUND: 'permalink_not_found',
     TEAM_NOT_FOUND: 'team_not_found',
