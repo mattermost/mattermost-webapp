@@ -12,6 +12,7 @@
     height: 100%;
     width: 100%;
     transition: left 0.8s ease-in;
+    overflow-y: auto;
 }
 
 .NextStepsView__mainView {
@@ -78,7 +79,7 @@
 
 .NextStepsView__body {
     display: flex;
-    height: 100%;
+    height: auto;
 }
 
 .NextStepsView__body-main {
@@ -287,28 +288,35 @@
 }
 
 .NextStepsView__nextStepsCards {
-    display: flex;
+    display: flex; 
     width: 100%;
     margin-top: 88px;
-    justify-content: space-between;
     padding: 0 40px;
+    flex-wrap: wrap;
 
     .Card {
         flex: 1 0 310px;
+        margin-bottom: 24px;
+        margin-right: 24px;
+        max-width: 420px;
     }
 
     .Card + .Card {
         margin-top: 0;
-        margin-left: 24px;
+        //margin-left: 24px;
     }
 
     .Card__body {
         padding: 32px;
         border: none;
         margin: 0;
+        height: 194px;
+        display: flex;
+        flex-direction: column;
 
         > span {
             display: block;
+            flex-grow: 1;
         }
     }
 
@@ -322,6 +330,7 @@
 
     button {
         margin-top: 16px;
+        width: max-content;
 
         i {
             margin-left: 4px;
@@ -331,7 +340,7 @@
 }
 
 .NextStepsView__download {
-    margin-top: 64px;
+    margin-top: 40px;
     padding: 32px 72px;
     display: flex;
     align-content: center;
@@ -380,6 +389,7 @@
     border: none;
     margin: 20px;
     padding: 0;
+    height: auto;
 
     i {
         margin: 0;
@@ -390,6 +400,23 @@
     span {
         margin-left: 10px;
         font-weight: 600;
+    }
+}
+
+@media screen and (max-width: 1060px) {
+    .NextStepsView__nextStepsCards {
+        flex-direction: column;
+        margin-top: 0;
+
+        .Card {
+            flex-basis: auto;
+            max-width: unset;
+            margin-right: 0;
+        }
+
+        .Card + .Card {
+            margin-top: 16px;
+        }
     }
 }
 
@@ -405,20 +432,6 @@
 
     .NextStepsView__body-main {
         padding: 0 40px;
-    }
-
-    .NextStepsView__nextStepsCards {
-        flex-direction: column;
-        margin-top: 0;
-
-        .Card {
-            flex-basis: auto;
-        }
-
-        .Card + .Card {
-            margin-left: 0;
-            margin-top: 16px;
-        }
     }
 
     .NextStepsView__tipsMobileMessage {
@@ -447,5 +460,10 @@
     
     .NextStepsView__nextStepsCards, .NextStepsView__download, .NextStepsView__tipsMobileMessage {
         padding: 0 12px;
+    }
+
+    .NextStepsView__transitionBody > img {
+        max-width: 85%;
+        left: 10%;
     }
 }

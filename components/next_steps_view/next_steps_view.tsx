@@ -43,7 +43,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
         super(props);
 
         this.state = {
-            showFinalScreen: false,
+            showFinalScreen: true, //false,
             showTransitionScreen: false,
         };
     }
@@ -159,7 +159,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
             nonMobileTips = (
                 <>
                     <Card expanded={true}>
-                        <Card.Body>
+                        <div className='Card__body'>
                             <h3>
                                 <FormattedMessage
                                     id='next_steps_view.tips.configureLogin'
@@ -180,10 +180,10 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                                 />
                                 <i className='icon icon-chevron-down'/>
                             </button>
-                        </Card.Body>
+                        </div>
                     </Card>
                     <Card expanded={true}>
-                        <Card.Body>
+                        <div className='Card__body'>
                             <h3>
                                 <FormattedMessage
                                     id='next_steps_view.tips.addPlugins'
@@ -203,7 +203,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                                     defaultMessage='Add plugins'
                                 />
                             </button>
-                        </Card.Body>
+                        </div>
                     </Card>
                 </>
             );
@@ -214,13 +214,13 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
             downloadSection = (
                 <div className='NextStepsView__tipsMobileMessage'>
                     <Card expanded={true}>
-                        <Card.Body>
+                        <div className='Card__body'>
                             <i className='icon icon-laptop'/>
                             <FormattedMessage
                                 id='next_steps_view.mobile_tips_message'
                                 defaultMessage='To configure your workspace, continue on a desktop computer.'
                             />
-                        </Card.Body>
+                        </div>
                     </Card>
                 </div>
             );
@@ -254,7 +254,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                         </div>
                     </div>
                 </div>
-            )
+            );
         }
 
         // TODO
@@ -279,7 +279,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                 <div className='NextStepsView__body'>
                     <div className='NextStepsView__nextStepsCards'>
                         <Card expanded={true}>
-                            <Card.Body>
+                            <div className='Card__body'>
                                 <h3>
                                     <FormattedMessage
                                         id='next_steps_view.tips.takeATour'
@@ -299,7 +299,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                                         defaultMessage='Take the tour'
                                     />
                                 </button>
-                            </Card.Body>
+                            </div>
                         </Card>
                         {nonMobileTips}
                     </div>
