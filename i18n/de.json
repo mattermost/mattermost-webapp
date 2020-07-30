@@ -3916,5 +3916,6 @@
   "admin.channel_list.public": "Öffentlich",
   "admin.channel_list.private": "Privat",
   "admin.channel_list.group_sync": "Grunpensynchronisierung",
-  "admin.channel_list.archived": "Archiviert"
+  "admin.channel_list.archived": "Archiviert",
+  "announcement_bar.error.warn_metric_status.link": "Mehr erfahren"
 }
