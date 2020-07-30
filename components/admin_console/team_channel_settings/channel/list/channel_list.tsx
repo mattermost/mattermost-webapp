@@ -185,7 +185,7 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
                 iconToDisplay = (
                     <ArchiveIcon
                         className='channel-icon'
-                        data-testid={`${channel.display_name}-archive-icon`}
+                        data-testid={`${channel.name}-archive-icon`}
                     />
                 );
             }
