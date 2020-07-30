@@ -32,7 +32,7 @@ export const getConsoleAccess = createSelector(
         const addEntriesForKey = (entryKey) => {
             const permissions = ResourceToSysConsolePermissionsTable[entryKey].filter((x) => mySystemPermissions.has(x));
             consoleAccess.read[entryKey] = permissions.length !== 0;
-            consoleAccess.write[entryKey] = permissions.some((permission) => permission.startsWith('write'));
+            consoleAccess.write[entryKey] = permissions.some((permission) => permission.startsWith('sysconsole_write_'));
         };
         const mapAccessValuesForKey = ([key]) => {
             if (key === 'user_management') {
