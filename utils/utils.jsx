@@ -1023,12 +1023,12 @@ export function updateCodeTheme(userTheme) {
         }
     });
     const $link = $('link.code_theme');
-    if (cssPath !== $link.attr('href')) {
+    if (cssPath !== $link.attr('href')) { // eslint-disable-line jquery/no-attr
         changeCss('code.hljs', 'visibility: hidden');
         var xmlHTTP = new XMLHttpRequest();
         xmlHTTP.open('GET', cssPath, true);
         xmlHTTP.onload = function onLoad() {
-            $link.attr('href', cssPath);
+            $link.attr('href', cssPath); // eslint-disable-line jquery/no-attr
             if (UserAgent.isFirefox()) {
                 $link.one('load', () => {
                     changeCss('code.hljs', 'visibility: visible');
