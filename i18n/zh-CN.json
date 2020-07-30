@@ -3972,5 +3972,7 @@
   "admin.channel_list.public": "公开",
   "admin.channel_list.private": "私有",
   "admin.channel_list.group_sync": "组同步",
-  "admin.channel_list.archived": "已归档"
+  "admin.channel_list.archived": "已归档",
+  "admin.jobTable.headerFiles": "文件",
+  "admin.jobTable.downloadLink": "下载"
 }

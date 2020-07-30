@@ -3996,5 +3996,7 @@
   "admin.filter.count_more": "+{count, number} más",
   "admin.filter.apply": "Aplicar",
   "admin.filter.all_teams": "Todos los Equipos",
-  "admin.channel_list.manual_invites": "Invitaciones Manuales"
+  "admin.channel_list.manual_invites": "Invitaciones Manuales",
+  "admin.jobTable.headerFiles": "Archivos",
+  "admin.jobTable.downloadLink": "Descargar"
 }

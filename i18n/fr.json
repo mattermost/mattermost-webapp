@@ -3917,5 +3917,7 @@
   "admin.channel_list.public": "Public",
   "admin.channel_list.private": "Privé",
   "admin.channel_list.group_sync": "Synchronisation de groupes",
-  "admin.channel_list.archived": "Archivé"
+  "admin.channel_list.archived": "Archivé",
+  "admin.jobTable.headerFiles": "Fichiers",
+  "admin.jobTable.downloadLink": "Télécharger"
 }
