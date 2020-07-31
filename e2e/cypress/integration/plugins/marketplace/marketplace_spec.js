@@ -136,8 +136,9 @@ describe('Plugin Marketplace', () => {
             // * install one plugin
             cy.apiInstallPluginFromUrl('https://github.com/mattermost/mattermost-plugin-github/releases/download/v0.7.0/github-0.7.0.tar.gz', true);
 
-            // * one local plugin should be visible
-            cy.get('#marketplaceTabs-pane-allPlugins').find('.more-modal__row').should('have.length', 1);
+            // * one local plugin should be installed
+            cy.get('#marketplaceTabs-tab-installed').click();
+            cy.get('#marketplaceTabs-pane-installed').find('.more-modal__row').should('have.length', 1);
 
             // * Should be an error connecting to the marketplace server
             cy.get('#error_bar').contains('Error connecting to the marketplace server');
@@ -263,13 +264,14 @@ describe('Plugin Marketplace', () => {
             cy.apiRemovePluginById('com.mattermost.webex');
 
             // * webex plugin should be visible
+            cy.findByText('Next').click();
             cy.get('#marketplace-plugin-com\\.mattermost\\.webex').scrollIntoView().should('be.visible');
 
             // # install the webex plugin
             cy.get('#marketplace-plugin-com\\.mattermost\\.webex').find('.btn.btn-primary').click();
 
             // * should show "Configure" after installation
-            cy.get('#marketplace-plugin-com\\.mattermost\\.webex').find('.btn.btn-outline', {timeout: 60000}).should('be.visible').and('have.text', 'Configure');
+            cy.get('#marketplace-plugin-com\\.mattermost\\.webex').find('.btn.btn-outline', {timeout: TIMEOUTS.ONE_MIN}).scrollIntoView().should('be.visible').and('have.text', 'Configure');
         });
 
         it('should install a plugin from search results on demand', () => {
@@ -289,7 +291,7 @@ describe('Plugin Marketplace', () => {
             cy.get('#marketplace-plugin-com\\.mattermost\\.webex').find('.btn.btn-primary').click();
 
             // * should show "Configure" after installation
-            cy.get('#marketplace-plugin-com\\.mattermost\\.webex').find('.btn.btn-outline', {timeout: 60000}).should('be.visible').and('have.text', 'Configure');
+            cy.get('#marketplace-plugin-com\\.mattermost\\.webex').find('.btn.btn-outline', {timeout: TIMEOUTS.ONE_MIN}).scrollIntoView().should('be.visible').and('have.text', 'Configure');
 
             // * search filter should be maintained
             cy.get('#marketplaceTabs-pane-allPlugins').find('.more-modal__row').should('have.length', 1);
@@ -324,7 +326,7 @@ describe('Plugin Marketplace', () => {
             cy.get('#marketplace-plugin-github').find('.update').should('not.be.visible');
 
             // * should show "Configure" after installation
-            cy.get('#marketplace-plugin-github').find('.btn.btn-outline', {timeout: 60000}).should('be.visible').and('have.text', 'Configure');
+            cy.get('#marketplace-plugin-github').find('.btn.btn-outline', {timeout: TIMEOUTS.ONE_MIN}).scrollIntoView().should('be.visible').and('have.text', 'Configure');
 
             // * github plugin should still be visible
             cy.get('#marketplace-plugin-github').should('be.visible');
@@ -402,8 +404,9 @@ describe('Plugin Marketplace', () => {
             // * install one plugin
             cy.apiInstallPluginFromUrl('https://github.com/mattermost/mattermost-plugin-github/releases/download/v0.7.0/github-0.7.0.tar.gz', true);
 
-            // * one local plugin should be visible
-            cy.get('#marketplaceTabs-pane-allPlugins').find('.more-modal__row').should('have.length', 1);
+            // * one local plugin should be installed
+            cy.get('#marketplaceTabs-tab-installed').click();
+            cy.get('#marketplaceTabs-pane-installed').find('.more-modal__row').should('have.length', 1);
 
             // * no error bar should be visible
             cy.get('#error_bar').should('not.exist');
