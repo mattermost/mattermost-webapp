@@ -10,8 +10,6 @@
 // Stage: @prod
 // Group: @channel_sidebar
 
-import {getRandomId} from '../../utils';
-
 describe('Channel sidebar', () => {
     let mainUser;
     let otherUser;
