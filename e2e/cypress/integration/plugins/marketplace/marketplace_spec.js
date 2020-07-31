@@ -386,11 +386,13 @@ describe('Plugin Marketplace', () => {
         beforeEach(() => {
             // # Enable Plugin Marketplace
             // # Disable Plugin Remote Marketplace
+            // # Disable Automatic Prepackaged Plugins to make sure no plugins are loaded
             cy.apiUpdateConfig({
                 PluginSettings: {
                     Enable: true,
                     EnableMarketplace: true,
                     EnableRemoteMarketplace: false,
+                    AutomaticPrepackagedPlugins: false,
                     MarketplaceUrl: 'https://api.integrations.mattermost.com',
                 },
             });
