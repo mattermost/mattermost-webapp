@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/sidebar should match empty div snapshot when teamId is empty 1`] = `<div />`;
+exports[`components/sidebar should match empty div snapshot when teamId is missing 1`] = `<div />`;
 
 exports[`components/sidebar should match snapshot 1`] = `
 <div
@@ -44,8 +44,6 @@ exports[`components/sidebar should match snapshot 1`] = `
   />
 </div>
 `;
-
-exports[`components/sidebar should match snapshot 2`] = `<div />`;
 
 exports[`components/sidebar should match snapshot when direct channels modal is open 1`] = `
 <div
