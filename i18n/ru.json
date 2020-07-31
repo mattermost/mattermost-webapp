@@ -2218,7 +2218,7 @@
   "multiselect.list.notFound": "Ничего не найдено",
   "multiselect.loading": "Загрузка...",
   "multiselect.numMembers": "{memberOptions, number} из {totalCount, number} участников",
-  "multiselect.numPeopleRemaining": "Используйте ↑↓ для навигации, ↵ для выбора. Вы можете добавить еще {num, number} {num, plural, one {человека} other {человек}} за один раз. ",
+  "multiselect.numPeopleRemaining": "Используйте ↑↓ для навигации, ↵ для выбора. Вы можете добавить {num, number} {num, plural, one {человека} other {человек}}. ",
   "multiselect.numRemaining": "Вы можете добавить ещё {num, number}",
   "multiselect.placeholder": "Найти и добавить участников",
   "multiselect.selectTeams": "Используйте ↑↓ для навигации, ↵ для выбора.",
