@@ -107,7 +107,7 @@ function toThemeDisplaySettings() {
     cy.toAccountSettingsModal();
 
     // * Check that the Display tab is loaded, then click on it
-    cy.get('#displayButton').should('be.visible').click();
+    cy.get('#displayButton', {timeout: TIMEOUTS.FIVE_SEC}).should('be.visible').click();
 }
 
 // Open sidebar styles at Account Settings > Display > Theme
