@@ -13,7 +13,7 @@
     border-radius: 4px;
 }
 
-.Input-container {
+.Input_container {
     width: 100%;
 }
 
@@ -25,36 +25,36 @@
     color: rgba(var(--center-channel-color-rgb), 0.64);
 }
 
-.Input-focus {
+.Input___focus {
 }
 
-.Input-error, .Input-info {
+.Input___error, .Input___info {
     font-size: 12px;
     line-height: 16px;
     text-align: left;
     margin-top: 8px;
 }
 
-.Input-error {
+.Input___error {
     color: var(--error-text);
     display: flex;
 }
 
-.Input-error i {
+.Input___error i {
     margin-right: 8px;
     align-self: baseline;
     height: 16px;
 }
 
-.Input-info {
+.Input___info {
     color: rgba(var(--center-channel-color-rgb), 0.56);
 }
 
-.Input-info > span.valid {
+.Input___info > span.valid {
     margin-left: 7px;
 }
 
-.Input-fieldset {
+.Input_fieldset {
     width: 100%;
     position: relative;
     border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
@@ -65,26 +65,26 @@
     padding: 0 1px;
 }
 
-.Input-fieldset:focus-within {
+.Input_fieldset:focus-within {
     border-color: transparent;
     box-shadow: 0 0 0 2px var(--button-bg);
     color: var(--button-bg);
 }
 
-.Input-fieldset-legend {
+.Input_fieldset___legend {
 }
 
-.Input-fieldset-error {
+.Input_fieldset___error {
     color: var(--error-text);
     border-color: transparent;
     box-shadow: 0 0 0 1px var(--error-text);
 }
-.Input-fieldset-error:focus-within {
+.Input_fieldset___error:focus-within {
     color: var(--error-text);
     box-shadow: 0 0 0 2px var(--error-text);
 }
 
-.Input-legend {
+.Input_legend {
     display: flex;
     width: auto;
     transition-duration: 0.15s;
@@ -103,11 +103,11 @@
     border: none;
 }
 
-.Input-fieldset-error .Input-legend{
+.Input_fieldset___error .Input_legend{
     color: var(--error-text);
 }
 
-.Input-legend-focus {
+.Input_legend___focus {
     opacity: 1;
     padding: 0 4px;
     transform: translateY(0);

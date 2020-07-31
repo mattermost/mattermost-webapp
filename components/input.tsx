@@ -75,7 +75,7 @@ export default class Input extends React.PureComponent<Props, State> {
         }
 
         return (
-            <div className='Input-error'>
+            <div className='Input___error'>
                 <i className='icon icon-alert-outline'/>
                 <span>{error}</span>
             </div>
@@ -88,7 +88,7 @@ export default class Input extends React.PureComponent<Props, State> {
         }
 
         return (
-            <div className='Input-info'>
+            <div className='Input___info'>
                 {this.props.info}
             </div>
         );
@@ -98,20 +98,20 @@ export default class Input extends React.PureComponent<Props, State> {
         const {value, placeholder, className, error: propError, hasError, addon, name, ...otherProps} = this.props;
         const {focused, error: stateError} = this.state;
         let inputClass = className ? `Input ${className}` : 'Input';
-        let fieldsetClass = className ? `Input-fieldset ${className}` : 'Input-fieldset';
-        let fieldsetErrorClass = className ? `Input-fieldset Input-fieldset-error ${className}` : 'Input-fieldset Input-fieldset-error';
+        let fieldsetClass = className ? `Input_fieldset ${className}` : 'Input_fieldset';
+        let fieldsetErrorClass = className ? `Input_fieldset Input_fieldset___error ${className}` : 'Input_fieldset Input_fieldset___error';
         const showLegend = Boolean(focused || value);
 
-        inputClass = showLegend ? inputClass + ' Input-focus' : inputClass;
-        fieldsetClass = showLegend ? fieldsetClass + ' Input-fieldset-legend' : fieldsetClass;
-        fieldsetErrorClass = showLegend ? fieldsetErrorClass + ' Input-fieldset-legend' : fieldsetErrorClass;
+        inputClass = showLegend ? inputClass + ' Input___focus' : inputClass;
+        fieldsetClass = showLegend ? fieldsetClass + ' Input_fieldset___legend' : fieldsetClass;
+        fieldsetErrorClass = showLegend ? fieldsetErrorClass + ' Input_fieldset___legend' : fieldsetErrorClass;
 
         const error = propError || stateError;
 
         return (
-            <div className='Input-container'>
+            <div className='Input_container'>
                 <fieldset className={error || hasError ? fieldsetErrorClass : fieldsetClass}>
-                    <legend className={showLegend ? 'Input-legend Input-legend-focus' : 'Input-legend'}>{showLegend ? placeholder : null}</legend>
+                    <legend className={showLegend ? 'Input_legend Input_legend___focus' : 'Input_legend'}>{showLegend ? placeholder : null}</legend>
                     <input
                         id={`input_${name}`}
                         className={inputClass}
