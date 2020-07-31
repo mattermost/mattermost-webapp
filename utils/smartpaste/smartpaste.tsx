@@ -42,6 +42,7 @@ export default function smartPaste(clipboard: DataTransfer, message: string, cur
         doc = fixNestedLists(doc);
 
         formattedMessage = htmlToMarkdown(doc);
+
         // Because turndown swallows some new lines around rule execution
         // results we need to provide a way to enforce the new lines, and this
         // is how we do it.
