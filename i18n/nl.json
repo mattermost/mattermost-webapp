@@ -2218,7 +2218,7 @@
   "multiselect.list.notFound": "Geen items gevonden",
   "multiselect.loading": "Laden...",
   "multiselect.numMembers": "{memberOptions, number} van {totalCount, number} leden",
-  "multiselect.numPeopleRemaining": "Gebruik ↑↓ om te bladeren, ↵ om te kiezen. Je kan toevoegen {num, number} more {num, plural, one {person} other {people}}. ",
+  "multiselect.numPeopleRemaining": "Gebruik ↑↓ om te bladeren, ↵ om te kiezen. Je kan nog {num, number} {num, plural, one {persoon} other {personen}} toevoegen. ",
   "multiselect.numRemaining": "Je kan {num, number} meer toevoegen",
   "multiselect.placeholder": "Zoek en voeg leden toe",
   "multiselect.selectTeams": "Gebruik ↑↓ om te bladeren, ↵ om te selecteren.",
