@@ -802,6 +802,12 @@ export const PostListRowListIds = {
     LOAD_NEWER_MESSAGES_TRIGGER: 'LOAD_NEWER_MESSAGES_TRIGGER',
 };
 
+export const exportFormats = {
+    EXPORT_FORMAT_CSV: 'csv',
+    EXPORT_FORMAT_ACTIANCE: 'actiance',
+    EXPORT_FORMAT_GLOBALRELAY: 'globalrelay',
+};
+
 export const Constants = {
     SettingsTypes,
     JobTypes,

@@ -933,7 +933,10 @@
         }
 
         .badge {
-            display: none;
+            // Hide the badge by hiding it instead of using `display: none` since the desktop app only counts
+            // badges with a non-zero offsetHeight when counting notifications
+            position: absolute;
+            visibility: hidden;
         }
     }
     .SidebarChannel.active .SidebarLink {
@@ -1061,4 +1064,3 @@
         }
     }
 }
-
