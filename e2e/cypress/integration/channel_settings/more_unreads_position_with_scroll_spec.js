@@ -25,11 +25,11 @@ describe('Channel sidebar', () => {
 
             cy.apiCreateUser().then(({user: secondUser}) => {
                 otherUser = secondUser;
-                return secondUser.id;
-            }).then((userId) => cy.apiAddUserToTeam(team.id, userId));
+                cy.apiAddUserToTeam(team.id, secondUser.id);
+            });
 
-            cy.wrap(channelNames).each((name) => {
-                const displayName = `channel-${name}`;
+            Cypress._.times(20, (num) => {
+                const displayName = `channel-${num}`;
                 cy.apiCreateChannel(team.id, name, displayName, 'O', '', '', false).then((response) => {
                     const testChannel = response.body;
                     cy.apiAddUserToChannel(testChannel.id, mainUser.id);
@@ -39,7 +39,7 @@ describe('Channel sidebar', () => {
         });
     });
 
-    it('should display "More Unreads" pill at one of extremities of the sidebar when scrolling is active', () => {
+    it('MM-T888 Channel sidebar: More unreads', () => {
         // Since channels are
         const firstChannelIndex = 0;
         const lastChannelIndex = channelNames.length - 1;
