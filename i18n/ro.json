@@ -2218,7 +2218,7 @@
   "multiselect.list.notFound": "Nu au fost găsite elemente",
   "multiselect.loading": "Se incarca...",
   "multiselect.numMembers": "{memberOptions, number} din {totalCount, number} membrii",
-  "multiselect.numPeopleRemaining": "Utilizați ↑↓ pentru a naviga, ↵ pentru a selecta. Puteți adăuga {num, number} alta {num, plural, one {persoana} sau {persoane}}. ",
+  "multiselect.numPeopleRemaining": "Utilizați ↑↓ pentru a naviga, ↵ pentru a selecta. Puteți adăuga {num, number} inca {num, plural, one {persoana} other {persoane}}. ",
   "multiselect.numRemaining": "Puteți adăuga {num, number} mai mult",
   "multiselect.placeholder": "Căutați și adăugați membri",
   "multiselect.selectTeams": "Utilizați ↑ ↓ pentru a naviga, ↵ pentru a selecta.",
