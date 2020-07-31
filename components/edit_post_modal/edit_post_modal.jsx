@@ -22,6 +22,8 @@ import Textbox from 'components/textbox';
 import TextboxLinks from 'components/textbox/textbox_links';
 
 const KeyCodes = Constants.KeyCodes;
+const TOP_OFFSET = 0;
+const RIGHT_OFFSET = 10;
 
 class EditPostModal extends React.PureComponent {
     static propTypes = {
@@ -203,7 +205,7 @@ class EditPostModal extends React.PureComponent {
         this.editbox.focus();
     }
 
-    getEditPostControls = () => {
+    getTarget = () => {
         return this.refs.editPostEmoji;
     }
 
@@ -412,12 +414,13 @@ class EditPostModal extends React.PureComponent {
                     <EmojiPickerOverlay
                         show={this.state.showEmojiPicker}
                         container={this.getContainer}
-                        target={this.getEditPostControls}
+                        target={this.getTarget}
                         onHide={this.hideEmojiPicker}
                         onEmojiClick={this.handleEmojiClick}
                         onGifClick={this.handleGifClick}
                         enableGifPicker={this.props.config.EnableGifPicker === 'true'}
-                        topOffset={-20}
+                        topOffset={TOP_OFFSET}
+                        rightOffset={RIGHT_OFFSET}
                     />
                     <button
                         aria-label={emojiButtonAriaLabel}
