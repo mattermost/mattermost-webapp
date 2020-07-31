@@ -12,55 +12,6 @@
 
 import {getRandomId} from '../../utils';
 
-function postMessages(testChannel, otherUser, count) {
-    let lastMessage;
-
-    for (let index = 0; index < count; index++) {
-        // # Post Message as Current user
-        const message = `hello from current user: ${getRandomId()}`;
-        cy.postMessage(message);
-        lastMessage = `hello from ${otherUser.username}: ${getRandomId()}`;
-        cy.postMessageAs({sender: otherUser, message: lastMessage, channelId: testChannel.id});
-    }
-
-    return {lastMessage};
-}
-
-function performActionsToLastPost() {
-    // # Take some actions on the last post
-    cy.getLastPostId().then((postId) => {
-        // # Add couple of Reactions
-        cy.clickPostReactionIcon(postId);
-        cy.findByTestId('grinning').click();
-        cy.clickPostReactionIcon(postId);
-        cy.findByTestId('smile').click();
-
-        // # Flag the post
-        cy.clickPostFlagIcon(postId);
-
-        // # Pin the post
-        cy.clickPostDotMenu(postId);
-        cy.get(`#pin_post_${postId}`).click();
-
-        cy.clickPostDotMenu(postId);
-        cy.get('body').type('{esc}');
-    });
-}
-
-function verifyPostLabel(elementId, username, labelSuffix) {
-    // # Shift focus to the last post
-    cy.get(elementId).as('lastPost').should('have.class', 'a11y--active a11y--focused');
-
-    // * Verify reader reads out the post correctly
-    cy.get('@lastPost').then((el) => {
-        // # Get the post time
-        cy.wrap(el).find('time.post__time').invoke('text').then((time) => {
-            const expectedLabel = `At ${time} ${Cypress.moment().format('dddd, MMMM D')}, ${username} ${labelSuffix}`;
-            cy.wrap(el).should('have.attr', 'aria-label', expectedLabel);
-        });
-    });
-}
-
 describe('Verify Accessibility Support in Post', () => {
     let testUser;
     let otherUser;
@@ -315,3 +266,54 @@ describe('Verify Accessibility Support in Post', () => {
         });
     });
 });
+
+function postMessages(testChannel, otherUser, count) {
+    let lastMessage;
+
+    for (let index = 0; index < count; index++) {
+        // # Post Message as Current user
+        const message = `hello from current user: ${getRandomId()}`;
+        cy.postMessage(message);
+        lastMessage = `hello from ${otherUser.username}: ${getRandomId()}`;
+        cy.postMessageAs({sender: otherUser, message: lastMessage, channelId: testChannel.id});
+    }
+
+    return {lastMessage};
+}
+
+function performActionsToLastPost() {
+    // # Take some actions on the last post
+    cy.getLastPostId().then((postId) => {
+        // # Add couple of Reactions
+        cy.clickPostReactionIcon(postId);
+        cy.findByTestId('grinning').click();
+        cy.get(`#postReaction-${postId}-grinning`).should('be.visible');
+        cy.clickPostReactionIcon(postId);
+        cy.findByTestId('smile').click();
+        cy.get(`#postReaction-${postId}-smile`).should('be.visible');
+
+        // # Flag the post
+        cy.clickPostFlagIcon(postId);
+
+        // # Pin the post
+        cy.clickPostDotMenu(postId);
+        cy.get(`#pin_post_${postId}`).click();
+
+        cy.clickPostDotMenu(postId);
+        cy.get('body').type('{esc}');
+    });
+}
+
+function verifyPostLabel(elementId, username, labelSuffix) {
+    // # Shift focus to the last post
+    cy.get(elementId).as('lastPost').should('have.class', 'a11y--active a11y--focused');
+
+    // * Verify reader reads out the post correctly
+    cy.get('@lastPost').then((el) => {
+        // # Get the post time
+        cy.wrap(el).find('time.post__time').invoke('text').then((time) => {
+            const expectedLabel = `At ${time} ${Cypress.moment().format('dddd, MMMM D')}, ${username} ${labelSuffix}`;
+            cy.wrap(el).should('have.attr', 'aria-label', expectedLabel);
+        });
+    });
+}
