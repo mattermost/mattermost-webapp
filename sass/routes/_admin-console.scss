@@ -15,6 +15,11 @@
         flex-direction: column;
         height: 100vh;
 
+        // Fix for Safari on iOS MM-24361
+        @supports (-webkit-touch-callout: none) {
+            height: -webkit-fill-available;
+        }
+
         .announcement-bar--fixed & {
             height: calc(100vh - 32px);
         }
