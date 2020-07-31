@@ -19,12 +19,17 @@ import logoImage from 'images/logo.png';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import OverlayTrigger from 'components/overlay_trigger';
 
+type State = {
+    isLoading: boolean;
+    nameError: string | JSX.Element;
+}
+
 type Props = {
 
     /*
      * Object containing team's display_name and name
      */
-    state: {team: object; wizard: string};
+    state: {team: any; wizard: string};
 
     /*
      * Function that updates parent component with state props
@@ -46,9 +51,12 @@ type Props = {
      */
         createTeam: (team: Team) => ActionFunc;
     };
+    history: {
+        push(path: string): void;
+    };
 }
 
-export default class TeamUrl extends React.PureComponent<Props> {
+export default class TeamUrl extends React.PureComponent<Props, State> {
     public constructor(props: Props) {
         super(props);
 
@@ -74,7 +82,7 @@ export default class TeamUrl extends React.PureComponent<Props> {
         e.preventDefault();
         trackEvent('signup', 'click_finish');
 
-        const name = ReactDOM.findDOMNode<>(this.refs.name).value.trim();
+        const name = (ReactDOM.findDOMNode(this.refs.name) as HTMLInputElement)?.value.trim();
         const cleanedName = URL.cleanUpUrlable(name);
         const urlRegex = /^[a-z]+([a-z\-0-9]+|(__)?)[a-z0-9]+$/g;
         const {actions: {checkIfTeamExists, createTeam}} = this.props;
@@ -130,7 +138,7 @@ export default class TeamUrl extends React.PureComponent<Props> {
         teamSignup.team.type = 'O';
         teamSignup.team.name = name;
 
-        const {exists} = await checkIfTeamExists(name);
+        const {exists}: any = await checkIfTeamExists(name);
 
         if (exists) {
             this.setState({nameError: (
@@ -143,7 +151,7 @@ export default class TeamUrl extends React.PureComponent<Props> {
             return;
         }
 
-        const {data, error} = await createTeam(teamSignup.team);
+        const {data, error}: any = await createTeam(teamSignup.team);
 
         if (data) {
             this.props.history.push('/' + data.name + '/channels/' + Constants.DEFAULT_CHANNEL);
@@ -221,7 +229,7 @@ export default class TeamUrl extends React.PureComponent<Props> {
                                         ref='name'
                                         className='form-control'
                                         placeholder=''
-                                        maxLength='128'
+                                        maxLength={128}
                                         defaultValue={this.props.state.team.name}
                                         autoFocus={true}
                                         onFocus={this.handleFocus}
@@ -264,7 +272,7 @@ export default class TeamUrl extends React.PureComponent<Props> {
                             type='submit'
                             bsStyle='primary'
                             disabled={this.state.isLoading}
-                            onClick={this.submitNext}
+                            onClick={this.submitNext as any}
                         >
                             {finishMessage}
                         </Button>
