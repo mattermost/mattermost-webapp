@@ -10,14 +10,29 @@
 // Stage: @prod @smoke
 // Group: @messaging
 
-import users from '../../fixtures/users.json';
-
 describe('Emoji reactions to posts/messages', () => {
-    it('adding a reaction to a post is visible to another user in the channel', () => {
-        // # Login as "user-1" and go to /
-        cy.apiLogin('user-1');
-        cy.visit('/ad-1/channels/town-square');
+    let userOne;
+    let userTwo;
+    let testTeam;
 
+    before(() => {
+        cy.apiInitSetup().then(({team, user}) => {
+            testTeam = team;
+            userOne = user;
+
+            cy.apiCreateUser().then((data) => {
+                userTwo = data.user;
+
+                cy.apiAddUserToTeam(testTeam.id, userTwo.id);
+
+                // # Login as userOne and town-square
+                cy.apiLogin(userOne);
+                cy.visit(`/${testTeam.name}/channels/town-square`);
+            });
+        });
+    });
+
+    it('adding a reaction to a post is visible to another user in the channel', () => {
         // # Post a message
         cy.postMessage('The reaction to this post should be visible to user-2');
 
@@ -41,18 +56,18 @@ describe('Emoji reactions to posts/messages', () => {
         // # Logout
         cy.apiLogout();
 
-        // # Login as "user-2" and go to /
-        const user2 = users['user-2'];
-        cy.apiLogin(user2.username, user2.password);
-        cy.visit('/ad-1/channels/town-square');
+        // # Login as userTwo and town-square
+        cy.apiLogin(userTwo);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
 
         cy.getLastPostId().then((postId) => {
-            // * user-1's reaction "slightly_frowning_face" is visible and is equal to 1
+            // * userOne's reaction "slightly_frowning_face" is visible and is equal to 1
             cy.get(`#postReaction-${postId}-slightly_frowning_face .Reaction__number--display`).
                 should('have.text', '1').
                 should('be.visible');
         });
     });
+
     it('another user adding to existing reaction increases reaction count', () => {
         cy.getLastPostId().then((postId) => {
             // # Click on the "slightly_frowning_face" emoji
@@ -64,6 +79,7 @@ describe('Emoji reactions to posts/messages', () => {
                 should('be.visible');
         });
     });
+
     it('a reaction added by current user has highlighted background color', () => {
         cy.getLastPostId().then((postId) => {
             // # The "slightly_frowning_face" emoji of the last post and the background color changes
@@ -73,6 +89,7 @@ describe('Emoji reactions to posts/messages', () => {
                 and('eq', 'rgba(22, 109, 224, 0.08)');
         });
     });
+
     it("can click another user's reaction to detract from it", () => {
         cy.getLastPostId().then((postId) => {
             // * The number shown on the "slightly_frowning_face" reaction is currently at 2
@@ -89,6 +106,7 @@ describe('Emoji reactions to posts/messages', () => {
                 should('be.visible');
         });
     });
+
     it('can add a reaction to a post with an existing reaction', () => {
         cy.getLastPostId().then((postId) => {
             // # Click on the + icon
@@ -108,6 +126,7 @@ describe('Emoji reactions to posts/messages', () => {
             cy.get(`#postReaction-${postId}-sweat_smile`).should('be.visible');
         });
     });
+
     it('can remove a reaction to a post with an existing reaction', () => {
         cy.getLastPostId().then((postId) => {
             // * The "sweat_smile" should exist on the post
