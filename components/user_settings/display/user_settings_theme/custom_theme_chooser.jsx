@@ -9,7 +9,6 @@ import {defineMessages, FormattedMessage} from 'react-intl';
 import {setThemeDefaults} from 'mattermost-redux/utils/theme_utils';
 
 import {t} from 'utils/i18n';
-import 'bootstrap-colorpicker';
 
 import Constants from 'utils/constants';
 import * as UserAgent from 'utils/user_agent';

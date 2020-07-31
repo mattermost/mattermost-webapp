@@ -39,7 +39,7 @@ const prefetchQueue = memoizeResult((channels: Channel[], memberships: RelationO
     return channels.reduce((acc: Record<string, string[]>, channel: Channel) => {
         const channelId = channel.id;
         const membership = memberships[channelId];
-        if (!isChannelMuted(membership)) {
+        if (membership && !isChannelMuted(membership)) {
             if (membership.mention_count > 0) {
                 return {
                     ...acc,

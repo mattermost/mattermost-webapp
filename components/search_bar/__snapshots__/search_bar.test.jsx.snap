@@ -37,10 +37,13 @@ exports[`components/search_bar/SearchBar should match snapshot with search 1`] =
         }
       }
     >
-      <SearchIcon
-        aria-hidden="true"
-        className="search__icon"
-      />
+      <div
+        className="search__font-icon"
+      >
+        <i
+          className="icon icon-magnify icon-16"
+        />
+      </div>
       <SuggestionBox
         aria-describedby="searchbar-help-popup"
         aria-label="Search"
@@ -140,10 +143,13 @@ exports[`components/search_bar/SearchBar should match snapshot without search 1`
         }
       }
     >
-      <SearchIcon
-        aria-hidden="true"
-        className="search__icon"
-      />
+      <div
+        className="search__font-icon"
+      >
+        <i
+          className="icon icon-magnify icon-16"
+        />
+      </div>
       <SuggestionBox
         aria-describedby="searchbar-help-popup"
         aria-label="Search"
@@ -312,10 +318,13 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
         }
       }
     >
-      <SearchIcon
-        aria-hidden="true"
-        className="search__icon"
-      />
+      <div
+        className="search__font-icon"
+      >
+        <i
+          className="icon icon-magnify icon-16"
+        />
+      </div>
       <SuggestionBox
         aria-describedby="searchbar-help-popup"
         aria-label="Search"
@@ -484,10 +493,13 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
         }
       }
     >
-      <SearchIcon
-        aria-hidden="true"
-        className="search__icon"
-      />
+      <div
+        className="search__font-icon"
+      >
+        <i
+          className="icon icon-magnify icon-16"
+        />
+      </div>
       <SuggestionBox
         aria-describedby="searchbar-help-popup"
         aria-label="Search"
