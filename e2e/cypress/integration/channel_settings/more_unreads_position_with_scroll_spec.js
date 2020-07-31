@@ -8,9 +8,9 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @channel_sidebar
+// Group: @channel_settings
 
-describe('Channel sidebar', () => {
+describe('Channel settings', () => {
     let mainUser;
     let otherUser;
     let myTeam;
@@ -28,8 +28,8 @@ describe('Channel sidebar', () => {
                 cy.apiAddUserToTeam(team.id, secondUser.id);
             });
 
-            Cypress._.times(20, (num) => {
-                const displayName = `channel-${num}`;
+            cy.wrap(channelNames).each((name) => {
+                const displayName = `channel-${name}`;
                 cy.apiCreateChannel(team.id, name, displayName, 'O', '', '', false).then((response) => {
                     const testChannel = response.body;
                     cy.apiAddUserToChannel(testChannel.id, mainUser.id);
