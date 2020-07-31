@@ -13,6 +13,7 @@ import {tableTurndownRuleBuilder} from './tables';
 import {githubCodeTurndownRuleBuilder} from './githubcode';
 import {channelMentionsRule, hashtagsRule, filePreviewButtonRule, codeBlockRule} from './mattermost';
 import {fixNestedLists} from './htmlfix';
+import {NEW_LINE_REPLACEMENT} from './constants';
 
 const turndownService = new TurndownService({codeBlockStyle: 'fenced'}).remove('style');
 turndownService.use(strikethrough);
@@ -41,7 +42,10 @@ export default function smartPaste(clipboard: DataTransfer, message: string, cur
         doc = fixNestedLists(doc);
 
         formattedMessage = htmlToMarkdown(doc);
-        formattedMessage = formattedMessage.replace(/#\*#\*NEW_LINE_REPLACEMENT\*#\*#/g, '\n');
+        // Because turndown swallows some new lines around rule execution
+        // results we need to provide a way to enforce the new lines, and this
+        // is how we do it.
+        formattedMessage = formattedMessage.replace(new RegExp(NEW_LINE_REPLACEMENT, 'g'), '\n');
     }
 
     if (!formattedMessage) {

@@ -3,6 +3,8 @@
 
 import {Rule} from 'turndown';
 
+import {NEW_LINE_REPLACEMENT} from './constants';
+
 function columnText(column: Element): string {
     const noBreakSpace = '\u00A0';
     const text = column.textContent == null ? noBreakSpace : column.textContent.trim().replace(/\|/g, '\\|').replace(/\n/g, ' ');
@@ -36,11 +38,11 @@ export function tableTurndownRuleBuilder(hasFirstPart: boolean, hasLastPart: boo
         replacement: (content: string, node: Node): string => {
             let result = '';
             if (hasFirstPart) {
-                result += '#*#*NEW_LINE_REPLACEMENT*#*#';
+                result += NEW_LINE_REPLACEMENT;
             }
             result += formatMarkdownTableMessage(node as HTMLTableElement);
             if (hasLastPart) {
-                result += '#*#*NEW_LINE_REPLACEMENT*#*#';
+                result += NEW_LINE_REPLACEMENT;
             }
             return result;
         }

@@ -3,6 +3,8 @@
 
 import {Rule} from 'turndown';
 
+import {NEW_LINE_REPLACEMENT} from './constants';
+
 export function githubCodeTurndownRuleBuilder(hasFirstPart: boolean, hasLastPart: boolean, text: string): Rule {
     return {
         filter: (node: Node): boolean => {
@@ -11,11 +13,11 @@ export function githubCodeTurndownRuleBuilder(hasFirstPart: boolean, hasLastPart
         replacement: (): string => {
             let result = '';
             if (hasFirstPart) {
-                result += '#*#*NEW_LINE_REPLACEMENT*#*#';
+                result += NEW_LINE_REPLACEMENT;
             }
             result += '```\n' + text + '\n```';
             if (hasLastPart) {
-                result += '#*#*NEW_LINE_REPLACEMENT*#*#';
+                result += NEW_LINE_REPLACEMENT;
             }
             return result;
         },
