@@ -1,40 +1,225 @@
-const OKTA_EMAIL = 'hosstheboss@mattermost.com';
-const LDAP_EMAIL = 'Test.Two';
-const LDAP_PASSWORD = 'Password1';
-const OKTA_PASSWORD = 'Test123456';
-const OKTA_USER = {
-    username: OKTA_EMAIL,
-    password: OKTA_PASSWORD,
-    firstname: "HosseinFirst",
-    lastname: "HosseinLast",
-};
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
-let testSettings;
-const loginButtonText = 'SAML';
+// ***************************************************************
+// - [#] indicates a test step (e.g. #. Go to a page)
+// - [*] indicates an assertion (e.g. * Check the title)
+// - Use element ID when selecting an element. Create one if none.
+// ***************************************************************
 
-// ASSUMPTION: SAML AND LDAP already successfully setup!
-describe('SAML Test', () => {
+// Stage: @prod
+// Group: @enterprise @saml
+// Skip:  @headless @electron @firefox // run on Chrome (headed) only
 
-    it('Test # 1 - Check SAML Metadata without Enable Encryption', () => {
-        const newConfig = {
-            SamlSettings: {
-                EnableSyncWithLdap: false,
-            },
-            LdapSettings: {
-                EnableSync: false
-            }
-        };
-        cy.apiUpdateConfig(newConfig).then(({config}) => {
-            cy.setTestSettings(loginButtonText, config).then((_response) => {
-                testSettings = _response;
-                cy.doSamlLogin(testSettings);
+import users from '../../../fixtures/saml_users.json';
+
+//Manual Setup required: Follow the instructions mentioned in the mattermost/platform-private/config/saml-okta-setup.txt file
+context('LDAP SAML - Automated Tests (SAML TESTS)', () => {
+    const loginButtonText = 'SAML';
+
+    const regular1 = users.regulars['samluser-1'];
+
+    const {
+        oktaBaseUrl,
+        oktaMMAppName,
+        oktaMMEntityId,
+    } = Cypress.env();
+    const idpUrl = `${oktaBaseUrl}/app/${oktaMMAppName}/${oktaMMEntityId}/sso/saml`;
+    const idpMetadataUrl = `${oktaBaseUrl}/app/${oktaMMEntityId}/sso/saml/metadata`;
+
+    const newConfig = {
+        SamlSettings: {
+            Enable: true,
+            EnableSyncWithLdap: false,
+            EnableSyncWithLdapIncludeAuth: false,
+            Verify: true,
+            Encrypt: true,
+            SignRequest: true,
+            IdpUrl: idpUrl,
+            IdpDescriptorUrl: `http://www.okta.com/${oktaMMEntityId}`,
+            IdpMetadataUrl: idpMetadataUrl,
+            ServiceProviderIdentifier: `${Cypress.config('baseUrl')}/login/sso/saml`,
+            AssertionConsumerServiceURL: `${Cypress.config('baseUrl')}/login/sso/saml`,
+            SignatureAlgorithm: 'RSAwithSHA1',
+            CanonicalAlgorithm: 'Canonical1.0',
+            IdpCertificateFile: 'saml-idp.crt',
+            PublicCertificateFile: 'saml-public.crt',
+            PrivateKeyFile: 'saml-private.key',
+            IdAttribute: '',
+            GuestAttribute: '',
+            EnableAdminAttribute: false,
+            AdminAttribute: '',
+            FirstNameAttribute: '',
+            LastNameAttribute: '',
+            EmailAttribute: 'Email',
+            UsernameAttribute: 'Username',
+            LoginButtonText: loginButtonText,
+        },
+        ExperimentalSettings: {
+            UseNewSAMLLibrary: false,
+        },
+        GuestAccountsSettings: {
+            Enable: true,
+        },
+    };
+
+    let testSettings;
+
+    //Note: the assumption is that this test suite runs on a clean setup (empty DB) which would ensure that the users are not present in the Mattermost instance beforehand
+    describe('LDAP SAML - Automated Tests (SAML TESTS)', () => {
+        before(() => {
+            // * Check if server has license for SAML
+            cy.apiRequireLicenseForFeature('SAML');
+
+            // # Get certificates status and upload as necessary
+            cy.apiGetSAMLCertificateStatus().then((resp) => {
+                const data = resp.body;
+
+                if (!data.idp_certificate_file) {
+                    cy.apiUploadSAMLIDPCert('saml-idp.crt');
+                }
+
+                if (!data.public_certificate_file) {
+                    cy.apiUploadSAMLPublicCert('saml-public.crt');
+                }
+
+                if (!data.private_key_file) {
+                    cy.apiUploadSAMLPrivateKey('saml-private.key');
+                }
+            });
+
+            // # Check SAML metadata if working properly
+            cy.apiGetMetadataFromIdp(idpMetadataUrl);
+
+            cy.oktaAddUsers(users);
+            cy.apiUpdateConfig(newConfig).then(({config}) => {
+                cy.setTestSettings(loginButtonText, config).then((_response) => {
+                    testSettings = _response;
+                });
             });
         });
-        // cy.doOktaLogin({
-        //     username: OKTA_EMAIL,
-        //     password: OKTA_PASSWORD
-        // })
-        // cy.apiAdminLogin();
-    });
 
+        it('Check SAML Metadata without Enable Encryption', () => {
+            cy.apiAdminLogin();
+            let test1Settings = {
+                ...newConfig,
+                SamlSettings: {
+                    ...newConfig.SamlSettings,
+                    Encrypt: false,
+                    PublicCertificateFile: '',
+                    PrivateKeyFile: '',
+                }
+            };
+            cy.apiUpdateConfig(test1Settings).then(() => {
+                const baseUrl = Cypress.config('baseUrl');
+                cy.request(`${baseUrl}/api/v4/saml/metadata`).then((resp) => {
+                    expect(resp.status).to.eq(200);
+                    expect(resp.headers['content-type']).to.eq('application/xml');
+                    expect(resp.body).to.contain('<?xml version');
+                });
+            });
+        });
+
+
+
+        it('SAML Login Audit', () => {
+            cy.apiAdminLogin();
+
+            cy.apiUpdateConfig(newConfig).then(() => {
+                testSettings.user = regular1;
+                cy.oktaGetOrCreateUser(testSettings.user).then((oktaUserId) => {
+                    cy.oktaDeleteSession(oktaUserId);
+                    cy.doSamlLogin(testSettings).then(() => {
+                        cy.doOktaLogin(testSettings.user).then(() => {
+                            cy.skipOrCreateTeam(testSettings, oktaUserId).then(() => {
+                                let values = [];
+                                cy.toAccountSettingsModal();
+                                cy.get('#securityButton').click();
+                                cy.findByTestId('viewAccessHistory').click();
+                                cy.findByTestId('auditTableBody').find('td')
+                                .each(($el) => {
+                                    cy.wrap($el)
+                                    .invoke('text')
+                                    .then(text => {
+                                        if (text.includes('Saml obtained user')) {
+                                            expect(text).to.contains('Saml obtained user');
+                                        }
+                                    });
+                                });
+                            });
+                        });
+                    });
+                });
+            });
+        });
+
+
+        it('SAML Signature Algorithm using RSAwithSHA256', () => {
+            cy.apiAdminLogin();
+            let test1Settings = {
+                ...newConfig,
+                SamlSettings: {
+                    ...newConfig.SamlSettings,
+                    SignatureAlgorithm: 'RSAwithSHA256',
+                }
+            };
+            cy.apiUpdateConfig(test1Settings).then(() => {
+                testSettings.user = regular1;
+                cy.oktaGetOrCreateUser(testSettings.user).then((oktaUserId) => {
+                    cy.oktaDeleteSession(oktaUserId);
+                    cy.doSamlLogin(testSettings).then(() => {
+                        cy.doOktaLogin(testSettings.user).then(() => {
+                            cy.skipOrCreateTeam(testSettings, oktaUserId);
+                            cy.oktaDeleteSession(oktaUserId);
+                        });
+                    });
+                });
+            });
+        });
+
+
+        it('SAML Signature Algorithm using RSAwithSHA512', () => {
+            cy.apiAdminLogin();
+            let test1Settings = {
+                ...newConfig,
+                SamlSettings: {
+                    ...newConfig.SamlSettings,
+                    SignatureAlgorithm: 'RSAwithSHA512',
+                }
+            };
+            cy.apiUpdateConfig(test1Settings).then(() => {
+                testSettings.user = regular1;
+                cy.oktaGetOrCreateUser(testSettings.user).then((oktaUserId) => {
+                    cy.oktaDeleteSession(oktaUserId);
+                    cy.doSamlLogin(testSettings).then(() => {
+                        cy.doOktaLogin(testSettings.user).then(() => {
+                            cy.skipOrCreateTeam(testSettings, oktaUserId);
+                        });
+                    });
+                });
+            });
+        });
+
+
+        it('SAML2 Implementation', () => {
+            cy.apiAdminLogin();
+            let test1Settings = {
+                ...newConfig,
+                ExperimentalSettings: {
+                    UseNewSAMLLibrary: true,
+                },
+            };
+            cy.apiUpdateConfig(test1Settings).then(() => {
+                testSettings.user = regular1;
+                cy.oktaGetOrCreateUser(testSettings.user).then((oktaUserId) => {
+                    cy.oktaDeleteSession(oktaUserId);
+                    cy.doSamlLogin(testSettings).then(() => {
+                        cy.doOktaLogin(testSettings.user).then(() => {
+                            cy.skipOrCreateTeam(testSettings, oktaUserId);
+                        });
+                    });
+                });
+            });
+        });
+    });
 });
