@@ -132,13 +132,26 @@ export default class AdminConsole extends React.PureComponent<Props, State> {
             }
             return acc.concat(items);
         }, [] as Item[]);
-        const schemaRoutes = schemas.map((item: Item) => {
+
+        let defaultUrl = '';
+
+        const schemaRoutes = schemas.map((item: Item, index: number) => {
             let isItemDisabled: boolean;
 
             if (typeof item.isDisabled === 'function') {
                 isItemDisabled = item.isDisabled(config, this.state, license, buildEnterpriseReady, consoleAccess);
             } else {
                 isItemDisabled = Boolean(item.isDisabled);
+            }
+
+            if (!isItemDisabled && defaultUrl === '') {
+                const {url} = schemas[index];
+
+                // Don't use a url as default if it requires an additional ID
+                // in the path.
+                if (!url.includes(':')) {
+                    defaultUrl = url;
+                }
             }
 
             return (
@@ -157,7 +170,6 @@ export default class AdminConsole extends React.PureComponent<Props, State> {
                 />
             );
         });
-        const defaultUrl = schemas[0].url;
 
         return (
             <Switch>
