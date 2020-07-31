@@ -101,14 +101,14 @@ context('LDAP SAML - Automated Tests (SAML TESTS)', () => {
 
         it('Check SAML Metadata without Enable Encryption', () => {
             cy.apiAdminLogin();
-            let test1Settings = {
+            const test1Settings = {
                 ...newConfig,
                 SamlSettings: {
                     ...newConfig.SamlSettings,
                     Encrypt: false,
                     PublicCertificateFile: '',
                     PrivateKeyFile: '',
-                }
+                },
             };
             cy.apiUpdateConfig(test1Settings).then(() => {
                 const baseUrl = Cypress.config('baseUrl');
@@ -120,8 +120,6 @@ context('LDAP SAML - Automated Tests (SAML TESTS)', () => {
             });
         });
 
-
-
         it('SAML Login Audit', () => {
             cy.apiAdminLogin();
 
@@ -132,20 +130,20 @@ context('LDAP SAML - Automated Tests (SAML TESTS)', () => {
                     cy.doSamlLogin(testSettings).then(() => {
                         cy.doOktaLogin(testSettings.user).then(() => {
                             cy.skipOrCreateTeam(testSettings, oktaUserId).then(() => {
-                                let values = [];
+                                const values = [];
                                 cy.toAccountSettingsModal();
                                 cy.get('#securityButton').click();
                                 cy.findByTestId('viewAccessHistory').click();
-                                cy.findByTestId('auditTableBody').find('td')
-                                .each(($el) => {
-                                    cy.wrap($el)
-                                    .invoke('text')
-                                    .then(text => {
-                                        if (text.includes('Saml obtained user')) {
-                                            expect(text).to.contains('Saml obtained user');
-                                        }
+                                cy.findByTestId('auditTableBody').find('td').
+                                    each(($el) => {
+                                        cy.wrap($el).
+                                            invoke('text').
+                                            then((text) => {
+                                                if (text.includes('Saml obtained user')) {
+                                                    expect(text).to.contains('Saml obtained user');
+                                                }
+                                            });
                                     });
-                                });
                             });
                         });
                     });
@@ -153,15 +151,14 @@ context('LDAP SAML - Automated Tests (SAML TESTS)', () => {
             });
         });
 
-
         it('SAML Signature Algorithm using RSAwithSHA256', () => {
             cy.apiAdminLogin();
-            let test1Settings = {
+            const test1Settings = {
                 ...newConfig,
                 SamlSettings: {
                     ...newConfig.SamlSettings,
                     SignatureAlgorithm: 'RSAwithSHA256',
-                }
+                },
             };
             cy.apiUpdateConfig(test1Settings).then(() => {
                 testSettings.user = regular1;
@@ -177,15 +174,14 @@ context('LDAP SAML - Automated Tests (SAML TESTS)', () => {
             });
         });
 
-
         it('SAML Signature Algorithm using RSAwithSHA512', () => {
             cy.apiAdminLogin();
-            let test1Settings = {
+            const test1Settings = {
                 ...newConfig,
                 SamlSettings: {
                     ...newConfig.SamlSettings,
                     SignatureAlgorithm: 'RSAwithSHA512',
-                }
+                },
             };
             cy.apiUpdateConfig(test1Settings).then(() => {
                 testSettings.user = regular1;
@@ -200,10 +196,9 @@ context('LDAP SAML - Automated Tests (SAML TESTS)', () => {
             });
         });
 
-
         it('SAML2 Implementation', () => {
             cy.apiAdminLogin();
-            let test1Settings = {
+            const test1Settings = {
                 ...newConfig,
                 ExperimentalSettings: {
                     UseNewSAMLLibrary: true,
