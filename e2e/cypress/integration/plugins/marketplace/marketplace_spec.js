@@ -39,6 +39,9 @@ describe('Plugin Marketplace', () => {
             // # Login as non admin user
             cy.apiLogin(regularUser);
             cy.visit(townsquareLink);
+
+            // * Verify Plugin Marketplace does not exist
+            verifyPluginMarketplaceDoesNotExist();
         });
 
         it('when marketplace disabled', () => {
@@ -56,6 +59,9 @@ describe('Plugin Marketplace', () => {
 
             // # Visit town-square channel
             cy.visit(townsquareLink);
+
+            // * Verify Plugin Marketplace does not exist
+            verifyPluginMarketplaceDoesNotExist();
         });
 
         it('when plugins disabled', () => {
@@ -74,6 +80,9 @@ describe('Plugin Marketplace', () => {
 
             // # Visit town-square channel
             cy.visit(townsquareLink);
+
+            // * Verify Plugin Marketplace does not exist
+            verifyPluginMarketplaceDoesNotExist();
         });
     });
 
@@ -104,7 +113,7 @@ describe('Plugin Marketplace', () => {
 
                 // * Verify dropdown menu should be visible
                 cy.get('.dropdown-menu').should('be.visible').within(() => {
-                    // * Plugin Marketplace button should be visible then click
+                    // * Verify Plugin Marketplace button should be visible then click
                     cy.findByText('Plugin Marketplace').should('be.visible').click();
                 });
             });
@@ -416,12 +425,25 @@ describe('Plugin Marketplace', () => {
             cy.get('#error_bar').should('not.exist');
         });
     });
-
-    function uninstallAllPlugins() {
-        cy.apiGetAllPlugins().then((response) => {
-            const {active, inactive} = response.body;
-            inactive.forEach((plugin) => cy.apiRemovePluginById(plugin.id));
-            active.forEach((plugin) => cy.apiRemovePluginById(plugin.id));
-        });
-    }
 });
+
+function uninstallAllPlugins() {
+    cy.apiGetAllPlugins().then((response) => {
+        const {active, inactive} = response.body;
+        inactive.forEach((plugin) => cy.apiRemovePluginById(plugin.id));
+        active.forEach((plugin) => cy.apiRemovePluginById(plugin.id));
+    });
+}
+
+function verifyPluginMarketplaceDoesNotExist() {
+    cy.wait(TIMEOUTS.HALF_SEC).get('#lhsHeader').should('be.visible').within(() => {
+        // # Click hamburger main menu
+        cy.get('#sidebarHeaderDropdownButton').click();
+
+        // * Verify dropdown menu should be visible
+        cy.get('.dropdown-menu').should('be.visible').within(() => {
+            // * Verify Plugin Marketplace button should not exist
+            cy.findByText('Plugin Marketplace').should('not.exist');
+        });
+    });
+}
