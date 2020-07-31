@@ -34,7 +34,7 @@ describe('setCategoryCollapsed', () => {
         store.dispatch(Actions.setCategoryCollapsed(category1, false));
 
         expect(isCategoryCollapsedFromStorage(getPrefix(store.getState()), store.getState().storage.storage, category1)).toBe(false);
-    }, 10000);
+    });
 });
 
 describe('adjustTargetIndexForMove', () => {
