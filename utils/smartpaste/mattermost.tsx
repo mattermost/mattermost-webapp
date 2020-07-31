@@ -25,6 +25,7 @@ export const hashtagsRule = {
     }
 };
 
+// This fix a problem related to coping and pasting markdown images from the existing posts
 export const filePreviewButtonRule = {
     filter: (node: Node): boolean => {
         return node.nodeName === 'DIV' && (node as HTMLElement).className === 'file-preview__button';
