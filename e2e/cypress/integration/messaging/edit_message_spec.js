@@ -71,7 +71,7 @@ describe('Edit Message', () => {
         cy.get('#emojiPicker').should('be.visible');
 
         // * Press the escape key
-        cy.get('#edit_textbox').wait(TIMEOUTS.HALF_SEC).type('{esc}');
+        cy.get('#emojiPickerSearch').wait(TIMEOUTS.HALF_SEC).type('{esc}');
 
         // * Assert emoji picker is not visible
         cy.get('#emojiPicker').should('not.exist');
