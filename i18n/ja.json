@@ -3974,5 +3974,11 @@
   "sidebar_whats_new_modal.confirm": "了解",
   "post_pre_header.flagged": "保存済み",
   "admin.support.enableAskCommunityDesc": "有効な場合、ユーザーが質問したり、別のユーザーのトラブルシューティングに協力するためのMattermostコミュニティに参加できる \"コミュニティに質問する\" リンクがMattermostのユーザーインターフェースやメインメニューに表示されます。",
-  "announcement_bar.error.warn_metric_status.link": "詳しく知る"
+  "announcement_bar.error.warn_metric_status.link": "詳しく知る",
+  "admin.channel_list.public": "公開",
+  "admin.channel_list.private": "非公開",
+  "admin.channel_list.group_sync": "グループ同期",
+  "admin.channel_list.archived": "アーカイブ",
+  "admin.jobTable.headerFiles": "ファイル",
+  "admin.jobTable.downloadLink": "ダウンロードする"
 }

@@ -415,14 +415,14 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
         const above = (
             <FormattedMessage
                 id='sidebar.unreads'
-                defaultMessage='More Unreads'
+                defaultMessage='More unreads'
             />
         );
 
         const below = (
             <FormattedMessage
                 id='sidebar.unreads'
-                defaultMessage='More Unreads'
+                defaultMessage='More unreads'
             />
         );
 

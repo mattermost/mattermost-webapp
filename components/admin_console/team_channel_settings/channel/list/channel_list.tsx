@@ -182,7 +182,12 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
             }
 
             if (isArchivedChannel(channel)) {
-                iconToDisplay = <ArchiveIcon className='channel-icon'/>;
+                iconToDisplay = (
+                    <ArchiveIcon
+                        className='channel-icon'
+                        data-testid={`${channel.name}-archive-icon`}
+                    />
+                );
             }
 
             return {
