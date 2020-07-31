@@ -2222,7 +2222,7 @@
   "multiselect.list.notFound": "No se encontraron elementos",
   "multiselect.loading": "Cargando...",
   "multiselect.numMembers": "{memberOptions, number} de {totalCount, number} miembros",
-  "multiselect.numPeopleRemaining": "Utiliza ↑↓ para navegar, ↵ para seleccionar. Puedes agregar {num, number} {num, plural, one {persona} other {personas}} a la vez. ",
+  "multiselect.numPeopleRemaining": "Utiliza ↑↓ para navegar, ↵ para seleccionar. Puedes agregar {num, number} {num, plural, one {persona} other {personas}} más. ",
   "multiselect.numRemaining": "Puedes agregar {num, number} más",
   "multiselect.placeholder": "Buscar y agregar miembros",
   "multiselect.selectTeams": "Utiliza ↑↓ para navegar, ↵ para seleccionar.",
