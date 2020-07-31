@@ -20,7 +20,7 @@ const saveAndNavigateBackTo = (name, page) => {
     cy.get('.DataGrid_searchBar').within(() => {
         cy.findByPlaceholderText('Search').should('be.visible').type(`${name}{enter}`).wait(TIMEOUTS.HALF_SEC);
     });
-        cy.findByTestId(`${name}edit`).should('be.visible').click();
+    cy.findByTestId(`${name}edit`).should('be.visible').click();
 };
 
 const changeRoleTo = (role) => {
