@@ -74,7 +74,7 @@ describe('components/sidebar', () => {
         expect(instance.hideMoreDirectChannelsModal).toHaveBeenCalled();
     });
 
-    test('should match empty div snapshot when teamId is empty', () => {
+    test('should match empty div snapshot when teamId is missing', () => {
         const props = {
             ...baseProps,
             teamId: '',
