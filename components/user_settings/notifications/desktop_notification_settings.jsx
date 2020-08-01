@@ -85,12 +85,7 @@ export default class DesktopNotificationSettings extends React.PureComponent {
                     return {value: sound, label: sound};
                 });
 
-                let allowNotificationSelection = true;
-                if (isDesktopApp() && window.desktop && semver.lte(window.desktop.version, '4.6.0')) {
-                    allowNotificationSelection = false;
-                }
-
-                if (allowNotificationSelection) {
+                if (!isDesktopApp() || (window.desktop && semver.gte(window.desktop.version, '4.6.0'))) {
                     notificationSelection = (<div className='pt-2'>
                         <ReactSelect
                             className='notification-sound-dropdown'
