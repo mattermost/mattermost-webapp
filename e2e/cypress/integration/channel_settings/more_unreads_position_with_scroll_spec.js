@@ -18,19 +18,24 @@ describe('Channel settings', () => {
     const channelNames = new Array(20).fill(1).map((value, index) => `scroll${index}`);
 
     before(() => {
+        // # Create a user and a team (done by apiInitSetup)
         cy.apiInitSetup().then(({team, user: firstUser}) => {
             mainUser = firstUser;
             myTeam = team;
 
+            // # Create another user and add it to the same team
             cy.apiCreateUser().then(({user: secondUser}) => {
                 otherUser = secondUser;
                 cy.apiAddUserToTeam(team.id, secondUser.id);
             });
 
+            // # Create 20 channels (based on length of channelNames array) to ensure that the channels list is scrollable
             cy.wrap(channelNames).each((name) => {
                 const displayName = `channel-${name}`;
                 cy.apiCreateChannel(team.id, name, displayName, 'O', '', '', false).then((response) => {
                     const testChannel = response.body;
+
+                    // # Add our 2 created users to each channel so they can both post messages
                     cy.apiAddUserToChannel(testChannel.id, mainUser.id);
                     cy.apiAddUserToChannel(testChannel.id, otherUser.id);
                 });
@@ -39,12 +44,13 @@ describe('Channel settings', () => {
     });
 
     it('MM-T888 Channel sidebar: More unreads', () => {
-        // Since channels are
         const firstChannelIndex = 0;
         const lastChannelIndex = channelNames.length - 1;
+
+        // # Navigate to off-topic channel
         cy.visit(`/${myTeam.name}/channels/off-topic`);
 
-        // # Post in first channel, scroll left handside panel in view of last channel
+        // # Post message as the second user, in a channel near the top of the list
         cy.apiGetChannelByName(myTeam.name, channelNames[firstChannelIndex]).then((response) => {
             const channel = response.body;
             cy.postMessageAs({
@@ -52,14 +58,19 @@ describe('Channel settings', () => {
                 message: 'Bleep bloop I am a robot',
                 channelId: channel.id,
             });
+
+            // # Scroll down in channels list until last created channel is visible
             cy.get(`#sidebarItem_${channelNames[lastChannelIndex]}`).scrollIntoView();
         });
 
-        // * "More Unreads" pill should point to the top
+        // * After scrolling is complete, "More Unreads" pill should be visible at the top of the channels list
         cy.get('#unreadIndicatorBottom').should('not.be.visible');
+
+        // * "More Unreads" pill should be visible at the top of the channels list
+        // # Click on "More Unreads" pill
         cy.get('#unreadIndicatorTop').should('be.visible').click();
 
-        // # Post in last channel, scroll left handside panel in view of first channel
+        // # Post as another user in a channel near the bottom of the list, scroll channels list to view it (should be in bold)
         cy.apiGetChannelByName(myTeam.name, channelNames[lastChannelIndex]).then((response) => {
             const channel = response.body;
             cy.postMessageAs({
@@ -67,12 +78,19 @@ describe('Channel settings', () => {
                 message: 'Bleep bloop I am a robot',
                 channelId: channel.id,
             });
+
+            // # Scroll down in channels list until last created channel is visible
             cy.get(`#sidebarItem_${channelNames[firstChannelIndex]}`).scrollIntoView();
         });
 
-        // * "More Unreads" pill should point to the top & to the bottom, depending on how we scroll
+        // * After scrolling is complete, "More Unreads" pill should not be visible at the top of the channels list
         cy.get('#unreadIndicatorTop').should('not.be.visible');
+
+        // * "More Unreads" pill should be visible at the bottom of the channels list
+        // # Click on "More Unreads" pill
         cy.get('#unreadIndicatorBottom').should('be.visible').click();
+
+        // * "More Unreads" pill should not be visible at the bottom of the channels list & visible at the top
         cy.get('#unreadIndicatorBottom').should('not.be.visible');
         cy.get('#unreadIndicatorTop').should('be.visible');
     });
