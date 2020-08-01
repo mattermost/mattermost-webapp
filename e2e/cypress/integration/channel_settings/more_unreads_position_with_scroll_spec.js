@@ -14,7 +14,7 @@ describe('Channel settings', () => {
     let otherUser;
     let myTeam;
 
-    // This will ensure a list of channel names that will be alphabetically sorted
+    // # Ensure a list of channel names that will be alphabetically sorted
     const channelNames = new Array(20).fill(1).map((value, index) => `scroll${index}`);
 
     before(() => {
