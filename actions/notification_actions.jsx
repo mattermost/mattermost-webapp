@@ -165,7 +165,7 @@ const notifyMe = (title, body, channel, teamId, silent, soundName) => (dispatch,
             silent,
         };
 
-        if (isDesktopApp() && window.desktop && semver.gt(window.desktop.version, '4.6.0')) {
+        if (isDesktopApp() && window.desktop && semver.gte(window.desktop.version, '4.6.0')) {
             msg.data = {soundName};
         }
 
