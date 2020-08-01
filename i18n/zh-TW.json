@@ -3933,7 +3933,7 @@
   "delete_category_modal.helpText": "將 **{category_name}** 內的頻道移回頻道跟直接傳訊分類。沒有被任何頻道移除。",
   "delete_category_modal.deleteCategory": "刪除此分類？",
   "delete_category_modal.delete": "刪除",
-  "create_category_modal.createCategory": "建立分類",
+  "create_category_modal.createCategory": "建立新分類",
   "create_category_modal.create": "建立",
   "channel_header.userHelpGuide": "說明",
   "admin.team.restrictGuestDescription": "新使用者帳號只能使用上述指定的電子郵件網域 (如：\"mattermost.org\")或是用逗號分隔的網域列表(例：\"corp.mattermost.com, mattermost.org\")。只有上述網域的使用者能夠建立新團隊。此設定影響電子郵件登入。訪客使用者請到 註冊 > 訪客存取 設定網域。",
