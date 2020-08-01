@@ -147,7 +147,7 @@ export default class NotificationsTab extends React.PureComponent {
         const data = {};
         data.email = this.state.enableEmail;
         data.desktop_sound = this.state.desktopSound;
-        if (!isDesktopApp() || (isDesktopApp() && window.desktop && semver.gt(window.desktop.version, '4.6.0'))) {
+        if (!isDesktopApp() || (window.desktop && semver.gte(window.desktop.version, '4.6.0'))) {
             data.desktop_notification_sound = this.state.desktopNotificationSound;
         }
         data.desktop = this.state.desktopActivity;
