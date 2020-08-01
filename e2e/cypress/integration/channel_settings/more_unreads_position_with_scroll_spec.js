@@ -44,7 +44,7 @@ describe('Channel settings', () => {
         const lastChannelIndex = channelNames.length - 1;
         cy.visit(`/${myTeam.name}/channels/off-topic`);
 
-        // Post in first channel, scroll left handside panel in view of last channel
+        // # Post in first channel, scroll left handside panel in view of last channel
         cy.apiGetChannelByName(myTeam.name, channelNames[firstChannelIndex]).then((response) => {
             const channel = response.body;
             cy.postMessageAs({
@@ -55,11 +55,11 @@ describe('Channel settings', () => {
             cy.get(`#sidebarItem_${channelNames[lastChannelIndex]}`).scrollIntoView();
         });
 
-        // "More Unreads" pill should point to the top
+        // * "More Unreads" pill should point to the top
         cy.get('#unreadIndicatorBottom').should('not.be.visible');
         cy.get('#unreadIndicatorTop').should('be.visible').click();
 
-        // Post in last channel, scroll left handside panel in view of first channel
+        // # Post in last channel, scroll left handside panel in view of first channel
         cy.apiGetChannelByName(myTeam.name, channelNames[lastChannelIndex]).then((response) => {
             const channel = response.body;
             cy.postMessageAs({
@@ -70,7 +70,7 @@ describe('Channel settings', () => {
             cy.get(`#sidebarItem_${channelNames[firstChannelIndex]}`).scrollIntoView();
         });
 
-        // "More Unreads" pill should point to the top & to the bottom, depending on how we scroll
+        // * "More Unreads" pill should point to the top & to the bottom, depending on how we scroll
         cy.get('#unreadIndicatorTop').should('not.be.visible');
         cy.get('#unreadIndicatorBottom').should('be.visible').click();
         cy.get('#unreadIndicatorBottom').should('not.be.visible');
