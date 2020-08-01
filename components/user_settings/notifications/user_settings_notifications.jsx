@@ -557,7 +557,7 @@ export default class NotificationsTab extends React.PureComponent {
                             />
                             <FormattedMessage
                                 id='user.settings.notifications.sensitiveUsername'
-                                defaultMessage='Your non-case sensitive username "{username}"'
+                                defaultMessage='Your non case-sensitive username "{username}"'
                                 values={{
                                     username: user.username,
                                 }}
