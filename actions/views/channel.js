@@ -22,14 +22,15 @@ import {
     getRedirectChannelNameForTeam,
     getMyChannels,
     getMyChannelMemberships,
+    getAllDirectChannelsNameMapInCurrentTeam,
+    isFavoriteChannel,
     isManuallyUnread,
 } from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentRelativeTeamUrl, getCurrentTeam, getCurrentTeamId, getTeamsList} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId, getUserByUsername} from 'mattermost-redux/selectors/entities/users';
 import {getMostRecentPostIdInChannel, getPost} from 'mattermost-redux/selectors/entities/posts';
 
-import {getMyPreferences} from 'mattermost-redux/selectors/entities/preferences';
-import {getChannelByName, isFavoriteChannel} from 'mattermost-redux/utils/channel_utils';
+import {getChannelByName} from 'mattermost-redux/utils/channel_utils';
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
 
 import {openDirectChannelToUserId} from 'actions/channel_actions.jsx';
@@ -57,11 +58,13 @@ export function goToLastViewedChannel() {
         const state = getState();
         const currentChannel = getCurrentChannel(state);
         const channelsInTeam = getChannelsNameMapInCurrentTeam(state);
+        const directChannel = getAllDirectChannelsNameMapInCurrentTeam(state);
+        const channels = Object.assign({}, channelsInTeam, directChannel);
 
-        let channelToSwitchTo = getChannelByName(channelsInTeam, getLastViewedChannelName(state));
+        let channelToSwitchTo = getChannelByName(channels, getLastViewedChannelName(state));
 
         if (currentChannel.id === channelToSwitchTo.id) {
-            channelToSwitchTo = getChannelByName(channelsInTeam, getRedirectChannelNameForTeam(state, getCurrentTeamId(state)));
+            channelToSwitchTo = getChannelByName(channels, getRedirectChannelNameForTeam(state, getCurrentTeamId(state)));
         }
 
         return dispatch(switchToChannel(channelToSwitchTo));
@@ -117,12 +120,11 @@ export function joinChannelById(channelId) {
 export function leaveChannel(channelId) {
     return async (dispatch, getState) => {
         let state = getState();
-        const myPreferences = getMyPreferences(state);
         const currentUserId = getCurrentUserId(state);
         const currentTeam = getCurrentTeam(state);
         const channel = getChannel(state, channelId);
 
-        if (isFavoriteChannel(myPreferences, channelId)) {
+        if (isFavoriteChannel(state, channelId)) {
             dispatch(unfavoriteChannel(channelId));
         }
 

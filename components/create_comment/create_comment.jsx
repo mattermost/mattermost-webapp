@@ -269,7 +269,6 @@ class CreateComment extends React.PureComponent {
             channelTimezoneCount: 0,
             uploadsProgressPercent: {},
             renderScrollbar: false,
-            suggestionListStyle: 'top',
             mentions: [],
             memberNotifyCount: 0,
         };
@@ -704,7 +703,7 @@ class CreateComment extends React.PureComponent {
     scrollToBottom = () => {
         const $el = $('.post-right__scroll');
         if ($el[0]) {
-            $el.parent().scrollTop($el[0].scrollHeight);
+            $el.parent().scrollTop($el[0].scrollHeight); // eslint-disable-line jquery/no-parent
         }
     }
 
@@ -1185,12 +1184,11 @@ class CreateComment extends React.PureComponent {
         }
 
         const textboxRef = this.refs.textbox;
+        let suggestionListStyle = 'top';
         if (textboxRef) {
             const textboxPosTop = textboxRef.getInputBox().getBoundingClientRect().top;
             if (textboxPosTop < Constants.SUGGESTION_LIST_SPACE_RHS) {
-                this.setState({suggestionListStyle: 'bottom'});
-            } else {
-                this.setState({suggestionListStyle: 'top'});
+                suggestionListStyle = 'bottom';
             }
         }
 
@@ -1232,7 +1230,7 @@ class CreateComment extends React.PureComponent {
                                 disabled={readOnlyChannel}
                                 characterLimit={this.props.maxPostSize}
                                 preview={this.props.shouldShowPreview}
-                                suggestionListStyle={this.state.suggestionListStyle}
+                                suggestionListStyle={suggestionListStyle}
                                 badConnection={this.props.badConnection}
                                 listenForMentionKeyClick={true}
                                 useChannelMentions={this.props.useChannelMentions}

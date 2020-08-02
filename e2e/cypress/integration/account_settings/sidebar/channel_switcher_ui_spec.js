@@ -26,6 +26,7 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
 
     beforeEach(() => {
         // # Go to Account Settings
+        cy.reload();
         cy.toAccountSettingsModal();
     });
 

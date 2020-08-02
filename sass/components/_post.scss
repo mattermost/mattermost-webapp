@@ -720,7 +720,7 @@
         }
 
         .post-add-reaction {
-            .post-reaction {
+            .Reaction {
                 visibility: visible;
                 @include opacity(1);
             }
@@ -1384,7 +1384,7 @@
     .post-add-reaction {
         display: inline-block;
 
-        .post-reaction {
+        .Reaction {
             @include opacity(0);
             visibility: hidden;
         }
@@ -1499,7 +1499,7 @@
         .post-add-reaction-emoji-picker-open {
             display: inline-block;
 
-            .post-reaction {
+            .Reaction {
                 @include opacity(1);
                 visibility: visible;
             }
@@ -1507,83 +1507,10 @@
     }
 
     .post-add-reaction-emoji-picker-open {
-        .post-reaction {
+        .Reaction {
             background-color: v(button-bg-08);
             color: v(button-bg);
             fill: v(button-bg);
-        }
-    }
-
-    .post-reaction {
-        @include user-select(none);
-        @include border-radius(4px);
-        border: 1px solid transparent;
-        background: v(center-channel-color-08);
-        fill: v(center-channel-color-56);
-        color: v(center-channel-color-64);
-        cursor: pointer;
-        display: inline-flex;
-        align-items: center;
-        font-size: 11px;
-        font-weight: 600;
-        min-width: 28px;
-        height: 24px;
-        margin: 0 4px 4px 0;
-        padding: 0 5px;
-
-        &:not(.post-reaction--current-user) {
-            &:hover {
-                background: v(center-channel-bg);
-                border-color: v(center-channel-color-16);
-                color: v(center-channel-color-72);
-                fill: v(center-channel-color-72);
-            }
-
-            &:active {
-                background-color: v(button-bg-08);
-                color: v(button-bg);
-                fill: v(button-bg);
-            }
-        }
-
-        &--current-user {
-            color: v(button-bg);
-            background-color: v(button-bg-08);
-            border-color: v(button-bg);
-
-            &:hover {
-                border-color: v(button-bg);
-                background: v(center-channel-bg);
-            }
-
-            &:active {
-                background-color: v(button-bg-08);
-                color: v(button-bg);
-                fill: v(button-bg);
-            }
-        }
-
-        .post-reaction__count {
-            line-height: 16px;
-        }
-
-        .post-reaction__emoji {
-            margin: 0 2px 0 0;
-            max-height: 16px;
-            min-height: 16px;
-            max-width: 16px;
-            min-width: 16px;
-            vertical-align: middle;
-        }
-
-        .post-reaction__add {
-            display: block;
-            width: 16px;
-            height: 16px;
-        }
-
-        &--read-only {
-            cursor: default;
         }
     }
 

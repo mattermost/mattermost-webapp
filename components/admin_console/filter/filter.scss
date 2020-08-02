@@ -14,8 +14,12 @@
         font-size: 12px;
         padding: 0 10px;
 
-        &.Filter__active, &:hover, &:focus {
-            background: linear-gradient(0deg, rgba(var(--sys-button-bg-rgb), 0.12), rgba(var(--sys-button-bg-rgb), 0.12)), var(--sys-center-channel-bg);
+        &.Filter__active, &:focus {
+            background: rgba(var(--sys-button-bg-rgb), 0.12);
+        }
+
+        &:hover {
+            background: rgba(var(--sys-button-bg-rgb), .06);
         }
     }
 
@@ -28,12 +32,11 @@
         display: none;
         position: absolute;
         padding: 16px;
-        padding-top: 8px;
         min-width: 256px;
+        margin-top: 4px;
         margin-bottom: 24px;
 
         background: var(--sys-center-channel-bg);
-
         border: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.08);
         box-sizing: border-box;
         box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.12);
@@ -45,7 +48,8 @@
         }
 
         hr {
-            margin: 8px -16px;
+            color: rgba(var(--sys-center-channel-color-rgb), 0.08);
+            margin: 8px -16px 8px -16px;
             padding: 0;
         }
     }
@@ -76,7 +80,7 @@
 
     .Filter_apply {
         float: right;
-        margin: 0 8px 8px 0px;
+        margin: 8px 8px 8px 0px;
         border-radius: 4px;
         font-size: 12px;
 
@@ -89,29 +93,34 @@
     .FilterList {
         display: inline-block;
         vertical-align: top;
-        width: 140px;
-        padding: 16px 16px 16px 8px;
+        width: 160px;
+        padding: 8px;
         font-size: 14px;
 
-        .FilterList__full {
-            width: 280px;
+        &.FilterList__full {
+            width: 320px;
             display: block;
         }
 
         .FilterList_name {
             font-size: 12px;
-            font-weight: normal;
-            padding-bottom: 8px;
+            font-weight: 600;
+            padding-bottom: 12px;
+            color: rgba(var(--sys-center-channel-color-rgb), 0.5);
         }
 
         .FilterList_checkbox {
-            color: var(--sys-center-channel-color);
-
+            color: rgba(var(--sys-center-channel-color-rgb), .8);
             input {
                 vertical-align: bottom;
                 position: relative;
                 top: -4px;
-                margin-right: 8px
+                margin: 0 8px 0 2px;
+                opacity: 0.64;
+
+                &:checked {
+                    opacity: 1;
+                }
             }
 
             label {
