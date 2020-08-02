@@ -14,7 +14,11 @@
         display: flex;
         flex-direction: column;
         height: 100vh;
-        height: -webkit-fill-available;
+
+        // Fix for Safari on iOS MM-24361
+        @supports (-webkit-touch-callout: none) {
+            height: -webkit-fill-available;
+        }
 
         .announcement-bar--fixed & {
             height: calc(100vh - 32px);
@@ -70,7 +74,11 @@
     }
 
     .filtered-user-list {
-        height: calc(100vh - 160px);
+        height: calc(100vh - 175px);
+
+        .announcement-bar--fixed & {
+            height: calc(100vh - 205px);
+        }
     }
 
     .Select-value-label {
@@ -488,6 +496,17 @@
 
     .trial {
         margin-top: 15px;
+    }
+    .trial-error {
+        color: $dark-gray;
+        font-weight: 400;
+        margin-top: 10px;
+    }
+    .trial-legal-terms {
+        margin-top: 10px;
+        margin-bottom: 0;
+        color: $dark-gray;
+        font-weight: 400;
     }
 }
 
@@ -940,5 +959,14 @@
 #error-tooltip {
     .tooltip-inner {
         max-width: none;
+    }
+}
+
+.admin-console .admin-console__content.admin-logs-content {
+    max-width: none;
+
+    // We keep the banner the same width and only expand the content box.
+    .banner {
+        max-width: 920px;
     }
 }

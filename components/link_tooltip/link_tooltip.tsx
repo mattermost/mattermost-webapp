@@ -12,12 +12,14 @@ const tooltipContainerStyles: CSSProperties = {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    zIndex: 10,
+    zIndex: 1070,
+    position: 'absolute',
+    top: -1000,
+    left: -1000
 };
 
 type Props = {
     href: string;
-    title: string;
     attributes: {[attribute: string]: string};
 }
 
@@ -53,7 +55,7 @@ export default class LinkTooltip extends React.PureComponent<Props> {
             this.showTimeout = window.setTimeout(() => {
                 this.show = true;
 
-                $tooltipContainer.show();
+                $tooltipContainer.show(); // eslint-disable-line jquery/no-show
                 $tooltipContainer.children().on('mouseover', () => clearTimeout(this.hideTimeout));
                 $tooltipContainer.children().on('mouseleave', (event: JQueryEventObject) => {
                     if (event.relatedTarget !== null) {
@@ -82,12 +84,12 @@ export default class LinkTooltip extends React.PureComponent<Props> {
             //prevent executing the showTimeout after the hideTooltip
             clearTimeout(this.showTimeout);
 
-            $(this.tooltipContainerRef.current).hide();
+            $(this.tooltipContainerRef.current).hide(); // eslint-disable-line jquery/no-hide
         }, Constants.OVERLAY_TIME_DELAY_SMALL);
     };
 
     public render() {
-        const {href, title, attributes} = this.props;
+        const {href, children, attributes} = this.props;
 
         const dataAttributes = {
             'data-hashtag': attributes['data-hashtag'],
@@ -113,7 +115,7 @@ export default class LinkTooltip extends React.PureComponent<Props> {
                     onMouseLeave={this.hideTooltip}
                     {...dataAttributes}
                 >
-                    {title}
+                    {children}
                 </span>
             </React.Fragment>
         );

@@ -5,7 +5,7 @@ exports[`components/TextDismissableBar should match snapshot 1`] = `
   extraProp="test"
   handleClose={[Function]}
   message={
-    <Connect(Markdown)
+    <Memo(Connect(Markdown))
       message="sample text"
       options={
         Object {
@@ -25,7 +25,7 @@ exports[`components/TextDismissableBar should match snapshot, with an internal a
   extraProp="test"
   handleClose={[Function]}
   message={
-    <Connect(Markdown)
+    <Memo(Connect(Markdown))
       message="A [link](http://testurl.com/admin_console/) with an internal url and a [link](http://other-url.com/admin_console/) with an external url"
       options={
         Object {
@@ -46,7 +46,7 @@ exports[`components/TextDismissableBar should match snapshot, with an internal u
   extraProp="test"
   handleClose={[Function]}
   message={
-    <Connect(Markdown)
+    <Memo(Connect(Markdown))
       message="A [link](http://testurl.com/admin_console/) with an internal url"
       options={
         Object {
@@ -67,7 +67,7 @@ exports[`components/TextDismissableBar should match snapshot, with ean external 
   extraProp="test"
   handleClose={[Function]}
   message={
-    <Connect(Markdown)
+    <Memo(Connect(Markdown))
       message="A [link](http://otherurl.com/admin_console/) with an external url"
       options={
         Object {
@@ -88,7 +88,7 @@ exports[`components/TextDismissableBar should match snapshot, with link but with
   extraProp="test"
   handleClose={[Function]}
   message={
-    <Connect(Markdown)
+    <Memo(Connect(Markdown))
       message="A [link](http://testurl.com/admin_console/)"
       options={
         Object {

@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import React from 'react';
 import {Modal} from 'react-bootstrap';
@@ -11,6 +12,7 @@ import {splitMessageBasedOnCaretPosition, postMessageOnKeyPress} from 'utils/pos
 
 import {intlShape} from 'utils/react_intl';
 import * as Utils from 'utils/utils.jsx';
+import {getTable, formatMarkdownTableMessage, isGitHubCodeBlock, formatGithubCodePaste} from 'utils/paste';
 
 import DeletePostModal from 'components/delete_post_modal';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
@@ -19,6 +21,8 @@ import Textbox from 'components/textbox';
 import TextboxLinks from 'components/textbox/textbox_links';
 
 const KeyCodes = Constants.KeyCodes;
+const TOP_OFFSET = 0;
+const RIGHT_OFFSET = 10;
 
 class EditPostModal extends React.PureComponent {
     static propTypes = {
@@ -73,6 +77,14 @@ class EditPostModal extends React.PureComponent {
         }
 
         return null;
+    }
+
+    componentDidMount() {
+        document.addEventListener('paste', this.handlePaste);
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('paste', this.handlePaste);
     }
 
     setShowPreview = (newPreviewValue) => {
@@ -145,7 +157,7 @@ class EditPostModal extends React.PureComponent {
         this.editbox.focus();
     }
 
-    getEditPostControls = () => {
+    getTarget = () => {
         return this.refs.editPostEmoji;
     }
 
@@ -213,6 +225,39 @@ class EditPostModal extends React.PureComponent {
         const message = e.target.value;
         this.setState({
             editText: message,
+        });
+    }
+
+    handlePaste = (e) => {
+        if (!e.clipboardData || !e.clipboardData.items || !this.props.canEditPost || e.target.id !== 'edit_textbox') {
+            return;
+        }
+        const {clipboardData} = e;
+        const table = getTable(clipboardData);
+        if (!table) {
+            return;
+        }
+
+        e.preventDefault();
+
+        const {editText} = this.state;
+        let message = editText;
+        let newCaretPosition = this.state.caretPosition;
+
+        if (isGitHubCodeBlock(table.className)) {
+            const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste(this.state.caretPosition, message, clipboardData);
+            newCaretPosition = this.state.caretPosition + formattedCodeBlock.length;
+            message = formattedMessage;
+        } else {
+            message = formatMarkdownTableMessage(table, editText.trim(), newCaretPosition);
+            newCaretPosition = message.length - (editText.length - newCaretPosition);
+        }
+
+        this.setState({
+            editText: message,
+            caretPosition: newCaretPosition,
+        }, () => {
+            Utils.setCaretPosition(this.editbox.getInputBox(), newCaretPosition);
         });
     }
 
@@ -294,9 +339,7 @@ class EditPostModal extends React.PureComponent {
     }
 
     setEditboxRef = (ref) => {
-        if (ref && ref.getWrappedInstance) {
-            this.editbox = ref.getWrappedInstance();
-        }
+        this.editbox = ref;
 
         if (this.editbox) {
             this.editbox.focus();
@@ -334,12 +377,13 @@ class EditPostModal extends React.PureComponent {
                     <EmojiPickerOverlay
                         show={this.state.showEmojiPicker}
                         container={this.getContainer}
-                        target={this.getEditPostControls}
+                        target={this.getTarget}
                         onHide={this.hideEmojiPicker}
                         onEmojiClick={this.handleEmojiClick}
                         onGifClick={this.handleGifClick}
                         enableGifPicker={this.props.config.EnableGifPicker === 'true'}
-                        topOffset={-20}
+                        topOffset={TOP_OFFSET}
+                        rightOffset={RIGHT_OFFSET}
                     />
                     <button
                         aria-label={emojiButtonAriaLabel}
@@ -462,3 +506,4 @@ class EditPostModal extends React.PureComponent {
 }
 
 export default injectIntl(EditPostModal);
+/* eslint-disable react/no-string-refs */

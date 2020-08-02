@@ -6,13 +6,11 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @system_console
 
 describe('Cluster', () => {
     before(() => {
-        // # Login as sysadmin
-        cy.apiLogin('sysadmin');
-
         // # Visit customization system console page
         cy.visit('/admin_console/environment/high_availability');
     });

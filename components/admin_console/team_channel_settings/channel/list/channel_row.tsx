@@ -9,6 +9,7 @@ import {FormattedMessage} from 'react-intl';
 import {Constants} from 'utils/constants';
 import GlobeIcon from 'components/widgets/icons/globe_icon';
 import LockIcon from 'components/widgets/icons/lock_icon';
+import ArchiveIcon from 'components/widgets/icons/archive_icon';
 
 interface Props {
     channel: ChannelWithTeamData;
@@ -23,6 +24,14 @@ export default class ChannelRow extends React.PureComponent<Props> {
 
     render(): JSX.Element {
         const {channel} = this.props;
+        let icon;
+        if (channel.delete_at !== 0) {
+            icon = <ArchiveIcon className='channel-icon channel-icon__archive'/>;
+        } else if (channel.type === Constants.PRIVATE_CHANNEL) {
+            icon = <LockIcon className='channel-icon channel-icon__lock'/>;
+        } else {
+            icon = <GlobeIcon className='channel-icon channel-icon__globe'/>;
+        }
         return (
             <div
                 className='group'
@@ -33,11 +42,7 @@ export default class ChannelRow extends React.PureComponent<Props> {
                         className='group-name overflow--ellipsis row-content'
                         data-testid='channel-display-name'
                     >
-                        {channel.type === Constants.PRIVATE_CHANNEL ? (
-                            <LockIcon className='channel-icon channel-icon__lock'/>
-                        ) : (
-                            <GlobeIcon className='channel-icon channel-icon__globe'/>
-                        )}
+                        {icon}
                         {channel.display_name}
                     </span>
                     <span className='group-description row-content'>

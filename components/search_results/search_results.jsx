@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -269,6 +270,8 @@ class SearchResults extends React.Component {
                         term={(!this.props.isFlaggedPosts && !this.props.isPinnedPosts && !this.props.isMentionSearch) ? searchTerms : ''}
                         isMentionSearch={this.props.isMentionSearch}
                         a11yIndex={index}
+                        isFlaggedPosts={this.props.isFlaggedPosts}
+                        isPinnedPosts={this.props.isPinnedPosts}
                     />
                 );
             }, this);
@@ -301,7 +304,7 @@ class SearchResults extends React.Component {
         } else if (this.props.isFlaggedPosts) {
             formattedTitle = this.props.intl.formatMessage({
                 id: 'search_header.title3',
-                defaultMessage: 'Flagged Posts',
+                defaultMessage: 'Saved Posts',
             });
         } else if (this.props.isPinnedPosts) {
             formattedTitle = this.props.intl.formatMessage({
@@ -363,3 +366,4 @@ class SearchResults extends React.Component {
 }
 
 export default injectIntl(SearchResults);
+/* eslint-enable react/no-string-refs */

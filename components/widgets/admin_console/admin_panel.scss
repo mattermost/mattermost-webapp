@@ -6,7 +6,7 @@
 .AdminPanel {
     @include border-radius($border-rad);
     @include box-shadow(0 1px 2px 0 alpha-color($black, .5));
-    @include clearfix;
+
     font-size: .95em;
     margin: 2em 0 1em;
     padding: 0;

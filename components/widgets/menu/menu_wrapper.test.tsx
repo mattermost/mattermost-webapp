@@ -69,9 +69,9 @@ describe('components/MenuWrapper', () => {
             </MenuWrapper>,
         );
         expect(wrapper.state('open')).toBe(false);
-        wrapper.simulate('click');
+        wrapper.simulate('click', {preventDefault: jest.fn(), stopPropagation: jest.fn()});
         expect(wrapper.state('open')).toBe(true);
-        wrapper.simulate('click');
+        wrapper.simulate('click', {preventDefault: jest.fn(), stopPropagation: jest.fn()});
         expect(wrapper.state('open')).toBe(false);
     });
 
@@ -95,5 +95,33 @@ describe('components/MenuWrapper', () => {
                 </MenuWrapper>,
             );
         }).toThrow();
+    });
+    test('should stop propogation and prevent default when toggled and prop is enabled', () => {
+        const wrapper = shallow<MenuWrapper>(
+            <MenuWrapper stopPropagationOnToggle={true}>
+                <p>{'title'}</p>
+                <p>{'menu'}</p>
+            </MenuWrapper>,
+        );
+        const event: any = {stopPropagation: jest.fn(), preventDefault: jest.fn()};
+        wrapper.instance().toggle(event);
+
+        expect(event.preventDefault).toHaveBeenCalled();
+        expect(event.stopPropagation).toHaveBeenCalled();
+    });
+    test('should call the onToggle callback when toggled', () => {
+        const onToggle = jest.fn();
+        const wrapper = shallow<MenuWrapper>(
+            <MenuWrapper onToggle={onToggle}>
+                <p>{'title'}</p>
+                <p>{'menu'}</p>
+            </MenuWrapper>,
+        );
+        const event: any = {stopPropagation: jest.fn(), preventDefault: jest.fn()};
+        wrapper.instance().toggle(event);
+
+        expect(event.preventDefault).not.toHaveBeenCalled();
+        expect(event.stopPropagation).not.toHaveBeenCalled();
+        expect(onToggle).toHaveBeenCalledWith(wrapper.instance().state.open);
     });
 });

@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @accessibility
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
@@ -30,8 +31,6 @@ function verifySections(sections) {
 
 describe('Verify Accessibility Support in different sections in Account Settings Dialog', () => {
     before(() => {
-        cy.apiLogin('sysadmin');
-
         // # Update Configs
         cy.apiUpdateConfig({
             ServiceSettings: {
@@ -46,8 +45,10 @@ describe('Verify Accessibility Support in different sections in Account Settings
             },
         });
 
-        // # Visit the Town Square channel
-        cy.visit('/ad-1/channels/town-square');
+        // # Login as test user and visit town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
+        });
     });
 
     beforeEach(() => {
@@ -121,7 +122,7 @@ describe('Verify Accessibility Support in different sections in Account Settings
             if (section.type === 'text') {
                 cy.get(`#${section.key}Edit`).click();
                 cy.get('.setting-list-item .form-group').each(($el) => {
-                    if ($el.find('input').length) {
+                    if ($el.find('input').length) { // eslint-disable-line jquery/no-find
                         cy.wrap($el).find('.control-label').invoke('text').then((label) => {
                             cy.wrap($el).find('input').should('have.attr', 'aria-label', label);
                         });
@@ -188,7 +189,7 @@ describe('Verify Accessibility Support in different sections in Account Settings
         cy.findByTestId('cancelSettingPicture').should('have.attr', 'aria-label', 'Cancel');
 
         // # Upload a pic and save
-        cy.fileUpload('[data-testid="uploadPicture"]', 'mattermost-icon.png');
+        cy.findByTestId('uploadPicture').attachFile('mattermost-icon.png');
         cy.findByTestId('saveSettingPicture').should('not.be.disabled').click();
 
         // # Click on Edit Profile Picture
@@ -209,7 +210,7 @@ describe('Verify Accessibility Support in different sections in Account Settings
         cy.findByTestId('cancelSettingPicture').should('have.class', 'a11y--active a11y--focused');
 
         // # Remove the profile picture and check the tab behavior
-        cy.findByTestId('removeSettingPicture').click().wait(TIMEOUTS.TINY);
+        cy.findByTestId('removeSettingPicture').click().wait(TIMEOUTS.HALF_SEC);
         cy.findByTestId('inputSettingPictureButton').focus().tab({shift: true}).tab();
         cy.findByTestId('inputSettingPictureButton').should('have.class', 'a11y--active a11y--focused').tab();
         cy.findByTestId('saveSettingPicture').should('have.class', 'a11y--active a11y--focused').tab();

@@ -31,6 +31,13 @@
         }
     }
 
+    .icon.icon__flag {
+        svg {
+            height: 18px;
+            width: 18px;
+        }
+    }
+
     &:active,
     &--active,
     &--active:hover {
@@ -52,4 +59,8 @@
 .channel-header__icon--wide {
     width: auto;
     padding: 0 6px;
+}
+
+.userGuideHelp {
+    display: inline-table;
 }

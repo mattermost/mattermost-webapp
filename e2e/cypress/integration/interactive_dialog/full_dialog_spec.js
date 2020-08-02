@@ -37,18 +37,16 @@ describe('Interactive Dialog', () => {
     before(() => {
         cy.requireWebhookServer();
 
-        // # Login as sysadmin and ensure that teammate name display setting is set to default 'username'
-        cy.apiLogin('sysadmin');
+        // # Ensure that teammate name display setting is set to default 'username'
         cy.apiSaveTeammateNameDisplayPreference('username');
 
         // # Get config
-        cy.apiGetConfig().then((res) => {
-            config = res.body;
+        cy.apiGetConfig().then((data) => {
+            ({config} = data);
         });
 
         // # Create new team and create command on it
-        cy.apiCreateTeam('test-team', 'Test Team').then((teamResponse) => {
-            const team = teamResponse.body;
+        cy.apiCreateTeam('test-team', 'Test Team').then(({team}) => {
             cy.visit(`/${team.name}`);
 
             const webhookBaseUrl = Cypress.env().webhookBaseUrl;
