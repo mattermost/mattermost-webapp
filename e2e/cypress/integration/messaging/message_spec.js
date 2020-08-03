@@ -182,4 +182,27 @@ describe('Message', () => {
         // * Focus to remain in the RHS text box
         cy.get('#reply_textbox').should('be.focused');
     });
+
+    it('MM-T336 Image thumbnail - expanded RHS', () => {
+        const filename = 'huge-image.jpg';
+
+        // # Post an image in center channel
+        cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(filename);
+        cy.postMessage('{enter}');
+
+        // # Click reply arrow to open the reply thread in RHS
+        cy.clickPostCommentIcon();
+
+        cy.get('#rhsContainer').within(() => {
+
+            // # Observe image thumbnail displays the same
+            cy.get('img[src*="/preview"]').should('be.visible');
+
+            // # In the RHS, click the expand arrows to expand the RHS
+            cy.get('button[aria-label="Expand"]').click();
+
+            // * Observe image thumnail displays the same
+            cy.get('img[src*="/preview"]').should('be.visible');
+        });
+    });
 });
