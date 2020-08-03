@@ -22,7 +22,7 @@ type Props ={
     manualTimezone: string;
     timezones: string[];
     actions: {
-        updateMe: (user: UserProfile) => void;
+        updateMe: (user: UserProfile) => Promise<void>;
     };
 
 }
@@ -37,6 +37,7 @@ type State ={
 }
 
 export default class ManageTimezones extends React.PureComponent<Props, State> {
+    // public setSwitchBoxRef = React.createRef
     constructor(props: Props) {
         super(props);
 
@@ -49,7 +50,7 @@ export default class ManageTimezones extends React.PureComponent<Props, State> {
         };
     }
 
-    onChange = (e: React.MouseEvent) => {
+    onChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         this.setState({manualTimezoneInput: e.target.value});
     };
 
@@ -128,7 +129,7 @@ export default class ManageTimezones extends React.PureComponent<Props, State> {
             });
     };
 
-    handleAutomaticTimezone = (e: React.MouseEvent) => {
+    handleAutomaticTimezone = (e: React.FormEvent<HTMLInputElement>) => {
         const useAutomaticTimezone = e.target.checked;
         let automaticTimezone = '';
 
@@ -142,7 +143,7 @@ export default class ManageTimezones extends React.PureComponent<Props, State> {
         });
     };
 
-    handleManualTimezone = (e: React.MouseEvent) => {
+    handleManualTimezone = (e: React.ChangeEvent<HTMLSelectElement>) => {
         this.setState({manualTimezone: e.target.value});
     };
 
