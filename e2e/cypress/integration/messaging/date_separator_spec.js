@@ -76,5 +76,8 @@ describe('Messaging', () => {
         // # Change user timezone which is not supported by react-intl and reload
         cy.apiPatchMe({timezone: {automaticTimezone: '', manualTimezone: 'NZ-CHAT', useAutomaticTimezone: 'false'}});
         cy.reload();
+
+        // * Verify that it renders in "es" locale
+        verifyDateSeparator(0, /^(04|05) de enero de 2019/);
     });
 });
