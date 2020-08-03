@@ -16,13 +16,13 @@ import TimezoneProvider from 'components/suggestion/timezone_provider.jsx';
 
 type Props ={
     user: UserProfile;
-    updateSection: () => void;
+    updateSection: (section: string) => Promise<void>;
     useAutomaticTimezone: boolean;
     automaticTimezone: string;
     manualTimezone: string;
     timezones: string[];
     actions: {
-        updateMe: () => void;
+        updateMe: (user: UserProfile) => void;
     };
 
 }
@@ -128,7 +128,7 @@ export default class ManageTimezones extends React.PureComponent<Props, State> {
             });
     };
 
-  handleAutomaticTimezone = (e: React.MouseEvent) => {
+    handleAutomaticTimezone = (e: React.MouseEvent) => {
         const useAutomaticTimezone = e.target.checked;
         let automaticTimezone = '';
 
