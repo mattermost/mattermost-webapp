@@ -11,6 +11,7 @@
 // Group: @integrations
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
+import * as MESSAGES from '../../../fixtures/messages';
 
 describe('I18456 Built-in slash commands: common', () => {
     let user1;
@@ -71,6 +72,21 @@ describe('I18456 Built-in slash commands: common', () => {
             cy.get(`#post_${postId}`).find('.user-popover').should('have.text', user1.username);
             cy.get(`#postMessageText_${postId}`).should('have.text', 'test ¯\\_(ツ)_/¯');
         });
+    });
+
+    it('MM-T2345 /me on RHS', () => {
+        loginAndVisitDefaultChannel(user1, testChannelUrl);
+        cy.postMessage(MESSAGES.MEDIUM);
+
+        // # Open RHS (reply thread)
+        cy.clickPostCommentIcon();
+
+        // # type /me test
+        cy.get('#reply_textbox').type('/me test');
+        cy.get('#addCommentButton').click();
+
+        // * Properly formatted with lower opacity
+        cy.get('div[id="postListContent"]').contains('p', 'test').should('be.visible');
     });
 });
 
