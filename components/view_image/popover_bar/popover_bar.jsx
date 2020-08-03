@@ -106,14 +106,14 @@ export default class PopoverBar extends React.PureComponent {
                 zoomOutButton = (
                     <span className='modal-zoom-btn'>
                         <a onClick={debounce(this.props.handleZoomOut, 300, {maxWait: 300})}>
-                            {<i className='icon icon-minus'/>}
+                            <i className='icon icon-minus'/>
                         </a>
                     </span>
                 );
             } else {
                 zoomOutButton = (
                     <span className='btn-inactive'>
-                        {<i className='icon icon-minus'/>}
+                        <i className='icon icon-minus'/>
                     </span>
                 );
             }
@@ -139,7 +139,7 @@ export default class PopoverBar extends React.PureComponent {
                 zoomResetButton = (
                     <span className='modal-zoom-btn'>
                         <a onClick={this.props.handleZoomReset}>
-                            {<i className='icon icon-magnify-minus'/>}
+                            <i className='icon icon-magnify-minus'/>
                         </a>
                     </span>
                 );
@@ -147,14 +147,14 @@ export default class PopoverBar extends React.PureComponent {
                 zoomResetButton = (
                     <span className='modal-zoom-btn'>
                         <a onClick={this.props.handleZoomReset}>
-                            {<i className='icon icon-magnify-plus'/>}
+                            <i className='icon icon-magnify-plus'/>
                         </a>
                     </span>
                 );
             } else {
                 zoomResetButton = (
                     <span className='btn-inactive'>
-                        {<i className='icon icon-magnify-minus'/>}
+                        <i className='icon icon-magnify-minus'/>
                     </span>
                 );
             }
@@ -180,7 +180,7 @@ export default class PopoverBar extends React.PureComponent {
                 zoomInButton = (
                     <span className='modal-zoom-btn'>
                         <a onClick={debounce(this.props.handleZoomIn, 300, {maxWait: 300})}>
-                            {<i className='icon icon-plus'/>}
+                            <i className='icon icon-plus'/>
                         </a>
                     </span>
 
@@ -188,7 +188,7 @@ export default class PopoverBar extends React.PureComponent {
             } else {
                 zoomInButton = (
                     <span className='btn-inactive'>
-                        {<i className='icon icon-plus'/>}
+                        <i className='icon icon-plus'/>
                     </span>
                 );
             }
