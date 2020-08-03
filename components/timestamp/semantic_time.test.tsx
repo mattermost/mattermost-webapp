@@ -37,12 +37,11 @@ describe('components/timestamp/SemanticTime', () => {
         const wrapper = mount(
             <SemanticTime
                 value={date}
-            >
-                {'10:20'}
-            </SemanticTime>
+                label='A custom label'
+            />
         );
 
         expect(wrapper).toMatchSnapshot();
-        expect(wrapper.find('time').text()).toBe('10:20');
+        expect(wrapper.find('time').prop('aria-label')).toBe('A custom label');
     });
 });
