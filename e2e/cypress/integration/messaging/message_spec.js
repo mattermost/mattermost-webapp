@@ -182,4 +182,23 @@ describe('Message', () => {
         // * Focus to remain in the RHS text box
         cy.get('#reply_textbox').should('be.focused');
     });
+
+    it('MM-T1797 Compact view: Show single image thumbnail', () => {
+
+        const filename = 'image-small-height.png';
+
+        // Make a post with some text and a single image
+        cy.get('div[id="centerChannelFooter"]').find('input[id="fileUploadInput"]').attachFile(filename);
+        cy.postMessage(MESSAGES.MEDIUM);
+
+        cy.get('div[class="file__image"]').last().within(() => {
+            // The name of the image appears on a new line
+            cy.contains('div', filename).should('be.visible');
+
+            // There are arrows to collapse the preview
+            cy.get('img[src*="preview"]').should('be.visible');
+            cy.get('button').click();
+            cy.get('img[src*="preview"]').should('not.be.visible');
+        });
+    });
 });
