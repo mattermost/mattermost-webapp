@@ -66,7 +66,7 @@ export default class RhsCardHeader extends React.PureComponent {
                 <Tooltip id='backToResultsTooltip'>
                     <FormattedMessage
                         id='rhs_header.backToFlaggedTooltip'
-                        defaultMessage='Back to flagged posts'
+                        defaultMessage='Back to saved posts'
                     />
                 </Tooltip>
             );

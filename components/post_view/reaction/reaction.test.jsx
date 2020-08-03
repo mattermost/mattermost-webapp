@@ -69,13 +69,13 @@ describe('components/post_view/Reaction', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should disable add reaction when you do not have permissions', () => {
+    test('should apply read-only class if user does not have permission to add reaction', () => {
         const props = {...baseProps, canAddReaction: false};
         const wrapper = shallow(<Reaction {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should disable remove reaction when you do not have permissions', () => {
+    test('should apply read-only class if user does not have permission to remove reaction', () => {
         const newCurrentUserId = 'user_id_2';
         const props = {
             ...baseProps,
@@ -90,28 +90,6 @@ describe('components/post_view/Reaction', () => {
         };
         const wrapper = shallow(<Reaction {...props}/>);
         expect(wrapper).toMatchSnapshot();
-    });
-
-    test('should have called actions.addReaction when handleAddReaction is called', () => {
-        const newActions = {...actions, addReaction: jest.fn()};
-        const props = {...baseProps, actions: newActions};
-
-        const wrapper = shallow(<Reaction {...props}/>);
-        wrapper.instance().handleAddReaction({preventDefault: jest.fn()});
-
-        expect(newActions.addReaction).toHaveBeenCalledTimes(1);
-        expect(newActions.addReaction).toHaveBeenCalledWith(post.id, emojiName);
-    });
-
-    test('should have called actions.removeReaction when handleRemoveReaction is called', () => {
-        const newActions = {...actions, removeReaction: jest.fn()};
-        const props = {...baseProps, actions: newActions};
-
-        const wrapper = shallow(<Reaction {...props}/>);
-        wrapper.instance().handleRemoveReaction({preventDefault: jest.fn()});
-
-        expect(newActions.removeReaction).toHaveBeenCalledTimes(1);
-        expect(newActions.removeReaction).toHaveBeenCalledWith(post.id, emojiName);
     });
 
     test('should have called actions.getMissingProfilesByIds when loadMissingProfiles is called', () => {

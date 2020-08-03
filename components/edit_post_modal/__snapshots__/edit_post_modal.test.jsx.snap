@@ -95,11 +95,12 @@ exports[`components/EditPostModal should disable the button on not canDeletePost
               onEmojiClick={[Function]}
               onGifClick={[Function]}
               onHide={[Function]}
+              rightOffset={10}
               show={false}
               spaceRequiredAbove={476}
               spaceRequiredBelow={497}
               target={[Function]}
-              topOffset={-20}
+              topOffset={0}
             />
             <button
               aria-label="emoji picker"
@@ -256,11 +257,12 @@ exports[`components/EditPostModal should disable the button on not canEditPost a
               onEmojiClick={[Function]}
               onGifClick={[Function]}
               onHide={[Function]}
+              rightOffset={10}
               show={false}
               spaceRequiredAbove={476}
               spaceRequiredBelow={497}
               target={[Function]}
-              topOffset={-20}
+              topOffset={0}
             />
             <button
               aria-label="emoji picker"
@@ -417,11 +419,12 @@ exports[`components/EditPostModal should match snapshot with useChannelMentions 
               onEmojiClick={[Function]}
               onGifClick={[Function]}
               onHide={[Function]}
+              rightOffset={10}
               show={false}
               spaceRequiredAbove={476}
               spaceRequiredBelow={497}
               target={[Function]}
-              topOffset={-20}
+              topOffset={0}
             />
             <button
               aria-label="emoji picker"
@@ -578,11 +581,12 @@ exports[`components/EditPostModal should match with default config 1`] = `
               onEmojiClick={[Function]}
               onGifClick={[Function]}
               onHide={[Function]}
+              rightOffset={10}
               show={false}
               spaceRequiredAbove={476}
               spaceRequiredBelow={497}
               target={[Function]}
-              topOffset={-20}
+              topOffset={0}
             />
             <button
               aria-label="emoji picker"
@@ -875,11 +879,12 @@ exports[`components/EditPostModal should not disable the button on not canDelete
               onEmojiClick={[Function]}
               onGifClick={[Function]}
               onHide={[Function]}
+              rightOffset={10}
               show={false}
               spaceRequiredAbove={476}
               spaceRequiredBelow={497}
               target={[Function]}
-              topOffset={-20}
+              topOffset={0}
             />
             <button
               aria-label="emoji picker"
@@ -1036,11 +1041,12 @@ exports[`components/EditPostModal should not disable the button on not canEditPo
               onEmojiClick={[Function]}
               onGifClick={[Function]}
               onHide={[Function]}
+              rightOffset={10}
               show={false}
               spaceRequiredAbove={476}
               spaceRequiredBelow={497}
               target={[Function]}
-              topOffset={-20}
+              topOffset={0}
             />
             <button
               aria-label="emoji picker"
@@ -1197,11 +1203,12 @@ exports[`components/EditPostModal should not disable the save button on not canD
               onEmojiClick={[Function]}
               onGifClick={[Function]}
               onHide={[Function]}
+              rightOffset={10}
               show={false}
               spaceRequiredAbove={476}
               spaceRequiredBelow={497}
               target={[Function]}
-              topOffset={-20}
+              topOffset={0}
             />
             <button
               aria-label="emoji picker"
@@ -1358,11 +1365,12 @@ exports[`components/EditPostModal should show emojis on emojis click 1`] = `
               onEmojiClick={[Function]}
               onGifClick={[Function]}
               onHide={[Function]}
+              rightOffset={10}
               show={true}
               spaceRequiredAbove={476}
               spaceRequiredBelow={497}
               target={[Function]}
-              topOffset={-20}
+              topOffset={0}
             />
             <button
               aria-label="emoji picker"
@@ -1519,11 +1527,12 @@ exports[`components/EditPostModal should show errors when it is set in the state
               onEmojiClick={[Function]}
               onGifClick={[Function]}
               onHide={[Function]}
+              rightOffset={10}
               show={false}
               spaceRequiredAbove={476}
               spaceRequiredBelow={497}
               target={[Function]}
-              topOffset={-20}
+              topOffset={0}
             />
             <button
               aria-label="emoji picker"

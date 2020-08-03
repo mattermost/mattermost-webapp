@@ -22,7 +22,7 @@ export default class PremadeThemeChooser extends React.PureComponent {
                     continue;
                 }
 
-                const premadeTheme = $.extend(true, {}, Constants.THEMES[k]);
+                const premadeTheme = $.extend(true, {}, Constants.THEMES[k]); // eslint-disable-line jquery/no-extend
 
                 let activeClass = '';
                 if (premadeTheme.type === theme.type) {
