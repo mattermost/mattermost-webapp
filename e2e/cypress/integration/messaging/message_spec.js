@@ -184,7 +184,6 @@ describe('Message', () => {
     });
 
     it('MM-T1797 Compact view: Show single image thumbnail', () => {
-
         const filename = 'image-small-height.png';
 
         // Make a post with some text and a single image
