@@ -7,9 +7,7 @@ Cypress.Commands.add('apiInitSetup', ({
     teamPrefix = {name: 'team', displayName: 'Team'},
     channelPrefix = {name: 'channel', displayName: 'Channel'},
 } = {}) => {
-    return cy.apiCreateTeam(teamPrefix.name, teamPrefix.displayName).then((teamRes) => {
-        const team = teamRes.body;
-
+    return cy.apiCreateTeam(teamPrefix.name, teamPrefix.displayName).then(({team}) => {
         // # Add public channel
         return cy.apiCreateChannel(team.id, channelPrefix.name, channelPrefix.displayName).then((channelRes) => {
             const channel = channelRes.body;

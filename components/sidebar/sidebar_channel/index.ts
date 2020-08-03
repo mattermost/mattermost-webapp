@@ -3,12 +3,12 @@
 
 import {connect} from 'react-redux';
 
-import {GlobalState} from 'mattermost-redux/types/store';
-
 import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
 import {getCurrentChannelId, makeGetChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
+import {getDraggingState} from 'selectors/views/channel_sidebar';
+import {GlobalState} from 'types/store';
 import {NotificationLevels} from 'utils/constants';
 
 import SidebarChannel from './sidebar_channel';
@@ -50,6 +50,7 @@ function makeMapStateToProps() {
             unreadMentions,
             unreadMsgs,
             showUnreadForMsgs,
+            draggingState: getDraggingState(state),
         };
     };
 }

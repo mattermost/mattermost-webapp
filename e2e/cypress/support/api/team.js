@@ -8,15 +8,6 @@ import {getRandomId} from '../../utils';
 // https://api.mattermost.com/#tag/teams
 // *****************************************************************************
 
-/**
- * Creates a team directly via API
- * This API assume that the user is logged in and has cookie to access
- * @param {String} name - Unique handler for a team, will be present in the team URL
- * @param {String} displayName - Non-unique UI name for the team
- * @param {String} type - 'O' for open (default), 'I' for invite only
- * @param {Boolean} unique - if true (default), it will create with unique/random team namae.
- * All parameters required
- */
 Cypress.Commands.add('apiCreateTeam', (name, displayName, type = 'O', unique = true) => {
     const randomSuffix = getRandomId();
 
@@ -31,21 +22,18 @@ Cypress.Commands.add('apiCreateTeam', (name, displayName, type = 'O', unique = t
         },
     }).then((response) => {
         expect(response.status).to.equal(201);
-        cy.wrap(response);
+        cy.wrap({team: response.body});
     });
 });
 
-/**
- * Deletes a team directly via API
- * This API assume that the user is logged in and has cookie to access
- * @param {String} teamId - The team ID to be deleted
- * All parameter required
- */
 Cypress.Commands.add('apiDeleteTeam', (teamId, permanent = false) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: '/api/v4/teams/' + teamId + (permanent ? '?permanent=true' : ''),
         method: 'DELETE',
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        cy.wrap({data: response.body});
     });
 });
 
@@ -57,14 +45,10 @@ Cypress.Commands.add('apiPatchTeam', (teamId, teamData) => {
         body: teamData,
     }).then((response) => {
         expect(response.status).to.equal(200);
-        cy.wrap(response);
+        cy.wrap({team: response.body});
     });
 });
 
-/**
- * Get a team based on provided name string
- * @param {String} name - name of a team
- */
 Cypress.Commands.add('apiGetTeamByName', (name) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
@@ -72,42 +56,32 @@ Cypress.Commands.add('apiGetTeamByName', (name) => {
         method: 'GET',
     }).then((response) => {
         expect(response.status).to.equal(200);
-        cy.wrap(response);
+        cy.wrap({team: response.body});
     });
 });
 
-/**
- * Gets a list of all of the teams on the server
- * This API assume that the user is logged in as sysadmin
- */
-Cypress.Commands.add('apiGetAllTeams', () => {
+Cypress.Commands.add('apiGetAllTeams', ({page = 0, perPage = 60} = {}) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
-        url: 'api/v4/teams',
+        url: `api/v4/teams?page=${page}&per_page=${perPage}`,
         method: 'GET',
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        cy.wrap({teams: response.body});
     });
 });
 
-/**
- * Gets a list of the current user's teams
- * This API assume that the user is logged
- * no params required because we are using /me to refer to current user
- */
-Cypress.Commands.add('apiGetTeams', () => {
+Cypress.Commands.add('apiGetTeamsForUser', (userId = 'me') => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
-        url: 'api/v4/users/me/teams',
+        url: `api/v4/users/${userId}/teams`,
         method: 'GET',
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        cy.wrap({teams: response.body});
     });
 });
 
-/**
- * Add user into a team directly via API
- * This API assume that the user is logged in and has cookie to access
- * @param {String} teamId - The team ID
- * @param {String} userId - ID of user to be added into a team
- * All parameter required
- */
 Cypress.Commands.add('apiAddUserToTeam', (teamId, userId) => {
     cy.request({
         method: 'POST',
@@ -117,34 +91,10 @@ Cypress.Commands.add('apiAddUserToTeam', (teamId, userId) => {
         qs: {team_id: teamId},
     }).then((response) => {
         expect(response.status).to.equal(201);
-        return cy.wrap(response);
+        return cy.wrap({member: response.body});
     });
 });
 
-/**
- * List users that are not team members
- * @param {String} teamId - The team GUID
- * @param {Integer} page - The desired page of the paginated list
- * @param {Integer} perPage - The number of users per page
- * All parameter required
- */
-Cypress.Commands.add('apiGetUsersNotInTeam', (teamId, page = 0, perPage = 60) => {
-    return cy.request({
-        method: 'GET',
-        url: `/api/v4/users?not_in_team=${teamId}&page=${page}&per_page=${perPage}`,
-        headers: {'X-Requested-With': 'XMLHttpRequest'},
-    }).then((response) => {
-        expect(response.status).to.equal(200);
-        cy.wrap(response);
-    });
-});
-
-/**
- * Join teammates directly via API
- * @param {String} teamId - The team GUID
- * @param {Array} teamMembers - The user IDs to join
- * All parameter required
- */
 Cypress.Commands.add('apiAddUsersToTeam', (teamId, teamMembers) => {
     return cy.request({
         method: 'POST',
@@ -153,7 +103,7 @@ Cypress.Commands.add('apiAddUsersToTeam', (teamId, teamMembers) => {
         body: teamMembers,
     }).then((response) => {
         expect(response.status).to.equal(201);
-        cy.wrap(response);
+        cy.wrap({members: response.body});
     });
 });
 

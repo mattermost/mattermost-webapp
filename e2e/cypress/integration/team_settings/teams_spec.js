@@ -172,8 +172,8 @@ describe('Teams Suite', () => {
         cy.apiLogin(testUser);
 
         // # Leave all teams
-        cy.apiGetTeams().then((response) => {
-            response.body.forEach((team) => {
+        cy.apiGetTeamsForUser().then(({teams}) => {
+            teams.forEach((team) => {
                 cy.visit(`/${team.name}/channels/town-square`);
                 cy.get('#headerTeamName').should('be.visible').and('have.text', team.display_name);
                 cy.leaveTeam();
@@ -188,5 +188,27 @@ describe('Teams Suite', () => {
 
         // * Ensure user is logged out
         cy.url({timeout: TIMEOUTS.HALF_MIN}).should('include', 'login');
+    });
+
+    it('MM-T1535 Team setting / Invite code text', () => {
+        // # visit /
+        cy.visit(`/${testTeam.name}/channels/town-square`);
+
+        // # Open the hamburger menu
+        cy.findByLabelText('main menu').should('be.visible').click();
+
+        // # Click on team settings menu item
+        cy.findByText('Team Settings').should('be.visible').click();
+
+        // # Open edit settings for invite code
+        cy.findByText('Invite Code').should('be.visible').click();
+
+        // * Verify invite code help text is visible
+        cy.findByText('The Invite Code is part of the unique team invitation link which is sent to members you’re inviting to this team. Regenerating the code creates a new invitation link and invalidates the previous link.').
+            scrollIntoView().
+            should('be.visible');
+
+        // # Close the team settings
+        cy.get('body').type('{esc}', {force: true});
     });
 });

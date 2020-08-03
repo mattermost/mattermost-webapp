@@ -7,6 +7,7 @@ import {Posts} from 'mattermost-redux/constants';
 
 import Constants from 'utils/constants';
 import PostInfo from 'components/post_view/post_info/post_info.jsx';
+import PostFlagIcon from 'components/post_view/post_flag_icon';
 
 describe('components/post_view/PostInfo', () => {
     const post = {
@@ -151,5 +152,21 @@ describe('components/post_view/PostInfo', () => {
 
         const wrapper = shallow(<PostInfo {...props}/>);
         expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should pass props correctly to PostFlagIcon', () => {
+        const props = {
+            ...requiredProps,
+            isFlagged: true,
+        };
+
+        const wrapper = shallow(
+            <PostInfo {...props}/>,
+        );
+
+        const flagIcon = wrapper.find(PostFlagIcon);
+        expect(flagIcon).toHaveLength(1);
+        expect(flagIcon.prop('postId')).toEqual(props.post.id);
+        expect(flagIcon.prop('isFlagged')).toEqual(props.isFlagged);
     });
 });

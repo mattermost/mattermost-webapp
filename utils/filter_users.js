@@ -2,6 +2,8 @@
 // See LICENSE.txt for license information.
 import {UserSearchOptions, UserListOptions, UserFilters} from 'utils/constants';
 
+const NEVER = 0;
+
 // userSelectorOptionsFromFilter will convert a string UI filter to an options object
 // for selecting users out of redux state
 // Note: this is currently the same as getUserOptionsFromFilter but wrapped to be clear
@@ -37,4 +39,9 @@ export function searchUserOptionsFromFilter(filter) {
         options[UserSearchOptions.ALLOW_INACTIVE] = true;
     }
     return options;
+}
+
+// isActive returns whether a user is active or not.
+export function isActive(user) {
+    return user.delete_at === NEVER;
 }
