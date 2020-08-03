@@ -77,9 +77,9 @@ describe('components/SwitchChannelProvider', () => {
     };
 
     const switchProvider = new SwitchChannelProvider();
-    const mockStore = configureStore();
+    let mockStore = configureStore();
     const resultsCallback = jest.fn();
-    const store = mockStore(defaultState);
+    let store = mockStore(defaultState);
 
     getState.mockImplementation(store.getState);
 
@@ -177,5 +177,76 @@ describe('components/SwitchChannelProvider', () => {
         const wrappers = resultsCallback.mock.calls[0][0];
         expect(wrappers.terms.length).toEqual(0);
         expect(wrappers.items.length).toEqual(0);
+    });
+
+    it('should correctly format the display name depending on the preferences', () => {
+        const user = {
+            id: 'id',
+            username: 'username',
+            first_name: 'fn',
+            last_name: 'ln',
+        };
+        const channel = {
+            id: 'channel_id',
+        };
+
+        let res = switchProvider.userWrappedChannel(user, channel);
+        expect(res.channel.display_name).toEqual('@username - fn ln');
+
+        getState.mockClear();
+
+        mockStore = configureStore();
+        store = mockStore({
+            entities: {
+                general: {
+                    config: {},
+                },
+                channels: {
+                    myMembers: {
+                        current_channel_id: {
+                            channel_id: 'current_channel_id',
+                            user_id: 'current_user_id',
+                            roles: 'channel_role',
+                            mention_count: 1,
+                            msg_count: 9,
+                        },
+                    },
+                },
+                preferences: {
+                    myPreferences: {
+                        'display_settings--name_format': {
+                            category: 'display_settings',
+                            name: 'name_format',
+                            user_id: 'current_user_id',
+                            value: 'full_name',
+                        },
+                    },
+                },
+                users: {
+                    profiles: {
+                        current_user_id: {roles: 'system_role'},
+                    },
+                    currentUserId: 'current_user_id',
+                    profilesInChannel: {
+                        current_user_id: ['user_1'],
+                    },
+                },
+                posts: {
+                    posts: {
+                        [latestPost.id]: latestPost,
+                    },
+                    postsInChannel: {
+                        current_channel_id: [
+                            {order: [latestPost.id], recent: true},
+                        ],
+                    },
+                    postsInThread: {},
+                },
+            },
+        });
+        getState.mockImplementation(store.getState);
+
+        res = switchProvider.userWrappedChannel(user, channel);
+        expect(res.channel.display_name).toEqual('fn ln - @username');
     });
 });
