@@ -251,25 +251,21 @@ export default class ViewImageModal extends React.PureComponent {
         if (this.state.loaded[this.state.imageIndex]) {
             if (fileType === FileTypes.IMAGE || fileType === FileTypes.SVG) {
                 content = (
-                    <div className='modal-image__content'>
-                        <ImagePreview
-                            fileInfo={fileInfo}
-                            canDownloadFiles={this.props.canDownloadFiles}
-                        />
-                    </div>
+                    <ImagePreview
+                        fileInfo={fileInfo}
+                        canDownloadFiles={this.props.canDownloadFiles}
+                    />
                 );
             } else if (fileType === FileTypes.VIDEO || fileType === FileTypes.AUDIO) {
                 content = (
-                    <div className='modal-image__content'>
-                        <AudioVideoPreview
-                            fileInfo={fileInfo}
-                            fileUrl={fileUrl}
-                        />
-                    </div>
+                    <AudioVideoPreview
+                        fileInfo={fileInfo}
+                        fileUrl={fileUrl}
+                    />
                 );
             } else if (fileType === FileTypes.PDF) {
                 content = (
-                    <div className='modal-image__content pdf'>
+                    <div className='pdf'>
                         <React.Suspense fallback={null}>
                             <PDFPreview
                                 fileInfo={fileInfo}
@@ -282,21 +278,17 @@ export default class ViewImageModal extends React.PureComponent {
             } else if (CodePreview.supports(fileInfo)) {
                 dialogClassName += ' modal-code';
                 content = (
-                    <div className='modal-image__content'>
-                        <CodePreview
-                            fileInfo={fileInfo}
-                            fileUrl={fileUrl}
-                        />
-                    </div>
+                    <CodePreview
+                        fileInfo={fileInfo}
+                        fileUrl={fileUrl}
+                    />
                 );
             } else {
                 content = (
-                    <div className='modal-image__content'>
-                        <FileInfoPreview
-                            fileInfo={fileInfo}
-                            fileUrl={fileUrl}
-                        />
-                    </div>
+                    <FileInfoPreview
+                        fileInfo={fileInfo}
+                        fileUrl={fileUrl}
+                    />
                 );
             }
         } else {
