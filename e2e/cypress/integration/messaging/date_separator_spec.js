@@ -61,8 +61,8 @@ describe('Messaging', () => {
 
         // * Verify that the date separators are rendered in Spanish
         verifyDateSeparator(0, /^(sáb|dom)., (04|05) ene. 2020/);
-        verifyDateSeparator(1, 'Yesterday');
-        verifyDateSeparator(2, 'Today');
+        verifyDateSeparator(1, 'Ayer');
+        verifyDateSeparator(2, 'Hoy');
 
         // # Change user timezone which is not supported by react-intl and reload
         cy.apiPatchMe({timezone: {automaticTimezone: '', manualTimezone: 'NZ-CHAT', useAutomaticTimezone: 'false'}});

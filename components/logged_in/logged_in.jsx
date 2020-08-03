@@ -87,49 +87,49 @@ export default class LoggedIn extends React.PureComponent {
 
         // Device tracking setup
         if (UserAgent.isIos()) {
-            $('body').addClass('ios');
+            $('body').addClass('ios'); // eslint-disable-line jquery/no-class
         } else if (UserAgent.isAndroid()) {
-            $('body').addClass('android');
+            $('body').addClass('android'); // eslint-disable-line jquery/no-class
         }
 
         if (!this.props.currentUser) {
-            $('#root').attr('class', '');
+            $('#root').attr('class', ''); // eslint-disable-line jquery/no-attr
             GlobalActions.emitUserLoggedOutEvent('/login?redirect_to=' + encodeURIComponent(this.props.location.pathname), true, false);
         }
 
         $('body').on('mouseenter mouseleave', ':not(.post-list__dynamic) .post', function mouseOver(ev) {
             if (ev.type === 'mouseenter') {
-                $(this).prev('.date-separator, .new-separator').addClass('hovered--after');
-                $(this).next('.date-separator, .new-separator').addClass('hovered--before');
+                $(this).prev('.date-separator, .new-separator').addClass('hovered--after'); // eslint-disable-line jquery/no-find, jquery/no-class
+                $(this).next('.date-separator, .new-separator').addClass('hovered--before'); // eslint-disable-line jquery/no-find, jquery/no-class
             } else {
-                $(this).prev('.date-separator, .new-separator').removeClass('hovered--after');
-                $(this).next('.date-separator, .new-separator').removeClass('hovered--before');
+                $(this).prev('.date-separator, .new-separator').removeClass('hovered--after'); // eslint-disable-line jquery/no-find, jquery/no-class
+                $(this).next('.date-separator, .new-separator').removeClass('hovered--before'); // eslint-disable-line jquery/no-find, jquery/no-class
             }
         });
 
         $('body').on('mouseenter mouseleave', '.search-item__container .post', function mouseOver(ev) {
             if (ev.type === 'mouseenter') {
-                $(this).closest('.search-item__container').find('.date-separator').addClass('hovered--after');
-                $(this).closest('.search-item__container').next('div').find('.date-separator').addClass('hovered--before');
+                $(this).closest('.search-item__container').find('.date-separator').addClass('hovered--after'); // eslint-disable-line jquery/no-closest, jquery/no-find, jquery/no-class
+                $(this).closest('.search-item__container').next('div').find('.date-separator').addClass('hovered--before'); // eslint-disable-line jquery/no-closest, jquery/no-find, jquery/no-class
             } else {
-                $(this).closest('.search-item__container').find('.date-separator').removeClass('hovered--after');
-                $(this).closest('.search-item__container').next('div').find('.date-separator').removeClass('hovered--before');
+                $(this).closest('.search-item__container').find('.date-separator').removeClass('hovered--after'); // eslint-disable-line jquery/no-closest, jquery/no-find, jquery/no-class
+                $(this).closest('.search-item__container').next('div').find('.date-separator').removeClass('hovered--before'); // eslint-disable-line jquery/no-closest, jquery/no-find, jquery/no-class
             }
         });
 
         $('body').on('mouseenter mouseleave', ':not(.post-list__dynamic) .post.post--comment.same--root', function mouseOver(ev) {
             if (ev.type === 'mouseenter') {
-                $(this).prev('.date-separator, .new-separator').addClass('hovered--comment');
-                $(this).next('.date-separator, .new-separator').addClass('hovered--comment');
+                $(this).prev('.date-separator, .new-separator').addClass('hovered--comment'); // eslint-disable-line jquery/no-find, jquery/no-class
+                $(this).next('.date-separator, .new-separator').addClass('hovered--comment'); // eslint-disable-line jquery/no-find, jquery/no-class
             } else {
-                $(this).prev('.date-separator, .new-separator').removeClass('hovered--comment');
-                $(this).next('.date-separator, .new-separator').removeClass('hovered--comment');
+                $(this).prev('.date-separator, .new-separator').removeClass('hovered--comment'); // eslint-disable-line jquery/no-find, jquery/no-class
+                $(this).next('.date-separator, .new-separator').removeClass('hovered--comment'); // eslint-disable-line jquery/no-find, jquery/no-class
             }
         });
 
         // Prevent backspace from navigating back a page
         $(window).on('keydown.preventBackspace', (e) => {
-            if (e.which === BACKSPACE_CHAR && !$(e.target).is('input, textarea')) {
+            if (e.which === BACKSPACE_CHAR && !$(e.target).is('input, textarea')) { // eslint-disable-line jquery/no-is
                 e.preventDefault();
             }
         });

@@ -6,7 +6,7 @@ import React from 'react';
 import {Client4} from 'mattermost-redux/client';
 import {FormattedDate, FormattedMessage, FormattedTime, injectIntl} from 'react-intl';
 
-import {JobStatuses} from 'utils/constants';
+import {JobStatuses, exportFormats} from 'utils/constants';
 import {intlShape} from 'utils/react_intl';
 import * as Utils from 'utils/utils.jsx';
 
@@ -86,7 +86,7 @@ class JobTable extends React.PureComponent {
     }
 
     getDownloadLink = (job) => {
-        if (job.data?.is_downloadable === 'true' && parseInt(job.data?.messages_exported, 10) > 0) { // eslint-disable-line camelcase
+        if (job.data?.is_downloadable === 'true' && parseInt(job.data?.messages_exported, 10) > 0 && job.data?.export_type !== exportFormats.EXPORT_FORMAT_GLOBALRELAY) { // eslint-disable-line camelcase
             return (
                 <a
                     key={job.id}
