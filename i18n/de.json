@@ -3913,5 +3913,11 @@
   "admin.license.trial-request.submit": "Request trial",
   "generic_modal.confirm": "Bestätigen",
   "generic_modal.cancel": "Abbrechen",
-  "announcement_bar.error.warn_metric_status.link": "Mehr erfahren"
+  "announcement_bar.error.warn_metric_status.link": "Mehr erfahren",
+  "admin.channel_list.public": "Öffentlich",
+  "admin.channel_list.private": "Privat",
+  "admin.channel_list.group_sync": "Grunpensynchronisierung",
+  "admin.channel_list.archived": "Archiviert",
+  "admin.jobTable.headerFiles": "Dateien",
+  "admin.jobTable.downloadLink": "Herunterladen"
 }

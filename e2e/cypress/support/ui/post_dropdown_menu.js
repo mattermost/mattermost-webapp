@@ -16,7 +16,7 @@ Cypress.Commands.add('uiClickCopyLink', (permalink) => {
 
     // # Click on "Copy Link"
     cy.get('.dropdown-menu').should('be.visible').within(() => {
-        cy.findByText('Copy Link').should('be.visible').click();
+        cy.findByText('Copy Link').scrollIntoView().should('be.visible').click();
 
         // * Verify if it's called with correct link value
         cy.wrap(clipboard).its('wasCalled').should('eq', true);

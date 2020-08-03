@@ -39,7 +39,7 @@ function mapStateToProps(state: GlobalState) {
     }
 
     return {
-        teamId: currentTeam.id,
+        teamId: currentTeam ? currentTeam.id : '',
         canCreatePrivateChannel,
         canCreatePublicChannel,
         canJoinPublicChannel,
