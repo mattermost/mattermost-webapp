@@ -198,9 +198,10 @@ describe('Message', () => {
             cy.contains('div', filename).should('be.visible').and('have.css', 'font-weight', '400');
 
             // * There are arrows to collapse the preview
-            cy.findByLabelText('Toggle Embed Visibility').should('exist').and('have.attr', 'data-expanded', 'true');
+            cy.get('img[src*="preview"]').should('be.visible');
             cy.findByLabelText('Toggle Embed Visibility').should('exist').and('have.attr', 'data-expanded', 'true').click();
             cy.findByLabelText('Toggle Embed Visibility').should('exist').and('have.attr', 'data-expanded', 'false');
+            cy.get('img[src*="preview"]').should('not.be.visible');
         });
     });
 });
