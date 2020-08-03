@@ -81,7 +81,7 @@ export default class MessageExportSettings extends AdminSettings {
                                     count: job.data.warning_count,
                                 }}
                             />
-                        </div>
+                        </div>,
                     );
                 } else {
                     message.push(
@@ -93,7 +93,7 @@ export default class MessageExportSettings extends AdminSettings {
                                     count: job.data.warning_count,
                                 }}
                             />
-                        </div>
+                        </div>,
                     );
                 }
             }
