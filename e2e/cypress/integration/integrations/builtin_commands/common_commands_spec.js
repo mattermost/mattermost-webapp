@@ -87,14 +87,17 @@ describe('I18456 Built-in slash commands: common', () => {
         cy.uiWaitUntilMessagePostedIncludes('test');
 
         cy.getLastPostId().then((postId) => {
-            // * Message 'test' from the current user
-            cy.apiGetPost(postId).then((body) => {
-                cy.wrap(body.user_id).should('equal', user1.id);
-                cy.wrap(body.props.message).should('equal', 'test');
+            // * Verify RHS message is from current user and properly formatted with lower opacity
+            cy.get(`#rhsPost_${postId}`).should('have.class', 'current--user').within(() => {
+                cy.get('button').should('have.text', user1.username);
+                cy.get('p').should('have.text', 'test').and('have.css', 'color', 'rgba(61, 60, 64, 0.6)');
             });
 
-            // * Message properly formatted with lower opacity
-            cy.get(`#postMessageText_${postId}`).contains('p', 'test').should('be.visible').and('have.css', 'color', 'rgba(61, 60, 64, 0.6)');
+            // * Verify message on the main channel is from current user and properly formatted with lower opacity
+            cy.get(`#post_${postId}`).should('have.class', 'current--user').within(() => {
+                cy.get('button').should('have.text', user1.username);
+                cy.get('p').should('have.text', 'test').and('have.css', 'color', 'rgba(61, 60, 64, 0.6)');
+            });
         });
     });
 });
