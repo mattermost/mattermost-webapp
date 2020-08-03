@@ -234,6 +234,22 @@ Cypress.Commands.add('apiUnpinPosts', (postId) => {
     });
 });
 
+/**
+ * Get a post
+ * This API assume that the user is logged in and has cookie to access
+ * @param {String} post_id - The post id of the post
+ */
+Cypress.Commands.add('apiGetPost', (postId) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/posts/' + postId,
+        method: 'GET',
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response.body);
+    });
+});
+
 // *****************************************************************************
 // Webhooks
 // https://api.mattermost.com/#tag/webhooks

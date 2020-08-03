@@ -84,9 +84,18 @@ describe('I18456 Built-in slash commands: common', () => {
         // # type /me test
         cy.get('#reply_textbox').type('/me test');
         cy.get('#addCommentButton').click();
+        cy.uiWaitUntilMessagePostedIncludes('test');
 
-        // * Properly formatted with lower opacity
-        cy.get('div[id="postListContent"]').contains('p', 'test').should('be.visible');
+        cy.getLastPostId().then((postId) => {
+            // * Message 'test' from the current user
+            cy.apiGetPost(postId).then((body) => {
+                cy.wrap(body.user_id).should('equal', user1.id);
+                cy.wrap(body.props.message).should('equal', 'test');
+            });
+
+            // * Message properly formatted with lower opacity
+            cy.get(`#postMessageText_${postId}`).contains('p', 'test').should('be.visible').and('have.css', 'color', 'rgba(61, 60, 64, 0.6)');
+        });
     });
 });
 
