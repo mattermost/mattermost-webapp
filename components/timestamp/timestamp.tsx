@@ -206,8 +206,7 @@ class Timestamp extends PureComponent<Props, State> {
         }
     }
 
-    formatRelative(value: Date, relFormat: ResolvedFormats['relative']): string {
-        const {unit, relNearest, truncateEndpoints, ...format} = relFormat as RelativeOptions;
+    formatRelative(value: Date, {unit, relNearest, truncateEndpoints, ...format}: RelativeOptions): string {
         let diff: number;
 
         if (relNearest === 0) {
