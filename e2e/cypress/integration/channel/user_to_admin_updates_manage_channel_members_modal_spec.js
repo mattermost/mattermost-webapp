@@ -23,7 +23,7 @@ describe('View Members modal', () => {
 
             // # Promote user as a system admin
             // # Visit default channel and verify members modal
-            cy.apiLogin(user.username, user.password);
+            cy.apiLogin(user);
             promoteToSysAdmin(user, sysadmin);
             cy.visit(`/${team.name}/channels/town-square`);
             verifyMemberDropdownAction(true);

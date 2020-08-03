@@ -7,6 +7,7 @@
 // Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @messaging
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
@@ -30,7 +31,7 @@ describe('Permalink message edit', () => {
 
     it('M18717 - Edit a message in permalink view', () => {
         // # Login as test user and visit town-square
-        cy.apiLogin(testUser.username, testUser.password);
+        cy.apiLogin(testUser);
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
         const searchWord = `searchtest ${Date.now()}`;
@@ -66,7 +67,7 @@ describe('Permalink message edit', () => {
             verifyEditedPermalink(postId, editedText, testTeam);
 
             // # Login as other user, visit town-square and post any message
-            cy.apiLogin(otherUser.username, otherUser.password);
+            cy.apiLogin(otherUser);
             cy.visit(`/${testTeam.name}/channels/town-square`);
             cy.postMessage('hello');
 

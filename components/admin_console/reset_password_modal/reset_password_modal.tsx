@@ -10,10 +10,6 @@ import {ActionResult} from 'mattermost-redux/types/actions';
 
 import * as Utils from 'utils/utils.jsx';
 
-interface Error {
-    message: string;
-}
-
 interface PasswordConfig {
     minimumLength: number;
     requireLowercase: boolean;

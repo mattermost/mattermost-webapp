@@ -21,20 +21,20 @@ describe('Channel routing', () => {
             testTeam = team;
             testUser = user;
 
-            cy.apiCreateUser().then(({user: newUser}) => {
+            cy.apiCreateUser({prefix: 'otherA'}).then(({user: newUser}) => {
                 otherUser1 = newUser;
 
                 cy.apiAddUserToTeam(team.id, newUser.id);
             });
 
-            cy.apiCreateUser().then(({user: newUser}) => {
+            cy.apiCreateUser({prefix: 'otherB'}).then(({user: newUser}) => {
                 otherUser2 = newUser;
 
                 cy.apiAddUserToTeam(team.id, newUser.id);
             });
 
             // # Login as test user and go to town square
-            cy.apiLogin(testUser.username, testUser.password);
+            cy.apiLogin(testUser);
             cy.visit(`/${team.name}/channels/town-square`);
         });
     });

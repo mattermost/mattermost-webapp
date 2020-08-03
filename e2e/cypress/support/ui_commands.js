@@ -26,7 +26,7 @@ Cypress.Commands.add('getCurrentUserId', () => {
 
 // Go to Account Settings modal
 Cypress.Commands.add('toAccountSettingsModal', () => {
-    cy.get('#channel_view').should('be.visible');
+    cy.get('#channel_view', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
     cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
     cy.get('#accountSettings').should('be.visible').click();
     cy.get('#accountSettingsModal').should('be.visible');
@@ -101,7 +101,7 @@ function postMessageAndWait(textboxSelector, message) {
 }
 
 function waitUntilPermanentPost() {
-    cy.get('#postListContent').should('be.visible');
+    cy.get('#postListContent', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible');
     cy.waitUntil(() => cy.findAllByTestId('postView').last().then((el) => !(el[0].id.includes(':'))));
 }
 
@@ -158,6 +158,12 @@ Cypress.Commands.add('getNthPostId', (index = 0) => {
 
     cy.findAllByTestId('postView').eq(index).should('have.attr', 'id').and('not.include', ':').
         invoke('replace', 'post_', '');
+});
+
+Cypress.Commands.add('uiGetNthPost', (index) => {
+    waitUntilPermanentPost();
+
+    cy.findAllByTestId('postView').eq(index);
 });
 
 /**
@@ -261,7 +267,7 @@ Cypress.Commands.add('getPostMenu', (postId, menuItem, location = 'CENTER') => {
     cy.clickPostDotMenu(postId, location).then(() => {
         cy.get(`#post_${postId}`).should('be.visible').within(() => {
             cy.get('.dropdown-menu').should('be.visible').within(() => {
-                return cy.findByText(menuItem).should('be.visible');
+                return cy.findByText(menuItem).scrollIntoView().should('be.visible');
             });
         });
     });
@@ -398,6 +404,10 @@ Cypress.Commands.add('checkRunLDAPSync', () => {
         if (jobs.length === 0 || jobs[0].status === 'error' || ((currentTime - (new Date(jobs[0].last_activity_at))) > 8640000)) {
             // # Go to system admin LDAP page and run the group sync
             cy.visit('/admin_console/authentication/ldap');
+
+            // # Click on AD/LDAP Synchronize Now button and verify if succesful
+            cy.findByText('AD/LDAP Test').click();
+            cy.findByText('AD/LDAP Test Successful').should('be.visible');
 
             // # Click on AD/LDAP Synchronize Now button
             cy.findByText('AD/LDAP Synchronize Now').click().wait(TIMEOUTS.ONE_SEC);

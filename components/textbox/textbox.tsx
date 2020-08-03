@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 /* eslint-disable react/no-string-refs */
 
-import React, {ChangeEvent, FocusEvent, KeyboardEvent, MouseEvent} from 'react';
+import React, {ChangeEvent, ElementType, FocusEvent, KeyboardEvent, MouseEvent} from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {Channel} from 'mattermost-redux/types/channels';
@@ -22,6 +22,7 @@ import * as Utils from 'utils/utils.jsx';
 type Props = {
     id: string;
     channelId?: string;
+    rootId?: string;
     value: string;
     onChange: (e: ChangeEvent) => void;
     onKeyPress: (e: KeyboardEvent) => void;
@@ -53,6 +54,7 @@ type Props = {
         searchAssociatedGroupsForReference: (prefix: string, teamId: string, channelId: string | undefined) => (dispatch: any, getState: any) => Promise<{ data: any }>;
     };
     useChannelMentions: boolean;
+    inputComponent?: ElementType;
 };
 
 export default class Textbox extends React.PureComponent<Props> {
@@ -65,6 +67,7 @@ export default class Textbox extends React.PureComponent<Props> {
         supportsCommands: true,
         isRHS: false,
         listenForMentionKeyClick: false,
+        inputComponent: AutosizeTextarea,
     };
 
     constructor(props: Props) {
@@ -85,7 +88,10 @@ export default class Textbox extends React.PureComponent<Props> {
         ];
 
         if (props.supportsCommands) {
-            this.suggestionProviders.push(new CommandProvider());
+            this.suggestionProviders.push(new CommandProvider({
+                channelId: this.props.channelId,
+                rootId: this.props.rootId,
+            }));
         }
 
         this.checkMessageLength(props.value);
@@ -251,7 +257,7 @@ export default class Textbox extends React.PureComponent<Props> {
                     onBlur={this.handleBlur}
                     onHeightChange={this.handleHeightChange}
                     style={{visibility: this.props.preview ? 'hidden' : 'visible'}}
-                    inputComponent={AutosizeTextarea}
+                    inputComponent={this.props.inputComponent}
                     listComponent={SuggestionList}
                     listStyle={this.props.suggestionListStyle}
                     providers={this.suggestionProviders}

@@ -265,8 +265,8 @@ export const ChannelModerationTableRow: React.FunctionComponent<RowProps> = (pro
 };
 
 export default class ChannelModeration extends React.PureComponent<Props> {
-    private errorMessagesToDisplay = (entry: ChannelPermissions): Array<any> => {
-        const errorMessages: Array<any> = [];
+    private errorMessagesToDisplay = (entry: ChannelPermissions): Array<JSX.Element> => {
+        const errorMessages: Array<JSX.Element> = [];
         const isGuestsDisabled = !isNil(entry.roles.guests?.enabled) && !entry.roles.guests?.enabled && this.props.guestAccountsEnabled;
         const isMembersDisabled = !entry.roles.members.enabled;
         let createPostsKey = '';

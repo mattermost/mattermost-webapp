@@ -3,6 +3,7 @@
 
 import $ from 'jquery';
 
+import {rudderAnalytics, Client4} from 'mattermost-redux/client';
 import PropTypes from 'prop-types';
 import React from 'react';
 import FastClick from 'fastclick';
@@ -90,6 +91,7 @@ export default class Root extends React.PureComponent {
         permalinkRedirectTeamName: PropTypes.string,
         actions: PropTypes.shape({
             loadMeAndConfig: PropTypes.func.isRequired,
+            getWarnMetricsStatus: PropTypes.func.isRequired,
         }).isRequired,
         plugins: PropTypes.array,
     }
@@ -105,7 +107,7 @@ export default class Root extends React.PureComponent {
         setSystemEmojis(EmojiIndicesByAlias);
 
         // Force logout of all tabs if one tab is logged out
-        $(window).bind('storage', (e) => {
+        $(window).bind('storage', (e) => { // eslint-disable-line jquery/no-bind
             // when one tab on a browser logs out, it sets __logout__ in localStorage to trigger other tabs to log out
             if (e.originalEvent.key === StoragePrefixes.LOGOUT && e.originalEvent.storageArea === localStorage && e.originalEvent.newValue) {
                 // make sure it isn't this tab that is sending the logout signal (only necessary for IE11)
@@ -163,62 +165,36 @@ export default class Root extends React.PureComponent {
         const rudderUrl = Constants.DIAGNOSTICS_RUDDER_DATAPLANE_URL;
 
         if (rudderKey != null && rudderKey !== '' && !rudderKey.startsWith('placeholder') && rudderUrl != null && rudderUrl !== '' && !rudderUrl.startsWith('placeholder') && this.props.diagnosticsEnabled) {
-            if (!global.window.rudderanalytics) {
-                global.window.rudderanalytics = [];
-            }
-            const rudderAnalytics = global.window.rudderanalytics;
+            Client4.enableRudderEvents();
+            rudderAnalytics.load(rudderKey, rudderUrl);
 
-            if (rudderAnalytics.invoked) {
-                console.error('Rudder snippet included twice.'); //eslint-disable-line no-console
-            } else {
-                rudderAnalytics.invoked = true;
-
-                for (let methods = ['load', 'page', 'track', 'alias', 'group', 'identify', 'ready', 'reset'], i = 0; i < methods.length; i++) {
-                    const method = methods[i];
-                    rudderAnalytics[method] = ((d) => {
-                        return (...args) => {
-                            rudderAnalytics.push([d, ...args]);
-                        };
-                    })(method);
-                }
-
-                const e = document.createElement('script');
-                e.type = 'text/javascript';
-                e.async = true;
-                e.src = (document.location.protocol === 'https:' ? 'https://' : 'http://') + 'cdn.rudderlabs.com/rudder-analytics.min.js';
-                const n = document.getElementsByTagName('script')[0];
-                n.parentNode.insertBefore(e, n);
-
-                rudderAnalytics.load(rudderKey, rudderUrl);
-
-                rudderAnalytics.identify(diagnosticId, {}, {
-                    context: {
-                        ip: '0.0.0.0',
-                    },
-                    page: {
-                        path: '',
-                        referrer: '',
-                        search: '',
-                        title: '',
-                        url: '',
-                    },
-                    anonymousId: '00000000000000000000000000',
-                });
-
-                rudderAnalytics.page('ApplicationLoaded', {
+            rudderAnalytics.identify(diagnosticId, {}, {
+                context: {
+                    ip: '0.0.0.0',
+                },
+                page: {
                     path: '',
                     referrer: '',
                     search: '',
                     title: '',
                     url: '',
                 },
-                {
-                    context: {
-                        ip: '0.0.0.0',
-                    },
-                    anonymousId: '00000000000000000000000000',
-                });
-            }
+                anonymousId: '00000000000000000000000000',
+            });
+
+            rudderAnalytics.page('ApplicationLoaded', {
+                path: '',
+                referrer: '',
+                search: '',
+                title: '',
+                url: '',
+            },
+            {
+                context: {
+                    ip: '0.0.0.0',
+                },
+                anonymousId: '00000000000000000000000000',
+            });
         }
 
         if (this.props.location.pathname === '/' && this.props.noAccounts) {
@@ -267,6 +243,8 @@ export default class Root extends React.PureComponent {
             }
             this.onConfigLoaded();
         });
+
+        this.props.actions.getWarnMetricsStatus();
         trackLoadTime();
     }
 

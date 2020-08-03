@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @search @smoke
 
 /**
@@ -43,7 +42,7 @@ describe('Search in DMs', () => {
                 });
             });
 
-            cy.apiLogin(testUser.username, testUser.password);
+            cy.apiLogin(testUser);
             cy.visit(`/${team.name}/channels/${channel.name}`);
         });
     });

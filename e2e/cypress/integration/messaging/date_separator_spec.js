@@ -9,11 +9,10 @@
 
 // Group: @messaging
 
-import users from '../../fixtures/users.json';
-
-const sysadmin = users.sysadmin;
+import {getAdminAccount} from '../../support/env';
 
 describe('Messaging', () => {
+    const admin = getAdminAccount();
     let newChannel;
 
     before(() => {
@@ -39,11 +38,11 @@ describe('Messaging', () => {
 
         // # Post a message with old date
         const oldDate = Date.UTC(2020, 0, 5, 12, 30); // Jan 5, 2020 12:30pm
-        cy.postMessageAs({sender: sysadmin, message: 'Hello from Jan 5, 2020 12:30pm', channelId: newChannel.id, createAt: oldDate});
+        cy.postMessageAs({sender: admin, message: 'Hello from Jan 5, 2020 12:30pm', channelId: newChannel.id, createAt: oldDate});
 
         // # Post message from yesterday
         const yesterdaysDate = Cypress.moment().subtract(1, 'days').valueOf();
-        cy.postMessageAs({sender: sysadmin, message: 'Hello from yesterday', channelId: newChannel.id, createAt: yesterdaysDate});
+        cy.postMessageAs({sender: admin, message: 'Hello from yesterday', channelId: newChannel.id, createAt: yesterdaysDate});
 
         // # Post a message for today
         cy.postMessage('Hello from today');
@@ -62,8 +61,8 @@ describe('Messaging', () => {
 
         // * Verify that the date separators are rendered in Spanish
         verifyDateSeparator(0, /^(sáb|dom)., (04|05) ene. 2020/);
-        verifyDateSeparator(1, 'Yesterday');
-        verifyDateSeparator(2, 'Today');
+        verifyDateSeparator(1, 'Ayer');
+        verifyDateSeparator(2, 'Hoy');
 
         // # Change user timezone which is not supported by react-intl and reload
         cy.apiPatchMe({timezone: {automaticTimezone: '', manualTimezone: 'NZ-CHAT', useAutomaticTimezone: 'false'}});
