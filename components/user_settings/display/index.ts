@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {GenericAction, ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
+import {GenericAction} from 'mattermost-redux/types/actions';
 import {bindActionCreators, Dispatch} from 'redux';
 
 import {savePreferences} from 'mattermost-redux/actions/preferences';
@@ -54,12 +54,6 @@ function mapStateToProps(state: GlobalState) {
         collapseDisplay: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.COLLAPSE_DISPLAY, Preferences.COLLAPSE_DISPLAY_DEFAULT),
         linkPreviewDisplay: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.LINK_PREVIEW_DISPLAY, Preferences.LINK_PREVIEW_DISPLAY_DEFAULT),
     };
-}
-
-type Actions = {
-    getSupportedTimezones: () => ActionFunc | void;
-    autoUpdateTimezone: (deviceTimezone: string) => ActionFunc;
-    savePreferences: () => Promise<ActionResult>;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {

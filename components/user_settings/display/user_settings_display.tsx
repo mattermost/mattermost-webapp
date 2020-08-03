@@ -47,7 +47,7 @@ type Option = {
 }
 
 type SectionProps ={
-    section: string ;
+    section: string;
     display: string;
     defaultDisplay: string;
     value: string;
@@ -134,7 +134,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
         }
 
         this.prevSections = {
-            theme: 'dummySectionName', // dummy value that should never match any section name
+            theme: 'dummySectionName',
             clock: 'theme',
             linkpreview: 'clock',
             message_display: 'linkpreview',
@@ -151,7 +151,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
         }
     }
 
-    componentDidUpdate(prevProps: any) {
+    componentDidUpdate(prevProps: Props) {
         if (this.props.teammateNameDisplay !== prevProps.teammateNameDisplay) {
             this.updateState();
         }
