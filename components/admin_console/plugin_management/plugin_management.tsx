@@ -8,6 +8,7 @@ import {Link} from 'react-router-dom';
 import classNames from 'classnames';
 
 import PluginState from 'mattermost-redux/constants/plugins';
+import {AdminConfig} from 'mattermost-redux/types/config';
 
 import * as Utils from 'utils/utils.jsx';
 import LoadingScreen from 'components/loading_screen';
@@ -393,12 +394,7 @@ interface PluginSettings {
 }
 
 type Props = BaseProps & {
-    config: {
-        PluginSettings: PluginSettings;
-        ExperimentalSettings: {
-            RestrictSystemAdmin: boolean;
-        };
-    };
+    config: DeepPartial<AdminConfig>;
     pluginStatuses: Record<string, PluginStatus>;
     plugins: any;
     actions: {
@@ -459,28 +455,30 @@ export default class PluginManagement extends AdminSettings<Props, State> {
         });
     }
     getConfigFromState = (config: Props['config']) => {
-        config.PluginSettings.Enable = this.state.enable;
-        config.PluginSettings.EnableUploads = this.state.enableUploads;
-        config.PluginSettings.AllowInsecureDownloadUrl = this.state.allowInsecureDownloadUrl;
-        config.PluginSettings.EnableMarketplace = this.state.enableMarketplace;
-        config.PluginSettings.EnableRemoteMarketplace = this.state.enableRemoteMarketplace;
-        config.PluginSettings.AutomaticPrepackagedPlugins = this.state.automaticPrepackagedPlugins;
-        config.PluginSettings.MarketplaceUrl = this.state.marketplaceUrl;
-        config.PluginSettings.RequirePluginSignature = this.state.requirePluginSignature;
+        if (config && config.PluginSettings) {
+            config.PluginSettings.Enable = this.state.enable;
+            config.PluginSettings.EnableUploads = this.state.enableUploads;
+            config.PluginSettings.AllowInsecureDownloadUrl = this.state.allowInsecureDownloadUrl;
+            config.PluginSettings.EnableMarketplace = this.state.enableMarketplace;
+            config.PluginSettings.EnableRemoteMarketplace = this.state.enableRemoteMarketplace;
+            config.PluginSettings.AutomaticPrepackagedPlugins = this.state.automaticPrepackagedPlugins;
+            config.PluginSettings.MarketplaceUrl = this.state.marketplaceUrl;
+            config.PluginSettings.RequirePluginSignature = this.state.requirePluginSignature;
+        }
 
         return config;
     }
 
     getStateFromConfig(config: Props['config']) {
         const state = {
-            enable: config.PluginSettings.Enable,
-            enableUploads: config.PluginSettings.EnableUploads,
-            allowInsecureDownloadUrl: config.PluginSettings.AllowInsecureDownloadUrl,
-            enableMarketplace: config.PluginSettings.EnableMarketplace,
-            enableRemoteMarketplace: config.PluginSettings.EnableRemoteMarketplace,
-            automaticPrepackagedPlugins: config.PluginSettings.AutomaticPrepackagedPlugins,
-            marketplaceUrl: config.PluginSettings.MarketplaceUrl,
-            requirePluginSignature: config.PluginSettings.RequirePluginSignature,
+            enable: config?.PluginSettings?.Enable,
+            enableUploads: config?.PluginSettings?.EnableUploads,
+            allowInsecureDownloadUrl: config?.PluginSettings?.AllowInsecureDownloadUrl,
+            enableMarketplace: config?.PluginSettings?.EnableMarketplace,
+            enableRemoteMarketplace: config?.PluginSettings?.EnableRemoteMarketplace,
+            automaticPrepackagedPlugins: config?.PluginSettings?.AutomaticPrepackagedPlugins,
+            marketplaceUrl: config?.PluginSettings?.MarketplaceUrl,
+            requirePluginSignature: config?.PluginSettings?.RequirePluginSignature,
         };
 
         return state;
@@ -813,7 +811,7 @@ export default class PluginManagement extends AdminSettings<Props, State> {
     }
 
     renderEnablePluginsSetting = () => {
-        const hideEnablePlugins = this.props.config.ExperimentalSettings.RestrictSystemAdmin;
+        const hideEnablePlugins = this.props.config.ExperimentalSettings && this.props.config.ExperimentalSettings.RestrictSystemAdmin;
         if (!hideEnablePlugins) {
             return (
                 <BooleanSetting
@@ -841,12 +839,12 @@ export default class PluginManagement extends AdminSettings<Props, State> {
 
     renderSettings = () => {
         const {enableUploads} = this.state;
-        const enable = this.props.config.PluginSettings.Enable;
+        const enable = this.props.config?.PluginSettings?.Enable;
         let serverError = <React.Fragment></React.Fragment>;
         let lastMessage = <React.Fragment></React.Fragment>;
 
         // Using props values to make sure these are set on the server and not just locally
-        const enableUploadButton = enableUploads && enable && !this.props.config.PluginSettings.RequirePluginSignature;
+        const enableUploadButton = enableUploads && enable && !(this.props.config.PluginSettings && this.props.config.PluginSettings.RequirePluginSignature);
 
         if (this.state.serverError) {
             serverError = <div className='col-sm-12'><div className='form-group has-error half'><label className='control-label'>{this.state.serverError}</label></div></div>;

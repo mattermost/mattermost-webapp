@@ -14,7 +14,7 @@ import FormError from 'components/form_error';
 import AdminHeader from 'components/widgets/admin_console/admin_header';
 
 export type BaseProps = {
-    config?: AdminConfig;
+    config?: DeepPartial<AdminConfig>;
     environmentConfig?: EnvironmentConfig;
     setNavigationBlocked?: (blocked: boolean) => void;
     updateConfig?: (config: AdminConfig) => {data: AdminConfig; error: ClientErrorPlaceholder};
@@ -53,9 +53,9 @@ export default abstract class AdminSettings <Props extends BaseProps, State exte
         }
     }
 
-    protected abstract getStateFromConfig(config: AdminConfig): Partial<State>;
+    protected abstract getStateFromConfig(config: DeepPartial<AdminConfig>): Partial<State>;
 
-    protected abstract getConfigFromState(config: AdminConfig): object;
+    protected abstract getConfigFromState(config: DeepPartial<AdminConfig>): object;
 
     protected abstract renderTitle(): React.ReactElement;
 
