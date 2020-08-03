@@ -188,13 +188,13 @@ describe('Message', () => {
 
         // # Post an image in center channel
         cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(filename);
+        cy.contains(filename).should('be.visible');
         cy.postMessage('{enter}');
 
         // # Click reply arrow to open the reply thread in RHS
         cy.clickPostCommentIcon();
 
         cy.get('#rhsContainer').within(() => {
-
             // # Observe image thumbnail displays the same
             cy.get('img[src*="/preview"]').should('be.visible');
 
