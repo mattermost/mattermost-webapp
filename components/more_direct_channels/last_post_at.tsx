@@ -3,11 +3,11 @@
 import React, {FunctionComponent} from 'react';
 import moment from 'moment-timezone';
 import {Unit} from '@formatjs/intl-relativetimeformat';
+
 import Timestamp from 'components/timestamp/timestamp';
 type Props = {
     lastPostAt?: number;
 }
-import {t} from 'utils/i18n';
 
 export const LastPostAt: FunctionComponent<Props> = ({lastPostAt}: Props): JSX.Element | null => {
     if (!lastPostAt) {
@@ -29,7 +29,7 @@ export const LastPostAt: FunctionComponent<Props> = ({lastPostAt}: Props): JSX.E
 
     return (
         <div className='more-modal__last_post_at'>
-             <Timestamp
+            <Timestamp
                 value={lastPostAt}
                 useTime={false}
                 unit={unit}
