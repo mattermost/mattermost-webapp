@@ -3,6 +3,7 @@
 import {createSelector} from 'reselect';
 
 import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
+import {UserProfile} from 'mattermost-redux/types/users';
 
 import {GlobalState} from 'types/store';
 import {RecommendedNextSteps, Preferences} from 'utils/constants';
@@ -12,6 +13,7 @@ import CompleteProfileStep from './steps/complete_profile_step';
 
 export type StepComponentProps = {
     id: string;
+    currentUser: UserProfile;
     onSkip: (id: string) => void;
     onFinish: (id: string) => void;
 }
