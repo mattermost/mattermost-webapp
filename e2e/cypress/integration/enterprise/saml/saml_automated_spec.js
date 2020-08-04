@@ -194,26 +194,5 @@ context('LDAP SAML - Automated Tests (SAML TESTS)', () => {
                 });
             });
         });
-
-        it('SAML2 Implementation', () => {
-            cy.apiAdminLogin();
-            const test1Settings = {
-                ...newConfig,
-                ExperimentalSettings: {
-                    UseNewSAMLLibrary: true,
-                },
-            };
-            cy.apiUpdateConfig(test1Settings).then(() => {
-                testSettings.user = regular1;
-                cy.oktaGetOrCreateUser(testSettings.user).then((oktaUserId) => {
-                    cy.oktaDeleteSession(oktaUserId);
-                    cy.doSamlLogin(testSettings).then(() => {
-                        cy.doOktaLogin(testSettings.user).then(() => {
-                            cy.skipOrCreateTeam(testSettings, oktaUserId);
-                        });
-                    });
-                });
-            });
-        });
     });
 });
