@@ -4,15 +4,20 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import Input from 'components/input';
 import PictureSelector from 'components/picture_selector';
 import * as Utils from 'utils/utils';
 
 import {StepComponentProps} from '../steps';
 
+import './complete_profile_step.scss';
+
 type Props = StepComponentProps & {
 };
 
 type State = {
+    fullName: string;
+    fullNameError?: string;
     profilePicture?: File;
 };
 
@@ -20,7 +25,13 @@ export default class CompleteProfileStep extends React.PureComponent<Props, Stat
     constructor(props: Props) {
         super(props);
 
-        this.state = {};
+        this.state = {
+            fullName: '',
+        };
+    }
+
+    private handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        this.setState({fullName: event.target.value, fullNameError: event.target.value ? 'This is an error.' : undefined});
     }
 
     onSkip = () => {
@@ -56,6 +67,15 @@ export default class CompleteProfileStep extends React.PureComponent<Props, Stat
                         minHeight: '200px',
                     }}
                 >
+                    <Input
+                        name='fullName'
+                        type='text'
+                        value={this.state.fullName}
+                        onChange={this.handleInputChange}
+                        placeholder={'Your full name'}
+                        error={this.state.fullNameError}
+                        info={'Your name will be displayed with your messages'}
+                    />
                     <PictureSelector
                         onSelect={this.onSelectPicture}
                         onRemove={this.onRemovePicture}
