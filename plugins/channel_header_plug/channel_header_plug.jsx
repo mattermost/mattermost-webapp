@@ -151,7 +151,6 @@ export default class ChannelHeaderPlug extends React.PureComponent {
             );
         });
 
-
         return (
             <div className='flex-child'>
                 <Dropdown
