@@ -57,7 +57,7 @@ type Props = {
         getAllGroupsAssociatedToChannelsInTeam: (teamId: string, filterAllowReference: boolean) => Promise<{}>;
         getAllGroupsAssociatedToTeam: (teamId: string, filterAllowReference: boolean) => Promise<{}>;
         getGroupsByUserId: (userID: string) => Promise<{}>;
-        getGroups: (filterAllowReference: boolean) => Promise<{}>;
+        getGroups: (filterAllowReference: boolean, page: number, perPage: number) => Promise<{}>;
 
     };
     mfaRequired: boolean;
