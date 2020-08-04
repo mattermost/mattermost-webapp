@@ -99,7 +99,7 @@ context('LDAP SAML - Automated Tests (SAML TESTS)', () => {
             });
         });
 
-        it('Check SAML Metadata without Enable Encryption', () => {
+        it('MM-T3012 - Check SAML Metadata without Enable Encryption', () => {
             cy.apiAdminLogin();
             const test1Settings = {
                 ...newConfig,
@@ -120,7 +120,7 @@ context('LDAP SAML - Automated Tests (SAML TESTS)', () => {
             });
         });
 
-        it('SAML Login Audit', () => {
+        it('MM-T3280 - SAML Login Audit', () => {
             cy.apiAdminLogin();
 
             cy.apiUpdateConfig(newConfig).then(() => {
@@ -150,7 +150,7 @@ context('LDAP SAML - Automated Tests (SAML TESTS)', () => {
             });
         });
 
-        it('SAML Signature Algorithm using RSAwithSHA256', () => {
+        it('MM-T3281 - SAML Signature Algorithm using RSAwithSHA256', () => {
             cy.apiAdminLogin();
             const test1Settings = {
                 ...newConfig,
