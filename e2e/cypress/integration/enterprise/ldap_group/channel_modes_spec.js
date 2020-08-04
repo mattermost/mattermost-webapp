@@ -15,7 +15,7 @@ describe('Test channel public/private toggle', () => {
 
     before(() => {
         // * Check if server has license for LDAP Groups
-        cy.requireLicenseForFeature('LDAPGroups');
+        cy.apiRequireLicenseForFeature('LDAPGroups');
 
         // Enable LDAP and LDAP group sync
         cy.apiUpdateConfig({

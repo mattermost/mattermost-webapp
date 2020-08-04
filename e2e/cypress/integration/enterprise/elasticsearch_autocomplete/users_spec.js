@@ -18,7 +18,7 @@ describe('Autocomplete with Elasticsearch - Users', () => {
 
     before(() => {
         // * Check if server has license for Elasticsearch
-        cy.requireLicenseForFeature('Elasticsearch');
+        cy.apiRequireLicenseForFeature('Elasticsearch');
 
         // # Create new team for tests
         cy.apiCreateTeam(`elastic-${timestamp}`, `elastic-${timestamp}`).then(({team}) => {
@@ -304,8 +304,7 @@ describe('Autocomplete with Elasticsearch - Users', () => {
             cy.apiCreateChannel(testTeam.id, channelName, channelName).then((channelResponse) => {
                 const channel = channelResponse.body;
 
-                cy.apiGetUserByEmail(thor.email).then((emailResponse) => {
-                    const user = emailResponse.body;
+                cy.apiGetUserByEmail(thor.email).then(({user}) => {
                     cy.apiAddUserToChannel(channel.id, user.id);
                 });
 

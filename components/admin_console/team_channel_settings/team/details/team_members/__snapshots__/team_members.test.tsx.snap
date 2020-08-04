@@ -58,6 +58,63 @@ exports[`admin_console/team_channel_settings/team/TeamMembers should match snaps
 >
   <UserGrid
     excludeUsers={Object {}}
+    filterProps={
+      Object {
+        "keys": Array [
+          "role",
+        ],
+        "onFilter": [Function],
+        "options": Object {
+          "role": Object {
+            "keys": Array [
+              "system_guest",
+              "team_user",
+              "team_admin",
+              "system_admin",
+            ],
+            "name": <FormattedMessage
+              defaultMessage="Role"
+              id="admin.user_grid.role"
+              values={Object {}}
+            />,
+            "values": Object {
+              "system_admin": Object {
+                "name": <FormattedMessage
+                  defaultMessage="System Admin"
+                  id="admin.user_grid.system_admin"
+                  values={Object {}}
+                />,
+                "value": false,
+              },
+              "system_guest": Object {
+                "name": <FormattedMessage
+                  defaultMessage="Guest"
+                  id="admin.user_grid.guest"
+                  values={Object {}}
+                />,
+                "value": false,
+              },
+              "team_admin": Object {
+                "name": <FormattedMessage
+                  defaultMessage="Team Admin"
+                  id="admin.user_grid.team_admin"
+                  values={Object {}}
+                />,
+                "value": false,
+              },
+              "team_user": Object {
+                "name": <FormattedMessage
+                  defaultMessage="Member"
+                  id="admin.user_item.member"
+                  values={Object {}}
+                />,
+                "value": false,
+              },
+            },
+          },
+        },
+      }
+    }
     includeUsers={Object {}}
     loadPage={[Function]}
     loading={true}
@@ -296,6 +353,63 @@ exports[`admin_console/team_channel_settings/team/TeamMembers should match snaps
 >
   <UserGrid
     excludeUsers={Object {}}
+    filterProps={
+      Object {
+        "keys": Array [
+          "role",
+        ],
+        "onFilter": [Function],
+        "options": Object {
+          "role": Object {
+            "keys": Array [
+              "system_guest",
+              "team_user",
+              "team_admin",
+              "system_admin",
+            ],
+            "name": <FormattedMessage
+              defaultMessage="Role"
+              id="admin.user_grid.role"
+              values={Object {}}
+            />,
+            "values": Object {
+              "system_admin": Object {
+                "name": <FormattedMessage
+                  defaultMessage="System Admin"
+                  id="admin.user_grid.system_admin"
+                  values={Object {}}
+                />,
+                "value": false,
+              },
+              "system_guest": Object {
+                "name": <FormattedMessage
+                  defaultMessage="Guest"
+                  id="admin.user_grid.guest"
+                  values={Object {}}
+                />,
+                "value": false,
+              },
+              "team_admin": Object {
+                "name": <FormattedMessage
+                  defaultMessage="Team Admin"
+                  id="admin.user_grid.team_admin"
+                  values={Object {}}
+                />,
+                "value": false,
+              },
+              "team_user": Object {
+                "name": <FormattedMessage
+                  defaultMessage="Member"
+                  id="admin.user_item.member"
+                  values={Object {}}
+                />,
+                "value": false,
+              },
+            },
+          },
+        },
+      }
+    }
     includeUsers={Object {}}
     loadPage={[Function]}
     loading={true}

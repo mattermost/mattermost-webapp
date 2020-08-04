@@ -60,22 +60,19 @@ describe('Channel switching', () => {
         const teamName = `team-${getRandomId()}`;
         cy.createNewTeam(teamName, teamName);
 
+        // # Create a new channel
+        cy.getCurrentTeamId().then((teamId) => {
+            cy.apiCreateChannel(teamId, 'test-channel', 'Test Channel').then((response) => {
+                // # Have another user post a message in the new channel
+                cy.reload();
+                cy.postMessageAs({sender: sysadmin, message: 'Test', channelId: response.body.id});
+            });
+        });
+
         // * Verify that we've switched to the new team
         cy.get('#headerTeamName').should('contain', teamName);
 
         cy.getCurrentChannelId().as('townSquareId');
-
-        // # Create a new channel
-        cy.getCurrentTeamId().then((teamId) => {
-            cy.apiCreateChannel(teamId, 'test-channel', 'Test Channel').then((response) => {
-                expect(response.status).to.equal(201);
-
-                cy.wrap(response.body).as('testChannel');
-            });
-        });
-
-        // # Have another user post a message in the new channel
-        cy.get('@testChannel').then((testChannel) => cy.postMessageAs({sender: sysadmin, message: 'Test', channelId: testChannel.id}));
 
         // # Press alt + shift + up
         cy.get('body').type('{alt}{shift}', {release: false}).type('{uparrow}').type('{alt}{shift}', {release: true});

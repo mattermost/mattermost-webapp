@@ -12,55 +12,6 @@
 
 import {getRandomId} from '../../utils';
 
-function postMessages(testChannel, otherUser, count) {
-    let lastMessage;
-
-    for (let index = 0; index < count; index++) {
-        // # Post Message as Current user
-        const message = `hello from current user: ${getRandomId()}`;
-        cy.postMessage(message);
-        lastMessage = `hello from ${otherUser.username}: ${getRandomId()}`;
-        cy.postMessageAs({sender: otherUser, message: lastMessage, channelId: testChannel.id});
-    }
-
-    return {lastMessage};
-}
-
-function performActionsToLastPost() {
-    // # Take some actions on the last post
-    cy.getLastPostId().then((postId) => {
-        // # Add couple of Reactions
-        cy.clickPostReactionIcon(postId);
-        cy.findByTestId('grinning').click();
-        cy.clickPostReactionIcon(postId);
-        cy.findByTestId('smile').click();
-
-        // # Flag the post
-        cy.clickPostFlagIcon(postId);
-
-        // # Pin the post
-        cy.clickPostDotMenu(postId);
-        cy.get(`#pin_post_${postId}`).click();
-
-        cy.clickPostDotMenu(postId);
-        cy.get('body').type('{esc}');
-    });
-}
-
-function verifyPostLabel(elementId, username, labelSuffix) {
-    // # Shift focus to the last post
-    cy.get(elementId).as('lastPost').should('have.class', 'a11y--active a11y--focused');
-
-    // * Verify reader reads out the post correctly
-    cy.get('@lastPost').then((el) => {
-        // # Get the post time
-        cy.wrap(el).find('time.post__time').invoke('text').then((time) => {
-            const expectedLabel = `At ${time} ${Cypress.moment().format('dddd, MMMM D')}, ${username} ${labelSuffix}`;
-            cy.wrap(el).should('have.attr', 'aria-label', expectedLabel);
-        });
-    });
-}
-
 describe('Verify Accessibility Support in Post', () => {
     let testUser;
     let otherUser;
@@ -108,7 +59,7 @@ describe('Verify Accessibility Support in Post', () => {
         // * Verify post message in Center Channel
         cy.getLastPostId().then((postId) => {
             // * Verify reader reads out the post correctly
-            verifyPostLabel(`#post_${postId}`, otherUser.username, `wrote, ${lastMessage}, 2 reactions, message is flagged and pinned`);
+            verifyPostLabel(`#post_${postId}`, otherUser.username, `wrote, ${lastMessage}, 2 reactions, message is saved and pinned`);
         });
     });
 
@@ -129,7 +80,7 @@ describe('Verify Accessibility Support in Post', () => {
                 cy.get('#fileUploadButton').focus().tab({shift: true}).tab({shift: true}).type('{uparrow}');
 
                 // * Verify reader reads out the post correctly
-                verifyPostLabel(`#rhsPost_${postId}`, otherUser.username, `wrote, ${lastMessage}, 2 reactions, message is flagged and pinned`);
+                verifyPostLabel(`#rhsPost_${postId}`, otherUser.username, `wrote, ${lastMessage}, 2 reactions, message is saved and pinned`);
             });
 
             // * Verify reply message in RHS
@@ -226,16 +177,16 @@ describe('Verify Accessibility Support in Post', () => {
                 cy.get(`#CENTER_time_${postId}`).should('have.class', 'a11y--active a11y--focused');
                 cy.focused().tab();
 
-                // * Verify focus is on the flag icon
-                cy.get(`#CENTER_flagIcon_${postId}`).should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'flag for follow up');
-                cy.focused().tab();
-
                 // * Verify focus is on the actions button
                 cy.get(`#CENTER_button_${postId}`).should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'more actions');
                 cy.focused().tab();
 
                 // * Verify focus is on the reactions button
                 cy.get(`#CENTER_reaction_${postId}`).should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'add reaction');
+                cy.focused().tab();
+
+                // * Verify focus is on the save post button
+                cy.get(`#CENTER_flagIcon_${postId}`).should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'save');
                 cy.focused().tab();
 
                 // * Verify focus is on the comment button
@@ -276,16 +227,16 @@ describe('Verify Accessibility Support in Post', () => {
                 cy.get(`#rhsPostMessageText_${postId}`).should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-readonly', 'true');
                 cy.focused().tab({shift: true});
 
+                // * Verify focus is on the flag icon
+                cy.get(`#RHS_COMMENT_flagIcon_${postId}`).should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'save');
+                cy.focused().tab({shift: true});
+
                 // * Verify focus is on the reactions button
                 cy.get(`#RHS_COMMENT_reaction_${postId}`).should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'add reaction');
                 cy.focused().tab({shift: true});
 
                 // * Verify focus is on the actions button
                 cy.get(`#RHS_COMMENT_button_${postId}`).should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'more actions');
-                cy.focused().tab({shift: true});
-
-                // * Verify focus is on the flag icon
-                cy.get(`#RHS_COMMENT_flagIcon_${postId}`).should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'flag for follow up');
                 cy.focused().tab({shift: true});
 
                 // * Verify focus is on the time
@@ -315,3 +266,54 @@ describe('Verify Accessibility Support in Post', () => {
         });
     });
 });
+
+function postMessages(testChannel, otherUser, count) {
+    let lastMessage;
+
+    for (let index = 0; index < count; index++) {
+        // # Post Message as Current user
+        const message = `hello from current user: ${getRandomId()}`;
+        cy.postMessage(message);
+        lastMessage = `hello from ${otherUser.username}: ${getRandomId()}`;
+        cy.postMessageAs({sender: otherUser, message: lastMessage, channelId: testChannel.id});
+    }
+
+    return {lastMessage};
+}
+
+function performActionsToLastPost() {
+    // # Take some actions on the last post
+    cy.getLastPostId().then((postId) => {
+        // # Add couple of Reactions
+        cy.clickPostReactionIcon(postId);
+        cy.findByTestId('grinning').click();
+        cy.get(`#postReaction-${postId}-grinning`).should('be.visible');
+        cy.clickPostReactionIcon(postId);
+        cy.findByTestId('smile').click();
+        cy.get(`#postReaction-${postId}-smile`).should('be.visible');
+
+        // # Flag the post
+        cy.clickPostFlagIcon(postId);
+
+        // # Pin the post
+        cy.clickPostDotMenu(postId);
+        cy.get(`#pin_post_${postId}`).click();
+
+        cy.clickPostDotMenu(postId);
+        cy.get('body').type('{esc}');
+    });
+}
+
+function verifyPostLabel(elementId, username, labelSuffix) {
+    // # Shift focus to the last post
+    cy.get(elementId).as('lastPost').should('have.class', 'a11y--active a11y--focused');
+
+    // * Verify reader reads out the post correctly
+    cy.get('@lastPost').then((el) => {
+        // # Get the post time
+        cy.wrap(el).find('time.post__time').invoke('text').then((time) => {
+            const expectedLabel = `At ${time} ${Cypress.moment().format('dddd, MMMM D')}, ${username} ${labelSuffix}`;
+            cy.wrap(el).should('have.attr', 'aria-label', expectedLabel);
+        });
+    });
+}

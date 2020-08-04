@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @account_setting
 
 describe('Account Settings > Sidebar > Channel Switcher', () => {
@@ -27,6 +26,7 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
 
     beforeEach(() => {
         // # Go to Account Settings
+        cy.reload();
         cy.toAccountSettingsModal();
     });
 

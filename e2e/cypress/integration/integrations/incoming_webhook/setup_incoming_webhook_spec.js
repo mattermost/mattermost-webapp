@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @incoming_webhook
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
@@ -19,8 +20,8 @@ describe('Incoming webhook', () => {
     let siteName;
 
     before(() => {
-        cy.apiGetConfig().then((response) => {
-            siteName = response.body.TeamSettings.SiteName;
+        cy.apiGetConfig().then(({config}) => {
+            siteName = config.TeamSettings.SiteName;
         });
         cy.apiInitSetup().then(({team, channel}) => {
             testTeam = team;

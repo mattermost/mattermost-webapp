@@ -761,7 +761,9 @@ class CreatePost extends React.PureComponent {
         }
 
         if (allowSending) {
-            e.persist();
+            if (e.persist) {
+                e.persist();
+            }
             if (this.refs.textbox) {
                 this.refs.textbox.blur();
             }
