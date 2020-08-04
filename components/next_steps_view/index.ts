@@ -20,10 +20,9 @@ function makeMapStateToProps() {
 
     return (state: GlobalState) => {
         const license = getLicense(state);
-        const currentUser = getCurrentUser(state);
 
         return {
-            currentUserId: currentUser.id,
+            currentUser: getCurrentUser(state),
             preferences: getCategory(state, Preferences.RECOMMENDED_NEXT_STEPS),
             skuName: license.SkuShortName,
         };
