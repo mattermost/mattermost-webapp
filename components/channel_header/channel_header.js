@@ -42,7 +42,6 @@ import {intlShape} from 'utils/react_intl';
 import * as Utils from 'utils/utils';
 
 import ChannelHeaderPlug from 'plugins/channel_header_plug';
-import CameraIcon from 'components/widgets/icons/camera_icon';
 
 import HeaderIconWrapper from './components/header_icon_wrapper';
 
@@ -755,19 +754,6 @@ class ChannelHeader extends React.PureComponent {
                     <ChannelHeaderPlug
                         channel={channel}
                         channelMember={channelMember}
-                    />
-                    <ChannelHeaderPlug
-                        channel={channel}
-                        channelMember={channelMember}
-                        dropdownIcon={CameraIcon}
-                        elementsToCollapse={1}
-                        callPlugins={true}
-                        tooltipMessage={(
-                            <FormattedMessage
-                                id='generic_icons.calls'
-                                defaultMessage='Start a call'
-                            />
-                        )}
                     />
                     <HeaderIconWrapper
                         iconComponent={pinnedIcon}

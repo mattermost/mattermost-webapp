@@ -97,21 +97,6 @@ export default class ChannelHeaderPlug extends React.PureComponent {
          * Logged in user's theme
          */
         theme: PropTypes.object.isRequired,
-
-        dropdownIcon: PropTypes.elementType,
-        elementsToCollapse: PropTypes.number,
-        tooltipMessage: PropTypes.element,
-    }
-
-    static defaultProps = {
-        dropdownIcon: PluginChannelHeaderIcon,
-        elementsToCollapse: 5,
-        tooltipMessage: (
-            <FormattedMessage
-                id='generic_icons.plugins'
-                defaultMessage='Plugins'
-            />
-        ),
     }
 
     constructor(props) {
@@ -166,7 +151,6 @@ export default class ChannelHeaderPlug extends React.PureComponent {
             );
         });
 
-        const Icon = this.props.dropdownIcon;
 
         return (
             <div className='flex-child'>
@@ -185,14 +169,15 @@ export default class ChannelHeaderPlug extends React.PureComponent {
                             placement='bottom'
                             overlay={this.state.dropdownOpen ? <></> : (
                                 <Tooltip id='removeIcon'>
-                                    <div aria-hidden={true}>
-                                        {this.props.tooltipMessage}
-                                    </div>
+                                    <FormattedMessage
+                                        id='generic_icons.plugins'
+                                        defaultMessage='Plugins'
+                                    />
                                 </Tooltip>
                             )}
                         >
-                            <div>
-                                <Icon
+                            <React.Fragment>
+                                <PluginChannelHeaderIcon
                                     id='pluginChannelHeaderIcon'
                                     className='icon icon--standard icon__pluginChannelHeader'
                                     aria-hidden='true'
@@ -203,7 +188,7 @@ export default class ChannelHeaderPlug extends React.PureComponent {
                                 >
                                     {plugs.length}
                                 </span>
-                            </div>
+                            </React.Fragment>
                         </OverlayTrigger>
                     </CustomToggle>
                     <CustomMenu
@@ -223,7 +208,7 @@ export default class ChannelHeaderPlug extends React.PureComponent {
 
         if (components.length === 0) {
             return null;
-        } else if (components.length <= this.props.elementsToCollapse) {
+        } else if (components.length <= 5) {
             return components.map(this.createButton);
         }
 

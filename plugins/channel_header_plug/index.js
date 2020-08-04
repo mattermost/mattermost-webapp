@@ -6,13 +6,9 @@ import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 
 import ChannelHeaderPlug from './channel_header_plug.jsx';
 
-function mapStateToProps(state, ownProps) {
-    let components = state.plugins.components.ChannelHeaderButton;
-    if (ownProps && ownProps.callPlugins) {
-        components = state.plugins.components.ChannelHeaderCallButton;
-    }
+function mapStateToProps(state) {
     return {
-        components,
+        components: state.plugins.components.ChannelHeaderButton,
         theme: getTheme(state),
     };
 }
