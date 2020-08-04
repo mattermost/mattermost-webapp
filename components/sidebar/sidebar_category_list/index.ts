@@ -4,14 +4,19 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
-import {moveChannelToCategory, moveCategory} from 'mattermost-redux/actions/channel_categories';
+import {moveCategory} from 'mattermost-redux/actions/channel_categories';
 import {getSortedUnreadChannelIds, getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 import {makeGetCategoriesForTeam} from 'mattermost-redux/selectors/entities/channel_categories';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {switchToChannelById} from 'actions/views/channel';
-import {setDraggingState, stopDragging, expandCategory} from 'actions/views/channel_sidebar';
+import {
+    expandCategory,
+    moveChannelInSidebar,
+    setDraggingState,
+    stopDragging,
+} from 'actions/views/channel_sidebar';
 import {close} from 'actions/views/lhs';
 import {isUnreadFilterEnabled, makeGetCurrentlyDisplayedChannelsForTeam, getDraggingState, makeGetCollapsedStateForAllCategoriesByTeam} from 'selectors/views/channel_sidebar';
 import {GlobalState} from 'types/store';
@@ -46,7 +51,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
         actions: bindActionCreators({
             close,
             switchToChannelById,
-            moveChannelToCategory,
+            moveChannelInSidebar,
             moveCategory,
             setDraggingState,
             stopDragging,

@@ -3964,5 +3964,11 @@
   "channel_header.userHelpGuide": "Ajuda",
   "generic_modal.confirm": "Confirmar",
   "generic_modal.cancel": "Cancelar",
-  "announcement_bar.error.warn_metric_status.link": "Saiba Mais"
+  "announcement_bar.error.warn_metric_status.link": "Saiba Mais",
+  "admin.channel_list.public": "Público",
+  "admin.channel_list.private": "Privado",
+  "admin.channel_list.group_sync": "Sincronização de Grupo",
+  "admin.channel_list.archived": "Arquivado",
+  "admin.jobTable.headerFiles": "Arquivos",
+  "admin.jobTable.downloadLink": "Download"
 }
