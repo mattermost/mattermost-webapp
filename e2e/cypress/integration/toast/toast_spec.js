@@ -15,11 +15,13 @@ describe('toasts', () => {
     let otherUser;
     let testTeam;
     let townsquareChannelId;
+    let otherChannel;
 
     before(() => {
         // # Build data to test and login as testUser
-        cy.apiInitSetup().then(({team, user}) => {
+        cy.apiInitSetup().then(({team, channel, user}) => {
             testTeam = team;
+            otherChannel = channel;
 
             cy.apiGetChannelByName(testTeam.name, 'town-square').then((res) => {
                 townsquareChannelId = res.body.id;
@@ -262,6 +264,29 @@ describe('toasts', () => {
             // * Toast should be present
             cy.get('div.toast').should('be.visible').contains('Viewing message history');
         });
+    });
+
+    it('MM-T1788 Toast count', () => {
+        // # Visit other channel
+        cy.get(`#sidebarItem_${otherChannel.name}`).should('be.visible').click();
+
+        // # Add 25 posts to create enough space from bottom for showing archive toast
+        for (let index = 0; index < 25; index++) {
+            cy.postMessageAs({sender: otherUser, message: `This is an old message [${index}]`, channelId: townsquareChannelId});
+        }
+
+        visitTownSquareAndWaitForPageToLoad();
+
+        // * Toast should be present
+        cy.get('div.toast').should('be.visible').contains('25 new messages');
+
+        // # Add 25 posts to create enough space from bottom for showing archive toast
+        for (let index = 0; index < 25; index++) {
+            cy.postMessageAs({sender: otherUser, message: `This is an old message [${index}]`, channelId: townsquareChannelId});
+        }
+
+        // * Toast should be present and contains 50 new messages
+        cy.get('div.toast').should('be.visible').contains('50 new messages');
     });
 });
 
