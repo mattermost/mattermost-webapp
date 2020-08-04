@@ -91,6 +91,7 @@ export default class Root extends React.PureComponent {
         permalinkRedirectTeamName: PropTypes.string,
         actions: PropTypes.shape({
             loadMeAndConfig: PropTypes.func.isRequired,
+            getWarnMetricsStatus: PropTypes.func.isRequired,
         }).isRequired,
         plugins: PropTypes.array,
     }
@@ -106,7 +107,7 @@ export default class Root extends React.PureComponent {
         setSystemEmojis(EmojiIndicesByAlias);
 
         // Force logout of all tabs if one tab is logged out
-        $(window).bind('storage', (e) => {
+        $(window).bind('storage', (e) => { // eslint-disable-line jquery/no-bind
             // when one tab on a browser logs out, it sets __logout__ in localStorage to trigger other tabs to log out
             if (e.originalEvent.key === StoragePrefixes.LOGOUT && e.originalEvent.storageArea === localStorage && e.originalEvent.newValue) {
                 // make sure it isn't this tab that is sending the logout signal (only necessary for IE11)
@@ -242,6 +243,8 @@ export default class Root extends React.PureComponent {
             }
             this.onConfigLoaded();
         });
+
+        this.props.actions.getWarnMetricsStatus();
         trackLoadTime();
     }
 
