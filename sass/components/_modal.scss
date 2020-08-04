@@ -740,7 +740,6 @@
         overflow: hidden;
         padding-left: 10px;
         text-overflow: ellipsis;
-        display: flex;
         .more-modal__last_post_at {
             padding-top: 10px;
             text-align: right;
@@ -834,9 +833,6 @@
     .more-modal__lastPostAt {
         display: block;
         opacity: 0.6
-    }
-    .more-modal__actions--round {
-        visibility: hidden
     }
 
     .more-modal__placeholder-row {
