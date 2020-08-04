@@ -11,6 +11,7 @@
 // Group: @integrations
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
+import * as MESSAGES from '../../../fixtures/messages';
 
 describe('I18456 Built-in slash commands: common', () => {
     let user1;
@@ -70,6 +71,33 @@ describe('I18456 Built-in slash commands: common', () => {
         cy.getLastPostId().then((postId) => {
             cy.get(`#post_${postId}`).find('.user-popover').should('have.text', user1.username);
             cy.get(`#postMessageText_${postId}`).should('have.text', 'test ¯\\_(ツ)_/¯');
+        });
+    });
+
+    it('MM-T2345 /me on RHS', () => {
+        loginAndVisitDefaultChannel(user1, testChannelUrl);
+        cy.postMessage(MESSAGES.MEDIUM);
+
+        // # Open RHS (reply thread)
+        cy.clickPostCommentIcon();
+
+        // # type /me test
+        cy.get('#reply_textbox').type('/me test');
+        cy.get('#addCommentButton').click();
+        cy.uiWaitUntilMessagePostedIncludes('test');
+
+        cy.getLastPostId().then((postId) => {
+            // * Verify RHS message is from current user and properly formatted with lower opacity
+            cy.get(`#rhsPost_${postId}`).should('have.class', 'current--user').within(() => {
+                cy.get('button').should('have.text', user1.username);
+                cy.get('p').should('have.text', 'test').and('have.css', 'color', 'rgba(61, 60, 64, 0.6)');
+            });
+
+            // * Verify message on the main channel is from current user and properly formatted with lower opacity
+            cy.get(`#post_${postId}`).should('have.class', 'current--user').within(() => {
+                cy.get('button').should('have.text', user1.username);
+                cy.get('p').should('have.text', 'test').and('have.css', 'color', 'rgba(61, 60, 64, 0.6)');
+            });
         });
     });
 });
