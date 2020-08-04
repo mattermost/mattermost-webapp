@@ -30,7 +30,7 @@
     left: 0;
     height: 100%;
     z-index: 16;
-    border-right: 1px solid var(--center-channel-color-20);
+    border-right: 1px solid rgba(var(--center-channel-color-rgb), 0.2);
 
     &.dragging {
         z-index: 14;
@@ -63,7 +63,7 @@
     .badge {
         display: inline-block;
         flex-shrink: 0;
-        margin-right: 14px;
+        margin-right: 3px;
         padding: 0 6px;
         min-width: 22px;
         height: auto;
@@ -81,7 +81,7 @@
     }
 
     .a11y--focused {
-        box-shadow: inset 0 0 1px 3px var(--sidebar-text-50), inset 0 0 0 1px var(--sidebar-text) !important;
+        box-shadow: inset 0 0 1px 3px rgba(var(--sidebar-text-rgb), 0.5), inset 0 0 0 1px var(--sidebar-text) !important;
 
         .SidebarChannelGroupHeader_groupButton {
             background-color: inherit !important;
@@ -101,7 +101,7 @@
             color: var(--sidebar-header-text-color);
 
             .user__name {
-                color: var(--sidebar-header-text-color-80);
+                color: rgba(var(--sidebar-header-text-color-rgb), 0.8);
             }
 
             &:hover .user__name {
@@ -148,7 +148,7 @@
             vertical-align: middle;
             border: 0;
             background: rgba(255, 255, 255, 0.16);
-            color: var(--sidebar-text-72);
+            color: rgba(var(--sidebar-text-rgb), 0.72);
 
             &:hover:not(.disabled) {
                 color: var(--sidebar-text);
@@ -211,11 +211,11 @@
         background: rgba(255, 255, 255, 0.16);
         text-align: center;
         border-radius: 4px;
-        color: var(--sidebar-text-60);
+        color: rgba(var(--sidebar-text-rgb), 0.6);
         font-size: 16px;
     }
     .SidebarFilters .SidebarFilters_filterButton:hover {
-        color: var(--sidebar-text-80);
+        color: rgba(var(--sidebar-text-rgb), 0.8);
         background: rgba(255, 255, 255, 0.24);
     }
     .SidebarFilters .SidebarFilters_filterButton.active {
@@ -224,7 +224,7 @@
     }
 
     .SidebarFilters .SidebarFilters_filterTitle {
-        color: var(--sidebar-text-72);
+        color: rgba(var(--sidebar-text-rgb), 0.72);
         font-weight: 600;
         font-size: 10px;
         line-height: 12px;
@@ -257,7 +257,7 @@
 
             i {
                 font-size: 16px;
-                color: var(--center-channel-color-48);
+                color: rgba(var(--center-channel-color-rgb), 0.72);
                 line-height: 16px;
             }
         }
@@ -266,13 +266,12 @@
     .AddChannelDropdown_dropdownButton {
         padding: 0;
         margin-right: 16px;
-        margin-top: 6px;
+        margin-top: 7px;
         z-index: 1;
         background: transparent;
         border: none;
-        color: var(--sidebar-text-80);
-        font-size: 18px;
-        line-height: 16px;
+        color: rgba(var(--sidebar-text-rgb), 0.8);
+        font-size: 20px;
         height: 28px;
         width: 28px;
         border-radius: 4px;
@@ -306,7 +305,7 @@
 
             i {
                 font-size: 16px;
-                color: var(--center-channel-color-72);
+                color: rgba(var(--center-channel-color-rgb), 0.72);
                 line-height: 16px;
             }
         }
@@ -363,15 +362,19 @@
         z-index: 1;
         background: transparent;
         border: none;
-        color: var(--sidebar-text-60);
+        color: rgba(var(--sidebar-text-rgb), 0.6);
         font-size: 16px;
         line-height: 16px;
         border-radius: 4px;
     }
 
-    .SidebarMenu_menuButton:hover, .SidebarMenu_menuButton:active, .SidebarMenu_menuButton:focus {
-        cursor: pointer;
-        color: var(--sidebar-text);
+    .SidebarMenu_menuButton {
+        &:hover,
+        &:active,
+        &:focus {
+            cursor: pointer;
+            color: var(--sidebar-text);
+        }
     }
 
     .SidebarMenu_menuButton:focus {
@@ -478,7 +481,7 @@
     }
 
     .SidebarCategory_newDropBox {
-        border: 1px dashed var(--sidebar-text-30);
+        border: 1px dashed rgba(var(--sidebar-text-rgb), 0.3);
         border-radius: 4px;
         margin: 0 16px;
         padding: 10px;
@@ -488,13 +491,13 @@
         > i {
             font-size: 18px;
             line-height: 16px;
-            color: var(--sidebar-text-60);
+            color: rgba(var(--sidebar-text-rgb), 0.6);
         }
 
         .SidebarCategory_newDropBox-label {
             font-size: 12px;
             line-height: 16px;
-            color: var(--sidebar-text-72);
+            color: rgba(var(--sidebar-text-rgb), 0.72);
             margin-left: 8px;
         }
 
@@ -573,7 +576,7 @@
         text-overflow: ellipsis;
         text-align: left;
         border: none;
-        color: var(--sidebar-text-60);
+        color: rgba(var(--sidebar-text-rgb), 0.6);
         top: 0;
         box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.33);
         transition: box-shadow 0.25s ease-in-out;
@@ -596,7 +599,7 @@
 
         &.draggingOverHeader:hover {
             //background: radial-gradient(60.83% 3421.87% at 50% 50%, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 100%);
-            box-shadow: inset -1px 0 0 var(--sidebar-text-60), inset 0 -1px 0 var(--sidebar-text-60), inset 1px 0 0 var(--sidebar-text-60), inset 0 1px 0 var(--sidebar-text-60);
+            box-shadow: inset -1px 0 0 rgba(var(--sidebar-text-rgb), 0.60), inset 0 -1px 0 rgba(var(--sidebar-text-rgb), 0.6), inset 1px 0 0 rgba(var(--sidebar-text-rgb), 0.6), inset 0 1px 0 rgba(var(--sidebar-text-rgb), 0.6);
             border-radius: 4px;
 
             .SidebarChannelGroupHeader_groupButton {
@@ -617,7 +620,7 @@
         white-space: nowrap;
         text-align: left;
         border: none;
-        color: var(--sidebar-text-60);
+        color: rgba(var(--sidebar-text-rgb), 0.6);
         background-color: var(--sidebar-bg);
         position: sticky;
         top: 0;
@@ -715,7 +718,7 @@
     }
 
     .SidebarChannelGroup .draggingOverDMCategory {
-        box-shadow: inset -1px 0 0 var(--sidebar-text-60), inset 0 -1px 0 var(--sidebar-text-60), inset 1px 0 0 var(--sidebar-text-60), inset 0 1px 0 var(--sidebar-text-60);
+        box-shadow: inset -1px 0 0 rgba(var(--sidebar-text-rgb), 0.6), inset 0 -1px 0 rgba(var(--sidebar-text-rgb), 0.6), inset 1px 0 0 rgba(var(--sidebar-text-rgb), 0.6), inset 0 1px 0 rgba(var(--sidebar-text-rgb), 0.6);
         border-radius: 4px;
 
         .SidebarChannelGroupHeader_groupButton {
@@ -732,7 +735,7 @@
         z-index: 1;
         background: transparent;
         border: none;
-        color: var(--sidebar-text-64);
+        color: rgba(var(--sidebar-text-rgb), 0.64);
         font-size: 18px;
         line-height: 16px;
         height: 28px;
@@ -755,7 +758,7 @@
         z-index: 1;
         background: transparent;
         border: none;
-        color: var(--sidebar-text-64);
+        color: rgba(var(--sidebar-text-rgb), 0.64);
         font-size: 16px;
         line-height: 16px;
         height: 28px;
@@ -802,7 +805,7 @@
         height: 32px; /* height required for transition animation */
         list-style-type: none;
         /* border: solid 2px transparent; */
-        color: var(--sidebar-text-60);
+        color: rgba(var(--sidebar-text-rgb), 0.6);
 
         &:hover {
             .btn-close {
@@ -852,8 +855,6 @@
         .SidebarMenu_menuButton {
             height: 28px;
             width: 28px;
-            margin-top: -7px;
-            margin-right: 11px;
         }
     }
 
@@ -892,10 +893,10 @@
         position: relative;
         font-size: 14px;
         text-decoration: none;
-        padding: 7px 5px 7px 14px;
+        padding: 7px 16px 7px 14px;
         display: flex;
-        color: var(--sidebar-text-60);
-        align-items: flex-start;
+        color: rgba(var(--sidebar-text-rgb), 0.6);
+        align-items: center;
         margin-right: 0;
         width: 100%;
         border-top: 0;
@@ -921,12 +922,21 @@
     .SidebarChannel .SidebarLink:hover {
         background: rgba(255, 255, 255, 0.08);
 
+        padding-right: 5px;
+
+        .SidebarMenu_menuButton {
+            margin-right: 11px;
+        }
+
         .SidebarMenu {
             display: block;
         }
 
         .badge {
-            display: none;
+            // Hide the badge by hiding it instead of using `display: none` since the desktop app only counts
+            // badges with a non-zero offsetHeight when counting notifications
+            position: absolute;
+            visibility: hidden;
         }
     }
     .SidebarChannel.active .SidebarLink {
@@ -945,7 +955,7 @@
         left: -2px;
         top: 0;
         width: 4px;
-        background: var(--sidebar-text);
+        background: var(--sidebar-text-active-border);
         border-radius: 4px;
     }
 
@@ -955,14 +965,14 @@
         color: var(--sidebar-unread-text);
     }
     .SidebarChannel .SidebarLink > i {
-        font-size: 12px;
-        margin-right: 5px;
+        font-size: 14.4px;
+        margin: 0 5px 0 0;
+        display: flex;
     }
 
     .SidebarChannel span.SidebarChannelLinkLabel {
         width: 100%;
         white-space: nowrap;
-        padding-right: 10px;
         line-height: 18px;
         text-align: justify;
         height: 18px;
@@ -971,7 +981,6 @@
     .SidebarChannelLinkLabel_wrapper {
         overflow: hidden;
         display: flex;
-        margin-right: 16px;
 
         > span {
             text-overflow: ellipsis;
@@ -1025,7 +1034,7 @@
     }
 
     .status.status--group {
-        background: var(--sidebar-text-16);
+        background: rgba(var(--sidebar-text-rgb), 0.16);
         margin: 3px 7px 0 1px;
         min-width: 14px;
         height: 14px;
@@ -1055,4 +1064,3 @@
         }
     }
 }
-
