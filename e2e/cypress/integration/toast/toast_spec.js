@@ -264,7 +264,7 @@ describe('toasts', () => {
         });
     });
 
-    it.only('MM-T1785 Toast - When marking post as unread', () => {
+    it('MM-T1785 Toast - When marking post as unread', () => {
         visitTownSquareAndWaitForPageToLoad();
 
         // # Add 40 posts to create enough space from bottom for making channel scrollable
