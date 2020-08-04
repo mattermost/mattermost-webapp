@@ -169,10 +169,12 @@ export default class ChannelHeaderPlug extends React.PureComponent {
                             placement='bottom'
                             overlay={this.state.dropdownOpen ? <></> : (
                                 <Tooltip id='removeIcon'>
-                                    <FormattedMessage
-                                        id='generic_icons.plugins'
-                                        defaultMessage='Plugins'
-                                    />
+                                    <div aria-hidden={true}>
+                                        <FormattedMessage
+                                            id='generic_icons.plugins'
+                                            defaultMessage='Plugins'
+                                        />
+                                    </div>
                                 </Tooltip>
                             )}
                         >

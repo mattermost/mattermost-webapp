@@ -156,32 +156,6 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
         }
       }
     />
-    <Connect(ChannelHeaderPlug)
-      callPlugins={true}
-      channel={
-        Object {
-          "delete_at": 0,
-          "id": "channel_id",
-          "name": "Test",
-          "team_id": "team_id",
-        }
-      }
-      channelMember={
-        Object {
-          "channel_id": "channel_id",
-          "user_id": "user_id",
-        }
-      }
-      dropdownIcon={[Function]}
-      elementsToCollapse={1}
-      tooltipMessage={
-        <FormattedMessage
-          defaultMessage="Start a call"
-          id="generic_icons.calls"
-          values={Object {}}
-        />
-      }
-    />
     <HeaderIconWrapper
       ariaLabel={true}
       buttonClass="channel-header__icon channel-header__icon--wide"
@@ -391,32 +365,6 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
           "channel_id": "channel_id",
           "user_id": "user_id",
         }
-      }
-    />
-    <Connect(ChannelHeaderPlug)
-      callPlugins={true}
-      channel={
-        Object {
-          "delete_at": 0,
-          "id": "channel_id",
-          "name": "Test",
-          "team_id": "team_id",
-        }
-      }
-      channelMember={
-        Object {
-          "channel_id": "channel_id",
-          "user_id": "user_id",
-        }
-      }
-      dropdownIcon={[Function]}
-      elementsToCollapse={1}
-      tooltipMessage={
-        <FormattedMessage
-          defaultMessage="Start a call"
-          id="generic_icons.calls"
-          values={Object {}}
-        />
       }
     />
     <HeaderIconWrapper
@@ -630,32 +578,6 @@ exports[`components/ChannelHeader should render active pinned posts 1`] = `
         }
       }
     />
-    <Connect(ChannelHeaderPlug)
-      callPlugins={true}
-      channel={
-        Object {
-          "delete_at": 0,
-          "id": "channel_id",
-          "name": "Test",
-          "team_id": "team_id",
-        }
-      }
-      channelMember={
-        Object {
-          "channel_id": "channel_id",
-          "user_id": "user_id",
-        }
-      }
-      dropdownIcon={[Function]}
-      elementsToCollapse={1}
-      tooltipMessage={
-        <FormattedMessage
-          defaultMessage="Start a call"
-          id="generic_icons.calls"
-          values={Object {}}
-        />
-      }
-    />
     <HeaderIconWrapper
       ariaLabel={true}
       buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--active"
@@ -804,32 +726,6 @@ exports[`components/ChannelHeader should render archived view 1`] = `
           "channel_id": "channel_id",
           "user_id": "user_id",
         }
-      }
-    />
-    <Connect(ChannelHeaderPlug)
-      callPlugins={true}
-      channel={
-        Object {
-          "delete_at": 1234,
-          "id": "channel_id",
-          "name": "Test",
-          "team_id": "team_id",
-        }
-      }
-      channelMember={
-        Object {
-          "channel_id": "channel_id",
-          "user_id": "user_id",
-        }
-      }
-      dropdownIcon={[Function]}
-      elementsToCollapse={1}
-      tooltipMessage={
-        <FormattedMessage
-          defaultMessage="Start a call"
-          id="generic_icons.calls"
-          values={Object {}}
-        />
       }
     />
     <HeaderIconWrapper
@@ -1078,32 +974,6 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
         }
       }
     />
-    <Connect(ChannelHeaderPlug)
-      callPlugins={true}
-      channel={
-        Object {
-          "delete_at": 0,
-          "id": "channel_id",
-          "name": "Test",
-          "team_id": "team_id",
-        }
-      }
-      channelMember={
-        Object {
-          "channel_id": "channel_id",
-          "user_id": "user_id",
-        }
-      }
-      dropdownIcon={[Function]}
-      elementsToCollapse={1}
-      tooltipMessage={
-        <FormattedMessage
-          defaultMessage="Start a call"
-          id="generic_icons.calls"
-          values={Object {}}
-        />
-      }
-    />
     <HeaderIconWrapper
       ariaLabel={true}
       buttonClass="channel-header__icon channel-header__icon--wide"
@@ -1319,32 +1189,6 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
           "channel_id": "channel_id",
           "user_id": "user_id",
         }
-      }
-    />
-    <Connect(ChannelHeaderPlug)
-      callPlugins={true}
-      channel={
-        Object {
-          "delete_at": 0,
-          "id": "channel_id",
-          "name": "Test",
-          "team_id": "team_id",
-        }
-      }
-      channelMember={
-        Object {
-          "channel_id": "channel_id",
-          "user_id": "user_id",
-        }
-      }
-      dropdownIcon={[Function]}
-      elementsToCollapse={1}
-      tooltipMessage={
-        <FormattedMessage
-          defaultMessage="Start a call"
-          id="generic_icons.calls"
-          values={Object {}}
-        />
       }
     />
     <HeaderIconWrapper
@@ -1596,39 +1440,6 @@ exports[`components/ChannelHeader should render properly when populated with cha
         }
       }
     />
-    <Connect(ChannelHeaderPlug)
-      callPlugins={true}
-      channel={
-        Object {
-          "header": "See ~test",
-          "id": "channel_id",
-          "name": "Test",
-          "props": Object {
-            "channel_mentions": Object {
-              "test": Object {
-                "display_name": "Test",
-              },
-            },
-          },
-          "team_id": "team_id",
-        }
-      }
-      channelMember={
-        Object {
-          "channel_id": "channel_id",
-          "user_id": "user_id",
-        }
-      }
-      dropdownIcon={[Function]}
-      elementsToCollapse={1}
-      tooltipMessage={
-        <FormattedMessage
-          defaultMessage="Start a call"
-          id="generic_icons.calls"
-          values={Object {}}
-        />
-      }
-    />
     <HeaderIconWrapper
       ariaLabel={true}
       buttonClass="channel-header__icon channel-header__icon--wide"
@@ -1838,32 +1649,6 @@ exports[`components/ChannelHeader should render the pinned icon with the pinned 
           "channel_id": "channel_id",
           "user_id": "user_id",
         }
-      }
-    />
-    <Connect(ChannelHeaderPlug)
-      callPlugins={true}
-      channel={
-        Object {
-          "delete_at": 0,
-          "id": "channel_id",
-          "name": "Test",
-          "team_id": "team_id",
-        }
-      }
-      channelMember={
-        Object {
-          "channel_id": "channel_id",
-          "user_id": "user_id",
-        }
-      }
-      dropdownIcon={[Function]}
-      elementsToCollapse={1}
-      tooltipMessage={
-        <FormattedMessage
-          defaultMessage="Start a call"
-          id="generic_icons.calls"
-          values={Object {}}
-        />
       }
     />
     <HeaderIconWrapper
