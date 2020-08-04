@@ -6,6 +6,7 @@ import {getTimezoneRegion} from 'mattermost-redux/utils/timezone_utils';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 
 import {UserProfile} from 'mattermost-redux/types/users';
+import {ActionFunc} from 'mattermost-redux/types/actions';
 
 import SettingItemMax from 'components/setting_item_max.jsx';
 import {getBrowserTimezone} from 'utils/timezone';
@@ -22,7 +23,7 @@ type Props ={
     manualTimezone: string;
     timezones: string[];
     actions: {
-        updateMe: (user: UserProfile) => Promise<void>;
+      updateMe: (user: UserProfile) => ActionFunc;
     };
 
 }
@@ -37,7 +38,6 @@ type State ={
 }
 
 export default class ManageTimezones extends React.PureComponent<Props, State> {
-    // public setSwitchBoxRef = React.createRef
     constructor(props: Props) {
         super(props);
 
@@ -119,7 +119,7 @@ export default class ManageTimezones extends React.PureComponent<Props, State> {
                     this.props.updateSection('');
                 } else if (err) {
                     let serverError;
-                    if (err.message) {
+                    if (err instanceof Error) {
                         serverError = err.message;
                     } else {
                         serverError = err;
@@ -129,7 +129,7 @@ export default class ManageTimezones extends React.PureComponent<Props, State> {
             });
     };
 
-    handleAutomaticTimezone = (e: React.FormEvent<HTMLInputElement>) => {
+    handleAutomaticTimezone = (e: React.ChangeEvent<HTMLInputElement>) => {
         const useAutomaticTimezone = e.target.checked;
         let automaticTimezone = '';
 
@@ -200,7 +200,6 @@ export default class ManageTimezones extends React.PureComponent<Props, State> {
                 </label>
                 <div className='pt-2'>
                     <SuggestionBox
-                        ref={this.setSwitchBoxRef}
                         className='form-control focused'
                         type='search'
                         onChange={this.onChange}

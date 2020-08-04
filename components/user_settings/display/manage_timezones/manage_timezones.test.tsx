@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {shallow} from 'enzyme';
+import {UserProfile} from 'mattermost-redux/types/users';
 
 import ManageTimezones from './manage_timezones';
 
@@ -12,7 +13,7 @@ describe('components/user_settings/display/manage_timezones/manage_timezones', (
     };
 
     const requiredProps = {
-        user,
+        user: user as UserProfile,
         locale: '',
         useAutomaticTimezone: true,
         automaticTimezone: '',
