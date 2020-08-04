@@ -3932,7 +3932,7 @@
   "edit_category_modal.helpText": "可以將頻道拖拉進分類以整理側邊欄。",
   "delete_category_modal.helpText": "將 **{category_name}** 內的頻道移回頻道跟直接傳訊分類。沒有被任何頻道移除。",
   "delete_category_modal.deleteCategory": "刪除此分類？",
-  "create_category_modal.createCategory": "建立分類",
+  "create_category_modal.createCategory": "建立新分類",
   "admin.team.restrictGuestDescription": "新使用者帳號只能使用上述指定的電子郵件網域 (如：\"mattermost.org\")或是用逗號分隔的網域列表(例：\"corp.mattermost.com, mattermost.org\")。只有上述網域的使用者能夠建立新團隊。此設定影響電子郵件登入。訪客使用者請到 註冊 > 訪客存取 設定網域。",
   "admin.support.enableAskCommunityTitle": "啟用社群發問連結：",
   "admin.support.enableAskCommunityDesc": "啟用時，Mattermost 的使用者介面跟主選單將會出現\"在社群中發問\"的連結，該連結可以讓使用者加入 Mattermost 社群以發問並協助其他人解決問題。停用時，連結將被隱藏。",
