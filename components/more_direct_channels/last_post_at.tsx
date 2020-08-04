@@ -2,8 +2,8 @@
 // See LICENSE.txt for license information.
 import React, {FunctionComponent} from 'react';
 import moment from 'moment-timezone';
-import {FormattedMessage} from 'react-intl';
-
+import {Unit} from '@formatjs/intl-relativetimeformat';
+import Timestamp from 'components/timestamp/timestamp';
 type Props = {
     lastPostAt?: number;
 }
@@ -13,32 +13,26 @@ export const LastPostAt: FunctionComponent<Props> = ({lastPostAt}: Props): JSX.E
     if (!lastPostAt) {
         return null;
     }
-    let messageId: string;
-    let value: number;
+    let unit: Unit;
 
     if (moment().diff(lastPostAt, 'years') > 0) {
-        messageId = t('more_direct_channels.last.post.at.years');
-        value = moment().diff(lastPostAt, 'years');
+        unit = 'year';
     } else if (moment().diff(lastPostAt, 'months') > 0) {
-        messageId = t('more_direct_channels.last.post.at.months');
-        value = moment().diff(lastPostAt, 'months');
+        unit = 'month';
     } else if (moment().diff(lastPostAt, 'days') > 0) {
-        messageId = t('more_direct_channels.last.post.at.days');
-        value = moment().diff(lastPostAt, 'days');
+        unit = 'day';
     } else if (moment().diff(lastPostAt, 'hours') > 0) {
-        messageId = t('more_direct_channels.last.post.at.hours');
-        value = moment().diff(lastPostAt, 'hours');
+        unit = 'hour';
     } else {
-        messageId = t('more_direct_channels.last.post.at.minutes');
-        const minutes = moment().diff(lastPostAt, 'minutes');
-        value = minutes || 1;
+        unit = 'minute';
     }
 
     return (
         <div className='more-modal__last_post_at'>
-            <FormattedMessage
-                id={messageId}
-                values={{value}}
+             <Timestamp
+                value={lastPostAt}
+                useTime={false}
+                unit={unit}
             />
         </div>
     );
