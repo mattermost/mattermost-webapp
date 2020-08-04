@@ -72,7 +72,7 @@ const openAuthPage = (page: string) => {
     browserHistory.push(`/admin_console/authentication/${page}`);
 };
 
-export default function NextStepsTips(props: {showFinalScreen: boolean}) {
+export default function NextStepsTips(props: {showFinalScreen: boolean; animating: boolean; stopAnimating: () => void}) {
     const dispatch = useDispatch();
     const openPluginMarketplace = openModal({modalId: ModalIdentifiers.PLUGIN_MARKETPLACE, dialogType: MarketplaceModal});
 
@@ -195,7 +195,13 @@ export default function NextStepsTips(props: {showFinalScreen: boolean}) {
     }
 
     return (
-        <div className={classNames('NextStepsView__viewWrapper NextStepsView__completedView', {completed: props.showFinalScreen})}>
+        <div
+            className={classNames('NextStepsView__viewWrapper NextStepsView__completedView', {
+                completed: props.showFinalScreen,
+                animating: props.animating,
+            })}
+            onTransitionEnd={props.stopAnimating}
+        >
             <header className='NextStepsView__header'>
                 <div className='NextStepsView__header-headerText'>
                     <h1 className='NextStepsView__header-headerTopText'>

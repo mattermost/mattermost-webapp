@@ -11,7 +11,7 @@
     position: absolute;
     height: 100%;
     width: 100%;
-    transition: left 0.8s ease-in;
+    transition: left 0.5s ease-in;
 }
 
 .NextStepsView__mainView {
@@ -19,28 +19,41 @@
 
     &.completed {
         left: -100vw;
+
+        &:not(.animating) {
+            opacity: 0;
+        }
     }
 }
 
 .NextStepsView__transitionView {
     left: 100vw;
     display: flex;
+    opacity: 0;
     justify-content: center;
 
     &.transitioning {
         left: 0;
+        opacity: 1;
     }
 
     &.completed {
         left: -100vw;
+        opacity: 1;
+
+        &:not(.animating) {
+            opacity: 0;
+        }
     }
 }
 
 .NextStepsView__completedView {
     left: 100vw;
+    opacity: 0;
 
     &.completed {
         left: 0;
+        opacity: 1;
     }
 
     .NextStepsView__body {
@@ -294,10 +307,9 @@
     flex-wrap: wrap;
 
     .Card {
-        flex: 1 0 310px;
+        flex: 0 0 310px;
         margin-bottom: 24px;
         margin-right: 24px;
-        max-width: 420px;
     }
 
     .Card + .Card {
@@ -353,6 +365,10 @@
     padding: 32px 72px;
     display: flex;
     align-content: center;
+
+    > img {
+        object-fit: contain;
+    }
 }
 
 .NextStepsView__downloadText {
@@ -375,7 +391,7 @@
     font-weight: 600;
     color: var(--button-bg);
     border-radius: 4px;
-    background: var(--center-channel-bg);
+    background: none;
     border: 1px solid var(--button-bg);
     padding: 10px 16px;
 }
@@ -412,10 +428,19 @@
     }
 }
 
+@media screen and (max-width: 1386px) { 
+    .NextStepsView__nextStepsCards {
+        margin-top: 0;
+    }
+
+    .NextStepsView__download {
+        margin-top: 0;
+    }
+}
+
 @media screen and (max-width: 1060px) {
     .NextStepsView__nextStepsCards {
         flex-direction: column;
-        margin-top: 0;
 
         .Card {
             flex-basis: auto;
@@ -423,8 +448,8 @@
             margin-right: 0;
         }
 
-        .Card + .Card {
-            margin-top: 16px;
+        .Card__body {
+            height: auto;
         }
     }
 
@@ -455,11 +480,36 @@
     .NextStepsView__tipsMobileMessage {
         margin-top: 16px;
     }
+
+    .NextStepsView__downloadText {
+        h3 {
+            margin-top: 0;
+        }
+    }
+
+    .NextStepsView__downloadButtons {
+        button {
+            display: block;
+        }
+
+        .NextStepsView__downloadAnyButton {
+            margin-left: 0;
+            margin-top: 16px;
+        }
+
+        .NextStepsView__downloadForPlatformButton {
+            line-height: 12px;
+        }
+    }
 }
 
 @media screen and (max-width: 768px) {
     #app-content.NextStepsView {
         background-size: auto;
+    }
+
+    .NextStepsView__viewWrapper {
+        padding-bottom: 60px;
     }
 
     .NextStepsView__header {
@@ -483,5 +533,9 @@
     .NextStepsView__transitionBody > img {
         max-width: 85%;
         left: 10%;
+    }
+
+    .NextStepsView__nextStepsCards .Card {
+        margin-bottom: 16px;
     }
 }

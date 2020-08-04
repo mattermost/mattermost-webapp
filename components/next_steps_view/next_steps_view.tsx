@@ -34,6 +34,7 @@ type Props = {
 type State = {
     showFinalScreen: boolean;
     showTransitionScreen: boolean;
+    animating: boolean;
 }
 
 export default class NextStepsView extends React.PureComponent<Props, State> {
@@ -43,6 +44,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
         this.state = {
             showFinalScreen: false,
             showTransitionScreen: false,
+            animating: false,
         };
     }
 
@@ -85,11 +87,11 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
     }
 
     showFinalScreen = () => {
-        this.setState({showFinalScreen: true});
+        this.setState({showFinalScreen: true, animating: true});
     }
 
     transitionToFinalScreen = () => {
-        this.setState({showTransitionScreen: true});
+        this.setState({showTransitionScreen: true, animating: true});
     }
 
     setTimerToFinalScreen = () => {
@@ -98,6 +100,10 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                 this.setState({showFinalScreen: true});
             }, TRANSITION_SCREEN_TIMEOUT);
         }
+    }
+
+    stopAnimating = () => {
+        this.setState({animating: false});
     }
 
     nextStep = (setExpanded: (expandedKey: string) => void, id: string) => {
@@ -159,6 +165,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                 className={classNames('NextStepsView__viewWrapper NextStepsView__transitionView', {
                     transitioning: this.state.showTransitionScreen,
                     completed: this.state.showTransitionScreen && this.state.showFinalScreen,
+                    animating: this.state.animating,
                 })}
                 onTransitionEnd={this.setTimerToFinalScreen}
             >
@@ -186,7 +193,12 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
         const renderedSteps = Steps.map(this.renderStep);
 
         return (
-            <div className={classNames('NextStepsView__viewWrapper NextStepsView__mainView', {completed: this.state.showFinalScreen || this.state.showTransitionScreen})}>
+            <div
+                className={classNames('NextStepsView__viewWrapper NextStepsView__mainView', {
+                    completed: this.state.showFinalScreen || this.state.showTransitionScreen,
+                    animating: this.state.animating,
+                })}
+            >
                 <header className='NextStepsView__header'>
                     <div className='NextStepsView__header-headerText'>
                         <h1 className='NextStepsView__header-headerTopText'>
@@ -242,7 +254,11 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
             >
                 {this.renderMainBody()}
                 {this.renderTransitionScreen()}
-                <NextStepsTips showFinalScreen={this.state.showFinalScreen}/>
+                <NextStepsTips
+                    showFinalScreen={this.state.showFinalScreen}
+                    animating={this.state.animating}
+                    stopAnimating={this.stopAnimating}
+                />
             </section>
         );
     }
