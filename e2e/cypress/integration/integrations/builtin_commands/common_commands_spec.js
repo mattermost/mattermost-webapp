@@ -11,10 +11,12 @@
 // Group: @integrations
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
+import * as MESSAGES from '../../../fixtures/messages';
 
 describe('I18456 Built-in slash commands: common', () => {
     let user1;
     let user2;
+    let userGroup;
     let testChannelUrl;
 
     before(() => {
@@ -26,6 +28,16 @@ describe('I18456 Built-in slash commands: common', () => {
                 user2 = otherUser;
 
                 cy.apiAddUserToTeam(team.id, user2.id);
+            });
+
+            const prefixes = ['hello', 'hello', 'hello', 'hello', 'hello', 'hello', 'hello', 'hello'];
+            userGroup = [];
+            prefixes.forEach((prefix) => {
+                cy.apiCreateUser({prefix}).then(({user: otherUser}) => {
+                    const newUser = otherUser;
+                    cy.apiAddUserToTeam(team.id, newUser.id);
+                    userGroup.push(newUser);
+                });
             });
         });
     });
@@ -70,6 +82,16 @@ describe('I18456 Built-in slash commands: common', () => {
         cy.getLastPostId().then((postId) => {
             cy.get(`#post_${postId}`).find('.user-popover').should('have.text', user1.username);
             cy.get(`#postMessageText_${postId}`).should('have.text', 'test ¯\\_(ツ)_/¯');
+        });
+    });
+
+    it('MM-T666 /groupmsg error if messaging more than 7 users', () => {
+        loginAndVisitDefaultChannel(user1, testChannelUrl);
+        const usernames = Cypress._.map(userGroup, 'username');
+        const mesg = '/groupmsg @' + usernames.join(', @') + ' ' + MESSAGES.MEDIUM;
+        cy.postMessage(mesg);
+        cy.getLastPostId().then((postId) => {
+            cy.get(`#postMessageText_${postId}`).should('have.text', 'Group messages are limited to a maximum of 7 users.');
         });
     });
 });
