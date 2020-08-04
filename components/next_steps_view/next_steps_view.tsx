@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import {FormattedMessage} from 'react-intl';
 
 import {PreferenceType} from 'mattermost-redux/types/preferences';
+import {UserProfile} from 'mattermost-redux/types/users';
 
 import Accordion from 'components/accordion';
 import Card from 'components/card/card';
@@ -16,11 +17,12 @@ import {Steps, StepType} from './steps';
 import './next_steps_view.scss';
 
 type Props = {
-    currentUserId: string;
+    currentUser: UserProfile;
     preferences: PreferenceType[];
     skuName: string;
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => void;
+        setShowNextStepsView: (show: boolean) => void;
     };
 };
 
@@ -85,9 +87,9 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
 
     onFinish = (setExpanded: (expandedKey: string) => void) => {
         return (id: string) => {
-            this.props.actions.savePreferences(this.props.currentUserId, [{
+            this.props.actions.savePreferences(this.props.currentUser.id, [{
                 category: Preferences.RECOMMENDED_NEXT_STEPS,
-                user_id: this.props.currentUserId,
+                user_id: this.props.currentUser.id,
                 name: id,
                 value: 'true',
             }]);
@@ -116,12 +118,14 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
     }
 
     renderStep = (step: StepType, index: number) => {
+        const {id, title} = step;
+
         let icon = (
             <div className='NextStepsView__cardHeaderBadge'>
                 <span>{index + 1}</span>
             </div>
         );
-        if (this.isStepComplete(step.id)) {
+        if (this.isStepComplete(id)) {
             icon = (
                 <i className='icon icon-check-circle'/>
             );
@@ -129,22 +133,23 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
 
         return (setExpanded: (expandedKey: string) => void, expandedKey: string) => (
             <Card
-                className={classNames({complete: this.isStepComplete(step.id)})}
-                expanded={expandedKey === step.id}
+                className={classNames({complete: this.isStepComplete(id)})}
+                expanded={expandedKey === id}
             >
                 <Card.Header>
                     <button
-                        onClick={() => setExpanded(step.id)}
-                        disabled={this.isStepComplete(step.id)}
+                        onClick={() => setExpanded(id)}
+                        disabled={this.isStepComplete(id)}
                         className='NextStepsView__cardHeader'
                     >
                         {icon}
-                        <span>{step.title}</span>
+                        <span>{title}</span>
                     </button>
                 </Card.Header>
                 <Card.Body>
                     <step.component
-                        id={step.id}
+                        id={id}
+                        currentUser={this.props.currentUser}
                         onFinish={this.onFinish(setExpanded)}
                         onSkip={this.onSkip(setExpanded)}
                     />

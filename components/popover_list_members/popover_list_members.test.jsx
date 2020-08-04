@@ -25,8 +25,9 @@ describe('components/PopoverListMembers', () => {
         type: Constants.DM_CHANNEl,
     };
     const users = [
-        {id: 'member_id_1'},
-        {id: 'member_id_2'},
+        {id: 'member_id_1', delete_at: 0},
+        {id: 'member_id_2', delete_at: 0},
+        {id: 'member_id_3', delete_at: 1234},
     ];
     const statuses = {
         member_id_1: 'online',
@@ -47,7 +48,7 @@ describe('components/PopoverListMembers', () => {
         memberCount: 2,
         currentUserId: 'current_user_id',
         actions,
-        sortedUsers: [{id: 'member_id_1'}, {id: 'member_id_2'}],
+        sortedUsers: [{id: 'member_id_1', delete_at: 0}, {id: 'member_id_2', delete_at: 0}, {id: 'member_id_3', delete_at: 1234}],
     };
 
     test('should match snapshot', () => {

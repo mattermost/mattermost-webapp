@@ -29,10 +29,12 @@ export default class ChannelView extends React.PureComponent {
         }).isRequired,
         showTutorial: PropTypes.bool.isRequired,
         showNextSteps: PropTypes.bool.isRequired,
+        showNextStepsEphemeral: PropTypes.bool.isRequired,
         channelIsArchived: PropTypes.bool.isRequired,
         viewArchivedChannels: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
             goToLastViewedChannel: PropTypes.func.isRequired,
+            setShowNextStepsView: PropTypes.func.isRequired,
         }),
     };
 
@@ -54,7 +56,7 @@ export default class ChannelView extends React.PureComponent {
         const focusedPostId = props.match.params.postid;
 
         if (props.match.url !== state.url && props.channelId !== state.channelId) {
-            updatedState = {deferredPostView: ChannelView.createDeferredPostView(), url: props.match.url, focusedPostId, showNextSteps: false};
+            updatedState = {deferredPostView: ChannelView.createDeferredPostView(), url: props.match.url, focusedPostId};
         }
 
         if (props.channelId !== state.channelId) {
@@ -63,6 +65,10 @@ export default class ChannelView extends React.PureComponent {
 
         if (focusedPostId && focusedPostId !== state.focusedPostId) {
             updatedState = {...updatedState, focusedPostId};
+        }
+
+        if (props.showNextSteps !== state.showNextSteps) {
+            updatedState = {...updatedState, showNextSteps: props.showNextSteps};
         }
 
         if (Object.keys(updatedState).length) {
@@ -79,7 +85,6 @@ export default class ChannelView extends React.PureComponent {
             url: props.match.url,
             channelId: props.channelId,
             deferredPostView: ChannelView.createDeferredPostView(),
-            showNextSteps: props.showNextSteps,
         };
     }
 
@@ -89,6 +94,12 @@ export default class ChannelView extends React.PureComponent {
 
     onClickCloseChannel = () => {
         this.props.actions.goToLastViewedChannel();
+    }
+
+    componentDidMount() {
+        if (this.props.showNextSteps) {
+            this.props.actions.setShowNextStepsView(true);
+        }
     }
 
     componentDidUpdate(prevProps) {
@@ -114,6 +125,10 @@ export default class ChannelView extends React.PureComponent {
                 this.props.actions.goToLastViewedChannel();
             }
         }
+
+        if (this.props.match.url !== prevProps.match.url && this.props.showNextStepsEphemeral) {
+            this.props.actions.setShowNextStepsView(false);
+        }
     }
 
     render() {
@@ -126,7 +141,7 @@ export default class ChannelView extends React.PureComponent {
             );
         }
 
-        if (this.state.showNextSteps) {
+        if (this.props.showNextStepsEphemeral) {
             return (
                 <NextStepsView/>
             );

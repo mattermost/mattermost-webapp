@@ -5,13 +5,15 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import NextStepsView from 'components/next_steps_view/next_steps_view';
+import {TestHelper} from 'utils/test_helper';
 
 describe('components/next_steps_view', () => {
     const baseProps = {
-        currentUserId: 'user_id',
+        currentUser: TestHelper.getUserMock(),
         preferences: [],
         skuName: '',
         actions: {
+            setShowNextStepsView: jest.fn(),
             savePreferences: jest.fn(),
         },
     };

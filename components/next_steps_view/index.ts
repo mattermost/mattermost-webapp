@@ -9,6 +9,7 @@ import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 
+import {setShowNextStepsView} from 'actions/views/next_steps';
 import {GlobalState} from 'types/store';
 import {Preferences} from 'utils/constants';
 
@@ -19,10 +20,9 @@ function makeMapStateToProps() {
 
     return (state: GlobalState) => {
         const license = getLicense(state);
-        const currentUser = getCurrentUser(state);
 
         return {
-            currentUserId: currentUser.id,
+            currentUser: getCurrentUser(state),
             preferences: getCategory(state, Preferences.RECOMMENDED_NEXT_STEPS),
             skuName: license.SkuShortName,
         };
@@ -33,6 +33,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
     return {
         actions: bindActionCreators({
             savePreferences,
+            setShowNextStepsView,
         }, dispatch),
     };
 }

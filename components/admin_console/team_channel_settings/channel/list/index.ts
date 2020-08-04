@@ -8,7 +8,7 @@ import {createSelector} from 'reselect';
 import {getAllChannelsWithCount as getData, searchAllChannels} from 'mattermost-redux/actions/channels';
 import {getAllChannels} from 'mattermost-redux/selectors/entities/channels';
 import {GenericAction, ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
-import {ChannelWithTeamData} from 'mattermost-redux/types/channels';
+import {ChannelWithTeamData, ChannelSearchOpts} from 'mattermost-redux/types/channels';
 
 import {GlobalState} from 'types/store';
 import {Constants} from 'utils/constants';
@@ -32,8 +32,8 @@ function mapStateToProps(state: GlobalState) {
 }
 
 type Actions = {
-    searchAllChannels: (term: string, notAssociatedToGroup?: string, excludeDefaultChannels?: boolean, page?: number, perPage?: number) => Promise<{ data: any }>;
-    getData: (page: number, perPage: number, notAssociatedToGroup? : string, excludeDefaultChannels?: boolean) => ActionFunc | ActionResult | Promise<ChannelWithTeamData[]>;
+    searchAllChannels: (term: string, opts: ChannelSearchOpts) => Promise<{ data: any }>;
+    getData: (page: number, perPage: number, notAssociatedToGroup? : string, excludeDefaultChannels?: boolean, includeDeleted?: boolean) => ActionFunc | ActionResult | Promise<ChannelWithTeamData[]>;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {

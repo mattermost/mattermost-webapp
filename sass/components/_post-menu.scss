@@ -47,6 +47,11 @@
     padding: 0 6px;
 }
 
+.post-menu__item--selected { // Used for the flag icon when it is in the flagged state
+    fill: var(--link-color);
+    color: var(--link-color);
+}
+
 .post-menu__comment-count {
     margin: 0 0 0 2px;
     font-weight: 600;
