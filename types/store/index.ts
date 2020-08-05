@@ -90,13 +90,11 @@ export type GlobalState = BaseGlobalState & {
         };
 
         search: {
-            modalSearch: {
-                term: string;
-                filters: {
-                    roles?: string[];
-                    channel_roles?: string[];
-                    team_roles?: string[];
-                };
+            modalSearch: string;
+            modalFilters: {
+                roles?: string[];
+                channel_roles?: string[];
+                team_roles?: string[];
             };
             systemUsersSearch: {
                 term: string;

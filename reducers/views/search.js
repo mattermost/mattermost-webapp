@@ -5,20 +5,22 @@ import {combineReducers} from 'redux';
 
 import {SearchTypes} from 'utils/constants';
 
-function modalSearch(state = {}, action) {
+function modalSearch(state = '', action) {
     switch (action.type) {
     case SearchTypes.SET_MODAL_SEARCH: {
-        const term = action.data.trim();
-        return {
-            ...state,
-            term,
-        };
+        return action.data.trim();
     }
+    default:
+        return state;
+    }
+}
+
+function modalFilters(state = {}, action) {
+    switch (action.type) {
     case SearchTypes.SET_MODAL_FILTERS: {
         const filters = action.data;
         return {
-            ...state,
-            filters,
+            ...filters,
         };
     }
     default:
@@ -59,6 +61,7 @@ function userGridSearch(state = {}, action) {
 
 export default combineReducers({
     modalSearch,
+    modalFilters,
     systemUsersSearch,
     userGridSearch,
 });

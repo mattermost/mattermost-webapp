@@ -34,7 +34,7 @@ type Actions = {
 
 function mapStateToProps(state: GlobalState, ownProps: Props) {
     const {groupID} = ownProps;
-    const searchTerm = state.views.search.modalSearch.term;
+    const searchTerm = state.views.search.modalSearch;
     let users;
     if (searchTerm) {
         users = searchProfilesInGroup(state, groupID, searchTerm);

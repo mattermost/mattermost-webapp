@@ -67,8 +67,8 @@ function mapStateToProps(state: GlobalState, props: Props) {
     const {scope, scopeId} = props;
     let {members, total} = props;
 
-    const searchTerm = state.views.search.modalSearch.term || '';
-    const filters = state.views.search.modalSearch.filters || {};
+    const searchTerm = state.views.search.modalSearch || '';
+    const filters = state.views.search.modalFilters || {};
 
     let memberships = {};
     if (scope === 'channel') {

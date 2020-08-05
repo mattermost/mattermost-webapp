@@ -13,7 +13,7 @@ import {setModalSearchTerm} from 'actions/views/search';
 import AddGroupsToChannelModal from './add_groups_to_channel_modal';
 
 function mapStateToProps(state, ownProps) {
-    const searchTerm = state.views.search.modalSearch.term;
+    const searchTerm = state.views.search.modalSearch;
 
     const channel = ownProps.channel || getCurrentChannel(state) || {};
 
