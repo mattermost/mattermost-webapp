@@ -2,8 +2,10 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {bindActionCreators, Dispatch} from 'redux';
 import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
+
+import {GlobalState} from 'types/store';
 
 import {
     setRhsExpanded,
@@ -16,16 +18,16 @@ import {
 } from 'actions/views/rhs';
 import {getIsRhsExpanded} from 'selectors/rhs';
 
-import RhsHeaderPost from './rhs_header_post.jsx';
+import RhsHeaderPost from './rhs_header_post';
 
-function mapStateToProps(state) {
+function mapStateToProps(state: GlobalState) {
     return {
         isExpanded: getIsRhsExpanded(state),
         relativeTeamUrl: getCurrentRelativeTeamUrl(state),
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch) {
     return {
         actions: bindActionCreators({
             setRhsExpanded,
