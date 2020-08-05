@@ -1,12 +1,14 @@
 {
   "extends": [
     "plugin:mattermost/react",
-    "plugin:cypress/recommended"
+    "plugin:cypress/recommended",
+    "plugin:jquery/deprecated"
   ],
   "plugins": [
     "mattermost",
     "import",
-    "cypress"
+    "cypress",
+    "jquery"
   ],
   "env": {
     "jest": true,

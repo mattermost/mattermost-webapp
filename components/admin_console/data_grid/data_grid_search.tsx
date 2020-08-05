@@ -78,6 +78,7 @@ class DataGridSearch extends React.PureComponent<Props, State> {
                         placeholder={Utils.localizeMessage('search_bar.search', 'Search')}
                         onChange={this.handleSearch}
                         value={this.props.term}
+                        data-testid='searchInput'
                     />
                     <i
                         className={'DataGrid_clearButton fa fa-times-circle ' + (this.props.term.length ? '' : 'hidden')}
