@@ -20,17 +20,20 @@ describe('AS14318 Theme Colors - Color Picker', () => {
     });
 
     beforeEach(() => {
-        // Navigating to account settings
+        cy.reload();
+        cy.findByTestId('post_textbox').should('be.visible');
+
+        // # Navigating to account settings
         cy.toAccountSettingsModal();
-        cy.get('#displayButton').click();
-        cy.get('#themeTitle').click();
-        cy.get('#customThemes').click();
+        cy.get('#displayButton', {timeout: TIMEOUTS.FIVE_SEC}).should('be.visible').click();
+        cy.get('#themeTitle', {timeout: TIMEOUTS.ONE_SEC}).should('be.visible').click();
+        cy.get('#customThemes', {timeout: TIMEOUTS.ONE_SEC}).should('be.visible').click();
     });
 
     afterEach(() => {
         // # Click "x" button to close Account Settings modal and then discard changes made
-        cy.get('#accountSettingsHeader > .close').click();
-        cy.findAllByText('Yes, Discard').click();
+        cy.get('#accountSettingsHeader > .close').should('be.visible').click();
+        cy.findAllByText('Yes, Discard', {timeout: TIMEOUTS.ONE_SEC}).should('be.visible').click();
     });
 
     it('Should be able to use color picker input and change Sidebar theme color', () => {
@@ -38,10 +41,10 @@ describe('AS14318 Theme Colors - Color Picker', () => {
         verifyColorPickerChange(
             'Sidebar Styles',
             '#sidebarBg-squareColorIcon',
-            '#sidebarBg-ChromePickerModal',
+            '#sidebarBg-inputColorValue',
             '#sidebarBg-squareColorIconValue',
-            '#bb123e',
-            'rgb(187, 18, 62)',
+            '#B0B6BD',
+            'rgb(176, 182, 189)',
         );
     });
 
@@ -50,10 +53,10 @@ describe('AS14318 Theme Colors - Color Picker', () => {
         verifyColorPickerChange(
             'Center Channel Styles',
             '#centerChannelBg-squareColorIcon',
-            '#centerChannelBg-ChromePickerModal',
+            '#centerChannelBg-inputColorValue',
             '#centerChannelBg-squareColorIconValue',
-            '#ff8800',
-            'rgb(255, 136, 0)',
+            '#BDB0B0',
+            'rgb(189, 176, 176)',
         );
     });
 
@@ -62,33 +65,37 @@ describe('AS14318 Theme Colors - Color Picker', () => {
         verifyColorPickerChange(
             'Link and Button Styles',
             '#linkColor-squareColorIcon',
-            '#linkColor-ChromePickerModal',
+            '#linkColor-inputColorValue',
             '#linkColor-squareColorIconValue',
-            '#ffe577',
-            'rgb(255, 229, 119)',
+            '#EEF8FF',
+            'rgb(238, 248, 255)',
         );
     });
 });
 
-function verifyColorPickerChange(stylesText, iconButtonId, modalId, iconValueId, hexValue, rgbValue) {
+function verifyColorPickerChange(stylesText, iconButtonId, inputId, iconValueId, hexValue, rgbValue) {
     // # Open styles section
     cy.findByText(stylesText).scrollIntoView().should('be.visible').click({force: true});
 
     // # Click the Sidebar BG setting
     cy.get(iconButtonId).click();
 
-    // # Enter hex value
-    cy.get(modalId).within(() => {
-        cy.get('input').clear({force: true}).invoke('val', hexValue).wait(TIMEOUTS.HALF_SEC).type(' {backspace}{enter}', {force: true});
-    });
+    // # Click the 15, 40 coordinate of color popover
+    cy.get('.color-popover').should('be.visible').click(15, 40);
+
+    // # Click the Sidebar BG setting again to close popover
+    cy.get(iconButtonId).click();
 
     // # Toggle theme colors the custom theme
-    cy.findByText('Theme Colors').scrollIntoView().click({force: true});
-    cy.findByText('Custom Theme').scrollIntoView().click({force: true});
+    cy.get('#standardThemes').scrollIntoView().should('be.visible').check().should('be.checked');
+    cy.get('#customThemes').scrollIntoView().should('be.visible').check().should('be.checked');
 
     // # Re-open styles section
     cy.findByText(stylesText).scrollIntoView().should('be.visible').click({force: true});
 
+    // * Verify input box has new hex value
+    cy.get(inputId).should('be.visible').and('have.value', hexValue);
+
     // * Verify color change is applied correctly
-    cy.get(iconValueId).should('have.css', 'background-color', rgbValue);
+    cy.get(iconValueId).should('be.visible').and('have.css', 'background-color', rgbValue);
 }

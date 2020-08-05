@@ -44,6 +44,14 @@ exports[`components/error_page/ErrorTitle should match snapshot, oauth_invalid_p
 />
 `;
 
+exports[`components/error_page/ErrorTitle should match snapshot, oauth_invalid_redirect_url type 1`] = `
+<FormattedMessage
+  defaultMessage="OAuth Parameter Error"
+  id="error.oauth_invalid_param.title"
+  values={Object {}}
+/>
+`;
+
 exports[`components/error_page/ErrorTitle should match snapshot, page_not_found type 1`] = `
 <FormattedMessage
   defaultMessage="Page Not Found"
