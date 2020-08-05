@@ -57,7 +57,7 @@ export function formatPostsPerDayData(labels: string[], data: any) {
 export function synchronizeChartLabels(...datas: any) {
     const labels: Set<string> = new Set();
     datas.forEach((data: any) => {
-        if (data && data.length > 0) {
+        if (data?.length) {
             data.forEach((e: any) => labels.add(e.name));
         }
     });
