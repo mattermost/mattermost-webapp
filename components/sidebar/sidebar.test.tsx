@@ -73,4 +73,16 @@ describe('components/sidebar', () => {
         instance.handleOpenMoreDirectChannelsModal(mockEvent as any);
         expect(instance.hideMoreDirectChannelsModal).toHaveBeenCalled();
     });
+
+    test('should match empty div snapshot when teamId is missing', () => {
+        const props = {
+            ...baseProps,
+            teamId: '',
+        };
+        const wrapper = shallow(
+            <Sidebar {...props}/>,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
 });

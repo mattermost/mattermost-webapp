@@ -681,7 +681,7 @@ class CreateComment extends React.PureComponent {
     scrollToBottom = () => {
         const $el = $('.post-right__scroll');
         if ($el[0]) {
-            $el.parent().scrollTop($el[0].scrollHeight);
+            $el.parent().scrollTop($el[0].scrollHeight); // eslint-disable-line jquery/no-parent
         }
     }
 

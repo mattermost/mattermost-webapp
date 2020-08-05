@@ -177,6 +177,10 @@ export default class Sidebar extends React.PureComponent<Props, State> {
     }
 
     render() {
+        if (!this.props.teamId) {
+            return (<div/>);
+        }
+
         return (
             <div
                 id='SidebarContainer'

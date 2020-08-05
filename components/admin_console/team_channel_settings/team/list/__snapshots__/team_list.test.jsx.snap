@@ -35,6 +35,54 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
       ]
     }
     endCount={1}
+    filterProps={
+      Object {
+        "keys": Array [
+          "management",
+        ],
+        "onFilter": [Function],
+        "options": Object {
+          "management": Object {
+            "keys": Array [
+              "allow_open_invite",
+              "invite_only",
+              "group_constrained",
+            ],
+            "name": <FormattedMessage
+              defaultMessage="Management"
+              id="admin.team_settings.team_list.mappingHeader"
+              values={Object {}}
+            />,
+            "values": Object {
+              "allow_open_invite": Object {
+                "name": <FormattedMessage
+                  defaultMessage="Anyone Can Join"
+                  id="admin.team_settings.team_row.managementMethod.anyoneCanJoin"
+                  values={Object {}}
+                />,
+                "value": false,
+              },
+              "group_constrained": Object {
+                "name": <FormattedMessage
+                  defaultMessage="Group Sync"
+                  id="admin.team_settings.team_row.managementMethod.groupSync"
+                  values={Object {}}
+                />,
+                "value": false,
+              },
+              "invite_only": Object {
+                "name": <FormattedMessage
+                  defaultMessage="Invite Only"
+                  id="admin.team_settings.team_row.managementMethod.inviteOnly"
+                  values={Object {}}
+                />,
+                "value": false,
+              },
+            },
+          },
+        },
+      }
+    }
     loading={false}
     nextPage={[Function]}
     page={0}
@@ -149,6 +197,54 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
       ]
     }
     endCount={10}
+    filterProps={
+      Object {
+        "keys": Array [
+          "management",
+        ],
+        "onFilter": [Function],
+        "options": Object {
+          "management": Object {
+            "keys": Array [
+              "allow_open_invite",
+              "invite_only",
+              "group_constrained",
+            ],
+            "name": <FormattedMessage
+              defaultMessage="Management"
+              id="admin.team_settings.team_list.mappingHeader"
+              values={Object {}}
+            />,
+            "values": Object {
+              "allow_open_invite": Object {
+                "name": <FormattedMessage
+                  defaultMessage="Anyone Can Join"
+                  id="admin.team_settings.team_row.managementMethod.anyoneCanJoin"
+                  values={Object {}}
+                />,
+                "value": false,
+              },
+              "group_constrained": Object {
+                "name": <FormattedMessage
+                  defaultMessage="Group Sync"
+                  id="admin.team_settings.team_row.managementMethod.groupSync"
+                  values={Object {}}
+                />,
+                "value": false,
+              },
+              "invite_only": Object {
+                "name": <FormattedMessage
+                  defaultMessage="Invite Only"
+                  id="admin.team_settings.team_row.managementMethod.inviteOnly"
+                  values={Object {}}
+                />,
+                "value": false,
+              },
+            },
+          },
+        },
+      }
+    }
     loading={false}
     nextPage={[Function]}
     page={0}

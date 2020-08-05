@@ -18,12 +18,12 @@ exports[`components/UnreadChannelIndicator should match snapshot when content is
   id="unreadIndicatorundefined"
   onClick={[Function]}
 >
-  <div>
-    foo
-  </div>
   <UnreadBelowIcon
     className="icon icon__unread"
   />
+  <div>
+    foo
+  </div>
 </div>
 `;
 
@@ -33,10 +33,10 @@ exports[`components/UnreadChannelIndicator should match snapshot when content is
   id="unreadIndicatorundefined"
   onClick={[Function]}
 >
-  foo
   <UnreadBelowIcon
     className="icon icon__unread"
   />
+  foo
 </div>
 `;
 
