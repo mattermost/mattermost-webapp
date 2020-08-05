@@ -111,16 +111,18 @@ describe('I18456 Built-in slash commands: common', () => {
         cy.uiWaitUntilMessagePostedIncludes('Please use the channel handle to identify channels');
 
         cy.getLastPostId().then((postId) => {
-            // * Could not find the channel lalodkjngjrngorejng. Please use the channel handle to identify channels.
-            cy.get(`#postMessageText_${postId}`).should('have.text', `Could not find the channel ${invalidChannel}. Please use the channel handle to identify channels.`);
-        });
+            cy.get(`#postMessageText_${postId}`).
 
-        // * Channel handle links to: https://docs.mattermost.com/help/getting-started/organizing-conversations.html#naming-a-channel
-        cy.contains('a', 'channel handle').then((link) => {
-            const href = link.prop('href');
-            cy.request(href).its('allRequestResponses').then((response) => {
-                cy.wrap(response[1]['Request URL']).should('equal', 'https://docs.mattermost.com/help/getting-started/organizing-conversations.html#naming-a-channel');
-            });
+                // * Could not find the channel lalodkjngjrngorejng. Please use the channel handle to identify channels.
+                should('have.text', `Could not find the channel ${invalidChannel}. Please use the channel handle to identify channels.`).
+
+                // * Channel handle links to: https://docs.mattermost.com/help/getting-started/organizing-conversations.html#naming-a-channel
+                contains('a', 'channel handle').then((link) => {
+                    const href = link.prop('href');
+                    cy.request(href).its('allRequestResponses').then((response) => {
+                        cy.wrap(response[1]['Request URL']).should('equal', 'https://docs.mattermost.com/help/getting-started/organizing-conversations.html#naming-a-channel');
+                    });
+                });
         });
     });
 });
