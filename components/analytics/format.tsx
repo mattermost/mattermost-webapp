@@ -38,7 +38,7 @@ export function formatPostDoughtnutData(filePosts: any, hashtagPosts: any, total
 
 export function formatPostsPerDayData(labels: string[], data: any) {
     const chartData = {
-        labels: [] as any,
+        labels: [] as string[],
         datasets: [{
             fillColor: 'rgba(151,187,205,0.2)',
             borderColor: 'rgba(151,187,205,1)',
@@ -66,7 +66,7 @@ export function synchronizeChartLabels(...datas: any) {
 
 export function formatUsersWithPostsPerDayData(labels: string[], data: any) {
     const chartData = {
-        labels: [] as any,
+        labels: [] as string[],
         datasets: [{
             label: '',
             fillColor: 'rgba(151,187,205,0.2)',
@@ -82,11 +82,11 @@ export function formatUsersWithPostsPerDayData(labels: string[], data: any) {
 }
 
 function fillChartData(chartData: any, labels: any, data: any) {
-    if (data && data.length > 0) {
+    if (data?.length) {
         chartData.labels = labels;
 
         //labels are in order, add in label order...
-        chartData.labels.forEach((label: any) => {
+        chartData.labels.forEach((label: string) => {
             const element = data.find((e: any) => e.name === label);
             const val = element ? element.value : 0;
             chartData.datasets[0].data.push(val);
