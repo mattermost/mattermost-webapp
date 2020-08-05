@@ -33,6 +33,7 @@ export const LastPostAt: FunctionComponent<Props> = ({lastPostAt}: Props): JSX.E
                 value={lastPostAt}
                 useTime={false}
                 unit={unit}
+                style='long'
             />
         </div>
     );
