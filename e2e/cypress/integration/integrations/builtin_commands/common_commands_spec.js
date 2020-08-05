@@ -100,6 +100,31 @@ describe('I18456 Built-in slash commands: common', () => {
             });
         });
     });
+
+    it('MM-T710 /mute error message', () => {
+        loginAndVisitDefaultChannel(user1, testChannelUrl);
+
+        const invalidChannel = 'oppagangnamstyle';
+
+        // # Type /mute with random characters
+        cy.postMessage(`/mute ${invalidChannel}`);
+        cy.uiWaitUntilMessagePostedIncludes('Please use the channel handle to identify channels');
+
+        cy.getLastPostId().then((postId) => {
+            cy.get(`#postMessageText_${postId}`).
+
+                // * Could not find the channel lalodkjngjrngorejng. Please use the channel handle to identify channels.
+                should('have.text', `Could not find the channel ${invalidChannel}. Please use the channel handle to identify channels.`).
+
+                // * Channel handle links to: https://docs.mattermost.com/help/getting-started/organizing-conversations.html#naming-a-channel
+                contains('a', 'channel handle').then((link) => {
+                    const href = link.prop('href');
+                    cy.request(href).its('allRequestResponses').then((response) => {
+                        cy.wrap(response[1]['Request URL']).should('equal', 'https://docs.mattermost.com/help/getting-started/organizing-conversations.html#naming-a-channel');
+                    });
+                });
+        });
+    });
 });
 
 function loginAndVisitDefaultChannel(user, channelUrl) {
