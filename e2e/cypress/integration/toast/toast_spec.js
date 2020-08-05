@@ -295,7 +295,7 @@ describe('toasts', () => {
         // # Move to the top of the channel
         cy.get('div.post-list__dynamic').should('be.visible').scrollTo('top', {duration: TIMEOUTS.ONE_SEC});
 
-        // * Verify that off-topic channel is loaded
+        // * Verify that town-square channel is loaded
         cy.get('#channelIntro').should('be.visible').contains('Beginning of Town Square');
 
         // * Assert toast should not be present as the messages are already read
