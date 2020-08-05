@@ -100,7 +100,6 @@ context('ldap', () => {
             cy.visit(`/admin_console/user_management/channels/${testChannel.id}`);
             cy.wait(1000);
 
-            // # Remove "board" group
             cy.get('.group-row').eq(0).scrollIntoView().should('be.visible').within(() => {
                 cy.get('.group-name').should('have.text', 'board');
                 cy.get('.group-actions > a').should('have.text', 'Remove').click({force: true});
