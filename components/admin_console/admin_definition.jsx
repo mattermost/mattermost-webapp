@@ -325,7 +325,6 @@ const AdminDefinition = {
             },
         },
         team_detail: {
-            id: 'user_management.team_detail',
             url: 'user_management/teams/:team_id',
             isDisabled: it.not(it.userHasWritePermissionOnResource('user_management.teams')),
             schema: {
@@ -334,7 +333,6 @@ const AdminDefinition = {
             },
         },
         teams: {
-            id: 'user_management.team_detail',
             url: 'user_management/teams',
             title: t('admin.sidebar.teams'),
             title_default: 'Teams',
@@ -394,7 +392,6 @@ const AdminDefinition = {
             },
         },
         permissions: {
-            id: 'user_management.permissions',
             url: 'user_management/permissions/',
             title: t('admin.sidebar.permissions'),
             title_default: 'Permissions',
@@ -1156,7 +1153,6 @@ const AdminDefinition = {
             },
         },
         high_availability: {
-            pId: 'AdminDefinition.push_notification_server',
             url: 'environment/high_availability',
             title: t('admin.sidebar.highAvailability'),
             title_default: 'High Availability',
@@ -1191,7 +1187,6 @@ const AdminDefinition = {
             },
         },
         rate_limiting: {
-            pId: 'AdminDefinition.rate_limiting',
             url: 'environment/rate_limiting',
             title: t('admin.sidebar.rateLimiting'),
             title_default: 'Rate Limiting',
