@@ -7,6 +7,7 @@ import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 import {createSelector} from 'reselect';
 
 import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
+import {TeamSearchOpts} from 'mattermost-redux/types/teams';
 import {getTeams as fetchTeams, searchTeams} from 'mattermost-redux/actions/teams';
 import {getTeams} from 'mattermost-redux/selectors/entities/teams';
 
@@ -21,7 +22,7 @@ const getSortedListOfTeams = createSelector(
 
 type Actions = {
     getData: (page: number, perPage: number) => Promise<{ data: any }>;
-    searchTeams: (term: string, page?: number, perPage?: number) => Promise<{ data: any }>;
+    searchTeams: (term: string, opts: TeamSearchOpts) => Promise<{ data: any }>;
 };
 
 function mapStateToProps(state: GlobalState) {
