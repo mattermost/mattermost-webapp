@@ -160,22 +160,12 @@ export default class TeamDetails extends React.PureComponent {
         if (usersToUpdate && !syncChecked) {
             const addUserActions = [];
             const removeUserActions = [];
-            const rolesToPromote = [];
-            const rolesToDemote = [];
             const {addUserToTeam, removeUserFromTeam, updateTeamMemberSchemeRoles} = this.props.actions;
             usersToAddList.forEach((user) => {
                 addUserActions.push(addUserToTeam(teamID, user.id));
             });
             usersToRemoveList.forEach((user) => {
                 removeUserActions.push(removeUserFromTeam(teamID, user.id));
-            });
-            userRolesToUpdate.forEach((userId) => {
-                const {schemeUser, schemeAdmin} = rolesToUpdate[userId];
-                if (schemeAdmin) {
-                    rolesToPromote.push(updateTeamMemberSchemeRoles(teamID, userId, schemeUser, schemeAdmin));
-                } else {
-                    rolesToDemote.push(updateTeamMemberSchemeRoles(teamID, userId, schemeUser, schemeAdmin));
-                }
             });
 
             if (addUserActions.length > 0) {
@@ -201,6 +191,17 @@ export default class TeamDetails extends React.PureComponent {
                     trackEvent('admin_team_config_page', 'members_removed_from_team', {count, team_id: teamID});
                 }
             }
+
+            const rolesToPromote = [];
+            const rolesToDemote = [];
+            userRolesToUpdate.forEach((userId) => {
+                const {schemeUser, schemeAdmin} = rolesToUpdate[userId];
+                if (schemeAdmin) {
+                    rolesToPromote.push(updateTeamMemberSchemeRoles(teamID, userId, schemeUser, schemeAdmin));
+                } else {
+                    rolesToDemote.push(updateTeamMemberSchemeRoles(teamID, userId, schemeUser, schemeAdmin));
+                }
+            });
 
             if (rolesToPromote.length > 0) {
                 const result = await Promise.all(rolesToPromote);
