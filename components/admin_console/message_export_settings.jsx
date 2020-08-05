@@ -70,7 +70,7 @@ export default class MessageExportSettings extends AdminSettings {
                         <div>
                             <FormattedMessage
                                 id='admin.complianceExport.warningCount.globalrelay'
-                                defaultMessage='{count} warning(s) were encountered, see log for details'
+                                defaultMessage='{count} warning(s) encountered, see log for details'
                                 values={{
                                     count: job.data.warning_count,
                                 }}
@@ -82,7 +82,7 @@ export default class MessageExportSettings extends AdminSettings {
                         <div>
                             <FormattedMessage
                                 id='admin.complianceExport.warningCount'
-                                defaultMessage='{count} warning(s) were encountered, see warning.txt for details'
+                                defaultMessage='{count} warning(s) encountered, see warning.txt for details'
                                 values={{
                                     count: job.data.warning_count,
                                 }}
