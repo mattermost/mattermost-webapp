@@ -91,7 +91,7 @@ export type GlobalState = BaseGlobalState & {
 
         search: {
             modalSearch: {
-                term: string,
+                term: string;
                 filters: {
                     roles?: string[];
                     channel_roles?: string[];

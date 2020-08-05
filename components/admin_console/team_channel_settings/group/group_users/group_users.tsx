@@ -27,7 +27,7 @@ export type Filters = {
     team_roles?: string[];
 }
 
-export type Memberships = RelationOneToOne<UserProfile, ChannelMembership> | RelationOneToOne<UserProfile, ChannelMembership>;
+export type Memberships = RelationOneToOne<UserProfile, TeamMembership> | RelationOneToOne<UserProfile, ChannelMembership>;
 
 interface Props {
     members: UserProfile[];
@@ -69,7 +69,7 @@ export default class GroupUsers extends React.PureComponent<Props, State> {
         this.state = {
             page: 0,
             loading: true,
-        }
+        };
     }
 
     componentDidUpdate(prevProps: Props) {
@@ -77,16 +77,16 @@ export default class GroupUsers extends React.PureComponent<Props, State> {
         const filters = this.props.filters;
         if (searchTerm !== prevProps.searchTerm || JSON.stringify(filters) !== JSON.stringify(prevProps.filters)) {
             clearTimeout(this.searchTimeoutId);
-            this.setState({loading: true, page: 0});
+            this.setStateLoading(true, 0);
 
             if (searchTerm === '' && Object.keys(filters).length === 0) {
-                this.setState({loading: false});
+                this.setStateLoading(false);
                 return;
             }
 
             this.searchTimeoutId = window.setTimeout(
                 async () => {
-                    this.setState({loading: false});
+                    this.setStateLoading(false);
                 },
                 300,
             );
@@ -95,15 +95,25 @@ export default class GroupUsers extends React.PureComponent<Props, State> {
 
     async componentDidMount() {
         const {members, total} = this.props;
-        const MEMBERSHIPS_TO_LOAD_COUNT = 50;
+        const MEMBERSHIPS_TO_LOAD_COUNT = 100;
+        const promises = [];
         let membershipsLoaded = 0;
 
         // Pre-load all memberships since users are also already loaded into the state
         while (membershipsLoaded < total) {
-            await this.loadMembersForProfilesList(members.slice(membershipsLoaded, membershipsLoaded + MEMBERSHIPS_TO_LOAD_COUNT));
-            membershipsLoaded = membershipsLoaded + MEMBERSHIPS_TO_LOAD_COUNT;
+            promises.push(this.loadMembersForProfilesList(members.slice(membershipsLoaded, membershipsLoaded + MEMBERSHIPS_TO_LOAD_COUNT)));
+            membershipsLoaded += MEMBERSHIPS_TO_LOAD_COUNT;
         }
-        this.setState({loading: false});
+        await Promise.all(promises);
+        this.setStateLoading(false);
+    }
+
+    setStateLoading = (loading: boolean, page?: number) => {
+        if (page) {
+            this.setState({loading, page});
+        } else {
+            this.setState({loading});
+        }
     }
 
     componentWillUnmount() {
@@ -314,7 +324,7 @@ export default class GroupUsers extends React.PureComponent<Props, State> {
                     ),
                     value: false,
                 },
-            }
+            };
             filterOptions.role.keys = [GeneralConstants.SYSTEM_GUEST_ROLE, GeneralConstants.CHANNEL_USER_ROLE, GeneralConstants.CHANNEL_ADMIN_ROLE, GeneralConstants.SYSTEM_ADMIN_ROLE];
         } else if (this.props.scope === 'team') {
             filterOptions.role.values = {
@@ -337,7 +347,7 @@ export default class GroupUsers extends React.PureComponent<Props, State> {
                     ),
                     value: false,
                 },
-            }
+            };
             filterOptions.role.keys = [GeneralConstants.SYSTEM_GUEST_ROLE, GeneralConstants.TEAM_USER_ROLE, GeneralConstants.TEAM_ADMIN_ROLE, GeneralConstants.SYSTEM_ADMIN_ROLE];
         }
 

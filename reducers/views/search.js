@@ -16,8 +16,6 @@ function modalSearch(state = {}, action) {
     }
     case SearchTypes.SET_MODAL_FILTERS: {
         const filters = action.data;
-        console.log("SET MODAL FILTERS");
-        console.log(filters)
         return {
             ...state,
             filters,

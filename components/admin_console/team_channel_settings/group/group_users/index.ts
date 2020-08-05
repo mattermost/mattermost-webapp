@@ -23,7 +23,7 @@ import GroupUsers, {Filters, Memberships} from './group_users';
 
 type Props = {
     members: UserProfile[];
-    scope: string;
+    scope: 'team' | 'channel';
     scopeId: string;
     total: number;
 };
@@ -59,12 +59,13 @@ const searchUsers = createSelector(
             profiles = Object.keys(filteredProfilesMap).map((key) => filteredProfilesMap[key]);
         }
 
-        return profiles
+        return profiles;
     },
 );
 
 function mapStateToProps(state: GlobalState, props: Props) {
-    let {members, total, scope, scopeId} = props;
+    const {scope, scopeId} = props;
+    let {members, total} = props;
 
     const searchTerm = state.views.search.modalSearch.term || '';
     const filters = state.views.search.modalSearch.filters || {};
@@ -78,7 +79,6 @@ function mapStateToProps(state: GlobalState, props: Props) {
 
     if (searchTerm || Object.keys(filters).length > 0) {
         members = searchUsers(members, searchTerm, filters, memberships);
-        console.log(members);
         total = members.length;
     }
 

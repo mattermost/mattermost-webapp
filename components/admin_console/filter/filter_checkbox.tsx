@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, { ChangeEvent } from 'react';
+import React from 'react';
 
 type Props = {
     name: string;
@@ -22,10 +22,11 @@ class FilterCheckbox extends React.PureComponent<Props> {
         return (
             <div
                 className='FilterList_checkbox'
+                onClick={this.toggleOption}
             >
                 <label
                     key={Math.random()}
-                    onClick={this.toggleOption}
+
                 >
                     <input
                         type='checkbox'

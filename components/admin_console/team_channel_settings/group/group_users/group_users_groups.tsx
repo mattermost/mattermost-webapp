@@ -11,7 +11,6 @@ import {Group} from 'mattermost-redux/types/groups';
 import {t} from 'utils/i18n';
 import OverlayTrigger from 'components/overlay_trigger';
 
-
 type ProfileWithGroups = Partial<UserProfile & {
     groups: Partial<Group>[];
 }>;
@@ -38,13 +37,15 @@ export default class GroupUsersGroups extends React.PureComponent<GroupUsersGrou
             return message;
         }
 
+        const tooltip = <Tooltip id='groupsTooltip'>{groups.map((g) => g.display_name).join(', ')}</Tooltip>;
+
         return (
             <OverlayTrigger
                 placement='bottom'
-                overlay={<Tooltip id='groupsTooltip'>{groups.map((g) => g.display_name).join(', ')}</Tooltip>}
+                overlay={tooltip}
             >
                 <a href='#'>
-                   {message}
+                    {message}
                 </a>
             </OverlayTrigger>
         );

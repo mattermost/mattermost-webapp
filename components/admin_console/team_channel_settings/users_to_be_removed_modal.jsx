@@ -18,7 +18,6 @@ export default class UsersToBeRemovedModal extends React.PureComponent {
          */
         total: PropTypes.number.isRequired,
 
-
         /*
          * Scope that the users are to be removed from
          * can be either 'team' or 'channel'

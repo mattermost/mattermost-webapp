@@ -72,11 +72,13 @@ export class UsersWillBeRemovedError extends React.PureComponent {
         );
 
         if (scope === 'channel') {
-            <FormattedMessage
-                id='admin.team_channel_settings.channel_users_will_be_removed'
-                defaultMessage='{amount, number} {amount, plural, one {User} other {Users}} will be removed from this channel. They are not in groups linked to this channel.'
-                values={{amount: total}}
-            />
+            error = (
+                <FormattedMessage
+                    id='admin.team_channel_settings.channel_users_will_be_removed'
+                    defaultMessage='{amount, number} {amount, plural, one {User} other {Users}} will be removed from this channel. They are not in groups linked to this channel.'
+                    values={{amount: total}}
+                />
+            );
         }
 
         return (

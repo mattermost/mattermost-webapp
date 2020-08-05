@@ -6,7 +6,7 @@ import {SearchTypes} from 'utils/constants';
 
 describe('Reducers.Search', () => {
     const initialState = {
-        modalSearch: '',
+        modalSearch: {},
         systemUsersSearch: {},
         userGridSearch: {},
     };
@@ -14,7 +14,7 @@ describe('Reducers.Search', () => {
     test('Initial state', () => {
         const nextState = searchReducer(
             {
-                modalSearch: '',
+                modalSearch: {},
                 systemUsersSearch: {},
             },
             {},
@@ -26,7 +26,7 @@ describe('Reducers.Search', () => {
     test(`should trim the search term for ${SearchTypes.SET_MODAL_SEARCH}`, () => {
         const nextState = searchReducer(
             {
-                modalSearch: '',
+                modalSearch: {},
             },
             {
                 type: SearchTypes.SET_MODAL_SEARCH,
@@ -36,7 +36,7 @@ describe('Reducers.Search', () => {
 
         expect(nextState).toEqual({
             ...initialState,
-            modalSearch: 'something',
+            modalSearch: {term: 'something'},
         });
     });
 
