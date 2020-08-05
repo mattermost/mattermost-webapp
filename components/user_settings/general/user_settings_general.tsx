@@ -1034,7 +1034,7 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
             let extraInfo;
             let submit = null;
             if (this.props.user.auth_service === '') {
-                let usernameLabel: any = (
+                let usernameLabel: JSX.Element | string = (
                     <FormattedMessage
                         id='user.settings.general.username'
                         defaultMessage='Username'
@@ -1125,7 +1125,7 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
                     </span>
                 );
             } else {
-                let positionLabel: any = (
+                let positionLabel: JSX.Element | string = (
                     <FormattedMessage
                         id='user.settings.general.position'
                         defaultMessage='Position'
