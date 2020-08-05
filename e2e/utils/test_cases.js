@@ -34,22 +34,13 @@ function getStepStateResult(steps = []) {
 function getStepStateSummary(steps = []) {
     const result = getStepStateResult(steps);
 
-    let summary = '';
-    Object.entries(result).forEach(([key, value], index) => {
-        if (index) {
-            summary += ',';
-        }
-        summary += `${value} ${key}`;
-    });
-
-    return summary;
+    return Object.entries(result).map(([key, value]) => `${value} ${key}`).join(',');
 }
 
 function getTM4JTestCases(report) {
-    const allTests = getAllTests(report.results);
+    const re = /^(MM-T)\w+/g;
 
-    const re = /(MM-T)\w+/g;
-    return allTests.
+    return getAllTests(report.results).
         filter((item) => re.test(item.title)).
         map((item) => {
             return {
@@ -123,8 +114,8 @@ async function createTestExecutions(report, testCycle) {
     const startTime = startDate.getTime();
 
     const promises = [];
-    Object.entries(testCases).forEach(([key, value]) => {
-        const testScriptResults = value.
+    Object.entries(testCases).forEach(([key, steps]) => {
+        const testScriptResults = steps.
             sort((a, b) => a.title.localeCompare(b.title)).
             map((item) => {
                 return {
@@ -134,21 +125,21 @@ async function createTestExecutions(report, testCycle) {
                 };
             });
 
-        const stateResult = getStepStateResult(value);
+        const stateResult = getStepStateResult(steps);
 
         const testExecution = {
             projectKey: JIRA_PROJECT_KEY,
             testCaseKey: key,
             testCycleKey: testCycle.key,
-            statusName: stateResult.passed && stateResult.passed === value.length ? 'Pass' : 'Fail',
+            statusName: stateResult.passed && stateResult.passed === steps.length ? 'Pass' : 'Fail',
             testScriptResults,
             environmentName: environment[BROWSER] || 'Chrome',
             actualEndDate: testScriptResults[testScriptResults.length - 1].actualEndDate,
-            executionTime: value.reduce((acc, prev) => {
+            executionTime: steps.reduce((acc, prev) => {
                 acc += prev.duration; // eslint-disable-line no-param-reassign
                 return acc;
             }, 0),
-            comment: `Cypress automated test - ${getStepStateSummary(value)}`,
+            comment: `Cypress automated test - ${getStepStateSummary(steps)}`,
         };
 
         promises.push(saveToEndpoint('https://api.adaptavist.io/tm4j/v2/testexecutions', testExecution));
