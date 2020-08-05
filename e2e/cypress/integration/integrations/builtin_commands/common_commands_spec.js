@@ -80,7 +80,7 @@ describe('I18456 Built-in slash commands: common', () => {
 
         // # Type /mute with random characters
         cy.postMessage(`/mute ${invalidChannel}`);
-        cy.wait(TIMEOUTS.THREE_SEC);
+        cy.uiWaitUntilMessagePostedIncludes('Please use the channel handle to identify channels');
 
         cy.getLastPostId().then((postId) => {
             // * Could not find the channel lalodkjngjrngorejng. Please use the channel handle to identify channels.
