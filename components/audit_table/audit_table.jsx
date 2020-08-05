@@ -338,7 +338,7 @@ export class AuditTable extends React.PureComponent {
                         {sessionContent}
                     </tr>
                 </thead>
-                <tbody>
+                <tbody data-testid='auditTableBody'>
                     {accessList}
                 </tbody>
             </table>

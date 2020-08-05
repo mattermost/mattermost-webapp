@@ -43,7 +43,9 @@ exports[`components/audit_table/AuditTable should match snapshot with audits 1`]
       </th>
     </tr>
   </thead>
-  <tbody>
+  <tbody
+    data-testid="auditTableBody"
+  >
     <tr
       key="id_2"
     >
@@ -179,6 +181,8 @@ exports[`components/audit_table/AuditTable should match snapshot with no audits 
       </th>
     </tr>
   </thead>
-  <tbody />
+  <tbody
+    data-testid="auditTableBody"
+  />
 </table>
 `;
