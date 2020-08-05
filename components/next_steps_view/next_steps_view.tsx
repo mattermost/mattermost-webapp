@@ -29,6 +29,7 @@ type Props = {
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => void;
         setShowNextStepsView: (show: boolean) => void;
+        openModal: (show: any) => void;
     };
 };
 
@@ -193,8 +194,14 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
         );
     }
 
+    // Filter the steps shown by checking if our user has any of the required roles for that step
+    filterSteps = (step: StepType) => {
+        const userRoles = this.props.currentUser.roles.split(' ');
+        return userRoles.some((r) => step.roles.includes(r));
+    }
+
     renderMainBody = () => {
-        const renderedSteps = Steps.map(this.renderStep);
+        const renderedSteps = Steps.filter(this.filterSteps).map(this.renderStep);
 
         return (
             <div

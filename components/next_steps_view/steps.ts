@@ -10,6 +10,7 @@ import {RecommendedNextSteps, Preferences} from 'utils/constants';
 import {localizeMessage} from 'utils/utils';
 
 import CompleteProfileStep from './steps/complete_profile_step';
+import SetupPreferencesStep from './steps/setup_preferences_step';
 
 export type StepComponentProps = {
     id: string;
@@ -22,6 +23,7 @@ export type StepType = {
     id: string;
     title: string;
     component: React.ComponentType<StepComponentProps>;
+    roles: Array<string>;
 }
 
 export const Steps: StepType[] = [
@@ -29,17 +31,26 @@ export const Steps: StepType[] = [
         id: RecommendedNextSteps.COMPLETE_PROFILE,
         title: localizeMessage('next_steps_view.titles.completeProfile', 'Complete your profile'),
         component: CompleteProfileStep,
+        roles: ['system_admin', 'system_user'],
     },
     {
         id: RecommendedNextSteps.TEAM_SETUP,
         title: localizeMessage('next_steps_view.titles.teamSetup', 'Name your team'),
         component: CompleteProfileStep,
+        roles: ['system_admin'],
     },
     {
         id: RecommendedNextSteps.INVITE_MEMBERS,
         title: localizeMessage('next_steps_view.titles.inviteMembers', 'Invite members to the team'),
         component: CompleteProfileStep,
+        roles: ['system_admin'],
     },
+    {
+        id: RecommendedNextSteps.PREFERENCES_SETUP,
+        title: localizeMessage('next_steps_view.titles.preferenceSetup', 'Set your preferences'),
+        component: SetupPreferencesStep,
+        roles: ['system_user'],
+    }
 ];
 
 const getCategory = makeGetCategory();
