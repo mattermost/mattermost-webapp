@@ -2,10 +2,9 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {mount, ReactWrapper} from 'enzyme';
+import {mount} from 'enzyme';
 
 import Card from './card';
-import CardBody from './card_body';
 
 describe('components/card/card', () => {
     const baseProps = {
