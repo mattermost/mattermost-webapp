@@ -16,7 +16,7 @@ import * as MESSAGES from '../../../fixtures/messages';
 describe('I18456 Built-in slash commands: common', () => {
     let user1;
     let user2;
-    let userGroup;
+    const userGroup = [];
     let testChannelUrl;
 
     before(() => {
@@ -30,13 +30,10 @@ describe('I18456 Built-in slash commands: common', () => {
                 cy.apiAddUserToTeam(team.id, user2.id);
             });
 
-            const prefixes = ['hello', 'hello', 'hello', 'hello', 'hello', 'hello', 'hello', 'hello'];
-            userGroup = [];
-            prefixes.forEach((prefix) => {
-                cy.apiCreateUser({prefix}).then(({user: otherUser}) => {
-                    const newUser = otherUser;
-                    cy.apiAddUserToTeam(team.id, newUser.id);
-                    userGroup.push(newUser);
+            Cypress._.times(8, () => {
+                cy.apiCreateUser().then(({user: otherUser}) => {
+                    cy.apiAddUserToTeam(team.id, otherUser.id);
+                    userGroup.push(otherUser);
                 });
             });
         });
@@ -87,11 +84,36 @@ describe('I18456 Built-in slash commands: common', () => {
 
     it('MM-T666 /groupmsg error if messaging more than 7 users', () => {
         loginAndVisitDefaultChannel(user1, testChannelUrl);
+
+        // # Include more than 7 valid users in the command
         const usernames = Cypress._.map(userGroup, 'username');
-        const mesg = '/groupmsg @' + usernames.join(', @') + ' ' + MESSAGES.MEDIUM;
-        cy.postMessage(mesg);
+        const mesg1 = '/groupmsg @' + usernames.join(', @') + ' ' + MESSAGES.MEDIUM;
+        cy.postMessage(mesg1);
+
+        // * If adding more than 7 users (excluding current user), system message saying "Group messages are limited to a maximum of 7 users."
+        cy.uiWaitUntilMessagePostedIncludes('Group messages are limited to a maximum of 7 users');
         cy.getLastPostId().then((postId) => {
             cy.get(`#postMessageText_${postId}`).should('have.text', 'Group messages are limited to a maximum of 7 users.');
+        });
+
+        // # Include one invalid user in the command
+        const mesg2 = '/groupmsg @' + usernames.slice(0, 2).join(', @') + ', @hello ' + MESSAGES.MEDIUM;
+        cy.postMessage(mesg2);
+
+        // * If users cannot be found, returns error that user could not be found
+        cy.uiWaitUntilMessagePostedIncludes('Unable to find the user: @hello');
+        cy.getLastPostId().then((postId) => {
+            cy.get(`#postMessageText_${postId}`).should('have.text', 'Unable to find the user: @hello');
+        });
+
+        // # Include more than one invalid user in the command
+        const mesg3 = '/groupmsg @' + usernames.slice(0, 2).join(', @') + ', @hello, @world ' + MESSAGES.MEDIUM;
+        cy.postMessage(mesg3);
+
+        // * If users cannot be found, returns error that user could not be found
+        cy.uiWaitUntilMessagePostedIncludes('Unable to find the users: @hello @world');
+        cy.getLastPostId().then((postId) => {
+            cy.get(`#postMessageText_${postId}`).should('have.text', 'Unable to find the users: @hello @world');
         });
     });
 });
