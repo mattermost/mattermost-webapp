@@ -183,7 +183,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               data-testid="channel-display-name"
             >
               <GlobeIcon
-                className="channel-icon channel-icon__globe channel-icon___lowerOpacity"
+                className="channel-icon"
               />
               <span
                 className="TeamList_channelDisplayName"
@@ -397,7 +397,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               data-testid="channel-display-name"
             >
               <GlobeIcon
-                className="channel-icon channel-icon__globe channel-icon___lowerOpacity"
+                className="channel-icon"
               />
               <span
                 className="TeamList_channelDisplayName"
@@ -444,7 +444,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               data-testid="channel-display-name"
             >
               <GlobeIcon
-                className="channel-icon channel-icon__globe channel-icon___lowerOpacity"
+                className="channel-icon"
               />
               <span
                 className="TeamList_channelDisplayName"
@@ -491,7 +491,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               data-testid="channel-display-name"
             >
               <GlobeIcon
-                className="channel-icon channel-icon__globe channel-icon___lowerOpacity"
+                className="channel-icon"
               />
               <span
                 className="TeamList_channelDisplayName"
@@ -538,7 +538,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               data-testid="channel-display-name"
             >
               <GlobeIcon
-                className="channel-icon channel-icon__globe channel-icon___lowerOpacity"
+                className="channel-icon"
               />
               <span
                 className="TeamList_channelDisplayName"
@@ -585,7 +585,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               data-testid="channel-display-name"
             >
               <GlobeIcon
-                className="channel-icon channel-icon__globe channel-icon___lowerOpacity"
+                className="channel-icon"
               />
               <span
                 className="TeamList_channelDisplayName"
@@ -632,7 +632,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               data-testid="channel-display-name"
             >
               <GlobeIcon
-                className="channel-icon channel-icon__globe channel-icon___lowerOpacity"
+                className="channel-icon"
               />
               <span
                 className="TeamList_channelDisplayName"
@@ -679,7 +679,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               data-testid="channel-display-name"
             >
               <GlobeIcon
-                className="channel-icon channel-icon__globe channel-icon___lowerOpacity"
+                className="channel-icon"
               />
               <span
                 className="TeamList_channelDisplayName"
@@ -726,7 +726,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               data-testid="channel-display-name"
             >
               <GlobeIcon
-                className="channel-icon channel-icon__globe channel-icon___lowerOpacity"
+                className="channel-icon"
               />
               <span
                 className="TeamList_channelDisplayName"
@@ -773,7 +773,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               data-testid="channel-display-name"
             >
               <GlobeIcon
-                className="channel-icon channel-icon__globe channel-icon___lowerOpacity"
+                className="channel-icon"
               />
               <span
                 className="TeamList_channelDisplayName"
@@ -820,7 +820,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               data-testid="channel-display-name"
             >
               <GlobeIcon
-                className="channel-icon channel-icon__globe channel-icon___lowerOpacity"
+                className="channel-icon"
               />
               <span
                 className="TeamList_channelDisplayName"
