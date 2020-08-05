@@ -9,22 +9,77 @@ import {getAdminAccount} from '../env';
 // https://api.mattermost.com/#tag/users
 // *****************************************************************************
 
+Cypress.Commands.add('apiLogin', (user) => {
+    cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/users/login',
+        method: 'POST',
+        body: {login_id: user.username, password: user.password},
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap({user: response.body});
+    });
+});
+
+Cypress.Commands.add('apiAdminLogin', () => {
+    const admin = getAdminAccount();
+
+    return cy.apiLogin(admin);
+});
+
+Cypress.Commands.add('apiLogout', () => {
+    cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/users/logout',
+        method: 'POST',
+        log: false,
+    });
+
+    // * Verify logged out
+    cy.visit('/login?extra=expired').url().should('include', '/login?extra=expired');
+
+    // # Ensure we clear out these specific cookies
+    ['MMAUTHTOKEN', 'MMUSERID', 'MMCSRF'].forEach((cookie) => {
+        cy.clearCookie(cookie);
+    });
+
+    // # Clear remainder of cookies
+    cy.clearCookies();
+
+    // * Verify cookies are empty
+    cy.getCookies({log: false}).should('be.empty');
+});
+
+Cypress.Commands.add('apiGetMe', () => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: 'api/v4/users/me',
+        method: 'GET',
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        cy.wrap({user: response.body});
+    });
+});
+
 Cypress.Commands.add('apiGetUserByEmail', (email) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: '/api/v4/users/email/' + email,
     }).then((response) => {
         expect(response.status).to.equal(200);
-        cy.wrap(response);
+        cy.wrap({user: response.body});
     });
 });
 
-Cypress.Commands.add('apiGetUsers', (usernames = []) => {
+Cypress.Commands.add('apiGetUsersByUsernames', (usernames = []) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: '/api/v4/users/usernames',
         method: 'POST',
         body: usernames,
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        cy.wrap({users: response.body});
     });
 });
 
@@ -36,7 +91,7 @@ Cypress.Commands.add('apiPatchUser', (userId, userData) => {
         body: userData,
     }).then((response) => {
         expect(response.status).to.equal(200);
-        cy.wrap(response);
+        cy.wrap({user: response.body});
     });
 });
 
@@ -48,81 +103,7 @@ Cypress.Commands.add('apiPatchMe', (data) => {
         body: data,
     }).then((response) => {
         expect(response.status).to.equal(200);
-        cy.wrap(response);
-    });
-});
-
-/**
- * Do not use. To be deprecated soon.
- * Creates a new user via the API, adds them to 3 teams, and sets preference to bypass tutorial.
- * Then logs in as the user
- * @param {Object} user - Object of user email, username, and password that you can optionally set.
- * @param {Array} teamIDs - list of teams to add the new user to
- * @param {Boolean} bypassTutorial - whether to set user preferences to bypass the tutorial on first login (true) or to show it (false)
- * Otherwise use default values
- @returns {Object} Returns object containing email, username, id and password if you need it further in the test
- */
-
-Cypress.Commands.add('apiCreateNewUser', (user = {}, teamIds = [], bypassTutorial = true) => {
-    const randomId = getRandomId();
-
-    const {
-        email = `user${randomId}@sample.mattermost.com`,
-        username = `user${randomId}`,
-        firstName = `First${randomId}`,
-        lastName = `Last${randomId}`,
-        nickname = `NewE2ENickname${randomId}`,
-        password = 'password123',
-    } = user;
-
-    const createUserOption = {
-        headers: {'X-Requested-With': 'XMLHttpRequest'},
-        method: 'POST',
-        url: '/api/v4/users',
-        body: {email, username, first_name: firstName, last_name: lastName, password, nickname},
-    };
-
-    // # Create a new user
-    return cy.request(createUserOption).then((userResponse) => {
-        // Safety assertions to make sure we have a valid response
-        expect(userResponse).to.have.property('body').to.have.property('id');
-
-        const userId = userResponse.body.id;
-
-        if (teamIds && teamIds.length > 0) {
-            teamIds.forEach((teamId) => {
-                cy.apiAddUserToTeam(teamId, userId);
-            });
-        } else {
-            // Get teams, select the first three, and add new user to that team
-            cy.request('GET', '/api/v4/teams').then((teamsResponse) => {
-                // Verify we have at least 1 team in the response to add the user to
-                expect(teamsResponse).to.have.property('body').to.have.length.greaterThan(0);
-
-                // Also add the user to the default team ad-1
-                teamsResponse.body.
-                    filter((t) => t.name === 'ad-1').
-                    map((t) => t.id).
-                    forEach((teamId) => {
-                        cy.apiAddUserToTeam(teamId, userId);
-                    });
-            });
-        }
-
-        // # If the bypass flag is true, bypass tutorial
-        if (bypassTutorial === true) {
-            const preferences = [{
-                user_id: userId,
-                category: 'tutorial_step',
-                name: userId,
-                value: '999',
-            }];
-
-            cy.apiSaveUserPreference(preferences, userId);
-        }
-
-        // Wrap our user object so it gets returned from our cypress command
-        cy.wrap({email, username, password, id: userId, firstName, lastName, nickname});
+        cy.wrap({user: response.body});
     });
 });
 
@@ -188,34 +169,12 @@ Cypress.Commands.add('apiCreateUser', ({prefix = 'user', bypassTutorial = true, 
     });
 });
 
-Cypress.Commands.add('apiCreateGuestUser', (options = {}) => {
-    const prefix = options.prefix || 'guest';
-
-    return cy.apiCreateUser({...options, prefix}).then(({user}) => {
+Cypress.Commands.add('apiCreateGuestUser', ({prefix = 'guest', activate = true} = {}) => {
+    return cy.apiCreateUser({prefix}).then(({user}) => {
         cy.demoteUser(user.id);
+        cy.externalActivateUser(user.id, activate);
 
         return cy.wrap({guest: user});
-    });
-});
-
-/**
- * Saves channel display mode preference of a user directly via API
- * This API assume that the user is logged in and has cookie to access
- * @param {String} status - "online" (default), "offline", "away" or "dnd"
- */
-Cypress.Commands.add('apiUpdateUserStatus', (status = 'online') => {
-    return cy.getCookie('MMUSERID').then((cookie) => {
-        const data = {user_id: cookie.value, status};
-
-        return cy.request({
-            headers: {'X-Requested-With': 'XMLHttpRequest'},
-            url: '/api/v4/users/me/status',
-            method: 'PUT',
-            body: data,
-        }).then((response) => {
-            expect(response.status).to.equal(200);
-            cy.wrap({status: response.body});
-        });
     });
 });
 
@@ -230,6 +189,17 @@ Cypress.Commands.add('apiRevokeUserSessions', (userId) => {
         method: 'POST',
     }).then((response) => {
         expect(response.status).to.equal(200);
-        cy.wrap(response);
+        cy.wrap({data: response.body});
+    });
+});
+
+Cypress.Commands.add('apiGetUsersNotInTeam', ({teamId, page = 0, perPage = 60} = {}) => {
+    return cy.request({
+        method: 'GET',
+        url: `/api/v4/users?not_in_team=${teamId}&page=${page}&per_page=${perPage}`,
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        cy.wrap({users: response.body});
     });
 });

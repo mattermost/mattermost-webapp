@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -908,6 +909,7 @@ export default class SecurityTab extends React.PureComponent {
                     <ToggleModalButton
                         className='security-links color--link'
                         dialogType={AccessHistoryModal}
+                        id='viewAccessHistory'
                     >
                         <FormattedMessage
                             id='user.settings.security.viewHistory.icon'
@@ -950,3 +952,4 @@ export default class SecurityTab extends React.PureComponent {
         );
     }
 }
+/* eslint-enable react/no-string-refs */

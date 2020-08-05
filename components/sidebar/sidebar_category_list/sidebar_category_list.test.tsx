@@ -3,12 +3,15 @@
 
 import React from 'react';
 import {shallow} from 'enzyme';
+import {MovementMode, DropResult} from 'react-beautiful-dnd';
 
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
+import {CategorySorting} from 'mattermost-redux/types/channel_categories';
 import {ChannelType} from 'mattermost-redux/types/channels';
 import {TeamType} from 'mattermost-redux/types/teams';
 
 import SidebarCategoryList from 'components/sidebar/sidebar_category_list/sidebar_category_list';
+import {DraggingStates, DraggingStateTypes} from 'utils/constants';
 
 describe('components/sidebar/sidebar_category_list', () => {
     const currentChannel = {
@@ -72,17 +75,31 @@ describe('components/sidebar/sidebar_category_list', () => {
             {
                 id: 'category1',
                 team_id: 'team1',
+                user_id: '',
                 type: CategoryTypes.CUSTOM,
                 display_name: 'custom_category_1',
+                sorting: CategorySorting.Alphabetical,
+                channel_ids: ['channel_id', 'channel_id_2'],
             },
         ],
         unreadChannelIds: ['channel_id_2'],
         displayedChannels: [currentChannel, unreadChannel],
+        newCategoryIds: [],
         isUnreadFilterEnabled: false,
+        draggingState: {},
+        categoryCollapsedState: {},
         handleOpenMoreDirectChannelsModal: jest.fn(),
+        onDragStart: jest.fn(),
+        onDragEnd: jest.fn(),
         actions: {
             switchToChannelById: jest.fn(),
             close: jest.fn(),
+            moveChannelInSidebar: jest.fn(),
+            moveCategory: jest.fn(),
+            removeFromCategory: jest.fn(),
+            setDraggingState: jest.fn(),
+            stopDragging: jest.fn(),
+            expandCategory: jest.fn(),
         },
     };
 
@@ -92,6 +109,13 @@ describe('components/sidebar/sidebar_category_list', () => {
         );
 
         expect(wrapper).toMatchSnapshot();
+
+        const draggable = wrapper.find('Connect(Droppable)').first();
+        const children: any = draggable.prop('children')!;
+        const inner = shallow(
+            children({}, {}),
+        );
+        expect(inner).toMatchSnapshot();
     });
 
     test('should match snapshot when unread filter is enabled', () => {
@@ -105,6 +129,13 @@ describe('components/sidebar/sidebar_category_list', () => {
         );
 
         expect(wrapper).toMatchSnapshot();
+
+        const draggable = wrapper.find('Connect(Droppable)').first();
+        const children: any = draggable.prop('children')!;
+        const inner = shallow(
+            children({}, {}),
+        );
+        expect(inner).toMatchSnapshot();
     });
 
     test('should close sidebar on mobile when channel is selected (ie. changed)', () => {
@@ -194,5 +225,83 @@ describe('components/sidebar/sidebar_category_list', () => {
 
         instance.scrollToChannel(unreadChannel.id);
         expect(instance.scrollToPosition).toBeCalledWith(8); // includes margin and category header height
+    });
+
+    test('should set the dragging state based on type', () => {
+        (global as any).document.querySelectorAll = jest.fn().mockReturnValue([{
+            style: {},
+        }]);
+
+        const wrapper = shallow<SidebarCategoryList>(
+            <SidebarCategoryList {...baseProps}/>,
+        );
+
+        const categoryBefore = {
+            draggableId: baseProps.categories[0].id,
+            mode: 'SNAP' as MovementMode,
+        };
+        const expectedCategoryBefore = {
+            state: DraggingStates.CAPTURE,
+            id: categoryBefore.draggableId,
+            type: DraggingStateTypes.CATEGORY,
+        };
+
+        wrapper.instance().onBeforeCapture(categoryBefore);
+        expect(baseProps.actions.setDraggingState).toHaveBeenCalledWith(expectedCategoryBefore);
+
+        const channelBefore = {
+            draggableId: currentChannel.id,
+            mode: 'SNAP' as MovementMode,
+        };
+        const expectedChannelBefore = {
+            state: DraggingStates.CAPTURE,
+            id: channelBefore.draggableId,
+            type: DraggingStateTypes.CHANNEL,
+        };
+
+        wrapper.instance().onBeforeCapture(channelBefore);
+        expect(baseProps.actions.setDraggingState).toHaveBeenCalledWith(expectedChannelBefore);
+    });
+
+    test('should call correct action on dropping item', () => {
+        const wrapper = shallow<SidebarCategoryList>(
+            <SidebarCategoryList {...baseProps}/>,
+        );
+
+        const categoryResult: DropResult = {
+            reason: 'DROP',
+            type: 'SIDEBAR_CATEGORY',
+            source: {
+                droppableId: 'droppable-categories',
+                index: 0,
+            },
+            destination: {
+                droppableId: 'droppable-categories',
+                index: 5,
+            },
+            draggableId: baseProps.categories[0].id,
+            mode: 'SNAP' as MovementMode,
+        };
+
+        wrapper.instance().onDragEnd(categoryResult);
+        expect(baseProps.actions.moveCategory).toHaveBeenCalledWith(baseProps.currentTeam.id, categoryResult.draggableId, categoryResult.destination!.index);
+
+        const channelResult: DropResult = {
+            reason: 'DROP',
+            type: 'SIDEBAR_CHANNEL',
+            source: {
+                droppableId: baseProps.categories[0].id,
+                index: 0,
+            },
+            destination: {
+                droppableId: baseProps.categories[0].id,
+                index: 5,
+            },
+            draggableId: baseProps.categories[0].id,
+            mode: 'SNAP' as MovementMode,
+        };
+
+        wrapper.instance().onDragEnd(channelResult);
+        expect(baseProps.actions.moveChannelInSidebar).toHaveBeenCalledWith(channelResult.destination!.droppableId, channelResult.draggableId, channelResult.destination!.index);
     });
 });

@@ -36,7 +36,7 @@ describe('MM-23102 - Channel Moderation - Post Reactions', () => {
 
     before(() => {
         // * Check if server has license
-        cy.requireLicense();
+        cy.apiRequireLicense();
 
         cy.apiInitSetup().then(({team, channel, user}) => {
             regularUser = user;
@@ -49,9 +49,6 @@ describe('MM-23102 - Channel Moderation - Post Reactions', () => {
                 cy.apiAddUserToTeam(testTeam.id, guestUser.id).then(() => {
                     cy.apiAddUserToChannel(testChannel.id, guestUser.id);
                 });
-
-                // # Activate guest user
-                cy.apiActivateUser(guestUser.id, true);
 
                 // Post a few messages in the channel
                 visitChannel(admin, testChannel, testTeam);

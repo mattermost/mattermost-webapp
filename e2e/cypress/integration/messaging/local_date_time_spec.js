@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @messaging
 
 import {getAdminAccount} from '../../support/env';
@@ -72,14 +73,14 @@ describe('Messaging', () => {
             },
             {
                 name: 'in react-intl unsupported timezone',
-                publicChannel: 'CANALES PÚBLICOS',
-                locale: 'es',
+                publicChannel: 'PUBLIC CHANNELS',
+                locale: 'en',
                 manualTimezone: 'NZ-CHAT',
                 localTimes: [
-                    {postIndex: 0, standard: '06:15 PM', military: '18:15'},
-                    {postIndex: 1, standard: '02:15 AM', military: '02:15'},
+                    {postIndex: 0, standard: '6:15 PM', military: '18:15'},
+                    {postIndex: 1, standard: '2:15 AM', military: '02:15'},
                     {postIndex: 2, standard: '10:15 AM', military: '10:15'},
-                    {postIndex: 3, standard: '02:15 PM', military: '14:15'},
+                    {postIndex: 3, standard: '2:15 PM', military: '14:15'},
                 ],
             },
         ];
@@ -90,7 +91,7 @@ describe('Messaging', () => {
                     testCase.localTimes.forEach((localTime, index) => {
                         it('post ' + index + ' should match', () => {
                             // # Change user preference to 12-hour format
-                            setTo24HourTimeFormat(false);
+                            cy.apiSaveClockDisplayModeTo24HourPreference(false);
 
                             // # Set user locale and timezone
                             setLocaleAndTimezone(testCase.locale, testCase.manualTimezone);
@@ -108,7 +109,7 @@ describe('Messaging', () => {
                     testCase.localTimes.forEach((localTime, index) => {
                         it('post ' + index + ' should match', () => {
                             // # Change user preference to 24-hour format
-                            setTo24HourTimeFormat(true);
+                            cy.apiSaveClockDisplayModeTo24HourPreference(true);
 
                             // # Set user locale and timezone
                             setLocaleAndTimezone(testCase.locale, testCase.manualTimezone);
@@ -134,18 +135,5 @@ function setLocaleAndTimezone(locale, manualTimezone) {
             automaticTimezone: '',
             useAutomaticTimezone: 'false',
         },
-    });
-}
-
-function setTo24HourTimeFormat(is24Hour) {
-    cy.getCookie('MMUSERID').then((cookie) => {
-        const preference = {
-            user_id: cookie.value,
-            category: 'display_settings',
-            name: 'use_military_time',
-            value: is24Hour.toString(),
-        };
-
-        cy.apiSaveUserPreference([preference]);
     });
 }

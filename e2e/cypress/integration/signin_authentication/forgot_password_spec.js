@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @signin_authentication
 
 import {getEmailUrl, getEmailMessageSeparator, reUrl} from '../../utils';
@@ -22,8 +21,8 @@ describe('Signin/Authentication', () => {
         cy.apiEmailTest();
 
         // # Get config
-        cy.apiGetConfig().then((response) => {
-            testConfig = response.body;
+        cy.apiGetConfig().then(({config}) => {
+            testConfig = config;
         });
 
         // # Create new team and users
@@ -47,7 +46,7 @@ function verifyForgotPasswordEmail(response, toUser, config, messageSeparator) {
     // * Should return success status
     expect(status).to.equal(200);
 
-    // * Verify that email is addressed to user-1
+    // * Verify that email is addressed to toUser
     expect(data.to.length).to.equal(1);
     expect(data.to[0]).to.contain(toUser.email);
 

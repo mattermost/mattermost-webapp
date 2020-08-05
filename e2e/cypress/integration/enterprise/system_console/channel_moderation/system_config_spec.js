@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @enterprise @system_console @channel_moderation
 
 import * as TIMEOUTS from '../../../../fixtures/timeouts';
@@ -26,7 +27,7 @@ describe('Channel Moderation', () => {
 
     before(() => {
         // * Check if server has license
-        cy.requireLicense();
+        cy.apiRequireLicense();
 
         cy.apiInitSetup().then(({team, channel}) => {
             testTeam = team;
@@ -38,9 +39,6 @@ describe('Channel Moderation', () => {
                 cy.apiAddUserToTeam(testTeam.id, guestUser.id).then(() => {
                     cy.apiAddUserToChannel(testChannel.id, guestUser.id);
                 });
-
-                // # Activate guest user
-                cy.apiActivateUser(guestUser.id, true);
             });
         });
     });
@@ -51,7 +49,9 @@ describe('Channel Moderation', () => {
         cy.visit('/admin_console/user_management/channels');
 
         // # Search for the channel.
-        cy.findByTestId('search-input').type(`${testChannel.name}{enter}`);
+        cy.get('.DataGrid_searchBar').within(() => {
+            cy.findByPlaceholderText('Search').type(`${testChannel.name}{enter}`);
+        });
         cy.findByText('Edit').click();
 
         // # Wait until the groups retrieved and show up

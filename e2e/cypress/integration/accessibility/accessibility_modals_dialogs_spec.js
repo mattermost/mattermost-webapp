@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @accessibility
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
@@ -39,7 +40,7 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
 
     before(() => {
         // * Check if server has license for Guest Accounts
-        cy.requireLicenseForFeature('GuestAccounts');
+        cy.apiRequireLicenseForFeature('GuestAccounts');
 
         cy.apiInitSetup().then(({team, channel, user}) => {
             testTeam = team;
@@ -98,7 +99,7 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
             cy.get('#selectItems input').should('have.attr', 'aria-label', 'Search and add members').and('have.attr', 'aria-autocomplete', 'list');
 
             // # Search for a text and then check up and down arrow
-            cy.get('#selectItems input').type('s', {force: true}).wait(500).type('{downarrow}{downarrow}{downarrow}{uparrow}', {force: true});
+            cy.get('#selectItems input').type('s', {force: true}).wait(TIMEOUTS.HALF_SEC).type('{downarrow}{downarrow}{downarrow}{uparrow}', {force: true});
             cy.get('#multiSelectList').children().eq(2).should('have.class', 'more-modal__row--selected').within(() => {
                 cy.get('.more-modal__name').invoke('text').then((user) => {
                     selectedRowText = user.split(' - ')[0].replace('@', '');
@@ -117,7 +118,7 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
                 });
 
             // # Search for an invalid text
-            cy.get('#selectItems input').type('somethingwhichdoesnotexist', {force: true}).wait(500);
+            cy.get('#selectItems input').type('somethingwhichdoesnotexist', {force: true}).wait(TIMEOUTS.HALF_SEC);
 
             // * Check if reader can read no results
             cy.get('.multi-select__wrapper').should('have.attr', 'aria-live', 'polite').and('have.text', 'No items found');
@@ -128,7 +129,7 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
         // # Create atleast 2 channels
         cy.apiCreateChannel(testTeam.id, 'accessibility', 'accessibility');
         cy.apiCreateChannel(testTeam.id, 'accessibility', 'accessibility').then(() => {
-            cy.apiLogin(testUser.username, testUser.password).then(() => {
+            cy.apiLogin(testUser).then(() => {
                 cy.reload();
 
                 // * Verify the aria-label in more public channels button
@@ -217,7 +218,7 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
                 });
 
             // # Search for an invalid text and check if reader can read no results
-            cy.get('#selectItems input').type('somethingwhichdoesnotexist', {force: true}).wait(500);
+            cy.get('#selectItems input').type('somethingwhichdoesnotexist', {force: true}).wait(TIMEOUTS.HALF_SEC);
 
             // * Check if reader can read no results
             cy.get('.multi-select__wrapper').should('have.attr', 'aria-live', 'polite').and('have.text', 'No items found');
@@ -238,10 +239,11 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
             cy.get('.modal-header button.close').should('have.attr', 'aria-label', 'Close');
 
             // * Verify the accessibility support in search input
-            cy.get('#searchUsersInput').should('have.attr', 'placeholder', 'Search users').focus().type(' {backspace}').wait(TIMEOUTS.HALF_SEC).tab({shift: true}).tab().tab();
+            cy.get('#searchUsersInput').should('have.attr', 'placeholder', 'Search users').focus().type(' {backspace}').wait(TIMEOUTS.HALF_SEC).tab({shift: true}).tab().tab().tab();
+            cy.wait(TIMEOUTS.HALF_SEC);
 
             // * Verify channel name is highlighted and reader reads the channel name
-            cy.get('.more-modal__list>div').children().eq(0).as('selectedRow');
+            cy.get('.more-modal__list>div').children().eq(1).as('selectedRow');
             cy.get('@selectedRow').within(() => {
                 cy.get('button.user-popover').
                     should('have.class', 'a11y--active a11y--focused');
@@ -344,5 +346,6 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
         cy.get('#confirmModal').should('be.visible').and('have.attr', 'aria-modal', 'true').and('have.attr', 'aria-labelledby', 'confirmModalLabel').and('have.attr', 'aria-describedby', 'confirmModalBody');
         cy.get('#confirmModalLabel').should('be.visible').and('have.text', 'Discard Changes');
         cy.get('#confirmModalBody').should('be.visible').and('have.text', 'You have unsent invitations, are you sure you want to discard them?');
+        cy.get('#confirmModalButton').should('be.visible').click();
     });
 });

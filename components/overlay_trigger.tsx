@@ -5,6 +5,10 @@ import React from 'react';
 import {OverlayTrigger as BaseOverlayTrigger, OverlayTriggerProps} from 'react-bootstrap';
 import {IntlContext, IntlShape} from 'react-intl';
 
+import {Provider} from 'react-redux';
+
+import store from 'stores/redux_store.jsx';
+
 export {BaseOverlayTrigger};
 
 type Props = OverlayTriggerProps;
@@ -15,9 +19,11 @@ const OverlayTrigger = React.forwardRef((props: Props, ref?: React.Ref<BaseOverl
     // The overlay is rendered outside of the regular React context, and our version react-bootstrap can't forward
     // that context itself, so we have to manually forward the react-intl context to this component's child.
     const OverlayWrapper = ({intl, ...overlayProps}: {intl: IntlShape}) => (
-        <IntlContext.Provider value={intl}>
-            {React.cloneElement(overlay, overlayProps)}
-        </IntlContext.Provider>
+        <Provider store={store}>
+            <IntlContext.Provider value={intl}>
+                {React.cloneElement(overlay, overlayProps)}
+            </IntlContext.Provider>
+        </Provider>
     );
 
     return (

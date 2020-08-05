@@ -9,7 +9,7 @@ import {Constants} from 'utils/constants';
 import Sidebar from 'components/legacy_sidebar/sidebar';
 
 jest.mock('utils/user_agent', () => {
-    const original = require.requireActual('utils/user_agent');
+    const original = jest.requireActual('utils/user_agent');
     return {
         ...original,
         isFirefox: () => true,
@@ -17,7 +17,7 @@ jest.mock('utils/user_agent', () => {
 });
 
 jest.mock('utils/utils', () => {
-    const original = require.requireActual('utils/utils');
+    const original = jest.requireActual('utils/utils');
     return {
         ...original,
         cmdOrCtrlPressed: jest.fn(),
@@ -25,7 +25,7 @@ jest.mock('utils/utils', () => {
 });
 
 jest.mock('utils/browser_history', () => {
-    const original = require.requireActual('utils/browser_history');
+    const original = jest.requireActual('utils/browser_history');
     return {
         ...original,
         browserHistory: {
@@ -75,10 +75,6 @@ describe('component/legacy_sidebar/sidebar_channel/SidebarChannel', () => {
     };
 
     const defaultProps = {
-        config: {
-            EnableXToLeaveChannelsFromLHS: 'false',
-            SiteName: 'Test site',
-        },
         isOpen: false,
         showUnreadSection: false,
         channelSwitcherOption: true,
@@ -148,6 +144,7 @@ describe('component/legacy_sidebar/sidebar_channel/SidebarChannel', () => {
         redirectChannel: 'default-channel',
         canCreatePublicChannel: true,
         canCreatePrivateChannel: true,
+        isDataPrefechEnabled: true,
     };
 
     test('should match snapshot, on sidebar show', () => {
@@ -210,6 +207,18 @@ describe('component/legacy_sidebar/sidebar_channel/SidebarChannel', () => {
                 {...{
                     ...defaultProps,
                     currentUser: null,
+                }}
+            />,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot that is not to have DataPrefetch mounted, when isDataPrefechEnabled is false', () => {
+        const wrapper = shallowWithIntl(
+            <Sidebar
+                {...{
+                    ...defaultProps,
+                    isDataPrefechEnabled: false,
                 }}
             />,
         );
@@ -377,7 +386,7 @@ describe('component/legacy_sidebar/sidebar_channel/SidebarChannel', () => {
     });
 
     test('open direct channel selector on CTRL/CMD+SHIFT+K', () => {
-        const utils = require.requireMock('utils/utils');
+        const utils = jest.requireMock('utils/utils');
         utils.cmdOrCtrlPressed.mockImplementation(() => false);
         const ctrlShiftK = {
             preventDefault: jest.fn(),

@@ -37,7 +37,7 @@ describe('Close direct messages', () => {
             });
 
             // # Login as test user and go to town square
-            cy.apiLogin(testUser.username, testUser.password);
+            cy.apiLogin(testUser);
             cy.visit(`/${testTeam.name}/channels/town-square`);
         });
     });
@@ -98,7 +98,7 @@ describe('Close group messages', () => {
             });
 
             // # Login as test user and go to town square
-            cy.apiLogin(testUser.username, testUser.password);
+            cy.apiLogin(testUser);
             cy.visit(`/${team.name}/channels/town-square`);
         });
     });

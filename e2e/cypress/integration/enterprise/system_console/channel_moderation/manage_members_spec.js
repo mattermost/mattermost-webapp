@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @enterprise @system_console @channel_moderation
 
 import * as TIMEOUTS from '../../../../fixtures/timeouts';
@@ -35,7 +36,7 @@ describe('MM-23102 - Channel Moderation - Manage Members', () => {
 
     before(() => {
         // * Check if server has license
-        cy.requireLicense();
+        cy.apiRequireLicense();
     });
 
     beforeEach(() => {
@@ -52,9 +53,6 @@ describe('MM-23102 - Channel Moderation - Manage Members', () => {
                 cy.apiAddUserToTeam(testTeam.id, guestUser.id).then(() => {
                     cy.apiAddUserToChannel(testChannel.id, guestUser.id);
                 });
-
-                // # Activate guest user
-                cy.apiActivateUser(guestUser.id, true);
             });
         });
     });

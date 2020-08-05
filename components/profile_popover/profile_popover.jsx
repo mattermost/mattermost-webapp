@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -8,7 +9,7 @@ import {FormattedMessage, injectIntl} from 'react-intl';
 
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
 
-import LocalDateTime from 'components/local_date_time';
+import Timestamp from 'components/timestamp';
 import OverlayTrigger from 'components/overlay_trigger';
 import UserSettingsModal from 'components/user_settings/modal';
 import {browserHistory} from 'utils/browser_history';
@@ -372,7 +373,11 @@ class ProfilePopover extends React.PureComponent {
                         id='user_profile.account.localTime'
                         defaultMessage='Local Time: '
                     />
-                    <LocalDateTime userTimezone={this.props.user.timezone}/>
+                    <Timestamp
+                        useRelative={false}
+                        useDate={false}
+                        timeZone={this.props.user.timezone}
+                    />
                 </div>,
             );
         }
@@ -529,3 +534,4 @@ class ProfilePopover extends React.PureComponent {
 delete ProfilePopover.propTypes.id;
 
 export default injectIntl(ProfilePopover);
+/* eslint-enable react/no-string-refs */

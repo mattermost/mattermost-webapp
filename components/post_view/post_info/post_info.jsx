@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -226,6 +227,17 @@ export default class PostInfo extends React.PureComponent {
             );
         }
 
+        const showFlagIcon = !isSystemMessage && !isMobile && (hover || this.props.isFlagged);
+        let postFlagIcon;
+        if (showFlagIcon) {
+            postFlagIcon = (
+                <PostFlagIcon
+                    postId={post.id}
+                    isFlagged={this.props.isFlagged}
+                />
+            );
+        }
+
         return (
             <div
                 ref='dotMenu'
@@ -234,6 +246,7 @@ export default class PostInfo extends React.PureComponent {
             >
                 {dotMenu}
                 {postReaction}
+                {postFlagIcon}
                 {commentIcon}
             </div>
         );
@@ -287,18 +300,6 @@ export default class PostInfo extends React.PureComponent {
         const isSystemMessage = PostUtils.isSystemMessage(post);
         const fromAutoResponder = PostUtils.fromAutoResponder(post);
 
-        const showFlagIcon = !isEphemeral && !post.failed && !isSystemMessage && (this.props.hover || this.props.isFlagged);
-        let postFlagIcon;
-        if (showFlagIcon) {
-            postFlagIcon = (
-                <PostFlagIcon
-                    postId={post.id}
-                    isFlagged={this.props.isFlagged}
-                    isEphemeral={isEphemeral}
-                />
-            );
-        }
-
         let postInfoIcon;
         if (post.props && post.props.card) {
             postInfoIcon = (
@@ -315,7 +316,7 @@ export default class PostInfo extends React.PureComponent {
                     }
                 >
                     <button
-                        className={'post-menu__item post-menu__item--show ' + (this.props.isCardOpen ? 'active' : '')}
+                        className={'card-icon__container icon--show style--none ' + (this.props.isCardOpen ? 'active' : '')}
                         onClick={(e) => {
                             e.preventDefault();
                             this.props.handleCardClick(this.props.post);
@@ -353,18 +354,6 @@ export default class PostInfo extends React.PureComponent {
             );
         }
 
-        let pinnedBadge;
-        if (post.is_pinned) {
-            pinnedBadge = (
-                <span className='post__pinned-badge'>
-                    <FormattedMessage
-                        id='post_info.pinned'
-                        defaultMessage='Pinned'
-                    />
-                </span>
-            );
-        }
-
         const showPostTime = this.props.hover || this.props.showTimeWithoutHover;
         let postTime;
         if (showPostTime) {
@@ -387,9 +376,7 @@ export default class PostInfo extends React.PureComponent {
             >
                 <div className='col'>
                     {postTime}
-                    {pinnedBadge}
                     {postInfoIcon}
-                    {postFlagIcon}
                     {visibleMessage}
                 </div>
                 {options}
@@ -397,3 +384,4 @@ export default class PostInfo extends React.PureComponent {
         );
     }
 }
+/* eslint-enable react/no-string-refs */

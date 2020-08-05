@@ -1,10 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {shallow, ShallowWrapper} from 'enzyme';
 import React from 'react';
 import PropTypes from 'prop-types';
 import configureStore from 'redux-mock-store';
+import {shallow, ShallowWrapper} from 'enzyme';
 
 import {UserProfile} from 'mattermost-redux/types/users';
 

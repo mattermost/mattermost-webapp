@@ -62,7 +62,7 @@ describe('Account Settings > Display > Channel Display Mode', () => {
         cy.get('#accountSettingsHeader > .close').should('be.visible');
     });
 
-    it('change channel display mode setting to "Full width"', () => {
+    it('MM-T296 change channel display mode setting to "Full width"', () => {
         // # Click the radio button for "Full width"
         cy.get('#channel_display_modeFormatA').click();
 
@@ -85,7 +85,7 @@ describe('Account Settings > Display > Channel Display Mode', () => {
         cy.get("div[data-testid='postContent']").first().invoke('attr', 'class').should('contain', 'post__content').should('not.contain', 'center');
     });
 
-    it('AS13225 Channel display mode setting to "Fixed width, centered"', () => {
+    it('MM-T295 Channel display mode setting to "Fixed width, centered"', () => {
         cy.toAccountSettingsModal();
 
         // * Check that the Sidebar tab is loaded

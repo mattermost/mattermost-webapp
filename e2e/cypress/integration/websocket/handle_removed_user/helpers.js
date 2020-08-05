@@ -28,9 +28,8 @@ export function removeMeFromCurrentChannel() {
     return cy.getCurrentChannelId().then((res) => {
         channelId = res;
         return cy.apiGetMe();
-    }).then((res) => {
-        const userId = res.body.id;
-        return cy.removeUserFromChannel(channelId, userId);
+    }).then(({user}) => {
+        return cy.removeUserFromChannel(channelId, user.id);
     });
 }
 
@@ -53,8 +52,8 @@ export function shouldRemoveMentionsInRHS(teamName, sidebarItemClass) {
     let postId;
 
     // # Post a unique message with a mention and retrieve its ID
-    cy.apiGetMe().then((res) => {
-        var messageText = `${Date.now()} - mention to @${res.body.username} `;
+    cy.apiGetMe().then(({user}) => {
+        var messageText = `${Date.now()} - mention to @${user.username} `;
         cy.postMessage(messageText);
 
         return cy.getLastPostId();
