@@ -23,6 +23,11 @@ exports[`components/card/card should match snapshot 1`] = `
     >
       <div
         className="Card__body"
+        style={
+          Object {
+            "height": "",
+          }
+        }
       >
         Body Test
       </div>

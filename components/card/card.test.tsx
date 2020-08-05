@@ -24,19 +24,19 @@ describe('components/card/card', () => {
     });
 
     test('should have a height based on content when expanded', () => {
-        const wrapper: ReactWrapper<any, any, CardBody> = mount(
+        const wrapper = mount(
             <Card.Body {...baseProps}>
                 {'Body Test'}
                 {'Slightly Larger Body Text'}
             </Card.Body>
         );
 
-        expect(wrapper.instance().card.current?.style.height).toBe('');
+        expect(wrapper.find('.Card__body').prop('style')).toHaveProperty('height', '');
 
         wrapper.setProps({expanded: true});
-        expect(wrapper.instance().card.current?.style.height).not.toBe('');
+        expect(wrapper.find('.Card__body').prop('style')).not.toHaveProperty('height', '');
 
         wrapper.setProps({expanded: false});
-        expect(wrapper.instance().card.current?.style.height).toBe('');
+        expect(wrapper.find('.Card__body').prop('style')).toHaveProperty('height', '');
     });
 });
