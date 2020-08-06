@@ -38,10 +38,8 @@ function getStepStateSummary(steps = []) {
 }
 
 function getTM4JTestCases(report) {
-    const re = /^(MM-T)\w+/g;
-
     return getAllTests(report.results).
-        filter((item) => re.test(item.title)).
+        filter((item) => /^(MM-T)\w+/g.test(item.title)).
         map((item) => {
             return {
                 title: item.title,
@@ -114,7 +112,7 @@ async function createTestExecutions(report, testCycle) {
     const startTime = startDate.getTime();
 
     const promises = [];
-    Object.entries(testCases).forEach(([key, steps]) => {
+    Object.entries(testCases).forEach(([key, steps], index) => {
         const testScriptResults = steps.
             sort((a, b) => a.title.localeCompare(b.title)).
             map((item) => {
@@ -141,6 +139,9 @@ async function createTestExecutions(report, testCycle) {
             }, 0),
             comment: `Cypress automated test - ${getStepStateSummary(steps)}`,
         };
+
+        // Temporarily log to verify cases that were being saved.
+        console.log(index, key); // eslint-disable-line no-console
 
         promises.push(saveToEndpoint('https://api.adaptavist.io/tm4j/v2/testexecutions', testExecution));
     });
