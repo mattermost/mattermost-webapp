@@ -340,6 +340,31 @@ describe('toasts', () => {
         // * Toast should not be visible
         cy.get('div.toast').should('not.be.visible');
     });
+
+    it('MM-T1788 Toast count', () => {
+        // # Visit other channel
+        cy.get(`#sidebarItem_${otherChannel.name}`).should('be.visible').click();
+
+        // # Add 25 posts to create enough space from bottom for showing archive toast
+        for (let index = 0; index < 25; index++) {
+            cy.postMessageAs({sender: otherUser, message: `This is an old message [${index}]`, channelId: townsquareChannelId});
+        }
+
+        visitTownSquareAndWaitForPageToLoad();
+
+        // * Toast should be present
+        cy.get('div.toast').should('be.visible').contains('25 new messages');
+
+        const initialCount = 25;
+
+        // # Add 10 messages to channel and check the toast count increases
+        Cypress._.times(10, (num) => {
+            cy.postMessageAs({sender: otherUser, message: `This is an old message [${initialCount + num}]`, channelId: townsquareChannelId});
+
+            // * Toast should be present and the number of messages increment as it comes in
+            cy.get('div.toast').should('be.visible').contains(`${initialCount + num + 1} new messages`);
+        });
+    });
 });
 
 function visitTownSquareAndWaitForPageToLoad() {
