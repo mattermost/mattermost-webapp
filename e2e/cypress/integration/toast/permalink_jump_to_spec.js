@@ -24,7 +24,7 @@ describe('Permalink', () => {
 
         // # Search for a term e.g.test
         const searchTerm = 'test';
-        cy.get('#post_textbox').type(searchTerm).type('{enter}');
+        cy.postMessage(searchTerm);
         cy.get('#searchBox').type(searchTerm).type('{enter}');
 
         // # Click on Jump to link in search results
@@ -32,15 +32,18 @@ describe('Permalink', () => {
 
         cy.getLastPostId().then((postId) => {
             // # Jump to link opens on main channel view
+            cy.url().should('include', `/${testTeam.name}/channels/town-square/${postId}`);
             cy.get('#channelHeaderInfo').should('be.visible').and('contain', 'Town Square');
 
-            // # Post is highlighted and fads within 6 sec.
-            cy.get(`#post_${postId}`).should('have.css', 'animation-duration', '1s');
-
-            cy.get(`#post_${postId}`).should('have.css', 'animation-delay', '5s');
+            // # Post is highlighted and fades within 6 sec.
+            cy.get(`#post_${postId}`).
+                should('have.css', 'animation-duration', '1s').
+                and('have.css', 'animation-delay', '5s').
+                and('have.class', 'post--highlight');
+            cy.get(`#post_${postId}`).should('not.have.class', 'post--highlight');
 
             // # URL changes to channel url
-            cy.url().should('include', `/${testTeam.name}/channels/town-square`);
+            cy.url().should('include', `/${testTeam.name}/channels/town-square`).and('not.include', postId);
         });
     });
 });
