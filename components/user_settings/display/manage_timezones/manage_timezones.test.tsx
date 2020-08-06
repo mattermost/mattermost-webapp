@@ -30,7 +30,7 @@ describe('components/user_settings/display/manage_timezones/manage_timezones', (
         const props = {...requiredProps, actions: {...requiredProps.actions, updateMe}};
         const wrapper = shallow(<ManageTimezones {...props}/>);
 
-        await wrapper.instance().submitUser(props.user);
+        await (wrapper.instance() as ManageTimezones).submitUser();
 
         const expected = {...props.user,
             timezone: {

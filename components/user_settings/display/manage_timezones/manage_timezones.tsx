@@ -6,11 +6,10 @@ import {getTimezoneRegion} from 'mattermost-redux/utils/timezone_utils';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 
 import {UserProfile} from 'mattermost-redux/types/users';
-import {ActionFunc} from 'mattermost-redux/types/actions';
+import {ServerError} from 'mattermost-redux/types/errors';
 
 import SettingItemMax from 'components/setting_item_max.jsx';
 import {getBrowserTimezone} from 'utils/timezone';
-
 import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 import TimezoneProvider from 'components/suggestion/timezone_provider.jsx';
@@ -23,7 +22,8 @@ type Props ={
     manualTimezone: string;
     timezones: string[];
     actions: {
-      updateMe: (user: UserProfile) => ActionFunc;
+        updateMe: (user: UserProfile) => Promise<{data: boolean ; error?: ServerError | string}>;
+
     };
 
 }
@@ -122,7 +122,7 @@ export default class ManageTimezones extends React.PureComponent<Props, State> {
                     if (err instanceof Error) {
                         serverError = err.message;
                     } else {
-                        serverError = err;
+                        serverError = err as string;
                     }
                     this.setState({serverError, isSaving: false});
                 }
