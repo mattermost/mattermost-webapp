@@ -266,6 +266,42 @@ describe('toasts', () => {
         });
     });
 
+    it('MM-T1787 Toast does not appear when all new messages are visible without scrolling down', () => {
+        // # Go to other channel
+        cy.get(`#sidebarItem_${otherChannel.name}`).should('be.visible').click();
+
+        // # Add enough messages to town square channel
+        for (let index = 0; index < 30; index++) {
+            cy.postMessageAs({sender: otherUser, message: `This is an old message [${index}]`, channelId: townsquareChannelId});
+        }
+
+        // # Visit town square channel and read all messages
+        visitTownSquareAndWaitForPageToLoad();
+        cy.get('div.post-list__dynamic').should('be.visible').scrollTo('bottom', {duration: TIMEOUTS.ONE_SEC});
+
+        // # Visit other channel
+        cy.get(`#sidebarItem_${otherChannel.name}`).should('be.visible').click();
+
+        // # Add less number of messages to town square channel
+        cy.postMessageAs({sender: otherUser, message: 'This is an new message 1', channelId: townsquareChannelId});
+        cy.postMessageAs({sender: otherUser, message: 'This is an new message 2', channelId: townsquareChannelId});
+
+        // # Visit town square channel
+        visitTownSquareAndWaitForPageToLoad();
+
+        // * Assert toast should not be present as the messages are visible without scrolling down
+        cy.get('div.toast').should('not.be.visible');
+
+        // # Move to the top of the channel
+        cy.get('div.post-list__dynamic').should('be.visible').scrollTo('top', {duration: TIMEOUTS.ONE_SEC});
+
+        // * Verify that town-square channel is loaded
+        cy.get('#channelIntro').should('be.visible').contains('Beginning of Town Square');
+
+        // * Assert toast should not be present as the messages are already read
+        cy.get('div.toast').should('not.be.visible');
+    });
+
     it('MM-T1788 Toast count', () => {
         // # Visit other channel
         cy.get(`#sidebarItem_${otherChannel.name}`).should('be.visible').click();
