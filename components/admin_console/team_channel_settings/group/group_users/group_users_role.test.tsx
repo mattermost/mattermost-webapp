@@ -27,9 +27,9 @@ describe('components/admin_console/team_channel_settings/group/GroupUsersRole', 
 
     const teamMembership = TestHelper.getTeamMembershipMock({scheme_admin: false});
     const adminTeamMembership = TestHelper.getTeamMembershipMock({scheme_admin: true});
-    const channelMembership = TestHelper.getChannelMembershipMock({scheme_admin: false});
-    const adminChannelMembership = TestHelper.getChannelMembershipMock({scheme_admin: true});
-    const guestMembership = TestHelper.getTeamMembershipMock({scheme_admin: false, scheme_user: false, scheme_guest: true});
+    const channelMembership = TestHelper.getChannelMembershipMock({scheme_admin: false}, {});
+    const adminChannelMembership = TestHelper.getChannelMembershipMock({scheme_admin: true}, {});
+    const guestMembership = TestHelper.getTeamMembershipMock({scheme_admin: false, scheme_user: false});
 
     const scopeTeam: 'team' | 'channel' = 'team';
     const scopeChannel: 'team' | 'channel' = 'channel';
