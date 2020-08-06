@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import {FormattedMessage, injectIntl} from 'react-intl';
 
 import {isLicenseExpired, isLicenseExpiring, isLicensePastGracePeriod} from 'utils/license_utils.jsx';
-import {AnnouncementBarTypes, AnnouncementBarMessages} from 'utils/constants';
+import {AnnouncementBarTypes, AnnouncementBarMessages, WarnMetricTypes} from 'utils/constants';
 import {intlShape} from 'utils/react_intl';
 
 import {t} from 'utils/i18n';
@@ -16,6 +16,9 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import AnnouncementBar from '../default_announcement_bar';
 import TextDismissableBar from '../text_dismissable_bar';
+
+import ackIcon from 'images/icons/check-circle-outline.svg';
+import alertIcon from 'images/icons/round-white-info-icon.svg';
 
 const RENEWAL_LINK = 'https://mattermost.com/renew/';
 
@@ -28,7 +31,10 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
         canViewSystemErrors: PropTypes.bool.isRequired,
         totalUsers: PropTypes.number,
         dismissedExpiringLicense: PropTypes.bool,
+        dismissedNumberOfActiveUsersWarnMetricStatus: PropTypes.bool,
+        dismissedNumberOfActiveUsersWarnMetricStatusAck: PropTypes.bool,
         siteURL: PropTypes.string.isRequired,
+        warnMetricsStatus: PropTypes.object,
         actions: PropTypes.shape({
             dismissNotice: PropTypes.func.isRequired,
         }).isRequired,
@@ -36,6 +42,77 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
 
     dismissExpiringLicense = () => {
         this.props.actions.dismissNotice(AnnouncementBarMessages.LICENSE_EXPIRING);
+    }
+
+    dismissNumberOfActiveUsersWarnMetric = () => {
+        this.props.actions.dismissNotice(AnnouncementBarMessages.NUMBER_OF_ACTIVE_USERS_WARN_METRIC_STATUS);
+    }
+
+    dismissNumberOfActiveUsersWarnMetricAck = () => {
+        this.props.actions.dismissNotice(AnnouncementBarMessages.NUMBER_OF_ACTIVE_USERS_WARN_METRIC_STATUS_ACK);
+    }
+
+    getNoticeForWarnMetric = (warnMetricStatus) => {
+        if (!warnMetricStatus) {
+            return null;
+        }
+
+        var message = '';
+        var type = '';
+        var showModal = false;
+        var dismissFunc = null;
+        var isDismissed = null;
+
+        switch (warnMetricStatus.id) {
+        case WarnMetricTypes.SYSTEM_WARN_METRIC_NUMBER_OF_ACTIVE_USERS_500:
+            if (warnMetricStatus.acked) {
+                message = (
+                    <React.Fragment>
+                        <img
+                            className='advisor-icon'
+                            src={ackIcon}
+                        />
+                        <FormattedMarkdownMessage
+                            id={t('announcement_bar.error.number_active_users_warn_metric_status_ack.text')}
+                            defaultMessage={'Your trial has started! Go to the [System Console](/admin_console/environment/web_server) to check out the new features.'}
+                        />
+                    </React.Fragment>
+                );
+                type = AnnouncementBarTypes.ADVISOR_ACK;
+                showModal = false;
+                dismissFunc = this.dismissNumberOfActiveUsersWarnMetricAck;
+                isDismissed = this.props.dismissedNumberOfActiveUsersWarnMetricStatusAck;
+            } else {
+                message = (
+                    <React.Fragment>
+                        <img
+                            className='advisor-icon'
+                            src={alertIcon}
+                        />
+                        <FormattedMarkdownMessage
+                            id={t('announcement_bar.error.number_active_users_warn_metric_status.text')}
+                            defaultMessage={'You now have over {limit} users. We strongly recommend that you upgrade to our Enterprise edition.'}
+                            values={{
+                                limit: warnMetricStatus.limit,
+                            }}
+                        />
+                    </React.Fragment>
+                );
+                type = AnnouncementBarTypes.ADVISOR;
+                showModal = true;
+                dismissFunc = this.dismissNumberOfActiveUsersWarnMetric;
+                isDismissed = this.props.dismissedNumberOfActiveUsersWarnMetricStatus;
+            }
+            return {
+                Message: message,
+                DismissFunc: dismissFunc,
+                IsDismissed: isDismissed,
+                Type: type,
+                ShowModal: showModal,
+            };
+        default:
+            return null;
+        }
     }
 
     render() {
@@ -94,6 +171,27 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
                         }
                     />
                 );
+            }
+            if (this.props.license.IsLicensed === 'false' && this.props.warnMetricsStatus) {
+                for (const status of Object.values(this.props.warnMetricsStatus)) {
+                    var notice = this.getNoticeForWarnMetric(status);
+                    if (!notice || notice.IsDismissed) {
+                        continue;
+                    }
+
+                    return (
+                        <AnnouncementBar
+                            showCloseButton={true}
+                            handleClose={notice.DismissFunc}
+                            type={notice.Type}
+                            showModal={notice.ShowModal}
+                            modalButtonText={t('announcement_bar.error.warn_metric_status.link')}
+                            modalButtonDefaultText={'Learn More'}
+                            warnMetricStatus={status}
+                            message={notice.Message}
+                        />
+                    );
+                }
             }
         } else {
             // Regular users

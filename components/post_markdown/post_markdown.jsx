@@ -76,6 +76,10 @@ export default class PostMarkdown extends React.PureComponent {
             }
         });
 
+        if (post && post.props) {
+            options.mentionHighlight = !post.props.mentionHighlightDisabled;
+        }
+
         return (
             <Markdown
                 imageProps={this.props.imageProps}

@@ -19,7 +19,7 @@ exports[`components/Menu should match snapshot with id 1`] = `
       id="flaggedPosts"
       onClick={[Function]}
       show={false}
-      text="Flagged Posts"
+      text="Saved Posts"
     />
   </MenuGroup>
   <MenuGroup>
@@ -375,7 +375,7 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
       id="flaggedPosts"
       onClick={[Function]}
       show={false}
-      text="Flagged Posts"
+      text="Saved Posts"
     />
   </MenuGroup>
   <MenuGroup>
@@ -735,13 +735,13 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
     <MenuItemAction
       icon={
         <i
-          className="fa fa-flag"
+          className="fa fa-bookmark"
         />
       }
       id="flaggedPosts"
       onClick={[Function]}
       show={true}
-      text="Flagged Posts"
+      text="Saved Posts"
     />
   </MenuGroup>
   <MenuGroup>
@@ -1157,7 +1157,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
       id="flaggedPosts"
       onClick={[Function]}
       show={false}
-      text="Flagged Posts"
+      text="Saved Posts"
     />
   </MenuGroup>
   <MenuGroup>
@@ -1517,13 +1517,13 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
     <MenuItemAction
       icon={
         <i
-          className="fa fa-flag"
+          className="fa fa-bookmark"
         />
       }
       id="flaggedPosts"
       onClick={[Function]}
       show={true}
-      text="Flagged Posts"
+      text="Saved Posts"
     />
   </MenuGroup>
   <MenuGroup>
@@ -1939,7 +1939,7 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
       id="flaggedPosts"
       onClick={[Function]}
       show={false}
-      text="Flagged Posts"
+      text="Saved Posts"
     />
   </MenuGroup>
   <MenuGroup>
@@ -2316,13 +2316,13 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
     <MenuItemAction
       icon={
         <i
-          className="fa fa-flag"
+          className="fa fa-bookmark"
         />
       }
       id="flaggedPosts"
       onClick={[Function]}
       show={true}
-      text="Flagged Posts"
+      text="Saved Posts"
     />
   </MenuGroup>
   <MenuGroup>
