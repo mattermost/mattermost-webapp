@@ -169,14 +169,14 @@ describe('Channel members test', () => {
         });
 
         // * Assert user1 is now back to being a regular member
-        cy.get('#channelMembers .DataGrid_rows').children(0).should('contain', user1.email).and('not.contain', 'New').and('contain', 'Channel Member');
+        cy.get('#channelMembers .DataGrid_rows').children(0).should('contain', user1.email).and('not.contain', 'New').and('contain', 'Member');
 
         // # Search user2 that we know is now in the team again
         searchFor(user2.email);
         cy.get('#channelMembers .DataGrid_loading').should('not.be.visible');
 
         // * Assert user2 is now saved as a regular member
-        cy.get('#channelMembers .DataGrid_rows').children(0).should('contain', user2.email).and('not.contain', 'New').and('contain', 'Channel Member');
+        cy.get('#channelMembers .DataGrid_rows').children(0).should('contain', user2.email).and('not.contain', 'New').and('contain', 'Member');
 
         // # Attempt to save
         saveConfig();
