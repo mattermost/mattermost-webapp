@@ -267,8 +267,8 @@ describe('toasts', () => {
     it('MM-T1785 Toast - When marking post as unread', () => {
         visitTownSquareAndWaitForPageToLoad();
 
-        // # Add 40 posts to create enough space from bottom for making channel scrollable
-        for (let index = 0; index < 40; index++) {
+        // # Add 30 posts to create enough space from bottom for making channel scrollable
+        for (let index = 0; index < 30; index++) {
             cy.postMessageAs({sender: otherUser, message: `This is an old message [${index}]`, channelId: townsquareChannelId});
         }
 
@@ -289,7 +289,7 @@ describe('toasts', () => {
         cy.get('div.post-list__dynamic').should('be.visible').scrollTo('bottom', {duration: 1000});
 
         // # Move to the second last message in the channel and mark as unread
-        cy.getNthPostId(39).then((postId) => {
+        cy.getNthPostId(29).then((postId) => {
             cy.get(`#post_${postId}`).trigger('mouseover');
             cy.clickPostDotMenu(postId, 'CENTER');
 
