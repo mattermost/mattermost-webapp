@@ -28,7 +28,7 @@ exports[`components/admin_console/team_channel_settings/group/GroupUsersRole sho
 <div
   className="GroupUsersRole"
 >
-  Channel Member
+  Member
 </div>
 `;
 
@@ -44,6 +44,6 @@ exports[`components/admin_console/team_channel_settings/group/GroupUsersRole sho
 <div
   className="GroupUsersRole"
 >
-  Team Member
+  Member
 </div>
 `;
