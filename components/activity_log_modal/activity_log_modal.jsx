@@ -59,7 +59,7 @@ export default class ActivityLogModal extends React.PureComponent {
 
     submitRevoke = (altId, e) => {
         e.preventDefault();
-        var modalContent = $(e.target).closest('.modal-content');
+        var modalContent = $(e.target).closest('.modal-content'); // eslint-disable-line jquery/no-closest
         modalContent.addClass('animation--highlight');
         setTimeout(() => {
             modalContent.removeClass('animation--highlight');
@@ -98,7 +98,7 @@ export default class ActivityLogModal extends React.PureComponent {
                         locale={this.props.locale}
                         currentSession={currentSession}
                         submitRevoke={this.submitRevoke}
-                    />
+                    />,
                 );
                 return array;
             }, []);

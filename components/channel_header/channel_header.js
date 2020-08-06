@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -43,6 +44,7 @@ import * as Utils from 'utils/utils';
 import ChannelHeaderPlug from 'plugins/channel_header_plug';
 
 import HeaderIconWrapper from './components/header_icon_wrapper';
+import UserGuideDropdown from './components/user_guide_dropdown';
 
 const headerMarkdownOptions = {singleline: true, mentionHighlight: false, atMentions: true};
 const popoverMarkdownOptions = {singleline: false, mentionHighlight: false, atMentions: true};
@@ -566,10 +568,10 @@ class ChannelHeader extends React.PureComponent {
         if (!channelIsArchived) {
             const formattedMessage = isFavorite ? {
                 id: 'channelHeader.removeFromFavorites',
-                defaultMessage: 'Remove from Favorites'
+                defaultMessage: 'Remove from Favorites',
             } : {
                 id: 'channelHeader.addToFavorites',
-                defaultMessage: 'Add to Favorites'
+                defaultMessage: 'Add to Favorites',
             };
 
             ariaLabel = formatMessage(formattedMessage).toLowerCase();
@@ -810,6 +812,7 @@ class ChannelHeader extends React.PureComponent {
                         onClick={this.getFlagged}
                         tooltipKey={'flaggedPosts'}
                     />
+                    <UserGuideDropdown/>
                 </div>
             </div>
         );
@@ -817,3 +820,4 @@ class ChannelHeader extends React.PureComponent {
 }
 
 export default injectIntl(ChannelHeader);
+/* eslint-enable react/no-string-refs */

@@ -339,7 +339,7 @@ export function makeCreateAriaLabelForPost() {
         getEmojiMap,
         (post, author, reactions, isFlagged, emojiMap) => {
             return (intl) => createAriaLabelForPost(post, author, isFlagged, reactions, intl, emojiMap);
-        }
+        },
     );
 }
 
@@ -441,12 +441,12 @@ export function createAriaLabelForPost(post, author, isFlagged, reactions, intl,
         if (post.is_pinned) {
             ariaLabel += formatMessage({
                 id: 'post.ariaLabel.messageIsFlaggedAndPinned',
-                defaultMessage: ', message is flagged and pinned',
+                defaultMessage: ', message is saved and pinned',
             });
         } else {
             ariaLabel += formatMessage({
                 id: 'post.ariaLabel.messageIsFlagged',
-                defaultMessage: ', message is flagged',
+                defaultMessage: ', message is saved',
             });
         }
     } else if (!isFlagged && post.is_pinned) {
@@ -468,7 +468,7 @@ export function splitMessageBasedOnCaretPosition(caretPosition, message) {
 
 export function getNewMessageIndex(postListIds) {
     return postListIds.findIndex(
-        (item) => item.indexOf(PostListRowListIds.START_OF_NEW_MESSAGES) === 0
+        (item) => item.indexOf(PostListRowListIds.START_OF_NEW_MESSAGES) === 0,
     );
 }
 
@@ -483,6 +483,6 @@ export function makeGetReplyCount() {
 
             // Count the number of non-ephemeral posts in the thread
             return postIds.map((id) => allPosts[id]).filter((post) => post && !isPostEphemeral(post)).length;
-        }
+        },
     );
 }

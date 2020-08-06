@@ -13,43 +13,34 @@
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 describe('Account Settings > Sidebar > Channel Switcher', () => {
+    let testUser;
     let testChannel;
     let testTeam;
 
     before(() => {
-        // # Login as user-1
-        cy.apiLogin('user-1');
+        // # Login as test user
+        cy.apiInitSetup({loginAfter: true}).then(({team, channel, user}) => {
+            testUser = user;
+            testChannel = channel;
+            testTeam = team;
 
-        // # Create a test team and channels
-        cy.apiCreateTeam('test-team', 'Test Team').then((teamRes) => {
-            testTeam = teamRes.body;
-
+            // # Create more test channels
             const numberOfChannels = 14;
             Cypress._.forEach(Array(numberOfChannels), (_, index) => {
-                cy.apiCreateChannel(testTeam.id, 'channel-switcher', `Channel Switcher ${index.toString()}`).then((response) => {
-                    if (index === 0) {
-                        testChannel = response.body;
-                    }
-                });
+                cy.apiCreateChannel(testTeam.id, 'channel-switcher', `Channel Switcher ${index.toString()}`);
             });
         });
     });
 
-    after(() => {
-        // # Delete the test team as sysadmin
-        if (testTeam && testTeam.id) {
-            cy.apiLogin('sysadmin');
-            cy.apiDeleteTeam(testTeam.id, true);
-        }
+    beforeEach(() => {
+        // # Visit town-square
+        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.get('#channelHeaderTitle').should('be.visible').should('contain', 'Town Square');
     });
 
     it('set channel switcher setting to On and test on click of sidebar switcher button', () => {
-        // # Go to a known team and channel
-        cy.visit(`/${testTeam.name}/channels/town-square`);
-        cy.get('#channelHeaderTitle').should('be.visible').should('contain', 'Town Square');
-
         // # Go to Account Settings modal > Sidebar > Channel Switcher and set setting to On
-        enableChannelSwitcher(true);
+        enableOrDisableChannelSwitcher(true);
 
         // # Click the sidebar switcher button
         cy.get('#sidebarSwitcherButton').click();
@@ -58,12 +49,8 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
     });
 
     it('set channel switcher setting to On and test on press of Ctrl/Cmd+K', () => {
-        // # Go to a known team and channel
-        cy.visit(`/${testTeam.name}/channels/town-square`);
-        cy.get('#channelHeaderTitle').should('be.visible').should('contain', 'Town Square');
-
         // # Go to Account Settings modal > Sidebar > Channel Switcher and set setting to On
-        enableChannelSwitcher(true);
+        enableOrDisableChannelSwitcher(true);
 
         // # Type CTRL/CMD+K
         cy.typeCmdOrCtrl().type('K', {release: true});
@@ -72,12 +59,8 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
     });
 
     it('AS13216 Using CTRL/CMD+K if Channel Switcher is hidden in the LHS', () => {
-        // # Go to a known team and channel
-        cy.visit(`/${testTeam.name}/channels/town-square`);
-        cy.get('#channelHeaderTitle').should('be.visible').should('contain', 'Town Square');
-
         // # Go to Account Settings modal > Sidebar > Channel Switcher and set setting to Off
-        enableChannelSwitcher(false);
+        enableOrDisableChannelSwitcher(false);
 
         // # Type CTRL/CMD+K
         cy.typeCmdOrCtrl().type('K', {release: true});
@@ -86,10 +69,6 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
     });
 
     it('Cmd/Ctrl+Shift+L closes Channel Switch modal and sets focus to post textbox', () => {
-        // # Go to a known team and channel
-        cy.visit(`/${testTeam.name}/channels/town-square`);
-        cy.get('#channelHeaderTitle').should('be.visible').should('contain', 'Town Square');
-
         // # Type CTRL/CMD+K
         cy.get('#post_textbox').cmdOrCtrlShortcut('K');
 
@@ -108,11 +87,7 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
 
     it('Cmd/Ctrl+Shift+M closes Channel Switch modal and sets focus to mentions', () => {
         // # patch user info
-        cy.apiPatchMe({notify_props: {first_name: 'false', mention_keys: 'user-1'}});
-
-        // # Go to a known team and channel
-        cy.visit(`/${testTeam.name}/channels/town-square`);
-        cy.get('#channelHeaderTitle').should('be.visible').should('contain', 'Town Square');
+        cy.apiPatchMe({notify_props: {first_name: 'false', mention_keys: testUser.username}});
 
         // # Type CTRL/CMD+K
         cy.get('#post_textbox').cmdOrCtrlShortcut('K');
@@ -127,8 +102,28 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
         cy.get('#suggestionList').should('not.be.visible');
 
         // * searchbox should appear
-        cy.get('#searchBox').should('have.attr', 'value', 'user-1 @user-1 ');
+        cy.get('#searchBox').should('have.attr', 'value', `${testUser.username} @${testUser.username} `);
         cy.get('.sidebar--right__title').should('contain', 'Recent Mentions');
+    });
+
+    it('MM-T305 Changes to Account Settings are not saved when user does not click on Save button', () => {
+        // # Go to Account Settings modal > Sidebar > Channel Switcher and set setting to Off
+        enableOrDisableChannelSwitcher(false);
+
+        // # Toggle On Channel Switcher without saving
+        toggleOnOrOffChannelSwitcher(true);
+
+        // # Click away from Channel Switcher
+        cy.get('#displayButton').click();
+        cy.get('#displaySettingsTitle.tab-header').should('have.text', 'Display Settings');
+        cy.get('#accountSettingsHeader > .close').click();
+
+        // # Navigate back to Sidebar Settings
+        navigateToSidebarSettings();
+
+        // * Verify Channel Switcher is still Off
+        cy.get('#channelSwitcherDesc').should('have.text', 'Off');
+        cy.get('#accountSettingsHeader > .close').click();
     });
 });
 
@@ -138,7 +133,7 @@ function verifyChannelSwitch(team, channel) {
 
     // # Type channel display name on Channel switcher input
     cy.get('#quickSwitchInput').type(channel.display_name);
-    cy.wait(TIMEOUTS.TINY);
+    cy.wait(TIMEOUTS.HALF_SEC);
 
     // * Suggestion list should be visible
     cy.get('#suggestionList').should('be.visible');
@@ -154,7 +149,7 @@ function verifyChannelSwitch(team, channel) {
     cy.get(`#sidebarItem_${channel.name}`).scrollIntoView().should('be.visible');
 }
 
-function enableChannelSwitcher(setToOn = true) {
+function navigateToSidebarSettings() {
     cy.get('#channel_view').should('be.visible');
     cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
     cy.get('#accountSettings').should('be.visible').click();
@@ -163,21 +158,30 @@ function enableChannelSwitcher(setToOn = true) {
     cy.get('#sidebarButton').should('be.visible');
     cy.get('#sidebarButton').click();
 
-    let isOn;
-    cy.get('#channelSwitcherDesc').should((desc) => {
-        if (desc.length > 0) {
-            isOn = Cypress.$(desc[0]).text() === 'On';
-        }
-    });
+    cy.get('#sidebarLi.active').should('be.visible');
+    cy.get('#sidebarTitle > .tab-header').should('have.text', 'Sidebar Settings');
+}
+
+function toggleOnOrOffChannelSwitcher(toggleOn = true) {
+    navigateToSidebarSettings();
 
     cy.get('#channelSwitcherEdit').click();
 
-    if (isOn && !setToOn) {
-        cy.get('#channelSwitcherSectionOff').click();
-    } else if (!isOn && setToOn) {
+    if (toggleOn) {
         cy.get('#channelSwitcherSectionEnabled').click();
+    } else {
+        cy.get('#channelSwitcherSectionOff').click();
     }
+}
+
+function enableOrDisableChannelSwitcher(enable = true) {
+    toggleOnOrOffChannelSwitcher(enable);
 
     cy.get('#saveSetting').click();
+    if (enable) {
+        cy.get('#channelSwitcherDesc').should('have.text', 'On');
+    } else {
+        cy.get('#channelSwitcherDesc').should('have.text', 'Off');
+    }
     cy.get('#accountSettingsHeader > .close').click();
 }

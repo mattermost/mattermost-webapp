@@ -4,6 +4,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
+import classNames from 'classnames';
 
 import NextIcon from 'components/widgets/icons/fa_next_icon';
 import PreviousIcon from 'components/widgets/icons/fa_previous_icon';
@@ -23,10 +24,12 @@ export default class AbstractList extends React.PureComponent {
             getData: PropTypes.func.isRequired,
             removeGroup: PropTypes.func,
         }).isRequired,
+        noPadding: PropTypes.bool,
     };
 
     static defaultProps = {
         data: [],
+        noPadding: false,
     };
 
     constructor(props) {
@@ -91,7 +94,7 @@ export default class AbstractList extends React.PureComponent {
         newState.loading = true;
         this.setState(newState);
 
-        this.props.actions.getData(page, PAGE_SIZE).then((response) => {
+        this.props.actions.getData(page, PAGE_SIZE, '', false, true).then((response) => {
             if (this.props.onPageChangedCallback) {
                 this.props.onPageChangedCallback(this.getPaging(), response);
             }
@@ -111,10 +114,19 @@ export default class AbstractList extends React.PureComponent {
 
     render = () => {
         const {startCount, endCount, total} = this.getPaging();
+        const {noPadding} = this.props;
         const lastPage = endCount === total;
         const firstPage = this.state.page === 0;
         return (
-            <div className='groups-list groups-list-no-padding'>
+            <div
+                className={classNames(
+                    'groups-list',
+                    'groups-list-no-padding',
+                    {
+                        'groups-list-less-padding': noPadding,
+                    },
+                )}
+            >
                 {this.renderHeader()}
                 <div
                     id='groups-list--body'

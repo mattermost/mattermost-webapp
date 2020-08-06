@@ -15,6 +15,7 @@ describe('components/ChannelHeaderMobile/ChannelInfoButton', () => {
             header: 'channel header',
         },
         isReadOnly: false,
+        isRHSOpen: false,
         actions: {
             openModal: jest.fn(),
         },
@@ -22,7 +23,7 @@ describe('components/ChannelHeaderMobile/ChannelInfoButton', () => {
 
     test('should match snapshot, with channel header', () => {
         const wrapper = mountWithIntl(
-            <ChannelInfoButton {...baseProps}/>
+            <ChannelInfoButton {...baseProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -39,18 +40,37 @@ describe('components/ChannelHeaderMobile/ChannelInfoButton', () => {
     test('should match snapshot, without channel header', () => {
         const props = {...baseProps, channel: {id: 'channel_id'}};
         const wrapper = mountWithIntl(
-            <ChannelInfoButton {...props}/>
+            <ChannelInfoButton {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
 
         const hide = jest.fn();
 
-        const ref = wrapper.find(BaseOverlayTrigger);
-        ref.instance().hide = hide;
+        wrapper.instance().hide = hide;
         wrapper.instance().showEditChannelHeaderModal();
 
         expect(hide).toBeCalled();
         expect(props.actions.openModal).toBeCalled();
+    });
+
+    test('should hide when channel changes or RHS is opened', () => {
+        const wrapper = mountWithIntl(
+            <ChannelInfoButton {...baseProps}/>,
+        );
+
+        const hide = jest.fn();
+
+        wrapper.instance().hide = hide;
+
+        wrapper.setProps({isRHSOpen: false});
+        wrapper.setProps({channel: {id: 'channel_id'}});
+        expect(hide).not.toBeCalled();
+
+        wrapper.setProps({channel: {id: 'channel_id_2'}});
+        expect(hide).toHaveBeenCalledTimes(1);
+
+        wrapper.setProps({isRHSOpen: true});
+        expect(hide).toHaveBeenCalledTimes(2);
     });
 });

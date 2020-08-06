@@ -39,14 +39,14 @@ describe('components/NewChannelFlow', () => {
 
     test('should match snapshot, with base props', () => {
         const wrapper: ShallowWrapper<any, any, NewChannelFlow> = shallow(
-            <NewChannelFlow {...baseProps}/>
+            <NewChannelFlow {...baseProps}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match state when channelDataChanged is called', () => {
         const wrapper: ShallowWrapper<any, any, NewChannelFlow> = shallow(
-            <NewChannelFlow {...baseProps}/>
+            <NewChannelFlow {...baseProps}/>,
         );
         const data = {displayName: 'name', purpose: 'purpose', header: 'header'};
         wrapper.instance().channelDataChanged(data);
@@ -58,7 +58,7 @@ describe('components/NewChannelFlow', () => {
 
     test('should match state when urlChangeDismissed is called', () => {
         const wrapper: ShallowWrapper<any, any, NewChannelFlow> = shallow(
-            <NewChannelFlow {...baseProps}/>
+            <NewChannelFlow {...baseProps}/>,
         );
         wrapper.instance().urlChangeDismissed();
 
@@ -67,7 +67,7 @@ describe('components/NewChannelFlow', () => {
 
     test('should match state when urlChangeSubmitted is called', () => {
         const wrapper: ShallowWrapper<any, any, NewChannelFlow> = shallow(
-            <NewChannelFlow {...baseProps}/>
+            <NewChannelFlow {...baseProps}/>,
         );
         const newUrl = 'example.com';
         wrapper.instance().urlChangeSubmitted(newUrl);
@@ -80,7 +80,7 @@ describe('components/NewChannelFlow', () => {
 
     test('should match state when urlChangeRequested is called', () => {
         const wrapper: ShallowWrapper<any, any, NewChannelFlow> = shallow(
-            <NewChannelFlow {...baseProps}/>
+            <NewChannelFlow {...baseProps}/>,
         );
 
         wrapper.instance().urlChangeRequested({preventDefault: jest.fn()} as unknown as React.MouseEvent);
@@ -89,7 +89,7 @@ describe('components/NewChannelFlow', () => {
 
     test('should match state when typeSwitched is called, with state switched from OPEN_CHANNEL', () => {
         const wrapper: ShallowWrapper<any, any, NewChannelFlow> = shallow(
-            <NewChannelFlow {...baseProps}/>
+            <NewChannelFlow {...baseProps}/>,
         );
 
         wrapper.setState({channelType: Constants.OPEN_CHANNEL, serverError: 'server error'});
@@ -105,7 +105,7 @@ describe('components/NewChannelFlow', () => {
 
     test('should match state when typeSwitched is called, with state switched from PRIVATE_CHANNEL', () => {
         const wrapper: ShallowWrapper<any, any, NewChannelFlow> = shallow(
-            <NewChannelFlow {...baseProps}/>
+            <NewChannelFlow {...baseProps}/>,
         );
 
         wrapper.setState({channelType: Constants.PRIVATE_CHANNEL});
@@ -115,7 +115,7 @@ describe('components/NewChannelFlow', () => {
 
     test('should match state when onModalExited is called', () => {
         const wrapper: ShallowWrapper<any, any, NewChannelFlow> = shallow(
-            <NewChannelFlow {...baseProps}/>
+            <NewChannelFlow {...baseProps}/>,
         );
 
         wrapper.instance().typeSwitched(Constants.PRIVATE_CHANNEL as ChannelType);
@@ -124,7 +124,7 @@ describe('components/NewChannelFlow', () => {
 
     test('should match state when onSubmit is called with invalid channelDisplayName', () => {
         const wrapper: ShallowWrapper<any, any, NewChannelFlow> = shallow(
-            <NewChannelFlow {...baseProps}/>
+            <NewChannelFlow {...baseProps}/>,
         );
 
         wrapper.instance().onSubmit();
@@ -133,7 +133,7 @@ describe('components/NewChannelFlow', () => {
 
     test('should call createChannel when onSubmit is called with valid channelDisplayName and valid channelName', () => {
         const wrapper: ShallowWrapper<any, any, NewChannelFlow> = shallow(
-            <NewChannelFlow {...baseProps}/>
+            <NewChannelFlow {...baseProps}/>,
         );
 
         wrapper.setState({
@@ -146,7 +146,7 @@ describe('components/NewChannelFlow', () => {
 
     test('call onModalDismissed after successfully creating channel', (done) => {
         const wrapper: ShallowWrapper<any, any, NewChannelFlow> = shallow(
-            <NewChannelFlow {...baseProps}/>
+            <NewChannelFlow {...baseProps}/>,
         );
 
         wrapper.instance().channelDataChanged({
@@ -165,7 +165,7 @@ describe('components/NewChannelFlow', () => {
 
     test('don\'t call onModalDismissed after failing to create channel', () => {
         const wrapper: ShallowWrapper<any, any, NewChannelFlow> = shallow(
-            <NewChannelFlow {...baseProps}/>
+            <NewChannelFlow {...baseProps}/>,
         );
 
         wrapper.instance().channelDataChanged({
@@ -194,7 +194,7 @@ describe('components/NewChannelFlow', () => {
 
     test('show URL modal when trying to submit non-Latin display name', () => {
         const wrapper: ShallowWrapper<any, any, NewChannelFlow> = shallow(
-            <NewChannelFlow {...baseProps}/>
+            <NewChannelFlow {...baseProps}/>,
         );
 
         wrapper.instance().channelDataChanged({
@@ -212,7 +212,7 @@ describe('components/NewChannelFlow', () => {
 
     test('call onModalDismissed after successfully creating channel from URL modal', (done) => {
         const wrapper: ShallowWrapper<any, any, NewChannelFlow> = shallow(
-            <NewChannelFlow {...baseProps}/>
+            <NewChannelFlow {...baseProps}/>,
         );
 
         wrapper.instance().channelDataChanged({
@@ -244,7 +244,7 @@ describe('components/NewChannelFlow', () => {
             show: false,
             channelType: Constants.OPEN_CHANNEL as ChannelType,
             canCreatePublicChannel: true,
-            canCreatePrivateChannel: true
+            canCreatePrivateChannel: true,
         };
 
         assert.equal(getChannelTypeFromProps(props), Constants.OPEN_CHANNEL);
@@ -274,7 +274,7 @@ describe('components/NewChannelFlow', () => {
             <NewChannelFlow
                 {...baseProps}
                 show={false}
-            />
+            />,
         );
 
         wrapper.setState({

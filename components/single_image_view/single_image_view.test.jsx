@@ -28,7 +28,7 @@ describe('components/SingleImageView', () => {
 
     test('should match snapshot', () => {
         const wrapper = shallow(
-            <SingleImageView {...baseProps}/>
+            <SingleImageView {...baseProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -46,7 +46,7 @@ describe('components/SingleImageView', () => {
         };
         const props = {...baseProps, fileInfo};
         const wrapper = shallow(
-            <SingleImageView {...props}/>
+            <SingleImageView {...props}/>,
         );
 
         wrapper.setState({viewPortWidth: 300});
@@ -58,7 +58,7 @@ describe('components/SingleImageView', () => {
 
     test('should match state on handleImageClick', () => {
         const wrapper = shallow(
-            <SingleImageView {...baseProps}/>
+            <SingleImageView {...baseProps}/>,
         );
 
         wrapper.setState({showPreviewModal: false});
@@ -68,7 +68,7 @@ describe('components/SingleImageView', () => {
 
     test('should match state on showPreviewModal', () => {
         const wrapper = shallow(
-            <SingleImageView {...baseProps}/>
+            <SingleImageView {...baseProps}/>,
         );
 
         wrapper.setState({showPreviewModal: true});
@@ -86,7 +86,7 @@ describe('components/SingleImageView', () => {
         };
 
         const wrapper = shallow(
-            <SingleImageView {...props}/>
+            <SingleImageView {...props}/>,
         );
 
         wrapper.instance().toggleEmbedVisibility();
@@ -96,7 +96,7 @@ describe('components/SingleImageView', () => {
 
     test('should set loaded state on callback of onImageLoaded on SizeAwareImage component', () => {
         const wrapper = shallow(
-            <SingleImageView {...baseProps}/>
+            <SingleImageView {...baseProps}/>,
         );
         expect(wrapper.state('loaded')).toEqual(false);
         wrapper.find(SizeAwareImage).prop('onImageLoaded')();
@@ -106,7 +106,7 @@ describe('components/SingleImageView', () => {
 
     test('should correctly pass prop down to surround small images with a container', () => {
         const wrapper = shallow(
-            <SingleImageView {...baseProps}/>
+            <SingleImageView {...baseProps}/>,
         );
 
         expect(wrapper.find(SizeAwareImage).prop('handleSmallImageContainer')).

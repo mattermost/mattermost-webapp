@@ -7,7 +7,7 @@ type Props = {
     children: JSX.Element[] | JSX.Element | string;
 };
 
-export default class AdminHeader extends React.Component<Props> {
+export default class AdminHeader extends React.PureComponent<Props> {
     public render() {
         return (
             <div className={'admin-console__header'}>

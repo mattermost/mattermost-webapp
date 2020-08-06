@@ -4,15 +4,13 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {Error} from 'mattermost-redux/types/errors';
-
-import {UserProfile} from 'mattermost-redux/types/users';
+import {ServerError} from 'mattermost-redux/types/errors';
 
 import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import {browserHistory} from 'utils/browser_history';
-import {AnnouncementBarMessages, VerifyEmailErrors} from 'utils/constants';
+import {AnnouncementBarTypes, AnnouncementBarMessages, VerifyEmailErrors} from 'utils/constants';
 import logoImage from 'images/logo.png';
 import BackButton from 'components/common/back_button';
 import LoadingScreen from 'components/loading_screen';
@@ -27,7 +25,7 @@ type Props = {
     actions: {
         verifyUserEmail: (token: string) => ActionFunc | ActionResult;
         getMe: () => ActionFunc | ActionResult;
-        logError: (error: Error, displayable: boolean) => void;
+        logError: (error: ServerError, displayable: boolean) => void;
         clearErrors: () => void;
     };
     isLoggedIn: boolean;
@@ -57,7 +55,16 @@ export default class DoVerifyEmail extends React.PureComponent<Props, State> {
         if (this.props.isLoggedIn) {
             GlobalActions.redirectUserToDefaultTeam();
         } else {
-            browserHistory.push('/login?extra=verified&email=' + encodeURIComponent((new URLSearchParams(this.props.location.search)).get('email') || ''));
+            let link = '/login?extra=verified';
+            const email = (new URLSearchParams(this.props.location.search)).get('email');
+            if (email) {
+                link += '&email=' + encodeURIComponent(email);
+            }
+            const redirectTo = (new URLSearchParams(this.props.location.search)).get('redirect_to');
+            if (redirectTo) {
+                link += '&redirect_to=' + redirectTo;
+            }
+            browserHistory.push(link);
         }
     }
 
@@ -67,7 +74,8 @@ export default class DoVerifyEmail extends React.PureComponent<Props, State> {
         if (this.props.isLoggedIn) {
             this.props.actions.logError({
                 message: AnnouncementBarMessages.EMAIL_VERIFIED,
-            }, true);
+                type: AnnouncementBarTypes.SUCCESS,
+            } as any, true);
             trackEvent('settings', 'verify_email');
             const me = await this.props.actions.getMe();
             if ('data' in me) {

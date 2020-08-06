@@ -90,7 +90,7 @@ export default function configureStore(initialState) {
             }
 
             return outboundState;
-        }
+        },
     );
 
     const offlineOptions = {
@@ -212,5 +212,5 @@ export default function configureStore(initialState) {
         detectNetwork: detect,
     };
 
-    return configureServiceStore({}, appReducer, offlineOptions, getAppReducer, {enableBuffer: false});
+    return configureServiceStore(initialState, appReducer, offlineOptions, getAppReducer, {enableBuffer: false});
 }

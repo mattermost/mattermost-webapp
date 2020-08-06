@@ -7,20 +7,21 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @messaging
 
 describe('Messaging', () => {
     before(() => {
-        // # Login and navigate to town-square
-        cy.toMainChannelView('user-1');
+        // # Login as test user and visit town-square channel
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
 
-        // # Add two posts
-        cy.postMessage('test post 1');
-        cy.postMessage('test post 2');
+            // # Add two posts
+            cy.postMessage('test post 1');
+            cy.postMessage('test post 2');
+        });
     });
 
-    it('M18700 - Leave a long draft in reply input box', async () => {
+    it('M18700 - Leave a long draft in reply input box', () => {
         // # Get latest post id
         cy.getLastPostId().then((latestPostId) => {
             // # Click reply icon

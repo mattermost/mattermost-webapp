@@ -34,7 +34,7 @@ import SelectTeamItem from './components/select_team_item.jsx';
 export const TEAMS_PER_PAGE = 30;
 const TEAM_MEMBERSHIP_DENIAL_ERROR_ID = 'api.team.add_members.user_denied';
 
-export default class SelectTeam extends React.Component {
+export default class SelectTeam extends React.PureComponent {
     static propTypes = {
         currentUserId: PropTypes.string.isRequired,
         currentUserRoles: PropTypes.string,
@@ -336,7 +336,7 @@ export default class SelectTeam extends React.Component {
                 {headerButton}
                 <div className='col-sm-12'>
                     <div
-                        className={'signup-team__container'}
+                        className={'select-team__container signup-team__container'}
                     >
                         <img
                             alt={'signup team logo'}

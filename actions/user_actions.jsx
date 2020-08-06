@@ -12,13 +12,17 @@ import {
     getCurrentChannelId,
     getMyChannels,
     getMyChannelMember,
-    getChannelMembersInChannels
+    getChannelMembersInChannels,
+    getDirectChannels,
 } from 'mattermost-redux/selectors/entities/channels';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeamId, getTeamMember} from 'mattermost-redux/selectors/entities/teams';
 import * as Selectors from 'mattermost-redux/selectors/entities/users';
+import {makeFilterAutoclosedDMs, makeFilterManuallyClosedDMs} from 'mattermost-redux/selectors/entities/channel_categories';
+import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 
 import {loadStatusesForProfilesList, loadStatusesForProfilesMap} from 'actions/status_actions.jsx';
+import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import store from 'stores/redux_store.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {Constants, Preferences, UserStatuses} from 'utils/constants';
@@ -26,6 +30,9 @@ import {Constants, Preferences, UserStatuses} from 'utils/constants';
 export const queue = new PQueue({concurrency: 4});
 const dispatch = store.dispatch;
 const getState = store.getState;
+
+export const filterAutoclosedDMs = makeFilterAutoclosedDMs();
+export const filterManuallyClosedDMs = makeFilterManuallyClosedDMs();
 
 export function loadProfilesAndStatusesInChannel(channelId, page = 0, perPage = General.PROFILE_CHUNK_SIZE, sort = '') {
     return async (doDispatch) => {
@@ -37,6 +44,36 @@ export function loadProfilesAndStatusesInChannel(channelId, page = 0, perPage = 
     };
 }
 
+export function loadProfilesAndReloadTeamMembers(page, perPage, teamId, options = {}) {
+    return async (doDispatch, doGetState) => {
+        const newTeamId = teamId || getCurrentTeamId(doGetState());
+        const {data} = await doDispatch(UserActions.getProfilesInTeam(newTeamId, page, perPage, '', options));
+        if (data) {
+            await Promise.all([
+                doDispatch(loadTeamMembersForProfilesList(data, newTeamId, true)),
+                doDispatch(loadStatusesForProfilesList(data)),
+            ]);
+        }
+
+        return {data: true};
+    };
+}
+
+export function loadProfilesAndReloadChannelMembers(page, perPage, channelId, sort = '', options = {}) {
+    return async (doDispatch, doGetState) => {
+        const newChannelId = channelId || getCurrentChannelId(doGetState());
+        const {data} = await doDispatch(UserActions.getProfilesInChannel(newChannelId, page, perPage, sort, options));
+        if (data) {
+            await Promise.all([
+                doDispatch(loadChannelMembersForProfilesList(data, newChannelId, true)),
+                doDispatch(loadStatusesForProfilesList(data)),
+            ]);
+        }
+
+        return {data: true};
+    };
+}
+
 export function loadProfilesAndTeamMembers(page, perPage, teamId, options) {
     return async (doDispatch, doGetState) => {
         const newTeamId = teamId || getCurrentTeamId(doGetState());
@@ -44,6 +81,36 @@ export function loadProfilesAndTeamMembers(page, perPage, teamId, options) {
         if (data) {
             doDispatch(loadTeamMembersForProfilesList(data, newTeamId));
             doDispatch(loadStatusesForProfilesList(data));
+        }
+
+        return {data: true};
+    };
+}
+
+export function searchProfilesAndTeamMembers(term = '', options = {}) {
+    return async (doDispatch, doGetState) => {
+        const newTeamId = options.team_id || getCurrentTeamId(doGetState());
+        const {data} = await doDispatch(UserActions.searchProfiles(term, options));
+        if (data) {
+            await Promise.all([
+                doDispatch(loadTeamMembersForProfilesList(data, newTeamId)),
+                doDispatch(loadStatusesForProfilesList(data)),
+            ]);
+        }
+
+        return {data: true};
+    };
+}
+
+export function searchProfilesAndChannelMembers(term, options = {}) {
+    return async (doDispatch, doGetState) => {
+        const newChannelId = options.in_channel_id || getCurrentChannelId(doGetState());
+        const {data} = await doDispatch(UserActions.searchProfiles(term, options));
+        if (data) {
+            await Promise.all([
+                doDispatch(loadChannelMembersForProfilesList(data, newChannelId)),
+                doDispatch(loadStatusesForProfilesList(data)),
+            ]);
         }
 
         return {data: true};
@@ -68,7 +135,7 @@ export function loadProfilesAndTeamMembersAndChannelMembers(page, perPage, teamI
     };
 }
 
-export function loadTeamMembersForProfilesList(profiles, teamId) {
+export function loadTeamMembersForProfilesList(profiles, teamId, reloadAllMembers = false) {
     return async (doDispatch, doGetState) => {
         const state = doGetState();
         const teamIdParam = teamId || getCurrentTeamId(state);
@@ -76,7 +143,7 @@ export function loadTeamMembersForProfilesList(profiles, teamId) {
         for (let i = 0; i < profiles.length; i++) {
             const pid = profiles[i].id;
 
-            if (!getTeamMember(state, teamIdParam, pid)) {
+            if (reloadAllMembers === true || !getTeamMember(state, teamIdParam, pid)) {
                 membersToLoad[pid] = true;
             }
         }
@@ -116,7 +183,7 @@ export function loadTeamMembersAndChannelMembersForProfilesList(profiles, teamId
     };
 }
 
-export function loadChannelMembersForProfilesList(profiles, channelId) {
+export function loadChannelMembersForProfilesList(profiles, channelId, reloadAllMembers = false) {
     return async (doDispatch, doGetState) => {
         const state = doGetState();
         const channelIdParam = channelId || getCurrentChannelId(state);
@@ -125,7 +192,7 @@ export function loadChannelMembersForProfilesList(profiles, channelId) {
             const pid = profiles[i].id;
 
             const members = getChannelMembersInChannels(state)[channelIdParam];
-            if (!members || !members[pid]) {
+            if (reloadAllMembers === true || !members || !members[pid]) {
                 membersToLoad[pid] = true;
             }
         }
@@ -219,21 +286,26 @@ export function loadProfilesForGroupChannels(groupChannels) {
     };
 }
 
-export function loadProfilesForSidebar() {
-    loadProfilesForDM();
-    loadProfilesForGM();
+export async function loadProfilesForSidebar() {
+    await Promise.all([loadProfilesForDM(), loadProfilesForGM()]);
+}
+
+export function filterGMsDMs(state, channels) {
+    const filteredClosedChannels = filterAutoclosedDMs(state, channels, CategoryTypes.DIRECT_MESSAGES);
+    return filterManuallyClosedDMs(state, filteredClosedChannels);
 }
 
 export async function loadProfilesForGM() {
     const state = getState();
-    const channels = getMyChannels(state);
     const newPreferences = [];
     const userIdsInChannels = Selectors.getUserIdsInChannels(state);
     const currentUserId = Selectors.getCurrentUserId(state);
 
-    for (let i = 0; i < channels.length; i++) {
-        const channel = channels[i];
+    const channels = getMyChannels(state);
+    const filteredChannels = filterGMsDMs(state, channels);
 
+    for (let i = 0; i < filteredChannels.length; i++) {
+        const channel = filteredChannels[i];
         if (channel.type !== Constants.GM_CHANNEL) {
             continue;
         }
@@ -347,5 +419,15 @@ export function autoResetStatus() {
         }
 
         return userStatus;
+    };
+}
+
+export function trackDMGMOpenChannels() {
+    return (doDispatch, doGetState) => {
+        const state = doGetState();
+        const channels = getDirectChannels(state);
+        trackEvent('ui', 'LHS_DM_GM_Count', {count: channels.length});
+
+        return {data: true};
     };
 }

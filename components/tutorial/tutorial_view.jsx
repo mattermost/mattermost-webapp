@@ -7,16 +7,16 @@ import React from 'react';
 
 import TutorialIntroScreens from './tutorial_intro_screens';
 
-export default class TutorialView extends React.Component {
+export default class TutorialView extends React.PureComponent {
     componentDidMount() {
         if (this.props.isRoot) {
-            $('body').addClass('app__body');
+            $('body').addClass('app__body'); // eslint-disable-line jquery/no-class
         }
     }
 
     componentWillUnmount() {
         if (this.props.isRoot) {
-            $('body').removeClass('app__body');
+            $('body').removeClass('app__body'); // eslint-disable-line jquery/no-class
         }
     }
 

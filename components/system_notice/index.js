@@ -29,7 +29,7 @@ function makeMapStateToProps() {
                 nameMap[p.name] = p;
             });
             return nameMap;
-        }
+        },
     );
 
     return function mapStateToProps(state) {

@@ -6,7 +6,7 @@ import {getEmojiMap, getRecentEmojis} from 'selectors/emojis';
 
 import EmoticonProvider, {
     MIN_EMOTICON_LENGTH,
-    EMOJI_CATEGORY_SUGGESTION_BLACKLIST,
+    EMOJI_CATEGORY_SUGGESTION_BLOCKLIST,
 } from 'components/suggestion/emoticon_provider.jsx';
 
 jest.mock('selectors/emojis', () => ({
@@ -75,28 +75,28 @@ describe('components/EmoticonProvider', () => {
         expect(args.items.length).toEqual(0);
     });
 
-    it('should exclude blackisted emojis from suggested emojis', () => {
-        const pretext = ':blacklisted';
-        const recentEmojis = ['blacklisted-1'];
+    it('should exclude blocklisted emojis from suggested emojis', () => {
+        const pretext = ':blocklisted';
+        const recentEmojis = ['blocklisted-1'];
 
-        const blacklistedEmojis = EMOJI_CATEGORY_SUGGESTION_BLACKLIST.map((category, index) => {
-            const name = `blacklisted-${index}`;
+        const blocklistedEmojis = EMOJI_CATEGORY_SUGGESTION_BLOCKLIST.map((category, index) => {
+            const name = `blocklisted-${index}`;
             return [name, {name, category}];
         });
-        const customEmojisWithBlacklist = new Map([
-            ...blacklistedEmojis,
-            ['not-blacklisted', {name: 'not-blacklisted', category: 'custom'}],
+        const customEmojisWithBlocklist = new Map([
+            ...blocklistedEmojis,
+            ['not-blocklisted', {name: 'not-blocklisted', category: 'custom'}],
         ]);
-        const emojiMapWithBlacklist = new EmojiMap(customEmojisWithBlacklist);
+        const emojiMapWithBlocklist = new EmojiMap(customEmojisWithBlocklist);
 
-        getEmojiMap.mockReturnValue(emojiMapWithBlacklist);
+        getEmojiMap.mockReturnValue(emojiMapWithBlocklist);
         getRecentEmojis.mockReturnValue(recentEmojis);
 
         emoticonProvider.handlePretextChanged(pretext, resultsCallback);
         expect(resultsCallback).toHaveBeenCalled();
         const args = resultsCallback.mock.calls[0][0];
         expect(args.items.length).toEqual(1);
-        expect(args.items[0].name).toEqual('not-blacklisted');
+        expect(args.items[0].name).toEqual('not-blocklisted');
     });
 
     it('should suggest emojis ordered by recently used first (system only)', () => {

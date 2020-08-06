@@ -10,9 +10,9 @@
 // Stage: @prod
 // Group: @onboarding
 
-import {getRandomInt} from '../../utils';
+import {getRandomId} from '../../utils';
 
-const uniqueUserId = getRandomInt(99999);
+const uniqueUserId = getRandomId();
 
 function signupWithEmail(name, pw) {
     // # Go to /login
@@ -36,8 +36,7 @@ function signupWithEmail(name, pw) {
 
 describe('Email Address', () => {
     before(() => {
-        // # Login as sysadmin and set EnableOpenServer to true and disable other auth options
-        cy.apiLogin('sysadmin');
+        // # Set EnableOpenServer to true and disable other auth options
         const newSettings = {
             TeamSettings: {EnableOpenServer: true},
             Office365Settings: {Enable: false},

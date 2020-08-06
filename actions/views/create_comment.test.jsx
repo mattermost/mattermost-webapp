@@ -62,7 +62,7 @@ jest.mock('actions/post_actions.jsx', () => ({
 }));
 
 jest.mock('actions/storage', () => {
-    const original = require.requireActual('actions/storage');
+    const original = jest.requireActual('actions/storage');
     return {
         ...original,
         setGlobalItem: (...args) => ({type: 'MOCK_SET_GLOBAL_ITEM', args}),
@@ -196,7 +196,7 @@ describe('rhs view actions', () => {
             testStore.dispatch(moveHistoryIndexBack(Posts.MESSAGE_TYPES.COMMENT));
 
             expect(store.getActions()).toEqual(
-                expect.arrayContaining(testStore.getActions())
+                expect.arrayContaining(testStore.getActions()),
             );
         });
 
@@ -210,7 +210,7 @@ describe('rhs view actions', () => {
             testStore.dispatch(updateCommentDraft(rootId, {message: 'test message', fileInfos: [], uploadsInProgress: []}));
 
             expect(store.getActions()).toEqual(
-                expect.arrayContaining(testStore.getActions())
+                expect.arrayContaining(testStore.getActions()),
             );
         });
     });
@@ -234,7 +234,7 @@ describe('rhs view actions', () => {
             expect(PostActions.createPost).toHaveBeenCalled();
 
             expect(lastCall(PostActions.createPost.mock.calls)[0]).toEqual(
-                expect.objectContaining(post)
+                expect.objectContaining(post),
             );
 
             expect(lastCall(PostActions.createPost.mock.calls)[1]).toBe(draft.fileInfos);
@@ -327,7 +327,7 @@ describe('rhs view actions', () => {
             testStore.dispatch(addMessageIntoHistory(''));
 
             expect(store.getActions()).toEqual(
-                expect.arrayContaining(testStore.getActions())
+                expect.arrayContaining(testStore.getActions()),
             );
         });
 
@@ -338,7 +338,7 @@ describe('rhs view actions', () => {
             testStore.dispatch(updateCommentDraft(rootId, null));
 
             expect(store.getActions()).toEqual(
-                expect.arrayContaining(testStore.getActions())
+                expect.arrayContaining(testStore.getActions()),
             );
         });
 
@@ -365,7 +365,7 @@ describe('rhs view actions', () => {
             testStore.dispatch(submitReaction(latestPostId, '+', 'smile'));
 
             expect(store.getActions()).toEqual(
-                expect.arrayContaining(testStore.getActions())
+                expect.arrayContaining(testStore.getActions()),
             );
         });
 
@@ -467,7 +467,7 @@ describe('rhs view actions', () => {
                     0,
                     'reply_textbox',
                     'Comment',
-                    true
+                    true,
                 ),
             ]);
         });

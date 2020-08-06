@@ -7,16 +7,12 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod @smoke
+// Stage: @prod
 // Group: @channel_sidebar
 
-import users from '../../fixtures/users';
-
 import {testWithConfig} from '../../support/hooks';
-
-import {getRandomInt} from '../../utils';
-
-const sysadmin = users.sysadmin;
+import {getAdminAccount} from '../../support/env';
+import {getRandomId} from '../../utils';
 
 describe('Channel sidebar', () => {
     testWithConfig({
@@ -25,15 +21,21 @@ describe('Channel sidebar', () => {
         },
     });
 
-    before(() => {
-        cy.apiLogin('user-1');
+    const sysadmin = getAdminAccount();
 
-        cy.visit('/');
+    before(() => {
+        // # Login as test user and visit town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
+        });
+
+        // # Close "What's new" modal
+        cy.uiCloseWhatsNewModal();
     });
 
     it('should switch channels when clicking on a channel in the sidebar', () => {
         // # Start with a new team
-        const teamName = `team-${getRandomInt(999999)}`;
+        const teamName = `team-${getRandomId()}`;
         cy.createNewTeam(teamName, teamName);
 
         // * Verify that we've switched to the new team
@@ -55,7 +57,7 @@ describe('Channel sidebar', () => {
 
     it('should mark channel as read and unread in sidebar', () => {
         // # Start with a new team
-        const teamName = `team-${getRandomInt(999999)}`;
+        const teamName = `team-${getRandomId()}`;
         cy.createNewTeam(teamName, teamName);
 
         // * Verify that we've switched to the new team
@@ -80,7 +82,7 @@ describe('Channel sidebar', () => {
 
     it('should remove channel from sidebar after leaving it', () => {
         // # Start with a new team
-        const teamName = `team-${getRandomInt(999999)}`;
+        const teamName = `team-${getRandomId()}`;
         cy.createNewTeam(teamName, teamName);
 
         // * Verify that we've switched to the new team
@@ -105,7 +107,7 @@ describe('Channel sidebar', () => {
 
     it('MM-23239 should remove channel from sidebar after deleting it', () => {
         // # Start with a new team
-        const teamName = `team-${getRandomInt(999999)}`;
+        const teamName = `team-${getRandomId()}`;
         cy.createNewTeam(teamName, teamName);
 
         // * Verify that we've switched to the new team

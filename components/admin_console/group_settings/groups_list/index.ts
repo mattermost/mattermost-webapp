@@ -16,10 +16,10 @@ import GroupsList from './groups_list';
 const getSortedListOfLdapGroups = createSelector(
     getLdapGroups,
     (ldapGroups) => {
-        const groups = Object.values<any>(ldapGroups);
+        const groups = Object.values(ldapGroups);
         groups.sort((a, b) => a.name.localeCompare(b.name));
         return groups;
-    }
+    },
 );
 
 function mapStateToProps(state: GlobalState) {

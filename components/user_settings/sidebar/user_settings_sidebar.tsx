@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
@@ -130,7 +131,7 @@ interface UserSettingsSidebarState {
     serverError?: string;
 }
 
-export default class UserSettingsSidebar extends React.Component<UserSettingsSidebarProps, UserSettingsSidebarState> {
+export default class UserSettingsSidebar extends React.PureComponent<UserSettingsSidebarProps, UserSettingsSidebarState> {
     constructor(props: UserSettingsSidebarProps) {
         super(props);
 
@@ -147,7 +148,7 @@ export default class UserSettingsSidebar extends React.Component<UserSettingsSid
                 sorting,
             },
             unreadsAtTop,
-            favoriteAtTop
+            favoriteAtTop,
         } = this.props;
 
         return {
@@ -171,12 +172,14 @@ export default class UserSettingsSidebar extends React.Component<UserSettingsSid
     }
 
     updateSetting<T extends keyof SettingType>(setting: T, value: SettingType[T]): void {
-        const settings: SettingType = this.state.settings;
-        settings[setting] = value;
+        const settings: SettingType = {
+            ...this.state.settings,
+            [setting]: value,
+        };
 
         this.setState({
             ...this.state,
-            settings
+            settings,
         });
     }
 
@@ -365,7 +368,7 @@ export default class UserSettingsSidebar extends React.Component<UserSettingsSid
                     key='by_type'
                     id='user.settings.sidebar.groupByTypeShort'
                     defaultMessage='Group by channel type'
-                />
+                />,
             );
         } else {
             messages.push(
@@ -373,7 +376,7 @@ export default class UserSettingsSidebar extends React.Component<UserSettingsSid
                     key='none'
                     id='user.settings.sidebar.groupByNoneShort'
                     defaultMessage='No grouping'
-                />
+                />,
             );
         }
 
@@ -388,7 +391,7 @@ export default class UserSettingsSidebar extends React.Component<UserSettingsSid
         }
 
         messages.push(
-            <span key='comma'>{', '}</span>
+            <span key='comma'>{', '}</span>,
         );
 
         messages.push(
@@ -396,7 +399,7 @@ export default class UserSettingsSidebar extends React.Component<UserSettingsSid
                 key='sorting'
                 id={sortingId}
                 defaultMessage={sortingDefaultMessage}
-            />
+            />,
         );
 
         let atTopId: string | null = null;
@@ -414,7 +417,7 @@ export default class UserSettingsSidebar extends React.Component<UserSettingsSid
 
         if (atTopId) {
             messages.push(
-                <br key='break'/>
+                <br key='break'/>,
             );
 
             messages.push(
@@ -422,7 +425,7 @@ export default class UserSettingsSidebar extends React.Component<UserSettingsSid
                     key='atTop'
                     id={atTopId}
                     defaultMessage={atTopDefaultMessage as any}
-                />
+                />,
             );
         }
 
@@ -602,7 +605,7 @@ export default class UserSettingsSidebar extends React.Component<UserSettingsSid
                             defaultMessage='Group channels by type, or combine all types into a list.'
                         />
                     </div>
-                </fieldset>
+                </fieldset>,
             );
 
             inputs.push(<hr key='sortingDivider'/>);
@@ -651,7 +654,7 @@ export default class UserSettingsSidebar extends React.Component<UserSettingsSid
                             defaultMessage='Sort channels alphabetically, or by most recent post.'
                         />
                     </div>
-                </fieldset>
+                </fieldset>,
             );
 
             inputs.push(<hr key='divider'/>);
@@ -678,7 +681,7 @@ export default class UserSettingsSidebar extends React.Component<UserSettingsSid
                             defaultMessage='Group unread channels separately until read.'
                         />
                     </div>
-                </fieldset>
+                </fieldset>,
             );
 
             inputs.push(<hr key='groupingDivider'/>);
@@ -706,7 +709,7 @@ export default class UserSettingsSidebar extends React.Component<UserSettingsSid
                             defaultMessage='Channels marked as favorites will be grouped separately.'
                         />
                     </div>
-                </fieldset>
+                </fieldset>,
             );
 
             contents = (
@@ -734,9 +737,7 @@ export default class UserSettingsSidebar extends React.Component<UserSettingsSid
                             defaultMessage='Channel Grouping and Sorting'
                         />
                     }
-
-                    // todo: describe is expecting JSX. Element | string, but we're passing an array. Should the type be changed to JSX.Element[] or just pass only one value here?
-                    describe={this.renderOrganizationLabel() as any}
+                    describe={this.renderOrganizationLabel()}
                     section={'groupChannels'}
                     updateSection={this.updateSection}
                 />
@@ -914,3 +915,4 @@ export default class UserSettingsSidebar extends React.Component<UserSettingsSid
         );
     }
 }
+/* eslint-disable react/no-string-refs */

@@ -7,9 +7,12 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+// Group: @channel_sidebar
+
 import {testWithConfig} from '../../support/hooks';
 
-import {getRandomInt} from '../../utils';
+import {getRandomId} from '../../utils';
 
 describe('Channel sidebar', () => {
     testWithConfig({
@@ -19,14 +22,18 @@ describe('Channel sidebar', () => {
     });
 
     before(() => {
-        cy.apiLogin('user-1');
+        // # Login as test user and visit town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
+        });
 
-        cy.visit('/');
+        // # Close "What's new" modal
+        cy.uiCloseWhatsNewModal();
     });
 
     it('should create a new channel when using the new channel dropdown', () => {
         // # Start with a new team
-        const teamName = `team-${getRandomInt(999999)}`;
+        const teamName = `team-${getRandomId()}`;
         cy.createNewTeam(teamName, teamName);
 
         // * Verify that we've switched to the new team
@@ -54,7 +61,7 @@ describe('Channel sidebar', () => {
 
     it('should join a new public channel when using the new channel dropdown', () => {
         // # Start with a new team
-        const teamName = `team-${getRandomInt(999999)}`;
+        const teamName = `team-${getRandomId()}`;
         cy.createNewTeam(teamName, teamName);
 
         // * Verify that we've switched to the new team

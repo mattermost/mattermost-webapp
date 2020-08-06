@@ -47,7 +47,7 @@ export function matchEmoticons(text: string): RegExpMatchArray | null {
 
 export function handleEmoticons(
     text: string,
-    tokens: Map<string, {value: string; originalText: string}>
+    tokens: Map<string, {value: string; originalText: string}>,
 ): string {
     let output = text;
 
@@ -55,7 +55,7 @@ export function handleEmoticons(
         fullMatch: string,
         prefix: string,
         matchText: string,
-        name: string
+        name: string,
     ): string {
         const index = tokens.size;
         const alias = `$MM_EMOTICON${index}$`;
@@ -72,7 +72,7 @@ export function handleEmoticons(
     output = output.replace(
         EMOJI_PATTERN,
         (fullMatch: string, matchText: string, name: string): string =>
-            replaceEmoticonWithToken(fullMatch, '', matchText, name)
+            replaceEmoticonWithToken(fullMatch, '', matchText, name),
     );
 
     // match text smilies like :D

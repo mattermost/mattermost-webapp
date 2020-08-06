@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import $ from 'jquery';
 import PropTypes from 'prop-types';
@@ -8,7 +9,6 @@ import {defineMessages, FormattedMessage} from 'react-intl';
 import {setThemeDefaults} from 'mattermost-redux/utils/theme_utils';
 
 import {t} from 'utils/i18n';
-import 'bootstrap-colorpicker';
 
 import Constants from 'utils/constants';
 import * as UserAgent from 'utils/user_agent';
@@ -116,7 +116,7 @@ const messages = defineMessages({
     },
 });
 
-export default class CustomThemeChooser extends React.Component {
+export default class CustomThemeChooser extends React.PureComponent {
     static propTypes = {
         theme: PropTypes.object.isRequired,
         updateTheme: PropTypes.func.isRequired,
@@ -214,30 +214,30 @@ export default class CustomThemeChooser extends React.Component {
     toggleSidebarStyles = (e) => {
         e.preventDefault();
 
-        $(this.refs.sidebarStylesHeader).toggleClass('open');
+        $(this.refs.sidebarStylesHeader).toggleClass('open'); // eslint-disable-line jquery/no-class
         this.toggleSection(this.refs.sidebarStyles);
     }
 
     toggleCenterChannelStyles = (e) => {
         e.preventDefault();
 
-        $(this.refs.centerChannelStylesHeader).toggleClass('open');
+        $(this.refs.centerChannelStylesHeader).toggleClass('open'); // eslint-disable-line jquery/no-class
         this.toggleSection(this.refs.centerChannelStyles);
     }
 
     toggleLinkAndButtonStyles = (e) => {
         e.preventDefault();
 
-        $(this.refs.linkAndButtonStylesHeader).toggleClass('open');
+        $(this.refs.linkAndButtonStylesHeader).toggleClass('open'); // eslint-disable-line jquery/no-class
         this.toggleSection(this.refs.linkAndButtonStyles);
     }
 
     toggleSection(node) {
         if (UserAgent.isIos()) {
             // iOS doesn't support jQuery animations
-            $(node).toggleClass('open');
+            $(node).toggleClass('open'); // eslint-disable-line jquery/no-class
         } else {
-            $(node).slideToggle();
+            $(node).slideToggle(); // eslint-disable-line jquery/no-slide
         }
     }
 
@@ -530,3 +530,4 @@ export default class CustomThemeChooser extends React.Component {
         );
     }
 }
+/* eslint-enable react/no-string-refs */

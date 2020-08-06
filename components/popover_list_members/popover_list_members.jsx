@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -8,6 +9,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {browserHistory} from 'utils/browser_history';
 import {Constants, ModalIdentifiers} from 'utils/constants';
+import {isActive} from 'utils/filter_users';
 import * as Utils from 'utils/utils.jsx';
 import ChannelMembersModal from 'components/channel_members_modal';
 import OverlayTrigger from 'components/overlay_trigger';
@@ -16,7 +18,7 @@ import Popover from 'components/widgets/popover';
 
 import PopoverListMembersItem from 'components/popover_list_members/popover_list_members_item';
 
-export default class PopoverListMembers extends React.Component {
+export default class PopoverListMembers extends React.PureComponent {
     static propTypes = {
         channel: PropTypes.object.isRequired,
         statuses: PropTypes.object.isRequired,
@@ -80,7 +82,7 @@ export default class PopoverListMembers extends React.Component {
         const modalData = {
             modalId: ModalIdentifiers.CHANNEL_MEMBERS,
             dialogProps: this.props,
-            dialogType: ChannelMembersModal
+            dialogType: ChannelMembersModal,
         };
 
         this.props.actions.openModal(modalData);
@@ -88,7 +90,7 @@ export default class PopoverListMembers extends React.Component {
 
     handleGetProfilesInChannel = (e) => {
         this.setState({popoverTarget: e.target, showPopover: !this.state.showPopover});
-        this.props.actions.loadProfilesAndStatusesInChannel(this.props.channel.id, 0, undefined, 'status'); // eslint-disable-line no-undefined
+        this.props.actions.loadProfilesAndStatusesInChannel(this.props.channel.id, 0, undefined, 'status');
     };
 
     getTargetPopover = () => {
@@ -99,7 +101,8 @@ export default class PopoverListMembers extends React.Component {
     render() {
         const isDirectChannel = this.props.channel.type === Constants.DM_CHANNEL;
 
-        const items = this.props.sortedUsers.map((user) => (
+        const activeUsers = this.props.sortedUsers.filter(isActive);
+        const items = activeUsers.map((user) => (
             <PopoverListMembersItem
                 key={user.id}
                 onItemClick={this.handleShowDirectChannel}
@@ -238,3 +241,4 @@ export default class PopoverListMembers extends React.Component {
         );
     }
 }
+/* eslint-enable react/no-string-refs */

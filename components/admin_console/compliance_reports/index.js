@@ -23,7 +23,7 @@ const getUsersForReports = createSelector(
             }
         });
         return usersMap;
-    }
+    },
 );
 
 function mapStateToProps(state) {

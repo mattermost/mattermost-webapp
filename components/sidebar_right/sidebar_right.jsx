@@ -99,6 +99,7 @@ export default class SidebarRight extends React.PureComponent {
         const isOpen = this.props.searchVisible || this.props.postRightVisible;
 
         if (!wasOpen && isOpen) {
+            this.determineTransition();
             trackEvent('ui', 'ui_rhs_opened');
         }
 
@@ -160,6 +161,7 @@ export default class SidebarRight extends React.PureComponent {
             previousRhsState,
             searchVisible,
             isPluginView,
+            isExpanded,
         } = this.props;
 
         let content = null;
@@ -198,7 +200,7 @@ export default class SidebarRight extends React.PureComponent {
                         channelDisplayName={channelDisplayName}
                         isOpened={this.state.isOpened}
                         updateSearchTerms={this.handleUpdateSearchTerms}
-
+                        isSideBarExpanded={isExpanded}
                     />
                 </div>
             );

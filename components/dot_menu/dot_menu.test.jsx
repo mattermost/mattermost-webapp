@@ -9,7 +9,7 @@ import {Locations, PostTypes} from 'utils/constants';
 import DotMenu, {PLUGGABLE_COMPONENT} from './dot_menu';
 
 jest.mock('utils/utils', () => {
-    const original = require.requireActual('utils/utils');
+    const original = jest.requireActual('utils/utils');
     return {
         ...original,
         isMobile: jest.fn(() => false),
@@ -46,7 +46,7 @@ describe('components/dot_menu/DotMenu', () => {
             canEdit: true,
         };
         const wrapper = shallow(
-            <DotMenu {...props}/>
+            <DotMenu {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -65,7 +65,7 @@ describe('components/dot_menu/DotMenu', () => {
             canDelete: true,
         };
         const wrapper = shallow(
-            <DotMenu {...props}/>
+            <DotMenu {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -78,7 +78,7 @@ describe('components/dot_menu/DotMenu', () => {
             canDelete: true,
         };
         const wrapper = shallow(
-            <DotMenu {...props}/>
+            <DotMenu {...props}/>,
         );
 
         expect(wrapper.state('canEdit')).toBe(true);
@@ -101,7 +101,7 @@ describe('components/dot_menu/DotMenu', () => {
             },
         };
         const wrapper = shallow(
-            <DotMenu {...props}/>
+            <DotMenu {...props}/>,
         );
 
         expect(wrapper.find('#divider_post_post_id_1_edit').exists()).toBe(false);
@@ -109,7 +109,7 @@ describe('components/dot_menu/DotMenu', () => {
 
     test('should have divider when plugin menu item exists', () => {
         const wrapper = shallow(
-            <DotMenu {...baseProps}/>
+            <DotMenu {...baseProps}/>,
         );
         expect(wrapper.find('#divider_post_post_id_1_plugins').exists()).toBe(false);
 
@@ -123,7 +123,7 @@ describe('components/dot_menu/DotMenu', () => {
 
     test('should have divider when pluggable menu item exists', () => {
         const wrapper = shallow(
-            <DotMenu {...baseProps}/>
+            <DotMenu {...baseProps}/>,
         );
         expect(wrapper.find('#divider_post_post_id_1_plugins').exists()).toBe(false);
 
@@ -137,7 +137,7 @@ describe('components/dot_menu/DotMenu', () => {
 
     test('should show mark as unread when channel is not archived', () => {
         const wrapper = shallow(
-            <DotMenu {...baseProps}/>
+            <DotMenu {...baseProps}/>,
         );
 
         expect(wrapper.find(`#unread_post_${baseProps.post.id}`).prop('show')).toBe(true);
@@ -149,7 +149,7 @@ describe('components/dot_menu/DotMenu', () => {
             channelIsArchived: true,
         };
         const wrapper = shallow(
-            <DotMenu {...props}/>
+            <DotMenu {...props}/>,
         );
 
         expect(wrapper.find(`#unread_post_${baseProps.post.id}`).prop('show')).toBe(false);
@@ -161,7 +161,7 @@ describe('components/dot_menu/DotMenu', () => {
             location: Locations.SEARCH,
         };
         const wrapper = shallow(
-            <DotMenu {...props}/>
+            <DotMenu {...props}/>,
         );
 
         expect(wrapper.find(`#unread_post_${baseProps.post.id}`).prop('show')).toBe(false);

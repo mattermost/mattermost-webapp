@@ -4,6 +4,7 @@
 import messageHtmlToComponent from 'utils/message_html_to_component';
 import {formatText} from 'utils/text_formatting';
 import {browserHistory} from 'utils/browser_history';
+import Textbox from 'components/textbox';
 
 // The following import has intentional side effects. Do not remove without research.
 import {openInteractiveDialog} from './interactive_dialog';
@@ -14,8 +15,12 @@ window.ReactDOM = require('react-dom');
 window.Redux = require('redux');
 window.ReactRedux = require('react-redux');
 window.ReactBootstrap = require('react-bootstrap');
-window.PostUtils = {formatText, messageHtmlToComponent};
+window.ReactRouterDom = require('react-router-dom');
 window.PropTypes = require('prop-types');
 window.PDFJS = require('pdfjs-dist');
+
+// Functions and components exposed on window for plugins to use.
+window.PostUtils = {formatText, messageHtmlToComponent};
 window.openInteractiveDialog = openInteractiveDialog;
 window.WebappUtils = {browserHistory};
+window.Components = {Textbox};

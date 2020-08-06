@@ -7,10 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod @smoke
+// Stage: @prod
 // Group: @notification
 
-import users from '../../fixtures/users.json';
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 import {getEmailUrl, getEmailMessageSeparator, reUrl} from '../../utils';
@@ -18,45 +17,48 @@ import {getEmailUrl, getEmailMessageSeparator, reUrl} from '../../utils';
 let config;
 
 describe('Email notification', () => {
+    let testUser;
     let mentionedUser;
+    let testTeam;
 
     before(() => {
         // # Do email test if setup properly
         cy.apiEmailTest();
 
-        // # Login as sysadmin and get config
-        cy.apiLogin('sysadmin');
-        cy.apiGetConfig().then((response) => {
-            config = response.body;
+        // # Get config
+        cy.apiGetConfig().then((data) => {
+            ({config} = data);
         });
 
-        cy.apiGetTeamByName('ad-1').then((res) => {
-            cy.apiCreateNewUser({}, [res.body.id]).then((user) => {
-                mentionedUser = user;
+        cy.apiInitSetup().then(({team, user}) => {
+            testUser = user;
+            testTeam = team;
+
+            cy.apiCreateUser().then(({user: newUser}) => {
+                mentionedUser = newUser;
+                cy.apiAddUserToTeam(team.id, newUser.id);
             });
+
+            // # Login as test user and go to town square
+            cy.apiLogin(testUser);
+            cy.visit(`/${team.name}/channels/town-square`);
         });
     });
 
     it('post a message that mentions a user', () => {
-        // # Login as user-1 and visit town-square channel
-        cy.apiLogin('user-1');
-        cy.apiSaveTeammateNameDisplayPreference('username');
-        cy.visit('/ad-1/channels/town-square');
-
         // # Post a message mentioning the new user
         const text = `Hello @${mentionedUser.username}`;
         cy.postMessage(text);
 
         // Wait for a while to ensure that email notification is sent.
-        cy.wait(TIMEOUTS.SMALL);
+        cy.wait(TIMEOUTS.FIVE_SEC);
 
         const baseUrl = Cypress.config('baseUrl');
         const mailUrl = getEmailUrl(baseUrl);
 
         cy.task('getRecentEmail', {username: mentionedUser.username, mailUrl}).then((response) => {
             const messageSeparator = getEmailMessageSeparator(baseUrl);
-            const user1 = users['user-1'];
-            verifyEmailNotification(response, config.TeamSettings.SiteName, 'eligendi', 'Town Square', mentionedUser, user1, text, config.EmailSettings.FeedbackEmail, config.SupportSettings.SupportEmail, messageSeparator);
+            verifyEmailNotification(response, config.TeamSettings.SiteName, testTeam.display_name, 'Town Square', mentionedUser, testUser, text, config.EmailSettings.FeedbackEmail, config.SupportSettings.SupportEmail, messageSeparator);
 
             const bodyText = response.data.body.text.split('\n');
 

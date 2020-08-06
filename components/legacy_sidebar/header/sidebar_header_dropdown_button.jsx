@@ -4,7 +4,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {Tooltip} from 'react-bootstrap';
-import {FormattedMessage} from 'react-intl';
 
 import {localizeMessage} from 'utils/utils.jsx';
 import OverlayTrigger from 'components/overlay_trigger';
@@ -23,15 +22,6 @@ export default class SidebarHeaderDropdownButton extends React.PureComponent {
     };
 
     render() {
-        const mainMenuToolTip = (
-            <Tooltip id='main-menu__tooltip'>
-                <FormattedMessage
-                    id='sidebar.mainMenu'
-                    defaultMessage='Main menu'
-                />
-            </Tooltip>
-        );
-
         let tutorialTip = null;
         if (this.props.showTutorialTip) {
             tutorialTip = (
@@ -66,30 +56,24 @@ export default class SidebarHeaderDropdownButton extends React.PureComponent {
                 id='sidebarHeaderDropdownButton'
             >
                 {tutorialTip}
-                <OverlayTrigger
-                    delayShow={Constants.OVERLAY_TIME_DELAY}
-                    placement='right'
-                    overlay={mainMenuToolTip}
+                <div
+                    id='headerInfo'
+                    className='header__info'
                 >
+                    {teamNameWithToolTip}
                     <div
-                        id='headerInfo'
-                        className='header__info'
+                        id='headerUsername'
+                        className='user__name'
                     >
-                        {teamNameWithToolTip}
-                        <div
-                            id='headerUsername'
-                            className='user__name'
-                        >
-                            {'@' + this.props.currentUser.username}
-                        </div>
-                        <button
-                            className='style--none sidebar-header-dropdown__icon'
-                            aria-label={localizeMessage('navbar_dropdown.menuAriaLabel', 'main menu')}
-                        >
-                            <MenuIcon/>
-                        </button>
+                        {'@' + this.props.currentUser.username}
                     </div>
-                </OverlayTrigger>
+                    <button
+                        className='style--none sidebar-header-dropdown__icon'
+                        aria-label={localizeMessage('navbar_dropdown.menuAriaLabel', 'main menu')}
+                    >
+                        <MenuIcon/>
+                    </button>
+                </div>
             </div>
         );
     }

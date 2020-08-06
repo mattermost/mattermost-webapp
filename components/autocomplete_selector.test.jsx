@@ -13,45 +13,46 @@ describe('components/widgets/settings/AutocompleteSelector', () => {
                 label='some label'
                 value='some value'
                 providers={[]}
-            />
+            />,
         );
         expect(wrapper).toMatchInlineSnapshot(`
-<div
-  className="form-group"
-  data-testid="autoCompleteSelector"
->
-  <label
-    className="control-label "
-  >
-    some label
-  </label>
-  <div
-    className=""
-  >
-    <SuggestionBox
-      className="form-control"
-      completeOnTab={true}
-      containerClass="select-suggestion-container"
-      isRHS={false}
-      listComponent={[Function]}
-      listStyle="top"
-      listenForMentionKeyClick={false}
-      onBlur={[Function]}
-      onChange={[Function]}
-      onFocus={[Function]}
-      onItemSelected={[Function]}
-      openOnFocus={true}
-      openWhenEmpty={true}
-      providers={Array []}
-      renderDividers={false}
-      renderNoResults={true}
-      replaceAllInputOnSelect={true}
-      requiredCharacters={1}
-      value="some value"
-    />
-  </div>
-</div>
-`);
+            <div
+              className="form-group"
+              data-testid="autoCompleteSelector"
+            >
+              <label
+                className="control-label "
+              >
+                some label
+              </label>
+              <div
+                className=""
+              >
+                <SuggestionBox
+                  className="form-control"
+                  completeOnTab={true}
+                  containerClass="select-suggestion-container"
+                  forceSuggestionsWhenBlur={false}
+                  isRHS={false}
+                  listComponent={[Function]}
+                  listStyle="top"
+                  listenForMentionKeyClick={false}
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onFocus={[Function]}
+                  onItemSelected={[Function]}
+                  openOnFocus={true}
+                  openWhenEmpty={true}
+                  providers={Array []}
+                  renderDividers={false}
+                  renderNoResults={true}
+                  replaceAllInputOnSelect={true}
+                  requiredCharacters={1}
+                  value="some value"
+                />
+              </div>
+            </div>
+        `);
     });
 
     test('check snapshot with value prop and changing focus', () => {
@@ -60,89 +61,91 @@ describe('components/widgets/settings/AutocompleteSelector', () => {
                 providers={[]}
                 label='some label'
                 value='value from prop'
-            />
+            />,
         );
 
         wrapper.instance().onBlur();
 
         expect(wrapper).toMatchInlineSnapshot(`
-<div
-  className="form-group"
-  data-testid="autoCompleteSelector"
->
-  <label
-    className="control-label "
-  >
-    some label
-  </label>
-  <div
-    className=""
-  >
-    <SuggestionBox
-      className="form-control"
-      completeOnTab={true}
-      containerClass="select-suggestion-container"
-      isRHS={false}
-      listComponent={[Function]}
-      listStyle="top"
-      listenForMentionKeyClick={false}
-      onBlur={[Function]}
-      onChange={[Function]}
-      onFocus={[Function]}
-      onItemSelected={[Function]}
-      openOnFocus={true}
-      openWhenEmpty={true}
-      providers={Array []}
-      renderDividers={false}
-      renderNoResults={true}
-      replaceAllInputOnSelect={true}
-      requiredCharacters={1}
-      value="value from prop"
-    />
-  </div>
-</div>
-`);
+            <div
+              className="form-group"
+              data-testid="autoCompleteSelector"
+            >
+              <label
+                className="control-label "
+              >
+                some label
+              </label>
+              <div
+                className=""
+              >
+                <SuggestionBox
+                  className="form-control"
+                  completeOnTab={true}
+                  containerClass="select-suggestion-container"
+                  forceSuggestionsWhenBlur={false}
+                  isRHS={false}
+                  listComponent={[Function]}
+                  listStyle="top"
+                  listenForMentionKeyClick={false}
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onFocus={[Function]}
+                  onItemSelected={[Function]}
+                  openOnFocus={true}
+                  openWhenEmpty={true}
+                  providers={Array []}
+                  renderDividers={false}
+                  renderNoResults={true}
+                  replaceAllInputOnSelect={true}
+                  requiredCharacters={1}
+                  value="value from prop"
+                />
+              </div>
+            </div>
+        `);
 
         wrapper.instance().onChange({target: {value: 'value from input'}});
         wrapper.instance().onFocus();
 
         expect(wrapper).toMatchInlineSnapshot(`
-<div
-  className="form-group"
-  data-testid="autoCompleteSelector"
->
-  <label
-    className="control-label "
-  >
-    some label
-  </label>
-  <div
-    className=""
-  >
-    <SuggestionBox
-      className="form-control"
-      completeOnTab={true}
-      containerClass="select-suggestion-container"
-      isRHS={false}
-      listComponent={[Function]}
-      listStyle="top"
-      listenForMentionKeyClick={false}
-      onBlur={[Function]}
-      onChange={[Function]}
-      onFocus={[Function]}
-      onItemSelected={[Function]}
-      openOnFocus={true}
-      openWhenEmpty={true}
-      providers={Array []}
-      renderDividers={false}
-      renderNoResults={true}
-      replaceAllInputOnSelect={true}
-      requiredCharacters={1}
-      value="value from input"
-    />
-  </div>
-</div>
-`);
+            <div
+              className="form-group"
+              data-testid="autoCompleteSelector"
+            >
+              <label
+                className="control-label "
+              >
+                some label
+              </label>
+              <div
+                className=""
+              >
+                <SuggestionBox
+                  className="form-control"
+                  completeOnTab={true}
+                  containerClass="select-suggestion-container"
+                  forceSuggestionsWhenBlur={false}
+                  isRHS={false}
+                  listComponent={[Function]}
+                  listStyle="top"
+                  listenForMentionKeyClick={false}
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onFocus={[Function]}
+                  onItemSelected={[Function]}
+                  openOnFocus={true}
+                  openWhenEmpty={true}
+                  providers={Array []}
+                  renderDividers={false}
+                  renderNoResults={true}
+                  replaceAllInputOnSelect={true}
+                  requiredCharacters={1}
+                  value="value from input"
+                />
+              </div>
+            </div>
+        `);
     });
 
     test('onSelected', () => {
@@ -153,7 +156,7 @@ describe('components/widgets/settings/AutocompleteSelector', () => {
                 value='some value'
                 providers={[]}
                 onSelected={onSelected}
-            />
+            />,
         );
 
         const selected = {text: 'sometext', value: 'somevalue'};

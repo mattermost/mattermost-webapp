@@ -6,14 +6,19 @@
 const axios = require('axios');
 const fse = require('fs-extra');
 
-const users = require('../cypress/fixtures/users.json');
+const {MOCHAWESOME_REPORT_DIR} = require('./constants');
 
 const MAX_FAILED_TITLES = 5;
+
+let incrementalDuration = 0;
 
 function getAllTests(results) {
     const tests = [];
     results.forEach((result) => {
-        result.tests.forEach((test) => tests.push(test));
+        result.tests.forEach((test) => {
+            incrementalDuration += test.duration;
+            tests.push({...test, incrementalDuration});
+        });
 
         if (result.suites.length > 0) {
             getAllTests(result.suites).forEach((test) => tests.push(test));
@@ -70,10 +75,26 @@ function generateShortSummary(report) {
     };
 }
 
+function removeOldGeneratedReports() {
+    [
+        'all.json',
+        'summary.json',
+        'mochawesome.html',
+    ].forEach((file) => fse.removeSync(`${MOCHAWESOME_REPORT_DIR}/${file}`));
+}
+
 function writeJsonToFile(jsonObject, filename, dir) {
     fse.writeJson(`${dir}/${filename}`, jsonObject).
         then(() => console.log('Successfully written:', filename)).
         catch((err) => console.error(err));
+}
+
+function readJsonFromFile(file) {
+    try {
+        return fse.readJsonSync(file);
+    } catch (err) {
+        return {err};
+    }
 }
 
 const result = [
@@ -83,9 +104,24 @@ const result = [
     {status: 'Failed', priority: 'high', cutOff: 0, color: '#F44336'},
 ];
 
-function generateTestReport(summary, isUploadedToS3, bucketFolder) {
-    const {BRANCH, BROWSER} = process.env;
+function generateTestReport(summary, isUploadedToS3, reportLink, environment) {
+    const {
+        BRANCH,
+        BUILD_TAG,
+        FULL_REPORT,
+        PULL_REQUEST,
+        TYPE,
+    } = process.env;
     const {statsFieldValue, stats} = summary;
+    const {
+        cypressVersion,
+        browserName,
+        browserVersion,
+        headless,
+        osName,
+        osVersion,
+        nodeVersion,
+    } = environment;
 
     let testResult;
     for (let i = 0; i < result.length; i++) {
@@ -100,8 +136,66 @@ function generateTestReport(summary, isUploadedToS3, bucketFolder) {
         awsS3Fields = {
             short: false,
             title: 'Test Report',
-            value: `[Link to the report](https://${process.env.AWS_S3_BUCKET}.s3.amazonaws.com/${bucketFolder}/mochawesome.html)`,
+            value: `[Link to the report](${reportLink})`,
         };
+    }
+
+    let dockerImageLink = '';
+    if (BUILD_TAG) {
+        dockerImageLink = `with [mattermost-enterprise-edition:${BUILD_TAG}](https://hub.docker.com/r/mattermost/mattermost-enterprise-edition/tags?name=${BUILD_TAG})`;
+    }
+
+    let title;
+
+    switch (TYPE) {
+    case 'PR':
+        title = `E2E for Pull Request Build: [${BRANCH}](${PULL_REQUEST}) ${dockerImageLink}`;
+        break;
+    case 'RELEASE':
+        title = `E2E for Release Build ${dockerImageLink}`;
+        break;
+    case 'MASTER':
+        title = `E2E for Master Nightly Build (Prod tests) ${dockerImageLink}`;
+        break;
+    case 'MASTER_UNSTABLE':
+        title = `E2E for Master Nightly Build (Unstable tests) ${dockerImageLink}`;
+        break;
+    default:
+        title = `E2E for Build ${dockerImageLink}`;
+    }
+
+    const envValue = `cypress@${cypressVersion} | node@${nodeVersion} | ${browserName}@${browserVersion}${headless ? ' (headless)' : ''} | ${osName}@${osVersion}`;
+
+    if (FULL_REPORT === 'true') {
+        return {
+            username: 'Cypress UI Test',
+            icon_url: 'https://www.mattermost.org/wp-content/uploads/2016/04/icon.png',
+            attachments: [{
+                color: testResult.color,
+                author_name: 'Webapp End-to-end Testing',
+                author_icon: 'https://www.mattermost.org/wp-content/uploads/2016/04/icon.png',
+                author_link: 'https://www.mattermost.com',
+                title,
+                fields: [
+                    {
+                        short: false,
+                        title: 'Environment',
+                        value: envValue,
+                    },
+                    awsS3Fields,
+                    {
+                        short: false,
+                        title: `Key metrics (required support: ${testResult.priority})`,
+                        value: statsFieldValue,
+                    },
+                ],
+            }],
+        };
+    }
+
+    let quickSummary = `${stats.passPercent.toFixed(2)}% (${stats.passes}/${stats.tests}) in ${stats.suites} suites`;
+    if (isUploadedToS3) {
+        quickSummary = `[${quickSummary}](${reportLink})`;
     }
 
     return {
@@ -109,24 +203,11 @@ function generateTestReport(summary, isUploadedToS3, bucketFolder) {
         icon_url: 'https://www.mattermost.org/wp-content/uploads/2016/04/icon.png',
         attachments: [{
             color: testResult.color,
-            author_name: 'Cypress UI Test',
+            author_name: 'Webapp End-to-end Testing',
             author_icon: 'https://www.mattermost.org/wp-content/uploads/2016/04/icon.png',
-            author_link: 'https://www.mattermost.com',
-            title: `Cypress UI Test Automation ${testResult.status}!`,
-            fields: [
-                {
-                    short: false,
-                    title: 'Environment',
-                    value: `Branch: **${BRANCH}**, Browser: **${BROWSER}**`,
-                },
-                awsS3Fields,
-                {
-                    short: false,
-                    title: `Key metrics (required support: ${testResult.priority})`,
-                    value: statsFieldValue,
-                }
-            ],
-            image_url: 'https://pbs.twimg.com/profile_images/1044345247440896001/pXI1GDHW_bigger.jpg'
+            author_link: 'https://www.mattermost.com/',
+            title,
+            text: `${quickSummary} | ${(stats.duration / (60 * 1000)).toFixed(2)} mins\n${envValue}`,
         }],
     };
 }
@@ -145,41 +226,9 @@ function generateDiagnosticReport(summary, serverInfo) {
             title: `Cypress UI Test Automation #${BUILD_ID}, **${BRANCH}** branch`,
             fields: [{
                 short: false,
-                value: `Start: **${summary.stats.start}**\nEnd: **${summary.stats.end}**\nUser ID: **${serverInfo.sysadminId}**\nTeam ID: **${serverInfo.ad1TeamId}**`,
+                value: `Start: **${summary.stats.start}**\nEnd: **${summary.stats.end}**\nUser ID: **${serverInfo.userId}**\nTeam ID: **${serverInfo.teamId}**`,
             }],
         }],
-    };
-}
-
-async function getServerInfo(baseUrl) {
-    const sysadmin = users.sysadmin;
-    const headers = {'X-Requested-With': 'XMLHttpRequest'};
-
-    const loginResponse = await axios({
-        method: 'post',
-        url: `${baseUrl}/api/v4/users/login`,
-        headers,
-        data: {login_id: sysadmin.username, password: sysadmin.password},
-    });
-
-    let cookieString = '';
-    const setCookie = loginResponse.headers['set-cookie'];
-    setCookie.forEach((cookie) => {
-        const nameAndValue = cookie.split(';')[0];
-        cookieString += nameAndValue + ';';
-    });
-
-    headers.Cookie = cookieString;
-
-    const teamResponse = await axios({
-        method: 'get',
-        url: `${baseUrl}/api/v4/teams/name/ad-1`,
-        headers,
-    });
-
-    return {
-        sysadminId: loginResponse.data.id,
-        ad1TeamId: teamResponse.data.id,
     };
 }
 
@@ -204,7 +253,8 @@ module.exports = {
     generateShortSummary,
     generateTestReport,
     getAllTests,
-    getServerInfo,
+    removeOldGeneratedReports,
     sendReport,
+    readJsonFromFile,
     writeJsonToFile,
 };

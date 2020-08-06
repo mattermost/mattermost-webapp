@@ -1,7 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import {UserProfile} from 'mattermost-redux/types/users';
+import {Channel, ChannelMembership, ChannelNotifyProps} from 'mattermost-redux/types/channels';
 import {Bot} from 'mattermost-redux/types/bots';
+import {Role} from 'mattermost-redux/types/roles';
+import {UserProfile} from 'mattermost-redux/types/users';
+import {Team, TeamMembership} from 'mattermost-redux/types/teams';
+import {Group} from 'mattermost-redux/types/groups';
 
 export class TestHelper {
     public static getUserMock(override: Partial<UserProfile> = {}): UserProfile {
@@ -9,6 +13,7 @@ export class TestHelper {
             id: 'user_id',
             roles: '',
             username: 'some-user',
+            password: '',
             auth_data: '',
             auth_service: '',
             create_at: 0,
@@ -24,7 +29,8 @@ export class TestHelper {
             terms_of_service_id: '',
             update_at: 0,
             is_bot: false,
-            last_picture_update: 0,
+            allow_marketing: false,
+            props: {},
             notify_props: {
                 channel: 'false',
                 comments: 'never',
@@ -35,8 +41,16 @@ export class TestHelper {
                 mark_unread: 'mention',
                 mention_keys: '',
                 push: 'none',
-                push_status: 'offline'
-            }
+                push_status: 'offline',
+            },
+            last_picture_update: 0,
+            last_password_update: 0,
+            failed_attempts: 0,
+            mfa_active: false,
+            mfa_secret: '',
+            last_activity_at: 0,
+            bot_description: '',
+            bot_last_icon_update: 0,
         };
         return Object.assign({}, defaultUser, override);
     }
@@ -50,8 +64,125 @@ export class TestHelper {
             user_id: '',
             username: '',
             description: '',
-            display_name: ''
+            display_name: '',
         };
         return Object.assign({}, defaultBot, override);
+    }
+
+    public static getChannelMock(override: Partial<Channel>): Channel {
+        const defaultChannel: Channel = {
+            id: 'channel_id',
+            create_at: 0,
+            update_at: 0,
+            delete_at: 0,
+            team_id: 'team_id',
+            type: 'O',
+            display_name: 'name',
+            name: 'DN',
+            header: 'header',
+            purpose: 'purpose',
+            last_post_at: 0,
+            total_msg_count: 0,
+            extra_update_at: 0,
+            creator_id: 'id',
+            scheme_id: 'id',
+            group_constrained: false,
+        };
+        return Object.assign({}, defaultChannel, override);
+    }
+
+    public static getChannelMembershipMock(override: Partial<ChannelMembership>, overrideNotifyProps: Partial<ChannelNotifyProps>): ChannelMembership {
+        const defaultNotifyProps = {
+            desktop: 'default',
+            email: 'default',
+            mark_unread: 'all',
+            push: 'default',
+            ignore_channel_mentions: 'default',
+        };
+        const notifyProps = Object.assign({}, defaultNotifyProps, overrideNotifyProps);
+
+        const defaultMembership: ChannelMembership = {
+            channel_id: 'channel_id',
+            user_id: 'user_id',
+            roles: 'channel_user',
+            last_viewed_at: 0,
+            msg_count: 0,
+            mention_count: 0,
+            notify_props: notifyProps,
+            last_update_at: 0,
+            scheme_user: true,
+            scheme_admin: false,
+        };
+        return Object.assign({}, defaultMembership, override);
+    }
+
+    public static getTeamMock(override: Partial<Team>): Team {
+        const defaultTeam: Team = {
+            id: 'team_id',
+            create_at: 0,
+            update_at: 0,
+            delete_at: 0,
+            type: 'O',
+            display_name: 'name',
+            name: 'DN',
+            scheme_id: 'id',
+            allow_open_invite: false,
+            group_constrained: false,
+            description: '',
+            email: '',
+            company_name: '',
+            allowed_domains: '',
+            invite_id: '',
+        };
+        return Object.assign({}, defaultTeam, override);
+    }
+
+    public static getTeamMembershipMock(override: Partial<TeamMembership>): TeamMembership {
+        const defaultMembership: TeamMembership = {
+            mention_count: 0,
+            msg_count: 0,
+            team_id: 'team_id',
+            user_id: 'user_id',
+            roles: 'team_user',
+            delete_at: 0,
+            scheme_user: true,
+            scheme_admin: false,
+        };
+        return Object.assign({}, defaultMembership, override);
+    }
+
+    public static getRoleMock(override: Partial<Role> = {}): Role {
+        const defaultRole: Role = {
+            id: 'role_id',
+            name: 'role_name',
+            display_name: 'role_display_name',
+            description: 'role_description',
+            create_at: 0,
+            update_at: 0,
+            delete_at: 0,
+            permissions: [],
+            scheme_managed: false,
+            built_in: false,
+        };
+        return Object.assign({}, defaultRole, override);
+    }
+
+    public static getGroupMock(override: Partial<Group>): Group {
+        const defaultGroup: Group = {
+            id: 'group_id',
+            name: 'group_name',
+            display_name: 'group_display_name',
+            description: '',
+            type: '',
+            remote_id: '',
+            create_at: 1,
+            update_at: 1,
+            delete_at: 0,
+            has_syncables: false,
+            member_count: 0,
+            scheme_admin: false,
+            allow_reference: true,
+        };
+        return Object.assign({}, defaultGroup, override);
     }
 }

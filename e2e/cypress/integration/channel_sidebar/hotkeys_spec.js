@@ -10,13 +10,10 @@
 // Stage: @prod
 // Group: @channel_sidebar
 
-import users from '../../fixtures/users';
-
 import {testWithConfig} from '../../support/hooks';
 
-import {getRandomInt} from '../../utils';
-
-const sysadmin = users.sysadmin;
+import {getRandomId} from '../../utils';
+import {getAdminAccount} from '../../support/env';
 
 describe('Channel switching', () => {
     testWithConfig({
@@ -25,17 +22,20 @@ describe('Channel switching', () => {
         },
     });
 
-    before(() => {
-        cy.apiLogin('user-1');
+    const sysadmin = getAdminAccount();
 
-        cy.visit('/');
+    before(() => {
+        // # Login as test user and visit town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
+        });
     });
 
     const cmdOrCtrl = Cypress.platform === 'darwin' ? '{cmd}' : '{ctrl}';
 
     it('should switch channels when pressing the alt + arrow hotkeys', () => {
         // # Start with a new team
-        const teamName = `team-${getRandomInt(999999)}`;
+        const teamName = `team-${getRandomId()}`;
         cy.createNewTeam(teamName, teamName);
 
         // * Verify that we've switched to the new team
@@ -58,26 +58,22 @@ describe('Channel switching', () => {
 
     it('should switch to unread channels when pressing the alt + shift + arrow hotkeys', () => {
         // # Start with a new team
-        const teamName = `team-${getRandomInt(999999)}`;
+        const teamName = `team-${getRandomId()}`;
         cy.createNewTeam(teamName, teamName);
+
+        // # Create a new channel
+        cy.getCurrentTeamId().then((teamId) => {
+            cy.apiCreateChannel(teamId, 'test-channel', 'Test Channel').then((response) => {
+                // # Have another user post a message in the new channel
+                cy.reload();
+                cy.postMessageAs({sender: sysadmin, message: 'Test', channelId: response.body.id});
+            });
+        });
 
         // * Verify that we've switched to the new team
         cy.get('#headerTeamName').should('contain', teamName);
 
         cy.getCurrentChannelId().as('townSquareId');
-
-        // # Create a new channel
-        // cy.createAndVisitNewChannel().as('testChannel');
-        cy.getCurrentTeamId().then((teamId) => {
-            cy.apiCreateChannel(teamId, 'test-channel', 'Test Channel').then((response) => {
-                expect(response.status).to.equal(201);
-
-                cy.wrap(response.body).as('testChannel');
-            });
-        });
-
-        // # Have another user post a message in the new channel
-        cy.get('@testChannel').then((testChannel) => cy.postMessageAs({sender: sysadmin, message: 'Test', channelId: testChannel.id}));
 
         // # Press alt + shift + up
         cy.get('body').type('{alt}{shift}', {release: false}).type('{uparrow}').type('{alt}{shift}', {release: true});
@@ -105,12 +101,12 @@ describe('Channel switching', () => {
         cy.get('body').type(cmdOrCtrl, {release: false}).type('k').type(cmdOrCtrl, {release: true});
 
         // * Verify that the modal has been opened
-        cy.get('.channel-switch__modal').should('be.visible');
+        cy.get('.channel-switcher').should('be.visible');
 
         // # Press ctrl/cmd + k
         cy.get('body').type(cmdOrCtrl, {release: false}).type('k').type(cmdOrCtrl, {release: true});
 
         // * Verify that the modal has been closed
-        cy.get('.channel-switch__modal').should('not.be.visible');
+        cy.get('.channel-switcher').should('not.be.visible');
     });
 });

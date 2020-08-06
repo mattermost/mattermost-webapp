@@ -18,7 +18,7 @@ import AddIcon from 'components/widgets/icons/fa_add_icon';
 const GROUPS_PER_PAGE = 50;
 const MAX_SELECTABLE_VALUES = 10;
 
-export default class AddGroupsToTeamModal extends React.Component {
+export default class AddGroupsToTeamModal extends React.PureComponent {
     static propTypes = {
         currentTeamName: PropTypes.string.isRequired,
         currentTeamId: PropTypes.string.isRequired,
@@ -57,7 +57,7 @@ export default class AddGroupsToTeamModal extends React.Component {
     componentDidMount() {
         Promise.all([
             this.props.actions.getGroupsNotAssociatedToTeam(this.props.currentTeamId, '', 0, GROUPS_PER_PAGE + 1),
-            this.props.actions.getAllGroupsAssociatedToTeam(this.props.currentTeamId),
+            this.props.actions.getAllGroupsAssociatedToTeam(this.props.currentTeamId, false, true),
         ]).then(() => {
             this.setGroupsLoadingState(false);
         });
@@ -78,7 +78,7 @@ export default class AddGroupsToTeamModal extends React.Component {
                     await this.props.actions.getGroupsNotAssociatedToTeam(this.props.currentTeamId, searchTerm);
                     this.setGroupsLoadingState(false);
                 },
-                Constants.SEARCH_TIMEOUT_MILLISECONDS
+                Constants.SEARCH_TIMEOUT_MILLISECONDS,
             );
         }
     }
