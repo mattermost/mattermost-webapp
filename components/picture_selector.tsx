@@ -12,13 +12,14 @@ import './picture_selector.scss';
 type Props = {
     src?: string;
     defaultSrc?: string;
+    placeholder?: React.ReactNode;
     loadingPicture?: boolean;
     onSelect: (file: File) => void;
     onRemove: () => void;
 };
 
 const PictureSelector: React.FC<Props> = (props: Props) => {
-    const {src, defaultSrc, loadingPicture, onSelect, onRemove} = props;
+    const {src, defaultSrc, placeholder, loadingPicture, onSelect, onRemove} = props;
 
     const [image, setImage] = useState<string>();
     const [orientationStyles, setOrientationStyles] = useState<{transform: any; transformOrigin: any}>();
@@ -111,7 +112,9 @@ const PictureSelector: React.FC<Props> = (props: Props) => {
                         backgroundImage: 'url(' + image + ')',
                         ...orientationStyles,
                     }}
-                />
+                >
+                    {!image && placeholder}
+                </div>
                 <button
                     ref={selectButton}
                     data-testid='PictureSelector__selectButton'

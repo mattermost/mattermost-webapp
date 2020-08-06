@@ -5,12 +5,20 @@
     border: 0;
     outline: 0;
     color: var(--center-channel-color);
-    padding: 0 12px;
+    padding: 0;
     font-size: 12px;
     line-height: 30px;
     box-shadow: none;
     z-index: 2;
     border-radius: 4px;
+}
+
+.Input_wrapper {
+    color: rgba(var(--center-channel-color-rgb), 0.56);
+    padding: 0 12px;
+    font-size: 12px;
+    line-height: 30px;
+    display: flex;
 }
 
 .Input_container {
