@@ -31,6 +31,7 @@ class FilterList extends React.PureComponent<Props> {
             const currentValue = option.values[optionKey];
             const {value, name} = currentValue;
             const FilterItem = option.type || FilterCheckbox;
+
             return (
                 <div
                     key={index}

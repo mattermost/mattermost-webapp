@@ -21,7 +21,7 @@ interface GroupUsersRoleProps {
     scope: 'team' | 'channel';
 }
 
-export type Role = 'system_admin' | 'team_admin' | 'team_user' | 'channel_admin' | 'channel_user' | 'guest';
+type Role = 'system_admin' | 'team_admin' | 'team_user' | 'channel_admin' | 'channel_user' | 'guest';
 export default class GroupUsersRole extends React.PureComponent<GroupUsersRoleProps, {}> {
     private getCurrentRole = (): Role => {
         const {user, membership, scope} = this.props;
