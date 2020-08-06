@@ -59,7 +59,7 @@ export default class GroupUsersRole extends React.PureComponent<GroupUsersRolePr
             return Utils.localizeMessage('admin.user_grid.channel_admin', 'Channel Admin');
         case 'team_user':
         case 'channel_user':
-                return Utils.localizeMessage('admin.group_teams_and_channels_row.member', 'Member');
+            return Utils.localizeMessage('admin.group_teams_and_channels_row.member', 'Member');
         default:
             return Utils.localizeMessage('admin.user_grid.guest', 'Guest');
         }
