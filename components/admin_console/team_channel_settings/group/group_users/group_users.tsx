@@ -109,7 +109,7 @@ export default class GroupUsers extends React.PureComponent<Props, State> {
     }
 
     setStateLoading = (loading: boolean, page?: number) => {
-        if (page) {
+        if (typeof page === 'number') {
             this.setState({loading, page});
         } else {
             this.setState({loading});
