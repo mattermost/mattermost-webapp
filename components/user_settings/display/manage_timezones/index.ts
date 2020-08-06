@@ -1,14 +1,23 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 import {connect} from 'react-redux';
-import {bindActionCreators, Dispatch} from 'redux';
+import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 import {updateMe} from 'mattermost-redux/actions/users';
-import {GenericAction} from 'mattermost-redux/types/actions';
+import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
+import {UserProfile} from 'mattermost-redux/types/users';
 
 import ManageTimezones from './manage_timezones';
 
-function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
-    return {actions: bindActionCreators({updateMe}, dispatch)};
+type Actions ={
+    updateMe: (user: UserProfile) => Promise<ActionResult>;
+}
+
+function mapDispatchToProps(dispatch: Dispatch) {
+    return {
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
+            updateMe
+        }, dispatch)};
 }
 
 export default connect(null, mapDispatchToProps)(ManageTimezones);
+

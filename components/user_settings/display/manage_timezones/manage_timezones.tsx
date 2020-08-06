@@ -6,13 +6,17 @@ import {getTimezoneRegion} from 'mattermost-redux/utils/timezone_utils';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 
 import {UserProfile} from 'mattermost-redux/types/users';
-import {ServerError} from 'mattermost-redux/types/errors';
+import {ActionResult} from 'mattermost-redux/types/actions';
 
 import SettingItemMax from 'components/setting_item_max.jsx';
 import {getBrowserTimezone} from 'utils/timezone';
 import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 import TimezoneProvider from 'components/suggestion/timezone_provider.jsx';
+
+type Actions ={
+    updateMe: (user: UserProfile) => Promise<ActionResult>;
+}
 
 type Props ={
     user: UserProfile;
@@ -21,9 +25,7 @@ type Props ={
     automaticTimezone: string;
     manualTimezone: string;
     timezones: string[];
-    actions: {
-        updateMe: (user: UserProfile) => Promise<{data: boolean ; error?: ServerError | string}>;
-    };
+    actions: Actions;
 }
 
 type State ={
@@ -111,16 +113,17 @@ export default class ManageTimezones extends React.PureComponent<Props, State> {
             timezone,
         };
 
-        actions.updateMe(updatedUser).
-            then(({data, error: err}) => {
-                if (data) {
+        (actions.updateMe(updatedUser)).
+            then((res) => {
+                if ('data' in res) {
                     this.props.updateSection('');
-                } else if (err) {
+                } else if ('error' in res) {
+                    const {error} = res;
                     let serverError;
-                    if (err instanceof Error) {
-                        serverError = err.message;
+                    if (error instanceof Error) {
+                        serverError = error.message;
                     } else {
-                        serverError = err as string;
+                        serverError = error as string;
                     }
                     this.setState({serverError, isSaving: false});
                 }
