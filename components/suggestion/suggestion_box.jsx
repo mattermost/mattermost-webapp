@@ -146,11 +146,6 @@ export default class SuggestionBox extends React.PureComponent {
         onSuggestionsReceived: PropTypes.func,
 
         /**
-         * Suppress loading spinner when necessary
-         */
-        suppressLoadingSpinner: PropTypes.bool,
-
-        /**
          * To show suggestions even when focus is lost
          */
         forceSuggestionsWhenBlur: PropTypes.bool,
@@ -714,7 +709,6 @@ export default class SuggestionBox extends React.PureComponent {
             dateComponent,
             listStyle,
             renderNoResults,
-            suppressLoadingSpinner,
             ...props
         } = this.props;
 
@@ -787,7 +781,6 @@ export default class SuggestionBox extends React.PureComponent {
                             wrapperHeight={this.props.wrapperHeight}
                             inputRef={this.inputRef}
                             onLoseVisibility={this.blur}
-                            suppressLoadingSpinner={suppressLoadingSpinner}
                         />
                     </div>
                 }
