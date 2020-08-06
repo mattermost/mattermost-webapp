@@ -407,6 +407,10 @@
     margin-left: 24px;
 }
 
+.NextStepsView__tipsMobileMessage {
+    padding: 0 40px;
+}
+
 .NextStepsView__tipsMobileMessage .Card__body {
     display: flex;
     color: var(--center-channel-color);
@@ -425,6 +429,7 @@
     span {
         margin-left: 10px;
         font-weight: 600;
+        align-self: center;
     }
 }
 
@@ -475,10 +480,6 @@
 
     .NextStepsView__body-main {
         padding: 0 40px;
-    }
-
-    .NextStepsView__tipsMobileMessage {
-        margin-top: 16px;
     }
 
     .NextStepsView__downloadText {
@@ -537,5 +538,29 @@
 
     .NextStepsView__nextStepsCards .Card {
         margin-bottom: 16px;
+
+        .Card__body {
+            padding: 24px;
+        }
+    }
+
+    .NextStepsView__download {
+        padding: 12px 36px;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .NextStepsView__download {
+        flex-direction: column;
+
+        > img {
+            max-width: 232px;
+            align-self: flex-start;
+        }
+
+        .NextStepsView__downloadText {
+            margin-left: 0;
+            margin-top: 24px;
+        }
     }
 }
