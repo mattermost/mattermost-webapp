@@ -4,7 +4,6 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import Constants from 'utils/constants';
 import DeleteModalTrigger from 'components/delete_modal_trigger';
 import ConfirmModal from 'components/confirm_modal';
 
@@ -75,36 +74,6 @@ describe('components/DeleteModalTrigger', () => {
         expect(onDelete).toHaveBeenCalledTimes(1);
     });
 
-    test('should have called onDelete on enter key down', () => {
-        const onDelete = jest.fn();
-
-        class ChildModal extends DeleteModalTrigger {}
-
-        const wrapper = shallow(
-            <ChildModal
-                onDelete={onDelete}
-            />,
-        );
-
-        wrapper.find(ConfirmModal).first().props().onKeyDown({key: Constants.KeyCodes.ENTER[0]});
-        expect(onDelete).toHaveBeenCalledTimes(1);
-    });
-
-    test('should not called onDelete on not enter key down', () => {
-        const onDelete = jest.fn();
-
-        class ChildModal extends DeleteModalTrigger {}
-
-        const wrapper = shallow(
-            <ChildModal
-                onDelete={onDelete}
-            />,
-        );
-
-        wrapper.find(ConfirmModal).first().props().onKeyDown({key: Constants.KeyCodes.TAB[0]});
-        expect(onDelete).not.toHaveBeenCalled();
-    });
-
     test('should match state when handleOpenModal is called', () => {
         class ChildModal extends DeleteModalTrigger {}
 
@@ -144,20 +113,5 @@ describe('components/DeleteModalTrigger', () => {
         wrapper.setState({showDeleteModal: true});
         instance.handleCancel();
         expect(wrapper.state('showDeleteModal')).toEqual(false);
-    });
-
-    test('should have called handleConfirm when on handleKeyDown ENTER', () => {
-        class ChildModal extends DeleteModalTrigger {}
-        const onDelete = jest.fn();
-        const wrapper = shallow(
-            <ChildModal onDelete={onDelete}/>,
-        );
-        const evt = {key: Constants.KeyCodes.ENTER[0]};
-        const instance = wrapper.instance();
-        instance.handleConfirm = jest.fn();
-
-        wrapper.setState({showDeleteModal: false});
-        wrapper.instance().handleKeyDown(evt);
-        expect(instance.handleConfirm).toHaveBeenCalledWith(evt);
     });
 });
