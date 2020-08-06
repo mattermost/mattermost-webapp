@@ -212,7 +212,7 @@ describe('toasts', () => {
 
             // # Toast apprears and has the appropriate message
             cy.get('div.toast').should('be.visible');
-            cy.get('div.toast__message>span').should('be.visible').first().contains('new messages since');
+            cy.get('div.toast__message>span').should('be.visible').first().contains('new messages today');
         });
     });
 
@@ -293,7 +293,9 @@ describe('toasts', () => {
         cy.get('div.toast').should('not.be.visible');
 
         // # Move to the top of the channel
-        cy.get('div.post-list__dynamic').should('be.visible').scrollTo('top', {duration: TIMEOUTS.ONE_SEC});
+        Cypress._.times(3, () => {
+            cy.get('div.post-list__dynamic').should('be.visible').scrollTo('top', {duration: TIMEOUTS.ONE_SEC}).wait(TIMEOUTS.ONE_SEC);
+        });
 
         // * Verify that town-square channel is loaded
         cy.get('#channelIntro').should('be.visible').contains('Beginning of Town Square');
