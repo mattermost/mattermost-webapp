@@ -225,7 +225,7 @@ export default class WebSocketClient {
         }, PONG_WAIT_TIME);
     }
 
-    clearPingPong()  {
+    clearPingPong() {
         clearInterval(this.pingTimer);
         clearTimeout(this.pongTimer);
     }
