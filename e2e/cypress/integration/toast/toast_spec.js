@@ -301,6 +301,45 @@ describe('toasts', () => {
         // * Assert toast should not be present as the messages are already read
         cy.get('div.toast').should('not.be.visible');
     });
+
+    it('MM-T1785 Toast - When marking post as unread', () => {
+        visitTownSquareAndWaitForPageToLoad();
+
+        // # Add 30 posts to create enough space from bottom for making channel scrollable
+        for (let index = 0; index < 30; index++) {
+            cy.postMessageAs({sender: otherUser, message: `This is an old message [${index}]`, channelId: townsquareChannelId});
+        }
+
+        cy.getNthPostId(2).then((postId) => {
+            cy.get(`#post_${postId}`).trigger('mouseover');
+            cy.clickPostDotMenu(postId, 'CENTER');
+
+            // # Mark post as unread
+            cy.get('.dropdown-menu').should('be.visible').within(() => {
+                cy.findByText('Mark as Unread').should('be.visible').click();
+            });
+        });
+
+        // * Toast should be present
+        cy.get('div.toast').should('be.visible').contains('new messages');
+
+        // # Move to the channel bottom
+        cy.get('div.post-list__dynamic').should('be.visible').scrollTo('bottom', {duration: 1000});
+
+        // # Move to the second last message in the channel and mark as unread
+        cy.getNthPostId(29).then((postId) => {
+            cy.get(`#post_${postId}`).trigger('mouseover');
+            cy.clickPostDotMenu(postId, 'CENTER');
+
+            // # Mark post as unread
+            cy.get('.dropdown-menu').should('be.visible').within(() => {
+                cy.findByText('Mark as Unread').should('be.visible').click();
+            });
+        });
+
+        // * Toast should not be visible
+        cy.get('div.toast').should('not.be.visible');
+    });
 });
 
 function visitTownSquareAndWaitForPageToLoad() {
