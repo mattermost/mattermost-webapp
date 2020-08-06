@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/admin_console/team_channel_settings/group/GroupUsersRole should match snapshot guest 1`] = `
+<div
+  className="GroupUsersRole"
+>
+  Guest
+</div>
+`;
+
+exports[`components/admin_console/team_channel_settings/group/GroupUsersRole should match snapshot scope channel and admin membership 1`] = `
+<div
+  className="GroupUsersRole"
+>
+  Channel Admin
+</div>
+`;
+
+exports[`components/admin_console/team_channel_settings/group/GroupUsersRole should match snapshot scope channel and admin membership but user is sys admin 1`] = `
+<div
+  className="GroupUsersRole"
+>
+  System Admin
+</div>
+`;
+
+exports[`components/admin_console/team_channel_settings/group/GroupUsersRole should match snapshot scope channel and regular membership 1`] = `
+<div
+  className="GroupUsersRole"
+>
+  Channel Member
+</div>
+`;
+
+exports[`components/admin_console/team_channel_settings/group/GroupUsersRole should match snapshot scope team and admin membership 1`] = `
+<div
+  className="GroupUsersRole"
+>
+  Team Admin
+</div>
+`;
+
+exports[`components/admin_console/team_channel_settings/group/GroupUsersRole should match snapshot scope team and regular membership 1`] = `
+<div
+  className="GroupUsersRole"
+>
+  Team Member
+</div>
+`;
