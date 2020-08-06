@@ -113,7 +113,9 @@ type State = {
 
 export default class UserSettingsDisplay extends React.PureComponent<Props, State> {
     public prevSections: {
-        theme: string; // dummy value that should never match any section name
+        theme: string;
+
+        // dummy value that should never match any section name
         clock: string;
         linkpreview: string;
         message_display: string;
