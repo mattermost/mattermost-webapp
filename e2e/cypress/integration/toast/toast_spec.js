@@ -280,13 +280,15 @@ describe('toasts', () => {
         // * Toast should be present
         cy.get('div.toast').should('be.visible').contains('25 new messages');
 
-        // # Add 25 posts to create enough space from bottom for showing archive toast
-        for (let index = 0; index < 25; index++) {
-            cy.postMessageAs({sender: otherUser, message: `This is an old message [${index}]`, channelId: townsquareChannelId});
-        }
+        const initialCount = 25;
 
-        // * Toast should be present and contains 50 new messages
-        cy.get('div.toast').should('be.visible').contains('50 new messages');
+        // # Add 10 messages to channel and check the toast count increases
+        Cypress._.times(10, (num) => {
+            cy.postMessageAs({sender: otherUser, message: `This is an old message [${initialCount + num}]`, channelId: townsquareChannelId});
+
+            // * Toast should be present and the number of messages increment as it comes in
+            cy.get('div.toast').should('be.visible').contains(`${initialCount + num + 1} new messages`);
+        });
     });
 });
 
