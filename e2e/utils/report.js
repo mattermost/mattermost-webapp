@@ -10,10 +10,15 @@ const {MOCHAWESOME_REPORT_DIR} = require('./constants');
 
 const MAX_FAILED_TITLES = 5;
 
+let incrementalDuration = 0;
+
 function getAllTests(results) {
     const tests = [];
     results.forEach((result) => {
-        result.tests.forEach((test) => tests.push(test));
+        result.tests.forEach((test) => {
+            incrementalDuration += test.duration;
+            tests.push({...test, incrementalDuration});
+        });
 
         if (result.suites.length > 0) {
             getAllTests(result.suites).forEach((test) => tests.push(test));
@@ -147,7 +152,7 @@ function generateTestReport(summary, isUploadedToS3, reportLink, environment) {
         title = `E2E for Pull Request Build: [${BRANCH}](${PULL_REQUEST}) ${dockerImageLink}`;
         break;
     case 'RELEASE':
-        title = `E2E for Release Build with ${dockerImageLink}`;
+        title = `E2E for Release Build ${dockerImageLink}`;
         break;
     case 'MASTER':
         title = `E2E for Master Nightly Build (Prod tests) ${dockerImageLink}`;
