@@ -310,6 +310,10 @@ describe('toasts', () => {
         cy.get(`#sidebarItem_${otherChannel.name}`).should('be.visible').click();
 
         // # Add enough messages to town square channel
+        for (let index = 0; index < 30; index++) {
+            cy.postMessageAs({sender: otherUser, message: `This is an old message [${index}]`, channelId: townsquareChannelId});
+        }
+
         // # Visit town square channel and read all messages
         visitTownSquareAndWaitForPageToLoad();
         cy.get('div.post-list__dynamic').should('be.visible').scrollTo('bottom', {duration: TIMEOUTS.ONE_SEC});
@@ -372,7 +376,7 @@ describe('toasts', () => {
             });
         });
 
-        // * Assert toast should not be present as the messages are already read
+        // * Toast should not be visible
         cy.get('div.toast').should('not.be.visible');
     });
 });
