@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {sortChannelsByTypeAndDisplayName} from 'mattermost-redux/utils/channel_utils';
+import {sortChannelsByTypeListAndDisplayName} from 'mattermost-redux/utils/channel_utils';
 
 import Constants from 'utils/constants';
 
@@ -44,7 +44,7 @@ export default class SearchChannelProvider extends Provider {
                     //
                     // MM-12677 When this is migrated this needs to be fixed to pull the user's locale
                     //
-                    const channels = data.sort(sortChannelsByTypeAndDisplayName.bind(null, 'en'));
+                    const channels = data.sort(sortChannelsByTypeListAndDisplayName.bind(null, 'en', [Constants.DM_CHANNEL, Constants.GM_CHANNEL, Constants.PRIVATE_CHANNEL, Constants.OPEN_CHANNEL]));
                     const channelNames = channels.map(itemToTerm);
 
                     resultsCallback({
