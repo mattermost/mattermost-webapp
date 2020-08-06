@@ -23,9 +23,7 @@ type Props ={
     timezones: string[];
     actions: {
         updateMe: (user: UserProfile) => Promise<{data: boolean ; error?: ServerError | string}>;
-
     };
-
 }
 
 type State ={
