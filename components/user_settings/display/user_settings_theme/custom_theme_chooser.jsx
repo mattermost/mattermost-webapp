@@ -17,7 +17,7 @@ import LocalizedIcon from 'components/localized_icon';
 import OverlayTrigger from 'components/overlay_trigger';
 import Popover from 'components/widgets/popover';
 
-import ColorChooser from './color_chooser.jsx';
+import ColorChooser from './color_chooser';
 
 const COPY_SUCCESS_INTERVAL = 3000;
 
@@ -349,7 +349,7 @@ export default class CustomThemeChooser extends React.PureComponent {
                         <ColorChooser
                             id={element.id}
                             label={<FormattedMessage {...messages[element.id]}/>}
-                            color={theme[element.id]}
+                            value={theme[element.id]}
                             onChange={this.handleColorChange}
                         />
                     </div>,
@@ -369,7 +369,7 @@ export default class CustomThemeChooser extends React.PureComponent {
                         <ColorChooser
                             id={element.id}
                             label={<FormattedMessage {...messages[element.id]}/>}
-                            color={color}
+                            value={color}
                             onChange={this.handleColorChange}
                         />
                     </div>,
@@ -383,7 +383,7 @@ export default class CustomThemeChooser extends React.PureComponent {
                         <ColorChooser
                             id={element.id}
                             label={<FormattedMessage {...messages[element.id]}/>}
-                            color={theme[element.id]}
+                            value={theme[element.id]}
                             onChange={this.handleColorChange}
                         />
                     </div>,

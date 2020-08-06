@@ -3,21 +3,21 @@
 
 import React from 'react';
 import {ChromePicker, ColorResult} from 'react-color';
-
-const hexRegex = /^#([\da-f]{3}|[\da-f]{6})$/i;
+import tinycolor from 'tinycolor2';
 
 type Props = {
     id: string;
-    color: string;
-    onChange?: (hex: string) => void;
+    onChange: (color: string) => void;
+    value: string;
 }
 
 type State = {
+    focused: boolean;
     isOpened: boolean;
-    hex: string;
+    value: string;
 }
 
-class ColorInput extends React.PureComponent<Props, State> {
+export default class ColorInput extends React.PureComponent<Props, State> {
     private colorPicker: React.RefObject<HTMLDivElement>;
     private colorInput: React.RefObject<HTMLInputElement>;
 
@@ -25,23 +25,27 @@ class ColorInput extends React.PureComponent<Props, State> {
         super(props);
         this.colorPicker = React.createRef();
         this.colorInput = React.createRef();
+
         this.state = {
+            focused: false,
             isOpened: false,
-            hex: this.props.color.toUpperCase(),
+            value: props.value,
         };
     }
 
-    public componentWillMount() {
-        this.setHex();
+    static getDerivedStateFromProps(props: Props, state: State) {
+        if (!state.focused && props.value !== state.value) {
+            return {
+                value: props.value,
+            };
+        }
+
+        return null;
     }
 
     public componentDidUpdate(prevProps: Props, prevState: State) {
         const {isOpened: prevIsOpened} = prevState;
         const {isOpened} = this.state;
-
-        if (this.props.color !== prevProps.color && this.ensureLongColourValue(this.state.hex) !== this.props.color) {
-            this.setHex();
-        }
 
         if (isOpened !== prevIsOpened) {
             if (isOpened) {
@@ -50,10 +54,6 @@ class ColorInput extends React.PureComponent<Props, State> {
                 document.removeEventListener('click', this.checkClick);
             }
         }
-    }
-
-    private setHex() {
-        this.setState({hex: this.props.color.toUpperCase()});
     }
 
     private checkClick = (e: MouseEvent): void => {
@@ -70,53 +70,53 @@ class ColorInput extends React.PureComponent<Props, State> {
     };
 
     public handleColorChange = (newColorData: ColorResult) => {
-        const {hex} = newColorData;
-        const {onChange: handleChange} = this.props;
-
-        if (handleChange) {
-            handleChange(hex);
-        }
+        this.props.onChange(newColorData.hex);
     };
-
-    private ensureLongColourValue = (value: string) => {
-        if (value.length !== 4) {
-            return value;
-        }
-        return value.split('').map((ch, index) => {
-            if (index === 0) {
-                return ch;
-            }
-            return `${ch}${ch}`;
-        }).join('');
-    }
 
     private onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        let {value} = event.target;
-        if (!value.startsWith('#')) {
-            value = '#' + value;
+        const value = event.target.value;
+
+        const color = tinycolor(value);
+        const normalizedColor = '#' + color.toHex();
+
+        if (color.isValid()) {
+            this.props.onChange(normalizedColor);
         }
-        if (!hexRegex.test(value)) {
-            return;
-        }
-        this.setState({hex: value});
-        const {onChange: handleChange} = this.props;
-        if (handleChange) {
-            handleChange(this.ensureLongColourValue(value));
-        }
+
+        this.setState({value});
     };
 
-    private onBlur = () => {
-        const {hex} = this.state;
-        if (hex.length === 4) {
-            const value = this.ensureLongColourValue(hex);
-            const {onChange: handleChange} = this.props;
-            if (handleChange && value.length === 7) {
-                handleChange(value);
-                this.setState({hex: value.toUpperCase()});
-            }
-        } else {
-            this.setHex();
+    private onFocus = (event: React.FocusEvent<HTMLInputElement>): void => {
+        this.setState({
+            focused: true,
+        });
+
+        if (event.target) {
+            event.target.setSelectionRange(1, event.target.value.length);
         }
+    }
+
+    private onBlur = () => {
+        const value = this.state.value;
+
+        const color = tinycolor(value);
+        const normalizedColor = '#' + color.toHex();
+
+        if (color.isValid()) {
+            this.props.onChange(normalizedColor);
+
+            this.setState({
+                value: normalizedColor,
+            });
+        } else {
+            this.setState({
+                value: this.props.value
+            });
+        }
+
+        this.setState({
+            focused: false,
+        });
     };
 
     private onKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -126,15 +126,9 @@ class ColorInput extends React.PureComponent<Props, State> {
         }
     };
 
-    private selectValue = (event: React.FocusEvent<HTMLInputElement>): void => {
-        if (event.target) {
-            event.target.setSelectionRange(1, event.target.value.length);
-        }
-    }
-
     public render() {
-        const {color, id} = this.props;
-        const {isOpened, hex} = this.state;
+        const {id} = this.props;
+        const {isOpened, value} = this.state;
 
         return (
             <div className='color-input input-group'>
@@ -143,11 +137,12 @@ class ColorInput extends React.PureComponent<Props, State> {
                     ref={this.colorInput}
                     className='form-control'
                     type='text'
-                    value={hex}
+                    value={value}
                     onChange={this.onChange}
                     onBlur={this.onBlur}
+                    onFocus={this.onFocus}
                     onKeyDown={this.onKeyDown}
-                    onFocus={this.selectValue}
+                    maxLength={7}
                 />
                 <span
                     id={`${id}-squareColorIcon`}
@@ -158,7 +153,7 @@ class ColorInput extends React.PureComponent<Props, State> {
                         id={`${id}-squareColorIconValue`}
                         className='color-icon'
                         style={{
-                            backgroundColor: color,
+                            backgroundColor: value,
                         }}
                     />
                 </span>
@@ -169,7 +164,7 @@ class ColorInput extends React.PureComponent<Props, State> {
                         id={`${id}-ChromePickerModal`}
                     >
                         <ChromePicker
-                            color={color}
+                            color={value}
                             onChange={this.handleColorChange}
                             disableAlpha={true}
                         />
@@ -179,5 +174,3 @@ class ColorInput extends React.PureComponent<Props, State> {
         );
     }
 }
-
-export default ColorInput;

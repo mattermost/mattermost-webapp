@@ -7,12 +7,13 @@ exports[`components/ColorInput should match snapshot, click on picker 1`] = `
   <input
     className="form-control"
     id="sidebarBg-inputColorValue"
+    maxLength={7}
     onBlur={[Function]}
     onChange={[Function]}
     onFocus={[Function]}
     onKeyDown={[Function]}
     type="text"
-    value="#FFFFFF"
+    value="#ffffff"
   />
   <span
     className="input-group-addon color-pad"
@@ -51,12 +52,13 @@ exports[`components/ColorInput should match snapshot, init 1`] = `
   <input
     className="form-control"
     id="sidebarBg-inputColorValue"
+    maxLength={7}
     onBlur={[Function]}
     onChange={[Function]}
     onFocus={[Function]}
     onKeyDown={[Function]}
     type="text"
-    value="#FFFFFF"
+    value="#ffffff"
   />
   <span
     className="input-group-addon color-pad"
@@ -83,12 +85,13 @@ exports[`components/ColorInput should match snapshot, opened 1`] = `
   <input
     className="form-control"
     id="sidebarBg-inputColorValue"
+    maxLength={7}
     onBlur={[Function]}
     onChange={[Function]}
     onFocus={[Function]}
     onKeyDown={[Function]}
     type="text"
-    value="#FFFFFF"
+    value="#ffffff"
   />
   <span
     className="input-group-addon color-pad"
@@ -127,12 +130,13 @@ exports[`components/ColorInput should match snapshot, toggle picker 1`] = `
   <input
     className="form-control"
     id="sidebarBg-inputColorValue"
+    maxLength={7}
     onBlur={[Function]}
     onChange={[Function]}
     onFocus={[Function]}
     onKeyDown={[Function]}
     type="text"
-    value="#FFFFFF"
+    value="#ffffff"
   />
   <span
     className="input-group-addon color-pad"

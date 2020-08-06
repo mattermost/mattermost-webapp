@@ -50,7 +50,6 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
         key="custom-theme-key0"
       >
         <ColorChooser
-          color="#145dbf"
           id="sidebarBg"
           label={
             <FormattedMessage
@@ -60,6 +59,7 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
             />
           }
           onChange={[Function]}
+          value="#145dbf"
         />
       </div>
       <div
@@ -67,7 +67,6 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
         key="custom-theme-key1"
       >
         <ColorChooser
-          color="#ffffff"
           id="sidebarText"
           label={
             <FormattedMessage
@@ -77,6 +76,7 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
             />
           }
           onChange={[Function]}
+          value="#ffffff"
         />
       </div>
       <div
@@ -84,7 +84,6 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
         key="custom-theme-key2"
       >
         <ColorChooser
-          color="#1153ab"
           id="sidebarHeaderBg"
           label={
             <FormattedMessage
@@ -94,6 +93,7 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
             />
           }
           onChange={[Function]}
+          value="#1153ab"
         />
       </div>
       <div
@@ -101,7 +101,6 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
         key="custom-theme-key3"
       >
         <ColorChooser
-          color="#ffffff"
           id="sidebarHeaderTextColor"
           label={
             <FormattedMessage
@@ -111,6 +110,7 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
             />
           }
           onChange={[Function]}
+          value="#ffffff"
         />
       </div>
       <div
@@ -118,7 +118,6 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
         key="custom-theme-key4"
       >
         <ColorChooser
-          color="#ffffff"
           id="sidebarUnreadText"
           label={
             <FormattedMessage
@@ -128,6 +127,7 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
             />
           }
           onChange={[Function]}
+          value="#ffffff"
         />
       </div>
       <div
@@ -135,7 +135,6 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
         key="custom-theme-key5"
       >
         <ColorChooser
-          color="#4578bf"
           id="sidebarTextHoverBg"
           label={
             <FormattedMessage
@@ -145,6 +144,7 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
             />
           }
           onChange={[Function]}
+          value="#4578bf"
         />
       </div>
       <div
@@ -152,7 +152,6 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
         key="custom-theme-key6"
       >
         <ColorChooser
-          color="#579eff"
           id="sidebarTextActiveBorder"
           label={
             <FormattedMessage
@@ -162,6 +161,7 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
             />
           }
           onChange={[Function]}
+          value="#579eff"
         />
       </div>
       <div
@@ -169,7 +169,6 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
         key="custom-theme-key7"
       >
         <ColorChooser
-          color="#ffffff"
           id="sidebarTextActiveColor"
           label={
             <FormattedMessage
@@ -179,6 +178,7 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
             />
           }
           onChange={[Function]}
+          value="#ffffff"
         />
       </div>
       <div
@@ -186,7 +186,6 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
         key="custom-theme-key8"
       >
         <ColorChooser
-          color="#06d6a0"
           id="onlineIndicator"
           label={
             <FormattedMessage
@@ -196,6 +195,7 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
             />
           }
           onChange={[Function]}
+          value="#06d6a0"
         />
       </div>
       <div
@@ -203,7 +203,6 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
         key="custom-theme-key9"
       >
         <ColorChooser
-          color="#ffbc42"
           id="awayIndicator"
           label={
             <FormattedMessage
@@ -213,6 +212,7 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
             />
           }
           onChange={[Function]}
+          value="#ffbc42"
         />
       </div>
       <div
@@ -220,7 +220,6 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
         key="custom-theme-key10"
       >
         <ColorChooser
-          color="#f74343"
           id="dndIndicator"
           label={
             <FormattedMessage
@@ -230,6 +229,7 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
             />
           }
           onChange={[Function]}
+          value="#f74343"
         />
       </div>
       <div
@@ -237,7 +237,6 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
         key="custom-theme-key11"
       >
         <ColorChooser
-          color="#ffffff"
           id="mentionBg"
           label={
             <FormattedMessage
@@ -247,6 +246,7 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
             />
           }
           onChange={[Function]}
+          value="#ffffff"
         />
       </div>
       <div
@@ -254,7 +254,6 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
         key="custom-theme-key12"
       >
         <ColorChooser
-          color="#145dbf"
           id="mentionColor"
           label={
             <FormattedMessage
@@ -264,6 +263,7 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
             />
           }
           onChange={[Function]}
+          value="#145dbf"
         />
       </div>
     </div>
@@ -315,7 +315,6 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
         key="custom-theme-key13"
       >
         <ColorChooser
-          color="#ffffff"
           id="centerChannelBg"
           label={
             <FormattedMessage
@@ -325,6 +324,7 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
             />
           }
           onChange={[Function]}
+          value="#ffffff"
         />
       </div>
       <div
@@ -332,7 +332,6 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
         key="custom-theme-key14"
       >
         <ColorChooser
-          color="#3d3c40"
           id="centerChannelColor"
           label={
             <FormattedMessage
@@ -342,6 +341,7 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
             />
           }
           onChange={[Function]}
+          value="#3d3c40"
         />
       </div>
       <div
@@ -349,7 +349,6 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
         key="custom-theme-key15"
       >
         <ColorChooser
-          color="#ff8800"
           id="newMessageSeparator"
           label={
             <FormattedMessage
@@ -359,6 +358,7 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
             />
           }
           onChange={[Function]}
+          value="#ff8800"
         />
       </div>
       <div
@@ -366,7 +366,6 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
         key="custom-theme-key16"
       >
         <ColorChooser
-          color="#fd5960"
           id="errorTextColor"
           label={
             <FormattedMessage
@@ -376,6 +375,7 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
             />
           }
           onChange={[Function]}
+          value="#fd5960"
         />
       </div>
       <div
@@ -383,7 +383,6 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
         key="custom-theme-key17"
       >
         <ColorChooser
-          color="#ffe577"
           id="mentionHighlightBg"
           label={
             <FormattedMessage
@@ -393,6 +392,7 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
             />
           }
           onChange={[Function]}
+          value="#ffe577"
         />
       </div>
       <div
@@ -400,7 +400,6 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
         key="custom-theme-key19"
       >
         <ColorChooser
-          color="#166de0"
           id="mentionHighlightLink"
           label={
             <FormattedMessage
@@ -410,6 +409,7 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
             />
           }
           onChange={[Function]}
+          value="#166de0"
         />
       </div>
       <div
@@ -544,7 +544,6 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
         key="custom-theme-key18"
       >
         <ColorChooser
-          color="#2389d7"
           id="linkColor"
           label={
             <FormattedMessage
@@ -554,6 +553,7 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
             />
           }
           onChange={[Function]}
+          value="#2389d7"
         />
       </div>
       <div
@@ -561,7 +561,6 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
         key="custom-theme-key20"
       >
         <ColorChooser
-          color="#166de0"
           id="buttonBg"
           label={
             <FormattedMessage
@@ -571,6 +570,7 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
             />
           }
           onChange={[Function]}
+          value="#166de0"
         />
       </div>
       <div
@@ -578,7 +578,6 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
         key="custom-theme-key21"
       >
         <ColorChooser
-          color="#ffffff"
           id="buttonColor"
           label={
             <FormattedMessage
@@ -588,6 +587,7 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
             />
           }
           onChange={[Function]}
+          value="#ffffff"
         />
       </div>
     </div>

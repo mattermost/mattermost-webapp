@@ -70,6 +70,7 @@
     "reselect": "4.0.0",
     "semver": "7.3.2",
     "superagent": "5.2.2",
+    "tinycolor2": "1.4.1",
     "typescript": "3.9.5",
     "xregexp": "4.3.0",
     "zen-observable": "0.8.15"
@@ -118,6 +119,7 @@
     "@types/react-select": "3.0.13",
     "@types/react-transition-group": "4.4.0",
     "@types/redux-mock-store": "1.0.2",
+    "@types/tinycolor2": "1.4.2",
     "@typescript-eslint/eslint-plugin": "2.7.0",
     "babel-eslint": "10.0.3",
     "babel-jest": "25.3.0",
