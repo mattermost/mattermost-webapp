@@ -116,9 +116,7 @@ class CallButton extends PureComponent {
             );
         }
 
-        return (
-            {bodyAction}
-        );
+        return bodyAction;
     }
 }
 
