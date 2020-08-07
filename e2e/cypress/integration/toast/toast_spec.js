@@ -73,7 +73,7 @@ describe('toasts', () => {
         // * Verify toast jump is not visible
         cy.get('div.toast__jump').should('not.be.visible');
 
-        // * Verify toast not visible
+        // * Verify toast is not visible
         cy.get('div.toast').should('be.not.visible');
     });
 
@@ -98,7 +98,7 @@ describe('toasts', () => {
         // * Verify toast jump is not visible
         cy.get('div.toast__jump').should('not.be.visible');
 
-        // * Verify toast not visible
+        // * Verify toast is not visible
         cy.get('div.toast').should('be.not.visible');
     });
 
