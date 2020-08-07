@@ -3986,7 +3986,7 @@
   "warn_metric_ack_modal.header.title": "Upgrade to Mattermost Enterprise Edition",
   "warn_metric_ack_modal.mailto.link": "email us",
   "warn_metric_ack_modal.mailto.message": "Support could not be reached. Please {link}.",
-  "warn_metric_ack_modal.number_of_active_users.description": "Mattermost strongly recommends that deployments of over {limit} users upgrade to Mattermost Enterprise E20, which offers features such as user management, server clustering, and performance monitoring",
+  "warn_metric_ack_modal.number_of_active_users.description": "Mattermost strongly recommends that deployments of over {limit} users upgrade to Mattermost Enterprise Edition, which offers features such as user management, server clustering, and performance monitoring",
   "web.footer.about": "About",
   "web.footer.help": "Help",
   "web.footer.privacy": "Privacy",
