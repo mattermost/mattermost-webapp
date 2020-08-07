@@ -12,11 +12,15 @@
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Channel routing', () => {
+    let testTeam;
     let testUser;
+    let testChannel;
 
     before(() => {
-        cy.apiInitSetup().then(({team, user}) => {
+        cy.apiInitSetup().then(({team, user, channel}) => {
+            testTeam = team;
             testUser = user;
+            testChannel = channel;
 
             // # Login as test user and go to town square
             cy.apiLogin(testUser);
@@ -67,5 +71,39 @@ describe('Channel routing', () => {
 
         // # close the create channel modal
         cy.findByText('Cancel').click();
+    });
+
+    it('MM-T883 Channel URL validation for spaces between characters', () => {
+        // # In a test channel, click the "v" to the right of the channel name in the header
+        cy.findByText(`${testChannel.display_name}`).click();
+        cy.get('#channelHeaderDropdownIcon').click();
+
+        // # Select "Rename Channel"
+        cy.findByText('Rename Channel').click();
+
+        // # Change the channel name to {26 alphanumeric characters}[insert 2 spaces]{26 alphanumeric characters}
+        //   i.e. a total of 54 characters separated by 2 spaces
+        cy.get('#display_name').clear().type(`${Cypress._.repeat('a', 26)}${Cypress._.repeat(' ', 2)}${Cypress._.repeat('b', 26)}`);
+
+        // # Hit Save
+        cy.findByText('Save').click();
+
+        // * The channel name should be updated to the characters you typed with only 1 space between the characters (extra spaces are trimmed)
+        cy.get('#channelHeaderTitle').contains(`${Cypress._.repeat('a', 26)} ${Cypress._.repeat('b', 26)}`);
+
+        // # In a test channel, click the "v" to the right of the channel name in the header
+        cy.get('#channelHeaderDropdownIcon').click();
+
+        // # Select "Rename Channel"
+        cy.findByText('Rename Channel').click();
+
+        // # Change the URL to {26 alphanumeric characters}--{26 alphanumeric characters}
+        cy.get('#channel_name').clear().type(`${Cypress._.repeat('a', 26)}${Cypress._.repeat('-', 2)}${Cypress._.repeat('b', 26)}`);
+
+        // # Hit Save
+        cy.findByText('Save').click();
+
+        // * The channel URL should be updated to the characters you typed, separated by 2 dashes
+        cy.url().should('include', `/${testTeam.name}/channels/${Cypress._.repeat('a', 26)}${Cypress._.repeat('-', 2)}${Cypress._.repeat('b', 26)}`);
     });
 });
