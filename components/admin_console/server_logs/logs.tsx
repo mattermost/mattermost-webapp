@@ -4,8 +4,6 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {ActionFunc} from 'mattermost-redux/types/actions';
-
 import LoadingScreen from 'components/loading_screen';
 
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
@@ -15,7 +13,7 @@ import LogList from './log_list';
 type Props = {
     logs: string[];
     nextPage: () => void;
-    actions: {getLogs: (page?: number | undefined, perPage?: number | undefined) => ActionFunc};
+    actions: {getLogs: (page?: number | undefined, perPage?: number | undefined) => Promise<void>};
 };
 
 type State = {
@@ -52,9 +50,9 @@ export default class Logs extends React.PureComponent<Props, State> {
         this.setState({page: this.state.page - 1});
     }
 
-    reload = () => {
+    reload = async () => {
         this.setState({loadingLogs: true});
-        this.props.actions.getLogs(this.state.page, this.state.perPage);
+        await this.props.actions.getLogs(this.state.page, this.state.perPage);
         this.setState({loadingLogs: false});
     }
 
