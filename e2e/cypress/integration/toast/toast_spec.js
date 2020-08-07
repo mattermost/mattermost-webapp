@@ -146,7 +146,7 @@ describe('toasts', () => {
         });
     });
 
-    it('new message toast should be removed on clicking remove button', () => {
+    it('New message toast should be removed on clicking remove button', () => {
         visitTownSquareAndWaitForPageToLoad();
         scrollUpAndPostAMessage(otherUser, townsquareChannelId);
 
@@ -212,8 +212,12 @@ describe('toasts', () => {
         cy.findByTestId('dismissToast').should('be.visible').click();
 
         // * Verify the toast is not visible
+        cy.get('div.toast').should('not.be.visible');
+
+        // # Post a new message
         cy.postMessageAs({sender: otherUser, message: 'This is another new message', channelId: townsquareChannelId}).then(() => {
-            cy.get('div.toast').should('not.be.visible');
+            // * Verify the toast is visible with correct message
+            cy.get('div.toast').should('be.visible').contains('1 new message');
         });
     });
 
