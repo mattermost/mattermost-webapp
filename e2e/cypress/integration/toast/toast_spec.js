@@ -74,7 +74,7 @@ describe('toasts', () => {
         cy.get('div.toast__jump').should('not.be.visible');
 
         // * Verify toast is not visible
-        cy.get('div.toast').should('be.not.visible');
+        cy.get('div.toast').should('not.be.visible');
     });
 
     it('Should show new message indicator when posts arrive and user is not at bottom', () => {
@@ -99,7 +99,7 @@ describe('toasts', () => {
         cy.get('div.toast__jump').should('not.be.visible');
 
         // * Verify toast is not visible
-        cy.get('div.toast').should('be.not.visible');
+        cy.get('div.toast').should('not.be.visible');
     });
 
     it('New message toast should take to new messages line when clicked', () => {
