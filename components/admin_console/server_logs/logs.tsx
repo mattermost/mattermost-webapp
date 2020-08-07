@@ -13,7 +13,7 @@ import LogList from './log_list';
 type Props = {
     logs: string[];
     nextPage: () => void;
-    actions: {getLogs: (page?: number | undefined, perPage?: number | undefined) => Promise<void>};
+    actions: {getLogs: (page?: number | undefined, perPage?: number | undefined) => ActionFunc};
 };
 
 type State = {
