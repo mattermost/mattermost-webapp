@@ -79,7 +79,7 @@ export default class TeamProfileStep extends React.PureComponent<Props, State> {
 
     getSanitizedSiteURL = () => {
         const removeProtocol = this.props.siteURL.replace(/(^\w+:|^)\/\//, '');
-        if (removeProtocol[removeProtocol.length - 1] === '/') {
+        if (removeProtocol.endsWith('/')) {
             return removeProtocol;
         }
 
