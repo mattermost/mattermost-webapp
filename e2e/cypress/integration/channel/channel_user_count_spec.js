@@ -1,0 +1,49 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
+// ***************************************************************
+// - [#] indicates a test step (e.g. # Go to a page)
+// - [*] indicates an assertion (e.g. * Check the title)
+// - Use element ID when selecting an element. Create one if none.
+// ***************************************************************
+
+// Group: @channel
+
+describe('Channel user count', () => {
+    let testTeam;
+    let secondUser;
+    before(() => {
+        // # Login as new user and visit off-topic channel
+        cy.apiInitSetup().then(({team, user}) => {
+            testTeam = team;
+            cy.visit(`/${testTeam.name}/channels/off-topic`);
+        });
+    });
+
+    it('MM-T481 User count is updated if user automatically joins channel', () => {            
+        const initialUserCount = 2;
+
+        // [*] Assert channel user count displays '2' (system admin + main user)
+        cy.get('#channelMemberCountText').should('have.text', `${initialUserCount}`)
+        cy.get('#channelMemberCountText').invoke('text').as('initialUserCountText')
+    
+        // # Create another user
+        cy.apiCreateUser().then(({user}) => {          
+            secondUser = user;  
+
+            // # Add new user (secondUser) to current team            
+            cy.apiAddUserToTeam(testTeam.id, secondUser.id);
+        });
+        
+        cy.apiGetChannelByName(testTeam.name, 'off-topic').then((response) => {
+            const channel = response.body;
+
+            // [#] Add secondUser to 'off-topic' channel
+            cy.apiAddUserToChannel(channel.id, secondUser.id);
+        });
+
+        // [*] Assert channel user count now displays '3'  (system admin + main user + second user)
+        cy.get('#channelMemberCountText').should('have.text', `${initialUserCount + 1}`)
+    });
+
+});
