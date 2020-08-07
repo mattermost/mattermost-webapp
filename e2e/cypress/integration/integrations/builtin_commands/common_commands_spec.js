@@ -82,6 +82,28 @@ describe('I18456 Built-in slash commands: common', () => {
         });
     });
 
+    it('MM-T664 /groupmsg initial tests', () => {
+        loginAndVisitDefaultChannel(user1, testChannelUrl);
+        const usernames = Cypress._.map(userGroup, 'username').slice(0, 4);
+        [
+            `@${usernames[0]}, @${usernames[1]}, @${usernames[2]}, @${usernames[3]}`,
+            `${usernames[0]}, @${usernames[1]}, ${usernames[2]}, ${usernames[3]}`,
+            `@${usernames[0]} , @${usernames[1]}, ${usernames[2]} , @${usernames[3]}`,
+        ].forEach((users) => {
+            const mesg = `/groupmsg ${users} ${MESSAGES.SMALL}`;
+            cy.postMessage(mesg);
+
+            cy.uiWaitUntilMessagePostedIncludes(MESSAGES.SMALL);
+            cy.getLastPostId().then((postId) => {
+                cy.get(`#postMessageText_${postId}`).should('have.text', MESSAGES.SMALL);
+            });
+            usernames.forEach((username) => {
+                cy.contains('.channel-header__top', username).should('be.visible');
+            });
+            cy.contains('.sidebar-item', 'Town Square').click();
+        });
+    });
+
     it('MM-T666 /groupmsg error if messaging more than 7 users', () => {
         loginAndVisitDefaultChannel(user1, testChannelUrl);
 
