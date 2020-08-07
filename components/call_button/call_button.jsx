@@ -75,7 +75,7 @@ class CallButton extends PureComponent {
                     <li
                         key={item.id}
                         onClick={(e) => {
-                            e.preventDefault()
+                            e.preventDefault();
                             if (item.action) {
                                 item.action(this.props.currentChannel, this.props.channelMember);
                             }
@@ -117,9 +117,7 @@ class CallButton extends PureComponent {
         }
 
         return (
-            <div className={'style--none'}>
-                {bodyAction}
-            </div>
+            {bodyAction}
         );
     }
 }

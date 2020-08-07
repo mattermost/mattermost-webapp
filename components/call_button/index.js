@@ -13,7 +13,7 @@ function mapStateToProps(state) {
     return {
         currentChannel: getCurrentChannel(state),
         locale: getCurrentLocale(state),
-        pluginCallMethods: state.plugins.components.ChannelHeaderCallButton,
+        pluginCallMethods: state.plugins.components.CallButton,
         channelMember: getMyCurrentChannelMembership(state),
     };
 }

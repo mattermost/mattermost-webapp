@@ -132,7 +132,7 @@ export default class PluginRegistry {
         return id;
     }
 
-    // Add a "call button"" to the channel header. If there are more than one buttons registered by any
+    // Add a "call button"" next to the attach file button. If there are more than one button registered by any
     // plugin, a dropdown menu is created to contain all the call plugin buttons.
     // Accepts the following:
     // - icon - React element to use as the button's icon
@@ -141,7 +141,7 @@ export default class PluginRegistry {
     // - tooltip_text - string shown for tooltip appear on hover
     // Returns an unique identifier
     // Minimum required version: 5.28
-    registerChannelHeaderCallButtonAction(icon, action, dropdownText, tooltipText) {
+    registerCallButtonAction(icon, action, dropdownText, tooltipText) {
         const id = generateId();
 
         const data = {
@@ -155,7 +155,7 @@ export default class PluginRegistry {
 
         store.dispatch({
             type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
-            name: 'ChannelHeaderCallButton',
+            name: 'CallButton',
             data,
         });
 
