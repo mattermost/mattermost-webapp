@@ -154,7 +154,7 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
         const descriptionText = (
             <FormattedMessage
                 id='warn_metric_ack_modal.number_of_active_users.description'
-                defaultMessage='Mattermost strongly recommends that deployments of over {limit} users upgrade to Mattermost Enterprise E20, which offers features such as user management, server clustering, and performance monitoring'
+                defaultMessage='Mattermost strongly recommends that deployments of over {limit} users upgrade to Mattermost Enterprise Edition, which offers features such as user management, server clustering, and performance monitoring'
                 values={{
                     limit: this.props.warnMetricStatus.limit,
                 }}
