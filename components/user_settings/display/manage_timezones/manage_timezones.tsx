@@ -113,7 +113,7 @@ export default class ManageTimezones extends React.PureComponent<Props, State> {
             timezone,
         };
 
-        (actions.updateMe(updatedUser)).
+        actions.updateMe(updatedUser).
             then((res) => {
                 if ('data' in res) {
                     this.props.updateSection('');
