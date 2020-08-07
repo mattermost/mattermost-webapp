@@ -9,18 +9,14 @@
 
 // Group: @channel
 
-import * as TIMEOUTS from '../../fixtures/timeouts';
-
 describe('Channels', () => {
     let testTeam;
-    let testChannel;
     let testUser;
     let otherUser;
 
     before(() => {
-        cy.apiInitSetup().then(({team, channel, user}) => {
+        cy.apiInitSetup().then(({team, user}) => {
             testTeam = team;
-            testChannel = channel;
             testUser = user;
 
             cy.apiCreateUser().then(({user: user1}) => {
