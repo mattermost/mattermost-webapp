@@ -9,7 +9,7 @@
 
 // Group: @toast
 
-describe('Permalink', () => {
+describe('Toast', () => {
     let testTeam;
 
     before(() => {
