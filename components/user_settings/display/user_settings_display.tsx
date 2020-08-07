@@ -115,7 +115,6 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
     public prevSections: {
         theme: string;
 
-        // dummy value that should never match any section name
         clock: string;
         linkpreview: string;
         message_display: string;
@@ -136,7 +135,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
         }
 
         this.prevSections = {
-            theme: 'dummySectionName',
+            theme: 'dummySectionName', // dummy value that should never match any section name
             clock: 'theme',
             linkpreview: 'clock',
             message_display: 'linkpreview',
