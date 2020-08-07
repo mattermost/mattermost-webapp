@@ -7,18 +7,15 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @channel
+// Group: @toast
 
-describe('Channels', () => {
+describe('Toast', () => {
     let testTeam;
-    let testUser;
 
     before(() => {
-        cy.apiInitSetup().then(({team, user}) => {
+        cy.apiInitSetup({loginAfer: true}).then(({team}) => {
             testTeam = team;
-            testUser = user;
 
-            cy.apiLogin(testUser);
             cy.visit(`/${testTeam.name}/channels/town-square`);
         });
     });
@@ -42,24 +39,21 @@ describe('Channels', () => {
             // # post the permalink in the channel
             cy.postMessage(permalink);
 
-            // # Get the first message in the channel
-            cy.getNthPostId(1).then((postId) => {
-                // # Click on permalink
-                cy.get('.post-message__text a').last().scrollIntoView().click();
+            // # Click on permalink
+            cy.getLastPost().get('.post-message__text a').last().scrollIntoView().click();
 
-                // * check the URL should be changed to permalink post
-                cy.url().should('include', `/${testTeam.name}/channels/town-square/${postId}`);
+            // * check the URL should be changed to permalink post
+            cy.url().should('include', `/${testTeam.name}/channels/town-square/${id}`);
 
-                // * Post is highlighted and fades within 6 sec.
-                cy.get(`#post_${postId}`).
-                    should('have.css', 'animation-duration', '1s').
-                    and('have.css', 'animation-delay', '5s').
-                    and('have.class', 'post--highlight');
-                cy.get(`#post_${postId}`).should('not.have.class', 'post--highlight');
+            // * Post is highlighted and fades within 6 sec.
+            cy.get(`#post_${id}`).
+                should('have.css', 'animation-duration', '1s').
+                and('have.css', 'animation-delay', '5s').
+                and('have.class', 'post--highlight');
+            cy.get(`#post_${id}`).should('not.have.class', 'post--highlight');
 
-                // * URL changes to channel url
-                cy.url().should('include', `/${testTeam.name}/channels/town-square`).and('not.include', postId);
-            });
+            // * URL changes to channel url
+            cy.url().should('include', `/${testTeam.name}/channels/town-square`).and('not.include', id);
         });
     });
 });
