@@ -27,7 +27,7 @@ describe('Channel user count', () => {
         const initialUserCount = 2;
 
         // * Assert channel user count displays '2' (system admin + main user)
-        cy.get('#channelMemberCountText').should('have.text', `${initialUserCount}`);
+        cy.get('#channelMemberCountText').should('be.visible').and('have.text', `${initialUserCount}`);
         cy.get('#channelMemberCountText').invoke('text').as('initialUserCountText');
 
         // # Create another user
@@ -46,6 +46,6 @@ describe('Channel user count', () => {
         });
 
         // * Assert channel user count now displays '3'  (system admin + main user + second user)
-        cy.get('#channelMemberCountText').should('have.text', `${initialUserCount + 1}`);
+        cy.get('#channelMemberCountText').should('be.visible').and('have.text', `${initialUserCount + 1}`);
     });
 });
