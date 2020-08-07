@@ -12,21 +12,14 @@
 describe('Channels', () => {
     let testTeam;
     let testUser;
-    let otherUser;
 
     before(() => {
         cy.apiInitSetup().then(({team, user}) => {
             testTeam = team;
             testUser = user;
 
-            cy.apiCreateUser().then(({user: user1}) => {
-                otherUser = user1;
-
-                cy.apiAddUserToTeam(testTeam.id, otherUser.id).then(() => {
-                    cy.apiLogin(testUser);
-                    cy.visit(`/${testTeam.name}/channels/town-square`);
-                });
-            });
+            cy.apiLogin(testUser);
+            cy.visit(`/${testTeam.name}/channels/town-square`);
         });
     });
 
