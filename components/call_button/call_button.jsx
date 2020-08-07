@@ -52,32 +52,30 @@ class CallButton extends PureComponent {
         } else if (this.props.pluginCallMethods.length === 1) {
             const item = this.props.pluginCallMethods[0];
             bodyAction = (
-                <div>
-                    <button
-                        type='button'
-                        id='calldButton'
-                        className='style--none post-action icon icon--attachment'
-                        onClick={() => {
-                            if (item.action) {
-                                item.action(this.props.currentChannel, this.props.channelMember);
-                            }
-                        }}
-                        onTouchEnd={() => {
-                            if (item.action) {
-                                item.action(this.props.currentChannel, this.props.channelMember);
-                            }
-                        }}
-                    >
-                        {item.icon}
-                    </button>
-                </div>
+                <button
+                    type='button'
+                    className='style--none post-action icon icon--attachment'
+                    onClick={() => {
+                        if (item.action) {
+                            item.action(this.props.currentChannel, this.props.channelMember);
+                        }
+                    }}
+                    onTouchEnd={() => {
+                        if (item.action) {
+                            item.action(this.props.currentChannel, this.props.channelMember);
+                        }
+                    }}
+                >
+                    {item.icon}
+                </button>
             );
         } else {
-            const pluginFileUploadMethods = this.props.pluginCallMethods.map((item) => {
+            const pluginCallMethods = this.props.pluginCallMethods.map((item) => {
                 return (
                     <li
-                        key={item.pluginId + item.id + '_callbuttonpluginmenuitem'}
-                        onClick={() => {
+                        key={item.id}
+                        onClick={(e) => {
+                            e.preventDefault()
                             if (item.action) {
                                 item.action(this.props.currentChannel, this.props.channelMember);
                             }
@@ -94,30 +92,27 @@ class CallButton extends PureComponent {
                 );
             });
             bodyAction = (
-                <div>
-                    <MenuWrapper>
-                        <button
-                            type='button'
-                            className='style--none post-action'
+                <MenuWrapper>
+                    <button
+                        type='button'
+                        className='style--none post-action'
+                    >
+                        <div
+                            className='icon icon--attachment'
                         >
-                            <div
-                                id='callButton'
-                                className='icon icon--attachment'
-                            >
-                                <CameraIcon className='d-flex'/>
-                            </div>
-                        </button>
-                        <Menu
-                            id='callOptions'
-                            openLeft={true}
-                            openUp={true}
-                            ariaLabel={formatMessage({id: 'call_button.menuAriaLabel', defaultMessage: 'Call type selector'})}
-                            customStyles={customStyles}
-                        >
-                            {pluginFileUploadMethods}
-                        </Menu>
-                    </MenuWrapper>
-                </div>
+                            <CameraIcon className='d-flex'/>
+                        </div>
+                    </button>
+                    <Menu
+                        id='callOptions'
+                        openLeft={true}
+                        openUp={true}
+                        ariaLabel={formatMessage({id: 'call_button.menuAriaLabel', defaultMessage: 'Call type selector'})}
+                        customStyles={customStyles}
+                    >
+                        {pluginCallMethods}
+                    </Menu>
+                </MenuWrapper>
             );
         }
 
