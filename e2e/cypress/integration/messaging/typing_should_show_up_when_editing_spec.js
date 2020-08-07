@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @messaging
 
 describe('Messaging', () => {
@@ -18,7 +17,7 @@ describe('Messaging', () => {
         });
     });
 
-    it('M23347 - Typing should show up right away when editing a message using the up arrow', () => {
+    it('MM-T98 - Typing should show up right away when editing a message using the up arrow', () => {
         // # Post a message in the channel
         cy.postMessage('test post 1');
 
