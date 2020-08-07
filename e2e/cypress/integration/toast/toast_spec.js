@@ -205,18 +205,15 @@ describe('toasts', () => {
         visitTownSquareAndWaitForPageToLoad();
         scrollUpAndPostAMessage(otherUser, townsquareChannelId);
 
-        // * Verify the toast is visible
+        // * Verify the toast is visible with correct message
         cy.get('div.toast').should('be.visible').contains('1 new message');
 
         // # Click on toast dismiss button to close the toast
         cy.findByTestId('dismissToast').should('be.visible').click();
 
         // * Verify the toast is not visible
-        cy.get('div.toast').should('not.be.visible');
-
-        // * Verify the toast message is correct
         cy.postMessageAs({sender: otherUser, message: 'This is another new message', channelId: townsquareChannelId}).then(() => {
-            cy.get('div.toast__message>span').should('be.visible').first().contains('1 new message');
+            cy.get('div.toast').should('not.be.visible');
         });
     });
 
