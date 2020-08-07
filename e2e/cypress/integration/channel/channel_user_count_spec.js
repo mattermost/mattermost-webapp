@@ -13,9 +13,11 @@ describe('Channel user count', () => {
     let testTeam;
     let secondUser;
     before(() => {
-        // # Login as new user and visit off-topic channel
+        // [#] Create a new user and assign it to a team
         cy.apiInitSetup().then(({team, user}) => {
             testTeam = team;
+
+            // [#] Visit 'off-topic' channel for this team, as sysadmin
             cy.visit(`/${testTeam.name}/channels/off-topic`);
         });
     });
@@ -27,11 +29,11 @@ describe('Channel user count', () => {
         cy.get('#channelMemberCountText').should('have.text', `${initialUserCount}`)
         cy.get('#channelMemberCountText').invoke('text').as('initialUserCountText')
     
-        // # Create another user
+        // [#] Create another user
         cy.apiCreateUser().then(({user}) => {          
             secondUser = user;  
 
-            // # Add new user (secondUser) to current team            
+            // [#] Add new user (secondUser) to current team            
             cy.apiAddUserToTeam(testTeam.id, secondUser.id);
         });
         
