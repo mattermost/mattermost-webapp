@@ -1,22 +1,32 @@
-
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+// ***************************************************************
+// - [#] indicates a test step (e.g. # Go to a page)
+// - [*] indicates an assertion (e.g. * Check the title)
+// - Use element ID when selecting an element. Create one if none.
+// ***************************************************************
+
+// Group: @multi_team_and_dm
+
 const createUserAndAddToTeam = (team) => {
-    cy.log(`CREATE USER AND ADD TO TEAM ${JSON.stringify(team, null, 2)}`);
     cy.apiCreateUser().then(({user}) =>
         cy.apiAddUserToTeam(team.id, user.id),
     );
 };
 
+/**
+ * Add a given amount of numbers to a direct message group
+ * @param {number} userCountToAdd
+ */
 const addUsersToGMViaModal = (userCountToAdd) => {
-    // Ensure there are enough selectable users in the list
+    // # Ensure there are enough selectable users in the list
     cy.get('#multiSelectList').
         should('be.visible').
         children().
         should('have.length.gte', userCountToAdd);
 
-    // Add users 1 by 1 and ensure the help section's text updates accordingly
+    // # Add the first user from the top of the list, as many times as requested by 'userCountToAdd'
     Cypress._.times(userCountToAdd, () => {
         cy.get('#multiSelectList').
             children().
@@ -25,115 +35,92 @@ const addUsersToGMViaModal = (userCountToAdd) => {
     });
 };
 
-describe('Multi-user group messages', () => {
-    /**
- * MM-T463 GM: Maximum users
-Steps
-GM: Maximum users
---------------------
-1. Add 7 users to the same GM (but don't Save yet) - DONE
-2. Non-RN: Verify says "You can add 0 more people" and also "You've reached the maximum number of people for this conversation. Consider creating a private channel instead."
-3. Try to click another user from the list or use arrows to highlight a user and press Enter
-4. Verify additional user is not added to the list at the top
-5. Save / Start to open GM channel
-6. Click channel name > Add Members (still says you can add zero members)
-7. Backspace or click "x" next to a username to remove it from the GM
-Expected
-After last step, message says "You can add 1 more person."
-Also says "This will start a new conversation. If you‚Äôre adding a lot of people, consider creating a private channel instead."
-
-Desktop Only:
-Ensure that "Write to..." text in main imput box is truncated and does not wrap if all of the names are too long
-
-(Can then add another user and Save to open the GM)
+/**
+ * In the "Direct messages" dialog, assert against help section that appropriate messages are displayed
+ *  - The number of people that still can be added to the group message
+ *  - The inforamation message advising to start a private channel when the maximum number of users is reached (if applicable)
+ * @param {number} expectedUsersLeftToAdd
  */
+const expectCannotAddUsersMessage = (expectedUsersLeftToAdd) => {
+    const maxUsersGMNote = "You've reached the maximum number of people for this conversation. Consider creating a private channel instead.";
+
+    // * Check that the help section indicates we cannot add anymore users
+    cy.get('#multiSelectHelpMemberInfo').
+        should('be.visible').
+        and('contain.text', `You can add ${expectedUsersLeftToAdd} more ${expectedUsersLeftToAdd === 1 ? 'person' : 'people'}`);
+
+    if (expectedUsersLeftToAdd === 0) {
+        // * Check that a note in the help section suggests creating a private channel instead
+        cy.get('#multiSelectMessageNote').should('contain.text', maxUsersGMNote);
+    }
+};
+
+describe('Multi-user group messages', () => {
     let testTeam;
     before(() => {
-        // # Login as test user and visit town-square
+        // # Create a new team
         cy.apiInitSetup().then(({team}) => {
             testTeam = team;
 
-            // Add 10 users to the team
+            // # Add 10 users to the team
             Cypress._.times(10, createUserAndAddToTeam(testTeam));
         });
     });
 
     it('MM-T463 Should not be able to create a group message with more than 8 users', () => {
-        const maxUsersGMNote = "You've reached the maximum number of people for this conversation. Consider creating a private channel instead.";
-
+        // # Go to town-square channel
         cy.visit(`/${testTeam.name}/channels/town-square`);
+
+        // # Open the 'Direct messages' dialog to create a new direct message
         cy.get('#addDirectChannel').click();
 
-        // Add the maximum amount of users to a group message (7)
+        // # Add the maximum amount of users to a group message (7)
         addUsersToGMViaModal(7);
 
-        // Check that the user count in the group message modal equals 7
+        // * Check that the user count in the group message modal equals 7
         cy.get('.react-select__multi-value').should('have.length', 7);
 
-        // Check that the help section indicates we cannot add anymore users
-        cy.get('#multiSelectHelpMemberInfo').
-            should('be.visible').
-            and('contain.text', 'You can add 0 more people');
+        expectCannotAddUsersMessage(0);
 
-        // Check that a note in the help section suggests creating a private channel instead
-        cy.get('#multiSelectMessageNote').should('contain.text', maxUsersGMNote);
-
-        // Try to add one more user
+        // # Try to add one more user
         addUsersToGMViaModal(1);
 
-        // Check that the list of users in the multi-select is still 7
+        // * Check that the list of users in the multi-select is still 7
         cy.get('.react-select__multi-value').should('have.length', 7);
 
-        // Begin the group message
+        // # Click on "Go" in the group message's dialog to begin the conversation
         cy.get('#saveItems').click();
 
-        // Check that the number of users in the group message is 8
+        // * Check that the number of users in the group message is 8
         cy.get('#channelMemberCountText').
             should('be.visible').
             and('have.text', '8');
 
-        // From the group message menu, open the 'Add Members' dialog
+        // # From the group message's window, click on the user list's dropdown
         cy.get('#channelHeaderDropdownIcon').click();
+
+        // # From the dropdown menu, click on "Add members"
         cy.get('#channelAddMembers').click();
 
-        // Try to add one more user
+        // # Try to add one more user from the group message's list
         addUsersToGMViaModal(1);
 
-        // Check that the same error message is still displayed, forbidding adding any more users
-        cy.get('#multiSelectHelpMemberInfo').
+        // # Check that the appropriate information & warnings are displayed in the group message's dialog
+        expectCannotAddUsersMessage(0);
+
+        // * Check that the count of selected number of users in the group message's dialogis is 7
+        cy.get('.react-select__multi-value').
             should('be.visible').
-            and('contain.text', 'You can add 0 more people');
+            and('have.length', 7);
 
-        // Check that a note in the help section suggests creating a private channel instead
-        cy.get('#multiSelectMessageNote').should('contain.text', maxUsersGMNote);
-
-        // Check that the list of users in the multi-select is still 7
-        cy.get('.react-select__multi-value').should('have.length', 7);
-
-        // Close the modal
-        cy.get('#moreDmModal ').type('{esc}');
-
-        // Check that the number of users in the group message is still 8
-        cy.get('#channelMemberCountText').
+        // # Remove the last user from the group message's dialog input section
+        cy.get('.react-select__multi-value__remove').
             should('be.visible').
-            and('have.text', '8');
+            and('have.length', 7).
+            last().
+            click();
 
-        // // Remove the last user from the GM
-        // cy.get('.react-select__multi-value__remove').last().click();
-        // cy.get('.react-select__multi-value__remove').should('have.length', 7);
-
-        // // Check that the number of users in the group message is now 7
-        // cy.get('#channelMemberCountText').
-        //     should('be.visible').
-        //     and('have.text', '7');
-
-        // // From the group message menu, open the 'Add Members' dialog
-        // cy.get('#channelHeaderDropdownIcon').click();
-        // cy.get('#channelAddMembers').click();
-
-        // // Modal help section should say that we can add one more user
-        // cy.get('#multiSelectHelpMemberInfo').
-        //     should('be.visible').
-        //     and('contain.text', 'You can add 1 more person');
+        // # Check that the appropriate information & warnings are displayed in the group message's dialog
+        expectCannotAddUsersMessage(1);
     });
 });
