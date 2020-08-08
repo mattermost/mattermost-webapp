@@ -381,6 +381,7 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
                             onChange={this.onChange}
                             value={this.props.values}
                             placeholder={this.props.placeholderText}
+                            inputId='selectItemsInput'
                             inputValue={this.state.input}
                             getOptionValue={(option: Value) => option.id}
                             getOptionLabel={this.props.ariaLabelRenderer}
@@ -397,11 +398,17 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
                             savingMessage={this.props.buttonSubmitLoadingText}
                         />
                     </div>
-                    <div className='multi-select__help'>
+                    <div
+                        id='multiSelectHelpMemberInfo'
+                        className='multi-select__help'
+                    >
                         {numRemainingText}
                         {memberCount}
                     </div>
-                    <div className='multi-select__help'>
+                    <div
+                        id='multiSelectMessageNote'
+                        className='multi-select__help'
+                    >
                         {noteTextContainer}
                     </div>
                 </div>
