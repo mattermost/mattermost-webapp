@@ -3999,5 +3999,6 @@
   "sidebar_left.sidebar_channel_menu.markAsRead": "Marcheaza ca citit",
   "admin.jobTable.headerFiles": "Fişiere",
   "admin.jobTable.downloadLink": "Descarca",
-  "timestamp.datetime": "{relativeOrDate} la {time}"
+  "timestamp.datetime": "{relativeOrDate} la {time}",
+  "warn_metric_ack_modal.learn_more.link": "Aflați mai multe"
 }

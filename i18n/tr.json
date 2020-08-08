@@ -3999,5 +3999,6 @@
   "admin.channel_list.manual_invites": "El ile Çağrılar",
   "admin.jobTable.headerFiles": "Dosyalar",
   "admin.jobTable.downloadLink": "İndir",
-  "timestamp.datetime": "{time} zamanında {relativeOrDate}"
+  "timestamp.datetime": "{time} zamanında {relativeOrDate}",
+  "warn_metric_ack_modal.learn_more.link": "Ayrıntılı bilgi alın"
 }

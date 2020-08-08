@@ -3970,5 +3970,7 @@
   "admin.channel_list.group_sync": "Sincronização de Grupo",
   "admin.channel_list.archived": "Arquivado",
   "admin.jobTable.headerFiles": "Arquivos",
-  "admin.jobTable.downloadLink": "Download"
+  "admin.jobTable.downloadLink": "Download",
+  "warn_metric_ack_modal.contact_support": "Contate-Nos",
+  "announcement_bar.error.number_active_users_warn_metric_status_ack.text": "Obrigado por entrar em contato com a Mattermost. Entraremos em contato com você em breve."
 }

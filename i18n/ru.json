@@ -3999,5 +3999,6 @@
   "admin.channel_list.archived": "Архив",
   "admin.jobTable.headerFiles": "Файлы",
   "admin.jobTable.downloadLink": "Скачать",
-  "timestamp.datetime": "{relativeOrDate} в {time}"
+  "timestamp.datetime": "{relativeOrDate} в {time}",
+  "warn_metric_ack_modal.learn_more.link": "Узнать больше"
 }
