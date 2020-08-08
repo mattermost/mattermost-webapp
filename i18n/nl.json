@@ -4000,5 +4000,6 @@
   "admin.jobTable.headerFiles": "Bestanden",
   "admin.jobTable.downloadLink": "Downloaden",
   "timestamp.datetime": "{relativeOrDate} op {time}",
-  "warn_metric_ack_modal.learn_more.link": "Meer Informatie"
+  "warn_metric_ack_modal.learn_more.link": "Meer Informatie",
+  "warn_metric_ack_modal.number_of_active_users.subtext": "Contact opnemen met de helpdesk verstuurt je contactgegevens naar Mattermost, Inc. {link}"
 }
