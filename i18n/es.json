@@ -1924,7 +1924,7 @@
   "help.formatting.emojis.title": "Emoticonos",
   "help.formatting.example": "Ejemplo:",
   "help.formatting.githubTheme": "**Tema de GitHub**",
-  "help.formatting.headings.description": "Para crear un encabezado, escribe # seguido de un espacio y del título que desees. Para conseguir títulos de menor tamaño, utiliza más # sin espacios entre ellos.",
+  "help.formatting.headings.description": "Para crear un encabezado, escribe # seguido de un espacio y del título que desees. Para títulos de menor tamaño, utiliza más # sin espacios entre ellos.",
   "help.formatting.headings.title": "Encabezados",
   "help.formatting.headings2": "Alternativamente, se puede subrayar el texto usando `===` o `---` para crear encabezados.",
   "help.formatting.headings2Example": "Encabezado Grande\n-------------",
@@ -3999,5 +3999,7 @@
   "admin.channel_list.manual_invites": "Invitaciones Manuales",
   "admin.jobTable.headerFiles": "Archivos",
   "admin.jobTable.downloadLink": "Descargar",
-  "timestamp.datetime": "{relativeOrDate} a las {time}"
+  "timestamp.datetime": "{relativeOrDate} a las {time}",
+  "warn_metric_ack_modal.number_of_active_users.subtext": "Al contactar a soporte se enviará tu información de contacto a Mattermost, Inc. {link}",
+  "warn_metric_ack_modal.learn_more.link": "Conocer más"
 }
