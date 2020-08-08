@@ -2598,7 +2598,7 @@
   "tutorial_tip.next": "Siguiente",
   "tutorial_tip.ok": "Aceptar",
   "tutorial_tip.out": "No optar por estos consejos.",
-  "tutorial_tip.seen": "¿Haz visto esto antes? ",
+  "tutorial_tip.seen": "¿Has visto esto antes? ",
   "update_command.confirm": "Editar Comando de Barra",
   "update_command.question": "Tus cambios puede que rompan el comando de barra existente. ¿Estás seguro de que deseas actualizar?",
   "update_command.update": "Actualizar",
@@ -3330,7 +3330,7 @@
   "promote_to_user_modal.desc": "Esta acción promueve al huésped {username} a miembro. Esto permitirá que el usuario se pueda unir a canales públicos y pueda interactuar con usuarios fuera de los canales de los cuales es miembro actualmente. ¿Está seguro que desea promover al huésped {username} a usuario?",
   "postlist.toast.scrollToLatest": "Saltar a los mensajes nuevos",
   "postlist.toast.scrollToBottom": "Saltar a recientes",
-  "postlist.toast.newMessagesSince": "{count, number} {count, plural, one {mensaje nuevo} other {mensajes nuevos}} desde {data} a las {time}",
+  "postlist.toast.newMessagesSince": "{count, number} {count, plural, one {mensaje nuevo} other {mensajes nuevos}} {isToday, select, true {} other {desde}} {date}",
   "postlist.toast.newMessages": "{count, number} {count, plural, one {mensaje nuevo} other {mensajes nuevos}}",
   "postlist.toast.history": "Ver historial de mensajes",
   "bots.manage.edit.title": "Actualizar",
@@ -3976,7 +3976,7 @@
   "admin.channel_list.private": "Privado",
   "admin.channel_list.group_sync": "Sincronización de Grupo",
   "admin.channel_list.archived": "Archivado",
-  "warn_metric_ack_modal.number_of_active_users.description": "Mattermost recomienda encarecidamente que las implementaciones de más de {limit} usuarios se actualicen a Mattermost Enterprise E20, que ofrece características tales como administración de usuarios, agrupación de servidores y monitoreo de rendimiento",
+  "warn_metric_ack_modal.number_of_active_users.description": "Mattermost recomienda encarecidamente que las implementaciones de más de {limit} usuarios se actualicen a Mattermost Enterprise Edition, que ofrece características tales como administración de usuarios, agrupación de servidores y monitoreo de rendimiento",
   "warn_metric_ack_modal.mailto.message": "No se pudo contactar a soporte. Por favor {link}.",
   "warn_metric_ack_modal.mailto.link": "Envíanos un correo electrónico",
   "warn_metric_ack_modal.header.title": "Actualiza a Mattermost Enterprise Edition",
@@ -3998,5 +3998,6 @@
   "admin.filter.all_teams": "Todos los Equipos",
   "admin.channel_list.manual_invites": "Invitaciones Manuales",
   "admin.jobTable.headerFiles": "Archivos",
-  "admin.jobTable.downloadLink": "Descargar"
+  "admin.jobTable.downloadLink": "Descargar",
+  "timestamp.datetime": "{relativeOrDate} a las {time}"
 }
