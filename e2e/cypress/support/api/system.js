@@ -43,6 +43,21 @@ Cypress.Commands.add('apiRequireLicense', () => {
     });
 });
 
+Cypress.Commands.add('apiUploadLicense', (filePath) => {
+    cy.apiUploadFile('license', filePath, {url: '/api/v4/license', method: 'POST', successStatus: 200, fromFixture: false});
+});
+
+Cypress.Commands.add('apiDeleteLicense', () => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/license',
+        method: 'DELETE',
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap({response});
+    });
+});
+
 const getDefaultConfig = () => {
     const fromCypressEnv = {
         LdapSettings: {
@@ -92,9 +107,6 @@ Cypress.Commands.add('apiGetAnalytics', () => {
     });
 });
 
-/**
- * Invalidate all the caches
- */
 Cypress.Commands.add('apiInvalidateCache', () => {
     return cy.request({
         url: '/api/v4/caches/invalidate',

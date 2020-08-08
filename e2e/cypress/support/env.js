@@ -14,3 +14,9 @@ export function getDBConfig() {
         connection: Cypress.env('dbConnection'),
     };
 }
+
+export function getServerLicense() {
+    return {
+        filePath: Cypress.env('licenseFilePath'),
+    };
+}

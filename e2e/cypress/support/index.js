@@ -28,7 +28,7 @@ import './ui_commands'; // soon to deprecate
 import './visual_commands';
 import './external_commands';
 
-import {getAdminAccount} from './env';
+import {getAdminAccount, getServerLicense} from './env';
 
 Cypress.on('test:after:run', (test, runnable) => {
     // Only if the test is failed do we want to add
@@ -93,6 +93,8 @@ Cypress.on('test:after:run', (test, runnable) => {
 
 before(() => {
     const admin = getAdminAccount();
+    const serverLicense = getServerLicense();
+    const resetBeforeTest = Cypress.env('resetBeforeTest');
 
     cy.dbGetUser({username: admin.username}).then(({user}) => {
         if (user.id) {
@@ -121,6 +123,13 @@ before(() => {
             timezone: {automaticTimezone: '', manualTimezone: 'UTC', useAutomaticTimezone: 'false'},
         });
 
+        // # Upload license
+        cy.apiGetClientLicense().then(({license}) => {
+            if (license.IsLicensed === 'false' && resetBeforeTest) {
+                cy.apiUploadLicense(serverLicense.filePath);
+            }
+        });
+
         // # Reset roles
         cy.apiGetClientLicense().then(({license}) => {
             if (license.IsLicensed === 'true') {
@@ -139,7 +148,7 @@ before(() => {
 
             if (!defaultTeam) {
                 cy.apiCreateTeam(DEFAULT_TEAM.name, DEFAULT_TEAM.display_name, 'O', false);
-            } else if (defaultTeam && Cypress.env('resetBeforeTest')) {
+            } else if (defaultTeam && resetBeforeTest) {
                 teams.forEach((team) => {
                     if (team.name !== DEFAULT_TEAM.name) {
                         cy.apiDeleteTeam(team.id);
