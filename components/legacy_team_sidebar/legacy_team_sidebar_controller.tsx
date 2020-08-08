@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import Scrollbars from 'react-custom-scrollbars';
 import {FormattedMessage} from 'react-intl';
@@ -18,7 +17,25 @@ import Pluggable from 'plugins/pluggable';
 
 import TeamButton from './components/team_button.jsx';
 
-export function renderView(props) {
+type IActions = {
+    getTeams: Function;
+    switchTeam: Function;
+    updateTeamsOrderForUser: Function;
+}
+
+type IProps = {
+    myTeams: string[];
+    currentTeamId: string;
+    moreTeamsToJoin: boolean;
+    myTeamMembers: object;
+    isOpen: boolean;
+    experimentalPrimaryTeam: string;
+    locale: string;
+    actions: IActions;
+    userTeamsOrderPreference: string;
+}
+
+export function renderView(props: IProps) {
     return (
         <div
             {...props}
@@ -26,7 +43,7 @@ export function renderView(props) {
         />);
 }
 
-export function renderThumbHorizontal(props) {
+export function renderThumbHorizontal(props: IProps) {
     return (
         <div
             {...props}
@@ -34,7 +51,7 @@ export function renderThumbHorizontal(props) {
         />);
 }
 
-export function renderThumbVertical(props) {
+export function renderThumbVertical(props: IProps) {
     return (
         <div
             {...props}
@@ -42,24 +59,8 @@ export function renderThumbVertical(props) {
         />);
 }
 
-export default class LegacyTeamSidebar extends React.PureComponent {
-    static propTypes = {
-        myTeams: PropTypes.array.isRequired,
-        currentTeamId: PropTypes.string.isRequired,
-        moreTeamsToJoin: PropTypes.bool.isRequired,
-        myTeamMembers: PropTypes.object.isRequired,
-        isOpen: PropTypes.bool.isRequired,
-        experimentalPrimaryTeam: PropTypes.string,
-        locale: PropTypes.string.isRequired,
-        actions: PropTypes.shape({
-            getTeams: PropTypes.func.isRequired,
-            switchTeam: PropTypes.func.isRequired,
-            updateTeamsOrderForUser: PropTypes.func.isRequired,
-        }).isRequired,
-        userTeamsOrderPreference: PropTypes.string,
-    }
-
-    constructor(props) {
+export default class LegacyTeamSidebar extends React.PureComponent<IProps> {
+    constructor(props: IProps) {
         super(props);
 
         this.state = {
@@ -67,11 +68,11 @@ export default class LegacyTeamSidebar extends React.PureComponent {
         };
     }
 
-    switchToPrevOrNextTeam = (e, currentTeamId, teams) => {
+    switchToPrevOrNextTeam = (e: KeyboardEvent, currentTeamId: string, teams: any[]) => {
         if (Utils.isKeyPressed(e, Constants.KeyCodes.UP) || Utils.isKeyPressed(e, Constants.KeyCodes.DOWN)) {
             e.preventDefault();
             const delta = Utils.isKeyPressed(e, Constants.KeyCodes.DOWN) ? 1 : -1;
-            const pos = teams.findIndex((team) => team.id === currentTeamId);
+            const pos = teams.findIndex((team: any) => team.id === currentTeamId);
             const newPos = pos + delta;
 
             let team;
@@ -89,7 +90,7 @@ export default class LegacyTeamSidebar extends React.PureComponent {
         return false;
     }
 
-    switchToTeamByNumber = (e, currentTeamId, teams) => {
+    switchToTeamByNumber = (e: KeyboardEvent, currentTeamId: string, teams: any[]) => {
         const digits = [
             Constants.KeyCodes.ONE,
             Constants.KeyCodes.TWO,
@@ -119,7 +120,7 @@ export default class LegacyTeamSidebar extends React.PureComponent {
         return false;
     }
 
-    handleKeyDown = (e) => {
+    handleKeyDown = (e: KeyboardEvent) => {
         if ((e.ctrlKey || e.metaKey) && e.altKey) {
             const {currentTeamId} = this.props;
             const teams = filterAndSortTeamsByDisplayName(this.props.myTeams, this.props.locale, this.props.userTeamsOrderPreference);
@@ -136,7 +137,7 @@ export default class LegacyTeamSidebar extends React.PureComponent {
         }
     }
 
-    handleKeyUp = (e) => {
+    handleKeyUp = (e: KeyboardEvent) => {
         if (!((e.ctrlKey || e.metaKey) && e.altKey)) {
             this.setState({showOrder: false});
         }
@@ -153,7 +154,7 @@ export default class LegacyTeamSidebar extends React.PureComponent {
         document.removeEventListener('keyup', this.handleKeyUp);
     }
 
-    onDragEnd = (result) => {
+    onDragEnd = (result: any) => {
         const {
             updateTeamsOrderForUser,
         } = this.props.actions;
@@ -168,11 +169,11 @@ export default class LegacyTeamSidebar extends React.PureComponent {
         const destinationIndex = result.destination.index;
 
         // Positioning the dropped Team button
-        const popElement = (list, idx) => {
+        const popElement = (list: string | any[], idx: number) => {
             return [...list.slice(0, idx), ...list.slice(idx + 1, list.length)];
         };
 
-        const pushElement = (list, idx, itemId) => {
+        const pushElement = (list: string | any[], idx: any, itemId: any) => {
             return [
                 ...list.slice(0, idx),
                 teams.find((team) => team.id === itemId),
@@ -190,7 +191,7 @@ export default class LegacyTeamSidebar extends React.PureComponent {
     }
 
     render() {
-        const root = document.querySelector('#root');
+        const root: Element = document.querySelector('#root');
         if (this.props.myTeams.length <= 1) {
             root.classList.remove('multi-teams');
             return null;
@@ -200,7 +201,7 @@ export default class LegacyTeamSidebar extends React.PureComponent {
         const plugins = [];
         const sortedTeams = filterAndSortTeamsByDisplayName(this.props.myTeams, this.props.locale, this.props.userTeamsOrderPreference);
 
-        const teams = sortedTeams.map((team, index) => {
+        const teams = sortedTeams.map((team: any, index: number) => {
             const member = this.props.myTeamMembers[team.id];
             return (
                 <TeamButton
