@@ -189,7 +189,7 @@ describe('Integrations page', () => {
         // # Go to Main Menu -> Integrations
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
 
-        cy.get('#integrations').should('be.visible').click();
+        cy.get('.dropdown-menu').should('be.visible').findByText('Integrations').click();
 
         cy.get('.integration-option__title').contains('Incoming Webhooks').click();
 
@@ -197,10 +197,11 @@ describe('Integrations page', () => {
         integrationPageTitleIsBold('Outgoing Webhooks');
         integrationPageTitleIsBold('Slash Commands');
         integrationPageTitleIsBold('OAuth 2.0 Applications');
+        integrationPageTitleIsBold('Bot Accounts');
     });
 });
 
 function integrationPageTitleIsBold(title) {
     cy.get('.section-title__text').contains(title).click();
-    cy.get('.item-details__name').should('have.css', 'font-weight', '600');
+    cy.get('.item-details__name').should('be.visible').and('have.css', 'font-weight', '600');
 }
