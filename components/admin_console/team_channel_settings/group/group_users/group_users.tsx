@@ -72,21 +72,6 @@ export default class GroupUsers extends React.PureComponent<Props, State> {
         };
     }
 
-    componentDidUpdate(prevProps: Props) {
-        const searchTerm = this.props.searchTerm;
-        const filters = this.props.filters;
-        if (searchTerm !== prevProps.searchTerm || JSON.stringify(filters) !== JSON.stringify(prevProps.filters)) {
-            clearTimeout(this.searchTimeoutId);
-
-            if (searchTerm === '' && Object.keys(filters).length === 0) {
-                this.setStateLoading(false);
-                return;
-            }
-
-            this.searchTimeoutId = window.setTimeout(() => this.setStateLoading(false), 300);
-        }
-    }
-
     async componentDidMount() {
         const {members, total} = this.props;
         const MEMBERSHIPS_TO_LOAD_COUNT = 100;
@@ -132,13 +117,11 @@ export default class GroupUsers extends React.PureComponent<Props, State> {
     }
 
     search = (term: string) => {
-        this.setState({loading: true, page: 0});
         this.props.actions.setModalSearchTerm(term);
+        this.setState({page: 0});
     }
 
     private onFilter = async (filterOptions: FilterOptions) => {
-        this.setState({loading: true, page: 0});
-
         const roles = filterOptions.role.values;
         const systemRoles: string[] = [];
         const teamRoles: string[] = [];
@@ -168,6 +151,7 @@ export default class GroupUsers extends React.PureComponent<Props, State> {
             }
         }
         this.props.actions.setModalFilters(filters);
+        this.setState({page: 0});
     }
 
     private getPaginationProps = () => {
