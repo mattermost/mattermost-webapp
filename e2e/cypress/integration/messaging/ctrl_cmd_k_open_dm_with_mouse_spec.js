@@ -8,6 +8,7 @@
 // ***********************************************************  ****
 
 // Group: @messaging
+
 describe('Messaging', () => {
     let testTeam;
     let firstUser;
@@ -23,7 +24,6 @@ describe('Messaging', () => {
             // # Create a second user that will be searched
             cy.apiCreateUser().then(({user: user1}) => {
                 secondUser = user1;
-
                 cy.apiAddUserToTeam(testTeam.id, secondUser.id);
             });
 
@@ -35,7 +35,7 @@ describe('Messaging', () => {
     });
 
     it('M23359 - CTRL/CMD+K - Open DM using mouse', () => {
-        // Type either cmd+K / ctrl+K and type in the first character of the second user's name
+        // # Type either cmd+K / ctrl+K and type in the first character of the second user's name
         cy.get('#post_textbox').type(switchChannels);
         cy.get('#quickSwitchInput').type(secondUser.username.charAt(0));
 
