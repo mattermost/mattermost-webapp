@@ -57,11 +57,8 @@ interface State {
 }
 
 export default class GroupUsers extends React.PureComponent<Props, State> {
-    private searchTimeoutId: number;
-
     public constructor(props: Props) {
         super(props);
-        this.searchTimeoutId = 0;
 
         this.state = {
             page: 0,
