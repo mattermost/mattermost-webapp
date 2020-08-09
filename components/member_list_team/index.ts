@@ -11,7 +11,7 @@ import {getMembersInCurrentTeam, getCurrentTeamStats} from 'mattermost-redux/sel
 import {getProfilesInCurrentTeam, searchProfilesInCurrentTeam} from 'mattermost-redux/selectors/entities/users';
 import {Permissions} from 'mattermost-redux/constants';
 import {searchProfiles} from 'mattermost-redux/actions/users';
-import {ActionFunc} from 'mattermost-redux/types/actions';
+import {ActionFunc, GenericAction, ActionResult} from 'mattermost-redux/types/actions';
 import {UserProfile} from 'mattermost-redux/types/users';
 
 import {loadStatusesForProfilesList} from 'actions/status_actions.jsx';
@@ -39,9 +39,7 @@ type Actions = {
     loadTeamMembersForProfilesList: (profiles: any, teamId: string, reloadAllMembers: boolean) => Promise<{
         data: boolean;
     }>;
-    setModalSearchTerm: (term: string) => Promise<{
-        data: boolean;
-    }>;
+    setModalSearchTerm: (term: string) => ActionResult;
 }
 
 function mapStateToProps(state: GlobalState, ownProps: Props) {
@@ -70,7 +68,7 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
 
 function mapDispatchToProps(dispatch: Dispatch) {
     return {
-        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc | GenericAction>, Actions>({
             searchProfiles,
             getTeamStats,
             getTeamMembers,

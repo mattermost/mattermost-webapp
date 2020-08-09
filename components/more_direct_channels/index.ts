@@ -22,7 +22,7 @@ import {
 import {getChannelsWithUserProfiles, getAllChannels} from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
-import {ActionFunc} from 'mattermost-redux/types/actions';
+import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 import {Channel} from 'mattermost-redux/types/channels';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {sortByUsername, filterProfilesMatchingTerm} from 'mattermost-redux/utils/user_utils';
@@ -119,14 +119,12 @@ type Actions = {
     openGroupChannelToUserIds: (userIds: any) => Promise<any>;
     searchProfiles: (term: string, options?: any) => Promise<any>;
     searchGroupChannels: (term: string) => Promise<any>;
-    setModalSearchTerm: (term: any) => Promise<{
-        data: boolean;
-    }>;
+    setModalSearchTerm: (term: any) => GenericAction;
 }
 
 function mapDispatchToProps(dispatch: Dispatch) {
     return {
-        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc | GenericAction>, Actions>({
             getProfiles,
             getProfilesInTeam,
             getStatusesByIds,

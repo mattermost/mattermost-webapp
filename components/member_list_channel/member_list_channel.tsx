@@ -2,6 +2,8 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+
+import {ActionResult} from 'mattermost-redux/types/actions';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
 
@@ -32,9 +34,7 @@ type Props = {
         searchProfiles: (term: string, options?: {}) => Promise<{data: UserProfile[]}>;
         getChannelMembers: (channelId: string) => Promise<{data: ChannelMembership[]}>;
         getChannelStats: (channelId: string) => Promise<{data: {}}>;
-        setModalSearchTerm: (term: string) => Promise<{
-            data: boolean;
-        }>;
+        setModalSearchTerm: (term: string) => ActionResult;
         loadProfilesAndTeamMembersAndChannelMembers: (page: number, perPage: number, teamId?: string, channelId?: string) => Promise<{
             data: boolean;
         }>;

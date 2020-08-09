@@ -3,6 +3,7 @@
 
 import React from 'react';
 
+import {ActionResult} from 'mattermost-redux/types/actions';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {TeamMembership, GetTeamMembersOpts} from 'mattermost-redux/types/teams';
 import {Teams} from 'mattermost-redux/constants';
@@ -37,9 +38,7 @@ type Props = {
         loadTeamMembersForProfilesList: (profiles: any, teamId: string, reloadAllMembers: boolean) => Promise<{
             data: boolean;
         }>;
-        setModalSearchTerm: (term: string) => Promise<{
-            data: boolean;
-        }>;
+        setModalSearchTerm: (term: string) => ActionResult;
     };
 }
 

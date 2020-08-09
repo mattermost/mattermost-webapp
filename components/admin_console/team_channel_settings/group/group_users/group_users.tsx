@@ -4,6 +4,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import {ActionResult} from 'mattermost-redux/types/actions';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {TeamMembership} from 'mattermost-redux/types/teams';
 import {ChannelMembership} from 'mattermost-redux/types/channels';
@@ -45,12 +46,8 @@ interface Props {
         loadChannelMembersForProfilesList: (profiles: UserProfile[], channelId: string) => Promise<{
             data: boolean;
         }>;
-        setModalSearchTerm: (term: string) => Promise<{
-            data: boolean;
-        }>;
-        setModalFilters: (filters: Filters) => Promise<{
-            data: boolean;
-        }>;
+        setModalSearchTerm: (term: string) => ActionResult;
+        setModalFilters: (filters: Filters) => ActionResult;
     };
 }
 

@@ -6,7 +6,7 @@ import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
 import {UserProfile} from 'mattermost-redux/types/users';
-import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
+import {ActionResult, GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
 
 import {filterProfilesMatchingTerm, profileListToMap} from 'mattermost-redux/utils/user_utils';
 
@@ -35,12 +35,8 @@ type Actions = {
     loadChannelMembersForProfilesList: (profiles: UserProfile[], id: string, reloadAllMembers?: boolean) => Promise<{
         data: boolean;
     }>;
-    setModalSearchTerm: (term: string) => Promise<{
-        data: boolean;
-    }>;
-    setModalFilters: (filters: Filters) => Promise<{
-        data: boolean;
-    }>;
+    setModalSearchTerm: (term: string) => ActionResult;
+    setModalFilters: (filters: Filters) => ActionResult;
 };
 
 function makeMapStateToProps() {
@@ -94,7 +90,7 @@ function makeMapStateToProps() {
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
-        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc | GenericAction>, Actions>({
             loadChannelMembersForProfilesList,
             loadTeamMembersForProfilesList,
             setModalSearchTerm,
