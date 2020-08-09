@@ -1,0 +1,56 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
+// ***************************************************************
+// - [#] indicates a test step (e.g. # Go to a page)
+// - [*] indicates an assertion (e.g. * Check the title)
+// - Use element ID when selecting an element. Create one if none.
+// ***********************************************************  ****
+
+// Group: @messaging
+describe('Messaging', () => {
+    let testTeam;
+    let firstUser;
+    let secondUser;
+    const switchChannels = Cypress.platform === 'darwin' ? '{cmd}K' : '{ctrl}K';
+
+    before(() => {
+        // # Login as test user
+        cy.apiInitSetup().then(({team, user}) => {
+            firstUser = user;
+            testTeam = team;
+
+            // # Create a second user that will be searched
+            cy.apiCreateUser().then(({user: user1}) => {
+                secondUser = user1;
+
+                cy.apiAddUserToTeam(testTeam.id, secondUser.id);
+            });
+
+            cy.apiLogin(firstUser);
+
+            // # Visit created test team
+            cy.visit(`/${testTeam.name}`);
+        });
+    });
+
+    it('M23359 - CTRL/CMD+K - Open DM using mouse', () => {
+        // Type either cmd+K / ctrl+K and type in the first character of the second user's name
+        cy.get('#post_textbox').type(switchChannels);
+        cy.get('#quickSwitchInput').type(secondUser.username.charAt(0));
+
+        // # Scroll to the second user and click to start a DM
+        cy.get(`#switchChannel_${secondUser.username}`).scrollIntoView().click();
+
+        // # Type in a message in the automatically focused message box, logout as the first user and login as the second user
+        cy.focused().type(`Hi there, ${secondUser.username}!`).type('{enter}');
+        cy.apiLogout();
+        cy.reload();
+        cy.apiLogin(secondUser);
+
+        // * Check that the DM exists
+        cy.get('#directChannelList').should('be.visible').within(() => {
+            cy.get(`a[aria-label='${firstUser.username} 1 mention']`).should('exist');
+        });
+    });
+});
