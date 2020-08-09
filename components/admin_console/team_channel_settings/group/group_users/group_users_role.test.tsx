@@ -2,8 +2,9 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow} from 'enzyme';
+import {IntlProvider} from 'react-intl';
 
+import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 import {TestHelper} from 'utils/test_helper';
 
 import GroupUsersRole from './group_users_role';
@@ -35,68 +36,98 @@ describe('components/admin_console/team_channel_settings/group/GroupUsersRole', 
     const scopeChannel: 'team' | 'channel' = 'channel';
 
     test('should match snapshot scope team and regular membership', () => {
-        const wrapper = shallow(
-            <GroupUsersRole
-                user={userWithGroups}
-                scope={scopeTeam}
-                membership={teamMembership}
-            />,
-        );
+        const wrapper = mountWithIntl(
+            <IntlProvider
+                locale='en'
+                messages={{}}
+            >
+                <GroupUsersRole
+                    user={userWithGroups}
+                    scope={scopeTeam}
+                    membership={teamMembership}
+                />
+            </IntlProvider>,
+        ).childAt(0);
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot scope team and admin membership', () => {
-        const wrapper = shallow(
-            <GroupUsersRole
-                user={userWithGroups}
-                scope={scopeTeam}
-                membership={adminTeamMembership}
-            />,
-        );
+        const wrapper = mountWithIntl(
+            <IntlProvider
+                locale='en'
+                messages={{}}
+            >
+                <GroupUsersRole
+                    user={userWithGroups}
+                    scope={scopeTeam}
+                    membership={adminTeamMembership}
+                />
+            </IntlProvider>,
+        ).childAt(0);
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot scope channel and regular membership', () => {
-        const wrapper = shallow(
-            <GroupUsersRole
-                user={userWithGroups}
-                scope={scopeChannel}
-                membership={channelMembership}
-            />,
-        );
+        const wrapper = mountWithIntl(
+            <IntlProvider
+                locale='en'
+                messages={{}}
+            >
+                <GroupUsersRole
+                    user={userWithGroups}
+                    scope={scopeChannel}
+                    membership={channelMembership}
+                />
+            </IntlProvider>,
+        ).childAt(0);
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot scope channel and admin membership', () => {
-        const wrapper = shallow(
-            <GroupUsersRole
-                user={userWithGroups}
-                scope={scopeChannel}
-                membership={adminChannelMembership}
-            />,
-        );
+        const wrapper = mountWithIntl(
+            <IntlProvider
+                locale='en'
+                messages={{}}
+            >
+                <GroupUsersRole
+                    user={userWithGroups}
+                    scope={scopeChannel}
+                    membership={adminChannelMembership}
+                />
+            </IntlProvider>,
+        ).childAt(0);
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot scope channel and admin membership but user is sys admin', () => {
-        const wrapper = shallow(
-            <GroupUsersRole
-                user={adminUserWithGroups}
-                scope={scopeChannel}
-                membership={adminChannelMembership}
-            />,
-        );
+        const wrapper = mountWithIntl(
+            <IntlProvider
+                locale='en'
+                messages={{}}
+            >
+                <GroupUsersRole
+                    user={adminUserWithGroups}
+                    scope={scopeChannel}
+                    membership={adminChannelMembership}
+                />
+            </IntlProvider>,
+        ).childAt(0);
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot guest', () => {
-        const wrapper = shallow(
-            <GroupUsersRole
-                user={guestUserWithGroups}
-                scope={scopeTeam}
-                membership={guestMembership}
-            />,
-        );
+        const wrapper = mountWithIntl(
+            <IntlProvider
+                locale='en'
+                messages={{}}
+            >
+                <GroupUsersRole
+                    user={guestUserWithGroups}
+                    scope={scopeTeam}
+                    membership={guestMembership}
+                />
+            </IntlProvider>,
+        ).childAt(0);
         expect(wrapper).toMatchSnapshot();
     });
 });

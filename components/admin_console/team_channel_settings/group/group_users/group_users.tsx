@@ -77,19 +77,13 @@ export default class GroupUsers extends React.PureComponent<Props, State> {
         const filters = this.props.filters;
         if (searchTerm !== prevProps.searchTerm || JSON.stringify(filters) !== JSON.stringify(prevProps.filters)) {
             clearTimeout(this.searchTimeoutId);
-            this.setStateLoading(true, 0);
 
             if (searchTerm === '' && Object.keys(filters).length === 0) {
                 this.setStateLoading(false);
                 return;
             }
 
-            this.searchTimeoutId = window.setTimeout(
-                async () => {
-                    this.setStateLoading(false);
-                },
-                300,
-            );
+            this.searchTimeoutId = window.setTimeout(() => this.setStateLoading(false), 300);
         }
     }
 
@@ -108,12 +102,8 @@ export default class GroupUsers extends React.PureComponent<Props, State> {
         this.setStateLoading(false);
     }
 
-    setStateLoading = (loading: boolean, page?: number) => {
-        if (typeof page === 'number') {
-            this.setState({loading, page});
-        } else {
-            this.setState({loading});
-        }
+    setStateLoading = (loading: boolean) => {
+        this.setState({loading});
     }
 
     componentWillUnmount() {
@@ -142,10 +132,13 @@ export default class GroupUsers extends React.PureComponent<Props, State> {
     }
 
     search = (term: string) => {
+        this.setState({loading: true, page: 0});
         this.props.actions.setModalSearchTerm(term);
     }
 
     private onFilter = async (filterOptions: FilterOptions) => {
+        this.setState({loading: true, page: 0});
+
         const roles = filterOptions.role.values;
         const systemRoles: string[] = [];
         const teamRoles: string[] = [];

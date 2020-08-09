@@ -3,8 +3,8 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
-import {createSelector} from 'reselect';
 
+import {memoizeResult} from 'mattermost-redux/utils/helpers';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
 
@@ -43,12 +43,8 @@ type Actions = {
     }>;
 };
 
-const searchUsers = createSelector(
-    (users: UserProfile[]) => users,
-    (users: any, term: string) => term.trim().toLowerCase(),
-    (users: any, term: string, filters: Filters) => filters,
-    (users: any, term: string, filters: Filters, memberships: Memberships) => memberships,
-    (users: UserProfile[], term: string, filters: Filters, memberships: Memberships): UserProfile[] => {
+function makeMapStateToProps() {
+    const searchUsers = memoizeResult((users: UserProfile[], term: string, filters: Filters, memberships: Memberships) => {
         let profiles = users;
         if (term !== '') {
             profiles = filterProfilesMatchingTerm(users, term);
@@ -60,39 +56,39 @@ const searchUsers = createSelector(
         }
 
         return profiles;
-    },
-);
+    });
 
-function mapStateToProps(state: GlobalState, props: Props) {
-    const {scope, scopeId} = props;
-    let {members, total} = props;
+    return (state: GlobalState, props: Props) => {
+        const {scope, scopeId} = props;
+        let {members, total} = props;
 
-    const searchTerm = state.views.search.modalSearch || '';
-    const filters = state.views.search.modalFilters || {};
+        const searchTerm = state.views.search.modalSearch || '';
+        const filters = state.views.search.modalFilters || {};
 
-    let memberships = {};
-    if (scope === 'channel') {
-        memberships = getChannelMembersInChannels(state)[scopeId] || {};
-    } else if (scope === 'team') {
-        memberships = getMembersInTeams(state)[scopeId] || {};
-    }
+        let memberships = {};
+        if (scope === 'channel') {
+            memberships = getChannelMembersInChannels(state)[scopeId] || {};
+        } else if (scope === 'team') {
+            memberships = getMembersInTeams(state)[scopeId] || {};
+        }
 
-    if (searchTerm || Object.keys(filters).length > 0) {
-        members = searchUsers(members, searchTerm, filters, memberships);
-        total = members.length;
-    }
+        if (searchTerm || Object.keys(filters).length > 0) {
+            members = searchUsers(members, searchTerm, filters, memberships);
+            total = members.length;
+        }
 
-    const enableGuestAccounts = getConfig(state)?.EnableGuestAccounts === 'true';
+        const enableGuestAccounts = getConfig(state)?.EnableGuestAccounts === 'true';
 
-    return {
-        ...props,
-        members,
-        total,
-        searchTerm,
-        scope,
-        memberships,
-        enableGuestAccounts,
-        filters,
+        return {
+            ...props,
+            members,
+            total,
+            searchTerm,
+            scope,
+            memberships,
+            enableGuestAccounts,
+            filters,
+        };
     };
 }
 
@@ -107,4 +103,4 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(GroupUsers);
+export default connect(makeMapStateToProps, mapDispatchToProps)(GroupUsers);
