@@ -83,23 +83,52 @@ describe('I18456 Built-in slash commands: common', () => {
     });
 
     it('MM-T664 /groupmsg initial tests', () => {
-        loginAndVisitDefaultChannel(user1, testChannelUrl);
         const usernames = Cypress._.map(userGroup, 'username').slice(0, 4);
-        [
-            `@${usernames[0]}, @${usernames[1]}, @${usernames[2]}, @${usernames[3]}`,
-            `${usernames[0]}, @${usernames[1]}, ${usernames[2]}, ${usernames[3]}`,
-            `@${usernames[0]} , @${usernames[1]}, ${usernames[2]} , @${usernames[3]}`,
-        ].forEach((users) => {
-            const mesg = `/groupmsg ${users} ${MESSAGES.SMALL}`;
-            cy.postMessage(mesg);
+        const usernamesFormat = [
 
-            cy.uiWaitUntilMessagePostedIncludes(MESSAGES.SMALL);
+            // # Format for sending a group message:
+            // /groupmsg @[username1],@[username2],@[username3] [message]
+            `@${usernames[0]}, @${usernames[1]}, @${usernames[2]}, @${usernames[3]}`,
+
+            // # Use /groupmsg command and use a mix of @ symbols in front of some names but not all
+            // # Format notes:
+            // # Usernames do not have to contain the '@' character
+            // # Accepts spaces after or before the commas when listing usernames
+            `${usernames[0]}, @${usernames[1]} , ${usernames[2]} , @${usernames[3]}`,
+        ];
+        let mesg;
+        loginAndVisitDefaultChannel(user1, testChannelUrl);
+        usernamesFormat.forEach((users) => {
+            // # Use /groupmsg command to send group message
+            mesg = MESSAGES.SMALL;
+            const command = `/groupmsg ${users} ${mesg}`;
+            cy.postMessage(command);
+
+            // * Sends a Group Message to the specified users
+            cy.uiWaitUntilMessagePostedIncludes(mesg);
             cy.getLastPostId().then((postId) => {
-                cy.get(`#postMessageText_${postId}`).should('have.text', MESSAGES.SMALL);
+                cy.get(`#postMessageText_${postId}`).should('have.text', mesg);
             });
             usernames.forEach((username) => {
                 cy.contains('.channel-header__top', username).should('be.visible');
             });
+
+            cy.contains('.sidebar-item', 'Town Square').click();
+        });
+        usernamesFormat.forEach((users) => {
+            // # Format notes: The command does not have to contain a message
+            const command = `/groupmsg ${users}`;
+            cy.postMessage(command);
+
+            // * Group message created (or message sent to existing GM) as expected
+            cy.uiWaitUntilMessagePostedIncludes(mesg);
+            cy.getLastPostId().then((postId) => {
+                cy.get(`#postMessageText_${postId}`).should('have.text', mesg);
+            });
+            usernames.forEach((username) => {
+                cy.contains('.channel-header__top', username).should('be.visible');
+            });
+
             cy.contains('.sidebar-item', 'Town Square').click();
         });
     });
