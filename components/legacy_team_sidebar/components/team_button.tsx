@@ -1,46 +1,44 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {Tooltip} from 'react-bootstrap';
-import {injectIntl} from 'react-intl';
+import {injectIntl, IntlShape} from 'react-intl';
 import {Link} from 'react-router-dom';
 import {Draggable} from 'react-beautiful-dnd';
 import classNames from 'classnames';
 
 import {mark, trackEvent} from 'actions/diagnostics_actions.jsx';
 import Constants from 'utils/constants';
-import {intlShape} from 'utils/react_intl';
 import {isDesktopApp} from 'utils/user_agent';
 import {localizeMessage, isMac} from 'utils/utils.jsx';
 import CopyUrlContextMenu from 'components/copy_url_context_menu';
 import OverlayTrigger from 'components/overlay_trigger';
 import TeamIcon from '../../widgets/team_icon/team_icon';
 
-// eslint-disable-next-line react/require-optimization
-class TeamButton extends React.PureComponent {
-    static propTypes = {
-        btnClass: PropTypes.string,
-        url: PropTypes.string.isRequired,
-        displayName: PropTypes.string,
-        content: PropTypes.node,
-        tip: PropTypes.node.isRequired,
-        order: PropTypes.number,
-        showOrder: PropTypes.bool.isRequired,
-        active: PropTypes.bool,
-        disabled: PropTypes.bool,
-        unread: PropTypes.bool,
-        mentions: PropTypes.number,
-        placement: PropTypes.oneOf(['left', 'right', 'top', 'bottom']),
-        teamIconUrl: PropTypes.string,
-        switchTeam: PropTypes.func.isRequired,
-        intl: intlShape.isRequired,
-        isDraggable: PropTypes.bool,
-        teamIndex: PropTypes.number,
-        teamId: PropTypes.string,
-    };
+interface Props {
+    btnClass: string;
+    url: string;
+    displayName: string;
+    content: JSX.IntrinsicElements;
+    tip: JSX.IntrinsicElements;
+    order: number;
+    showOrder: boolean;
+    active: boolean;
+    disabled: boolean;
+    unread: boolean;
+    mentions: number;
+    placement: 'left' | 'right'|'top'|'bottom';
+    teamIconUrl: string;
+    switchTeam: Function;
+    intl: IntlShape;
+    isDraggable: boolean;
+    teamIndex: number;
+    teamId: string;
+}
 
+// eslint-disable-next-line react/require-optimization
+class TeamButton extends React.PureComponent<Props> {
     static defaultProps = {
         btnClass: '',
         tip: '',
@@ -52,7 +50,7 @@ class TeamButton extends React.PureComponent {
         mentions: 0,
     };
 
-    handleSwitch = (e) => {
+    handleSwitch = (e: KeyboardEvent) => {
         e.preventDefault();
         mark('TeamLink#click');
         trackEvent('ui', 'ui_team_sidebar_switch_team');
@@ -67,11 +65,11 @@ class TeamButton extends React.PureComponent {
         const {teamIconUrl, displayName, btnClass, mentions, unread, isDraggable = false, teamIndex, teamId} = this.props;
         const {formatMessage} = this.props.intl;
 
-        let teamClass = this.props.active ? 'active' : '';
-        const disabled = this.props.disabled ? 'team-disabled' : '';
-        const isNotCreateTeamButton = !this.props.url.endsWith('create_team') && !this.props.url.endsWith('select_team');
+        let teamClass: string = this.props.active ? 'active' : '';
+        const disabled: string = this.props.disabled ? 'team-disabled' : '';
+        const isNotCreateTeamButton: boolean = !this.props.url.endsWith('create_team') && !this.props.url.endsWith('select_team');
         const handleClick = (this.props.active || this.props.disabled) ? this.handleDisabled : this.handleSwitch;
-        let badge;
+        let badge: JSX.Element;
 
         let ariaLabel = formatMessage({
             id: 'team.button.ariaLabel',
