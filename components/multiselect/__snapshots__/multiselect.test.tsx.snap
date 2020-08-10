@@ -26,7 +26,6 @@ exports[`components/multiselect/multiselect should match snapshot 1`] = `
         getOptionLabel={[Function]}
         getOptionValue={[Function]}
         id="selectItems"
-        inputId="selectItemsInput"
         inputValue=""
         isClearable={false}
         isMulti={true}
@@ -218,7 +217,6 @@ exports[`components/multiselect/multiselect should match snapshot for page 2 1`]
         getOptionLabel={[Function]}
         getOptionValue={[Function]}
         id="selectItems"
-        inputId="selectItemsInput"
         inputValue=""
         isClearable={false}
         isMulti={true}

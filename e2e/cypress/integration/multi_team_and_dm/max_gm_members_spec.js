@@ -9,65 +9,24 @@
 
 // Group: @multi_team_and_dm
 
-const createUserAndAddToTeam = (team) => {
-    cy.apiCreateUser({prefix: 'gm'}).then(({user}) =>
-        cy.apiAddUserToTeam(team.id, user.id),
-    );
-};
-
-/**
- * Add a given amount of numbers to a direct message group
- * @param {number} userCountToAdd
- */
-const addUsersToGMViaModal = (userCountToAdd) => {
-    // # Ensure there are enough selectable users in the list
-    cy.get('#multiSelectList').
-        should('be.visible').
-        children().
-        should('have.length.gte', userCountToAdd);
-
-    // # Add the first user from the top of the list, as many times as requested by 'userCountToAdd'
-    Cypress._.times(userCountToAdd, () => {
-        cy.get('#multiSelectList').
-            children().
-            first().
-            click();
-    });
-};
-
-/**
- * In the "Direct messages" dialog, assert against help section that appropriate messages are displayed
- *  - The number of people that still can be added to the group message
- *  - The information message advising to start a private channel when the maximum number of users is reached (if applicable)
- * @param {number} expectedUsersLeftToAdd
- */
-const expectCannotAddUsersMessage = (expectedUsersLeftToAdd) => {
-    const maxUsersGMNote = "You've reached the maximum number of people for this conversation. Consider creating a private channel instead.";
-
-    // * Check that the help section indicates we cannot add anymore users
-    cy.get('#multiSelectHelpMemberInfo').
-        should('be.visible').
-        and('contain.text', `You can add ${expectedUsersLeftToAdd} more ${expectedUsersLeftToAdd === 1 ? 'person' : 'people'}`);
-
-    if (expectedUsersLeftToAdd === 0) {
-        // * Check that a note in the help section suggests creating a private channel instead
-        cy.get('#multiSelectMessageNote').should('contain.text', maxUsersGMNote);
-    }
-};
-
 describe('Multi-user group messages', () => {
+    let testUser;
     let testTeam;
     before(() => {
         // # Create a new team
-        cy.apiInitSetup().then(({team}) => {
+        cy.apiInitSetup().then(({team, user}) => {
+            testUser = user;
             testTeam = team;
 
             // # Add 10 users to the team
-            Cypress._.times(10, createUserAndAddToTeam(testTeam));
+            Cypress._.times(10, () => createUserAndAddToTeam(testTeam));
         });
     });
 
     it('MM-T463 Should not be able to create a group message with more than 8 users', () => {
+        // # Login as test user
+        cy.apiLogin(testUser);
+
         // # Go to town-square channel
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
@@ -124,3 +83,51 @@ describe('Multi-user group messages', () => {
         expectCannotAddUsersMessage(1);
     });
 });
+
+// Helper functions
+
+const createUserAndAddToTeam = (team) => {
+    cy.apiCreateUser({prefix: 'gm'}).then(({user}) =>
+        cy.apiAddUserToTeam(team.id, user.id),
+    );
+};
+
+/**
+ * Add a given amount of numbers to a direct message group
+ * @param {number} userCountToAdd
+ */
+const addUsersToGMViaModal = (userCountToAdd) => {
+    // # Ensure there are enough selectable users in the list
+    cy.get('#multiSelectList').
+        should('be.visible').
+        children().
+        should('have.length.gte', userCountToAdd);
+
+    // # Add the first user from the top of the list, as many times as requested by 'userCountToAdd'
+    Cypress._.times(userCountToAdd, () => {
+        cy.get('#multiSelectList').
+            children().
+            first().
+            click();
+    });
+};
+
+/**
+ * In the "Direct messages" dialog, assert against help section that appropriate messages are displayed
+ *  - The number of people that still can be added to the group message
+ *  - The information message advising to start a private channel when the maximum number of users is reached (if applicable)
+ * @param {number} expectedUsersLeftToAdd
+ */
+const expectCannotAddUsersMessage = (expectedUsersLeftToAdd) => {
+    const maxUsersGMNote = "You've reached the maximum number of people for this conversation. Consider creating a private channel instead.";
+
+    // * Check that the help section indicates we cannot add anymore users
+    cy.get('#multiSelectHelpMemberInfo').
+        should('be.visible').
+        and('contain.text', `You can add ${expectedUsersLeftToAdd} more ${expectedUsersLeftToAdd === 1 ? 'person' : 'people'}`);
+
+    if (expectedUsersLeftToAdd === 0) {
+        // * Check that a note in the help section suggests creating a private channel instead
+        cy.get('#multiSelectMessageNote').should('contain.text', maxUsersGMNote);
+    }
+};

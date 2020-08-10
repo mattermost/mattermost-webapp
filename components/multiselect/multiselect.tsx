@@ -381,7 +381,6 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
                             onChange={this.onChange}
                             value={this.props.values}
                             placeholder={this.props.placeholderText}
-                            inputId='selectItemsInput'
                             inputValue={this.state.input}
                             getOptionValue={(option: Value) => option.id}
                             getOptionLabel={this.props.ariaLabelRenderer}
