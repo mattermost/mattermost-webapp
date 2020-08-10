@@ -12,6 +12,7 @@ import * as Utils from 'utils/utils';
 import {localizeMessage} from 'utils/utils.jsx';
 import {Constants} from 'utils/constants';
 import {t} from 'utils/i18n';
+import {allShortcuts} from 'components/shortcuts_modal.jsx';
 
 function renderShortcut(text) {
     if (!text) {
@@ -95,12 +96,30 @@ export default function HeaderIconWrapper({
         },
     };
 
+    function getShortcuts() {
+        const isMac = Utils.isMac();
+        const shortcuts = {};
+        Object.keys(allShortcuts).forEach((s) => {
+            if (isMac && allShortcuts[s].mac) {
+                shortcuts[s] = allShortcuts[s].mac;
+            } else if (!isMac && allShortcuts[s].default) {
+                shortcuts[s] = allShortcuts[s].default;
+            } else {
+                shortcuts[s] = allShortcuts[s];
+            }
+        });
+
+        return shortcuts;
+    }
+
     function getTooltip(key) {
         if (toolTips[key] == null) {
             return null;
         }
 
-        // const isMac = Utils.ismac();
+        const shortcuts = getShortcuts();
+        console.log(shortcuts);
+        console.log(shortcuts.navMentions);
         return (
             <Tooltip
                 id={toolTips[key].id}
@@ -110,7 +129,8 @@ export default function HeaderIconWrapper({
                     id={toolTips[key].messageID}
                     defaultMessage={toolTips[key].message}
                 />
-                <p>{toolTips[key].default.defaultMessage}</p>
+                {key === 'recentMentions' ? (<div>{shortcuts.navMentions.defaultMessage}</div>) :
+                    null}
             </Tooltip>
         );
     }
@@ -155,7 +175,6 @@ export default function HeaderIconWrapper({
             </div>
         );
     }
-
     return (
         <div className='flex-child'>
             <button

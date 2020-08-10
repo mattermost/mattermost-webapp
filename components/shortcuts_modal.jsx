@@ -12,7 +12,7 @@ import {intlShape} from 'utils/react_intl';
 import {t} from 'utils/i18n';
 import * as Utils from 'utils/utils';
 
-const allShortcuts = defineMessages({
+export const allShortcuts = defineMessages({
     mainHeader: {
         default: {
             id: t('shortcuts.header'),
