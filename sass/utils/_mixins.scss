@@ -40,3 +40,28 @@
         max-height: $line-height * $lines * 1px;
     }
 }
+
+@mixin button-style--none {
+    background: transparent;
+    border: none;
+    padding: 0;
+
+    &:focus {
+        outline: 0;
+        text-decoration: none;
+    }
+
+    &.btn {
+        padding: 6px 12px;
+    }
+
+    &.btn--block {
+        text-align: left;
+        width: 100%;
+    }
+
+    &:hover,
+    &:active {
+        text-decoration: none;
+    }
+}

@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @system_console @plugin
 
 /**
@@ -63,18 +62,25 @@ describe('Draw Plugin - Upload', () => {
         cy.findByText('Upload', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
         cy.get('#uploadPlugin').and('be.disabled');
 
-        // * Verify that the Draw Plugin is shown on successful upload
-        cy.findByText('Draw Plugin').should('be.visible');
-
         // # Draw plugin ID should be visible
-        cy.findByTestId('com.mattermost.draw-plugin').should('be.visible').within(() => {
+        cy.findByText(/Installed Plugins/).scrollIntoView().should('be.visible');
+        cy.findByTestId('com.mattermost.draw-plugin').scrollIntoView().should('be.visible').within(() => {
+            // * Verify that the Draw Plugin is shown on successful upload
+            cy.findByText('Draw Plugin').should('be.visible');
+
             // #Enable draw plugin and check plugin is running
             cy.wait(TIMEOUTS.HALF_SEC).findByText('Enable').click();
             cy.findByText('This plugin is running.').should('be.visible');
 
-            // #Disable draw plugin and check plugin is not enabled
+            // #Disable draw plugin
             cy.findByText('Disable').click();
-            cy.findByText('This plugin is not enabled.').should('be.visible');
+        });
+
+        // # Need to re-query DOM elements as they are updated asynchronously
+        cy.findByText(/Installed Plugins/).scrollIntoView().should('be.visible');
+        cy.findByTestId('com.mattermost.draw-plugin').scrollIntoView().should('be.visible').within(() => {
+            // * Check plugin is not enabled
+            cy.wait(TIMEOUTS.HALF_SEC).findByText('This plugin is not enabled.').should('be.visible');
 
             // * Click on remove
             cy.findByText('Remove').click();
@@ -82,9 +88,8 @@ describe('Draw Plugin - Upload', () => {
 
         // #Remove plugin Id should exist upon clicking Cancel in confirmation popup
         cy.get('#cancelModalButton').should('be.visible').click();
-        cy.findByTestId('com.mattermost.draw-plugin').should('exist');
-
-        cy.findByTestId('com.mattermost.draw-plugin').should('be.visible').within(() => {
+        cy.findByText(/Installed Plugins/).scrollIntoView().should('be.visible');
+        cy.findByTestId('com.mattermost.draw-plugin').scrollIntoView().should('be.visible').within(() => {
             // * Click on remove
             cy.wait(TIMEOUTS.HALF_SEC).findByText('Remove').click();
         });
@@ -92,6 +97,7 @@ describe('Draw Plugin - Upload', () => {
         // #Remove plugin Id should not exist upon clicking remove in confirmation popup
         cy.findByText('Are you sure you would like to remove the plugin?').should('be.visible');
         cy.get('#confirmModalButton').should('be.visible').click();
+        cy.findByText(/Installed Plugins/).scrollIntoView().should('be.visible');
         cy.findByTestId('com.mattermost.draw-plugin').should('not.exist');
     });
 });

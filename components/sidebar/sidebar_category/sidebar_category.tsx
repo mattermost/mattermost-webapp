@@ -264,7 +264,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                 sortHelpLabel = localizeMessage('sidebar.sortedByAlphabetical', 'Sorted alphabetically');
             } else {
                 sortingIcon = (<i className='icon-clock-outline'/>);
-                sortHelpLabel = localizeMessage('sidebar.sortedByRecency', 'Sorted by recency');
+                sortHelpLabel = localizeMessage('sidebar.sortedByRecency', 'Sorted by most recent');
             }
 
             const sortTooltip = (
