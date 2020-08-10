@@ -19,7 +19,6 @@
         "runLDAPSync": true,
         "resetBeforeTest": false,
         "storybookUrl": "http://localhost:6006/",
-        "webhookBaseUrl": "http://localhost:3000",
-        "licenseFilePath": "mm-license.txt"
+        "webhookBaseUrl": "http://localhost:3000"
     }
 }
