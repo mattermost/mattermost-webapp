@@ -10,11 +10,17 @@ import {UserProfile} from 'mattermost-redux/types/users';
 
 import Accordion from 'components/accordion';
 import Card from 'components/card/card';
+
+import onboardingSuccess from 'images/onboarding-success.svg';
+import loadingIcon from 'images/spinner-48x48-blue.apng';
 import professionalLogo from 'images/cloud-logos/professional.svg';
 import {Preferences} from 'utils/constants';
 
 import {Steps, StepType} from './steps';
 import './next_steps_view.scss';
+import NextStepsTips from './next_steps_tips';
+
+const TRANSITION_SCREEN_TIMEOUT = 1000;
 
 type Props = {
     currentUser: UserProfile;
@@ -28,6 +34,8 @@ type Props = {
 
 type State = {
     showFinalScreen: boolean;
+    showTransitionScreen: boolean;
+    animating: boolean;
 }
 
 export default class NextStepsView extends React.PureComponent<Props, State> {
@@ -36,28 +44,9 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
 
         this.state = {
             showFinalScreen: false,
+            showTransitionScreen: false,
+            animating: false,
         };
-    }
-
-    getBottomText = () => {
-        // TODO: will be stored in user prefs at a later date
-        const {isFinished} = {isFinished: false};
-
-        if (isFinished) {
-            return (
-                <FormattedMessage
-                    id='next_steps_view.allSetToGo'
-                    defaultMessage={'You\'re all set to go!'}
-                />
-            );
-        }
-
-        return (
-            <FormattedMessage
-                id='next_steps_view.hereAreSomeNextSteps'
-                defaultMessage='Here are some recommended next steps to help you get started'
-            />
-        );
     }
 
     getLogo = () => {
@@ -98,14 +87,30 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
         };
     }
 
-    skipAll = () => {
-        this.setState({showFinalScreen: true});
+    showFinalScreen = () => {
+        this.setState({showFinalScreen: true, animating: true});
+    }
+
+    transitionToFinalScreen = () => {
+        this.setState({showTransitionScreen: true, animating: true});
+    }
+
+    setTimerToFinalScreen = () => {
+        if (this.state.showTransitionScreen) {
+            setTimeout(() => {
+                this.setState({showFinalScreen: true});
+            }, TRANSITION_SCREEN_TIMEOUT);
+        }
+    }
+
+    stopAnimating = () => {
+        this.setState({animating: false});
     }
 
     nextStep = (setExpanded: (expandedKey: string) => void, id: string) => {
         const currentIndex = Steps.findIndex((step) => step.id === id);
         if ((currentIndex + 1) > (Steps.length - 1)) {
-            this.setState({showFinalScreen: true});
+            this.transitionToFinalScreen();
         } else if (this.isStepComplete(Steps[currentIndex + 1].id)) {
             this.nextStep(setExpanded, Steps[currentIndex + 1].id);
         } else {
@@ -158,11 +163,32 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
         );
     }
 
-    renderFinalScreen = () => {
-        // TODO
+    renderTransitionScreen = () => {
         return (
-            <div>
-                {'Placeholder for Final Screen'}
+            <div
+                className={classNames('NextStepsView__viewWrapper NextStepsView__transitionView', {
+                    transitioning: this.state.showTransitionScreen,
+                    completed: this.state.showTransitionScreen && this.state.showFinalScreen,
+                    animating: this.state.animating,
+                })}
+                onTransitionEnd={this.setTimerToFinalScreen}
+            >
+                <div className='NextStepsView__transitionBody'>
+                    <img src={onboardingSuccess}/>
+                    <h1 className='NextStepsView__transitionTopText'>
+                        <FormattedMessage
+                            id='next_steps_view.nicelyDone'
+                            defaultMessage='Nicely done! You’re all set.'
+                        />
+                    </h1>
+                    <h2 className='NextStepsView__transitionBottomText'>
+                        <img src={loadingIcon}/>
+                        <FormattedMessage
+                            id='next_steps_view.oneMoment'
+                            defaultMessage='One moment'
+                        />
+                    </h2>
+                </div>
             </div>
         );
     }
@@ -171,7 +197,12 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
         const renderedSteps = Steps.map(this.renderStep);
 
         return (
-            <>
+            <div
+                className={classNames('NextStepsView__viewWrapper NextStepsView__mainView', {
+                    completed: this.state.showFinalScreen || this.state.showTransitionScreen,
+                    animating: this.state.animating,
+                })}
+            >
                 <header className='NextStepsView__header'>
                     <div className='NextStepsView__header-headerText'>
                         <h1 className='NextStepsView__header-headerTopText'>
@@ -181,7 +212,10 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                             />
                         </h1>
                         <h2 className='NextStepsView__header-headerBottomText'>
-                            {this.getBottomText()}
+                            <FormattedMessage
+                                id='next_steps_view.hereAreSomeNextSteps'
+                                defaultMessage='Here are some recommended next steps to help you get started'
+                            />
                         </h2>
                     </div>
                     <div className='NextStepsView__header-logo'>
@@ -201,7 +235,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                         </Accordion>
                         <div className='NextStepsView__skipGettingStarted'>
                             <button
-                                onClick={this.skipAll}
+                                onClick={this.showFinalScreen}
                             >
                                 <FormattedMessage
                                     id='next_steps_view.skipGettingStarted'
@@ -212,22 +246,23 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                     </div>
                     <div className='NextStepsView__body-graphic'/>
                 </div>
-            </>
+            </div>
         );
     }
 
     render() {
-        let mainBody = this.renderMainBody();
-        if (this.state.showFinalScreen) {
-            mainBody = this.renderFinalScreen();
-        }
-
         return (
             <section
                 id='app-content'
                 className='app__content NextStepsView'
             >
-                {mainBody}
+                {this.renderMainBody()}
+                {this.renderTransitionScreen()}
+                <NextStepsTips
+                    showFinalScreen={this.state.showFinalScreen}
+                    animating={this.state.animating}
+                    stopAnimating={this.stopAnimating}
+                />
             </section>
         );
     }

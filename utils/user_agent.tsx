@@ -120,11 +120,19 @@ export function isDesktopApp(): boolean {
 }
 
 export function isWindowsApp(): boolean {
-    return isDesktopApp() && userAgent().indexOf('Windows') !== -1;
+    return isDesktopApp() && isWindows();
 }
 
 export function isMacApp(): boolean {
-    return isDesktopApp() && userAgent().indexOf('Macintosh') !== -1;
+    return isDesktopApp() && isMac();
+}
+
+export function isWindows(): boolean {
+    return userAgent().indexOf('Windows') !== -1;
+}
+
+export function isMac(): boolean {
+    return userAgent().indexOf('Macintosh') !== -1;
 }
 
 export function isWindows7(): boolean {
