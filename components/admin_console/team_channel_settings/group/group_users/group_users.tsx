@@ -237,11 +237,7 @@ export default class GroupUsers extends React.PureComponent<Props, State> {
         ];
     }
 
-    public render = (): JSX.Element => {
-        const rows: Row[] = this.getRows();
-        const columns: Column[] = this.getColumns();
-        const {startCount, endCount, total} = this.getPaginationProps();
-
+    private getFilterOptions = (): FilterOptions => {
         const filterOptions: FilterOptions = {
             role: {
                 name: (
@@ -327,12 +323,15 @@ export default class GroupUsers extends React.PureComponent<Props, State> {
             filterOptions.role.keys.splice(0, 1);
         }
 
-        const filterKeys = ['role'];
-        const filterProps = {
-            options: {...filterOptions},
-            keys: filterKeys,
-            onFilter: this.onFilter,
-        };
+        return filterOptions;
+    }
+
+    public render = (): JSX.Element => {
+        const rows: Row[] = this.getRows();
+        const columns: Column[] = this.getColumns();
+        const {startCount, endCount, total} = this.getPaginationProps();
+        const options = this.getFilterOptions();
+        const keys = ['role'];
 
         const placeholderEmpty: JSX.Element = (
             <FormattedMessage
@@ -354,7 +353,7 @@ export default class GroupUsers extends React.PureComponent<Props, State> {
                     endCount={endCount}
                     total={total}
                     search={this.search}
-                    filterProps={filterProps}
+                    filterProps={{options, keys, onFilter: this.onFilter}}
                     term={this.props.searchTerm || ''}
                     placeholderEmpty={placeholderEmpty}
                 />
