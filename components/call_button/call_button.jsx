@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
-import React, {PureComponent} from 'react';
+import React from 'react';
 import {injectIntl} from 'react-intl';
 
 import {intlShape} from 'utils/react_intl';
@@ -18,107 +18,93 @@ const customStyles = {
     top: 'auto',
 };
 
-class CallButton extends PureComponent {
-    static propTypes = {
-        currentChannel: PropTypes.object.isRequired,
-        channelMember: PropTypes.object,
-        intl: intlShape.isRequired,
-        locale: PropTypes.string.isRequired,
-        pluginCallMethods: PropTypes.arrayOf(PropTypes.object),
-    };
+function CallButton(props) {
+    const {formatMessage} = props.intl;
 
-    static defaultProps = {
-        pluginCallMethods: [],
-    };
+    let bodyAction;
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            menuOpen: false,
-        };
-    }
-
-    toggleMenu = (open) => {
-        this.setState({menuOpen: open});
-    }
-
-    render() {
-        const {formatMessage} = this.props.intl;
-
-        let bodyAction;
-
-        if (this.props.pluginCallMethods.length === 0) {
-            bodyAction = null;
-        } else if (this.props.pluginCallMethods.length === 1) {
-            const item = this.props.pluginCallMethods[0];
-            bodyAction = (
-                <button
-                    type='button'
-                    className='style--none post-action icon icon--attachment'
-                    onClick={() => {
+    if (props.pluginCallMethods.length === 0) {
+        bodyAction = null;
+    } else if (props.pluginCallMethods.length === 1) {
+        const item = props.pluginCallMethods[0];
+        bodyAction = (
+            <button
+                type='button'
+                className='style--none post-action icon icon--attachment'
+                onClick={() => {
+                    if (item.action) {
+                        item.action(props.currentChannel, props.channelMember);
+                    }
+                }}
+                onTouchEnd={() => {
+                    if (item.action) {
+                        item.action(props.currentChannel, props.channelMember);
+                    }
+                }}
+            >
+                {item.icon}
+            </button>
+        );
+    } else {
+        const pluginCallMethods = props.pluginCallMethods.map((item) => {
+            return (
+                <li
+                    key={item.id}
+                    onClick={(e) => {
+                        e.preventDefault();
                         if (item.action) {
-                            item.action(this.props.currentChannel, this.props.channelMember);
-                        }
-                    }}
-                    onTouchEnd={() => {
-                        if (item.action) {
-                            item.action(this.props.currentChannel, this.props.channelMember);
+                            item.action(props.currentChannel, props.channelMember);
                         }
                     }}
                 >
-                    {item.icon}
+                    <a href='#'>
+                        <span className='mr-2'>
+                            {item.icon}
+                        </span>
+                        {item.dropdownText}
+                    </a>
+                </li>
+            );
+        });
+        bodyAction = (
+            <MenuWrapper>
+                <button
+                    type='button'
+                    className='style--none post-action'
+                >
+                    <div
+                        className='icon icon--attachment'
+                    >
+                        <CameraIcon className='d-flex'/>
+                    </div>
                 </button>
-            );
-        } else {
-            const pluginCallMethods = this.props.pluginCallMethods.map((item) => {
-                return (
-                    <li
-                        key={item.id}
-                        onClick={(e) => {
-                            e.preventDefault();
-                            if (item.action) {
-                                item.action(this.props.currentChannel, this.props.channelMember);
-                            }
-                            this.setState({menuOpen: false});
-                        }}
-                    >
-                        <a href='#'>
-                            <span className='mr-2'>
-                                {item.icon}
-                            </span>
-                            {item.dropdownText}
-                        </a>
-                    </li>
-                );
-            });
-            bodyAction = (
-                <MenuWrapper>
-                    <button
-                        type='button'
-                        className='style--none post-action'
-                    >
-                        <div
-                            className='icon icon--attachment'
-                        >
-                            <CameraIcon className='d-flex'/>
-                        </div>
-                    </button>
-                    <Menu
-                        id='callOptions'
-                        openLeft={true}
-                        openUp={true}
-                        ariaLabel={formatMessage({id: 'call_button.menuAriaLabel', defaultMessage: 'Call type selector'})}
-                        customStyles={customStyles}
-                    >
-                        {pluginCallMethods}
-                    </Menu>
-                </MenuWrapper>
-            );
-        }
-
-        return bodyAction;
+                <Menu
+                    id='callOptions'
+                    openLeft={true}
+                    openUp={true}
+                    ariaLabel={formatMessage({id: 'call_button.menuAriaLabel', defaultMessage: 'Call type selector'})}
+                    customStyles={customStyles}
+                >
+                    {pluginCallMethods}
+                </Menu>
+            </MenuWrapper>
+        );
     }
+
+    return bodyAction;
 }
+
+CallButton.propTypes = {
+    currentChannel: PropTypes.object.isRequired,
+    channelMember: PropTypes.object,
+    intl: intlShape.isRequired,
+    locale: PropTypes.string.isRequired,
+    pluginCallMethods: PropTypes.arrayOf(PropTypes.object),
+};
+
+CallButton.defaultProps = {
+    pluginCallMethods: [],
+};
 
 const wrappedComponent = injectIntl(CallButton);
 wrappedComponent.displayName = 'injectIntl(CallButton)';
