@@ -35,7 +35,7 @@ describe('Messaging', () => {
         });
     });
 
-    it('M23362 - Draft with only 2 byte characters shouldn\'t remain after posting', () => {
+    it('MM-T1667 - Post with only 2 byte characters shouldn\'t remain after posting', () => {
         testChannel.name = testChannel.name.replace(/\s+/g, '-').toLowerCase();
 
         // * Check that the Korean message got posted in the channel
