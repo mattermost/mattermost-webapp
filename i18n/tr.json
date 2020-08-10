@@ -3996,5 +3996,6 @@
   "admin.filter.count_more": "+{count, number} diğer",
   "admin.filter.apply": "Uygula",
   "admin.filter.all_teams": "Tüm Takımlar",
-  "admin.channel_list.manual_invites": "El ile Çağrılar"
+  "admin.channel_list.manual_invites": "El ile Çağrılar",
+  "warn_metric_ack_modal.learn_more.link": "Ayrıntılı bilgi alın"
 }

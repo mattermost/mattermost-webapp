@@ -3970,5 +3970,6 @@
   "sidebar_left.sidebar_channel_menu.muteChannel": "Silenzia Canale",
   "announcement_bar.error.warn_metric_status.link": "Scopri di più",
   "warn_metric_ack_modal.contact_support": "Contattaci",
-  "announcement_bar.error.number_active_users_warn_metric_status_ack.text": "Grazie per aver contattato Mattermost. Ti daremo riscontro presto."
+  "announcement_bar.error.number_active_users_warn_metric_status_ack.text": "Grazie per aver contattato Mattermost. Ti daremo riscontro presto.",
+  "warn_metric_ack_modal.learn_more.link": "Scopri di più"
 }

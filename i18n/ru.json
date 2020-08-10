@@ -3996,5 +3996,6 @@
   "announcement_bar.error.warn_metric_status.link": "Узнать больше",
   "announcement_bar.error.number_active_users_warn_metric_status.text": "Теперь у вас более {limit} пользователей. Мы настоятельно рекомендуем обновить вашу версию до Корпоративной редакции.",
   "announcement_bar.error.number_active_users_warn_metric_status_ack.text": "Спасибо, что связались с Mattermost. Мы свяжемся с вами в ближайшее время.",
-  "admin.warn_metric.sending-email": "Отправка электронной почты"
+  "admin.warn_metric.sending-email": "Отправка электронной почты",
+  "warn_metric_ack_modal.learn_more.link": "Узнать больше"
 }
