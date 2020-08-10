@@ -94,7 +94,7 @@ describe('components/sidebar/sidebar_category_list', () => {
         actions: {
             switchToChannelById: jest.fn(),
             close: jest.fn(),
-            moveChannelToCategory: jest.fn(),
+            moveChannelInSidebar: jest.fn(),
             moveCategory: jest.fn(),
             removeFromCategory: jest.fn(),
             setDraggingState: jest.fn(),
@@ -302,6 +302,6 @@ describe('components/sidebar/sidebar_category_list', () => {
         };
 
         wrapper.instance().onDragEnd(channelResult);
-        expect(baseProps.actions.moveChannelToCategory).toHaveBeenCalledWith(channelResult.destination!.droppableId, channelResult.draggableId, channelResult.destination!.index);
+        expect(baseProps.actions.moveChannelInSidebar).toHaveBeenCalledWith(channelResult.destination!.droppableId, channelResult.draggableId, channelResult.destination!.index);
     });
 });
