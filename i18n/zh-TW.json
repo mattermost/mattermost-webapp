@@ -3998,5 +3998,6 @@
   "sidebar_left.sidebar_channel_menu.leaveConversation": "關閉對話",
   "sidebar_left.sidebar_channel_menu.editChannel": "頻道選項",
   "admin.jobTable.headerFiles": "檔案",
-  "admin.jobTable.downloadLink": "下載"
+  "admin.jobTable.downloadLink": "下載",
+  "warn_metric_ack_modal.learn_more.link": "了解更多"
 }
