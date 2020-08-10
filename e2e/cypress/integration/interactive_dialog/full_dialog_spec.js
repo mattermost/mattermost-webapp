@@ -110,6 +110,9 @@ describe('Interactive Dialog', () => {
 
                         cy.wrap(el).should('have.length', optionsLength[element.name]);
                     });
+
+                    // # Click field label to close any opened drop-downs
+                    cy.wrap($elForm).find('label.control-label').scrollIntoView().click();
                 } else if (element.name === 'someradiooptions') {
                     cy.wrap($elForm).find('input').should('be.visible').and('have.length', optionsLength[element.name]);
 
@@ -224,13 +227,14 @@ describe('Interactive Dialog', () => {
 
             cy.get('#interactiveDialogSubmit').click();
 
-            cy.get('.modal-body').should('be.visible').children().eq(1).within(($elForm) => {
-                if (testCase.valid) {
-                    cy.wrap($elForm).find('div.error-text').should('not.be.visible');
-                } else {
-                    cy.wrap($elForm).find('div.error-text').should('be.visible').and('have.text', 'Must be a valid email address.').and('have.css', 'color', 'rgb(253, 89, 96)');
-                }
-            });
+            if (testCase.valid) {
+                cy.get('input:invalid').should('have.length', 0);
+            } else {
+                cy.get('input:invalid').should('have.length', 1);
+                cy.get('#someemail').then(($input) => {
+                    expect($input[0].validationMessage).to.eq(`Please include an '@' in the email address. '${testCase.value}' is missing an '@'.`);
+                });
+            }
         });
 
         closeInteractiveDialog();
