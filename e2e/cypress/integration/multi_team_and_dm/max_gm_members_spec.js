@@ -55,6 +55,12 @@ describe('Multi-user group messages', () => {
             should('be.visible').
             and('have.text', '8');
 
+        // * Check that the direct message text input's placeholder is truncated if the user's list is too long
+        cy.get('[data-testid="post_textbox_placeholder"]').
+            should('be.visible').
+            and('have.css', 'overflow', 'hidden').
+            and('have.css', 'text-overflow', 'ellipsis');
+
         // # From the group message's window, click on the user list's dropdown
         cy.get('#channelHeaderDropdownIcon').click();
 
