@@ -32,7 +32,7 @@ declare namespace Cypress {
 
         /**
          * Verify if server has license for a certain feature and fail test if not found.
-         * If license does not exist, upload a license only if environment variable `resetBeforeTest` is true.
+         * Upload a license if it does not exist.
          * @param {string} feature - feature to check, e.g. 'LDAP'
          * @returns {ClientLicense} `out.license` as `ClientLicense`
          *
@@ -43,7 +43,7 @@ declare namespace Cypress {
 
         /**
          * Verify if server has license and fail test if not found.
-         * If license does not exist, upload a license only if environment variable `resetBeforeTest` is true.
+         * Upload a license if it does not exist.
          * @returns {ClientLicense} `out.license` as `ClientLicense`
          *
          * @example

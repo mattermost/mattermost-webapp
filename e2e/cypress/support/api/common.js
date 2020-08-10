@@ -1,17 +1,20 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+const path = require('path');
+
 // *****************************************************************************
 // Common / Helper commands
 // *****************************************************************************
 
 Cypress.Commands.add('apiUploadFile', (name, filePath, options = {}) => {
     const formData = new FormData();
+    const filename = path.basename(filePath);
 
-    cy.fixture(filePath, 'binary', {timeout: 1200000}).
+    cy.fixture(filePath, {timeout: 1200000}).
         then(Cypress.Blob.binaryStringToBlob).
         then((blob) => {
-            formData.set(name, blob, filePath);
+            formData.set(name, blob, filename);
             formRequest(options.method, options.url, formData, options.successStatus);
         });
 });

@@ -124,10 +124,13 @@ Cypress.Commands.add('apiInvalidateCache', () => {
 });
 
 function uploadLicencseIfDoesNotExist() {
-    // # If license does not exist, upload a license only if environment variable `resetBeforeTest` is true.
+    // # Upload a license if it does not exist.
     cy.apiGetClientLicense().then(({license}) => {
-        if (license.IsLicensed === 'false' && Cypress.env('resetBeforeTest')) {
+        if (license.IsLicensed === 'false') {
             cy.apiUploadLicense('mattermost-license.txt');
+
+            // * Verify license exists via admin console
+            cy.uiCheckLicenseExists();
         }
     });
 }
