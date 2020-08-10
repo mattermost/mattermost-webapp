@@ -909,6 +909,7 @@ export default class SecurityTab extends React.PureComponent {
                     <ToggleModalButton
                         className='security-links color--link'
                         dialogType={AccessHistoryModal}
+                        id='viewAccessHistory'
                     >
                         <FormattedMessage
                             id='user.settings.security.viewHistory.icon'
