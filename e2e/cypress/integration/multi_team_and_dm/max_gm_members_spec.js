@@ -10,7 +10,7 @@
 // Group: @multi_team_and_dm
 
 const createUserAndAddToTeam = (team) => {
-    cy.apiCreateUser().then(({user}) =>
+    cy.apiCreateUser({prefix: 'gm'}).then(({user}) =>
         cy.apiAddUserToTeam(team.id, user.id),
     );
 };
@@ -38,7 +38,7 @@ const addUsersToGMViaModal = (userCountToAdd) => {
 /**
  * In the "Direct messages" dialog, assert against help section that appropriate messages are displayed
  *  - The number of people that still can be added to the group message
- *  - The inforamation message advising to start a private channel when the maximum number of users is reached (if applicable)
+ *  - The information message advising to start a private channel when the maximum number of users is reached (if applicable)
  * @param {number} expectedUsersLeftToAdd
  */
 const expectCannotAddUsersMessage = (expectedUsersLeftToAdd) => {
@@ -108,7 +108,7 @@ describe('Multi-user group messages', () => {
         // # Check that the appropriate information & warnings are displayed in the group message's dialog
         expectCannotAddUsersMessage(0);
 
-        // * Check that the count of selected number of users in the group message's dialogis is 7
+        // * Check that the count of selected number of users in the group message's dialog is 7
         cy.get('.react-select__multi-value').
             should('be.visible').
             and('have.length', 7);
