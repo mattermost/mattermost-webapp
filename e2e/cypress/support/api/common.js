@@ -11,7 +11,7 @@ Cypress.Commands.add('apiUploadFile', (name, filePath, options = {}) => {
     const formData = new FormData();
     const filename = path.basename(filePath);
 
-    cy.fixture(filePath, {timeout: 1200000}).
+    cy.fixture(filePath, 'binary', {timeout: 1200000}).
         then(Cypress.Blob.binaryStringToBlob).
         then((blob) => {
             formData.set(name, blob, filename);
