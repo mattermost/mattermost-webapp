@@ -12,6 +12,7 @@
     overflow: hidden;
     padding: 5px 30px;
     max-height: $announcement-bar-height;
+    pointer-events: none;
     &::after {
         content: '';
         display: block;
@@ -27,7 +28,7 @@
     a {
         color: inherit !important;
         text-decoration: underline;
-
+        pointer-events: all;
         &:hover,
         &:active,
         &:focus {
