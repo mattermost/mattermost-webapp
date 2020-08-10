@@ -12,6 +12,7 @@ import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
 import {getCurrentUserId, makeGetProfilesInChannel, makeGetProfilesNotInChannel} from 'mattermost-redux/selectors/entities/users';
 import {GlobalState} from 'mattermost-redux/types/store';
+import {Group} from 'mattermost-redux/types/groups';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {autocompleteUsersInChannel} from 'actions/views/channel';
@@ -33,7 +34,7 @@ const makeMapStateToProps = () => {
     return (state: GlobalState, ownProps: Props) => {
         const teamId = getCurrentTeamId(state);
 
-        let autocompleteGroups = [];
+        let autocompleteGroups: Group[] = [];
         if (haveICurrentChannelPermission(state, {permission: Permissions.USE_GROUP_MENTIONS})) {
             autocompleteGroups = getGroupsForReferenceInCurrentChannel(state);
         }
