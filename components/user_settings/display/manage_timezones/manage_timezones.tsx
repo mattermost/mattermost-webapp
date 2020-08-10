@@ -14,7 +14,7 @@ import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 import TimezoneProvider from 'components/suggestion/timezone_provider.jsx';
 
-type Actions ={
+type Actions = {
     updateMe: (user: UserProfile) => Promise<ActionResult>;
 }
 

@@ -8,7 +8,7 @@ import {UserProfile} from 'mattermost-redux/types/users';
 
 import ManageTimezones from './manage_timezones';
 
-type Actions ={
+type Actions = {
     updateMe: (user: UserProfile) => Promise<ActionResult>;
 }
 
