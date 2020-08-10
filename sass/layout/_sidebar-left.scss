@@ -1035,10 +1035,11 @@
 
     .status.status--group {
         background: rgba(var(--sidebar-text-rgb), 0.16);
-        margin: 2px 8px 0 3px;
+        margin: 0 8px 0 3px;
         width: 14px;
-        height: 15px;
+        height: 14px;
         flex-shrink: 0;
+        font-size: 11px;
     }
 
     .status-away {
