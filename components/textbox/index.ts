@@ -4,7 +4,9 @@
 import {bindActionCreators, Dispatch} from 'redux';
 import {connect} from 'react-redux';
 
-import {getAssociatedGroupsForReference} from 'mattermost-redux/selectors/entities/groups';
+import {Permissions} from 'mattermost-redux/constants';
+import {getGroupsForReferenceInCurrentChannel} from 'mattermost-redux/selectors/entities/groups';
+import {haveICurrentChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
@@ -30,12 +32,17 @@ const makeMapStateToProps = () => {
 
     return (state: GlobalState, ownProps: Props) => {
         const teamId = getCurrentTeamId(state);
+
+        let autocompleteGroups = [];
+        if (haveICurrentChannelPermission(state, {permission: Permissions.USE_GROUP_MENTIONS})) {
+            autocompleteGroups = getGroupsForReferenceInCurrentChannel(state);
+        }
         return {
             currentUserId: getCurrentUserId(state),
             currentTeamId: teamId,
             profilesInChannel: getProfilesInChannel(state, ownProps.channelId, {active: true}),
             profilesNotInChannel: getProfilesNotInChannel(state, ownProps.channelId, {active: true}),
-            autocompleteGroups: getAssociatedGroupsForReference(state, teamId, ownProps.channelId)
+            autocompleteGroups,
         };
     };
 };
@@ -49,4 +56,3 @@ const mapDispatchToProps = (dispatch: Dispatch<GenericAction>) => ({
 });
 
 export default connect(makeMapStateToProps, mapDispatchToProps, null, {forwardRef: true})(Textbox);
-

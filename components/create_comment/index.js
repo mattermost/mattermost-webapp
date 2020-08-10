@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
-import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
+import {haveIChannelPermission, haveICurrentChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getAllChannelStats, getChannelMemberCountsByGroup as selectChannelMemberCountsByGroup} from 'mattermost-redux/selectors/entities/channels';
 import {makeGetMessageInHistoryItem} from 'mattermost-redux/selectors/entities/posts';
@@ -13,7 +13,7 @@ import {resetCreatePostRequest, resetHistoryIndex} from 'mattermost-redux/action
 import {getChannelTimezones, getChannelMemberCountsByGroup} from 'mattermost-redux/actions/channels';
 import {Permissions, Preferences, Posts} from 'mattermost-redux/constants';
 import {
-    getAssociatedGroupsForReference,
+    getGroupsForReferenceInCurrentChannelByMentionKey,
 } from 'mattermost-redux/selectors/entities/groups';
 
 import {connectionErrorCount} from 'selectors/views/system';
@@ -77,6 +77,11 @@ function makeMapStateToProps() {
         });
         const channelMemberCountsByGroup = selectChannelMemberCountsByGroup(state, ownProps.channelId);
 
+        let groupsWithAllowReference = new Map();
+        if (haveICurrentChannelPermission(state, {permission: Permissions.USE_GROUP_MENTIONS})) {
+            groupsWithAllowReference = getGroupsForReferenceInCurrentChannelByMentionKey(state);
+        }
+
         return {
             draft,
             messageInHistory,
@@ -98,7 +103,7 @@ function makeMapStateToProps() {
             canPost,
             useChannelMentions,
             shouldShowPreview: showPreviewOnCreateComment(state),
-            groupsWithAllowReference: new Map(getAssociatedGroupsForReference(state, channel.team_id, channel.id).map((group) => [`@${group.name}`, group])),
+            groupsWithAllowReference,
             useGroupMentions,
             channelMemberCountsByGroup,
         };

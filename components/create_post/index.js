@@ -8,7 +8,7 @@ import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
 import {getCurrentChannel, getCurrentChannelStats, getChannelMemberCountsByGroup as selectChannelMemberCountsByGroup} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserId, isCurrentUserSystemAdmin, getStatusForUserId} from 'mattermost-redux/selectors/entities/users';
-import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
+import {haveIChannelPermission, haveICurrentChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getChannelTimezones, getChannelMemberCountsByGroup} from 'mattermost-redux/actions/channels';
 import {get, getInt, getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {
@@ -20,7 +20,7 @@ import {
     makeGetMessageInHistoryItem,
 } from 'mattermost-redux/selectors/entities/posts';
 import {
-    getAssociatedGroupsForReference,
+    getGroupsForReferenceInCurrentChannelByMentionKey,
 } from 'mattermost-redux/selectors/entities/groups';
 import {
     addMessageIntoHistory,
@@ -94,6 +94,11 @@ function makeMapStateToProps() {
         const channelMemberCountsByGroup = selectChannelMemberCountsByGroup(state, currentChannel.id);
         const currentTeamId = getCurrentTeamId(state);
 
+        let groupsWithAllowReference = new Map();
+        if (haveICurrentChannelPermission(state, {permission: Permissions.USE_GROUP_MENTIONS})) {
+            groupsWithAllowReference = getGroupsForReferenceInCurrentChannelByMentionKey(state);
+        }
+
         return {
             currentTeamId,
             currentChannel,
@@ -124,7 +129,7 @@ function makeMapStateToProps() {
             canPost,
             useChannelMentions,
             shouldShowPreview: showPreviewOnCreatePost(state),
-            groupsWithAllowReference: new Map(getAssociatedGroupsForReference(state, currentTeamId, currentChannel.id).map((group) => [`@${group.name}`, group])),
+            groupsWithAllowReference,
             useGroupMentions,
             channelMemberCountsByGroup,
             isLDAPEnabled,
