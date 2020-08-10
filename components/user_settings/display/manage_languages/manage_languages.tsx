@@ -15,72 +15,85 @@ import Constants from 'utils/constants';
 
 type Actions = {
     updateMe: (user: UserProfile) => Promise<ActionResult>;
-}
+};
 
 type Props = {
     user: UserProfile;
     locale: string;
     updateSection: (section: string) => Promise<void>;
     actions: Actions;
-}
+};
 
-type State= {
+type State = {
     isSaving: boolean;
     openMenu: boolean;
     locale: string;
     serverError?: string;
     selectedOption: object;
-}
+};
 
 export default class ManageLanguage extends React.PureComponent<Props, State> {
+    reactSelectContainer: React.RefObject<HTMLDivElement>;
     constructor(props: Props) {
         super(props);
-        const locales = I18n.getLanguages();
+        const locales: any = I18n.getLanguages();
         const userLocale = props.locale;
-        const selectedOption = {value: locales[userLocale].value, label: locales[userLocale].name};
+        const selectedOption = {
+            value: locales[userLocale].value,
+            label: locales[userLocale].name
+        };
         this.reactSelectContainer = React.createRef();
 
         this.state = {
             locale: props.locale,
             selectedOption,
             isSaving: false,
-            openMenu: false,
+            openMenu: false
         };
     }
 
-    componentDidMount() {
-        if (this.reactSelectContainer.current) {
-            this.reactSelectContainer.current.addEventListener('keydown', this.handleContainerKeyDown);
+    componentDidMount(this: any) {
+        const reactSelectContainer = this.reactSelectContainer.current;
+        if (reactSelectContainer) {
+            reactSelectContainer.addEventListener(
+                'keydown',
+                this.handleContainerKeyDown
+            );
         }
     }
 
-    componentWillUnmount() {
+    componentWillUnmount(this: any) {
         if (this.reactSelectContainer.current) {
-            this.reactSelectContainer.current.removeEventListener('keydown', this.handleContainerKeyDown);
+            this.reactSelectContainer.current.removeEventListener(
+                'keydown',
+                this.handleContainerKeyDown
+            );
         }
     }
 
-    handleContainerKeyDown = (e) => {
+    handleContainerKeyDown = (e: React.KeyboardEvent) => {
+        const modalBody = document.querySelector('.modal-body');
         if (isKeyPressed(e, Constants.KeyCodes.ESCAPE) && this.state.openMenu) {
-            document.querySelector('.modal-body').classList.remove('no-scroll');
+            modalBody?.classList.remove('no-scroll');
             this.setState({openMenu: false});
             e.stopPropagation();
         }
-    }
+    };
 
-    handleKeyDown = (e) => {
+    handleKeyDown = (e: React.KeyboardEvent) => {
+        const modalBody = document.querySelector('.modal-body');
         if (isKeyPressed(e, Constants.KeyCodes.ENTER)) {
-            document.querySelector('.modal-body').classList.add('no-scroll');
+            modalBody?.classList.add('no-scroll');
             this.setState({openMenu: true});
         }
-    }
+    };
 
-    setLanguage = (selectedOption) => {
+    setLanguage = (selectedOption: any) => {
         this.setState({
             locale: selectedOption.value,
-            selectedOption,
+            selectedOption
         });
-    }
+    };
 
     changeLanguage = () => {
         if (this.props.user.locale === this.state.locale) {
@@ -88,69 +101,76 @@ export default class ManageLanguage extends React.PureComponent<Props, State> {
         } else {
             this.submitUser({
                 ...this.props.user,
-                locale: this.state.locale,
+                locale: this.state.locale
             });
         }
-    }
+    };
 
     submitUser = (user: UserProfile) => {
         this.setState({isSaving: true});
 
-        this.props.actions.updateMe(user).
-            then((res) => {
-                if ('data' in res) {
-                    // Do nothing since changing the locale essentially refreshes the page
-                } else if ('error' in res) {
-                    let serverError;
-                    const {error} = res;
-                    if (error instanceof Error) {
-                        serverError = error.message;
-                    } else {
-                        serverError = error;
-                    }
-                    this.setState({serverError, isSaving: false});
+        this.props.actions.updateMe(user).then((res) => {
+            if ('data' in res) {
+                // Do nothing since changing the locale essentially refreshes the page
+            } else if ('error' in res) {
+                let serverError;
+                const {error} = res;
+                if (error instanceof Error) {
+                    serverError = error.message;
+                } else {
+                    serverError = error;
                 }
-            });
-    }
+                this.setState({serverError, isSaving: false});
+            }
+        });
+    };
 
     handleMenuClose = () => {
-        document.querySelector('.modal-body').classList.remove('no-scroll');
+        const modalBody = document.querySelector('.modal-body');
+        if (modalBody) {
+            modalBody.classList.remove('no-scroll');
+        }
         this.setState({openMenu: false});
-    }
+    };
 
     handleMenuOpen = () => {
-        document.querySelector('.modal-body').classList.add('no-scroll');
+        const modalBody = document.querySelector('.modal-body');
+        if (modalBody) {
+            modalBody.classList.add('no-scroll');
+        }
         this.setState({openMenu: true});
-    }
+    };
 
     render() {
         let serverError;
         if (this.state.serverError) {
-            serverError = <label className='has-error'>{this.state.serverError}</label>;
+            serverError = (
+                <label className='has-error'>{this.state.serverError}</label>
+            );
         }
 
-        const options = [];
-        const locales = I18n.getLanguages();
+        const options: object[] = [];
+        const locales: any = I18n.getLanguages();
 
-        const languages = Object.keys(locales).map((l) => {
-            return {
-                value: locales[l].value,
-                name: locales[l].name,
-                order: locales[l].order,
-            };
-        }).sort((a, b) => a.order - b.order);
+        const languages = Object.keys(locales).
+            map((l) => {
+                return {
+                    value: locales[l].value as string,
+                    name: locales[l].name,
+                    order: locales[l].order
+                };
+            }).
+            sort((a, b) => a.order - b.order);
 
         languages.forEach((lang) => {
-            options.push(
-                {value: lang.value, label: lang.name},
-            );
+            options.push({value: lang.value, label: lang.name});
         });
 
         const reactStyles = {
-            menuPortal: (provided) => ({
+            menuPortal: (provided: any) => ({
                 ...provided,
-                zIndex: 9999,
-            }),
+                zIndex: 9999
+            })
         };
 
         const input = (

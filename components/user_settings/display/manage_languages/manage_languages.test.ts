@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {shallow} from 'enzyme';
+import {UserProfile} from 'mattermost-redux/types/users';
 
 import ManageLanguages from './manage_languages';
 
@@ -12,7 +13,7 @@ describe('components/user_settings/display/manage_languages/manage_languages', (
     };
 
     const requiredProps = {
-        user,
+        user: user as UserProfile,
         locale: 'en',
         updateSection: jest.fn(),
         actions: {
@@ -20,13 +21,15 @@ describe('components/user_settings/display/manage_languages/manage_languages', (
         },
     };
 
-    test('submitUser() should have called updateMe', () => {
-        const wrapper = shallow(<ManageLanguages {...requiredProps} />);
-        const instance = wrapper.instance();
+    test('submitUser() should have called updateMe', async () => {
+        const updateMe = jest.fn(() => Promise.resolve({data: true}));
+        const props = {...requiredProps, actions: {...requiredProps.actions, updateMe}};
+        const wrapper = shallow(<ManageLanguages {...props}/>);
+        const instance = wrapper.instance() as ManageLanguages;
 
-        instance.submitUser(requiredProps.user);
+        await instance.submitUser(requiredProps.user);
 
-        expect(requiredProps.actions.updateMe).toHaveBeenCalledTimes(1);
-        expect(requiredProps.actions.updateMe).toHaveBeenCalledWith(requiredProps.user);
+        expect(props.actions.updateMe).toHaveBeenCalledTimes(1);
+        expect(props.actions.updateMe).toHaveBeenCalledWith(requiredProps.user);
     });
 });
