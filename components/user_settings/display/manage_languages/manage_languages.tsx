@@ -1,10 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import ReactSelect from 'react-select';
+import {ActionResult} from 'mattermost-redux/types/actions';
+import {UserProfile} from 'mattermost-redux/types/users';
 
 import * as I18n from 'i18n/i18n.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
@@ -12,17 +13,27 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx'
 import {isKeyPressed} from 'utils/utils.jsx';
 import Constants from 'utils/constants';
 
-export default class ManageLanguage extends React.PureComponent {
-    static propTypes = {
-        user: PropTypes.object.isRequired,
-        locale: PropTypes.string.isRequired,
-        updateSection: PropTypes.func.isRequired,
-        actions: PropTypes.shape({
-            updateMe: PropTypes.func.isRequired,
-        }).isRequired,
-    };
+type Actions = {
+    updateMe: (user: UserProfile) => Promise<ActionResult>;
+}
 
-    constructor(props) {
+type Props = {
+    user: UserProfile;
+    locale: string;
+    updateSection: (section: string) => Promise<void>;
+    actions: Actions;
+}
+
+type State= {
+    isSaving: boolean;
+    openMenu: boolean;
+    locale: string;
+    serverError?: string;
+    selectedOption: object;
+}
+
+export default class ManageLanguage extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
         super(props);
         const locales = I18n.getLanguages();
         const userLocale = props.locale;
@@ -82,19 +93,20 @@ export default class ManageLanguage extends React.PureComponent {
         }
     }
 
-    submitUser = (user) => {
+    submitUser = (user: UserProfile) => {
         this.setState({isSaving: true});
 
         this.props.actions.updateMe(user).
-            then(({data, error: err}) => {
-                if (data) {
+            then((res) => {
+                if ('data' in res) {
                     // Do nothing since changing the locale essentially refreshes the page
-                } else if (err) {
+                } else if ('error' in res) {
                     let serverError;
-                    if (err.message) {
-                        serverError = err.message;
+                    const {error} = res;
+                    if (error instanceof Error) {
+                        serverError = error.message;
                     } else {
-                        serverError = err;
+                        serverError = error;
                     }
                     this.setState({serverError, isSaving: false});
                 }

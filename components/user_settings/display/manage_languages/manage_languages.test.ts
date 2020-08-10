@@ -21,7 +21,7 @@ describe('components/user_settings/display/manage_languages/manage_languages', (
     };
 
     test('submitUser() should have called updateMe', () => {
-        const wrapper = shallow(<ManageLanguages {...requiredProps}/>);
+        const wrapper = shallow(<ManageLanguages {...requiredProps} />);
         const instance = wrapper.instance();
 
         instance.submitUser(requiredProps.user);
