@@ -3988,7 +3988,7 @@
   "admin.channel_list.manual_invites": "Приглашения вручную",
   "admin.channel_list.group_sync": "Синхронизация группы",
   "admin.channel_list.archived": "Архив",
-  "warn_metric_ack_modal.number_of_active_users.description": "Mattermost настоятельно рекомендует, чтобы при развертывании конфигураций на более {limit} пользователей был приобретен Mattermost Корпоративный E20, который предлагает такие функции, как управление пользователями, кластеризация серверов и мониторинг производительности",
+  "warn_metric_ack_modal.number_of_active_users.description": "Mattermost настоятельно рекомендует, чтобы при развертывании конфигураций на более {limit} пользователей была приобретена Корпоративная редакция Mattermost, которая предлагает такие функции, как управление пользователями, кластеризация серверов и мониторинг производительности",
   "warn_metric_ack_modal.mailto.message": "С поддержкой не удалось связаться. Пожалуйста, {link}.",
   "warn_metric_ack_modal.mailto.link": "напишите нам",
   "warn_metric_ack_modal.header.title": "Улучшить до Корпоративной редакции Mattermost",
@@ -3997,5 +3997,6 @@
   "announcement_bar.error.number_active_users_warn_metric_status.text": "Теперь у вас более {limit} пользователей. Мы настоятельно рекомендуем обновить вашу версию до Корпоративной редакции.",
   "announcement_bar.error.number_active_users_warn_metric_status_ack.text": "Спасибо, что связались с Mattermost. Мы свяжемся с вами в ближайшее время.",
   "admin.warn_metric.sending-email": "Отправка электронной почты",
-  "warn_metric_ack_modal.learn_more.link": "Узнать больше"
+  "warn_metric_ack_modal.learn_more.link": "Узнать больше",
+  "warn_metric_ack_modal.number_of_active_users.subtext": "При обращении в службу поддержки ваши контактные данные будут отправлены в Mattermost, Inc. {link}"
 }
