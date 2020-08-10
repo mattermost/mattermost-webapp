@@ -107,6 +107,6 @@ this is long text this is long text this is long text this is long text this is 
 ~~~`);
 
         expect(output).toContain('<span class="post-code__language">TeX</span>');
-        expect(output).toContain('<code class="hljs hljs-ln">');
+        expect(output).toContain('<code class="hljs hljs-ln language-tex">');
     });
 });
