@@ -14,11 +14,11 @@ type ProfileWithGroups = Partial<UserProfile & {
     groups: Partial<Group>[];
 }>;
 
-interface GroupUsersGroupsProps {
+interface UsersToRemoveGroupsProps {
     user: ProfileWithGroups;
 }
 
-export default function GroupUsersGroups(props: GroupUsersGroupsProps): JSX.Element {
+export default function UsersToRemoveGroups(props: UsersToRemoveGroupsProps): JSX.Element {
     const {user} = props;
     const groups = user.groups || [];
     let column: JSX.Element | string;
@@ -51,7 +51,7 @@ export default function GroupUsersGroups(props: GroupUsersGroupsProps): JSX.Elem
     }
 
     return (
-        <div className='GroupUsersGroups'>
+        <div className='UsersToRemoveGroups'>
             {column}
         </div>
     );

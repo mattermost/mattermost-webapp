@@ -9,9 +9,9 @@ import {TeamMembership} from 'mattermost-redux/types/teams';
 
 import {TestHelper} from 'utils/test_helper';
 
-import GroupUsers from './group_users';
+import UsersToRemove from './users_to_remove';
 
-describe('components/admin_console/team_channel_settings/group/GroupUsers', () => {
+describe('components/admin_console/team_channel_settings/group/UsersToRemove', () => {
     function createUser(id: string, username: string, bot: boolean): UserProfile {
         return TestHelper.getUserMock({
             id,
@@ -58,7 +58,7 @@ describe('components/admin_console/team_channel_settings/group/GroupUsers', () =
 
     test('should match snapshot with 2 users', () => {
         const wrapper = shallow(
-            <GroupUsers
+            <UsersToRemove
                 {...baseProps}
             />,
         );
@@ -67,7 +67,7 @@ describe('components/admin_console/team_channel_settings/group/GroupUsers', () =
 
     test('should match snapshot with guests disabled', () => {
         const wrapper = shallow(
-            <GroupUsers
+            <UsersToRemove
                 {...baseProps}
                 enableGuestAccounts={false}
             />,
@@ -77,7 +77,7 @@ describe('components/admin_console/team_channel_settings/group/GroupUsers', () =
 
     test('should match snapshot searching with filters', () => {
         const wrapper = shallow(
-            <GroupUsers
+            <UsersToRemove
                 {...baseProps}
                 searchTerm={'foo'}
                 filters={{roles: ['system_user']}}
@@ -88,7 +88,7 @@ describe('components/admin_console/team_channel_settings/group/GroupUsers', () =
 
     test('should match snapshot loading', () => {
         const wrapper = shallow(
-            <GroupUsers
+            <UsersToRemove
                 {...baseProps}
             />,
         );

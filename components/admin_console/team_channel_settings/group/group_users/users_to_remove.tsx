@@ -15,10 +15,10 @@ import UserGridName from 'components/admin_console/user_grid/user_grid_name';
 import DataGrid, {Row, Column} from 'components/admin_console/data_grid/data_grid';
 import {FilterOptions} from 'components/admin_console/filter/filter';
 
-import GroupUsersRole from './group_users_role';
-import GroupUsersGroups from './group_users_groups';
+import GroupUsersRole from './users_to_remove_role';
+import UsersToRemoveGroups from './users_to_remove_groups';
 
-import './group_users.scss';
+import './users_to_remove.scss';
 
 const GROUP_MEMBERS_PAGE_SIZE = 10;
 
@@ -56,7 +56,7 @@ interface State {
     loading: boolean;
 }
 
-export default class GroupUsers extends React.PureComponent<Props, State> {
+export default class UsersToRemove extends React.PureComponent<Props, State> {
     public constructor(props: Props) {
         super(props);
 
@@ -192,7 +192,7 @@ export default class GroupUsers extends React.PureComponent<Props, State> {
                         />
                     ),
                     groups: (
-                        <GroupUsersGroups
+                        <UsersToRemoveGroups
                             key={user.id}
                             user={user}
                         />
@@ -341,7 +341,7 @@ export default class GroupUsers extends React.PureComponent<Props, State> {
         );
 
         return (
-            <div className='GroupUsers'>
+            <div className='UsersToRemove'>
                 <DataGrid
                     columns={columns}
                     rows={rows}

@@ -19,7 +19,7 @@ import {GlobalState} from 'types/store';
 import {loadChannelMembersForProfilesList, loadTeamMembersForProfilesList} from 'actions/user_actions.jsx';
 import {setModalSearchTerm, setModalFilters} from 'actions/views/search';
 
-import GroupUsers, {Filters, Memberships} from './group_users';
+import UsersToRemove, {Filters, Memberships} from './users_to_remove';
 
 type Props = {
     members: UserProfile[];
@@ -99,4 +99,4 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     };
 }
 
-export default connect(makeMapStateToProps, mapDispatchToProps)(GroupUsers);
+export default connect(makeMapStateToProps, mapDispatchToProps)(UsersToRemove);

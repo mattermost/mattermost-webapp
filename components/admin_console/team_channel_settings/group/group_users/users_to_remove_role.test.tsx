@@ -7,9 +7,9 @@ import {IntlProvider} from 'react-intl';
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 import {TestHelper} from 'utils/test_helper';
 
-import GroupUsersRole from './group_users_role';
+import UsersToRemoveRole from './users_to_remove_role';
 
-describe('components/admin_console/team_channel_settings/group/GroupUsersRole', () => {
+describe('components/admin_console/team_channel_settings/group/UsersToRemoveRole', () => {
     const groups = [TestHelper.getGroupMock({id: 'group1', display_name: 'group1'})];
     const userWithGroups = {
         ...TestHelper.getUserMock(),
@@ -41,7 +41,7 @@ describe('components/admin_console/team_channel_settings/group/GroupUsersRole', 
                 locale='en'
                 messages={{}}
             >
-                <GroupUsersRole
+                <UsersToRemoveRole
                     user={userWithGroups}
                     scope={scopeTeam}
                     membership={teamMembership}
@@ -57,7 +57,7 @@ describe('components/admin_console/team_channel_settings/group/GroupUsersRole', 
                 locale='en'
                 messages={{}}
             >
-                <GroupUsersRole
+                <UsersToRemoveRole
                     user={userWithGroups}
                     scope={scopeTeam}
                     membership={adminTeamMembership}
@@ -73,7 +73,7 @@ describe('components/admin_console/team_channel_settings/group/GroupUsersRole', 
                 locale='en'
                 messages={{}}
             >
-                <GroupUsersRole
+                <UsersToRemoveRole
                     user={userWithGroups}
                     scope={scopeChannel}
                     membership={channelMembership}
@@ -89,7 +89,7 @@ describe('components/admin_console/team_channel_settings/group/GroupUsersRole', 
                 locale='en'
                 messages={{}}
             >
-                <GroupUsersRole
+                <UsersToRemoveRole
                     user={userWithGroups}
                     scope={scopeChannel}
                     membership={adminChannelMembership}
@@ -105,7 +105,7 @@ describe('components/admin_console/team_channel_settings/group/GroupUsersRole', 
                 locale='en'
                 messages={{}}
             >
-                <GroupUsersRole
+                <UsersToRemoveRole
                     user={adminUserWithGroups}
                     scope={scopeChannel}
                     membership={adminChannelMembership}
@@ -121,7 +121,7 @@ describe('components/admin_console/team_channel_settings/group/GroupUsersRole', 
                 locale='en'
                 messages={{}}
             >
-                <GroupUsersRole
+                <UsersToRemoveRole
                     user={guestUserWithGroups}
                     scope={scopeTeam}
                     membership={guestMembership}

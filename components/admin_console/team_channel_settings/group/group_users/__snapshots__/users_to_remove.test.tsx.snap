@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/admin_console/team_channel_settings/group/GroupUsers should match snapshot loading 1`] = `
+exports[`components/admin_console/team_channel_settings/group/UsersToRemove should match snapshot loading 1`] = `
 <div
-  className="GroupUsers"
+  className="UsersToRemove"
 >
   <DataGrid
     columns={
@@ -114,9 +114,9 @@ exports[`components/admin_console/team_channel_settings/group/GroupUsers should 
 </div>
 `;
 
-exports[`components/admin_console/team_channel_settings/group/GroupUsers should match snapshot searching with filters 1`] = `
+exports[`components/admin_console/team_channel_settings/group/UsersToRemove should match snapshot searching with filters 1`] = `
 <div
-  className="GroupUsers"
+  className="UsersToRemove"
 >
   <DataGrid
     columns={
@@ -228,9 +228,9 @@ exports[`components/admin_console/team_channel_settings/group/GroupUsers should 
 </div>
 `;
 
-exports[`components/admin_console/team_channel_settings/group/GroupUsers should match snapshot with 2 users 1`] = `
+exports[`components/admin_console/team_channel_settings/group/UsersToRemove should match snapshot with 2 users 1`] = `
 <div
-  className="GroupUsers"
+  className="UsersToRemove"
 >
   <DataGrid
     columns={
@@ -342,9 +342,9 @@ exports[`components/admin_console/team_channel_settings/group/GroupUsers should 
 </div>
 `;
 
-exports[`components/admin_console/team_channel_settings/group/GroupUsers should match snapshot with guests disabled 1`] = `
+exports[`components/admin_console/team_channel_settings/group/UsersToRemove should match snapshot with guests disabled 1`] = `
 <div
-  className="GroupUsers"
+  className="UsersToRemove"
 >
   <DataGrid
     columns={

@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/admin_console/team_channel_settings/group/GroupUsersGroups should match snapshot with 0 groups 1`] = `
+exports[`components/admin_console/team_channel_settings/group/UsersToRemoveGroups should match snapshot with 0 groups 1`] = `
 <div
-  className="GroupUsersGroups"
+  className="UsersToRemoveGroups"
 >
   <FormattedMessage
     defaultMessage="{amount, number} {amount, plural, one {Group} other {Groups}}"
@@ -16,17 +16,17 @@ exports[`components/admin_console/team_channel_settings/group/GroupUsersGroups s
 </div>
 `;
 
-exports[`components/admin_console/team_channel_settings/group/GroupUsersGroups should match snapshot with 1 group 1`] = `
+exports[`components/admin_console/team_channel_settings/group/UsersToRemoveGroups should match snapshot with 1 group 1`] = `
 <div
-  className="GroupUsersGroups"
+  className="UsersToRemoveGroups"
 >
   group1
 </div>
 `;
 
-exports[`components/admin_console/team_channel_settings/group/GroupUsersGroups should match snapshot with 3 groups 1`] = `
+exports[`components/admin_console/team_channel_settings/group/UsersToRemoveGroups should match snapshot with 3 groups 1`] = `
 <div
-  className="GroupUsersGroups"
+  className="UsersToRemoveGroups"
 >
   <OverlayTrigger
     defaultOverlayShown={false}

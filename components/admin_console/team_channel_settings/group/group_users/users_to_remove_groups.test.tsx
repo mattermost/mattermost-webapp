@@ -9,9 +9,9 @@ import {Group} from 'mattermost-redux/types/groups';
 
 import {TestHelper} from 'utils/test_helper';
 
-import GroupUsersGroups from './group_users_groups';
+import UsersToRemoveGroups from './users_to_remove_groups';
 
-describe('components/admin_console/team_channel_settings/group/GroupUsersGroups', () => {
+describe('components/admin_console/team_channel_settings/group/UsersToRemoveGroups', () => {
     function userWithGroups(user: UserProfile, groups: Group[]) {
         return {
             ...user,
@@ -26,7 +26,7 @@ describe('components/admin_console/team_channel_settings/group/GroupUsersGroups'
 
     test('should match snapshot with 0 groups', () => {
         const wrapper = shallow(
-            <GroupUsersGroups
+            <UsersToRemoveGroups
                 user={userWithGroups(user, [])}
             />,
         );
@@ -35,7 +35,7 @@ describe('components/admin_console/team_channel_settings/group/GroupUsersGroups'
 
     test('should match snapshot with 1 group', () => {
         const wrapper = shallow(
-            <GroupUsersGroups
+            <UsersToRemoveGroups
                 user={userWithGroups(user, [group1])}
             />,
         );
@@ -44,7 +44,7 @@ describe('components/admin_console/team_channel_settings/group/GroupUsersGroups'
 
     test('should match snapshot with 3 groups', () => {
         const wrapper = shallow(
-            <GroupUsersGroups
+            <UsersToRemoveGroups
                 user={userWithGroups(user, [group1, group2, group3])}
             />,
         );

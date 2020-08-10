@@ -19,7 +19,7 @@ interface GroupUsersRoleProps {
     scope: 'team' | 'channel';
 }
 
-export default function GroupUsersRole(props: GroupUsersRoleProps) {
+export default function UsersToRemoveRole(props: GroupUsersRoleProps) {
     const intl = useIntl();
     const {user, membership, scope} = props;
 
@@ -68,7 +68,7 @@ export default function GroupUsersRole(props: GroupUsersRoleProps) {
     }
 
     return (
-        <div className='GroupUsersRole'>
+        <div className='UsersToRemoveRole'>
             {localizedRole}
         </div>
     );

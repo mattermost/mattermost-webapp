@@ -1,4 +1,4 @@
-.GroupUsers {
+.UsersToRemove {
     .DataGrid {
         display: flex;
         flex-direction: column;
@@ -16,7 +16,7 @@
         }
     }
 
-    .GroupUsersGroups {
+    .UsersToRemoveGroups {
         a {
             text-decoration: none;
             color: var(--sys-center-channel-color);
