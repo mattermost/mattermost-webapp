@@ -39,12 +39,18 @@ describe('Messaging', () => {
         testChannel.name = testChannel.name.replace(/\s+/g, '-').toLowerCase();
 
         // * Check that the Korean message got posted in the channel
-        cy.get(`#post_${lastPostId}`).should('exist');
+        cy.get(`#postMessageText_${lastPostId}`).should('contain', '휴');
 
         // # Change channels to the Town Square channel
         cy.get('#sidebarItem_town-square').click();
 
         // * Check that the draft icon does not exist next to the Test Channel name
         cy.get(`#sidebarItem_${testChannel.name}`).should('not.have.descendants', '#draftIcon');
+
+        // # Return to the channel where the 2 byte character was posted
+        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+
+        // * Assert that the message textbox is empty
+        cy.get('#post_textbox').should('have.value', '');
     });
 });
