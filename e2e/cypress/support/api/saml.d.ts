@@ -42,7 +42,7 @@ declare namespace Cypress {
         /**
          * Upload the IDP certificate to be used with your SAML configuration. The server will pick a hard-coded filename for the IdpCertificateFile setting in your config.json.
          * See https://api.mattermost.com/#tag/SAML/paths/~1saml~1certificate~1idp/post
-         * @param {String} filePath - path of the IDP certificate file; relative to fixture folder
+         * @param {String} filePath - path of the IDP certificate file relative to fixture folder
          * @returns {Response} response: Cypress-chainable response which should have successful HTTP status of 200 OK to continue or pass.
          *
          * @example
@@ -54,7 +54,7 @@ declare namespace Cypress {
         /**
          * Upload the public certificate to be used for encryption with your SAML configuration. The server will pick a hard-coded filename for the PublicCertificateFile setting in your config.json.
          * See https://api.mattermost.com/#tag/SAML/paths/~1saml~1certificate~1public/post
-         * @param {String} filePath - path of the public certificate file; relative to fixture folder
+         * @param {String} filePath - path of the public certificate file relative to fixture folder
          * @returns {Response} response: Cypress-chainable response which should have successful HTTP status of 200 OK to continue or pass.
          *
          * @example
@@ -66,7 +66,7 @@ declare namespace Cypress {
         /**
          * Upload the private key to be used for encryption with your SAML configuration. The server will pick a hard-coded filename for the PrivateKeyFile setting in your config.json.
          * See https://api.mattermost.com/#tag/SAML/paths/~1saml~1certificate~1private/post
-         * @param {String} filePath - path of the private certificate file; relative to fixture folder
+         * @param {String} filePath - path of the private certificate file relative to fixture folder
          * @returns {Response} response: Cypress-chainable response which should have successful HTTP status of 200 OK to continue or pass.
          *
          * @example

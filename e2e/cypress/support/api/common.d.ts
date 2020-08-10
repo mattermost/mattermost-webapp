@@ -26,10 +26,9 @@ declare namespace Cypress {
          * @param {String} options.url - HTTP resource URL
          * @param {String} options.method - HTTP request method
          * @param {Number} options.successStatus - HTTP status code
-         * @param {Boolean} options.fromFixture - if true, filePath is relative to fixture folder
          *
          * @example
-         *   cy.apiUploadFile('certificate', filePath, {url: '/api/v4/saml/certificate/public', method: 'POST', successStatus: 200, fromFixture: true});
+         *   cy.apiUploadFile('certificate', filePath, {url: '/api/v4/saml/certificate/public', method: 'POST', successStatus: 200});
          */
         apiUploadFile(name: string, filePath: string, options: object): Chainable<Response>;
     }

@@ -36,6 +36,14 @@ Cypress.Commands.add('apiRequireLicenseForFeature', (key = '') => {
 });
 
 Cypress.Commands.add('apiRequireLicense', () => {
+    // # If license does not exist, upload a license only if environment variable `resetBeforeTest` is true.
+    cy.apiGetClientLicense().then(({license}) => {
+        if (license.IsLicensed === 'false' && Cypress.env('resetBeforeTest')) {
+            cy.apiUploadLicense('mattermost-license.txt');
+        }
+    });
+
+    // * Verify if license exists
     return cy.apiGetClientLicense().then(({license}) => {
         expect(license.IsLicensed, 'Server has no Enterprise license.').to.equal('true');
 

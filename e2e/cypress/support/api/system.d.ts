@@ -42,6 +42,7 @@ declare namespace Cypress {
 
         /**
          * Verify if server has license and fail test if not found.
+         * If license does not exist, upload a license only if environment variable `resetBeforeTest` is true.
          * @returns {ClientLicense} `out.license` as `ClientLicense`
          *
          * @example
@@ -52,11 +53,11 @@ declare namespace Cypress {
         /**
          * Upload a license to enable enterprise features.
          * See https://api.mattermost.com/#tag/system/paths/~1license/post
-         * @param {String} filePath - path of the license file; can be absolute path or relative to e2e root folder
+         * @param {String} filePath - path of the license file relative to fixtures folder
          * @returns {Response} response: Cypress-chainable response which should have successful HTTP status of 200 OK to continue or pass.
          *
          * @example
-         *   const filePath = 'mm-license.txt';
+         *   const filePath = 'mattermost-license.txt';
          *   cy.apiUploadLicense(filePath);
          */
         apiUploadLicense(filePath: string): Chainable<Response>;

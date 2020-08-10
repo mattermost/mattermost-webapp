@@ -30,13 +30,13 @@ Cypress.Commands.add('apiGetMetadataFromIdp', (samlMetadataUrl) => {
 });
 
 Cypress.Commands.add('apiUploadSAMLIDPCert', (filePath) => {
-    cy.apiUploadFile('certificate', filePath, {url: '/api/v4/saml/certificate/idp', method: 'POST', successStatus: 200, fromFixture: true});
+    cy.apiUploadFile('certificate', filePath, {url: '/api/v4/saml/certificate/idp', method: 'POST', successStatus: 200});
 });
 
 Cypress.Commands.add('apiUploadSAMLPublicCert', (filePath) => {
-    cy.apiUploadFile('certificate', filePath, {url: '/api/v4/saml/certificate/public', method: 'POST', successStatus: 200, fromFixture: true});
+    cy.apiUploadFile('certificate', filePath, {url: '/api/v4/saml/certificate/public', method: 'POST', successStatus: 200});
 });
 
 Cypress.Commands.add('apiUploadSAMLPrivateKey', (filePath) => {
-    cy.apiUploadFile('certificate', filePath, {url: '/api/v4/saml/certificate/private', method: 'POST', successStatus: 200, fromFixture: true});
+    cy.apiUploadFile('certificate', filePath, {url: '/api/v4/saml/certificate/private', method: 'POST', successStatus: 200});
 });
