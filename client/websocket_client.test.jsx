@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import WebSocketClient from './websocket_client.jsx';
-const fakeURL = 'ws://localhostt:9001';
+const FAKE_URL = 'ws://localhostt:9001';
 
 describe('WebSocketClient', () => {
     test('should call for createPingEvent on conn open and  clear existing ping pong timers', () => {
