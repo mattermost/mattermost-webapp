@@ -12,7 +12,10 @@
     overflow: hidden;
     padding: 5px 30px;
     max-height: $announcement-bar-height;
-
+    &::after {
+        content: '';
+        display: block;
+      }
     > span {
         max-width: 100%;
         display: block;

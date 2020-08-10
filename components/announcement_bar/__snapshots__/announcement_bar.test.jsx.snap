@@ -7,7 +7,7 @@ exports[`components/AnnouncementBar should match snapshot, bar not showing 1`] =
 >
   <OverlayTrigger
     defaultOverlayShown={false}
-    delayHide={1000}
+    delayHide={2500}
     delayShow={400}
     overlay={<React.Fragment />}
     placement="bottom"
@@ -18,7 +18,9 @@ exports[`components/AnnouncementBar should match snapshot, bar not showing 1`] =
       ]
     }
   >
-    <span>
+    <span
+      onMouseOver={[Function]}
+    >
       <injectIntl(FormattedMarkdownMessage)
         id="text"
       />
@@ -37,7 +39,7 @@ exports[`components/AnnouncementBar should match snapshot, bar showing 1`] = `
 >
   <OverlayTrigger
     defaultOverlayShown={false}
-    delayHide={1000}
+    delayHide={2500}
     delayShow={400}
     overlay={<React.Fragment />}
     placement="bottom"
@@ -48,7 +50,9 @@ exports[`components/AnnouncementBar should match snapshot, bar showing 1`] = `
       ]
     }
   >
-    <span>
+    <span
+      onMouseOver={[Function]}
+    >
       <injectIntl(FormattedMarkdownMessage)
         id="text"
       />
@@ -67,7 +71,7 @@ exports[`components/AnnouncementBar should match snapshot, bar showing, no dismi
 >
   <OverlayTrigger
     defaultOverlayShown={false}
-    delayHide={1000}
+    delayHide={2500}
     delayShow={400}
     overlay={<React.Fragment />}
     placement="bottom"
@@ -78,7 +82,9 @@ exports[`components/AnnouncementBar should match snapshot, bar showing, no dismi
       ]
     }
   >
-    <span>
+    <span
+      onMouseOver={[Function]}
+    >
       <injectIntl(FormattedMarkdownMessage)
         id="text"
       />
@@ -97,7 +103,7 @@ exports[`components/AnnouncementBar should match snapshot, dismissal 1`] = `
 >
   <OverlayTrigger
     defaultOverlayShown={false}
-    delayHide={1000}
+    delayHide={2500}
     delayShow={400}
     overlay={<React.Fragment />}
     placement="bottom"
@@ -108,7 +114,9 @@ exports[`components/AnnouncementBar should match snapshot, dismissal 1`] = `
       ]
     }
   >
-    <span>
+    <span
+      onMouseOver={[Function]}
+    >
       <injectIntl(FormattedMarkdownMessage)
         id="text"
       />
@@ -127,7 +135,7 @@ exports[`components/AnnouncementBar should match snapshot, dismissal 2`] = `
 >
   <OverlayTrigger
     defaultOverlayShown={false}
-    delayHide={1000}
+    delayHide={2500}
     delayShow={400}
     overlay={<React.Fragment />}
     placement="bottom"
@@ -138,7 +146,9 @@ exports[`components/AnnouncementBar should match snapshot, dismissal 2`] = `
       ]
     }
   >
-    <span>
+    <span
+      onMouseOver={[Function]}
+    >
       <injectIntl(FormattedMarkdownMessage)
         id="text"
       />
@@ -157,7 +167,7 @@ exports[`components/AnnouncementBar should match snapshot, dismissal 3`] = `
 >
   <OverlayTrigger
     defaultOverlayShown={false}
-    delayHide={1000}
+    delayHide={2500}
     delayShow={400}
     overlay={<React.Fragment />}
     placement="bottom"
@@ -168,7 +178,9 @@ exports[`components/AnnouncementBar should match snapshot, dismissal 3`] = `
       ]
     }
   >
-    <span>
+    <span
+      onMouseOver={[Function]}
+    >
       <injectIntl(FormattedMarkdownMessage)
         id="text"
       />
@@ -187,7 +199,7 @@ exports[`components/AnnouncementBar should match snapshot, props change 1`] = `
 >
   <OverlayTrigger
     defaultOverlayShown={false}
-    delayHide={1000}
+    delayHide={2500}
     delayShow={400}
     overlay={<React.Fragment />}
     placement="bottom"
@@ -198,7 +210,9 @@ exports[`components/AnnouncementBar should match snapshot, props change 1`] = `
       ]
     }
   >
-    <span>
+    <span
+      onMouseOver={[Function]}
+    >
       <injectIntl(FormattedMarkdownMessage)
         id="text"
       />
@@ -217,7 +231,7 @@ exports[`components/AnnouncementBar should match snapshot, props change 2`] = `
 >
   <OverlayTrigger
     defaultOverlayShown={false}
-    delayHide={1000}
+    delayHide={2500}
     delayShow={400}
     overlay={<React.Fragment />}
     placement="bottom"
@@ -228,7 +242,9 @@ exports[`components/AnnouncementBar should match snapshot, props change 2`] = `
       ]
     }
   >
-    <span>
+    <span
+      onMouseOver={[Function]}
+    >
       <injectIntl(FormattedMarkdownMessage)
         id="text"
       />
@@ -247,7 +263,7 @@ exports[`components/AnnouncementBar should match snapshot, props change 3`] = `
 >
   <OverlayTrigger
     defaultOverlayShown={false}
-    delayHide={1000}
+    delayHide={2500}
     delayShow={400}
     overlay={<React.Fragment />}
     placement="bottom"
@@ -258,7 +274,9 @@ exports[`components/AnnouncementBar should match snapshot, props change 3`] = `
       ]
     }
   >
-    <span>
+    <span
+      onMouseOver={[Function]}
+    >
       <injectIntl(FormattedMarkdownMessage)
         id="text"
       />
@@ -277,7 +295,7 @@ exports[`components/AnnouncementBar should match snapshot, props change 4`] = `
 >
   <OverlayTrigger
     defaultOverlayShown={false}
-    delayHide={1000}
+    delayHide={2500}
     delayShow={400}
     overlay={<React.Fragment />}
     placement="bottom"
@@ -288,7 +306,9 @@ exports[`components/AnnouncementBar should match snapshot, props change 4`] = `
       ]
     }
   >
-    <span>
+    <span
+      onMouseOver={[Function]}
+    >
       <injectIntl(FormattedMarkdownMessage)
         id="text"
       />

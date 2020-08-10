@@ -47,6 +47,10 @@ export default class AnnouncementBar extends React.PureComponent {
     constructor(props) {
         super(props);
         this.messageRef = React.createRef();
+        this.state = {
+            showToolTip: false,
+        };
+        this.enableToolTipIfNeeded = this.enableToolTipIfNeeded.bind(this);
     }
 
     componentDidMount() {
@@ -58,9 +62,11 @@ export default class AnnouncementBar extends React.PureComponent {
     enableToolTipIfNeeded = () => {
         const elm = this.messageRef.current;
         if (elm) {
-            return elm.offsetWidth < elm.scrollWidth;
+            const enable = elm.offsetWidth < elm.scrollWidth;
+            this.setState({showToolTip: enable});
+            return;
         }
-        return false;
+        this.setState({showToolTip: false});
     }
 
     componentWillUnmount() {
@@ -122,7 +128,7 @@ export default class AnnouncementBar extends React.PureComponent {
                 <FormattedMarkdownMessage id={this.props.message}/>
             );
         }
-        const announcementTooltip = this.enableToolTipIfNeeded() ? (
+        const announcementTooltip = this.state.showToolTip ? (
             <Tooltip
                 className='tooltip-announcement-bar'
                 id='announcement-bar__tooltip'
@@ -142,7 +148,10 @@ export default class AnnouncementBar extends React.PureComponent {
                     overlay={announcementTooltip}
                     delayHide={Constants.OVERLAY_ANNOUCMENT_HIDE_DELAY}
                 >
-                    <span ref={this.messageRef}>
+                    <span
+                        onMouseOver={this.enableToolTipIfNeeded}
+                        ref={this.messageRef}
+                    >
                         {message}
                         <span className='announcement-bar__link'>
                             {this.props.showModal &&
