@@ -13,7 +13,6 @@ describe('Messaging', () => {
     let testTeam;
     let firstUser;
     let secondUser;
-    const switchChannels = Cypress.platform === 'darwin' ? '{cmd}K' : '{ctrl}K';
 
     before(() => {
         // # Login as test user
@@ -34,10 +33,10 @@ describe('Messaging', () => {
         });
     });
 
-    it('M23359 - CTRL/CMD+K - Open DM using mouse', () => {
-        // # Type either cmd+K / ctrl+K and type in the first character of the second user's name
-        cy.get('#post_textbox').type(switchChannels);
-        cy.get('#quickSwitchInput').type(secondUser.username.charAt(0));
+    it('T3294 - CTRL/CMD+K - Open DM using mouse', () => {
+        // # Type either cmd+K / ctrl+K depending on OS and type in the first character of the second user's name
+        cy.get('#post_textbox').cmdOrCtrlShortcut('K');
+        cy.get('#quickSwitchInput').should('be.visible').type(secondUser.username.charAt(0));
 
         // # Scroll to the second user and click to start a DM
         cy.get(`#switchChannel_${secondUser.username}`).scrollIntoView().click();
@@ -50,7 +49,7 @@ describe('Messaging', () => {
 
         // * Check that the DM exists
         cy.get('#directChannelList').should('be.visible').within(() => {
-            cy.get(`a[aria-label='${firstUser.username} 1 mention']`).should('exist');
+            cy.findByLabelText(`${firstUser.username} 1 mention`).should('exist');
         });
     });
 });
