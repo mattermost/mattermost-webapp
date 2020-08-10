@@ -25,10 +25,15 @@
     flex-grow: 0.75;
     max-width: 600px;
 
-    .Input {
+    .Input_wrapper {
         font-size: 14px;
         line-height: 38px;
         padding: 0 16px;
+    }
+
+    .Input {
+        font-size: 14px;
+        line-height: 38px;
     }
 
     .Input_legend {
