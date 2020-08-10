@@ -3970,7 +3970,7 @@
   "admin.channel_list.archived": "Arşivlenmiş",
   "announcement_bar.error.warn_metric_status.link": "Ayrıntılı bilgi alın",
   "announcement_bar.error.number_active_users_warn_metric_status.text": "{limit} kullanıcıya eriştiniz. Enterprise sürüme geçmeniz önerilir.",
-  "warn_metric_ack_modal.number_of_active_users.description": "Mattermost, {limit} üzerinde kullanıcı için, kullanıcı yönetimi, sunucu kümeleme ve başarım izleme gibi özellikler sunan Mattermost Enterprise E20 sürümünün kullanılmasını önerir",
+  "warn_metric_ack_modal.number_of_active_users.description": "Mattermost, {limit} üzerinde kullanıcı için, kullanıcı yönetimi, sunucu kümeleme ve başarım izleme gibi özellikler sunan Mattermost Enterprise sürümünün kullanılmasını önerir",
   "warn_metric_ack_modal.mailto.message": "Destek bölümüne erişilemedi. Lütfen {link}.",
   "admin.support.enableAskCommunityTitle": "Topluluğa Sorun Bağlantısı Kullanılsın:",
   "admin.support.enableAskCommunityDesc": "Bu seçenek etkinleştirildiğinde, Mattermost kullanıcı arayüzünde ve ana menüde, kullanıcıların Mattermost topluluğuna katılıp soru sorabileceği ve diğer kullanıcıların sorunlarını çözmesine yardım edebileceği \"Topluluğa sorun\" bağlantısı görüntülenir. Devre dışı bırakıldığında, bu bağlantı kullanıcılara görüntülenmez.",
@@ -3996,5 +3996,7 @@
   "admin.filter.count_more": "+{count, number} diğer",
   "admin.filter.apply": "Uygula",
   "admin.filter.all_teams": "Tüm Takımlar",
-  "admin.channel_list.manual_invites": "El ile Çağrılar"
+  "admin.channel_list.manual_invites": "El ile Çağrılar",
+  "warn_metric_ack_modal.learn_more.link": "Ayrıntılı bilgi alın",
+  "warn_metric_ack_modal.number_of_active_users.subtext": "Destek ekibi ile iletişim kurduğunuzda bilgileriniz Mattermost, Inc. tarafına gönderilir {link}"
 }

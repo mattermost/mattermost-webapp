@@ -3996,5 +3996,7 @@
   "admin.filter.count_more": "+{count,number} meer",
   "admin.filter.apply": "Toepassen",
   "admin.filter.all_teams": "Alle teams",
-  "admin.filter.reset_teams": "Terugzetten naar alle teams"
+  "admin.filter.reset_teams": "Terugzetten naar alle teams",
+  "warn_metric_ack_modal.learn_more.link": "Meer Informatie",
+  "warn_metric_ack_modal.number_of_active_users.subtext": "Contact opnemen met de helpdesk verstuurt je contactgegevens naar Mattermost, Inc. {link}"
 }
