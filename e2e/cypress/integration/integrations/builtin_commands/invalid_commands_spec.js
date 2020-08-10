@@ -7,17 +7,16 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
-// Group: @commands
+// Group: @integrations
 
-import * as TIMEOUTS from '../../fixtures/timeouts';
-import * as MESSAGES from '../../fixtures/messages';
-
-const incorrectCommand1 = 'notacommand-1';
-const incorrectCommand2 = 'notacommand-2';
-const incorrectCommand3 = 'notacommand-3';
+import * as TIMEOUTS from '../../../fixtures/timeouts';
+import * as MESSAGES from '../../../fixtures/messages';
 
 describe('Invalid slash command', () => {
+    const incorrectCommand1 = 'notacommand-1';
+    const incorrectCommand2 = 'notacommand-2';
+    const incorrectCommand3 = 'notacommand-3';
+
     before(() => {
         // # Login as test user and go to town-square
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
@@ -77,7 +76,7 @@ describe('Invalid slash command', () => {
         // # Type a incorrect slash command and press enter in RHS
         cy.get('#reply_textbox', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').clear().type(`/${incorrectCommand1} {enter}`);
 
-        // # Move the text search for error inside the rhs container only, so we are certain it is renderd below RHS textbox
+        // # Move the text search for error inside the RHS container only, so we are certain it is rendered below RHS textbox
         cy.get('#rhsContainer').within(() => {
             // * Check that error message of incorrect command is displayed
             verifyNonCommandErrorMessageIsDisplayed(incorrectCommand1);
