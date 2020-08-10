@@ -52,7 +52,7 @@ Cypress.Commands.add('apiRequireLicense', () => {
 });
 
 Cypress.Commands.add('apiUploadLicense', (filePath) => {
-    cy.apiUploadFile('license', filePath, {url: '/api/v4/license', method: 'POST', successStatus: 200, fromFixture: false});
+    cy.apiUploadFile('license', filePath, {url: '/api/v4/license', method: 'POST', successStatus: 200});
 });
 
 Cypress.Commands.add('apiDeleteLicense', () => {
