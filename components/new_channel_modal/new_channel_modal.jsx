@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
@@ -12,7 +11,6 @@ import LockIcon from 'components/widgets/icons/lock_icon';
 import LocalizedInput from 'components/localized_input/localized_input';
 import Constants from 'utils/constants.jsx';
 import {getShortenedURL} from 'utils/url';
-import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n.jsx';
 
@@ -108,13 +106,6 @@ export default class NewChannelModal extends React.PureComponent {
         this.channelHeaderInput = React.createRef();
         this.channelPurposeInput = React.createRef();
         this.displayNameInput = React.createRef();
-    }
-
-    componentDidMount() {
-        // ???
-        if (UserAgent.isInternetExplorer() || UserAgent.isEdge()) {
-            $('body').addClass('browser--ie');
-        }
     }
 
     onEnterKeyDown = (e) => {
