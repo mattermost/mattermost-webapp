@@ -95,8 +95,6 @@ export default class TeamProfileStep extends React.PureComponent<Props, State> {
 
         this.props.actions.patchTeam(team);
 
-        // TODO: patch url?
-
         if (this.state.profilePicture) {
             this.props.actions.setTeamIcon(this.props.team.id, this.state.profilePicture);
         } else if (this.state.removeProfilePicture) {
@@ -166,17 +164,6 @@ export default class TeamProfileStep extends React.PureComponent<Props, State> {
                             error={this.state.teamNameError}
                             info={Utils.localizeMessage('next_steps_view.team_profile_step.nameWillBeDisplayed', 'Your team name will be displayed in your sidebar')}
                         />
-                        {/* TODO: For URL
-                            <Input
-                            name='teamURL'
-                            type='text'
-                            value={this.state.teamURL}
-                            onChange={this.handleURLInputChange}
-                            placeholder={Utils.localizeMessage('next_steps_view.team_profile_step.teamURL', 'Team URL')}
-                            error={this.state.teamURLError}
-                            info={Utils.localizeMessage('next_steps_view.team_profile_step.youCanCustomize', 'You can customize your team url')}
-                            textPrefix={this.getSanitizedSiteURL()}
-                        /> */}
                     </div>
                 </div>
                 <span className='TeamProfileStep__pictureError'>
