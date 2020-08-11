@@ -123,7 +123,7 @@ Cypress.Commands.add('apiInvalidateCache', () => {
     });
 });
 
-function uploadLicencseIfDoesNotExist() {
+function uploadLicenseIfNotExist() {
     // # Upload a license if it does not exist.
     cy.apiGetClientLicense().then(({license}) => {
         if (license.IsLicensed === 'false') {
