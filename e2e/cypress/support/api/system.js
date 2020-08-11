@@ -18,9 +18,7 @@ Cypress.Commands.add('apiGetClientLicense', () => {
 });
 
 Cypress.Commands.add('apiRequireLicenseForFeature', (key = '') => {
-    uploadLicenseIfNotExist();
-
-    return cy.apiGetClientLicense().then(({license}) => {
+    return uploadLicenseIfNotExist().then(({license}) => {
         expect(license.IsLicensed, 'Server has no Enterprise license.').to.equal('true');
 
         let hasLicenseKey = false;
@@ -38,10 +36,7 @@ Cypress.Commands.add('apiRequireLicenseForFeature', (key = '') => {
 });
 
 Cypress.Commands.add('apiRequireLicense', () => {
-    uploadLicenseIfNotExist();
-
-    // * Verify if license exists
-    return cy.apiGetClientLicense().then(({license}) => {
+    return uploadLicenseIfNotExist().then(({license}) => {
         expect(license.IsLicensed, 'Server has no Enterprise license.').to.equal('true');
 
         return cy.wrap({license});
@@ -123,14 +118,25 @@ Cypress.Commands.add('apiInvalidateCache', () => {
     });
 });
 
+/**
+ * Upload a license if it does not exist.
+ */
 function uploadLicenseIfNotExist() {
-    // # Upload a license if it does not exist.
-    cy.apiGetClientLicense().then(({license}) => {
-        if (license.IsLicensed === 'false') {
-            cy.apiUploadLicense('mattermost-license.txt');
-
-            // * Verify license exists via admin console
-            cy.uiCheckLicenseExists();
+    return cy.apiGetClientLicense().then(({license}) => {
+        if (license.IsLicensed === 'true') {
+            return cy.wrap({license});
         }
+
+        const filename = 'mattermost-license.txt';
+
+        return cy.task('fileExist', filename).then((exist) => {
+            if (!exist) {
+                return cy.wrap({license});
+            }
+
+            return cy.apiUploadLicense(filename).then(() => {
+                return cy.apiGetClientLicense();
+            });
+        });
     });
 }
