@@ -76,7 +76,7 @@ export default class ManageLanguage extends React.PureComponent<Props, State> {
         }
     }
 
-    handleContainerKeyDown = (e: React.KeyboardEvent) => {
+    handleContainerKeyDown = (e: KeyboardEvent) => {
         const modalBody = document.querySelector('.modal-body');
         if (isKeyPressed(e, Constants.KeyCodes.ESCAPE) && this.state.openMenu) {
             modalBody?.classList.remove('no-scroll');
