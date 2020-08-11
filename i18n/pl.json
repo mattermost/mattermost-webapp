@@ -3920,5 +3920,6 @@
   "admin.channel_list.private": "Prywatny",
   "admin.channel_list.group_sync": "Synchronizacja grup",
   "admin.channel_list.archived": "Zarchiwizowane",
-  "announcement_bar.error.warn_metric_status.link": "Dowiedz się więcej"
+  "announcement_bar.error.warn_metric_status.link": "Dowiedz się więcej",
+  "warn_metric_ack_modal.learn_more.link": "Dowiedz się więcej"
 }
