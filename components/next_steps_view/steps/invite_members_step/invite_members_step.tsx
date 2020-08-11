@@ -3,7 +3,7 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import ReactSelect from 'react-select';
+import ReactSelect, {ActionMeta} from 'react-select';
 import classNames from 'classnames';
 
 import {TeamInviteWithError} from 'mattermost-redux/types/teams';
@@ -14,6 +14,7 @@ import * as Utils from 'utils/utils';
 import {StepComponentProps} from '../../steps';
 
 import './invite_members_step.scss';
+import { emailToLdap } from 'actions/admin_actions';
 
 type Props = StepComponentProps & {
     teamId: string;
@@ -26,15 +27,22 @@ type State = {
     copiedLink: boolean;
 };
 
+type SelectionType = {
+    label: string;
+    value: string;
+}
+
 export default class InviteMembersStep extends React.PureComponent<Props, State> {
     inviteLinkRef: React.RefObject<HTMLInputElement>;
+    reactSelectRef: React.RefObject<ReactSelect>;
     timeout?: NodeJS.Timeout;
-    values: {label: string; value: string}[];
+    values: SelectionType[];
 
     constructor(props: Props) {
         super(props);
 
         this.inviteLinkRef = React.createRef();
+        this.reactSelectRef = React.createRef();
         this.values = [];
 
         this.state = {
@@ -42,17 +50,21 @@ export default class InviteMembersStep extends React.PureComponent<Props, State>
         };
     }
 
-    private handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        let fullNameError;
-        if (!event.target.value) {
-            fullNameError = Utils.localizeMessage('next_steps_view.complete_profile_step.nameCannotBeBlank', 'Your name can’t be blank');
-        }
+    onInputChange = (value: string) => {
+        if (value.endsWith(' ') || value.endsWith(',')) {
+            const email = value.slice(0, value.length - 2);
+            this.values.push({label: email, value: email});
 
-        this.setState({fullName: event.target.value, fullNameError});
+            // TODO: blank out input
+        }
     }
 
-    inputChange = (value: string) => {
-        this.values.push({label: value, value});
+    onChange = (values: SelectionType[], action: ActionMeta<SelectionType>) => {
+        switch (action.action) {
+        case 'remove-value':
+            this.values = values;
+            break;
+        }
     }
 
     onSkip = () => {
@@ -107,10 +119,11 @@ export default class InviteMembersStep extends React.PureComponent<Props, State>
                             defaultMessage='You can invite up to 10 team members using a space or comma between addresses'
                         />
                         <ReactSelect
+                            ref={this.reactSelectRef}
                             isMulti={true}
-                            delimiter={','}
                             isClearable={false}
-                            onInputChange={this.inputChange}
+                            onInputChange={this.onInputChange}
+                            onChange={this.onChange}
                             value={this.values}
                             openMenuOnFocus={false}
                             menuIsOpen={false}
