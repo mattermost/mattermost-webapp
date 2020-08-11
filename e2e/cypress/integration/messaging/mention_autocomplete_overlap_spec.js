@@ -109,13 +109,15 @@ function uploadFileAndAddAutocompleteThenVerifyNoOverlap() {
     // # Add the mention
     cy.get('#post_textbox').type('{shift}{enter}').type('@');
 
-    cy.get('#channel-header').then((header) => {
-        cy.get('#suggestionList').then((list) => {
+    cy.get('#channel-header').should('be.visible').then((header) => {
+        cy.get('#suggestionList').should('be.visible').then((list) => {
             // # Wait for suggestions to be fully loaded
             cy.wait(TIMEOUTS.HALF_SEC).then(() => {
                 // * Suggestion list should visibly render just within the channel header
-                expect(header[0].getBoundingClientRect().top).to.be.lessThan(list[0].getBoundingClientRect().top);
-                expect(header[0].getBoundingClientRect().bottom).to.be.lessThan(list[0].getBoundingClientRect().top);
+                cy.wrap(header[0].getBoundingClientRect().top).should('be.lt', list[0].getBoundingClientRect().top);
+                cy.wrap(list[0]).findByText('Channel Members').then((channelMembers) => {
+                    cy.wrap(header[0].getBoundingClientRect().bottom).should('be.lt', channelMembers[0].getBoundingClientRect().top);
+                });
             });
         });
     });

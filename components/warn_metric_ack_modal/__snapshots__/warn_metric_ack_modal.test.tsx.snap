@@ -53,7 +53,7 @@ exports[`components/WarnMetricAckModal error display 1`] = `
   >
     <div>
       <FormattedMessage
-        defaultMessage="Mattermost strongly recommends that deployments of over {limit} users upgrade to Mattermost Enterprise E20, which offers features such as user management, server clustering, and performance monitoring"
+        defaultMessage="Mattermost strongly recommends that deployments of over {limit} users upgrade to Mattermost Enterprise Edition, which offers features such as user management, server clustering, and performance monitoring"
         id="warn_metric_ack_modal.number_of_active_users.description"
         values={
           Object {
@@ -85,6 +85,31 @@ exports[`components/WarnMetricAckModal error display 1`] = `
             }
           />
         </label>
+      </div>
+      <br />
+      <div
+        className="help__format-text"
+        style={
+          Object {
+            "display": "flex",
+            "flexWrap": "wrap",
+            "opacity": "0.56",
+          }
+        }
+      >
+        <FormattedMessage
+          defaultMessage="Contacting support sends your contact information to Mattermost, Inc. {link}"
+          id="warn_metric_ack_modal.number_of_active_users.subtext"
+          values={
+            Object {
+              "link": <ErrorLink
+                defaultMessage="Learn More"
+                messageId="warn_metric_ack_modal.learn_more.link"
+                url="https://mattermost.com/pl/default-admin-advisory"
+              />,
+            }
+          }
+        />
       </div>
     </div>
   </ModalBody>
@@ -167,7 +192,7 @@ exports[`components/WarnMetricAckModal should match snapshot, init 1`] = `
   >
     <div>
       <FormattedMessage
-        defaultMessage="Mattermost strongly recommends that deployments of over {limit} users upgrade to Mattermost Enterprise E20, which offers features such as user management, server clustering, and performance monitoring"
+        defaultMessage="Mattermost strongly recommends that deployments of over {limit} users upgrade to Mattermost Enterprise Edition, which offers features such as user management, server clustering, and performance monitoring"
         id="warn_metric_ack_modal.number_of_active_users.description"
         values={
           Object {
@@ -176,6 +201,31 @@ exports[`components/WarnMetricAckModal should match snapshot, init 1`] = `
         }
       />
       <br />
+      <br />
+      <div
+        className="help__format-text"
+        style={
+          Object {
+            "display": "flex",
+            "flexWrap": "wrap",
+            "opacity": "0.56",
+          }
+        }
+      >
+        <FormattedMessage
+          defaultMessage="Contacting support sends your contact information to Mattermost, Inc. {link}"
+          id="warn_metric_ack_modal.number_of_active_users.subtext"
+          values={
+            Object {
+              "link": <ErrorLink
+                defaultMessage="Learn More"
+                messageId="warn_metric_ack_modal.learn_more.link"
+                url="https://mattermost.com/pl/default-admin-advisory"
+              />,
+            }
+          }
+        />
+      </div>
     </div>
   </ModalBody>
   <ModalFooter

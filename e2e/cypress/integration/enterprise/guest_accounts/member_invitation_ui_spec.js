@@ -27,6 +27,7 @@ function invitePeople(typeText, resultsCount, verifyText, clickInvite = true) {
         cy.get('input').type(typeText, {force: true});
         cy.get('.users-emails-input__menu').
             children().should('have.length', resultsCount).eq(0).should('contain', verifyText).click();
+        cy.get('input').tab();
     });
 
     // # Click Invite Members

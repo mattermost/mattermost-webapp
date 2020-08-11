@@ -2,14 +2,13 @@
 // See LICENSE.txt for license information.
 /* eslint-disable react/no-string-refs */
 
-import PropTypes from 'prop-types';
 import React from 'react';
-import {defineMessages, FormattedDate, FormattedMessage, injectIntl} from 'react-intl';
+import {defineMessages, FormattedDate, FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
 import {isEmail} from 'mattermost-redux/utils/helpers';
+import {UserProfile} from 'mattermost-redux/types/users';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
-import {intlShape} from 'utils/react_intl';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 
@@ -86,45 +85,82 @@ const holders = defineMessages({
     },
 });
 
-class UserSettingsGeneralTab extends React.PureComponent {
-    static propTypes = {
-        intl: intlShape.isRequired,
-        user: PropTypes.object.isRequired,
-        updateSection: PropTypes.func.isRequired,
-        updateTab: PropTypes.func.isRequired,
-        activeSection: PropTypes.string.isRequired,
-        closeModal: PropTypes.func.isRequired,
-        collapseModal: PropTypes.func.isRequired,
-        actions: PropTypes.shape({
-            logError: PropTypes.func.isRequired,
-            clearErrors: PropTypes.func.isRequired,
-            getMe: PropTypes.func.isRequired,
-            updateMe: PropTypes.func.isRequired,
-            sendVerificationEmail: PropTypes.func.isRequired,
-            setDefaultProfileImage: PropTypes.func.isRequired,
-            uploadProfileImage: PropTypes.func.isRequired,
-        }).isRequired,
-        requireEmailVerification: PropTypes.bool,
-        maxFileSize: PropTypes.number,
-        ldapFirstNameAttributeSet: PropTypes.bool,
-        ldapLastNameAttributeSet: PropTypes.bool,
-        samlFirstNameAttributeSet: PropTypes.bool,
-        samlLastNameAttributeSet: PropTypes.bool,
-        ldapNicknameAttributeSet: PropTypes.bool,
-        samlNicknameAttributeSet: PropTypes.bool,
-        ldapPositionAttributeSet: PropTypes.bool,
-        samlPositionAttributeSet: PropTypes.bool,
-        ldapPictureAttributeSet: PropTypes.bool,
-    }
+type Props = {
+    intl: IntlShape;
+    user: UserProfile;
+    updateSection: (section: string) => void;
+    updateTab: (notifications: string) => void;
+    activeSection?: string;
+    closeModal: () => void;
+    collapseModal: () => void;
+    maxFileSize: number;
+    actions: {
+        logError: ({message, type}: {message: any; type: string}, status: boolean) => void;
+        clearErrors: () => void;
+        getMe: () => void;
+        updateMe: (user: UserProfile) => Promise<{
+            data: boolean;
+            error?: {
+                server_error_id: string;
+                message: string;
+            };
+        }>;
+        sendVerificationEmail: (email: string) => Promise<{
+            data: boolean;
+            error?: {
+                err: string;
+            };
+        }>;
+        setDefaultProfileImage: (id: string) => void;
+        uploadProfileImage: (id: string, file: object) => Promise<{
+            data: boolean;
+            error?: {
+                message: string;
+            };
+        }>;
+    };
+    requireEmailVerification?: boolean;
+    ldapFirstNameAttributeSet?: boolean;
+    ldapLastNameAttributeSet?: boolean;
+    samlFirstNameAttributeSet?: boolean;
+    samlLastNameAttributeSet?: boolean;
+    ldapNicknameAttributeSet?: boolean;
+    samlNicknameAttributeSet?: boolean;
+    ldapPositionAttributeSet?: boolean;
+    samlPositionAttributeSet?: boolean;
+    ldapPictureAttributeSet?: boolean;
+}
 
-    constructor(props) {
+type State = {
+    username: string;
+    firstName: string;
+    lastName: string;
+    nickname: string;
+    position: string;
+    originalEmail: string;
+    email: string;
+    confirmEmail: string;
+    currentPassword: string;
+    pictureFile: {type: string; size: number} | null;
+    loadingPicture: boolean;
+    sectionIsSaving: boolean;
+    showSpinner: boolean;
+    resendStatus?: string;
+    clientError?: string | null;
+    serverError?: string | {server_error_id: string; message: string};
+    emailError?: string;
+}
+
+export class UserSettingsGeneralTab extends React.Component<Props, State> {
+    public submitActive = false;
+
+    constructor(props: Props) {
         super(props);
-        this.submitActive = false;
 
         this.state = this.setupInitialState(props);
     }
 
-    handleEmailResend = (email) => {
+    handleEmailResend = (email: string) => {
         this.setState({resendStatus: 'sending', showSpinner: true});
         this.props.actions.sendVerificationEmail(email).then(({data, error: err}) => {
             if (data) {
@@ -135,7 +171,7 @@ class UserSettingsGeneralTab extends React.PureComponent {
         });
     }
 
-    createEmailResendLink = (email) => {
+    createEmailResendLink = (email: string) => {
         return (
             <span className='resend-verification-wrapper'>
                 <LoadingWrapper
@@ -256,7 +292,7 @@ class UserSettingsGeneralTab extends React.PureComponent {
         this.submitUser(user, true);
     }
 
-    submitUser = (user, emailUpdated) => {
+    submitUser = (user: UserProfile, emailUpdated: boolean) => {
         const {formatMessage} = this.props.intl;
         this.setState({sectionIsSaving: true});
 
@@ -334,7 +370,7 @@ class UserSettingsGeneralTab extends React.PureComponent {
                     this.updateSection('');
                     this.submitActive = false;
                 } else if (err) {
-                    var state = this.setupInitialState(this.props);
+                    const state = this.setupInitialState(this.props);
                     state.serverError = err.message;
                     this.setState(state);
                 }
@@ -357,39 +393,39 @@ class UserSettingsGeneralTab extends React.PureComponent {
         this.submitUser(user, false);
     }
 
-    updateUsername = (e) => {
+    updateUsername = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({username: e.target.value});
     }
 
-    updateFirstName = (e) => {
+    updateFirstName = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({firstName: e.target.value});
     }
 
-    updateLastName = (e) => {
+    updateLastName = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({lastName: e.target.value});
     }
 
-    updateNickname = (e) => {
+    updateNickname = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({nickname: e.target.value});
     }
 
-    updatePosition = (e) => {
+    updatePosition = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({position: e.target.value});
     }
 
-    updateEmail = (e) => {
+    updateEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({email: e.target.value});
     }
 
-    updateConfirmEmail = (e) => {
+    updateConfirmEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({confirmEmail: e.target.value});
     }
 
-    updateCurrentPassword = (e) => {
+    updateCurrentPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({currentPassword: e.target.value});
     }
 
-    updatePicture = (e) => {
+    updatePicture = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
             this.setState({pictureFile: e.target.files[0]});
 
@@ -400,13 +436,13 @@ class UserSettingsGeneralTab extends React.PureComponent {
         }
     }
 
-    updateSection = (section) => {
+    updateSection = (section: string) => {
         this.setState(Object.assign({}, this.setupInitialState(this.props), {clientError: '', serverError: '', emailError: '', sectionIsSaving: false}));
         this.submitActive = false;
         this.props.updateSection(section);
     }
 
-    setupInitialState(props) {
+    setupInitialState(props: Props) {
         const user = props.user;
 
         return {
@@ -423,6 +459,7 @@ class UserSettingsGeneralTab extends React.PureComponent {
             loadingPicture: false,
             sectionIsSaving: false,
             showSpinner: false,
+            serverError: '',
         };
     }
 
@@ -651,7 +688,7 @@ class UserSettingsGeneralTab extends React.PureComponent {
                 />
             );
         } else {
-            let describe = '';
+            let describe: JSX.Element|string = '';
             if (this.props.user.auth_service === '') {
                 describe = this.props.user.email;
             } else if (this.props.user.auth_service === Constants.GITLAB_SERVICE) {
@@ -810,11 +847,11 @@ class UserSettingsGeneralTab extends React.PureComponent {
                     </div>,
                 );
 
-                function notifClick(e) {
+                const notifClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
                     e.preventDefault();
                     this.updateSection('');
                     this.props.updateTab('notifications');
-                }
+                };
 
                 const notifLink = (
                     <a
@@ -856,7 +893,7 @@ class UserSettingsGeneralTab extends React.PureComponent {
                 />
             );
         } else {
-            let describe = '';
+            let describe: JSX.Element|string = '';
 
             if (user.first_name && user.last_name) {
                 describe = user.first_name + ' ' + user.last_name;
@@ -905,7 +942,7 @@ class UserSettingsGeneralTab extends React.PureComponent {
                     </span>
                 );
             } else {
-                let nicknameLabel = (
+                let nicknameLabel: JSX.Element|string = (
                     <FormattedMessage
                         id='user.settings.general.nickname'
                         defaultMessage='Nickname'
@@ -962,7 +999,7 @@ class UserSettingsGeneralTab extends React.PureComponent {
                 />
             );
         } else {
-            let describe = '';
+            let describe: JSX.Element|string = '';
             if (user.nickname) {
                 describe = user.nickname;
             } else {
@@ -997,7 +1034,7 @@ class UserSettingsGeneralTab extends React.PureComponent {
             let extraInfo;
             let submit = null;
             if (this.props.user.auth_service === '') {
-                let usernameLabel = (
+                let usernameLabel: JSX.Element | string = (
                     <FormattedMessage
                         id='user.settings.general.username'
                         defaultMessage='Username'
@@ -1076,7 +1113,7 @@ class UserSettingsGeneralTab extends React.PureComponent {
 
         let positionSection;
         if (this.props.activeSection === 'position') {
-            let extraInfo;
+            let extraInfo: JSX.Element|string;
             let submit = null;
             if ((this.props.user.auth_service === Constants.LDAP_SERVICE && this.props.ldapPositionAttributeSet) || (this.props.user.auth_service === Constants.SAML_SERVICE && this.props.samlPositionAttributeSet)) {
                 extraInfo = (
@@ -1088,7 +1125,7 @@ class UserSettingsGeneralTab extends React.PureComponent {
                     </span>
                 );
             } else {
-                let positionLabel = (
+                let positionLabel: JSX.Element | string = (
                     <FormattedMessage
                         id='user.settings.general.position'
                         defaultMessage='Position'
@@ -1146,7 +1183,7 @@ class UserSettingsGeneralTab extends React.PureComponent {
                 />
             );
         } else {
-            let describe = '';
+            let describe: JSX.Element|string = '';
             if (user.position) {
                 describe = user.position;
             } else {
@@ -1216,7 +1253,7 @@ class UserSettingsGeneralTab extends React.PureComponent {
                     defaultImageSrc={Utils.defaultImageURLForUser(user.id)}
                     serverError={serverError}
                     clientError={clientError}
-                    updateSection={(e) => {
+                    updateSection={(e: MouseEvent) => {
                         this.updateSection('');
                         e.preventDefault();
                     }}
@@ -1229,7 +1266,7 @@ class UserSettingsGeneralTab extends React.PureComponent {
                 />
             );
         } else {
-            let minMessage = formatMessage(holders.uploadImage);
+            let minMessage: JSX.Element|string = formatMessage(holders.uploadImage);
             if (Utils.isMobile()) {
                 minMessage = formatMessage(holders.uploadImageMobile);
             }
@@ -1283,7 +1320,7 @@ class UserSettingsGeneralTab extends React.PureComponent {
                                 id='generic_icons.collapse'
                                 defaultMessage='Collapse Icon'
                             >
-                                {(title) => (
+                                {(title?: string) => (
                                     <i
                                         className='fa fa-angle-left'
                                         title={title}
