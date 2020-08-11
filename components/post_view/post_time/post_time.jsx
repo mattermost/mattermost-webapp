@@ -5,11 +5,20 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {Link} from 'react-router-dom';
 
+import {Tooltip} from 'react-bootstrap';
+
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {isMobile} from 'utils/user_agent';
 import {Locations} from 'utils/constants';
 import {isMobile as isMobileView} from 'utils/utils.jsx';
-import LocalDateTime from 'components/local_date_time';
+import OverlayTrigger from 'components/overlay_trigger';
+
+import Timestamp, {RelativeRanges} from 'components/timestamp';
+
+const POST_TOOLTIP_RANGES = [
+    RelativeRanges.TODAY_TITLE_CASE,
+    RelativeRanges.YESTERDAY_TITLE_CASE,
+];
 
 export default class PostTime extends React.PureComponent {
     static propTypes = {
@@ -45,37 +54,58 @@ export default class PostTime extends React.PureComponent {
     };
 
     render() {
-        const localDateTime = (
-            <LocalDateTime
-                eventTime={this.props.eventTime}
-            />
-        );
-        if (isMobile() || !this.props.isPermalink) {
-            return (
-                <div
-                    role='presentation'
-                    className='post__permalink'
-                >
-                    {localDateTime}
-                </div>
-            );
-        }
-
         const {
+            eventTime,
+            isPermalink,
             location,
             postId,
             teamUrl,
         } = this.props;
 
-        return (
+        const postTime = (
+            <Timestamp
+                value={eventTime}
+                className='post__time'
+                useDate={false}
+            />
+        );
+
+        const content = isMobile() || !isPermalink ? (
+            <div
+                role='presentation'
+                className='post__permalink'
+            >
+                {postTime}
+            </div>
+        ) : (
             <Link
                 id={`${location}_time_${postId}`}
                 to={`${teamUrl}/pl/${postId}`}
                 className='post__permalink'
                 onClick={this.handleClick}
             >
-                {localDateTime}
+                {postTime}
             </Link>
+        );
+
+        return (
+            <OverlayTrigger
+                delayShow={500}
+                placement='top'
+                overlay={
+                    <Tooltip
+                        id={eventTime}
+                        className='hidden-xs'
+                    >
+                        <Timestamp
+                            value={eventTime}
+                            ranges={POST_TOOLTIP_RANGES}
+                        />
+                    </Tooltip>
+                }
+            >
+                {content}
+            </OverlayTrigger>
         );
     }
 }

@@ -284,11 +284,19 @@ function postMessages(testChannel, otherUser, count) {
 function performActionsToLastPost() {
     // # Take some actions on the last post
     cy.getLastPostId().then((postId) => {
-        // # Add couple of Reactions
+        // # Add grinning reaction
         cy.clickPostReactionIcon(postId);
+        cy.findByTestId('grinning').trigger('mouseover');
+        cy.get('#emojiPickerSpritePreview').should('be.visible');
+        cy.get('#emojiPickerAliasesPreview').should('be.visible').and('have.text', ':grinning:');
         cy.findByTestId('grinning').click();
         cy.get(`#postReaction-${postId}-grinning`).should('be.visible');
+
+        // # Add smile reaction
         cy.clickPostReactionIcon(postId);
+        cy.findByTestId('smile').trigger('mouseover');
+        cy.get('#emojiPickerSpritePreview').should('be.visible');
+        cy.get('#emojiPickerAliasesPreview').should('be.visible').and('have.text', ':smile:');
         cy.findByTestId('smile').click();
         cy.get(`#postReaction-${postId}-smile`).should('be.visible');
 
