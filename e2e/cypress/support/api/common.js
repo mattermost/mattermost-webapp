@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
+
 const path = require('path');
 
 // *****************************************************************************
@@ -11,7 +13,7 @@ Cypress.Commands.add('apiUploadFile', (name, filePath, options = {}) => {
     const formData = new FormData();
     const filename = path.basename(filePath);
 
-    cy.fixture(filePath, 'binary', {timeout: 1200000}).
+    cy.fixture(filePath, 'binary', {timeout: TIMEOUTS.TWENTY_MIN}).
         then(Cypress.Blob.binaryStringToBlob).
         then((blob) => {
             formData.set(name, blob, filename);

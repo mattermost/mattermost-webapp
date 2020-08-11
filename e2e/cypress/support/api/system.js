@@ -18,7 +18,7 @@ Cypress.Commands.add('apiGetClientLicense', () => {
 });
 
 Cypress.Commands.add('apiRequireLicenseForFeature', (key = '') => {
-    uploadLicencseIfDoesNotExist();
+    uploadLicenseIfNotExist();
 
     return cy.apiGetClientLicense().then(({license}) => {
         expect(license.IsLicensed, 'Server has no Enterprise license.').to.equal('true');
@@ -38,7 +38,7 @@ Cypress.Commands.add('apiRequireLicenseForFeature', (key = '') => {
 });
 
 Cypress.Commands.add('apiRequireLicense', () => {
-    uploadLicencseIfDoesNotExist();
+    uploadLicenseIfNotExist();
 
     // * Verify if license exists
     return cy.apiGetClientLicense().then(({license}) => {
