@@ -57,7 +57,7 @@ export default class ManageLanguage extends React.PureComponent<Props, State> {
         };
     }
 
-    componentDidMount(this: any) {
+    componentDidMount() {
         const reactSelectContainer = this.reactSelectContainer.current;
         if (reactSelectContainer) {
             reactSelectContainer.addEventListener(
@@ -67,7 +67,7 @@ export default class ManageLanguage extends React.PureComponent<Props, State> {
         }
     }
 
-    componentWillUnmount(this: any) {
+    componentWillUnmount() {
         if (this.reactSelectContainer.current) {
             this.reactSelectContainer.current.removeEventListener(
                 'keydown',
