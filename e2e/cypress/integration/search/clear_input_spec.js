@@ -47,7 +47,7 @@ describe('Search', () => {
         cy.get('#searchBox').should('have.value', '');
     });
 
-    it('MM-T368 - Text in search box should not clear when Pinned posts icon or Saved posts icon is clicked', () => {
+    it('MM-T368 - Text in search box should not clear when Pinned or Saved posts icon is clicked', () => {
         const searchText = MESSAGES.SMALL;
 
         // * Verify search input field exists and not search button, as inputs contains placeholder not buttons/icons
