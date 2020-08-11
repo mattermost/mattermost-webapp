@@ -83,23 +83,25 @@ describe('I18456 Built-in slash commands: common', () => {
     });
 
     it('MM-T664 /groupmsg initial tests', () => {
-        const usernames = Cypress._.map(userGroup, 'username').slice(0, 4);
-        const usernamesFormat = [
+        let mesg;
+        loginAndVisitDefaultChannel(user1, testChannelUrl);
+
+        const usernames1 = Cypress._.map(userGroup, 'username').slice(0, 4);
+        const usernames1Format = [
 
             // # Format for sending a group message:
             // /groupmsg @[username1],@[username2],@[username3] [message]
-            `@${usernames[0]}, @${usernames[1]}, @${usernames[2]}, @${usernames[3]}`,
+            `@${usernames1[0]}, @${usernames1[1]}, @${usernames1[2]}, @${usernames1[3]}`,
 
             // # Use /groupmsg command and use a mix of @ symbols in front of some names but not all
             // # Format notes:
             // # Usernames do not have to contain the '@' character
             // # Accepts spaces after or before the commas when listing usernames
-            `${usernames[0]}, @${usernames[1]} , ${usernames[2]} , @${usernames[3]}`,
+            `${usernames1[0]}, @${usernames1[1]} , ${usernames1[2]} , @${usernames1[3]}`,
         ];
-        let mesg;
-        loginAndVisitDefaultChannel(user1, testChannelUrl);
-        usernamesFormat.forEach((users) => {
-            // # Use /groupmsg command to send group message
+
+        usernames1Format.forEach((users) => {
+            // # Use /groupmsg command to send group message - "/groupmsg [usernames] [message]"
             mesg = MESSAGES.SMALL;
             const command = `/groupmsg ${users} ${mesg}`;
             cy.postMessage(command);
@@ -109,23 +111,45 @@ describe('I18456 Built-in slash commands: common', () => {
             cy.getLastPostId().then((postId) => {
                 cy.get(`#postMessageText_${postId}`).should('have.text', mesg);
             });
-            usernames.forEach((username) => {
+            usernames1.forEach((username) => {
                 cy.contains('.channel-header__top', username).should('be.visible');
             });
 
             cy.contains('.sidebar-item', 'Town Square').click();
         });
-        usernamesFormat.forEach((users) => {
+
+        usernames1Format.forEach((users) => {
+            // # Use /groupmsg command to send message to existing GM - "group msg [usernames]" (note: no message)
             // # Format notes: The command does not have to contain a message
             const command = `/groupmsg ${users}`;
             cy.postMessage(command);
 
-            // * Group message created (or message sent to existing GM) as expected
+            // * Message sent to existing GM as expected
             cy.uiWaitUntilMessagePostedIncludes(mesg);
             cy.getLastPostId().then((postId) => {
                 cy.get(`#postMessageText_${postId}`).should('have.text', mesg);
             });
-            usernames.forEach((username) => {
+            usernames1.forEach((username) => {
+                cy.contains('.channel-header__top', username).should('be.visible');
+            });
+
+            cy.contains('.sidebar-item', 'Town Square').click();
+        });
+
+        const usernames2 = Cypress._.map(userGroup, 'username').slice(1, 5);
+        const usernames2Format = [
+            `@${usernames2[0]}, @${usernames2[1]}, @${usernames2[2]}, @${usernames2[3]}`,
+            `${usernames2[0]}, @${usernames2[1]} , ${usernames2[2]} , @${usernames2[3]}`,
+        ];
+
+        usernames2Format.forEach((users) => {
+            // # Use /groupmsg command to create GM - "group msg [usernames]" (note: no message)
+            // # Format notes: The command does not have to contain a message
+            const command = `/groupmsg ${users}{enter}`;
+            cy.postMessage(command);
+
+            // * Group message created as expected
+            usernames2.forEach((username) => {
                 cy.contains('.channel-header__top', username).should('be.visible');
             });
 
