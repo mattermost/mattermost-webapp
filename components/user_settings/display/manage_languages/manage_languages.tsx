@@ -24,12 +24,17 @@ type Props = {
     actions: Actions;
 };
 
+type SelectedOption = {
+    value: string;
+    label: string;
+}
+
 type State = {
     isSaving: boolean;
     openMenu: boolean;
     locale: string;
     serverError?: string;
-    selectedOption: object;
+    selectedOption: SelectedOption;
 };
 
 export default class ManageLanguage extends React.PureComponent<Props, State> {
@@ -88,7 +93,7 @@ export default class ManageLanguage extends React.PureComponent<Props, State> {
         }
     };
 
-    setLanguage = (selectedOption: any) => {
+    setLanguage = (selectedOption: SelectedOption) => {
         this.setState({
             locale: selectedOption.value,
             selectedOption
@@ -149,7 +154,7 @@ export default class ManageLanguage extends React.PureComponent<Props, State> {
             );
         }
 
-        const options: object[] = [];
+        const options: SelectedOption[] = [];
         const locales: any = I18n.getLanguages();
 
         const languages = Object.keys(locales).
@@ -167,7 +172,7 @@ export default class ManageLanguage extends React.PureComponent<Props, State> {
         });
 
         const reactStyles = {
-            menuPortal: (provided: any) => ({
+            menuPortal: (provided: React.CSSProperties) => ({
                 ...provided,
                 zIndex: 9999
             })
