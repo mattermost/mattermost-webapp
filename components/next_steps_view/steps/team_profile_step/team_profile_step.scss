@@ -1,4 +1,4 @@
-.CompleteProfileStep {
+.TeamProfileStep {
     display: flex;
     padding: 24px 40px;
 
@@ -11,16 +11,37 @@
     }
 }
 
-.CompleteProfileStep__profilePicture {
+.TeamProfileStep__profilePicture {
     flex-grow: 0;
 
     .PictureSelector {
         margin-top: 12px;
         min-height: 125px;
+
+        .PictureSelector__image {
+            border-radius: 8px;
+        }
+
+        .PictureSelector__selectButton {
+            top: -6px;
+            right: -8px;
+        }
+    }
+
+    .TeamIcon__initials {
+        font-size: 38px;
+        line-height: 21px;
+        padding: 35px 0;
+        text-transform: capitalize;
+        text-align: center;
+        font-weight: 600;
+        color: var(--sidebar-text);
+        background-color: var(--sidebar-bg);
+        border-radius: 8px;
     }
 }
 
-.CompleteProfileStep__fullName {
+.TeamProfileStep__textInputs {
     margin-left: 64px;
     flex-grow: 0.75;
     max-width: 600px;
@@ -43,9 +64,14 @@
     .Input_container {
         margin-top: 28px;
     }
+
+    // TODO: For URL
+    // .Input_container:last-child {
+    //     min-height: 80px;
+    // }
 }
 
-.CompleteProfileStep__pictureError {
+.TeamProfileStep__pictureError {
     font-size: 12px;
     line-height: 16px;
     color: var(--error-text);
@@ -64,11 +90,11 @@
 }
 
 @media screen and (max-width: 1020px) {
-    .CompleteProfileStep {
+    .TeamProfileStep {
         flex-direction: column;
     }
 
-    .CompleteProfileStep__fullName {
+    .TeamProfileStep__textInputs {
         margin-left: 0;
         margin-top: 32px;
         max-width: unset;

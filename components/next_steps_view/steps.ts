@@ -10,6 +10,7 @@ import {RecommendedNextSteps, Preferences} from 'utils/constants';
 import {localizeMessage} from 'utils/utils';
 
 import CompleteProfileStep from './steps/complete_profile_step';
+import TeamProfileStep from './steps/team_profile_step';
 
 export type StepComponentProps = {
     id: string;
@@ -33,7 +34,7 @@ export const Steps: StepType[] = [
     {
         id: RecommendedNextSteps.TEAM_SETUP,
         title: localizeMessage('next_steps_view.titles.teamSetup', 'Name your team'),
-        component: CompleteProfileStep,
+        component: TeamProfileStep,
     },
     {
         id: RecommendedNextSteps.INVITE_MEMBERS,
