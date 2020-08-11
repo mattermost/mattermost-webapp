@@ -3054,8 +3054,8 @@
   "promote_to_user_modal.desc": "Această acțiune promovează invitatul {username} către un membru. Acesta va permite utilizatorului să se alăture canalelor publice și să interacționeze cu utilizatorii din afara canalelor din care fac parte în prezent. Sigur doriți să promovați utilizatorul {username} pentru utilizator?",
   "postlist.toast.scrollToLatest": "Salt la mesaje noi",
   "postlist.toast.scrollToBottom": "Salt la recente",
-  "postlist.toast.newMessagesSince": "{count, number} noi {count, plural, one {mesaj} other {mesaje}} din {date} la {time}",
-  "postlist.toast.newMessages": "{count, number} nou {count, plural, un {message} alte {messages}",
+  "postlist.toast.newMessagesSince": "{count, number} noi {count, plural, one {mesaje} other {mesaje}} {isToday, select, true {} other {since}} {date}",
+  "postlist.toast.newMessages": "{count, number} nou {count, plural, un {message} alte {messages}}",
   "postlist.toast.history": "Vizualizarea istoricului mesajelor",
   "post.ariaLabel.replyMessage": "La {time} {date}, {authorName} a răspuns, {message}",
   "post.ariaLabel.reactionMultiple": ", {reactionCount} reacții",
@@ -3998,5 +3998,7 @@
   "sidebar_left.sidebar_channel_menu.moveTo": "Treceți la",
   "sidebar_left.sidebar_channel_menu.markAsRead": "Marcheaza ca citit",
   "admin.jobTable.headerFiles": "Fişiere",
-  "admin.jobTable.downloadLink": "Descarca"
+  "admin.jobTable.downloadLink": "Descarca",
+  "timestamp.datetime": "{relativeOrDate} la {time}",
+  "warn_metric_ack_modal.learn_more.link": "Aflați mai multe"
 }
