@@ -115,7 +115,7 @@ context('ldap', () => {
             cy.apiAdminLogin().then(() => {
                 cy.apiUpdateConfig(ldapSetting).then(() => {
                     cy.doLDAPLogin(testSettings).then(() => {
-                        cy.get('#createPublicChannel').should('be.visible');
+                        cy.findAllByLabelText('town square public channel').should('be.visible');
                         cy.doMemberLogout(testSettings);
                     });
                 });
