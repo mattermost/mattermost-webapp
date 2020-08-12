@@ -35,7 +35,7 @@ describe('Messaging', () => {
         });
     });
 
-    it('M18708-Link preview - Removing it from my view removes it from other user\'s view', () => {
+    it('MM-T199 Link preview - Removing it from my view removes it from other user\'s view', () => {
         const message = 'https://www.bbc.com/news/uk-wales-45142614';
 
         // # Post message to use

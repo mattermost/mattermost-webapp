@@ -24,7 +24,7 @@ describe('Messaging', () => {
         });
     });
 
-    it('M18705-Center channel input box does not overlap with RHS', () => {
+    it('MM-T210 Center channel input box doesn\'t overlap with RHS', () => {
         const maxReplyCount = 15;
 
         // * Check if center channel post text box is focused

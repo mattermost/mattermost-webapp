@@ -9,6 +9,10 @@
 
 describe('Feature discovery', () => {
     before(() => {
+        // # Remove license
+        cy.apiDeleteLicense();
+
+        // # Visit admin console
         cy.visit('/admin_console');
     });
 

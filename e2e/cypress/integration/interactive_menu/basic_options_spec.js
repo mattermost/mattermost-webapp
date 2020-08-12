@@ -105,7 +105,7 @@ describe('Interactive Menu', () => {
         cy.get('body').click();
     });
 
-    it('IM15887 - Selected Option is displayed, Ephemeral message is posted', () => {
+    it('MM-T1736 - Selected Option is displayed, Ephemeral message is posted', () => {
         // # Post an incoming webhook
         const payload = getMessageMenusPayload({options});
         cy.postIncomingWebhook({url: incomingWebhook.url, data: payload, waitFor: 'attachment-pretext'});
@@ -125,7 +125,7 @@ describe('Interactive Menu', () => {
         verifyEphemeralMessage('Ephemeral | select option: option1');
     });
 
-    it('IM15887 - Reply is displayed in center channel with "commented on [user\'s] message: [text]"', () => {
+    it('MM-T1737 - Reply is displayed in center channel with "commented on [user\'s] message: [text]"', () => {
         // # Post an incoming webhook
         const payload = getMessageMenusPayload({options});
         cy.postIncomingWebhook({url: incomingWebhook.url, data: payload, waitFor: 'attachment-pretext'});
@@ -164,7 +164,7 @@ describe('Interactive Menu', () => {
         });
     });
 
-    it('IM21039 - Searching within the list of options', () => {
+    it('MM-T1743 - Searching within the list of options', () => {
         const searchOptions = [
             {text: 'SearchOption1', value: 'searchoption1'},
             {text: 'SearchOption2', value: 'searchoption2'},
@@ -195,7 +195,7 @@ describe('Interactive Menu', () => {
         });
     });
 
-    it('IM21042 - "No items match" feedback', () => {
+    it('MM-T1746 - No items match feedback', () => {
         const missingUser = Date.now();
         const userOptions = getMessageMenusPayload({dataSource: 'users'});
 
@@ -216,7 +216,7 @@ describe('Interactive Menu', () => {
         });
     });
 
-    it('IM21043 - Using up/down arrow keys to make selection', () => {
+    it('MM-T1742 - Using up/down arrow keys to make selection', () => {
         const basicOptions = getMessageMenusPayload({options});
 
         // # Post an incoming webhook for interactive menu with basic options
@@ -286,7 +286,7 @@ describe('Interactive Menu', () => {
         });
     });
 
-    it('IM21037 - Clicking in / Tapping on the message attachment menu box opens list of selections', () => {
+    it('MM-T1740 - Clicking in / Tapping on the message attachment menu box opens list of selections', () => {
         // # Create a message attachment with menu
         const basicOptionPayload = getMessageMenusPayload({options});
         cy.postIncomingWebhook({url: incomingWebhook.url, data: basicOptionPayload, waitFor: 'attachment-pretext'});
@@ -318,7 +318,7 @@ describe('Interactive Menu', () => {
         });
     });
 
-    it('IM21036 - Enter selects the option', () => {
+    it('MM-T1745 - Enter selects the option', () => {
         // # Create a message attachment with menu
         const distinctOptions = messageMenusOptions['distinct-options'];
         const distinctOptionsPayload = getMessageMenusPayload({options: distinctOptions});
@@ -374,7 +374,7 @@ describe('Interactive Menu', () => {
         verifyEphemeralMessage('Ephemeral | select option: mango');
     });
 
-    it('IM21035 - Long lists of selections are scrollable', () => {
+    it('MM-T1741 - Long lists of selections are scrollable', () => {
         const manyOptions = messageMenusOptions['many-options'];
         const manyOptionsPayload = getMessageMenusPayload({options: manyOptions});
 
@@ -424,7 +424,7 @@ describe('Interactive Menu', () => {
         });
     });
 
-    it('IM21040 - Selection is mirrored in RHS / Message Thread', () => {
+    it('MM-T1747 - Selection is mirrored in RHS / Message Thread', () => {
         // # Create a webhook with distinct options
         const distinctOptions = messageMenusOptions['distinct-options'];
         const distinctListOptionPayload = getMessageMenusPayload({options: distinctOptions});
@@ -474,7 +474,7 @@ describe('Interactive Menu', () => {
         });
     });
 
-    it('IM21044 - Change selection in RHS / Message Thread', () => {
+    it('MM-T1748 - Change selection in RHS / Message Thread', () => {
         // # Create a webhook with distinct options
         const distinctOptions = messageMenusOptions['distinct-options'];
         const distinctListOptionPayload = getMessageMenusPayload({options: distinctOptions});
@@ -537,7 +537,7 @@ describe('Interactive Menu', () => {
         });
     });
 
-    it('IM21038 - Selected options with long usernames are not cut off in the RHS', () => {
+    it('MM-T1738 - Selected options with long usernames are not cut off in the RHS', () => {
         // # Make webhook request to get list of all the users
         const userOptions = getMessageMenusPayload({dataSource: 'users'});
         cy.postIncomingWebhook({url: incomingWebhook.url, data: userOptions, waitFor: 'attachment-pretext'});
