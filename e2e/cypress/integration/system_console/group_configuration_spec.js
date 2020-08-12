@@ -547,8 +547,8 @@ function changeRole(teamOrChannel, newRole) {
 }
 
 function savePage() {
-    cy.get('#saveSetting', {timeout: TIMEOUTS.ONE_MIN}).click();
-    cy.wait(TIMEOUTS.TWO_SEC); // eslint-disable-line cypress/no-unnecessary-waiting
+    cy.get('#saveSetting', {timeout: TIMEOUTS.TWO_SEC}).click();
+    cy.get('#saveSetting', {timeout: TIMEOUTS.TWO_SEC}).should('be.disabled');
 }
 
 function removeAndConfirm(name) {
