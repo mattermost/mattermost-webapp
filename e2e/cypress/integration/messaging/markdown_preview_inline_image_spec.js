@@ -22,7 +22,7 @@ describe('Messaging', () => {
         });
     });
 
-    it('M18714-Markdown preview: inline image', () => {
+    it('MM-T186 Markdown preview: inline image', () => {
         const message = '![make it so](https://i.stack.imgur.com/MNeE7.jpg)';
 
         cy.visit(townsquareLink);

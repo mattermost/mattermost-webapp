@@ -37,7 +37,7 @@ describe('Channel users interactions', () => {
         });
     });
 
-    it('M17454 Scroll to bottom when sending a message', () => {
+    it('MM-T216 Scroll to bottom when sending a message', () => {
         // # Go to off-topic channel via LHS
         cy.get('#sidebarItem_off-topic').click({force: true});
 
