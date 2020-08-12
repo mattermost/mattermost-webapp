@@ -980,7 +980,7 @@
     .SidebarChannelLinkLabel_wrapper {
         overflow: hidden;
         display: flex;
-        margin-right: auto;
+        flex-grow: 1;
 
         > span {
             text-overflow: ellipsis;
