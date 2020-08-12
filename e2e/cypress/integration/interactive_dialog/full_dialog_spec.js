@@ -58,7 +58,7 @@ describe('Interactive Dialog', () => {
                 icon_url: '',
                 method: 'P',
                 team_id: team.id,
-                trigger: 'dialog' + Date.now(),
+                trigger: 'dialog',
                 url: `${webhookBaseUrl}/dialog_request`,
                 username: '',
             };
@@ -75,7 +75,7 @@ describe('Interactive Dialog', () => {
         cy.reload();
     });
 
-    it('ID15888 - UI check', () => {
+    it('MM-T2491 - UI check', () => {
         // # Post a slash command
         cy.get('#postListContent').should('be.visible');
         cy.postMessage(`/${createdCommand.trigger}`);
@@ -110,6 +110,9 @@ describe('Interactive Dialog', () => {
 
                         cy.wrap(el).should('have.length', optionsLength[element.name]);
                     });
+
+                    // # Click field label to close any opened drop-downs
+                    cy.wrap($elForm).find('label.control-label').scrollIntoView().click();
                 } else if (element.name === 'someradiooptions') {
                     cy.wrap($elForm).find('input').should('be.visible').and('have.length', optionsLength[element.name]);
 
@@ -150,7 +153,7 @@ describe('Interactive Dialog', () => {
         });
     });
 
-    it('ID15888 - Cancel button works', () => {
+    it('MM-T2492 - Cancel button works', () => {
         // # Post a slash command
         cy.postMessage(`/${createdCommand.trigger}`);
 
@@ -164,7 +167,7 @@ describe('Interactive Dialog', () => {
         cy.get('#interactiveDialogModal').should('not.be.visible');
     });
 
-    it('ID15888 - "X" closes the dialog', () => {
+    it('MM-T2493 - "X" closes the dialog', () => {
         // # Post a slash command
         cy.postMessage(`/${createdCommand.trigger}`);
 
@@ -180,7 +183,7 @@ describe('Interactive Dialog', () => {
         cy.get('#interactiveDialogModal').should('not.be.visible');
     });
 
-    it('ID15888 - Correct error messages displayed if empty form is submitted', () => {
+    it('MM-T2494 - Correct error messages displayed if empty form is submitted', () => {
         // # Post a slash command
         cy.postMessage(`/${createdCommand.trigger}`);
 
@@ -207,7 +210,7 @@ describe('Interactive Dialog', () => {
         closeInteractiveDialog();
     });
 
-    it('ID15888 - Email validation', () => {
+    it('MM-T2495_1 - Email validation for invalid input', () => {
         // # Post a slash command
         cy.postMessage(`/${createdCommand.trigger}`);
 
@@ -215,55 +218,78 @@ describe('Interactive Dialog', () => {
         cy.get('#interactiveDialogModal').should('be.visible');
 
         // # Enter invalid and valid email
-        // Verify that error is: shown for invalid email and not shown for valid email.
-        [
-            {valid: false, value: 'invalid-email'},
-            {valid: true, value: 'test@mattermost.com'},
-        ].forEach((testCase) => {
-            cy.get('#someemail').scrollIntoView().clear().type(testCase.value);
+        // * Verify that error is: shown for invalid email and not shown for valid email.
+        const invalidEmail = 'invalid-email';
+        cy.get('#someemail').scrollIntoView().clear().type(invalidEmail);
 
-            cy.get('#interactiveDialogSubmit').click();
+        cy.get('#interactiveDialogSubmit').click();
 
-            cy.get('.modal-body').should('be.visible').children().eq(1).within(($elForm) => {
-                if (testCase.valid) {
-                    cy.wrap($elForm).find('div.error-text').should('not.be.visible');
-                } else {
-                    cy.wrap($elForm).find('div.error-text').should('be.visible').and('have.text', 'Must be a valid email address.').and('have.css', 'color', 'rgb(253, 89, 96)');
-                }
-            });
+        cy.get('input:invalid').should('have.length', 1);
+        cy.get('#someemail').then(($input) => {
+            expect($input[0].validationMessage).to.eq(`Please include an '@' in the email address. '${invalidEmail}' is missing an '@'.`);
         });
 
         closeInteractiveDialog();
     });
 
-    it('ID15888 - Number validation', () => {
+    it('MM-T2495_2 - Email validation for valid input', () => {
+        // # Post a slash command
+        cy.postMessage(`/${createdCommand.trigger}`);
+
+        // * Verify that the interactive dialog modal open up
+        cy.get('#interactiveDialogModal').should('be.visible');
+
+        // # Enter valid email
+        // * Verify that error is not shown for valid email.
+        const validEmail = 'test@mattermost.com';
+        cy.get('#someemail').scrollIntoView().clear().type(validEmail);
+
+        cy.get('#interactiveDialogSubmit').click();
+
+        cy.get('input:invalid').should('have.length', 0);
+
+        closeInteractiveDialog();
+    });
+
+    it('MM-T2496_1 - Number validation for invalid input', () => {
         cy.postMessage(`/${createdCommand.trigger}`);
 
         cy.get('#interactiveDialogModal').should('be.visible');
 
-        // # Enter invalid and valid number
-        // Verify that error is: shown for invalid number and not shown for valid number.
-        [
-            {valid: false, value: 'invalid-number'},
-            {valid: true, value: 12},
-        ].forEach((testCase) => {
-            cy.get('#somenumber').scrollIntoView().clear().type(testCase.value);
+        // # Enter invalid number
+        // * Verify that error is shown for invalid number.
+        const invalidNumber = 'invalid-number';
+        cy.get('#somenumber').scrollIntoView().clear().type(invalidNumber);
 
-            cy.get('#interactiveDialogSubmit').click();
+        cy.get('#interactiveDialogSubmit').click();
 
-            cy.get('.modal-body').should('be.visible').children().eq(2).within(($elForm) => {
-                if (testCase.valid) {
-                    cy.wrap($elForm).find('div.error-text').should('not.be.visible');
-                } else {
-                    cy.wrap($elForm).find('div.error-text').should('be.visible').and('have.text', 'This field is required.').and('have.css', 'color', 'rgb(253, 89, 96)');
-                }
-            });
+        cy.get('.modal-body').should('be.visible').children().eq(2).within(($elForm) => {
+            cy.wrap($elForm).find('div.error-text').should('be.visible').and('have.text', 'This field is required.').and('have.css', 'color', 'rgb(253, 89, 96)');
         });
 
         closeInteractiveDialog();
     });
 
-    it('ID21032 - Password element check', () => {
+    it('MM-T2496_2 - Number validation for valid input', () => {
+        cy.postMessage(`/${createdCommand.trigger}`);
+
+        cy.get('#interactiveDialogModal').should('be.visible');
+
+        // # Enter a valid number
+        // * Verify that error is not shown for valid number.
+        const validNumber = 12;
+        cy.get('#somenumber').scrollIntoView().clear().type(validNumber);
+
+        cy.get('#interactiveDialogSubmit').click();
+
+        cy.get('.modal-body').should('be.visible').children().eq(2).within(($elForm) => {
+            cy.wrap($elForm).find('div.error-text').should('not.be.visible');
+        });
+
+        closeInteractiveDialog();
+    });
+
+    it('MM-T2501 - Password element check', () => {
         // # Post a slash command
         cy.postMessage(`/${createdCommand.trigger}`);
 

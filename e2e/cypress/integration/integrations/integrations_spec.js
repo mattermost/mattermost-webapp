@@ -13,6 +13,8 @@
 import {getRandomId} from '../../utils';
 
 describe('Integrations page', () => {
+    let testTeam;
+
     before(() => {
         // # Set ServiceSettings to expected values
         const newSettings = {
@@ -27,6 +29,8 @@ describe('Integrations page', () => {
         cy.apiUpdateConfig(newSettings);
 
         cy.apiInitSetup().then(({team}) => {
+            testTeam = team;
+
             // # Go to integrations
             cy.visit(`/${team.name}/integrations`);
 
@@ -178,4 +182,26 @@ describe('Integrations page', () => {
         // * Validate that the correct empty message is shown
         cy.get('#emptySearchResultsMessage').should('be.visible').and('have.text', `No bot accounts match ${searchString}`);
     });
+
+    it('MM-T570 Integration Page titles are bolded', () => {
+        cy.visit(`/${testTeam.name}/channels/town-square`);
+
+        // # Go to Main Menu -> Integrations
+        cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
+
+        cy.get('.dropdown-menu').should('be.visible').findByText('Integrations').click();
+
+        cy.get('.integration-option__title').contains('Incoming Webhooks').click();
+
+        integrationPageTitleIsBold('Incoming Webhooks');
+        integrationPageTitleIsBold('Outgoing Webhooks');
+        integrationPageTitleIsBold('Slash Commands');
+        integrationPageTitleIsBold('OAuth 2.0 Applications');
+        integrationPageTitleIsBold('Bot Accounts');
+    });
 });
+
+function integrationPageTitleIsBold(title) {
+    cy.get('.section-title__text').contains(title).click();
+    cy.get('.item-details__name').should('be.visible').and('have.css', 'font-weight', '600');
+}
