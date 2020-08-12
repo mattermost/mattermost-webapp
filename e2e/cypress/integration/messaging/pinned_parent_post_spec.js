@@ -7,10 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @messaging
 
-describe('Channel users interactions', () => {
+describe('Messaging', () => {
     let testTeam;
     let testChannel;
     let receiver;
@@ -38,34 +37,31 @@ describe('Channel users interactions', () => {
         });
     });
 
-    it('MM-T216 Scroll to bottom when sending a message', () => {
-        // # Go to off-topic channel via LHS
-        cy.get('#sidebarItem_off-topic').click({force: true});
+    it('M23346 - Pinned parent post: reply count remains in center channel and is correct', () => {
+        // # Login as the other user
+        cy.apiLogin(sender);
 
-        // # Post a message in test channel by another user
-        const message = `I\'m messaging!${'\n2'.repeat(30)}`; // eslint-disable-line no-useless-escape
-        cy.postMessageAs({sender, message, channelId: testChannel.id});
+        // # Reload the page
+        cy.reload();
 
-        // # Post any message to off-topic channel
-        const hello = 'Hello';
-        cy.postMessage(hello);
-        cy.uiWaitUntilMessagePostedIncludes(hello);
-
-        // # Go to test channel where the message is posted
-        cy.get(`#sidebarItem_${testChannel.name}`).click({force: true});
-
-        // * Check that the new message separator is visible
-        cy.findByTestId('NotificationSeparator').
-            find('span').
-            should('be.visible').
-            and('have.text', 'New Messages');
-
-        // # Post a message on current channel
-        cy.get('#post_textbox').clear().type('message123{enter}');
-
-        // * Verify that last posted message is visible
         cy.getLastPostId().then((postId) => {
-            cy.get(`#postMessageText_${postId}`).should('have.text', 'message123');
+            // # Click the reply button, and post a reply four times and close the thread rhs tab
+            cy.get(`#post_${postId}`).trigger('mouseover');
+            cy.get(`#CENTER_commentIcon_${postId}`).click({force: true});
+            for (let i = 0; i < 5; i++) {
+                cy.get('#reply_textbox').should('be.visible').type(`Hello to you too ${i}`);
+                cy.get('#addCommentButton').should('be.enabled').click();
+            }
+            cy.get('#rhsCloseButton').click();
+
+            // # Pin the post to the channel
+            cy.getPostMenu(postId, 'Pin to Channel').click();
+
+            // # Find the 'Pinned' span in the post pre-header to verify that the post was actually pinned
+            cy.get(`#post_${postId}`).findByText('Pinned').should('exist');
+
+            // * Assert that the reply count exists and is correct
+            cy.get(`#CENTER_commentIcon_${postId}`).find('span').eq(0).find('span').eq(1).should('have.text', '5');
         });
     });
 });
