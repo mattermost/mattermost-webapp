@@ -36,13 +36,16 @@ describe('Channel sidebar', () => {
                 channelName = response.body.display_name;
             });
             cy.visit(`/${team.name}/channels/town-square`);
-
-            // * Verify that we've switched to the new team
-            cy.get('#headerTeamName', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').should('contain', teamName);
         });
     });
 
     it('should move channel to correct place when dragging channel within category', () => {
+        // # Close "What's new" modal
+        cy.uiCloseWhatsNewModal();
+
+        // * Verify that we've switched to the new team
+        cy.get('#headerTeamName', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').should('contain', teamName);
+
         // * Verify the order is correct to begin with
         cy.get('.SidebarChannel > .SidebarLink').should('be.visible').as('fromChannelSidebarLink');
         cy.get('@fromChannelSidebarLink').eq(0).should('contain', channelName);
@@ -63,6 +66,9 @@ describe('Channel sidebar', () => {
     });
 
     it('should move category to correct place', () => {
+        // * Verify that we've switched to the new team
+        cy.get('#headerTeamName', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').should('contain', teamName);
+
         // # Get channel group button and wait for Channels to be visible since for some reason it shows up later...
         cy.get('.SidebarChannelGroupHeader_groupButton > div[data-rbd-drag-handle-draggable-id]').should('be.visible').as('fromChannelGroup');
         cy.get('@fromChannelGroup').should('contain', 'CHANNELS');

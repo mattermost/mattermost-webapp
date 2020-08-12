@@ -33,6 +33,9 @@ describe('Handle removed user - new sidebar', () => {
         cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
             cy.visit(`/${team.name}/channels/${channel.name}`);
         });
+
+        // # Close "What's new" modal
+        cy.uiCloseWhatsNewModal();
     });
 
     it('should be redirected to last channel when a user is removed from their current channel', () => {

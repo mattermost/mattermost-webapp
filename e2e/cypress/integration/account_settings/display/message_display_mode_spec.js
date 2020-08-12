@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @account_setting
 
 import {getRandomId} from '../../../utils';
@@ -44,7 +45,7 @@ describe('Account Settings > Display > Message Display', () => {
                 cy.clickPostDotMenu(postId);
 
                 // # click edit post
-                cy.get(`#edit_post_${postId}`).should('be.visible').click();
+                cy.get(`#edit_post_${postId}`).scrollIntoView().should('be.visible').click();
 
                 // # Add ",edited" to the text
                 cy.get('#edit_textbox').type(',edited');

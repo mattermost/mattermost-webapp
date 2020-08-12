@@ -269,7 +269,7 @@ describe('at-mention', () => {
         });
     });
 
-    it('M17445 - Words that trigger mentions support Chinese', () => {
+    it('MM-T184 Words that trigger mentions support Chinese', () => {
         ignoreUncaughtException();
 
         var customText = '番茄';

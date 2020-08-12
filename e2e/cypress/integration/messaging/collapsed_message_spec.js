@@ -34,7 +34,7 @@ describe('Long message', () => {
         });
     });
 
-    it('M14321 will show more/less content correctly', () => {
+    it('MM-T104 Can `Show More` and `Show Less` on long posts, Markdown in long posts', () => {
         // # Post message with kitchen sink markdown text
         cy.postMessageFromFile('long_text_post.txt');
 

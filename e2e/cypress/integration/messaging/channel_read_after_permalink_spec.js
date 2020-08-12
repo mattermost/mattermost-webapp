@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @messaging
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
@@ -34,7 +35,7 @@ describe('Messaging', () => {
         });
     });
 
-    it('M18713-Channel is removed from Unreads section if user navigates out of it via permalink', () => {
+    it('MM-T179 Channel is removed from Unreads section if user navigates out of it via permalink', () => {
         const message = 'Hello' + Date.now();
         let permalink;
         let postId;
