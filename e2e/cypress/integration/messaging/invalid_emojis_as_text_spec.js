@@ -18,7 +18,7 @@ describe('Messaging', () => {
         });
     });
 
-    it('M17443 - Terms that are not valid emojis render as plain text', () => {
+    it('MM-T167 Terms that are not valid emojis render as plain text', () => {
         // # Post message to use
         cy.postMessage(':pickle:');
 
