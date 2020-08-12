@@ -102,12 +102,14 @@ const expectUserListSortedAlphabetically = (filterString, excludeFilter = false)
                 expect(stringComparison, `${currentChildText} should be before ${siblingText}`).to.be.lte(0);
             }
 
-            if (filterString && !excludeFilter) {
-                // * Optionally, ensure all usernames match the autocomplete input
-                expect(currentChildText).to.contain(filterString);
-            } else if (filterString && excludeFilter) {
+            if (filterString) {
+                excludeFilter ?
+
                 // * If a user is selected, ensure remaining users list does not contain the selected user
-                expect(currentChildText).to.not.contain(filterString);
+                    expect(currentChildText).to.not.contain(filterString) :
+
+                // * Optionally, ensure all usernames match the autocomplete input
+                    expect(currentChildText).to.contain(filterString);
             }
         });
 };
