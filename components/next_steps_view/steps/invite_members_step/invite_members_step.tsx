@@ -1,20 +1,21 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {CSSProperties} from 'react';
 import {FormattedMessage} from 'react-intl';
-import ReactSelect, {ActionMeta} from 'react-select';
+import ReactSelect, {ActionMeta, ValueType, InputActionMeta, components} from 'react-select';
 import classNames from 'classnames';
 
 import {TeamInviteWithError} from 'mattermost-redux/types/teams';
+import {isEmail} from 'mattermost-redux/utils/helpers';
 
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import {getSiteURL} from 'utils/url';
 import * as Utils from 'utils/utils';
 
 import {StepComponentProps} from '../../steps';
 
 import './invite_members_step.scss';
-import { emailToLdap } from 'actions/admin_actions';
 
 type Props = StepComponentProps & {
     teamId: string;
@@ -25,46 +26,119 @@ type Props = StepComponentProps & {
 
 type State = {
     copiedLink: boolean;
+    emails: SelectionType[];
+    emailsSent?: number;
+    emailInput: string;
+    emailError?: string;
 };
 
 type SelectionType = {
     label: string;
     value: string;
+    error: boolean;
 }
+
+const styles = {
+    control: (provided: CSSProperties) => {
+        return {
+            ...provided,
+            minHeight: '72px',
+            alignItems: 'flex-start',
+        };
+    },
+};
+
+const MultiValueContainer = (props: any) => {
+    return (
+        <div className={classNames('InviteMembersStep__emailContainer', {error: props.data.error})}>
+            <components.MultiValueContainer {...props}/>
+        </div>
+    );
+};
+
+const MultiValueRemove = (props: any) => {
+    return (
+        <div className='InviteMembersStep__removeEmailButton'>
+            <components.MultiValueRemove {...props}>
+                <i className='icon icon-close-circle'/>
+            </components.MultiValueRemove>
+        </div>
+    );
+};
 
 export default class InviteMembersStep extends React.PureComponent<Props, State> {
     inviteLinkRef: React.RefObject<HTMLInputElement>;
     reactSelectRef: React.RefObject<ReactSelect>;
     timeout?: NodeJS.Timeout;
-    values: SelectionType[];
 
     constructor(props: Props) {
         super(props);
 
         this.inviteLinkRef = React.createRef();
         this.reactSelectRef = React.createRef();
-        this.values = [];
 
         this.state = {
             copiedLink: false,
+            emailInput: '',
+            emails: [],
         };
     }
 
-    onInputChange = (value: string) => {
-        if (value.endsWith(' ') || value.endsWith(',')) {
-            const email = value.slice(0, value.length - 2);
-            this.values.push({label: email, value: email});
+    onInputChange = (value: string, change: InputActionMeta) => {
+        if (!change) {
+            return;
+        }
 
-            // TODO: blank out input
+        if (change.action === 'input-blur' || change.action === 'menu-close') {
+            return;
+        }
+
+        if (this.state.emailInput === value) {
+            return;
+        }
+
+        if (this.state.emails.length >= 10) {
+            this.setState({emailError: Utils.localizeMessage('next_steps_view.invite_members_step.tooManyEmails', 'Invitations are limited to 10 email addresses.')});
+            return;
+        }
+
+        if (value.indexOf(' ') !== -1 || value.indexOf(',') !== -1) {
+            const emails = value.split(/[\s,]+/).filter((email) => email.length).map((email) => ({label: email, value: email, error: !isEmail(email)}));
+            this.setState({emails: [...this.state.emails, ...emails], emailInput: '', emailError: undefined});
+        } else {
+            this.setState({emailInput: value, emailError: undefined});
         }
     }
 
-    onChange = (values: SelectionType[], action: ActionMeta<SelectionType>) => {
-        switch (action.action) {
-        case 'remove-value':
-            this.values = values;
-            break;
+    onChange = (value: ValueType<SelectionType[]>, action: ActionMeta<SelectionType[]>) => {
+        if (action.action !== 'remove-value' && action.action !== 'pop-value') {
+            return;
         }
+
+        if (!(value as SelectionType[]).some((email) => email.error)) {
+            this.setState({emailError: undefined});
+        }
+
+        this.setState({emails: value as SelectionType[]});
+    }
+
+    sendEmailInvites = async () => {
+        if (this.state.emails.some((email) => email.error)) {
+            this.setState({emailError: Utils.localizeMessage('next_steps_view.invite_members_step.invalidEmail', 'One or more email addresses are invalid'), emailsSent: undefined});
+            return;
+        }
+
+        const emails = this.state.emails.map((value) => value.value);
+        const {data} = await this.props.actions.sendEmailInvitesToTeamGracefully(this.props.teamId, emails);
+
+        if (!data.length || data.some((result) => result.error)) {
+            this.setState({emailError: Utils.localizeMessage('next_steps_view.invite_members_step.errorSendingEmails', 'There was a problem sending your invitations. Please try again.'), emailsSent: undefined});
+            return;
+        }
+
+        this.setState({emailError: undefined, emailsSent: data.length}, () => {
+            setTimeout(() => this.setState({emailsSent: undefined}), 4000);
+        });
     }
 
     onSkip = () => {
@@ -119,15 +193,56 @@ export default class InviteMembersStep extends React.PureComponent<Props, State>
                             defaultMessage='You can invite up to 10 team members using a space or comma between addresses'
                         />
                         <ReactSelect
-                            ref={this.reactSelectRef}
+                            ref={this.reactSelectRef as React.RefObject<any>} // type of ref on @types/react-select is outdated
+                            components={{
+                                Menu: () => null,
+                                IndicatorsContainer: () => null,
+                                MultiValueContainer,
+                                MultiValueRemove,
+                            }}
                             isMulti={true}
                             isClearable={false}
                             onInputChange={this.onInputChange}
                             onChange={this.onChange}
-                            value={this.values}
+                            value={this.state.emails}
                             openMenuOnFocus={false}
                             menuIsOpen={false}
+                            inputValue={this.state.emailInput}
+                            placeholder={Utils.localizeMessage('next_steps_view.invite_members_step.enterEmailAddresses', 'Enter email addresses')}
+                            styles={styles}
+                            className={'InviteMembersStep__reactSelect'}
                         />
+                        <div className='InviteMembersStep__send'>
+                            <button
+                                className={classNames('InviteMembersStep__sendButton', {disabled: !this.state.emails.length || Boolean(this.state.emailsSent) || this.state.emailError})}
+                                disabled={!this.state.emails.length || Boolean(this.state.emailsSent) || Boolean(this.state.emailError)}
+                                onClick={this.sendEmailInvites}
+                            >
+                                <i className='icon icon-send'/>
+                                <FormattedMessage
+                                    id='next_steps_view.invite_members_step.send'
+                                    defaultMessage='Send'
+                                />
+                            </button>
+                            <div className={classNames('InviteMembersStep__invitationResults', {error: this.state.emailError})}>
+                                {this.state.emailsSent &&
+                                    <>
+                                        <i className='icon icon-check'/>
+                                        <FormattedMarkdownMessage
+                                            id='next_steps_view.invite_members_step.invitationsSent'
+                                            defaultMessage='{num} invitations sent'
+                                            values={{num: this.state.emailsSent}}
+                                        />
+                                    </>
+                                }
+                                {this.state.emailError &&
+                                    <>
+                                        <i className='icon icon-alert-outline'/>
+                                        <span>{this.state.emailError}</span>
+                                    </>
+                                }
+                            </div>
+                        </div>
                     </div>
                     <div className='InviteMembersStep__shareInviteLink'>
                         <h3>

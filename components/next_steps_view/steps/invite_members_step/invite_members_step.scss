@@ -116,6 +116,137 @@
     }
 }
 
+.InviteMembersStep__send {
+    display: flex;
+    margin-top: 8px;
+}
+
+.InviteMembersStep__sendButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 0;
+    border: 1px solid var(--button-bg);
+    color: var(--button-bg);
+    border-radius: 4px;
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 600;
+    padding: 8px 16px;
+    background: none;
+
+    i {
+        font-size: 14px;
+
+        &::before{
+            margin: 0;
+        }
+    }
+
+    &:hover:not(.disabled) {
+        background: var(--button-bg-08);
+    }
+    &:active {
+        background: var(--button-bg-08);
+    }
+    span {
+        display: inline-block;
+        margin-left: 4px;
+    }
+
+    &.disabled {
+        border-color: 1px solid var(--center-channel-color);
+        color: 1px solid var(--center-channel-color);
+        opacity: 0.32;
+
+        i {
+            color: 1px solid var(--center-channel-color);
+        }
+    }
+}
+
+.InviteMembersStep__emailInvitations > span {
+    font-size: 12px;
+    line-height: 16px;
+    color: rgba(var(--center-channel-color-rgb), 0.56);
+}
+
+.InviteMembersStep__reactSelect {
+    margin-top: 20px;
+}
+
+.InviteMembersStep__emailContainer {
+    > div {
+        border-radius: 12px;
+        background-color: rgba(var(--center-channel-color-rgb), 0.08);
+        display: flex;
+        align-items: center;
+        padding: 2px 0 2px 8px;
+        
+        > div {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--center-channel-color);
+            padding: 0;
+        }
+    }
+
+    &.error > div {
+        border: 1px solid var(--error-text);
+    }
+}
+
+.InviteMembersStep__invitationResults {
+    display: flex;
+    font-size: 12px;
+    line-height: 16px;
+    color: var(--center-channel-color);
+    margin-left: 16px;
+    align-items: center;
+
+    i {
+        font-size: 14px;
+        color: var(--online-indicator);
+
+        &::before {
+            margin: 0;
+        }
+    }
+
+    > span {
+        margin-left: 4px;
+    }
+
+    &.error {
+        color: var(--error-text);
+
+        i {
+            color: var(--error-text);
+        }
+    }
+}
+
+.InviteMembersStep__removeEmailButton {
+    > div {
+        padding: 0 4px;
+
+        &:hover {
+            color: unset;
+            background-color: unset;
+        }
+    }
+
+    i {
+        color: rgba(var(--center-channel-color-rgb), 0.48);
+        font-size: 14px;
+        font-weight: normal;
+
+        &::before {
+            margin: 0;
+        }
+    }
+}
+
 @media screen and (max-width: 1020px) {
     .InviteMembersStep {
         flex-direction: column;
