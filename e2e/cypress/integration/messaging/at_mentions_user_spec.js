@@ -35,7 +35,7 @@ describe('Mention user', () => {
         });
     });
 
-    it('M19761 autocomplete should match on cases', () => {
+    it('MM-T1662 Autocomplete should match entries with spaces', () => {
         const fullname = `${testUser.first_name} ${testUser.last_name}`;
 
         [

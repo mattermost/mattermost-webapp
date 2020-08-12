@@ -3919,5 +3919,6 @@
   "admin.channel_list.group_sync": "Group Sync",
   "admin.channel_list.archived": "Архівувати ",
   "admin.jobTable.headerFiles": "Файли ",
-  "admin.jobTable.downloadLink": "Завантажити"
+  "admin.jobTable.downloadLink": "Завантажити",
+  "warn_metric_ack_modal.learn_more.link": "Вчи більше"
 }
