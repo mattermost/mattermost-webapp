@@ -3,10 +3,15 @@
 
 import {combineReducers} from 'redux';
 
+import {ChannelCategoryTypes, UserTypes} from 'mattermost-redux/action_types';
+
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {UserTypes} from 'mattermost-redux/action_types';
+import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
+
+import {removeItem} from 'mattermost-redux/utils/array_utils';
 
 import {DraggingState} from 'types/store';
+
 import {ActionTypes} from 'utils/constants';
 
 export function unreadFilterEnabled(state = false, action: GenericAction) {
@@ -42,6 +47,27 @@ export function newCategoryIds(state: string[] = [], action: GenericAction): str
     switch (action.type) {
     case ActionTypes.ADD_NEW_CATEGORY_ID:
         return [...state, action.data];
+    case ChannelCategoryTypes.RECEIVED_CATEGORY: {
+        const category: ChannelCategory = action.data;
+
+        if (category.channel_ids.length > 0) {
+            return removeItem(state, category.id);
+        }
+
+        return state;
+    }
+    case ChannelCategoryTypes.RECEIVED_CATEGORIES: {
+        const categories = action.data;
+
+        return categories.reduce((nextState: string[], category: ChannelCategory) => {
+            if (category.channel_ids.length > 0) {
+                return removeItem(nextState, category.id);
+            }
+
+            return nextState;
+        }, state);
+    }
+
     case UserTypes.LOGOUT_SUCCESS:
         return [];
     default:
