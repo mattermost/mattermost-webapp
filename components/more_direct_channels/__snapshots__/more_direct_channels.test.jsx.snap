@@ -189,7 +189,9 @@ exports[`components/MoreDirectChannels should match renderOption snapshot 1`] = 
     <div
       className="more-modal__name"
     >
-      <span>
+      <span
+        id="displayedUserNameundefined"
+      >
         @undefined
         <span
           className="light"
