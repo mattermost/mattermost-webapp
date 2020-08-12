@@ -1,13 +1,15 @@
 {
   "extends": [
     "plugin:mattermost/react",
-    "plugin:cypress/recommended"
+    "plugin:cypress/recommended",
+    "plugin:jquery/deprecated"
   ],
   "plugins": [
     "babel",
     "mattermost",
     "import",
-    "cypress"
+    "cypress",
+    "jquery"
   ],
   "parser": "@typescript-eslint/parser",
   "env": {
@@ -24,9 +26,8 @@
   "rules": {
     "no-unused-expressions": 0,
     "babel/no-unused-expressions": 2,
-    "import/no-unresolved": [
-      2
-    ],
+    "eol-last": ["error", "always"],
+    "import/no-unresolved": 2,
     "import/order": [
       2,
       {

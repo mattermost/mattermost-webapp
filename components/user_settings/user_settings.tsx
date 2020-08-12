@@ -16,8 +16,8 @@ export type Props = {
     user: UserProfile;
     activeTab?: string;
     activeSection?: string;
-    updateSection?: () => void;
-    updateTab?: () => void;
+    updateSection: (section: string) => void;
+    updateTab: (notifications: string) => void;
     closeModal: () => void;
     collapseModal: () => void;
     setEnforceFocus: () => void;

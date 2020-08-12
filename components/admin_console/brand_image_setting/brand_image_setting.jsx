@@ -81,7 +81,7 @@ export default class BrandImageSetting extends React.PureComponent {
 
             const img = this.refs.image;
             reader.onload = (e) => {
-                $(img).attr('src', e.target.result);
+                $(img).attr('src', e.target.result); // eslint-disable-line jquery/no-attr
             };
 
             reader.readAsDataURL(this.state.brandImage);

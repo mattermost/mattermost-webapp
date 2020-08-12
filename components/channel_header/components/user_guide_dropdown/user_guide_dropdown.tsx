@@ -11,6 +11,7 @@ import UserGuideIcon from 'components/widgets/icons/user_guide_icon';
 import Menu from 'components/widgets/menu/menu';
 import OverlayTrigger from 'components/overlay_trigger';
 import * as GlobalActions from 'actions/global_actions.jsx';
+import {trackEvent} from 'actions/diagnostics_actions.jsx';
 
 const askTheCommunityUrl = 'https://mattermost.com/pl/default-ask-mattermost-community/';
 
@@ -44,6 +45,10 @@ class UserGuideDropdown extends React.PureComponent<Props, State> {
         });
     }
 
+    askTheCommunityClick = () => {
+        trackEvent('ui', 'help_ask_the_community');
+    }
+
     renderDropdownItems = (): React.ReactNode => {
         const {intl} = this.props;
 
@@ -54,6 +59,7 @@ class UserGuideDropdown extends React.PureComponent<Props, State> {
                         id='askTheCommunityLink'
                         url={askTheCommunityUrl}
                         text={intl.formatMessage({id: 'userGuideHelp.askTheCommunity', defaultMessage: 'Ask the community'})}
+                        onClick={this.askTheCommunityClick}
                     />
                 )}
                 <Menu.ItemExternalLink

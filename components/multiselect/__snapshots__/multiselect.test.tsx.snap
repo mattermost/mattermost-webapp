@@ -116,6 +116,7 @@ exports[`components/multiselect/multiselect should match snapshot 1`] = `
     </div>
     <div
       className="multi-select__help"
+      id="multiSelectHelpMemberInfo"
     >
       <FormattedMessage
         defaultMessage="{memberOptions, number} of {totalCount, number} members"
@@ -130,6 +131,7 @@ exports[`components/multiselect/multiselect should match snapshot 1`] = `
     </div>
     <div
       className="multi-select__help"
+      id="multiSelectMessageNote"
     />
   </div>
   <MultiSelectList
@@ -302,6 +304,7 @@ exports[`components/multiselect/multiselect should match snapshot for page 2 1`]
     </div>
     <div
       className="multi-select__help"
+      id="multiSelectHelpMemberInfo"
     >
       <FormattedMessage
         defaultMessage="{memberOptions, number} of {totalCount, number} members"
@@ -316,6 +319,7 @@ exports[`components/multiselect/multiselect should match snapshot for page 2 1`]
     </div>
     <div
       className="multi-select__help"
+      id="multiSelectMessageNote"
     />
   </div>
   <MultiSelectList

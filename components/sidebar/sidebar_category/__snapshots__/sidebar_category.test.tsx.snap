@@ -294,7 +294,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when sorting 
       </div>
     </button>
     <button
-      aria-label="Sorted by recency"
+      aria-label="Sorted by most recent"
       className="SidebarChannelGroupHeader_sortButton"
       onClick={[Function]}
     >
@@ -308,7 +308,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when sorting 
             id="new-group-tooltip"
             placement="right"
           >
-            Sorted by recency
+            Sorted by most recent
           </Tooltip>
         }
         placement="top"
@@ -419,7 +419,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when the cate
       </div>
     </button>
     <button
-      aria-label="Sorted by recency"
+      aria-label="Sorted by most recent"
       className="SidebarChannelGroupHeader_sortButton"
       onClick={[Function]}
     >
@@ -433,7 +433,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when the cate
             id="new-group-tooltip"
             placement="right"
           >
-            Sorted by recency
+            Sorted by most recent
           </Tooltip>
         }
         placement="top"

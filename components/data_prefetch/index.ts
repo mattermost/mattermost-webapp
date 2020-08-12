@@ -18,11 +18,13 @@ import {RelationOneToOne} from 'mattermost-redux/types/utilities';
 import {GlobalState} from 'types/store';
 
 import {prefetchChannelPosts} from 'actions/views/channel';
+import {trackDMGMOpenChannels} from 'actions/user_actions';
 
 import DataPrefetch from './data_prefetch';
 
 type Actions = {
     prefetchChannelPosts: (channelId: string, delay?: number) => Promise<{data: PostList}>;
+    trackDMGMOpenChannels: () => Promise<void>;
 };
 
 enum Priority {
@@ -38,7 +40,7 @@ const prefetchQueue = memoizeResult((channels: Channel[], memberships: RelationO
     return channels.reduce((acc: Record<string, string[]>, channel: Channel) => {
         const channelId = channel.id;
         const membership = memberships[channelId];
-        if (!isChannelMuted(membership)) {
+        if (membership && !isChannelMuted(membership)) {
             if (membership.mention_count > 0) {
                 return {
                     ...acc,
@@ -78,6 +80,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
             prefetchChannelPosts,
+            trackDMGMOpenChannels,
         }, dispatch),
     };
 }

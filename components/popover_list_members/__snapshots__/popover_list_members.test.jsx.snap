@@ -88,6 +88,7 @@ exports[`components/PopoverListMembers should match snapshot 1`] = `
             status="online"
             user={
               Object {
+                "delete_at": 0,
                 "id": "member_id_1",
               }
             }
@@ -99,6 +100,7 @@ exports[`components/PopoverListMembers should match snapshot 1`] = `
             status="offline"
             user={
               Object {
+                "delete_at": 0,
                 "id": "member_id_2",
               }
             }
@@ -198,6 +200,7 @@ exports[`components/PopoverListMembers should match snapshot with archived chann
             status="online"
             user={
               Object {
+                "delete_at": 0,
                 "id": "member_id_1",
               }
             }
@@ -209,6 +212,7 @@ exports[`components/PopoverListMembers should match snapshot with archived chann
             status="offline"
             user={
               Object {
+                "delete_at": 0,
                 "id": "member_id_2",
               }
             }
@@ -316,6 +320,7 @@ exports[`components/PopoverListMembers should match snapshot with group-constrai
             status="online"
             user={
               Object {
+                "delete_at": 0,
                 "id": "member_id_1",
               }
             }
@@ -327,6 +332,7 @@ exports[`components/PopoverListMembers should match snapshot with group-constrai
             status="offline"
             user={
               Object {
+                "delete_at": 0,
                 "id": "member_id_2",
               }
             }

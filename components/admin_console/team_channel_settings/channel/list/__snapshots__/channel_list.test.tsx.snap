@@ -42,6 +42,100 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
       ]
     }
     endCount={1}
+    filterProps={
+      Object {
+        "keys": Array [
+          "teams",
+          "channels",
+          "management",
+        ],
+        "onFilter": [Function],
+        "options": Object {
+          "channels": Object {
+            "keys": Array [
+              "public",
+              "private",
+              "deleted",
+            ],
+            "name": "Channels",
+            "values": Object {
+              "deleted": Object {
+                "name": <FormattedMessage
+                  defaultMessage="Archived"
+                  id="admin.channel_list.archived"
+                  values={Object {}}
+                />,
+                "value": false,
+              },
+              "private": Object {
+                "name": <FormattedMessage
+                  defaultMessage="Private"
+                  id="admin.channel_list.private"
+                  values={Object {}}
+                />,
+                "value": false,
+              },
+              "public": Object {
+                "name": <FormattedMessage
+                  defaultMessage="Public"
+                  id="admin.channel_list.public"
+                  values={Object {}}
+                />,
+                "value": false,
+              },
+            },
+          },
+          "management": Object {
+            "keys": Array [
+              "group_constrained",
+              "exclude_group_constrained",
+            ],
+            "name": "Management",
+            "values": Object {
+              "exclude_group_constrained": Object {
+                "name": <FormattedMessage
+                  defaultMessage="Manual Invites"
+                  id="admin.channel_list.manual_invites"
+                  values={Object {}}
+                />,
+                "value": false,
+              },
+              "group_constrained": Object {
+                "name": <FormattedMessage
+                  defaultMessage="Group Sync"
+                  id="admin.channel_list.group_sync"
+                  values={Object {}}
+                />,
+                "value": false,
+              },
+            },
+          },
+          "teams": Object {
+            "keys": Array [
+              "team_ids",
+            ],
+            "name": "Teams",
+            "type": Object {
+              "$$typeof": Symbol(react.memo),
+              "WrappedComponent": [Function],
+              "compare": null,
+              "displayName": "Connect(TeamFilterDropdown)",
+              "type": [Function],
+            },
+            "values": Object {
+              "team_ids": Object {
+                "name": <FormattedMessage
+                  defaultMessage="Teams"
+                  id="admin.team_settings.title"
+                  values={Object {}}
+                />,
+                "value": Array [],
+              },
+            },
+          },
+        },
+      }
+    }
     loading={false}
     nextPage={[Function]}
     page={0}
@@ -83,7 +177,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               data-testid="channel-display-name"
             >
               <GlobeIcon
-                className="channel-icon channel-icon__globe channel-icon___lowerOpacity"
+                className="channel-icon"
               />
               <span
                 className="TeamList_channelDisplayName"
@@ -156,6 +250,100 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
       ]
     }
     endCount={10}
+    filterProps={
+      Object {
+        "keys": Array [
+          "teams",
+          "channels",
+          "management",
+        ],
+        "onFilter": [Function],
+        "options": Object {
+          "channels": Object {
+            "keys": Array [
+              "public",
+              "private",
+              "deleted",
+            ],
+            "name": "Channels",
+            "values": Object {
+              "deleted": Object {
+                "name": <FormattedMessage
+                  defaultMessage="Archived"
+                  id="admin.channel_list.archived"
+                  values={Object {}}
+                />,
+                "value": false,
+              },
+              "private": Object {
+                "name": <FormattedMessage
+                  defaultMessage="Private"
+                  id="admin.channel_list.private"
+                  values={Object {}}
+                />,
+                "value": false,
+              },
+              "public": Object {
+                "name": <FormattedMessage
+                  defaultMessage="Public"
+                  id="admin.channel_list.public"
+                  values={Object {}}
+                />,
+                "value": false,
+              },
+            },
+          },
+          "management": Object {
+            "keys": Array [
+              "group_constrained",
+              "exclude_group_constrained",
+            ],
+            "name": "Management",
+            "values": Object {
+              "exclude_group_constrained": Object {
+                "name": <FormattedMessage
+                  defaultMessage="Manual Invites"
+                  id="admin.channel_list.manual_invites"
+                  values={Object {}}
+                />,
+                "value": false,
+              },
+              "group_constrained": Object {
+                "name": <FormattedMessage
+                  defaultMessage="Group Sync"
+                  id="admin.channel_list.group_sync"
+                  values={Object {}}
+                />,
+                "value": false,
+              },
+            },
+          },
+          "teams": Object {
+            "keys": Array [
+              "team_ids",
+            ],
+            "name": "Teams",
+            "type": Object {
+              "$$typeof": Symbol(react.memo),
+              "WrappedComponent": [Function],
+              "compare": null,
+              "displayName": "Connect(TeamFilterDropdown)",
+              "type": [Function],
+            },
+            "values": Object {
+              "team_ids": Object {
+                "name": <FormattedMessage
+                  defaultMessage="Teams"
+                  id="admin.team_settings.title"
+                  values={Object {}}
+                />,
+                "value": Array [],
+              },
+            },
+          },
+        },
+      }
+    }
     loading={false}
     nextPage={[Function]}
     page={0}
@@ -197,7 +385,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               data-testid="channel-display-name"
             >
               <GlobeIcon
-                className="channel-icon channel-icon__globe channel-icon___lowerOpacity"
+                className="channel-icon"
               />
               <span
                 className="TeamList_channelDisplayName"
@@ -242,7 +430,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               data-testid="channel-display-name"
             >
               <GlobeIcon
-                className="channel-icon channel-icon__globe channel-icon___lowerOpacity"
+                className="channel-icon"
               />
               <span
                 className="TeamList_channelDisplayName"
@@ -287,7 +475,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               data-testid="channel-display-name"
             >
               <GlobeIcon
-                className="channel-icon channel-icon__globe channel-icon___lowerOpacity"
+                className="channel-icon"
               />
               <span
                 className="TeamList_channelDisplayName"
@@ -332,7 +520,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               data-testid="channel-display-name"
             >
               <GlobeIcon
-                className="channel-icon channel-icon__globe channel-icon___lowerOpacity"
+                className="channel-icon"
               />
               <span
                 className="TeamList_channelDisplayName"
@@ -377,7 +565,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               data-testid="channel-display-name"
             >
               <GlobeIcon
-                className="channel-icon channel-icon__globe channel-icon___lowerOpacity"
+                className="channel-icon"
               />
               <span
                 className="TeamList_channelDisplayName"
@@ -422,7 +610,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               data-testid="channel-display-name"
             >
               <GlobeIcon
-                className="channel-icon channel-icon__globe channel-icon___lowerOpacity"
+                className="channel-icon"
               />
               <span
                 className="TeamList_channelDisplayName"
@@ -467,7 +655,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               data-testid="channel-display-name"
             >
               <GlobeIcon
-                className="channel-icon channel-icon__globe channel-icon___lowerOpacity"
+                className="channel-icon"
               />
               <span
                 className="TeamList_channelDisplayName"
@@ -512,7 +700,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               data-testid="channel-display-name"
             >
               <GlobeIcon
-                className="channel-icon channel-icon__globe channel-icon___lowerOpacity"
+                className="channel-icon"
               />
               <span
                 className="TeamList_channelDisplayName"
@@ -557,7 +745,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               data-testid="channel-display-name"
             >
               <GlobeIcon
-                className="channel-icon channel-icon__globe channel-icon___lowerOpacity"
+                className="channel-icon"
               />
               <span
                 className="TeamList_channelDisplayName"
@@ -602,7 +790,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               data-testid="channel-display-name"
             >
               <GlobeIcon
-                className="channel-icon channel-icon__globe channel-icon___lowerOpacity"
+                className="channel-icon"
               />
               <span
                 className="TeamList_channelDisplayName"
