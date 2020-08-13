@@ -363,27 +363,35 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
         ]
       }
     >
-      <MenuItemToggleModalRedux
-        dialogProps={
-          Object {
-            "channelDisplayName": undefined,
-            "channelId": "test-channel-id",
-          }
+      <Connect(TeamPermissionGate)
+        permissions={
+          Array [
+            "create_private_channel",
+          ]
         }
-        dialogType={
-          Object {
-            "$$typeof": Symbol(react.memo),
-            "WrappedComponent": [Function],
-            "compare": null,
-            "displayName": "Connect(ConvertChannelModal)",
-            "type": [Function],
+      >
+        <MenuItemToggleModalRedux
+          dialogProps={
+            Object {
+              "channelDisplayName": undefined,
+              "channelId": "test-channel-id",
+            }
           }
-        }
-        id="channelCovertToPrivate"
-        modalId="convert_channel"
-        show={false}
-        text="Convert to Private Channel"
-      />
+          dialogType={
+            Object {
+              "$$typeof": Symbol(react.memo),
+              "WrappedComponent": [Function],
+              "compare": null,
+              "displayName": "Connect(ConvertChannelModal)",
+              "type": [Function],
+            }
+          }
+          id="channelCovertToPrivate"
+          modalId="convert_channel"
+          show={false}
+          text="Convert to Private Channel"
+        />
+      </Connect(TeamPermissionGate)>
     </Connect(TeamPermissionGate)>
     <Connect(ChannelPermissionGate)
       channelId="test-channel-id"
@@ -847,27 +855,35 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
         ]
       }
     >
-      <MenuItemToggleModalRedux
-        dialogProps={
-          Object {
-            "channelDisplayName": undefined,
-            "channelId": "test-channel-id",
-          }
+      <Connect(TeamPermissionGate)
+        permissions={
+          Array [
+            "create_private_channel",
+          ]
         }
-        dialogType={
-          Object {
-            "$$typeof": Symbol(react.memo),
-            "WrappedComponent": [Function],
-            "compare": null,
-            "displayName": "Connect(ConvertChannelModal)",
-            "type": [Function],
+      >
+        <MenuItemToggleModalRedux
+          dialogProps={
+            Object {
+              "channelDisplayName": undefined,
+              "channelId": "test-channel-id",
+            }
           }
-        }
-        id="channelCovertToPrivate"
-        modalId="convert_channel"
-        show={false}
-        text="Convert to Private Channel"
-      />
+          dialogType={
+            Object {
+              "$$typeof": Symbol(react.memo),
+              "WrappedComponent": [Function],
+              "compare": null,
+              "displayName": "Connect(ConvertChannelModal)",
+              "type": [Function],
+            }
+          }
+          id="channelCovertToPrivate"
+          modalId="convert_channel"
+          show={false}
+          text="Convert to Private Channel"
+        />
+      </Connect(TeamPermissionGate)>
     </Connect(TeamPermissionGate)>
     <Connect(ChannelPermissionGate)
       channelId="test-channel-id"
