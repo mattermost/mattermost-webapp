@@ -11,6 +11,7 @@
 
 import users from '../../../fixtures/ldap_users.json';
 import {getRandomId} from '../../../utils';
+import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 function setLDAPTestSettings(config) {
     return {
@@ -115,7 +116,8 @@ context('ldap', () => {
             cy.apiAdminLogin().then(() => {
                 cy.apiUpdateConfig(ldapSetting).then(() => {
                     cy.doLDAPLogin(testSettings).then(() => {
-                        cy.get('#createPublicChannel').should('be.visible');
+                        cy.url().should('include', 'town-square');
+                        cy.findAllByLabelText('town square public channel', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
                         cy.doMemberLogout(testSettings);
                     });
                 });

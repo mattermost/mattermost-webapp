@@ -1,26 +1,24 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {FC, ReactNode, memo} from 'react';
+import React, {FC, ReactNode, memo, TimeHTMLAttributes} from 'react';
 
-type Props = {
+export type Props = {
     value: Date;
-    className?: string;
-    label?: string;
     children?: ReactNode;
-};
+} & TimeHTMLAttributes<HTMLTimeElement>;
 
 const SemanticTime: FC<Props> = ({
     value,
-    className,
-    label = value.toLocaleString(),
     children,
+    'aria-label': label = value.toLocaleString(),
+    ...props
 }: Props) => {
     return (
         <time
+            {...props}
             aria-label={label}
             dateTime={value.toISOString()}
-            className={className}
         >
             {children}
         </time>
