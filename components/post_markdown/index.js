@@ -3,7 +3,7 @@
 import {createSelector} from 'reselect';
 import {connect} from 'react-redux';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
-import {getAllUserMentionKeys} from 'mattermost-redux/selectors/entities/search';
+import {getMyGroupMentionKeysForChannel} from 'mattermost-redux/selectors/entities/groups';
 import {getCurrentUserMentionKeys} from 'mattermost-redux/selectors/entities/users';
 
 import {canManageMembers} from 'utils/channel_utils.jsx';
@@ -12,13 +12,13 @@ import PostMarkdown from './post_markdown';
 
 export function makeGetMentionKeysForPost() {
     return createSelector(
-        getAllUserMentionKeys,
         getCurrentUserMentionKeys,
         (state, post) => post,
-        (allMentionKeys, mentionKeysWithoutGroups, post) => {
-            let mentionKeys = allMentionKeys;
-            if (post?.props?.disable_group_highlight) { // eslint-disable-line camelcase
-                mentionKeys = mentionKeysWithoutGroups;
+        (state, post, channel) => getMyGroupMentionKeysForChannel(state, channel.team_id, channel.id),
+        (mentionKeysWithoutGroups, post, groupMentionKeys) => {
+            let mentionKeys = mentionKeysWithoutGroups;
+            if (!post?.props?.disable_group_highlight) { // eslint-disable-line camelcase
+                mentionKeys = mentionKeys.concat(groupMentionKeys);
             }
 
             if (post?.props?.mentionHighlightDisabled) {
@@ -38,7 +38,7 @@ function mapStateToProps(state, ownProps) {
         pluginHooks: state.plugins.components.MessageWillFormat,
         hasPluginTooltips: Boolean(state.plugins.components.LinkTooltip),
         isUserCanManageMembers: channel && canManageMembers(state, channel),
-        mentionKeys: getMentionKeysForPost(state, ownProps.post),
+        mentionKeys: getMentionKeysForPost(state, ownProps.post, channel),
     };
 }
 
