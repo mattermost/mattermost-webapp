@@ -234,9 +234,9 @@ describe('actions/invite_actions', () => {
             const emails = [];
             const expectedNotSent = [];
             for (let i = 0; i < 22; i++) {
-                emails.push('email-' + i + '@gmail.com');
+                emails.push('email-' + i + '@example.com');
                 expectedNotSent.push({
-                    email: 'email-' + i + '@gmail.com',
+                    email: 'email-' + i + '@example.com',
                     reason: 'Invite emails rate limit exceeded.',
                 });
             }
@@ -487,9 +487,9 @@ describe('actions/invite_actions', () => {
             const emails = [];
             const expectedNotSent = [];
             for (let i = 0; i < 22; i++) {
-                emails.push('email-' + i + '@gmail.com');
+                emails.push('email-' + i + '@example.com');
                 expectedNotSent.push({
-                    email: 'email-' + i + '@gmail.com',
+                    email: 'email-' + i + '@example.com',
                     reason: 'Invite emails rate limit exceeded.',
                 });
             }
