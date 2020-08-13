@@ -5,7 +5,7 @@ import * as TIMEOUTS from '../fixtures/timeouts';
 
 Cypress.Commands.add('checkLoginPage', (settings = {}) => {
     // * Check elements in the body
-    cy.get('#loginId', {timeout: TIMEOUTS.FIVE_SEC}).should('be.visible').and(($loginTextbox) => {
+    cy.get('#loginId', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and(($loginTextbox) => {
         const placeholder = $loginTextbox[0].placeholder;
         expect(placeholder).to.match(/Email/);
         expect(placeholder).to.match(/Username/);
@@ -18,7 +18,7 @@ Cypress.Commands.add('checkLoginPage', (settings = {}) => {
 });
 
 Cypress.Commands.add('checkLoginFailed', () => {
-    cy.get('#login_section', {timeout: TIMEOUTS.FIVE_SEC}).find('.form-group').should('have.class', 'has-error');
+    cy.get('#login_section', {timeout: TIMEOUTS.ONE_MIN}).find('.form-group').should('have.class', 'has-error');
 });
 
 Cypress.Commands.add('checkGuestNoChannels', () => {
@@ -54,14 +54,14 @@ Cypress.Commands.add('checkLeftSideBar', (settings = {}) => {
 });
 
 Cypress.Commands.add('checkInvitePeoplePage', (settings = {}) => {
-    cy.findByText('Copy Link', {timeout: TIMEOUTS.FIVE_SEC}).should('be.visible');
+    cy.findByText('Copy Link', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
     if (settings.teamName != null && settings.teamName.length > 0) {
         cy.findByText('Invite people to ' + settings.teamName).should('be.visible');
     }
 });
 
 Cypress.Commands.add('checkInvitePeopleAdminPage', (settings = {}) => {
-    cy.findByText('Members', {timeout: TIMEOUTS.FIVE_SEC}).should('be.visible');
+    cy.findByText('Members', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
     cy.findByText('Guests').should('be.visible');
     if (settings.teamName != null && settings.teamName.length > 0) {
         cy.findByText('Invite people to ' + settings.teamName).should('be.visible');
