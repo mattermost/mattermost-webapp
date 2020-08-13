@@ -7,8 +7,8 @@ import {Button, Tooltip} from 'react-bootstrap';
 import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
-import {ActionFunc} from 'mattermost-redux/types/actions';
 import {Team} from 'mattermost-redux/types/teams';
+import {Client4Error} from 'mattermost-redux/types/client4';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 
@@ -44,12 +44,12 @@ type Props = {
         /*
          * Action creator to check if a team already exists
          */
-        checkIfTeamExists: (teamName: string) => ActionFunc;
+        checkIfTeamExists: (teamName: string) => Promise<{exists: boolean}>;
 
         /*
      * Action creator to create a new team
      */
-        createTeam: (team: Team) => ActionFunc;
+        createTeam: (team: Team) => Promise<{data: Team; error: Client4Error}>;
     };
     history: {
         push(path: string): void;
@@ -57,7 +57,7 @@ type Props = {
 }
 
 export default class TeamUrl extends React.PureComponent<Props, State> {
-    public constructor(props: Props) {
+    constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -138,7 +138,8 @@ export default class TeamUrl extends React.PureComponent<Props, State> {
         teamSignup.team.type = 'O';
         teamSignup.team.name = name;
 
-        const {exists}: any = await checkIfTeamExists(name);
+        const checkIfTeamExistsData: { exists: boolean } = await checkIfTeamExists(name);
+        const exists = checkIfTeamExistsData.exists;
 
         if (exists) {
             this.setState({nameError: (
@@ -151,7 +152,9 @@ export default class TeamUrl extends React.PureComponent<Props, State> {
             return;
         }
 
-        const {data, error}: any = await createTeam(teamSignup.team);
+        const createTeamData: { data: Team; error: any } = await createTeam(teamSignup.team);
+        const data = createTeamData.data;
+        const error = createTeamData.error;
 
         if (data) {
             this.props.history.push('/' + data.name + '/channels/' + Constants.DEFAULT_CHANNEL);
@@ -167,7 +170,7 @@ export default class TeamUrl extends React.PureComponent<Props, State> {
         e.currentTarget.select();
     }
 
-    public render() {
+    render() {
         let nameError = null;
         let nameDivClass = 'form-group';
         if (this.state.nameError) {
@@ -272,7 +275,7 @@ export default class TeamUrl extends React.PureComponent<Props, State> {
                             type='submit'
                             bsStyle='primary'
                             disabled={this.state.isLoading}
-                            onClick={this.submitNext as any}
+                            onClick={() => this.submitNext}
                         >
                             {finishMessage}
                         </Button>
