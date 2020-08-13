@@ -26,7 +26,7 @@ describe('Message Draft with attachment and Switch Channels', () => {
         });
     });
 
-    it('M14126 Message Draft Pencil Icon - No text, only file attachment', () => {
+    it('MM-T129 Message Draft Pencil Icon - No text, only file attachment', () => {
         cy.get(`#sidebarItem_${testChannel1.name}`).click({force: true});
 
         // # Validate if the channel has been opened
