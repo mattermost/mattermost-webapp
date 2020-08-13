@@ -463,7 +463,7 @@ const AdminDefinition = {
                         error_message_default: 'Test unsuccessful: {error}',
                         success_message: t('admin.service.testSiteURLSuccess'),
                         success_message_default: 'Test successful. This is a valid URL.',
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
+                        isDisabled: it.not(it.userHasReadPermissionOnResource('environment')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
