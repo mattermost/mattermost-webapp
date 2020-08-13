@@ -190,9 +190,9 @@ exports[`components/MoreDirectChannels should match renderOption snapshot 1`] = 
       className="more-modal__name"
     >
       <span
-        id="displayedUserNameundefined"
+        id="displayedUserNameusername1"
       >
-        @undefined
+        @username1
         <span
           className="light"
         >

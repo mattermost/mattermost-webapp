@@ -4,10 +4,6 @@
 /* eslint-disable jquery/no-find */
 
 describe('Multi-user group messages', () => {
-    const userPrefix1 = '0aadam';
-    const userPrefix2 = '0aabadam';
-    const userPrefix3 = 'beatrice';
-    const searchTerm = '0aa';
     let testUser;
     let testTeam;
     before(() => {
@@ -24,6 +20,8 @@ describe('Multi-user group messages', () => {
     });
 
     it('MM-T459 Group Messaging: Add first user', () => {
+        const searchTerm = '0aa';
+
         // # Login as test user
         cy.apiLogin(testUser);
 

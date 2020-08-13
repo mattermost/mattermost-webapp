@@ -172,7 +172,7 @@ describe('components/MoreDirectChannels', () => {
         const props = {...baseProps};
         const wrapper = shallow(<MoreDirectChannels {...props}/>);
 
-        expect(wrapper.instance().renderOption({id: 'user_id_1', delete_at: 0}, true, jest.fn())).toMatchSnapshot();
+        expect(wrapper.instance().renderOption({id: 'user_id_1', username: 'username1', delete_at: 0}, true, jest.fn())).toMatchSnapshot();
     });
 
     test('should match output on renderValue', () => {
