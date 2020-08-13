@@ -3,7 +3,7 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import ReactSelect from 'react-select';
+import ReactSelect, {ValueType} from 'react-select';
 import {ActionResult} from 'mattermost-redux/types/actions';
 import {UserProfile} from 'mattermost-redux/types/users';
 
@@ -93,7 +93,7 @@ export default class ManageLanguage extends React.PureComponent<Props, State> {
         }
     };
 
-    setLanguage = (selectedOption: SelectedOption) => {
+    setLanguage = (selectedOption: ValueType<SelectedOption>) => {
         this.setState({
             locale: selectedOption.value,
             selectedOption
