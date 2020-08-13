@@ -21,7 +21,7 @@ Cypress.Commands.add('performLDAPLogin', (settings = {}, useEmail = false) => {
     cy.get('#loginPassword').type(settings.user.password);
 
     //click the login button
-    cy.findByText('Sign in').click().wait(TIMEOUTS.FIVE_SEC);
+    cy.findByText('Sign in').should('be.visible').click();
 });
 
 Cypress.Commands.add('doGuestLogout', (settings = {}) => {
