@@ -7,7 +7,7 @@ import {
     IntlShape,
     FormatDateOptions,
     FormatRelativeTimeOptions,
-    FormattedMessage
+    FormattedMessage,
 } from 'react-intl';
 import {isValidElementType} from 'react-is';
 import {Unit} from '@formatjs/intl-relativetimeformat';
@@ -26,7 +26,7 @@ export const supportsHourCycle = Boolean(((new Intl.DateTimeFormat('en-US', {hou
 
 export type DateTimeOptions = FormatDateOptions & {
     hourCycle?: string;
-};
+}
 
 function is12HourTime(hourCycle: DateTimeOptions['hourCycle'], hour12?: DateTimeOptions['hour12']) {
     return hour12 ?? !(hourCycle === 'h23' || hourCycle === 'h24');
@@ -37,7 +37,7 @@ export type RelativeOptions = FormatRelativeTimeOptions & {
     relNearest?: number;
     truncateEndpoints?: boolean;
     updateIntervalInSeconds?: number;
-};
+}
 
 function isRelative(format: ResolvedFormats['relative']): format is RelativeOptions {
     return Boolean((format as RelativeOptions)?.unit);
@@ -65,14 +65,14 @@ type UnitDescriptor = [Unit, number?, boolean?];
 type Breakpoint = RequireOnlyOne<{
     within: UnitDescriptor;
     equals: UnitDescriptor;
-}>;
+}>
 
 type DisplayAs = {
     display: UnitDescriptor | ReactNode;
     updateIntervalInSeconds?: number;
-};
+}
 
-export type RangeDescriptor = Breakpoint & DisplayAs;
+export type RangeDescriptor = Breakpoint & DisplayAs
 
 export type ResolvedFormats = {
     relative: RelativeOptions | SimpleRelativeOptions | false;
@@ -101,7 +101,7 @@ export type Props = FormatOptions & {
     useSemanticOutput?: boolean;
 
     intl: IntlShape;
-};
+}
 
 type State = {
     now: Date;
@@ -201,7 +201,7 @@ class Timestamp extends PureComponent<Props, State> {
 
             return {
                 date: dateFormat && Timestamp.momentDate(momentValue, {...dateFormat}),
-                time: timeFormat && Timestamp.momentTime(momentValue, {hourCycle, hour12, ...timeFormat})
+                time: timeFormat && Timestamp.momentTime(momentValue, {hourCycle, hour12, ...timeFormat}),
             };
         }
     }
@@ -258,7 +258,7 @@ class Timestamp extends PureComponent<Props, State> {
             return false;
         }) ?? {
             display: [this.props.unit],
-            updateIntervalInSeconds: this.props.updateIntervalInSeconds
+            updateIntervalInSeconds: this.props.updateIntervalInSeconds,
         };
     }
 

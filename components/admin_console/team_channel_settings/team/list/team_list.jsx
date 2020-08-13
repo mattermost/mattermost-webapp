@@ -101,15 +101,14 @@ export default class TeamList extends React.PureComponent {
         this.loadPage(0, term, this.state.filters);
     };
 
-    onFilter = (filterOptions) => {
+    onFilter = ({management}) => {
         const filters = {};
 
-        /* eslint-disable camelcase, @typescript-eslint/camelcase */
-        const {group_constrained, allow_open_invite, invite_only} = filterOptions.management.values;
-        const allowOpenInvite = allow_open_invite.value;
-        const inviteOnly = invite_only.value;
-        const groupConstrained = group_constrained.value;
-        /* eslint-enable camelcase, @typescript-eslint/camelcase */
+        const {
+            group_constrained: {value: groupConstrained},
+            allow_open_invite: {value: allowOpenInvite},
+            invite_only: {value: inviteOnly},
+        } = management.values;
 
         const filtersList = [allowOpenInvite, inviteOnly, groupConstrained];
 

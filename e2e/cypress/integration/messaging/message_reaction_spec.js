@@ -45,6 +45,7 @@ describe('Emoji reactions to posts/messages', () => {
 
             // # Choose "slightly_frowning_face" emoji
             // delaying 500ms in case of lag
+            // eslint-disable-next-line cypress/no-unnecessary-waiting
             cy.get('.emoji-picker__items #emoji-1f641').wait(500).click();
 
             // * The number shown on the reaction is incremented by 1
@@ -117,6 +118,7 @@ describe('Emoji reactions to posts/messages', () => {
 
             // # Select the "sweat_smile" emoji
             // delaying 500ms in case of lag
+            // eslint-disable-next-line cypress/no-unnecessary-waiting
             cy.get('.emoji-picker__items #emoji-1f605').wait(500).click();
 
             // * The emoji picker is no longer open

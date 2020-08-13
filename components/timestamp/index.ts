@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
-import {FormattedMessage} from 'react-intl';
 import {connect} from 'react-redux';
 
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
@@ -17,7 +15,7 @@ import {GlobalState} from 'types/store';
 
 import {Preferences} from 'utils/constants';
 
-import Timestamp, {RangeDescriptor, supportsHourCycle} from './timestamp';
+import Timestamp, {Props as TimestampProps, supportsHourCycle} from './timestamp';
 
 type Props = {
     userTimezone?: UserTimezone;
@@ -26,9 +24,9 @@ type Props = {
 function mapStateToProps(state: GlobalState, {userTimezone}: Props) {
     const currentUserId = getCurrentUserId(state);
 
-    let timeZone;
-    let hourCycle;
-    let hour12;
+    let timeZone: TimestampProps['timeZone'];
+    let hourCycle: TimestampProps['hourCycle'];
+    let hour12: TimestampProps['hour12'];
 
     if (areTimezonesEnabledAndSupported(state)) {
         timeZone = getUserCurrentTimezone(userTimezone ?? getUserTimezone(state, currentUserId)) ?? undefined;
@@ -48,28 +46,5 @@ function mapStateToProps(state: GlobalState, {userTimezone}: Props) {
 export default connect(mapStateToProps)(Timestamp);
 
 export {default as SemanticTime} from './semantic_time';
-
-export const RelativeRanges: {[key: string]: RangeDescriptor} = {
-    TODAY_YESTERDAY: {
-        within: ['day', -1],
-        display: ['day']
-    },
-    TODAY_TITLE_CASE: {
-        equals: ['day', 0],
-        display: (
-            <FormattedMessage
-                id='date_separator.today'
-                defaultMessage='Today'
-            />
-        ),
-    },
-    YESTERDAY_TITLE_CASE: {
-        equals: ['day', -1],
-        display: (
-            <FormattedMessage
-                id='date_separator.yesterday'
-                defaultMessage='Yesterday'
-            />
-        ),
-    },
-};
+import * as RelativeRanges from './relative_ranges';
+export {RelativeRanges};

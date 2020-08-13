@@ -15,7 +15,7 @@ type Actions = {
 function mapDispatchToProps(dispatch: Dispatch) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
-            updateMe
+            updateMe,
         }, dispatch)};
 }
 

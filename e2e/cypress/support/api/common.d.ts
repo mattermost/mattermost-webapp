@@ -30,6 +30,6 @@ declare namespace Cypress {
          * @example
          *   cy.apiUploadFile('certificate', filePath, {url: '/api/v4/saml/certificate/public', method: 'POST', successStatus: 200});
          */
-        apiUploadFile(name: string, filePath: string, options: object): Chainable<Response>;
+        apiUploadFile(name: string, filePath: string, options: Record<string, unknown>): Chainable<Response>;
     }
 }
