@@ -2,13 +2,21 @@
 // See LICENSE.txt for license information.
 
 import React, {useState} from 'react';
-import ReactSelect, {components, Props as SelectProps} from 'react-select';
+import ReactSelect, {components, Props as SelectProps, ActionMeta} from 'react-select';
 import classNames from 'classnames';
 
-type Props = SelectProps & {
-    value: {label: string; value: string}[];
-    legend?: string;
+// TODO: This component needs work, should not be used outside of InviteMembersStep until this comment is removed.
+
+type ValueType = {
+    label: string;
+    value: string;
 }
+
+type Props<T> = Omit<SelectProps<T>, 'onChange'> & {
+    value: T[];
+    legend?: string;
+    onChange: (value: T[], action: ActionMeta<T[]>) => void;
+};
 
 const MultiValueContainer = (props: any) => {
     return (
@@ -28,8 +36,8 @@ const MultiValueRemove = (props: any) => {
     );
 };
 
-const MultiInput: React.FC<Props> = (props: Props) => {
-    const {value, placeholder, className, addon, name, textPrefix, legend, ...otherProps} = props;
+const MultiInput = <T extends ValueType>(props: Props<T>) => {
+    const {value, placeholder, className, addon, name, textPrefix, legend, onChange, ...otherProps} = props;
 
     const [focused, setFocused] = useState(false);
 
@@ -62,7 +70,6 @@ const MultiInput: React.FC<Props> = (props: Props) => {
 
     return (
         <div className='Input_container'>
-            {/* <fieldset className={error || hasError ? fieldsetErrorClass : fieldsetClass}> */}
             <fieldset className={fieldsetClass}>
                 <legend className={showLegend ? 'Input_legend Input_legend___focus' : 'Input_legend'}>{showLegend ? (legend || placeholder) : null}</legend>
                 <div className='Input_wrapper'>
@@ -84,6 +91,7 @@ const MultiInput: React.FC<Props> = (props: Props) => {
                         placeholder={focused ? '' : placeholder}
                         className={inputClass}
                         value={value}
+                        onChange={onChange as any} // types are not working correctly for multiselect
                         {...otherProps}
                     />
                 </div>

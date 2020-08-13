@@ -3,7 +3,7 @@
 
 import React, {CSSProperties} from 'react';
 import {FormattedMessage} from 'react-intl';
-import {ActionMeta, ValueType, InputActionMeta, components} from 'react-select';
+import {ActionMeta, InputActionMeta} from 'react-select';
 import classNames from 'classnames';
 
 import {TeamInviteWithError} from 'mattermost-redux/types/teams';
@@ -59,24 +59,6 @@ const styles = {
     },
 };
 
-const MultiValueContainer = (props: any) => {
-    return (
-        <div className={classNames('InviteMembersStep__emailContainer', {error: props.data.error})}>
-            <components.MultiValueContainer {...props}/>
-        </div>
-    );
-};
-
-const MultiValueRemove = (props: any) => {
-    return (
-        <div className='InviteMembersStep__removeEmailButton'>
-            <components.MultiValueRemove {...props}>
-                <i className='icon icon-close-circle'/>
-            </components.MultiValueRemove>
-        </div>
-    );
-};
-
 export default class InviteMembersStep extends React.PureComponent<Props, State> {
     inviteLinkRef: React.RefObject<HTMLInputElement>;
     timeout?: NodeJS.Timeout;
@@ -119,16 +101,16 @@ export default class InviteMembersStep extends React.PureComponent<Props, State>
         }
     }
 
-    onChange = (value: ValueType<SelectionType[]>, action: ActionMeta<SelectionType[]>) => {
+    onChange = (value: SelectionType[], action: ActionMeta<SelectionType[]>) => {
         if (action.action !== 'remove-value' && action.action !== 'pop-value') {
             return;
         }
 
-        if (!(value as SelectionType[]).some((email) => email.error)) {
+        if (!value.some((email) => email.error)) {
             this.setState({emailError: undefined});
         }
 
-        this.setState({emails: value as SelectionType[]});
+        this.setState({emails: value});
     }
 
     sendEmailInvites = async () => {
@@ -202,12 +184,6 @@ export default class InviteMembersStep extends React.PureComponent<Props, State>
                             defaultMessage='You can invite up to 10 team members using a space or comma between addresses'
                         />
                         <MultiInput
-                            components={{
-                                Menu: () => null,
-                                IndicatorsContainer: () => null,
-                                MultiValueContainer,
-                                MultiValueRemove,
-                            }}
                             onInputChange={this.onInputChange}
                             onChange={this.onChange}
                             value={this.state.emails}
@@ -215,7 +191,6 @@ export default class InviteMembersStep extends React.PureComponent<Props, State>
                             legend={Utils.localizeMessage('next_steps_view.invite_members_step.emailAddresses', 'Email addresses')}
                             placeholder={Utils.localizeMessage('next_steps_view.invite_members_step.enterEmailAddresses', 'Enter email addresses')}
                             styles={styles}
-                            className={'InviteMembersStep__reactSelect'}
                         />
                         <div className='InviteMembersStep__send'>
                             <button

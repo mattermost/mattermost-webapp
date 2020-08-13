@@ -11,14 +11,13 @@ import InviteMembersStep from './invite_members_step';
 describe('components/next_steps_view/steps/invite_members_step', () => {
     const baseProps = {
         id: 'invite_members_step',
+        teamId: 'team_id',
         onSkip: jest.fn(),
         onFinish: jest.fn(),
         currentUser: TestHelper.getUserMock(),
         maxFileSize: 1000000000,
         actions: {
-            updateMe: jest.fn(),
-            setDefaultProfileImage: jest.fn(),
-            uploadProfileImage: jest.fn(),
+            sendEmailInvitesToTeamGracefully: jest.fn(),
         },
     };
 
