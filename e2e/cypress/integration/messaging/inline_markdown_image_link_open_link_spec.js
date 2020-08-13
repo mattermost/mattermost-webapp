@@ -16,15 +16,9 @@ describe('Messaging', () => {
 
     before(() => {
         // # Login as test user and visit the newly created test channel
-        cy.apiInitSetup().then(({team, channel, user}) => {
-            testUser = user;
-            testTeam = team;
-            testChannel = channel;
-
-            cy.apiLogin(testUser);
-
-            // # Visit a test channel and post a message
-            cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+        cy.apiInitSetup({loginAfter: true}).then(({team, channel, user}) => {
+            // # Visit a test channel
+            cy.visit(`/${team.name}/channels/${channel.name}`);
         });
     });
 
