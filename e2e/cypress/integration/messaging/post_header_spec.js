@@ -137,7 +137,7 @@ describe('Post Header', () => {
         cy.get('#rhsContainer').should('not.be.visible');
     });
 
-    it('M17442 Visual verification of "Searching" animation for Flagged and Pinned posts', () => {
+    it('MM-T122 Visual verification of "Searching" animation for Flagged and Pinned posts', () => {
         cy.delayRequestToRoutes(['pinned', 'flagged'], 5000);
         cy.reload();
 

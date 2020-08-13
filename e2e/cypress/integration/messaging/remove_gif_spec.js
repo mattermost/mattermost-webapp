@@ -35,7 +35,7 @@ describe('Messaging', () => {
         });
     });
 
-    it('M18692-Delete a GIF from RHS reply thread, other user viewing in center and RHS sees GIF preview disappear from both', () => {
+    it('MM-T114_1 Delete a GIF from RHS reply thread, other user viewing in center and RHS sees GIF preview disappear from both', () => {
         // # Type message to use
         cy.postMessage('123');
 
@@ -100,7 +100,7 @@ describe('Messaging', () => {
         });
     });
 
-    it('M18692-Delete a GIF from RHS reply thread, other user viewing in center and RHS sees GIF preview disappear from both (mobile view)', () => {
+    it('MM-T114_1 Delete a GIF from RHS reply thread, other user viewing in center and RHS sees GIF preview disappear from both (mobile view)', () => {
         cy.apiAdminLogin();
 
         // # Type message to use

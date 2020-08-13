@@ -18,7 +18,7 @@ describe('Message', () => {
         });
     });
 
-    it('M13326 Text in bullet points is the same size as text above and below it', () => {
+    it('MM-T87 Text in bullet points is the same size as text above and below it', () => {
         // # Post a message
         cy.get('#post_textbox').clear().
             type('This is a normal sentence.').
