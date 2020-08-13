@@ -17,18 +17,18 @@ describe('Messaging', () => {
 
     before(() => {
         // # Login as test user
-        cy.apiInitSetup().then(({team, user}) => {
-            firstUser = user;
+        cy.apiInitSetup().then(({team, user: user1}) => {
+            firstUser = user1;
             testTeam = team;
 
             // # Create two more users
-            cy.apiCreateUser().then(({user: user1}) => {
-                secondUser = user1;
+            cy.apiCreateUser().then(({user: user2}) => {
+                secondUser = user2;
                 cy.apiAddUserToTeam(testTeam.id, secondUser.id);
             });
 
-            cy.apiCreateUser().then(({user: user2}) => {
-                thirdUser = user2;
+            cy.apiCreateUser().then(({user: user3}) => {
+                thirdUser = user3;
                 cy.apiAddUserToTeam(testTeam.id, thirdUser.id);
             });
 
@@ -49,11 +49,8 @@ describe('Messaging', () => {
             cy.get('#post_textbox').cmdOrCtrlShortcut('K');
             cy.focused().type(`${secondUser.last_name.slice(0, 7)}`);
 
-            // * The suggestion for the GM channel with the user that was searched for should show the username of the user
-            cy.get('.suggestion--selected').should('exist').and('contain.text', secondUser.username);
-
-            // * The suggestion for the GM channel with the user that was searched for should show the 'G' text
-            cy.get('#suggestionList').find('div').eq(1).findByText('G').should('exist');
+            // * The suggestion for the GM channel with the user that was searched for should show the username of the user and verify the suggestion for the GM channel with the user that was searched for should show the 'G' text
+            cy.get('.suggestion--selected').should('exist').and('contain.text', secondUser.username).findByText('G').should('exist');
         });
     });
 });
