@@ -55,7 +55,6 @@ describe('Messaging', () => {
                     and('have.attr', 'target', '_blank');
 
                 // * Check that the newly created post has an image
-
                 cy.wrap($a).find('img').should('be.visible').
                     and('have.attr', 'src', `${baseUrl}/api/v4/image?url=${encodeURIComponent(imageUrl)}`).
                     and('have.attr', 'alt', label);
