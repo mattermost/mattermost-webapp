@@ -3,7 +3,7 @@
 
 import React, {CSSProperties} from 'react';
 import {FormattedMessage} from 'react-intl';
-import ReactSelect, {ActionMeta, ValueType, InputActionMeta, components} from 'react-select';
+import {ActionMeta, ValueType, InputActionMeta, components} from 'react-select';
 import classNames from 'classnames';
 
 import {TeamInviteWithError} from 'mattermost-redux/types/teams';
@@ -16,6 +16,7 @@ import * as Utils from 'utils/utils';
 import {StepComponentProps} from '../../steps';
 
 import './invite_members_step.scss';
+import MultiInput from 'components/multi_input';
 
 type Props = StepComponentProps & {
     teamId: string;
@@ -39,11 +40,21 @@ type SelectionType = {
 }
 
 const styles = {
-    control: (provided: CSSProperties) => {
+    control: () => {
+        return {
+            alignItems: 'flex-start',
+        };
+    },
+    placeholder: () => {
+        return {
+            margin: '0',
+            opacity: '0.64',
+        };
+    },
+    valueContainer: (provided: CSSProperties) => {
         return {
             ...provided,
-            minHeight: '72px',
-            alignItems: 'flex-start',
+            padding: '0',
         };
     },
 };
@@ -68,14 +79,12 @@ const MultiValueRemove = (props: any) => {
 
 export default class InviteMembersStep extends React.PureComponent<Props, State> {
     inviteLinkRef: React.RefObject<HTMLInputElement>;
-    reactSelectRef: React.RefObject<ReactSelect>;
     timeout?: NodeJS.Timeout;
 
     constructor(props: Props) {
         super(props);
 
         this.inviteLinkRef = React.createRef();
-        this.reactSelectRef = React.createRef();
 
         this.state = {
             copiedLink: false,
@@ -192,22 +201,18 @@ export default class InviteMembersStep extends React.PureComponent<Props, State>
                             id='next_steps_view.invite_members_step.youCanInviteUpTo'
                             defaultMessage='You can invite up to 10 team members using a space or comma between addresses'
                         />
-                        <ReactSelect
-                            ref={this.reactSelectRef as React.RefObject<any>} // type of ref on @types/react-select is outdated
+                        <MultiInput
                             components={{
                                 Menu: () => null,
                                 IndicatorsContainer: () => null,
                                 MultiValueContainer,
                                 MultiValueRemove,
                             }}
-                            isMulti={true}
-                            isClearable={false}
                             onInputChange={this.onInputChange}
                             onChange={this.onChange}
                             value={this.state.emails}
-                            openMenuOnFocus={false}
-                            menuIsOpen={false}
                             inputValue={this.state.emailInput}
+                            legend={Utils.localizeMessage('next_steps_view.invite_members_step.emailAddresses', 'Email addresses')}
                             placeholder={Utils.localizeMessage('next_steps_view.invite_members_step.enterEmailAddresses', 'Enter email addresses')}
                             styles={styles}
                             className={'InviteMembersStep__reactSelect'}

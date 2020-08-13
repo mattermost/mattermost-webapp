@@ -3105,6 +3105,7 @@
   "next_steps_view.downloadDesktopAndMobile": "Download the Desktop and Mobile apps",
   "next_steps_view.hereAreSomeNextSteps": "Here are some recommended next steps to help you get started",
   "next_steps_view.invite_members_step.copy_button": "Copy Link",
+  "next_steps_view.invite_members_step.emailAddresses": "Email addresses",
   "next_steps_view.invite_members_step.enterEmailAddresses": "Enter email addresses",
   "next_steps_view.invite_members_step.errorSendingEmails": "There was a problem sending your invitations. Please try again.",
   "next_steps_view.invite_members_step.finish": "Finish",
