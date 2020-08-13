@@ -10,8 +10,6 @@
 // Stage: @prod
 // Group: @channel_sidebar
 
-import * as TIMEOUTS from '../../fixtures/timeouts';
-
 import {testWithConfig} from '../../support/hooks';
 
 import {getRandomId} from '../../utils';
