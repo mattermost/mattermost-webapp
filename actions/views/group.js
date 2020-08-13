@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {searchAssociatedGroupsForReferenceLocal} from 'mattermost-redux/selectors/entities/groups';
-import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles'
+import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import Permissions from 'mattermost-redux/constants/permissions';
 
 export function searchAssociatedGroupsForReference(prefix, teamId, channelId) {
@@ -14,9 +14,7 @@ export function searchAssociatedGroupsForReference(prefix, teamId, channelId) {
             team: teamId,
         })) {
             return {data: []};
-        } else {
-            return {data: searchAssociatedGroupsForReferenceLocal(state, prefix, teamId, channelId)};
         }
-
+        return {data: searchAssociatedGroupsForReferenceLocal(state, prefix, teamId, channelId)};
     };
 }
