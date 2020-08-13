@@ -21,7 +21,7 @@ describe('Messaging', () => {
         });
     });
 
-    it('M18677 - Clicking on airplane icon does not open file attachment modal but sends the message', () => {
+    it('MM-T73 Mobile view: Clicking on airplane icon does not open file attachment modal but sends the message', () => {
         // # type some characters in the message box
         const message = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. ';
         cy.get('#post_textbox').clear().type(message);
