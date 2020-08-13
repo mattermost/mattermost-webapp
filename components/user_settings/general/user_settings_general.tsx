@@ -141,7 +141,7 @@ type State = {
     email: string;
     confirmEmail: string;
     currentPassword: string;
-    pictureFile: ImageData | null;
+    pictureFile: File | null;
     loadingPicture: boolean;
     sectionIsSaving: boolean;
     showSpinner: boolean;
