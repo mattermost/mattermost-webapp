@@ -47,7 +47,7 @@ describe('Interactive Menu', () => {
         });
     });
 
-    it('IM21041 - Using up/down keys to make a selection from SEARCH results', () => {
+    it('MM-T1744 - Using up/down keys to make a selection from SEARCH results', () => {
         const searchOptionsPayload = getMessageMenusPayload({options: searchOptions});
 
         // # Post an incoming webhook for interactive menu with search options

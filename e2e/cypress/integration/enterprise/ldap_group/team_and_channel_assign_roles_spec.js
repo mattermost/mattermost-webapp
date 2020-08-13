@@ -116,6 +116,14 @@ describe('System Console', () => {
         // * Check to make the the current role text is displayed as Member
         cy.findByTestId('current-role').should('have.text', 'Member');
 
+        // # Wait for the board group to show up before continuing to next steps
+        cy.waitUntil(() => cy.get('.group-row').eq(0).scrollIntoView().find('.group-name').then((el) => {
+            return el[0].innerText === groupDisplayName;
+        }), {
+            errorMsg: `${groupDisplayName} group didn't show up in time`,
+            timeout: TIMEOUTS.TEN_SEC,
+        });
+
         // # Remove "board" group
         cy.get('.group-row').eq(0).scrollIntoView().should('be.visible').within(() => {
             cy.get('.group-name').should('have.text', groupDisplayName);
