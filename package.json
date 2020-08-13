@@ -36,7 +36,7 @@
     "mattermost-redux": "github:mattermost/mattermost-redux#20a33c0d0209c83b08d175dcaa27e10fb850b29b",
     "moment-timezone": "0.5.31",
     "p-queue": "^6.4.0",
-    "2.0.943": "2.0.943",
+    "pdfjs-dist": "2.0.943",
     "popmotion": "8.7.3",
     "popper.js": "1.16.1",
     "prettier": "2.0.5",
