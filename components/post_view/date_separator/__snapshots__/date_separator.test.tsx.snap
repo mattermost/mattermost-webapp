@@ -9,7 +9,6 @@ exports[`components/post_view/DateSeparator should render Timestamp inside of a 
           "display": <FormattedMessage
             defaultMessage="Today"
             id="date_separator.today"
-            values={Object {}}
           />,
           "equals": Array [
             "day",
@@ -20,7 +19,6 @@ exports[`components/post_view/DateSeparator should render Timestamp inside of a 
           "display": <FormattedMessage
             defaultMessage="Yesterday"
             id="date_separator.yesterday"
-            values={Object {}}
           />,
           "equals": Array [
             "day",

@@ -49,14 +49,12 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
             "name": <FormattedMessage
               defaultMessage="Management"
               id="admin.team_settings.team_list.mappingHeader"
-              values={Object {}}
             />,
             "values": Object {
               "allow_open_invite": Object {
                 "name": <FormattedMessage
                   defaultMessage="Anyone Can Join"
                   id="admin.team_settings.team_row.managementMethod.anyoneCanJoin"
-                  values={Object {}}
                 />,
                 "value": false,
               },
@@ -64,7 +62,6 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
                 "name": <FormattedMessage
                   defaultMessage="Group Sync"
                   id="admin.team_settings.team_row.managementMethod.groupSync"
-                  values={Object {}}
                 />,
                 "value": false,
               },
@@ -72,7 +69,6 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
                 "name": <FormattedMessage
                   defaultMessage="Invite Only"
                   id="admin.team_settings.team_row.managementMethod.inviteOnly"
-                  values={Object {}}
                 />,
                 "value": false,
               },
@@ -206,14 +202,12 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
             "name": <FormattedMessage
               defaultMessage="Management"
               id="admin.team_settings.team_list.mappingHeader"
-              values={Object {}}
             />,
             "values": Object {
               "allow_open_invite": Object {
                 "name": <FormattedMessage
                   defaultMessage="Anyone Can Join"
                   id="admin.team_settings.team_row.managementMethod.anyoneCanJoin"
-                  values={Object {}}
                 />,
                 "value": false,
               },
@@ -221,7 +215,6 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
                 "name": <FormattedMessage
                   defaultMessage="Group Sync"
                   id="admin.team_settings.team_row.managementMethod.groupSync"
-                  values={Object {}}
                 />,
                 "value": false,
               },
@@ -229,7 +222,6 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
                 "name": <FormattedMessage
                   defaultMessage="Invite Only"
                   id="admin.team_settings.team_row.managementMethod.inviteOnly"
-                  values={Object {}}
                 />,
                 "value": false,
               },
