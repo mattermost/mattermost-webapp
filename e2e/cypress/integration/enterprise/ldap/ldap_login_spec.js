@@ -32,16 +32,16 @@ context('ldap', () => {
 
     let testSettings;
 
-    describe('LDAP Login flow - Admin Login', () => {
-        before(() => {
-            // * Check if server has license for LDAP
-            cy.apiRequireLicenseForFeature('LDAP');
+    before(() => {
+        // * Check if server has license for LDAP
+        cy.apiRequireLicenseForFeature('LDAP');
 
-            cy.apiGetConfig().then(({config}) => {
-                testSettings = setLDAPTestSettings(config);
-            });
+        cy.apiGetConfig().then(({config}) => {
+            testSettings = setLDAPTestSettings(config);
         });
+    });
 
+    describe('LDAP Login flow - Admin Login', () => {
         it('LDAP login new MM admin, create team', () => {
             testSettings.user = admin1;
             const ldapSetting = {
