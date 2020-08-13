@@ -17,13 +17,13 @@ describe('Multi-user group messages', () => {
             testTeam = team;
 
             // # Add 3 users to the team that should be alphabetically sorted
-            createTestUser(userPrefix1, team);
-            createTestUser(userPrefix2, team);
-            createTestUser(userPrefix3, team);
+            ['0aadam', '0aabadam', 'beatrice'].forEach((prefix) => {
+                createTestUser(prefix, team);
+            });
         });
     });
 
-    it('MM-T463 Should not be able to create a group message with more than 8 users', () => {
+    it('MM-T459 Group Messaging: Add first user', () => {
         // # Login as test user
         cy.apiLogin(testUser);
 
@@ -35,10 +35,10 @@ describe('Multi-user group messages', () => {
             click();
 
         // # Start typing part of a username that matches previously created users
-        cy.get('#selectItems input[type="text"]').
+        cy.get('#selectItems input').
             type(searchTerm);
 
-        // * Expect user list to only contain usernames matchin the query term and to be sorted alphabetically
+        // * Expect user list to only contain usernames matching the query term and to be sorted alphabetically
         expectUserListSortedAlphabetically(searchTerm);
 
         // # With the arrow and enter keys, select the first user that matches our search query
@@ -89,7 +89,7 @@ const expectUserListSortedAlphabetically = (filterString, excludeFilter = false)
         should('be.visible').
         children().
         each(($child) => {
-            // To limit the amount of text fecthed, only get the text content from the displayed name and username (without email)
+            // To limit the amount of text fetched, only get the text content from the displayed name and username (without email)
             const currentChildText = $child.find('[id*="displayedUserName"]').text();
             const immediateNextSibling = $child.next();
 
@@ -98,7 +98,7 @@ const expectUserListSortedAlphabetically = (filterString, excludeFilter = false)
                 const siblingText = immediateNextSibling.find('[id*="displayedUserName"]').text();
                 const stringComparison = currentChildText.localeCompare(siblingText, 'en');
 
-                // both strings equal -> 0, currentChildText comes before siblingText -> -1 (could vary by browser but should to be negative)
+                // both strings equal -> 0, currentChildText comes before siblingText -> -1 (could vary by browser but should not be negative)
                 expect(stringComparison, `${currentChildText} should be before ${siblingText}`).to.be.lte(0);
             }
 
