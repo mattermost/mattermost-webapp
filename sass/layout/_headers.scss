@@ -296,8 +296,7 @@
 
         .header-description__text {
             overflow: hidden;
-            display: flex;
-            flex-direction: column;
+            display: block;
 
             ul {
                 &:first-child {
