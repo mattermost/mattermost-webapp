@@ -18,7 +18,7 @@ describe('Message deletion', () => {
         });
     });
 
-    it('M13336 Delete both parent post and reply when deleting parent post from center', () => {
+    it('MM-T112 Delete a parent message that has a reply - reply thread', () => {
         // # Post message in center.
         cy.postMessage('test message deletion');
 
