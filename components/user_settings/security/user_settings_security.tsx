@@ -2,10 +2,10 @@
 // See LICENSE.txt for license information.
 /* eslint-disable react/no-string-refs */
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedDate, FormattedMessage, FormattedTime} from 'react-intl';
 import {Link} from 'react-router-dom';
+import {UserProfile} from 'mattermost-redux/types/users';
 
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
@@ -25,61 +25,52 @@ const SECTION_SIGNIN = 'signin';
 const SECTION_APPS = 'apps';
 const SECTION_TOKENS = 'tokens';
 
-export default class SecurityTab extends React.PureComponent {
-    static propTypes = {
-        user: PropTypes.object,
-        activeSection: PropTypes.string,
-        updateSection: PropTypes.func,
-        closeModal: PropTypes.func.isRequired,
-        collapseModal: PropTypes.func.isRequired,
-        setRequireConfirm: PropTypes.func.isRequired,
+type Actions= {
+    getMe: () => void;
+    updateUserPassword: () => void;
+    getAuthorizedOAuthApps: () => void;
+    deauthorizeOAuthApp: () => void;
 
-        /*
-         * Set if access tokens are enabled and this user can use them
-         */
-        canUseAccessTokens: PropTypes.bool,
+};
 
-        // Whether or not OAuth applications are enabled.
-        enableOAuthServiceProvider: PropTypes.bool,
+type Props = {
+    user: UserProfile;
+    activeSection: string;
+    updateSection: () => void;
+    closeModal: () => void;
+    collapseModal: () => void;
+    setRequireConfirm: () => void;
+    canUseAccessTokens: boolean;
+    enableOAuthServiceProvider: boolean;
+    enableSignUpWithEmail: boolean;
+    enableSignUpWithGitLab: boolean;
+    enableSignUpWithGoogle: boolean;
+    enableLdap: boolean;
+    enableSaml: boolean;
+    enableSignUpWithOffice365: boolean;
+    experimentalEnableAuthenticationTransfer: boolean;
+    passwordConfig: object;
+    militaryTime: boolean;
+    actions: Actions;
+};
 
-        // Whether or not sign-up with email is enabled.
-        enableSignUpWithEmail: PropTypes.bool,
+type State ={
+    currentPassword: string;
+    newPassword: string;
+    confirmPassword: string;
+    passwordError?: string;
+    serverError?: string;
+    tokenError: string;
+    savingPassword: boolean;
+};
 
-        // Whether or not sign-up with GitLab is enabled.
-        enableSignUpWithGitLab: PropTypes.bool,
-
-        // Whether or not sign-up with Google is enabled.
-        enableSignUpWithGoogle: PropTypes.bool,
-
-        // Whether or not sign-up with LDAP is enabled.
-        enableLdap: PropTypes.bool,
-
-        // Whether or not sign-up with SAML is enabled.
-        enableSaml: PropTypes.bool,
-
-        // Whether or not sign-up with Office 365 is enabled.
-        enableSignUpWithOffice365: PropTypes.bool,
-
-        // Whether or not the experimental authentication transfer is enabled.
-        experimentalEnableAuthenticationTransfer: PropTypes.bool,
-
-        passwordConfig: PropTypes.object,
-        militaryTime: PropTypes.bool,
-
-        actions: PropTypes.shape({
-            getMe: PropTypes.func.isRequired,
-            updateUserPassword: PropTypes.func.isRequired,
-            getAuthorizedOAuthApps: PropTypes.func.isRequired,
-            deauthorizeOAuthApp: PropTypes.func.isRequired,
-        }),
-    }
-
+export default class SecurityTab extends React.PureComponent<Props, State> {
     static defaultProps = {
         user: {},
         activeSection: '',
     };
 
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
 
         this.state = this.getDefaultState();
