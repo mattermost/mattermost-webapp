@@ -51,7 +51,7 @@ describe('Messaging', () => {
         });
     });
 
-    it('M17446 - Emojis preceded by 4 or more spaces are treated as Markdown', () => {
+    it('MM-T198 Emojis preceeded by 4 or more spaces are always treated as markdown', () => {
         [
             '    :taco:',
             '     :taco:',

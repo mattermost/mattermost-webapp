@@ -7,7 +7,12 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @account_setting
+
+import moment from 'moment-timezone';
+
+import * as DATE_TIME_FORMAT from '../../../fixtures/date_time_format';
 
 describe('Account Settings > Display > Clock Display Mode', () => {
     const mainMessage = 'Test for clock display mode';
@@ -91,11 +96,20 @@ function setClockDisplayTo(clockFormat) {
     // # Navigate to Clock Display Settings
     navigateToClockDisplaySettings();
 
-    // # Click the radio button
-    cy.get(`#${clockFormat}`).should('be.visible').click({force: true});
+    // # Click the radio button and verify checked
+    cy.get(`#${clockFormat}`).should('be.visible').click({force: true}).should('be.checked');
 
-    // # Click Save button and close Account Settings modal
+    // # Click Save button
     cy.get('#saveSetting').should('be.visible').click();
+
+    // * Verify clock description
+    if (clockFormat === 'clockFormatA') {
+        cy.get('#clockDesc').should('have.text', '12-hour clock (example: 4:00 PM)');
+    } else {
+        cy.get('#clockDesc').should('have.text', '24-hour clock (example: 16:00)');
+    }
+
+    // # Close Account Settings modal
     cy.get('#accountSettingsHeader > .close').should('be.visible').click();
 }
 
@@ -107,21 +121,21 @@ function setClockDisplayTo24Hour() {
     setClockDisplayTo('clockFormatB');
 }
 
-function verifyClockFormat(isHour12) {
+function verifyClockFormat(timeFormat) {
     cy.get('time').first().then(($timeEl) => {
         cy.wrap($timeEl).invoke('attr', 'datetime').then((dateTimeString) => {
-            const formattedDateTime = new Date(dateTimeString).toLocaleString('en-US', {hour: 'numeric', minute: 'numeric', hour12: isHour12});
-            cy.wrap($timeEl).should('be.visible').and('have.text', formattedDateTime);
+            const formattedTime = moment(dateTimeString).format(timeFormat);
+            cy.wrap($timeEl).should('be.visible').and('have.text', formattedTime);
         });
     });
 }
 
 function verifyClockFormatIs12Hour() {
-    verifyClockFormat(true);
+    verifyClockFormat(DATE_TIME_FORMAT.TIME_12_HOUR);
 }
 
 function verifyClockFormatIs24Hour() {
-    verifyClockFormat(false);
+    verifyClockFormat(DATE_TIME_FORMAT.TIME_24_HOUR);
 }
 
 function verifyClockFormatIs12HourForPostWithMessage(postId, message) {

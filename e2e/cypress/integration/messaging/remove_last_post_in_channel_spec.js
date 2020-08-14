@@ -36,7 +36,7 @@ describe('Remove Last Post', () => {
         });
     });
 
-    it('M18716 Remove last post in channel', () => {
+    it('MM-T218 Remove last post in channel', () => {
         // # Wait a few ms for the user to be created before sending the test message
         cy.wait(TIMEOUTS.FIVE_SEC);
 

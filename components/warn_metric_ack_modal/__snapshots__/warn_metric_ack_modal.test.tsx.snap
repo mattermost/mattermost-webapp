@@ -1,0 +1,255 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/WarnMetricAckModal error display 1`] = `
+<Modal
+  animation={true}
+  aria-labelledby="warnMetricAckHeaderModalLabel"
+  autoFocus={true}
+  backdrop={true}
+  bsClass="modal"
+  dialogClassName="a11y__modal"
+  dialogComponentClass={[Function]}
+  enforceFocus={true}
+  keyboard={false}
+  manager={
+    ModalManager {
+      "add": [Function],
+      "containers": Array [],
+      "data": Array [],
+      "handleContainerOverflow": true,
+      "hideSiblingNodes": true,
+      "isTopModal": [Function],
+      "modals": Array [],
+      "remove": [Function],
+    }
+  }
+  onExited={[Function]}
+  onHide={[Function]}
+  renderBackdrop={[Function]}
+  restoreFocus={true}
+  role="dialog"
+  show={false}
+>
+  <ModalHeader
+    bsClass="modal-header"
+    closeButton={true}
+    closeLabel="Close"
+  >
+    <ModalTitle
+      bsClass="modal-title"
+      componentClass="h1"
+      id="warnMetricAckHeaderModalLabel"
+    >
+      <FormattedMessage
+        defaultMessage="Upgrade to Mattermost Enterprise Edition"
+        id="warn_metric_ack_modal.header.title"
+        values={Object {}}
+      />
+    </ModalTitle>
+  </ModalHeader>
+  <ModalBody
+    bsClass="modal-body"
+    componentClass="div"
+  >
+    <div>
+      <FormattedMessage
+        defaultMessage="Mattermost strongly recommends that deployments of over {limit} users upgrade to Mattermost Enterprise Edition, which offers features such as user management, server clustering, and performance monitoring"
+        id="warn_metric_ack_modal.number_of_active_users.description"
+        values={
+          Object {
+            "limit": 500,
+          }
+        }
+      />
+      <br />
+      <div
+        className="form-group has-error"
+      >
+        <br />
+        <label
+          className="control-label"
+        >
+          <FormattedMessage
+            defaultMessage="Support could not be reached. Please {link}."
+            id="warn_metric_ack_modal.mailto.message"
+            values={
+              Object {
+                "link": <WarnMetricAckErrorLink
+                  defaultMessage="email us"
+                  forceAck={true}
+                  messageId="warn_metric_ack_modal.mailto.link"
+                  onClickHandler={[Function]}
+                  url="mailto:support@mattermost.com?cc=a@test.com&subject=Mattermost%20Contact%20Us%20request&body=Mattermost%20Contact%20Us%20request.%20My%20team%20now%20has%20500%20users%20and%20I%20am%20considering%20Mattermost%20Enterprise%20Edition.%0D%0AContact%20Fake%20Person%0D%0AEmail%20a%40test.com%0D%0ASite%20URL%20http%3A%2F%2Flocalhost%3A8065%0D%0ADiagnostic%20Id%20diag_0%0D%0AIf%20you%20have%20any%20additional%20inquiries%2C%20please%20contact%20support%40mattermost.com"
+                />,
+              }
+            }
+          />
+        </label>
+      </div>
+      <br />
+      <div
+        className="help__format-text"
+        style={
+          Object {
+            "display": "flex",
+            "flexWrap": "wrap",
+            "opacity": "0.56",
+          }
+        }
+      >
+        <FormattedMessage
+          defaultMessage="Contacting support sends your contact information to Mattermost, Inc. {link}"
+          id="warn_metric_ack_modal.number_of_active_users.subtext"
+          values={
+            Object {
+              "link": <ErrorLink
+                defaultMessage="Learn More"
+                messageId="warn_metric_ack_modal.learn_more.link"
+                url="https://mattermost.com/pl/default-admin-advisory"
+              />,
+            }
+          }
+        />
+      </div>
+    </div>
+  </ModalBody>
+  <ModalFooter
+    bsClass="modal-footer"
+    componentClass="div"
+  >
+    <button
+      autoFocus={true}
+      className="btn btn-primary save-button"
+      data-dismiss="modal"
+      disabled={false}
+      onClick={[Function]}
+    >
+      <LoadingWrapper
+        loading={false}
+        text="Sending email"
+      >
+        <FormattedMessage
+          defaultMessage="Contact us"
+          id="warn_metric_ack_modal.contact_support"
+          values={Object {}}
+        />
+      </LoadingWrapper>
+    </button>
+  </ModalFooter>
+</Modal>
+`;
+
+exports[`components/WarnMetricAckModal should match snapshot, init 1`] = `
+<Modal
+  animation={true}
+  aria-labelledby="warnMetricAckHeaderModalLabel"
+  autoFocus={true}
+  backdrop={true}
+  bsClass="modal"
+  dialogClassName="a11y__modal"
+  dialogComponentClass={[Function]}
+  enforceFocus={true}
+  keyboard={false}
+  manager={
+    ModalManager {
+      "add": [Function],
+      "containers": Array [],
+      "data": Array [],
+      "handleContainerOverflow": true,
+      "hideSiblingNodes": true,
+      "isTopModal": [Function],
+      "modals": Array [],
+      "remove": [Function],
+    }
+  }
+  onExited={[Function]}
+  onHide={[Function]}
+  renderBackdrop={[Function]}
+  restoreFocus={true}
+  role="dialog"
+  show={false}
+>
+  <ModalHeader
+    bsClass="modal-header"
+    closeButton={true}
+    closeLabel="Close"
+  >
+    <ModalTitle
+      bsClass="modal-title"
+      componentClass="h1"
+      id="warnMetricAckHeaderModalLabel"
+    >
+      <FormattedMessage
+        defaultMessage="Upgrade to Mattermost Enterprise Edition"
+        id="warn_metric_ack_modal.header.title"
+        values={Object {}}
+      />
+    </ModalTitle>
+  </ModalHeader>
+  <ModalBody
+    bsClass="modal-body"
+    componentClass="div"
+  >
+    <div>
+      <FormattedMessage
+        defaultMessage="Mattermost strongly recommends that deployments of over {limit} users upgrade to Mattermost Enterprise Edition, which offers features such as user management, server clustering, and performance monitoring"
+        id="warn_metric_ack_modal.number_of_active_users.description"
+        values={
+          Object {
+            "limit": 500,
+          }
+        }
+      />
+      <br />
+      <br />
+      <div
+        className="help__format-text"
+        style={
+          Object {
+            "display": "flex",
+            "flexWrap": "wrap",
+            "opacity": "0.56",
+          }
+        }
+      >
+        <FormattedMessage
+          defaultMessage="Contacting support sends your contact information to Mattermost, Inc. {link}"
+          id="warn_metric_ack_modal.number_of_active_users.subtext"
+          values={
+            Object {
+              "link": <ErrorLink
+                defaultMessage="Learn More"
+                messageId="warn_metric_ack_modal.learn_more.link"
+                url="https://mattermost.com/pl/default-admin-advisory"
+              />,
+            }
+          }
+        />
+      </div>
+    </div>
+  </ModalBody>
+  <ModalFooter
+    bsClass="modal-footer"
+    componentClass="div"
+  >
+    <button
+      autoFocus={true}
+      className="btn btn-primary save-button"
+      data-dismiss="modal"
+      disabled={false}
+      onClick={[Function]}
+    >
+      <LoadingWrapper
+        loading={false}
+        text="Sending email"
+      >
+        <FormattedMessage
+          defaultMessage="Contact us"
+          id="warn_metric_ack_modal.contact_support"
+          values={Object {}}
+        />
+      </LoadingWrapper>
+    </button>
+  </ModalFooter>
+</Modal>
+`;

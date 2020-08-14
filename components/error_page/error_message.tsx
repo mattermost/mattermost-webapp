@@ -176,6 +176,7 @@ const ErrorMessage: React.FC<Props> = ({type, message, service, isGuest}: Props)
                 </p>
             );
             break;
+        case ErrorPageTypes.OAUTH_INVALID_REDIRECT_URL:
         case ErrorPageTypes.OAUTH_INVALID_PARAM:
             errorMessage = (
                 <p>

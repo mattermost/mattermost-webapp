@@ -3,14 +3,14 @@
 
 // Updates the config with the provided values before the test suite and then resets the config to the previous value
 // after the test suite has finished.
-export function testWithConfig(config) {
+export function testWithConfig(newConfig) {
     before(() => {
         let originalConfig;
-        cy.apiGetConfig().then((resp) => {
-            originalConfig = resp.body;
+        cy.apiGetConfig().then(({config}) => {
+            originalConfig = config;
         });
 
-        cy.apiUpdateConfig(config);
+        cy.apiUpdateConfig(newConfig);
 
         after(() => {
             // # Logging in again since another user session may happen between before and after

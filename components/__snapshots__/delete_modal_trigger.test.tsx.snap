@@ -1,0 +1,71 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/DeleteModalTrigger should match snapshot 1`] = `
+<span>
+  <button
+    className="color--link style--none"
+    onClick={[Function]}
+  >
+    <div>
+      trigger title
+    </div>
+  </button>
+  <ConfirmModal
+    confirmButtonClass="btn btn-primary"
+    confirmButtonText={
+      <button>
+        modal confirmation button
+      </button>
+    }
+    message={
+      <div>
+        modal message
+      </div>
+    }
+    modalClass=""
+    onCancel={[Function]}
+    onConfirm={[Function]}
+    show={false}
+    title={
+      <div>
+        modal title
+      </div>
+    }
+  />
+</span>
+`;
+
+exports[`components/DeleteModalTrigger should match snapshot when showDeleteModal is set 1`] = `
+<span>
+  <button
+    className="color--link style--none"
+    onClick={[Function]}
+  >
+    <div>
+       
+    </div>
+  </button>
+  <ConfirmModal
+    confirmButtonClass="btn btn-primary"
+    confirmButtonText={
+      <div>
+         
+      </div>
+    }
+    message={
+      <div>
+         
+      </div>
+    }
+    modalClass=""
+    onCancel={[Function]}
+    onConfirm={[Function]}
+    show={true}
+    title={
+      <div>
+         
+      </div>
+    }
+  />
+</span>
+`;

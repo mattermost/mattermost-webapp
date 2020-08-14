@@ -100,6 +100,7 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
                 channelIdsToAdd: [this.props.channel.id],
             },
         });
+        trackEvent('ui', 'ui_sidebar_channel_menu_createCategory');
     }
 
     copyLink = () => {
@@ -235,13 +236,13 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
                 id: `moveToNewCategory-${channel.id}`,
                 icon: (<i className='icon-folder-move-outline'/>),
                 direction: 'right' as any,
-                text: intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.moveToNewCategory', defaultMessage: 'Move to New Category'}),
+                text: intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.moveToNewCategory', defaultMessage: 'New Category'}),
                 action: this.moveToNewCategory,
             },
         );
 
         let copyLink;
-        if (channel.type === Constants.OPEN_CHANNEL) {
+        if (channel.type === Constants.OPEN_CHANNEL || channel.type === Constants.PRIVATE_CHANNEL) {
             copyLink = (
                 <Menu.ItemAction
                     id={`copyLink-${channel.id}`}

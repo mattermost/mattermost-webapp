@@ -3,7 +3,6 @@
 /* eslint-disable react/no-string-refs */
 
 import $ from 'jquery';
-import {FormattedMessage} from 'react-intl';
 import React from 'react';
 import Scrollbars from 'react-custom-scrollbars';
 import {Posts} from 'mattermost-redux/constants';
@@ -209,7 +208,7 @@ export default class RhsThread extends React.Component<Props, State> {
 
     public scrollToBottom = (): void => {
         if ($('.post-right__scroll')[0]) {
-            $('.post-right__scroll').parent().scrollTop($('.post-right__scroll')[0].scrollHeight);
+            $('.post-right__scroll').parent().scrollTop($('.post-right__scroll')[0].scrollHeight); // eslint-disable-line jquery/no-parent
         }
     }
 
@@ -357,9 +356,9 @@ export default class RhsThread extends React.Component<Props, State> {
                     <div
                         className='post-create-message'
                     >
-                        <FormattedMessage
+                        <FormattedMarkdownMessage
                             id='create_post.deactivated'
-                            defaultMessage='You are viewing an archived channel with a deactivated user.'
+                            defaultMessage='You are viewing an archived channel with a **deactivated user**. New messages cannot be posted.'
                         />
                     </div>
                 );

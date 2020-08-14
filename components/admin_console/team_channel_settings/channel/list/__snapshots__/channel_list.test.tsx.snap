@@ -45,6 +45,100 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
       ]
     }
     endCount={1}
+    filterProps={
+      Object {
+        "keys": Array [
+          "teams",
+          "channels",
+          "management",
+        ],
+        "onFilter": [Function],
+        "options": Object {
+          "channels": Object {
+            "keys": Array [
+              "public",
+              "private",
+              "deleted",
+            ],
+            "name": "Channels",
+            "values": Object {
+              "deleted": Object {
+                "name": <FormattedMessage
+                  defaultMessage="Archived"
+                  id="admin.channel_list.archived"
+                  values={Object {}}
+                />,
+                "value": false,
+              },
+              "private": Object {
+                "name": <FormattedMessage
+                  defaultMessage="Private"
+                  id="admin.channel_list.private"
+                  values={Object {}}
+                />,
+                "value": false,
+              },
+              "public": Object {
+                "name": <FormattedMessage
+                  defaultMessage="Public"
+                  id="admin.channel_list.public"
+                  values={Object {}}
+                />,
+                "value": false,
+              },
+            },
+          },
+          "management": Object {
+            "keys": Array [
+              "group_constrained",
+              "exclude_group_constrained",
+            ],
+            "name": "Management",
+            "values": Object {
+              "exclude_group_constrained": Object {
+                "name": <FormattedMessage
+                  defaultMessage="Manual Invites"
+                  id="admin.channel_list.manual_invites"
+                  values={Object {}}
+                />,
+                "value": false,
+              },
+              "group_constrained": Object {
+                "name": <FormattedMessage
+                  defaultMessage="Group Sync"
+                  id="admin.channel_list.group_sync"
+                  values={Object {}}
+                />,
+                "value": false,
+              },
+            },
+          },
+          "teams": Object {
+            "keys": Array [
+              "team_ids",
+            ],
+            "name": "Teams",
+            "type": Object {
+              "$$typeof": Symbol(react.memo),
+              "WrappedComponent": [Function],
+              "compare": null,
+              "displayName": "Connect(TeamFilterDropdown)",
+              "type": [Function],
+            },
+            "values": Object {
+              "team_ids": Object {
+                "name": <FormattedMessage
+                  defaultMessage="Teams"
+                  id="admin.team_settings.title"
+                  values={Object {}}
+                />,
+                "value": Array [],
+              },
+            },
+          },
+        },
+      }
+    }
     loading={false}
     nextPage={[Function]}
     page={0}
@@ -64,7 +158,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               className="group-actions TeamList_editRow"
               data-testid="DNedit"
             >
-              <ForwardRef
+              <Link
                 to="/admin_console/user_management/channels/123"
               >
                 <FormattedMessage
@@ -72,7 +166,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
                   id="admin.channel_settings.channel_row.configure"
                   values={Object {}}
                 />
-              </ForwardRef>
+              </Link>
             </span>,
             "id": "123",
             "management": <span
@@ -89,7 +183,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               data-testid="channel-display-name"
             >
               <GlobeIcon
-                className="channel-icon channel-icon__globe channel-icon___lowerOpacity"
+                className="channel-icon"
               />
               <span
                 className="TeamList_channelDisplayName"
@@ -165,6 +259,100 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
       ]
     }
     endCount={10}
+    filterProps={
+      Object {
+        "keys": Array [
+          "teams",
+          "channels",
+          "management",
+        ],
+        "onFilter": [Function],
+        "options": Object {
+          "channels": Object {
+            "keys": Array [
+              "public",
+              "private",
+              "deleted",
+            ],
+            "name": "Channels",
+            "values": Object {
+              "deleted": Object {
+                "name": <FormattedMessage
+                  defaultMessage="Archived"
+                  id="admin.channel_list.archived"
+                  values={Object {}}
+                />,
+                "value": false,
+              },
+              "private": Object {
+                "name": <FormattedMessage
+                  defaultMessage="Private"
+                  id="admin.channel_list.private"
+                  values={Object {}}
+                />,
+                "value": false,
+              },
+              "public": Object {
+                "name": <FormattedMessage
+                  defaultMessage="Public"
+                  id="admin.channel_list.public"
+                  values={Object {}}
+                />,
+                "value": false,
+              },
+            },
+          },
+          "management": Object {
+            "keys": Array [
+              "group_constrained",
+              "exclude_group_constrained",
+            ],
+            "name": "Management",
+            "values": Object {
+              "exclude_group_constrained": Object {
+                "name": <FormattedMessage
+                  defaultMessage="Manual Invites"
+                  id="admin.channel_list.manual_invites"
+                  values={Object {}}
+                />,
+                "value": false,
+              },
+              "group_constrained": Object {
+                "name": <FormattedMessage
+                  defaultMessage="Group Sync"
+                  id="admin.channel_list.group_sync"
+                  values={Object {}}
+                />,
+                "value": false,
+              },
+            },
+          },
+          "teams": Object {
+            "keys": Array [
+              "team_ids",
+            ],
+            "name": "Teams",
+            "type": Object {
+              "$$typeof": Symbol(react.memo),
+              "WrappedComponent": [Function],
+              "compare": null,
+              "displayName": "Connect(TeamFilterDropdown)",
+              "type": [Function],
+            },
+            "values": Object {
+              "team_ids": Object {
+                "name": <FormattedMessage
+                  defaultMessage="Teams"
+                  id="admin.team_settings.title"
+                  values={Object {}}
+                />,
+                "value": Array [],
+              },
+            },
+          },
+        },
+      }
+    }
     loading={false}
     nextPage={[Function]}
     page={0}
@@ -184,7 +372,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               className="group-actions TeamList_editRow"
               data-testid="DN0edit"
             >
-              <ForwardRef
+              <Link
                 to="/admin_console/user_management/channels/id0"
               >
                 <FormattedMessage
@@ -192,7 +380,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
                   id="admin.channel_settings.channel_row.configure"
                   values={Object {}}
                 />
-              </ForwardRef>
+              </Link>
             </span>,
             "id": "id0",
             "management": <span
@@ -209,7 +397,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               data-testid="channel-display-name"
             >
               <GlobeIcon
-                className="channel-icon channel-icon__globe channel-icon___lowerOpacity"
+                className="channel-icon"
               />
               <span
                 className="TeamList_channelDisplayName"
@@ -231,7 +419,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               className="group-actions TeamList_editRow"
               data-testid="DN1edit"
             >
-              <ForwardRef
+              <Link
                 to="/admin_console/user_management/channels/id1"
               >
                 <FormattedMessage
@@ -239,7 +427,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
                   id="admin.channel_settings.channel_row.configure"
                   values={Object {}}
                 />
-              </ForwardRef>
+              </Link>
             </span>,
             "id": "id1",
             "management": <span
@@ -256,7 +444,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               data-testid="channel-display-name"
             >
               <GlobeIcon
-                className="channel-icon channel-icon__globe channel-icon___lowerOpacity"
+                className="channel-icon"
               />
               <span
                 className="TeamList_channelDisplayName"
@@ -278,7 +466,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               className="group-actions TeamList_editRow"
               data-testid="DN2edit"
             >
-              <ForwardRef
+              <Link
                 to="/admin_console/user_management/channels/id2"
               >
                 <FormattedMessage
@@ -286,7 +474,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
                   id="admin.channel_settings.channel_row.configure"
                   values={Object {}}
                 />
-              </ForwardRef>
+              </Link>
             </span>,
             "id": "id2",
             "management": <span
@@ -303,7 +491,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               data-testid="channel-display-name"
             >
               <GlobeIcon
-                className="channel-icon channel-icon__globe channel-icon___lowerOpacity"
+                className="channel-icon"
               />
               <span
                 className="TeamList_channelDisplayName"
@@ -325,7 +513,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               className="group-actions TeamList_editRow"
               data-testid="DN3edit"
             >
-              <ForwardRef
+              <Link
                 to="/admin_console/user_management/channels/id3"
               >
                 <FormattedMessage
@@ -333,7 +521,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
                   id="admin.channel_settings.channel_row.configure"
                   values={Object {}}
                 />
-              </ForwardRef>
+              </Link>
             </span>,
             "id": "id3",
             "management": <span
@@ -350,7 +538,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               data-testid="channel-display-name"
             >
               <GlobeIcon
-                className="channel-icon channel-icon__globe channel-icon___lowerOpacity"
+                className="channel-icon"
               />
               <span
                 className="TeamList_channelDisplayName"
@@ -372,7 +560,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               className="group-actions TeamList_editRow"
               data-testid="DN4edit"
             >
-              <ForwardRef
+              <Link
                 to="/admin_console/user_management/channels/id4"
               >
                 <FormattedMessage
@@ -380,7 +568,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
                   id="admin.channel_settings.channel_row.configure"
                   values={Object {}}
                 />
-              </ForwardRef>
+              </Link>
             </span>,
             "id": "id4",
             "management": <span
@@ -397,7 +585,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               data-testid="channel-display-name"
             >
               <GlobeIcon
-                className="channel-icon channel-icon__globe channel-icon___lowerOpacity"
+                className="channel-icon"
               />
               <span
                 className="TeamList_channelDisplayName"
@@ -419,7 +607,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               className="group-actions TeamList_editRow"
               data-testid="DN5edit"
             >
-              <ForwardRef
+              <Link
                 to="/admin_console/user_management/channels/id5"
               >
                 <FormattedMessage
@@ -427,7 +615,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
                   id="admin.channel_settings.channel_row.configure"
                   values={Object {}}
                 />
-              </ForwardRef>
+              </Link>
             </span>,
             "id": "id5",
             "management": <span
@@ -444,7 +632,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               data-testid="channel-display-name"
             >
               <GlobeIcon
-                className="channel-icon channel-icon__globe channel-icon___lowerOpacity"
+                className="channel-icon"
               />
               <span
                 className="TeamList_channelDisplayName"
@@ -466,7 +654,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               className="group-actions TeamList_editRow"
               data-testid="DN6edit"
             >
-              <ForwardRef
+              <Link
                 to="/admin_console/user_management/channels/id6"
               >
                 <FormattedMessage
@@ -474,7 +662,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
                   id="admin.channel_settings.channel_row.configure"
                   values={Object {}}
                 />
-              </ForwardRef>
+              </Link>
             </span>,
             "id": "id6",
             "management": <span
@@ -491,7 +679,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               data-testid="channel-display-name"
             >
               <GlobeIcon
-                className="channel-icon channel-icon__globe channel-icon___lowerOpacity"
+                className="channel-icon"
               />
               <span
                 className="TeamList_channelDisplayName"
@@ -513,7 +701,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               className="group-actions TeamList_editRow"
               data-testid="DN7edit"
             >
-              <ForwardRef
+              <Link
                 to="/admin_console/user_management/channels/id7"
               >
                 <FormattedMessage
@@ -521,7 +709,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
                   id="admin.channel_settings.channel_row.configure"
                   values={Object {}}
                 />
-              </ForwardRef>
+              </Link>
             </span>,
             "id": "id7",
             "management": <span
@@ -538,7 +726,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               data-testid="channel-display-name"
             >
               <GlobeIcon
-                className="channel-icon channel-icon__globe channel-icon___lowerOpacity"
+                className="channel-icon"
               />
               <span
                 className="TeamList_channelDisplayName"
@@ -560,7 +748,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               className="group-actions TeamList_editRow"
               data-testid="DN8edit"
             >
-              <ForwardRef
+              <Link
                 to="/admin_console/user_management/channels/id8"
               >
                 <FormattedMessage
@@ -568,7 +756,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
                   id="admin.channel_settings.channel_row.configure"
                   values={Object {}}
                 />
-              </ForwardRef>
+              </Link>
             </span>,
             "id": "id8",
             "management": <span
@@ -585,7 +773,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               data-testid="channel-display-name"
             >
               <GlobeIcon
-                className="channel-icon channel-icon__globe channel-icon___lowerOpacity"
+                className="channel-icon"
               />
               <span
                 className="TeamList_channelDisplayName"
@@ -607,7 +795,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               className="group-actions TeamList_editRow"
               data-testid="DN9edit"
             >
-              <ForwardRef
+              <Link
                 to="/admin_console/user_management/channels/id9"
               >
                 <FormattedMessage
@@ -615,7 +803,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
                   id="admin.channel_settings.channel_row.configure"
                   values={Object {}}
                 />
-              </ForwardRef>
+              </Link>
             </span>,
             "id": "id9",
             "management": <span
@@ -632,7 +820,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               data-testid="channel-display-name"
             >
               <GlobeIcon
-                className="channel-icon channel-icon__globe channel-icon___lowerOpacity"
+                className="channel-icon"
               />
               <span
                 className="TeamList_channelDisplayName"

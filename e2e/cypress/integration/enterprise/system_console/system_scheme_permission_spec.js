@@ -19,7 +19,7 @@ describe('System Scheme Channel Mentions Permissions Test', () => {
 
     before(() => {
         // * Check if server has license
-        cy.requireLicense();
+        cy.apiRequireLicense();
 
         cy.apiInitSetup().then(({team, channel, user}) => {
             testUser = user;

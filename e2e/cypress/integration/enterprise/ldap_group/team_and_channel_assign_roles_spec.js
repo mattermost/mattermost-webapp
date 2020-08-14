@@ -12,16 +12,20 @@
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 // # Save setting and get back to the resource page
-const saveAndNavigateBackTo = (name) => {
+const saveAndNavigateBackTo = (name, page) => {
     cy.get('#saveSetting').should('be.enabled').click({force: true});
 
-    cy.findByTestId('search-input').should('be.visible').type(`${name}{enter}`).wait(TIMEOUTS.HALF_SEC);
+    // * Verify that it redirects to teams page and wait for a while to load
+    cy.url().should('include', `/admin_console/user_management/${page}`).wait(TIMEOUTS.TWO_SEC);
+    cy.get('.DataGrid_searchBar').within(() => {
+        cy.findByPlaceholderText('Search').should('be.visible').type(`${name}{enter}`).wait(TIMEOUTS.HALF_SEC);
+    });
     cy.findByTestId(`${name}edit`).should('be.visible').click();
 };
 
 const changeRoleTo = (role) => {
     cy.get('#role-to-be > button').should('be.visible').and('have.text', role).click();
-    cy.findByTestId('current-role').should('have.text', role).wait(TIMEOUTS.HALF_SEC);
+    cy.findByTestId('current-role').should('have.text', role).wait(TIMEOUTS.ONE_SEC);
 };
 
 describe('System Console', () => {
@@ -32,9 +36,12 @@ describe('System Console', () => {
 
     before(() => {
         // * Check if server has license for LDAP Groups
-        cy.requireLicenseForFeature('LDAPGroups');
+        cy.apiRequireLicenseForFeature('LDAPGroups');
 
-        cy.apiInitSetup().then(({team, channel}) => {
+        cy.apiInitSetup({
+            teamPrefix: {name: 'a-team', displayName: 'A Team'},
+            channelPrefix: {name: 'a-channel', displayName: 'A Channel'},
+        }).then(({team, channel}) => {
             testTeam = team;
             teamName = team.display_name;
             channelName = channel.display_name;
@@ -64,7 +71,9 @@ describe('System Console', () => {
         cy.visit('/admin_console/user_management/teams');
 
         // # Search for the team.
-        cy.findByTestId('search-input').type(`${teamName}{enter}`);
+        cy.get('.DataGrid_searchBar').within(() => {
+            cy.findByPlaceholderText('Search').should('be.visible').type(`${teamName}{enter}`);
+        });
         cy.findByTestId(`${teamName}edit`).click();
 
         // # Add the first group in the group list then save
@@ -85,7 +94,7 @@ describe('System Console', () => {
         changeRoleTo('Team Admin');
 
         // # Save the setting and navigate back to page
-        saveAndNavigateBackTo(teamName);
+        saveAndNavigateBackTo(teamName, 'teams');
 
         // * Check to make the the current role text is displayed as Team Admin
         cy.findByTestId('current-role').should('have.text', 'Team Admin');
@@ -102,10 +111,18 @@ describe('System Console', () => {
         changeRoleTo('Member');
 
         // # Save the setting and navigate back to page
-        saveAndNavigateBackTo(teamName);
+        saveAndNavigateBackTo(teamName, 'teams');
 
         // * Check to make the the current role text is displayed as Member
         cy.findByTestId('current-role').should('have.text', 'Member');
+
+        // # Wait for the board group to show up before continuing to next steps
+        cy.waitUntil(() => cy.get('.group-row').eq(0).scrollIntoView().find('.group-name').then((el) => {
+            return el[0].innerText === groupDisplayName;
+        }), {
+            errorMsg: `${groupDisplayName} group didn't show up in time`,
+            timeout: TIMEOUTS.TEN_SEC,
+        });
 
         // # Remove "board" group
         cy.get('.group-row').eq(0).scrollIntoView().should('be.visible').within(() => {
@@ -119,7 +136,7 @@ describe('System Console', () => {
         });
 
         // # Save the setting and navigate back to page
-        saveAndNavigateBackTo(teamName);
+        saveAndNavigateBackTo(teamName, 'teams');
 
         // * Assert that the group was removed successfully
         cy.get('#groups-list--body').then((el) => {
@@ -132,7 +149,9 @@ describe('System Console', () => {
         cy.visit('/admin_console/user_management/teams');
 
         // # Search for the team.
-        cy.findByTestId('search-input').type(`${teamName}{enter}`);
+        cy.get('.DataGrid_searchBar').within(() => {
+            cy.findByPlaceholderText('Search').should('be.visible').type(`${teamName}{enter}`);
+        });
         cy.findByTestId(`${teamName}edit`).click();
 
         // # Add the first group in the group list then save
@@ -153,7 +172,7 @@ describe('System Console', () => {
         changeRoleTo('Team Admin');
 
         // # Save the setting and navigate back to page
-        saveAndNavigateBackTo(teamName);
+        saveAndNavigateBackTo(teamName, 'teams');
 
         // * Check to make the the current role text is displayed as Team Admin
         cy.findByTestId('current-role').should('have.text', 'Team Admin');
@@ -164,7 +183,9 @@ describe('System Console', () => {
         cy.visit('/admin_console/user_management/channels');
 
         // # Search for the channel.
-        cy.findByTestId('search-input').type(`${channelName}{enter}`);
+        cy.get('.DataGrid_searchBar').within(() => {
+            cy.findByPlaceholderText('Search').should('be.visible').type(`${channelName}{enter}`);
+        });
         cy.findByTestId(`${channelName}edit`).click();
 
         // # Add the first group in the group list then save
@@ -172,7 +193,7 @@ describe('System Console', () => {
         cy.get('#multiSelectList').should('be.visible');
         cy.get('#multiSelectList>div').children().eq(0).click();
         cy.get('#saveItems').click();
-        saveAndNavigateBackTo(channelName);
+        saveAndNavigateBackTo(channelName, 'channels');
 
         // * Ensure default role is Member
         cy.findByTestId('current-role').scrollIntoView().should('have.text', 'Member').click();
@@ -186,7 +207,7 @@ describe('System Console', () => {
         changeRoleTo('Channel Admin');
 
         // # Save the setting and navigate back to page
-        saveAndNavigateBackTo(channelName);
+        saveAndNavigateBackTo(channelName, 'channels');
 
         // * Check to make the the current role text is displayed as Channel Admin
         cy.findByTestId('current-role').should('have.text', 'Channel Admin');
@@ -203,7 +224,7 @@ describe('System Console', () => {
         changeRoleTo('Member');
 
         // # Save the setting and navigate back to page
-        saveAndNavigateBackTo(channelName);
+        saveAndNavigateBackTo(channelName, 'channels');
 
         // * Check to make the the current role text is displayed as Member
         cy.findByTestId('current-role').should('have.text', 'Member');
@@ -214,7 +235,9 @@ describe('System Console', () => {
         cy.visit('/admin_console/user_management/channels');
 
         // # Search for the channel.
-        cy.findByTestId('search-input').type(`${channelName}{enter}`);
+        cy.get('.DataGrid_searchBar').within(() => {
+            cy.findByPlaceholderText('Search').should('be.visible').type(`${channelName}{enter}`);
+        });
         cy.findByTestId(`${channelName}edit`).click();
 
         // # Add the first group in the group list then save
@@ -235,7 +258,7 @@ describe('System Console', () => {
         changeRoleTo('Channel Admin');
 
         // # Save the setting and navigate back to page
-        saveAndNavigateBackTo(channelName);
+        saveAndNavigateBackTo(channelName, 'channels');
 
         // * Check to make the the current role text is displayed as Channel Admin
         cy.findByTestId('current-role').should('have.text', 'Channel Admin');

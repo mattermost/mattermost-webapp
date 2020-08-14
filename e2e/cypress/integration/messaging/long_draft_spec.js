@@ -25,7 +25,7 @@ describe('Messaging', () => {
         });
     });
 
-    it('M18699-Leave a long draft in the main input box', () => {
+    it('MM-T211 Leave a long draft in the main input box', () => {
         const lines = [
             'Lorem ipsum dolor sit amet,',
             'consectetur adipiscing elit.',
@@ -38,9 +38,7 @@ describe('Messaging', () => {
         cy.postMessage('Hello');
 
         // # Get the height before starting to write
-        cy.get('#post_textbox').should('be.visible').clear().then((post) => {
-            cy.wrap(parseInt(post[0].clientHeight, 10)).as('initialHeight').as('previousHeight');
-        });
+        cy.get('#post_textbox').should('be.visible').clear().invoke('height').as('initialHeight').as('previousHeight');
 
         // # Post first line to use
         cy.get('#post_textbox').type(lines[0]);
@@ -50,8 +48,8 @@ describe('Messaging', () => {
             // # Post the line
             cy.get('#post_textbox').type('{shift}{enter}').type(lines[i]);
 
-            cy.get('#post_textbox').invoke('attr', 'height').then((height) => {
-                // * Previous height should be lower than the current heigh
+            cy.get('#post_textbox').invoke('height').then((height) => {
+                // * Previous height should be lower than the current height
                 cy.get('@previousHeight').should('be.lessThan', parseInt(height, 10));
 
                 // # Store the current height as the previous height for the next loop
@@ -92,10 +90,8 @@ describe('Messaging', () => {
     });
 });
 
-function verifyPostTextbox(targetHeightSelector, text) {
-    cy.get('#post_textbox').should('be.visible').and('have.text', text).then((el) => {
-        cy.get(targetHeightSelector).then((height) => {
-            expect(el[0].clientHeight).to.be.equal(height);
-        });
+function verifyPostTextbox(heightSelector, text) {
+    cy.get('#post_textbox').should('be.visible').and('have.text', text).invoke('height').then((currentHeight) => {
+        cy.get(heightSelector).should('be.gte', currentHeight);
     });
 }
