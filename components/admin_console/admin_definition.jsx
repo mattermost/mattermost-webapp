@@ -2864,9 +2864,12 @@ const AdminDefinition = {
                         placeholder_default: 'E.g.: "thumbnailPhoto" or "jpegPhoto"',
                         help_text: t('admin.ldap.pictureAttrDesc'),
                         help_text_default: 'The attribute in the AD/LDAP server used to populate the profile picture in Mattermost.',
-                        isDisabled: it.all(
-                            it.stateIsFalse('LdapSettings.Enable'),
-                            it.stateIsFalse('LdapSettings.EnableSync'),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.all(
+                                it.stateIsFalse('LdapSettings.Enable'),
+                                it.stateIsFalse('LdapSettings.EnableSync'),
+                            ),
                         ),
                     },
                     {
@@ -2926,12 +2929,13 @@ const AdminDefinition = {
                         type: Constants.SettingsTypes.TYPE_TEXT,
                         key: 'LdapSettings.LoginFieldName',
                         label: t('admin.ldap.loginNameTitle'),
-                        label_default: 'Sign-in Field Default Text:',
+                        label_default: 'Login Field Name:',
                         placeholder: t('admin.ldap.loginNameEx'),
                         placeholder_default: 'E.g.: "AD/LDAP Username"',
                         help_text: t('admin.ldap.loginNameDesc'),
                         help_text_default: 'The placeholder text that appears in the login field on the login page. Defaults to "AD/LDAP Username".',
                         isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('authentication')),
                             it.all(
                                 it.stateIsFalse('LdapSettings.Enable'),
                                 it.stateIsFalse('LdapSettings.EnableSync'),
@@ -2963,6 +2967,7 @@ const AdminDefinition = {
                         help_text: t('admin.ldap.maxPageSizeHelpText'),
                         help_text_default: 'The maximum number of users the Mattermost server will request from the AD/LDAP server at one time. 0 is unlimited.',
                         isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('authentication')),
                             it.all(
                                 it.stateIsFalse('LdapSettings.Enable'),
                                 it.stateIsFalse('LdapSettings.EnableSync'),
