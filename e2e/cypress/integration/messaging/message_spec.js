@@ -174,7 +174,7 @@ function verifySingleImageThumbnail({mode = null} = {}) {
     const displayMode = {
         Compact: 'compact',
         Standard: 'clean',
-    }
+    };
     const filename = 'image-small-height.png';
 
     // # Set message display setting to compact
