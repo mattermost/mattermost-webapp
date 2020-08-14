@@ -3682,7 +3682,7 @@
   "post.ariaLabel.reaction": ", 1 tepki",
   "post.ariaLabel.reactionMultiple": ", {reactionCount} tepki",
   "postlist.toast.history": "İleti geçmişi görüntüleniyor",
-  "postlist.toast.newMessages": "{count, number} yeni {count, plural, one {ileti} other {ileti}",
+  "postlist.toast.newMessages": "{count, number} yeni {count, plural, one {ileti} other {ileti}}",
   "postlist.toast.scrollToBottom": "Son iletilere git",
   "postlist.toast.scrollToLatest": "Yeni iletilere git",
   "promote_to_user_modal.promote": "Rolü Yükselt",
@@ -3873,7 +3873,7 @@
   "post_info.info.view_additional_info": "Ek bilgileri görüntüle",
   "post.ariaLabel.message": "{time} {date} zamanında, {authorName} tarafından, {message} iletisi yazıldı",
   "post.ariaLabel.replyMessage": "{time} {date} zamanında, {authorName} tarafından, {message} yanıtı verildi",
-  "postlist.toast.newMessagesSince": "{date} tarihi {time} saatinden sonra {count, number} yeni {count, plural, one {ileti} other {ileti} var",
+  "postlist.toast.newMessagesSince": "{date} {isToday, select, true {} other {tarihinden sonra}} {count, number} yeni {count, plural, one {ileti} other {ileti} var",
   "promote_to_user_modal.desc": "Bu işlem {username} kullanıcısını kullanıcı rolünden üye rolüne yükseltecek. Kullanıcı herkese açık kanallara katılabilecek ve üyesi olduğu kanalların dışındaki kullanıcılar ile etkileşimde bulunabilecek. {username} kullanıcısının konuk rolünü kullanıcı rolüne yükseltmek istediğinize emin misiniz?",
   "reaction.add.ariaLabel": "Tepki ekle",
   "remove_group_confirm_button": "Evet, Grubu ve {memberCount, plural, one {üyeyi} other {üyeyi}} sil",
@@ -3970,7 +3970,7 @@
   "admin.channel_list.group_sync": "Grup ile Eşitlenen",
   "admin.channel_list.archived": "Arşivlenmiş",
   "announcement_bar.error.number_active_users_warn_metric_status.text": "{limit} kullanıcıya eriştiniz. Enterprise sürüme geçmeniz önerilir.",
-  "warn_metric_ack_modal.number_of_active_users.description": "Mattermost, {limit} üzerinde kullanıcı için, kullanıcı yönetimi, sunucu kümeleme ve başarım izleme gibi özellikler sunan Mattermost Enterprise E20 sürümünün kullanılmasını önerir",
+  "warn_metric_ack_modal.number_of_active_users.description": "Mattermost, {limit} üzerinde kullanıcı için, kullanıcı yönetimi, sunucu kümeleme ve başarım izleme gibi özellikler sunan Mattermost Enterprise sürümünün kullanılmasını önerir",
   "warn_metric_ack_modal.mailto.message": "Destek bölümüne erişilemedi. Lütfen {link}.",
   "admin.support.enableAskCommunityTitle": "Topluluğa Sorun Bağlantısı Kullanılsın:",
   "admin.support.enableAskCommunityDesc": "Bu seçenek etkinleştirildiğinde, Mattermost kullanıcı arayüzünde ve ana menüde, kullanıcıların Mattermost topluluğuna katılıp soru sorabileceği ve diğer kullanıcıların sorunlarını çözmesine yardım edebileceği \"Topluluğa sorun\" bağlantısı görüntülenir. Devre dışı bırakıldığında, bu bağlantı kullanıcılara görüntülenmez.",
@@ -3998,5 +3998,8 @@
   "admin.filter.all_teams": "Tüm Takımlar",
   "admin.channel_list.manual_invites": "El ile Çağrılar",
   "admin.jobTable.headerFiles": "Dosyalar",
-  "admin.jobTable.downloadLink": "İndir"
+  "admin.jobTable.downloadLink": "İndir",
+  "timestamp.datetime": "{time} zamanında {relativeOrDate}",
+  "warn_metric_ack_modal.learn_more.link": "Ayrıntılı bilgi alın",
+  "warn_metric_ack_modal.number_of_active_users.subtext": "Destek ekibi ile iletişim kurduğunuzda bilgileriniz Mattermost, Inc. tarafına gönderilir {link}"
 }

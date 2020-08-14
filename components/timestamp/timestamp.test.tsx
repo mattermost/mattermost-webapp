@@ -31,14 +31,18 @@ describe('components/timestamp/Timestamp', () => {
         return date;
     }
 
-    test('should be wrapped in SemanticTime', () => {
+    test('should be wrapped in SemanticTime and support passthrough className and label', () => {
         const wrapper = shallowWithIntl(
             <Timestamp
                 useTime={false}
+                className='test class'
+                label='test label'
             />
         );
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find(SemanticTime).exists()).toBeTruthy();
+        expect(wrapper.find(SemanticTime).prop('className')).toBe('test class');
+        expect(wrapper.find(SemanticTime).prop('aria-label')).toBe('test label');
     });
 
     test('should not be wrapped in SemanticTime', () => {

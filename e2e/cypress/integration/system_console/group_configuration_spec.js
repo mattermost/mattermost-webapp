@@ -11,45 +11,6 @@
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
-function teamOrChannelIsPresent(name) {
-    cy.get('.group-teams-and-channels--body', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').within(() => {
-        cy.findByText(name).should('be.visible');
-    });
-}
-
-function addGroupSyncable(type, callback) {
-    cy.get('#add_team_or_channel').should('be.visible').click();
-    cy.get('.dropdown-menu').find(`#add_${type}`).should('be.visible').click();
-    cy.get(`.${type}-selector-modal`).should('be.visible');
-    cy.get('#multiSelectList').find('.more-modal__row').find(type === 'channel' ? '.channel-name' : '.title').then(($elements) => {
-        const name = $elements[0].innerText;
-
-        cy.get('#multiSelectList').find('.more-modal__row').first().click();
-        cy.get('#saveItems').click();
-
-        // * Check that the team or channel was added to the view
-        teamOrChannelIsPresent(name);
-
-        callback(name);
-    });
-}
-
-function changeRole(teamOrChannel, newRole) {
-    cy.findByTestId(`${teamOrChannel}_current_role`).click();
-    cy.get('.Menu__content').should('be.visible').findByText(newRole).click();
-}
-
-function savePage() {
-    cy.get('#saveSetting').click();
-    cy.wait(TIMEOUTS.TWO_SEC); // eslint-disable-line cypress/no-unnecessary-waiting
-}
-
-function removeAndConfirm(name) {
-    cy.findByTestId(`${name}_groupsyncable_remove`).click();
-    cy.get('#confirmModalButton').should('be.visible').click();
-    cy.findByText('No teams or channels specified yet').should('be.visible');
-}
-
 describe('group configuration', () => {
     let groupID;
     let testTeam;
@@ -67,8 +28,20 @@ describe('group configuration', () => {
     beforeEach(() => {
         // # Link a group
         cy.apiGetLDAPGroups().then((result) => {
-            cy.apiLinkGroup(result.body.groups[0].primary_key).then((response) => {
-                groupID = response.body.id;
+            cy.apiLinkGroup(result.body.groups[0].primary_key).then((linkGroupRes) => {
+                groupID = linkGroupRes.body.id;
+
+                // # Unlink group teams and channels
+                cy.apiGetGroupTeams(groupID).then((response) => {
+                    response.body.forEach((item) => {
+                        cy.apiUnlinkGroupTeam(groupID, item.team_id);
+                    });
+                });
+                cy.apiGetGroupChannels(groupID).then((response) => {
+                    response.body.forEach((item) => {
+                        cy.apiUnlinkGroupChannel(groupID, item.channel_id);
+                    });
+                });
 
                 // # Go to the group configuration view of the linked group
                 cy.visit(`/admin_console/user_management/groups/${groupID}`);
@@ -76,20 +49,7 @@ describe('group configuration', () => {
                     find('.admin-console__header').should('have.text', 'Group Configuration');
 
                 // * Check that it has no associated teams or channels
-                cy.findByText('No teams or channels specified yet', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
-            });
-        });
-    });
-
-    afterEach(() => {
-        cy.apiGetGroupTeams(groupID).then((response) => {
-            response.body.forEach((item) => {
-                cy.apiUnlinkGroupTeam(groupID, item.team_id);
-            });
-        });
-        cy.apiGetGroupChannels(groupID).then((response) => {
-            response.body.forEach((item) => {
-                cy.apiUnlinkGroupChannel(groupID, item.channel_id);
+                verifyNoTeamsOrChannelsIsVisible();
             });
         });
     });
@@ -107,7 +67,7 @@ describe('group configuration', () => {
                 cy.visit(`/admin_console/user_management/groups/${groupID}`);
 
                 // * Check that the team that was added dissappears
-                cy.findByText('No teams or channels specified yet').should('be.visible');
+                verifyNoTeamsOrChannelsIsVisible();
             });
         });
 
@@ -152,7 +112,7 @@ describe('group configuration', () => {
                 cy.visit(`/admin_console/user_management/groups/${groupID}`);
 
                 // * Check that the channel that was added dissappears
-                cy.findByText('No teams or channels specified yet').should('be.visible');
+                verifyNoTeamsOrChannelsIsVisible();
             });
         });
 
@@ -237,7 +197,7 @@ describe('group configuration', () => {
                 cy.visit(`/admin_console/user_management/groups/${groupID}`);
 
                 // * Check that the team is no longer present
-                cy.findByText('No teams or channels specified yet').should('be.visible');
+                verifyNoTeamsOrChannelsIsVisible();
             });
         });
     });
@@ -332,7 +292,7 @@ describe('group configuration', () => {
                 cy.visit(`/admin_console/user_management/groups/${groupID}`);
 
                 // * Ensure the new role is visible
-                cy.findByTestId(`${teamName}_current_role`).findByText(newRole);
+                verifyNewRoleIsVisible(teamName, newRole);
             });
         });
 
@@ -366,7 +326,7 @@ describe('group configuration', () => {
             cy.visit(`/admin_console/user_management/groups/${groupID}`);
 
             // * Ensure the new role is visible
-            cy.findByTestId(`${testTeam.display_name}_current_role`).findByText(newRole);
+            verifyNewRoleIsVisible(testTeam.display_name, newRole);
         });
 
         it('does not update the role if not saved', () => {
@@ -395,7 +355,7 @@ describe('group configuration', () => {
             cy.visit(`/admin_console/user_management/groups/${groupID}`);
 
             // * Ensure the new role is visible
-            cy.findByTestId(`${testTeam.display_name}_current_role`).findByText('Member');
+            verifyNewRoleIsVisible(testTeam.display_name, 'Member');
         });
 
         it('does not update the role of a removed team', () => {
@@ -456,7 +416,7 @@ describe('group configuration', () => {
                 cy.visit(`/admin_console/user_management/groups/${groupID}`);
 
                 // * Ensure the new role is visible
-                cy.findByTestId(`${channelName}_current_role`).findByText(newRole);
+                verifyNewRoleIsVisible(channelName, newRole);
             });
         });
 
@@ -490,7 +450,7 @@ describe('group configuration', () => {
             cy.visit(`/admin_console/user_management/groups/${groupID}`);
 
             // * Ensure the new role is visible
-            cy.findByTestId(`${testChannel.display_name}_current_role`).findByText(newRole);
+            verifyNewRoleIsVisible(testChannel.display_name, newRole);
         });
 
         it('does not update the role if not saved', () => {
@@ -519,7 +479,7 @@ describe('group configuration', () => {
             cy.visit(`/admin_console/user_management/groups/${groupID}`);
 
             // * Ensure the new role is visible
-            cy.findByTestId(`${testChannel.display_name}_current_role`).findByText('Member');
+            verifyNewRoleIsVisible(testChannel.display_name, 'Member');
         });
 
         it('does not update the role of a removed channel', () => {
@@ -557,3 +517,50 @@ describe('group configuration', () => {
         });
     });
 });
+
+function teamOrChannelIsPresent(name) {
+    cy.get('.group-teams-and-channels--body', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').within(() => {
+        cy.findByText(name).scrollIntoView().should('be.visible');
+    });
+}
+
+function addGroupSyncable(type, callback) {
+    cy.get('#add_team_or_channel', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').click();
+    cy.get('.dropdown-menu').find(`#add_${type}`).should('be.visible').click();
+    cy.get(`.${type}-selector-modal`).should('be.visible');
+    cy.get('#multiSelectList').find('.more-modal__row').find(type === 'channel' ? '.channel-name' : '.title').then(($elements) => {
+        const name = $elements[0].innerText;
+
+        cy.get('#multiSelectList').find('.more-modal__row').first().click();
+        cy.get('#saveItems').click();
+
+        // * Check that the team or channel was added to the view
+        teamOrChannelIsPresent(name);
+
+        callback(name);
+    });
+}
+
+function changeRole(teamOrChannel, newRole) {
+    cy.findByTestId(`${teamOrChannel}_current_role`, {timeout: TIMEOUTS.ONE_MIN}).click();
+    cy.get('.Menu__content').should('be.visible').findByText(newRole).click();
+}
+
+function savePage() {
+    cy.get('#saveSetting', {timeout: TIMEOUTS.TWO_SEC}).click();
+    cy.get('#saveSetting', {timeout: TIMEOUTS.TWO_SEC}).should('be.disabled');
+}
+
+function removeAndConfirm(name) {
+    cy.findByTestId(`${name}_groupsyncable_remove`, {timeout: TIMEOUTS.ONE_MIN}).click();
+    cy.get('#confirmModalButton').should('be.visible').click();
+    verifyNoTeamsOrChannelsIsVisible();
+}
+
+function verifyNewRoleIsVisible(teamOrChannel, newRole) {
+    cy.findByTestId(`${teamOrChannel}_current_role`, {timeout: TIMEOUTS.ONE_MIN}).scrollIntoView().should('be.visible').findByText(newRole).should('be.visible');
+}
+
+function verifyNoTeamsOrChannelsIsVisible() {
+    cy.findByText('No teams or channels specified yet', {timeout: TIMEOUTS.ONE_MIN}).scrollIntoView().should('be.visible');
+}
