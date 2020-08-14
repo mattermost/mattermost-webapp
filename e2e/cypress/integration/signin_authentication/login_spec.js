@@ -33,7 +33,7 @@ describe('Login page', () => {
         });
     });
 
-    it('should render all elements of the page', () => {
+    it('MM-T3306_1 Should render all elements of the page', () => {
         // * Verify URL is of login page
         cy.url().should('include', '/login');
 
@@ -89,12 +89,12 @@ describe('Login page', () => {
         });
     });
 
-    it('Should autofocus on email field on page load', () => {
+    it('MM-T3306_2 Should autofocus on email field on page load', () => {
         // * Check the focused element has the placeholder of email/username
         cy.focused().should('have.attr', 'placeholder', 'Email or Username');
     });
 
-    it('Should show error with empty email/username and password field', () => {
+    it('MM-T3306_3 Should show error with empty email/username and password field', () => {
         // # Clear email/username field
         cy.findByPlaceholderText('Email or Username').clear();
 
@@ -108,7 +108,7 @@ describe('Login page', () => {
         cy.findByText('Please enter your email or username').should('exist').and('be.visible');
     });
 
-    it('Should show error with empty email/username field', () => {
+    it('MM-T3306_4 Should show error with empty email/username field', () => {
         // # Clear email/username field
         cy.findByPlaceholderText('Email or Username').clear();
 
@@ -122,7 +122,7 @@ describe('Login page', () => {
         cy.findByText('Please enter your email or username').should('exist').and('be.visible');
     });
 
-    it('Should show error with empty password field', () => {
+    it('MM-T3306_5 Should show error with empty password field', () => {
         // # Enter any email/username in the email field
         cy.findByPlaceholderText('Email or Username').clear().type('sampleusername');
 
@@ -136,7 +136,7 @@ describe('Login page', () => {
         cy.findByText('Please enter your password').should('exist').and('be.visible');
     });
 
-    it('Should show error with invalid email/username and password', () => {
+    it('MM-T3306_6 Should show error with invalid email/username and password', () => {
         const invalidEmail = `${Date.now()}-user`;
         const invalidPassword = `${Date.now()}-password`;
 
@@ -159,7 +159,7 @@ describe('Login page', () => {
         cy.findByText('Enter a valid email or username and/or password.').should('exist').and('be.visible');
     });
 
-    it('Should show error with invalid password', () => {
+    it('MM-T3306_7 Should show error with invalid password', () => {
         const invalidPassword = `${Date.now()}-password`;
 
         // # Lets verify generated password is not an actual password
@@ -178,7 +178,7 @@ describe('Login page', () => {
         cy.findByText('Enter a valid email or username and/or password.').should('exist').and('be.visible');
     });
 
-    it('should login with a valid email and password and logout', () => {
+    it('MM-T3306_8 Should login with a valid email and password and logout', () => {
         // # Enter actual users email/username in the email field
         cy.findByPlaceholderText('Email or Username').clear().type(testUser.username);
 
