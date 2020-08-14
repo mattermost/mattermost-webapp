@@ -14,10 +14,8 @@ import {GlobalState} from 'types/store';
 import InviteMembersStep from './invite_members_step';
 
 function mapStateToProps(state: GlobalState) {
-    const team = getCurrentTeam(state);
-
     return {
-        teamId: team.id,
+        team: getCurrentTeam(state),
     };
 }
 

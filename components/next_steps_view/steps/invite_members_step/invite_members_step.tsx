@@ -6,7 +6,7 @@ import {FormattedMessage} from 'react-intl';
 import {ActionMeta, InputActionMeta} from 'react-select';
 import classNames from 'classnames';
 
-import {TeamInviteWithError} from 'mattermost-redux/types/teams';
+import {TeamInviteWithError, Team} from 'mattermost-redux/types/teams';
 import {isEmail} from 'mattermost-redux/utils/helpers';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
@@ -19,7 +19,7 @@ import './invite_members_step.scss';
 import MultiInput from 'components/multi_input';
 
 type Props = StepComponentProps & {
-    teamId: string;
+    team: Team;
     actions: {
         sendEmailInvitesToTeamGracefully: (teamId: string, emails: string[]) => Promise<{data: TeamInviteWithError[]}>;
     };
@@ -114,7 +114,7 @@ export default class InviteMembersStep extends React.PureComponent<Props, State>
         }
 
         const emails = this.state.emails.map((value) => value.value);
-        const {data} = await this.props.actions.sendEmailInvitesToTeamGracefully(this.props.teamId, emails);
+        const {data} = await this.props.actions.sendEmailInvitesToTeamGracefully(this.props.team.id, emails);
 
         if (!data.length || data.some((result) => result.error)) {
             this.setState({emailError: Utils.localizeMessage('next_steps_view.invite_members_step.errorSendingEmails', 'There was a problem sending your invitations. Please try again.'), emailsSent: undefined});
@@ -159,7 +159,7 @@ export default class InviteMembersStep extends React.PureComponent<Props, State>
     }
 
     getInviteURL = () => {
-        return `${getSiteURL()}/signup_user/`;
+        return `${getSiteURL()}/signup_user_complete/?id=${this.props.team.invite_id}`;
     }
 
     render() {
