@@ -3926,5 +3926,6 @@
   "admin.channel_settings.channel_detail.archive_confirm.message": "저장하면 팀의 채널이 보관되며 모든 사용자가 해당 콘텐츠에 액세스 할 수 없게 됩니다. 이 채널을 저장하고 보관하시겠습니까?",
   "admin.channel_list.manual_invites": "수동 초대",
   "announcement_bar.error.number_active_users_warn_metric_status_ack.text": "Mattermost에 문의 해 주셔서 감사합니다. 곧 연락 드리겠습니다.",
-  "admin.team_settings.team_list.search_teams_errored": "문제가 발생했습니다. 다시 시도하십시오"
+  "admin.team_settings.team_list.search_teams_errored": "문제가 발생했습니다. 다시 시도하십시오",
+  "warn_metric_ack_modal.learn_more.link": "더 알아보기"
 }

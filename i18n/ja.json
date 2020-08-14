@@ -3998,5 +3998,6 @@
   "admin.filter.count_more": "残り {count, number}",
   "admin.filter.apply": "適用する",
   "admin.filter.all_teams": "全チーム",
-  "admin.channel_list.manual_invites": "手動で招待する"
+  "admin.channel_list.manual_invites": "手動で招待する",
+  "warn_metric_ack_modal.learn_more.link": "詳しく知る"
 }

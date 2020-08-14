@@ -33,7 +33,7 @@ describe('Messaging', () => {
         });
     });
 
-    it('M18679 - Mobile view: Post options menu (3-dots) is present on a reply post in RHS', () => {
+    it('MM-T74 Mobile view: Post options menu (3-dots) is present on a reply post in RHS', () => {
         // # Get the last entered RHS post
         cy.getLastPostId().then((lastPostId) => {
             const dotMenuButtonID = `#RHS_COMMENT_button_${lastPostId}`;

@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @messaging
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
@@ -47,7 +48,7 @@ describe('Message permalink', () => {
         cy.visit(`/${testTeam.name}/messages/@${otherUser.username}`);
     });
 
-    it('M13675-Copy a permalink and paste into another channel', () => {
+    it('MM-T177 Copy a permalink and paste into another channel', () => {
         // # Post message to use
         const message = 'Hello' + Date.now();
         cy.postMessage(message);

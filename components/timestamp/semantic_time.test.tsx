@@ -37,7 +37,7 @@ describe('components/timestamp/SemanticTime', () => {
         const wrapper = mount(
             <SemanticTime
                 value={date}
-                label='A custom label'
+                aria-label='A custom label'
             />
         );
 

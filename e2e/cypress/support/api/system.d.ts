@@ -19,7 +19,7 @@ declare namespace Cypress {
     interface Chainable<Subject = any> {
 
         /**
-         * Get client license.
+         * Get a subset of the server license needed by the client.
          * See https://api.mattermost.com/#tag/system/paths/~1license~1client/get
          * @returns {ClientLicense} `out.license` as `ClientLicense`
          *
@@ -31,7 +31,8 @@ declare namespace Cypress {
         apiGetClientLicense(): Chainable<ClientLicense>;
 
         /**
-         * Verifies if server has license for a certain feature and fail test if not found.
+         * Verify if server has license for a certain feature and fail test if not found.
+         * Upload a license if it does not exist.
          * @param {string} feature - feature to check, e.g. 'LDAP'
          * @returns {ClientLicense} `out.license` as `ClientLicense`
          *
@@ -41,13 +42,36 @@ declare namespace Cypress {
         apiRequireLicenseForFeature(feature: string): Chainable<ClientLicense>;
 
         /**
-         * Verifies if server has license and fail test if not found.
+         * Verify if server has license and fail test if not found.
+         * Upload a license if it does not exist.
          * @returns {ClientLicense} `out.license` as `ClientLicense`
          *
          * @example
          *   cy.apiRequireLicense();
          */
         apiRequireLicense(): Chainable<ClientLicense>;
+
+        /**
+         * Upload a license to enable enterprise features.
+         * See https://api.mattermost.com/#tag/system/paths/~1license/post
+         * @param {String} filePath - path of the license file relative to fixtures folder
+         * @returns {Response} response: Cypress-chainable response which should have successful HTTP status of 200 OK to continue or pass.
+         *
+         * @example
+         *   const filePath = 'mattermost-license.txt';
+         *   cy.apiUploadLicense(filePath);
+         */
+        apiUploadLicense(filePath: string): Chainable<Response>;
+
+        /**
+         * Remove the license file from the server. This will disable all enterprise features.
+         * See https://api.mattermost.com/#tag/system/paths/~1license/delete
+         * @returns {Response} response: Cypress-chainable response which should have successful HTTP status of 200 OK to continue or pass.
+         *
+         * @example
+         *   cy.apiDeleteLicense();
+         */
+        apiDeleteLicense(): Chainable<Response>;
 
         /**
          * Update configuration.
