@@ -1,5 +1,6 @@
 .InviteMembersStep {
     padding: 12px 40px 24px 40px;
+    max-width: 840px;
 
     h3 {
         font-weight: 600;
@@ -206,6 +207,7 @@
 @media screen and (max-width: 1020px) {
     .InviteMembersStep {
         flex-direction: column;
+        padding: 4px 12px 24px 12px;
     }
 
     .InviteMembersStep__fullName {

@@ -35,11 +35,16 @@
         &:hover {
             color: unset;
             background-color: unset;
+            cursor: pointer;
+
+            i {
+                color: rgba(var(--center-channel-color-rgb), 0.56);
+            }
         }
     }
 
     i {
-        color: rgba(var(--center-channel-color-rgb), 0.48);
+        color: rgba(var(--center-channel-color-rgb), 0.32);
         font-size: 14px;
         font-weight: normal;
 

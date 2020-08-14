@@ -6,6 +6,7 @@ import {FormattedMessage} from 'react-intl';
 import {ActionMeta, InputActionMeta} from 'react-select';
 import classNames from 'classnames';
 
+import {ServerError} from 'mattermost-redux/types/errors';
 import {TeamInviteWithError, Team} from 'mattermost-redux/types/teams';
 import {isEmail} from 'mattermost-redux/utils/helpers';
 
@@ -21,7 +22,7 @@ import MultiInput from 'components/multi_input';
 type Props = StepComponentProps & {
     team: Team;
     actions: {
-        sendEmailInvitesToTeamGracefully: (teamId: string, emails: string[]) => Promise<{data: TeamInviteWithError[]}>;
+        sendEmailInvitesToTeamGracefully: (teamId: string, emails: string[]) => Promise<{data: TeamInviteWithError[]; error: ServerError}>;
     };
 };
 
@@ -107,6 +108,13 @@ export default class InviteMembersStep extends React.PureComponent<Props, State>
         this.setState({emails: value});
     }
 
+    onBlur = () => {
+        if (this.state.emailInput) {
+            const emails = this.state.emailInput.split(/[\s,]+/).filter((email) => email.length).map((email) => ({label: email, value: email, error: !isEmail(email)}));
+            this.setState({emails: [...this.state.emails, ...emails], emailInput: '', emailError: undefined});
+        }
+    }
+
     sendEmailInvites = async () => {
         if (this.state.emails.some((email) => email.error)) {
             this.setState({emailError: Utils.localizeMessage('next_steps_view.invite_members_step.invalidEmail', 'One or more email addresses are invalid'), emailsSent: undefined});
@@ -114,9 +122,9 @@ export default class InviteMembersStep extends React.PureComponent<Props, State>
         }
 
         const emails = this.state.emails.map((value) => value.value);
-        const {data} = await this.props.actions.sendEmailInvitesToTeamGracefully(this.props.team.id, emails);
+        const {data, error} = await this.props.actions.sendEmailInvitesToTeamGracefully(this.props.team.id, emails);
 
-        if (!data.length || data.some((result) => result.error)) {
+        if (error || !data.length || data.some((result) => result.error)) {
             this.setState({emailError: Utils.localizeMessage('next_steps_view.invite_members_step.errorSendingEmails', 'There was a problem sending your invitations. Please try again.'), emailsSent: undefined});
             return;
         }
@@ -178,6 +186,7 @@ export default class InviteMembersStep extends React.PureComponent<Props, State>
                             defaultMessage='You can invite up to 10 team members using a space or comma between addresses'
                         />
                         <MultiInput
+                            onBlur={this.onBlur}
                             onInputChange={this.onInputChange}
                             onChange={this.onChange}
                             value={this.state.emails}
