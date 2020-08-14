@@ -99,7 +99,6 @@ export default class ElasticsearchSettings extends AdminSettings {
                     canSave: true,
                 });
                 success();
-                this.doSubmit();
             },
             (err) => {
                 this.setState({
