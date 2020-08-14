@@ -10,6 +10,7 @@
 // Group: @account_setting
 
 import * as TIMEOUTS from '../../../../fixtures/timeouts';
+import {hexToRgbArray, rgbArrayToString} from '../../../../utils';
 
 describe('AS14318 Theme Colors - Color Picker', () => {
     before(() => {
@@ -43,8 +44,6 @@ describe('AS14318 Theme Colors - Color Picker', () => {
             '#sidebarBg-squareColorIcon',
             '#sidebarBg-inputColorValue',
             '#sidebarBg-squareColorIconValue',
-            '#B0B6BD',
-            'rgb(176, 182, 189)',
         );
     });
 
@@ -55,8 +54,6 @@ describe('AS14318 Theme Colors - Color Picker', () => {
             '#centerChannelBg-squareColorIcon',
             '#centerChannelBg-inputColorValue',
             '#centerChannelBg-squareColorIconValue',
-            '#BDB0B0',
-            'rgb(189, 176, 176)',
         );
     });
 
@@ -67,13 +64,11 @@ describe('AS14318 Theme Colors - Color Picker', () => {
             '#linkColor-squareColorIcon',
             '#linkColor-inputColorValue',
             '#linkColor-squareColorIconValue',
-            '#EEF8FF',
-            'rgb(238, 248, 255)',
         );
     });
 });
 
-function verifyColorPickerChange(stylesText, iconButtonId, inputId, iconValueId, hexValue, rgbValue) {
+function verifyColorPickerChange(stylesText, iconButtonId, inputId, iconValueId) {
     // # Open styles section
     cy.findByText(stylesText).scrollIntoView().should('be.visible').click({force: true});
 
@@ -93,9 +88,9 @@ function verifyColorPickerChange(stylesText, iconButtonId, inputId, iconValueId,
     // # Re-open styles section
     cy.findByText(stylesText).scrollIntoView().should('be.visible').click({force: true});
 
-    // * Verify input box has new hex value
-    cy.get(inputId).should('be.visible').and('have.value', hexValue);
-
     // * Verify color change is applied correctly
-    cy.get(iconValueId).should('be.visible').and('have.css', 'background-color', rgbValue);
+    cy.get(inputId).scrollIntoView().should('be.visible').invoke('attr', 'value').then((hexColor) => {
+        const rbgArr = hexToRgbArray(hexColor);
+        cy.get(iconValueId).should('be.visible').and('have.css', 'background-color', rgbArrayToString(rbgArr));
+    });
 }
