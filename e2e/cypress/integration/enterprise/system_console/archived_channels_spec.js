@@ -83,7 +83,7 @@ describe('Archived channels', () => {
 
         // # Save and wait for redirect
         cy.get('#saveSetting').click();
-        cy.get('.DataGrid', {timeout: TIMEOUTS.TWO_SEC}).should('be.visible');
+        cy.get('.DataGrid', {timeout: TIMEOUTS.TWO_SEC}).scrollIntoView().should('be.visible');
 
         // * Verify via the API that the channel is unarchived
         cy.apiGetChannel(testChannel.id).then((response) => {
