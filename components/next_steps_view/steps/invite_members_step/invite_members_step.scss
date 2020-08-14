@@ -166,53 +166,10 @@
 }
 
 .InviteMembersStep__emailInvitations {
-    .Input_container {
-        margin-top: 20px;
-    }
-
-    .Input_wrapper {
-        font-size: 14px;
-        line-height: 20px;
-        padding: 4px 12px;
-        min-height: 72px;
-    }
-
-    .Input {
-        font-size: 14px;
-        line-height: 20px;
-    } 
-
-    .Input_legend {
-        margin-left: 12px;
-    }
-
     > span {
         font-size: 12px;
         line-height: 16px;
         color: rgba(var(--center-channel-color-rgb), 0.56);
-    }
-}
-
-.InviteMembersStep__emailContainer {
-    > div {
-        border-radius: 12px;
-        background-color: rgba(var(--center-channel-color-rgb), 0.08);
-        display: flex;
-        align-items: center;
-        padding: 2px 0 2px 8px;
-        margin: 4px;
-        
-        > div {
-            font-size: 12px;
-            line-height: 18px;
-            font-weight: 600;
-            color: var(--center-channel-color);
-            padding: 0;
-        }
-    }
-
-    &.error > div {
-        border: 1px solid var(--error-text);
     }
 }
 
@@ -242,27 +199,6 @@
 
         i {
             color: var(--error-text);
-        }
-    }
-}
-
-.InviteMembersStep__removeEmailButton {
-    > div {
-        padding: 0 4px;
-
-        &:hover {
-            color: unset;
-            background-color: unset;
-        }
-    }
-
-    i {
-        color: rgba(var(--center-channel-color-rgb), 0.48);
-        font-size: 14px;
-        font-weight: normal;
-
-        &::before {
-            margin: 0;
         }
     }
 }

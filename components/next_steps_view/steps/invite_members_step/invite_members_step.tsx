@@ -45,12 +45,6 @@ const styles = {
             alignItems: 'flex-start',
         };
     },
-    placeholder: () => {
-        return {
-            margin: '0',
-            opacity: '0.64',
-        };
-    },
     valueContainer: (provided: CSSProperties) => {
         return {
             ...provided,

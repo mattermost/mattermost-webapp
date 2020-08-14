@@ -5,6 +5,8 @@ import React, {useState} from 'react';
 import ReactSelect, {components, Props as SelectProps, ActionMeta} from 'react-select';
 import classNames from 'classnames';
 
+import './multi_input.scss';
+
 // TODO: This component needs work, should not be used outside of InviteMembersStep until this comment is removed.
 
 type ValueType = {
@@ -20,7 +22,7 @@ type Props<T> = Omit<SelectProps<T>, 'onChange'> & {
 
 const MultiValueContainer = (props: any) => {
     return (
-        <div className={classNames('InviteMembersStep__emailContainer', {error: props.data.error})}>
+        <div className={classNames('MultiInput__multiValueContainer', {error: props.data.error})}>
             <components.MultiValueContainer {...props}/>
         </div>
     );
@@ -28,10 +30,18 @@ const MultiValueContainer = (props: any) => {
 
 const MultiValueRemove = (props: any) => {
     return (
-        <div className='InviteMembersStep__removeEmailButton'>
+        <div className='MultiInput__multiValueRemove'>
             <components.MultiValueRemove {...props}>
                 <i className='icon icon-close-circle'/>
             </components.MultiValueRemove>
+        </div>
+    );
+};
+
+const Placeholder = (props: any) => {
+    return (
+        <div className='MultiInput__placeholder'>
+            <components.Placeholder {...props}/>
         </div>
     );
 };
@@ -69,7 +79,7 @@ const MultiInput = <T extends ValueType>(props: Props<T>) => {
     fieldsetClass = showLegend ? fieldsetClass + ' Input_fieldset___legend' : fieldsetClass;
 
     return (
-        <div className='Input_container'>
+        <div className='MultiInput Input_container'>
             <fieldset className={fieldsetClass}>
                 <legend className={showLegend ? 'Input_legend Input_legend___focus' : 'Input_legend'}>{showLegend ? (legend || placeholder) : null}</legend>
                 <div className='Input_wrapper'>
@@ -81,6 +91,7 @@ const MultiInput = <T extends ValueType>(props: Props<T>) => {
                             IndicatorsContainer: () => null,
                             MultiValueContainer,
                             MultiValueRemove,
+                            Placeholder,
                         }}
                         isMulti={true}
                         isClearable={false}
