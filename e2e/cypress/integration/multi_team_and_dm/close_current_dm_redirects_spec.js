@@ -27,15 +27,17 @@ describe('Direct messages: redirections', () => {
                 cy.apiAddUserToTeam(testTeam.id, secondDMUser.id);
             });
         });
+
+        // # Login as test user
+        cy.apiLogin(testUser);
+    });
+
+    beforeEach(() => {
+        // # View 'off-topic' channel
+        cy.visit(offTopicChannelUrl);
     });
 
     it('MM-T453 Closing a direct message should redirect to last viewed channel', () => {
-        // # Login as test user
-        cy.apiLogin(testUser);
-
-        // # View 'off-topic' channel
-        cy.visit(offTopicChannelUrl);
-
         // # From the 'Direct Messages' menu, find a specific user and send 'hi'
         sendDirectMessageToUser(firstDMUser, 'hi');
 
@@ -59,12 +61,6 @@ describe('Direct messages: redirections', () => {
     });
 
     it('MM-T453 Closing a different direct message should not affect active direct message', () => {
-        // # Login as test user
-        cy.apiLogin(testUser);
-
-        // # View 'off-topic' channel
-        cy.visit(offTopicChannelUrl);
-
         // # Send a direct message to a first user
         sendDirectMessageToUser(firstDMUser, 'hi first');
 
@@ -79,12 +75,6 @@ describe('Direct messages: redirections', () => {
     });
 
     it('MM-T453 Changing URL to root url when viewing a direct message should redirect to direct message', () => {
-        // # Login as test user
-        cy.apiLogin(testUser);
-
-        // # View 'off-topic' channel
-        cy.visit(offTopicChannelUrl);
-
         // # Send a direct message to a first user
         sendDirectMessageToUser(firstDMUser, 'hi');
 
