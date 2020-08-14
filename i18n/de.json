@@ -3308,7 +3308,7 @@
   "team_channel_settings.group.group_user_row.numberOfGroups": "{amount, number} {amount, plural, one {Gruppe} other {Gruppen}}",
   "system_notice.body.ie11_deprecation": "Ihr Browser, IE11, wird in einer zukünftigen Version nicht mehr unterstützt. Erfahren Sie, wie Sie in einem einfachen Schritt zu einem anderen Browser wechseln können](!https://forum.mattermost.org/t/mattermost-is-dropping-support-for-internet-explorer-ie11-in-v5-16/7575).",
   "suggestion.user.isCurrent": "(Sie)",
-  "suggestion.mention.groups": "",
+  "suggestion.mention.groups": "Group Mentions",
   "suggestion.archive": "Archivierte Kanäle",
   "string.id": "Standardnachricht",
   "signup_team.guest_without_channels": "Ihr Gastkonto ist keinem Kanal zugeordnet. Bitte kontaktieren Sie einen Administrator.",
