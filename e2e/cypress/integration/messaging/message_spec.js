@@ -13,28 +13,6 @@
 import {getAdminAccount} from '../../support/env';
 import * as MESSAGES from '../../fixtures/messages';
 
-function shouldHavePostProfileImageVisible(isVisible = true) {
-    cy.getLastPostId().then((postID) => {
-        const target = `#post_${postID}`;
-        if (isVisible) {
-            cy.get(target).invoke('attr', 'class').
-                should('contain', 'current--user').
-                and('contain', 'other--root');
-
-            cy.get(`${target} > div[data-testid='postContent'] > .post__img`).should('be.visible');
-        } else {
-            cy.get(target).invoke('attr', 'class').
-                should('contain', 'current--user').
-                and('contain', 'same--user').
-                and('contain', 'same--root');
-
-            cy.get(`${target} > div[data-testid='postContent'] > .post__img`).
-                should('be.visible').
-                and('be.empty');
-        }
-    });
-}
-
 describe('Message', () => {
     const admin = getAdminAccount();
     let testTeam;
@@ -183,25 +161,59 @@ describe('Message', () => {
         cy.get('#reply_textbox').should('be.focused');
     });
 
+    it('MM-T1796 Standard view: Show single image thumbnail', () => {
+        verifySingleImageThumbnail({mode: 'Standard'});
+    });
+
     it('MM-T1797 Compact view: Show single image thumbnail', () => {
-        const filename = 'image-small-height.png';
-
-        // # Set message display setting to compact
-        cy.apiSaveMessageDisplayPreference('compact');
-
-        // # Make a post with some text and a single image
-        cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(filename);
-        cy.postMessage(MESSAGES.MEDIUM);
-
-        cy.get('div.file__image').last().within(() => {
-            // *  The name of the image appears on a new line and is not bolded
-            cy.contains('div', filename).should('be.visible').and('have.css', 'font-weight', '400');
-
-            // * There are arrows to collapse the preview
-            cy.get('img[src*="preview"]').should('be.visible');
-            cy.findByLabelText('Toggle Embed Visibility').should('exist').and('have.attr', 'data-expanded', 'true').click();
-            cy.findByLabelText('Toggle Embed Visibility').should('exist').and('have.attr', 'data-expanded', 'false');
-            cy.get('img[src*="preview"]').should('not.be.visible');
-        });
+        verifySingleImageThumbnail({mode: 'Compact'});
     });
 });
+
+function verifySingleImageThumbnail({mode = null} = {}) {
+    const displayMode = {
+        Compact: 'compact',
+        Standard: 'clean',
+    };
+    const filename = 'image-small-height.png';
+
+    // # Set message display setting to compact
+    cy.apiSaveMessageDisplayPreference(displayMode[mode]);
+
+    // # Make a post with some text and a single image
+    cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(filename);
+    cy.postMessage(MESSAGES.MEDIUM);
+
+    cy.get('div.file__image').last().within(() => {
+        // *  The name of the image appears on a new line and is not bolded
+        cy.contains('div', filename).should('be.visible').and('have.css', 'font-weight', '400');
+
+        // * There are arrows to collapse the preview
+        cy.get('img[src*="preview"]').should('be.visible');
+        cy.findByLabelText('Toggle Embed Visibility').should('exist').and('have.attr', 'data-expanded', 'true').click();
+        cy.findByLabelText('Toggle Embed Visibility').should('exist').and('have.attr', 'data-expanded', 'false');
+        cy.get('img[src*="preview"]').should('not.be.visible');
+    });
+}
+
+function shouldHavePostProfileImageVisible(isVisible = true) {
+    cy.getLastPostId().then((postID) => {
+        const target = `#post_${postID}`;
+        if (isVisible) {
+            cy.get(target).invoke('attr', 'class').
+                should('contain', 'current--user').
+                and('contain', 'other--root');
+
+            cy.get(`${target} > div[data-testid='postContent'] > .post__img`).should('be.visible');
+        } else {
+            cy.get(target).invoke('attr', 'class').
+                should('contain', 'current--user').
+                and('contain', 'same--user').
+                and('contain', 'same--root');
+
+            cy.get(`${target} > div[data-testid='postContent'] > .post__img`).
+                should('be.visible').
+                and('be.empty');
+        }
+    });
+}
