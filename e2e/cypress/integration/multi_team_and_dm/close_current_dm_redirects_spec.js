@@ -48,7 +48,7 @@ describe('Direct messages: redirections', () => {
         // # From the 'Direct Messages' menu, find the same user as before and send 'hi'
         sendDirectMessageToUser(firstDMUser, 'hi again');
 
-        // # Open the dirrect message's menu from the upper left section
+        // # Open the direct message's menu from the upper left section
         cy.get('#channelHeaderDropdownButton').click();
 
         // # Click on 'Close direct message' menu item
