@@ -29,7 +29,7 @@ context('ldap', () => {
         // # Test LDAP configuration and server connection
         // # Synchronize user attributes
         cy.apiLDAPTest();
-        cy.apiLDAPSync()
+        cy.apiLDAPSync();
 
         cy.apiGetConfig().then(({config}) => {
             testSettings = setLDAPTestSettings(config);
@@ -194,8 +194,8 @@ function setLDAPTestSettings(config) {
 }
 
 function removeUserFromAllTeams(testUser) {
-    cy.apiGetUsersByUsernames([testUser.username]).then(({users}) => {
-        users.forEach((user) => {
+    cy.apiGetUsersByUsernames([testUser.username]).then(({testUsers}) => {
+        testUsers.forEach((user) => {
             cy.apiGetTeamsForUser(user.id).then(({teams}) => {
                 teams.forEach((team) => {
                     cy.apiDeleteUserFromTeam(team.id, user.id);
