@@ -91,8 +91,6 @@ describe('Image Link Preview', () => {
     });
 
     it.only('MM-T1447 Images below a min-width and min-height are posted in a container that is clickable', () => {
-        // https://automation-test-cases.vercel.app/test/MM-T1447
-
         const IMAGE_BELOW_MIN_SIZE_1 = 'images-below-min-size-1.png';
 
         // # Upload Image with min dimensions as attachment and post it
