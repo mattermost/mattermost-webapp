@@ -11,7 +11,6 @@
 // Group: @enterprise @system_console
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
-
 import {testWithConfig} from '../../../support/hooks';
 
 describe('Archived channels', () => {
