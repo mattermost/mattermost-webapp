@@ -6,6 +6,7 @@ import React from 'react';
 import {FormattedDate, FormattedMessage, FormattedTime} from 'react-intl';
 import {Link} from 'react-router-dom';
 import {UserProfile} from 'mattermost-redux/types/users';
+import {ActionResult} from 'mattermost-redux/types/actions';
 
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
@@ -27,16 +28,16 @@ const SECTION_TOKENS = 'tokens';
 
 type Actions= {
     getMe: () => void;
-    updateUserPassword: () => void;
+    updateUserPassword: (userId: string, currentPassword: string, newPassword: string) => Promise<ActionResult>;
     getAuthorizedOAuthApps: () => void;
-    deauthorizeOAuthApp: () => void;
+    deauthorizeOAuthApp: (clientId: string) => void;
 
 };
 
 type Props = {
     user: UserProfile;
     activeSection: string;
-    updateSection: () => void;
+    updateSection: (section: string) => Promise<void>;
     closeModal: () => void;
     collapseModal: () => void;
     setRequireConfirm: () => void;
@@ -59,7 +60,7 @@ type State ={
     newPassword: string;
     confirmPassword: string;
     passwordError?: string;
-    serverError?: string;
+    serverError: string | null;
     tokenError: string;
     savingPassword: boolean;
 };
@@ -153,19 +154,19 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
         }
     }
 
-    updateCurrentPassword = (e) => {
+    updateCurrentPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({currentPassword: e.target.value});
     }
 
-    updateNewPassword = (e) => {
+    updateNewPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({newPassword: e.target.value});
     }
 
-    updateConfirmPassword = (e) => {
+    updateConfirmPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({confirmPassword: e.target.value});
     }
 
-    deauthorizeApp = async (e) => {
+    deauthorizeApp = async (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
 
         const appId = e.currentTarget.getAttribute('data-app');
@@ -181,7 +182,7 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
         }
     }
 
-    handleUpdateSection = (section) => {
+    handleUpdateSection = (section: string) => {
         if (section) {
             this.props.updateSection(section);
         } else {
