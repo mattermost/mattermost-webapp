@@ -1,35 +1,31 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+
+import {ActionFunc} from 'mattermost-redux/types/actions';
 
 import LoadingScreen from 'components/loading_screen';
 
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 
-import LogList from './log_list.jsx';
+import LogList from './log_list';
 
-export default class Logs extends React.PureComponent {
-    static propTypes = {
+type Props = {
+    logs: string[];
+    nextPage: () => void;
+    actions: {getLogs: (page?: number | undefined, perPage?: number | undefined) => ActionFunc};
+};
 
-        /*
-         * Array of logs to render
-         */
-        logs: PropTypes.arrayOf(PropTypes.string).isRequired,
-        nextPage: PropTypes.func,
+type State = {
+    loadingLogs: boolean;
+    page: number;
+    perPage: number;
+};
 
-        actions: PropTypes.shape({
-
-            /*
-             * Function to fetch logs
-             */
-            getLogs: PropTypes.func.isRequired,
-        }).isRequired,
-    }
-
-    constructor(props) {
+export default class Logs extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
         super(props);
         this.state = {
             loadingLogs: true,
@@ -39,16 +35,12 @@ export default class Logs extends React.PureComponent {
     }
 
     componentDidMount() {
-        this.props.actions.getLogs(this.state.page, this.state.perPage).then(
-            () => this.setState({loadingLogs: false}),
-        );
+        this.props.actions.getLogs(this.state.page, this.state.perPage);
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps: Props, prevState: State) {
         if (this.state.page !== prevState.page) {
-            this.props.actions.getLogs(this.state.page, this.state.perPage).then(
-                () => this.setState({loadingLogs: false}),
-            );
+            this.props.actions.getLogs(this.state.page, this.state.perPage);
         }
     }
 
@@ -60,17 +52,16 @@ export default class Logs extends React.PureComponent {
         this.setState({page: this.state.page - 1});
     }
 
-    reload = () => {
+    reload = async () => {
         this.setState({loadingLogs: true});
-        this.props.actions.getLogs(this.state.page, this.state.perPage).then(
-            () => this.setState({loadingLogs: false}),
-        );
+        await this.props.actions.getLogs(this.state.page, this.state.perPage);
+        this.setState({loadingLogs: false});
     }
 
     render() {
         let content = null;
 
-        if (this.state.loadingLogs) {
+        if (this.state.loadingLogs || !this.props.logs || this.props.logs.length === 0) {
             content = <LoadingScreen/>;
         } else {
             content = (

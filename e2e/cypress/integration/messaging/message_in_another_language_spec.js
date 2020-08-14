@@ -18,7 +18,7 @@ describe('Messaging', () => {
         });
     });
 
-    it('M17456 - Message in another language should be displayed properly', () => {
+    it('MM-T182 Typing using CJK keyboard', () => {
         const msg = '안녕하세요';
         const msg2 = '닥터 카레브';
 
