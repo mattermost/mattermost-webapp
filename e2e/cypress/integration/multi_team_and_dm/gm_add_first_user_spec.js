@@ -65,7 +65,7 @@ describe('Multi-user group messages', () => {
         cy.get('.react-select__multi-value').next().find('input').should('have.focus');
 
         // * Expect previous search term to be cleared from search bar
-        cy.get('#selectItems input[type="text"]').should('have.text', '');
+        cy.get('#selectItems input').should('have.text', '');
 
         // * Expect the help section showing that we 6 more people can be added to the message
         cy.get('#multiSelectHelpMemberInfo').
