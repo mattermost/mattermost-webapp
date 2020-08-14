@@ -12,7 +12,7 @@
 import * as TIMEOUTS from '../../../../fixtures/timeouts';
 import {hexToRgbArray, rgbArrayToString} from '../../../../utils';
 
-describe('AS14318 Theme Colors - Color Picker', () => {
+describe('Account Settings', () => {
     before(() => {
         // # Login as new user and visit town-square
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
@@ -37,7 +37,7 @@ describe('AS14318 Theme Colors - Color Picker', () => {
         cy.findAllByText('Yes, Discard', {timeout: TIMEOUTS.ONE_SEC}).should('be.visible').click();
     });
 
-    it('Should be able to use color picker input and change Sidebar theme color', () => {
+    it('MM-T280_1 Theme Colors - Color Picker (Sidebar styles)', () => {
         // # Change "Sidebar BG" and verify color change
         verifyColorPickerChange(
             'Sidebar Styles',
@@ -47,7 +47,7 @@ describe('AS14318 Theme Colors - Color Picker', () => {
         );
     });
 
-    it('Should be able to use color picker input and change Center Channel Styles', () => {
+    it('MM-T280_2 Theme Colors - Color Picker (Center Channel styles)', () => {
         // # Change "Center Channel BG" and verify color change
         verifyColorPickerChange(
             'Center Channel Styles',
@@ -57,7 +57,7 @@ describe('AS14318 Theme Colors - Color Picker', () => {
         );
     });
 
-    it('Should be able to use color picker input and change Link and Button Styles', () => {
+    it('MM-T280_3 Theme Colors - Color Picker (Link and Button styles)', () => {
         // # Change "Link Color" and verify color change
         verifyColorPickerChange(
             'Link and Button Styles',
