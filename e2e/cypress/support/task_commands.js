@@ -118,13 +118,15 @@ Cypress.Commands.overwrite('log', (subject, message) => cy.task('log', message))
 Cypress.Commands.add('getIframe', () => {
     // get the iframe > document > body
     // and retry until the body element is not empty
-    return cy.get('iframe')
-            // Cypress yields jQuery element, which has the real
-            // DOM element under property "0".
-            // From the real DOM iframe element we can get
-            // the "document" element, it is stored in "contentDocument" property
-            .its('0.contentDocument').should('exist')
-            // automatically retries until body is loaded
-            .its('body').should('not.be.undefined')
-            .then(cy.wrap)
-})
+    return cy.get('iframe').
+
+    // Cypress yields jQuery element, which has the real
+    // DOM element under property "0".
+    // From the real DOM iframe element we can get
+    // the "document" element, it is stored in "contentDocument" property
+        its('0.contentDocument').should('exist').
+
+    // automatically retries until body is loaded
+        its('body').should('not.be.undefined').
+        then(cy.wrap);
+});

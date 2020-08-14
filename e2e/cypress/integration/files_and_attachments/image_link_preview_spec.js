@@ -95,27 +95,27 @@ describe('Image Link Preview', () => {
     // https://automation-test-cases.vercel.app/test/MM-T1448
     it.only('MM-T1448 Exit full screen mode when viewing a YouTube video', () => {
         // # Post a youtube link
-        cy.postMessage('https://youtu.be/cIiDY4WA0oo')
-        
+        cy.postMessage('https://youtu.be/cIiDY4WA0oo');
+
         cy.getLastPostId().then((youtubePost) => {
             // # Move to the last posted youtube video
             cy.get(`#post_${youtubePost}`).within(() => {
                 // # Wait a little until image preview of youtube video is downloaded
-                cy.wait(TIMEOUTS.FIVE_SEC)
+                cy.wait(TIMEOUTS.FIVE_SEC);
 
                 // # Play the youtube video by clicking on image preview on video
-                cy.findAllByAltText('youtube video thumbnail').should('exist').and('be.visible').click({force:true})
+                cy.findAllByAltText('youtube video thumbnail').should('exist').and('be.visible').click({force: true});
 
                 // # Let the video play for few seconds
-                cy.wait(TIMEOUTS.THREE_SEC)
-                
+                cy.wait(TIMEOUTS.THREE_SEC);
+
                 // # Pause the video so youtube controls are visible again
-                cy.getIframe().find('video').should('exist').click({force:true})
+                cy.getIframe().find('video').should('exist').click({force: true});
 
-                cy.getIframe().find('video').should('exist').dblclick({force:true})
+                cy.getIframe().find('video').should('exist').dblclick({force: true});
 
-                cy.getIframe().type('f')
-            })
-        })
-    })
+                cy.getIframe().type('f');
+            });
+        });
+    });
 });
