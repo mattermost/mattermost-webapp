@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import './common';
+import './ldap';
 import './preference';
 import './saml';
 import './setup';
