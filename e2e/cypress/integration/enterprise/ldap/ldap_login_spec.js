@@ -9,16 +9,16 @@
 
 // Group: @enterprise @ldap
 
-import users from '../../../fixtures/ldap_users.json';
+import ldapUsers from '../../../fixtures/ldap_users.json';
 import {getRandomId} from '../../../utils';
 
 // assumes the CYPRESS_* variables are set
 // assumes that E20 license is uploaded
 // for setup with AWS: Follow the instructions mentioned in the mattermost/platform-private/config/ldap-test-setup.txt file
 context('ldap', () => {
-    const user1 = users['test-1'];
-    const guest1 = users['board-1'];
-    const admin1 = users['dev-1'];
+    const user1 = ldapUsers['test-1'];
+    const guest1 = ldapUsers['board-1'];
+    const admin1 = ldapUsers['dev-1'];
 
     let testSettings;
 
@@ -194,8 +194,8 @@ function setLDAPTestSettings(config) {
 }
 
 function removeUserFromAllTeams(testUser) {
-    cy.apiGetUsersByUsernames([testUser.username]).then(({testUsers}) => {
-        testUsers.forEach((user) => {
+    cy.apiGetUsersByUsernames([testUser.username]).then(({users}) => {
+        users.forEach((user) => {
             cy.apiGetTeamsForUser(user.id).then(({teams}) => {
                 teams.forEach((team) => {
                     cy.apiDeleteUserFromTeam(team.id, user.id);
