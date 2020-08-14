@@ -20,8 +20,6 @@ function renderShortcut(text) {
     }
 
     const shortcut = text.split('\t');
-    const description = <span>{shortcut[0]}</span>;
-
     let keys = null;
     if (shortcut.length > 1) {
         keys = shortcut[1].split('|').map((key) => (
@@ -36,7 +34,6 @@ function renderShortcut(text) {
 
     return (
         <div className='shortcut-line'>
-            {description}
             {keys}
         </div>
     );
@@ -58,41 +55,24 @@ export default function HeaderIconWrapper({
             id: 'flaggedTooltip',
             messageID: t('channel_header.flagged'),
             message: 'Saved posts',
-            default: {
-                defaultMessage: 'Recent mentions:\tCtrl|Shift|M',
-            },
         },
         pinnedPosts: {
             class: '',
             id: 'pinnedPostTooltip',
             messageID: t('channel_header.pinnedPosts'),
             message: 'Pinned posts',
-            default: {
-                defaultMessage: 'Recent mentions:\tCtrl|Shift|M',
-            },
         },
         recentMentions: {
             class: '',
             id: 'recentMentionsTooltip',
             messageID: t('channel_header.recentMentions'),
             message: 'Recent mentions',
-            default: {
-                id: t('shortcuts.nav.recent_mentions'),
-                defaultMessage: 'Ctrl|Shift|M',
-            },
-            mac: {
-                id: t('shortcuts.nav.recent_mentions.mac'),
-                defaultMessage: 'Recent mentions:\t⌘|Shift|M',
-            },
         },
         search: {
             class: '',
             id: 'searchTooltip',
             messageID: t('channel_header.search'),
             message: 'Search',
-            default: {
-                defaultMessage: 'Recent mentions:\tCtrl|Shift|M',
-            },
         },
     };
 
@@ -118,8 +98,6 @@ export default function HeaderIconWrapper({
         }
 
         const shortcuts = getShortcuts();
-        console.log(shortcuts);
-        console.log(shortcuts.navMentions);
         return (
             <Tooltip
                 id={toolTips[key].id}
@@ -129,8 +107,7 @@ export default function HeaderIconWrapper({
                     id={toolTips[key].messageID}
                     defaultMessage={toolTips[key].message}
                 />
-                {key === 'recentMentions' ? (<div>{shortcuts.navMentions.defaultMessage}</div>) :
-                    null}
+                {key === 'recentMentions' ? (<div>{renderShortcut(shortcuts.navMentions.defaultMessage)}</div>) : null}
             </Tooltip>
         );
     }
