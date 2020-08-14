@@ -114,14 +114,15 @@ context('ldap', () => {
             testSettings.user = guest1;
             const ldapSetting = {
                 LdapSettings: {
+                    UserFilter: '(cn=no_users)',
                     GuestFilter: '(cn=no_guests)',
                 },
             };
             cy.apiAdminLogin().then(() => {
                 cy.apiUpdateConfig(ldapSetting).then(() => {
                     cy.doLDAPLogin(testSettings).then(() => {
-                        // # Do logout from sign up
-                        cy.doLogoutFromSignUp(testSettings);
+                        // * Verify login failed
+                        cy.checkLoginFailed(testSettings);
                     });
                 });
             });
@@ -131,6 +132,7 @@ context('ldap', () => {
             testSettings.user = guest1;
             const ldapSetting = {
                 LdapSettings: {
+                    UserFilter: '(cn=no_users)',
                     GuestFilter: '(cn=board*)',
                 },
             };
@@ -168,17 +170,35 @@ context('ldap', () => {
 
         it('LDAP Member login with team invite', () => {
             testSettings.user = user1;
-            cy.doLDAPLogin(testSettings).then(() => {
-                // # Do LDAP logout
-                cy.doLDAPLogout(testSettings);
+            const ldapSetting = {
+                LdapSettings: {
+                    UserFilter: '(cn=test*)',
+                },
+            };
+            cy.apiAdminLogin().then(() => {
+                cy.apiUpdateConfig(ldapSetting).then(() => {
+                    cy.doLDAPLogin(testSettings).then(() => {
+                        // # Do LDAP logout
+                        cy.doLDAPLogout(testSettings);
+                    });
+                });
             });
         });
 
         it('LDAP Guest login with team invite', () => {
             testSettings.user = guest1;
-            cy.doLDAPLogin(testSettings).then(() => {
-                // # Do LDAP logout
-                cy.doLDAPLogout(testSettings);
+            const ldapSetting = {
+                LdapSettings: {
+                    GuestFilter: '(cn=board*)',
+                },
+            };
+            cy.apiAdminLogin().then(() => {
+                cy.apiUpdateConfig(ldapSetting).then(() => {
+                    cy.doLDAPLogin(testSettings).then(() => {
+                        // # Do LDAP logout
+                        cy.doLDAPLogout(testSettings);
+                    });
+                });
             });
         });
     });
