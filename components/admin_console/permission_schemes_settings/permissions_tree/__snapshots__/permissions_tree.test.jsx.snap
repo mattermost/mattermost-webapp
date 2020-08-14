@@ -72,7 +72,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 "id": "manage_public_channel_members_and_read_groups",
                 "permissions": Array [
                   "manage_public_channel_members",
-                  "read_channel_groups",
+                  "read_public_channel_groups",
                 ],
               },
               "delete_public_channel",
@@ -88,7 +88,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 "id": "manage_private_channel_members_and_read_groups",
                 "permissions": Array [
                   "manage_private_channel_members",
-                  "read_channel_groups",
+                  "read_private_channel_groups",
                 ],
               },
               "delete_private_channel",
@@ -221,7 +221,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 "id": "manage_public_channel_members_and_read_groups",
                 "permissions": Array [
                   "manage_public_channel_members",
-                  "read_channel_groups",
+                  "read_public_channel_groups",
                 ],
               },
               "delete_public_channel",
@@ -237,7 +237,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 "id": "manage_private_channel_members_and_read_groups",
                 "permissions": Array [
                   "manage_private_channel_members",
-                  "read_channel_groups",
+                  "read_private_channel_groups",
                 ],
               },
               "delete_private_channel",
@@ -378,7 +378,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 "id": "manage_public_channel_members_and_read_groups",
                 "permissions": Array [
                   "manage_public_channel_members",
-                  "read_channel_groups",
+                  "read_public_channel_groups",
                 ],
               },
               "delete_public_channel",
@@ -394,7 +394,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 "id": "manage_private_channel_members_and_read_groups",
                 "permissions": Array [
                   "manage_private_channel_members",
-                  "read_channel_groups",
+                  "read_private_channel_groups",
                 ],
               },
               "delete_private_channel",
@@ -535,7 +535,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 "id": "manage_public_channel_members_and_read_groups",
                 "permissions": Array [
                   "manage_public_channel_members",
-                  "read_channel_groups",
+                  "read_public_channel_groups",
                 ],
               },
               "delete_public_channel",
@@ -551,7 +551,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 "id": "manage_private_channel_members_and_read_groups",
                 "permissions": Array [
                   "manage_private_channel_members",
-                  "read_channel_groups",
+                  "read_private_channel_groups",
                 ],
               },
               "delete_private_channel",
@@ -692,7 +692,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 "id": "manage_public_channel_members_and_read_groups",
                 "permissions": Array [
                   "manage_public_channel_members",
-                  "read_channel_groups",
+                  "read_public_channel_groups",
                 ],
               },
               "delete_public_channel",
@@ -708,7 +708,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 "id": "manage_private_channel_members_and_read_groups",
                 "permissions": Array [
                   "manage_private_channel_members",
-                  "read_channel_groups",
+                  "read_private_channel_groups",
                 ],
               },
               "delete_private_channel",
@@ -849,7 +849,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 "id": "manage_public_channel_members_and_read_groups",
                 "permissions": Array [
                   "manage_public_channel_members",
-                  "read_channel_groups",
+                  "read_public_channel_groups",
                 ],
               },
               "delete_public_channel",
@@ -865,7 +865,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 "id": "manage_private_channel_members_and_read_groups",
                 "permissions": Array [
                   "manage_private_channel_members",
-                  "read_channel_groups",
+                  "read_private_channel_groups",
                 ],
               },
               "delete_private_channel",
@@ -1010,7 +1010,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 "id": "manage_public_channel_members_and_read_groups",
                 "permissions": Array [
                   "manage_public_channel_members",
-                  "read_channel_groups",
+                  "read_public_channel_groups",
                 ],
               },
               "delete_public_channel",
@@ -1026,7 +1026,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 "id": "manage_private_channel_members_and_read_groups",
                 "permissions": Array [
                   "manage_private_channel_members",
-                  "read_channel_groups",
+                  "read_private_channel_groups",
                 ],
               },
               "delete_private_channel",

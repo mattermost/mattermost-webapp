@@ -75,7 +75,7 @@ export default class PermissionsTree extends React.PureComponent {
                         combined: true,
                         permissions: [
                             Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS,
-                            Permissions.READ_CHANNEL_GROUPS,
+                            Permissions.READ_PUBLIC_CHANNEL_GROUPS,
                         ],
                     },
                     Permissions.DELETE_PUBLIC_CHANNEL,
@@ -91,7 +91,7 @@ export default class PermissionsTree extends React.PureComponent {
                         combined: true,
                         permissions: [
                             Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS,
-                            Permissions.READ_CHANNEL_GROUPS,
+                            Permissions.READ_PRIVATE_CHANNEL_GROUPS,
                         ],
                     },
                     Permissions.DELETE_PRIVATE_CHANNEL,
