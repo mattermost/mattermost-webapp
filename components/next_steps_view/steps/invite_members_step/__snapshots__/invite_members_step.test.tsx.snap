@@ -25,6 +25,7 @@ exports[`components/next_steps_view/steps/invite_members_step should match snaps
       <MultiInput
         inputValue=""
         legend="Email addresses"
+        onBlur={[Function]}
         onChange={[Function]}
         onInputChange={[Function]}
         placeholder="Enter email addresses"
