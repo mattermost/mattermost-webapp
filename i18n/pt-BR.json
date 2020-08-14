@@ -3999,5 +3999,7 @@
   "userGuideHelp.helpResources": "Recursos de ajuda",
   "userGuideHelp.askTheCommunity": "Pergunte à comunidade",
   "timestamp.datetime": "{relativeOrDate} em {time}",
-  "sidebar_whats_new_modal.whatsNewText": "Crie categorias personalizadas na sua barra lateral. Arraste e solte para organizar canais e categorias."
+  "sidebar_whats_new_modal.whatsNewText": "Crie categorias personalizadas na sua barra lateral. Arraste e solte para organizar canais e categorias.",
+  "warn_metric_ack_modal.number_of_active_users.subtext": "Entre em contato com o suporte e envie suas informações de contato para Mattermost, Inc. {link}",
+  "warn_metric_ack_modal.learn_more.link": "Saiba mais"
 }

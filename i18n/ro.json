@@ -3976,7 +3976,7 @@
   "admin.filter.apply": "Aplica",
   "admin.filter.all_teams": "Toate echipele",
   "admin.channel_list.manual_invites": "Invitații manuale",
-  "warn_metric_ack_modal.number_of_active_users.description": "Mattermost recomandă cu tărie ca implementările de peste {limit} utilizatorilor să se actualizeze la Mattermost Enterprise E20, care oferă funcții precum gestionarea utilizatorilor, clusterarea serverului și monitorizarea performanței",
+  "warn_metric_ack_modal.number_of_active_users.description": "Mattermost recomandă cu tărie ca implementările de peste {limit} utilizatorilor să se actualizeze la Ediția Mattermost Enterprise, care oferă funcții precum gestionarea utilizatorilor, clusterarea serverului și monitorizarea performanței",
   "warn_metric_ack_modal.mailto.message": "Suportul nu a putut fi deschis. Vă rugăm {link}.",
   "warn_metric_ack_modal.mailto.link": "Trimite-ne un e-mail",
   "warn_metric_ack_modal.header.title": "Treceți la Mattermost Enterprise Edition",
@@ -4000,5 +4000,7 @@
   "admin.jobTable.headerFiles": "Fişiere",
   "admin.jobTable.downloadLink": "Descarca",
   "timestamp.datetime": "{relativeOrDate} la {time}",
-  "warn_metric_ack_modal.learn_more.link": "Aflați mai multe"
+  "warn_metric_ack_modal.learn_more.link": "Aflați mai multe",
+  "invite.rate-limit-exceeded": "Limita de rată a e-mailurilor de invitații depășită.",
+  "warn_metric_ack_modal.number_of_active_users.subtext": "Asistența de contact trimite informațiile de contact la Mattermost, Inc. {link}"
 }
