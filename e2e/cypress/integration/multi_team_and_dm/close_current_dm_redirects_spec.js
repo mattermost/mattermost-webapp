@@ -29,7 +29,7 @@ describe('Direct messages: redirections', () => {
         });
     });
 
-    it('MM-T453 Closing a direct message should redirect to last viewed channel', () => {
+    it('MM-T453_1 Closing a direct message should redirect to last viewed channel', () => {
         // # Login as test user
         cy.apiLogin(testUser);
 
@@ -58,7 +58,7 @@ describe('Direct messages: redirections', () => {
         expectActiveChannelToBe('Off-Topic', offTopicChannelUrl);
     });
 
-    it('MM-T453 Closing a different direct message should not affect active direct message', () => {
+    it('MM-T453_2 Closing a different direct message should not affect active direct message', () => {
         // # Login as test user
         cy.apiLogin(testUser);
 
@@ -78,7 +78,7 @@ describe('Direct messages: redirections', () => {
         expectActiveChannelToBe(secondDMUser.username, `/messages/@${secondDMUser.username}`);
     });
 
-    it('MM-T453 Changing URL to root url when viewing a direct message should redirect to direct message', () => {
+    it('MM-T453_3 Changing URL to root url when viewing a direct message should redirect to direct message', () => {
         // # Login as test user
         cy.apiLogin(testUser);
 
