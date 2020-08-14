@@ -10,7 +10,6 @@
 // Group: @account_setting
 
 import * as TIMEOUTS from '../../../../fixtures/timeouts';
-
 import {hexToRgbArray, rgbArrayToString} from '../../../../utils';
 
 describe('AS14318 Theme Colors - Color Picker', () => {

@@ -10,7 +10,6 @@
 // Group: @account_setting
 
 import * as TIMEOUTS from '../../../../fixtures/timeouts';
-
 import {hexToRgbArray, rgbArrayToString} from '../../../../utils';
 
 const testCases = [
