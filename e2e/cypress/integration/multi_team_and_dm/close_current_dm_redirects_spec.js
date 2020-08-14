@@ -26,10 +26,10 @@ describe('Direct messages: redirections', () => {
                 secondDMUser = createdUser;
                 cy.apiAddUserToTeam(testTeam.id, secondDMUser.id);
             });
-        });
 
-        // # Login as test user
-        cy.apiLogin(testUser);
+            // # Login as test user
+            cy.apiLogin(testUser);
+        });
     });
 
     beforeEach(() => {
