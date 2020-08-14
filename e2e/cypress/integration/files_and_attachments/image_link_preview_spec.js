@@ -89,4 +89,79 @@ describe('Image Link Preview', () => {
         // # All image previews expand back open
         cy.findAllByLabelText('file thumbnail').should('be.visible').and('have.length', 4);
     });
+
+    it.only('MM-T1447 Images below a min-width and min-height are posted in a container that is clickable', () => {
+        // https://automation-test-cases.vercel.app/test/MM-T1447
+
+        const IMAGE_BELOW_MIN_SIZE_1 = 'images-below-min-size-1.png';
+
+        // # Upload Image with min dimensions as attachment and post it
+        cy.get('#fileUploadInput').attachFile(IMAGE_BELOW_MIN_SIZE_1);
+        cy.postMessage(`${Date.now()}-${IMAGE_BELOW_MIN_SIZE_1}`);
+
+        // * Check that last post has image attachment and its dimensions are above 48px
+        // and lastly verify that when its clicked, an image preview modal opens
+        verifyLastAttachedImageHasMinSizeAndOpensPreviewInModal(IMAGE_BELOW_MIN_SIZE_1);
+
+        const IMAGE_BELOW_MIN_SIZE_2 = 'images-below-min-size-2.png';
+
+        // # Upload Image with min dimensions as attachment and post it
+        cy.get('#fileUploadInput').attachFile(IMAGE_BELOW_MIN_SIZE_2);
+        cy.postMessage(`${Date.now()}-${IMAGE_BELOW_MIN_SIZE_2}`);
+
+        // * Check that last post has image attachment and its dimensions are above 48px
+        // and lastly verify that when its clicked, an image preview modal opens
+        verifyLastAttachedImageHasMinSizeAndOpensPreviewInModal(IMAGE_BELOW_MIN_SIZE_2);
+
+        const IMAGE_BELOW_MIN_SIZE_3 = 'images-below-min-size-3.png';
+
+        // # Upload Image with min dimensions as attachment and post it
+        cy.get('#fileUploadInput').attachFile(IMAGE_BELOW_MIN_SIZE_3);
+        cy.postMessage(`${Date.now()}-${IMAGE_BELOW_MIN_SIZE_3}`);
+
+        // * Check that last post has image attachment and its dimensions are above 48px
+        // and lastly verify that when its clicked, an image preview modal opens
+        verifyLastAttachedImageHasMinSizeAndOpensPreviewInModal(IMAGE_BELOW_MIN_SIZE_3);
+
+        const IMAGE_BELOW_MIN_SIZE_4 = 'images-below-min-size-4.png';
+
+        // # Upload Image with min dimensions as attachment and post it
+        cy.get('#fileUploadInput').attachFile(IMAGE_BELOW_MIN_SIZE_4);
+        cy.postMessage(`${Date.now()}-${IMAGE_BELOW_MIN_SIZE_4}`);
+
+        // * Check that last post has image attachment and its dimensions are above 48px
+        // and lastly verify that when its clicked, an image preview modal opens
+        verifyLastAttachedImageHasMinSizeAndOpensPreviewInModal(IMAGE_BELOW_MIN_SIZE_4);
+    });
 });
+
+function verifyLastAttachedImageHasMinSizeAndOpensPreviewInModal(imageName) {
+    // # Get the last uploaded image post
+    cy.getLastPostId().then((lastPostId) => {
+        // # Move inside the last post for finer control
+        cy.get(`#${lastPostId}_message`).should('exist').and('be.visible').within(() => {
+            // * Find the image attachment post, verify its dimensions and click on it to open preview modal
+            cy.findByLabelText(`file thumbnail ${imageName}`).should('exist').and('be.visible').
+                and((imageAttachment) => {
+                    // * Check the dimensions of image's height is at atleast of 48px and greater
+                    expect(imageAttachment.height()).to.be.greaterThan(48);
+
+                    // * Check the dimensions of image's width is at atleast of 48px and greater
+                    expect(imageAttachment.width()).to.be.greaterThan(48);
+                }).
+                click();
+        });
+    });
+
+    // * Verify image preview modal is opened
+    cy.get('.a11y__modal').should('exist').and('be.visible').
+        within(() => {
+            // * Verify we have the image inside the modal
+            cy.findByTestId('imagePreview').should('exist').and('be.visible').
+                and('have.attr', 'alt', 'preview url image');
+        });
+
+    // # Close the image preview modal
+    cy.get('body').type('{esc}');
+}
+
