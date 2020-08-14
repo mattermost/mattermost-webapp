@@ -74,7 +74,7 @@ function makeMapStateToProps() {
             permission: Permissions.USE_GROUP_MENTIONS,
         });
         const channelMemberCountsByGroup = selectChannelMemberCountsByGroup(state, ownProps.channelId);
-        const groupsWithAllowReference = useGroupMentions ? new Map() : getAssociatedGroupsForReferenceByMention(state, channel.team_id, channel.id);
+        const groupsWithAllowReference = useGroupMentions ? getAssociatedGroupsForReferenceByMention(state, channel.team_id, channel.id) : new Map();
 
         return {
             draft,

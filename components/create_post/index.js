@@ -91,7 +91,7 @@ function makeMapStateToProps() {
         });
         const channelMemberCountsByGroup = selectChannelMemberCountsByGroup(state, currentChannel.id);
         const currentTeamId = getCurrentTeamId(state);
-        const groupsWithAllowReference = useGroupMentions ? new Map() : getAssociatedGroupsForReferenceByMention(state, currentTeamId, currentChannel.id);
+        const groupsWithAllowReference = useGroupMentions ? getAssociatedGroupsForReferenceByMention(state, currentTeamId, currentChannel.id) : new Map();
 
         return {
             currentTeamId,
