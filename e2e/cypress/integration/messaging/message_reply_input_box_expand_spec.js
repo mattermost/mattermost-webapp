@@ -23,7 +23,7 @@ describe('Messaging', () => {
         });
     });
 
-    it('M18706-Input box on reply thread can expand', () => {
+    it('MM-T209 Input box on reply thread can expand', () => {
         const maxReplyCount = 15;
         const halfViewportHeight = Cypress.config('viewportHeight') / 2;
         const padding = 10;
