@@ -31,7 +31,6 @@ exports[`components/next_steps_view/steps/invite_members_step should match snaps
         styles={
           Object {
             "control": [Function],
-            "placeholder": [Function],
             "valueContainer": [Function],
           }
         }
@@ -83,7 +82,7 @@ exports[`components/next_steps_view/steps/invite_members_step should match snaps
           data-testid="shareLinkInput"
           readOnly={true}
           type="text"
-          value="http://localhost:8065/signup_user/"
+          value="http://localhost:8065/signup_user_complete/?id="
         />
         <button
           className="InviteMembersStep__shareLinkInputButton"

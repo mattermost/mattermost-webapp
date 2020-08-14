@@ -11,7 +11,7 @@ import InviteMembersStep from './invite_members_step';
 describe('components/next_steps_view/steps/invite_members_step', () => {
     const baseProps = {
         id: 'invite_members_step',
-        teamId: 'team_id',
+        team: TestHelper.getTeamMock(),
         onSkip: jest.fn(),
         onFinish: jest.fn(),
         currentUser: TestHelper.getUserMock(),

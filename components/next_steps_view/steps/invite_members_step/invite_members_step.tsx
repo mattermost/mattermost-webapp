@@ -263,15 +263,6 @@ export default class InviteMembersStep extends React.PureComponent<Props, State>
                     </div>
                 </div>
                 <div className='NextStepsView__wizardButtons'>
-                    {/* <button
-                        className='NextStepsView__button cancel'
-                        onClick={this.onSkip}
-                    >
-                        <FormattedMessage
-                            id='next_steps_view.skipForNow'
-                            defaultMessage='Skip for now'
-                        />
-                    </button> */}
                     <button
                         className={'NextStepsView__button confirm'}
                         onClick={this.onFinish}
