@@ -29,9 +29,8 @@ const SECTION_TOKENS = 'tokens';
 type Actions= {
     getMe: () => void;
     updateUserPassword: (userId: string, currentPassword: string, newPassword: string) => Promise<ActionResult>;
-    getAuthorizedOAuthApps: () => void;
-    deauthorizeOAuthApp: (clientId: string) => void;
-
+    getAuthorizedOAuthApps: () => Promise<ActionResult>;
+    deauthorizeOAuthApp: (clientId: string) => Promise<ActionResult>;
 };
 
 type Props = {
@@ -59,10 +58,11 @@ type State ={
     currentPassword: string;
     newPassword: string;
     confirmPassword: string;
-    passwordError?: string;
+    passwordError: string | null;
     serverError: string | null;
     tokenError: string;
     savingPassword: boolean;
+    authorizedApps: object[];
 };
 
 export default class SecurityTab extends React.PureComponent<Props, State> {
@@ -73,7 +73,6 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
 
     constructor(props: Props) {
         super(props);
-
         this.state = this.getDefaultState();
     }
 
@@ -97,10 +96,12 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
     }
 
     loadAuthorizedOAuthApps = async () => {
-        const {data, error} = await this.props.actions.getAuthorizedOAuthApps();
-        if (data) {
+        const res = await this.props.actions.getAuthorizedOAuthApps();
+        if ('data' in res) {
+            const {data} = res;
             this.setState({authorizedApps: data, serverError: null}); //eslint-disable-line react/no-did-mount-set-state
-        } else if (error) {
+        } else if ('error' in res) {
+            const {error} = res;
             this.setState({serverError: error.message}); //eslint-disable-line react/no-did-mount-set-state
         }
     }
@@ -133,16 +134,17 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
 
         this.setState({savingPassword: true});
 
-        const {data, error: err} = await this.props.actions.updateUserPassword(
+        const res = await this.props.actions.updateUserPassword(
             user.id,
             currentPassword,
             newPassword,
         );
-        if (data) {
+        if ('data' in res) {
             this.props.updateSection('');
             this.props.actions.getMe();
             this.setState(this.getDefaultState());
-        } else if (err) {
+        } else if ('error' in res) {
+            const {error: err} = res;
             const state = this.getDefaultState();
             if (err.message) {
                 state.serverError = err.message;
@@ -166,18 +168,19 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
         this.setState({confirmPassword: e.target.value});
     }
 
-    deauthorizeApp = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    deauthorizeApp = async (e: React.MouseEvent) => {
         e.preventDefault();
 
         const appId = e.currentTarget.getAttribute('data-app');
 
-        const {data, error} = await this.props.actions.deauthorizeOAuthApp(appId);
-        if (data) {
+        const res = await this.props.actions.deauthorizeOAuthApp(appId);
+        if ('data' in res) {
             const authorizedApps = this.state.authorizedApps.filter((app) => {
                 return app.id !== appId;
             });
             this.setState({authorizedApps, serverError: null});
-        } else if (error) {
+        } else if ('error' in res) {
+            const {error} = res;
             this.setState({serverError: error.message});
         }
     }

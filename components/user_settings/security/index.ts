@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators, Dispatch} from 'redux';
+import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 import {getMe, updateUserPassword} from 'mattermost-redux/actions/users';
 import {getAuthorizedOAuthApps, deauthorizeOAuthApp} from 'mattermost-redux/actions/integrations';
 import * as UserUtils from 'mattermost-redux/utils/user_utils';
@@ -10,6 +10,7 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {UserProfile} from 'mattermost-redux/types/users';
+import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
 
 import {getPasswordConfig} from 'utils/utils.jsx';
 import {Preferences} from 'utils/constants';
@@ -50,9 +51,17 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
     };
 }
 
+type Actions= {
+    getMe: () => void;
+    updateUserPassword: (userId: string, currentPassword: string, newPassword: string) => Promise<ActionResult>;
+    getAuthorizedOAuthApps: () => void;
+    deauthorizeOAuthApp: (clientId: string) => void;
+
+};
+
 function mapDispatchToProps(dispatch: Dispatch) {
     return {
-        actions: bindActionCreators({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
             getMe,
             updateUserPassword,
             getAuthorizedOAuthApps,
