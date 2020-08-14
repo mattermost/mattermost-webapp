@@ -4,6 +4,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
+import classNames from 'classnames';
 
 import AdminPanel from './admin_panel';
 
@@ -25,7 +26,7 @@ const AdminPanelWithLink = (props: Props) => {
     const button = (
         <Link
             data-testid={`${props.id}-link`}
-            className='btn btn-primary'
+            className={classNames(['btn', 'btn-primary', {disabled: props.disabled}])}
             to={props.url}
             onClick={props.disabled ? (e) => e.preventDefault() : () => null}
         >
