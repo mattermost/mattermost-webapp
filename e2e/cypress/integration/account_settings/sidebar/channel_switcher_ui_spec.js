@@ -65,7 +65,7 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
         cy.get('#accountSettingsHeader > .close').should('be.visible').click();
     });
 
-    it('MM-T265 Hide Channel Switcher button in LHS', () => {
+    it('MM-T265_1 Hide Channel Switcher button in LHS', () => {
         // * Check that the Sidebar tab is loaded, then click
         cy.get('#sidebarButton').should('be.visible').click();
 
@@ -89,7 +89,7 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
         cy.get('#sidebarSwitcherButton').should('be.not.visible');
     });
 
-    it('MM-T265 Show Channel Switcher button in LHS', () => {
+    it('MM-T265_2 Show Channel Switcher button in LHS', () => {
         // * Check that the Sidebar tab is loaded, then click
         cy.get('#sidebarButton').should('be.visible').click();
 
