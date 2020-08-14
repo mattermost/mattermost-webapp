@@ -11,16 +11,6 @@
 
 import users from '../../../fixtures/ldap_users.json';
 import {getRandomId} from '../../../utils';
-import * as TIMEOUTS from '../../../fixtures/timeouts';
-
-function setLDAPTestSettings(config) {
-    return {
-        siteName: config.TeamSettings.SiteName,
-        siteUrl: config.ServiceSettings.SiteURL,
-        teamName: '',
-        user: null,
-    };
-}
 
 // assumes the CYPRESS_* variables are set
 // assumes that E20 license is uploaded
@@ -32,16 +22,20 @@ context('ldap', () => {
 
     let testSettings;
 
-    describe('LDAP Login flow - Admin Login', () => {
-        before(() => {
-            // * Check if server has license for LDAP
-            cy.apiRequireLicenseForFeature('LDAP');
+    before(() => {
+        // * Check if server has license for LDAP
+        cy.apiRequireLicenseForFeature('LDAP');
 
-            cy.apiGetConfig().then(({config}) => {
-                testSettings = setLDAPTestSettings(config);
-            });
+        cy.apiGetConfig().then(({config}) => {
+            testSettings = setLDAPTestSettings(config);
         });
 
+        removeUserFromAllTeams(user1);
+        removeUserFromAllTeams(guest1);
+        removeUserFromAllTeams(admin1);
+    });
+
+    describe('LDAP Login flow - Admin Login', () => {
         it('LDAP login new MM admin, create team', () => {
             testSettings.user = admin1;
             const ldapSetting = {
@@ -52,11 +46,13 @@ context('ldap', () => {
             };
             cy.apiUpdateConfig(ldapSetting).then(() => {
                 cy.doLDAPLogin(testSettings).then(() => {
-                    // new user create team
+                    // # Skip or create team
                     cy.skipOrCreateTeam(testSettings, getRandomId()).then(() => {
                         cy.get('#headerTeamName').should('be.visible').then((teamName) => {
                             testSettings.teamName = teamName.text();
                         });
+
+                        // # Do LDAP logout
                         cy.doLDAPLogout(testSettings);
                     });
                 });
@@ -66,6 +62,7 @@ context('ldap', () => {
         it('LDAP login existing MM admin', () => {
             // existing user, verify and logout
             cy.doLDAPLogin(testSettings).then(() => {
+                // # Do LDAP logout
                 cy.doLDAPLogout(testSettings);
             });
         });
@@ -82,6 +79,7 @@ context('ldap', () => {
             cy.apiAdminLogin().then(() => {
                 cy.apiUpdateConfig(ldapSetting).then(() => {
                     cy.doLDAPLogin(testSettings).then(() => {
+                        // * Verify login failed
                         cy.checkLoginFailed(testSettings);
                     });
                 });
@@ -98,7 +96,8 @@ context('ldap', () => {
             cy.apiAdminLogin().then(() => {
                 cy.apiUpdateConfig(ldapSetting).then(() => {
                     cy.doLDAPLogin(testSettings).then(() => {
-                        cy.doMemberLogout(testSettings);
+                        // # Do member logout from sign up
+                        cy.doMemberLogoutFromSignUp(testSettings);
                     });
                 });
             });
@@ -116,9 +115,8 @@ context('ldap', () => {
             cy.apiAdminLogin().then(() => {
                 cy.apiUpdateConfig(ldapSetting).then(() => {
                     cy.doLDAPLogin(testSettings).then(() => {
-                        cy.url().should('include', 'town-square');
-                        cy.findAllByLabelText('town square public channel', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
-                        cy.doMemberLogout(testSettings);
+                        // # Do logout from sign up
+                        cy.doLogoutFromSignUp(testSettings);
                     });
                 });
             });
@@ -134,7 +132,8 @@ context('ldap', () => {
             cy.apiAdminLogin().then(() => {
                 cy.apiUpdateConfig(ldapSetting).then(() => {
                     cy.doLDAPLogin(testSettings).then(() => {
-                        cy.doGuestLogout(testSettings);
+                        // # Do logout from sign up
+                        cy.doLogoutFromSignUp(testSettings);
                     });
                 });
             });
@@ -165,6 +164,7 @@ context('ldap', () => {
         it('LDAP Member login with team invite', () => {
             testSettings.user = user1;
             cy.doLDAPLogin(testSettings).then(() => {
+                // # Do LDAP logout
                 cy.doLDAPLogout(testSettings);
             });
         });
@@ -172,8 +172,28 @@ context('ldap', () => {
         it('LDAP Guest login with team invite', () => {
             testSettings.user = guest1;
             cy.doLDAPLogin(testSettings).then(() => {
-                cy.doGuestLogout(testSettings);
+                // # Do LDAP logout
+                cy.doLDAPLogout(testSettings);
             });
         });
     });
 });
+
+function setLDAPTestSettings(config) {
+    return {
+        siteName: config.TeamSettings.SiteName,
+        siteUrl: config.ServiceSettings.SiteURL,
+        teamName: '',
+        user: null,
+    };
+}
+
+function removeUserFromAllTeams(testUser) {
+    cy.apiGetUserByEmail(testUser.email).then(({user}) => {
+        cy.apiGetTeamsForUser(user.id).then(({teams}) => {
+            teams.forEach((team) => {
+                cy.apiDeleteUserFromTeam(team.id, user.id);
+            });
+        });
+    });
+}

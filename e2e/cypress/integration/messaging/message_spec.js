@@ -27,7 +27,7 @@ describe('Message', () => {
         });
     });
 
-    it('M13701 Consecutive message does not repeat profile info', () => {
+    it('MM-T77 Consecutive message does not repeat profile info', () => {
         // # Wait for posts to load
         cy.get('#postListContent').should('be.visible');
 
@@ -53,7 +53,7 @@ describe('Message', () => {
         shouldHavePostProfileImageVisible(false);
     });
 
-    it('M14012 Focus move to main input box when a character key is selected', () => {
+    it('MM-T201 Focus move to main input box when a character key is selected', () => {
         // # Post message
         cy.postMessage('Message');
 
@@ -78,7 +78,7 @@ describe('Message', () => {
         });
     });
 
-    it('M14320 @here, @all and @channel (ending in a period) still highlight', () => {
+    it('MM-T72 @here. @all. @channel. (containing a period) still highlight', () => {
         // # Post message
         cy.postMessage('@here. @all. @channel.');
 
@@ -140,7 +140,7 @@ describe('Message', () => {
         });
     });
 
-    it('M23361 Focus remains in the RHS text box', () => {
+    it('MM-T3307 Focus remains in the RHS text box', () => {
         cy.apiSaveShowMarkdownPreviewPreference();
 
         cy.postMessage(MESSAGES.MEDIUM);
