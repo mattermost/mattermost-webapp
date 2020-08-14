@@ -189,10 +189,12 @@ function setLDAPTestSettings(config) {
 }
 
 function removeUserFromAllTeams(testUser) {
-    cy.apiGetUserByEmail(testUser.email).then(({user}) => {
-        cy.apiGetTeamsForUser(user.id).then(({teams}) => {
-            teams.forEach((team) => {
-                cy.apiDeleteUserFromTeam(team.id, user.id);
+    cy.apiGetUsersByUsernames([testUser.username]).then(({users}) => {
+        users.forEach((user) => {
+            cy.apiGetTeamsForUser(user.id).then(({teams}) => {
+                teams.forEach((team) => {
+                    cy.apiDeleteUserFromTeam(team.id, user.id);
+                });
             });
         });
     });
