@@ -11,25 +11,25 @@ import classNames from 'classnames';
 import {mark, trackEvent} from 'actions/diagnostics_actions.jsx';
 import Constants from 'utils/constants';
 import {isDesktopApp} from 'utils/user_agent';
-import {localizeMessage, isMac} from 'utils/utils.jsx';
+import {isMac, localizeMessage} from 'utils/utils.jsx';
 import CopyUrlContextMenu from 'components/copy_url_context_menu';
 import OverlayTrigger from 'components/overlay_trigger';
 import TeamIcon from '../../widgets/team_icon/team_icon';
 
-interface Props {
+type Props = {
     btnClass: string;
     url: string;
     displayName: string;
-    content: JSX.IntrinsicElements;
-    tip: JSX.IntrinsicElements;
+    content: string;
+    tip: string | JSX.Element;
     order: number;
     showOrder: boolean;
     active: boolean;
     disabled: boolean;
     unread: boolean;
     mentions: number;
-    placement: 'left' | 'right'|'top'|'bottom';
-    teamIconUrl: string;
+    placement: 'left' | 'right' | 'top' | 'bottom';
+    teamIconUrl: string | null;
     switchTeam: Function;
     intl: IntlShape;
     isDraggable: boolean;
@@ -50,14 +50,14 @@ class TeamButton extends React.PureComponent<Props> {
         mentions: 0,
     };
 
-    handleSwitch = (e: KeyboardEvent) => {
+    handleSwitch = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
         e.preventDefault();
         mark('TeamLink#click');
         trackEvent('ui', 'ui_team_sidebar_switch_team');
         this.props.switchTeam(this.props.url);
     }
 
-    handleDisabled = (e) => {
+    handleDisabled = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
         e.preventDefault();
     }
 
@@ -69,7 +69,8 @@ class TeamButton extends React.PureComponent<Props> {
         const disabled: string = this.props.disabled ? 'team-disabled' : '';
         const isNotCreateTeamButton: boolean = !this.props.url.endsWith('create_team') && !this.props.url.endsWith('select_team');
         const handleClick = (this.props.active || this.props.disabled) ? this.handleDisabled : this.handleSwitch;
-        let badge: JSX.Element;
+
+        let badge: JSX.Element = React.createElement('div');
 
         let ariaLabel = formatMessage({
             id: 'team.button.ariaLabel',
@@ -122,7 +123,7 @@ class TeamButton extends React.PureComponent<Props> {
         );
 
         let toolTip = this.props.tip || localizeMessage('team.button.name_undefined', 'This team does not have a name');
-        let orderIndicator;
+        let orderIndicator: JSX.Element = React.createElement('div');
         if (typeof this.props.order !== 'undefined' && this.props.order < 10) {
             let toolTipHelp;
             if (isMac()) {

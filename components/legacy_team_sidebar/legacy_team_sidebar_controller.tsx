@@ -7,6 +7,7 @@ import {FormattedMessage} from 'react-intl';
 import Permissions from 'mattermost-redux/constants/permissions';
 import classNames from 'classnames';
 import {DragDropContext, Droppable, DroppableProvided, DropResult} from 'react-beautiful-dnd';
+import {Team} from 'mattermost-redux/types/teams';
 
 import {Constants} from 'utils/constants.jsx';
 import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
@@ -17,18 +18,18 @@ import Pluggable from 'plugins/pluggable';
 
 import TeamButton from './components/team_button';
 
-interface Actions {
+type Actions = {
     getTeams: Function;
     switchTeam: Function;
     updateTeamsOrderForUser: Function;
 }
 
-interface State {
+type State = {
     showOrder: any;
     teamsOrder: Array<any>;
 }
 
-interface Props {
+type Props = {
     myTeams: string[];
     currentTeamId: string;
     moreTeamsToJoin: boolean;
@@ -38,12 +39,6 @@ interface Props {
     locale: string;
     actions: Actions;
     userTeamsOrderPreference: string;
-}
-
-interface Team {
-    id: string;
-    name: string;
-    display_name: string;
 }
 
 export function renderView(props: Props) {
