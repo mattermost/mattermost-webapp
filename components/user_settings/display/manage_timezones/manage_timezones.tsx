@@ -1,32 +1,44 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {getTimezoneRegion} from 'mattermost-redux/utils/timezone_utils';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 
+import {UserProfile} from 'mattermost-redux/types/users';
+import {ActionResult} from 'mattermost-redux/types/actions';
+
 import SettingItemMax from 'components/setting_item_max.jsx';
 import {getBrowserTimezone} from 'utils/timezone';
-
 import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 import TimezoneProvider from 'components/suggestion/timezone_provider.jsx';
 
-export default class ManageTimezones extends React.PureComponent {
-    static propTypes = {
-        user: PropTypes.object.isRequired,
-        updateSection: PropTypes.func.isRequired,
-        useAutomaticTimezone: PropTypes.bool.isRequired,
-        automaticTimezone: PropTypes.string.isRequired,
-        manualTimezone: PropTypes.string.isRequired,
-        timezones: PropTypes.array.isRequired,
-        actions: PropTypes.shape({
-            updateMe: PropTypes.func.isRequired,
-        }).isRequired,
-    };
+type Actions = {
+    updateMe: (user: UserProfile) => Promise<ActionResult>;
+}
 
-    constructor(props) {
+type Props ={
+    user: UserProfile;
+    updateSection: (section: string) => Promise<void>;
+    useAutomaticTimezone: boolean;
+    automaticTimezone: string;
+    manualTimezone: string;
+    timezones: string[];
+    actions: Actions;
+}
+
+type State ={
+    useAutomaticTimezone: boolean;
+    automaticTimezone: string;
+    manualTimezone: string;
+    manualTimezoneInput: string;
+    isSaving: boolean;
+    serverError?: string;
+}
+
+export default class ManageTimezones extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -38,11 +50,11 @@ export default class ManageTimezones extends React.PureComponent {
         };
     }
 
-    onChange = (e) => {
+    onChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         this.setState({manualTimezoneInput: e.target.value});
     };
 
-    handleTimezoneSelected = (selected) => {
+    handleTimezoneSelected = (selected: string) => {
         if (!selected) {
             return;
         }
@@ -102,22 +114,23 @@ export default class ManageTimezones extends React.PureComponent {
         };
 
         actions.updateMe(updatedUser).
-            then(({data, error: err}) => {
-                if (data) {
+            then((res) => {
+                if ('data' in res) {
                     this.props.updateSection('');
-                } else if (err) {
+                } else if ('error' in res) {
+                    const {error} = res;
                     let serverError;
-                    if (err.message) {
-                        serverError = err.message;
+                    if (error instanceof Error) {
+                        serverError = error.message;
                     } else {
-                        serverError = err;
+                        serverError = error as string;
                     }
                     this.setState({serverError, isSaving: false});
                 }
             });
     };
 
-    handleAutomaticTimezone = (e) => {
+    handleAutomaticTimezone = (e: React.ChangeEvent<HTMLInputElement>) => {
         const useAutomaticTimezone = e.target.checked;
         let automaticTimezone = '';
 
@@ -131,7 +144,7 @@ export default class ManageTimezones extends React.PureComponent {
         });
     };
 
-    handleManualTimezone = (e) => {
+    handleManualTimezone = (e: React.ChangeEvent<HTMLSelectElement>) => {
         this.setState({manualTimezone: e.target.value});
     };
 
@@ -188,7 +201,6 @@ export default class ManageTimezones extends React.PureComponent {
                 </label>
                 <div className='pt-2'>
                     <SuggestionBox
-                        ref={this.setSwitchBoxRef}
                         className='form-control focused'
                         type='search'
                         onChange={this.onChange}
