@@ -29,13 +29,13 @@ type State = {
     teamsOrder: Array<any>;
 }
 
-type Props = {
-    myTeams: string[];
+interface Props extends Pick<any, any>{
+    myTeams: Team[];
     currentTeamId: string;
     moreTeamsToJoin: boolean;
     myTeamMembers: { [key: string]: any };
     isOpen: boolean;
-    experimentalPrimaryTeam: string;
+    experimentalPrimaryTeam: string | undefined;
     locale: string;
     actions: Actions;
     userTeamsOrderPreference: string;

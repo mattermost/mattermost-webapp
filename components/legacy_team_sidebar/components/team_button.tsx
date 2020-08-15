@@ -16,7 +16,7 @@ import CopyUrlContextMenu from 'components/copy_url_context_menu';
 import OverlayTrigger from 'components/overlay_trigger';
 import TeamIcon from '../../widgets/team_icon/team_icon';
 
-type Props = {
+interface Props extends Pick<any, any>{
     btnClass: string;
     url: string;
     displayName: string;
@@ -39,17 +39,6 @@ type Props = {
 
 // eslint-disable-next-line react/require-optimization
 class TeamButton extends React.PureComponent<Props> {
-    static defaultProps = {
-        btnClass: '',
-        tip: '',
-        showOrder: false,
-        placement: 'right',
-        active: false,
-        disabled: false,
-        unread: false,
-        mentions: 0,
-    };
-
     handleSwitch = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
         e.preventDefault();
         mark('TeamLink#click');
