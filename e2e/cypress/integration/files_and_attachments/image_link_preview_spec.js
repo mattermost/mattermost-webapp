@@ -90,7 +90,7 @@ describe('Image Link Preview', () => {
         cy.findAllByLabelText('file thumbnail').should('be.visible').and('have.length', 4);
     });
 
-    it.only('MM-T1447 Images below a min-width and min-height are posted in a container that is clickable', () => {
+    it('MM-T1447 Images below a min-width and min-height are posted in a container that is clickable', () => {
         const IMAGE_BELOW_MIN_SIZE_1 = 'images-below-min-size-1.png';
 
         // # Upload Image with min dimensions as attachment and post it
@@ -162,4 +162,3 @@ function verifyLastAttachedImageHasMinSizeAndOpensPreviewInModal(imageName) {
     // # Close the image preview modal
     cy.get('body').type('{esc}');
 }
-
