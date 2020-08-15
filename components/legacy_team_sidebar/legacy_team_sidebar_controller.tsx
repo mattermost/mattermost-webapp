@@ -8,6 +8,8 @@ import Permissions from 'mattermost-redux/constants/permissions';
 import classNames from 'classnames';
 import {DragDropContext, Droppable, DroppableProvided, DropResult} from 'react-beautiful-dnd';
 import {Team} from 'mattermost-redux/types/teams';
+import {Dictionary} from 'mattermost-redux/src/types/utilities';
+import {TeamMembership} from 'mattermost-redux/src/types/teams';
 
 import {Constants} from 'utils/constants.jsx';
 import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
@@ -25,15 +27,15 @@ type Actions = {
 }
 
 type State = {
-    showOrder: any;
-    teamsOrder: Array<any>;
+    showOrder: boolean;
+    teamsOrder: Array<Team>;
 }
 
 interface Props extends Pick<any, any>{
     myTeams: Team[];
     currentTeamId: string;
     moreTeamsToJoin: boolean;
-    myTeamMembers: { [key: string]: any };
+    myTeamMembers: Dictionary<TeamMembership>;
     isOpen: boolean;
     experimentalPrimaryTeam: string | undefined;
     locale: string;
@@ -193,7 +195,7 @@ export default class LegacyTeamSidebar extends React.PureComponent<Props, State>
             destinationIndex,
             result.draggableId,
         );
-        updateTeamsOrderForUser(newTeamsOrder.map((o: any) => o.id));
+        updateTeamsOrderForUser(newTeamsOrder.map((o: Team) => o.id));
         this.setState({teamsOrder: newTeamsOrder});
     }
 
