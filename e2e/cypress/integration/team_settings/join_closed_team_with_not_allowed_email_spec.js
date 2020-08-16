@@ -14,17 +14,24 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Team Settings', () => {
     const randomId = getRandomId();
-    let testTeam;
+    const emailDomain = 'sample.mattermost.com';
 
     before(() => {
         cy.apiInitSetup().then(({team}) => {
-            testTeam = team;
-            cy.apiAdminLogin();
-            cy.visit(`/${testTeam.name}`);
+            cy.visit(`/${team.name}`);
+        });
+
+        cy.apiUpdateConfig({
+            GuestAccountsSettings: {
+                Enable: false,
+            },
+            LdapSettings: {
+                Enable: false,
+            },
         });
     });
 
-    it('MM-T387 - Try to join a closed team from a NON-mattermost email address via "Get Team Invite Link" while "Allow only users with a specific email domain to join this team" set to "mattermost.com"', () => {
+    it('MM-T387 - Try to join a closed team from a NON-mattermost email address via "Get Team Invite Link" while "Allow only users with a specific email domain to join this team" set to "sample.mattermost.com"', () => {
         // Open 'Team Settings' modal
         cy.get('.sidebar-header-dropdown__icon').click();
         cy.findByText('Team Settings').should('be.visible').click();
@@ -36,7 +43,7 @@ describe('Team Settings', () => {
 
             // # Set 'sample.mattermost.com' as the only allowed email domain and save
             cy.wait(TIMEOUTS.HALF_SEC);
-            cy.focused().type('sample.mattermost.com');
+            cy.focused().type(emailDomain);
             cy.findByText('Save').should('be.visible').click();
 
             // # Close the modal
@@ -57,7 +64,7 @@ describe('Team Settings', () => {
         const email = `user${randomId}@sample.gmail.com`;
         const username = `user${randomId}`;
         const password = 'passwd';
-        const errorMessage = 'Email must be from a specific domain (e.g. @example.com). Please ask your team or system administrator for details.';
+        const errorMessage = `The following email addresses do not belong to an accepted domain: ${emailDomain}. Please contact your System Administrator for details.`;
 
         // # Type email, username and password
         cy.wait(TIMEOUTS.HALF_SEC);
