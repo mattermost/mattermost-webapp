@@ -16,12 +16,16 @@ import * as MESSAGES from '../../../fixtures/messages';
 describe('I18456 Built-in slash commands: common', () => {
     let user1;
     let user2;
+    let deactivatedUser;
+    let team1;
     const userGroup = [];
+    let testChannel;
     let testChannelUrl;
 
     before(() => {
         cy.apiInitSetup().then(({team, user}) => {
             user1 = user;
+            team1 = team;
             testChannelUrl = `/${team.name}/channels/town-square`;
 
             cy.apiCreateUser().then(({user: otherUser}) => {
@@ -35,6 +39,15 @@ describe('I18456 Built-in slash commands: common', () => {
                     cy.apiAddUserToTeam(team.id, otherUser.id);
                     userGroup.push(otherUser);
                 });
+            });
+
+            cy.apiCreateUser().then(({user: usr}) => {
+                deactivatedUser = usr;
+                cy.apiDeactivateUser(usr.id);
+            });
+
+            cy.apiCreateChannel(team1.id, 'channel-test', 'channel-test').then((response) => {
+                testChannel = response.body;
             });
         });
     });
@@ -242,6 +255,28 @@ describe('I18456 Built-in slash commands: common', () => {
                     });
                 });
         });
+    });
+
+    it('MM-T658 /invite - current channel', () => {
+        loginAndVisitDefaultChannel(user1, `${team1.name}/channels/${testChannel.name}`);
+
+        // # Post `/invite @username` where username is a user who is not in the current channel
+        cy.postMessage(`/invite @${userGroup[0].username}`);
+
+        // * User who added them sees system message "username added to the channel by you"
+        cy.uiWaitUntilMessagePostedIncludes(`@${userGroup[0].username} added to the channel by you`);
+
+        // * Cannot invite deactivated users to a channel
+        cy.postMessage(`/invite @${deactivatedUser.username}`);
+        cy.uiWaitUntilMessagePostedIncludes('We couldn\'t find the user. They may have been deactivated by the System Administrator.');
+
+        cy.apiLogin(userGroup[0]);
+        cy.visit(`${team1.name}/channels/town-square`);
+
+        // * Added user sees channel added to LHS, mention badge, system message "username added to the channel by username."
+        cy.get('#sidebarChannelContainer').
+            contains(`${testChannel.display_name}`).click();
+        cy.uiWaitUntilMessagePostedIncludes(`You were added to the channel by @${user1.username}`);
     });
 });
 
