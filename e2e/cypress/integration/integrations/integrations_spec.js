@@ -201,7 +201,7 @@ describe('Integrations page', () => {
         integrationPageTitleIsBold('Bot Accounts');
     });
 
-    it.only('MM-T572 Copy icon for Slash Command', () => {
+    it('MM-T572 Copy icon for Slash Command', () => {
         // # Visit home channel
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
