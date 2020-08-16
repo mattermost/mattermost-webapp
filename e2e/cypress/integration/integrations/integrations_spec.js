@@ -11,6 +11,7 @@
 // Group: @integrations
 
 import {getRandomId} from '../../utils';
+import * as MESSAGES from '../../fixtures/messages';
 
 describe('Integrations page', () => {
     let testTeam;
@@ -198,6 +199,84 @@ describe('Integrations page', () => {
         integrationPageTitleIsBold('Slash Commands');
         integrationPageTitleIsBold('OAuth 2.0 Applications');
         integrationPageTitleIsBold('Bot Accounts');
+    });
+
+    it('MM-T572 Copy icon for Slash Command', () => {
+        // # Visit home channel
+        cy.visit(`/${testTeam.name}/channels/town-square`);
+
+        // # Open main menu
+        cy.findByLabelText('main menu').should('be.visible').click();
+
+        // # Scan the area of main menu section
+        cy.get('#sidebarDropdownMenu').within(() => {
+            // # Open integrations menu
+            cy.findByText('Integrations').should('exist').and('be.visible').click();
+        });
+
+        // * Verify we are at integrations page URL
+        cy.url().should('include', '/integrations');
+
+        // # Scan the area of integrations list
+        cy.get('.integrations-list').should('exist').within(() => {
+            // # Open Slash commands directory
+            cy.findByText('Slash Commands').should('exist').and('be.visible').click({force: true});
+        });
+
+        // * Verify we are at slash commands URL
+        cy.url().should('include', '/integrations/commands');
+
+        // # Hit create slash command button
+        cy.findByText('Add Slash Command').should('exist').and('be.visible').click();
+
+        // * Verify we are at slash commands add URL
+        cy.url().should('include', '/integrations/commands/add');
+
+        const customSlashName = MESSAGES.SMALL;
+
+        // # Enter a title for custom slash command
+        cy.findByLabelText('Title').should('exist').scrollIntoView().type(customSlashName);
+
+        // # Enter a trigger word for custom slash command
+        cy.findByLabelText('Command Trigger Word').should('exist').scrollIntoView().type('example');
+
+        // # Enter a request url for custom slash command
+        cy.findByLabelText('Request URL').should('exist').scrollIntoView().type('https://example.com');
+
+        // # Hit save to save the custom slash command
+        cy.findByText('Save').should('exist').scrollIntoView().click();
+
+        // * Verify we are at setup successfull URL
+        cy.url().should('include', '/integrations/commands/confirm');
+
+        // * Verify slash was successfully created
+        cy.findByText('Setup Successful').should('exist').and('be.visible');
+
+        // * Verify token was created
+        cy.findByText('Token').should('exist').and('be.visible');
+
+        // * Verify copy icon is shown
+        cy.get('.fa.fa-copy').should('exist').and('be.visible').
+            trigger('mouseover').and('have.attr', 'aria-describedby', 'copy');
+
+        // # Hit done to move from confirm screen
+        cy.findByText('Done').should('exist').and('be.visible').click();
+
+        // * Verify we are back to installed slash commands screen
+        cy.url().should('include', '/integrations/commands/installed');
+
+        // * Verify our created command is in the list
+        cy.findByText(customSlashName).should('exist').and('be.visible').scrollIntoView();
+
+        // # Loop over all custom slash commands
+        cy.get('.backstage-list').children().each((el) => {
+            // # For each custom slash command was created
+            cy.wrap(el).within(() => {
+                // Verify copy icon for token is present
+                cy.get('.fa.fa-copy').should('exist').and('be.visible').
+                    trigger('mouseover').and('have.attr', 'aria-describedby', 'copy');
+            });
+        });
     });
 });
 
