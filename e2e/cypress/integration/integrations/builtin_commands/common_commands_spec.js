@@ -257,7 +257,7 @@ describe('I18456 Built-in slash commands: common', () => {
         });
     });
 
-    it.only('MM-T658 /invite - current channel', () => {
+    it('MM-T658 /invite - current channel', () => {
         loginAndVisitDefaultChannel(user1, `${team1.name}/channels/${testChannel.name}`);
 
         // # Post `/invite @username` where username is a user who is not in the current channel
