@@ -257,7 +257,7 @@ describe('I18456 Built-in slash commands: common', () => {
         });
     });
 
-    it('MM-T658 /invite - current channel', () => {
+    it.only('MM-T658 /invite - current channel', () => {
         loginAndVisitDefaultChannel(user1, `${team1.name}/channels/${testChannel.name}`);
 
         // # Post `/invite @username` where username is a user who is not in the current channel
@@ -273,9 +273,9 @@ describe('I18456 Built-in slash commands: common', () => {
         cy.apiLogin(userGroup[0]);
         cy.visit(`${team1.name}/channels/town-square`);
 
-        // * Added user sees channel added to LHS, mention badge, system message "username added to the channel by username."
+        // * Added user sees channel added to LHS, system message "username added to the channel by username."
         cy.get('#sidebarChannelContainer').
-            contains(`${testChannel.display_name}`).click();
+            findByText(`${testChannel.display_name}`).click();
         cy.uiWaitUntilMessagePostedIncludes(`You were added to the channel by @${user1.username}`);
     });
 });
