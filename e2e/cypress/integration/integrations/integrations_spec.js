@@ -36,11 +36,11 @@ describe('Integrations page', () => {
             cy.visit(`/${team.name}/integrations`);
 
             // * Validate that all sections are enabled
-            // cy.get('#incomingWebhooks').should('be.visible');
-            // cy.get('#outgoingWebhooks').should('be.visible');
-            // cy.get('#slashCommands').should('be.visible');
-            // cy.get('#botAccounts').should('be.visible');
-            // cy.get('#oauthApps').should('be.visible');
+            cy.get('#incomingWebhooks').should('be.visible');
+            cy.get('#outgoingWebhooks').should('be.visible');
+            cy.get('#slashCommands').should('be.visible');
+            cy.get('#botAccounts').should('be.visible');
+            cy.get('#oauthApps').should('be.visible');
         });
     });
 
