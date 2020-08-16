@@ -31,9 +31,10 @@ type State = {
     teamsOrder: Array<Team>;
 }
 
-interface Props extends Pick<any, any>{
+interface Props {
     myTeams: Team[];
     currentTeamId: string;
+    match: { url: string };
     moreTeamsToJoin: boolean;
     myTeamMembers: Dictionary<TeamMembership>;
     isOpen: boolean;

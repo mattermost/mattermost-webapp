@@ -16,25 +16,25 @@ import CopyUrlContextMenu from 'components/copy_url_context_menu';
 import OverlayTrigger from 'components/overlay_trigger';
 import TeamIcon from '../../widgets/team_icon/team_icon';
 
-interface Props extends Pick<any, any>{
-    btnClass: string;
+interface Props {
+    btnClass?: string;
     url: string;
-    displayName: string;
-    content: string;
+    displayName?: string;
+    content?: string;
     tip: string | JSX.Element;
-    order: number;
-    showOrder: boolean;
-    active: boolean;
-    disabled: boolean;
-    unread: boolean;
-    mentions: number;
-    placement: 'left' | 'right' | 'top' | 'bottom';
-    teamIconUrl: string | null;
+    order?: number;
+    showOrder?: boolean;
+    active?: boolean;
+    disabled?: boolean;
+    unread?: boolean;
+    mentions?: number;
+    placement?: 'left' | 'right' | 'top' | 'bottom';
+    teamIconUrl?: string | null;
     switchTeam: Function;
     intl: IntlShape;
-    isDraggable: boolean;
-    teamIndex: number;
-    teamId: string;
+    isDraggable?: boolean;
+    teamIndex?: number;
+    teamId?: string;
 }
 
 // eslint-disable-next-line react/require-optimization
@@ -106,7 +106,7 @@ class TeamButton extends React.PureComponent<Props> {
         const content = (
             <TeamIcon
                 withHover={true}
-                name={this.props.content || displayName}
+                name={this.props.content || displayName || ''}
                 url={teamIconUrl}
             />
         );
@@ -194,8 +194,8 @@ class TeamButton extends React.PureComponent<Props> {
 
         return isDraggable ? (
             <Draggable
-                draggableId={teamId}
-                index={teamIndex}
+                draggableId={teamId!}
+                index={teamIndex!}
             >
                 {(provided, snapshot) => {
                     return (
