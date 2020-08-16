@@ -244,7 +244,7 @@ describe('I18456 Built-in slash commands: common', () => {
         });
     });
 
-    it.only('MM-T2834 Slash command help stays visible for system slash command', () => {
+    it('MM-T2834 Slash command help stays visible for system slash command', () => {
         // # Login as user 1 and visit default channel
         loginAndVisitDefaultChannel(user1, testChannelUrl);
 
