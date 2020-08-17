@@ -8,16 +8,16 @@
 // ***************************************************************
 
 describe('Scroll', () => {
-    let testTeam;
-
     before(() => {
         // # Create new team and new user and visit Town Square channel
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
             // # Switch the account settings for the test user to have images collapsed by default
             cy.apiSaveCollapsePreviewsPreference('true');
 
-            testTeam = team;
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+            cy.visit(`/${team.name}/channels/town-square`);
+
+            // # Post at least 10 messages in a channel
+            Cypress._.times(10, (index) => cy.postMessage(index));
         });
     });
 
@@ -34,8 +34,20 @@ describe('Scroll', () => {
         // * Observe image preview is collapsed
         cy.findByLabelText('file thumbnail').should('not.exist');
 
+        // # Save height of the last post
+        cy.getLastPost().then((lastPost) => {
+            cy.wrap(parseInt(lastPost[0].clientHeight, 10)).as('lastPostHeight');
+        });
+
         // # Refresh the browser
         cy.reload();
+
+        // * Verify that the last post is still the same after reload
+        cy.getLastPost().then((lastPost) => {
+            cy.get('@lastPostHeight').then((lastPostHeight) => {
+                expect(parseInt(lastPost[0].clientHeight, 10)).to.equal(lastPostHeight);
+            });
+        });
 
         // * Observe image preview is collapsed after reloading the page
         cy.findByLabelText('file thumbnail').should('not.exist');
