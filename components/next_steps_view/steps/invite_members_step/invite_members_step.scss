@@ -1,0 +1,223 @@
+.InviteMembersStep {
+    padding: 12px 40px 24px 40px;
+    max-width: 840px;
+
+    h3 {
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 20px;
+        color: var(--center-channel-color);
+        margin: 0;
+    }
+}
+
+.InviteMembersStep__shareInviteLink {
+    margin-top: 32px;
+    
+    .InviteMembersStep__shareLinkBlock {
+        display: flex;
+        margin-top: 8px;
+    }
+    .InviteMembersStep__shareLinkInput {
+        flex-grow: 1;
+        border-top: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
+        border-left: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
+        border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
+        border-right: 0;
+        border-radius: 4px 0 0 4px;
+        padding: 8px 12px;
+        font-size: 12px;
+        line-height: 16px;
+        color: rgba(var(--center-channel-color-rgb), 0.64);
+    }
+    .InviteMembersStep__shareLinkInputButton {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-grow: 0;
+        border: 1px solid var(--button-bg);
+        color: var(--button-bg);
+        border-radius: 0 4px 4px 0;
+        font-size: 12px;
+        line-height: 16px;
+        font-weight: 600;
+        padding: 8px 16px;
+        background: none;
+        min-width: 108px;
+
+        &.copied {
+            border-color: var(--online-indicator);
+            color: var(--online-indicator);
+        }
+
+        i {
+            font-size: 14px;
+
+            &::before{
+                margin: 0;
+            }
+        }
+
+        &:hover {
+            background: var(--button-bg-08);
+        }
+        &:active {
+            background: var(--button-bg-08);
+        }
+        span {
+            display: inline-block;
+            margin-left: 4px;
+        }
+    }
+}
+
+.InviteMembersStep__profilePicture {
+    flex-grow: 0;
+
+    .PictureSelector {
+        margin-top: 12px;
+        min-height: 125px;
+    }
+}
+
+.InviteMembersStep__fullName {
+    margin-left: 64px;
+    flex-grow: 0.75;
+    max-width: 600px;
+
+    .Input {
+        font-size: 14px;
+        line-height: 38px;
+        padding: 0 16px;
+    }
+
+    .Input_legend {
+        margin-left: 12px;
+    }
+
+    .Input_container {
+        margin-top: 28px;
+    }
+}
+
+.InviteMembersStep__pictureError {
+    font-size: 12px;
+    line-height: 16px;
+    color: var(--error-text);
+    padding: 0 40px;
+    min-height: 16px;
+
+    > span {
+        margin-left: 4px;
+    }
+
+    i {
+        font-size: 14px;
+        vertical-align: middle;
+        margin-top: -2px;
+    }
+}
+
+.InviteMembersStep__send {
+    display: flex;
+    margin-top: 8px;
+}
+
+.InviteMembersStep__sendButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 0;
+    border: 1px solid var(--button-bg);
+    color: var(--button-bg);
+    border-radius: 4px;
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 600;
+    padding: 8px 16px;
+    background: none;
+
+    i {
+        font-size: 14px;
+
+        &::before{
+            margin: 0;
+        }
+    }
+
+    &:hover:not(.disabled) {
+        background: var(--button-bg-08);
+    }
+    &:active {
+        background: var(--button-bg-08);
+    }
+    span {
+        display: inline-block;
+        margin-left: 4px;
+    }
+
+    &.disabled {
+        border-color: 1px solid var(--center-channel-color);
+        color: 1px solid var(--center-channel-color);
+        opacity: 0.32;
+
+        i {
+            color: 1px solid var(--center-channel-color);
+        }
+    }
+}
+
+.InviteMembersStep__emailInvitations {
+    > span {
+        font-size: 12px;
+        line-height: 16px;
+        color: rgba(var(--center-channel-color-rgb), 0.56);
+    }
+}
+
+.InviteMembersStep__invitationResults {
+    display: flex;
+    font-size: 12px;
+    line-height: 16px;
+    color: var(--center-channel-color);
+    margin-left: 16px;
+    align-items: center;
+
+    i {
+        font-size: 14px;
+        color: var(--online-indicator);
+
+        &::before {
+            margin: 0;
+        }
+    }
+
+    > span {
+        margin-left: 4px;
+    }
+
+    &.error {
+        color: var(--error-text);
+
+        i {
+            color: var(--error-text);
+        }
+    }
+}
+
+@media screen and (max-width: 1020px) {
+    .InviteMembersStep {
+        flex-direction: column;
+        padding: 4px 12px 24px 12px;
+    }
+
+    .InviteMembersStep__fullName {
+        margin-left: 0;
+        margin-top: 32px;
+        max-width: unset;
+
+        .Input_container {
+            margin-top: 20px;
+        }
+    }
+}
