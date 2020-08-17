@@ -5,6 +5,7 @@
 import $ from 'jquery';
 import React from 'react';
 import Scrollbars from 'react-custom-scrollbars';
+
 import {Posts} from 'mattermost-redux/constants';
 import {Channel} from 'mattermost-redux/types/channels';
 import {ExtendedPost} from 'mattermost-redux/actions/posts';
@@ -385,6 +386,8 @@ export default class RhsThread extends React.Component<Props, State> {
                     autoHide={true}
                     autoHideTimeout={500}
                     autoHideDuration={500}
+                    autoHeight={true}
+                    autoHeightMax={'100vh'}
                     renderThumbHorizontal={renderThumbHorizontal}
                     renderThumbVertical={renderThumbVertical}
                     renderView={renderView}
@@ -422,9 +425,9 @@ export default class RhsThread extends React.Component<Props, State> {
                                 {commentsLists}
                             </div>
                         </div>
-                        {createComment}
                     </div>
                 </Scrollbars>
+                {createComment}
             </div>
         );
     }
