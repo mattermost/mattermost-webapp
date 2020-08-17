@@ -12,7 +12,7 @@ import {UserProfile} from 'mattermost-redux/types/users';
 
 import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants';
-import {displayEntireNameForUser, localizeMessage, isGuest} from 'utils/utils.jsx';
+import {displayEntireNameForUser, localizeMessage, isGuest, isMobile} from 'utils/utils.jsx';
 import MultiSelect, {Value} from 'components/multiselect/multiselect';
 import ProfilePicture from 'components/profile_picture';
 import AddIcon from 'components/widgets/icons/fa_add_icon';
@@ -389,9 +389,11 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
                         </div>
                     </div>
                 </div>
-                <div className='more-modal__lastPostAt'>
-                    <LastPostAt lastPostAt={lastPostAt}/>
-                </div>
+                {!isMobile() &&
+                    <div className='more-modal__lastPostAt'>
+                        <LastPostAt lastPostAt={lastPostAt}/>
+                    </div>
+                }
                 <div className='more-modal__actions'>
                     <div className='more-modal__actions--round'>
                         <AddIcon/>
