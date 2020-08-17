@@ -212,8 +212,13 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
     }
 
     render() {
-        const {category, categoryIndex, isCollapsed, channels} = this.props;
-        const isNewCategory = this.props.isNewCategory && !channels.length;
+        const {
+            category,
+            categoryIndex,
+            channels,
+            isCollapsed,
+            isNewCategory,
+        } = this.props;
 
         if (!category) {
             return null;
