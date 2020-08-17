@@ -13,27 +13,21 @@ export const LastPostAt: FunctionComponent<Props> = ({lastPostAt}: Props): JSX.E
     if (!lastPostAt) {
         return null;
     }
-    let unit: Unit;
-
-    if (moment().diff(lastPostAt, 'years') > 0) {
-        unit = 'year';
-    } else if (moment().diff(lastPostAt, 'months') > 0) {
-        unit = 'month';
-    } else if (moment().diff(lastPostAt, 'days') > 0) {
-        unit = 'day';
-    } else if (moment().diff(lastPostAt, 'hours') > 0) {
-        unit = 'hour';
-    } else {
-        unit = 'minute';
-    }
 
     return (
         <div className='more-modal__last_post_at'>
             <Timestamp
                 value={lastPostAt}
                 useTime={false}
-                unit={unit}
-                style='long'
+                style={'long'}
+                ranges={[
+                    {within: ['minute', -1], display: ['second', 0]},
+                    {within: ['hour', -1], display: ['minute']},
+                    {within: ['hour', -24], display: ['hour']},
+                    {within: ['day', -30], display: ['day']},
+                    {within: ['month', -11], display: ['month']},
+                    {within: ['year', -1000], display: ['year']},
+                ]}
             />
         </div>
     );
