@@ -22,7 +22,7 @@ describe('Messaging', () => {
         });
     });
 
-    it('M18711-Input box on main thread can expand with RHS closed', () => {
+    it('MM-T207 Input box on main thread can expand with RHS closed', () => {
         // # Check whether the RHS Close button exist, and click it in case it exist.
         cy.get('body').then((body) => {
             if (body.find('rhsCloseButton').length) {

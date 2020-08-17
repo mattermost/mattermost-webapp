@@ -57,7 +57,7 @@ describe('Messaging', () => {
         });
     });
 
-    it('M16425 : Show single image thumbnails in compact mode', () => {
+    it('MM-T1797 Compact view: Show single image thumbnail', () => {
         // # Set the messages display setting to compact
         cy.apiSaveMessageDisplayPreference('compact');
 
