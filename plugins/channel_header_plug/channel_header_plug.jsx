@@ -148,7 +148,13 @@ export default class ChannelHeaderPlug extends React.PureComponent {
             <HeaderIconWrapper
                 key={'channelHeaderButton' + plug.id}
                 buttonClass='channel-header__icon style--none'
-                iconComponent={(<img src={plug.extra.icon} width='24' height='24' />)}
+                iconComponent={(
+                    <img
+                        src={plug.extra.icon}
+                        width='24'
+                        height='24'
+                    />
+                )}
                 onClick={() => doPluginAction(plug.id, plug.request_url, {channel_id: this.props.channel.id})}
                 buttonId={plug.id}
                 tooltipKey={'plugin'}
@@ -185,7 +191,7 @@ export default class ChannelHeaderPlug extends React.PureComponent {
                         className='d-flex align-items-center'
                         onClick={() => this.fireActionAndClose(() => doPluginAction(plug.id, plug.request_url, {channel_id: this.props.channel.id}))}
                     >
-                        <span className='d-flex align-items-center overflow--ellipsis'>{(<img src={plug.extra.icon} />)}</span>
+                        <span className='d-flex align-items-center overflow--ellipsis'>{(<img src={plug.extra.icon}/>)}</span>
                         <span>{plug.text}</span>
                     </a>
                 </li>

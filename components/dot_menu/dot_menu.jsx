@@ -315,7 +315,7 @@ export default class DotMenu extends React.PureComponent {
                     onClick={() => {
                         doPluginAction(item.id, item.request_url, {post_id: this.props.post.id});
                     }}
-                    icon={(<img src={item.extra.icon} />)}
+                    icon={(<img src={item.extra.icon}/>)}
                 />
             );
         });

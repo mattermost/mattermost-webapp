@@ -149,10 +149,10 @@ class MainMenu extends React.PureComponent {
                     key={item.id + '_pluginmenuitem'}
                     onClick={() => doPluginAction(item.id, item.request_url, {team_id: this.props.teamId})}
                     text={item.extra.text}
-                    icon={this.props.mobile && (<img src={item.extra.icon} />)}
+                    icon={this.props.mobile && (<img src={item.extra.icon}/>)}
                 />
-            )
-        })
+            );
+        });
 
         const someIntegrationEnabled = this.props.enableIncomingWebhooks || this.props.enableOutgoingWebhooks || this.props.enableCommands || this.props.enableOAuthServiceProvider || this.props.canManageSystemBots;
         const showIntegrations = !this.props.mobile && someIntegrationEnabled && this.props.canManageIntegrations;
