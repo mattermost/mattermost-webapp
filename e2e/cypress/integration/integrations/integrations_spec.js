@@ -249,7 +249,7 @@ describe('Integrations page', () => {
         // # Hit save to save the custom slash command
         cy.findByText('Save').should('exist').scrollIntoView().click();
 
-        // * Verify we are at setup successfull URL
+        // * Verify we are at setup successful URL
         cy.url().should('include', '/integrations/commands/confirm');
 
         // * Verify slash was successfully created
