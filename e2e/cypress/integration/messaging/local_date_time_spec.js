@@ -73,14 +73,14 @@ describe('Messaging', () => {
             },
             {
                 name: 'in react-intl unsupported timezone',
-                publicChannel: 'CANALES PÚBLICOS',
-                locale: 'es',
+                publicChannel: 'PUBLIC CHANNELS',
+                locale: 'en',
                 manualTimezone: 'NZ-CHAT',
                 localTimes: [
-                    {postIndex: 0, standard: '06:15 PM', military: '18:15'},
-                    {postIndex: 1, standard: '02:15 AM', military: '02:15'},
+                    {postIndex: 0, standard: '6:15 PM', military: '18:15'},
+                    {postIndex: 1, standard: '2:15 AM', military: '02:15'},
                     {postIndex: 2, standard: '10:15 AM', military: '10:15'},
-                    {postIndex: 3, standard: '02:15 PM', military: '14:15'},
+                    {postIndex: 3, standard: '2:15 PM', military: '14:15'},
                 ],
             },
         ];

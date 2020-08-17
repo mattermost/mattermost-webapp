@@ -37,6 +37,17 @@ Cypress.Commands.add('apiDeleteTeam', (teamId, permanent = false) => {
     });
 });
 
+Cypress.Commands.add('apiDeleteUserFromTeam', (teamId, userId) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/teams/' + teamId + '/members/' + userId,
+        method: 'DELETE',
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        cy.wrap({data: response.body});
+    });
+});
+
 Cypress.Commands.add('apiPatchTeam', (teamId, teamData) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
