@@ -67,7 +67,7 @@ type SectionProps ={
 
 type Props = {
     user: UserProfile;
-    updateSection: (section: string) => void;
+    updateSection: (section: string) => Promise<void>;
     activeSection?: string;
     closeModal?: () => void;
     collapseModal?: () => void;
@@ -84,7 +84,6 @@ type Props = {
     enableTimezone: boolean;
     shouldAutoUpdateTimezone: boolean;
     lockTeammateNameDisplay: boolean;
-
     militaryTime: string;
     teammateNameDisplay: string;
     channelDisplayMode: string;
