@@ -3997,5 +3997,6 @@
   "sidebar_left.sidebar_channel_menu.moveToNewCategory": "Categorie noua",
   "sidebar_left.sidebar_channel_menu.moveTo": "Treceți la",
   "sidebar_left.sidebar_channel_menu.markAsRead": "Marcheaza ca citit",
-  "warn_metric_ack_modal.learn_more.link": "Aflați mai multe"
+  "warn_metric_ack_modal.learn_more.link": "Aflați mai multe",
+  "warn_metric_ack_modal.number_of_active_users.subtext": "Asistența de contact trimite informațiile de contact la Mattermost, Inc. {link}"
 }
