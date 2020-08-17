@@ -40,7 +40,7 @@ describe('Messaging', () => {
         });
     });
 
-    it('M18682-RHS fetches messages on socket reconnect when a different channel is in center', () => {
+    it('MM-T94 RHS fetches messages on socket reconnect when a different channel is in center', () => {
         // # Connect all sockets
         window.mockWebsockets.forEach((value) => {
             value.connect();
