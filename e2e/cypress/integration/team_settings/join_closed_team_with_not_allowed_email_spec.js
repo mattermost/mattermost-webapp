@@ -17,10 +17,6 @@ describe('Team Settings', () => {
     const emailDomain = 'sample.mattermost.com';
 
     before(() => {
-        cy.apiInitSetup().then(({team}) => {
-            cy.visit(`/${team.name}`);
-        });
-
         cy.apiUpdateConfig({
             GuestAccountsSettings: {
                 Enable: false,
@@ -28,6 +24,10 @@ describe('Team Settings', () => {
             LdapSettings: {
                 Enable: false,
             },
+        });
+
+        cy.apiInitSetup().then(({team}) => {
+            cy.visit(`/${team.name}`);
         });
     });
 
@@ -80,7 +80,7 @@ describe('Team Settings', () => {
         cy.get('#createAccountButton').click();
 
         // * Assert that the expected error message from creating an account with an email not from the allowed email domain exists and is visible
-        cy.findByText(errorMessage).should('exist').and('be.visible');
+        cy.findByText(errorMessage).should('be.visible');
     });
 });
 
