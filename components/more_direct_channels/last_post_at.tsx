@@ -15,20 +15,19 @@ export const LastPostAt: FunctionComponent<Props> = ({lastPostAt}: Props): JSX.E
     }
 
     return (
-        <div className='more-modal__last_post_at'>
-            <Timestamp
-                value={lastPostAt}
-                useTime={false}
-                style={'long'}
-                ranges={[
-                    {within: ['minute', -1], display: ['second', 0]},
-                    {within: ['hour', -1], display: ['minute']},
-                    {within: ['hour', -24], display: ['hour']},
-                    {within: ['day', -30], display: ['day']},
-                    {within: ['month', -11], display: ['month']},
-                    {within: ['year', -1000], display: ['year']},
-                ]}
-            />
-        </div>
+        <Timestamp
+            value={lastPostAt}
+            useTime={false}
+            style={'long'}
+            ranges={[
+                {within: ['minute', -1], display: ['second', 0]},
+                {within: ['hour', -1], display: ['minute']},
+                {within: ['hour', -24], display: ['hour']},
+                {within: ['day', -30], display: ['day']},
+                {within: ['month', -11], display: ['month']},
+                {within: ['year', -1000], display: ['year']},
+            ]}
+        />
+
     );
 };
