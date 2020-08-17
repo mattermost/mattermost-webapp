@@ -20,7 +20,7 @@ describe('Messaging', () => {
         });
     });
 
-    it('M18698-Posts change order when being sent quickly', () => {
+    it('MM-T3309 Posts do not change order when being sent quickly', () => {
         // # Build a message and send
         let message = '';
         for (let i = 9; i >= 0; i--) {

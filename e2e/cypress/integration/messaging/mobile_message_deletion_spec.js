@@ -23,7 +23,7 @@ describe('Delete Parent Message', () => {
         });
     });
 
-    it('M14270 Deleting parent message should also delete replies from center and RHS', () => {
+    it('MM-T110 Delete a parent message that has a reply: Reply RHS', () => {
         // # Close Hamburger menu, post a message, and add replies
         cy.get('#post_textbox').click({force: true});
         cy.postMessage('Parent Message');
