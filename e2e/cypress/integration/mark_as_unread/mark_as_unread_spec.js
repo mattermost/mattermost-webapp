@@ -12,6 +12,8 @@
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
+import {verifyPostNextToNewMessageSeparator} from './helpers';
+
 describe('Mark as Unread', () => {
     let testUser;
 
@@ -315,8 +317,4 @@ function markAsUnreadFromAnotherSession(post, user) {
         method: 'post',
         path: `users/${user.id}/posts/${post.id}/set_unread`,
     });
-}
-
-function verifyPostNextToNewMessageSeparator(message) {
-    cy.get('.NotificationSeparator').should('exist').parent().parent().parent().next().should('contain', message);
 }
