@@ -378,6 +378,7 @@
   "admin.complianceExport.messagesExportedCount": "{count} messages exported.",
   "admin.complianceExport.title": "Compliance Export (Beta)",
   "admin.complianceExport.warningCount": "{count} warning(s) encountered, see warning.txt for details",
+  "admin.complianceExport.warningCount.globalrelay": "{count} warning(s) encountered, see log for details",
   "admin.complianceMonitoring.userActivityLogsTitle": "User Activity Logs",
   "admin.connectionSecurityNone": "None",
   "admin.connectionSecurityNoneDescription": "Mattermost will connect over an insecure connection.",
