@@ -9,7 +9,6 @@ import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId, getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getPluginIntegrations} from 'mattermost-redux/selectors/entities/plugins';
-import {fetchMobilePluginIntegrations} from 'mattermost-redux/actions/plugins';
 import PluginLocation from 'mattermost-redux/constants/plugins';
 
 import {openModal} from 'actions/views/modals';
@@ -65,7 +64,6 @@ function mapDispatchToProps(dispatch) {
             unpinPost,
             openModal,
             markPostAsUnread,
-            fetchMobilePluginIntegrations,
         }, dispatch),
     };
 }

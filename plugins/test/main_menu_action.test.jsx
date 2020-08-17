@@ -40,6 +40,7 @@ describe('plugins/MainMenuActions', () => {
                 closeRightHandSide: jest.fn(),
                 closeRhsMenu: jest.fn(),
             },
+            integrationMenuItems: [],
         };
 
         const wrapper = shallowWithIntl(

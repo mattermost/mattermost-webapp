@@ -55,6 +55,7 @@ import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general
 import {getChannelsInTeam, getChannel, getCurrentChannel, getCurrentChannelId, getRedirectChannelNameForTeam, getMembersInCurrentChannel, getChannelMembersInChannels} from 'mattermost-redux/selectors/entities/channels';
 import {getPost, getMostRecentPostIdInChannel} from 'mattermost-redux/selectors/entities/posts';
 import {haveISystemPermission, haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
+import {fetchMobilePluginIntegrations} from 'mattermost-redux/actions/plugins';
 
 import {getSelectedChannelId} from 'selectors/rhs';
 
@@ -1152,11 +1153,13 @@ export function handlePluginEnabled(msg) {
     loadPlugin(manifest).catch((error) => {
         console.error(error.message); //eslint-disable-line no-console
     });
+    fetchMobilePluginIntegrations()(store.dispatch, store.getState);
 }
 
 export function handlePluginDisabled(msg) {
     const manifest = msg.data.manifest;
     removePlugin(manifest);
+    fetchMobilePluginIntegrations()(store.dispatch, store.getState);
 }
 
 function handleUserRoleUpdated(msg) {
@@ -1186,6 +1189,7 @@ function handleLicenseChanged(msg) {
 
 function handlePluginStatusesChangedEvent(msg) {
     store.dispatch({type: AdminTypes.RECEIVED_PLUGIN_STATUSES, data: msg.data.plugin_statuses});
+    fetchMobilePluginIntegrations()(store.dispatch, store.getState);
 }
 
 function handleOpenDialogEvent(msg) {

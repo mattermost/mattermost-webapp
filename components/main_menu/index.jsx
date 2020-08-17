@@ -10,7 +10,6 @@ import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {haveITeamPermission, haveICurrentTeamPermission, haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
 import {Permissions} from 'mattermost-redux/constants';
 import {getPluginIntegrations} from 'mattermost-redux/selectors/entities/plugins';
-import {fetchMobilePluginIntegrations} from 'mattermost-redux/actions/plugins';
 import PluginLocation from 'mattermost-redux/constants/plugins';
 
 import {RHSStates} from 'utils/constants';
@@ -97,7 +96,6 @@ function mapDispatchToProps(dispatch) {
             showFlaggedPosts,
             closeRightHandSide,
             closeRhsMenu,
-            fetchMobilePluginIntegrations,
         }, dispatch),
     };
 }

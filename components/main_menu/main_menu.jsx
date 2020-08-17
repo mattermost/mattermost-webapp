@@ -68,7 +68,6 @@ class MainMenu extends React.PureComponent {
             showFlaggedPosts: PropTypes.func,
             closeRightHandSide: PropTypes.func.isRequired,
             closeRhsMenu: PropTypes.func.isRequired,
-            fetchMobilePluginIntegrations: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -85,7 +84,6 @@ class MainMenu extends React.PureComponent {
 
     componentDidMount() {
         document.addEventListener('keydown', this.handleKeyDown);
-        this.props.actions.fetchMobilePluginIntegrations('webapp');
     }
 
     componentWillUnmount() {

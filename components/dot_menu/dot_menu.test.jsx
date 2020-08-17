@@ -38,6 +38,7 @@ describe('components/dot_menu/DotMenu', () => {
         },
         canEdit: false,
         canDelete: false,
+        pluginIntegrations: [],
     };
 
     test('should match snapshot, on Center', () => {

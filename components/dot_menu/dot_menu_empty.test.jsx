@@ -42,6 +42,7 @@ describe('components/dot_menu/DotMenu returning empty ("")', () => {
             },
             canEdit: false,
             canDelete: false,
+            pluginIntegrations: [],
         };
 
         const wrapper = shallow(

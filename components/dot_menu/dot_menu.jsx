@@ -89,7 +89,6 @@ export default class DotMenu extends React.PureComponent {
              * Function to set the unread mark at given post
              */
             markPostAsUnread: PropTypes.func.isRequired,
-            fetchMobilePluginIntegrations: PropTypes.func.isRequired,
         }).isRequired,
 
         canEdit: PropTypes.bool.isRequired,
@@ -137,7 +136,6 @@ export default class DotMenu extends React.PureComponent {
 
     componentDidMount() {
         this.disableCanEditPostByTime();
-        this.props.actions.fetchMobilePluginIntegrations('webapp');
     }
 
     static getDerivedStateFromProps(props) {

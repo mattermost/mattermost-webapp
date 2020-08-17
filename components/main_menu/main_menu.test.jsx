@@ -33,6 +33,7 @@ describe('components/Menu', () => {
         reportAProblemLink: null,
         moreTeamsToJoin: false,
         pluginMenuItems: [],
+        integrationMenuItems: [],
         isMentionSearch: false,
         actions: {
             openModal: jest.fn(),

@@ -99,10 +99,6 @@ export default class ChannelHeaderPlug extends React.PureComponent {
          * Logged in user's theme
          */
         theme: PropTypes.object.isRequired,
-
-        actions: PropTypes.shape({
-            fetchMobilePluginIntegrations: PropTypes.func.isRequired,
-        }),
     }
 
     constructor(props) {
@@ -110,10 +106,6 @@ export default class ChannelHeaderPlug extends React.PureComponent {
         this.state = {
             dropdownOpen: false,
         };
-    }
-
-    componentDidMount() {
-        this.props.actions.fetchMobilePluginIntegrations('webapp');
     }
 
     toggleDropdown = (dropdownOpen) => {
