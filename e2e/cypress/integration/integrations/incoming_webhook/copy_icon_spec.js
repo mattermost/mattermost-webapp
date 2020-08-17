@@ -8,8 +8,6 @@
 // ***************************************************************
 
 describe('Incoming webhook', () => {
-    let testTeam;
-
     before(() => {
         // # Set ServiceSettings to expected values
         const newSettings = {
@@ -21,10 +19,8 @@ describe('Incoming webhook', () => {
         cy.apiUpdateConfig(newSettings);
 
         cy.apiInitSetup().then(({team}) => {
-            testTeam = team;
-
             // # Go to integrations
-            cy.visit(`/${testTeam.name}/integrations`);
+            cy.visit(`/${team.name}/integrations`);
 
             // * Validate that incoming webhooks are enabled
             cy.get('#incomingWebhooks').should('be.visible');
@@ -36,30 +32,38 @@ describe('Incoming webhook', () => {
         const description = 'test-description';
         const channel = 'Town Square';
 
-        cy.get('#incomingWebhooks').click();
+        cy.get('#incomingWebhooks').should('be.visible').click();
 
-        cy.get('#addIncomingWebhook').click();
+        // # For this test purpose, fill in "Title", "Description" and select a "channel" with some test data
+        cy.findByText('Add Incoming Webhook').should('be.visible').click();
 
-        cy.get('#displayName').type(title);
+        cy.get('#displayName').should('be.visible').type(title);
 
-        cy.get('#description').type(description);
+        cy.get('#description').should('be.visible').type(description);
 
-        cy.get('#channelSelect').select(channel);
+        cy.get('#channelSelect').should('be.visible').select(channel);
 
-        cy.get('#saveWebhook').click();
+        // # Scroll down and click "Save"
+        cy.findByText('Save').should('be.visible').click();
 
-        cy.get('#formTitle').should('have.text', 'Setup Successful');
+        cy.findByText('Setup Successful').should('be.visible');
 
+        // * You should see a "copy" icon to the right of the URL in the "Setup Successful" screen
         copyIconIsVisible('.backstage-form__confirmation');
 
-        cy.get('#doneButton').click();
+        // # Click "Done" in the "Setup Successful" screen
+        cy.findByText('Done').should('be.visible').click();
 
+        // # You should see a "copy" icon to the right of the webhook's URL
         copyIconIsVisible('.item-details__url');
     });
 });
 
 function copyIconIsVisible(element) {
     cy.get(element).within(() => {
-        cy.get('a[href="#"]').should('be.visible');
+        cy.get('.fa.fa-copy').
+            should('be.visible').
+            trigger('mouseover').
+            should('have.attr', 'aria-describedby', 'copy');
     });
 }
