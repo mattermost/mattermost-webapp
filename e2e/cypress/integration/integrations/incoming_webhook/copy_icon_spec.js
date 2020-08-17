@@ -37,9 +37,9 @@ describe('Incoming webhook', () => {
         // # For this test purpose, fill in "Title", "Description" and select a "channel" with some test data
         cy.findByText('Add Incoming Webhook').should('be.visible').click();
 
-        cy.get('#displayName').should('be.visible').type(title);
+        cy.findByLabelText('Title').should('be.visible').type(title);
 
-        cy.get('#description').should('be.visible').type(description);
+        cy.findByLabelText('Description').should('be.visible').type(description);
 
         cy.get('#channelSelect').should('be.visible').select(channel);
 
