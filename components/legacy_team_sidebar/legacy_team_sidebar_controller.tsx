@@ -10,6 +10,8 @@ import {DragDropContext, Droppable, DroppableProvided, DropResult} from 'react-b
 import {Team} from 'mattermost-redux/types/teams';
 import {Dictionary} from 'mattermost-redux/src/types/utilities';
 import {TeamMembership} from 'mattermost-redux/src/types/teams';
+import {Dispatch} from 'redux';
+import {GenericAction, GetStateFunc} from 'mattermost-redux/types/actions';
 
 import {Constants} from 'utils/constants.jsx';
 import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
@@ -21,9 +23,9 @@ import Pluggable from 'plugins/pluggable';
 import TeamButton from './components/team_button';
 
 type Actions = {
-    getTeams: Function;
-    switchTeam: Function;
-    updateTeamsOrderForUser: Function;
+    getTeams: (page?: number, perPage?: number, includeTotalCount?: boolean) => void;
+    switchTeam: (url: string) => (dispatch: Dispatch<GenericAction>, getState: GetStateFunc) => void;
+    updateTeamsOrderForUser: (teamIds: string[]) => (dispatch: Dispatch<GenericAction>, getState: GetStateFunc) => Promise<void>;
 }
 
 type State = {
@@ -38,7 +40,7 @@ interface Props {
     moreTeamsToJoin: boolean;
     myTeamMembers: Dictionary<TeamMembership>;
     isOpen: boolean;
-    experimentalPrimaryTeam: string | undefined;
+    experimentalPrimaryTeam?: string ;
     locale: string;
     actions: Actions;
     userTeamsOrderPreference: string;
@@ -179,11 +181,11 @@ export default class LegacyTeamSidebar extends React.PureComponent<Props, State>
         const destinationIndex = result.destination.index;
 
         // Positioning the dropped Team button
-        const popElement = (list: string | any[], idx: number) => {
+        const popElement = (list: Team[], idx: number) => {
             return [...list.slice(0, idx), ...list.slice(idx + 1, list.length)];
         };
 
-        const pushElement = (list: string | any[], idx: number, itemId: string) => {
+        const pushElement = (list: Team[], idx: number, itemId: string): Team[] => {
             return [
                 ...list.slice(0, idx),
                 teams.find((team) => team.id === itemId),
@@ -203,10 +205,10 @@ export default class LegacyTeamSidebar extends React.PureComponent<Props, State>
     render() {
         const root: Element | null = document.querySelector('#root');
         if (this.props.myTeams.length <= 1) {
-            (root as Element).classList.remove('multi-teams');
+            root!.classList.remove('multi-teams');
             return null;
         }
-        (root as Element).classList.add('multi-teams');
+        root!.classList.add('multi-teams');
 
         const plugins = [];
         const sortedTeams = filterAndSortTeamsByDisplayName(this.props.myTeams, this.props.locale, this.props.userTeamsOrderPreference);
