@@ -28,6 +28,7 @@ export default class UsersEmailsInput extends React.PureComponent {
     static propTypes = {
         placeholder: PropTypes.string,
         ariaLabel: PropTypes.string.isRequired,
+        config: PropTypes.object.isRequired,
         usersLoader: PropTypes.func,
         onChange: PropTypes.func,
         value: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.object, PropTypes.string])),
@@ -187,6 +188,10 @@ export default class UsersEmailsInput extends React.PureComponent {
         );
     };
 
+    // TooManyInvitesMessage = (props) => {
+
+    // }
+
     MultiValueRemove = ({children, innerProps}) => (
         <div {...innerProps}>
             {children || <CloseCircleSolidIcon/>}
@@ -251,6 +256,7 @@ export default class UsersEmailsInput extends React.PureComponent {
     }
 
     render() {
+        console.log(this.props.config);
         const values = this.props.value.map((v) => {
             if (v.id) {
                 return v;

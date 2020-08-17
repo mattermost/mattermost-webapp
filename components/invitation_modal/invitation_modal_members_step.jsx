@@ -8,6 +8,8 @@ import {injectIntl, FormattedMessage} from 'react-intl';
 import {debounce} from 'mattermost-redux/actions/helpers';
 import {isEmail} from 'mattermost-redux/utils/helpers';
 
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
+
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import InviteMembersIcon from 'components/widgets/icons/invite_members_icon';
 import UsersEmailsInput from 'components/widgets/inputs/users_emails_input.jsx';
@@ -17,6 +19,9 @@ import LinkIcon from 'components/widgets/icons/link_icon';
 import {getSiteURL} from 'utils/url';
 import {t} from 'utils/i18n.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
+import store from 'stores/redux_store.jsx';
+
+const getState = store.getState;
 
 import './invitation_modal_members_step.scss';
 
@@ -214,6 +219,7 @@ class InvitationModalMembersStep extends React.PureComponent {
                         <UsersEmailsInput
                             usersLoader={this.usersLoader}
                             placeholder={placeholder}
+                            config={getConfig(getState())}
                             ariaLabel={localizeMessage('invitation_modal.members.search_and_add.title', 'Invite People')}
                             onChange={this.onChange}
                             value={this.state.usersAndEmails}
