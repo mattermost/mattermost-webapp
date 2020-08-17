@@ -244,6 +244,7 @@ function handleFirstConnect() {
         },
         clearErrors(),
     ]));
+    fetchMobilePluginIntegrations()(store.dispatch, store.getState);
 }
 
 function handleClose(failCount) {
