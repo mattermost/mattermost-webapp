@@ -2,8 +2,9 @@
 // See LICENSE.txt for license information.
 import React from 'react';
 
-const moment = require('moment-timezone');
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
+
+const moment = require('moment-timezone');
 
 const {LastPostAt} = require('./last_post_at');
 
@@ -23,7 +24,7 @@ describe('components/more_direct_channels/LastPostAt', () => {
 
         const wrapper = mountWithIntl(<LastPostAt {...props}/>);
         const time = wrapper.find('time');
-        
+
         expect(time.text()).toBe(expected);
     });
 });
