@@ -1,38 +1,45 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect} from 'react';
 import classNames from 'classnames';
 
 import './card.scss';
 
 export default function CardBody(props: {expanded?: boolean; children: React.ReactNode}) {
-    const card = useRef<HTMLDivElement>(null);
-    const [height, setHeight] = useState<number | undefined>(0);
+    const [height, setHeight] = useState(0);
+    const [expanding, setExpanding] = useState(false);
+    const [expanded, setExpanded] = useState(false);
 
-    let hasListener = false;
-    const onChange = () => setHeight(card.current?.scrollHeight);
+    const stopExpanding = () => setExpanding(false);
 
-    useEffect(() => {
-        if (hasListener) {
-            window.removeEventListener('resize', onChange);
-        } else {
-            window.addEventListener('resize', onChange);
-            hasListener = true;
+    const card = (node: HTMLDivElement) => {
+        if (node && node.children) {
+            setHeight(Array.from(node.children).map((child) => child.scrollHeight).reduce((a, b) => a + b, 0));
         }
-    }, []);
+    };
 
     useEffect(() => {
-        onChange();
+        setExpanding(true);
+        if (props.expanded) {
+            setExpanded(true);
+        }
     }, [props.expanded]);
+
+    useEffect(() => {
+        if (!props.expanded) {
+            setExpanded(false);
+        }
+    }, [expanding]);
 
     return (
         <div
             ref={card}
             style={{
-                height: props.expanded ? height : '',
+                height: (expanding && expanded) ? height : '',
             }}
-            className={classNames('Card__body', {expanded: props.expanded})}
+            className={classNames('Card__body', {expanded, expanding})}
+            onTransitionEnd={stopExpanding}
         >
             {props.children}
         </div>

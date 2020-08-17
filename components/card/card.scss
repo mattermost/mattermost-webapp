@@ -21,6 +21,10 @@
 }
 
 .Card__header {
+    hr.Card__hr {
+        margin: 0 12px;
+        border-color: rgba(var(--center-channel-color-rgb), 0.08);
+    }
 }
 
 .Card__body {
@@ -28,14 +32,18 @@
     height: 0;
     margin: 0 12px;
 
-    transition-duration: 0.3s;
-    transition-timing-function: ease-in-out;
-    transition-property: height, margin;
+    &.expanding {
+        transition-duration: 0.3s;
+        transition-timing-function: ease-in-out;
+        transition-property: height, margin;
+    }
 
     &.expanded {
-        margin: 0 12px 12px 12px;
-        padding-top: 12px;
-        border-top: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
+        margin: 12px;
+    }
+
+    &.expanded:not(.expanding) {
+        height: auto;
     }
 }
 
