@@ -25,7 +25,7 @@ describe('Messaging', () => {
         });
     });
 
-    it('M18699-Leave a long draft in the main input box', () => {
+    it('MM-T211 Leave a long draft in the main input box', () => {
         const lines = [
             'Lorem ipsum dolor sit amet,',
             'consectetur adipiscing elit.',

@@ -57,4 +57,17 @@ export function getMessageMenusPayload({dataSource, options, prefix = Date.now()
     return data;
 }
 
+export function hexToRgbArray(hex) {
+    var rgbArr = hex.replace('#', '').match(/.{1,2}/g);
+    return [
+        parseInt(rgbArr[0], 16),
+        parseInt(rgbArr[1], 16),
+        parseInt(rgbArr[2], 16),
+    ];
+}
+
+export function rgbArrayToString(rgbArr) {
+    return `rgb(${rgbArr[0]}, ${rgbArr[1]}, ${rgbArr[2]})`;
+}
+
 export const reUrl = /(https?:\/\/[^ ]*)/;

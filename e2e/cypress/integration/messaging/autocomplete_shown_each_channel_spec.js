@@ -24,7 +24,7 @@ describe('Identical Message Drafts', () => {
         });
     });
 
-    it('M14432 shows Autocomplete in each channel', () => {
+    it('MM-T132 Identical Message Drafts - Autocomplete shown in each channel', () => {
         // # Go to test Channel A on sidebar
         cy.get('#sidebarItem_town-square').should('be.visible').click();
 

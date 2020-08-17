@@ -37,7 +37,7 @@ describe('Messaging', () => {
         });
     });
 
-    it('M23346 - Pinned parent post: reply count remains in center channel and is correct', () => {
+    it('MM-T123 Pinned parent post: reply count remains in center channel and is correct', () => {
         // # Login as the other user
         cy.apiLogin(sender);
 

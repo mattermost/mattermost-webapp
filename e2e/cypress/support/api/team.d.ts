@@ -49,6 +49,18 @@ declare namespace Cypress {
         apiDeleteTeam(teamId: string, permanent?: boolean): Chainable<Record<string, any>>;
 
         /**
+         * Delete the team member object for a user, effectively removing them from a team.
+         * See https://api.mattermost.com/#tag/teams/paths/~1teams~1{team_id}~1members~1{user_id}/delete
+         * @param {String} teamId - The team ID which the user is to be removed from
+         * @param {String} userId - The user ID to be removed from team
+         * @returns {Object} `out.data` as response status
+         *
+         * @example
+         *   cy.apiDeleteUserFromTeam('team-id', 'user-id');
+         */
+        apiDeleteUserFromTeam(teamId: string, userId: string): Chainable<Record<string, any>>;
+
+        /**
          * Patch a team.
          * Partially update a team by providing only the fields you want to update.
          * Omitted fields will not be updated.
