@@ -94,10 +94,12 @@ export default class ManageLanguage extends React.PureComponent<Props, State> {
     };
 
     setLanguage = (selectedOption: ValueType<SelectedOption>) => {
-        this.setState({
-            locale: selectedOption.value,
-            selectedOption
-        });
+        if (selectedOption && 'value' in selectedOption) {
+            this.setState({
+                locale: selectedOption.value,
+                selectedOption
+            });
+        }
     };
 
     changeLanguage = () => {
