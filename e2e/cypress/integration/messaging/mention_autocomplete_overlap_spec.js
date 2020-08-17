@@ -80,12 +80,12 @@ describe('Messaging', () => {
         cy.closeRHS();
     });
 
-    it('M18667-At-mention user autocomplete does not overlap with channel header when drafting a long message containing a file attachment (standard viewport)', () => {
+    it('MM-T70 At-mention user autocomplete is legible when it overlaps with channel header when drafting a long message containing a file attachment', () => {
         // # Upload file, add message, add mention, verify no overlap
         uploadFileAndAddAutocompleteThenVerifyNoOverlap();
     });
 
-    it('M18667-At-mention user autocomplete does not overlap with channel header when drafting a long message containing a file attachment (1280x900 viewport)', () => {
+    it('MM-T70 At-mention user autocomplete is legible when it overlaps with channel header when drafting a long message containing a file attachment (1280x900 viewport)', () => {
         // # Set to different viewport
         cy.viewport(1280, 900);
 
