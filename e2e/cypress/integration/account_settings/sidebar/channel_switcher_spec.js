@@ -58,7 +58,7 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
         verifyChannelSwitch(testTeam, testChannel);
     });
 
-    it('AS13216 Using CTRL/CMD+K if Channel Switcher is hidden in the LHS', () => {
+    it('MM-T266 Using CTRL/CMD+K if Channel Switcher is hidden in the LHS', () => {
         // # Go to Account Settings modal > Sidebar > Channel Switcher and set setting to Off
         enableOrDisableChannelSwitcher(false);
 

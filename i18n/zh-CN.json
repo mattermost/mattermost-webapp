@@ -3990,5 +3990,6 @@
   "admin.filter.filters": "过滤器",
   "admin.filter.apply": "应用",
   "admin.filter.all_teams": "所有团队",
-  "admin.channel_list.manual_invites": "手动邀请"
+  "admin.channel_list.manual_invites": "手动邀请",
+  "warn_metric_ack_modal.learn_more.link": "了解更多"
 }
