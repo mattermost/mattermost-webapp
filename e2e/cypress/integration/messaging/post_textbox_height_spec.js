@@ -21,20 +21,22 @@ describe('Messaging', () => {
         });
     });
 
-    it('M18700 - Leave a long draft in reply input box', () => {
+    it('MM-T212 Leave a long draft in reply input box', () => {
         // # Get latest post id
         cy.getLastPostId().then((latestPostId) => {
             // # Click reply icon
             cy.clickPostCommentIcon(latestPostId);
 
             // # Make sure that text box has initial height
-            getTextBox().should('have.css', 'height', '100px');
+            getTextBox().should('have.css', 'height', '100px').invoke('height').as('originalHeight1');
 
-            // // # Write a long text in text box
-            getTextBox().type('test{shift}{enter}{enter}{enter}{enter}{enter}{enter}test');
+            // # Write a long text in text box
+            getTextBox().type('test{shift}{enter}{enter}{enter}{enter}{enter}{enter}{enter}test');
 
             // # Check that input box is taller than before
-            getTextBox().should('have.css', 'height', '166px');
+            cy.get('@originalHeight1').then((originalHeight1) => {
+                getTextBox().invoke('height').should('be.gt', originalHeight1 * 2);
+            });
 
             // # Get second latest post id
             const secondLatestPostIndex = -2;
@@ -43,13 +45,15 @@ describe('Messaging', () => {
                 cy.clickPostCommentIcon(secondLatestPostId);
 
                 // # Make sure that text box has initial height
-                getTextBox().should('have.css', 'height', '100px');
+                getTextBox().should('have.css', 'height', '100px').invoke('height').as('originalHeight2');
 
                 // # Click again reply icon on the latest post
                 cy.clickPostCommentIcon(latestPostId);
 
                 // # Check that input box is taller again
-                getTextBox().should('have.css', 'height', '166px');
+                cy.get('@originalHeight2').then((originalHeight2) => {
+                    getTextBox().invoke('height').should('be.gt', originalHeight2 * 2);
+                });
             });
         });
     });
