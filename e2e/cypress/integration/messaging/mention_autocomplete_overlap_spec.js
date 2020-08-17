@@ -80,12 +80,12 @@ describe('Messaging', () => {
         cy.closeRHS();
     });
 
-    it('M18667-At-mention user autocomplete does not overlap with channel header when drafting a long message containing a file attachment (standard viewport)', () => {
+    it('MM-T70 At-mention user autocomplete is legible when it overlaps with channel header when drafting a long message containing a file attachment', () => {
         // # Upload file, add message, add mention, verify no overlap
         uploadFileAndAddAutocompleteThenVerifyNoOverlap();
     });
 
-    it('M18667-At-mention user autocomplete does not overlap with channel header when drafting a long message containing a file attachment (1280x900 viewport)', () => {
+    it('MM-T70 At-mention user autocomplete is legible when it overlaps with channel header when drafting a long message containing a file attachment (1280x900 viewport)', () => {
         // # Set to different viewport
         cy.viewport(1280, 900);
 
@@ -109,13 +109,15 @@ function uploadFileAndAddAutocompleteThenVerifyNoOverlap() {
     // # Add the mention
     cy.get('#post_textbox').type('{shift}{enter}').type('@');
 
-    cy.get('#channel-header').then((header) => {
-        cy.get('#suggestionList').then((list) => {
+    cy.get('#channel-header').should('be.visible').then((header) => {
+        cy.get('#suggestionList').should('be.visible').then((list) => {
             // # Wait for suggestions to be fully loaded
             cy.wait(TIMEOUTS.HALF_SEC).then(() => {
                 // * Suggestion list should visibly render just within the channel header
-                expect(header[0].getBoundingClientRect().top).to.be.lessThan(list[0].getBoundingClientRect().top);
-                expect(header[0].getBoundingClientRect().bottom).to.be.lessThan(list[0].getBoundingClientRect().top);
+                cy.wrap(header[0].getBoundingClientRect().top).should('be.lt', list[0].getBoundingClientRect().top);
+                cy.wrap(list[0]).findByText('Channel Members').then((channelMembers) => {
+                    cy.wrap(header[0].getBoundingClientRect().bottom).should('be.lt', channelMembers[0].getBoundingClientRect().top);
+                });
             });
         });
     });

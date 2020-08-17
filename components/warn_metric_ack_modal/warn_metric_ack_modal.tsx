@@ -22,6 +22,7 @@ const StatTypes = Constants.StatTypes;
 import * as Utils from 'utils/utils.jsx';
 
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
+import ErrorLink from 'components/error_page/error_link';
 
 type Props = {
     user: UserProfile;
@@ -161,6 +162,28 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
             />
         );
 
+        const learnMoreLink = 'https://mattermost.com/pl/default-admin-advisory';
+        const subText = (
+            <div
+                style={{display: 'flex', opacity: '0.56', flexWrap: 'wrap'}}
+                className='help__format-text'
+            >
+                <FormattedMessage
+                    id='warn_metric_ack_modal.number_of_active_users.subtext'
+                    defaultMessage='Contacting support sends your contact information to Mattermost, Inc. {link}'
+                    values={{
+                        link: (
+                            <ErrorLink
+                                url={learnMoreLink}
+                                messageId={t('warn_metric_ack_modal.learn_more.link')}
+                                defaultMessage={'Learn More'}
+                            />
+                        ),
+                    }}
+                />
+            </div>
+        );
+
         const buttonText = (
             <FormattedMessage
                 id='warn_metric_ack_modal.contact_support'
@@ -191,6 +214,8 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
                         {descriptionText}
                         <br/>
                         {this.renderError()}
+                        <br/>
+                        {subText}
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
