@@ -10,6 +10,7 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId, getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getPluginIntegrations} from 'mattermost-redux/selectors/entities/plugins';
 import {fetchMobilePluginIntegrations} from 'mattermost-redux/actions/plugins';
+import PluginLocation from 'mattermost-redux/constants/plugins';
 
 import {openModal} from 'actions/views/modals';
 import {
@@ -37,7 +38,7 @@ function mapStateToProps(state, ownProps) {
     const currentTeam = getCurrentTeam(state) || {};
     const currentTeamUrl = `${getSiteURL()}/${currentTeam.name}`;
 
-    const pluginIntegrations = getPluginIntegrations(state);
+    const pluginIntegrations = getPluginIntegrations(state, PluginLocation.PLUGIN_LOCATION_POST_ACTION);
 
     return {
         channelIsArchived: isArchivedChannel(channel),

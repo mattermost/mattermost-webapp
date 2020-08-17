@@ -310,11 +310,12 @@ export default class DotMenu extends React.PureComponent {
         }).map((item, i) => {
             return (
                 <Menu.ItemAction
-                    text={item.extra}
+                    text={item.extra.text}
                     key={item.id + '_' + i}
                     onClick={() => {
                         doPluginAction(item.id, item.request_url, {post_id: this.props.post.id});
                     }}
+                    icon={(<img src={item.extra.icon} />)}
                 />
             );
         });

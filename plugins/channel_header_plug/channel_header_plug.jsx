@@ -9,6 +9,7 @@ import {Dropdown, Tooltip} from 'react-bootstrap';
 import {RootCloseWrapper} from 'react-overlays';
 import {FormattedMessage} from 'react-intl';
 
+import {doPluginAction} from 'actions/plugins';
 import HeaderIconWrapper from 'components/channel_header/components/header_icon_wrapper';
 import PluginChannelHeaderIcon from '../../components/widgets/icons/plugin_channel_header_icon';
 import {Constants} from 'utils/constants';
@@ -89,6 +90,7 @@ export default class ChannelHeaderPlug extends React.PureComponent {
          * Components or actions to add as channel header buttons
          */
         components: PropTypes.array,
+        integrations: PropTypes.array,
 
         channel: PropTypes.object.isRequired,
         channelMember: PropTypes.object.isRequired,
@@ -97,6 +99,10 @@ export default class ChannelHeaderPlug extends React.PureComponent {
          * Logged in user's theme
          */
         theme: PropTypes.object.isRequired,
+
+        actions: PropTypes.shape({
+            fetchMobilePluginIntegrations: PropTypes.func.isRequired,
+        }),
     }
 
     constructor(props) {
@@ -104,6 +110,10 @@ export default class ChannelHeaderPlug extends React.PureComponent {
         this.state = {
             dropdownOpen: false,
         };
+    }
+
+    componentDidMount() {
+        this.props.actions.fetchMobilePluginIntegrations('webapp');
     }
 
     toggleDropdown = (dropdownOpen) => {
@@ -119,7 +129,7 @@ export default class ChannelHeaderPlug extends React.PureComponent {
         this.onClose();
     }
 
-    createButton = (plug) => {
+    createComponentButton = (plug) => {
         return (
             <HeaderIconWrapper
                 key={'channelHeaderButton' + plug.id}
@@ -133,8 +143,22 @@ export default class ChannelHeaderPlug extends React.PureComponent {
         );
     }
 
-    createDropdown = (plugs) => {
-        const items = plugs.map((plug) => {
+    createActionButton = (plug) => {
+        return (
+            <HeaderIconWrapper
+                key={'channelHeaderButton' + plug.id}
+                buttonClass='channel-header__icon style--none'
+                iconComponent={(<img src={plug.extra.icon} width='24' height='24' />)}
+                onClick={() => doPluginAction(plug.id, plug.request_url, {channel_id: this.props.channel.id})}
+                buttonId={plug.id}
+                tooltipKey={'plugin'}
+                tooltipText={plug.text}
+            />
+        );
+    }
+
+    createDropdown = (plugs, integrations) => {
+        const componentItems = plugs.map((plug) => {
             return (
                 <li
                     key={'channelHeaderPlug' + plug.id}
@@ -150,6 +174,23 @@ export default class ChannelHeaderPlug extends React.PureComponent {
                 </li>
             );
         });
+
+        const items = componentItems.concat(integrations.map((plug) => {
+            return (
+                <li
+                    key={'channelHeaderPlug' + plug.id}
+                >
+                    <a
+                        href='#'
+                        className='d-flex align-items-center'
+                        onClick={() => this.fireActionAndClose(() => doPluginAction(plug.id, plug.request_url, {channel_id: this.props.channel.id}))}
+                    >
+                        <span className='d-flex align-items-center overflow--ellipsis'>{(<img src={plug.extra.icon} />)}</span>
+                        <span>{plug.text}</span>
+                    </a>
+                </li>
+            );
+        }));
 
         return (
             <div className='flex-child'>
@@ -206,14 +247,16 @@ export default class ChannelHeaderPlug extends React.PureComponent {
 
     render() {
         const components = this.props.components || [];
+        const integrations = this.props.integrations || [];
 
-        if (components.length === 0) {
+        if (components.length === 0 && integrations.length === 0) {
             return null;
-        } else if (components.length <= 5) {
-            return components.map(this.createButton);
+        } else if (components.length + integrations.length <= 5) {
+            const componentButtons = components.map(this.createComponentButton);
+            return componentButtons.concat(integrations.map(this.createActionButton));
         }
 
-        return this.createDropdown(components);
+        return this.createDropdown(components, integrations);
     }
 }
 
