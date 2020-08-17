@@ -174,6 +174,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
             <React.Fragment>
                 <Draggable
                     draggableId={`NEW_CHANNEL_SPACER__${category.id}`}
+                    isDragDisabled={true}
                     index={0}
                 >
                     {(provided) => {
