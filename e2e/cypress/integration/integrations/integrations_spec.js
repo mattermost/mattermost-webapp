@@ -12,6 +12,7 @@
 
 import {getRandomId} from '../../utils';
 import * as MESSAGES from '../../fixtures/messages';
+import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Integrations page', () => {
     let testTeam;
@@ -372,6 +373,93 @@ describe('Integrations page', () => {
 
         // # Go back to home channel
         cy.visit(`/${testTeam.name}/channels/town-square`);
+    });
+
+    it('MM-T580 Custom slash command auto-complete displays trigger word and not command name', () => {
+        cy.visit(`/${testTeam.name}/channels/town-square`);
+
+        // # Open main menu
+        cy.findByLabelText('main menu').should('be.visible').click();
+
+        // # Scan the area of main menu dropdown
+        cy.get('#sidebarDropdownMenu').within(() => {
+            // # Open integrations menu
+            cy.findByText('Integrations').should('exist').and('be.visible').click();
+        });
+
+        // * Verify we are at integrations page URL
+        cy.url().should('include', '/integrations');
+
+        // # Scan the area of integrations list
+        cy.get('.integrations-list').should('exist').within(() => {
+            // # Open Slash commands directory
+            cy.findByText('Slash Commands').should('exist').and('be.visible').click({force: true});
+        });
+
+        // * Verify we are at slash commands directory URL
+        cy.url().should('include', '/integrations/commands');
+
+        // # Hit create slash command button
+        cy.findByText('Add Slash Command').should('exist').and('be.visible').click();
+
+        // * Verify we are at slash commands add URL
+        cy.url().should('include', '/integrations/commands/add');
+
+        const commandTitle = `abc-${Date.now()}`;
+        const commandTrigger = `xyz-${Date.now()}`;
+
+        // # Enter a title for custom slash command
+        cy.findByLabelText('Title').should('exist').scrollIntoView().type(commandTitle);
+
+        // # Enter a trigger word for custom slash command different from slash title
+        cy.findByLabelText('Command Trigger Word').should('exist').scrollIntoView().type(commandTrigger);
+
+        // # Enter a request url for custom slash command
+        cy.findByLabelText('Request URL').should('exist').scrollIntoView().type('https://example.com');
+
+        // # Check the option of autocomplete
+        cy.findByLabelText('Autocomplete').should('exist').scrollIntoView().click();
+
+        // # Hit save to save the custom slash command
+        cy.findByText('Save').should('exist').scrollIntoView().click();
+
+        // * Verify we are at setup successful URL
+        cy.url().should('include', '/integrations/commands/confirm');
+
+        // * Verify slash was successfully created
+        cy.findByText('Setup Successful').should('exist').and('be.visible');
+
+        // * Verify token was created
+        cy.findByText('Token').should('exist').and('be.visible');
+
+        // # Hit done to move from confirm screen
+        cy.findByText('Done').should('exist').and('be.visible').click();
+
+        // * Verify we are back to installed slash commands screen
+        cy.url().should('include', '/integrations/commands/installed');
+
+        // * Verify our created command is in the list
+        cy.findByText(commandTitle).should('exist').and('be.visible').scrollIntoView();
+
+        // # Go back to home channel
+        cy.findByText('Back to Mattermost').should('exist').and('be.visible').click();
+
+        const first2LettersOfCommandTrigger = commandTrigger.slice(0, 2);
+
+        // # Type first 2 letters of the command trigger word
+        cy.get('#post_textbox', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').clear().type(`/${first2LettersOfCommandTrigger}`);
+
+        // # Scan inside of suggestion list
+        cy.get('#suggestionList').should('exist').and('be.visible').within(() => {
+            // * Verify that commands trigger is suggested
+            cy.findByText(commandTrigger).should('exist').and('be.visible');
+
+            // * Verify that commands title is not suggested
+            cy.findByText(commandTitle).should('not.exist');
+        });
+
+        // # Clear the textbox
+        cy.postMessage('Hello');
     });
 });
 
