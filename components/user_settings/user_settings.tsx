@@ -3,6 +3,8 @@
 
 import React from 'react';
 
+import {UserProfile} from 'mattermost-redux/types/users';
+
 import AdvancedTab from './advanced';
 import DisplayTab from './display';
 import GeneralTab from './general';
@@ -11,11 +13,11 @@ import SecurityTab from './security';
 import SidebarTab from './sidebar';
 
 type Props = {
-    user: {};
+    user: UserProfile;
     activeTab?: string;
     activeSection?: string;
-    updateSection?: () => void;
-    updateTab?: () => void;
+    updateSection: (section: string) => void;
+    updateTab: (notifications: string) => void;
     closeModal: () => void;
     collapseModal: () => void;
     setEnforceFocus: () => void;

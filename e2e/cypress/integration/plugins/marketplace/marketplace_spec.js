@@ -145,6 +145,9 @@ describe('Plugin Marketplace', () => {
             // # Install one plugin
             cy.apiInstallPluginFromUrl('https://github.com/mattermost/mattermost-plugin-github/releases/download/v0.7.0/github-0.7.0.tar.gz', true);
 
+            // # Scroll to GitHub plugin
+            cy.get('#marketplace-plugin-github').scrollIntoView().should('be.visible');
+
             // * Verify one local plugin should be installed
             cy.get('#marketplaceTabs-tab-installed').scrollIntoView().should('be.visible').click();
             cy.get('#marketplaceTabs-pane-installed').find('.more-modal__row').should('have.length', 1);
@@ -393,7 +396,6 @@ describe('Plugin Marketplace', () => {
                     EnableMarketplace: true,
                     EnableRemoteMarketplace: false,
                     AutomaticPrepackagedPlugins: false,
-                    MarketplaceUrl: 'https://api.integrations.mattermost.com',
                 },
             });
 
@@ -418,6 +420,9 @@ describe('Plugin Marketplace', () => {
         it('display installed plugins', () => {
             // # Install one plugin
             cy.apiInstallPluginFromUrl('https://github.com/mattermost/mattermost-plugin-github/releases/download/v0.7.0/github-0.7.0.tar.gz', true);
+
+            // # Scroll to GitHub plugin
+            cy.get('#marketplace-plugin-github').scrollIntoView().should('be.visible');
 
             // * Verify one local plugin should be installed
             cy.get('#marketplaceTabs-tab-installed').scrollIntoView().should('be.visible').click();

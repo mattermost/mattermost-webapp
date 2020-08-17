@@ -22,4 +22,5 @@ module.exports = {
     FOUR_MIN: MINUTE * 4,
     FIVE_MIN: MINUTE * 5,
     TEN_MIN: MINUTE * 10,
+    TWENTY_MIN: MINUTE * 20,
 };
