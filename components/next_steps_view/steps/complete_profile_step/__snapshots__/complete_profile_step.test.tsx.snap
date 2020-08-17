@@ -43,9 +43,6 @@ exports[`components/next_steps_view/steps/complete_profile_step should match sna
       />
     </div>
   </div>
-  <span
-    className="CompleteProfileStep__pictureError"
-  />
   <div
     className="NextStepsView__wizardButtons"
   >

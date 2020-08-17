@@ -16,7 +16,6 @@
 
     .PictureSelector {
         margin-top: 12px;
-        min-height: 125px;
 
         .PictureSelector__image {
             border-radius: 8px;
@@ -64,11 +63,6 @@
     .Input_container {
         margin-top: 28px;
     }
-
-    // TODO: For URL
-    // .Input_container:last-child {
-    //     min-height: 80px;
-    // }
 }
 
 .TeamProfileStep__pictureError {
@@ -76,7 +70,6 @@
     line-height: 16px;
     color: var(--error-text);
     padding: 0 40px;
-    min-height: 16px;
 
     > span {
         margin-left: 4px;
