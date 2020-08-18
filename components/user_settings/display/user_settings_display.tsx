@@ -348,17 +348,17 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
             const key = section + 'UserDisplay';
 
             const firstDisplay = {
-                display: firstOption.value
+                [display]: firstOption.value
             };
 
             const secondDisplay = {
-                display: secondOption.value
+                [display]: secondOption.value
             };
 
             let thirdSection;
             if (thirdOption && thirdMessage) {
                 const thirdDisplay = {
-                    display: thirdOption.value
+                    [display]: thirdOption.value
                 };
 
                 thirdSection = (
