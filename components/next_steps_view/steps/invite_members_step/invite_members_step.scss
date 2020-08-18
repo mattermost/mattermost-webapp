@@ -43,7 +43,7 @@
         min-width: 108px;
 
         &.copied {
-            box-shadow: 0 0 0 1px var(--online-indicator);
+            box-shadow: inset 0 0 0 1px var(--online-indicator);
             color: var(--online-indicator);
         }
 
