@@ -12,44 +12,6 @@
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
-function verifySearchAutocomplete(index, type = 'user') {
-    cy.get('#search-autocomplete__popover').find('.search-autocomplete__item').eq(index).should('be.visible').and('have.class', 'selected a11y--focused').within((el) => {
-        if (type === 'user') {
-            cy.get('.mention--align').invoke('text').then((text) => {
-                cy.get('.mention__fullname').invoke('text').then((fullName) => {
-                    const position = text.length - fullName.length;
-                    const usernameFullNameNickName = [text.slice(0, position), fullName].join(' ').replace('@', '').replace('(you)', '').replace('(', '').replace(')', '').toLowerCase();
-                    cy.wrap(el).parents('#searchFormContainer').find('.sr-only').should('have.attr', 'aria-live', 'polite').and('have.text', usernameFullNameNickName);
-                });
-            });
-        } else if (type === 'channel') {
-            cy.get('.search-autocomplete__name').invoke('text').then((text) => {
-                const channel = text.split('~')[1].toLowerCase().trim();
-                cy.wrap(el).parents('#searchFormContainer').find('.sr-only').should('have.attr', 'aria-live', 'polite').and('have.text', channel);
-            });
-        }
-    });
-}
-
-function verifyMessageAutocomplete(index, type = 'user') {
-    cy.get('#suggestionList').find('.mentions__name').eq(index).should('be.visible').and('have.class', 'suggestion--selected').within((el) => {
-        if (type === 'user') {
-            cy.wrap(el).invoke('text').then((text) => {
-                cy.get('.ml-2').invoke('text').then((fullName) => {
-                    const position = text.length - fullName.length;
-                    const usernameFullNameNickName = [text.slice(0, position), fullName].join(' ').replace('@', '').replace('(you)', '').replace('(', '').replace(')', '').toLowerCase();
-                    cy.wrap(el).parents('.textarea-wrapper').find('.sr-only').should('have.attr', 'aria-live', 'polite').and('have.text', usernameFullNameNickName);
-                });
-            });
-        } else if (type === 'channel') {
-            cy.wrap(el).invoke('text').then((text) => {
-                const channel = text.split('~')[0].toLowerCase().trim();
-                cy.wrap(el).parents('.textarea-wrapper').find('.sr-only').should('have.attr', 'aria-live', 'polite').and('have.text', channel);
-            });
-        }
-    });
-}
-
 describe('Verify Accessibility Support in different input fields', () => {
     let testTeam;
     let testChannel;
@@ -67,6 +29,9 @@ describe('Verify Accessibility Support in different input fields', () => {
         cy.apiCreateChannel(testTeam.id, 'accessibility', 'accessibility').then((response) => {
             testChannel = response.body;
             cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+
+            // # Wait till page is loaded
+            cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
         });
     });
 
@@ -120,10 +85,10 @@ describe('Verify Accessibility Support in different input fields', () => {
         }
 
         // * Verify Accessibility support in search input
-        cy.get('#searchBox').should('have.attr', 'aria-describedby', 'searchbar-help-popup').and('have.attr', 'aria-label', 'Search').focus();
+        cy.get('#searchBox').should('have.attr', 'aria-describedby', 'searchbar-help-popup').and('have.attr', 'aria-label', 'Search').click();
         cy.get('#searchbar-help-popup').should('be.visible').and('have.attr', 'role', 'tooltip');
 
-        // # Ensure User list is cached once in UI
+        // # Type the from: filter and ensure user list is cached once
         cy.get('#searchBox').type('from:').wait(TIMEOUTS.FIVE_SEC);
 
         // # Trigger the user autocomplete again
@@ -146,12 +111,25 @@ describe('Verify Accessibility Support in different input fields', () => {
         // # Trigger the channel autocomplete again
         cy.get('#searchBox').clear().type('in:').wait(TIMEOUTS.FIVE_SEC).type('{downarrow}{downarrow}');
 
-        // * Verify Accessibility Support in search autocomplete
-        verifySearchAutocomplete(2, 'channel');
+        // * Verify Accessibility Support in search autocomplete for direct message channels
+        verifySearchAutocomplete(2, 'dm');
 
         // # Press Up arrow and verify if focus changes
         cy.focused().type('{uparrow}{uparrow}');
-        verifySearchAutocomplete(0, 'channel');
+        verifySearchAutocomplete(0, 'dm');
+
+        // # Type the in: filter and ensure channel list is cached once
+        cy.get('#searchBox').clear().type('in:').wait(TIMEOUTS.FIVE_SEC);
+
+        // # Trigger the channel autocomplete again
+        cy.get('#searchBox').clear().type('in:').wait(TIMEOUTS.FIVE_SEC).type('{downarrow}{downarrow}{downarrow}{downarrow}{downarrow}{downarrow}{downarrow}{downarrow}{downarrow}');
+
+        // * Verify Accessibility Support in search autocomplete for regular channels
+        verifySearchAutocomplete(9, 'channel');
+
+        // # Press Up arrow and verify if focus changes
+        cy.focused().type('{uparrow}{uparrow}');
+        verifySearchAutocomplete(7, 'channel');
     });
 
     it('MM-22625 Verify Accessibility Support in Message Autocomplete', () => {
@@ -220,9 +198,6 @@ describe('Verify Accessibility Support in different input fields', () => {
     });
 
     it('MM-22625 Verify Accessibility Support in RHS Input', () => {
-        // # Wait till page is loaded
-        cy.get('#post_textbox').should('be.visible').clear();
-
         // # Post a message and open RHS
         const message = `hello${Date.now()}`;
         cy.postMessage(message);
@@ -249,3 +224,46 @@ describe('Verify Accessibility Support in different input fields', () => {
         });
     });
 });
+
+function verifySearchAutocomplete(index, type = 'user') {
+    cy.get('#search-autocomplete__popover').find('.search-autocomplete__item').eq(index).should('be.visible').and('have.class', 'selected a11y--focused').within((el) => {
+        if (type === 'user') {
+            cy.get('.mention--align').invoke('text').then((text) => {
+                cy.get('.mention__fullname').invoke('text').then((fullName) => {
+                    const position = text.length - fullName.length;
+                    const usernameFullNameNickName = [text.slice(0, position), fullName].join(' ').replace('@', '').replace('(you)', '').replace('(', '').replace(')', '').toLowerCase();
+                    cy.wrap(el).parents('#searchFormContainer').find('.sr-only').should('have.attr', 'aria-live', 'polite').and('have.text', usernameFullNameNickName);
+                });
+            });
+        } else if (type === 'dm') {
+            cy.get('.search-autocomplete__name').invoke('text').then((text) => {
+                const channel = text.split('@')[1].toLowerCase().trim();
+                cy.wrap(el).parents('#searchFormContainer').find('.sr-only').should('have.attr', 'aria-live', 'polite').and('have.text', channel);
+            });
+        } else if (type === 'channel') {
+            cy.get('.search-autocomplete__name').invoke('text').then((text) => {
+                const channel = text.split('~')[1].toLowerCase().trim();
+                cy.wrap(el).parents('#searchFormContainer').find('.sr-only').should('have.attr', 'aria-live', 'polite').and('have.text', channel);
+            });
+        }
+    });
+}
+
+function verifyMessageAutocomplete(index, type = 'user') {
+    cy.get('#suggestionList').find('.mentions__name').eq(index).should('be.visible').and('have.class', 'suggestion--selected').within((el) => {
+        if (type === 'user') {
+            cy.wrap(el).invoke('text').then((text) => {
+                cy.get('.ml-2').invoke('text').then((fullName) => {
+                    const position = text.length - fullName.length;
+                    const usernameFullNameNickName = [text.slice(0, position), fullName].join(' ').replace('@', '').replace('(you)', '').replace('(', '').replace(')', '').toLowerCase();
+                    cy.wrap(el).parents('.textarea-wrapper').find('.sr-only').should('have.attr', 'aria-live', 'polite').and('have.text', usernameFullNameNickName);
+                });
+            });
+        } else if (type === 'channel') {
+            cy.wrap(el).invoke('text').then((text) => {
+                const channel = text.split('~')[0].toLowerCase().trim();
+                cy.wrap(el).parents('.textarea-wrapper').find('.sr-only').should('have.attr', 'aria-live', 'polite').and('have.text', channel);
+            });
+        }
+    });
+}
