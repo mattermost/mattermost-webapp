@@ -405,10 +405,12 @@ export function handleEvent(msg) {
 
     case SocketEvents.PLUGIN_ENABLED:
         handlePluginEnabled(msg);
+        store.dispatch(fetchMobilePluginIntegrations());
         break;
 
     case SocketEvents.PLUGIN_DISABLED:
         handlePluginDisabled(msg);
+        store.dispatch(fetchMobilePluginIntegrations());
         break;
 
     case SocketEvents.USER_ROLE_UPDATED:
@@ -425,6 +427,7 @@ export function handleEvent(msg) {
 
     case SocketEvents.PLUGIN_STATUSES_CHANGED:
         handlePluginStatusesChangedEvent(msg);
+        store.dispatch(fetchMobilePluginIntegrations());
         break;
 
     case SocketEvents.OPEN_DIALOG:
@@ -1154,13 +1157,11 @@ export function handlePluginEnabled(msg) {
     loadPlugin(manifest).catch((error) => {
         console.error(error.message); //eslint-disable-line no-console
     });
-    store.dispatch(fetchMobilePluginIntegrations());
 }
 
 export function handlePluginDisabled(msg) {
     const manifest = msg.data.manifest;
     removePlugin(manifest);
-    store.dispatch(fetchMobilePluginIntegrations());
 }
 
 function handleUserRoleUpdated(msg) {
@@ -1190,7 +1191,6 @@ function handleLicenseChanged(msg) {
 
 function handlePluginStatusesChangedEvent(msg) {
     store.dispatch({type: AdminTypes.RECEIVED_PLUGIN_STATUSES, data: msg.data.plugin_statuses});
-    store.dispatch(fetchMobilePluginIntegrations());
 }
 
 function handleOpenDialogEvent(msg) {
