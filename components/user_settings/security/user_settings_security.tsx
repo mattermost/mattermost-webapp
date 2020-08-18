@@ -7,6 +7,7 @@ import {FormattedDate, FormattedMessage, FormattedTime} from 'react-intl';
 import {Link} from 'react-router-dom';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {ActionResult} from 'mattermost-redux/types/actions';
+import {OAuthApp} from 'mattermost-redux/types/integrations';
 
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
@@ -58,11 +59,11 @@ type State ={
     currentPassword: string;
     newPassword: string;
     confirmPassword: string;
-    passwordError: string | null;
+    passwordError: React.ReactNode | string;
     serverError: string | null;
     tokenError: string;
     savingPassword: boolean;
-    authorizedApps: object[];
+    authorizedApps: OAuthApp[];
 };
 
 export default class SecurityTab extends React.PureComponent<Props, State> {
@@ -86,6 +87,7 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
             tokenError: '',
             authService: this.props.user.auth_service,
             savingPassword: false,
+            authorizedApps: [],
         };
     }
 
@@ -171,7 +173,7 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
     deauthorizeApp = async (e: React.MouseEvent) => {
         e.preventDefault();
 
-        const appId = e.currentTarget.getAttribute('data-app');
+        const appId = e.currentTarget.getAttribute('data-app') as string;
 
         const res = await this.props.actions.deauthorizeOAuthApp(appId);
         if ('data' in res) {
@@ -459,7 +461,6 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
                 describe={describe}
                 section={SECTION_PASSWORD}
                 updateSection={this.handleUpdateSection}
-                focused={true}
             />
         );
     }
@@ -843,7 +844,7 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
                         id='user.settings.security.close'
                         defaultMessage='Close'
                     >
-                        {(ariaLabel) => (
+                        {(ariaLabel: string) => (
                             <button
                                 type='button'
                                 className='close'
@@ -864,7 +865,7 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
                                 id='generic_icons.collapse'
                                 defaultMessage='Collapse Icon'
                             >
-                                {(title) => (
+                                {(title: string) => (
                                     <i
                                         className='fa fa-angle-left'
                                         title={title}
@@ -910,7 +911,7 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
                             id='user.settings.security.viewHistory.icon'
                             defaultMessage='Access History Icon'
                         >
-                            {(title) => (
+                            {(title: string) => (
                                 <i
                                     className='fa fa-clock-o'
                                     title={title}
@@ -930,7 +931,7 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
                             id='user.settings.security.logoutActiveSessions.icon'
                             defaultMessage='Active Sessions Icon'
                         >
-                            {(title) => (
+                            {(title: string) => (
                                 <i
                                     className='fa fa-clock-o'
                                     title={title}
