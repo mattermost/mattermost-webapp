@@ -237,7 +237,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           />
         }
         updateSection={[Function]}
-        width="medium"
       />
       <div
         className="divider-dark"
@@ -484,7 +483,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           />
         }
         updateSection={[Function]}
-        width="medium"
       />
       <div
         className="divider-dark"
@@ -731,7 +729,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           />
         }
         updateSection={[Function]}
-        width="medium"
       />
       <div
         className="divider-dark"
@@ -1080,7 +1077,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           />
         }
         updateSection={[Function]}
-        width="medium"
       />
       <div
         className="divider-dark"
@@ -1327,7 +1323,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           />
         }
         updateSection={[Function]}
-        width="medium"
       />
       <div
         className="divider-dark"
@@ -1594,7 +1589,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           />
         }
         updateSection={[Function]}
-        width="medium"
       />
       <div
         className="divider-dark"
@@ -1775,7 +1769,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           />
         }
         updateSection={[Function]}
-        width="medium"
       />
       <div
         className="divider-dark"
@@ -1956,7 +1949,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           />
         }
         updateSection={[Function]}
-        width="medium"
       />
       <div
         className="divider-dark"
@@ -2137,7 +2129,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           />
         }
         updateSection={[Function]}
-        width="medium"
       />
       <div
         className="divider-dark"
@@ -2205,6 +2196,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     />
     <div>
       <Connect(ThemeSetting)
+        allowCustomThemes={true}
         selected={true}
         setEnforceFocus={[MockFunction]}
         setRequireConfirm={[MockFunction]}
@@ -2329,7 +2321,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           />
         }
         updateSection={[Function]}
-        width="medium"
       />
       <div
         className="divider-dark"
@@ -2510,7 +2501,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           />
         }
         updateSection={[Function]}
-        width="medium"
       />
       <div
         className="divider-dark"
