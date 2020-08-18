@@ -258,8 +258,9 @@ describe('I18456 Built-in slash commands: common', () => {
             cy.findAllByText('[text]').first().should('exist');
         });
 
-        // # Clear the textbox
-        cy.postMessage('Hello');
+        // # Append Hello to /rename and hit enter
+        cy.get('#post_textbox').type('Hello{enter}').wait(TIMEOUTS.HALF_SEC);
+        cy.get('#post_textbox').invoke('text').should('be.empty');
     });
 });
 
