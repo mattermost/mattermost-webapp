@@ -114,31 +114,63 @@ context('ldap', () => {
         //     cy.get('.group-row').should('have.length', 1);
         // });
 
-        it('MM-T2618 - Team Configuration Page: Group removal User removed from sync\'ed team', () => {
+        // it('MM-T2618 - Team Configuration Page: Group removal User removed from sync\'ed team', () => {
+        //     // # Login as sysadmin and add board-one to test team
+        //     cy.apiAdminLogin();
+        //     cy.visit(`/admin_console/user_management/teams/${testTeam.id}`);
+        //     cy.wait(2000);
+
+        //     cy.findByTestId('syncGroupSwitch').scrollIntoView().click();
+
+        //     cy.findByTestId('addGroupsToTeamToggle').scrollIntoView().click();
+        //     cy.get('#multiSelectList').should('be.visible');
+        //     cy.get('#multiSelectList>div').children().eq(0).click();
+        //     cy.get('#saveItems').click();
+
+        //     cy.get('#saveSetting').should('be.enabled').click({force: true});
+        //     cy.wait(1000);
+
+        //     cy.get('#confirmModalButton').should('be.visible').click();
+
+        //     cy.visit('/admin_console/user_management/groups');
+        //     cy.get('#board_edit').click();
+
+        //     cy.findByTestId(`${testTeam.display_name}_groupsyncable_remove`).click();
+        //     cy.get('#confirmModalBody').should('be.visible').and('have.text', `Removing this membership will prevent future users in this group from being added to the ${testTeam.display_name} team.`);
+        //     cy.get('#confirmModalButton').should('be.visible').click();
+        //     cy.get('#saveSetting').click();
+        // });
+
+        it('MM-T2621 - Team List Management Column', () => {
+            let testTeam2;
             // # Login as sysadmin and add board-one to test team
             cy.apiAdminLogin();
             cy.visit(`/admin_console/user_management/teams/${testTeam.id}`);
             cy.wait(2000);
 
-            cy.findByTestId('syncGroupSwitch').scrollIntoView().click();
-
-            cy.findByTestId('addGroupsToTeamToggle').scrollIntoView().click();
-            cy.get('#multiSelectList').should('be.visible');
-            cy.get('#multiSelectList>div').children().eq(0).click();
-            cy.get('#saveItems').click();
+            cy.findByTestId('allowAllToggleSwitch').scrollIntoView().click();
 
             cy.get('#saveSetting').should('be.enabled').click({force: true});
             cy.wait(1000);
 
-            cy.get('#confirmModalButton').should('be.visible').click();
+            // # Start with a new team
+            cy.apiCreateTeam('team', 'Team').then(({team}) => {
+                testTeam2 = team;
+                cy.visit('/admin_console/user_management/teams');
 
-            cy.visit('/admin_console/user_management/groups');
-            cy.get('#board_edit').click();
+                // # Search for the team.
+                cy.get('.DataGrid_searchBar').within(() => {
+                    cy.findByPlaceholderText('Search').should('be.visible').type(`${testTeam.display_name}{enter}`);
+                });
 
-            cy.findByTestId(`${testTeam.display_name}_groupsyncable_remove`).click();
-            cy.get('#confirmModalBody').should('be.visible').and('have.text', `Removing this membership will prevent future users in this group from being added to the ${testTeam.display_name} team.`);
-            cy.get('#confirmModalButton').should('be.visible').click();
-            cy.get('#saveSetting').click();
+                cy.findByTestId(`${testTeam.name}_management`).should('have.text', 'Anyone Can Join');
+
+                cy.get('.DataGrid_searchBar').within(() => {
+                    cy.findByPlaceholderText('Search').should('be.visible').clear().type(`${testTeam2.display_name}{enter}`);
+                });
+
+                cy.findByTestId(`${testTeam2.name}_management`).should('have.text', 'Invite Only');
+            });
         });
 
 
