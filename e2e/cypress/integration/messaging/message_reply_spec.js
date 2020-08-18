@@ -24,7 +24,7 @@ describe('Message Reply', () => {
         });
     });
 
-    it('MM-16730 Reply to an older message', () => {
+    it('MM-T90 Reply to older message', () => {
         // # Get yesterdays date in UTC
         const yesterdaysDate = Cypress.moment().subtract(1, 'days').valueOf();
 

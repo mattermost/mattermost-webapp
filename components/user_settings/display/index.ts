@@ -2,7 +2,8 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {GenericAction} from 'mattermost-redux/types/actions';
+import {bindActionCreators, Dispatch} from 'redux';
 
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {getSupportedTimezones} from 'mattermost-redux/actions/general';
@@ -15,23 +16,24 @@ import {getUserCurrentTimezone} from 'mattermost-redux/utils/timezone_utils';
 
 import {Preferences} from 'utils/constants';
 
-import UserSettingsDisplay from './user_settings_display.jsx';
+import {GlobalState} from 'types/store';
 
-function mapStateToProps(state) {
+import UserSettingsDisplay from './user_settings_display';
+
+function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
     const timezones = getTimezones(state);
     const currentUserId = getCurrentUserId(state);
     const userTimezone = getUserTimezone(state, currentUserId);
     const automaticTimezoneNotSet = userTimezone && userTimezone.useAutomaticTimezone && !userTimezone.automaticTimezone;
     const shouldAutoUpdateTimezone = !userTimezone || automaticTimezoneNotSet;
-
     const allowCustomThemes = config.AllowCustomThemes === 'true';
     const enableLinkPreviews = config.EnableLinkPreviews === 'true';
-    const defaultClientLocale = config.DefaultClientLocale;
+    const defaultClientLocale = config.DefaultClientLocale as string;
     const enableThemeSelection = config.EnableThemeSelection === 'true';
     const enableTimezone = config.ExperimentalTimezone === 'true';
     const lockTeammateNameDisplay = getLicense(state).LockTeammateNameDisplay === 'true' && config.LockTeammateNameDisplay === 'true';
-    const configTeammateNameDisplay = config.TeammateNameDisplay;
+    const configTeammateNameDisplay = config.TeammateNameDisplay as string;
 
     return {
         lockTeammateNameDisplay,
@@ -44,7 +46,7 @@ function mapStateToProps(state) {
         timezones,
         userTimezone,
         shouldAutoUpdateTimezone,
-        currentUserTimezone: getUserCurrentTimezone(userTimezone),
+        currentUserTimezone: getUserCurrentTimezone(userTimezone) as string,
         militaryTime: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.USE_MILITARY_TIME, Preferences.USE_MILITARY_TIME_DEFAULT),
         teammateNameDisplay: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.NAME_NAME_FORMAT, configTeammateNameDisplay),
         channelDisplayMode: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.CHANNEL_DISPLAY_MODE, Preferences.CHANNEL_DISPLAY_MODE_DEFAULT),
@@ -54,7 +56,7 @@ function mapStateToProps(state) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
             getSupportedTimezones,
