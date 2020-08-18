@@ -258,24 +258,33 @@ describe('I18456 Built-in slash commands: common', () => {
     });
 
     it('MM-T658 /invite - current channel', () => {
+        const userToInvite = userGroup[0];
+
         loginAndVisitDefaultChannel(user1, `${team1.name}/channels/${testChannel.name}`);
 
         // # Post `/invite @username` where username is a user who is not in the current channel
-        cy.postMessage(`/invite @${userGroup[0].username}`);
+        cy.postMessage(`/invite @${userToInvite.username}`);
 
         // * User who added them sees system message "username added to the channel by you"
-        cy.uiWaitUntilMessagePostedIncludes(`@${userGroup[0].username} added to the channel by you`);
+        cy.uiWaitUntilMessagePostedIncludes(`@${userToInvite.username} added to the channel by you`);
 
         // * Cannot invite deactivated users to a channel
         cy.postMessage(`/invite @${deactivatedUser.username}`);
         cy.uiWaitUntilMessagePostedIncludes('We couldn\'t find the user. They may have been deactivated by the System Administrator.');
 
-        cy.apiLogin(userGroup[0]);
+        cy.apiLogout();
+        cy.apiLogin(userToInvite);
         cy.visit(`${team1.name}/channels/town-square`);
 
-        // * Added user sees channel added to LHS, system message "username added to the channel by username."
+        // * Added user sees channel added to LHS, mention badge
         cy.get('#sidebarChannelContainer').
-            findByText(`${testChannel.display_name}`).click();
+            find(`[href*="${team1.name}/channels/${testChannel.name}"]`).
+            within(() => {
+                cy.get('#unreadMentions').should('be.visible');
+                cy.findByText(`${testChannel.display_name}`).click();
+            });
+
+        // * Added user sees system message "username added to the channel by username."
         cy.uiWaitUntilMessagePostedIncludes(`You were added to the channel by @${user1.username}`);
     });
 });
