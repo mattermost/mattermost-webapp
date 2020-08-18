@@ -33,7 +33,8 @@
     color: rgba(var(--center-channel-color-rgb), 0.64);
 }
 
-.Input___focus {
+.Input.Input___focus.a11y--focused {
+    box-shadow: none;
 }
 
 .Input___error, .Input___info {
