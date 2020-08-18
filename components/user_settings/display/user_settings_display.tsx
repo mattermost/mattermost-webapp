@@ -67,7 +67,7 @@ type SectionProps ={
 
 type Props = {
     user: UserProfile;
-    updateSection: (section: string) => Promise<void>;
+    updateSection: (section: string) => void;
     activeSection?: string;
     closeModal?: () => void;
     collapseModal?: () => void;
@@ -107,7 +107,6 @@ type State = {
     linkPreviewDisplay: string;
     handleSubmit?: () => void;
     serverError?: string;
-    display?: string;
 }
 
 export default class UserSettingsDisplay extends React.PureComponent<Props, State> {
@@ -237,7 +236,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
         this.setState({linkPreviewDisplay});
     }
 
-    handleOnChange(display: { display: string }) {
+    handleOnChange(display: object) {
         this.setState({...display});
     }
 
@@ -612,7 +611,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
                         <ManageTimezones
                             user={this.props.user}
                             timezones={this.props.timezones}
-                            useAutomaticTimezone={userTimezone.useAutomaticTimezone}
+                            useAutomaticTimezone={Boolean(userTimezone.useAutomaticTimezone)}
                             automaticTimezone={userTimezone.automaticTimezone}
                             manualTimezone={userTimezone.manualTimezone}
                             updateSection={this.updateSection}
