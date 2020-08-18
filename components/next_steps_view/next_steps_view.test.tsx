@@ -11,7 +11,6 @@ describe('components/next_steps_view', () => {
     const baseProps = {
         currentUser: TestHelper.getUserMock(),
         preferences: [],
-        skuName: '',
         actions: {
             setShowNextStepsView: jest.fn(),
             savePreferences: jest.fn(),
