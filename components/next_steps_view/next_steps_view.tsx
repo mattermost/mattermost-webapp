@@ -25,7 +25,6 @@ const TRANSITION_SCREEN_TIMEOUT = 1000;
 type Props = {
     currentUser: UserProfile;
     preferences: PreferenceType[];
-    skuName: string;
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => void;
         setShowNextStepsView: (show: boolean) => void;
