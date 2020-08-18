@@ -8,6 +8,7 @@ import {FormattedMessage} from 'react-intl';
 import {Tooltip} from 'react-bootstrap';
 
 import Permissions from 'mattermost-redux/constants/permissions';
+import PluginLocation from 'mattermost-redux/constants/plugins';
 
 import {doPluginAction} from 'actions/plugins';
 import {Locations, ModalIdentifiers, Constants} from 'utils/constants';
@@ -304,7 +305,7 @@ export default class DotMenu extends React.PureComponent {
             });
 
         const pluginIntegrationsItems = this.props.pluginIntegrations.filter((item) => {
-            return item.location === 'POST_ACTION';
+            return item.location === PluginLocation.PLUGIN_LOCATION_POST_ACTION;
         }).map((item, i) => {
             return (
                 <Menu.ItemAction

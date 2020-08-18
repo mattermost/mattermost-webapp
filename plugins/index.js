@@ -205,5 +205,5 @@ export async function loadPluginsIfNecessary() {
         }
     });
 
-    fetchMobilePluginIntegrations()(store.dispatch, store.getState);
+    store.dispatch(fetchMobilePluginIntegrations());
 }

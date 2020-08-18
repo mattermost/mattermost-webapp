@@ -72,7 +72,7 @@ import * as StatusActions from 'actions/status_actions.jsx';
 import {loadProfilesForSidebar} from 'actions/user_actions.jsx';
 import store from 'stores/redux_store.jsx';
 import WebSocketClient from 'client/web_websocket_client.jsx';
-import {loadPlugin, loadPluginsIfNecessary, removePlugin} from 'plugins';
+import {loadPlugin, loadPluginsIfNecessary, removePlugin} from '../plugins';
 import {ActionTypes, Constants, AnnouncementBarMessages, SocketEvents, UserStatuses, ModalIdentifiers} from 'utils/constants';
 import {getSiteURL} from 'utils/url';
 import {isGuest} from 'utils/utils';
@@ -244,7 +244,7 @@ function handleFirstConnect() {
         },
         clearErrors(),
     ]));
-    fetchMobilePluginIntegrations()(store.dispatch, store.getState);
+    store.dispatch(fetchMobilePluginIntegrations());
 }
 
 function handleClose(failCount) {
@@ -1154,13 +1154,13 @@ export function handlePluginEnabled(msg) {
     loadPlugin(manifest).catch((error) => {
         console.error(error.message); //eslint-disable-line no-console
     });
-    fetchMobilePluginIntegrations()(store.dispatch, store.getState);
+    store.dispatch(fetchMobilePluginIntegrations());
 }
 
 export function handlePluginDisabled(msg) {
     const manifest = msg.data.manifest;
     removePlugin(manifest);
-    fetchMobilePluginIntegrations()(store.dispatch, store.getState);
+    store.dispatch(fetchMobilePluginIntegrations());
 }
 
 function handleUserRoleUpdated(msg) {
@@ -1190,7 +1190,7 @@ function handleLicenseChanged(msg) {
 
 function handlePluginStatusesChangedEvent(msg) {
     store.dispatch({type: AdminTypes.RECEIVED_PLUGIN_STATUSES, data: msg.data.plugin_statuses});
-    fetchMobilePluginIntegrations()(store.dispatch, store.getState);
+    store.dispatch(fetchMobilePluginIntegrations());
 }
 
 function handleOpenDialogEvent(msg) {
