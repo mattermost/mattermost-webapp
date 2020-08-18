@@ -59,7 +59,7 @@ class TeamButton extends React.PureComponent<Props> {
         const isNotCreateTeamButton: boolean = !this.props.url.endsWith('create_team') && !this.props.url.endsWith('select_team');
         const handleClick = (this.props.active || this.props.disabled) ? this.handleDisabled : this.handleSwitch;
 
-        let badge: JSX.Element = React.createElement('div');
+        let badge: JSX.Element | undefined;
 
         let ariaLabel = formatMessage({
             id: 'team.button.ariaLabel',
@@ -112,7 +112,7 @@ class TeamButton extends React.PureComponent<Props> {
         );
 
         let toolTip = this.props.tip || localizeMessage('team.button.name_undefined', 'This team does not have a name');
-        let orderIndicator: JSX.Element = React.createElement('div');
+        let orderIndicator: JSX.Element | undefined;
         if (typeof this.props.order !== 'undefined' && this.props.order < 10) {
             let toolTipHelp;
             if (isMac()) {
