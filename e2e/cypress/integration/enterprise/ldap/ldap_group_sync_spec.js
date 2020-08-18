@@ -35,11 +35,11 @@ context('ldap', () => {
 
 
     describe('LDAP Group Sync Automated Tests', () => {
-        before(() => {
+        beforeEach(() => {
             // * Check if server has license for LDAP
             cy.apiRequireLicenseForFeature('LDAP');
 
-            cy.apiInitSetup().then(({team, user}) => {
+            cy.apiInitSetup().then(({team}) => {
                 testTeam = team;
 
                 cy.apiGetConfig().then(({config}) => {
@@ -78,68 +78,68 @@ context('ldap', () => {
 
         });
 
-        // it('MM-T1537 - Sync Group Removal from Channel Configuration Page', () => {
-        //     // # Login as sysadmin and add board-one to test team
-        //     cy.apiAdminLogin();
-        //     cy.visit(`/admin_console/user_management/channels/${testChannel.id}`);
-        //     cy.wait(2000);
+        it('MM-T1537 - Sync Group Removal from Channel Configuration Page', () => {
+            // # Login as sysadmin and add board-one to test team
+            cy.apiAdminLogin();
+            cy.visit(`/admin_console/user_management/channels/${testChannel.id}`);
+            cy.wait(2000);
 
-        //     cy.findByTestId('addGroupsToChannelToggle').click();
-        //     cy.get('#multiSelectList').should('be.visible');
-        //     cy.get('#multiSelectList>div').children().eq(0).click();
-        //     cy.get('#saveItems').click();
+            cy.findByTestId('addGroupsToChannelToggle').click();
+            cy.get('#multiSelectList').should('be.visible');
+            cy.get('#multiSelectList>div').children().eq(0).click();
+            cy.get('#saveItems').click();
 
-        //     cy.findByTestId('addGroupsToChannelToggle').click();
-        //     cy.get('#multiSelectList').should('be.visible');
-        //     cy.get('#multiSelectList>div').children().eq(0).click();
-        //     cy.get('#saveItems').click();
+            cy.findByTestId('addGroupsToChannelToggle').click();
+            cy.get('#multiSelectList').should('be.visible');
+            cy.get('#multiSelectList>div').children().eq(0).click();
+            cy.get('#saveItems').click();
 
-        //     cy.get('#saveSetting').should('be.enabled').click({force: true});
-        //     cy.wait(1000);
+            cy.get('#saveSetting').should('be.enabled').click({force: true});
+            cy.wait(1000);
 
-        //     cy.visit(`/admin_console/user_management/channels/${testChannel.id}`);
-        //     cy.wait(1000);
+            cy.visit(`/admin_console/user_management/channels/${testChannel.id}`);
+            cy.wait(1000);
 
-        //     cy.get('.group-row').eq(0).scrollIntoView().should('be.visible').within(() => {
-        //         cy.get('.group-name').should('have.text', 'board');
-        //         cy.get('.group-actions > a').should('have.text', 'Remove').click({force: true});
-        //     });
+            cy.get('.group-row').eq(0).scrollIntoView().should('be.visible').within(() => {
+                cy.get('.group-name').should('have.text', 'board');
+                cy.get('.group-actions > a').should('have.text', 'Remove').click({force: true});
+            });
 
-        //     cy.get('#saveSetting').should('be.enabled').click({force: true});
-        //     cy.wait(1000);
+            cy.get('#saveSetting').should('be.enabled').click({force: true});
+            cy.wait(1000);
 
-        //     cy.visit(`/admin_console/user_management/channels/${testChannel.id}`);
-        //     cy.wait(1000);
+            cy.visit(`/admin_console/user_management/channels/${testChannel.id}`);
+            cy.wait(1000);
 
-        //     cy.get('.group-row').should('have.length', 1);
-        // });
+            cy.get('.group-row').should('have.length', 1);
+        });
 
-        // it('MM-T2618 - Team Configuration Page: Group removal User removed from sync\'ed team', () => {
-        //     // # Login as sysadmin and add board-one to test team
-        //     cy.apiAdminLogin();
-        //     cy.visit(`/admin_console/user_management/teams/${testTeam.id}`);
-        //     cy.wait(2000);
+        it('MM-T2618 - Team Configuration Page: Group removal User removed from sync\'ed team', () => {
+            // # Login as sysadmin and add board-one to test team
+            cy.apiAdminLogin();
+            cy.visit(`/admin_console/user_management/teams/${testTeam.id}`);
+            cy.wait(2000);
 
-        //     cy.findByTestId('syncGroupSwitch').scrollIntoView().click();
+            cy.findByTestId('syncGroupSwitch').scrollIntoView().click();
 
-        //     cy.findByTestId('addGroupsToTeamToggle').scrollIntoView().click();
-        //     cy.get('#multiSelectList').should('be.visible');
-        //     cy.get('#multiSelectList>div').children().eq(0).click();
-        //     cy.get('#saveItems').click();
+            cy.findByTestId('addGroupsToTeamToggle').scrollIntoView().click();
+            cy.get('#multiSelectList').should('be.visible');
+            cy.get('#multiSelectList>div').children().eq(0).click();
+            cy.get('#saveItems').click();
 
-        //     cy.get('#saveSetting').should('be.enabled').click({force: true});
-        //     cy.wait(1000);
+            cy.get('#saveSetting').should('be.enabled').click({force: true});
+            cy.wait(1000);
 
-        //     cy.get('#confirmModalButton').should('be.visible').click();
+            cy.get('#confirmModalButton').should('be.visible').click();
 
-        //     cy.visit('/admin_console/user_management/groups');
-        //     cy.get('#board_edit').click();
+            cy.visit('/admin_console/user_management/groups');
+            cy.get('#board_edit').click();
 
-        //     cy.findByTestId(`${testTeam.display_name}_groupsyncable_remove`).click();
-        //     cy.get('#confirmModalBody').should('be.visible').and('have.text', `Removing this membership will prevent future users in this group from being added to the ${testTeam.display_name} team.`);
-        //     cy.get('#confirmModalButton').should('be.visible').click();
-        //     cy.get('#saveSetting').click();
-        // });
+            cy.findByTestId(`${testTeam.display_name}_groupsyncable_remove`).click();
+            cy.get('#confirmModalBody').should('be.visible').and('have.text', `Removing this membership will prevent future users in this group from being added to the ${testTeam.display_name} team.`);
+            cy.get('#confirmModalButton').should('be.visible').click();
+            cy.get('#saveSetting').click();
+        });
 
         it('MM-T2621 - Team List Management Column', () => {
             let testTeam2;
@@ -171,6 +171,32 @@ context('ldap', () => {
 
                 cy.findByTestId(`${testTeam2.name}_management`).should('have.text', 'Invite Only');
             });
+        });
+
+        it('MM-T2628 - List of Channels', () => {
+            // # Login as sysadmin and add board-one to test team
+            cy.apiAdminLogin();
+            cy.visit(`/admin_console/user_management/channels/${testChannel.id}`);
+            cy.wait(2000);
+
+            // Make it private and then cancel
+            cy.findByTestId('allow-all-toggle').click();
+            cy.get('#cancelButtonSettings').click();
+            cy.get('#confirmModalButton').click();
+            cy.visit(`/admin_console/user_management/channels/${testChannel.id}`);
+            cy.wait(2000);
+            cy.findByTestId('allow-all-toggle').should('has.have.text', 'Public');
+
+            // Make it private
+            cy.findByTestId('allow-all-toggle').click();
+            cy.get('#saveSetting').should('be.enabled').click({force: true});
+            cy.get('#confirmModalButton').click();
+            cy.visit(`/${testTeam.name}`);
+            cy.get('#sidebarPublicChannelsMore').click();
+    
+            // * Search private channel name and make sure it isn't there
+            cy.get('#searchChannelsTextbox').type(`${testChannel.display_name}`);
+            cy.get('#moreChannelsList').should('include.text', 'No more channels to join');
         });
 
 
