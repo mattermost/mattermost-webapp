@@ -79,7 +79,7 @@ describe('channel unread posts', () => {
         switchToChannel(channelA);
 
         // # verify the channelA has does not have unread in LHS
-        cy.get(`#sidebarItem_${channelA.name}`).should('not.have.class', 'unread-title');
+        cy.get(`#sidebarItem_${channelA.name}`).should('exist').should('not.have.class', 'unread-title');
 
         // * verifify the notification seperator line exists and present before the unread message
         verifyPostNextToNewMessageSeparator('hello from current user: 4');
@@ -88,7 +88,7 @@ describe('channel unread posts', () => {
         switchToChannel(channelB);
 
         // # verify the channelA has does not have unread in LHS
-        cy.get(`#sidebarItem_${channelA.name}`).should('not.have.class', 'unread-title');
+        cy.get(`#sidebarItem_${channelA.name}`).should('exist').should('not.have.class', 'unread-title');
     });
 });
 
