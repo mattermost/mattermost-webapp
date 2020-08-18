@@ -79,6 +79,10 @@
     color: var(--button-bg);
 }
 
+.Input_fieldset:focus-within .Input_legend {
+    color: var(--button-bg);
+}
+
 .Input_fieldset___legend {
 }
 
@@ -109,9 +113,10 @@
     padding: 0 4px;
     white-space: nowrap;
     border: none;
+    color: rgba(var(--center-channel-color-rgb), 0.64);
 }
 
-.Input_fieldset___error .Input_legend{
+.Input_fieldset___error .Input_legend, .Input_fieldset___error:focus-within .Input_legend {
     color: var(--error-text);
 }
 
@@ -119,5 +124,4 @@
     opacity: 1;
     padding: 0 4px;
     transform: translateY(0);
-    color: var(--button-bg);
 }
