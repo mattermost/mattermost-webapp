@@ -37,11 +37,6 @@ describe('/poll', () => {
     });
 
     it('MM-T576 /poll (Steps #1)', () => {
-        cy.postMessage(MESSAGES.SMALL);
-
-        // # Click to reply on any message to open the RHS
-        cy.clickPostCommentIcon();
-
         // # In center post the following: /poll "Do you like https://mattermost.com?"
         cy.postMessage('/poll "Do you like https://mattermost.com?"');
 
@@ -63,12 +58,16 @@ describe('/poll', () => {
         cy.uiWaitUntilMessagePostedIncludes('Your vote has been counted.');
 
         // * If you go back and change your vote to another answer, ephemeral message displays "Your vote has been updated."
-        cy.getNthPostId(-2).then((postId) => {
+        cy.getNthPostId(1).then((postId) => {
             cy.get(`#post_${postId}`).within(() => {
                 cy.findByText('No').click();
             });
         });
         cy.uiWaitUntilMessagePostedIncludes('Your vote has been updated');
+
+        // # Click to reply on any message to open the RHS
+        cy.postMessage(MESSAGES.SMALL);
+        cy.clickPostCommentIcon();
 
         cy.get('#rhsContainer').within(() => {
             // # In RHS, post `/poll Reply`
@@ -78,19 +77,21 @@ describe('/poll', () => {
             cy.findByLabelText('matterpoll').should('be.visible');
         });
 
+        cy.apiLogout();
         cy.apiLogin(user2);
         cy.visit(testChannelUrl);
 
         // # Another user clicks Yes or No
-        cy.getNthPostId(-2).then((postId) => {
+        cy.getNthPostId(1).then((postId) => {
             cy.get(`#post_${postId}`).within(() => {
                 cy.findByText('No').click();
             });
         });
 
+        cy.apiLogout();
         cy.apiLogin(user1);
         cy.visit(testChannelUrl);
-        cy.getNthPostId(-2).then((postId) => {
+        cy.getNthPostId(1).then((postId) => {
             cy.get(`#post_${postId}`).within(() => {
                 cy.findByText('End Poll').click();
             });
@@ -100,7 +101,7 @@ describe('/poll', () => {
 
         // * Username displays the same on the original poll post and on the "This poll has ended" post
         cy.uiWaitUntilMessagePostedIncludes('The poll Do you like https://mattermost.com? has ended');
-        cy.getNthPostId(-3).then((postId) => {
+        cy.getNthPostId(1).then((postId) => {
             cy.get(`#post_${postId}`).within(() => {
                 cy.contains('This poll has ended').should('be.visible');
                 cy.findByText(user1.nickname).should('be.visible');
