@@ -220,36 +220,87 @@
     margin-top: 12px;
 
     button {
-        border: none;
-        background: none;
         padding: 10px 16px;
         font-weight: 600;
         font-size: 12px;
         line-height: 9px;
-        color: var(--button-bg);
     }
 }
 
-.NextStepsView__button {
+.NextStepsView__finishButton {
     padding: 12px 20px;
     line-height: 14px;
     font-size: 14px;
     font-weight: 600;
-    border: none;
+}
 
-    &.cancel {
+.NextStepsView__button {
+    border: none;
+    border-radius: 4px;
+
+    &.secondary {
         background: var(--center-channel-bg);
         color: var(--button-bg);
+        box-shadow: 0 0 0 1px var(--button-bg);
+
+        &:hover:not(.disabled) {
+            background: rgba(var(--button-bg-rgb), 0.04);
+        }
+
+        &:active {
+            background: rgba(var(--button-bg-rgb), 0.08);
+        }
+
+        &:focus {
+            box-shadow: 0 0 0 2px var(--button-bg);
+        }
+
+        &.disabled {
+            color: rgba(var(--center-channel-color-rgb), 0.32);
+            box-shadow: 0 0 0 1px rgba(var(--center-channel-color-rgb), 0.32);
+        }
     }
 
-    &.confirm {
+    &.primary {
         background: var(--button-bg);
-        border-radius: 4px;
         color: var(--button-color);
+
+        &:hover:not(.disabled) {
+            background: linear-gradient(0deg, rgba(var(--center-channel-color-rgb), 0.16), rgba(var(--center-channel-color-rgb), 0.16)), var(--button-bg);
+        }
+
+        &:active {
+            background: linear-gradient(0deg, rgba(var(--center-channel-color-rgb), 0.32), rgba(var(--center-channel-color-rgb), 0.32)), var(--button-bg);
+        }
+
+        &:focus {
+            box-shadow: 0 0 0 2px var(--sidebar-text-active-border);
+        }
 
         &.disabled {
             color: rgba(var(--center-channel-color-rgb), 0.32);
             background: rgba(var(--center-channel-color-rgb), 0.08);
+        }
+    }
+
+    &.tertiary {
+        background: none;
+        color: var(--button-bg);
+
+        &:hover:not(.disabled) {
+            background: rgba(var(--button-bg-rgb), 0.04);
+        }
+
+        &:active {
+            background: rgba(var(--button-bg-rgb), 0.08);
+        }
+
+        &:focus {
+            box-shadow: 0 0 0 2px var(--button-bg);
+        }
+
+        &.disabled {
+            color: rgba(var(--center-channel-color-rgb), 0.32);
         }
     }
 }
@@ -389,10 +440,6 @@
     font-size: 12px;
     line-height: 9px;
     font-weight: 600;
-    color: var(--button-bg);
-    border-radius: 4px;
-    background: none;
-    border: 1px solid var(--button-bg);
     padding: 10px 16px;
 }
 
@@ -400,11 +447,8 @@
     font-size: 12px;
     line-height: 9px;
     font-weight: 600;
-    color: var(--button-bg);
-    border: none;
-    background: none;
-    padding: 0;
-    margin-left: 24px;
+    padding: 10px 16px;
+    margin-left: 8px;
 }
 
 .NextStepsView__tipsMobileMessage {

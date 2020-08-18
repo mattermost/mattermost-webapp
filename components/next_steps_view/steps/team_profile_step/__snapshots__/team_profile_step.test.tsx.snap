@@ -58,7 +58,7 @@ exports[`components/next_steps_view/steps/team_profile_step should match snapsho
     className="NextStepsView__wizardButtons"
   >
     <button
-      className="NextStepsView__button confirm"
+      className="NextStepsView__button NextStepsView__finishButton primary"
       disabled={false}
       onClick={[Function]}
     >

@@ -50,7 +50,7 @@ exports[`components/next_steps_view/steps/complete_profile_step should match sna
     className="NextStepsView__wizardButtons"
   >
     <button
-      className="NextStepsView__button confirm disabled"
+      className="NextStepsView__button NextStepsView__finishButton primary disabled"
       disabled={true}
       onClick={[Function]}
     >

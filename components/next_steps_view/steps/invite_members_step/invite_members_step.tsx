@@ -197,7 +197,7 @@ export default class InviteMembersStep extends React.PureComponent<Props, State>
                         />
                         <div className='InviteMembersStep__send'>
                             <button
-                                className={classNames('InviteMembersStep__sendButton', {disabled: !this.state.emails.length || Boolean(this.state.emailsSent) || this.state.emailError})}
+                                className={classNames('NextStepsView__button InviteMembersStep__sendButton secondary', {disabled: !this.state.emails.length || Boolean(this.state.emailsSent) || this.state.emailError})}
                                 disabled={!this.state.emails.length || Boolean(this.state.emailsSent) || Boolean(this.state.emailError)}
                                 onClick={this.sendEmailInvites}
                             >
@@ -245,7 +245,7 @@ export default class InviteMembersStep extends React.PureComponent<Props, State>
                                 data-testid='shareLinkInput'
                             />
                             <button
-                                className={classNames('InviteMembersStep__shareLinkInputButton', {copied: this.state.copiedLink})}
+                                className={classNames('NextStepsView__button InviteMembersStep__shareLinkInputButton secondary', {copied: this.state.copiedLink})}
                                 onClick={this.copyLink}
                                 data-testid='shareLinkInputButton'
                             >
@@ -273,7 +273,7 @@ export default class InviteMembersStep extends React.PureComponent<Props, State>
                 </div>
                 <div className='NextStepsView__wizardButtons'>
                     <button
-                        className={'NextStepsView__button confirm'}
+                        className={'NextStepsView__button NextStepsView__finishButton primary'}
                         onClick={this.onFinish}
                     >
                         <FormattedMessage

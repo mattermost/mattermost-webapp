@@ -235,6 +235,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                         </Accordion>
                         <div className='NextStepsView__skipGettingStarted'>
                             <button
+                                className='NextStepsView__button tertiary'
                                 onClick={this.showFinalScreen}
                             >
                                 <FormattedMessage

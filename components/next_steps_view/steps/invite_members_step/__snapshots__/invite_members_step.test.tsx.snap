@@ -41,7 +41,7 @@ exports[`components/next_steps_view/steps/invite_members_step should match snaps
         className="InviteMembersStep__send"
       >
         <button
-          className="InviteMembersStep__sendButton disabled"
+          className="NextStepsView__button InviteMembersStep__sendButton secondary disabled"
           disabled={true}
           onClick={[Function]}
         >
@@ -86,7 +86,7 @@ exports[`components/next_steps_view/steps/invite_members_step should match snaps
           value="http://localhost:8065/signup_user_complete/?id="
         />
         <button
-          className="InviteMembersStep__shareLinkInputButton"
+          className="NextStepsView__button InviteMembersStep__shareLinkInputButton secondary"
           data-testid="shareLinkInputButton"
           onClick={[Function]}
         >
@@ -106,7 +106,7 @@ exports[`components/next_steps_view/steps/invite_members_step should match snaps
     className="NextStepsView__wizardButtons"
   >
     <button
-      className="NextStepsView__button confirm"
+      className="NextStepsView__button NextStepsView__finishButton primary"
       onClick={[Function]}
     >
       <FormattedMessage
