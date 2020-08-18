@@ -15,19 +15,20 @@ describe('Mark as Unread', () => {
     let testUser;
     let otherUser1;
     let otherUser2;
-    let testTeam;
 
     before(() => {
+        // # create testUser added to channel
         cy.apiInitSetup().then(({team, user}) => {
-            testTeam = team;
             testUser = user;
 
+            // # create second user and add to the team
             cy.apiCreateUser({prefix: 'otherA'}).then(({user: newUser}) => {
                 otherUser1 = newUser;
 
                 cy.apiAddUserToTeam(team.id, newUser.id);
             });
 
+            // # create third user and add to the team
             cy.apiCreateUser({prefix: 'otherB'}).then(({user: newUser}) => {
                 otherUser2 = newUser;
 
@@ -48,23 +49,42 @@ describe('Mark as Unread', () => {
             const gmChannel = response.body;
 
             // # Visit the channel using the name using the channels route
-            cy.visit(`/${testTeam.name}/channels/${gmChannel.name}`);
-            for (let index = 0; index < 3; index++) {
+            for (let index = 0; index < 8; index++) {
                 // # Post Message as otherUser1
                 cy.postMessageAs({sender: otherUser1, message: `this is from user: ${otherUser1.id}, ${index}`, channelId: gmChannel.id});
 
                 // # Post Message as otherUser2
-                cy.postMessageAs({sender: otherUser1, message: `this is from user: ${otherUser1.id}, ${index}`, channelId: gmChannel.id});
+                cy.postMessageAs({sender: otherUser2, message: `this is from user: ${otherUser2.id}, ${index}`, channelId: gmChannel.id});
             }
 
-            cy.getLastPostId().then((postId) => {
-                // cy.get(`#postMessageText_${postId}`).as('postMessageText');
+            // # go to the group message channel
+            cy.get(`#sidebarItem_${gmChannel.name}`).click();
+
+            // # mark the post to be unread
+            cy.getNthPostId(-2).then((postId) => {
                 markAsUnreadByPostIdFromMenu(postId);
             });
 
-            verifyPostNextToNewMessageSeparator(`this is from user: ${otherUser1.id}, 2`);
+            // * verify the notification seperator line exists and present before the unread message
+            verifyPostNextToNewMessageSeparator(`this is from user: ${otherUser1.id}, 7`);
 
-            // markAsUnreadFromMenu(tMess);
+            // * verify the group message in LHS is unread
+            cy.get(`#sidebarItem_${gmChannel.name}`).should('have.class', 'unread-title');
+
+            // # leave the group message channel
+            cy.get('#sidebarItem_town-square').click();
+
+            // * verify the group message in LHS is unread
+            cy.get(`#sidebarItem_${gmChannel.name}`).should('have.class', 'unread-title');
+
+            // # go to the group message channel
+            cy.get(`#sidebarItem_${gmChannel.name}`).click();
+
+            // * verify the group message in LHS is read
+            cy.get(`#sidebarItem_${gmChannel.name}`).should('exist').should('not.have.class', 'unread-title');
+
+            // * verify the notification seperator line exists and present before the unread message
+            verifyPostNextToNewMessageSeparator(`this is from user: ${otherUser1.id}, 7`);
         });
     });
 });
