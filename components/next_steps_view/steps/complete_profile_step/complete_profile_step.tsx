@@ -157,7 +157,7 @@ export default class CompleteProfileStep extends React.PureComponent<Props, Stat
                         />
                     </button> */}
                     <button
-                        className={classNames('NextStepsView__button confirm', {disabled: this.isFinishDisabled()})}
+                        className={classNames('NextStepsView__button NextStepsView__finishButton primary', {disabled: this.isFinishDisabled()})}
                         onClick={this.onFinish}
                         disabled={this.isFinishDisabled()}
                     >

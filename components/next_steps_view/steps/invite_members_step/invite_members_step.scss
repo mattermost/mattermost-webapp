@@ -35,18 +35,15 @@
         align-items: center;
         justify-content: center;
         flex-grow: 0;
-        border: 1px solid var(--button-bg);
-        color: var(--button-bg);
         border-radius: 0 4px 4px 0;
         font-size: 12px;
         line-height: 16px;
         font-weight: 600;
         padding: 8px 16px;
-        background: none;
         min-width: 108px;
 
         &.copied {
-            border-color: var(--online-indicator);
+            box-shadow: inset 0 0 0 1px var(--online-indicator);
             color: var(--online-indicator);
         }
 
@@ -58,12 +55,6 @@
             }
         }
 
-        &:hover {
-            background: var(--button-bg-08);
-        }
-        &:active {
-            background: var(--button-bg-08);
-        }
         span {
             display: inline-block;
             margin-left: 4px;
@@ -128,14 +119,10 @@
     align-items: center;
     justify-content: center;
     flex-grow: 0;
-    border: 1px solid var(--button-bg);
-    color: var(--button-bg);
-    border-radius: 4px;
     font-size: 12px;
     line-height: 16px;
     font-weight: 600;
     padding: 8px 16px;
-    background: none;
 
     i {
         font-size: 14px;
@@ -145,25 +132,13 @@
         }
     }
 
-    &:hover:not(.disabled) {
-        background: var(--button-bg-08);
-    }
-    &:active {
-        background: var(--button-bg-08);
-    }
     span {
         display: inline-block;
         margin-left: 4px;
     }
 
-    &.disabled {
-        border-color: 1px solid var(--center-channel-color);
+    &.disabled i {
         color: 1px solid var(--center-channel-color);
-        opacity: 0.32;
-
-        i {
-            color: 1px solid var(--center-channel-color);
-        }
     }
 }
 
