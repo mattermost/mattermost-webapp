@@ -1,6 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import emojiRegex from 'emoji-regex';
+import React from 'react';
+
 import {Emoji} from 'mattermost-redux/types/emojis';
 
 const defaultRule = (aName: string, bName: string, emojiA: Emoji, emojiB: Emoji) => {
@@ -75,4 +78,40 @@ export function compareEmojis(emojiA: Emoji, emojiB: Emoji, searchedName: string
     }
 
     return 1;
+}
+
+// wrapEmojis takes a text string and returns it with any Unicode emojis wrapped by a span with the emoji class.
+export function wrapEmojis(text: string): React.ReactNode {
+    const nodes = [];
+
+    let lastIndex = 0;
+
+    // Manually split the string into an array of strings and spans wrapping individual emojis
+    for (const match of text.matchAll(emojiRegex())) {
+        const emoji = match[0];
+        const index = match.index!;
+
+        if (match.index !== lastIndex) {
+            nodes.push(text.substring(lastIndex, index));
+        }
+
+        nodes.push(
+            <span
+                key={index}
+                className='emoji'
+            >
+                {emoji}
+            </span>
+        );
+
+        // Remember that emojis can be multiple code points long when incrementing the index
+        lastIndex = index + emoji.length;
+    }
+
+    if (lastIndex < text.length - 1) {
+        nodes.push(text.substring(lastIndex));
+    }
+
+    // Only return an array if we're returning multiple nodes
+    return nodes.length === 1 ? nodes[0] : nodes;
 }
