@@ -186,7 +186,10 @@ class InvitationModalMembersStep extends React.PureComponent {
                             type='text'
                             readOnly={true}
                             value={inviteUrl}
-                            aria-label={this.props.intl.formatMessage({id: 'invitation_modal.members.share_link.input', defaultMessage: 'team invite link'})}
+                            aria-label={this.props.intl.formatMessage({
+                                id: 'invitation_modal.members.share_link.input',
+                                defaultMessage: 'team invite link',
+                            })}
                             data-testid='shareLinkInput'
                         />
                         <button
@@ -195,18 +198,18 @@ class InvitationModalMembersStep extends React.PureComponent {
                             data-testid='shareLinkInputButton'
                         >
                             <LinkIcon/>
-                            {!this.state.copiedLink &&
+                            {!this.state.copiedLink && (
                                 <FormattedMessage
                                     id='invitation_modal.members.share_link.copy_button'
                                     defaultMessage='Copy Link'
                                 />
-                            }
-                            {this.state.copiedLink &&
+                            )}
+                            {this.state.copiedLink && (
                                 <FormattedMessage
                                     id='invitation_modal.members.share_link.link_copied'
                                     defaultMessage='Link Copied'
                                 />
-                            }
+                            )}
                         </button>
                     </div>
                     <div className='help-text'>
@@ -224,7 +227,6 @@ class InvitationModalMembersStep extends React.PureComponent {
                             defaultMessage='OR'
                         />
                     </div>
-
                 </div>
                 <div
                     className='search-and-add'
@@ -241,41 +243,61 @@ class InvitationModalMembersStep extends React.PureComponent {
                             usersLoader={this.usersLoader}
                             placeholder={placeholder}
                             showError={this.shouldShowPickerError()}
-                            ariaLabel={localizeMessage('invitation_modal.members.search_and_add.title', 'Invite People')}
+                            ariaLabel={localizeMessage(
+                                'invitation_modal.members.search_and_add.title',
+                                'Invite People',
+                            )}
                             onChange={this.onChange}
                             value={this.state.usersAndEmails}
-                            validAddressMessageId={t('invitation_modal.members.users_emails_input.valid_email')}
+                            validAddressMessageId={t(
+                                'invitation_modal.members.users_emails_input.valid_email',
+                            )}
                             validAddressMessageDefault='Invite **{email}** as a team member'
-                            errorMessageId={'invitation_modal.invite_members.hit_cloud_user_limit'}
-                            errorMessageDefault={'You have reached the user limit for your tier'}
+                            errorMessageId={
+                                'invitation_modal.invite_members.hit_cloud_user_limit'
+                            }
+                            errorMessageDefault={
+                                'You have reached the user limit for your tier'
+                            }
                             errorMessageValues={{
-                                text: getConfig(getState()).ExperimentalCloudUserLimit - getState().entities.admin.analytics.TOTAL_USERS,
+                                text:
+                                    getConfig(getState()).
+                                        ExperimentalCloudUserLimit -
+                                    getState().entities.admin.analytics.
+                                        TOTAL_USERS,
                             }}
                             noMatchMessageId={noMatchMessageId}
                             noMatchMessageDefault={noMatchMessageDefault}
                             onInputChange={this.onUsersInputChange}
                             inputValue={this.state.usersInputValue}
-                            emailInvitationsEnabled={this.props.emailInvitationsEnabled}
+                            emailInvitationsEnabled={
+                                this.props.emailInvitationsEnabled
+                            }
                         />
                     </div>
                     <div className='help-text'>
-                        {this.props.emailInvitationsEnabled &&
-                        <FormattedMessage
-                            id='invitation_modal.members.search-and-add.description'
-                            defaultMessage='Add existing members or send email invites to new members.'
-                        />
-                        }
-                        {!this.props.emailInvitationsEnabled &&
-                        <FormattedMessage
-                            id='invitation_modal.members.search-and-add.description-email-disabled'
-                            defaultMessage='Add existing members to this team.'
-                        />
-                        }
+                        {this.props.emailInvitationsEnabled && (
+                            <FormattedMessage
+                                id='invitation_modal.members.search-and-add.description'
+                                defaultMessage='Add existing members or send email invites to new members.'
+                            />
+                        )}
+                        {!this.props.emailInvitationsEnabled && (
+                            <FormattedMessage
+                                id='invitation_modal.members.search-and-add.description-email-disabled'
+                                defaultMessage='Add existing members to this team.'
+                            />
+                        )}
                     </div>
                 </div>
                 <div className='invite-members'>
                     <button
-                        className={'btn ' + (this.state.usersAndEmails.length === 0 ? 'btn-inactive' : 'btn-primary')}
+                        className={
+                            'btn ' +
+                            (this.state.usersAndEmails.length === 0 ?
+                                'btn-inactive' :
+                                'btn-primary')
+                        }
                         onClick={this.submit}
                         disabled={this.state.usersAndEmails.length === 0}
                         id='inviteMembersButton'
