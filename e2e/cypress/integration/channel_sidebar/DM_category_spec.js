@@ -8,13 +8,18 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @channel_sidebar
+// Group: @DM category
 
 import {getAdminAccount} from '../../support/env';
+import * as TIMEOUTS from '../../fixtures/timeouts';
 
-describe('Channel sidebar', () => {
+const SpaceKeyCode = 32;
+const DownArrowKeyCode = 40;
+
+describe('MM-T3156 DM category', () => {
     const sysadmin = getAdminAccount();
     let testUser;
+    const usernames = [];
     before(() => {
         // # Enable channel sidebar organization
         cy.apiUpdateConfig({
@@ -36,9 +41,16 @@ describe('Channel sidebar', () => {
         cy.uiCloseWhatsNewModal();
     });
 
-    it('should order DMs based on the sort button', () => {
+    it('MM-T3156_1 Should open DM modal on click of + in category header', () => {
+        cy.get('button[aria-label="DIRECT MESSAGES"]').parents('.SidebarChannelGroup').within(() => {
+            cy.get('.SidebarChannelGroupHeader_addButton').click();
+        });
+        cy.get('#moreDmModal').should('be.visible');
+        cy.get('#moreDmModal .close').click();
+    });
+
+    it('MM-T3156_2 should order DMs based on recent interactions', () => {
         const usersPrefixes = ['a', 'c', 'd', 'j', 'p', 'u', 'x', 'z'];
-        const usernames = [];
         usersPrefixes.forEach((prefix) => {
             // # Create users with prefixes in alphabatical order
             cy.apiCreateUser({prefix}).then(({user: newUser}) => {
@@ -56,15 +68,34 @@ describe('Channel sidebar', () => {
 
         // get DM category group
         cy.get('button[aria-label="DIRECT MESSAGES"]').parents('.SidebarChannelGroup').within(() => {
-            const usernamesReversed = usernames.reverse();
+            const usernamesReversed = [...usernames].reverse();
 
             cy.get('.NavGroupContent').children().each(($el, index) => {
                 // * Verify that the usernames are in reverse order i.e ordered by recent activity
                 cy.wrap($el).find('.SidebarChannelLinkLabel').should('contain', usernamesReversed[index]);
             });
+        });
+    });
 
+    it('MM-T3156_3 should order DMs alphabatically ', () => {
+        // get DM category group
+        cy.get('button[aria-label="DIRECT MESSAGES"]').parents('.SidebarChannelGroup').within(() => {
             // # Change sorting to be alphabetical
             cy.get('.SidebarChannelGroupHeader_sortButton').invoke('show').click();
+            cy.get('.NavGroupContent').children().each(($el, index) => {
+                // * Verify that the usernames are in alphabetical order
+                cy.wrap($el).find('.SidebarChannelLinkLabel').should('contain', usernames[index]);
+            });
+        });
+    });
+
+    it('MM-T3156_4 should not be able to rearrage DMs', () => {
+        cy.get('button[aria-label="DIRECT MESSAGES"]').parents('.SidebarChannelGroup').within(() => {
+            cy.get(`.SidebarChannel:contains(${usernames[0]}) > .SidebarLink`).
+                trigger('keydown', {keyCode: SpaceKeyCode}).
+                trigger('keydown', {keyCode: DownArrowKeyCode, force: true}).wait(TIMEOUTS.THREE_SEC).
+                trigger('keydown', {keyCode: SpaceKeyCode, force: true}).wait(TIMEOUTS.THREE_SEC);
+
             cy.get('.NavGroupContent').children().each(($el, index) => {
                 // * Verify that the usernames are in alphabetical order
                 cy.wrap($el).find('.SidebarChannelLinkLabel').should('contain', usernames[index]);
