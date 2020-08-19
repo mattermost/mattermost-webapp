@@ -48,7 +48,7 @@ exports[`components/next_steps_view should match snapshot 1`] = `
         className="NextStepsView__body-main"
       >
         <Accordion
-          defaultExpandedKey="complete_profile"
+          defaultExpandedKey="step_1"
         >
           <Component />
         </Accordion>

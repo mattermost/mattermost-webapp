@@ -90,7 +90,13 @@ export default class InviteMembersStep extends React.PureComponent<Props, State>
 
         if (value.indexOf(' ') !== -1 || value.indexOf(',') !== -1) {
             const emails = value.split(/[\s,]+/).filter((email) => email.length).map((email) => ({label: email, value: email, error: !isEmail(email)}));
-            this.setState({emails: [...this.state.emails, ...emails], emailInput: '', emailError: undefined});
+            const newEmails = [...this.state.emails, ...emails];
+
+            this.setState({
+                emails: newEmails,
+                emailInput: '',
+                emailError: newEmails.length > 10 ? Utils.localizeMessage('next_steps_view.invite_members_step.tooManyEmails', 'Invitations are limited to 10 email addresses.') : undefined,
+            });
         } else {
             this.setState({emailInput: value, emailError: undefined});
         }
@@ -103,6 +109,10 @@ export default class InviteMembersStep extends React.PureComponent<Props, State>
 
         if (!value.some((email) => email.error)) {
             this.setState({emailError: undefined});
+        }
+
+        if (value.length > 10) {
+            this.setState({emailError: Utils.localizeMessage('next_steps_view.invite_members_step.tooManyEmails', 'Invitations are limited to 10 email addresses.')});
         }
 
         this.setState({emails: value});

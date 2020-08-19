@@ -31,8 +31,6 @@ type Props = StepComponentProps & {
 type State = {
     teamName: string;
     teamNameError?: string;
-    teamURL: string;
-    teamURLError?: string;
     profilePicture?: File;
     profilePictureError: boolean;
     removeProfilePicture: boolean;
@@ -44,7 +42,6 @@ export default class TeamProfileStep extends React.PureComponent<Props, State> {
 
         this.state = {
             teamName: props.team.display_name,
-            teamURL: props.team.name,
             profilePictureError: false,
             removeProfilePicture: false,
         };
@@ -59,31 +56,8 @@ export default class TeamProfileStep extends React.PureComponent<Props, State> {
         this.setState({teamName: event.target.value, teamNameError});
     }
 
-    private handleURLInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        let teamURLError;
-        if (!event.target.value) {
-            teamURLError = Utils.localizeMessage('next_steps_view.team_profile_step.nameCannotBeBlank', 'Team URL can’t be blank');
-        }
-
-        const urlRegex = /^[a-z]+([a-z\-0-9]+|(__)?)[a-z0-9]+$/g;
-        if (!urlRegex.test(event.target.value)) {
-            teamURLError = Utils.localizeMessage('next_steps_view.team_profile_step.malformedURL', 'Use only lower case letters, numbers and dashes. Must start with a letter and can\'t end in a dash.');
-        }
-
-        this.setState({teamURL: event.target.value, teamURLError});
-    }
-
     isFinishDisabled = () => {
-        return Boolean(!this.state.teamName || this.state.teamNameError || !this.state.teamURL || this.state.teamURLError || this.state.profilePictureError);
-    }
-
-    getSanitizedSiteURL = () => {
-        const removeProtocol = this.props.siteURL.replace(/(^\w+:|^)\/\//, '');
-        if (removeProtocol.endsWith('/')) {
-            return removeProtocol;
-        }
-
-        return `${removeProtocol}/`;
+        return Boolean(!this.state.teamName || this.state.teamNameError || this.state.profilePictureError);
     }
 
     onSkip = () => {
