@@ -137,11 +137,8 @@ class InvitationModalMembersStep extends React.PureComponent {
 
         // usersRemaining is calculated against the limit, the current users, and how many are being invited in the current flow
         const usersRemaining = userLimit - (currentUsers + this.state.usersAndEmails.length);
-
-        if (usersRemaining > 0) {
-            return false;
-        } else if (usersRemaining === 0 && this.state.usersInputValue === '') {
-            return false;
+        if (usersRemaining === 0 && this.state.usersInputValue !== '') {
+            return true;
         } else if (usersRemaining < 0) {
             return true;
         }
@@ -249,7 +246,7 @@ class InvitationModalMembersStep extends React.PureComponent {
                             value={this.state.usersAndEmails}
                             validAddressMessageId={t('invitation_modal.members.users_emails_input.valid_email')}
                             validAddressMessageDefault='Invite **{email}** as a team member'
-                            errorMessageId={'invitation_modal.invite_members.hit_cloud_user_limit_plural'}
+                            errorMessageId={'invitation_modal.invite_members.hit_cloud_user_limit'}
                             errorMessageDefault={'You have reached the user limit for your tier'}
                             errorMessageValues={{
                                 text: getConfig(getState()).ExperimentalCloudUserLimit - getState().entities.admin.analytics.TOTAL_USERS,
