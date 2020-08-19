@@ -10,6 +10,8 @@ import {isEmail} from 'mattermost-redux/utils/helpers';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
+import {getMyTeamMember} from 'mattermost-redux/selectors/entities/teams';
+
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import InviteMembersIcon from 'components/widgets/icons/invite_members_icon';
 import UsersEmailsInput from 'components/widgets/inputs/users_emails_input.jsx';
@@ -18,9 +20,8 @@ import LinkIcon from 'components/widgets/icons/link_icon';
 
 import {getSiteURL} from 'utils/url';
 import {t} from 'utils/i18n.jsx';
-import {localizeMessage} from 'utils/utils.jsx';
+import {localizeMessage, isAdmin} from 'utils/utils.jsx';
 import store from 'stores/redux_store.jsx';
-
 const getState = store.getState;
 
 import './invitation_modal_members_step.scss';
@@ -124,6 +125,7 @@ class InvitationModalMembersStep extends React.PureComponent {
     }
 
     render() {
+        const state = getState();
         const inviteUrl = getSiteURL() + '/signup_user_complete/?id=' + this.props.inviteId;
 
         let placeholder = localizeMessage('invitation_modal.members.search-and-add.placeholder', 'Add members or email addresses');
@@ -135,7 +137,6 @@ class InvitationModalMembersStep extends React.PureComponent {
             noMatchMessageId = t('invitation_modal.members.users_emails_input.no_user_found_matching-email-disabled');
             noMatchMessageDefault = 'No one found matching **{text}**';
         }
-
         return (
             <div className='InvitationModalMembersStep'>
                 <div className='modal-icon'>
@@ -219,7 +220,9 @@ class InvitationModalMembersStep extends React.PureComponent {
                         <UsersEmailsInput
                             usersLoader={this.usersLoader}
                             placeholder={placeholder}
-                            config={getConfig(getState())}
+                            userLimit={getConfig(state).ExperimentalCloudUserLimit}
+                            currentUsers={state.entities.admin.analytics.TOTAL_USERS}
+                            isAdmin={isAdmin(getMyTeamMember(state, this.props.currentTeamId).roles)}
                             ariaLabel={localizeMessage('invitation_modal.members.search_and_add.title', 'Invite People')}
                             onChange={this.onChange}
                             value={this.state.usersAndEmails}

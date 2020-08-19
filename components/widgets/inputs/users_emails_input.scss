@@ -1,6 +1,27 @@
 @import 'utils/variables';
 
 .UsersEmailsInput {
+
+    // Error state overrides to default styles
+    &.error {
+        .users-emails-input__control {
+            border-color: #FD5960;
+
+            &--is-focused,
+            &--menu-is-open {
+                &:hover {
+                    border-color: #FD5960;
+                }
+
+                border-color: #FD5960;
+            }
+
+            .users-emails-input__input {
+                border-bottom: 1px dotted #FD5960;
+            }
+        }
+    }
+
     &.empty {
         .users-emails-input__control {
             .users-emails-input__input {
@@ -8,6 +29,7 @@
             }
         }
     }
+
     .users-emails-input__control {
         min-height: 48px;
         background: var(--center-channel-bg);
@@ -201,5 +223,25 @@
     }
     .Badge {
         margin-left: 8px;
+    }
+}
+
+.OverUserLimit {
+    margin-top: 2px;
+    width: 100%;
+    height: 60px;
+    background: rgba(197, 67, 72, 0.1);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+
+    span {
+        height: 20px;
+        position: relative;
+        font-size: 16px;
+        line-height: 20px;
+        margin: auto;
+        text-align: center;
+        color: #FD5960
     }
 }

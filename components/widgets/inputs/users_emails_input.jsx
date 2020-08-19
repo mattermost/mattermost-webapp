@@ -28,9 +28,11 @@ export default class UsersEmailsInput extends React.PureComponent {
     static propTypes = {
         placeholder: PropTypes.string,
         ariaLabel: PropTypes.string.isRequired,
-        config: PropTypes.object.isRequired,
         usersLoader: PropTypes.func,
         onChange: PropTypes.func,
+        userLimit: PropTypes.string,
+        currentUsers: PropTypes.string,
+        isAdmin: PropTypes.bool,
         value: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.object, PropTypes.string])),
         onInputChange: PropTypes.func,
         inputValue: PropTypes.string,
@@ -50,6 +52,8 @@ export default class UsersEmailsInput extends React.PureComponent {
         validAddressMessageDefault: 'Add **{email}**',
         loadingMessageId: t('widgets.users_emails_input.loading'),
         loadingMessageDefault: 'Loading',
+        userLimit: 0,
+        isAdmin: false,
     };
 
     constructor(props) {
@@ -170,6 +174,7 @@ export default class UsersEmailsInput extends React.PureComponent {
         if (!inputValue) {
             return null;
         }
+
         return (
             <div className='users-emails-input__option users-emails-input__option--no-matches'>
                 <FormattedMarkdownMessage
@@ -187,10 +192,6 @@ export default class UsersEmailsInput extends React.PureComponent {
             </div>
         );
     };
-
-    // TooManyInvitesMessage = (props) => {
-
-    // }
 
     MultiValueRemove = ({children, innerProps}) => (
         <div {...innerProps}>
@@ -255,41 +256,88 @@ export default class UsersEmailsInput extends React.PureComponent {
         this.selectRef.current.handleInputChange(this.props.inputValue, {action: 'custom'});
     }
 
+    shouldShowUserLimitError = () => {
+        // If the userLimit is 0, never show the error, because there is no limit
+        if (this.props.userLimit === 0 || !this.props.isAdmin) {
+            return false;
+        }
+
+        // Get how many users are remaining
+        const usersRemaining = this.props.userLimit - (this.props.currentUsers + this.props.value.length);
+
+        if (usersRemaining > 0) {
+            return false;
+        } else if (usersRemaining === 0 && this.props.inputValue === '') {
+            return false;
+        } else if (usersRemaining < 0) {
+            return true;
+        }
+        return true;
+    }
+
     render() {
-        console.log(this.props.config);
         const values = this.props.value.map((v) => {
             if (v.id) {
                 return v;
             }
             return {label: v, value: v};
         });
+        const usersRemaining = this.props.userLimit - this.props.currentUsers;
+
+        const showError = this.shouldShowUserLimitError();
         return (
-            <AsyncSelect
-                ref={this.selectRef}
-                styles={this.customStyles}
-                onChange={this.onChange}
-                loadOptions={this.optionsLoader}
-                isValidNewOption={this.showAddEmail}
-                isMulti={true}
-                isClearable={false}
-                className={classNames('UsersEmailsInput', {empty: this.props.inputValue === ''})}
-                classNamePrefix='users-emails-input'
-                placeholder={this.props.placeholder}
-                components={this.components}
-                getOptionValue={this.getOptionValue}
-                formatOptionLabel={this.formatOptionLabel}
-                defaultOptions={false}
-                defaultMenuIsOpen={false}
-                openMenuOnClick={false}
-                loadingMessage={this.loadingMessage}
-                onInputChange={this.handleInputChange}
-                inputValue={this.props.inputValue}
-                openMenuOnFocus={true}
-                onFocus={this.onFocus}
-                tabSelectsValue={true}
-                value={values}
-                aria-label={this.props.ariaLabel}
-            />
+            <div>
+                <AsyncSelect
+                    ref={this.selectRef}
+                    styles={this.customStyles}
+                    onChange={this.onChange}
+                    loadOptions={this.optionsLoader}
+                    isValidNewOption={this.showAddEmail}
+                    isMulti={true}
+                    isClearable={false}
+                    className={classNames(
+                        'UsersEmailsInput',
+                        showError ? 'error' : '',
+                        {empty: this.props.inputValue === ''},
+                    )}
+                    classNamePrefix='users-emails-input'
+                    placeholder={this.props.placeholder}
+                    components={this.components}
+                    getOptionValue={this.getOptionValue}
+                    formatOptionLabel={this.formatOptionLabel}
+                    defaultOptions={false}
+                    defaultMenuIsOpen={false}
+                    openMenuOnClick={false}
+                    loadingMessage={this.loadingMessage}
+                    onInputChange={this.handleInputChange}
+                    inputValue={this.props.inputValue}
+                    openMenuOnFocus={true}
+                    onFocus={this.onFocus}
+                    tabSelectsValue={true}
+                    value={values}
+                    aria-label={this.props.ariaLabel}
+                />
+                {showError && (
+                    <div className='OverUserLimit'>
+                        <FormattedMarkdownMessage
+                            id={
+                                usersRemaining === 1 ? 'invitation_modal.invite_members.hit_cloud_user_limit_singular' : 'invitation_modal.invite_members.hit_cloud_user_limit_plural'
+                            }
+                            defaultMessage={
+                                'You have reached the user limit for your tier'
+                            }
+                            values={{text: usersRemaining}}
+                            disableLinks={true}
+                        >
+                            {(message) => (
+                                <components.NoOptionsMessage>
+                                    {message}
+                                </components.NoOptionsMessage>
+                            )}
+                        </FormattedMarkdownMessage>
+                    </div>
+                )}
+            </div>
         );
     }
 }
