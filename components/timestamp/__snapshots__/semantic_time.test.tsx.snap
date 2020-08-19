@@ -5,7 +5,7 @@ exports[`components/timestamp/SemanticTime should render time semantically 1`] =
   value={2020-06-05T10:20:30.000Z}
 >
   <time
-    aria-label="6/5/2020, 10:20:30 AM"
+    aria-label="2020-06-05, 10:20:30 a.m."
     dateTime="2020-06-05T10:20:30.000Z"
   />
 </Memo(SemanticTime)>
@@ -28,7 +28,7 @@ exports[`components/timestamp/SemanticTime should support passthrough children 1
   value={2020-06-05T10:20:30.000Z}
 >
   <time
-    aria-label="6/5/2020, 10:20:30 AM"
+    aria-label="2020-06-05, 10:20:30 a.m."
     dateTime="2020-06-05T10:20:30.000Z"
   >
     10:20
