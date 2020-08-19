@@ -390,7 +390,7 @@ class EditPostModal extends React.PureComponent {
             return !this.props.canEditPost;
         }
 
-        if (this.state.editText !== '') {
+        if (this.state.editText.trim() !== '') {
             return !this.props.canEditPost;
         }
 

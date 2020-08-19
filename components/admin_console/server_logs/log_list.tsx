@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
@@ -9,20 +8,22 @@ import NextIcon from 'components/widgets/icons/fa_next_icon';
 
 const NEXT_BUTTON_TIMEOUT = 500;
 
-export default class Logs extends React.PureComponent {
-    static propTypes = {
+type Props = {
+    logs: string[];
+    page: number;
+    perPage: number;
+    nextPage: () => void;
+    previousPage: () => void;
+};
 
-        /*
-         * Array of logs to render
-         */
-        logs: PropTypes.arrayOf(PropTypes.string).isRequired,
-        page: PropTypes.number.isRequired,
-        perPage: PropTypes.number.isRequired,
-        nextPage: PropTypes.func.isRequired,
-        previousPage: PropTypes.func.isRequired,
-    }
+type State = {
+    nextDisabled: boolean;
+};
 
-    constructor(props) {
+export default class Logs extends React.PureComponent<Props, State> {
+    private logPanel: React.RefObject<HTMLDivElement>;
+
+    constructor(props: Props) {
         super(props);
 
         this.logPanel = React.createRef();
@@ -35,26 +36,30 @@ export default class Logs extends React.PureComponent {
     componentDidMount() {
         // Scroll Down to get the latest logs
         const node = this.logPanel.current;
-        node.scrollTop = node.scrollHeight;
-        node.focus();
+        if (node) {
+            node.scrollTop = node.scrollHeight;
+            node.focus();
+        }
     }
 
     componentDidUpdate() {
         // Scroll Down to get the latest logs
         const node = this.logPanel.current;
-        node.scrollTop = node.scrollHeight;
+        if (node) {
+            node.scrollTop = node.scrollHeight;
+        }
     }
 
-    nextPage = (e) => {
+    nextPage = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
 
         this.setState({nextDisabled: true});
-        this.nextTimeoutId = setTimeout(() => this.setState({nextDisabled: false}), NEXT_BUTTON_TIMEOUT);
+        setTimeout(() => this.setState({nextDisabled: false}), NEXT_BUTTON_TIMEOUT);
 
         this.props.nextPage();
     }
 
-    previousPage = (e) => {
+    previousPage = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
 
         this.props.previousPage();
@@ -91,7 +96,7 @@ export default class Logs extends React.PureComponent {
                         id='generic_icons.previous'
                         defaultMessage='Previous Icon'
                     >
-                        {(title) => (
+                        {(title: string) => (
                             <i
                                 className='fa fa-angle-left'
                                 title={title}
@@ -109,9 +114,10 @@ export default class Logs extends React.PureComponent {
         content = [];
 
         for (let i = 0; i < this.props.logs.length; i++) {
-            const style = {
+            const style: React.CSSProperties = {
                 whiteSpace: 'nowrap',
                 fontFamily: 'monospace',
+                color: ''
             };
 
             if (this.props.logs[i].indexOf('[EROR]') > 0) {
@@ -132,7 +138,7 @@ export default class Logs extends React.PureComponent {
         return (
             <div>
                 <div
-                    tabIndex='-1'
+                    tabIndex={-1}
                     ref={this.logPanel}
                     className='log__panel'
                 >
