@@ -363,7 +363,13 @@ export default class GroupDetails extends React.PureComponent {
                     serverError = result.error?.message;
                 }
             }
-            this.setState({allowReference, groupMentionName: lcGroupMentionName, serverError});
+            this.setState({
+                allowReference, 
+                groupMentionName: lcGroupMentionName, 
+                serverError, 
+                hasAllowReferenceChanged: result.error ? hasAllowReferenceChanged : false, 
+                hasGroupMentionNameChanged: result.error ? hasGroupMentionNameChanged : false
+            });
         }
 
         return true;
