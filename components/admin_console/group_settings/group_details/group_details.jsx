@@ -372,7 +372,7 @@ export default class GroupDetails extends React.PureComponent {
             });
         }
 
-        return true;
+        return serverError ? false : true;
     };
 
     handleRolesToUpdate = async () => {
