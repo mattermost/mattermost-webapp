@@ -10,7 +10,6 @@
 // Group: @enterprise @ldap
 
 import users from '../../../fixtures/ldap_users.json';
-import {getRandomId} from '../../../utils';
 
 function setLDAPTestSettings(config) {
     return {
@@ -25,14 +24,13 @@ function setLDAPTestSettings(config) {
 // assumes that E20 license is uploaded
 // for setup with AWS: Follow the instructions mentioned in the mattermost/platform-private/config/ldap-test-setup.txt file
 context('ldap', () => {
-    const user1 = users['test-1'];
-    const guest1 = users['board-1'];
-    const admin1 = users['dev-1'];
+    // const user1 = users['test-1'];
+    // const guest1 = users['board-1'];
+    // const admin1 = users['dev-1'];
 
     let testSettings;
-    let testChannel
+    let testChannel;
     let testTeam;
-
 
     describe('LDAP Group Sync Automated Tests', () => {
         beforeEach(() => {
@@ -45,10 +43,10 @@ context('ldap', () => {
                 cy.apiGetConfig().then(({config}) => {
                     testSettings = setLDAPTestSettings(config);
                 });
-    
+
                 // # Login as sysadmin and add board-one to test team
                 cy.apiAdminLogin();
-    
+
                 // # Link board group
                 cy.visit('/admin_console/user_management/groups');
                 cy.get('#board_group').then((el) => {
@@ -59,7 +57,7 @@ context('ldap', () => {
                         }
                     }
                 });
-    
+
                 // # Link developers group
                 cy.visit('/admin_console/user_management/groups');
                 cy.get('#developers_group').then((el) => {
@@ -70,12 +68,11 @@ context('ldap', () => {
                         }
                     }
                 });
-    
+
                 cy.apiCreateChannel(testTeam.id, 'ldap-group-sync-automated-tests', 'ldap-group-sync-automated-tests').then((response) => {
                     testChannel = response.body;
                 });
             });
-
         });
 
         it('MM-T1537 - Sync Group Removal from Channel Configuration Page', () => {
@@ -143,6 +140,7 @@ context('ldap', () => {
 
         it('MM-T2621 - Team List Management Column', () => {
             let testTeam2;
+
             // # Login as sysadmin and add board-one to test team
             cy.apiAdminLogin();
             cy.visit(`/admin_console/user_management/teams/${testTeam.id}`);
@@ -193,12 +191,10 @@ context('ldap', () => {
             cy.get('#confirmModalButton').click();
             cy.visit(`/${testTeam.name}`);
             cy.get('#sidebarPublicChannelsMore').click();
-    
+
             // * Search private channel name and make sure it isn't there
             cy.get('#searchChannelsTextbox').type(`${testChannel.display_name}`);
             cy.get('#moreChannelsList').should('include.text', 'No more channels to join');
         });
-
-
     });
 });
