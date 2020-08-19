@@ -17,6 +17,10 @@
             min-height: 70px;
             padding: 4px;
         }
+
+        &.Input___focus .a11y--focused {
+            box-shadow: none;
+        }
     } 
 
     .Input_legend {

@@ -82,7 +82,11 @@ const MultiInput = <T extends ValueType>(props: Props<T>) => {
         <div className='MultiInput Input_container'>
             <fieldset className={fieldsetClass}>
                 <legend className={showLegend ? 'Input_legend Input_legend___focus' : 'Input_legend'}>{showLegend ? (legend || placeholder) : null}</legend>
-                <div className='Input_wrapper'>
+                <div
+                    className='Input_wrapper'
+                    onFocus={onInputFocus}
+                    onBlur={onInputBlur}
+                >
                     {textPrefix && <span>{textPrefix}</span>}
                     <ReactSelect
                         id={`MultiInput_${name}`}
@@ -95,8 +99,6 @@ const MultiInput = <T extends ValueType>(props: Props<T>) => {
                         }}
                         isMulti={true}
                         isClearable={false}
-                        onFocus={onInputFocus}
-                        onBlur={onInputBlur}
                         openMenuOnFocus={false}
                         menuIsOpen={false}
                         placeholder={focused ? '' : placeholder}
