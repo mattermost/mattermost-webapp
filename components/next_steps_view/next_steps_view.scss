@@ -12,6 +12,10 @@
     height: 100%;
     width: 100%;
     transition: left 0.5s ease-in;
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
 .NextStepsView__mainView {
@@ -65,6 +69,7 @@
 .NextStepsView__header {
     padding: 32px 40px 24px 40px;
     display: flex;
+    flex-grow: 0;
 }
 
 .NextStepsView__header-headerText {
@@ -92,6 +97,7 @@
 .NextStepsView__body {
     display: flex;
     height: 100%;
+    flex-grow: 1;
 }
 
 .NextStepsView__body-main {
@@ -504,11 +510,6 @@
 
     .NextStepsView__body {
         height: auto;
-    }
-
-    .NextStepsView__viewWrapper {
-        overflow-y: auto;
-        overflow-x: hidden;
     }
 }
 

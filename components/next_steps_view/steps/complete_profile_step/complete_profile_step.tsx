@@ -134,28 +134,17 @@ export default class CompleteProfileStep extends React.PureComponent<Props, Stat
                         />
                     </div>
                 </div>
-                <span className='CompleteProfileStep__pictureError'>
-                    {this.state.profilePictureError && (
-                        <>
-                            <i className='icon icon-alert-outline'/>
-                            <FormattedMarkdownMessage
-                                id='next_steps_view.complete_profile_step.pictureError'
-                                defaultMessage='Photos must be in BMP, JPG or PNG format. Maximum file size is {max}.'
-                                values={{max: Utils.fileSizeToString(this.props.maxFileSize)}}
-                            />
-                        </>
-                    )}
-                </span>
-                <div className='NextStepsView__wizardButtons'>
-                    {/* <button
-                        className='NextStepsView__button cancel'
-                        onClick={this.onSkip}
-                    >
-                        <FormattedMessage
-                            id='next_steps_view.skipForNow'
-                            defaultMessage='Skip for now'
+                {this.state.profilePictureError &&
+                    <span className='CompleteProfileStep__pictureError'>
+                        <i className='icon icon-alert-outline'/>
+                        <FormattedMarkdownMessage
+                            id='next_steps_view.complete_profile_step.pictureError'
+                            defaultMessage='Photos must be in BMP, JPG or PNG format. Maximum file size is {max}.'
+                            values={{max: Utils.fileSizeToString(this.props.maxFileSize)}}
                         />
-                    </button> */}
+                    </span>
+                }
+                <div className='NextStepsView__wizardButtons'>
                     <button
                         className={classNames('NextStepsView__button NextStepsView__finishButton primary', {disabled: this.isFinishDisabled()})}
                         onClick={this.onFinish}

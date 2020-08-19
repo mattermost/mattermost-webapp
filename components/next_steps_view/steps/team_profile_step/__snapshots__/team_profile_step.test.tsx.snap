@@ -51,9 +51,6 @@ exports[`components/next_steps_view/steps/team_profile_step should match snapsho
       />
     </div>
   </div>
-  <span
-    className="TeamProfileStep__pictureError"
-  />
   <div
     className="NextStepsView__wizardButtons"
   >
