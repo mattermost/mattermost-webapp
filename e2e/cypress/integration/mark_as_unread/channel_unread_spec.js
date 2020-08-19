@@ -66,7 +66,7 @@ describe('channel unread posts', () => {
             markAsUnreadByPostIdFromMenu(postId);
         });
 
-        // * Verifify the notification seperator line exists and present before the unread message
+        // * Verify the notification separator line exists and present before the unread message
         verifyPostNextToNewMessageSeparator('hello from current user: 4');
 
         // # Switch to channelB
@@ -81,7 +81,7 @@ describe('channel unread posts', () => {
         // * Verify the channelA has does not have unread in LHS
         cy.get(`#sidebarItem_${channelA.name}`).should(beRead);
 
-        // * Verifify the notification seperator line exists and present before the unread message
+        // * Verify the notification separator line exists and present before the unread message
         verifyPostNextToNewMessageSeparator('hello from current user: 4');
 
         // # Switch to channelB
