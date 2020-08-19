@@ -21,7 +21,7 @@ describe('Message Reply too long', () => {
         });
     });
 
-    it('M18689 - "Message too long" warning text', () => {
+    it('MM-T106 Webapp: "Message too long" warning text', () => {
         // # Click "Reply"
         cy.getLastPostId().then((postId) => {
             cy.clickPostCommentIcon(postId);

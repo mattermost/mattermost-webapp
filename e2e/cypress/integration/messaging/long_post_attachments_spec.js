@@ -39,7 +39,7 @@ function postAttachments() {
     });
 }
 
-describe('M14322 Long post with multiple attachments', () => {
+describe('MM-T105 Long post with mutiple attachments', () => {
     let testTeam;
 
     beforeEach(() => {
