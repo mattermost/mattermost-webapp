@@ -14,7 +14,7 @@
  * 3. Open locahost:8065. Log in as sysadmin.
  * 4. Open hamburger menu > System Console > Plugins (http://localhost:8065/admin_console/plugins/plugin_management).
  * 5. Ensure "Enable Plugins" is true and "Require Plugin Signature" is false.
- * 6. Find "Upload Plugin". Click "Choose File" and select the .tar.gz file.  Click "Save".
+ * 6. Find "Upload Plugin". Click "Choose File" and select the .tar.gz file.
  */
 
 import * as MESSAGES from '../../fixtures/messages';
