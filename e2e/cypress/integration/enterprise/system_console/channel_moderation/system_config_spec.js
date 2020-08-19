@@ -49,7 +49,9 @@ describe('Channel Moderation', () => {
         cy.visit('/admin_console/user_management/channels');
 
         // # Search for the channel.
-        cy.findByPlaceholderText('Search').type(`${testChannel.name}{enter}`);
+        cy.get('.DataGrid_searchBar').within(() => {
+            cy.findByPlaceholderText('Search').type(`${testChannel.name}{enter}`);
+        });
         cy.findByText('Edit').click();
 
         // # Wait until the groups retrieved and show up

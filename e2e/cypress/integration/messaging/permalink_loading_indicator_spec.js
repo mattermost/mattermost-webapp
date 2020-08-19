@@ -31,7 +31,7 @@ describe('Messaging', () => {
         });
     });
 
-    it('M18701-Permalink to first post in channel shows endless loading indicator above', () => {
+    it('MM-T3308 Permalink to first post in channel does not show endless loading indicator above', () => {
         const message = getRandomId();
         const maxMessageCount = 10;
 

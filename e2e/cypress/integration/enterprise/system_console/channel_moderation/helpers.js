@@ -10,7 +10,9 @@ import {checkBoxes} from './constants';
 export const visitChannelConfigPage = (channel) => {
     cy.apiAdminLogin();
     cy.visit('/admin_console/user_management/channels');
-    cy.findByPlaceholderText('Search').type(`${channel.name}{enter}`);
+    cy.get('.DataGrid_searchBar').within(() => {
+        cy.findByPlaceholderText('Search').type(`${channel.name}{enter}`);
+    });
     cy.findByText('Edit').click();
     cy.wait(TIMEOUTS.ONE_SEC);
 };
@@ -34,12 +36,16 @@ export const saveConfigForChannel = (channelName = false, clickConfirmationButto
                 cy.get('#confirmModalButton').click();
             }
 
-            // # Make sure the save is complete by looking for the search input which is only visible on the teams index page
-            cy.findByPlaceholderText('Search').should('be.visible');
+            // # Make sure the save is complete by looking for the search input which is only visible on the team's index page
+            cy.get('.DataGrid_searchBar').should('be.visible').within(() => {
+                cy.findByPlaceholderText('Search').should('be.visible');
+            });
 
             if (channelName) {
                 // # Search for the channel.
-                cy.findByPlaceholderText('Search').type(`${channelName}{enter}`);
+                cy.get('.DataGrid_searchBar').within(() => {
+                    cy.findByPlaceholderText('Search').type(`${channelName}{enter}`);
+                });
                 cy.findByText('Edit').click();
             }
         }

@@ -18,7 +18,6 @@ import HeaderIconWrapper from 'components/channel_header/components/header_icon_
 import SearchHint from 'components/search_hint/search_hint';
 import FlagIcon from 'components/widgets/icons/flag_icon';
 import MentionsIcon from 'components/widgets/icons/mentions_icon';
-import SearchIcon from 'components/widgets/icons/search_icon';
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 import Popover from 'components/widgets/popover';
 import UserGuideDropdown from 'components/channel_header/components/user_guide_dropdown';
@@ -391,10 +390,9 @@ export default class SearchBar extends React.PureComponent {
                         autoComplete='off'
                         aria-labelledby='searchBox'
                     >
-                        <SearchIcon
-                            className='search__icon'
-                            aria-hidden='true'
-                        />
+                        <div className='search__font-icon'>
+                            <i className='icon icon-magnify icon-16'/>
+                        </div>
                         <SuggestionBox
                             ref={this.getSearch}
                             id={this.props.isSideBarRight ? 'sbrSearchBox' : 'searchBox'}

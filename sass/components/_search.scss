@@ -22,12 +22,23 @@
     }
 }
 
+.search__font-icon {
+    pointer-events: none;
+    color: var(--center-channel-color-56);
+    left: 4px;
+    position: absolute;
+    top: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
 .search__icon {
     pointer-events: none;
     fill: v(center-channel-color-56);
     left: 9px;
     position: absolute;
-    top: 7px;
+    top: 6px;
 
     svg {
         width: 14px;
@@ -41,7 +52,7 @@
 
 .input-clear {
     cursor: pointer;
-    font-size: 14px;
+    font-size: 16px;
     color: v(center-channel-color-56);
     position: absolute;
     right: 0;

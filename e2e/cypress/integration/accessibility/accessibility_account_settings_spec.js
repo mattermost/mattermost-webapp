@@ -122,7 +122,7 @@ describe('Verify Accessibility Support in different sections in Account Settings
             if (section.type === 'text') {
                 cy.get(`#${section.key}Edit`).click();
                 cy.get('.setting-list-item .form-group').each(($el) => {
-                    if ($el.find('input').length) {
+                    if ($el.find('input').length) { // eslint-disable-line jquery/no-find
                         cy.wrap($el).find('.control-label').invoke('text').then((label) => {
                             cy.wrap($el).find('input').should('have.attr', 'aria-label', label);
                         });

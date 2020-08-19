@@ -119,13 +119,15 @@ export default class SidebarMenu extends React.PureComponent<Props, State> {
     }
 
     handleMenuToggle = (isMenuOpen: boolean) => {
-        this.setState({isMenuOpen}, () => {
-            if (this.props.onToggle) {
-                this.props.onToggle(isMenuOpen);
-            }
-            this.setMenuPosition();
-            this.disableScrollbar();
-        });
+        if (this.state.isMenuOpen !== isMenuOpen) {
+            this.setState({isMenuOpen}, () => {
+                if (this.props.onToggle) {
+                    this.props.onToggle(isMenuOpen);
+                }
+                this.setMenuPosition();
+                this.disableScrollbar();
+            });
+        }
     }
 
     render() {

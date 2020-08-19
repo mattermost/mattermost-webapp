@@ -3,16 +3,21 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {FormattedMessage, FormattedDate, injectIntl} from 'react-intl';
+import {FormattedMessage, injectIntl} from 'react-intl';
 
 import Toast from 'components/toast/toast';
+import Timestamp, {RelativeRanges} from 'components/timestamp';
 import {isIdNotPost, getNewMessageIndex} from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
+import {isToday} from 'utils/datetime';
 import Constants from 'utils/constants';
 import {browserHistory} from 'utils/browser_history';
-import LocalDateTime from 'components/local_date_time';
 
 const TOAST_TEXT_COLLAPSE_WIDTH = 500;
+
+const TOAST_REL_RANGES = [
+    RelativeRanges.TODAY_YESTERDAY,
+];
 
 class ToastWrapper extends React.PureComponent {
     static propTypes = {
@@ -216,20 +221,15 @@ class ToastWrapper extends React.PureComponent {
             return (
                 <FormattedMessage
                     id='postlist.toast.newMessagesSince'
-                    defaultMessage={'{count, number} new {count, plural, one {message} other {messages}} since {date} at {time}'}
+                    defaultMessage='{count, number} new {count, plural, one {message} other {messages}} {isToday, select, true {} other {since}} {date}'
                     values={{
                         count,
+                        isToday: isToday(new Date(since)).toString(),
                         date: (
-                            <FormattedDate
+                            <Timestamp
                                 value={since}
-                                weekday='short'
-                                day='2-digit'
-                                month='short'
-                            />
-                        ),
-                        time: (
-                            <LocalDateTime
-                                eventTime={since}
+                                useTime={false}
+                                ranges={TOAST_REL_RANGES}
                             />
                         ),
                     }}

@@ -5,7 +5,7 @@ import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
-import {JobTypes} from 'utils/constants';
+import {JobTypes, exportFormats} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import {getSiteURL} from 'utils/url';
 
@@ -16,12 +16,6 @@ import JobsTable from './jobs';
 import SettingsGroup from './settings_group.jsx';
 import TextSetting from './text_setting';
 import RadioSetting from './radio_setting';
-
-const exportFormats = {
-    EXPORT_FORMAT_CSV: 'csv',
-    EXPORT_FORMAT_ACTIANCE: 'actiance',
-    EXPORT_FORMAT_GLOBALRELAY: 'globalrelay',
-};
 
 export default class MessageExportSettings extends AdminSettings {
     getConfigFromState = (config) => {
@@ -71,17 +65,31 @@ export default class MessageExportSettings extends AdminSettings {
                 );
             }
             if (job.data.warning_count > 0) {
-                message.push(
-                    <div>
-                        <FormattedMessage
-                            id='admin.complianceExport.warningCount'
-                            defaultMessage='{count} warning(s) were encountered, see warning.txt for details'
-                            values={{
-                                count: job.data.warning_count,
-                            }}
-                        />
-                    </div>,
-                );
+                if (job.data.export_type === exportFormats.EXPORT_FORMAT_GLOBALRELAY) {
+                    message.push(
+                        <div>
+                            <FormattedMessage
+                                id='admin.complianceExport.warningCount.globalrelay'
+                                defaultMessage='{count} warning(s) encountered, see log for details'
+                                values={{
+                                    count: job.data.warning_count,
+                                }}
+                            />
+                        </div>,
+                    );
+                } else {
+                    message.push(
+                        <div>
+                            <FormattedMessage
+                                id='admin.complianceExport.warningCount'
+                                defaultMessage='{count} warning(s) encountered, see warning.txt for details'
+                                values={{
+                                    count: job.data.warning_count,
+                                }}
+                            />
+                        </div>,
+                    );
+                }
             }
             return message;
         }

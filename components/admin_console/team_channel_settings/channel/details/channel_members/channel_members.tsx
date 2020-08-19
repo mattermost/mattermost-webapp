@@ -13,6 +13,7 @@ import GeneralConstants from 'mattermost-redux/constants/general';
 
 import {t} from 'utils/i18n';
 import Constants from 'utils/constants';
+import {trackEvent} from 'actions/diagnostics_actions.jsx';
 
 import AdminPanel from 'components/widgets/admin_console/admin_panel';
 import UserGrid from 'components/admin_console/user_grid/user_grid';
@@ -174,6 +175,10 @@ export default class ChannelMembers extends React.PureComponent<Props, State> {
             if (channelRoles.length > 0) {
                 filters = {...filters, channel_roles: channelRoles};
             }
+            [...systemRoles, ...channelRoles].forEach((role) => {
+                trackEvent('admin_channel_config_page', `${role}_filter_applied_to_members_block`, {channel_id: this.props.channelId});
+            });
+
             this.props.actions.setUserGridFilters(filters);
             this.props.actions.getFilteredUsersStats({in_channel: this.props.channelId, include_bots: true, ...filters});
         } else {

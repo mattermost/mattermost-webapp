@@ -61,7 +61,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
                 className="icon-folder-move-outline"
               />,
               "id": "moveToNewCategory-channel_id",
-              "text": "Move to New Category",
+              "text": "New Category",
             },
           ]
         }
@@ -171,7 +171,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
                 className="icon-folder-move-outline"
               />,
               "id": "moveToNewCategory-channel_id",
-              "text": "Move to New Category",
+              "text": "New Category",
             },
           ]
         }
@@ -258,7 +258,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
                 className="icon-folder-move-outline"
               />,
               "id": "moveToNewCategory-channel_id",
-              "text": "Move to New Category",
+              "text": "New Category",
             },
           ]
         }
@@ -355,7 +355,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
                 className="icon-folder-move-outline"
               />,
               "id": "moveToNewCategory-channel_id",
-              "text": "Move to New Category",
+              "text": "New Category",
             },
           ]
         }
@@ -465,7 +465,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
                 className="icon-folder-move-outline"
               />,
               "id": "moveToNewCategory-channel_id",
-              "text": "Move to New Category",
+              "text": "New Category",
             },
           ]
         }
@@ -575,7 +575,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
                 className="icon-folder-move-outline"
               />,
               "id": "moveToNewCategory-channel_id",
-              "text": "Move to New Category",
+              "text": "New Category",
             },
           ]
         }
@@ -696,7 +696,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
                 className="icon-folder-move-outline"
               />,
               "id": "moveToNewCategory-channel_id",
-              "text": "Move to New Category",
+              "text": "New Category",
             },
           ]
         }
