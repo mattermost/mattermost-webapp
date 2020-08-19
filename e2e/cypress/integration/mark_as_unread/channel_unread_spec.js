@@ -11,7 +11,7 @@
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
-import {markAsUnreadByPostIdFromMenu, verifyPostNextToNewMessageSeparator} from './helpers';
+import {markAsUnreadByPostIdFromMenu, verifyPostNextToNewMessageSeparator, beRead, beUnread} from './helpers';
 
 describe('channel unread posts', () => {
     let testUser;
@@ -21,18 +21,18 @@ describe('channel unread posts', () => {
     let channelB;
 
     beforeEach(() => {
-        // # create testUser added to channel
+        // # Create testUser added to channel
         cy.apiInitSetup().then(({team, channel, user}) => {
             testUser = user;
             channelA = channel;
 
-            // # create second channel and add testUser
+            // # Create second channel and add testUser
             cy.apiCreateChannel(team.id, 'channel-b', 'Channel B').then((resp) => {
                 channelB = resp.body;
                 cy.apiAddUserToChannel(channelB.id, testUser.id);
             });
 
-            // # create otherUser, add to team, and add to both channelA and channelB
+            // # Create otherUser, add to team, and add to both channelA and channelB
             cy.apiCreateUser().then(({user: user2}) => {
                 otherUser = user2;
 
@@ -58,7 +58,7 @@ describe('channel unread posts', () => {
         // # Login as other user
         cy.apiLogin(otherUser);
 
-        // # switch to channelA
+        // # Switch to channelA
         switchToChannel(channelA);
 
         // # Mark the last post as unread
@@ -66,29 +66,29 @@ describe('channel unread posts', () => {
             markAsUnreadByPostIdFromMenu(postId);
         });
 
-        // * verifify the notification seperator line exists and present before the unread message
+        // * Verifify the notification seperator line exists and present before the unread message
         verifyPostNextToNewMessageSeparator('hello from current user: 4');
 
-        // # switch to channelB
+        // # Switch to channelB
         switchToChannel(channelB);
 
-        // # verify the channelA has unread in LHS
-        cy.get(`#sidebarItem_${channelA.name}`).should('have.class', 'unread-title');
+        // * Verify the channelA has unread in LHS
+        cy.get(`#sidebarItem_${channelA.name}`).should(beUnread);
 
-        // # switch to channelA
+        // # Switch to channelA
         switchToChannel(channelA);
 
-        // # verify the channelA has does not have unread in LHS
-        cy.get(`#sidebarItem_${channelA.name}`).should('exist').should('not.have.class', 'unread-title');
+        // * Verify the channelA has does not have unread in LHS
+        cy.get(`#sidebarItem_${channelA.name}`).should(beRead);
 
-        // * verifify the notification seperator line exists and present before the unread message
+        // * Verifify the notification seperator line exists and present before the unread message
         verifyPostNextToNewMessageSeparator('hello from current user: 4');
 
-        // # switch to channelB
+        // # Switch to channelB
         switchToChannel(channelB);
 
-        // # verify the channelA has does not have unread in LHS
-        cy.get(`#sidebarItem_${channelA.name}`).should('exist').should('not.have.class', 'unread-title');
+        // * Verify the channelA has does not have unread in LHS
+        cy.get(`#sidebarItem_${channelA.name}`).should(beRead);
     });
 });
 
