@@ -1555,6 +1555,7 @@ export const searchHintOptions = [{searchTerm: 'From:', message: {id: t('search_
 t('suggestion.mention.channels');
 t('suggestion.mention.morechannels');
 t('suggestion.mention.unread.channels');
+t('suggestion.mention.recent.channels');
 t('suggestion.mention.members');
 t('suggestion.mention.moremembers');
 t('suggestion.mention.nonmembers');

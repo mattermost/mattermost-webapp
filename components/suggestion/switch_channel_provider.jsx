@@ -571,13 +571,12 @@ export default class SwitchChannelProvider extends Provider {
         }
 
         const channelNames = channels.map((wrappedChannel) => wrappedChannel.channel.id);
-
-        console.log(channelNames, channels.slice(0, 3));
+        const recentThreeChannels = channels.slice(0, 3);
 
         resultsCallback({
             matchedPretext: '',
             terms: channelNames,
-            items: channels.slice(0, 3),
+            items: recentThreeChannels,
             component: ConnectedSwitchChannelSuggestion,
         });
     }

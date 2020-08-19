@@ -3721,6 +3721,7 @@
   "suggestion.mention.nonmembers": "Not in Channel",
   "suggestion.mention.special": "Special Mentions",
   "suggestion.mention.unread.channels": "Unread Channels",
+  "suggestion.mention.recent.channels": "Recent Channels",
   "suggestion.search.direct": "Direct Messages",
   "suggestion.search.private": "Private Channels",
   "suggestion.search.public": "Public Channels",
