@@ -30,9 +30,10 @@ export default class UsersEmailsInput extends React.PureComponent {
         ariaLabel: PropTypes.string.isRequired,
         usersLoader: PropTypes.func,
         onChange: PropTypes.func,
-        userLimit: PropTypes.string,
-        currentUsers: PropTypes.string,
-        isAdmin: PropTypes.bool,
+        showError: PropTypes.bool,
+        errorMessageId: PropTypes.string,
+        errorMessageDefault: PropTypes.string,
+        errorMessageValues: PropTypes.object,
         value: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.object, PropTypes.string])),
         onInputChange: PropTypes.func,
         inputValue: PropTypes.string,
@@ -52,8 +53,7 @@ export default class UsersEmailsInput extends React.PureComponent {
         validAddressMessageDefault: 'Add **{email}**',
         loadingMessageId: t('widgets.users_emails_input.loading'),
         loadingMessageDefault: 'Loading',
-        userLimit: 0,
-        isAdmin: false,
+        showError: false,
     };
 
     constructor(props) {
@@ -256,25 +256,6 @@ export default class UsersEmailsInput extends React.PureComponent {
         this.selectRef.current.handleInputChange(this.props.inputValue, {action: 'custom'});
     }
 
-    shouldShowUserLimitError = () => {
-        // If the userLimit is 0, never show the error, because there is no limit
-        if (this.props.userLimit === 0 || !this.props.isAdmin) {
-            return false;
-        }
-
-        // Get how many users are remaining
-        const usersRemaining = this.props.userLimit - (this.props.currentUsers + this.props.value.length);
-
-        if (usersRemaining > 0) {
-            return false;
-        } else if (usersRemaining === 0 && this.props.inputValue === '') {
-            return false;
-        } else if (usersRemaining < 0) {
-            return true;
-        }
-        return true;
-    }
-
     render() {
         const values = this.props.value.map((v) => {
             if (v.id) {
@@ -282,9 +263,6 @@ export default class UsersEmailsInput extends React.PureComponent {
             }
             return {label: v, value: v};
         });
-        const usersRemaining = this.props.userLimit - this.props.currentUsers;
-
-        const showError = this.shouldShowUserLimitError();
         return (
             <div>
                 <AsyncSelect
@@ -297,7 +275,7 @@ export default class UsersEmailsInput extends React.PureComponent {
                     isClearable={false}
                     className={classNames(
                         'UsersEmailsInput',
-                        showError ? 'error' : '',
+                        this.props.showError ? 'error' : '',
                         {empty: this.props.inputValue === ''},
                     )}
                     classNamePrefix='users-emails-input'
@@ -317,16 +295,12 @@ export default class UsersEmailsInput extends React.PureComponent {
                     value={values}
                     aria-label={this.props.ariaLabel}
                 />
-                {showError && (
-                    <div className='OverUserLimit'>
+                {this.props.showError && (
+                    <div className='InputErrorBox'>
                         <FormattedMarkdownMessage
-                            id={
-                                usersRemaining === 1 ? 'invitation_modal.invite_members.hit_cloud_user_limit_singular' : 'invitation_modal.invite_members.hit_cloud_user_limit_plural'
-                            }
-                            defaultMessage={
-                                'You have reached the user limit for your tier'
-                            }
-                            values={{text: usersRemaining}}
+                            id={this.props.errorMessageId}
+                            defaultMessage={this.props.errorMessageDefault}
+                            values={this.props.errorMessageValues || null}
                             disableLinks={true}
                         >
                             {(message) => (

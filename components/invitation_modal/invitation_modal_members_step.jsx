@@ -124,8 +124,31 @@ class InvitationModalMembersStep extends React.PureComponent {
         this.props.onSubmit(users, emails, this.state.usersInputValue);
     }
 
-    render() {
+    shouldShowPickerError = () => {
         const state = getState();
+
+        const userLimit = getConfig(state).ExperimentalCloudUserLimit;
+        const currentUsers = state.entities.admin.analytics.TOTAL_USERS;
+        const userIsAdmin = isAdmin(getMyTeamMember(state, this.props.currentTeamId).roles);
+
+        if (userLimit === 0 || !userIsAdmin) {
+            return false;
+        }
+
+        // usersRemaining is calculated against the limit, the current users, and how many are being invited in the current flow
+        const usersRemaining = userLimit - (currentUsers + this.state.usersAndEmails.length);
+
+        if (usersRemaining > 0) {
+            return false;
+        } else if (usersRemaining === 0 && this.state.usersInputValue === '') {
+            return false;
+        } else if (usersRemaining < 0) {
+            return true;
+        }
+        return false;
+    }
+
+    render() {
         const inviteUrl = getSiteURL() + '/signup_user_complete/?id=' + this.props.inviteId;
 
         let placeholder = localizeMessage('invitation_modal.members.search-and-add.placeholder', 'Add members or email addresses');
@@ -220,14 +243,17 @@ class InvitationModalMembersStep extends React.PureComponent {
                         <UsersEmailsInput
                             usersLoader={this.usersLoader}
                             placeholder={placeholder}
-                            userLimit={getConfig(state).ExperimentalCloudUserLimit}
-                            currentUsers={state.entities.admin.analytics.TOTAL_USERS}
-                            isAdmin={isAdmin(getMyTeamMember(state, this.props.currentTeamId).roles)}
+                            showError={this.shouldShowPickerError()}
                             ariaLabel={localizeMessage('invitation_modal.members.search_and_add.title', 'Invite People')}
                             onChange={this.onChange}
                             value={this.state.usersAndEmails}
                             validAddressMessageId={t('invitation_modal.members.users_emails_input.valid_email')}
                             validAddressMessageDefault='Invite **{email}** as a team member'
+                            errorMessageId={'invitation_modal.invite_members.hit_cloud_user_limit_plural'}
+                            errorMessageDefault={'You have reached the user limit for your tier'}
+                            errorMessageValues={{
+                                text: getConfig(getState()).ExperimentalCloudUserLimit - getState().entities.admin.analytics.TOTAL_USERS,
+                            }}
                             noMatchMessageId={noMatchMessageId}
                             noMatchMessageDefault={noMatchMessageDefault}
                             onInputChange={this.onUsersInputChange}
