@@ -386,17 +386,6 @@ const PluginItem = ({
     );
 };
 
-PluginItem.propTypes = {
-    pluginStatus: PropTypes.object.isRequired,
-    removing: PropTypes.bool.isRequired,
-    handleEnable: PropTypes.func.isRequired,
-    handleDisable: PropTypes.func.isRequired,
-    handleRemove: PropTypes.func.isRequired,
-    showInstances: PropTypes.bool.isRequired,
-    hasSettings: PropTypes.bool.isRequired,
-    isDisabled: PropTypes.bool,
-};
-
 interface PluginSettings {
     Enable: boolean;
     EnableUploads: boolean;
@@ -406,6 +395,7 @@ interface PluginSettings {
     AutomaticPrepackagedPlugins: boolean;
     MarketplaceUrl: string;
     RequirePluginSignature: boolean;
+    isDisabled: boolean;
 }
 
 type Props = BaseProps & {
