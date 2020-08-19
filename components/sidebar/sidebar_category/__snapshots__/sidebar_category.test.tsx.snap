@@ -231,6 +231,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when isNewCat
       <PublicDraggable
         draggableId="NEW_CHANNEL_SPACER__category1"
         index={0}
+        isDragDisabled={true}
       >
         <Component />
       </PublicDraggable>

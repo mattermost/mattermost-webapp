@@ -23,7 +23,7 @@ describe('Message Draft and Switch Channels', () => {
         });
     });
 
-    it('M14358 Message Draft Pencil Icon Visible in Channel Switcher', () => {
+    it('MM-T131 Message Draft Pencil Icon - CTRL/CMD+K & "Jump to"', () => {
         // # In a test channel, type some text in the message input box
         // # Do not send the post
         cy.get('#sidebarItem_town-square').click({force: true});
