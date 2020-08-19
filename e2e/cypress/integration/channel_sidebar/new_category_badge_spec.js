@@ -31,7 +31,7 @@ describe('New category badge', () => {
         cy.uiCloseWhatsNewModal();
     });
 
-    it('should show the new badge until a channel is added to the category', () => {
+    it('MM-T3312 should show the new badge until a channel is added to the category', () => {
         const categoryName = `new-${getRandomId()}`;
 
         // # Click the New Channel Dropdown button
