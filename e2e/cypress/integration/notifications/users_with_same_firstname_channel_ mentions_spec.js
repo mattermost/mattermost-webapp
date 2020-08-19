@@ -16,61 +16,89 @@ describe('Notifications', () => {
     let firstUser;
     let secondUser;
 
-
     before(() => {
-        cy.apiInitSetup().then(({team, channel}) => {
+        cy.apiInitSetup().then(({team}) => {
             testTeam = team;
 
-            // # Create a second user that will be searched
-            cy.apiCreateUser({user: generateTestUser()}).then(({user: user1}) => {
-                firstUser = user1;
-                cy.apiAddUserToTeam(testTeam.id, firstUser.id).then(() => {
-                    cy.apiAddUserToChannel(channel.id, firstUser.id);
-                }));
-            });
+            // # Create two users with same first name in username
+            cy.apiCreateUser({user: generateTestUser()}).then(
+                ({user: user1}) => {
+                    firstUser = user1;
+                    cy.apiAddUserToTeam(testTeam.id, firstUser.id);
+                },
+            );
 
-            cy.apiCreateUser({user: generateTestUser()}).then(({user: user2}) => {
-                secondUser = user2;
-                cy.apiAddUserToTeam(testTeam.id, secondUser.id).then(() => {
-                    cy.apiAddUserToChannel(channel.id, secondUser.id);
-                }));
-            });
-
-            cy.apiLogin(firstUser);
-
-            // # Visit created test team
-            cy.visit(`/${team.name}/${channel.name}`);
+            cy.apiCreateUser({user: generateTestUser()}).then(
+                ({user: user2}) => {
+                    secondUser = user2;
+                    cy.apiAddUserToTeam(testTeam.id, secondUser.id);
+                },
+            );
+        });
     });
 
     it('MM-T486 Users with the same firstname in their username should not get a mention when one of them leaves a channel', () => {
-        // // # Type either cmd+K / ctrl+K depending on OS and type in the first character of the second user's name
-        // cy.get('#post_textbox').cmdOrCtrlShortcut('K');
-        // cy.get('#quickSwitchInput').should('be.visible').type(secondUser.username.charAt(0));
+        // # Login as first user
+        cy.apiLogin(firstUser);
 
-        // // # Scroll to the second user and click to start a DM
-        // cy.get(`#switchChannel_${secondUser.username}`).scrollIntoView().click();
+        cy.apiCreateChannel(testTeam.id, 'test_channel', 'Test Channel').then((response) => {
+            const testChannel = response.body;
 
-        // // # Type in a message in the automatically focused message box, logout as the first user and login as the second user
-        // cy.focused().type(`Hi there, ${secondUser.username}!`).type('{enter}');
-        // cy.apiLogout();
-        // cy.reload();
-        // cy.apiLogin(secondUser);
+            // # Visit the newly created channel as the first user and invite the second user
+            cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+            cy.apiAddUserToChannel(testChannel.id, secondUser.id);
 
-        // // * Check that the DM exists
-        // cy.get('#directChannelList').should('be.visible').within(() => {
-        //     cy.findByLabelText(`${firstUser.username} 1 mention`).should('exist');
-        // });
+            // # Go to the 'Off Topic' channel and logout
+            cy.get('#sidebarItem_off-topic').should('be.visible').click();
+            cy.apiLogout();
+
+            // # Login as the second user and go to the team site
+            cy.apiLogin(secondUser);
+            cy.visit(`/${testTeam.name}`);
+
+            // * Verify that the channel that the first created is visible and that there is one unread mention (for being invited)
+            cy.get(`#sidebarItem_${testChannel.name}`).should('be.visible').within(() => {
+                cy.findByText(testChannel.display_name).should('be.visible');
+                cy.get('#unreadMentions').should('have.text', '1');
+            });
+
+            // # Go to the test channel
+            cy.get(`#sidebarItem_${testChannel.name}`).click();
+
+            // # Verify that the mention does not exist anymore
+            checkUnreadMentions(testChannel);
+
+            // # Leave the test channel and logout
+            cy.get('#channelHeaderDropdownButton').should('be.visible').click();
+            cy.get('#channelLeaveChannel').should('be.visible').click();
+            cy.apiLogout();
+
+            // # Login as first user
+            cy.apiLogin(firstUser);
+
+            // * Verify that the first user did not get a mention from the test channel when the second user left
+            checkUnreadMentions(testChannel);
+        });
     });
 
+    // Function to check that the unread mentions badge does not exist (the user was not mentioned in the test channel)
+    function checkUnreadMentions(testChannel) {
+        cy.get(`#sidebarItem_${testChannel.name}`).within(() => {
+            cy.get('#unreadMentions').should('not.exist');
+        });
+    }
+
+    // Function to generate a test user with username - `saturnino.${randomId}`
     function generateTestUser(prefix = 'user') {
         const randomId = getRandomId();
 
         return {
             email: `${prefix}${randomId}@sample.mattermost.com`,
-            username: `${prefix}${randomId}`,
+            username: `saturnino.${randomId}`,
             password: 'passwd',
-            first_name: 'Saturnino',
+            first_name: `First${randomId}`,
             last_name: `Last${randomId}`,
             nickname: `Nickname${randomId}`,
-        }
-    };
+        };
+    }
+});
