@@ -122,7 +122,7 @@ export default class PostListRow extends React.PureComponent {
         const isOlderMessagesLoader = listId === OLDER_MESSAGES_LOADER;
         const isNewerMessagesLoader = listId === NEWER_MESSAGES_LOADER;
         if (isOlderMessagesLoader || isNewerMessagesLoader) {
-            const shouldHideAnimation = (isOlderMessagesLoader && !loadingOlderPosts) || (isNewerMessagesLoader && !loadingNewerPosts);
+            const shouldHideAnimation = !loadingOlderPosts && !loadingNewerPosts;
 
             return (
                 <div
