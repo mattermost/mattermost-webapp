@@ -36,7 +36,7 @@ describe('Messaging', () => {
         });
     });
 
-    it('M16735 - Replying to an older bot post that has no post content and no attachment pretext', () => {
+    it('MM-T93 Replying to an older bot post that has no post content and no attachment pretext', () => {
         // # Get yesterdays date in UTC
         yesterdaysDate = Cypress.moment().subtract(1, 'days').valueOf();
         botName = 'bot-' + Date.now();
@@ -103,7 +103,7 @@ describe('Messaging', () => {
         // # Verify RHS is closed
         cy.get('#rhsContainer').should('not.be.visible');
     });
-    it('MM-16734 Reply to an older bot post that has some attachment pretext', () => {
+    it('MM-T91 Replying to an older post by a user that has no content (only file attachments)', () => {
         // # Get yesterdays date in UTC
         yesterdaysDate = Cypress.moment().subtract(1, 'days').valueOf();
         botName = 'bot-' + Date.now();

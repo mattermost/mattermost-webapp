@@ -95,7 +95,7 @@ export type Props = FormatOptions & {
     useDate?: Resolvable<Exclude<ResolvedFormats['date'], 'timeZone'> | false, {value: Date}, FormatOptions>;
     useTime?: Resolvable<Exclude<ResolvedFormats['time'], 'timeZone' | 'hourCycle' | 'hour12'> | false, {value: Date}, FormatOptions>;
 
-    children?: Resolvable<ReactNode, {value: Date; formatted: ReactNode} & FormattedParts, ResolvedFormats>;
+    children?: Resolvable<ReactNode, {value: Date; timeZone: DateTimeOptions['timeZone']; formatted: ReactNode} & FormattedParts, ResolvedFormats>;
     className?: string;
     label?: string;
     useSemanticOutput?: boolean;
@@ -383,14 +383,14 @@ class Timestamp extends PureComponent<Props, State> {
         this.nextUpdate = this.maybeUpdate(formats.relative);
 
         if (children) {
-            return resolve(children, {value, formatted, ...parts}, formats);
+            return resolve(children, {value, timeZone, formatted, ...parts}, formats);
         }
 
         if (useSemanticOutput) {
             return (
                 <SemanticTime
                     value={value}
-                    label={label || Timestamp.formatLabel(value, timeZone)}
+                    aria-label={label ?? Timestamp.formatLabel(value, timeZone)}
                     className={className}
                 >
                     {formatted}

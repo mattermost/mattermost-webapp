@@ -2,10 +2,11 @@
 // See LICENSE.txt for license information.
 /* eslint-disable react/no-string-refs */
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {getTimezoneRegion} from 'mattermost-redux/utils/timezone_utils';
 import {FormattedMessage} from 'react-intl';
+import {PreferenceType} from 'mattermost-redux/types/preferences';
+import {UserProfile, UserTimezone} from 'mattermost-redux/types/users';
 
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
@@ -24,7 +25,7 @@ import ManageLanguages from './manage_languages';
 
 const Preferences = Constants.Preferences;
 
-function getDisplayStateFromProps(props) {
+function getDisplayStateFromProps(props: Props) {
     return {
         militaryTime: props.militaryTime,
         teammateNameDisplay: props.teammateNameDisplay,
@@ -35,40 +36,91 @@ function getDisplayStateFromProps(props) {
     };
 }
 
-export default class UserSettingsDisplay extends React.PureComponent {
-    static propTypes = {
-        user: PropTypes.object,
-        updateSection: PropTypes.func,
-        activeSection: PropTypes.string,
-        closeModal: PropTypes.func.isRequired,
-        collapseModal: PropTypes.func.isRequired,
-        setRequireConfirm: PropTypes.func.isRequired,
-        setEnforceFocus: PropTypes.func.isRequired,
-        timezones: PropTypes.array.isRequired,
-        userTimezone: PropTypes.object.isRequired,
-        allowCustomThemes: PropTypes.bool,
-        enableLinkPreviews: PropTypes.bool,
-        defaultClientLocale: PropTypes.string,
-        enableThemeSelection: PropTypes.bool,
-        configTeammateNameDisplay: PropTypes.string,
-        currentUserTimezone: PropTypes.string,
-        enableTimezone: PropTypes.bool,
-        shouldAutoUpdateTimezone: PropTypes.bool,
-        militaryTime: PropTypes.string,
-        teammateNameDisplay: PropTypes.string,
-        channelDisplayMode: PropTypes.string,
-        messageDisplay: PropTypes.string,
-        collapseDisplay: PropTypes.string,
-        linkPreviewDisplay: PropTypes.string,
-        lockTeammateNameDisplay: PropTypes.bool,
-        actions: PropTypes.shape({
-            getSupportedTimezones: PropTypes.func.isRequired,
-            autoUpdateTimezone: PropTypes.func.isRequired,
-            savePreferences: PropTypes.func.isRequired,
-        }).isRequired,
-    }
+type Option = {
+    value: string;
+    radionButtonText: {
+        id: string;
+        message: string;
+        moreId?: string;
+        moreMessage?: string;
+    };
+}
 
-    constructor(props) {
+type SectionProps ={
+    section: string;
+    display: string;
+    defaultDisplay: string;
+    value: string;
+    title: {
+        id: string;
+        message: string;
+    };
+    firstOption: Option;
+    secondOption: Option;
+    thirdOption?: Option;
+    description: {
+        id: string;
+        message: string;
+    };
+    disabled?: boolean;
+}
+
+type Props = {
+    user: UserProfile;
+    updateSection: (section: string) => void;
+    activeSection?: string;
+    closeModal?: () => void;
+    collapseModal?: () => void;
+    setRequireConfirm?: () => void;
+    setEnforceFocus?: () => void;
+    timezones: string[];
+    userTimezone: UserTimezone;
+    allowCustomThemes: boolean;
+    enableLinkPreviews: boolean;
+    defaultClientLocale: string;
+    enableThemeSelection: boolean;
+    configTeammateNameDisplay: string;
+    currentUserTimezone: string;
+    enableTimezone: boolean;
+    shouldAutoUpdateTimezone: boolean;
+    lockTeammateNameDisplay: boolean;
+    militaryTime: string;
+    teammateNameDisplay: string;
+    channelDisplayMode: string;
+    messageDisplay: string;
+    collapseDisplay: string;
+    linkPreviewDisplay: string;
+    actions: {
+        savePreferences: (userId: string, preferences: Array<PreferenceType>) => void;
+        getSupportedTimezones: () => void;
+        autoUpdateTimezone: (deviceTimezone: string) => void;
+    };
+}
+
+type State = {
+    isSaving: boolean;
+    militaryTime: string;
+    teammateNameDisplay: string;
+    channelDisplayMode: string;
+    messageDisplay: string;
+    collapseDisplay: string;
+    linkPreviewDisplay: string;
+    handleSubmit?: () => void;
+    serverError?: string;
+}
+
+export default class UserSettingsDisplay extends React.PureComponent<Props, State> {
+    public prevSections: {
+        theme: string;
+
+        clock: string;
+        linkpreview: string;
+        message_display: string;
+        channel_display_mode: string;
+        languages: string;
+    };
+
+    constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -98,7 +150,7 @@ export default class UserSettingsDisplay extends React.PureComponent {
         }
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: Props) {
         if (this.props.teammateNameDisplay !== prevProps.teammateNameDisplay) {
             this.updateState();
         }
@@ -160,35 +212,35 @@ export default class UserSettingsDisplay extends React.PureComponent {
         this.updateSection('');
     }
 
-    handleClockRadio = (militaryTime) => {
+    handleClockRadio = (militaryTime: string) => {
         this.setState({militaryTime});
     }
 
-    handleTeammateNameDisplayRadio = (teammateNameDisplay) => {
+    handleTeammateNameDisplayRadio = (teammateNameDisplay: string) => {
         this.setState({teammateNameDisplay});
     }
 
-    handleChannelDisplayModeRadio(channelDisplayMode) {
+    handleChannelDisplayModeRadio(channelDisplayMode: string) {
         this.setState({channelDisplayMode});
     }
 
-    handlemessageDisplayRadio(messageDisplay) {
+    handlemessageDisplayRadio(messageDisplay: string) {
         this.setState({messageDisplay});
     }
 
-    handleCollapseRadio(collapseDisplay) {
+    handleCollapseRadio(collapseDisplay: string) {
         this.setState({collapseDisplay});
     }
 
-    handleLinkPreviewRadio(linkPreviewDisplay) {
+    handleLinkPreviewRadio(linkPreviewDisplay: string) {
         this.setState({linkPreviewDisplay});
     }
 
-    handleOnChange(display) {
+    handleOnChange(display: object) {
         this.setState({...display});
     }
 
-    updateSection = (section) => {
+    updateSection = (section: string) => {
         this.updateState();
         this.props.updateSection(section);
     }
@@ -202,7 +254,7 @@ export default class UserSettingsDisplay extends React.PureComponent {
         this.setState({isSaving: false});
     }
 
-    createSection(props) {
+    createSection(props: SectionProps) {
         const {
             section,
             display,
@@ -215,7 +267,7 @@ export default class UserSettingsDisplay extends React.PureComponent {
             disabled,
         } = props;
         let extraInfo = null;
-        let submit = this.handleSubmit;
+        let submit: (() => Promise<void>) | null = this.handleSubmit;
 
         const firstMessage = (
             <FormattedMessage
@@ -294,19 +346,20 @@ export default class UserSettingsDisplay extends React.PureComponent {
             const name = section + 'Format';
             const key = section + 'UserDisplay';
 
-            const firstDisplay = {};
-            firstDisplay[display] = firstOption.value;
+            const firstDisplay = {
+                [display]: firstOption.value
+            };
 
-            const secondDisplay = {};
-            secondDisplay[display] = secondOption.value;
-
-            const thirdDisplay = {};
-            if (thirdOption) {
-                thirdDisplay[display] = thirdOption.value;
-            }
+            const secondDisplay = {
+                [display]: secondOption.value
+            };
 
             let thirdSection;
-            if (thirdMessage) {
+            if (thirdOption && thirdMessage) {
+                const thirdDisplay = {
+                    [display]: thirdOption.value
+                };
+
                 thirdSection = (
                     <div className='radio'>
                         <label>
@@ -558,7 +611,7 @@ export default class UserSettingsDisplay extends React.PureComponent {
                         <ManageTimezones
                             user={this.props.user}
                             timezones={this.props.timezones}
-                            useAutomaticTimezone={userTimezone.useAutomaticTimezone}
+                            useAutomaticTimezone={Boolean(userTimezone.useAutomaticTimezone)}
                             automaticTimezone={userTimezone.automaticTimezone}
                             manualTimezone={userTimezone.manualTimezone}
                             updateSection={this.updateSection}
@@ -576,7 +629,6 @@ export default class UserSettingsDisplay extends React.PureComponent {
                                     defaultMessage='Timezone'
                                 />
                             }
-                            width='medium'
                             describe={getTimezoneRegion(this.props.currentUserTimezone)}
                             section={'timezone'}
                             updateSection={this.updateSection}
@@ -682,7 +734,6 @@ export default class UserSettingsDisplay extends React.PureComponent {
                                 defaultMessage='Language'
                             />
                         }
-                        width='medium'
                         describe={locale}
                         section={'languages'}
                         updateSection={this.updateSection}

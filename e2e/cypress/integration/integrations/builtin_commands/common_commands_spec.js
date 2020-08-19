@@ -243,6 +243,25 @@ describe('I18456 Built-in slash commands: common', () => {
                 });
         });
     });
+
+    it('MM-T2834 Slash command help stays visible for system slash command', () => {
+        // # Login as user 1 and visit default channel
+        loginAndVisitDefaultChannel(user1, testChannelUrl);
+
+        // # Type the rename slash command in textbox
+        cy.get('#post_textbox', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').clear().type('/rename ');
+
+        // # Scan inside of suggestion list
+        cy.get('#suggestionList').should('exist').and('be.visible').within(() => {
+            // * Verify that renaming part of rename autosuggestion is still
+            // visible in the autocomplete, since [text] is same as description and title, we will check if title exists
+            cy.findAllByText('[text]').first().should('exist');
+        });
+
+        // # Append Hello to /rename and hit enter
+        cy.get('#post_textbox').type('Hello{enter}').wait(TIMEOUTS.HALF_SEC);
+        cy.get('#post_textbox').invoke('text').should('be.empty');
+    });
 });
 
 function loginAndVisitDefaultChannel(user, channelUrl) {
