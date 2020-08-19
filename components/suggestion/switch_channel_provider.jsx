@@ -150,7 +150,10 @@ class SwitchChannelSuggestion extends Suggestion {
                 {...Suggestion.baseProps}
             >
                 {icon}
-                <span>{displayName}</span>
+                <span
+                    aria-label={displayName}
+                    role='img'
+                >{displayName}</span>
                 {tag}
                 {badge}
             </div>
