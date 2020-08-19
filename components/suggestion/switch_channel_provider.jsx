@@ -13,6 +13,7 @@ import {
     getSortedUnreadChannelIds,
     makeGetChannel,
     getMyChannelMemberships,
+    getAllRecentChannels,
 } from 'mattermost-redux/selectors/entities/channels';
 import {getTeammateNameDisplaySetting, getBool, getMyPreferences} from 'mattermost-redux/selectors/entities/preferences';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
@@ -58,7 +59,6 @@ class SwitchChannelSuggestion extends Suggestion {
             dmChannelTeammate: PropTypes.object,
         };
     }
-
     render() {
         const {item, isSelection, userImageUrl} = this.props;
         const channel = item.channel;
@@ -286,6 +286,7 @@ export default class SwitchChannelProvider extends Provider {
             this.fetchUsersAndChannels(channelPrefix, resultsCallback);
         } else {
             this.formatUnreadChannelsAndDispatch(resultsCallback);
+            this.formatAllRecentChannelsAndDispatch(resultsCallback);
         }
 
         return true;
@@ -539,6 +540,44 @@ export default class SwitchChannelProvider extends Provider {
             matchedPretext: '',
             terms: channelNames,
             items: channels,
+            component: ConnectedSwitchChannelSuggestion,
+        });
+    }
+
+    formatAllRecentChannelsAndDispatch(resultsCallback) {
+        const recentChannels = getAllRecentChannels(getState());
+
+        const channels = [];
+        for (let i = 0; i < recentChannels.length; i++) {
+            const channel = recentChannels[i];
+
+            let wrappedChannel = {channel, name: channel.name, deactivated: false};
+            if (channel.type === Constants.GM_CHANNEL) {
+                wrappedChannel.name = channel.display_name;
+            } else if (channel.type === Constants.DM_CHANNEL) {
+                const user = getUser(getState(), Utils.getUserIdFromChannelId(channel.name));
+
+                if (!user) {
+                    continue;
+                }
+
+                wrappedChannel = this.userWrappedChannel(
+                    user,
+                    channel,
+                );
+            }
+            wrappedChannel.type = Constants.MENTION_RECENT_CHANNELS;
+            channels.push(wrappedChannel);
+        }
+
+        const channelNames = channels.map((wrappedChannel) => wrappedChannel.channel.id);
+
+        console.log(channelNames, channels.slice(0, 3));
+
+        resultsCallback({
+            matchedPretext: '',
+            terms: channelNames,
+            items: channels.slice(0, 3),
             component: ConnectedSwitchChannelSuggestion,
         });
     }

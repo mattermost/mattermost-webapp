@@ -1515,6 +1515,7 @@ export const Constants = {
     MENTION_CHANNELS: 'mention.channels',
     MENTION_MORE_CHANNELS: 'mention.morechannels',
     MENTION_UNREAD_CHANNELS: 'mention.unread.channels',
+    MENTION_RECENT_CHANNELS: 'mention.recent.channels',
     MENTION_MEMBERS: 'mention.members',
     MENTION_MORE_MEMBERS: 'mention.moremembers',
     MENTION_NONMEMBERS: 'mention.nonmembers',
