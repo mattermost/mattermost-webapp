@@ -56,7 +56,7 @@ describe('MM-T3156 DM category', () => {
                 cy.apiCreateDirectChannel([testUser.id, newUser.id]).then((res) => {
                     const channel = res.body;
 
-                    // # Post messaege in The DM channel
+                    // # Post message in The DM channel
                     cy.postMessageAs({sender: newUser, message: 'test', channelId: channel.id});
 
                     // add usernames in array for reference
