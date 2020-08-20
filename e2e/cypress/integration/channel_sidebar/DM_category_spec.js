@@ -51,7 +51,7 @@ describe('MM-T3156 DM category', () => {
     it('MM-T3156_2 should order DMs based on recent interactions', () => {
         const usersPrefixes = ['a', 'c', 'd', 'j', 'p', 'u', 'x', 'z'];
         usersPrefixes.forEach((prefix) => {
-            // # Create users with prefixes in alphabatical order
+            // # Create users with prefixes in alphabetical order
             cy.apiCreateUser({prefix}).then(({user: newUser}) => {
                 cy.apiCreateDirectChannel([testUser.id, newUser.id]).then((res) => {
                     const channel = res.body;
