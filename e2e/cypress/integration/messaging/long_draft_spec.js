@@ -7,7 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @messaging @long_draft_spec
+// Group: @messaging
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
