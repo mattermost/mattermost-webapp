@@ -56,6 +56,7 @@ describe('Messaging', () => {
         cy.postMessage('World!');
 
         // # Write all lines again
+        cy.get('@initialHeight').as('previousHeight');
         writeLinesToPostTextBox(lines);
 
         // # Visit a different channel by URL and verify textbox
@@ -70,7 +71,7 @@ describe('Messaging', () => {
     });
 });
 
-function writeLinesToPostTextBox(lines, previousHeightSelector = '@initialHeight') {
+function writeLinesToPostTextBox(lines) {
     for (let i = 0; i < lines.length; i++) {
         // # Add the text
         cy.get('#post_textbox').type(lines[i], {delay: TIMEOUTS.ONE_HUNDRED_MILLIS}).wait(TIMEOUTS.HALF_SEC);
@@ -81,7 +82,7 @@ function writeLinesToPostTextBox(lines, previousHeightSelector = '@initialHeight
             // * Verify new height
             cy.get('#post_textbox').invoke('height').then((height) => {
                 // * Verfiy previous height should be lower than the current height
-                cy.get(previousHeightSelector).should('be.lessThan', parseInt(height, 10));
+                cy.get('@previousHeight').should('be.lessThan', parseInt(height, 10));
 
                 // # Store the current height as the previous height for the next loop
                 cy.wrap(parseInt(height, 10)).as('previousHeight');
