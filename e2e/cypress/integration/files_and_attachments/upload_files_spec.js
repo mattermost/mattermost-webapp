@@ -7,6 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+// Group: @file_and_attachments
+
 describe('Upload Files', () => {
     let testTeam;
 

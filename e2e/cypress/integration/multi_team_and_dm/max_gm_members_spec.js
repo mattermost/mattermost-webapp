@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @multi_team_and_dm
 
 describe('Multi-user group messages', () => {

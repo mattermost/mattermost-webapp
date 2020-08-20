@@ -26,7 +26,7 @@ describe('Archived channels', () => {
         cy.apiRequireLicense();
 
         cy.apiInitSetup({
-            channelPrefix: {name: 'aaa-archive', displayName: 'AAA Archive Test'},
+            channelPrefix: {name: '000-archive', displayName: '000 Archive Test'},
         }).then(({channel}) => {
             testChannel = channel;
 
@@ -83,7 +83,7 @@ describe('Archived channels', () => {
 
         // # Save and wait for redirect
         cy.get('#saveSetting').click();
-        cy.get('.DataGrid', {timeout: TIMEOUTS.TWO_SEC}).should('be.visible');
+        cy.get('.DataGrid', {timeout: TIMEOUTS.TWO_SEC}).scrollIntoView().should('be.visible');
 
         // * Verify via the API that the channel is unarchived
         cy.apiGetChannel(testChannel.id).then((response) => {
