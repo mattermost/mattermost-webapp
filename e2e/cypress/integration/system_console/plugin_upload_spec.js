@@ -60,8 +60,7 @@ describe('Draw Plugin - Upload', () => {
         cy.get('#uploadPlugin').and('be.disabled');
 
         // # Enable draw plugin
-        cy.findByText(/Installed Plugins/).scrollIntoView().should('be.visible');
-        cy.findByTestId('com.mattermost.draw-plugin').scrollIntoView().should('be.visible').within(() => {
+        doTaskOnDrawPlugin(() => {
             // * Verify Draw Plugin title is shown
             cy.waitUntil(() => cy.get('strong').scrollIntoView().should('be.visible').then((title) => {
                 return title[0].innerText === 'Draw Plugin';
@@ -72,8 +71,7 @@ describe('Draw Plugin - Upload', () => {
         });
 
         // # Disable draw plugin
-        cy.findByText(/Installed Plugins/).scrollIntoView().should('be.visible');
-        cy.findByTestId('com.mattermost.draw-plugin').scrollIntoView().should('be.visible').within(() => {
+        doTaskOnDrawPlugin(() => {
             // * Verify plugin is starting
             waitForAlert('This plugin is starting.');
 
@@ -85,8 +83,7 @@ describe('Draw Plugin - Upload', () => {
         });
 
         // # Attempt to remove draw plugin
-        cy.findByText(/Installed Plugins/).scrollIntoView().should('be.visible');
-        cy.findByTestId('com.mattermost.draw-plugin').scrollIntoView().should('be.visible').within(() => {
+        doTaskOnDrawPlugin(() => {
             // * Verify plugin is not enabled
             waitForAlert('This plugin is not enabled.');
 
@@ -98,8 +95,7 @@ describe('Draw Plugin - Upload', () => {
         cy.get('#cancelModalButton').should('be.visible').click();
 
         // # Attempt to remove draw plugin again
-        cy.findByText(/Installed Plugins/).scrollIntoView().should('be.visible');
-        cy.findByTestId('com.mattermost.draw-plugin').scrollIntoView().should('be.visible').within(() => {
+        doTaskOnDrawPlugin(() => {
             // # Click on Remove link
             cy.findByText('Remove').click();
         });
@@ -118,4 +114,12 @@ function waitForAlert(message) {
     cy.waitUntil(() => cy.get('.alert').scrollIntoView().should('be.visible').then((alert) => {
         return alert[0].innerText === message;
     }));
+}
+
+function doTaskOnDrawPlugin(taskCallback) {
+    cy.findByText(/Installed Plugins/).scrollIntoView().should('be.visible');
+    cy.findByTestId('com.mattermost.draw-plugin').scrollIntoView().should('be.visible').within(() => {
+        // # Perform task
+        taskCallback();
+    });
 }
