@@ -88,7 +88,7 @@ describe('MM-T3156 DM category', () => {
         });
     });
 
-    it('MM-T3156_4 should not be able to rearrage DMs', () => {
+    it('MM-T3156_4 should not be able to rearrange DMs', () => {
         cy.get('button[aria-label="DIRECT MESSAGES"]').parents('.SidebarChannelGroup').within(() => {
 
             // # Rearrange the first dm to be below second one 
