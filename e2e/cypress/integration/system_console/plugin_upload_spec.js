@@ -75,14 +75,10 @@ describe('Draw Plugin - Upload', () => {
         cy.findByText(/Installed Plugins/).scrollIntoView().should('be.visible');
         cy.findByTestId('com.mattermost.draw-plugin').scrollIntoView().should('be.visible').within(() => {
             // * Verify plugin is starting
-            cy.waitUntil(() => cy.get('.alert').scrollIntoView().should('be.visible').then((title) => {
-                return title[0].innerText === 'This plugin is starting.';
-            }));
+            waitForAlert('This plugin is starting.');
 
             // * Verify plugin is running
-            cy.waitUntil(() => cy.get('.alert').scrollIntoView().should('be.visible').then((title) => {
-                return title[0].innerText === 'This plugin is running.';
-            }));
+            waitForAlert('This plugin is running.');
 
             // # Click on Disable link
             cy.findByText('Disable').click();
@@ -92,9 +88,7 @@ describe('Draw Plugin - Upload', () => {
         cy.findByText(/Installed Plugins/).scrollIntoView().should('be.visible');
         cy.findByTestId('com.mattermost.draw-plugin').scrollIntoView().should('be.visible').within(() => {
             // * Verify plugin is not enabled
-            cy.waitUntil(() => cy.get('.alert').scrollIntoView().should('be.visible').then((title) => {
-                return title[0].innerText === 'This plugin is not enabled.';
-            }));
+            waitForAlert('This plugin is not enabled.');
 
             // # Click on Remove link
             cy.findByText('Remove').click();
@@ -119,3 +113,9 @@ describe('Draw Plugin - Upload', () => {
         cy.findByTestId('com.mattermost.draw-plugin').should('not.exist');
     });
 });
+
+function waitForAlert(message) {
+    cy.waitUntil(() => cy.get('.alert').scrollIntoView().should('be.visible').then((alert) => {
+        return alert[0].innerText === message;
+    }));
+}
