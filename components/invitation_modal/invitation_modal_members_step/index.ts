@@ -11,6 +11,10 @@ import {isAdmin} from 'utils/utils.jsx';
 
 import InvitationModalMembersStep from './invitation_modal_members_step';
 
+type OwnProps = {
+    currentTeamId: string;
+}
+
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     return {
         userLimit: getConfig(state).ExperimentalCloudUserLimit,
