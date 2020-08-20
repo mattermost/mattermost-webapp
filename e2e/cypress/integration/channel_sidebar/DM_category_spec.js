@@ -80,7 +80,7 @@ describe('MM-T3156 DM category', () => {
         // get DM category group
         cy.get('button[aria-label="DIRECT MESSAGES"]').parents('.SidebarChannelGroup').within(() => {
             // # Change sorting to be alphabetical
-            cy.get('.SidebarChannelGroupHeader_sortButton').invoke('show').click();
+            cy.get('.SidebarChannelGroupHeader_sortButton').invoke('show').click().wait(TIMEOUTS.HALF_SEC);
             cy.get('.NavGroupContent').children().each(($el, index) => {
                 // * Verify that the usernames are in alphabetical order
                 cy.wrap($el).find('.SidebarChannelLinkLabel').should('contain', usernames[index]);
