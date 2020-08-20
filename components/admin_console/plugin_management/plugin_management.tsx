@@ -164,6 +164,7 @@ type PluginItemProps = {
     handleRemove: (e: any) => any;
     showInstances: boolean;
     hasSettings: boolean;
+    isDisabled?: boolean;
 };
 
 const PluginItem = ({
