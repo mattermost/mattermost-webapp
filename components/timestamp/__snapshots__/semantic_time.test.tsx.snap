@@ -13,7 +13,7 @@ exports[`components/timestamp/SemanticTime should render time semantically 1`] =
 
 exports[`components/timestamp/SemanticTime should support custom label 1`] = `
 <Memo(SemanticTime)
-  label="A custom label"
+  aria-label="A custom label"
   value={2020-06-05T10:20:30.000Z}
 >
   <time
