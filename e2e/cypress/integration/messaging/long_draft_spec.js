@@ -7,7 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @messaging
+// Group: @messaging @long_draft_spec
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
@@ -40,16 +40,17 @@ describe('Messaging', () => {
         // # Get the height before starting to write
         cy.get('#post_textbox').should('be.visible').clear().invoke('height').as('initialHeight').as('previousHeight');
 
-        // # For each line
+        // # Type all lines
         for (let i = 0; i < lines.length; i++) {
-            // # Post the line
-            cy.get('#post_textbox').type(lines[i]).wait(TIMEOUTS.HALF_SEC);
+            // # Add the text
+            cy.get('#post_textbox').type(lines[i], {delay: TIMEOUTS.FIFTY_MILLIS}).wait(TIMEOUTS.HALF_SEC);
             if (i < lines.length - 1) {
+                // # Add new line
                 cy.get('#post_textbox').type('{shift}{enter}').wait(TIMEOUTS.HALF_SEC);
  
                 // * Verify new height
                 cy.get('#post_textbox').invoke('height').then((height) => {
-                    // * Previous height should be lower than the current height
+                    // * Verfiy previous height should be lower than the current height
                     cy.get('@previousHeight').should('be.lessThan', parseInt(height, 10));
 
                     // # Store the current height as the previous height for the next loop
@@ -70,10 +71,12 @@ describe('Messaging', () => {
         cy.get('#post_textbox').clear();
         cy.postMessage('World!');
 
-        // # Write again all lines
+        // # Type all lines again
         for (let i = 0; i < lines.length; i++) {
-            cy.get('#post_textbox').type(lines[i]).wait(TIMEOUTS.HALF_SEC);
+            // # Add the text
+            cy.get('#post_textbox').type(lines[i], {delay: TIMEOUTS.FIFTY_MILLIS}).wait(TIMEOUTS.HALF_SEC);
             if (i < lines.length - 1) {
+                // # Add new line
                 cy.get('#post_textbox').type('{shift}{enter}').wait(TIMEOUTS.HALF_SEC);
             }
         }
