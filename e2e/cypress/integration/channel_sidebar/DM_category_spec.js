@@ -91,6 +91,8 @@ describe('MM-T3156 DM category', () => {
 
     it('MM-T3156_4 should not be able to rearrage DMs', () => {
         cy.get('button[aria-label="DIRECT MESSAGES"]').parents('.SidebarChannelGroup').within(() => {
+
+            // # Rearrange the first dm to be below second one 
             cy.get(`.SidebarChannel:contains(${usernames[0]}) > .SidebarLink`).
                 trigger('keydown', {keyCode: SpaceKeyCode}).
                 trigger('keydown', {keyCode: DownArrowKeyCode, force: true}).wait(TIMEOUTS.THREE_SEC).
