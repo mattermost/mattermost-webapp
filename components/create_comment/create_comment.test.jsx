@@ -5,6 +5,7 @@ import React from 'react';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import {testComponentForLineBreak} from 'tests/helpers/line_break_helpers';
+import {testComponentForMarkdownHotkeys} from 'tests/helpers/markdown_hotkey_helpers.js';
 import Constants from 'utils/constants';
 
 import CreateComment from 'components/create_comment/create_comment.jsx';
@@ -1435,4 +1436,29 @@ describe('components/CreateComment', () => {
             ctrlSend={true}
         />
     ), (instance) => instance.state().draft.message);
+
+    testComponentForMarkdownHotkeys(
+        (value) => (
+            <CreateComment
+                {...baseProps}
+                draft={{
+                    ...baseProps.draft,
+                    message: value,
+                }}
+                ctrlSend={true}
+            />
+        ),
+        (wrapper, setSelectionRangeFn) => {
+            wrapper.instance().refs = {
+                textbox: {
+                    getInputBox: jest.fn(() => {
+                        return {
+                            setSelectionRange: setSelectionRangeFn,
+                        };
+                    }),
+                },
+            };
+        },
+        (instance) => instance.state().draft.message,
+    );
 });

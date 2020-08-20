@@ -6,6 +6,7 @@ import {Posts} from 'mattermost-redux/constants';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import {testComponentForLineBreak} from 'tests/helpers/line_break_helpers';
+import {testComponentForMarkdownHotkeys} from 'tests/helpers/markdown_hotkey_helpers.js';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import EmojiMap from 'utils/emoji_map';
 
@@ -1300,6 +1301,22 @@ describe('components/create_post', () => {
 
     testComponentForLineBreak(
         (value) => createPost({draft: {...draftProp, message: value}}),
+        (instance) => instance.state().message,
+    );
+
+    testComponentForMarkdownHotkeys(
+        (value) => createPost({draft: {...draftProp, message: value}}),
+        (wrapper, setSelectionRangeFn) => {
+            wrapper.instance().refs = {
+                textbox: {
+                    getInputBox: jest.fn(() => {
+                        return {
+                            setSelectionRange: setSelectionRangeFn,
+                        };
+                    }),
+                },
+            };
+        },
         (instance) => instance.state().message,
     );
 });
