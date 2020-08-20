@@ -11,13 +11,11 @@ import {isAdmin} from 'utils/utils.jsx';
 
 import InvitationModalMembersStep from './invitation_modal_members_step';
 
-function mapStateToProps(state: GlobalState) {
+function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     return {
         userLimit: getConfig(state).ExperimentalCloudUserLimit,
-        currentUsers: state!.entities!.admin!.analytics!.TOTAL_USERS,
-        userIsAdmin: (currentTeamId: string) => {
-            return isAdmin(getMyTeamMember(state, currentTeamId).roles);
-        },
+        currentUsers: state.entities.admin.analytics!.TOTAL_USERS,
+        userIsAdmin: isAdmin(getMyTeamMember(state, ownProps.currentTeamId).roles),
     };
 }
 

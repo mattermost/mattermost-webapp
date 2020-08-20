@@ -123,8 +123,7 @@ class InvitationModalMembersStep extends React.PureComponent {
 
     shouldShowPickerError = () => {
         const {userLimit, currentUsers, userIsAdmin} = this.props;
-        const admin = userIsAdmin(this.props.currentTeamId);
-        if (userLimit === 0 || !admin) {
+        if (userLimit === 0 || !userIsAdmin) {
             return false;
         }
 
