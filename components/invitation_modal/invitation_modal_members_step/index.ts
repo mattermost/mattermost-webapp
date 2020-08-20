@@ -11,8 +11,6 @@ import {isAdmin} from 'utils/utils.jsx';
 
 import InvitationModalMembersStep from './invitation_modal_members_step';
 
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See LICENSE.txt for license information.
 function mapStateToProps(state: GlobalState) {
     return {
         userLimit: getConfig(state).ExperimentalCloudUserLimit,

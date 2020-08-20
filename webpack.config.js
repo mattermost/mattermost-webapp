@@ -420,7 +420,7 @@ if (targetIsDevServer) {
             }],
             port: 9005,
             watchContentBase: true,
-            writeToDisk: true,
+            writeToDisk: false,
         },
         performance: false,
         optimization: {

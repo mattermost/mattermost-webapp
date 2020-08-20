@@ -16,7 +16,7 @@ import LinkIcon from 'components/widgets/icons/link_icon';
 
 import {getSiteURL} from 'utils/url';
 import {t} from 'utils/i18n.jsx';
-import {localizeMessage, isAdmin} from 'utils/utils.jsx';
+import {localizeMessage} from 'utils/utils.jsx';
 
 import './invitation_modal_members_step.scss';
 
@@ -246,12 +246,8 @@ class InvitationModalMembersStep extends React.PureComponent {
                                 'invitation_modal.members.users_emails_input.valid_email',
                             )}
                             validAddressMessageDefault='Invite **{email}** as a team member'
-                            errorMessageId={
-                                'invitation_modal.invite_members.hit_cloud_user_limit'
-                            }
-                            errorMessageDefault={
-                                'You have reached the user limit for your tier'
-                            }
+                            errorMessageId={t('invitation_modal.invite_members.hit_cloud_user_limit')}
+                            errorMessageDefault={'You have reached the user limit for your tier'}
                             errorMessageValues={{
                                 text:
                                     this.props.userLimit -
