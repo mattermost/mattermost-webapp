@@ -230,7 +230,7 @@
     margin-top: 2px;
     width: 100%;
     height: 60px;
-    background: rgba(197, 67, 72, 0.1);
+    background: rgba(var(--error-box-background), 0.1);
     border-radius: 4px;
     display: flex;
     align-items: center;
