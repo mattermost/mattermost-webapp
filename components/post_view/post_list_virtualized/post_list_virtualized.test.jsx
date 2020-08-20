@@ -178,11 +178,6 @@ describe('PostList', () => {
                 expected: true,
             },
             {
-                name: 'when  pixel from the bottom also considered to be bottom',
-                scrollOffset: 490,
-                expected: true,
-            },
-            {
                 name: 'when clientHeight is less than scrollHeight', // scrollHeight is a state value in virt list and can be one cycle off when compared to actual value
                 scrollOffset: 501,
                 expected: true,
