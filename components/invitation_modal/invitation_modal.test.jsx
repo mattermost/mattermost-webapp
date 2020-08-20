@@ -3,44 +3,11 @@
 
 import React from 'react';
 import {shallow} from 'enzyme';
-import configureStore from 'redux-mock-store';
-
-import {Provider} from 'react-redux';
-
-import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
 import InvitationModal from './invitation_modal.jsx';
 
 describe('components/invitation_modal/InvitationModal', () => {
     const context = {router: {}};
-
-    const mockStore = configureStore();
-
-    const initialState = {
-        entities: {
-            teams: {
-                currentTeamId: 'team_id1',
-                teams: {
-                    team_id1: {
-                        id: 'team_id1',
-                        name: 'team1',
-                    },
-                },
-            },
-            users: {
-                currentUserId: 'current_user_id',
-                profiles: {
-                    current_user_id: {
-                        id: 'current_user_id',
-                        username: 'current_user',
-                    },
-                    user_id3: {id: 'user_id3', username: 'user3'},
-                    user_id4: {id: 'user_id4', username: 'user4'},
-                },
-            },
-        },
-    };
-    const store = mockStore(initialState);
 
     const defaultProps = {
         show: true,
@@ -120,10 +87,8 @@ describe('components/invitation_modal/InvitationModal', () => {
     test('should work properly with full inside (and with the reference to the modal)', () => {
         const props = {...defaultProps};
         props.currentTeam.invite_id = '';
-        const wrapper = mountWithIntl(
-            <Provider store={store}>
-                <InvitationModal {...props}/>
-            </Provider>,
+        const wrapper = shallow(
+            <InvitationModal {...props}/>,
         );
 
         wrapper.instance().goToMembers();
