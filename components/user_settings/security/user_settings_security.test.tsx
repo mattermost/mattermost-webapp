@@ -4,6 +4,9 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
+import {ActionResult} from 'mattermost-redux/types/actions';
+import {UserProfile} from 'mattermost-redux/types/users';
+
 import UserSettingsSecurity from './user_settings_security';
 
 jest.mock('utils/utils.jsx', () => {
@@ -17,17 +20,29 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
     };
 
     const requiredProps = {
-        user,
+        user: user as UserProfile,
         closeModal: jest.fn(),
         collapseModal: jest.fn(),
         setRequireConfirm: jest.fn(),
         updateSection: jest.fn(),
         actions: {
             getMe: jest.fn(),
-            updateUserPassword: jest.fn(() => Promise.resolve({})),
+            updateUserPassword: jest.fn(() => Promise.resolve({error: true})),
             getAuthorizedOAuthApps: jest.fn().mockResolvedValue({data: []}),
             deauthorizeOAuthApp: jest.fn().mockResolvedValue({data: true}),
         },
+        canUseAccessTokens: true,
+        enableOAuthServiceProvider: false,
+        enableSignUpWithEmail: true,
+        enableSignUpWithGitLab: false,
+        enableSignUpWithGoogle: true,
+        enableLdap: false,
+        enableSaml: true,
+        enableSignUpWithOffice365: false,
+        experimentalEnableAuthenticationTransfer: true,
+        passwordConfig: {},
+        militaryTime: false,
+
     };
 
     test('componentDidMount() should have called getAuthorizedOAuthApps', () => {
@@ -125,7 +140,7 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
             preventDefault: jest.fn(),
         };
         wrapper.setState({authorizedApps: apps});
-        wrapper.instance().deauthorizeApp(event);
+        (wrapper.instance() as UserSettingsSecurity).deauthorizeApp(event);
 
         await promise;
 
@@ -146,7 +161,7 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
             currentTarget: {getAttribute: jest.fn().mockReturnValue('appId')},
             preventDefault: jest.fn(),
         };
-        wrapper.instance().deauthorizeApp(event);
+        (wrapper.instance() as UserSettingsSecurity).deauthorizeApp(event);
 
         await promise;
 
