@@ -5,7 +5,7 @@ import React from 'react';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
-import InvitationModalMembersStep from './invitation_modal_members_step.jsx';
+import InvitationModalMembersStep from './invitation_modal_members_step/invitation_modal_members_step.jsx';
 
 describe('components/invitation_modal/InvitationModalMembersStep', () => {
     test('should match the snapshot', () => {

@@ -264,7 +264,7 @@ export default class UsersEmailsInput extends React.PureComponent {
             return {label: v, value: v};
         });
         return (
-            <div>
+            <>
                 <AsyncSelect
                     ref={this.selectRef}
                     styles={this.customStyles}
@@ -311,7 +311,7 @@ export default class UsersEmailsInput extends React.PureComponent {
                         </FormattedMarkdownMessage>
                     </div>
                 )}
-            </div>
+            </>
         );
     }
 }
