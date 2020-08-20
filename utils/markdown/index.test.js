@@ -109,4 +109,16 @@ this is long text this is long text this is long text this is long text this is 
         expect(output).toContain('<span class="post-code__language">TeX</span>');
         expect(output).toContain('<code class="hljs hljs-ln">');
     });
+
+    test('<a> should contain target=_blank for external links', () => {
+        const output = format('[external_link](http://example.com)', {siteURL: 'http://localhost'});
+
+        expect(output).toContain('<a class="theme markdown__link" href="http://example.com" rel="noreferrer" target="_blank">external_link</a>');
+    });
+
+    test('<a> should not contain target=_blank for internal links', () => {
+        const output = format('[internal_link](http://localhost/example)', {siteURL: 'http://localhost'});
+
+        expect(output).toContain('<a class="theme markdown__link" href="http://localhost/example" rel="noreferrer" data-link="/example">internal_link</a>');
+    });
 });
