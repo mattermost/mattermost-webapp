@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/invitation_modal/InvitationModalMembersStep should match the snapshot 1`] = `
+<ContextConsumer>
+  <Component />
+</ContextConsumer>
+`;
+
+exports[`components/invitation_modal/InvitationModalMembersStep should match the snapshot when email invitations are disabled 1`] = `
+<ContextConsumer>
+  <Component />
+</ContextConsumer>
+`;
