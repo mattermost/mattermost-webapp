@@ -2,19 +2,24 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {bindActionCreators, Dispatch} from 'redux';
 import {getLogs} from 'mattermost-redux/actions/admin';
+
 import * as Selectors from 'mattermost-redux/selectors/entities/admin';
 
-import Logs from './logs.jsx';
+import {GenericAction} from 'mattermost-redux/types/actions';
 
-function mapStateToProps(state) {
+import {GlobalState} from 'types/store';
+
+import Logs from './logs';
+
+function mapStateToProps(state: GlobalState) {
     return {
         logs: Selectors.getLogs(state),
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
             getLogs,

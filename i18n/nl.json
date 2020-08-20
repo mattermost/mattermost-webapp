@@ -3049,8 +3049,8 @@
   "promote_to_user_modal.desc": "Met deze actie wordt de gast {username} bevordert naar een lid. Het zal de gebruiker in staat stellen deel te nemen aan openbare kanalen en te communiceren met gebruikers buiten de kanalen waar ze momenteel lid van zijn. Weet je zeker dat je de gast {username} wilt bevorderen tot gebruiker?",
   "postlist.toast.scrollToLatest": "Ga naar recente berichten",
   "postlist.toast.scrollToBottom": "Ga naar recente berichten",
-  "postlist.toast.newMessagesSince": "{count, number} {count, plural, one {nieuw bericht} other {nieuwe berichten}} sinds {date} {time}",
-  "postlist.toast.newMessages": "{count, number} nieuwe {count, plural, one {message} other {messages}",
+  "postlist.toast.newMessagesSince": "{count, number} {count, plural, one {nieuw bericht} other {nieuwe berichten}} {isToday, select, true {} other {sinds}} {date}",
+  "postlist.toast.newMessages": "{count, number} nieuwe {count, plural, one {bericht} other {berichten}",
   "postlist.toast.history": "Berichtengeschieden bekijken",
   "post.ariaLabel.replyMessage": "Op {time} {date}, {authorName} antwoordde, {message}",
   "post.ariaLabel.reactionMultiple": ", {reactionCount} reacties",
@@ -3998,5 +3998,8 @@
   "admin.filter.all_teams": "Alle teams",
   "admin.filter.reset_teams": "Terugzetten naar alle teams",
   "admin.jobTable.headerFiles": "Bestanden",
-  "admin.jobTable.downloadLink": "Downloaden"
+  "admin.jobTable.downloadLink": "Downloaden",
+  "timestamp.datetime": "{relativeOrDate} op {time}",
+  "warn_metric_ack_modal.learn_more.link": "Meer Informatie",
+  "warn_metric_ack_modal.number_of_active_users.subtext": "Contact opnemen met de helpdesk verstuurt je contactgegevens naar Mattermost, Inc. {link}"
 }

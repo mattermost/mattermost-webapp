@@ -27,7 +27,7 @@ describe('Scroll channel`s messages in mobile view', () => {
         });
     });
 
-    it('M18759 - detect change in floating timestamp', () => {
+    it('MM-T127 Floating timestamp in mobile view', () => {
         let date;
 
         // # Post a year old message

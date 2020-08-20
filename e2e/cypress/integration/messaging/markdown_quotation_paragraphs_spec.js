@@ -21,7 +21,7 @@ describe('Messaging', () => {
         });
     });
 
-    it('M18703-Markdown quotation paragraphs', () => {
+    it('MM-T189 Markdown quotation paragraphs', () => {
         const messageParts = ['this is', 'really', 'three quote lines'];
 
         cy.visit(townsquareLink);
