@@ -214,7 +214,7 @@ class Post extends React.PureComponent {
         return false;
     }
 
-    getClassName = (post, isSystemMessage, isMeMessage, fromWebhook, fromAutoResponder, fromBot) => {
+    getClassName = (post, isSystemMessage, isMeMessage, fromWebhook, fromAutoResponder) => {
         let className = 'post';
 
         if (post.failed || post.state === Posts.POST_DELETED) {
