@@ -203,3 +203,16 @@ Cypress.Commands.add('apiGetUsersNotInTeam', ({teamId, page = 0, perPage = 60} =
         cy.wrap({users: response.body});
     });
 });
+
+Cypress.Commands.add('apiDeactivateUser', (userId) => {
+    const options = {
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        method: 'DELETE',
+        url: `/api/v4/users/${userId}`,
+    };
+
+    // # Deactivate a user account
+    return cy.request(options).then((response) => {
+        expect(response.status).to.equal(200);
+    });
+});

@@ -458,8 +458,9 @@ describe('Integrations page', () => {
             cy.findByText(commandTitle).should('not.exist');
         });
 
-        // # Clear the textbox
-        cy.postMessage('Hello');
+        // # Append Hello to custom slash command and hit enter
+        cy.get('#post_textbox').type('{enter}').wait(TIMEOUTS.HALF_SEC).type('Hello{enter}').wait(TIMEOUTS.HALF_SEC);
+        cy.get('#post_textbox').invoke('text').should('be.empty');
     });
 });
 
