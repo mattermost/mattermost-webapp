@@ -310,7 +310,7 @@ export default class DotMenu extends React.PureComponent {
             return (
                 <Menu.ItemAction
                     text={item.extra.text}
-                    key={item.id + '_' + i}
+                    key={item.id + '_' + item.extra.text}
                     onClick={() => {
                         doPluginAction(item.id, item.request_url, {post_id: this.props.post.id});
                     }}
