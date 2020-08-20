@@ -31,7 +31,7 @@ describe('Messaging', () => {
             'consectetur adipiscing elit.',
             'Nulla ac consectetur quam.',
             'Phasellus libero lorem,',
-            'facilisis in purus sed, auctor.',
+            'facilisis in purus sed auctor',
         ];
 
         cy.visit(`/${testTeam.name}/channels/town-square`);
