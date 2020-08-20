@@ -41,7 +41,7 @@ describe('MM-T3156 DM category', () => {
     });
 
     it('MM-T3156_1 Should open DM modal on click of + in category header', () => {
-        cy.get('button[aria-label="DIRECT MESSAGES"]').parents('.SidebarChannelGroup').within(() => {
+        cy.findByLabelText('DIRECT MESSAGES').parents('.SidebarChannelGroup').within(() => {
             cy.get('.SidebarChannelGroupHeader_addButton').click();
         });
         cy.get('#moreDmModal').should('be.visible');
