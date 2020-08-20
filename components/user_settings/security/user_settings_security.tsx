@@ -40,8 +40,8 @@ type Actions = {
 
 type Props = {
     user: UserProfile;
-    activeSection: string;
-    updateSection: (section: string) => Promise<void>;
+    activeSection?: string;
+    updateSection: (section: string) => void;
     closeModal: () => void;
     collapseModal: () => void;
     setRequireConfirm: () => void;
@@ -71,11 +71,6 @@ type State = {
 };
 
 export default class SecurityTab extends React.PureComponent<Props, State> {
-    static defaultProps = {
-        user: {},
-        activeSection: ''
-    };
-
     constructor(props: Props) {
         super(props);
         this.state = this.getDefaultState();
@@ -83,6 +78,8 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
 
     getDefaultState() {
         return {
+            user: {},
+            activeSection: '',
             currentPassword: '',
             newPassword: '',
             confirmPassword: '',

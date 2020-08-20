@@ -17,8 +17,20 @@ import {Preferences} from 'utils/constants';
 
 import SecurityTab from './user_settings_security';
 
+type Actions= {
+    getMe: () => void;
+    updateUserPassword: (userId: string, currentPassword: string, newPassword: string) => Promise<ActionResult>;
+    getAuthorizedOAuthApps: () => Promise<ActionResult>;
+    deauthorizeOAuthApp: (clientId: string) => Promise<ActionResult>;
+};
+
 type Props = {
     user: UserProfile;
+    activeSection?: string;
+    updateSection: (section: string) => void;
+    closeModal: () => void;
+    collapseModal: () => void;
+    setRequireConfirm: () => void;
 };
 
 function mapStateToProps(state: GlobalState, ownProps: Props) {
@@ -50,14 +62,6 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
         militaryTime: getBool(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.USE_MILITARY_TIME, false),
     };
 }
-
-type Actions= {
-    getMe: () => void;
-    updateUserPassword: (userId: string, currentPassword: string, newPassword: string) => Promise<ActionResult>;
-    getAuthorizedOAuthApps: () => void;
-    deauthorizeOAuthApp: (clientId: string) => void;
-
-};
 
 function mapDispatchToProps(dispatch: Dispatch) {
     return {
