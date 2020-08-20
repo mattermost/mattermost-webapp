@@ -306,7 +306,7 @@ export default class DotMenu extends React.PureComponent {
 
         const pluginIntegrationsItems = this.props.pluginIntegrations.filter((item) => {
             return item.location === PluginLocation.PLUGIN_LOCATION_POST_ACTION;
-        }).map((item, i) => {
+        }).map((item) => {
             return (
                 <Menu.ItemAction
                     text={item.extra.text}
