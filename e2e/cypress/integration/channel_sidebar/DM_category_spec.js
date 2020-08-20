@@ -76,7 +76,7 @@ describe('MM-T3156 DM category', () => {
         });
     });
 
-    it('MM-T3156_3 should order DMs alphabatically ', () => {
+    it('MM-T3156_3 should order DMs alphabetically ', () => {
         // get DM category group
         cy.get('button[aria-label="DIRECT MESSAGES"]').parents('.SidebarChannelGroup').within(() => {
             // # Change sorting to be alphabetical
