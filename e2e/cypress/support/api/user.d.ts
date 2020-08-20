@@ -195,5 +195,15 @@ declare namespace Cypress {
          *   });
          */
         apiGetUsersNotInTeam(queryParams: Record<string, any>): Chainable<UserProfile[]>;
+
+        /**
+         * Deactivate a user account.
+         * See https://api.mattermost.com/#tag/users/paths/~1users~1{user_id}/delete
+         * @param {string} userId - User ID
+         *
+         * @example
+         *   cy.apiDeactivateUser('user-id');
+         */
+        apiDeactivateUser(userId: string);
     }
 }

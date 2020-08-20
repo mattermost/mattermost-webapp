@@ -6,8 +6,10 @@ import PropTypes from 'prop-types';
 import {shallow} from 'enzyme';
 import configureStore from 'redux-mock-store';
 
+import {UserProfile} from 'mattermost-redux/types/users';
+
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
-import UserSettingsDisplay from 'components/user_settings/display/user_settings_display.jsx';
+import UserSettingsDisplay from 'components/user_settings/display/user_settings_display';
 
 describe('components/user_settings/display/UserSettingsDisplay', () => {
     const user = {
@@ -22,9 +24,8 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
     };
 
     const requiredProps = {
-        user,
+        user: user as UserProfile,
         updateSection: jest.fn(),
-        updateTab: jest.fn(),
         activeSection: '',
         closeModal: jest.fn(),
         collapseModal: jest.fn(),
@@ -49,6 +50,20 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
             autoUpdateTimezone: jest.fn(),
             savePreferences: jest.fn(),
         },
+
+        configTeammateNameDisplay: '',
+        currentUserTimezone: 'America/New_York',
+        enableTimezone: true,
+        shouldAutoUpdateTimezone: true,
+        lockTeammateNameDisplay: false,
+
+        allowCustomThemes: true,
+        militaryTime: '',
+        teammateNameDisplay: '',
+        channelDisplayMode: '',
+        messageDisplay: '',
+        collapseDisplay: '',
+        linkPreviewDisplay: '',
     };
     const mockStore = configureStore();
     const state = {
@@ -158,7 +173,7 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
             },
         );
 
-        await wrapper.instance().handleSubmit();
+        await (wrapper.instance() as UserSettingsDisplay).handleSubmit();
         expect(updateSection).toHaveBeenCalledWith('');
     });
 
@@ -173,10 +188,10 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
             },
         );
 
-        wrapper.instance().updateSection('');
+        (wrapper.instance() as UserSettingsDisplay).updateSection('');
         expect(updateSection).toHaveBeenCalledWith('');
 
-        wrapper.instance().updateSection('linkpreview');
+        (wrapper.instance() as UserSettingsDisplay).updateSection('linkpreview');
         expect(updateSection).toHaveBeenCalledWith('linkpreview');
     });
 
@@ -219,10 +234,10 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
             },
         );
 
-        wrapper.instance().handleClockRadio('false');
+        (wrapper.instance() as UserSettingsDisplay).handleClockRadio('false');
         expect(wrapper.state('militaryTime')).toBe('false');
 
-        wrapper.instance().handleClockRadio('true');
+        (wrapper.instance() as UserSettingsDisplay).handleClockRadio('true');
         expect(wrapper.state('militaryTime')).toBe('true');
     });
 
@@ -235,13 +250,13 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
             },
         );
 
-        wrapper.instance().handleTeammateNameDisplayRadio('username');
+        (wrapper.instance() as UserSettingsDisplay).handleTeammateNameDisplayRadio('username');
         expect(wrapper.state('teammateNameDisplay')).toBe('username');
 
-        wrapper.instance().handleTeammateNameDisplayRadio('nickname_full_name');
+        (wrapper.instance() as UserSettingsDisplay).handleTeammateNameDisplayRadio('nickname_full_name');
         expect(wrapper.state('teammateNameDisplay')).toBe('nickname_full_name');
 
-        wrapper.instance().handleTeammateNameDisplayRadio('full_name');
+        (wrapper.instance() as UserSettingsDisplay).handleTeammateNameDisplayRadio('full_name');
         expect(wrapper.state('teammateNameDisplay')).toBe('full_name');
     });
 
@@ -254,10 +269,10 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
             },
         );
 
-        wrapper.instance().handleChannelDisplayModeRadio('full');
+        (wrapper.instance() as UserSettingsDisplay).handleChannelDisplayModeRadio('full');
         expect(wrapper.state('channelDisplayMode')).toBe('full');
 
-        wrapper.instance().handleChannelDisplayModeRadio('centered');
+        (wrapper.instance() as UserSettingsDisplay).handleChannelDisplayModeRadio('centered');
         expect(wrapper.state('channelDisplayMode')).toBe('centered');
     });
 
@@ -270,10 +285,10 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
             },
         );
 
-        wrapper.instance().handlemessageDisplayRadio('clean');
+        (wrapper.instance() as UserSettingsDisplay).handlemessageDisplayRadio('clean');
         expect(wrapper.state('messageDisplay')).toBe('clean');
 
-        wrapper.instance().handlemessageDisplayRadio('compact');
+        (wrapper.instance() as UserSettingsDisplay).handlemessageDisplayRadio('compact');
         expect(wrapper.state('messageDisplay')).toBe('compact');
     });
 
@@ -286,10 +301,10 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
             },
         );
 
-        wrapper.instance().handleCollapseRadio('false');
+        (wrapper.instance() as UserSettingsDisplay).handleCollapseRadio('false');
         expect(wrapper.state('collapseDisplay')).toBe('false');
 
-        wrapper.instance().handleCollapseRadio('true');
+        (wrapper.instance() as UserSettingsDisplay).handleCollapseRadio('true');
         expect(wrapper.state('collapseDisplay')).toBe('true');
     });
 
@@ -302,10 +317,10 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
             },
         );
 
-        wrapper.instance().handleLinkPreviewRadio('false');
+        (wrapper.instance() as UserSettingsDisplay).handleLinkPreviewRadio('false');
         expect(wrapper.state('linkPreviewDisplay')).toBe('false');
 
-        wrapper.instance().handleLinkPreviewRadio('true');
+        (wrapper.instance() as UserSettingsDisplay).handleLinkPreviewRadio('true');
         expect(wrapper.state('linkPreviewDisplay')).toBe('true');
     });
 
@@ -318,10 +333,10 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
             },
         );
 
-        wrapper.instance().handleOnChange({display: 'linkPreviewDisplay'});
+        (wrapper.instance() as UserSettingsDisplay).handleOnChange({display: 'linkPreviewDisplay'});
         expect(wrapper.state('display')).toBe('linkPreviewDisplay');
 
-        wrapper.instance().handleOnChange({display: 'collapseDisplay'});
+        (wrapper.instance() as UserSettingsDisplay).handleOnChange({display: 'collapseDisplay'});
         expect(wrapper.state('display')).toBe('collapseDisplay');
     });
 });
