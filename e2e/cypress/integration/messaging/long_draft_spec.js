@@ -43,7 +43,7 @@ describe('Messaging', () => {
         // # Type all lines
         for (let i = 0; i < lines.length; i++) {
             // # Add the text
-            cy.get('#post_textbox').type(lines[i], {delay: TIMEOUTS.FIFTY_MILLIS}).wait(TIMEOUTS.HALF_SEC);
+            cy.get('#post_textbox').type(lines[i], {delay: TIMEOUTS.ONE_HUNDRED_MILLIS}).wait(TIMEOUTS.HALF_SEC);
             if (i < lines.length - 1) {
                 // # Add new line
                 cy.get('#post_textbox').type('{shift}{enter}').wait(TIMEOUTS.HALF_SEC);
@@ -74,7 +74,7 @@ describe('Messaging', () => {
         // # Type all lines again
         for (let i = 0; i < lines.length; i++) {
             // # Add the text
-            cy.get('#post_textbox').type(lines[i], {delay: TIMEOUTS.FIFTY_MILLIS}).wait(TIMEOUTS.HALF_SEC);
+            cy.get('#post_textbox').type(lines[i], {delay: TIMEOUTS.ONE_HUNDRED_MILLIS}).wait(TIMEOUTS.HALF_SEC);
             if (i < lines.length - 1) {
                 // # Add new line
                 cy.get('#post_textbox').type('{shift}{enter}').wait(TIMEOUTS.HALF_SEC);
