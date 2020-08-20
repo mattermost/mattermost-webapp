@@ -40,21 +40,22 @@ describe('Messaging', () => {
         // # Get the height before starting to write
         cy.get('#post_textbox').should('be.visible').clear().invoke('height').as('initialHeight').as('previousHeight');
 
-        // # Post first line to use
-        cy.get('#post_textbox').type(lines[0]).wait(TIMEOUTS.HALF_SEC);
-
         // # For each line
-        for (let i = 1; i < lines.length; i++) {
+        for (let i = 0; i < lines.length; i++) {
             // # Post the line
-            cy.get('#post_textbox').type('{shift}{enter}').wait(TIMEOUTS.HALF_SEC).type(lines[i]).wait(TIMEOUTS.HALF_SEC);
+            cy.get('#post_textbox').type(lines[i]).wait(TIMEOUTS.HALF_SEC);
+            if (i < lines.length - 1) {
+                cy.get('#post_textbox').type('{shift}{enter}').wait(TIMEOUTS.HALF_SEC);
+ 
+                // * Verify new height
+                cy.get('#post_textbox').invoke('height').then((height) => {
+                    // * Previous height should be lower than the current height
+                    cy.get('@previousHeight').should('be.lessThan', parseInt(height, 10));
 
-            cy.get('#post_textbox').invoke('height').then((height) => {
-                // * Previous height should be lower than the current height
-                cy.get('@previousHeight').should('be.lessThan', parseInt(height, 10));
-
-                // # Store the current height as the previous height for the next loop
-                cy.wrap(parseInt(height, 10)).as('previousHeight');
-            });
+                    // # Store the current height as the previous height for the next loop
+                    cy.wrap(parseInt(height, 10)).as('previousHeight');
+                });
+            }
         }
 
         // # Visit a different channel and verify textbox
@@ -70,9 +71,11 @@ describe('Messaging', () => {
         cy.postMessage('World!');
 
         // # Write again all lines
-        cy.get('#post_textbox').type(lines[0]).wait(TIMEOUTS.HALF_SEC);
-        for (let i = 1; i < lines.length; i++) {
-            cy.get('#post_textbox').type('{shift}{enter}').wait(TIMEOUTS.HALF_SEC).type(lines[i]).wait(TIMEOUTS.HALF_SEC);
+        for (let i = 0; i < lines.length; i++) {
+            cy.get('#post_textbox').type(lines[i]).wait(TIMEOUTS.HALF_SEC);
+            if (i < lines.length - 1) {
+                cy.get('#post_textbox').type('{shift}{enter}').wait(TIMEOUTS.HALF_SEC);
+            }
         }
 
         // # Visit a different channel by URL and verify textbox
