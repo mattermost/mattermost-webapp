@@ -229,7 +229,7 @@ class Post extends React.PureComponent {
         }
 
         let rootUser = '';
-        if (this.hasSameRoot(this.props) && !fromBot) {
+        if (this.hasSameRoot(this.props)) {
             rootUser = 'same--root';
         } else {
             rootUser = 'other--root';
