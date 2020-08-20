@@ -8,7 +8,7 @@ describe('WebSocketClient', () => {
     test('should call for createPingEvent on conn open and  clear existing ping pong timers', () => {
         const clientSocket = new WebSocketClient();
         clientSocket.createPingEvent = jest.fn();
-        clientSocket.initialize(fakeURL);
+        clientSocket.initialize(FAKE_URL);
         clientSocket.conn.onopen();
         expect(clientSocket.createPingEvent).toHaveBeenCalled();
         expect(clearTimeout).toHaveBeenCalledWith(clientSocket.pongTimer);
@@ -17,7 +17,7 @@ describe('WebSocketClient', () => {
 
     test('should clear ping pong timers on close of connection', () => {
         const clientSocket = new WebSocketClient();
-        clientSocket.initialize(fakeURL);
+        clientSocket.initialize(FAKE_URL);
         clientSocket.conn.onclose();
         expect(clearTimeout).toHaveBeenCalledWith(clientSocket.pongTimer);
         expect(clearInterval).toHaveBeenCalledWith(clientSocket.pingTimer);
@@ -25,7 +25,7 @@ describe('WebSocketClient', () => {
 
     test('should clear ping pong timers on error of connection', () => {
         const clientSocket = new WebSocketClient();
-        clientSocket.initialize(fakeURL);
+        clientSocket.initialize(FAKE_URL);
         clientSocket.conn.onerror();
         expect(clearTimeout).toHaveBeenCalledWith(clientSocket.pongTimer);
         expect(clearInterval).toHaveBeenCalledWith(clientSocket.pingTimer);
@@ -34,7 +34,7 @@ describe('WebSocketClient', () => {
     test('should call for createPingEvent on onmessage and clear existing ping pong timers', () => {
         const clientSocket = new WebSocketClient();
         clientSocket.createPingEvent = jest.fn();
-        clientSocket.initialize(fakeURL);
+        clientSocket.initialize(FAKE_URL);
         clientSocket.conn.onmessage({data: '{}'});
         expect(clientSocket.createPingEvent).toHaveBeenCalled();
         expect(clearTimeout).toHaveBeenCalledWith(clientSocket.pongTimer);
