@@ -364,15 +364,15 @@ export default class GroupDetails extends React.PureComponent {
                 }
             }
             this.setState({
-                allowReference, 
-                groupMentionName: lcGroupMentionName, 
-                serverError, 
-                hasAllowReferenceChanged: result.error ? hasAllowReferenceChanged : false, 
-                hasGroupMentionNameChanged: result.error ? hasGroupMentionNameChanged : false
+                allowReference,
+                groupMentionName: lcGroupMentionName,
+                serverError,
+                hasAllowReferenceChanged: result.error ? hasAllowReferenceChanged : false,
+                hasGroupMentionNameChanged: result.error ? hasGroupMentionNameChanged : false,
             });
         }
 
-        return serverError ? false : true;
+        return !serverError;
     };
 
     handleRolesToUpdate = async () => {
