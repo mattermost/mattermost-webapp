@@ -41,12 +41,12 @@ describe('Messaging', () => {
         cy.get('#post_textbox').should('be.visible').clear().invoke('height').as('initialHeight').as('previousHeight');
 
         // # Post first line to use
-        cy.get('#post_textbox').type(lines[0]);
+        cy.get('#post_textbox').type(lines[0]).wait(TIMEOUTS.HALF_SEC);
 
         // # For each line
         for (let i = 1; i < lines.length; i++) {
             // # Post the line
-            cy.get('#post_textbox').type('{shift}{enter}').type(lines[i]);
+            cy.get('#post_textbox').type('{shift}{enter}').wait(TIMEOUTS.HALF_SEC).type(lines[i]).wait(TIMEOUTS.HALF_SEC);
 
             cy.get('#post_textbox').invoke('height').then((height) => {
                 // * Previous height should be lower than the current height
@@ -70,13 +70,10 @@ describe('Messaging', () => {
         cy.postMessage('World!');
 
         // # Write again all lines
-        cy.get('#post_textbox').type(lines[0]);
+        cy.get('#post_textbox').type(lines[0]).wait(TIMEOUTS.HALF_SEC);
         for (let i = 1; i < lines.length; i++) {
-            cy.get('#post_textbox').type('{shift}{enter}').type(lines[i]);
+            cy.get('#post_textbox').type('{shift}{enter}').wait(TIMEOUTS.HALF_SEC).type(lines[i]).wait(TIMEOUTS.HALF_SEC);
         }
-
-        // # Wait some time to save draft into storage
-        cy.wait(TIMEOUTS.HALF_SEC);
 
         // # Visit a different channel by URL and verify textbox
         cy.visit(`/${testTeam.name}/channels/off-topic`).wait(TIMEOUTS.HALF_SEC);
