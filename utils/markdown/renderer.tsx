@@ -44,13 +44,8 @@ export default class Renderer extends marked.Renderer {
         }
 
         let className = 'post-code';
-        let codeClassName = 'hljs';
         if (!usedLanguage) {
             className += ' post-code--wrap';
-        }
-
-        if (SyntaxHighlighting.canHighlight(usedLanguage)) {
-            codeClassName = 'hljs hljs-ln';
         }
 
         let header = '';
@@ -62,10 +57,19 @@ export default class Renderer extends marked.Renderer {
             );
         }
 
-        // if we have to apply syntax highlighting AND highlighting of search terms, create two copies
+        let lineNumbers = '';
+        if (SyntaxHighlighting.canHighlight(usedLanguage)) {
+            lineNumbers = (
+                '<div class="post-code__line-numbers">' +
+                    SyntaxHighlighting.renderLineNumbers(code) +
+                '</div>'
+            );
+        }
+
+        // If we have to apply syntax highlighting AND highlighting of search terms, create two copies
         // of the code block, one with syntax highlighting applied and another with invisible text, but
         // search term highlighting and overlap them
-        const content = SyntaxHighlighting.highlight(usedLanguage, code, true);
+        const content = SyntaxHighlighting.highlight(usedLanguage, code);
         let searchedContent = '';
 
         if (this.formattingOptions.searchPatterns) {
@@ -92,10 +96,13 @@ export default class Renderer extends marked.Renderer {
         return (
             '<div class="' + className + '">' +
                 header +
-                '<code class="' + codeClassName + '">' +
-                    searchedContent +
-                    content +
-                '</code>' +
+                '<div class="hljs">' +
+                    lineNumbers +
+                    '<code>' +
+                        searchedContent +
+                        content +
+                    '</code>' +
+                '</div>' +
             '</div>'
         );
     }
