@@ -125,6 +125,7 @@ describe('components/invitation_modal/InvitationModal', () => {
                 <InvitationModal {...props}/>
             </Provider>,
         );
+
         wrapper.instance().goToMembers();
 
         expect(props.actions.getTeam).toHaveBeenCalledTimes(1);

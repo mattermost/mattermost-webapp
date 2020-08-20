@@ -5,8 +5,6 @@ import React from 'react';
 
 import {shallow} from 'enzyme';
 
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
-
 import InvitationModalMembersStep from './invitation_modal_members_step';
 
 describe('components/invitation_modal/InvitationModalMembersStep', () => {
