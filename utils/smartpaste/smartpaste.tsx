@@ -10,7 +10,6 @@ import {
 } from 'utils/post_utils.jsx';
 
 import {tableTurndownRuleBuilder} from './tables';
-import {githubCodeTurndownRuleBuilder} from './githubcode';
 import {channelMentionsRule, hashtagsRule, filePreviewButtonRule, codeBlockRule} from './mattermost';
 import {fixNestedLists} from './htmlfix';
 import {NEW_LINE_REPLACEMENT} from './constants';
@@ -35,18 +34,33 @@ export default function smartPaste(clipboard: DataTransfer, message: string, cur
     }
 
     if (!formattedMessage && html) {
-        turndownService.addRule('github-code', githubCodeTurndownRuleBuilder(firstPiece.length > 0, lastPiece.length > 0, text));
-        turndownService.addRule('table', tableTurndownRuleBuilder(firstPiece.length > 0, lastPiece.length > 0));
-
         let doc = stringToHTML(html);
-        doc = fixNestedLists(doc);
+        if (doc.getElementById('turndown-root')?.firstChild?.nodeName === 'TABLE' && (/\b(js|blob|diff)-./).test((doc.getElementById('turndown-root')?.firstChild as HTMLTableElement)?.className)) {
+            // Github code case
+            let result = '';
+            if (firstPiece.length > 0) {
+                result += '\n';
+            }
+            result += '```\n' + text + '\n```';
+            if (lastPiece.length > 0) {
+                result += '\n';
+            }
+            formattedMessage = result;
+        } else {
+            doc = fixNestedLists(doc);
+            turndownService.addRule('table', tableTurndownRuleBuilder(firstPiece.length > 0, lastPiece.length > 0));
+            try {
+                formattedMessage = turndownService.turndown(doc);
+            } finally {
+                // Remove the table rule added on runtime
+                turndownService.rules.array.shift();
+            }
 
-        formattedMessage = htmlToMarkdown(doc);
-
-        // Because turndown swallows some new lines around rule execution
-        // results we need to provide a way to enforce the new lines, and this
-        // is how we do it.
-        formattedMessage = formattedMessage.replace(new RegExp(NEW_LINE_REPLACEMENT, 'g'), '\n');
+            // Because turndown swallows some new lines around rule execution
+            // results we need to provide a way to enforce the new lines, and this
+            // is how we do it.
+            formattedMessage = formattedMessage.replace(new RegExp(NEW_LINE_REPLACEMENT, 'g'), '\n');
+        }
     }
 
     if (!formattedMessage) {
@@ -63,14 +77,11 @@ export default function smartPaste(clipboard: DataTransfer, message: string, cur
 
 function codeDetectionFormatter(text: string): string {
     const lang = detectLang(text, {statistics: true});
-    if (lang.detected !== 'Unknown' && (lang.statistics.Unknown / text.length) < (lang.statistics[lang.detected] / (4 * text.length))) {
+    const lines = text.split(/\r\n|\r|\n/).length;
+    if (lang.detected !== 'Unknown' && (lang.statistics[lang.detected] / lines) > 0.3) {
         return '```' + lang.detected.toLowerCase() + '\n' + text + '\n```';
     }
     return '';
-}
-
-function htmlToMarkdown(doc: Document): string {
-    return turndownService.turndown(doc);
 }
 
 export function stringToHTML(html: string): Document {
