@@ -10,9 +10,9 @@
 // Stage: @prod
 // Group: @mark_as_unread
 
-import * as TIMEOUTS from '../../fixtures/timeouts';
-
 import {beRead, beUnread} from '../../support/assertions';
+
+import {verifyPostNextToNewMessageSeparator, switchToChannel} from './helpers';
 
 describe('Mark as Unread', () => {
     let testUser;
@@ -276,15 +276,6 @@ describe('Mark as Unread', () => {
     });
 });
 
-function switchToChannel(channel) {
-    cy.get(`#sidebarItem_${channel.name}`).click();
-
-    cy.get('#channelHeaderTitle').should('contain', channel.display_name);
-
-    // # Wait some time for the channel to set state
-    cy.wait(TIMEOUTS.HALF_SEC);
-}
-
 function markAsUnreadFromMenu(post, prefix = 'post', location = 'CENTER') {
     cy.get(`#${prefix}_${post.id}`).trigger('mouseover');
     cy.clickPostDotMenu(post.id, location);
@@ -307,8 +298,4 @@ function markAsUnreadFromAnotherSession(post, user) {
         method: 'post',
         path: `users/${user.id}/posts/${post.id}/set_unread`,
     });
-}
-
-function verifyPostNextToNewMessageSeparator(message) {
-    cy.get('.NotificationSeparator').should('exist').parent().parent().parent().next().should('contain', message);
 }
