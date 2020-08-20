@@ -4,7 +4,6 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {ActionResult} from 'mattermost-redux/types/actions';
 import {UserProfile} from 'mattermost-redux/types/users';
 
 import UserSettingsSecurity from './user_settings_security';
@@ -42,7 +41,6 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         experimentalEnableAuthenticationTransfer: true,
         passwordConfig: {},
         militaryTime: false,
-
     };
 
     test('componentDidMount() should have called getAuthorizedOAuthApps', () => {
