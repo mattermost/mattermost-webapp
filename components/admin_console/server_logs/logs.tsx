@@ -4,7 +4,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {ActionFunc} from 'mattermost-redux/types/actions';
+import {ActionResult} from 'mattermost-redux/types/actions';
 
 import LoadingScreen from 'components/loading_screen';
 
@@ -14,8 +14,9 @@ import LogList from './log_list';
 
 type Props = {
     logs: string[];
-    nextPage: () => void;
-    actions: {getLogs: (page?: number | undefined, perPage?: number | undefined) => ActionFunc};
+    actions: {
+        getLogs: (page?: number | undefined, perPage?: number | undefined) => Promise<ActionResult | ActionResult[]>;
+    };
 };
 
 type State = {
@@ -35,12 +36,12 @@ export default class Logs extends React.PureComponent<Props, State> {
     }
 
     componentDidMount() {
-        this.props.actions.getLogs(this.state.page, this.state.perPage);
+        this.reload();
     }
 
     componentDidUpdate(prevProps: Props, prevState: State) {
         if (this.state.page !== prevState.page) {
-            this.props.actions.getLogs(this.state.page, this.state.perPage);
+            this.reload();
         }
     }
 
