@@ -34,7 +34,7 @@ describe('Multi-user group messages', () => {
 
         // # Start typing part of a username that matches previously created users
         cy.get('#selectItems input').
-            type(searchTerm);
+            type(searchTerm, {force: true});
 
         // * Expect user list to only contain usernames matching the query term and to be sorted alphabetically
         expectUserListSortedAlphabetically(searchTerm);
