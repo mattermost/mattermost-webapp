@@ -340,6 +340,7 @@ class JobTable extends React.PureComponent {
     }
 
     render() {
+        const showFilesColumn = this.props.jobType === JobTypes.MESSAGE_EXPORT && this.props.downloadExportResults;
         var items = this.props.jobs.map((job) => {
             return (
                 <tr key={job.id}>
@@ -350,7 +351,7 @@ class JobTable extends React.PureComponent {
                         {this.getCancelButton(job)}
                     </td>
                     <td className='whitespace--nowrap'>{this.getStatus(job)}</td>
-                    {this.props.downloadExportResults &&
+                    {showFilesColumn &&
                         <td className='whitespace--nowrap'>{this.getDownloadLink(job)}</td>
                     }
                     <td className='whitespace--nowrap'>{this.getFinishAt(job.status, job.last_activity_at)}</td>
@@ -390,7 +391,7 @@ class JobTable extends React.PureComponent {
                                         defaultMessage='Status'
                                     />
                                 </th>
-                                {this.props.jobType === JobTypes.MESSAGE_EXPORT && this.props.downloadExportResults &&
+                                {showFilesColumn &&
                                     <th>
                                         <FormattedMessage
                                             id='admin.jobTable.headerFiles'
