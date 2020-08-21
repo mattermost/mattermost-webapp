@@ -149,6 +149,7 @@ class InvitationModalMembersStep extends React.PureComponent {
             noMatchMessageId = t('invitation_modal.members.users_emails_input.no_user_found_matching-email-disabled');
             noMatchMessageDefault = 'No one found matching **{text}**';
         }
+        const remainingUsers = this.props.userLimit - this.props.currentUsers;
         return (
             <div className='InvitationModalMembersStep'>
                 <div className='modal-icon'>
@@ -245,12 +246,14 @@ class InvitationModalMembersStep extends React.PureComponent {
                                 'invitation_modal.members.users_emails_input.valid_email',
                             )}
                             validAddressMessageDefault='Invite **{email}** as a team member'
-                            errorMessageId={t('invitation_modal.invite_members.hit_cloud_user_limit')}
-                            errorMessageDefault={'You have reached the user limit for your tier'}
+                            errorMessageId={t(
+                                'invitation_modal.invite_members.hit_cloud_user_limit',
+                            )}
+                            errorMessageDefault={
+                                'You have reached the user limit for your tier'
+                            }
                             errorMessageValues={{
-                                text:
-                                    this.props.userLimit -
-                                    this.props.currentUsers,
+                                text: remainingUsers < 0 ? '0' : remainingUsers,
                             }}
                             noMatchMessageId={noMatchMessageId}
                             noMatchMessageDefault={noMatchMessageDefault}
