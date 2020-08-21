@@ -4,7 +4,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {ActionResult} from 'mattermost-redux/types/actions';
+import {ActionFunc} from 'mattermost-redux/types/actions';
 
 import LoadingScreen from 'components/loading_screen';
 
@@ -15,7 +15,7 @@ import LogList from './log_list';
 type Props = {
     logs: string[];
     actions: {
-        getLogs: (page?: number | undefined, perPage?: number | undefined) => Promise<ActionResult | ActionResult[]>;
+        getLogs: (page?: number | undefined, perPage?: number | undefined) => ActionFunc;
     };
 };
 
