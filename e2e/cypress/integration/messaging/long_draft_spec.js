@@ -81,7 +81,7 @@ function writeLinesToPostTextBox(lines) {
 
             // * Verify new height
             cy.get('#post_textbox').invoke('height').then((height) => {
-                // * Verfiy previous height should be lower than the current height
+                // * Verify previous height should be lower than the current height
                 cy.get('@previousHeight').should('be.lessThan', parseInt(height, 10));
 
                 // # Store the current height as the previous height for the next loop
