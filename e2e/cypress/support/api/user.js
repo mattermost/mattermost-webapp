@@ -51,10 +51,13 @@ Cypress.Commands.add('apiLogout', () => {
 });
 
 Cypress.Commands.add('apiGetMe', () => {
+    return cy.apiGetUserById('me');
+});
+
+Cypress.Commands.add('apiGetUserById', (userId) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
-        url: 'api/v4/users/me',
-        method: 'GET',
+        url: '/api/v4/users/' + userId,
     }).then((response) => {
         expect(response.status).to.equal(200);
         return cy.wrap({user: response.body});
@@ -225,7 +228,9 @@ Cypress.Commands.add('apiDemoteUserToGuest', (userId) => {
         method: 'POST',
     }).then((response) => {
         expect(response.status).to.equal(200);
-        return cy.wrap({user: response.body});
+        return cy.apiGetUserById(userId).then(({user}) => {
+            return cy.wrap({guest: user});
+        });
     });
 });
 
@@ -236,6 +241,6 @@ Cypress.Commands.add('apiPromoteGuestToUser', (userId) => {
         method: 'POST',
     }).then((response) => {
         expect(response.status).to.equal(200);
-        return cy.wrap({user: response.body});
+        return cy.apiGetUserById(userId);
     });
 });
