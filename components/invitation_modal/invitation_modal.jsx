@@ -33,9 +33,6 @@ export default class InvitationModal extends React.PureComponent {
         canInviteGuests: PropTypes.bool.isRequired,
         canAddUsers: PropTypes.bool.isRequired,
         emailInvitationsEnabled: PropTypes.bool.isRequired,
-        currentUsers: PropTypes.number,
-        userLimit: PropTypes.string,
-        userIsAdmin: PropTypes.bool,
         actions: PropTypes.shape({
             closeModal: PropTypes.func.isRequired,
             sendGuestsInvites: PropTypes.func.isRequired,
@@ -221,23 +218,7 @@ export default class InvitationModal extends React.PureComponent {
         this.setState({step: STEPS_INVITE_CONFIRM, prevStep: this.state.step, lastInviteChannels: channels, lastInviteMessage: message, invitesSent: invites.sent, invitesNotSent: invites.notSent, invitesType: InviteTypes.INVITE_GUEST, hasChanges: false});
     }
 
-    shouldShowUpgradeModal = () => {
-        return (this.props.currentUsers <= this.props.userLimit) && (this.props.userLimit !== '0') && this.props.userIsAdmin;
-    }
-
-    // showUpgradeModal = () => {
-
-    // }
-
     render() {
-        if (this.shouldShowUpgradeModal()) {
-            // this.showUpgradeModal();
-            console.log('showUserLimitModal');
-            return (
-                <UserLimitModal/>
-            );
-        }
-
         return (
             <RootPortal>
                 <FullScreenModal

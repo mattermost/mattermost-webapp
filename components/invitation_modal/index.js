@@ -20,7 +20,7 @@ import {
     isAdmin,
 } from 'utils/utils.jsx';
 
-import {closeModal, openModal} from 'actions/views/modals';
+import {closeModal} from 'actions/views/modals';
 import {isModalOpen} from 'selectors/views/modals';
 import {ModalIdentifiers, Constants} from 'utils/constants';
 import {sendMembersInvites, sendGuestsInvites} from 'actions/invite_actions';
@@ -76,7 +76,6 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             closeModal: () => closeModal(ModalIdentifiers.INVITATION),
-            openModal: (modalData) => openModal(modalData),
             sendGuestsInvites,
             sendMembersInvites,
             searchProfiles,

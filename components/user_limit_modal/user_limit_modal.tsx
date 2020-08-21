@@ -4,27 +4,35 @@
 import React from 'react';
 import {Modal, Button} from 'react-bootstrap';
 
-import upgradeImage from './user_limit_upgrade.svg';
-
 import './user_limit_modal.scss';
+
+import upgradeImage from './user_limit_upgrade.svg';
 
 type Props = {
     show: boolean;
-    onClose: () => void;
-    onSubmit: () => void;
+    actions: {
+        closeModal: () => void;
+    };
 };
 
-export default function ContactUsModal(props: Props) {
+export default function UserLimitModal(props: Props) {
+    const onSubmit = () => {
+        // This does nothing until implementation of the upgrade tier page is complete
+        // Eventually, we will dispatch props.actions.openModal here
+    };
+
+    const close = () => {
+        props.actions.closeModal();
+    };
+
     return (
+        props.show &&
         <Modal
             className={'UserLimitModal'}
-            dialogClassName='a11y__modal'
             show={props.show}
-            id='contactUsModal'
+            id='userLimitModal'
             role='dialog'
-            aria-modal={true}
-            aria-labelledby='contactUsTitle'
-            aria-describedby='contacUsBody'
+            onHide={close}
         >
             <Modal.Header closeButton={true}/>
             <Modal.Body id='contacSalesBody'>
@@ -42,14 +50,14 @@ export default function ContactUsModal(props: Props) {
                     <Button
                         className='dismiss-link'
                         variant='link'
-                        onClick={props.onClose}
+                        onClick={close}
                     >
                         {'Not right now'}
                     </Button>
                     <Button
                         className='confirm-button'
                         variant='primary'
-                        onClick={props.onSubmit}
+                        onClick={onSubmit}
                     >{'Upgrade Mattermost Cloud'}</Button>{' '}
                 </div>
             </Modal.Body>
