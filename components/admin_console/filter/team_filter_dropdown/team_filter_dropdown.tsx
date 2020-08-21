@@ -142,7 +142,7 @@ class TeamFilterDropdown extends React.PureComponent<Props, State> {
         } else if (this.state.searchTerm.length > 0) {
             return this.state.searchTotal > this.state.searchResults.length;
         }
-        return this.props.total > this.props.teams.length;
+        return this.props.total > (this.state.page + 1) * TEAMS_PER_PAGE;
     }
 
     loadMore = async () => {
@@ -196,9 +196,10 @@ class TeamFilterDropdown extends React.PureComponent<Props, State> {
             const selectedTeams = getSelectedTeams(selectedTeamIds, this.props.teams);
             const savedSelectedTeams = selectedTeams.sort((a, b) => a.display_name.localeCompare(b.display_name));
             this.setState({searchTerm, savedSelectedTeams, searchResults: [], searchTotal: 0, page: 0});
-            return;
+        } else {
+            this.setState({loading: true, searchTerm, searchResults: [], searchTotal: 0, page: 0});
         }
-        this.setState({loading: true, searchTerm, searchResults: [], searchTotal: 0, page: 0});
+
         this.searchTeamsDebounced(0, searchTerm);
     }
 
