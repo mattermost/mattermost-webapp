@@ -23,6 +23,9 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         onClose: () => {
             console.log('close');
         },
+        onSubmit: () => {
+            console.log('Submit');
+        },
         show: true,
     };
 }

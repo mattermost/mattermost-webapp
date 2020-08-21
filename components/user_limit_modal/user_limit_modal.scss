@@ -1,6 +1,5 @@
 .UserLimitModal {
 
-    border-radius: 8px;
     .modal-content {
         height: 404px;
         border: rgba(var(--center-channel-color-rgb), 0.1);
@@ -10,19 +9,12 @@
 
     .modal-header {
         .close {
-            color: rgba(61, 60, 64, 0.56)
+            color: rgba(var(--center-channel-color-rgb), 0.56)
         }
         border-bottom: 0 none;
         padding: 14px;
-        color: #3D3C40;
+        color:var(--center-channel-color);
         background: #FFFFFF !important;
-    }
-
-    .modal-title {
-        color: #22406D;
-        font-family: 'Metropolis';
-        font-size: 28px;
-        padding: 30px 0px 10px 30px;
     }
 
     .modal-body {
@@ -44,7 +36,7 @@
         }
 
         .buttons {
-            margin-top: 16px;
+            margin-top: 32px;
             text-align: center;
 
             .dismiss-link {
@@ -57,53 +49,21 @@
 
             .confirm-button {
                 padding: 12px 20px;
-                background: #166DE0;
+                background: var(--sys-button-bg);
                 flex: none;
                 font-weight: 600;
                 font-size: 14px;
                 line-height: 14px;
                 color: #FFFFFF;
                 border-radius: 4px;
+                margin-left: 28px;
             }
         }
 
-        padding: 0px 44px 32px 44px;
+        padding: 0px 44px 48px 44px;
         width: 100%;
     }
-
     .modal-centered {
         text-align: center;
-    }
-
-    .result-image {
-        margin-top: 75px;
-        margin-bottom: 32px;
-    }
-
-    .result-title {
-        font-family: 'Metropolis';
-        font-size: 28px;
-        text-align: center;
-        color: #22406D;
-        margin: 0px 50px;
-    }
-
-    .result-message {
-        font-family: 'Source Sans Pro';
-        font-size: 18px;
-        color: #22406D;
-        padding: 16px 0px;
-        margin: 0px 70px;
-
-    }
-
-    .close-btn {
-        background: #0058CC;
-        height: 48px;
-        font-family: 'Source Sans Pro';
-        font-weight: 600;
-        font-size: 16px;
-        padding: 10px 20px;
-        margin-bottom: 70px;
     }
 }

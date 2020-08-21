@@ -11,6 +11,7 @@ import './user_limit_modal.scss';
 type Props = {
     show: boolean;
     onClose: () => void;
+    onSubmit: () => void;
 };
 
 export default function ContactUsModal(props: Props) {
@@ -41,12 +42,14 @@ export default function ContactUsModal(props: Props) {
                     <Button
                         className='dismiss-link'
                         variant='link'
+                        onClick={props.onClose}
                     >
                         {'Not right now'}
                     </Button>
                     <Button
                         className='confirm-button'
                         variant='primary'
+                        onClick={props.onSubmit}
                     >{'Upgrade Mattermost Cloud'}</Button>{' '}
                 </div>
             </Modal.Body>
