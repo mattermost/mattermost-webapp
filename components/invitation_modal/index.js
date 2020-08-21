@@ -6,7 +6,6 @@ import {bindActionCreators} from 'redux';
 
 import {
     getCurrentTeam,
-    getMyTeamMember,
 } from 'mattermost-redux/selectors/entities/teams';
 import {getChannelsInCurrentTeam} from 'mattermost-redux/selectors/entities/channels';
 import {haveIChannelPermission, haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
@@ -15,10 +14,6 @@ import {getProfiles, searchProfiles as reduxSearchProfiles} from 'mattermost-red
 import {searchChannels as reduxSearchChannels} from 'mattermost-redux/actions/channels';
 import {getTeam} from 'mattermost-redux/actions/teams';
 import {Permissions} from 'mattermost-redux/constants';
-
-import {
-    isAdmin,
-} from 'utils/utils.jsx';
 
 import {closeModal} from 'actions/views/modals';
 import {isModalOpen} from 'selectors/views/modals';
@@ -66,9 +61,6 @@ export function mapStateToProps(state) {
         canAddUsers,
         emailInvitationsEnabled,
         show: isModalOpen(state, ModalIdentifiers.INVITATION),
-        userLimit: getConfig(state).ExperimentalCloudUserLimit,
-        currentUsers: state.entities.admin.analytics.TOTAL_USERS,
-        userIsAdmin: isAdmin(getMyTeamMember(state, currentTeam.id).roles),
     };
 }
 
