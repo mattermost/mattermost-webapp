@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 import {createSelector} from 'reselect';
 
+import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
 import {UserProfile} from 'mattermost-redux/types/users';
 
@@ -47,8 +48,13 @@ export const Steps: StepType[] = [
 const getCategory = makeGetCategory();
 export const showNextSteps = createSelector(
     (state: GlobalState) => getCategory(state, Preferences.RECOMMENDED_NEXT_STEPS),
-    (stepPreferences) => {
+    (state: GlobalState) => getLicense(state),
+    (stepPreferences, license) => {
         if (stepPreferences.some((pref) => pref.name === RecommendedNextSteps.HIDE && pref.value)) {
+            return false;
+        }
+
+        if (license.Cloud !== 'true') {
             return false;
         }
 
