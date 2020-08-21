@@ -19,7 +19,7 @@ function demoteGuestUser(guestUser) {
     cy.apiAdminLogin();
     cy.apiGetUserByEmail(guestUser.email).then(({user}) => {
         if (user.roles !== 'system_guest') {
-            cy.demoteUser(guestUser.id);
+            cy.apiDemoteUserToGuest(guestUser.id);
         }
     });
 }
@@ -129,11 +129,13 @@ describe('Guest Account - Guest User Experience', () => {
     });
 
     it('MM-18049 Verify Guest User Restrictions is removed when promoted', () => {
-        // # Reload the page to close any popups
-        cy.reload();
-
         // # Promote a Guest user to a member and reload
-        cy.promoteUser(guestUser.id);
+        cy.apiAdminLogin();
+        cy.apiPromoteGuestToUser(guestUser.id);
+
+        // # Login as guest user
+        cy.apiLogin(guestUser);
+        cy.reload();
 
         // * Verify Options in Main Menu are changed
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();

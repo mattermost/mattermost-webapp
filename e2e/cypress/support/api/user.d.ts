@@ -200,10 +200,33 @@ declare namespace Cypress {
          * Deactivate a user account.
          * See https://api.mattermost.com/#tag/users/paths/~1users~1{user_id}/delete
          * @param {string} userId - User ID
+         * @returns {Response} response: Cypress-chainable response which should have successful HTTP status of 200 OK to continue or pass.
          *
          * @example
          *   cy.apiDeactivateUser('user-id');
          */
-        apiDeactivateUser(userId: string);
+        apiDeactivateUser(userId: string): Chainable<Response>;
+
+        /**
+         * Convert a regular user into a guest. This will convert the user into a guest for the whole system while retaining their existing team and channel memberships.
+         * See https://api.mattermost.com/#tag/users/paths/~1users~1{user_id}~1demote/post
+         * @param {string} userId - User ID
+         * @returns {UserProfile} out.user: `UserProfile` object
+         *
+         * @example
+         *   cy.apiDemoteUserToGuest('user-id');
+         */
+        apiDemoteUserToGuest(userId: string): Chainable<UserProfile>;
+
+        /**
+         * Convert a guest into a regular user. This will convert the guest into a user for the whole system while retaining any team and channel memberships and automatically joining them to the default channels.
+         * See https://api.mattermost.com/#tag/users/paths/~1users~1{user_id}~1promote/post
+         * @param {string} userId - User ID
+         * @returns {UserProfile} out.user: `UserProfile` object
+         *
+         * @example
+         *   cy.apiPromoteGuestToUser('user-id');
+         */
+        apiPromoteGuestToUser(userId: string): Chainable<UserProfile>;
     }
 }
