@@ -43,7 +43,7 @@ describe('Guest Account - Guest User Experience', () => {
 
         cy.apiInitSetup({userPrefix: 'guest'}).then(({user, team, channel}) => {
             guestUser = user;
-            
+
             // # Create new team and visit its URL
             cy.apiDemoteUserToGuest(user.id).then(() => {
                 cy.apiAddUserToTeam(team.id, guestUser.id).then(() => {
