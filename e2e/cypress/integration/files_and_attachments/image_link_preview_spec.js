@@ -7,6 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+// Group: @file_and_attachments
+
 describe('Image Link Preview', () => {
     let testTeam;
 
@@ -88,5 +91,45 @@ describe('Image Link Preview', () => {
 
         // # All image previews expand back open
         cy.findAllByLabelText('file thumbnail').should('be.visible').and('have.length', 4);
+    });
+
+    it('MM-T2389 Inline markdown image links open with preview modal', () => {
+        // Go to home channel
+        cy.visit(`/${testTeam.name}/channels/town-square`);
+
+        const markdownImageText = 'exampleImage';
+        const markdownImageSrc = 'https://www.mattermost.org/wp-content/uploads/2016/03/logoHorizontal.png';
+        const markdownImageSrcEncoded = encodeURIComponent(markdownImageSrc); // Since the url preview will be encoded string
+        const messageWithMarkdownImage = `![${markdownImageText}](${markdownImageSrc}) an image plus some text that has [a link](https://example.com/)`;
+
+        // # Post a message with markdown image and link
+        cy.postMessage(messageWithMarkdownImage);
+
+        // # Get the post id of last message with image and link
+        cy.getLastPostId().then((postWithMarkdownImage) => {
+            // # Scan inside the last post for checking the image
+            cy.get(`#${postWithMarkdownImage}_message`).should('exist').and('be.visible').within(() => {
+                // * Find the inline image of the markdown text and verify its clickable
+                // Image can be found by its alt text is same as the one passed in markdown image title
+                cy.findByAltText(markdownImageText).should('exist').and('be.visible').
+                    and('have.css', 'cursor', 'pointer').
+                    and('have.attr', 'src').should('include', markdownImageSrcEncoded);
+
+                // # Click on the image
+                cy.findByAltText(markdownImageText).click();
+            });
+        });
+
+        // * Verify image preview modal is opened
+        cy.get('.a11y__modal').should('exist').and('be.visible').
+            within(() => {
+                // * Verify we have the image inside the modal
+                cy.findByTestId('imagePreview').should('exist').and('be.visible').
+                    and('have.attr', 'alt', 'preview url image').
+                    and('have.attr', 'src').should('include', markdownImageSrcEncoded);
+            });
+
+        // # Close the image preview modal
+        cy.get('body').type('{esc}');
     });
 });
