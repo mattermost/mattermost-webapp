@@ -1,9 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Options} from 'turndown';
+import TurndownService, {Options} from 'turndown';
 
-export const channelMentionsRule = {
+const channelMentionsRule = {
     filter: (node: Node): boolean => {
         return node.nodeName === 'A' && (node as HTMLElement).className === 'mention-link' && Boolean((node as HTMLElement).getAttribute('data-channel-mention'));
     },
@@ -16,7 +16,7 @@ export const channelMentionsRule = {
     }
 };
 
-export const hashtagsRule = {
+const hashtagsRule = {
     filter: (node: Node): boolean => {
         return node.nodeName === 'A' && (node as HTMLElement).className === 'mention-link' && Boolean((node as HTMLElement).getAttribute('data-hashtag'));
     },
@@ -26,7 +26,7 @@ export const hashtagsRule = {
 };
 
 // This fix a problem related to coping and pasting markdown images from the existing posts
-export const filePreviewButtonRule = {
+const filePreviewButtonRule = {
     filter: (node: Node): boolean => {
         return node.nodeName === 'DIV' && (node as HTMLElement).className === 'file-preview__button';
     },
@@ -35,7 +35,7 @@ export const filePreviewButtonRule = {
     }
 };
 
-export const codeBlockRule = {
+const codeBlockRule = {
     filter: (node: Node) => {
         return node.nodeName === 'CODE' && (node as HTMLElement).className.indexOf('hljs') !== -1;
     },
@@ -60,3 +60,65 @@ export const codeBlockRule = {
         return `\n\n${fence}${language}\n${code.replace(/\n$/, '')}\n${fence}\n\n`;
     }
 };
+
+// Not copy avatars from conversations
+const skipAvatarsRule = {
+    filter: (node: Node): boolean => {
+        return node.nodeName === 'DIV' && (node as HTMLElement).className === 'post__img';
+    },
+    replacement: (): string => {
+        return '';
+    }
+};
+
+// Not copy reply count
+const skipReplyCountRule = {
+    filter: (node: Node): boolean => {
+        return node.nodeName === 'SPAN' && (node as HTMLElement).className === 'post-menu__comment-count';
+    },
+    replacement: (): string => {
+        return '';
+    }
+};
+
+// Not copy reaction count
+const skipReactionCountRule = {
+    filter: (node: Node): boolean => {
+        return node.nodeName === 'SPAN' && (node as HTMLElement).className === 'Reaction__count';
+    },
+    replacement: (): string => {
+        return '';
+    }
+};
+
+// Not copy edited indicator
+const skipEditedIndicatorRule = {
+    filter: (node: Node): boolean => {
+        return node.nodeName === 'SPAN' && (node as HTMLElement).className === 'post-edited__indicator';
+    },
+    replacement: (): string => {
+        return '';
+    }
+};
+
+// Not copy root post link
+const skipRootPostLinkRule = {
+    filter: (node: Node): boolean => {
+        return node.nodeName === 'DIV' && (node as HTMLElement).className === 'post__link';
+    },
+    replacement: (): string => {
+        return '';
+    }
+};
+
+export default function mattermostPlugin(turndownService: TurndownService) {
+    turndownService.addRule('channel-mentions', channelMentionsRule);
+    turndownService.addRule('hashtags', hashtagsRule);
+    turndownService.addRule('file-preview-button', filePreviewButtonRule);
+    turndownService.addRule('mattermost-code-block', codeBlockRule);
+    turndownService.addRule('skip-avatars', skipAvatarsRule);
+    turndownService.addRule('skip-reply-count', skipReplyCountRule);
+    turndownService.addRule('skip-reaction-count', skipReactionCountRule);
+    turndownService.addRule('skip-edited-indicator', skipEditedIndicatorRule);
+    turndownService.addRule('skip-root-post', skipRootPostLinkRule);
+}

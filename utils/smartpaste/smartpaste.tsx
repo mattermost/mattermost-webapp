@@ -10,17 +10,14 @@ import {
 } from 'utils/post_utils.jsx';
 
 import {tableTurndownRuleBuilder} from './tables';
-import {channelMentionsRule, hashtagsRule, filePreviewButtonRule, codeBlockRule} from './mattermost';
+import mattermostPlugin from './mattermost';
 import {fixNestedLists} from './htmlfix';
 import {NEW_LINE_REPLACEMENT} from './constants';
 
 const turndownService = new TurndownService({codeBlockStyle: 'fenced'}).remove('style');
 turndownService.use(strikethrough);
 turndownService.use(taskListItems);
-turndownService.addRule('channel-mentions', channelMentionsRule);
-turndownService.addRule('hashtags', hashtagsRule);
-turndownService.addRule('file-preview-button', filePreviewButtonRule);
-turndownService.addRule('mattermost-code-block', codeBlockRule);
+turndownService.use(mattermostPlugin);
 
 export default function smartPaste(clipboard: DataTransfer, message: string, currentCaretPosition: number): {message: string; caretPosition: number} {
     const {firstPiece, lastPiece} = splitMessageBasedOnCaretPosition(currentCaretPosition, message);
