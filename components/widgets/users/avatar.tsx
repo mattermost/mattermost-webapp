@@ -1,26 +1,40 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {FC, memo} from 'react';
 
 import './avatar.scss';
 
-type Props = {
-    url: string;
+export type Props = {
+    url?: string;
     username?: string;
     size?: string;
+    children?: string;
 };
 
-const Avatar: React.FunctionComponent<Props> = ({url, username, size = 'md'}: Props) => (
-    <img
-        className={`Avatar Avatar-${size}`}
-        alt={`${username || 'user'} profile image`}
-        src={url}
-    />
-);
+const Avatar: FC<Props> = ({
+    url,
+    username,
+    size = 'md',
+    children
+}: Props) => {
+    const classes = `Avatar Avatar-${size}`;
 
-Avatar.defaultProps = {
-    size: 'md',
+    if (children) {
+        return (
+            <div
+                className={classes + ' Avatar-plain'}
+                data-content={children}
+            />
+        );
+    }
+
+    return (
+        <img
+            className={classes}
+            alt={`${username || 'user'} profile image`}
+            src={url}
+        />
+    );
 };
-
-export default Avatar;
+export default memo(Avatar);

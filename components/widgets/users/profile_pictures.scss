@@ -1,0 +1,53 @@
+
+
+.ProfilePictures {
+    display: flex;
+    flex-flow: nowrap;
+    align-items: center;
+    justify-content: center;
+
+    &.ProfilePictures-xs {
+        --offset: -4px;
+        --border-width: 1px;
+    }
+    &.ProfilePictures-sm {
+        --offset: -5px;
+        --border-width: 1px;
+    }
+    &.ProfilePictures-md {
+        --offset: -6px;
+        --border-width: 1.5px;
+    }
+    &.ProfilePictures-lg {
+        --offset: -7px;
+        --border-width: 2px;
+    }
+    &.ProfilePictures-xl {
+        --offset: -10px;
+        --border-width: 2px;
+    }
+    &.ProfilePictures-xxl {
+        --offset: -26px;
+        --border-width: 5px;
+    }
+
+    > *:not(:first-child) {
+        margin-left: var(--offset);
+    }
+
+    > .status-wrapper {
+        height: unset;
+    }
+
+    > * {
+        position: relative;
+        &:hover,
+        &:active {
+            z-index: 1;
+        }
+    }
+
+    .Avatar {
+        border: var(--border-width) solid rgba(var(--center-channel-bg-rgb), 1);
+    }
+}

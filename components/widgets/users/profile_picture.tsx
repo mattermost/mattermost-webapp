@@ -8,11 +8,13 @@ import ProfilePopover from 'components/profile_popover';
 import StatusIcon from 'components/status_icon';
 import Avatar from 'components/widgets/users/avatar';
 
+import './profile_picture.scss';
+
 interface MMOverlayTrigger extends BaseOverlayTrigger {
     hide: () => void;
 }
 
-type Props = {
+export type Props = {
     hasMention?: boolean;
     isBusy?: boolean;
     isEmoji?: boolean;
