@@ -12,8 +12,6 @@
 
 import {verifyPostNextToNewMessageSeparator, switchToChannel, beRead, beUnread} from './helpers';
 
-import {verifyPostNextToNewMessageSeparator} from './helpers';
-
 describe('Mark as Unread', () => {
     let testUser;
 
