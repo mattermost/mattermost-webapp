@@ -6,7 +6,7 @@ import React from 'react';
 import {Client4} from 'mattermost-redux/client';
 import {FormattedDate, FormattedMessage, FormattedTime, injectIntl} from 'react-intl';
 
-import {JobStatuses, exportFormats} from 'utils/constants';
+import {JobStatuses, exportFormats, JobTypes} from 'utils/constants';
 import {intlShape} from 'utils/react_intl';
 import * as Utils from 'utils/utils.jsx';
 
@@ -390,7 +390,7 @@ class JobTable extends React.PureComponent {
                                         defaultMessage='Status'
                                     />
                                 </th>
-                                {this.props.downloadExportResults &&
+                                {this.props.jobType === JobTypes.MESSAGE_EXPORT && this.props.downloadExportResults &&
                                     <th>
                                         <FormattedMessage
                                             id='admin.jobTable.headerFiles'
