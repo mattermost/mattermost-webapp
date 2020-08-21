@@ -17,18 +17,18 @@ describe('Mark as Unread', () => {
     let otherUser2;
 
     before(() => {
-        // # create testUser added to channel
+        // # Create testUser added to channel
         cy.apiInitSetup().then(({team, user}) => {
             testUser = user;
 
-            // # create second user and add to the team
+            // # Create second user and add to the team
             cy.apiCreateUser({prefix: 'otherA'}).then(({user: newUser}) => {
                 otherUser1 = newUser;
 
                 cy.apiAddUserToTeam(team.id, newUser.id);
             });
 
-            // # create third user and add to the team
+            // # Create third user and add to the team
             cy.apiCreateUser({prefix: 'otherB'}).then(({user: newUser}) => {
                 otherUser2 = newUser;
 
@@ -57,33 +57,33 @@ describe('Mark as Unread', () => {
                 cy.postMessageAs({sender: otherUser2, message: `this is from user: ${otherUser2.id}, ${index}`, channelId: gmChannel.id});
             }
 
-            // # go to the group message channel
+            // # Go to the group message channel
             cy.get(`#sidebarItem_${gmChannel.name}`).click();
 
-            // # mark the post to be unread
+            // # Mark the post to be unread
             cy.getNthPostId(-2).then((postId) => {
                 markAsUnreadByPostIdFromMenu(postId);
             });
 
-            // * verify the notification seperator line exists and present before the unread message
+            // * Verify the notification seperator line exists and present before the unread message
             verifyPostNextToNewMessageSeparator(`this is from user: ${otherUser1.id}, 7`);
 
-            // * verify the group message in LHS is unread
+            // * Verify the group message in LHS is unread
             cy.get(`#sidebarItem_${gmChannel.name}`).should('have.class', 'unread-title');
 
-            // # leave the group message channel
+            // # Leave the group message channel
             cy.get('#sidebarItem_town-square').click();
 
-            // * verify the group message in LHS is unread
+            // * Verify the group message in LHS is unread
             cy.get(`#sidebarItem_${gmChannel.name}`).should('have.class', 'unread-title');
 
-            // # go to the group message channel
+            // # Go to the group message channel
             cy.get(`#sidebarItem_${gmChannel.name}`).click();
 
-            // * verify the group message in LHS is read
+            // * Verify the group message in LHS is read
             cy.get(`#sidebarItem_${gmChannel.name}`).should('exist').should('not.have.class', 'unread-title');
 
-            // * verify the notification seperator line exists and present before the unread message
+            // * Verify the notification seperator line exists and present before the unread message
             verifyPostNextToNewMessageSeparator(`this is from user: ${otherUser1.id}, 7`);
         });
     });
