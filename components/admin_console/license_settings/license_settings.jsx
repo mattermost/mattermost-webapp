@@ -193,11 +193,6 @@ export default class LicenseSettings extends React.PureComponent {
             );
         }
 
-        var btnClass = 'btn';
-        if (this.state.fileSelected) {
-            btnClass = 'btn btn-primary';
-        }
-
         const {license, upgradedFromTE, isDisabled} = this.props;
         const {uploading} = this.state;
 

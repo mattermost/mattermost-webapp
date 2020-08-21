@@ -181,9 +181,6 @@ const AdminDefinition = {
             url: 'about/license',
             title: t('admin.sidebar.license'),
             title_default: 'Edition and License',
-            isHidden: it.either(
-                it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
-            ),
             searchableStrings: [
                 'admin.license.title',
                 'admin.license.uploadDesc',
