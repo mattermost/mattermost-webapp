@@ -116,6 +116,22 @@ this is long text this is long text this is long text this is long text this is 
         expect(output).toContain('<div class="post-code__line-numbers">1\n2</div>');
     });
 
+    test('should generate valid HTML for code blocks with line numbers', () => {
+        const output = format(`\`\`\`python
+    op.execute("""
+        UPDATE events.settings
+        SET name = 'paper_review_conditions'
+        WHERE module = 'editing' AND name = 'review_conditions'
+    """)
+\`\`\``);
+
+        const div = document.createElement('div');
+        div.innerHTML = output;
+
+        // The HTML is valid as long as no new HTML tags have been injected. Unescaped characters are fine though.
+        expect(div.innerHTML).toBe(output.replace(/&quot;&quot;&quot;/g, '"""').replace(/&#x27;/g, '\''));
+    });
+
     test('<a> should contain target=_blank for external links', () => {
         const output = format('[external_link](http://example.com)', {siteURL: 'http://localhost'});
 
