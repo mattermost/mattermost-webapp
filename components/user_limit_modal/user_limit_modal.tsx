@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {Modal, Button} from 'react-bootstrap';
+import {FormattedMessage} from 'react-intl';
 
 import './user_limit_modal.scss';
 
@@ -52,13 +53,21 @@ export default function UserLimitModal(props: Props) {
                         variant='link'
                         onClick={close}
                     >
-                        {'Not right now'}
+                        <FormattedMessage
+                            id={'notrightnow'}
+                            defaultMessage={'Not right now'}
+                        />
                     </Button>
                     <Button
                         className='confirm-button'
                         variant='primary'
                         onClick={onSubmit}
-                    >{'Upgrade Mattermost Cloud'}</Button>{' '}
+                    >
+                        <FormattedMessage
+                            id={'upgrade.cloud'}
+                            defaultMessage={'Upgrade Mattermost Cloud'}
+                        />
+                    </Button>
                 </div>
             </Modal.Body>
         </Modal>
