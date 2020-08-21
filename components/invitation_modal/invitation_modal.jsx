@@ -11,11 +11,12 @@ import RootPortal from 'components/root_portal';
 
 import {InviteTypes} from 'utils/constants';
 
+import UserLimitModal from '../user_limit_modal';
+
 import InvitationModalInitialStep from './invitation_modal_initial_step.jsx';
 import InvitationModalMembersStep from './invitation_modal_members_step.jsx';
 import InvitationModalGuestsStep from './invitation_modal_guests_step.jsx';
 import InvitationModalConfirmStep from './invitation_modal_confirm_step.jsx';
-
 import './invitation_modal.scss';
 
 const STEPS_INITIAL = 'initial';
@@ -26,11 +27,15 @@ const STEPS_INVITE_CONFIRM = 'confirm';
 export default class InvitationModal extends React.PureComponent {
     static propTypes = {
         show: PropTypes.bool,
+        closeModal: PropTypes.func,
         currentTeam: PropTypes.object.isRequired,
         invitableChannels: PropTypes.array.isRequired,
         canInviteGuests: PropTypes.bool.isRequired,
         canAddUsers: PropTypes.bool.isRequired,
         emailInvitationsEnabled: PropTypes.bool.isRequired,
+        currentUsers: PropTypes.number,
+        userLimit: PropTypes.string,
+        userIsAdmin: PropTypes.bool,
         actions: PropTypes.shape({
             closeModal: PropTypes.func.isRequired,
             sendGuestsInvites: PropTypes.func.isRequired,
@@ -39,6 +44,10 @@ export default class InvitationModal extends React.PureComponent {
             searchChannels: PropTypes.func.isRequired,
             getTeam: PropTypes.func.isRequired,
         }).isRequired,
+    }
+
+    static defaultProps = {
+        userLimit: 0,
     }
 
     modal = React.createRef();
@@ -212,7 +221,23 @@ export default class InvitationModal extends React.PureComponent {
         this.setState({step: STEPS_INVITE_CONFIRM, prevStep: this.state.step, lastInviteChannels: channels, lastInviteMessage: message, invitesSent: invites.sent, invitesNotSent: invites.notSent, invitesType: InviteTypes.INVITE_GUEST, hasChanges: false});
     }
 
+    shouldShowUpgradeModal = () => {
+        return (this.props.currentUsers <= this.props.userLimit) && (this.props.userLimit !== '0') && this.props.userIsAdmin;
+    }
+
+    // showUpgradeModal = () => {
+
+    // }
+
     render() {
+        if (this.shouldShowUpgradeModal()) {
+            // this.showUpgradeModal();
+            console.log('showUserLimitModal');
+            return (
+                <UserLimitModal/>
+            );
+        }
+
         return (
             <RootPortal>
                 <FullScreenModal

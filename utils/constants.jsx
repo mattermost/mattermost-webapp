@@ -259,6 +259,7 @@ export const ModalIdentifiers = {
     DELETE_CATEGORY: 'delete_category',
     SIDEBAR_WHATS_NEW_MODAL: 'sidebar_whats_new_modal',
     WARN_METRIC_ACK: 'warn_metric_acknowledgement',
+    UPGRADE_CLOUD_ACCOUNT: 'upgrade_cloud_account',
 };
 
 export const UserStatuses = {
