@@ -177,7 +177,6 @@ const AdminDefinition = {
             title: t('admin.sidebar.license'),
             title_default: 'Edition and License',
             isHidden: it.either(
-                it.isnt(it.enterpriseReady),
                 it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
             ),
             searchableStrings: [
