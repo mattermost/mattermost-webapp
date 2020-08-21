@@ -21,20 +21,13 @@ export function markAsUnreadFromPost(post, rhs = false) {
     cy.get('body').type('{alt}', {release: true});
 }
 
-export function markAsUnreadByPostIdFromMenu(
-    postId,
-    prefix = 'post',
-    location = 'CENTER',
-) {
+export function markAsUnreadByPostIdFromMenu(postId, prefix = 'post', location = 'CENTER') {
     cy.get(`#${prefix}_${postId}`).trigger('mouseover');
     cy.clickPostDotMenu(postId, location);
     cy.get('.dropdown-menu').
         should('be.visible').
         within(() => {
-            cy.findByText('Mark as Unread').
-                scrollIntoView().
-                should('be.visible').
-                click();
+            cy.findByText('Mark as Unread').scrollIntoView().should('be.visible').click();
         });
 }
 
