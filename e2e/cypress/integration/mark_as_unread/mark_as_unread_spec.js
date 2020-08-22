@@ -10,7 +10,7 @@
 // Stage: @prod
 // Group: @mark_as_unread
 
-import {verifyPostNextToNewMessageSeparator, switchToChannel, beRead, beUnread, showCursor, markAsUnreadFromMenu} from './helpers';
+import {verifyPostNextToNewMessageSeparator, switchToChannel, beRead, beUnread, showCursor, notShowCursor, markAsUnreadFromMenu} from './helpers';
 
 describe('Mark as Unread', () => {
     let testUser;
@@ -196,11 +196,6 @@ describe('Mark as Unread', () => {
     });
 
     it('Should show cursor pointer when holding down alt', () => {
-        const notShowCursor = (items) => {
-            cy.expect(items).to.have.length(1);
-            expect(items[0].className).to.not.match(/cursor--pointer/);
-        };
-
         const componentIds = [
             `#post_${post1.id}`,
             `#post_${post2.id}`,
