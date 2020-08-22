@@ -41,7 +41,7 @@ describe('Mark as Unread', () => {
         });
     });
 
-    it('should go group channel using group id', () => {
+    it('MM-T249 Mark GM post as unread', () => {
         const userGroupIds = [testUser.id, otherUser1.id, otherUser2.id];
 
         // # Create a group channel for 3 users
@@ -65,7 +65,7 @@ describe('Mark as Unread', () => {
                 markAsUnreadByPostIdFromMenu(postId);
             });
 
-            // * Verify the notification seperator line exists and present before the unread message
+            // * Verify the notification separator line exists and present before the unread message
             verifyPostNextToNewMessageSeparator(`this is from user: ${otherUser1.id}, 7`);
 
             // * Verify the group message in LHS is unread
@@ -83,7 +83,7 @@ describe('Mark as Unread', () => {
             // * Verify the group message in LHS is read
             cy.get(`#sidebarItem_${gmChannel.name}`).should('exist').should('not.have.class', 'unread-title');
 
-            // * Verify the notification seperator line exists and present before the unread message
+            // * Verify the notification separator line exists and present before the unread message
             verifyPostNextToNewMessageSeparator(`this is from user: ${otherUser1.id}, 7`);
         });
     });
