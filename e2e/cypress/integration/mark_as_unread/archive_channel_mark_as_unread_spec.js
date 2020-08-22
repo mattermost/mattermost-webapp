@@ -49,7 +49,7 @@ describe('Channels', () => {
             });
         });
     });
-    it.only('MM-T263 Mark as Unread post menu option should not be available for archived channels', () => {
+    it('MM-T263 Mark as Unread post menu option should not be available for archived channels', () => {
         // # Login as testUser
         cy.apiLogin(testUser);
 
