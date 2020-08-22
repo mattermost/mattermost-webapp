@@ -10,7 +10,8 @@
 // Stage: @prod
 // Group: @mark_as_unread
 
-import {verifyPostNextToNewMessageSeparator, switchToChannel, beRead, beUnread} from './helpers';
+import {
+    verifyPostNextToNewMessageSeparator, switchToChannel, beRead, beUnread, markAsUnreadFromPost} from './helpers';
 
 describe('Mark as Unread', () => {
     let testUser;
@@ -28,10 +29,12 @@ describe('Mark as Unread', () => {
             testUser = user;
             channelA = channel;
 
-            cy.apiCreateChannel(team.id, 'channel-b', 'Channel B').then((resp) => {
-                channelB = resp.body;
-                cy.apiAddUserToChannel(channelB.id, testUser.id);
-            });
+            cy.apiCreateChannel(team.id, 'channel-b', 'Channel B').then(
+                (resp) => {
+                    channelB = resp.body;
+                    cy.apiAddUserToChannel(channelB.id, testUser.id);
+                },
+            );
 
             cy.apiCreateUser().then(({user: user2}) => {
                 const otherUser = user2;
@@ -40,13 +43,26 @@ describe('Mark as Unread', () => {
                     cy.apiAddUserToChannel(channelA.id, otherUser.id);
 
                     // Another user creates posts in the channel since you can't mark your own posts unread currently
-                    cy.postMessageAs({sender: otherUser, message: 'post1', channelId: channelA.id}).then((p1) => {
+                    cy.postMessageAs({
+                        sender: otherUser,
+                        message: 'post1',
+                        channelId: channelA.id,
+                    }).then((p1) => {
                         post1 = p1;
 
-                        cy.postMessageAs({sender: otherUser, message: 'post2', channelId: channelA.id}).then((p2) => {
+                        cy.postMessageAs({
+                            sender: otherUser,
+                            message: 'post2',
+                            channelId: channelA.id,
+                        }).then((p2) => {
                             post2 = p2;
 
-                            cy.postMessageAs({sender: otherUser, message: 'post3', channelId: channelA.id, rootId: post1.id}).then((post) => {
+                            cy.postMessageAs({
+                                sender: otherUser,
+                                message: 'post3',
+                                channelId: channelA.id,
+                                rootId: post1.id,
+                            }).then((post) => {
                                 post3 = post;
                             });
                         });
@@ -277,17 +293,11 @@ describe('Mark as Unread', () => {
 function markAsUnreadFromMenu(post, prefix = 'post', location = 'CENTER') {
     cy.get(`#${prefix}_${post.id}`).trigger('mouseover');
     cy.clickPostDotMenu(post.id, location);
-    cy.get('.dropdown-menu').should('be.visible').within(() => {
-        cy.findByText('Mark as Unread').should('be.visible').click();
-    });
-}
-
-function markAsUnreadFromPost(post, rhs = false) {
-    const prefix = rhs ? 'rhsPost' : 'post';
-
-    cy.get('body').type('{alt}', {release: false});
-    cy.get(`#${prefix}_${post.id}`).click({force: true});
-    cy.get('body').type('{alt}', {release: true});
+    cy.get('.dropdown-menu').
+        should('be.visible').
+        within(() => {
+            cy.findByText('Mark as Unread').should('be.visible').click();
+        });
 }
 
 function markAsUnreadFromAnotherSession(post, user) {

@@ -13,6 +13,14 @@ export function beUnread(items) {
     expect(items[0].className).to.match(/unread-title/);
 }
 
+export function markAsUnreadFromPost(post, rhs = false) {
+    const prefix = rhs ? 'rhsPost' : 'post';
+
+    cy.get('body').type('{alt}', {release: false});
+    cy.get(`#${prefix}_${post.id}`).click({force: true});
+    cy.get('body').type('{alt}', {release: true});
+}
+
 export function markAsUnreadByPostIdFromMenu(postId, prefix = 'post', location = 'CENTER') {
     cy.get(`#${prefix}_${postId}`).trigger('mouseover');
     cy.clickPostDotMenu(postId, location);
@@ -33,5 +41,11 @@ export function switchToChannel(channel) {
 }
 
 export function verifyPostNextToNewMessageSeparator(message) {
-    cy.get('.NotificationSeparator').should('exist').parent().parent().parent().next().should('contain', message);
+    cy.get('.NotificationSeparator').
+        should('exist').
+        parent().
+        parent().
+        parent().
+        next().
+        should('contain', message);
 }
