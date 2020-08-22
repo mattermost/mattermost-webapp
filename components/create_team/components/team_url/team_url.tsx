@@ -275,7 +275,7 @@ export default class TeamUrl extends React.PureComponent<Props, State> {
                             type='submit'
                             bsStyle='primary'
                             disabled={this.state.isLoading}
-                            onClick={() => this.submitNext}
+                            onClick={(e: any) => this.submitNext(e)}
                         >
                             {finishMessage}
                         </Button>
