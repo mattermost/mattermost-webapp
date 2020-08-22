@@ -10,8 +10,7 @@
 // Stage: @prod
 // Group: @mark_as_unread
 
-import {
-    verifyPostNextToNewMessageSeparator, switchToChannel, beRead, beUnread, markAsUnreadFromPost} from './helpers';
+import {verifyPostNextToNewMessageSeparator, switchToChannel, beRead, beUnread, showCursor, markAsUnreadFromMenu} from './helpers';
 
 describe('Mark as Unread', () => {
     let testUser;
@@ -197,11 +196,6 @@ describe('Mark as Unread', () => {
     });
 
     it('Should show cursor pointer when holding down alt', () => {
-        const showCursor = (items) => {
-            cy.expect(items).to.have.length(1);
-            expect(items[0].className).to.match(/cursor--pointer/);
-        };
-
         const notShowCursor = (items) => {
             cy.expect(items).to.have.length(1);
             expect(items[0].className).to.not.match(/cursor--pointer/);
@@ -290,14 +284,12 @@ describe('Mark as Unread', () => {
     });
 });
 
-function markAsUnreadFromMenu(post, prefix = 'post', location = 'CENTER') {
-    cy.get(`#${prefix}_${post.id}`).trigger('mouseover');
-    cy.clickPostDotMenu(post.id, location);
-    cy.get('.dropdown-menu').
-        should('be.visible').
-        within(() => {
-            cy.findByText('Mark as Unread').should('be.visible').click();
-        });
+function markAsUnreadFromPost(post, rhs = false) {
+    const prefix = rhs ? 'rhsPost' : 'post';
+
+    cy.get('body').type('{alt}', {release: false});
+    cy.get(`#${prefix}_${post.id}`).click({force: true});
+    cy.get('body').type('{alt}', {release: true});
 }
 
 function markAsUnreadFromAnotherSession(post, user) {
