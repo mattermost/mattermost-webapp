@@ -9,6 +9,7 @@
 
 // Group: @notifications
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
 import {getRandomId} from '../../utils';
 
 describe('Notifications', () => {
@@ -21,19 +22,17 @@ describe('Notifications', () => {
             testTeam = team;
 
             // # Create two users with same first name in username
-            cy.apiCreateUser({user: generateTestUser()}).then(
-                ({user: user1}) => {
-                    firstUser = user1;
-                    cy.apiAddUserToTeam(testTeam.id, firstUser.id);
-                },
-            );
+            const firstUsername = `test${getRandomId()}`;
+            cy.apiCreateUser({user: generateTestUser(firstUsername)}).then(({user: user1}) => {
+                firstUser = user1;
+                cy.apiAddUserToTeam(testTeam.id, firstUser.id);
+            });
 
-            cy.apiCreateUser({user: generateTestUser()}).then(
-                ({user: user2}) => {
-                    secondUser = user2;
-                    cy.apiAddUserToTeam(testTeam.id, secondUser.id);
-                },
-            );
+            const secondUsername = `${firstUsername}.one`;
+            cy.apiCreateUser({user: generateTestUser(secondUsername)}).then(({user: user2}) => {
+                secondUser = user2;
+                cy.apiAddUserToTeam(testTeam.id, secondUser.id);
+            });
         });
     });
 
@@ -46,6 +45,7 @@ describe('Notifications', () => {
 
             // # Visit the newly created channel as the first user and invite the second user
             cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+            cy.wait(TIMEOUTS.HALF_MIN)
             cy.apiAddUserToChannel(testChannel.id, secondUser.id);
 
             // # Go to the 'Off Topic' channel and logout
@@ -55,6 +55,7 @@ describe('Notifications', () => {
             // # Login as the second user and go to the team site
             cy.apiLogin(secondUser);
             cy.visit(`/${testTeam.name}`);
+            cy.wait(TIMEOUTS.HALF_MIN)
 
             // * Verify that the channel that the first created is visible and that there is one unread mention (for being invited)
             cy.get(`#sidebarItem_${testChannel.name}`).should('be.visible').within(() => {
@@ -73,8 +74,18 @@ describe('Notifications', () => {
             cy.get('#channelLeaveChannel').should('be.visible').click();
             cy.apiLogout();
 
-            // # Login as first user
+            // # Login as first user and visit town square
             cy.apiLogin(firstUser);
+            cy.visit(`/${testTeam.name}/channels/town-square`)
+            cy.wait(TIMEOUTS.HALF_MIN)
+
+            // * Check that the display name of the team the user was invited to is being correctly displayed
+            cy.get('#headerUsername').should('contain.text', firstUser.username);
+
+            // * Check that 'Town Square' is currently being selected
+            cy.get('.active').within(() => {
+                cy.get('#sidebarItem_town-square').should('exist');
+            });
 
             // * Verify that the first user did not get a mention from the test channel when the second user left
             checkUnreadMentions(testChannel);
@@ -88,13 +99,13 @@ describe('Notifications', () => {
         });
     }
 
-    // Function to generate a test user with username - `saturnino.${randomId}`
-    function generateTestUser(prefix = 'user') {
+    // Function to generate a test user with a random username
+    function generateTestUser(username) {
         const randomId = getRandomId();
 
         return {
-            email: `${prefix}${randomId}@sample.mattermost.com`,
-            username: `saturnino.${randomId}`,
+            email: `${username}${randomId}@sample.mattermost.com`,
+            username,
             password: 'passwd',
             first_name: `First${randomId}`,
             last_name: `Last${randomId}`,
