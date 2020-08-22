@@ -20,8 +20,7 @@ describe('Mark as Unread using', () => {
     let post1;
     let post2;
 
-    beforeEach(() => {
-        cy.apiAdminLogin();
+    before(() => {
         cy.apiInitSetup().then(({team, channel, user}) => {
             testUser = user;
             channelA = channel;
