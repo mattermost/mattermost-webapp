@@ -52,7 +52,7 @@ describe('Bot post unread message', () => {
         });
     });
 
-    it('bot post unread', () => {
+    it('MM-T252 bot post unread', () => {
         // # Mark the bot post as unread
         markAsUnreadFromPost(botPost);
 
