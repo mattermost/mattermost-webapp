@@ -11,7 +11,7 @@
 
 import {verifyPostNextToNewMessageSeparator, beUnread, switchToChannel, beRead, markAsUnreadFromMenu, showCursor} from './helpers';
 
-describe('Mark as Unread using', () => {
+describe('Mark as Unread', () => {
     let testUser;
 
     let channelA;
@@ -55,7 +55,7 @@ describe('Mark as Unread using', () => {
     });
 
     it('MM-T251 using shortcuts to make post unread', () => {
-        // * Hower on the post with holding alt should show cursor
+        // * Hover on the post with holding alt should show cursor
         cy.get(`#post_${post2.id}`).trigger('mouseover').type('{alt}', {release: false}).should(showCursor);
 
         // # Mouse click on the post holding alt
@@ -73,7 +73,7 @@ describe('Mark as Unread using', () => {
         // # Switch to channelA
         switchToChannel(channelA);
 
-        // * Verify the channelA has does not have unread in LHS
+        // * Verify the channelA does not have unread in LHS
         cy.get(`#sidebarItem_${channelA.name}`).should(beRead);
 
         // # Open RHS (reply thread)
