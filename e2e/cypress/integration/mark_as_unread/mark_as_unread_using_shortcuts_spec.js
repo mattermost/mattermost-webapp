@@ -55,7 +55,7 @@ describe('Mark as Unread using', () => {
         });
     });
 
-    it('using shortcuts to make post unread', () => {
+    it('MM-T251 using shortcuts to make post unread', () => {
         // * Hower on the post with holding alt should show cursor
         cy.get(`#post_${post2.id}`).trigger('mouseover').type('{alt}', {release: false}).should(showCursor);
 
@@ -83,7 +83,7 @@ describe('Mark as Unread using', () => {
         // # Mark the post as unread from RHS
         markAsUnreadFromMenu(post1, 'rhsPostMessageText', 'RHS_ROOT');
 
-        // The New Messages line should appear above the selected post
+        // * Verify the New Messages line should appear above the selected post
         verifyPostNextToNewMessageSeparator('post1');
 
         // * Verify the channelA has unread in LHS
