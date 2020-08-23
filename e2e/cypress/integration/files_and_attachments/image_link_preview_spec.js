@@ -133,12 +133,61 @@ describe('Image Link Preview', () => {
         cy.get('body').type('{esc}');
     });
 
-    it('MM-T1447 Images below a min-width and min-height are posted in a container that is clickable', () => {
-        const IMAGE_BELOW_MIN_SIZE_1 = 'images-below-min-size-1.png';
+    it.only('MM-T1447 Images below a min-width and min-height are posted in a container that is clickable', () => {
+        const listOfMinWidthHeightImages = [
+            {
+                name: 'image-20x20.jpg',
+                original: {width: 20, height: 20},
+                thumbnail: {width: 20, height: 20},
+                container: {height: 46},
+            },
+            {
+                name: 'image-50x50.jpg',
+                original: {width: 50, height: 50},
+                thumbnail: {width: 50, height: 50},
+            },
+            {
+                name: 'image-60x60.jpg',
+                original: {width: 60, height: 60},
+                thumbnail: {width: 60, height: 60},
+            },
+            {
+                name: 'image-400x400.jpg',
+                original: {width: 400, height: 400},
+                thumbnail: {width: 350, height: 350},
+            },
+            {
+                name: 'image-40x400.jpg',
+                original: {width: 40, height: 400},
+                thumbnail: {width: 35, height: 350},
+                container: {width: 46},
+            },
+            {
+                name: 'image-400x40.jpg',
+                original: {width: 400, height: 40},
+                thumbnail: {width: 400, height: 40},
+                container: {height: 46},
+            },
+            {
+                name: 'image-1000x40.jpg',
+                original: {width: 1000, height: 40},
+                thumbnail: {width: 971, height: 38.82},
+                container: {height: 46},
+            },
+            {
+                name: 'image-1600x40.jpg',
+                original: {width: 1600, height: 40},
+                thumbnail: {width: 971, height: 24.26},
+                preview: {width: 1248, height: 31.18},
+                container: {height: 46},
+            },
+        ];
 
-        // # Upload Image with min dimensions as attachment and post it
-        cy.get('#fileUploadInput').attachFile(IMAGE_BELOW_MIN_SIZE_1);
-        cy.postMessage(`${Date.now()}-${IMAGE_BELOW_MIN_SIZE_1}`);
+        listOfMinWidthHeightImages.forEach((imageWithMinWidthHeight) => {
+            expect(imageWithMinWidthHeight);
+        });
+
+        const IMAGE_BELOW_MIN_SIZE_1 = 'images-below-min-size-1.png';
 
         // * Check that last post has image attachment and its dimensions are above 48px
         // and lastly verify that when its clicked, an image preview modal opens
@@ -146,29 +195,17 @@ describe('Image Link Preview', () => {
 
         const IMAGE_BELOW_MIN_SIZE_2 = 'images-below-min-size-2.png';
 
-        // # Upload Image with min dimensions as attachment and post it
-        cy.get('#fileUploadInput').attachFile(IMAGE_BELOW_MIN_SIZE_2);
-        cy.postMessage(`${Date.now()}-${IMAGE_BELOW_MIN_SIZE_2}`);
-
         // * Check that last post has image attachment and its dimensions are above 48px
         // and lastly verify that when its clicked, an image preview modal opens
         verifyLastAttachedImageHasMinSizeAndOpensPreviewInModal(IMAGE_BELOW_MIN_SIZE_2);
 
         const IMAGE_BELOW_MIN_SIZE_3 = 'images-below-min-size-3.png';
 
-        // # Upload Image with min dimensions as attachment and post it
-        cy.get('#fileUploadInput').attachFile(IMAGE_BELOW_MIN_SIZE_3);
-        cy.postMessage(`${Date.now()}-${IMAGE_BELOW_MIN_SIZE_3}`);
-
         // * Check that last post has image attachment and its dimensions are above 48px
         // and lastly verify that when its clicked, an image preview modal opens
         verifyLastAttachedImageHasMinSizeAndOpensPreviewInModal(IMAGE_BELOW_MIN_SIZE_3);
 
         const IMAGE_BELOW_MIN_SIZE_4 = 'images-below-min-size-4.png';
-
-        // # Upload Image with min dimensions as attachment and post it
-        cy.get('#fileUploadInput').attachFile(IMAGE_BELOW_MIN_SIZE_4);
-        cy.postMessage(`${Date.now()}-${IMAGE_BELOW_MIN_SIZE_4}`);
 
         // * Check that last post has image attachment and its dimensions are above 48px
         // and lastly verify that when its clicked, an image preview modal opens
@@ -177,6 +214,10 @@ describe('Image Link Preview', () => {
 });
 
 function verifyLastAttachedImageHasMinSizeAndOpensPreviewInModal(imageName) {
+    // # Upload Image with min dimensions as attachment and post it
+    cy.get('#fileUploadInput').attachFile(imageName);
+    cy.postMessage(`${Date.now()}-${imageName}`);
+
     // # Get the last uploaded image post
     cy.getLastPostId().then((lastPostId) => {
         // # Move inside the last post for finer control
