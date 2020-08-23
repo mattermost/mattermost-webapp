@@ -21,9 +21,16 @@ describe('Team Settings', () => {
 
     const baseUrl = Cypress.config('baseUrl');
     const mailUrl = getEmailUrl(baseUrl);
+    let isLicensed;
 
     before(() => {
-        // # Do email test if setup properly
+        // # If the instance the test is running on is licensed, assign true to isLicensed variable
+        cy.apiGetClientLicense().then(({license}) => {
+            isLicensed = license.IsLicensed === 'true';
+        });
+
+        // # Disable LDAP and do email test if setup properly
+        cy.apiUpdateConfig({LdapSettings: {Enable: false}});
         cy.apiEmailTest();
 
         cy.apiInitSetup().then(({team}) => {
@@ -55,15 +62,22 @@ describe('Team Settings', () => {
         cy.get('.sidebar-header-dropdown__icon').click();
         cy.get('#invitePeople').find('button').eq(0).click();
 
-        // # Wait half a second to ensure that the modal has been fully loaded and invite a new user (with the email declared in the parent scope)
+        // # Wait half a second to ensure that the modal has been fully loaded
         cy.wait(TIMEOUTS.HALF_SEC);
-        cy.findByRole('textbox', {name: 'Add or Invite People'}).type(email, {force: true}).wait(TIMEOUTS.HALF_SEC).type('{enter}');
+
+        if (isLicensed) {
+            // # Click "Invite members"
+            cy.findByTestId('inviteMembersLink').should('be.visible').click();
+        }
+
+        cy.findByRole('textbox', {name: 'Add or Invite People'}).type(email, {force: true}).wait(TIMEOUTS.HALF_SEC).type('{enter}', {force: true});
         cy.get('#inviteMembersButton').click();
 
         // # Wait for a while to ensure that email notification is sent and logout from sysadmin account
         cy.wait(TIMEOUTS.FIVE_SEC);
         cy.apiLogout();
 
+        // # Invite a new user (with the email declared in the parent scope)
         cy.task('getRecentEmail', {username, mailUrl}).then((response) => {
             const messageSeparator = getEmailMessageSeparator(baseUrl);
             verifyEmailInvite(response, testTeam.name, testTeam.display_name, email, messageSeparator);
@@ -81,7 +95,7 @@ describe('Team Settings', () => {
         cy.wait(TIMEOUTS.HALF_SEC);
         cy.get('#password').type(password);
 
-        // # Attempt to create an account by clicking on the 'Create Account' buton
+        // # Attempt to create an account by clicking on the 'Create Account' button
         cy.get('#createAccountButton').click();
 
         // * Check that the display name of the team the user was invited to is being correctly displayed
