@@ -14,6 +14,11 @@
  *      - AWS_S3_BUCKET, AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY
  *   For saving reports to Automation dashboard
  *      - DASHBOARD_ENABLE, DASHBOARD_ENDPOINT and DASHBOARD_TOKEN
+ *   For saving test cases to Test Management
+ *      - TM4J_ENABLE=true|false
+ *      - TM4J_API_KEY=[api_key]
+ *      - JIRA_PROJECT_KEY=[project_key], e.g. "MM",
+ *      - TM4J_FOLDER_ID=[folder_id], e.g. 847997
  *   For sending hooks to Mattermost channels
  *      - FULL_REPORT, WEBHOOK_URL and DIAGNOSTIC_WEBHOOK_URL
  *   Test type
@@ -35,6 +40,7 @@ const {
 const {saveArtifacts} = require('./utils/artifacts');
 const {MOCHAWESOME_REPORT_DIR, RESULTS_DIR} = require('./utils/constants');
 const {saveDashboard} = require('./utils/dashboard');
+const {saveTestCases} = require('./utils/test_cases');
 
 require('dotenv').config();
 
@@ -47,6 +53,7 @@ const saveReport = async () => {
         DIAGNOSTIC_WEBHOOK_URL,
         DIAGNOSTIC_USER_ID,
         DIAGNOSTIC_TEAM_ID,
+        TM4J_ENABLE,
         TYPE,
         WEBHOOK_URL,
     } = process.env;
@@ -93,6 +100,11 @@ const saveReport = async () => {
     // Save data to automation dashboard
     if (DASHBOARD_ENABLE === 'true') {
         await saveDashboard(jsonReport, BRANCH);
+    }
+
+    // Save test cases to Test Management
+    if (TM4J_ENABLE === 'true') {
+        await saveTestCases(jsonReport);
     }
 };
 

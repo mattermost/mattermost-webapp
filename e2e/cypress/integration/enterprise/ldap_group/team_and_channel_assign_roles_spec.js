@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @enterprise @ldap_group
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
@@ -17,8 +18,9 @@ const saveAndNavigateBackTo = (name, page) => {
 
     // * Verify that it redirects to teams page and wait for a while to load
     cy.url().should('include', `/admin_console/user_management/${page}`).wait(TIMEOUTS.TWO_SEC);
-
-    cy.findByPlaceholderText('Search').should('be.visible').type(`${name}{enter}`).wait(TIMEOUTS.HALF_SEC);
+    cy.get('.DataGrid_searchBar').within(() => {
+        cy.findByPlaceholderText('Search').should('be.visible').type(`${name}{enter}`).wait(TIMEOUTS.HALF_SEC);
+    });
     cy.findByTestId(`${name}edit`).should('be.visible').click();
 };
 
@@ -70,7 +72,9 @@ describe('System Console', () => {
         cy.visit('/admin_console/user_management/teams');
 
         // # Search for the team.
-        cy.findByPlaceholderText('Search').should('be.visible').type(`${teamName}{enter}`);
+        cy.get('.DataGrid_searchBar').within(() => {
+            cy.findByPlaceholderText('Search').should('be.visible').type(`${teamName}{enter}`);
+        });
         cy.findByTestId(`${teamName}edit`).click();
 
         // # Add the first group in the group list then save
@@ -113,6 +117,14 @@ describe('System Console', () => {
         // * Check to make the the current role text is displayed as Member
         cy.findByTestId('current-role').should('have.text', 'Member');
 
+        // # Wait for the board group to show up before continuing to next steps
+        cy.waitUntil(() => cy.get('.group-row').eq(0).scrollIntoView().find('.group-name').then((el) => {
+            return el[0].innerText === groupDisplayName;
+        }), {
+            errorMsg: `${groupDisplayName} group didn't show up in time`,
+            timeout: TIMEOUTS.TEN_SEC,
+        });
+
         // # Remove "board" group
         cy.get('.group-row').eq(0).scrollIntoView().should('be.visible').within(() => {
             cy.get('.group-name').should('have.text', groupDisplayName);
@@ -138,7 +150,9 @@ describe('System Console', () => {
         cy.visit('/admin_console/user_management/teams');
 
         // # Search for the team.
-        cy.findByPlaceholderText('Search').should('be.visible').type(`${teamName}{enter}`);
+        cy.get('.DataGrid_searchBar').within(() => {
+            cy.findByPlaceholderText('Search').should('be.visible').type(`${teamName}{enter}`);
+        });
         cy.findByTestId(`${teamName}edit`).click();
 
         // # Add the first group in the group list then save
@@ -170,7 +184,9 @@ describe('System Console', () => {
         cy.visit('/admin_console/user_management/channels');
 
         // # Search for the channel.
-        cy.findByPlaceholderText('Search').should('be.visible').type(`${channelName}{enter}`);
+        cy.get('.DataGrid_searchBar').within(() => {
+            cy.findByPlaceholderText('Search').should('be.visible').type(`${channelName}{enter}`);
+        });
         cy.findByTestId(`${channelName}edit`).click();
 
         // # Add the first group in the group list then save
@@ -220,7 +236,9 @@ describe('System Console', () => {
         cy.visit('/admin_console/user_management/channels');
 
         // # Search for the channel.
-        cy.findByPlaceholderText('Search').should('be.visible').type(`${channelName}{enter}`);
+        cy.get('.DataGrid_searchBar').within(() => {
+            cy.findByPlaceholderText('Search').should('be.visible').type(`${channelName}{enter}`);
+        });
         cy.findByTestId(`${channelName}edit`).click();
 
         // # Add the first group in the group list then save

@@ -107,7 +107,7 @@ export default class Root extends React.PureComponent {
         setSystemEmojis(EmojiIndicesByAlias);
 
         // Force logout of all tabs if one tab is logged out
-        $(window).bind('storage', (e) => {
+        $(window).bind('storage', (e) => { // eslint-disable-line jquery/no-bind
             // when one tab on a browser logs out, it sets __logout__ in localStorage to trigger other tabs to log out
             if (e.originalEvent.key === StoragePrefixes.LOGOUT && e.originalEvent.storageArea === localStorage && e.originalEvent.newValue) {
                 // make sure it isn't this tab that is sending the logout signal (only necessary for IE11)
@@ -161,10 +161,15 @@ export default class Root extends React.PureComponent {
 
         const diagnosticId = this.props.diagnosticId;
 
-        const rudderKey = Constants.DIAGNOSTICS_RUDDER_KEY;
-        const rudderUrl = Constants.DIAGNOSTICS_RUDDER_DATAPLANE_URL;
+        let rudderKey = Constants.DIAGNOSTICS_RUDDER_KEY;
+        let rudderUrl = Constants.DIAGNOSTICS_RUDDER_DATAPLANE_URL;
 
-        if (rudderKey != null && rudderKey !== '' && !rudderKey.startsWith('placeholder') && rudderUrl != null && rudderUrl !== '' && !rudderUrl.startsWith('placeholder') && this.props.diagnosticsEnabled) {
+        if (rudderKey.startsWith('placeholder') && rudderUrl.startsWith('placeholder')) {
+            rudderKey = process.env.RUDDER_KEY; //eslint-disable-line no-process-env
+            rudderUrl = process.env.RUDDER_DATAPLANE_URL; //eslint-disable-line no-process-env
+        }
+
+        if (rudderKey != null && rudderKey !== '' && this.props.diagnosticsEnabled) {
             Client4.enableRudderEvents();
             rudderAnalytics.load(rudderKey, rudderUrl);
 

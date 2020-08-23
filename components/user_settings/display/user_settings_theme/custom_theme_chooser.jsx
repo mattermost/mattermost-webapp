@@ -9,7 +9,6 @@ import {defineMessages, FormattedMessage} from 'react-intl';
 import {setThemeDefaults} from 'mattermost-redux/utils/theme_utils';
 
 import {t} from 'utils/i18n';
-import 'bootstrap-colorpicker';
 
 import Constants from 'utils/constants';
 import * as UserAgent from 'utils/user_agent';
@@ -18,7 +17,7 @@ import LocalizedIcon from 'components/localized_icon';
 import OverlayTrigger from 'components/overlay_trigger';
 import Popover from 'components/widgets/popover';
 
-import ColorChooser from './color_chooser.jsx';
+import ColorChooser from './color_chooser';
 
 const COPY_SUCCESS_INTERVAL = 3000;
 
@@ -215,30 +214,30 @@ export default class CustomThemeChooser extends React.PureComponent {
     toggleSidebarStyles = (e) => {
         e.preventDefault();
 
-        $(this.refs.sidebarStylesHeader).toggleClass('open');
+        $(this.refs.sidebarStylesHeader).toggleClass('open'); // eslint-disable-line jquery/no-class
         this.toggleSection(this.refs.sidebarStyles);
     }
 
     toggleCenterChannelStyles = (e) => {
         e.preventDefault();
 
-        $(this.refs.centerChannelStylesHeader).toggleClass('open');
+        $(this.refs.centerChannelStylesHeader).toggleClass('open'); // eslint-disable-line jquery/no-class
         this.toggleSection(this.refs.centerChannelStyles);
     }
 
     toggleLinkAndButtonStyles = (e) => {
         e.preventDefault();
 
-        $(this.refs.linkAndButtonStylesHeader).toggleClass('open');
+        $(this.refs.linkAndButtonStylesHeader).toggleClass('open'); // eslint-disable-line jquery/no-class
         this.toggleSection(this.refs.linkAndButtonStyles);
     }
 
     toggleSection(node) {
         if (UserAgent.isIos()) {
             // iOS doesn't support jQuery animations
-            $(node).toggleClass('open');
+            $(node).toggleClass('open'); // eslint-disable-line jquery/no-class
         } else {
-            $(node).slideToggle();
+            $(node).slideToggle(); // eslint-disable-line jquery/no-slide
         }
     }
 
@@ -350,7 +349,7 @@ export default class CustomThemeChooser extends React.PureComponent {
                         <ColorChooser
                             id={element.id}
                             label={<FormattedMessage {...messages[element.id]}/>}
-                            color={theme[element.id]}
+                            value={theme[element.id]}
                             onChange={this.handleColorChange}
                         />
                     </div>,
@@ -370,7 +369,7 @@ export default class CustomThemeChooser extends React.PureComponent {
                         <ColorChooser
                             id={element.id}
                             label={<FormattedMessage {...messages[element.id]}/>}
-                            color={color}
+                            value={color}
                             onChange={this.handleColorChange}
                         />
                     </div>,
@@ -384,7 +383,7 @@ export default class CustomThemeChooser extends React.PureComponent {
                         <ColorChooser
                             id={element.id}
                             label={<FormattedMessage {...messages[element.id]}/>}
-                            color={theme[element.id]}
+                            value={theme[element.id]}
                             onChange={this.handleColorChange}
                         />
                     </div>,

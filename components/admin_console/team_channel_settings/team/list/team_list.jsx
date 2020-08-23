@@ -37,6 +37,7 @@ export default class TeamList extends React.PureComponent {
             page: 0,
             total: 0,
             searchErrored: false,
+            filters: {},
         };
     }
 
@@ -44,23 +45,27 @@ export default class TeamList extends React.PureComponent {
         this.loadPage();
     }
 
+    isSearching = (term, filters) => {
+        return (term.length + Object.keys(filters).length) > 0;
+    }
+
     getPaginationProps = () => {
-        const {page, term} = this.state;
-        const total = term === '' ? this.props.total : this.state.total;
+        const {page, term, filters} = this.state;
+        const total = this.isSearching(term, filters) ? this.state.total : this.props.total;
         const startCount = (page * PAGE_SIZE) + 1;
         let endCount = (page + 1) * PAGE_SIZE;
         endCount = endCount > total ? total : endCount;
         return {startCount, endCount, total};
     }
 
-    loadPage = async (page = 0, term = '') => {
-        this.setState({loading: true, term});
+    loadPage = async (page = 0, term = '', filters = {}) => {
+        this.setState({loading: true, term, filters});
 
-        if (term.length > 0) {
+        if (this.isSearching(term, filters)) {
             if (page > 0) {
-                this.searchTeams(page, term);
+                this.searchTeams(page, term, filters);
             } else {
-                this.searchTeamsDebounced(page, term);
+                this.searchTeamsDebounced(page, term, filters);
             }
             return;
         }
@@ -69,11 +74,11 @@ export default class TeamList extends React.PureComponent {
         this.setState({page, loading: false});
     }
 
-    searchTeams = async (page = 0, term = '') => {
+    searchTeams = async (page = 0, term = '', filters = {}) => {
         let teams = [];
         let total = 0;
         let searchErrored = true;
-        const response = await this.props.actions.searchTeams(term, page, PAGE_SIZE);
+        const response = await this.props.actions.searchTeams(term, {page, per_page: PAGE_SIZE, ...filters});
         if (response?.data) {
             teams = page > 0 ? this.state.teams.concat(response.data.teams) : response.data.teams;
             total = response.data.total_count;
@@ -82,19 +87,52 @@ export default class TeamList extends React.PureComponent {
         this.setState({page, loading: false, teams, total, searchErrored});
     }
 
-    searchTeamsDebounced = debounce((page, term) => this.searchTeams(page, term), 300);
+    searchTeamsDebounced = debounce((page, term, filters = {}) => this.searchTeams(page, term, filters), 300);
 
     nextPage = () => {
-        this.loadPage(this.state.page + 1, this.state.term);
+        this.loadPage(this.state.page + 1, this.state.term, this.state.filters);
     }
 
     previousPage = () => {
         this.setState({page: this.state.page - 1});
     }
 
-    search = (term) => {
-        this.loadPage(0, term);
+    search = (term = '') => {
+        this.loadPage(0, term, this.state.filters);
     };
+
+    onFilter = (filterOptions) => {
+        const filters = {};
+
+        /* eslint-disable camelcase, @typescript-eslint/camelcase */
+        const {group_constrained, allow_open_invite, invite_only} = filterOptions.management.values;
+        const allowOpenInvite = allow_open_invite.value;
+        const inviteOnly = invite_only.value;
+        const groupConstrained = group_constrained.value;
+        /* eslint-enable camelcase, @typescript-eslint/camelcase */
+
+        const filtersList = [allowOpenInvite, inviteOnly, groupConstrained];
+
+        // If all filters or no filters do nothing
+        if (filtersList.includes(false) && filtersList.includes(true)) {
+            // If requesting private and public teams then just exclude all group constrained teams in the results
+            if (allowOpenInvite && inviteOnly) {
+                filters.group_constrained = false;
+            } else {
+                // Since the API returns different results if a filter is set to false vs not set at all
+                // we only set filters when needed and if not leave the filter option blank
+                if (groupConstrained) {
+                    filters.group_constrained = true;
+                }
+
+                if (allowOpenInvite || inviteOnly) {
+                    filters.allow_open_invite = allowOpenInvite;
+                }
+            }
+        }
+
+        this.loadPage(0, this.state.term, filters);
+    }
 
     getColumns = () => {
         const name = (
@@ -157,9 +195,9 @@ export default class TeamList extends React.PureComponent {
 
     getRows = () => {
         const {data} = this.props;
-        const {term, teams} = this.state;
+        const {term, teams, filters} = this.state;
         const {startCount, endCount} = this.getPaginationProps();
-        let teamsToDisplay = term.length > 0 ? teams : data;
+        let teamsToDisplay = this.isSearching(term, filters) ? teams : data;
         teamsToDisplay = teamsToDisplay.slice(startCount - 1, endCount);
 
         return teamsToDisplay.map((team) => {
@@ -233,6 +271,53 @@ export default class TeamList extends React.PureComponent {
             );
         }
 
+        const filterOptions = {
+            management: {
+                name: (
+                    <FormattedMessage
+                        id='admin.team_settings.team_list.mappingHeader'
+                        defaultMessage='Management'
+                    />
+                ),
+                values: {
+                    allow_open_invite: {
+                        name: (
+                            <FormattedMessage
+                                id='admin.team_settings.team_row.managementMethod.anyoneCanJoin'
+                                defaultMessage='Anyone Can Join'
+                            />
+                        ),
+                        value: false,
+                    },
+                    invite_only: {
+                        name: (
+                            <FormattedMessage
+                                id='admin.team_settings.team_row.managementMethod.inviteOnly'
+                                defaultMessage='Invite Only'
+                            />
+                        ),
+                        value: false,
+                    },
+                    group_constrained: {
+                        name: (
+                            <FormattedMessage
+                                id='admin.team_settings.team_row.managementMethod.groupSync'
+                                defaultMessage='Group Sync'
+                            />
+                        ),
+                        value: false,
+                    },
+                },
+                keys: ['allow_open_invite', 'invite_only', 'group_constrained'],
+            },
+        };
+
+        const filterProps = {
+            options: filterOptions,
+            keys: ['management'],
+            onFilter: this.onFilter,
+        };
+
         const rowsContainerStyles = {
             minHeight: `${rows.length * ROW_HEIGHT}px`,
         };
@@ -253,6 +338,7 @@ export default class TeamList extends React.PureComponent {
                     term={term}
                     placeholderEmpty={placeholderEmpty}
                     rowsContainerStyles={rowsContainerStyles}
+                    filterProps={filterProps}
                 />
             </div>
         );

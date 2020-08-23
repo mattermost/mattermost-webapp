@@ -174,6 +174,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
             <React.Fragment>
                 <Draggable
                     draggableId={`NEW_CHANNEL_SPACER__${category.id}`}
+                    isDragDisabled={true}
                     index={0}
                 >
                     {(provided) => {
@@ -212,8 +213,13 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
     }
 
     render() {
-        const {category, categoryIndex, isCollapsed, channels} = this.props;
-        const isNewCategory = this.props.isNewCategory && !channels.length;
+        const {
+            category,
+            categoryIndex,
+            channels,
+            isCollapsed,
+            isNewCategory,
+        } = this.props;
 
         if (!category) {
             return null;
@@ -264,7 +270,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                 sortHelpLabel = localizeMessage('sidebar.sortedByAlphabetical', 'Sorted alphabetically');
             } else {
                 sortingIcon = (<i className='icon-clock-outline'/>);
-                sortHelpLabel = localizeMessage('sidebar.sortedByRecency', 'Sorted by recency');
+                sortHelpLabel = localizeMessage('sidebar.sortedByRecency', 'Sorted by most recent');
             }
 
             const sortTooltip = (

@@ -8,6 +8,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @messaging
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
@@ -136,7 +137,7 @@ describe('Post Header', () => {
         cy.get('#rhsContainer').should('not.be.visible');
     });
 
-    it('M17442 Visual verification of "Searching" animation for Flagged and Pinned posts', () => {
+    it('MM-T122 Visual verification of "Searching" animation for Flagged and Pinned posts', () => {
         cy.delayRequestToRoutes(['pinned', 'flagged'], 5000);
         cy.reload();
 

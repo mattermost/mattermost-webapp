@@ -58,7 +58,7 @@ export default class DeleteCategoryModal extends React.PureComponent<Props, Stat
                 <span className='delete-category__helpText'>
                     <FormattedMarkdownMessage
                         id='delete_category_modal.helpText'
-                        defaultMessage='Channels in **{category_name}** move back to the Channels and Direct Messages categories. You are not removed from any channels.'
+                        defaultMessage="Channels in **{category_name}** will move back to the Channels and Direct messages categories. You're not removed from any channels."
                         values={{
                             category_name: this.props.category.display_name,
                         }}

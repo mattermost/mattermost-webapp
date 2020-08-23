@@ -52,8 +52,8 @@ export default class UnreadChannelIndicator extends React.PureComponent<Props> {
                 className={classes + this.props.extraClass}
                 onClick={this.props.onClick}
             >
-                {this.props.content}
                 <UnreadBelowIcon className='icon icon__unread'/>
+                {this.props.content}
             </div>
         );
     }

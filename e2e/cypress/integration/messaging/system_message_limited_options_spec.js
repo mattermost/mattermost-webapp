@@ -25,7 +25,7 @@ describe('Messaging', () => {
         });
     });
 
-    it('M17458 - System message limited options', () => {
+    it('MM-T213 System message limited options', () => {
         // # Update channel header to create a new system message
         cy.updateChannelHeader(Date.now());
 

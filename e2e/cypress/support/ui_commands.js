@@ -92,7 +92,7 @@ Cypress.Commands.add('postMessageReplyInRHS', (message) => {
 });
 
 function postMessageAndWait(textboxSelector, message) {
-    cy.get(textboxSelector, {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').clear().type(`${message}{enter}`);
+    cy.get(textboxSelector, {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').clear().type(`${message}{enter}`).wait(TIMEOUTS.HALF_SEC);
     cy.waitUntil(() => {
         return cy.get(textboxSelector).then((el) => {
             return el[0].textContent === '';
@@ -267,7 +267,7 @@ Cypress.Commands.add('getPostMenu', (postId, menuItem, location = 'CENTER') => {
     cy.clickPostDotMenu(postId, location).then(() => {
         cy.get(`#post_${postId}`).should('be.visible').within(() => {
             cy.get('.dropdown-menu').should('be.visible').within(() => {
-                return cy.findByText(menuItem).should('be.visible');
+                return cy.findByText(menuItem).scrollIntoView().should('be.visible');
             });
         });
     });

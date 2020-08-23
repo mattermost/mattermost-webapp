@@ -12,6 +12,7 @@ import GeneralConstants from 'mattermost-redux/constants/general';
 
 import {t} from 'utils/i18n';
 import Constants from 'utils/constants';
+import {trackEvent} from 'actions/diagnostics_actions.jsx';
 
 import AdminPanel from 'components/widgets/admin_console/admin_panel';
 import UserGrid from 'components/admin_console/user_grid/user_grid';
@@ -33,6 +34,7 @@ type Props = {
     totalCount: number;
     searchTerm: string;
     loading?: boolean;
+    isDisabled?: boolean;
     enableGuestAccounts: boolean;
 
     onAddCallback: (users: UserProfile[]) => void;
@@ -170,6 +172,9 @@ export default class TeamMembers extends React.PureComponent<Props, State> {
             if (teamRoles.length > 0) {
                 filters = {...filters, team_roles: teamRoles};
             }
+            [...systemRoles, ...teamRoles].forEach((role) => {
+                trackEvent('admin_team_config_page', `${role}_filter_applied_to_members_block`, {team_id: this.props.teamId});
+            });
             this.props.actions.setUserGridFilters({roles: systemRoles, team_roles: teamRoles});
             this.props.actions.getFilteredUsersStats({in_team: this.props.teamId, include_bots: true, ...filters});
         } else {
@@ -182,7 +187,7 @@ export default class TeamMembers extends React.PureComponent<Props, State> {
     }
 
     public render = () => {
-        const {users, team, usersToAdd, usersToRemove, teamMembers, totalCount, searchTerm} = this.props;
+        const {users, team, usersToAdd, usersToRemove, teamMembers, totalCount, searchTerm, isDisabled} = this.props;
 
         const filterOptions: FilterOptions = {
             role: {
@@ -256,6 +261,7 @@ export default class TeamMembers extends React.PureComponent<Props, State> {
                         id='addTeamMembers'
                         className='btn btn-primary'
                         dialogType={AddUsersToTeamModal}
+                        isDisabled={isDisabled}
                         dialogProps={{
                             team,
                             onAddCallback: this.onAddCallback,
@@ -285,6 +291,7 @@ export default class TeamMembers extends React.PureComponent<Props, State> {
                     includeUsers={usersToAdd}
                     excludeUsers={usersToRemove}
                     scope={'team'}
+                    readOnly={isDisabled}
                     filterProps={filterProps}
                 />
             </AdminPanel>

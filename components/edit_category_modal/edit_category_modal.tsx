@@ -65,18 +65,9 @@ export default class EditCategoryModal extends React.PureComponent<Props, State>
     }
 
     getText = () => {
-        let modalHeaderText = (
-            <FormattedMessage
-                id='create_category_modal.createCategory'
-                defaultMessage='Create Category'
-            />
-        );
-        let editButtonText = (
-            <FormattedMessage
-                id='create_category_modal.create'
-                defaultMessage='Create'
-            />
-        );
+        let modalHeaderText;
+        let editButtonText;
+        let helpText;
 
         if (this.props.categoryId) {
             modalHeaderText = (
@@ -91,13 +82,40 @@ export default class EditCategoryModal extends React.PureComponent<Props, State>
                     defaultMessage='Rename'
                 />
             );
+        } else {
+            modalHeaderText = (
+                <FormattedMessage
+                    id='create_category_modal.createCategory'
+                    defaultMessage='Create New Category'
+                />
+            );
+            editButtonText = (
+                <FormattedMessage
+                    id='create_category_modal.create'
+                    defaultMessage='Create'
+                />
+            );
+            helpText = (
+                <FormattedMessage
+                    id='edit_category_modal.helpText'
+                    defaultMessage='Drag channels into this category to organize your sidebar.'
+                />
+            );
         }
 
-        return {modalHeaderText, editButtonText};
+        return {
+            modalHeaderText,
+            editButtonText,
+            helpText,
+        };
     }
 
     render() {
-        const {modalHeaderText, editButtonText} = this.getText();
+        const {
+            modalHeaderText,
+            editButtonText,
+            helpText,
+        } = this.getText();
 
         return (
             <GenericModal
@@ -113,18 +131,15 @@ export default class EditCategoryModal extends React.PureComponent<Props, State>
                     className='form-control filter-textbox'
                     type='text'
                     value={this.state.categoryName}
-                    placeholder={localizeMessage('edit_category_modal.placeholder', 'Choose a category name')}
+                    placeholder={localizeMessage('edit_category_modal.placeholder', 'Name your category')}
                     clearable={true}
                     onClear={this.handleClear}
                     onChange={this.handleChange}
                     maxLength={22}
                 />
-                <span className='edit-category__helpText'>
-                    <FormattedMessage
-                        id='edit_category_modal.helpText'
-                        defaultMessage='You can drag channels into categories to organize your sidebar.'
-                    />
-                </span>
+                {Boolean(helpText) && <span className='edit-category__helpText'>
+                    {helpText}
+                </span>}
             </GenericModal>
         );
     }
