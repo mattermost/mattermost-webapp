@@ -17,7 +17,7 @@ Cypress.Commands.add('apiUpdateUserStatus', (status = 'online') => {
             body: data,
         }).then((response) => {
             expect(response.status).to.equal(200);
-            cy.wrap({status: response.body});
+            return cy.wrap({status: response.body});
         });
     });
 });

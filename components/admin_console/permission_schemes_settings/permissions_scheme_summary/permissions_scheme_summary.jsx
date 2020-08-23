@@ -20,6 +20,7 @@ export default class PermissionsSchemeSummary extends React.PureComponent {
     static propTypes = {
         scheme: PropTypes.object.isRequired,
         teams: PropTypes.array,
+        isDisabled: PropTypes.func,
         actions: PropTypes.shape({
             deleteScheme: PropTypes.func.isRequired,
         }).isRequired,
@@ -111,6 +112,9 @@ export default class PermissionsSchemeSummary extends React.PureComponent {
 
     delete = (e) => {
         e.stopPropagation();
+        if (this.props.isDisabled) {
+            return;
+        }
         this.setState({showConfirmModal: true, serverError: null});
     }
 
@@ -119,7 +123,7 @@ export default class PermissionsSchemeSummary extends React.PureComponent {
     }
 
     render = () => {
-        const scheme = this.props.scheme;
+        const {scheme, isDisabled} = this.props;
 
         let teams = this.props.teams ? this.props.teams.map((team) => (
             <span
@@ -188,7 +192,7 @@ export default class PermissionsSchemeSummary extends React.PureComponent {
                         {'-'}
                         <a
                             data-testid={`${scheme.display_name}-delete`}
-                            className='delete-button'
+                            className={isDisabled ? 'delete-button disabled' : 'delete-button'}
                             onClick={this.delete}
                         >
                             <FormattedMessage

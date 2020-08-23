@@ -31,6 +31,7 @@ export default class TeamDetails extends React.PureComponent {
         totalGroups: PropTypes.number.isRequired,
         groups: PropTypes.arrayOf(PropTypes.object),
         allGroups: PropTypes.object.isRequired,
+        isDisabled: PropTypes.bool,
         actions: PropTypes.shape({
             setNavigationBlocked: PropTypes.func.isRequired,
             getTeam: PropTypes.func.isRequired,
@@ -375,6 +376,7 @@ export default class TeamDetails extends React.PureComponent {
                             allowedDomains={allowedDomains}
                             syncChecked={syncChecked}
                             onToggle={this.setToggles}
+                            isDisabled={this.props.isDisabled}
                         />
 
                         <TeamGroups
@@ -386,6 +388,7 @@ export default class TeamDetails extends React.PureComponent {
                             onAddCallback={this.handleGroupChange}
                             onGroupRemoved={this.handleGroupRemoved}
                             setNewGroupRole={this.setNewGroupRole}
+                            isDisabled={this.props.isDisabled}
                         />
 
                         {!syncChecked &&
@@ -396,6 +399,7 @@ export default class TeamDetails extends React.PureComponent {
                                 usersToAdd={this.state.usersToAdd}
                                 updateRole={this.addRolesToUpdate}
                                 teamId={this.props.teamID}
+                                isDisabled={this.props.isDisabled}
                             />
                         }
                     </div>
@@ -407,6 +411,7 @@ export default class TeamDetails extends React.PureComponent {
                     saveNeeded={saveNeeded}
                     onClick={this.showRemoveUsersModal}
                     serverError={serverError}
+                    isDisabled={this.props.isDisabled}
                 />
             </div>
         );
