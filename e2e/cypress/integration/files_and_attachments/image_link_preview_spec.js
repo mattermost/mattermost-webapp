@@ -136,113 +136,110 @@ describe('Image Link Preview', () => {
     it.only('MM-T1447 Images below a min-width and min-height are posted in a container that is clickable', () => {
         const listOfMinWidthHeightImages = [
             {
-                name: 'image-20x20.jpg',
-                original: {width: 20, height: 20},
-                thumbnail: {width: 20, height: 20},
-                container: {height: 46},
+                filename: 'image-20x20.jpg',
+                originalSize: {width: 20, height: 20},
+                thumbnailSize: {width: 20, height: 20},
+                containerSize: {height: 46},
             },
             {
-                name: 'image-50x50.jpg',
-                original: {width: 50, height: 50},
-                thumbnail: {width: 50, height: 50},
+                filename: 'image-50x50.jpg',
+                originalSize: {width: 50, height: 50},
+                thumbnailSize: {width: 50, height: 50},
             },
             {
-                name: 'image-60x60.jpg',
-                original: {width: 60, height: 60},
-                thumbnail: {width: 60, height: 60},
+                filename: 'image-60x60.jpg',
+                originalSize: {width: 60, height: 60},
+                thumbnailSize: {width: 60, height: 60},
             },
             {
-                name: 'image-400x400.jpg',
-                original: {width: 400, height: 400},
-                thumbnail: {width: 350, height: 350},
+                filename: 'image-400x400.jpg',
+                originalSize: {width: 400, height: 400},
+                thumbnailSize: {width: 350, height: 350},
             },
             {
-                name: 'image-40x400.jpg',
-                original: {width: 40, height: 400},
-                thumbnail: {width: 35, height: 350},
-                container: {width: 46},
+                filename: 'image-40x400.jpg',
+                originalSize: {width: 40, height: 400},
+                thumbnailSize: {width: 35, height: 350},
+                containerSize: {width: 46},
             },
             {
-                name: 'image-400x40.jpg',
-                original: {width: 400, height: 40},
-                thumbnail: {width: 400, height: 40},
-                container: {height: 46},
+                filename: 'image-400x40.jpg',
+                originalSize: {width: 400, height: 40},
+                thumbnailSize: {width: 400, height: 40},
+                containerSize: {height: 46},
             },
             {
-                name: 'image-1000x40.jpg',
-                original: {width: 1000, height: 40},
-                thumbnail: {width: 971, height: 38.82},
-                container: {height: 46},
+                filename: 'image-1000x40.jpg',
+                originalSize: {width: 1000, height: 40},
+                thumbnailSize: {width: 971, height: 38.82},
+                containerSize: {height: 46},
             },
             {
-                name: 'image-1600x40.jpg',
-                original: {width: 1600, height: 40},
-                thumbnail: {width: 971, height: 24.26},
-                preview: {width: 1248, height: 31.18},
-                container: {height: 46},
+                filename: 'image-1600x40.jpg',
+                originalSize: {width: 1600, height: 40},
+                thumbnailSize: {width: 971, height: 24.26},
+                previewSize: {width: 1248, height: 31.18},
+                containerSize: {height: 46},
             },
         ];
 
         listOfMinWidthHeightImages.forEach((imageWithMinWidthHeight) => {
-            expect(imageWithMinWidthHeight);
+            // # Upload Image as attachment and post it
+            cy.get('#fileUploadInput').attachFile(imageWithMinWidthHeight.filename);
+            cy.postMessage(`${Date.now()}-${imageWithMinWidthHeight.filename}`);
+
+            // # Get the last uploaded image post
+            cy.getLastPostId().then((lastPostId) => {
+                // # Move inside the last post for finer control
+                cy.get(`#${lastPostId}_message`).should('exist').and('be.visible').within(() => {
+                // # If image is below min dimensions then do checks for image container dimensions
+                    if (imageWithMinWidthHeight.containerSize) {
+                    // * Check if container is rendered for preview of image
+                        cy.get('.small-image__container').should('be.visible').and((imageContainer) => {
+                            if (imageWithMinWidthHeight.containerSize.height) {
+                            // * Should match thumbnail's container height
+                                expect(imageContainer.height()).to.closeTo(imageWithMinWidthHeight.containerSize.height, 0.01);
+                            } else {
+                            // * Should match thumbnail's container width
+                                expect(imageContainer.width()).to.closeTo(imageWithMinWidthHeight.containerSize.width, 0.01);
+                            }
+                        });
+                    }
+
+                    // # Find the attached image and verify its dimensions and click on it to open preview modal
+                    cy.findByLabelText(`file thumbnail ${imageWithMinWidthHeight.filename}`).should('exist').and('be.visible').
+                        and((imageAttachment) => {
+                            // * Check the dimensions of image's dimensions is almost equal to its thumbnail dimensions
+                            expect(imageAttachment.height()).to.closeTo(imageWithMinWidthHeight.thumbnailSize.height, 0.01);
+                            expect(imageAttachment.width()).to.be.closeTo(imageWithMinWidthHeight.thumbnailSize.width, 0.01);
+                        }).click();
+                });
+
+                // * Verify image preview modal is opened
+                cy.get('.a11y__modal').should('exist').and('be.visible').
+                    within(() => {
+                    // * Verify we have the image inside the modal
+                        cy.findByTestId('imagePreview').should('exist').and('be.visible').
+                            and((imagePreview) => {
+                                // * Verify that preview has correct alt text
+                                expect(imagePreview.attr('alt')).equals('preview url image');
+
+                                // # If image is bigger than viewport, then its preview will be check for dimensions
+                                if (imageWithMinWidthHeight.previewSize) {
+                                    // * It should match preview dimension for images bigger than viewport
+                                    expect(imagePreview.height()).to.closeTo(imageWithMinWidthHeight.previewSize.height, 0.01);
+                                    expect(imagePreview.width()).to.be.closeTo(imageWithMinWidthHeight.previewSize.width, 0.01);
+                                } else {
+                                    // * It should match original dimension for images less than viewport size
+                                    expect(imagePreview.height()).to.equal(imageWithMinWidthHeight.originalSize.height);
+                                    expect(imagePreview.width()).to.be.equal(imageWithMinWidthHeight.originalSize.width);
+                                }
+                            });
+                    });
+
+                // # Close the image preview modal
+                cy.get('body').type('{esc}');
+            });
         });
-
-        const IMAGE_BELOW_MIN_SIZE_1 = 'images-below-min-size-1.png';
-
-        // * Check that last post has image attachment and its dimensions are above 48px
-        // and lastly verify that when its clicked, an image preview modal opens
-        verifyLastAttachedImageHasMinSizeAndOpensPreviewInModal(IMAGE_BELOW_MIN_SIZE_1);
-
-        const IMAGE_BELOW_MIN_SIZE_2 = 'images-below-min-size-2.png';
-
-        // * Check that last post has image attachment and its dimensions are above 48px
-        // and lastly verify that when its clicked, an image preview modal opens
-        verifyLastAttachedImageHasMinSizeAndOpensPreviewInModal(IMAGE_BELOW_MIN_SIZE_2);
-
-        const IMAGE_BELOW_MIN_SIZE_3 = 'images-below-min-size-3.png';
-
-        // * Check that last post has image attachment and its dimensions are above 48px
-        // and lastly verify that when its clicked, an image preview modal opens
-        verifyLastAttachedImageHasMinSizeAndOpensPreviewInModal(IMAGE_BELOW_MIN_SIZE_3);
-
-        const IMAGE_BELOW_MIN_SIZE_4 = 'images-below-min-size-4.png';
-
-        // * Check that last post has image attachment and its dimensions are above 48px
-        // and lastly verify that when its clicked, an image preview modal opens
-        verifyLastAttachedImageHasMinSizeAndOpensPreviewInModal(IMAGE_BELOW_MIN_SIZE_4);
     });
 });
-
-function verifyLastAttachedImageHasMinSizeAndOpensPreviewInModal(imageName) {
-    // # Upload Image with min dimensions as attachment and post it
-    cy.get('#fileUploadInput').attachFile(imageName);
-    cy.postMessage(`${Date.now()}-${imageName}`);
-
-    // # Get the last uploaded image post
-    cy.getLastPostId().then((lastPostId) => {
-        // # Move inside the last post for finer control
-        cy.get(`#${lastPostId}_message`).should('exist').and('be.visible').within(() => {
-            // * Find the image attachment post, verify its dimensions and click on it to open preview modal
-            cy.findByLabelText(`file thumbnail ${imageName}`).should('exist').and('be.visible').
-                and((imageAttachment) => {
-                    // * Check the dimensions of image's height is at atleast of 48px and greater
-                    expect(imageAttachment.height()).to.be.greaterThan(48);
-
-                    // * Check the dimensions of image's width is at atleast of 48px and greater
-                    expect(imageAttachment.width()).to.be.greaterThan(48);
-                }).
-                click();
-        });
-    });
-
-    // * Verify image preview modal is opened
-    cy.get('.a11y__modal').should('exist').and('be.visible').
-        within(() => {
-            // * Verify we have the image inside the modal
-            cy.findByTestId('imagePreview').should('exist').and('be.visible').
-                and('have.attr', 'alt', 'preview url image');
-        });
-
-    // # Close the image preview modal
-    cy.get('body').type('{esc}');
-}
