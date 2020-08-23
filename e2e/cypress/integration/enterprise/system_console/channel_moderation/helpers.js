@@ -36,6 +36,11 @@ export const saveConfigForChannel = (channelName = false, clickConfirmationButto
                 cy.get('#confirmModalButton').click();
             }
 
+            // # Wait for location path to end with /admin_console/user_management/channels
+            cy.waitUntil(() => cy.location().then((location) => {
+                return location.href.endsWith('/admin_console/user_management/channels');
+            }));
+
             // # Make sure the save is complete by looking for the search input which is only visible on the team's index page
             cy.get('.DataGrid_searchBar').should('be.visible').within(() => {
                 cy.findByPlaceholderText('Search').should('be.visible');

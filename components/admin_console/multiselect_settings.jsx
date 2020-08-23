@@ -85,7 +85,7 @@ export default class MultiSelectSetting extends React.PureComponent {
                     options={this.props.values}
                     delimiter={','}
                     clearable={false}
-                    disabled={this.props.disabled || this.props.setByEnv}
+                    isDisabled={this.props.disabled || this.props.setByEnv}
                     noResultsText={this.props.noResultText}
                     onChange={this.handleChange}
                     value={this.calculateValue()}

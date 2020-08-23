@@ -11,7 +11,7 @@ exports[`components/post_view/post_list_row should render combined post 1`] = `
 `;
 
 exports[`components/post_view/post_list_row should render date line 1`] = `
-<Connect(DateSeparator)
+<Memo(DateSeparator)
   date={1553106600000}
   key="1553106600000"
 />

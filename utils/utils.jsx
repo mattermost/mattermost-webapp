@@ -1342,7 +1342,7 @@ export function displayEntireNameForUser(user) {
     }
 
     displayName = (
-        <span>
+        <span id={'displayedUserName' + user.username}>
             {'@' + user.username}
             <span className='light'>{displayName}</span>
         </span>
