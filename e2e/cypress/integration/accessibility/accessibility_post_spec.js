@@ -48,7 +48,7 @@ describe('Verify Accessibility Support in Post', () => {
         cy.get('#postListContent').should('be.visible');
     });
 
-    it('MM-22631 Verify Reader reads out the post correctly on Center Channel', () => {
+    it('MM-T1479 Verify Reader reads out the post correctly on Center Channel', () => {
         const {lastMessage} = postMessages(testChannel, otherUser, 1);
         performActionsToLastPost();
 
@@ -63,7 +63,7 @@ describe('Verify Accessibility Support in Post', () => {
         });
     });
 
-    it('MM-22631 Verify Reader reads out the post correctly on RHS', () => {
+    it('MM-T1480 Verify Reader reads out the post correctly on RHS', () => {
         const {lastMessage} = postMessages(testChannel, otherUser, 1);
         performActionsToLastPost();
 
@@ -96,7 +96,7 @@ describe('Verify Accessibility Support in Post', () => {
         });
     });
 
-    it('MM-22631 Verify different Post Focus on Center Channel', () => {
+    it('MM-T1486_1 Verify different Post Focus on Center Channel', () => {
         postMessages(testChannel, otherUser, 5);
 
         // # Shift focus to the last post
@@ -119,7 +119,7 @@ describe('Verify Accessibility Support in Post', () => {
         }
     });
 
-    it('MM-22631 Verify different Post Focus on RHS', () => {
+    it('MM-T1486_2 Verify different Post Focus on RHS', () => {
         // # Post Message as Current user
         const message = `hello from current user: ${getRandomId()}`;
         cy.postMessage(message);
@@ -159,7 +159,7 @@ describe('Verify Accessibility Support in Post', () => {
         }
     });
 
-    it('MM-22631 Verify Tab support on Post on Center Channel', () => {
+    it('MM-T1486_3 Verify Tab support on Post on Center Channel', () => {
         postMessages(testChannel, otherUser, 1);
 
         // # Shift focus to the last post
@@ -199,7 +199,7 @@ describe('Verify Accessibility Support in Post', () => {
         });
     });
 
-    it('MM-22631 Verify Tab support on Post on RHS', () => {
+    it('MM-T1486_4 Verify Tab support on Post on RHS', () => {
         // # Post Message as Current user
         const message = `hello from current user: ${getRandomId()}`;
         cy.postMessage(message);
@@ -250,7 +250,7 @@ describe('Verify Accessibility Support in Post', () => {
         });
     });
 
-    it('MM-24078 Verify incoming messages are read', () => {
+    it('MM-T1462 Verify incoming messages are read', () => {
         // # Submit a post as another user
         const message = `verify incoming message from ${otherUser.username}: ${getRandomId()}`;
         cy.postMessageAs({sender: otherUser, message, channelId: testChannel.id});
