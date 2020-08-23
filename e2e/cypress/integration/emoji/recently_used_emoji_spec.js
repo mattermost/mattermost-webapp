@@ -53,12 +53,12 @@ describe('Recent Emoji', () => {
 
         // * Assert first emoji should equal with second recent emoji
         cy.get('.emoji-picker__item').eq(firstEmoji + 2).find('img').then(($el) => {
-            cy.get('.emoji-picker__item').eq(1).find('img').should('have.attr', 'class', $el.attr('class')); // eslint-disable-line jquery/no-attr
+            cy.get('.emoji-picker__item').eq(1).find('img').should('have.attr', 'class', $el.attr('class'));
         });
 
         // * Assert second emoji should equal with first recent emoji
         cy.get('.emoji-picker__item').eq(secondEmoji + 1).find('img').then(($el) => {
-            cy.get('.emoji-picker__item').eq(0).find('img').should('have.attr', 'class', $el.attr('class')); // eslint-disable-line jquery/no-attr
+            cy.get('.emoji-picker__item').eq(0).find('img').should('have.attr', 'class', $el.attr('class'));
         });
     });
 });

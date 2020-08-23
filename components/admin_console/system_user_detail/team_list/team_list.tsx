@@ -55,6 +55,7 @@ type Props = {
     };
     userDetailCallback: (teamsId: Record<string, any>) => void;
     refreshTeams: boolean;
+    readOnly?: boolean;
 }
 
 type State = {
@@ -172,6 +173,7 @@ export default class TeamList extends React.PureComponent<Props, State> {
                 doRemoveUserFromTeam={this.doRemoveUserFromTeam}
                 doMakeUserTeamAdmin={this.doMakeUserTeamAdmin}
                 doMakeUserTeamMember={this.doMakeUserTeamMember}
+                readOnly={this.props.readOnly}
             />
         );
     }

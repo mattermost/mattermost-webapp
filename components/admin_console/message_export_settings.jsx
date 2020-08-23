@@ -135,9 +135,9 @@ export default class MessageExportSettings extends AdminSettings {
                         />
                     }
                     value={this.state.globalRelayCustomerType ? this.state.globalRelayCustomerType : ''}
-                    disabled={!this.state.enableComplianceExport}
                     onChange={this.handleChange}
                     setByEnv={this.isSetByEnv('DataRetentionSettings.GlobalRelaySettings.CustomerType')}
+                    disabled={this.props.isDisabled || !this.state.enableComplianceExport}
                 />
             );
 
@@ -158,9 +158,9 @@ export default class MessageExportSettings extends AdminSettings {
                         />
                     }
                     value={this.state.globalRelaySmtpUsername ? this.state.globalRelaySmtpUsername : ''}
-                    disabled={!this.state.enableComplianceExport}
                     onChange={this.handleChange}
                     setByEnv={this.isSetByEnv('DataRetentionSettings.GlobalRelaySettings.SmtpUsername')}
+                    disabled={this.props.isDisabled || !this.state.enableComplianceExport}
                 />
             );
 
@@ -181,9 +181,9 @@ export default class MessageExportSettings extends AdminSettings {
                         />
                     }
                     value={this.state.globalRelaySmtpPassword ? this.state.globalRelaySmtpPassword : ''}
-                    disabled={!this.state.enableComplianceExport}
                     onChange={this.handleChange}
                     setByEnv={this.isSetByEnv('DataRetentionSettings.GlobalRelaySettings.SmtpPassword')}
+                    disabled={this.props.isDisabled || !this.state.enableComplianceExport}
                 />
             );
 
@@ -204,9 +204,9 @@ export default class MessageExportSettings extends AdminSettings {
                         />
                     }
                     value={this.state.globalRelayEmailAddress ? this.state.globalRelayEmailAddress : ''}
-                    disabled={!this.state.enableComplianceExport}
                     onChange={this.handleChange}
                     setByEnv={this.isSetByEnv('DataRetentionSettings.GlobalRelaySettings.EmailAddress')}
+                    disabled={this.props.isDisabled || !this.state.enableComplianceExport}
                 />
             );
 
@@ -247,6 +247,7 @@ export default class MessageExportSettings extends AdminSettings {
                     value={this.state.enableComplianceExport}
                     onChange={this.handleChange}
                     setByEnv={this.isSetByEnv('DataRetentionSettings.EnableExport')}
+                    disabled={this.props.isDisabled}
                 />
 
                 <TextSetting
@@ -265,9 +266,9 @@ export default class MessageExportSettings extends AdminSettings {
                         />
                     }
                     value={this.state.exportJobStartTime}
-                    disabled={!this.state.enableComplianceExport}
                     onChange={this.handleChange}
                     setByEnv={this.isSetByEnv('DataRetentionSettings.DailyRunTime')}
+                    disabled={this.props.isDisabled || !this.state.enableComplianceExport}
                 />
 
                 <DropdownSetting
@@ -281,16 +282,15 @@ export default class MessageExportSettings extends AdminSettings {
                     }
                     helpText={dropdownHelpText}
                     value={this.state.exportFormat}
-                    disabled={!this.state.enableComplianceExport}
                     onChange={this.handleChange}
                     setByEnv={this.isSetByEnv('DataRetentionSettings.ExportFormat')}
+                    disabled={this.props.isDisabled || !this.state.enableComplianceExport}
                 />
 
                 {globalRelaySettings}
 
                 <JobsTable
                     jobType={JobTypes.MESSAGE_EXPORT}
-                    disabled={!this.state.enableComplianceExport}
                     createJobButtonText={
                         <FormattedMessage
                             id='admin.complianceExport.createJob.title'
@@ -304,6 +304,7 @@ export default class MessageExportSettings extends AdminSettings {
                         />
                     }
                     getExtraInfoText={this.getJobDetails}
+                    disabled={this.props.isDisabled || !this.state.enableComplianceExport}
                 />
             </SettingsGroup>
         );
