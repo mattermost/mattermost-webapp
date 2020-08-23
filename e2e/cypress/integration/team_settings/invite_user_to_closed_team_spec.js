@@ -9,12 +9,19 @@
 
 // Group: @team_settings
 
+import {getRandomId} from '../../utils';
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Team Settings', () => {
     let newUser;
+    let isLicensed;
 
     before(() => {
+        // # If the instance the test is running on is licensed, assign true to isLicensed variable
+        cy.apiGetClientLicense().then(({license}) => {
+            isLicensed = license.IsLicensed === 'true';
+        });
+
         cy.apiInitSetup().then(({team}) => {
             cy.apiCreateUser().then(({user}) => {
                 newUser = user;
@@ -26,7 +33,7 @@ describe('Team Settings', () => {
 
     it('MM-T388 - Invite new user to closed team with "Allow only users with a specific email domain to join this team" set to "sample.mattermost.com" AND include a non-sample.mattermost.com email address in the invites', () => {
         const emailDomain = 'sample.mattermost.com';
-        const invalidEmail = 'saturnino@gmail.com';
+        const invalidEmail = `user.${getRandomId()}@invalid.com`;
         const userDetailsString = `@${newUser.username} - ${newUser.first_name} ${newUser.last_name} (${newUser.nickname})`;
         const inviteSuccessMessage = 'This member has been added to the team.';
         const inviteFailedMessage = `The following email addresses do not belong to an accepted domain: ${invalidEmail}. Please contact your System Administrator for details.`;
@@ -77,6 +84,10 @@ describe('Team Settings', () => {
 
     function inviteNewMemberToTeam(email) {
         cy.wait(TIMEOUTS.HALF_SEC);
+        if (isLicensed) {
+            // # Click "Invite members"
+            cy.findByTestId('inviteMembersLink').should('be.visible').click();
+        }
         cy.findByRole('textbox', {name: 'Add or Invite People'}).type(email, {force: true}).wait(TIMEOUTS.HALF_SEC).type('{enter}');
         cy.get('#inviteMembersButton').click();
     }
