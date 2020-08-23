@@ -23,7 +23,12 @@ describe('Upload Files', () => {
 
         // # Post an image in center channel
         cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(filename);
-        cy.get('.post-image').should('be.visible');
+        // * Verify thumbnail of ongoing file upload
+        cy.get('.file-preview__container').should('be.visible').within(() => {
+            cy.get('.post-image__thumbnail').should('be.visible');
+            cy.findByText(hugeImage).should('be.visible');
+            cy.findByText('Processing...').should('be.visible');
+        });
 
         // # Click the `X` on the file attachment thumbnail
         cy.get('.file-preview__remove > .icon').click();
