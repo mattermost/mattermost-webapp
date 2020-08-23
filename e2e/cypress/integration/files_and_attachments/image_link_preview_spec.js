@@ -133,7 +133,7 @@ describe('Image Link Preview', () => {
         cy.get('body').type('{esc}');
     });
 
-    it.only('MM-T1447 Images below a min-width and min-height are posted in a container that is clickable', () => {
+    it('MM-T1447 Images below a min-width and min-height are posted in a container that is clickable', () => {
         const listOfMinWidthHeightImages = [
             {
                 filename: 'image-20x20.jpg',
