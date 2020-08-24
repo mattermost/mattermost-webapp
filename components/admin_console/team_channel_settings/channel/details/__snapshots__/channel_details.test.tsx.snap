@@ -48,6 +48,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
           }
         }
         isArchived={false}
+        isDisabled={false}
         onToggleArchive={[Function]}
         team={
           Object {
@@ -94,6 +95,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
         guestAccountsEnabled={true}
         isPublic={true}
         onChannelPermissionsChanged={[Function]}
+        readOnly={false}
         teamSchemeDisplayName="asdf"
         teamSchemeID="asdf"
       />
@@ -114,6 +116,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
       />
       <ChannelModes
         isDefault={false}
+        isDisabled={false}
         isPublic={true}
         isSynced={false}
         onToggle={[Function]}
@@ -159,6 +162,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
             },
           ]
         }
+        isDisabled={false}
         onAddCallback={[Function]}
         onGroupRemoved={[Function]}
         removedGroups={Array []}
@@ -168,6 +172,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
       />
       <Connect(ChannelMembers)
         channelId="123"
+        isDisabled={false}
         onAddCallback={[Function]}
         onRemoveCallback={[Function]}
         updateRole={[Function]}
@@ -178,6 +183,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
   </div>
   <SaveChangesPanel
     cancelLink="/admin_console/user_management/channels"
+    isDisabled={false}
     onClick={[Function]}
     saveNeeded={false}
     saving={false}
@@ -234,6 +240,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
           }
         }
         isArchived={false}
+        isDisabled={false}
         onToggleArchive={[Function]}
         team={Object {}}
       />
@@ -276,6 +283,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
         guestAccountsEnabled={true}
         isPublic={true}
         onChannelPermissionsChanged={[Function]}
+        readOnly={false}
         teamSchemeDisplayName="asdf"
         teamSchemeID="asdf"
       />
@@ -296,6 +304,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
       />
       <ChannelModes
         isDefault={false}
+        isDisabled={false}
         isPublic={true}
         isSynced={false}
         onToggle={[Function]}
@@ -341,6 +350,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
             },
           ]
         }
+        isDisabled={false}
         onAddCallback={[Function]}
         onGroupRemoved={[Function]}
         removedGroups={Array []}
@@ -350,6 +360,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
       />
       <Connect(ChannelMembers)
         channelId="123"
+        isDisabled={false}
         onAddCallback={[Function]}
         onRemoveCallback={[Function]}
         updateRole={[Function]}
@@ -360,6 +371,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
   </div>
   <SaveChangesPanel
     cancelLink="/admin_console/user_management/channels"
+    isDisabled={false}
     onClick={[Function]}
     saveNeeded={false}
     saving={false}

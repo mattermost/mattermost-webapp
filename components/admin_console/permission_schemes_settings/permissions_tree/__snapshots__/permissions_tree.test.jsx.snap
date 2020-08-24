@@ -34,6 +34,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
         Object {
           "edit_post": Object {
             "editTimeLimitButton": <Memo(Connect(EditPostTimeLimitButton))
+              isDisabled={false}
               onClick={[Function]}
             />,
           },
@@ -66,7 +67,14 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             "permissions": Array [
               "create_public_channel",
               "manage_public_channel_properties",
-              "manage_public_channel_members",
+              Object {
+                "combined": true,
+                "id": "manage_public_channel_members_and_read_groups",
+                "permissions": Array [
+                  "manage_public_channel_members",
+                  "read_public_channel_groups",
+                ],
+              },
               "delete_public_channel",
             ],
           },
@@ -75,7 +83,14 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             "permissions": Array [
               "create_private_channel",
               "manage_private_channel_properties",
-              "manage_private_channel_members",
+              Object {
+                "combined": true,
+                "id": "manage_private_channel_members_and_read_groups",
+                "permissions": Array [
+                  "manage_private_channel_members",
+                  "read_private_channel_groups",
+                ],
+              },
               "delete_private_channel",
             ],
           },
@@ -168,6 +183,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
         Object {
           "edit_post": Object {
             "editTimeLimitButton": <Memo(Connect(EditPostTimeLimitButton))
+              isDisabled={false}
               onClick={[Function]}
             />,
           },
@@ -200,7 +216,14 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             "permissions": Array [
               "create_public_channel",
               "manage_public_channel_properties",
-              "manage_public_channel_members",
+              Object {
+                "combined": true,
+                "id": "manage_public_channel_members_and_read_groups",
+                "permissions": Array [
+                  "manage_public_channel_members",
+                  "read_public_channel_groups",
+                ],
+              },
               "delete_public_channel",
             ],
           },
@@ -209,7 +232,14 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             "permissions": Array [
               "create_private_channel",
               "manage_private_channel_properties",
-              "manage_private_channel_members",
+              Object {
+                "combined": true,
+                "id": "manage_private_channel_members_and_read_groups",
+                "permissions": Array [
+                  "manage_private_channel_members",
+                  "read_private_channel_groups",
+                ],
+              },
               "delete_private_channel",
             ],
           },
@@ -310,6 +340,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
         Object {
           "edit_post": Object {
             "editTimeLimitButton": <Memo(Connect(EditPostTimeLimitButton))
+              isDisabled={false}
               onClick={[Function]}
             />,
           },
@@ -342,7 +373,14 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             "permissions": Array [
               "create_public_channel",
               "manage_public_channel_properties",
-              "manage_public_channel_members",
+              Object {
+                "combined": true,
+                "id": "manage_public_channel_members_and_read_groups",
+                "permissions": Array [
+                  "manage_public_channel_members",
+                  "read_public_channel_groups",
+                ],
+              },
               "delete_public_channel",
             ],
           },
@@ -351,7 +389,14 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             "permissions": Array [
               "create_private_channel",
               "manage_private_channel_properties",
-              "manage_private_channel_members",
+              Object {
+                "combined": true,
+                "id": "manage_private_channel_members_and_read_groups",
+                "permissions": Array [
+                  "manage_private_channel_members",
+                  "read_private_channel_groups",
+                ],
+              },
               "delete_private_channel",
             ],
           },
@@ -452,6 +497,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
         Object {
           "edit_post": Object {
             "editTimeLimitButton": <Memo(Connect(EditPostTimeLimitButton))
+              isDisabled={true}
               onClick={[Function]}
             />,
           },
@@ -484,7 +530,14 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             "permissions": Array [
               "create_public_channel",
               "manage_public_channel_properties",
-              "manage_public_channel_members",
+              Object {
+                "combined": true,
+                "id": "manage_public_channel_members_and_read_groups",
+                "permissions": Array [
+                  "manage_public_channel_members",
+                  "read_public_channel_groups",
+                ],
+              },
               "delete_public_channel",
             ],
           },
@@ -493,7 +546,14 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             "permissions": Array [
               "create_private_channel",
               "manage_private_channel_properties",
-              "manage_private_channel_members",
+              Object {
+                "combined": true,
+                "id": "manage_private_channel_members_and_read_groups",
+                "permissions": Array [
+                  "manage_private_channel_members",
+                  "read_private_channel_groups",
+                ],
+              },
               "delete_private_channel",
             ],
           },
@@ -594,6 +654,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
         Object {
           "edit_post": Object {
             "editTimeLimitButton": <Memo(Connect(EditPostTimeLimitButton))
+              isDisabled={false}
               onClick={[Function]}
             />,
           },
@@ -626,7 +687,14 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             "permissions": Array [
               "create_public_channel",
               "manage_public_channel_properties",
-              "manage_public_channel_members",
+              Object {
+                "combined": true,
+                "id": "manage_public_channel_members_and_read_groups",
+                "permissions": Array [
+                  "manage_public_channel_members",
+                  "read_public_channel_groups",
+                ],
+              },
               "delete_public_channel",
             ],
           },
@@ -635,7 +703,14 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             "permissions": Array [
               "create_private_channel",
               "manage_private_channel_properties",
-              "manage_private_channel_members",
+              Object {
+                "combined": true,
+                "id": "manage_private_channel_members_and_read_groups",
+                "permissions": Array [
+                  "manage_private_channel_members",
+                  "read_private_channel_groups",
+                ],
+              },
               "delete_private_channel",
             ],
           },
@@ -736,6 +811,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
         Object {
           "edit_post": Object {
             "editTimeLimitButton": <Memo(Connect(EditPostTimeLimitButton))
+              isDisabled={false}
               onClick={[Function]}
             />,
           },
@@ -768,7 +844,14 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             "permissions": Array [
               "create_public_channel",
               "manage_public_channel_properties",
-              "manage_public_channel_members",
+              Object {
+                "combined": true,
+                "id": "manage_public_channel_members_and_read_groups",
+                "permissions": Array [
+                  "manage_public_channel_members",
+                  "read_public_channel_groups",
+                ],
+              },
               "delete_public_channel",
             ],
           },
@@ -777,7 +860,14 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             "permissions": Array [
               "create_private_channel",
               "manage_private_channel_properties",
-              "manage_private_channel_members",
+              Object {
+                "combined": true,
+                "id": "manage_private_channel_members_and_read_groups",
+                "permissions": Array [
+                  "manage_private_channel_members",
+                  "read_private_channel_groups",
+                ],
+              },
               "delete_private_channel",
             ],
           },
@@ -878,6 +968,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
         Object {
           "edit_post": Object {
             "editTimeLimitButton": <Memo(Connect(EditPostTimeLimitButton))
+              isDisabled={false}
               onClick={[Function]}
             />,
           },
@@ -914,7 +1005,14 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             "permissions": Array [
               "create_public_channel",
               "manage_public_channel_properties",
-              "manage_public_channel_members",
+              Object {
+                "combined": true,
+                "id": "manage_public_channel_members_and_read_groups",
+                "permissions": Array [
+                  "manage_public_channel_members",
+                  "read_public_channel_groups",
+                ],
+              },
               "delete_public_channel",
             ],
           },
@@ -923,7 +1021,14 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             "permissions": Array [
               "create_private_channel",
               "manage_private_channel_properties",
-              "manage_private_channel_members",
+              Object {
+                "combined": true,
+                "id": "manage_private_channel_members_and_read_groups",
+                "permissions": Array [
+                  "manage_private_channel_members",
+                  "read_private_channel_groups",
+                ],
+              },
               "delete_private_channel",
             ],
           },
