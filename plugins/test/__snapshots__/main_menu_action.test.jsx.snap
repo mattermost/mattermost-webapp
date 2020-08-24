@@ -80,14 +80,14 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(injectIntl(UserLimitModal))",
+            "displayName": "Connect(InvitationModal)",
             "type": [Function],
           }
         }
         extraText="Add or invite people to the team"
         icon={false}
         id="invitePeople"
-        modalId="upgrade_cloud_account"
+        modalId="invitation"
         show={true}
         text="Invite People"
       />
