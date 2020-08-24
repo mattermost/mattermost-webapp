@@ -57,6 +57,7 @@ export default class SystemUsers extends React.PureComponent {
         teamId: PropTypes.string.isRequired,
         filter: PropTypes.string.isRequired,
         users: PropTypes.object.isRequired,
+        isDisabled: PropTypes.bool,
 
         actions: PropTypes.shape({
 
@@ -377,6 +378,7 @@ export default class SystemUsers extends React.PureComponent {
                                 mfaEnabled={this.props.mfaEnabled}
                                 enableUserAccessTokens={this.props.enableUserAccessTokens}
                                 experimentalEnableAuthenticationTransfer={this.props.experimentalEnableAuthenticationTransfer}
+                                isDisabled={this.props.isDisabled}
                             />
                         </div>
                         <SystemPermissionGate permissions={[Permissions.REVOKE_USER_ACCESS_TOKEN]}>
@@ -386,6 +388,7 @@ export default class SystemUsers extends React.PureComponent {
                                     id='revoke-all-users'
                                     className='btn btn-default'
                                     onClick={() => this.handleShowRevokeAllSessionsModal()}
+                                    disabled={this.props.isDisabled}
                                 >
                                     <FormattedMessage
                                         id='admin.system_users.revokeAllSessions'
