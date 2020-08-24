@@ -9,10 +9,10 @@ import messageMenusData from '../fixtures/hooks/message_menus.json';
 import messageMenusWithDatasourceData from '../fixtures/hooks/message_menus_with_datasource.json';
 
 /**
- * @param {Number} length - length on random string to return, e.g. 6 (default)
+ * @param {Number} length - length on random string to return, e.g. 7 (default)
  * @return {String} random string
  */
-export function getRandomId(length = 6) {
+export function getRandomId(length = 7) {
     const MAX_SUBSTRING_INDEX = 27;
 
     return uuidv4().replace(/-/g, '').substring(MAX_SUBSTRING_INDEX - length, MAX_SUBSTRING_INDEX);
@@ -55,6 +55,19 @@ export function getMessageMenusPayload({dataSource, options, prefix = Date.now()
     data.attachments[0].actions[0].integration.url = callbackUrl;
 
     return data;
+}
+
+export function hexToRgbArray(hex) {
+    var rgbArr = hex.replace('#', '').match(/.{1,2}/g);
+    return [
+        parseInt(rgbArr[0], 16),
+        parseInt(rgbArr[1], 16),
+        parseInt(rgbArr[2], 16),
+    ];
+}
+
+export function rgbArrayToString(rgbArr) {
+    return `rgb(${rgbArr[0]}, ${rgbArr[1]}, ${rgbArr[2]})`;
 }
 
 export const reUrl = /(https?:\/\/[^ ]*)/;
