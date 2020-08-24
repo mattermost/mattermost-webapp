@@ -7,6 +7,7 @@
 describe('Join an open team from a direct message link', () => {
     let openTeam;
     let testUserInOpenTeam;
+    let publicChannelInOpenTeam;
 
     let secondTestTeam;
     let testUserOutsideOpenTeam;
@@ -15,7 +16,7 @@ describe('Join an open team from a direct message link', () => {
         cy.apiCreateTeam('mmt452-second-team', 'mmt452-second-team', 'I', true).then(({team}) => {
             secondTestTeam = team;
 
-            // # Create pool of users for tests
+            // # Create test user in closed team
             cy.apiCreateUser().then(({user}) => {
                 testUserOutsideOpenTeam = user;
                 cy.apiAddUserToTeam(secondTestTeam.id, testUserOutsideOpenTeam.id);
@@ -30,7 +31,11 @@ describe('Join an open team from a direct message link', () => {
                 allow_open_invite: true,
             });
 
-            // # Create pool of users for tests
+            cy.apiCreateChannel(openTeam.id, 'open-team-channel', 'open-team-channel').then((response) => {
+                publicChannelInOpenTeam = response.body;
+            });
+
+            // # Create test user in open team
             cy.apiCreateUser().then(({user}) => {
                 testUserInOpenTeam = user;
                 cy.apiAddUserToTeam(openTeam.id, testUserInOpenTeam.id);
@@ -43,12 +48,12 @@ describe('Join an open team from a direct message link', () => {
 
     it('MM-T452 User with no teams should be able to join an open team from a link in direct messages', () => {
         // # View 'off-topic' channel
-        cy.visit(`/${openTeam.name}/channels/off-topic`);
+        cy.visit(`/${openTeam.name}/channels/${publicChannelInOpenTeam.name}`);
 
         // * Expect channel title to match title passed in argument
         cy.get('#channelHeaderTitle').
             should('be.visible').
-            and('contain.text', 'Off-Topic');
+            and('contain.text', publicChannelInOpenTeam.display_name);
 
         // # Copy full url to channel
         cy.url().then((openTeamChannelUrl) => {
@@ -60,6 +65,9 @@ describe('Join an open team from a direct message link', () => {
 
             // # Login as user outside team
             cy.apiLogin(testUserOutsideOpenTeam);
+
+            // # Reload the page to ensure the new session is active
+            cy.reload();
 
             // # Open direct message from the user in the open team (testUserInOpenTeam)
             cy.get(`a[href="/${secondTestTeam.name}/messages/@${testUserInOpenTeam.username}"]`).
@@ -87,7 +95,7 @@ describe('Join an open team from a direct message link', () => {
         // * Expect channel title to be 'Off-Topic'
         cy.get('#channelHeaderTitle').
             should('be.visible').
-            and('contain.text', 'Off-Topic');
+            and('contain.text', publicChannelInOpenTeam.display_name);
     });
 });
 
