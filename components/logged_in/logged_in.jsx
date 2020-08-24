@@ -128,11 +128,7 @@ export default class LoggedIn extends React.PureComponent {
         });
 
         // Prevent backspace from navigating back a page
-        $(window).on('keydown.preventBackspace', (e) => {
-            if (e.which === BACKSPACE_CHAR && !$(e.target).is('input, textarea')) { // eslint-disable-line jquery/no-is
-                e.preventDefault();
-            }
-        });
+        window.addEventListener('keydown', this.handleBackSpace);
     }
 
     componentWillUnmount() {
@@ -144,7 +140,7 @@ export default class LoggedIn extends React.PureComponent {
 
         $('.modal').off('show.bs.modal');
 
-        $(window).off('keydown.preventBackspace');
+        window.removeEventListener('keydown', this.handleBackSpace);
 
         window.removeEventListener('focus', this.onFocusListener);
         window.removeEventListener('blur', this.onBlurListener);
@@ -214,6 +210,14 @@ export default class LoggedIn extends React.PureComponent {
             this.props.actions.getChannelURLAction(channel, teamId);
             break;
         }
+        }
+    }
+
+    handleBackSpace(e) {
+        const excludedElements = ['input', 'textarea'];
+
+        if ( e.which === BACKSPACE_CHAR && !( excludedElements.includes(e.target.tagName.toLowerCase()) ) ) {
+            e.preventDefault();
         }
     }
 }
