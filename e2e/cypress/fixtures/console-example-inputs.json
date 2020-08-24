@@ -1,0 +1,98 @@
+[
+    {
+        "section": "about",
+        "disabledInputs": [
+            {
+                "path": "/admin_console/about/license",
+                "selector": "[data-testid=\"remove-button\"]"
+            }
+        ]
+    },
+    {
+        "section": "reporting",
+        "disabledInputs": []
+    },
+    {
+        "section": "user_management.system_users",
+        "disabledInputs": []
+    },
+    {
+        "section": "user_management.groups",
+        "disabledInputs": []
+    },
+    {
+        "section": "user_management.teams",
+        "disabledInputs": []
+    },
+    {
+        "section": "user_management.channel",
+        "disabledInputs": []
+    },
+    {
+        "section": "user_management.permissions",
+        "disabledInputs": []
+    },
+    {
+        "section": "environment",
+        "disabledInputs": [
+            {
+                "path": "/admin_console/environment/web_server",
+                "selector": "[data-testid=\"ServiceSettings.ListenAddressinput\"]"
+            }
+        ]
+    },
+    {
+        "section": "site",
+        "disabledInputs": [
+            {
+                "path": "admin_console/site_config/customization",
+                "selector": "[data-testid=\"TeamSettings.SiteNameinput\"]"
+            }
+        ]
+    },
+    {
+        "section": "authentication",
+        "disabledInputs": [
+            {
+                "path": "/admin_console/authentication/password",
+                "selector": "[data-testid=\"passwordMinimumLengthinput\"]"
+            }
+        ]
+    },
+    {
+        "section": "plugins",
+        "disabledInputs": [
+            {
+                "path": "/admin_console/plugins/plugin_management",
+                "selector": "[data-testid=\"marketplaceUrlinput\"]"
+            }
+        ]
+    },
+    {
+        "section": "integrations",
+        "disabledInputs": [
+            {
+                "path": "/admin_console/integrations/gif",
+                "selector": "[data-testid=\"ServiceSettings.GfycatApiKeyinput\"]"
+            }
+        ]
+    },
+    {
+        "section": "compliance",
+        "disabledInputs": [
+            {
+                "path": "/admin_console/compliance/data_retention",
+                "selector": "[data-testid=\"deletionJobStartTimeinput\"]"
+            }
+        ]
+    },
+    {
+        "section": "experimental",
+        "disabledInputs": [
+            {
+                "path": "/admin_console/experimental/features",
+                "selector": "[data-testid=\"ExperimentalSettings.LinkMetadataTimeoutMillisecondsnumber\"]"
+            }
+        ]
+    }
+]

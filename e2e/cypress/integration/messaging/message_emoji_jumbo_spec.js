@@ -42,7 +42,7 @@ describe('Message', () => {
         });
     });
 
-    it('M15011 - Emojis show as jumbo in reply thread', () => {
+    it('MM-T162 Emojis show as jumbo in reply thread', () => {
         // # Post a message
         const messageText = 'This is a test message';
         cy.postMessage(messageText);

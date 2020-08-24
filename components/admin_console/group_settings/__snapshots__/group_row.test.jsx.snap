@@ -28,6 +28,7 @@ exports[`components/admin_console/group_settings/GroupRow should match snapshot,
         className="group-description"
       >
         <a
+          className=""
           href="#"
           onClick={[Function]}
         >
@@ -182,6 +183,7 @@ exports[`components/admin_console/group_settings/GroupRow should match snapshot,
         className="group-description"
       >
         <a
+          className=""
           href="#"
           onClick={[Function]}
         >
@@ -240,6 +242,7 @@ exports[`components/admin_console/group_settings/GroupRow should match snapshot,
         className="group-description"
       >
         <a
+          className=""
           href="#"
           onClick={[Function]}
         >
@@ -298,6 +301,7 @@ exports[`components/admin_console/group_settings/GroupRow should match snapshot,
         className="group-description"
       >
         <a
+          className=""
           href="#"
           onClick={[Function]}
         >

@@ -3922,5 +3922,6 @@
   "admin.channel_list.group_sync": "Synchronizacja grup",
   "admin.channel_list.archived": "Zarchiwizowane",
   "admin.jobTable.headerFiles": "Pliki",
-  "admin.jobTable.downloadLink": "Pobierz"
+  "admin.jobTable.downloadLink": "Pobierz",
+  "warn_metric_ack_modal.learn_more.link": "Dowiedz się więcej"
 }

@@ -92,7 +92,7 @@ Cypress.Commands.add('postMessageReplyInRHS', (message) => {
 });
 
 function postMessageAndWait(textboxSelector, message) {
-    cy.get(textboxSelector, {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').clear().type(`${message}{enter}`);
+    cy.get(textboxSelector, {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').clear().type(`${message}{enter}`).wait(TIMEOUTS.HALF_SEC);
     cy.waitUntil(() => {
         return cy.get(textboxSelector).then((el) => {
             return el[0].textContent === '';
