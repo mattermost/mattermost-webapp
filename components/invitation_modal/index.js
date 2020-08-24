@@ -4,9 +4,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {
-    getCurrentTeam,
-} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getChannelsInCurrentTeam} from 'mattermost-redux/selectors/entities/channels';
 import {haveIChannelPermission, haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
