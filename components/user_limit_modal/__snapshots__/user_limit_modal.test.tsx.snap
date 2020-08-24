@@ -65,7 +65,6 @@ exports[`component/UserLimitModal should match snapshot without children 1`] = `
           className="dismiss-link"
           disabled={false}
           onClick={[Function]}
-          variant="link"
         >
           <FormattedMessage
             defaultMessage="Not right now"
@@ -81,7 +80,6 @@ exports[`component/UserLimitModal should match snapshot without children 1`] = `
           className="confirm-button"
           disabled={false}
           onClick={[Function]}
-          variant="primary"
         >
           <FormattedMessage
             defaultMessage="Upgrade Mattermost Cloud"
