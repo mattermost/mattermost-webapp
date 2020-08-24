@@ -24,7 +24,7 @@ describe('Verify Accessibility Support in Different Images', () => {
         });
     });
 
-    it('MM-24075 Accessibility support in different images', () => {
+    it('MM-T1508 Accessibility support in different images', () => {
         // * Verify image alt in profile image
         cy.get('#lhsHeader').should('be.visible').within(() => {
             cy.get('.Avatar').should('have.attr', 'alt', 'user profile image');

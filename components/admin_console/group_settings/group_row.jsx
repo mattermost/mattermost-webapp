@@ -20,6 +20,7 @@ export default class GroupRow extends React.PureComponent {
         checked: PropTypes.bool,
         failed: PropTypes.bool,
         onCheckToggle: PropTypes.func,
+        readOnly: PropTypes.bool,
         actions: PropTypes.shape({
             link: PropTypes.func.isRequired,
             unlink: PropTypes.func.isRequired,
@@ -34,13 +35,18 @@ export default class GroupRow extends React.PureComponent {
     }
 
     onRowClick = () => {
+        if (this.props.readOnly) {
+            return;
+        }
         this.props.onCheckToggle(this.props.primary_key);
     }
 
     linkHandler = async (e) => {
         e.stopPropagation();
         e.preventDefault();
-
+        if (this.props.readOnly) {
+            return;
+        }
         this.setState({loading: true});
         await this.props.actions.link(this.props.primary_key);
         this.setState({loading: false});
@@ -49,6 +55,9 @@ export default class GroupRow extends React.PureComponent {
     unlinkHandler = async (e) => {
         e.stopPropagation();
         e.preventDefault();
+        if (this.props.readOnly) {
+            return;
+        }
         this.setState({loading: true});
         await this.props.actions.unlink(this.props.primary_key);
         this.setState({loading: false});
@@ -117,6 +126,7 @@ export default class GroupRow extends React.PureComponent {
                 <a
                     href='#'
                     onClick={this.unlinkHandler}
+                    className={this.props.readOnly ? 'disabled' : ''}
                 >
                     <i className='icon fa fa-link'/>
                     <FormattedMessage
@@ -145,6 +155,7 @@ export default class GroupRow extends React.PureComponent {
             <a
                 href='#'
                 onClick={this.linkHandler}
+                className={this.props.readOnly ? 'disabled' : ''}
             >
                 <i className='icon fa fa-unlink'/>
                 <FormattedMessage

@@ -34,7 +34,7 @@ describe('Verify Accessibility Support in Popovers', () => {
         });
     });
 
-    it('MM-22627 Accessibility Support in Emoji Popover on click of Emoji Reaction button', () => {
+    it('MM-T1489 Accessibility Support in Emoji Popover on click of Emoji Reaction button', () => {
         cy.getLastPostId().then((postId) => {
             // # Open the Emoji Popover
             cy.clickPostReactionIcon(postId);

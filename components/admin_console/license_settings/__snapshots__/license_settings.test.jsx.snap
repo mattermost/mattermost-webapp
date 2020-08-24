@@ -1,0 +1,1218 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/admin_console/license_settings/LicenseSettings load screen after upgrading 1`] = `
+<div
+  className="wrapper--fixed"
+>
+  <FormattedAdminHeader
+    defaultMessage="Edition and License"
+    id="admin.license.title"
+    values={Object {}}
+  />
+  <div
+    className="admin-console__wrapper"
+  >
+    <div
+      className="admin-console__content"
+    >
+      <form
+        className="form-horizontal"
+        role="form"
+      >
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <FormattedMessage
+              defaultMessage="Edition: "
+              id="admin.license.edition"
+              values={Object {}}
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <div>
+              <p>
+                Mattermost Team Edition. Upgrade to Mattermost Enterprise Edition to add the ability to unlock enterprise features.
+              </p>
+              <div>
+                <p>
+                  <injectIntl(FormattedMarkdownMessage)
+                    defaultMessage="You have upgraded your binary to mattermost enterprise, please restart the server to start using the new binary. You can do it right here:"
+                    id="admin.license.upgraded-restart"
+                  />
+                </p>
+                <p>
+                  <button
+                    className="btn btn-primary"
+                    onClick={[Function]}
+                  >
+                    <LoadingWrapper
+                      loading={false}
+                      text="Restarting"
+                    >
+                      <FormattedMessage
+                        defaultMessage="Restart Server"
+                        id="admin.license.enterprise.restart"
+                        values={Object {}}
+                      />
+                    </LoadingWrapper>
+                  </button>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <FormattedMessage
+              defaultMessage="License: "
+              id="admin.license.type"
+              values={Object {}}
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <div>
+              <p>
+                When using Mattermost Team Edition, the software is offered under a Mattermost MIT Compiled License. See MIT-COMPILED-LICENSE.md in your root install directory for details.
+              </p>
+              <p>
+                When using Mattermost Enterprise Edition, the software is offered under a commercial license. See below for “Enterprise Edition License” for details.
+              </p>
+              <p>
+                See NOTICE.txt for information about open source software used in the system.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <FormattedMessage
+              defaultMessage="Enterprise Edition License:"
+              id="admin.license.enterprise-edition-license"
+              values={Object {}}
+            />
+          </label>
+          <div
+            className="col-sm-8 enterprise-license-text"
+          >
+            <div>
+              <p>
+                The Mattermost Enterprise Edition (EE) license (the “EE License”)
+              </p>
+              <p>
+                Copyright (c) 2016-present Mattermost, Inc.
+              </p>
+              <p>
+                The subscription-only features of the Mattermost Enterprise Edition software and associated documentation files (the "Software") may only be used if you (and any entity that you represent) (i) have agreed to, and are in compliance with, the Mattermost Subscription Terms of Service, available at https://about.mattermost.com/enterprise-edition-terms/ (the “EE Terms”), and (ii) otherwise have a valid Mattermost Enterprise Edition subscription for the correct features, number of user seats and instances of Mattermost Enterprise Edition that you are running, accessing, or using.  You may, however, utilize the free version of the Software (with several features not enabled) under this license without a license key or subscription provided that you otherwise comply with the terms and conditions of this Agreement. Subject to the foregoing, except as explicitly permitted in the EE Terms, it is forbidden to copy, merge, modify, publish, distribute, sublicense, stream, perform, display, create derivative works of and/or sell the Software in either source or executable form without written agreement from Mattermost.  Notwithstanding anything to the contrary, free versions of the Software are provided “AS-IS” without indemnification, support, or warranties of any kind, expressed or implied. You assume all risk associated with any use of free versions of the Software.
+              </p>
+              <p>
+                EXCEPT AS OTHERWISE SET FORTH IN A BINDING WRITTEN AGREEMENT BETWEEN YOU AND MATTERMOST, THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+              </p>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/admin_console/license_settings/LicenseSettings load screen while upgrading 1`] = `
+<div
+  className="wrapper--fixed"
+>
+  <FormattedAdminHeader
+    defaultMessage="Edition and License"
+    id="admin.license.title"
+    values={Object {}}
+  />
+  <div
+    className="admin-console__wrapper"
+  >
+    <div
+      className="admin-console__content"
+    >
+      <form
+        className="form-horizontal"
+        role="form"
+      >
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <FormattedMessage
+              defaultMessage="Edition: "
+              id="admin.license.edition"
+              values={Object {}}
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <div>
+              <p>
+                Mattermost Team Edition. Upgrade to Mattermost Enterprise Edition to add the ability to unlock enterprise features.
+              </p>
+              <div>
+                <p>
+                  <button
+                    className="btn btn-primary"
+                    onClick={[Function]}
+                  >
+                    <LoadingWrapper
+                      loading={true}
+                      text={
+                        <FormattedMessage
+                          defaultMessage="Upgrading {percentage}%"
+                          id="admin.license.enterprise.upgrading"
+                          values={
+                            Object {
+                              "percentage": 42,
+                            }
+                          }
+                        />
+                      }
+                    >
+                      <FormattedMessage
+                        defaultMessage="Upgrade to Enterprise Edition"
+                        id="admin.license.enterprise.upgrade"
+                        values={Object {}}
+                      />
+                    </LoadingWrapper>
+                  </button>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <FormattedMessage
+              defaultMessage="License: "
+              id="admin.license.type"
+              values={Object {}}
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <div>
+              <p>
+                When using Mattermost Team Edition, the software is offered under a Mattermost MIT Compiled License. See MIT-COMPILED-LICENSE.md in your root install directory for details.
+              </p>
+              <p>
+                When using Mattermost Enterprise Edition, the software is offered under a commercial license. See below for “Enterprise Edition License” for details.
+              </p>
+              <p>
+                See NOTICE.txt for information about open source software used in the system.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <FormattedMessage
+              defaultMessage="Enterprise Edition License:"
+              id="admin.license.enterprise-edition-license"
+              values={Object {}}
+            />
+          </label>
+          <div
+            className="col-sm-8 enterprise-license-text"
+          >
+            <div>
+              <p>
+                The Mattermost Enterprise Edition (EE) license (the “EE License”)
+              </p>
+              <p>
+                Copyright (c) 2016-present Mattermost, Inc.
+              </p>
+              <p>
+                The subscription-only features of the Mattermost Enterprise Edition software and associated documentation files (the "Software") may only be used if you (and any entity that you represent) (i) have agreed to, and are in compliance with, the Mattermost Subscription Terms of Service, available at https://about.mattermost.com/enterprise-edition-terms/ (the “EE Terms”), and (ii) otherwise have a valid Mattermost Enterprise Edition subscription for the correct features, number of user seats and instances of Mattermost Enterprise Edition that you are running, accessing, or using.  You may, however, utilize the free version of the Software (with several features not enabled) under this license without a license key or subscription provided that you otherwise comply with the terms and conditions of this Agreement. Subject to the foregoing, except as explicitly permitted in the EE Terms, it is forbidden to copy, merge, modify, publish, distribute, sublicense, stream, perform, display, create derivative works of and/or sell the Software in either source or executable form without written agreement from Mattermost.  Notwithstanding anything to the contrary, free versions of the Software are provided “AS-IS” without indemnification, support, or warranties of any kind, expressed or implied. You assume all risk associated with any use of free versions of the Software.
+              </p>
+              <p>
+                EXCEPT AS OTHERWISE SET FORTH IN A BINDING WRITTEN AGREEMENT BETWEEN YOU AND MATTERMOST, THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+              </p>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/admin_console/license_settings/LicenseSettings should match snapshot enterprise build with license 1`] = `
+<div
+  className="wrapper--fixed"
+>
+  <FormattedAdminHeader
+    defaultMessage="Edition and License"
+    id="admin.license.title"
+    values={Object {}}
+  />
+  <div
+    className="admin-console__wrapper"
+  >
+    <div
+      className="admin-console__content"
+    >
+      <form
+        className="form-horizontal"
+        role="form"
+      >
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <FormattedMessage
+              defaultMessage="Edition: "
+              id="admin.license.edition"
+              values={Object {}}
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            Mattermost Enterprise Edition. Enterprise features on this server have been unlocked with a license key and a valid subscription.
+          </div>
+        </div>
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <FormattedMessage
+              defaultMessage="License: "
+              id="admin.license.type"
+              values={Object {}}
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <div>
+              <p>
+                This software is offered under a commercial license.
+
+See ENTERPRISE-EDITION-LICENSE.txt in your root install directory for details. See NOTICE.txt for information about open source software used in this system.
+
+Your subscription details are as follows:
+              </p>
+              Name: LicenseName
+              <br />
+              Company or organization name: Mattermost Inc.
+              <br />
+              Edition: Mattermost Enterprise Edition SkuName
+              <br />
+              Number of users: 100
+              <br />
+              License issued: 
+              <FormattedDate
+                value={1970-01-01T00:02:03.456Z}
+              />
+               
+              <FormattedTime
+                value={1970-01-01T00:02:03.456Z}
+              />
+              <br />
+              Start date of license: 
+              <FormattedDate
+                value={1970-01-01T00:10:54.321Z}
+              />
+              <br />
+              Expiry date of license: 
+              <FormattedDate
+                value={1970-01-01T00:10:54.321Z}
+              />
+              <br />
+              <br />
+              See also 
+              <a
+                href="https://about.mattermost.com/enterprise-edition-terms/"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                Enterprise Edition Terms of Service
+              </a>
+               and 
+              <a
+                href="https://about.mattermost.com/default-privacy-policy/"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                Privacy Policy.
+              </a>
+            </div>
+          </div>
+        </div>
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <FormattedMessage
+              defaultMessage="License Key: "
+              id="admin.license.key"
+              values={Object {}}
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <button
+              className="btn btn-danger"
+              id="remove-button"
+              onClick={[Function]}
+            >
+              <FormattedMessage
+                defaultMessage="Remove Enterprise License and Downgrade Server"
+                id="admin.license.keyRemove"
+                values={Object {}}
+              />
+            </button>
+            <br />
+            <br />
+            <p
+              className="help-text"
+            >
+              If you migrate servers you may need to remove your license key to install it elsewhere. You can remove the key here, which will revert functionality to that of Team Edition.
+            </p>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/admin_console/license_settings/LicenseSettings should match snapshot enterprise build with license and upgraded from TE 1`] = `
+<div
+  className="wrapper--fixed"
+>
+  <FormattedAdminHeader
+    defaultMessage="Edition and License"
+    id="admin.license.title"
+    values={Object {}}
+  />
+  <div
+    className="admin-console__wrapper"
+  >
+    <div
+      className="admin-console__content"
+    >
+      <form
+        className="form-horizontal"
+        role="form"
+      >
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <FormattedMessage
+              defaultMessage="Edition: "
+              id="admin.license.edition"
+              values={Object {}}
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            Mattermost Enterprise Edition. Enterprise features on this server have been unlocked with a license key and a valid subscription.
+          </div>
+        </div>
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <FormattedMessage
+              defaultMessage="License: "
+              id="admin.license.type"
+              values={Object {}}
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <div>
+              <div>
+                <p>
+                  When using Mattermost Enterprise Edition, the software is offered under a commercial license. See below for “Enterprise Edition License” for details.
+                </p>
+                <p>
+                  See NOTICE.txt for information about open source software used in the system.
+                </p>
+                <p>
+                  Your subscription details are as follows:
+                </p>
+              </div>
+              Name: LicenseName
+              <br />
+              Company or organization name: Mattermost Inc.
+              <br />
+              Edition: Mattermost Enterprise Edition SkuName
+              <br />
+              Number of users: 100
+              <br />
+              License issued: 
+              <FormattedDate
+                value={1970-01-01T00:02:03.456Z}
+              />
+               
+              <FormattedTime
+                value={1970-01-01T00:02:03.456Z}
+              />
+              <br />
+              Start date of license: 
+              <FormattedDate
+                value={1970-01-01T00:10:54.321Z}
+              />
+              <br />
+              Expiry date of license: 
+              <FormattedDate
+                value={1970-01-01T00:10:54.321Z}
+              />
+              <br />
+              <br />
+              See also 
+              <a
+                href="https://about.mattermost.com/enterprise-edition-terms/"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                Enterprise Edition Terms of Service
+              </a>
+               and 
+              <a
+                href="https://about.mattermost.com/default-privacy-policy/"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                Privacy Policy.
+              </a>
+            </div>
+          </div>
+        </div>
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <FormattedMessage
+              defaultMessage="License Key: "
+              id="admin.license.key"
+              values={Object {}}
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <button
+              className="btn btn-danger"
+              id="remove-button"
+              onClick={[Function]}
+            >
+              <FormattedMessage
+                defaultMessage="Remove Enterprise License and Downgrade Server"
+                id="admin.license.keyRemove"
+                values={Object {}}
+              />
+            </button>
+            <br />
+            <br />
+            <p
+              className="help-text"
+            >
+              If you migrate servers you may need to remove your license key to install it elsewhere. You can remove the key here, which will revert functionality to that of Team Edition.
+            </p>
+          </div>
+        </div>
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <FormattedMessage
+              defaultMessage="Enterprise Edition License:"
+              id="admin.license.enterprise-edition-license"
+              values={Object {}}
+            />
+          </label>
+          <div
+            className="col-sm-8 enterprise-license-text"
+          >
+            <div>
+              <p>
+                The Mattermost Enterprise Edition (EE) license (the “EE License”)
+              </p>
+              <p>
+                Copyright (c) 2016-present Mattermost, Inc.
+              </p>
+              <p>
+                The subscription-only features of the Mattermost Enterprise Edition software and associated documentation files (the "Software") may only be used if you (and any entity that you represent) (i) have agreed to, and are in compliance with, the Mattermost Subscription Terms of Service, available at https://about.mattermost.com/enterprise-edition-terms/ (the “EE Terms”), and (ii) otherwise have a valid Mattermost Enterprise Edition subscription for the correct features, number of user seats and instances of Mattermost Enterprise Edition that you are running, accessing, or using.  You may, however, utilize the free version of the Software (with several features not enabled) under this license without a license key or subscription provided that you otherwise comply with the terms and conditions of this Agreement. Subject to the foregoing, except as explicitly permitted in the EE Terms, it is forbidden to copy, merge, modify, publish, distribute, sublicense, stream, perform, display, create derivative works of and/or sell the Software in either source or executable form without written agreement from Mattermost.  Notwithstanding anything to the contrary, free versions of the Software are provided “AS-IS” without indemnification, support, or warranties of any kind, expressed or implied. You assume all risk associated with any use of free versions of the Software.
+              </p>
+              <p>
+                EXCEPT AS OTHERWISE SET FORTH IN A BINDING WRITTEN AGREEMENT BETWEEN YOU AND MATTERMOST, THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+              </p>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/admin_console/license_settings/LicenseSettings should match snapshot enterprise build without license 1`] = `
+<div
+  className="wrapper--fixed"
+>
+  <FormattedAdminHeader
+    defaultMessage="Edition and License"
+    id="admin.license.title"
+    values={Object {}}
+  />
+  <div
+    className="admin-console__wrapper"
+  >
+    <div
+      className="admin-console__content"
+    >
+      <form
+        className="form-horizontal"
+        role="form"
+      >
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <FormattedMessage
+              defaultMessage="Edition: "
+              id="admin.license.edition"
+              values={Object {}}
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <div>
+              Mattermost Enterprise Edition. A license is required to unlock enterprise features.
+              <p
+                className="trial"
+              >
+                <button
+                  className="btn btn-primary"
+                  onClick={[Function]}
+                >
+                  <LoadingWrapper
+                    loading={false}
+                    text="Getting trial"
+                  >
+                    <FormattedMessage
+                      defaultMessage="Start trial"
+                      id="admin.license.trial-request.submit"
+                      values={Object {}}
+                    />
+                  </LoadingWrapper>
+                </button>
+              </p>
+              <p
+                className="trial-legal-terms"
+              >
+                <injectIntl(FormattedMarkdownMessage)
+                  defaultMessage="By clicking **Start trial**, I agree to the [Mattermost Software Evaluation Agreement](!https://mattermost.com/software-evaluation-agreement/), [Privacy Policy](!https://mattermost.com/privacy-policy/), and receiving product emails."
+                  id="admin.license.trial-request.accept-terms"
+                />
+              </p>
+            </div>
+          </div>
+        </div>
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <FormattedMessage
+              defaultMessage="License: "
+              id="admin.license.type"
+              values={Object {}}
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            This software is offered under a commercial license.
+
+See ENTERPRISE-EDITION-LICENSE.txt in your root install directory for details. See NOTICE.txt for information about open source software used in this system.
+          </div>
+        </div>
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <FormattedMessage
+              defaultMessage="License Key: "
+              id="admin.license.key"
+              values={Object {}}
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <div
+              className="file__upload"
+            >
+              <button
+                className="btn btn-primary"
+              >
+                <FormattedMessage
+                  defaultMessage="Choose File"
+                  id="admin.license.choose"
+                  values={Object {}}
+                />
+              </button>
+              <input
+                accept=".mattermost-license"
+                onChange={[Function]}
+                type="file"
+              />
+            </div>
+            <button
+              className="btn"
+              disabled={true}
+              id="upload-button"
+              onClick={[Function]}
+            >
+              <FormattedMessage
+                defaultMessage="Upload"
+                id="admin.license.upload"
+                values={Object {}}
+              />
+            </button>
+            <div
+              className="help-text m-0"
+            >
+              <FormattedMessage
+                defaultMessage="No file uploaded"
+                id="admin.license.noFile"
+                values={Object {}}
+              />
+            </div>
+            <br />
+            <p
+              className="help-text m-0"
+            >
+              <injectIntl(FormattedMarkdownMessage)
+                defaultMessage="Upload a license key for Mattermost Enterprise Edition to upgrade this server. [Visit us online](!http://mattermost.com) to learn more about the benefits of Enterprise Edition or to purchase a key."
+                id="admin.license.uploadDesc"
+              />
+            </p>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/admin_console/license_settings/LicenseSettings should match snapshot enterprise build without license and upgrade from TE 1`] = `
+<div
+  className="wrapper--fixed"
+>
+  <FormattedAdminHeader
+    defaultMessage="Edition and License"
+    id="admin.license.title"
+    values={Object {}}
+  />
+  <div
+    className="admin-console__wrapper"
+  >
+    <div
+      className="admin-console__content"
+    >
+      <form
+        className="form-horizontal"
+        role="form"
+      >
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <FormattedMessage
+              defaultMessage="Edition: "
+              id="admin.license.edition"
+              values={Object {}}
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <div>
+              Mattermost Enterprise Edition. A license is required to unlock enterprise features.
+              <p
+                className="trial"
+              >
+                <button
+                  className="btn btn-primary"
+                  onClick={[Function]}
+                >
+                  <LoadingWrapper
+                    loading={false}
+                    text="Getting trial"
+                  >
+                    <FormattedMessage
+                      defaultMessage="Start trial"
+                      id="admin.license.trial-request.submit"
+                      values={Object {}}
+                    />
+                  </LoadingWrapper>
+                </button>
+              </p>
+              <p
+                className="trial-legal-terms"
+              >
+                <injectIntl(FormattedMarkdownMessage)
+                  defaultMessage="By clicking **Start trial**, I agree to the [Mattermost Software Evaluation Agreement](!https://mattermost.com/software-evaluation-agreement/), [Privacy Policy](!https://mattermost.com/privacy-policy/), and receiving product emails."
+                  id="admin.license.trial-request.accept-terms"
+                />
+              </p>
+            </div>
+          </div>
+        </div>
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <FormattedMessage
+              defaultMessage="License: "
+              id="admin.license.type"
+              values={Object {}}
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <div>
+              <p>
+                When using Mattermost Enterprise Edition, the software is offered under a commercial license. See below for “Enterprise Edition License” for details.
+              </p>
+              <p>
+                See NOTICE.txt for information about open source software used in the system.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <FormattedMessage
+              defaultMessage="License Key: "
+              id="admin.license.key"
+              values={Object {}}
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <div
+              className="file__upload"
+            >
+              <button
+                className="btn btn-primary"
+              >
+                <FormattedMessage
+                  defaultMessage="Choose File"
+                  id="admin.license.choose"
+                  values={Object {}}
+                />
+              </button>
+              <input
+                accept=".mattermost-license"
+                onChange={[Function]}
+                type="file"
+              />
+            </div>
+            <button
+              className="btn"
+              disabled={true}
+              id="upload-button"
+              onClick={[Function]}
+            >
+              <FormattedMessage
+                defaultMessage="Upload"
+                id="admin.license.upload"
+                values={Object {}}
+              />
+            </button>
+            <div
+              className="help-text m-0"
+            >
+              <FormattedMessage
+                defaultMessage="No file uploaded"
+                id="admin.license.noFile"
+                values={Object {}}
+              />
+            </div>
+            <br />
+            <p
+              className="help-text m-0"
+            >
+              <injectIntl(FormattedMarkdownMessage)
+                defaultMessage="Upload a license key for Mattermost Enterprise Edition to upgrade this server. [Visit us online](!http://mattermost.com) to learn more about the benefits of Enterprise Edition or to purchase a key."
+                id="admin.license.uploadDesc"
+              />
+            </p>
+          </div>
+        </div>
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <FormattedMessage
+              defaultMessage="Enterprise Edition License:"
+              id="admin.license.enterprise-edition-license"
+              values={Object {}}
+            />
+          </label>
+          <div
+            className="col-sm-8 enterprise-license-text"
+          >
+            <div>
+              <p>
+                The Mattermost Enterprise Edition (EE) license (the “EE License”)
+              </p>
+              <p>
+                Copyright (c) 2016-present Mattermost, Inc.
+              </p>
+              <p>
+                The subscription-only features of the Mattermost Enterprise Edition software and associated documentation files (the "Software") may only be used if you (and any entity that you represent) (i) have agreed to, and are in compliance with, the Mattermost Subscription Terms of Service, available at https://about.mattermost.com/enterprise-edition-terms/ (the “EE Terms”), and (ii) otherwise have a valid Mattermost Enterprise Edition subscription for the correct features, number of user seats and instances of Mattermost Enterprise Edition that you are running, accessing, or using.  You may, however, utilize the free version of the Software (with several features not enabled) under this license without a license key or subscription provided that you otherwise comply with the terms and conditions of this Agreement. Subject to the foregoing, except as explicitly permitted in the EE Terms, it is forbidden to copy, merge, modify, publish, distribute, sublicense, stream, perform, display, create derivative works of and/or sell the Software in either source or executable form without written agreement from Mattermost.  Notwithstanding anything to the contrary, free versions of the Software are provided “AS-IS” without indemnification, support, or warranties of any kind, expressed or implied. You assume all risk associated with any use of free versions of the Software.
+              </p>
+              <p>
+                EXCEPT AS OTHERWISE SET FORTH IN A BINDING WRITTEN AGREEMENT BETWEEN YOU AND MATTERMOST, THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+              </p>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/admin_console/license_settings/LicenseSettings should match snapshot team edition build with license 1`] = `
+<div
+  className="wrapper--fixed"
+>
+  <FormattedAdminHeader
+    defaultMessage="Edition and License"
+    id="admin.license.title"
+    values={Object {}}
+  />
+  <div
+    className="admin-console__wrapper"
+  >
+    <div
+      className="admin-console__content"
+    >
+      <form
+        className="form-horizontal"
+        role="form"
+      >
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <FormattedMessage
+              defaultMessage="Edition: "
+              id="admin.license.edition"
+              values={Object {}}
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <div>
+              <p>
+                Mattermost Team Edition. Upgrade to Mattermost Enterprise Edition to add the ability to unlock enterprise features.
+              </p>
+              <div>
+                <p>
+                  <button
+                    className="btn btn-primary"
+                    onClick={[Function]}
+                  >
+                    <LoadingWrapper
+                      loading={false}
+                      text={
+                        <FormattedMessage
+                          defaultMessage="Upgrading {percentage}%"
+                          id="admin.license.enterprise.upgrading"
+                          values={
+                            Object {
+                              "percentage": 0,
+                            }
+                          }
+                        />
+                      }
+                    >
+                      <FormattedMessage
+                        defaultMessage="Upgrade to Enterprise Edition"
+                        id="admin.license.enterprise.upgrade"
+                        values={Object {}}
+                      />
+                    </LoadingWrapper>
+                  </button>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <FormattedMessage
+              defaultMessage="License: "
+              id="admin.license.type"
+              values={Object {}}
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <div>
+              <p>
+                When using Mattermost Team Edition, the software is offered under a Mattermost MIT Compiled License. See MIT-COMPILED-LICENSE.md in your root install directory for details.
+              </p>
+              <p>
+                When using Mattermost Enterprise Edition, the software is offered under a commercial license. See below for “Enterprise Edition License” for details.
+              </p>
+              <p>
+                See NOTICE.txt for information about open source software used in the system.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <FormattedMessage
+              defaultMessage="Enterprise Edition License:"
+              id="admin.license.enterprise-edition-license"
+              values={Object {}}
+            />
+          </label>
+          <div
+            className="col-sm-8 enterprise-license-text"
+          >
+            <div>
+              <p>
+                The Mattermost Enterprise Edition (EE) license (the “EE License”)
+              </p>
+              <p>
+                Copyright (c) 2016-present Mattermost, Inc.
+              </p>
+              <p>
+                The subscription-only features of the Mattermost Enterprise Edition software and associated documentation files (the "Software") may only be used if you (and any entity that you represent) (i) have agreed to, and are in compliance with, the Mattermost Subscription Terms of Service, available at https://about.mattermost.com/enterprise-edition-terms/ (the “EE Terms”), and (ii) otherwise have a valid Mattermost Enterprise Edition subscription for the correct features, number of user seats and instances of Mattermost Enterprise Edition that you are running, accessing, or using.  You may, however, utilize the free version of the Software (with several features not enabled) under this license without a license key or subscription provided that you otherwise comply with the terms and conditions of this Agreement. Subject to the foregoing, except as explicitly permitted in the EE Terms, it is forbidden to copy, merge, modify, publish, distribute, sublicense, stream, perform, display, create derivative works of and/or sell the Software in either source or executable form without written agreement from Mattermost.  Notwithstanding anything to the contrary, free versions of the Software are provided “AS-IS” without indemnification, support, or warranties of any kind, expressed or implied. You assume all risk associated with any use of free versions of the Software.
+              </p>
+              <p>
+                EXCEPT AS OTHERWISE SET FORTH IN A BINDING WRITTEN AGREEMENT BETWEEN YOU AND MATTERMOST, THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+              </p>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/admin_console/license_settings/LicenseSettings should match snapshot team edition build without license 1`] = `
+<div
+  className="wrapper--fixed"
+>
+  <FormattedAdminHeader
+    defaultMessage="Edition and License"
+    id="admin.license.title"
+    values={Object {}}
+  />
+  <div
+    className="admin-console__wrapper"
+  >
+    <div
+      className="admin-console__content"
+    >
+      <form
+        className="form-horizontal"
+        role="form"
+      >
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <FormattedMessage
+              defaultMessage="Edition: "
+              id="admin.license.edition"
+              values={Object {}}
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <div>
+              <p>
+                Mattermost Team Edition. Upgrade to Mattermost Enterprise Edition to add the ability to unlock enterprise features.
+              </p>
+              <div>
+                <p>
+                  <button
+                    className="btn btn-primary"
+                    onClick={[Function]}
+                  >
+                    <LoadingWrapper
+                      loading={false}
+                      text={
+                        <FormattedMessage
+                          defaultMessage="Upgrading {percentage}%"
+                          id="admin.license.enterprise.upgrading"
+                          values={
+                            Object {
+                              "percentage": 0,
+                            }
+                          }
+                        />
+                      }
+                    >
+                      <FormattedMessage
+                        defaultMessage="Upgrade to Enterprise Edition"
+                        id="admin.license.enterprise.upgrade"
+                        values={Object {}}
+                      />
+                    </LoadingWrapper>
+                  </button>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <FormattedMessage
+              defaultMessage="License: "
+              id="admin.license.type"
+              values={Object {}}
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <div>
+              <p>
+                When using Mattermost Team Edition, the software is offered under a Mattermost MIT Compiled License. See MIT-COMPILED-LICENSE.md in your root install directory for details.
+              </p>
+              <p>
+                When using Mattermost Enterprise Edition, the software is offered under a commercial license. See below for “Enterprise Edition License” for details.
+              </p>
+              <p>
+                See NOTICE.txt for information about open source software used in the system.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <FormattedMessage
+              defaultMessage="Enterprise Edition License:"
+              id="admin.license.enterprise-edition-license"
+              values={Object {}}
+            />
+          </label>
+          <div
+            className="col-sm-8 enterprise-license-text"
+          >
+            <div>
+              <p>
+                The Mattermost Enterprise Edition (EE) license (the “EE License”)
+              </p>
+              <p>
+                Copyright (c) 2016-present Mattermost, Inc.
+              </p>
+              <p>
+                The subscription-only features of the Mattermost Enterprise Edition software and associated documentation files (the "Software") may only be used if you (and any entity that you represent) (i) have agreed to, and are in compliance with, the Mattermost Subscription Terms of Service, available at https://about.mattermost.com/enterprise-edition-terms/ (the “EE Terms”), and (ii) otherwise have a valid Mattermost Enterprise Edition subscription for the correct features, number of user seats and instances of Mattermost Enterprise Edition that you are running, accessing, or using.  You may, however, utilize the free version of the Software (with several features not enabled) under this license without a license key or subscription provided that you otherwise comply with the terms and conditions of this Agreement. Subject to the foregoing, except as explicitly permitted in the EE Terms, it is forbidden to copy, merge, modify, publish, distribute, sublicense, stream, perform, display, create derivative works of and/or sell the Software in either source or executable form without written agreement from Mattermost.  Notwithstanding anything to the contrary, free versions of the Software are provided “AS-IS” without indemnification, support, or warranties of any kind, expressed or implied. You assume all risk associated with any use of free versions of the Software.
+              </p>
+              <p>
+                EXCEPT AS OTHERWISE SET FORTH IN A BINDING WRITTEN AGREEMENT BETWEEN YOU AND MATTERMOST, THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+              </p>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;

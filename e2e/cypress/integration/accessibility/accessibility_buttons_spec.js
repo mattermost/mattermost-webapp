@@ -21,7 +21,7 @@ describe('Verify Accessibility Support in different Buttons', () => {
         });
     });
 
-    it('MM-22624 Accessibility Support in RHS expand and close icons', () => {
+    it('MM-T1459 Accessibility Support in RHS expand and close icons', () => {
         cy.getLastPostId().then((postId) => {
             cy.clickPostCommentIcon(postId);
             cy.get('#rhsContainer').should('be.visible').within(() => {
@@ -42,7 +42,7 @@ describe('Verify Accessibility Support in different Buttons', () => {
         });
     });
 
-    it('MM-22624 Accessibility Support in different buttons in Channel Header', () => {
+    it('MM-T1461 Accessibility Support in different buttons in Channel Header', () => {
         // # Ensure the focus is on the Toggle Favorites button
         cy.get('#toggleFavorite').focus().tab({shift: true}).tab();
 
