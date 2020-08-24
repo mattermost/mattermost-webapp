@@ -120,9 +120,7 @@ class MainMenu extends React.PureComponent {
     }
 
     shouldShowUpgradeModal = () => {
-        return true;
-
-        // return (this.props.currentUsers <= this.props.userLimit) && (this.props.userLimit !== '0') && this.props.userIsAdmin;
+        return (this.props.currentUsers <= this.props.userLimit) && (this.props.userLimit !== '0') && this.props.userIsAdmin;
     }
 
     render() {
