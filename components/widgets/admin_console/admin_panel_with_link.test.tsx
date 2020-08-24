@@ -66,7 +66,7 @@ describe('components/widgets/admin_console/AdminPanelWithLink', () => {
       <AdminPanel
         button={
           <Link
-            className="btn btn-primary"
+            className="btn btn-primary disabled"
             data-testid="test-id-link"
             onClick={[Function]}
             to="/path"

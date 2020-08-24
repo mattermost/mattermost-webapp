@@ -51,7 +51,7 @@ declare namespace Cypress {
         apiLogout();
 
         /**
-         * Gets current user
+         * Get current user.
          * See https://api.mattermost.com/#tag/users/paths/~1users~1{user_id}/get
          * @returns {UserProfile} out.user: `UserProfile` object
          *
@@ -63,20 +63,33 @@ declare namespace Cypress {
         apiGetMe(): Chainable<UserProfile>;
 
         /**
-         * Get a user by email
+         * Get a user by ID.
+         * See https://api.mattermost.com/#tag/users/paths/~1users~1{user_id}/get
+         * @param {String} userId - ID of a user to get profile
+         * @returns {UserProfile} out.user: `UserProfile` object
+         *
+         * @example
+         *   cy.apiGetUserById('user-id').then(({user}) => {
+         *       // do something with user
+         *   });
+         */
+        apiGetUserById(userId: string): Chainable<UserProfile>;
+
+        /**
+         * Get a user by email.
          * See https://api.mattermost.com/#tag/users/paths/~1users~1email~1{email}/get
          * @param {String} email - email address of a user to get profile
          * @returns {UserProfile} out.user: `UserProfile` object
          *
          * @example
-         *   cy.apiGetUserByEmail().then(({user}) => {
+         *   cy.apiGetUserByEmail('email').then(({user}) => {
          *       // do something with user
          *   });
          */
         apiGetUserByEmail(email: string): Chainable<UserProfile>;
 
         /**
-         * Get users by usernames
+         * Get users by usernames.
          * See https://api.mattermost.com/#tag/users/paths/~1users~1usernames/post
          * @param {String[]} usernames - list of usernames to get profiles
          * @returns {UserProfile[]} out.users: list of `UserProfile` objects
@@ -136,7 +149,7 @@ declare namespace Cypress {
         apiPatchMe(userData: UserProfile): Chainable<UserProfile>;
 
         /**
-         * Creates an admin account based from the env variables defined in Cypress env
+         * Create an admin account based from the env variables defined in Cypress env.
          * @param {string} options.namePrefix - 'user' (default) or any prefix to easily identify a user
          * @param {boolean} options.bypassTutorial - true (default) or false for user to go thru tutorial steps
          * @returns {UserProfile} `out.sysadmin` as `UserProfile` object
@@ -147,7 +160,7 @@ declare namespace Cypress {
         apiCreateAdmin(options: Record<string, any>): Chainable<UserProfile>;
 
         /**
-         * Creates a new user with an options to set name prefix and be able to bypass tutorial steps
+         * Create a new user with an options to set name prefix and be able to bypass tutorial steps.
          * @param {string} options.user - predefined `user` object instead on random user
          * @param {string} options.prefix - 'user' (default) or any prefix to easily identify a user
          * @param {boolean} options.bypassTutorial - true (default) or false for user to go thru tutorial steps
@@ -159,7 +172,7 @@ declare namespace Cypress {
         apiCreateUser(options: Record<string, any>): Chainable<UserProfile>;
 
         /**
-         * Creates a new guest user with an options to set name prefix and be able to bypass tutorial steps
+         * Create a new guest user with an options to set name prefix and be able to bypass tutorial steps.
          * @param {string} options.prefix - 'guest' (default) or any prefix to easily identify a guest
          * @param {string} options.activate - true (default) to activate guest user
          * @param {boolean} options.bypassTutorial - true (default) or false for guest to go thru tutorial steps
@@ -182,7 +195,7 @@ declare namespace Cypress {
         apiRevokeUserSessions(userId: string): Chainable<Record<string, any>>;
 
         /**
-         * Get list of users that are not team members
+         * Get list of users that are not team members.
          * See https://api.mattermost.com/#tag/users/paths/~1users/post
          * @param {String} queryParams.teamId - Team ID
          * @param {String} queryParams.page - Page to select, 0 (default)
@@ -195,5 +208,38 @@ declare namespace Cypress {
          *   });
          */
         apiGetUsersNotInTeam(queryParams: Record<string, any>): Chainable<UserProfile[]>;
+
+        /**
+         * Deactivate a user account.
+         * See https://api.mattermost.com/#tag/users/paths/~1users~1{user_id}/delete
+         * @param {string} userId - User ID
+         * @returns {Response} response: Cypress-chainable response which should have successful HTTP status of 200 OK to continue or pass.
+         *
+         * @example
+         *   cy.apiDeactivateUser('user-id');
+         */
+        apiDeactivateUser(userId: string): Chainable<Response>;
+
+        /**
+         * Convert a regular user into a guest. This will convert the user into a guest for the whole system while retaining their existing team and channel memberships.
+         * See https://api.mattermost.com/#tag/users/paths/~1users~1{user_id}~1demote/post
+         * @param {string} userId - User ID
+         * @returns {UserProfile} out.user: `UserProfile` object
+         *
+         * @example
+         *   cy.apiDemoteUserToGuest('user-id');
+         */
+        apiDemoteUserToGuest(userId: string): Chainable<UserProfile>;
+
+        /**
+         * Convert a guest into a regular user. This will convert the guest into a user for the whole system while retaining any team and channel memberships and automatically joining them to the default channels.
+         * See https://api.mattermost.com/#tag/users/paths/~1users~1{user_id}~1promote/post
+         * @param {string} userId - User ID
+         * @returns {UserProfile} out.user: `UserProfile` object
+         *
+         * @example
+         *   cy.apiPromoteGuestToUser('user-id');
+         */
+        apiPromoteGuestToUser(userId: string): Chainable<UserProfile>;
     }
 }

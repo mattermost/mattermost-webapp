@@ -27,7 +27,7 @@ describe('Messaging', () => {
         });
     });
 
-    it('M18709-Input box on main thread can expand with RHS open', () => {
+    it('MM-T208 Input box on main thread can expand with RHS open', () => {
         // # Wait until site is loaded
         cy.wait(TIMEOUTS.FIVE_SEC);
 

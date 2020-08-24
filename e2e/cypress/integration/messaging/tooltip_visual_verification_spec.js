@@ -33,7 +33,7 @@ describe('Messaging', () => {
         });
     });
 
-    it('M18697 - Visual verification of tooltips on post hover menu', () => {
+    it('MM-T133 Visual verification of tooltips on post hover menu', () => {
         cy.getLastPostId().then((postId) => {
             verifyToolTip(postId, `#CENTER_button_${postId}`, 'More actions');
 
