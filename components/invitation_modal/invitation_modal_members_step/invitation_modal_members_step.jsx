@@ -32,7 +32,7 @@ class InvitationModalMembersStep extends React.PureComponent {
         onSubmit: PropTypes.func.isRequired,
         userLimit: PropTypes.string.isRequired,
         currentUsers: PropTypes.number.isRequired,
-        userIsAdmin: PropTypes.func.isRequired,
+        userIsAdmin: PropTypes.bool.isRequired,
     }
 
     constructor(props) {

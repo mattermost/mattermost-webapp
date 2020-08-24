@@ -3,13 +3,15 @@
 
 import React from 'react';
 
-import {shallow} from 'enzyme';
+// import { shallow } from 'enzyme';
 
-import InvitationModalMembersStep from './invitation_modal_members_step';
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
+
+import InvitationModalMembersStep from './invitation_modal_members_step.jsx';
 
 describe('components/invitation_modal/InvitationModalMembersStep', () => {
     test('should match the snapshot', () => {
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <InvitationModalMembersStep
                 teamName='Test Team'
                 currentTeamId='test-team-id'
@@ -18,13 +20,16 @@ describe('components/invitation_modal/InvitationModalMembersStep', () => {
                 emailInvitationsEnabled={true}
                 onSubmit={jest.fn()}
                 onEdit={jest.fn()}
+                userIsAdmin={true}
+                userLimit={'0'}
+                currentUsers={4}
             />,
         );
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match the snapshot when email invitations are disabled', () => {
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <InvitationModalMembersStep
                 teamName='Test Team'
                 currentTeamId='test-team-id'
@@ -33,6 +38,9 @@ describe('components/invitation_modal/InvitationModalMembersStep', () => {
                 emailInvitationsEnabled={false}
                 onSubmit={jest.fn()}
                 onEdit={jest.fn()}
+                userIsAdmin={true}
+                userLimit={'0'}
+                currentUsers={4}
             />,
         );
         expect(wrapper).toMatchSnapshot();
