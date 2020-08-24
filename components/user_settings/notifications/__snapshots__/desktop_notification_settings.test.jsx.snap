@@ -609,6 +609,8 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
           >
             <StateManager
               className="notification-sound-dropdown"
+              className="react-select notification-sound-dropdown"
+              classNamePrefix="react-select"
               clearable={false}
               defaultInputValue=""
               defaultMenuIsOpen={false}
