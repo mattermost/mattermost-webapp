@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-// Stage: @prod
 // Group: @multi_team_and_dm
 
 describe('Join an open team from a direct message link', () => {
@@ -79,7 +78,7 @@ describe('Join an open team from a direct message link', () => {
                 and('contain.text', `${testUserInOpenTeam.username}`);
 
             // # Click on URL sent by the user in the open team
-            cy.get('[data-testid="postContent"]').
+            cy.findByTestId('postContent').
                 first().
                 get(`a[href="${openTeamChannelUrl}"]`).
                 click();
