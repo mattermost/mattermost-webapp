@@ -1,6 +1,16 @@
 .UserLimitModal {
 
+<<<<<<< HEAD
     border-radius: 8px;
+=======
+     .modal-dialog {
+         position: absolute;
+         top: 50%;
+         left: 50%;
+         transform: translate(-50%, -50%) !important;
+     }
+
+>>>>>>> MM-27897-backup
     .modal-content {
         height: 404px;
         border: rgba(var(--center-channel-color-rgb), 0.1);
@@ -10,19 +20,12 @@
 
     .modal-header {
         .close {
-            color: rgba(61, 60, 64, 0.56)
+            color: rgba(var(--center-channel-color-rgb), 0.56)
         }
         border-bottom: 0 none;
         padding: 14px;
-        color: #3D3C40;
+        color:var(--center-channel-color);
         background: #FFFFFF !important;
-    }
-
-    .modal-title {
-        color: #22406D;
-        font-family: 'Metropolis';
-        font-size: 28px;
-        padding: 30px 0px 10px 30px;
     }
 
     .modal-body {
@@ -44,7 +47,7 @@
         }
 
         .buttons {
-            margin-top: 16px;
+            margin-top: 32px;
             text-align: center;
 
             .dismiss-link {
@@ -57,13 +60,18 @@
 
             .confirm-button {
                 padding: 12px 20px;
+<<<<<<< HEAD
                 background: #166DE0;
+=======
+                background: var(--sys-button-bg);
+>>>>>>> MM-27897-backup
                 flex: none;
                 font-weight: 600;
                 font-size: 14px;
                 line-height: 14px;
                 color: #FFFFFF;
                 border-radius: 4px;
+<<<<<<< HEAD
             }
         }
 
@@ -106,4 +114,16 @@
         padding: 10px 20px;
         margin-bottom: 70px;
     }
+=======
+                margin-left: 28px;
+            }
+        }
+
+        padding: 0px 44px 48px 44px;
+        width: 100%;
+    }
+    .modal-centered {
+        text-align: center;
+    }
+>>>>>>> MM-27897-backup
 }

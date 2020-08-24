@@ -3,53 +3,73 @@
 
 import React from 'react';
 import {Modal, Button} from 'react-bootstrap';
-
-import upgradeImage from './user_limit_upgrade.svg';
+import {FormattedMessage} from 'react-intl';
 
 import './user_limit_modal.scss';
 
+import upgradeImage from './user_limit_upgrade.svg';
+
 type Props = {
     show: boolean;
-    onClose: () => void;
+    actions: {
+        closeModal: () => void;
+    };
 };
 
-export default function ContactUsModal(props: Props) {
+export default function UserLimitModal(props: Props) {
+    const onSubmit = () => {
+        // This does nothing until implementation of the upgrade tier page is complete
+        // Eventually, we will dispatch props.actions.openModal here
+    };
+
+    const close = () => {
+        props.actions.closeModal();
+    };
+
     return (
-        <Modal
-            className={'UserLimitModal'}
-            dialogClassName='a11y__modal'
-            show={props.show}
-            id='contactUsModal'
-            role='dialog'
-            aria-modal={true}
-            aria-labelledby='contactUsTitle'
-            aria-describedby='contacUsBody'
-        >
-            <Modal.Header closeButton={true}/>
-            <Modal.Body id='contacSalesBody'>
-                <img
-                    className='upgrade-image'
-                    src={upgradeImage}
-                />
-                <div className='title'>{"You've reached the user limit"}</div>
-                <div className='description'>
-                    {
-                        'The free tier is limited to 10 users. Upgrade Mattermost Cloud for more users.'
-                    }
-                </div>
-                <div className='buttons'>
-                    <Button
-                        className='dismiss-link'
-                        variant='link'
-                    >
-                        {'Not right now'}
-                    </Button>
-                    <Button
-                        className='confirm-button'
-                        variant='primary'
-                    >{'Upgrade Mattermost Cloud'}</Button>{' '}
-                </div>
-            </Modal.Body>
-        </Modal>
+        <>
+            {props.show &&
+            <Modal
+                className={'UserLimitModal'}
+                show={props.show}
+                id='userLimitModal'
+                role='dialog'
+                onHide={close}
+            >
+                <Modal.Header closeButton={true}/>
+                <Modal.Body id='contacSalesBody'>
+                    <img
+                        className='upgrade-image'
+                        src={upgradeImage}
+                    />
+                    <div className='title'>{"You've reached the user limit"}</div>
+                    <div className='description'>
+                        {
+                            'The free tier is limited to 10 users. Upgrade Mattermost Cloud for more users.'
+                        }
+                    </div>
+                    <div className='buttons'>
+                        <Button
+                            className='dismiss-link'
+                            onClick={close}
+                        >
+                            <FormattedMessage
+                                id={'notrightnow'}
+                                defaultMessage={'Not right now'}
+                            />
+                        </Button>
+                        <Button
+                            className='confirm-button'
+                            onClick={onSubmit}
+                        >
+                            <FormattedMessage
+                                id={'upgrade.cloud'}
+                                defaultMessage={'Upgrade Mattermost Cloud'}
+                            />
+                        </Button>
+                    </div>
+                </Modal.Body>
+            </Modal>}
+        </>
     );
 }
