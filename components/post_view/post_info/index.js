@@ -28,7 +28,7 @@ function mapStateToProps(state, ownProps) {
     const teamId = getCurrentTeamId(state);
     const shortcutReactToLastPostEmittedFrom = getShortcutReactToLastPostEmittedFrom(state);
     const getReactionsForPost = makeGetReactionsForPost();
-    const getReactionCount = getReactionsStatistics(getReactionsForPost(state, ownProps.post.id));
+    const reactionCount = getReactionsStatistics(getReactionsForPost(state, ownProps.post.id));
 
     return {
         teamId,
@@ -39,7 +39,7 @@ function mapStateToProps(state, ownProps) {
         isReadOnly: isCurrentChannelReadOnly(state) || channelIsArchived,
         shouldShowDotMenu: PostUtils.shouldShowDotMenu(state, ownProps.post, channel),
         shortcutReactToLastPostEmittedFrom,
-        reactionCount: getReactionCount,
+        reactionCount,
     };
 }
 

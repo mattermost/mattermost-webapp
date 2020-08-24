@@ -601,7 +601,12 @@ class CreateComment extends React.PureComponent {
         }
 
         const isReaction = Utils.REACTION_PATTERN.exec(draft.message);
-        if (isReaction && isReaction[1] === '+' && this.props.emojiMap.has(isReaction[2]) && this.props.latestPostReactionsCount <= Constants.POST_REACTIONS_LIMIT) {
+        if (
+            isReaction &&
+            isReaction[1] === '+' &&
+            this.props.emojiMap.has(isReaction[2]) &&
+            this.props.latestPostReactionsCount <= Constants.POST_REACTIONS_LIMIT
+        ) {
             const errorMessage = (
                 <FormattedMessage
                     id='create_post.reaction_limit_message'

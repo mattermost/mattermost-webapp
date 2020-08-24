@@ -197,7 +197,17 @@ export default class PostInfo extends React.PureComponent {
             );
         }
 
-        const showReactionIcon = !isSystemMessage && hover && !isReadOnly && this.props.enableEmojiPicker && reactionCount < Constants.POST_REACTIONS_LIMIT;
+        let showReactionIcon = false;
+        if (
+            !isSystemMessage &&
+            hover &&
+            !isReadOnly &&
+            this.props.enableEmojiPicker &&
+            reactionCount < Constants.POST_REACTIONS_LIMIT
+        ) {
+            showReactionIcon = true;
+        }
+
         let postReaction = null;
         if (showReactionIcon) {
             postReaction = (

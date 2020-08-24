@@ -307,6 +307,17 @@ export default class DotMenu extends React.PureComponent {
             return null;
         }
 
+        let showAddReactionButton = true;
+        if (
+            isMobile &&
+            !isSystemMessage &&
+            !this.props.isReadOnly &&
+            this.props.enableEmojiPicker &&
+            showAddReactionMenuItem
+        ) {
+            showAddReactionButton = false;
+        }
+
         return (
             <MenuWrapper onToggle={this.props.handleDropdownOpened}>
                 <OverlayTrigger
@@ -347,7 +358,7 @@ export default class DotMenu extends React.PureComponent {
                         permissions={[Permissions.ADD_REACTION]}
                     >
                         <Menu.ItemAction
-                            show={isMobile && !isSystemMessage && !this.props.isReadOnly && this.props.enableEmojiPicker && showAddReactionMenuItem}
+                            show={showAddReactionButton}
                             text={Utils.localizeMessage('rhs_root.mobile.add_reaction', 'Add Reaction')}
                             onClick={this.handleAddReactionMenuItemActivated}
                         />
