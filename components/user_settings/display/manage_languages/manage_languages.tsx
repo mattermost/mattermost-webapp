@@ -20,7 +20,7 @@ type Actions = {
 type Props = {
     user: UserProfile;
     locale: string;
-    updateSection: (section: string) => Promise<void>;
+    updateSection: (section: string) => void;
     actions: Actions;
 };
 
