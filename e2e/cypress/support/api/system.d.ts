@@ -87,6 +87,18 @@ declare namespace Cypress {
         apiUpdateConfig(newConfig: AdminConfig): Chainable<AdminConfig>;
 
         /**
+         * Reload the configuration file to pick up on any changes made to it.
+         * See https://api.mattermost.com/#tag/system/paths/~1config~1reload/post
+         * @returns {AdminConfig} `out.config` as `AdminConfig`
+         *
+         * @example
+         *   cy.apiReloadConfig().then(({config}) => {
+         *       // do something with config
+         *   });
+         */
+        apiReloadConfig(): Chainable<AdminConfig>;
+
+        /**
          * Get configuration.
          * See https://api.mattermost.com/#tag/system/paths/~1config/get
          * @returns {AdminConfig} `out.config` as `AdminConfig`

@@ -33,6 +33,7 @@ describe('components/AdminConsole', () => {
         },
         showNavigationPrompt: false,
         isCurrentUserSystemAdmin: false,
+        currentUserHasAnAdminRole: false,
         actions: {
             getConfig: jest.fn(),
             getEnvironmentConfig: jest.fn(),
@@ -51,6 +52,8 @@ describe('components/AdminConsole', () => {
             ...baseProps,
             unauthorizedRoute: '/team-id/channels/town-square',
             isCurrentUserSystemAdmin: false,
+            currentUserHasAnAdminRole: false,
+            consoleAccess: {read: {}, write: {}},
         };
         const wrapper = shallow(
             <AdminConsole {...props}/>,
@@ -63,6 +66,8 @@ describe('components/AdminConsole', () => {
             ...baseProps,
             unauthorizedRoute: '/team-id/channels/town-square',
             isCurrentUserSystemAdmin: true,
+            currentUserHasAnAdminRole: false,
+            consoleAccess: {read: {}, write: {}},
         };
         const wrapper = shallow(
             <AdminConsole {...props}/>,
