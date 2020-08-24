@@ -27,49 +27,51 @@ export default function UserLimitModal(props: Props) {
     };
 
     return (
-        props.show &&
-        <Modal
-            className={'UserLimitModal'}
-            show={props.show}
-            id='userLimitModal'
-            role='dialog'
-            onHide={close}
-        >
-            <Modal.Header closeButton={true}/>
-            <Modal.Body id='contacSalesBody'>
-                <img
-                    className='upgrade-image'
-                    src={upgradeImage}
-                />
-                <div className='title'>{"You've reached the user limit"}</div>
-                <div className='description'>
-                    {
-                        'The free tier is limited to 10 users. Upgrade Mattermost Cloud for more users.'
-                    }
-                </div>
-                <div className='buttons'>
-                    <Button
-                        className='dismiss-link'
-                        variant='link'
-                        onClick={close}
-                    >
-                        <FormattedMessage
-                            id={'notrightnow'}
-                            defaultMessage={'Not right now'}
-                        />
-                    </Button>
-                    <Button
-                        className='confirm-button'
-                        variant='primary'
-                        onClick={onSubmit}
-                    >
-                        <FormattedMessage
-                            id={'upgrade.cloud'}
-                            defaultMessage={'Upgrade Mattermost Cloud'}
-                        />
-                    </Button>
-                </div>
-            </Modal.Body>
-        </Modal>
+        <>
+            {props.show &&
+            <Modal
+                className={'UserLimitModal'}
+                show={props.show}
+                id='userLimitModal'
+                role='dialog'
+                onHide={close}
+            >
+                <Modal.Header closeButton={true}/>
+                <Modal.Body id='contacSalesBody'>
+                    <img
+                        className='upgrade-image'
+                        src={upgradeImage}
+                    />
+                    <div className='title'>{"You've reached the user limit"}</div>
+                    <div className='description'>
+                        {
+                            'The free tier is limited to 10 users. Upgrade Mattermost Cloud for more users.'
+                        }
+                    </div>
+                    <div className='buttons'>
+                        <Button
+                            className='dismiss-link'
+                            variant='link'
+                            onClick={close}
+                        >
+                            <FormattedMessage
+                                id={'notrightnow'}
+                                defaultMessage={'Not right now'}
+                            />
+                        </Button>
+                        <Button
+                            className='confirm-button'
+                            variant='primary'
+                            onClick={onSubmit}
+                        >
+                            <FormattedMessage
+                                id={'upgrade.cloud'}
+                                defaultMessage={'Upgrade Mattermost Cloud'}
+                            />
+                        </Button>
+                    </div>
+                </Modal.Body>
+            </Modal>}
+        </>
     );
 }

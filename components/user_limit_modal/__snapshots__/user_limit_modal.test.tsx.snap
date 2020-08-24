@@ -1,96 +1,98 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`component/UserLimitModal should match snapshot without children 1`] = `
-<Modal
-  animation={true}
-  autoFocus={true}
-  backdrop={true}
-  bsClass="modal"
-  className="UserLimitModal"
-  dialogComponentClass={[Function]}
-  enforceFocus={true}
-  id="userLimitModal"
-  keyboard={true}
-  manager={
-    ModalManager {
-      "add": [Function],
-      "containers": Array [],
-      "data": Array [],
-      "handleContainerOverflow": true,
-      "hideSiblingNodes": true,
-      "isTopModal": [Function],
-      "modals": Array [],
-      "remove": [Function],
+<Fragment>
+  <Modal
+    animation={true}
+    autoFocus={true}
+    backdrop={true}
+    bsClass="modal"
+    className="UserLimitModal"
+    dialogComponentClass={[Function]}
+    enforceFocus={true}
+    id="userLimitModal"
+    keyboard={true}
+    manager={
+      ModalManager {
+        "add": [Function],
+        "containers": Array [],
+        "data": Array [],
+        "handleContainerOverflow": true,
+        "hideSiblingNodes": true,
+        "isTopModal": [Function],
+        "modals": Array [],
+        "remove": [Function],
+      }
     }
-  }
-  onHide={[Function]}
-  renderBackdrop={[Function]}
-  restoreFocus={true}
-  role="dialog"
-  show={true}
->
-  <ModalHeader
-    bsClass="modal-header"
-    closeButton={true}
-    closeLabel="Close"
-  />
-  <ModalBody
-    bsClass="modal-body"
-    componentClass="div"
-    id="contacSalesBody"
+    onHide={[Function]}
+    renderBackdrop={[Function]}
+    restoreFocus={true}
+    role="dialog"
+    show={true}
   >
-    <img
-      className="upgrade-image"
-      src={null}
+    <ModalHeader
+      bsClass="modal-header"
+      closeButton={true}
+      closeLabel="Close"
     />
-    <div
-      className="title"
+    <ModalBody
+      bsClass="modal-body"
+      componentClass="div"
+      id="contacSalesBody"
     >
-      You've reached the user limit
-    </div>
-    <div
-      className="description"
-    >
-      The free tier is limited to 10 users. Upgrade Mattermost Cloud for more users.
-    </div>
-    <div
-      className="buttons"
-    >
-      <Button
-        active={false}
-        block={false}
-        bsClass="btn"
-        bsStyle="default"
-        className="dismiss-link"
-        disabled={false}
-        onClick={[Function]}
-        variant="link"
+      <img
+        className="upgrade-image"
+        src={null}
+      />
+      <div
+        className="title"
       >
-        <FormattedMessage
-          defaultMessage="Not right now"
-          id="notrightnow"
-          values={Object {}}
-        />
-      </Button>
-      <Button
-        active={false}
-        block={false}
-        bsClass="btn"
-        bsStyle="default"
-        className="confirm-button"
-        disabled={false}
-        onClick={[Function]}
-        variant="primary"
+        You've reached the user limit
+      </div>
+      <div
+        className="description"
       >
-        <FormattedMessage
-          defaultMessage="Upgrade Mattermost Cloud"
-          id="upgrade.cloud"
-          values={Object {}}
-        />
-      </Button>
-    </div>
-  </ModalBody>
-</Modal>
+        The free tier is limited to 10 users. Upgrade Mattermost Cloud for more users.
+      </div>
+      <div
+        className="buttons"
+      >
+        <Button
+          active={false}
+          block={false}
+          bsClass="btn"
+          bsStyle="default"
+          className="dismiss-link"
+          disabled={false}
+          onClick={[Function]}
+          variant="link"
+        >
+          <FormattedMessage
+            defaultMessage="Not right now"
+            id="notrightnow"
+            values={Object {}}
+          />
+        </Button>
+        <Button
+          active={false}
+          block={false}
+          bsClass="btn"
+          bsStyle="default"
+          className="confirm-button"
+          disabled={false}
+          onClick={[Function]}
+          variant="primary"
+        >
+          <FormattedMessage
+            defaultMessage="Upgrade Mattermost Cloud"
+            id="upgrade.cloud"
+            values={Object {}}
+          />
+        </Button>
+      </div>
+    </ModalBody>
+  </Modal>
+</Fragment>
 `;
 
-exports[`component/UserLimitModal should not display when show is false 1`] = `""`;
+exports[`component/UserLimitModal should not display when show is false 1`] = `<Fragment />`;

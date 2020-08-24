@@ -13,6 +13,7 @@ describe('component/UserLimitModal', () => {
             closeModal: () => { }
         }
     };
+
     test('should match snapshot without children', () => {
         const wrapper = shallow(<UserLimitModal {...requiredProps}/>);
         expect(wrapper).toMatchSnapshot();
@@ -22,7 +23,7 @@ describe('component/UserLimitModal', () => {
         const wrapper = shallow(<UserLimitModal
             {...requiredProps}
             show={false}
-                                />);
+        />);
         expect(wrapper).toMatchSnapshot();
     });
 });
