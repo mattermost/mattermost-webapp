@@ -70,7 +70,7 @@ describe('Verify Accessibility Support in different input fields', () => {
         });
     });
 
-    it('MM-22625 Verify Accessibility Support in Input fields in Invite People Flow', () => {
+    it('MM-T1456 Verify Accessibility Support in Input fields in Invite People Flow', () => {
         // # Open Invite People
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
         cy.get('#invitePeople').should('be.visible').click();
@@ -109,7 +109,7 @@ describe('Verify Accessibility Support in different input fields', () => {
         });
     });
 
-    it('MM-22625 Verify Accessibility Support in Search Autocomplete', () => {
+    it('MM-T1457 Verify Accessibility Support in Search Autocomplete', () => {
         // # Adding at least five other users in the channel
         for (let i = 0; i < 5; i++) {
             cy.apiCreateUser().then(({user}) => { // eslint-disable-line
@@ -154,7 +154,7 @@ describe('Verify Accessibility Support in different input fields', () => {
         verifySearchAutocomplete(0, 'channel');
     });
 
-    it('MM-22625 Verify Accessibility Support in Message Autocomplete', () => {
+    it('MM-T1455 Verify Accessibility Support in Message Autocomplete', () => {
         // # Adding at least one other user in the channel
         cy.apiCreateUser().then(({user}) => {
             cy.apiAddUserToTeam(testTeam.id, user.id).then(() => {
@@ -203,7 +203,7 @@ describe('Verify Accessibility Support in different input fields', () => {
         });
     });
 
-    it('MM-22625 Verify Accessibility Support in Main Post Input', () => {
+    it('MM-T1458 Verify Accessibility Support in Main Post Input', () => {
         cy.get('#centerChannelFooter').within(() => {
             // * Verify Accessibility Support in Main Post input
             cy.get('#post_textbox').should('have.attr', 'aria-label', `write to ${testChannel.display_name}`).and('have.attr', 'role', 'textbox').clear().focus().type('test').tab({shift: true}).tab().tab();
@@ -219,7 +219,7 @@ describe('Verify Accessibility Support in different input fields', () => {
         cy.get('#postCreateFooter .textbox-help-link').should('have.class', 'a11y--active a11y--focused');
     });
 
-    it('MM-22625 Verify Accessibility Support in RHS Input', () => {
+    it('MM-T1490 Verify Accessibility Support in RHS Input', () => {
         // # Wait till page is loaded
         cy.get('#post_textbox').should('be.visible').clear();
 

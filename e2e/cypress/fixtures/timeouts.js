@@ -8,6 +8,7 @@ const SECOND = MILLISECONDS_PER_SECOND;
 const MINUTE = SECOND * SECONDS_PER_MINUTE;
 
 module.exports = {
+    ONE_HUNDRED_MILLIS: 100,
     HALF_SEC: SECOND / 2,
     ONE_SEC: SECOND,
     TWO_SEC: SECOND * 2,
@@ -22,4 +23,5 @@ module.exports = {
     FOUR_MIN: MINUTE * 4,
     FIVE_MIN: MINUTE * 5,
     TEN_MIN: MINUTE * 10,
+    TWENTY_MIN: MINUTE * 20,
 };

@@ -4,6 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+import classNames from 'classnames';
 
 import * as PostListUtils from 'mattermost-redux/utils/post_list';
 
@@ -34,6 +35,12 @@ export default class PostListRow extends React.PureComponent {
          * To check if the state of emoji for last message and from where it was emitted
          */
         shortcutReactToLastPostEmittedFrom: PropTypes.string,
+
+        /**
+         * is used for hiding animation of loader
+         */
+        loadingNewerPosts: PropTypes.bool,
+        loadingOlderPosts: PropTypes.bool,
 
         actions: PropTypes.shape({
 
@@ -66,7 +73,14 @@ export default class PostListRow extends React.PureComponent {
     }
 
     render() {
-        const {listId, previousListId} = this.props;
+        const {listId, previousListId, loadingOlderPosts, loadingNewerPosts} = this.props;
+        const {
+            OLDER_MESSAGES_LOADER,
+            NEWER_MESSAGES_LOADER,
+            CHANNEL_INTRO_MESSAGE,
+            LOAD_OLDER_MESSAGES_TRIGGER,
+            LOAD_NEWER_MESSAGES_TRIGGER,
+        } = PostListRowListIds;
 
         if (PostListUtils.isDateLine(listId)) {
             const date = PostListUtils.getDateForDateLine(listId);
@@ -85,17 +99,17 @@ export default class PostListRow extends React.PureComponent {
             );
         }
 
-        if (listId === PostListRowListIds.CHANNEL_INTRO_MESSAGE) {
+        if (listId === CHANNEL_INTRO_MESSAGE) {
             return (
                 <ChannelIntroMessage/>
             );
         }
 
-        if (listId === PostListRowListIds.LOAD_OLDER_MESSAGES_TRIGGER || listId === PostListRowListIds.LOAD_NEWER_MESSAGES_TRIGGER) {
+        if (listId === LOAD_OLDER_MESSAGES_TRIGGER || listId === LOAD_NEWER_MESSAGES_TRIGGER) {
             return (
                 <button
                     className='more-messages-text theme style--none color--link'
-                    onClick={listId === PostListRowListIds.LOAD_OLDER_MESSAGES_TRIGGER ? this.props.loadOlderPosts : this.props.loadNewerPosts}
+                    onClick={listId === LOAD_OLDER_MESSAGES_TRIGGER ? this.props.loadOlderPosts : this.props.loadNewerPosts}
                 >
                     <FormattedMessage
                         id='posts_view.loadMore'
@@ -105,12 +119,16 @@ export default class PostListRow extends React.PureComponent {
             );
         }
 
-        if (listId === PostListRowListIds.OLDER_MESSAGES_LOADER || listId === PostListRowListIds.NEWER_MESSAGES_LOADER) {
+        const isOlderMessagesLoader = listId === OLDER_MESSAGES_LOADER;
+        const isNewerMessagesLoader = listId === NEWER_MESSAGES_LOADER;
+        if (isOlderMessagesLoader || isNewerMessagesLoader) {
+            const shouldHideAnimation = !loadingOlderPosts && !loadingNewerPosts;
+
             return (
                 <div
                     className='loading-screen'
                 >
-                    <div className='loading__content'>
+                    <div className={classNames('loading__content', {hideAnimation: shouldHideAnimation})}>
                         <div className='round round-1'/>
                         <div className='round round-2'/>
                         <div className='round round-3'/>

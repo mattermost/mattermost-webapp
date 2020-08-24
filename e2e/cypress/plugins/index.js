@@ -10,6 +10,7 @@ const {
     dbUpdateUserSession,
 } = require('./db_request');
 const externalRequest = require('./external_request');
+const fileExist = require('./file_exist');
 const getRecentEmail = require('./get_recent_email');
 const oktaRequest = require('./okta_request');
 const postBotMessage = require('./post_bot_message');
@@ -29,6 +30,7 @@ module.exports = (on, config) => {
         dbGetUserSession,
         dbUpdateUserSession,
         externalRequest,
+        fileExist,
         getRecentEmail,
         log,
         oktaRequest,

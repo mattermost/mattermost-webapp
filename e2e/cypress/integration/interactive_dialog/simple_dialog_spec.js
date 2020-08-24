@@ -22,7 +22,7 @@ let createdCommand;
 let simpleDialog;
 
 describe('Interactive Dialog', () => {
-    describe('ID17212 Interactive Dialog without element', () => {
+    describe('MM-T2500 Interactive Dialog without element', () => {
         before(() => {
             cy.requireWebhookServer();
 
@@ -42,7 +42,7 @@ describe('Interactive Dialog', () => {
                     icon_url: '',
                     method: 'P',
                     team_id: team.id,
-                    trigger: 'simple_dialog' + Date.now(),
+                    trigger: 'simple_dialog',
                     url: `${webhookBaseUrl}/simple_dialog_request`,
                     username: '',
                 };

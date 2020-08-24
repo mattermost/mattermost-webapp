@@ -49,7 +49,7 @@ describe('Account Settings > Sidebar > General', () => {
         });
     });
 
-    it('M17459 - Filtering by first name with Korean characters', () => {
+    it('MM-T183 Filtering by first name with Korean characters', () => {
         cy.apiLogin(otherUser);
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
