@@ -20,10 +20,11 @@ describe('component/UserLimitModal', () => {
     });
 
     test('should not display when show is false', () => {
-        const wrapper = shallow(<UserLimitModal
-            {...requiredProps}
-            show={false}
-        />);
+        const wrapper = shallow(
+            <UserLimitModal
+                {...requiredProps}
+                show={false}
+            />);
         expect(wrapper).toMatchSnapshot();
     });
 });

@@ -51,7 +51,6 @@ export default function UserLimitModal(props: Props) {
                     <div className='buttons'>
                         <Button
                             className='dismiss-link'
-                            variant='link'
                             onClick={close}
                         >
                             <FormattedMessage
@@ -61,7 +60,6 @@ export default function UserLimitModal(props: Props) {
                         </Button>
                         <Button
                             className='confirm-button'
-                            variant='primary'
                             onClick={onSubmit}
                         >
                             <FormattedMessage
