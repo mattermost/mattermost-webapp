@@ -15,6 +15,7 @@ import InvitationModalInitialStep from './invitation_modal_initial_step.jsx';
 import InvitationModalMembersStep from './invitation_modal_members_step.jsx';
 import InvitationModalGuestsStep from './invitation_modal_guests_step.jsx';
 import InvitationModalConfirmStep from './invitation_modal_confirm_step.jsx';
+
 import './invitation_modal.scss';
 
 const STEPS_INITIAL = 'initial';
