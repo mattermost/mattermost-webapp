@@ -52,7 +52,7 @@ describe('Join an open team from a direct message link', () => {
 
         // # Copy full url to channel
         cy.url().then((openTeamChannelUrl) => {
-            // # From the 'Direct Messages' menu, find a specific user and send 'hi'
+            // # From the 'Direct Messages' menu, send the URL of the public channel to the user outside the team
             sendDirectMessageToUser(testUserOutsideOpenTeam, openTeamChannelUrl);
 
             // # Logout as test user
@@ -92,11 +92,13 @@ describe('Join an open team from a direct message link', () => {
 });
 
 const sendDirectMessageToUser = (user, message) => {
-    // # Open a new direct message with firstDMUser
+    // # Open the direct messages dialog
     cy.get('#addDirectChannel').click();
 
     // # Type username
-    cy.get('#selectItems input').should('be.enabled').type(`@${user.username}`, {force: true});
+    cy.get('#selectItems input').
+        should('be.enabled').
+        type(`@${user.username}`, {force: true});
 
     // * Expect user count in the list to be 1
     cy.get('#multiSelectList').
