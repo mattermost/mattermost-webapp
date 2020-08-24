@@ -99,6 +99,7 @@ export default class DatabaseSettings extends AdminSettings {
                         defaultMessage: 'Recycling unsuccessful: {error}',
                     }}
                     includeDetailedError={true}
+                    disabled={this.props.isDisabled}
                 />
             );
         }
@@ -179,6 +180,7 @@ export default class DatabaseSettings extends AdminSettings {
                     value={this.state.maxIdleConns}
                     onChange={this.handleChange}
                     setByEnv={this.isSetByEnv('SqlSettings.MaxIdleConns')}
+                    disabled={this.props.isDisabled}
                 />
                 <TextSetting
                     id='maxOpenConns'
@@ -198,6 +200,7 @@ export default class DatabaseSettings extends AdminSettings {
                     value={this.state.maxOpenConns}
                     onChange={this.handleChange}
                     setByEnv={this.isSetByEnv('SqlSettings.MaxOpenConns')}
+                    disabled={this.props.isDisabled}
                 />
                 <TextSetting
                     id='queryTimeout'
@@ -217,6 +220,7 @@ export default class DatabaseSettings extends AdminSettings {
                     value={this.state.queryTimeout}
                     onChange={this.handleChange}
                     setByEnv={this.isSetByEnv('SqlSettings.QueryTimeout')}
+                    disabled={this.props.isDisabled}
                 />
                 <TextSetting
                     id='connMaxLifetimeMilliseconds'
@@ -236,6 +240,7 @@ export default class DatabaseSettings extends AdminSettings {
                     value={this.state.connMaxLifetimeMilliseconds}
                     onChange={this.handleChange}
                     setByEnv={this.isSetByEnv('SqlSettings.ConnMaxLifetimeMilliseconds')}
+                    disabled={this.props.isDisabled}
                 />
                 <TextSetting
                     id='minimumHashtagLength'
@@ -255,6 +260,7 @@ export default class DatabaseSettings extends AdminSettings {
                     value={this.state.minimumHashtagLength}
                     onChange={this.handleChange}
                     setByEnv={this.isSetByEnv('ServiceSettings.MinimumHashtagLength')}
+                    disabled={this.props.isDisabled}
                 />
                 <BooleanSetting
                     id='trace'
@@ -273,6 +279,7 @@ export default class DatabaseSettings extends AdminSettings {
                     value={this.state.trace}
                     onChange={this.handleChange}
                     setByEnv={this.isSetByEnv('SqlSettings.Trace')}
+                    disabled={this.props.isDisabled}
                 />
                 {recycleDbButton}
                 <BooleanSetting
@@ -292,6 +299,7 @@ export default class DatabaseSettings extends AdminSettings {
                     value={this.state.disableDatabaseSearch}
                     onChange={this.handleChange}
                     setByEnv={this.isSetByEnv('SqlSettings.DisableDatabaseSearch')}
+                    disabled={this.props.isDisabled}
                 />
             </SettingsGroup>
         );

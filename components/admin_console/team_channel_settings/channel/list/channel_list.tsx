@@ -34,6 +34,7 @@ interface ChannelListProps {
     onPageChangedCallback?: () => void;
     emptyListTextId?: string;
     emptyListTextDefaultMessage?: string;
+    isDisabled?: boolean;
 }
 
 interface ChannelListState {
