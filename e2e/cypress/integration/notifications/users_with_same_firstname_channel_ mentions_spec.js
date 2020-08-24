@@ -77,10 +77,9 @@ describe('Notifications', () => {
             // # Login as first user and visit town square
             cy.apiLogin(firstUser);
             cy.visit(`/${testTeam.name}/channels/town-square`);
-            cy.wait(TIMEOUTS.HALF_MIN);
 
             // * Check that the display name of the team the user was invited to is being correctly displayed
-            cy.get('#headerUsername').should('contain.text', firstUser.username);
+            cy.get('#headerUsername', {timeout: TIMEOUTS.HALF_MIN}).should('contain.text', firstUser.username);
 
             // * Check that 'Town Square' is currently being selected
             cy.get('.active').within(() => {
