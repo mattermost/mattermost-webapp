@@ -33,6 +33,7 @@ export default class PermissionSchemesSettings extends React.PureComponent {
             loadSchemes: PropTypes.func.isRequired,
             loadSchemeTeams: PropTypes.func.isRequired,
         }),
+        isDisabled: PropTypes.bool,
     };
 
     constructor(props) {
@@ -135,6 +136,7 @@ export default class PermissionSchemesSettings extends React.PureComponent {
                 scheme={scheme}
                 history={this.props.history}
                 key={scheme.id}
+                isDisabled={this.props.isDisabled}
             />
         ));
         const hasCustomSchemes = this.props.license.CustomPermissionsSchemes === 'true';
@@ -150,7 +152,7 @@ export default class PermissionSchemesSettings extends React.PureComponent {
                     subtitleId={t('admin.permissions.teamOverrideSchemesBannerText')}
                     subtitleDefault='Use when specific teams need permission exceptions to the [System Scheme](!https://about.mattermost.com/default-system-scheme).'
                     url='/admin_console/user_management/permissions/team_override_scheme'
-                    disabled={teamOverrideView !== null}
+                    disabled={(teamOverrideView !== null) || this.props.isDisabled}
                     linkTextId={t('admin.permissions.teamOverrideSchemesNewButton')}
                     linkTextDefault='New Team Override Scheme'
                 >
@@ -167,7 +169,7 @@ export default class PermissionSchemesSettings extends React.PureComponent {
                         <button
                             className='more-schemes theme style--none color--link'
                             onClick={this.loadMoreSchemes}
-                            disabled={this.state.loadingMore}
+                            disabled={this.props.isDisabled || this.state.loadingMore}
                         >
                             <LoadingWrapper
                                 loading={this.state.loadingMore}
@@ -311,12 +313,12 @@ t('admin.permissions.permission.manage_jobs.description');
 t('admin.permissions.permission.manage_jobs.name');
 t('admin.permissions.permission.manage_oauth.description');
 t('admin.permissions.permission.manage_oauth.name');
-t('admin.permissions.permission.manage_private_channel_members.description');
-t('admin.permissions.permission.manage_private_channel_members.name');
+t('admin.permissions.group.manage_private_channel_members_and_read_groups.description');
+t('admin.permissions.group.manage_private_channel_members_and_read_groups.name');
 t('admin.permissions.permission.manage_private_channel_properties.description');
 t('admin.permissions.permission.manage_private_channel_properties.name');
-t('admin.permissions.permission.manage_public_channel_members.description');
-t('admin.permissions.permission.manage_public_channel_members.name');
+t('admin.permissions.group.manage_public_channel_members_and_read_groups.description');
+t('admin.permissions.group.manage_public_channel_members_and_read_groups.name');
 t('admin.permissions.permission.manage_public_channel_properties.description');
 t('admin.permissions.permission.manage_public_channel_properties.name');
 t('admin.permissions.permission.manage_roles.description');

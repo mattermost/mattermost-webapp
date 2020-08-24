@@ -52,6 +52,7 @@ interface Props {
     setNewGroupRole: (gid: string) => void;
     type: string;
     channel?: Partial<Channel>;
+    isDisabled?: boolean;
 }
 
 export default class GroupList extends React.PureComponent<Props> {
@@ -63,6 +64,7 @@ export default class GroupList extends React.PureComponent<Props> {
                 removeGroup={this.props.removeGroup}
                 setNewGroupRole={this.props.setNewGroupRole}
                 type={this.props.type}
+                isDisabled={this.props.isDisabled}
             />
         );
     }

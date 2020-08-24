@@ -17,6 +17,7 @@ type Props = {
     subtitleId: string;
     subtitleDefault: string;
     onToggle?: React.EventHandler<React.MouseEvent>;
+    isDisabled?: boolean;
 };
 
 const AdminPanelTogglable: React.FC<Props> = (props: Props) => {
