@@ -511,22 +511,12 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
         if (usersToUpdate && !isSynced) {
             const addUserActions: any[] = [];
             const removeUserActions: any[] = [];
-            const rolesToPromote: any[] = [];
-            const rolesToDemote: any[] = [];
             const {addChannelMember, removeChannelMember, updateChannelMemberSchemeRoles} = this.props.actions;
             usersToAddList.forEach((user) => {
                 addUserActions.push(addChannelMember(channelID, user.id));
             });
             usersToRemoveList.forEach((user) => {
                 removeUserActions.push(removeChannelMember(channelID, user.id));
-            });
-            userRolesToUpdate.forEach((userId) => {
-                const {schemeUser, schemeAdmin} = rolesToUpdate[userId];
-                if (schemeAdmin) {
-                    rolesToPromote.push(updateChannelMemberSchemeRoles(channelID, userId, schemeUser, schemeAdmin));
-                } else {
-                    rolesToDemote.push(updateChannelMemberSchemeRoles(channelID, userId, schemeUser, schemeAdmin));
-                }
             });
 
             if (addUserActions.length > 0) {
@@ -552,6 +542,17 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
                     trackEvent('admin_channel_config_page', 'members_removed_from_channel', {count, channel_id: channelID});
                 }
             }
+
+            const rolesToPromote: any[] = [];
+            const rolesToDemote: any[] = [];
+            userRolesToUpdate.forEach((userId) => {
+                const {schemeUser, schemeAdmin} = rolesToUpdate[userId];
+                if (schemeAdmin) {
+                    rolesToPromote.push(updateChannelMemberSchemeRoles(channelID, userId, schemeUser, schemeAdmin));
+                } else {
+                    rolesToDemote.push(updateChannelMemberSchemeRoles(channelID, userId, schemeUser, schemeAdmin));
+                }
+            });
 
             if (rolesToPromote.length > 0) {
                 const result = await Promise.all(rolesToPromote);

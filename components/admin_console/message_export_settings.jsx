@@ -65,17 +65,31 @@ export default class MessageExportSettings extends AdminSettings {
                 );
             }
             if (job.data.warning_count > 0) {
-                message.push(
-                    <div>
-                        <FormattedMessage
-                            id='admin.complianceExport.warningCount'
-                            defaultMessage='{count} warning(s) were encountered, see warning.txt for details'
-                            values={{
-                                count: job.data.warning_count,
-                            }}
-                        />
-                    </div>,
-                );
+                if (job.data.export_type === exportFormats.EXPORT_FORMAT_GLOBALRELAY) {
+                    message.push(
+                        <div>
+                            <FormattedMessage
+                                id='admin.complianceExport.warningCount.globalrelay'
+                                defaultMessage='{count} warning(s) encountered, see log for details'
+                                values={{
+                                    count: job.data.warning_count,
+                                }}
+                            />
+                        </div>,
+                    );
+                } else {
+                    message.push(
+                        <div>
+                            <FormattedMessage
+                                id='admin.complianceExport.warningCount'
+                                defaultMessage='{count} warning(s) encountered, see warning.txt for details'
+                                values={{
+                                    count: job.data.warning_count,
+                                }}
+                            />
+                        </div>,
+                    );
+                }
             }
             return message;
         }
