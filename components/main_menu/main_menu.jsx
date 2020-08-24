@@ -312,7 +312,7 @@ class MainMenu extends React.PureComponent {
                     />
                 </Menu.Group>
                 <Menu.Group>
-                    <SystemPermissionGate permissions={[Permissions.MANAGE_SYSTEM]}>
+                    <SystemPermissionGate permissions={Permissions.SYSCONSOLE_READ_PERMISSIONS}>
                         <Menu.ItemLink
                             id='systemConsole'
                             show={!this.props.mobile}

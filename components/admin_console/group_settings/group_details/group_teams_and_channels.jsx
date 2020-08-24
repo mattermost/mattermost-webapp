@@ -15,6 +15,7 @@ export default class GroupTeamsAndChannels extends React.PureComponent {
         loading: PropTypes.bool.isRequired,
         onChangeRoles: PropTypes.func.isRequired,
         onRemoveItem: PropTypes.func.isRequired,
+        isDisabled: PropTypes.bool,
     }
 
     constructor(props) {
@@ -151,6 +152,7 @@ export default class GroupTeamsAndChannels extends React.PureComponent {
                                 onRemoveItem={this.onRemoveItem}
                                 onChangeRoles={this.onChangeRoles}
                                 onToggleCollapse={this.onToggleCollapse}
+                                isDisabled={this.props.isDisabled}
                                 {...entry}
                             />
                         ))}

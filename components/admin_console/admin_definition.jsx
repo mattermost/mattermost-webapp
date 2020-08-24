@@ -139,18 +139,20 @@ const SAML_SETTINGS_CANONICAL_ALGORITHM_C14N11 = 'Canonical1.1';
 //   - fileType: A list of extensions separated by ",". E.g. ".jpg,.png,.gif".
 
 export const it = {
-    isnt: (func) => (config, state, license, enterpriseReady) => !func(config, state, license, enterpriseReady),
-    both: (...funcs) => (config, state, license) => {
+    not: (func) => (config, state, license, enterpriseReady, consoleAccess) => {
+        return typeof func === 'function' ? !func(config, state, license, enterpriseReady, consoleAccess) : !func;
+    },
+    all: (...funcs) => (config, state, license, enterpriseReady, consoleAccess) => {
         for (const func of funcs) {
-            if (!func(config, state, license)) {
+            if (typeof func === 'function' ? !func(config, state, license, enterpriseReady, consoleAccess) : !func) {
                 return false;
             }
         }
         return true;
     },
-    either: (...funcs) => (config, state, license, enterpriseReady) => {
+    any: (...funcs) => (config, state, license, enterpriseReady, consoleAccess) => {
         for (const func of funcs) {
-            if (func(config, state, license, enterpriseReady)) {
+            if (typeof func === 'function' ? func(config, state, license, enterpriseReady, consoleAccess) : func) {
                 return true;
             }
         }
@@ -165,6 +167,8 @@ export const it = {
     enterpriseReady: (config, state, license, enterpriseReady) => enterpriseReady,
     licensed: (config, state, license) => license.IsLicensed === 'true',
     licensedForFeature: (feature) => (config, state, license) => license.IsLicensed && license[feature] === 'true',
+    userHasReadPermissionOnResource: (key) => (config, state, license, enterpriseReady, consoleAccess) => consoleAccess?.read?.[key],
+    userHasWritePermissionOnResource: (key) => (config, state, license, enterpriseReady, consoleAccess) => consoleAccess?.write?.[key],
 };
 
 const AdminDefinition = {
@@ -172,14 +176,11 @@ const AdminDefinition = {
         icon: 'fa-info-circle',
         sectionTitle: t('admin.sidebar.about'),
         sectionTitleDefault: 'About',
+        isHidden: it.not(it.userHasReadPermissionOnResource('about')),
         license: {
             url: 'about/license',
             title: t('admin.sidebar.license'),
             title_default: 'Edition and License',
-            isHidden: it.either(
-                it.isnt(it.enterpriseReady),
-                it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
-            ),
             searchableStrings: [
                 'admin.license.title',
                 'admin.license.uploadDesc',
@@ -190,6 +191,11 @@ const AdminDefinition = {
                 'Mattermost Enterprise Edition. Unlock enterprise features in this software through the purchase of a subscription from ',
                 'This software is offered under a commercial license.\n\nSee ENTERPRISE-EDITION-LICENSE.txt in your root install directory for details. See NOTICE.txt for information about open source software used in this system.',
             ],
+            isHidden: it.any(
+                it.not(it.enterpriseReady),
+                it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
+            ),
+            isDisabled: it.not(it.userHasWritePermissionOnResource('about')),
             schema: {
                 id: 'LicenseSettings',
                 component: LicenseSettings,
@@ -200,6 +206,7 @@ const AdminDefinition = {
         icon: 'fa-bar-chart',
         sectionTitle: t('admin.sidebar.reporting'),
         sectionTitleDefault: 'Reporting',
+        isHidden: it.not(it.userHasReadPermissionOnResource('reporting')),
         system_analytics: {
             url: 'reporting/system_analytics',
             title: t('admin.sidebar.siteStatistics'),
@@ -266,13 +273,13 @@ const AdminDefinition = {
         icon: 'fa-users',
         sectionTitle: t('admin.sidebar.userManagement'),
         sectionTitleDefault: 'User Management',
-        system_user_detail: {
-            url: 'user_management/user/:user_id',
-            schema: {
-                id: 'SystemUserDetail',
-                component: SystemUserDetail,
-            },
-        },
+        isHidden: it.all(
+            it.not(it.userHasReadPermissionOnResource('user_management.users')),
+            it.not(it.userHasReadPermissionOnResource('user_management.groups')),
+            it.not(it.userHasReadPermissionOnResource('user_management.teams')),
+            it.not(it.userHasReadPermissionOnResource('user_management.channels')),
+            it.not(it.userHasReadPermissionOnResource('user_management.permissions')),
+        ),
         system_users: {
             url: 'user_management/users',
             title: t('admin.sidebar.users'),
@@ -280,16 +287,24 @@ const AdminDefinition = {
             searchableStrings: [
                 ['admin.system_users.title', {siteName: ''}],
             ],
+            isDisabled: it.not(it.userHasWritePermissionOnResource('user_management.users')),
+            isHidden: it.not(it.userHasReadPermissionOnResource('user_management.users')),
             schema: {
                 id: 'SystemUsers',
                 component: SystemUsers,
             },
         },
+        system_user_detail: {
+            url: 'user_management/user/:user_id',
+            isDisabled: it.not(it.userHasWritePermissionOnResource('user_management.users')),
+            schema: {
+                id: 'SystemUserDetail',
+                component: SystemUserDetail,
+            },
+        },
         group_detail: {
             url: 'user_management/groups/:group_id',
-            isHidden: it.either(
-                it.isnt(it.licensedForFeature('LDAPGroups')),
-            ),
+            isDisabled: it.not(it.userHasWritePermissionOnResource('user_management.groups')),
             schema: {
                 id: 'GroupDetail',
                 component: GroupDetails,
@@ -299,9 +314,11 @@ const AdminDefinition = {
             url: 'user_management/groups',
             title: t('admin.sidebar.groups'),
             title_default: 'Groups',
-            isHidden: it.either(
-                it.isnt(it.licensedForFeature('LDAPGroups')),
+            isHidden: it.any(
+                it.not(it.licensedForFeature('LDAPGroups')),
+                it.not(it.userHasReadPermissionOnResource('user_management.groups')),
             ),
+            isDisabled: it.not(it.userHasWritePermissionOnResource('user_management.groups')),
             schema: {
                 id: 'Groups',
                 component: GroupSettings,
@@ -309,9 +326,7 @@ const AdminDefinition = {
         },
         team_detail: {
             url: 'user_management/teams/:team_id',
-            isHidden: it.either(
-                it.isnt(it.licensedForFeature('LDAPGroups')),
-            ),
+            isDisabled: it.not(it.userHasWritePermissionOnResource('user_management.teams')),
             schema: {
                 id: 'TeamDetail',
                 component: TeamDetails,
@@ -321,8 +336,9 @@ const AdminDefinition = {
             url: 'user_management/teams',
             title: t('admin.sidebar.teams'),
             title_default: 'Teams',
-            isHidden: it.either(
-                it.isnt(it.licensedForFeature('LDAPGroups')),
+            isHidden: it.any(
+                it.not(it.licensedForFeature('LDAPGroups')),
+                it.not(it.userHasReadPermissionOnResource('user_management.teams')),
             ),
             schema: {
                 id: 'Teams',
@@ -331,9 +347,7 @@ const AdminDefinition = {
         },
         channel_detail: {
             url: 'user_management/channels/:channel_id',
-            isHidden: it.either(
-                it.isnt(it.licensedForFeature('LDAPGroups')),
-            ),
+            isDisabled: it.not(it.userHasWritePermissionOnResource('user_management.channels')),
             schema: {
                 id: 'ChannelDetail',
                 component: ChannelDetails,
@@ -343,9 +357,11 @@ const AdminDefinition = {
             url: 'user_management/channels',
             title: t('admin.sidebar.channels'),
             title_default: 'Channels',
-            isHidden: it.either(
-                it.isnt(it.licensedForFeature('LDAPGroups')),
+            isHidden: it.any(
+                it.not(it.licensedForFeature('LDAPGroups')),
+                it.not(it.userHasReadPermissionOnResource('user_management.channels')),
             ),
+            isDisabled: it.not(it.userHasWritePermissionOnResource('user_management.channels')),
             schema: {
                 id: 'Channels',
                 component: ChannelSettings,
@@ -353,7 +369,7 @@ const AdminDefinition = {
         },
         systemScheme: {
             url: 'user_management/permissions/system_scheme',
-            isHidden: it.isnt(it.licensed),
+            isDisabled: it.not(it.userHasWritePermissionOnResource('user_management.permissions')),
             schema: {
                 id: 'PermissionSystemScheme',
                 component: PermissionSystemSchemeSettings,
@@ -361,10 +377,7 @@ const AdminDefinition = {
         },
         teamSchemeDetail: {
             url: 'user_management/permissions/team_override_scheme/:scheme_id',
-            isHidden: it.either(
-                it.isnt(it.licensed),
-                it.isnt(it.licensedForFeature('CustomPermissionsSchemes')),
-            ),
+            isDisabled: it.not(it.userHasWritePermissionOnResource('user_management.permissions')),
             schema: {
                 id: 'PermissionSystemScheme',
                 component: PermissionTeamSchemeSettings,
@@ -372,10 +385,7 @@ const AdminDefinition = {
         },
         teamScheme: {
             url: 'user_management/permissions/team_override_scheme',
-            isHidden: it.either(
-                it.isnt(it.licensed),
-                it.isnt(it.licensedForFeature('CustomPermissionsSchemes')),
-            ),
+            isDisabled: it.not(it.userHasWritePermissionOnResource('user_management.permissions')),
             schema: {
                 id: 'PermissionSystemScheme',
                 component: PermissionTeamSchemeSettings,
@@ -385,7 +395,6 @@ const AdminDefinition = {
             url: 'user_management/permissions/',
             title: t('admin.sidebar.permissions'),
             title_default: 'Permissions',
-            isHidden: it.isnt(it.licensed),
             searchableStrings: [
                 'admin.permissions.documentationLinkText',
                 'admin.permissions.teamOverrideSchemesNoSchemes',
@@ -398,6 +407,11 @@ const AdminDefinition = {
                 'admin.permissions.teamOverrideSchemesBannerText',
                 'admin.permissions.teamOverrideSchemesNewButton',
             ],
+            isHidden: it.any(
+                it.not(it.licensed),
+                it.not(it.userHasReadPermissionOnResource('user_management.permissions')),
+            ),
+            isDisabled: it.not(it.userHasWritePermissionOnResource('user_management.permissions')),
             schema: {
                 id: 'PermissionSchemes',
                 component: PermissionSchemesSettings,
@@ -408,6 +422,7 @@ const AdminDefinition = {
         icon: 'fa-server',
         sectionTitle: t('admin.sidebar.environment'),
         sectionTitleDefault: 'Environment',
+        isHidden: it.not(it.userHasReadPermissionOnResource('environment')),
         web_server: {
             url: 'environment/web_server',
             title: t('admin.sidebar.webServer'),
@@ -434,6 +449,7 @@ const AdminDefinition = {
                         help_text_markdown: true,
                         placeholder: t('admin.service.siteURLExample'),
                         placeholder_default: 'E.g.: "http://example.com:8065"',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BUTTON,
@@ -447,6 +463,7 @@ const AdminDefinition = {
                         error_message_default: 'Test unsuccessful: {error}',
                         success_message: t('admin.service.testSiteURLSuccess'),
                         success_message_default: 'Test successful. This is a valid URL.',
+                        isDisabled: it.not(it.userHasReadPermissionOnResource('environment')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -457,6 +474,7 @@ const AdminDefinition = {
                         placeholder_default: 'E.g.: ":8065"',
                         help_text: t('admin.service.listenDescription'),
                         help_text_default: 'The address and port to which to bind and listen. Specifying ":8065" will bind to all network interfaces. Specifying "127.0.0.1:8065" will only bind to the network interface having that IP address. If you choose a port of a lower level (called "system ports" or "well-known ports", in the range of 0-1023), you must have permissions to bind to that port. On Linux you can use: "sudo setcap cap_net_bind_service=+ep ./bin/mattermost" to allow Mattermost to bind to well-known ports.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -468,7 +486,10 @@ const AdminDefinition = {
                         disabled_help_text: t('admin.service.forward80To443Description.disabled'),
                         disabled_help_text_default: 'Forwards all insecure traffic from port 80 to secure port 443. Not recommended when using a proxy server.\n \nThis setting cannot be enabled until your server is [listening](#ListenAddress) on port 443.',
                         disabled_help_text_markdown: true,
-                        isDisabled: it.isnt(it.stateMatches('ServiceSettings.ListenAddress', /:443$/)),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('environment')),
+                            it.not(it.stateMatches('ServiceSettings.ListenAddress', /:443$/)),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_DROPDOWN,
@@ -488,6 +509,7 @@ const AdminDefinition = {
                                 display_name_default: 'TLS (Recommended)',
                             },
                         ],
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -496,7 +518,10 @@ const AdminDefinition = {
                         label_default: 'TLS Certificate File:',
                         help_text: t('admin.service.tlsCertFileDescription'),
                         help_text_default: 'The certificate file to use.',
-                        isDisabled: it.stateIsTrue('ServiceSettings.UseLetsEncrypt'),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('environment')),
+                            it.stateIsTrue('ServiceSettings.UseLetsEncrypt'),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -505,7 +530,10 @@ const AdminDefinition = {
                         label_default: 'TLS Key File:',
                         help_text: t('admin.service.tlsKeyFileDescription'),
                         help_text_default: 'The private key file to use.',
-                        isDisabled: it.stateIsTrue('ServiceSettings.UseLetsEncrypt'),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('environment')),
+                            it.stateIsTrue('ServiceSettings.UseLetsEncrypt'),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -517,7 +545,10 @@ const AdminDefinition = {
                         disabled_help_text: t('admin.service.useLetsEncryptDescription.disabled'),
                         disabled_help_text_default: 'Enable the automatic retrieval of certificates from Let\'s Encrypt. The certificate will be retrieved when a client attempts to connect from a new domain. This will work with multiple domains.\n \nThis setting cannot be enabled unless the [Forward port 80 to 443](#Forward80To443) setting is set to true.',
                         disabled_help_text_markdown: true,
-                        isDisabled: it.stateIsFalse('ServiceSettings.Forward80To443'),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('environment')),
+                            it.stateIsFalse('ServiceSettings.Forward80To443'),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -526,7 +557,10 @@ const AdminDefinition = {
                         label_default: 'Let\'s Encrypt Certificate Cache File:',
                         help_text: t('admin.service.letsEncryptCertificateCacheFileDescription'),
                         help_text_default: 'Certificates retrieved and other data about the Let\'s Encrypt service will be stored in this file.',
-                        isDisabled: it.stateIsFalse('ServiceSettings.UseLetsEncrypt'),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('environment')),
+                            it.stateIsFalse('ServiceSettings.UseLetsEncrypt'),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_NUMBER,
@@ -535,6 +569,7 @@ const AdminDefinition = {
                         label_default: 'Read Timeout:',
                         help_text: t('admin.service.readTimeoutDescription'),
                         help_text_default: 'Maximum time allowed from when the connection is accepted to when the request body is fully read.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_NUMBER,
@@ -543,6 +578,7 @@ const AdminDefinition = {
                         label_default: 'Write Timeout:',
                         help_text: t('admin.service.writeTimeoutDescription'),
                         help_text_default: 'If using HTTP (insecure), this is the maximum time allowed from the end of reading the request headers until the response is written. If using HTTPS, it is the total time from when the connection is accepted until the response is written.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_DROPDOWN,
@@ -567,6 +603,7 @@ const AdminDefinition = {
                                 display_name_default: 'Disabled',
                             },
                         ],
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -575,6 +612,7 @@ const AdminDefinition = {
                         label_default: 'Enable Insecure Outgoing Connections: ',
                         help_text: t('admin.service.insecureTlsDesc'),
                         help_text_default: 'When true, any outgoing HTTPS requests will accept unverified, self-signed certificates. For example, outgoing webhooks to a server with a self-signed TLS certificate, using any domain, will be allowed. Note that this makes these connections susceptible to man-in-the-middle attacks.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BUTTON,
@@ -606,6 +644,7 @@ const AdminDefinition = {
                         },
                         error_message: t('admin.reload.reloadFail'),
                         error_message_default: 'Reload unsuccessful: {error}',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BUTTON,
@@ -617,6 +656,7 @@ const AdminDefinition = {
                         help_text_default: 'This will purge all the in-memory caches for things like sessions, accounts, channels, etc. Deployments using High Availability will attempt to purge all the servers in the cluster.  Purging the caches may adversely impact performance.',
                         error_message: t('admin.purge.purgeFail'),
                         error_message_default: 'Purging unsuccessful: {error}',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
                     },
                 ],
             },
@@ -625,7 +665,6 @@ const AdminDefinition = {
             url: 'environment/database',
             title: t('admin.sidebar.database'),
             title_default: 'Database',
-            isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
             searchableStrings: [
                 'admin.database.title',
                 ['admin.recycle.recycleDescription', {featureName: '', reloadConfiguration: ''}],
@@ -650,6 +689,8 @@ const AdminDefinition = {
                 'admin.sql.traceTitle',
                 'admin.sql.traceDescription',
             ],
+            isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
+            isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
             schema: {
                 id: 'DatabaseSettings',
                 component: DatabaseSettings,
@@ -659,8 +700,8 @@ const AdminDefinition = {
             url: 'environment/elasticsearch',
             title: t('admin.sidebar.elasticsearch'),
             title_default: 'Elasticsearch',
-            isHidden: it.either(
-                it.isnt(it.licensedForFeature('Elasticsearch')),
+            isHidden: it.any(
+                it.not(it.licensedForFeature('Elasticsearch')),
                 it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
             ),
             searchableStrings: [
@@ -689,6 +730,7 @@ const AdminDefinition = {
                 'admin.elasticsearch.enableSearchingTitle',
                 'admin.elasticsearch.enableSearchingDescription',
             ],
+            isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
             schema: {
                 id: 'ElasticSearchSettings',
                 component: ElasticSearchSettings,
@@ -724,6 +766,7 @@ const AdminDefinition = {
                                 display_name_default: 'Amazon S3',
                             },
                         ],
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -734,7 +777,10 @@ const AdminDefinition = {
                         help_text_default: 'Directory to which files and images are written. If blank, defaults to ./data/.',
                         placeholder: t('admin.image.localExample'),
                         placeholder_default: 'E.g.: "./data/"',
-                        isDisabled: it.isnt(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_LOCAL)),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('environment')),
+                            it.not(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_LOCAL)),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_NUMBER,
@@ -747,6 +793,7 @@ const AdminDefinition = {
                         placeholder_default: '50',
                         onConfigLoad: (configVal) => configVal / MEBIBYTE,
                         onConfigSave: (displayVal) => displayVal * MEBIBYTE,
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -757,18 +804,21 @@ const AdminDefinition = {
                         help_text_default: 'Name you selected for your S3 bucket in AWS.',
                         placeholder: t('admin.image.amazonS3BucketExample'),
                         placeholder_default: 'E.g.: "mattermost-media"',
-                        isDisabled: it.isnt(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('environment')),
+                            it.not(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
-                        key: 'FileSettings.AmazonSPathPrefix',
+                        key: 'FileSettings.AmazonS3PathPrefix',
                         label: t('admin.image.amazonS3PathPrefixTitle'),
                         label_default: 'Amazon S3 Path Prefix:',
                         help_text: t('admin.image.amazonS3PathPrefixDescription'),
                         help_text_default: 'Prefix you selected for your S3 bucket in AWS.',
                         placeholder: t('admin.image.amazonS3PathPrefixExample'),
                         placeholder_default: 'E.g.: "subdir1/" or you can leave it .',
-                        isDisabled: it.isnt(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
+                        isDisabled: it.not(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -779,7 +829,10 @@ const AdminDefinition = {
                         help_text_default: 'AWS region you selected when creating your S3 bucket. If no region is set, Mattermost attempts to get the appropriate region from AWS, or sets it to "us-east-1" if none found.',
                         placeholder: t('admin.image.amazonS3RegionExample'),
                         placeholder_default: 'E.g.: "us-east-1"',
-                        isDisabled: it.isnt(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('environment')),
+                            it.not(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -791,7 +844,10 @@ const AdminDefinition = {
                         help_text_default: '(Optional) Only required if you do not want to authenticate to S3 using an [IAM role](!https://about.mattermost.com/default-iam-role). Enter the Access Key ID provided by your Amazon EC2 administrator.',
                         placeholder: t('admin.image.amazonS3IdExample'),
                         placeholder_default: 'E.g.: "AKIADTOVBGERKLCBV"',
-                        isDisabled: it.isnt(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('environment')),
+                            it.not(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -802,7 +858,10 @@ const AdminDefinition = {
                         help_text_default: 'Hostname of your S3 Compatible Storage provider. Defaults to "s3.amazonaws.com".',
                         placeholder: t('admin.image.amazonS3EndpointExample'),
                         placeholder_default: 'E.g.: "s3.amazonaws.com"',
-                        isDisabled: it.isnt(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('environment')),
+                            it.not(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -813,7 +872,10 @@ const AdminDefinition = {
                         help_text_default: '(Optional) The secret access key associated with your Amazon S3 Access Key ID.',
                         placeholder: t('admin.image.amazonS3SecretExample'),
                         placeholder_default: 'E.g.: "jcuS8PuvcpGhpgHhlcpT1Mx42pnqMxQY"',
-                        isDisabled: it.isnt(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('environment')),
+                            it.not(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -822,7 +884,10 @@ const AdminDefinition = {
                         label_default: 'Enable Secure Amazon S3 Connections:',
                         help_text: t('admin.image.amazonS3SSLDescription'),
                         help_text_default: 'When false, allow insecure connections to Amazon S3. Defaults to secure connections only.',
-                        isDisabled: it.isnt(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('environment')),
+                            it.not(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -832,8 +897,11 @@ const AdminDefinition = {
                         help_text: t('admin.image.amazonS3SSEDescription'),
                         help_text_markdown: true,
                         help_text_default: 'When true, encrypt files in Amazon S3 using server-side encryption with Amazon S3-managed keys. See [documentation](!https://about.mattermost.com/default-server-side-encryption) to learn more.',
-                        isHidden: it.isnt(it.licensedForFeature('Compliance')),
-                        isDisabled: it.isnt(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
+                        isHidden: it.not(it.licensedForFeature('Compliance')),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('environment')),
+                            it.not(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -842,7 +910,10 @@ const AdminDefinition = {
                         label_default: 'Enable Amazon S3 Debugging:',
                         help_text: t('admin.image.amazonS3TraceDescription'),
                         help_text_default: '(Development Mode) When true, log additional debugging information to the system logs.',
-                        isDisabled: it.isnt(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('environment')),
+                            it.not(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BUTTON,
@@ -856,6 +927,7 @@ const AdminDefinition = {
                         error_message_default: 'Connection unsuccessful: {error}',
                         success_message: t('admin.s3.s3Success'),
                         success_message_default: 'Connection was successful',
+                        isDisabled: it.not(it.userHasReadPermissionOnResource('environment')),
                     },
                 ],
             },
@@ -877,6 +949,7 @@ const AdminDefinition = {
                         label_default: 'Enable Image Proxy:',
                         help_text: t('admin.image.enableProxyDescription'),
                         help_text_default: 'When true, enables an image proxy for loading all Markdown images.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_DROPDOWN,
@@ -898,7 +971,10 @@ const AdminDefinition = {
                                 display_name_default: 'local',
                             },
                         ],
-                        isDisabled: it.stateIsFalse('ImageProxySettings.Enable'),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('environment')),
+                            it.stateIsFalse('ImageProxySettings.Enable'),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -907,7 +983,8 @@ const AdminDefinition = {
                         label_default: 'Remote Image Proxy URL:',
                         help_text: t('admin.image.proxyURLDescription'),
                         help_text_default: 'URL of your remote image proxy server.',
-                        isDisabled: it.either(
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('environment')),
                             it.stateIsFalse('ImageProxySettings.Enable'),
                             it.stateEquals('ImageProxySettings.ImageProxyType', 'local'),
                         ),
@@ -919,7 +996,8 @@ const AdminDefinition = {
                         label_default: 'Remote Image Proxy Options:',
                         help_text: t('admin.image.proxyOptionsDescription'),
                         help_text_default: 'Additional options such as the URL signing key. Refer to your image proxy documentation to learn more about what options are supported.',
-                        isDisabled: it.either(
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('environment')),
                             it.stateIsFalse('ImageProxySettings.Enable'),
                             it.stateEquals('ImageProxySettings.ImageProxyType', 'local'),
                         ),
@@ -946,6 +1024,7 @@ const AdminDefinition = {
                         placeholder_default: 'Ex: "smtp.yourcompany.com", "email-smtp.us-east-1.amazonaws.com"',
                         help_text: t('admin.environment.smtp.smtpServer.description'),
                         help_text_default: 'Location of SMTP email server.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -956,6 +1035,7 @@ const AdminDefinition = {
                         placeholder_default: 'Ex: "25", "465", "587"',
                         help_text: t('admin.environment.smtp.smtpPort.description'),
                         help_text_default: 'Port of SMTP email server.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -964,6 +1044,7 @@ const AdminDefinition = {
                         label_default: 'Enable SMTP Authentication:',
                         help_text: t('admin.environment.smtp.smtpAuth.description'),
                         help_text_default: 'When true, SMTP Authentication is enabled.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -974,7 +1055,10 @@ const AdminDefinition = {
                         placeholder_default: 'Ex: "admin@yourcompany.com", "AKIADTOVBGERKLCBV"',
                         help_text: t('admin.environment.smtp.smtpUsername.description'),
                         help_text_default: 'Obtain this credential from administrator setting up your email server.',
-                        isDisabled: it.stateIsFalse('EmailSettings.EnableSMTPAuth'),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('environment')),
+                            it.stateIsFalse('EmailSettings.EnableSMTPAuth'),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -985,7 +1069,10 @@ const AdminDefinition = {
                         placeholder_default: 'Ex: "yourpassword", "jcuS8PuvcpGhpgHhlcpT1Mx42pnqMxQY"',
                         help_text: t('admin.environment.smtp.smtpPassword.description'),
                         help_text_default: 'Obtain this credential from administrator setting up your email server.',
-                        isDisabled: it.stateIsFalse('EmailSettings.EnableSMTPAuth'),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('environment')),
+                            it.stateIsFalse('EmailSettings.EnableSMTPAuth'),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_DROPDOWN,
@@ -1010,6 +1097,7 @@ const AdminDefinition = {
                                 display_name_default: 'STARTTLS',
                             },
                         ],
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BUTTON,
@@ -1023,6 +1111,7 @@ const AdminDefinition = {
                         error_message_default: 'Connection unsuccessful: {error}',
                         success_message: t('admin.environment.smtp.smtpSuccess'),
                         success_message_default: 'No errors were reported while sending an email. Please check your inbox to make sure.',
+                        isDisabled: it.not(it.userHasReadPermissionOnResource('environment')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -1031,6 +1120,7 @@ const AdminDefinition = {
                         label_default: 'Skip Server Certificate Verification:',
                         help_text: t('admin.environment.smtp.skipServerCertificateVerification.description'),
                         help_text_default: 'When true, Mattermost will not verify the email server certificate.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -1039,6 +1129,7 @@ const AdminDefinition = {
                         label_default: 'Enable Security Alerts:',
                         help_text: t('admin.environment.smtp.enableSecurityFixAlert.description'),
                         help_text_default: 'When true, System Administrators are notified by email if a relevant security fix alert has been announced in the last 12 hours. Requires email to be enabled.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
                     },
                 ],
             },
@@ -1047,7 +1138,6 @@ const AdminDefinition = {
             url: 'environment/push_notification_server',
             title: t('admin.sidebar.pushNotificationServer'),
             title_default: 'Push Notification Server',
-            isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
             searchableStrings: [
                 'admin.environment.pushNotificationServer',
                 'admin.email.pushTitle',
@@ -1055,6 +1145,8 @@ const AdminDefinition = {
                 'admin.email.pushContentTitle',
                 'admin.email.pushContentDesc',
             ],
+            isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
+            isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
             schema: {
                 id: 'PushNotificationsSettings',
                 component: PushNotificationsSettings,
@@ -1064,8 +1156,8 @@ const AdminDefinition = {
             url: 'environment/high_availability',
             title: t('admin.sidebar.highAvailability'),
             title_default: 'High Availability',
-            isHidden: it.either(
-                it.isnt(it.licensedForFeature('Cluster')),
+            isHidden: it.any(
+                it.not(it.licensedForFeature('Cluster')),
                 it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
             ),
             searchableStrings: [
@@ -1088,6 +1180,7 @@ const AdminDefinition = {
                 'admin.cluster.StreamingPort',
                 'admin.cluster.StreamingPortDesc',
             ],
+            isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
             schema: {
                 id: 'ClusterSettings',
                 component: ClusterSettings,
@@ -1116,6 +1209,7 @@ const AdminDefinition = {
                         label_default: 'Enable Rate Limiting:',
                         help_text: t('admin.rate.enableLimiterDescription'),
                         help_text_default: 'When true, APIs are throttled at rates specified below.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_NUMBER,
@@ -1126,7 +1220,10 @@ const AdminDefinition = {
                         placeholder_default: 'E.g.: "10"',
                         help_text: t('admin.rate.queriesDescription'),
                         help_text_default: 'Throttles API at this number of requests per second.',
-                        isDisabled: it.stateEquals('RateLimitSettings.Enable', false),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('environment')),
+                            it.stateEquals('RateLimitSettings.Enable', false),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_NUMBER,
@@ -1137,7 +1234,10 @@ const AdminDefinition = {
                         placeholder_default: 'E.g.: "100"',
                         help_text: t('admin.rate.maxBurstDescription'),
                         help_text_default: 'Maximum number of requests allowed beyond the per second query limit.',
-                        isDisabled: it.stateEquals('RateLimitSettings.Enable', false),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('environment')),
+                            it.stateEquals('RateLimitSettings.Enable', false),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_NUMBER,
@@ -1148,7 +1248,10 @@ const AdminDefinition = {
                         placeholder_default: 'E.g.: "10000"',
                         help_text: t('admin.rate.memoryDescription'),
                         help_text_default: 'Maximum number of users sessions connected to the system as determined by "Vary rate limit by remote address" and "Vary rate limit by HTTP header".',
-                        isDisabled: it.stateEquals('RateLimitSettings.Enable', false),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('environment')),
+                            it.stateEquals('RateLimitSettings.Enable', false),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -1157,7 +1260,10 @@ const AdminDefinition = {
                         label_default: 'Vary rate limit by remote address:',
                         help_text: t('admin.rate.remoteDescription'),
                         help_text_default: 'When true, rate limit API access by IP address.',
-                        isDisabled: it.stateEquals('RateLimitSettings.Enable', false),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('environment')),
+                            it.stateEquals('RateLimitSettings.Enable', false),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -1166,7 +1272,10 @@ const AdminDefinition = {
                         label_default: 'Vary rate limit by user:',
                         help_text: t('admin.rate.varyByUserDescription'),
                         help_text_default: 'When true, rate limit API access by user athentication token.',
-                        isDisabled: it.stateEquals('RateLimitSettings.Enable', false),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('environment')),
+                            it.stateEquals('RateLimitSettings.Enable', false),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -1177,7 +1286,8 @@ const AdminDefinition = {
                         placeholder_default: 'E.g.: "X-Real-IP", "X-Forwarded-For"',
                         help_text: t('admin.rate.httpHeaderDescription'),
                         help_text_default: 'When filled in, vary rate limiting by HTTP header field specified (e.g. when configuring NGINX set to "X-Real-IP", when configuring AmazonELB set to "X-Forwarded-For").',
-                        isDisabled: it.either(
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('environment')),
                             it.stateEquals('RateLimitSettings.Enable', false),
                             it.stateEquals('RateLimitSettings.VaryByRemoteAddr', true),
                         ),
@@ -1202,6 +1312,7 @@ const AdminDefinition = {
                         label_default: 'Output logs to console: ',
                         help_text: t('admin.log.consoleDescription'),
                         help_text_default: 'Typically set to false in production. Developers may set this field to true to output log messages to console based on the console level option.  If true, server writes messages to the standard output stream (stdout). Changing this setting requires a server restart before taking effect.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_DROPDOWN,
@@ -1211,7 +1322,10 @@ const AdminDefinition = {
                         help_text: t('admin.log.levelDescription'),
                         help_text_default: 'This setting determines the level of detail at which log events are written to the console. ERROR: Outputs only error messages. INFO: Outputs error messages and information around startup and initialization. DEBUG: Prints high detail for developers working on debugging issues.',
                         options: DefinitionConstants.LOG_LEVEL_OPTIONS,
-                        isDisabled: it.stateIsFalse('LogSettings.EnableConsole'),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('environment')),
+                            it.stateIsFalse('LogSettings.EnableConsole'),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -1220,7 +1334,10 @@ const AdminDefinition = {
                         label_default: 'Output console logs as JSON:',
                         help_text: t('admin.log.jsonDescription'),
                         help_text_default: 'When true, logged events are written in a machine readable JSON format. Otherwise they are printed as plain text. Changing this setting requires a server restart before taking effect.',
-                        isDisabled: it.stateIsFalse('LogSettings.EnableConsole'),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('environment')),
+                            it.stateIsFalse('LogSettings.EnableConsole'),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -1229,6 +1346,7 @@ const AdminDefinition = {
                         label_default: 'Output logs to file: ',
                         help_text: t('admin.log.fileDescription'),
                         help_text_default: 'Typically set to true in production. When true, logged events are written to the mattermost.log file in the directory specified in the File Log Directory field. The logs are rotated at 10,000 lines and archived to a file in the same directory, and given a name with a datestamp and serial number. For example, mattermost.2017-03-31.001. Changing this setting requires a server restart before taking effect.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_DROPDOWN,
@@ -1238,7 +1356,10 @@ const AdminDefinition = {
                         help_text: t('admin.log.fileLevelDescription'),
                         help_text_default: 'This setting determines the level of detail at which log events are written to the log file. ERROR: Outputs only error messages. INFO: Outputs error messages and information around startup and initialization. DEBUG: Prints high detail for developers working on debugging issues.',
                         options: DefinitionConstants.LOG_LEVEL_OPTIONS,
-                        isDisabled: it.stateIsFalse('LogSettings.EnableFile'),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('environment')),
+                            it.stateIsFalse('LogSettings.EnableFile'),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -1247,7 +1368,10 @@ const AdminDefinition = {
                         label_default: 'Output file logs as JSON:',
                         help_text: t('admin.log.jsonDescription'),
                         help_text_default: 'When true, logged events are written in a machine readable JSON format. Otherwise they are printed as plain text. Changing this setting requires a server restart before taking effect.',
-                        isDisabled: it.stateIsFalse('LogSettings.EnableFile'),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('environment')),
+                            it.stateIsFalse('LogSettings.EnableFile'),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -1258,7 +1382,10 @@ const AdminDefinition = {
                         help_text_default: 'The location of the log files. If blank, they are stored in the ./logs directory. The path that you set must exist and Mattermost must have write permissions in it. Changing this setting requires a server restart before taking effect.',
                         placeholder: t('admin.log.locationPlaceholder'),
                         placeholder_default: 'Enter your file location',
-                        isDisabled: it.stateIsFalse('LogSettings.EnableFile'),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('environment')),
+                            it.stateIsFalse('LogSettings.EnableFile'),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -1277,6 +1404,7 @@ const AdminDefinition = {
                                 </strong>
                             ),
                         },
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -1292,6 +1420,7 @@ const AdminDefinition = {
                             }
                             return displayVal;
                         },
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
                     },
                 ],
             },
@@ -1320,6 +1449,7 @@ const AdminDefinition = {
                 'admin.service.sessionCache',
                 'admin.service.sessionCacheDesc',
             ],
+            isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
             schema: {
                 id: 'SessionLengths',
                 component: SessionLengthSettings,
@@ -1329,8 +1459,8 @@ const AdminDefinition = {
             url: 'environment/performance_monitoring',
             title: t('admin.sidebar.metrics'),
             title_default: 'Performance Monitoring',
-            isHidden: it.either(
-                it.isnt(it.licensedForFeature('Metrics')),
+            isHidden: it.any(
+                it.not(it.licensedForFeature('Metrics')),
                 it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
             ),
             schema: {
@@ -1346,6 +1476,7 @@ const AdminDefinition = {
                         help_text: t('admin.metrics.enableDescription'),
                         help_text_default: 'When true, Mattermost will enable performance monitoring collection and profiling. Please see [documentation](!http://docs.mattermost.com/deployment/metrics.html) to learn more about configuring performance monitoring for Mattermost.',
                         help_text_markdown: true,
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -1356,6 +1487,7 @@ const AdminDefinition = {
                         placeholder_default: 'E.g.: ":8067"',
                         help_text: t('admin.metrics.listenAddressDesc'),
                         help_text_default: 'The address the server will listen on to expose performance metrics.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
                     },
                 ],
             },
@@ -1377,6 +1509,7 @@ const AdminDefinition = {
                         label_default: 'Enable Testing Commands:',
                         help_text: t('admin.service.testingDescription'),
                         help_text_default: 'When true, /test slash command is enabled to load test accounts, data and text formatting. Changing this requires a server restart before taking effect.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -1385,6 +1518,7 @@ const AdminDefinition = {
                         label_default: 'Enable Developer Mode: ',
                         help_text: t('admin.service.developerDesc'),
                         help_text_default: 'When true, JavaScript errors are shown in a purple bar at the top of the user interface. Not recommended for use in production.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -1396,6 +1530,7 @@ const AdminDefinition = {
                         help_text: t('admin.service.internalConnectionsDesc'),
                         help_text_default: 'A whitelist of local network addresses that can be requested by the Mattermost server on behalf of a client. Care should be used when configuring this setting to prevent unintended access to your local network. See [documentation](!https://mattermost.com/pl/default-allow-untrusted-internal-connections) to learn more.',
                         help_text_markdown: true,
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
                     },
                 ],
             },
@@ -1405,6 +1540,7 @@ const AdminDefinition = {
         icon: 'fa-cogs',
         sectionTitle: t('admin.sidebar.site'),
         sectionTitleDefault: 'Site Configuration',
+        isHidden: it.not(it.userHasReadPermissionOnResource('site')),
         customization: {
             url: 'site_config/customization',
             title: t('admin.sidebar.customization'),
@@ -1424,6 +1560,7 @@ const AdminDefinition = {
                         placeholder: t('admin.team.siteNameExample'),
                         placeholder_default: 'E.g.: "Mattermost"',
                         max_length: Constants.MAX_SITENAME_LENGTH,
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -1434,6 +1571,7 @@ const AdminDefinition = {
                         help_text_default: 'Description of service shown in login screens and UI. When not specified, "All team communication in one place, searchable and accessible anywhere" is displayed.',
                         placeholder: t('web.root.signup_info'),
                         placeholder_default: 'All team communication in one place, searchable and accessible anywhere',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -1442,12 +1580,16 @@ const AdminDefinition = {
                         label_default: 'Enable Custom Branding: ',
                         help_text: t('admin.team.brandDesc'),
                         help_text_default: 'Enable custom branding to show an image of your choice, uploaded below, and some help text, written below, on the login page.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_CUSTOM,
                         component: BrandImageSetting,
-                        isDisabled: it.stateIsFalse('TeamSettings.EnableCustomBrand'),
                         key: 'CustomBrandImage',
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('site')),
+                            it.stateIsFalse('TeamSettings.EnableCustomBrand'),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_LONG_TEXT,
@@ -1456,8 +1598,11 @@ const AdminDefinition = {
                         label_default: 'Custom Brand Text:',
                         help_text: t('admin.team.brandTextDescription'),
                         help_text_default: 'Text that will appear below your custom brand image on your login screen. Supports Markdown-formatted text. Maximum 500 characters allowed.',
-                        isDisabled: it.stateIsFalse('TeamSettings.EnableCustomBrand'),
                         max_length: Constants.MAX_CUSTOM_BRAND_TEXT_LENGTH,
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('site')),
+                            it.stateIsFalse('TeamSettings.EnableCustomBrand'),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -1466,6 +1611,7 @@ const AdminDefinition = {
                         label_default: 'Enable Ask Community Link:',
                         help_text: t('admin.support.enableAskCommunityDesc'),
                         help_text_default: 'When true, "Ask the community" link appears on the Mattermost user interface and Main Menu, which allows users to join the Mattermost Community to ask questions and help others troubleshoot issues. When false, the link is hidden from users.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -1474,6 +1620,7 @@ const AdminDefinition = {
                         label_default: 'Help Link:',
                         help_text: t('admin.support.helpDesc'),
                         help_text_default: 'The URL for the Help link on the Mattermost login page, sign-up pages, and Main Menu. If this field is empty, the Help link is hidden from users.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -1482,6 +1629,7 @@ const AdminDefinition = {
                         label_default: 'Support Email:',
                         help_text: t('admin.support.emailHelp'),
                         help_text_default: 'Email address displayed on email notifications and during tutorial for end users to ask support questions.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -1490,6 +1638,7 @@ const AdminDefinition = {
                         label_default: 'Terms of Service Link:',
                         help_text: t('admin.support.termsDesc'),
                         help_text_default: 'Link to the terms under which users may use your online service. By default, this includes the "Mattermost Conditions of Use (End Users)" explaining the terms under which Mattermost software is provided to end users. If you change the default link to add your own terms for using the service you provide, your new terms must include a link to the default terms so end users are aware of the Mattermost Conditions of Use (End User) for Mattermost software.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -1498,6 +1647,7 @@ const AdminDefinition = {
                         label_default: 'Privacy Policy Link:',
                         help_text: t('admin.support.privacyDesc'),
                         help_text_default: 'The URL for the Privacy link on the login and sign-up pages. If this field is empty, the Privacy link is hidden from users.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -1506,6 +1656,7 @@ const AdminDefinition = {
                         label_default: 'About Link:',
                         help_text: t('admin.support.aboutDesc'),
                         help_text_default: 'The URL for the About link on the Mattermost login and sign-up pages. If this field is empty, the About link is hidden from users.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -1514,6 +1665,7 @@ const AdminDefinition = {
                         label_default: 'Report a Problem Link:',
                         help_text: t('admin.support.problemDesc'),
                         help_text_default: 'The URL for the Report a Problem link in the Main Menu. If this field is empty, the link is removed from the Main Menu.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -1522,6 +1674,7 @@ const AdminDefinition = {
                         label_default: 'Mattermost Apps Download Page Link:',
                         help_text: t('admin.customization.appDownloadLinkDesc'),
                         help_text_default: 'Add a link to a download page for the Mattermost apps. When a link is present, an option to "Download Mattermost Apps" will be added in the Main Menu so users can find the download page. Leave this field blank to hide the option from the Main Menu.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -1530,6 +1683,7 @@ const AdminDefinition = {
                         label_default: 'Android App Download Link:',
                         help_text: t('admin.customization.androidAppDownloadLinkDesc'),
                         help_text_default: 'Add a link to download the Android app. Users who access the site on a mobile web browser will be prompted with a page giving them the option to download the app. Leave this field blank to prevent the page from appearing.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -1538,6 +1692,7 @@ const AdminDefinition = {
                         label_default: 'iOS App Download Link:',
                         help_text: t('admin.customization.iosAppDownloadLinkDesc'),
                         help_text_default: 'Add a link to download the iOS app. Users who access the site on a mobile web browser will be prompted with a page giving them the option to download the app. Leave this field blank to prevent the page from appearing.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
                     },
                 ],
             },
@@ -1558,6 +1713,7 @@ const AdminDefinition = {
                         label_default: 'Default Server Language:',
                         help_text: t('admin.general.localization.serverLocaleDescription'),
                         help_text_default: 'Default language for system messages. Changing this will require a server restart before taking effect.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_LANGUAGE,
@@ -1566,6 +1722,7 @@ const AdminDefinition = {
                         label_default: 'Default Client Language:',
                         help_text: t('admin.general.localization.clientLocaleDescription'),
                         help_text_default: 'Default language for newly created users and pages where the user hasn\'t logged in.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_LANGUAGE,
@@ -1580,6 +1737,7 @@ const AdminDefinition = {
                         no_result_default: 'No results found',
                         not_present: t('admin.general.localization.availableLocalesNotPresent'),
                         not_present_default: 'The default client language must be included in the available list',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
                     },
                 ],
             },
@@ -1602,6 +1760,7 @@ const AdminDefinition = {
                         help_text_default: 'When false, only System Administrators can create teams.',
                         permissions_mapping_name: 'enableTeamCreation',
                         isHidden: it.licensed,
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_NUMBER,
@@ -1612,6 +1771,7 @@ const AdminDefinition = {
                         help_text_default: 'Maximum total number of users per team, including both active and inactive users.',
                         placeholder: t('admin.team.maxUsersExample'),
                         placeholder_default: 'E.g.: "25"',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_NUMBER,
@@ -1622,6 +1782,7 @@ const AdminDefinition = {
                         help_text_default: 'Maximum total number of channels per team, including both active and archived channels.',
                         placeholder: t('admin.team.maxChannelsExample'),
                         placeholder_default: 'E.g.: "100"',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_DROPDOWN,
@@ -1642,6 +1803,7 @@ const AdminDefinition = {
                                 display_name_default: 'Any member of the team',
                             },
                         ],
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_DROPDOWN,
@@ -1667,6 +1829,7 @@ const AdminDefinition = {
                                 display_name_default: 'Show first and last name',
                             },
                         ],
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -1675,7 +1838,8 @@ const AdminDefinition = {
                         label_default: 'Lock Teammate Name Display for all users: ',
                         help_text: t('admin.lockTeammateNameDisplayHelpText'),
                         help_text_default: 'When true, disables users\' ability to change settings under Main Menu > Account Settings > Display > Teammate Name Display.',
-                        isHidden: it.isnt(it.licensedForFeature('LockTeammateNameDisplay')),
+                        isHidden: it.not(it.licensedForFeature('LockTeammateNameDisplay')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_PERMISSION,
@@ -1686,6 +1850,7 @@ const AdminDefinition = {
                         help_text_default: 'When true, Team Administrators and System Administrators can edit other user\'s posts.  When false, only System Administrators can edit other user\'s posts.',
                         permissions_mapping_name: 'editOthersPosts',
                         isHidden: it.licensed,
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -1694,6 +1859,7 @@ const AdminDefinition = {
                         label_default: 'Allow users to view archived channels: ',
                         help_text: t('admin.viewArchivedChannelsHelpText'),
                         help_text_default: '(Beta) When true, allows users to view, share and search for content of channels that have been archived. Users can only view the content in channels of which they were a member before the channel was archived.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -1702,6 +1868,7 @@ const AdminDefinition = {
                         label_default: 'Show Email Address:',
                         help_text: t('admin.privacy.showEmailDescription'),
                         help_text_default: 'When false, hides the email address of members from everyone except System Administrators.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -1710,6 +1877,7 @@ const AdminDefinition = {
                         label_default: 'Show Full Name:',
                         help_text: t('admin.privacy.showFullNameDescription'),
                         help_text_default: 'When false, hides the full name of members from everyone except System Administrators. Username is shown in place of full name.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
                     },
                 ],
             },
@@ -1730,6 +1898,7 @@ const AdminDefinition = {
                         label_default: 'Show @channel and @all and group mention confirmation dialog:',
                         help_text: t('admin.environment.notifications.enableConfirmNotificationsToChannel.help'),
                         help_text_default: 'When true, users will be prompted to confirm when posting @channel, @all and group mentions in channels with over five members. When false, no confirmation is required.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -1738,6 +1907,7 @@ const AdminDefinition = {
                         label_default: 'Enable Email Notifications:',
                         help_text: t('admin.environment.notifications.enable.help'),
                         help_text_default: 'Typically set to true in production. When true, Mattermost attempts to send email notifications. When false, email invitations and user account setting change emails are still sent as long as the SMTP server is configured. Developers may set this field to false to skip email setup for faster development.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -1746,7 +1916,8 @@ const AdminDefinition = {
                         label_default: 'Enable Preview Mode Banner:',
                         help_text: t('admin.environment.notifications.enablePreviewModeBanner.help'),
                         help_text_default: 'When true, the Preview Mode banner is displayed so users are aware that email notifications are disabled. When false, the Preview Mode banner is not displayed to users.',
-                        isDisabled: it.either(
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('site')),
                             it.stateIsTrue('EmailSettings.SendEmailNotifications'),
                         ),
                     },
@@ -1757,7 +1928,8 @@ const AdminDefinition = {
                         label_default: 'Enable Email Batching:',
                         help_text: t('admin.environment.notifications.enableEmailBatching.help'),
                         help_text_default: 'When true, users will have email notifications for multiple direct messages and mentions combined into a single email. Batching will occur at a default interval of 15 minutes, configurable in Account Settings > Notifications.',
-                        isDisabled: it.either(
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('site')),
                             it.stateIsFalse('EmailSettings.SendEmailNotifications'),
                             it.configIsTrue('ClusterSettings', 'Enable'),
                             it.configIsFalse('ServiceSettings', 'SiteURL'),
@@ -1771,7 +1943,6 @@ const AdminDefinition = {
                         help_text: t('admin.environment.notifications.contents.help'),
                         help_text_default: '**Send full message contents** - Sender name and channel are included in email notifications. Typically used for compliance reasons if Mattermost contains confidential information and policy dictates it cannot be stored in email.\n  **Send generic description with only sender name** - Only the name of the person who sent the message, with no information about channel name or message contents are included in email notifications. Typically used for compliance reasons if Mattermost contains confidential information and policy dictates it cannot be stored in email.',
                         help_text_markdown: true,
-                        isHidden: it.isnt(it.licensedForFeature('EmailNotificationContents')),
                         options: [
                             {
                                 value: 'full',
@@ -1784,6 +1955,8 @@ const AdminDefinition = {
                                 display_name_default: 'Send generic description with only sender name',
                             },
                         ],
+                        isHidden: it.not(it.licensedForFeature('EmailNotificationContents')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -1794,7 +1967,10 @@ const AdminDefinition = {
                         placeholder_default: 'Ex: "Mattermost Notification", "System", "No-Reply"',
                         help_text: t('admin.environment.notifications.notificationDisplay.help'),
                         help_text_default: 'Display name on email account used when sending notification emails from Mattermost.',
-                        isDisabled: it.stateIsFalse('EmailSettings.SendEmailNotifications'),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('site')),
+                            it.stateIsFalse('EmailSettings.SendEmailNotifications'),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -1805,8 +1981,11 @@ const AdminDefinition = {
                         placeholder_default: 'Ex: "mattermost@yourcompany.com", "admin@yourcompany.com"',
                         help_text: t('admin.environment.notifications.feedbackEmail.help'),
                         help_text_default: 'Email address displayed on email account used when sending notification emails from Mattermost.',
-                        isDisabled: it.stateIsFalse('EmailSettings.SendEmailNotifications'),
                         isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('site')),
+                            it.stateIsFalse('EmailSettings.SendEmailNotifications'),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -1817,7 +1996,10 @@ const AdminDefinition = {
                         placeholder_default: 'Ex: "mattermost@yourcompany.com", "admin@yourcompany.com"',
                         help_text: t('admin.environment.notifications.replyToAddress.help'),
                         help_text_default: 'Email address used in the Reply-To header when sending notification emails from Mattermost.',
-                        isDisabled: it.stateIsFalse('EmailSettings.SendEmailNotifications'),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('site')),
+                            it.stateIsFalse('EmailSettings.SendEmailNotifications'),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -1828,7 +2010,10 @@ const AdminDefinition = {
                         placeholder_default: 'Ex: "© ABC Corporation, 565 Knight Way, Palo Alto, California, 94305, USA"',
                         help_text: t('admin.environment.notifications.feedbackOrganization.help'),
                         help_text_default: 'Organization name and address displayed on email notifications from Mattermost, such as "© ABC Corporation, 565 Knight Way, Palo Alto, California, 94305, USA". If the field is left empty, the organization name and address will not be displayed.',
-                        isDisabled: it.stateIsFalse('EmailSettings.SendEmailNotifications'),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('site')),
+                            it.stateIsFalse('EmailSettings.SendEmailNotifications'),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_DROPDOWN,
@@ -1838,7 +2023,6 @@ const AdminDefinition = {
                         help_text: t('admin.environment.notifications.pushContents.help'),
                         help_text_default: '**Generic description with only sender name** - Includes only the name of the person who sent the message in push notifications, with no information about channel name or message contents.\n **Generic description with sender and channel names** - Includes the name of the person who sent the message and the channel it was sent in, but not the message contents.\n **Full message content sent in the notification payload** - Includes the message contents in the push notification payload that is relayed through Apple\'s Push Notification Service (APNS) or Google\'s Firebase Cloud Messaging (FCM). It is **highly recommended** this option only be used with an "https" protocol to encrypt the connection and protect confidential information sent in messages.',
                         help_text_markdown: true,
-                        isHidden: it.licensedForFeature('IDLoadedPushNotifications'),
                         options: [
                             {
                                 value: 'generic_no_channel',
@@ -1856,6 +2040,8 @@ const AdminDefinition = {
                                 display_name_default: 'Full message content sent in the notification payload',
                             },
                         ],
+                        isHidden: it.licensedForFeature('IDLoadedPushNotifications'),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_DROPDOWN,
@@ -1865,7 +2051,6 @@ const AdminDefinition = {
                         help_text: t('admin.environment.notifications.pushContents.withIdLoaded.help'),
                         help_text_default: '**Generic description with only sender name** - Includes only the name of the person who sent the message in push notifications, with no information about channel name or message contents.\n **Generic description with sender and channel names** - Includes the name of the person who sent the message and the channel it was sent in, but not the message contents.\n **Full message content sent in the notification payload** - Includes the message contents in the push notification payload that is relayed through Apple\'s Push Notification Service (APNS) or Google\'s Firebase Cloud Messaging (FCM). It is **highly recommended** this option only be used with an "https" protocol to encrypt the connection and protect confidential information sent in messages.\n **Full message content fetched from the server on receipt** - The notification payload relayed through APNS or FCM contains no message content, instead it contains a unique message ID used to fetch message content from the server when a push notification is received by a device. If the server cannot be reached, a generic notification will be displayed.',
                         help_text_markdown: true,
-                        isHidden: it.isnt(it.licensedForFeature('IDLoadedPushNotifications')),
                         options: [
                             {
                                 value: 'generic_no_channel',
@@ -1888,6 +2073,8 @@ const AdminDefinition = {
                                 display_name_default: 'Full message content fetched from the server on receipt',
                             },
                         ],
+                        isHidden: it.not(it.licensedForFeature('IDLoadedPushNotifications')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
                     },
                 ],
             },
@@ -1896,7 +2083,7 @@ const AdminDefinition = {
             url: 'site_config/announcement_banner',
             title: t('admin.sidebar.announcement'),
             title_default: 'Announcement Banner',
-            isHidden: it.isnt(it.licensed),
+            isHidden: it.not(it.licensed),
             schema: {
                 id: 'AnnouncementSettings',
                 name: t('admin.site.announcementBanner'),
@@ -1909,6 +2096,7 @@ const AdminDefinition = {
                         label_default: 'Enable Announcement Banner:',
                         help_text: t('admin.customization.announcement.enableBannerDesc'),
                         help_text_default: 'Enable an announcement banner across all teams.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -1917,21 +2105,30 @@ const AdminDefinition = {
                         label_default: 'Banner Text:',
                         help_text: t('admin.customization.announcement.bannerTextDesc'),
                         help_text_default: 'Text that will appear in the announcement banner.',
-                        isDisabled: it.stateIsFalse('AnnouncementSettings.EnableBanner'),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('site')),
+                            it.stateIsFalse('AnnouncementSettings.EnableBanner'),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_COLOR,
                         key: 'AnnouncementSettings.BannerColor',
                         label: t('admin.customization.announcement.bannerColorTitle'),
                         label_default: 'Banner Color:',
-                        isDisabled: it.stateIsFalse('AnnouncementSettings.EnableBanner'),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('site')),
+                            it.stateIsFalse('AnnouncementSettings.EnableBanner'),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_COLOR,
                         key: 'AnnouncementSettings.BannerTextColor',
                         label: t('admin.customization.announcement.bannerTextColorTitle'),
                         label_default: 'Banner Text Color:',
-                        isDisabled: it.stateIsFalse('AnnouncementSettings.EnableBanner'),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('site')),
+                            it.stateIsFalse('AnnouncementSettings.EnableBanner'),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -1940,7 +2137,10 @@ const AdminDefinition = {
                         label_default: 'Allow Banner Dismissal:',
                         help_text: t('admin.customization.announcement.allowBannerDismissalDesc'),
                         help_text_default: 'When true, users can dismiss the banner until its next update. When false, the banner is permanently visible until it is turned off by the System Admin.',
-                        isDisabled: it.stateIsFalse('AnnouncementSettings.EnableBanner'),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('site')),
+                            it.stateIsFalse('AnnouncementSettings.EnableBanner'),
+                        ),
                     },
                 ],
             },
@@ -1961,6 +2161,7 @@ const AdminDefinition = {
                         label_default: 'Enable Emoji Picker:',
                         help_text: t('admin.customization.enableEmojiPickerDesc'),
                         help_text_default: 'The emoji picker allows users to select emoji to add as reactions or use in messages. Enabling the emoji picker with a large number of custom emoji may slow down performance.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -1969,6 +2170,7 @@ const AdminDefinition = {
                         label_default: 'Enable Custom Emoji:',
                         help_text: t('admin.customization.enableCustomEmojiDesc'),
                         help_text_default: 'Enable users to create custom emoji for use in messages. When enabled, Custom Emoji settings can be accessed by switching to a team and clicking the three dots above the channel sidebar, and selecting "Custom Emoji".',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
                     },
                 ],
             },
@@ -1989,6 +2191,7 @@ const AdminDefinition = {
                         label_default: 'Enable Link Previews:',
                         help_text: t('admin.customization.enableLinkPreviewsDesc'),
                         help_text_default: 'Display a preview of website content, image links and YouTube links below the message when available. The server must be connected to the internet and have access through the firewall (if applicable) to the websites from which previews are expected. Users can disable these previews from Account Settings > Display > Website Link Previews.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -1997,6 +2200,7 @@ const AdminDefinition = {
                         label_default: 'Enable SVGs:',
                         help_text: t('admin.customization.enableSVGsDesc'),
                         help_text_default: 'Enable previews for SVG file attachments and allow them to appear in messages.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -2005,11 +2209,13 @@ const AdminDefinition = {
                         label_default: 'Enable Latex Rendering:',
                         help_text: t('admin.customization.enableLatexDesc'),
                         help_text_default: 'Enable rendering of Latex code. If false, Latex code will be highlighted only.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_CUSTOM,
                         component: CustomUrlSchemesSetting,
                         key: 'DisplaySettings.CustomUrlSchemes',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -2022,6 +2228,7 @@ const AdminDefinition = {
                         help_text_default: 'Set this key to enable the display of titles for embedded YouTube video previews. Without the key, YouTube previews will still be created based on hyperlinks appearing in messages or comments but they will not show the video title. View a [Google Developers Tutorial](!https://www.youtube.com/watch?v=Im69kzhpR3I) for instructions on how to obtain a key and add YouTube Data API v3 as a service to your key.',
                         help_text_markdown: true,
                         isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
                     },
                 ],
             },
@@ -2042,6 +2249,7 @@ const AdminDefinition = {
                         label_default: 'Allow File Sharing:',
                         help_text: t('admin.file.enableFileAttachmentsDesc'),
                         help_text_default: 'When false, disables file sharing on the server. All file and image uploads on messages are forbidden across clients and devices, including mobile.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -2050,7 +2258,8 @@ const AdminDefinition = {
                         label_default: 'Allow File Uploads on Mobile:',
                         help_text: t('admin.file.enableMobileUploadDesc'),
                         help_text_default: 'When false, disables file uploads on mobile apps. If Allow File Sharing is set to true, users can still upload files from a mobile web browser.',
-                        isHidden: it.isnt(it.licensedForFeature('Compliance')),
+                        isHidden: it.not(it.licensedForFeature('Compliance')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -2059,7 +2268,8 @@ const AdminDefinition = {
                         label_default: 'Allow File Downloads on Mobile:',
                         help_text: t('admin.file.enableMobileDownloadDesc'),
                         help_text_default: 'When false, disables file downloads on mobile apps. Users can still download files from a mobile web browser.',
-                        isHidden: it.isnt(it.licensedForFeature('Compliance')),
+                        isHidden: it.not(it.licensedForFeature('Compliance')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
                     },
                 ],
             },
@@ -2080,6 +2290,7 @@ const AdminDefinition = {
                         label_default: 'Enable Public File Links: ',
                         help_text: t('admin.image.shareDescription'),
                         help_text_default: 'Allow users to share public links to files and images.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_GENERATED,
@@ -2088,6 +2299,7 @@ const AdminDefinition = {
                         label_default: 'Public Link Salt:',
                         help_text: t('admin.image.publicLinkDescription'),
                         help_text_default: '32-character salt added to signing of public image links. Randomly generated on install. Click "Regenerate" to create new salt.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
                     },
                 ],
             },
@@ -2097,6 +2309,7 @@ const AdminDefinition = {
         icon: 'fa-shield',
         sectionTitle: t('admin.sidebar.authentication'),
         sectionTitleDefault: 'Authentication',
+        isHidden: it.not(it.userHasReadPermissionOnResource('authentication')),
         signup: {
             url: 'authentication/signup',
             title: t('admin.sidebar.signup'),
@@ -2113,6 +2326,7 @@ const AdminDefinition = {
                         label_default: 'Enable Account Creation: ',
                         help_text: t('admin.team.userCreationDescription'),
                         help_text_default: 'When false, the ability to create accounts is disabled. The create account button displays error when pressed.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -2124,6 +2338,7 @@ const AdminDefinition = {
                         placeholder: t('admin.team.restrictExample'),
                         placeholder_default: 'E.g.: "corp.mattermost.com, mattermost.org"',
                         isHidden: it.licensed,
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -2134,7 +2349,8 @@ const AdminDefinition = {
                         help_text_default: 'New user accounts are restricted to the above specified email domain (e.g. "mattermost.org") or list of comma-separated domains (e.g. "corp.mattermost.com, mattermost.org"). New teams can only be created by users from the above domain(s). This setting affects email login for users. For Guest users, please add domains under Signup > Guest Access.',
                         placeholder: t('admin.team.restrictExample'),
                         placeholder_default: 'E.g.: "corp.mattermost.com, mattermost.org"',
-                        isHidden: it.isnt(it.licensed),
+                        isHidden: it.not(it.licensed),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -2144,6 +2360,7 @@ const AdminDefinition = {
                         help_text: t('admin.team.openServerDescription'),
                         help_text_default: 'When true, anyone can signup for a user account on this server without the need to be invited.',
                         isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -2152,6 +2369,7 @@ const AdminDefinition = {
                         label_default: 'Enable Email Invitations: ',
                         help_text: t('admin.team.emailInvitationsDescription'),
                         help_text_default: 'When true users can invite others to the system using email.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BUTTON,
@@ -2165,6 +2383,7 @@ const AdminDefinition = {
                         error_message_default: 'Unable to invalidate pending email invites: {error}',
                         success_message: t('admin.team.invalidateEmailInvitesSuccess'),
                         success_message_default: 'Pending email invitations invalidated successfully',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
                     },
                 ],
             },
@@ -2185,6 +2404,7 @@ const AdminDefinition = {
                         label_default: 'Enable account creation with email:',
                         help_text: t('admin.email.allowSignupDescription'),
                         help_text_default: 'When true, Mattermost allows account creation using email and password. This value should be false only when you want to limit sign up to a single sign-on service like AD/LDAP, SAML or GitLab.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -2193,6 +2413,7 @@ const AdminDefinition = {
                         label_default: 'Require Email Verification: ',
                         help_text: t('admin.email.requireVerificationDescription'),
                         help_text_default: 'Typically set to true in production. When true, Mattermost requires email verification after account creation prior to allowing login. Developers may set this field to false to skip sending verification emails for faster development.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -2201,6 +2422,7 @@ const AdminDefinition = {
                         label_default: 'Enable sign-in with email:',
                         help_text: t('admin.email.allowEmailSignInDescription'),
                         help_text_default: 'When true, Mattermost allows users to sign in using their email and password.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -2209,6 +2431,7 @@ const AdminDefinition = {
                         label_default: 'Enable sign-in with username:',
                         help_text: t('admin.email.allowUsernameSignInDescription'),
                         help_text_default: 'When true, users with email login can sign in using their username and password. This setting does not affect AD/LDAP login.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
                     },
                 ],
             },
@@ -2231,6 +2454,7 @@ const AdminDefinition = {
                 'admin.service.attemptTitle',
                 'admin.service.attemptDescription',
             ],
+            isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
             schema: {
                 id: 'PasswordSettings',
                 component: PasswordSettings,
@@ -2259,6 +2483,7 @@ const AdminDefinition = {
                         label_default: 'Enable Multi-factor Authentication:',
                         help_text: t('admin.service.mfaDesc'),
                         help_text_default: 'When true, users with AD/LDAP or email login can add multi-factor authentication to their account using Google Authenticator.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -2268,8 +2493,11 @@ const AdminDefinition = {
                         help_text: t('admin.service.enforceMfaDesc'),
                         help_text_markdown: true,
                         help_text_default: 'When true, [multi-factor authentication](!https://docs.mattermost.com/deployment/auth.html) is required for login. New users will be required to configure MFA on signup. Logged in users without MFA configured are redirected to the MFA setup page until configuration is complete.\n \nIf your system has users with login methods other than AD/LDAP and email, MFA must be enforced with the authentication provider outside of Mattermost.',
-                        isDisabled: it.stateIsFalse('ServiceSettings.EnableMultifactorAuthentication'),
-                        isHidden: it.isnt(it.licensedForFeature('MFA')),
+                        isHidden: it.not(it.licensedForFeature('MFA')),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.stateIsFalse('ServiceSettings.EnableMultifactorAuthentication'),
+                        ),
                     },
                 ],
             },
@@ -2278,7 +2506,7 @@ const AdminDefinition = {
             url: 'authentication/ldap',
             title: t('admin.sidebar.ldap'),
             title_default: 'AD/LDAP',
-            isHidden: it.isnt(it.licensedForFeature('LDAP')),
+            isHidden: it.not(it.licensedForFeature('LDAP')),
             schema: {
                 id: 'LdapSettings',
                 name: t('admin.authentication.ldap'),
@@ -2291,6 +2519,7 @@ const AdminDefinition = {
                         label_default: 'Enable sign-in with AD/LDAP:',
                         help_text: t('admin.ldap.enableDesc'),
                         help_text_default: 'When true, Mattermost allows login using AD/LDAP',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -2299,6 +2528,7 @@ const AdminDefinition = {
                         label_default: 'Enable Synchronization with AD/LDAP:',
                         help_text: t('admin.ldap.enableSyncDesc'),
                         help_text_default: 'When true, Mattermost periodically synchronizes users from AD/LDAP. When false, user attributes are updated from AD/LDAP during user login only.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -2309,9 +2539,12 @@ const AdminDefinition = {
                         help_text_default: 'The domain or IP address of AD/LDAP server.',
                         placeholder: t('admin.ldap.serverEx'),
                         placeholder_default: 'E.g.: "10.0.0.23"',
-                        isDisabled: it.both(
-                            it.stateIsFalse('LdapSettings.Enable'),
-                            it.stateIsFalse('LdapSettings.EnableSync'),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.all(
+                                it.stateIsFalse('LdapSettings.Enable'),
+                                it.stateIsFalse('LdapSettings.EnableSync'),
+                            ),
                         ),
                     },
                     {
@@ -2323,9 +2556,12 @@ const AdminDefinition = {
                         help_text_default: 'The port Mattermost will use to connect to the AD/LDAP server. Default is 389.',
                         placeholder: t('admin.ldap.portEx'),
                         placeholder_default: 'E.g.: "389"',
-                        isDisabled: it.both(
-                            it.stateIsFalse('LdapSettings.Enable'),
-                            it.stateIsFalse('LdapSettings.EnableSync'),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.all(
+                                it.stateIsFalse('LdapSettings.Enable'),
+                                it.stateIsFalse('LdapSettings.EnableSync'),
+                            ),
                         ),
                     },
                     {
@@ -2351,9 +2587,12 @@ const AdminDefinition = {
                                 display_name_default: 'STARTTLS',
                             },
                         ],
-                        isDisabled: it.both(
-                            it.stateIsFalse('LdapSettings.Enable'),
-                            it.stateIsFalse('LdapSettings.EnableSync'),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.all(
+                                it.stateIsFalse('LdapSettings.Enable'),
+                                it.stateIsFalse('LdapSettings.EnableSync'),
+                            ),
                         ),
                     },
                     {
@@ -2363,7 +2602,10 @@ const AdminDefinition = {
                         label_default: 'Skip Certificate Verification:',
                         help_text: t('admin.ldap.skipCertificateVerificationDesc'),
                         help_text_default: 'Skips the certificate verification step for TLS or STARTTLS connections. Skipping certificate verification is not recommended for production environments where TLS is required.',
-                        isDisabled: it.stateIsFalse('LdapSettings.ConnectionSecurity'),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.stateIsFalse('LdapSettings.ConnectionSecurity'),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -2374,9 +2616,12 @@ const AdminDefinition = {
                         help_text_default: 'The Base DN is the Distinguished Name of the location where Mattermost should start its search for user and group objects in the AD/LDAP tree.',
                         placeholder: t('admin.ldap.baseEx'),
                         placeholder_default: 'E.g.: "ou=Unit Name,dc=corp,dc=example,dc=com"',
-                        isDisabled: it.both(
-                            it.stateIsFalse('LdapSettings.Enable'),
-                            it.stateIsFalse('LdapSettings.EnableSync'),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.all(
+                                it.stateIsFalse('LdapSettings.Enable'),
+                                it.stateIsFalse('LdapSettings.EnableSync'),
+                            ),
                         ),
                     },
                     {
@@ -2386,9 +2631,12 @@ const AdminDefinition = {
                         label_default: 'Bind Username:',
                         help_text: t('admin.ldap.bindUserDesc'),
                         help_text_default: 'The username used to perform the AD/LDAP search. This should typically be an account created specifically for use with Mattermost. It should have access limited to read the portion of the AD/LDAP tree specified in the BaseDN field.',
-                        isDisabled: it.both(
-                            it.stateIsFalse('LdapSettings.Enable'),
-                            it.stateIsFalse('LdapSettings.EnableSync'),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.all(
+                                it.stateIsFalse('LdapSettings.Enable'),
+                                it.stateIsFalse('LdapSettings.EnableSync'),
+                            ),
                         ),
                     },
                     {
@@ -2398,9 +2646,12 @@ const AdminDefinition = {
                         label_default: 'Bind Password:',
                         help_text: t('admin.ldap.bindPwdDesc'),
                         help_text_default: 'Password of the user given in "Bind Username".',
-                        isDisabled: it.both(
-                            it.stateIsFalse('LdapSettings.Enable'),
-                            it.stateIsFalse('LdapSettings.EnableSync'),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.all(
+                                it.stateIsFalse('LdapSettings.Enable'),
+                                it.stateIsFalse('LdapSettings.EnableSync'),
+                            ),
                         ),
                     },
                     {
@@ -2412,9 +2663,12 @@ const AdminDefinition = {
                         help_text_default: '(Optional) Enter an AD/LDAP filter to use when searching for user objects. Only the users selected by the query will be able to access Mattermost. For Active Directory, the query to filter out disabled users is (&(objectCategory=Person)(!(UserAccountControl:1.2.840.113556.1.4.803:=2))).',
                         placeholder: t('admin.ldap.userFilterEx'),
                         placeholder_default: 'Ex. "(objectClass=user)"',
-                        isDisabled: it.both(
-                            it.stateIsFalse('LdapSettings.Enable'),
-                            it.stateIsFalse('LdapSettings.EnableSync'),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.all(
+                                it.stateIsFalse('LdapSettings.Enable'),
+                                it.stateIsFalse('LdapSettings.EnableSync'),
+                            ),
                         ),
                     },
                     {
@@ -2427,9 +2681,10 @@ const AdminDefinition = {
                         help_text_markdown: true,
                         placeholder: t('admin.ldap.guestFilterEx'),
                         placeholder_default: 'E.g.: "(objectClass=user)"',
-                        isDisabled: it.either(
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('authentication')),
                             it.configIsFalse('GuestAccountsSettings', 'Enable'),
-                            it.both(
+                            it.all(
                                 it.stateIsFalse('LdapSettings.Enable'),
                                 it.stateIsFalse('LdapSettings.EnableSync'),
                             ),
@@ -2440,9 +2695,12 @@ const AdminDefinition = {
                         key: 'LdapSettings.EnableAdminFilter',
                         label: t('admin.ldap.enableAdminFilterTitle'),
                         label_default: 'Enable Admin Filter:',
-                        isDisabled: it.both(
-                            it.stateIsFalse('LdapSettings.Enable'),
-                            it.stateIsFalse('LdapSettings.EnableSync'),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.all(
+                                it.stateIsFalse('LdapSettings.Enable'),
+                                it.stateIsFalse('LdapSettings.EnableSync'),
+                            ),
                         ),
                     },
                     {
@@ -2455,9 +2713,10 @@ const AdminDefinition = {
                         help_text_markdown: true,
                         placeholder: t('admin.ldap.adminFilterEx'),
                         placeholder_default: 'E.g.: "(objectClass=user)"',
-                        isDisabled: it.either(
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('authentication')),
                             it.stateIsFalse('LdapSettings.EnableAdminFilter'),
-                            it.both(
+                            it.all(
                                 it.stateIsFalse('LdapSettings.Enable'),
                                 it.stateIsFalse('LdapSettings.EnableSync'),
                             ),
@@ -2474,8 +2733,11 @@ const AdminDefinition = {
                         help_text_values: {siteURL: getSiteURL()},
                         placeholder: t('admin.ldap.groupFilterEx'),
                         placeholder_default: 'E.g.: "(objectClass=group)"',
-                        isDisabled: it.stateIsFalse('LdapSettings.EnableSync'),
-                        isHidden: it.isnt(it.licensedForFeature('LDAPGroups')),
+                        isHidden: it.not(it.licensedForFeature('LDAPGroups')),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.stateIsFalse('LdapSettings.EnableSync'),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -2486,8 +2748,11 @@ const AdminDefinition = {
                         help_text_default: 'The attribute in the AD/LDAP server used to populate the group display names.',
                         placeholder: t('admin.ldap.groupDisplayNameAttributeEx'),
                         placeholder_default: 'E.g.: "cn"',
-                        isDisabled: it.stateIsFalse('LdapSettings.EnableSync'),
-                        isHidden: it.isnt(it.licensedForFeature('LDAPGroups')),
+                        isHidden: it.not(it.licensedForFeature('LDAPGroups')),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.stateIsFalse('LdapSettings.EnableSync'),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -2499,8 +2764,11 @@ const AdminDefinition = {
                         help_text_markdown: true,
                         placeholder: t('admin.ldap.groupIdAttributeEx'),
                         placeholder_default: 'E.g.: "objectGUID" or "entryUUID"',
-                        isDisabled: it.stateIsFalse('LdapSettings.EnableSync'),
-                        isHidden: it.isnt(it.licensedForFeature('LDAPGroups')),
+                        isHidden: it.not(it.licensedForFeature('LDAPGroups')),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.stateIsFalse('LdapSettings.EnableSync'),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -2511,9 +2779,12 @@ const AdminDefinition = {
                         placeholder_default: 'E.g.: "givenName"',
                         help_text: t('admin.ldap.firstnameAttrDesc'),
                         help_text_default: '(Optional) The attribute in the AD/LDAP server used to populate the first name of users in Mattermost. When set, users cannot edit their first name, since it is synchronized with the LDAP server. When left blank, users can set their first name in Account Settings.',
-                        isDisabled: it.both(
-                            it.stateIsFalse('LdapSettings.Enable'),
-                            it.stateIsFalse('LdapSettings.EnableSync'),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.all(
+                                it.stateIsFalse('LdapSettings.Enable'),
+                                it.stateIsFalse('LdapSettings.EnableSync'),
+                            ),
                         ),
                     },
                     {
@@ -2525,9 +2796,12 @@ const AdminDefinition = {
                         placeholder_default: 'E.g.: "sn"',
                         help_text: t('admin.ldap.lastnameAttrDesc'),
                         help_text_default: '(Optional) The attribute in the AD/LDAP server used to populate the last name of users in Mattermost. When set, users cannot edit their last name, since it is synchronized with the LDAP server. When left blank, users can set their last name in Account Settings.',
-                        isDisabled: it.both(
-                            it.stateIsFalse('LdapSettings.Enable'),
-                            it.stateIsFalse('LdapSettings.EnableSync'),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.all(
+                                it.stateIsFalse('LdapSettings.Enable'),
+                                it.stateIsFalse('LdapSettings.EnableSync'),
+                            ),
                         ),
                     },
                     {
@@ -2539,9 +2813,12 @@ const AdminDefinition = {
                         placeholder_default: 'E.g.: "nickname"',
                         help_text: t('admin.ldap.nicknameAttrDesc'),
                         help_text_default: '(Optional) The attribute in the AD/LDAP server used to populate the nickname of users in Mattermost. When set, users cannot edit their nickname, since it is synchronized with the LDAP server. When left blank, users can set their nickname in Account Settings.',
-                        isDisabled: it.both(
-                            it.stateIsFalse('LdapSettings.Enable'),
-                            it.stateIsFalse('LdapSettings.EnableSync'),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.all(
+                                it.stateIsFalse('LdapSettings.Enable'),
+                                it.stateIsFalse('LdapSettings.EnableSync'),
+                            ),
                         ),
                     },
                     {
@@ -2553,9 +2830,12 @@ const AdminDefinition = {
                         placeholder_default: 'E.g.: "title"',
                         help_text: t('admin.ldap.positionAttrDesc'),
                         help_text_default: '(Optional) The attribute in the AD/LDAP server used to populate the position field in Mattermost. When set, users cannot edit their position, since it is synchronized with the LDAP server. When left blank, users can set their position in Account Settings.',
-                        isDisabled: it.both(
-                            it.stateIsFalse('LdapSettings.Enable'),
-                            it.stateIsFalse('LdapSettings.EnableSync'),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.all(
+                                it.stateIsFalse('LdapSettings.Enable'),
+                                it.stateIsFalse('LdapSettings.EnableSync'),
+                            ),
                         ),
                     },
                     {
@@ -2567,9 +2847,12 @@ const AdminDefinition = {
                         placeholder_default: 'E.g.: "mail" or "userPrincipalName"',
                         help_text: t('admin.ldap.emailAttrDesc'),
                         help_text_default: 'The attribute in the AD/LDAP server used to populate the email address field in Mattermost.',
-                        isDisabled: it.both(
-                            it.stateIsFalse('LdapSettings.Enable'),
-                            it.stateIsFalse('LdapSettings.EnableSync'),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.all(
+                                it.stateIsFalse('LdapSettings.Enable'),
+                                it.stateIsFalse('LdapSettings.EnableSync'),
+                            ),
                         ),
                     },
                     {
@@ -2581,9 +2864,12 @@ const AdminDefinition = {
                         placeholder_default: 'E.g.: "thumbnailPhoto" or "jpegPhoto"',
                         help_text: t('admin.ldap.pictureAttrDesc'),
                         help_text_default: 'The attribute in the AD/LDAP server used to populate the profile picture in Mattermost.',
-                        isDisabled: it.both(
-                            it.stateIsFalse('LdapSettings.Enable'),
-                            it.stateIsFalse('LdapSettings.EnableSync'),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.all(
+                                it.stateIsFalse('LdapSettings.Enable'),
+                                it.stateIsFalse('LdapSettings.EnableSync'),
+                            ),
                         ),
                     },
                     {
@@ -2595,9 +2881,12 @@ const AdminDefinition = {
                         placeholder_default: 'E.g.: "sAMAccountName"',
                         help_text: t('admin.ldap.usernameAttrDesc'),
                         help_text_default: 'The attribute in the AD/LDAP server used to populate the username field in Mattermost. This may be the same as the Login ID Attribute.',
-                        isDisabled: it.both(
-                            it.stateIsFalse('LdapSettings.Enable'),
-                            it.stateIsFalse('LdapSettings.EnableSync'),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.all(
+                                it.stateIsFalse('LdapSettings.Enable'),
+                                it.stateIsFalse('LdapSettings.EnableSync'),
+                            ),
                         ),
                     },
                     {
@@ -2610,9 +2899,12 @@ const AdminDefinition = {
                         help_text: t('admin.ldap.idAttrDesc'),
                         help_text_markdown: true,
                         help_text_default: 'The attribute in the AD/LDAP server used as a unique identifier in Mattermost. It should be an AD/LDAP attribute with a value that does not change such as `uid` for LDAP or `objectGUID` for Active Directory. If a user\'s ID Attribute changes, it will create a new Mattermost account unassociated with their old one.\n \nIf you need to change this field after users have already logged in, use the [mattermost ldap idmigrate](!https://about.mattermost.com/default-mattermost-ldap-idmigrate) CLI tool.',
-                        isDisabled: it.both(
-                            it.stateEquals('LdapSettings.Enable', false),
-                            it.stateEquals('LdapSettings.EnableSync', false),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.all(
+                                it.stateEquals('LdapSettings.Enable', false),
+                                it.stateEquals('LdapSettings.EnableSync', false),
+                            ),
                         ),
                     },
                     {
@@ -2625,23 +2917,29 @@ const AdminDefinition = {
                         help_text: t('admin.ldap.loginAttrDesc'),
                         help_text_markdown: true,
                         help_text_default: 'The attribute in the AD/LDAP server used to log in to Mattermost. Normally this attribute is the same as the "Username Attribute" field above.\n \nIf your team typically uses domain/username to log in to other services with AD/LDAP, you may enter domain/username in this field to maintain consistency between sites.',
-                        isDisabled: it.both(
-                            it.stateIsFalse('LdapSettings.Enable'),
-                            it.stateIsFalse('LdapSettings.EnableSync'),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.all(
+                                it.stateIsFalse('LdapSettings.Enable'),
+                                it.stateIsFalse('LdapSettings.EnableSync'),
+                            ),
                         ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
                         key: 'LdapSettings.LoginFieldName',
                         label: t('admin.ldap.loginNameTitle'),
-                        label_default: 'Sign-in Field Default Text:',
+                        label_default: 'Login Field Name:',
                         placeholder: t('admin.ldap.loginNameEx'),
                         placeholder_default: 'E.g.: "AD/LDAP Username"',
                         help_text: t('admin.ldap.loginNameDesc'),
                         help_text_default: 'The placeholder text that appears in the login field on the login page. Defaults to "AD/LDAP Username".',
-                        isDisabled: it.both(
-                            it.stateIsFalse('LdapSettings.Enable'),
-                            it.stateIsFalse('LdapSettings.EnableSync'),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.all(
+                                it.stateIsFalse('LdapSettings.Enable'),
+                                it.stateIsFalse('LdapSettings.EnableSync'),
+                            ),
                         ),
                     },
                     {
@@ -2651,9 +2949,12 @@ const AdminDefinition = {
                         label_default: 'Synchronization Interval (minutes):',
                         help_text: t('admin.ldap.syncIntervalHelpText'),
                         help_text_default: 'AD/LDAP Synchronization updates Mattermost user information to reflect updates on the AD/LDAP server. For example, when a user\'s name changes on the AD/LDAP server, the change updates in Mattermost when synchronization is performed. Accounts removed from or disabled in the AD/LDAP server have their Mattermost accounts set to "Inactive" and have their account sessions revoked. Mattermost performs synchronization on the interval entered. For example, if 60 is entered, Mattermost synchronizes every 60 minutes.',
-                        isDisabled: it.both(
-                            it.stateIsFalse('LdapSettings.Enable'),
-                            it.stateIsFalse('LdapSettings.EnableSync'),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.all(
+                                it.stateIsFalse('LdapSettings.Enable'),
+                                it.stateIsFalse('LdapSettings.EnableSync'),
+                            ),
                         ),
                     },
                     {
@@ -2665,9 +2966,12 @@ const AdminDefinition = {
                         placeholder_default: 'E.g.: "2000"',
                         help_text: t('admin.ldap.maxPageSizeHelpText'),
                         help_text_default: 'The maximum number of users the Mattermost server will request from the AD/LDAP server at one time. 0 is unlimited.',
-                        isDisabled: it.both(
-                            it.stateIsFalse('LdapSettings.Enable'),
-                            it.stateIsFalse('LdapSettings.EnableSync'),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.all(
+                                it.stateIsFalse('LdapSettings.Enable'),
+                                it.stateIsFalse('LdapSettings.EnableSync'),
+                            ),
                         ),
                     },
                     {
@@ -2679,9 +2983,12 @@ const AdminDefinition = {
                         placeholder_default: 'E.g.: "60"',
                         help_text: t('admin.ldap.queryDesc'),
                         help_text_default: 'The timeout value for queries to the AD/LDAP server. Increase if you are getting timeout errors caused by a slow AD/LDAP server.',
-                        isDisabled: it.both(
-                            it.stateIsFalse('LdapSettings.Enable'),
-                            it.stateIsFalse('LdapSettings.EnableSync'),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.all(
+                                it.stateIsFalse('LdapSettings.Enable'),
+                                it.stateIsFalse('LdapSettings.EnableSync'),
+                            ),
                         ),
                     },
                     {
@@ -2697,9 +3004,12 @@ const AdminDefinition = {
                         error_message_default: 'AD/LDAP Test Failure: {error}',
                         success_message: t('admin.ldap.testSuccess'),
                         success_message_default: 'AD/LDAP Test Successful',
-                        isDisabled: it.both(
-                            it.stateIsFalse('LdapSettings.Enable'),
-                            it.stateIsFalse('LdapSettings.EnableSync'),
+                        isDisabled: it.any(
+                            it.not(it.userHasReadPermissionOnResource('authentication')),
+                            it.all(
+                                it.stateIsFalse('LdapSettings.Enable'),
+                                it.stateIsFalse('LdapSettings.EnableSync'),
+                            ),
                         ),
                     },
                     {
@@ -2710,7 +3020,10 @@ const AdminDefinition = {
                         help_text: t('admin.ldap.syncNowHelpText'),
                         help_text_markdown: true,
                         help_text_default: 'Initiates an AD/LDAP synchronization immediately. See the table below for status of each synchronization. Please review "System Console > Logs" and [documentation](!https://mattermost.com/default-ldap-docs) to troubleshoot errors.',
-                        isDisabled: it.stateIsFalse('LdapSettings.EnableSync'),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.stateIsFalse('LdapSettings.EnableSync'),
+                        ),
                         render_job: (job) => {
                             let ldapUsers = 0;
                             let deleteCount = 0;
@@ -2837,9 +3150,9 @@ const AdminDefinition = {
             isDiscovery: true,
             title: t('admin.sidebar.ldap'),
             title_default: 'AD/LDAP',
-            isHidden: it.either(
+            isHidden: it.any(
                 it.licensedForFeature('LDAP'),
-                it.isnt(it.enterpriseReady),
+                it.not(it.enterpriseReady),
             ),
             schema: {
                 id: 'LdapSettings',
@@ -2858,7 +3171,7 @@ const AdminDefinition = {
             url: 'authentication/saml',
             title: t('admin.sidebar.saml'),
             title_default: 'SAML 2.0',
-            isHidden: it.isnt(it.licensedForFeature('SAML')),
+            isHidden: it.not(it.licensedForFeature('SAML')),
             schema: {
                 id: 'SamlSettings',
                 name: t('admin.authentication.saml'),
@@ -2872,6 +3185,7 @@ const AdminDefinition = {
                         help_text: t('admin.saml.enableDescription'),
                         help_text_default: 'When true, Mattermost allows login using SAML 2.0. Please see [documentation](!http://docs.mattermost.com/deployment/sso-saml.html) to learn more about configuring SAML for Mattermost.',
                         help_text_markdown: true,
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -2881,7 +3195,10 @@ const AdminDefinition = {
                         help_text: t('admin.saml.enableSyncWithLdapDescription'),
                         help_text_default: 'When true, Mattermost periodically synchronizes SAML user attributes, including user deactivation and removal, from AD/LDAP. Enable and configure synchronization settings at **Authentication > AD/LDAP**. When false, user attributes are updated from SAML during user login. See [documentation](!https://about.mattermost.com/default-saml-ldap-sync) to learn more.',
                         help_text_markdown: true,
-                        isDisabled: it.stateIsFalse('SamlSettings.Enable'),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.stateIsFalse('SamlSettings.Enable'),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -2891,7 +3208,8 @@ const AdminDefinition = {
                         help_text: t('admin.saml.enableSyncWithLdapIncludeAuthDescription'),
                         help_text_default: 'When true, Mattermost will override the SAML ID attribute with the AD/LDAP ID attribute if configured or override the SAML Email attribute with the AD/LDAP Email attribute if SAML ID attribute is not present.  This will allow you automatically migrate users from Email binding to ID binding to prevent creation of new users when an email address changes for a user. Moving from true to false, will remove the override from happening.\n \n**Note:** SAML IDs must match the LDAP IDs to prevent disabling of user accounts.  Please review [documentation](!https://docs.mattermost.com/deployment/sso-saml-ldapsync.html) for more information.',
                         help_text_markdown: true,
-                        isDisabled: it.either(
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('authentication')),
                             it.stateIsFalse('SamlSettings.Enable'),
                             it.stateIsFalse('SamlSettings.EnableSyncWithLdap'),
                         ),
@@ -2905,7 +3223,10 @@ const AdminDefinition = {
                         help_text_default: 'The Metadata URL for the Identity Provider you use for SAML requests',
                         placeholder: t('admin.saml.idpMetadataUrlEx'),
                         placeholder_default: 'E.g.: "https://idp.example.org/SAML2/saml/metadata"',
-                        isDisabled: it.stateIsFalse('SamlSettings.Enable'),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.stateIsFalse('SamlSettings.Enable'),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BUTTON,
@@ -2919,7 +3240,8 @@ const AdminDefinition = {
                         error_message_default: 'SAML Metadata URL did not connect and pull data successfully',
                         success_message: t('admin.saml.getSamlMetadataFromIDPSuccess'),
                         success_message_default: 'SAML Metadata retrieved successfully. Two fields below have been updated',
-                        isDisabled: it.either(
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('authentication')),
                             it.stateIsFalse('SamlSettings.Enable'),
                             it.stateEquals('SamlSettings.IdpMetadataUrl', ''),
                         ),
@@ -2934,8 +3256,11 @@ const AdminDefinition = {
                         help_text_default: 'The URL where Mattermost sends a SAML request to start login sequence.',
                         placeholder: t('admin.saml.idpUrlEx'),
                         placeholder_default: 'E.g.: "https://idp.example.org/SAML2/SSO/Login"',
-                        isDisabled: it.stateIsFalse('SamlSettings.Enable'),
                         setFromMetadataField: 'idp_url',
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.stateIsFalse('SamlSettings.Enable'),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -2946,8 +3271,11 @@ const AdminDefinition = {
                         help_text_default: 'The issuer URL for the Identity Provider you use for SAML requests.',
                         placeholder: t('admin.saml.idpDescriptorUrlEx'),
                         placeholder_default: 'E.g.: "https://idp.example.org/SAML2/issuer"',
-                        isDisabled: it.stateIsFalse('SamlSettings.Enable'),
                         setFromMetadataField: 'idp_descriptor_url',
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.stateIsFalse('SamlSettings.Enable'),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_FILE_UPLOAD,
@@ -2964,12 +3292,15 @@ const AdminDefinition = {
                         removing_text_default: 'Removing Certificate...',
                         uploading_text: t('admin.saml.uploading.certificate'),
                         uploading_text_default: 'Uploading Certificate...',
-                        isDisabled: it.stateIsFalse('SamlSettings.Enable'),
                         fileType: '.crt,.cer,.cert,.pem',
                         upload_action: uploadIdpSamlCertificate,
                         set_action: setSamlIdpCertificateFromMetadata,
                         remove_action: removeIdpSamlCertificate,
                         setFromMetadataField: 'idp_public_certificate',
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.stateIsFalse('SamlSettings.Enable'),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -2978,7 +3309,10 @@ const AdminDefinition = {
                         label_default: 'Verify Signature:',
                         help_text: t('admin.saml.verifyDescription'),
                         help_text_default: 'When false, Mattermost will not verify that the signature sent from a SAML Response matches the Service Provider Login URL. Disabling verification is not recommended for production environments.',
-                        isDisabled: it.stateIsFalse('SamlSettings.Enable'),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.stateIsFalse('SamlSettings.Enable'),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -2989,10 +3323,6 @@ const AdminDefinition = {
                         help_text_default: 'This field is also known as the Assertion Consumer Service URL.',
                         placeholder: t('admin.saml.assertionConsumerServiceURLEx'),
                         placeholder_default: 'E.g.: "https://<your-mattermost-url>/login/sso/saml"',
-                        isDisabled: it.either(
-                            it.stateIsFalse('SamlSettings.Enable'),
-                            it.stateIsFalse('SamlSettings.Verify'),
-                        ),
                         onConfigLoad: (value, config) => {
                             const siteUrl = config.ServiceSettings.SiteURL;
                             if (siteUrl.length > 0 && value.length === 0) {
@@ -3001,6 +3331,11 @@ const AdminDefinition = {
                             }
                             return value;
                         },
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.stateIsFalse('SamlSettings.Enable'),
+                            it.stateIsFalse('SamlSettings.Verify'),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -3020,7 +3355,10 @@ const AdminDefinition = {
                         label_default: 'Enable Encryption:',
                         help_text: t('admin.saml.encryptDescription'),
                         help_text_default: 'When false, Mattermost will not decrypt SAML Assertions encrypted with your Service Provider Public Certificate. Disabling encryption is not recommended for production environments.',
-                        isDisabled: it.stateIsFalse('SamlSettings.Enable'),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.stateIsFalse('SamlSettings.Enable'),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_FILE_UPLOAD,
@@ -3037,13 +3375,14 @@ const AdminDefinition = {
                         removing_text_default: 'Removing Private Key...',
                         uploading_text: t('admin.saml.uploading.privateKey'),
                         uploading_text_default: 'Uploading Private Key...',
-                        isDisabled: it.either(
-                            it.stateIsFalse('SamlSettings.Enable'),
-                            it.stateIsFalse('SamlSettings.Encrypt'),
-                        ),
                         fileType: '.key',
                         upload_action: uploadPrivateSamlCertificate,
                         remove_action: removePrivateSamlCertificate,
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.stateIsFalse('SamlSettings.Enable'),
+                            it.stateIsFalse('SamlSettings.Encrypt'),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_FILE_UPLOAD,
@@ -3060,13 +3399,14 @@ const AdminDefinition = {
                         removing_text_default: 'Removing Certificate...',
                         uploading_text: t('admin.saml.uploading.certificate'),
                         uploading_text_default: 'Uploading Certificate...',
-                        isDisabled: it.either(
-                            it.stateIsFalse('SamlSettings.Enable'),
-                            it.stateIsFalse('SamlSettings.Encrypt'),
-                        ),
                         fileType: '.crt,.cer',
                         upload_action: uploadPublicSamlCertificate,
                         remove_action: removePublicSamlCertificate,
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.stateIsFalse('SamlSettings.Enable'),
+                            it.stateIsFalse('SamlSettings.Encrypt'),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -3075,7 +3415,8 @@ const AdminDefinition = {
                         label_default: 'Sign Request:',
                         help_text: t('admin.saml.signRequestDescription'),
                         help_text_default: 'When true, Mattermost will sign the SAML request using your private key. When false, Mattermost will not sign the SAML request.',
-                        isDisabled: it.either(
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('authentication')),
                             it.stateIsFalse('SamlSettings.Encrypt'),
                             it.stateIsFalse('SamlSettings.PrivateKeyFile'),
                             it.stateIsFalse('SamlSettings.PublicCertificateFile'),
@@ -3086,7 +3427,8 @@ const AdminDefinition = {
                         key: 'SamlSettings.SignatureAlgorithm',
                         label: t('admin.saml.signatureAlgorithmTitle'),
                         label_default: 'Signature Algorithm',
-                        isDisabled: it.either(
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('authentication')),
                             it.stateIsFalse('SamlSettings.Encrypt'),
                             it.stateIsFalse('SamlSettings.SignRequest'),
                         ),
@@ -3119,10 +3461,6 @@ const AdminDefinition = {
                         key: 'SamlSettings.CanonicalAlgorithm',
                         label: t('admin.saml.canonicalAlgorithmTitle'),
                         label_default: 'Canonicalization Algorithm',
-                        isDisabled: it.either(
-                            it.stateIsFalse('SamlSettings.Encrypt'),
-                            it.stateIsFalse('SamlSettings.SignRequest'),
-                        ),
                         options: [
                             {
                                 value: SAML_SETTINGS_CANONICAL_ALGORITHM_C14N,
@@ -3139,6 +3477,11 @@ const AdminDefinition = {
                                 help_text_default: 'Specify the Canonicalization algorithm (Canonical XML 1.1).  Please see more information provided at http://www.w3.org/2006/12/xml-c14n11',
                             },
                         ],
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.stateIsFalse('SamlSettings.Encrypt'),
+                            it.stateIsFalse('SamlSettings.SignRequest'),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -3149,7 +3492,10 @@ const AdminDefinition = {
                         placeholder_default: 'E.g.: "Email" or "PrimaryEmail"',
                         help_text: t('admin.saml.emailAttrDesc'),
                         help_text_default: 'The attribute in the SAML Assertion that will be used to populate the email addresses of users in Mattermost.',
-                        isDisabled: it.stateIsFalse('SamlSettings.Enable'),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.stateIsFalse('SamlSettings.Enable'),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -3160,7 +3506,10 @@ const AdminDefinition = {
                         placeholder_default: 'E.g.: "Username"',
                         help_text: t('admin.saml.usernameAttrDesc'),
                         help_text_default: 'The attribute in the SAML Assertion that will be used to populate the username field in Mattermost.',
-                        isDisabled: it.stateIsFalse('SamlSettings.Enable'),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.stateIsFalse('SamlSettings.Enable'),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -3171,7 +3520,10 @@ const AdminDefinition = {
                         placeholder_default: 'E.g.: "Id"',
                         help_text: t('admin.saml.idAttrDesc'),
                         help_text_default: '(Optional) The attribute in the SAML Assertion that will be used to bind users from SAML to users in Mattermost.',
-                        isDisabled: it.stateIsFalse('SamlSettings.Enable'),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.stateIsFalse('SamlSettings.Enable'),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -3183,7 +3535,8 @@ const AdminDefinition = {
                         help_text: t('admin.saml.guestAttrDesc'),
                         help_text_default: '(Optional) Requires Guest Access to be enabled before being applied. The attribute in the SAML Assertion that will be used to apply a guest role to users in Mattermost. Guests are prevented from accessing teams or channels upon logging in until they are assigned a team and at least one channel.\n \nNote: If this attribute is removed/changed from your guest user in SAML and the user is still active, they will not be promoted to a member and will retain their Guest role. Guests can be promoted in **System Console > User Management**.\n \n \nExisting members that are identified by this attribute as a guest will be demoted from a member to a guest when they are asked to login next. The next login is based upon Session lengths set in **System Console > Session Lengths**. It is highly recommend to manually demote users to guests in **System Console > User Management ** to ensure access is restricted immediately.',
                         help_text_markdown: true,
-                        isDisabled: it.either(
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('authentication')),
                             it.configIsFalse('GuestAccountsSettings', 'Enable'),
                             it.stateIsFalse('SamlSettings.Enable'),
                         ),
@@ -3193,7 +3546,10 @@ const AdminDefinition = {
                         key: 'SamlSettings.EnableAdminAttribute',
                         label: t('admin.saml.enableAdminAttrTitle'),
                         label_default: 'Enable Admin Attribute:',
-                        isDisabled: it.stateIsFalse('SamlSettings.Enable'),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.stateIsFalse('SamlSettings.Enable'),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -3205,7 +3561,8 @@ const AdminDefinition = {
                         help_text: t('admin.saml.adminAttrDesc'),
                         help_text_default: '(Optional) The attribute in the SAML Assertion for designating System Admins. The users selected by the query will have access to your Mattermost server as System Admins. By default, System Admins have complete access to the Mattermost System Console.\n \nExisting members that are identified by this attribute will be promoted from member to System Admin upon next login. The next login is based upon Session lengths set in **System Console > Session Lengths.** It is highly recommend to manually demote users to members in **System Console > User Management** to ensure access is restricted immediately.\n \nNote: If this filter is removed/changed, System Admins that were promoted via this filter will be demoted to members and will not retain access to the System Console. When this filter is not in use, System Admins can be manually promoted/demoted in **System Console > User Management**.',
                         help_text_markdown: true,
-                        isDisabled: it.either(
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('authentication')),
                             it.stateIsFalse('SamlSettings.EnableAdminAttribute'),
                             it.stateIsFalse('SamlSettings.Enable'),
                         ),
@@ -3219,7 +3576,10 @@ const AdminDefinition = {
                         placeholder_default: 'E.g.: "FirstName"',
                         help_text: t('admin.saml.firstnameAttrDesc'),
                         help_text_default: '(Optional) The attribute in the SAML Assertion that will be used to populate the first name of users in Mattermost.',
-                        isDisabled: it.stateIsFalse('SamlSettings.Enable'),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.stateIsFalse('SamlSettings.Enable'),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -3230,7 +3590,10 @@ const AdminDefinition = {
                         placeholder_default: 'E.g.: "LastName"',
                         help_text: t('admin.saml.lastnameAttrDesc'),
                         help_text_default: '(Optional) The attribute in the SAML Assertion that will be used to populate the last name of users in Mattermost.',
-                        isDisabled: it.stateIsFalse('SamlSettings.Enable'),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.stateIsFalse('SamlSettings.Enable'),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -3241,7 +3604,10 @@ const AdminDefinition = {
                         placeholder_default: 'E.g.: "Nickname"',
                         help_text: t('admin.saml.nicknameAttrDesc'),
                         help_text_default: '(Optional) The attribute in the SAML Assertion that will be used to populate the nickname of users in Mattermost.',
-                        isDisabled: it.stateIsFalse('SamlSettings.Enable'),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.stateIsFalse('SamlSettings.Enable'),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -3252,7 +3618,10 @@ const AdminDefinition = {
                         placeholder_default: 'E.g.: "Role"',
                         help_text: t('admin.saml.positionAttrDesc'),
                         help_text_default: '(Optional) The attribute in the SAML Assertion that will be used to populate the position of users in Mattermost.',
-                        isDisabled: it.stateIsFalse('SamlSettings.Enable'),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.stateIsFalse('SamlSettings.Enable'),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -3263,7 +3632,10 @@ const AdminDefinition = {
                         placeholder_default: 'E.g.: "Locale" or "PrimaryLanguage"',
                         help_text: t('admin.saml.localeAttrDesc'),
                         help_text_default: '(Optional) The attribute in the SAML Assertion that will be used to populate the language of users in Mattermost.',
-                        isDisabled: it.stateIsFalse('SamlSettings.Enable'),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.stateIsFalse('SamlSettings.Enable'),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -3274,7 +3646,10 @@ const AdminDefinition = {
                         placeholder_default: 'E.g.: "OKTA"',
                         help_text: t('admin.saml.loginButtonTextDesc'),
                         help_text_default: '(Optional) The text that appears in the login button on the login page. Defaults to "SAML".',
-                        isDisabled: it.stateIsFalse('SamlSettings.Enable'),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.stateIsFalse('SamlSettings.Enable'),
+                        ),
                     },
                 ],
             },
@@ -3284,9 +3659,9 @@ const AdminDefinition = {
             isDiscovery: true,
             title: t('admin.sidebar.saml'),
             title_default: 'SAML 2.0',
-            isHidden: it.either(
+            isHidden: it.any(
                 it.licensedForFeature('SAML'),
-                it.isnt(it.enterpriseReady),
+                it.not(it.enterpriseReady),
             ),
             schema: {
                 id: 'SamlSettings',
@@ -3329,6 +3704,7 @@ const AdminDefinition = {
                         help_text: t('admin.gitlab.enableDescription'),
                         help_text_default: 'When true, Mattermost allows team creation and account signup using GitLab OAuth.\n \n1. Log in to your GitLab account and go to Profile Settings -> Applications.\n2. Enter Redirect URIs "<your-mattermost-url>/login/gitlab/complete" (example: http://localhost:8065/login/gitlab/complete) and "<your-mattermost-url>/signup/gitlab/complete".\n3. Then use "Application Secret Key" and "Application ID" fields from GitLab to complete the options below.\n4. Complete the Endpoint URLs below.',
                         help_text_markdown: true,
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -3339,7 +3715,10 @@ const AdminDefinition = {
                         help_text_default: 'Obtain this value via the instructions above for logging into GitLab.',
                         placeholder: t('admin.gitlab.clientIdExample'),
                         placeholder_default: 'E.g.: "jcuS8PuvcpGhpgHhlcpT1Mx42pnqMxQY"',
-                        isDisabled: it.stateIsFalse('GitLabSettings.Enable'),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.stateIsFalse('GitLabSettings.Enable'),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -3350,7 +3729,10 @@ const AdminDefinition = {
                         help_text_default: 'Obtain this value via the instructions above for logging into GitLab.',
                         placeholder: t('admin.gitlab.clientSecretExample'),
                         placeholder_default: 'E.g.: "jcuS8PuvcpGhpgHhlcpT1Mx42pnqMxQY"',
-                        isDisabled: it.stateIsFalse('GitLabSettings.Enable'),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.stateIsFalse('GitLabSettings.Enable'),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -3361,7 +3743,10 @@ const AdminDefinition = {
                         help_text_default: 'Enter the URL of your GitLab instance, e.g. https://example.com:3000. If your GitLab instance is not set up with SSL, start the URL with http:// instead of https://.',
                         placeholder: t('admin.gitlab.siteUrlExample'),
                         placeholder_default: 'E.g.: https://',
-                        isDisabled: it.stateIsFalse('GitLabSettings.Enable'),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.stateIsFalse('GitLabSettings.Enable'),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -3409,7 +3794,7 @@ const AdminDefinition = {
             url: 'authentication/oauth',
             title: t('admin.sidebar.oauth'),
             title_default: 'OAuth 2.0',
-            isHidden: it.isnt(it.licensed),
+            isHidden: it.not(it.licensed),
             schema: {
                 id: 'OAuthSettings',
                 name: t('admin.authentication.oauth'),
@@ -3477,7 +3862,7 @@ const AdminDefinition = {
                                 value: Constants.GOOGLE_SERVICE,
                                 display_name: t('admin.oauth.google'),
                                 display_name_default: 'Google Apps',
-                                isHidden: it.isnt(it.licensedForFeature('GoogleOAuth')),
+                                isHidden: it.not(it.licensedForFeature('GoogleOAuth')),
                                 help_text: t('admin.google.EnableMarkdownDesc'),
                                 help_text_default: '1. [Log in](!https://accounts.google.com/login) to your Google account.\n2. Go to [https://console.developers.google.com](!https://console.developers.google.com), click **Credentials** in the left hand sidebar and enter "Mattermost - your-company-name" as the **Project Name**, then click **Create**.\n3. Click the **OAuth consent screen** header and enter "Mattermost" as the **Product name shown to users**, then click **Save**.\n4. Under the **Credentials** header, click **Create credentials**, choose **OAuth client ID** and select **Web Application**.\n5. Under **Restrictions** and **Authorized redirect URIs** enter **your-mattermost-url/signup/google/complete** (example: http://localhost:8065/signup/google/complete). Click **Create**.\n6. Paste the **Client ID** and **Client Secret** to the fields below, then click **Save**.\n7. Go to the [Google People API](!https://console.developers.google.com/apis/library/people.googleapis.com) and click *Enable*.',
                                 help_text_markdown: true,
@@ -3486,12 +3871,13 @@ const AdminDefinition = {
                                 value: Constants.OFFICE365_SERVICE,
                                 display_name: t('admin.oauth.office365'),
                                 display_name_default: 'Office 365',
-                                isHidden: it.isnt(it.licensedForFeature('Office365OAuth')),
+                                isHidden: it.not(it.licensedForFeature('Office365OAuth')),
                                 help_text: t('admin.office365.EnableMarkdownDesc'),
                                 help_text_default: '1. [Log in](!https://login.microsoftonline.com/) to your Microsoft or Office 365 account. Make sure it`s the account on the same [tenant](!https://msdn.microsoft.com/en-us/library/azure/jj573650.aspx#Anchor_0) that you would like users to log in with.\n2. Go to [https://apps.dev.microsoft.com](!https://apps.dev.microsoft.com), click **Go to app list** > **Add an app** and use "Mattermost - your-company-name" as the **Application Name**.\n3. Under **Application Secrets**, click **Generate New Password** and paste it to the **Application Secret Password** field below.\n4. Under **Platforms**, click **Add Platform**, choose **Web** and enter **your-mattermost-url/signup/office365/complete** (example: http://localhost:8065/signup/office365/complete) under **Redirect URIs**. Also uncheck **Allow Implicit Flow**.\n5. Finally, click **Save** and then paste the **Application ID** below.',
                                 help_text_markdown: true,
                             },
                         ],
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -3502,7 +3888,8 @@ const AdminDefinition = {
                         help_text_default: 'Obtain this value via the instructions above for logging into GitLab.',
                         placeholder: t('admin.gitlab.clientIdExample'),
                         placeholder_default: 'E.g.: "jcuS8PuvcpGhpgHhlcpT1Mx42pnqMxQY"',
-                        isHidden: it.isnt(it.stateEquals('oauthType', 'gitlab')),
+                        isHidden: it.not(it.stateEquals('oauthType', 'gitlab')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -3513,7 +3900,8 @@ const AdminDefinition = {
                         help_text_default: 'Obtain this value via the instructions above for logging into GitLab.',
                         placeholder: t('admin.gitlab.clientSecretExample'),
                         placeholder_default: 'E.g.: "jcuS8PuvcpGhpgHhlcpT1Mx42pnqMxQY"',
-                        isHidden: it.isnt(it.stateEquals('oauthType', 'gitlab')),
+                        isHidden: it.not(it.stateEquals('oauthType', 'gitlab')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -3524,7 +3912,8 @@ const AdminDefinition = {
                         help_text_default: 'Enter the URL of your GitLab instance, e.g. https://example.com:3000. If your GitLab instance is not set up with SSL, start the URL with http:// instead of https://.',
                         placeholder: t('admin.gitlab.siteUrlExample'),
                         placeholder_default: 'E.g.: https://',
-                        isHidden: it.isnt(it.stateEquals('oauthType', 'gitlab')),
+                        isHidden: it.not(it.stateEquals('oauthType', 'gitlab')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -3538,7 +3927,7 @@ const AdminDefinition = {
                             return '';
                         },
                         isDisabled: true,
-                        isHidden: it.isnt(it.stateEquals('oauthType', 'gitlab')),
+                        isHidden: it.not(it.stateEquals('oauthType', 'gitlab')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -3552,7 +3941,7 @@ const AdminDefinition = {
                             return '';
                         },
                         isDisabled: true,
-                        isHidden: it.isnt(it.stateEquals('oauthType', 'gitlab')),
+                        isHidden: it.not(it.stateEquals('oauthType', 'gitlab')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -3566,7 +3955,7 @@ const AdminDefinition = {
                             return '';
                         },
                         isDisabled: true,
-                        isHidden: it.isnt(it.stateEquals('oauthType', 'gitlab')),
+                        isHidden: it.not(it.stateEquals('oauthType', 'gitlab')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -3577,7 +3966,8 @@ const AdminDefinition = {
                         help_text_default: 'The Client ID you received when registering your application with Google.',
                         placeholder: t('admin.google.clientIdExample'),
                         placeholder_default: 'E.g.: "7602141235235-url0fhs1mayfasbmop5qlfns8dh4.apps.googleusercontent.com"',
-                        isHidden: it.isnt(it.stateEquals('oauthType', 'google')),
+                        isHidden: it.not(it.stateEquals('oauthType', 'google')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -3588,7 +3978,8 @@ const AdminDefinition = {
                         help_text_default: 'The Client Secret you received when registering your application with Google.',
                         placeholder: t('admin.google.clientSecretExample'),
                         placeholder_default: 'E.g.: "H8sz0Az-dDs2p15-7QzD231"',
-                        isHidden: it.isnt(it.stateEquals('oauthType', 'google')),
+                        isHidden: it.not(it.stateEquals('oauthType', 'google')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -3597,7 +3988,7 @@ const AdminDefinition = {
                         label_default: 'User API Endpoint:',
                         dynamic_value: () => 'https://people.googleapis.com/v1/people/me?personFields=names,emailAddresses,nicknames,metadata',
                         isDisabled: true,
-                        isHidden: it.isnt(it.stateEquals('oauthType', 'google')),
+                        isHidden: it.not(it.stateEquals('oauthType', 'google')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -3606,7 +3997,7 @@ const AdminDefinition = {
                         label_default: 'Auth Endpoint:',
                         dynamic_value: () => 'https://accounts.google.com/o/oauth2/v2/auth',
                         isDisabled: true,
-                        isHidden: it.isnt(it.stateEquals('oauthType', 'google')),
+                        isHidden: it.not(it.stateEquals('oauthType', 'google')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -3615,7 +4006,7 @@ const AdminDefinition = {
                         label_default: 'Token Endpoint:',
                         dynamic_value: () => 'https://www.googleapis.com/oauth2/v4/token',
                         isDisabled: true,
-                        isHidden: it.isnt(it.stateEquals('oauthType', 'google')),
+                        isHidden: it.not(it.stateEquals('oauthType', 'google')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -3626,7 +4017,8 @@ const AdminDefinition = {
                         help_text_default: 'The Application/Client ID you received when registering your application with Microsoft.',
                         placeholder: t('admin.office365.clientIdExample'),
                         placeholder_default: 'E.g.: "adf3sfa2-ag3f-sn4n-ids0-sh1hdax192qq"',
-                        isHidden: it.isnt(it.stateEquals('oauthType', 'office365')),
+                        isHidden: it.not(it.stateEquals('oauthType', 'office365')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -3637,7 +4029,8 @@ const AdminDefinition = {
                         help_text_default: 'The Application Secret Password you generated when registering your application with Microsoft.',
                         placeholder: t('admin.office365.clientSecretExample'),
                         placeholder_default: 'E.g.: "shAieM47sNBfgl20f8ci294"',
-                        isHidden: it.isnt(it.stateEquals('oauthType', 'office365')),
+                        isHidden: it.not(it.stateEquals('oauthType', 'office365')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -3648,7 +4041,8 @@ const AdminDefinition = {
                         help_text_default: 'The Directory (tenant) ID you received when registering your application with Microsoft.',
                         placeholder: t('admin.office365.directoryIdExample'),
                         placeholder_default: 'E.g.: "adf3sfa2-ag3f-sn4n-ids0-sh1hdax192qq"',
-                        isHidden: it.isnt(it.stateEquals('oauthType', 'office365')),
+                        isHidden: it.not(it.stateEquals('oauthType', 'office365')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -3657,7 +4051,7 @@ const AdminDefinition = {
                         label_default: 'User API Endpoint:',
                         dynamic_value: () => 'https://graph.microsoft.com/v1.0/me',
                         isDisabled: true,
-                        isHidden: it.isnt(it.stateEquals('oauthType', 'office365')),
+                        isHidden: it.not(it.stateEquals('oauthType', 'office365')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -3671,7 +4065,7 @@ const AdminDefinition = {
                             return 'https://login.microsoftonline.com/{directoryId}/oauth2/v2.0/authorize';
                         },
                         isDisabled: true,
-                        isHidden: it.isnt(it.stateEquals('oauthType', 'office365')),
+                        isHidden: it.not(it.stateEquals('oauthType', 'office365')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -3685,7 +4079,7 @@ const AdminDefinition = {
                             return 'https://login.microsoftonline.com/{directoryId}/oauth2/v2.0/token';
                         },
                         isDisabled: true,
-                        isHidden: it.isnt(it.stateEquals('oauthType', 'office365')),
+                        isHidden: it.not(it.stateEquals('oauthType', 'office365')),
                     },
                 ],
             },
@@ -3694,7 +4088,7 @@ const AdminDefinition = {
             url: 'authentication/guest_access',
             title: t('admin.sidebar.guest_access'),
             title_default: 'Guest Access (Beta)',
-            isHidden: it.isnt(it.licensed),
+            isHidden: it.not(it.licensed),
             schema: {
                 id: 'GuestAccountsSettings',
                 name: t('admin.authentication.guest_access'),
@@ -3704,6 +4098,7 @@ const AdminDefinition = {
                         type: Constants.SettingsTypes.TYPE_CUSTOM,
                         component: CustomEnableDisableGuestAccountsSetting,
                         key: 'GuestAccountsSettings.Enable',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -3715,6 +4110,7 @@ const AdminDefinition = {
                         help_text_markdown: true,
                         placeholder: t('admin.guest_access.whitelistedDomainsExample'),
                         placeholder_default: 'E.g.: "company.com, othercorp.org"',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -3724,8 +4120,8 @@ const AdminDefinition = {
                         help_text: t('admin.guest_access.mfaDescriptionMFANotEnabled'),
                         help_text_default: '[Multi-factor authentication](./mfa) is currently not enabled.',
                         help_text_markdown: true,
-                        isDisabled: () => true,
                         isHidden: it.configIsTrue('ServiceSettings', 'EnableMultifactorAuthentication'),
+                        isDisabled: () => true,
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -3735,11 +4131,11 @@ const AdminDefinition = {
                         help_text: t('admin.guest_access.mfaDescriptionMFANotEnforced'),
                         help_text_default: '[Multi-factor authentication](./mfa) is currently not enforced.',
                         help_text_markdown: true,
-                        isDisabled: () => true,
-                        isHidden: it.either(
+                        isHidden: it.any(
                             it.configIsFalse('ServiceSettings', 'EnableMultifactorAuthentication'),
                             it.configIsTrue('ServiceSettings', 'EnforceMultifactorAuthentication'),
                         ),
+                        isDisabled: () => true,
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -3749,10 +4145,11 @@ const AdminDefinition = {
                         help_text: t('admin.guest_access.mfaDescription'),
                         help_text_default: 'When true, [multi-factor authentication](!https://docs.mattermost.com/deployment/auth.html) for guests is required for login. New guest users will be required to configure MFA on signup. Logged in guest users without MFA configured are redirected to the MFA setup page until configuration is complete.\n \nIf your system has guest users with login methods other than AD/LDAP and email, MFA must be enforced with the authentication provider outside of Mattermost.',
                         help_text_markdown: true,
-                        isHidden: it.either(
+                        isHidden: it.any(
                             it.configIsFalse('ServiceSettings', 'EnableMultifactorAuthentication'),
                             it.configIsFalse('ServiceSettings', 'EnforceMultifactorAuthentication'),
                         ),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
                     },
                 ],
             },
@@ -3763,6 +4160,7 @@ const AdminDefinition = {
         sectionTitle: t('admin.sidebar.plugins'),
         sectionTitleDefault: 'Plugins (Beta)',
         id: 'plugins',
+        isHidden: it.not(it.userHasReadPermissionOnResource('plugins')),
         plugin_management: {
             url: 'plugins/plugin_management',
             title: t('admin.plugins.pluginManagement'),
@@ -3785,6 +4183,7 @@ const AdminDefinition = {
                 'admin.plugins.settings.marketplaceUrl',
                 'admin.plugins.settings.marketplaceUrlDesc',
             ],
+            isDisabled: it.not(it.userHasWritePermissionOnResource('plugins')),
             schema: {
                 id: 'PluginManagementSettings',
                 component: PluginManagement,
@@ -3792,6 +4191,7 @@ const AdminDefinition = {
         },
         custom: {
             url: 'plugins/plugin_:plugin_id',
+            isDisabled: it.not(it.userHasWritePermissionOnResource('plugins')),
             schema: {
                 id: 'CustomPluginSettings',
                 component: CustomPluginSettings,
@@ -3803,6 +4203,7 @@ const AdminDefinition = {
         sectionTitle: t('admin.sidebar.integrations'),
         sectionTitleDefault: 'Integrations',
         id: 'integrations',
+        isHidden: it.not(it.userHasReadPermissionOnResource('integrations')),
         integration_management: {
             url: 'integrations/integration_management',
             title: t('admin.integrations.integrationManagement'),
@@ -3820,6 +4221,7 @@ const AdminDefinition = {
                         help_text: t('admin.service.webhooksDescription'),
                         help_text_default: 'When true, incoming webhooks will be allowed. To help combat phishing attacks, all posts from webhooks will be labelled by a BOT tag. See [documentation](!http://docs.mattermost.com/developer/webhooks-incoming.html) to learn more.',
                         help_text_markdown: true,
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('integrations')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -3829,6 +4231,7 @@ const AdminDefinition = {
                         help_text: t('admin.service.outWebhooksDesc'),
                         help_text_default: 'When true, outgoing webhooks will be allowed. See [documentation](!http://docs.mattermost.com/developer/webhooks-outgoing.html) to learn more.',
                         help_text_markdown: true,
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('integrations')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -3838,6 +4241,7 @@ const AdminDefinition = {
                         help_text: t('admin.service.cmdsDesc'),
                         help_text_default: 'When true, custom slash commands will be allowed. See [documentation](!http://docs.mattermost.com/developer/slash-commands.html) to learn more.',
                         help_text_markdown: true,
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('integrations')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -3847,6 +4251,7 @@ const AdminDefinition = {
                         help_text: t('admin.oauth.providerDescription'),
                         help_text_default: 'When true, Mattermost can act as an OAuth 2.0 service provider allowing Mattermost to authorize API requests from external applications. See [documentation](!https://docs.mattermost.com/developer/oauth-2-0-applications.html) to learn more.',
                         help_text_markdown: true,
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('integrations')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_PERMISSION,
@@ -3857,6 +4262,7 @@ const AdminDefinition = {
                         help_text_default: 'When true, webhooks and slash commands can only be created, edited and viewed by Team and System Admins, and OAuth 2.0 applications by System Admins. Integrations are available to all users after they have been created by the Admin.',
                         permissions_mapping_name: 'enableOnlyAdminIntegrations',
                         isHidden: it.licensed,
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('integrations')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -3866,6 +4272,7 @@ const AdminDefinition = {
                         help_text: t('admin.service.overrideDescription'),
                         help_text_default: 'When true, webhooks, slash commands and other integrations, such as [Zapier](!https://docs.mattermost.com/integrations/zapier.html), will be allowed to change the username they are posting as. Note: Combined with allowing integrations to override profile picture icons, users may be able to perform phishing attacks by attempting to impersonate other users.',
                         help_text_markdown: true,
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('integrations')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -3875,6 +4282,7 @@ const AdminDefinition = {
                         help_text: t('admin.service.iconDescription'),
                         help_text_default: 'When true, webhooks, slash commands and other integrations, such as [Zapier](!https://docs.mattermost.com/integrations/zapier.html), will be allowed to change the profile picture they post with. Note: Combined with allowing integrations to override usernames, users may be able to perform phishing attacks by attempting to impersonate other users.',
                         help_text_markdown: true,
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('integrations')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -3884,6 +4292,7 @@ const AdminDefinition = {
                         help_text: t('admin.service.userAccessTokensDescription'),
                         help_text_default: 'When true, users can create [user access tokens](!https://about.mattermost.com/default-user-access-tokens) for integrations in **Account Settings > Security**. They can be used to authenticate against the API and give full access to the account.\n\n To manage who can create personal access tokens or to search users by token ID, go to the **User Management > Users** page.',
                         help_text_markdown: true,
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('integrations')),
                     },
                 ],
             },
@@ -3906,6 +4315,7 @@ const AdminDefinition = {
                         help_text_default: 'When true, System Admins can create bot accounts for integrations in [Integrations > Bot Accounts]({siteURL}/_redirect/integrations/bots). Bot accounts are similar to user accounts except they cannot be used to log in. See [documentation](https://mattermost.com/pl/default-bot-accounts) to learn more.',
                         help_text_markdown: true,
                         help_text_values: {siteURL: getSiteURL()},
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('integrations')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -3916,6 +4326,7 @@ const AdminDefinition = {
                         help_text_default: 'When a user is deactivated, disables all bot accounts managed by the user. To re-enable bot accounts, go to [Integrations > Bot Accounts]({siteURL}/_redirect/integrations/bots).',
                         help_text_markdown: true,
                         help_text_values: {siteURL: getSiteURL()},
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('integrations')),
                     },
                 ],
             },
@@ -3936,6 +4347,7 @@ const AdminDefinition = {
                         label_default: 'Enable GIF Picker:',
                         help_text: t('admin.customization.enableGifPickerDesc'),
                         help_text_default: 'Allow users to select GIFs from the emoji picker via a Gfycat integration.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('integrations')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -3945,6 +4357,7 @@ const AdminDefinition = {
                         help_text: t('admin.customization.gfycatApiKeyDescription'),
                         help_text_default: 'Request an API key at [https://developers.gfycat.com/signup/#](!https://developers.gfycat.com/signup/#). Enter the client ID you receive via email to this field. When blank, uses the default API key provided by Gfycat.',
                         help_text_markdown: true,
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('integrations')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -3953,6 +4366,7 @@ const AdminDefinition = {
                         label_default: 'Gfycat API Secret:',
                         help_text: t('admin.customization.gfycatApiSecretDescription'),
                         help_text_default: 'The API secret generated by Gfycat for your API key. When blank, uses the default API secret provided by Gfycat.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('integrations')),
                     },
                 ],
             },
@@ -3976,6 +4390,7 @@ const AdminDefinition = {
                         placeholder_default: 'http://example.com',
                         help_text: t('admin.service.corsDescription'),
                         help_text_default: 'Enable HTTP Cross origin request from a specific domain. Use "*" if you want to allow CORS from any domain or leave it blank to disable it. Should not be set to "*" in production.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('integrations')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -3986,6 +4401,7 @@ const AdminDefinition = {
                         placeholder_default: 'X-My-Header',
                         help_text: t('admin.service.corsExposedHeadersDescription'),
                         help_text_default: 'Whitelist of headers that will be accessible to the requester.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('integrations')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -3994,6 +4410,7 @@ const AdminDefinition = {
                         label_default: 'CORS Allow Credentials:',
                         help_text: t('admin.service.corsAllowCredentialsDescription'),
                         help_text_default: 'When true, requests that pass validation will include the Access-Control-Allow-Credentials header.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('integrations')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -4002,6 +4419,7 @@ const AdminDefinition = {
                         label_default: 'CORS Debug:',
                         help_text: t('admin.service.corsDebugDescription'),
                         help_text_default: 'When true, prints messages to the logs to help when developing an integration that uses CORS. These messages will include the structured key value pair "source":"cors".',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('integrations')),
                     },
                 ],
             },
@@ -4011,11 +4429,11 @@ const AdminDefinition = {
         icon: 'fa-list',
         sectionTitle: t('admin.sidebar.compliance'),
         sectionTitleDefault: 'Compliance',
+        isHidden: it.not(it.userHasReadPermissionOnResource('compliance')),
         data_retention: {
             url: 'compliance/data_retention',
             title: t('admin.sidebar.dataRetentionPolicy'),
             title_default: 'Data Retention Policy',
-            isHidden: it.isnt(it.licensedForFeature('DataRetention')),
             searchableStrings: [
                 'admin.data_retention.title',
                 'admin.data_retention.messageRetentionDays.description',
@@ -4030,6 +4448,8 @@ const AdminDefinition = {
                 'admin.data_retention.createJob.title',
                 'admin.data_retention.createJob.help',
             ],
+            isHidden: it.not(it.licensedForFeature('DataRetention')),
+            isDisabled: it.not(it.userHasWritePermissionOnResource('compliance')),
             schema: {
                 id: 'DataRetentionSettings',
                 component: DataRetentionSettings,
@@ -4039,7 +4459,6 @@ const AdminDefinition = {
             url: 'compliance/export',
             title: t('admin.sidebar.complianceExport'),
             title_default: 'Compliance Export (Beta)',
-            isHidden: it.isnt(it.licensedForFeature('MessageExport')),
             searchableStrings: [
                 'admin.service.complianceExportTitle',
                 'admin.service.complianceExportDesc',
@@ -4058,6 +4477,8 @@ const AdminDefinition = {
                 'admin.complianceExport.globalRelayEmailAddress.title',
                 'admin.complianceExport.globalRelayEmailAddress.description',
             ],
+            isHidden: it.not(it.licensedForFeature('MessageExport')),
+            isDisabled: it.not(it.userHasWritePermissionOnResource('compliance')),
             schema: {
                 id: 'MessageExportSettings',
                 component: MessageExportSettings,
@@ -4067,7 +4488,8 @@ const AdminDefinition = {
             url: 'compliance/monitoring',
             title: t('admin.sidebar.complianceMonitoring'),
             title_default: 'Compliance Monitoring',
-            isHidden: it.isnt(it.licensed),
+            isHidden: it.not(it.licensed),
+            isDisabled: it.not(it.userHasWritePermissionOnResource('compliance')),
             searchableStrings: [
                 'admin.audits.title',
                 'admin.audits.reload',
@@ -4077,7 +4499,7 @@ const AdminDefinition = {
                 name: t('admin.compliance.complianceMonitoring'),
                 name_default: 'Compliance Monitoring',
                 component: Audits,
-                isHidden: it.isnt(it.licensedForFeature('Compliance')),
+                isHidden: it.not(it.licensedForFeature('Compliance')),
                 settings: [
                     {
                         type: Constants.SettingsTypes.TYPE_BANNER,
@@ -4085,8 +4507,8 @@ const AdminDefinition = {
                         label_markdown: true,
                         label_default: 'This feature is replaced by a new [Compliance Export]({siteURL}/admin_console/compliance/export) feature, and will be removed in a future release. We recommend migrating to the new system.',
                         label_values: {siteURL: getSiteURL()},
-                        isHidden: it.isnt(it.licensedForFeature('Compliance')),
                         banner_type: 'info',
+                        isHidden: it.not(it.licensedForFeature('Compliance')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -4096,7 +4518,8 @@ const AdminDefinition = {
                         help_text: t('admin.compliance.enableDesc'),
                         help_text_default: 'When true, Mattermost allows compliance reporting from the **Compliance and Auditing** tab. See [documentation](!https://docs.mattermost.com/administration/compliance.html) to learn more.',
                         help_text_markdown: true,
-                        isHidden: it.isnt(it.licensedForFeature('Compliance')),
+                        isHidden: it.not(it.licensedForFeature('Compliance')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('compliance')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -4107,8 +4530,11 @@ const AdminDefinition = {
                         help_text_default: 'Directory to which compliance reports are written. If blank, will be set to ./data/.',
                         placeholder: t('admin.compliance.directoryExample'),
                         placeholder_default: 'E.g.: "./data/"',
-                        isDisabled: it.stateIsFalse('ComplianceSettings.Enable'),
-                        isHidden: it.isnt(it.licensedForFeature('Compliance')),
+                        isHidden: it.not(it.licensedForFeature('Compliance')),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('compliance')),
+                            it.stateIsFalse('ComplianceSettings.Enable'),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -4117,8 +4543,11 @@ const AdminDefinition = {
                         label_default: 'Enable Daily Report:',
                         help_text: t('admin.compliance.enableDailyDesc'),
                         help_text_default: 'When true, Mattermost will generate a daily compliance report.',
-                        isDisabled: it.stateIsFalse('ComplianceSettings.Enable'),
-                        isHidden: it.isnt(it.licensedForFeature('Compliance')),
+                        isHidden: it.not(it.licensedForFeature('Compliance')),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('compliance')),
+                            it.stateIsFalse('ComplianceSettings.Enable'),
+                        ),
                     },
                 ],
             },
@@ -4127,7 +4556,6 @@ const AdminDefinition = {
             url: 'compliance/custom_terms_of_service',
             title: t('admin.sidebar.customTermsOfService'),
             title_default: 'Custom Terms of Service (Beta)',
-            isHidden: it.isnt(it.licensedForFeature('CustomTermsOfService')),
             searchableStrings: [
                 'admin.support.termsOfServiceTitle',
                 'admin.support.enableTermsOfServiceTitle',
@@ -4137,6 +4565,8 @@ const AdminDefinition = {
                 'admin.support.termsOfServiceReAcceptanceTitle',
                 'admin.support.termsOfServiceReAcceptanceHelp',
             ],
+            isHidden: it.not(it.licensedForFeature('CustomTermsOfService')),
+            isDisabled: it.not(it.userHasWritePermissionOnResource('compliance')),
             schema: {
                 id: 'TermsOfServiceSettings',
                 component: CustomTermsOfServiceSettings,
@@ -4147,6 +4577,7 @@ const AdminDefinition = {
         icon: 'fa-flask',
         sectionTitle: t('admin.sidebar.experimental'),
         sectionTitleDefault: 'Experimental',
+        isHidden: it.not(it.userHasReadPermissionOnResource('experimental')),
         experimental_features: {
             url: 'experimental/features',
             title: t('admin.sidebar.experimentalFeatures'),
@@ -4164,7 +4595,8 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.ldapSettingsLoginButtonColor.desc'),
                         help_text_default: 'Specify the color of the AD/LDAP login button for white labeling purposes. Use a hex code with a #-sign before the code. This setting only applies to the mobile apps.',
                         help_text_markdown: false,
-                        isHidden: it.isnt(it.licensedForFeature('LDAP')),
+                        isHidden: it.not(it.licensedForFeature('LDAP')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -4174,7 +4606,8 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.ldapSettingsLoginButtonBorderColor.desc'),
                         help_text_default: 'Specify the color of the AD/LDAP login button border for white labeling purposes. Use a hex code with a #-sign before the code. This setting only applies to the mobile apps.',
                         help_text_markdown: false,
-                        isHidden: it.isnt(it.licensedForFeature('LDAP')),
+                        isHidden: it.not(it.licensedForFeature('LDAP')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -4184,7 +4617,8 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.ldapSettingsLoginButtonTextColor.desc'),
                         help_text_default: 'Specify the color of the AD/LDAP login button text for white labeling purposes. Use a hex code with a #-sign before the code. This setting only applies to the mobile apps.',
                         help_text_markdown: false,
-                        isHidden: it.isnt(it.licensedForFeature('LDAP')),
+                        isHidden: it.not(it.licensedForFeature('LDAP')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -4192,9 +4626,10 @@ const AdminDefinition = {
                         label: t('admin.experimental.experimentalEnableAuthenticationTransfer.title'),
                         label_default: 'Allow Authentication Transfer:',
                         help_text: t('admin.experimental.experimentalEnableAuthenticationTransfer.desc'),
-                        help_text_default: 'When true, users can change their sign-in method to any that is enabled on the server, either via Account Settings or the APIs. When false, Users cannot change their sign-in method, regardless of which authentication options are enabled.',
+                        help_text_default: 'When true, users can change their sign-in method to any that is enabled on the server, any via Account Settings or the APIs. When false, Users cannot change their sign-in method, regardless of which authentication options are enabled.',
                         help_text_markdown: false,
-                        isHidden: it.isnt(it.licensed), // documented as E20 and higher, but only E10 in the code
+                        isHidden: it.not(it.licensed), // documented as E20 and higher, but only E10 in the code
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -4204,6 +4639,7 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.closeUnusedDirectMessages.desc'),
                         help_text_default: 'When true, direct message conversations with no activity for 7 days will be hidden from the sidebar. When false, conversations remain in the sidebar until they are manually closed.',
                         help_text_markdown: false,
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_NUMBER,
@@ -4215,6 +4651,7 @@ const AdminDefinition = {
                         help_text_markdown: false,
                         placeholder: t('admin.experimental.linkMetadataTimeoutMilliseconds.example'),
                         placeholder_default: 'E.g.: "5000"',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_NUMBER,
@@ -4226,6 +4663,7 @@ const AdminDefinition = {
                         help_text_markdown: false,
                         placeholder: t('admin.experimental.emailBatchingBufferSize.example'),
                         placeholder_default: 'E.g.: "256"',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_NUMBER,
@@ -4237,6 +4675,7 @@ const AdminDefinition = {
                         help_text_markdown: false,
                         placeholder: t('admin.experimental.emailBatchingInterval.example'),
                         placeholder_default: 'E.g.: "30"',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -4246,6 +4685,7 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.emailSettingsLoginButtonColor.desc'),
                         help_text_default: 'Specify the color of the email login button for white labeling purposes. Use a hex code with a #-sign before the code. This setting only applies to the mobile apps.',
                         help_text_markdown: false,
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -4255,6 +4695,7 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.emailSettingsLoginButtonBorderColor.desc'),
                         help_text_default: 'Specify the color of the email login button border for white labeling purposes. Use a hex code with a #-sign before the code. This setting only applies to the mobile apps.',
                         help_text_markdown: false,
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -4264,6 +4705,7 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.emailSettingsLoginButtonTextColor.desc'),
                         help_text_default: 'Specify the color of the email login button text for white labeling purposes. Use a hex code with a #-sign before the code. This setting only applies to the mobile apps.',
                         help_text_markdown: false,
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -4273,6 +4715,7 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.enableUserDeactivation.desc'),
                         help_text_default: 'When true, users may deactivate their own account from **Account Settings > Advanced**. If a user deactivates their own account, they will get an email notification confirming they were deactivated. When false, users may not deactivate their own account.',
                         help_text_markdown: true,
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -4282,6 +4725,7 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.experimentalEnableAutomaticReplies.desc'),
                         help_text_default: 'When true, users can enable Automatic Replies in **Account Settings > Notifications**. Users set a custom message that will be automatically sent in response to Direct Messages. When false, disables the Automatic Direct Message Replies feature and hides it from Account Settings.',
                         help_text_markdown: true,
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -4291,6 +4735,7 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.enableChannelViewedMessages.desc'),
                         help_text_default: 'This setting determines whether `channel_viewed` WebSocket events are sent, which synchronize unread notifications across clients and devices. Disabling the setting in larger deployments may improve server performance.',
                         help_text_markdown: false,
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -4300,7 +4745,8 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.clientSideCertEnable.desc'),
                         help_text_default: 'Enables client-side certification for your Mattermost server. See [documentation](!https://docs.mattermost.com/deployment/certificate-based-authentication.html) to learn more.',
                         help_text_markdown: true,
-                        isHidden: it.isnt(it.licensedForFeature('SAML')),
+                        isHidden: it.not(it.licensedForFeature('SAML')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_DROPDOWN,
@@ -4322,8 +4768,11 @@ const AdminDefinition = {
                                 display_name_default: 'secondary',
                             },
                         ],
-                        isDisabled: it.stateIsFalse('ExperimentalSettings.ClientSideCertEnable'),
-                        isHidden: it.isnt(it.licensedForFeature('SAML')),
+                        isHidden: it.not(it.licensedForFeature('SAML')),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('experimental')),
+                            it.stateIsFalse('ExperimentalSettings.ClientSideCertEnable'),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -4333,6 +4782,7 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.experimentalEnableDefaultChannelLeaveJoinMessages.desc'),
                         help_text_default: 'This setting determines whether team leave/join system messages are posted in the default town-square channel.',
                         help_text_markdown: false,
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -4342,6 +4792,7 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.experimentalEnableHardenedMode.desc'),
                         help_text_default: 'Enables a hardened mode for Mattermost that makes user experience trade-offs in the interest of security. See [documentation](!https://docs.mattermost.com/administration/config-settings.html#enable-hardened-mode-experimental) to learn more.',
                         help_text_markdown: true,
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -4351,6 +4802,7 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.enablePreviewFeatures.desc'),
                         help_text_default: 'When true, preview features can be enabled from **Account Settings > Advanced > Preview pre-release features**. When false, disables and hides preview features from **Account Settings > Advanced > Preview pre-release features**.',
                         help_text_markdown: true,
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -4360,7 +4812,8 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.enableThemeSelection.desc'),
                         help_text_default: 'Enables the **Display > Theme** tab in Account Settings so users can select their theme.',
                         help_text_markdown: true,
-                        isHidden: it.isnt(it.licensed), // E10 and higher
+                        isHidden: it.not(it.licensed), // E10 and higher
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -4370,8 +4823,11 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.allowCustomThemes.desc'),
                         help_text_default: 'Enables the **Display > Theme > Custom Theme** section in Account Settings.',
                         help_text_markdown: true,
-                        isHidden: it.isnt(it.licensed), // E10 and higher
-                        isDisabled: it.stateIsFalse('ThemeSettings.EnableThemeSelection'),
+                        isHidden: it.not(it.licensed), // E10 and higher
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('experimental')),
+                            it.stateIsFalse('ThemeSettings.EnableThemeSelection'),
+                        ),
                     },
 
                     // {
@@ -4384,7 +4840,7 @@ const AdminDefinition = {
                     //     help_text_markdown: true,
                     //     placeholder: t('admin.experimental.allowedThemes.example'),
                     //     placeholder_default: 'E.g.: "default, organization, mattermostDark, windows10"',
-                    //     isHidden: it.isnt(it.licensed), // E10 and higher
+                    //     isHidden: it.not(it.licensed), // E10 and higher
                     //     isDisabled: it.stateIsTrue('ThemeSettings.EnableThemeSelection'),
                     // },
                     {
@@ -4417,7 +4873,8 @@ const AdminDefinition = {
                                 display_name_default: 'Windows Dark',
                             },
                         ],
-                        isHidden: it.isnt(it.licensed), // E10 and higher
+                        isHidden: it.not(it.licensed), // E10 and higher
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -4427,6 +4884,7 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.enableTutorial.desc'),
                         help_text_default: 'When true, users are prompted with a tutorial when they open Mattermost for the first time after account creation. When false, the tutorial is disabled, and users are placed in Town Square when they open Mattermost for the first time after account creation.',
                         help_text_markdown: false,
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -4436,6 +4894,7 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.enableUserTypingMessages.desc'),
                         help_text_default: 'This setting determines whether "user is typing..." messages are displayed below the message box. Disabling the setting in larger deployments may improve server performance.',
                         help_text_markdown: false,
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_NUMBER,
@@ -4447,7 +4906,10 @@ const AdminDefinition = {
                         help_text_markdown: false,
                         placeholder: t('admin.experimental.timeBetweenUserTypingUpdatesMilliseconds.example'),
                         placeholder_default: 'E.g.: "5000"',
-                        isDisabled: it.stateIsFalse('ServiceSettings.EnableUserTypingMessages'),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('experimental')),
+                            it.stateIsFalse('ServiceSettings.EnableUserTypingMessages'),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -4457,6 +4919,7 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.enableXToLeaveChannelsFromLHS.desc'),
                         help_text_default: 'When true, users can leave Public and Private Channels by clicking the “x” beside the channel name. When false, users must use the **Leave Channel** option from the channel menu to leave channels.',
                         help_text_markdown: true,
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -4468,6 +4931,7 @@ const AdminDefinition = {
                         help_text_markdown: true,
                         placeholder: t('admin.experimental.experimentalPrimaryTeam.example'),
                         placeholder_default: 'E.g.: "teamname"',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -4477,7 +4941,8 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.experimentalUseNewSAMLLibrary.desc'),
                         help_text_default: 'Enable an updated SAML Library, which does not require the XML Security Library (xmlsec1) to be installed. Warning: Not all providers have been tested. If you experience issues, please contact support: [https://about.mattermost.com/support/](!https://about.mattermost.com/support/). Changing this setting requires a server restart before taking effect.',
                         help_text_markdown: true,
-                        isHidden: it.isnt(it.licensedForFeature('SAML')),
+                        isHidden: it.not(it.licensedForFeature('SAML')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -4487,7 +4952,8 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.samlSettingsLoginButtonColor.desc'),
                         help_text_default: 'Specify the color of the SAML login button for white labeling purposes. Use a hex code with a #-sign before the code. This setting only applies to the mobile apps.',
                         help_text_markdown: false,
-                        isHidden: it.isnt(it.licensedForFeature('SAML')),
+                        isHidden: it.not(it.licensedForFeature('SAML')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -4497,7 +4963,8 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.samlSettingsLoginButtonBorderColor.desc'),
                         help_text_default: 'Specify the color of the SAML login button border for white labeling purposes. Use a hex code with a #-sign before the code. This setting only applies to the mobile apps.',
                         help_text_markdown: false,
-                        isHidden: it.isnt(it.licensedForFeature('SAML')),
+                        isHidden: it.not(it.licensedForFeature('SAML')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -4507,7 +4974,8 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.samlSettingsLoginButtonTextColor.desc'),
                         help_text_default: 'Specify the color of the SAML login button text for white labeling purposes. Use a hex code with a #-sign before the code. This setting only applies to the mobile apps.',
                         help_text_markdown: false,
-                        isHidden: it.isnt(it.licensedForFeature('SAML')),
+                        isHidden: it.not(it.licensedForFeature('SAML')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_DROPDOWN,
@@ -4534,6 +5002,7 @@ const AdminDefinition = {
                                 display_name_default: 'Enabled (Default Off)',
                             },
                         ],
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -4543,15 +5012,17 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.experimentalChannelOrganization.desc'),
                         help_text_default: 'Enables channel sidebar organization options in **Account Settings > Sidebar > Channel grouping and sorting** including options for grouping unread channels, sorting channels by most recent post and combining all channel types into a single list. These settings are not available if **Account Settings > Sidebar > Experimental Sidebar Features** are enabled.',
                         help_text_markdown: true,
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
-                        key: 'DisplaySettings.ExperimentalDataPrefetch',
+                        key: 'ServiceSettings.ExperimentalDataPrefetch',
                         label: t('admin.experimental.experimentalDataPrefetch.title'),
                         label_default: 'Preload messages in unread channels:',
                         help_text: t('admin.experimental.experimentalDataPrefetch.desc'),
                         help_text_default: 'When true, messages in unread channels are preloaded to reduce channel loading time. When false, messages are not loaded from the server until users switch channels.',
                         help_text_markdown: false,
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -4561,6 +5032,7 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.experimentalTimezone.desc'),
                         help_text_default: 'Select the timezone used for timestamps in the user interface and email notifications. When true, the Timezone setting is visible in the Account Settings and a time zone is automatically assigned in the next active session. When false, the Timezone setting is hidden in the Account Settings.',
                         help_text_markdown: false,
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -4570,7 +5042,8 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.experimentalHideTownSquareinLHS.desc'),
                         help_text_default: 'When true, hides Town Square in the left-hand sidebar if there are no unread messages in the channel. When false, Town Square is always visible in the left-hand sidebar even if all messages have been read.',
                         help_text_markdown: true,
-                        isHidden: it.isnt(it.licensed), // E10 and higher
+                        isHidden: it.not(it.licensed), // E10 and higher
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -4580,7 +5053,8 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.experimentalTownSquareIsReadOnly.desc'),
                         help_text_default: 'When true, only System Admins can post in Town Square. Other members are not able to post, reply, upload files, emoji react or pin messages to Town Square, nor are they able to change the channel name, header or purpose. When false, anyone can post in Town Square.',
                         help_text_markdown: true,
-                        isHidden: it.isnt(it.licensed), // E10 and higher
+                        isHidden: it.not(it.licensed), // E10 and higher
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -4590,6 +5064,7 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.useChannelInEmailNotifications.desc'),
                         help_text_default: 'When true, channel and team name appears in email notification subject lines. Useful for servers using only one team. When false, only team name appears in email notification subject line.',
                         help_text_markdown: false,
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_NUMBER,
@@ -4601,6 +5076,7 @@ const AdminDefinition = {
                         help_text_markdown: false,
                         placeholder: t('admin.experimental.userStatusAwayTimeout.example'),
                         placeholder_default: 'E.g.: "300"',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     }, // eslint-disable-next-line lines-around-comment
                     // {
                     //     type: Constants.SettingsTypes.TYPE_BOOL,
@@ -4641,6 +5117,7 @@ const AdminDefinition = {
             title: t('admin.sidebar.blevesearch'),
             title_default: 'Bleve',
             isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
+            isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
             searchableStrings: [
                 'admin.bleve.title',
                 'admin.bleve.enableIndexingTitle',
