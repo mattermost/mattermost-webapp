@@ -224,18 +224,6 @@ h6 {
     z-index: 5;
 }
 
-.post-code__lineno {
-    -moz-user-select: none;
-    -ms-user-select: none;
-    -o-user-select: none;
-    -webkit-user-select: none;
-    border-right: 1px solid #aaa;
-    color: #aaa;
-    margin-right: .5em;
-    text-align: right;
-    user-select: none;
-}
-
 .post-code__search-highlighting {
     color: transparent;
     pointer-events: none;
