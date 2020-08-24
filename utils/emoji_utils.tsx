@@ -7,9 +7,9 @@ import React from 'react';
 import {Emoji} from 'mattermost-redux/types/emojis';
 
 const defaultRule = (aName: string, bName: string, emojiA: Emoji, emojiB: Emoji) => {
-    if (emojiA && emojiB && emojiA.category === 'custom' && emojiB.category !== 'custom') {
+    if (emojiA.category === 'custom' && emojiB.category !== 'custom') {
         return 1;
-    } else if (emojiB && emojiA && emojiB.category === 'custom' && emojiA.category !== 'custom') {
+    } else if (emojiB.category === 'custom' && emojiA.category !== 'custom') {
         return -1;
     }
 
@@ -63,7 +63,7 @@ export function compareEmojis(emojiA: Emoji, emojiB: Emoji, searchedName: string
     const aName = getEmojiName(emojiA, searchedName);
     const bName = getEmojiName(emojiB, searchedName);
 
-    // Have the emojis that contain the search appear first
+    // Have the emojis that starts with the search appear first
     const aPrefix = aName.startsWith(searchedName);
     const bPrefix = bName.startsWith(searchedName);
 
