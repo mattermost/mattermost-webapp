@@ -14,6 +14,7 @@ type Props = {
     doRemoveUserFromTeam: (teamId: string) => void;
     doMakeUserTeamAdmin: (teamId: string) => void;
     doMakeUserTeamMember: (teamId: string) => void;
+    isDisabled?: boolean;
 }
 
 type State = {
@@ -38,7 +39,9 @@ export default class TeamListDropdown extends React.PureComponent<Props, State> 
         const showMakeTeamMember = !isMember && !isGuest;
 
         return (
-            <MenuWrapper>
+            <MenuWrapper
+                isDisabled={this.props.isDisabled}
+            >
                 <button
                     id={`teamListDropdown_${team.id}`}
                     className='dropdown-toggle theme color--link style--none'

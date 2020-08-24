@@ -272,19 +272,6 @@ Cypress.Commands.add('apiGetTeam', (teamId) => {
 });
 
 /**
- * Demote a Member to Guest directly via API
- * @param {String} userId - The user ID
- * All parameter required
- */
-Cypress.Commands.add('demoteUser', (userId) => {
-    //Demote Regular Member to Guest User
-    const baseUrl = Cypress.config('baseUrl');
-    const admin = getAdminAccount();
-
-    cy.externalRequest({user: admin, method: 'post', baseUrl, path: `users/${userId}/demote`});
-});
-
-/**
  * Remove a User from a Channel directly via API
  * @param {String} channelId - The channel ID
  * @param {String} userId - The user ID
@@ -310,19 +297,6 @@ Cypress.Commands.add('removeUserFromTeam', (teamId, userId) => {
     const admin = getAdminAccount();
 
     cy.externalRequest({user: admin, method: 'delete', baseUrl, path: `teams/${teamId}/members/${userId}`});
-});
-
-/**
- * Promote a Guest to a Member directly via API
- * @param {String} userId - The user ID
- * All parameter required
- */
-Cypress.Commands.add('promoteUser', (userId) => {
-    //Promote Regular Member to Guest User
-    const baseUrl = Cypress.config('baseUrl');
-    const admin = getAdminAccount();
-
-    cy.externalRequest({user: admin, method: 'post', baseUrl, path: `users/${userId}/promote`});
 });
 
 // *****************************************************************************
