@@ -38,7 +38,7 @@ const makeMapStateToProps = () => {
             team: teamId,
             permission: Permissions.USE_GROUP_MENTIONS,
         });
-        const autocompleteGroups = useGroupMentions ? getAssociatedGroupsForReference(state, teamId, ownProps.channelId) : [];
+        const autocompleteGroups = useGroupMentions ? getAssociatedGroupsForReference(state, teamId, ownProps.channelId) : null;
 
         return {
             currentUserId: getCurrentUserId(state),
