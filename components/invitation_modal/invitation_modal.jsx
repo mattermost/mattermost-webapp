@@ -25,7 +25,6 @@ const STEPS_INVITE_CONFIRM = 'confirm';
 export default class InvitationModal extends React.PureComponent {
     static propTypes = {
         show: PropTypes.bool,
-        closeModal: PropTypes.func,
         currentTeam: PropTypes.object.isRequired,
         invitableChannels: PropTypes.array.isRequired,
         canInviteGuests: PropTypes.bool.isRequired,
