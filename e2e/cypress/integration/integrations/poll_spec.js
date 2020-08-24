@@ -8,13 +8,9 @@
 // ***************************************************************
 
 /**
- * Note: This test requires the MatterPoll plugin installed (https://github.com/matterpoll/matterpoll).
- * 1. Open mattermost-server/config/config.json.  Under "PluginSettings", set "Enable" to true. Restart the server by "make run-server".
- * 2. Go to the MatterPoll release page (https://github.com/matterpoll/matterpoll/releases).  Download the .tar.gz file from the latest release.
- * 3. Open locahost:8065. Log in as sysadmin.
- * 4. Open hamburger menu > System Console > Plugins (http://localhost:8065/admin_console/plugins/plugin_management).
- * 5. Ensure "Enable Plugins" is true and "Require Plugin Signature" is false.
- * 6. Find "Upload Plugin". Click "Choose File" and select the .tar.gz file.
+ * Note: This test requires "matterpoll" plugin tar file under fixtures folder.
+ * Download from: https://github.com/matterpoll/matterpoll
+ * Copy to: ./e2e/cypress/fixtures/com.github.matterpoll.matterpoll.tar.gz
  */
 
 import * as MESSAGES from '../../fixtures/messages';
@@ -35,15 +31,33 @@ describe('/poll', () => {
                 cy.apiAddUserToTeam(team.id, user2.id);
             });
         });
+
+        cy.apiUpdateConfig({
+            PluginSettings: {
+                Enable: true,
+                RequirePluginSignature: false,
+            },
+        });
+
+        // # Upload and enable "matterpoll" plugin
+        cy.apiUploadPlugin('com.github.matterpoll.matterpoll.tar.gz').then(() => {
+            cy.apiEnablePluginById('com.github.matterpoll.matterpoll');
+        });
     });
 
-    before(() => {
+    beforeEach(() => {
         cy.apiLogout();
         cy.apiLogin(user1);
         cy.visit(testChannelUrl);
     });
 
-    it('MM-T576 /poll (Steps #1)', () => {
+    after(() => {
+        // # Uninstall "matterpoll" plugin
+        cy.apiAdminLogin();
+        cy.apiRemovePluginById('com.github.matterpoll.matterpoll');
+    });
+
+    it('MM-T576_1 /poll', () => {
         // # In center post the following: /poll "Do you like https://mattermost.com?"
         cy.postMessage('/poll "Do you like https://mattermost.com?"');
 
@@ -116,7 +130,7 @@ describe('/poll', () => {
         });
     });
 
-    it('MM-T576 /poll (Steps #2)', () => {
+    it('MM-T576_2 /poll', () => {
         // # Type and enter: `/poll "Q" "A1" "A2"`
         cy.postMessage('/poll "Q" "A1" "A2"');
 
@@ -135,7 +149,7 @@ describe('/poll', () => {
         cy.uiWaitUntilMessagePostedIncludes('Your vote has been counted.');
     });
 
-    it('MM-T576 /poll (Steps #3)', () => {
+    it('MM-T576_3 /poll', () => {
         cy.postMessage('/poll "Do you like https://mattermost.com?"');
         cy.getLastPostId().then((postId) => {
             cy.get(`#post_${postId}`).within(() => {
@@ -180,7 +194,7 @@ describe('/poll', () => {
         });
     });
 
-    it('MM-T576 /poll (Steps #4)', () => {
+    it('MM-T576_4 /poll', () => {
         // # Type and enter `/poll ":pizza:" ":thumbsup:" ":thumbsdown:"`
         cy.postMessage('/poll  ":pizza:" ":thumbsup:" ":thumbsdown:"');
 
