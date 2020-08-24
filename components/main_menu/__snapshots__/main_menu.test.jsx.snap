@@ -81,14 +81,14 @@ exports[`components/Menu should match snapshot with id 1`] = `
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(InvitationModal)",
+            "displayName": "Connect(injectIntl(UserLimitModal))",
             "type": [Function],
           }
         }
         extraText="Add or invite people to the team"
         icon={false}
         id="invitePeople"
-        modalId="invitation"
+        modalId="upgrade_cloud_account"
         show={true}
         text="Invite People"
       />
@@ -437,14 +437,14 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(InvitationModal)",
+            "displayName": "Connect(injectIntl(UserLimitModal))",
             "type": [Function],
           }
         }
         extraText="Add or invite people to the team"
         icon={false}
         id="invitePeople"
-        modalId="invitation"
+        modalId="upgrade_cloud_account"
         show={true}
         text="Invite People"
       />
@@ -811,7 +811,7 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(InvitationModal)",
+            "displayName": "Connect(injectIntl(UserLimitModal))",
             "type": [Function],
           }
         }
@@ -822,7 +822,7 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
           />
         }
         id="invitePeople"
-        modalId="invitation"
+        modalId="upgrade_cloud_account"
         show={true}
         text="Invite People"
       />
@@ -1219,14 +1219,14 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(InvitationModal)",
+            "displayName": "Connect(injectIntl(UserLimitModal))",
             "type": [Function],
           }
         }
         extraText="Add or invite people to the team"
         icon={false}
         id="invitePeople"
-        modalId="invitation"
+        modalId="upgrade_cloud_account"
         show={true}
         text="Invite People"
       />
@@ -1593,7 +1593,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(InvitationModal)",
+            "displayName": "Connect(injectIntl(UserLimitModal))",
             "type": [Function],
           }
         }
@@ -1604,7 +1604,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
           />
         }
         id="invitePeople"
-        modalId="invitation"
+        modalId="upgrade_cloud_account"
         show={true}
         text="Invite People"
       />
@@ -2001,14 +2001,14 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(InvitationModal)",
+            "displayName": "Connect(injectIntl(UserLimitModal))",
             "type": [Function],
           }
         }
         extraText="Add or invite people to the team"
         icon={false}
         id="invitePeople"
-        modalId="invitation"
+        modalId="upgrade_cloud_account"
         show={true}
         text="Invite People"
       />
@@ -2392,7 +2392,7 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(InvitationModal)",
+            "displayName": "Connect(injectIntl(UserLimitModal))",
             "type": [Function],
           }
         }
@@ -2403,7 +2403,7 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
           />
         }
         id="invitePeople"
-        modalId="invitation"
+        modalId="upgrade_cloud_account"
         show={true}
         text="Invite People"
       />

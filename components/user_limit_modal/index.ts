@@ -9,6 +9,8 @@ import {bindActionCreators, Dispatch} from 'redux';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
 
+import {injectIntl} from 'react-intl';
+
 import {GlobalState} from 'types/store';
 
 import {isAdmin} from 'utils/utils.jsx';
@@ -46,4 +48,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserLimitModal);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(injectIntl(UserLimitModal));
