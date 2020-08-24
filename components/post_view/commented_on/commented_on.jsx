@@ -64,7 +64,6 @@ export default class CommentedOn extends PureComponent {
                 displayName={username}
                 hasMention={true}
                 disablePopover={false}
-                showGuestBadge={false}
             />
         );
 

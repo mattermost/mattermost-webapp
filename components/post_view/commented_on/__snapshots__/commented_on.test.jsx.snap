@@ -23,7 +23,6 @@ exports[`components/post_view/CommentedOn should match snapshot 1`] = `
               isRHS={false}
               overwriteImage=""
               overwriteName=""
-              showGuestBadge={false}
             />
           </a>,
         }
@@ -62,7 +61,6 @@ exports[`components/post_view/CommentedOn should match snapshot 2`] = `
               isRHS={false}
               overwriteImage=""
               overwriteName=""
-              showGuestBadge={false}
             />
           </a>,
         }
@@ -101,7 +99,6 @@ exports[`components/post_view/CommentedOn should match snapshot 3`] = `
               isRHS={false}
               overwriteImage=""
               overwriteName=""
-              showGuestBadge={false}
             />
           </a>,
         }
@@ -142,7 +139,6 @@ exports[`components/post_view/CommentedOn should match snapshots for post with p
               isRHS={false}
               overwriteImage=""
               overwriteName=""
-              showGuestBadge={false}
             />
           </a>,
         }
@@ -181,7 +177,6 @@ exports[`components/post_view/CommentedOn should match snapshots for post with p
               isRHS={false}
               overwriteImage=""
               overwriteName=""
-              showGuestBadge={false}
             />
           </a>,
         }
@@ -220,7 +215,6 @@ exports[`components/post_view/CommentedOn should match snapshots for post with p
               isRHS={false}
               overwriteImage=""
               overwriteName=""
-              showGuestBadge={false}
             />
           </a>,
         }
@@ -259,7 +253,6 @@ exports[`components/post_view/CommentedOn should match snapshots for post with p
               isRHS={false}
               overwriteImage=""
               overwriteName=""
-              showGuestBadge={false}
             />
           </a>,
         }
