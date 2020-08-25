@@ -37,7 +37,7 @@ export default function UserLimitModal(props: Props) {
                 onHide={close}
             >
                 <Modal.Header closeButton={true}/>
-                <Modal.Body id='contacSalesBody'>
+                <Modal.Body>
                     <img
                         className='upgrade-image'
                         src={upgradeImage}
