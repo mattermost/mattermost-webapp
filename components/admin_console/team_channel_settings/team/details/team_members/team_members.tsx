@@ -34,6 +34,7 @@ type Props = {
     totalCount: number;
     searchTerm: string;
     loading?: boolean;
+    isDisabled?: boolean;
     enableGuestAccounts: boolean;
 
     onAddCallback: (users: UserProfile[]) => void;
@@ -186,7 +187,7 @@ export default class TeamMembers extends React.PureComponent<Props, State> {
     }
 
     public render = () => {
-        const {users, team, usersToAdd, usersToRemove, teamMembers, totalCount, searchTerm} = this.props;
+        const {users, team, usersToAdd, usersToRemove, teamMembers, totalCount, searchTerm, isDisabled} = this.props;
 
         const filterOptions: FilterOptions = {
             role: {
@@ -260,6 +261,7 @@ export default class TeamMembers extends React.PureComponent<Props, State> {
                         id='addTeamMembers'
                         className='btn btn-primary'
                         dialogType={AddUsersToTeamModal}
+                        isDisabled={isDisabled}
                         dialogProps={{
                             team,
                             onAddCallback: this.onAddCallback,
@@ -289,6 +291,7 @@ export default class TeamMembers extends React.PureComponent<Props, State> {
                     includeUsers={usersToAdd}
                     excludeUsers={usersToRemove}
                     scope={'team'}
+                    readOnly={isDisabled}
                     filterProps={filterProps}
                 />
             </AdminPanel>
