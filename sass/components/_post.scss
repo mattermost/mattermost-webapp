@@ -652,11 +652,8 @@
     }
     .loading-screen {
         position: relative;
-        height: 40px;
+        height: calc(40px + 1em);
         padding: 0px;
-        .loading__content {
-            height: 40px;
-        }
     }
 }
 
