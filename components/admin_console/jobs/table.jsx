@@ -91,6 +91,8 @@ class JobTable extends React.PureComponent {
                 <a
                     key={job.id}
                     href={`${Client4.getJobsRoute()}/${job.id}/download`}
+                    target='_blank'
+                    rel='noopener noreferrer'
                 >
                     <FormattedMessage
                         id='admin.jobTable.downloadLink'
