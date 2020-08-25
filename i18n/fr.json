@@ -3840,7 +3840,6 @@
   "admin.channel_settings.channel_detail.profileTitle": "Profil du canal",
   "admin.channel_settings.channel_detail.profileDescription": "Résumé du canal, incluant le nom du canal.",
   "admin.channel_settings.channel_detail.membersTitle": "Membres",
-  "admin.channel_settings.channel_detail.membersDescription": "A list of users who are currently in the channel right now",
   "admin.channel_settings.channel_detail.manageTitle": "Gestion du canal",
   "admin.channel_settings.channel_detail.manageDescription": "Choisissez entre l'invitation de membres manuellement ou la synchronisation de membres à partir de groupes.",
   "admin.channel_settings.channel_detail.groupsTitle": "Groupes",

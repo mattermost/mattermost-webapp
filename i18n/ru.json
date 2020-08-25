@@ -3998,5 +3998,12 @@
   "announcement_bar.error.number_active_users_warn_metric_status_ack.text": "Спасибо, что связались с Mattermost. Мы свяжемся с вами в ближайшее время.",
   "admin.warn_metric.sending-email": "Отправка электронной почты",
   "warn_metric_ack_modal.learn_more.link": "Узнать больше",
-  "warn_metric_ack_modal.number_of_active_users.subtext": "При обращении в службу поддержки ваши контактные данные будут отправлены в Mattermost, Inc. {link}"
+  "warn_metric_ack_modal.number_of_active_users.subtext": "При обращении в службу поддержки ваши контактные данные будут отправлены в Mattermost, Inc. {link}",
+  "admin.license.upgraded-restart": "Вы обновили свой двоичный файл до Mattermost Корпоративный, перезапустите сервер, чтобы начать использовать новый двоичный файл. Сделать это можно прямо здесь:",
+  "admin.license.enterprise.upgrading": "Обновление {percentage}%",
+  "admin.license.enterprise.upgrade": "Обновить до Корпоративной редакции",
+  "admin.license.enterprise.restarting": "Перезапуск",
+  "admin.license.enterprise.restart": "Перезапустить сервер",
+  "admin.license.enterprise-edition-license": "Лицензия Корпоративной редакции:",
+  "admin.complianceExport.warningCount.globalrelay": "Обнаружено {count} предупреждений, подробности см. в журнале"
 }
