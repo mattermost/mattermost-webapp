@@ -47,7 +47,7 @@ describe('Verify Accessibility keyboard usability across different regions in th
         });
     });
 
-    it('MM-24051 Verify Keyboard support in Search Results', () => {
+    it('MM-T1513_2 Verify Keyboard support in Search Results', () => {
         // # Post few messages
         postMessages(testChannel, otherUser, count);
 
@@ -80,7 +80,7 @@ describe('Verify Accessibility keyboard usability across different regions in th
         }
     });
 
-    it('MM-24051 Verify Keyboard support in RHS', () => {
+    it('MM-T1513_1 Verify Keyboard support in RHS', () => {
         // # Post Message as Current user
         const message = `hello from ${testUser.username}: ${getRandomId()}`;
         cy.postMessage(message);
@@ -131,7 +131,7 @@ describe('Verify Accessibility keyboard usability across different regions in th
         }
     });
 
-    it('MM-24051 Verify Screen reader should not switch to virtual cursor mode', () => {
+    it('MM-T1499 Verify Screen reader should not switch to virtual cursor mode', () => {
         // # Open RHS
         cy.getLastPostId().then((postId) => {
             cy.clickPostCommentIcon(postId);
