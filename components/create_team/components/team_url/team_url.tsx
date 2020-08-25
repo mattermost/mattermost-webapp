@@ -78,7 +78,7 @@ export default class TeamUrl extends React.PureComponent<Props, State> {
         this.props.updateParent(newState);
     }
 
-    public submitNext = async (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    public submitNext = async (e: React.MouseEvent<Button, MouseEvent>) => {
         e.preventDefault();
         trackEvent('signup', 'click_finish');
 
@@ -275,7 +275,7 @@ export default class TeamUrl extends React.PureComponent<Props, State> {
                             type='submit'
                             bsStyle='primary'
                             disabled={this.state.isLoading}
-                            onClick={(e: React.MouseEvent<HTMLDivElement>) => this.submitNext(e)}
+                            onClick={(e: React.MouseEvent<Button, MouseEvent>) => this.submitNext(e)}
                         >
                             {finishMessage}
                         </Button>

@@ -10,6 +10,7 @@ import TeamUrl from 'components/create_team/components/team_url/team_url';
 import Constants from 'utils/constants';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import {Button} from "react-bootstrap";
 
 jest.mock('images/logo.png', () => 'logo.png');
 
@@ -67,11 +68,11 @@ describe('/components/create_team/components/display_name', () => {
             <TeamUrl {...props}/>,
         );
 
-        await (wrapper.instance() as unknown as TeamUrl).submitNext({preventDefault: jest.fn()} as unknown as React.MouseEvent<HTMLElement, MouseEvent>);
+        await (wrapper.instance() as unknown as TeamUrl).submitNext({preventDefault: jest.fn()} as unknown as React.MouseEvent<Button, MouseEvent>);
         expect(actions.checkIfTeamExists).toHaveBeenCalledTimes(1);
         expect(actions.createTeam).not.toHaveBeenCalled();
 
-        await (wrapper.instance() as unknown as TeamUrl).submitNext({preventDefault: jest.fn()} as unknown as React.MouseEvent<HTMLElement, MouseEvent>);
+        await (wrapper.instance() as unknown as TeamUrl).submitNext({preventDefault: jest.fn()} as unknown as React.MouseEvent<Button, MouseEvent>);
         expect(actions.checkIfTeamExists).toHaveBeenCalledTimes(2);
         expect(actions.createTeam).toHaveBeenCalledTimes(1);
         expect(actions.createTeam).toBeCalledWith({display_name: 'test-team', name: 'test-team', type: 'O'});
