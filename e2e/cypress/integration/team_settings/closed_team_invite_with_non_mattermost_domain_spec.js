@@ -95,10 +95,8 @@ describe('Team Settings', () => {
         });
 
         // # Type username and password
-        cy.wait(TIMEOUTS.HALF_SEC);
-        cy.get('#name').type(username);
-        cy.wait(TIMEOUTS.HALF_SEC);
-        cy.get('#password').type(password);
+        cy.get('#name').should('be.visible').type(username);
+        cy.get('#password').should('be.visible').type(password);
 
         // # Attempt to create an account by clicking on the 'Create Account' button
         cy.get('#createAccountButton').click();
