@@ -38,7 +38,6 @@ exports[`component/UserLimitModal should match snapshot without children 1`] = `
     <ModalBody
       bsClass="modal-body"
       componentClass="div"
-      id="contacSalesBody"
     >
       <img
         className="upgrade-image"

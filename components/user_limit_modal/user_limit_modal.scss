@@ -78,6 +78,9 @@
             text-align: center;
 
             .dismiss-link {
+                &:hover {
+                    background: rgba(var(--sys-button-bg-rgb), 0.04)
+                }
                 height: 40px;
                 border: none;
                 font-weight: 600;
