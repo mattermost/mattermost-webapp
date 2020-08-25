@@ -16,12 +16,16 @@ import * as MESSAGES from '../../../fixtures/messages';
 describe('I18456 Built-in slash commands: common', () => {
     let user1;
     let user2;
+    let deactivatedUser;
+    let team1;
     const userGroup = [];
+    let testChannel;
     let testChannelUrl;
 
     before(() => {
         cy.apiInitSetup().then(({team, user}) => {
             user1 = user;
+            team1 = team;
             testChannelUrl = `/${team.name}/channels/town-square`;
 
             cy.apiCreateUser().then(({user: otherUser}) => {
@@ -35,6 +39,15 @@ describe('I18456 Built-in slash commands: common', () => {
                     cy.apiAddUserToTeam(team.id, otherUser.id);
                     userGroup.push(otherUser);
                 });
+            });
+
+            cy.apiCreateUser().then(({user: usr}) => {
+                deactivatedUser = usr;
+                cy.apiDeactivateUser(usr.id);
+            });
+
+            cy.apiCreateChannel(team1.id, 'channel-test', 'channel-test').then((response) => {
+                testChannel = response.body;
             });
         });
     });
@@ -242,6 +255,37 @@ describe('I18456 Built-in slash commands: common', () => {
                     });
                 });
         });
+    });
+
+    it('MM-T658 /invite - current channel', () => {
+        const userToInvite = userGroup[0];
+
+        loginAndVisitDefaultChannel(user1, `${team1.name}/channels/${testChannel.name}`);
+
+        // # Post `/invite @username` where username is a user who is not in the current channel
+        cy.postMessage(`/invite @${userToInvite.username}`);
+
+        // * User who added them sees system message "username added to the channel by you"
+        cy.uiWaitUntilMessagePostedIncludes(`@${userToInvite.username} added to the channel by you`);
+
+        // * Cannot invite deactivated users to a channel
+        cy.postMessage(`/invite @${deactivatedUser.username}`);
+        cy.uiWaitUntilMessagePostedIncludes('We couldn\'t find the user. They may have been deactivated by the System Administrator.');
+
+        cy.apiLogout();
+        cy.apiLogin(userToInvite);
+        cy.visit(`${team1.name}/channels/town-square`);
+
+        // * Added user sees channel added to LHS, mention badge
+        cy.get('#sidebarChannelContainer').
+            find(`[href*="${team1.name}/channels/${testChannel.name}"]`).
+            within(() => {
+                cy.get('#unreadMentions').should('be.visible');
+                cy.findByText(`${testChannel.display_name}`).click();
+            });
+
+        // * Added user sees system message "username added to the channel by username."
+        cy.uiWaitUntilMessagePostedIncludes(`You were added to the channel by @${user1.username}`);
     });
 
     it('MM-T2834 Slash command help stays visible for system slash command', () => {

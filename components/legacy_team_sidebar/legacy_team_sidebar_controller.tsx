@@ -1,13 +1,17 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import Scrollbars from 'react-custom-scrollbars';
 import {FormattedMessage} from 'react-intl';
 import Permissions from 'mattermost-redux/constants/permissions';
 import classNames from 'classnames';
-import {DragDropContext, Droppable} from 'react-beautiful-dnd';
+import {DragDropContext, Droppable, DroppableProvided, DropResult} from 'react-beautiful-dnd';
+import {Team} from 'mattermost-redux/types/teams';
+import {Dictionary} from 'mattermost-redux/src/types/utilities';
+import {TeamMembership} from 'mattermost-redux/src/types/teams';
+import {Dispatch} from 'redux';
+import {GenericAction, GetStateFunc} from 'mattermost-redux/types/actions';
 
 import {Constants} from 'utils/constants.jsx';
 import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
@@ -16,9 +20,33 @@ import * as Utils from 'utils/utils.jsx';
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 import Pluggable from 'plugins/pluggable';
 
-import TeamButton from './components/team_button.jsx';
+import TeamButton from './components/team_button';
 
-export function renderView(props) {
+type Actions = {
+    getTeams: (page?: number, perPage?: number, includeTotalCount?: boolean) => void;
+    switchTeam: (url: string) => (dispatch: Dispatch<GenericAction>, getState: GetStateFunc) => void;
+    updateTeamsOrderForUser: (teamIds: string[]) => (dispatch: Dispatch<GenericAction>, getState: GetStateFunc) => Promise<void>;
+}
+
+type State = {
+    showOrder: boolean;
+    teamsOrder: Array<Team>;
+}
+
+interface Props {
+    myTeams: Team[];
+    currentTeamId: string;
+    match: { url: string };
+    moreTeamsToJoin: boolean;
+    myTeamMembers: Dictionary<TeamMembership>;
+    isOpen: boolean;
+    experimentalPrimaryTeam?: string ;
+    locale: string;
+    actions: Actions;
+    userTeamsOrderPreference: string;
+}
+
+export function renderView(props: Props) {
     return (
         <div
             {...props}
@@ -26,7 +54,7 @@ export function renderView(props) {
         />);
 }
 
-export function renderThumbHorizontal(props) {
+export function renderThumbHorizontal(props: Props) {
     return (
         <div
             {...props}
@@ -34,7 +62,7 @@ export function renderThumbHorizontal(props) {
         />);
 }
 
-export function renderThumbVertical(props) {
+export function renderThumbVertical(props: Props) {
     return (
         <div
             {...props}
@@ -42,36 +70,21 @@ export function renderThumbVertical(props) {
         />);
 }
 
-export default class LegacyTeamSidebar extends React.PureComponent {
-    static propTypes = {
-        myTeams: PropTypes.array.isRequired,
-        currentTeamId: PropTypes.string.isRequired,
-        moreTeamsToJoin: PropTypes.bool.isRequired,
-        myTeamMembers: PropTypes.object.isRequired,
-        isOpen: PropTypes.bool.isRequired,
-        experimentalPrimaryTeam: PropTypes.string,
-        locale: PropTypes.string.isRequired,
-        actions: PropTypes.shape({
-            getTeams: PropTypes.func.isRequired,
-            switchTeam: PropTypes.func.isRequired,
-            updateTeamsOrderForUser: PropTypes.func.isRequired,
-        }).isRequired,
-        userTeamsOrderPreference: PropTypes.string,
-    }
-
-    constructor(props) {
+export default class LegacyTeamSidebar extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
         super(props);
 
         this.state = {
             showOrder: false,
+            teamsOrder: []
         };
     }
 
-    switchToPrevOrNextTeam = (e, currentTeamId, teams) => {
+    switchToPrevOrNextTeam = (e: KeyboardEvent, currentTeamId: string, teams: Array<Team>) => {
         if (Utils.isKeyPressed(e, Constants.KeyCodes.UP) || Utils.isKeyPressed(e, Constants.KeyCodes.DOWN)) {
             e.preventDefault();
             const delta = Utils.isKeyPressed(e, Constants.KeyCodes.DOWN) ? 1 : -1;
-            const pos = teams.findIndex((team) => team.id === currentTeamId);
+            const pos = teams.findIndex((team: Team) => team.id === currentTeamId);
             const newPos = pos + delta;
 
             let team;
@@ -89,7 +102,7 @@ export default class LegacyTeamSidebar extends React.PureComponent {
         return false;
     }
 
-    switchToTeamByNumber = (e, currentTeamId, teams) => {
+    switchToTeamByNumber = (e: KeyboardEvent, currentTeamId: string, teams: Array<Team>) => {
         const digits = [
             Constants.KeyCodes.ONE,
             Constants.KeyCodes.TWO,
@@ -104,7 +117,7 @@ export default class LegacyTeamSidebar extends React.PureComponent {
         ];
 
         for (const idx in digits) {
-            if (Utils.isKeyPressed(e, digits[idx]) && idx < teams.length) {
+            if (Utils.isKeyPressed(e, digits[idx]) && parseInt(idx, 10) < teams.length) {
                 e.preventDefault();
 
                 // prevents reloading the current team, while still capturing the keyboard shortcut
@@ -119,7 +132,7 @@ export default class LegacyTeamSidebar extends React.PureComponent {
         return false;
     }
 
-    handleKeyDown = (e) => {
+    handleKeyDown = (e: KeyboardEvent) => {
         if ((e.ctrlKey || e.metaKey) && e.altKey) {
             const {currentTeamId} = this.props;
             const teams = filterAndSortTeamsByDisplayName(this.props.myTeams, this.props.locale, this.props.userTeamsOrderPreference);
@@ -136,7 +149,7 @@ export default class LegacyTeamSidebar extends React.PureComponent {
         }
     }
 
-    handleKeyUp = (e) => {
+    handleKeyUp = (e: KeyboardEvent) => {
         if (!((e.ctrlKey || e.metaKey) && e.altKey)) {
             this.setState({showOrder: false});
         }
@@ -153,7 +166,7 @@ export default class LegacyTeamSidebar extends React.PureComponent {
         document.removeEventListener('keyup', this.handleKeyUp);
     }
 
-    onDragEnd = (result) => {
+    onDragEnd = (result: DropResult) => {
         const {
             updateTeamsOrderForUser,
         } = this.props.actions;
@@ -168,11 +181,11 @@ export default class LegacyTeamSidebar extends React.PureComponent {
         const destinationIndex = result.destination.index;
 
         // Positioning the dropped Team button
-        const popElement = (list, idx) => {
+        const popElement = (list: Team[], idx: number) => {
             return [...list.slice(0, idx), ...list.slice(idx + 1, list.length)];
         };
 
-        const pushElement = (list, idx, itemId) => {
+        const pushElement = (list: Team[], idx: number, itemId: string): Team[] => {
             return [
                 ...list.slice(0, idx),
                 teams.find((team) => team.id === itemId),
@@ -185,22 +198,22 @@ export default class LegacyTeamSidebar extends React.PureComponent {
             destinationIndex,
             result.draggableId,
         );
-        updateTeamsOrderForUser(newTeamsOrder.map((o) => o.id));
+        updateTeamsOrderForUser(newTeamsOrder.map((o: Team) => o.id));
         this.setState({teamsOrder: newTeamsOrder});
     }
 
     render() {
-        const root = document.querySelector('#root');
+        const root: Element | null = document.querySelector('#root');
         if (this.props.myTeams.length <= 1) {
-            root.classList.remove('multi-teams');
+            root!.classList.remove('multi-teams');
             return null;
         }
-        root.classList.add('multi-teams');
+        root!.classList.add('multi-teams');
 
         const plugins = [];
         const sortedTeams = filterAndSortTeamsByDisplayName(this.props.myTeams, this.props.locale, this.props.userTeamsOrderPreference);
 
-        const teams = sortedTeams.map((team, index) => {
+        const teams = sortedTeams.map((team: Team, index: number) => {
             const member = this.props.myTeamMembers[team.id];
             return (
                 <TeamButton
@@ -288,7 +301,6 @@ export default class LegacyTeamSidebar extends React.PureComponent {
                         renderThumbHorizontal={renderThumbHorizontal}
                         renderThumbVertical={renderThumbVertical}
                         renderView={renderView}
-                        onScroll={this.handleScroll}
                     >
                         <DragDropContext
                             onDragEnd={this.onDragEnd}
@@ -297,7 +309,7 @@ export default class LegacyTeamSidebar extends React.PureComponent {
                                 droppableId='my_teams'
                                 type='TEAM_BUTTON'
                             >
-                                {(provided) => {
+                                {(provided: DroppableProvided) => {
                                     return (
                                         <div
                                             ref={provided.innerRef}
