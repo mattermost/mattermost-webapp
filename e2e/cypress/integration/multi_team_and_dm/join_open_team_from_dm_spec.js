@@ -30,13 +30,16 @@ describe('Join an open team from a direct message link', () => {
                 allow_open_invite: true,
             });
 
+            // # Create a public channel inside the open team
             cy.apiCreateChannel(openTeam.id, 'open-team-channel', 'open-team-channel').then((response) => {
                 publicChannelInOpenTeam = response.body;
             });
 
-            // # Create test user in open team
+            // # Create test user
             cy.apiCreateUser().then(({user}) => {
                 testUserInOpenTeam = user;
+
+                // # Add user to open team
                 cy.apiAddUserToTeam(openTeam.id, testUserInOpenTeam.id);
 
                 // # Login as test user
@@ -68,7 +71,7 @@ describe('Join an open team from a direct message link', () => {
             // # Reload the page to ensure the new session is active
             cy.reload();
 
-            // * Expect page to reload with new user session
+            // * Expect page to reload with new user session, username should display in the header
             cy.get('#headerUsername').
                 should('be.visible').
                 and('have.text', `@${testUserOutsideOpenTeam.username}`);
