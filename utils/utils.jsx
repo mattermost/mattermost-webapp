@@ -1085,6 +1085,10 @@ export function setCaretPosition(input, pos) {
     setSelectionRange(input, pos, pos);
 }
 
+export function scrollbarWidth(el) {
+    return el.offsetWidth - el.clientWidth;
+}
+
 export function isValidUsername(name) {
     var error = '';
     if (!name) {

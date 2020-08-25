@@ -122,6 +122,7 @@ export default class BleveSettings extends AdminSettings {
                     value={this.state.enableIndexing}
                     onChange={this.handleSettingChanged}
                     setByEnv={this.isSetByEnv('BleveSettings.EnableIndexing')}
+                    disabled={this.props.isDisabled}
                 />
                 <TextSetting
                     id='indexDir'
@@ -140,6 +141,7 @@ export default class BleveSettings extends AdminSettings {
                     value={this.state.indexDir}
                     onChange={this.handleSettingChanged}
                     setByEnv={this.isSetByEnv('BleveSettings.IndexDir')}
+                    disabled={this.props.isDisabled}
                 />
                 <div className='form-group'>
                     <label
@@ -154,7 +156,7 @@ export default class BleveSettings extends AdminSettings {
                         <div className='job-table-setting'>
                             <JobsTable
                                 jobType={JobTypes.BLEVE_POST_INDEXING}
-                                disabled={!this.state.canPurgeAndIndex}
+                                disabled={!this.state.canPurgeAndIndex || this.props.isDisabled}
                                 createJobButtonText={
                                     <FormattedMessage
                                         id='admin.bleve.createJob.title'
@@ -195,7 +197,7 @@ export default class BleveSettings extends AdminSettings {
                         id: t('admin.bleve.purgeIndexesButton.error'),
                         defaultMessage: 'Failed to purge indexes: {error}',
                     }}
-                    disabled={!this.state.canPurgeAndIndex}
+                    disabled={!this.state.canPurgeAndIndex || this.props.isDisabled}
                     label={(
                         <FormattedMessage
                             id='admin.bleve.purgeIndexesButton.label'
@@ -218,7 +220,7 @@ export default class BleveSettings extends AdminSettings {
                         />
                     }
                     value={this.state.enableSearching}
-                    disabled={!this.state.enableIndexing}
+                    disabled={!this.state.enableIndexing || this.props.isDisabled}
                     onChange={this.handleSettingChanged}
                     setByEnv={this.isSetByEnv('BleveSettings.EnableSearching')}
                 />
@@ -237,7 +239,7 @@ export default class BleveSettings extends AdminSettings {
                         />
                     }
                     value={this.state.enableAutocomplete}
-                    disabled={!this.state.enableIndexing}
+                    disabled={!this.state.enableIndexing || this.props.isDisabled}
                     onChange={this.handleSettingChanged}
                     setByEnv={this.isSetByEnv('BleveSettings.EnableAutocomplete')}
                 />

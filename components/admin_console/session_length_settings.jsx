@@ -110,6 +110,7 @@ export default class SessionLengthSettings extends AdminSettings {
                     value={this.state.sessionIdleTimeoutInMinutes}
                     onChange={this.handleChange}
                     setByEnv={this.isSetByEnv('ServiceSettings.SessionIdleTimeoutInMinutes')}
+                    disabled={this.props.isDisabled}
                 />
             );
         }
@@ -133,6 +134,7 @@ export default class SessionLengthSettings extends AdminSettings {
                     value={this.state.extendSessionLengthWithActivity}
                     onChange={this.handleChange}
                     setByEnv={this.isSetByEnv('ServiceSettings.ExtendSessionLengthWithActivity')}
+                    disabled={this.props.isDisabled}
                 />
                 <TextSetting
                     id='sessionLengthWebInDays'
@@ -147,6 +149,7 @@ export default class SessionLengthSettings extends AdminSettings {
                     value={this.state.sessionLengthWebInDays}
                     onChange={this.handleChange}
                     setByEnv={this.isSetByEnv('ServiceSettings.SessionLengthWebInDays')}
+                    disabled={this.props.isDisabled}
                 />
                 <TextSetting
                     id='sessionLengthMobileInDays'
@@ -161,6 +164,7 @@ export default class SessionLengthSettings extends AdminSettings {
                     value={this.state.sessionLengthMobileInDays}
                     onChange={this.handleChange}
                     setByEnv={this.isSetByEnv('ServiceSettings.SessionLengthMobileInDays')}
+                    disabled={this.props.isDisabled}
                 />
                 <TextSetting
                     id='sessionLengthSSOInDays'
@@ -175,6 +179,7 @@ export default class SessionLengthSettings extends AdminSettings {
                     value={this.state.sessionLengthSSOInDays}
                     onChange={this.handleChange}
                     setByEnv={this.isSetByEnv('ServiceSettings.SessionLengthSSOInDays')}
+                    disabled={this.props.isDisabled}
                 />
                 <TextSetting
                     id='sessionCacheInMinutes'
@@ -194,6 +199,7 @@ export default class SessionLengthSettings extends AdminSettings {
                     value={this.state.sessionCacheInMinutes}
                     onChange={this.handleChange}
                     setByEnv={this.isSetByEnv('ServiceSettings.SessionCacheInMinutes')}
+                    disabled={this.props.isDisabled}
                 />
                 {sessionTimeoutSetting}
             </SettingsGroup>

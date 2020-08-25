@@ -38,6 +38,7 @@ type Props = {
     config: DeepPartial<AdminConfig>;
     bots: Dictionary<Bot>;
     isLicensed: boolean;
+    isDisabled: boolean;
     actions: {
         updateUserActive: (id: string, active: boolean) => Promise<{error: ServerError}>;
         revokeAllSessionsForUser: (id: string) => Promise<{error: ServerError; data: any}>;
@@ -521,7 +522,9 @@ export default class SystemUsersDropdown extends React.PureComponent<Props, Stat
                 {revokeSessionsModal}
                 {promoteToUserModal}
                 {demoteToGuestModal}
-                <MenuWrapper>
+                <MenuWrapper
+                    isDisabled={this.props.isDisabled}
+                >
                     <div className='text-right'>
                         <a>
                             <span>{currentRoles} </span>
