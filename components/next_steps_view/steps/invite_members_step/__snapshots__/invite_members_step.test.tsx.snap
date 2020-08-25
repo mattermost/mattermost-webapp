@@ -25,6 +25,7 @@ exports[`components/next_steps_view/steps/invite_members_step should match snaps
       <MultiInput
         inputValue=""
         legend="Email addresses"
+        name="InviteMembersStep__membersListInput"
         onBlur={[Function]}
         onChange={[Function]}
         onInputChange={[Function]}
@@ -42,6 +43,7 @@ exports[`components/next_steps_view/steps/invite_members_step should match snaps
       >
         <button
           className="NextStepsView__button InviteMembersStep__sendButton secondary disabled"
+          data-testid="InviteMembersStep__sendButton"
           disabled={true}
           onClick={[Function]}
         >
@@ -107,6 +109,7 @@ exports[`components/next_steps_view/steps/invite_members_step should match snaps
   >
     <button
       className="NextStepsView__button NextStepsView__finishButton primary"
+      data-testid="InviteMembersStep__finishButton"
       onClick={[Function]}
     >
       <FormattedMessage

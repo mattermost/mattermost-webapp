@@ -204,9 +204,11 @@ export default class InviteMembersStep extends React.PureComponent<Props, State>
                             legend={Utils.localizeMessage('next_steps_view.invite_members_step.emailAddresses', 'Email addresses')}
                             placeholder={Utils.localizeMessage('next_steps_view.invite_members_step.enterEmailAddresses', 'Enter email addresses')}
                             styles={styles}
+                            name='InviteMembersStep__membersListInput'
                         />
                         <div className='InviteMembersStep__send'>
                             <button
+                                data-testid='InviteMembersStep__sendButton'
                                 className={classNames('NextStepsView__button InviteMembersStep__sendButton secondary', {disabled: !this.state.emails.length || Boolean(this.state.emailsSent) || this.state.emailError})}
                                 disabled={!this.state.emails.length || Boolean(this.state.emailsSent) || Boolean(this.state.emailError)}
                                 onClick={this.sendEmailInvites}
@@ -283,6 +285,7 @@ export default class InviteMembersStep extends React.PureComponent<Props, State>
                 </div>
                 <div className='NextStepsView__wizardButtons'>
                     <button
+                        data-testid='InviteMembersStep__finishButton'
                         className={'NextStepsView__button NextStepsView__finishButton primary'}
                         onClick={this.onFinish}
                     >

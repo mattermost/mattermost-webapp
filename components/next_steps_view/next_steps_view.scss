@@ -108,58 +108,51 @@
         .NextStepsView__cardHeader {
             cursor: default;
         }
-    
+
         .NextStepsView__cardHeaderBadge {
             color: var(--button-color);
             background-color: var(--sidebar-text-active-border);
         }
     }
-    
+
     .Card.complete {
         border-color: transparent;
         box-shadow: none;
         transition-property: box-shadow, border-color;
         background-color: transparent;
-        margin-left: 12px;
-    
+
         &:hover {
             border-color: transparent;
             box-shadow: none;
         }
-    
+
         & + .Card {
             margin-top: 12px;
             transition-property: box-shadow, border-color, margin;
         }
-    
+
         .Card__header {
-            //margin: 0;
             border-color: transparent;
-    
+
             transition: all 0.3s ease-in-out;
         }
-    
-        .Card__body {
-            height: 0;
-        }
-    
+
         .NextStepsView__cardHeader {
-            padding: 0;
+            padding: 0 12px;
             transition: padding 0.3s ease-in-out;
-    
+
             > span {
                 color: var(--online-indicator);
-                //margin-left: 8px;
                 transition: all 0.3s ease-in-out;
             }
-    
+
             i {
                 align-self: center;
                 font-size: 26px;
                 line-height: 26px;
                 color: var(--online-indicator);
                 transition: all 0.3s ease-in-out;
-    
+
                 &::before {
                     margin: 0;
                 }
@@ -357,7 +350,7 @@
 }
 
 .NextStepsView__nextStepsCards {
-    display: flex; 
+    display: flex;
     width: 100%;
     margin-top: 88px;
     padding: 0 40px;
@@ -483,7 +476,7 @@
     }
 }
 
-@media screen and (max-width: 1386px) { 
+@media screen and (max-width: 1386px) {
     .NextStepsView__nextStepsCards {
         margin-top: 0;
     }
@@ -571,7 +564,7 @@
         flex: 1 1 100%;
         padding: 0 12px;
     }
-    
+
     .NextStepsView__nextStepsCards, .NextStepsView__download, .NextStepsView__tipsMobileMessage {
         padding: 0 12px;
     }

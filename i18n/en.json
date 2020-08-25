@@ -3125,7 +3125,7 @@
   "next_steps_view.seeAllTheApps": "See all the apps",
   "next_steps_view.skipGettingStarted": "Skip Getting Started",
   "next_steps_view.team_profile_step.enterYourNameAndURL": "Enter your team name",
-  "next_steps_view.team_profile_step.nameCannotBeBlank": "Team URL can’t be blank",
+  "next_steps_view.team_profile_step.nameCannotBeBlank": "Team name can’t be blank",
   "next_steps_view.team_profile_step.nameWillBeDisplayed": "Your team name will be displayed in your sidebar",
   "next_steps_view.team_profile_step.pictureError": "Photos must be in BMP, JPG or PNG format. Maximum file size is {max}.",
   "next_steps_view.team_profile_step.saveTeam": "Save team",
