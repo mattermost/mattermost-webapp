@@ -68,6 +68,11 @@ describe('Join an open team from a direct message link', () => {
             // # Reload the page to ensure the new session is active
             cy.reload();
 
+            // * Expect page to reload with new user session
+            cy.get('#headerUsername').
+                should('be.visible').
+                and('have.text', `@${testUserOutsideOpenTeam.username}`);
+
             // # Open direct message from the user in the open team (testUserInOpenTeam)
             cy.visit(`/${secondTestTeam.name}/messages/@${testUserInOpenTeam.username}`);
 
