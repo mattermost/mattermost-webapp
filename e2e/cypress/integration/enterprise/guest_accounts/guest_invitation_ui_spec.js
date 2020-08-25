@@ -241,7 +241,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
         verifyInvitationError(regularUser.username, testTeam, 'This person is already a member.');
 
         // # Demote the user from member to guest
-        cy.demoteUser(newUser.id);
+        cy.apiDemoteUserToGuest(newUser.id);
 
         // # Search and add an existing guest by first name, who is part of the team but not channel
         invitePeople(newUser.first_name, 1, newUser.username, 'Off-Topic');
@@ -364,7 +364,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
 
     it('MM-T1414 Add Guest from Add New Members dialog', () => {
         // # Demote the user from member to guest
-        cy.demoteUser(newUser.id);
+        cy.apiDemoteUserToGuest(newUser.id);
 
         // # Open Invite People
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
