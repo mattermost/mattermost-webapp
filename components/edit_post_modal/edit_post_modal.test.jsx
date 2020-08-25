@@ -11,6 +11,7 @@ import {testComponentForLineBreak} from 'tests/helpers/line_break_helpers';
 import {Constants, ModalIdentifiers} from 'utils/constants';
 import DeletePostModal from 'components/delete_post_modal';
 import EditPostModal from 'components/edit_post_modal/edit_post_modal.jsx';
+import {testComponentForMarkdownHotkeys} from 'tests/helpers/markdown_hotkey_helpers.js';
 
 jest.mock('actions/global_actions.jsx', () => ({
     emitClearSuggestions: jest.fn(),
@@ -581,4 +582,34 @@ describe('components/EditPostModal', () => {
         var wrapper = shallowWithIntl(createEditPost({useChannelMentions: false}));
         expect(wrapper).toMatchSnapshot();
     });
+
+    testComponentForMarkdownHotkeys(
+        (value) => {
+            return createEditPost({
+                editingPost: {
+                    postId: '123',
+                    post: {
+                        id: '123',
+                        message: value,
+                        channel_id: '5',
+                    },
+                    commentCount: 3,
+                    refocusId: 'test',
+                    show: true,
+                    title: 'test',
+                },
+            });
+        },
+        (wrapper, setSelectionRangeFn) => {
+            wrapper.instance().editbox = {
+                getInputBox: jest.fn(() => {
+                    return {
+                        setSelectionRange: setSelectionRangeFn,
+                        focus: jest.fn(),
+                    };
+                }),
+            };
+        },
+        (instance) => instance.state().editText,
+    );
 });

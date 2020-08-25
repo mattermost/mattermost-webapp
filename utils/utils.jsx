@@ -1819,7 +1819,7 @@ export function applyHotkeyMarkdown(e) {
     const el = e.target;
     const {selectionEnd, selectionStart, value} = el;
 
-    var delimiter = '';
+    let delimiter = '';
     if (e.keyCode === Constants.KeyCodes.B[1]) {
         delimiter = '**';
     } else if (e.keyCode === Constants.KeyCodes.I[1]) {
@@ -1827,18 +1827,16 @@ export function applyHotkeyMarkdown(e) {
     }
 
     // <prefix> <delimiter> <selection> <delimiter> <suffix>
-    var prefix = value.substring(0, selectionStart);
-    var selection = value.substring(selectionStart, selectionEnd);
-    var suffix = value.substring(selectionEnd);
+    const prefix = value.substring(0, selectionStart);
+    const selection = value.substring(selectionStart, selectionEnd);
+    const suffix = value.substring(selectionEnd);
 
-    var newValue = '';
-    var newStart = 0;
-    var newEnd = 0;
+    let newValue = '';
+    let newStart = 0;
+    let newEnd = 0;
     if (prefix.endsWith(delimiter) && suffix.startsWith(delimiter)) {
         // message already has the markdown; remove it
-        prefix = prefix.substring(0, prefix.length - delimiter.length);
-        suffix = suffix.substring(delimiter.length);
-        newValue = prefix + selection + suffix;
+        newValue = prefix.substring(0, prefix.length - delimiter.length) + selection + suffix.substring(delimiter.length);
         newStart = selectionStart - delimiter.length;
         newEnd = selectionEnd - delimiter.length;
     } else {

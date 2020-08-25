@@ -1092,12 +1092,12 @@ class CreatePost extends React.PureComponent {
     }
 
     applyHotkeyMarkdown = (e) => {
-        var res = Utils.applyHotkeyMarkdown(e);
+        const res = Utils.applyHotkeyMarkdown(e);
 
         this.setState({
             message: res.message,
         }, () => {
-            var textbox = this.refs.textbox.getInputBox();
+            const textbox = this.refs.textbox.getInputBox();
             Utils.setSelectionRange(textbox, res.selectionStart, res.selectionEnd);
         });
     }

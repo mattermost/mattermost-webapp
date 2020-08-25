@@ -769,7 +769,7 @@ class CreateComment extends React.PureComponent {
     }
 
     applyHotkeyMarkdown = (e) => {
-        var res = Utils.applyHotkeyMarkdown(e);
+        const res = Utils.applyHotkeyMarkdown(e);
 
         const {draft} = this.state;
         const modifiedDraft = {
@@ -783,7 +783,7 @@ class CreateComment extends React.PureComponent {
         this.setState({
             draft: modifiedDraft,
         }, () => {
-            var textbox = this.refs.textbox.getInputBox();
+            const textbox = this.refs.textbox.getInputBox();
             Utils.setSelectionRange(textbox, res.selectionStart, res.selectionEnd);
         });
     }
