@@ -15,7 +15,7 @@ const MENU_BOTTOM_MARGIN = 80;
 
 type Props = {
     id: string;
-    children: JSX.Element | null;
+    children?: React.ReactNode;
     tooltipText: string;
     buttonAriaLabel: string;
     ariaLabel: string;
