@@ -20,6 +20,7 @@ const SimpleTooltip: FC<Props> = ({id, content, children}: Props) => (
             <Tooltip
                 id={id}
                 className='hidden-xs'
+                placement='top'
             >
                 {content}
             </Tooltip>

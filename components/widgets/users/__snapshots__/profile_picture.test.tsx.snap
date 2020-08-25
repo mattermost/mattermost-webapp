@@ -1,0 +1,120 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/ProfilePicture should match snapshot, no user specified, default props 1`] = `
+<span
+  className="status-wrapper"
+>
+  <span
+    className="profile-icon "
+  >
+    <Memo(Avatar)
+      size="md"
+      url="http://example.com/image.png"
+    />
+  </span>
+  <StatusIcon
+    button={false}
+    className=""
+    status="away"
+  />
+</span>
+`;
+
+exports[`components/ProfilePicture should match snapshot, no user specified, overridden props 1`] = `
+<span
+  className="status-wrapper"
+>
+  <span
+    className="profile-icon "
+  >
+    <Memo(Avatar)
+      size="xl"
+      url="http://example.com/image.png"
+    />
+  </span>
+  <StatusIcon
+    button={false}
+    className=""
+    status="away"
+  />
+</span>
+`;
+
+exports[`components/ProfilePicture should match snapshot, profile and src, default props 1`] = `
+<OverlayTrigger
+  defaultOverlayShown={false}
+  overlay={
+    <Memo(Connect(injectIntl(ProfilePopover)))
+      className="user-profile-popover"
+      hasMention={false}
+      hide={[Function]}
+      isBusy={true}
+      isRHS={false}
+      src="http://example.com/image.png"
+      userId="uid"
+    />
+  }
+  placement="right"
+  rootClose={true}
+  trigger="click"
+>
+  <button
+    className="status-wrapper style--none "
+    tabIndex={-1}
+  >
+    <span
+      className="profile-icon "
+    >
+      <Memo(Avatar)
+        size="md"
+        url="http://example.com/emoji.png"
+      />
+    </span>
+    <StatusIcon
+      button={false}
+      className=""
+      status="away"
+    />
+  </button>
+</OverlayTrigger>
+`;
+
+exports[`components/ProfilePicture should match snapshot, user specified 1`] = `
+<span
+  className="status-wrapper"
+>
+  <span
+    className="profile-icon "
+  >
+    <Memo(Avatar)
+      size="md"
+      url="http://example.com/image.png"
+    />
+  </span>
+  <StatusIcon
+    button={false}
+    className=""
+    status="away"
+  />
+</span>
+`;
+
+exports[`components/ProfilePicture should match snapshot, user specified, overridden props 1`] = `
+<span
+  className="status-wrapper"
+>
+  <span
+    className="profile-icon "
+  >
+    <Memo(Avatar)
+      size="xs"
+      url="http://example.com/image.png"
+    />
+  </span>
+  <StatusIcon
+    button={false}
+    className=""
+    status="away"
+  />
+</span>
+`;

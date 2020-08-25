@@ -3,7 +3,7 @@
 
 import React, {FC, memo} from 'react';
 
-import SimpleTooltip from 'components/simple_toopltip';
+import SimpleTooltip from 'components/simple_tooltip';
 
 import Avatar from './avatar';
 import ProfilePicture, {Props as ProfilePictureProps} from './profile_picture';
@@ -18,30 +18,40 @@ type Props = Pick<ProfilePictureProps, StylingKeys> & {
 }
 
 const Avatars: FC<Props> = ({size, breakAt = 3, users}: Props) => {
+    const displayUsers = users.slice(0, breakAt);
+    const others = users.slice(breakAt);
+
     return (
         <div className={`ProfilePictures ProfilePictures-${size}`}>
-            {users.slice(0, breakAt).map(({name, ...user}) => (
+            {displayUsers.map(({name, ...user}) => (
                 <SimpleTooltip
                     key={user.userId}
-                    id='groupNameTooltip'
+                    id={'groupNameTooltip'}
                     content={name}
                 >
-                    <ProfilePicture
-                        size={size}
-                        {...user}
-                    />
+                    <div>
+                        <ProfilePicture
+                            size={size}
+                            {...user}
+                        />
+                    </div>
                 </SimpleTooltip>
             ))}
-            <SimpleTooltip
-                id='groupNameTooltip'
-                content={name}
-            >
-                <Avatar
-                    size={size}
+            {others.length && (
+                <SimpleTooltip
+                    id='groupNameTooltip'
+                    content={others.map((user) => user.name).join(', ')}
                 >
-                    {`+${users.length - breakAt}`}
-                </Avatar>
-            </SimpleTooltip>
+                    <div>
+                        <Avatar
+                            size={size}
+                        >
+                            {`+${others.length}`}
+                        </Avatar>
+                    </div>
+                </SimpleTooltip>
+            )}
+
         </div>
     );
 };
