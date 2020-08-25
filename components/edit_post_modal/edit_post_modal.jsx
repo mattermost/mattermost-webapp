@@ -65,7 +65,8 @@ class EditPostModal extends React.PureComponent {
             postError: '',
             errorClass: null,
             showEmojiPicker: false,
-            renderScrollbars: false,
+            renderScrollbar: false,
+            scrollbarWidth: 0,
             prevShowState: props.editingPost.show,
         };
     }
@@ -321,7 +322,12 @@ class EditPostModal extends React.PureComponent {
     }
 
     handleHeightChange = (height, maxHeight) => {
-        this.setState({renderScrollbars: height > maxHeight});
+        if (this.editbox) {
+            this.setState({
+                renderScrollbar: height > maxHeight,
+                scrollbarWidth: Utils.scrollbarWidth(this.editbox.getInputBox()),
+            });
+        }
     }
 
     handleExit = () => {
@@ -443,7 +449,10 @@ class EditPostModal extends React.PureComponent {
                     ref='editModalBody'
                 >
                     <div className='post-create__container'>
-                        <div className={classNames('textarea-wrapper', {scroll: this.state.renderScrollbars})}>
+                        <div
+                            className={classNames('textarea-wrapper', {scroll: this.state.renderScrollbar})}
+                            style={this.state.renderScrollbar && this.state.scrollbarWidth ? {'--detected-scrollbar-width': `${this.state.scrollbarWidth}px`} : undefined}
+                        >
                             <Textbox
                                 tabIndex='0'
                                 onChange={this.handleChange}
