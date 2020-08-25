@@ -364,7 +364,16 @@ describe('components/EditPostModal', () => {
         wrapper.setState({editText: 'test', postError: 'test', errorClass: 'test', showEmojiPicker: true});
         instance.handleExited();
 
-        expect(wrapper.state()).toEqual({editText: '', caretPosition: 0, postError: '', errorClass: null, showEmojiPicker: false, prevShowState: false});
+        expect(wrapper.state()).toEqual({
+            editText: '',
+            caretPosition: 0,
+            postError: '',
+            errorClass: null,
+            showEmojiPicker: false,
+            prevShowState: false,
+            renderScrollbar: false,
+            scrollbarWidth: 0,
+        });
     });
 
     it('should focus element on exit based on refocusId', () => {
