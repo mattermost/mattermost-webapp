@@ -152,7 +152,7 @@ export default class TeamUrl extends React.PureComponent<Props, State> {
             return;
         }
 
-        const createTeamData: { data: Team; error: any } = await createTeam(teamSignup.team);
+        const createTeamData = await createTeam(teamSignup.team);
         const data = createTeamData.data;
         const error = createTeamData.error;
 
@@ -275,7 +275,7 @@ export default class TeamUrl extends React.PureComponent<Props, State> {
                             type='submit'
                             bsStyle='primary'
                             disabled={this.state.isLoading}
-                            onClick={(e: any) => this.submitNext(e)}
+                            onClick={(e: React.MouseEvent<HTMLDivElement>) => this.submitNext(e)}
                         >
                             {finishMessage}
                         </Button>
