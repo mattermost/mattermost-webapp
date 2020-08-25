@@ -10,7 +10,7 @@
 // Stage: @prod
 // Group: @mark_as_unread
 
-import * as TIMEOUTS from '../../fixtures/timeouts';
+import {verifyPostNextToNewMessageSeparator, switchToChannel, beRead, beUnread, showCursor, notShowCursor, markAsUnreadFromMenu} from './helpers';
 
 describe('Mark as Unread', () => {
     let testUser;
@@ -28,10 +28,12 @@ describe('Mark as Unread', () => {
             testUser = user;
             channelA = channel;
 
-            cy.apiCreateChannel(team.id, 'channel-b', 'Channel B').then((resp) => {
-                channelB = resp.body;
-                cy.apiAddUserToChannel(channelB.id, testUser.id);
-            });
+            cy.apiCreateChannel(team.id, 'channel-b', 'Channel B').then(
+                (resp) => {
+                    channelB = resp.body;
+                    cy.apiAddUserToChannel(channelB.id, testUser.id);
+                },
+            );
 
             cy.apiCreateUser().then(({user: user2}) => {
                 const otherUser = user2;
@@ -40,13 +42,26 @@ describe('Mark as Unread', () => {
                     cy.apiAddUserToChannel(channelA.id, otherUser.id);
 
                     // Another user creates posts in the channel since you can't mark your own posts unread currently
-                    cy.postMessageAs({sender: otherUser, message: 'post1', channelId: channelA.id}).then((p1) => {
+                    cy.postMessageAs({
+                        sender: otherUser,
+                        message: 'post1',
+                        channelId: channelA.id,
+                    }).then((p1) => {
                         post1 = p1;
 
-                        cy.postMessageAs({sender: otherUser, message: 'post2', channelId: channelA.id}).then((p2) => {
+                        cy.postMessageAs({
+                            sender: otherUser,
+                            message: 'post2',
+                            channelId: channelA.id,
+                        }).then((p2) => {
                             post2 = p2;
 
-                            cy.postMessageAs({sender: otherUser, message: 'post3', channelId: channelA.id, rootId: post1.id}).then((post) => {
+                            cy.postMessageAs({
+                                sender: otherUser,
+                                message: 'post3',
+                                channelId: channelA.id,
+                                rootId: post1.id,
+                            }).then((post) => {
                                 post3 = post;
                             });
                         });
@@ -181,16 +196,6 @@ describe('Mark as Unread', () => {
     });
 
     it('Should show cursor pointer when holding down alt', () => {
-        const showCursor = (items) => {
-            cy.expect(items).to.have.length(1);
-            expect(items[0].className).to.match(/cursor--pointer/);
-        };
-
-        const notShowCursor = (items) => {
-            cy.expect(items).to.have.length(1);
-            expect(items[0].className).to.not.match(/cursor--pointer/);
-        };
-
         const componentIds = [
             `#post_${post1.id}`,
             `#post_${post2.id}`,
@@ -272,34 +277,59 @@ describe('Mark as Unread', () => {
         // The New Messages line should appear above the selected post
         verifyPostNextToNewMessageSeparator('post2');
     });
-});
 
-function switchToChannel(channel) {
-    cy.get(`#sidebarItem_${channel.name}`).click();
+    it('MM-T250 Mark as unread in the RHS', () => {
+        switchToChannel(channelA);
 
-    cy.get('#channelHeaderTitle').should('contain', channel.display_name);
+        // # Open RHS (reply thread)
+        cy.clickPostCommentIcon(post1.id);
 
-    // # Wait some time for the channel to set state
-    cy.wait(TIMEOUTS.HALF_SEC);
-}
+        // # Mark the post as unread from RHS
+        markAsUnreadFromMenu(post1, 'rhsPostMessageText', 'RHS_ROOT');
 
-function beRead(items) {
-    expect(items).to.have.length(1);
-    expect(items[0].className).to.not.match(/unread-title/);
-}
+        // * Verify the New Messages line should appear above the selected post
+        verifyPostNextToNewMessageSeparator('post1');
 
-function beUnread(items) {
-    expect(items).to.have.length(1);
-    expect(items[0].className).to.match(/unread-title/);
-}
+        // * Verify the channelA has unread in LHS
+        cy.get(`#sidebarItem_${channelA.name}`).should(beUnread);
 
-function markAsUnreadFromMenu(post, prefix = 'post', location = 'CENTER') {
-    cy.get(`#${prefix}_${post.id}`).trigger('mouseover');
-    cy.clickPostDotMenu(post.id, location);
-    cy.get('.dropdown-menu').should('be.visible').within(() => {
-        cy.findByText('Mark as Unread').should('be.visible').click();
+        // * Verify the RHS does not have the NotificationSeparator line
+        cy.get('#rhsContainer').find('.NotificationSeparator').should('not.exist');
+
+        // # Switch to channelB
+        switchToChannel(channelB);
+
+        // # Switch to channelA
+        switchToChannel(channelA);
+
+        // * Verify the channelA does not have unread in LHS
+        cy.get(`#sidebarItem_${channelA.name}`).should(beRead);
+
+        // * Hover on the post with holding alt should show cursor
+        cy.get(`#post_${post2.id}`).trigger('mouseover').type('{alt}', {release: false}).should(showCursor);
+
+        // # Mouse click on the post holding alt
+        cy.get(`#post_${post2.id}`).type('{alt}', {release: false}).click();
+
+        // * Verify the post is marked as unread
+        verifyPostNextToNewMessageSeparator('post2');
+
+        // * Verify the channelA has unread in LHS
+        cy.get(`#sidebarItem_${channelA.name}`).should(beUnread);
+
+        // * Verify the RHS does not have the NotificationSeparator line
+        cy.get('#rhsContainer').find('.NotificationSeparator').should('not.exist');
+
+        // # Switch to channelB
+        switchToChannel(channelB);
+
+        // # Switch to channelA
+        switchToChannel(channelA);
+
+        // * Verify the channelA does not have unread in LHS
+        cy.get(`#sidebarItem_${channelA.name}`).should(beRead);
     });
-}
+});
 
 function markAsUnreadFromPost(post, rhs = false) {
     const prefix = rhs ? 'rhsPost' : 'post';
@@ -315,8 +345,4 @@ function markAsUnreadFromAnotherSession(post, user) {
         method: 'post',
         path: `users/${user.id}/posts/${post.id}/set_unread`,
     });
-}
-
-function verifyPostNextToNewMessageSeparator(message) {
-    cy.get('.NotificationSeparator').should('exist').parent().parent().parent().next().should('contain', message);
 }
