@@ -384,6 +384,7 @@ export const RecommendedNextSteps = {
     TEAM_SETUP: 'team_setup',
     INVITE_MEMBERS: 'invite_members',
     PREFERENCES_SETUP: 'preferences_setup',
+    NOTIFICATION_SETUP: 'notification_setup',
     HIDE: 'hide',
 };
 

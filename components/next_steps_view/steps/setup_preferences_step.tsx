@@ -6,8 +6,6 @@ import {FormattedMessage} from 'react-intl';
 
 import UserSettingsModal from '../../user_settings/modal';
 
-import './complete_profile_step.scss';
-
 export default function SetupPreferencesStep(props: { id: string; onSkip: () => void; onFinish: (id: string) => void }) {
     const [shouldShowSettings, showSettings] = useState(false);
     const onFinish = () => {
@@ -18,8 +16,6 @@ export default function SetupPreferencesStep(props: { id: string; onSkip: () => 
         <div>
             <div
                 style={{
-
-                    // TODO temp for textbox demo
                     margin: '24px',
                 }}
             >
@@ -30,7 +26,7 @@ export default function SetupPreferencesStep(props: { id: string; onSkip: () => 
             </div>
             <div className='NextStepsView__wizardButtons'>
                 <button
-                    className='NextStepsView__button confirm'
+                    className='NextStepsView__button NextStepsView__finishButton primary'
                     onClick={() => {
                         showSettings(true);
                     }}

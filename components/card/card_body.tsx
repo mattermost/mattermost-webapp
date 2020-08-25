@@ -1,60 +1,47 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import classNames from 'classnames';
 
 import './card.scss';
 
-type Props = {
-    expanded?: boolean;
-}
+export default function CardBody(props: {expanded?: boolean; children: React.ReactNode}) {
+    const [height, setHeight] = useState(0);
+    const [expanding, setExpanding] = useState(false);
+    const [expanded, setExpanded] = useState(false);
 
-export default class CardBody extends React.PureComponent<Props> {
-    card: React.RefObject<HTMLDivElement>;
+    const stopExpanding = () => setExpanding(false);
 
-    constructor(props: Props) {
-        super(props);
-
-        this.card = React.createRef();
-    }
-
-    componentDidMount() {
-        window.addEventListener('resize', this.setInitialHeight);
-
-        this.setInitialHeight();
-    }
-
-    componentWillUnmount() {
-        window.removeEventListener('resize', this.setInitialHeight);
-    }
-
-    setInitialHeight = () => {
-        if (this.card.current && this.props.expanded) {
-            this.card.current.style.height = `${this.card.current.scrollHeight}px`;
+    const card = (node: HTMLDivElement) => {
+        if (node && node.children) {
+            setHeight(Array.from(node.children).map((child) => child.scrollHeight).reduce((a, b) => a + b, 0));
         }
-    }
+    };
 
-    componentDidUpdate(prevProps: Props) {
-        if (!this.card.current) {
-            return;
+    useEffect(() => {
+        setExpanding(true);
+        if (props.expanded) {
+            setExpanded(true);
         }
+    }, [props.expanded]);
 
-        if (this.props.expanded !== prevProps.expanded && this.props.expanded) {
-            this.card.current.style.height = `${this.card.current.scrollHeight}px`;
-        } else if (!this.props.expanded) {
-            this.card.current.style.height = '';
+    useEffect(() => {
+        if (!props.expanded) {
+            setExpanded(false);
         }
-    }
+    }, [expanding]);
 
-    render() {
-        return (
-            <div
-                ref={this.card}
-                className={classNames('Card__body', {expanded: this.props.expanded})}
-            >
-                {this.props.children}
-            </div>
-        );
-    }
+    return (
+        <div
+            ref={card}
+            style={{
+                height: (expanding && expanded) ? height : '',
+            }}
+            className={classNames('Card__body', {expanded, expanding})}
+            onTransitionEnd={stopExpanding}
+        >
+            {props.children}
+        </div>
+    );
 }

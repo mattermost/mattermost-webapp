@@ -1,0 +1,100 @@
+.TeamProfileStep {
+    display: flex;
+    padding: 24px 40px;
+
+    h3 {
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 20px;
+        color: var(--center-channel-color);
+        margin: 0;
+    }
+}
+
+.TeamProfileStep__profilePicture {
+    flex-grow: 0;
+
+    .PictureSelector {
+        margin-top: 12px;
+
+        .PictureSelector__image {
+            border-radius: 8px;
+        }
+
+        .PictureSelector__selectButton {
+            top: -6px;
+            right: -8px;
+        }
+    }
+
+    .TeamIcon__initials {
+        font-size: 38px;
+        line-height: 21px;
+        padding: 35px 0;
+        text-transform: capitalize;
+        text-align: center;
+        font-weight: 600;
+        color: var(--sidebar-text);
+        background-color: var(--sidebar-bg);
+        border-radius: 8px;
+    }
+}
+
+.TeamProfileStep__textInputs {
+    margin-left: 64px;
+    flex-grow: 0.75;
+    max-width: 600px;
+
+    .Input_wrapper {
+        font-size: 14px;
+        line-height: 38px;
+        padding: 0 16px;
+    }
+
+    .Input {
+        font-size: 14px;
+        line-height: 38px;
+    }
+
+    .Input_legend {
+        margin-left: 12px;
+    }
+
+    .Input_container {
+        margin-top: 28px;
+    }
+}
+
+.TeamProfileStep__pictureError {
+    font-size: 12px;
+    line-height: 16px;
+    color: var(--error-text);
+    padding: 0 40px;
+
+    > span {
+        margin-left: 4px;
+    }
+
+    i {
+        font-size: 14px;
+        vertical-align: middle;
+        margin-top: -2px;
+    }
+}
+
+@media screen and (max-width: 1020px) {
+    .TeamProfileStep {
+        flex-direction: column;
+        padding: 4px 12px 24px 12px;
+    }
+
+    .TeamProfileStep__textInputs {
+        margin-left: 0;
+        margin-top: 32px;
+        max-width: unset;
+
+        .Input_container {
+            margin-top: 20px;
+        }
+    }
+}

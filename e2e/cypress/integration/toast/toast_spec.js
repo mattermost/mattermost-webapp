@@ -11,15 +11,24 @@
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
+import {
+    scrollDown,
+    scrollUp,
+    scrollUpAndPostAMessage,
+    visitTownSquareAndWaitForPageToLoad,
+} from './helpers';
+
 describe('toasts', () => {
     let otherUser;
     let testTeam;
     let townsquareChannelId;
+    let otherChannel;
 
     before(() => {
         // # Build data to test and login as testUser
-        cy.apiInitSetup().then(({team, user}) => {
+        cy.apiInitSetup().then(({team, channel, user}) => {
             testTeam = team;
+            otherChannel = channel;
 
             cy.apiGetChannelByName(testTeam.name, 'town-square').then((res) => {
                 townsquareChannelId = res.body.id;
@@ -38,6 +47,7 @@ describe('toasts', () => {
 
     beforeEach(() => {
         // # Click on town-square then off-topic channels in LHS
+        cy.findAllByTestId('postView').should('be.visible');
         cy.get('#sidebarItem_town-square').should('be.visible').click();
         cy.get('#sidebarItem_off-topic').should('be.visible').click().wait(TIMEOUTS.HALF_SEC);
 
@@ -54,47 +64,45 @@ describe('toasts', () => {
 
         visitTownSquareAndWaitForPageToLoad();
 
-        // * find the toast
-        cy.get('div.toast').should('be.visible');
+        // * Verify the toast is visible with correct message
+        cy.get('div.toast').should('be.visible').contains('30 new messages');
 
-        // * check that the message is correct
-        cy.get('div.toast__message>span').should('be.visible').first().contains('30 new messages');
-        cy.get('div.post-list__dynamic').should('be.visible').scrollTo('bottom', {duration: 1000});
+        // # Scroll to the bottom
+        scrollDown();
 
-        // * should hide the scroll to new message button as it is at the bottom
+        // * Verify toast jump is not visible
         cy.get('div.toast__jump').should('not.be.visible');
 
-        // * As time elapsed the toast should be hidden
-        cy.get('div.toast').should('be.not.visible');
+        // * Verify toast is not visible
+        cy.get('div.toast').should('not.be.visible');
     });
 
-    it('should show new message indicator when posts arrive and user is not at bottom', () => {
+    it('Should show new message indicator when posts arrive and user is not at bottom', () => {
         visitTownSquareAndWaitForPageToLoad();
-        scrollUpAndPostAMessage(otherUser, townsquareChannelId).then(() => {
-            // * find the toast
-            cy.get('div.toast').should('be.visible');
+        scrollUpAndPostAMessage(otherUser, townsquareChannelId);
 
-            // * check that the message is correct
-            cy.get('div.toast__message>span').should('be.visible').first().contains('1 new message');
-        });
+        // * Verify the toast is visible with correct message
+        cy.get('div.toast').should('be.visible').contains('1 new message');
     });
 
     it('New message toast should not have action button when at bottom and hide toast in a sec', () => {
         visitTownSquareAndWaitForPageToLoad();
-        scrollUpAndPostAMessage(otherUser, townsquareChannelId).then(() => {
-            // * find the toast
-            cy.get('div.toast').should('be.visible');
-            cy.get('div.post-list__dynamic').should('be.visible').scrollTo('bottom', {duration: 1000});
+        scrollUpAndPostAMessage(otherUser, townsquareChannelId);
 
-            // * should hide the scroll to new message button as it is at the bottom
-            cy.get('div.toast__jump').should('not.be.visible');
+        // * Verify the toast is visible
+        cy.get('div.toast').should('be.visible');
 
-            // * As time elapsed the toast should be hidden
-            cy.get('div.toast').should('be.hidden');
-        });
+        // # Scroll to the bottom
+        scrollDown();
+
+        // * Verify toast jump is not visible
+        cy.get('div.toast__jump').should('not.be.visible');
+
+        // * Verify toast is not visible
+        cy.get('div.toast').should('not.be.visible');
     });
 
-    it('new message toast should take to new messages line when clicked', () => {
+    it('New message toast should take to new messages line when clicked', () => {
         visitTownSquareAndWaitForPageToLoad();
 
         // # Scroll up so bottom is not visible
@@ -105,10 +113,13 @@ describe('toasts', () => {
             cy.postMessageAs({sender: otherUser, message: `This is a new message [${index}]`, channelId: townsquareChannelId});
         }
 
+        // * Verify the new messages line is not visible
         cy.get('.NotificationSeparator').should('not.be.visible');
+
+        // # Click on toast pointer
         cy.get('div.toast__visible div.toast__pointer').should('be.visible').click();
 
-        // * should scroll NotificationSeparator into view
+        // * Verify the new messages line is visible
         cy.get('.NotificationSeparator').should('be.visible');
     });
 
@@ -123,54 +134,70 @@ describe('toasts', () => {
             cy.postMessageAs({sender: otherUser, message: `This is a message for checking action on toast [${index}]`, channelId: townsquareChannelId});
         }
 
-        // * find the toast
+        // * Verify the toast is visible
         cy.get('div.toast').should('be.visible');
+
+        // # Click on toast pointer
         cy.get('div.toast__visible div.toast__pointer').should('be.visible').click();
+
+        // * Verify last posted message is in view
         cy.getLastPostId().then((postId) => {
-            // * last posted message should be in view
             cy.get(`#postMessageText_${postId} > p`).should('be.visible').contains('This is a message for checking action on toast [9]');
         });
     });
 
-    it('new message toast should be removed on clicking remove button', () => {
+    it('New message toast should be removed on clicking remove button', () => {
         visitTownSquareAndWaitForPageToLoad();
-        scrollUpAndPostAMessage(otherUser, townsquareChannelId).then(() => {
-            cy.get('div.toast').should('be.visible');
+        scrollUpAndPostAMessage(otherUser, townsquareChannelId);
 
-            // # Click on toast dismiss button to close the toast
-            cy.findByTestId('dismissToast').should('be.visible').click();
-            cy.get('div.toast').should('not.be.visible');
-        });
+        // * Verify the toast is visible
+        cy.get('div.toast').should('be.visible');
+
+        // # Click on toast dismiss button to close the toast
+        cy.findByTestId('dismissToast').should('be.visible').click();
+
+        // * Verify the toast is not visible
+        cy.get('div.toast').should('not.be.visible');
     });
 
-    it('Recurring visit to a channel with unreads should have unread toast ', () => {
+    it('Recurring visit to a channel with unreads should have unread toast', () => {
         visitTownSquareAndWaitForPageToLoad();
+
+        // # Scroll up so bottom is not visible
         scrollUp();
+
+        // # Click on sidebar off-topic link
         cy.get('#sidebarItem_off-topic').should('be.visible').scrollIntoView().click();
 
         // # Add enough messages
         for (let index = 0; index < 40; index++) {
             cy.postMessageAs({sender: otherUser, message: `This is a new message [${index}]`, channelId: townsquareChannelId});
         }
+
+        // # Go back
         cy.go('back');
 
         // # Scroll up so bottom is not visible
         scrollUp();
 
-        // # Post a new message
+        // * Verify the toast is visible
         cy.get('div.toast').should('be.visible');
+
+        // # Click on toast dismiss button to close the toast
         cy.findByTestId('dismissToast').should('be.visible').click();
+
+        // * Verify the toast is not visible
         cy.get('div.toast').should('not.be.visible');
     });
 
     it('New message count should increase with incoming messages', () => {
         visitTownSquareAndWaitForPageToLoad();
-        scrollUpAndPostAMessage(otherUser, townsquareChannelId).then(() => {
-            cy.get('div.toast').should('be.visible');
-            cy.get('div.toast__message>span').should('be.visible').first().contains('1 new message');
-            cy.postMessageAs({sender: otherUser, message: 'This is another new message', channelId: townsquareChannelId}).then(() => {
-                cy.get('div.toast__message>span').should('be.visible').first().contains('2 new message');
-            });
+        scrollUpAndPostAMessage(otherUser, townsquareChannelId);
+
+        // * Verify the toasts are visible with correct messages
+        cy.get('div.toast').should('be.visible').contains('1 new message');
+        cy.postMessageAs({sender: otherUser, message: 'This is another new message', channelId: townsquareChannelId}).then(() => {
+            cy.get('div.toast').should('be.visible').contains('2 new message');
         });
     });
 
@@ -178,17 +205,26 @@ describe('toasts', () => {
         visitTownSquareAndWaitForPageToLoad();
         scrollUpAndPostAMessage(otherUser, townsquareChannelId);
 
-        cy.get('div.toast').should('be.visible');
-        cy.get('div.toast__message>span').should('be.visible').first().contains('1 new message');
+        // * Verify the toast is visible with correct message
+        cy.get('div.toast').should('be.visible').contains('1 new message');
+
+        // # Click on toast dismiss button to close the toast
         cy.findByTestId('dismissToast').should('be.visible').click();
+
+        // * Verify the toast is not visible
         cy.get('div.toast').should('not.be.visible');
+
+        // # Post a new message
         cy.postMessageAs({sender: otherUser, message: 'This is another new message', channelId: townsquareChannelId}).then(() => {
-            cy.get('div.toast__message>span').should('be.visible').first().contains('1 new message');
+            // * Verify the toast is visible with correct message
+            cy.get('div.toast').should('be.visible').contains('1 new message');
         });
     });
 
     it('Marking channel as unread should make unread toast appear', () => {
         visitTownSquareAndWaitForPageToLoad();
+
+        // # Scroll up so bottom is not visible
         scrollUp();
 
         cy.getNthPostId(40).then((postId) => {
@@ -208,25 +244,27 @@ describe('toasts', () => {
             // # Scroll up so bottom is not visible
             scrollUp();
 
-            // # Toast apprears and has the appropriate message
-            cy.get('div.toast').should('be.visible');
-            cy.get('div.toast__message>span').should('be.visible').first().contains('new messages since');
+            // * Verify toast is visible with correct messsage
+            cy.get('div.toast').should('be.visible').contains('new messages today');
         });
     });
 
     it('New message line should move if user is scrolled up and new messages arrive', () => {
         visitTownSquareAndWaitForPageToLoad();
 
-        // # Scroll to the last post
-        cy.get('div.post-list__dynamic').scrollTo('bottom', {duration: 1000});
+        // # Scroll to the bottom
+        scrollDown();
 
         // # Post a new message
         cy.postMessageAs({sender: otherUser, message: 'post1', channelId: townsquareChannelId}).then(() => {
-            // * The new messages line should appear above the last post
+            // * Verify the new messages line should appear above the last post
             cy.get('.NotificationSeparator').should('exist').parent().parent().parent().next().should('contain', 'post1');
+
+            // # Scroll up so bottom is not visible
             scrollUp();
+
+            // * Verify the new messages line should have moved to the last post
             cy.postMessageAs({sender: otherUser, message: 'post2', channelId: townsquareChannelId}).then(() => {
-                // * The new messages line should have moved to the last post
                 cy.get('.NotificationSeparator').parent().parent().parent().next().should('contain', 'post2');
             });
         });
@@ -236,51 +274,143 @@ describe('toasts', () => {
         // # Add one message
         cy.postMessageAs({sender: otherUser, message: 'This is a message for permalink', channelId: townsquareChannelId}).then(({id}) => {
             visitTownSquareAndWaitForPageToLoad();
+
+            // # Visit permalink
             cy.visit(`/${testTeam.name}/pl/${id}`);
             cy.findAllByTestId('postView').should('be.visible');
 
-            // * Toast should not be present
+            // * Verify toast is not visible
             cy.get('div.toast').should('not.be.visible');
         });
     });
 
     it('Archive toast should be shown when visiting a post which is not at bottom', () => {
-        // # Add one message
-        cy.postMessageAs({sender: otherUser, message: 'This is a message for permalink', channelId: townsquareChannelId}).then(({id}) => {
-            visitTownSquareAndWaitForPageToLoad();
+        // # Create new channel and add other user to channel
+        cy.apiCreateChannel(testTeam.id, 'channel-test', 'Channel').then((channelRes) => {
+            const testChannelId = channelRes.body.id;
+            cy.apiAddUserToChannel(testChannelId, otherUser.id);
 
-            // # Add 29 posts to create enough space from bottom for showing archive toast
-            for (let index = 0; index < 25; index++) {
-                cy.postMessageAs({sender: otherUser, message: `# This is an old message [${index}]`, channelId: townsquareChannelId});
-            }
+            // # Add one message
+            cy.postMessageAs({sender: otherUser, message: 'This is a message for permalink', channelId: testChannelId}).then(({id}) => {
+                visitTownSquareAndWaitForPageToLoad();
 
-            // cy.visit(`/${testTeam.name}/channels/off-topic`);
-            cy.get('#sidebarItem_off-topic').should('be.visible').click();
-            cy.visit(`/${testTeam.name}/pl/${id}`);
-            cy.findAllByTestId('postView').should('be.visible');
+                // # Add 25 posts to create enough space from bottom for showing archive toast
+                for (let index = 0; index < 25; index++) {
+                    cy.postMessageAs({sender: otherUser, message: `# This is an old message [${index}]`, channelId: testChannelId});
+                }
 
-            // * Toast should be present
-            cy.get('div.toast').should('be.visible').contains('Viewing message history');
+                // # Visit permalink
+                cy.visit(`/${testTeam.name}/pl/${id}`);
+                cy.findAllByTestId('postView').should('be.visible');
+
+                // * Verify toast is visible with correct message
+                cy.get('div.toast').should('be.visible').contains('Viewing message history');
+            });
+        });
+    });
+
+    it('MM-T1787 Toast does not appear when all new messages are visible without scrolling down', () => {
+        // # Go to other channel
+        cy.get(`#sidebarItem_${otherChannel.name}`).should('be.visible').click();
+
+        // # Add enough messages to town square channel
+        for (let index = 0; index < 30; index++) {
+            cy.postMessageAs({sender: otherUser, message: `This is an old message [${index}]`, channelId: townsquareChannelId});
+        }
+
+        // # Visit town square channel and read all messages
+        visitTownSquareAndWaitForPageToLoad();
+        cy.get('div.post-list__dynamic').should('be.visible').scrollTo('bottom', {duration: TIMEOUTS.ONE_SEC});
+
+        // # Visit other channel
+        cy.get(`#sidebarItem_${otherChannel.name}`).should('be.visible').click();
+
+        // # Add less number of messages to town square channel
+        cy.postMessageAs({sender: otherUser, message: 'This is an new message 1', channelId: townsquareChannelId});
+        cy.postMessageAs({sender: otherUser, message: 'This is an new message 2', channelId: townsquareChannelId});
+
+        // # Visit town square channel
+        visitTownSquareAndWaitForPageToLoad();
+
+        // * Assert toast should not be present as the messages are visible without scrolling down
+        cy.get('div.toast').should('not.be.visible');
+
+        // # Move to the top of the channel
+        Cypress._.times(3, () => {
+            cy.get('div.post-list__dynamic').should('be.visible').scrollTo('top', {duration: TIMEOUTS.ONE_SEC}).wait(TIMEOUTS.ONE_SEC);
+        });
+
+        // * Verify that town-square channel is loaded
+        cy.get('#channelIntro').should('be.visible').contains('Beginning of Town Square');
+
+        // * Assert toast should not be present as the messages are already read
+        cy.get('div.toast').should('not.be.visible');
+    });
+
+    it('MM-T1785 Toast - When marking post as unread', () => {
+        visitTownSquareAndWaitForPageToLoad();
+
+        // # Add 30 posts to create enough space from bottom for making channel scrollable
+        for (let index = 0; index < 30; index++) {
+            cy.postMessageAs({sender: otherUser, message: `This is an old message [${index}]`, channelId: townsquareChannelId});
+        }
+
+        cy.getNthPostId(2).then((postId) => {
+            cy.get(`#post_${postId}`).trigger('mouseover');
+            cy.clickPostDotMenu(postId, 'CENTER');
+
+            // # Mark post as unread
+            cy.get('.dropdown-menu').should('be.visible').within(() => {
+                cy.findByText('Mark as Unread').should('be.visible').click();
+            });
+        });
+
+        // * Verify toast is visible with correct message
+        cy.get('div.toast').should('be.visible').contains('new messages');
+
+        // # Move to the channel bottom
+        cy.get('div.post-list__dynamic').should('be.visible').scrollTo('bottom', {duration: TIMEOUTS.ONE_SEC});
+
+        // # Move to the second last message in the channel and mark as unread
+        cy.getNthPostId(-2).then((postId) => {
+            cy.get(`#post_${postId}`).trigger('mouseover');
+            cy.clickPostDotMenu(postId, 'CENTER');
+
+            // # Mark post as unread
+            cy.get('.dropdown-menu').should('be.visible').within(() => {
+                cy.findByText('Mark as Unread').should('be.visible').click();
+            });
+        });
+
+        // * Verify toast is not visible
+        cy.get('div.toast').should('not.be.visible');
+
+        // # Reload to remove new messages line
+        cy.reload();
+    });
+
+    it('MM-T1788 Toast count', () => {
+        // # Visit other channel
+        cy.get(`#sidebarItem_${otherChannel.name}`).should('be.visible').click();
+
+        // # Add 25 posts to create enough space from bottom for showing archive toast
+        for (let index = 0; index < 25; index++) {
+            cy.postMessageAs({sender: otherUser, message: `This is an old message [${index}]`, channelId: townsquareChannelId});
+        }
+
+        visitTownSquareAndWaitForPageToLoad();
+
+        // * Verify toast is visible with correct message
+        cy.get('div.toast').should('be.visible').contains('25 new messages');
+
+        const initialCount = 25;
+
+        // # Add 10 messages to channel and check the toast count increases
+        Cypress._.times(10, (num) => {
+            cy.postMessageAs({sender: otherUser, message: `This is an old message [${initialCount + num}]`, channelId: townsquareChannelId});
+
+            // * Verify toast is visible with correct message
+            cy.get('div.toast').should('be.visible').contains(`${initialCount + num + 1} new messages`);
         });
     });
 });
-
-function visitTownSquareAndWaitForPageToLoad() {
-    cy.get('#sidebarItem_town-square').should('be.visible').click();
-    cy.findAllByTestId('postView').should('be.visible');
-}
-
-function scrollUpAndPostAMessage(sender, channelId) {
-    scrollUp();
-
-    // # Without the wait the tests seem to fun flaky. Possibly because of ScrollTo having a race with post of message
-    cy.wait(TIMEOUTS.HALF_SEC); // eslint-disable-line cypress/no-unnecessary-waiting
-
-    // # Post a new message
-    return cy.postMessageAs({sender, message: 'This is a new message', channelId});
-}
-
-function scrollUp() {
-    // # Scroll up so bottom is not visible
-    cy.get('div.post-list__dynamic').should('be.visible').scrollTo(0, '70%', {duration: TIMEOUTS.ONE_SEC}).wait(TIMEOUTS.ONE_SEC);
-}

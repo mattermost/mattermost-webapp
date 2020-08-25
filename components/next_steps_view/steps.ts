@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 import {createSelector} from 'reselect';
 
+import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
 import {UserProfile} from 'mattermost-redux/types/users';
 
@@ -11,6 +12,9 @@ import {localizeMessage} from 'utils/utils';
 
 import CompleteProfileStep from './steps/complete_profile_step';
 import SetupPreferencesStep from './steps/setup_preferences_step';
+import InviteMembersStep from './steps/invite_members_step';
+import TeamProfileStep from './steps/team_profile_step';
+import EnableNotificationsStep from './steps/enable_notifications_step/enable_notifications_step';
 
 export type StepComponentProps = {
     id: string;
@@ -29,35 +33,61 @@ export type StepType = {
 export const Steps: StepType[] = [
     {
         id: RecommendedNextSteps.COMPLETE_PROFILE,
-        title: localizeMessage('next_steps_view.titles.completeProfile', 'Complete your profile'),
+        title: localizeMessage(
+            'next_steps_view.titles.completeProfile',
+            'Complete your profile'
+        ),
         component: CompleteProfileStep,
         roles: ['system_admin', 'system_user'],
     },
     {
         id: RecommendedNextSteps.TEAM_SETUP,
-        title: localizeMessage('next_steps_view.titles.teamSetup', 'Name your team'),
-        component: CompleteProfileStep,
-        roles: ['system_admin'],
+        title: localizeMessage(
+            'next_steps_view.titles.teamSetup',
+            'Name your team'
+        ),
+        roles: ['system_user'],
+        component: TeamProfileStep,
     },
     {
         id: RecommendedNextSteps.INVITE_MEMBERS,
-        title: localizeMessage('next_steps_view.titles.inviteMembers', 'Invite members to the team'),
-        component: CompleteProfileStep,
-        roles: ['system_admin'],
+        title: localizeMessage(
+            'next_steps_view.titles.inviteMembers',
+            'Invite members to the team'
+        ),
+        roles: ['system_user'],
+        component: InviteMembersStep,
     },
     {
         id: RecommendedNextSteps.PREFERENCES_SETUP,
-        title: localizeMessage('next_steps_view.titles.preferenceSetup', 'Set your preferences'),
-        component: SetupPreferencesStep,
+        title: localizeMessage(
+            'next_steps_view.titles.preferenceSetup',
+            'Set your preferences'
+        ),
         roles: ['system_user'],
-    }
+        component: SetupPreferencesStep,
+    },
+    {
+        id: RecommendedNextSteps.NOTIFICATION_SETUP,
+        title: localizeMessage(
+            'next_steps_view.notificationSetup.setNotifications',
+            'Turn on notifications'
+        ),
+        roles: ['system_user'],
+        component: EnableNotificationsStep,
+    },
 ];
 
 const getCategory = makeGetCategory();
 export const showNextSteps = createSelector(
     (state: GlobalState) => getCategory(state, Preferences.RECOMMENDED_NEXT_STEPS),
-    (stepPreferences) => {
+    (state: GlobalState) => getLicense(state),
+    (stepPreferences, license) => {
         if (stepPreferences.some((pref) => pref.name === RecommendedNextSteps.HIDE && pref.value)) {
+            return false;
+        }
+
+        if (license.Cloud !== 'true') {
             return false;
         }
 

@@ -5,12 +5,20 @@
     border: 0;
     outline: 0;
     color: var(--center-channel-color);
-    padding: 0 12px;
+    padding: 0;
     font-size: 12px;
     line-height: 30px;
     box-shadow: none;
     z-index: 2;
     border-radius: 4px;
+}
+
+.Input_wrapper {
+    color: rgba(var(--center-channel-color-rgb), 0.56);
+    padding: 0 12px;
+    font-size: 12px;
+    line-height: 30px;
+    display: flex;
 }
 
 .Input_container {
@@ -25,7 +33,8 @@
     color: rgba(var(--center-channel-color-rgb), 0.64);
 }
 
-.Input___focus {
+.Input.Input___focus.a11y--focused {
+    box-shadow: none;
 }
 
 .Input___error, .Input___info {
@@ -71,6 +80,10 @@
     color: var(--button-bg);
 }
 
+.Input_fieldset:focus-within .Input_legend {
+    color: var(--button-bg);
+}
+
 .Input_fieldset___legend {
 }
 
@@ -101,9 +114,10 @@
     padding: 0 4px;
     white-space: nowrap;
     border: none;
+    color: rgba(var(--center-channel-color-rgb), 0.64);
 }
 
-.Input_fieldset___error .Input_legend{
+.Input_fieldset___error .Input_legend, .Input_fieldset___error:focus-within .Input_legend {
     color: var(--error-text);
 }
 
@@ -111,5 +125,4 @@
     opacity: 1;
     padding: 0 4px;
     transform: translateY(0);
-    color: var(--button-bg);
 }

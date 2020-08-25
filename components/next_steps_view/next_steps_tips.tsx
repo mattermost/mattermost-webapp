@@ -94,7 +94,7 @@ export default function NextStepsTips(props: {showFinalScreen: boolean; animatin
                         />
                         <MenuWrapper>
                             <button
-                                className='NextStepsView__button confirm'
+                                className='NextStepsView__button NextStepsView__finishButton primary'
                             >
                                 <FormattedMessage
                                     id='next_steps_view.tips.configureLogin.button'
@@ -132,7 +132,7 @@ export default function NextStepsTips(props: {showFinalScreen: boolean; animatin
                             defaultMessage='Visit the Plugins Marketplace to install and configure plugins.'
                         />
                         <button
-                            className='NextStepsView__button confirm'
+                            className='NextStepsView__button NextStepsView__finishButton primary'
                             onClick={() => openPluginMarketplace(dispatch)}
                         >
                             <FormattedMessage
@@ -174,13 +174,13 @@ export default function NextStepsTips(props: {showFinalScreen: boolean; animatin
                     </h3>
                     <div className='NextStepsView__downloadButtons'>
                         <button
-                            className='NextStepsView__downloadForPlatformButton'
+                            className='NextStepsView__button NextStepsView__downloadForPlatformButton secondary'
                             onClick={downloadLatest}
                         >
                             {getDownloadButtonString()}
                         </button>
                         <button
-                            className='NextStepsView__downloadAnyButton'
+                            className='NextStepsView__button NextStepsView__downloadAnyButton tertiary'
                             onClick={seeAllApps}
                         >
                             <FormattedMessage
@@ -233,7 +233,7 @@ export default function NextStepsTips(props: {showFinalScreen: boolean; animatin
                                 defaultMessage='Let us show you around with a guided tour of the interface.'
                             />
                             <button
-                                className='NextStepsView__button confirm'
+                                className='NextStepsView__button NextStepsView__finishButton primary'
                                 onClick={() => {}}
                             >
                                 <FormattedMessage

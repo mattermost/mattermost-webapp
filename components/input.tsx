@@ -11,6 +11,7 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
     required?: boolean;
     hasError?: boolean;
     addon?: React.ReactElement;
+    textPrefix?: string;
 }
 
 type State = {
@@ -95,7 +96,7 @@ export default class Input extends React.PureComponent<Props, State> {
     }
 
     public render() {
-        const {value, placeholder, className, error: propError, hasError, addon, name, ...otherProps} = this.props;
+        const {value, placeholder, className, error: propError, hasError, addon, name, textPrefix, ...otherProps} = this.props;
         const {focused, error: stateError} = this.state;
         let inputClass = className ? `Input ${className}` : 'Input';
         let fieldsetClass = className ? `Input_fieldset ${className}` : 'Input_fieldset';
@@ -112,17 +113,20 @@ export default class Input extends React.PureComponent<Props, State> {
             <div className='Input_container'>
                 <fieldset className={error || hasError ? fieldsetErrorClass : fieldsetClass}>
                     <legend className={showLegend ? 'Input_legend Input_legend___focus' : 'Input_legend'}>{showLegend ? placeholder : null}</legend>
-                    <input
-                        id={`input_${name}`}
-                        className={inputClass}
-                        value={value}
-                        placeholder={focused ? '' : placeholder}
-                        name={name}
-                        {...otherProps}
-                        onFocus={this.onFocus}
-                        onBlur={this.onBlur}
-                        onChange={this.onChange}
-                    />
+                    <div className='Input_wrapper'>
+                        {textPrefix && <span>{textPrefix}</span>}
+                        <input
+                            id={`input_${name}`}
+                            className={inputClass}
+                            value={value}
+                            placeholder={focused ? '' : placeholder}
+                            name={name}
+                            {...otherProps}
+                            onFocus={this.onFocus}
+                            onBlur={this.onBlur}
+                            onChange={this.onChange}
+                        />
+                    </div>
                     {addon}
                 </fieldset>
                 {error ? this.renderError(error) : this.renderInfo()}

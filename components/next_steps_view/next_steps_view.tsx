@@ -11,9 +11,9 @@ import {UserProfile} from 'mattermost-redux/types/users';
 import Accordion from 'components/accordion';
 import Card from 'components/card/card';
 
+import cloudLogo from 'images/cloud-logo.svg';
 import onboardingSuccess from 'images/onboarding-success.svg';
 import loadingIcon from 'images/spinner-48x48-blue.apng';
-import professionalLogo from 'images/cloud-logos/professional.svg';
 import {Preferences} from 'utils/constants';
 
 import {Steps, StepType} from './steps';
@@ -25,7 +25,6 @@ const TRANSITION_SCREEN_TIMEOUT = 1000;
 type Props = {
     currentUser: UserProfile;
     preferences: PreferenceType[];
-    skuName: string;
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => void;
         setShowNextStepsView: (show: boolean) => void;
@@ -48,15 +47,6 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
             showTransitionScreen: false,
             animating: false,
         };
-    }
-
-    getLogo = () => {
-        // TODO: Switch logos based on edition once we have the other logos
-
-        switch (this.props.skuName) {
-        default:
-            return professionalLogo;
-        }
     }
 
     getStartingStep = () => {
@@ -226,7 +216,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                         </h2>
                     </div>
                     <div className='NextStepsView__header-logo'>
-                        <img src={this.getLogo()}/>
+                        <img src={cloudLogo}/>
                     </div>
                 </header>
                 <div className='NextStepsView__body'>
@@ -242,6 +232,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                         </Accordion>
                         <div className='NextStepsView__skipGettingStarted'>
                             <button
+                                className='NextStepsView__button tertiary'
                                 onClick={this.showFinalScreen}
                             >
                                 <FormattedMessage
