@@ -58,6 +58,7 @@ function mapStateToProps(state: GlobalState) {
     const samlNicknameAttributeSet = config.SamlNicknameAttributeSet === 'true';
     const samlPositionAttributeSet = config.SamlPositionAttributeSet === 'true';
     const ldapPositionAttributeSet = config.LdapPositionAttributeSet === 'true';
+    const ldapPictureAttributeSet = config.LdapPictureAttributeSet === 'true';
 
     return {
         requireEmailVerification,
@@ -70,6 +71,7 @@ function mapStateToProps(state: GlobalState) {
         samlNicknameAttributeSet,
         samlPositionAttributeSet,
         ldapPositionAttributeSet,
+        ldapPictureAttributeSet,
     };
 }
 
