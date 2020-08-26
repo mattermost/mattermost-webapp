@@ -42,7 +42,7 @@ export default class TeamSettingsModal extends React.PureComponent {
     }
 
     collapseModal = () => {
-        $(ReactDOM.findDOMNode(this.modalBodyRef.current)).closest('.modal-dialog').removeClass('display--content');
+        $(ReactDOM.findDOMNode(this.modalBodyRef.current)).closest('.modal-dialog').removeClass('display--content'); // eslint-disable-line jquery/no-closest, jquery/no-class
 
         this.setState({
             active_tab: '',

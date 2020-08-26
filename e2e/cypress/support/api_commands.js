@@ -272,19 +272,6 @@ Cypress.Commands.add('apiGetTeam', (teamId) => {
 });
 
 /**
- * Demote a Member to Guest directly via API
- * @param {String} userId - The user ID
- * All parameter required
- */
-Cypress.Commands.add('demoteUser', (userId) => {
-    //Demote Regular Member to Guest User
-    const baseUrl = Cypress.config('baseUrl');
-    const admin = getAdminAccount();
-
-    cy.externalRequest({user: admin, method: 'post', baseUrl, path: `users/${userId}/demote`});
-});
-
-/**
  * Remove a User from a Channel directly via API
  * @param {String} channelId - The channel ID
  * @param {String} userId - The user ID
@@ -310,19 +297,6 @@ Cypress.Commands.add('removeUserFromTeam', (teamId, userId) => {
     const admin = getAdminAccount();
 
     cy.externalRequest({user: admin, method: 'delete', baseUrl, path: `teams/${teamId}/members/${userId}`});
-});
-
-/**
- * Promote a Guest to a Member directly via API
- * @param {String} userId - The user ID
- * All parameter required
- */
-Cypress.Commands.add('promoteUser', (userId) => {
-    //Promote Regular Member to Guest User
-    const baseUrl = Cypress.config('baseUrl');
-    const admin = getAdminAccount();
-
-    cy.externalRequest({user: admin, method: 'post', baseUrl, path: `users/${userId}/promote`});
 });
 
 // *****************************************************************************
@@ -860,124 +834,5 @@ function linkUnlinkGroupSyncable(groupID, syncableID, syncableType, httpMethod) 
     }).then((response) => {
         expect(response.status).to.be.oneOf([200, 201, 204]);
         return cy.wrap(response);
-    });
-}
-
-// *****************************************************************************
-// SAML
-// https://api.mattermost.com/#tag/SAML
-// *****************************************************************************
-
-/**
- * Get SAML certificate status directly via API.
- */
-Cypress.Commands.add('apiGetSAMLCertificateStatus', () => {
-    return cy.request({
-        headers: {'X-Requested-With': 'XMLHttpRequest'},
-        url: '/api/v4/saml/certificate/status',
-        method: 'GET',
-    }).then((response) => {
-        expect(response.status).to.be.oneOf([200, 201]);
-        return cy.wrap(response);
-    });
-});
-
-/**
- * Get metadata from Identity Provider directly via API.
- *
- * @param {String} samlMetadataUrl
- */
-Cypress.Commands.add('apiGetMetadataFromIdp', (samlMetadataUrl) => {
-    return cy.request({
-        headers: {'X-Requested-With': 'XMLHttpRequest'},
-        url: '/api/v4/saml/metadatafromidp',
-        method: 'POST',
-        body: {saml_metadata_url: samlMetadataUrl},
-    }).then((response) => {
-        expect(response.status, 'Failed to obtain metadata from Identity Provider URL').to.equal(200);
-        return cy.wrap(response);
-    });
-});
-
-/**
- * Upload SAML IDP certificate directly via API
- * @param {String} filename
- */
-Cypress.Commands.add('apiUploadSAMLIDPCert', (filename) => {
-    cy.apiUploadFile('certificate', filename, {url: '/api/v4/saml/certificate/idp', method: 'POST', successStatus: 200});
-});
-
-/**
- * Upload SAML public certificate directly via API
- * @param {String} filename
- */
-Cypress.Commands.add('apiUploadSAMLPublicCert', (filename) => {
-    cy.apiUploadFile('certificate', filename, {url: '/api/v4/saml/certificate/public', method: 'POST', successStatus: 200});
-});
-
-/**
- * Upload SAML private Key directly via API
- * @param {String} filename
- */
-Cypress.Commands.add('apiUploadSAMLPrivateKey', (filename) => {
-    cy.apiUploadFile('certificate', filename, {url: '/api/v4/saml/certificate/private', method: 'POST', successStatus: 200});
-});
-
-// *****************************************************************************
-// Common / Helper commands
-// *****************************************************************************
-
-/**
- * Upload file directly via API
- * @param {String} name - name of form
- * @param {String} filename - name of a file to upload
- * @param {Object} options - request options
- * @param {String} options.url
- * @param {String} options.method
- * @param {Number} options.successStatus
- */
-Cypress.Commands.add('apiUploadFile', (name, filename, options = {}) => {
-    const formData = new FormData();
-
-    cy.fixture(filename, 'binary', {timeout: 1200000}).
-        then(Cypress.Blob.binaryStringToBlob).
-        then((blob) => {
-            formData.set(name, blob, filename);
-            formRequest(options.method, options.url, formData, options.successStatus);
-        });
-});
-
-/**
- * process binary file HTTP form request
- * @param {String} method - Http request method - POST/PUT
- * @param {String} url - HTTP resource URL
- * @param {FormData} FormData - Key value pairs representing form fields and value
- */
-function formRequest(method, url, formData, successStatus) {
-    const baseUrl = Cypress.config('baseUrl');
-    const xhr = new XMLHttpRequest();
-    xhr.open(method, url, false);
-    let cookies = '';
-    cy.getCookie('MMCSRF', {log: false}).then((token) => {
-        //get MMCSRF cookie value
-        const csrfToken = token.value;
-        cy.getCookies({log: false}).then((cookieValues) => {
-            //prepare cookie string
-            cookieValues.forEach((cookie) => {
-                cookies += cookie.name + '=' + cookie.value + '; ';
-            });
-
-            //set headers
-            xhr.setRequestHeader('Access-Control-Allow-Origin', baseUrl);
-            xhr.setRequestHeader('Access-Control-Allow-Methods', 'GET, POST, PUT');
-            xhr.setRequestHeader('X-CSRF-Token', csrfToken);
-            xhr.setRequestHeader('Cookie', cookies);
-            xhr.send(formData);
-            if (xhr.readyState === 4) {
-                expect(xhr.status, 'Expected form request to be processed successfully').to.equal(successStatus);
-            } else {
-                expect(xhr.status, 'Form request process delayed').to.equal(successStatus);
-            }
-        });
     });
 }

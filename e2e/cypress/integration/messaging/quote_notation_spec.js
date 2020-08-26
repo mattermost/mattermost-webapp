@@ -28,7 +28,7 @@ describe('Compact view: Markdown quotation', () => {
         });
     });
 
-    it('M18704-Compact view: Markdown quotation', () => {
+    it('MM-T185 Compact view: Markdown quotation', () => {
         cy.apiLogin(userOne);
         cy.apiCreateDirectChannel([userOne.id, userTwo.id]).then(() => {
             cy.visit(`/${testTeam.name}/messages/@${userTwo.username}`);

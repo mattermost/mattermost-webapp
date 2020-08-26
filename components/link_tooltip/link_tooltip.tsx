@@ -55,7 +55,7 @@ export default class LinkTooltip extends React.PureComponent<Props> {
             this.showTimeout = window.setTimeout(() => {
                 this.show = true;
 
-                $tooltipContainer.show();
+                $tooltipContainer.show(); // eslint-disable-line jquery/no-show
                 $tooltipContainer.children().on('mouseover', () => clearTimeout(this.hideTimeout));
                 $tooltipContainer.children().on('mouseleave', (event: JQueryEventObject) => {
                     if (event.relatedTarget !== null) {
@@ -84,7 +84,7 @@ export default class LinkTooltip extends React.PureComponent<Props> {
             //prevent executing the showTimeout after the hideTooltip
             clearTimeout(this.showTimeout);
 
-            $(this.tooltipContainerRef.current).hide();
+            $(this.tooltipContainerRef.current).hide(); // eslint-disable-line jquery/no-hide
         }, Constants.OVERLAY_TIME_DELAY_SMALL);
     };
 

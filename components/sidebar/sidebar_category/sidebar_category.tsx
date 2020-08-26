@@ -174,6 +174,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
             <React.Fragment>
                 <Draggable
                     draggableId={`NEW_CHANNEL_SPACER__${category.id}`}
+                    isDragDisabled={true}
                     index={0}
                 >
                     {(provided) => {
@@ -212,8 +213,13 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
     }
 
     render() {
-        const {category, categoryIndex, isCollapsed, channels} = this.props;
-        const isNewCategory = this.props.isNewCategory && !channels.length;
+        const {
+            category,
+            categoryIndex,
+            channels,
+            isCollapsed,
+            isNewCategory,
+        } = this.props;
 
         if (!category) {
             return null;
@@ -242,7 +248,8 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
             categoryMenu = (
                 <SidebarCategoryMenu
                     category={category}
-                    onToggle={this.handleMenuToggle}
+                    isMenuOpen={this.state.isMenuOpen}
+                    onToggleMenu={this.handleMenuToggle}
                 />
             );
         } else if (category.type === CategoryTypes.DIRECT_MESSAGES) {
@@ -314,7 +321,8 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
             categoryMenu = (
                 <SidebarCategoryMenu
                     category={category}
-                    onToggle={this.handleMenuToggle}
+                    isMenuOpen={this.state.isMenuOpen}
+                    onToggleMenu={this.handleMenuToggle}
                 />
             );
         }

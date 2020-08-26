@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow} from 'enzyme';
+import {mount, shallow} from 'enzyme';
 
 import SidebarMenu from './sidebar_menu';
 
@@ -15,7 +15,8 @@ describe('components/sidebar/sidebar_menu', () => {
         ariaLabel: 'some other aria label',
         draggingState: {},
         refCallback: jest.fn(),
-        onToggle: jest.fn(),
+        isMenuOpen: false,
+        onToggleMenu: jest.fn(),
     };
 
     test('should match snapshot', () => {
@@ -27,31 +28,39 @@ describe('components/sidebar/sidebar_menu', () => {
     });
 
     test('should set menu state and set position when menu is toggled', () => {
+        const props = {
+            ...baseProps,
+            children: [
+                <li
+                    key='test-item'
+                    id='test-item'
+                />,
+            ],
+        };
+
         const wrapper = shallow<SidebarMenu>(
-            <SidebarMenu {...baseProps}/>,
+            <SidebarMenu {...props}/>,
         );
 
         wrapper.instance().setMenuPosition = jest.fn();
 
-        wrapper.instance().handleMenuToggle(true);
-        expect(wrapper.instance().state.isMenuOpen).toEqual(true);
+        wrapper.setProps({isMenuOpen: true});
         expect(wrapper.instance().setMenuPosition).toHaveBeenCalled();
 
-        wrapper.instance().handleMenuToggle(false);
-        expect(wrapper.instance().state.isMenuOpen).toEqual(false);
+        wrapper.setProps({isMenuOpen: false});
         expect(wrapper.instance().setMenuPosition).toHaveBeenCalled();
     });
 
     test('should call external onToggle when menu is toggled', () => {
-        const wrapper = shallow<SidebarMenu>(
+        const wrapper = mount<SidebarMenu>(
             <SidebarMenu {...baseProps}/>,
         );
 
-        wrapper.instance().handleMenuToggle(true);
-        expect(baseProps.onToggle).toHaveBeenCalledWith(true);
+        wrapper.find('button').simulate('click');
+        expect(baseProps.onToggleMenu).toHaveBeenCalledWith(true);
 
-        wrapper.instance().handleMenuToggle(false);
-        expect(baseProps.onToggle).toHaveBeenCalledWith(false);
+        wrapper.find('button').simulate('click');
+        expect(baseProps.onToggleMenu).toHaveBeenCalledWith(false);
     });
 
     test('should set the openUp and width properties correctly based on window and ref information', () => {

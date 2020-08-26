@@ -100,4 +100,36 @@ this is long text this is long text this is long text this is long text this is 
 
         expect(output).not.toContain('post-code--wrap');
     });
+
+    test('should highlight code with Tex highlighting without rendering', () => {
+        const output = format(`~~~texcode
+\\sqrt{x * y + 2}
+~~~`);
+
+        expect(output).toContain('<span class="post-code__language">TeX</span>');
+        expect(output).toContain('<code class="hljs hljs-ln">');
+    });
+
+    test('<a> should contain target=_blank for external links', () => {
+        const output = format('[external_link](http://example.com)', {siteURL: 'http://localhost'});
+
+        expect(output).toContain('<a class="theme markdown__link" href="http://example.com" rel="noreferrer" target="_blank">external_link</a>');
+    });
+
+    test('<a> should not contain target=_blank for internal links', () => {
+        const output = format('[internal_link](http://localhost/example)', {siteURL: 'http://localhost'});
+
+        expect(output).toContain('<a class="theme markdown__link" href="http://localhost/example" rel="noreferrer" data-link="/example">internal_link</a>');
+    });
+
+    test('<a> should not contain target=_blank for pl|channels|messages links', () => {
+        const pl = format('[thread](/reiciendis-0/pl/b3hrs3brjjn7fk4kge3xmeuffc))', {siteURL: 'http://localhost'});
+        expect(pl).toContain('<a class="theme markdown__link" href="/reiciendis-0/pl/b3hrs3brjjn7fk4kge3xmeuffc" rel="noreferrer" data-link="/reiciendis-0/pl/b3hrs3brjjn7fk4kge3xmeuffc">thread</a>');
+
+        const channels = format('[thread](/reiciendis-0/channels/b3hrs3brjjn7fk4kge3xmeuffc))', {siteURL: 'http://localhost'});
+        expect(channels).toContain('<a class="theme markdown__link" href="/reiciendis-0/channels/b3hrs3brjjn7fk4kge3xmeuffc" rel="noreferrer" data-link="/reiciendis-0/channels/b3hrs3brjjn7fk4kge3xmeuffc">thread</a>');
+
+        const messages = format('[thread](/reiciendis-0/messages/b3hrs3brjjn7fk4kge3xmeuffc))', {siteURL: 'http://localhost'});
+        expect(messages).toContain('<a class="theme markdown__link" href="/reiciendis-0/messages/b3hrs3brjjn7fk4kge3xmeuffc" rel="noreferrer" data-link="/reiciendis-0/messages/b3hrs3brjjn7fk4kge3xmeuffc">thread</a>');
+    });
 });
