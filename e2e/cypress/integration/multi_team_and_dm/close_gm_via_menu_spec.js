@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @multi_team_and_dm
 
 describe('Multi-user group messages', () => {
@@ -19,7 +18,7 @@ describe('Multi-user group messages', () => {
             testUser = user;
             testTeam = team;
 
-            // # Add 10 users to the team
+            // # Add 3 users to the team
             Cypress._.times(3, () => createUserAndAddToTeam(testTeam));
         });
     });
@@ -45,7 +44,7 @@ describe('Multi-user group messages', () => {
         cy.get('#channelHeaderDropdownIcon').click();
 
         // # Click 'close' item
-        cy.get('#channelCloseMessage > .style--none > .MenuItem__primary-text').click();
+        cy.findByText('Close Group Message').should('be.visible').click();
 
         // * Validate that GM is closed and we are redirected
         expectActiveChannelToBe('Town Square', '/town-square');
