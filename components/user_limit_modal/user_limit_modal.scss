@@ -40,8 +40,8 @@
         height: 48px;
         min-height: 48px;
         border-radius: 8px;
-        color:var(--center-channel-color);
-        background: #FFFFFF !important;
+        color: var(--center-channel-color);
+        background: var(--center-channel-bg) !important;
     }
 
     .modal-body {
@@ -92,6 +92,7 @@
                 line-height: 14px;
                 align-items: center;
                 align-self: center;
+                background: var(--center-channel-bg)
             }
 
             .confirm-button {
@@ -101,12 +102,12 @@
                 }
                 height: 40px;
                 padding: 12px 20px;
-                background: var(--sys-button-bg);
+                background: var(--button-bg);
                 flex: none;
                 font-weight: 600;
                 font-size: 14px;
                 line-height: 14px;
-                color: #FFFFFF;
+                color: var(--sys-button-color);
                 border-radius: 4px;
                 margin-left: 8px;
                 border: none;
