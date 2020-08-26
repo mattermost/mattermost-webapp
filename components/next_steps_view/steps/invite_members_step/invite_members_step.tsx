@@ -153,20 +153,26 @@ export default class InviteMembersStep extends React.PureComponent<Props, State>
     }
 
     copyLink = () => {
-        const textField = document.createElement('textarea');
-        textField.innerText = this.getInviteURL();
-        textField.style.position = 'fixed';
-        textField.style.opacity = '0';
+        const clipboard = navigator.clipboard;
+        if (clipboard) {
+            clipboard.writeText(this.getInviteURL());
+            this.setState({copiedLink: true});
+        } else {
+            const textField = document.createElement('textarea');
+            textField.innerText = this.getInviteURL();
+            textField.style.position = 'fixed';
+            textField.style.opacity = '0';
 
-        document.body.appendChild(textField);
-        textField.select();
+            document.body.appendChild(textField);
+            textField.select();
 
-        try {
-            this.setState({copiedLink: document.execCommand('copy')});
-        } catch (err) {
-            this.setState({copiedLink: false});
+            try {
+                this.setState({copiedLink: document.execCommand('copy')});
+            } catch (err) {
+                this.setState({copiedLink: false});
+            }
+            textField.remove();
         }
-        textField.remove();
 
         if (this.timeout) {
             clearTimeout(this.timeout);
@@ -254,12 +260,12 @@ export default class InviteMembersStep extends React.PureComponent<Props, State>
                                 readOnly={true}
                                 value={this.getInviteURL()}
                                 aria-label={Utils.localizeMessage({id: 'next_steps_view.invite_members_step.shareLinkInput', defaultMessage: 'team invite link'})}
-                                data-testid='shareLinkInput'
+                                data-testid='InviteMembersStep__shareLinkInput'
                             />
                             <button
                                 className={classNames('NextStepsView__button InviteMembersStep__shareLinkInputButton secondary', {copied: this.state.copiedLink})}
                                 onClick={this.copyLink}
-                                data-testid='shareLinkInputButton'
+                                data-testid='InviteMembersStep__shareLinkInputButton'
                             >
                                 {!this.state.copiedLink &&
                                     <>

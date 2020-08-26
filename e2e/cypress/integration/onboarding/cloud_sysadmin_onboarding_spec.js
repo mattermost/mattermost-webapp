@@ -366,4 +366,48 @@ describe('Cloud Onboarding - Sysadmin', () => {
         // * Verify that Send button is now enabled
         cy.findByTestId('InviteMembersStep__sendButton').should('not.be.disabled');
     });
+
+    it('Cloud Onboarding - Copy invite link', () => {
+        cy.apiCreateTeam('team').then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
+
+            // # Stub out clipboard
+            const clipboard = {link: '', wasCalled: false};
+            cy.window().then((win) => {
+                cy.stub(win.navigator.clipboard, 'writeText', (link) => {
+                    clipboard.wasCalled = true;
+                    clipboard.link = link;
+                });
+            });
+
+            // # Get invite link
+            const baseUrl = Cypress.config('baseUrl');
+            const inviteLink = `${baseUrl}/signup_user_complete/?id=${team.invite_id}`;
+
+            // * Verify initial state
+            cy.wrap(clipboard).its('link').should('eq', '');
+
+            // * Make sure channel view has loaded
+            cy.url().should('include', `/${team.name}/channels/town-square`);
+
+            // # Click Invite members to the team header
+            cy.get('button.NextStepsView__cardHeader:contains(Invite members to the team)').should('be.visible').click();
+
+            // * Check to make sure card is expanded
+            cy.get('.Card__body.expanded .InviteMembersStep').should('be.visible');
+
+            // * Verify correct invite link is displayed
+            cy.findByTestId('InviteMembersStep__shareLinkInput').should('be.visible').and('have.value', `${baseUrl}/signup_user_complete/?id=${team.invite_id}`);
+
+            // # Click Copy Link
+            cy.findByTestId('InviteMembersStep__shareLinkInputButton').should('be.visible').and('contain', 'Copy Link').click();
+
+            // * Verify that button reads Copied
+            cy.findByTestId('InviteMembersStep__shareLinkInputButton').should('be.visible').and('contain', 'Copied');
+
+            // * Verify if it's called with correct link value
+            cy.wrap(clipboard).its('wasCalled').should('eq', true);
+            cy.wrap(clipboard).its('link').should('eq', inviteLink);
+        });
+    });
 });
