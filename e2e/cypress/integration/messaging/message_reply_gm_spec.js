@@ -53,7 +53,7 @@ describe('MM-T470 Reply in existing GM', () => {
             cy.visit(`/${testTeam.name}/channels/${gmChannel.name}`);
             const rootPostMessage = `this is test message from user: ${otherUser1.id}`;
 
-            // # Post Message as otherUser1
+            // # Post message as otherUser1
             cy.postMessageAs({sender: otherUser1, message: rootPostMessage, channelId: gmChannel.id}).then((post) => {
                 const rootPostId = post.id;
                 const rootPostMessageId = `#rhsPostMessageText_${rootPostId}`;
