@@ -82,14 +82,14 @@ exports[`components/next_steps_view/steps/invite_members_step should match snaps
             }
           }
           className="InviteMembersStep__shareLinkInput"
-          data-testid="shareLinkInput"
+          data-testid="InviteMembersStep__shareLinkInput"
           readOnly={true}
           type="text"
           value="http://localhost:8065/signup_user_complete/?id="
         />
         <button
           className="NextStepsView__button InviteMembersStep__shareLinkInputButton secondary"
-          data-testid="shareLinkInputButton"
+          data-testid="InviteMembersStep__shareLinkInputButton"
           onClick={[Function]}
         >
           <i
