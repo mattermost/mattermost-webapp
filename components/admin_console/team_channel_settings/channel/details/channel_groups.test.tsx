@@ -34,6 +34,7 @@ describe('admin_console/team_channel_settings/channel/ChannelGroups', () => {
                 channel={testChannel}
                 totalGroups={1}
                 setNewGroupRole={jest.fn()}
+                isDisabled={false}
             />,
         );
         expect(wrapper).toMatchSnapshot();
