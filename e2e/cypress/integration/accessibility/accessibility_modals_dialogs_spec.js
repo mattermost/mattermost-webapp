@@ -61,7 +61,7 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
         cy.visit(`/${testTeam.name}/channels/town-square`);
     });
 
-    it('MM-22623 Accessibility Support in Different Modals and Dialog screen', () => {
+    it('MM-T1454 Accessibility Support in Different Modals and Dialog screen', () => {
         // * Verify the aria-label in main menu button
         cy.get('#headerInfo button').should('have.attr', 'aria-label', 'main menu');
 
@@ -86,7 +86,7 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
         verifyChannelMenuModal('Rename Channel', 'Rename Channel', 'renameChannelModalLabel');
     });
 
-    it('MM-22623 Accessibility Support in Direct Messages Dialog screen', () => {
+    it('MM-T1466 Accessibility Support in Direct Messages Dialog screen', () => {
         // * Verify the aria-label in create direct message button
         cy.get('#addDirectChannel').should('have.attr', 'aria-label', 'write a direct message').click();
 
@@ -125,7 +125,7 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
         });
     });
 
-    it('MM-22623 Accessibility Support in More Channels Dialog screen', () => {
+    it('MM-T1467 Accessibility Support in More Channels Dialog screen', () => {
         // # Create atleast 2 channels
         cy.apiCreateChannel(testTeam.id, 'accessibility', 'accessibility');
         cy.apiCreateChannel(testTeam.id, 'accessibility', 'accessibility').then(() => {
@@ -175,7 +175,7 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
         });
     });
 
-    it('MM-22623 Accessibility Support in Add New Members to Channel Dialog screen', () => {
+    it('MM-T1468 Accessibility Support in Add New Members to Channel Dialog screen', () => {
         // # Add atleast 5 users
         for (let i = 0; i < 5; i++) {
             cy.apiCreateUser().then(({user}) => { // eslint-disable-line
@@ -225,7 +225,7 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
         });
     });
 
-    it('MM-22623 Accessibility Support in Manage Channel Members Dialog screen', () => {
+    it('MM-T1487 Accessibility Support in Manage Channel Members Dialog screen', () => {
         // # Visit test team and channel
         cy.visit(`/${testTeam.name}/channels/off-topic`);
 
@@ -267,7 +267,7 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
         });
     });
 
-    it('MM-24050 Verify Accessibility Support in Invite People Flow', () => {
+    it('MM-T1515 Verify Accessibility Support in Invite People Flow', () => {
         // # Open Invite People
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
         cy.get('#invitePeople').should('be.visible').click();
