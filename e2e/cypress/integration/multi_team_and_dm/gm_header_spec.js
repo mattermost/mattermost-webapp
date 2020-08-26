@@ -53,14 +53,14 @@ describe('Multi-user group header', () => {
         const header = 'this is a header!';
         cy.get('#editChannelHeaderModalLabel').should('be.visible');
         cy.get('textarea#edit_textbox').should('be.visible').type(`${header}{enter}`);
+        cy.get('#editChannelHeaderModalLabel').should('not.be.visible'); // wait for modal to disappear
 
         // * text appears in the top center panel
         cy.contains('#channelHeaderDescription span.header-description__text p', header);
 
         // * there is a system message notifying of the change
         cy.getLastPostId().then((id) => {
-            // * The system message should contain 'added to the channel by you'
-            cy.get(`#postMessageText_${id}`).should('contain', 'updated the channel header');
+            cy.get(`#postMessageText_${id}`).should('contain', 'updated the channel header to:');
         });
 
         // * channel is marked as read for the current user
@@ -69,19 +69,41 @@ describe('Multi-user group header', () => {
         // * channel is marked as unread for other user
         cy.apiLogout();
         cy.apiLogin(userList[0]);
-
+        cy.visit(`/${testTeam.name}/channels/town-square`);
         cy.get(`#sidebarItem_${groupChannel.name}`).should(beUnread);
+        cy.apiLogout();
     });
     it('MM-T473 Edit GM channel header', () => {
+        // # open existing GM
         cy.apiLogin(testUser);
         cy.visit(`/${testTeam.name}/channels/${groupChannel.name}`);
 
-        // # open existing GM
         // * verify header is set
+        cy.contains('#channelHeaderDescription button span', 'Add a channel description').should('not.be.visible');
+
         // # Click edit channel header
+        cy.get('#channelHeaderDropdownButton button').click();
+        cy.get('#channelEditHeader button').click();
+
         // # type new header
+        const header = 'this is a new header!';
+        cy.get('#editChannelHeaderModalLabel').should('be.visible');
+        cy.get('textarea#edit_textbox').should('be.visible').type(`${header}{enter}`);
+        cy.get('#editChannelHeaderModalLabel').should('not.be.visible'); // wait for modal to disappear
+
         // * text appears at the top
+        cy.contains('#channelHeaderDescription span.header-description__text p', header);
+
         // * system message is posted notifying of the change
+        cy.getLastPostId().then((id) => {
+            cy.get(`#postMessageText_${id}`).should('contain', 'updated the channel header from:');
+        });
+
         // * channel is marked as unread for other users
+        cy.apiLogout();
+        cy.apiLogin(userList[0]);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.get(`#sidebarItem_${groupChannel.name}`).should(beUnread);
+        cy.apiLogout();
     });
 });
