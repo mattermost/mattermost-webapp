@@ -12,6 +12,8 @@
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
+import {beRead, beUnread} from '../../support/assertions';
+
 describe('Mark as Unread', () => {
     let testUser;
 
@@ -281,16 +283,6 @@ function switchToChannel(channel) {
 
     // # Wait some time for the channel to set state
     cy.wait(TIMEOUTS.HALF_SEC);
-}
-
-function beRead(items) {
-    expect(items).to.have.length(1);
-    expect(items[0].className).to.not.match(/unread-title/);
-}
-
-function beUnread(items) {
-    expect(items).to.have.length(1);
-    expect(items[0].className).to.match(/unread-title/);
 }
 
 function markAsUnreadFromMenu(post, prefix = 'post', location = 'CENTER') {
