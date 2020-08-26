@@ -122,21 +122,6 @@ describe('Close group messages', () => {
         });
     });
 
-    it('MM-T474 - Through x button on channel sidebar item for favorited channel', () => {
-        createAndVisitGMChannel([otherUser1, otherUser2]).then((channel) => {
-            // # Favorite the channel
-            cy.get('#toggleFavorite').click();
-
-            // * Check that the channel is on top of favorites list
-            cy.get('#favoriteChannelList > li:nth-child(2) > div > a').should('have.attr', 'id', 'sidebarItem_' + channel.name);
-
-            // # Click on the x button on the sidebar channel item
-            cy.get('#sidebarItem_' + channel.name + '>span.btn-close').click({force: true});
-
-            verifyChannelWasProperlyClosed(channel.name);
-        });
-    });
-
     function createAndVisitGMChannel(users = []) {
         const userIds = users.map((user) => user.id);
         return cy.apiCreateGroupChannel(userIds).then((res) => {
