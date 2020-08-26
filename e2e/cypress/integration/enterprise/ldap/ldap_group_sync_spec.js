@@ -254,6 +254,12 @@ context('ldap', () => {
         // });
 
 
+        it('MM-T2638 - Permalink from when public does not auto-join (non-system-admin) after converting to private', () => {
+
+
+        });
+
+
 
 
     });
