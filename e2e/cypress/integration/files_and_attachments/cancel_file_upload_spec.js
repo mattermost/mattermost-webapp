@@ -19,10 +19,17 @@ describe('Upload Files', () => {
     });
 
     it('MM-T307 Cancel a file upload', () => {
-        let filename = 'huge-image.jpg';
+        const hugeImage = 'huge-image.jpg';
+
+        const options = {method: 'POST', url: '/api/v4/files'};
+        cy.server();
+
+        // # Stub response of /files endpoint
+        cy.route({...options, response: {client_ids: [], file_infos: []}});
 
         // # Post an image in center channel
-        cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(filename);
+        cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(hugeImage);
+
         // * Verify thumbnail of ongoing file upload
         cy.get('.file-preview__container').should('be.visible').within(() => {
             cy.get('.post-image__thumbnail').should('be.visible');
@@ -37,9 +44,11 @@ describe('Upload Files', () => {
         cy.get('.post-image').should('not.exist');
         cy.findByLabelText('file thumbnail').should('not.exist');
 
-        filename = 'long_text_post.txt';
+        // # Release response of /files endpoint
+        cy.route({...options});
 
         // # Post a different file in center channel
+        const filename = 'long_text_post.txt';
         cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(filename);
         cy.postMessage('{enter}');
     });
