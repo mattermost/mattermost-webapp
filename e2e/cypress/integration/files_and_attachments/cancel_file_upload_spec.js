@@ -51,5 +51,13 @@ describe('Upload Files', () => {
         const filename = 'long_text_post.txt';
         cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(filename);
         cy.postMessage('{enter}');
+
+        // * Verify the file is successfully posted as last post
+        cy.getLastPostId().then((postId) => {
+            cy.get(`#${postId}_message`).should('exist').within(() => {
+                // * Check if file name appeared
+                cy.findByText(filename).should('exist');
+            });
+        });
     });
 });
