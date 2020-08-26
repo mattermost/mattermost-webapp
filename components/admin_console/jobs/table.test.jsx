@@ -131,7 +131,7 @@ describe('components/admin_console/jobs/table', () => {
         expect(headers).toHaveLength(cols.length);
     });
 
-    test('files column should now show', () => {
+    test('files column should not show', () => {
         const cols = [
             {header: ''},
             {header: 'Status'},
