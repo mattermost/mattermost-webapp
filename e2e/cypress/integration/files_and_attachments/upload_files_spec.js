@@ -12,12 +12,24 @@
 
 describe('Upload Files', () => {
     let testTeam;
+    let testChannel;
+    let otherUser;
 
     before(() => {
         // # Create new team and new user and visit Town Square channel
-        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+        cy.apiInitSetup().then(({team, channel}) => {
             testTeam = team;
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+            testChannel = channel;
+
+            cy.apiCreateUser().then(({user: user2}) => {
+                otherUser = user2;
+
+                cy.apiAddUserToTeam(testTeam.id, otherUser.id).then(() => {
+                    cy.apiAddUserToChannel(testChannel.id, otherUser.id);
+                });
+            });
+
+            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
         });
     });
 
@@ -51,5 +63,27 @@ describe('Upload Files', () => {
                 expect(img.width() / img.height()).to.be.closeTo(aspectRatio, 0.01);
             });
         });
+    });
+
+    it('MM-T12 Loading indicator when posting images', () => {
+        const filename = 'huge-image.jpg';
+
+        // # Post an image in center channel
+        cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(filename);
+        cy.get('.post-image').should('be.visible');
+        cy.postMessage('{enter}');
+
+        // # Login as otherUser
+        cy.apiLogin(otherUser);
+
+        // # OtherUser creates posts in the channel
+        cy.postMessageAs({
+            sender: otherUser,
+            message: 'post1',
+            channelId: testChannel.id,
+        });
+
+        // * Verify image is not loading for each posts
+        cy.get('.image-loading__container').should('not.be.visible');
     });
 });
