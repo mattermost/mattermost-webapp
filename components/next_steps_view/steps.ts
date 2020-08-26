@@ -49,7 +49,8 @@ const getCategory = makeGetCategory();
 export const showNextSteps = createSelector(
     (state: GlobalState) => getCategory(state, Preferences.RECOMMENDED_NEXT_STEPS),
     (state: GlobalState) => getLicense(state),
-    (stepPreferences, license) => {
+    (state: GlobalState) => nextStepsNotFinished(state),
+    (stepPreferences, license, nextStepsNotFinished) => {
         if (stepPreferences.some((pref) => pref.name === RecommendedNextSteps.HIDE && pref.value === 'true')) {
             return false;
         }
@@ -58,7 +59,14 @@ export const showNextSteps = createSelector(
             return false;
         }
 
-        const checkPref = (step: StepType) => stepPreferences.some((pref) => pref.name === step.id && pref.value === 'true');
+        return nextStepsNotFinished;
+    }
+);
+
+export const nextStepsNotFinished = createSelector(
+    (state: GlobalState) => getCategory(state, Preferences.RECOMMENDED_NEXT_STEPS),
+    (stepPreferences) => {
+        const checkPref = (step: StepType) => stepPreferences.some((pref) => pref.name === step.id && pref.value);
         return !Steps.every(checkPref);
     }
 );
