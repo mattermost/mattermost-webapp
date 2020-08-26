@@ -46,7 +46,7 @@ describe('components/next_steps_view/steps', () => {
                 },
                 preferences: {
                     myPreferences: {
-                        'recommended_next_steps--hide': {name: 'hide', value: true},
+                        'recommended_next_steps--hide': {name: 'hide', value: 'true'},
                     },
                 },
             },
@@ -65,9 +65,9 @@ describe('components/next_steps_view/steps', () => {
                 },
                 preferences: {
                     myPreferences: {
-                        'recommended_next_steps--complete_profile': {name: 'complete_profile', value: true},
-                        'recommended_next_steps--team_setup': {name: 'team_setup', value: true},
-                        'recommended_next_steps--invite_members': {name: 'invite_members', value: true},
+                        'recommended_next_steps--complete_profile': {name: 'complete_profile', value: 'true'},
+                        'recommended_next_steps--team_setup': {name: 'team_setup', value: 'true'},
+                        'recommended_next_steps--invite_members': {name: 'invite_members', value: 'true'},
                     },
                 },
             },
