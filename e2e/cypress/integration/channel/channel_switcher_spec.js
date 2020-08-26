@@ -74,4 +74,32 @@ describe('Channel Switcher', () => {
         // * Expect 'nothing found' message
         cy.get('.no-results__title > span').should('be.visible');
     });
+
+    it('MM-T2031_4 - should close on esc and outside click', () => {
+        cy.visit(`/${testTeam.name}/channels/town-square`);
+
+        // # Press CTRL+K (Windows) or CMD+K(Mac)
+        cy.typeCmdOrCtrl().type('K', {release: true});
+
+        // # Press ESC
+        cy.get('#quickSwitchInput').type('{esc}');
+
+        // * Expect the dialog to be closed
+        cy.get('#quickSwitchInput').should('not.exist');
+
+        // * Expect staying in the same channel
+        cy.url().should('contain', 'town-square');
+
+        // # Press CTRL+K (Windows) or CMD+K(Mac)
+        cy.typeCmdOrCtrl().type('K', {release: true});
+
+        // # Click outside of the modal
+        cy.get('.modal').click({force: true});
+
+        // * Expect the dialog to be closed
+        cy.get('#quickSwitchInput').should('not.exist');
+
+        // * Expect staying in the same channel
+        cy.url().should('contain', 'town-square');
+    });
 });
