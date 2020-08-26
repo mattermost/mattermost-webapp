@@ -214,7 +214,7 @@ class Post extends React.PureComponent {
         return false;
     }
 
-    getClassName = (post, isSystemMessage, isMeMessage, fromWebhook, fromAutoResponder) => {
+    getClassName = (post, isSystemMessage, isMeMessage, fromWebhook, fromAutoResponder, fromBot) => {
         let className = 'post';
 
         if (post.failed || post.state === Posts.POST_DELETED) {
@@ -233,6 +233,10 @@ class Post extends React.PureComponent {
             rootUser = 'same--root';
         } else {
             rootUser = 'other--root';
+        }
+
+        if (fromBot) {
+            className += ' post--bot';
         }
 
         let currentUserCss = '';

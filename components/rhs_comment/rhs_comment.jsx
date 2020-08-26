@@ -32,6 +32,7 @@ import Badge from 'components/widgets/badges/badge';
 import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 import PostPreHeader from 'components/post_view/post_pre_header';
 import UserProfile from 'components/user_profile';
+import { Console } from 'console';
 
 class RhsComment extends React.PureComponent {
     static propTypes = {
@@ -282,6 +283,7 @@ class RhsComment extends React.PureComponent {
         const isSystemMessage = PostUtils.isSystemMessage(post);
         const isMeMessage = checkIsMeMessage(post);
         const fromAutoResponder = PostUtils.fromAutoResponder(post);
+        console.log(post);
 
         let botIndicator;
         let profilePicture;
