@@ -11,10 +11,10 @@
 
 import * as MESSAGES from '../../fixtures/messages';
 import * as TIMEOUTS from '../../fixtures/timeouts';
-import {getAdminAccount} from '../../support/env';
 
 describe('Desktop notifications', () => {
-    let testTeam, testUser;
+    let testTeam;
+    let testUser;
 
     before(() => {
         // Initialise a user.
@@ -34,9 +34,9 @@ describe('Desktop notifications', () => {
 
                 // Mock window.Notification to check if desktop notifications are triggered.
                 cy.visit(`/${testTeam.name}/channels/town-square`, {
-                    onBeforeLoad (win) {
-                        cy.stub(win.Notification, 'permission', 'granted')
-                        cy.stub(win, 'Notification').as('Notification')
+                    onBeforeLoad(win) {
+                        cy.stub(win.Notification, 'permission', 'granted');
+                        cy.stub(win, 'Notification').as('Notification');
                     },
                 });
 
