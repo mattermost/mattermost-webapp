@@ -186,7 +186,7 @@ describe('Image Link Preview', () => {
         listOfMinWidthHeightImages.forEach((imageWithMinWidthHeight) => {
             // # Upload Image as attachment and post it
             cy.get('#fileUploadInput').attachFile(imageWithMinWidthHeight.filename);
-            cy.postMessage(`${Date.now()}-${imageWithMinWidthHeight.filename}`);
+            cy.postMessage(`file uploaded-${imageWithMinWidthHeight.filename}`);
 
             // # Get the last uploaded image post
             cy.getLastPostId().then((lastPostId) => {
