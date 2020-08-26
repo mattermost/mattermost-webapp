@@ -78,6 +78,12 @@ class PostList extends React.PureComponent {
          */
         atLatestPost: PropTypes.bool,
 
+        /**
+         * used in passing to post row for enabling animation when loading posts
+         */
+        loadingNewerPosts: PropTypes.bool,
+        loadingOlderPosts: PropTypes.bool,
+
         intl: intlShape.isRequired,
 
         latestPostTimeStamp: PropTypes.number,
@@ -313,6 +319,8 @@ class PostList extends React.PureComponent {
                     loadNewerPosts={this.props.actions.loadNewerPosts}
                     togglePostMenu={this.togglePostMenu}
                     isLastPost={isLastPost}
+                    loadingNewerPosts={this.props.loadingNewerPosts}
+                    loadingOlderPosts={this.props.loadingOlderPosts}
                 />
             </div>
         );

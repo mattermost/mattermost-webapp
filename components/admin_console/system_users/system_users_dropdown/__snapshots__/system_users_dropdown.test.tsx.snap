@@ -230,6 +230,7 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
   <MenuWrapper
     animationComponent={[Function]}
     className=""
+    isDisabled={false}
   >
     <div
       className="text-right"
@@ -488,6 +489,7 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
   <MenuWrapper
     animationComponent={[Function]}
     className=""
+    isDisabled={false}
   >
     <div
       className="text-right"
