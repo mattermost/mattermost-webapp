@@ -75,126 +75,186 @@ context('ldap', () => {
             });
         });
 
-        it('MM-T1537 - Sync Group Removal from Channel Configuration Page', () => {
-            // # Login as sysadmin and add board-one to test team
-            cy.apiAdminLogin();
-            cy.visit(`/admin_console/user_management/channels/${testChannel.id}`);
-            cy.wait(2000); //eslint-disable-line cypress/no-unnecessary-waiting
+        // it('MM-T1537 - Sync Group Removal from Channel Configuration Page', () => {
+        //     // # Login as sysadmin and add board-one to test team
+        //     cy.apiAdminLogin();
+        //     cy.visit(`/admin_console/user_management/channels/${testChannel.id}`);
+        //     cy.wait(2000); //eslint-disable-line cypress/no-unnecessary-waiting
 
-            cy.findByTestId('addGroupsToChannelToggle').click();
-            cy.get('#multiSelectList').should('be.visible');
-            cy.get('#multiSelectList>div').children().eq(0).click();
-            cy.get('#saveItems').click();
+        //     cy.findByTestId('addGroupsToChannelToggle').click();
+        //     cy.get('#multiSelectList').should('be.visible');
+        //     cy.get('#multiSelectList>div').children().eq(0).click();
+        //     cy.get('#saveItems').click();
 
-            cy.findByTestId('addGroupsToChannelToggle').click();
-            cy.get('#multiSelectList').should('be.visible');
-            cy.get('#multiSelectList>div').children().eq(0).click();
-            cy.get('#saveItems').click();
+        //     cy.findByTestId('addGroupsToChannelToggle').click();
+        //     cy.get('#multiSelectList').should('be.visible');
+        //     cy.get('#multiSelectList>div').children().eq(0).click();
+        //     cy.get('#saveItems').click();
 
-            cy.get('#saveSetting').should('be.enabled').click({force: true});
-            cy.wait(1000); //eslint-disable-line cypress/no-unnecessary-waiting
+        //     cy.get('#saveSetting').should('be.enabled').click({force: true});
+        //     cy.wait(1000); //eslint-disable-line cypress/no-unnecessary-waiting
 
-            cy.visit(`/admin_console/user_management/channels/${testChannel.id}`);
-            cy.wait(1000); //eslint-disable-line cypress/no-unnecessary-waiting
+        //     cy.visit(`/admin_console/user_management/channels/${testChannel.id}`);
+        //     cy.wait(1000); //eslint-disable-line cypress/no-unnecessary-waiting
 
-            cy.get('.group-row').eq(0).scrollIntoView().should('be.visible').within(() => {
-                cy.get('.group-name').should('have.text', 'board');
-                cy.get('.group-actions > a').should('have.text', 'Remove').click({force: true});
-            });
+        //     cy.get('.group-row').eq(0).scrollIntoView().should('be.visible').within(() => {
+        //         cy.get('.group-name').should('have.text', 'board');
+        //         cy.get('.group-actions > a').should('have.text', 'Remove').click({force: true});
+        //     });
 
-            cy.get('#saveSetting').should('be.enabled').click({force: true});
-            cy.wait(1000); //eslint-disable-line cypress/no-unnecessary-waiting
+        //     cy.get('#saveSetting').should('be.enabled').click({force: true});
+        //     cy.wait(1000); //eslint-disable-line cypress/no-unnecessary-waiting
 
-            cy.visit(`/admin_console/user_management/channels/${testChannel.id}`);
-            cy.wait(1000); //eslint-disable-line cypress/no-unnecessary-waiting
+        //     cy.visit(`/admin_console/user_management/channels/${testChannel.id}`);
+        //     cy.wait(1000); //eslint-disable-line cypress/no-unnecessary-waiting
 
-            cy.get('.group-row').should('have.length', 1);
-        });
+        //     cy.get('.group-row').should('have.length', 1);
+        // });
 
-        it('MM-T2618 - Team Configuration Page: Group removal User removed from sync\'ed team', () => {
-            // # Login as sysadmin and add board-one to test team
-            cy.apiAdminLogin();
-            cy.visit(`/admin_console/user_management/teams/${testTeam.id}`);
-            cy.wait(2000); //eslint-disable-line cypress/no-unnecessary-waiting
+        // it('MM-T2618 - Team Configuration Page: Group removal User removed from sync\'ed team', () => {
+        //     // # Login as sysadmin and add board-one to test team
+        //     cy.apiAdminLogin();
+        //     cy.visit(`/admin_console/user_management/teams/${testTeam.id}`);
+        //     cy.wait(2000); //eslint-disable-line cypress/no-unnecessary-waiting
 
-            cy.findByTestId('syncGroupSwitch').scrollIntoView().click();
+        //     cy.findByTestId('syncGroupSwitch').scrollIntoView().click();
 
-            cy.findByTestId('addGroupsToTeamToggle').scrollIntoView().click();
-            cy.get('#multiSelectList').should('be.visible');
-            cy.get('#multiSelectList>div').children().eq(0).click();
-            cy.get('#saveItems').click();
+        //     cy.findByTestId('addGroupsToTeamToggle').scrollIntoView().click();
+        //     cy.get('#multiSelectList').should('be.visible');
+        //     cy.get('#multiSelectList>div').children().eq(0).click();
+        //     cy.get('#saveItems').click();
 
-            cy.get('#saveSetting').should('be.enabled').click({force: true});
-            cy.wait(1000); //eslint-disable-line cypress/no-unnecessary-waiting
+        //     cy.get('#saveSetting').should('be.enabled').click({force: true});
+        //     cy.wait(1000); //eslint-disable-line cypress/no-unnecessary-waiting
 
-            cy.get('#confirmModalButton').should('be.visible').click();
+        //     cy.get('#confirmModalButton').should('be.visible').click();
 
-            cy.visit('/admin_console/user_management/groups');
-            cy.get('#board_edit').click();
+        //     cy.visit('/admin_console/user_management/groups');
+        //     cy.get('#board_edit').click();
 
-            cy.findByTestId(`${testTeam.display_name}_groupsyncable_remove`).click();
-            cy.get('#confirmModalBody').should('be.visible').and('have.text', `Removing this membership will prevent future users in this group from being added to the ${testTeam.display_name} team.`);
-            cy.get('#confirmModalButton').should('be.visible').click();
-            cy.get('#saveSetting').click();
-        });
+        //     cy.findByTestId(`${testTeam.display_name}_groupsyncable_remove`).click();
+        //     cy.get('#confirmModalBody').should('be.visible').and('have.text', `Removing this membership will prevent future users in this group from being added to the ${testTeam.display_name} team.`);
+        //     cy.get('#confirmModalButton').should('be.visible').click();
+        //     cy.get('#saveSetting').click();
+        // });
 
-        it('MM-T2621 - Team List Management Column', () => {
-            let testTeam2;
+        // it('MM-T2621 - Team List Management Column', () => {
+        //     let testTeam2;
 
-            // # Login as sysadmin and add board-one to test team
-            cy.apiAdminLogin();
-            cy.visit(`/admin_console/user_management/teams/${testTeam.id}`);
-            cy.wait(2000); //eslint-disable-line cypress/no-unnecessary-waiting
+        //     // # Login as sysadmin and add board-one to test team
+        //     cy.apiAdminLogin();
+        //     cy.visit(`/admin_console/user_management/teams/${testTeam.id}`);
+        //     cy.wait(2000); //eslint-disable-line cypress/no-unnecessary-waiting
 
-            cy.findByTestId('allowAllToggleSwitch').scrollIntoView().click();
+        //     cy.findByTestId('allowAllToggleSwitch').scrollIntoView().click();
 
-            cy.get('#saveSetting').should('be.enabled').click({force: true});
-            cy.wait(1000); //eslint-disable-line cypress/no-unnecessary-waiting
+        //     cy.get('#saveSetting').should('be.enabled').click({force: true});
+        //     cy.wait(1000); //eslint-disable-line cypress/no-unnecessary-waiting
 
-            // # Start with a new team
-            cy.apiCreateTeam('team', 'Team').then(({team}) => {
-                testTeam2 = team;
-                cy.visit('/admin_console/user_management/teams');
+        //     // # Start with a new team
+        //     cy.apiCreateTeam('team', 'Team').then(({team}) => {
+        //         testTeam2 = team;
+        //         cy.visit('/admin_console/user_management/teams');
 
-                // # Search for the team.
-                cy.get('.DataGrid_searchBar').within(() => {
-                    cy.findByPlaceholderText('Search').should('be.visible').type(`${testTeam.display_name}{enter}`);
-                });
+        //         // # Search for the team.
+        //         cy.get('.DataGrid_searchBar').within(() => {
+        //             cy.findByPlaceholderText('Search').should('be.visible').type(`${testTeam.display_name}{enter}`);
+        //         });
 
-                cy.findByTestId(`${testTeam.name}_management`).should('have.text', 'Anyone Can Join');
+        //         cy.findByTestId(`${testTeam.name}_management`).should('have.text', 'Anyone Can Join');
 
-                cy.get('.DataGrid_searchBar').within(() => {
-                    cy.findByPlaceholderText('Search').should('be.visible').clear().type(`${testTeam2.display_name}{enter}`);
-                });
+        //         cy.get('.DataGrid_searchBar').within(() => {
+        //             cy.findByPlaceholderText('Search').should('be.visible').clear().type(`${testTeam2.display_name}{enter}`);
+        //         });
 
-                cy.findByTestId(`${testTeam2.name}_management`).should('have.text', 'Invite Only');
-            });
-        });
+        //         cy.findByTestId(`${testTeam2.name}_management`).should('have.text', 'Invite Only');
+        //     });
+        // });
 
-        it('MM-T2628 - List of Channels', () => {
-            // # Login as sysadmin and add board-one to test team
-            cy.apiAdminLogin();
-            cy.visit(`/admin_console/user_management/channels/${testChannel.id}`);
-            cy.wait(2000); //eslint-disable-line cypress/no-unnecessary-waiting
+        // it('MM-T2628 - List of Channels', () => {
+        //     // # Login as sysadmin and add board-one to test team
+        //     cy.apiAdminLogin();
+        //     cy.visit(`/admin_console/user_management/channels/${testChannel.id}`);
+        //     cy.wait(2000); //eslint-disable-line cypress/no-unnecessary-waiting
 
-            // Make it private and then cancel
-            cy.findByTestId('allow-all-toggle').click();
-            cy.get('#cancelButtonSettings').click();
-            cy.get('#confirmModalButton').click();
-            cy.visit(`/admin_console/user_management/channels/${testChannel.id}`);
-            cy.wait(2000); //eslint-disable-line cypress/no-unnecessary-waiting
-            cy.findByTestId('allow-all-toggle').should('has.have.text', 'Public');
+        //     // Make it private and then cancel
+        //     cy.findByTestId('allow-all-toggle').click();
+        //     cy.get('#cancelButtonSettings').click();
+        //     cy.get('#confirmModalButton').click();
+        //     cy.visit(`/admin_console/user_management/channels/${testChannel.id}`);
+        //     cy.wait(2000); //eslint-disable-line cypress/no-unnecessary-waiting
+        //     cy.findByTestId('allow-all-toggle').should('has.have.text', 'Public');
 
-            // Make it private
-            cy.findByTestId('allow-all-toggle').click();
-            cy.get('#saveSetting').should('be.enabled').click({force: true});
-            cy.get('#confirmModalButton').click();
-            cy.visit(`/${testTeam.name}`);
-            cy.get('#sidebarPublicChannelsMore').click();
+        //     // Make it private
+        //     cy.findByTestId('allow-all-toggle').click();
+        //     cy.get('#saveSetting').should('be.enabled').click({force: true});
+        //     cy.get('#confirmModalButton').click();
+        //     cy.visit(`/${testTeam.name}`);
+        //     cy.get('#sidebarPublicChannelsMore').click();
 
-            // * Search private channel name and make sure it isn't there
-            cy.get('#searchChannelsTextbox').type(`${testChannel.display_name}`);
-            cy.get('#moreChannelsList').should('include.text', 'No more channels to join');
-        });
+        //     // * Search private channel name and make sure it isn't there
+        //     cy.get('#searchChannelsTextbox').type(`${testChannel.display_name}`);
+        //     cy.get('#moreChannelsList').should('include.text', 'No more channels to join');
+        // });
+
+
+        // it('MM-T2629 - Private to public - More....', () => {
+        //     // # Create new test channel
+        //     cy.apiCreateChannel(
+        //         testTeam.id,
+        //         'private-channel-test',
+        //         'Private channel',
+        //         'P',
+        //     ).then((res) => {
+        //         const privateChannel = res.body;
+
+        //         // # Login as sysadmin and add board-one to test team
+        //         cy.apiAdminLogin();
+        //         cy.visit(`/admin_console/user_management/channels/${privateChannel.id}`);
+        //         cy.wait(2000); //eslint-disable-line cypress/no-unnecessary-waiting
+
+        //         // Make it public and then cancel
+        //         cy.findByTestId('allow-all-toggle').click();
+        //         cy.get('#cancelButtonSettings').click();
+        //         cy.get('#confirmModalButton').click();
+        //         cy.visit(`/admin_console/user_management/channels/${privateChannel.id}`);
+        //         cy.wait(2000); //eslint-disable-line cypress/no-unnecessary-waiting
+        //         cy.findByTestId('allow-all-toggle').should('has.have.text', 'Private');
+
+        //         // Make it public
+        //         cy.findByTestId('allow-all-toggle').click();
+        //         cy.get('#saveSetting').should('be.enabled').click({force: true});
+        //         cy.get('#confirmModalButton').click();
+
+        //         // # Ensure the last message in the message says that it was converted to a public chnanle
+        //         cy.visit(`/${testTeam.name}/channels/${privateChannel.name}`);
+        //         cy.wait(2000); //eslint-disable-line cypress/no-unnecessary-waiting
+        //         cy.getLastPostId().then((id) => {
+        //             // * The system message should contain 'This channel has been converted to a Public Channel and can be joined by any team member'
+        //             cy.get(`#postMessageText_${id}`).should('contain', 'This channel has been converted to a Public Channel and can be joined by any team member');
+        //         });
+        //     });
+        // });
+
+
+        // it('MM-T2630 - Default channel cannot be toggled to private', () => {
+        //     cy.visit('/admin_console/user_management/channels');
+
+        //     // # Search for the channel.
+        //     cy.get('.DataGrid_searchBar').within(() => {
+        //         cy.findByPlaceholderText('Search').should('be.visible').type(`Town Square`);
+        //     });
+        //     cy.wait(2000); //eslint-disable-line cypress/no-unnecessary-waiting
+        //     cy.findAllByTestId('town-squareedit').then((elements) => {
+        //         elements[0].click();
+        //         cy.wait(2000); //eslint-disable-line cypress/no-unnecessary-waiting
+        //         cy.findByTestId('allow-all-toggle-button').should('be.disabled');
+        //     });
+
+        // });
+
+
+
+
     });
 });
