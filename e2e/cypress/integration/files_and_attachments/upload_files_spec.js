@@ -53,6 +53,9 @@ describe('Upload Files', () => {
                 expect(img.width() / img.height()).to.be.closeTo(aspectRatio, 0.01);
             });
         });
+
+        // # Close the RHS panel
+        cy.closeRHS();
     });
 
     it('MM-T340 Download - File name link on thumbnail', () => {
@@ -96,7 +99,7 @@ describe('Upload Files', () => {
                     // # If file type is document then file container will be rendered
                     if (file.type === 'document') {
                         // * Check if the download icon is exists
-                        cy.findByLabelText('download').should('exist').and((fileAttachment) => {
+                        cy.findByLabelText('download').should('exist').then((fileAttachment) => {
                             // * Verify that download link has correct name
                             verifyLinkHasDownloadProperties(fileAttachment, file.filename);
                         });
@@ -121,7 +124,7 @@ describe('Upload Files', () => {
             cy.get('.a11y__modal').should('exist').and('be.visible').
                 within(() => {
                     // * Check for download property of the download button
-                    cy.findByText('Download').should('be.visible').parent().and((fileAttachment) => {
+                    cy.findByText('Download').should('be.visible').parent().then((fileAttachment) => {
                         // * Verify that download link has correct name
                         verifyLinkHasDownloadProperties(fileAttachment, file.filename);
                     });
@@ -137,6 +140,14 @@ function verifyLinkHasDownloadProperties(fileAttachment, filename) {
     // * Verify if download attribute exists which allows to download instead of navigation
     expect(fileAttachment.attr('download')).to.equal(filename);
 
-    // * Verify it has a not empty download link
-    expect(fileAttachment.attr('href')).is.not.null;
+    // * Verify it has not empty download link
+    cy.request(fileAttachment.attr('href')).then((response) => {
+        // * Verify that link can be downloaded
+        expect(response.status).to.equal(200);
+
+        // * Verify if link is an attachment that can be saved locally
+        // and it contains the correct filename* which will be used to name the downloaded file
+        expect(response.headers['content-disposition']).to.
+            equal(`attachment;filename="${filename}"; filename*=UTF-8''${filename}`);
+    });
 }
