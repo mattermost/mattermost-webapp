@@ -3,6 +3,7 @@
      .modal-dialog {
         position: absolute;
         width: 512px;
+        margin: auto;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%) !important;
@@ -94,6 +95,10 @@
             }
 
             .confirm-button {
+                &:hover, &:active, &:focus, &:active:focus {
+                    background: linear-gradient(0deg, rgba(var(--sys-center-channel-color-rgb), 0.16), rgba(var(--sys-center-channel-color-rgb), 0.16)),
+                    var(--sys-button-bg);
+                }
                 height: 40px;
                 padding: 12px 20px;
                 background: var(--sys-button-bg);
