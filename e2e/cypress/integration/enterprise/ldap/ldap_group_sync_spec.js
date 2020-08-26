@@ -79,7 +79,7 @@ context('ldap', () => {
             // # Login as sysadmin and add board-one to test team
             cy.apiAdminLogin();
             cy.visit(`/admin_console/user_management/channels/${testChannel.id}`);
-            cy.wait(2000);
+            cy.wait(2000); //eslint-disable-line cypress/no-unnecessary-waiting
 
             cy.findByTestId('addGroupsToChannelToggle').click();
             cy.get('#multiSelectList').should('be.visible');
@@ -92,10 +92,10 @@ context('ldap', () => {
             cy.get('#saveItems').click();
 
             cy.get('#saveSetting').should('be.enabled').click({force: true});
-            cy.wait(1000);
+            cy.wait(1000); //eslint-disable-line cypress/no-unnecessary-waiting
 
             cy.visit(`/admin_console/user_management/channels/${testChannel.id}`);
-            cy.wait(1000);
+            cy.wait(1000); //eslint-disable-line cypress/no-unnecessary-waiting
 
             cy.get('.group-row').eq(0).scrollIntoView().should('be.visible').within(() => {
                 cy.get('.group-name').should('have.text', 'board');
@@ -103,10 +103,10 @@ context('ldap', () => {
             });
 
             cy.get('#saveSetting').should('be.enabled').click({force: true});
-            cy.wait(1000);
+            cy.wait(1000); //eslint-disable-line cypress/no-unnecessary-waiting
 
             cy.visit(`/admin_console/user_management/channels/${testChannel.id}`);
-            cy.wait(1000);
+            cy.wait(1000); //eslint-disable-line cypress/no-unnecessary-waiting
 
             cy.get('.group-row').should('have.length', 1);
         });
@@ -115,7 +115,7 @@ context('ldap', () => {
             // # Login as sysadmin and add board-one to test team
             cy.apiAdminLogin();
             cy.visit(`/admin_console/user_management/teams/${testTeam.id}`);
-            cy.wait(2000);
+            cy.wait(2000); //eslint-disable-line cypress/no-unnecessary-waiting
 
             cy.findByTestId('syncGroupSwitch').scrollIntoView().click();
 
@@ -125,7 +125,7 @@ context('ldap', () => {
             cy.get('#saveItems').click();
 
             cy.get('#saveSetting').should('be.enabled').click({force: true});
-            cy.wait(1000);
+            cy.wait(1000); //eslint-disable-line cypress/no-unnecessary-waiting
 
             cy.get('#confirmModalButton').should('be.visible').click();
 
@@ -144,12 +144,12 @@ context('ldap', () => {
             // # Login as sysadmin and add board-one to test team
             cy.apiAdminLogin();
             cy.visit(`/admin_console/user_management/teams/${testTeam.id}`);
-            cy.wait(2000);
+            cy.wait(2000); //eslint-disable-line cypress/no-unnecessary-waiting
 
             cy.findByTestId('allowAllToggleSwitch').scrollIntoView().click();
 
             cy.get('#saveSetting').should('be.enabled').click({force: true});
-            cy.wait(1000);
+            cy.wait(1000); //eslint-disable-line cypress/no-unnecessary-waiting
 
             // # Start with a new team
             cy.apiCreateTeam('team', 'Team').then(({team}) => {
@@ -175,14 +175,14 @@ context('ldap', () => {
             // # Login as sysadmin and add board-one to test team
             cy.apiAdminLogin();
             cy.visit(`/admin_console/user_management/channels/${testChannel.id}`);
-            cy.wait(2000);
+            cy.wait(2000); //eslint-disable-line cypress/no-unnecessary-waiting
 
             // Make it private and then cancel
             cy.findByTestId('allow-all-toggle').click();
             cy.get('#cancelButtonSettings').click();
             cy.get('#confirmModalButton').click();
             cy.visit(`/admin_console/user_management/channels/${testChannel.id}`);
-            cy.wait(2000);
+            cy.wait(2000); //eslint-disable-line cypress/no-unnecessary-waiting
             cy.findByTestId('allow-all-toggle').should('has.have.text', 'Public');
 
             // Make it private
