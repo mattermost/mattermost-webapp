@@ -161,6 +161,14 @@ describe('Cloud Onboarding - Sysadmin', () => {
         // * Verify the sidebar section and the main view are gone and the channel view is back
         cy.get('.SidebarNextSteps').should('not.exist');
         cy.get('.app__content:not(.NextStepsView)').should('be.visible');
+
+        // # Click 'Getting Started' in the main menu
+        cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
+        cy.get('.dropdown-menu .MenuItem:contains(Getting Started)').should('be.visible').click();
+
+        // * Verify that sidebar element and next steps view are back
+        cy.get('.SidebarNextSteps').should('be.visible');
+        cy.get('.app__content.NextStepsView').should('be.visible');
     });
 
     /*
@@ -317,7 +325,7 @@ describe('Cloud Onboarding - Sysadmin', () => {
         // # Click Send
         cy.findByTestId('InviteMembersStep__sendButton').should('not.be.disabled').click();
 
-        // * Verify that 2 invitations were sent
+        // * Verify that 4 invitations were sent
         cy.get('.InviteMembersStep__invitationResults').should('contain', '4 invitations sent');
     });
 
