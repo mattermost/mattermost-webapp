@@ -28,7 +28,7 @@ describe('Channel Switcher', () => {
         });
     });
 
-    it('MM-T2031 - should switch channels by keyboard', () => {
+    it('MM-T2031_1 - should switch channels by keyboard', () => {
         // # Press CTRL+K (Windows) or CMD+K(Mac)
         cy.typeCmdOrCtrl().type('K', {release: true});
 
@@ -46,7 +46,7 @@ describe('Channel Switcher', () => {
         cy.url().should('contain', 'channel-b');
     });
 
-    it('MM-T2031 - should switch channels by mouse', () => {
+    it('MM-T2031_2 - should switch channels by mouse', () => {
         // # Press CTRL+K (Windows) or CMD+K(Mac)
         cy.typeCmdOrCtrl().type('K', {release: true});
 
@@ -64,7 +64,7 @@ describe('Channel Switcher', () => {
         cy.url().should('contain', 'channel-c');
     });
 
-    it('MM-T2031 - should show empty result', () => {
+    it('MM-T2031_3 - should show empty result', () => {
         // # Press CTRL+K (Windows) or CMD+K(Mac)
         cy.typeCmdOrCtrl().type('K', {release: true});
 
