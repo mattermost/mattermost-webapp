@@ -85,6 +85,7 @@ exports[`admin_console/team_channel_settings/group/GroupRow should match snapsho
       id="group-actions"
     >
       <a
+        className=""
         href="#"
         onClick={[Function]}
       >

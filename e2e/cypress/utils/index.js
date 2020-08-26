@@ -9,10 +9,10 @@ import messageMenusData from '../fixtures/hooks/message_menus.json';
 import messageMenusWithDatasourceData from '../fixtures/hooks/message_menus_with_datasource.json';
 
 /**
- * @param {Number} length - length on random string to return, e.g. 6 (default)
+ * @param {Number} length - length on random string to return, e.g. 7 (default)
  * @return {String} random string
  */
-export function getRandomId(length = 6) {
+export function getRandomId(length = 7) {
     const MAX_SUBSTRING_INDEX = 27;
 
     return uuidv4().replace(/-/g, '').substring(MAX_SUBSTRING_INDEX - length, MAX_SUBSTRING_INDEX);
