@@ -6,7 +6,7 @@ import {bindActionCreators, Dispatch} from 'redux';
 
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
-import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUser, isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 
 import {openModal} from 'actions/views/modals';
 
@@ -22,6 +22,7 @@ function makeMapStateToProps() {
     return (state: GlobalState) => {
         return {
             currentUser: getCurrentUser(state),
+            isAdmin: isCurrentUserSystemAdmin(state),
             preferences: getCategory(state, Preferences.RECOMMENDED_NEXT_STEPS),
         };
     };

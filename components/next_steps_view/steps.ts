@@ -11,7 +11,7 @@ import {RecommendedNextSteps, Preferences} from 'utils/constants';
 import {localizeMessage} from 'utils/utils';
 
 import CompleteProfileStep from './steps/complete_profile_step';
-import SetupPreferencesStep from './steps/setup_preferences_step';
+import SetupPreferencesStep from './steps/setup_preferences_step/setup_preferences_step';
 import InviteMembersStep from './steps/invite_members_step';
 import TeamProfileStep from './steps/team_profile_step';
 import EnableNotificationsStep from './steps/enable_notifications_step/enable_notifications_step';
@@ -27,8 +27,12 @@ export type StepType = {
     id: string;
     title: string;
     component: React.ComponentType<StepComponentProps>;
+
+    // An array of all roles a user must have in order to see the step e.g. admins are both system_admin and system_user
+    // so you would require ['system_admin','system_user'] to match.
+    // to show step for all roles, leave the roles array blank.
     roles: Array<string>;
-}
+};
 
 export const Steps: StepType[] = [
     {
@@ -38,7 +42,7 @@ export const Steps: StepType[] = [
             'Complete your profile'
         ),
         component: CompleteProfileStep,
-        roles: ['system_admin', 'system_user'],
+        roles: [],
     },
     {
         id: RecommendedNextSteps.TEAM_SETUP,
@@ -46,7 +50,7 @@ export const Steps: StepType[] = [
             'next_steps_view.titles.teamSetup',
             'Name your team'
         ),
-        roles: ['system_user'],
+        roles: ['system_admin', 'system_user'],
         component: TeamProfileStep,
     },
     {
@@ -55,17 +59,8 @@ export const Steps: StepType[] = [
             'next_steps_view.titles.inviteMembers',
             'Invite members to the team'
         ),
-        roles: ['system_user'],
+        roles: ['system_admin', 'system_user'],
         component: InviteMembersStep,
-    },
-    {
-        id: RecommendedNextSteps.PREFERENCES_SETUP,
-        title: localizeMessage(
-            'next_steps_view.titles.preferenceSetup',
-            'Set your preferences'
-        ),
-        roles: ['system_user'],
-        component: SetupPreferencesStep,
     },
     {
         id: RecommendedNextSteps.NOTIFICATION_SETUP,
@@ -75,6 +70,15 @@ export const Steps: StepType[] = [
         ),
         roles: ['system_user'],
         component: EnableNotificationsStep,
+    },
+    {
+        id: RecommendedNextSteps.PREFERENCES_SETUP,
+        title: localizeMessage(
+            'next_steps_view.titles.preferenceSetup',
+            'Set your preferences'
+        ),
+        roles: ['system_user'],
+        component: SetupPreferencesStep,
     },
 ];
 

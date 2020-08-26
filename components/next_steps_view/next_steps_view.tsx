@@ -3,6 +3,7 @@
 
 import React from 'react';
 import classNames from 'classnames';
+import {isEqual} from 'lodash';
 import {FormattedMessage} from 'react-intl';
 
 import {PreferenceType} from 'mattermost-redux/types/preferences';
@@ -25,6 +26,7 @@ const TRANSITION_SCREEN_TIMEOUT = 1000;
 type Props = {
     currentUser: UserProfile;
     preferences: PreferenceType[];
+    isAdmin: boolean;
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => void;
         setShowNextStepsView: (show: boolean) => void;
@@ -50,13 +52,13 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
     }
 
     getStartingStep = () => {
-        for (let i = 0; i < Steps.length; i++) {
-            if (!this.isStepComplete(Steps[i].id)) {
-                return Steps[i].id;
+        for (let i = 0; i < this.steps.length; i++) {
+            if (!this.isStepComplete(this.steps[i].id)) {
+                return this.steps[i].id;
             }
         }
 
-        return Steps[0].id;
+        return this.steps[0].id;
     }
 
     onSkip = (setExpanded: (expandedKey: string) => void) => {
@@ -99,13 +101,13 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
     }
 
     nextStep = (setExpanded: (expandedKey: string) => void, id: string) => {
-        const currentIndex = Steps.findIndex((step) => step.id === id);
-        if ((currentIndex + 1) > (Steps.length - 1)) {
+        const currentIndex = this.steps.findIndex((step) => step.id === id);
+        if (currentIndex + 1 > this.steps.length - 1) {
             this.transitionToFinalScreen();
-        } else if (this.isStepComplete(Steps[currentIndex + 1].id)) {
-            this.nextStep(setExpanded, Steps[currentIndex + 1].id);
+        } else if (this.isStepComplete(this.steps[currentIndex + 1].id)) {
+            this.nextStep(setExpanded, this.steps[currentIndex + 1].id);
         } else {
-            setExpanded(Steps[currentIndex + 1].id);
+            setExpanded(this.steps[currentIndex + 1].id);
         }
     }
 
@@ -187,11 +189,13 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
     // Filter the steps shown by checking if our user has any of the required roles for that step
     filterSteps = (step: StepType) => {
         const userRoles = this.props.currentUser.roles.split(' ');
-        return userRoles.some((r) => step.roles.includes(r));
+        return isEqual(userRoles.sort(), step.roles.sort()) || step.roles.length === 0;
     }
 
+    steps = Steps.filter(this.filterSteps);
+
     renderMainBody = () => {
-        const renderedSteps = Steps.filter(this.filterSteps).map(this.renderStep);
+        const renderedSteps = this.steps.map(this.renderStep);
 
         return (
             <div
@@ -260,6 +264,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                     showFinalScreen={this.state.showFinalScreen}
                     animating={this.state.animating}
                     stopAnimating={this.stopAnimating}
+                    isAdmin={this.props.isAdmin}
                 />
             </section>
         );

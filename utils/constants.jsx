@@ -263,6 +263,8 @@ export const ModalIdentifiers = {
     SIDEBAR_WHATS_NEW_MODAL: 'sidebar_whats_new_modal',
     WARN_METRIC_ACK: 'warn_metric_acknowledgement',
     REMOVE_NEXT_STEPS_MODAL: 'remove_next_steps_modal',
+    MORE_CHANNELS: 'more_channels',
+    CREATE_CHANNEL: 'create_channel',
 };
 
 export const UserStatuses = {
