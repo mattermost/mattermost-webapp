@@ -919,7 +919,8 @@
         outline-style: none;
     }
 
-    .SidebarChannel .SidebarLink:hover {
+    .SidebarChannel .SidebarLink:hover,
+    .SidebarChannel .SidebarLink.menuOpen {
         background: rgba(255, 255, 255, 0.08);
 
         padding-right: 5px;
