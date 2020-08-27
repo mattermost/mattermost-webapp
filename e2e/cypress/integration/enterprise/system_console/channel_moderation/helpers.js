@@ -107,7 +107,6 @@ export const enablePermission = (permission) => {
         const classAttribute = el[0].getAttribute('class');
         if (!classAttribute.includes('checked')) {
             el[0].click();
-            cy.wait(TIMEOUTS.HALF_SEC);
             return false;
         }
         return true;
