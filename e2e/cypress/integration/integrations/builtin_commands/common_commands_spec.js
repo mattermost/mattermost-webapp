@@ -292,7 +292,7 @@ describe('I18456 Built-in slash commands: common', () => {
         const userToInvite = userGroup[3];
 
         loginAndVisitDefaultChannel(user1, `${team1.name}/channels/${testChannel.name}`);
-        cy.postMessage('Hello World!');
+        cy.get('#postListContent', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible');
         cy.get('#sidebarItem_town-square').click();
 
         // # Post `/invite @username ~channel` where channelname is a channel you have permission to add members to but not the current channel, and username is a user not in that other channel
