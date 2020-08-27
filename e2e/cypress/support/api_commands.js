@@ -117,6 +117,18 @@ Cypress.Commands.add('apiPatchChannel', (channelId, channelData) => {
     });
 });
 
+Cypress.Commands.add('apiPatchChannelPrivacy', (channelId, privacy = 'O') => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        method: 'PUT',
+        url: `/api/v4/channels/${channelId}/privacy`,
+        body: { privacy },
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response);
+    });
+});
+
 Cypress.Commands.add('apiGetChannelByName', (teamName, channelName) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},

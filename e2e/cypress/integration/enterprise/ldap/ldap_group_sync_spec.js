@@ -31,14 +31,16 @@ context('ldap', () => {
     let testSettings;
     let testChannel;
     let testTeam;
+    let testUser;
 
     describe('LDAP Group Sync Automated Tests', () => {
         beforeEach(() => {
             // * Check if server has license for LDAP
             cy.apiRequireLicenseForFeature('LDAP');
 
-            cy.apiInitSetup().then(({team}) => {
+            cy.apiInitSetup().then(({team, user}) => {
                 testTeam = team;
+                testUser = user;
 
                 cy.apiGetConfig().then(({config}) => {
                     testSettings = setLDAPTestSettings(config);
@@ -255,7 +257,39 @@ context('ldap', () => {
 
 
         it('MM-T2638 - Permalink from when public does not auto-join (non-system-admin) after converting to private', () => {
+            cy.apiLogin(testUser);
 
+            cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+
+            // # Post message to use
+            cy.postMessage('DONT YOU SEE I GOT EVERTYHING YOU NEED .... BABY BABY DONT YOU SEE SEE I GOT EVERYTHING YOU NEED NEED ... ;)');
+
+            cy.getLastPostId().then((id) => {
+                const postId = id;
+                const permalink = `${Cypress.config('baseUrl')}/${testTeam.name}/pl/${postId}`;
+                cy.visit(`/${testTeam.name}/channels/off-topic`);
+
+                cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+                // # Post /leave command in center channel
+                cy.postMessage('/leave');
+                cy.wait(5000); // eslint-disable-line cypress/no-unnecessary-waiting
+
+                cy.visit(`/${testTeam.name}/pl/${postId}`);
+                cy.wait(5000);
+                cy.get('#channelHeaderTitle').should('be.visible').should('contain', testChannel.display_name);
+                
+                cy.postMessage('/leave');
+                cy.wait(5000); // eslint-disable-line cypress/no-unnecessary-waiting
+
+                // # Login as sysadmin and add board-one to test team
+                cy.apiAdminLogin();
+                cy.apiPatchChannelPrivacy(testChannel.id, 'P');
+
+                cy.apiLogin(testUser);
+                cy.visit(`/${testTeam.name}/pl/${postId}`);
+
+                cy.findByTestId('error-message-title').contains('Message Not Found');
+            });
 
         });
 
