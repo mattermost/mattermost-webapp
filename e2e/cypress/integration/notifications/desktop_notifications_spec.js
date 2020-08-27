@@ -40,7 +40,8 @@ describe('Desktop notifications', () => {
                 cy.apiPatchUser(user.id, {notify_props: {...user.notify_props, desktop: 'all'}});
 
                 // Visit the MM webapp with the notification API stubbed.
-                stubNotificationAs('withNotification', `/${testTeam.name}/channels/town-square`, 'granted');
+                cy.visit(`/${testTeam.name}/channels/town-square`);
+                stubNotificationAs('withNotification', 'granted');
 
                 // Make sure user is marked as online.
                 cy.get('#post_textbox').clear().type('/online{enter}');
@@ -67,7 +68,8 @@ describe('Desktop notifications', () => {
                 cy.apiPatchUser(user.id, {notify_props: {...user.notify_props, desktop: 'all'}});
 
                 // Visit the MM webapp with the notification API stubbed.
-                stubNotificationAs('withoutNotification', `/${testTeam.name}/channels/town-square`, 'granted');
+                cy.visit(`/${testTeam.name}/channels/town-square`);
+                stubNotificationAs('withoutNotification', 'granted');
 
                 // # Post the following: /dnd
                 cy.get('#post_textbox').clear().type('/dnd{enter}');
@@ -87,16 +89,19 @@ describe('Desktop notifications', () => {
     });
 });
 
-const stubNotificationAs = (stubName, url, permission) => {
-    const closeStub = cy.stub();
-
+const stubNotificationAs = (name, permission) => {
     // Mock window.Notification to check if desktop notifications are triggered.
-    cy.visit(url, {
-        onBeforeLoad(win) {
-            cy.stub(win.Notification, 'permission', permission);
-            cy.stub(win, 'Notification').returns({close: closeStub}).as(stubName);
-        },
-    });
+    cy.window().then((win) => {
+        function Notification(title, opts) {
+            this.title = title;
+            this.opts = opts;
+        }
 
-    return closeStub;
+        Notification.requestPermission = () => permission;
+        Notification.close = () => true;
+
+        win.Notification = Notification;
+
+        cy.stub(win, 'Notification').as(name);
+    });
 };
