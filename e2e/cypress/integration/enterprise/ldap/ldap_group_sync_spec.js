@@ -9,8 +9,6 @@
 
 // Group: @enterprise @ldap
 
-import users from '../../../fixtures/ldap_users.json';
-
 function setLDAPTestSettings(config) {
     return {
         siteName: config.TeamSettings.SiteName,
@@ -24,11 +22,6 @@ function setLDAPTestSettings(config) {
 // assumes that E20 license is uploaded
 // for setup with AWS: Follow the instructions mentioned in the mattermost/platform-private/config/ldap-test-setup.txt file
 context('ldap', () => {
-    // const user1 = users['test-1'];
-    // const guest1 = users['board-1'];
-    // const admin1 = users['dev-1'];
-
-    let testSettings;
     let testChannel;
     let testTeam;
     let testUser;
@@ -38,12 +31,14 @@ context('ldap', () => {
             // * Check if server has license for LDAP
             cy.apiRequireLicenseForFeature('LDAP');
 
+            // # Initial api setup
             cy.apiInitSetup().then(({team, user}) => {
                 testTeam = team;
                 testUser = user;
 
+                // # Update LDAP settings
                 cy.apiGetConfig().then(({config}) => {
-                    testSettings = setLDAPTestSettings(config);
+                    setLDAPTestSettings(config);
                 });
 
                 // # Login as sysadmin and add board-one to test team
@@ -71,189 +66,241 @@ context('ldap', () => {
                     }
                 });
 
+                // # Create a test channel
                 cy.apiCreateChannel(testTeam.id, 'ldap-group-sync-automated-tests', 'ldap-group-sync-automated-tests').then((response) => {
                     testChannel = response.body;
                 });
             });
         });
 
-        // it('MM-T1537 - Sync Group Removal from Channel Configuration Page', () => {
-        //     // # Login as sysadmin and add board-one to test team
-        //     cy.apiAdminLogin();
-        //     cy.visit(`/admin_console/user_management/channels/${testChannel.id}`);
-        //     cy.wait(2000); //eslint-disable-line cypress/no-unnecessary-waiting
+        it('MM-T1537 - Sync Group Removal from Channel Configuration Page', () => {
+            // # Login as sysadmin and link 2 groups to testChannel
+            cy.apiAdminLogin();
+            cy.visit(`/admin_console/user_management/channels/${testChannel.id}`);
+            cy.wait(2000); //eslint-disable-line cypress/no-unnecessary-waiting
 
-        //     cy.findByTestId('addGroupsToChannelToggle').click();
-        //     cy.get('#multiSelectList').should('be.visible');
-        //     cy.get('#multiSelectList>div').children().eq(0).click();
-        //     cy.get('#saveItems').click();
+            // # Link first group
+            cy.findByTestId('addGroupsToChannelToggle').click();
+            cy.get('#multiSelectList').should('be.visible');
+            cy.get('#multiSelectList>div').children().eq(0).click();
+            cy.get('#saveItems').click();
 
-        //     cy.findByTestId('addGroupsToChannelToggle').click();
-        //     cy.get('#multiSelectList').should('be.visible');
-        //     cy.get('#multiSelectList>div').children().eq(0).click();
-        //     cy.get('#saveItems').click();
+            // # Link second group
+            cy.findByTestId('addGroupsToChannelToggle').click();
+            cy.get('#multiSelectList').should('be.visible');
+            cy.get('#multiSelectList>div').children().eq(0).click();
+            cy.get('#saveItems').click();
 
-        //     cy.get('#saveSetting').should('be.enabled').click({force: true});
-        //     cy.wait(1000); //eslint-disable-line cypress/no-unnecessary-waiting
+            // # Click save settings on bottom screen to save settings
+            cy.get('#saveSetting').should('be.enabled').click({force: true});
+            cy.wait(1000); //eslint-disable-line cypress/no-unnecessary-waiting
 
-        //     cy.visit(`/admin_console/user_management/channels/${testChannel.id}`);
-        //     cy.wait(1000); //eslint-disable-line cypress/no-unnecessary-waiting
+            // # Go back to the testChannel management page
+            cy.visit(`/admin_console/user_management/channels/${testChannel.id}`);
+            cy.wait(1000); //eslint-disable-line cypress/no-unnecessary-waiting
 
-        //     cy.get('.group-row').eq(0).scrollIntoView().should('be.visible').within(() => {
-        //         cy.get('.group-name').should('have.text', 'board');
-        //         cy.get('.group-actions > a').should('have.text', 'Remove').click({force: true});
-        //     });
+            // # Remove the board group we have added
+            cy.get('.group-row').eq(0).scrollIntoView().should('be.visible').within(() => {
+                cy.get('.group-name').should('have.text', 'board');
+                cy.get('.group-actions > a').should('have.text', 'Remove').click({force: true});
+            });
 
-        //     cy.get('#saveSetting').should('be.enabled').click({force: true});
-        //     cy.wait(1000); //eslint-disable-line cypress/no-unnecessary-waiting
+            // # Save settings
+            cy.get('#saveSetting').should('be.enabled').click({force: true});
+            cy.wait(1000); //eslint-disable-line cypress/no-unnecessary-waiting
+            
+            // # Go back to testChannel management page
+            cy.visit(`/admin_console/user_management/channels/${testChannel.id}`);
+            cy.wait(1000); //eslint-disable-line cypress/no-unnecessary-waiting
 
-        //     cy.visit(`/admin_console/user_management/channels/${testChannel.id}`);
-        //     cy.wait(1000); //eslint-disable-line cypress/no-unnecessary-waiting
+            // * Ensure we only have one group row (other group is not there)
+            cy.get('.group-row').should('have.length', 1);
+        });
 
-        //     cy.get('.group-row').should('have.length', 1);
-        // });
+        it('MM-T2618 - Team Configuration Page: Group removal User removed from sync\'ed team', () => {
+            // # Login as sysadmin and add board-one to test team
+            cy.apiAdminLogin();
+            cy.visit(`/admin_console/user_management/teams/${testTeam.id}`);
+            cy.wait(2000); //eslint-disable-line cypress/no-unnecessary-waiting
 
-        // it('MM-T2618 - Team Configuration Page: Group removal User removed from sync\'ed team', () => {
-        //     // # Login as sysadmin and add board-one to test team
-        //     cy.apiAdminLogin();
-        //     cy.visit(`/admin_console/user_management/teams/${testTeam.id}`);
-        //     cy.wait(2000); //eslint-disable-line cypress/no-unnecessary-waiting
+            // # Turn on sync group members
+            cy.findByTestId('syncGroupSwitch').scrollIntoView().click();
 
-        //     cy.findByTestId('syncGroupSwitch').scrollIntoView().click();
+            // # Add board group to team
+            cy.findByTestId('addGroupsToTeamToggle').scrollIntoView().click();
+            cy.get('#multiSelectList').should('be.visible');
+            cy.get('#multiSelectList>div').children().eq(0).click();
+            cy.get('#saveItems').click();
 
-        //     cy.findByTestId('addGroupsToTeamToggle').scrollIntoView().click();
-        //     cy.get('#multiSelectList').should('be.visible');
-        //     cy.get('#multiSelectList>div').children().eq(0).click();
-        //     cy.get('#saveItems').click();
+            // # Save settings
+            cy.get('#saveSetting').should('be.enabled').click({force: true});
+            cy.wait(1000); //eslint-disable-line cypress/no-unnecessary-waiting
 
-        //     cy.get('#saveSetting').should('be.enabled').click({force: true});
-        //     cy.wait(1000); //eslint-disable-line cypress/no-unnecessary-waiting
+            // # Accept confirmation modal
+            cy.get('#confirmModalButton').should('be.visible').click();
 
-        //     cy.get('#confirmModalButton').should('be.visible').click();
+            // # Go to board group edit page
+            cy.visit('/admin_console/user_management/groups');
+            cy.get('#board_edit').click();
 
-        //     cy.visit('/admin_console/user_management/groups');
-        //     cy.get('#board_edit').click();
+            // # Remove the group
+            cy.findByTestId(`${testTeam.display_name}_groupsyncable_remove`).click();
 
-        //     cy.findByTestId(`${testTeam.display_name}_groupsyncable_remove`).click();
-        //     cy.get('#confirmModalBody').should('be.visible').and('have.text', `Removing this membership will prevent future users in this group from being added to the ${testTeam.display_name} team.`);
-        //     cy.get('#confirmModalButton').should('be.visible').click();
-        //     cy.get('#saveSetting').click();
-        // });
+            // * Ensure the confirmation modal shows with the following text
+            cy.get('#confirmModalBody').should('be.visible').and('have.text', `Removing this membership will prevent future users in this group from being added to the ${testTeam.display_name} team.`);
+            
+            // # Accept the modal and save settings
+            cy.get('#confirmModalButton').should('be.visible').click();
+            cy.get('#saveSetting').click();
+        });
 
-        // it('MM-T2621 - Team List Management Column', () => {
-        //     let testTeam2;
+        it('MM-T2621 - Team List Management Column', () => {
+            let testTeam2; 
 
-        //     // # Login as sysadmin and add board-one to test team
-        //     cy.apiAdminLogin();
-        //     cy.visit(`/admin_console/user_management/teams/${testTeam.id}`);
-        //     cy.wait(2000); //eslint-disable-line cypress/no-unnecessary-waiting
+            // # Login as system admin and go to testTeam config page
+            cy.apiAdminLogin();
+            cy.visit(`/admin_console/user_management/teams/${testTeam.id}`);
+            cy.wait(2000); //eslint-disable-line cypress/no-unnecessary-waiting
 
-        //     cy.findByTestId('allowAllToggleSwitch').scrollIntoView().click();
+            // # Make the team so anyone can join it
+            cy.findByTestId('allowAllToggleSwitch').scrollIntoView().click();
 
-        //     cy.get('#saveSetting').should('be.enabled').click({force: true});
-        //     cy.wait(1000); //eslint-disable-line cypress/no-unnecessary-waiting
+            // # Save the settings
+            cy.get('#saveSetting').should('be.enabled').click({force: true});
+            cy.wait(1000); //eslint-disable-line cypress/no-unnecessary-waiting
 
-        //     // # Start with a new team
-        //     cy.apiCreateTeam('team', 'Team').then(({team}) => {
-        //         testTeam2 = team;
-        //         cy.visit('/admin_console/user_management/teams');
+            // # Start with a new team
+            cy.apiCreateTeam('team', 'Team').then(({team}) => {
+                testTeam2 = team;
 
-        //         // # Search for the team.
-        //         cy.get('.DataGrid_searchBar').within(() => {
-        //             cy.findByPlaceholderText('Search').should('be.visible').type(`${testTeam.display_name}{enter}`);
-        //         });
+                // # Go to team management
+                cy.visit('/admin_console/user_management/teams');
 
-        //         cy.findByTestId(`${testTeam.name}_management`).should('have.text', 'Anyone Can Join');
+                // # Search for the team testTeam
+                cy.get('.DataGrid_searchBar').within(() => {
+                    cy.findByPlaceholderText('Search').should('be.visible').type(`${testTeam.display_name}{enter}`);
+                });
 
-        //         cy.get('.DataGrid_searchBar').within(() => {
-        //             cy.findByPlaceholderText('Search').should('be.visible').clear().type(`${testTeam2.display_name}{enter}`);
-        //         });
+                // * Ensure anyone can join text shows 
+                cy.findByTestId(`${testTeam.name}_management`).should('have.text', 'Anyone Can Join');
 
-        //         cy.findByTestId(`${testTeam2.name}_management`).should('have.text', 'Invite Only');
-        //     });
-        // });
+                // * Search for second team we just made
+                cy.get('.DataGrid_searchBar').within(() => {
+                    cy.findByPlaceholderText('Search').should('be.visible').clear().type(`${testTeam2.display_name}{enter}`);
+                }); 
+                
+                // * Ensure the management text shows Invite only
+                cy.findByTestId(`${testTeam2.name}_management`).should('have.text', 'Invite Only');
+            });
+        });
 
-        // it('MM-T2628 - List of Channels', () => {
-        //     // # Login as sysadmin and add board-one to test team
-        //     cy.apiAdminLogin();
-        //     cy.visit(`/admin_console/user_management/channels/${testChannel.id}`);
-        //     cy.wait(2000); //eslint-disable-line cypress/no-unnecessary-waiting
+        it('MM-T2628 - List of Channels', () => {
+            // # Login as sysadmin and add board-one to test team
+            cy.apiAdminLogin();
+            cy.visit(`/admin_console/user_management/channels/${testChannel.id}`);
+            cy.wait(2000); //eslint-disable-line cypress/no-unnecessary-waiting
 
-        //     // Make it private and then cancel
-        //     cy.findByTestId('allow-all-toggle').click();
-        //     cy.get('#cancelButtonSettings').click();
-        //     cy.get('#confirmModalButton').click();
-        //     cy.visit(`/admin_console/user_management/channels/${testChannel.id}`);
-        //     cy.wait(2000); //eslint-disable-line cypress/no-unnecessary-waiting
-        //     cy.findByTestId('allow-all-toggle').should('has.have.text', 'Public');
+            // Make it private and then cancel
+            cy.findByTestId('allow-all-toggle').click();
+            cy.get('#cancelButtonSettings').click();
+            cy.get('#confirmModalButton').click();
+            cy.visit(`/admin_console/user_management/channels/${testChannel.id}`);
+            cy.wait(2000); //eslint-disable-line cypress/no-unnecessary-
+            
+            // * Ensure it still public
+            cy.findByTestId('allow-all-toggle').should('has.have.text', 'Public');
 
-        //     // Make it private
-        //     cy.findByTestId('allow-all-toggle').click();
-        //     cy.get('#saveSetting').should('be.enabled').click({force: true});
-        //     cy.get('#confirmModalButton').click();
-        //     cy.visit(`/${testTeam.name}`);
-        //     cy.get('#sidebarPublicChannelsMore').click();
+            // Make it private and save
+            cy.findByTestId('allow-all-toggle').click();
+            cy.get('#saveSetting').should('be.enabled').click({force: true});
+            cy.get('#confirmModalButton').click();
 
-        //     // * Search private channel name and make sure it isn't there
-        //     cy.get('#searchChannelsTextbox').type(`${testChannel.display_name}`);
-        //     cy.get('#moreChannelsList').should('include.text', 'No more channels to join');
-        // });
+            // # Visit the channel config page for testChannel
+            cy.visit(`/admin_console/user_management/channels/${testChannel.id}`);
+            cy.wait(2000); //eslint-disable-line cypress/no-unnecessary-
+            
+            // * Ensure it is Private
+            cy.findByTestId('allow-all-toggle').should('has.have.text', 'Private');
 
+            // # Go to team page to look for this channel in public chnnale directory
+            cy.visit(`/${testTeam.name}`);
+            cy.get('#sidebarPublicChannelsMore').click();
 
-        // it('MM-T2629 - Private to public - More....', () => {
-        //     // # Create new test channel
-        //     cy.apiCreateChannel(
-        //         testTeam.id,
-        //         'private-channel-test',
-        //         'Private channel',
-        //         'P',
-        //     ).then((res) => {
-        //         const privateChannel = res.body;
-
-        //         // # Login as sysadmin and add board-one to test team
-        //         cy.apiAdminLogin();
-        //         cy.visit(`/admin_console/user_management/channels/${privateChannel.id}`);
-        //         cy.wait(2000); //eslint-disable-line cypress/no-unnecessary-waiting
-
-        //         // Make it public and then cancel
-        //         cy.findByTestId('allow-all-toggle').click();
-        //         cy.get('#cancelButtonSettings').click();
-        //         cy.get('#confirmModalButton').click();
-        //         cy.visit(`/admin_console/user_management/channels/${privateChannel.id}`);
-        //         cy.wait(2000); //eslint-disable-line cypress/no-unnecessary-waiting
-        //         cy.findByTestId('allow-all-toggle').should('has.have.text', 'Private');
-
-        //         // Make it public
-        //         cy.findByTestId('allow-all-toggle').click();
-        //         cy.get('#saveSetting').should('be.enabled').click({force: true});
-        //         cy.get('#confirmModalButton').click();
-
-        //         // # Ensure the last message in the message says that it was converted to a public chnanle
-        //         cy.visit(`/${testTeam.name}/channels/${privateChannel.name}`);
-        //         cy.wait(2000); //eslint-disable-line cypress/no-unnecessary-waiting
-        //         cy.getLastPostId().then((id) => {
-        //             // * The system message should contain 'This channel has been converted to a Public Channel and can be joined by any team member'
-        //             cy.get(`#postMessageText_${id}`).should('contain', 'This channel has been converted to a Public Channel and can be joined by any team member');
-        //         });
-        //     });
-        // });
+            // * Search private channel name and make sure it isn't there in public channel directory 
+            cy.get('#searchChannelsTextbox').type(`${testChannel.display_name}`);
+            cy.get('#moreChannelsList').should('include.text', 'No more channels to join');
+        });
 
 
-        // it('MM-T2630 - Default channel cannot be toggled to private', () => {
-        //     cy.visit('/admin_console/user_management/channels');
+        it('MM-T2629 - Private to public - More....', () => {
+            // # Create new test channel that is private
+            cy.apiCreateChannel(
+                testTeam.id,
+                'private-channel-test',
+                'Private channel',
+                'P',
+            ).then((res) => {
+                const privateChannel = res.body;
 
-        //     // # Search for the channel.
-        //     cy.get('.DataGrid_searchBar').within(() => {
-        //         cy.findByPlaceholderText('Search').should('be.visible').type(`Town Square`);
-        //     });
-        //     cy.wait(2000); //eslint-disable-line cypress/no-unnecessary-waiting
-        //     cy.findAllByTestId('town-squareedit').then((elements) => {
-        //         elements[0].click();
-        //         cy.wait(2000); //eslint-disable-line cypress/no-unnecessary-waiting
-        //         cy.findByTestId('allow-all-toggle-button').should('be.disabled');
-        //     });
+                // # Login as sysadmin
+                cy.apiAdminLogin();
+                cy.visit(`/admin_console/user_management/channels/${privateChannel.id}`);
+                cy.wait(2000); //eslint-disable-line cypress/no-unnecessary-waiting
 
-        // });
+                // Make it public and then cancel
+                cy.findByTestId('allow-all-toggle').click();
+                cy.get('#cancelButtonSettings').click();
+                cy.get('#confirmModalButton').click();
+
+                // Reload
+                cy.visit(`/admin_console/user_management/channels/${privateChannel.id}`);
+                cy.wait(2000); //eslint-disable-line cypress/no-unnecessary-waiting
+
+                // * Ensure it still showing the channel as private
+                cy.findByTestId('allow-all-toggle').should('has.have.text', 'Private');
+
+                // Make it public and save
+                cy.findByTestId('allow-all-toggle').click();
+                cy.get('#saveSetting').should('be.enabled').click({force: true});
+                cy.get('#confirmModalButton').click();
+
+                // Reload
+                cy.visit(`/admin_console/user_management/channels/${privateChannel.id}`);
+                cy.wait(2000); //eslint-disable-line cypress/no-unnecessary-waiting
+
+                // * Ensure it still showing the channel as private
+                cy.findByTestId('allow-all-toggle').should('has.have.text', 'Public');
+                
+
+                // # Ensure the last message in the message says that it was converted to a public channel
+                cy.visit(`/${testTeam.name}/channels/${privateChannel.name}`);
+                cy.wait(2000); //eslint-disable-line cypress/no-unnecessary-waiting
+                cy.getLastPostId().then((id) => {
+                    // * The system message should contain 'This channel has been converted to a Public Channel and can be joined by any team member'
+                    cy.get(`#postMessageText_${id}`).should('contain', 'This channel has been converted to a Public Channel and can be joined by any team member');
+                });
+            });
+        });
+
+
+        it('MM-T2630 - Default channel cannot be toggled to private', () => {
+            cy.visit('/admin_console/user_management/channels');
+
+            // # Search for the channel town square
+            cy.get('.DataGrid_searchBar').within(() => {
+                cy.findByPlaceholderText('Search').should('be.visible').type(`Town Square`);
+            });
+            cy.wait(2000); //eslint-disable-line cypress/no-unnecessary-waiting
+
+            cy.findAllByTestId('town-squareedit').then((elements) => {
+                elements[0].click();
+                cy.wait(2000); //eslint-disable-line cypress/no-unnecessary-waiting
+
+                // * Ensure the toggle to private/public is disabled
+                cy.findByTestId('allow-all-toggle-button').should('be.disabled');
+            });
+
+        });
 
 
         it('MM-T2638 - Permalink from when public does not auto-join (non-system-admin) after converting to private', () => {
@@ -266,35 +313,38 @@ context('ldap', () => {
 
             cy.getLastPostId().then((id) => {
                 const postId = id;
-                const permalink = `${Cypress.config('baseUrl')}/${testTeam.name}/pl/${postId}`;
-                cy.visit(`/${testTeam.name}/channels/off-topic`);
 
+                // # Visit the channel 
                 cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
-                // # Post /leave command in center channel
+
+                // # Post /leave command in testChannel to leave it
                 cy.postMessage('/leave');
                 cy.wait(5000); // eslint-disable-line cypress/no-unnecessary-waiting
 
+                // Visit the permalink link
                 cy.visit(`/${testTeam.name}/pl/${postId}`);
                 cy.wait(5000);
+
+                // * Ensure the header of the permalink channel is what we expect it to be (testChannel)
                 cy.get('#channelHeaderTitle').should('be.visible').should('contain', testChannel.display_name);
                 
+                // # Leave the channel again
                 cy.postMessage('/leave');
                 cy.wait(5000); // eslint-disable-line cypress/no-unnecessary-waiting
 
-                // # Login as sysadmin and add board-one to test team
+
+                // # Login as sysadmin and convert testChannel to private channel
                 cy.apiAdminLogin();
                 cy.apiPatchChannelPrivacy(testChannel.id, 'P');
 
+                // # Login as normal user and try to visit the permalink
                 cy.apiLogin(testUser);
                 cy.visit(`/${testTeam.name}/pl/${postId}`);
 
+                // * We expect an error that says "Message not found"
                 cy.findByTestId('error-message-title').contains('Message Not Found');
             });
-
         });
-
-
-
 
     });
 });
