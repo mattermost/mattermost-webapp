@@ -59,6 +59,7 @@ class MainMenu extends React.PureComponent {
         isMentionSearch: PropTypes.bool,
         teamIsGroupConstrained: PropTypes.bool.isRequired,
         isLicensedForLDAPGroups: PropTypes.bool,
+        showGettingStarted: PropTypes.bool.isRequired,
         intl: intlShape.isRequired,
         actions: PropTypes.shape({
             openModal: PropTypes.func.isRequred,
@@ -66,6 +67,7 @@ class MainMenu extends React.PureComponent {
             showFlaggedPosts: PropTypes.func,
             closeRightHandSide: PropTypes.func.isRequired,
             closeRhsMenu: PropTypes.func.isRequired,
+            unhideNextSteps: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -329,6 +331,12 @@ class MainMenu extends React.PureComponent {
                         url={this.props.helpLink}
                         text={formatMessage({id: 'navbar_dropdown.help', defaultMessage: 'Help'})}
                         icon={this.props.mobile && <i className='fa fa-question'/>}
+                    />
+                    <Menu.ItemAction
+                        id='gettingStarted'
+                        show={this.props.showGettingStarted}
+                        onClick={() => this.props.actions.unhideNextSteps()}
+                        text={formatMessage({id: 'navbar_dropdown.gettingStarted', defaultMessage: 'Getting Started'})}
                     />
                     <Menu.ItemAction
                         id='keyboardShortcuts'
