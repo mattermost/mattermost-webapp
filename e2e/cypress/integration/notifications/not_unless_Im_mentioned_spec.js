@@ -10,6 +10,8 @@
 // Stage: @prod
 // Group: @notifications
 
+import {ignoreUncaughtException, spyNotificationAs} from '../../support/notification';
+
 function setReplyNotificationsSetting(idToToggle) {
     // Navigate to settings modal
     cy.toAccountSettingsModal();
@@ -39,38 +41,10 @@ function setReplyNotificationsSetting(idToToggle) {
         should('not.exist');
 
     // Setup notification spy
-    cy.window().then((win) => {
-        function Notification(title, opts) {
-            this.title = title;
-            this.opts = opts;
-        }
-
-        Notification.requestPermission = function() {
-            return 'granted';
-        };
-
-        Notification.close = function() {
-            return true;
-        };
-
-        win.Notification = Notification;
-
-        cy.spy(win, 'Notification').as('notifySpy');
-    });
-
-    // Verify that we now have a Notification property
-    cy.window().should('have.property', 'Notification');
+    spyNotificationAs('notifySpy');
 }
 
 describe('reply-notifications', () => {
-    function ignoreUncaughtException() {
-        cy.on('uncaught:exception', (err) => {
-            expect(err.message).to.include('.close is not a function');
-
-            return false;
-        });
-    }
-
     let testTeam;
     let otherChannel;
     let townsquareChannelId;
