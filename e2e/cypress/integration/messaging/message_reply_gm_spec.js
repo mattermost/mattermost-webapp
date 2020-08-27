@@ -45,7 +45,6 @@ describe('Reply in existing GM', () => {
 
         // # Create a group channel for 3 users
         cy.apiCreateGroupChannel(userGroupIds).then((response) => {
-            let replyId;
             const gmChannel = response.body;
 
             // # Go to the group message channel
@@ -69,9 +68,7 @@ describe('Reply in existing GM', () => {
 
                 // # Post a reply
                 cy.postMessageReplyInRHS(replyMessage);
-                cy.getLastPostId().then((postId) => {
-                    replyId = postId;
-
+                cy.getLastPostId().then((replyId) => {
                     // * Verify that the reply is in the RHS with matching text
                     cy.get(`#rhsPostMessageText_${replyId}`).should('be.visible').and('have.text', replyMessage);
 
