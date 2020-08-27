@@ -24,6 +24,37 @@ describe('Desktop notifications', () => {
         });
     });
 
+    beforeEach(() => {
+        cy.apiAdminLogin();
+    });
+
+    it('Check Desktop Notification mocking works', () => {
+        cy.apiCreateUser({}).then(({user}) => {
+            cy.apiAddUserToTeam(testTeam.id, user.id);
+            cy.apiLogin(user);
+
+            cy.apiCreateDirectChannel([testUser.id, user.id]).then((res) => {
+                const channel = res.body;
+
+                // # Ensure notifications are set up to fire a desktop notification if you receive a DM
+                cy.apiPatchUser(user.id, {notify_props: {...user.notify_props, desktop: 'all'}});
+
+                // Visit the MM webapp with the notification API stubbed.
+                stubNotificationAs('withNotification', `/${testTeam.name}/channels/town-square`, 'granted');
+
+                // # Post the following: /dnd
+                cy.get('#post_textbox').clear().type('/online{enter}');
+
+                // # Have another user send you a DM
+                cy.postMessageAs({sender: testUser, message: MESSAGES.TINY, channelId: channel.id});
+
+                // * Desktop notification is not received
+                cy.wait(TIMEOUTS.HALF_SEC);
+                cy.get('@withNotification').should('have.been.calledOnce');
+            });
+        });
+    });
+
     it('MM-T495 Desktop Notifications - Can set to DND and no notification fires on DM', () => {
         cy.apiCreateUser({}).then(({user}) => {
             cy.apiAddUserToTeam(testTeam.id, user.id);
@@ -32,16 +63,11 @@ describe('Desktop notifications', () => {
             cy.apiCreateDirectChannel([testUser.id, user.id]).then((res) => {
                 const channel = res.body;
 
-                // Mock window.Notification to check if desktop notifications are triggered.
-                cy.visit(`/${testTeam.name}/channels/town-square`, {
-                    onBeforeLoad(win) {
-                        cy.stub(win.Notification, 'permission', 'granted');
-                        cy.stub(win, 'Notification').as('Notification');
-                    },
-                });
-
                 // # Ensure notifications are set up to fire a desktop notification if you receive a DM
                 cy.apiPatchUser(user.id, {notify_props: {...user.notify_props, desktop: 'all'}});
+
+                // Visit the MM webapp with the notification API stubbed.
+                stubNotificationAs('withoutNotification', `/${testTeam.name}/channels/town-square`, 'granted');
 
                 // # Post the following: /dnd
                 cy.get('#post_textbox').clear().type('/dnd{enter}');
@@ -51,8 +77,22 @@ describe('Desktop notifications', () => {
 
                 // * Desktop notification is not received
                 cy.wait(TIMEOUTS.HALF_SEC);
-                cy.get('@Notification').should('not.have.been.called');
+                cy.get('@withoutNotification').should('not.have.been.called');
             });
         });
     });
 });
+
+const stubNotificationAs = (stubName, url, permission) => {
+    const closeStub = cy.stub();
+
+    // Mock window.Notification to check if desktop notifications are triggered.
+    cy.visit(url, {
+        onBeforeLoad(win) {
+            cy.stub(win.Notification, 'permission', permission);
+            cy.stub(win, 'Notification').returns({close: closeStub}).as(stubName);
+        },
+    });
+
+    return closeStub;
+};
