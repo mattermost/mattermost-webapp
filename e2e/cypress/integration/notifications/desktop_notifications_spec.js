@@ -78,6 +78,10 @@ describe('Desktop notifications', () => {
                 // * Desktop notification is not received
                 cy.wait(TIMEOUTS.HALF_SEC);
                 cy.get('@withoutNotification').should('not.have.been.called');
+
+                // * Verify that the status indicator next to your name has changed to "Do Not Disturb"
+                cy.get('button[aria-label="set status"] > span > svg').
+                    should('have.attr', 'aria-label', 'Do Not Disturb Icon');
             });
         });
     });
