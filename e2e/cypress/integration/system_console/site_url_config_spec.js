@@ -35,6 +35,5 @@ describe('Site URL', () => {
             // * Check that the setting is the original value
             cy.findByTestId('ServiceSettings.SiteURLinput').should('have.value', originalSiteURLValue);
         });
-
     });
 });
