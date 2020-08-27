@@ -6,6 +6,9 @@ import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
 import {UserProfile} from 'mattermost-redux/types/users';
 
+import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+import {isEqual} from 'lodash';
+
 import {GlobalState} from 'types/store';
 import {RecommendedNextSteps, Preferences} from 'utils/constants';
 import {localizeMessage} from 'utils/utils';
@@ -82,6 +85,12 @@ export const Steps: StepType[] = [
     },
 ];
 
+// Filter the steps shown by checking if our user has any of the required roles for that step
+export const filterSteps = (step: StepType, roles: string) => {
+    const userRoles = roles.split(' ');
+    return isEqual(userRoles.sort(), step.roles.sort()) || step.roles.length === 0;
+};
+
 const getCategory = makeGetCategory();
 export const showNextSteps = createSelector(
     (state: GlobalState) => getCategory(state, Preferences.RECOMMENDED_NEXT_STEPS),
@@ -102,8 +111,9 @@ export const showNextSteps = createSelector(
 
 export const nextStepsNotFinished = createSelector(
     (state: GlobalState) => getCategory(state, Preferences.RECOMMENDED_NEXT_STEPS),
-    (stepPreferences) => {
-        const checkPref = (step: StepType) => stepPreferences.some((pref) => pref.name === step.id && pref.value === 'true');
+    (state: GlobalState) => getCurrentUser(state),
+    (stepPreferences, currentUser) => {
+        const checkPref = (step: StepType) => stepPreferences.some((pref) => (pref.name === step.id && pref.value === 'true') || !filterSteps(step, currentUser.roles));
         return !Steps.every(checkPref);
     }
 );
