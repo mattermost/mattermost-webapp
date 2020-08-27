@@ -25,7 +25,6 @@ export type StepComponentProps = {
     onSkip: (id: string) => void;
     onFinish: (id: string) => void;
 }
-
 export type StepType = {
     id: string;
     title: string;
@@ -86,10 +85,13 @@ export const Steps: StepType[] = [
 ];
 
 // Filter the steps shown by checking if our user has any of the required roles for that step
-export const isStepForUser = (step: StepType, roles: string) => {
+export function isStepForUser(step: StepType, roles: string): boolean {
     const userRoles = roles.split(' ');
-    return isEqual(userRoles.sort(), step.roles.sort()) || step.roles.length === 0;
-};
+    return (
+        isEqual(userRoles.sort(), step.roles.sort()) ||
+          step.roles.length === 0
+    );
+}
 
 const getCategory = makeGetCategory();
 export const showNextSteps = createSelector(
