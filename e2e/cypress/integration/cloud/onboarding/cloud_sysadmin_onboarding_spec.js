@@ -7,7 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-import {testWithConfig} from '../../support/hooks';
+import {testWithConfig} from '../../../support/hooks';
 
 const adminSteps = ['complete_profile', 'team_setup', 'invite_members', 'hide'];
 
@@ -24,7 +24,6 @@ describe('Cloud Onboarding - Sysadmin', () => {
     before(() => {
         // # Check if with license and has matching database
         cy.apiRequireLicenseForFeature('Cloud');
-        cy.requireServerDBToMatch();
 
         cy.apiInitSetup().then(({team}) => {
             townSquarePage = `/${team.name}/channels/town-square`;
@@ -51,7 +50,7 @@ describe('Cloud Onboarding - Sysadmin', () => {
      *  Happy Path
      */
 
-    it('Cloud Onboarding - Full Flow', () => {
+    it('MM-T3326 Sysadmin - Happy Path', () => {
         // * Make sure channel view has loaded
         cy.url().should('include', townSquarePage);
 
@@ -106,7 +105,7 @@ describe('Cloud Onboarding - Sysadmin', () => {
      *  General functionality
      */
 
-    it('Cloud Onboarding - Switch to next step', () => {
+    it('MM-T3327 Sysadmin - Switch to Next Step', () => {
         // * Make sure channel view has loaded
         cy.url().should('include', townSquarePage);
 
@@ -124,7 +123,7 @@ describe('Cloud Onboarding - Sysadmin', () => {
         cy.get('.SidebarNextSteps .SidebarNextSteps__middle').should('contain', '0 / 3 steps complete');
     });
 
-    it('Cloud Onboarding - Skip Getting Started', () => {
+    it('MM-T3328 Sysadmin - Skip Getting Started', () => {
         // * Make sure channel view has loaded
         cy.url().should('include', townSquarePage);
 
@@ -142,7 +141,7 @@ describe('Cloud Onboarding - Sysadmin', () => {
         cy.get('.SidebarNextSteps .SidebarNextSteps__middle').should('contain', '0 / 3 steps complete');
     });
 
-    it('Cloud Onboarding - Remove Recommended Next Steps', () => {
+    it('MM-T3329 Sysadmin - Remove Recommended Next Steps', () => {
         // * Make sure channel view has loaded
         cy.url().should('include', townSquarePage);
 
@@ -175,7 +174,7 @@ describe('Cloud Onboarding - Sysadmin', () => {
      *  Complete Profile Step
      */
 
-    it('Cloud Onboarding - Set full name and profile picture', () => {
+    it('MM-T3330_1 Sysadmin - Set full name and profile image', () => {
         // * Make sure channel view has loaded
         cy.url().should('include', townSquarePage);
 
@@ -204,7 +203,7 @@ describe('Cloud Onboarding - Sysadmin', () => {
         });
     });
 
-    it('Cloud Onboarding - Set full name - no name provided', () => {
+    it('MM-T3330_2 Sysadmin - Set full name and profile image - no name provided', () => {
         // * Make sure channel view has loaded
         cy.url().should('include', townSquarePage);
 
@@ -221,7 +220,7 @@ describe('Cloud Onboarding - Sysadmin', () => {
         cy.findByTestId('CompleteProfileStep__saveProfileButton').should('be.disabled');
     });
 
-    it('Cloud Onboarding - Set profile picture - upload image of wrong type', () => {
+    it('MM-T3330_3 Sysadmin - Set full name and profile image - upload file of wrong type', () => {
         // * Make sure channel view has loaded
         cy.url().should('include', townSquarePage);
 
@@ -239,7 +238,7 @@ describe('Cloud Onboarding - Sysadmin', () => {
      *  Team Profile Step
      */
 
-    it('Cloud Onboarding - Set team name and icon', () => {
+    it('MM-T3331_1 Sysadmin - Set team name and team icon', () => {
         // * Make sure channel view has loaded
         cy.url().should('include', townSquarePage);
 
@@ -265,7 +264,7 @@ describe('Cloud Onboarding - Sysadmin', () => {
         cy.get('.SidebarNextSteps .SidebarNextSteps__middle').should('contain', '1 / 3 steps complete');
     });
 
-    it('Cloud Onboarding - Set team name - no name provided', () => {
+    it('MM-T3331_2 Sysadmin - Set team name and team icon - no name provided', () => {
         // * Make sure channel view has loaded
         cy.url().should('include', townSquarePage);
 
@@ -285,7 +284,7 @@ describe('Cloud Onboarding - Sysadmin', () => {
         cy.findByTestId('TeamProfileStep__saveTeamButton').should('be.disabled');
     });
 
-    it('Cloud Onboarding - Set team icon - upload image of wrong type', () => {
+    it('MM-T3331_1 Sysadmin - Set team name and team icon - upload file of wrong type', () => {
         // * Make sure channel view has loaded
         cy.url().should('include', townSquarePage);
 
@@ -305,7 +304,7 @@ describe('Cloud Onboarding - Sysadmin', () => {
     /*
      *  Invite Members Step
      */
-    it('Cloud Onboarding - Invite members by email', () => {
+    it('MM-T3332_1 Sysadmin - Invite members by email', () => {
         // * Make sure channel view has loaded
         cy.url().should('include', townSquarePage);
 
@@ -329,7 +328,7 @@ describe('Cloud Onboarding - Sysadmin', () => {
         cy.get('.InviteMembersStep__invitationResults').should('contain', '4 invitations sent');
     });
 
-    it('Cloud Onboarding - Invite members by email - invalid email', () => {
+    it('MM-T3332_2 Sysadmin - Invite members by email - invalid emails', () => {
         // * Make sure channel view has loaded
         cy.url().should('include', townSquarePage);
 
@@ -349,7 +348,7 @@ describe('Cloud Onboarding - Sysadmin', () => {
         cy.get('.InviteMembersStep__invitationResults').should('contain', 'One or more email addresses are invalid');
     });
 
-    it('Cloud Onboarding - Invite members by email - enter more than 10 emails', () => {
+    it('MM-T3332_3 Sysadmin - Invite members by email - invite more than 10 emails', () => {
         // * Make sure channel view has loaded
         cy.url().should('include', townSquarePage);
 
@@ -375,7 +374,7 @@ describe('Cloud Onboarding - Sysadmin', () => {
         cy.findByTestId('InviteMembersStep__sendButton').should('not.be.disabled');
     });
 
-    it('Cloud Onboarding - Copy invite link', () => {
+    it('MM-T3333 Sysadmin - Copy Invite Link', () => {
         cy.apiCreateTeam('team').then(({team}) => {
             cy.visit(`/${team.name}/channels/town-square`);
 
