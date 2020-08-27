@@ -52,6 +52,8 @@ export default class AddGroupsToTeamModal extends React.PureComponent {
             addError: null,
             loadingGroups: true,
         };
+
+        this.selectedItemRef = React.createRef();
     }
 
     componentDidMount() {
@@ -173,7 +175,7 @@ export default class AddGroupsToTeamModal extends React.PureComponent {
         return (
             <div
                 key={option.id}
-                ref={isSelected ? 'selected' : option.id}
+                ref={isSelected ? this.selectedItemRef : option.id}
                 className={'more-modal__row clickable ' + rowSelected}
                 onClick={() => onAdd(option)}
                 onMouseMove={() => onMouseMove(option)}
@@ -275,6 +277,7 @@ export default class AddGroupsToTeamModal extends React.PureComponent {
                         key='addGroupsToTeamKey'
                         options={groupsToShow}
                         optionRenderer={this.renderOption}
+                        selectedItemRef={this.selectedItemRef}
                         values={this.state.values}
                         valueRenderer={this.renderValue}
                         perPage={GROUPS_PER_PAGE}
