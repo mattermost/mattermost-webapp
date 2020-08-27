@@ -71,7 +71,7 @@ describe('Multi-user group header', () => {
         cy.apiLogout();
     });
 
-    it('MM-T473 Edit GM channel header (1/2)', () => {
+    it('MM-T473_1 Edit GM channel header (1/2)', () => {
         // # open existing GM
         cy.apiLogin(testUser);
         cy.visit(`/${testTeam.name}/channels/${groupChannel.name}`);
@@ -95,7 +95,7 @@ describe('Multi-user group header', () => {
         cy.apiLogout();
     });
 
-    it('MM-T473 Edit GM channel header (2/2)', () => {
+    it('MM-T473_2 Edit GM channel header (2/2)', () => {
         // # open existing GM
         cy.apiLogin(testUser);
         cy.visit(`/${testTeam.name}/channels/${groupChannel.name}`);
