@@ -92,6 +92,7 @@ export default class UserListRow extends React.PureComponent {
                     size='md'
                     userId={this.props.user.id}
                     hasMention={true}
+                    username={this.props.user.username}
                 />
                 <div
                     className='more-modal__details'
