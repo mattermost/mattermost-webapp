@@ -64,7 +64,7 @@ describe('Cloud Onboarding - Sysadmin', () => {
         cy.findByTestId('PictureSelector__input-CompleteProfileStep__profilePicture').attachFile('mattermost-icon.png');
 
         // # Click Save profile button
-        cy.findByTestId('CompleteProfileStep__saveProfileButton').should('be.visible').should('not.be.disabled').click();
+        cy.findByTestId('CompleteProfileStep__saveProfileButton').should('be.visible').and('not.be.disabled').click();
 
         // * Step counter should increment
         cy.get('.SidebarNextSteps .SidebarNextSteps__middle').should('contain', '1 / 3 steps complete');
@@ -79,7 +79,7 @@ describe('Cloud Onboarding - Sysadmin', () => {
         cy.findByTestId('PictureSelector__input-TeamProfileStep__teamIcon').attachFile('mattermost-icon.png');
 
         // # Click Save team button
-        cy.findByTestId('TeamProfileStep__saveTeamButton').should('be.visible').should('not.be.disabled').click();
+        cy.findByTestId('TeamProfileStep__saveTeamButton').should('be.visible').and('not.be.disabled').click();
 
         // * Step counter should increment
         cy.get('.SidebarNextSteps .SidebarNextSteps__middle').should('contain', '2 / 3 steps complete');
@@ -88,7 +88,7 @@ describe('Cloud Onboarding - Sysadmin', () => {
         cy.get('.Card__body.expanded .InviteMembersStep').should('be.visible');
 
         // # Click Finish button
-        cy.findByTestId('InviteMembersStep__finishButton').should('be.visible').should('not.be.disabled').click();
+        cy.findByTestId('InviteMembersStep__finishButton').should('be.visible').and('not.be.disabled').click();
 
         // * Step counter should show Tips and Next Steps
         cy.get('.SidebarNextSteps .SidebarNextSteps__top').should('contain', 'Tips & Next Steps');
@@ -193,7 +193,7 @@ describe('Cloud Onboarding - Sysadmin', () => {
             cy.findByTestId('PictureSelector__input-CompleteProfileStep__profilePicture').attachFile('mattermost-icon.png');
 
             // # Click Save profile button
-            cy.findByTestId('CompleteProfileStep__saveProfileButton').should('be.visible').should('not.be.disabled').click();
+            cy.findByTestId('CompleteProfileStep__saveProfileButton').should('be.visible').and('not.be.disabled').click();
 
             // * Check to make sure card is collapsed and step is complete
             cy.get('.Card.complete .CompleteProfileStep').should('exist');
@@ -255,7 +255,7 @@ describe('Cloud Onboarding - Sysadmin', () => {
         cy.findByTestId('PictureSelector__input-TeamProfileStep__teamIcon').attachFile('mattermost-icon.png');
 
         // # Click Save team button
-        cy.findByTestId('TeamProfileStep__saveTeamButton').should('be.visible').should('not.be.disabled').click();
+        cy.findByTestId('TeamProfileStep__saveTeamButton').should('be.visible').and('not.be.disabled').click();
 
         // * Check to make sure card is collapsed and step is complete
         cy.get('.Card.complete .TeamProfileStep').should('exist');
