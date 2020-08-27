@@ -250,10 +250,10 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
                 cy.get('.more-modal__name').invoke('text').then((user) => {
                     selectedRowText = user.split(' ')[0].replace('@', '');
                     cy.get('.more-modal__actions button .sr-only').should('have.text', selectedRowText);
-                });
 
-                // * Verify image alt is displayed
-                cy.get('img.Avatar').should('have.attr', 'alt', 'user profile image');
+                    // * Verify image alt is displayed
+                    cy.get('img.Avatar').should('have.attr', 'alt', `${selectedRowText} profile image`);
+                });
             });
 
             // * Press Tab again and verify if focus changes to next row
