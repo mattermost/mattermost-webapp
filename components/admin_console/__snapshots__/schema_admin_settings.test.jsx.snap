@@ -701,6 +701,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
     />
     <div
       className="error-message"
+      data-testid="error-message"
       onMouseOut={[Function]}
       onMouseOver={[Function]}
     >
