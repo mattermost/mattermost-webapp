@@ -77,7 +77,7 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
     }
 
     render() {
-        if (this.props.preferences.some((pref) => pref.name === RecommendedNextSteps.HIDE && pref.value)) {
+        if (this.props.preferences.some((pref) => pref.name === RecommendedNextSteps.HIDE && pref.value === 'true')) {
             return null;
         }
 
@@ -86,7 +86,7 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
         }
 
         const total = Steps.length;
-        const complete = this.props.preferences.filter((pref) => pref.value).length;
+        const complete = this.props.preferences.filter((pref) => pref.name !== RecommendedNextSteps.HIDE && pref.value === 'true').length;
 
         let header = (
             <FormattedMessage

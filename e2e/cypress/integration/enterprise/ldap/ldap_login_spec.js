@@ -9,22 +9,27 @@
 
 // Group: @enterprise @ldap
 
-import users from '../../../fixtures/ldap_users.json';
+import ldapUsers from '../../../fixtures/ldap_users.json';
 import {getRandomId} from '../../../utils';
 
 // assumes the CYPRESS_* variables are set
 // assumes that E20 license is uploaded
 // for setup with AWS: Follow the instructions mentioned in the mattermost/platform-private/config/ldap-test-setup.txt file
 context('ldap', () => {
-    const user1 = users['test-1'];
-    const guest1 = users['board-1'];
-    const admin1 = users['dev-1'];
+    const user1 = ldapUsers['test-1'];
+    const guest1 = ldapUsers['board-1'];
+    const admin1 = ldapUsers['dev-1'];
 
     let testSettings;
 
     before(() => {
         // * Check if server has license for LDAP
         cy.apiRequireLicenseForFeature('LDAP');
+
+        // # Test LDAP configuration and server connection
+        // # Synchronize user attributes
+        cy.apiLDAPTest();
+        cy.apiLDAPSync();
 
         cy.apiGetConfig().then(({config}) => {
             testSettings = setLDAPTestSettings(config);
@@ -109,14 +114,15 @@ context('ldap', () => {
             testSettings.user = guest1;
             const ldapSetting = {
                 LdapSettings: {
+                    UserFilter: '(cn=no_users)',
                     GuestFilter: '(cn=no_guests)',
                 },
             };
             cy.apiAdminLogin().then(() => {
                 cy.apiUpdateConfig(ldapSetting).then(() => {
                     cy.doLDAPLogin(testSettings).then(() => {
-                        // # Do logout from sign up
-                        cy.doLogoutFromSignUp(testSettings);
+                        // * Verify login failed
+                        cy.checkLoginFailed(testSettings);
                     });
                 });
             });
@@ -126,6 +132,7 @@ context('ldap', () => {
             testSettings.user = guest1;
             const ldapSetting = {
                 LdapSettings: {
+                    UserFilter: '(cn=no_users)',
                     GuestFilter: '(cn=board*)',
                 },
             };
@@ -163,17 +170,35 @@ context('ldap', () => {
 
         it('LDAP Member login with team invite', () => {
             testSettings.user = user1;
-            cy.doLDAPLogin(testSettings).then(() => {
-                // # Do LDAP logout
-                cy.doLDAPLogout(testSettings);
+            const ldapSetting = {
+                LdapSettings: {
+                    UserFilter: '(cn=test*)',
+                },
+            };
+            cy.apiAdminLogin().then(() => {
+                cy.apiUpdateConfig(ldapSetting).then(() => {
+                    cy.doLDAPLogin(testSettings).then(() => {
+                        // # Do LDAP logout
+                        cy.doLDAPLogout(testSettings);
+                    });
+                });
             });
         });
 
         it('LDAP Guest login with team invite', () => {
             testSettings.user = guest1;
-            cy.doLDAPLogin(testSettings).then(() => {
-                // # Do LDAP logout
-                cy.doLDAPLogout(testSettings);
+            const ldapSetting = {
+                LdapSettings: {
+                    GuestFilter: '(cn=board*)',
+                },
+            };
+            cy.apiAdminLogin().then(() => {
+                cy.apiUpdateConfig(ldapSetting).then(() => {
+                    cy.doLDAPLogin(testSettings).then(() => {
+                        // # Do LDAP logout
+                        cy.doLDAPLogout(testSettings);
+                    });
+                });
             });
         });
     });
@@ -189,10 +214,12 @@ function setLDAPTestSettings(config) {
 }
 
 function removeUserFromAllTeams(testUser) {
-    cy.apiGetUserByEmail(testUser.email).then(({user}) => {
-        cy.apiGetTeamsForUser(user.id).then(({teams}) => {
-            teams.forEach((team) => {
-                cy.apiDeleteUserFromTeam(team.id, user.id);
+    cy.apiGetUsersByUsernames([testUser.username]).then(({users}) => {
+        users.forEach((user) => {
+            cy.apiGetTeamsForUser(user.id).then(({teams}) => {
+                teams.forEach((team) => {
+                    cy.apiDeleteUserFromTeam(team.id, user.id);
+                });
             });
         });
     });
