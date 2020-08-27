@@ -200,14 +200,16 @@ export default class Renderer extends marked.Renderer {
 
         output += `" href="${outHref}" rel="noreferrer"`;
 
+        // Any link that begins with siteURL should be opened inside the app
+        let internalLink = outHref.startsWith(this.formattingOptions.siteURL || '');
+
         // special case for team invite links, channel links, and permalinks that are inside the app
-        let internalLink = false;
         const pattern = new RegExp(
             '^(' +
-        TextFormatting.escapeRegex(this.formattingOptions.siteURL) +
-        ')?\\/(?:signup_user_complete|admin_console|[^\\/]+\\/(?:pl|channels|messages))\\/',
+            TextFormatting.escapeRegex(this.formattingOptions.siteURL) +
+            ')?\\/(?:signup_user_complete|admin_console|[^\\/]+\\/(?:pl|channels|messages))\\/',
         );
-        internalLink = pattern.test(outHref);
+        internalLink = internalLink || pattern.test(outHref);
 
         if (internalLink && this.formattingOptions.siteURL) {
             output += ` data-link="${outHref.replace(
