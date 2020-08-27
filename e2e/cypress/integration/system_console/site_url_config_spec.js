@@ -27,7 +27,7 @@ describe('Site URL', () => {
             }));
 
             // * Check that the error message is present
-            cy.findAllByTestId('error-message').contains('Site URL cannot be cleared.');
+            cy.findByTestId('errorMessage').contains('Site URL cannot be cleared.');
 
             // # Reload the page
             cy.visit('/admin_console/environment/web_server');
