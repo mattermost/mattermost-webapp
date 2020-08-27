@@ -113,7 +113,7 @@ describe('reply-notifications', () => {
         setReplyNotificationsSetting('#notificationCommentsNever');
 
         // # Navigate to town square channel
-        cy.get(`#sidebarItem_${'town-square'}`).scrollIntoView().click({force: true});
+        cy.get(`#sidebarItem_${'town-square'}`).click({force: true});
 
         // # Post a message
         cy.postMessage('Hi there, this is a root message');
@@ -121,7 +121,7 @@ describe('reply-notifications', () => {
         // # Get post id of message
         cy.getLastPostId().then((postId) => {
             // # Switch to other channel so that unread notifications in 'town-square` may be triggered
-            cy.get(`#sidebarItem_${otherChannel.name}`).scrollIntoView().click({force: true});
+            cy.get(`#sidebarItem_${otherChannel.name}`).click({force: true});
 
             // # Post a message in original thread as another user
             cy.postMessageAs({sender, message: 'This is a reply to the root post', channelId: townsquareChannelId, rootId: postId});
@@ -131,9 +131,8 @@ describe('reply-notifications', () => {
         cy.get('@notifySpy').should('be.not.called');
 
         // * Verify unread mentions badge does not exist
-        cy.get('#publicChannel').scrollIntoView();
+        cy.get('#publicChannel');
         cy.get('#sidebarItem_town-square').
-            scrollIntoView().
             find('#unreadMentions').
             should('be.not.visible');
     });
