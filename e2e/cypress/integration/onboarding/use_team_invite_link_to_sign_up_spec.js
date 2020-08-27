@@ -10,19 +10,23 @@
 // Group: @onboarding
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
-import {getEmailUrl, getEmailMessageSeparator, reUrl, getRandomId} from '../../utils';
+import {getEmailUrl, getEmailMessageSeparator, reUrl} from '../../utils';
+import {generateRandomUser} from '../../support/api/user';
 
 describe('Onboarding', () => {
     let testTeam;
-    const randomId = getRandomId();
-    const username = `user${randomId}`;
-    const email = `user${randomId}@sample.mattermost.com`;
-    const password = 'passwd';
+    const user = generateRandomUser();
+    const {username, email, password} = user;
 
     const baseUrl = Cypress.config('baseUrl');
     const mailUrl = getEmailUrl(baseUrl);
+    let isLicensed;
 
     before(() => {
+        cy.apiGetClientLicense().then(({license}) => {
+            isLicensed = license.IsLicensed === 'true';
+        });
+
         // # Do email test if setup properly
         cy.apiEmailTest();
 
@@ -43,6 +47,12 @@ describe('Onboarding', () => {
         // # Open the 'Invite People' full screen modal and get the invite url
         cy.get('.sidebar-header-dropdown__icon').click();
         cy.get('#invitePeople').find('button').eq(0).click();
+
+        if (isLicensed) {
+            // # Click "Invite members"
+            cy.findByTestId('inviteMembersLink').should('be.visible').click();
+        }
+
         cy.get('.share-link-input').invoke('val').then((val) => {
             const inviteLink = val;
 
@@ -52,16 +62,11 @@ describe('Onboarding', () => {
         });
 
         // # Type email, username and password
-        cy.wait(TIMEOUTS.HALF_SEC);
-        cy.get('#email').type(email);
+        cy.get('#email', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').type(email);
+        cy.get('#name').should('be.visible').type(username);
+        cy.get('#password').should('be.visible').type(password);
 
-        cy.wait(TIMEOUTS.HALF_SEC);
-        cy.get('#name').type(username);
-
-        cy.wait(TIMEOUTS.HALF_SEC);
-        cy.get('#password').type(password);
-
-        // # Attempt to create an account by clicking on the 'Create Account' buton
+        // # Attempt to create an account by clicking on the 'Create Account' button
         cy.get('#createAccountButton').click();
 
         cy.wait(TIMEOUTS.HALF_SEC);
@@ -85,7 +90,7 @@ describe('Onboarding', () => {
             // # Visit permalink (e.g. click on email link)
             cy.visit(permalink);
 
-            // # Check that 'Email Verified' text should be visible, email is prefilled, and password field is focused, then login
+            // # Check that 'Email Verified' text should be visible, email is pre-filled, and password field is focused, then login
             cy.findByText('Email Verified').should('be.visible');
             cy.get('#loginId').should('have.value', email);
             cy.get('#loginPassword').should('be.focused').type(password);
@@ -93,7 +98,7 @@ describe('Onboarding', () => {
             cy.findByText('Enter a valid email or username and/or password.').should('not.exist');
         });
 
-        // * Check that the display name of the team the user successully joined is correct
+        // * Check that the display name of the team the user sucessfully joined is correct
         cy.get('#headerTeamName').should('contain.text', testTeam.display_name);
 
         // * Check that 'Town Square' is currently being selected
