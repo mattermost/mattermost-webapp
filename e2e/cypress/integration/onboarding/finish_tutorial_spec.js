@@ -11,7 +11,7 @@
 // Group: @onboarding
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
-import {getEmailUrl, getEmailMessageSeparator, reUrl, getRandomId} from '../../utils';
+import {getRandomId} from '../../utils';
 
 describe('Onboarding', () => {
     let testTeam;
@@ -20,9 +20,6 @@ describe('Onboarding', () => {
     const email = `user${randomId}@sample.mattermost.com`;
     const password = 'passwd';
 
-    const baseUrl = Cypress.config('baseUrl');
-    const mailUrl = getEmailUrl(baseUrl);
-
     before(() => {
         cy.apiInitSetup().then(({team}) => {
             testTeam = team;
@@ -30,7 +27,7 @@ describe('Onboarding', () => {
         });
     });
 
-    it('MM-T400 Create account from login page link using email-password', () => {
+    it('MM-T402 Finish Tutorial', () => {
         cy.get('.sidebar-header-dropdown__icon').click();
         cy.findByText('Team Settings').should('be.visible').click();
 
@@ -67,32 +64,50 @@ describe('Onboarding', () => {
             cy.get('#sidebarItem_town-square').should('exist');
         });
 
-        // * Check that the 'Welcome to: Mattermost' message is visible
+        // # Go through the initial tutorial
         cy.get('#tutorialIntroOne').findByText('Welcome to:').should('be.visible');
         cy.get('#tutorialIntroOne').findByText('Mattermost').should('be.visible');
-
         cy.get('#tutorialNextButton').should('be.visible').click();
-
         cy.get('#tutorialIntroTwo').findByText('How Mattermost Works:').should('be.visible');
         cy.get('#tutorialNextButton').should('be.visible').click();
-
         cy.get('#tutorialIntroThree').findByText('You\'re all set').should('be.visible');
         cy.get('#tutorialNextButton').should('be.visible').click();
 
+        // # Click and complete the Message box tutorial (pulsating tooltip)
         cy.get('#tipButton').should('be.visible').click();
-        cy.findByText('Sending Messages').should('be.visible');
-
-        cy.get('#tipNextButton').should('be.visible').click();
-
-        cy.get('#tipButton').should('be.visible').click();
-        cy.get('.tip-overlay--sidebar').should('be.visible').within(() => {
-            cy.findByText('organize conversations across different topics.', {exact: false}).should('be.visible');
-
-            // cy.get('#tipNextButton').should('be.visible').click();
-            // cy.get('div').eq(1).find('h4').eq(0).should('have.text', '"Town Square" and "Off-Topic" channels').abd('be.visible');
-            // cy.get('#tipNextButton').should('be.visible').click();
-            // cy.get('div').eq(1).find('h4').eq(0).should('have.text', 'Creating and Joining Channels').and('be.visible');
-            // cy.get('#tipNextButton').should('be.visible').click();
+        cy.get('.tip-overlay--chat').within(($chatOverlay) => {
+            cy.wrap($chatOverlay).contains('Sending Messages').should('be.visible');
+            cy.get('#tipNextButton').should('be.visible').click();
         });
+
+        // # Click and complete the Town Square tutorial (pulsating tooltip)
+        cy.get('#tipButton').should('be.visible').click();
+        cy.get('.tip-overlay--sidebar').within(($sidebarOverlay) => {
+            cy.wrap($sidebarOverlay).contains(" organize conversations across different topics. They're open to everyone on your team. To send private communications use ").should('be.visible');
+            cy.get('#tipNextButton').should('be.visible').click();
+            cy.wrap($sidebarOverlay).contains('Here are two public channels to start:').should('be.visible');
+            cy.get('#tipNextButton').should('be.visible').click();
+            cy.wrap($sidebarOverlay).contains('Creating and Joining Channels').should('be.visible');
+            cy.get('#tipNextButton').should('be.visible').click();
+        });
+
+        // # Click and complete the Main Menu tutorial (pulsating tooltip)
+        cy.get('#tipButton').should('be.visible').click();
+        cy.get('.tip-overlay--header--left').within(($headerLeftOverlay) => {
+            cy.wrap($headerLeftOverlay).contains('Team administrators can also access their ').should('be.visible');
+            cy.get('#tipNextButton').should('be.visible').click();
+        });
+
+        // # Reload the page without cache
+        cy.reload(true);
+
+        // * Check that 'Town Square' is currently being selected
+        cy.get('.active', {timeout: TIMEOUTS.HALF_MIN}).within(() => {
+            cy.get('#sidebarItem_town-square').should('exist');
+        });
+
+        // # Assert that the tutorials do not appear
+        cy.get('#tutorialIntroOne').should('not.exist');
+        cy.get('#tutorialIntroOne').should('not.exist');
     });
 });
