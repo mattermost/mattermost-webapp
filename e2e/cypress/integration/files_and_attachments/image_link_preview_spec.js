@@ -132,4 +132,114 @@ describe('Image Link Preview', () => {
         // # Close the image preview modal
         cy.get('body').type('{esc}');
     });
+
+    it('MM-T1447 Images below a min-width and min-height are posted in a container that is clickable', () => {
+        const listOfMinWidthHeightImages = [
+            {
+                filename: 'image-20x20.jpg',
+                originalSize: {width: 20, height: 20},
+                thumbnailSize: {width: 20, height: 20},
+                containerSize: {height: 46},
+            },
+            {
+                filename: 'image-50x50.jpg',
+                originalSize: {width: 50, height: 50},
+                thumbnailSize: {width: 50, height: 50},
+            },
+            {
+                filename: 'image-60x60.jpg',
+                originalSize: {width: 60, height: 60},
+                thumbnailSize: {width: 60, height: 60},
+            },
+            {
+                filename: 'image-400x400.jpg',
+                originalSize: {width: 400, height: 400},
+                thumbnailSize: {width: 350, height: 350},
+            },
+            {
+                filename: 'image-40x400.jpg',
+                originalSize: {width: 40, height: 400},
+                thumbnailSize: {width: 35, height: 350},
+                containerSize: {width: 46},
+            },
+            {
+                filename: 'image-400x40.jpg',
+                originalSize: {width: 400, height: 40},
+                thumbnailSize: {width: 400, height: 40},
+                containerSize: {height: 46},
+            },
+            {
+                filename: 'image-1000x40.jpg',
+                originalSize: {width: 1000, height: 40},
+                thumbnailSize: {width: 971, height: 38.82},
+                containerSize: {height: 46},
+            },
+            {
+                filename: 'image-1600x40.jpg',
+                originalSize: {width: 1600, height: 40},
+                thumbnailSize: {width: 971, height: 24.26},
+                previewSize: {width: 1248, height: 31.18},
+                containerSize: {height: 46},
+            },
+        ];
+
+        listOfMinWidthHeightImages.forEach((imageWithMinWidthHeight) => {
+            // # Upload Image as attachment and post it
+            cy.get('#fileUploadInput').attachFile(imageWithMinWidthHeight.filename);
+            cy.postMessage(`file uploaded-${imageWithMinWidthHeight.filename}`);
+
+            // # Get the last uploaded image post
+            cy.getLastPostId().then((lastPostId) => {
+                // # Move inside the last post for finer control
+                cy.get(`#${lastPostId}_message`).should('exist').and('be.visible').within(() => {
+                // # If image is below min dimensions then do checks for image container dimensions
+                    if (imageWithMinWidthHeight.containerSize) {
+                    // * Check if container is rendered for preview of image
+                        cy.get('.small-image__container').should('be.visible').and((imageContainer) => {
+                            if (imageWithMinWidthHeight.containerSize.height) {
+                            // * Should match thumbnail's container height
+                                expect(imageContainer.height()).to.closeTo(imageWithMinWidthHeight.containerSize.height, 0.01);
+                            } else {
+                            // * Should match thumbnail's container width
+                                expect(imageContainer.width()).to.closeTo(imageWithMinWidthHeight.containerSize.width, 0.01);
+                            }
+                        });
+                    }
+
+                    // # Find the attached image and verify its dimensions and click on it to open preview modal
+                    cy.findByLabelText(`file thumbnail ${imageWithMinWidthHeight.filename}`).should('exist').and('be.visible').
+                        and((imageAttachment) => {
+                            // * Check the dimensions of image's dimensions is almost equal to its thumbnail dimensions
+                            expect(imageAttachment.height()).to.closeTo(imageWithMinWidthHeight.thumbnailSize.height, 0.01);
+                            expect(imageAttachment.width()).to.be.closeTo(imageWithMinWidthHeight.thumbnailSize.width, 0.01);
+                        }).click();
+                });
+
+                // * Verify image preview modal is opened
+                cy.get('.a11y__modal').should('exist').and('be.visible').
+                    within(() => {
+                    // * Verify we have the image inside the modal
+                        cy.findByTestId('imagePreview').should('exist').and('be.visible').
+                            and((imagePreview) => {
+                                // * Verify that preview has correct alt text
+                                expect(imagePreview.attr('alt')).equals('preview url image');
+
+                                // # If image is bigger than viewport, then its preview will be check for dimensions
+                                if (imageWithMinWidthHeight.previewSize) {
+                                    // * It should match preview dimension for images bigger than viewport
+                                    expect(imagePreview.height()).to.closeTo(imageWithMinWidthHeight.previewSize.height, 0.01);
+                                    expect(imagePreview.width()).to.be.closeTo(imageWithMinWidthHeight.previewSize.width, 0.01);
+                                } else {
+                                    // * It should match original dimension for images less than viewport size
+                                    expect(imagePreview.height()).to.equal(imageWithMinWidthHeight.originalSize.height);
+                                    expect(imagePreview.width()).to.be.equal(imageWithMinWidthHeight.originalSize.width);
+                                }
+                            });
+                    });
+
+                // # Close the image preview modal
+                cy.get('body').type('{esc}');
+            });
+        });
+    });
 });
