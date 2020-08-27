@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {chain, tween, styler, action} from 'popmotion';
 import {CSSTransition} from 'react-transition-group';
 
 import {isMobile} from 'utils/utils.jsx';
@@ -15,29 +14,15 @@ type Props = {
 }
 
 export default class MenuWrapperAnimation extends React.PureComponent<Props> {
-    private onEntering = (node: HTMLElement) => {
-        const nodeStyler = styler(node);
-        chain(
-            action(({update, complete}) => {
-                update({display: 'block'});
-                complete();
-            }),
-            tween({from: {opacity: 0}, to: {opacity: 1}, duration: ANIMATION_DURATION}),
-        ).start(nodeStyler.set);
-    }
-
-    private onExiting = (node: HTMLElement) => {
-        const nodeStyler = styler(node);
-        chain(
-            tween({from: {opacity: 1}, to: {opacity: 0}, duration: ANIMATION_DURATION}),
-            action(({update, complete}) => {
-                update({display: 'none'});
-                complete();
-            }),
-        ).start(nodeStyler.set);
-    }
-
     public render() {
+        if (isMobile()) {
+            if (this.props.show) {
+                return this.props.children;
+            }
+
+            return null;
+        }
+
         return (
             <CSSTransition
                 in={this.props.show}
@@ -46,14 +31,7 @@ export default class MenuWrapperAnimation extends React.PureComponent<Props> {
                 exit={true}
                 mountOnEnter={true}
                 unmountOnExit={true}
-                {...(isMobile() ? {} : {
-                    onEntering: this.onEntering,
-                    onExiting: this.onExiting,
-                })}
-                timeout={{
-                    enter: ANIMATION_DURATION,
-                    exit: ANIMATION_DURATION,
-                }}
+                timeout={ANIMATION_DURATION}
             >
                 {this.props.children}
             </CSSTransition>
