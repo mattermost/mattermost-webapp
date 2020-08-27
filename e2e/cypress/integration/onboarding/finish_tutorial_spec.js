@@ -11,14 +11,11 @@
 // Group: @onboarding
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
-import {getRandomId} from '../../utils';
-
+import {generateRandomUser} from '../../support/api/user';
 describe('Onboarding', () => {
     let testTeam;
-    const randomId = getRandomId();
-    const username = `user${randomId}`;
-    const email = `user${randomId}@sample.mattermost.com`;
-    const password = 'passwd';
+    const user = generateRandomUser();
+    const {username, email, password} = user;
 
     before(() => {
         cy.apiInitSetup().then(({team}) => {
@@ -57,7 +54,7 @@ describe('Onboarding', () => {
         cy.get('#createAccountButton').should('be.visible').click();
 
         // * Check that the display name of the team the user was invited to is being correctly displayed
-        cy.get('#headerTeamName').should('contain.text', testTeam.display_name);
+        cy.get('#headerTeamName', {timeout: TIMEOUTS.HALF_MIN}).should('contain.text', testTeam.display_name);
 
         // * Check that 'Town Square' is currently being selected
         cy.get('.active').within(() => {

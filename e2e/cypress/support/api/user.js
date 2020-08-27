@@ -256,3 +256,5 @@ Cypress.Commands.add('apiPromoteGuestToUser', (userId) => {
         return cy.apiGetUserById(userId);
     });
 });
+
+export {generateRandomUser};
