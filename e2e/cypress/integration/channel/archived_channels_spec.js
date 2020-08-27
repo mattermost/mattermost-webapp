@@ -32,6 +32,7 @@ describe('Leave an archived channel', () => {
             testUser = user;
 
             cy.visit(`/${team.name}/channels/${testChannel.name}`);
+            cy.postM
         });
     });
 
@@ -103,6 +104,22 @@ describe('Leave an archived channel', () => {
                 expect(fullListLength).to.be.greaterThan(filteredLength);
             });
         });
+    });
+    it('MM-T1672_1 User can close archived channel (1/2)', () => {
+        // # Open a channel that's not the town square
+        cy.visit(`/${testTeam.name}/channels/off-topic`);
+
+        // # Search for a post in an archived channel
+        // # Open the archived channel by selecting Jump from search results and then selecting the link to move to the most recent posts in the channel
+        // # Close an archived channel by clicking "Close Channel" button in the footer
+        // * The user is returned to the channel they were previously viewing and the archived channel is removed from the drawer
+        // # Repeat steps 1 to 3 (N/A for RN)
+        // # Click the header menu and select Close Channel (N/A for RN)
+        // * The user is returned to the channel they were previously viewing and the archived channel is removed from the drawer
+    });
+    it('MM-T1672_2 User can close archived channel (2/2)', () => {
+        // # Add text to channel you land on (after closing the archived channel via Close Channel button)
+        // * Able to add test
     });
 });
 
