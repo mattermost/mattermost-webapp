@@ -33,6 +33,7 @@ class InvitationModalMembersStep extends React.PureComponent {
         userLimit: PropTypes.string.isRequired,
         currentUsers: PropTypes.number.isRequired,
         userIsAdmin: PropTypes.bool.isRequired,
+        isCloud: PropTypes.string.isRequired,
     }
 
     constructor(props) {
@@ -122,8 +123,9 @@ class InvitationModalMembersStep extends React.PureComponent {
     }
 
     shouldShowPickerError = () => {
-        const {userLimit, currentUsers, userIsAdmin} = this.props;
-        if (userLimit === '0' || !userIsAdmin) {
+        const {userLimit, currentUsers, userIsAdmin, isCloud} = this.props;
+
+        if (userLimit === '0' || !userIsAdmin || isCloud !== 'true') {
             return false;
         }
 
