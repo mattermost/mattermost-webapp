@@ -9,7 +9,9 @@
 
 // Group: @channel
 
-import {markAsUnreadByPostIdFromMenu, verifyPostNextToNewMessageSeparator, beRead, beUnread, switchToChannel} from './helpers';
+import {beRead, beUnread} from '../../support/assertions';
+
+import {markAsUnreadByPostIdFromMenu, verifyPostNextToNewMessageSeparator, switchToChannel} from './helpers';
 
 describe('channel unread posts', () => {
     let testUser;
@@ -89,6 +91,38 @@ describe('channel unread posts', () => {
 
         // * Verify the channelA has does not have unread in LHS
         cy.get(`#sidebarItem_${channelA.name}`).should(beRead);
+    });
+
+    it('MM-T256 Mark unread before a page of message in Channel', () => {
+        // # Login as other user
+        cy.apiLogin(otherUser);
+
+        // # Switch to channelA
+        switchToChannel(channelA);
+
+        for (let index = 5; index < 40; index++) {
+            // # Post Message as Current user
+            const message = `hello from current user: ${index}`;
+
+            cy.postMessageAs({sender: testUser, message, channelId: channelA.id});
+        }
+
+        // # Mark the post which is one page above from bottom as unread
+        cy.getNthPostId(6).then((postId) => {
+            markAsUnreadByPostIdFromMenu(postId);
+        });
+
+        // * Verify the notification separator line exists and present before the unread message
+        verifyPostNextToNewMessageSeparator('hello from current user: 5');
+
+        // # Switch to channelB
+        switchToChannel(channelB);
+
+        // # Switch to channelA
+        switchToChannel(channelA);
+
+        // * Verify the notification separator line exists and present before the unread message
+        verifyPostNextToNewMessageSeparator('hello from current user: 5');
     });
 
     it('MM-T259 Mark as Unread channel remains unread when receiving new message', () => {
