@@ -5,9 +5,8 @@ import React from 'react';
 import {Modal, Button} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
+import UpgradeUserLimitModalSvg from './user_limit_upgrade_svg';
 import './user_limit_modal.scss';
-
-import upgradeImage from './user_limit_upgrade.svg';
 
 type Props = {
     show: boolean;
@@ -28,48 +27,54 @@ export default function UserLimitModal(props: Props) {
 
     return (
         <>
-            {props.show &&
-            <Modal
-                className={'UserLimitModal'}
-                show={props.show}
-                id='userLimitModal'
-                role='dialog'
-                onHide={close}
-            >
-                <Modal.Header closeButton={true}/>
-                <Modal.Body>
-                    <img
-                        className='upgrade-image'
-                        src={upgradeImage}
-                    />
-                    <div className='title'>{"You've reached the user limit"}</div>
-                    <div className='description'>
-                        {
-                            'The free tier is limited to 10 users. Upgrade Mattermost Cloud for more users.'
-                        }
-                    </div>
-                    <div className='buttons'>
-                        <Button
-                            className='dismiss-link'
-                            onClick={close}
-                        >
+            {props.show && (
+                <Modal
+                    className={'UserLimitModal'}
+                    show={props.show}
+                    id='userLimitModal'
+                    role='dialog'
+                    onHide={close}
+                >
+                    <Modal.Header closeButton={true}/>
+                    <Modal.Body>
+                        <UpgradeUserLimitModalSvg/>
+                        <div className='title'>
                             <FormattedMessage
-                                id={'notrightnow'}
-                                defaultMessage={'Not right now'}
+                                id={'upgrade.cloud_modal_title'}
+                                defaultMessage={"You've reached the user limit\""}
                             />
-                        </Button>
-                        <Button
-                            className='confirm-button'
-                            onClick={onSubmit}
-                        >
+                        </div>
+                        <div className='description'>
                             <FormattedMessage
-                                id={'upgrade.cloud'}
-                                defaultMessage={'Upgrade Mattermost Cloud'}
+                                id={'upgrade.cloud_modal_body'}
+                                defaultMessage={
+                                    'The free tier is limited to 10 users. Upgrade Mattermost Cloud for more users.'
+                                }
                             />
-                        </Button>
-                    </div>
-                </Modal.Body>
-            </Modal>}
+                        </div>
+                        <div className='buttons'>
+                            <Button
+                                className='dismiss-link'
+                                onClick={close}
+                            >
+                                <FormattedMessage
+                                    id={'cloud.upgrade.notrightnow'}
+                                    defaultMessage={'Not right now'}
+                                />
+                            </Button>
+                            <Button
+                                className='confirm-button'
+                                onClick={onSubmit}
+                            >
+                                <FormattedMessage
+                                    id={'upgrade.cloud'}
+                                    defaultMessage={'Upgrade Mattermost Cloud'}
+                                />
+                            </Button>
+                        </div>
+                    </Modal.Body>
+                </Modal>
+            )}
         </>
     );
 }

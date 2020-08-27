@@ -1,5 +1,4 @@
 .UserLimitModal {
-
      .modal-dialog {
         position: absolute;
         width: 512px;
@@ -45,6 +44,7 @@
     }
 
     .modal-body {
+        overflow: hidden;
         display: flex;
         flex-direction: column;
         .upgrade-image {
