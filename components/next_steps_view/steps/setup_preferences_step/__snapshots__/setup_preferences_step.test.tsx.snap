@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/next_steps_view/steps/setup_preferences_step should match snapshot 1`] = `
+<Fragment>
+  <TextCardWithAction
+    buttonDefaultMessage="Set Preferences"
+    buttonMessageId="next_steps_view.preferenceSetup.setPreferences"
+    cardBodyDefaultMessage="You can change how you receive notifications, update your profile, customize display settings and more. Preferences can be accessed through the Main Menu."
+    cardBodyMessageId="next_steps_view.preferenceSetup"
+    onClick={[Function]}
+  />
+</Fragment>
+`;
