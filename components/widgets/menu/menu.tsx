@@ -22,7 +22,7 @@ type Props = {
     openUp?: boolean;
     id?: string;
     ariaLabel: string;
-    customStyles?: object;
+    customStyles?: React.CSSProperties;
 }
 
 export default class Menu extends React.PureComponent<Props> {
