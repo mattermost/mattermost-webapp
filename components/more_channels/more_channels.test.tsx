@@ -80,14 +80,14 @@ describe('components/MoreChannels', () => {
         teamId: 'team_id',
         teamName: 'team_name',
         channelsRequestStarted: false,
-        onModalDismissed: jest.fn(),
-        handleNewChannel: jest.fn(),
         canShowArchivedChannels: true,
         actions: {
             getChannels: jest.fn(),
             getArchivedChannels: jest.fn(),
             joinChannel: jest.fn(channelActions.joinChannelAction),
             searchMoreChannels: jest.fn(channelActions.searchMoreChannels),
+            openModal: jest.fn(),
+            closeModal: jest.fn(),
         },
     };
 
@@ -119,15 +119,13 @@ describe('components/MoreChannels', () => {
         expect(wrapper.state('show')).toEqual(false);
     });
 
-    test('should call props.onModalDismissed on handleExit', () => {
-        const props = {...baseProps, onModalDismissed: jest.fn()};
+    test('should call closeModal on handleExit', () => {
         const wrapper: ShallowWrapper<any, any, MoreChannels> = shallow(
-            <MoreChannels {...props}/>,
+            <MoreChannels {...baseProps}/>,
         );
 
         wrapper.instance().handleExit();
-        expect(props.onModalDismissed).toHaveBeenCalledTimes(1);
-        expect(props.onModalDismissed).toHaveBeenCalledWith();
+        expect(baseProps.actions.closeModal).toHaveBeenCalledTimes(1);
     });
 
     test('should match state on onChange', () => {

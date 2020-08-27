@@ -36,13 +36,6 @@ exports[`components/sidebar should match snapshot 1`] = `
   />
   <Connect(DataPrefetch) />
   <Connect(SidebarNextSteps) />
-  <Connect(NewChannelFlow)
-    canCreatePrivateChannel={true}
-    canCreatePublicChannel={true}
-    channelType="O"
-    onModalDismissed={[Function]}
-    show={false}
-  />
 </div>
 `;
 
@@ -80,13 +73,6 @@ exports[`components/sidebar should match snapshot when direct channels modal is 
   />
   <Connect(DataPrefetch) />
   <Connect(SidebarNextSteps) />
-  <Connect(NewChannelFlow)
-    canCreatePrivateChannel={true}
-    canCreatePublicChannel={true}
-    channelType="O"
-    onModalDismissed={[Function]}
-    show={false}
-  />
   <Connect(MoreDirectChannels)
     isExistingChannel={false}
     onModalDismissed={[Function]}
@@ -127,13 +113,6 @@ exports[`components/sidebar should match snapshot when isDataPrefechEnabled is d
     onDragStart={[Function]}
   />
   <Connect(SidebarNextSteps) />
-  <Connect(NewChannelFlow)
-    canCreatePrivateChannel={true}
-    canCreatePublicChannel={true}
-    channelType="O"
-    onModalDismissed={[Function]}
-    show={false}
-  />
 </div>
 `;
 
@@ -171,17 +150,5 @@ exports[`components/sidebar should match snapshot when more channels modal is op
   />
   <Connect(DataPrefetch) />
   <Connect(SidebarNextSteps) />
-  <Connect(NewChannelFlow)
-    canCreatePrivateChannel={true}
-    canCreatePublicChannel={true}
-    channelType="O"
-    onModalDismissed={[Function]}
-    show={false}
-  />
-  <Connect(MoreChannels)
-    handleNewChannel={[Function]}
-    morePublicChannelsModalType="public"
-    onModalDismissed={[Function]}
-  />
 </div>
 `;
