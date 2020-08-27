@@ -12,10 +12,6 @@ export default function TextCardWithAction(props: {
     buttonDefaultMessage: string;
     onClick: () => void;
 }) {
-    const onClick = () => {
-        props.onClick();
-    };
-
     return (
         <div className={'TextCardWithAction'}>
             <div className={'card-body'}>
@@ -27,7 +23,7 @@ export default function TextCardWithAction(props: {
             <div className='NextStepsView__wizardButtons'>
                 <button
                     className='NextStepsView__button NextStepsView__finishButton primary'
-                    onClick={onClick}
+                    onClick={props.onClick}
                 >
                     <FormattedMessage
                         id={props.buttonMessageId}

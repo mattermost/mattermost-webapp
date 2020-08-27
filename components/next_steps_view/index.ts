@@ -8,8 +8,6 @@ import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUser, isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 
-import {openModal} from 'actions/views/modals';
-
 import {setShowNextStepsView} from 'actions/views/next_steps';
 import {GlobalState} from 'types/store';
 import {Preferences} from 'utils/constants';
@@ -33,7 +31,6 @@ function mapDispatchToProps(dispatch: Dispatch) {
         actions: bindActionCreators({
             savePreferences,
             setShowNextStepsView,
-            openModal,
         }, dispatch),
     };
 }
