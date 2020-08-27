@@ -16,24 +16,24 @@ describe('Site URL', () => {
         cy.visit('/admin_console/environment/web_server');
 
         // # Note the site URL value
-        cy.get("[data-testid='ServiceSettings.SiteURLinput']").invoke('val').then((originalSiteURLValue) => {
+        cy.findByTestId('ServiceSettings.SiteURLinput').invoke('val').then((originalSiteURLValue) => {
             // # Clear the Site URL
-            cy.get("[data-testid='ServiceSettings.SiteURLinput']").clear();
+            cy.findByTestId('ServiceSettings.SiteURLinput').clear();
 
             // # Save
-            cy.get('#saveSetting').click();
-            cy.waitUntil(() => cy.get('#saveSetting').then((el) => {
+            cy.findAllByTestId('saveSetting').click();
+            cy.waitUntil(() => cy.findAllByTestId('saveSetting').then((el) => {
                 return el[0].innerText === 'Save';
             }));
 
             // * Check that the error message is present
-            cy.get('div.error-message').contains('Site URL cannot be cleared.');
+            cy.findAllByTestId('error-message').contains('Site URL cannot be cleared.');
 
             // # Reload the page
             cy.visit('/admin_console/environment/web_server');
 
             // * Check that the setting is the original value
-            cy.get("[data-testid='ServiceSettings.SiteURLinput']").should('have.value', originalSiteURLValue);
+            cy.findByTestId('ServiceSettings.SiteURLinput').should('have.value', originalSiteURLValue);
         });
 
     });

@@ -1064,6 +1064,7 @@ export default class SchemaAdminSettings extends React.PureComponent {
                     />
                     <div
                         className='error-message'
+                        data-testid='error-message'
                         ref='errorMessage'
                         onMouseOver={this.openTooltip}
                         onMouseOut={this.closeTooltip}
