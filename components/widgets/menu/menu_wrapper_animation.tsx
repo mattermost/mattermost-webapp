@@ -13,29 +13,27 @@ type Props = {
     show: boolean;
 }
 
-export default class MenuWrapperAnimation extends React.PureComponent<Props> {
-    public render() {
-        if (isMobile()) {
-            if (this.props.show) {
-                return this.props.children;
-            }
-
-            return null;
+export default function MenuWrapperAnimation(props: Props) {
+    if (isMobile()) {
+        if (props.show) {
+            return props.children;
         }
 
-        return (
-            <CSSTransition
-                in={this.props.show}
-                classNames='MenuWrapperAnimation'
-                enter={true}
-                exit={true}
-                mountOnEnter={true}
-                unmountOnExit={true}
-                timeout={ANIMATION_DURATION}
-            >
-                {this.props.children}
-            </CSSTransition>
-        );
+        return null;
     }
+
+    return (
+        <CSSTransition
+            in={props.show}
+            classNames='MenuWrapperAnimation'
+            enter={true}
+            exit={true}
+            mountOnEnter={true}
+            unmountOnExit={true}
+            timeout={ANIMATION_DURATION}
+        >
+            {props.children}
+        </CSSTransition>
+    );
 }
 
