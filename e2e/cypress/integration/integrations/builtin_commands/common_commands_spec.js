@@ -73,7 +73,7 @@ describe('I18456 Built-in slash commands: common', () => {
     });
 
     it('/shrug test', () => {
-        // # Login as user2 and post a message
+    // # Login as user2 and post a message
         loginAndVisitDefaultChannel(user2, testChannelUrl);
         cy.postMessage('hello from user2');
 
@@ -244,10 +244,10 @@ describe('I18456 Built-in slash commands: common', () => {
         cy.getLastPostId().then((postId) => {
             cy.get(`#postMessageText_${postId}`).
 
-                // * Could not find the channel lalodkjngjrngorejng. Please use the channel handle to identify channels.
+            // * Could not find the channel lalodkjngjrngorejng. Please use the channel handle to identify channels.
                 should('have.text', `Could not find the channel ${invalidChannel}. Please use the channel handle to identify channels.`).
 
-                // * Channel handle links to: https://docs.mattermost.com/help/getting-started/organizing-conversations.html#naming-a-channel
+            // * Channel handle links to: https://docs.mattermost.com/help/getting-started/organizing-conversations.html#naming-a-channel
                 contains('a', 'channel handle').then((link) => {
                     const href = link.prop('href');
                     cy.request(href).its('allRequestResponses').then((response) => {
@@ -277,6 +277,34 @@ describe('I18456 Built-in slash commands: common', () => {
         cy.visit(`${team1.name}/channels/town-square`);
 
         // * Added user sees channel added to LHS, mention badge
+        cy.get('#sidebarChannelContainer').
+            find(`[href*="${team1.name}/channels/${testChannel.name}"]`).
+            within(() => {
+                cy.get('#unreadMentions').should('be.visible');
+                cy.findByText(`${testChannel.display_name}`).click();
+            });
+
+        // * Added user sees system message "username added to the channel by username."
+        cy.uiWaitUntilMessagePostedIncludes(`You were added to the channel by @${user1.username}`);
+    });
+
+    it('MM-T659 /invite - other channel', () => {
+        const userToInvite = userGroup[3];
+
+        loginAndVisitDefaultChannel(user1, `${team1.name}/channels/${testChannel.name}`);
+        cy.postMessage('Hello World!');
+        cy.get('#sidebarItem_town-square').click();
+
+        // # Post `/invite @username ~channel` where channelname is a channel you have permission to add members to but not the current channel, and username is a user not in that other channel
+        cy.postMessage(`/invite @${userToInvite.username} ~${testChannel.name}`);
+
+        // * User who added them sees system message "username added to channelname channel."
+        cy.uiWaitUntilMessagePostedIncludes(`${userToInvite.username} added to ${testChannel.name} channel.`);
+
+        cy.apiLogout();
+        loginAndVisitDefaultChannel(userToInvite, `${team1.name}/channels/${testChannel.name}`);
+
+        // * Added user sees channel added to LHS, mention badge.
         cy.get('#sidebarChannelContainer').
             find(`[href*="${team1.name}/channels/${testChannel.name}"]`).
             within(() => {
