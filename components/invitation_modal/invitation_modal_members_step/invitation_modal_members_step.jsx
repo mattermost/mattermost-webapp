@@ -35,9 +35,9 @@ class InvitationModalMembersStep extends React.PureComponent {
         userIsAdmin: PropTypes.bool.isRequired,
         isCloud: PropTypes.string.isRequired,
         analytics: PropTypes.object.isRequired,
-        actions: {
+        actions: PropTypes.shape({
             getStandardAnalytics: PropTypes.func.isRequired,
-        },
+        }).isRequired,
     };
 
     constructor(props) {
