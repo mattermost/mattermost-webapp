@@ -131,9 +131,6 @@ describe('reply-notifications', () => {
         cy.get('@notifySpy').should('be.not.called');
 
         // * Verify unread mentions badge does not exist
-        cy.get('#publicChannel');
-        cy.get('#sidebarItem_town-square').
-            find('#unreadMentions').
-            should('be.not.visible');
+        cy.get('#sidebarItem_town-square').find('#unreadMentions').should('be.not.visible');
     });
 });
