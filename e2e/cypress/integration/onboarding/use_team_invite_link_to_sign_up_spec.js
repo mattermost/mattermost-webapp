@@ -91,7 +91,7 @@ describe('Onboarding', () => {
             cy.visit(permalink);
 
             // # Check that 'Email Verified' text should be visible, email is pre-filled, and password field is focused, then login
-            cy.findByText('Email Verified').should('be.visible');
+            cy.findByText('Email Verified', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible');
             cy.get('#loginId').should('have.value', email);
             cy.get('#loginPassword').should('be.focused').type(password);
             cy.get('#loginButton').click();
