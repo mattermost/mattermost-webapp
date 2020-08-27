@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @messaging
 
 describe('Messaging', () => {
@@ -60,7 +61,6 @@ describe('Messaging', () => {
                     and('have.attr', 'alt', label);
 
                 // # Assign the value of the a tag href to the 'href' variable and assert the link is valid
-                // eslint-disable-next-line jquery/no-prop
                 const href = $a.prop('href');
                 cy.request(href).its('body').should('include', '</html>');
             });

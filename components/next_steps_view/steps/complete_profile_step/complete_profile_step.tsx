@@ -110,6 +110,7 @@ export default class CompleteProfileStep extends React.PureComponent<Props, Stat
                             />
                         </h3>
                         <PictureSelector
+                            name='CompleteProfileStep__profilePicture'
                             onSelect={this.onSelectPicture}
                             onRemove={this.onRemovePicture}
                             src={pictureSrc}
@@ -146,6 +147,7 @@ export default class CompleteProfileStep extends React.PureComponent<Props, Stat
                 }
                 <div className='NextStepsView__wizardButtons'>
                     <button
+                        data-testid='CompleteProfileStep__saveProfileButton'
                         className={classNames('NextStepsView__button NextStepsView__finishButton primary', {disabled: this.isFinishDisabled()})}
                         onClick={this.onFinish}
                         disabled={this.isFinishDisabled()}

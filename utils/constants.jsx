@@ -264,7 +264,7 @@ export const ModalIdentifiers = {
     WARN_METRIC_ACK: 'warn_metric_acknowledgement',
     REMOVE_NEXT_STEPS_MODAL: 'remove_next_steps_modal',
     MORE_CHANNELS: 'more_channels',
-    CREATE_CHANNEL: 'create_channel',
+    NEW_CHANNEL_FLOW: 'new_channel_flow',
 };
 
 export const UserStatuses = {
@@ -716,6 +716,8 @@ export const PermissionsScope = {
     [Permissions.DELETE_OTHERS_EMOJIS]: 'team_scope',
     [Permissions.USE_CHANNEL_MENTIONS]: 'channel_scope',
     [Permissions.USE_GROUP_MENTIONS]: 'channel_scope',
+    [Permissions.READ_PUBLIC_CHANNEL_GROUPS]: 'channel_scope',
+    [Permissions.READ_PRIVATE_CHANNEL_GROUPS]: 'channel_scope',
 };
 
 export const DefaultRolePermissions = {
@@ -740,6 +742,8 @@ export const DefaultRolePermissions = {
         Permissions.ADD_REACTION,
         Permissions.REMOVE_REACTION,
         Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS,
+        Permissions.READ_PUBLIC_CHANNEL_GROUPS,
+        Permissions.READ_PRIVATE_CHANNEL_GROUPS,
         Permissions.UPLOAD_FILE,
         Permissions.GET_PUBLIC_LINK,
         Permissions.CREATE_POST,
@@ -760,6 +764,8 @@ export const DefaultRolePermissions = {
         Permissions.ADD_REACTION,
         Permissions.REMOVE_REACTION,
         Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS,
+        Permissions.READ_PUBLIC_CHANNEL_GROUPS,
+        Permissions.READ_PRIVATE_CHANNEL_GROUPS,
         Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS,
         Permissions.USE_CHANNEL_MENTIONS,
         Permissions.USE_GROUP_MENTIONS,
@@ -782,6 +788,8 @@ export const DefaultRolePermissions = {
         Permissions.MANAGE_OTHERS_INCOMING_WEBHOOKS,
         Permissions.USE_CHANNEL_MENTIONS,
         Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS,
+        Permissions.READ_PUBLIC_CHANNEL_GROUPS,
+        Permissions.READ_PRIVATE_CHANNEL_GROUPS,
         Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS,
         Permissions.CREATE_POST,
         Permissions.REMOVE_REACTION,

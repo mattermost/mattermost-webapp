@@ -108,6 +108,7 @@ export default class TeamProfileStep extends React.PureComponent<Props, State> {
                             />
                         </h3>
                         <PictureSelector
+                            name='TeamProfileStep__teamIcon'
                             onSelect={this.onSelectPicture}
                             onRemove={this.onRemovePicture}
                             src={pictureSrc}
@@ -152,6 +153,7 @@ export default class TeamProfileStep extends React.PureComponent<Props, State> {
                 }
                 <div className='NextStepsView__wizardButtons'>
                     <button
+                        data-testid='TeamProfileStep__saveTeamButton'
                         className={classNames('NextStepsView__button NextStepsView__finishButton primary', {disabled: this.isFinishDisabled()})}
                         onClick={this.onFinish}
                         disabled={this.isFinishDisabled()}
