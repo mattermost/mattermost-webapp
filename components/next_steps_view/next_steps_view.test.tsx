@@ -25,6 +25,7 @@ jest.mock('components/next_steps_view/steps', () => ({
             component: jest.fn(),
         },
     ],
+    isStepForUser: () => true,
 }));
 
 describe('components/next_steps_view', () => {
