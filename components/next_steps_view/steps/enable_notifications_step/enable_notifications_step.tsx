@@ -11,7 +11,6 @@ import TextCardWithAction from '../text_card_with_action/text_card_with_action';
 
 export default function EnableNotificationsStep(props: StepComponentProps) {
     const onFinish = async () => {
-        // TODO: Test this somewhere where you haven't accepted notifications yet
         await showNotification({
             title: Utils.localizeMessage(
                 'next_steps_view.notificationSetup.notficationsEnabledTitle',
