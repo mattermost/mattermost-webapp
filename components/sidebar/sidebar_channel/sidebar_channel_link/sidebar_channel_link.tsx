@@ -57,6 +57,7 @@ type Props = {
 };
 
 type State = {
+    isMenuOpen: boolean;
     showTooltip: boolean;
 };
 
@@ -71,6 +72,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
         this.gmItemRef = React.createRef();
 
         this.state = {
+            isMenuOpen: false,
             showTooltip: false,
         };
     }
@@ -127,6 +129,10 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
     trackChannelSelectedEvent = () => {
         mark('SidebarLink#click');
         trackEvent('ui', 'ui_channel_selected_v2');
+    }
+
+    handleMenuToggle = (isMenuOpen: boolean) => {
+        this.setState({isMenuOpen});
     }
 
     /**
@@ -189,15 +195,24 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
                     isCollapsed={this.props.isCollapsed}
                     closeHandler={this.props.closeHandler}
                     channelLink={link}
+                    isMenuOpen={this.state.isMenuOpen}
+                    onToggleMenu={this.handleMenuToggle}
                 />
             </React.Fragment>
         );
 
         // NOTE: class added to temporarily support the desktop app's at-mention DOM scraping of the old sidebar
-        const oldUnreadClass = this.showChannelAsUnread() ? 'unread-title' : '';
+        const className = classNames([
+            'SidebarLink',
+            {
+                menuOpen: this.state.isMenuOpen,
+                muted: isMuted,
+                'unread-title': this.showChannelAsUnread(),
+            },
+        ]);
         let element = (
             <Link
-                className={classNames(['SidebarLink', {muted: isMuted}, oldUnreadClass])}
+                className={className}
                 id={`sidebarItem_${channel.name}`}
                 aria-label={this.getAriaLabel()}
                 to={link}
