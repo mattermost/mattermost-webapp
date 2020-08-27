@@ -11,7 +11,7 @@
 
 import {getRandomId} from '../../utils';
 
-describe('MM-T470 Reply in existing GM', () => {
+describe('Reply in existing GM', () => {
     let testUser;
     let otherUser1;
     let otherUser2;
