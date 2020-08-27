@@ -115,15 +115,15 @@ describe('reply-notifications', () => {
         // # Navigate to town square channel
         cy.get(`#sidebarItem_${'town-square'}`).scrollIntoView().click({force: true});
 
-        // # post a message
+        // # Post a message
         cy.postMessage('Hi there, this is a root message');
 
-        // # get post id of message
+        // # Get post id of message
         cy.getLastPostId().then((postId) => {
-            // # switch to other channel so that unread notifications in 'town-square` may be triggered
+            // # Switch to other channel so that unread notifications in 'town-square` may be triggered
             cy.get(`#sidebarItem_${otherChannel.name}`).scrollIntoView().click({force: true});
 
-            // # post a message in original thread as another user
+            // # Post a message in original thread as another user
             cy.postMessageAs({sender, message: 'This is a reply to the root post', channelId: townsquareChannelId, rootId: postId});
         });
 
