@@ -122,7 +122,7 @@ Cypress.Commands.add('apiPatchChannelPrivacy', (channelId, privacy = 'O') => {
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         method: 'PUT',
         url: `/api/v4/channels/${channelId}/privacy`,
-        body: { privacy },
+        body: {privacy},
     }).then((response) => {
         expect(response.status).to.equal(200);
         return cy.wrap(response);

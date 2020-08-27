@@ -108,7 +108,7 @@ context('ldap', () => {
             // # Save settings
             cy.get('#saveSetting').should('be.enabled').click({force: true});
             cy.wait(1000); //eslint-disable-line cypress/no-unnecessary-waiting
-            
+
             // # Go back to testChannel management page
             cy.visit(`/admin_console/user_management/channels/${testChannel.id}`);
             cy.wait(1000); //eslint-disable-line cypress/no-unnecessary-waiting
@@ -148,14 +148,14 @@ context('ldap', () => {
 
             // * Ensure the confirmation modal shows with the following text
             cy.get('#confirmModalBody').should('be.visible').and('have.text', `Removing this membership will prevent future users in this group from being added to the ${testTeam.display_name} team.`);
-            
+
             // # Accept the modal and save settings
             cy.get('#confirmModalButton').should('be.visible').click();
             cy.get('#saveSetting').click();
         });
 
         it('MM-T2621 - Team List Management Column', () => {
-            let testTeam2; 
+            let testTeam2;
 
             // # Login as system admin and go to testTeam config page
             cy.apiAdminLogin();
@@ -181,14 +181,14 @@ context('ldap', () => {
                     cy.findByPlaceholderText('Search').should('be.visible').type(`${testTeam.display_name}{enter}`);
                 });
 
-                // * Ensure anyone can join text shows 
+                // * Ensure anyone can join text shows
                 cy.findByTestId(`${testTeam.name}_management`).should('have.text', 'Anyone Can Join');
 
                 // * Search for second team we just made
                 cy.get('.DataGrid_searchBar').within(() => {
                     cy.findByPlaceholderText('Search').should('be.visible').clear().type(`${testTeam2.display_name}{enter}`);
-                }); 
-                
+                });
+
                 // * Ensure the management text shows Invite only
                 cy.findByTestId(`${testTeam2.name}_management`).should('have.text', 'Invite Only');
             });
@@ -205,8 +205,8 @@ context('ldap', () => {
             cy.get('#cancelButtonSettings').click();
             cy.get('#confirmModalButton').click();
             cy.visit(`/admin_console/user_management/channels/${testChannel.id}`);
-            cy.wait(2000); //eslint-disable-line cypress/no-unnecessary-
-            
+            cy.wait(2000); //eslint-disable-line cypress/no-unnecessary-waiting
+
             // * Ensure it still public
             cy.findByTestId('allow-all-toggle').should('has.have.text', 'Public');
 
@@ -217,8 +217,8 @@ context('ldap', () => {
 
             // # Visit the channel config page for testChannel
             cy.visit(`/admin_console/user_management/channels/${testChannel.id}`);
-            cy.wait(2000); //eslint-disable-line cypress/no-unnecessary-
-            
+            cy.wait(2000); //eslint-disable-line cypress/no-unnecessary-waiting
+
             // * Ensure it is Private
             cy.findByTestId('allow-all-toggle').should('has.have.text', 'Private');
 
@@ -226,11 +226,10 @@ context('ldap', () => {
             cy.visit(`/${testTeam.name}`);
             cy.get('#sidebarPublicChannelsMore').click();
 
-            // * Search private channel name and make sure it isn't there in public channel directory 
+            // * Search private channel name and make sure it isn't there in public channel directory
             cy.get('#searchChannelsTextbox').type(`${testChannel.display_name}`);
             cy.get('#moreChannelsList').should('include.text', 'No more channels to join');
         });
-
 
         it('MM-T2629 - Private to public - More....', () => {
             // # Create new test channel that is private
@@ -270,7 +269,6 @@ context('ldap', () => {
 
                 // * Ensure it still showing the channel as private
                 cy.findByTestId('allow-all-toggle').should('has.have.text', 'Public');
-                
 
                 // # Ensure the last message in the message says that it was converted to a public channel
                 cy.visit(`/${testTeam.name}/channels/${privateChannel.name}`);
@@ -282,13 +280,12 @@ context('ldap', () => {
             });
         });
 
-
         it('MM-T2630 - Default channel cannot be toggled to private', () => {
             cy.visit('/admin_console/user_management/channels');
 
             // # Search for the channel town square
             cy.get('.DataGrid_searchBar').within(() => {
-                cy.findByPlaceholderText('Search').should('be.visible').type(`Town Square`);
+                cy.findByPlaceholderText('Search').should('be.visible').type('Town Square');
             });
             cy.wait(2000); //eslint-disable-line cypress/no-unnecessary-waiting
 
@@ -299,9 +296,7 @@ context('ldap', () => {
                 // * Ensure the toggle to private/public is disabled
                 cy.findByTestId('allow-all-toggle-button').should('be.disabled');
             });
-
         });
-
 
         it('MM-T2638 - Permalink from when public does not auto-join (non-system-admin) after converting to private', () => {
             cy.apiLogin(testUser);
@@ -314,7 +309,7 @@ context('ldap', () => {
             cy.getLastPostId().then((id) => {
                 const postId = id;
 
-                // # Visit the channel 
+                // # Visit the channel
                 cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 
                 // # Post /leave command in testChannel to leave it
@@ -323,15 +318,14 @@ context('ldap', () => {
 
                 // Visit the permalink link
                 cy.visit(`/${testTeam.name}/pl/${postId}`);
-                cy.wait(5000);
+                cy.wait(5000); //eslint-disable-line cypress/no-unnecessary-waiting
 
                 // * Ensure the header of the permalink channel is what we expect it to be (testChannel)
                 cy.get('#channelHeaderTitle').should('be.visible').should('contain', testChannel.display_name);
-                
+
                 // # Leave the channel again
                 cy.postMessage('/leave');
                 cy.wait(5000); // eslint-disable-line cypress/no-unnecessary-waiting
-
 
                 // # Login as sysadmin and convert testChannel to private channel
                 cy.apiAdminLogin();
@@ -345,6 +339,5 @@ context('ldap', () => {
                 cy.findByTestId('error-message-title').contains('Message Not Found');
             });
         });
-
     });
 });
