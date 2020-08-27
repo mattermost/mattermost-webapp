@@ -16,7 +16,7 @@ import onboardingSuccess from 'images/onboarding-success.svg';
 import loadingIcon from 'images/spinner-48x48-blue.apng';
 import {Preferences} from 'utils/constants';
 
-import {Steps, StepType, filterSteps} from './steps';
+import {Steps, StepType, isStepForUser} from './steps';
 import './next_steps_view.scss';
 import NextStepsTips from './next_steps_tips';
 
@@ -186,7 +186,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
 
     // Filter the steps shown by checking if our user has any of the required roles for that step
     filterSteps = (step: StepType) => {
-        return filterSteps(step, this.props.currentUser.roles);
+        return isStepForUser(step, this.props.currentUser.roles);
     }
 
     steps = Steps.filter(this.filterSteps);

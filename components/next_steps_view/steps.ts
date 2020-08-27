@@ -86,7 +86,7 @@ export const Steps: StepType[] = [
 ];
 
 // Filter the steps shown by checking if our user has any of the required roles for that step
-export const filterSteps = (step: StepType, roles: string) => {
+export const isStepForUser = (step: StepType, roles: string) => {
     const userRoles = roles.split(' ');
     return isEqual(userRoles.sort(), step.roles.sort()) || step.roles.length === 0;
 };
@@ -113,7 +113,7 @@ export const nextStepsNotFinished = createSelector(
     (state: GlobalState) => getCategory(state, Preferences.RECOMMENDED_NEXT_STEPS),
     (state: GlobalState) => getCurrentUser(state),
     (stepPreferences, currentUser) => {
-        const checkPref = (step: StepType) => stepPreferences.some((pref) => (pref.name === step.id && pref.value === 'true') || !filterSteps(step, currentUser.roles));
+        const checkPref = (step: StepType) => stepPreferences.some((pref) => (pref.name === step.id && pref.value === 'true') || !isStepForUser(step, currentUser.roles));
         return !Steps.every(checkPref);
     }
 );
