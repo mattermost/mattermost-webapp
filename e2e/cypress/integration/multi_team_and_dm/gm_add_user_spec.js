@@ -129,6 +129,10 @@ describe('Multi-user group messages', () => {
         // * original messages does not exist
         cy.contains('.post-message__text', 'historical').should('not.be.visible');
 
+        cy.getLastPostId().then((id) => {
+            cy.get(`#postMessageText_${id}`).should('contain', 'This is the start of your group message history...');
+        });
+
         // * new user is added to the GM
         cy.get('#member_popover').click();
         cy.get('.more-modal__name').contains(testUser.username).should('be.visible');
