@@ -36,19 +36,19 @@ describe('Desktop notifications', () => {
             cy.apiCreateDirectChannel([testUser.id, user.id]).then((res) => {
                 const channel = res.body;
 
-                // # Ensure notifications are set up to fire a desktop notification if you receive a DM
+                // Ensure notifications are set up to fire a desktop notification if you receive a DM
                 cy.apiPatchUser(user.id, {notify_props: {...user.notify_props, desktop: 'all'}});
 
                 // Visit the MM webapp with the notification API stubbed.
                 stubNotificationAs('withNotification', `/${testTeam.name}/channels/town-square`, 'granted');
 
-                // # Post the following: /dnd
+                // Make sure user is marked as online.
                 cy.get('#post_textbox').clear().type('/online{enter}');
 
-                // # Have another user send you a DM
+                // Have another user send you a DM to trigger a Desktop Notification.
                 cy.postMessageAs({sender: testUser, message: MESSAGES.TINY, channelId: channel.id});
 
-                // * Desktop notification is not received
+                // Desktop notification should be received.
                 cy.wait(TIMEOUTS.HALF_SEC);
                 cy.get('@withNotification').should('have.been.calledOnce');
             });
