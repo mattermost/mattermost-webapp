@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {
     getMyTeams,
     getJoinableTeamIds,
@@ -19,9 +19,12 @@ import {isAdmin} from 'utils/utils.jsx';
 
 import {RHSStates} from 'utils/constants';
 
+import {unhideNextSteps} from 'actions/views/next_steps';
 import {showMentions, showFlaggedPosts, closeRightHandSide, closeMenu as closeRhsMenu} from 'actions/views/rhs';
 import {openModal} from 'actions/views/modals';
 import {getRhsState} from 'selectors/rhs';
+
+import {nextStepsNotFinished} from 'components/next_steps_view/steps';
 
 import MainMenu from './main_menu.jsx';
 
@@ -29,6 +32,7 @@ function mapStateToProps(state) {
     const config = getConfig(state);
     const currentTeam = getCurrentTeam(state);
     const currentUser = getCurrentUser(state);
+    const license = getLicense(state);
 
     const appDownloadLink = config.AppDownloadLink;
     const enableCommands = config.EnableCommands === 'true';
@@ -94,6 +98,7 @@ function mapStateToProps(state) {
         userIsAdmin: isAdmin(
             getMyTeamMember(state, currentTeam.id).roles,
         ),
+        showGettingStarted: !state.views.nextSteps.show && nextStepsNotFinished(state) && license.Cloud === 'true',
     };
 }
 
@@ -105,6 +110,7 @@ function mapDispatchToProps(dispatch) {
             showFlaggedPosts,
             closeRightHandSide,
             closeRhsMenu,
+            unhideNextSteps,
         }, dispatch),
     };
 }
