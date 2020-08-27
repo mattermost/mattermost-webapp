@@ -130,5 +130,5 @@ describe('Multi-user group header', () => {
                 cy.get(`#delete_post_${id}`);
             });
         });
-    }
+    };
 });
