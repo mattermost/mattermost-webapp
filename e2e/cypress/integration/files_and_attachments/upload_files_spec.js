@@ -10,12 +10,14 @@
 // Stage: @prod
 // Group: @file_and_attachments
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
+
 describe('Upload Files', () => {
     let testTeam;
     let testChannel;
     let otherUser;
 
-    before(() => {
+    beforeEach(() => {
         // # Create new team and new user and visit Town Square channel
         cy.apiInitSetup().then(({team, channel}) => {
             testTeam = team;
@@ -76,6 +78,12 @@ describe('Upload Files', () => {
         // # Login as otherUser
         cy.apiLogin(otherUser);
 
+        // # Reload the page
+        cy.reload();
+
+        // * Verify the image loading component is visible
+        cy.get('.image-container').should('be.visible').find('.image-loading__container').should('be.visible');
+
         // # OtherUser creates posts in the channel
         cy.postMessageAs({
             sender: otherUser,
@@ -83,7 +91,11 @@ describe('Upload Files', () => {
             channelId: testChannel.id,
         });
 
-        // * Verify image is not loading for each posts
-        cy.get('.image-loading__container').should('not.be.visible');
+        for (let i = 0; i < 5; i++) {
+            // * Verify image is not loading for each posts
+            cy.get('.image-container').should('be.visible').find('.image-loading__container').should('not.exist');
+
+            cy.wait(TIMEOUTS.HALF_SEC);
+        }
     });
 });
