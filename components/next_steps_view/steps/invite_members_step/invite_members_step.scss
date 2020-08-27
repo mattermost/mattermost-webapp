@@ -1,0 +1,141 @@
+.InviteMembersStep {
+    padding: 12px 40px 24px 40px;
+    max-width: 840px;
+
+    h3 {
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 20px;
+        color: var(--center-channel-color);
+        margin: 0;
+    }
+}
+
+.InviteMembersStep__shareInviteLink {
+    margin-top: 32px;
+    
+    .InviteMembersStep__shareLinkBlock {
+        display: flex;
+        margin-top: 8px;
+    }
+    .InviteMembersStep__shareLinkInput {
+        flex-grow: 1;
+        border-top: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
+        border-left: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
+        border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
+        border-right: 0;
+        border-radius: 4px 0 0 4px;
+        padding: 8px 12px;
+        font-size: 12px;
+        line-height: 16px;
+        color: rgba(var(--center-channel-color-rgb), 0.64);
+    }
+    .InviteMembersStep__shareLinkInputButton {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-grow: 0;
+        border-radius: 0 4px 4px 0;
+        font-size: 12px;
+        line-height: 16px;
+        font-weight: 600;
+        padding: 8px 16px;
+        min-width: 108px;
+
+        &.copied {
+            box-shadow: inset 0 0 0 1px var(--online-indicator);
+            color: var(--online-indicator);
+        }
+
+        i {
+            font-size: 14px;
+
+            &::before{
+                margin: 0;
+            }
+        }
+
+        span {
+            display: inline-block;
+            margin-left: 4px;
+        }
+    }
+}
+
+.InviteMembersStep__send {
+    display: flex;
+    margin-top: 8px;
+}
+
+.InviteMembersStep__sendButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 0;
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 600;
+    padding: 8px 16px;
+
+    i {
+        font-size: 14px;
+
+        &::before{
+            margin: 0;
+        }
+    }
+
+    span {
+        display: inline-block;
+        margin-left: 4px;
+    }
+
+    &.disabled i {
+        color: 1px solid var(--center-channel-color);
+    }
+}
+
+.InviteMembersStep__emailInvitations {
+    > span {
+        font-size: 12px;
+        line-height: 16px;
+        color: rgba(var(--center-channel-color-rgb), 0.56);
+    }
+}
+
+.InviteMembersStep__invitationResults {
+    display: flex;
+    font-size: 12px;
+    line-height: 16px;
+    color: var(--center-channel-color);
+    margin-left: 16px;
+    align-items: center;
+
+    i {
+        font-size: 14px;
+        color: var(--online-indicator);
+
+        &::before {
+            margin: 0;
+        }
+    }
+
+    > span {
+        margin-left: 4px;
+    }
+
+    &.error {
+        color: var(--error-text);
+
+        i {
+            color: var(--error-text);
+        }
+    }
+}
+
+@media screen and (max-width: 1020px) {
+    .InviteMembersStep {
+        flex-direction: column;
+        padding: 4px 12px 24px 12px;
+    }
+}
