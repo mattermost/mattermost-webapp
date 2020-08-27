@@ -109,7 +109,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
     }
 
     isStepComplete = (id: string) => {
-        return this.props.preferences.some((pref) => pref.name === id && Boolean(pref.value));
+        return this.props.preferences.some((pref) => pref.name === id && pref.value === 'true');
     }
 
     renderStep = (step: StepType, index: number) => {

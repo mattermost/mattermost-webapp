@@ -18,6 +18,7 @@ exports[`components/next_steps_view/steps/team_profile_step should match snapsho
         />
       </h3>
       <PictureSelector
+        name="TeamProfileStep__teamIcon"
         onRemove={[Function]}
         onSelect={[Function]}
         placeholder={
@@ -56,6 +57,7 @@ exports[`components/next_steps_view/steps/team_profile_step should match snapsho
   >
     <button
       className="NextStepsView__button NextStepsView__finishButton primary"
+      data-testid="TeamProfileStep__saveTeamButton"
       disabled={false}
       onClick={[Function]}
     >

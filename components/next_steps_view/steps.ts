@@ -66,7 +66,7 @@ export const showNextSteps = createSelector(
 export const nextStepsNotFinished = createSelector(
     (state: GlobalState) => getCategory(state, Preferences.RECOMMENDED_NEXT_STEPS),
     (stepPreferences) => {
-        const checkPref = (step: StepType) => stepPreferences.some((pref) => pref.name === step.id && pref.value);
+        const checkPref = (step: StepType) => stepPreferences.some((pref) => pref.name === step.id && pref.value === 'true');
         return !Steps.every(checkPref);
     }
 );
