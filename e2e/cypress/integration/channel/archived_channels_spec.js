@@ -22,12 +22,14 @@ describe('Leave an archived channel', () => {
 
     let testTeam;
     let testChannel;
+    let testUser;
 
     before(() => {
         // # Login as test user and visit town-square
-        cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
+        cy.apiInitSetup({loginAfter: true}).then(({team, channel, user}) => {
             testTeam = team;
             testChannel = channel;
+            testUser = user;
 
             cy.visit(`/${team.name}/channels/${testChannel.name}`);
         });
@@ -55,6 +57,7 @@ describe('Leave an archived channel', () => {
         // * Verify sure that we have switched channels
         cy.get('#channelHeaderTitle').should('not.contain', testChannel.display_name);
     });
+
     it('MM-T1670 Can view channel info for an archived channel', () => {
         // # Visit archived channel
         cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
@@ -70,8 +73,35 @@ describe('Leave an archived channel', () => {
         cy.contains('#channelInfoModalLabel strong', `${testChannel.display_name}`).should('be.visible');
 
         // * Channel URL is listed (non-linked text)
-        cy.url().then((loc) => { 
+        cy.url().then((loc) => {
             cy.contains('div.info__value', loc).should('be.visible');
+        });
+    });
+
+    it('MM-T1671 Can view members', () => {
+        // # Open an archived channel
+        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+
+        // # Click the channel header
+        cy.get('#channelHeaderDropdownButton button').click();
+
+        // # Select "View Members"
+        cy.get('#channelViewMembers button').click();
+
+        // * Channel Members modal opens
+        cy.get('div#channelMembersModal').should('be.visible');
+
+        // # Ensure there are no options to change channel roles or membership
+        // * Membership or role cannot be changed
+        cy.get('div[data-testid=userListItemActions]').should('not.be.visible');
+
+        // # Use search box to refine list of members
+        // * Search box works as before to refine member list
+        cy.get('[data-testid=userListItemDetails]').its('length').then((fullListLength) => {
+            cy.get('#searchUsersInput').type(`${testUser.first_name}{enter}`);
+            cy.get('[data-testid=userListItemDetails]').its('length').then((filteredLength) => {
+                expect(fullListLength).to.be.greaterThan(filteredLength);
+            });
         });
     });
 });
