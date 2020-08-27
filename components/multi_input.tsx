@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useState} from 'react';
+import React, {useState, CSSProperties} from 'react';
 import ReactSelect, {components, Props as SelectProps, ActionMeta} from 'react-select';
 import classNames from 'classnames';
 
@@ -21,7 +21,7 @@ type Props<T> = Omit<SelectProps<T>, 'onChange'> & {
 };
 
 const baseStyles = {
-    input: (provided) => ({
+    input: (provided: CSSProperties) => ({
         ...provided,
         color: 'var(--center-channel-color)',
     }),
