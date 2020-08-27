@@ -1,0 +1,82 @@
+.PaymentForm {
+    margin: 0 auto;
+    width: 75%;
+    max-width: 448px;
+
+    .form-row {
+        width: 100%;
+        margin-bottom: 24px;
+        display: flex;
+    }
+
+    .section-title{
+        font-weight: 600;
+        font-size: 16px;
+        color: var(--center-channel-text);
+        text-align: left;
+        margin-bottom: 24px;
+    }
+
+    .selector{
+        font-size:14px;
+        
+    }
+
+    .full-width {
+        width: 100%
+    }
+
+    Input{
+        line-height: 40px;
+        font-size: 14px;
+    }
+
+    .PaymentForm-saved {
+        width: 442px;
+        height: fit-content; 
+        background: #FFFFFF;
+        border: 1px solid rgba(61, 60, 64, 0.08);
+        box-sizing: border-box;
+        border-radius: 4px;
+        padding: 24px;
+        margin-bottom: 16px;
+    }
+
+    .PaymentForm-saved-title {
+        font-family: Metropolis;
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 18px;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        color: #22406D;
+        opacity: 0.4;
+        margin-bottom: 16px;
+    }
+
+    .PaymentForm-saved-card {
+        font-family: Source Sans Pro;
+        font-size: 16px;
+        line-height: 24px;
+        color: #22406D;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+        padding-bottom: 16px;
+    }
+
+    .PaymentForm-saved-address {
+        font-family: Source Sans Pro;
+        font-size: 16px;
+        line-height: 24px;
+        color: #22406D;
+        margin-top: 16px;
+        margin-bottom: 16px;
+    }
+
+    .PaymentForm-change {
+        font-family: Source Sans Pro;
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 20px;
+        color: #0058CC;
+    }
+}
