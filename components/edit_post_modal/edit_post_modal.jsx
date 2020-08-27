@@ -6,6 +6,7 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage, injectIntl} from 'react-intl';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 import {Constants, ModalIdentifiers} from 'utils/constants';
 import {splitMessageBasedOnCaretPosition, postMessageOnKeyPress} from 'utils/post_utils.jsx';
@@ -64,6 +65,8 @@ class EditPostModal extends React.PureComponent {
             postError: '',
             errorClass: null,
             showEmojiPicker: false,
+            renderScrollbar: false,
+            scrollbarWidth: 0,
             prevShowState: props.editingPost.show,
         };
     }
@@ -318,6 +321,15 @@ class EditPostModal extends React.PureComponent {
         }
     }
 
+    handleHeightChange = (height, maxHeight) => {
+        if (this.editbox) {
+            this.setState({
+                renderScrollbar: height > maxHeight,
+                scrollbarWidth: Utils.scrollbarWidth(this.editbox.getInputBox()),
+            });
+        }
+    }
+
     handleExit = () => {
         this.props.actions.setShowPreview(false);
     }
@@ -437,7 +449,10 @@ class EditPostModal extends React.PureComponent {
                     ref='editModalBody'
                 >
                     <div className='post-create__container'>
-                        <div className='textarea-wrapper'>
+                        <div
+                            className={classNames('textarea-wrapper', {scroll: this.state.renderScrollbar})}
+                            style={this.state.renderScrollbar && this.state.scrollbarWidth ? {'--detected-scrollbar-width': `${this.state.scrollbarWidth}px`} : undefined}
+                        >
                             <Textbox
                                 tabIndex='0'
                                 onChange={this.handleChange}
@@ -445,6 +460,7 @@ class EditPostModal extends React.PureComponent {
                                 onKeyDown={this.handleKeyDown}
                                 onMouseUp={this.handleMouseUpKeyUp}
                                 onKeyUp={this.handleMouseUpKeyUp}
+                                onHeightChange={this.handleHeightChange}
                                 handlePostError={this.handlePostError}
                                 value={this.state.editText}
                                 channelId={this.props.editingPost.post && this.props.editingPost.post.channel_id}
