@@ -53,7 +53,8 @@ exports[`components/sidebar/sidebar_category should match snapshot 2`] = `
           "user_id": "",
         }
       }
-      onToggle={[Function]}
+      isMenuOpen={false}
+      onToggleMenu={[Function]}
     />
   </div>
   <div
@@ -132,7 +133,8 @@ exports[`components/sidebar/sidebar_category should match snapshot when collapse
           "user_id": "",
         }
       }
-      onToggle={[Function]}
+      isMenuOpen={false}
+      onToggleMenu={[Function]}
     />
   </div>
   <div
@@ -218,7 +220,8 @@ exports[`components/sidebar/sidebar_category should match snapshot when isNewCat
           "user_id": "",
         }
       }
-      onToggle={[Function]}
+      isMenuOpen={false}
+      onToggleMenu={[Function]}
     />
   </div>
   <div
