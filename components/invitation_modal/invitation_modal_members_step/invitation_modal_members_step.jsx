@@ -34,7 +34,11 @@ class InvitationModalMembersStep extends React.PureComponent {
         currentUsers: PropTypes.number.isRequired,
         userIsAdmin: PropTypes.bool.isRequired,
         isCloud: PropTypes.string.isRequired,
-    }
+        analytics: PropTypes.object.isRequired,
+        actions: {
+            getStandardAnalytics: PropTypes.func.isRequired,
+        },
+    };
 
     constructor(props) {
         super(props);
@@ -72,23 +76,29 @@ class InvitationModalMembersStep extends React.PureComponent {
         this.timeout = setTimeout(() => {
             this.setState({copiedLink: false});
         }, 3000);
-    }
+    };
 
     debouncedSearchProfiles = debounce((term, callback) => {
-        this.props.searchProfiles(term).then(({data}) => {
-            callback(data);
-            if (data.length === 0) {
-                this.setState({termWithoutResults: term});
-            } else {
-                this.setState({termWithoutResults: null});
-            }
-        }).catch(() => {
-            callback([]);
-        });
+        this.props.
+            searchProfiles(term).
+            then(({data}) => {
+                callback(data);
+                if (data.length === 0) {
+                    this.setState({termWithoutResults: term});
+                } else {
+                    this.setState({termWithoutResults: null});
+                }
+            }).
+            catch(() => {
+                callback([]);
+            });
     }, 150);
 
     usersLoader = (term, callback) => {
-        if (this.state.termWithoutResults && term.startsWith(this.state.termWithoutResults)) {
+        if (
+            this.state.termWithoutResults &&
+            term.startsWith(this.state.termWithoutResults)
+        ) {
             callback([]);
             return;
         }
@@ -97,17 +107,21 @@ class InvitationModalMembersStep extends React.PureComponent {
         } catch (error) {
             callback([]);
         }
-    }
+    };
 
     onChange = (usersAndEmails) => {
         this.setState({usersAndEmails});
-        this.props.onEdit(usersAndEmails.length > 0 || this.state.usersInputValue);
-    }
+        this.props.onEdit(
+            usersAndEmails.length > 0 || this.state.usersInputValue,
+        );
+    };
 
     onUsersInputChange = (usersInputValue) => {
         this.setState({usersInputValue});
-        this.props.onEdit(this.state.usersAndEmails.length > 0 || usersInputValue);
-    }
+        this.props.onEdit(
+            this.state.usersAndEmails.length > 0 || usersInputValue,
+        );
+    };
 
     submit = () => {
         const users = [];
@@ -120,38 +134,57 @@ class InvitationModalMembersStep extends React.PureComponent {
             }
         }
         this.props.onSubmit(users, emails, this.state.usersInputValue);
-    }
+    };
 
     shouldShowPickerError = () => {
-        const {userLimit, currentUsers, userIsAdmin, isCloud} = this.props;
+        const {userLimit, analytics, userIsAdmin, isCloud} = this.props;
 
         if (userLimit === '0' || !userIsAdmin || isCloud !== 'true') {
             return false;
         }
 
         // usersRemaining is calculated against the limit, the current users, and how many are being invited in the current flow
-        const usersRemaining = userLimit - (currentUsers + this.state.usersAndEmails.length);
+        const usersRemaining =
+            userLimit - (analytics.TOTAL_USERS + this.state.usersAndEmails.length);
         if (usersRemaining === 0 && this.state.usersInputValue !== '') {
             return true;
         } else if (usersRemaining < 0) {
             return true;
         }
         return false;
+    };
+
+    componentDidMount() {
+        if (!this.props.analytics) {
+            this.props.actions.getStandardAnalytics();
+        }
     }
 
     render() {
-        const inviteUrl = getSiteURL() + '/signup_user_complete/?id=' + this.props.inviteId;
+        const inviteUrl =
+            getSiteURL() + '/signup_user_complete/?id=' + this.props.inviteId;
 
-        let placeholder = localizeMessage('invitation_modal.members.search-and-add.placeholder', 'Add members or email addresses');
-        let noMatchMessageId = t('invitation_modal.members.users_emails_input.no_user_found_matching');
-        let noMatchMessageDefault = 'No one found matching **{text}**, type email to invite';
+        let placeholder = localizeMessage(
+            'invitation_modal.members.search-and-add.placeholder',
+            'Add members or email addresses',
+        );
+        let noMatchMessageId = t(
+            'invitation_modal.members.users_emails_input.no_user_found_matching',
+        );
+        let noMatchMessageDefault =
+            'No one found matching **{text}**, type email to invite';
 
         if (!this.props.emailInvitationsEnabled) {
-            placeholder = localizeMessage('invitation_modal.members.search-and-add.placeholder-email-disabled', 'Add members');
-            noMatchMessageId = t('invitation_modal.members.users_emails_input.no_user_found_matching-email-disabled');
+            placeholder = localizeMessage(
+                'invitation_modal.members.search-and-add.placeholder-email-disabled',
+                'Add members',
+            );
+            noMatchMessageId = t(
+                'invitation_modal.members.users_emails_input.no_user_found_matching-email-disabled',
+            );
             noMatchMessageDefault = 'No one found matching **{text}**';
         }
-        const remainingUsers = this.props.userLimit - this.props.currentUsers;
+        const remainingUsers = this.props.userLimit - this.props.analytics.TOTAL_USERS;
         return (
             <div className='InvitationModalMembersStep'>
                 <div className='modal-icon'>
