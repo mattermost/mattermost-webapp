@@ -12,12 +12,15 @@
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 import {generateRandomUser} from '../../support/api/user';
+
 describe('Onboarding', () => {
     let testTeam;
     const user = generateRandomUser();
     const {username, email, password} = user;
 
     before(() => {
+        cy.apiUpdateConfig({LdapSettings: {Enable: false}});
+
         cy.apiInitSetup().then(({team}) => {
             testTeam = team;
             cy.visit(`/${testTeam.name}/channels/town-square`);
