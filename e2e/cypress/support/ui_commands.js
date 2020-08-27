@@ -432,3 +432,10 @@ Cypress.Commands.add('checkRunLDAPSync', () => {
         }
     });
 });
+
+Cypress.Commands.add('archiveCurrentChannel', () => {
+    // # Archive the channel
+    cy.get('#channelHeaderDropdownIcon').click();
+    cy.get('#channelArchiveChannel').click();
+    cy.get('#deleteChannelModalDeleteButton').click();
+});
