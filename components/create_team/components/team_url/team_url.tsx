@@ -152,7 +152,7 @@ export default class TeamUrl extends React.PureComponent<Props, State> {
             return;
         }
 
-        const createTeamData = await createTeam(teamSignup.team);
+        const createTeamData: { data: Team; error: any } = await createTeam(teamSignup.team);
         const data = createTeamData.data;
         const error = createTeamData.error;
 

@@ -4,13 +4,13 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import {FormattedMessage} from 'react-intl';
+import {Button} from 'react-bootstrap';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 import TeamUrl from 'components/create_team/components/team_url/team_url';
 import Constants from 'utils/constants';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
-import {Button} from "react-bootstrap";
 
 jest.mock('images/logo.png', () => 'logo.png');
 
