@@ -23,7 +23,20 @@ describe('Plugin Marketplace', () => {
     });
 
     describe('should not render in main menu', () => {
-        it('for non-admin', () => {
+        afterEach(() => {
+            cy.get('#lhsHeader').should('be.visible').within(() => {
+                // # Click hamburger main menu
+                cy.get('#sidebarHeaderDropdownButton').click();
+
+                // * Dropdown menu should be visible
+                cy.get('.dropdown-menu').should('be.visible').within(() => {
+                    // * Plugin Marketplace button should not be visible
+                    cy.findByText('Plugin Marketplace').should('not.be.visible');
+                });
+            });
+        });
+
+        it('MM-T1952 Plugin Marketplace is not available to normal users', () => {
             // # Login as sysadmin
             cy.apiAdminLogin();
 
@@ -44,10 +57,11 @@ describe('Plugin Marketplace', () => {
             verifyPluginMarketplaceDoesNotExist();
         });
 
-        it('when marketplace disabled', () => {
+        it('MM-T1957 Marketplace is not available when "Enable Marketplace" is set to false', () => {
             // # Login as sysadmin
             cy.apiAdminLogin();
 
+            // # Enable Plugins
             // # Disable Plugin Marketplace
             cy.apiUpdateConfig({
                 PluginSettings: {
@@ -64,11 +78,11 @@ describe('Plugin Marketplace', () => {
             verifyPluginMarketplaceDoesNotExist();
         });
 
-        it('when plugins disabled', () => {
+        it('MM-T1959 Marketplace is not available when "Enable Plugins" is false', () => {
             // # Login as sysadmin
             cy.apiAdminLogin();
 
-            // # Disable Plugin
+            // # Disable Plugins
             // # Enable Plugin Marketplace
             cy.apiUpdateConfig({
                 PluginSettings: {
@@ -83,6 +97,53 @@ describe('Plugin Marketplace', () => {
 
             // * Verify Plugin Marketplace does not exist
             verifyPluginMarketplaceDoesNotExist();
+        });
+    });
+
+    describe('should render in main menu', () => {
+        afterEach(() => {
+            cy.get('#lhsHeader').should('be.visible').within(() => {
+                // # Click hamburger main menu
+                cy.get('#sidebarHeaderDropdownButton').click();
+
+                // * Dropdown menu should be visible
+                cy.get('.dropdown-menu').should('be.visible').within(() => {
+                    // * Plugin Marketplace button should be visible
+                    cy.findByText('Plugin Marketplace').should('be.visible');
+                });
+            });
+        });
+
+        it('MM-T1960 Marketplace is available when "Enable Plugins" is true', () => {
+            // # Login as sysadmin
+            cy.apiAdminLogin();
+
+            // # Enable Plugins
+            // # Enable Plugin Marketplace
+            cy.apiUpdateConfig({
+                PluginSettings: {
+                    Enable: true,
+                    EnableMarketplace: true,
+                    MarketplaceUrl: 'https://api.integrations.mattermost.com',
+                },
+            });
+            cy.visit(townsquareLink);
+        });
+
+        it('MM-T1960 Marketplace is available when "Enable Marketplace" is set to true', () => {
+            // # Login as sysadmin
+            cy.apiAdminLogin();
+
+            // # Enable Plugins
+            // # Enable Plugin Marketplace
+            cy.apiUpdateConfig({
+                PluginSettings: {
+                    Enable: true,
+                    EnableMarketplace: true,
+                    MarketplaceUrl: 'https://api.integrations.mattermost.com',
+                },
+            });
+            cy.visit(townsquareLink);
         });
     });
 
@@ -212,6 +273,9 @@ describe('Plugin Marketplace', () => {
 
             // * Verify modal list is visible
             cy.get('.more-modal__list').scrollIntoView().should('be.visible');
+        });
+
+        it('MM-T1960 Marketplace is available when "Enable Plugins" is true', () => {
         });
 
         it('autofocus on search plugin input box', () => {
