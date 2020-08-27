@@ -80,7 +80,7 @@ describe('reply-notifications', () => {
         });
     });
 
-    it('MM-T551 not unless I\'m mentioned', () => {
+    it('MM-T551 Do not trigger notifications on messages in reply threads unless I\'m mentioned', () => {
         ignoreUncaughtException();
 
         // # Set users notification settings
@@ -99,12 +99,24 @@ describe('reply-notifications', () => {
 
             // # Post a message in original thread as another user
             cy.postMessageAs({sender, message: 'This is a reply to the root post', channelId: townsquareChannelId, rootId: postId});
+
+            // * Verify stub was not called
+            cy.get('@notifySpy').should('be.not.called');
+
+            // * Verify unread mentions badge does not exist
+            cy.get('#sidebarItem_town-square').find('#unreadMentions').should('be.not.visible');
+
+            // # Switch again to other channel
+            cy.get(`#sidebarItem_${otherChannel.name}`).click({force: true});
+
+            // # Reply to a post as another user mentioning the receiver
+            cy.postMessageAs({sender, message: `Another reply with mention @${receiver.username}`, channelId: townsquareChannelId, rootId: postId});
+
+            // * Verify stub was called
+            cy.get('@notifySpy').should('be.called');
+
+            // * Verify unread mentions badge exists
+            cy.get('#sidebarItem_town-square').find('#unreadMentions').should('be.visible');
         });
-
-        // * Verify stub was not called
-        cy.get('@notifySpy').should('be.not.called');
-
-        // * Verify unread mentions badge does not exist
-        cy.get('#sidebarItem_town-square').find('#unreadMentions').should('be.not.visible');
     });
 });
