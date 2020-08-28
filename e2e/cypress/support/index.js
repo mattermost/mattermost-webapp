@@ -97,11 +97,16 @@ before(() => {
     cy.dbGetUser({username: admin.username}).then(({user}) => {
         if (user.id) {
             // # Login existing sysadmin
-            cy.apiAdminLogin();
+            cy.apiAdminLogin().then(({user: sysadmin}) => {
+                if (!sysadmin.email_verified) {
+                    cy.apiVerifyUserEmailById(user.id);
+                }
+            });
         } else {
             // # Create and login a newly created user as sysadmin
             cy.apiCreateAdmin().then(({sysadmin}) => {
                 cy.apiAdminLogin().then(() => {
+                    cy.apiVerifyUserEmailById(sysadmin.id);
                     cy.apiSaveTutorialStep(sysadmin.id, '999');
                 });
             });
