@@ -56,6 +56,37 @@ describe('Desktop notifications', () => {
         });
     });
 
+    it('MM-T482 Desktop Notifications - (at) here not rec\'d when logged off', () => {
+        cy.apiCreateUser({}).then(({user}) => {
+            cy.apiAddUserToTeam(testTeam.id, user.id);
+            cy.apiLogin(user);
+
+            // # Ensure notifications are set up to fire a desktop notification if are mentioned.
+            changeDesktopNotificationSettingsAs('#desktopNotificationMentions');
+            stubNotificationAs('withoutNotification', 'granted');
+
+            cy.apiGetChannelByName(testTeam.name, 'Off-Topic').then((res) => {
+                const channel = res.body;
+
+                // # Logout the user.
+                cy.apiLogout();
+
+                // Have another user send a post.
+                cy.postMessageAs({sender: testUser, message: '@here', channelId: channel.id});
+            });
+
+            // # Login with the user.
+            cy.apiLogin(user).then(() => {
+                // Visit town-square.
+                cy.visit(`/${testTeam.name}/channels/town-square`);
+
+                // * Desktop notification is not received
+                cy.wait(TIMEOUTS.HALF_SEC);
+                cy.get('@withoutNotification').should('not.have.been.called');
+            });
+        });
+    });
+
     it('MM-T495 Desktop Notifications - Can set to DND and no notification fires on DM', () => {
         cy.apiCreateUser({}).then(({user}) => {
             cy.apiAddUserToTeam(testTeam.id, user.id);
@@ -103,5 +134,31 @@ const stubNotificationAs = (name, permission) => {
         win.Notification = Notification;
 
         cy.stub(win, 'Notification').as(name);
+    });
+};
+
+const changeDesktopNotificationSettingsAs = (category) => {
+    // # Click hamburger main menu.
+    cy.get('#sidebarHeaderDropdownButton').click();
+
+    // # Click "Account settings"
+    cy.findByText('Account Settings').should('be.visible').click();
+
+    // * Check that the "Account Settings" modal was opened.
+    cy.get('#accountSettingsModal').should('exist').within(() => {
+        // # Click "Notifications"
+        cy.findByText('Notifications').should('be.visible').click();
+
+        // # Click "Desktop"
+        cy.findByText('Desktop Notifications').should('be.visible').click();
+
+        // # Select category.
+        cy.get(category).check();
+
+        // # Click "Save"
+        cy.findByText('Save').should('be.visible').click();
+
+        // Close the modal.
+        cy.get('#accountSettingsHeader').find('button').should('be.visible').click();
     });
 };
