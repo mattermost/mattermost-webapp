@@ -1,4 +1,5 @@
-
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 .ProfilePictures {
     display: flex;
@@ -35,12 +36,11 @@
         margin-left: var(--offset);
     }
 
-    > .status-wrapper {
+    .status-wrapper {
         height: unset;
     }
 
     > * {
-        position: relative;
         &:hover,
         &:active {
             z-index: 1;

@@ -15,16 +15,26 @@ const containerStyle: CSSProperties = {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
+    position: 'relative',
     alignItems: 'center',
     border: '1px solid #eeeeee',
     borderRadius: 5,
     margin: 10,
 };
 
+const labelStyle: CSSProperties = {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    fontFamily: 'monospace',
+    background: '#eee',
+    padding: '5px 10px',
+    borderRadius: '0 0 3px'
+};
+
 storiesOf('Users Info', module).
     addDecorator(withKnobs).
-    add(
-        'avatar, per size',
+    add('avatar, per size',
         () => {
             const sizes: ('xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl')[] = ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'];
             const url = text('Image url', '/api/v4/users/1/image?_=0');
@@ -36,7 +46,7 @@ storiesOf('Users Info', module).
                             key={size}
                             style={containerStyle}
                         >
-                            <strong>{'size: ' + size}</strong>
+                            <span style={labelStyle}>{'size: ' + size}</span>
                             <Avatar
                                 size={size}
                                 username={username}
@@ -46,7 +56,7 @@ storiesOf('Users Info', module).
                     ))}
                 </div>
             );
-        },
+        }
     ).
     add(
         'ProfilePictures, per size',
@@ -58,7 +68,7 @@ storiesOf('Users Info', module).
                             key={size}
                             style={containerStyle}
                         >
-                            <strong>{'size: ' + size}</strong>
+                            <span style={labelStyle}>{'size: ' + size}</span>
                             <ProfilePictures
                                 size={size}
                                 users={[
@@ -67,14 +77,12 @@ storiesOf('Users Info', module).
                                         userId: '1',
                                         username: text('Username 1', 'johnny.depp'),
                                         name: text('Fullname 1', 'Johnny Depp'),
-
                                     },
                                     {
                                         src: text('Image 2 url', '/api/v4/users/2/image?_=0'),
                                         userId: '2',
                                         username: text('Username 2', 'winona.ryder'),
                                         name: text('Fullname 2', 'Winona Ryder'),
-
                                     },
                                     {
                                         src: text('Image 3 url', '/api/v4/users/3/image?_=0'),

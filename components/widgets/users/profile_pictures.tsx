@@ -37,7 +37,7 @@ const Avatars: FC<Props> = ({size, breakAt = 3, users}: Props) => {
                     </div>
                 </SimpleTooltip>
             ))}
-            {others.length && (
+            {Boolean(others.length) && (
                 <SimpleTooltip
                     id='groupNameTooltip'
                     content={others.map((user) => user.name).join(', ')}
@@ -51,7 +51,6 @@ const Avatars: FC<Props> = ({size, breakAt = 3, users}: Props) => {
                     </div>
                 </SimpleTooltip>
             )}
-
         </div>
     );
 };
