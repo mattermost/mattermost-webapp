@@ -24,18 +24,14 @@ describe('Integrations', () => {
         cy.apiInitSetup().then(({team}) => {
             cy.visit(`/${team.name}/channels/town-square`);
 
-            // # If Demo plugin is already enabled , uninstall it
+            // # If Demo plugin is already enabled, uninstall it
             cy.apiRemovePluginById(pluginIdDemo);
         });
 
-        // # Upload Demo plugin from the browser
-        const fileName = 'com.mattermost.demo-plugin-0.8.0.tar.gz';
-        const mimeType = 'application/gzip';
-        cy.fixture(fileName, 'binary').
-            then(Cypress.Blob.binaryStringToBlob).
-            then((fileContent) => {
-                cy.get('input[type=file]').attachFile({fileContent, fileName, mimeType});
-            });
+        const demoURL = 'https://github.com/mattermost/mattermost-plugin-demo/releases/download/v0.8.0/com.mattermost.demo-plugin-0.8.0.tar.gz';
+
+        // # Install plugins from URL
+        cy.apiInstallPluginFromUrl(demoURL);
     });
 
     after(() => {
