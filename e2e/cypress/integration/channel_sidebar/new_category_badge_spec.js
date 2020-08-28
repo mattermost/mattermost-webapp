@@ -8,7 +8,7 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @channel_sidebar @verify
+// Group: @channel_sidebar
 
 import {testWithConfig} from '../../support/hooks';
 
