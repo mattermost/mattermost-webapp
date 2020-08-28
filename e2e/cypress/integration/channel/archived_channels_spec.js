@@ -112,14 +112,15 @@ describe('Leave an archived channel', () => {
         // # repeat searching and navigating to the archived channel steps 3 times.
         [1, 2, 3].forEach((i) => {
             // * ensure we are not on an archived channel
-            cy.get('#channelInfoModalLabel span.icon__archive').should('not.be.visible');
+            cy.wait(TIMEOUTS.ONE_SEC).get('#channelInfoModalLabel span.icon__archive').should('not.be.visible');
 
             // # Search for a post in an archived channel
-            cy.get('#searchBox').focus().type('this is an archived post{enter}').wait(TIMEOUTS.ONE_SEC);
+            cy.get('#searchBox').wait(TIMEOUTS.ONE_SEC).focus().clear();
+            cy.get('#searchBox').type('this is an archived post{enter}').wait(TIMEOUTS.ONE_SEC);
 
             // # Open the archived channel by selecting Jump from search results and then selecting the link to move to the most recent posts in the channel
             cy.get('#searchContainer').should('be.visible');
-            cy.get('#loadingSpinner').should('not.be.visible');
+            cy.get('#loadingSpinner').wait(TIMEOUTS.ONE_SEC).should('not.be.visible');
 
             cy.get('a.search-item__jump').first().click();
 
