@@ -38,15 +38,15 @@ describe('Plugin remains enabled when upgraded', () => {
         cy.apiInitSetup().then(({team}) => {
             cy.visit(`/${team.name}/channels/town-square`);
 
-            // #If Demo plugin is already enabled , unInstall it
+            // #If Demo plugin is already enabled , uninstall it
             cy.apiRemovePluginById(pluginIdDemo);
             cy.visit('/admin_console/plugins/plugin_management');
             cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'Plugin Management');
         });
     });
 
-    it('MT40-Plugin remains enabled when upgraded', () => {
-    // * upload Demo plugin from the browser
+    it('MT40 Plugin remains enabled when upgraded', () => {
+    // * Upload Demo plugin from the browser
         const fileName1 = 'com.mattermost.demo-plugin-0.1.0.tar.gz';
         const fileName2 = 'com.mattermost.demo-plugin-0.2.0.tar.gz';
         const mimeType = 'application/gzip';
