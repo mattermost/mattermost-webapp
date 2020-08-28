@@ -158,7 +158,7 @@ describe('Toast', () => {
         });
     });
 
-    it.only('MM-T1786 Dismissing the toast using Jump to', () => {
+    it('MM-T1786 Dismissing the toast using Jump to', () => {
         // # Have a channel with more than a page of unread messages (have another user post around 30 messages)
         const randomId = getRandomId();
         const numberOfPost = 30;
@@ -176,11 +176,11 @@ describe('Toast', () => {
         // * Verify toast is not visible
         cy.get('div.toast__jump').should('not.be.visible');
 
-        // # Scroll up on the channej
+        // # Scroll up on the channel
         scrollUp();
 
         Cypress._.times(2, (num) => {
-            // # Post messages as other users
+            // # Post messages as otherUser
             cy.postMessageAs({sender: otherUser, message: `${num} ${randomId}`, channelId: townsquareChannelId});
         });
 
