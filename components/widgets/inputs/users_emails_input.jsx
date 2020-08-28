@@ -94,6 +94,25 @@ export default class UsersEmailsInput extends React.PureComponent {
         return user.id || user.value;
     }
 
+    getOptionLabel = (user) => {
+        if (user.value && isEmail(user.value)) {
+            return user.value;
+        }
+
+        const parts = getLongDisplayNameParts(user);
+        const results = [];
+        if (parts.displayName) {
+            results.push(parts.displayName);
+        }
+        if (parts.fullName) {
+            results.push(parts.fullName);
+        }
+        if (parts.nickname) {
+            results.push(parts.nickname);
+        }
+        return results.join(' ');
+    }
+
     formatOptionLabel = (user, options) => {
         const profileImg = imageURLForUser(user.id, user.last_picture_update);
         let guestBadge = null;
@@ -272,6 +291,7 @@ export default class UsersEmailsInput extends React.PureComponent {
                 components={this.components}
                 getOptionValue={this.getOptionValue}
                 formatOptionLabel={this.formatOptionLabel}
+                getOptionLabel={this.getOptionLabel}
                 defaultOptions={false}
                 defaultMenuIsOpen={false}
                 openMenuOnClick={false}

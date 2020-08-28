@@ -34,6 +34,7 @@ describe('components/widgets/inputs/UsersEmailsInput', () => {
   defaultOptions={false}
   filterOption={null}
   formatOptionLabel={[Function]}
+  getOptionLabel={[Function]}
   getOptionValue={[Function]}
   isClearable={false}
   isMulti={true}
