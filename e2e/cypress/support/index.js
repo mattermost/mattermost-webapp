@@ -97,11 +97,11 @@ before(() => {
     cy.dbGetUser({username: admin.username}).then(({user}) => {
         if (user.id) {
             // # Login existing sysadmin
-            cy.apiAdminLogin().then(() => sysadminSetup(user.id));
+            cy.apiAdminLogin().then(() => sysadminSetup(user));
         } else {
             // # Create and login a newly created user as sysadmin
             cy.apiCreateAdmin().then(({sysadmin}) => {
-                cy.apiAdminLogin().then(() => sysadminSetup(sysadmin.id));
+                cy.apiAdminLogin().then(() => sysadminSetup(sysadmin));
             });
         }
     });
@@ -112,7 +112,11 @@ beforeEach(() => {
     Cypress.Cookies.preserveOnce('MMAUTHTOKEN', 'MMUSERID', 'MMCSRF');
 });
 
-function sysadminSetup(userId) {
+function sysadminSetup(user) {
+    if (!user.email_verified) {
+        cy.apiVerifyUserEmailById(user.id);
+    }
+
     // # Reset config and invalidate cache
     cy.apiUpdateConfig();
     cy.apiInvalidateCache();
@@ -121,9 +125,9 @@ function sysadminSetup(userId) {
     cy.apiSaveTeammateNameDisplayPreference('username');
     cy.apiSaveLinkPreviewsPreference('true');
     cy.apiSaveCollapsePreviewsPreference('false');
-    cy.apiSaveTutorialStep(userId, '999');
-    cy.apiSaveCloudOnboardingPreference(userId, 'hide', 'true');
-    cy.apiHideSidebarWhatsNewModalPreference(userId, 'true');
+    cy.apiSaveTutorialStep(user.id, '999');
+    cy.apiSaveCloudOnboardingPreference(user.id, 'hide', 'true');
+    cy.apiHideSidebarWhatsNewModalPreference(user.id, 'true');
     cy.apiUpdateUserStatus('online');
     cy.apiPatchMe({
         locale: 'en',

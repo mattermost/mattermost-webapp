@@ -2862,6 +2862,7 @@
   "invitation_modal.invite_guests.title": "Invite **Guests**",
   "invitation_modal.invite_members.description": "Invite new team members with a link or by email. Team members have access to messages and files in open teams and public channels.",
   "invitation_modal.invite_members.description-email-disabled": "Invite new team members with a link. Team members have access to messages and files in open teams and public channels.",
+  "invitation_modal.invite_members.hit_cloud_user_limit": "You can only invite **{text}** more {text, plural, one {member} other {members}} on the free tier",
   "invitation_modal.invite_members.title": "Invite **Members**",
   "invitation_modal.invite.more": "Invite More People",
   "invitation_modal.members.invite_button": "Invite Members",
