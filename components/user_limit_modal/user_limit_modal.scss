@@ -101,9 +101,8 @@
 
             .confirm-button {
                 &:hover, &:active, &:focus, &:active:focus {
-                    background: linear-gradient(0deg, rgba(var(--center-channel-color-rgb), 0.16), rgba(var(--center-channel-color-rgb), 0.16)),
-                    var(--button-bg);
-
+                    background: linear-gradient(0deg, rgba(0, 0, 0, 0.16), rgba(0, 0, 0, 0.16)),
+                    var(--button-bg)
                 }
                 height: 40px;
                 padding: 12px 20px;
