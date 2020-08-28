@@ -289,13 +289,13 @@ describe('I18456 Built-in slash commands: common', () => {
     });
 
     it('MM-T661 /invite extra white space before @ in DM or GM', () => {
-
         const user = userGroup[6];
         const userToInviteGM = userGroup[5];
         const userToInviteDM = userGroup[4];
 
         cy.apiAddUserToChannel(testChannel.id, user.id);
         loginAndVisitDefaultChannel(user, `${team1.name}/channels/${testChannel.name}`);
+        cy.get('#postListContent', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible');
 
         // # In a GM use the /invite command to invite a user to a channel you have permission to dd them to but place extra white space before the username
         cy.postMessage(`/invite        @${userToInviteGM.username}`);
