@@ -15,8 +15,7 @@ import {generateRandomUser} from '../../support/api/user';
 
 describe('Onboarding', () => {
     let testTeam;
-    const user = generateRandomUser();
-    const {username, email, password} = user;
+    const {username, email, password} = generateRandomUser();
 
     before(() => {
         cy.apiUpdateConfig({LdapSettings: {Enable: false}});
