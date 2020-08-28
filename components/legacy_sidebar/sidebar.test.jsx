@@ -423,34 +423,6 @@ describe('component/legacy_sidebar/sidebar_channel/SidebarChannel', () => {
         expect(instance.handleOpenMoreDirectChannelsModal).toHaveBeenCalledTimes(2);
     });
 
-    test('should show/hide correctly more channels modal', () => {
-        const wrapper = shallowWithIntl(
-            <Sidebar {...defaultProps}/>,
-        );
-        const instance = wrapper.instance();
-        instance.componentDidUpdate = jest.fn();
-        instance.showMoreChannelsModal();
-        wrapper.setState(instance.state);
-        expect(wrapper).toMatchSnapshot();
-        instance.hideMoreChannelsModal();
-        wrapper.setState(instance.state);
-        expect(wrapper).toMatchSnapshot();
-    });
-
-    test('should show/hide correctly new channel modal', () => {
-        const wrapper = shallowWithIntl(
-            <Sidebar {...defaultProps}/>,
-        );
-        const instance = wrapper.instance();
-        instance.componentDidUpdate = jest.fn();
-        instance.showNewChannelModal(Constants.PRIVATE_CHANNEL);
-        wrapper.setState(instance.state);
-        expect(wrapper).toMatchSnapshot();
-        instance.hideNewChannelModal();
-        wrapper.setState(instance.state);
-        expect(wrapper).toMatchSnapshot();
-    });
-
     test('should show/hide correctly more direct channels modal', () => {
         const wrapper = shallowWithIntl(
             <Sidebar {...defaultProps}/>,

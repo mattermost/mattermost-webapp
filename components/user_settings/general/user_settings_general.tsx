@@ -781,10 +781,11 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
             let extraInfo;
             let submit = null;
             if (
-                (this.props.user.auth_service === 'ldap' &&
+                (this.props.user.auth_service === Constants.LDAP_SERVICE &&
                     (this.props.ldapFirstNameAttributeSet || this.props.ldapLastNameAttributeSet)) ||
                 (this.props.user.auth_service === Constants.SAML_SERVICE &&
-                    (this.props.samlFirstNameAttributeSet || this.props.samlLastNameAttributeSet))
+                    (this.props.samlFirstNameAttributeSet || this.props.samlLastNameAttributeSet)) ||
+                (Constants.OAUTH_SERVICES.includes(this.props.user.auth_service))
             ) {
                 extraInfo = (
                     <span>

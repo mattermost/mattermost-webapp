@@ -41,10 +41,6 @@ module.exports = (on, config) => {
     });
 
     on('before:browser:launch', (browser = {}, launchOptions) => {
-        if (browser.name === 'chrome') {
-            launchOptions.args.push('--disable-notifications');
-        }
-
         if (browser.name === 'chrome' && !config.chromeWebSecurity) {
             launchOptions.args.push('--disable-features=CrossSiteDocumentBlockingIfIsolating,CrossSiteDocumentBlockingAlways,IsolateOrigins,site-per-process');
             launchOptions.args.push('--load-extension=cypress/extensions/Ignore-X-Frame-headers');
