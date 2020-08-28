@@ -17,8 +17,7 @@ import {inviteUserByEmail, verifyEmailInviteAndVisitLink, typeUsernameAndPasswor
 
 describe('Team Settings', () => {
     let testTeam;
-    const user = generateRandomUser();
-    const {username, email, password} = user;
+    const {username, email, password} = generateRandomUser();
     const emailDomain = 'sample.mattermost.com';
 
     let isLicensed;
@@ -52,8 +51,7 @@ describe('Team Settings', () => {
             // # Click on the 'Allow only users with a specific email domain to join this team' edit button
             cy.get('#allowed_domainsEdit').should('be.visible').click();
 
-            // # Set 'sample.mattermost.com' as the only allowed email domain and <save></save>
-            cy.wait(TIMEOUTS.HALF_SEC);
+            // # Set 'sample.mattermost.com' as the only allowed email save
             cy.focused().type(emailDomain);
             cy.findByText('Save').should('be.visible').click();
 
@@ -71,8 +69,7 @@ describe('Team Settings', () => {
         // # Invite user via email
         inviteUserByEmail(email, isLicensed);
 
-        // # Wait for a while to ensure that email notification is sent and logout from sysadmin account
-        cy.wait(TIMEOUTS.FIVE_SEC);
+        // # Logout from sysadmin account
         cy.apiLogout();
 
         // # Invite a new user (with the email declared in the parent scope)
