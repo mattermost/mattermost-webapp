@@ -101,6 +101,8 @@ describe('Plugin remains enabled when upgraded', () => {
 
         // * Verify v0.2.0 of plugin
         cy.findByText(/0.2.0/).scrollIntoView().should('be.visible');
+
+        cy.apiRemovePluginById(pluginIdDemo);
     });
 });
 
