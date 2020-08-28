@@ -8,7 +8,7 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @integrations
+// Group: @integrations @verify
 
 import {getRandomId} from '../../utils';
 import * as MESSAGES from '../../fixtures/messages';

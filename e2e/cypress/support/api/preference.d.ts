@@ -49,24 +49,26 @@ declare namespace Cypress {
         /**
          * Save cloud onboarding preference.
          * See https://api.mattermost.com/#tag/preferences/paths/~1users~1{user_id}~1preferences/put
+         * @param {string} userId - User ID
          * @param {string} name - options are complete_profile, team_setup, invite_members or hide
          * @param {string} value - options are 'true' or 'false'
          * @returns {Response} response: Cypress-chainable response which should have successful HTTP status of 200 OK to continue or pass.
          *
          * @example
-         *   cy.apiSaveCloudOnboardingPreference('hide', 'true');
+         *   cy.apiSaveCloudOnboardingPreference('user-id', 'hide', 'true');
          */
-        apiSaveCloudOnboardingPreference(name: string, value: string): Chainable<Response>;
+        apiSaveCloudOnboardingPreference(userId: string, name: string, value: string): Chainable<Response>;
 
         /**
          * Save hiding of What's New modal.
          * See https://api.mattermost.com/#tag/preferences/paths/~1users~1{user_id}~1preferences/put
+         * @param {string} userId - User ID
          * @param {string} value - options are 'true' to hide or 'false' to show
          * @returns {Response} response: Cypress-chainable response which should have successful HTTP status of 200 OK to continue or pass.
          *
          * @example
-         *   cy.apiHideSidebarWhatsNewModalPreference('true');
+         *   cy.apiHideSidebarWhatsNewModalPreference('user-id', 'true');
          */
-        apiHideSidebarWhatsNewModalPreference(name: string): Chainable<Response>;
+        apiHideSidebarWhatsNewModalPreference(userId: string, name: string): Chainable<Response>;
     }
 }

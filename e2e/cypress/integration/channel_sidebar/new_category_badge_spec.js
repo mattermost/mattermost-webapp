@@ -8,7 +8,7 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @channel_sidebar
+// Group: @channel_sidebar @verify
 
 import {testWithConfig} from '../../support/hooks';
 
@@ -24,8 +24,6 @@ describe('New category badge', () => {
     before(() => {
         // # Login as test user and visit town-square
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            cy.apiSaveCloudOnboardingPreference('hide', 'true');
-            cy.apiHideSidebarWhatsNewModalPreference('true');
             cy.visit(`/${team.name}/channels/town-square`);
         });
     });

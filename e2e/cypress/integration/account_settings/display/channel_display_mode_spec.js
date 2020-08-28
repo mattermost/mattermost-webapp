@@ -8,7 +8,7 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @account_setting
+// Group: @account_setting @verify
 
 describe('Account Settings > Display > Channel Display Mode', () => {
     before(() => {

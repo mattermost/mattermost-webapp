@@ -8,7 +8,7 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @websocket
+// Group: @websocket @verify
 
 import {testWithConfig} from '../../../support/hooks';
 import {getRandomId} from '../../../utils';
@@ -31,8 +31,6 @@ describe('Handle removed user - new sidebar', () => {
 
     before(() => {
         cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
-            cy.apiSaveCloudOnboardingPreference('hide', 'true');
-            cy.apiHideSidebarWhatsNewModalPreference('true');
             cy.visit(`/${team.name}/channels/${channel.name}`);
         });
     });

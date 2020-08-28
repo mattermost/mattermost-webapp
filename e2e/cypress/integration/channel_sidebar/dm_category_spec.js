@@ -7,7 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @dm_category
+// Group: @dm_category @verify
 
 import {getAdminAccount} from '../../support/env';
 import * as TIMEOUTS from '../../fixtures/timeouts';
@@ -30,8 +30,6 @@ describe('MM-T3156 DM category', () => {
         // # Login as test user and visit town-square
         cy.apiInitSetup({loginAfter: true}).then(({team, user}) => {
             testUser = user;
-            cy.apiSaveCloudOnboardingPreference('hide', 'true');
-            cy.apiHideSidebarWhatsNewModalPreference('true');
             cy.visit(`/${team.name}/channels/town-square`);
 
             // # upgrade user to sys admin role

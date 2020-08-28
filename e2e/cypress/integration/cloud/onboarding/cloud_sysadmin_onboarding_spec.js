@@ -7,6 +7,8 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Group: @notifications @verify
+
 import {testWithConfig} from '../../../support/hooks';
 
 const adminSteps = ['complete_profile', 'team_setup', 'invite_members', 'hide'];

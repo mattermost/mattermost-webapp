@@ -8,7 +8,7 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @messaging
+// Group: @messaging @verify
 
 function verifyImageInPostFooter(verifyExistence = true) {
     if (verifyExistence) {

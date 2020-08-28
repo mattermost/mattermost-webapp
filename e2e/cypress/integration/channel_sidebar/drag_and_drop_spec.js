@@ -8,7 +8,7 @@
 // ***************************************************************
 
 // Stage: @prod @smoke
-// Group: @channel_sidebar
+// Group: @channel_sidebar @verify
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
@@ -26,8 +26,6 @@ describe('Channel sidebar', () => {
             },
         });
         cy.apiInitSetup({loginAfter: true});
-        cy.apiSaveCloudOnboardingPreference('hide', 'true');
-        cy.apiHideSidebarWhatsNewModalPreference('true');
     });
 
     beforeEach(() => {

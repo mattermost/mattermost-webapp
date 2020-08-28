@@ -8,7 +8,7 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @accessibility
+// Group: @accessibility @verify
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 import accountSettingSections from '../../fixtures/account_setting_sections.json';

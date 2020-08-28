@@ -8,7 +8,7 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @guest_account
+// Group: @guest_account @verify
 
 /**
  * Note: This test requires Enterprise license to be uploaded
