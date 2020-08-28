@@ -32,7 +32,6 @@ import Badge from 'components/widgets/badges/badge';
 import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 import PostPreHeader from 'components/post_view/post_pre_header';
 import UserProfile from 'components/user_profile';
-import { Console } from 'console';
 
 class RhsComment extends React.PureComponent {
     static propTypes = {
