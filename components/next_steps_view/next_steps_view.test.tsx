@@ -7,29 +7,28 @@ import {shallow, ShallowWrapper} from 'enzyme';
 import NextStepsView from 'components/next_steps_view/next_steps_view';
 import {TestHelper} from 'utils/test_helper';
 
-jest.mock('components/next_steps_view/steps', () => ({
-    Steps: [
-        {
-            id: 'step_1',
-            title: 'Step_1',
-            component: jest.fn(),
-        },
-        {
-            id: 'step_2',
-            title: 'Step_2',
-            component: jest.fn(),
-        },
-        {
-            id: 'step_3',
-            title: 'Step_3',
-            component: jest.fn(),
-        },
-    ],
-    isStepForUser: () => true,
-}));
-
 describe('components/next_steps_view', () => {
     const baseProps = {
+        steps: [
+            {
+                id: 'step_1',
+                roles: [],
+                title: 'Step_1',
+                component: jest.fn(),
+            },
+            {
+                id: 'step_2',
+                title: 'Step_2',
+                roles: [],
+                component: jest.fn(),
+            },
+            {
+                id: 'step_3',
+                title: 'Step_3',
+                roles: [],
+                component: jest.fn(),
+            },
+        ],
         currentUser: TestHelper.getUserMock(),
         preferences: [],
         isAdmin: true,

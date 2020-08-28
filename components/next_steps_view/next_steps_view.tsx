@@ -16,7 +16,7 @@ import onboardingSuccess from 'images/onboarding-success.svg';
 import loadingIcon from 'images/spinner-48x48-blue.apng';
 import {Preferences} from 'utils/constants';
 
-import {Steps, StepType, isStepForUser} from './steps';
+import {StepType} from './steps';
 import './next_steps_view.scss';
 import NextStepsTips from './next_steps_tips';
 
@@ -26,6 +26,7 @@ type Props = {
     currentUser: UserProfile;
     preferences: PreferenceType[];
     isAdmin: boolean;
+    steps: StepType[];
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => void;
         setShowNextStepsView: (show: boolean) => void;
@@ -50,13 +51,13 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
     }
 
     getStartingStep = () => {
-        for (let i = 0; i < this.steps.length; i++) {
-            if (!this.isStepComplete(this.steps[i].id)) {
-                return this.steps[i].id;
+        for (let i = 0; i < this.props.steps.length; i++) {
+            if (!this.isStepComplete(this.props.steps[i].id)) {
+                return this.props.steps[i].id;
             }
         }
 
-        return this.steps[0].id;
+        return this.props.steps[0].id;
     }
 
     onSkip = (setExpanded: (expandedKey: string) => void) => {
@@ -99,13 +100,13 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
     }
 
     nextStep = (setExpanded: (expandedKey: string) => void, id: string) => {
-        const currentIndex = this.steps.findIndex((step) => step.id === id);
-        if (currentIndex + 1 > this.steps.length - 1) {
+        const currentIndex = this.props.steps.findIndex((step) => step.id === id);
+        if (currentIndex + 1 > this.props.steps.length - 1) {
             this.transitionToFinalScreen();
-        } else if (this.isStepComplete(this.steps[currentIndex + 1].id)) {
-            this.nextStep(setExpanded, this.steps[currentIndex + 1].id);
+        } else if (this.isStepComplete(this.props.steps[currentIndex + 1].id)) {
+            this.nextStep(setExpanded, this.props.steps[currentIndex + 1].id);
         } else {
-            setExpanded(this.steps[currentIndex + 1].id);
+            setExpanded(this.props.steps[currentIndex + 1].id);
         }
     }
 
@@ -184,15 +185,8 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
         );
     }
 
-    // Filter the steps shown by checking if our user has any of the required roles for that step
-    filterSteps = (step: StepType) => {
-        return isStepForUser(step, this.props.currentUser.roles);
-    }
-
-    steps = Steps.filter(this.filterSteps);
-
     renderMainBody = () => {
-        const renderedSteps = this.steps.map(this.renderStep);
+        const renderedSteps = this.props.steps.map(this.renderStep);
 
         return (
             <div

@@ -93,6 +93,13 @@ export function isStepForUser(step: StepType, roles: string): boolean {
     );
 }
 
+export const getSteps = createSelector(
+    (state: GlobalState) => getCurrentUser(state),
+    (currentUser) => {
+        return Steps.filter((step) => isStepForUser(step, currentUser.roles));
+    }
+);
+
 const getCategory = makeGetCategory();
 export const showNextSteps = createSelector(
     (state: GlobalState) => getCategory(state, Preferences.RECOMMENDED_NEXT_STEPS),

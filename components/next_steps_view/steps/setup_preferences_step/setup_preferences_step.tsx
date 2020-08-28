@@ -22,18 +22,12 @@ export default function SetupPreferencesStep(props: StepComponentProps) {
         <>
             <TextCardWithAction
                 cardBodyMessageId={'next_steps_view.preferenceSetup'}
-                cardBodyDefaultMessage={
-                    'You can change how you receive notifications, update your profile, customize display settings and more. Preferences can be accessed through the Main Menu.'
-                }
-                buttonMessageId={
-                    'next_steps_view.preferenceSetup.setPreferences'
-                }
+                cardBodyDefaultMessage={'You can change how you receive notifications, update your profile, customize display settings and more. Preferences can be accessed through the Main Menu.'}
+                buttonMessageId={'next_steps_view.preferenceSetup.setPreferences'}
                 buttonDefaultMessage={'Set Preferences'}
                 onClick={onClick}
             />
-            {shouldShowSettings && (
-                <UserSettingsModal onHide={onFinish}/>
-            )}
+            {shouldShowSettings && <UserSettingsModal onHide={onFinish}/>}
         </>
     );
 }
