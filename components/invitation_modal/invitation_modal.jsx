@@ -12,7 +12,7 @@ import RootPortal from 'components/root_portal';
 import {InviteTypes} from 'utils/constants';
 
 import InvitationModalInitialStep from './invitation_modal_initial_step.jsx';
-import InvitationModalMembersStep from './invitation_modal_members_step.jsx';
+import InvitationModalMembersStep from './invitation_modal_members_step';
 import InvitationModalGuestsStep from './invitation_modal_guests_step.jsx';
 import InvitationModalConfirmStep from './invitation_modal_confirm_step.jsx';
 

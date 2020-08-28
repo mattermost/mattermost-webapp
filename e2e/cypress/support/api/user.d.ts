@@ -241,5 +241,18 @@ declare namespace Cypress {
          *   cy.apiPromoteGuestToUser('user-id');
          */
         apiPromoteGuestToUser(userId: string): Chainable<UserProfile>;
+
+        /**
+        * Verifies a user's email via userId without having to go to the user's email inbox.
+        * See https://api.mattermost.com/#tag/users/paths/~1users~1{user_id}~1email~1verify~1member/post
+        * @param {string} userId - User ID
+        * @returns {UserProfile} out.user: `UserProfile` object
+        *
+        * @example
+        *   cy.apiVerifyUserEmailById('user-id').then(({user}) => {
+        *       // do something with user
+        *   });
+        */
+        apiVerifyUserEmailById(userId: string): Chainable<UserProfile>;
     }
 }
