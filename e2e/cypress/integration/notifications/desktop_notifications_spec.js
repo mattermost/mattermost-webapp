@@ -56,6 +56,58 @@ describe('Desktop notifications', () => {
         });
     });
 
+    it('MM-T487 Desktop Notifications - For all activity with apostrophe, emoji, and markdown in notification', () => {
+        cy.apiCreateUser({}).then(({user}) => {
+            cy.apiAddUserToTeam(testTeam.id, user.id);
+            cy.apiLogin(user);
+
+            const actualMsg = '*I\'m* [hungry](http://example.com) :taco: ![Mattermost](http://www.mattermost.org/wp-content/uploads/2016/03/logoHorizontal.png)';
+            const expected = '@' + testUser.username + ': I\'m hungry :taco: Mattermost';
+
+            // # Click hamburger main menu.
+            cy.get('#sidebarHeaderDropdownButton').click();
+
+            // # Click "Account settings"
+            cy.findByText('Account Settings').should('be.visible').click();
+
+            // * Check that the "Account Settings" modal was opened.
+            cy.get('#accountSettingsModal').should('exist').within(() => {
+                // # Click "Notifications"
+                cy.findByText('Notifications').should('be.visible').click();
+
+                // # Click "Desktop"
+                cy.findByText('Desktop Notifications').should('be.visible').click();
+
+                // # Select "For all activity"
+                cy.get('#desktopNotificationAllActivity').check();
+
+                // # Click "Save"
+                cy.findByText('Save').should('be.visible').click();
+
+                // Close the modal.
+                cy.get('#accountSettingsHeader').find('button').should('be.visible').click();
+            });
+
+            cy.apiGetChannelByName(testTeam.name, 'Off-Topic').then((res) => {
+                const channel = res.body;
+
+                // Visit the MM webapp with the notification API stubbed.
+                cy.visit(`/${testTeam.name}/channels/town-square`);
+                stubNotificationAs('withNotification', 'granted');
+
+                // Have another user send a post.
+                cy.postMessageAs({sender: testUser, message: actualMsg, channelId: channel.id});
+
+                // * Desktop notification should be received with expected body.
+                cy.wait(TIMEOUTS.HALF_SEC);
+                cy.get('@withNotification').should('have.been.calledWithMatch', 'Off-Topic', (args) => {
+                    expect(args.body, `Notification body: "${args.body}" should match: "${expected}"`).to.equal(expected);
+                    return true;
+                });
+            });
+        });
+    });
+
     it('MM-T495 Desktop Notifications - Can set to DND and no notification fires on DM', () => {
         cy.apiCreateUser({}).then(({user}) => {
             cy.apiAddUserToTeam(testTeam.id, user.id);
@@ -105,3 +157,4 @@ const stubNotificationAs = (name, permission) => {
         cy.stub(win, 'Notification').as(name);
     });
 };
+
