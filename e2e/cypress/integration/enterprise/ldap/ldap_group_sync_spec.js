@@ -11,7 +11,6 @@
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
-
 function setLDAPTestSettings(config) {
     return {
         siteName: config.TeamSettings.SiteName,
@@ -96,11 +95,11 @@ context('ldap', () => {
 
             // # Click save settings on bottom screen to save settings
             cy.get('#saveSetting').should('be.enabled').click({force: true});
-            cy.wait(TIMEOUTS.ONE_SEC);; //eslint-disable-line cypress/no-unnecessary-waiting
+            cy.wait(TIMEOUTS.ONE_SEC); //eslint-disable-line cypress/no-unnecessary-waiting
 
             // # Go back to the testChannel management page
             cy.visit(`/admin_console/user_management/channels/${testChannel.id}`);
-            cy.wait(TIMEOUTS.ONE_SEC);; //eslint-disable-line cypress/no-unnecessary-waiting
+            cy.wait(TIMEOUTS.ONE_SEC); //eslint-disable-line cypress/no-unnecessary-waiting
 
             // # Remove the board group we have added
             cy.get('.group-row').eq(0).scrollIntoView().should('be.visible').within(() => {
@@ -110,11 +109,11 @@ context('ldap', () => {
 
             // # Save settings
             cy.get('#saveSetting').should('be.enabled').click({force: true});
-            cy.wait(TIMEOUTS.ONE_SEC);; //eslint-disable-line cypress/no-unnecessary-waiting
+            cy.wait(TIMEOUTS.ONE_SEC); //eslint-disable-line cypress/no-unnecessary-waiting
 
             // # Go back to testChannel management page
             cy.visit(`/admin_console/user_management/channels/${testChannel.id}`);
-            cy.wait(TIMEOUTS.ONE_SEC);; //eslint-disable-line cypress/no-unnecessary-waiting
+            cy.wait(TIMEOUTS.ONE_SEC); //eslint-disable-line cypress/no-unnecessary-waiting
 
             // * Ensure we only have one group row (other group is not there)
             cy.get('.group-row').should('have.length', 1);
@@ -124,7 +123,7 @@ context('ldap', () => {
             // # Login as sysadmin and add board-one to test team
             cy.apiAdminLogin();
             cy.visit(`/admin_console/user_management/teams/${testTeam.id}`);
-            cy.wait(TIMEOUTS.TWO_SEC);; //eslint-disable-line cypress/no-unnecessary-waiting
+            cy.wait(TIMEOUTS.TWO_SEC); //eslint-disable-line cypress/no-unnecessary-waiting
 
             // # Turn on sync group members
             cy.findByTestId('syncGroupSwitch').scrollIntoView().click();
@@ -137,7 +136,7 @@ context('ldap', () => {
 
             // # Save settings
             cy.get('#saveSetting').should('be.enabled').click({force: true});
-            cy.wait(TIMEOUTS.ONE_SEC);; //eslint-disable-line cypress/no-unnecessary-waiting
+            cy.wait(TIMEOUTS.ONE_SEC); //eslint-disable-line cypress/no-unnecessary-waiting
 
             // # Accept confirmation modal
             cy.get('#confirmModalButton').should('be.visible').click();
@@ -163,14 +162,14 @@ context('ldap', () => {
             // # Login as system admin and go to testTeam config page
             cy.apiAdminLogin();
             cy.visit(`/admin_console/user_management/teams/${testTeam.id}`);
-            cy.wait(TIMEOUTS.TWO_SEC);; //eslint-disable-line cypress/no-unnecessary-waiting
+            cy.wait(TIMEOUTS.TWO_SEC); //eslint-disable-line cypress/no-unnecessary-waiting
 
             // # Make the team so anyone can join it
             cy.findByTestId('allowAllToggleSwitch').scrollIntoView().click();
 
             // # Save the settings
             cy.get('#saveSetting').should('be.enabled').click({force: true});
-            cy.wait(TIMEOUTS.ONE_SEC);; //eslint-disable-line cypress/no-unnecessary-waiting
+            cy.wait(TIMEOUTS.ONE_SEC); //eslint-disable-line cypress/no-unnecessary-waiting
 
             // # Start with a new team
             cy.apiCreateTeam('team', 'Team').then(({team}) => {
@@ -201,14 +200,14 @@ context('ldap', () => {
             // # Login as sysadmin and add board-one to test team
             cy.apiAdminLogin();
             cy.visit(`/admin_console/user_management/channels/${testChannel.id}`);
-            cy.wait(TIMEOUTS.TWO_SEC);; //eslint-disable-line cypress/no-unnecessary-waiting
+            cy.wait(TIMEOUTS.TWO_SEC); //eslint-disable-line cypress/no-unnecessary-waiting
 
             // Make it private and then cancel
             cy.findByTestId('allow-all-toggle').click();
             cy.get('#cancelButtonSettings').click();
             cy.get('#confirmModalButton').click();
             cy.visit(`/admin_console/user_management/channels/${testChannel.id}`);
-            cy.wait(TIMEOUTS.TWO_SEC);; //eslint-disable-line cypress/no-unnecessary-waiting
+            cy.wait(TIMEOUTS.TWO_SEC); //eslint-disable-line cypress/no-unnecessary-waiting
 
             // * Ensure it still public
             cy.findByTestId('allow-all-toggle').should('has.have.text', 'Public');
@@ -220,7 +219,7 @@ context('ldap', () => {
 
             // # Visit the channel config page for testChannel
             cy.visit(`/admin_console/user_management/channels/${testChannel.id}`);
-            cy.wait(TIMEOUTS.TWO_SEC);; //eslint-disable-line cypress/no-unnecessary-waiting
+            cy.wait(TIMEOUTS.TWO_SEC); //eslint-disable-line cypress/no-unnecessary-waiting
 
             // * Ensure it is Private
             cy.findByTestId('allow-all-toggle').should('has.have.text', 'Private');
@@ -247,7 +246,7 @@ context('ldap', () => {
                 // # Login as sysadmin
                 cy.apiAdminLogin();
                 cy.visit(`/admin_console/user_management/channels/${privateChannel.id}`);
-                cy.wait(TIMEOUTS.TWO_SEC);; //eslint-disable-line cypress/no-unnecessary-waiting
+                cy.wait(TIMEOUTS.TWO_SEC); //eslint-disable-line cypress/no-unnecessary-waiting
 
                 // Make it public and then cancel
                 cy.findByTestId('allow-all-toggle').click();
@@ -256,7 +255,7 @@ context('ldap', () => {
 
                 // Reload
                 cy.visit(`/admin_console/user_management/channels/${privateChannel.id}`);
-                cy.wait(TIMEOUTS.TWO_SEC);; //eslint-disable-line cypress/no-unnecessary-waiting
+                cy.wait(TIMEOUTS.TWO_SEC); //eslint-disable-line cypress/no-unnecessary-waiting
 
                 // * Ensure it still showing the channel as private
                 cy.findByTestId('allow-all-toggle').should('has.have.text', 'Private');
@@ -268,14 +267,14 @@ context('ldap', () => {
 
                 // Reload
                 cy.visit(`/admin_console/user_management/channels/${privateChannel.id}`);
-                cy.wait(TIMEOUTS.TWO_SEC);; //eslint-disable-line cypress/no-unnecessary-waiting
+                cy.wait(TIMEOUTS.TWO_SEC); //eslint-disable-line cypress/no-unnecessary-waiting
 
                 // * Ensure it still showing the channel as private
                 cy.findByTestId('allow-all-toggle').should('has.have.text', 'Public');
 
                 // # Ensure the last message in the message says that it was converted to a public channel
                 cy.visit(`/${testTeam.name}/channels/${privateChannel.name}`);
-                cy.wait(TIMEOUTS.TWO_SEC);; //eslint-disable-line cypress/no-unnecessary-waiting
+                cy.wait(TIMEOUTS.TWO_SEC); //eslint-disable-line cypress/no-unnecessary-waiting
                 cy.getLastPostId().then((id) => {
                     // * The system message should contain 'This channel has been converted to a Public Channel and can be joined by any team member'
                     cy.get(`#postMessageText_${id}`).should('contain', 'This channel has been converted to a Public Channel and can be joined by any team member');
@@ -290,11 +289,11 @@ context('ldap', () => {
             cy.get('.DataGrid_searchBar').within(() => {
                 cy.findByPlaceholderText('Search').should('be.visible').type('Town Square');
             });
-            cy.wait(TIMEOUTS.TWO_SEC);; //eslint-disable-line cypress/no-unnecessary-waiting
+            cy.wait(TIMEOUTS.TWO_SEC); //eslint-disable-line cypress/no-unnecessary-waiting
 
             cy.findAllByTestId('town-squareedit').then((elements) => {
                 elements[0].click();
-                cy.wait(TIMEOUTS.TWO_SEC);; //eslint-disable-line cypress/no-unnecessary-waiting
+                cy.wait(TIMEOUTS.TWO_SEC); //eslint-disable-line cypress/no-unnecessary-waiting
 
                 // * Ensure the toggle to private/public is disabled
                 cy.findByTestId('allow-all-toggle-button').should('be.disabled');
