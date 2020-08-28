@@ -256,3 +256,22 @@ Cypress.Commands.add('apiPromoteGuestToUser', (userId) => {
         return cy.apiGetUserById(userId);
     });
 });
+
+/**
+ * Verify a user email via API
+ * @param {String} userId - ID of user of email to verify
+ */
+Cypress.Commands.add('apiVerifyUserEmailById', (userId) => {
+    const options = {
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        method: 'POST',
+        url: `/api/v4/users/${userId}/email/verify/member`,
+    };
+
+    return cy.request(options).then((response) => {
+        expect(response.status).to.equal(200);
+        cy.wrap({user: response.body});
+    });
+});
+
+export {generateRandomUser};
