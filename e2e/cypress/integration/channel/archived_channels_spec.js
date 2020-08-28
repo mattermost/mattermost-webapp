@@ -32,7 +32,7 @@ describe('Leave an archived channel', () => {
             testUser = user;
 
             cy.visit(`/${team.name}/channels/${testChannel.name}`);
-            cy.postM
+            cy.postMessageAs({sender: testUser, message: 'this is an archived post', channelId: testChannel.id});
         });
     });
 
@@ -109,13 +109,35 @@ describe('Leave an archived channel', () => {
         // # Open a channel that's not the town square
         cy.visit(`/${testTeam.name}/channels/off-topic`);
 
-        // # Search for a post in an archived channel
-        // # Open the archived channel by selecting Jump from search results and then selecting the link to move to the most recent posts in the channel
-        // # Close an archived channel by clicking "Close Channel" button in the footer
-        // * The user is returned to the channel they were previously viewing and the archived channel is removed from the drawer
-        // # Repeat steps 1 to 3 (N/A for RN)
-        // # Click the header menu and select Close Channel (N/A for RN)
-        // * The user is returned to the channel they were previously viewing and the archived channel is removed from the drawer
+        // # repeat searching and navigating to the archived channel steps 3 times.
+        [1, 2, 3].forEach((i) => {
+            // * ensure we are not on an archived channel
+            cy.get('#channelInfoModalLabel span.icon__archive').should('not.be.visible');
+
+            // # Search for a post in an archived channel
+            cy.get('#searchBox').focus().type('this is an archived post{enter}').wait(TIMEOUTS.ONE_SEC);
+
+            // # Open the archived channel by selecting Jump from search results and then selecting the link to move to the most recent posts in the channel
+            cy.get('#searchContainer').should('be.visible');
+            cy.get('#loadingSpinner').should('not.be.visible');
+
+            cy.get('a.search-item__jump').first().click();
+
+            cy.get(`#sidebarItem_${testChannel.name}`).should('be.visible');
+
+            if (i < 3) {
+                // # Close an archived channel by clicking "Close Channel" button in the footer
+                cy.get('#channelArchivedMessage button').click();
+            } else {
+                // # Click the header menu and select Close Channel
+                cy.get('#channelHeaderDropdownButton button').click();
+                cy.contains('li.MenuItem', 'Close Channel').click();
+            }
+
+            // * The user is returned to the channel they were previously viewing and the archived channel is removed from the drawer
+            cy.url().should('include', '/channels/off-topic');
+            cy.get(`#sidebarItem_${testChannel.name}`).should('not.be.visible');
+        });
     });
     it('MM-T1672_2 User can close archived channel (2/2)', () => {
         // # Add text to channel you land on (after closing the archived channel via Close Channel button)
