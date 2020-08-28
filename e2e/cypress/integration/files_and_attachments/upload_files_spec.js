@@ -84,18 +84,18 @@ describe('Upload Files', () => {
         // * Verify the image loading component is visible
         cy.get('.image-container').should('be.visible').find('.image-loading__container').should('be.visible');
 
-        // # OtherUser creates posts in the channel
-        cy.postMessageAs({
-            sender: otherUser,
-            message: 'post1',
-            channelId: testChannel.id,
-        });
+        Cypress._.times(5, () => {
+            // # OtherUser creates posts in the channel
+            cy.postMessageAs({
+                sender: otherUser,
+                message: 'message',
+                channelId: testChannel.id,
+            });
 
-        for (let i = 0; i < 5; i++) {
             // * Verify image is not loading for each posts
             cy.get('.image-container').should('be.visible').find('.image-loading__container').should('not.exist');
 
             cy.wait(TIMEOUTS.HALF_SEC);
-        }
+        });
     });
 });
