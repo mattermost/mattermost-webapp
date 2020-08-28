@@ -291,9 +291,9 @@ describe('I18456 Built-in slash commands: common', () => {
     it('MM-T659 /invite - other channel', () => {
         const userToInvite = userGroup[3];
 
-        loginAndVisitDefaultChannel(user1, `${team1.name}/channels/${testChannel.name}`);
+        cy.apiAddUserToChannel(testChannel.id, user1.id);
+        loginAndVisitDefaultChannel(user1, `${team1.name}/channels/town-square`);
         cy.get('#postListContent', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible');
-        cy.get('#sidebarItem_town-square').click();
 
         // # Post `/invite @username ~channel` where channelname is a channel you have permission to add members to but not the current channel, and username is a user not in that other channel
         cy.postMessage(`/invite @${userToInvite.username} ~${testChannel.name}`);
