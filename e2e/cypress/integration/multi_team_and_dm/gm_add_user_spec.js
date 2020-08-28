@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
+
 describe('Multi-user group messages', () => {
     let testUser;
     let testTeam;
@@ -125,13 +127,12 @@ describe('Multi-user group messages', () => {
 
         // * modal closes
         cy.get('#moreDmModal').should('not.be.visible');
+        cy.wait(TIMEOUTS.ONE_SEC);
 
         // * original messages does not exist
         cy.contains('.post-message__text', 'historical').should('not.be.visible');
 
-        cy.getLastPostId().then((id) => {
-            cy.get(`#postMessageText_${id}`).should('contain', 'This is the start of your group message history...');
-        });
+        cy.contains('p.channel-intro-text span', 'This is the start of your group message history with');
 
         // * new user is added to the GM
         cy.get('#member_popover').click();
