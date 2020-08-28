@@ -155,9 +155,7 @@ describe('Leave an archived channel', () => {
         // # Add text to channel you land on (after closing the archived channel via Close Channel button)
         // * Able to add test
         cy.postMessage('some text');
-        cy.getLastPost().then((post) => {
-            post.should('contain', 'some text');
-        });
+        cy.getLastPost().should('contain', 'some text');
     });
 });
 
