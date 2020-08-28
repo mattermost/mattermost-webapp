@@ -18,8 +18,7 @@
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Draw Plugin - Upload', () => {
-    const pluginIdDraw = 'com.mattermost.draw-plugin';
-    const pluginIdDemo = 'com.mattermost.demo-plugin';
+    const pluginId = 'com.mattermost.draw-plugin';
 
     before(() => {
         // # Update config
@@ -35,8 +34,7 @@ describe('Draw Plugin - Upload', () => {
             cy.visit(`/${team.name}/channels/town-square`);
 
             // #If draw plugin is already enabled , unInstall it
-            cy.apiRemovePluginById(pluginIdDraw);
-            cy.apiRemovePluginById(pluginIdDemo);
+            cy.apiRemovePluginById(pluginId);
             cy.visit('/admin_console/plugins/plugin_management');
             cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'Plugin Management');
         });
@@ -62,7 +60,7 @@ describe('Draw Plugin - Upload', () => {
         cy.get('#uploadPlugin').and('be.disabled');
 
         // # Enable draw plugin
-        doTaskOnPlugin(pluginIdDraw, () => {
+        doTaskOnDrawPlugin(() => {
             // * Verify Draw Plugin title is shown
             cy.waitUntil(() => cy.get('strong').scrollIntoView().should('be.visible').then((title) => {
                 return title[0].innerText === 'Draw Plugin';
@@ -73,7 +71,7 @@ describe('Draw Plugin - Upload', () => {
         });
 
         // # Disable draw plugin
-        doTaskOnPlugin(pluginIdDraw, () => {
+        doTaskOnDrawPlugin(() => {
             // * Verify plugin is starting
             waitForAlert('This plugin is starting.');
 
@@ -85,7 +83,7 @@ describe('Draw Plugin - Upload', () => {
         });
 
         // # Attempt to remove draw plugin
-        doTaskOnPlugin(pluginIdDraw, () => {
+        doTaskOnDrawPlugin(() => {
             // * Verify plugin is not enabled
             waitForAlert('This plugin is not enabled.');
 
@@ -97,7 +95,7 @@ describe('Draw Plugin - Upload', () => {
         cy.get('#cancelModalButton').should('be.visible').click();
 
         // # Attempt to remove draw plugin again
-        doTaskOnPlugin(pluginIdDraw, () => {
+        doTaskOnDrawPlugin(() => {
             // # Click on Remove link
             cy.findByText('Remove').click();
         });
@@ -110,64 +108,6 @@ describe('Draw Plugin - Upload', () => {
         cy.findByText(/Installed Plugins/).scrollIntoView().should('be.visible');
         cy.findByTestId('com.mattermost.draw-plugin').should('not.exist');
     });
-
-    it('M27802-MT40-Plugin remains enabled when upgraded', () => {
-    // * upload Demo plugin from the browser
-        const fileName1 = 'com.mattermost.demo-plugin-0.1.0.tar.gz';
-        const fileName2 = 'com.mattermost.demo-plugin-0.2.0.tar.gz';
-        const mimeType = 'application/gzip';
-        cy.fixture(fileName1, 'binary').
-            then(Cypress.Blob.binaryStringToBlob).
-            then((fileContent) => {
-                cy.get('input[type=file]').attachFile({fileContent, fileName1, mimeType});
-            });
-
-        cy.get('#uploadPlugin').scrollIntoView().should('be.visible').click().wait(TIMEOUTS.HALF_SEC);
-
-        // * Verify that the button shows correct text while uploading
-        cy.findByText('Uploading...', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
-
-        // * Verify that the button shows correct text and is disabled after upload
-        cy.findByText('Upload', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
-        cy.get('#uploadPlugin').and('be.disabled');
-
-        // # Enable demo plugin
-        doTaskOnPlugin(pluginIdDemo, () => {
-        // * Verify Demo Plugin title is shown
-            cy.waitUntil(() => cy.get('strong').scrollIntoView().should('be.visible').then((title) => {
-                return title[0].innerText === 'Demo Plugin';
-            }));
-
-            // # Click on Enable link
-            cy.findByText('Enable').click();
-        });
-
-        // * Verify V0.1.0 of plugin
-        cy.findByText(/0.1.0/).scrollIntoView().should('be.visible');
-
-        cy.get('#uploadPlugin').scrollIntoView().should('be.visible');
-
-        // Upgrade plugin
-        cy.fixture(fileName2, 'binary').
-            then(Cypress.Blob.binaryStringToBlob).
-            then((fileContent) => {
-                cy.get('input[type=file]').attachFile({fileContent, fileName1, mimeType});
-            });
-
-        // * Verify that the button shows correct text while uploading
-        cy.get('#uploadPlugin').should('be.visible').click().wait(TIMEOUTS.HALF_SEC);
-
-        // Confirm overwrite of plugin with same name
-        cy.get('#confirmModalButton').should('be.visible').click();
-
-        doTaskOnPlugin(pluginIdDemo, () => {
-        // * Verify plugin is running
-            waitForAlert('This plugin is running.');
-        });
-
-        // * Verify v0.2.0 of plugin
-        cy.findByText(/0.2.0/).scrollIntoView().should('be.visible');
-    });
 });
 
 function waitForAlert(message) {
@@ -176,9 +116,9 @@ function waitForAlert(message) {
     }));
 }
 
-function doTaskOnPlugin(pluginId, taskCallback) {
+function doTaskOnDrawPlugin(taskCallback) {
     cy.findByText(/Installed Plugins/).scrollIntoView().should('be.visible');
-    cy.findByTestId(pluginId).scrollIntoView().should('be.visible').within(() => {
+    cy.findByTestId('com.mattermost.draw-plugin').scrollIntoView().should('be.visible').within(() => {
         // # Perform task
         taskCallback();
     });
