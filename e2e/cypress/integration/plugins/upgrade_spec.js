@@ -37,6 +37,10 @@ describe('Plugin remains enabled when upgraded', () => {
         });
     });
 
+    after(() => {
+        cy.apiRemovePluginById(pluginIdDemo);
+    });
+
     it('MT40 Plugin remains enabled when upgraded', () => {
     // * Upload Demo plugin from the browser
         const fileName1 = 'com.mattermost.demo-plugin-0.1.0.tar.gz';
@@ -77,7 +81,7 @@ describe('Plugin remains enabled when upgraded', () => {
         cy.fixture(fileName2, 'binary').
             then(Cypress.Blob.binaryStringToBlob).
             then((fileContent) => {
-                cy.get('input[type=file]').attachFile({fileContent, fileName: fileName1, mimeType});
+                cy.get('input[type=file]').attachFile({fileContent, fileName: fileName2, mimeType});
             });
 
         // * Verify that the button shows correct text while uploading
@@ -93,8 +97,6 @@ describe('Plugin remains enabled when upgraded', () => {
 
         // * Verify v0.2.0 of plugin
         cy.findByText(/0.2.0/).scrollIntoView().should('be.visible');
-
-        cy.apiRemovePluginById(pluginIdDemo);
     });
 });
 
