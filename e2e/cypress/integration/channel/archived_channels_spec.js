@@ -117,19 +117,25 @@ describe('Leave an archived channel', () => {
             // # Search for a post in an archived channel
             cy.get('#searchBox').focus().clear();
             cy.wait(TIMEOUTS.ONE_HUNDRED_MILLIS);
+
             cy.get('#searchBox').should('be.visible').type('this').wait(TIMEOUTS.ONE_HUNDRED_MILLIS);
             ['is', 'an', 'archived', 'post'].forEach((word) => {
                 cy.get('#searchBox').type(` ${word}`).wait(TIMEOUTS.ONE_HUNDRED_MILLIS);
             });
             cy.get('#searchBox').type('{enter}').wait(TIMEOUTS.ONE_HUNDRED_MILLIS);
 
+            // cy.get('#searchBox').should('be.visible').type('this is an archived post{enter}').wait(TIMEOUTS.ONE_HUNDRED_MILLIS);
+
             // # Open the archived channel by selecting Jump from search results and then selecting the link to move to the most recent posts in the channel
             cy.get('#searchContainer').should('be.visible');
             cy.get('#loadingSpinner').should('not.be.visible');
 
-            cy.wait(TIMEOUTS.ONE_SEC).get('a.search-item__jump').first().click();
+            cy.wait(TIMEOUTS.ONE_SEC);
+            cy.get('a.search-item__jump').first().click();
 
             cy.get(`#sidebarItem_${testChannel.name}`).should('be.visible');
+
+            cy.wait(TIMEOUTS.ONE_SEC * 3); // wait for the channel to be fully loaded, or it will try to load both pages in a race condition
 
             if (i < 3) {
                 // # Close an archived channel by clicking "Close Channel" button in the footer
@@ -148,6 +154,10 @@ describe('Leave an archived channel', () => {
     it('MM-T1672_2 User can close archived channel (2/2)', () => {
         // # Add text to channel you land on (after closing the archived channel via Close Channel button)
         // * Able to add test
+        cy.postMessage('some text');
+        cy.getLastPost().then((post) => {
+            post.should('contain', 'some text');
+        });
     });
 });
 
