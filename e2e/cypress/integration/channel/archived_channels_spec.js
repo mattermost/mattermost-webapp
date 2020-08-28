@@ -115,14 +115,19 @@ describe('Leave an archived channel', () => {
             cy.wait(TIMEOUTS.ONE_SEC).get('#channelInfoModalLabel span.icon__archive').should('not.be.visible');
 
             // # Search for a post in an archived channel
-            cy.get('#searchBox').wait(TIMEOUTS.ONE_SEC).focus().clear();
-            cy.get('#searchBox').type('this is an archived post{enter}').wait(TIMEOUTS.ONE_SEC);
+            cy.get('#searchBox').focus().clear();
+            cy.wait(TIMEOUTS.ONE_HUNDRED_MILLIS);
+            cy.get('#searchBox').should('be.visible').type('this').wait(TIMEOUTS.ONE_HUNDRED_MILLIS);
+            ['is', 'an', 'archived', 'post'].forEach((word) => {
+                cy.get('#searchBox').type(` ${word}`).wait(TIMEOUTS.ONE_HUNDRED_MILLIS);
+            });
+            cy.get('#searchBox').type('{enter}').wait(TIMEOUTS.ONE_HUNDRED_MILLIS);
 
             // # Open the archived channel by selecting Jump from search results and then selecting the link to move to the most recent posts in the channel
             cy.get('#searchContainer').should('be.visible');
-            cy.get('#loadingSpinner').wait(TIMEOUTS.ONE_SEC).should('not.be.visible');
+            cy.get('#loadingSpinner').should('not.be.visible');
 
-            cy.get('a.search-item__jump').first().click();
+            cy.wait(TIMEOUTS.ONE_SEC).get('a.search-item__jump').first().click();
 
             cy.get(`#sidebarItem_${testChannel.name}`).should('be.visible');
 
