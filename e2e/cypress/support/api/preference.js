@@ -211,3 +211,29 @@ Cypress.Commands.add('apiSaveTutorialStep', (userId, value = '999') => {
 
     return cy.apiSaveUserPreference([preference], userId);
 });
+
+Cypress.Commands.add('apiSaveCloudOnboardingPreference', (name, value) => {
+    return cy.getCookie('MMUSERID').then((cookie) => {
+        const preference = {
+            user_id: cookie.value,
+            category: 'recommended_next_steps',
+            name,
+            value,
+        };
+
+        return cy.apiSaveUserPreference([preference]);
+    });
+});
+
+Cypress.Commands.add('apiHideSidebarWhatsNewModalPreference', (value) => {
+    return cy.getCookie('MMUSERID').then((cookie) => {
+        const preference = {
+            user_id: cookie.value,
+            category: 'whats_new_modal',
+            name: 'has_seen_sidebar_whats_new_modal',
+            value,
+        };
+
+        return cy.apiSaveUserPreference([preference]);
+    });
+});
