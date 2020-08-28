@@ -305,6 +305,7 @@ describe('I18456 Built-in slash commands: common', () => {
 
         cy.get('#addDirectChannel').click();
         cy.get('#selectItems').type(`${userToInviteDM.username}`);
+        cy.wait(TIMEOUTS.TWO_SEC);
         cy.get('#multiSelectList').findByText(`@${userToInviteDM.username}`).click();
         cy.findByText('Go').click();
         cy.get('#channelHeaderDropdownButton').contains(`${userToInviteDM.username}`).should('be.visible');
