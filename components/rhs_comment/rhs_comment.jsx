@@ -283,7 +283,6 @@ class RhsComment extends React.PureComponent {
         const isSystemMessage = PostUtils.isSystemMessage(post);
         const isMeMessage = checkIsMeMessage(post);
         const fromAutoResponder = PostUtils.fromAutoResponder(post);
-        console.log(post);
 
         let botIndicator;
         let profilePicture;
