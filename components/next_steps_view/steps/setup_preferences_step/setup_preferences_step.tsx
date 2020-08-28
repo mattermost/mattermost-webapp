@@ -3,19 +3,30 @@
 
 import React, {useState} from 'react';
 
+import {useDispatch} from 'react-redux';
+
+import {ModalIdentifiers} from 'utils/constants';
 import UserSettingsModal from '../../../user_settings/modal';
 
 import {StepComponentProps} from '../../steps';
 
 import TextCardWithAction from '../text_card_with_action/text_card_with_action';
+import {openModal} from 'actions/views/modals';
 
 export default function SetupPreferencesStep(props: StepComponentProps) {
-    const [shouldShowSettings, showSettings] = useState(false);
+    const dispatch = useDispatch();
     const onFinish = () => {
+        console.log('ON FINISH');
         props.onFinish(props.id);
     };
     const onClick = () => {
-        showSettings(true);
+        dispatch(openModal({
+            id: ModalIdentifiers.USER_SETTINGS,
+            dialogType: UserSettingsModal,
+            dialogProps: {
+                onHide: onFinish,
+            }
+        }));
     };
 
     return (
@@ -27,7 +38,6 @@ export default function SetupPreferencesStep(props: StepComponentProps) {
                 buttonDefaultMessage={'Set Preferences'}
                 onClick={onClick}
             />
-            {shouldShowSettings && <UserSettingsModal onHide={onFinish}/>}
         </>
     );
 }

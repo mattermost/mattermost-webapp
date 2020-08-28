@@ -171,6 +171,7 @@ class UserSettingsModal extends React.PureComponent<Props, State> {
             active_tab: 'general',
             active_section: '',
         });
+        console.log('handleHidden');
         this.props.onHide();
     }
 
