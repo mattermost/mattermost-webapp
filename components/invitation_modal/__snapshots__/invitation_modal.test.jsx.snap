@@ -148,7 +148,7 @@ exports[`components/invitation_modal/InvitationModal should match the snapshot w
           />
         }
       />
-      <injectIntl(InvitationModalMembersStep)
+      <Connect(injectIntl(InvitationModalMembersStep))
         currentTeamId="test"
         emailInvitationsEnabled={true}
         inviteId="test-invite-id"
