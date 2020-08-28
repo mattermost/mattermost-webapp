@@ -17,8 +17,12 @@
 
     .modal-header {
         .close {
-            &:hover {
+            &:hover,
+            &:active,
+            &:focus,
+            &:active:focus {
                 color: var(--center-channel-color-72);
+                background: var(--center-channel-color-08);
                 opacity: 1;
             }
             color: rgba(var(--center-channel-color-rgb), 0.56);
@@ -80,7 +84,7 @@
 
             .dismiss-link {
                 &:hover, &:active, &:focus, &:active:focus {
-                    background: rgba(var(--sys-button-bg-rgb), 0.04);
+                    background: var(--button-bg-08);
                     border-radius: 4px;
                     border: none;
                 }
