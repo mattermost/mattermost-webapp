@@ -289,10 +289,11 @@ describe('I18456 Built-in slash commands: common', () => {
     });
 
     it('MM-T659 /invite - other channel', () => {
+        const user = userGroup[4];
         const userToInvite = userGroup[3];
 
-        cy.apiAddUserToChannel(testChannel.id, user1.id);
-        loginAndVisitDefaultChannel(user1, `${team1.name}/channels/town-square`);
+        cy.apiAddUserToChannel(testChannel.id, user.id);
+        loginAndVisitDefaultChannel(user, `${team1.name}/channels/town-square`);
         cy.get('#postListContent', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible');
 
         // # Post `/invite @username ~channel` where channelname is a channel you have permission to add members to but not the current channel, and username is a user not in that other channel
@@ -313,7 +314,7 @@ describe('I18456 Built-in slash commands: common', () => {
             });
 
         // * Added user sees system message "username added to the channel by username."
-        cy.uiWaitUntilMessagePostedIncludes(`You were added to the channel by @${user1.username}`);
+        cy.uiWaitUntilMessagePostedIncludes(`You were added to the channel by @${user.username}`);
     });
 
     it('MM-T2834 Slash command help stays visible for system slash command', () => {
