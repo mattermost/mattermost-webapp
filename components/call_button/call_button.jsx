@@ -58,7 +58,7 @@ function CallButton(props) {
                     }}
                 >
                     <a href='#'>
-                        <span className='mr-2'>
+                        <span className='call-plugin-icon'>
                             {item.icon}
                         </span>
                         {item.dropdownText}
