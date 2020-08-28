@@ -26,14 +26,6 @@ describe('Plugin remains enabled when upgraded', () => {
     const pluginIdDemo = 'com.mattermost.demo-plugin';
 
     before(() => {
-        // # Update config
-        cy.apiUpdateConfig({
-            PluginSettings: {
-                Enable: true,
-                RequirePluginSignature: false,
-            },
-        });
-
         // # Initialize setup and visit town-square
         cy.apiInitSetup().then(({team}) => {
             cy.visit(`/${team.name}/channels/town-square`);
@@ -53,7 +45,7 @@ describe('Plugin remains enabled when upgraded', () => {
         cy.fixture(fileName1, 'binary').
             then(Cypress.Blob.binaryStringToBlob).
             then((fileContent) => {
-                cy.get('input[type=file]').attachFile({fileContent, fileName1, mimeType});
+                cy.get('input[type=file]').attachFile({fileContent, fileName: fileName1, mimeType});
             });
 
         cy.get('#uploadPlugin').scrollIntoView().should('be.visible').click().wait(TIMEOUTS.HALF_SEC);
@@ -85,7 +77,7 @@ describe('Plugin remains enabled when upgraded', () => {
         cy.fixture(fileName2, 'binary').
             then(Cypress.Blob.binaryStringToBlob).
             then((fileContent) => {
-                cy.get('input[type=file]').attachFile({fileContent, fileName1, mimeType});
+                cy.get('input[type=file]').attachFile({fileContent, fileName: fileName1, mimeType});
             });
 
         // * Verify that the button shows correct text while uploading
