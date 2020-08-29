@@ -131,7 +131,7 @@ export default class ErrorPage extends React.PureComponent<Props> {
                         <WarningIcon/>
                     </div>
                     <h2
-                        data-testid='error-message-title'
+                        data-testid='errorMessageTitle'
                     >
                         <ErrorTitle
                             type={type}
