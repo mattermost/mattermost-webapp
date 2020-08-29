@@ -298,14 +298,15 @@ describe('I18456 Built-in slash commands: common', () => {
         cy.get('#postListContent', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible');
 
         // # In a GM use the /invite command to invite a user to a channel you have permission to dd them to but place extra white space before the username
-        cy.postMessage(`/invite        @${userToInviteGM.username}`);
+        cy.postMessage(`/groupmsg @${userGroup[0].username} @${userGroup[1].username}`);
+        cy.postMessage(`/invite        @${userToInviteGM.username} ~${testChannel.name}`);
 
         // * User added to channel as expected
-        cy.uiWaitUntilMessagePostedIncludes(`@${userToInviteGM.username} added to the channel by you`);
+        cy.uiWaitUntilMessagePostedIncludes(`${userToInviteGM.username} added to ${testChannel.name} channel.`);
 
         cy.get('#addDirectChannel').click();
         cy.get('#selectItems').type(`${userToInviteDM.username}`);
-        cy.wait(TIMEOUTS.TWO_SEC);
+        cy.wait(TIMEOUTS.ONE_SEC);
         cy.get('#multiSelectList').findByText(`@${userToInviteDM.username}`).click();
         cy.findByText('Go').click();
         cy.get('#channelHeaderDropdownButton').contains(`${userToInviteDM.username}`).should('be.visible');
