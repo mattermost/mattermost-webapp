@@ -7,14 +7,13 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @toast
 
 import {getRandomId} from '../../utils';
 
 describe('Toast', () => {
     let testTeam;
-    let testUser;
+    let otherUser;
     let townsquareChannelId;
     let postIdToJumpTo;
     const numberOfPosts = 30;
@@ -24,8 +23,8 @@ describe('Toast', () => {
             testTeam = team;
 
             cy.apiCreateUser().then(({user}) => {
-                testUser = user;
-                cy.apiAddUserToTeam(testTeam.id, testUser.id);
+                otherUser = user;
+                cy.apiAddUserToTeam(testTeam.id, otherUser.id);
             });
 
             cy.apiGetChannelByName(testTeam.name, 'town-square').then((res) => {
@@ -36,20 +35,21 @@ describe('Toast', () => {
         });
     });
 
-    it('MM-T1792 Permalink post', () => {
+    it('MM-T1794 Permalink post view combined with New Message toast', () => {
+        // # Post 30 random messages from the 'otherUser' account in Town Square
         Cypress._.times(numberOfPosts, (num) => {
             if (num === 2) {
                 cy.getLastPostId().then((postId) => {
                     postIdToJumpTo = postId;
                 });
             }
-            cy.postMessageAs({sender: testUser, message: `${num} ${getRandomId()}`, channelId: townsquareChannelId});
+            cy.postMessageAs({sender: otherUser, message: `${num} ${getRandomId()}`, channelId: townsquareChannelId});
         });
 
         cy.getLastPostId().then((id) => {
             const permalink = `${Cypress.config('baseUrl')}/${testTeam.name}/pl/${id}`;
 
-            // # Check if ... button is visible in last post right side
+            // * Check that the ... button is not visible in last post right side
             cy.get(`#CENTER_button_${id}`).should('not.be.visible');
 
             // # Click on ... button of last post
@@ -58,7 +58,7 @@ describe('Toast', () => {
             // * Click on "Copy Link" and verify the permalink in clipboard is same as we formed
             cy.uiClickCopyLink(permalink);
 
-            // # post the permalink in the channel
+            // # Post the permalink in the channel
             cy.postMessage(permalink);
 
             // # Click on permalink
@@ -66,18 +66,24 @@ describe('Toast', () => {
 
             // * check the URL should be changed to permalink post
             cy.url().should('include', `/${testTeam.name}/channels/town-square/${id}`);
+
+            // # Scroll to the second post in the channel so that the 'Jump to New Messages' button would be visible
             cy.get(`#postMessageText_${postIdToJumpTo}`).scrollIntoView();
 
-            cy.postMessageAs({sender: testUser, message: 'Random Message', channelId: townsquareChannelId});
-            cy.postMessageAs({sender: testUser, message: 'Last Message', channelId: townsquareChannelId});
+            // # Post two new messages as 'otherUser'
+            cy.postMessageAs({sender: otherUser, message: 'Random Message', channelId: townsquareChannelId});
+            cy.postMessageAs({sender: otherUser, message: 'Last Message', channelId: townsquareChannelId});
 
+            // * Verify that the last message is currently not visible
             cy.findByText('Last Message').should('not.be.visible');
 
+            // # Click on the 'Jump to New Messages' button
             cy.get('.toast__visible').should('be.visible').click();
 
-            // * URL changes to channel url
+            // * Verify that the last message is now visible
             cy.findByText('Last Message').should('be.visible');
 
+            // * Verify that the URL changes to the channel url
             cy.url().should('include', `/${testTeam.name}/channels/town-square`).and('not.include', id);
         });
     });
