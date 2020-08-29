@@ -7,7 +7,7 @@ orbs:
 executors:
   default:
     docker:
-      - image: mattermost/mattermost-build-webapp:20200827_node-10.12
+      - image: mattermost/mattermost-build-webapp:20200829_node-10.22
     resource_class: "xlarge"
 
 aliases:
