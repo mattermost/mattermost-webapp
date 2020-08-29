@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {markAsUnreadByPostIdFromMenu, switchToChannel} from './helpers';
+import {markAsUnreadByPostIdFromMenu} from './helpers';
 
 // ***************************************************************
 // - [#] indicates a test step (e.g. # Go to a page)
