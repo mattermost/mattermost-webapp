@@ -297,7 +297,7 @@ describe('I18456 Built-in slash commands: common', () => {
         loginAndVisitDefaultChannel(user, `${team1.name}/channels/${testChannel.name}`);
         cy.get('#postListContent', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible');
 
-        // # In a GM use the /invite command to invite a user to a channel you have permission to dd them to but place extra white space before the username
+        // # In a GM use the /invite command to invite a user to a channel you have permission to add them to but place extra white space before the username
         cy.postMessage(`/groupmsg @${userGroup[0].username} @${userGroup[1].username}`);
         cy.postMessage(`/invite        @${userToInviteGM.username} ~${testChannel.name}`);
 
@@ -311,7 +311,7 @@ describe('I18456 Built-in slash commands: common', () => {
         cy.findByText('Go').click();
         cy.get('#channelHeaderDropdownButton').contains(`${userToInviteDM.username}`).should('be.visible');
 
-        // # In a DM use the /invite command to invite a user to a channel you have permission to dd them to but place extra white space before the username
+        // # In a DM use the /invite command to invite a user to a channel you have permission to add them to but place extra white space before the username
         cy.postMessage(`/invite        @${userToInviteDM.username} ~${testChannel.name}`);
 
         // * User added to channel as expected
