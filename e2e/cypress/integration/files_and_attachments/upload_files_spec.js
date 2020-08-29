@@ -113,8 +113,13 @@ describe('Upload Files', () => {
                     if (file.type === 'document') {
                         // * Check if the download icon is exists
                         cy.findByLabelText('download').should('exist').then((fileAttachment) => {
+                            // * Verify if download attribute exists which allows to download instead of navigation
+                            expect(fileAttachment.attr('download')).to.equal(file.filename);
+
+                            const fileAttachmentURL = fileAttachment.attr('href');
+
                             // * Verify that download link has correct name
-                            verifyLinkHasDownloadProperties(fileAttachment, file.filename);
+                            downloadAttachmentAndVerifyItsProperties(fileAttachmentURL, file.filename, 'attachment');
                         });
 
                         // * Check if the file name is shown in the attachment
@@ -138,8 +143,13 @@ describe('Upload Files', () => {
                 within(() => {
                     // * Check for download property of the download button
                     cy.findByText('Download').should('be.visible').parent().then((fileAttachment) => {
+                        // * Verify if download attribute exists which allows to download instead of navigation
+                        expect(fileAttachment.attr('download')).to.equal(file.filename);
+
+                        const fileAttachmentURL = fileAttachment.attr('href');
+
                         // * Verify that download link has correct name
-                        verifyLinkHasDownloadProperties(fileAttachment, file.filename);
+                        downloadAttachmentAndVerifyItsProperties(fileAttachmentURL, file.filename, 'attachment');
                     });
                 });
 
@@ -179,20 +189,68 @@ describe('Upload Files', () => {
             cy.wait(TIMEOUTS.HALF_SEC);
         });
     });
+
+    it('MM-T338 Image Attachment Upload in Mobile View', () => {
+        // # Set the viewport to mobile
+        cy.viewport('iphone-6');
+
+        // # Scan inside of the message input region
+        cy.findByLabelText('message input complimentary region').should('be.visible').within(() => {
+            // * Check if the attachment button is present
+            cy.findByLabelText('Attachment Icon').should('be.visible').and('have.css', 'cursor', 'pointer');
+        });
+
+        const imageName = 'image-file';
+        const imageType = 'jpg';
+        const imageFilename = `${imageName}.${imageType}`;
+
+        // # Attach an image but dont post it yet
+        cy.get('#fileUploadInput').attachFile(imageFilename);
+
+        // # Scan inside of the message footer region
+        cy.get('#postCreateFooter').should('be.visible').within(() => {
+            // * Verify that image name is present
+            cy.findByText(imageFilename).should('be.visible');
+
+            // * Verify that image type is present
+            cy.findByText(imageType.toUpperCase()).should('be.visible');
+
+            // # Get the image preview div
+            cy.get('.post-image.normal').then((imageDiv) => {
+                // # Filter out the url from the css background property
+                // url("https://imageurl") => https://imageurl
+                const imageURL = imageDiv.css('background-image').replace('url(', '').replace(')', '').replace(/"/gi, '');
+
+                downloadAttachmentAndVerifyItsProperties(imageURL, imageFilename, 'inline');
+            });
+        });
+
+        // # Now post with the message attachment
+        cy.postMessage('{enter}');
+
+        // # Get the post id of the last message
+        cy.getLastPostId().then((lastPostId) => {
+            // # Scan inside of the last post message
+            cy.get(`#${lastPostId}_message`).and('be.visible').within(() => {
+                // * Check that image is in the post message with valid source link
+                cy.findByLabelText(`file thumbnail ${imageFilename}`).should('be.visible').
+                    and('have.attr', 'src').then((src) => {
+                        downloadAttachmentAndVerifyItsProperties(src, imageFilename, 'inline');
+                    });
+            });
+        });
+    });
 });
 
-function verifyLinkHasDownloadProperties(fileAttachment, filename) {
-    // * Verify if download attribute exists which allows to download instead of navigation
-    expect(fileAttachment.attr('download')).to.equal(filename);
-
+function downloadAttachmentAndVerifyItsProperties(fileURL, filename, httpContext) {
     // * Verify it has not empty download link
-    cy.request(fileAttachment.attr('href')).then((response) => {
+    cy.request(fileURL).then((response) => {
         // * Verify that link can be downloaded
         expect(response.status).to.equal(200);
 
-        // * Verify if link is an attachment that can be saved locally
+        // * Verify if link is an appropriate httpContext for opening in new tab or same and that can be saved locally
         // and it contains the correct filename* which will be used to name the downloaded file
         expect(response.headers['content-disposition']).to.
-            equal(`attachment;filename="${filename}"; filename*=UTF-8''${filename}`);
+            equal(`${httpContext};filename="${filename}"; filename*=UTF-8''${filename}`);
     });
 }
