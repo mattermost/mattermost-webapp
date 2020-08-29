@@ -32,6 +32,8 @@ type Props = {
     managePrivateChannelMembers: boolean;
     closeHandler?: (callback: () => void) => void;
     isCollapsed: boolean;
+    isMenuOpen: boolean;
+    onToggleMenu: (isMenuOpen: boolean) => void;
     actions: {
         markChannelAsRead: (channelId: string) => void;
         favoriteChannel: (channelId: string) => void;
@@ -320,29 +322,35 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
         }
     }
 
-    onToggle = (open: boolean) => {
+    onToggleMenu = (open: boolean) => {
+        this.props.onToggleMenu(open);
+
         if (open) {
             trackEvent('ui', 'ui_sidebar_channel_menu_opened');
         }
     }
 
     render() {
-        const {intl, channel} = this.props;
+        const {
+            channel,
+            intl,
+            isCollapsed,
+            isMenuOpen,
+        } = this.props;
 
         return (
-            <React.Fragment>
-                <SidebarMenu
-                    refCallback={this.refCallback}
-                    id={`SidebarChannelMenu-${channel.id}`}
-                    ariaLabel={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.dropdownAriaLabel', defaultMessage: 'Channel Menu'})}
-                    buttonAriaLabel={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.dropdownAriaLabel', defaultMessage: 'Channel Menu'})}
-                    tooltipText={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.editChannel', defaultMessage: 'Channel options'})}
-                    onToggle={this.onToggle}
-                    tabIndex={this.props.isCollapsed ? -1 : 0}
-                >
-                    {this.renderDropdownItems()}
-                </SidebarMenu>
-            </React.Fragment>
+            <SidebarMenu
+                refCallback={this.refCallback}
+                id={`SidebarChannelMenu-${channel.id}`}
+                ariaLabel={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.dropdownAriaLabel', defaultMessage: 'Channel Menu'})}
+                buttonAriaLabel={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.dropdownAriaLabel', defaultMessage: 'Channel Menu'})}
+                isMenuOpen={isMenuOpen}
+                onToggleMenu={this.onToggleMenu}
+                tooltipText={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.editChannel', defaultMessage: 'Channel options'})}
+                tabIndex={isCollapsed ? -1 : 0}
+            >
+                {this.renderDropdownItems()}
+            </SidebarMenu>
         );
     }
 }
