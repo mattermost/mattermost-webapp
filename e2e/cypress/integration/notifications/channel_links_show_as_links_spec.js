@@ -10,13 +10,15 @@
 
 // Group: @notifications
 
-import {getEmailUrl, getEmailMessageSeparator} from '../../utils';
+import * as TIMEOUTS from '../../fixtures/timeouts';
+import {getEmailUrl, getEmailMessageSeparator, reUrl} from '../../utils';
 const baseUrl = Cypress.config('baseUrl');
 const mailUrl = getEmailUrl(baseUrl);
 
 describe('Team Settings', () => {
     let testTeam;
     let otherUser;
+    let lastPostId;
     const channelName = 'off-topic';
     before(() => {
         cy.apiEmailTest();
@@ -63,11 +65,31 @@ describe('Team Settings', () => {
         // # Post a message as sysadmin that contains the channel name and otherUser's username
         cy.postMessage(`This is a message in ~${channelName} channel for @${otherUser.username}`);
 
+        cy.getLastPostId().then((postId) => {
+            lastPostId = postId;
+        });
+
+        // # Logout from sysadmin account and login as otherUser
+        cy.apiLogout();
+        cy.apiLogin(otherUser);
+
         cy.task('getRecentEmail', {username: otherUser.username, mailUrl}).then((response) => {
             const messageSeparator = getEmailMessageSeparator(baseUrl);
+            const bodyText = response.data.body.text.split('\n');
 
             // * Verify that the email was properly received and has the correct output
             verifyEmailNotification(response, testTeam, testTeam.display_name, otherUser.email, messageSeparator);
+
+            const permalink = bodyText[9].match(reUrl)[0];
+
+            // # Visit permalink (e.g. click on email link)
+            cy.visit(permalink);
+
+            // # Choose the 'View in Browser' option
+            cy.findByText('View in Browser', {timeout: TIMEOUTS.HALF_MIN}).click();
+
+            // * Verify that the post message that otherUser was notified of in the email is visible
+            cy.get(`#postMessageText_${lastPostId}`, {timeout: TIMEOUTS.HALF_MIN}).should('be.visible');
         });
     });
 
@@ -95,6 +117,7 @@ describe('Team Settings', () => {
         expect(bodyText[4]).to.equal('Channel: Off-Topic');
         expect(bodyText[5]).to.contain('@sysadmin');
         expect(bodyText[7]).to.equal(`This is a message in ~${channelName} ( ${baseUrl}/landing#/${testTeam.name}/channels/${channelName} ) channel for @${otherUser.username}`);
+        expect(bodyText[9]).to.equal(`Go To Post ( ${baseUrl}/landing#/${testTeam.name}/pl/${lastPostId} )`);
     };
 });
 
