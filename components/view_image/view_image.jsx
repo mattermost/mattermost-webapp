@@ -132,6 +132,8 @@ export default class ViewImageModal extends React.PureComponent {
         const updatedProps = {};
         if (props.fileInfos[state.imageIndex].extension === FileTypes.PDF) {
             updatedProps.showZoomControls = true;
+        } else {
+            updatedProps.showZoomControls = false;
         }
         if (props.fileInfos.length !== state.prevFileInfosCount) {
             updatedProps.loaded = Utils.fillArray(false, props.fileInfos.length);
