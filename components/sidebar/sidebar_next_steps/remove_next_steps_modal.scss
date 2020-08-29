@@ -1,0 +1,67 @@
+.RemoveNextStepsModal__helpBox {
+    position: fixed;
+    top: 16px;
+    left: 201px;
+    z-index: 1050;
+}
+
+.RemoveNextStepsModal__helpText {
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 16px;
+    text-align: center;
+    color: var(--center-channel-bg);
+    display: block;
+    width: 188px;
+    margin-left: -12px;
+    margin-top: 4px;
+}
+
+.modal .GenericModal.modal-dialog.RemoveNextStepsModal {
+    max-width: 514px;
+    margin-top: calc(50vh - 133px);
+
+    .GenericModal__header {
+        text-align: center;
+        padding-bottom: 8px;
+
+        h1 {
+            font-size: 24px;
+            line-height: 32px;
+        }
+    }
+
+    .GenericModal__body {
+        text-align: center;
+        color: var(--center-channel-color);
+    }
+
+    .modal-footer {
+        text-align: center;
+    }
+
+    .modal-content {
+        padding: 40px 36px 24px 36px;
+    }
+
+    .GenericModal__button {
+        padding: 13px 20px;
+        line-height: 14px;
+
+        & +.GenericModal__button {
+            margin-left: 10px;
+        }
+    }
+}
+
+.RemoveNextStepsModal__helpBox ~ div .modal-backdrop.in {
+    clip-path: polygon(0 0, 0 63px, 240px 63px, 240px 0, 100% 0, 100% 100%, 0 100%);
+}
+
+.multi-teams ~ .RemoveNextStepsModal__helpBox {
+    left: 266px;
+
+    & ~ div .modal-backdrop.in {
+        clip-path: polygon(0 0, 65px 0, 65px 63px, 305px 63px, 305px 0, 100% 0, 100% 100%, 0 100%);
+    }
+}
