@@ -110,15 +110,9 @@ jobs:
           diff /tmp/en.json i18n/en.json
 
           # Address weblate behavior which does not remove whole translation item when translation string is set to empty
-          for f in i18n/*.json
-          do
-            if [[ $(grep ': ""' $f -c) > 0 && $f != "i18n/en.json" ]]
-            then
-              echo $f
-              grep -n ': ""' $f
-              exit 1
-            fi
-          done
+          mkdir -p tmp/fake-mobile-dir/i18n/
+          npm run mmjstool -- i18n clean-empty --webapp-dir . --mobile-dir /tmp/fake-mobile-dir --check
+          rm -rf tmp
 
   type-check:
     executor:
