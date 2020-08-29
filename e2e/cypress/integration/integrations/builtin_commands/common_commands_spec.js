@@ -288,7 +288,6 @@ describe('I18456 Built-in slash commands: common', () => {
         cy.uiWaitUntilMessagePostedIncludes(`You were added to the channel by @${user1.username}`);
     });
 
-
     it('MM-T661 /invite extra white space before @ in DM or GM', () => {
         const user = userGroup[6];
         const userToInviteGM = userGroup[5];
