@@ -15,18 +15,18 @@ const MENU_BOTTOM_MARGIN = 80;
 
 type Props = {
     id: string;
-    children: JSX.Element | null;
+    children?: React.ReactNode;
     tooltipText: string;
     buttonAriaLabel: string;
     ariaLabel: string;
     refCallback?: (ref: SidebarMenu) => void;
-    onToggle?: (open: boolean) => void;
+    isMenuOpen: boolean;
+    onToggleMenu: (open: boolean) => void;
     draggingState: DraggingState;
     tabIndex?: number;
 };
 
 type State = {
-    isMenuOpen: boolean;
     openUp: boolean;
     width: number;
 };
@@ -40,7 +40,6 @@ export default class SidebarMenu extends React.PureComponent<Props, State> {
         super(props);
 
         this.state = {
-            isMenuOpen: false,
             openUp: false,
             width: 0,
         };
@@ -52,6 +51,11 @@ export default class SidebarMenu extends React.PureComponent<Props, State> {
     componentDidUpdate(prevProps: Props) {
         if (prevProps.draggingState.state !== this.props.draggingState.state && this.props.draggingState.state === DraggingStates.CAPTURE) {
             this.closeMenu();
+        }
+
+        if (this.props.isMenuOpen && !prevProps.isMenuOpen) {
+            this.setMenuPosition();
+            this.disableScrollbar();
         }
     }
 
@@ -75,14 +79,15 @@ export default class SidebarMenu extends React.PureComponent<Props, State> {
         if (this.menuWrapperRef.current) {
             this.menuWrapperRef.current.close();
         }
-        this.handleMenuToggle(false);
+
+        this.props.onToggleMenu(false);
     }
 
     // Set the z-index on the sidebar scrollbar while a menu is open so that it doesn't float on top of menus
     disableScrollbar = () => {
         const scrollbars: NodeListOf<HTMLElement> = document.querySelectorAll('#SidebarContainer .SidebarNavContainer .scrollbar--view');
         if (scrollbars && scrollbars[0]) {
-            scrollbars[0].style.zIndex = this.state.isMenuOpen ? '3' : 'unset';
+            scrollbars[0].style.zIndex = this.props.isMenuOpen ? '3' : 'unset';
         }
     }
 
@@ -111,27 +116,22 @@ export default class SidebarMenu extends React.PureComponent<Props, State> {
     }
 
     setMenuPosition = () => {
-        if (this.state.isMenuOpen && this.menuButtonRef.current && this.menuRef) {
+        if (this.menuButtonRef.current && this.menuRef) {
             const menuRef = this.menuRef.node.current?.parentElement as HTMLDivElement;
             const openUpOffset = this.state.openUp ? -this.menuButtonRef.current.getBoundingClientRect().height : 0;
             menuRef.style.top = `${window.scrollY + this.menuButtonRef.current.getBoundingClientRect().top + this.menuButtonRef.current.clientHeight + openUpOffset}px`;
         }
     }
 
-    handleMenuToggle = (isMenuOpen: boolean) => {
-        if (this.state.isMenuOpen !== isMenuOpen) {
-            this.setState({isMenuOpen}, () => {
-                if (this.props.onToggle) {
-                    this.props.onToggle(isMenuOpen);
-                }
-                this.setMenuPosition();
-                this.disableScrollbar();
-            });
-        }
-    }
-
     render() {
-        const {tooltipText, buttonAriaLabel, ariaLabel, id, children} = this.props;
+        const {
+            ariaLabel,
+            buttonAriaLabel,
+            children,
+            isMenuOpen,
+            tooltipText,
+            id,
+        } = this.props;
 
         const tooltip = (
             <Tooltip
@@ -146,7 +146,7 @@ export default class SidebarMenu extends React.PureComponent<Props, State> {
             <i className='icon-dots-vertical'/>
         );
 
-        if (!this.state.isMenuOpen) {
+        if (!isMenuOpen) {
             buttonContents = (
                 <OverlayTrigger
                     delayShow={500}
@@ -162,9 +162,9 @@ export default class SidebarMenu extends React.PureComponent<Props, State> {
             <MenuWrapper
                 ref={this.menuWrapperRef}
                 className={classNames('SidebarMenu', {
-                    menuOpen: this.state.isMenuOpen,
+                    menuOpen: isMenuOpen,
                 })}
-                onToggle={this.handleMenuToggle}
+                onToggle={this.props.onToggleMenu}
                 stopPropagationOnToggle={true}
             >
                 <button
