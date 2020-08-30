@@ -382,8 +382,7 @@ describe('I18456 Built-in slash commands: common', () => {
         const userDM = userGroup[3];
 
         // # As UserA create a new public channel
-        cy.apiLogout();
-        cy.apiLogin(userA);
+        loginAndVisitDefaultChannel(userA, `${team1.name}/channels/town-square`);
         cy.get('#postListContent', {timeout: TIMEOUTS.TWO_MIN}).should('be.visible');
         cy.get('#createPublicChannel').click();
         cy.get('#newChannelName').type(`${userA.username}-channel`);
