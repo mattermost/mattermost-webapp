@@ -332,7 +332,8 @@ describe('I18456 Built-in slash commands: common', () => {
 
         cy.get('#addDirectChannel').click();
         cy.get('#selectItems').type(`${userDM.username}`);
-        cy.wait(TIMEOUTS.ONE_SEC);
+        cy.findByText('Loading').should('be.visible');
+        cy.findByText('Loading').should('not.exist');
         cy.get('#multiSelectList').findByText(`@${userDM.username}`).click();
         cy.findByText('Go').click();
         cy.get('#channelHeaderDropdownButton').contains(`${userDM.username}`).should('be.visible');
