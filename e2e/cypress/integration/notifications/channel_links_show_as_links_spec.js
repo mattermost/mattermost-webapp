@@ -27,8 +27,7 @@ describe('Team Settings', () => {
             testTeam = team;
             cy.apiCreateUser().then(({user}) => {
                 otherUser = user;
-                cy.apiAddUserToTeam(testTeam.id, otherUser.id).then(() => {
-                });
+                cy.apiAddUserToTeam(testTeam.id, otherUser.id);
                 cy.apiLogin(otherUser);
             });
 
