@@ -75,10 +75,13 @@ describe('Notifications', () => {
         cy.apiLogin(otherUser);
         cy.visit(`${testTeam.name}`);
 
-        // # Click on the 'Recent Mentions' button
+        // # Click on the @ button
         cy.get('#channelHeaderMentionButton', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').click();
+
+        // * Ensure that the user's name is in the search box after clicking on the @ buton
+        cy.get('#searchBox').should('be.visible').and('have.value', `@${otherUser.username} `);
         cy.get('#search-items-container').should('be.visible').within(() => {
-            // * Ensure that the message typed by sysadmin is visible
+            // * Ensure that the mentions are visible in the RHS
             cy.findByText(`@${otherUser.username}`).should('be.visible');
             cy.findByText('test message!').should('be.visible');
         });
