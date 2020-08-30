@@ -49,7 +49,10 @@ describe('Notifications', () => {
         // # Post a reply in RHS
         cy.postMessageReplyInRHS('This is a test message');
 
-        // * Verify that 'Jump to New Messages' is not visible
-        cy.get('.toast__visible').should('not.be.visible');
+        cy.getLastPostId().then((postId) => {
+            // * Verify that 'Jump to New Messages' is not visible and that the new reply exists in the channel
+            cy.get('.toast__visible').should('not.be.visible');
+            cy.get(`#postMessageText_${postId}`).should('exist');
+        });
     });
 });
