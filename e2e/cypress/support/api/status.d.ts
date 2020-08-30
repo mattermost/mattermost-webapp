@@ -35,6 +35,7 @@ declare namespace Cypress {
          * Get status of a current user.
          * See https://api.mattermost.com/#tag/status/paths/~1users~1{user_id}~1status/get
          * @param {String} userId - ID of a given user
+         * @returns {UserStatus} `out.status` as `UserStatus`
          *
          * @example
          *   cy.apiGetUserStatus('userId').then(({status}) => {
