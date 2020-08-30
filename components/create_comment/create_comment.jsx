@@ -269,6 +269,7 @@ class CreateComment extends React.PureComponent {
             channelTimezoneCount: 0,
             uploadsProgressPercent: {},
             renderScrollbar: false,
+            scrollbarWidth: 0,
             mentions: [],
             memberNotifyCount: 0,
         };
@@ -965,6 +966,11 @@ class CreateComment extends React.PureComponent {
 
     handleHeightChange = (height, maxHeight) => {
         this.setState({renderScrollbar: height > maxHeight});
+        window.requestAnimationFrame(() => {
+            if (this.refs.textbox) {
+                this.setState({scrollbarWidth: Utils.scrollbarWidth(this.refs.textbox.getInputBox())});
+            }
+        });
     }
 
     render() {
@@ -1205,6 +1211,7 @@ class CreateComment extends React.PureComponent {
                     aria-label={ariaLabelReplyInput}
                     tabIndex='-1'
                     className={`post-create a11y__region${scrollbarClass}`}
+                    style={this.state.renderScrollbar && this.state.scrollbarWidth ? {'--detected-scrollbar-width': `${this.state.scrollbarWidth}px`} : undefined}
                     data-a11y-sort-order='4'
                 >
                     <div
