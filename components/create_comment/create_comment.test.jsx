@@ -5,12 +5,13 @@ import React from 'react';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import {testComponentForLineBreak} from 'tests/helpers/line_break_helpers';
-import {testComponentForMarkdownHotkeys} from 'tests/helpers/markdown_hotkey_helpers.js';
+import {testComponentForMarkdownHotkeys, makeSelectionEvent} from 'tests/helpers/markdown_hotkey_helpers.js';
 import Constants from 'utils/constants';
 
 import CreateComment from 'components/create_comment/create_comment.jsx';
 import FileUpload from 'components/file_upload';
 import FilePreview from 'components/file_preview';
+import Textbox from 'components/textbox';
 
 describe('components/CreateComment', () => {
     const channelId = 'g6139tbospd18cmxroesdk3kkc';
@@ -1449,16 +1450,57 @@ describe('components/CreateComment', () => {
             />
         ),
         (wrapper, setSelectionRangeFn) => {
+            const mockTop = () => {
+                return document.createElement('div');
+            };
             wrapper.instance().refs = {
                 textbox: {
                     getInputBox: jest.fn(() => {
                         return {
+                            focus: jest.fn(),
+                            getBoundingClientRect: jest.fn(mockTop),
                             setSelectionRange: setSelectionRangeFn,
                         };
                     }),
                 },
             };
         },
+        (instance) => instance.find(Textbox),
         (instance) => instance.state().draft.message,
     );
+
+    it('should adjust selection to correct text', () => {
+        const value = 'Jalebi _Fafda_ and Sambharo';
+        const wrapper = shallowWithIntl(
+            <CreateComment
+                {...baseProps}
+                draft={{
+                    ...baseProps.draft,
+                    message: value,
+                }}
+                ctrlSend={true}
+            />,
+        );
+
+        const setSelectionRangeFn = jest.fn();
+        const mockTop = () => {
+            return document.createElement('div');
+        };
+        wrapper.instance().refs = {
+            textbox: {
+                getInputBox: jest.fn(() => {
+                    return {
+                        focus: jest.fn(),
+                        getBoundingClientRect: jest.fn(mockTop),
+                        setSelectionRange: setSelectionRangeFn,
+                    };
+                }),
+            },
+        };
+
+        const textbox = wrapper.find(Textbox);
+        const e = makeSelectionEvent(value, 7, 14);
+        textbox.props().onSelect(e);
+        expect(setSelectionRangeFn).toHaveBeenCalledWith(8, 13);
+    });
 });

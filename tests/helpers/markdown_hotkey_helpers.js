@@ -16,6 +16,18 @@ import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
  * @param  {object} [keycode] Keycode constant associated with key press
  * @return {object} keydown event object
  */
+
+export function makeSelectionEvent(input, start, end) {
+    return {
+        preventDefault: jest.fn(),
+        target: {
+            selectionStart: start,
+            selectionEnd: end,
+            value: input,
+        },
+    };
+}
+
 function makeMarkdownHotkeyEvent(input, start, end, keycode) {
     return {
         preventDefault: jest.fn(),
@@ -58,7 +70,7 @@ export function makeItalicHotkeyEvent(input, start, end) {
  * @param  {function} getValue - single parameter for the React Component instance
  * NOTE: runs Jest tests
  */
-export function testComponentForMarkdownHotkeys(generateInstance, initRefs, getValue) {
+export function testComponentForMarkdownHotkeys(generateInstance, initRefs, find, getValue) {
     test('component adds bold markdown', () => {
         // "Fafda" is selected with ctrl + B hotkey
         const input = 'Jalebi Fafda & Sambharo';
@@ -69,28 +81,24 @@ export function testComponentForMarkdownHotkeys(generateInstance, initRefs, getV
         const setSelectionRange = jest.fn();
         initRefs(instance, setSelectionRange);
 
-        instance.simulate('keyDown', e);
-        setTimeout(() => {
-            expect(getValue(instance)).toBe('Jalebi **Fafda** & Sambharo');
-            expect(setSelectionRange).toHaveBeenCalled();
-        }, 0);
+        find(instance).props().onKeyDown(e);
+        expect(getValue(instance)).toBe('Jalebi **Fafda** & Sambharo');
+        expect(setSelectionRange).toHaveBeenCalled();
     });
 
     test('component adds italic markdown', () => {
         // "Fafda" is selected with ctrl + I hotkey
         const input = 'Jalebi Fafda & Sambharo';
-        const e = makeBoldHotkeyEvent(input, 7, 12);
+        const e = makeItalicHotkeyEvent(input, 7, 12);
 
         const instance = shallowWithIntl(generateInstance(input));
 
         const setSelectionRange = jest.fn();
         initRefs(instance, setSelectionRange);
 
-        instance.simulate('keyDown', e);
-        setTimeout(() => {
-            expect(getValue(instance)).toBe('Jalebi _Fafda_ & Sambharo');
-            expect(setSelectionRange).toHaveBeenCalled();
-        }, 0);
+        find(instance).props().onKeyDown(e);
+        expect(getValue(instance)).toBe('Jalebi _Fafda_ & Sambharo');
+        expect(setSelectionRange).toHaveBeenCalled();
     });
 
     test('component starts bold markdown', () => {
@@ -103,11 +111,9 @@ export function testComponentForMarkdownHotkeys(generateInstance, initRefs, getV
         const setSelectionRange = jest.fn();
         initRefs(instance, setSelectionRange);
 
-        instance.simulate('keyDown', e);
-        setTimeout(() => {
-            expect(getValue(instance)).toBe('Jalebi ****Fafda & Sambharo');
-            expect(setSelectionRange).toHaveBeenCalled();
-        }, 0);
+        find(instance).props().onKeyDown(e);
+        expect(getValue(instance)).toBe('Jalebi ****Fafda & Sambharo');
+        expect(setSelectionRange).toHaveBeenCalled();
     });
 
     test('component starts italic markdown', () => {
@@ -120,10 +126,8 @@ export function testComponentForMarkdownHotkeys(generateInstance, initRefs, getV
         const setSelectionRange = jest.fn();
         initRefs(instance, setSelectionRange);
 
-        instance.simulate('keyDown', e);
-        setTimeout(() => {
-            expect(getValue(instance)).toBe('Jalebi __Fafda & Sambharo');
-            expect(setSelectionRange).toHaveBeenCalled();
-        }, 0);
+        find(instance).props().onKeyDown(e);
+        expect(getValue(instance)).toBe('Jalebi __Fafda & Sambharo');
+        expect(setSelectionRange).toHaveBeenCalled();
     });
 }

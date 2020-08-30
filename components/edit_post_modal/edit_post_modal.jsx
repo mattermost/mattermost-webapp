@@ -289,6 +289,10 @@ class EditPostModal extends React.PureComponent {
         });
     }
 
+    handleSelect = (e) => {
+        Utils.adjustSelection(this.editbox.getInputBox(), e);
+    }
+
     handleKeyDown = (e) => {
         const ctrlKeyCombo = (e.ctrlKey || e.metaKey) && !e.altKey && !e.shiftKey;
         const markdownHotkey = Utils.isKeyPressed(e, KeyCodes.B) || Utils.isKeyPressed(e, KeyCodes.I);
@@ -435,6 +439,7 @@ class EditPostModal extends React.PureComponent {
                 dialogClassName='a11y__modal edit-modal'
                 show={this.props.editingPost.show}
                 onKeyDown={this.handleKeyDown}
+                onSelect={this.handleSelect}
                 onHide={this.handleCheckForChangesHide}
                 onEntered={this.handleEntered}
                 onExit={this.handleExit}
@@ -474,6 +479,7 @@ class EditPostModal extends React.PureComponent {
                                 onChange={this.handleChange}
                                 onKeyPress={this.handleEditKeyPress}
                                 onKeyDown={this.handleKeyDown}
+                                onSelect={this.handleSelect}
                                 onMouseUp={this.handleMouseUpKeyUp}
                                 onKeyUp={this.handleMouseUpKeyUp}
                                 onHeightChange={this.handleHeightChange}

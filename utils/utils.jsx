@@ -1851,3 +1851,28 @@ export function applyHotkeyMarkdown(e) {
         selectionEnd: newEnd,
     };
 }
+
+/**
+ * Adjust selection to correct text when there is Italic markdown (_) around selected text.
+ */
+export function adjustSelection(inputBox, e) {
+    const el = e.target;
+    const {selectionEnd, selectionStart, value} = el;
+
+    if (selectionStart === selectionEnd) {
+        // nothing selected.
+        return;
+    }
+
+    e.preventDefault();
+
+    const firstUnderscore = value.charAt(selectionStart) === '_';
+    const lastUnderscore = value.charAt(selectionEnd - 1) === '_';
+
+    const spaceBefore = value.charAt(selectionStart - 1) === ' ';
+    const spaceAfter = value.charAt(selectionEnd) === ' ';
+
+    if (firstUnderscore && lastUnderscore && (spaceBefore || spaceAfter)) {
+        setSelectionRange(inputBox, selectionStart + 1, selectionEnd - 1);
+    }
+}

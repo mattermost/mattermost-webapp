@@ -8,7 +8,7 @@ import store from 'stores/redux_store.jsx';
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import * as lineBreakHelpers from 'tests/helpers/line_break_helpers.js';
-import {makeBoldHotkeyEvent, makeItalicHotkeyEvent} from 'tests/helpers/markdown_hotkey_helpers.js';
+import {makeBoldHotkeyEvent, makeItalicHotkeyEvent, makeSelectionEvent} from 'tests/helpers/markdown_hotkey_helpers.js';
 import * as ua from 'tests/helpers/user_agent_mocks';
 
 describe('Utils.getDisplayNameByUser', () => {
@@ -892,5 +892,67 @@ describe('Utils.applyHotkeyMarkdown', () => {
                 selectionStart: 10,
                 selectionEnd: 15,
             });
+    });
+});
+
+describe('Utils.adjustSelection', () => {
+    test('adjustSelection fixes selection to correct text', () => {
+        // "_Fafda_" is selected
+        const e = makeSelectionEvent('Jalebi _Fafda_ and Sambharo', 7, 14);
+        const input = {
+            focus: jest.fn(),
+            setSelectionRange: jest.fn(),
+        };
+
+        Utils.adjustSelection(input, e);
+        expect(input.setSelectionRange).toHaveBeenCalledWith(8, 13);
+    });
+
+    test('adjustSelection does not fix selection when selected text does not end with "_"', () => {
+        // "_Fafda" is selected
+        const e = makeSelectionEvent('Jalebi _Fafda and Sambharo', 7, 13);
+        const input = {
+            focus: jest.fn(),
+            setSelectionRange: jest.fn(),
+        };
+
+        Utils.adjustSelection(input, e);
+        expect(input.setSelectionRange).not.toHaveBeenCalled();
+    });
+
+    test('adjustSelection does not fix selection when selected text does start end with "_"', () => {
+        // "Fafda_" is selected
+        const e = makeSelectionEvent('Jalebi Fafda_ and Sambharo', 7, 13);
+        const input = {
+            focus: jest.fn(),
+            setSelectionRange: jest.fn(),
+        };
+
+        Utils.adjustSelection(input, e);
+        expect(input.setSelectionRange).not.toHaveBeenCalled();
+    });
+
+    test('adjustSelection fixes selection at start of text', () => {
+        // "_Jalebi_" is selected
+        const e = makeSelectionEvent('_Jalebi_ Fafda and Sambharo', 0, 8);
+        const input = {
+            focus: jest.fn(),
+            setSelectionRange: jest.fn(),
+        };
+
+        Utils.adjustSelection(input, e);
+        expect(input.setSelectionRange).toHaveBeenCalledWith(1, 7);
+    });
+
+    test('adjustSelection fixes selection at end of text', () => {
+        // "_Sambharo_" is selected
+        const e = makeSelectionEvent('Jalebi Fafda and _Sambharo_', 17, 27);
+        const input = {
+            focus: jest.fn(),
+            setSelectionRange: jest.fn(),
+        };
+
+        Utils.adjustSelection(input, e);
+        expect(input.setSelectionRange).toHaveBeenCalledWith(18, 26);
     });
 });

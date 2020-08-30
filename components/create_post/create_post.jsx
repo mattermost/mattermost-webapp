@@ -1021,6 +1021,10 @@ class CreatePost extends React.PureComponent {
         });
     }
 
+    handleSelect = (e) => {
+        Utils.adjustSelection(this.refs.textbox.getInputBox(), e);
+    }
+
     handleKeyDown = (e) => {
         const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
         const messageIsEmpty = this.state.message.length === 0;
@@ -1491,6 +1495,7 @@ class CreatePost extends React.PureComponent {
                                 onChange={this.handleChange}
                                 onKeyPress={this.postMsgKeyPress}
                                 onKeyDown={this.handleKeyDown}
+                                onSelect={this.handleSelect}
                                 onMouseUp={this.handleMouseUpKeyUp}
                                 onKeyUp={this.handleMouseUpKeyUp}
                                 onComposition={this.emitTypingEvent}
