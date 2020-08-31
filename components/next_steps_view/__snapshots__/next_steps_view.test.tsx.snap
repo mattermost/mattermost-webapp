@@ -5,6 +5,7 @@ exports[`components/next_steps_view should match snapshot 1`] = `
   className="app__content NextStepsView"
   id="app-content"
 >
+  <OnboardingBgSvg />
   <div
     className="NextStepsView__viewWrapper NextStepsView__mainView"
   >
@@ -36,9 +37,7 @@ exports[`components/next_steps_view should match snapshot 1`] = `
       <div
         className="NextStepsView__header-logo"
       >
-        <img
-          src={null}
-        />
+        <CloudLogoSvg />
       </div>
     </header>
     <div
@@ -69,7 +68,9 @@ exports[`components/next_steps_view should match snapshot 1`] = `
       </div>
       <div
         className="NextStepsView__body-graphic"
-      />
+      >
+        <GettingStartedSvg />
+      </div>
     </div>
   </div>
   <div
@@ -79,9 +80,7 @@ exports[`components/next_steps_view should match snapshot 1`] = `
     <div
       className="NextStepsView__transitionBody"
     >
-      <img
-        src={null}
-      />
+      <OnboardingSuccessSvg />
       <h1
         className="NextStepsView__transitionTopText"
       >

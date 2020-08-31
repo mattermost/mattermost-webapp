@@ -1,10 +1,11 @@
 #app-content.NextStepsView {
-    background-image: url(../../images/onboarding-bg.svg);
-    background-repeat: no-repeat;
-    background-position-y: bottom;
-    background-position-x: -305px;
-    background-size: calc(100% + 305px);
     height: 100%;
+
+    > svg {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+    }
 }
 
 .NextStepsView__viewWrapper {
@@ -162,13 +163,16 @@
 }
 
 .NextStepsView__body-graphic {
-    background-image: url(../../images/getting-started.svg);
-    background-repeat: no-repeat;
-    background-size: 120%;
-    background-position-y: 33%;
     flex: 1 0 25%;
     z-index: 2;
     min-width: 192px;
+
+    > svg {
+        width: 120%;
+        margin-top: -33%;
+        position: relative;
+        top: 33%;
+    }
 }
 
 .NextStepsView__body .Card__header {
@@ -317,7 +321,7 @@
     align-self: center;
     color: var(--center-channel-color);
 
-    > img {
+    > svg {
         position: relative;
         left: 2.5%;
     }
@@ -543,8 +547,9 @@
 }
 
 @media screen and (max-width: 768px) {
-    #app-content.NextStepsView {
-        background-size: auto;
+    #app-content.NextStepsView > svg {
+        left: -305px;
+        min-width: 1366px;
     }
 
     .NextStepsView__viewWrapper {
@@ -569,7 +574,7 @@
         padding: 0 12px;
     }
 
-    .NextStepsView__transitionBody > img {
+    .NextStepsView__transitionBody > svg {
         max-width: 85%;
         left: 10%;
     }

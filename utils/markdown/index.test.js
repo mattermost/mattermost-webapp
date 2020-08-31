@@ -11,7 +11,6 @@ describe('format', () => {
 ~~~`);
 
         expect(output).toContain('<span class="post-code__language">Diff</span>');
-        expect(output).toContain('<code class="hljs hljs-ln">');
     });
 
     test('should highlight code with space before language', () => {
@@ -21,7 +20,6 @@ describe('format', () => {
 ~~~`);
 
         expect(output).toContain('<span class="post-code__language">Diff</span>');
-        expect(output).toContain('<code class="hljs hljs-ln">');
     });
 
     test('should not highlight code with an invalid language', () => {
@@ -107,7 +105,31 @@ this is long text this is long text this is long text this is long text this is 
 ~~~`);
 
         expect(output).toContain('<span class="post-code__language">TeX</span>');
-        expect(output).toContain('<code class="hljs hljs-ln">');
+    });
+
+    test('should add line numbers to code', () => {
+        const output = format(`~~~diff
+- something
++ something else
+~~~`);
+
+        expect(output).toContain('<div class="post-code__line-numbers">1\n2</div>');
+    });
+
+    test('should generate valid HTML for code blocks with line numbers', () => {
+        const output = format(`\`\`\`python
+    op.execute("""
+        UPDATE events.settings
+        SET name = 'paper_review_conditions'
+        WHERE module = 'editing' AND name = 'review_conditions'
+    """)
+\`\`\``);
+
+        const div = document.createElement('div');
+        div.innerHTML = output;
+
+        // The HTML is valid as long as no new HTML tags have been injected. Unescaped characters are fine though.
+        expect(div.innerHTML).toBe(output.replace(/&quot;&quot;&quot;/g, '"""').replace(/&#x27;/g, '\''));
     });
 
     test('<a> should contain target=_blank for external links', () => {
