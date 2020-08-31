@@ -42,7 +42,7 @@ describe('Integrations', () => {
         // # Post a slash command without trailing space
         cy.get('#post_textbox').type('/rename');
 
-        // * Verify suggestion list is visible with only child
+        // * Verify suggestion list is visible with only 1 child
         cy.get('#suggestionList').should('be.visible').children().should('have.length', 1);
 
         // * Verify suggestion list is visible
