@@ -3997,5 +3997,9 @@
   "admin.channel_list.manual_invites": "手動で招待する",
   "warn_metric_ack_modal.learn_more.link": "詳しく知る",
   "warn_metric_ack_modal.number_of_active_users.subtext": "サポートを受けるにはあなたの連絡先をMattermost, Inc. まで送信してください。 {link}",
-  "timestamp.datetime": "{time} の {relativeOrDate}"
+  "timestamp.datetime": "{time} の {relativeOrDate}",
+  "admin.permissions.group.manage_public_channel_members_and_read_groups.name": "チャンネルメンバー管理",
+  "admin.permissions.group.manage_public_channel_members_and_read_groups.description": "公開チャンネルメンバーの追加と削除。",
+  "admin.permissions.group.manage_private_channel_members_and_read_groups.name": "チャンネルメンバー管理",
+  "admin.permissions.group.manage_private_channel_members_and_read_groups.description": "非公開チャンネルのメンバーの追加と削除。"
 }
