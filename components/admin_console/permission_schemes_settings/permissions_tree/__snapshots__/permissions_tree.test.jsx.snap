@@ -76,7 +76,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 ],
               },
               "delete_public_channel",
-              "convert_public_channel",
+              "convert_public_channel_to_private",
             ],
           },
           Object {
@@ -226,7 +226,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 ],
               },
               "delete_public_channel",
-              "convert_public_channel",
+              "convert_public_channel_to_private",
             ],
           },
           Object {
@@ -384,7 +384,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 ],
               },
               "delete_public_channel",
-              "convert_public_channel",
+              "convert_public_channel_to_private",
             ],
           },
           Object {
@@ -542,7 +542,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 ],
               },
               "delete_public_channel",
-              "convert_public_channel",
+              "convert_public_channel_to_private",
             ],
           },
           Object {
@@ -700,7 +700,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 ],
               },
               "delete_public_channel",
-              "convert_public_channel",
+              "convert_public_channel_to_private",
             ],
           },
           Object {
@@ -858,7 +858,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 ],
               },
               "delete_public_channel",
-              "convert_public_channel",
+              "convert_public_channel_to_private",
             ],
           },
           Object {
@@ -1020,7 +1020,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 ],
               },
               "delete_public_channel",
-              "convert_public_channel",
+              "convert_public_channel_to_private",
             ],
           },
           Object {

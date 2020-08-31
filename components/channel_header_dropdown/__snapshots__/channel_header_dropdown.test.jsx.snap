@@ -360,7 +360,7 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
       channelId="test-channel-id"
       permissions={
         Array [
-          "convert_public_channel",
+          "convert_public_channel_to_private",
         ]
       }
     >
@@ -845,7 +845,7 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
       channelId="test-channel-id"
       permissions={
         Array [
-          "convert_public_channel",
+          "convert_public_channel_to_private",
         ]
       }
     >
