@@ -11,6 +11,7 @@
 
 import * as MESSAGES from '../../fixtures/messages';
 import * as TIMEOUTS from '../../fixtures/timeouts';
+import {getEmailUrl} from '../../utils';
 
 describe('Desktop notifications', () => {
     let testTeam;
@@ -61,9 +62,12 @@ describe('Desktop notifications', () => {
             cy.apiAddUserToTeam(testTeam.id, user.id);
             cy.apiLogin(user);
 
+            // Visit town-square.
+            cy.visit(`/${testTeam.name}/channels/town-square`);
+            stubNotificationAs('withoutNotification', 'granted');
+
             // # Ensure notifications are set up to fire a desktop notification if are mentioned.
             changeDesktopNotificationSettingsAs('#desktopNotificationMentions');
-            stubNotificationAs('withoutNotification', 'granted');
 
             cy.apiGetChannelByName(testTeam.name, 'Off-Topic').then((res) => {
                 const channel = res.body;
@@ -80,9 +84,48 @@ describe('Desktop notifications', () => {
                 // Visit town-square.
                 cy.visit(`/${testTeam.name}/channels/town-square`);
 
-                // * Desktop notification is not received
+                // * Desktop notification is not received.
                 cy.wait(TIMEOUTS.HALF_SEC);
                 cy.get('@withoutNotification').should('not.have.been.called');
+
+                // * Should not have unread mentions indicator.
+                cy.get('#sidebarItem_off-topic').
+                    scrollIntoView().
+                    find('#unreadMentions').
+                    should('not.exist');
+
+                // # Verify that off-topic channel is unread and then click.
+                cy.findByLabelText('off-topic public channel unread').
+                    should('exist').
+                    click();
+
+                // # Get last post message text
+                cy.getLastPostId().then((postId) => {
+                    cy.get(`#postMessageText_${postId}`).as('postMessageText');
+                });
+
+                // * Verify message has @here mention and it is highlighted.
+                cy.get('@postMessageText').
+                    find('[data-mention="here"]').
+                    should('exist');
+            });
+
+            const baseUrl = Cypress.config('baseUrl');
+            const mailUrl = getEmailUrl(baseUrl);
+
+            // * Verify no email notification received for the mention.
+            cy.task('getRecentEmail', {username: user.username, mailUrl}).then((response) => {
+                const {data, status} = response;
+
+                // # Should return success status.
+                expect(status).to.equal(200);
+
+                // # Verify that only joining to mattermost e-mail exist.
+                expect(data.to.length).to.equal(1);
+                expect(data.to[0]).to.contain(user.email);
+
+                // # Verify that the email subject is about joining.
+                expect(data.subject).to.contain('You joined');
             });
         });
     });
