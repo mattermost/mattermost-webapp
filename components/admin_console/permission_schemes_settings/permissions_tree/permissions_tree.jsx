@@ -79,6 +79,7 @@ export default class PermissionsTree extends React.PureComponent {
                         ],
                     },
                     Permissions.DELETE_PUBLIC_CHANNEL,
+                    Permissions.CONVERT_PUBLIC_CHANNEL,
                 ],
             },
             {

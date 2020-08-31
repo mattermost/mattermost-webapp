@@ -254,12 +254,13 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                             text={localizeMessage('channel_header.rename', 'Rename Channel')}
                         />
                     </ChannelPermissionGate>
-                    <TeamPermissionGate
+                    <ChannelPermissionGate
+                        channelId={channel.id}
                         teamId={channel.team_id}
-                        permissions={[Permissions.MANAGE_TEAM]}
+                        permissions={[Permissions.CONVERT_PUBLIC_CHANNEL]}
                     >
                         <Menu.ItemToggleModalRedux
-                            id='channelCovertToPrivate'
+                            id='channelConvertToPrivate'
                             show={!isArchived && !isDefault && channel.type === Constants.OPEN_CHANNEL}
                             modalId={ModalIdentifiers.CONVERT_CHANNEL}
                             dialogType={ConvertChannelModal}
@@ -269,7 +270,7 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                             }}
                             text={localizeMessage('channel_header.convert', 'Convert to Private Channel')}
                         />
-                    </TeamPermissionGate>
+                    </ChannelPermissionGate>
                     <ChannelPermissionGate
                         channelId={channel.id}
                         teamId={channel.team_id}
