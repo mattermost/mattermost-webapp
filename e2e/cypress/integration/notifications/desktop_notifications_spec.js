@@ -61,6 +61,10 @@ describe('Desktop notifications', () => {
             cy.apiAddUserToTeam(testTeam.id, user.id);
             cy.apiLogin(user);
 
+            // Visit the MM webapp with the notification API stubbed.
+            cy.visit(`/${testTeam.name}/channels/town-square`);
+            stubNotificationAs('withNotification', 'granted');
+
             const actualMsg = '*I\'m* [hungry](http://example.com) :taco: ![Mattermost](http://www.mattermost.org/wp-content/uploads/2016/03/logoHorizontal.png)';
             const expected = '@' + testUser.username + ': I\'m hungry :taco: Mattermost';
 
@@ -90,10 +94,6 @@ describe('Desktop notifications', () => {
 
             cy.apiGetChannelByName(testTeam.name, 'Off-Topic').then((res) => {
                 const channel = res.body;
-
-                // Visit the MM webapp with the notification API stubbed.
-                cy.visit(`/${testTeam.name}/channels/town-square`);
-                stubNotificationAs('withNotification', 'granted');
 
                 // Have another user send a post.
                 cy.postMessageAs({sender: testUser, message: actualMsg, channelId: channel.id});
