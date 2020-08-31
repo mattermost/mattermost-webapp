@@ -20,7 +20,7 @@ import {StepType} from './steps';
 import './next_steps_view.scss';
 import NextStepsTips from './next_steps_tips';
 
-const TRANSITION_SCREEN_TIMEOUT = 1000;
+const TRANSITION_SCREEN_TIMEOUT = 3000;
 
 type Props = {
     currentUser: UserProfile;
