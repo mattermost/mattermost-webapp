@@ -173,7 +173,7 @@ export default function NextStepsTips(props: { showFinalScreen: boolean; animati
                             onClick={() => openViewMembersModal(dispatch)}
                         >
                             <FormattedMessage
-                                id='next_steps_view.tips.addPlugins.buttons'
+                                id='next_steps_view.tips.viewMembers'
                                 defaultMessage='View team members'
                             />
                         </button>

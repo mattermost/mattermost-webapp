@@ -7,8 +7,6 @@ import classNames from 'classnames';
 
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 
-import {UserProfile} from 'mattermost-redux/types/users';
-
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import {
     StepType,
@@ -26,7 +24,6 @@ type Props = {
     active: boolean;
     showNextSteps: boolean;
     currentUserId: string;
-    currentUser: UserProfile;
     preferences: PreferenceType[];
     steps: StepType[];
     actions: {

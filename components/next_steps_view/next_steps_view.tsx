@@ -56,8 +56,16 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                 return this.props.steps[i].id;
             }
         }
-
         return this.props.steps[0].id;
+    }
+
+    getIncompleteStep = () => {
+        for (let i = 0; i < this.props.steps.length; i++) {
+            if (!this.isStepComplete(this.props.steps[i].id)) {
+                return this.props.steps[i].id;
+            }
+        }
+        return null;
     }
 
     onSkip = (setExpanded: (expandedKey: string) => void) => {
@@ -67,8 +75,8 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
     }
 
     onFinish = (setExpanded: (expandedKey: string) => void) => {
-        return (id: string) => {
-            this.props.actions.savePreferences(this.props.currentUser.id, [{
+        return async (id: string) => {
+            await this.props.actions.savePreferences(this.props.currentUser.id, [{
                 category: Preferences.RECOMMENDED_NEXT_STEPS,
                 user_id: this.props.currentUser.id,
                 name: id,
@@ -102,7 +110,17 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
     nextStep = (setExpanded: (expandedKey: string) => void, id: string) => {
         const currentIndex = this.props.steps.findIndex((step) => step.id === id);
         if (currentIndex + 1 > this.props.steps.length - 1) {
-            this.transitionToFinalScreen();
+            // Check if previous steps were skipped before moving on
+            const incompleteStep = this.getIncompleteStep();
+            if (incompleteStep === null) {
+                // Collapse all accordion tiles
+                setExpanded('');
+                setTimeout(() => {
+                    this.transitionToFinalScreen();
+                }, 300);
+            } else {
+                setExpanded(incompleteStep);
+            }
         } else if (this.isStepComplete(this.props.steps[currentIndex + 1].id)) {
             this.nextStep(setExpanded, this.props.steps[currentIndex + 1].id);
         } else {
@@ -216,7 +234,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                 </header>
                 <div className='NextStepsView__body'>
                     <div className='NextStepsView__body-main'>
-                        <Accordion defaultExpandedKey={this.getStartingStep()}>
+                        <Accordion defaultExpandedKey={this.getIncompleteStep() === null ? '' : this.getStartingStep()}>
                             {(setExpanded, expandedKey) => {
                                 return (
                                     <>
