@@ -111,6 +111,26 @@ const skipRootPostLinkRule = {
     }
 };
 
+// Not copy new messages badge
+const skipNewMessagesRule = {
+    filter: (node: Node): boolean => {
+        return node.nodeName === 'DIV' && (node as HTMLElement).className === 'Separator NotificationSeparator';
+    },
+    replacement: (): string => {
+        return '';
+    }
+};
+
+// Not date separator
+const skipDateSeparatorRule = {
+    filter: (node: Node): boolean => {
+        return node.nodeName === 'DIV' && (node as HTMLElement).className === 'Separator BasicSeparator';
+    },
+    replacement: (): string => {
+        return '';
+    }
+};
+
 export default function mattermostPlugin(turndownService: TurndownService) {
     turndownService.addRule('channel-mentions', channelMentionsRule);
     turndownService.addRule('hashtags', hashtagsRule);
@@ -121,4 +141,6 @@ export default function mattermostPlugin(turndownService: TurndownService) {
     turndownService.addRule('skip-reaction-count', skipReactionCountRule);
     turndownService.addRule('skip-edited-indicator', skipEditedIndicatorRule);
     turndownService.addRule('skip-root-post', skipRootPostLinkRule);
+    turndownService.addRule('skip-new-messages-badge', skipNewMessagesRule);
+    turndownService.addRule('skip-date-separator', skipDateSeparatorRule);
 }
