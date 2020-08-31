@@ -26,9 +26,11 @@ export default function smartPaste(clipboard: DataTransfer, message: string, cur
     const text = clipboard.getData('text/plain');
 
     let formattedMessage = '';
-    if (!html) {
-        formattedMessage = codeDetectionFormatter(text);
-    }
+
+    // TODO: Make this optional or add this on the experimental section of the user settings.
+    // if (!html) {
+    //     formattedMessage = codeDetectionFormatter(text);
+    // }
 
     if (!formattedMessage && html) {
         let doc = stringToHTML(html);
