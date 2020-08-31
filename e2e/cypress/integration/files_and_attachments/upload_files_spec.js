@@ -94,7 +94,7 @@ describe('Upload Files', () => {
                 type: 'document',
             },
             {
-                filename: 'image-file.jpg',
+                filename: 'jpg-image-file.jpg',
                 extensions: 'JPG',
                 type: 'image',
             },
@@ -237,6 +237,72 @@ describe('Upload Files', () => {
                     and('have.attr', 'src').then((src) => {
                         downloadAttachmentAndVerifyItsProperties(src, imageFilename, 'inline');
                     });
+            });
+        });
+    });
+
+    it.only('MM-T345 Public links for common file types should open in a new browser tab', () => {
+        // # Enable option for public file links
+        cy.apiUpdateConfig({
+            FileSettings: {
+                EnablePublicLink: true,
+            },
+        });
+
+        // # Save Show Preview Preference to true
+        cy.apiSaveLinkPreviewsPreference('true');
+
+        // # Save Preview Collapsed Preference to false
+        cy.apiSaveCollapsePreviewsPreference('false');
+
+        const commonTypeFiles = ['jpg-image-file.jpg', 'gif-image-file.gif', 'png-image-file.png',
+            'tiff-image-file.tif', 'm4a-audio-file.m4a', 'mp3-audio-file.mp3', 'mp4-video-file.mp4', 'mpeg-video-file.mpg'];
+
+        commonTypeFiles.forEach((file) => {
+            // # Make a post with a file attached
+            cy.get('#fileUploadInput').attachFile(file);
+            cy.postMessage(`Attached with ${file}`);
+
+            // # Get the last post
+            cy.getLastPostId().then((lastPostId) => {
+            // # Scan inside of the last post message
+                cy.get(`#${lastPostId}_message`).and('be.visible').within(() => {
+                // * Check if the attached file is in the post and then click to open preview
+                    cy.findByLabelText(`file thumbnail ${file}`).should('be.visible').click();
+                });
+            });
+
+            // * Verify preview modal is opened
+            cy.get('.a11y__modal').should('exist').and('be.visible').
+                within(() => {
+                    // * Check if get public link button is present and click it
+                    cy.findByText('Get a public link').should('be.visible').click({force: true});
+                });
+
+            // # Wait a little for url to be generated
+            cy.wait(TIMEOUTS.ONE_SEC);
+
+            // * Verify copy public link modal is opened
+            cy.get('.a11y__modal.modal-dialog').should('exist').and('be.visible').
+                within(() => {
+                    // * Verify that copy link button is present
+                    cy.findByText('Copy Link').should('be.visible');
+
+                    // # Get the copy link of the attachment and save for later purpose
+                    cy.get('#linkModalTextArea').invoke('text').as(`publicLinkOfAttachment-${file}`);
+
+                    cy.get('.modal-footer').should('exist').within(() => {
+                        // # Click close modal
+                        cy.findByText('Close').should('be.visible').click();
+                    });
+                });
+
+            cy.get(`@publicLinkOfAttachment-${file}`).then((publicLinkOfAttachment) => {
+                // # Post the link of attachment as a message
+                cy.postMessageQuickly(publicLinkOfAttachment);
+
+                // * Check the attachment url contains the attachment
+                downloadAttachmentAndVerifyItsProperties(publicLinkOfAttachment, file, 'inline');
             });
         });
     });
