@@ -262,9 +262,6 @@ describe('Plugin Marketplace', () => {
             cy.get('.more-modal__list').scrollIntoView().should('be.visible');
         });
 
-        it('MM-T1960 Marketplace is available when "Enable Plugins" is true', () => {
-        });
-
         it('autofocus on search plugin input box', () => {
             // * Verify search plugins should be focused
             cy.findByPlaceholderText('Search Plugins').scrollIntoView().should('be.focused');
