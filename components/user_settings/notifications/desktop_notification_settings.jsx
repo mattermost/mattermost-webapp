@@ -3,15 +3,29 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import ReactSelect from 'react-select';
 import {FormattedMessage} from 'react-intl';
+
+import semver from 'semver';
 
 import {NotificationLevels} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
+import {isDesktopApp} from 'utils/user_agent';
 
 export default class DesktopNotificationSettings extends React.PureComponent {
+    constructor(props) {
+        super(props);
+        const selectedOption = {value: props.selectedSound, label: props.selectedSound};
+        this.state = {
+            selectedOption,
+            blurDropdown: false,
+        };
+        this.dropdownSoundRef = React.createRef();
+    }
+
     handleMinUpdateSection = (section) => {
         this.props.updateSection(section);
 
@@ -28,6 +42,21 @@ export default class DesktopNotificationSettings extends React.PureComponent {
         this.props.setParentState(key, value);
     }
 
+    setDesktopNotificationSound = (selectedOption) => {
+        this.props.setParentState('desktopNotificationSound', selectedOption.value);
+        this.setState({selectedOption});
+        Utils.tryNotificationSound(selectedOption.value);
+    }
+
+    blurDropdown() {
+        if (!this.state.blurDropdown) {
+            this.setState({blurDropdown: true});
+            if (this.dropdownSoundRef.current) {
+                this.dropdownSoundRef.current.blur();
+            }
+        }
+    }
+
     buildMaximizedSetting = () => {
         const inputs = [];
 
@@ -41,12 +70,35 @@ export default class DesktopNotificationSettings extends React.PureComponent {
         }
 
         let soundSection;
+        let notificationSelection;
         if (this.props.activity !== NotificationLevels.NONE) {
             const soundRadio = [false, false];
             if (this.props.sound === 'false') {
                 soundRadio[1] = true;
             } else {
                 soundRadio[0] = true;
+            }
+
+            if (this.props.sound === 'true') {
+                const sounds = Array.from(Utils.notificationSounds.keys());
+                const options = sounds.map((sound) => {
+                    return {value: sound, label: sound};
+                });
+
+                if (!isDesktopApp() || (window.desktop && semver.gte(window.desktop.version, '4.6.0'))) {
+                    notificationSelection = (<div className='pt-2'>
+                        <ReactSelect
+                            className='react-select notification-sound-dropdown'
+                            classNamePrefix='react-select'
+                            id='displaySoundNotification'
+                            options={options}
+                            clearable={false}
+                            onChange={this.setDesktopNotificationSound}
+                            value={this.state.selectedOption}
+                            isSearchable={false}
+                            ref={this.dropdownSoundRef}
+                        /></div>);
+                }
             }
 
             if (Utils.hasSoundOptions()) {
@@ -94,6 +146,7 @@ export default class DesktopNotificationSettings extends React.PureComponent {
                             </label>
                             <br/>
                         </div>
+                        {notificationSelection}
                         <div className='mt-5'>
                             <FormattedMessage
                                 id='user.settings.notifications.sounds_info'
@@ -262,6 +315,10 @@ export default class DesktopNotificationSettings extends React.PureComponent {
         );
     }
 
+    componentDidUpdate() {
+        this.blurDropdown();
+    }
+
     render() {
         if (this.props.active) {
             return this.buildMaximizedSetting();
@@ -282,4 +339,5 @@ DesktopNotificationSettings.propTypes = {
     active: PropTypes.bool,
     saving: PropTypes.bool,
     focused: PropTypes.bool,
+    selectedSound: PropTypes.string,
 };
