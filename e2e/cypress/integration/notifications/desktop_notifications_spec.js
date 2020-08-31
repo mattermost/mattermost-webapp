@@ -57,7 +57,7 @@ describe('Desktop notifications', () => {
     });
 
     it('MM-T487 Desktop Notifications - For all activity with apostrophe, emoji, and markdown in notification', () => {
-        cy.apiCreateUser({}).then(({user}) => {
+        cy.apiCreateUser().then(({user}) => {
             cy.apiAddUserToTeam(testTeam.id, user.id);
             cy.apiLogin(user);
 
@@ -157,4 +157,3 @@ const stubNotificationAs = (name, permission) => {
         cy.stub(win, 'Notification').as(name);
     });
 };
-
