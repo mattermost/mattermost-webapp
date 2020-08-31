@@ -13,6 +13,7 @@ import {cmdOrCtrlPressed, isKeyPressed} from 'utils/utils';
 import {useSafeUrl} from 'utils/url';
 import * as UserAgent from 'utils/user_agent';
 import InvitationModal from 'components/invitation_modal';
+import UserLimitModal from 'components/user_limit_modal';
 
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
@@ -59,6 +60,10 @@ class MainMenu extends React.PureComponent {
         isMentionSearch: PropTypes.bool,
         teamIsGroupConstrained: PropTypes.bool.isRequired,
         isLicensedForLDAPGroups: PropTypes.bool,
+        currentUsers: PropTypes.number,
+        userLimit: PropTypes.string,
+        userIsAdmin: PropTypes.bool,
+        showGettingStarted: PropTypes.bool.isRequired,
         intl: intlShape.isRequired,
         actions: PropTypes.shape({
             openModal: PropTypes.func.isRequred,
@@ -66,6 +71,7 @@ class MainMenu extends React.PureComponent {
             showFlaggedPosts: PropTypes.func,
             closeRightHandSide: PropTypes.func.isRequired,
             closeRhsMenu: PropTypes.func.isRequired,
+            unhideNextSteps: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -115,6 +121,10 @@ class MainMenu extends React.PureComponent {
         }
     }
 
+    shouldShowUpgradeModal = () => {
+        return (this.props.currentUsers >= this.props.userLimit) && (this.props.userLimit !== '0') && this.props.userIsAdmin;
+    }
+
     render() {
         const {currentUser, teamIsGroupConstrained, isLicensedForLDAPGroups} = this.props;
 
@@ -142,6 +152,40 @@ class MainMenu extends React.PureComponent {
         const showIntegrations = !this.props.mobile && someIntegrationEnabled && this.props.canManageIntegrations;
 
         const {formatMessage} = this.props.intl;
+
+        const invitePeopleModal = (
+            <Menu.ItemToggleModalRedux
+                id='invitePeople'
+                modalId={ModalIdentifiers.INVITATION}
+                dialogType={InvitationModal}
+                text={formatMessage({
+                    id: 'navbar_dropdown.invitePeople',
+                    defaultMessage: 'Invite People',
+                })}
+                extraText={formatMessage({
+                    id: 'navbar_dropdown.invitePeopleExtraText',
+                    defaultMessage: 'Add or invite people to the team',
+                })}
+                icon={this.props.mobile && <i className='fa fa-user-plus'/>}
+            />
+        );
+
+        const upgradeCloudModal = (
+            <Menu.ItemToggleModalRedux
+                id='invitePeople'
+                modalId={ModalIdentifiers.UPGRADE_CLOUD_ACCOUNT}
+                dialogType={UserLimitModal}
+                text={formatMessage({
+                    id: 'navbar_dropdown.invitePeople',
+                    defaultMessage: 'Invite People',
+                })}
+                extraText={formatMessage({
+                    id: 'navbar_dropdown.invitePeopleExtraText',
+                    defaultMessage: 'Add or invite people to the team',
+                })}
+                icon={this.props.mobile && <i className='fa fa-user-plus'/>}
+            />
+        );
 
         return (
             <Menu
@@ -192,14 +236,7 @@ class MainMenu extends React.PureComponent {
                         teamId={this.props.teamId}
                         permissions={[Permissions.ADD_USER_TO_TEAM, Permissions.INVITE_GUEST]}
                     >
-                        <Menu.ItemToggleModalRedux
-                            id='invitePeople'
-                            modalId={ModalIdentifiers.INVITATION}
-                            dialogType={InvitationModal}
-                            text={formatMessage({id: 'navbar_dropdown.invitePeople', defaultMessage: 'Invite People'})}
-                            extraText={formatMessage({id: 'navbar_dropdown.invitePeopleExtraText', defaultMessage: 'Add or invite people to the team'})}
-                            icon={this.props.mobile && <i className='fa fa-user-plus'/>}
-                        />
+                        {this.shouldShowUpgradeModal() ? upgradeCloudModal : invitePeopleModal}
                     </TeamPermissionGate>
                 </Menu.Group>
                 <Menu.Group>
@@ -329,6 +366,12 @@ class MainMenu extends React.PureComponent {
                         url={this.props.helpLink}
                         text={formatMessage({id: 'navbar_dropdown.help', defaultMessage: 'Help'})}
                         icon={this.props.mobile && <i className='fa fa-question'/>}
+                    />
+                    <Menu.ItemAction
+                        id='gettingStarted'
+                        show={this.props.showGettingStarted}
+                        onClick={() => this.props.actions.unhideNextSteps()}
+                        text={formatMessage({id: 'navbar_dropdown.gettingStarted', defaultMessage: 'Getting Started'})}
                     />
                     <Menu.ItemAction
                         id='keyboardShortcuts'
