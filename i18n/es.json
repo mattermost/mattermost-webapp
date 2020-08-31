@@ -1982,7 +1982,7 @@
   "help.mentioning.recent.description": "Haz clic en la `@` junto al campo de búsqueda para consultar tus @menciones más recientes y las palabras que tengas configuradas para recibir notificaciones de menciones. Al hacer clic en **Ir** al lado de un resultado de búsqueda en el panel lateral derecho, el panel central mostrará el canal con el mensaje que contiene la mención.",
   "help.mentioning.recent.title": "Menciones Recientes",
   "help.mentioning.title": "Mencionar a los Compañeros de Equipo",
-  "help.mentioning.triggers.description": "Además de ser notificados por el nombre de usuario @usuario y @channel, podrás personalizar palabras que disparan notificaciones de menciones en **Configuración de la Cuenta** > **Notificaciones** > **Palabras que disparan menciones**. De forma predeterminada, recibirás las notificaciones de mención cuando tu nombre sea utilizado, y podrás agregar más palabras escribiéndolas en el cuadro de entrada separadas por comas. Esto es útil si deseas ser notificado de todos los mensajes en ciertos temas, por ejemplo, \"entrevista\" o \"marketing\".",
+  "help.mentioning.triggers.description": "Además de ser notificados por @usuario y @channel, podrás personalizar palabras que disparan notificaciones de menciones en **Configuración de la Cuenta** > **Notificaciones** > **Palabras que disparan menciones**. De forma predeterminada, recibirás las notificaciones de mención cuando tu nombre sea utilizado, y podrás agregar más palabras escribiéndolas en el cuadro de entrada separadas por comas. Esto es útil si deseas ser notificado de todos los mensajes en ciertos temas, por ejemplo, \"entrevista\" o \"marketing\".",
   "help.mentioning.triggers.title": "Palabras que disparan menciones",
   "help.mentioning.username.description1": "Puedes mencionar a un compañero de equipo usando el símbolo `@` anteponiendo el nombre de usuario para enviarles una notificación por mención.",
   "help.mentioning.username.description2": "Se pueden mencionar a un compañero de equipo mediante el símbolo `@`, además de su nombre de usuario para enviar una notificación de mención. Escribe `@` para que aparezca una lista de los miembros del equipo que pueden ser mencionados. Para filtrar la lista, escribe las primeras letras de cualquier nombre de usuario, nombre, apellido o apodo. Las flechas de **Arriba** y **Abajo** pueden ser utilizadas para desplazarse a través de las entradas en la lista y pulsando **RETORNO** seleccione el usuario a mencionar. Una vez seleccionado, el nombre de usuario reemplazará automáticamente el nombre completo o apodo. En el ejemplo siguiente se envía una notificación de mención especial a **alice** la cual la alerta que sobre el canal y el mensaje en donde ella ha sido mencionado. Si **alice** está ausente de Mattermost y tiene las [notificaciones de correo electrónico](http://docs.mattermost.com/help/getting-started/configuring-notifications.html#email-notifications) activadas, recibirá una alerta de correo electrónico de su mención, junto con el mensaje de texto.",
@@ -3998,5 +3998,12 @@
   "admin.filter.all_teams": "Todos los Equipos",
   "admin.channel_list.manual_invites": "Invitaciones Manuales",
   "warn_metric_ack_modal.number_of_active_users.subtext": "Al contactar a soporte se enviará tu información de contacto a Mattermost, Inc. {link}",
-  "warn_metric_ack_modal.learn_more.link": "Conocer más"
+  "warn_metric_ack_modal.learn_more.link": "Conocer más",
+  "admin.license.upgraded-restart": "Ha actualizado su binario a mattermost enterprise, por favor reinicia el servidor para comenzar a usar el nuevo binario. Puedes hacerlo aquí mismo:",
+  "admin.license.enterprise.upgrading": "Actualizando {percentage}%",
+  "admin.license.enterprise.upgrade": "Actualice a Enterprise Edition",
+  "admin.license.enterprise.restarting": "Reiniciando",
+  "admin.license.enterprise.restart": "Reiniciar Servidor",
+  "admin.license.enterprise-edition-license": "Licencia Enterprise Edition:",
+  "admin.complianceExport.warningCount.globalrelay": "{count} advertencia(s) encontradas, consulte el registro para obtener más detalles"
 }
