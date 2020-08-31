@@ -18,11 +18,11 @@ type Props = {
     currentUserId: string;
     activeSection: string;
     updateSection: (section: string) => void;
-    enableEmail: boolean;
+    enableEmail: string;
     emailInterval: number;
     onSubmit: () => void;
     onCancel: () => void;
-    onChange: (enableEmail: boolean) => void;
+    onChange: (enableEmail: string) => void;
     serverError?: string;
     saving?: boolean;
     sendEmailNotifications: boolean;
@@ -36,7 +36,7 @@ type Props = {
 type State = {
     activeSection: string;
     emailInterval: number;
-    enableEmail: boolean;
+    enableEmail: string;
     enableEmailBatching: boolean;
     sendEmailNotifications: boolean;
     newInterval: number;
@@ -60,7 +60,7 @@ export default class EmailNotificationSetting extends React.PureComponent<Props,
             enableEmail,
             enableEmailBatching,
             sendEmailNotifications,
-            newInterval: getEmailInterval(enableEmail && sendEmailNotifications, enableEmailBatching, emailInterval),
+            newInterval: getEmailInterval(JSON.parse(enableEmail) && sendEmailNotifications, enableEmailBatching, emailInterval),
         };
     }
 
@@ -81,7 +81,7 @@ export default class EmailNotificationSetting extends React.PureComponent<Props,
                 enableEmail,
                 enableEmailBatching,
                 sendEmailNotifications,
-                newInterval: getEmailInterval(enableEmail && sendEmailNotifications, enableEmailBatching, emailInterval),
+                newInterval: getEmailInterval(JSON.parse(enableEmail) && sendEmailNotifications, enableEmailBatching, emailInterval),
             };
         }
 
@@ -96,7 +96,7 @@ export default class EmailNotificationSetting extends React.PureComponent<Props,
                 enableEmail,
                 enableEmailBatching,
                 sendEmailNotifications,
-                newInterval: getEmailInterval(enableEmail && sendEmailNotifications, enableEmailBatching, emailInterval),
+                newInterval: getEmailInterval(JSON.parse(enableEmail) && sendEmailNotifications, enableEmailBatching, emailInterval),
             };
         }
 
@@ -104,11 +104,12 @@ export default class EmailNotificationSetting extends React.PureComponent<Props,
     }
 
     handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const enableEmail = JSON.parse(e.currentTarget.getAttribute('data-enable-email')!);
+        const enableEmail = e.currentTarget.getAttribute('data-enable-email')!;
+        const newInterval = parseInt(e.currentTarget.getAttribute('data-email-interval')!, 10);
 
         this.setState({
             enableEmail,
-            newInterval: parseInt(e.currentTarget.getAttribute('data-email-interval')!, 10),
+            newInterval
         });
 
         this.props.onChange(enableEmail);
