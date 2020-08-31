@@ -7,6 +7,8 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Group: @outgoing_webhook
+
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 describe('Prompting set status', () => {
@@ -87,4 +89,3 @@ const openDM = (username) => {
     cy.get('#selectItems').findByText(`${username}`).should('be.visible');
     cy.findByText('Go').click();
 };
-
