@@ -76,6 +76,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 ],
               },
               "delete_public_channel",
+              "convert_public_channel",
             ],
           },
           Object {
@@ -225,6 +226,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 ],
               },
               "delete_public_channel",
+              "convert_public_channel",
             ],
           },
           Object {
@@ -382,6 +384,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 ],
               },
               "delete_public_channel",
+              "convert_public_channel",
             ],
           },
           Object {
@@ -539,6 +542,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 ],
               },
               "delete_public_channel",
+              "convert_public_channel",
             ],
           },
           Object {
@@ -696,6 +700,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 ],
               },
               "delete_public_channel",
+              "convert_public_channel",
             ],
           },
           Object {
@@ -853,6 +858,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 ],
               },
               "delete_public_channel",
+              "convert_public_channel",
             ],
           },
           Object {
@@ -1014,6 +1020,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 ],
               },
               "delete_public_channel",
+              "convert_public_channel",
             ],
           },
           Object {
