@@ -6,7 +6,9 @@ import {Dispatch, bindActionCreators} from 'redux';
 
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUserId, getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+
+import {getSteps} from '../../next_steps_view/steps';
 
 import {openModal, closeModal} from 'actions/views/modals';
 import {setShowNextStepsView} from 'actions/views/next_steps';
@@ -21,7 +23,9 @@ function makeMapStateToProps() {
 
     return (state: GlobalState) => ({
         active: state.views.nextSteps.show,
+        steps: getSteps(state),
         showNextSteps: showNextSteps(state),
+        currentUser: getCurrentUser(state),
         currentUserId: getCurrentUserId(state),
         preferences: getCategory(state, Preferences.RECOMMENDED_NEXT_STEPS),
     });
