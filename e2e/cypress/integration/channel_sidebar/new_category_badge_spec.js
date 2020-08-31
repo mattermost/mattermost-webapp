@@ -26,9 +26,6 @@ describe('New category badge', () => {
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
             cy.visit(`/${team.name}/channels/town-square`);
         });
-
-        // # Close "What's new" modal
-        cy.uiCloseWhatsNewModal();
     });
 
     it('MM-T3312 should show the new badge until a channel is added to the category', () => {
