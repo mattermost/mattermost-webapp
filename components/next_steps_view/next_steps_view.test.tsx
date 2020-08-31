@@ -80,9 +80,9 @@ describe('components/next_steps_view', () => {
             <NextStepsView {...baseProps}/>,
         );
 
-        wrapper.instance().nextStep(jest.fn(), 'step_3');
-
-        expect(wrapper.instance().nextStep).toBeCalled();
+        const setExpanded = jest.fn();
+        wrapper.instance().nextStep(setExpanded, 'step_3');
+        expect(setExpanded).toBeCalledWith('step_1');
     });
 
     test('should cascade through all steps when all marked complete', () => {
