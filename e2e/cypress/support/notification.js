@@ -7,10 +7,10 @@ export function spyNotificationAs(name, permission) {
         function Notification(title, opts) {
             this.title = title;
             this.opts = opts;
-            this.close = () => true;
         }
 
         Notification.requestPermission = () => permission;
+        Notification.close = () => true;
 
         win.Notification = Notification;
 
