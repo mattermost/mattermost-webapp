@@ -30,7 +30,7 @@ type Props = {
     onHeightChange?: (height: number, maxHeight: number) => void;
     createMessage: string;
     onKeyDown?: (e: KeyboardEvent) => void;
-    onSelect?: (e: MouseEvent) => void;
+    onSelect?: (e: React.SyntheticEvent) => void;
     onMouseUp?: (e: MouseEvent) => void;
     onKeyUp?: (e: KeyboardEvent) => void;
     onBlur?: (e: FocusEvent) => void;
@@ -161,7 +161,7 @@ export default class Textbox extends React.PureComponent<Props> {
         this.props.onKeyDown?.(e);
     }
 
-    handleSelect = (e: MouseEvent) => {
+    handleSelect = (e: React.SyntheticEvent) => {
         this.props.onSelect?.(e);
     }
 
