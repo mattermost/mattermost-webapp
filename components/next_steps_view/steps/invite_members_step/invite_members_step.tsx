@@ -255,7 +255,7 @@ export default class InviteMembersStep extends React.PureComponent<Props, State>
                         <div className='InviteMembersStep__shareLinkBlock'>
                             <input
                                 ref={this.inviteLinkRef}
-                                className='InviteMembersStep__shareLinkInput'
+                                className='InviteMembersStep__shareLinkInput form-control'
                                 type='text'
                                 readOnly={true}
                                 value={this.getInviteURL()}
