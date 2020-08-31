@@ -29,7 +29,6 @@ describe('Sidebar channel menu', () => {
         cy.apiUpdateConfig({
             ServiceSettings: {
                 ExperimentalChannelSidebarOrganization: 'default_on',
-                SiteURL: 'http://localhost:8065',
             },
         });
 
@@ -38,9 +37,6 @@ describe('Sidebar channel menu', () => {
 
             cy.visit(`/${team.name}/channels/town-square`);
         });
-
-        // # Close "What's new" modal
-        cy.uiCloseWhatsNewModal();
     });
 
     it('should be able to mark a channel as read', () => {
@@ -145,7 +141,9 @@ describe('Sidebar channel menu', () => {
 
         // Ensure that the clipboard contents are correct
         cy.get('@clipboard').its('wasCalled').should('eq', true);
-        cy.get('@clipboard').its('contents').should('eq', `http://localhost:8065/${teamName}/channels/town-square`);
+        cy.location().then((location) => {
+            cy.get('@clipboard').its('contents').should('eq', `${location.origin}/${teamName}/channels/town-square`);
+        });
     });
 
     it('should be able to open the add other users to the channel', () => {
