@@ -631,6 +631,10 @@
         width: 100%;
         align-items: center;
 
+        .emoji {
+            color: var(--sidebar-text);
+        }
+
         > div:not(.SidebarCategory_newLabel) {
             flex: 0 1 auto;
             overflow: hidden;
@@ -903,6 +907,9 @@
         border-bottom: 0;
         height: 32px;
 
+        .emoji {
+            color: var(--sidebar-text);
+        }
 
         &.muted {
             div.SidebarChannelLinkLabel_wrapper, > i, .status.status--group, .badge {
@@ -919,7 +926,8 @@
         outline-style: none;
     }
 
-    .SidebarChannel .SidebarLink:hover {
+    .SidebarChannel .SidebarLink:hover,
+    .SidebarChannel .SidebarLink.menuOpen {
         background: rgba(255, 255, 255, 0.08);
 
         padding-right: 5px;

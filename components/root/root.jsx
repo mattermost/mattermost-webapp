@@ -11,6 +11,7 @@ import {Route, Switch, Redirect} from 'react-router-dom';
 import {setUrl} from 'mattermost-redux/actions/general';
 import {setSystemEmojis} from 'mattermost-redux/actions/emojis';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 
 import * as UserAgent from 'utils/user_agent';
 import {EmojiIndicesByAlias} from 'utils/emoji.jsx';
@@ -161,10 +162,15 @@ export default class Root extends React.PureComponent {
 
         const diagnosticId = this.props.diagnosticId;
 
-        const rudderKey = Constants.DIAGNOSTICS_RUDDER_KEY;
-        const rudderUrl = Constants.DIAGNOSTICS_RUDDER_DATAPLANE_URL;
+        let rudderKey = Constants.DIAGNOSTICS_RUDDER_KEY;
+        let rudderUrl = Constants.DIAGNOSTICS_RUDDER_DATAPLANE_URL;
 
-        if (rudderKey != null && rudderKey !== '' && !rudderKey.startsWith('placeholder') && rudderUrl != null && rudderUrl !== '' && !rudderUrl.startsWith('placeholder') && this.props.diagnosticsEnabled) {
+        if (rudderKey.startsWith('placeholder') && rudderUrl.startsWith('placeholder')) {
+            rudderKey = process.env.RUDDER_KEY; //eslint-disable-line no-process-env
+            rudderUrl = process.env.RUDDER_DATAPLANE_URL; //eslint-disable-line no-process-env
+        }
+
+        if (rudderKey != null && rudderKey !== '' && this.props.diagnosticsEnabled) {
             Client4.enableRudderEvents();
             rudderAnalytics.load(rudderKey, rudderUrl);
 
@@ -242,9 +248,11 @@ export default class Root extends React.PureComponent {
                 GlobalActions.redirectUserToDefaultTeam();
             }
             this.onConfigLoaded();
+        }).then(() => {
+            if (isCurrentUserSystemAdmin(store.getState())) {
+                this.props.actions.getWarnMetricsStatus();
+            }
         });
-
-        this.props.actions.getWarnMetricsStatus();
         trackLoadTime();
     }
 
