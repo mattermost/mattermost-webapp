@@ -23,19 +23,6 @@ describe('Plugin Marketplace', () => {
     });
 
     describe('should not render in main menu', () => {
-        afterEach(() => {
-            cy.get('#lhsHeader').should('be.visible').within(() => {
-                // # Click hamburger main menu
-                cy.get('#sidebarHeaderDropdownButton').click();
-
-                // * Dropdown menu should be visible
-                cy.get('.dropdown-menu').should('be.visible').within(() => {
-                    // * Plugin Marketplace button should not be visible
-                    cy.findByText('Plugin Marketplace').should('not.be.visible');
-                });
-            });
-        });
-
         it('MM-T1952 Plugin Marketplace is not available to normal users', () => {
             // # Login as sysadmin
             cy.apiAdminLogin();
