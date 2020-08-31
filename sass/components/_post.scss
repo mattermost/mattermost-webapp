@@ -391,6 +391,7 @@
         max-height: calc(50vh - 40px);
         padding: 12px 0 12px 15px;
         resize: none;
+        cursor: auto;
 
         &:not(.custom-textarea--emoji-picker) {
             padding-right: 40px;
@@ -417,7 +418,7 @@
 
     .scroll {
         .post-body__actions {
-            right: 10px;
+            right: calc(var(--detected-scrollbar-width) - 4px);
         }
 
         .custom-textarea {
@@ -542,7 +543,6 @@
 .post-body__actions {
     margin: 0 1px 0 0;
     display: flex;
-    height: 100%;
     position: absolute;
     right: 0;
     top: 0;
@@ -1397,9 +1397,6 @@
             padding-right: 20px !important;
         }
 
-        div {
-        }
-
         p + p {
             margin: 0.5em 0 0;
         }
@@ -1521,9 +1518,13 @@
         -moz-user-select: none;    /* Firefox all */
         -ms-user-select: none;     /* IE 10+ */
         user-select: none;
-    
+
         a {
             font-weight: bold;
+
+            &.user_name:hover {
+                text-decoration: none;
+            }
         }
     }
 
