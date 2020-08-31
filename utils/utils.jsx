@@ -24,7 +24,12 @@ import {searchForTerm} from 'actions/post_actions';
 import Constants, {FileTypes, UserStatuses} from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils';
-import bing from 'images/bing.mp3';
+import bing from 'sounds/bing.mp3';
+import crackle from 'sounds/crackle.mp3';
+import down from 'sounds/down.mp3';
+import hello from 'sounds/hello.mp3';
+import ripple from 'sounds/ripple.mp3';
+import upstairs from 'sounds/upstairs.mp3';
 import {t} from 'utils/i18n';
 import store from 'stores/redux_store.jsx';
 import {getCurrentLocale, getTranslations} from 'selectors/i18n';
@@ -89,8 +94,8 @@ export function isKeyPressed(event, key) {
 export function isUnhandledLineBreakKeyCombo(e) {
     return Boolean(
         isKeyPressed(e, Constants.KeyCodes.ENTER) &&
-            !e.shiftKey && // shift + enter is already handled everywhere, so don't handle again
-            (e.altKey && !UserAgent.isSafari() && !cmdOrCtrlPressed(e)), // alt/option + enter is already handled in Safari, so don't handle again
+        !e.shiftKey && // shift + enter is already handled everywhere, so don't handle again
+        (e.altKey && !UserAgent.isSafari() && !cmdOrCtrlPressed(e)), // alt/option + enter is already handled in Safari, so don't handle again
     );
 }
 
@@ -195,17 +200,29 @@ export function getChannelURL(state, channel, teamId) {
     return notificationURL;
 }
 
-var canDing = true;
+export const notificationSounds = new Map([
+    ['Bing', bing],
+    ['Crackle', crackle],
+    ['Down', down],
+    ['Hello', hello],
+    ['Ripple', ripple],
+    ['Upstairs', upstairs],
+]);
 
-export function ding() {
+var canDing = true;
+export function ding(name) {
     if (hasSoundOptions() && canDing) {
-        var audio = new Audio(bing);
-        audio.play();
+        tryNotificationSound(name);
         canDing = false;
         setTimeout(() => {
             canDing = true;
         }, 3000);
     }
+}
+
+export function tryNotificationSound(name) {
+    const audio = new Audio(notificationSounds.get(name) ?? notificationSounds.get('Bing'));
+    audio.play();
 }
 
 export function hasSoundOptions() {
@@ -1743,19 +1760,19 @@ export function getClosestParent(elem, selector) {
     // Element.matches() polyfill
     if (!Element.prototype.matches) {
         Element.prototype.matches =
-        Element.prototype.matchesSelector ||
-        Element.prototype.mozMatchesSelector ||
-        Element.prototype.msMatchesSelector ||
-        Element.prototype.oMatchesSelector ||
-        Element.prototype.webkitMatchesSelector ||
-        ((s) => {
-            const matches = (this.document || this.ownerDocument).querySelectorAll(s);
-            let i = matches.length - 1;
-            while (i >= 0 && matches.item(i) !== this) {
-                i--;
-            }
-            return i > -1;
-        });
+            Element.prototype.matchesSelector ||
+            Element.prototype.mozMatchesSelector ||
+            Element.prototype.msMatchesSelector ||
+            Element.prototype.oMatchesSelector ||
+            Element.prototype.webkitMatchesSelector ||
+            ((s) => {
+                const matches = (this.document || this.ownerDocument).querySelectorAll(s);
+                let i = matches.length - 1;
+                while (i >= 0 && matches.item(i) !== this) {
+                    i--;
+                }
+                return i > -1;
+            });
     }
 
     // Get the closest matching element

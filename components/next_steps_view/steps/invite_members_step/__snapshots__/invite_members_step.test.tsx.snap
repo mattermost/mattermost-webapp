@@ -81,7 +81,7 @@ exports[`components/next_steps_view/steps/invite_members_step should match snaps
               "id": "next_steps_view.invite_members_step.shareLinkInput",
             }
           }
-          className="InviteMembersStep__shareLinkInput"
+          className="InviteMembersStep__shareLinkInput form-control"
           data-testid="InviteMembersStep__shareLinkInput"
           readOnly={true}
           type="text"
