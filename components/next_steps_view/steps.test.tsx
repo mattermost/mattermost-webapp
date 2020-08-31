@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {showNextSteps} from './steps';
+import {showNextSteps, getSteps} from './steps';
 
 describe('components/next_steps_view/steps', () => {
     test('should not show next steps if not cloud', () => {
@@ -101,5 +101,43 @@ describe('components/next_steps_view/steps', () => {
         };
 
         expect(showNextSteps(state as any)).toBe(false);
+    });
+
+    test('should only show admin steps for admin users', () => {
+        const state = {
+            entities: {
+                general: {
+                    license: {
+                        Cloud: 'true',
+                    },
+                },
+                users: {
+                    currentUserId: 'current_user_id',
+                    profiles: {
+                        current_user_id: {roles: 'system_admin system_user'},
+                    },
+                },
+            },
+        };
+        expect(getSteps(state as any)).toHaveLength(3);
+    });
+
+    test('should only show non-admin steps for non-admin users', () => {
+        const state = {
+            entities: {
+                general: {
+                    license: {
+                        Cloud: 'true',
+                    },
+                },
+                users: {
+                    currentUserId: 'current_user_id',
+                    profiles: {
+                        current_user_id: {roles: 'system_user'},
+                    },
+                },
+            },
+        };
+        expect(getSteps(state as any)).toHaveLength(3);
     });
 });
