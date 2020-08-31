@@ -6,9 +6,16 @@
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
+import {testWithConfig} from '../../../support/hooks';
 
 describe('Archived channels', () => {
     let testChannel;
+
+    testWithConfig({
+        TeamSettings: {
+            ExperimentalViewArchivedChannels: true,
+        },
+    });
 
     before(() => {
         cy.apiRequireLicense();
@@ -29,7 +36,8 @@ describe('Archived channels', () => {
 
         // # Find the archived channel
         // * Check that deleted channel displays the correct icon
-        cy.findByText(testChannel.display_name).should('be.visible').find('.channel-icon__archive');
+        cy.findByText(testChannel.display_name).should('be.visible');
+        cy.findByTestId(`${testChannel.name}-archive-icon`).should('be.visible');
     });
 
     it('appear in the search results of the channels list view', () => {
@@ -37,7 +45,7 @@ describe('Archived channels', () => {
         cy.visit('/admin_console/user_management/channels');
 
         // # Search for the archived channel
-        cy.findByPlaceholderText('Search').type(`${testChannel.display_name}{enter}`);
+        cy.findByTestId('searchInput').type(`${testChannel.display_name}{enter}`);
 
         // * Confirm that the archived channel is in the results
         cy.findByText(testChannel.display_name).should('be.visible');
@@ -71,7 +79,7 @@ describe('Archived channels', () => {
 
         // # Save and wait for redirect
         cy.get('#saveSetting').click();
-        cy.get('.groups-list').should('be.visible');
+        cy.get('.DataGrid').should('be.visible');
 
         // * Assert via the API that the channel is unarchived
         cy.apiGetChannel(testChannel.id).then((response) => {

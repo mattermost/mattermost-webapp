@@ -30,6 +30,12 @@ describe('Scroll channel`s messages in mobile view', () => {
     it('M18759 - detect change in floating timestamp', () => {
         let date;
 
+        // # Post a year old message
+        const oldDate = Cypress.moment().subtract(1, 'year').valueOf();
+        for (let i = 0; i < 5; i++) {
+            cy.postMessageAs({sender: sysadmin, message: 'Hello \n from \n other \n day \n - last year', channelId: newChannel.id, createAt: oldDate});
+        }
+
         // # Post a day old message
         for (let j = 2; j >= 0; j--) {
             date = Cypress.moment().subtract(j, 'days').valueOf();
@@ -42,21 +48,26 @@ describe('Scroll channel`s messages in mobile view', () => {
         cy.reload();
 
         // * check date on scroll and save it
-        cy.findAllByTestId('postView').eq(15).scrollIntoView();
+        cy.findAllByTestId('postView').eq(19).scrollIntoView();
 
         // * check date on scroll is today
         cy.findByTestId('floatingTimestamp').should('be.visible').and('have.text', 'Today');
 
         // * check date on scroll and save it
-        cy.findAllByTestId('postView').eq(9).scrollIntoView();
+        cy.findAllByTestId('postView').eq(14).scrollIntoView();
 
         // * check date on scroll is yesterday
         cy.findByTestId('floatingTimestamp').should('be.visible').and('have.text', 'Yesterday');
 
         // * check date on scroll and save it
-        cy.findAllByTestId('postView').eq(4).scrollIntoView();
+        cy.findAllByTestId('postView').eq(9).scrollIntoView();
 
-        // * check date on scroll is two days ago
-        cy.findByTestId('floatingTimestamp').should('be.visible').and('have.text', Cypress.moment().subtract(2, 'days').format('ddd, MMM DD, YYYY'));
+        // * check date on scroll is two days ago as dddd
+        cy.findByTestId('floatingTimestamp').should('be.visible').and('have.text', Cypress.moment().subtract(2, 'days').format('dddd'));
+
+        cy.findAllByTestId('postView').eq(0).scrollIntoView();
+
+        // * check date on scroll is 1 year ago as MMMM DD, YYYY
+        cy.findByTestId('floatingTimestamp').should('be.visible').and('have.text', Cypress.moment().subtract(1, 'year').format('MMMM DD, YYYY'));
     });
 });

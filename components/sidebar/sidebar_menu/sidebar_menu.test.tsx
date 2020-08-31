@@ -54,6 +54,19 @@ describe('components/sidebar/sidebar_menu', () => {
         expect(baseProps.onToggle).toHaveBeenCalledWith(false);
     });
 
+    test('should not call external onToggle when menu state hasnt changed', () => {
+        const wrapper = shallow<SidebarMenu>(
+            <SidebarMenu {...baseProps}/>,
+        );
+
+        wrapper.instance().handleMenuToggle(true);
+        expect(baseProps.onToggle).toHaveBeenCalledWith(true);
+        expect(baseProps.onToggle).toHaveBeenCalledTimes(1);
+
+        wrapper.instance().handleMenuToggle(true);
+        expect(baseProps.onToggle).toHaveBeenCalledTimes(1);
+    });
+
     test('should set the openUp and width properties correctly based on window and ref information', () => {
         const windowSpy = jest.spyOn(global, 'window' as any, 'get');
         windowSpy.mockImplementation(() => ({

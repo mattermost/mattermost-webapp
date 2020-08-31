@@ -35,14 +35,18 @@ Cypress.Commands.add('apiLogout', () => {
         log: false,
     });
 
-    // Ensure we clear out these specific cookies
+    // * Verify logged out
+    cy.visit('/login?extra=expired').url().should('include', '/login?extra=expired');
+
+    // # Ensure we clear out these specific cookies
     ['MMAUTHTOKEN', 'MMUSERID', 'MMCSRF'].forEach((cookie) => {
         cy.clearCookie(cookie);
     });
 
-    // Clear remainder of cookies
+    // # Clear remainder of cookies
     cy.clearCookies();
 
+    // * Verify cookies are empty
     cy.getCookies({log: false}).should('be.empty');
 });
 

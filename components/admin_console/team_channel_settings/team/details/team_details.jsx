@@ -10,8 +10,8 @@ import {Groups} from 'mattermost-redux/constants';
 
 import {browserHistory} from 'utils/browser_history';
 
+import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import BlockableLink from 'components/admin_console/blockable_link';
-
 import FormError from 'components/form_error';
 
 import RemoveConfirmModal from '../../remove_confirm_modal';
@@ -143,6 +143,12 @@ export default class TeamDetails extends React.PureComponent {
             if (resultWithError) {
                 serverError = <FormError error={resultWithError.error.message}/>;
             } else {
+                if (unlink.length > 0) {
+                    trackEvent('admin_team_config_page', 'groups_removed_from_team', {count: unlink.length, team_id: teamID});
+                }
+                if (link.length > 0) {
+                    trackEvent('admin_team_config_page', 'groups_added_to_team', {count: link.length, team_id: teamID});
+                }
                 await actions.getGroups(teamID);
             }
         }
@@ -152,36 +158,78 @@ export default class TeamDetails extends React.PureComponent {
         const userRolesToUpdate = Object.keys(rolesToUpdate);
         const usersToUpdate = usersToAddList.length > 0 || usersToRemoveList.length > 0 || userRolesToUpdate.length > 0;
         if (usersToUpdate && !syncChecked) {
-            const userActions = [];
+            const addUserActions = [];
+            const removeUserActions = [];
+            const rolesToPromote = [];
+            const rolesToDemote = [];
             const {addUserToTeam, removeUserFromTeam, updateTeamMemberSchemeRoles} = this.props.actions;
             usersToAddList.forEach((user) => {
-                userActions.push(addUserToTeam(teamID, user.id));
+                addUserActions.push(addUserToTeam(teamID, user.id));
             });
             usersToRemoveList.forEach((user) => {
-                userActions.push(removeUserFromTeam(teamID, user.id));
+                removeUserActions.push(removeUserFromTeam(teamID, user.id));
+            });
+            userRolesToUpdate.forEach((userId) => {
+                const {schemeUser, schemeAdmin} = rolesToUpdate[userId];
+                if (schemeAdmin) {
+                    rolesToPromote.push(updateTeamMemberSchemeRoles(teamID, userId, schemeUser, schemeAdmin));
+                } else {
+                    rolesToDemote.push(updateTeamMemberSchemeRoles(teamID, userId, schemeUser, schemeAdmin));
+                }
             });
 
-            let result = await Promise.all(userActions);
-            let resultWithError = result.find((r) => r.error);
-            if (resultWithError) {
-                serverError = <FormError error={resultWithError.error.message}/>;
-            } else {
-                const roleActions = [];
-                userRolesToUpdate.forEach((userId) => {
-                    const {schemeUser, schemeAdmin} = rolesToUpdate[userId];
-                    roleActions.push(updateTeamMemberSchemeRoles(teamID, userId, schemeUser, schemeAdmin));
-                });
-                result = await Promise.all(roleActions);
-                resultWithError = result.find((r) => r.error);
+            if (addUserActions.length > 0) {
+                const result = await Promise.all(addUserActions);
+                const resultWithError = result.find((r) => r.error);
+                const count = result.filter((r) => r.data).length;
                 if (resultWithError) {
                     serverError = <FormError error={resultWithError.error.message}/>;
+                }
+                if (count > 0) {
+                    trackEvent('admin_team_config_page', 'members_added_to_team', {count, team_id: teamID});
+                }
+            }
+
+            if (removeUserActions.length > 0) {
+                const result = await Promise.all(removeUserActions);
+                const resultWithError = result.find((r) => r.error);
+                const count = result.filter((r) => r.data).length;
+                if (resultWithError) {
+                    serverError = <FormError error={resultWithError.error.message}/>;
+                }
+                if (count > 0) {
+                    trackEvent('admin_team_config_page', 'members_removed_from_team', {count, team_id: teamID});
+                }
+            }
+
+            if (rolesToPromote.length > 0) {
+                const result = await Promise.all(rolesToPromote);
+                const resultWithError = result.find((r) => r.error);
+                const count = result.filter((r) => r.data).length;
+                if (resultWithError) {
+                    serverError = <FormError error={resultWithError.error.message}/>;
+                }
+                if (count > 0) {
+                    trackEvent('admin_team_config_page', 'members_elevated_to_team_admin', {count, team_id: teamID});
+                }
+            }
+
+            if (rolesToDemote.length > 0) {
+                const result = await Promise.all(rolesToDemote);
+                const resultWithError = result.find((r) => r.error);
+                const count = result.filter((r) => r.data).length;
+                if (resultWithError) {
+                    serverError = <FormError error={resultWithError.error.message}/>;
+                }
+                if (count > 0) {
+                    trackEvent('admin_team_config_page', 'admins_demoted_to_team_member', {count, team_id: teamID});
                 }
             }
         }
 
         this.setState({usersToRemoveCount: 0, rolesToUpdate: {}, usersToAdd: {}, usersToRemove: {}, serverError, saving: false, saveNeeded}, () => {
             actions.setNavigationBlocked(saveNeeded);
-            if (!saveNeeded) {
+            if (!saveNeeded && !serverError) {
                 browserHistory.push('/admin_console/user_management/teams');
             }
         });

@@ -3915,5 +3915,16 @@
   "admin.license.trial-request.submit": "Request trial",
   "generic_modal.confirm": "확인",
   "generic_modal.cancel": "취소",
-  "announcement_bar.error.warn_metric_status.link": "더 알아보기"
+  "announcement_bar.error.warn_metric_status.link": "더 알아보기",
+  "admin.channel_list.public": "공개",
+  "admin.channel_list.private": "비공개",
+  "admin.channel_list.group_sync": "그룹 동기화",
+  "admin.channel_list.archived": "보관됨",
+  "admin.jobTable.headerFiles": "파일",
+  "admin.jobTable.downloadLink": "다운로드",
+  "admin.channel_settings.channel_list.search_channels_errored": "문제가 발생했습니다. 다시 시도하십시오",
+  "admin.channel_settings.channel_detail.archive_confirm.message": "저장하면 팀의 채널이 보관되며 모든 사용자가 해당 콘텐츠에 액세스 할 수 없게 됩니다. 이 채널을 저장하고 보관하시겠습니까?",
+  "admin.channel_list.manual_invites": "수동 초대",
+  "announcement_bar.error.number_active_users_warn_metric_status_ack.text": "Mattermost에 문의 해 주셔서 감사합니다. 곧 연락 드리겠습니다.",
+  "admin.team_settings.team_list.search_teams_errored": "문제가 발생했습니다. 다시 시도하십시오"
 }

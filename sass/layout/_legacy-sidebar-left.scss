@@ -65,33 +65,6 @@
         }
     }
 
-    .sidebar__divider {
-        color: $white;
-        font-size: .9em;
-        height: 20px;
-        line-height: 20px;
-        margin: 5px 0 6px;
-        position: relative;
-        z-index: 0;
-
-        &:before {
-            background: $light-gray;
-            content: '';
-            height: 1px;
-            position: absolute;
-            top: 10px;
-            width: 100%;
-        }
-
-        .sidebar__divider__text {
-            background: $primary-color;
-            float: right;
-            padding: 0 10px;
-            position: relative;
-            z-index: 1;
-        }
-    }
-
     .sidebar__switcher {
         flex: 0 0 45px;
         bottom: 0;
@@ -176,11 +149,15 @@
         align-items: center;
         position: absolute;
         margin-left: 50%;
+        padding: 8px;
         width: 188px;
+        height: auto;
         font-size: 14px;
-        line-height: 28px;
+        line-height: 16px;
         text-align: center;
-        @include border-radius(14px);
+        @include border-radius(4px);
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.12);
+        font-weight: 700;
         z-index: 1;
         cursor: pointer;
         transform: translateX(-50%);
@@ -191,7 +168,7 @@
             display: inline-flex;
             justify-content: center;
             align-items: center;
-            margin-left: 5px;
+            margin-right: 8px;
         }
 
         body.enable-animations & {
@@ -370,7 +347,7 @@
 
                 button,a {
                     &:before {
-                        background: $black;
+                        background: var(--sidebar-text-active-border);
                         content: '';
                         height: 100%;
                         left: 0;

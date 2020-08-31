@@ -61,7 +61,7 @@ export default class CodePreview extends React.PureComponent {
         if (!this.state.lang || this.props.fileInfo.size > Constants.CODE_PREVIEW_MAX_FILE_SIZE) {
             return;
         }
-        $.ajax({
+        $.ajax({ // eslint-disable-line jquery/no-ajax
             async: true,
             url: this.props.fileUrl,
             type: 'GET',

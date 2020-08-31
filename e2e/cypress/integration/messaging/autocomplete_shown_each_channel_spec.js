@@ -26,7 +26,7 @@ describe('Identical Message Drafts', () => {
 
     it('M14432 shows Autocomplete in each channel', () => {
         // # Go to test Channel A on sidebar
-        cy.get('#sidebarItem_town-square').click({force: true});
+        cy.get('#sidebarItem_town-square').should('be.visible').click();
 
         // * Validate if the channel has been opened
         cy.url().should('include', '/channels/town-square');
@@ -38,7 +38,7 @@ describe('Identical Message Drafts', () => {
         cy.get('#suggestionList').should('be.visible');
 
         // # Go to test Channel B on sidebar
-        cy.get(`#sidebarItem_${testChannel.name}`).click({force: true});
+        cy.get(`#sidebarItem_${testChannel.name}`).should('be.visible').click();
 
         // * Validate if the newly navigated channel is open
         // * autocomplete should not be visible in channel
@@ -46,17 +46,19 @@ describe('Identical Message Drafts', () => {
         cy.get('#suggestionList').should('not.be.visible');
 
         // # Start a draft in Channel B containing just "@"
-        cy.get('#post_textbox').type('@');
+        cy.get('#post_textbox').should('be.visible').type('@');
 
         // * At mention auto-complete appears in Channel B
         cy.get('#suggestionList').should('be.visible');
 
-        // # Go back to test Channel A on sidebar
-        cy.get('#sidebarItem_town-square').click({force: true});
+        // # Go to Channel C then back to test Channel A on sidebar
+        cy.get('#sidebarItem_off-topic').should('be.visible').click();
+        cy.get('#sidebarItem_town-square').should('be.visible').click();
 
         // * Validate if the channel has been opened
         // * At mention auto-complete is preserved in Channel A
         cy.url().should('include', '/channels/town-square');
+        cy.get('#post_textbox').should('be.visible');
         cy.get('#suggestionList').should('be.visible');
     });
 });

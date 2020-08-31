@@ -182,4 +182,26 @@ describe('Message', () => {
         // * Focus to remain in the RHS text box
         cy.get('#reply_textbox').should('be.focused');
     });
+
+    it('MM-T1797 Compact view: Show single image thumbnail', () => {
+        const filename = 'image-small-height.png';
+
+        // # Set message display setting to compact
+        cy.apiSaveMessageDisplayPreference('compact');
+
+        // # Make a post with some text and a single image
+        cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(filename);
+        cy.postMessage(MESSAGES.MEDIUM);
+
+        cy.get('div.file__image').last().within(() => {
+            // *  The name of the image appears on a new line and is not bolded
+            cy.contains('div', filename).should('be.visible').and('have.css', 'font-weight', '400');
+
+            // * There are arrows to collapse the preview
+            cy.get('img[src*="preview"]').should('be.visible');
+            cy.findByLabelText('Toggle Embed Visibility').should('exist').and('have.attr', 'data-expanded', 'true').click();
+            cy.findByLabelText('Toggle Embed Visibility').should('exist').and('have.attr', 'data-expanded', 'false');
+            cy.get('img[src*="preview"]').should('not.be.visible');
+        });
+    });
 });

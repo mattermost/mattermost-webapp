@@ -3165,7 +3165,7 @@
   "admin.integrations.integrationManagement": "Gestione integrazioni",
   "admin.integrations.integrationManagement.title": "Gestione integrazioni",
   "admin.jobTable.statusWarning": "Avviso",
-  "admin.ldap_feature_discovery.call_to_action.primary": "Richiedi prova",
+  "admin.ldap_feature_discovery.call_to_action.primary": "Inizia il periodo di prova",
   "admin.ldap_feature_discovery.call_to_action.secondary": "Scopri di più",
   "admin.ldap_feature_discovery.title": "Integra Active Directory / LDAP con Mattermost Enterprise E10",
   "admin.ldap.adminFilterEx": "E.s.: \"(objectClass=user)\"",
@@ -3964,5 +3964,13 @@
   "channel_header.userHelpGuide": "Aiuto",
   "generic_modal.confirm": "Conferma",
   "generic_modal.cancel": "Annulla",
-  "announcement_bar.error.warn_metric_status.link": "Scopri di più"
+  "announcement_bar.error.warn_metric_status.link": "Scopri di più",
+  "admin.channel_list.public": "Pubblico",
+  "admin.channel_list.private": "Privato",
+  "admin.channel_list.group_sync": "Sincronia gruppo",
+  "admin.channel_list.archived": "Archiviato",
+  "warn_metric_ack_modal.contact_support": "Contattaci",
+  "announcement_bar.error.number_active_users_warn_metric_status_ack.text": "Grazie per aver contattato Mattermost. Ti daremo riscontro presto.",
+  "admin.jobTable.headerFiles": "File",
+  "admin.jobTable.downloadLink": "Scarica"
 }

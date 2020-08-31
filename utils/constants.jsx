@@ -501,6 +501,7 @@ export const ErrorPageTypes = {
     OAUTH_ACCESS_DENIED: 'oauth_access_denied',
     OAUTH_MISSING_CODE: 'oauth_missing_code',
     OAUTH_INVALID_PARAM: 'oauth_invalid_param',
+    OAUTH_INVALID_REDIRECT_URL: 'oauth_invalid_redirect_url',
     PAGE_NOT_FOUND: 'page_not_found',
     PERMALINK_NOT_FOUND: 'permalink_not_found',
     TEAM_NOT_FOUND: 'team_not_found',
@@ -801,6 +802,12 @@ export const PostListRowListIds = {
     LOAD_NEWER_MESSAGES_TRIGGER: 'LOAD_NEWER_MESSAGES_TRIGGER',
 };
 
+export const exportFormats = {
+    EXPORT_FORMAT_CSV: 'csv',
+    EXPORT_FORMAT_ACTIANCE: 'actiance',
+    EXPORT_FORMAT_GLOBALRELAY: 'globalrelay',
+};
+
 export const Constants = {
     SettingsTypes,
     JobTypes,
@@ -845,7 +852,7 @@ export const Constants = {
     DEFAULT_CHARACTER_LIMIT: 4000,
     IMAGE_TYPE_GIF: 'gif',
     TEXT_TYPES: ['txt', 'rtf'],
-    IMAGE_TYPES: ['jpg', 'gif', 'bmp', 'png', 'jpeg', 'tiff', 'tif'],
+    IMAGE_TYPES: ['jpg', 'gif', 'bmp', 'png', 'jpeg', 'tiff', 'tif', 'psd'],
     AUDIO_TYPES: ['mp3', 'wav', 'wma', 'm4a', 'flac', 'aac', 'ogg', 'm4r'],
     VIDEO_TYPES: ['mp4', 'avi', 'webm', 'mkv', 'wmv', 'mpg', 'mov', 'flv'],
     PRESENTATION_TYPES: ['ppt', 'pptx'],

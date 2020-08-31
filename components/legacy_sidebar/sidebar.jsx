@@ -653,14 +653,14 @@ class LegacySidebar extends React.PureComponent {
         const above = (
             <FormattedMessage
                 id='sidebar.unreads'
-                defaultMessage='More Unreads'
+                defaultMessage='More unreads'
             />
         );
 
         const below = (
             <FormattedMessage
                 id='sidebar.unreads'
-                defaultMessage='More Unreads'
+                defaultMessage='More unreads'
             />
         );
 

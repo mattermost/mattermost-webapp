@@ -79,9 +79,22 @@ exports[`components/MoreChannels should match snapshot and state 1`] = `
       channels={
         Array [
           Object {
+            "create_at": 0,
+            "creator_id": "id",
             "delete_at": 0,
-            "id": "channel_id_1",
-            "name": "channel-1",
+            "display_name": "name",
+            "extra_update_at": 0,
+            "group_constrained": false,
+            "header": "header",
+            "id": "channel_id",
+            "last_post_at": 0,
+            "name": "DN",
+            "purpose": "purpose",
+            "scheme_id": "id",
+            "team_id": "team_id",
+            "total_msg_count": 0,
+            "type": "O",
+            "update_at": 0,
           },
         ]
       }

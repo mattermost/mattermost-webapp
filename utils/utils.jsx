@@ -482,7 +482,7 @@ export function toRgbValues(hexStr) {
 
 export function applyTheme(theme) {
     if (theme.sidebarBg) {
-        changeCss('.app__body .sidebar--left .sidebar__switcher, .sidebar--left, .sidebar--left .sidebar__divider .sidebar__divider__text, .app__body .modal .settings-modal .settings-table .settings-links, .app__body .sidebar--menu', 'background:' + theme.sidebarBg);
+        changeCss('.app__body .sidebar--left .sidebar__switcher, .sidebar--left, .app__body .modal .settings-modal .settings-table .settings-links, .app__body .sidebar--menu', 'background:' + theme.sidebarBg);
         changeCss('body.app__body', 'scrollbar-face-color:' + theme.sidebarBg);
         changeCss('@media(max-width: 768px){.app__body .modal .settings-modal:not(.settings-modal--tabless):not(.display--content) .modal-content', 'background:' + theme.sidebarBg);
         changeCss('.app__body .modal-tabs .nav-tabs > li.active', `border-bottom-color:${theme.sidebarBg}`);
@@ -513,9 +513,6 @@ export function applyTheme(theme) {
     }
 
     if (theme.sidebarTextActiveBorder) {
-        changeCss('.sidebar--left .nav li.active .sidebar-item:before, .app__body .modal .settings-modal .nav-pills>li.active button:before', 'background:' + theme.sidebarTextActiveBorder);
-        changeCss('.sidebar--left .sidebar__divider:before', 'background:' + changeOpacity(theme.sidebarTextActiveBorder, 0.5));
-        changeCss('.sidebar--left .sidebar__divider', 'color:' + theme.sidebarTextActiveBorder);
         changeCss('.multi-teams .team-sidebar .team-wrapper .team-container:before', 'background:' + theme.sidebarTextActiveBorder);
         changeCss('.multi-teams .team-sidebar .team-wrapper .team-container.active:before', 'background:' + theme.sidebarTextActiveBorder);
         changeCss('.multi-teams .team-sidebar .team-wrapper .team-container.unread:before', 'background:' + theme.sidebarTextActiveBorder);
@@ -1026,12 +1023,12 @@ export function updateCodeTheme(userTheme) {
         }
     });
     const $link = $('link.code_theme');
-    if (cssPath !== $link.attr('href')) {
+    if (cssPath !== $link.attr('href')) { // eslint-disable-line jquery/no-attr
         changeCss('code.hljs', 'visibility: hidden');
         var xmlHTTP = new XMLHttpRequest();
         xmlHTTP.open('GET', cssPath, true);
         xmlHTTP.onload = function onLoad() {
-            $link.attr('href', cssPath);
+            $link.attr('href', cssPath); // eslint-disable-line jquery/no-attr
             if (UserAgent.isFirefox()) {
                 $link.one('load', () => {
                     changeCss('code.hljs', 'visibility: visible');

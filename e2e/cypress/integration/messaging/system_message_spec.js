@@ -13,20 +13,20 @@
 // helper function to count the lines in a block of text by wrapping each word in a span and finding where the text breaks the line
 function getLines(e) {
     const $cont = Cypress.$(e);
-    const textArr = $cont.text().split(' ');
+    const textArr = $cont.text().split(' '); // eslint-disable-line jquery/no-text
 
     for (let i = 0; i < textArr.length; i++) {
         textArr[i] = '<span>' + textArr[i] + ' </span>';
     }
 
-    $cont.html(textArr.join(''));
+    $cont.html(textArr.join('')); // eslint-disable-line jquery/no-html
 
-    const $wordSpans = $cont.find('span');
+    const $wordSpans = $cont.find('span'); // eslint-disable-line jquery/no-find
     const lineArray = [];
     var lineIndex = 0;
     var lineStart = true;
 
-    $wordSpans.each(function handleWord(idx) {
+    $wordSpans.each(function handleWord(idx) { // eslint-disable-line jquery/no-each
         const top = Cypress.$(this).position().top;
 
         if (lineStart) {

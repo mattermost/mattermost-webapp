@@ -9,7 +9,6 @@ import {defineMessages, FormattedMessage} from 'react-intl';
 import {setThemeDefaults} from 'mattermost-redux/utils/theme_utils';
 
 import {t} from 'utils/i18n';
-import 'bootstrap-colorpicker';
 
 import Constants from 'utils/constants';
 import * as UserAgent from 'utils/user_agent';
@@ -215,30 +214,30 @@ export default class CustomThemeChooser extends React.PureComponent {
     toggleSidebarStyles = (e) => {
         e.preventDefault();
 
-        $(this.refs.sidebarStylesHeader).toggleClass('open');
+        $(this.refs.sidebarStylesHeader).toggleClass('open'); // eslint-disable-line jquery/no-class
         this.toggleSection(this.refs.sidebarStyles);
     }
 
     toggleCenterChannelStyles = (e) => {
         e.preventDefault();
 
-        $(this.refs.centerChannelStylesHeader).toggleClass('open');
+        $(this.refs.centerChannelStylesHeader).toggleClass('open'); // eslint-disable-line jquery/no-class
         this.toggleSection(this.refs.centerChannelStyles);
     }
 
     toggleLinkAndButtonStyles = (e) => {
         e.preventDefault();
 
-        $(this.refs.linkAndButtonStylesHeader).toggleClass('open');
+        $(this.refs.linkAndButtonStylesHeader).toggleClass('open'); // eslint-disable-line jquery/no-class
         this.toggleSection(this.refs.linkAndButtonStyles);
     }
 
     toggleSection(node) {
         if (UserAgent.isIos()) {
             // iOS doesn't support jQuery animations
-            $(node).toggleClass('open');
+            $(node).toggleClass('open'); // eslint-disable-line jquery/no-class
         } else {
-            $(node).slideToggle();
+            $(node).slideToggle(); // eslint-disable-line jquery/no-slide
         }
     }
 

@@ -50,7 +50,7 @@ describe('Cookie with Subpath', () => {
                 cy.url().should('include', '/channels/town-square');
 
                 // * Check cookies have correct path parameter
-                cy.getCookies().should('have.length', 3).each((cookie) => {
+                cy.getCookies().should('have.length', 5).each((cookie) => {
                     if (subpath) {
                         expect(cookie).to.have.property('path', subpath);
                     } else {
