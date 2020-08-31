@@ -10,7 +10,7 @@
 // Stage: @prod
 // Group: @notifications
 
-import {ignoreUncaughtException, spyNotificationAs} from '../../support/notification';
+import {spyNotificationAs} from '../../support/notification';
 
 function setReplyNotificationsSetting(idToToggle) {
     // Navigate to settings modal
@@ -41,7 +41,7 @@ function setReplyNotificationsSetting(idToToggle) {
         should('not.exist');
 
     // Setup notification spy
-    spyNotificationAs('notifySpy');
+    spyNotificationAs('notifySpy', 'granted');
 }
 
 describe('reply-notifications', () => {
@@ -81,8 +81,6 @@ describe('reply-notifications', () => {
     });
 
     it('MM-T551 Do not trigger notifications on messages in reply threads unless I\'m mentioned', () => {
-        ignoreUncaughtException();
-
         // # Set users notification settings
         setReplyNotificationsSetting('#notificationCommentsNever');
 

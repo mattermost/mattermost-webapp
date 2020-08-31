@@ -11,6 +11,7 @@
 
 import * as MESSAGES from '../../fixtures/messages';
 import * as TIMEOUTS from '../../fixtures/timeouts';
+import {spyNotificationAs} from '../../support/notification';
 
 describe('Desktop notifications', () => {
     let testTeam;
@@ -41,7 +42,7 @@ describe('Desktop notifications', () => {
 
                 // Visit the MM webapp with the notification API stubbed.
                 cy.visit(`/${testTeam.name}/channels/town-square`);
-                stubNotificationAs('withNotification', 'granted');
+                spyNotificationAs('withNotification', 'granted');
 
                 // Make sure user is marked as online.
                 cy.get('#post_textbox').clear().type('/online{enter}');
@@ -69,7 +70,7 @@ describe('Desktop notifications', () => {
 
                 // Visit the MM webapp with the notification API stubbed.
                 cy.visit(`/${testTeam.name}/channels/town-square`);
-                stubNotificationAs('withoutNotification', 'granted');
+                spyNotificationAs('withoutNotification', 'granted');
 
                 // # Post the following: /dnd
                 cy.get('#post_textbox').clear().type('/dnd{enter}');
@@ -88,20 +89,3 @@ describe('Desktop notifications', () => {
         });
     });
 });
-
-const stubNotificationAs = (name, permission) => {
-    // Mock window.Notification to check if desktop notifications are triggered.
-    cy.window().then((win) => {
-        function Notification(title, opts) {
-            this.title = title;
-            this.opts = opts;
-        }
-
-        Notification.requestPermission = () => permission;
-        Notification.close = () => true;
-
-        win.Notification = Notification;
-
-        cy.stub(win, 'Notification').as(name);
-    });
-};
