@@ -67,7 +67,7 @@ describe('Integrations', () => {
         // # Post a slash command without trailing space
         cy.get('#post_textbox').type('/jira instance ');
 
-        // * Verify suggestion list is visible
+        // * Verify suggestion list is visible with 7 child elements
         cy.get('#suggestionList').should('be.visible').children().should('have.length', 7);
 
         // # Add trailing space to '/rename' command
@@ -76,8 +76,8 @@ describe('Integrations', () => {
         // * Verify suggestion list is visible
         cy.get('#suggestionList').should('be.visible').children().should('have.length', 1);
 
-        // * Verify command text is visible before space is added
-        cy.get('.slash-command__desc').contains('Rename the channel').should('be.visible');
+        // * Verify suggestion list is visible
+        cy.get('#suggestionList').children().eq(0).findByText('Rename the channel').should('be.visible');
 
         // # Add trailing space to '/rename' command
         cy.get('#post_textbox').type(' ');
@@ -85,8 +85,11 @@ describe('Integrations', () => {
         // * Verify command text is no longer visible after space is added
         cy.findByText('Rename the channel').should('not.be.visible');
 
-        // * Verify execute current command text shows
-        cy.get('#suggestionList').findByText('Execute Current Command').should('be.visible');
+        // * Verify suggestion list is visible with 2 children
+        cy.get('#suggestionList').should('be.visible').children().should('have.length', 2);
+
+        // * Verify execute current command text shows in first element
+        cy.get('#suggestionList').children().eq(0).findByText('Execute Current Command').should('be.visible');
 
         // * After typing the space character the relevant tip is still displayed
         cy.get('.slash-command__desc').contains('[text]').should('be.visible');
