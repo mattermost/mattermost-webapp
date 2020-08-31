@@ -13,9 +13,13 @@ import {ChannelCategory, CategorySorting} from 'mattermost-redux/types/channel_c
 import {localizeMessage} from 'mattermost-redux/utils/i18n_utils';
 
 import {trackEvent} from 'actions/diagnostics_actions';
+
 import OverlayTrigger from 'components/overlay_trigger';
+
 import {DraggingState} from 'types/store';
+
 import Constants, {A11yCustomEventTypes, DraggingStateTypes, DraggingStates} from 'utils/constants';
+import {wrapEmojis} from 'utils/emoji_utils';
 import {t} from 'utils/i18n';
 import {isKeyPressed} from 'utils/utils';
 
@@ -248,7 +252,8 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
             categoryMenu = (
                 <SidebarCategoryMenu
                     category={category}
-                    onToggle={this.handleMenuToggle}
+                    isMenuOpen={this.state.isMenuOpen}
+                    onToggleMenu={this.handleMenuToggle}
                 />
             );
         } else if (category.type === CategoryTypes.DIRECT_MESSAGES) {
@@ -320,7 +325,8 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
             categoryMenu = (
                 <SidebarCategoryMenu
                     category={category}
-                    onToggle={this.handleMenuToggle}
+                    isMenuOpen={this.state.isMenuOpen}
+                    onToggleMenu={this.handleMenuToggle}
                 />
             );
         }
@@ -381,7 +387,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                                                         })}
                                                     />
                                                     <div {...provided.dragHandleProps}>
-                                                        {displayName}
+                                                        {wrapEmojis(displayName)}
                                                     </div>
                                                     {newLabel}
                                                     {directMessagesModalButton}

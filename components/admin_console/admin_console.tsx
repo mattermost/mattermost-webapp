@@ -143,6 +143,7 @@ export default class AdminConsole extends React.PureComponent<Props, State> {
                     return false;
                 }
             }
+
             let isItemDisabled: boolean;
 
             if (typeof item.isDisabled === 'function') {

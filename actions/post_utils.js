@@ -22,26 +22,17 @@ import {sendDesktopNotification} from 'actions/notification_actions.jsx';
 
 import {ActionTypes} from 'utils/constants';
 
-export function completePostReceive(post, websocketMessageProps) {
+export function completePostReceive(post, websocketMessageProps, channelMemberUpdated) {
     return async (dispatch, getState) => {
-        const state = getState();
-
-        const rootPost = PostSelectors.getPost(state, post.root_id);
+        const rootPost = PostSelectors.getPost(getState(), post.root_id);
         if (post.root_id && !rootPost) {
-            const {data: posts} = await dispatch(PostActions.getPostThread(post.root_id));
-            if (posts) {
-                dispatch(lastPostActions(post, websocketMessageProps));
-            }
+            const {error} = await dispatch(PostActions.getPostThread(post.root_id));
 
-            return;
+            if (error) {
+                return;
+            }
         }
 
-        dispatch(lastPostActions(post, websocketMessageProps));
-    };
-}
-
-export function lastPostActions(post, websocketMessageProps) {
-    return (dispatch, getState) => {
         const currentChannelId = getCurrentChannelId(getState());
 
         if (post.channel_id === currentChannelId) {
@@ -70,13 +61,13 @@ export function lastPostActions(post, websocketMessageProps) {
 
         // Still needed to update unreads
 
-        dispatch(setChannelReadAndViewed(post, websocketMessageProps));
+        dispatch(setChannelReadAndViewed(post, websocketMessageProps, channelMemberUpdated));
 
         dispatch(sendDesktopNotification(post, websocketMessageProps));
     };
 }
 
-export function setChannelReadAndViewed(post, websocketMessageProps) {
+export function setChannelReadAndViewed(post, websocketMessageProps, channelMemberUpdated) {
     return (dispatch, getState) => {
         const state = getState();
         const currentUserId = getCurrentUserId(state);
@@ -111,7 +102,7 @@ export function setChannelReadAndViewed(post, websocketMessageProps) {
         if (markAsRead) {
             dispatch(markChannelAsRead(post.channel_id, null, markAsReadOnServer));
             dispatch(markChannelAsViewed(post.channel_id));
-        } else {
+        } else if (!channelMemberUpdated) {
             dispatch(markChannelAsUnread(websocketMessageProps.team_id, post.channel_id, websocketMessageProps.mentions));
         }
     };

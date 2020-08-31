@@ -322,6 +322,12 @@ exports[`components/Menu should match snapshot with id 1`] = `
       url={null}
     />
     <MenuItemAction
+      id="gettingStarted"
+      onClick={[Function]}
+      show={false}
+      text="Getting Started"
+    />
+    <MenuItemAction
       id="keyboardShortcuts"
       onClick={[Function]}
       show={true}
@@ -689,6 +695,12 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
       show={false}
       text="Help"
       url={null}
+    />
+    <MenuItemAction
+      id="gettingStarted"
+      onClick={[Function]}
+      show={false}
+      text="Getting Started"
     />
     <MenuItemAction
       id="keyboardShortcuts"
@@ -1114,6 +1126,12 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
       url={null}
     />
     <MenuItemAction
+      id="gettingStarted"
+      onClick={[Function]}
+      show={false}
+      text="Getting Started"
+    />
+    <MenuItemAction
       id="keyboardShortcuts"
       onClick={[Function]}
       show={false}
@@ -1497,6 +1515,12 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
       show={true}
       text="Help"
       url="test-link-help"
+    />
+    <MenuItemAction
+      id="gettingStarted"
+      onClick={[Function]}
+      show={false}
+      text="Getting Started"
     />
     <MenuItemAction
       id="keyboardShortcuts"
@@ -1922,6 +1946,12 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
       url="test-link-help"
     />
     <MenuItemAction
+      id="gettingStarted"
+      onClick={[Function]}
+      show={false}
+      text="Getting Started"
+    />
+    <MenuItemAction
       id="keyboardShortcuts"
       onClick={[Function]}
       show={false}
@@ -2322,6 +2352,12 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
       show={false}
       text="Help"
       url={null}
+    />
+    <MenuItemAction
+      id="gettingStarted"
+      onClick={[Function]}
+      show={false}
+      text="Getting Started"
     />
     <MenuItemAction
       id="keyboardShortcuts"
@@ -2762,6 +2798,12 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
       show={false}
       text="Help"
       url={null}
+    />
+    <MenuItemAction
+      id="gettingStarted"
+      onClick={[Function]}
+      show={false}
+      text="Getting Started"
     />
     <MenuItemAction
       id="keyboardShortcuts"
