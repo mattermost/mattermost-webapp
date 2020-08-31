@@ -11,6 +11,7 @@
 // Group: @messaging
 
 import {getAdminAccount} from '../../support/env';
+import {ignoreUncaughtException, spyNotificationAs} from '../../support/notification';
 
 function setNotificationSettings(desiredSettings = {first: true, username: true, shouts: true, custom: true, customText: '@'}, channel) {
     // Navigate to settings modal
@@ -59,41 +60,13 @@ function setNotificationSettings(desiredSettings = {first: true, username: true,
         should('not.exist');
 
     // Setup notification spy
-    cy.window().then((win) => {
-        function Notification(title, opts) {
-            this.title = title;
-            this.opts = opts;
-        }
-
-        Notification.requestPermission = function() {
-            return 'granted';
-        };
-
-        Notification.close = function() {
-            return true;
-        };
-
-        win.Notification = Notification;
-
-        cy.spy(win, 'Notification').as('notifySpy');
-    });
-
-    // Verify that we now have a Notification property
-    cy.window().should('have.property', 'Notification');
+    spyNotificationAs('notifySpy');
 
     // # Navigate to a channel we are NOT going to post to
     cy.get(`#sidebarItem_${channel.name}`).scrollIntoView().click({force: true});
 }
 
 describe('at-mention', () => {
-    function ignoreUncaughtException() {
-        cy.on('uncaught:exception', (err) => {
-            expect(err.message).to.include('.close is not a function');
-
-            return false;
-        });
-    }
-
     const admin = getAdminAccount();
     let testTeam;
     let otherChannel;
