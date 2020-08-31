@@ -3998,5 +3998,12 @@
   "admin.filter.all_teams": "Alle teams",
   "admin.filter.reset_teams": "Terugzetten naar alle teams",
   "warn_metric_ack_modal.learn_more.link": "Meer Informatie",
-  "warn_metric_ack_modal.number_of_active_users.subtext": "Contact opnemen met de helpdesk verstuurt je contactgegevens naar Mattermost, Inc. {link}"
+  "warn_metric_ack_modal.number_of_active_users.subtext": "Contact opnemen met de helpdesk verstuurt je contactgegevens naar Mattermost, Inc. {link}",
+  "admin.license.upgraded-restart": "Je hebt je programmabestand geüpgraded naar de Enterprise versie, gelieve de server te herstarten om het nieuwe programmabestand te gebruiken. Je kan dit hier doen:",
+  "admin.license.enterprise.upgrading": "Upgraden {percentage}%",
+  "admin.license.enterprise.upgrade": "Upgrade naar de Enterprise Editie",
+  "admin.license.enterprise.restarting": "Herstarten",
+  "admin.license.enterprise.restart": "Server herstarten",
+  "admin.license.enterprise-edition-license": "Enterprise Editie Licentie:",
+  "admin.complianceExport.warningCount.globalrelay": "{count} waarschuwing(en) aangetroffen, bekijk de logfiles voor meer informatie"
 }
