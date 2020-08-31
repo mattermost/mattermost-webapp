@@ -57,7 +57,7 @@ describe('Desktop notifications', () => {
     });
 
     it('MM-T482 Desktop Notifications - (at) here not rec\'d when logged off', () => {
-        cy.apiCreateUser({}).then(({user}) => {
+        cy.apiCreateUser().then(({user}) => {
             cy.apiAddUserToTeam(testTeam.id, user.id);
             cy.apiLogin(user);
 
@@ -69,7 +69,7 @@ describe('Desktop notifications', () => {
                 const channel = res.body;
 
                 // # Logout the user.
-                cy.apiLogout();
+                cy.apiLogout().wait(TIMEOUTS.TEN_SEC);
 
                 // Have another user send a post.
                 cy.postMessageAs({sender: testUser, message: '@here', channelId: channel.id});
