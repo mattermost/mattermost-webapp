@@ -77,7 +77,7 @@ export function executeCommand(message, args) {
                 browserHistory.push(`${teamUrl}/channels/${redirectChannel}`);
 
                 dispatch(savePreferences(currentUserId, [{category, name, user_id: currentUserId, value: 'false'}]));
-                if (isFavoriteChannel(state, channel)) {
+                if (isFavoriteChannel(state, channel.id)) {
                     dispatch(unfavoriteChannel(channel.id));
                 }
 
