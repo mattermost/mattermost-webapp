@@ -127,6 +127,10 @@ export default class AtMentionProvider extends Provider {
 
     // localGroups matches up to 25 local results from the store
     localGroups() {
+        if (!this.autocompleteGroups) {
+            return [];
+        }
+
         const localGroups = this.autocompleteGroups.
             filter((group) => this.filterGroup(group)).
             map((group) => this.createFromGroup(group, Constants.MENTION_GROUPS)).
