@@ -156,9 +156,6 @@ describe('Leave an archived channel', () => {
         const messageText = `archived text ${getRandomId()}`;
         let otherChannel;
 
-        cy.visit(`/${testTeam.name}/channels/off-topic`);
-        cy.wait(TIMEOUTS.ONE_SEC); //allow for page to load
-
         // # create another channel with text and archive it
         cy.apiCreateChannel(testTeam.id, chanName).then((response) => {
             otherChannel = response.body;
@@ -168,6 +165,9 @@ describe('Leave an archived channel', () => {
             cy.get('#channelArchiveChannel').click();
             cy.get('#deleteChannelModalDeleteButton').click();
         });
+
+        cy.visit(`/${testTeam.name}/channels/off-topic`);
+        cy.wait(TIMEOUTS.ONE_SEC); //allow for page to load
 
         // # Search for content from an archived channel
         cy.get('#searchBox').should('be.visible').clear().type(`${testArchivedMessage}{enter}`);
