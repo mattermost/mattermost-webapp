@@ -91,7 +91,7 @@ Cypress.Commands.add('postMessageReplyInRHS', (message) => {
     postMessageAndWait('#reply_textbox', message);
 });
 
-Cypress.Commands.add('postMessageQuickly', (message) => {
+Cypress.Commands.add('uiPostMessageQuickly', (message) => {
     cy.get('#post_textbox', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').clear().
         invoke('val', message).wait(TIMEOUTS.HALF_SEC).type(' {backspace}{enter}');
     cy.waitUntil(() => {

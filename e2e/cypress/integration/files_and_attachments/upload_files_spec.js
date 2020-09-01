@@ -328,7 +328,7 @@ describe('Upload Files', () => {
 
             cy.get(`@publicLinkOfAttachment-${file}`).then((publicLinkOfAttachment) => {
                 // # Post the link of attachment as a message
-                cy.postMessageQuickly(publicLinkOfAttachment);
+                cy.uiPostMessageQuickly(publicLinkOfAttachment);
 
                 // * Check the attachment url contains the attachment
                 downloadAttachmentAndVerifyItsProperties(publicLinkOfAttachment, file, 'inline');
