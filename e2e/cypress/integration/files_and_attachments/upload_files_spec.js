@@ -224,7 +224,7 @@ describe('Upload Files', () => {
         cy.getLastPostId().then((lastPostId) => {
             // # Scan inside of the last post message
             cy.get(`#${lastPostId}_message`).and('be.visible').within(() => {
-                // * Check if the attached image is in the post and then click to open preview
+                // * Check if the attached image is in the post and then click to open the preview
                 cy.findByLabelText(`file thumbnail ${attachmentFilename}`).should('be.visible').click();
             });
         });
