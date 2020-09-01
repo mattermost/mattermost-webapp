@@ -257,6 +257,8 @@ t('admin.permissions.permission.assign_system_admin_role.description');
 t('admin.permissions.permission.assign_system_admin_role.name');
 t('admin.permissions.permission.convert_public_channel_to_private.description');
 t('admin.permissions.permission.convert_public_channel_to_private.name');
+t('admin.permissions.permission.convert_private_channel_to_public.description');
+t('admin.permissions.permission.convert_private_channel_to_public.name');
 t('admin.permissions.permission.create_direct_channel.description');
 t('admin.permissions.permission.create_direct_channel.name');
 t('admin.permissions.permission.create_group_channel.description');

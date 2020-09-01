@@ -1115,6 +1115,8 @@
   "admin.permissions.loadMoreSchemes": "Load more schemes",
   "admin.permissions.permission.assign_system_admin_role.description": "Assign system admin role",
   "admin.permissions.permission.assign_system_admin_role.name": "Assign system admin role",
+  "admin.permissions.permission.convert_private_channel_to_public.description": "Convert private channels to public",
+  "admin.permissions.permission.convert_private_channel_to_public.name": "Convert Channels",
   "admin.permissions.permission.convert_public_channel_to_private.description": "Convert public channels to private",
   "admin.permissions.permission.convert_public_channel_to_private.name": "Convert Channels",
   "admin.permissions.permission.create_direct_channel.description": "Create direct channel",
