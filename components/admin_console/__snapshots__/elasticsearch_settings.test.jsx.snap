@@ -676,7 +676,6 @@ exports[`components/ElasticSearchSettings should match snapshot, enabled 1`] = `
                   id="admin.elasticsearch.createJob.help"
                 />
               }
-              disabled={false}
               getExtraInfoText={[Function]}
               jobType="elasticsearch_post_indexing"
             />

@@ -4001,5 +4001,6 @@
   "admin.jobTable.downloadLink": "Скачать",
   "timestamp.datetime": "{relativeOrDate} в {time}",
   "warn_metric_ack_modal.learn_more.link": "Узнать больше",
-  "warn_metric_ack_modal.number_of_active_users.subtext": "При обращении в службу поддержки ваши контактные данные будут отправлены в Mattermost, Inc. {link}"
+  "warn_metric_ack_modal.number_of_active_users.subtext": "При обращении в службу поддержки ваши контактные данные будут отправлены в Mattermost, Inc. {link}",
+  "invite.rate-limit-exceeded": "Превышен предел количества рассылок по приглашениям."
 }

@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @system_console
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
@@ -264,7 +265,7 @@ describe('group configuration', () => {
             cy.visit(`/admin_console/user_management/groups/${groupID}`);
 
             // * Check that the channel is no longer present
-            cy.get('.group-teams-and-channels-row', {timeout: TIMEOUTS.ONE_MIN}).should('have.length', 1);
+            cy.get('.group-teams-and-channels-row', {timeout: TIMEOUTS.ONE_MIN}).scrollIntoView().should('have.length', 1);
         });
     });
 
@@ -519,7 +520,7 @@ describe('group configuration', () => {
 });
 
 function teamOrChannelIsPresent(name) {
-    cy.get('.group-teams-and-channels--body', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').within(() => {
+    cy.get('.group-teams-and-channels--body', {timeout: TIMEOUTS.ONE_MIN}).scrollIntoView().should('be.visible').within(() => {
         cy.findByText(name).scrollIntoView().should('be.visible');
     });
 }

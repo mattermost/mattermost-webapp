@@ -6,7 +6,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {createSelector} from 'reselect';
 
-import {Team} from 'mattermost-redux/types/teams';
+import {Team, TeamSearchOpts} from 'mattermost-redux/types/teams';
 import {debounce} from 'mattermost-redux/actions/helpers';
 
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
@@ -29,7 +29,7 @@ type Props = {
     total: number;
     actions: {
         getData: (page: number, perPage: number) => Promise<{ data: any }>;
-        searchTeams: (term: string, page?: number, perPage?: number) => Promise<{ data: any }>;
+        searchTeams: (term: string, opts: TeamSearchOpts) => Promise<{ data: any }>;
     };
 };
 
@@ -142,7 +142,7 @@ class TeamFilterDropdown extends React.PureComponent<Props, State> {
         } else if (this.state.searchTerm.length > 0) {
             return this.state.searchTotal > this.state.searchResults.length;
         }
-        return this.props.total > this.props.teams.length;
+        return this.props.total > (this.state.page + 1) * TEAMS_PER_PAGE;
     }
 
     loadMore = async () => {
@@ -168,7 +168,7 @@ class TeamFilterDropdown extends React.PureComponent<Props, State> {
     searchTeams = async (term: string, page: number) => {
         let searchResults = [];
         let searchTotal = 0;
-        const response = await this.props.actions.searchTeams(term, page, TEAMS_PER_PAGE);
+        const response = await this.props.actions.searchTeams(term, {page, per_page: TEAMS_PER_PAGE});
         if (response?.data) {
             const {data} = response;
             searchResults = page > 0 ? this.state.searchResults.concat(data.teams) : data.teams;
@@ -196,9 +196,10 @@ class TeamFilterDropdown extends React.PureComponent<Props, State> {
             const selectedTeams = getSelectedTeams(selectedTeamIds, this.props.teams);
             const savedSelectedTeams = selectedTeams.sort((a, b) => a.display_name.localeCompare(b.display_name));
             this.setState({searchTerm, savedSelectedTeams, searchResults: [], searchTotal: 0, page: 0});
-            return;
+        } else {
+            this.setState({loading: true, searchTerm, searchResults: [], searchTotal: 0, page: 0});
         }
-        this.setState({loading: true, searchTerm, searchResults: [], searchTotal: 0, page: 0});
+
         this.searchTeamsDebounced(0, searchTerm);
     }
 

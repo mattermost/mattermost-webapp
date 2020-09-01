@@ -20,7 +20,7 @@ type Actions = {
 
 type Props ={
     user: UserProfile;
-    updateSection: (section: string) => Promise<void>;
+    updateSection: (section: string) => void;
     useAutomaticTimezone: boolean;
     automaticTimezone: string;
     manualTimezone: string;

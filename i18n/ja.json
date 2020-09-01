@@ -3078,8 +3078,8 @@
   "promote_to_user_modal.desc": "これにより、ゲスト {username} がメンバーへ昇格されます。昇格したゲストは、公開チャンネルへの参加や、メンバーとして参加しているチャンネル外のユーザーとのやりとりが許可されます。本当に {username} をユーザーに昇格しますか？",
   "postlist.toast.scrollToLatest": "最新のメッセージへ移動する",
   "postlist.toast.scrollToBottom": "最新のメッセージに移動する",
-  "postlist.toast.newMessagesSince": "{date} {time} 以降に投稿された新しい {count, number} {count, plural, one {メッセージ} other {メッセージ}}",
-  "postlist.toast.newMessages": "新しい {count, number} {count, plural, one {メッセージ} other {メッセージ}",
+  "postlist.toast.newMessagesSince": "{date} {isToday, select, true {} other {以降}} に投稿された新しい {count, number} {count, plural, one {メッセージ} other {メッセージ}}",
+  "postlist.toast.newMessages": "新しい {count, number} {count, plural, one {メッセージ} other {メッセージ}}",
   "postlist.toast.history": "メッセージの履歴を確認しています",
   "post.ariaLabel.replyMessage": "{time} {date}, {authorName} が, {message} と返信しました",
   "post.ariaLabel.reactionMultiple": ", {reactionCount} リアクション",
@@ -3983,7 +3983,7 @@
   "admin.jobTable.downloadLink": "ダウンロードする",
   "warn_metric_ack_modal.contact_support": "お問い合わせください",
   "announcement_bar.error.number_active_users_warn_metric_status_ack.text": "Mattermostへのお問い合わせありがとうございます。後ほど返信いたします。",
-  "warn_metric_ack_modal.number_of_active_users.description": "{{limit}}ユーザー以上の場合、ユーザー管理やサーバーのクラスタリング、パフォーマンスモニタの機能を持つMattermost Enterprise E20へのアップグレードを強く推奨します",
+  "warn_metric_ack_modal.number_of_active_users.description": "{{limit}}ユーザー以上の場合、ユーザー管理やサーバーのクラスタリング、パフォーマンスモニタの機能を持つMattermost Enterpriseエディションへのアップグレードを強く推奨します",
   "warn_metric_ack_modal.mailto.message": "サポートに到達できませんでした。{link} までお問い合わせください。",
   "warn_metric_ack_modal.mailto.link": "メールで問い合わせする",
   "warn_metric_ack_modal.header.title": "Mattermost Enterpriseエディションへアップグレードする",
@@ -3999,5 +3999,7 @@
   "admin.filter.apply": "適用する",
   "admin.filter.all_teams": "全チーム",
   "admin.channel_list.manual_invites": "手動で招待する",
-  "warn_metric_ack_modal.learn_more.link": "詳しく知る"
+  "warn_metric_ack_modal.learn_more.link": "詳しく知る",
+  "warn_metric_ack_modal.number_of_active_users.subtext": "サポートを受けるにはあなたの連絡先をMattermost, Inc. まで送信してください。 {link}",
+  "timestamp.datetime": "{time} の {relativeOrDate}"
 }

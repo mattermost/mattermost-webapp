@@ -138,6 +138,7 @@ export default class ClusterSettings extends AdminSettings {
                     value={this.state.Enable}
                     onChange={this.overrideHandleChange}
                     setByEnv={this.isSetByEnv('ClusterSettings.Enable')}
+                    disabled={this.props.isDisabled}
                 />
                 <TextSetting
                     id='ClusterName'
@@ -157,6 +158,7 @@ export default class ClusterSettings extends AdminSettings {
                     value={this.state.ClusterName}
                     onChange={this.overrideHandleChange}
                     setByEnv={this.isSetByEnv('ClusterSettings.ClusterName')}
+                    disabled={this.props.isDisabled}
                 />
                 <TextSetting
                     id='OverrideHostname'
@@ -176,6 +178,7 @@ export default class ClusterSettings extends AdminSettings {
                     value={this.state.OverrideHostname}
                     onChange={this.overrideHandleChange}
                     setByEnv={this.isSetByEnv('ClusterSettings.OverrideHostname')}
+                    disabled={this.props.isDisabled}
                 />
                 <BooleanSetting
                     id='UseIpAddress'
@@ -194,6 +197,7 @@ export default class ClusterSettings extends AdminSettings {
                     value={this.state.UseIpAddress}
                     onChange={this.overrideHandleChange}
                     setByEnv={this.isSetByEnv('ClusterSettings.UseIpAddress')}
+                    disabled={this.props.isDisabled}
                 />
                 <BooleanSetting
                     id='UseExperimentalGossip'
@@ -212,6 +216,7 @@ export default class ClusterSettings extends AdminSettings {
                     value={this.state.UseExperimentalGossip}
                     onChange={this.overrideHandleChange}
                     setByEnv={this.isSetByEnv('ClusterSettings.UseExperimentalGossip')}
+                    disabled={this.props.isDisabled}
                 />
                 <BooleanSetting
                     id='EnableExperimentalGossipEncryption'
@@ -230,6 +235,7 @@ export default class ClusterSettings extends AdminSettings {
                     value={this.state.EnableExperimentalGossipEncryption}
                     onChange={this.overrideHandleChange}
                     setByEnv={this.isSetByEnv('ClusterSettings.EnableExperimentalGossipEncryption')}
+                    disabled={this.props.isDisabled}
                 />
                 <TextSetting
                     id='GossipPort'
@@ -249,6 +255,7 @@ export default class ClusterSettings extends AdminSettings {
                     value={this.state.GossipPort}
                     onChange={this.overrideHandleChange}
                     setByEnv={this.isSetByEnv('ClusterSettings.GossipPort')}
+                    disabled={this.props.isDisabled}
                 />
                 <TextSetting
                     id='StreamingPort'
@@ -268,6 +275,7 @@ export default class ClusterSettings extends AdminSettings {
                     value={this.state.StreamingPort}
                     onChange={this.overrideHandleChange}
                     setByEnv={this.isSetByEnv('ClusterSettings.StreamingPort')}
+                    disabled={this.props.isDisabled}
                 />
             </SettingsGroup>
         );

@@ -7,7 +7,7 @@ import {ActionFunc} from 'mattermost-redux/types/actions';
 
 import {updateUserActive, revokeAllSessionsForUser, promoteGuestToUser, demoteUserToGuest} from 'mattermost-redux/actions/users';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
-import {getBotAccounts} from 'mattermost-redux/selectors/entities/bots';
+import {getExternalBotAccounts} from 'mattermost-redux/selectors/entities/bots';
 import {loadBots} from 'mattermost-redux/actions/bots';
 
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
@@ -19,7 +19,7 @@ import {GlobalState} from 'types/store';
 import SystemUsersDropdown, {Props} from './system_users_dropdown';
 
 function mapStateToProps(state: GlobalState) {
-    const bots = getBotAccounts(state);
+    const bots = getExternalBotAccounts(state);
     const license = getLicense(state);
     return {
         isLicensed: license && license.IsLicensed === 'true',

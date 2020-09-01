@@ -19,6 +19,7 @@ const LDAP_GROUPS_PAGE_SIZE = 200;
 type Props = {
     groups: MixedUnlinkedGroupRedux[];
     total: number;
+    readOnly?: boolean;
     actions: {
         getLdapGroups: (page?: number, perPage?: number, opts?: GroupSearchOpts) => Promise<any>;
         link: (key: string) => Promise<any>;
@@ -154,6 +155,7 @@ export default class GroupsList extends React.PureComponent<Props, State> {
                 <button
                     className='btn btn-primary'
                     onClick={() => this.linkSelectedGroups()}
+                    disabled={this.props.readOnly}
                 >
                     <i className='icon fa fa-link'/>
                     <FormattedMessage
@@ -167,6 +169,7 @@ export default class GroupsList extends React.PureComponent<Props, State> {
                 <button
                     className='btn btn-primary'
                     onClick={() => this.unlinkSelectedGroups()}
+                    disabled={this.props.readOnly}
                 >
                     <i className='icon fa fa-unlink'/>
                     <FormattedMessage
@@ -179,6 +182,7 @@ export default class GroupsList extends React.PureComponent<Props, State> {
             return (
                 <button
                     className='btn btn-inactive disabled'
+                    disabled={this.props.readOnly}
                 >
                     <i className='icon fa fa-link'/>
                     <FormattedMessage
@@ -243,6 +247,7 @@ export default class GroupsList extends React.PureComponent<Props, State> {
                     failed={item.failed}
                     checked={Boolean(this.state.checked[item.primary_key])}
                     onCheckToggle={(key: string) => this.onCheckToggle(key)}
+                    readOnly={this.props.readOnly}
                     actions={{
                         link: this.props.actions.link,
                         unlink: this.props.actions.unlink,

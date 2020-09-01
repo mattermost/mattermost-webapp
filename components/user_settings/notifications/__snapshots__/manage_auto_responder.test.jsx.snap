@@ -142,6 +142,7 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
             >
               <button
                 className="save-button btn btn-primary"
+                data-testid="saveSetting"
                 disabled={false}
                 id="saveSetting"
                 onClick={[Function]}
@@ -422,6 +423,7 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
             >
               <button
                 className="save-button btn btn-primary"
+                data-testid="saveSetting"
                 disabled={false}
                 id="saveSetting"
                 onClick={[Function]}

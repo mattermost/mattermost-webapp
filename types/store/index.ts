@@ -136,5 +136,9 @@ export type GlobalState = BaseGlobalState & {
             draggingState: DraggingState;
             newCategoryIds: string[];
         };
+
+        nextSteps: {
+            show: boolean;
+        };
     };
 };

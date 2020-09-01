@@ -66,9 +66,9 @@ export default class Menu extends React.PureComponent<Props> {
                 prevWasDivider = false;
             }
         }
-
+        children.reverse();
         // Hiding trailing dividers
-        for (const child of children.reverse()) {
+        for (const child of children) {
             if (child.classList.contains('menu-divider') || child.classList.contains('mobile-menu-divider')) {
                 child.style.display = 'none';
             } else {
@@ -107,7 +107,7 @@ export default class Menu extends React.PureComponent<Props> {
 
     public render() {
         const {children, openUp, openLeft, id, ariaLabel, customStyles} = this.props;
-        let styles: React.CSSProperties = {};
+        let styles: CSSProperties = {};
         if (customStyles) {
             styles = customStyles;
         } else {

@@ -10,7 +10,7 @@ Cypress.Commands.add('doLDAPExistingLogin', () => {
 Cypress.Commands.add('doLDAPLogin', (settings = {}, useEmail = false) => {
     // # Go to login page
     cy.apiLogout();
-    cy.visit('/login').wait(TIMEOUTS.HALF_SEC);
+    cy.visit('/login');
     cy.checkLoginPage(settings);
     cy.performLDAPLogin(settings, useEmail);
 });
@@ -25,6 +25,7 @@ Cypress.Commands.add('performLDAPLogin', (settings = {}, useEmail = false) => {
 });
 
 Cypress.Commands.add('doGuestLogout', (settings = {}) => {
+    cy.wait(TIMEOUTS.FIVE_SEC);
     cy.get('body').then((body) => {
         if (body.text().includes('Logout')) {
             cy.doLogoutFromSignUp();
@@ -35,6 +36,7 @@ Cypress.Commands.add('doGuestLogout', (settings = {}) => {
 });
 
 Cypress.Commands.add('doMemberLogout', (settings = {}) => {
+    cy.wait(TIMEOUTS.FIVE_SEC);
     cy.get('body').then((body) => {
         if (body.text().includes('Logout')) {
             cy.doMemberLogoutFromSignUp();
@@ -110,6 +112,7 @@ Cypress.Commands.add('doInviteMember', (user, settings = {}) => {
 });
 
 Cypress.Commands.add('doSkipTutorial', () => {
+    cy.wait(TIMEOUTS.FIVE_SEC);
     cy.get('body').then((body) => {
         if (body.find('#tutorialSkipLink').length > 0) {
             cy.get('#tutorialSkipLink').click().wait(TIMEOUTS.HALF_SEC);

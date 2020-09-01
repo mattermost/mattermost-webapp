@@ -41,6 +41,8 @@ type Props = {
     onRemoveCallback: (user: UserProfile) => void;
     updateRole: (userId: string, schemeUser: boolean, schemeAdmin: boolean) => void;
 
+    isDisabled?: boolean;
+
     actions: {
         getChannelStats: (channelId: string) => Promise<{
             data: boolean;
@@ -187,7 +189,7 @@ export default class ChannelMembers extends React.PureComponent<Props, State> {
     }
 
     render = () => {
-        const {users, channel, channelId, usersToAdd, usersToRemove, channelMembers, totalCount, searchTerm} = this.props;
+        const {users, channel, channelId, usersToAdd, usersToRemove, channelMembers, totalCount, searchTerm, isDisabled} = this.props;
         const filterOptions: FilterOptions = {
             role: {
                 name: (
@@ -260,6 +262,7 @@ export default class ChannelMembers extends React.PureComponent<Props, State> {
                         id='addChannelMembers'
                         className='btn btn-primary'
                         dialogType={ChannelInviteModal}
+                        isDisabled={isDisabled}
                         dialogProps={{
                             channel,
                             channelId,
@@ -290,6 +293,7 @@ export default class ChannelMembers extends React.PureComponent<Props, State> {
                     excludeUsers={usersToRemove}
                     term={searchTerm}
                     scope={'channel'}
+                    readOnly={isDisabled}
                     filterProps={filterProps}
                 />
             </AdminPanel>

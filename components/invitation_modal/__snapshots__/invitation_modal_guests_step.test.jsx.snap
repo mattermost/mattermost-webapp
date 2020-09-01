@@ -46,6 +46,7 @@ exports[`components/invitation_modal/InvitationModalGuestsStep should match the 
         onChange={[Function]}
         onInputChange={[Function]}
         placeholder="Add guests or email addresses"
+        showError={false}
         usersLoader={[Function]}
         validAddressMessageDefault="Invite **{email}** as a guest"
         validAddressMessageId="invitation_modal.guests.users_emails_input.valid_email"
@@ -174,6 +175,7 @@ exports[`components/invitation_modal/InvitationModalGuestsStep should match the 
         onChange={[Function]}
         onInputChange={[Function]}
         placeholder="Add guests"
+        showError={false}
         usersLoader={[Function]}
         validAddressMessageDefault="Invite **{email}** as a guest"
         validAddressMessageId="invitation_modal.guests.users_emails_input.valid_email"

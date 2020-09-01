@@ -22,7 +22,7 @@ export type Props = {
     collapseModal: () => void;
     setEnforceFocus: () => void;
     setRequireConfirm: () => void;
-}
+};
 
 export default class UserSettings extends React.PureComponent<Props> {
     render() {
