@@ -137,6 +137,13 @@ export default class AdminConsole extends React.PureComponent<Props, State> {
         let defaultUrl = '';
 
         const schemaRoutes = schemas.map((item: Item, index: number) => {
+            if (typeof item.isHidden !== 'undefined') {
+                const isHidden = (typeof item.isHidden === 'function') ? item.isHidden(config, this.state, license, buildEnterpriseReady, consoleAccess) : Boolean(item.isHidden);
+                if (isHidden) {
+                    return false;
+                }
+            }
+
             let isItemDisabled: boolean;
 
             if (typeof item.isDisabled === 'function') {

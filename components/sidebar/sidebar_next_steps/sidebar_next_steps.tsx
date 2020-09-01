@@ -8,7 +8,10 @@ import classNames from 'classnames';
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
-import {Steps} from 'components/next_steps_view/steps';
+import {
+    StepType,
+} from 'components/next_steps_view/steps';
+
 import ProgressBar from 'components/progress_bar';
 import {ModalIdentifiers, RecommendedNextSteps, Preferences} from 'utils/constants';
 import {localizeMessage} from 'utils/utils';
@@ -22,6 +25,7 @@ type Props = {
     showNextSteps: boolean;
     currentUserId: string;
     preferences: PreferenceType[];
+    steps: StepType[];
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => void;
         openModal: (modalData: {modalId: string; dialogType: any; dialogProps?: any}) => void;
@@ -85,7 +89,7 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
             return null;
         }
 
-        const total = Steps.length;
+        const total = this.props.steps.length;
         const complete = this.props.preferences.filter((pref) => pref.name !== RecommendedNextSteps.HIDE && pref.value === 'true').length;
 
         let header = (
