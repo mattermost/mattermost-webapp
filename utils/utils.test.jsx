@@ -828,7 +828,7 @@ describe('Utils.applyHotkeyMarkdown', () => {
 
         expect(Utils.applyHotkeyMarkdown(e)).
             toEqual({
-                message: 'Jalebi _Fafda_ & Sambharo',
+                message: 'Jalebi *Fafda* & Sambharo',
                 selectionStart: 8,
                 selectionEnd: 13,
             });
@@ -836,7 +836,7 @@ describe('Utils.applyHotkeyMarkdown', () => {
 
     test('applyHotkeyMarkdown returns correct markdown for undo italic', () => {
         // "Fafda" is selected with ctrl + I hotkey
-        const e = makeItalicHotkeyEvent('Jalebi _Fafda_ & Sambharo', 8, 13);
+        const e = makeItalicHotkeyEvent('Jalebi *Fafda* & Sambharo', 8, 13);
 
         expect(Utils.applyHotkeyMarkdown(e)).
             toEqual({
@@ -864,33 +864,59 @@ describe('Utils.applyHotkeyMarkdown', () => {
 
         expect(Utils.applyHotkeyMarkdown(e)).
             toEqual({
-                message: 'Jalebi __Fafda & Sambharo',
+                message: 'Jalebi **Fafda & Sambharo',
                 selectionStart: 8,
                 selectionEnd: 8,
             });
     });
 
     test('applyHotkeyMarkdown returns correct markdown for italic with bold', () => {
-        // "Fafda" is selected with ctrl + I hotkey"
+        // "Fafda" is selected with ctrl + I hotkey
         const e = makeItalicHotkeyEvent('Jalebi **Fafda** & Sambharo', 9, 14);
 
         expect(Utils.applyHotkeyMarkdown(e)).
             toEqual({
-                message: 'Jalebi **_Fafda_** & Sambharo',
+                message: 'Jalebi ***Fafda*** & Sambharo',
                 selectionStart: 10,
                 selectionEnd: 15,
             });
     });
 
     test('applyHotkeyMarkdown returns correct markdown for bold with italic', () => {
-        // "Fafda" is selected with ctrl + B hotkey"
-        const e = makeBoldHotkeyEvent('Jalebi _Fafda_ & Sambharo', 8, 13);
+        // "Fafda" is selected with ctrl + B hotkey
+        const e = makeBoldHotkeyEvent('Jalebi *Fafda* & Sambharo', 8, 13);
 
         expect(Utils.applyHotkeyMarkdown(e)).
             toEqual({
-                message: 'Jalebi _**Fafda**_ & Sambharo',
+                message: 'Jalebi ***Fafda*** & Sambharo',
                 selectionStart: 10,
                 selectionEnd: 15,
+            });
+    });
+
+    test('applyHotkeyMarkdown returns correct markdown for bold with italic+bold', () => {
+        // "Fafda" is selected with ctrl + B hotkey
+        const e = makeBoldHotkeyEvent('Jalebi ***Fafda*** & Sambharo', 10, 15);
+
+        // Should undo bold
+        expect(Utils.applyHotkeyMarkdown(e)).
+            toEqual({
+                message: 'Jalebi *Fafda* & Sambharo',
+                selectionStart: 8,
+                selectionEnd: 13,
+            });
+    });
+
+    test('applyHotkeyMarkdown returns correct markdown for italic with italic+bold', () => {
+        // "Fafda" is selected with ctrl + I hotkey
+        const e = makeItalicHotkeyEvent('Jalebi ***Fafda*** & Sambharo', 10, 15);
+
+        // Should undo italic
+        expect(Utils.applyHotkeyMarkdown(e)).
+            toEqual({
+                message: 'Jalebi **Fafda** & Sambharo',
+                selectionStart: 9,
+                selectionEnd: 14,
             });
     });
 });

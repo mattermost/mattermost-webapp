@@ -97,7 +97,7 @@ export function testComponentForMarkdownHotkeys(generateInstance, initRefs, find
         initRefs(instance, setSelectionRange);
 
         find(instance).props().onKeyDown(e);
-        expect(getValue(instance)).toBe('Jalebi _Fafda_ & Sambharo');
+        expect(getValue(instance)).toBe('Jalebi *Fafda* & Sambharo');
         expect(setSelectionRange).toHaveBeenCalled();
     });
 
@@ -127,7 +127,7 @@ export function testComponentForMarkdownHotkeys(generateInstance, initRefs, find
         initRefs(instance, setSelectionRange);
 
         find(instance).props().onKeyDown(e);
-        expect(getValue(instance)).toBe('Jalebi __Fafda & Sambharo');
+        expect(getValue(instance)).toBe('Jalebi **Fafda & Sambharo');
         expect(setSelectionRange).toHaveBeenCalled();
     });
 }

@@ -1809,6 +1809,9 @@ export function getSortedUsers(reactions, currentUserId, profiles, teammateNameD
     return {currentUserReacted, users};
 }
 
+const BOLD_MD = '**';
+const ITALIC_MD = '*';
+
 /**
  * Applies bold/italic markdown on textbox associated with event and returns
  * modified text alongwith modified selection positions.
@@ -1819,22 +1822,31 @@ export function applyHotkeyMarkdown(e) {
     const el = e.target;
     const {selectionEnd, selectionStart, value} = el;
 
-    let delimiter = '';
-    if (e.keyCode === Constants.KeyCodes.B[1]) {
-        delimiter = '**';
-    } else if (e.keyCode === Constants.KeyCodes.I[1]) {
-        delimiter = '_';
-    }
-
-    // <prefix> <delimiter> <selection> <delimiter> <suffix>
+    // <prefix> <selection> <suffix>
     const prefix = value.substring(0, selectionStart);
     const selection = value.substring(selectionStart, selectionEnd);
     const suffix = value.substring(selectionEnd);
 
+    // Is it italic hot key on existing bold markdown? i.e. italic on **haha**
+    let isItalicFollowedByBold = false;
+    let delimiter = '';
+    if (e.keyCode === Constants.KeyCodes.B[1]) {
+        delimiter = BOLD_MD;
+    } else if (e.keyCode === Constants.KeyCodes.I[1]) {
+        delimiter = ITALIC_MD;
+        isItalicFollowedByBold = prefix.endsWith(BOLD_MD) && suffix.startsWith(BOLD_MD);
+    }
+
+    // Does the selection have current hotkey's markdown?
+    const hasCurrentMarkdown = prefix.endsWith(delimiter) && suffix.startsWith(delimiter);
+
+    // Does current selection have both of the markdown around it? i.e. ***haha***
+    const hasItalicAndBold = prefix.endsWith(BOLD_MD + ITALIC_MD) && suffix.startsWith(BOLD_MD + ITALIC_MD);
+
     let newValue = '';
     let newStart = 0;
     let newEnd = 0;
-    if (prefix.endsWith(delimiter) && suffix.startsWith(delimiter)) {
+    if (hasItalicAndBold || (hasCurrentMarkdown && !isItalicFollowedByBold)) {
         // message already has the markdown; remove it
         newValue = prefix.substring(0, prefix.length - delimiter.length) + selection + suffix.substring(delimiter.length);
         newStart = selectionStart - delimiter.length;
