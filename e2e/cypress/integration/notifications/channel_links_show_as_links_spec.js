@@ -15,7 +15,7 @@ import {getEmailUrl, getEmailMessageSeparator, reUrl} from '../../utils';
 const baseUrl = Cypress.config('baseUrl');
 const mailUrl = getEmailUrl(baseUrl);
 
-describe('Team Settings', () => {
+describe('Notifications', () => {
     let testTeam;
     let otherUser;
     let lastPostId;
@@ -119,4 +119,3 @@ describe('Team Settings', () => {
         expect(bodyText[9]).to.equal(`Go To Post ( ${baseUrl}/landing#/${testTeam.name}/pl/${lastPostId} )`);
     };
 });
-
