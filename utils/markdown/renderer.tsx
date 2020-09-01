@@ -93,6 +93,7 @@ export default class Renderer extends marked.Renderer {
             }
         }
 
+        let codeClassName = 'hljs';
         if (usedLanguage) {
             codeClassName = `${codeClassName} language-${usedLanguage}`;
         }
@@ -100,7 +101,7 @@ export default class Renderer extends marked.Renderer {
         return (
             '<div class="' + className + '">' +
                 header +
-                '<div class="hljs">' +
+                '<div class="' + codeClassName + '">' +
                     lineNumbers +
                     '<code>' +
                         searchedContent +
