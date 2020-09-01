@@ -12,9 +12,12 @@ import {markAsUnreadByPostIdFromMenu} from './helpers';
 // Group: @mark_as_unread
 
 describe('Verify unread toast appears after repeated manual marking post as unread', () => {
+    let currentChannel;
+
     beforeEach(() => {
         cy.apiAdminLogin();
         cy.apiInitSetup().then(({team, channel, user}) => {
+            currentChannel = channel;
             cy.apiCreateUser().then(({user: user2}) => {
                 cy.apiAddUserToTeam(team.id, user2.id).then(() => {
                     cy.apiAddUserToChannel(channel.id, user2.id);
@@ -63,6 +66,12 @@ describe('Verify unread toast appears after repeated manual marking post as unre
         cy.get('div.toast').should('be.visible').then(() => {
             // * Check that the message is correct and all the mentions and replies are counted in toast
             cy.get('div.toast__message>span').should('be.visible').first().contains('32 new messages');
+
+            cy.get(`#sidebarItem_${currentChannel.name}`).
+                scrollIntoView().
+                find('#unreadMentions').
+                should('be.visible').
+                and('have.text', '1');
         });
     });
 });
