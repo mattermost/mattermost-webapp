@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {useState} from 'react';
 
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 
@@ -13,6 +13,10 @@ type Props = {
 };
 
 const BillingSubscriptions: React.FC<Props> = () => {
+    const [showDanger, setShowDanger] = useState(true);
+    const [showWarning, setShowWarning] = useState(true);
+    const [showInfo, setShowInfo] = useState(true);
+
     return (
         <div className='wrapper--fixed BillingSubscriptions'>
             <FormattedAdminHeader
@@ -21,24 +25,30 @@ const BillingSubscriptions: React.FC<Props> = () => {
             />
             <div className='admin-console__wrapper'>
                 <div className='admin-console__content'>
-                    <AlertBanner
-                        mode='danger'
-                        title='Test Danger Title'
-                        message='This is a test danger message'
-                        onDismiss={() => null}
-                    />
-                    <AlertBanner
-                        mode='warning'
-                        title='Test Warning Title'
-                        message='This is a test warning message'
-                        onDismiss={() => null}
-                    />
-                    <AlertBanner
-                        mode='info'
-                        title='Test Info Title'
-                        message='This is a test info message'
-                        onDismiss={() => null}
-                    />
+                    {showDanger &&
+                        <AlertBanner
+                            mode='danger'
+                            title='Test Danger Title'
+                            message='This is a test danger message'
+                            onDismiss={() => setShowDanger(false)}
+                        />
+                    }
+                    {showWarning &&
+                        <AlertBanner
+                            mode='warning'
+                            title='Test Warning Title'
+                            message='This is a test warning message'
+                            onDismiss={() => setShowWarning(false)}
+                        />
+                    }
+                    {showInfo &&
+                        <AlertBanner
+                            mode='info'
+                            title='Test Info Title'
+                            message='This is a test info message'
+                            onDismiss={() => setShowInfo(false)}
+                        />
+                    }
                     <div
                         className='BillingSubscriptions__topWrapper'
                         style={{marginTop: '20px'}}
