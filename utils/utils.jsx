@@ -24,7 +24,12 @@ import {searchForTerm} from 'actions/post_actions';
 import Constants, {FileTypes, UserStatuses} from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils';
-import bing from 'images/bing.mp3';
+import bing from 'sounds/bing.mp3';
+import crackle from 'sounds/crackle.mp3';
+import down from 'sounds/down.mp3';
+import hello from 'sounds/hello.mp3';
+import ripple from 'sounds/ripple.mp3';
+import upstairs from 'sounds/upstairs.mp3';
 import {t} from 'utils/i18n';
 import store from 'stores/redux_store.jsx';
 import {getCurrentLocale, getTranslations} from 'selectors/i18n';
@@ -89,8 +94,8 @@ export function isKeyPressed(event, key) {
 export function isUnhandledLineBreakKeyCombo(e) {
     return Boolean(
         isKeyPressed(e, Constants.KeyCodes.ENTER) &&
-            !e.shiftKey && // shift + enter is already handled everywhere, so don't handle again
-            (e.altKey && !UserAgent.isSafari() && !cmdOrCtrlPressed(e)), // alt/option + enter is already handled in Safari, so don't handle again
+        !e.shiftKey && // shift + enter is already handled everywhere, so don't handle again
+        (e.altKey && !UserAgent.isSafari() && !cmdOrCtrlPressed(e)), // alt/option + enter is already handled in Safari, so don't handle again
     );
 }
 
@@ -195,17 +200,29 @@ export function getChannelURL(state, channel, teamId) {
     return notificationURL;
 }
 
-var canDing = true;
+export const notificationSounds = new Map([
+    ['Bing', bing],
+    ['Crackle', crackle],
+    ['Down', down],
+    ['Hello', hello],
+    ['Ripple', ripple],
+    ['Upstairs', upstairs],
+]);
 
-export function ding() {
+var canDing = true;
+export function ding(name) {
     if (hasSoundOptions() && canDing) {
-        var audio = new Audio(bing);
-        audio.play();
+        tryNotificationSound(name);
         canDing = false;
         setTimeout(() => {
             canDing = true;
         }, 3000);
     }
+}
+
+export function tryNotificationSound(name) {
+    const audio = new Audio(notificationSounds.get(name) ?? notificationSounds.get('Bing'));
+    audio.play();
 }
 
 export function hasSoundOptions() {
@@ -712,7 +729,7 @@ export function applyTheme(theme) {
         changeCss('@media(min-width: 768px){.app__body .post.current--user:hover .post__body ', 'background: transparent;');
         changeCss('.app__body .more-modal__row.more-modal__row--selected, .app__body .date-separator.hovered--before:after, .app__body .date-separator.hovered--after:before, .app__body .new-separator.hovered--after:before, .app__body .new-separator.hovered--before:after', 'background:' + changeOpacity(theme.centerChannelColor, 0.07));
         changeCss('@media(min-width: 768px){.app__body .dropdown-menu>li>a:focus, .app__body .dropdown-menu>li>a:hover', 'background:' + changeOpacity(theme.centerChannelColor, 0.15));
-        changeCss('code, .app__body .form-control[disabled], .app__body .form-control[readonly], .app__body fieldset[disabled] .form-control', 'background:' + changeOpacity(theme.centerChannelColor, 0.1));
+        changeCss('.app__body .form-control[disabled], .app__body .form-control[readonly], .app__body fieldset[disabled] .form-control', 'background:' + changeOpacity(theme.centerChannelColor, 0.1));
         changeCss('.app__body .sidebar--right', 'color:' + theme.centerChannelColor);
         changeCss('.app__body .modal .settings-modal .settings-table .settings-content .appearance-section .theme-elements__body', 'background:' + changeOpacity(theme.centerChannelColor, 0.05));
         if (!UserAgent.isFirefox() && !UserAgent.isInternetExplorer() && !UserAgent.isEdge()) {
@@ -1083,6 +1100,10 @@ export function setSelectionRange(input, selectionStart, selectionEnd) {
 
 export function setCaretPosition(input, pos) {
     setSelectionRange(input, pos, pos);
+}
+
+export function scrollbarWidth(el) {
+    return el.offsetWidth - el.clientWidth;
 }
 
 export function isValidUsername(name) {
@@ -1739,19 +1760,19 @@ export function getClosestParent(elem, selector) {
     // Element.matches() polyfill
     if (!Element.prototype.matches) {
         Element.prototype.matches =
-        Element.prototype.matchesSelector ||
-        Element.prototype.mozMatchesSelector ||
-        Element.prototype.msMatchesSelector ||
-        Element.prototype.oMatchesSelector ||
-        Element.prototype.webkitMatchesSelector ||
-        ((s) => {
-            const matches = (this.document || this.ownerDocument).querySelectorAll(s);
-            let i = matches.length - 1;
-            while (i >= 0 && matches.item(i) !== this) {
-                i--;
-            }
-            return i > -1;
-        });
+            Element.prototype.matchesSelector ||
+            Element.prototype.mozMatchesSelector ||
+            Element.prototype.msMatchesSelector ||
+            Element.prototype.oMatchesSelector ||
+            Element.prototype.webkitMatchesSelector ||
+            ((s) => {
+                const matches = (this.document || this.ownerDocument).querySelectorAll(s);
+                let i = matches.length - 1;
+                while (i >= 0 && matches.item(i) !== this) {
+                    i--;
+                }
+                return i > -1;
+            });
     }
 
     // Get the closest matching element
