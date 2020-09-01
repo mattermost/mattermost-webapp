@@ -20,7 +20,6 @@ function setLDAPTestSettings(config) {
     };
 }
 
-
 const resetPermissionsToDefault = () => {
     // # Login as sysadmin and navigate to system scheme page
     cy.apiAdminLogin();
@@ -89,7 +88,6 @@ context('ldap', () => {
                 cy.apiCreateChannel(testTeam.id, 'ldap-group-sync-automated-tests', 'ldap-group-sync-automated-tests').then((response) => {
                     testChannel = response.body;
                 });
-                
             });
         });
 
@@ -363,62 +361,62 @@ context('ldap', () => {
         //     });
         // });
 
+        /*
+            START OF SECOND PR !!!!!!!!
+        */
 
+        it('MM-T2639 - Policy settings (in System Console tests, likely)', () => {
+            resetPermissionsToDefault();
 
-        // it('MM-T2639 - Policy settings (in System Console tests, likely)', () => {
-        //     resetPermissionsToDefault();
+            cy.apiLogin(testUser);
 
-        //     cy.apiLogin(testUser);
+            cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 
-        //     cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
-        
-        //     // # Go to member modal
-        //     cy.get('#channelMember').click();
-        //     cy.findByTestId('membersModal').click();
-        //     cy.get('#showInviteModal').should('exist').click();
-        //     cy.get('#channelInviteModalLabel').should('be.visible').and('contain', `Add New Members to ${testChannel.display_name}`);
+            // # Go to member modal
+            cy.get('#channelMember').click();
+            cy.findByTestId('membersModal').click();
+            cy.get('#showInviteModal').should('exist').click();
+            cy.get('#channelInviteModalLabel').should('be.visible').and('contain', `Add New Members to ${testChannel.display_name}`);
 
+            // # Login as sysadmin and navigate to system scheme page
+            cy.apiAdminLogin();
+            cy.visit('/admin_console/user_management/permissions/system_scheme');
+            cy.findByTestId('all_users-private_channel-checkbox').click();
 
-        //     // # Login as sysadmin and navigate to system scheme page
-        //     cy.apiAdminLogin();
-        //     cy.visit('/admin_console/user_management/permissions/system_scheme');
-        //     cy.findByTestId('all_users-private_channel-checkbox').click();
+            // # Save
+            cy.get('#saveSetting').click();
+            cy.waitUntil(() => cy.get('#saveSetting').then((el) => {
+                return el[0].innerText === 'Save';
+            }));
 
-        //       // # Save
-        //     cy.get('#saveSetting').click();
-        //     cy.waitUntil(() => cy.get('#saveSetting').then((el) => {
-        //         return el[0].innerText === 'Save';
-        //     }));
+            // # Login as sysadmin and convert testChannel to private channel
+            cy.apiPatchChannelPrivacy(testChannel.id, 'P');
 
-        //     // # Login as sysadmin and convert testChannel to private channel
-        //     cy.apiPatchChannelPrivacy(testChannel.id, 'P');
+            cy.apiLogin(testUser);
 
+            cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 
-        //     cy.apiLogin(testUser);
-
-        //     cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
-        
-        //     // # Go to member modal
-        //     cy.get('#channelMember').click();
-        //     cy.findByTestId('membersModal').click();
-        //     cy.get('#showInviteModal').should('not.exist');
-        // });
+            // # Go to member modal
+            cy.get('#channelMember').click();
+            cy.findByTestId('membersModal').click();
+            cy.get('#showInviteModal').should('not.exist');
+        });
 
         it('MM-T2640 - Channel appears in channel switcher before conversion but not after (for non-members of the channel)', () => {
             resetPermissionsToDefault();
-            
+
             // # Create new test channel that is private
             cy.apiCreateChannel(
                 testTeam.id,
                 'a-channel-im-not-apart-off',
                 'Public channel',
                 'O',
-            ).then((res) => { 
+            ).then((res) => {
                 const publicChannel = res.body;
                 cy.apiLogin(testUser);
 
                 cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
-            
+
                 // # Click the sidebar switcher button
                 cy.get('#sidebarSwitcherButton').click();
 
@@ -435,14 +433,14 @@ context('ldap', () => {
                 cy.get('#suggestionList').should('be.visible').children().within((el) => {
                     cy.wrap(el).eq(1).should('contain', publicChannel.display_name);
                 });
-                    
+
                 cy.apiAdminLogin();
                 cy.apiPatchChannelPrivacy(publicChannel.id, 'P');
 
                 cy.apiLogin(testUser);
 
                 cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
-            
+
                 // # Click the sidebar switcher button
                 cy.get('#sidebarSwitcherButton').click();
 
@@ -456,16 +454,64 @@ context('ldap', () => {
 
                 // * Should open up suggestion list for channels
                 // * Should match each channel item and group label
-                cy.get('.no-results__title').should('be.visible').and('contain.text', 'No results for');                    
+                cy.get('.no-results__title').should('be.visible').and('contain.text', 'No results for');
             });
-          
         });
 
+        it('MM-T2641 - Channel appears in More... under Public Channels before conversion but not after', () => {
+            // # Create new test channel that is private
+            cy.apiCreateChannel(
+                testTeam.id,
+                'a-channel-im-not-apart-off',
+                'Public channel',
+                'O',
+            ).then((res) => {
+                const publicChannel = res.body;
+                cy.apiLogin(testUser);
 
+                cy.visit(`/${testTeam.name}/channels/off-topic`);
+                cy.get('#sidebarPublicChannelsMore').click();
 
+                // * Search private channel name and make sure it isn't there in public channel directory
+                cy.get('#searchChannelsTextbox').type(`${publicChannel.display_name}`);
+                cy.get('#moreChannelsList').should('include.text', publicChannel.display_name);
 
+                cy.apiAdminLogin();
+                cy.apiPatchChannelPrivacy(publicChannel.id, 'P');
 
+                cy.apiLogin(testUser);
 
+                cy.visit(`/${testTeam.name}/channels/off-topic`);
+                cy.get('#sidebarPublicChannelsMore').click();
 
+                // * Search private channel name and make sure it isn't there in public channel directory
+                cy.get('#searchChannelsTextbox').type(`${publicChannel.display_name}`);
+                cy.get('#moreChannelsList').should('include.text', 'No more channels to join');
+            });
+        });
+
+        it('MM-T2642 - Channel appears in Integrations options before conversion but not after', () => {
+            cy.apiAdminLogin();
+
+            cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+
+            // # Go to integrations
+            cy.visit(`/${testTeam.name}/integrations`);
+
+            cy.get('#outgoingWebhooks').should('be.visible').click();
+            cy.get('#addOutgoingWebhook').should('be.visible').click();
+
+            cy.get('#channelSelect').children().should('contain.text', testChannel.display_name);
+
+            cy.apiPatchChannelPrivacy(testChannel.id, 'P');
+
+            // # Go to integrations
+            cy.visit(`/${testTeam.name}/integrations`);
+
+            cy.get('#outgoingWebhooks').should('be.visible').click();
+            cy.get('#addOutgoingWebhook').should('be.visible').click();
+
+            cy.get('#channelSelect').children().should('not.contain.text', testChannel.display_name);
+        });
     });
 });
