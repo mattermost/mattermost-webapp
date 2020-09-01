@@ -9,7 +9,9 @@
 
 // Group: @channel
 
-import {markAsUnreadByPostIdFromMenu, verifyPostNextToNewMessageSeparator, beRead, beUnread, switchToChannel} from './helpers';
+import {beRead, beUnread} from '../../support/assertions';
+
+import {markAsUnreadByPostIdFromMenu, verifyPostNextToNewMessageSeparator, switchToChannel} from './helpers';
 
 describe('channel unread posts', () => {
     let testUser;

@@ -41,7 +41,7 @@ export function handleNewPost(post, msg) {
             await dispatch(getMyChannelMember(post.channel_id));
         }
 
-        dispatch(completePostReceive(post, websocketMessageProps));
+        dispatch(completePostReceive(post, websocketMessageProps, myChannelMemberDoesntExist));
 
         if (msg && msg.data) {
             const currentUserId = getCurrentUserId(state);

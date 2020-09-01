@@ -209,6 +209,17 @@ var config = {
                 ],
             },
             {
+                test: /\.apng$/,
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            name: 'files/[hash].[ext]',
+                        },
+                    },
+                ],
+            },
+            {
                 test: /\.html$/,
                 use: [
                     {
