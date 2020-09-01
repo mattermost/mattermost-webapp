@@ -37,7 +37,7 @@ describe('Scroll', () => {
         cy.postMessage('This is the first post');
 
         // # Post as few as messages so that scroll bar appears as channel name scroll hidden
-        Cypress._.times(8, (postIndex) => {
+        Cypress._.times(20, (postIndex) => {
             cy.postMessage(`p-${postIndex + 1}`);
         });
 
@@ -54,12 +54,12 @@ describe('Scroll', () => {
         cy.findByText('This is the last post').should('exist').and('be.visible');
     });
 
-    it.only('MM-T2382 Center channel scroll', () => {
+    it('MM-T2382 Center channel scroll', () => {
         // # Post a starting message with user 1
         cy.postMessage('This is the first post');
 
         // # Make enough posts so that first post is scrolled past hidden
-        Cypress._.times(20, (postIndex) => {
+        Cypress._.times(30, (postIndex) => {
             cy.postMessage(`p-${postIndex + 1}`);
         });
 
@@ -74,11 +74,11 @@ describe('Scroll', () => {
 });
 
 function postMessageAndcheckIfTopMessagesAreScrolled(postIndex, sender, channelId) {
-// # Make posts from other user
+    // # Make posts from other user
     cy.postMessageAs({sender, message: `Other users p-${postIndex}`, channelId});
 
     cy.get('#post-list').should('exist').within(() => {
-    // * Verify that top post are hidden behind scroll
+        // * Verify that top post are hidden behind scroll
         cy.findByText(`p-${postIndex}`).should('exist').and('not.be.visible');
         cy.findByText(`p-${postIndex + 1}`).should('exist').and('not.be.visible');
 
