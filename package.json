@@ -32,7 +32,7 @@
     "jquery": "3.5.1",
     "katex": "0.11.1",
     "key-mirror": "1.0.1",
-    "localforage": "1.7.4",
+    "localforage": "1.7.3",
     "localforage-observable": "2.0.1",
     "mark.js": "8.11.1",
     "marked": "github:mattermost/marked#87769262aa02e1784570f61f4f962050e07cc335",
@@ -157,7 +157,6 @@
     "mini-css-extract-plugin": "0.9.0",
     "mmjstool": "github:mattermost/mattermost-utilities#beffd8b4c5b985ef1bfb500e06f3306d40a67599",
     "node-sass": "4.14.1",
-    "patch-package": "6.2.2",
     "react-router-enzyme-context": "1.2.0",
     "redux-mock-store": "1.5.4",
     "redux-persist-node-storage": "2.0.0",
@@ -232,7 +231,6 @@
     "outputName": "test-results.xml"
   },
   "scripts": {
-    "postinstall": "patch-package",
     "check": "eslint --ext .js --ext .jsx --ext tsx --ext ts . --quiet --cache",
     "fix": "eslint --ext .js --ext .jsx --ext tsx --ext ts . --quiet --fix --cache",
     "build": "cross-env NODE_ENV=production webpack --display-error-details --verbose",
