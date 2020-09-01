@@ -71,6 +71,7 @@ const holders = defineMessages({
 type Props = {
     currentUser: UserProfile;
     onHide: () => void;
+    onExit: () => void;
     intl: IntlShape;
     actions: {
         sendVerificationEmail: (email: string) => Promise<{
@@ -172,6 +173,7 @@ class UserSettingsModal extends React.PureComponent<Props, State> {
             active_section: '',
         });
         this.props.onHide();
+        this.props.onExit();
     }
 
     // Called to hide the settings pane when on mobile

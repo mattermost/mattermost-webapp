@@ -2,19 +2,27 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
 import {Preferences} from 'mattermost-redux/constants';
 
 import {savePreferences} from 'mattermost-redux/actions/preferences';
+import {PreferenceType} from 'mattermost-redux/types/preferences';
 
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {get as getPreference} from 'mattermost-redux/selectors/entities/preferences';
+import {GlobalState} from 'mattermost-redux/types/store';
+import {ActionFunc} from 'mattermost-redux/types/actions';
 
 import EmailNotificationSetting from './email_notification_setting';
 
-function mapStateToProps(state) {
+type Actions = {
+    savePreferences: (currentUserId: string, emailIntervalPreference: Array<PreferenceType>) =>
+    Promise<{data: boolean}>;
+}
+
+function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
     const emailInterval = parseInt(getPreference(
         state,
@@ -31,9 +39,9 @@ function mapStateToProps(state) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch) {
     return {
-        actions: bindActionCreators({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
             savePreferences,
         }, dispatch),
     };

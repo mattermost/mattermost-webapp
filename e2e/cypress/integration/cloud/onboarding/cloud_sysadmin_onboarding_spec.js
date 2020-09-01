@@ -284,7 +284,7 @@ describe('Cloud Onboarding - Sysadmin', () => {
         cy.findByTestId('TeamProfileStep__saveTeamButton').should('be.disabled');
     });
 
-    it('MM-T3331_1 Sysadmin - Set team name and team icon - upload file of wrong type', () => {
+    it('MM-T3331_3 Sysadmin - Set team name and team icon - upload file of wrong type', () => {
         // * Make sure channel view has loaded
         cy.url().should('include', townSquarePage);
 
