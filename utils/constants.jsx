@@ -386,6 +386,8 @@ export const RecommendedNextSteps = {
     COMPLETE_PROFILE: 'complete_profile',
     TEAM_SETUP: 'team_setup',
     INVITE_MEMBERS: 'invite_members',
+    PREFERENCES_SETUP: 'preferences_setup',
+    NOTIFICATION_SETUP: 'notification_setup',
     HIDE: 'hide',
 };
 
