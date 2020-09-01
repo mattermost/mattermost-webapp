@@ -19,6 +19,9 @@ describe('Upload Files', () => {
     let otherUser;
 
     beforeEach(() => {
+        // # Login as sysadmin
+        cy.apiAdminLogin();
+
         // # Create new team and new user and visit Town Square channel
         cy.apiInitSetup().then(({team, channel}) => {
             testTeam = team;
