@@ -310,7 +310,7 @@ context('ldap', () => {
             cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 
             // # Post message to use
-            cy.postMessage('DONT YOU SEE I GOT EVERTYHING YOU NEED .... BABY BABY DONT YOU SEE SEE I GOT EVERYTHING YOU NEED NEED ... ;)');
+            cy.postMessage('DONT YOU SEE I GOT EVERYTHING YOU NEED .... BABY BABY DONT YOU SEE SEE I GOT EVERYTHING YOU NEED NEED ... ;)');
 
             cy.getLastPostId().then((id) => {
                 const postId = id;
