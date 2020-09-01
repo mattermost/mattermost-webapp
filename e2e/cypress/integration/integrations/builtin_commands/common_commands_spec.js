@@ -288,6 +288,66 @@ describe('I18456 Built-in slash commands: common', () => {
         cy.uiWaitUntilMessagePostedIncludes(`You were added to the channel by @${user1.username}`);
     });
 
+    it('MM-T661 /invite extra white space before @ in DM or GM', () => {
+        const user = userGroup[6];
+        const userToInviteGM = userGroup[5];
+        const userToInviteDM = userGroup[4];
+
+        cy.apiAddUserToChannel(testChannel.id, user.id);
+        loginAndVisitDefaultChannel(user, `${team1.name}/channels/${testChannel.name}`);
+        cy.get('#postListContent', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible');
+
+        // # In a GM use the /invite command to invite a user to a channel you have permission to add them to but place extra white space before the username
+        cy.postMessage(`/groupmsg @${userGroup[0].username} @${userGroup[1].username}`);
+        cy.postMessage(`/invite        @${userToInviteGM.username} ~${testChannel.name}`);
+
+        // * User added to channel as expected
+        cy.uiWaitUntilMessagePostedIncludes(`${userToInviteGM.username} added to ${testChannel.name} channel.`);
+
+        cy.get('#addDirectChannel').click();
+        cy.get('#selectItems').type(`${userToInviteDM.username}`);
+        cy.findByText('Loading').should('be.visible');
+        cy.findByText('Loading').should('not.exist');
+        cy.get('#multiSelectList').findByText(`@${userToInviteDM.username}`).click();
+        cy.findByText('Go').click();
+        cy.get('#channelHeaderDropdownButton').contains(`${userToInviteDM.username}`).should('be.visible');
+
+        // # In a DM use the /invite command to invite a user to a channel you have permission to add them to but place extra white space before the username
+        cy.postMessage(`/invite        @${userToInviteDM.username} ~${testChannel.name}`);
+
+        // * User added to channel as expected
+        cy.uiWaitUntilMessagePostedIncludes(`${userToInviteDM.username} added to ${testChannel.name} channel.`);
+    });
+
+    it('MM-T659 /invite - other channel', () => {
+        const user = userGroup[4];
+        const userToInvite = userGroup[3];
+
+        cy.apiAddUserToChannel(testChannel.id, user.id);
+        loginAndVisitDefaultChannel(user, `${team1.name}/channels/town-square`);
+        cy.get('#postListContent', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible');
+
+        // # Post `/invite @username ~channel` where channelname is a channel you have permission to add members to but not the current channel, and username is a user not in that other channel
+        cy.postMessage(`/invite @${userToInvite.username} ~${testChannel.name}`);
+
+        // * User who added them sees system message "username added to channelname channel."
+        cy.uiWaitUntilMessagePostedIncludes(`${userToInvite.username} added to ${testChannel.name} channel.`);
+
+        cy.apiLogout();
+        loginAndVisitDefaultChannel(userToInvite, `${team1.name}/channels/${testChannel.name}`);
+
+        // * Added user sees channel added to LHS, mention badge.
+        cy.get('#sidebarChannelContainer').
+            find(`[href*="${team1.name}/channels/${testChannel.name}"]`).
+            within(() => {
+                cy.get('#unreadMentions').should('be.visible');
+                cy.findByText(`${testChannel.display_name}`).click();
+            });
+
+        // * Added user sees system message "username added to the channel by username."
+        cy.uiWaitUntilMessagePostedIncludes(`You were added to the channel by @${user.username}`);
+    });
+
     it('MM-T2834 Slash command help stays visible for system slash command', () => {
         // # Login as user 1 and visit default channel
         loginAndVisitDefaultChannel(user1, testChannelUrl);
