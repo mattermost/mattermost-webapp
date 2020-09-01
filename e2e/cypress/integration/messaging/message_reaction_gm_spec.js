@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod @smoke
 // Group: @messaging
 
 describe('Emoji reactions to posts/messages in GM channels', () => {
@@ -44,9 +43,6 @@ describe('Emoji reactions to posts/messages in GM channels', () => {
         // # Post a message
         cy.postMessage('This is a post');
 
-        // # Mouseover the last post
-        cy.getLastPost().trigger('mouseover');
-
         cy.getLastPostId().then((postId) => {
             // # Click the add reaction icon
             cy.clickPostReactionIcon(postId);
@@ -59,6 +55,31 @@ describe('Emoji reactions to posts/messages in GM channels', () => {
             cy.get(`#postReaction-${postId}-slightly_frowning_face .Reaction__number--display`).
                 should('have.text', '1').
                 should('be.visible');
+        });
+    });
+
+    it('MM-T471 the Add a Reaction button should only be visible when hovering the post or when in mobile vieew', () => {
+        cy.getLastPostId().then((postId) => {
+            // * Verify that the Add Reaction button isn't visible
+            cy.findByLabelText('Add a reaction').should('not.be.visible');
+
+            // # Focus on the post since we can't hover with Cypress
+            cy.get(`#post_${postId}`).focus().tab().tab();
+
+            // * Verify that the Add Reaction button is 1now visible
+            cy.findByLabelText('Add a reaction').should('be.visible');
+
+            // # Click somewhere to clear the focus
+            cy.get('#channelIntro').click();
+
+            // * Verify that the Add Reaction button is no longer visible
+            cy.findByLabelText('Add a reaction').should('not.be.visible');
+
+            // # Resize window to mobile view
+            cy.viewport('iphone-6');
+
+            // * Verify that the Add Reaction button is once again visible
+            cy.findByLabelText('Add a reaction').should('be.visible');
         });
     });
 });
