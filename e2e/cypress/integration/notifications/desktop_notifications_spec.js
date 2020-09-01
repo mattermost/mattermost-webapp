@@ -199,7 +199,7 @@ const changeDesktopNotificationSettingsAs = (category) => {
         cy.get(category).check();
 
         // # Click "Save"
-        cy.findByText('Save').should('be.visible').click();
+        cy.findByText('Save').scrollIntoView().should('be.visible').click();
 
         // Close the modal.
         cy.get('#accountSettingsHeader').find('button').should('be.visible').click();
