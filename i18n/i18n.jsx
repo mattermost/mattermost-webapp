@@ -27,8 +27,8 @@ import store from 'stores/redux_store.jsx';
 const languages = {
     bg: {
         value: 'bg',
-        name: 'България',
-        order: 0,
+        name: 'български (Beta)',
+        order: 10,
         url: bg,
     },
     de: {
@@ -64,13 +64,13 @@ const languages = {
     ja: {
         value: 'ja',
         name: '日本語',
-        order: 15,
+        order: 16,
         url: ja,
     },
     ko: {
         value: 'ko',
         name: '한국어 (Alpha)',
-        order: 12,
+        order: 13,
         url: ko,
     },
     nl: {
@@ -100,7 +100,7 @@ const languages = {
     ru: {
         value: 'ru',
         name: 'Pусский',
-        order: 10,
+        order: 11,
         url: ru,
     },
     tr: {
@@ -112,19 +112,19 @@ const languages = {
     uk: {
         value: 'uk',
         name: 'Yкраїнська (Alpha)',
-        order: 11,
+        order: 12,
         url: uk,
     },
     'zh-TW': {
         value: 'zh-TW',
         name: '中文 (繁體)',
-        order: 14,
+        order: 15,
         url: zhTW,
     },
     'zh-CN': {
         value: 'zh-CN',
         name: '中文 (简体)',
-        order: 13,
+        order: 14,
         url: zhCN,
     },
 };
