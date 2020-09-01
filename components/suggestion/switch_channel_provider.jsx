@@ -285,7 +285,6 @@ export default class SwitchChannelProvider extends Provider {
             // Fetch data from the server and dispatch
             this.fetchUsersAndChannels(channelPrefix, resultsCallback);
         } else {
-            this.formatUnreadChannelsAndDispatch(resultsCallback);
             this.formatAllRecentChannelsAndDispatch(resultsCallback);
         }
 
