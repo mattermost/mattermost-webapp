@@ -5,10 +5,10 @@
   "about.date": "Yapım Tarihi:",
   "about.dbversion": "Veritabanı Şeması Sürümü:",
   "about.enterpriseEditione1": "Enterprise Sürümü",
-  "about.enterpriseEditionLearn": "Enterprise Sürüm hakkında şuradan ayrıntılı bilgi alabilirsiniz ",
+  "about.enterpriseEditionLearn": "Enterprise Sürümü hakkında şuradan ayrıntılı bilgi alabilirsiniz ",
   "about.enterpriseEditionSt": "Güvenlik duvarının arkasından modern iletişim.",
   "about.hash": "Yapım Karması:",
-  "about.hashee": "Kurumsal Yapım Karması:",
+  "about.hashee": "Kurumsal Sürüm Yapım Karması:",
   "about.hashwebapp": "Web Uygulaması Yapım Karması:",
   "about.licensed": "Lisans sahibi:",
   "about.notice": "Kullandığımız açık kaynaklı [sunucu](!https://about.mattermost.com/platform-notice-txt/), [masaüstü](!https://about.mattermost.com/desktop-notice-txt/) ve [mobil](!https://about.mattermost.com/mobile-notice-txt/) uygulamalari Mattermost tarafından sunulmaktadır.",
@@ -3998,5 +3998,12 @@
   "admin.filter.all_teams": "Tüm Takımlar",
   "admin.channel_list.manual_invites": "El ile Çağrılar",
   "warn_metric_ack_modal.learn_more.link": "Ayrıntılı bilgi alın",
-  "warn_metric_ack_modal.number_of_active_users.subtext": "Destek ekibi ile iletişim kurduğunuzda bilgileriniz Mattermost, Inc. tarafına gönderilir {link}"
+  "warn_metric_ack_modal.number_of_active_users.subtext": "Destek ekibi ile iletişim kurduğunuzda bilgileriniz Mattermost, Inc. tarafına gönderilir {link}",
+  "admin.license.upgraded-restart": "Mattermost Enterprise Sürümüne yükselttiniz. Lütfen sunucuyu şuradan yeniden başlatın:",
+  "admin.license.enterprise.upgrading": "Yükseltiliyor %{percentage}",
+  "admin.license.enterprise.upgrade": "Enterprise Sürümüne Yükselt",
+  "admin.license.enterprise.restarting": "Yeniden başlatılıyor",
+  "admin.license.enterprise.restart": "Sunucuyu Yeniden Başlat",
+  "admin.license.enterprise-edition-license": "Enterprise Sürüm Lisansı:",
+  "admin.complianceExport.warningCount.globalrelay": "{count} uyarı verildi. Ayrıntılı bilgi almak için günlük kayıtlarına bakın"
 }
