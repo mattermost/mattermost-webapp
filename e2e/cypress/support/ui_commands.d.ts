@@ -46,11 +46,11 @@ declare namespace Cypress {
         /**
          * Post message via center textbox by directly injected in the textbox
          * @param {string} message - message to be posted
-         * @returns null
+         * @returns void
          * 
          * @example
          *  cy.uiPostMessageQuickly('Hello world') 
          */
-        uiPostMessageQuickly(message:string)
+        uiPostMessageQuickly(message:string) : void
     }
 }
