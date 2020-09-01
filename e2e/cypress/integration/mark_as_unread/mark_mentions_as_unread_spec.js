@@ -82,7 +82,7 @@ describe('Mark post with mentions as unread', () => {
         // # Navigate back to channel A
         switchToChannel(channelA);
 
-        // * Verify that new message seperator is gone
+        // * Verify that new message separator is gone
         cy.get('.NotificationSeparator').should('not.exist');
 
         // # Mention userB in channel B as userA
@@ -101,7 +101,7 @@ describe('Mark post with mentions as unread', () => {
         // # Refresh the page
         cy.reload();
 
-        // * Verify the new message seperator is gone
+        // * Verify the new message separator is gone
         cy.get('.NotificationSeparator').should('not.exist');
 
         // # Mention userB in channelA as userA
@@ -151,7 +151,7 @@ describe('Mark post with mentions as unread', () => {
             channelId: channelB.id,
         });
 
-        // # Navigater to channel B
+        // # Navigate to channel B
         switchToChannel(channelB);
 
         // # Get the ID of the last post
