@@ -159,26 +159,32 @@ describe('Upload Files', () => {
     });
 
     it('MM-T341 Download link on preview - Image file (non SVG)', () => {
-        ['small-image.png', 'image-file.jpg', 'image-file.bmp', 'image-file.gif', 'image-file.tiff'].forEach((image) => {
-            cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(image);
-            cy.get('.post-image').should('be.visible');
-            cy.postMessage(MESSAGES.SMALL);
-            cy.uiWaitUntilMessagePostedIncludes(MESSAGES.SMALL);
-            cy.getLastPostId().then((postId) => {
-                cy.get(`#post_${postId}`).within(() => {
+        ['bmp-image-file.bmp', 'png-image-file.png', 'jpg-image-file.jpg', 'gif-image-file.gif', 'tiff-image-file.tif'].
+            forEach((image) => {
+                cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(image);
+                cy.get('.post-image').should('be.visible');
+                cy.postMessage(MESSAGES.SMALL);
+                cy.uiWaitUntilMessagePostedIncludes(MESSAGES.SMALL);
+                cy.getLastPostId().then((postId) => {
+                    cy.get(`#post_${postId}`).within(() => {
                     // # Click the thumbnail of a non-SVG image attachment to open the previewer
-                    cy.get('div.image-loaded').find('img').click();
+                        cy.get('div.image-loaded').find('img').click();
+                    });
                 });
-            });
-            cy.get('.a11y__modal').should('be.visible').within(() => {
+                cy.get('.a11y__modal').should('be.visible').within(() => {
                 // # Click the "Download" link in the previewer
-                cy.findByText('Download').should('be.visible').parent().then((fileAttachment) => {
-                    //* Image should download
-                    verifyLinkHasDownloadProperties(fileAttachment, image);
+                    cy.findByText('Download').should('be.visible').parent().then((fileAttachment) => {
+                    // * Verify if download attribute exists which allows to download instead of navigation
+                        expect(fileAttachment.attr('download')).to.equal(image);
+
+                        const fileAttachmentURL = fileAttachment.attr('href');
+
+                        // * Verify that download link has correct name
+                        downloadAttachmentAndVerifyItsProperties(fileAttachmentURL, image, 'attachment');
+                    });
                 });
+                cy.get('body').type('{esc}');
             });
-            cy.get('body').type('{esc}');
-        });
     });
 
     it('MM-T12 Loading indicator when posting images', () => {
@@ -227,7 +233,7 @@ describe('Upload Files', () => {
         const imageType = 'jpg';
         const imageFilename = `${imageName}.${imageType}`;
 
-        // # Attach an image but dont post it yet
+        // # Attach an image but don't post it yet
         cy.get('#fileUploadInput').attachFile(imageFilename);
 
         // # Scan inside of the message footer region
@@ -264,7 +270,7 @@ describe('Upload Files', () => {
         });
     });
 
-    it.only('MM-T345 Public links for common file types should open in a new browser tab', () => {
+    it('MM-T345 Public links for common file types should open in a new browser tab', () => {
         // # Enable option for public file links
         cy.apiUpdateConfig({
             FileSettings: {
@@ -279,7 +285,7 @@ describe('Upload Files', () => {
         cy.apiSaveCollapsePreviewsPreference('false');
 
         const commonTypeFiles = ['jpg-image-file.jpg', 'gif-image-file.gif', 'png-image-file.png',
-            'tiff-image-file.tif', 'm4a-audio-file.m4a', 'mp3-audio-file.mp3', 'mp4-video-file.mp4', 'mpeg-video-file.mpg'];
+            'tiff-image-file.tif', 'mp3-audio-file.mp3', 'mp4-video-file.mp4', 'mpeg-video-file.mpg'];
 
         commonTypeFiles.forEach((file) => {
             // # Make a post with a file attached
