@@ -3,7 +3,9 @@
 
 import TurndownService from 'turndown';
 import {strikethrough, taskListItems} from 'turndown-plugin-gfm';
-import detectLang from 'lang-detector';
+
+// TODO: Make this optional or add this on the experimental section of the user settings.
+// import detectLang from 'lang-detector';
 
 import {
     splitMessageBasedOnCaretPosition,
@@ -74,14 +76,15 @@ export default function smartPaste(clipboard: DataTransfer, message: string, cur
     };
 }
 
-function codeDetectionFormatter(text: string): string {
-    const lang = detectLang(text, {statistics: true});
-    const lines = text.split(/\r\n|\r|\n/).length;
-    if (lang.detected !== 'Unknown' && (lang.statistics[lang.detected] / lines) > 0.3) {
-        return '```' + lang.detected.toLowerCase() + '\n' + text + '\n```';
-    }
-    return '';
-}
+// TODO: Make this optional or add this on the experimental section of the user settings.
+// function codeDetectionFormatter(text: string): string {
+//     const lang = detectLang(text, {statistics: true});
+//     const lines = text.split(/\r\n|\r|\n/).length;
+//     if (lang.detected !== 'Unknown' && (lang.statistics[lang.detected] / lines) > 0.3) {
+//         return '```' + lang.detected.toLowerCase() + '\n' + text + '\n```';
+//     }
+//     return '';
+// }
 
 export function stringToHTML(html: string): Document {
     const doc = document.implementation.createHTMLDocument('');
