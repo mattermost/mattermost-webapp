@@ -228,7 +228,7 @@ context('ldap', () => {
             // * Ensure it is Private
             cy.findByTestId('allow-all-toggle').should('has.have.text', 'Private');
 
-            // # Go to team page to look for this channel in public chnnale directory
+            // # Go to team page to look for this channel in public channel directory
             cy.visit(`/${testTeam.name}`);
             cy.get('#sidebarPublicChannelsMore').click();
 
