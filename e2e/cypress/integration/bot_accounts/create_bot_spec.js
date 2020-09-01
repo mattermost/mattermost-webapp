@@ -8,11 +8,10 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @bots
+// Group: @bot_accounts
 
 import {getRandomId} from '../../utils';
 
-// cy.toAccountSettingsModal();
 describe('Create bot', () => {
     before(() => {
         cy.apiUpdateConfig({
