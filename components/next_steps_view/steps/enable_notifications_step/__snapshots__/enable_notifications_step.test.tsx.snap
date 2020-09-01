@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/next_steps_view/steps/setup_preferences_step should match snapshot 1`] = `
+<TextCardWithAction
+  buttonDefaultMessage="Enable notifications"
+  buttonMessageId="next_steps_view.notificationSetup.enableNotifications"
+  cardBodyDefaultMessage="We recommend enabling desktop notifications so you don’t miss any important communications."
+  cardBodyMessageId="next_steps_view.notificationSetup"
+  onClick={[Function]}
+/>
+`;
