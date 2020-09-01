@@ -11,7 +11,6 @@ import {Route, Switch, Redirect} from 'react-router-dom';
 import {setUrl} from 'mattermost-redux/actions/general';
 import {setSystemEmojis} from 'mattermost-redux/actions/emojis';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 
 import * as UserAgent from 'utils/user_agent';
 import {EmojiIndicesByAlias} from 'utils/emoji.jsx';
@@ -92,7 +91,6 @@ export default class Root extends React.PureComponent {
         permalinkRedirectTeamName: PropTypes.string,
         actions: PropTypes.shape({
             loadMeAndConfig: PropTypes.func.isRequired,
-            getWarnMetricsStatus: PropTypes.func.isRequired,
         }).isRequired,
         plugins: PropTypes.array,
     }
@@ -248,10 +246,6 @@ export default class Root extends React.PureComponent {
                 GlobalActions.redirectUserToDefaultTeam();
             }
             this.onConfigLoaded();
-        }).then(() => {
-            if (isCurrentUserSystemAdmin(store.getState())) {
-                this.props.actions.getWarnMetricsStatus();
-            }
         });
         trackLoadTime();
     }

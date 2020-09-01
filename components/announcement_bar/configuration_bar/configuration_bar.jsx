@@ -91,7 +91,7 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
                         />
                         <FormattedMarkdownMessage
                             id={t('announcement_bar.error.number_active_users_warn_metric_status.text')}
-                            defaultMessage={'You now have over {limit} users. We strongly recommend that you upgrade to our Enterprise edition.'}
+                            defaultMessage={'You now have over {limit} users. We strongly recommend using advanced features for large-scale servers.'}
                             values={{
                                 limit: warnMetricStatus.limit,
                             }}
@@ -181,7 +181,7 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
 
                     return (
                         <AnnouncementBar
-                            showCloseButton={true}
+                            showCloseButton={false}
                             handleClose={notice.DismissFunc}
                             type={notice.Type}
                             showModal={notice.ShowModal}
