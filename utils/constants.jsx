@@ -98,6 +98,7 @@ export const Preferences = {
     NAME_NAME_FORMAT: 'name_format',
     CATEGORY_SYSTEM_NOTICE: 'system_notice',
     TEAMS_ORDER: 'teams_order',
+    RECOMMENDED_NEXT_STEPS: 'recommended_next_steps',
 };
 
 export const ActionTypes = keyMirror({
@@ -208,6 +209,8 @@ export const ActionTypes = keyMirror({
     DISMISS_ANNOUNCEMENT_BAR: null,
 
     PREFETCH_POSTS_FOR_CHANNEL: null,
+
+    SET_SHOW_NEXT_STEPS_VIEW: null,
 });
 
 export const PostRequestTypes = keyMirror({
@@ -259,6 +262,10 @@ export const ModalIdentifiers = {
     DELETE_CATEGORY: 'delete_category',
     SIDEBAR_WHATS_NEW_MODAL: 'sidebar_whats_new_modal',
     WARN_METRIC_ACK: 'warn_metric_acknowledgement',
+    UPGRADE_CLOUD_ACCOUNT: 'upgrade_cloud_account',
+    REMOVE_NEXT_STEPS_MODAL: 'remove_next_steps_modal',
+    MORE_CHANNELS: 'more_channels',
+    NEW_CHANNEL_FLOW: 'new_channel_flow',
 };
 
 export const UserStatuses = {
@@ -373,6 +380,15 @@ export const TutorialSteps = {
     CHANNEL_POPOVER: 2,
     MENU_POPOVER: 3,
     FINISHED: 999,
+};
+
+export const RecommendedNextSteps = {
+    COMPLETE_PROFILE: 'complete_profile',
+    TEAM_SETUP: 'team_setup',
+    INVITE_MEMBERS: 'invite_members',
+    PREFERENCES_SETUP: 'preferences_setup',
+    NOTIFICATION_SETUP: 'notification_setup',
+    HIDE: 'hide',
 };
 
 export const PostTypes = {
@@ -915,6 +931,7 @@ export const Constants = {
     GITLAB_SERVICE: 'gitlab',
     GOOGLE_SERVICE: 'google',
     OFFICE365_SERVICE: 'office365',
+    OAUTH_SERVICES: ['gitlab', 'google', 'office365'],
     EMAIL_SERVICE: 'email',
     LDAP_SERVICE: 'ldap',
     SAML_SERVICE: 'saml',

@@ -63,6 +63,7 @@
     .badge {
         display: inline-block;
         flex-shrink: 0;
+        margin-left: 6px;
         margin-right: 3px;
         padding: 0 6px;
         min-width: 22px;
@@ -77,7 +78,6 @@
         background: var(--mention-bg);
         -webkit-font-smoothing: subpixel-antialiased;
         -moz-osx-font-smoothing: grayscale;
-        margin-left: auto;
     }
 
     .a11y--focused {
@@ -288,7 +288,6 @@
     .SidebarMenu {
         height: 30px;
         opacity: 1;
-        margin-left: auto;
 
         .dropdown-menu {
             line-height: 20px;
@@ -631,6 +630,10 @@
         width: 100%;
         align-items: center;
 
+        .emoji {
+            color: var(--sidebar-text);
+        }
+
         > div:not(.SidebarCategory_newLabel) {
             flex: 0 1 auto;
             overflow: hidden;
@@ -903,6 +906,9 @@
         border-bottom: 0;
         height: 32px;
 
+        .emoji {
+            color: var(--sidebar-text);
+        }
 
         &.muted {
             div.SidebarChannelLinkLabel_wrapper, > i, .status.status--group, .badge {
@@ -919,7 +925,8 @@
         outline-style: none;
     }
 
-    .SidebarChannel .SidebarLink:hover {
+    .SidebarChannel .SidebarLink:hover,
+    .SidebarChannel .SidebarLink.menuOpen {
         background: rgba(255, 255, 255, 0.08);
 
         padding-right: 5px;
@@ -981,6 +988,7 @@
     .SidebarChannelLinkLabel_wrapper {
         overflow: hidden;
         display: flex;
+        flex-grow: 1;
 
         > span {
             text-overflow: ellipsis;
@@ -1035,9 +1043,11 @@
 
     .status.status--group {
         background: rgba(var(--sidebar-text-rgb), 0.16);
-        margin: 3px 7px 0 1px;
-        min-width: 14px;
+        margin: 0 8px 0 3px;
+        width: 14px;
         height: 14px;
+        flex-shrink: 0;
+        font-size: 11px;
     }
 
     .status-away {
