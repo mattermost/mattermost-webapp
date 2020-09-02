@@ -189,7 +189,7 @@ describe('reply-notifications', () => {
             // * Verify that the original message is in the RHS
             cy.get('#rhsContainer').find(rootPostMessageId).should('have.text', `${rootPostMessage}`);
 
-            // # Post a reply as receiver, i.e. particiate in the thread
+            // # Post a reply as receiver, i.e. participate in the thread
             cy.postMessageReplyInRHS('this is a reply from the receiver');
 
             // # Wait till receiver's post is visible
