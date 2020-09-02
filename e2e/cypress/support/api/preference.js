@@ -211,3 +211,25 @@ Cypress.Commands.add('apiSaveTutorialStep', (userId, value = '999') => {
 
     return cy.apiSaveUserPreference([preference], userId);
 });
+
+Cypress.Commands.add('apiSaveCloudOnboardingPreference', (userId, name, value) => {
+    const preference = {
+        user_id: userId,
+        category: 'recommended_next_steps',
+        name,
+        value,
+    };
+
+    return cy.apiSaveUserPreference([preference], userId);
+});
+
+Cypress.Commands.add('apiHideSidebarWhatsNewModalPreference', (userId, value) => {
+    const preference = {
+        user_id: userId,
+        category: 'whats_new_modal',
+        name: 'has_seen_sidebar_whats_new_modal',
+        value,
+    };
+
+    return cy.apiSaveUserPreference([preference], userId);
+});

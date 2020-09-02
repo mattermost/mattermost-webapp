@@ -33,12 +33,14 @@ describe('plugins/MainMenuActions', () => {
             canManageIntegrations: true,
             moreTeamsToJoin: true,
             teamIsGroupConstrained: true,
+            showGettingStarted: true,
             actions: {
                 openModal: jest.fn(),
                 showMentions: jest.fn(),
                 showFlaggedPosts: jest.fn(),
                 closeRightHandSide: jest.fn(),
                 closeRhsMenu: jest.fn(),
+                unhideNextSteps: jest.fn(),
             },
         };
 
