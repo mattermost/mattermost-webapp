@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useState} from 'react';
+import React, {useState, CSSProperties} from 'react';
 import ReactSelect, {components, Props as SelectProps, ActionMeta} from 'react-select';
 import classNames from 'classnames';
 
@@ -18,6 +18,13 @@ type Props<T> = Omit<SelectProps<T>, 'onChange'> & {
     value: T[];
     legend?: string;
     onChange: (value: T[], action: ActionMeta<T[]>) => void;
+};
+
+const baseStyles = {
+    input: (provided: CSSProperties) => ({
+        ...provided,
+        color: 'var(--center-channel-color)',
+    }),
 };
 
 const MultiValueContainer = (props: any) => {
@@ -47,7 +54,7 @@ const Placeholder = (props: any) => {
 };
 
 const MultiInput = <T extends ValueType>(props: Props<T>) => {
-    const {value, placeholder, className, addon, name, textPrefix, legend, onChange, ...otherProps} = props;
+    const {value, placeholder, className, addon, name, textPrefix, legend, onChange, styles, ...otherProps} = props;
 
     const [focused, setFocused] = useState(false);
 
@@ -105,6 +112,7 @@ const MultiInput = <T extends ValueType>(props: Props<T>) => {
                         className={inputClass}
                         value={value}
                         onChange={onChange as any} // types are not working correctly for multiselect
+                        styles={{...baseStyles, ...styles}}
                         {...otherProps}
                     />
                 </div>
