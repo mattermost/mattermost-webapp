@@ -233,8 +233,7 @@
   "scripts": {
     "check": "eslint --ext .js --ext .jsx --ext tsx --ext ts . --quiet --cache",
     "fix": "eslint --ext .js --ext .jsx --ext tsx --ext ts . --quiet --fix --cache",
-    "build": "cross-env NODE_ENV=production webpack --verbose --display-chunks --display-error-details --display-modules --display-reasons",
-    "package": "mkdir tmp && mv dist tmp/client && tar -C tmp -czf mattermost-webapp.tar.gz client && mv tmp/client dist && rmdir tmp",
+    "build": "cross-env NODE_ENV=production webpack --display-error-details --verbose",
     "run": "webpack --progress --watch",
     "dev-server": "webpack-dev-server",
     "test": "cross-env NODE_ICU_DATA=node_modules/full-icu TZ=Etc/UTC jest --forceExit --detectOpenHandles",
