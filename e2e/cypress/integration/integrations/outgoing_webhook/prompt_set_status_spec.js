@@ -75,6 +75,15 @@ describe('Prompting set status', () => {
 
         // * Your status stays offline in other users' views.
         cy.apiLogin(user2);
+        cy.visit(testChannelUrl);
+        openDM(user1.username);
+
+        // * Your status stays offline in other users' views.
+        cy.get('#channelHeaderInfo').within(() => {
+            cy.get('.offline--icon').should('be.visible');
+            cy.get('.online--icon').should('not.be.visible');
+            cy.findByText('Offline').should('be.visible');
+        });
         cy.apiGetUserStatus(`${user1.id}`).then((result) => {
             cy.wrap(result.status.status).should('be.equal', 'offline');
         });
