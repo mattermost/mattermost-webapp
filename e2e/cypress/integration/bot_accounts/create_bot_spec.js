@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @bot_accounts
 
 import {getRandomId} from '../../utils';
@@ -27,6 +26,7 @@ describe('Create bot', () => {
                 EnableUserAccessTokens: true,
             },
         });
+
         createBot();
     });
 
