@@ -60,8 +60,8 @@ describe('Prompting set status', () => {
         });
 
         // # Log back in
-        cy.visit(testChannelUrl);
         cy.apiLogin(user1);
+        cy.visit(testChannelUrl);
 
         // # On modal that asks if you want to be set Online, select No.
         cy.get('.modal-content').within(() => {
