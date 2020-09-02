@@ -129,13 +129,10 @@ export default class NewChannelFlow extends React.PureComponent<Props, State> {
         actions.createChannel(channel).then(({data, error}) => {
             if (error) {
                 this.onCreateChannelError(error);
-            } else if (data != null) {
-                this.props.onModalDismissed(data);
+            } else if (data) {
+                this.onModalDismissed();
                 actions.switchToChannel(data);
             }
-
-            this.onModalDismissed();
-            actions.switchToChannel(result.data);
         });
     };
 

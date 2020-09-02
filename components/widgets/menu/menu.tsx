@@ -67,6 +67,7 @@ export default class Menu extends React.PureComponent<Props> {
             }
         }
         children.reverse();
+
         // Hiding trailing dividers
         for (const child of children) {
             if (child.classList.contains('menu-divider') || child.classList.contains('mobile-menu-divider')) {

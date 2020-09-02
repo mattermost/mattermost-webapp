@@ -56,7 +56,7 @@ export default abstract class AdminSettings <Props extends BaseProps, State exte
 
     protected abstract getStateFromConfig(config: DeepPartial<AdminConfig>): Partial<State>;
 
-    protected abstract getConfigFromState(config: DeepPartial<AdminConfig>): object;
+    protected abstract getConfigFromState(config: DeepPartial<AdminConfig>): unknown;
 
     protected abstract renderTitle(): React.ReactElement;
 

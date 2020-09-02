@@ -70,10 +70,6 @@
         "@typescript-eslint/naming-convention": [
           2,
           {
-            "selector": "default",
-            "format": ["camelCase"]
-          },
-          {
             "selector": "function",
             "format": ["camelCase", "PascalCase"]
           },
@@ -85,10 +81,6 @@
             "selector": "parameter",
             "format": ["camelCase", "PascalCase"],
             "leadingUnderscore": "allow"
-          },
-          {
-            "selector": "memberLike",
-            "format": ["camelCase", "PascalCase", "snake_case"]
           },
           {
             "selector": "typeLike",

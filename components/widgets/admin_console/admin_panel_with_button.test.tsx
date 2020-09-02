@@ -22,7 +22,7 @@ describe('components/widgets/admin_console/AdminPanelWithButton', () => {
 
     test('should match snapshot', () => {
         const wrapper = shallow(
-            <AdminPanelWithButton {...defaultProps}>{'Test'}</AdminPanelWithButton>
+            <AdminPanelWithButton {...defaultProps}>{'Test'}</AdminPanelWithButton>,
         );
         expect(wrapper).toMatchInlineSnapshot(`
           <AdminPanel
@@ -58,7 +58,7 @@ describe('components/widgets/admin_console/AdminPanelWithButton', () => {
                 disabled={true}
             >
                 {'Test'}
-            </AdminPanelWithButton>
+            </AdminPanelWithButton>,
         );
         expect(wrapper).toMatchInlineSnapshot(`
           <AdminPanel

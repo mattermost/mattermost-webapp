@@ -44,8 +44,8 @@ describe('components/admin_console/system_users/system_users_dropdown/system_use
         },
         config: {
             GuestAccountsSettings: {
-                Enable: true
-            }
+                Enable: true,
+            },
         },
         bots: {},
     };
