@@ -349,6 +349,7 @@ describe('I18456 Built-in slash commands: common', () => {
         const userDM = userGroup[2];
         const userToInvite = userGroup[3];
 
+        cy.apiAdminLogin();
         cy.apiAddUserToChannel(testChannel.id, userToInvite.id);
         cy.apiAddUserToChannel(testChannel.id, user1.id);
         loginAndVisitDefaultChannel(user1, testChannelUrl);
