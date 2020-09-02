@@ -80,11 +80,11 @@ export default class AutosizeTextarea extends React.PureComponent<Props> {
 
             this.height = height;
 
-            if (this.props.onHeightChange) {
-                this.props.onHeightChange(height, parseInt(style.maxHeight || '0', 10));
-            }
+            window.requestAnimationFrame(() => {
+                this.props.onHeightChange?.(height, parseInt(style.maxHeight || '0', 10));
+            });
         }
-    };
+    }
 
     getDOMNode = () => {
         return (this.refs.textarea as HTMLTextAreaElement);

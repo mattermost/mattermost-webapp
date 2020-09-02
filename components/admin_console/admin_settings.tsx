@@ -13,14 +13,15 @@ import FormError from 'components/form_error';
 
 import AdminHeader from 'components/widgets/admin_console/admin_header';
 
-type Props = {
-    config?: AdminConfig;
+export type BaseProps = {
+    config?: DeepPartial<AdminConfig>;
     environmentConfig?: EnvironmentConfig;
     setNavigationBlocked?: (blocked: boolean) => void;
+    isDisabled?: boolean;
     updateConfig?: (config: AdminConfig) => {data: AdminConfig; error: ClientErrorPlaceholder};
 }
 
-type State = {
+export type BaseState = {
     saveNeeded: boolean;
     saving: boolean;
     serverError: string|null;
@@ -28,7 +29,7 @@ type State = {
     errorTooltip: boolean;
 }
 
-type StateKeys = keyof State;
+type StateKeys = keyof BaseState;
 
 // Placeholder type until ClientError is exported from redux.
 // TODO: remove ClientErrorPlaceholder and change the return type of updateConfig
@@ -37,7 +38,7 @@ type ClientErrorPlaceholder = {
     server_error_id: string;
 }
 
-export default abstract class AdminSettings extends React.PureComponent<Props, State> {
+export default abstract class AdminSettings <Props extends BaseProps, State extends BaseState> extends React.Component<Props, State> {
     public constructor(props: Props) {
         super(props);
         const stateInit = {
@@ -47,15 +48,15 @@ export default abstract class AdminSettings extends React.PureComponent<Props, S
             errorTooltip: false,
         };
         if (props.config) {
-            this.state = Object.assign(this.getStateFromConfig(props.config), stateInit);
+            this.state = Object.assign(this.getStateFromConfig(props.config), stateInit) as Readonly<State>;
         } else {
-            this.state = stateInit;
+            this.state = stateInit as Readonly<State>;
         }
     }
 
-    protected abstract getStateFromConfig(config: AdminConfig): State;
+    protected abstract getStateFromConfig(config: DeepPartial<AdminConfig>): Partial<State>;
 
-    protected abstract getConfigFromState(config: AdminConfig): object;
+    protected abstract getConfigFromState(config: DeepPartial<AdminConfig>): object;
 
     protected abstract renderTitle(): React.ReactElement;
 
@@ -77,7 +78,7 @@ export default abstract class AdminSettings extends React.PureComponent<Props, S
         }
     }
 
-    private handleChange = (id: StateKeys, value: any) => {
+    protected handleChange = (id: string, value: boolean) => {
         this.setState((prevState) => ({
             ...prevState,
             saveNeeded: true,
@@ -109,7 +110,7 @@ export default abstract class AdminSettings extends React.PureComponent<Props, S
             const {data, error} = await this.props.updateConfig(config);
 
             if (data) {
-                this.setState(this.getStateFromConfig(data));
+                this.setState(this.getStateFromConfig(data) as State);
 
                 this.setState({
                     saveNeeded: false,
@@ -226,8 +227,8 @@ export default abstract class AdminSettings extends React.PureComponent<Props, S
         setValue(config, path.split('.'));
     }
 
-    private isSetByEnv = (path: string) => {
-        return Boolean(this.props.environmentConfig && this.getConfigValue(this.props.environmentConfig, path));
+    protected isSetByEnv = (path: string) => {
+        return Boolean(this.props.environmentConfig && this.getConfigValue(this.props.environmentConfig!, path));
     };
 
     public render() {
@@ -245,7 +246,7 @@ export default abstract class AdminSettings extends React.PureComponent<Props, S
                     <div className='admin-console-save'>
                         <SaveButton
                             saving={this.state.saving}
-                            disabled={!this.state.saveNeeded || (this.canSave && !this.canSave())}
+                            disabled={this.props.isDisabled || !this.state.saveNeeded || (this.canSave && !this.canSave())}
                             onClick={this.handleSubmit}
                             savingMessage={localizeMessage('admin.saving', 'Saving Config...')}
                         />

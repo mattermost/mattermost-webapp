@@ -47,7 +47,7 @@ type Props = {
     preview?: boolean;
     profilesInChannel: { id: string }[];
     profilesNotInChannel: { id: string }[];
-    autocompleteGroups: { id: string }[];
+    autocompleteGroups: { id: string }[] | null;
     actions: {
         autocompleteUsersInChannel: (prefix: string, channelId: string | undefined) => (dispatch: any, getState: any) => Promise<string[]>;
         autocompleteChannels: (term: string, success: (channels: Channel[]) => void, error: () => void) => (dispatch: any, getState: any) => Promise<void>;
@@ -89,8 +89,7 @@ export default class Textbox extends React.PureComponent<Props> {
 
         if (props.supportsCommands) {
             this.suggestionProviders.push(new CommandProvider({
-                channelId: this.props.channelId,
-                rootId: this.props.rootId,
+                isInRHS: Boolean(this.props.rootId),
             }));
         }
 

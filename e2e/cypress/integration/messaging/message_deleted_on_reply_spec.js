@@ -27,7 +27,7 @@ describe('Messaging', () => {
         });
     });
 
-    it('M18693-Delete a Message during reply, other user sees (message deleted)', () => {
+    it('MM-T113 Delete a Message during reply, other user sees "(message deleted)"', () => {
         // # Type message to use
         cy.postMessageAs({sender: admin, message: 'aaa', channelId: testChannelId});
 
