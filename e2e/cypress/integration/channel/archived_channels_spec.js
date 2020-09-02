@@ -125,6 +125,7 @@ describe('Leave an archived channel', () => {
             cy.get('#searchContainer').should('be.visible');
 
             cy.get('a.search-item__jump').first().click();
+            cy.wait(TIMEOUTS.ONE_SEC); // let the page load
 
             cy.get(`#sidebarItem_${testChannel.name}`).should('be.visible');
 
@@ -136,6 +137,7 @@ describe('Leave an archived channel', () => {
                 cy.get('#channelHeaderDropdownButton button').click();
                 cy.contains('li.MenuItem', 'Close Channel').click();
             }
+            cy.wait(TIMEOUTS.ONE_SEC);
 
             // * The user is returned to the channel they were previously viewing and the archived channel is removed from the drawer
             cy.url().should('include', `${testTeam.name}/channels/off-topic`);
@@ -152,45 +154,65 @@ describe('Leave an archived channel', () => {
     });
 
     it('MM-T1673 Close channel after viewing two archived channels in a row', () => {
-        const chanName = `archive-${getRandomId()}`;
         const messageText = `archived text ${getRandomId()}`;
-        let otherChannel;
+
+        cy.apiCreateChannel(testTeam.id, 'archived-is-not', 'archived-is-not');
 
         // # create another channel with text and archive it
-        cy.apiCreateChannel(testTeam.id, chanName).then((response) => {
-            otherChannel = response.body;
-            cy.postMessageAs({sender: testUser, message: messageText, channelId: otherChannel.id});
-            cy.visit(`/${testTeam.name}/channels/${otherChannel.name}`);
-            cy.get('#channelHeaderDropdownIcon').click();
-            cy.get('#channelArchiveChannel').click();
-            cy.get('#deleteChannelModalDeleteButton').click();
+        cy.createArchivedChannel({name: 'archive-', teamId: testTeam.id, teamName: testTeam.name}, [messageText]).then(() => {
+            cy.visit(`/${testTeam.name}/channels/off-topic`);
+            cy.wait(TIMEOUTS.ONE_SEC); //allow for page to load
+
+            // # Search for content from an archived channel
+            cy.get('#searchBox').should('be.visible').clear().type(`${testArchivedMessage}{enter}`);
+
+            // # Open the channel from search results
+            cy.get('#searchContainer').should('be.visible');
+            cy.get('#loadingSpinner').should('not.be.visible');
+
+            cy.get('a.search-item__jump').first().click();
+            cy.wait(TIMEOUTS.ONE_SEC);
+
+            // # Search for content from a different archived channel
+            cy.get('#searchBox').should('be.visible').clear().type(`${messageText}{enter}`);
+
+            // # Open that channel from search results
+            cy.get('#searchContainer').should('be.visible');
+
+            cy.get('a.search-item__jump').first().click();
+
+            cy.wait(TIMEOUTS.ONE_SEC); // let the page load
+            // # Select "Close Channel"
+            cy.get('#channelArchivedMessage button').click();
+
+            // * User is returned to previously viewed (non-archived) channel
+            cy.url().should('include', `${testTeam.name}/channels/off-topic`);
         });
+    });
+    it('MM-T1674 CTRL/CMD+K list public archived channels you are a member of', () => {
+        cy.createArchivedChannel(
+            {
+                name: 'archived-',
+                type: 'P',
+                teamId: testTeam.id,
+                teamName: testTeam.name,
+            },
+            [`some text message ${getRandomId()}`],
+        ).then(() => {
+            cy.visit(`/${testTeam.name}/channels/off-topic`);
 
-        cy.visit(`/${testTeam.name}/channels/off-topic`);
-        cy.wait(TIMEOUTS.ONE_SEC); //allow for page to load
+            // Select CTRL/⌘+k) to open the channel switcher
+            cy.typeCmdOrCtrl().type('K', {release: true});
 
-        // # Search for content from an archived channel
-        cy.get('#searchBox').should('be.visible').clear().type(`${testArchivedMessage}{enter}`);
+            // Start typing the name of a private channel on this team that has been archived which the test user belongs to
+            cy.get('#quickSwitchInput').type('archived-');
+            cy.wait(TIMEOUTS.HALF_SEC);
 
-        // # Open the channel from search results
-        cy.get('#searchContainer').should('be.visible');
-        cy.get('#loadingSpinner').should('not.be.visible');
+            // * Suggestion list should be visible
+            cy.get('#suggestionList').should('be.visible');
 
-        cy.get('a.search-item__jump').first().click();
-
-        // # Search for content from a different archived channel
-        cy.get('#searchBox').should('be.visible').clear().type(`${messageText}{enter}`);
-
-        // # Open that channel from search results
-        cy.get('#searchContainer').should('be.visible');
-
-        cy.get('a.search-item__jump').first().click();
-
-        cy.wait(TIMEOUTS.ONE_SEC); // let the page load
-        // # Select "Close Channel"
-        cy.get('#channelArchivedMessage button').click();
-
-        // * User is returned to previously viewed (non-archived) channel
-        cy.url().should('include', `${testTeam.name}/channels/off-topic`);
+            // * there should be public channels as well
+            cy.get('#suggestionList').find('.icon-globe').should('be.visible');
+        });
     });
 });

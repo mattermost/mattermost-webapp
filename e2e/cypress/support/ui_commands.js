@@ -293,6 +293,20 @@ Cypress.Commands.add('getCurrentTeamId', () => {
     return cy.get('#headerTeamName').invoke('attr', 'data-teamid');
 });
 
+Cypress.Commands.add('getCurrentTeamURL', (siteURL) => {
+    let path;
+
+    // siteURL can be provided for cases where subpath is being tested
+    if (siteURL) {
+        path = window.location.href.substring(siteURL.length);
+    } else {
+        path = window.location.pathname;
+    }
+
+    const result = path.split('/', 2);
+    return `/${(result[0] ? result[0] : result[1])}`; // sometimes the first element is emply if path starts with '/'
+});
+
 Cypress.Commands.add('leaveTeam', () => {
     cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
     cy.get('#sidebarDropdownMenu #leaveTeam').should('be.visible').click();
@@ -431,4 +445,55 @@ Cypress.Commands.add('checkRunLDAPSync', () => {
             });
         }
     });
+});
+
+Cypress.Commands.add('createArchivedChannel', (options, messages, memberIds) => {
+    let archivedChannel;
+
+    // ensure it is not undefined
+    const safeOptions = options || {};
+
+    const channelType = ['O', 'P', 'G', 'D'].includes(safeOptions.type) ? safeOptions.type : 'O';
+
+    const name = safeOptions.name || 'channel-';
+    const displayName = safeOptions.displayName ? safeOptions.displayName : name;
+
+    // helper function in case teamid wasn't provided
+    const createChannel = (teamId, prefix, display, chanType, purpose, header) => {
+        // # create another channel
+        cy.apiCreateChannel(teamId, prefix, display, chanType, purpose, header).then((response) => {
+            archivedChannel = response.body;
+            const teamName = safeOptions.teamName ? safeOptions.teamName : cy.getCurrentTeamURL();
+            cy.visit(`/${teamName}/channels/${archivedChannel.name}`);
+
+            if (messages !== undefined) {
+                // # with text
+                const messageQueue = Array.isArray(messages) ? messages : [messages];
+                messageQueue.forEach((message) => {
+                    cy.postMessage(message);
+                });
+            }
+            if (memberIds !== undefined) {
+                const memberQueue = Array.isArray(memberIds) ? memberIds : [memberIds];
+
+                memberQueue.forEach((member) => {
+                    cy.apiAddUserToChannel(archivedChannel.id, member);
+                });
+            }
+
+            // # and archive it
+            cy.get('#channelHeaderDropdownIcon').click();
+            cy.get('#channelArchiveChannel').click();
+            cy.get('#deleteChannelModalDeleteButton').click();
+        });
+    };
+
+    if (safeOptions.teamId) {
+        createChannel(safeOptions.teamId, name, displayName, channelType, safeOptions.purpose, safeOptions.header);
+    } else {
+        cy.getCurrentTeamId().then((value) => {
+            createChannel(value, name, displayName, channelType, safeOptions.purpose, safeOptions.header);
+        });
+    }
+    return cy.wrap(archivedChannel);
 });
