@@ -71,7 +71,7 @@ const holders = defineMessages({
 type Props = {
     currentUser: UserProfile;
     onHide: () => void;
-    onExit?: () => void;
+    onExit: () => void;
     intl: IntlShape;
     actions: {
         sendVerificationEmail: (email: string) => Promise<{
