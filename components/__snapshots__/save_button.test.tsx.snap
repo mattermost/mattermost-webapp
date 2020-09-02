@@ -3,6 +3,7 @@
 exports[`components/SaveButton should match snapshot, extraClasses 1`] = `
 <button
   className="save-button btn btn-primary some-class"
+  data-testid="saveSetting"
   disabled={false}
   id="saveSetting"
   type="submit"
@@ -31,6 +32,7 @@ exports[`components/SaveButton should match snapshot, extraClasses 1`] = `
 exports[`components/SaveButton should match snapshot, on defaultMessage 1`] = `
 <button
   className="save-button btn btn-primary"
+  data-testid="saveSetting"
   disabled={false}
   id="saveSetting"
   type="submit"
@@ -59,6 +61,7 @@ exports[`components/SaveButton should match snapshot, on defaultMessage 1`] = `
 exports[`components/SaveButton should match snapshot, on defaultMessage 2`] = `
 <button
   className="save-button btn btn-primary"
+  data-testid="saveSetting"
   disabled={false}
   id="saveSetting"
   type="submit"
@@ -83,6 +86,7 @@ exports[`components/SaveButton should match snapshot, on defaultMessage 2`] = `
 exports[`components/SaveButton should match snapshot, on savingMessage 1`] = `
 <button
   className="save-button btn btn-primary"
+  data-testid="saveSetting"
   disabled={true}
   id="saveSetting"
   type="submit"
@@ -111,6 +115,7 @@ exports[`components/SaveButton should match snapshot, on savingMessage 1`] = `
 exports[`components/SaveButton should match snapshot, on savingMessage 2`] = `
 <button
   className="save-button btn btn-primary"
+  data-testid="saveSetting"
   disabled={true}
   id="saveSetting"
   type="submit"

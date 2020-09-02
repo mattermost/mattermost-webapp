@@ -21,6 +21,7 @@ describe('components/post_view/post_list_row', () => {
         const listId = PostListRowListIds.OLDER_MESSAGES_LOADER;
         const props = {
             listId,
+            loadingOlderPosts: true,
         };
         const wrapper = shallow(
             <PostListRow {...props}/>,
@@ -108,5 +109,29 @@ describe('components/post_view/post_list_row', () => {
         );
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find(Post).exists()).toBe(true);
+    });
+
+    test('should have class hideAnimation for OLDER_MESSAGES_LOADER if loadingOlderPosts is false', () => {
+        const listId = PostListRowListIds.OLDER_MESSAGES_LOADER;
+        const props = {
+            listId,
+            loadingOlderPosts: false,
+        };
+        const wrapper = shallow(
+            <PostListRow {...props}/>,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should have class hideAnimation for NEWER_MESSAGES_LOADER if loadingNewerPosts is false', () => {
+        const listId = PostListRowListIds.NEWER_MESSAGES_LOADER;
+        const props = {
+            listId,
+            loadingNewerPosts: false,
+        };
+        const wrapper = shallow(
+            <PostListRow {...props}/>,
+        );
+        expect(wrapper).toMatchSnapshot();
     });
 });

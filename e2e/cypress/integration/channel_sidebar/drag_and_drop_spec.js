@@ -40,9 +40,6 @@ describe('Channel sidebar', () => {
     });
 
     it('should move channel to correct place when dragging channel within category', () => {
-        // # Close "What's new" modal
-        cy.uiCloseWhatsNewModal();
-
         // * Verify that we've switched to the new team
         cy.get('#headerTeamName', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').should('contain', teamName);
 
