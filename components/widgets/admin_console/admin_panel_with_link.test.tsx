@@ -73,7 +73,6 @@ describe('components/widgets/admin_console/AdminPanelWithLink', () => {
             <FormattedMessage
               defaultMessage="test-button-text-default"
               id="test-button-text-id"
-              values={Object {}}
             />
           </Link>
         }

@@ -259,7 +259,6 @@ exports[`components/invitation_modal/InvitationModalMembersStep should match the
       <FormattedMessage
         defaultMessage="Add existing members or send email invites to new members."
         id="invitation_modal.members.search-and-add.description"
-        values={Object {}}
       />
     </div>
   </div>

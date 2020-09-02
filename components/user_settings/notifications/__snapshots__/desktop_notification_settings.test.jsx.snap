@@ -451,7 +451,6 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
             <FormattedMessage
               defaultMessage="Send desktop notifications"
               id="user.settings.notifications.desktop"
-              values={Object {}}
             />
           </legend>
           <div
@@ -470,7 +469,6 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
               <FormattedMessage
                 defaultMessage="For all activity"
                 id="user.settings.notifications.allActivity"
-                values={Object {}}
               />
             </label>
             <br />
@@ -491,7 +489,6 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
               <FormattedMessage
                 defaultMessage="Only for mentions and direct messages"
                 id="user.settings.notifications.onlyMentions"
-                values={Object {}}
               />
             </label>
             <br />
@@ -512,7 +509,6 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
               <FormattedMessage
                 defaultMessage="Never"
                 id="user.settings.notifications.never"
-                values={Object {}}
               />
             </label>
           </div>
@@ -522,7 +518,6 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
             <FormattedMessage
               defaultMessage="Desktop notifications are available on Edge, Firefox, Safari, Chrome and Mattermost Desktop Apps."
               id="user.settings.notifications.info"
-              values={Object {}}
             />
           </div>
         </fieldset>
@@ -534,7 +529,6 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
             <FormattedMessage
               defaultMessage="Notification sound"
               id="user.settings.notifications.desktop.sound"
-              values={Object {}}
             />
           </legend>
           <div
@@ -553,7 +547,6 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
               <FormattedMessage
                 defaultMessage="On"
                 id="user.settings.notifications.on"
-                values={Object {}}
               />
             </label>
             <br />
@@ -574,7 +567,6 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
               <FormattedMessage
                 defaultMessage="Off"
                 id="user.settings.notifications.off"
-                values={Object {}}
               />
             </label>
             <br />
@@ -634,7 +626,6 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
             <FormattedMessage
               defaultMessage="Notification sounds are available on Firefox, Edge, Safari, Chrome and Mattermost Desktop Apps."
               id="user.settings.notifications.sounds_info"
-              values={Object {}}
             />
           </div>
         </fieldset>

@@ -138,7 +138,6 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               <FormattedMessage
                 defaultMessage="Plugins (Beta)"
                 id="admin.sidebar.plugins"
-                values={Object {}}
               />
             }
           >
@@ -152,7 +151,6 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
                 <FormattedMessage
                   defaultMessage="Plugin Management"
                   id="admin.plugins.pluginManagement"
-                  values={Object {}}
                 />
               }
             />
