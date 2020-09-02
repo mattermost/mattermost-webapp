@@ -7,12 +7,11 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @channel
 
 import {testWithConfig} from '../../../support/hooks';
 
-describe('MM-T1716 Archived channels are read only - Cannot post', () => {
+describe('Archived channels are read only - Cannot post', () => {
     testWithConfig({
         TeamSettings: {
             ExperimentalViewArchivedChannels: true,
@@ -26,7 +25,7 @@ describe('MM-T1716 Archived channels are read only - Cannot post', () => {
         });
     });
 
-    it('Text box in center channel and in RHS should not be visible', () => {
+    it('MM-T1716 Text box in center channel and in RHS should not be visible', () => {
         // * Post text box should be visible
         cy.get('#post_textbox').should('be.visible');
 
