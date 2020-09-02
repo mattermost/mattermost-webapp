@@ -288,6 +288,7 @@ exports[`components/Menu should match snapshot with id 1`] = `
       permissions={
         Array [
           "sysconsole_read_about",
+          "sysconsole_read_billing",
           "sysconsole_read_reporting",
           "sysconsole_read_user_management_users",
           "sysconsole_read_user_management_groups",
@@ -320,6 +321,12 @@ exports[`components/Menu should match snapshot with id 1`] = `
       show={false}
       text="Help"
       url={null}
+    />
+    <MenuItemAction
+      id="gettingStarted"
+      onClick={[Function]}
+      show={false}
+      text="Getting Started"
     />
     <MenuItemAction
       id="keyboardShortcuts"
@@ -657,6 +664,7 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
       permissions={
         Array [
           "sysconsole_read_about",
+          "sysconsole_read_billing",
           "sysconsole_read_reporting",
           "sysconsole_read_user_management_users",
           "sysconsole_read_user_management_groups",
@@ -689,6 +697,12 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
       show={false}
       text="Help"
       url={null}
+    />
+    <MenuItemAction
+      id="gettingStarted"
+      onClick={[Function]}
+      show={false}
+      text="Getting Started"
     />
     <MenuItemAction
       id="keyboardShortcuts"
@@ -1072,6 +1086,7 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
       permissions={
         Array [
           "sysconsole_read_about",
+          "sysconsole_read_billing",
           "sysconsole_read_reporting",
           "sysconsole_read_user_management_users",
           "sysconsole_read_user_management_groups",
@@ -1112,6 +1127,12 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
       show={false}
       text="Help"
       url={null}
+    />
+    <MenuItemAction
+      id="gettingStarted"
+      onClick={[Function]}
+      show={false}
+      text="Getting Started"
     />
     <MenuItemAction
       id="keyboardShortcuts"
@@ -1465,6 +1486,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
       permissions={
         Array [
           "sysconsole_read_about",
+          "sysconsole_read_billing",
           "sysconsole_read_reporting",
           "sysconsole_read_user_management_users",
           "sysconsole_read_user_management_groups",
@@ -1497,6 +1519,12 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
       show={true}
       text="Help"
       url="test-link-help"
+    />
+    <MenuItemAction
+      id="gettingStarted"
+      onClick={[Function]}
+      show={false}
+      text="Getting Started"
     />
     <MenuItemAction
       id="keyboardShortcuts"
@@ -1880,6 +1908,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
       permissions={
         Array [
           "sysconsole_read_about",
+          "sysconsole_read_billing",
           "sysconsole_read_reporting",
           "sysconsole_read_user_management_users",
           "sysconsole_read_user_management_groups",
@@ -1920,6 +1949,12 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
       show={true}
       text="Help"
       url="test-link-help"
+    />
+    <MenuItemAction
+      id="gettingStarted"
+      onClick={[Function]}
+      show={false}
+      text="Getting Started"
     />
     <MenuItemAction
       id="keyboardShortcuts"
@@ -2290,6 +2325,7 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
       permissions={
         Array [
           "sysconsole_read_about",
+          "sysconsole_read_billing",
           "sysconsole_read_reporting",
           "sysconsole_read_user_management_users",
           "sysconsole_read_user_management_groups",
@@ -2322,6 +2358,12 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
       show={false}
       text="Help"
       url={null}
+    />
+    <MenuItemAction
+      id="gettingStarted"
+      onClick={[Function]}
+      show={false}
+      text="Getting Started"
     />
     <MenuItemAction
       id="keyboardShortcuts"
@@ -2722,6 +2764,7 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
       permissions={
         Array [
           "sysconsole_read_about",
+          "sysconsole_read_billing",
           "sysconsole_read_reporting",
           "sysconsole_read_user_management_users",
           "sysconsole_read_user_management_groups",
@@ -2762,6 +2805,12 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
       show={false}
       text="Help"
       url={null}
+    />
+    <MenuItemAction
+      id="gettingStarted"
+      onClick={[Function]}
+      show={false}
+      text="Getting Started"
     />
     <MenuItemAction
       id="keyboardShortcuts"

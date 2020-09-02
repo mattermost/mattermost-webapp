@@ -94,22 +94,6 @@ describe('actions/post_utils', () => {
         ]);
     });
 
-    test('lastPostActions', async () => {
-        const testStore = await mockStore(initialState);
-        const newPost = {id: 'new_post_id', channel_id: 'current_channel_id', message: 'new message', type: Constants.PostTypes.ADD_TO_CHANNEL, user_id: 'some_user_id', create_at: POST_CREATED_TIME, props: {addedUserId: 'other_user_id'}};
-        const websocketProps = {team_id: 'team_id', mentions: ['current_user_id']};
-
-        await testStore.dispatch(PostActionsUtils.lastPostActions(newPost, websocketProps));
-        expect(testStore.getActions()).toEqual([
-            INCREASED_POST_VISIBILITY,
-            {
-                meta: {batch: true},
-                payload: [receivedNewPost(newPost), STOP_TYPING],
-                type: 'BATCHING_REDUCER.BATCH',
-            },
-        ]);
-    });
-
     describe('setChannelReadAndViewed', () => {
         test('should mark channel as read when viewing channel', async () => {
             const channelId = 'channel';

@@ -61,6 +61,8 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
         managePrivateChannelMembers: true,
         closeHandler: jest.fn(),
         isCollapsed: false,
+        isMenuOpen: false,
+        onToggleMenu: jest.fn(),
         actions: {
             markChannelAsRead: jest.fn(),
             favoriteChannel: jest.fn(),
