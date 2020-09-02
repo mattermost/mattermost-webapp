@@ -226,7 +226,10 @@ export default class TeamList extends React.PureComponent {
                         </div>
                     ),
                     management: (
-                        <span className='TeamList_managementText'>
+                        <span
+                            data-testid={`${team.name}Management`}
+                            className='TeamList_managementText'
+                        >
                             {this.renderManagementMethodText(team)}
                         </span>
                     ),
