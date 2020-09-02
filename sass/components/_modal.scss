@@ -816,7 +816,6 @@
 
             .more-modal__actions--round {
                 display: block;
-                opacity: .5;
             }
 
             .more-modal__lastPostAt {
@@ -830,6 +829,7 @@
         display: block;
         opacity: 0.6;
         time {
+            font-weight: bold;
             white-space: nowrap;
         }
     }
@@ -841,7 +841,7 @@
     .more-modal__actions--round {
         height: 32px;
         line-height: 32px;
-        opacity: 0;
+        display: none;
         text-align: center;
         width: 32px;
     }
@@ -974,7 +974,7 @@
             background-color: lighten($primary-color, 40%);
 
             .more-modal__actions--round {
-                opacity: .5;
+                display: block;
             }
         }
 
