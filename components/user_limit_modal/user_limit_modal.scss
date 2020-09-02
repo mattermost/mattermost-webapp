@@ -1,0 +1,127 @@
+.UserLimitModal {
+     .modal-dialog {
+        position: absolute;
+        width: 512px;
+        margin: auto;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) !important;
+        border: 1 px solid rgba(var(--center-channel-color-rgb), 0.08);
+        border-radius: 8px;
+        height: 404px;
+     }
+
+    .modal-content {
+        border-radius: 8px;
+    }
+
+    .modal-header {
+        .close {
+            &:hover,
+            &:active,
+            &:focus,
+            &:active:focus {
+                background-color: var(--center-channel-color-08);
+                color: var(--center-channel-color-72);
+                opacity: 1;
+            }
+            color: rgba(var(--center-channel-color-rgb), 0.56);
+            width: 4rem;
+            height: 4rem;
+            right: 4px;
+            top: 6px;
+            border-radius: 4px;
+            font-family: 'Open Sans',
+            sans-serif;
+            font-size: 32px;
+            font-weight: 400;
+        }
+
+        border-radius: 8px;
+        border: 0;
+        padding: 0;
+        height: 48px;
+        min-height: 48px;
+        border-radius: 8px;
+        color: var(--center-channel-color);
+        background: var(--center-channel-bg) !important;
+    }
+
+    .modal-body {
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        .upgrade-image {
+            display: block;
+            margin: auto;
+        }
+        .title {
+            font-family: Open Sans;
+            font-style: normal;
+            font-weight: 600;
+            font-size: 24px;
+            line-height: 32px;
+            text-align: center;
+            margin-top: 16px;
+        }
+        .description {
+            font-family: Open Sans;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 12px;
+            line-height: 16px;
+            /* or 133% */
+            text-align: center;
+            margin-top: 8px;
+            flex: none;
+            width: 100%;
+        }
+
+        .buttons {
+            margin-top: 32px;
+            margin-bottom: 48px;
+            text-align: center;
+
+            .dismiss-link {
+                &:hover, &:active, &:focus, &:active:focus {
+                    background: var(--button-bg-08);
+                    border-radius: 4px;
+                    border: none;
+                }
+                height: 40px;
+                border: none;
+                font-weight: 600;
+                font-size: 14px;
+                color: var(--button-bg);
+                line-height: 14px;
+                align-items: center;
+                align-self: center;
+                background: var(--center-channel-bg);
+            }
+
+            .confirm-button {
+                &:hover, &:active, &:focus, &:active:focus {
+                    background: linear-gradient(0deg, rgba(0, 0, 0, 0.16), rgba(0, 0, 0, 0.16)),
+                    var(--button-bg);
+                }
+                height: 40px;
+                padding: 12px 20px;
+                background: var(--button-bg);
+                flex: none;
+                font-weight: 600;
+                font-size: 14px;
+                line-height: 14px;
+                color: var(--sys-button-color);
+                border-radius: 4px;
+                margin-left: 8px;
+                border: none;
+            }
+        }
+        padding: 0;
+        width: 100%;
+    }
+
+    .modal-centered {
+        text-align: center;
+    }
+}
