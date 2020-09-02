@@ -76,8 +76,7 @@ context('ldap', () => {
         });
 
         it('MM-T1537 - Sync Group Removal from Channel Configuration Page', () => {
-            // # Login as sysadmin and link 2 groups to testChannel
-            cy.apiAdminLogin();
+            // # Link 2 groups to testChannel
             cy.visit(`/admin_console/user_management/channels/${testChannel.id}`);
             cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'Channel Configuration');
             cy.wait(TIMEOUTS.TWO_SEC); //eslint-disable-line cypress/no-unnecessary-waiting
@@ -121,8 +120,7 @@ context('ldap', () => {
         });
 
         it('MM-T2618 - Team Configuration Page: Group removal User removed from sync\'ed team', () => {
-            // # Login as sysadmin and add board-one to test team
-            cy.apiAdminLogin();
+            // # Add board-one to test team
             cy.visit(`/admin_console/user_management/teams/${testTeam.id}`);
             cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'Team Configuration');
             cy.wait(TIMEOUTS.TWO_SEC); //eslint-disable-line cypress/no-unnecessary-waiting
@@ -161,8 +159,7 @@ context('ldap', () => {
         it('MM-T2621 - Team List Management Column', () => {
             let testTeam2;
 
-            // # Login as system admin and go to testTeam config page
-            cy.apiAdminLogin();
+            // # Go to testTeam config page
             cy.visit(`/admin_console/user_management/teams/${testTeam.id}`);
             cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'Team Configuration');
             cy.wait(TIMEOUTS.TWO_SEC); //eslint-disable-line cypress/no-unnecessary-waiting
@@ -200,8 +197,7 @@ context('ldap', () => {
         });
 
         it('MM-T2628 - List of Channels', () => {
-            // # Login as sysadmin and add board-one to test team
-            cy.apiAdminLogin();
+            // # Add board-one to test team
             cy.visit(`/admin_console/user_management/channels/${testChannel.id}`);
             cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'Channel Configuration');
             cy.wait(TIMEOUTS.TWO_SEC); //eslint-disable-line cypress/no-unnecessary-waiting
@@ -247,8 +243,7 @@ context('ldap', () => {
             ).then((res) => {
                 const privateChannel = res.body;
 
-                // # Login as sysadmin
-                cy.apiAdminLogin();
+                // # Visit channel configuration of private channel
                 cy.visit(`/admin_console/user_management/channels/${privateChannel.id}`);
                 cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'Channel Configuration');
 
