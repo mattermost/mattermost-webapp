@@ -14,8 +14,7 @@ import {markAsUnreadByPostIdFromMenu} from './helpers';
 describe('Verify unread toast appears after repeated manual marking post as unread', () => {
     let currentChannel;
 
-    beforeEach(() => {
-        cy.apiAdminLogin();
+    before(() => {
         cy.apiInitSetup().then(({team, channel, user}) => {
             currentChannel = channel;
             cy.apiCreateUser().then(({user: user2}) => {
