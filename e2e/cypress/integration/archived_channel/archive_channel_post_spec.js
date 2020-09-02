@@ -11,7 +11,7 @@
 
 import {testWithConfig} from '../../../support/hooks';
 
-describe('Archived channels are read only - Cannot post', () => {
+describe('Archived channels', () => {
     testWithConfig({
         TeamSettings: {
             ExperimentalViewArchivedChannels: true,
