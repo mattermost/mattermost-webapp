@@ -54,6 +54,7 @@ describe('Upload Files', () => {
     });
 
     it('MM-T337 CTRL/CMD+U - Five files on one message, thumbnails while uploading', () => {
+        cy.visit(`/${testTeam.name}/channels/town-square`);
         const filename = 'huge-image.jpg';
         cy.get('#centerChannelFooter').find('#fileUploadInput').
             attachFile(filename).
@@ -61,22 +62,16 @@ describe('Upload Files', () => {
             attachFile(filename).
             attachFile(filename).
             attachFile(filename);
-        cy.get('.file-preview__container').find('.post-image').each(($el, idx) => {
-            if (idx === 4) {
-                cy.wrap($el).should('not.be.visible');
-            } else {
-                cy.wrap($el).should('be.visible');
-            }
-        });
+        for (let i = 1; i < 5; i++) {
+            cy.get(`:nth-child(${i}) > .post-image__thumbnail > .post-image`).should('be.visible');
+        }
+        cy.get(':nth-child(5) > .post-image__thumbnail > .post-image').should('not.be.visible');
         cy.get('.file-preview__container').scrollTo('right');
-        cy.get('.file-preview__container').find('.post-image').each(($el, idx) => {
-            if (idx < 3) {
-                cy.wrap($el).should('not.be.visible');
-            } else {
-                cy.wrap($el).should('be.visible');
-            }
-        });
+        for (let i = 1; i < 3; i++) {
+            cy.get(`:nth-child(${i}) > .post-image__thumbnail > .post-image`).should('not.be.visible');
+        }
+        cy.get(':nth-child(5) > .post-image__thumbnail > .post-image').should('be.visible');
         cy.postMessage('{enter}');
-        cy.get('[data-testid=postView]').find('.post-image').should('have.length', 5);
+        cy.findByTestId('fileAttachmentList').find('.post-image').should('have.length', 5);
     });
 });
