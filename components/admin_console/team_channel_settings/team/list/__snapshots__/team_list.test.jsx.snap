@@ -115,7 +115,7 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
             "id": "123",
             "management": <span
               className="TeamList_managementText"
-              data-testid="undefinedManagement"
+              data-testid="DNManagement"
             >
               <FormattedMessage
                 defaultMessage="Invite Only"
@@ -278,7 +278,7 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
             "id": "id0",
             "management": <span
               className="TeamList_managementText"
-              data-testid="undefinedManagement"
+              data-testid="DN0Management"
             >
               <FormattedMessage
                 defaultMessage="Invite Only"
@@ -330,7 +330,7 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
             "id": "id1",
             "management": <span
               className="TeamList_managementText"
-              data-testid="undefinedManagement"
+              data-testid="DN1Management"
             >
               <FormattedMessage
                 defaultMessage="Invite Only"
@@ -382,7 +382,7 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
             "id": "id2",
             "management": <span
               className="TeamList_managementText"
-              data-testid="undefinedManagement"
+              data-testid="DN2Management"
             >
               <FormattedMessage
                 defaultMessage="Invite Only"
@@ -434,7 +434,7 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
             "id": "id3",
             "management": <span
               className="TeamList_managementText"
-              data-testid="undefinedManagement"
+              data-testid="DN3Management"
             >
               <FormattedMessage
                 defaultMessage="Invite Only"
@@ -486,7 +486,7 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
             "id": "id4",
             "management": <span
               className="TeamList_managementText"
-              data-testid="undefinedManagement"
+              data-testid="DN4Management"
             >
               <FormattedMessage
                 defaultMessage="Invite Only"
@@ -538,7 +538,7 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
             "id": "id5",
             "management": <span
               className="TeamList_managementText"
-              data-testid="undefinedManagement"
+              data-testid="DN5Management"
             >
               <FormattedMessage
                 defaultMessage="Invite Only"
@@ -590,7 +590,7 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
             "id": "id6",
             "management": <span
               className="TeamList_managementText"
-              data-testid="undefinedManagement"
+              data-testid="DN6Management"
             >
               <FormattedMessage
                 defaultMessage="Invite Only"
@@ -642,7 +642,7 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
             "id": "id7",
             "management": <span
               className="TeamList_managementText"
-              data-testid="undefinedManagement"
+              data-testid="DN7Management"
             >
               <FormattedMessage
                 defaultMessage="Invite Only"
@@ -694,7 +694,7 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
             "id": "id8",
             "management": <span
               className="TeamList_managementText"
-              data-testid="undefinedManagement"
+              data-testid="DN8Management"
             >
               <FormattedMessage
                 defaultMessage="Invite Only"
@@ -746,7 +746,7 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
             "id": "id9",
             "management": <span
               className="TeamList_managementText"
-              data-testid="undefinedManagement"
+              data-testid="DN9Management"
             >
               <FormattedMessage
                 defaultMessage="Invite Only"
