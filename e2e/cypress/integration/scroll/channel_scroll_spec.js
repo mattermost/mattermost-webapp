@@ -60,7 +60,7 @@ describe('Scroll', () => {
         cy.postMessage('This is the first post');
 
         // # Scroll to bottom of the channel
-        // ensureScrollable is false as we dont want to assertion to fail when we are already at bottom
+        // ensureScrollable is false as we dont want assertion to fail when we are already at bottom
         // and there is no more to scroll
         cy.get('div.post-list__dynamic').should('be.visible').scrollTo('bottom', {ensureScrollable: false});
 
