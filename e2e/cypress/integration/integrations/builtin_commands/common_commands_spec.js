@@ -417,6 +417,7 @@ describe('I18456 Built-in slash commands: common', () => {
 
     it('MM-T660_4 /invite tests when used in DMs and GMs', () => {
         const userToInvite = userGroup[4];
+        cy.apiAdminLogin();
         cy.apiAddUserToChannel(testChannel.id, user1.id);
         loginAndVisitDefaultChannel(user1, `${team1.name}/channels/town-square`);
 
