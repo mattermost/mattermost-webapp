@@ -77,11 +77,9 @@ describe('CS15445 Join/leave messages', () => {
             // # Create two channels
             cy.apiCreateChannel(testTeam.id, 'channel-test', 'Channel').then((res) => {
                 channelA = res.body;
-                console.log(channelA)
             });
             cy.apiCreateChannel(testTeam.id, 'channel-test', 'Channel').then((res) => {
                 channelB = res.body;
-                console.log(channelB)
             });
 
             cy.apiLogin(user);
@@ -104,12 +102,10 @@ describe('CS15445 Join/leave messages', () => {
         // # Go to a different channel
         cy.visit(`/${testTeam.name}/channels/${channelB.name}`);
 
-        cy.wait(1000);
-
         // # Post messages as another user on the first channel
-        cy.postMessageAs({sender: userB, message: "@all test", channelId: channelA.id});
-        cy.postMessageAs({sender: userB, message: "@channel test", channelId: channelA.id});
-        cy.postMessageAs({sender: userB, message: "@here test", channelId: channelA.id});
+        cy.postMessageAs({sender: userB, message: '@all test', channelId: channelA.id});
+        cy.postMessageAs({sender: userB, message: '@channel test', channelId: channelA.id});
+        cy.postMessageAs({sender: userB, message: '@here test', channelId: channelA.id});
 
         // * Assert the channel is unread with no mentions
         cy.get(`#sidebarItem_${channelA.name}`).should('have.class', 'unread-title');
@@ -124,12 +120,10 @@ describe('CS15445 Join/leave messages', () => {
         // # Go to a different channel
         cy.visit(`/${testTeam.name}/channels/${channelB.name}`);
 
-        cy.wait(1000);
-
         // # Post messages as another user on the first channel
-        cy.postMessageAs({sender: userB, message: "@all test", channelId: channelA.id});
-        cy.postMessageAs({sender: userB, message: "@channel test", channelId: channelA.id});
-        cy.postMessageAs({sender: userB, message: "@here test", channelId: channelA.id});
+        cy.postMessageAs({sender: userB, message: '@all test', channelId: channelA.id});
+        cy.postMessageAs({sender: userB, message: '@channel test', channelId: channelA.id});
+        cy.postMessageAs({sender: userB, message: '@here test', channelId: channelA.id});
 
         // * Assert the channel is unread with 3 mentions
         cy.get(`#sidebarItem_${channelA.name}`).should('have.class', 'unread-title');
