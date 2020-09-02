@@ -65,7 +65,7 @@ export const verifyEmailInviteAndVisitLink = (username, email, teamName, teamDis
 };
 
 export const signupAndVerifyTutorial = (username, password, teamDisplayName) => {
-    cy.get('#name').should('be.visible').type(username);
+    cy.get('#name', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').type(username);
     cy.get('#password').should('be.visible').type(password);
 
     // # Attempt to create an account by clicking on the 'Create Account' button
