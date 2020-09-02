@@ -6,7 +6,7 @@ import React from 'react';
 import {Client4} from 'mattermost-redux/client';
 import {FormattedDate, FormattedMessage, FormattedTime, injectIntl} from 'react-intl';
 
-import {JobStatuses, exportFormats} from 'utils/constants';
+import {JobStatuses, exportFormats, JobTypes} from 'utils/constants';
 import {intlShape} from 'utils/react_intl';
 import * as Utils from 'utils/utils.jsx';
 
@@ -91,6 +91,8 @@ class JobTable extends React.PureComponent {
                 <a
                     key={job.id}
                     href={`${Client4.getJobsRoute()}/${job.id}/download`}
+                    target='_blank'
+                    rel='noopener noreferrer'
                 >
                     <FormattedMessage
                         id='admin.jobTable.downloadLink'
@@ -340,6 +342,7 @@ class JobTable extends React.PureComponent {
     }
 
     render() {
+        const showFilesColumn = this.props.jobType === JobTypes.MESSAGE_EXPORT && this.props.downloadExportResults;
         var items = this.props.jobs.map((job) => {
             return (
                 <tr key={job.id}>
@@ -350,7 +353,7 @@ class JobTable extends React.PureComponent {
                         {this.getCancelButton(job)}
                     </td>
                     <td className='whitespace--nowrap'>{this.getStatus(job)}</td>
-                    {this.props.downloadExportResults &&
+                    {showFilesColumn &&
                         <td className='whitespace--nowrap'>{this.getDownloadLink(job)}</td>
                     }
                     <td className='whitespace--nowrap'>{this.getFinishAt(job.status, job.last_activity_at)}</td>
@@ -390,7 +393,7 @@ class JobTable extends React.PureComponent {
                                         defaultMessage='Status'
                                     />
                                 </th>
-                                {this.props.downloadExportResults &&
+                                {showFilesColumn &&
                                     <th>
                                         <FormattedMessage
                                             id='admin.jobTable.headerFiles'

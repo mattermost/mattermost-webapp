@@ -21,3 +21,14 @@ Cypress.Commands.add('apiUpdateUserStatus', (status = 'online') => {
         });
     });
 });
+
+Cypress.Commands.add('apiGetUserStatus', (userId) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: `/api/v4/users/${userId}/status`,
+        method: 'GET',
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap({status: response.body});
+    });
+});

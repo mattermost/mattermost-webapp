@@ -109,17 +109,6 @@ export default class CodePreview extends React.PureComponent {
             );
         }
 
-        // add line numbers when viewing a code file preview
-        const lines = this.state.code.match(/\r\n|\r|\n|$/g).length;
-        let strlines = '';
-        for (let i = 1; i <= lines; i++) {
-            if (strlines) {
-                strlines += '\n' + i;
-            } else {
-                strlines += i;
-            }
-        }
-
         const language = SyntaxHighlighting.getLanguageName(this.state.lang);
 
         const highlighted = SyntaxHighlighting.highlight(this.state.lang, this.state.code);
@@ -129,17 +118,11 @@ export default class CodePreview extends React.PureComponent {
                 <span className='post-code__language'>
                     {`${this.props.fileInfo.name} - ${language}`}
                 </span>
-                <div className='post-code__container'>
-                    <code className='hljs'>
-                        <table>
-                            <tbody>
-                                <tr>
-                                    <td className='post-code__lineno'>{strlines}</td>
-                                    <td dangerouslySetInnerHTML={{__html: highlighted}}/>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </code>
+                <div className='hljs'>
+                    <div className='post-code__line-numbers'>
+                        {SyntaxHighlighting.renderLineNumbers(this.state.code)}
+                    </div>
+                    <code dangerouslySetInnerHTML={{__html: highlighted}}/>
                 </div>
             </div>
         );
