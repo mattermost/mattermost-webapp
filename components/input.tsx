@@ -98,7 +98,7 @@ export default class Input extends React.PureComponent<Props, State> {
     public render() {
         const {value, placeholder, className, error: propError, hasError, addon, name, textPrefix, ...otherProps} = this.props;
         const {focused, error: stateError} = this.state;
-        let inputClass = className ? `Input ${className}` : 'Input';
+        let inputClass = className ? `Input form-control ${className}` : 'Input form-control';
         let fieldsetClass = className ? `Input_fieldset ${className}` : 'Input_fieldset';
         let fieldsetErrorClass = className ? `Input_fieldset Input_fieldset___error ${className}` : 'Input_fieldset Input_fieldset___error';
         const showLegend = Boolean(focused || value);
