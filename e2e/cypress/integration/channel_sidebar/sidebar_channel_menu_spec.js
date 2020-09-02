@@ -39,7 +39,7 @@ describe('Sidebar channel menu', () => {
         });
     });
 
-    it('should be able to mark a channel as read', () => {
+    it('MM-T3349_1 should be able to mark a channel as read', () => {
         // # Start in Town Square
         cy.get('#sidebarItem_town-square').click();
         cy.get('#channelHeaderTitle').should('contain', 'Town Square');
@@ -67,11 +67,11 @@ describe('Sidebar channel menu', () => {
         cy.get('#sidebarItem_town-square').find('.SidebarMenu_menuButton').click({force: true});
         cy.get('.SidebarMenu').contains('.MenuItem', 'Mark as Read').click();
 
-        // * Verify that the Town Square channel is now unread
+        // * Verify that the Town Square channel is now read
         cy.get('#sidebarItem_town-square').should(beRead);
     });
 
-    it('should be able to favorite/unfavorite a channel', () => {
+    it('MM-T3349_2 hould be able to favorite/unfavorite a channel', () => {
         // * Verify that the channel starts in the CHANNELS category
         cy.contains('.SidebarChannelGroup', 'CHANNELS').as('channelsCategory');
         cy.get('@channelsCategory').find('#sidebarItem_town-square');
@@ -91,7 +91,7 @@ describe('Sidebar channel menu', () => {
         cy.get('@channelsCategory').find('#sidebarItem_town-square');
     });
 
-    it('should be able to mute/unmute a channel', () => {
+    it('MM-T3349_3 should be able to mute/unmute a channel', () => {
         // * Verify that the channel starts unmuted
         cy.get('#sidebarItem_town-square').should(beUnmuted);
 
@@ -110,7 +110,7 @@ describe('Sidebar channel menu', () => {
         cy.get('#sidebarItem_town-square').should(beUnmuted);
     });
 
-    it('should be able to move channels between categories', () => {
+    it('MM-T3349_4 should be able to move channels between categories', () => {
         const categoryName = `new-${getRandomId()}`;
 
         // * Verify that the channel starts in the CHANNELS category
@@ -132,7 +132,7 @@ describe('Sidebar channel menu', () => {
         cy.get('@channelsCategory').find('#sidebarItem_town-square').should('exist');
     });
 
-    it('MM-28101 should be able to copy the channel link', () => {
+    it('MM-T3349_5 should be able to copy the channel link', () => {
         stubClipboard().as('clipboard');
 
         // # Open the channel menu and select the Copy Link option
@@ -146,7 +146,7 @@ describe('Sidebar channel menu', () => {
         });
     });
 
-    it('should be able to open the add other users to the channel', () => {
+    it('MM-T3349_6 should be able to open the add other users to the channel', () => {
         // # Open the channel menu and select the Add Members option
         cy.get('#sidebarItem_town-square').find('.SidebarMenu_menuButton').click({force: true});
         cy.get('.SidebarMenu').contains('.MenuItem', 'Add Members').click();
