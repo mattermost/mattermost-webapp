@@ -141,32 +141,39 @@ export function sendDesktopNotification(post, msgProps) {
         const activeChannel = getCurrentChannel(state);
         const channelId = channel ? channel.id : null;
         const notify = (activeChannel && activeChannel.id !== channelId) || !state.views.browser.focused;
+        const soundName = user.notify_props !== undefined && user.notify_props.desktop_notification_sound !== undefined ? user.notify_props.desktop_notification_sound : 'None';
 
         if (notify) {
-            dispatch(notifyMe(title, body, channel, teamId, !sound));
+            dispatch(notifyMe(title, body, channel, teamId, !sound, soundName));
 
             //Don't add extra sounds on native desktop clients
             if (sound && !isWindowsApp() && !isMacApp() && !isMobileApp()) {
-                Utils.ding();
+                Utils.ding(soundName);
             }
         }
     };
 }
 
-const notifyMe = (title, body, channel, teamId, silent) => (dispatch, getState) => {
+const notifyMe = (title, body, channel, teamId, silent, soundName) => (dispatch, getState) => {
     // handle notifications in desktop app >= 4.3.0
     if (isDesktopApp() && window.desktop && semver.gte(window.desktop.version, '4.3.0')) {
+        const msg = {
+            title,
+            body,
+            channel,
+            teamId,
+            silent,
+        };
+
+        if (isDesktopApp() && window.desktop && semver.gte(window.desktop.version, '4.6.0')) {
+            msg.data = {soundName};
+        }
+
         // get the desktop app to trigger the notification
         window.postMessage(
             {
                 type: 'dispatch-notification',
-                message: {
-                    title,
-                    body,
-                    channel,
-                    teamId,
-                    silent,
-                },
+                message: msg,
             },
             window.location.origin,
         );

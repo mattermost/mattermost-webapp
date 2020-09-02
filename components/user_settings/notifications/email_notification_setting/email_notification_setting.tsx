@@ -1,11 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {getEmailInterval} from 'mattermost-redux/utils/notify_props';
+import {PreferenceType} from 'mattermost-redux/types/preferences';
 
 import {Preferences} from 'utils/constants';
 import {localizeMessage} from 'utils/utils.jsx';
@@ -14,27 +14,36 @@ import SettingItemMin from 'components/setting_item_min';
 
 const SECONDS_PER_MINUTE = 60;
 
-export default class EmailNotificationSetting extends React.PureComponent {
-    static propTypes = {
-        currentUserId: PropTypes.string.isRequired,
-        activeSection: PropTypes.string.isRequired,
-        updateSection: PropTypes.func.isRequired,
-        enableEmail: PropTypes.bool.isRequired,
-        emailInterval: PropTypes.number.isRequired,
-        onSubmit: PropTypes.func.isRequired,
-        onCancel: PropTypes.func.isRequired,
-        onChange: PropTypes.func.isRequired,
-        serverError: PropTypes.string,
-        saving: PropTypes.bool,
-        focused: PropTypes.bool,
-        sendEmailNotifications: PropTypes.bool,
-        enableEmailBatching: PropTypes.bool,
-        actions: PropTypes.shape({
-            savePreferences: PropTypes.func.isRequired,
-        }).isRequired,
+type Props = {
+    currentUserId: string;
+    activeSection: string;
+    updateSection: (section: string) => void;
+    enableEmail: string;
+    emailInterval: number;
+    onSubmit: () => void;
+    onCancel: () => void;
+    onChange: (enableEmail: string) => void;
+    serverError?: string;
+    saving?: boolean;
+    sendEmailNotifications: boolean;
+    enableEmailBatching: boolean;
+    actions: {
+        savePreferences: (currentUserId: string, emailIntervalPreference: Array<PreferenceType>) =>
+        Promise<{data: boolean}>;
     };
+};
 
-    constructor(props) {
+type State = {
+    activeSection: string;
+    emailInterval: number;
+    enableEmail: string;
+    enableEmailBatching: boolean;
+    sendEmailNotifications: boolean;
+    newInterval: number;
+};
+
+export default class EmailNotificationSetting extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
         super(props);
 
         const {
@@ -51,11 +60,11 @@ export default class EmailNotificationSetting extends React.PureComponent {
             enableEmail,
             enableEmailBatching,
             sendEmailNotifications,
-            newInterval: getEmailInterval(enableEmail && sendEmailNotifications, enableEmailBatching, emailInterval),
+            newInterval: getEmailInterval(JSON.parse(enableEmail) && sendEmailNotifications, enableEmailBatching, emailInterval),
         };
     }
 
-    static getDerivedStateFromProps(nextProps, prevState) {
+    static getDerivedStateFromProps(nextProps: Props, prevState: State) {
         const {
             emailInterval,
             enableEmail,
@@ -72,7 +81,7 @@ export default class EmailNotificationSetting extends React.PureComponent {
                 enableEmail,
                 enableEmailBatching,
                 sendEmailNotifications,
-                newInterval: getEmailInterval(enableEmail && sendEmailNotifications, enableEmailBatching, emailInterval),
+                newInterval: getEmailInterval(JSON.parse(enableEmail) && sendEmailNotifications, enableEmailBatching, emailInterval),
             };
         }
 
@@ -87,19 +96,20 @@ export default class EmailNotificationSetting extends React.PureComponent {
                 enableEmail,
                 enableEmailBatching,
                 sendEmailNotifications,
-                newInterval: getEmailInterval(enableEmail && sendEmailNotifications, enableEmailBatching, emailInterval),
+                newInterval: getEmailInterval(JSON.parse(enableEmail) && sendEmailNotifications, enableEmailBatching, emailInterval),
             };
         }
 
         return null;
     }
 
-    handleChange = (e) => {
-        const enableEmail = e.currentTarget.getAttribute('data-enable-email');
+    handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const enableEmail = e.currentTarget.getAttribute('data-enable-email')!;
+        const newInterval = parseInt(e.currentTarget.getAttribute('data-email-interval')!, 10);
 
         this.setState({
             enableEmail,
-            newInterval: parseInt(e.currentTarget.getAttribute('data-email-interval'), 10),
+            newInterval
         });
 
         this.props.onChange(enableEmail);
@@ -125,7 +135,7 @@ export default class EmailNotificationSetting extends React.PureComponent {
         }
     }
 
-    handleUpdateSection = (section) => {
+    handleUpdateSection = (section?: string) => {
         if (section) {
             this.props.updateSection(section);
         } else {
@@ -142,7 +152,6 @@ export default class EmailNotificationSetting extends React.PureComponent {
     renderMinSettingView = () => {
         const {
             enableEmail,
-            focused,
             sendEmailNotifications,
         } = this.props;
 
@@ -204,7 +213,6 @@ export default class EmailNotificationSetting extends React.PureComponent {
             <SettingItemMin
                 title={localizeMessage('user.settings.notifications.emailNotifications', 'Email Notifications')}
                 describe={description}
-                focused={focused}
                 section={'email'}
                 updateSection={this.handleUpdateSection}
             />
