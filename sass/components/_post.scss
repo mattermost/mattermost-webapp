@@ -1518,9 +1518,13 @@
         -moz-user-select: none;    /* Firefox all */
         -ms-user-select: none;     /* IE 10+ */
         user-select: none;
-    
+
         a {
             font-weight: bold;
+
+            &.user_name:hover {
+                text-decoration: none;
+            }
         }
     }
 

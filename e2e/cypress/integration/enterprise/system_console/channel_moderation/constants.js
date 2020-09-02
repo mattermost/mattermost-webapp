@@ -2,6 +2,8 @@
 // See LICENSE.txt for license information.
 
 export const checkboxesTitleToIdMap = {
+    ALL_USERS_MANAGE_PUBLIC_CHANNEL_MEMBERS: 'all_users-public_channel-manage_public_channel_members_and_read_groups-checkbox',
+    ALL_USERS_MANAGE_PRIVATE_CHANNEL_MEMBERS: 'all_users-private_channel-manage_private_channel_members_and_read_groups-checkbox',
     CREATE_POSTS_GUESTS: 'create_post-guests',
     CREATE_POSTS_MEMBERS: 'create_post-members',
     POST_REACTIONS_GUESTS: 'create_reactions-guests',
