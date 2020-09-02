@@ -36,8 +36,12 @@
 .AlertBanner__icon {
     flex-grow: 0;
     flex-shrink: 0;
-    font-size: 16px;
+    font-size: 18px;
     line-height: 20px;
+
+    i::before {
+        margin: 0;
+    }
 }
 
 .AlertBanner__body {
@@ -61,16 +65,18 @@
     background: none;
     border: none;
     position: relative;
-    padding: 0;
-    height: 24px;
-    width: 24px;
+    padding: 4px;
+    height: 26px;
+    width: 26px;
     border-radius: 4px;
-    top: -8px;
-    right: -8px;
+    top: -12px;
+    right: -12px;
+    display: flex;
     
     i {
         color: rgba(var(--sys-center-channel-color-rgb), 0.56);
-        font-size: 16px;
+        font-size: 18px;
+        line-height: 16px;
 
         &::before {
             margin: 0;
