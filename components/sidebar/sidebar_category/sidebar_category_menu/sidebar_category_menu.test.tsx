@@ -23,7 +23,8 @@ describe('components/sidebar/sidebar_category/sidebar_category_menu', () => {
         },
         currentTeamId: 'team1',
         isMuted: false,
-        onToggle: jest.fn(),
+        isMenuOpen: false,
+        onToggleMenu: jest.fn(),
         actions: {
             openModal: jest.fn(),
         },

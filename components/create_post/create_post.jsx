@@ -317,6 +317,7 @@ class CreatePost extends React.PureComponent {
             channelTimezoneCount: 0,
             uploadsProgressPercent: {},
             renderScrollbar: false,
+            scrollbarWidth: 0,
             currentChannel: props.currentChannel,
             mentions: [],
             memberNotifyCount: 0,
@@ -1211,7 +1212,15 @@ class CreatePost extends React.PureComponent {
     }
 
     handleHeightChange = (height, maxHeight) => {
-        this.setState({renderScrollbar: height > maxHeight});
+        this.setState({
+            renderScrollbar: height > maxHeight,
+        });
+
+        window.requestAnimationFrame(() => {
+            if (this.refs.textbox) {
+                this.setState({scrollbarWidth: Utils.scrollbarWidth(this.refs.textbox.getInputBox())});
+            }
+        });
     }
 
     render() {
@@ -1459,7 +1468,10 @@ class CreatePost extends React.PureComponent {
                 className={centerClass}
                 onSubmit={this.handleSubmit}
             >
-                <div className={'post-create' + attachmentsDisabled + scrollbarClass}>
+                <div
+                    className={'post-create' + attachmentsDisabled + scrollbarClass}
+                    style={this.state.renderScrollbar && this.state.scrollbarWidth ? {'--detected-scrollbar-width': `${this.state.scrollbarWidth}px`} : undefined}
+                >
                     <div className='post-create-body'>
                         <div
                             role='application'

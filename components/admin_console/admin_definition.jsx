@@ -50,6 +50,12 @@ import CustomTermsOfServiceSettings from './custom_terms_of_service_settings';
 import SessionLengthSettings from './session_length_settings';
 import LDAPFeatureDiscovery from './feature_discovery/ldap.tsx';
 import SAMLFeatureDiscovery from './feature_discovery/saml.tsx';
+import BillingSubscriptions from './billing/billing_subscriptions';
+import BillingHistory from './billing/billing_history';
+import CompanyInfo from './billing/company_info';
+import PaymentInfo from './billing/payment_info';
+import CompanyInfoEdit from './billing/company_info_edit';
+import PaymentInfoEdit from './billing/payment_info_edit';
 
 import * as DefinitionConstants from './admin_definition_constants';
 
@@ -199,6 +205,74 @@ const AdminDefinition = {
             schema: {
                 id: 'LicenseSettings',
                 component: LicenseSettings,
+            },
+        },
+    },
+    billing: {
+        icon: 'fa-credit-card', // TODO: Need compass icon
+        sectionTitle: t('admin.sidebar.billing'),
+        sectionTitleDefault: 'Billing & Account',
+        isHidden: it.not(it.licensedForFeature('Cloud')),
+        subscription: {
+            url: 'billing/subscription',
+            title: t('admin.sidebar.subscription'),
+            title_default: 'Subscription',
+            searchableStrings: [
+                'admin.billing.subscription.title',
+            ],
+            schema: {
+                id: 'BillingSubscriptions',
+                component: BillingSubscriptions,
+            },
+        },
+        billing_history: {
+            url: 'billing/billing_history',
+            title: t('admin.sidebar.billing_history'),
+            title_default: 'Billing History',
+            searchableStrings: [
+                'admin.billing.history.title',
+            ],
+            schema: {
+                id: 'BillingHistory',
+                component: BillingHistory,
+            },
+        },
+        company_info: {
+            url: 'billing/company_info',
+            title: t('admin.sidebar.company_info'),
+            title_default: 'Company Information',
+            searchableStrings: [
+                'admin.billing.company_info.title',
+            ],
+            schema: {
+                id: 'CompanyInfo',
+                component: CompanyInfo,
+            },
+        },
+        company_info_edit: {
+            url: 'billing/company_info_edit',
+            schema: {
+                id: 'CompanyInfoEdit',
+                component: CompanyInfoEdit,
+            },
+        },
+        payment_info: {
+            url: 'billing/payment_info',
+            title: t('admin.sidebar.payment_info'),
+            title_default: 'Payment Information',
+            searchableStrings: [
+                'admin.billing.payment_info.title',
+            ],
+            schema: {
+                id: 'PaymentInfo',
+                component: PaymentInfo,
+            },
+        },
+        payment_info_edit: {
+            url: 'billing/payment_info_edit',
+            schema: {
+                id: 'PaymentInfoEdit',
+                component: PaymentInfoEdit,
             },
         },
     },
