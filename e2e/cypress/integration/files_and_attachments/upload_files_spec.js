@@ -206,7 +206,7 @@ describe('Upload Files', () => {
         });
     });
 
-    it('MM-T346 Public link related to a deleted post should no longer open the file', () => {
+    it.only('MM-T346 Public link related to a deleted post should no longer open the file', () => {
         // # Enable option for public file links
         cy.apiUpdateConfig({
             FileSettings: {
@@ -236,6 +236,7 @@ describe('Upload Files', () => {
                 cy.findByText('Get a public link').should('be.visible').click({force: true});
             });
 
+        // # Wait a little for link to get generate
         cy.wait(TIMEOUTS.ONE_SEC);
 
         // * Verify copy public link modal is opened
@@ -275,6 +276,9 @@ describe('Upload Files', () => {
             cy.request({url: publicLinkOfAttachment, failOnStatusCode: false}).then((response) => {
                 // * Verify that the link no longer exists in the system
                 expect(response.status).to.be.equal(404);
+
+                // * Verify that it contains text stating unable to get the file info
+                expect(response.body).to.contain('Unable+to+get+the+file+info.');
             });
         });
     });
