@@ -10,7 +10,7 @@
 // Stage: @prod
 // Group: @notifications
 
-import {ignoreUncaughtException, spyNotificationAs} from '../../support/notification';
+import {spyNotificationAs} from '../../support/notification';
 
 function setReplyNotificationsSetting(idToToggle) {
     // Navigate to settings modal
@@ -39,9 +39,6 @@ function setReplyNotificationsSetting(idToToggle) {
     cy.get('#accountSettingsHeader > .close').
         click().
         should('not.exist');
-
-    // Setup notification spy
-    spyNotificationAs('notifySpy');
 }
 
 describe('reply-notifications', () => {
@@ -76,12 +73,14 @@ describe('reply-notifications', () => {
 
             // # Login as receiver and visit town-square channel
             cy.apiLogin(receiver);
-            cy.visit(`/${testTeam.name}/channels/town-square`);
         });
     });
 
     it('MM-T551 Do not trigger notifications on messages in reply threads unless I\'m mentioned', () => {
-        ignoreUncaughtException();
+        cy.visit(`/${testTeam.name}/channels/town-square`);
+
+        // Setup notification spy
+        spyNotificationAs('notifySpy', 'granted');
 
         // # Set users notification settings
         setReplyNotificationsSetting('#notificationCommentsNever');
@@ -117,6 +116,49 @@ describe('reply-notifications', () => {
 
             // * Verify unread mentions badge exists
             cy.get('#sidebarItem_town-square').find('#unreadMentions').should('be.visible');
+        });
+    });
+
+    it('MM-T552 Trigger notifications on messages in threads that I start', () => {
+        cy.visit(`/${testTeam.name}/channels/town-square`);
+
+        // Setup notification spy
+        spyNotificationAs('notifySpy', 'granted');
+
+        // # Navigate to town square channel
+        cy.get(`#sidebarItem_${'town-square'}`).click({force: true});
+
+        // # Set users notification settings
+        setReplyNotificationsSetting('#notificationCommentsRoot');
+
+        // # Post a message
+        cy.postMessage('Hi there, this is another root message');
+
+        // # Get post id of message
+        cy.getLastPostId().then((postId) => {
+            // # Switch to other channel so that unread notifications in 'town-square` may be triggered
+            cy.get(`#sidebarItem_${otherChannel.name}`).click({force: true});
+
+            // # Post a message in original thread as another user
+            const message = 'This is a reply to the root post';
+            cy.postMessageAs({sender, message, channelId: townsquareChannelId, rootId: postId}).then(() => {
+                // * Verify stub was called
+                cy.get('@notifySpy').should('be.called');
+
+                // * Verify unread mentions badge exists
+                cy.get('#sidebarItem_town-square').find('#unreadMentions').should('be.visible');
+
+                // # Navigate to town square channel
+                cy.get(`#sidebarItem_${'town-square'}`).click({force: true});
+
+                // * Verify entire message
+                cy.getLastPostId().then((msgId) => {
+                    cy.get(`#postMessageText_${msgId}`).as('postMessageText');
+                });
+                cy.get('@postMessageText').
+                    should('be.visible').
+                    and('have.text', message);
+            });
         });
     });
 });
