@@ -35,7 +35,6 @@ describe('Verify unread toast appears after repeated manual marking post as unre
                         sender: user2,
                         message: `hi @${user.username}`,
                         channelId: channel.id,
-
                     });
 
                     // # Login as user
@@ -55,6 +54,7 @@ describe('Verify unread toast appears after repeated manual marking post as unre
             });
         });
     });
+
     it('MM-T254 Rehydrate mention badge after post is marked as Unread', () => {
         // # Mark the first post as unread
         cy.getNthPostId(1).then((postId) => {
