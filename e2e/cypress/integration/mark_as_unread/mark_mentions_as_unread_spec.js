@@ -1,10 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {beUnread} from '../../support/assertions';
-
-import {markAsUnreadByPostIdFromMenu, verifyPostNextToNewMessageSeparator, switchToChannel} from './helpers';
-
 // ***************************************************************
 // - [#] indicates a test step (e.g. # Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
@@ -12,6 +8,10 @@ import {markAsUnreadByPostIdFromMenu, verifyPostNextToNewMessageSeparator, switc
 // ***************************************************************
 
 // Group: @mark_as_unread
+
+import {beUnread} from '../../support/assertions';
+
+import {markAsUnreadByPostIdFromMenu, verifyPostNextToNewMessageSeparator, switchToChannel} from './helpers';
 
 describe('Mark post with mentions as unread', () => {
     let userA;
