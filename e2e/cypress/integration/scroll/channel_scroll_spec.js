@@ -50,13 +50,19 @@ describe('Scroll', () => {
         // * Verify that the top of the channel is scrolled past hidden
         cy.findByText(`Beginning of ${testChannel.display_name}`).should('exist').and('not.be.visible');
 
-        // * Verify that the last message is visible impling that channel scrolled to bottom on reload
+        // * Verify that the last message is visible implying that channel scrolled to bottom on reload
         cy.findByText('This is the last post').should('exist').and('be.visible');
     });
 
-    it('MM-T2382 Center channel scroll', () => {
+    // https://github.com/mattermost/mattermost-webapp/pull/6342
+    it.only('MM-T2382 Center channel scroll', () => {
         // # Post a starting message with user 1
         cy.postMessage('This is the first post');
+
+        // # Scroll to bottom of the channel
+        // ensureScrollable is false as we dont want to assertion to fail when we are already at bottom
+        // and there is no more to scroll
+        cy.get('div.post-list__dynamic').should('be.visible').scrollTo('bottom', {ensureScrollable: false});
 
         // # Make enough posts so that first post is scrolled past hidden
         Cypress._.times(30, (postIndex) => {
