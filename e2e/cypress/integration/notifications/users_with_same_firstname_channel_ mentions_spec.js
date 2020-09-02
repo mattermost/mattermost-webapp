@@ -45,20 +45,18 @@ describe('Notifications', () => {
 
             // # Visit the newly created channel as the first user and invite the second user
             cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
-            cy.wait(TIMEOUTS.HALF_MIN);
             cy.apiAddUserToChannel(testChannel.id, secondUser.id);
 
             // # Go to the 'Off Topic' channel and logout
-            cy.get('#sidebarItem_off-topic').should('be.visible').click();
+            cy.get('#sidebarItem_off-topic', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').click();
             cy.apiLogout();
 
             // # Login as the second user and go to the team site
             cy.apiLogin(secondUser);
             cy.visit(`/${testTeam.name}`);
-            cy.wait(TIMEOUTS.HALF_MIN);
 
             // * Verify that the channel that the first created is visible and that there is one unread mention (for being invited)
-            cy.get(`#sidebarItem_${testChannel.name}`).should('be.visible').within(() => {
+            cy.get(`#sidebarItem_${testChannel.name}`, {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').within(() => {
                 cy.findByText(testChannel.display_name).should('be.visible');
                 cy.get('#unreadMentions').should('have.text', '1');
             });
