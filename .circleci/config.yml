@@ -13,10 +13,10 @@ executors:
 aliases:
   - &restore_cache
     restore_cache:
-      key: dependencies-{{ checksum "package-lock.json" }}-3
+      key: dependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}-1
   - &save_cache
     save_cache:
-      key: dependencies-{{ checksum "package-lock.json" }}-3
+      key: dependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}-1
       paths:
         - ~/mattermost/mattermost-webapp/node_modules
 
@@ -29,7 +29,8 @@ jobs:
       - checkout
       - run: |
           npm ci
-          cd node_modules/mattermost-redux && npm i && npm run build
+          cd node_modules/mattermost-redux && npm i && npm run build && cd ../..
+          npm cache verify
       - *save_cache
 
   check-deps:
@@ -148,9 +149,19 @@ jobs:
           npm version
 
           rm -rf dist
-          npm cache verify
+          export NODE_OPTIONS=--max-old-space-size=4096
           npm run build
-          npm run package
+
+          cd dist
+          npm set init.name "mattermost-webapp"
+          npm set init.version "0.0.1"
+          npm set init.license "Apache-2.0"
+          npm set init.homepage "https://github.com/mattermost/mattermost-webapp"
+          npm set init.private true
+          npm init --yes
+          npm pack
+          mv mattermost-webapp-0.0.1.tgz ../mattermost-webapp.tar.gz
+          cd ..
       - store_artifacts:
           path: ~/mattermost/mattermost-webapp/mattermost-webapp.tar.gz
       - persist_to_workspace:
