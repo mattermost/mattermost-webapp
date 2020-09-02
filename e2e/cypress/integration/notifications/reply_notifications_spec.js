@@ -205,7 +205,7 @@ describe('reply-notifications', () => {
                 // # Switch to other channel so that unread notifications in 'town-square` may be triggered again
                 cy.get(`#sidebarItem_${otherChannel.name}`).click({force: true});
 
-                // # Post a message in original as another user mentioning the receiver
+                // # Post a message in original thread as another user mentioning the receiver
                 const messageWithMention = `Another reply with mention @${receiver.username}`;
                 cy.postMessageAs({sender, message: messageWithMention, channelId: townsquareChannelId, rootId: postId}).then(() => {
                     // * Verify stub was called
