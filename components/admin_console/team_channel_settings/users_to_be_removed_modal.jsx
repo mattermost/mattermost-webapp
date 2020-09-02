@@ -69,12 +69,21 @@ export default class UsersToBeRemovedModal extends React.PureComponent {
             />
         );
 
-        const message = (
+        let message = (
             <FormattedMessage
                 id='admin.team_channel_settings.usersToBeRemovedModal.message'
                 defaultMessage='The members listed below are not in any of the groups currently linked to this team. Because this team is set to be managed by group sync they will all be removed once saved.'
             />
         );
+
+        if (scope === 'channel') {
+            message = (
+                <FormattedMessage
+                    id='admin.team_channel_settings.usersToBeRemovedModal.channel_message'
+                    defaultMessage='The members listed below are not in any of the groups currently linked to this channel. Because this channel is set to be managed by group sync they will all be removed once saved.'
+                />
+            );
+        }
 
         const button = (
             <FormattedMessage

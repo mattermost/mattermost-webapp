@@ -87,6 +87,7 @@ export default class UsersToRemove extends React.PureComponent<Props, State> {
 
     componentWillUnmount() {
         this.props.actions.setModalSearchTerm('');
+        this.props.actions.setModalFilters({});
     }
 
     loadMembersForProfilesList = async (profiles: UserProfile[]) => {
