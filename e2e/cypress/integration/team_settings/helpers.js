@@ -60,6 +60,7 @@ export const verifyEmailInviteAndVisitLink = (username, email, teamName, teamDis
 
         // # Visit permalink (e.g. click on email link)
         cy.visit(permalink);
+        cy.get('#signup_email_section', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible');
     });
 };
 

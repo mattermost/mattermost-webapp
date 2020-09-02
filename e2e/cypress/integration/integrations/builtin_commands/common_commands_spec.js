@@ -13,7 +13,7 @@
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 import * as MESSAGES from '../../../fixtures/messages';
 
-describe('I18456 Built-in slash commands: common', () => {
+describe('Integrations', () => {
     let user1;
     let user2;
     let deactivatedUser;
@@ -52,7 +52,7 @@ describe('I18456 Built-in slash commands: common', () => {
         });
     });
 
-    it('/ autocomplete list can scroll', () => {
+    it('MM-T573 / autocomplete list can scroll', () => {
         loginAndVisitDefaultChannel(user1, testChannelUrl);
 
         // # Clear post textbox
@@ -72,7 +72,7 @@ describe('I18456 Built-in slash commands: common', () => {
         });
     });
 
-    it('/shrug test', () => {
+    it('MM-T574 /shrug test', () => {
         // # Login as user2 and post a message
         loginAndVisitDefaultChannel(user2, testChannelUrl);
         cy.postMessage('hello from user2');
