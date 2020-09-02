@@ -1,4 +1,4 @@
-.PHONY: build test run clean stop check-style fix-style run-unit emojis help package-ci storybook build-storybook update-dependencies
+.PHONY: build test run clean stop check-style fix-style run-unit emojis help storybook build-storybook update-dependencies
 
 BUILD_SERVER_DIR = ../mattermost-server
 BUILD_WEBAPP_DIR = ../mattermost-webapp
@@ -41,29 +41,6 @@ node_modules: package.json package-lock.json
 
 	npm install
 	touch $@
-
-package: build ## Packages app
-	@echo Packaging webapp
-
-	mkdir tmp
-	mv dist tmp/client
-	tar -C tmp -czf mattermost-webapp.tar.gz client
-	mv tmp/client dist
-	rmdir tmp
-
-package-ci: ## used in the CI to build the package and bypass the npm install
-	@echo Building mattermost Webapp
-
-	rm -rf dist
-	npm run build
-
-	@echo Packaging webapp
-
-	mkdir tmp
-	mv dist tmp/client
-	tar -C tmp -czf mattermost-webapp.tar.gz client
-	mv tmp/client dist
-	rmdir tmp
 
 build: node_modules ## Builds the app
 	@echo Building mattermost Webapp

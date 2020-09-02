@@ -13,10 +13,10 @@ executors:
 aliases:
   - &restore_cache
     restore_cache:
-      key: dependencies-{{ checksum "package-lock.json" }}-2
+      key: dependencies-{{ checksum "package-lock.json" }}-3
   - &save_cache
     save_cache:
-      key: dependencies-{{ checksum "package-lock.json" }}-2
+      key: dependencies-{{ checksum "package-lock.json" }}-3
       paths:
         - ~/mattermost/mattermost-webapp/node_modules
 
@@ -146,7 +146,11 @@ jobs:
       - run: |
           node --version
           npm version
-          make package-ci
+
+          rm -rf dist
+          npm cache verify
+          npm run build
+          npm run package
       - store_artifacts:
           path: ~/mattermost/mattermost-webapp/mattermost-webapp.tar.gz
       - persist_to_workspace:
