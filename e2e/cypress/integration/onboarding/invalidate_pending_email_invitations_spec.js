@@ -44,7 +44,7 @@ describe('Onboarding', () => {
 
     it('MM-T399 Invalidate Pending Email Invitations', () => {
         // # As sysadmin, invite the first user and logout
-        inviteUserByEmail(emailOne);
+        inviteUserByEmail(emailOne, isLicensed);
         cy.apiLogout();
 
         // # Get the email sent to the first user, verify the email and go to the provided link
@@ -86,7 +86,7 @@ describe('Onboarding', () => {
         verifyEmailInviteAndVisitLink(usernameTwo, emailTwo, testTeam.name, testTeam.display_name);
 
         // # Type username and password
-        cy.get('#name', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').type(usernameTwo);
+        cy.get('#name').should('be.visible').type(usernameTwo);
         cy.get('#password').should('be.visible').type(password);
 
         // # Attempt to create an account by clicking on the 'Create Account' button
