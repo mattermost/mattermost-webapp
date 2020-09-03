@@ -61,7 +61,7 @@ describe('Onboarding', () => {
         cy.visit(`/${testTeam.name}`);
 
         // # Attempt to create a new account
-        cy.get('#login_section', {timeout: TIMEOUTS.FORTY_FIVE_SEC}).should('be.visible').click();
+        cy.get('#login_section', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').click();
         cy.get('#signup').should('be.visible').click();
         cy.get('#email').should('be.focused').and('be.visible').type(email);
         cy.get('#name').should('be.visible').type(username);
@@ -76,7 +76,7 @@ describe('Onboarding', () => {
         // * Ensure that the email was correctly verified
         cy.findByText('Email Verified').should('be.visible');
 
-        // * Ensure that the email was prefilled and the password input box is focused
+        // * Ensure that the email was pre-filled and the password input box is focused
         cy.get('#loginId').should('be.visible').and('have.value', email);
         cy.get('#loginPassword').should('be.visible').and('be.focused').type(password);
 

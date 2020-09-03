@@ -17,7 +17,6 @@ module.exports = {
     FIVE_SEC: SECOND * 5,
     TEN_SEC: SECOND * 10,
     HALF_MIN: MINUTE / 2,
-    FORTY_FIVE_SEC: SECOND * 45,
     ONE_MIN: MINUTE,
     TWO_MIN: MINUTE * 2,
     THREE_MIN: MINUTE * 3,
