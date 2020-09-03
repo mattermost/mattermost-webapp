@@ -12,15 +12,28 @@
 describe('Profile popover', () => {
     let testTeam;
     let testUser;
+    let otherUser;
 
     before(() => {
         cy.apiInitSetup().then(({team, user}) => {
             testTeam = team;
             testUser = user;
+            cy.apiCreateUser().then(({user: secondUser}) => {
+                otherUser = secondUser;
+                cy.apiAddUserToTeam(testTeam.id, secondUser.id);
+            });
         });
     });
 
     it('MM-T2 Add user — Error if already in channel', () => {
+        // Do the system console setup
+        cy.apiAdminLogin();
+        cy.visit('/admin_console/user_management/permissions/system_scheme');
+        cy.findByTestId('all_users-public_channel-checkbox').scrollIntoView().should('be.visible').click();
+        cy.findByTestId('all_users-private_channel-checkbox').scrollIntoView().should('be.visible').click();
+
+        cy.apiLogout();
+
         // Login as test user and go to town square
         cy.apiLogin(testUser);
         cy.visit(`/${testTeam.name}/channels/town-square`);
@@ -29,8 +42,8 @@ describe('Profile popover', () => {
         cy.postMessage('Hi there\nsending\na\nmessage');
         cy.apiLogout();
 
-        // Login as sysadmin now
-        cy.apiAdminLogin();
+        // Login as the second user now
+        cy.apiLogin(otherUser);
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // Open profile popover
@@ -39,7 +52,7 @@ describe('Profile popover', () => {
         });
 
         // Add to a Channel
-        cy.findByText('Add to a Channel').click();
+        cy.findByText('Add to a Channel').should('be.visible').click();
 
         cy.get('div[aria-labelledby="addChannelModalLabel"]').within(() => {
             // Type "Town"
@@ -50,6 +63,9 @@ describe('Profile popover', () => {
 
             // Verify error message
             cy.get('#add-user-to-channel-modal__user-is-member').should('have.text', `${testUser.first_name} ${testUser.last_name} is already a member of that channel`);
+
+            // And verify that button is disabled
+            cy.get('#add-user-to-channel-modal__add-button').should('be.disabled');
         });
     });
 });
