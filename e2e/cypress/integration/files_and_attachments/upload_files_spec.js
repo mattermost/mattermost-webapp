@@ -148,6 +148,29 @@ describe('Upload Files', () => {
         });
     });
 
+    it('MM-T341 Download link on preview - Image file (non SVG)', () => {
+        ['small-image.png', 'image-file.jpg', 'image-file.bmp', 'image-file.gif', 'image-file.tiff'].forEach((image) => {
+            cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(image);
+            cy.get('.post-image').should('be.visible');
+            cy.postMessage(MESSAGES.SMALL);
+            cy.uiWaitUntilMessagePostedIncludes(MESSAGES.SMALL);
+            cy.getLastPostId().then((postId) => {
+                cy.get(`#post_${postId}`).within(() => {
+                    // # Click the thumbnail of a non-SVG image attachment to open the previewer
+                    cy.get('div.image-loaded').find('img').click();
+                });
+            });
+            cy.get('.a11y__modal').should('be.visible').within(() => {
+                // # Click the "Download" link in the previewer
+                cy.findByText('Download').should('be.visible').parent().then((fileAttachment) => {
+                    //* Image should download
+                    verifyLinkHasDownloadProperties(fileAttachment, image);
+                });
+            });
+            cy.get('body').type('{esc}');
+        });
+    });
+
     it('MM-T12 Loading indicator when posting images', () => {
         const filename = 'huge-image.jpg';
 
