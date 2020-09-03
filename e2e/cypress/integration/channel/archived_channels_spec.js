@@ -267,4 +267,15 @@ describe('Leave an archived channel', () => {
         // * Private archived channels you are not a member above are not available on channel switcher
         cy.contains('#suggestionList', 'archived-not-mine').should('not.exist');
     });
+    it('MM-T1677 Archived channels are not shown as unread in channel switcher', () => {
+        // # As the test user join a public channel then open any other channel in the drawer
+        // # As another user post in the channel from step 1. then archive it
+        cy.visit(`/${testTeam.name}/channels/off-topic`);
+
+        // # As the test user hit CTRL/CMD+K (or ⌘+k) and locate the channel
+        cy.typeCmdOrCtrl().type('K', {release: true});
+        cy.get('#quickSwitchInput').type('archived-');
+
+        // * Channel does not appear at the top with other unread channels
+    });
 });
