@@ -47,7 +47,8 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
         };
     }
 
-    closeNextSteps = () => {
+    closeNextSteps = (event: React.SyntheticEvent) => {
+        event.stopPropagation();
         const screenTitle = this.props.showNextSteps ?
             localizeMessage('sidebar_next_steps.gettingStarted', 'Getting Started') :
             localizeMessage('sidebar_next_steps.tipsAndNextSteps', 'Tips & Next Steps');
@@ -61,6 +62,10 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
                 onCancel: this.onCloseModal,
             }
         });
+    }
+
+    showNextSteps = () => {
+        this.props.actions.setShowNextStepsView(true);
     }
 
     onCloseModal = () => {
@@ -127,36 +132,34 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
         }
 
         return (
-            <div
-                className={classNames('SidebarNextSteps', {
-                    active: this.props.active,
-                })}
-            >
-                <div className='SidebarNextSteps__top'>
-                    <span>
-                        {header}
-                    </span>
-                    <button
-                        className='SidebarNextSteps__close'
-                        onClick={this.closeNextSteps}
-                    >
-                        <i className='icon icon-close'/>
-                    </button>
-                </div>
-                <div className='SidebarNextSteps__middle'>
-                    <span>
-                        {middleSection}
-                    </span>
-                </div>
-                {this.props.showNextSteps &&
-                <div className='SidebarNextSteps__progressBar'>
-                    <ProgressBar
-                        current={complete}
-                        total={total}
-                        basePercentage={4}
-                    />
-                </div>}
+          <div
+            className={classNames("SidebarNextSteps", {
+              active: this.props.active,
+            })}
+            onClick={this.showNextSteps}
+          >
+            <div className="SidebarNextSteps__top">
+              <span>{header}</span>
+              <button
+                className="SidebarNextSteps__close"
+                onClick={this.closeNextSteps}
+              >
+                <i className="icon icon-close" />
+              </button>
             </div>
+            <div className="SidebarNextSteps__middle">
+              <span>{middleSection}</span>
+            </div>
+            {this.props.showNextSteps && (
+              <div className="SidebarNextSteps__progressBar">
+                <ProgressBar
+                  current={complete}
+                  total={total}
+                  basePercentage={4}
+                />
+              </div>
+            )}
+          </div>
         );
     }
 }
