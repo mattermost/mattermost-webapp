@@ -27,12 +27,6 @@ Cypress.Commands.add('apiAdminLogin', () => {
     return cy.apiLogin(admin);
 });
 
-Cypress.Commands.add('apiAdminCustomLogin', (username) => {
-    const {password} = getAdminAccount();
-
-    return cy.apiLogin({username, password});
-});
-
 Cypress.Commands.add('apiLogout', () => {
     cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
@@ -139,38 +133,6 @@ Cypress.Commands.add('apiCreateAdmin', () => {
         expect(res.status).to.equal(201);
 
         return cy.wrap({sysadmin: res.body});
-    });
-});
-
-Cypress.Commands.add('apiCreateCustomAdmin', (username) => {
-    const {password} = getAdminAccount();
-    const sysadminUser = {
-        username,
-        password,
-        first_name: 'Kenneth',
-        last_name: 'Moreno',
-        email: username + '@sample.mattermost.com',
-    };
-
-    const options = {
-        headers: {'X-Requested-With': 'XMLHttpRequest'},
-        method: 'POST',
-        url: '/api/v4/users',
-        body: sysadminUser,
-    };
-
-    // # Create a new user
-    return cy.request(options).then((res) => {
-        expect(res.status).to.equal(201);
-        return cy.request({
-            headers: {'X-Requested-With': 'XMLHttpRequest'},
-            method: 'PUT',
-            url: `/api/v4/users/${res.body.id}/roles`,
-            body: {roles: 'system_admin system_user'},
-        }).then((res2) => {
-            expect(res2.status).to.equal(200);
-            return cy.wrap({sysadmin: res.body});
-        });
     });
 });
 

@@ -7,14 +7,17 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
-// Group: @bots
+// Group: @bot_accounts
+
+import {generateRandomUser} from '../../support/api/user';
 
 describe('Managing bot accounts', () => {
     let newTeam;
-    const botName = 'bot-' + Date.now();
+    let botName;
 
-    before(() => {
+    beforeEach(() => {
+        botName = 'bot-' + Date.now();
+
         // # Set ServiceSettings to expected values
         const newSettings = {
             ServiceSettings: {
@@ -35,15 +38,15 @@ describe('Managing bot accounts', () => {
         cy.apiInitSetup().then(({team}) => {
             newTeam = team;
         });
+        cy.apiAdminLogin();
     });
 
     it('MM-T1851 No option to create BOT accounts when Enable Bot Account Creation is set to False.', () => {
         // # Visit bot config
-        cy.apiAdminLogin();
         cy.visit('/admin_console/integrations/bot_accounts');
 
         // # Click 'false' to disable
-        cy.get('[data-testid="ServiceSettings.EnableBotAccountCreation"] > .col-sm-8 > :nth-child(3)').click();
+        cy.findByTestId('ServiceSettings.EnableBotAccountCreationfalse').click();
 
         // # Save
         cy.findByTestId('saveSetting').should('be.enabled').click();
@@ -57,11 +60,10 @@ describe('Managing bot accounts', () => {
 
     it('MM-T1852 Bot creation via API is not permitted when Enable Bot Account Creation is set to False', () => {
         // # Visit bot config
-        cy.apiAdminLogin();
         cy.visit('/admin_console/integrations/bot_accounts');
 
         // # Click 'false' to disable
-        cy.get('[data-testid="ServiceSettings.EnableBotAccountCreation"] > .col-sm-8 > :nth-child(3)').click();
+        cy.findByTestId('ServiceSettings.EnableBotAccountCreationfalse').click();
 
         // # Save
         cy.findByTestId('saveSetting').should('be.enabled').click();
@@ -84,13 +86,12 @@ describe('Managing bot accounts', () => {
         });
     });
 
-    it('MM-T1853 Bots managed plugins can be creted when Enable Bot Account Creation is set to false', () => {
+    it('MM-T1853 Bots managed plugins can be created when Enable Bot Account Creation is set to false', () => {
         // # Visit bot config
-        cy.apiAdminLogin();
         cy.visit('/admin_console/integrations/bot_accounts');
 
         // # Click 'false' to disable
-        cy.get('[data-testid="ServiceSettings.EnableBotAccountCreation"] > .col-sm-8 > :nth-child(3)').click();
+        cy.findByTestId('ServiceSettings.EnableBotAccountCreationfalse').click();
 
         // # Save
         cy.findByTestId('saveSetting').should('be.enabled').click();
@@ -112,7 +113,6 @@ describe('Managing bot accounts', () => {
 
     it('MM-T1854 Bots can be create when Enable Bot Account Creation is set to True.', () => {
         // # Visit bot config
-        cy.apiAdminLogin();
         cy.visit('/admin_console/integrations/bot_accounts');
 
         // * Check that creation is enabled
@@ -140,11 +140,13 @@ describe('Managing bot accounts', () => {
 
         // * Verify appropriate error message is displayed for bot login
         cy.findByText('Bot login is forbidden.').should('exist').and('be.visible');
+
+        // # Re-login admin
+        cy.apiAdminLogin();
     });
 
     it('MM-T1856/MM-T1857 Disable/Enable Bot', () => {
         // # Visit the integrations
-        cy.apiAdminLogin();
         cy.visit(`/${newTeam.name}/integrations/bots`);
 
         // * Check that the previously created bot is listed
@@ -177,7 +179,6 @@ describe('Managing bot accounts', () => {
         cy.apiCreateBot(botName2, 'Hello Bot', 'hello bot');
 
         // # Visit the integrations
-        cy.apiAdminLogin();
         cy.visit(`/${newTeam.name}/integrations/bots`);
 
         // * Check that the previously created bot is listed
@@ -199,9 +200,17 @@ describe('Managing bot accounts', () => {
         cy.get('.bot-list__disabled').should('not.be.visible');
     });
 
+    function createCustomAdmin() {
+        const sysadminUser = generateRandomUser('other-admin');
+
+        return cy.apiCreateUser({user: sysadminUser}).then(({user}) => {
+            return cy.apiPatchUserRoles(user.id, ['system_admin', 'system_user']).then(() => {
+                return cy.wrap({sysadmin: user});
+            });
+        });
+    }
     it('MM-T1859 Bot is kept active when owner is disabled', () => {
         // # Visit bot config
-        cy.apiAdminLogin();
         cy.visit('/admin_console/integrations/bot_accounts');
 
         // # Click 'false' to disable
@@ -211,17 +220,9 @@ describe('Managing bot accounts', () => {
         cy.findByTestId('saveSetting').should('be.enabled').click();
 
         // # Create another admin account
-        const adminName = 'other-admin-' + Date.now();
-        let newAdminId;
-        cy.apiCreateCustomAdmin(adminName).then((result) => {
-            if (!result.sysadmin.email_verified) {
-                newAdminId = result.sysadmin.id;
-                return cy.apiVerifyUserEmailById(result.sysadmin.id);
-            }
-            return Promise.resolve();
-        }).then(() => {
+        createCustomAdmin().then(({sysadmin}) => {
             // # Login as the new admin
-            cy.apiAdminCustomLogin(adminName);
+            cy.apiLogin(sysadmin);
 
             // # Create a new bot as the new admin
             const botName3 = 'stay-enabled-bot-' + Date.now();
@@ -231,7 +232,7 @@ describe('Managing bot accounts', () => {
             cy.apiAdminLogin();
 
             // # Deactivate the newly created admin
-            cy.apiDeactivateUser(newAdminId);
+            cy.apiDeactivateUser(sysadmin.id);
 
             // # Get bot list
             cy.visit(`/${newTeam.name}/integrations/bots`);
@@ -253,26 +254,16 @@ describe('Managing bot accounts', () => {
             // * Verify entire message
             cy.get('@postMessageText').
                 should('be.visible').
-                and('contain.text', `${adminName} was deactivated. They managed the following bot accounts`).
+                and('contain.text', `${sysadmin.username} was deactivated. They managed the following bot accounts`).
                 and('contain.text', botName3);
         });
     });
 
     it('MM-T1860 Bot is disabled when owner is deactivated', () => {
-        cy.apiAdminLogin();
-
         // # Create another admin account
-        const adminName = 'other-admin-' + Date.now();
-        let newAdminId;
-        cy.apiCreateCustomAdmin(adminName).then((result) => {
-            if (!result.sysadmin.email_verified) {
-                newAdminId = result.sysadmin.id;
-                return cy.apiVerifyUserEmailById(result.sysadmin.id);
-            }
-            return Promise.resolve();
-        }).then(() => {
+        createCustomAdmin().then(({sysadmin}) => {
             // # Login as the new admin
-            cy.apiAdminCustomLogin(adminName);
+            cy.apiLogin(sysadmin);
 
             // # Create a new bot as the new admin
             const botName3 = 'stay-enabled-bot-' + Date.now();
@@ -282,7 +273,7 @@ describe('Managing bot accounts', () => {
             cy.apiAdminLogin();
 
             // # Deactivate the newly created admin
-            cy.apiDeactivateUser(newAdminId);
+            cy.apiDeactivateUser(sysadmin.id);
 
             // # Get bot list
             cy.visit(`/${newTeam.name}/integrations/bots`);
@@ -304,7 +295,7 @@ describe('Managing bot accounts', () => {
             // * Verify entire message
             cy.get('@postMessageText').
                 should('be.visible').
-                and('contain.text', `${adminName} was deactivated. They managed the following bot accounts`).
+                and('contain.text', `${sysadmin.username} was deactivated. They managed the following bot accounts`).
                 and('contain.text', botName3);
         });
     });
