@@ -44,13 +44,8 @@ export default class Renderer extends marked.Renderer {
         }
 
         let className = 'post-code';
-        let codeClassName = 'hljs';
         if (!usedLanguage) {
             className += ' post-code--wrap';
-        }
-
-        if (SyntaxHighlighting.canHighlight(usedLanguage)) {
-            codeClassName = 'hljs hljs-ln';
         }
 
         let header = '';
@@ -62,10 +57,19 @@ export default class Renderer extends marked.Renderer {
             );
         }
 
-        // if we have to apply syntax highlighting AND highlighting of search terms, create two copies
+        let lineNumbers = '';
+        if (SyntaxHighlighting.canHighlight(usedLanguage)) {
+            lineNumbers = (
+                '<div class="post-code__line-numbers">' +
+                    SyntaxHighlighting.renderLineNumbers(code) +
+                '</div>'
+            );
+        }
+
+        // If we have to apply syntax highlighting AND highlighting of search terms, create two copies
         // of the code block, one with syntax highlighting applied and another with invisible text, but
         // search term highlighting and overlap them
-        const content = SyntaxHighlighting.highlight(usedLanguage, code, true);
+        const content = SyntaxHighlighting.highlight(usedLanguage, code);
         let searchedContent = '';
 
         if (this.formattingOptions.searchPatterns) {
@@ -92,10 +96,13 @@ export default class Renderer extends marked.Renderer {
         return (
             '<div class="' + className + '">' +
                 header +
-                '<code class="' + codeClassName + '">' +
-                    searchedContent +
-                    content +
-                '</code>' +
+                '<div class="hljs">' +
+                    lineNumbers +
+                    '<code>' +
+                        searchedContent +
+                        content +
+                    '</code>' +
+                '</div>' +
             '</div>'
         );
     }
@@ -201,7 +208,15 @@ export default class Renderer extends marked.Renderer {
         output += `" href="${outHref}" rel="noreferrer"`;
 
         // Any link that begins with siteURL should be opened inside the app
-        const internalLink = outHref.startsWith(this.formattingOptions.siteURL || '');
+        let internalLink = outHref.startsWith(this.formattingOptions.siteURL || '');
+
+        // special case for team invite links, channel links, and permalinks that are inside the app
+        const pattern = new RegExp(
+            '^(' +
+            TextFormatting.escapeRegex(this.formattingOptions.siteURL) +
+            ')?\\/(?:signup_user_complete|admin_console|[^\\/]+\\/(?:pl|channels|messages))\\/',
+        );
+        internalLink = internalLink || pattern.test(outHref);
 
         if (internalLink && this.formattingOptions.siteURL) {
             output += ` data-link="${outHref.replace(
