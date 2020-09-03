@@ -51,7 +51,7 @@ function mapStateToProps(state: GlobalState) {
             Preferences.HAS_SEEN_SIDEBAR_WHATS_NEW_MODAL,
             false,
         ),
-        isCloud: getLicense(state).Cloud,
+        isCloud: getLicense(state).Cloud === 'true',
     };
 }
 

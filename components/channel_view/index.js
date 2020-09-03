@@ -63,7 +63,7 @@ function mapStateToProps(state) {
         showNextStepsEphemeral: state.views.nextSteps.show,
         channelIsArchived: channel ? channel.delete_at !== 0 : false,
         viewArchivedChannels,
-        isCloud: getLicense(state).Cloud,
+        isCloud: getLicense(state).Cloud === 'true',
     };
 }
 
