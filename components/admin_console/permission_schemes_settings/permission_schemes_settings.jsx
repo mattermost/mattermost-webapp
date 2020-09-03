@@ -323,6 +323,8 @@ t('admin.permissions.permission.manage_private_channel_properties.description');
 t('admin.permissions.permission.manage_private_channel_properties.name');
 t('admin.permissions.group.manage_public_channel_members_and_read_groups.description');
 t('admin.permissions.group.manage_public_channel_members_and_read_groups.name');
+t('admin.permissions.group.convert_public_channel_to_private.description');
+t('admin.permissions.group.convert_public_channel_to_private.name');
 t('admin.permissions.permission.manage_public_channel_properties.description');
 t('admin.permissions.permission.manage_public_channel_properties.name');
 t('admin.permissions.permission.manage_roles.description');

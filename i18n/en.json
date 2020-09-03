@@ -1083,6 +1083,8 @@
   "admin.password.symbol": "At least one symbol (e.g. \"~!@#$%^&*()\")",
   "admin.password.uppercase": "At least one uppercase letter",
   "admin.permissions.documentationLinkText": "documentation",
+  "admin.permissions.group.convert_public_channel_to_private.description": "Convert public channels to private",
+  "admin.permissions.group.convert_public_channel_to_private.name": "Convert Channels",
   "admin.permissions.group.delete_posts.description": "Delete own and others' posts.",
   "admin.permissions.group.delete_posts.name": "Delete Posts",
   "admin.permissions.group.edit_posts.description": "Edit own and others' posts.",
