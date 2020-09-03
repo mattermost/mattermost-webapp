@@ -409,6 +409,14 @@ describe('Customization', () => {
 
         // * Verify that the input field didn't accept more characters than the limit
         cy.findByTestId('TeamSettings.SiteNameinput').should('have.value', siteName);
+
+        // # Save setting
+        saveSetting();
+
+        // * Verify that the value was saved correctly, without the extra characters
+        cy.apiGetConfig().then(({config}) => {
+            expect(config.TeamSettings.SiteName).to.equal(siteName);
+        });
     });
 });
 
