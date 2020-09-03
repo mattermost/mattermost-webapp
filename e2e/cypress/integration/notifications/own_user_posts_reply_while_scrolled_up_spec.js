@@ -47,12 +47,13 @@ describe('Notifications', () => {
         cy.get('.post-list__dynamic').scrollTo('top');
 
         // # Post a reply in RHS
-        cy.postMessageReplyInRHS('This is a test message');
+        const message = 'This is a test message';
+        cy.postMessageReplyInRHS(message);
 
-        cy.getLastPostId().then((postId) => {
-            // * Verify that 'Jump to New Messages' is not visible and that the new reply exists in the channel
-            cy.get('.toast__visible').should('not.be.visible');
-            cy.get(`#postMessageText_${postId}`).should('exist');
-        });
+        // * 'Jump to New Messages' is not visible
+        cy.get('.toast__visible').should('not.be.visible');
+
+        // * Message gets posted in Town Square
+        cy.uiWaitUntilMessagePostedIncludes(message);
     });
 });
