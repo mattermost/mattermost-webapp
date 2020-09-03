@@ -2570,7 +2570,7 @@
   "textbox.edit": "编辑消息",
   "textbox.help": "帮助",
   "textbox.inlinecode": "`内嵌代码`",
-  "textbox.italic": "_斜体_",
+  "textbox.italic": "*斜体*",
   "textbox.preformatted": "```预格式化```",
   "textbox.preview": "预览",
   "textbox.quote": ">引用",

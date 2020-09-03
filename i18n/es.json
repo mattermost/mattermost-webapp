@@ -2574,7 +2574,7 @@
   "textbox.edit": "Editar mensaje",
   "textbox.help": "Ayuda",
   "textbox.inlinecode": "`código`",
-  "textbox.italic": "_italica_",
+  "textbox.italic": "*italica*",
   "textbox.preformatted": "```preformateado```",
   "textbox.preview": "Vista previa",
   "textbox.quote": ">cita",

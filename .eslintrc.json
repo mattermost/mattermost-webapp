@@ -9,7 +9,8 @@
     "mattermost",
     "import",
     "cypress",
-    "jquery"
+    "jquery",
+    "no-only-tests"
   ],
   "parser": "@typescript-eslint/parser",
   "env": {
@@ -56,7 +57,8 @@
         ]
       }
     ],
-    "react/no-string-refs": 2
+    "react/no-string-refs": 2,
+    "no-only-tests/no-only-tests": ["error", {"focus": ["only", "skip"]}]
   },
   "overrides": [
     {

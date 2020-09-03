@@ -2570,7 +2570,7 @@
   "textbox.edit": "Editar mensagem",
   "textbox.help": "Ajuda",
   "textbox.inlinecode": "`código`",
-  "textbox.italic": "_itálico_",
+  "textbox.italic": "*itálico*",
   "textbox.preformatted": "```pré-formatado```",
   "textbox.preview": "Pré-visualização",
   "textbox.quote": ">citar",

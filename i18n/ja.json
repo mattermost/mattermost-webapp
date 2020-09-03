@@ -2570,7 +2570,7 @@
   "textbox.edit": "メッセージを編集する",
   "textbox.help": "ヘルプ",
   "textbox.inlinecode": "`インラインコード`",
-  "textbox.italic": "_斜体_",
+  "textbox.italic": "*斜体*",
   "textbox.preformatted": "```整形済みテキスト```",
   "textbox.preview": "プレビュー",
   "textbox.quote": ">引用",
