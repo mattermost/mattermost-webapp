@@ -370,7 +370,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
           "cells": Object {
             "edit": <span
               className="group-actions TeamList_editRow"
-              data-testid="DN0edit"
+              data-testid="DNedit"
             >
               <Link
                 to="/admin_console/user_management/channels/id0"
@@ -417,7 +417,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
           "cells": Object {
             "edit": <span
               className="group-actions TeamList_editRow"
-              data-testid="DN1edit"
+              data-testid="DNedit"
             >
               <Link
                 to="/admin_console/user_management/channels/id1"
@@ -464,7 +464,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
           "cells": Object {
             "edit": <span
               className="group-actions TeamList_editRow"
-              data-testid="DN2edit"
+              data-testid="DNedit"
             >
               <Link
                 to="/admin_console/user_management/channels/id2"
@@ -511,7 +511,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
           "cells": Object {
             "edit": <span
               className="group-actions TeamList_editRow"
-              data-testid="DN3edit"
+              data-testid="DNedit"
             >
               <Link
                 to="/admin_console/user_management/channels/id3"
@@ -558,7 +558,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
           "cells": Object {
             "edit": <span
               className="group-actions TeamList_editRow"
-              data-testid="DN4edit"
+              data-testid="DNedit"
             >
               <Link
                 to="/admin_console/user_management/channels/id4"
@@ -605,7 +605,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
           "cells": Object {
             "edit": <span
               className="group-actions TeamList_editRow"
-              data-testid="DN5edit"
+              data-testid="DNedit"
             >
               <Link
                 to="/admin_console/user_management/channels/id5"
@@ -652,7 +652,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
           "cells": Object {
             "edit": <span
               className="group-actions TeamList_editRow"
-              data-testid="DN6edit"
+              data-testid="DNedit"
             >
               <Link
                 to="/admin_console/user_management/channels/id6"
@@ -699,7 +699,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
           "cells": Object {
             "edit": <span
               className="group-actions TeamList_editRow"
-              data-testid="DN7edit"
+              data-testid="DNedit"
             >
               <Link
                 to="/admin_console/user_management/channels/id7"
@@ -746,7 +746,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
           "cells": Object {
             "edit": <span
               className="group-actions TeamList_editRow"
-              data-testid="DN8edit"
+              data-testid="DNedit"
             >
               <Link
                 to="/admin_console/user_management/channels/id8"
@@ -793,7 +793,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
           "cells": Object {
             "edit": <span
               className="group-actions TeamList_editRow"
-              data-testid="DN9edit"
+              data-testid="DNedit"
             >
               <Link
                 to="/admin_console/user_management/channels/id9"
