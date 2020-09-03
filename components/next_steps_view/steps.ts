@@ -87,6 +87,13 @@ export const Steps: StepType[] = [
 // Filter the steps shown by checking if our user has any of the required roles for that step
 export function isStepForUser(step: StepType, roles: string): boolean {
     const userRoles = roles.split(' ');
+    if (step.id === RecommendedNextSteps.NOTIFICATION_SETUP) {
+        if (!('Notification' in window)) {
+            return false;
+        } else if (Notification.permission === 'denied') {
+            return false;
+        }
+    }
     return (
         isEqual(userRoles.sort(), step.roles.sort()) ||
           step.roles.length === 0
