@@ -56,7 +56,7 @@ describe('Notifications', () => {
         });
     });
 
-    it('MM-T546 Words that trigger mentions - Deselect username, still get mention when added to private channel', () => {
+    it('MM-T550 Words that trigger mentions - @-icon still shows mentions list if all triggers deselected', () => {
         const text = `${otherUser.username} test message!`;
 
         // # Type @ in the input box
@@ -78,7 +78,7 @@ describe('Notifications', () => {
         // # Click on the @ button
         cy.get('#channelHeaderMentionButton', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').click();
 
-        // * Ensure that the user's name is in the search box after clicking on the @ buton
+        // * Ensure that the user's name is in the search box after clicking on the @ button
         cy.get('#searchBox').should('be.visible').and('have.value', `@${otherUser.username} `);
         cy.get('#search-items-container').should('be.visible').within(() => {
             // * Ensure that the mentions are visible in the RHS
