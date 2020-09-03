@@ -130,36 +130,35 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
                 />
             );
         }
-
         return (
-          <div
-            className={classNames("SidebarNextSteps", {
-              active: this.props.active,
-            })}
-            onClick={this.showNextSteps}
-          >
-            <div className="SidebarNextSteps__top">
-              <span>{header}</span>
-              <button
-                className="SidebarNextSteps__close"
-                onClick={this.closeNextSteps}
-              >
-                <i className="icon icon-close" />
-              </button>
+            <div
+                className={classNames('SidebarNextSteps', {
+                    active: this.props.active,
+                })}
+                onClick={this.showNextSteps}
+            >
+                <div className='SidebarNextSteps__top'>
+                    <span>{header}</span>
+                    <button
+                        className='SidebarNextSteps__close'
+                        onClick={this.closeNextSteps}
+                    >
+                        <i className='icon icon-close'/>
+                    </button>
+                </div>
+                <div className='SidebarNextSteps__middle'>
+                    <span>{middleSection}</span>
+                </div>
+                {this.props.showNextSteps && (
+                    <div className='SidebarNextSteps__progressBar'>
+                        <ProgressBar
+                            current={complete}
+                            total={total}
+                            basePercentage={4}
+                        />
+                    </div>
+                )}
             </div>
-            <div className="SidebarNextSteps__middle">
-              <span>{middleSection}</span>
-            </div>
-            {this.props.showNextSteps && (
-              <div className="SidebarNextSteps__progressBar">
-                <ProgressBar
-                  current={complete}
-                  total={total}
-                  basePercentage={4}
-                />
-              </div>
-            )}
-          </div>
         );
     }
 }
