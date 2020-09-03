@@ -20,7 +20,7 @@ describe('Channels', () => {
         });
     });
 
-    it('MM-28274 - Convert to private channel should only be shown to users with permission', () => {
+    it('MM-T3348 - Convert to private channel should only be shown to users with permission', () => {
         // # Reset permissions to default
         resetPermissionsToDefault();
 
