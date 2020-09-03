@@ -58,11 +58,6 @@ describe('Scroll', () => {
         // # Post a starting message with user 1
         cy.postMessage('This is the first post');
 
-        // # Scroll to bottom of the channel
-        // ensureScrollable is false as we dont want assertion to fail when we are already at bottom
-        // and there is no more to scroll
-        cy.get('div.post-list__dynamic').should('be.visible').scrollTo('bottom', {ensureScrollable: false});
-
         // # Make enough posts so that first post is scrolled past hidden
         Cypress._.times(30, (postIndex) => {
             cy.postMessage(`p-${postIndex + 1}`);
