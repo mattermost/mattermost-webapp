@@ -3665,7 +3665,7 @@
   "textbox.edit": "Edit message",
   "textbox.help": "Help",
   "textbox.inlinecode": "`inline code`",
-  "textbox.italic": "_italic_",
+  "textbox.italic": "*italic*",
   "textbox.preformatted": "```preformatted```",
   "textbox.preview": "Preview",
   "textbox.quote": ">quote",
