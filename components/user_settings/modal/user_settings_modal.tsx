@@ -98,6 +98,10 @@ class UserSettingsModal extends React.PureComponent<Props, State> {
     private modalBodyRef: React.RefObject<Modal>;
     private afterConfirm: (() => void) | null;
 
+    static defaultProps = {
+        onExit: () => {}
+    };
+
     constructor(props: Props) {
         super(props);
 
