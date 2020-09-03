@@ -414,7 +414,7 @@ describe('Customization', () => {
         // # Save setting
         saveSetting();
 
-        // # Logout from the current user and login as sysadmin
+        // # Logout
         cy.apiLogout();
 
         // * Ensure that the user was redirected to the login page after the logout
