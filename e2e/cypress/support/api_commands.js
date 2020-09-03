@@ -376,26 +376,6 @@ Cypress.Commands.add('apiEnablePluginById', (pluginId) => {
 });
 
 /**
- * Remove plugin by id.
- *
- * @param {String} pluginId - Id of the plugin to remove
- * @param {Boolean} errorOnFailure - whether to fail if removing is unsuccessful
- */
-Cypress.Commands.add('apiRemovePluginById', (pluginId, errorOnFailure) => {
-    return cy.request({
-        headers: {'X-Requested-With': 'XMLHttpRequest'},
-        url: `/api/v4/plugins/${encodeURIComponent(pluginId)}`,
-        method: 'DELETE',
-        timeout: 60000,
-        failOnStatusCode: errorOnFailure,
-    }).then((response) => {
-        if (errorOnFailure) {
-            expect(response.status).to.equal(200);
-        }
-    });
-});
-
-/**
  * Upload binary file by name and Type *
  * @param {String} filename - name of the plugin to upload
  */
