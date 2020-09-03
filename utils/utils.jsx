@@ -1672,9 +1672,16 @@ export function removePrefixFromLocalStorage(prefix) {
 }
 
 export function copyToClipboard(data) {
+    // Attempt to use the newer clipboard API when possible
+    const clipboard = navigator.clipboard;
+    if (clipboard) {
+        clipboard.writeText(data);
+        return;
+    }
+
     // creates a tiny temporary text area to copy text out of
     // see https://stackoverflow.com/a/30810322/591374 for details
-    var textArea = document.createElement('textarea');
+    const textArea = document.createElement('textarea');
     textArea.style.position = 'fixed';
     textArea.style.top = 0;
     textArea.style.left = 0;
