@@ -90,10 +90,6 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
             return null;
         }
 
-        // if (!this.props.active && !this.props.showNextSteps) {
-        //     return null;
-        // }
-
         const total = this.props.steps.length;
         const complete = this.props.preferences.filter((pref) => pref.name !== RecommendedNextSteps.HIDE && pref.value === 'true').length;
 
