@@ -44,6 +44,7 @@ SyncGroupsToggle.propTypes = {
 const AllowAllToggle = ({syncChecked, allAllowedChecked, allowedDomainsChecked, allowedDomains, onToggle, isDisabled}) =>
     !syncChecked && (
         <LineSwitch
+            id='allowAllToggleSwitch'
             disabled={isDisabled}
             toggled={allAllowedChecked}
             singleLine={true}

@@ -16,8 +16,9 @@ import {allowOnlyUserFromSpecificDomain, inviteUserByEmail, verifyEmailInviteAnd
 
 describe('Team Settings', () => {
     let testTeam;
-    const {username, email, password} = generateRandomUser();
-    const emailDomain = 'sample.mattermost.com';
+    const {username, password} = generateRandomUser();
+    const email = `${username}@gmail.com`;
+    const emailDomain = 'gmail.com';
 
     let isLicensed;
 
@@ -37,17 +38,17 @@ describe('Team Settings', () => {
         });
     });
 
-    it('MM-T386 Invite new user to closed team with \'Allow only users with a specific email domain to join this team\' set to \'sample.mattermost.com\'', () => {
-        // # Allow only users from 'sample.mattermost.com' domain
+    it('MM-T389 Invite new user to closed team with \'Allow only users with a specific email domain to join this team\' set to an email that is NOT \'sample.mattermost.com\'', () => {
+        // # Allow only users from 'gmail.com' domain
         allowOnlyUserFromSpecificDomain(emailDomain);
 
-        // # Invite user via email
+        // # Invite a new user (with the email declared in the parent scope)
         inviteUserByEmail(email, isLicensed);
 
         // # Logout from sysadmin account
         cy.apiLogout();
 
-        // # Invite a new user (with the email declared in the parent scope)
+        // # Verify that the invite email is correct, and visit the link provided in the email
         verifyEmailInviteAndVisitLink(username, email, testTeam.name, testTeam.display_name);
 
         // # Signup and verify the initial tutorial
