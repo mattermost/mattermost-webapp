@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @account_setting
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
@@ -18,12 +17,13 @@ describe('Account Settings -> General -> Email', () => {
     before(() => {
         cy.apiUpdateConfig({EmailSettings: {RequireEmailVerification: true}});
 
-        // # Login as verified user, create a new team and visit town-square
-        cy.apiLogin({username: 'user-1', password: 'SampleUs@r-1'}).then(({user}) => {
+        cy.apiInitSetup().then(({team, user}) => {
             testUser = user;
-            cy.apiCreateTeam('team', 'Team').then(({team}) => {
-                cy.visit(`/${team.name}/channels/town-square`);
-            });
+
+            cy.apiVerifyUserEmailById(testUser.id);
+
+            cy.apiLogin(testUser);
+            cy.visit(`/${team.name}/channels/town-square`);
         });
     });
 

@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @account_setting
 
 describe('Account Settings -> Security -> View Access History', () => {
@@ -31,7 +30,7 @@ describe('Account Settings -> Security -> View Access History', () => {
 
     it('MM-T2087 View Access History', () => {
         // # Click "View Access History" link
-        cy.get('button[data-testid="viewAccessHistory"]').should('be.visible').click();
+        cy.findByTestId('viewAccessHistory').should('be.visible').click();
 
         // * Check that the Access History modal and table are visible
         cy.get('#accessHistoryModalLabel').should('be.visible');
@@ -47,7 +46,6 @@ describe('Account Settings -> Security -> View Access History', () => {
         cy.get('.modal-body table thead tr th span').eq(3).should('be.visible').should('contain', 'Session ID');
 
         // * Check that the Access History table body is visible and not empty
-        cy.get('tbody[data-testid="auditTableBody"]').should('be.visible');
-        cy.get('tbody[data-testid="auditTableBody"]').should('not.empty');
+        cy.findByTestId('auditTableBody').should('be.visible').should('not.empty');
     });
 });

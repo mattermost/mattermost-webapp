@@ -80,11 +80,6 @@ describe('Account Settings > Sidebar > General', () => {
             scrollIntoView().
             should('be.visible');
     });
-
-    after(() => {
-        // # Logout
-        cy.apiLogout();
-    });
 });
 
 describe('Account Settings -> General -> Full Name', () => {
@@ -119,6 +114,6 @@ describe('Account Settings -> General -> Full Name', () => {
         cy.get('#saveSetting').click();
 
         // * Check that the first name was correctly updated
-        cy.get('#nameDesc').should('be.visible').should('contain', testUser.first_name + '_new');
+        cy.get('#nameDesc').should('be.visible').should('contain', testUser.first_name + '_new ' + testUser.last_name);
     });
 });
