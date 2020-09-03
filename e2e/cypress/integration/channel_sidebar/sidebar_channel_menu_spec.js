@@ -71,7 +71,7 @@ describe('Sidebar channel menu', () => {
         cy.get('#sidebarItem_town-square').should(beRead);
     });
 
-    it('MM-T3349_2 hould be able to favorite/unfavorite a channel', () => {
+    it('MM-T3349_2 should be able to favorite/unfavorite a channel', () => {
         // * Verify that the channel starts in the CHANNELS category
         cy.contains('.SidebarChannelGroup', 'CHANNELS').as('channelsCategory');
         cy.get('@channelsCategory').find('#sidebarItem_town-square');
