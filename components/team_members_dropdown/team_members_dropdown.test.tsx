@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import TeamMembersDropdown from 'components/team_members_dropdown/';
+import TeamMembersDropdown from 'components/team_members_dropdown/team_members_dropdown';
 
 describe('components/team_members_dropdown', () => {
     const user = {
@@ -154,7 +154,7 @@ describe('components/team_members_dropdown', () => {
         invite_id: 'sgic8xqghb8iupttw6skeqifuo',
         allow_open_invite: false,
         scheme_id: 'serjktghwaljreglaw43q34qtl',
-        group_constrained: true,
+        group_constrained: false,
     };
 
     const baseProps = {
