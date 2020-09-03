@@ -131,5 +131,16 @@ declare namespace Cypress {
          *   cy.apiInvalidateCache();
          */
         apiInvalidateCache(): Chainable<Record<string, any>>;
+
+        /**
+         * Delete the custom brand image.
+         * See https://api.mattermost.com/#tag/brand/paths/~1brand~1image/delete
+         * @returns {Response} response: Cypress-chainable response which should have either a successful HTTP status of 200 OK
+         * or a 404 Not Found in case that the image didn't exists to continue or pass.
+         *
+         * @example
+         *   cy.apiDeleteBrandImage();
+         */
+        apiDeleteBrandImage(): Chainable<Record<string, any>>;
     }
 }

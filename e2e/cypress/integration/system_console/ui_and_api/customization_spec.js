@@ -396,6 +396,46 @@ describe('Customization', () => {
             expect(config.TeamSettings.EnableCustomBrand).to.equal(false);
         });
     });
+
+    it('T1028 - Custom brand image and text - true, and uploaded / updated', () => {
+        // # Make sure necessary field is false
+        cy.apiUpdateConfig({TeamSettings: {EnableCustomBrand: false}});
+        cy.reload();
+
+        // # Ensure that the brand image is deleted
+        cy.apiDeleteBrandImage();
+        cy.reload();
+
+        // # Enable custom branding
+        cy.findByTestId('TeamSettings.EnableCustomBrandtrue').check();
+
+        // # Upload the image
+        cy.findByTestId('CustomBrandImage').should('be.visible').within(() => {
+            cy.get('input').attachFile('mattermost-icon.png');
+        });
+
+        // * Verify that custom brand image setting is visible and matches text content
+        cy.findByTestId('TeamSettings.CustomBrandTextlabel').scrollIntoView().should('be.visible').and('have.text', 'Custom Brand Text:');
+
+        // # Update custom brand text
+        const customBrandText = 'This is a custom brand text';
+        cy.findByTestId('TeamSettings.SiteNameinput').clear().type(customBrandText);
+
+        // # Save setting
+        saveSetting();
+
+        // # Logout from the current user
+        cy.apiLogout();
+
+        // * Ensure that the user was redirected to the login page after the logout
+        cy.url().should('include', '/login');
+
+        // * Ensure that the signup is loaded and the img is visible
+        cy.get('.signup__markdown').find('img').should('be.visible');
+
+        // * Ensure that the custom brand text has been updated
+        cy.get('#site_name').should('have.text', customBrandText);
+    });
 });
 
 function saveSetting() {
