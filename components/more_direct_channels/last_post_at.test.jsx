@@ -15,7 +15,6 @@ describe('components/more_direct_channels/LastPostAt', () => {
         [moment().add(-60, 'minutes').valueOf(), '1 hour ago'],
         [moment().add(-23, 'hours').valueOf(), '23 hours ago'],
         [moment().add(-25, 'hours').valueOf(), 'yesterday'],
-        [moment().add(-33, 'days').valueOf(), 'last month'],
         [moment().add(-11, 'months').valueOf(), '11 months ago'],
         [moment().add(-12, 'months').valueOf(), 'last year'],
         [moment().add(-2, 'years').valueOf(), '2 years ago'],
