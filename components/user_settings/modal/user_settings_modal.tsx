@@ -100,7 +100,7 @@ class UserSettingsModal extends React.PureComponent<Props, State> {
     private afterConfirm: (() => void) | null;
 
     static defaultProps = {
-        onExit: () => {}
+        onExit: () => {},
     };
 
     constructor(props: Props) {
