@@ -396,6 +396,20 @@ describe('Customization', () => {
             expect(config.TeamSettings.EnableCustomBrand).to.equal(false);
         });
     });
+
+    it('T1026 - Custom Branding - Name character limit', () => {
+        // * Verify that setting is visible and matches text content
+        cy.findByTestId('TeamSettings.SiteNamelabel').scrollIntoView().should('be.visible').and('have.text', 'Site Name:');
+
+        // Character limit is 30, and Mattermost is exactly 10 characters long
+        const siteName = 'Mattermost'.repeat(3);
+
+        // # Type the maximum amount of characters and then some more
+        cy.findByTestId('TeamSettings.SiteNameinput').clear().type(siteName + 'something else');
+
+        // * Verify that the input field didn't accept more characters than the limit
+        cy.findByTestId('TeamSettings.SiteNameinput').should('have.value', siteName);
+    });
 });
 
 function saveSetting() {
