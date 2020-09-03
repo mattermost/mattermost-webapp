@@ -406,8 +406,8 @@ describe('Customization', () => {
         cy.findByTestId('TeamSettings.SiteNamelabel').scrollIntoView().should('be.visible').and('have.text', 'Site Name:');
 
         // # Update both Site Name and Description to store test values
-        const siteName = 'Mattermost_Text',
-              siteDescription = 'This is a testing Mattermost site';
+        const siteName = 'Mattermost_Text';
+        const siteDescription = 'This is a testing Mattermost site';
         cy.findByTestId('TeamSettings.SiteNameinput').clear().type(siteName);
         cy.findByTestId('TeamSettings.CustomDescriptionTextinput').clear().type(siteDescription);
 
@@ -418,7 +418,7 @@ describe('Customization', () => {
         cy.apiLogout();
 
         // * Ensure that the user was redirected to the login page after the logout
-        cy.url().should('include', `/login`);
+        cy.url().should('include', '/login');
 
         // * Ensure Site Name and Description are shown the updated values in the login screen
         cy.get('#site_name').should('have.text', siteName);
