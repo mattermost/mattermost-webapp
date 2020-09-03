@@ -33,10 +33,10 @@ type Props = {
         getMyTeamUnreads: () => void;
         getUser: (id: string) => void;
         getTeamMember: (teamId: string, userId: string) => void;
-        getTeamStats: () => ActionFunc;
-        getChannelStats: () => void;
+        getTeamStats: (teamId: string) => ActionFunc;
+        getChannelStats: (channelId: string) => void;
         updateTeamMemberSchemeRoles: (teamId: string, userId: string, b1: boolean, b2: boolean) => ActionFunc & Partial<{error: Error}>;
-        updateUserActive: () => void;
+        updateUserActive: (userId: string, active: boolean) => ActionFunc;
         removeUserFromTeamAndGetStats: (teamId: string, userId: string) => ActionFunc & Partial<{error: Error}>;
     };
 };
