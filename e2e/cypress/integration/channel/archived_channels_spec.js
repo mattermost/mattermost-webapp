@@ -29,12 +29,13 @@ describe('Leave an archived channel', () => {
 
     before(() => {
         // # Login as test user and visit town-square
-        cy.apiInitSetup({loginAfter: true}).then(({team, channel, user}) => {
+        cy.apiInitSetup().then(({team, channel, user}) => {
             testTeam = team;
             testChannel = channel;
             testUser = user;
 
-            cy.apiCreateUser({prefix: 'second', bypassTutorial: true}).then(({user: second}) => {
+            cy.apiCreateUser({prefix: 'second'}).then(({user: second}) => {
+                cy.apiAddUserToTeam(testTeam.id, second.id);
                 otherUser = second;
             });
             cy.visit(`/${team.name}/channels/${testChannel.name}`);
@@ -43,6 +44,8 @@ describe('Leave an archived channel', () => {
     });
 
     it('should leave recently archived channel', () => {
+        cy.apiLogin(testUser);
+
         // # Archive the channel
         cy.get('#channelHeaderDropdownIcon').click();
         cy.get('#channelArchiveChannel').click();
