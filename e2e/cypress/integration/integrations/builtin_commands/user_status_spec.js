@@ -44,11 +44,11 @@ describe('Integrations', () => {
 
         // # Switch to off-topic channel
         cy.findByLabelText('public channels').findByText('Off-Topic').click();
-        cy.findByLabelText('channel header region').findByText('Off-Topic');
+        cy.findByLabelText('channel header region').findByText('Off-Topic').should('be.visible');
 
         // # Then switch back to town-square channel again
         cy.findByLabelText('public channels').findByText('Town Square').click();
-        cy.findByLabelText('channel header region').findByText('Town Square');
+        cy.findByLabelText('channel header region').findByText('Town Square').should('be.visible');
 
         // * Should not appear "New Messages" line
         cy.findByText('New Messages').should('not.exist');
@@ -57,9 +57,9 @@ describe('Integrations', () => {
         cy.uiGetNthPost(-2).within(() => {
             cy.findByText(offline.message);
 
-            // * Verify system message profile is visible without status 
+            // * Verify system message profile is visible and without status
             cy.findByLabelText('Mattermost Logo').should('be.visible');
-            cy.get('.post__img').find('.status').should('not.exist')
+            cy.get('.post__img').find('.status').should('not.exist');
         });
     });
 
