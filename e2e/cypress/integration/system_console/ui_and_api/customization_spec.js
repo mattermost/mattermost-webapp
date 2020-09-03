@@ -417,6 +417,9 @@ describe('Customization', () => {
         // # Logout from the current user and login as sysadmin
         cy.apiLogout();
 
+        // * Ensure that the user was redirected to the login page after the logout
+        cy.url().should('include', `/login`);
+
         // * Ensure Site Name and Description are shown the updated values in the login screen
         cy.get('#site_name').should('have.text', siteName);
         cy.get('#site_description').should('have.text', siteDescription);
