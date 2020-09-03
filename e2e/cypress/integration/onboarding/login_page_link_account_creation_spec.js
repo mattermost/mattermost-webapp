@@ -11,14 +11,12 @@
 // Group: @onboarding
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
-import {getEmailUrl, getEmailMessageSeparator, reUrl, getRandomId} from '../../utils';
+import {generateRandomUser} from '../../support/api/user';
+import {getEmailUrl, getEmailMessageSeparator, reUrl} from '../../utils';
 
 describe('Onboarding', () => {
     let testTeam;
-    const randomId = getRandomId();
-    const username = `user${randomId}`;
-    const email = `user${randomId}@sample.mattermost.com`;
-    const password = 'passwd';
+    const {username, email, password} = generateRandomUser();
 
     const baseUrl = Cypress.config('baseUrl');
     const mailUrl = getEmailUrl(baseUrl);
@@ -63,7 +61,8 @@ describe('Onboarding', () => {
         cy.visit(`/${testTeam.name}`);
 
         // # Attempt to create a new account
-        cy.get('#signup', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').click();
+        cy.get('#login_section', {timeout: TIMEOUTS.FORTY_FIVE_SEC}).should('be.visible').click();
+        cy.get('#signup').should('be.visible').click();
         cy.get('#email').should('be.focused').and('be.visible').type(email);
         cy.get('#name').should('be.visible').type(username);
         cy.get('#password').should('be.visible').type(password);
@@ -85,7 +84,7 @@ describe('Onboarding', () => {
         cy.get('#loginButton').click();
 
         // * Check that the display name of the team the user was invited to is being correctly displayed
-        cy.get('#headerTeamName').should('contain.text', testTeam.display_name);
+        cy.get('#headerTeamName', {timeout: TIMEOUTS.HALF_MIN}).should('contain.text', testTeam.display_name);
 
         // * Check that 'Town Square' is currently being selected
         cy.get('.active').within(() => {
