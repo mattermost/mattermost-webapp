@@ -62,6 +62,7 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
         var showModal = false;
         var dismissFunc = null;
         var isDismissed = null;
+        var canCloseBar = false;
 
         switch (warnMetricStatus.id) {
         case WarnMetricTypes.SYSTEM_WARN_METRIC_NUMBER_OF_ACTIVE_USERS_500:
@@ -82,6 +83,7 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
                 showModal = false;
                 dismissFunc = this.dismissNumberOfActiveUsersWarnMetricAck;
                 isDismissed = this.props.dismissedNumberOfActiveUsersWarnMetricStatusAck;
+                canCloseBar = true;
             } else {
                 message = (
                     <React.Fragment>
@@ -102,6 +104,7 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
                 showModal = true;
                 dismissFunc = this.dismissNumberOfActiveUsersWarnMetric;
                 isDismissed = this.props.dismissedNumberOfActiveUsersWarnMetricStatus;
+                canCloseBar = false;
             }
             return {
                 Message: message,
@@ -109,6 +112,7 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
                 IsDismissed: isDismissed,
                 Type: type,
                 ShowModal: showModal,
+                CanCloseBar: canCloseBar,
             };
         default:
             return null;
@@ -181,7 +185,7 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
 
                     return (
                         <AnnouncementBar
-                            showCloseButton={false}
+                            showCloseButton={notice.CanCloseBar}
                             handleClose={notice.DismissFunc}
                             type={notice.Type}
                             showModal={notice.ShowModal}
