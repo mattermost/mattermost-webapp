@@ -34,6 +34,7 @@
         padding: 24px;
         max-width: none;
         min-width: 337px;
+        box-shadow: 0px 12px 32px rgba(0, 0, 0, 0.12);
     }
 
     .tooltip-arrow {
@@ -43,7 +44,7 @@
 
         &::before {
             content: '';
-            display: block;  
+            display: block;
             position: relative;
             width: 0;
             height: 0;
