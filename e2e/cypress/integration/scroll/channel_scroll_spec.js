@@ -54,8 +54,7 @@ describe('Scroll', () => {
         cy.findByText('This is the last post').should('exist').and('be.visible');
     });
 
-    // https://github.com/mattermost/mattermost-webapp/pull/6342
-    it.only('MM-T2382 Center channel scroll', () => {
+    it('MM-T2382 Center channel scroll', () => {
         // # Post a starting message with user 1
         cy.postMessage('This is the first post');
 
