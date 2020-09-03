@@ -11,6 +11,7 @@
 
 import * as MESSAGES from '../../fixtures/messages';
 import * as TIMEOUTS from '../../fixtures/timeouts';
+import {getEmailUrl} from '../../utils';
 import {spyNotificationAs} from '../../support/notification';
 
 describe('Desktop notifications', () => {
@@ -57,6 +58,79 @@ describe('Desktop notifications', () => {
         });
     });
 
+    it('MM-T482 Desktop Notifications - (at) here not rec\'d when logged off', () => {
+        cy.apiCreateUser().then(({user}) => {
+            cy.apiAddUserToTeam(testTeam.id, user.id);
+            cy.apiLogin(user);
+
+            // Visit town-square.
+            cy.visit(`/${testTeam.name}/channels/town-square`);
+            spyNotificationAs('withoutNotification', 'granted');
+
+            // # Ensure notifications are set up to fire a desktop notification if are mentioned.
+            changeDesktopNotificationSettingsAs('#desktopNotificationMentions');
+
+            cy.apiGetChannelByName(testTeam.name, 'Off-Topic').then((res) => {
+                const channel = res.body;
+
+                // # Logout the user.
+                cy.apiLogout().wait(TIMEOUTS.TEN_SEC);
+
+                // Have another user send a post.
+                cy.postMessageAs({sender: testUser, message: '@here', channelId: channel.id});
+            });
+
+            // # Login with the user.
+            cy.apiLogin(user).then(() => {
+                // Visit town-square.
+                cy.visit(`/${testTeam.name}/channels/town-square`);
+
+                // * Desktop notification is not received.
+                cy.wait(TIMEOUTS.HALF_SEC);
+                cy.get('@withoutNotification').should('not.have.been.called');
+
+                // * Should not have unread mentions indicator.
+                cy.get('#sidebarItem_off-topic').
+                    scrollIntoView().
+                    find('#unreadMentions').
+                    should('not.exist');
+
+                // # Verify that off-topic channel is unread and then click.
+                cy.findByLabelText('off-topic public channel unread').
+                    should('exist').
+                    click();
+
+                // # Get last post message text
+                cy.getLastPostId().then((postId) => {
+                    cy.get(`#postMessageText_${postId}`).as('postMessageText');
+                });
+
+                // * Verify message has @here mention and it is highlighted.
+                cy.get('@postMessageText').
+                    find('[data-mention="here"]').
+                    should('exist');
+            });
+
+            const baseUrl = Cypress.config('baseUrl');
+            const mailUrl = getEmailUrl(baseUrl);
+
+            // * Verify no email notification received for the mention.
+            cy.task('getRecentEmail', {username: user.username, mailUrl}).then((response) => {
+                const {data, status} = response;
+
+                // # Should return success status.
+                expect(status).to.equal(200);
+
+                // # Verify that only joining to mattermost e-mail exist.
+                expect(data.to.length).to.equal(1);
+                expect(data.to[0]).to.contain(user.email);
+
+                // # Verify that the email subject is about joining.
+                expect(data.subject).to.contain('You joined');
+            });
+        });
+    });
+
     it('MM-T495 Desktop Notifications - Can set to DND and no notification fires on DM', () => {
         cy.apiCreateUser({}).then(({user}) => {
             cy.apiAddUserToTeam(testTeam.id, user.id);
@@ -89,3 +163,29 @@ describe('Desktop notifications', () => {
         });
     });
 });
+
+const changeDesktopNotificationSettingsAs = (category) => {
+    // # Click hamburger main menu.
+    cy.get('#sidebarHeaderDropdownButton').click();
+
+    // # Click "Account settings"
+    cy.findByText('Account Settings').should('be.visible').click();
+
+    // * Check that the "Account Settings" modal was opened.
+    cy.get('#accountSettingsModal').should('exist').within(() => {
+        // # Click "Notifications"
+        cy.findByText('Notifications').should('be.visible').click();
+
+        // # Click "Desktop"
+        cy.findByText('Desktop Notifications').should('be.visible').click();
+
+        // # Select category.
+        cy.get(category).check();
+
+        // # Click "Save"
+        cy.findByText('Save').scrollIntoView().should('be.visible').click();
+
+        // Close the modal.
+        cy.get('#accountSettingsHeader').find('button').should('be.visible').click();
+    });
+};
