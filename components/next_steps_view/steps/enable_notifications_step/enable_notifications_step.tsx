@@ -11,19 +11,24 @@ import TextCardWithAction from '../text_card_with_action/text_card_with_action';
 
 export default function EnableNotificationsStep(props: StepComponentProps) {
     const onFinish = async () => {
-        await showNotification({
-            title: Utils.localizeMessage(
-                'next_steps_view.notificationSetup.notficationsEnabledTitle',
-                'Notifications Enabled!'
-            ),
-            body: Utils.localizeMessage(
-                'next_steps_view.notificationSetup.notficationsEnabledBody',
-                'This is how notifications from Mattermost will appear'
-            ),
-            requireInteraction: false,
-            silent: false,
-            onClick: () => {},
-        });
+        try {
+            await showNotification({
+                title: Utils.localizeMessage(
+                    'next_steps_view.notificationSetup.notficationsEnabledTitle',
+                    'Notifications Enabled!'
+                ),
+                body: Utils.localizeMessage(
+                    'next_steps_view.notificationSetup.notficationsEnabledBody',
+                    'This is how notifications from Mattermost will appear'
+                ),
+                requireInteraction: false,
+                silent: false,
+                onClick: () => { },
+            });
+        } catch (err) {
+            // If the user is in incognito, or blocks notifications, errors are thrown
+            // Catching and doing nothing will complete the step so the user can move on
+        }
         props.onFinish(props.id);
     };
 
