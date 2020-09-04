@@ -276,11 +276,18 @@ describe('Upload Files', () => {
             cy.request({url: publicLinkOfAttachment, failOnStatusCode: false}).then((response) => {
                 // * Verify that the link no longer exists in the system
                 expect(response.status).to.be.equal(404);
-
-                // * Verify that it contains text stating unable to get the file info
-                expect(response.body).to.contain('Unable+to+get+the+file+info.');
             });
+
+            // # Open the deleted link in the browser
+            cy.visit(publicLinkOfAttachment, {failOnStatusCode: false}).as('deletedLinkTab');
         });
+
+        cy.wait('@deletedLinkTab');
+
+        // * Verify that we land on attachment not found page
+        cy.findByText('Error').should('be.visible');
+        cy.findByText('Unable to get the file info.').should('be.visible');
+        cy.findByText('Back to Mattermost').should('be.visible').parent().should('have.attr', 'href', '/');
     });
 });
 
