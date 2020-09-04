@@ -206,7 +206,7 @@ describe('Upload Files', () => {
         });
     });
 
-    it.only('MM-T346 Public link related to a deleted post should no longer open the file', () => {
+    it('MM-T346 Public link related to a deleted post should no longer open the file', () => {
         // # Enable option for public file links
         cy.apiUpdateConfig({
             FileSettings: {
