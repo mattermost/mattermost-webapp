@@ -18,6 +18,9 @@ import * as UserAgent from 'utils/user_agent';
 import {ModalIdentifiers} from 'utils/constants';
 import * as Utils from 'utils/utils';
 
+import TeamMembersModal from 'components/team_members_modal';
+import {toggleShortcutsModal} from 'actions/global_actions.jsx';
+
 const seeAllApps = () => {
     window.open('https://mattermost.com/download/#mattermostApps', '_blank');
 };
@@ -73,13 +76,17 @@ const openAuthPage = (page: string) => {
     browserHistory.push(`/admin_console/authentication/${page}`);
 };
 
-export default function NextStepsTips(props: {showFinalScreen: boolean; animating: boolean; stopAnimating: () => void}) {
+export default function NextStepsTips(props: { showFinalScreen: boolean; animating: boolean; stopAnimating: () => void; isAdmin: boolean}) {
     const dispatch = useDispatch();
     const openPluginMarketplace = openModal({modalId: ModalIdentifiers.PLUGIN_MARKETPLACE, dialogType: MarketplaceModal});
     const openMoreChannels = openModal({modalId: ModalIdentifiers.MORE_CHANNELS, dialogType: MoreChannels});
+    const openViewMembersModal = openModal({
+        modalId: ModalIdentifiers.TEAM_MEMBERS,
+        dialogType: TeamMembersModal,
+    });
 
     let nonMobileTips;
-    if (!Utils.isMobile()) {
+    if (!Utils.isMobile() && props.isAdmin) {
         nonMobileTips = (
             <>
                 <Card expanded={true}>
@@ -140,6 +147,57 @@ export default function NextStepsTips(props: {showFinalScreen: boolean; animatin
                             <FormattedMessage
                                 id='next_steps_view.tips.addPlugins.button'
                                 defaultMessage='Add plugins'
+                            />
+                        </button>
+                    </div>
+                </Card>
+            </>
+        );
+    } else if (!Utils.isMobile() && !props.isAdmin) {
+        nonMobileTips = (
+            <>
+                <Card expanded={true}>
+                    <div className='Card__body'>
+                        <h3>
+                            <FormattedMessage
+                                id='next_steps_view.tips.configureLogins'
+                                defaultMessage='See who else is here'
+                            />
+                        </h3>
+                        <FormattedMessage
+                            id='next_steps_view.tips.configureLogin.texts'
+                            defaultMessage='Browse or search through the team members directory'
+                        />
+                        <button
+                            className='NextStepsView__button NextStepsView__finishButton primary'
+                            onClick={() => openViewMembersModal(dispatch)}
+                        >
+                            <FormattedMessage
+                                id='next_steps_view.tips.viewMembers'
+                                defaultMessage='View team members'
+                            />
+                        </button>
+                    </div>
+                </Card>
+                <Card expanded={true}>
+                    <div className='Card__body'>
+                        <h3>
+                            <FormattedMessage
+                                id='next_steps_view.tips.addPluginss'
+                                defaultMessage='Learn Keyboard Shortcuts'
+                            />
+                        </h3>
+                        <FormattedMessage
+                            id='next_steps_view.tips.addPlugins.texts'
+                            defaultMessage='Work more efficiently with Keyboard Shortcuts in Mattermost.'
+                        />
+                        <button
+                            className='NextStepsView__button NextStepsView__finishButton primary'
+                            onClick={toggleShortcutsModal}
+                        >
+                            <FormattedMessage
+                                id='next_steps_view.tips.addPlugins.buttons'
+                                defaultMessage='See shortcuts'
                             />
                         </button>
                     </div>
