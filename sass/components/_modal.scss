@@ -844,6 +844,7 @@
         display: none;
         text-align: center;
         width: 32px;
+        opacity: .5;
     }
 
     .more-modal__right {
@@ -918,6 +919,10 @@
         margin-left: 0;
         padding-left: 0;
     }
+}
+
+.more-modal__list .more-modal__row {
+    height: 65px;
 }
 
 .team-selector-modal,
