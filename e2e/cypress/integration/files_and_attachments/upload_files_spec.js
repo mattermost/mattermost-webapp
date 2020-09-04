@@ -279,10 +279,8 @@ describe('Upload Files', () => {
             });
 
             // # Open the deleted link in the browser
-            cy.visit(publicLinkOfAttachment, {failOnStatusCode: false}).as('deletedLinkTab');
+            cy.visit(publicLinkOfAttachment, {failOnStatusCode: false});
         });
-
-        cy.wait('@deletedLinkTab');
 
         // * Verify that we land on attachment not found page
         cy.findByText('Error').should('be.visible');
