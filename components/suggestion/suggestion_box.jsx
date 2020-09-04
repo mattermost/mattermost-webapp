@@ -219,7 +219,7 @@ export default class SuggestionBox extends React.PureComponent {
         const {value} = this.props;
 
         // Post was just submitted, update pretext property.
-        if (value === '' && this.pretext !== value) {
+        if ((value === '' && this.pretext !== value) || prevProps.providers !== this.props.providers) {
             this.handlePretextChanged(value);
             return;
         }
