@@ -2568,7 +2568,7 @@
   "textbox.edit": "Bericht bewerken",
   "textbox.help": "Help",
   "textbox.inlinecode": "`inline code`",
-  "textbox.italic": "_cursief_",
+  "textbox.italic": "*cursief*",
   "textbox.preformatted": "```voorgeformatteerd```",
   "textbox.preview": "Voorbeeld",
   "textbox.quote": ">citaat",
