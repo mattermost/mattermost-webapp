@@ -33,6 +33,7 @@ describe('Profile popover', () => {
         cy.visit('/admin_console/user_management/permissions/system_scheme');
         cy.findByTestId('all_users-public_channel-checkbox').scrollIntoView().should('be.visible').click();
         cy.findByTestId('all_users-private_channel-checkbox').scrollIntoView().should('be.visible').click();
+        cy.findByTestId('saveSetting').should('be.visible').click();
 
         cy.apiLogout();
 
