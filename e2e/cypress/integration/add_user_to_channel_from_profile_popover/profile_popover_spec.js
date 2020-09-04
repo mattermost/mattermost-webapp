@@ -9,6 +9,8 @@
 
 // Group: @profile_popover
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
+
 describe('Profile popover', () => {
     let testTeam;
     let testUser;
@@ -55,11 +57,8 @@ describe('Profile popover', () => {
         cy.findByText('Add to a Channel').should('be.visible').click();
 
         cy.get('div[aria-labelledby="addChannelModalLabel"]').within(() => {
-            // Type "Town"
-            cy.get('input').should('be.visible').type('Town');
-
-            // Click the channel
-            cy.findByText('Town Square').should('be.visible').click();
+            // Type "Town" and press enter.
+            cy.get('input').should('be.visible').type('Town').wait(TIMEOUTS.HALF_SEC).type('{enter}');
 
             // Verify error message
             cy.get('#add-user-to-channel-modal__user-is-member').should('have.text', `${testUser.first_name} ${testUser.last_name} is already a member of that channel`);
