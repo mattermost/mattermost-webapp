@@ -13,7 +13,7 @@
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 import * as MESSAGES from '../../../fixtures/messages';
 
-describe('I18456 Built-in slash commands: common', () => {
+describe('Integrations', () => {
     let user1;
     let user2;
     let deactivatedUser;
@@ -52,7 +52,7 @@ describe('I18456 Built-in slash commands: common', () => {
         });
     });
 
-    it('/ autocomplete list can scroll', () => {
+    it('MM-T573 / autocomplete list can scroll', () => {
         loginAndVisitDefaultChannel(user1, testChannelUrl);
 
         // # Clear post textbox
@@ -72,7 +72,7 @@ describe('I18456 Built-in slash commands: common', () => {
         });
     });
 
-    it('/shrug test', () => {
+    it('MM-T574 /shrug test', () => {
         // # Login as user2 and post a message
         loginAndVisitDefaultChannel(user2, testChannelUrl);
         cy.postMessage('hello from user2');
@@ -288,6 +288,37 @@ describe('I18456 Built-in slash commands: common', () => {
         cy.uiWaitUntilMessagePostedIncludes(`You were added to the channel by @${user1.username}`);
     });
 
+    it('MM-T661 /invite extra white space before @ in DM or GM', () => {
+        const user = userGroup[6];
+        const userToInviteGM = userGroup[5];
+        const userToInviteDM = userGroup[4];
+
+        cy.apiAddUserToChannel(testChannel.id, user.id);
+        loginAndVisitDefaultChannel(user, `${team1.name}/channels/${testChannel.name}`);
+        cy.get('#postListContent', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible');
+
+        // # In a GM use the /invite command to invite a user to a channel you have permission to add them to but place extra white space before the username
+        cy.postMessage(`/groupmsg @${userGroup[0].username} @${userGroup[1].username}`);
+        cy.postMessage(`/invite        @${userToInviteGM.username} ~${testChannel.name}`);
+
+        // * User added to channel as expected
+        cy.uiWaitUntilMessagePostedIncludes(`${userToInviteGM.username} added to ${testChannel.name} channel.`);
+
+        cy.get('#addDirectChannel').click();
+        cy.get('#selectItems').type(`${userToInviteDM.username}`);
+        cy.findByText('Loading').should('be.visible');
+        cy.findByText('Loading').should('not.exist');
+        cy.get('#multiSelectList').findByText(`@${userToInviteDM.username}`).click();
+        cy.findByText('Go').click();
+        cy.get('#channelHeaderDropdownButton').contains(`${userToInviteDM.username}`).should('be.visible');
+
+        // # In a DM use the /invite command to invite a user to a channel you have permission to add them to but place extra white space before the username
+        cy.postMessage(`/invite        @${userToInviteDM.username} ~${testChannel.name}`);
+
+        // * User added to channel as expected
+        cy.uiWaitUntilMessagePostedIncludes(`${userToInviteDM.username} added to ${testChannel.name} channel.`);
+    });
+
     it('MM-T659 /invite - other channel', () => {
         const user = userGroup[4];
         const userToInvite = userGroup[3];
@@ -315,6 +346,124 @@ describe('I18456 Built-in slash commands: common', () => {
 
         // * Added user sees system message "username added to the channel by username."
         cy.uiWaitUntilMessagePostedIncludes(`You were added to the channel by @${user.username}`);
+    });
+
+    it('MM-T660_1 /invite tests when used in DMs and GMs', () => {
+        const userDM = userGroup[2];
+
+        loginAndVisitDefaultChannel(user1, testChannelUrl);
+        cy.get('#postListContent', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible');
+
+        // # In a GM Use the /invite command to invite a channel to another channel (e.g., /invite @[channel name])
+        cy.postMessage(`/groupmsg @${userGroup[0].username} @${userGroup[1].username}`);
+        cy.postMessage(`/invite @${testChannel.name}`);
+
+        // * Error appears: "We couldn't find the user. They may have been deactivated by the System Administrator."
+        cy.uiWaitUntilMessagePostedIncludes('We couldn\'t find the user. They may have been deactivated by the System Administrator.');
+
+        cy.get('#addDirectChannel').click();
+        cy.get('#selectItems').type(`${userDM.username}`);
+        cy.findByText('Loading').should('be.visible');
+        cy.findByText('Loading').should('not.exist');
+        cy.get('#multiSelectList').findByText(`@${userDM.username}`).click();
+        cy.findByText('Go').click();
+        cy.get('#channelHeaderDropdownButton').contains(`${userDM.username}`).should('be.visible');
+
+        // # In a GM Use the /invite command to invite a channel to another channel (e.g., /invite @[channel name])
+        cy.postMessage(`/invite @${testChannel.name}`);
+
+        // * Error appears: "We couldn't find the user. They may have been deactivated by the System Administrator."
+        cy.uiWaitUntilMessagePostedIncludes('We couldn\'t find the user. They may have been deactivated by the System Administrator.');
+    });
+
+    it('MM-T660_2 /invite tests when used in DMs and GMs', () => {
+        const userDM = userGroup[2];
+        const userToInvite = userGroup[3];
+
+        cy.apiAdminLogin();
+        cy.apiAddUserToChannel(testChannel.id, userToInvite.id);
+        cy.apiAddUserToChannel(testChannel.id, user1.id);
+        loginAndVisitDefaultChannel(user1, testChannelUrl);
+        cy.get('#postListContent', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible');
+
+        // # In a GM use the /invite command to invite someone to a channel they're already a member of
+        cy.postMessage(`/groupmsg @${userGroup[0].username} @${userGroup[1].username}`);
+        cy.postMessage(`/invite @${userToInvite.username} ~${testChannel.name}`);
+
+        // * Error appears: "[username] is already in the channel"
+        cy.uiWaitUntilMessagePostedIncludes(`${userToInvite.username} is already in the channel.`);
+
+        cy.get('#addDirectChannel').click();
+        cy.get('#selectItems').type(`${userDM.username}`);
+        cy.wait(TIMEOUTS.ONE_SEC);
+        cy.get('#multiSelectList').findByText(`@${userDM.username}`).click();
+        cy.findByText('Go').click();
+        cy.get('#channelHeaderDropdownButton').contains(`${userDM.username}`).should('be.visible');
+
+        // # In a DM use the /invite command to invite someone to a channel they're already a member of
+        cy.postMessage(`/invite @${userToInvite.username} ~${testChannel.name}`);
+
+        // * Error appears: "[username] is already in the channel"
+        cy.uiWaitUntilMessagePostedIncludes(`${userToInvite.username} is already in the channel.`);
+    });
+
+    it('MM-T660_3 /invite tests when used in DMs and GMs', () => {
+        const userA = userGroup[0];
+        const userB = userGroup[1];
+        const userC = userGroup[2];
+        const userDM = userGroup[3];
+
+        // # As UserA create a new public channel
+        loginAndVisitDefaultChannel(userA, `${team1.name}/channels/town-square`);
+        cy.get('#postListContent', {timeout: TIMEOUTS.TWO_MIN}).should('be.visible');
+        cy.get('#createPublicChannel').click();
+        cy.get('#newChannelName').type(`${userA.username}-channel`);
+        cy.get('#submitNewChannel').click();
+        cy.get('#postListContent').should('be.visible');
+
+        cy.apiLogout();
+        loginAndVisitDefaultChannel(userB, `${team1.name}/channels/town-square`);
+
+        cy.get('#addDirectChannel').click();
+        cy.get('#selectItems').type(`${userDM.username}`);
+        cy.findByText('Loading').should('be.visible');
+        cy.findByText('Loading').should('not.exist');
+        cy.get('#multiSelectList').findByText(`@${userDM.username}`).click();
+        cy.findByText('Go').click();
+        cy.get('#channelHeaderDropdownButton').contains(`${userDM.username}`).should('be.visible');
+
+        // # As UserB use the /invite command in a DM to invite UserC to the public channel that UserB is not a member of
+        cy.postMessage(`/invite @${userC.username} ~${userA.username}-channel`);
+
+        // * Error appears: "You don't have enough permissions to add [username] in [public channel name]."
+        cy.uiWaitUntilMessagePostedIncludes(`You don't have enough permissions to add ${userC.username} in ${userA.username}-channel.`);
+
+        // # As UserB use the /invite command in a GM to invite UserC to the public channel that UserB is not a member of
+        cy.postMessage(`/groupmsg @${userGroup[4].username} @${userGroup[5].username}`);
+        cy.postMessage(`/invite @${userC.username} ~${userA.username}-channel`);
+
+        // * Error appears: "You don't have enough permissions to add [username] in [public channel name]."
+        cy.uiWaitUntilMessagePostedIncludes(`You don't have enough permissions to add ${userC.username} in ${userA.username}-channel.`);
+    });
+
+    it('MM-T660_4 /invite tests when used in DMs and GMs', () => {
+        const userToInvite = userGroup[4];
+        cy.apiAdminLogin();
+        cy.apiAddUserToChannel(testChannel.id, user1.id);
+        loginAndVisitDefaultChannel(user1, `${team1.name}/channels/town-square`);
+
+        // # Use the /invite command to invite a user to a channel by typing the channel name out without the tilde (~).
+        cy.get('#postListContent', {timeout: TIMEOUTS.TWO_MIN}).should('be.visible');
+        cy.postMessage(`/invite @${userToInvite.username} ${testChannel.display_name}`);
+
+        // * Error appears: "Could not find the channel [channel name]. Please use the channel handle to identify channels."
+        cy.uiWaitUntilMessagePostedIncludes(`Could not find the channel ${testChannel.display_name}. Please use the channel handle to identify channels.`);
+
+        // * "channel handle" is a live link to https://about.mattermost.com/default-channel-handle-documentation
+        cy.getLastPostId().then((postId) => {
+            cy.get(`#post_${postId}`).
+                contains('a', 'channel handle').should('have.attr', 'href', 'https://about.mattermost.com/default-channel-handle-documentation');
+        });
     });
 
     it('MM-T2834 Slash command help stays visible for system slash command', () => {

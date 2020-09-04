@@ -2570,7 +2570,7 @@
   "textbox.edit": "Modifica messaggio",
   "textbox.help": "Aiuto",
   "textbox.inlinecode": "`linea di codice`",
-  "textbox.italic": "_corsivo_",
+  "textbox.italic": "*corsivo*",
   "textbox.preformatted": "```preformattato```",
   "textbox.preview": "Anteprima",
   "textbox.quote": ">citazione",
