@@ -46,7 +46,7 @@ describe('Notifications', () => {
         // # Make a final post from the user 1 where reaction will be added
         cy.postMessage('This post will have a reaction');
 
-        // # Scroll to top of the channel to frist post
+        // # Scroll to top of the channel to first post
         cy.getNthPostId(1).then((firstPostId) => {
             cy.get(`#post_${firstPostId}`).should('exist').scrollIntoView();
         });
