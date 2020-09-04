@@ -17,18 +17,10 @@ describe('Notifications', () => {
     let otherUser;
 
     beforeEach(() => {
-        // # Create new team and new user and visit Town Square channel
-        cy.apiInitSetup().then(({team, channel}) => {
+        cy.apiInitSetup().then(({team, channel, user}) => {
             testTeam = team;
             testChannel = channel;
-
-            cy.apiCreateUser().then(({user: user2}) => {
-                otherUser = user2;
-
-                cy.apiAddUserToTeam(testTeam.id, otherUser.id).then(() => {
-                    cy.apiAddUserToChannel(testChannel.id, otherUser.id);
-                });
-            });
+            otherUser = user;
 
             cy.visit(`/${testTeam.name}/channels/${channel.name}`);
         });
