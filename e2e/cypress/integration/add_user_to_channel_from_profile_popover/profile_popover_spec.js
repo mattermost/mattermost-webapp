@@ -10,6 +10,9 @@
 // Group: @profile_popover
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
+import {
+    createPrivateChannel,
+} from '../enterprise/elasticsearch_autocomplete/helpers';
 
 describe('Profile popover', () => {
     let testTeam;
@@ -33,6 +36,7 @@ describe('Profile popover', () => {
         cy.visit('/admin_console/user_management/permissions/system_scheme');
         cy.findByTestId('all_users-public_channel-checkbox').scrollIntoView().should('be.visible').click();
         cy.findByTestId('all_users-private_channel-checkbox').scrollIntoView().should('be.visible').click();
+        cy.findByTestId('saveSetting').should('be.visible').click();
 
         cy.apiLogout();
 
@@ -64,6 +68,38 @@ describe('Profile popover', () => {
             cy.get('#add-user-to-channel-modal__user-is-member').should('have.text', `${testUser.first_name} ${testUser.last_name} is already a member of that channel`);
 
             // And verify that button is disabled
+            cy.get('#add-user-to-channel-modal__add-button').should('be.disabled');
+        });
+    });
+
+    it('MM-T2 Add user — Public ON / Private OFF', () => {
+        // Do the system console setup
+        cy.apiAdminLogin();
+        cy.visit('/admin_console/user_management/permissions/system_scheme');
+        cy.findByTestId('all_users-private_channel-checkbox').scrollIntoView().should('be.visible').click();
+        cy.findByTestId('saveSetting').should('be.visible').click();
+
+        cy.apiLogout();
+
+        // Login as the second user now
+        cy.apiLogin(otherUser);
+        // Create a private channel
+        createPrivateChannel(testTeam.id, otherUser);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
+
+        // Open profile popover
+        cy.get('#postListContent').within(() => {
+            cy.findAllByText(testUser.username).first().should('have.text', testUser.username).click();
+        });
+
+        // Add to a Channel
+        cy.findByText('Add to a Channel').should('be.visible').click();
+
+        cy.get('div[aria-labelledby="addChannelModalLabel"]').within(() => {
+            // Type "private" and press enter.
+            cy.get('input').should('be.visible').type('private').wait(TIMEOUTS.HALF_SEC).type('{enter}');
+
+            // Verify that button is disabled
             cy.get('#add-user-to-channel-modal__add-button').should('be.disabled');
         });
     });
