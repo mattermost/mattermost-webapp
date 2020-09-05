@@ -28,6 +28,6 @@ declare namespace Cypress {
          * @example
          *    cy.reactToMessageAs({sender:user2, postId:"ABC123", reaction: 'smile'});
          */
-        reactToMessageAs({sender, postId, reaction}: {sender: object;postId: string;reaction: string}): Chainable<Response>;
+        reactToMessageAs({sender, postId, reaction}: {sender: object; postId: string; reaction: string}): Chainable<Response>;
     }
 }
