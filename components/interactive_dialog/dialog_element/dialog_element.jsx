@@ -5,10 +5,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import {FormattedMessage} from 'react-intl';
+import {debounce} from 'mattermost-redux/actions/helpers';
 
 import MenuActionProvider from 'components/suggestion/menu_action_provider';
 import GenericUserProvider from 'components/suggestion/generic_user_provider.jsx';
 import GenericChannelProvider from 'components/suggestion/generic_channel_provider.jsx';
+import AutocompleteProvider from 'components/suggestion/autocomplete_provider.jsx';
 
 import TextSetting from 'components/widgets/settings/text_setting';
 import AutocompleteSelector from 'components/autocomplete_selector';
@@ -39,20 +41,23 @@ export default class DialogElement extends React.PureComponent {
             autocompleteChannels: PropTypes.func.isRequired,
             autocompleteUsers: PropTypes.func.isRequired,
         }).isRequired,
+        fetchOnce: PropTypes.bool,
     }
 
     constructor(props) {
         super(props);
 
         let defaultText = '';
-        this.providers = [];
+        const providers = [];
         if (props.type === 'select') {
-            if (props.dataSource === 'users') {
-                this.providers = [new GenericUserProvider(props.actions.autocompleteUsers)];
+            if (props.subtype === 'dynamic') {
+                providers.push(new AutocompleteProvider(this.getAutocompleteResults, this.props.fetchOnce));
+            } else if (props.dataSource === 'users') {
+                providers.push(new GenericUserProvider(props.actions.autocompleteUsers));
             } else if (props.dataSource === 'channels') {
-                this.providers = [new GenericChannelProvider(props.actions.autocompleteChannels)];
+                providers.push(new AutocompleteProvider(this.getAutocompleteResults));
             } else if (props.options) {
-                this.providers = [new MenuActionProvider(props.options)];
+                providers.push(new MenuActionProvider(props.options));
             }
 
             if (props.value && props.options) {
@@ -65,8 +70,32 @@ export default class DialogElement extends React.PureComponent {
 
         this.state = {
             value: defaultText,
+            providers,
         };
     }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.value && !this.props.value) {
+            // state.value is supposed to be option.text not option.value
+            this.setState({value: this.props.value});
+        }
+
+        if (this.props.type === 'select' && this.props.options) {
+            if (this.props.options !== prevProps.options) {
+                if (this.props.subtype === 'dynamic') {
+                    this.setState({providers: [new AutocompleteProvider(this.getAutocompleteResults, this.props.fetchOnce)]})
+                } else {
+                    this.setState({providers: [new MenuActionProvider(this.props.options)]})
+
+                }
+            }
+        }
+    }
+
+    getAutocompleteResults = debounce(async (text, callback) => {
+        const res = await this.props.getAutocompleteResults(this.props.name, text);
+        callback(res);
+    }, 1000, true, () => {})
 
     handleSelected = (selected) => {
         const {name, dataSource, onChange} = this.props;
@@ -164,7 +193,7 @@ export default class DialogElement extends React.PureComponent {
             return (
                 <AutocompleteSelector
                     id={name}
-                    providers={this.providers}
+                    providers={this.state.providers}
                     onSelected={this.handleSelected}
                     label={displayNameContent}
                     helpText={helpTextContent}

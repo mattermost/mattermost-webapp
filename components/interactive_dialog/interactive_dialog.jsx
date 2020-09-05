@@ -10,6 +10,8 @@ import {
     checkIfErrorsMatchElements,
 } from 'mattermost-redux/utils/integration_utils';
 
+import {Client4} from 'mattermost-redux/client';
+
 import SpinnerButton from 'components/spinner_button';
 
 import {localizeMessage} from 'utils/utils.jsx';
@@ -31,6 +33,7 @@ export default class InteractiveDialog extends React.PureComponent {
         onHide: PropTypes.func,
         actions: PropTypes.shape({
             submitInteractiveDialog: PropTypes.func.isRequired,
+            updateInteractiveDialogElements: PropTypes.func.isRequired,
         }).isRequired,
         emojiMap: PropTypes.object.isRequired,
     };
@@ -58,6 +61,18 @@ export default class InteractiveDialog extends React.PureComponent {
             errors: {},
             submitting: false,
         };
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.elements !== prevProps.elements) {
+            const values = {...this.state.values};
+            for (const key of Object.keys(values)) {
+                if (!this.props.elements.find((el) => el.name === key)) {
+                    delete values[key];
+                }
+            }
+            this.setState({values});
+        }
     }
 
     handleSubmit = async (e) => {
@@ -151,10 +166,99 @@ export default class InteractiveDialog extends React.PureComponent {
         this.setState({show: false});
     };
 
+    getAutocompleteResults = async (name, text) => {
+        const element = this.props.elements.find((e) => e.name === name);
+        if (!element.data_source) {
+            const ls = ['A', 'B', 'C', 'always here'];
+            const options = ls.filter((t) => t === 'always here' || t.toLowerCase().includes(text.toLowerCase())).map((t) => ({text: t, value: t}));
+            return {items: options};
+        }
+
+        const u = element.data_source;
+        // const u = 'http://localhost:8065/plugins/proxy';
+        const payload = {
+            url: element.data_source,
+            method: 'POST',
+            element,
+            text,
+            form: this.state.values,
+        };
+
+        const res = await fetch(u,
+            {
+                ...Client4.getOptions({
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(payload),
+                }),
+                credentials: undefined,
+            });
+
+        return res.json();
+    };
+
     onChange = (name, value) => {
         const values = {...this.state.values, [name]: value};
+        const element = this.props.elements.find((el) => el.name === name);
+
+        if (element.dispatch_on_change) {
+            // integration server will figure out next stage
+            this.dispatchChange(name, value);
+            this.setState({values});
+            return;
+        }
+
+        // synchronously update elements that depend on this element, if any
+        let updateElements = false;
+        const elements = this.props.elements.map((el, i) => {
+            if (el.depends_on === name && el.type === 'select' && el.subtype === 'dynamic') {
+                updateElements = true;
+                // setting options to a new array tells child element to recreate its suggestion providerß
+                return {...el, options: []};
+            }
+            return el;
+        });
+
         this.setState({values});
+        if (updateElements) {
+            this.props.actions.updateInteractiveDialogElements(elements);
+        }
     };
+
+    dispatchChange = async (name, value) => {
+        const {url, callbackId, state, elements} = this.props;
+        const {values} = this.state;
+
+        const payload = {
+            url,
+            callback_id: callbackId,
+            state,
+            elements,
+            values,
+            name,
+            value,
+        };
+
+        const {data} = await this.props.actions.dispatchSelectInteractiveDialog(payload);
+
+        let updateElements = Boolean(data.elements);
+        const newElements = (data.elements || elements).map((el, i) => {
+            if (el.depends_on === name && el.type === 'select' && el.subtype === 'dynamic') {
+                updateElements = true;
+                return {...el, options: []};
+            }
+            return el;
+        });
+
+        if (data.values) {
+            this.setState({values: data.values});
+        }
+        if (updateElements) {
+            this.props.actions.updateInteractiveDialogElements(newElements);
+        }
+    }
 
     render() {
         const {
@@ -222,8 +326,7 @@ export default class InteractiveDialog extends React.PureComponent {
                                     emojiMap={this.props.emojiMap}
                                 />
                             )}
-                            {elements &&
-                            elements.map((e, index) => {
+                            {elements && elements.map((e, index) => {
                                 return (
                                     <DialogElement
                                         autoFocus={index === 0}
@@ -240,8 +343,10 @@ export default class InteractiveDialog extends React.PureComponent {
                                         dataSource={e.data_source}
                                         optional={e.optional}
                                         options={e.options}
+                                        fetchOnce={e.fetch_once}
                                         value={this.state.values[e.name]}
                                         onChange={this.onChange}
+                                        getAutocompleteResults={this.getAutocompleteResults}
                                     />
                                 );
                             })}

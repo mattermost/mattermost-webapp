@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {submitInteractiveDialog} from 'mattermost-redux/actions/integrations';
+import {updateInteractiveDialogElements, dispatchSelectInteractiveDialog, submitInteractiveDialog} from 'mattermost-redux/actions/integrations';
 
 import {getEmojiMap} from 'selectors/emojis';
 
@@ -34,6 +34,8 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             submitInteractiveDialog,
+            updateInteractiveDialogElements,
+            dispatchSelectInteractiveDialog,
         }, dispatch),
     };
 }

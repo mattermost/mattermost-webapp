@@ -35,12 +35,14 @@ describe('components/Menu', () => {
         pluginMenuItems: [],
         integrationMenuItems: [],
         isMentionSearch: false,
+        showGettingStarted: false,
         actions: {
             openModal: jest.fn(),
             showMentions: jest.fn(),
             showFlaggedPosts: jest.fn(),
             closeRightHandSide: jest.fn(),
             closeRhsMenu: jest.fn(),
+            unhideNextSteps: jest.fn(),
         },
         teamIsGroupConstrained: false,
     };
