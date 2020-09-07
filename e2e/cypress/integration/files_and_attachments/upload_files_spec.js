@@ -314,9 +314,8 @@ describe('Upload Files', () => {
             cy.findByLabelText('Attachment Icon').should('be.visible').and('have.css', 'cursor', 'pointer');
         });
 
-        const imageName = 'image-file';
-        const imageType = 'jpg';
-        const imageFilename = `${imageName}.${imageType}`;
+        const imageFilename = 'jpg-image-file.jpg';
+        const imageType = 'JPG';
 
         // # Attach an image but don't post it yet
         cy.get('#fileUploadInput').attachFile(imageFilename);
@@ -327,7 +326,7 @@ describe('Upload Files', () => {
             cy.findByText(imageFilename).should('be.visible');
 
             // * Verify that image type is present
-            cy.findByText(imageType.toUpperCase()).should('be.visible');
+            cy.findByText(imageType).should('be.visible');
 
             // # Get the image preview div
             cy.get('.post-image.normal').then((imageDiv) => {
