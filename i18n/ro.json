@@ -2568,7 +2568,7 @@
   "textbox.edit": "Editeaza Mesaj",
   "textbox.help": "Ajutor",
   "textbox.inlinecode": "cod inline",
-  "textbox.italic": "_cursiv_",
+  "textbox.italic": "*cursiv*",
   "textbox.preformatted": "preformatate",
   "textbox.preview": "Previzualizare",
   "textbox.quote": "Citat",
