@@ -293,4 +293,12 @@ Cypress.Commands.add('apiVerifyUserEmailById', (userId) => {
     });
 });
 
+Cypress.Commands.add('apiGetPreferences', (userId) => {
+    return cy.request(`/api/v4/users/${userId}/preferences`).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response.body);
+    });
+});
+
 export {generateRandomUser};
+
