@@ -11,6 +11,8 @@ import {getCurrentTeamId, getCurrentTeam} from 'mattermost-redux/selectors/entit
 import {getPluginIntegrations} from 'mattermost-redux/selectors/entities/plugins';
 import PluginLocation from 'mattermost-redux/constants/plugins';
 
+import {doPluginAction} from 'actions/plugins';
+
 import {openModal} from 'actions/views/modals';
 import {
     flagPost,
@@ -64,6 +66,7 @@ function mapDispatchToProps(dispatch) {
             unpinPost,
             openModal,
             markPostAsUnread,
+            doPluginAction,
         }, dispatch),
     };
 }

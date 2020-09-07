@@ -10,7 +10,6 @@ import {Tooltip} from 'react-bootstrap';
 import Permissions from 'mattermost-redux/constants/permissions';
 import PluginLocation from 'mattermost-redux/constants/plugins';
 
-import {doPluginAction} from 'actions/plugins';
 import {Locations, ModalIdentifiers, Constants} from 'utils/constants';
 import DeletePostModal from 'components/delete_post_modal';
 import OverlayTrigger from 'components/overlay_trigger';
@@ -90,6 +89,8 @@ export default class DotMenu extends React.PureComponent {
              * Function to set the unread mark at given post
              */
             markPostAsUnread: PropTypes.func.isRequired,
+
+            doPluginAction: PropTypes.func.isRequired,
         }).isRequired,
 
         canEdit: PropTypes.bool.isRequired,
@@ -299,7 +300,7 @@ export default class DotMenu extends React.PureComponent {
                     text={item.extra.text}
                     key={item.id + '_' + item.extra.text}
                     onClick={() => {
-                        doPluginAction(item.id, item.request_url, {post_id: this.props.post.id});
+                        this.props.actions.doPluginAction(item.id, item.request_url, {post_id: this.props.post.id});
                     }}
                     icon={(<img src={item.extra.icon}/>)}
                 />

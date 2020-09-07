@@ -86,7 +86,6 @@ export default class DialogElement extends React.PureComponent {
                     this.setState({providers: [new AutocompleteProvider(this.getAutocompleteResults, this.props.fetchOnce)]})
                 } else {
                     this.setState({providers: [new MenuActionProvider(this.props.options)]})
-
                 }
             }
         }
@@ -127,6 +126,10 @@ export default class DialogElement extends React.PureComponent {
         } = this.props;
 
         let {type, maxLength} = this.props;
+
+        if (type === 'hidden') {
+            return null;
+        }
 
         let displayNameContent = displayName;
         if (optional) {
