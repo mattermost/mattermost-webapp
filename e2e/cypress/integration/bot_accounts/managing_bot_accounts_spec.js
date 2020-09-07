@@ -82,6 +82,7 @@ describe('Managing bot accounts', () => {
             },
         }).then((response) => {
             expect(response.status).to.equal(403);
+            expect(response.body.message).to.equal('Bot creation has been disabled.');
             return cy.wrap(response);
         });
     });
@@ -145,7 +146,7 @@ describe('Managing bot accounts', () => {
         cy.apiAdminLogin();
     });
 
-    it('MM-T1856/MM-T1857 Disable/Enable Bot', () => {
+    it('MM-T1856 Disable Bot', () => {
         // # Visit the integrations
         cy.visit(`/${newTeam.name}/integrations/bots`);
 
@@ -162,6 +163,20 @@ describe('Managing bot accounts', () => {
 
             // * Check that the bot is in the 'disabled' section
             cy.get('.bot-list__disabled').findByText(`Test Bot (@${botName})`).should('be.visible');
+        });
+    });
+
+    it('MM-T1857 Enable Bot', () => {
+        // # Visit the integrations
+        cy.visit(`/${newTeam.name}/integrations/bots`);
+
+        // * Check that the previously created bot is listed
+        cy.findByText(`Test Bot (@${botName})`).then((el) => {
+            // # Make sure it's on the screen
+            cy.wrap(el[0].parentElement.parentElement).scrollIntoView();
+
+            // # Click the disable button
+            cy.wrap(el[0].parentElement.parentElement).find('button:nth-child(3)').should('be.visible').click();
 
             // # Re-enable the bot
             cy.get('.bot-list__disabled').findByText(`Test Bot (@${botName})`).then((el2) => {
