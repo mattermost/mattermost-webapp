@@ -159,38 +159,38 @@ describe('Leave an archived channel', () => {
         cy.apiCreateChannel(testTeam.id, 'archived-is-not', 'archived-is-not');
 
         // # create another channel with text and archive it
-        cy.createArchivedChannel({name: 'archive-', teamId: testTeam.id, teamName: testTeam.name}, [messageText]).then(() => {
-            cy.visit(`/${testTeam.name}/channels/off-topic`);
-            cy.wait(TIMEOUTS.ONE_SEC); //allow for page to load
+        createArchivedChannel({name: 'archive-', teamId: testTeam.id, teamName: testTeam.name}, [messageText]);
+        cy.visit(`/${testTeam.name}/channels/off-topic`);
+        cy.wait(TIMEOUTS.ONE_SEC); //allow for page to load
 
-            // # Search for content from an archived channel
-            cy.get('#searchBox').should('be.visible').clear().type(`${testArchivedMessage}{enter}`);
+        // # Search for content from an archived channel
+        cy.get('#searchBox').should('be.visible').clear().type(`${testArchivedMessage}{enter}`);
 
-            // # Open the channel from search results
-            cy.get('#searchContainer').should('be.visible');
-            cy.get('#loadingSpinner').should('not.be.visible');
+        // # Open the channel from search results
+        cy.get('#searchContainer').should('be.visible');
+        cy.get('#loadingSpinner').should('not.be.visible');
 
-            cy.get('a.search-item__jump').first().click();
-            cy.wait(TIMEOUTS.ONE_SEC);
+        cy.get('a.search-item__jump').first().click();
+        cy.wait(TIMEOUTS.ONE_SEC);
 
-            // # Search for content from a different archived channel
-            cy.get('#searchBox').should('be.visible').clear().type(`${messageText}{enter}`);
+        // # Search for content from a different archived channel
+        cy.get('#searchBox').should('be.visible').clear().type(`${messageText}{enter}`);
 
-            // # Open that channel from search results
-            cy.get('#searchContainer').should('be.visible');
+        // # Open that channel from search results
+        cy.get('#searchContainer').should('be.visible');
 
-            cy.get('a.search-item__jump').first().click();
+        cy.get('a.search-item__jump').first().click();
 
-            cy.wait(TIMEOUTS.ONE_SEC); // let the page load
-            // # Select "Close Channel"
-            cy.get('#channelArchivedMessage button').click();
+        cy.wait(TIMEOUTS.ONE_SEC); // let the page load
+        // # Select "Close Channel"
+        cy.get('#channelArchivedMessage button').click();
 
-            // * User is returned to previously viewed (non-archived) channel
-            cy.url().should('include', `${testTeam.name}/channels/off-topic`);
-        });
+        // * User is returned to previously viewed (non-archived) channel
+        cy.url().should('include', `${testTeam.name}/channels/off-topic`);
     });
+
     it('MM-T1674 CTRL/CMD+K list public archived channels you are a member of', () => {
-        cy.createArchivedChannel(
+        createArchivedChannel(
             {
                 name: 'archived-',
                 type: 'P',
@@ -198,21 +198,38 @@ describe('Leave an archived channel', () => {
                 teamName: testTeam.name,
             },
             [`some text message ${getRandomId()}`],
-        ).then(() => {
-            cy.visit(`/${testTeam.name}/channels/off-topic`);
+        );
+        cy.visit(`/${testTeam.name}/channels/off-topic`);
 
-            // Select CTRL/⌘+k) to open the channel switcher
-            cy.typeCmdOrCtrl().type('K', {release: true});
+        // Select CTRL/⌘+k) to open the channel switcher
+        cy.typeCmdOrCtrl().type('K', {release: true});
 
-            // Start typing the name of a private channel on this team that has been archived which the test user belongs to
-            cy.get('#quickSwitchInput').type('archived-');
-            cy.wait(TIMEOUTS.HALF_SEC);
+        // Start typing the name of a private channel on this team that has been archived which the test user belongs to
+        cy.get('#quickSwitchInput').type('archived-');
+        cy.wait(TIMEOUTS.HALF_SEC);
 
-            // * Suggestion list should be visible
-            cy.get('#suggestionList').should('be.visible');
+        // * Suggestion list should be visible
+        cy.get('#suggestionList').should('be.visible');
 
-            // * there should be public channels as well
-            cy.get('#suggestionList').find('.icon-globe').should('be.visible');
-        });
+        // * there should be public channels as well
+        cy.get('#suggestionList').find('.icon-globe').should('be.visible');
     });
 });
+
+function createArchivedChannel(channelOptions, messages, memberUsernames) {
+    cy.createChannel(channelOptions.name, channelOptions.isPrivate, channelOptions.purpose, channelOptions.header).then(() => {
+        if (memberUsernames) {
+            cy.addUsersToCurrentChannel(memberUsernames);
+        }
+        if (messages) {
+            let messageList = messages;
+            if (!Array.isArray(messages)) {
+                messageList = [messages];
+            }
+            messageList.forEach((message) => {
+                cy.postMessage(message);
+            });
+        }
+        return cy.archiveChannel();
+    });
+}
