@@ -448,22 +448,13 @@ Cypress.Commands.add('checkRunLDAPSync', () => {
     });
 });
 
-Cypress.Commands.add('createChannel', (name, isPrivate, purpose, header) => {
-    cy.getCookie('MMUSERID').then((cookie) => {
-        const userId = cookie.value;
-        cy.apiGetPreferences(userId).then((preferences) => {
-            const isNew = preferences.find((setting) => {
-                return setting.name === 'channel_sidebar_organization' && setting.value === 'true';
-            });
-
-            if (isNew) {
-                cy.get('#SidebarContainer .AddChannelDropdown_dropdownButton').click();
-                cy.get('#showNewChannel button').click();
-            } else {
-                cy.get('#createPrivateChannel').click();
-            }
-        });
-    });
+Cypress.Commands.add('createChannel', (name, isPrivate, purpose, header, isNewSidebar) => {
+    if (isNewSidebar) {
+        cy.get('#SidebarContainer .AddChannelDropdown_dropdownButton').click();
+        cy.get('#showNewChannel button').click();
+    } else {
+        cy.get('#createPrivateChannel').click();
+    }
 
     cy.get('#newChannelModalLabel').should('be.visible');
     if (isPrivate) {
