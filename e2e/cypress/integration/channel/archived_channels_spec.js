@@ -96,13 +96,13 @@ describe('Leave an archived channel', () => {
 
         // # Ensure there are no options to change channel roles or membership
         // * Membership or role cannot be changed
-        cy.get('div[data-testid=userListItemActions]').should('not.be.visible');
+        cy.findByTestId('userListItemActions').should('not.be.visible');
 
         // # Use search box to refine list of members
         // * Search box works as before to refine member list
-        cy.get('[data-testid=userListItemDetails]').its('length').then((fullListLength) => {
+        cy.findAllByTestId('userListItemDetails').its('length').then((fullListLength) => {
             cy.get('#searchUsersInput').type(`${testUser.first_name}{enter}`);
-            cy.get('[data-testid=userListItemDetails]').its('length').then((filteredLength) => {
+            cy.findByTestId('userListItemDetails').its('length').then((filteredLength) => {
                 expect(fullListLength).to.be.greaterThan(filteredLength);
             });
         });
@@ -201,10 +201,10 @@ describe('Leave an archived channel', () => {
         );
         cy.visit(`/${testTeam.name}/channels/off-topic`);
 
-        // Select CTRL/⌘+k) to open the channel switcher
+        // # Select CTRL/⌘+k) to open the channel switcher
         cy.typeCmdOrCtrl().type('K', {release: true});
 
-        // Start typing the name of a private channel on this team that has been archived which the test user belongs to
+        // # Start typing the name of a private channel on this team that has been archived which the test user belongs to
         cy.get('#quickSwitchInput').type('archived-');
         cy.wait(TIMEOUTS.HALF_SEC);
 
