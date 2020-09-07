@@ -396,34 +396,6 @@ describe('Customization', () => {
             expect(config.TeamSettings.EnableCustomBrand).to.equal(false);
         });
     });
-
-    it('T1024 - Can change name and desc with Custom Branding set to false', () => {
-        // # Make sure necessary field is false
-        cy.apiUpdateConfig({TeamSettings: {EnableCustomBrand: false}});
-        cy.reload();
-
-        // * Verify that setting is visible and matches text content
-        cy.findByTestId('TeamSettings.SiteNamelabel').scrollIntoView().should('be.visible').and('have.text', 'Site Name:');
-
-        // # Update both Site Name and Description to store test values
-        const siteName = 'Mattermost_Test';
-        const siteDescription = 'This is a testing Mattermost site';
-        cy.findByTestId('TeamSettings.SiteNameinput').clear().type(siteName);
-        cy.findByTestId('TeamSettings.CustomDescriptionTextinput').clear().type(siteDescription);
-
-        // # Save setting
-        saveSetting();
-
-        // # Logout
-        cy.apiLogout();
-
-        // * Ensure that the user was redirected to the login page after the logout
-        cy.url().should('include', '/login');
-
-        // * Ensure Site Name and Description are shown the updated values in the login screen
-        cy.get('#site_name').should('have.text', siteName);
-        cy.get('#site_description').should('have.text', siteDescription);
-    });
 });
 
 function saveSetting() {
