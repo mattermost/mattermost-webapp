@@ -2570,7 +2570,7 @@
   "textbox.edit": "編輯訊息",
   "textbox.help": "說明",
   "textbox.inlinecode": "`行內程式碼`",
-  "textbox.italic": "_斜體_",
+  "textbox.italic": "*斜體*",
   "textbox.preformatted": "```不排版```",
   "textbox.preview": "預覽",
   "textbox.quote": ">引用",

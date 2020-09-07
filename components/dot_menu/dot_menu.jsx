@@ -170,20 +170,7 @@ export default class DotMenu extends React.PureComponent {
     }
 
     copyLink = () => {
-        const postUrl = `${this.props.currentTeamUrl}/pl/${this.props.post.id}`;
-
-        const clipboard = navigator.clipboard;
-        if (clipboard) {
-            clipboard.writeText(postUrl);
-        } else {
-            const hiddenInput = document.createElement('textarea');
-            hiddenInput.value = postUrl;
-            document.body.appendChild(hiddenInput);
-            hiddenInput.focus();
-            hiddenInput.select();
-            document.execCommand('copy');
-            document.body.removeChild(hiddenInput);
-        }
+        Utils.copyToClipboard(`${this.props.currentTeamUrl}/pl/${this.props.post.id}`);
     }
 
     handlePinMenuItemActivated = () => {
