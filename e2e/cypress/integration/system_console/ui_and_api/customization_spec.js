@@ -406,7 +406,7 @@ describe('Customization', () => {
         cy.findByTestId('TeamSettings.SiteNamelabel').scrollIntoView().should('be.visible').and('have.text', 'Site Name:');
 
         // # Update both Site Name and Description to store test values
-        const siteName = 'Mattermost_Text';
+        const siteName = 'Mattermost_Test';
         const siteDescription = 'This is a testing Mattermost site';
         cy.findByTestId('TeamSettings.SiteNameinput').clear().type(siteName);
         cy.findByTestId('TeamSettings.CustomDescriptionTextinput').clear().type(siteDescription);
