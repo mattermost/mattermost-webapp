@@ -2570,7 +2570,7 @@
   "textbox.edit": "Modifier le message",
   "textbox.help": "Aide",
   "textbox.inlinecode": "`code en-ligne`",
-  "textbox.italic": "_italique_",
+  "textbox.italic": "*italique*",
   "textbox.preformatted": "```pré-formaté```",
   "textbox.preview": "Aperçu",
   "textbox.quote": ">citation",
