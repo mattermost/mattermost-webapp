@@ -35,7 +35,7 @@ type Props = {
         setModalSearchTerm: (term: string) => Promise<{
             data: boolean;
         }>;
-        loadProfilesAndTeamMembersAndChannelMembers: (page: number, perPage: number, teamId?: string, channelId?: string) => Promise<{
+        loadProfilesAndTeamMembersAndChannelMembers: (page: number, perPage: number, teamId?: string, channelId?: string, options?: any) => Promise<{
             data: boolean;
         }>;
         loadStatusesForProfilesList: (users: Array<UserProfile>) => Promise<{
@@ -72,7 +72,7 @@ export default class MemberListChannel extends React.PureComponent<Props, State>
         } = this.props;
 
         await Promise.all([
-            actions.loadProfilesAndTeamMembersAndChannelMembers(0, Constants.PROFILE_CHUNK_SIZE, currentTeamId, currentChannelId),
+            actions.loadProfilesAndTeamMembersAndChannelMembers(0, Constants.PROFILE_CHUNK_SIZE, currentTeamId, currentChannelId, {active: true}),
             actions.getChannelMembers(currentChannelId),
             actions.getChannelStats(currentChannelId),
         ]);
