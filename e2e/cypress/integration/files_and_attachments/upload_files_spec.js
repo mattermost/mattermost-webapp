@@ -392,14 +392,14 @@ describe('Upload Files', () => {
                     cy.findByText('Get a public link').should('be.visible').click({force: true});
                 });
 
-            // # Wait a little for url to be generated
+            // # Wait a little for url to be (re)generated
             cy.wait(TIMEOUTS.ONE_SEC);
 
             // * Verify copy public link modal is opened
             cy.get('.a11y__modal.modal-dialog').should('exist').and('be.visible').
                 within(() => {
-                    // * Verify that copy link button is present
-                    cy.findByText('Copy Link').should('be.visible');
+                    // * Verify that copy link button is present and click it
+                    cy.findByText('Copy Link').should('be.visible').parent().click({force: true});
 
                     // # Get the copy link of the attachment and save for later purpose
                     cy.get('#linkModalTextArea').invoke('text').as(`publicLinkOfAttachment-${file}`);
