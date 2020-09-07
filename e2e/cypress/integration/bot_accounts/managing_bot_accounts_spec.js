@@ -121,7 +121,7 @@ describe('Managing bot accounts', () => {
         // # Visit the integrations
         cy.visit(`/${newTeam.name}/integrations/bots`);
 
-        // * Assert that adding bots is not possible
+        // * Assert that adding bots is possible
         cy.get('#addBotAccount').should('be.visible');
     });
 
@@ -130,7 +130,7 @@ describe('Managing bot accounts', () => {
         cy.visit('/login');
 
         // # Enter bot name in the email field
-        cy.findByPlaceholderText('Email or Username').clear().type(botName);
+        cy.findByPlaceholderText('Email, Username or AD/LDAP Username').clear().type(botName);
 
         // # Enter random password in the password field
         cy.findByPlaceholderText('Password').clear().type('invalidPassword@#%(^!');
