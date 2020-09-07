@@ -2568,7 +2568,7 @@
   "textbox.edit": "İletiyi düzenle",
   "textbox.help": "Yardım",
   "textbox.inlinecode": "`satır arası kodu`",
-  "textbox.italic": "_yatık_",
+  "textbox.italic": "*yatık*",
   "textbox.preformatted": "```hazır biçimlendirilmiş```",
   "textbox.preview": "Ön izleme",
   "textbox.quote": ">Alıntı",

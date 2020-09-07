@@ -488,6 +488,8 @@ export const defaultRolesPermissions = {
         'create_post',
         'remove_reaction',
         'use_group_mentions',
+        'convert_public_channel_to_private',
+        'convert_private_channel_to_public',
     ],
     channel_admin: [
         'manage_channel_roles',
