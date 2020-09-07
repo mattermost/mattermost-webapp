@@ -122,7 +122,7 @@ export function loadProfilesAndTeamMembersAndChannelMembers(page, perPage, teamI
         const state = doGetState();
         const teamIdParam = teamId || getCurrentTeamId(state);
         const channelIdParam = channelId || getCurrentChannelId(state);
-        const {data} = await doDispatch(UserActions.getProfilesInChannel(channelIdParam, page, perPage, "", options));
+        const {data} = await doDispatch(UserActions.getProfilesInChannel(channelIdParam, page, perPage, '', options));
         if (data) {
             const {data: listData} = await doDispatch(loadTeamMembersForProfilesList(data, teamIdParam));
             if (listData) {
