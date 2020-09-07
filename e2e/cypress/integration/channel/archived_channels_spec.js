@@ -217,10 +217,10 @@ describe('Leave an archived channel', () => {
     it('MM-T1675 CTRL/CMD+K list private archived channels you are a member of', () => {
         cy.visit(`/${testTeam.name}/channels/off-topic`);
 
-        // Select CTRL/⌘+k) to open the channel switcher
+        // # Select CTRL/⌘+k) to open the channel switcher
         cy.typeCmdOrCtrl().type('K', {release: true});
 
-        // Start typing the name of a private channel on this team that has been archived which the test user belongs to
+        // # Start typing the name of a private channel on this team that has been archived which the test user belongs to
         cy.get('#quickSwitchInput').type('archived-');
         cy.wait(TIMEOUTS.HALF_SEC);
 
