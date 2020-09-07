@@ -386,6 +386,8 @@ export const RecommendedNextSteps = {
     COMPLETE_PROFILE: 'complete_profile',
     TEAM_SETUP: 'team_setup',
     INVITE_MEMBERS: 'invite_members',
+    PREFERENCES_SETUP: 'preferences_setup',
+    NOTIFICATION_SETUP: 'notification_setup',
     HIDE: 'hide',
 };
 
@@ -717,6 +719,8 @@ export const PermissionsScope = {
     [Permissions.USE_GROUP_MENTIONS]: 'channel_scope',
     [Permissions.READ_PUBLIC_CHANNEL_GROUPS]: 'channel_scope',
     [Permissions.READ_PRIVATE_CHANNEL_GROUPS]: 'channel_scope',
+    [Permissions.CONVERT_PUBLIC_CHANNEL_TO_PRIVATE]: 'channel_scope',
+    [Permissions.CONVERT_PRIVATE_CHANNEL_TO_PUBLIC]: 'channel_scope',
 };
 
 export const DefaultRolePermissions = {
@@ -787,6 +791,8 @@ export const DefaultRolePermissions = {
         Permissions.MANAGE_OTHERS_INCOMING_WEBHOOKS,
         Permissions.USE_CHANNEL_MENTIONS,
         Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS,
+        Permissions.CONVERT_PUBLIC_CHANNEL_TO_PRIVATE,
+        Permissions.CONVERT_PRIVATE_CHANNEL_TO_PUBLIC,
         Permissions.READ_PUBLIC_CHANNEL_GROUPS,
         Permissions.READ_PRIVATE_CHANNEL_GROUPS,
         Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS,

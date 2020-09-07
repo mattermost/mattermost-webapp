@@ -60,7 +60,7 @@ function setNotificationSettings(desiredSettings = {first: true, username: true,
         should('not.exist');
 
     // Setup notification spy
-    spyNotificationAs('notifySpy');
+    spyNotificationAs('notifySpy', 'granted');
 
     // # Navigate to a channel we are NOT going to post to
     cy.get(`#sidebarItem_${channel.name}`).scrollIntoView().click({force: true});

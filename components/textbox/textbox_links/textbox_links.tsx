@@ -87,7 +87,7 @@ export default class TextboxLinks extends React.PureComponent<Props> {
                 <i>
                     <FormattedMessage
                         id='textbox.italic'
-                        defaultMessage='_italic_'
+                        defaultMessage='*italic*'
                     />
                 </i>
                 <span>
