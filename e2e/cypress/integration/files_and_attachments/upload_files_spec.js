@@ -19,6 +19,8 @@ describe('Upload Files', () => {
     let otherUser;
 
     beforeEach(() => {
+        cy.apiAdminLogin();
+
         // # Create new team and new user and visit Town Square channel
         cy.apiInitSetup().then(({team, channel}) => {
             testTeam = team;
@@ -189,7 +191,7 @@ describe('Upload Files', () => {
             attachFile(filename).
             attachFile(filename).
             attachFile(filename);
-        for (let i = 1; i < 5; i++) {
+        for (let i = 1; i < 4; i++) {
             cy.get(`:nth-child(${i}) > .post-image__thumbnail > .post-image`).should('be.visible');
         }
         cy.get(':nth-child(5) > .post-image__thumbnail > .post-image').should('not.be.visible');
@@ -198,7 +200,7 @@ describe('Upload Files', () => {
             cy.get(`:nth-child(${i}) > .post-image__thumbnail > .post-image`).should('not.be.visible');
         }
         cy.get(':nth-child(5) > .post-image__thumbnail > .post-image').should('be.visible');
-        cy.postMessage('{enter}');
+        cy.postMessage('test');
         cy.findByTestId('fileAttachmentList').find('.post-image').should('have.length', 5);
     });
 });
