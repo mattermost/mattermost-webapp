@@ -471,7 +471,8 @@ Cypress.Commands.add('createChannel', (name, isPrivate, purpose, header, isNewSi
         cy.get('#newChannelHeader').clear().type(header);
     }
     cy.get('#submitNewChannel').click();
-    return cy.get('#channelIntro').should('be.visible');
+    cy.get('#channelIntro').should('be.visible');
+    return cy.wrap({name: channelName});
 });
 
 Cypress.Commands.add('addUsersToCurrentChannel', (usernameList) => {
