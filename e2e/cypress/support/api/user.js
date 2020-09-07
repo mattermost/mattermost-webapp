@@ -262,4 +262,4 @@ Cypress.Commands.add('apiGetPreferences', (userId) => {
         expect(response.status).to.equal(200);
         return cy.wrap(response.body);
     });
-})
+});
