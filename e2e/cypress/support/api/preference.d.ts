@@ -42,9 +42,9 @@ declare namespace Cypress {
          * @returns {Response} response: Cypress-chainable response which should have a list of preference objects
          *
          * @example
-         *   cy.apiSaveUserPreference('user-id');
+         *   cy.apiGetUserPreference('user-id');
          */
-        apiSaveUserPreference(userId: string): Chainable<Response>;
+        apiGetUserPreference(userId: string): Chainable<Response>;
 
         /**
          * Save clock display mode to 24-hour preference.
