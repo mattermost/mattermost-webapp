@@ -6,9 +6,10 @@ import React, {useEffect} from 'react';
 import {useDispatch} from 'react-redux';
 
 import {pageVisited, trackEvent} from 'actions/diagnostics_actions';
+import {getAnalyticsCategory} from 'components/next_steps_view/step_helpers';
 import {ModalIdentifiers} from 'utils/constants';
 import UserSettingsModal from '../../../user_settings/modal';
-import {StepComponentProps, getAnalyticsCategory} from '../../steps';
+import {StepComponentProps} from '../../steps';
 import TextCardWithAction from '../text_card_with_action/text_card_with_action';
 import {openModal} from 'actions/views/modals';
 

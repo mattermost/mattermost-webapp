@@ -11,11 +11,12 @@ import {UserProfile} from 'mattermost-redux/types/users';
 import {pageVisited, trackEvent} from 'actions/diagnostics_actions';
 import Accordion from 'components/accordion';
 import Card from 'components/card/card';
+import {getAnalyticsCategory} from 'components/next_steps_view/step_helpers';
 
 import loadingIcon from 'images/spinner-48x48-blue.apng';
 import {Preferences} from 'utils/constants';
 
-import {StepType, getAnalyticsCategory} from './steps';
+import {StepType} from './steps';
 import './next_steps_view.scss';
 import NextStepsTips from './next_steps_tips';
 import OnboardingBgSvg from './images/onboarding-bg-svg';

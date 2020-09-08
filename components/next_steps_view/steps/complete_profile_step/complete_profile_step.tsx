@@ -9,12 +9,13 @@ import {UserProfile} from 'mattermost-redux/types/users';
 
 import {pageVisited, trackEvent} from 'actions/diagnostics_actions';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
+import {getAnalyticsCategory} from 'components/next_steps_view/step_helpers';
 import Input from 'components/input';
 import PictureSelector from 'components/picture_selector';
 import {AcceptedProfileImageTypes} from 'utils/constants';
 import * as Utils from 'utils/utils';
 
-import {StepComponentProps, getAnalyticsCategory} from '../../steps';
+import {StepComponentProps} from '../../steps';
 
 import './complete_profile_step.scss';
 

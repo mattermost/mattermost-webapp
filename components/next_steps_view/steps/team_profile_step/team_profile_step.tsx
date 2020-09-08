@@ -10,11 +10,12 @@ import {Team} from 'mattermost-redux/types/teams';
 import {pageVisited, trackEvent} from 'actions/diagnostics_actions';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import Input from 'components/input';
+import {getAnalyticsCategory} from 'components/next_steps_view/step_helpers';
 import PictureSelector from 'components/picture_selector';
 import {AcceptedProfileImageTypes} from 'utils/constants';
 import * as Utils from 'utils/utils';
 
-import {StepComponentProps, getAnalyticsCategory} from '../../steps';
+import {StepComponentProps} from '../../steps';
 
 import './team_profile_step.scss';
 

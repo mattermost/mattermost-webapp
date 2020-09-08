@@ -4,9 +4,10 @@
 import React, {useEffect} from 'react';
 
 import {pageVisited, trackEvent} from 'actions/diagnostics_actions';
+import {getAnalyticsCategory} from 'components/next_steps_view/step_helpers';
 import * as Utils from 'utils/utils.jsx';
 import {showNotification} from 'utils/notifications';
-import {StepComponentProps, getAnalyticsCategory} from '../../steps';
+import {StepComponentProps} from '../../steps';
 
 import TextCardWithAction from '../text_card_with_action/text_card_with_action';
 
