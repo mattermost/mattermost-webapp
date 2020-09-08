@@ -31,37 +31,23 @@ describe('New category badge', () => {
     it('MM-T3312 should show the new badge until a channel is added to the category', () => {
         const categoryName = `new-${getRandomId()}`;
 
-        // # Click the New Channel Dropdown button
-        cy.get('.AddChannelDropdown_dropdownButton').click();
-
-        // # Click the Create New Category dropdown item
-        cy.get('.AddChannelDropdown').contains('.MenuItem', 'Create New Category').click();
-
-        // # Fill in the category name and click Create
-        cy.get('input[placeholder="Name your category"]').type(categoryName);
-        cy.contains('button', 'Create').click();
+        // # Create a new category
+        cy.uiCreateSidebarCategory(categoryName).as('newCategory');
 
         // * Verify that the new category has been added to the sidebar and that it has the required badge and drop target
-        cy.contains('.SidebarChannelGroup', categoryName).as('newCategory');
         cy.get('@newCategory').should('be.visible');
         cy.get('@newCategory').find('.SidebarCategory_newLabel').should('be.visible');
         cy.get('@newCategory').find('.SidebarCategory_newDropBox').should('be.visible');
 
         // # Move Town Square into the new category
-        cy.get('#sidebarItem_town-square').find('.SidebarMenu_menuButton').click({force: true});
-        cy.get('.SidebarMenu').contains('.SubMenuItem', 'Move to').contains(categoryName).click({force: true});
-
-        // * Verify that Town Square has moved into the new category
-        cy.contains('.SidebarChannelGroup', categoryName).as('newCategory');
-        cy.get('@newCategory').find('#sidebarItem_town-square').should('exist');
+        cy.uiMoveChannelToCategory('town-square', categoryName);
 
         // * Verify that the new category badge and drop target have been removed
         cy.get('@newCategory').find('.SidebarCategory_newLabel').should('not.exist');
         cy.get('@newCategory').find('.SidebarCategory_newDropBox').should('not.exist');
 
         // # Move Town Square out of the new category
-        cy.get('#sidebarItem_town-square').find('.SidebarMenu_menuButton').click({force: true});
-        cy.get('.SidebarMenu').contains('.SubMenuItem', 'Move to').contains('Channels').click({force: true});
+        cy.uiMoveChannelToCategory('town-square', 'Channels');
 
         // * Verify that Town Square has moved out of the new category
         cy.get('@newCategory').find('#sidebarItem_town-square').should('not.exist');
