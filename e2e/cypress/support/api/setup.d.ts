@@ -21,7 +21,7 @@ declare namespace Cypress {
          * Creates a new user and make it a member of the new public team and its channels - one public channel, town-square and off-topic.
          * Created user has an option to log in after all are setup.
          * Requires sysadmin session to initiate this command.
-         * @param {boolean} options.loginAfter - false (default) or true if wants to login as the new user after setting up
+         * @param {boolean} options.loginAfter - false (default) or true if wants to login as the new user after setting up. Note that when true, succeeding API request will be limited to access/permission of a regular system user.
          * @param {string} options.userPrefix - 'user' (default) or any prefix to easily identify a user
          * @param {string} options.teamPrefix - {name: 'team', displayName: 'Team'} (default) or any prefix to easily identify a team
          * @param {string} options.channelPrefix - {name: 'team', displayName: 'Team'} (default) or any prefix to easily identify a channel

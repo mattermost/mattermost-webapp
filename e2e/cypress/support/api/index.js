@@ -4,9 +4,11 @@
 import './common';
 import './ldap';
 import './preference';
+import './role';
 import './saml';
 import './setup';
 import './status';
 import './system';
 import './team';
 import './user';
+import './channel';
