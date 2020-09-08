@@ -204,7 +204,7 @@ class InvitationModalMembersStep extends React.PureComponent {
             errorProperties.errorMessageId = t(
                 'invitation_modal.invite_members.exceeded_max_add_members_batch',
             );
-            errorProperties.errorMessageDefault = 'No more than **{text}** people can be invited at once.';
+            errorProperties.errorMessageDefault = 'No more than **{text}** people can be invited at once';
             errorProperties.errorMessageValues.text = Constants.MAX_ADD_MEMBERS_BATCH;
         }
 
