@@ -208,9 +208,9 @@ describe('Leave an archived channel', () => {
 });
 
 function createArchivedChannel(channelOptions, messages, memberUsernames) {
-    cy.createChannel(channelOptions.name, channelOptions.isPrivate, channelOptions.purpose, channelOptions.header).then(() => {
+    cy.uiCreateChannel(channelOptions.name, channelOptions.isPrivate, channelOptions.purpose, channelOptions.header).then(() => {
         if (memberUsernames) {
-            cy.addUsersToCurrentChannel(memberUsernames);
+            cy.uiAddUsersToCurrentChannel(memberUsernames);
         }
         if (messages) {
             let messageList = messages;
@@ -221,6 +221,6 @@ function createArchivedChannel(channelOptions, messages, memberUsernames) {
                 cy.postMessage(message);
             });
         }
-        return cy.archiveChannel();
+        return cy.uiArchiveChannel();
     });
 }

@@ -5,3 +5,4 @@ import './channel_sidebar';
 import './modal';
 import './post_dropdown_menu';
 import './system';
+import './channel';
