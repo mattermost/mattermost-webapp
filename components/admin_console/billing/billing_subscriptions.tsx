@@ -15,7 +15,6 @@ type Props = {
 };
 
 const BillingSubscriptions: React.FC<Props> = () => {
-
     const testTooltipLeft = (
         <Tooltip
             id='BillingSubscriptions__testTooltip'
@@ -47,7 +46,6 @@ const BillingSubscriptions: React.FC<Props> = () => {
     const [showDanger, setShowDanger] = useState(true);
     const [showWarning, setShowWarning] = useState(true);
     const [showInfo, setShowInfo] = useState(true);
-
 
     return (
         <div className='wrapper--fixed BillingSubscriptions'>
