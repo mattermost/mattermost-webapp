@@ -3,7 +3,6 @@
 // See LICENSE.txt for license information.
 
 import * as TIMEOUTS from '../fixtures/timeouts';
-import {getRandomId} from '../utils';
 
 // ***********************************************************
 // Read more: https://on.cypress.io/custom-commands
@@ -448,48 +447,3 @@ Cypress.Commands.add('checkRunLDAPSync', () => {
     });
 });
 
-Cypress.Commands.add('createChannel', (name, isPrivate, purpose, header, isNewSidebar) => {
-    if (isNewSidebar) {
-        cy.get('#SidebarContainer .AddChannelDropdown_dropdownButton').click();
-        cy.get('#showNewChannel button').click();
-    } else {
-        cy.get('#createPrivateChannel').click();
-    }
-
-    cy.get('#newChannelModalLabel').should('be.visible');
-    if (isPrivate) {
-        cy.get('#private').click();
-    } else {
-        cy.get('#public').click();
-    }
-    const channelName = `${(name || 'channel-')}${getRandomId()}`;
-    cy.get('#newChannelName').clear().type(channelName);
-    if (purpose) {
-        cy.get('#newChannelPurpose').clear().type(purpose);
-    }
-    if (header) {
-        cy.get('#newChannelHeader').clear().type(header);
-    }
-    cy.get('#submitNewChannel').click();
-    cy.get('#channelIntro').should('be.visible');
-    return cy.wrap({name: channelName});
-});
-
-Cypress.Commands.add('addUsersToCurrentChannel', (usernameList) => {
-    if (usernameList.length) {
-        cy.get('#channelHeaderDropdownIcon').click();
-        cy.get('#channelAddMembers').click();
-        cy.get('#addUsersToChannelModal').should('be.visible');
-        usernameList.forEach((username) => {
-            cy.get('#react-select-2-input').type(`@${username}{enter}`);
-        });
-        cy.get('#saveItems').click();
-        cy.get('#addUsersToChannelModal').should('not.be.visible');
-    }
-});
-
-Cypress.Commands.add('archiveChannel', () => {
-    cy.get('#channelHeaderDropdownIcon').click();
-    cy.get('#channelArchiveChannel').click();
-    return cy.get('#deleteChannelModalDeleteButton').click();
-});

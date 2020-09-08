@@ -11,7 +11,6 @@
 // Group: @channel
 
 import {testWithConfig} from '../../support/hooks';
-import * as TIMEOUTS from '../../fixtures/timeouts';
 import {getRandomId} from '../../utils';
 
 describe('Leave an archived channel', () => {
@@ -60,9 +59,6 @@ describe('Leave an archived channel', () => {
         // # Leave the channel
         cy.get('#channelHeaderDropdownIcon').click();
         cy.get('#channelLeaveChannel').click();
-
-        // # Wait to make sure that the Loading page does not get back
-        cy.wait(TIMEOUTS.FIVE_SEC);
 
         // * Verify sure that we have switched channels
         cy.get('#channelHeaderTitle').should('not.contain', testChannel.display_name);
@@ -132,9 +128,12 @@ describe('Leave an archived channel', () => {
             cy.get('#searchContainer').should('be.visible');
 
             cy.get('a.search-item__jump').first().click();
-            cy.wait(TIMEOUTS.ONE_SEC); // let the page load
 
             cy.get(`#sidebarItem_${testChannel.name}`).should('be.visible');
+
+            cy.url().should('satisfy', (testUrl) => {
+                return testUrl.endsWith(`${testTeam.name}/channels/${testChannel.name}`); // wait for permalink to turn into channel url
+            });
 
             if (i < 3) {
                 // # Close an archived channel by clicking "Close Channel" button in the footer
@@ -144,11 +143,10 @@ describe('Leave an archived channel', () => {
                 cy.get('#channelHeaderDropdownButton button').click();
                 cy.contains('li.MenuItem', 'Close Channel').click();
             }
-            cy.wait(TIMEOUTS.ONE_SEC);
 
             // * The user is returned to the channel they were previously viewing and the archived channel is removed from the drawer
-            cy.url().should('include', `${testTeam.name}/channels/off-topic`);
             cy.get(`#sidebarItem_${testChannel.name}`).should('not.be.visible');
+            cy.url().should('include', `${testTeam.name}/channels/off-topic`);
         });
     });
     it('MM-T1672_2 User can close archived channel (2/2)', () => {
@@ -168,7 +166,6 @@ describe('Leave an archived channel', () => {
         // # Create another channel with text and archive it
         createArchivedChannel({name: 'archive-', teamId: testTeam.id, teamName: testTeam.name}, [messageText]);
         cy.visit(`/${testTeam.name}/channels/off-topic`);
-        cy.wait(TIMEOUTS.ONE_SEC); //allow for page to load
 
         // # Search for content from an archived channel
         cy.get('#searchBox').should('be.visible').clear().type(`${testArchivedMessage}{enter}`);
@@ -178,7 +175,10 @@ describe('Leave an archived channel', () => {
         cy.get('#loadingSpinner').should('not.be.visible');
 
         cy.get('a.search-item__jump').first().click();
-        cy.wait(TIMEOUTS.ONE_SEC);
+
+        cy.url().should('satisfy', (testUrl) => {
+            return testUrl.endsWith(`${testTeam.name}/channels/${testChannel.name}`); // wait for permalink to turn into channel url
+        });
 
         // # Search for content from a different archived channel
         cy.get('#searchBox').should('be.visible').clear().type(`${messageText}{enter}`);
@@ -188,7 +188,10 @@ describe('Leave an archived channel', () => {
 
         cy.get('a.search-item__jump').first().click();
 
-        cy.wait(TIMEOUTS.ONE_SEC); // let the page load
+        cy.url().should('satisfy', (testUrl) => {
+            return testUrl.match(/\/team-\w+\/channels\/archive-\w+$/); // wait for permalink to turn into channel url
+        });
+
         // # Select "Close Channel"
         cy.get('#channelArchivedMessage button').click();
 
@@ -213,7 +216,6 @@ describe('Leave an archived channel', () => {
 
         // # Start typing the name of a private channel on this team that has been archived which the test user belongs to
         cy.get('#quickSwitchInput').type('archived-');
-        cy.wait(TIMEOUTS.HALF_SEC);
 
         // * Suggestion list should be visible
         cy.get('#suggestionList').should('be.visible');
@@ -230,7 +232,6 @@ describe('Leave an archived channel', () => {
 
         // # Start typing the name of a private channel on this team that has been archived which the test user belongs to
         cy.get('#quickSwitchInput').type('archived-');
-        cy.wait(TIMEOUTS.HALF_SEC);
 
         // * Suggestion list should be visible
         cy.get('#suggestionList').should('be.visible');
@@ -270,9 +271,11 @@ describe('Leave an archived channel', () => {
 });
 
 function createArchivedChannel(channelOptions, messages, memberUsernames) {
-    cy.createChannel(channelOptions.name, channelOptions.isPrivate, channelOptions.purpose, channelOptions.header).then(() => {
+    let channelName;
+    cy.uiCreateChannel(channelOptions.name, channelOptions.isPrivate, channelOptions.purpose, channelOptions.header).then((newChannel) => {
+        channelName = newChannel.name;
         if (memberUsernames) {
-            cy.addUsersToCurrentChannel(memberUsernames);
+            cy.uiAddUsersToCurrentChannel(memberUsernames);
         }
         if (messages) {
             let messageList = messages;
@@ -283,6 +286,7 @@ function createArchivedChannel(channelOptions, messages, memberUsernames) {
                 cy.postMessage(message);
             });
         }
-        return cy.archiveChannel();
+        return cy.uiArchiveChannel();
     });
+    return channelName;
 }
