@@ -7,11 +7,11 @@ import classNames from 'classnames';
 
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 
+import {trackEvent} from 'actions/diagnostics_actions';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import {
-    StepType,
+    StepType, getAnalyticsCategory,
 } from 'components/next_steps_view/steps';
-
 import ProgressBar from 'components/progress_bar';
 import {ModalIdentifiers, RecommendedNextSteps, Preferences} from 'utils/constants';
 import {localizeMessage} from 'utils/utils';
@@ -26,6 +26,7 @@ type Props = {
     currentUserId: string;
     preferences: PreferenceType[];
     steps: StepType[];
+    isAdmin: boolean;
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => void;
         openModal: (modalData: {modalId: string; dialogType: any; dialogProps?: any}) => void;
@@ -49,6 +50,7 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
 
     closeNextSteps = (event: React.SyntheticEvent) => {
         event.stopPropagation();
+        trackEvent(getAnalyticsCategory(this.props.isAdmin), 'click_skip_getting_started', {channel_sidebar: true});
         const screenTitle = this.props.showNextSteps ?
             localizeMessage('sidebar_next_steps.gettingStarted', 'Getting Started') :
             localizeMessage('sidebar_next_steps.tipsAndNextSteps', 'Tips & Next Steps');

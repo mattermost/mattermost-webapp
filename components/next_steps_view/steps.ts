@@ -21,6 +21,8 @@ import EnableNotificationsStep from './steps/enable_notifications_step/enable_no
 
 export type StepComponentProps = {
     id: string;
+    expanded: boolean;
+    isAdmin: boolean;
     currentUser: UserProfile;
     onSkip: (id: string) => void;
     onFinish: (id: string) => void;

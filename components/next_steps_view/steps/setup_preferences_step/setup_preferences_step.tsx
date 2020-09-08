@@ -1,17 +1,25 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {useEffect} from 'react';
 
 import {useDispatch} from 'react-redux';
 
+import {pageVisited} from 'actions/diagnostics_actions';
 import {ModalIdentifiers} from 'utils/constants';
 import UserSettingsModal from '../../../user_settings/modal';
-import {StepComponentProps} from '../../steps';
+import {StepComponentProps, getAnalyticsCategory} from '../../steps';
 import TextCardWithAction from '../text_card_with_action/text_card_with_action';
 import {openModal} from 'actions/views/modals';
 
 export default function SetupPreferencesStep(props: StepComponentProps) {
+    useEffect(() => {
+        if (props.expanded) {
+            console.log('pageview_enable_notifications');
+            pageVisited(getAnalyticsCategory(props.isAdmin), 'pageview_enable_notifications');
+        }
+    }, [props.expanded]);
+
     const dispatch = useDispatch();
 
     const onFinish = () => {
