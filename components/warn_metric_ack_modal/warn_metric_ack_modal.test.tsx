@@ -75,7 +75,7 @@ describe('components/WarnMetricAckModal', () => {
         );
 
         wrapper.setState({saving: true});
-        wrapper.instance().onHideWithParent();
+        wrapper.instance().onHide();
 
         expect(baseProps.closeParentComponent).toHaveBeenCalledTimes(1);
         expect(wrapper.state('saving')).toEqual(false);
