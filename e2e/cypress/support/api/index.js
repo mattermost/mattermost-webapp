@@ -4,6 +4,8 @@
 import './common';
 import './ldap';
 import './preference';
+import './role';
+import './scheme';
 import './saml';
 import './setup';
 import './status';
