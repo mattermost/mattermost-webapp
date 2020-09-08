@@ -160,7 +160,6 @@ export default class WebSocketClient {
         this.connectFailCount = 0;
         this.sequence = 1;
         if (this.conn && this.conn.readyState === WebSocket.OPEN) {
-            this.clearPingPong();
             this.conn.onclose = () => {}; //eslint-disable-line no-empty-function
             this.conn.close();
             this.conn = null;
