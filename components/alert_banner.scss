@@ -1,0 +1,89 @@
+.AlertBanner {
+    border-radius: 4px;
+    border: 1px solid;
+    padding: 16px;
+    display: flex;
+    overflow: hidden;
+
+    &.danger {
+        background: rgba(var(--sys-error-text-color-rgb), 0.08);
+        border-color: rgba(var(--sys-error-text-color-rgb), 0.24);
+
+        .AlertBanner__icon i {
+            color: var(--sys-error-text);
+        }
+    }
+
+    &.info {
+        background: rgba(var(--sys-sidebar-text-active-border-rgb), 0.08);
+        border-color: rgba(var(--sys-sidebar-text-active-border-rgb), 0.24);
+
+        .AlertBanner__icon i {
+            color: var(--sys-sidebar-text-active-border);
+        }
+    }
+
+    &.warning {
+        background: rgba(var(--sys-away-indicator-rgb), 0.08);
+        border-color: rgba(var(--sys-away-indicator-rgb), 0.24);
+
+        .AlertBanner__icon i {
+            color: var(--sys-away-indicator);
+        }
+    }
+}
+
+.AlertBanner__icon {
+    flex-grow: 0;
+    flex-shrink: 0;
+    font-size: 18px;
+    line-height: 20px;
+
+    i::before {
+        margin: 0;
+    }
+}
+
+.AlertBanner__body {
+    flex-grow: 1;
+    flex-shrink: 1;
+    margin-left: 12px;
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--sys-center-channel-color);
+}
+
+.AlertBanner__title {
+    font-weight: 600;    
+}
+
+.AlertBanner__message {
+    margin-top: 8px;
+}
+
+.AlertBanner__closeButton {
+    background: none;
+    border: none;
+    position: relative;
+    padding: 5px;
+    height: 28px;
+    width: 28px;
+    border-radius: 4px;
+    top: -12px;
+    right: -12px;
+    display: flex;
+    
+    i {
+        color: rgba(var(--sys-center-channel-color-rgb), 0.56);
+        font-size: 18px;
+        line-height: 16px;
+
+        &::before {
+            margin: 0;
+        }
+    }
+
+    &:hover {
+        background: rgba(0, 0, 0, 0.08);
+    }
+}
