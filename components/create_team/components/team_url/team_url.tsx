@@ -2,13 +2,16 @@
 // See LICENSE.txt for license information.
 /* eslint-disable react/no-string-refs */
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {Button, Tooltip} from 'react-bootstrap';
 import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
+import {Team} from 'mattermost-redux/types/teams';
+import {Client4Error} from 'mattermost-redux/types/client4';
+
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
+
 import Constants from 'utils/constants.jsx';
 import * as URL from 'utils/url';
 import logoImage from 'images/logo.png';
@@ -16,37 +19,45 @@ import logoImage from 'images/logo.png';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import OverlayTrigger from 'components/overlay_trigger';
 
-export default class TeamUrl extends React.PureComponent {
-    static propTypes = {
+type State = {
+    isLoading: boolean;
+    nameError: string | JSX.Element;
+}
+
+type Props = {
+
+    /*
+     * Object containing team's display_name and name
+     */
+    state: {team: any; wizard: string};
+
+    /*
+     * Function that updates parent component with state props
+     */
+    updateParent: (state: Props['state']) => void;
+
+    /*
+     * Object with redux action creators
+     */
+    actions: {
 
         /*
-         * Object containing team's display_name and name
+         * Action creator to check if a team already exists
          */
-        state: PropTypes.object,
+        checkIfTeamExists: (teamName: string) => Promise<{exists: boolean}>;
 
         /*
-         * Function that updates parent component with state props
-         */
-        updateParent: PropTypes.func,
+     * Action creator to create a new team
+     */
+        createTeam: (team: Team) => Promise<{data: Team; error: Client4Error}>;
+    };
+    history: {
+        push(path: string): void;
+    };
+}
 
-        /*
-         * Object with redux action creators
-         */
-        actions: PropTypes.shape({
-
-            /*
-             * Action creator to check if a team already exists
-             */
-            checkIfTeamExists: PropTypes.func.isRequired,
-
-            /*
-             * Action creator to create a new team
-             */
-            createTeam: PropTypes.func.isRequired,
-        }).isRequired,
-    }
-
-    constructor(props) {
+export default class TeamUrl extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -55,11 +66,11 @@ export default class TeamUrl extends React.PureComponent {
         };
     }
 
-    componentDidMount() {
+    public componentDidMount() {
         trackEvent('signup', 'signup_team_02_url');
     }
 
-    submitBack = (e) => {
+    public submitBack = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
         e.preventDefault();
         trackEvent('signup', 'click_back');
         const newState = this.props.state;
@@ -67,11 +78,11 @@ export default class TeamUrl extends React.PureComponent {
         this.props.updateParent(newState);
     }
 
-    submitNext = async (e) => {
+    public submitNext = async (e: React.MouseEvent<Button, MouseEvent>) => {
         e.preventDefault();
         trackEvent('signup', 'click_finish');
 
-        const name = ReactDOM.findDOMNode(this.refs.name).value.trim();
+        const name = (ReactDOM.findDOMNode(this.refs.name) as HTMLInputElement)?.value.trim();
         const cleanedName = URL.cleanUpUrlable(name);
         const urlRegex = /^[a-z]+([a-z\-0-9]+|(__)?)[a-z0-9]+$/g;
         const {actions: {checkIfTeamExists, createTeam}} = this.props;
@@ -123,11 +134,12 @@ export default class TeamUrl extends React.PureComponent {
         }
 
         this.setState({isLoading: true});
-        var teamSignup = JSON.parse(JSON.stringify(this.props.state));
+        const teamSignup = JSON.parse(JSON.stringify(this.props.state));
         teamSignup.team.type = 'O';
         teamSignup.team.name = name;
 
-        const {exists} = await checkIfTeamExists(name);
+        const checkIfTeamExistsData: { exists: boolean } = await checkIfTeamExists(name);
+        const exists = checkIfTeamExistsData.exists;
 
         if (exists) {
             this.setState({nameError: (
@@ -140,7 +152,9 @@ export default class TeamUrl extends React.PureComponent {
             return;
         }
 
-        const {data, error} = await createTeam(teamSignup.team);
+        const createTeamData: { data: Team; error: any } = await createTeam(teamSignup.team);
+        const data = createTeamData.data;
+        const error = createTeamData.error;
 
         if (data) {
             this.props.history.push('/' + data.name + '/channels/' + Constants.DEFAULT_CHANNEL);
@@ -151,7 +165,7 @@ export default class TeamUrl extends React.PureComponent {
         }
     }
 
-    handleFocus = (e) => {
+    public handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
         e.preventDefault();
         e.currentTarget.select();
     }
@@ -218,7 +232,7 @@ export default class TeamUrl extends React.PureComponent {
                                         ref='name'
                                         className='form-control'
                                         placeholder=''
-                                        maxLength='128'
+                                        maxLength={128}
                                         defaultValue={this.props.state.team.name}
                                         autoFocus={true}
                                         onFocus={this.handleFocus}
@@ -261,7 +275,7 @@ export default class TeamUrl extends React.PureComponent {
                             type='submit'
                             bsStyle='primary'
                             disabled={this.state.isLoading}
-                            onClick={this.submitNext}
+                            onClick={(e: React.MouseEvent<Button, MouseEvent>) => this.submitNext(e)}
                         >
                             {finishMessage}
                         </Button>

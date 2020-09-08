@@ -30,6 +30,7 @@ type Props = {
     onHeightChange?: (height: number, maxHeight: number) => void;
     createMessage: string;
     onKeyDown?: (e: KeyboardEvent) => void;
+    onSelect?: (e: React.SyntheticEvent) => void;
     onMouseUp?: (e: MouseEvent) => void;
     onKeyUp?: (e: KeyboardEvent) => void;
     onBlur?: (e: FocusEvent) => void;
@@ -160,6 +161,10 @@ export default class Textbox extends React.PureComponent<Props> {
         this.props.onKeyDown?.(e);
     }
 
+    handleSelect = (e: React.SyntheticEvent) => {
+        this.props.onSelect?.(e);
+    }
+
     handleMouseUp = (e: MouseEvent) => {
         this.props.onMouseUp?.(e);
     }
@@ -225,6 +230,7 @@ export default class Textbox extends React.PureComponent<Props> {
                     className='form-control custom-textarea textbox-preview-area'
                     onKeyPress={this.props.onKeyPress}
                     onKeyDown={this.handleKeyDown}
+                    onSelect={this.handleSelect}
                     onBlur={this.handleBlur}
                 >
                     <PostMarkdown
@@ -249,6 +255,7 @@ export default class Textbox extends React.PureComponent<Props> {
                     placeholder={this.props.createMessage}
                     onChange={this.handleChange}
                     onKeyPress={this.props.onKeyPress}
+                    onSelect={this.handleSelect}
                     onKeyDown={this.handleKeyDown}
                     onMouseUp={this.handleMouseUp}
                     onKeyUp={this.handleKeyUp}
