@@ -12,8 +12,17 @@ import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 describe('System Console > Team Statistics', () => {
     before(() => {
-        // # Visit team statistics page.
-        cy.visit('/admin_console/reporting/team_statistics').wait(TIMEOUTS.TWO_SEC);
+        // # Create team.
+        cy.apiCreateTeam('mmt906-team', 'mmt906-team').then(({team}) => {
+            // # Create private channel.
+            cy.apiCreateChannel(team.id, 'mmt906-ch', 'mmt906-ch', 'P');
+
+            // # Visit team statistics page.
+            cy.visit('/admin_console/reporting/team_statistics').wait(TIMEOUTS.TWO_SEC);
+
+            // # Select created team.
+            cy.get('select.team-statistics__team-filter__dropdown').select(team.id);
+        });
     });
 
     it('MM-T906 Team Statistics displays expected content categories', () => {
