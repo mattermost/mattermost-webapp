@@ -224,7 +224,6 @@ describe('Leave an archived channel', () => {
 
         // # Start typing the name of a private channel on this team that has been archived which the test user belongs to
         cy.get('#quickSwitchInput').type('archived-');
-        cy.wait(TIMEOUTS.HALF_SEC);
 
         // * Suggestion list should be visible
         cy.get('#suggestionList').should('be.visible');
