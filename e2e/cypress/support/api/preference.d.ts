@@ -70,5 +70,16 @@ declare namespace Cypress {
          *   cy.apiHideSidebarWhatsNewModalPreference('user-id', 'true');
          */
         apiHideSidebarWhatsNewModalPreference(userId: string, name: string): Chainable<Response>;
+
+        /**
+         * Get the full list of the user's preferences.
+         * See https://api.mattermost.com/#tag/preferences/paths/~1users~1{user_id}~1preferences/get
+         * @param {string} userId - User ID
+         * @returns {Response} response: Cypress-chainable response which should have a list of preference objects
+         *
+         * @example
+         *   cy.apiSaveUserPreference('user-id');
+         */
+        apiSaveUserPreference(userId: string): Chainable<Response>;
     }
 }
