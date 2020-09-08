@@ -291,9 +291,9 @@ class InvitationModalMembersStep extends React.PureComponent {
                     </h2>
                     <div data-testid='inputPlaceholder'>
                         <UsersEmailsInput
+                            {...errorProperties}
                             usersLoader={this.usersLoader}
                             placeholder={placeholder}
-                            showError={errorProperties.showError}
                             ariaLabel={localizeMessage(
                                 'invitation_modal.members.search_and_add.title',
                                 'Invite People',
@@ -304,9 +304,6 @@ class InvitationModalMembersStep extends React.PureComponent {
                                 'invitation_modal.members.users_emails_input.valid_email',
                             )}
                             validAddressMessageDefault='Invite **{email}** as a team member'
-                            errorMessageId={errorProperties.errorMessageId}
-                            errorMessageDefault={errorProperties.errorMessageDefault}
-                            errorMessageValues={errorProperties.errorMessageValues}
                             noMatchMessageId={noMatchMessageId}
                             noMatchMessageDefault={noMatchMessageDefault}
                             onInputChange={this.onUsersInputChange}
