@@ -30,6 +30,9 @@ context('ldap', () => {
 
     describe('LDAP Group Sync Automated Tests', () => {
         beforeEach(() => {
+            // # Login as sysadmin and add board-one to test team
+            cy.apiAdminLogin();
+
             // * Check if server has license for LDAP
             cy.apiRequireLicenseForFeature('LDAP');
 
@@ -42,9 +45,6 @@ context('ldap', () => {
                 cy.apiGetConfig().then(({config}) => {
                     setLDAPTestSettings(config);
                 });
-
-                // # Login as sysadmin and add board-one to test team
-                cy.apiAdminLogin();
 
                 // # Link board group
                 cy.visit('/admin_console/user_management/groups');
@@ -338,6 +338,166 @@ context('ldap', () => {
                 // * We expect an error that says "Message not found"
                 cy.findByTestId('errorMessageTitle').contains('Message Not Found');
             });
+        });
+
+        it('MM-T2639 - Policy settings (in System Console tests, likely)', () => {
+            // # Reset system scheme permission
+            cy.uiResetPermissionsToDefault();
+
+            // # Login as testUser and go to channel configuration page of testChannel
+            cy.apiLogin(testUser);
+            cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+
+            // # Go to manage members modal and ensure that we can add members to it
+            cy.get('#channelMember').click();
+            cy.findByTestId('membersModal').click();
+            cy.get('#showInviteModal').should('exist').click();
+
+            // * Asset that label is visiable and it says we can add new members
+            cy.get('#channelInviteModalLabel').should('be.visible').and('contain', `Add New Members to ${testChannel.display_name}`);
+
+            // # Login as sysadmin and navigate to system scheme page and check off all users can manage private manage channels
+            cy.apiAdminLogin();
+            cy.visit('/admin_console/user_management/permissions/system_scheme');
+            cy.findByTestId('all_users-private_channel-checkbox').click();
+
+            // # Save the settings
+            cy.uiSaveConfig();
+
+            // # Login as sysadmin and convert testChannel to private channel
+            cy.apiPatchChannelPrivacy(testChannel.id, 'P');
+
+            // # Go back to the channel
+            cy.apiLogin(testUser);
+            cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+
+            // # Go to manage member modal
+            cy.get('#channelMember').click();
+            cy.findByTestId('membersModal').click();
+
+            // * Assert that the label doesn't exist anymore mentioning we can invite members
+            cy.get('#showInviteModal').should('not.exist');
+        });
+
+        it('MM-T2640 - Channel appears in channel switcher before conversion but not after (for non-members of the channel)', () => {
+            // # Reset system scheme permissions
+            cy.uiResetPermissionsToDefault();
+
+            // # Create new test channel that is public
+            cy.apiCreateChannel(
+                testTeam.id,
+                'a-channel-im-not-apart-off',
+                'Public channel',
+                'O',
+            ).then((res) => {
+                const publicChannel = res.body;
+                cy.apiLogin(testUser);
+
+                cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+
+                // # Click the sidebar switcher button
+                cy.get('#sidebarSwitcherButton').click();
+
+                // * Channel switcher hint should be visible
+                cy.get('#quickSwitchHint', {timeout: TIMEOUTS.TWO_SEC}).should('be.visible').should('contain', 'Type to find a channel. Use ▲▼ to browse, ENTER to select, ESC to dismiss.');
+                cy.wait(TIMEOUTS.THREE_SEC);
+
+                // # Type channel display name on Channel switcher input
+                cy.get('#quickSwitchInput').type(publicChannel.display_name);
+                cy.wait(TIMEOUTS.HALF_SEC);
+
+                // * Should open up suggestion list for channels
+                // * Should match each channel item and group label
+                cy.get('#suggestionList').should('be.visible').children().within((el) => {
+                    cy.wrap(el).eq(1).should('contain', publicChannel.display_name);
+                });
+
+                // # Login as a admin and make channel private
+                cy.apiAdminLogin();
+                cy.apiPatchChannelPrivacy(publicChannel.id, 'P');
+
+                // # Login as normal user
+                cy.apiLogin(testUser);
+                cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+
+                // # Click the sidebar switcher button
+                cy.get('#sidebarSwitcherButton').click();
+
+                // * Channel switcher hint should be visible
+                cy.get('#quickSwitchHint', {timeout: TIMEOUTS.TWO_SEC}).should('be.visible').should('contain', 'Type to find a channel. Use ▲▼ to browse, ENTER to select, ESC to dismiss.');
+                cy.wait(TIMEOUTS.THREE_SEC);
+
+                // # Type channel display name on Channel switcher input
+                cy.get('#quickSwitchInput').type(publicChannel.display_name);
+                cy.wait(TIMEOUTS.HALF_SEC);
+
+                // * Should open up suggestion list for channels
+                // * Should should no results after looking for channel
+                cy.get('.no-results__title').should('be.visible').and('contain.text', 'No results for');
+            });
+        });
+
+        it('MM-T2641 - Channel appears in More... under Public Channels before conversion but not after', () => {
+            // # Create new test channel that is public
+            cy.apiCreateChannel(
+                testTeam.id,
+                'a-channel-im-not-apart-off',
+                'Public channel',
+                'O',
+            ).then((res) => {
+                const publicChannel = res.body;
+                cy.apiLogin(testUser);
+
+                // # Click more under public channels
+                cy.visit(`/${testTeam.name}/channels/off-topic`);
+                cy.get('#sidebarPublicChannelsMore').click();
+
+                // * Search public channel and ensure it appears in the list
+                cy.get('#searchChannelsTextbox').type(`${publicChannel.display_name}`);
+                cy.get('#moreChannelsList').should('include.text', publicChannel.display_name);
+
+                // # login as a admin and revert to private channel
+                cy.apiAdminLogin();
+                cy.apiPatchChannelPrivacy(publicChannel.id, 'P');
+
+                // # Login as a nromal user
+                cy.apiLogin(testUser);
+
+                // # Click more under public channels
+                cy.visit(`/${testTeam.name}/channels/off-topic`);
+                cy.get('#sidebarPublicChannelsMore').click();
+
+                // * Search private channel name and make sure it isn't there in public channel directory
+                cy.get('#searchChannelsTextbox').type(`${publicChannel.display_name}`);
+                cy.get('#moreChannelsList').should('include.text', 'No more channels to join');
+            });
+        });
+
+        it('MM-T2642 - Channel appears in Integrations options before conversion but not after', () => {
+            cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+
+            // # Go to integrations
+            cy.visit(`/${testTeam.name}/integrations`);
+
+            // # Go to outgoing webhooks and then add out going web hooks page
+            cy.get('#outgoingWebhooks', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').click();
+            cy.get('#addOutgoingWebhook', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').click();
+
+            // * In the channel select options, ensure our display name appears
+            cy.get('#channelSelect').children().should('contain.text', testChannel.display_name);
+
+            // # Make channel private
+            cy.apiPatchChannelPrivacy(testChannel.id, 'P');
+
+            // # Go to integrations
+            cy.visit(`/${testTeam.name}/integrations`);
+
+            // # Go to outgoing webhooks and then add out going web hooks page
+            cy.get('#outgoingWebhooks', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').click();
+            cy.get('#addOutgoingWebhook', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').click();
+
+            // * Ensure that our channel name doesn't appear in the list of options
+            cy.get('#channelSelect').children().should('not.contain.text', testChannel.display_name);
         });
     });
 });
