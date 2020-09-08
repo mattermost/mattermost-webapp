@@ -263,7 +263,6 @@ describe('Leave an archived channel', () => {
 
         // # Start typing the name of a private channel located above
         cy.get('#quickSwitchInput').type('archived-');
-        cy.wait(TIMEOUTS.HALF_SEC);
 
         // * Private archived channels you are not a member above are not available on channel switcher
         cy.contains('#suggestionList', otherChannelName).should('not.exist');
