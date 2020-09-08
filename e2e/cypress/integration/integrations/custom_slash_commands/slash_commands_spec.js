@@ -7,13 +7,20 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @integrations
+
+/**
+* Note: This test requires webhook server running. Initiate `npm run start:webhook` to start.
+*/
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 describe('Slash commands page', () => {
     const trigger = 'test-message';
     let testTeam;
+
+    before(() => {
+        cy.requireWebhookServer();
+    });
 
     beforeEach(() => {
         cy.apiInitSetup().then(({team}) => {
@@ -121,12 +128,12 @@ describe('Slash commands page', () => {
     });
 
     it('MM-T695 Run custom slash command', () => {
-        addNewCommand(trigger);
+        addNewCommand(testTeam, trigger, '');
         runSlashCommand(testTeam, trigger);
     });
 
     it('MM-T698 Cancel out of edit', () => {
-        addNewCommand(trigger);
+        addNewCommand(testTeam, trigger, 'http://hidden-peak-21733.herokuapp.com/test_inchannel');
 
         // # Go to integrations
         cy.visit(`/${testTeam.name}/integrations`);
@@ -151,7 +158,7 @@ describe('Slash commands page', () => {
     });
 
     it('MM-T699 Edit custom slash command', () => {
-        addNewCommand(trigger);
+        addNewCommand(testTeam, trigger, '');
 
         // # Go to integrations
         cy.visit(`/${testTeam.name}/integrations`);
@@ -175,26 +182,32 @@ describe('Slash commands page', () => {
     });
 });
 
-function addNewCommand(trigger) {
+function addNewCommand(team, trigger, url) {
     // # Add new command
     cy.get('#addSlashCommand').click();
 
     // # Type a trigger word, url and display name
     cy.get('#trigger').type(`${trigger}`);
-    cy.get('#url').type('http://hidden-peak-21733.herokuapp.com/test_inchannel');
     cy.get('#displayName').type('Test Message');
+    cy.apiGetChannelByName(team.name, 'town-square').then((res) => {
+        let urlToType = url;
+        if (url === '') {
+            urlToType = `${Cypress.env('webhookBaseUrl')}/send_message_to_channel?channel_id=${res.body.id}`;
+        }
+        cy.get('#url').type(`${urlToType}`);
 
-    // # Save
-    cy.get('#saveCommand').click();
+        // # Save
+        cy.get('#saveCommand').click();
 
-    // * Verify we are at setup successful URL
-    cy.url().should('include', '/integrations/commands/confirm');
+        // * Verify we are at setup successful URL
+        cy.url().should('include', '/integrations/commands/confirm');
 
-    // * Verify slash was successfully created
-    cy.findByText('Setup Successful').should('exist').and('be.visible');
+        // * Verify slash was successfully created
+        cy.findByText('Setup Successful').should('exist').and('be.visible');
 
-    // * Verify token was created
-    cy.findByText('Token').should('exist').and('be.visible');
+        // * Verify token was created
+        cy.findByText('Token').should('exist').and('be.visible');
+    });
 }
 
 function runSlashCommand(team, trigger) {
