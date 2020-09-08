@@ -29,33 +29,35 @@ describe('Notifications', () => {
             });
 
             cy.apiLogin(testUser).then(() => {
-                Cypress._.times(40, (i) => {
-                    // # Create new test channel
-                    cy.apiCreateChannel(testTeam.id, `channel-test${i}`, `Channel${i}`).then((channelRes) => {
-                        if (i === 1) {
-                            testChannel = channelRes.body;
-                        }
-                        cy.apiAddUserToChannel(testChannel.id, otherUser.id);
+                // # Create new test channel
+                cy.apiCreateChannel(testTeam.id, 'channel-test', 'Channel').then((channelRes) => {
+                    testChannel = channelRes.body;
+
+                    cy.apiAddUserToChannel(channelRes.body.id, otherUser.id);
+
+                    // # Create more channels for scrolling in LHS
+                    Cypress._.times(40, (i) => {
+                        cy.apiCreateChannel(testTeam.id, `channel-test-${i}`, `channel-${i}`).then((channelResponse) => {
+                            cy.apiAddUserToChannel(channelResponse.body.id, otherUser.id);
+                        });
                     });
+
+                    // # Most page of messages so the channel can be scrolled up
+                    Cypress._.times(40, (i) => {
+                        cy.postMessageAs({sender: testUser, message: `test${i}`, channelId: testChannel.id});
+                    });
+
+                    // # Go to test channel
+                    cy.visit(`/${team.name}/channels/${testChannel.name}`);
+
+                    // # Scroll above the last few messages
+                    cy.get('div.post-list__dynamic').should('be.visible').
+                        scrollTo(0, '70%', {duration: TIMEOUTS.ONE_SEC}).
+                        wait(TIMEOUTS.ONE_SEC);
+
+                    // # scroll to the last channel
+                    cy.get('#lhsList li').last().scrollIntoView();
                 });
-
-                // # Most page of messages so the channel can be scrolled up
-                Cypress._.times(40, (i) => {
-                    cy.postMessageAs({sender: otherUser, message: i, channelId: testChannel.id});
-                });
-
-                // # Go to town square
-                cy.visit(`/${team.name}/channels/${testChannel.name}`);
-
-                // # Scroll above the last few messages
-                cy.get('div.post-list__dynamic').should('be.visible').
-                    scrollTo(0, '70%', {duration: TIMEOUTS.ONE_SEC}).
-                    wait(TIMEOUTS.ONE_SEC);
-
-                // # Scroll down in channel list
-                cy.get('#lhsList').should('be.visible').
-                    scrollTo('bottom', {duration: TIMEOUTS.ONE_SEC}).
-                    wait(TIMEOUTS.ONE_SEC);
             });
         });
     });
