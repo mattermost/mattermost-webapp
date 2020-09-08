@@ -63,6 +63,7 @@
     .badge {
         display: inline-block;
         flex-shrink: 0;
+        margin-left: 6px;
         margin-right: 3px;
         padding: 0 6px;
         min-width: 22px;
@@ -77,7 +78,6 @@
         background: var(--mention-bg);
         -webkit-font-smoothing: subpixel-antialiased;
         -moz-osx-font-smoothing: grayscale;
-        margin-left: auto;
     }
 
     .a11y--focused {
@@ -288,7 +288,6 @@
     .SidebarMenu {
         height: 30px;
         opacity: 1;
-        margin-left: auto;
 
         .dropdown-menu {
             line-height: 20px;
@@ -989,6 +988,7 @@
     .SidebarChannelLinkLabel_wrapper {
         overflow: hidden;
         display: flex;
+        flex-grow: 1;
 
         > span {
             text-overflow: ellipsis;
@@ -1043,9 +1043,11 @@
 
     .status.status--group {
         background: rgba(var(--sidebar-text-rgb), 0.16);
-        margin: 3px 7px 0 1px;
-        min-width: 14px;
+        margin: 0 8px 0 3px;
+        width: 14px;
         height: 14px;
+        flex-shrink: 0;
+        font-size: 11px;
     }
 
     .status-away {
