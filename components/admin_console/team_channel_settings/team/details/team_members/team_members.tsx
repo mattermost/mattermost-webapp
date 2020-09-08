@@ -5,6 +5,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {ServerError} from 'mattermost-redux/types/errors';
+import {ActionResult} from 'mattermost-redux/types/actions';
 import {UserProfile, UsersStats, GetFilteredUsersStatsOpts} from 'mattermost-redux/types/users';
 import {TeamMembership, Team} from 'mattermost-redux/types/teams';
 import {Dictionary} from 'mattermost-redux/types/utilities';
@@ -55,12 +56,8 @@ type Props = {
             data?: UsersStats;
             error?: ServerError;
         }>;
-        setUserGridSearch: (term: string) => Promise<{
-            data: boolean;
-        }>;
-        setUserGridFilters: (filters: GetFilteredUsersStatsOpts) => Promise<{
-            data: boolean;
-        }>;
+        setUserGridSearch: (term: string) => ActionResult;
+        setUserGridFilters: (filters: GetFilteredUsersStatsOpts) => ActionResult;
     };
 }
 
@@ -172,10 +169,11 @@ export default class TeamMembers extends React.PureComponent<Props, State> {
             if (teamRoles.length > 0) {
                 filters = {...filters, team_roles: teamRoles};
             }
+
             [...systemRoles, ...teamRoles].forEach((role) => {
                 trackEvent('admin_team_config_page', `${role}_filter_applied_to_members_block`, {team_id: this.props.teamId});
             });
-            this.props.actions.setUserGridFilters({roles: systemRoles, team_roles: teamRoles});
+            this.props.actions.setUserGridFilters(filters);
             this.props.actions.getFilteredUsersStats({in_team: this.props.teamId, include_bots: true, ...filters});
         } else {
             this.props.actions.setUserGridFilters(filters);

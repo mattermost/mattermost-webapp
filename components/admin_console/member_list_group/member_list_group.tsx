@@ -4,6 +4,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import {ActionResult} from 'mattermost-redux/types/actions';
 import {UserProfile} from 'mattermost-redux/types/users';
 
 import Constants from 'utils/constants';
@@ -23,9 +24,7 @@ type Props = {
         getProfilesInGroup: (groupID: string, page: number, perPage: number) => Promise<{data: {}}>;
         getGroupStats: (groupID: string) => Promise<{data: {}}>;
         searchProfiles: (term: string, options?: {}) => Promise<{data: UserProfile[]}>;
-        setModalSearchTerm: (term: string) => Promise<{
-            data: boolean;
-        }>;
+        setModalSearchTerm: (term: string) => ActionResult;
     };
 }
 

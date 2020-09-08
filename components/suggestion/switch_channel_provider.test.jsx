@@ -27,63 +27,63 @@ const latestPost = {
 };
 
 describe('components/SwitchChannelProvider', () => {
-    const defaultState = {
-        entities: {
-            general: {
-                config: {},
-            },
-            channels: {
-                myMembers: {
-                    current_channel_id: {
-                        channel_id: 'current_channel_id',
-                        user_id: 'current_user_id',
-                        roles: 'channel_role',
-                        mention_count: 1,
-                        msg_count: 9,
-                    },
-                },
-            },
-            preferences: {
-                myPreferences: {
-                    'display_settings--name_format': {
-                        category: 'display_settings',
-                        name: 'name_format',
-                        user_id: 'current_user_id',
-                        value: 'username',
-                    },
-                },
-            },
-            users: {
-                profiles: {
-                    current_user_id: {roles: 'system_role'},
-                },
-                currentUserId: 'current_user_id',
-                profilesInChannel: {
-                    current_user_id: ['user_1'],
-                },
-            },
-            posts: {
-                posts: {
-                    [latestPost.id]: latestPost,
-                },
-                postsInChannel: {
-                    current_channel_id: [
-                        {order: [latestPost.id], recent: true},
-                    ],
-                },
-                postsInThread: {},
-            },
-        },
-    };
-
-    const switchProvider = new SwitchChannelProvider();
-    const mockStore = configureStore();
-    const resultsCallback = jest.fn();
-    const store = mockStore(defaultState);
-
-    getState.mockImplementation(store.getState);
-
     it('should change name on wrapper to be unique with same name user channel and public channel', () => {
+        const defaultState = {
+            entities: {
+                general: {
+                    config: {},
+                },
+                channels: {
+                    myMembers: {
+                        current_channel_id: {
+                            channel_id: 'current_channel_id',
+                            user_id: 'current_user_id',
+                            roles: 'channel_role',
+                            mention_count: 1,
+                            msg_count: 9,
+                        },
+                    },
+                },
+                preferences: {
+                    myPreferences: {
+                        'display_settings--name_format': {
+                            category: 'display_settings',
+                            name: 'name_format',
+                            user_id: 'current_user_id',
+                            value: 'username',
+                        },
+                    },
+                },
+                users: {
+                    profiles: {
+                        current_user_id: {roles: 'system_role'},
+                    },
+                    currentUserId: 'current_user_id',
+                    profilesInChannel: {
+                        current_user_id: ['user_1'],
+                    },
+                },
+                posts: {
+                    posts: {
+                        [latestPost.id]: latestPost,
+                    },
+                    postsInChannel: {
+                        current_channel_id: [
+                            {order: [latestPost.id], recent: true},
+                        ],
+                    },
+                    postsInThread: {},
+                },
+            },
+        };
+
+        const switchProvider = new SwitchChannelProvider();
+        const mockStore = configureStore();
+        const resultsCallback = jest.fn();
+        const store = mockStore(defaultState);
+
+        getState.mockImplementation(store.getState);
+
         const users = [
             {
                 id: 'other_user',
@@ -122,6 +122,62 @@ describe('components/SwitchChannelProvider', () => {
     });
 
     it('should change name on wrapper to be unique with same name user in channel and public channel', () => {
+        const defaultState = {
+            entities: {
+                general: {
+                    config: {},
+                },
+                channels: {
+                    myMembers: {
+                        current_channel_id: {
+                            channel_id: 'current_channel_id',
+                            user_id: 'current_user_id',
+                            roles: 'channel_role',
+                            mention_count: 1,
+                            msg_count: 9,
+                        },
+                    },
+                },
+                preferences: {
+                    myPreferences: {
+                        'display_settings--name_format': {
+                            category: 'display_settings',
+                            name: 'name_format',
+                            user_id: 'current_user_id',
+                            value: 'username',
+                        },
+                    },
+                },
+                users: {
+                    profiles: {
+                        current_user_id: {roles: 'system_role'},
+                    },
+                    currentUserId: 'current_user_id',
+                    profilesInChannel: {
+                        current_user_id: ['user_1'],
+                    },
+                },
+                posts: {
+                    posts: {
+                        [latestPost.id]: latestPost,
+                    },
+                    postsInChannel: {
+                        current_channel_id: [
+                            {order: [latestPost.id], recent: true},
+                        ],
+                    },
+                    postsInThread: {},
+                },
+            },
+        };
+
+        const switchProvider = new SwitchChannelProvider();
+        const mockStore = configureStore();
+        const resultsCallback = jest.fn();
+        const store = mockStore(defaultState);
+
+        getState.mockImplementation(store.getState);
+
         const users = [{
             id: 'other_user',
             display_name: 'other_user',
@@ -153,6 +209,62 @@ describe('components/SwitchChannelProvider', () => {
     });
 
     it('should not fail if nothing matches', () => {
+        const defaultState = {
+            entities: {
+                general: {
+                    config: {},
+                },
+                channels: {
+                    myMembers: {
+                        current_channel_id: {
+                            channel_id: 'current_channel_id',
+                            user_id: 'current_user_id',
+                            roles: 'channel_role',
+                            mention_count: 1,
+                            msg_count: 9,
+                        },
+                    },
+                },
+                preferences: {
+                    myPreferences: {
+                        'display_settings--name_format': {
+                            category: 'display_settings',
+                            name: 'name_format',
+                            user_id: 'current_user_id',
+                            value: 'username',
+                        },
+                    },
+                },
+                users: {
+                    profiles: {
+                        current_user_id: {roles: 'system_role'},
+                    },
+                    currentUserId: 'current_user_id',
+                    profilesInChannel: {
+                        current_user_id: ['user_1'],
+                    },
+                },
+                posts: {
+                    posts: {
+                        [latestPost.id]: latestPost,
+                    },
+                    postsInChannel: {
+                        current_channel_id: [
+                            {order: [latestPost.id], recent: true},
+                        ],
+                    },
+                    postsInThread: {},
+                },
+            },
+        };
+
+        const switchProvider = new SwitchChannelProvider();
+        const mockStore = configureStore();
+        const resultsCallback = jest.fn();
+        const store = mockStore(defaultState);
+
+        getState.mockImplementation(store.getState);
+
         const users = [];
         const channels = [{
             id: 'channel_other_user',
@@ -177,5 +289,78 @@ describe('components/SwitchChannelProvider', () => {
         const wrappers = resultsCallback.mock.calls[0][0];
         expect(wrappers.terms.length).toEqual(0);
         expect(wrappers.items.length).toEqual(0);
+    });
+
+    it('should correctly format the display name depending on the preferences', () => {
+        const switchProvider = new SwitchChannelProvider();
+
+        const user = {
+            id: 'id',
+            username: 'username',
+            first_name: 'fn',
+            last_name: 'ln',
+        };
+        const channel = {
+            id: 'channel_id',
+        };
+
+        let res = switchProvider.userWrappedChannel(user, channel);
+        expect(res.channel.display_name).toEqual('@username - fn ln');
+
+        getState.mockClear();
+
+        const mockStore = configureStore();
+        const store = mockStore({
+            entities: {
+                general: {
+                    config: {},
+                },
+                channels: {
+                    myMembers: {
+                        current_channel_id: {
+                            channel_id: 'current_channel_id',
+                            user_id: 'current_user_id',
+                            roles: 'channel_role',
+                            mention_count: 1,
+                            msg_count: 9,
+                        },
+                    },
+                },
+                preferences: {
+                    myPreferences: {
+                        'display_settings--name_format': {
+                            category: 'display_settings',
+                            name: 'name_format',
+                            user_id: 'current_user_id',
+                            value: 'full_name',
+                        },
+                    },
+                },
+                users: {
+                    profiles: {
+                        current_user_id: {roles: 'system_role'},
+                    },
+                    currentUserId: 'current_user_id',
+                    profilesInChannel: {
+                        current_user_id: ['user_1'],
+                    },
+                },
+                posts: {
+                    posts: {
+                        [latestPost.id]: latestPost,
+                    },
+                    postsInChannel: {
+                        current_channel_id: [
+                            {order: [latestPost.id], recent: true},
+                        ],
+                    },
+                    postsInThread: {},
+                },
+            },
+        });
+        getState.mockImplementation(store.getState);
+
+        res = switchProvider.userWrappedChannel(user, channel);
+        expect(res.channel.display_name).toEqual('fn ln - @username');
     });
 });
