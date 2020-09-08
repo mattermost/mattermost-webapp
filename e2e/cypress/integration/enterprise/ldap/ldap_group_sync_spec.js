@@ -20,22 +20,6 @@ function setLDAPTestSettings(config) {
     };
 }
 
-const resetPermissionsToDefault = () => {
-    // # Login as sysadmin and navigate to system scheme page
-    cy.apiAdminLogin();
-    cy.visit('/admin_console/user_management/permissions/system_scheme');
-
-    // # Click reset to defaults and confirm
-    cy.findByTestId('resetPermissionsToDefault').click();
-    cy.get('#confirmModalButton').click();
-
-    // # Save
-    cy.get('#saveSetting').click();
-    cy.waitUntil(() => cy.get('#saveSetting').then((el) => {
-        return el[0].innerText === 'Save';
-    }));
-};
-
 // assumes the CYPRESS_* variables are set
 // assumes that E20 license is uploaded
 // for setup with AWS: Follow the instructions mentioned in the mattermost/platform-private/config/ldap-test-setup.txt file
@@ -357,7 +341,10 @@ context('ldap', () => {
         });
 
         it('MM-T2639 - Policy settings (in System Console tests, likely)', () => {
-            resetPermissionsToDefault();
+            // # Reset system scheme permission
+            cy.uiResetPermissionsToDefault();
+
+            // # Login as testUser and go to channel configuration page of testChannel
             cy.apiLogin(testUser);
             cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 
@@ -375,10 +362,7 @@ context('ldap', () => {
             cy.findByTestId('all_users-private_channel-checkbox').click();
 
             // # Save the settings
-            cy.get('#saveSetting').click();
-            cy.waitUntil(() => cy.get('#saveSetting').then((el) => {
-                return el[0].innerText === 'Save';
-            }));
+            cy.uiSaveConfig();
 
             // # Login as sysadmin and convert testChannel to private channel
             cy.apiPatchChannelPrivacy(testChannel.id, 'P');
@@ -396,7 +380,8 @@ context('ldap', () => {
         });
 
         it('MM-T2640 - Channel appears in channel switcher before conversion but not after (for non-members of the channel)', () => {
-            resetPermissionsToDefault();
+            // # Reset system scheme permissions
+            cy.uiResetPermissionsToDefault();
 
             // # Create new test channel that is public
             cy.apiCreateChannel(
