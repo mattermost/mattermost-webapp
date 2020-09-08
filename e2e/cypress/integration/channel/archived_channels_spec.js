@@ -165,7 +165,7 @@ describe('Leave an archived channel', () => {
 
         cy.apiCreateChannel(testTeam.id, 'archived-is-not', 'archived-is-not');
 
-        // # create another channel with text and archive it
+        // # Create another channel with text and archive it
         createArchivedChannel({name: 'archive-', teamId: testTeam.id, teamName: testTeam.name}, [messageText]);
         cy.visit(`/${testTeam.name}/channels/off-topic`);
         cy.wait(TIMEOUTS.ONE_SEC); //allow for page to load
@@ -221,13 +221,14 @@ describe('Leave an archived channel', () => {
         // * there should be public channels as well
         cy.get('#suggestionList').find('.icon-globe').should('be.visible');
     });
+
     it('MM-T1675 CTRL/CMD+K list private archived channels you are a member of', () => {
         cy.visit(`/${testTeam.name}/channels/off-topic`);
 
-        // Select CTRL/⌘+k) to open the channel switcher
+        // # Select CTRL/⌘+k) to open the channel switcher
         cy.typeCmdOrCtrl().type('K', {release: true});
 
-        // Start typing the name of a private channel on this team that has been archived which the test user belongs to
+        // # Start typing the name of a private channel on this team that has been archived which the test user belongs to
         cy.get('#quickSwitchInput').type('archived-');
         cy.wait(TIMEOUTS.HALF_SEC);
 
@@ -243,7 +244,7 @@ describe('Leave an archived channel', () => {
         // # As another user, create or locate a private channel that the test user is not a member of and archive the channel
         cy.apiLogout();
         cy.apiLogin(otherUser);
-        cy.createArchivedChannel(
+        createArchivedChannel(
             {
                 name: otherChannelName,
                 type: 'P',
@@ -264,7 +265,7 @@ describe('Leave an archived channel', () => {
         cy.wait(TIMEOUTS.HALF_SEC);
 
         // * Private archived channels you are not a member above are not available on channel switcher
-        cy.contains('#suggestionList', 'archived-not-mine').should('not.exist');
+        cy.contains('#suggestionList', otherChannelName).should('not.exist');
     });
 });
 
