@@ -42,7 +42,7 @@ function makeMapStateToProps() {
             isUserCanManageMembers: channel && canManageMembers(state, channel),
             mentionKeys: getMentionKeysForPost(state, ownProps.post, channel),
         };
-    }
+    };
 }
 
 export default connect(makeMapStateToProps)(PostMarkdown);
