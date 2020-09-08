@@ -250,6 +250,8 @@ export default class ViewImageModal extends React.PureComponent {
         let dialogClassName = 'a11y__modal modal-image';
 
         let content;
+        let modalImageClass = '';
+
         if (this.state.loaded[this.state.imageIndex]) {
             if (fileType === FileTypes.IMAGE || fileType === FileTypes.SVG) {
                 content = (
@@ -266,6 +268,7 @@ export default class ViewImageModal extends React.PureComponent {
                     />
                 );
             } else if (fileType === FileTypes.PDF) {
+                modalImageClass = ' modal-auto__content';
                 content = (
                     <div className='pdf'>
                         <React.Suspense fallback={null}>
@@ -385,7 +388,7 @@ export default class ViewImageModal extends React.PureComponent {
                             </Modal.Title>
                             {closeButton}
                             <div className='modal-image__background'>
-                                <div className='modal-image__content'>
+                                <div className={`modal-image__content${modalImageClass}`}>
                                     {content}
                                 </div>
                             </div>

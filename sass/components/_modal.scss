@@ -348,9 +348,18 @@
             overflow-x: hidden;
             overflow-y: visible;
 
+            &.modal-auto__content {
+                overflow: auto;
+            }
+
             .pdf {
+                margin: 0 auto;
+                width: max-content;
                 height: 91.5vh;
-                width: 96vw;
+
+                .post-code {
+                    width: max-content;
+                }
             }
 
         }
@@ -415,7 +424,7 @@
                 top: -13px;
                 transition: opacity .6s;
                 width: 37px;
-                z-index: 9999;  
+                z-index: 9999;
             }
 
             .modal-zoom-btn {
