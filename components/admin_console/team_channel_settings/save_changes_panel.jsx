@@ -20,6 +20,7 @@ export default function SaveChangesPanel({saveNeeded, onClick, saving, serverErr
                 savingMessage={localizeMessage('admin.team_channel_settings.saving', 'Saving Config...')}
             />
             <BlockableLink
+                id='cancelButtonSettings'
                 className='cancel-button'
                 to={cancelLink}
             >
