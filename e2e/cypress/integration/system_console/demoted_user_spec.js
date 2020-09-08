@@ -24,7 +24,7 @@ describe('System Console', () => {
         });
     });
 
-    it('SC14734 Demoted user cannot continue to view System Console', () => {
+    it('MM-T922 Demoted user cannot continue to view System Console', () => {
         const baseUrl = Cypress.config('baseUrl');
 
         // # Set user to be a sysadmin, so it can access the system console
