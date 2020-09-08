@@ -11,6 +11,7 @@ import {isEmail} from 'mattermost-redux/utils/helpers';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import InviteMembersIcon from 'components/widgets/icons/invite_members_icon';
 import UsersEmailsInput from 'components/widgets/inputs/users_emails_input.jsx';
+import {Constants} from 'utils/constants';
 
 import LinkIcon from 'components/widgets/icons/link_icon';
 
@@ -185,6 +186,28 @@ class InvitationModalMembersStep extends React.PureComponent {
             noMatchMessageDefault = 'No one found matching **{text}**';
         }
         const remainingUsers = this.props.userLimit - this.props.analytics.TOTAL_USERS;
+        const inviteMembersButtonDisabled = this.state.usersAndEmails.length > Constants.MAX_ADD_MEMBERS_BATCH || this.state.usersAndEmails.length === 0;
+
+        let errorProperties = {
+            showError: this.shouldShowPickerError(),
+            errorMessageId: t(
+                'invitation_modal.invite_members.hit_cloud_user_limit',
+            ),
+            errorMessageDefault: 'You have reached the user limit for your tier',
+            errorMessageValues: {
+                text: remainingUsers < 0 ? '0' : remainingUsers,
+            }
+        }
+
+        if (this.state.usersAndEmails.length > Constants.MAX_ADD_MEMBERS_BATCH) {
+            errorProperties.showError = true;
+            errorProperties.errorMessageId = t(
+                'invitation_modal.invite_members.exceeded_max_add_members_batch',
+            );
+            errorProperties.errorMessageDefault = 'No more than **{text}** people can be invited at once.'
+            errorProperties.errorMessageValues.text = Constants.MAX_ADD_MEMBERS_BATCH;
+        }
+
         return (
             <div className='InvitationModalMembersStep'>
                 <div className='modal-icon'>
@@ -270,7 +293,7 @@ class InvitationModalMembersStep extends React.PureComponent {
                         <UsersEmailsInput
                             usersLoader={this.usersLoader}
                             placeholder={placeholder}
-                            showError={this.shouldShowPickerError()}
+                            showError={errorProperties.showError}
                             ariaLabel={localizeMessage(
                                 'invitation_modal.members.search_and_add.title',
                                 'Invite People',
@@ -281,15 +304,9 @@ class InvitationModalMembersStep extends React.PureComponent {
                                 'invitation_modal.members.users_emails_input.valid_email',
                             )}
                             validAddressMessageDefault='Invite **{email}** as a team member'
-                            errorMessageId={t(
-                                'invitation_modal.invite_members.hit_cloud_user_limit',
-                            )}
-                            errorMessageDefault={
-                                'You have reached the user limit for your tier'
-                            }
-                            errorMessageValues={{
-                                text: remainingUsers < 0 ? '0' : remainingUsers,
-                            }}
+                            errorMessageId={errorProperties.errorMessageId}
+                            errorMessageDefault={errorProperties.errorMessageDefault}
+                            errorMessageValues={errorProperties.errorMessageValues}
                             noMatchMessageId={noMatchMessageId}
                             noMatchMessageDefault={noMatchMessageDefault}
                             onInputChange={this.onUsersInputChange}
@@ -318,12 +335,12 @@ class InvitationModalMembersStep extends React.PureComponent {
                     <button
                         className={
                             'btn ' +
-                            (this.state.usersAndEmails.length === 0 ?
+                            (inviteMembersButtonDisabled ?
                                 'btn-inactive' :
                                 'btn-primary')
                         }
                         onClick={this.submit}
-                        disabled={this.state.usersAndEmails.length === 0}
+                        disabled={inviteMembersButtonDisabled}
                         id='inviteMembersButton'
                     >
                         <FormattedMessage
