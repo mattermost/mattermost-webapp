@@ -52,8 +52,8 @@
     }
 
     &:active {
-        background: linear-gradient(0deg, rgba(22, 109, 224, 0.08), rgba(22, 109, 224, 0.08)), #FFFFFF;
-        border: 1px solid rgba(22, 109, 224, 0.16);
+        background: linear-gradient(0deg, rgba(var(--button-bg-rgb), 0.08), rgba(var(--button-bg-rgb), 0.08)), var(--center-channel-bg);
+        border: 1px solid rgba(var(--button-bg-rgb), 0.16);
 
         i {
             color: var(--button-bg);
@@ -61,7 +61,7 @@
     }
 
     &:focus {
-        border: 2px solid #166DE0;
+        border: 2px solid var(--button-bg);
     }
 }
 

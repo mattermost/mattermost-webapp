@@ -6,6 +6,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {Dictionary} from 'mattermost-redux/types/utilities';
 
+import {ActionResult} from 'mattermost-redux/types/actions';
 import {ServerError} from 'mattermost-redux/types/errors';
 import {UserProfile, UsersStats, GetFilteredUsersStatsOpts} from 'mattermost-redux/types/users';
 import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
@@ -57,12 +58,8 @@ type Props = {
             data?: UsersStats;
             error?: ServerError;
         }>;
-        setUserGridSearch: (term: string) => Promise<{
-            data: boolean;
-        }>;
-        setUserGridFilters: (filters: GetFilteredUsersStatsOpts) => Promise<{
-            data: boolean;
-        }>;
+        setUserGridSearch: (term: string) => ActionResult;
+        setUserGridFilters: (filters: GetFilteredUsersStatsOpts) => ActionResult;
     };
 }
 

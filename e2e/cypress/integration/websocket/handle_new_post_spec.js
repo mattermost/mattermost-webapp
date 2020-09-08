@@ -39,8 +39,6 @@ describe('Handle new post', () => {
 
             cy.apiLogin(user1);
             cy.visit(`/${team.name}/channels/town-square`);
-
-            cy.uiCloseWhatsNewModal();
         });
     });
 
