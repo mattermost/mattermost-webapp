@@ -2570,7 +2570,7 @@
   "textbox.edit": "Edytuj wiadomość",
   "textbox.help": "Pomoc",
   "textbox.inlinecode": "`inline code`",
-  "textbox.italic": "_pochylenie_",
+  "textbox.italic": "*pochylenie*",
   "textbox.preformatted": "```sformatowany```",
   "textbox.preview": "Podgląd",
   "textbox.quote": ">cytat",
