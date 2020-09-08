@@ -8,13 +8,14 @@ import {FormattedMessage} from 'react-intl';
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 import {UserProfile} from 'mattermost-redux/types/users';
 
+import {pageVisited} from 'actions/diagnostics_actions';
 import Accordion from 'components/accordion';
 import Card from 'components/card/card';
 
 import loadingIcon from 'images/spinner-48x48-blue.apng';
 import {Preferences} from 'utils/constants';
 
-import {StepType} from './steps';
+import {StepType, getAnalyticsCategory} from './steps';
 import './next_steps_view.scss';
 import NextStepsTips from './next_steps_tips';
 import OnboardingBgSvg from './images/onboarding-bg-svg';
@@ -50,6 +51,10 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
             showTransitionScreen: false,
             animating: false,
         };
+    }
+
+    componentDidMount() {
+        pageVisited(getAnalyticsCategory(this.props.isAdmin), 'pageview_welcome');
     }
 
     getStartingStep = () => {

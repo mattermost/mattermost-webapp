@@ -126,3 +126,7 @@ export const nextStepsNotFinished = createSelector(
         return !Steps.every(checkPref);
     }
 );
+
+export const getAnalyticsCategory = (isAdmin: boolean) => {
+    return isAdmin ? 'cloud_first_user_onboarding' : 'cloud_end_user_onboarding';
+};
