@@ -8,7 +8,8 @@
     "mattermost",
     "import",
     "cypress",
-    "jquery"
+    "jquery",
+    "no-only-tests"
   ],
   "env": {
     "jest": true,
@@ -52,7 +53,8 @@
         ]
       }
     ],
-    "react/no-string-refs": 2
+    "react/no-string-refs": 2,
+    "no-only-tests/no-only-tests": ["error", {"focus": ["only", "skip"]}]
   },
   "overrides": [
     {
