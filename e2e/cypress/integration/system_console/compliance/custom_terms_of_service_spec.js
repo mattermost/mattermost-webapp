@@ -34,7 +34,7 @@ describe('Custom Terms of Service', () => {
         });
     });
 
-    it('MM-T1190 - Custom terms of service appears after creating a new account and verifiying email address', () => {
+    it('MM-T1190 - Appears after creating new account and verifying email address', () => {
         // # Verify new user email
         cy.apiVerifyUserEmailById(testUser.id);
 
