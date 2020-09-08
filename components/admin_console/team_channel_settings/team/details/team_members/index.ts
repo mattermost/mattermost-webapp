@@ -7,7 +7,7 @@ import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 import {Dictionary} from 'mattermost-redux/types/utilities';
 import {ServerError} from 'mattermost-redux/types/errors';
 import {UserProfile, UsersStats, GetFilteredUsersStatsOpts} from 'mattermost-redux/types/users';
-import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
+import {GenericAction, ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
 
 import {filterProfilesMatchingTerm, profileListToMap} from 'mattermost-redux/utils/user_utils';
 
@@ -44,12 +44,8 @@ type Actions = {
         data?: UsersStats;
         error?: ServerError;
     }>;
-    setUserGridSearch: (term: string) => Promise<{
-        data: boolean;
-    }>;
-    setUserGridFilters: (filters: GetFilteredUsersStatsOpts) => Promise<{
-        data: boolean;
-    }>;
+    setUserGridSearch: (term: string) => ActionResult;
+    setUserGridFilters: (filters: GetFilteredUsersStatsOpts) => ActionResult;
 };
 
 function searchUsersToAdd(users: Dictionary<UserProfile>, term: string): Dictionary<UserProfile> {
@@ -103,7 +99,7 @@ function mapStateToProps(state: GlobalState, props: Props) {
 }
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
-        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc | GenericAction>, Actions>({
             getTeamStats: loadTeamStats,
             loadProfilesAndReloadTeamMembers,
             searchProfilesAndTeamMembers,

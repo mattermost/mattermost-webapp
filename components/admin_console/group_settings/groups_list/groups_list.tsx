@@ -85,7 +85,7 @@ export default class GroupsList extends React.PureComponent<Props, State> {
         };
     }
 
-    public closeFilters() {
+    public closeFilters = () => {
         this.setState({showFilters: false});
     }
 

@@ -123,6 +123,7 @@ export default class ConvertChannelModal extends React.PureComponent {
                         data-dismiss='modal'
                         onClick={this.handleConvert}
                         autoFocus={true}
+                        data-testid='convertChannelConfirm'
                     >
                         <FormattedMessage
                             id='convert_channel.confirm'

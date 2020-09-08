@@ -10,7 +10,7 @@ import {searchProfiles, getProfilesInGroup} from 'mattermost-redux/actions/users
 import {getGroupMemberCount} from 'mattermost-redux/selectors/entities/groups';
 import {getProfilesInGroup as selectProfiles, searchProfilesInGroup} from 'mattermost-redux/selectors/entities/users';
 
-import {ActionFunc} from 'mattermost-redux/types/actions';
+import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 
 import {setModalSearchTerm} from 'actions/views/search';
 
@@ -41,7 +41,7 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
 
 function mapDispatchToProps(dispatch: Dispatch) {
     return {
-        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, MemberListGroupProps['actions']>({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc | GenericAction>, MemberListGroupProps['actions']>({
             getProfilesInGroup,
             searchProfiles,
             setModalSearchTerm,

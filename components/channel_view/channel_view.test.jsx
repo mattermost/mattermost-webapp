@@ -20,6 +20,7 @@ describe('components/channel_view', () => {
         showNextStepsEphemeral: false,
         channelIsArchived: false,
         viewArchivedChannels: false,
+        isCloud: false,
         actions: {
             goToLastViewedChannel: jest.fn(),
             setShowNextStepsView: jest.fn(),

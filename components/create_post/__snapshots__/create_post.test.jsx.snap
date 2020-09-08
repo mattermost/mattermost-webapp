@@ -46,6 +46,7 @@ exports[`components/create_post Show tutorial 1`] = `
         <span
           className="post-body__actions"
         >
+          <Connect(injectIntl(CallButton)) />
           <Connect(injectIntl(FileUpload))
             fileCount={0}
             getTarget={[Function]}
@@ -221,6 +222,7 @@ exports[`components/create_post should match snapshot for center textbox 1`] = `
         <span
           className="post-body__actions"
         >
+          <Connect(injectIntl(CallButton)) />
           <Connect(injectIntl(FileUpload))
             fileCount={0}
             getTarget={[Function]}
@@ -476,6 +478,7 @@ exports[`components/create_post should match snapshot when cannot post 1`] = `
         <span
           className="post-body__actions"
         >
+          <Connect(injectIntl(CallButton)) />
           <Connect(injectIntl(FileUpload))
             fileCount={0}
             getTarget={[Function]}
@@ -621,6 +624,7 @@ exports[`components/create_post should match snapshot when file upload disabled 
         <span
           className="post-body__actions"
         >
+          <Connect(injectIntl(CallButton)) />
           <Connect(injectIntl(FileUpload))
             fileCount={0}
             getTarget={[Function]}
@@ -766,6 +770,7 @@ exports[`components/create_post should match snapshot, init 1`] = `
         <span
           className="post-body__actions"
         >
+          <Connect(injectIntl(CallButton)) />
           <Connect(injectIntl(FileUpload))
             fileCount={0}
             getTarget={[Function]}
