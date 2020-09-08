@@ -222,7 +222,7 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
                     edit: (
                         <span
                             className='group-actions TeamList_editRow'
-                            data-testid={`${channel.display_name}edit`}
+                            data-testid={`${channel.name}edit`}
                         >
                             <Link to={`/admin_console/user_management/channels/${channel.id}`} >
                                 <FormattedMessage

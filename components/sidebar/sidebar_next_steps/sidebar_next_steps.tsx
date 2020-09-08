@@ -8,7 +8,10 @@ import classNames from 'classnames';
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
-import {Steps} from 'components/next_steps_view/steps';
+import {
+    StepType,
+} from 'components/next_steps_view/steps';
+
 import ProgressBar from 'components/progress_bar';
 import {ModalIdentifiers, RecommendedNextSteps, Preferences} from 'utils/constants';
 import {localizeMessage} from 'utils/utils';
@@ -22,6 +25,7 @@ type Props = {
     showNextSteps: boolean;
     currentUserId: string;
     preferences: PreferenceType[];
+    steps: StepType[];
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => void;
         openModal: (modalData: {modalId: string; dialogType: any; dialogProps?: any}) => void;
@@ -43,7 +47,8 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
         };
     }
 
-    closeNextSteps = () => {
+    closeNextSteps = (event: React.SyntheticEvent) => {
+        event.stopPropagation();
         const screenTitle = this.props.showNextSteps ?
             localizeMessage('sidebar_next_steps.gettingStarted', 'Getting Started') :
             localizeMessage('sidebar_next_steps.tipsAndNextSteps', 'Tips & Next Steps');
@@ -57,6 +62,10 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
                 onCancel: this.onCloseModal,
             }
         });
+    }
+
+    showNextSteps = () => {
+        this.props.actions.setShowNextStepsView(true);
     }
 
     onCloseModal = () => {
@@ -81,11 +90,7 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
             return null;
         }
 
-        if (!this.props.active && !this.props.showNextSteps) {
-            return null;
-        }
-
-        const total = Steps.length;
+        const total = this.props.steps.length;
         const complete = this.props.preferences.filter((pref) => pref.name !== RecommendedNextSteps.HIDE && pref.value === 'true').length;
 
         let header = (
@@ -121,17 +126,15 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
                 />
             );
         }
-
         return (
             <div
                 className={classNames('SidebarNextSteps', {
                     active: this.props.active,
                 })}
+                onClick={this.showNextSteps}
             >
                 <div className='SidebarNextSteps__top'>
-                    <span>
-                        {header}
-                    </span>
+                    <span>{header}</span>
                     <button
                         className='SidebarNextSteps__close'
                         onClick={this.closeNextSteps}
@@ -140,18 +143,17 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
                     </button>
                 </div>
                 <div className='SidebarNextSteps__middle'>
-                    <span>
-                        {middleSection}
-                    </span>
+                    <span>{middleSection}</span>
                 </div>
-                {this.props.showNextSteps &&
-                <div className='SidebarNextSteps__progressBar'>
-                    <ProgressBar
-                        current={complete}
-                        total={total}
-                        basePercentage={4}
-                    />
-                </div>}
+                {this.props.showNextSteps && (
+                    <div className='SidebarNextSteps__progressBar'>
+                        <ProgressBar
+                            current={complete}
+                            total={total}
+                            basePercentage={4}
+                        />
+                    </div>
+                )}
             </div>
         );
     }
