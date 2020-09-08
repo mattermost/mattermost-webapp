@@ -188,7 +188,7 @@ class InvitationModalMembersStep extends React.PureComponent {
         const remainingUsers = this.props.userLimit - this.props.analytics.TOTAL_USERS;
         const inviteMembersButtonDisabled = this.state.usersAndEmails.length > Constants.MAX_ADD_MEMBERS_BATCH || this.state.usersAndEmails.length === 0;
 
-        let errorProperties = {
+        const errorProperties = {
             showError: this.shouldShowPickerError(),
             errorMessageId: t(
                 'invitation_modal.invite_members.hit_cloud_user_limit',
@@ -196,15 +196,15 @@ class InvitationModalMembersStep extends React.PureComponent {
             errorMessageDefault: 'You have reached the user limit for your tier',
             errorMessageValues: {
                 text: remainingUsers < 0 ? '0' : remainingUsers,
-            }
-        }
+            },
+        };
 
         if (this.state.usersAndEmails.length > Constants.MAX_ADD_MEMBERS_BATCH) {
             errorProperties.showError = true;
             errorProperties.errorMessageId = t(
                 'invitation_modal.invite_members.exceeded_max_add_members_batch',
             );
-            errorProperties.errorMessageDefault = 'No more than **{text}** people can be invited at once.'
+            errorProperties.errorMessageDefault = 'No more than **{text}** people can be invited at once.';
             errorProperties.errorMessageValues.text = Constants.MAX_ADD_MEMBERS_BATCH;
         }
 
