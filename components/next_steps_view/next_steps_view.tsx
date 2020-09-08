@@ -108,11 +108,13 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
     }
 
     showFinalScreenNoAnimation = () => {
+        pageVisited(getAnalyticsCategory(this.props.isAdmin), 'pageview_tips_next_steps');
         this.setState({showFinalScreen: true});
     }
 
     showFinalScreen = () => {
         trackEvent(getAnalyticsCategory(this.props.isAdmin), 'click_skip_getting_started', {channel_sidebar: false});
+        pageVisited(getAnalyticsCategory(this.props.isAdmin), 'pageview_tips_next_steps');
         this.setState({showFinalScreen: true, animating: true});
     }
 
@@ -123,6 +125,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
     setTimerToFinalScreen = () => {
         if (this.state.showTransitionScreen) {
             setTimeout(() => {
+                pageVisited(getAnalyticsCategory(this.props.isAdmin), 'pageview_tips_next_steps');
                 this.setState({showFinalScreen: true});
             }, TRANSITION_SCREEN_TIMEOUT);
         }

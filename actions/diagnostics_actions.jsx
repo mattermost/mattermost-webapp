@@ -19,7 +19,7 @@ export function trackEvent(category, event, props) {
 }
 
 export function pageVisited(category, name) {
-    // TODO
+    Client4.pageVisited(category, name);
 }
 
 /**

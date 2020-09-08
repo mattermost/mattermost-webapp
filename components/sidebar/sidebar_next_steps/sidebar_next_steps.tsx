@@ -50,7 +50,12 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
 
     closeNextSteps = (event: React.SyntheticEvent) => {
         event.stopPropagation();
-        trackEvent(getAnalyticsCategory(this.props.isAdmin), 'click_skip_getting_started', {channel_sidebar: true});
+        if (this.props.showNextSteps) {
+            trackEvent(getAnalyticsCategory(this.props.isAdmin), 'click_skip_getting_started', {channel_sidebar: true});
+        } else {
+            trackEvent(getAnalyticsCategory(this.props.isAdmin), 'click_skip_tips');
+        }
+
         const screenTitle = this.props.showNextSteps ?
             localizeMessage('sidebar_next_steps.gettingStarted', 'Getting Started') :
             localizeMessage('sidebar_next_steps.tipsAndNextSteps', 'Tips & Next Steps');
@@ -67,6 +72,12 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
     }
 
     showNextSteps = () => {
+        if (this.props.showNextSteps) {
+            trackEvent(getAnalyticsCategory(this.props.isAdmin), 'click_getting_started');
+        } else {
+            trackEvent(getAnalyticsCategory(this.props.isAdmin), 'click_tips');
+        }
+
         this.props.actions.setShowNextStepsView(true);
     }
 
@@ -81,6 +92,10 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
             name: RecommendedNextSteps.HIDE,
             value: 'true',
         }]);
+
+        if (!this.props.showNextSteps) {
+            trackEvent(getAnalyticsCategory(this.props.isAdmin), 'click_confirm_remove_tips');
+        }
 
         this.props.actions.setShowNextStepsView(false);
 

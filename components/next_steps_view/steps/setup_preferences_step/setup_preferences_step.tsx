@@ -5,7 +5,7 @@ import React, {useEffect} from 'react';
 
 import {useDispatch} from 'react-redux';
 
-import {pageVisited} from 'actions/diagnostics_actions';
+import {pageVisited, trackEvent} from 'actions/diagnostics_actions';
 import {ModalIdentifiers} from 'utils/constants';
 import UserSettingsModal from '../../../user_settings/modal';
 import {StepComponentProps, getAnalyticsCategory} from '../../steps';
@@ -15,7 +15,6 @@ import {openModal} from 'actions/views/modals';
 export default function SetupPreferencesStep(props: StepComponentProps) {
     useEffect(() => {
         if (props.expanded) {
-            console.log('pageview_enable_notifications');
             pageVisited(getAnalyticsCategory(props.isAdmin), 'pageview_enable_notifications');
         }
     }, [props.expanded]);
@@ -27,6 +26,7 @@ export default function SetupPreferencesStep(props: StepComponentProps) {
     };
 
     const onClick = () => {
+        trackEvent(getAnalyticsCategory(props.isAdmin), 'click_set_preferences');
         dispatch(openModal({
             modalId: ModalIdentifiers.USER_SETTINGS,
             dialogType: UserSettingsModal,
