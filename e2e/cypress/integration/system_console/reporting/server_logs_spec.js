@@ -24,10 +24,10 @@ describe('System Console > Server Logs', () => {
         cy.get('.banner__content span').should('not.empty');
 
         // * Verify reload button is showed.
-        cy.get('.admin-logs-content button span').should('be.visible').should('contain', 'Reload');
+        cy.get('.admin-logs-content button span').should('be.visible').and('contain', 'Reload');
 
         // * Verify that server logs are showed correctly.
-        cy.get('.admin-logs-content div.log__panel').should('be.visible').should('not.empty');
+        cy.get('.admin-logs-content div.log__panel').should('be.visible').and('not.empty');
         cy.get('.admin-logs-content div.log__panel span').eq(0).should('not.empty');
     });
 });
