@@ -132,6 +132,42 @@ export default class PluginRegistry {
         return id;
     }
 
+    // Add a "call button"" next to the attach file button. If there are more than one button registered by any
+    // plugin, a dropdown menu is created to contain all the call plugin buttons.
+    // Accepts the following:
+    // - icon - React element to use as the button's icon
+    // - action - a function called when the button is clicked, passed the channel and channel member as arguments
+    // - dropdown_text - string or React element shown for the dropdown button description
+    // - tooltip_text - string shown for tooltip appear on hover
+    // Returns an unique identifier
+    // Minimum required version: 5.28
+    registerCallButtonAction(icon, action, dropdownText, tooltipText) {
+        const id = generateId();
+
+        const data = {
+            id,
+            pluginId: this.id,
+            icon: resolveReactElement(icon),
+            action,
+            dropdownText: resolveReactElement(dropdownText),
+            tooltipText,
+        };
+
+        store.dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
+            name: 'CallButton',
+            data,
+        });
+
+        store.dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
+            name: 'MobileChannelHeaderButton',
+            data,
+        });
+
+        return id;
+    }
+
     // Register a component to render a custom body for posts with a specific type.
     // Custom post types must be prefixed with 'custom_'.
     // Custom post types can also apply for ephemeral posts.
