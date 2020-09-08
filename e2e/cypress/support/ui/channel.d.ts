@@ -15,9 +15,9 @@
 // ***************************************************************
 
 declare namespace Cypress {
-  interface Chainable<Subject = any> {
+    interface Chainable<Subject = any> {
 
-      /**
+        /**
        * Create a new channel in the current team.
        * @param {string} name - Prefix for the name of the channel, it will be added a random string ot it.
        * @param {boolean} isPrivate - is the channel private or public (default)?
@@ -29,24 +29,24 @@ declare namespace Cypress {
        * @example
        *   cy.uiCreateChannel('private-channel-', true, 'my private channel', 'my private header', false);
        */
-      uiCreateChannel(name: string, isPricate: boolean, purpose: string, header: string, isNewSidebar: false): Chainable;
+        uiCreateChannel(name: string, isPricate: boolean, purpose: string, header: string, isNewSidebar: false): Chainable;
 
-      /**
-       * 
+        /**
+       *
        * @param {string[]} usernameList - list of userids to add to the channel
        * @returns {Response} Cypress chainable response.
-       * 
+       *
        * @example
        *    cy.uiAddUsersToCurrentChannel(['user1', 'user2']);
        */
-      uiAddUsersToCurrentChannel(usernameList: string[]);
+        uiAddUsersToCurrentChannel(usernameList: string[]);
 
-      /**
+        /**
        * Archives a channel
-       * 
+       *
        * @returns {Response} Cypress chainable response.
        */
-      uiArchiveChannel();
+        uiArchiveChannel();
 
-  }
+    }
 }
