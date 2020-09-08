@@ -10,6 +10,7 @@ export default function TextCardWithAction(props: {
     cardBodyDefaultMessage: string;
     buttonMessageId: string;
     buttonDefaultMessage: string;
+    showButton?: boolean;
     onClick: () => void;
 }) {
     return (
@@ -21,16 +22,21 @@ export default function TextCardWithAction(props: {
                 />
             </div>
             <div className='NextStepsView__wizardButtons'>
-                <button
-                    className='NextStepsView__button NextStepsView__finishButton primary'
-                    onClick={props.onClick}
-                >
-                    <FormattedMessage
-                        id={props.buttonMessageId}
-                        defaultMessage={props.buttonDefaultMessage}
-                    />
-                </button>
+                {props.showButton &&
+                    <button
+                        className='NextStepsView__button NextStepsView__finishButton primary'
+                        onClick={props.onClick}
+                    >
+                        <FormattedMessage
+                            id={props.buttonMessageId}
+                            defaultMessage={props.buttonDefaultMessage}
+                        />
+                    </button>}
             </div>
         </div>
     );
 }
+
+TextCardWithAction.defaultProps = {
+    showButton: true,
+};

@@ -32,17 +32,53 @@ export default function EnableNotificationsStep(props: StepComponentProps) {
         props.onFinish(props.id);
     };
 
-    return (
-        <TextCardWithAction
-            cardBodyMessageId={'next_steps_view.notificationSetup'}
-            cardBodyDefaultMessage={
-                'We recommend enabling desktop notifications so you don’t miss any important communications.'
-            }
-            buttonMessageId={
-                'next_steps_view.notificationSetup.enableNotifications'
-            }
-            buttonDefaultMessage={'Enable notifications'}
-            onClick={onFinish}
-        />
-    );
+    const notificationsDisabled = () => {
+        if (!('Notification' in window)) {
+            return true;
+        }
+
+        if (Notification.permission === 'denied') {
+            return true;
+        }
+
+        return false;
+    };
+
+    let component = null;
+    if (notificationsDisabled()) {
+        component = (
+            <div
+                onClick={() => props.onSkip(props.id)}
+            >
+                <TextCardWithAction
+                    cardBodyMessageId={'next_steps_view.notificationSetupNotificationsDisabled'}
+                    cardBodyDefaultMessage={
+                        'Notifications were previously disabled or you may be browsing in private mode. You\'ll need to open your browser settings or turn off private mode to enable notifications.'
+                    }
+                    buttonMessageId={
+                        'next_steps_view.notificationSetup.enableNotifications'
+                    }
+                    showButton={false}
+                    buttonDefaultMessage={'Enable notifications'}
+                    onClick={onFinish}
+                />
+            </div>
+        );
+    } else {
+        component = (
+            <TextCardWithAction
+                cardBodyMessageId={'next_steps_view.notificationSetup'}
+                cardBodyDefaultMessage={
+                    'We recommend enabling desktop notifications so you don’t miss any important communications.'
+                }
+                buttonMessageId={
+                    'next_steps_view.notificationSetup.enableNotifications'
+                }
+                buttonDefaultMessage={'Enable notifications'}
+                onClick={onFinish}
+            />
+        );
+    }
+
+    return component;
 }
