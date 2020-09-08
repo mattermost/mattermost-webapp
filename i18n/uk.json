@@ -2567,7 +2567,7 @@
   "textbox.edit": "Редагувати повідомлення",
   "textbox.help": "Допомога ",
   "textbox.inlinecode": "`вбудований код`",
-  "textbox.italic": "_курсив_",
+  "textbox.italic": "*курсив*",
   "textbox.preformatted": "```попередньо відформатований```",
   "textbox.preview": "Попередній перегляд",
   "textbox.quote": ">цитата",
