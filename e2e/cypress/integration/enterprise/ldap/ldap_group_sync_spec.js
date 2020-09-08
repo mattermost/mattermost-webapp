@@ -493,8 +493,8 @@ context('ldap', () => {
             cy.visit(`/${testTeam.name}/integrations`);
 
             // # Go to outgoing webhooks and then add out going web hooks page
-            cy.get('#outgoingWebhooks').should('be.visible').click();
-            cy.get('#addOutgoingWebhook').should('be.visible').click();
+            cy.get('#outgoingWebhooks', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').click();
+            cy.get('#addOutgoingWebhook', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').click();
 
             // * Ensure that our channel name doesn't appear in the list of options
             cy.get('#channelSelect').children().should('not.contain.text', testChannel.display_name);

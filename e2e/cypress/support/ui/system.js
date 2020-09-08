@@ -17,6 +17,7 @@ Cypress.Commands.add('uiCheckLicenseExists', () => {
 Cypress.Commands.add('uiResetPermissionsToDefault', () => {
     // # Navigate to system scheme page
     cy.visit('/admin_console/user_management/permissions/system_scheme');
+
     // # Click reset to defaults and confirm
     cy.findByTestId('resetPermissionsToDefault', {timeout: TIMEOUTS.HALF_MIN}).click();
     cy.get('#confirmModalButton').click();

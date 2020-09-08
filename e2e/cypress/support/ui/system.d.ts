@@ -24,9 +24,6 @@ declare namespace Cypress {
          *   cy.uiCheckLicenseExists();
          */
         uiCheckLicenseExists(): Chainable;
-    }
-
-    interface Chainable<Subject = any> {
 
         /**
          * Reset system scheme permissions via System Console
@@ -35,9 +32,6 @@ declare namespace Cypress {
          *   cy.uiResetPermissionsToDefault();
          */
         uiResetPermissionsToDefault(): Chainable;
-    }
-
-    interface Chainable<Subject = any> {
 
         /**
          * Save settings located in System Console
