@@ -21,6 +21,7 @@ describe('Profile popover', () => {
     let otherUser;
 
     before(() => {
+        cy.apiRequireLicense();
         cy.apiInitSetup().then(({team, user, channel}) => {
             testTeam = team;
             testUser = user;
@@ -31,6 +32,11 @@ describe('Profile popover', () => {
                 cy.apiAddUserToTeam(testTeam.id, secondUser.id);
             });
         });
+    });
+
+    beforeEach(() => {
+        cy.apiAdminLogin();
+        cy.apiResetRoles();
     });
 
     it('MM-T2 Add user — Error if already in channel', () => {
@@ -114,8 +120,6 @@ describe('Profile popover', () => {
 
         // * Verify that all the sub-checkboxes are disabled
         verifyPermissionSubSections('all_users', 'public', false);
-
-        cy.findByTestId('all_users-private_channel-checkbox').scrollIntoView().should('be.visible').click();
 
         // * Verify that all the sub-checkboxes are enabled
         verifyPermissionSubSections('all_users', 'private', true);
@@ -234,6 +238,16 @@ describe('Profile popover', () => {
         // # Do the system console setup
         cy.apiAdminLogin();
         cy.visit('/admin_console/user_management/permissions/system_scheme');
+        cy.findByTestId('all_users-public_channel-checkbox').scrollIntoView().should('be.visible').click();
+
+        // * Verify that all the sub-checkboxes are disabled
+        verifyPermissionSubSections('all_users', 'public', false);
+
+        cy.findByTestId('all_users-private_channel-checkbox').scrollIntoView().should('be.visible').click();
+
+        // * Verify that all the sub-checkboxes are disabled
+        verifyPermissionSubSections('all_users', 'private', false);
+
         cy.findByTestId('channel_admin-private_channel-checkbox').scrollIntoView().should('be.visible').click();
 
         // * Verify that all the sub-checkboxes are enabled
@@ -327,17 +341,12 @@ describe('Profile popover', () => {
         // # Do the system console setup
         cy.apiAdminLogin();
         cy.visit('/admin_console/user_management/permissions/system_scheme');
-        cy.findByTestId('all_users-public_channel-checkbox').scrollIntoView().should('be.visible').click();
 
         // * Verify that all the sub-checkboxes are enabled
         verifyPermissionSubSections('all_users', 'public', true);
 
-        cy.findByTestId('all_users-private_channel-checkbox').scrollIntoView().should('be.visible').click();
-
         // * Verify that all the sub-checkboxes are enabled
         verifyPermissionSubSections('all_users', 'private', true);
-
-        cy.findByTestId('saveSetting').should('be.visible').click();
 
         // # Demote other user to team member
         demoteToChannelOrTeamMember(otherUser, testTeam.id, 'teams');
@@ -406,17 +415,22 @@ describe('Profile popover', () => {
         // * Verify that all the sub-checkboxes are disabled.
         verifyPermissionSubSections('all_users', 'public', false);
 
-        cy.findByTestId('channel_admin-public_channel-checkbox').scrollIntoView().should('be.visible').click();
+        cy.findByTestId('channel_admin-public_channel-checkbox').scrollIntoView().should('be.visible').click().click();
 
         // * Verify that all the sub-checkboxes are disabled.
         verifyPermissionSubSections('channel_admin', 'public', false);
 
-        cy.findByTestId('channel_admin-private_channel-checkbox').scrollIntoView().should('be.visible').click();
+        cy.findByTestId('channel_admin-private_channel-checkbox').scrollIntoView().should('be.visible').click().click();
 
         // * Verify that all the sub-checkboxes are disabled.
         verifyPermissionSubSections('channel_admin', 'private', false);
 
-        cy.findByTestId('team_admin-private_channel-checkbox').scrollIntoView().should('be.visible').click();
+        cy.findByTestId('team_admin-public_channel-checkbox').scrollIntoView().should('be.visible').click().click();
+
+        // * Verify that all the sub-checkboxes are disabled.
+        verifyPermissionSubSections('team_admin', 'public', false);
+
+        cy.findByTestId('team_admin-private_channel-checkbox').scrollIntoView().should('be.visible').click().click();
 
         // * Verify that all the sub-checkboxes are disabled.
         verifyPermissionSubSections('team_admin', 'private', false);
