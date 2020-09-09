@@ -35,9 +35,7 @@ describe('Leave an archived channel', () => {
 
     it('should leave recently archived channel', () => {
         // # Archive the channel
-        cy.get('#channelHeaderDropdownIcon').click();
-        cy.get('#channelArchiveChannel').click();
-        cy.get('#deleteChannelModalDeleteButton').click();
+        cy.uiArchiveChannel();
 
         // # Switch to another channel
         cy.visit(`/${testTeam.name}/channels/town-square`);
