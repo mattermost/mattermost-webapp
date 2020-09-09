@@ -35,7 +35,7 @@ describe('Teams Suite', () => {
         });
     });
 
-    it('MM-T393 Cancel out of leaving a team', () => {
+    it('MM-T393 Cancel out of leaving team', () => {
         // # Login and go to /
         cy.apiLogin(testUser);
         cy.visit(`/${testTeam.name}/channels/town-square`);
