@@ -13,3 +13,4 @@ import './system';
 import './team';
 import './user';
 import './channel';
+import './terms_of_service';
