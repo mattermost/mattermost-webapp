@@ -26,7 +26,7 @@ describe('Edit bot', () => {
     });
 
     function createBot(userName, displayName) {
-    // # Go to bot integrations page
+        // # Go to bot integrations page
         cy.visit(`/${testTeam.name}/channels/town-square`);
         cy.get('#headerInfo').click();
         cy.get('#integrations a').click();
@@ -65,7 +65,6 @@ describe('Edit bot', () => {
         cy.get('.backstage-list__item').contains('.backstage-list__item', userName).as("botEntry")
 
         cy.get('@botEntry').then(el => {
-
             // # Find the edit link for the bot
             const editLink = el.find('.item-actions>a');
 
