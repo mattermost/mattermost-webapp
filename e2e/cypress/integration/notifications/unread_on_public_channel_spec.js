@@ -51,7 +51,7 @@ describe('Notifications', () => {
                     cy.visit(`/${team.name}/channels/${testChannel.name}`);
 
                     // # Scroll above the last few messages
-                    cy.get('div.post-list__dynamic').should('be.visible').
+                    cy.get('div.post-list__dynamic', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').
                         scrollTo(0, '70%', {duration: TIMEOUTS.ONE_SEC}).
                         wait(TIMEOUTS.ONE_SEC);
 
