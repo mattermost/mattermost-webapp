@@ -18,10 +18,15 @@ describe('Customization', () => {
         cy.get('.admin-console__header').should('be.visible').and('have.text', 'Customization');
     });
 
+    beforeEach(() => {
+        // # as many of the tests logout the user, ensure it's logged
+        // in as an admin before each test
+        cy.apiAdminLogin();
+    })
+
     it('MM-T1024 - Can change name and desc with Custom Branding set to false', () => {
         // # Make sure necessary field is false
         cy.apiUpdateConfig({TeamSettings: {EnableCustomBrand: false}});
-        cy.reload();
 
         // * Verify that setting is visible and matches text content
         cy.findByTestId('TeamSettings.SiteNamelabel').scrollIntoView().should('be.visible').and('have.text', 'Site Name:');
