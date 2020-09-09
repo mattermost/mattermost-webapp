@@ -10,6 +10,7 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
   />
   <div
     className="a11y__section post post--thread post--compact"
+    id="searchResult_id"
     onFocus={[Function]}
   >
     <div
@@ -217,6 +218,7 @@ exports[`components/SearchResultsItem should match snapshot for archived channel
   />
   <div
     className="a11y__section post post--thread post--compact"
+    id="searchResult_id"
     onFocus={[Function]}
   >
     <div
@@ -436,6 +438,7 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
   />
   <div
     className="a11y__section post post--thread post--compact"
+    id="searchResult_id"
     onFocus={[Function]}
   >
     <div
@@ -643,6 +646,7 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
   />
   <div
     className="a11y__section post post--thread post--compact"
+    id="searchResult_id"
     onFocus={[Function]}
   >
     <div
@@ -785,6 +789,7 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
   />
   <div
     className="a11y__section post post--thread post--compact"
+    id="searchResult_id"
     onFocus={[Function]}
   >
     <div

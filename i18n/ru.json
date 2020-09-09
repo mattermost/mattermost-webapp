@@ -2570,7 +2570,7 @@
   "textbox.edit": "Редактировать сообщение",
   "textbox.help": "Помощь",
   "textbox.inlinecode": "`встроенный код`",
-  "textbox.italic": "_курсив_",
+  "textbox.italic": "*курсив*",
   "textbox.preformatted": "```преформатированный```",
   "textbox.preview": "Предварительный просмотр",
   "textbox.quote": ">цитата",
