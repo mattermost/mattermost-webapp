@@ -21,7 +21,7 @@ import * as UserAgent from 'utils/user_agent';
 import {ModalIdentifiers} from 'utils/constants';
 import * as Utils from 'utils/utils';
 
-import {getAnalyticsCategory} from './steps';
+import {getAnalyticsCategory} from './step_helpers';
 
 const seeAllApps = (isAdmin: boolean) => {
     trackEvent(getAnalyticsCategory(isAdmin), 'cloud_see_all_apps');
