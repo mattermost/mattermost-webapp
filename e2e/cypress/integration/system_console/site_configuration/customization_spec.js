@@ -22,7 +22,7 @@ describe('Customization', () => {
         // # as many of the tests logout the user, ensure it's logged
         // in as an admin before each test
         cy.apiAdminLogin();
-    })
+    });
 
     it('MM-T1024 - Can change name and desc with Custom Branding set to false', () => {
         // # Make sure necessary field is false
