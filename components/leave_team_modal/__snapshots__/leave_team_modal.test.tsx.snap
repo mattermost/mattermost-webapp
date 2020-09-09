@@ -44,7 +44,6 @@ exports[`components/LeaveTeamModal should render the leave team model 1`] = `
       <FormattedMessage
         defaultMessage="Leave the team?"
         id="leave_team_modal.title"
-        values={Object {}}
       />
     </ModalTitle>
   </ModalHeader>
@@ -55,7 +54,6 @@ exports[`components/LeaveTeamModal should render the leave team model 1`] = `
     <FormattedMessage
       defaultMessage="You will be removed from all public and private channels.  If the team is private you will not be able to rejoin the team.  Are you sure?"
       id="leave_team_modal.desc"
-      values={Object {}}
     />
   </ModalBody>
   <ModalFooter
@@ -71,7 +69,6 @@ exports[`components/LeaveTeamModal should render the leave team model 1`] = `
       <FormattedMessage
         defaultMessage="No"
         id="leave_team_modal.no"
-        values={Object {}}
       />
     </button>
     <button
@@ -83,7 +80,6 @@ exports[`components/LeaveTeamModal should render the leave team model 1`] = `
       <FormattedMessage
         defaultMessage="Yes"
         id="leave_team_modal.yes"
-        values={Object {}}
       />
     </button>
   </ModalFooter>

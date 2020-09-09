@@ -185,49 +185,46 @@ describe('components/integrations/AbstractCommand', () => {
         // empty trigger
         wrapper.setState({saving: false, trigger: ''});
         handleSubmit(evt);
-        expect(wrapper.state('clientError')).toEqual((
+        expect(wrapper.state('clientError')).toEqual(
             <FormattedMessage
                 defaultMessage='A trigger word is required'
                 id='add_command.triggerRequired'
-                values={{}}
-            />
-        ));
+            />,
+        );
         expect(newAction).toHaveBeenCalledTimes(1);
 
         // trigger that starts with a slash '/'
         wrapper.setState({saving: false, trigger: '//startwithslash'});
         handleSubmit(evt);
-        expect(wrapper.state('clientError')).toEqual((
+        expect(wrapper.state('clientError')).toEqual(
             <FormattedMessage
                 defaultMessage='A trigger word cannot begin with a /'
                 id='add_command.triggerInvalidSlash'
-                values={{}}
-            />
-        ));
+            />,
+        );
         expect(newAction).toHaveBeenCalledTimes(1);
 
         // trigger with space
         wrapper.setState({saving: false, trigger: '/trigger with space'});
         handleSubmit(evt);
-        expect(wrapper.state('clientError')).toEqual((
+        expect(wrapper.state('clientError')).toEqual(
             <FormattedMessage
                 defaultMessage='A trigger word must not contain spaces'
                 id='add_command.triggerInvalidSpace'
-                values={{}}
-            />
-        ));
+            />,
+        );
         expect(newAction).toHaveBeenCalledTimes(1);
 
         // trigger above maximum length
         wrapper.setState({saving: false, trigger: '123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789'});
         handleSubmit(evt);
-        expect(wrapper.state('clientError')).toEqual((
+        expect(wrapper.state('clientError')).toEqual(
             <FormattedMessage
                 defaultMessage='A trigger word must contain between {min} and {max} characters'
                 id='add_command.triggerInvalidLength'
                 values={{max: 128, min: 1}}
-            />
-        ));
+            />,
+        );
         expect(newAction).toHaveBeenCalledTimes(1);
 
         // good triggers
@@ -249,13 +246,12 @@ describe('components/integrations/AbstractCommand', () => {
         // empty url
         wrapper.setState({saving: false, trigger: 'trigger', url: ''});
         handleSubmit(evt);
-        expect(wrapper.state('clientError')).toEqual((
+        expect(wrapper.state('clientError')).toEqual(
             <FormattedMessage
                 defaultMessage='A request URL is required'
                 id='add_command.urlRequired'
-                values={{}}
-            />
-        ));
+            />,
+        );
         expect(newAction).toHaveBeenCalledTimes(4);
     });
 });

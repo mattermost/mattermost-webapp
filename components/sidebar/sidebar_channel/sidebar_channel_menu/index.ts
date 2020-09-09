@@ -55,7 +55,7 @@ function makeMapStateToProps() {
             currentCategory,
             isFavorite: isFavoriteChannel(state, ownProps.channel.id),
             isMuted: isChannelMuted(member),
-            channelLink: `${getSiteURL()}/${ownProps.channelLink}`,
+            channelLink: `${getSiteURL()}${ownProps.channelLink}`,
             managePublicChannelMembers,
             managePrivateChannelMembers,
         };

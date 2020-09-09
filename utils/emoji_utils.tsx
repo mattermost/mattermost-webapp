@@ -101,7 +101,7 @@ export function wrapEmojis(text: string): React.ReactNode {
                 className='emoji'
             >
                 {emoji}
-            </span>
+            </span>,
         );
 
         // Remember that emojis can be multiple code points long when incrementing the index

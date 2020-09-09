@@ -5,11 +5,14 @@
     "plugin:jquery/deprecated"
   ],
   "plugins": [
+    "babel",
     "mattermost",
     "import",
     "cypress",
-    "jquery"
+    "jquery",
+    "no-only-tests"
   ],
+  "parser": "@typescript-eslint/parser",
   "env": {
     "jest": true,
     "cypress/globals": true
@@ -18,14 +21,16 @@
     "import/resolver": "webpack",
     "react": {
         "pragma": "React",
-        "version": "16.4"
+        "version": "detect"
     }
   },
   "rules": {
+    "no-unused-expressions": 0,
+    "babel/no-unused-expressions": 2,
     "eol-last": ["error", "always"],
     "import/no-unresolved": 2,
     "import/order": [
-      "error",
+      2,
       {
         "newlines-between": "always-and-inside-groups",
         "groups": [
@@ -52,7 +57,8 @@
         ]
       }
     ],
-    "react/no-string-refs": 2
+    "react/no-string-refs": 2,
+    "no-only-tests/no-only-tests": ["error", {"focus": ["only", "skip"]}]
   },
   "overrides": [
     {
@@ -61,13 +67,26 @@
         "plugin:@typescript-eslint/recommended"
       ],
       "rules": {
-        "comma-dangle": 0,
-        "no-unused-expressions": 0,
-        "@typescript-eslint/no-unused-expressions": 2,
-        "@typescript-eslint/camelcase": [
+        "import/no-unresolved": 0, // ts handles this better
+        "camelcase": 0,
+        "@typescript-eslint/naming-convention": [
           2,
           {
-            "properties": "never"
+            "selector": "function",
+            "format": ["camelCase", "PascalCase"]
+          },
+          {
+            "selector": "variable",
+            "format": ["camelCase", "PascalCase", "UPPER_CASE"]
+          },
+          {
+            "selector": "parameter",
+            "format": ["camelCase", "PascalCase"],
+            "leadingUnderscore": "allow"
+          },
+          {
+            "selector": "typeLike",
+            "format": ["PascalCase"]
           }
         ],
         "@typescript-eslint/no-non-null-assertion": 0,
@@ -101,7 +120,7 @@
       }
     },
     {
-      "files": ["tests/**"],
+      "files": ["tests/**", "**/*.test.*"],
       "env": {
         "jest": true
       },
@@ -109,7 +128,8 @@
         "func-names": 0,
         "global-require": 0,
         "new-cap": 0,
-        "prefer-arrow-callback": 0
+        "prefer-arrow-callback": 0,
+        "no-import-assign": 0
       }
     },
     {
@@ -119,6 +139,7 @@
         "import/no-unresolved": 0,
         "max-nested-callbacks": 0,
         "no-process-env": 0,
+        "babel/no-unused-expressions": 0,
         "no-unused-expressions": 0,
         "jquery/no-ajax": 0,
         "jquery/no-ajax-events": 0,

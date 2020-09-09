@@ -2,8 +2,9 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+
 import {UserProfile} from 'mattermost-redux/types/users';
-import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
+import {Channel, ChannelStats, ChannelMembership} from 'mattermost-redux/types/channels';
 
 import Constants from 'utils/constants';
 import * as UserAgent from 'utils/user_agent';
@@ -14,7 +15,7 @@ import LoadingScreen from 'components/loading_screen';
 
 const USERS_PER_PAGE = 50;
 
-type Props = {
+export type Props = {
     currentTeamId: string;
     currentChannelId: string;
     searchTerm: string;
@@ -29,19 +30,24 @@ type Props = {
     totalChannelMembers: number;
     channel: Channel;
     actions: {
-        searchProfiles: (term: string, options?: {}) => Promise<{data: UserProfile[]}>;
+        searchProfiles: (term: string, options?: Record<string, unknown>) => Promise<{data: UserProfile[]}>;
         getChannelMembers: (channelId: string) => Promise<{data: ChannelMembership[]}>;
-        getChannelStats: (channelId: string) => Promise<{data: {}}>;
-        setModalSearchTerm: (term: string) => Promise<{
+        getChannelStats: (channelId: string) => Promise<{data: ChannelStats}>;
+        setModalSearchTerm: (term: string) => Promise<{data: boolean;}>;
+        loadProfilesAndTeamMembersAndChannelMembers: (
+            page: number,
+            perPage: number,
+            teamId?: string,
+            channelId?: string
+        ) => Promise<{
             data: boolean;
         }>;
-        loadProfilesAndTeamMembersAndChannelMembers: (page: number, perPage: number, teamId?: string, channelId?: string) => Promise<{
-            data: boolean;
-        }>;
-        loadStatusesForProfilesList: (users: Array<UserProfile>) => Promise<{
-            data: boolean;
-        }>;
-        loadTeamMembersAndChannelMembersForProfilesList: (profiles: any, teamId: string, channelId: string) => Promise<{
+        loadStatusesForProfilesList: (users: Array<UserProfile>) => Promise<{data: boolean;}>;
+        loadTeamMembersAndChannelMembersForProfilesList: (
+            profiles: any,
+            teamId: string,
+            channelId: string
+        ) => Promise<{
             data: boolean;
         }>;
     };

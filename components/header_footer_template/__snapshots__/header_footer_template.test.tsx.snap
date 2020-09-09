@@ -46,7 +46,6 @@ exports[`components/HeaderFooterTemplate should match snapshot with about link 1
           >
             <FormattedMessage
               id="web.footer.about"
-              values={Object {}}
             />
           </a>
         </span>
@@ -102,7 +101,6 @@ exports[`components/HeaderFooterTemplate should match snapshot with all links 1`
           >
             <FormattedMessage
               id="web.footer.about"
-              values={Object {}}
             />
           </a>
           <a
@@ -115,7 +113,6 @@ exports[`components/HeaderFooterTemplate should match snapshot with all links 1`
           >
             <FormattedMessage
               id="web.footer.privacy"
-              values={Object {}}
             />
           </a>
           <a
@@ -128,7 +125,6 @@ exports[`components/HeaderFooterTemplate should match snapshot with all links 1`
           >
             <FormattedMessage
               id="web.footer.terms"
-              values={Object {}}
             />
           </a>
           <a
@@ -141,7 +137,6 @@ exports[`components/HeaderFooterTemplate should match snapshot with all links 1`
           >
             <FormattedMessage
               id="web.footer.help"
-              values={Object {}}
             />
           </a>
         </span>
@@ -243,7 +238,6 @@ exports[`components/HeaderFooterTemplate should match snapshot with help link 1`
           >
             <FormattedMessage
               id="web.footer.help"
-              values={Object {}}
             />
           </a>
         </span>
@@ -299,7 +293,6 @@ exports[`components/HeaderFooterTemplate should match snapshot with privacy poli
           >
             <FormattedMessage
               id="web.footer.privacy"
-              values={Object {}}
             />
           </a>
         </span>
@@ -355,7 +348,6 @@ exports[`components/HeaderFooterTemplate should match snapshot with term of serv
           >
             <FormattedMessage
               id="web.footer.terms"
-              values={Object {}}
             />
           </a>
         </span>

@@ -26,7 +26,7 @@ describe('Customization', () => {
         cy.get('.admin-console__header').should('be.visible').and('have.text', 'Customization');
     });
 
-    it('SC20336 - Can change Custom Brand Image setting', () => {
+    it('MM-T1207 - Can change Custom Brand Image setting', () => {
         // # Make sure necessary field is false
         cy.apiUpdateConfig({TeamSettings: {EnableCustomBrand: false}});
         cy.reload();
@@ -56,7 +56,7 @@ describe('Customization', () => {
         });
     });
 
-    it('SC20335 - Can change Site Name setting', () => {
+    it('MM-T1204 - Can change Site Name setting', () => {
         // * Verify site name's setting name for is visible and matches the text
         cy.findByTestId('TeamSettings.SiteNamelabel').scrollIntoView().should('be.visible').and('have.text', 'Site Name:');
 
@@ -80,7 +80,7 @@ describe('Customization', () => {
         });
     });
 
-    it('SC20332 - Can change Site Description setting', () => {
+    it('MM-T1205 - Can change Site Description setting', () => {
         // * Verify site description label is visible and matches the text
         cy.findByTestId('TeamSettings.CustomDescriptionTextlabel').should('be.visible').and('have.text', 'Site Description: ');
 
@@ -104,7 +104,7 @@ describe('Customization', () => {
         });
     });
 
-    it('SC20342 - Can change Custom Brand Text setting', () => {
+    it('MM-T1208 - Can change Custom Brand Text setting', () => {
         // * Verify custom brand text label is visible and matches the text
         cy.findByTestId('TeamSettings.CustomBrandTextlabel').scrollIntoView().should('be.visible').and('have.text', 'Custom Brand Text:');
 
@@ -131,7 +131,7 @@ describe('Customization', () => {
         });
     });
 
-    it('SC20331 - Can change Report a Problem Link setting', () => {
+    it('MM-T1214 - Can change Report a Problem Link setting', () => {
         // * Verify Report a Problem link label is visible and matches the text
         cy.findByTestId('SupportSettings.ReportAProblemLinklabel').scrollIntoView().should('be.visible').and('have.text', 'Report a Problem Link:');
 
@@ -155,7 +155,7 @@ describe('Customization', () => {
         });
     });
 
-    it('SC20330 - Can change Privacy Policy Link setting', () => {
+    it('MM-T1212 - Can change Privacy Policy Link setting', () => {
         // * Verify that setting is visible and matches text content
         cy.findByTestId('SupportSettings.PrivacyPolicyLinklabel').scrollIntoView().should('be.visible').and('have.text', 'Privacy Policy Link:');
 
@@ -179,7 +179,7 @@ describe('Customization', () => {
         });
     });
 
-    it('SC20337 Can change Support Email setting', () => {
+    it('MM-T1210 Can change Support Email setting', () => {
         // # Scroll Support Email section into view and verify that it's visible
         cy.findByTestId('SupportSettings.SupportEmail').scrollIntoView().should('be.visible');
 
@@ -206,7 +206,7 @@ describe('Customization', () => {
         });
     });
 
-    it('SC20338 Can change Android App Download Link setting', () => {
+    it('MM-T1216 Can change Android App Download Link setting', () => {
         // # Scroll Android App Download Link section into view and verify that it's visible
         cy.findByTestId('NativeAppSettings.AndroidAppDownloadLink').scrollIntoView().should('be.visible');
 
@@ -233,7 +233,7 @@ describe('Customization', () => {
         });
     });
 
-    it('SC20340 Can change iOS App Download Link setting', () => {
+    it('MM-T1217 Can change iOS App Download Link setting', () => {
         // # Scroll iOS App Download Link section into view and verify that it's visible
         cy.findByTestId('NativeAppSettings.IosAppDownloadLink').scrollIntoView().should('be.visible');
 
@@ -260,7 +260,7 @@ describe('Customization', () => {
         });
     });
 
-    it('SC20333 - Can change Mattermost Apps Download Page Link setting', () => {
+    it('MM-T1215 - Can change Mattermost Apps Download Page Link setting', () => {
         // * Verify Mattermost Apps Download Page Link's setting name is visible and matches the text
         cy.findByTestId('NativeAppSettings.AppDownloadLinklabel').scrollIntoView().should('be.visible').and('have.text', 'Mattermost Apps Download Page Link:');
 
@@ -284,7 +284,7 @@ describe('Customization', () => {
         });
     });
 
-    it('SC20330 - Can change Help Link setting', () => {
+    it('MM-T1209 - Can change Help Link setting', () => {
         // * Verify that setting is visible and matches text content
         const contents = ['The URL for the Help link on the Mattermost login page, sign-up pages, and Main Menu. If this field is empty, the Help link is hidden from users.'];
         cy.findByTestId('SupportSettings.HelpLinklabel').scrollIntoView().should('be.visible').and('have.text', 'Help Link:');
@@ -308,7 +308,7 @@ describe('Customization', () => {
         });
     });
 
-    it('SC20341 Can change About Link setting', () => {
+    it('MM-T1213 Can change About Link setting', () => {
         const newAboutLink = 'https://about.mattermost.com/new-about-page/';
 
         // * Verify that setting is visible and has the correct label text
@@ -331,7 +331,7 @@ describe('Customization', () => {
         });
     });
 
-    it('SC20329 - Can change Terms of Service Link setting', () => {
+    it('MM-T1211 - Can change Terms of Service Link setting', () => {
         // * Verify site name's setting name for is visible and matches the text
         cy.findByTestId('SupportSettings.TermsOfServiceLinklabel').scrollIntoView().should('be.visible').and('have.text', 'Terms of Service Link:');
 
@@ -360,7 +360,7 @@ describe('Customization', () => {
         });
     });
 
-    it('SC20339 - Can change Enable Custom Branding setting', () => {
+    it('MM-T1206 - Can change Enable Custom Branding setting', () => {
         // # Make sure necessary field is false
         cy.apiUpdateConfig({TeamSettings: {EnableCustomBrand: false}});
         cy.reload();
