@@ -63,7 +63,7 @@ type Props = {
     onDragEnd: (result: DropResult) => void;
 
     actions: {
-        moveChannelToCategory: (categoryId: string, channelId: string, newIndex: number) => void;
+        moveChannelInSidebar: (categoryId: string, channelId: string, newIndex: number) => void;
         moveCategory: (teamId: string, categoryId: string, newIndex: number) => void;
         switchToChannelById: (channelId: string) => void;
         close: () => void;
@@ -397,7 +397,7 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
 
         if (result.reason === 'DROP' && result.destination) {
             if (result.type === 'SIDEBAR_CHANNEL') {
-                this.props.actions.moveChannelToCategory(result.destination.droppableId, result.draggableId, result.destination.index);
+                this.props.actions.moveChannelInSidebar(result.destination.droppableId, result.draggableId, result.destination.index);
                 trackEvent('ui', 'ui_sidebar_dragdrop_dropped_channel');
             } else if (result.type === 'SIDEBAR_CATEGORY') {
                 this.props.actions.moveCategory(this.props.currentTeam.id, result.draggableId, result.destination.index);
@@ -415,14 +415,14 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
         const above = (
             <FormattedMessage
                 id='sidebar.unreads'
-                defaultMessage='More Unreads'
+                defaultMessage='More unreads'
             />
         );
 
         const below = (
             <FormattedMessage
                 id='sidebar.unreads'
-                defaultMessage='More Unreads'
+                defaultMessage='More unreads'
             />
         );
 

@@ -46,7 +46,7 @@ export default class ThemeSetting extends React.PureComponent {
 
     componentDidMount() {
         if (this.props.selected) {
-            $(ReactDOM.findDOMNode(this.refs[this.state.theme])).addClass('active-border');
+            $(ReactDOM.findDOMNode(this.refs[this.state.theme])).addClass('active-border'); // eslint-disable-line jquery/no-class
         }
     }
 
@@ -56,8 +56,8 @@ export default class ThemeSetting extends React.PureComponent {
         }
 
         if (this.props.selected) {
-            $('.color-btn').removeClass('active-border');
-            $(ReactDOM.findDOMNode(this.refs[this.state.theme])).addClass('active-border');
+            $('.color-btn').removeClass('active-border'); // eslint-disable-line jquery/no-class
+            $(ReactDOM.findDOMNode(this.refs[this.state.theme])).addClass('active-border'); // eslint-disable-line jquery/no-class
         }
     }
 

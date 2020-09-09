@@ -5,17 +5,22 @@ exports[`components/post_view/message_attachments/action_button.jsx should match
   data-action-cookie="cookie-contents"
   data-action-id="action_id_1"
   key="action_id_1"
-  onClick={[MockFunction]}
+  onClick={[Function]}
 >
-  <Connect(Markdown)
-    message="action_name_1"
-    options={
-      Object {
-        "autolinkedUrlSchemes": Array [],
-        "markdown": false,
-        "mentionHighlight": false,
+  <LoadingWrapper
+    loading={true}
+    text={null}
+  >
+    <Connect(Markdown)
+      message="action_name_1"
+      options={
+        Object {
+          "autolinkedUrlSchemes": Array [],
+          "markdown": false,
+          "mentionHighlight": false,
+        }
       }
-    }
-  />
+    />
+  </LoadingWrapper>
 </button>
 `;

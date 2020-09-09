@@ -11,6 +11,7 @@ import {Route, Switch, Redirect} from 'react-router-dom';
 import {setUrl} from 'mattermost-redux/actions/general';
 import {setSystemEmojis} from 'mattermost-redux/actions/emojis';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 
 import * as UserAgent from 'utils/user_agent';
 import {EmojiIndicesByAlias} from 'utils/emoji.jsx';
@@ -99,6 +100,7 @@ export default class Root extends React.PureComponent {
         super(props);
         this.currentCategoryFocus = 0;
         this.currentSidebarFocus = 0;
+        this.mounted = false;
 
         // Redux
         setUrl(getSiteURL());
@@ -106,26 +108,28 @@ export default class Root extends React.PureComponent {
         setSystemEmojis(EmojiIndicesByAlias);
 
         // Force logout of all tabs if one tab is logged out
-        $(window).bind('storage', (e) => {
+        $(window).bind('storage', (e) => { // eslint-disable-line jquery/no-bind
             // when one tab on a browser logs out, it sets __logout__ in localStorage to trigger other tabs to log out
-            if (e.originalEvent.key === StoragePrefixes.LOGOUT && e.originalEvent.storageArea === localStorage && e.originalEvent.newValue) {
-                // make sure it isn't this tab that is sending the logout signal (only necessary for IE11)
-                if (BrowserStore.isSignallingLogout(e.originalEvent.newValue)) {
-                    return;
-                }
+            const isNewLocalStorageEvent = (event) => event.originalEvent.storageArea === localStorage && event.originalEvent.newValue;
 
+            if (e.originalEvent.key === StoragePrefixes.LOGOUT && isNewLocalStorageEvent(e)) {
                 console.log('detected logout from a different tab'); //eslint-disable-line no-console
                 GlobalActions.emitUserLoggedOutEvent('/', false, false);
             }
+            if (e.originalEvent.key === StoragePrefixes.LOGIN && isNewLocalStorageEvent(e)) {
+                const isLoggedIn = getCurrentUser(store.getState());
 
-            if (e.originalEvent.key === StoragePrefixes.LOGIN && e.originalEvent.storageArea === localStorage && e.originalEvent.newValue) {
-                // make sure it isn't this tab that is sending the logout signal (only necessary for IE11)
-                if (BrowserStore.isSignallingLogin(e.originalEvent.newValue)) {
+                // make sure this is not the same tab which sent login signal
+                // because another tabs will also send login signal after reloading
+                if (isLoggedIn) {
                     return;
                 }
 
-                console.log('detected login from a different tab'); //eslint-disable-line no-console
-                location.reload();
+                // detected login from a different tab
+                function onVisibilityChange() {
+                    location.reload();
+                }
+                document.addEventListener('visibilitychange', onVisibilityChange, false);
             }
         });
 
@@ -160,10 +164,15 @@ export default class Root extends React.PureComponent {
 
         const telemetryId = this.props.telemetryId;
 
-        const rudderKey = Constants.TELEMETRY_RUDDER_KEY;
-        const rudderUrl = Constants.TELEMETRY_RUDDER_DATAPLANE_URL;
+        let rudderKey = Constants.TELEMETRY_RUDDER_KEY;
+        let rudderUrl = Constants.TELEMETRY_RUDDER_DATAPLANE_URL;
 
-        if (rudderKey != null && rudderKey !== '' && !rudderKey.startsWith('placeholder') && rudderUrl != null && rudderUrl !== '' && !rudderUrl.startsWith('placeholder') && this.props.telemetryEnabled) {
+        if (rudderKey.startsWith('placeholder') && rudderUrl.startsWith('placeholder')) {
+            rudderKey = process.env.RUDDER_KEY; //eslint-disable-line no-process-env
+            rudderUrl = process.env.RUDDER_DATAPLANE_URL; //eslint-disable-line no-process-env
+        }
+
+        if (rudderKey != null && rudderKey !== '' && this.props.telemetryEnabled) {
             Client4.enableRudderEvents();
             rudderAnalytics.load(rudderKey, rudderUrl);
 
@@ -201,7 +210,11 @@ export default class Root extends React.PureComponent {
         }
 
         initializePlugins().then(() => {
-            this.setState({configLoaded: true});
+            if (this.mounted) {
+                // supports enzyme tests, set state if and only if
+                // the component is still mounted on screen
+                this.setState({configLoaded: true});
+            }
         });
 
         loadRecentlyUsedCustomEmojis()(store.dispatch, store.getState);
@@ -236,6 +249,7 @@ export default class Root extends React.PureComponent {
     }
 
     componentDidMount() {
+        this.mounted = true;
         this.props.actions.loadMeAndConfig().then((response) => {
             if (this.props.location.pathname === '/' && response[2] && response[2].data) {
                 GlobalActions.redirectUserToDefaultTeam();
@@ -246,6 +260,7 @@ export default class Root extends React.PureComponent {
     }
 
     componentWillUnmount() {
+        this.mounted = false;
         $(window).unbind('storage');
     }
 

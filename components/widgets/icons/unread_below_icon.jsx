@@ -15,12 +15,13 @@ export default class UnreadBelowIcon extends React.PureComponent {
                     {(ariaLabel) => (
                         <svg
                             xmlns='http://www.w3.org/2000/svg'
-                            width='24px'
-                            height='24px'
+                            width='16'
+                            height='16'
+                            viewBox='0 0 16 16'
                             role='img'
                             aria-label={ariaLabel}
                         >
-                            <path d='M6 12l1.058-1.057 4.192 4.184V6h1.5v9.127l4.185-4.192L18 12l-6 6z'/>
+                            <path d='M8.696 2H7.184V11L3.062 6.878L2 7.94L7.94 13.88L13.88 7.94L12.818 6.878L8.696 11V2Z'/>
                         </svg>
                     )}
                 </FormattedMessage>

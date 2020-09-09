@@ -54,7 +54,7 @@ describe('Verify Quick Navigation support across different regions in the app', 
         });
     });
 
-    it('MM-22626 Verify Navigation Support in Post List & Post Input', () => {
+    it('MM-T1460_1 Verify Navigation Support in Post List & Post Input', () => {
         // # Shift focus to the last post
         cy.get('#fileUploadButton').focus().tab({shift: true}).tab({shift: true});
         cy.get('body').type('{uparrow}{downarrow}');
@@ -69,7 +69,7 @@ describe('Verify Quick Navigation support across different regions in the app', 
         verifyNavSupport('#centerChannelFooter', 'message input complimentary region', '2');
     });
 
-    it('MM-22626 Verify Navigation Support in RHS Post List & RHS Post Input', () => {
+    it('MM-T1460_3 Verify Navigation Support in RHS Post List & RHS Post Input', () => {
         // # Open RHS and reply
         cy.getLastPostId().then((postId) => {
             cy.clickPostCommentIcon(postId);
@@ -93,7 +93,7 @@ describe('Verify Quick Navigation support across different regions in the app', 
         });
     });
 
-    it('MM-22626 Verify Navigation Support in LHS Sidebar', () => {
+    it('MM-T1460_5 Verify Navigation Support in LHS Sidebar', () => {
         // # Change the focus to Main Menu button
         cy.get('#headerInfo button').focus().tab({shift: true}).tab();
 
@@ -107,7 +107,7 @@ describe('Verify Quick Navigation support across different regions in the app', 
         verifyNavSupport('#lhsList', 'channel sidebar region', '6');
     });
 
-    it('MM-22626 Verify Navigation Support in Channel Header', () => {
+    it('MM-T1460_6 Verify Navigation Support in Channel Header', () => {
         // # Change the focus to Main Menu button
         cy.get('#toggleFavorite').focus().tab({shift: true}).tab();
 
@@ -115,7 +115,7 @@ describe('Verify Quick Navigation support across different regions in the app', 
         verifyNavSupport('#channel-header', 'channel header region', '8');
     });
 
-    it('MM-22626 Verify Navigation Support in Search Results', () => {
+    it('MM-T1460_8 Verify Navigation Support in Search Results', () => {
         // # Search for some text
         cy.get('#searchBox').should('be.visible').type('hello {enter}');
 

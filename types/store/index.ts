@@ -91,6 +91,11 @@ export type GlobalState = BaseGlobalState & {
 
         search: {
             modalSearch: string;
+            modalFilters: {
+                roles?: string[];
+                channel_roles?: string[];
+                team_roles?: string[];
+            };
             systemUsersSearch: {
                 term: string;
                 team: string;
@@ -134,6 +139,10 @@ export type GlobalState = BaseGlobalState & {
             unreadFilterEnabled: boolean;
             draggingState: DraggingState;
             newCategoryIds: string[];
+        };
+
+        nextSteps: {
+            show: boolean;
         };
     };
 };

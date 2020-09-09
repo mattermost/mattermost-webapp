@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @account_setting
 
 import moment from 'moment-timezone';
@@ -53,10 +54,12 @@ describe('Account Settings > Display > Timezone Mode', () => {
 
             // # Post messages from now
             cy.postMessage('Hello from now');
-
-            // # Reload to re-arrange posts
-            cy.reload();
         });
+    });
+
+    beforeEach(() => {
+        // # Reload to re-arrange posts
+        cy.reload();
     });
 
     describe('MM-T301 Change timezone automatically', () => {

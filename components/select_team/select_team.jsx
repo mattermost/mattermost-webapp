@@ -336,7 +336,7 @@ export default class SelectTeam extends React.PureComponent {
                 {headerButton}
                 <div className='col-sm-12'>
                     <div
-                        className={'signup-team__container'}
+                        className={'select-team__container signup-team__container'}
                     >
                         <img
                             alt={'signup team logo'}

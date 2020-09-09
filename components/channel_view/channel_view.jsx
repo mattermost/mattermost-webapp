@@ -10,6 +10,7 @@ import deferComponentRender from 'components/deferComponentRender';
 import ChannelHeader from 'components/channel_header';
 import CreatePost from 'components/create_post';
 import FileUploadOverlay from 'components/file_upload_overlay';
+import NextStepsView from 'components/next_steps_view';
 import PostView from 'components/post_view';
 import TutorialView from 'components/tutorial';
 import {clearMarks, mark, measure, trackEvent} from 'actions/telemetry_actions.jsx';
@@ -27,11 +28,15 @@ export default class ChannelView extends React.PureComponent {
             }).isRequired,
         }).isRequired,
         showTutorial: PropTypes.bool.isRequired,
+        showNextSteps: PropTypes.bool.isRequired,
+        showNextStepsEphemeral: PropTypes.bool.isRequired,
         channelIsArchived: PropTypes.bool.isRequired,
         viewArchivedChannels: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
             goToLastViewedChannel: PropTypes.func.isRequired,
+            setShowNextStepsView: PropTypes.func.isRequired,
         }),
+        isCloud: PropTypes.bool.isRequired,
     };
 
     static createDeferredPostView = () => {
@@ -63,6 +68,10 @@ export default class ChannelView extends React.PureComponent {
             updatedState = {...updatedState, focusedPostId};
         }
 
+        if (props.showNextSteps !== state.showNextSteps) {
+            updatedState = {...updatedState, showNextSteps: props.showNextSteps};
+        }
+
         if (Object.keys(updatedState).length) {
             return updatedState;
         }
@@ -88,6 +97,12 @@ export default class ChannelView extends React.PureComponent {
         this.props.actions.goToLastViewedChannel();
     }
 
+    componentDidMount() {
+        if (this.props.showNextSteps) {
+            this.props.actions.setShowNextStepsView(true);
+        }
+    }
+
     componentDidUpdate(prevProps) {
         if (prevProps.channelId !== this.props.channelId || prevProps.channelIsArchived !== this.props.channelIsArchived) {
             mark('ChannelView#componentDidUpdate');
@@ -111,15 +126,25 @@ export default class ChannelView extends React.PureComponent {
                 this.props.actions.goToLastViewedChannel();
             }
         }
+
+        if (this.props.match.url !== prevProps.match.url && this.props.showNextStepsEphemeral) {
+            this.props.actions.setShowNextStepsView(false);
+        }
     }
 
     render() {
         const {channelIsArchived} = this.props;
-        if (this.props.showTutorial) {
+        if (this.props.showTutorial && !this.props.isCloud) {
             return (
                 <TutorialView
                     isRoot={false}
                 />
+            );
+        }
+
+        if (this.props.showNextStepsEphemeral) {
+            return (
+                <NextStepsView/>
             );
         }
 

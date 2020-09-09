@@ -239,7 +239,7 @@ describe('MM-18045 Verify Guest User Identification in different screens', () =>
         });
 
         // # Deactivate Guest user
-        cy.apiActivateUser(guest.id, false).wait(TIMEOUTS.FIVE_SEC);
+        cy.externalActivateUser(guest.id, false).wait(TIMEOUTS.FIVE_SEC);
 
         // * Verify the text 'This channel has guests' is removed from the header
         cy.get('#channelHeaderDescription').within(($el) => {

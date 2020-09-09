@@ -7,41 +7,34 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
+// Stage: @prod @smoke
 // Group: @messaging
 
-describe("Click another user's emoji reaction to add it", () => {
-    let townsquareLink;
+describe('Emoji reactions to posts/messages', () => {
     let userOne;
     let userTwo;
+    let testTeam;
 
     before(() => {
-        // # Login as test user and visit town-square
         cy.apiInitSetup().then(({team, user}) => {
+            testTeam = team;
             userOne = user;
-            townsquareLink = `/${team.name}/channels/town-square`;
 
-            cy.apiCreateUser().then(({user: user2}) => {
-                userTwo = user2;
-                cy.apiAddUserToTeam(team.id, userTwo.id);
+            cy.apiCreateUser().then((data) => {
+                userTwo = data.user;
+
+                cy.apiAddUserToTeam(testTeam.id, userTwo.id);
+
+                // # Login as userOne and town-square
+                cy.apiLogin(userOne);
+                cy.visit(`/${testTeam.name}/channels/town-square`);
             });
         });
     });
 
-    it("M15113 - Click another user's emoji reaction to add it", () => {
-        // # Login as userOne and visit town-square
-        cy.apiLogin(userOne);
-        cy.visit(townsquareLink);
-
+    it('adding a reaction to a post is visible to another user in the channel', () => {
         // # Post a message
-        cy.postMessage('test');
-
-        // # Logout
-        cy.apiLogout();
-
-        // # Login as userTwo and visit town-square
-        cy.apiLogin(userTwo);
-        cy.visit(townsquareLink);
+        cy.postMessage('The reaction to this post should be visible to user-2');
 
         // # Mouseover the last post
         cy.getLastPost().trigger('mouseover');
@@ -51,56 +44,99 @@ describe("Click another user's emoji reaction to add it", () => {
             cy.clickPostReactionIcon(postId);
 
             // # Choose "slightly_frowning_face" emoji
-            cy.get('#emoji-1f641').should('be.visible').click({force: true});
+            // delaying 500ms in case of lag
+            cy.get('.emoji-picker__items #emoji-1f641').wait(500).click();
 
             // * The number shown on the reaction is incremented by 1
-            cy.get(`#postReaction-${postId}-slightly_frowning_face .post-reaction__count`).should('have.text', '1');
+            cy.get(`#postReaction-${postId}-slightly_frowning_face .Reaction__number--display`).
+                should('have.text', '1').
+                should('be.visible');
         });
 
         // # Logout
         cy.apiLogout();
 
-        // # Login as userOne and visit town-square
-        cy.apiLogin(userOne);
-        cy.visit(townsquareLink);
+        // # Login as userTwo and town-square
+        cy.apiLogin(userTwo);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
 
         cy.getLastPostId().then((postId) => {
-            // # Click on the "slightly_frowning_face" emoji of the last post and the background color changes
-            cy.get(`#postReaction-${postId}-slightly_frowning_face`).
-                should('be.visible').
-                click().
-                should('have.css', 'background-color').
-                and('eq', 'rgba(22, 109, 224, 0.08)');
+            // * userOne's reaction "slightly_frowning_face" is visible and is equal to 1
+            cy.get(`#postReaction-${postId}-slightly_frowning_face .Reaction__number--display`).
+                should('have.text', '1').
+                should('be.visible');
+        });
+    });
+
+    it('another user adding to existing reaction increases reaction count', () => {
+        cy.getLastPostId().then((postId) => {
+            // # Click on the "slightly_frowning_face" emoji
+            cy.get(`#postReaction-${postId}-slightly_frowning_face`).click();
 
             // * The number shown on the "slightly_frowning_face" reaction is incremented by 1
-            cy.get(`#postReaction-${postId}-slightly_frowning_face .post-reaction__count`).should('have.text', '2');
+            cy.get(`#postReaction-${postId}-slightly_frowning_face .Reaction__number--display`).
+                should('have.text', '2').
+                should('be.visible');
+        });
+    });
 
+    it('a reaction added by current user has highlighted background color', () => {
+        cy.getLastPostId().then((postId) => {
+            // # The "slightly_frowning_face" emoji of the last post and the background color changes
+            cy.get(`#postReaction-${postId}-slightly_frowning_face`).
+                should('be.visible').
+                should('have.css', 'background-color').
+                and('eq', 'rgba(22, 109, 224, 0.08)');
+        });
+    });
+
+    it("can click another user's reaction to detract from it", () => {
+        cy.getLastPostId().then((postId) => {
+            // * The number shown on the "slightly_frowning_face" reaction is currently at 2
+            cy.get(`#postReaction-${postId}-slightly_frowning_face .Reaction__number--display`).
+                should('have.text', '2').
+                should('be.visible');
+
+            // # Click on the "slightly_frowning_face" emoji
+            cy.get(`#postReaction-${postId}-slightly_frowning_face`).click();
+
+            // * The number shown on the "slightly_frowning_face" reaction  is decremented by 1
+            cy.get(`#postReaction-${postId}-slightly_frowning_face .Reaction__number--display`).
+                should('have.text', '1').
+                should('be.visible');
+        });
+    });
+
+    it('can add a reaction to a post with an existing reaction', () => {
+        cy.getLastPostId().then((postId) => {
             // # Click on the + icon
             cy.get(`#addReaction-${postId}`).click({force: true});
 
             // * The reaction emoji picker is open
             cy.get('#emojiPicker').should('be.visible');
 
-            // # Select the "scream" emoji
-            cy.get('#emoji-1f631').should('be.visible').click({force: true});
+            // # Select the "sweat_smile" emoji
+            // delaying 500ms in case of lag
+            cy.get('.emoji-picker__items #emoji-1f605').wait(500).click();
 
             // * The emoji picker is no longer open
             cy.get('#emojiPicker').should('be.not.visible');
 
-            // * The "scream" emoji is added to the post
-            cy.get(`#postReaction-${postId}-scream`).should('be.visible');
+            // * The "sweat_smile" emoji is added to the post
+            cy.get(`#postReaction-${postId}-sweat_smile`).should('be.visible');
+        });
+    });
 
-            // # Click on the "slightly_frowning_face" emoji
-            cy.get(`#postReaction-${postId}-slightly_frowning_face .post-reaction__emoji`).click();
+    it('can remove a reaction to a post with an existing reaction', () => {
+        cy.getLastPostId().then((postId) => {
+            // * The "sweat_smile" should exist on the post
+            cy.get(`#postReaction-${postId}-sweat_smile`).should('be.visible');
 
-            // * The number shown on the "slightly_frowning_face" reaction  is decremented by 1
-            cy.get(`#postReaction-${postId}-slightly_frowning_face .post-reaction__count`).should('have.text', '1');
+            // # Click on the "sweat_smile" emoji
+            cy.get(`#postReaction-${postId}-sweat_smile`).click();
 
-            // # Click on the "scream" emoji
-            cy.get(`#postReaction-${postId}-scream .post-reaction__emoji`).click();
-
-            // * The "scream" emoji is removed
-            cy.get(`#postReaction-${postId}-scream`).should('be.not.visible');
+            // * The "sweat_smile" emoji is removed
+            cy.get(`#postReaction-${postId}-sweat_smile`).should('be.not.visible');
         });
     });
 });

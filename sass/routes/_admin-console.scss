@@ -14,7 +14,11 @@
         display: flex;
         flex-direction: column;
         height: 100vh;
-        height: -webkit-fill-available;
+
+        // Fix for Safari on iOS MM-24361
+        @supports (-webkit-touch-callout: none) {
+            height: -webkit-fill-available;
+        }
 
         .announcement-bar--fixed & {
             height: calc(100vh - 32px);
@@ -965,4 +969,16 @@
     .banner {
         max-width: 920px;
     }
+}
+
+div[disabled] {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.enterprise-license-text {
+    padding: 10px;
+    text-align: justify;
+    border: 1px solid $light-gray;
+    background: white;
 }

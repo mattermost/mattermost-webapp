@@ -10,18 +10,24 @@ import {checkBoxes} from './constants';
 export const visitChannelConfigPage = (channel) => {
     cy.apiAdminLogin();
     cy.visit('/admin_console/user_management/channels');
-    cy.findByPlaceholderText('Search').type(`${channel.name}{enter}`);
+    cy.get('.DataGrid_searchBar').within(() => {
+        cy.findByPlaceholderText('Search').type(`${channel.name}{enter}`);
+    });
     cy.findByText('Edit').click();
     cy.wait(TIMEOUTS.ONE_SEC);
 };
 
-// # Disable a specific channel moderated permission in the channel moderation widget
-export const disableChannelModeratedPermission = (permission) => {
-    cy.findByTestId(permission).scrollIntoView().should('be.visible').then((btn) => {
-        if (btn.hasClass('checked')) {
-            btn.click();
+// # Disable a permission
+export const disablePermission = (permission) => {
+    cy.waitUntil(() => cy.findByTestId(permission).scrollIntoView().should('be.visible').then((el) => {
+        const classAttribute = el[0].getAttribute('class');
+        if (classAttribute.includes('checked') || classAttribute.includes('intermediate')) {
+            el[0].click();
+            return false;
         }
-    });
+        return true;
+    }));
+    cy.findByTestId(permission).should('not.have.class', 'checked');
 };
 
 // # Saves channel config and navigates back to the channel config page if specified
@@ -34,12 +40,21 @@ export const saveConfigForChannel = (channelName = false, clickConfirmationButto
                 cy.get('#confirmModalButton').click();
             }
 
-            // # Make sure the save is complete by looking for the search input which is only visible on the teams index page
-            cy.findByPlaceholderText('Search').should('be.visible');
+            // # Wait for location path to end with /admin_console/user_management/channels
+            cy.waitUntil(() => cy.location().then((location) => {
+                return location.href.endsWith('/admin_console/user_management/channels');
+            }));
+
+            // # Make sure the save is complete by looking for the search input which is only visible on the team's index page
+            cy.get('.DataGrid_searchBar').should('be.visible').within(() => {
+                cy.findByPlaceholderText('Search').should('be.visible');
+            });
 
             if (channelName) {
                 // # Search for the channel.
-                cy.findByPlaceholderText('Search').type(`${channelName}{enter}`);
+                cy.get('.DataGrid_searchBar').within(() => {
+                    cy.findByPlaceholderText('Search').type(`${channelName}{enter}`);
+                });
                 cy.findByText('Edit').click();
             }
         }
@@ -86,13 +101,17 @@ export const postChannelMentionsAndVerifySystemMessageExist = (channelName) => {
     });
 };
 
-// # Enable a specific channel moderated permission in the channel moderation widget
-export const enableChannelModeratedPermission = (permission) => {
-    cy.findByTestId(permission).scrollIntoView().should('be.visible').then((btn) => {
-        if (!btn.hasClass('checked')) {
-            btn.click();
+// # Enable a permission
+export const enablePermission = (permission) => {
+    cy.waitUntil(() => cy.findByTestId(permission).scrollIntoView().should('be.visible').then((el) => {
+        const classAttribute = el[0].getAttribute('class');
+        if (!classAttribute.includes('checked')) {
+            el[0].click();
+            return false;
         }
-    });
+        return true;
+    }));
+    cy.findByTestId(permission).should('have.class', 'checked');
 };
 
 // # Checks to see if we did not get a system message warning after using @all/@here/@channel
@@ -155,6 +174,7 @@ export const saveConfigForScheme = (waitUntilConfigSaved = true, clickConfirmati
 export const goToSystemScheme = () => {
     cy.apiAdminLogin();
     cy.visit('/admin_console/user_management/permissions/system_scheme');
+    cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'System Scheme');
 };
 
 // # Goes to the permissions page and creates a new team override scheme with schemeName

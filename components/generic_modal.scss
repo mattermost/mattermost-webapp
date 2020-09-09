@@ -1,0 +1,120 @@
+@charset 'UTF-8';
+
+.GenericModal {
+    &.modal-dialog {
+        margin-top: calc(50vh - 240px);
+    }
+
+    .modal-body {
+        max-height: 100%;
+        padding: 0;
+
+        .form-control {
+            border: 2px solid var(--button-bg);
+            box-sizing: border-box;
+            border-radius: 4px;
+            height: 40px;
+        }
+
+        .input-clear {
+            font-style: normal;
+            font-weight: normal;
+            font-size: 18px;
+            line-height: 16px;
+            color: var(--center-channel-color);
+            opacity: 0.48;
+            right: 36px;
+            top: 11px;
+            width: 16px;
+            height: 16px;
+        }
+    }
+
+    .modal-content {
+        border-radius: 8px;
+    }
+
+    .modal-header {
+        background: transparent;
+        border: none;
+        min-height: 0;
+        padding: 0;
+
+        .close {
+            color: rgba(var(--center-channel-color-rgb), 0.56);
+            width: 4rem;
+            height: 4rem;
+            font-size: 32px;
+            font-weight: 400;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            right: 4px;
+            top: 6px;
+            border-radius: 4px;
+
+            &:hover {
+                background-color: rgba(var(--center-channel-color-rgb), 0.08);
+                color: rgba(var(--center-channel-color-rgb), 0.72);
+            }
+
+            &:active {
+                background-color: rgba(var(--button-bg-rgb), 0.08);
+                color: v(button-bg);
+            }
+        }
+    }
+
+    .modal-footer {
+        border: none;
+        padding: 12px 24px 24px 24px;
+        border-radius: 4px;
+    }
+}
+
+.GenericModal__header {
+    padding: 24px 24px 16px 24px;
+
+    h1 {
+        font-weight: 600;
+        font-size: 20px;
+        line-height: 28px;
+        margin: 0;
+    }
+}
+
+.GenericModal__body {
+    padding: 0 24px;
+    position: relative;
+    width: 100%;
+    font-family: Open Sans;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 20px;
+    color: rgba(var(--center-channel-color-rgb), 0.72);
+}
+
+.GenericModal__button {
+    padding: 12px 16px;
+    line-height: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    border: none;
+
+    &.cancel {
+        background: var(--center-channel-bg);
+        color: var(--button-bg);
+    }
+
+    &.confirm {
+        background: var(--button-bg);
+        border-radius: 4px;
+        color: var(--button-color);
+
+        &.disabled {
+            color: rgba(var(--center-channel-color-rgb), 0.64);
+            background: rgba(var(--center-channel-color-rgb), 0.08);
+        }
+    }
+}

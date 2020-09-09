@@ -262,7 +262,7 @@ class CreateComment extends React.PureComponent {
             channelTimezoneCount: 0,
             uploadsProgressPercent: {},
             renderScrollbar: false,
-            suggestionListStyle: 'top',
+            scrollbarWidth: 0,
             mentions: [],
             memberNotifyCount: 0,
         };
@@ -682,7 +682,7 @@ class CreateComment extends React.PureComponent {
     scrollToBottom = () => {
         const $el = $('.post-right__scroll');
         if ($el[0]) {
-            $el.parent().scrollTop($el[0].scrollHeight);
+            $el.parent().scrollTop($el[0].scrollHeight); // eslint-disable-line jquery/no-parent
         }
     }
 
@@ -708,6 +708,10 @@ class CreateComment extends React.PureComponent {
         this.setState({
             caretPosition,
         });
+    }
+
+    handleSelect = (e) => {
+        Utils.adjustSelection(this.refs.textbox.getInputBox(), e);
     }
 
     handleKeyDown = (e) => {
@@ -757,12 +761,35 @@ class CreateComment extends React.PureComponent {
             } else if (Utils.isKeyPressed(e, Constants.KeyCodes.DOWN)) {
                 e.preventDefault();
                 this.props.onMoveHistoryIndexForward();
+            } else if (Utils.isKeyPressed(e, Constants.KeyCodes.B) ||
+                       Utils.isKeyPressed(e, Constants.KeyCodes.I)) {
+                this.applyHotkeyMarkdown(e);
             }
         }
 
         if (lastMessageReactionKeyCombo) {
             this.reactToLastMessage(e);
         }
+    }
+
+    applyHotkeyMarkdown = (e) => {
+        const res = Utils.applyHotkeyMarkdown(e);
+
+        const {draft} = this.state;
+        const modifiedDraft = {
+            ...draft,
+            message: res.message,
+        };
+
+        this.props.onUpdateCommentDraft(modifiedDraft);
+        this.draftsForPost[this.props.rootId] = modifiedDraft;
+
+        this.setState({
+            draft: modifiedDraft,
+        }, () => {
+            const textbox = this.refs.textbox.getInputBox();
+            Utils.setSelectionRange(textbox, res.selectionStart, res.selectionEnd);
+        });
     }
 
     handleFileUploadChange = () => {
@@ -939,6 +966,11 @@ class CreateComment extends React.PureComponent {
 
     handleHeightChange = (height, maxHeight) => {
         this.setState({renderScrollbar: height > maxHeight});
+        window.requestAnimationFrame(() => {
+            if (this.refs.textbox) {
+                this.setState({scrollbarWidth: Utils.scrollbarWidth(this.refs.textbox.getInputBox())});
+            }
+        });
     }
 
     render() {
@@ -1163,12 +1195,11 @@ class CreateComment extends React.PureComponent {
         }
 
         const textboxRef = this.refs.textbox;
+        let suggestionListStyle = 'top';
         if (textboxRef) {
             const textboxPosTop = textboxRef.getInputBox().getBoundingClientRect().top;
             if (textboxPosTop < Constants.SUGGESTION_LIST_SPACE_RHS) {
-                this.setState({suggestionListStyle: 'bottom'});
-            } else {
-                this.setState({suggestionListStyle: 'top'});
+                suggestionListStyle = 'bottom';
             }
         }
 
@@ -1180,6 +1211,7 @@ class CreateComment extends React.PureComponent {
                     aria-label={ariaLabelReplyInput}
                     tabIndex='-1'
                     className={`post-create a11y__region${scrollbarClass}`}
+                    style={this.state.renderScrollbar && this.state.scrollbarWidth ? {'--detected-scrollbar-width': `${this.state.scrollbarWidth}px`} : undefined}
                     data-a11y-sort-order='4'
                 >
                     <div
@@ -1191,6 +1223,7 @@ class CreateComment extends React.PureComponent {
                                 onChange={this.handleChange}
                                 onKeyPress={this.commentMsgKeyPress}
                                 onKeyDown={this.handleKeyDown}
+                                onSelect={this.handleSelect}
                                 onMouseUp={this.handleMouseUpKeyUp}
                                 onKeyUp={this.handleMouseUpKeyUp}
                                 onComposition={this.emitTypingEvent}
@@ -1210,7 +1243,7 @@ class CreateComment extends React.PureComponent {
                                 disabled={readOnlyChannel}
                                 characterLimit={this.props.maxPostSize}
                                 preview={this.props.shouldShowPreview}
-                                suggestionListStyle={this.state.suggestionListStyle}
+                                suggestionListStyle={suggestionListStyle}
                                 badConnection={this.props.badConnection}
                                 listenForMentionKeyClick={true}
                                 useChannelMentions={this.props.useChannelMentions}

@@ -60,9 +60,9 @@ export default class AddGroupsToChannelModal extends React.PureComponent {
     componentDidMount() {
         Promise.all([
             this.props.actions.getTeam(this.props.teamID),
-            this.props.actions.getAllGroupsAssociatedToTeam(this.props.teamID),
+            this.props.actions.getAllGroupsAssociatedToTeam(this.props.teamID, false, true),
             this.props.actions.getGroupsNotAssociatedToChannel(this.props.currentChannelId, '', 0, GROUPS_PER_PAGE + 1, true),
-            this.props.actions.getAllGroupsAssociatedToChannel(this.props.currentChannelId),
+            this.props.actions.getAllGroupsAssociatedToChannel(this.props.currentChannelId, false, true),
         ]).then(() => {
             this.setGroupsLoadingState(false);
         });

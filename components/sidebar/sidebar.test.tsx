@@ -14,6 +14,8 @@ describe('components/sidebar', () => {
         isDataPrefechEnabled: true,
         isOpen: false,
         teamId: 'fake_team_id',
+        hasSeenModal: true,
+        isCloud: false,
         actions: {
             createCategory: jest.fn(),
             fetchMyCategories: jest.fn(),
@@ -71,5 +73,17 @@ describe('components/sidebar', () => {
         instance.setState({showDirectChannelsModal: true});
         instance.handleOpenMoreDirectChannelsModal(mockEvent as any);
         expect(instance.hideMoreDirectChannelsModal).toHaveBeenCalled();
+    });
+
+    test('should match empty div snapshot when teamId is missing', () => {
+        const props = {
+            ...baseProps,
+            teamId: '',
+        };
+        const wrapper = shallow(
+            <Sidebar {...props}/>,
+        );
+
+        expect(wrapper).toMatchSnapshot();
     });
 });

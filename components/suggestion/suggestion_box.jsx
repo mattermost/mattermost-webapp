@@ -23,6 +23,11 @@ export default class SuggestionBox extends React.PureComponent {
         listComponent: PropTypes.func.isRequired,
 
         /**
+         * The input component to render (it is passed through props to the QuickInput)
+         */
+        inputComponent: PropTypes.elementType,
+
+        /**
          * The date component to render
          */
         dateComponent: PropTypes.func,
@@ -84,6 +89,8 @@ export default class SuggestionBox extends React.PureComponent {
         onKeyPress: PropTypes.func,
         onComposition: PropTypes.func,
 
+        onSelect: PropTypes.func,
+
         /**
          * Function called when an item is selected
          */
@@ -139,11 +146,6 @@ export default class SuggestionBox extends React.PureComponent {
          * Allows parent to access received suggestions
          */
         onSuggestionsReceived: PropTypes.func,
-
-        /**
-         * Suppress loading spinner when necessary
-         */
-        suppressLoadingSpinner: PropTypes.bool,
 
         /**
          * To show suggestions even when focus is lost
@@ -542,6 +544,7 @@ export default class SuggestionBox extends React.PureComponent {
                 components: [],
                 selection: '',
             });
+            this.handlePretextChanged('');
         }
     }
 
@@ -590,6 +593,12 @@ export default class SuggestionBox extends React.PureComponent {
             }
         } else if (this.props.onKeyDown) {
             this.props.onKeyDown(e);
+        }
+    }
+
+    handleSelect = (e) => {
+        if (this.props.onSelect) {
+            this.props.onSelect(e);
         }
     }
 
@@ -708,7 +717,6 @@ export default class SuggestionBox extends React.PureComponent {
             dateComponent,
             listStyle,
             renderNoResults,
-            suppressLoadingSpinner,
             ...props
         } = this.props;
 
@@ -759,6 +767,7 @@ export default class SuggestionBox extends React.PureComponent {
                     onCompositionUpdate={this.handleCompositionUpdate}
                     onCompositionEnd={this.handleCompositionEnd}
                     onKeyDown={this.handleKeyDown}
+                    onSelect={this.handleSelect}
                 />
                 {(this.props.openWhenEmpty || this.props.value.length >= this.props.requiredCharacters) && this.state.presentationType === 'text' &&
                     <div style={{width: this.state.width}}>
@@ -781,7 +790,6 @@ export default class SuggestionBox extends React.PureComponent {
                             wrapperHeight={this.props.wrapperHeight}
                             inputRef={this.inputRef}
                             onLoseVisibility={this.blur}
-                            suppressLoadingSpinner={suppressLoadingSpinner}
                         />
                     </div>
                 }

@@ -35,25 +35,32 @@ Cypress.Commands.add('apiLogout', () => {
         log: false,
     });
 
-    // Ensure we clear out these specific cookies
+    // * Verify logged out
+    cy.visit('/login?extra=expired').url().should('include', '/login?extra=expired');
+
+    // # Ensure we clear out these specific cookies
     ['MMAUTHTOKEN', 'MMUSERID', 'MMCSRF'].forEach((cookie) => {
         cy.clearCookie(cookie);
     });
 
-    // Clear remainder of cookies
+    // # Clear remainder of cookies
     cy.clearCookies();
 
+    // * Verify cookies are empty
     cy.getCookies({log: false}).should('be.empty');
 });
 
 Cypress.Commands.add('apiGetMe', () => {
+    return cy.apiGetUserById('me');
+});
+
+Cypress.Commands.add('apiGetUserById', (userId) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
-        url: 'api/v4/users/me',
-        method: 'GET',
+        url: '/api/v4/users/' + userId,
     }).then((response) => {
         expect(response.status).to.equal(200);
-        cy.wrap({user: response.body});
+        return cy.wrap({user: response.body});
     });
 });
 
@@ -63,7 +70,7 @@ Cypress.Commands.add('apiGetUserByEmail', (email) => {
         url: '/api/v4/users/email/' + email,
     }).then((response) => {
         expect(response.status).to.equal(200);
-        cy.wrap({user: response.body});
+        return cy.wrap({user: response.body});
     });
 });
 
@@ -75,7 +82,7 @@ Cypress.Commands.add('apiGetUsersByUsernames', (usernames = []) => {
         body: usernames,
     }).then((response) => {
         expect(response.status).to.equal(200);
-        cy.wrap({users: response.body});
+        return cy.wrap({users: response.body});
     });
 });
 
@@ -87,7 +94,7 @@ Cypress.Commands.add('apiPatchUser', (userId, userData) => {
         body: userData,
     }).then((response) => {
         expect(response.status).to.equal(200);
-        cy.wrap(response);
+        return cy.wrap({user: response.body});
     });
 });
 
@@ -99,7 +106,7 @@ Cypress.Commands.add('apiPatchMe', (data) => {
         body: data,
     }).then((response) => {
         expect(response.status).to.equal(200);
-        cy.wrap(response);
+        return cy.wrap({user: response.body});
     });
 });
 
@@ -125,7 +132,7 @@ Cypress.Commands.add('apiCreateAdmin', () => {
     return cy.request(options).then((res) => {
         expect(res.status).to.equal(201);
 
-        cy.wrap({sysadmin: res.body});
+        return cy.wrap({sysadmin: res.body});
     });
 });
 
@@ -142,7 +149,13 @@ function generateRandomUser(prefix = 'user') {
     };
 }
 
-Cypress.Commands.add('apiCreateUser', ({prefix = 'user', bypassTutorial = true, user = null} = {}) => {
+Cypress.Commands.add('apiCreateUser', ({
+    prefix = 'user',
+    bypassTutorial = true,
+    hideCloudOnboarding = true,
+    hideWhatsNewModal = true,
+    user = null,
+} = {}) => {
     const newUser = user || generateRandomUser(prefix);
 
     const createUserOption = {
@@ -161,37 +174,29 @@ Cypress.Commands.add('apiCreateUser', ({prefix = 'user', bypassTutorial = true, 
             cy.apiSaveTutorialStep(createdUser.id, '999');
         }
 
+        if (hideCloudOnboarding) {
+            cy.apiSaveCloudOnboardingPreference(createdUser.id, 'hide', 'true');
+        }
+
+        if (hideWhatsNewModal) {
+            cy.apiHideSidebarWhatsNewModalPreference(createdUser.id, 'true');
+        }
+
         return cy.wrap({user: {...createdUser, password: newUser.password}});
     });
 });
 
-Cypress.Commands.add('apiCreateGuestUser', ({prefix = 'guest', activate = true} = {}) => {
-    return cy.apiCreateUser({prefix}).then(({user}) => {
-        cy.demoteUser(user.id);
-        cy.apiActivateUser(user.id, activate);
+Cypress.Commands.add('apiCreateGuestUser', ({
+    prefix = 'guest',
+    hideCloudOnboarding = true,
+    hideWhatsNewModal = true,
+    activate = true,
+} = {}) => {
+    return cy.apiCreateUser({prefix, hideCloudOnboarding, hideWhatsNewModal}).then(({user}) => {
+        cy.apiDemoteUserToGuest(user.id);
+        cy.externalActivateUser(user.id, activate);
 
         return cy.wrap({guest: user});
-    });
-});
-
-/**
- * Saves channel display mode preference of a user directly via API
- * This API assume that the user is logged in and has cookie to access
- * @param {String} status - "online" (default), "offline", "away" or "dnd"
- */
-Cypress.Commands.add('apiUpdateUserStatus', (status = 'online') => {
-    return cy.getCookie('MMUSERID').then((cookie) => {
-        const data = {user_id: cookie.value, status};
-
-        return cy.request({
-            headers: {'X-Requested-With': 'XMLHttpRequest'},
-            url: '/api/v4/users/me/status',
-            method: 'PUT',
-            body: data,
-        }).then((response) => {
-            expect(response.status).to.equal(200);
-            cy.wrap({status: response.body});
-        });
     });
 });
 
@@ -206,20 +211,8 @@ Cypress.Commands.add('apiRevokeUserSessions', (userId) => {
         method: 'POST',
     }).then((response) => {
         expect(response.status).to.equal(200);
-        cy.wrap(response);
+        return cy.wrap({data: response.body});
     });
-});
-
-/**
- * Activate/Deactivate a User directly via API
- * @param {String} userId - The user ID
- * @param {Boolean} active - Whether to activate or deactivate - true/false
- */
-Cypress.Commands.add('apiActivateUser', (userId, active = true) => {
-    const baseUrl = Cypress.config('baseUrl');
-    const admin = getAdminAccount();
-
-    cy.externalRequest({user: admin, method: 'put', baseUrl, path: `users/${userId}/active`, data: {active}});
 });
 
 Cypress.Commands.add('apiGetUsersNotInTeam', ({teamId, page = 0, perPage = 60} = {}) => {
@@ -229,6 +222,75 @@ Cypress.Commands.add('apiGetUsersNotInTeam', ({teamId, page = 0, perPage = 60} =
         headers: {'X-Requested-With': 'XMLHttpRequest'},
     }).then((response) => {
         expect(response.status).to.equal(200);
-        cy.wrap({users: response.body});
+        return cy.wrap({users: response.body});
     });
 });
+
+Cypress.Commands.add('apiPatchUserRoles', (userId, roleNames = ['system_user']) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: `/api/v4/users/${userId}/roles`,
+        method: 'PUT',
+        body: {roles: roleNames.join(' ')},
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        cy.wrap({user: response.body});
+    });
+});
+
+Cypress.Commands.add('apiDeactivateUser', (userId) => {
+    const options = {
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        method: 'DELETE',
+        url: `/api/v4/users/${userId}`,
+    };
+
+    // # Deactivate a user account
+    return cy.request(options).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response);
+    });
+});
+
+Cypress.Commands.add('apiDemoteUserToGuest', (userId) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: `/api/v4/users/${userId}/demote`,
+        method: 'POST',
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.apiGetUserById(userId).then(({user}) => {
+            return cy.wrap({guest: user});
+        });
+    });
+});
+
+Cypress.Commands.add('apiPromoteGuestToUser', (userId) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: `/api/v4/users/${userId}/promote`,
+        method: 'POST',
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.apiGetUserById(userId);
+    });
+});
+
+/**
+ * Verify a user email via API
+ * @param {String} userId - ID of user of email to verify
+ */
+Cypress.Commands.add('apiVerifyUserEmailById', (userId) => {
+    const options = {
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        method: 'POST',
+        url: `/api/v4/users/${userId}/email/verify/member`,
+    };
+
+    return cy.request(options).then((response) => {
+        expect(response.status).to.equal(200);
+        cy.wrap({user: response.body});
+    });
+});
+
+export {generateRandomUser};

@@ -1,0 +1,80 @@
+.PictureSelector {
+    display: flex;
+    flex-direction: column;
+    width: 96px;
+}
+
+.PictureSelector__imageContainer {
+    height: 96px;
+    position: relative;
+}
+
+.PictureSelector__image {
+    height: 100%;
+    border-radius: 100%;
+    background-position: 50% 50%;
+    background-size: cover;
+    border: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
+}
+
+.PictureSelector__selectButton {
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-radius: 100%;
+    background: var(--center-channel-bg);
+    border: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.12);
+    padding: 4px;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    justify-content: center;
+
+    i {
+        font-size: 16px;
+        line-height: 18px;
+        color: rgba(var(--center-channel-color-rgb), 0.56);
+        align-self: center;
+
+        &::before {
+            margin: 0;
+        }
+    }
+
+    &:hover {
+        border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
+        box-shadow: 0px 6px 14px rgba(0, 0, 0, 0.12);
+
+        i {
+            color: rgba(var(--center-channel-color-rgb), 0.72);
+        }
+    }
+
+    &:active {
+        background: linear-gradient(0deg, rgba(var(--button-bg-rgb), 0.08), rgba(var(--button-bg-rgb), 0.08)), var(--center-channel-bg);
+        border: 1px solid rgba(var(--button-bg-rgb), 0.16);
+
+        i {
+            color: var(--button-bg);
+        }
+    }
+
+    &:focus {
+        border: 2px solid var(--button-bg);
+    }
+}
+
+.PictureSelector__removeButton {
+    padding: 0;
+    border: none;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--button-bg);
+    margin-top: 12px;
+    background-color: transparent;
+
+    &:focus {
+        text-decoration-line: underline;
+    }
+}

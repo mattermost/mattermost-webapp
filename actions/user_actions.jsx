@@ -13,6 +13,7 @@ import {
     getMyChannels,
     getMyChannelMember,
     getChannelMembersInChannels,
+    getDirectChannels,
 } from 'mattermost-redux/selectors/entities/channels';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeamId, getTeamMember} from 'mattermost-redux/selectors/entities/teams';
@@ -21,6 +22,7 @@ import {makeFilterAutoclosedDMs, makeFilterManuallyClosedDMs} from 'mattermost-r
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 
 import {loadStatusesForProfilesList, loadStatusesForProfilesMap} from 'actions/status_actions.jsx';
+import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import store from 'stores/redux_store.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {Constants, Preferences, UserStatuses} from 'utils/constants';
@@ -417,5 +419,15 @@ export function autoResetStatus() {
         }
 
         return userStatus;
+    };
+}
+
+export function trackDMGMOpenChannels() {
+    return (doDispatch, doGetState) => {
+        const state = doGetState();
+        const channels = getDirectChannels(state);
+        trackEvent('ui', 'LHS_DM_GM_Count', {count: channels.length});
+
+        return {data: true};
     };
 }

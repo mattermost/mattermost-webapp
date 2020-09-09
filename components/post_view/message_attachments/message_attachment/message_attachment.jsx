@@ -9,6 +9,7 @@ import truncate from 'lodash/truncate';
 import {isUrlSafe} from 'utils/url';
 import {Constants} from 'utils/constants';
 import * as Utils from 'utils/utils';
+import LinkOnlyRenderer from 'utils/markdown/link_only_renderer';
 
 import ExternalImage from 'components/external_image';
 import Markdown from 'components/markdown';
@@ -17,7 +18,8 @@ import SizeAwareImage from 'components/size_aware_image';
 
 import ActionButton from '../action_button';
 import ActionMenu from '../action_menu';
-import LinkOnlyRenderer from 'utils/markdown/link_only_renderer';
+
+import {trackEvent} from 'actions/diagnostics_actions';
 
 export default class MessageAttachment extends React.PureComponent {
     static propTypes = {
@@ -54,6 +56,8 @@ export default class MessageAttachment extends React.PureComponent {
 
         this.state = {
             checkOverflow: 0,
+            actionExecuting: false,
+            actionExecutingMessage: null,
         };
 
         this.imageProps = {
@@ -130,6 +134,8 @@ export default class MessageAttachment extends React.PureComponent {
                         action={action}
                         disabled={action.disabled}
                         handleAction={this.handleAction}
+                        actionExecuting={this.state.actionExecuting}
+                        actionExecutingMessage={this.state.actionExecutingMessage}
                     />,
                 );
                 break;
@@ -145,13 +151,45 @@ export default class MessageAttachment extends React.PureComponent {
         );
     };
 
-    handleAction = (e) => {
+    handleAction = (e, actionOptions) => {
         e.preventDefault();
+
+        var actionExecutingMessage = this.getActionOption(actionOptions, 'ActionExecutingMessage');
+        if (actionExecutingMessage) {
+            this.setState({actionExecuting: true, actionExecutingMessage: actionExecutingMessage.value});
+        }
+
+        var trackOption = this.getActionOption(actionOptions, 'TrackEventId');
+        if (trackOption) {
+            trackEvent('admin', 'click_warn_metric_bot_id', {metric: trackOption.value});
+        }
+
         const actionId = e.currentTarget.getAttribute('data-action-id');
         const actionCookie = e.currentTarget.getAttribute('data-action-cookie');
 
-        this.props.actions.doPostActionWithCookie(this.props.postId, actionId, actionCookie);
+        this.props.actions.doPostActionWithCookie(this.props.postId, actionId, actionCookie).then(() => {
+            this.handleCustomActions(actionOptions);
+            if (actionExecutingMessage) {
+                this.setState({actionExecuting: false, actionExecutingMessage: null});
+            }
+        });
     };
+
+    handleCustomActions = (actionOptions) => {
+        var extUrlOption = this.getActionOption(actionOptions, 'WarnMetricMailtoUrl');
+        if (extUrlOption) {
+            const mailtoPayload = JSON.parse(extUrlOption.value);
+            window.location.href = 'mailto:' + mailtoPayload.mail_recipient + '?cc=' + mailtoPayload.mail_cc + '&subject=' + encodeURIComponent(mailtoPayload.mail_subject) + '&body=' + encodeURIComponent(mailtoPayload.mail_body);
+        }
+    }
+
+    getActionOption = (actionOptions, optionName) => {
+        var opt = null;
+        if (actionOptions) {
+            opt = actionOptions.find((option) => option.text === optionName);
+        }
+        return opt;
+    }
 
     getFieldsTable = () => {
         const fields = this.props.attachment.fields;

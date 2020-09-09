@@ -3,9 +3,10 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import {Client4} from 'mattermost-redux/client';
 import {FormattedDate, FormattedMessage, FormattedTime, injectIntl} from 'react-intl';
 
-import {JobStatuses} from 'utils/constants';
+import {JobStatuses, exportFormats, JobTypes} from 'utils/constants';
 import {intlShape} from 'utils/react_intl';
 import * as Utils from 'utils/utils.jsx';
 
@@ -47,6 +48,13 @@ class JobTable extends React.PureComponent {
          */
         jobType: PropTypes.string.isRequired,
 
+        /**
+         * A variable set in config.json to determine if results can be downloaded or not.
+         * Note that there is NO front-end associated with this setting due to security.
+         * Only the person with access to the config.json file can enable this option.
+         */
+        downloadExportResults: PropTypes.bool,
+
         actions: PropTypes.shape({
             getJobsByType: PropTypes.func.isRequired,
             cancelJob: PropTypes.func.isRequired,
@@ -75,6 +83,26 @@ class JobTable extends React.PureComponent {
         if (this.interval) {
             clearInterval(this.interval);
         }
+    }
+
+    getDownloadLink = (job) => {
+        if (job.data?.is_downloadable === 'true' && parseInt(job.data?.messages_exported, 10) > 0 && job.data?.export_type !== exportFormats.EXPORT_FORMAT_GLOBALRELAY) { // eslint-disable-line camelcase
+            return (
+                <a
+                    key={job.id}
+                    href={`${Client4.getJobsRoute()}/${job.id}/download`}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                >
+                    <FormattedMessage
+                        id='admin.jobTable.downloadLink'
+                        defaultMessage='Download'
+                    />
+                </a>
+            );
+        }
+
+        return '--';
     }
 
     getStatus = (job) => {
@@ -314,6 +342,7 @@ class JobTable extends React.PureComponent {
     }
 
     render() {
+        const showFilesColumn = this.props.jobType === JobTypes.MESSAGE_EXPORT && this.props.downloadExportResults;
         var items = this.props.jobs.map((job) => {
             return (
                 <tr key={job.id}>
@@ -324,6 +353,9 @@ class JobTable extends React.PureComponent {
                         {this.getCancelButton(job)}
                     </td>
                     <td className='whitespace--nowrap'>{this.getStatus(job)}</td>
+                    {showFilesColumn &&
+                        <td className='whitespace--nowrap'>{this.getDownloadLink(job)}</td>
+                    }
                     <td className='whitespace--nowrap'>{this.getFinishAt(job.status, job.last_activity_at)}</td>
                     <td className='whitespace--nowrap'>{this.getRunLength(job)}</td>
                     <td>{this.getExtraInfoText(job)}</td>
@@ -361,6 +393,14 @@ class JobTable extends React.PureComponent {
                                         defaultMessage='Status'
                                     />
                                 </th>
+                                {showFilesColumn &&
+                                    <th>
+                                        <FormattedMessage
+                                            id='admin.jobTable.headerFiles'
+                                            defaultMessage='Files'
+                                        />
+                                    </th>
+                                }
                                 <th>
                                     <FormattedMessage
                                         id='admin.jobTable.headerFinishAt'

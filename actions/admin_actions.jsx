@@ -387,6 +387,35 @@ export async function setSamlIdpCertificateFromMetadata(success, error, certData
     }
 }
 
+export function upgradeToE0() {
+    return async () => {
+        trackEvent('api', 'upgrade_to_e0_requested');
+        const data = await Client4.upgradeToEnterprise();
+        return data;
+    };
+}
+
+export function upgradeToE0Status() {
+    return async () => {
+        const data = await Client4.upgradeToEnterpriseStatus();
+        return data;
+    };
+}
+
+export function restartServer() {
+    return async () => {
+        const data = await Client4.restartServer();
+        return data;
+    };
+}
+
+export function ping() {
+    return async () => {
+        const data = await Client4.ping();
+        return data;
+    };
+}
+
 export function requestTrialLicense(users, termsAccepted, receiveEmailsAccepted, page) {
     return async () => {
         try {

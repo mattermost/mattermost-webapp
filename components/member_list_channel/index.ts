@@ -12,7 +12,7 @@ import {searchProfiles} from 'mattermost-redux/actions/users';
 import {sortByUsername} from 'mattermost-redux/utils/user_utils';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
-import {ActionFunc} from 'mattermost-redux/types/actions';
+import {ActionFunc, GenericAction, ActionResult} from 'mattermost-redux/types/actions';
 
 import {
     loadProfilesAndTeamMembersAndChannelMembers,
@@ -86,9 +86,7 @@ type Actions = {
     searchProfiles: (term: string, options?: {}) => Promise<{data: UserProfile[]}>;
     getChannelMembers: (channelId: string) => Promise<{data: ChannelMembership[]}>;
     getChannelStats: (channelId: string) => Promise<{data: {}}>;
-    setModalSearchTerm: (term: string) => Promise<{
-        data: boolean;
-    }>;
+    setModalSearchTerm: (term: string) => ActionResult;
     loadProfilesAndTeamMembersAndChannelMembers: (page: number, perPage: number, teamId?: string, channelId?: string) => Promise<{
         data: boolean;
     }>;
@@ -102,7 +100,7 @@ type Actions = {
 
 function mapDispatchToProps(dispatch: Dispatch) {
     return {
-        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc | GenericAction>, Actions>({
             getChannelMembers,
             searchProfiles,
             getChannelStats,

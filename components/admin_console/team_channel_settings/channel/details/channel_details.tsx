@@ -20,6 +20,7 @@ import BlockableLink from 'components/admin_console/blockable_link';
 import FormError from 'components/form_error';
 import Constants from 'utils/constants';
 import {browserHistory} from 'utils/browser_history';
+import {trackEvent} from 'actions/diagnostics_actions.jsx';
 
 import {NeedGroupsError, UsersWillBeRemovedError} from '../../errors';
 import ConvertConfirmModal from '../../convert_confirm_modal';
@@ -43,6 +44,7 @@ interface ChannelDetailsProps {
     allGroups: Dictionary<Group>;
     teamScheme?: Scheme;
     guestAccountsEnabled: boolean;
+    isDisabled: boolean;
     actions: {
         getGroups: (channelID: string, q?: string, page?: number, perPage?: number) => Promise<Partial<Group>[]>;
         linkGroupSyncable: (groupID: string, syncableID: string, syncableType: string, patch: Partial<SyncablePatch>) => ActionFunc|ActionResult;
@@ -238,6 +240,8 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
                                 <UsersWillBeRemovedError
                                     total={usersToRemoveCount}
                                     users={result.data.users}
+                                    scope='channel'
+                                    scopeId={this.props.channelID}
                                 />
                             );
                         }
@@ -372,7 +376,7 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
     private handleSubmit = async () => {
         this.setState({showConvertConfirmModal: false, showRemoveConfirmModal: false, showConvertAndRemoveConfirmModal: false, showArchiveConfirmModal: false, saving: true});
         const {groups, isSynced, isPublic, isPrivacyChanging, channelPermissions, usersToAdd, usersToRemove, rolesToUpdate} = this.state;
-        let serverError = null;
+        let serverError: JSX.Element | null = null;
         let saveNeeded = false;
         const {groups: origGroups, channelID, actions, channel} = this.props;
 
@@ -381,6 +385,8 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
             if ('error' in result) {
                 serverError = <FormError error={result.error.message}/>;
                 saveNeeded = true;
+            } else {
+                trackEvent('admin_channel_config_page', 'channel_archived', {channel_id: channelID});
             }
             this.setState({serverError, saving: false, saveNeeded, isPrivacyChanging: false, usersToRemoveCount: 0, rolesToUpdate: {}, usersToAdd: {}, usersToRemove: {}}, () => {
                 actions.setNavigationBlocked(saveNeeded);
@@ -393,6 +399,8 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
             const result = await actions.unarchiveChannel(channel.id);
             if ('error' in result) {
                 serverError = <FormError error={result.error.message}/>;
+            } else {
+                trackEvent('admin_channel_config_page', 'channel_unarchived', {channel_id: channelID});
             }
             this.setState({serverError, previousServerError: null});
         }
@@ -446,26 +454,36 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
             }).
             map((g) => actions.linkGroupSyncable(g.id, channelID, Groups.SYNCABLE_TYPE_CHANNEL, {auto_add: true, scheme_admin: g.scheme_admin}));
 
-        const result = await Promise.all([...promises, ...patchChannelSyncable, ...unlink, ...link]);
-        const resultWithError = result.find((r) => 'error' in r);
-        if (resultWithError && 'error' in resultWithError) {
-            serverError = <FormError error={resultWithError.error.message}/>;
-        } else {
-            const actionsToAwait: any[] = [actions.getGroups(channelID)];
-            if (isPrivacyChanging) {
-                // If the privacy is changing update the manage_members value for the channel moderation widget
-                actionsToAwait.push(
-                    actions.getChannelModerations(channelID).then(() => {
-                        const manageMembersIndex = channelPermissions!.findIndex((element) => element.name === Permissions.CHANNEL_MODERATED_PERMISSIONS.MANAGE_MEMBERS);
-                        if (channelPermissions) {
-                            const updatedManageMembers = this.props.channelPermissions!.find((element) => element.name === Permissions.CHANNEL_MODERATED_PERMISSIONS.MANAGE_MEMBERS);
-                            channelPermissions[manageMembersIndex] = updatedManageMembers || channelPermissions[manageMembersIndex];
-                        }
-                        this.setState({channelPermissions});
-                    }),
-                );
+        const groupActions = [...promises, ...patchChannelSyncable, ...unlink, ...link];
+        if (groupActions.length > 0) {
+            const result = await Promise.all(groupActions);
+            const resultWithError = result.find((r) => 'error' in r);
+            if (resultWithError && 'error' in resultWithError) {
+                serverError = <FormError error={resultWithError.error.message}/>;
+            } else {
+                if (unlink.length > 0) {
+                    trackEvent('admin_channel_config_page', 'groups_removed_from_channel', {count: unlink.length, channel_id: channelID});
+                }
+                if (link.length > 0) {
+                    trackEvent('admin_channel_config_page', 'groups_added_to_channel', {count: link.length, channel_id: channelID});
+                }
+
+                const actionsToAwait: any[] = [actions.getGroups(channelID)];
+                if (isPrivacyChanging) {
+                    // If the privacy is changing update the manage_members value for the channel moderation widget
+                    actionsToAwait.push(
+                        actions.getChannelModerations(channelID).then(() => {
+                            const manageMembersIndex = channelPermissions!.findIndex((element) => element.name === Permissions.CHANNEL_MODERATED_PERMISSIONS.MANAGE_MEMBERS);
+                            if (channelPermissions) {
+                                const updatedManageMembers = this.props.channelPermissions!.find((element) => element.name === Permissions.CHANNEL_MODERATED_PERMISSIONS.MANAGE_MEMBERS);
+                                channelPermissions[manageMembersIndex] = updatedManageMembers || channelPermissions[manageMembersIndex];
+                            }
+                            this.setState({channelPermissions});
+                        }),
+                    );
+                }
+                await Promise.all(actionsToAwait);
             }
-            await Promise.all(actionsToAwait);
         }
 
         const patchChannelPermissionsArray: Array<ChannelModerationPatch> = channelPermissions!.map((p) => {
@@ -494,36 +512,79 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
         const userRolesToUpdate = Object.keys(rolesToUpdate);
         const usersToUpdate = usersToAddList.length > 0 || usersToRemoveList.length > 0 || userRolesToUpdate.length > 0;
         if (usersToUpdate && !isSynced) {
-            const userActions: any[] = [];
+            const addUserActions: any[] = [];
+            const removeUserActions: any[] = [];
             const {addChannelMember, removeChannelMember, updateChannelMemberSchemeRoles} = this.props.actions;
             usersToAddList.forEach((user) => {
-                userActions.push(addChannelMember(channelID, user.id));
+                addUserActions.push(addChannelMember(channelID, user.id));
             });
             usersToRemoveList.forEach((user) => {
-                userActions.push(removeChannelMember(channelID, user.id));
+                removeUserActions.push(removeChannelMember(channelID, user.id));
             });
 
-            let userResult = await Promise.all(userActions);
-            let userResultWithError = userResult.find((r) => 'error' in r);
-            if (userResultWithError && 'error' in userResultWithError) {
-                serverError = <FormError error={userResultWithError.error.message}/>;
-            } else {
-                const roleActions: any[] = [];
-                userRolesToUpdate.forEach((userId) => {
-                    const {schemeUser, schemeAdmin} = rolesToUpdate[userId];
-                    roleActions.push(updateChannelMemberSchemeRoles(channelID, userId, schemeUser, schemeAdmin));
-                });
-                userResult = await Promise.all(roleActions);
-                userResultWithError = userResult.find((r) => 'error' in r);
-                if (userResultWithError && 'error' in userResultWithError) {
-                    serverError = <FormError error={userResultWithError.error.message}/>;
+            if (addUserActions.length > 0) {
+                const result = await Promise.all(addUserActions);
+                const resultWithError = result.find((r) => 'error' in r);
+                const count = result.filter((r) => 'data' in r).length;
+                if (resultWithError && 'error' in resultWithError) {
+                    serverError = <FormError error={resultWithError.error.message}/>;
+                }
+                if (count > 0) {
+                    trackEvent('admin_channel_config_page', 'members_added_to_channel', {count, channel_id: channelID});
+                }
+            }
+
+            if (removeUserActions.length > 0) {
+                const result = await Promise.all(removeUserActions);
+                const resultWithError = result.find((r) => 'error' in r);
+                const count = result.filter((r) => 'data' in r).length;
+                if (resultWithError && 'error' in resultWithError) {
+                    serverError = <FormError error={resultWithError.error.message}/>;
+                }
+                if (count > 0) {
+                    trackEvent('admin_channel_config_page', 'members_removed_from_channel', {count, channel_id: channelID});
+                }
+            }
+
+            const rolesToPromote: any[] = [];
+            const rolesToDemote: any[] = [];
+            userRolesToUpdate.forEach((userId) => {
+                const {schemeUser, schemeAdmin} = rolesToUpdate[userId];
+                if (schemeAdmin) {
+                    rolesToPromote.push(updateChannelMemberSchemeRoles(channelID, userId, schemeUser, schemeAdmin));
+                } else {
+                    rolesToDemote.push(updateChannelMemberSchemeRoles(channelID, userId, schemeUser, schemeAdmin));
+                }
+            });
+
+            if (rolesToPromote.length > 0) {
+                const result = await Promise.all(rolesToPromote);
+                const resultWithError = result.find((r) => 'error' in r);
+                const count = result.filter((r) => 'data' in r).length;
+                if (resultWithError && 'error' in resultWithError) {
+                    serverError = <FormError error={resultWithError.error.message}/>;
+                }
+                if (count > 0) {
+                    trackEvent('admin_channel_config_page', 'members_elevated_to_channel_admin', {count, channel_id: channelID});
+                }
+            }
+
+            if (rolesToDemote.length > 0) {
+                const result = await Promise.all(rolesToDemote);
+                const resultWithError = result.find((r) => 'error' in r);
+                const count = result.filter((r) => 'data' in r).length;
+                if (resultWithError && 'error' in resultWithError) {
+                    serverError = <FormError error={resultWithError.error.message}/>;
+                }
+                if (count > 0) {
+                    trackEvent('admin_channel_config_page', 'admins_demoted_to_channel_member', {count, channel_id: channelID});
                 }
             }
         }
 
         this.setState({serverError, saving: false, saveNeeded, isPrivacyChanging: privacyChanging, usersToRemoveCount: 0, rolesToUpdate: {}, usersToAdd: {}, usersToRemove: {}}, () => {
             actions.setNavigationBlocked(saveNeeded);
-            if (!saveNeeded) {
+            if (!saveNeeded && serverError === null) {
                 browserHistory.push('/admin_console/user_management/channels');
             }
         });
@@ -579,6 +640,10 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
 
     private onToggleArchive = () => {
         const {isLocalArchived, serverError, previousServerError} = this.state;
+        const {isDisabled} = this.props;
+        if (isDisabled) {
+            return;
+        }
         const newState: any = {
             saveNeeded: true,
             isLocalArchived: !isLocalArchived,
@@ -641,6 +706,7 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
                     teamSchemeDisplayName={teamScheme?.['display_name']}
                     guestAccountsEnabled={this.props.guestAccountsEnabled}
                     isPublic={this.props.channel.type === Constants.OPEN_CHANNEL}
+                    readOnly={this.props.isDisabled}
                 />
 
                 <RemoveConfirmModal
@@ -665,6 +731,7 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
                     isSynced={isSynced}
                     isDefault={isDefault}
                     onToggle={this.setToggles}
+                    isDisabled={this.props.isDisabled}
                 />
 
                 <ChannelGroups
@@ -676,6 +743,7 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
                     onAddCallback={this.handleGroupChange}
                     onGroupRemoved={this.handleGroupRemoved}
                     setNewGroupRole={this.setNewGroupRole}
+                    isDisabled={this.props.isDisabled}
                 />
 
                 {!isSynced &&
@@ -686,6 +754,7 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
                         usersToAdd={usersToAdd}
                         updateRole={this.addRolesToUpdate}
                         channelId={this.props.channelID}
+                        isDisabled={this.props.isDisabled}
                     />
                 }
             </>
@@ -711,6 +780,7 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
                             team={team}
                             onToggleArchive={this.onToggleArchive}
                             isArchived={isLocalArchived}
+                            isDisabled={this.props.isDisabled}
                         />
                         <ConfirmModal
                             show={showArchiveConfirmModal}
@@ -745,6 +815,7 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
                     onClick={this.onSave}
                     serverError={serverError}
                     cancelLink='/admin_console/user_management/channels'
+                    isDisabled={this.props.isDisabled}
                 />
             </div>
         );

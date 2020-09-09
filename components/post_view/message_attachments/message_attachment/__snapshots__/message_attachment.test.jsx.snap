@@ -109,6 +109,8 @@ exports[`components/post_view/MessageAttachment should call actions.doPostAction
                   "name": "action_name_1",
                 }
               }
+              actionExecuting={false}
+              actionExecutingMessage={null}
               handleAction={[Function]}
               key="action_id_1"
             />
@@ -664,6 +666,8 @@ exports[`components/post_view/MessageAttachment should match value on renderPost
         "name": "action_name_1",
       }
     }
+    actionExecuting={false}
+    actionExecutingMessage={null}
     handleAction={[Function]}
   />
   <Memo(Connect(ActionButton))
@@ -673,6 +677,8 @@ exports[`components/post_view/MessageAttachment should match value on renderPost
         "name": "action_name_2",
       }
     }
+    actionExecuting={false}
+    actionExecutingMessage={null}
     handleAction={[Function]}
   />
   <Memo(Connect(ActionMenu))

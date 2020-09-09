@@ -25,7 +25,7 @@ describe('Messaging', () => {
         });
     });
 
-    it('M18699-Leave a long draft in the main input box', () => {
+    it('MM-T211 Leave a long draft in the main input box', () => {
         const lines = [
             'Lorem ipsum dolor sit amet,',
             'consectetur adipiscing elit.',
@@ -38,26 +38,10 @@ describe('Messaging', () => {
         cy.postMessage('Hello');
 
         // # Get the height before starting to write
-        cy.get('#post_textbox').should('be.visible').clear().then((post) => {
-            cy.wrap(parseInt(post[0].clientHeight, 10)).as('initialHeight').as('previousHeight');
-        });
+        cy.get('#post_textbox').should('be.visible').clear().invoke('height').as('initialHeight').as('previousHeight');
 
-        // # Post first line to use
-        cy.get('#post_textbox').type(lines[0]);
-
-        // # For each line
-        for (let i = 1; i < lines.length; i++) {
-            // # Post the line
-            cy.get('#post_textbox').type('{shift}{enter}').type(lines[i]);
-
-            cy.get('#post_textbox').invoke('attr', 'height').then((height) => {
-                // * Previous height should be lower than the current heigh
-                cy.get('@previousHeight').should('be.lessThan', parseInt(height, 10));
-
-                // # Store the current height as the previous height for the next loop
-                cy.wrap(parseInt(height, 10)).as('previousHeight');
-            });
-        }
+        // # Write all lines
+        writeLinesToPostTextBox(lines);
 
         // # Visit a different channel and verify textbox
         cy.get('#sidebarItem_off-topic').click({force: true}).wait(TIMEOUTS.HALF_SEC);
@@ -71,14 +55,9 @@ describe('Messaging', () => {
         cy.get('#post_textbox').clear();
         cy.postMessage('World!');
 
-        // # Write again all lines
-        cy.get('#post_textbox').type(lines[0]);
-        for (let i = 1; i < lines.length; i++) {
-            cy.get('#post_textbox').type('{shift}{enter}').type(lines[i]);
-        }
-
-        // # Wait some time to save draft into storage
-        cy.wait(TIMEOUTS.HALF_SEC);
+        // # Write all lines again
+        cy.get('@initialHeight').as('previousHeight');
+        writeLinesToPostTextBox(lines);
 
         // # Visit a different channel by URL and verify textbox
         cy.visit(`/${testTeam.name}/channels/off-topic`).wait(TIMEOUTS.HALF_SEC);
@@ -92,10 +71,28 @@ describe('Messaging', () => {
     });
 });
 
-function verifyPostTextbox(targetHeightSelector, text) {
-    cy.get('#post_textbox').should('be.visible').and('have.text', text).then((el) => {
-        cy.get(targetHeightSelector).then((height) => {
-            expect(el[0].clientHeight).to.be.equal(height);
-        });
+function writeLinesToPostTextBox(lines) {
+    for (let i = 0; i < lines.length; i++) {
+        // # Add the text
+        cy.get('#post_textbox').type(lines[i], {delay: TIMEOUTS.ONE_HUNDRED_MILLIS}).wait(TIMEOUTS.HALF_SEC);
+        if (i < lines.length - 1) {
+            // # Add new line
+            cy.get('#post_textbox').type('{shift}{enter}').wait(TIMEOUTS.HALF_SEC);
+
+            // * Verify new height
+            cy.get('#post_textbox').invoke('height').then((height) => {
+                // * Verify previous height should be lower than the current height
+                cy.get('@previousHeight').should('be.lessThan', parseInt(height, 10));
+
+                // # Store the current height as the previous height for the next loop
+                cy.wrap(parseInt(height, 10)).as('previousHeight');
+            });
+        }
+    }
+}
+
+function verifyPostTextbox(heightSelector, text) {
+    cy.get('#post_textbox').should('be.visible').and('have.text', text).invoke('height').then((currentHeight) => {
+        cy.get(heightSelector).should('be.gte', currentHeight);
     });
 }

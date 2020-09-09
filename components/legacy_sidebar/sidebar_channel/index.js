@@ -10,16 +10,17 @@ import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {
     getCurrentChannelId,
     getChannelsNameMapInCurrentTeam,
+    getRedirectChannelNameForTeam,
+    isFavoriteChannel,
     makeGetChannel,
     shouldHideDefaultChannel,
-    getRedirectChannelNameForTeam,
 } from 'mattermost-redux/selectors/entities/channels';
 import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getUserIdsInChannels, getUser} from 'mattermost-redux/selectors/entities/users';
 import {getInt, getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {isChannelMuted, isFavoriteChannel} from 'mattermost-redux/utils/channel_utils';
+import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
 
@@ -104,7 +105,7 @@ function makeMapStateToProps() {
             channel.name === Constants.DEFAULT_CHANNEL &&
             !ownProps.active &&
             shouldHideDefaultChannel(state, channel) &&
-            !isFavoriteChannel(state.entities.preferences.myPreferences, channel.id)
+            !isFavoriteChannel(state, channel.id)
         ) {
             shouldHideChannel = true;
         }

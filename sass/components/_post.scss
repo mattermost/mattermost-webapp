@@ -391,6 +391,7 @@
         max-height: calc(50vh - 40px);
         padding: 12px 0 12px 15px;
         resize: none;
+        cursor: auto;
 
         &:not(.custom-textarea--emoji-picker) {
             padding-right: 40px;
@@ -417,7 +418,7 @@
 
     .scroll {
         .post-body__actions {
-            right: 10px;
+            right: calc(var(--detected-scrollbar-width) - 4px);
         }
 
         .custom-textarea {
@@ -542,7 +543,6 @@
 .post-body__actions {
     margin: 0 1px 0 0;
     display: flex;
-    height: 100%;
     position: absolute;
     right: 0;
     top: 0;
@@ -652,11 +652,8 @@
     }
     .loading-screen {
         position: relative;
-        height: 40px;
+        height: calc(40px + 1em);
         padding: 0px;
-        .loading__content {
-            height: 40px;
-        }
     }
 }
 
@@ -720,7 +717,7 @@
         }
 
         .post-add-reaction {
-            .post-reaction {
+            .Reaction {
                 visibility: visible;
                 @include opacity(1);
             }
@@ -1384,7 +1381,7 @@
     .post-add-reaction {
         display: inline-block;
 
-        .post-reaction {
+        .Reaction {
             @include opacity(0);
             visibility: hidden;
         }
@@ -1398,9 +1395,6 @@
 
         &.post--ephemeral {
             padding-right: 20px !important;
-        }
-
-        div {
         }
 
         p + p {
@@ -1499,7 +1493,7 @@
         .post-add-reaction-emoji-picker-open {
             display: inline-block;
 
-            .post-reaction {
+            .Reaction {
                 @include opacity(1);
                 visibility: visible;
             }
@@ -1507,83 +1501,10 @@
     }
 
     .post-add-reaction-emoji-picker-open {
-        .post-reaction {
+        .Reaction {
             background-color: v(button-bg-08);
             color: v(button-bg);
             fill: v(button-bg);
-        }
-    }
-
-    .post-reaction {
-        @include user-select(none);
-        @include border-radius(4px);
-        border: 1px solid transparent;
-        background: v(center-channel-color-08);
-        fill: v(center-channel-color-56);
-        color: v(center-channel-color-64);
-        cursor: pointer;
-        display: inline-flex;
-        align-items: center;
-        font-size: 11px;
-        font-weight: 600;
-        min-width: 28px;
-        height: 24px;
-        margin: 0 4px 4px 0;
-        padding: 0 5px;
-
-        &:not(.post-reaction--current-user) {
-            &:hover {
-                background: v(center-channel-bg);
-                border-color: v(center-channel-color-16);
-                color: v(center-channel-color-72);
-                fill: v(center-channel-color-72);
-            }
-
-            &:active {
-                background-color: v(button-bg-08);
-                color: v(button-bg);
-                fill: v(button-bg);
-            }
-        }
-
-        &--current-user {
-            color: v(button-bg);
-            background-color: v(button-bg-08);
-            border-color: v(button-bg);
-
-            &:hover {
-                border-color: v(button-bg);
-                background: v(center-channel-bg);
-            }
-
-            &:active {
-                background-color: v(button-bg-08);
-                color: v(button-bg);
-                fill: v(button-bg);
-            }
-        }
-
-        .post-reaction__count {
-            line-height: 16px;
-        }
-
-        .post-reaction__emoji {
-            margin: 0 2px 0 0;
-            max-height: 16px;
-            min-height: 16px;
-            max-width: 16px;
-            min-width: 16px;
-            vertical-align: middle;
-        }
-
-        .post-reaction__add {
-            display: block;
-            width: 16px;
-            height: 16px;
-        }
-
-        &--read-only {
-            cursor: default;
         }
     }
 
@@ -1597,9 +1518,13 @@
         -moz-user-select: none;    /* Firefox all */
         -ms-user-select: none;     /* IE 10+ */
         user-select: none;
-    
+
         a {
             font-weight: bold;
+
+            &.user_name:hover {
+                text-decoration: none;
+            }
         }
     }
 
