@@ -10,7 +10,6 @@ exports[`components/next_steps_view/steps/setup_preferences_step should match sn
     <FormattedMessage
       defaultMessage="This is a test card body message"
       id="test-id"
-      values={Object {}}
     />
   </div>
   <div
@@ -23,7 +22,6 @@ exports[`components/next_steps_view/steps/setup_preferences_step should match sn
       <FormattedMessage
         defaultMessage="this is test button text"
         id="test-button-id"
-        values={Object {}}
       />
     </button>
   </div>

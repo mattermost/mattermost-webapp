@@ -7,7 +7,6 @@ exports[`components/LeavePrivateChannelModal should match snapshot, init 1`] = `
     <FormattedMessage
       defaultMessage="Yes, leave channel"
       id="leave_private_channel_modal.leave"
-      values={Object {}}
     />
   }
   message=""

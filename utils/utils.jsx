@@ -1672,9 +1672,16 @@ export function removePrefixFromLocalStorage(prefix) {
 }
 
 export function copyToClipboard(data) {
+    // Attempt to use the newer clipboard API when possible
+    const clipboard = navigator.clipboard;
+    if (clipboard) {
+        clipboard.writeText(data);
+        return;
+    }
+
     // creates a tiny temporary text area to copy text out of
     // see https://stackoverflow.com/a/30810322/591374 for details
-    var textArea = document.createElement('textarea');
+    const textArea = document.createElement('textarea');
     textArea.style.position = 'fixed';
     textArea.style.top = 0;
     textArea.style.left = 0;
@@ -1807,4 +1814,84 @@ export function getSortedUsers(reactions, currentUserId, profiles, teammateNameD
     }
 
     return {currentUserReacted, users};
+}
+
+const BOLD_MD = '**';
+const ITALIC_MD = '*';
+
+/**
+ * Applies bold/italic markdown on textbox associated with event and returns
+ * modified text alongwith modified selection positions.
+ */
+export function applyHotkeyMarkdown(e) {
+    e.preventDefault();
+
+    const el = e.target;
+    const {selectionEnd, selectionStart, value} = el;
+
+    // <prefix> <selection> <suffix>
+    const prefix = value.substring(0, selectionStart);
+    const selection = value.substring(selectionStart, selectionEnd);
+    const suffix = value.substring(selectionEnd);
+
+    // Is it italic hot key on existing bold markdown? i.e. italic on **haha**
+    let isItalicFollowedByBold = false;
+    let delimiter = '';
+    if (e.keyCode === Constants.KeyCodes.B[1]) {
+        delimiter = BOLD_MD;
+    } else if (e.keyCode === Constants.KeyCodes.I[1]) {
+        delimiter = ITALIC_MD;
+        isItalicFollowedByBold = prefix.endsWith(BOLD_MD) && suffix.startsWith(BOLD_MD);
+    }
+
+    // Does the selection have current hotkey's markdown?
+    const hasCurrentMarkdown = prefix.endsWith(delimiter) && suffix.startsWith(delimiter);
+
+    // Does current selection have both of the markdown around it? i.e. ***haha***
+    const hasItalicAndBold = prefix.endsWith(BOLD_MD + ITALIC_MD) && suffix.startsWith(BOLD_MD + ITALIC_MD);
+
+    let newValue = '';
+    let newStart = 0;
+    let newEnd = 0;
+    if (hasItalicAndBold || (hasCurrentMarkdown && !isItalicFollowedByBold)) {
+        // message already has the markdown; remove it
+        newValue = prefix.substring(0, prefix.length - delimiter.length) + selection + suffix.substring(delimiter.length);
+        newStart = selectionStart - delimiter.length;
+        newEnd = selectionEnd - delimiter.length;
+    } else {
+        newValue = prefix + delimiter + selection + delimiter + suffix;
+        newStart = selectionStart + delimiter.length;
+        newEnd = selectionEnd + delimiter.length;
+    }
+
+    return {
+        message: newValue,
+        selectionStart: newStart,
+        selectionEnd: newEnd,
+    };
+}
+
+/**
+ * Adjust selection to correct text when there is Italic markdown (_) around selected text.
+ */
+export function adjustSelection(inputBox, e) {
+    const el = e.target;
+    const {selectionEnd, selectionStart, value} = el;
+
+    if (selectionStart === selectionEnd) {
+        // nothing selected.
+        return;
+    }
+
+    e.preventDefault();
+
+    const firstUnderscore = value.charAt(selectionStart) === '_';
+    const lastUnderscore = value.charAt(selectionEnd - 1) === '_';
+
+    const spaceBefore = value.charAt(selectionStart - 1) === ' ';
+    const spaceAfter = value.charAt(selectionEnd) === ' ';
+
+    if (firstUnderscore && lastUnderscore && (spaceBefore || spaceAfter)) {
+        setSelectionRange(inputBox, selectionStart + 1, selectionEnd - 1);
+    }
 }

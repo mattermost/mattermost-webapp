@@ -30,7 +30,6 @@ exports[`components/invitation_modal/InvitationModalMembersStep should match the
       <FormattedMessage
         defaultMessage="Share This Link"
         id="invitation_modal.members.share_link.title"
-        values={Object {}}
       />
     </h2>
     <div
@@ -53,7 +52,6 @@ exports[`components/invitation_modal/InvitationModalMembersStep should match the
         <FormattedMessage
           defaultMessage="Copy Link"
           id="invitation_modal.members.share_link.copy_button"
-          values={Object {}}
         />
       </button>
     </div>
@@ -63,7 +61,6 @@ exports[`components/invitation_modal/InvitationModalMembersStep should match the
       <FormattedMessage
         defaultMessage="Share this link to invite people to this team."
         id="invitation_modal.members.share_link.description"
-        values={Object {}}
       />
     </div>
   </div>
@@ -75,7 +72,6 @@ exports[`components/invitation_modal/InvitationModalMembersStep should match the
       <FormattedMessage
         defaultMessage="OR"
         id="invitation_modal.members.or"
-        values={Object {}}
       />
     </div>
   </div>
@@ -87,7 +83,6 @@ exports[`components/invitation_modal/InvitationModalMembersStep should match the
       <FormattedMessage
         defaultMessage="Add or Invite People"
         id="invitation_modal.members.search_and_add.title"
-        values={Object {}}
       />
     </h2>
     <div
@@ -124,7 +119,6 @@ exports[`components/invitation_modal/InvitationModalMembersStep should match the
       <FormattedMessage
         defaultMessage="Add existing members or send email invites to new members."
         id="invitation_modal.members.search-and-add.description"
-        values={Object {}}
       />
     </div>
   </div>
@@ -140,7 +134,6 @@ exports[`components/invitation_modal/InvitationModalMembersStep should match the
       <FormattedMessage
         defaultMessage="Invite Members"
         id="invitation_modal.members.invite_button"
-        values={Object {}}
       />
     </button>
   </div>
@@ -177,7 +170,6 @@ exports[`components/invitation_modal/InvitationModalMembersStep should match the
       <FormattedMessage
         defaultMessage="Share This Link"
         id="invitation_modal.members.share_link.title"
-        values={Object {}}
       />
     </h2>
     <div
@@ -200,7 +192,6 @@ exports[`components/invitation_modal/InvitationModalMembersStep should match the
         <FormattedMessage
           defaultMessage="Copy Link"
           id="invitation_modal.members.share_link.copy_button"
-          values={Object {}}
         />
       </button>
     </div>
@@ -210,7 +201,6 @@ exports[`components/invitation_modal/InvitationModalMembersStep should match the
       <FormattedMessage
         defaultMessage="Share this link to invite people to this team."
         id="invitation_modal.members.share_link.description"
-        values={Object {}}
       />
     </div>
   </div>
@@ -222,7 +212,6 @@ exports[`components/invitation_modal/InvitationModalMembersStep should match the
       <FormattedMessage
         defaultMessage="OR"
         id="invitation_modal.members.or"
-        values={Object {}}
       />
     </div>
   </div>
@@ -234,7 +223,6 @@ exports[`components/invitation_modal/InvitationModalMembersStep should match the
       <FormattedMessage
         defaultMessage="Add or Invite People"
         id="invitation_modal.members.search_and_add.title"
-        values={Object {}}
       />
     </h2>
     <div
@@ -271,7 +259,6 @@ exports[`components/invitation_modal/InvitationModalMembersStep should match the
       <FormattedMessage
         defaultMessage="Add existing members or send email invites to new members."
         id="invitation_modal.members.search-and-add.description"
-        values={Object {}}
       />
     </div>
   </div>
@@ -287,7 +274,6 @@ exports[`components/invitation_modal/InvitationModalMembersStep should match the
       <FormattedMessage
         defaultMessage="Invite Members"
         id="invitation_modal.members.invite_button"
-        values={Object {}}
       />
     </button>
   </div>

@@ -11,6 +11,8 @@ import {testComponentForLineBreak} from 'tests/helpers/line_break_helpers';
 import {Constants, ModalIdentifiers} from 'utils/constants';
 import DeletePostModal from 'components/delete_post_modal';
 import EditPostModal from 'components/edit_post_modal/edit_post_modal.jsx';
+import {testComponentForMarkdownHotkeys, makeSelectionEvent} from 'tests/helpers/markdown_hotkey_helpers.js';
+import Textbox from 'components/textbox';
 
 jest.mock('actions/global_actions.jsx', () => ({
     emitClearSuggestions: jest.fn(),
@@ -580,5 +582,71 @@ describe('components/EditPostModal', () => {
     it('should match snapshot with useChannelMentions set to false', () => {
         var wrapper = shallowWithIntl(createEditPost({useChannelMentions: false}));
         expect(wrapper).toMatchSnapshot();
+    });
+
+    testComponentForMarkdownHotkeys(
+        (value) => {
+            return createEditPost({
+                editingPost: {
+                    postId: '123',
+                    post: {
+                        id: '123',
+                        message: value,
+                        channel_id: '5',
+                    },
+                    commentCount: 3,
+                    refocusId: 'test',
+                    show: true,
+                    title: 'test',
+                },
+            });
+        },
+        (wrapper, setSelectionRangeFn) => {
+            wrapper.instance().editbox = {
+                getInputBox: jest.fn(() => {
+                    return {
+                        setSelectionRange: setSelectionRangeFn,
+                        focus: jest.fn(),
+                    };
+                }),
+            };
+        },
+        (instance) => instance.find(Textbox),
+        (instance) => instance.state().editText,
+    );
+
+    it('should adjust selection to correct text', () => {
+        const value = 'Jalebi _Fafda_ and Sambharo';
+        const wrapper = shallowWithIntl(
+            createEditPost({
+                editingPost: {
+                    postId: '123',
+                    post: {
+                        id: '123',
+                        message: value,
+                        channel_id: '5',
+                    },
+                    commentCount: 3,
+                    refocusId: 'test',
+                    show: true,
+                    title: 'test',
+                },
+            }),
+        );
+
+        const setSelectionRangeFn = jest.fn();
+        wrapper.instance().editbox = {
+            getInputBox: jest.fn(() => {
+                return {
+                    setSelectionRange: setSelectionRangeFn,
+                    focus: jest.fn(),
+                };
+            }),
+        };
+
+        const textbox = wrapper.find(Textbox);
+        const e = makeSelectionEvent(value, 7, 14);
+        textbox.props().onSelect(e);
+        expect(setSelectionRangeFn).toHaveBeenCalledWith(8, 13);
     });
 });
