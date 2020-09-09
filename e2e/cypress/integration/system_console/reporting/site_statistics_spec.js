@@ -11,7 +11,7 @@
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 describe('System Console > Site Statistics', () => {
-    it('MM-T904 Site Statistics displays expected content categories', () => {
+    it('MM-T904_1 Site Statistics displays expected content categories', () => {
         // # Require license.
         cy.apiRequireLicense();
 
@@ -39,14 +39,12 @@ describe('System Console > Site Statistics', () => {
         cy.get('.admin-console__content .row').eq(0).find('.title').eq(11).should('contain', 'Master DB Conns');
 
         // * Check that some of the values for the stats are valid.
-        cy.get('.admin-console__content .row').eq(0).find('.content').each((el, index) => {
-            if (index <= 4 || index >= 8) {
-                cy.wrap(el).eq(0).invoke('text').then(parseFloat).should('be.gt', 0);
-            }
+        cy.get('.admin-console__content .row').eq(0).find('.content').each((el) => {
+            cy.wrap(el).eq(0).invoke('text').then(parseFloat).should('be.gte', 0);
         });
     });
 
-    it('MM-T904 Site Statistics displays expected content categories', () => {
+    it('MM-T904_2 Site Statistics displays expected content categories', () => {
         // # Remove license.
         cy.apiDeleteLicense();
 
