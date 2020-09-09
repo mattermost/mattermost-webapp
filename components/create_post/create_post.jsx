@@ -13,6 +13,7 @@ import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import Constants, {StoragePrefixes, ModalIdentifiers, Locations, A11yClassNames} from 'utils/constants';
 import {t} from 'utils/i18n';
+import UndoHistory from 'utils/undoredo/undoredo';
 import {
     containsAtChannel,
     postMessageOnKeyPress,
@@ -21,7 +22,7 @@ import {
     splitMessageBasedOnCaretPosition,
     groupsMentionedInText,
 } from 'utils/post_utils.jsx';
-import {getTable, formatMarkdownTableMessage, formatGithubCodePaste, isGitHubCodeBlock} from 'utils/paste';
+import smartPaste from 'utils/smartpaste';
 import {intlShape} from 'utils/react_intl';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
@@ -307,6 +308,10 @@ class CreatePost extends React.PureComponent {
 
     constructor(props) {
         super(props);
+        this.undoHistory = new UndoHistory({
+            message: this.props.draft.message,
+            caretPosition: this.props.draft.message.length,
+        }, 5);
         this.state = {
             message: this.props.draft.message,
             caretPosition: this.props.draft.message.length,
@@ -321,6 +326,7 @@ class CreatePost extends React.PureComponent {
             currentChannel: props.currentChannel,
             mentions: [],
             memberNotifyCount: 0,
+            isShiftPressed: false,
         };
 
         this.lastBlurAt = 0;
@@ -342,6 +348,9 @@ class CreatePost extends React.PureComponent {
         this.focusTextbox();
         document.addEventListener('paste', this.pasteHandler);
         document.addEventListener('keydown', this.documentKeyHandler);
+        document.addEventListener('keydown', this.undoRedoHandler);
+        document.addEventListener('keyup', this.setIsShiftPressed);
+        document.addEventListener('keydown', this.setIsShiftPressed);
         this.setOrientationListeners();
 
         if (useGroupMentions) {
@@ -372,6 +381,9 @@ class CreatePost extends React.PureComponent {
     componentWillUnmount() {
         document.removeEventListener('paste', this.pasteHandler);
         document.removeEventListener('keydown', this.documentKeyHandler);
+        document.removeEventListener('keydown', this.undoRedoHandler);
+        document.removeEventListener('keyup', this.setIsShiftPressed);
+        document.removeEventListener('keydown', this.setIsShiftPressed);
         this.removeOrientationListeners();
         if (this.saveDraftFrame) {
             const channelId = this.props.currentChannel.id;
@@ -475,7 +487,9 @@ class CreatePost extends React.PureComponent {
 
         const isReaction = Utils.REACTION_PATTERN.exec(post.message);
         if (post.message.indexOf('/') === 0 && !ignoreSlash) {
-            this.setState({message: '', postError: null});
+            this.setState({postError: null});
+            const historyBackup = this.undoHistory.save();
+            this.resetMessage();
             let args = {};
             args.channel_id = channelId;
             args.team_id = this.props.currentTeamId;
@@ -509,18 +523,18 @@ class CreatePost extends React.PureComponent {
                             },
                             message: post.message,
                         });
+                        this.undoHistory.restore(historyBackup);
                     }
                 }
             }
         } else if (isReaction && this.props.emojiMap.has(isReaction[2])) {
             this.sendReaction(isReaction);
-
-            this.setState({message: ''});
+            this.resetMessage();
         } else {
             const {error} = await this.sendMessage(post);
 
             if (!error) {
-                this.setState({message: ''});
+                this.resetMessage();
             }
         }
 
@@ -630,7 +644,7 @@ class CreatePost extends React.PureComponent {
 
             this.props.actions.openModal(resetStatusModalData);
 
-            this.setState({message: ''});
+            this.resetMessage();
             return;
         }
 
@@ -643,7 +657,7 @@ class CreatePost extends React.PureComponent {
 
             this.props.actions.openModal(editChannelHeaderModalData);
 
-            this.setState({message: ''});
+            this.resetMessage();
             return;
         }
 
@@ -657,13 +671,13 @@ class CreatePost extends React.PureComponent {
 
             this.props.actions.openModal(editChannelPurposeModalData);
 
-            this.setState({message: ''});
+            this.resetMessage();
             return;
         }
 
         if (!isDirectOrGroup && trimRight(this.state.message) === '/rename') {
             GlobalActions.showChannelNameUpdateModal(updateChannel);
-            this.setState({message: ''});
+            this.resetMessage();
             return;
         }
 
@@ -770,6 +784,9 @@ class CreatePost extends React.PureComponent {
             }
 
             if (withClosedCodeBlock && message) {
+                if (message !== this.state.message) {
+                    this.undoHistory.record({message, caretPosition: this.state.caretPosition});
+                }
                 this.setState({message}, () => this.handleSubmit(e));
             } else {
                 this.handleSubmit(e);
@@ -799,6 +816,8 @@ class CreatePost extends React.PureComponent {
             message,
             serverError,
         });
+        const caretPosition = Utils.getCaretPosition(e.target);
+        this.undoHistory.record({message, caretPosition});
 
         const draft = {
             ...this.props.draft,
@@ -812,30 +831,14 @@ class CreatePost extends React.PureComponent {
     }
 
     pasteHandler = (e) => {
-        if (!e.clipboardData || !e.clipboardData.items || e.target.id !== 'post_textbox') {
-            return;
-        }
-
-        const {clipboardData} = e;
-        const table = getTable(clipboardData);
-        if (!table) {
+        if (!e.clipboardData || !e.clipboardData.items || e.target.id !== 'post_textbox' || this.state.isShiftPressed) {
             return;
         }
 
         e.preventDefault();
 
-        let message = this.state.message;
-        if (isGitHubCodeBlock(table.className)) {
-            const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste(this.state.caretPosition, message, clipboardData);
-            const newCaretPosition = this.state.caretPosition + formattedCodeBlock.length;
-            this.setMessageAndCaretPostion(formattedMessage, newCaretPosition);
-            return;
-        }
-
-        const originalSize = message.length;
-        message = formatMarkdownTableMessage(table, message.trim(), this.state.caretPosition);
-        const newCaretPosition = message.length - (originalSize - this.state.caretPosition);
-        this.setMessageAndCaretPostion(message, newCaretPosition);
+        const {message, caretPosition} = smartPaste(e.clipboardData, this.state.message, this.state.caretPosition);
+        this.setMessageAndCaretPostion(message, caretPosition);
     }
 
     handleFileUploadChange = () => {
@@ -971,6 +974,35 @@ class CreatePost extends React.PureComponent {
         }
     }
 
+    setIsShiftPressed = (e) => {
+        if (Utils.isMac()) {
+            this.setState({isShiftPressed: e.shiftKey && e.altKey});
+        } else {
+            this.setState({isShiftPressed: e.shiftKey});
+        }
+    }
+
+    undoRedoHandler = (e) => {
+        if (e.target.id !== 'post_textbox') {
+            return;
+        }
+        const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
+        const undoKeyCombo = ctrlOrMetaKeyPressed && Utils.isKeyPressed(e, KeyCodes.Z);
+        const redoKeyCombo = ctrlOrMetaKeyPressed && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.Z);
+
+        if (redoKeyCombo) {
+            e.preventDefault();
+            const inputData = this.undoHistory.redo();
+            this.setState(inputData);
+            Utils.setCaretPosition(e.target, inputData.caretPosition);
+        } else if (undoKeyCombo) {
+            e.preventDefault();
+            const inputData = this.undoHistory.undo();
+            this.setState(inputData);
+            Utils.setCaretPosition(e.target, inputData.caretPosition);
+        }
+    }
+
     documentKeyHandler = (e) => {
         const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
         const shortcutModalKeyCombo = ctrlOrMetaKeyPressed && Utils.isKeyPressed(e, KeyCodes.FORWARD_SLASH);
@@ -1012,14 +1044,23 @@ class CreatePost extends React.PureComponent {
             this.setState({
                 message: lastMessage,
             });
+            this.undoHistory.reset(lastMessage);
         }
     }
 
     handleMouseUpKeyUp = (e) => {
         const caretPosition = Utils.getCaretPosition(e.target);
-        this.setState({
-            caretPosition,
-        });
+        this.setState({caretPosition});
+    }
+
+    setMessage(message, prevCaretPosition, force) {
+        this.setState({message});
+        this.undoHistory.record({message, caretPosition: prevCaretPosition}, force);
+    }
+
+    resetMessage() {
+        this.setState({message: '', caretPosition: 0});
+        this.undoHistory.reset();
     }
 
     handleSelect = (e) => {
@@ -1038,7 +1079,7 @@ class CreatePost extends React.PureComponent {
 
         // listen for line break key combo and insert new line character
         if (Utils.isUnhandledLineBreakKeyCombo(e)) {
-            this.setState({message: Utils.insertLineBreakFromKeyEvent(e)});
+            this.setMessage(Utils.insertLineBreakFromKeyEvent(e), this.state.caretPosition, true);
         } else if (ctrlEnterKeyCombo) {
             this.postMsgKeyPress(e);
         } else if (upKeyOnly && messageIsEmpty) {
@@ -1146,6 +1187,7 @@ class CreatePost extends React.PureComponent {
     setMessageAndCaretPostion = (newMessage, newCaretPosition) => {
         const textbox = this.refs.textbox.getInputBox();
 
+        this.undoHistory.record({message: newMessage, caretPosition: this.state.caretPosition}, true);
         this.setState({
             message: newMessage,
             caretPosition: newCaretPosition,
@@ -1163,7 +1205,7 @@ class CreatePost extends React.PureComponent {
         }
 
         if (this.state.message === '') {
-            this.setState({message: ':' + emojiAlias + ': '});
+            this.setMessage(':' + emojiAlias + ': ', this.state.caretPosition, true);
         } else {
             const {message} = this.state;
             const {firstPiece, lastPiece} = splitMessageBasedOnCaretPosition(this.state.caretPosition, message);
@@ -1180,10 +1222,10 @@ class CreatePost extends React.PureComponent {
 
     handleGifClick = (gif) => {
         if (this.state.message === '') {
-            this.setState({message: gif});
+            this.setMessage(gif, this.state.caretPosition, true);
         } else {
             const newMessage = ((/\s+$/).test(this.state.message)) ? this.state.message + gif : this.state.message + ' ' + gif;
-            this.setState({message: newMessage});
+            this.setMessage(newMessage, this.state.caretPosition, true);
         }
         this.handleEmojiClose();
     }

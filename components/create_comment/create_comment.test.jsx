@@ -1293,7 +1293,7 @@ describe('components/CreateComment', () => {
             },
         };
 
-        const markdownTable = '|test | test|\n|--- | ---|\n|test | test|\n';
+        const markdownTable = '|test | test|\n|--- | ---|\n|test | test|';
 
         wrapper.instance().pasteHandler(event);
         expect(wrapper.state('draft').message).toBe(markdownTable);

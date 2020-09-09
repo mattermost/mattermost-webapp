@@ -11,6 +11,7 @@ describe('format', () => {
 ~~~`);
 
         expect(output).toContain('<span class="post-code__language">Diff</span>');
+        expect(output).toContain('<code class="hljs hljs-ln language-diff">');
     });
 
     test('should highlight code with space before language', () => {
@@ -20,6 +21,7 @@ describe('format', () => {
 ~~~`);
 
         expect(output).toContain('<span class="post-code__language">Diff</span>');
+        expect(output).toContain('<code class="hljs hljs-ln language-diff">');
     });
 
     test('should not highlight code with an invalid language', () => {
@@ -105,6 +107,7 @@ this is long text this is long text this is long text this is long text this is 
 ~~~`);
 
         expect(output).toContain('<span class="post-code__language">TeX</span>');
+        expect(output).toContain('<code class="hljs hljs-ln language-tex">');
     });
 
     test('should add line numbers to code', () => {

@@ -371,6 +371,7 @@ describe('components/EditPostModal', () => {
             caretPosition: 0,
             postError: '',
             errorClass: null,
+            isShiftPressed: false,
             showEmojiPicker: false,
             prevShowState: false,
             renderScrollbar: false,
