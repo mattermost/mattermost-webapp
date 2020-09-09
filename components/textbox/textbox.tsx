@@ -237,6 +237,7 @@ export default class Textbox extends React.PureComponent<Props> {
                         isRHS={this.props.isRHS}
                         message={this.props.value}
                         mentionKeys={[]}
+                        channelId={this.props.channelId}
                     />
                 </div>
             );

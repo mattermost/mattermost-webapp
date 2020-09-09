@@ -14,7 +14,7 @@ export function makeGetMentionKeysForPost() {
     return createSelector(
         getCurrentUserMentionKeys,
         (state, post) => post,
-        (state, post, channel) => (channel?.id ? getMyGroupMentionKeysForChannel(state, channel.team_id, channel.id) : getMyGroupMentionKeys(state)),
+        (state, post, channel) => getMyGroupMentionKeysForChannel(state, channel.team_id, channel.id),
         (mentionKeysWithoutGroups, post, groupMentionKeys) => {
             let mentionKeys = mentionKeysWithoutGroups;
             if (!post?.props?.disable_group_highlight) { // eslint-disable-line camelcase
