@@ -95,7 +95,7 @@ describe('Custom Terms of Service', () => {
         cy.get('#acceptTerms').should('be.visible').click();
 
         // * Should be redirected back to custom terms of service page
-        cy.url().should('include', `/admin_console/compliance/custom_terms_of_service`);
+        cy.url().should('include', '/admin_console/compliance/custom_terms_of_service');
 
         // # Login as the test user
         cy.apiLogin(testUser);
@@ -125,7 +125,7 @@ describe('Custom Terms of Service', () => {
         cy.get('#acceptTerms').should('be.visible').click();
 
         // * Should be redirected back to custom terms of service page
-        cy.url().should('include', `/admin_console/compliance/custom_terms_of_service`);
+        cy.url().should('include', '/admin_console/compliance/custom_terms_of_service');
 
         // # Login as the test user
         cy.apiLogin(testUser);
