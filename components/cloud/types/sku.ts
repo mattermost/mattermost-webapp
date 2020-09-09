@@ -3,8 +3,6 @@
 
 import {StripeCardElement} from '@stripe/stripe-js';
 
-//import {LogoutAction} from './user';
-
 export type SKU = {
     id: string;
     name: string;

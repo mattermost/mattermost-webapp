@@ -46,6 +46,7 @@ export default function StateSelector(props: Props) {
                 styles={selectorStyles}
                 onChange={onStateSelected}
                 value={props.state ? {value: props.state, label: props.state} : null}
+                menuPlacement={'auto'}
                 onBlur={props.onBlur}
             />
         );

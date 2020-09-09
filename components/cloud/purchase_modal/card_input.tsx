@@ -7,7 +7,6 @@ import {ElementsConsumer, CardElement} from '@stripe/react-stripe-js';
 
 import AlertIcon from 'components/widgets/icons/alert_icon';
 
-import 'components/input.css';
 import './card_input.css';
 
 const CARD_ELEMENT_OPTIONS = {

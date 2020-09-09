@@ -54,6 +54,7 @@
             border-radius: 4px;
             background-color: var(--center-channel-bg);
             margin-bottom: 24px;
+            min-width: 270px;
         }
 
         .price-text{
@@ -74,7 +75,7 @@
         bottom: 0;
         top: 0;
         z-index: -1;
-        //opacity:0.08;
+       // opacity:0.08;
     
         stop {
             stop-color: var(--button-bg);
@@ -98,10 +99,13 @@
         color: var(--button-color);
         border: 0;
         margin: 24px 0px;
+
+        &:disabled {
+            background: rgba(var(--center-channel-color), 0.08);
+            color: rgba(var(--center-channel-color), 0.32);
+        }
     }
     
-    
-
 
 /// ?
     .SignUpRHS {
@@ -124,5 +128,11 @@
         color: #22406D;
         margin-left: 32px;
     }
-    
+}
+
+.FullScreenModal {
+    .close-x {
+        top: 10px;
+        right: 20px;
+    }
 }

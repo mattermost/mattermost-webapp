@@ -8,16 +8,13 @@ import {isModalOpen} from 'selectors/views/modals';
 import {ModalIdentifiers} from 'utils/constants';
 
 import {closeModal} from 'actions/views/modals';
-import {getProductPrice} from 'actions/cloud';
+import {getProductPrice, completeStripeAddPaymentMethod} from 'actions/cloud';
 
 import PurchaseModal from './purchase_modal';
 
 function mapStateToProps(state) {
-    const productPrice = getProductPrice();
-
     return {
         show: isModalOpen(state, ModalIdentifiers.CLOUD_PURCHASE),
-        productPrice,
     };
 }
 
@@ -25,6 +22,8 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             closeModal: () => closeModal(ModalIdentifiers.CLOUD_PURCHASE),
+            getProductPrice,
+            completeStripeAddPaymentMethod,
         }, dispatch),
     };
 }
