@@ -9,6 +9,7 @@
 
 // Group: @bot_accounts
 
+import * as MESSAGES from '../../fixtures/messages';
 import {getRandomId} from '../../utils';
 
 describe('Edit bot', () => {
@@ -56,7 +57,7 @@ describe('Edit bot', () => {
 
     it('MM-T1840 Description allows for special character', () => {
         const userName = `bot-${getRandomId()}`;
-        const description = getRandomId(56).concat('!@#$%&*');
+        const description = MESSAGES.LARGE.concat('!@#$%&*');
 
         // # Create bot
         createBot(userName);
