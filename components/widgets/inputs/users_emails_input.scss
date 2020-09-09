@@ -26,6 +26,10 @@
         .users-emails-input__control {
             .users-emails-input__input {
                 border-bottom: 0;
+
+                .a11y--focused {
+                    box-shadow: none;
+                }
             }
         }
     }
