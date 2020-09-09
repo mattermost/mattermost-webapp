@@ -21,7 +21,7 @@ import * as Utils from 'utils/utils.jsx';
 
 type Props = {
     id: string;
-    channelId?: string;
+    channelId: string;
     rootId?: string;
     value: string;
     onChange: (e: ChangeEvent) => void;
@@ -229,6 +229,7 @@ export default class Textbox extends React.PureComponent<Props> {
                         isRHS={this.props.isRHS}
                         message={this.props.value}
                         mentionKeys={[]}
+                        channelId={this.props.channelId}
                     />
                 </div>
             );
