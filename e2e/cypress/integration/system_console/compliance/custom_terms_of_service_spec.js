@@ -50,17 +50,4 @@ describe('Custom Terms of Service', () => {
         // * Ensure that the accept terms button is visible and click it
         cy.get('#acceptTerms').should('be.visible').click();
     });
-
-    after(() => {
-        cy.apiAdminLogin();
-
-        cy.apiUpdateConfig({
-            EmailSettings: {
-                RequireEmailVerification: false,
-            },
-            SupportSettings: {
-                CustomTermsOfServiceEnabled: false,
-            },
-        });
-    });
 });
