@@ -349,7 +349,12 @@
             overflow-y: visible;
 
             &.modal-auto__content {
+                width: 96vw;
                 overflow: auto;
+
+                .view-image__loading {
+                    width: 96vw;
+                }
             }
 
             .pdf {
