@@ -171,6 +171,7 @@ export default class PasswordSettings extends AdminSettings {
                         value={this.state.passwordMinimumLength}
                         onChange={this.handlePasswordLengthChange}
                         setByEnv={this.isSetByEnv('PasswordSettings.MinimumLength')}
+                        disabled={this.props.isDisabled}
                     />
                     <Setting
                         label={
@@ -187,6 +188,7 @@ export default class PasswordSettings extends AdminSettings {
                                     ref={this.lowercase}
                                     defaultChecked={this.state.passwordLowercase}
                                     name='admin.password.lowercase'
+                                    disabled={this.props.isDisabled}
                                     onChange={this.handleCheckboxChange('passwordLowercase')}
                                 />
                                 <FormattedMessage
@@ -202,6 +204,7 @@ export default class PasswordSettings extends AdminSettings {
                                     ref={this.uppercase}
                                     defaultChecked={this.state.passwordUppercase}
                                     name='admin.password.uppercase'
+                                    disabled={this.props.isDisabled}
                                     onChange={this.handleCheckboxChange('passwordUppercase')}
                                 />
                                 <FormattedMessage
@@ -217,6 +220,7 @@ export default class PasswordSettings extends AdminSettings {
                                     ref={this.number}
                                     defaultChecked={this.state.passwordNumber}
                                     name='admin.password.number'
+                                    disabled={this.props.isDisabled}
                                     onChange={this.handleCheckboxChange('passwordNumber')}
                                 />
                                 <FormattedMessage
@@ -232,6 +236,7 @@ export default class PasswordSettings extends AdminSettings {
                                     ref={this.symbol}
                                     defaultChecked={this.state.passwordSymbol}
                                     name='admin.password.symbol'
+                                    disabled={this.props.isDisabled}
                                     onChange={this.handleCheckboxChange('passwordSymbol')}
                                 />
                                 <FormattedMessage
@@ -271,6 +276,7 @@ export default class PasswordSettings extends AdminSettings {
                     value={this.state.maximumLoginAttempts}
                     onChange={this.handleChange}
                     setByEnv={this.isSetByEnv('ServiceSettings.MaximumLoginAttempts')}
+                    disabled={this.props.isDisabled}
                 />
             </SettingsGroup>
         );

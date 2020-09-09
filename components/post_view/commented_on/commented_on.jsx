@@ -9,24 +9,19 @@ import * as Utils from 'utils/utils.jsx';
 import {stripMarkdown} from 'utils/markdown';
 
 import CommentedOnFilesMessage from 'components/post_view/commented_on_files_message';
+import UserProfile from '../../user_profile/user_profile';
 
 export default class CommentedOn extends PureComponent {
     static propTypes = {
         displayName: PropTypes.string,
         enablePostUsernameOverride: PropTypes.bool,
+        parentPostUser: PropTypes.object,
         onCommentClick: PropTypes.func.isRequired,
         post: PropTypes.object.isRequired,
         actions: PropTypes.shape({
             showSearchResults: PropTypes.func.isRequired,
             updateSearchTerms: PropTypes.func.isRequired,
         }).isRequired,
-    }
-
-    handleOnClick = () => {
-        const {actions} = this.props;
-        const displayName = this.makeUsername();
-        actions.updateSearchTerms(displayName);
-        actions.showSearchResults();
     }
 
     makeUsername = () => {
@@ -59,14 +54,17 @@ export default class CommentedOn extends PureComponent {
     render() {
         const username = this.makeUsername();
         const message = this.makeCommentedOnMessage();
+        const parentPostUser = this.props.parentPostUser;
+        const parentPostUserId = parentPostUser && parentPostUser.id;
 
-        const name = (
-            <a
-                className='theme'
-                onClick={this.handleOnClick}
-            >
-                {username}
-            </a>
+        const parentUserProfile = (
+            <UserProfile
+                user={parentPostUser}
+                userId={parentPostUserId}
+                displayName={username}
+                hasMention={true}
+                disablePopover={false}
+            />
         );
 
         return (
@@ -79,7 +77,7 @@ export default class CommentedOn extends PureComponent {
                         id='post_body.commentedOn'
                         defaultMessage="Commented on {name}'s message: "
                         values={{
-                            name,
+                            name: <a className='theme user_name'>{parentUserProfile}</a>,
                         }}
                     />
                     <a

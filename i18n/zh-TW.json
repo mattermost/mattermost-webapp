@@ -2570,7 +2570,7 @@
   "textbox.edit": "編輯訊息",
   "textbox.help": "說明",
   "textbox.inlinecode": "`行內程式碼`",
-  "textbox.italic": "_斜體_",
+  "textbox.italic": "*斜體*",
   "textbox.preformatted": "```不排版```",
   "textbox.preview": "預覽",
   "textbox.quote": ">引用",
@@ -3998,5 +3998,6 @@
   "sidebar_left.sidebar_channel_menu.leaveConversation": "關閉對話",
   "sidebar_left.sidebar_channel_menu.editChannel": "頻道選項",
   "admin.jobTable.headerFiles": "檔案",
-  "admin.jobTable.downloadLink": "下載"
+  "admin.jobTable.downloadLink": "下載",
+  "warn_metric_ack_modal.learn_more.link": "了解更多"
 }
