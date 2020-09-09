@@ -10,7 +10,6 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
         "name": <FormattedMessage
           defaultMessage="Name"
           id="admin.user_grid.name"
-          values={Object {}}
         />,
         "width": 3,
       },
@@ -24,7 +23,6 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
         "name": <FormattedMessage
           defaultMessage="Role"
           id="admin.user_grid.role"
-          values={Object {}}
         />,
         "overflow": "visible",
       },
@@ -51,7 +49,6 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
     <FormattedMessage
       defaultMessage="No users found"
       id="admin.user_grid.notFound"
-      values={Object {}}
     />
   }
   previousPage={[Function]}
@@ -114,7 +111,6 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
             <FormattedMessage
               defaultMessage="New"
               id="admin.user_grid.new"
-              values={Object {}}
             />
           </Badge>,
           "remove": <UserGridRemove
@@ -285,7 +281,6 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
             <FormattedMessage
               defaultMessage="New"
               id="admin.user_grid.new"
-              values={Object {}}
             />
           </Badge>,
           "remove": <UserGridRemove
@@ -423,7 +418,6 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
         "name": <FormattedMessage
           defaultMessage="Name"
           id="admin.user_grid.name"
-          values={Object {}}
         />,
         "width": 3,
       },
@@ -437,7 +431,6 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
         "name": <FormattedMessage
           defaultMessage="Role"
           id="admin.user_grid.role"
-          values={Object {}}
         />,
         "overflow": "visible",
       },
@@ -464,7 +457,6 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
     <FormattedMessage
       defaultMessage="No users found"
       id="admin.user_grid.notFound"
-      values={Object {}}
     />
   }
   previousPage={[Function]}
@@ -527,7 +519,6 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
             <FormattedMessage
               defaultMessage="New"
               id="admin.user_grid.new"
-              values={Object {}}
             />
           </Badge>,
           "remove": <UserGridRemove
@@ -693,7 +684,6 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
             <FormattedMessage
               defaultMessage="New"
               id="admin.user_grid.new"
-              values={Object {}}
             />
           </Badge>,
           "remove": <UserGridRemove
@@ -864,7 +854,6 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
             <FormattedMessage
               defaultMessage="New"
               id="admin.user_grid.new"
-              values={Object {}}
             />
           </Badge>,
           "remove": <UserGridRemove
@@ -1002,7 +991,6 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
         "name": <FormattedMessage
           defaultMessage="Name"
           id="admin.user_grid.name"
-          values={Object {}}
         />,
         "width": 3,
       },
@@ -1016,7 +1004,6 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
         "name": <FormattedMessage
           defaultMessage="Role"
           id="admin.user_grid.role"
-          values={Object {}}
         />,
         "overflow": "visible",
       },
@@ -1043,7 +1030,6 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
     <FormattedMessage
       defaultMessage="No users found"
       id="admin.user_grid.notFound"
-      values={Object {}}
     />
   }
   previousPage={[Function]}
@@ -1106,7 +1092,6 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
             <FormattedMessage
               defaultMessage="New"
               id="admin.user_grid.new"
-              values={Object {}}
             />
           </Badge>,
           "remove": <UserGridRemove

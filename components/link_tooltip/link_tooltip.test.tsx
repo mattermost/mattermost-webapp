@@ -3,14 +3,14 @@
 
 import React, {ReactPortal} from 'react';
 import ReactDOM from 'react-dom';
-import {shallow, ShallowWrapper} from 'enzyme';
+import {shallow} from 'enzyme';
 
 import LinkTooltip from 'components/link_tooltip/link_tooltip';
 
 describe('components/link_tooltip/link_tooltip', () => {
     test('should match snapshot', () => {
         ReactDOM.createPortal = (node) => node as ReactPortal;
-        const wrapper: ShallowWrapper<{}, {}, LinkTooltip> = shallow(
+        const wrapper = shallow<LinkTooltip>(
             <LinkTooltip
                 href={'www.test.com'}
                 attributes={{
@@ -21,7 +21,7 @@ describe('components/link_tooltip/link_tooltip', () => {
                 }}
             >
                 {'test title'}
-            </LinkTooltip>
+            </LinkTooltip>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -30,7 +30,7 @@ describe('components/link_tooltip/link_tooltip', () => {
 
     test('should match snapshot with uncommon link structure', () => {
         ReactDOM.createPortal = (node) => node as ReactPortal;
-        const wrapper: ShallowWrapper<{}, {}, LinkTooltip> = shallow(
+        const wrapper = shallow<LinkTooltip>(
             <LinkTooltip
                 href={'https://www.google.com'}
                 attributes={{}}
@@ -42,7 +42,7 @@ describe('components/link_tooltip/link_tooltip', () => {
                 <span className='codespan__pre-wrap'>
                     <code>{'bar'}</code>
                 </span>
-            </LinkTooltip>
+            </LinkTooltip>,
         );
 
         expect(wrapper).toMatchSnapshot();

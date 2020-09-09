@@ -13,3 +13,21 @@ Cypress.Commands.add('uiCheckLicenseExists', () => {
         cy.get('#remove-button').should('be.visible');
     });
 });
+
+Cypress.Commands.add('uiResetPermissionsToDefault', () => {
+    // # Navigate to system scheme page
+    cy.visit('/admin_console/user_management/permissions/system_scheme');
+
+    // # Click reset to defaults and confirm
+    cy.findByTestId('resetPermissionsToDefault', {timeout: TIMEOUTS.HALF_MIN}).click();
+    cy.get('#confirmModalButton').click();
+    cy.uiSaveConfig();
+});
+
+Cypress.Commands.add('uiSaveConfig', () => {
+    // # Save settings
+    cy.get('#saveSetting').click();
+    cy.waitUntil(() => cy.get('#saveSetting').then((el) => {
+        return el[0].innerText === 'Save';
+    }));
+});

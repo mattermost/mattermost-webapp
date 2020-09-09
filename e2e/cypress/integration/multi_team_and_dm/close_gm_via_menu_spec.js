@@ -7,9 +7,10 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-import * as TIMEOUTS from '../../fixtures/timeouts';
-
+// Stage: @prod
 // Group: @multi_team_and_dm
+
+import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Multi-user group messages', () => {
     let testUser;

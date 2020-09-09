@@ -41,9 +41,8 @@ exports[`components/WarnMetricAckModal error display 1`] = `
       id="warnMetricAckHeaderModalLabel"
     >
       <FormattedMessage
-        defaultMessage="Upgrade to Mattermost Enterprise Edition"
+        defaultMessage="Scaling with Mattermost"
         id="warn_metric_ack_modal.header.title"
-        values={Object {}}
       />
     </ModalTitle>
   </ModalHeader>
@@ -98,7 +97,7 @@ exports[`components/WarnMetricAckModal error display 1`] = `
         }
       >
         <FormattedMessage
-          defaultMessage="Contacting support sends your contact information to Mattermost, Inc. {link}"
+          defaultMessage="By clicking Acknowledge, you will be sharing your information with Mattermost Inc., to learn more about upgrading. {link}"
           id="warn_metric_ack_modal.number_of_active_users.subtext"
           values={
             Object {
@@ -129,9 +128,8 @@ exports[`components/WarnMetricAckModal error display 1`] = `
         text="Sending email"
       >
         <FormattedMessage
-          defaultMessage="Contact us"
+          defaultMessage="Acknowledge"
           id="warn_metric_ack_modal.contact_support"
-          values={Object {}}
         />
       </LoadingWrapper>
     </button>
@@ -180,9 +178,8 @@ exports[`components/WarnMetricAckModal should match snapshot, init 1`] = `
       id="warnMetricAckHeaderModalLabel"
     >
       <FormattedMessage
-        defaultMessage="Upgrade to Mattermost Enterprise Edition"
+        defaultMessage="Scaling with Mattermost"
         id="warn_metric_ack_modal.header.title"
-        values={Object {}}
       />
     </ModalTitle>
   </ModalHeader>
@@ -213,7 +210,7 @@ exports[`components/WarnMetricAckModal should match snapshot, init 1`] = `
         }
       >
         <FormattedMessage
-          defaultMessage="Contacting support sends your contact information to Mattermost, Inc. {link}"
+          defaultMessage="By clicking Acknowledge, you will be sharing your information with Mattermost Inc., to learn more about upgrading. {link}"
           id="warn_metric_ack_modal.number_of_active_users.subtext"
           values={
             Object {
@@ -244,9 +241,8 @@ exports[`components/WarnMetricAckModal should match snapshot, init 1`] = `
         text="Sending email"
       >
         <FormattedMessage
-          defaultMessage="Contact us"
+          defaultMessage="Acknowledge"
           id="warn_metric_ack_modal.contact_support"
-          values={Object {}}
         />
       </LoadingWrapper>
     </button>

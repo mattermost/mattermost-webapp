@@ -296,6 +296,7 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
       permissions={
         Array [
           "sysconsole_read_about",
+          "sysconsole_read_billing",
           "sysconsole_read_reporting",
           "sysconsole_read_user_management_users",
           "sysconsole_read_user_management_groups",

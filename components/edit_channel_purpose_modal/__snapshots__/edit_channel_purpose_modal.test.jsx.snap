@@ -45,7 +45,6 @@ exports[`comoponents/EditChannelPurposeModal clear error on next 1`] = `
         <FormattedMessage
           defaultMessage="Edit Purpose"
           id="edit_channel_purpose_modal.title1"
-          values={Object {}}
         />
       </span>
     </ModalTitle>
@@ -58,7 +57,6 @@ exports[`comoponents/EditChannelPurposeModal clear error on next 1`] = `
       <FormattedMessage
         defaultMessage="Describe how this channel should be used. This text appears in the channel list in the \\"More...\\" menu and helps others decide whether to join."
         id="edit_channel_purpose_modal.body"
-        values={Object {}}
       />
     </p>
     <textarea
@@ -83,7 +81,6 @@ exports[`comoponents/EditChannelPurposeModal clear error on next 1`] = `
       <FormattedMessage
         defaultMessage="Cancel"
         id="edit_channel_purpose_modal.cancel"
-        values={Object {}}
       />
     </button>
     <button
@@ -95,7 +92,6 @@ exports[`comoponents/EditChannelPurposeModal clear error on next 1`] = `
       <FormattedMessage
         defaultMessage="Save"
         id="edit_channel_purpose_modal.save"
-        values={Object {}}
       />
     </button>
   </ModalFooter>
@@ -147,7 +143,6 @@ exports[`comoponents/EditChannelPurposeModal match with modal error 1`] = `
         <FormattedMessage
           defaultMessage="Edit Purpose"
           id="edit_channel_purpose_modal.title1"
-          values={Object {}}
         />
       </span>
     </ModalTitle>
@@ -160,7 +155,6 @@ exports[`comoponents/EditChannelPurposeModal match with modal error 1`] = `
       <FormattedMessage
         defaultMessage="Describe how this channel should be used. This text appears in the channel list in the \\"More...\\" menu and helps others decide whether to join."
         id="edit_channel_purpose_modal.body"
-        values={Object {}}
       />
     </p>
     <textarea
@@ -195,7 +189,6 @@ exports[`comoponents/EditChannelPurposeModal match with modal error 1`] = `
       <FormattedMessage
         defaultMessage="Cancel"
         id="edit_channel_purpose_modal.cancel"
-        values={Object {}}
       />
     </button>
     <button
@@ -207,7 +200,6 @@ exports[`comoponents/EditChannelPurposeModal match with modal error 1`] = `
       <FormattedMessage
         defaultMessage="Save"
         id="edit_channel_purpose_modal.save"
-        values={Object {}}
       />
     </button>
   </ModalFooter>
@@ -259,7 +251,6 @@ exports[`comoponents/EditChannelPurposeModal match with modal error with fake id
         <FormattedMessage
           defaultMessage="Edit Purpose"
           id="edit_channel_purpose_modal.title1"
-          values={Object {}}
         />
       </span>
     </ModalTitle>
@@ -272,7 +263,6 @@ exports[`comoponents/EditChannelPurposeModal match with modal error with fake id
       <FormattedMessage
         defaultMessage="Describe how this channel should be used. This text appears in the channel list in the \\"More...\\" menu and helps others decide whether to join."
         id="edit_channel_purpose_modal.body"
-        values={Object {}}
       />
     </p>
     <textarea
@@ -307,7 +297,6 @@ exports[`comoponents/EditChannelPurposeModal match with modal error with fake id
       <FormattedMessage
         defaultMessage="Cancel"
         id="edit_channel_purpose_modal.cancel"
-        values={Object {}}
       />
     </button>
     <button
@@ -319,7 +308,6 @@ exports[`comoponents/EditChannelPurposeModal match with modal error with fake id
       <FormattedMessage
         defaultMessage="Save"
         id="edit_channel_purpose_modal.save"
-        values={Object {}}
       />
     </button>
   </ModalFooter>
@@ -371,7 +359,6 @@ exports[`comoponents/EditChannelPurposeModal should match for private channel 1`
         <FormattedMessage
           defaultMessage="Edit Purpose"
           id="edit_channel_purpose_modal.title1"
-          values={Object {}}
         />
       </span>
     </ModalTitle>
@@ -384,7 +371,6 @@ exports[`comoponents/EditChannelPurposeModal should match for private channel 1`
       <FormattedMessage
         defaultMessage="This text appears in the \\\\\\"View Info\\\\\\" modal of the private channel."
         id="edit_channel_private_purpose_modal.body"
-        values={Object {}}
       />
     </p>
     <textarea
@@ -409,7 +395,6 @@ exports[`comoponents/EditChannelPurposeModal should match for private channel 1`
       <FormattedMessage
         defaultMessage="Cancel"
         id="edit_channel_purpose_modal.cancel"
-        values={Object {}}
       />
     </button>
     <button
@@ -421,7 +406,6 @@ exports[`comoponents/EditChannelPurposeModal should match for private channel 1`
       <FormattedMessage
         defaultMessage="Save"
         id="edit_channel_purpose_modal.save"
-        values={Object {}}
       />
     </button>
   </ModalFooter>
@@ -473,7 +457,6 @@ exports[`comoponents/EditChannelPurposeModal should match on init 1`] = `
         <FormattedMessage
           defaultMessage="Edit Purpose"
           id="edit_channel_purpose_modal.title1"
-          values={Object {}}
         />
       </span>
     </ModalTitle>
@@ -486,7 +469,6 @@ exports[`comoponents/EditChannelPurposeModal should match on init 1`] = `
       <FormattedMessage
         defaultMessage="Describe how this channel should be used. This text appears in the channel list in the \\"More...\\" menu and helps others decide whether to join."
         id="edit_channel_purpose_modal.body"
-        values={Object {}}
       />
     </p>
     <textarea
@@ -511,7 +493,6 @@ exports[`comoponents/EditChannelPurposeModal should match on init 1`] = `
       <FormattedMessage
         defaultMessage="Cancel"
         id="edit_channel_purpose_modal.cancel"
-        values={Object {}}
       />
     </button>
     <button
@@ -523,7 +504,6 @@ exports[`comoponents/EditChannelPurposeModal should match on init 1`] = `
       <FormattedMessage
         defaultMessage="Save"
         id="edit_channel_purpose_modal.save"
-        values={Object {}}
       />
     </button>
   </ModalFooter>
@@ -583,7 +563,6 @@ exports[`comoponents/EditChannelPurposeModal should match submitted 1`] = `
           <FormattedMessage
             defaultMessage="Edit Purpose"
             id="edit_channel_purpose_modal.title1"
-            values={Object {}}
           />
         </span>
       </ModalTitle>
@@ -596,7 +575,6 @@ exports[`comoponents/EditChannelPurposeModal should match submitted 1`] = `
         <FormattedMessage
           defaultMessage="Describe how this channel should be used. This text appears in the channel list in the \\"More...\\" menu and helps others decide whether to join."
           id="edit_channel_purpose_modal.body"
-          values={Object {}}
         />
       </p>
       <textarea
@@ -621,7 +599,6 @@ exports[`comoponents/EditChannelPurposeModal should match submitted 1`] = `
         <FormattedMessage
           defaultMessage="Cancel"
           id="edit_channel_purpose_modal.cancel"
-          values={Object {}}
         />
       </button>
       <button
@@ -633,7 +610,6 @@ exports[`comoponents/EditChannelPurposeModal should match submitted 1`] = `
         <FormattedMessage
           defaultMessage="Save"
           id="edit_channel_purpose_modal.save"
-          values={Object {}}
         />
       </button>
     </ModalFooter>
@@ -686,7 +662,6 @@ exports[`comoponents/EditChannelPurposeModal should match with display name 1`] 
         <FormattedMessage
           defaultMessage="Edit Purpose for "
           id="edit_channel_purpose_modal.title2"
-          values={Object {}}
         />
         <span
           className="name"
@@ -704,7 +679,6 @@ exports[`comoponents/EditChannelPurposeModal should match with display name 1`] 
       <FormattedMessage
         defaultMessage="Describe how this channel should be used. This text appears in the channel list in the \\"More...\\" menu and helps others decide whether to join."
         id="edit_channel_purpose_modal.body"
-        values={Object {}}
       />
     </p>
     <textarea
@@ -729,7 +703,6 @@ exports[`comoponents/EditChannelPurposeModal should match with display name 1`] 
       <FormattedMessage
         defaultMessage="Cancel"
         id="edit_channel_purpose_modal.cancel"
-        values={Object {}}
       />
     </button>
     <button
@@ -741,7 +714,6 @@ exports[`comoponents/EditChannelPurposeModal should match with display name 1`] 
       <FormattedMessage
         defaultMessage="Save"
         id="edit_channel_purpose_modal.save"
-        values={Object {}}
       />
     </button>
   </ModalFooter>

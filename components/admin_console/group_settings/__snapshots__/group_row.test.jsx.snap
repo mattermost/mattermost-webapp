@@ -38,7 +38,6 @@ exports[`components/admin_console/group_settings/GroupRow should match snapshot,
           <FormattedMessage
             defaultMessage="Not Linked"
             id="admin.group_settings.group_row.not_linked"
-            values={Object {}}
           />
         </a>
       </span>
@@ -86,7 +85,6 @@ exports[`components/admin_console/group_settings/GroupRow should match snapshot,
           <FormattedMessage
             defaultMessage="Unlink failed"
             id="admin.group_settings.group_row.unlink_failed"
-            values={Object {}}
           />
         </a>
       </span>
@@ -100,7 +98,6 @@ exports[`components/admin_console/group_settings/GroupRow should match snapshot,
           <FormattedMessage
             defaultMessage="Configure"
             id="admin.group_settings.group_row.configure"
-            values={Object {}}
           />
         </Link>
       </span>
@@ -145,7 +142,6 @@ exports[`components/admin_console/group_settings/GroupRow should match snapshot,
           <FormattedMessage
             defaultMessage="Link failed"
             id="admin.group_settings.group_row.link_failed"
-            values={Object {}}
           />
         </a>
       </span>
@@ -193,7 +189,6 @@ exports[`components/admin_console/group_settings/GroupRow should match snapshot,
           <FormattedMessage
             defaultMessage="Linked"
             id="admin.group_settings.group_row.linked"
-            values={Object {}}
           />
         </a>
       </span>
@@ -207,7 +202,6 @@ exports[`components/admin_console/group_settings/GroupRow should match snapshot,
           <FormattedMessage
             defaultMessage="Edit"
             id="admin.group_settings.group_row.edit"
-            values={Object {}}
           />
         </Link>
       </span>
@@ -252,7 +246,6 @@ exports[`components/admin_console/group_settings/GroupRow should match snapshot,
           <FormattedMessage
             defaultMessage="Linked"
             id="admin.group_settings.group_row.linked"
-            values={Object {}}
           />
         </a>
       </span>
@@ -266,7 +259,6 @@ exports[`components/admin_console/group_settings/GroupRow should match snapshot,
           <FormattedMessage
             defaultMessage="Configure"
             id="admin.group_settings.group_row.configure"
-            values={Object {}}
           />
         </Link>
       </span>
@@ -311,7 +303,6 @@ exports[`components/admin_console/group_settings/GroupRow should match snapshot,
           <FormattedMessage
             defaultMessage="Not Linked"
             id="admin.group_settings.group_row.not_linked"
-            values={Object {}}
           />
         </a>
       </span>

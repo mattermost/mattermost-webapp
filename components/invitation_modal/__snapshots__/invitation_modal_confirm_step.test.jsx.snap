@@ -43,7 +43,6 @@ exports[`components/invitation_modal/InvitationModalConfirmStep should match the
       <FormattedMessage
         defaultMessage="Successful Invites"
         id="invitation_modal.confirm.sent-header"
-        values={Object {}}
       />
     </h2>
     <InvitationModalConfirmStepTable
@@ -66,7 +65,6 @@ exports[`components/invitation_modal/InvitationModalConfirmStep should match the
       <FormattedMessage
         defaultMessage="Invitations Not Sent"
         id="invitation_modal.confirm.not-sent-header"
-        values={Object {}}
       />
     </h2>
     <InvitationModalConfirmStepTable
@@ -92,7 +90,6 @@ exports[`components/invitation_modal/InvitationModalConfirmStep should match the
       <FormattedMessage
         defaultMessage="Invite More People"
         id="invitation_modal.invite.more"
-        values={Object {}}
       />
     </button>
     <button
@@ -102,7 +99,6 @@ exports[`components/invitation_modal/InvitationModalConfirmStep should match the
       <FormattedMessage
         defaultMessage="Done"
         id="invitation_modal.confirm.done"
-        values={Object {}}
       />
     </button>
   </div>
@@ -152,7 +148,6 @@ exports[`components/invitation_modal/InvitationModalConfirmStep should match the
       <FormattedMessage
         defaultMessage="Successful Invites"
         id="invitation_modal.confirm.sent-header"
-        values={Object {}}
       />
     </h2>
     <InvitationModalConfirmStepTable
@@ -175,7 +170,6 @@ exports[`components/invitation_modal/InvitationModalConfirmStep should match the
       <FormattedMessage
         defaultMessage="Invitations Not Sent"
         id="invitation_modal.confirm.not-sent-header"
-        values={Object {}}
       />
     </h2>
     <InvitationModalConfirmStepTable
@@ -201,7 +195,6 @@ exports[`components/invitation_modal/InvitationModalConfirmStep should match the
       <FormattedMessage
         defaultMessage="Invite More People"
         id="invitation_modal.invite.more"
-        values={Object {}}
       />
     </button>
     <button
@@ -211,7 +204,6 @@ exports[`components/invitation_modal/InvitationModalConfirmStep should match the
       <FormattedMessage
         defaultMessage="Done"
         id="invitation_modal.confirm.done"
-        values={Object {}}
       />
     </button>
   </div>
@@ -260,7 +252,6 @@ exports[`components/invitation_modal/InvitationModalConfirmStep should match the
       <FormattedMessage
         defaultMessage="Successful Invites"
         id="invitation_modal.confirm.sent-header"
-        values={Object {}}
       />
     </h2>
     <InvitationModalConfirmStepTable
@@ -286,7 +277,6 @@ exports[`components/invitation_modal/InvitationModalConfirmStep should match the
       <FormattedMessage
         defaultMessage="Invite More People"
         id="invitation_modal.invite.more"
-        values={Object {}}
       />
     </button>
     <button
@@ -296,7 +286,6 @@ exports[`components/invitation_modal/InvitationModalConfirmStep should match the
       <FormattedMessage
         defaultMessage="Done"
         id="invitation_modal.confirm.done"
-        values={Object {}}
       />
     </button>
   </div>
@@ -343,7 +332,6 @@ exports[`components/invitation_modal/InvitationModalConfirmStep should match the
       <FormattedMessage
         defaultMessage="Invite More People"
         id="invitation_modal.invite.more"
-        values={Object {}}
       />
     </button>
     <button
@@ -353,7 +341,6 @@ exports[`components/invitation_modal/InvitationModalConfirmStep should match the
       <FormattedMessage
         defaultMessage="Done"
         id="invitation_modal.confirm.done"
-        values={Object {}}
       />
     </button>
   </div>
@@ -402,7 +389,6 @@ exports[`components/invitation_modal/InvitationModalConfirmStep should match the
       <FormattedMessage
         defaultMessage="Invitations Not Sent"
         id="invitation_modal.confirm.not-sent-header"
-        values={Object {}}
       />
     </h2>
     <InvitationModalConfirmStepTable
@@ -428,7 +414,6 @@ exports[`components/invitation_modal/InvitationModalConfirmStep should match the
       <FormattedMessage
         defaultMessage="Invite More People"
         id="invitation_modal.invite.more"
-        values={Object {}}
       />
     </button>
     <button
@@ -438,7 +423,6 @@ exports[`components/invitation_modal/InvitationModalConfirmStep should match the
       <FormattedMessage
         defaultMessage="Done"
         id="invitation_modal.confirm.done"
-        values={Object {}}
       />
     </button>
   </div>

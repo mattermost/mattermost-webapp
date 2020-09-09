@@ -21,14 +21,14 @@ type Props = {
 };
 
 type Actions = {
-    getProfilesNotInTeam: (teamId: string, groupConstrained: boolean, page: number, perPage?: number, options?: {}) => Promise<{ data: UserProfile[] }>;
+    getProfilesNotInTeam: (teamId: string, groupConstrained: boolean, page: number, perPage?: number, options?: {[key: string]: any}) => Promise<{ data: UserProfile[] }>;
     searchProfiles: (term: string, options?: any) => Promise<{ data: UserProfile[] }>;
 };
 
 function mapStateToProps(state: GlobalState, props: Props) {
     const {id: teamId} = props.team;
 
-    let filterOptions: {} = {active: true};
+    let filterOptions: {[key: string]: any} = {active: true};
     if (props.filterExcludeGuests) {
         filterOptions = {role: 'system_user', ...filterOptions};
     }

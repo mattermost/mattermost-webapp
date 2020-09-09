@@ -171,8 +171,11 @@ h6 {
     position: relative;
 
     code {
+        background-color: inherit;
+        font-size: 13px;
         display: block;
         position: relative;
+        padding: 0px;
         text-align: left;
     }
 
@@ -315,11 +318,10 @@ pre {
 }
 
 code {
+    background-color: rgba(var(--center-channel-color-rgb), 0.1);
+
     // Reset styles from Bootstrap
-    background-color: inherit;
     color: inherit;
-    font-size: 100%;
-    padding: 0px;
 }
 
 .help {

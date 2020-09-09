@@ -3,28 +3,20 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
-import {ServerError} from 'mattermost-redux/types/errors';
 import {ActionFunc} from 'mattermost-redux/types/actions';
 
 import {updateUserActive, revokeAllSessionsForUser, promoteGuestToUser, demoteUserToGuest} from 'mattermost-redux/actions/users';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getExternalBotAccounts} from 'mattermost-redux/selectors/entities/bots';
 import {loadBots} from 'mattermost-redux/actions/bots';
+
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 
 import * as Selectors from 'mattermost-redux/selectors/entities/admin';
 
 import {GlobalState} from 'types/store';
 
-import SystemUsersDropdown from './system_users_dropdown';
-
-type Actions = {
-    updateUserActive: (id: string, active: boolean) => Promise<{error: ServerError}>;
-    revokeAllSessionsForUser: (id: string) => Promise<{error: ServerError; data: any}>;
-    promoteGuestToUser: (id: string) => Promise<{error: ServerError}>;
-    demoteUserToGuest: (id: string) => Promise<{error: ServerError}>;
-    loadBots: (page?: number, size?: number) => Promise<{}>;
-}
+import SystemUsersDropdown, {Props} from './system_users_dropdown';
 
 function mapStateToProps(state: GlobalState) {
     const bots = getExternalBotAccounts(state);
@@ -39,7 +31,7 @@ function mapStateToProps(state: GlobalState) {
 
 function mapDispatchToProps(dispatch: Dispatch) {
     return {
-        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Props['actions']>({
             updateUserActive,
             revokeAllSessionsForUser,
             promoteGuestToUser,
