@@ -24,7 +24,7 @@ export default function SetupPreferencesStep(props: StepComponentProps) {
             dialogType: UserSettingsModal,
             dialogProps: {
                 onExit: onFinish,
-            }
+            },
         }));
     };
 

@@ -20,7 +20,6 @@ exports[`components/emoji_picker/components/EmojiPickerHeader handleEmojiPickerC
       <FormattedMessage
         defaultMessage="Close"
         id="emoji_picker.close"
-        values={Object {}}
       />
     </span>
   </button>
@@ -30,7 +29,6 @@ exports[`components/emoji_picker/components/EmojiPickerHeader handleEmojiPickerC
     <FormattedMessage
       defaultMessage="Emoji Picker"
       id="emoji_picker.header"
-      values={Object {}}
     />
   </h4>
 </div>
@@ -56,7 +54,6 @@ exports[`components/emoji_picker/components/EmojiPickerHeader should match snaps
       <FormattedMessage
         defaultMessage="Close"
         id="emoji_picker.close"
-        values={Object {}}
       />
     </span>
   </button>
@@ -66,7 +63,6 @@ exports[`components/emoji_picker/components/EmojiPickerHeader should match snaps
     <FormattedMessage
       defaultMessage="Emoji Picker"
       id="emoji_picker.header"
-      values={Object {}}
     />
   </h4>
 </div>

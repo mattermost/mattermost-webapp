@@ -20,7 +20,7 @@ describe('Teams Suite', () => {
         });
     });
 
-    it('TS13872 Create a team', () => {
+    it('MM-T383 Create a new team', () => {
         // # Open the team creation modal from the hamburger menu
         openTeamCreationModalFromHamburgerMenu();
 

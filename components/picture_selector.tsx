@@ -98,7 +98,7 @@ const PictureSelector: React.FC<Props> = (props: Props) => {
                 name={name}
                 data-testid={`PictureSelector__input-${name}`}
                 ref={inputRef}
-                className='PictureSelector__input'
+                className='PictureSelector__input hidden'
                 accept='.jpg,.png,.bmp'
                 type='file'
                 onChange={handleFileChange}
