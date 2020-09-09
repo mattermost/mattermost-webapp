@@ -56,7 +56,7 @@ describe('Slash commands page', () => {
         cy.get('#addSlashCommand').click();
 
         // # Do not input trigger word
-        cy.get('#url').type('http://hidden-peak-21733.herokuapp.com/test_ephemeral');
+        cy.get('#url').type('http://example.com');
 
         // # Save
         cy.get('#saveCommand').click();
@@ -133,7 +133,7 @@ describe('Slash commands page', () => {
     });
 
     it('MM-T698 Cancel out of edit', () => {
-        addNewCommand(testTeam, trigger, 'http://hidden-peak-21733.herokuapp.com/test_inchannel');
+        addNewCommand(testTeam, trigger, 'http://example.com');
 
         // # Go to integrations
         cy.visit(`/${testTeam.name}/integrations`);
@@ -154,7 +154,7 @@ describe('Slash commands page', () => {
         cy.get('a[href*="/edit"]').click();
 
         // * Verify that url value is not changed
-        cy.get('#url').should('have.value', 'http://hidden-peak-21733.herokuapp.com/test_inchannel');
+        cy.get('#url').should('have.value', 'http://example.com');
     });
 
     it('MM-T699 Edit custom slash command', () => {
