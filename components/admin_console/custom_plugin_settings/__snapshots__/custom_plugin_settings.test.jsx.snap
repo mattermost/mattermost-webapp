@@ -214,6 +214,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
     />
     <div
       className="error-message"
+      data-testid="errorMessage"
       onMouseOut={[Function]}
       onMouseOver={[Function]}
     >
@@ -290,6 +291,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
     />
     <div
       className="error-message"
+      data-testid="errorMessage"
       onMouseOut={[Function]}
       onMouseOver={[Function]}
     >
@@ -535,6 +537,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
     />
     <div
       className="error-message"
+      data-testid="errorMessage"
       onMouseOut={[Function]}
       onMouseOver={[Function]}
     >

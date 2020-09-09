@@ -6,6 +6,7 @@ import {Posts} from 'mattermost-redux/constants';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import {testComponentForLineBreak} from 'tests/helpers/line_break_helpers';
+import {testComponentForMarkdownHotkeys, makeSelectionEvent} from 'tests/helpers/markdown_hotkey_helpers.js';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import EmojiMap from 'utils/emoji_map';
 
@@ -14,6 +15,7 @@ import * as Utils from 'utils/utils.jsx';
 
 import CreatePost from 'components/create_post/create_post.jsx';
 import FileUpload from 'components/file_upload';
+import Textbox from 'components/textbox';
 
 jest.mock('actions/global_actions.jsx', () => ({
     emitLocalUserTypingEvent: jest.fn(),
@@ -1302,4 +1304,44 @@ describe('components/create_post', () => {
         (value) => createPost({draft: {...draftProp, message: value}}),
         (instance) => instance.state().message,
     );
+
+    testComponentForMarkdownHotkeys(
+        (value) => createPost({draft: {...draftProp, message: value}}),
+        (wrapper, setSelectionRangeFn) => {
+            wrapper.instance().refs = {
+                textbox: {
+                    getInputBox: jest.fn(() => {
+                        return {
+                            focus: jest.fn(),
+                            setSelectionRange: setSelectionRangeFn,
+                        };
+                    }),
+                },
+            };
+        },
+        (instance) => instance.find(Textbox),
+        (instance) => instance.state().message,
+    );
+
+    it('should adjust selection to correct text', () => {
+        const value = 'Jalebi _Fafda_ and Sambharo';
+        const wrapper = shallowWithIntl(createPost({draft: {...draftProp, message: value}}));
+
+        const setSelectionRangeFn = jest.fn();
+        wrapper.instance().refs = {
+            textbox: {
+                getInputBox: jest.fn(() => {
+                    return {
+                        focus: jest.fn(),
+                        setSelectionRange: setSelectionRangeFn,
+                    };
+                }),
+            },
+        };
+
+        const textbox = wrapper.find(Textbox);
+        const e = makeSelectionEvent(value, 7, 14);
+        textbox.props().onSelect(e);
+        expect(setSelectionRangeFn).toHaveBeenCalledWith(8, 13);
+    });
 });

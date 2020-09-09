@@ -92,7 +92,7 @@ Cypress.Commands.add('postMessageReplyInRHS', (message) => {
 });
 
 function postMessageAndWait(textboxSelector, message) {
-    cy.get(textboxSelector, {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').clear().type(`${message}{enter}`);
+    cy.get(textboxSelector, {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').clear().type(`${message}{enter}`).wait(TIMEOUTS.HALF_SEC);
     cy.waitUntil(() => {
         return cy.get(textboxSelector).then((el) => {
             return el[0].textContent === '';
@@ -101,7 +101,7 @@ function postMessageAndWait(textboxSelector, message) {
 }
 
 function waitUntilPermanentPost() {
-    cy.get('#postListContent', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible');
+    cy.get('#postListContent', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
     cy.waitUntil(() => cy.findAllByTestId('postView').last().then((el) => !(el[0].id.includes(':'))));
 }
 
@@ -199,12 +199,29 @@ Cypress.Commands.add('compareLastPostHTMLContentFromFile', (file, timeout = TIME
 // ***********************************************************
 
 function clickPostHeaderItem(postId, location, item) {
+    let idPrefix;
+    switch (location) {
+    case 'CENTER':
+        idPrefix = 'post';
+        break;
+    case 'RHS_ROOT':
+    case 'RHS_COMMENT':
+        idPrefix = 'rhsPost';
+        break;
+    case 'SEARCH':
+        idPrefix = 'searchResult';
+        break;
+
+    default:
+        idPrefix = 'post';
+    }
+
     if (postId) {
-        cy.get(`#post_${postId}`).trigger('mouseover', {force: true});
+        cy.get(`#${idPrefix}_${postId}`).trigger('mouseover', {force: true});
         cy.wait(TIMEOUTS.HALF_SEC).get(`#${location}_${item}_${postId}`).click({force: true});
     } else {
         cy.getLastPostId().then((lastPostId) => {
-            cy.get(`#post_${lastPostId}`).trigger('mouseover', {force: true});
+            cy.get(`#${idPrefix}_${lastPostId}`).trigger('mouseover', {force: true});
             cy.wait(TIMEOUTS.HALF_SEC).get(`#${location}_${item}_${lastPostId}`).click({force: true});
         });
     }
@@ -390,6 +407,15 @@ Cypress.Commands.add('updateChannelHeader', (text) => {
         type(text).
         type('{enter}').
         wait(TIMEOUTS.HALF_SEC);
+});
+
+/**
+ * Archive the current channel.
+ */
+Cypress.Commands.add('uiArchiveChannel', () => {
+    cy.get('#channelHeaderDropdownIcon').click();
+    cy.get('#channelArchiveChannel').click();
+    cy.get('#deleteChannelModalDeleteButton').click();
 });
 
 /**

@@ -2560,7 +2560,7 @@
   "textbox.edit": "Nachricht bearbeiten",
   "textbox.help": "Hilfe",
   "textbox.inlinecode": "`inline code`",
-  "textbox.italic": "_kursiv_",
+  "textbox.italic": "*kursiv*",
   "textbox.preformatted": "```vorformatiert```",
   "textbox.preview": "Vorschau",
   "textbox.quote": ">Zitat",

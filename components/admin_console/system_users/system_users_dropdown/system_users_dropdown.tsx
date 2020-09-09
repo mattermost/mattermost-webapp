@@ -38,6 +38,7 @@ type Props = {
     config: DeepPartial<AdminConfig>;
     bots: Dictionary<Bot>;
     isLicensed: boolean;
+    isDisabled: boolean;
     actions: {
         updateUserActive: (id: string, active: boolean) => Promise<{error: ServerError}>;
         revokeAllSessionsForUser: (id: string) => Promise<{error: ServerError; data: any}>;
@@ -454,7 +455,7 @@ export default class SystemUsersDropdown extends React.PureComponent<Props, Stat
     }
 
     render() {
-        const {currentUser, user, isLicensed} = this.props;
+        const {currentUser, user, isLicensed, config} = this.props;
         const isGuest = Utils.isGuest(user);
         if (!user) {
             return <div/>;
@@ -521,7 +522,9 @@ export default class SystemUsersDropdown extends React.PureComponent<Props, Stat
                 {revokeSessionsModal}
                 {promoteToUserModal}
                 {demoteToGuestModal}
-                <MenuWrapper>
+                <MenuWrapper
+                    isDisabled={this.props.isDisabled}
+                >
                     <div className='text-right'>
                         <a>
                             <span>{currentRoles} </span>
@@ -587,7 +590,7 @@ export default class SystemUsersDropdown extends React.PureComponent<Props, Stat
                             text={Utils.localizeMessage('admin.user_item.promoteToUser', 'Promote to User')}
                         />
                         <Menu.ItemAction
-                            show={!isGuest && user.id !== currentUser.id && isLicensed}
+                            show={!isGuest && user.id !== currentUser.id && isLicensed && config.GuestAccountsSettings?.Enable}
                             onClick={this.handleDemoteToGuest}
                             text={Utils.localizeMessage('admin.user_item.demoteToGuest', 'Demote to Guest')}
                         />
