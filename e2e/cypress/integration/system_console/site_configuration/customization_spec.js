@@ -12,7 +12,11 @@
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 describe('Customization', () => {
-    before(() => {
+    beforeEach(() => {
+        // # as many of the tests logout the user, ensure it's logged
+        // in as an admin before each test
+        cy.apiAdminLogin();
+
         // # Visit customization system console page
         cy.visit('/admin_console/site_config/customization');
         cy.get('.admin-console__header').should('be.visible').and('have.text', 'Customization');
@@ -44,6 +48,31 @@ describe('Customization', () => {
         // * Ensure Site Name and Description are shown the updated values in the login screen
         cy.get('#site_name').should('have.text', siteName);
         cy.get('#site_description').should('have.text', siteDescription);
+    });
+
+    it('MM-T1025 - Site Name - Main Menu ➜ About and About Modal show custom name', () => {
+        // * Verify that setting is visible and matches text content
+        cy.findByTestId('TeamSettings.SiteNamelabel').scrollIntoView().should('be.visible').and('have.text', 'Site Name:');
+
+        // # Update Site Name test value
+        const siteName = "A team's instance";
+        cy.findByTestId('TeamSettings.SiteNameinput').clear().type(siteName);
+
+        // # Save setting
+        saveSetting();
+
+        // # Exit settings
+        cy.visit('/');
+
+        // # Open About Mattermost menu option
+        cy.get('body').type('{esc}').wait(TIMEOUTS.HALF_SEC);
+        cy.findByLabelText('main menu').click();
+
+        // * Find the about menu entry, which contains the new site name
+        cy.findByText(`About ${siteName}`).scrollIntoView().click();
+
+        // * Verify in the about modal that the new site name is being shown
+        cy.get('#aboutModalLabel').should('be.visible').and('have.text', `About ${siteName}`);
     });
 });
 
