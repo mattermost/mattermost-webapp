@@ -30,16 +30,19 @@ export function makeGetMentionKeysForPost() {
     );
 }
 
-function mapStateToProps(state, ownProps) {
-    const channel = getChannel(state, ownProps.channelId);
+function makeMapStateToProps() {
     const getMentionKeysForPost = makeGetMentionKeysForPost();
-    return {
-        channel,
-        pluginHooks: state.plugins.components.MessageWillFormat,
-        hasPluginTooltips: Boolean(state.plugins.components.LinkTooltip),
-        isUserCanManageMembers: channel && canManageMembers(state, channel),
-        mentionKeys: getMentionKeysForPost(state, ownProps.post, channel),
+
+    return (state, ownProps) => {
+        const channel = getChannel(state, ownProps.channelId);
+        return {
+            channel,
+            pluginHooks: state.plugins.components.MessageWillFormat,
+            hasPluginTooltips: Boolean(state.plugins.components.LinkTooltip),
+            isUserCanManageMembers: channel && canManageMembers(state, channel),
+            mentionKeys: getMentionKeysForPost(state, ownProps.post, channel),
+        };
     };
 }
 
-export default connect(mapStateToProps)(PostMarkdown);
+export default connect(makeMapStateToProps)(PostMarkdown);
