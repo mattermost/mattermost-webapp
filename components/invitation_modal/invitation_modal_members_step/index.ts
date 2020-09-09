@@ -32,7 +32,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             {
                 getStandardAnalytics,
             },
-            dispatch
+            dispatch,
         ),
     };
 }

@@ -12,7 +12,6 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemove shou
           "name": <FormattedMessage
             defaultMessage="Name"
             id="admin.team_channel_settings.user_list.nameHeader"
-            values={Object {}}
           />,
           "width": 5,
         },
@@ -21,7 +20,6 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemove shou
           "name": <FormattedMessage
             defaultMessage="Role"
             id="admin.team_channel_settings.user_list.roleHeader"
-            values={Object {}}
           />,
           "width": 2,
         },
@@ -30,7 +28,6 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemove shou
           "name": <FormattedMessage
             defaultMessage="Groups"
             id="admin.team_channel_settings.user_list.groupsHeader"
-            values={Object {}}
           />,
           "width": 3,
         },
@@ -54,14 +51,12 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemove shou
             "name": <FormattedMessage
               defaultMessage="Role"
               id="admin.user_grid.role"
-              values={Object {}}
             />,
             "values": Object {
               "system_admin": Object {
                 "name": <FormattedMessage
                   defaultMessage="System Admin"
                   id="admin.user_grid.system_admin"
-                  values={Object {}}
                 />,
                 "value": false,
               },
@@ -69,7 +64,6 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemove shou
                 "name": <FormattedMessage
                   defaultMessage="Guest"
                   id="admin.user_grid.guest"
-                  values={Object {}}
                 />,
                 "value": false,
               },
@@ -77,7 +71,6 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemove shou
                 "name": <FormattedMessage
                   defaultMessage="Team Admin"
                   id="admin.user_grid.team_admin"
-                  values={Object {}}
                 />,
                 "value": false,
               },
@@ -85,7 +78,6 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemove shou
                 "name": <FormattedMessage
                   defaultMessage="Member"
                   id="admin.user_item.member"
-                  values={Object {}}
                 />,
                 "value": false,
               },
@@ -101,7 +93,6 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemove shou
       <FormattedMessage
         defaultMessage="No users found"
         id="admin.member_list_group.notFound"
-        values={Object {}}
       />
     }
     previousPage={[Function]}
@@ -126,7 +117,6 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemove shou
           "name": <FormattedMessage
             defaultMessage="Name"
             id="admin.team_channel_settings.user_list.nameHeader"
-            values={Object {}}
           />,
           "width": 5,
         },
@@ -135,7 +125,6 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemove shou
           "name": <FormattedMessage
             defaultMessage="Role"
             id="admin.team_channel_settings.user_list.roleHeader"
-            values={Object {}}
           />,
           "width": 2,
         },
@@ -144,7 +133,6 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemove shou
           "name": <FormattedMessage
             defaultMessage="Groups"
             id="admin.team_channel_settings.user_list.groupsHeader"
-            values={Object {}}
           />,
           "width": 3,
         },
@@ -168,14 +156,12 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemove shou
             "name": <FormattedMessage
               defaultMessage="Role"
               id="admin.user_grid.role"
-              values={Object {}}
             />,
             "values": Object {
               "system_admin": Object {
                 "name": <FormattedMessage
                   defaultMessage="System Admin"
                   id="admin.user_grid.system_admin"
-                  values={Object {}}
                 />,
                 "value": false,
               },
@@ -183,7 +169,6 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemove shou
                 "name": <FormattedMessage
                   defaultMessage="Guest"
                   id="admin.user_grid.guest"
-                  values={Object {}}
                 />,
                 "value": false,
               },
@@ -191,7 +176,6 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemove shou
                 "name": <FormattedMessage
                   defaultMessage="Team Admin"
                   id="admin.user_grid.team_admin"
-                  values={Object {}}
                 />,
                 "value": false,
               },
@@ -199,7 +183,6 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemove shou
                 "name": <FormattedMessage
                   defaultMessage="Member"
                   id="admin.user_item.member"
-                  values={Object {}}
                 />,
                 "value": false,
               },
@@ -215,7 +198,6 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemove shou
       <FormattedMessage
         defaultMessage="No users found"
         id="admin.member_list_group.notFound"
-        values={Object {}}
       />
     }
     previousPage={[Function]}
@@ -240,7 +222,6 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemove shou
           "name": <FormattedMessage
             defaultMessage="Name"
             id="admin.team_channel_settings.user_list.nameHeader"
-            values={Object {}}
           />,
           "width": 5,
         },
@@ -249,7 +230,6 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemove shou
           "name": <FormattedMessage
             defaultMessage="Role"
             id="admin.team_channel_settings.user_list.roleHeader"
-            values={Object {}}
           />,
           "width": 2,
         },
@@ -258,7 +238,6 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemove shou
           "name": <FormattedMessage
             defaultMessage="Groups"
             id="admin.team_channel_settings.user_list.groupsHeader"
-            values={Object {}}
           />,
           "width": 3,
         },
@@ -282,14 +261,12 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemove shou
             "name": <FormattedMessage
               defaultMessage="Role"
               id="admin.user_grid.role"
-              values={Object {}}
             />,
             "values": Object {
               "system_admin": Object {
                 "name": <FormattedMessage
                   defaultMessage="System Admin"
                   id="admin.user_grid.system_admin"
-                  values={Object {}}
                 />,
                 "value": false,
               },
@@ -297,7 +274,6 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemove shou
                 "name": <FormattedMessage
                   defaultMessage="Guest"
                   id="admin.user_grid.guest"
-                  values={Object {}}
                 />,
                 "value": false,
               },
@@ -305,7 +281,6 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemove shou
                 "name": <FormattedMessage
                   defaultMessage="Team Admin"
                   id="admin.user_grid.team_admin"
-                  values={Object {}}
                 />,
                 "value": false,
               },
@@ -313,7 +288,6 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemove shou
                 "name": <FormattedMessage
                   defaultMessage="Member"
                   id="admin.user_item.member"
-                  values={Object {}}
                 />,
                 "value": false,
               },
@@ -329,7 +303,6 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemove shou
       <FormattedMessage
         defaultMessage="No users found"
         id="admin.member_list_group.notFound"
-        values={Object {}}
       />
     }
     previousPage={[Function]}
@@ -354,7 +327,6 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemove shou
           "name": <FormattedMessage
             defaultMessage="Name"
             id="admin.team_channel_settings.user_list.nameHeader"
-            values={Object {}}
           />,
           "width": 5,
         },
@@ -363,7 +335,6 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemove shou
           "name": <FormattedMessage
             defaultMessage="Role"
             id="admin.team_channel_settings.user_list.roleHeader"
-            values={Object {}}
           />,
           "width": 2,
         },
@@ -372,7 +343,6 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemove shou
           "name": <FormattedMessage
             defaultMessage="Groups"
             id="admin.team_channel_settings.user_list.groupsHeader"
-            values={Object {}}
           />,
           "width": 3,
         },
@@ -395,14 +365,12 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemove shou
             "name": <FormattedMessage
               defaultMessage="Role"
               id="admin.user_grid.role"
-              values={Object {}}
             />,
             "values": Object {
               "system_admin": Object {
                 "name": <FormattedMessage
                   defaultMessage="System Admin"
                   id="admin.user_grid.system_admin"
-                  values={Object {}}
                 />,
                 "value": false,
               },
@@ -410,7 +378,6 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemove shou
                 "name": <FormattedMessage
                   defaultMessage="Team Admin"
                   id="admin.user_grid.team_admin"
-                  values={Object {}}
                 />,
                 "value": false,
               },
@@ -418,7 +385,6 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemove shou
                 "name": <FormattedMessage
                   defaultMessage="Member"
                   id="admin.user_item.member"
-                  values={Object {}}
                 />,
                 "value": false,
               },
@@ -434,7 +400,6 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemove shou
       <FormattedMessage
         defaultMessage="No users found"
         id="admin.member_list_group.notFound"
-        values={Object {}}
       />
     }
     previousPage={[Function]}

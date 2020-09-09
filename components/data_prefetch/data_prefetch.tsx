@@ -23,11 +23,11 @@ type Props = {
 }
 
 /*
-This component is responsible for prefetching data. As of now component only fetches for channel posts based on the below set of rules.
-   * Priority order:
+    This component is responsible for prefetching data. As of now component only fetches for channel posts based on the below set of rules.
+    * Priority order:
         Fetches channel posts 2 at a time, with mentions followed channels with unreads.
 
-  * Conditions for prefetching posts:
+    * Conditions for prefetching posts:
         On load of webapp
         On socket reconnect or system comes from sleep
         On new message in a channel where user has not visited in the present session
@@ -39,12 +39,11 @@ This component is responsible for prefetching data. As of now component only fet
         i.e there can be new mentions and we need to prioritise instead of unreads so, contructs a new queue
         with dispacthes of unreads posts for channels which do not have prefetched requests.
 
-  * other changes:
+    * other changes:
         Adds current channel posts requests to be dispatched as soon as it is set in redux state instead of dispatching it from actions down the hierarchy. Otherwise couple of prefetching requests are sent before the postlist makes a request for posts.
         Add a jitter(0-1sec) for delaying post requests in case of a new message in open/private channels. This is to prevent a case when all clients request messages when new post is made in a channel with thousands of users.
 */
-
-export default class DataPrefetch extends React.PureComponent<Props, {}> {
+export default class DataPrefetch extends React.PureComponent<Props> {
     private prefetchTimeout?: number;
 
     async componentDidUpdate(prevProps: Props) {

@@ -12,7 +12,6 @@ exports[`/components/create_team/components/display_name should match snapshot 1
       <FormattedMessage
         defaultMessage="Team URL"
         id="create_team.team_url.teamUrl"
-        values={Object {}}
       />
     </h2>
     <div
@@ -72,7 +71,6 @@ exports[`/components/create_team/components/display_name should match snapshot 1
       <FormattedMessage
         defaultMessage="Choose the web address of your new team:"
         id="create_team.team_url.webAddress"
-        values={Object {}}
       />
     </p>
     <ul
@@ -82,21 +80,18 @@ exports[`/components/create_team/components/display_name should match snapshot 1
         <FormattedMessage
           defaultMessage="Short and memorable is best"
           id="create_team.team_url.hint1"
-          values={Object {}}
         />
       </li>
       <li>
         <FormattedMessage
           defaultMessage="Use lowercase letters, numbers and dashes"
           id="create_team.team_url.hint2"
-          values={Object {}}
         />
       </li>
       <li>
         <FormattedMessage
           defaultMessage="Must start with a letter and can't end in a dash"
           id="create_team.team_url.hint3"
-          values={Object {}}
         />
       </li>
     </ul>
@@ -116,7 +111,6 @@ exports[`/components/create_team/components/display_name should match snapshot 1
         <FormattedMessage
           defaultMessage="Finish"
           id="create_team.team_url.finish"
-          values={Object {}}
         />
       </Button>
     </div>
@@ -130,7 +124,6 @@ exports[`/components/create_team/components/display_name should match snapshot 1
         <FormattedMessage
           defaultMessage="Back to previous step"
           id="create_team.team_url.back"
-          values={Object {}}
         />
       </a>
     </div>
