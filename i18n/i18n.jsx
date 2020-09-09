@@ -27,7 +27,7 @@ import store from 'stores/redux_store.jsx';
 const languages = {
     bg: {
         value: 'bg',
-        name: 'български (Beta)',
+        name: 'Български (Beta)',
         order: 10,
         url: bg,
     },
