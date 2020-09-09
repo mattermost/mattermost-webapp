@@ -117,7 +117,7 @@ export default class Logs extends React.PureComponent<Props, State> {
             const style: React.CSSProperties = {
                 whiteSpace: 'nowrap',
                 fontFamily: 'monospace',
-                color: ''
+                color: '',
             };
 
             if (this.props.logs[i].indexOf('[EROR]') > 0) {
