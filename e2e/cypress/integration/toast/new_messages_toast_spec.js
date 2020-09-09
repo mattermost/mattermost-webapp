@@ -157,4 +157,41 @@ describe('Toast', () => {
             });
         });
     });
+
+    it('MM-T1786 Dismissing the toast using Jump to', () => {
+        // # Have a channel with more than a page of unread messages (have another user post around 30 messages)
+        const randomId = getRandomId();
+        const numberOfPost = 30;
+        Cypress._.times(numberOfPost, (num) => {
+            cy.postMessageAs({sender: otherUser, message: `${num} ${randomId}`, channelId: townsquareChannelId});
+        });
+
+        // # Switch to the channel
+        visitTownSquareAndWaitForPageToLoad();
+
+        // * Verify toast is visible with jump to recent messages button
+        cy.get('div.toast').should('be.visible');
+        cy.get('div.toast').findByText('Jump to recents').should('be.visible').click();
+
+        // * Verify toast is not visible
+        cy.get('div.toast__jump').should('not.be.visible');
+
+        // # Scroll up on the channel
+        scrollUp();
+
+        Cypress._.times(2, (num) => {
+            // # Post messages as otherUser
+            cy.postMessageAs({sender: otherUser, message: `${num} ${randomId}`, channelId: townsquareChannelId});
+        });
+
+        // * Toast should be visible with jump to new messages button
+        cy.get('div.toast').should('be.visible');
+        cy.get('div.toast').findByText('Jump to new messages').should('be.visible');
+
+        // # Scroll down to the bottom to read all messages
+        scrollDown();
+
+        // * Verify toast is not visible
+        cy.get('div.toast').should('not.be.visible');
+    });
 });

@@ -304,6 +304,28 @@ describe('Upload Files', () => {
         cy.findByText('Back to Mattermost').should('be.visible').parent().should('have.attr', 'href', '/');
     });
 
+    it('MM-T337 CTRL/CMD+U - Five files on one message, thumbnails while uploading', () => {
+        cy.visit(`/${testTeam.name}/channels/town-square`);
+        const filename = 'huge-image.jpg';
+        cy.get('#centerChannelFooter').find('#fileUploadInput').
+            attachFile(filename).
+            attachFile(filename).
+            attachFile(filename).
+            attachFile(filename).
+            attachFile(filename);
+        for (let i = 1; i < 4; i++) {
+            cy.get(`:nth-child(${i}) > .post-image__thumbnail > .post-image`).should('be.visible');
+        }
+        cy.get(':nth-child(5) > .post-image__thumbnail > .post-image').should('not.be.visible');
+        cy.get('.file-preview__container').scrollTo('right');
+        for (let i = 1; i < 3; i++) {
+            cy.get(`:nth-child(${i}) > .post-image__thumbnail > .post-image`).should('not.be.visible');
+        }
+        cy.get(':nth-child(5) > .post-image__thumbnail > .post-image').should('be.visible');
+        cy.postMessage('test');
+        cy.findByTestId('fileAttachmentList').find('.post-image').should('have.length', 5);
+    });
+
     it('MM-T338 Image Attachment Upload in Mobile View', () => {
         // # Set the viewport to mobile
         cy.viewport('iphone-6');
