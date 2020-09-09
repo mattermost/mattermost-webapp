@@ -116,7 +116,7 @@ describe('Profile popover', () => {
         // # Do the system console setup
         cy.apiAdminLogin();
         cy.visit('/admin_console/user_management/permissions/system_scheme');
-        cy.findByTestId('all_users-public_channel-checkbox').scrollIntoView().should('be.visible').click();
+        cy.findByTestId('all_users-public_channel-checkbox').scrollIntoView().should('be.visible').click().click();
 
         // * Verify that all the sub-checkboxes are disabled
         verifyPermissionSubSections('all_users', 'public', false);
@@ -238,7 +238,7 @@ describe('Profile popover', () => {
         // # Do the system console setup
         cy.apiAdminLogin();
         cy.visit('/admin_console/user_management/permissions/system_scheme');
-        cy.findByTestId('all_users-public_channel-checkbox').scrollIntoView().should('be.visible').click();
+        cy.findByTestId('all_users-public_channel-checkbox').scrollIntoView().should('be.visible').click().click();
 
         // * Verify that all the sub-checkboxes are disabled
         verifyPermissionSubSections('all_users', 'public', false);
@@ -405,7 +405,7 @@ describe('Profile popover', () => {
         // # Do the system console setup
         cy.apiAdminLogin();
         cy.visit('/admin_console/user_management/permissions/system_scheme');
-        cy.findByTestId('all_users-public_channel-checkbox').scrollIntoView().should('be.visible').click();
+        cy.findByTestId('all_users-public_channel-checkbox').scrollIntoView().should('be.visible').click().click();
 
         // * Verify that all the sub-checkboxes are disabled.
         verifyPermissionSubSections('all_users', 'public', false);
@@ -486,9 +486,9 @@ const verifyPermissionSubSections = (category, publicOrPrivate, checked) => {
     if (category !== 'channel_admin') {
         cy.findByTestId(category + '-' + publicOrPrivate + '_channel-create_' + publicOrPrivate + '_channel-checkbox').should(classCondition, 'checked');
     }
-    cy.findByTestId(category + '-' + publicOrPrivate + '_channel-manage_' + publicOrPrivate + '_channel_properties-checkbox').should(classCondition, 'checked');
-    cy.findByTestId(category + '-' + publicOrPrivate + '_channel-manage_' + publicOrPrivate + '_channel_members_and_read_groups-checkbox').should(classCondition, 'checked');
-    cy.findByTestId(category + '-' + publicOrPrivate + '_channel-delete_' + publicOrPrivate + '_channel-checkbox').should(classCondition, 'checked');
+    cy.findByTestId(`${category}-${publicOrPrivate}_channel-manage_${publicOrPrivate}_channel_properties-checkbox`).should(classCondition, 'checked');
+    cy.findByTestId(`${category}-${publicOrPrivate}_channel-manage_${publicOrPrivate}_channel_members_and_read_groups-checkbox`).should(classCondition, 'checked');
+    cy.findByTestId(`${category}-${publicOrPrivate}_channel-delete_${publicOrPrivate}_channel-checkbox`).should(classCondition, 'checked');
 };
 
 const verifyAddToChannel = (user, visible = true) => {
