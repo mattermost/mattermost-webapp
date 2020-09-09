@@ -28,9 +28,6 @@ describe('Custom Terms of Service', () => {
         cy.apiInitSetup().then(({team, user}) => {
             testUser = user;
             testTeam = team;
-
-            // # Verify new user email
-            cy.apiVerifyUserEmailById(testUser.id);
         });
     });
 
@@ -45,9 +42,12 @@ describe('Custom Terms of Service', () => {
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // * Ensure that the terms of service text shows as expected
-        cy.findByTestId('terms-of-service').should('be.visible').and('contain.text', customTermsOfServiceText);
+        cy.findByTestId('termsOfService').should('be.visible').and('contain.text', customTermsOfServiceText);
 
         // * Ensure that the accept terms button is visible and click it
         cy.get('#acceptTerms').should('be.visible').click();
+
+        // * Ensure the user is redirected to the appropriate team after terms are accepted
+        cy.url().should('include', `/${testTeam.name}/channels/town-square`);
     });
 });

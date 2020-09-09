@@ -158,7 +158,7 @@ export default class TermsOfService extends React.PureComponent {
                         <div className={termsMarkdownClasses}>
                             <div
                                 className='medium-center'
-                                data-testid='terms-of-service'
+                                data-testid='termsOfService'
                             >
                                 {messageHtmlToComponent(this.formattedText(this.state.customTermsOfServiceText), false, {mentions: false})}
                             </div>
