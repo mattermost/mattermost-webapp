@@ -13,7 +13,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       <FormattedMessage
         defaultMessage="Permission"
         id="admin.permissions.permissionsTree.permission"
-        values={Object {}}
       />
     </div>
     <div
@@ -22,7 +21,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       <FormattedMessage
         defaultMessage="Description"
         id="admin.permissions.permissionsTree.description"
-        values={Object {}}
       />
     </div>
   </div>
@@ -170,7 +168,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       <FormattedMessage
         defaultMessage="Permission"
         id="admin.permissions.permissionsTree.permission"
-        values={Object {}}
       />
     </div>
     <div
@@ -179,7 +176,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       <FormattedMessage
         defaultMessage="Description"
         id="admin.permissions.permissionsTree.description"
-        values={Object {}}
       />
     </div>
   </div>
@@ -335,7 +331,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       <FormattedMessage
         defaultMessage="Permission"
         id="admin.permissions.permissionsTree.permission"
-        values={Object {}}
       />
     </div>
     <div
@@ -344,7 +339,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       <FormattedMessage
         defaultMessage="Description"
         id="admin.permissions.permissionsTree.description"
-        values={Object {}}
       />
     </div>
   </div>
@@ -500,7 +494,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       <FormattedMessage
         defaultMessage="Permission"
         id="admin.permissions.permissionsTree.permission"
-        values={Object {}}
       />
     </div>
     <div
@@ -509,7 +502,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       <FormattedMessage
         defaultMessage="Description"
         id="admin.permissions.permissionsTree.description"
-        values={Object {}}
       />
     </div>
   </div>
@@ -665,7 +657,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       <FormattedMessage
         defaultMessage="Permission"
         id="admin.permissions.permissionsTree.permission"
-        values={Object {}}
       />
     </div>
     <div
@@ -674,7 +665,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       <FormattedMessage
         defaultMessage="Description"
         id="admin.permissions.permissionsTree.description"
-        values={Object {}}
       />
     </div>
   </div>
@@ -830,7 +820,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       <FormattedMessage
         defaultMessage="Permission"
         id="admin.permissions.permissionsTree.permission"
-        values={Object {}}
       />
     </div>
     <div
@@ -839,7 +828,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       <FormattedMessage
         defaultMessage="Description"
         id="admin.permissions.permissionsTree.description"
-        values={Object {}}
       />
     </div>
   </div>
@@ -995,7 +983,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       <FormattedMessage
         defaultMessage="Permission"
         id="admin.permissions.permissionsTree.permission"
-        values={Object {}}
       />
     </div>
     <div
@@ -1004,7 +991,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       <FormattedMessage
         defaultMessage="Description"
         id="admin.permissions.permissionsTree.description"
-        values={Object {}}
       />
     </div>
   </div>

@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 import React from 'react';
-import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
@@ -198,7 +198,7 @@ export default class MessageExportSettings extends AdminSettings {
                     }
                     placeholder={Utils.localizeMessage('admin.complianceExport.globalRelayEmailAddress.example', 'E.g.: "globalrelay@mattermost.com"')}
                     helpText={
-                        <FormattedHTMLMessage
+                        <FormattedMessage
                             id='admin.complianceExport.globalRelayEmailAddress.description'
                             defaultMessage='The email address that your GlobalRelay server monitors for incoming Compliance Exports.'
                         />
@@ -260,7 +260,7 @@ export default class MessageExportSettings extends AdminSettings {
                     }
                     placeholder={Utils.localizeMessage('admin.complianceExport.exportJobStartTime.example', 'E.g.: "02:00"')}
                     helpText={
-                        <FormattedHTMLMessage
+                        <FormattedMessage
                             id='admin.complianceExport.exportJobStartTime.description'
                             defaultMessage='Set the start time of the daily scheduled compliance export job. Choose a time when fewer people are using your system. Must be a 24-hour time stamp in the form HH:MM.'
                         />

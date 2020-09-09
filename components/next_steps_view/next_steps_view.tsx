@@ -89,6 +89,10 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
         };
     }
 
+    showFinalScreenNoAnimation = () => {
+        this.setState({showFinalScreen: true});
+    }
+
     showFinalScreen = () => {
         this.setState({showFinalScreen: true, animating: true});
     }
@@ -203,6 +207,13 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                 </div>
             </div>
         );
+    }
+
+    componentDidMount = () => {
+        // If all steps are complete, don't render this and skip to the tips screen
+        if (this.getIncompleteStep() === null) {
+            this.showFinalScreenNoAnimation();
+        }
     }
 
     renderMainBody = () => {
