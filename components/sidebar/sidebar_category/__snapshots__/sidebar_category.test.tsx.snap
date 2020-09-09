@@ -204,7 +204,6 @@ exports[`components/sidebar/sidebar_category should match snapshot when isNewCat
         <FormattedMessage
           defaultMessage="new"
           id="sidebar_left.sidebar_category.newLabel"
-          values={Object {}}
         />
       </div>
     </button>
@@ -251,7 +250,6 @@ exports[`components/sidebar/sidebar_category should match snapshot when isNewCat
           <FormattedMessage
             defaultMessage="Drag channels here..."
             id="sidebar_left.sidebar_category.newDropBoxLabel"
-            values={Object {}}
           />
         </span>
       </div>

@@ -20,7 +20,7 @@ class FilterList extends React.PureComponent<Props> {
             [key]: {
                 ...this.props.option.values[key],
                 value,
-            }
+            },
         };
         await this.props.updateValues(values, this.props.optionKey);
     }
