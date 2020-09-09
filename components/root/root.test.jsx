@@ -9,7 +9,7 @@ import {Client4} from 'mattermost-redux/client';
 import Root from 'components/root/root';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import * as Utils from 'utils/utils';
-import Constants from 'utils/constants';
+import Constants, {StoragePrefixes} from 'utils/constants';
 
 jest.mock('fastclick', () => ({
     attach: () => {}, // eslint-disable-line no-empty-function
@@ -78,6 +78,7 @@ describe('components/Root', () => {
 
         wrapper.instance().onConfigLoaded();
         expect(props.history.push).toHaveBeenCalledWith('/signup_user_complete');
+        wrapper.unmount();
     });
 
     test('should load user, config, and license on mount and redirect to defaultTeam on success', (done) => {
@@ -98,9 +99,10 @@ describe('components/Root', () => {
             });
         }
 
-        shallow(<MockedRoot {...props}/>);
+        const wrapper = shallow(<MockedRoot {...props}/>);
 
         expect(props.actions.loadMeAndConfig).toHaveBeenCalledTimes(1);
+        wrapper.unmount();
     });
 
     test('should load user, config, and license on mount and should not redirect to defaultTeam id pathname is not root', (done) => {
@@ -120,7 +122,8 @@ describe('components/Root', () => {
             });
         }
 
-        shallow(<MockedRoot {...props}/>);
+        const wrapper = shallow(<MockedRoot {...props}/>);
+        wrapper.unmount();
     });
 
     test('should load config and enable dev mode features', () => {
@@ -144,6 +147,7 @@ describe('components/Root', () => {
         wrapper.instance().onConfigLoaded();
         expect(Utils.isDevMode).toHaveBeenCalledTimes(1);
         expect(Utils.enableDevModeFeatures).toHaveBeenCalledTimes(1);
+        wrapper.unmount();
     });
 
     test('should load config and not enable dev mode features', () => {
@@ -167,6 +171,7 @@ describe('components/Root', () => {
         wrapper.instance().onConfigLoaded();
         expect(Utils.isDevMode).toHaveBeenCalledTimes(1);
         expect(Utils.enableDevModeFeatures).not.toHaveBeenCalled();
+        wrapper.unmount();
     });
 
     test('should call history on props change', () => {
@@ -185,12 +190,14 @@ describe('components/Root', () => {
         };
         wrapper.setProps(props2);
         expect(props.history.push).toHaveBeenLastCalledWith('/signup_user_complete');
+        wrapper.unmount();
     });
 
     test('should not call enableRudderEvents on call of onConfigLoaded if url and key for rudder is not set', () => {
         const wrapper = shallow(<Root {...baseProps}/>);
         wrapper.instance().onConfigLoaded();
         expect(Client4.enableRudderEvents).not.toHaveBeenCalled();
+        wrapper.unmount();
     });
 
     test('should call for enableRudderEvents on call of onConfigLoaded if url and key for rudder is set', () => {
@@ -200,5 +207,25 @@ describe('components/Root', () => {
         const wrapper = shallow(<Root {...baseProps}/>);
         wrapper.instance().onConfigLoaded();
         expect(Client4.enableRudderEvents).toHaveBeenCalled();
+        wrapper.unmount();
+    });
+
+    test('should reload on focus after getting signal login event from another tab', () => {
+        Object.defineProperty(window.location, 'reload', {
+            configurable: true,
+            writable: true,
+        });
+        window.location.reload = jest.fn();
+        const wrapper = shallow(<Root {...baseProps}/>);
+        const loginSignal = new StorageEvent('storage', {
+            key: StoragePrefixes.LOGIN,
+            newValue: String(Math.random()),
+            storageArea: localStorage,
+        });
+
+        window.dispatchEvent(loginSignal);
+        document.dispatchEvent(new Event('visibilitychange'));
+        expect(window.location.reload).toBeCalledTimes(1);
+        wrapper.unmount();
     });
 });
