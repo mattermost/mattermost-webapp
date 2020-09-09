@@ -24,10 +24,14 @@ describe('LocalizedIcon', () => {
     test('should render using given component', () => {
         const props = {
             ...baseProps,
-            component: 'span',
         };
 
-        const wrapper = mountWithIntl(<LocalizedIcon {...props}/>);
+        const wrapper = mountWithIntl(
+            <LocalizedIcon
+                component='span'
+                {...props}
+            />,
+        );
 
         expect(wrapper.find('i').exists()).toBe(false);
         expect(wrapper.find('span').exists()).toBe(true);

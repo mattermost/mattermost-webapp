@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @notifications
 
 import * as MESSAGES from '../../fixtures/messages';
@@ -127,6 +128,37 @@ describe('Desktop notifications', () => {
 
                 // # Verify that the email subject is about joining.
                 expect(data.subject).to.contain('You joined');
+            });
+        });
+    });
+
+    it('MM-T487 Desktop Notifications - For all activity with apostrophe, emoji, and markdown in notification', () => {
+        cy.apiCreateUser().then(({user}) => {
+            cy.apiAddUserToTeam(testTeam.id, user.id);
+            cy.apiLogin(user);
+
+            // Visit the MM webapp with the notification API stubbed.
+            cy.visit(`/${testTeam.name}/channels/town-square`);
+            spyNotificationAs('withNotification', 'granted');
+
+            const actualMsg = '*I\'m* [hungry](http://example.com) :taco: ![Mattermost](http://www.mattermost.org/wp-content/uploads/2016/03/logoHorizontal.png)';
+            const expected = '@' + testUser.username + ': I\'m hungry :taco: Mattermost';
+
+            // # Ensure notifications are set up to fire a desktop notification if are mentioned.
+            changeDesktopNotificationSettingsAs('#desktopNotificationAllActivity');
+
+            cy.apiGetChannelByName(testTeam.name, 'Off-Topic').then((res) => {
+                const channel = res.body;
+
+                // Have another user send a post.
+                cy.postMessageAs({sender: testUser, message: actualMsg, channelId: channel.id});
+
+                // * Desktop notification should be received with expected body.
+                cy.wait(TIMEOUTS.HALF_SEC);
+                cy.get('@withNotification').should('have.been.calledWithMatch', 'Off-Topic', (args) => {
+                    expect(args.body, `Notification body: "${args.body}" should match: "${expected}"`).to.equal(expected);
+                    return true;
+                });
             });
         });
     });

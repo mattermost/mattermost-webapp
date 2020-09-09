@@ -3,7 +3,7 @@
 
 import React from 'react';
 import {getTimezoneRegion} from 'mattermost-redux/utils/timezone_utils';
-import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 
 import {UserProfile} from 'mattermost-redux/types/users';
 import {ActionResult} from 'mattermost-redux/types/actions';
@@ -230,7 +230,7 @@ export default class ManageTimezones extends React.PureComponent<Props, State> {
         inputs.push(
             <div>
                 <br/>
-                <FormattedHTMLMessage
+                <FormattedMessage
                     id='user.settings.timezones.promote'
                     defaultMessage='Select the time zone used for timestamps in the user interface and email notifications.'
                 />

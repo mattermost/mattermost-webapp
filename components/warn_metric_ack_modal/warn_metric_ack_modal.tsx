@@ -76,17 +76,13 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
         if (error) {
             this.setState({serverError: error, saving: false});
         } else {
-            this.onHideWithParent();
+            this.onHide();
         }
     }
 
     onHide = () => {
         this.setState({serverError: null, saving: false});
         this.props.actions.closeModal(ModalIdentifiers.WARN_METRIC_ACK);
-    }
-
-    onHideWithParent = () => {
-        this.onHide();
         if (this.props.closeParentComponent) {
             this.props.closeParentComponent();
         }
@@ -149,7 +145,7 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
         const headerTitle = (
             <FormattedMessage
                 id='warn_metric_ack_modal.header.title'
-                defaultMessage='Upgrade to Mattermost Enterprise Edition'
+                defaultMessage='Scaling with Mattermost'
             />
         );
         const descriptionText = (
@@ -170,7 +166,7 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
             >
                 <FormattedMessage
                     id='warn_metric_ack_modal.number_of_active_users.subtext'
-                    defaultMessage='Contacting support sends your contact information to Mattermost, Inc. {link}'
+                    defaultMessage='By clicking Acknowledge, you will be sharing your information with Mattermost Inc., to learn more about upgrading. {link}'
                     values={{
                         link: (
                             <ErrorLink
@@ -187,7 +183,7 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
         const buttonText = (
             <FormattedMessage
                 id='warn_metric_ack_modal.contact_support'
-                defaultMessage='Contact us'
+                defaultMessage='Acknowledge'
             />
         );
 

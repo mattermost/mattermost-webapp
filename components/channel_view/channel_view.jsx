@@ -36,6 +36,7 @@ export default class ChannelView extends React.PureComponent {
             goToLastViewedChannel: PropTypes.func.isRequired,
             setShowNextStepsView: PropTypes.func.isRequired,
         }),
+        isCloud: PropTypes.bool.isRequired,
     };
 
     static createDeferredPostView = () => {
@@ -133,7 +134,7 @@ export default class ChannelView extends React.PureComponent {
 
     render() {
         const {channelIsArchived} = this.props;
-        if (this.props.showTutorial) {
+        if (this.props.showTutorial && !this.props.isCloud) {
             return (
                 <TutorialView
                     isRoot={false}
@@ -141,7 +142,7 @@ export default class ChannelView extends React.PureComponent {
             );
         }
 
-        if (this.props.showNextStepsEphemeral) {
+        if (this.props.showNextStepsEphemeral && this.props.isCloud) {
             return (
                 <NextStepsView/>
             );
