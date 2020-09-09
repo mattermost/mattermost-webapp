@@ -77,12 +77,11 @@ export default class UserGridRoleDropdown extends React.PureComponent<Props> {
             return Utils.localizeMessage('admin.user_grid.system_admin', 'System Admin');
         case 'team_admin':
             return Utils.localizeMessage('admin.user_grid.team_admin', 'Team Admin');
-        case 'team_user':
-            return Utils.localizeMessage('admin.user_grid.team_member', 'Team Member');
         case 'channel_admin':
             return Utils.localizeMessage('admin.user_grid.channel_admin', 'Channel Admin');
+        case 'team_user':
         case 'channel_user':
-            return Utils.localizeMessage('admin.user_grid.channel_member', 'Channel Member');
+            return Utils.localizeMessage('admin.group_teams_and_channels_row.member', 'Member');
         default:
             return Utils.localizeMessage('admin.user_grid.guest', 'Guest');
         }

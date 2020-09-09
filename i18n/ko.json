@@ -2223,7 +2223,7 @@
   "textbox.edit": "메시지 편집",
   "textbox.help": "도움말",
   "textbox.inlinecode": "`인라인 코드`",
-  "textbox.italic": "_기울게_",
+  "textbox.italic": "*기울게*",
   "textbox.preformatted": "```코드 블럭```",
   "textbox.preview": "미리보기",
   "textbox.quote": "> 인용",

@@ -71,3 +71,18 @@ export function rgbArrayToString(rgbArr) {
 }
 
 export const reUrl = /(https?:\/\/[^ ]*)/;
+
+// Stubs out the clipboard so that we can intercept copy events. Note that this only stubs out calls to
+// navigator.clipboard.writeText and not document.execCommand.
+export function stubClipboard() {
+    const clipboard = {contents: '', wasCalled: false};
+
+    cy.window().then((win) => {
+        cy.stub(win.navigator.clipboard, 'writeText', (link) => {
+            clipboard.wasCalled = true;
+            clipboard.contents = link;
+        });
+    });
+
+    return cy.wrap(clipboard);
+}
