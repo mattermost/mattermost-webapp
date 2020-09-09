@@ -12,22 +12,22 @@
 // - Each parameter with `@params`
 // - Return value with `@returns`
 // - Example usage with `@example`
+// Custom command should follow naming convention of having `api` prefix, e.g. `apiLogin`.
 // ***************************************************************
 
 declare namespace Cypress {
     interface Chainable<Subject = any> {
 
         /**
-         * Adds a given reaction to a specific post from a user
-         * @param {Object} reactToMessageObject - Information on person and post to which a reaction needs to be added
-         * @param {Object} reactToMessageObject.sender - a user object who will post a message
-         * @param {string} reactToMessageObject.postId  - post on which reaction is intended
-         * @param {string} reactToMessageObject.reaction - emoji text eg. smile
-         * @returns {Response} response: Cypress-chainable response
+         * Create a new terms of service.
+         * See https://api.mattermost.com/#tag/terms-of-service/paths/~1terms_of_service/post
+         * @param {String} text - Terms of service text, displayed when a user logs in for the first time after a new one has been created.
          *
          * @example
-         *    cy.reactToMessageAs({sender:user2, postId:"ABC123", reaction: 'smile'});
+         *   cy.apiCreateTermsOfService('Accept me').then(({termsOfService}) => {
+         *       // do something
+         *   });
          */
-        reactToMessageAs({sender, postId, reaction}: {sender: Record<string, unknown>; postId: string; reaction: string}): Chainable<Response>;
+        apiCreateTermsOfService(text: string): Chainable<TermsOfService>;
     }
 }
