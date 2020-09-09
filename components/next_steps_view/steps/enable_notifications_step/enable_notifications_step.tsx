@@ -53,7 +53,7 @@ export default function EnableNotificationsStep(props: StepComponentProps) {
                         'Notifications were previously disabled or you may be browsing in private mode. You\'ll need to open your browser settings or turn off private mode to enable notifications.'
                     }
                     buttonMessageId={
-                        'next_steps_view.notificationSetup.enableNotificationss'
+                        'next_steps_view.notificationSetup.skipThisStep'
                     }
                     buttonDefaultMessage={'Skip this step'}
                     onClick={onFinish}
