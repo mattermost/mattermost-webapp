@@ -162,6 +162,6 @@ Cypress.Commands.add('apiDeleteBrandImage', () => {
     }).then((response) => {
         // both deleted and not existing responses are valid
         expect(response.status).to.be.oneOf([200, 404]);
-        return cy.wrap({response});
+        return cy.wrap(response);
     });
 });

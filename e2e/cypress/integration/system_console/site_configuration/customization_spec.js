@@ -12,7 +12,11 @@
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 describe('Customization', () => {
-    before(() => {
+    beforeEach(() => {
+        // # as many of the tests logout the user, ensure it's logged
+        // in as an admin before each test
+        cy.apiAdminLogin();
+
         // # Visit customization system console page
         cy.visit('/admin_console/site_config/customization');
         cy.get('.admin-console__header').should('be.visible').and('have.text', 'Customization');
@@ -44,6 +48,27 @@ describe('Customization', () => {
         // * Ensure Site Name and Description are shown the updated values in the login screen
         cy.get('#site_name').should('have.text', siteName);
         cy.get('#site_description').should('have.text', siteDescription);
+    });
+
+    it('MM-T1027 - Custom branding is enabled but no image has been uploaded', () => {
+        // # Ensure that the brand image is deleted
+        cy.apiDeleteBrandImage();
+        cy.reload();
+
+        // # Set Enable Custom Branding to true
+        cy.findByTestId('TeamSettings.EnableCustomBrandtrue').check();
+
+        // # Save setting
+        saveSetting();
+
+        // # Logout from the current user
+        cy.apiLogout();
+
+        // * Ensure that the user was redirected to the login page after the logout
+        cy.url().should('include', '/login');
+
+        // * Ensure that the signup is loaded and the img doesn't exist
+        cy.get('.signup__markdown').find('img').should('not.be.visible');
     });
 });
 
