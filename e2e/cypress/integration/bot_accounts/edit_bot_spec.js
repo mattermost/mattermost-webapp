@@ -63,9 +63,9 @@ describe('Edit bot', () => {
         createBot(userName);
 
         // * Set alias for bot entry in bot list, this also checks that the bot entry exists
-        cy.get('.backstage-list__item').contains('.backstage-list__item', userName).as("botEntry")
+        cy.get('.backstage-list__item').contains('.backstage-list__item', userName).as('botEntry');
 
-        cy.get('@botEntry').then(el => {
+        cy.get('@botEntry').then((el) => {
             // # Find the edit link for the bot
             const editLink = el.find('.item-actions>a');
 
@@ -85,18 +85,15 @@ describe('Edit bot', () => {
 
                 // # Click update button
                 cy.get('#saveBot').click();
-            };
+            }
         });
 
         // * Get bot entry in bot list by username
-        cy.get('@botEntry').then(el => {
-                cy.wrap(el).scrollIntoView();
+        cy.get('@botEntry').then((el) => {
+            cy.wrap(el).scrollIntoView();
 
-                // * Confirm long description is as expected
-                cy.wrap(el.find('.bot-details__description')).should('have.text', description);
-
-                // * Confirm bot profile image is visible.
-                cy.wrap(el.find('.bot-list-img')).should('be.visible');
+            // * Confirm long description is as expected
+            cy.wrap(el.find('.bot-details__description')).should('have.text', description);
         });
     });
 });
