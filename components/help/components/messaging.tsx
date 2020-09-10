@@ -7,7 +7,7 @@ import {Link} from 'react-router-dom';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
-export default function HelpMessaging(): JSX.Element {
+export default function Messaging(): JSX.Element {
     return (
         <div>
             <h1 className='markdown__heading'>

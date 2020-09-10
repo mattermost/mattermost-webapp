@@ -69,7 +69,6 @@ exports[`components/analytics/statistic_count.tsx should match snapshot, on load
       <FormattedMessage
         defaultMessage="Loading..."
         id="analytics.chart.loading"
-        values={Object {}}
       />
     </div>
   </div>

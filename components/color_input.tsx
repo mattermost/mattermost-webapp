@@ -110,7 +110,7 @@ export default class ColorInput extends React.PureComponent<Props, State> {
             });
         } else {
             this.setState({
-                value: this.props.value
+                value: this.props.value,
             });
         }
 

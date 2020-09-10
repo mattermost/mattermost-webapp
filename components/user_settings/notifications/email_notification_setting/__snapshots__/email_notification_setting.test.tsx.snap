@@ -32,7 +32,6 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
             <FormattedMessage
               defaultMessage="Send email notifications"
               id="user.settings.notifications.email.send"
-              values={Object {}}
             />
           </legend>
           <div
@@ -51,7 +50,6 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
               <FormattedMessage
                 defaultMessage="Immediately"
                 id="user.settings.notifications.email.immediately"
-                values={Object {}}
               />
             </label>
           </div>
@@ -71,7 +69,6 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
               <FormattedMessage
                 defaultMessage="Never"
                 id="user.settings.notifications.email.never"
-                values={Object {}}
               />
             </label>
           </div>
@@ -81,7 +78,6 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
             <FormattedMessage
               defaultMessage="Email notifications are sent for mentions and direct messages when you are offline or away for more than 5 minutes."
               id="user.settings.notifications.emailInfo"
-              values={Object {}}
             />
              
           </div>
@@ -123,7 +119,6 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                 <FormattedMessage
                   defaultMessage="Send email notifications"
                   id="user.settings.notifications.email.send"
-                  values={Object {}}
                 >
                   <span>
                     Send email notifications
@@ -146,7 +141,6 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                   <FormattedMessage
                     defaultMessage="Immediately"
                     id="user.settings.notifications.email.immediately"
-                    values={Object {}}
                   >
                     <span>
                       Immediately
@@ -170,7 +164,6 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                   <FormattedMessage
                     defaultMessage="Never"
                     id="user.settings.notifications.email.never"
-                    values={Object {}}
                   >
                     <span>
                       Never
@@ -184,7 +177,6 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                 <FormattedMessage
                   defaultMessage="Email notifications are sent for mentions and direct messages when you are offline or away for more than 5 minutes."
                   id="user.settings.notifications.emailInfo"
-                  values={Object {}}
                 >
                   <span>
                     Email notifications are sent for mentions and direct messages when you are offline or away for more than 5 minutes.
@@ -204,7 +196,6 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                 <FormattedMessage
                   defaultMessage="Save"
                   id="save_button.save"
-                  values={Object {}}
                 />
               }
               disabled={false}
@@ -215,7 +206,6 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                 <FormattedMessage
                   defaultMessage="Saving"
                   id="save_button.saving"
-                  values={Object {}}
                 />
               }
             >
@@ -233,7 +223,6 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                     <FormattedMessage
                       defaultMessage="Saving"
                       id="save_button.saving"
-                      values={Object {}}
                     />
                   }
                 >
@@ -241,7 +230,6 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                     <FormattedMessage
                       defaultMessage="Save"
                       id="save_button.save"
-                      values={Object {}}
                     >
                       <span>
                         Save
@@ -259,7 +247,6 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
               <FormattedMessage
                 defaultMessage="Cancel"
                 id="setting_item_max.cancel"
-                values={Object {}}
               >
                 <span>
                   Cancel
@@ -280,7 +267,6 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
     <FormattedMessage
       defaultMessage="Email notifications are not enabled"
       id="user.settings.notifications.email.disabled"
-      values={Object {}}
     />
   }
   section="email"
@@ -295,7 +281,6 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
     <FormattedMessage
       defaultMessage="Never"
       id="user.settings.notifications.email.never"
-      values={Object {}}
     />
   }
   section="email"
@@ -310,7 +295,6 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
     <FormattedMessage
       defaultMessage="Immediately"
       id="user.settings.notifications.email.immediately"
-      values={Object {}}
     />
   }
   section="email"
@@ -351,7 +335,6 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
             <FormattedMessage
               defaultMessage="Send email notifications"
               id="user.settings.notifications.email.send"
-              values={Object {}}
             />
           </legend>
           <div
@@ -370,7 +353,6 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
               <FormattedMessage
                 defaultMessage="Immediately"
                 id="user.settings.notifications.email.immediately"
-                values={Object {}}
               />
             </label>
           </div>
@@ -415,7 +397,6 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                 <FormattedMessage
                   defaultMessage="Every hour"
                   id="user.settings.notifications.email.everyHour"
-                  values={Object {}}
                 />
               </label>
             </div>
@@ -436,7 +417,6 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
               <FormattedMessage
                 defaultMessage="Never"
                 id="user.settings.notifications.email.never"
-                values={Object {}}
               />
             </label>
           </div>
@@ -446,13 +426,11 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
             <FormattedMessage
               defaultMessage="Email notifications are sent for mentions and direct messages when you are offline or away for more than 5 minutes."
               id="user.settings.notifications.emailInfo"
-              values={Object {}}
             />
              
             <FormattedMessage
               defaultMessage="Notifications received over the time period selected are combined and sent in a single email."
               id="user.settings.notifications.emailBatchingInfo"
-              values={Object {}}
             />
           </div>
         </fieldset>,
@@ -493,7 +471,6 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                 <FormattedMessage
                   defaultMessage="Send email notifications"
                   id="user.settings.notifications.email.send"
-                  values={Object {}}
                 >
                   <span>
                     Send email notifications
@@ -516,7 +493,6 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                   <FormattedMessage
                     defaultMessage="Immediately"
                     id="user.settings.notifications.email.immediately"
-                    values={Object {}}
                   >
                     <span>
                       Immediately
@@ -569,7 +545,6 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                     <FormattedMessage
                       defaultMessage="Every hour"
                       id="user.settings.notifications.email.everyHour"
-                      values={Object {}}
                     >
                       <span>
                         Every hour
@@ -594,7 +569,6 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                   <FormattedMessage
                     defaultMessage="Never"
                     id="user.settings.notifications.email.never"
-                    values={Object {}}
                   >
                     <span>
                       Never
@@ -608,7 +582,6 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                 <FormattedMessage
                   defaultMessage="Email notifications are sent for mentions and direct messages when you are offline or away for more than 5 minutes."
                   id="user.settings.notifications.emailInfo"
-                  values={Object {}}
                 >
                   <span>
                     Email notifications are sent for mentions and direct messages when you are offline or away for more than 5 minutes.
@@ -618,7 +591,6 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                 <FormattedMessage
                   defaultMessage="Notifications received over the time period selected are combined and sent in a single email."
                   id="user.settings.notifications.emailBatchingInfo"
-                  values={Object {}}
                 >
                   <span>
                     Notifications received over the time period selected are combined and sent in a single email.
@@ -637,7 +609,6 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                 <FormattedMessage
                   defaultMessage="Save"
                   id="save_button.save"
-                  values={Object {}}
                 />
               }
               disabled={false}
@@ -648,7 +619,6 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                 <FormattedMessage
                   defaultMessage="Saving"
                   id="save_button.saving"
-                  values={Object {}}
                 />
               }
             >
@@ -666,7 +636,6 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                     <FormattedMessage
                       defaultMessage="Saving"
                       id="save_button.saving"
-                      values={Object {}}
                     />
                   }
                 >
@@ -674,7 +643,6 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                     <FormattedMessage
                       defaultMessage="Save"
                       id="save_button.save"
-                      values={Object {}}
                     >
                       <span>
                         Save
@@ -692,7 +660,6 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
               <FormattedMessage
                 defaultMessage="Cancel"
                 id="setting_item_max.cancel"
-                values={Object {}}
               >
                 <span>
                   Cancel
@@ -719,7 +686,6 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
         <FormattedMessage
           defaultMessage="Email notifications have not been enabled by your System Administrator."
           id="user.settings.notifications.email.disabled_long"
-          values={Object {}}
         />
       </div>,
     ]
@@ -745,7 +711,6 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
           <FormattedMessage
             defaultMessage="Send email notifications"
             id="user.settings.notifications.email.send"
-            values={Object {}}
           />
         </legend>
         <div
@@ -764,7 +729,6 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
             <FormattedMessage
               defaultMessage="Immediately"
               id="user.settings.notifications.email.immediately"
-              values={Object {}}
             />
           </label>
         </div>
@@ -784,7 +748,6 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
             <FormattedMessage
               defaultMessage="Never"
               id="user.settings.notifications.email.never"
-              values={Object {}}
             />
           </label>
         </div>
@@ -794,7 +757,6 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
           <FormattedMessage
             defaultMessage="Email notifications are sent for mentions and direct messages when you are offline or away for more than 5 minutes."
             id="user.settings.notifications.emailInfo"
-            values={Object {}}
           />
            
         </div>

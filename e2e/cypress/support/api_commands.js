@@ -443,40 +443,6 @@ Cypress.Commands.add('apiGetLDAPSync', () => {
 });
 
 // *****************************************************************************
-// Schemes
-// https://api.mattermost.com/#tag/schemes
-// *****************************************************************************
-
-/**
- * Get all schemes in the system - must have PERMISSION_MANAGE_SYSTEM
- *
- * @param {String} scope - either "team" or "channel"
- */
-Cypress.Commands.add('apiGetSchemes', (scope) => {
-    return cy.request({
-        headers: {'X-Requested-With': 'XMLHttpRequest'},
-        url: `/api/v4/schemes?scope=${scope}`,
-        method: 'GET',
-    });
-});
-
-/**
- * Delete a scheme directly via API
- *
- * @param {String} schemeId - the id of the scheme to delete
- */
-Cypress.Commands.add('apiDeleteScheme', (schemeId) => {
-    return cy.request({
-        headers: {'X-Requested-With': 'XMLHttpRequest'},
-        url: '/api/v4/schemes/' + schemeId,
-        method: 'DELETE',
-    }).then((response) => {
-        expect(response.status).to.equal(200);
-        return cy.wrap(response);
-    });
-});
-
-// *****************************************************************************
 // Groups
 // https://api.mattermost.com/#tag/groups
 // *****************************************************************************

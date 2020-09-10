@@ -14,7 +14,6 @@ exports[`components/next_steps_view/steps/team_profile_step should match snapsho
         <FormattedMessage
           defaultMessage="Team image"
           id="next_steps_view.team_profile_step.teamImage"
-          values={Object {}}
         />
       </h3>
       <PictureSelector
@@ -40,7 +39,6 @@ exports[`components/next_steps_view/steps/team_profile_step should match snapsho
         <FormattedMessage
           defaultMessage="Enter your team name"
           id="next_steps_view.team_profile_step.enterYourNameAndURL"
-          values={Object {}}
         />
       </h3>
       <Input
@@ -65,7 +63,6 @@ exports[`components/next_steps_view/steps/team_profile_step should match snapsho
       <FormattedMessage
         defaultMessage="Save team"
         id="next_steps_view.team_profile_step.saveTeam"
-        values={Object {}}
       />
     </button>
   </div>

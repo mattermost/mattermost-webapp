@@ -79,7 +79,7 @@ describe('Account Settings > Sidebar > General', () => {
         cy.get('#teamMembersModal').should('be.visible').within(() => cy.get('.close').click());
     });
 
-    it('AS13279 Account Settings > Add Nickname', () => {
+    it('MM-T268 Account Settings > Add Nickname', () => {
         // # Click the General tab
         cy.get('#generalButton').should('be.visible').click();
 
