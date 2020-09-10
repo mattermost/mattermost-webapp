@@ -10,6 +10,8 @@
 // Stage: @prod
 // Group: @channel_settings
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
+
 describe('Channel settings', () => {
     let mainUser;
     let otherUser;
@@ -61,7 +63,7 @@ describe('Channel settings', () => {
             });
 
             // # Scroll down in channels list until last created channel is visible
-            cy.get(`#sidebarItem_${channelNames[lastChannelIndex]}`).scrollIntoView();
+            cy.get(`#sidebarItem_${channelNames[lastChannelIndex]}`).scrollIntoView({duration: TIMEOUTS.TWO_SEC});
         });
 
         // * After scrolling is complete, "More Unreads" pill should be visible at the top of the channels list
@@ -81,7 +83,7 @@ describe('Channel settings', () => {
             });
 
             // # Scroll down in channels list until last created channel is visible
-            cy.get(`#sidebarItem_${channelNames[firstChannelIndex]}`).scrollIntoView();
+            cy.get(`#sidebarItem_${channelNames[firstChannelIndex]}`).scrollIntoView({duration: TIMEOUTS.TWO_SEC});
         });
 
         // * After scrolling is complete, "More Unreads" pill should not be visible at the top of the channels list
