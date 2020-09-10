@@ -146,6 +146,7 @@ describe('Profile popover', () => {
         cy.findByTestId('all_users-public_channel-checkbox').scrollIntoView().should('be.visible').click().click();
 
         cy.findByTestId('all_users-private_channel-checkbox').scrollIntoView().should('be.visible').click();
+
         // * Verify that all the sub-checkboxes are disabled
         verifyPermissionSubSections('all_users', 'public', false);
 

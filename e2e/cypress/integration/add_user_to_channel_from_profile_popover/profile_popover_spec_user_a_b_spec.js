@@ -12,15 +12,13 @@
 describe('Profile popover User A & B', () => {
     let testTeam;
     let testUser;
-    let testChannel;
     let otherUser;
 
     before(() => {
         cy.apiRequireLicense();
-        cy.apiInitSetup().then(({team, user, channel}) => {
+        cy.apiInitSetup().then(({team, user}) => {
             testTeam = team;
             testUser = user;
-            testChannel = channel;
 
             cy.apiCreateUser().then(({user: secondUser}) => {
                 otherUser = secondUser;
@@ -56,7 +54,6 @@ describe('Profile popover User A & B', () => {
         // * Add to a Channel should not be shown.
         cy.findByText('Add to a Channel').should('not.be.visible');
     });
-
 
     it('MM-T8 Add User - UserA & UserB (not on team)', () => {
         // # Create a new team
