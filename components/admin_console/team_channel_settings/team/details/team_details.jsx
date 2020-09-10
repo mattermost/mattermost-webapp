@@ -266,6 +266,8 @@ export default class TeamDetails extends React.PureComponent {
                             <UsersWillBeRemovedError
                                 total={usersToRemoveCount}
                                 users={result.data.users}
+                                scope={'team'}
+                                scopeId={this.props.teamID}
                             />
                         );
                     }

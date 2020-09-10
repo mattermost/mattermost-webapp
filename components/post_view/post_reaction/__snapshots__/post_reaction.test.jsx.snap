@@ -36,7 +36,6 @@ exports[`components/post_view/PostReaction should match snapshot 1`] = `
         <FormattedMessage
           defaultMessage="Add Reaction"
           id="post_info.tooltip.add_reactions"
-          values={Object {}}
         />
       </Tooltip>
     }

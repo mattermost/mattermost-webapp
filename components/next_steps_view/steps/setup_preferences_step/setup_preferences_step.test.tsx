@@ -19,7 +19,7 @@ describe('components/next_steps_view/steps/setup_preferences_step', () => {
         id: 'test',
         currentUser: TestHelper.getUserMock(),
         onSkip: () => { },
-        onFinish: () => {}
+        onFinish: () => {},
     };
 
     test('should match snapshot', () => {
@@ -27,7 +27,7 @@ describe('components/next_steps_view/steps/setup_preferences_step', () => {
         const wrapper = shallow(
             <Provider store={store}>
                 <SetupPreferencesStep {...props}/>
-            </Provider>
+            </Provider>,
         );
         expect(wrapper).toMatchSnapshot();
     });

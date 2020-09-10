@@ -24,7 +24,6 @@ exports[`components/integrations/InstalledIncomingWebhook should match snapshot 
           <FormattedMessage
             defaultMessage="Edit"
             id="installed_integrations.edit"
-            values={Object {}}
           />
         </Link>
          - 

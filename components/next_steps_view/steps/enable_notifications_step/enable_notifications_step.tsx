@@ -14,11 +14,11 @@ export default function EnableNotificationsStep(props: StepComponentProps) {
         await showNotification({
             title: Utils.localizeMessage(
                 'next_steps_view.notificationSetup.notficationsEnabledTitle',
-                'Notifications Enabled!'
+                'Notifications Enabled!',
             ),
             body: Utils.localizeMessage(
                 'next_steps_view.notificationSetup.notficationsEnabledBody',
-                'This is how notifications from Mattermost will appear'
+                'This is how notifications from Mattermost will appear',
             ),
             requireInteraction: false,
             silent: false,
