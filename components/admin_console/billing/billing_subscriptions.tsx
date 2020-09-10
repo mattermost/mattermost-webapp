@@ -4,11 +4,13 @@
 import React, {useState} from 'react';
 import {Tooltip} from 'react-bootstrap';
 
+import AlertBanner from 'components/alert_banner';
 import OverlayTrigger from 'components/overlay_trigger';
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 
+import PlanDetails from './plan_details';
+
 import './billing_subscriptions.scss';
-import AlertBanner from 'components/alert_banner';
 
 type Props = {
 
@@ -83,23 +85,7 @@ const BillingSubscriptions: React.FC<Props> = () => {
                         className='BillingSubscriptions__topWrapper'
                         style={{marginTop: '20px'}}
                     >
-                        <div style={{border: '1px solid #000', width: '568px', height: '438px'}}>
-                            {'Plan Details Card'}
-                            <OverlayTrigger
-                                delayShow={500}
-                                placement='bottom'
-                                overlay={testTooltipLeft}
-                            >
-                                <button>{'Left Side Test Button'}</button>
-                            </OverlayTrigger>
-                            <OverlayTrigger
-                                delayShow={500}
-                                placement='bottom'
-                                overlay={testTooltipRight}
-                            >
-                                <button>{'Right Side Test Button'}</button>
-                            </OverlayTrigger>
-                        </div>
+                        <PlanDetails/>
                         <div style={{border: '1px solid #000', width: '332px', marginLeft: '20px'}}>
                             {'Billing Summary Card / Upgrade Mattermost Cloud'}
                         </div>
