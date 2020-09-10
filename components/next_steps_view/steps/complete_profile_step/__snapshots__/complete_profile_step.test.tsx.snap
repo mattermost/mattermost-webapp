@@ -19,6 +19,7 @@ exports[`components/next_steps_view/steps/complete_profile_step should match sna
       <PictureSelector
         defaultSrc="/api/v4/users/user_id/image/default"
         name="CompleteProfileStep__profilePicture"
+        onOpenDialog={[Function]}
         onRemove={[Function]}
         onSelect={[Function]}
       />
