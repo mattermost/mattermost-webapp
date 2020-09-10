@@ -354,7 +354,7 @@ describe('Upload Files', () => {
             cy.get('.post-image.normal').then((imageDiv) => {
                 // # Filter out the url from the css background property
                 // url("https://imageurl") => https://imageurl
-                const imageURL = imageDiv.css('background-image').replace('url(', '').replace(')', '').replace(/"/gi, '');
+                const imageURL = imageDiv.css('background-image').split('"')[1];
 
                 downloadAttachmentAndVerifyItsProperties(imageURL, imageFilename, 'inline');
             });
