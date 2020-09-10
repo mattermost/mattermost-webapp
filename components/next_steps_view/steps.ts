@@ -68,7 +68,7 @@ export const Steps: StepType[] = [
         id: RecommendedNextSteps.NOTIFICATION_SETUP,
         title: localizeMessage(
             'next_steps_view.notificationSetup.setNotifications',
-            'Turn on notifications',
+            'Set up desktop notifications',
         ),
         roles: ['system_user'],
         component: EnableNotificationsStep,
