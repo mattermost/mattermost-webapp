@@ -10,8 +10,8 @@ describe('component/UserLimitModal', () => {
     const requiredProps = {
         show: true,
         actions: {
-            closeModal: () => { }
-        }
+            closeModal: () => { },
+        },
     };
 
     test('should match snapshot without children', () => {

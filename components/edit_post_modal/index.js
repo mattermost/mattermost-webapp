@@ -51,6 +51,7 @@ function mapStateToProps(state) {
         ctrlSend: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'),
         config,
         editingPost,
+        channelId,
         shouldShowPreview: showPreviewOnEditPostModal(state),
         maxPostSize: parseInt(config.MaxPostSize, 10) || Constants.DEFAULT_CHARACTER_LIMIT,
         useChannelMentions,
