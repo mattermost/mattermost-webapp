@@ -7,7 +7,6 @@ import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
 import {UserProfile} from 'mattermost-redux/types/users';
 
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
-import {isEqual} from 'lodash';
 
 import {GlobalState} from 'types/store';
 import {RecommendedNextSteps, Preferences} from 'utils/constants';
@@ -18,9 +17,12 @@ import SetupPreferencesStep from './steps/setup_preferences_step/setup_preferenc
 import InviteMembersStep from './steps/invite_members_step';
 import TeamProfileStep from './steps/team_profile_step';
 import EnableNotificationsStep from './steps/enable_notifications_step/enable_notifications_step';
+import {isStepForUser} from './step_helpers';
 
 export type StepComponentProps = {
     id: string;
+    expanded: boolean;
+    isAdmin: boolean;
     currentUser: UserProfile;
     onSkip: (id: string) => void;
     onFinish: (id: string) => void;
@@ -83,15 +85,6 @@ export const Steps: StepType[] = [
         component: SetupPreferencesStep,
     },
 ];
-
-// Filter the steps shown by checking if our user has any of the required roles for that step
-export function isStepForUser(step: StepType, roles: string): boolean {
-    const userRoles = roles.split(' ');
-    return (
-        isEqual(userRoles.sort(), step.roles.sort()) ||
-          step.roles.length === 0
-    );
-}
 
 export const getSteps = createSelector(
     (state: GlobalState) => getCurrentUser(state),
