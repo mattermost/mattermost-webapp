@@ -29,7 +29,7 @@ declare namespace Cypress {
        * @example
        *   cy.uiCreateChannel('private-channel-', true, 'my private channel', 'my private header', false);
        */
-        uiCreateChannel(name: string, isPricate: boolean, purpose: string, header: string, isNewSidebar: false): Chainable;
+        uiCreateChannel(name: string, isPrivate: boolean, purpose: string, header: string, isNewSidebar: false): Chainable;
 
         /**
        *
