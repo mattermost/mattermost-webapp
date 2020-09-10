@@ -301,8 +301,8 @@ describe('Upload Files', () => {
         // * Verify that we land on attachment not found page
         cy.findByText('Error').should('be.visible');
         cy.findByText('Unable to get the file info.').should('be.visible');
-        cy.findByText('Back to Mattermost').should('be.visible').parent()
-            .should('have.attr', 'href', '/').click();
+        cy.findByText('Back to Mattermost').should('be.visible').parent().
+            should('have.attr', 'href', '/').click();
     });
 
     it('MM-T337 CTRL/CMD+U - Five files on one message, thumbnails while uploading', () => {
