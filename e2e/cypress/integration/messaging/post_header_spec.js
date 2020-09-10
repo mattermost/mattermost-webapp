@@ -167,7 +167,7 @@ describe('Post Header', () => {
         // # Click on the "Saved Posts" icon to the right of the "Search" box
         cy.get('#channelHeaderFlagButton').click();
 
-        // * Verify that the RHS for pinned posts is opened.
+        // * Verify that the RHS for saved posts is opened.
         cy.get('#searchContainer').should('be.visible').within(() => {
             // * Check that searching indicator appears before the pinned posts are loaded
             cy.get('#loadingSpinner').should('be.visible').and('have.text', 'Searching...');
