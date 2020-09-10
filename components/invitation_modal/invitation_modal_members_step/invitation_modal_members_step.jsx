@@ -8,6 +8,7 @@ import {injectIntl, FormattedMessage} from 'react-intl';
 import {debounce} from 'mattermost-redux/actions/helpers';
 import {isEmail} from 'mattermost-redux/utils/helpers';
 
+import {trackEvent} from 'actions/diagnostics_actions';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import InviteMembersIcon from 'components/widgets/icons/invite_members_icon';
 import UsersEmailsInput from 'components/widgets/inputs/users_emails_input.jsx';
@@ -19,7 +20,6 @@ import {t} from 'utils/i18n.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
 
 import './invitation_modal_members_step.scss';
-import { trackEvent } from 'actions/diagnostics_actions';
 
 class InvitationModalMembersStep extends React.PureComponent {
     static propTypes = {

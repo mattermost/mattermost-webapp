@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import {trackEvent, pageVisited} from 'actions/diagnostics_actions.jsx';
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
 import ConfirmModal from 'components/confirm_modal';
 import RootPortal from 'components/root_portal';
@@ -17,7 +18,6 @@ import InvitationModalGuestsStep from './invitation_modal_guests_step.jsx';
 import InvitationModalConfirmStep from './invitation_modal_confirm_step.jsx';
 
 import './invitation_modal.scss';
-import { trackEvent } from 'actions/diagnostics_actions.jsx';
 
 const STEPS_INITIAL = 'initial';
 const STEPS_INVITE_MEMBERS = 'members';
@@ -68,6 +68,12 @@ export default class InvitationModal extends React.PureComponent {
             invitesSent: [],
             invitesNotSent: [],
         };
+    }
+
+    componentDidMount() {
+        if (this.props.isCloud) {
+            pageVisited('cloud_invite_users', 'pageview_invite_users');
+        }
     }
 
     componentDidUpdate(prevProps, prevState) {
