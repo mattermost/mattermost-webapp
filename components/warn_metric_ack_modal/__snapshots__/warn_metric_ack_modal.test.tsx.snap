@@ -43,7 +43,6 @@ exports[`components/WarnMetricAckModal error display 1`] = `
       <FormattedMessage
         defaultMessage="Scaling with Mattermost"
         id="warn_metric_ack_modal.header.title"
-        values={Object {}}
       />
     </ModalTitle>
   </ModalHeader>
@@ -131,7 +130,6 @@ exports[`components/WarnMetricAckModal error display 1`] = `
         <FormattedMessage
           defaultMessage="Acknowledge"
           id="warn_metric_ack_modal.contact_support"
-          values={Object {}}
         />
       </LoadingWrapper>
     </button>
@@ -182,7 +180,6 @@ exports[`components/WarnMetricAckModal should match snapshot, init 1`] = `
       <FormattedMessage
         defaultMessage="Scaling with Mattermost"
         id="warn_metric_ack_modal.header.title"
-        values={Object {}}
       />
     </ModalTitle>
   </ModalHeader>
@@ -246,7 +243,6 @@ exports[`components/WarnMetricAckModal should match snapshot, init 1`] = `
         <FormattedMessage
           defaultMessage="Acknowledge"
           id="warn_metric_ack_modal.contact_support"
-          values={Object {}}
         />
       </LoadingWrapper>
     </button>

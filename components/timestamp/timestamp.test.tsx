@@ -37,7 +37,7 @@ describe('components/timestamp/Timestamp', () => {
                 useTime={false}
                 className='test class'
                 label='test label'
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find(SemanticTime).exists()).toBeTruthy();
@@ -50,7 +50,7 @@ describe('components/timestamp/Timestamp', () => {
             <Timestamp
                 useTime={false}
                 useSemanticOutput={false}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find(SemanticTime).exists()).toBeFalsy();
@@ -82,9 +82,9 @@ describe('components/timestamp/Timestamp', () => {
             <Timestamp
                 useTime={false}
                 ranges={[
-                    RelativeRanges.TODAY_TITLE_CASE
+                    RelativeRanges.TODAY_TITLE_CASE,
                 ]}
-            />
+            />,
         );
         expect(wrapper.text()).toEqual('Today');
     });
@@ -95,9 +95,9 @@ describe('components/timestamp/Timestamp', () => {
                 value={daysFromNow(0)}
                 useTime={false}
                 ranges={[
-                    RelativeRanges.TODAY_YESTERDAY
+                    RelativeRanges.TODAY_YESTERDAY,
                 ]}
-            />
+            />,
         );
         expect(wrapper.text()).toEqual('today');
     });
@@ -108,9 +108,9 @@ describe('components/timestamp/Timestamp', () => {
                 value={daysFromNow(-1)}
                 useTime={false}
                 ranges={[
-                    RelativeRanges.YESTERDAY_TITLE_CASE
+                    RelativeRanges.YESTERDAY_TITLE_CASE,
                 ]}
-            />
+            />,
         );
         expect(wrapper.text()).toEqual('Yesterday');
     });
@@ -121,9 +121,9 @@ describe('components/timestamp/Timestamp', () => {
                 value={daysFromNow(-1)}
                 useTime={false}
                 ranges={[
-                    RelativeRanges.TODAY_YESTERDAY
+                    RelativeRanges.TODAY_YESTERDAY,
                 ]}
-            />
+            />,
         );
         expect(wrapper.text()).toEqual('yesterday');
     });
@@ -134,7 +134,7 @@ describe('components/timestamp/Timestamp', () => {
                 value={daysFromNow(1)}
                 useTime={false}
                 unit='day'
-            />
+            />,
         );
         expect(wrapper.text()).toEqual('tomorrow');
     });
@@ -145,7 +145,7 @@ describe('components/timestamp/Timestamp', () => {
                 value={daysFromNow(-3)}
                 useTime={false}
                 unit='day'
-            />
+            />,
         );
         expect(wrapper.text()).toEqual('3 days ago');
     });
@@ -156,7 +156,7 @@ describe('components/timestamp/Timestamp', () => {
             <Timestamp
                 value={date}
                 useTime={false}
-            />
+            />,
         );
         expect(wrapper.text()).toEqual(moment.utc(date).format('dddd'));
     });
@@ -167,7 +167,7 @@ describe('components/timestamp/Timestamp', () => {
             <Timestamp
                 value={date}
                 useTime={false}
-            />
+            />,
         );
 
         expect(wrapper.text()).toEqual(moment(date).format('dddd'));
@@ -180,7 +180,7 @@ describe('components/timestamp/Timestamp', () => {
                 value={date}
                 timeZone='Asia/Manila'
                 useTime={false}
-            />
+            />,
         );
 
         expect(wrapper.text()).toEqual(moment.utc(date).tz('Asia/Manila').format('dddd'));
@@ -192,7 +192,7 @@ describe('components/timestamp/Timestamp', () => {
             <Timestamp
                 value={date}
                 useTime={false}
-            />
+            />,
         );
 
         expect(wrapper.text()).toEqual(moment.utc(date).format('MMMM DD'));
@@ -204,7 +204,7 @@ describe('components/timestamp/Timestamp', () => {
             <Timestamp
                 value={date}
                 useTime={false}
-            />
+            />,
         );
 
         expect(wrapper.text()).toEqual(moment.utc(date).format('MMMM DD, YYYY'));
@@ -287,7 +287,7 @@ describe('components/timestamp/Timestamp', () => {
                 value={new Date('Fri Jan 12 2018 20:15:13 GMT-0800').getTime()}
                 hourCycle='h23'
                 timeZone='Australia/Sydney'
-            />
+            />,
         );
         expect(wrapper.find('time').prop('dateTime')).toBe('2018-01-13T04:15:13.000Z');
         expect(wrapper.find('time').prop('aria-label')).toBe('Sat Jan 13 2018 15:15:13 GMT+1100 (Australia/Sydney)');

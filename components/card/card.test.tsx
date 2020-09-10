@@ -16,7 +16,7 @@ describe('components/card/card', () => {
             <Card {...baseProps}>
                 <Card.Header>{'Header Test'}</Card.Header>
                 <Card.Body>{'Body Test'}</Card.Body>
-            </Card>
+            </Card>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -32,7 +32,7 @@ describe('components/card/card', () => {
             <Card {...props}>
                 <Card.Header>{'Header Test'}</Card.Header>
                 <Card.Body>{'Body Test'}</Card.Body>
-            </Card>
+            </Card>,
         );
 
         expect(wrapper).toMatchSnapshot();

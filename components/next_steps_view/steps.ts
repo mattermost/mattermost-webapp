@@ -41,7 +41,7 @@ export const Steps: StepType[] = [
         id: RecommendedNextSteps.COMPLETE_PROFILE,
         title: localizeMessage(
             'next_steps_view.titles.completeProfile',
-            'Complete your profile'
+            'Complete your profile',
         ),
         component: CompleteProfileStep,
         roles: [],
@@ -50,7 +50,7 @@ export const Steps: StepType[] = [
         id: RecommendedNextSteps.TEAM_SETUP,
         title: localizeMessage(
             'next_steps_view.titles.teamSetup',
-            'Name your team'
+            'Name your team',
         ),
         roles: ['system_admin', 'system_user'],
         component: TeamProfileStep,
@@ -59,7 +59,7 @@ export const Steps: StepType[] = [
         id: RecommendedNextSteps.INVITE_MEMBERS,
         title: localizeMessage(
             'next_steps_view.titles.inviteMembers',
-            'Invite members to the team'
+            'Invite members to the team',
         ),
         roles: ['system_admin', 'system_user'],
         component: InviteMembersStep,
@@ -68,7 +68,7 @@ export const Steps: StepType[] = [
         id: RecommendedNextSteps.NOTIFICATION_SETUP,
         title: localizeMessage(
             'next_steps_view.notificationSetup.setNotifications',
-            'Turn on notifications'
+            'Turn on notifications',
         ),
         roles: ['system_user'],
         component: EnableNotificationsStep,
@@ -77,7 +77,7 @@ export const Steps: StepType[] = [
         id: RecommendedNextSteps.PREFERENCES_SETUP,
         title: localizeMessage(
             'next_steps_view.titles.preferenceSetup',
-            'Set your preferences'
+            'Set your preferences',
         ),
         roles: ['system_user'],
         component: SetupPreferencesStep,
@@ -97,7 +97,7 @@ export const getSteps = createSelector(
     (state: GlobalState) => getCurrentUser(state),
     (currentUser) => {
         return Steps.filter((step) => isStepForUser(step, currentUser.roles));
-    }
+    },
 );
 
 const getCategory = makeGetCategory();
@@ -115,7 +115,7 @@ export const showNextSteps = createSelector(
         }
 
         return nextStepsNotFinished;
-    }
+    },
 );
 
 export const nextStepsNotFinished = createSelector(
@@ -124,5 +124,5 @@ export const nextStepsNotFinished = createSelector(
     (stepPreferences, currentUser) => {
         const checkPref = (step: StepType) => stepPreferences.some((pref) => (pref.name === step.id && pref.value === 'true') || !isStepForUser(step, currentUser.roles));
         return !Steps.every(checkPref);
-    }
+    },
 );

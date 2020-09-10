@@ -10,6 +10,7 @@ import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
 
 import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
+import {PostList} from 'mattermost-redux/types/posts';
 
 import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 import {RelationOneToOne} from 'mattermost-redux/types/utilities';
@@ -22,7 +23,7 @@ import {trackDMGMOpenChannels} from 'actions/user_actions';
 import DataPrefetch from './data_prefetch';
 
 type Actions = {
-    prefetchChannelPosts: (channelId: string, delay?: number) => Promise<{data: {}}>;
+    prefetchChannelPosts: (channelId: string, delay?: number) => Promise<{data: PostList}>;
     trackDMGMOpenChannels: () => Promise<void>;
 };
 
