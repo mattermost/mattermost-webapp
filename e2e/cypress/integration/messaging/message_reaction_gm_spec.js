@@ -43,6 +43,7 @@ describe('Emoji reactions to posts/messages in GM channels', () => {
         // # Post a message
         cy.postMessage('This is a post');
 
+        // * Verify that the Add a Reaction button works
         cy.getLastPostId().then((postId) => {
             // # Click the add reaction icon
             cy.clickPostReactionIcon(postId);
@@ -56,9 +57,8 @@ describe('Emoji reactions to posts/messages in GM channels', () => {
                 should('have.text', '1').
                 should('be.visible');
         });
-    });
 
-    it('MM-T471 the Add a Reaction button should only be visible when hovering the post or when in mobile vieew', () => {
+        // * Verify that the Add a Reaction button is visible at the right times
         cy.getLastPostId().then((postId) => {
             // * Verify that the Add Reaction button isn't visible
             cy.findByLabelText('Add a reaction').should('not.be.visible');
