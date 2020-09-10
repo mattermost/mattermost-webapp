@@ -12,7 +12,11 @@
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 describe('Customization', () => {
-    before(() => {
+    beforeEach(() => {
+        // # as many of the tests logout the user, ensure it's logged
+        // in as an admin before each test
+        cy.apiAdminLogin();
+
         // # Visit customization system console page
         cy.visit('/admin_console/site_config/customization');
         cy.get('.admin-console__header').should('be.visible').and('have.text', 'Customization');
@@ -44,6 +48,28 @@ describe('Customization', () => {
         // * Ensure Site Name and Description are shown the updated values in the login screen
         cy.get('#site_name').should('have.text', siteName);
         cy.get('#site_description').should('have.text', siteDescription);
+    });
+
+    it('MM-T1026 - Custom Branding - Name character limit', () => {
+        // * Verify that setting is visible and matches text content
+        cy.findByTestId('TeamSettings.SiteNamelabel').scrollIntoView().should('be.visible').and('have.text', 'Site Name:');
+
+        // Character limit is 30, and Mattermost is exactly 10 characters long
+        const siteName = 'Mattermost'.repeat(3);
+
+        // # Type the maximum amount of characters and then some more
+        cy.findByTestId('TeamSettings.SiteNameinput').clear().type(siteName + 'something else');
+
+        // * Verify that the input field didn't accept more characters than the limit
+        cy.findByTestId('TeamSettings.SiteNameinput').should('have.value', siteName);
+
+        // # Save setting
+        saveSetting();
+
+        // * Verify that the value was saved correctly, without the extra characters
+        cy.apiGetConfig().then(({config}) => {
+            expect(config.TeamSettings.SiteName).to.equal(siteName);
+        });
     });
 });
 
