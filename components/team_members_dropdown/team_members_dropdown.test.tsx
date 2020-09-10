@@ -9,18 +9,18 @@ import TeamMembersDropdown from 'components/team_members_dropdown/team_members_d
 import {TestHelper} from '../../utils/test_helper';
 
 describe('components/team_members_dropdown', () => {
-    const user = TestHelper.getUserMock({id: 'user-1', username: 'username1'});
+    const user = TestHelper.getUserMock({id: 'user-1', username: 'username1', roles: 'team_admin', is_bot: false});
 
-    const user2 = TestHelper.getUserMock({id: 'user-2', username: 'username2'});
+    const user2 = TestHelper.getUserMock({id: 'user-2', username: 'username2', roles: 'team_admin', is_bot: false});
 
-    const bot = TestHelper.getUserMock({id: 'bot-user', username: 'bot', is_bot: true});
+    const bot = TestHelper.getUserMock({id: 'bot-user', username: 'bot', roles: 'system_user', is_bot: true});
 
-    const team = TestHelper.getTeamMock();
+    const team = TestHelper.getTeamMock({type: 'O', allowed_domains: '', allow_open_invite: false, scheme_id: undefined});
 
     const baseProps = {
         user: user2,
         currentUser: user,
-        teamMember: TestHelper.getTeamMembershipMock({roles: 'channel_admin', scheme_admin: true, scheme_user: true}),
+        teamMember: TestHelper.getTeamMembershipMock({roles: 'channel_admin', scheme_admin: true}),
         teamUrl: '',
         currentTeam: team,
         index: 0,
