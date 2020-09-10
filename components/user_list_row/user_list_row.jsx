@@ -6,7 +6,7 @@ import React from 'react';
 import {Client4} from 'mattermost-redux/client';
 
 import * as Utils from 'utils/utils.jsx';
-import ProfilePicture from 'components/widgets/users/profile_picture';
+import ProfilePicture from 'components/profile_picture/profile_picture';
 import UserProfile from 'components/user_profile';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';

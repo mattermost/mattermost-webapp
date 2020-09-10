@@ -6,7 +6,7 @@ import React from 'react';
 import {Client4} from 'mattermost-redux/client';
 import {UserProfile} from 'mattermost-redux/types/users';
 
-import ProfilePicture from 'components/widgets/users/profile_picture';
+import ProfilePicture from 'components/profile_picture/profile_picture';
 
 type Props = {
     user: UserProfile;

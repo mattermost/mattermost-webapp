@@ -6,7 +6,7 @@ import React from 'react';
 
 import {Client4} from 'mattermost-redux/client';
 
-import ProfilePicture from 'components/widgets/users/profile_picture';
+import ProfilePicture from 'components/profile_picture/profile_picture';
 import MessageIcon from 'components/widgets/icons/message_icon';
 import {UserStatuses} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
