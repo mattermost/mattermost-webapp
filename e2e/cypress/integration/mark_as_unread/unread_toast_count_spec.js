@@ -9,6 +9,7 @@ import {markAsUnreadByPostIdFromMenu} from './helpers';
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @mark_as_unread
 
 describe('Verify unread toast appears after repeated manual marking post as unread', () => {

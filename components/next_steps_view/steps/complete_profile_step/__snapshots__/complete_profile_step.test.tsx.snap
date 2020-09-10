@@ -14,12 +14,12 @@ exports[`components/next_steps_view/steps/complete_profile_step should match sna
         <FormattedMessage
           defaultMessage="Add a photo"
           id="next_steps_view.complete_profile_step.addAPhoto"
-          values={Object {}}
         />
       </h3>
       <PictureSelector
         defaultSrc="/api/v4/users/user_id/image/default"
         name="CompleteProfileStep__profilePicture"
+        onOpenDialog={[Function]}
         onRemove={[Function]}
         onSelect={[Function]}
       />
@@ -31,7 +31,6 @@ exports[`components/next_steps_view/steps/complete_profile_step should match sna
         <FormattedMessage
           defaultMessage="Enter your name"
           id="next_steps_view.complete_profile_step.enterYourName"
-          values={Object {}}
         />
       </h3>
       <Input
@@ -56,7 +55,6 @@ exports[`components/next_steps_view/steps/complete_profile_step should match sna
       <FormattedMessage
         defaultMessage="Save profile"
         id="next_steps_view.complete_profile_step.saveProfile"
-        values={Object {}}
       />
     </button>
   </div>

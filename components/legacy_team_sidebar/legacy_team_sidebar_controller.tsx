@@ -76,7 +76,7 @@ export default class LegacyTeamSidebar extends React.PureComponent<Props, State>
 
         this.state = {
             showOrder: false,
-            teamsOrder: []
+            teamsOrder: [],
         };
     }
 

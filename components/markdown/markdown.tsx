@@ -77,6 +77,7 @@ type Props = {
     /**
      * Any extra props that should be passed into the image component
      */
+    // eslint-disable-next-line @typescript-eslint/ban-types
     imageProps?: object;
 
     /**
