@@ -60,7 +60,7 @@ export default class TeamMembersDropdown extends React.PureComponent<Props, Stat
         };
     }
 
-    public handleMakeMember = async () => {
+    private handleMakeMember = async () => {
         const me = this.props.currentUser;
         if (this.props.user.id === me.id && me.roles.includes('system_admin')) {
             this.handleDemote(this.props.user, 'team_user');
@@ -79,14 +79,14 @@ export default class TeamMembersDropdown extends React.PureComponent<Props, Stat
         }
     }
 
-    public handleRemoveFromTeam = async () => {
+    private handleRemoveFromTeam = async () => {
         const {error} = await this.props.actions.removeUserFromTeamAndGetStats(this.props.teamMember.team_id, this.props.user.id);
         if (error) {
             this.setState({serverError: error.message});
         }
     }
 
-    public handleMakeAdmin = async () => {
+    private handleMakeAdmin = async () => {
         const me = this.props.currentUser;
         if (this.props.user.id === me.id && me.roles.includes('system_admin')) {
             this.handleDemote(this.props.user, 'team_user team_admin');
@@ -101,7 +101,7 @@ export default class TeamMembersDropdown extends React.PureComponent<Props, Stat
         }
     }
 
-    public handleDemote = (user: UserProfile, role: string): void => {
+    private handleDemote = (user: UserProfile, role: string): void => {
         this.setState({
             serverError: this.state.serverError,
             showDemoteModal: true,
@@ -110,7 +110,7 @@ export default class TeamMembersDropdown extends React.PureComponent<Props, Stat
         });
     }
 
-    public handleDemoteCancel = (): void => {
+    private handleDemoteCancel = (): void => {
         this.setState({
             serverError: null,
             showDemoteModal: false,
@@ -119,7 +119,7 @@ export default class TeamMembersDropdown extends React.PureComponent<Props, Stat
         });
     }
 
-    public handleDemoteSubmit = async () => {
+    private handleDemoteSubmit = async () => {
         const {error} = await this.props.actions.updateTeamMemberSchemeRoles(this.props.teamMember.team_id, this.props.user.id, true, false);
         if (error) {
             this.setState({serverError: error.message});
