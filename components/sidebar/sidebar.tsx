@@ -37,6 +37,7 @@ type Props = {
             data: boolean;
         }>;
     };
+    isCloud: boolean;
 };
 
 type State = {
@@ -58,7 +59,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
             this.props.actions.fetchMyCategories(this.props.teamId);
         }
 
-        if (!this.props.hasSeenModal) {
+        if (!this.props.hasSeenModal && !this.props.isCloud) {
             this.props.actions.openModal({
                 modalId: ModalIdentifiers.SIDEBAR_WHATS_NEW_MODAL,
                 dialogType: SidebarWhatsNewModal,

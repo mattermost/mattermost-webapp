@@ -212,7 +212,10 @@ const AdminDefinition = {
         icon: 'fa-credit-card', // TODO: Need compass icon
         sectionTitle: t('admin.sidebar.billing'),
         sectionTitleDefault: 'Billing & Account',
-        isHidden: it.not(it.licensedForFeature('Cloud')),
+        isHidden: it.any(
+            it.not(it.licensedForFeature('Cloud')),
+            it.configIsFalse('ExperimentalSettings', 'CloudBilling'),
+        ),
         subscription: {
             url: 'billing/subscription',
             title: t('admin.sidebar.subscription'),
@@ -5183,6 +5186,16 @@ const AdminDefinition = {
                     //     placeholder: t('admin.experimental.replyToAddress.example'),
                     //     placeholder_default: 'E.g.: "reply-to@example.com"',
                     // },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'ExperimentalSettings.CloudBilling',
+                        label: t('admin.experimental.cloudBilling.title'),
+                        label_default: 'Cloud Billing:',
+                        help_text: t('admin.experimental.cloudBilling.desc'),
+                        help_text_default: 'Show the new billing view for Cloud',
+                        help_text_markdown: false,
+                        isHidden: it.not(it.licensedForFeature('Cloud')),
+                    },
                 ],
             },
         },
