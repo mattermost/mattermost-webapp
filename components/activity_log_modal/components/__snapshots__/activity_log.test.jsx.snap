@@ -18,7 +18,6 @@ exports[`components/activity_log_modal/ActivityLog should match snapshot 1`] = `
       <FormattedMessage
         defaultMessage="Native Desktop App"
         id="activity_log_modal.desktop"
-        values={Object {}}
       />
     </div>
     <div
@@ -74,7 +73,6 @@ exports[`components/activity_log_modal/ActivityLog should match snapshot 1`] = `
       <FormattedMessage
         defaultMessage="Log Out"
         id="activity_log.logout"
-        values={Object {}}
       />
     </button>
   </div>

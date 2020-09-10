@@ -1,0 +1,96 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component/UserLimitModal should match snapshot without children 1`] = `
+<Fragment>
+  <Modal
+    animation={true}
+    autoFocus={true}
+    backdrop={true}
+    bsClass="modal"
+    className="UserLimitModal"
+    dialogComponentClass={[Function]}
+    enforceFocus={true}
+    id="userLimitModal"
+    keyboard={true}
+    manager={
+      ModalManager {
+        "add": [Function],
+        "containers": Array [],
+        "data": Array [],
+        "handleContainerOverflow": true,
+        "hideSiblingNodes": true,
+        "isTopModal": [Function],
+        "modals": Array [],
+        "remove": [Function],
+      }
+    }
+    onHide={[Function]}
+    renderBackdrop={[Function]}
+    restoreFocus={true}
+    role="dialog"
+    show={true}
+  >
+    <ModalHeader
+      bsClass="modal-header"
+      closeButton={true}
+      closeLabel="Close"
+    />
+    <ModalBody
+      bsClass="modal-body"
+      componentClass="div"
+    >
+      <UpgradeUserLimitModalSvg />
+      <div
+        className="title"
+      >
+        <FormattedMessage
+          defaultMessage="You've reached the user limit\\""
+          id="upgrade.cloud_modal_title"
+        />
+      </div>
+      <div
+        className="description"
+      >
+        <FormattedMessage
+          defaultMessage="The free tier is limited to 10 users. Upgrade Mattermost Cloud for more users."
+          id="upgrade.cloud_modal_body"
+        />
+      </div>
+      <div
+        className="buttons"
+      >
+        <Button
+          active={false}
+          block={false}
+          bsClass="btn"
+          bsStyle="default"
+          className="dismiss-link"
+          disabled={false}
+          onClick={[Function]}
+        >
+          <FormattedMessage
+            defaultMessage="Not right now"
+            id="cloud.upgrade.notrightnow"
+          />
+        </Button>
+        <Button
+          active={false}
+          block={false}
+          bsClass="btn"
+          bsStyle="default"
+          className="confirm-button"
+          disabled={false}
+          onClick={[Function]}
+        >
+          <FormattedMessage
+            defaultMessage="Upgrade Mattermost Cloud"
+            id="upgrade.cloud"
+          />
+        </Button>
+      </div>
+    </ModalBody>
+  </Modal>
+</Fragment>
+`;
+
+exports[`component/UserLimitModal should not display when show is false 1`] = `<Fragment />`;

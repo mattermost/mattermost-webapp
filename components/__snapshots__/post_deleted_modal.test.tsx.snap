@@ -43,7 +43,6 @@ exports[`components/ChannelInfoModal should match snapshot when modal is not sho
       <FormattedMessage
         defaultMessage="Comment could not be posted"
         id="post_delete.notPosted"
-        values={Object {}}
       />
     </ModalTitle>
   </ModalHeader>
@@ -55,7 +54,6 @@ exports[`components/ChannelInfoModal should match snapshot when modal is not sho
       <FormattedMessage
         defaultMessage="Someone deleted the message on which you tried to post a comment."
         id="post_delete.someone"
-        values={Object {}}
       />
     </p>
   </ModalBody>
@@ -73,7 +71,6 @@ exports[`components/ChannelInfoModal should match snapshot when modal is not sho
       <FormattedMessage
         defaultMessage="Okay"
         id="post_delete.okay"
-        values={Object {}}
       />
     </button>
   </ModalFooter>
@@ -123,7 +120,6 @@ exports[`components/ChannelInfoModal should match snapshot when modal is showing
       <FormattedMessage
         defaultMessage="Comment could not be posted"
         id="post_delete.notPosted"
-        values={Object {}}
       />
     </ModalTitle>
   </ModalHeader>
@@ -135,7 +131,6 @@ exports[`components/ChannelInfoModal should match snapshot when modal is showing
       <FormattedMessage
         defaultMessage="Someone deleted the message on which you tried to post a comment."
         id="post_delete.someone"
-        values={Object {}}
       />
     </p>
   </ModalBody>
@@ -153,7 +148,6 @@ exports[`components/ChannelInfoModal should match snapshot when modal is showing
       <FormattedMessage
         defaultMessage="Okay"
         id="post_delete.okay"
-        values={Object {}}
       />
     </button>
   </ModalFooter>

@@ -50,6 +50,7 @@ module.exports = async ({config, mode}) => {
     config.resolve.alias.stores = path.join(path.resolve(__dirname), '..', 'stores')
     config.resolve.alias.storybook = path.join(path.resolve(__dirname), '..', 'storybook')
     config.resolve.alias.utils = path.join(path.resolve(__dirname), '..', 'utils')
+    config.resolve.alias.sounds = path.join(path.resolve(__dirname), '..', 'sounds')
 
     return config;
 };

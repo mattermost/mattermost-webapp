@@ -3,7 +3,7 @@
 
 // This is a modified version of the code found in the gfycat-sdk project.
 // Supported values for options: timeout, method, url, file, payload
-export default function(options) {
+export default (options) => {
     return new Promise((resolve, reject) => {
         var timeout = options.timeout || 30000;
 
@@ -62,4 +62,4 @@ export default function(options) {
             }
         }
     });
-}
+};

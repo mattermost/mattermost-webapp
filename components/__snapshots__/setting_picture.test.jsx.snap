@@ -69,7 +69,6 @@ exports[`components/SettingItemMin should match snapshot with active Save button
             <FormattedMessage
               defaultMessage="Select"
               id="setting_picture.select"
-              values={Object {}}
             />
           </button>
           <button
@@ -87,7 +86,6 @@ exports[`components/SettingItemMin should match snapshot with active Save button
               <FormattedMessage
                 defaultMessage="Save"
                 id="setting_picture.save"
-                values={Object {}}
               />
             </LoadingWrapper>
           </button>
@@ -102,7 +100,6 @@ exports[`components/SettingItemMin should match snapshot with active Save button
           <FormattedMessage
             defaultMessage="Cancel"
             id="setting_picture.cancel"
-            values={Object {}}
           />
         </button>
       </div>
@@ -170,7 +167,6 @@ exports[`components/SettingItemMin should match snapshot with active Save button
             <FormattedMessage
               defaultMessage="Select"
               id="setting_picture.select"
-              values={Object {}}
             />
           </button>
           <button
@@ -188,7 +184,6 @@ exports[`components/SettingItemMin should match snapshot with active Save button
               <FormattedMessage
                 defaultMessage="Save"
                 id="setting_picture.save"
-                values={Object {}}
               />
             </LoadingWrapper>
           </button>
@@ -203,7 +198,6 @@ exports[`components/SettingItemMin should match snapshot with active Save button
           <FormattedMessage
             defaultMessage="Cancel"
             id="setting_picture.cancel"
-            values={Object {}}
           />
         </button>
       </div>
@@ -281,7 +275,6 @@ exports[`components/SettingItemMin should match snapshot, on loading picture 1`]
             <FormattedMessage
               defaultMessage="Select"
               id="setting_picture.select"
-              values={Object {}}
             />
           </button>
           <button
@@ -299,7 +292,6 @@ exports[`components/SettingItemMin should match snapshot, on loading picture 1`]
               <FormattedMessage
                 defaultMessage="Save"
                 id="setting_picture.save"
-                values={Object {}}
               />
             </LoadingWrapper>
           </button>
@@ -314,7 +306,6 @@ exports[`components/SettingItemMin should match snapshot, on loading picture 1`]
           <FormattedMessage
             defaultMessage="Cancel"
             id="setting_picture.cancel"
-            values={Object {}}
           />
         </button>
       </div>
@@ -404,7 +395,6 @@ exports[`components/SettingItemMin should match snapshot, profile picture on fil
             <FormattedMessage
               defaultMessage="Select"
               id="setting_picture.select"
-              values={Object {}}
             />
           </button>
           <button
@@ -422,7 +412,6 @@ exports[`components/SettingItemMin should match snapshot, profile picture on fil
               <FormattedMessage
                 defaultMessage="Save"
                 id="setting_picture.save"
-                values={Object {}}
               />
             </LoadingWrapper>
           </button>
@@ -437,7 +426,6 @@ exports[`components/SettingItemMin should match snapshot, profile picture on fil
           <FormattedMessage
             defaultMessage="Cancel"
             id="setting_picture.cancel"
-            values={Object {}}
           />
         </button>
       </div>
@@ -515,7 +503,6 @@ exports[`components/SettingItemMin should match snapshot, profile picture on sou
             <FormattedMessage
               defaultMessage="Select"
               id="setting_picture.select"
-              values={Object {}}
             />
           </button>
           <button
@@ -533,7 +520,6 @@ exports[`components/SettingItemMin should match snapshot, profile picture on sou
               <FormattedMessage
                 defaultMessage="Save"
                 id="setting_picture.save"
-                values={Object {}}
               />
             </LoadingWrapper>
           </button>
@@ -548,7 +534,6 @@ exports[`components/SettingItemMin should match snapshot, profile picture on sou
           <FormattedMessage
             defaultMessage="Cancel"
             id="setting_picture.cancel"
-            values={Object {}}
           />
         </button>
       </div>
@@ -638,7 +623,6 @@ exports[`components/SettingItemMin should match snapshot, team icon on file 1`] 
             <FormattedMessage
               defaultMessage="Select"
               id="setting_picture.select"
-              values={Object {}}
             />
           </button>
           <button
@@ -656,7 +640,6 @@ exports[`components/SettingItemMin should match snapshot, team icon on file 1`] 
               <FormattedMessage
                 defaultMessage="Save"
                 id="setting_picture.save"
-                values={Object {}}
               />
             </LoadingWrapper>
           </button>
@@ -671,7 +654,6 @@ exports[`components/SettingItemMin should match snapshot, team icon on file 1`] 
           <FormattedMessage
             defaultMessage="Cancel"
             id="setting_picture.cancel"
-            values={Object {}}
           />
         </button>
       </div>
@@ -730,7 +712,6 @@ exports[`components/SettingItemMin should match snapshot, team icon on source 1`
                   <FormattedMessage
                     defaultMessage="Remove This Icon"
                     id="setting_picture.remove"
-                    values={Object {}}
                   />
                 </div>
               </Tooltip>
@@ -759,7 +740,6 @@ exports[`components/SettingItemMin should match snapshot, team icon on source 1`
                 <FormattedMessage
                   defaultMessage="Remove This Icon"
                   id="setting_picture.remove"
-                  values={Object {}}
                 />
               </span>
             </button>
@@ -807,7 +787,6 @@ exports[`components/SettingItemMin should match snapshot, team icon on source 1`
             <FormattedMessage
               defaultMessage="Select"
               id="setting_picture.select"
-              values={Object {}}
             />
           </button>
           <button
@@ -825,7 +804,6 @@ exports[`components/SettingItemMin should match snapshot, team icon on source 1`
               <FormattedMessage
                 defaultMessage="Save"
                 id="setting_picture.save"
-                values={Object {}}
               />
             </LoadingWrapper>
           </button>
@@ -840,7 +818,6 @@ exports[`components/SettingItemMin should match snapshot, team icon on source 1`
           <FormattedMessage
             defaultMessage="Cancel"
             id="setting_picture.cancel"
-            values={Object {}}
           />
         </button>
       </div>
@@ -899,7 +876,6 @@ exports[`components/SettingItemMin should match snapshot, user icon on source 1`
                   <FormattedMessage
                     defaultMessage="Remove Profile Picture"
                     id="setting_picture.remove_profile_picture"
-                    values={Object {}}
                   />
                 </div>
               </Tooltip>
@@ -928,7 +904,6 @@ exports[`components/SettingItemMin should match snapshot, user icon on source 1`
                 <FormattedMessage
                   defaultMessage="Remove Profile Picture"
                   id="setting_picture.remove_profile_picture"
-                  values={Object {}}
                 />
               </span>
             </button>
@@ -976,7 +951,6 @@ exports[`components/SettingItemMin should match snapshot, user icon on source 1`
             <FormattedMessage
               defaultMessage="Select"
               id="setting_picture.select"
-              values={Object {}}
             />
           </button>
           <button
@@ -994,7 +968,6 @@ exports[`components/SettingItemMin should match snapshot, user icon on source 1`
               <FormattedMessage
                 defaultMessage="Save"
                 id="setting_picture.save"
-                values={Object {}}
               />
             </LoadingWrapper>
           </button>
@@ -1009,7 +982,6 @@ exports[`components/SettingItemMin should match snapshot, user icon on source 1`
           <FormattedMessage
             defaultMessage="Cancel"
             id="setting_picture.cancel"
-            values={Object {}}
           />
         </button>
       </div>

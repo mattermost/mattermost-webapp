@@ -81,3 +81,39 @@ describe('Account Settings > Sidebar > General', () => {
             should('be.visible');
     });
 });
+
+describe('Account Settings -> General -> Full Name', () => {
+    let testUser;
+
+    before(() => {
+        cy.apiAdminLogin();
+
+        // # Login as new user and visit town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team, user}) => {
+            testUser = user;
+            cy.visit(`/${team.name}/channels/town-square`);
+        });
+    });
+
+    beforeEach(() => {
+        // # Go to Account Settings
+        cy.toAccountSettingsModal();
+    });
+
+    it('MM-T2043 Enter first name', () => {
+        // # Click "Edit" to the right of "Full Name"
+        cy.get('#nameEdit').should('be.visible').click();
+
+        // # Clear the first name
+        cy.get('#firstName').clear();
+
+        // # Type a new first name
+        cy.get('#firstName').should('be.visible').type(testUser.first_name + '_new');
+
+        // # Save the settings
+        cy.get('#saveSetting').click();
+
+        // * Check that the first name was correctly updated
+        cy.get('#nameDesc').should('be.visible').should('contain', testUser.first_name + '_new ' + testUser.last_name);
+    });
+});

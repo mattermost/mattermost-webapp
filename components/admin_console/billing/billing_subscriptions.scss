@@ -1,0 +1,69 @@
+.BillingSubscriptions {
+    .BillingSubscriptions__topWrapper {
+        display: flex;
+    }
+}
+
+.BillingSubscriptions__tooltip.tooltip {
+    font-family: 'Open Sans', sans-serif;
+
+    &.bottom {
+        padding: 10px 0;
+    }
+
+    &.in {
+        opacity: 1;
+    }
+
+    &.BillingSubscriptions__tooltip-left .tooltip-inner {
+        left: 40%;
+    }
+
+    &.BillingSubscriptions__tooltip-right .tooltip-inner {
+        right: 90%;
+    }
+
+    .tooltip-inner {
+        background-color: var(--sys-center-channel-bg);
+        color: var(--sys-center-channel-color);
+        border: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.08);
+        border-radius: 4px;
+        position: relative;
+        text-align: left;
+        opacity: 1;
+        padding: 24px;
+        max-width: none;
+        min-width: 337px;
+        box-shadow: 0px 12px 32px rgba(0, 0, 0, 0.12);
+    }
+
+    .tooltip-arrow {
+        border-bottom-color: rgba(var(--sys-center-channel-color-rgb), 0.08);
+        z-index: 2;
+        border-width: 0 11px 11px;
+
+        &::before {
+            content: '';
+            display: block;
+            position: relative;
+            width: 0;
+            height: 0;
+            border: 11px solid transparent;
+            top: -10px;
+            left: -11px;
+            border-bottom-color: var(--sys-center-channel-bg);
+        }
+    }
+}
+
+.BillingSubscriptions__tooltipTitle {
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+}
+
+.BillingSubscriptions__tooltipMessage {
+    font-size: 14px;
+    line-height: 20px;
+    margin-top: 8px;
+}

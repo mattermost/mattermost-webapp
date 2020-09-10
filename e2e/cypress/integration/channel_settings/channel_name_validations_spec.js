@@ -30,7 +30,7 @@ describe('Channel routing', () => {
         });
     });
 
-    it('MM-T884 Channel name validates against two user IDs being used in URL', () => {
+    it('MM-T884_1 Renaming channel name validates against two user IDs being used in URL', () => {
         // # click on create public channel
         cy.get('#createPublicChannel').click();
 
@@ -55,7 +55,9 @@ describe('Channel routing', () => {
             cy.get('.input__help').should('have.text', 'User IDs are not allowed in channel URLs.');
             cy.findByText('Cancel').click();
         });
+    });
 
+    it('MM-T884_2 Creating new channel validates against two user IDs being used as channel name', () => {
         // # click on create public channel
         cy.get('#createPublicChannel').click();
 
