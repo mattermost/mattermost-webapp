@@ -74,6 +74,28 @@ describe('Customization', () => {
         // * Verify in the about modal that the new site name is being shown
         cy.get('#aboutModalLabel').should('be.visible').and('have.text', `About ${siteName}`);
     });
+
+    it('MM-T1026 - Custom Branding - Name character limit', () => {
+        // * Verify that setting is visible and matches text content
+        cy.findByTestId('TeamSettings.SiteNamelabel').scrollIntoView().should('be.visible').and('have.text', 'Site Name:');
+
+        // Character limit is 30, and Mattermost is exactly 10 characters long
+        const siteName = 'Mattermost'.repeat(3);
+
+        // # Type the maximum amount of characters and then some more
+        cy.findByTestId('TeamSettings.SiteNameinput').clear().type(siteName + 'something else');
+
+        // * Verify that the input field didn't accept more characters than the limit
+        cy.findByTestId('TeamSettings.SiteNameinput').should('have.value', siteName);
+
+        // # Save setting
+        saveSetting();
+
+        // * Verify that the value was saved correctly, without the extra characters
+        cy.apiGetConfig().then(({config}) => {
+            expect(config.TeamSettings.SiteName).to.equal(siteName);
+        });
+    });
 });
 
 function saveSetting() {

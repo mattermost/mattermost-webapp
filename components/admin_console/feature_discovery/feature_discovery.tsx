@@ -75,7 +75,7 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
             copyID,
             copyDefault,
             learnMoreURL,
-            imgPath
+            imgPath,
         } = this.props;
 
         let gettingTrialError: React.ReactNode = '';

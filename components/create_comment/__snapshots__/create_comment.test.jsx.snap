@@ -101,7 +101,6 @@ exports[`components/CreateComment should match snapshot read only channel 1`] = 
       <FormattedMessage
         defaultMessage="Confirm"
         id="notify_all.confirm"
-        values={Object {}}
       />
     }
     message=""
@@ -215,7 +214,6 @@ exports[`components/CreateComment should match snapshot when cannot post 1`] = `
       <FormattedMessage
         defaultMessage="Confirm"
         id="notify_all.confirm"
-        values={Object {}}
       />
     }
     message=""
@@ -364,7 +362,6 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
       <FormattedMessage
         defaultMessage="Confirm"
         id="notify_all.confirm"
-        values={Object {}}
       />
     }
     message=""
@@ -501,7 +498,6 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
       <FormattedMessage
         defaultMessage="Confirm"
         id="notify_all.confirm"
-        values={Object {}}
       />
     }
     message=""
@@ -650,7 +646,6 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
       <FormattedMessage
         defaultMessage="Confirm"
         id="notify_all.confirm"
-        values={Object {}}
       />
     }
     message=""
@@ -784,7 +779,6 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
           <FormattedMessage
             defaultMessage="File uploading"
             id="create_comment.file"
-            values={Object {}}
           />
         </span>
         <input
@@ -824,7 +818,6 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
       <FormattedMessage
         defaultMessage="Confirm"
         id="notify_all.confirm"
-        values={Object {}}
       />
     }
     message=""

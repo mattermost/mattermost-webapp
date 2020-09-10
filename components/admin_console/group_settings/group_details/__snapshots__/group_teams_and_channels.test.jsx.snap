@@ -18,7 +18,6 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
           <FormattedMessage
             defaultMessage="Name"
             id="admin.group_settings.group_profile.group_teams_and_channels.name"
-            values={Object {}}
           />
         </th>
         <th
@@ -27,7 +26,6 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
           <FormattedMessage
             defaultMessage="Type"
             id="admin.group_settings.group_profile.group_teams_and_channels.type"
-            values={Object {}}
           />
         </th>
         <th
@@ -36,7 +34,6 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
           <FormattedMessage
             defaultMessage="Assigned Roles"
             id="admin.group_settings.group_profile.group_teams_and_channels.assignedRoles"
-            values={Object {}}
           />
         </th>
         <th
@@ -143,7 +140,6 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
     <FormattedMessage
       defaultMessage="No teams or channels specified yet"
       id="admin.group_settings.group_details.group_teams_and_channels.no-teams-or-channels-speicified"
-      values={Object {}}
     />
   </div>
 </div>

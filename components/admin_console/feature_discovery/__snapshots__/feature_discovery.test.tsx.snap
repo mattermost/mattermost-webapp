@@ -14,7 +14,6 @@ exports[`components/feature_discovery FeatureDiscovery should match snapshot 1`]
       <FormattedMessage
         defaultMessage="Foo"
         id="translation.test.title"
-        values={Object {}}
       />
     </div>
     <div
@@ -23,7 +22,6 @@ exports[`components/feature_discovery FeatureDiscovery should match snapshot 1`]
       <FormattedMessage
         defaultMessage="Bar"
         id="translation.test.copy"
-        values={Object {}}
       />
     </div>
     <button
@@ -38,7 +36,6 @@ exports[`components/feature_discovery FeatureDiscovery should match snapshot 1`]
         <FormattedMessage
           defaultMessage="Start trial"
           id="admin.ldap_feature_discovery.call_to_action.primary"
-          values={Object {}}
         />
       </LoadingWrapper>
     </button>
@@ -52,7 +49,6 @@ exports[`components/feature_discovery FeatureDiscovery should match snapshot 1`]
       <FormattedMessage
         defaultMessage="Learn more"
         id="admin.ldap_feature_discovery.call_to_action.secondary"
-        values={Object {}}
       />
     </a>
     <p
