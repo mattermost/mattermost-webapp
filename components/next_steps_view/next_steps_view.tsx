@@ -56,6 +56,11 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
 
     componentDidMount() {
         pageVisited(getAnalyticsCategory(this.props.isAdmin), 'pageview_welcome');
+
+        // If all steps are complete, don't render this and skip to the tips screen
+        if (this.getIncompleteStep() === null) {
+            this.showFinalScreenNoAnimation();
+        }
     }
 
     getStartingStep = () => {
@@ -232,13 +237,6 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                 </div>
             </div>
         );
-    }
-
-    componentDidMount = () => {
-        // If all steps are complete, don't render this and skip to the tips screen
-        if (this.getIncompleteStep() === null) {
-            this.showFinalScreenNoAnimation();
-        }
     }
 
     renderMainBody = () => {
