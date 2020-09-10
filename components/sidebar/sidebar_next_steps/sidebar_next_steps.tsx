@@ -60,7 +60,7 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
                 screenTitle,
                 onConfirm: this.onConfirmModal,
                 onCancel: this.onCloseModal,
-            }
+            },
         });
     }
 

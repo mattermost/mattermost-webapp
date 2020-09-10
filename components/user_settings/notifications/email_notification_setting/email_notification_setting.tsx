@@ -109,7 +109,7 @@ export default class EmailNotificationSetting extends React.PureComponent<Props,
 
         this.setState({
             enableEmail,
-            newInterval
+            newInterval,
         });
 
         this.props.onChange(enableEmail);
