@@ -237,11 +237,11 @@ Cypress.Commands.add('clickPostTime', (postId, location = 'CENTER') => {
 });
 
 /**
- * Click flag icon by post ID or to most recent post (if post ID is not provided)
+ * Click save icon by post ID or to most recent post (if post ID is not provided)
  * @param {String} postId - Post ID
  * @param {String} location - as 'CENTER', 'RHS_ROOT', 'RHS_COMMENT', 'SEARCH'
  */
-Cypress.Commands.add('clickPostFlagIcon', (postId, location = 'CENTER') => {
+Cypress.Commands.add('clickPostSaveIcon', (postId, location = 'CENTER') => {
     clickPostHeaderItem(postId, location, 'flagIcon');
 });
 
