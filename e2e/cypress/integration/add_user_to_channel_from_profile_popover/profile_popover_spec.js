@@ -37,12 +37,11 @@ describe('Profile popover', () => {
     beforeEach(() => {
         cy.apiAdminLogin();
         cy.apiResetRoles();
+        cy.visit('/admin_console/user_management/permissions/system_scheme');
     });
 
     it('MM-T2 Add user — Error if already in channel', () => {
-        // # Do the system console setup
-        cy.apiAdminLogin();
-        cy.visit('/admin_console/user_management/permissions/system_scheme');
+        cy.findByTestId('all_users-public_channel-checkbox').scrollIntoView().should('be.visible').click();
 
         // * Verify that all the sub-checkboxes are enabled
         verifyPermissionSubSections('all_users', 'public', true);
@@ -79,9 +78,6 @@ describe('Profile popover', () => {
     });
 
     it('MM-T3 Add user — Public ON / Private OFF', () => {
-        // # Do the system console setup
-        cy.apiAdminLogin();
-        cy.visit('/admin_console/user_management/permissions/system_scheme');
         cy.findByTestId('all_users-private_channel-checkbox').scrollIntoView().should('be.visible').click();
 
         // * Verify that all the sub-checkboxes are disabled
@@ -113,9 +109,6 @@ describe('Profile popover', () => {
     });
 
     it('MM-T4 Add user — Public OFF / Private ON', () => {
-        // # Do the system console setup
-        cy.apiAdminLogin();
-        cy.visit('/admin_console/user_management/permissions/system_scheme');
         cy.findByTestId('all_users-public_channel-checkbox').scrollIntoView().should('be.visible').click().click();
 
         // * Verify that all the sub-checkboxes are disabled
@@ -149,34 +142,16 @@ describe('Profile popover', () => {
         });
     });
 
-    it('MM-T5 User A & User B (removed from team)', () => {
-        // # Remove the user from the team
-        cy.removeUserFromTeam(testTeam.id, testUser.id);
-
-        // # Login as the other user
-        cy.apiLogin(otherUser);
-        cy.visit(`/${testTeam.name}/channels/town-square`);
-
-        // # @ mention the kicked out user
-        cy.postMessage(`Hi there @${testUser.username}`);
-
-        // # Click on the @ mention
-        cy.getLastPostId().then((postId) => {
-            cy.get(`#postMessageText_${postId}`).
-                find(`[data-mention=${testUser.username}]`).
-                should('be.visible').
-                click();
-        });
-
-        // * Add to a Channel should not be shown.
-        cy.findByText('Add to a Channel').should('not.be.visible');
-    });
-
     it('MM-T6 Add User - Channel Admins (Public only)', () => {
-        // # Do the system console setup
-        cy.apiAdminLogin();
-        cy.visit('/admin_console/user_management/permissions/system_scheme');
+        cy.findByTestId('all_users-public_channel-checkbox').scrollIntoView().should('be.visible').click().click();
+
         cy.findByTestId('all_users-private_channel-checkbox').scrollIntoView().should('be.visible').click();
+        // * Verify that all the sub-checkboxes are disabled
+        verifyPermissionSubSections('all_users', 'public', false);
+
+        // * Verify that all the sub-checkboxes are enabled
+        verifyPermissionSubSections('all_users', 'private', false);
+
         cy.findByTestId('channel_admin-public_channel-checkbox').scrollIntoView().should('be.visible').click();
 
         // * Verify that all the sub-checkboxes are enabled.
@@ -190,8 +165,9 @@ describe('Profile popover', () => {
 
         cy.findByTestId('saveSetting').should('be.visible').click();
 
-        // # Re-add the kicked out user
-        cy.apiAddUserToTeam(testTeam.id, testUser.id);
+        // # Remove testUser from channel
+        cy.removeUserFromChannel(testChannel.id, testUser.id);
+
         cy.apiLogout();
 
         // # Login
@@ -235,9 +211,6 @@ describe('Profile popover', () => {
     });
 
     it('MM-T7 Add User — Team admins (Private only)', () => {
-        // # Do the system console setup
-        cy.apiAdminLogin();
-        cy.visit('/admin_console/user_management/permissions/system_scheme');
         cy.findByTestId('all_users-public_channel-checkbox').scrollIntoView().should('be.visible').click().click();
 
         // * Verify that all the sub-checkboxes are disabled
@@ -310,37 +283,8 @@ describe('Profile popover', () => {
         cy.findByTestId('postView').find('.post-message__text').should('contain.text', `@${testUser.username} added to the channel by you.`);
     });
 
-    it('MM-T8 Add User - UserA & UserB (not on team)', () => {
-        // # Create a new team
-        cy.apiCreateTeam('team', 'Test NoMember').then(({team}) => {
-            cy.apiAddUserToTeam(team.id, testUser.id);
-
-            // # Login as testuser
-            cy.apiLogin(testUser);
-
-            // # Visit town square
-            cy.visit(`/${team.name}/channels/town-square`);
-
-            // # @ mention the kicked out user
-            cy.postMessage(`Hi there @${otherUser.username}`);
-
-            // # Click on the @ mention
-            cy.getLastPostId().then((postId) => {
-                cy.get(`#postMessageText_${postId}`).
-                    find(`[data-mention=${otherUser.username}]`).
-                    should('be.visible').
-                    click();
-            });
-
-            // # Add to a Channel should not be shown.
-            cy.findByText('Add to a Channel').should('not.be.visible');
-        });
-    });
-
     it('MM-T9 Add User - Any user (can add users)', () => {
-        // # Do the system console setup
-        cy.apiAdminLogin();
-        cy.visit('/admin_console/user_management/permissions/system_scheme');
+        cy.findByTestId('all_users-public_channel-checkbox').scrollIntoView().should('be.visible').click();
 
         // * Verify that all the sub-checkboxes are enabled
         verifyPermissionSubSections('all_users', 'public', true);
@@ -402,9 +346,6 @@ describe('Profile popover', () => {
     });
 
     it('MM-T1 Add User - System Admin only', () => {
-        // # Do the system console setup
-        cy.apiAdminLogin();
-        cy.visit('/admin_console/user_management/permissions/system_scheme');
         cy.findByTestId('all_users-public_channel-checkbox').scrollIntoView().should('be.visible').click().click();
 
         // * Verify that all the sub-checkboxes are disabled.
@@ -485,6 +426,9 @@ const verifyPermissionSubSections = (category, publicOrPrivate, checked) => {
 
     if (category !== 'channel_admin') {
         cy.findByTestId(category + '-' + publicOrPrivate + '_channel-create_' + publicOrPrivate + '_channel-checkbox').should(classCondition, 'checked');
+    }
+    if (publicOrPrivate === 'public') {
+        cy.findByTestId(`${category}-public_channel-convert_public_channel_to_private-checkbox`).should(classCondition, 'checked');
     }
     cy.findByTestId(`${category}-${publicOrPrivate}_channel-manage_${publicOrPrivate}_channel_properties-checkbox`).should(classCondition, 'checked');
     cy.findByTestId(`${category}-${publicOrPrivate}_channel-manage_${publicOrPrivate}_channel_members_and_read_groups-checkbox`).should(classCondition, 'checked');
