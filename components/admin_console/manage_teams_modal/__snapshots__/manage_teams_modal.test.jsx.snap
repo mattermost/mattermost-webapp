@@ -42,7 +42,6 @@ exports[`ManageTeamsModal should match snapshot init 1`] = `
       <FormattedMessage
         defaultMessage="Manage Teams"
         id="admin.user_item.manageTeams"
-        values={Object {}}
       />
     </ModalTitle>
   </ModalHeader>
@@ -129,7 +128,6 @@ exports[`ManageTeamsModal should save data in state from api calls 1`] = `
       <FormattedMessage
         defaultMessage="Manage Teams"
         id="admin.user_item.manageTeams"
-        values={Object {}}
       />
     </ModalTitle>
   </ModalHeader>

@@ -173,7 +173,6 @@ describe('components/integrations/AbstractOAuthApp', () => {
             <FormattedMessage
                 defaultMessage='Name for the OAuth 2.0 application is required.'
                 id='add_oauth_app.nameRequired'
-                values={{}}
             />,
         );
 
@@ -184,7 +183,6 @@ describe('components/integrations/AbstractOAuthApp', () => {
             <FormattedMessage
                 defaultMessage='Description for the OAuth 2.0 application is required.'
                 id='add_oauth_app.descriptionRequired'
-                values={{}}
             />,
         );
 
@@ -195,7 +193,6 @@ describe('components/integrations/AbstractOAuthApp', () => {
             <FormattedMessage
                 defaultMessage='Homepage for the OAuth 2.0 application is required.'
                 id='add_oauth_app.homepageRequired'
-                values={{}}
             />,
         );
     });

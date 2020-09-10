@@ -32,7 +32,6 @@ exports[`components/view_image/popover_bar/PopoverBar should match snapshot with
       <FormattedMessage
         defaultMessage="Download"
         id="view_image_popover.download"
-        values={Object {}}
       />
     </a>
   </div>
@@ -70,7 +69,6 @@ exports[`components/view_image/popover_bar/PopoverBar should match snapshot with
         <FormattedMessage
           defaultMessage="Get a public link"
           id="view_image_popover.publicLink"
-          values={Object {}}
         />
       </a>
       <span
@@ -89,7 +87,6 @@ exports[`components/view_image/popover_bar/PopoverBar should match snapshot with
       <FormattedMessage
         defaultMessage="Download"
         id="view_image_popover.download"
-        values={Object {}}
       />
     </a>
   </div>
