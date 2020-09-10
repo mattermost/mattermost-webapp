@@ -19,6 +19,7 @@ exports[`components/next_steps_view/steps/team_profile_step should match snapsho
       </h3>
       <PictureSelector
         name="TeamProfileStep__teamIcon"
+        onOpenDialog={[Function]}
         onRemove={[Function]}
         onSelect={[Function]}
         placeholder={

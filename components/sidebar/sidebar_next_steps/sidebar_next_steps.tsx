@@ -7,11 +7,10 @@ import classNames from 'classnames';
 
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 
+import {trackEvent} from 'actions/diagnostics_actions';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
-import {
-    StepType,
-} from 'components/next_steps_view/steps';
-
+import {StepType} from 'components/next_steps_view/steps';
+import {getAnalyticsCategory} from 'components/next_steps_view/step_helpers';
 import ProgressBar from 'components/progress_bar';
 import {ModalIdentifiers, RecommendedNextSteps, Preferences} from 'utils/constants';
 import {localizeMessage} from 'utils/utils';
@@ -26,6 +25,7 @@ type Props = {
     currentUserId: string;
     preferences: PreferenceType[];
     steps: StepType[];
+    isAdmin: boolean;
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => void;
         openModal: (modalData: {modalId: string; dialogType: any; dialogProps?: any}) => void;
@@ -49,6 +49,12 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
 
     closeNextSteps = (event: React.SyntheticEvent) => {
         event.stopPropagation();
+        if (this.props.showNextSteps) {
+            trackEvent(getAnalyticsCategory(this.props.isAdmin), 'click_skip_getting_started', {channel_sidebar: true});
+        } else {
+            trackEvent(getAnalyticsCategory(this.props.isAdmin), 'click_skip_tips');
+        }
+
         const screenTitle = this.props.showNextSteps ?
             localizeMessage('sidebar_next_steps.gettingStarted', 'Getting Started') :
             localizeMessage('sidebar_next_steps.tipsAndNextSteps', 'Tips & Next Steps');
@@ -65,6 +71,12 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
     }
 
     showNextSteps = () => {
+        if (this.props.showNextSteps) {
+            trackEvent(getAnalyticsCategory(this.props.isAdmin), 'click_getting_started');
+        } else {
+            trackEvent(getAnalyticsCategory(this.props.isAdmin), 'click_tips');
+        }
+
         this.props.actions.setShowNextStepsView(true);
     }
 
@@ -79,6 +91,10 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
             name: RecommendedNextSteps.HIDE,
             value: 'true',
         }]);
+
+        if (!this.props.showNextSteps) {
+            trackEvent(getAnalyticsCategory(this.props.isAdmin), 'click_confirm_remove_tips');
+        }
 
         this.props.actions.setShowNextStepsView(false);
 
