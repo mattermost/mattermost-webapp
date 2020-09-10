@@ -35,7 +35,7 @@ describe('Teams Suite', () => {
         });
     });
 
-    it('TS12995 Cancel out of leaving a team', () => {
+    it('MM-T393 Cancel out of leaving team', () => {
         // # Login and go to /
         cy.apiLogin(testUser);
         cy.visit(`/${testTeam.name}/channels/town-square`);
@@ -68,7 +68,7 @@ describe('Teams Suite', () => {
         cy.url().should('include', `/${testTeam.name}/channels/town-square`);
     });
 
-    it('TS13548 Team or System Admin searches and adds new team member', () => {
+    it('MM-T2340 Team or System Admin searches and adds new team member', () => {
         // # Update config
         cy.apiUpdateConfig({
             GuestAccountsSettings: {
@@ -165,7 +165,7 @@ describe('Teams Suite', () => {
         });
     });
 
-    it('TS14633 Leave all teams', () => {
+    it('MM-T394 Leave team by clicking Yes, leave all teams', () => {
         cy.apiUpdateConfig({EmailSettings: {RequireEmailVerification: false}});
 
         // // # Login as test user

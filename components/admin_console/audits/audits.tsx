@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {CSSProperties} from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {Audit} from 'mattermost-redux/types/audits';
@@ -48,11 +48,11 @@ export default class Audits extends React.PureComponent<Props, State> {
     };
 
     private activityLogHeader = () => {
-        const h4Style = {
+        const h4Style: CSSProperties = {
             display: 'inline-block',
             marginBottom: '6px',
         };
-        const divStyle: object = {
+        const divStyle: CSSProperties = {
             clear: 'both',
         };
         return (

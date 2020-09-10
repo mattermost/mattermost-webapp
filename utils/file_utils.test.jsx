@@ -27,7 +27,7 @@ describe('FileUtils.trimFilename', () => {
 });
 
 describe('FileUtils.canUploadFiles', () => {
-    UserAgent.isMobileApp = jest.fn().mockImplementation(() => false);
+    UserAgent.isMobileApp = jest.fn().mockImplementation(() => false); // eslint-disable-line no-import-assign
 
     it('is false when file attachments are disabled', () => {
         const config = {

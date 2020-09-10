@@ -14,7 +14,6 @@ exports[`admin_console/team_channel_settings/AbstractList should match snapshot,
       <FormattedMessage
         defaultMessage="test"
         id="test"
-        values={Object {}}
       />
     </div>
   </div>
@@ -34,7 +33,6 @@ exports[`admin_console/team_channel_settings/AbstractList should match snapshot,
       <FormattedMessage
         defaultMessage="Name"
         id="admin.channel_settings.channel_list.nameHeader"
-        values={Object {}}
       />
     </div>
     <div
@@ -46,7 +44,6 @@ exports[`admin_console/team_channel_settings/AbstractList should match snapshot,
         <FormattedMessage
           defaultMessage="Team"
           id="admin.channel_settings.channel_list.teamHeader"
-          values={Object {}}
         />
       </div>
       <div
@@ -55,7 +52,6 @@ exports[`admin_console/team_channel_settings/AbstractList should match snapshot,
         <FormattedMessage
           defaultMessage="Management"
           id="admin.channel_settings.channel_list.managementHeader"
-          values={Object {}}
         />
       </div>
       <div

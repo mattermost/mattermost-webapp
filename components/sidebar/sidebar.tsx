@@ -183,7 +183,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                     onDragEnd={this.onDragEnd}
                 />
                 {this.props.isDataPrefechEnabled && <DataPrefetch/>}
-                <SidebarNextSteps/>
+                {this.props.isCloud && <SidebarNextSteps/>}
                 {this.renderModals()}
             </div>
         );

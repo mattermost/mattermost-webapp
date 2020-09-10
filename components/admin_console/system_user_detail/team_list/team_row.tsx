@@ -19,7 +19,7 @@ type Props = {
     readOnly?: boolean;
 }
 
-export default class TeamRow extends React.PureComponent<Props, {}> {
+export default class TeamRow extends React.PureComponent<Props> {
     private renderTeamType = (team: {[x: string]: string}) => {
         if (team.group_constrained) {
             return (

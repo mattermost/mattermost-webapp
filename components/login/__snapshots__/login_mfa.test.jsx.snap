@@ -11,7 +11,6 @@ exports[`components/login/LoginMfa should match snapshot 1`] = `
       <FormattedMessage
         defaultMessage="To complete the sign in process, please enter a token from your smartphone's authenticator"
         id="login_mfa.enterToken"
-        values={Object {}}
       />
     </p>
     <div

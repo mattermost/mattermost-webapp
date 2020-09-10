@@ -209,14 +209,16 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
         );
     }
 
-    renderMainBody = () => {
-        const renderedSteps = this.props.steps.map(this.renderStep);
-
+    componentDidMount = () => {
         // If all steps are complete, don't render this and skip to the tips screen
         if (this.getIncompleteStep() === null) {
             this.showFinalScreenNoAnimation();
-            return null;
         }
+    }
+
+    renderMainBody = () => {
+        const renderedSteps = this.props.steps.map(this.renderStep);
+
         return (
             <div
                 className={classNames('NextStepsView__viewWrapper NextStepsView__mainView', {

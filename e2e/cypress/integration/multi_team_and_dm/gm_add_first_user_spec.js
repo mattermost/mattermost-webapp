@@ -1,9 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+// Stage: @prod
+// Group: @multi_team_and_dm
+
 describe('Multi-user group messages', () => {
     let testUser;
     let testTeam;
+
     before(() => {
         // # Create a new team
         cy.apiInitSetup().then(({team, user}) => {
