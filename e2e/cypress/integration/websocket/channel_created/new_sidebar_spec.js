@@ -26,6 +26,9 @@ describe('Handle removed user - new sidebar', () => {
         const teamName = `team-${getRandomId()}`;
         cy.createNewTeam(teamName, teamName);
 
+        // # Close "What's new" modal
+        cy.uiCloseWhatsNewModal();
+
         // * Verify that we've switched to the new team
         cy.get('#headerTeamName').should('be.visible').should('contain', teamName);
 
