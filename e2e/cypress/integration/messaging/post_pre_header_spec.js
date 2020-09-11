@@ -23,18 +23,18 @@ describe('Post PreHeader', () => {
         });
     });
 
-    it('should properly handle flagged posts', () => {
+    it('MM-T3352 Properly handle Saved Posts', () => {
         // # Post a message
-        cy.postMessage('test for flagged post');
+        cy.postMessage('test for saved post');
 
         cy.getLastPostId().then((postId) => {
             // * Check that the post pre-header is not visible
             cy.get('div.post-pre-header').should('not.be.visible');
 
-            // # Click the center flag icon of the post
-            cy.clickPostFlagIcon(postId);
+            // # Click the center save icon of the post
+            cy.clickPostSaveIcon(postId);
 
-            // * Check that the center flag icon has been updated correctly
+            // * Check that the center save icon has been updated correctly
             cy.get(`#post_${postId}`).trigger('mouseover', {force: true});
             cy.get(`#CENTER_flagIcon_${postId}`).
                 should('have.class', 'post-menu__item').
@@ -46,14 +46,14 @@ describe('Post PreHeader', () => {
             // * Check that the post pre-header is visible
             cy.get('div.post-pre-header').should('be.visible');
 
-            // * Check that the post pre-header has the flagged icon
+            // * Check that the post pre-header has the saved icon
             cy.get('span.icon--post-pre-header').
                 should('be.visible').
                 within(() => {
                     cy.get('svg').should('have.attr', 'aria-label', 'Saved Icon');
                 });
 
-            // * Check that the post pre-header has the flagged post link
+            // * Check that the post pre-header has the saved post link
             cy.get('div.post-pre-header__text-container').
                 should('be.visible').
                 and('have.text', 'Saved').
@@ -61,22 +61,22 @@ describe('Post PreHeader', () => {
                     cy.get('a').as('savedLink').should('be.visible');
                 });
 
-            // * Check that the flagged posts list is not open in RHS before clicking the link in the post pre-header
+            // * Check that the saved posts list is not open in RHS before clicking the link in the post pre-header
             cy.get('#searchContainer').should('not.be.visible');
 
             // # Click the link
             cy.get('@savedLink').click();
 
-            // * Check that the flagged posts list is open in RHS
+            // * Check that the saved posts list is open in RHS
             cy.get('#searchContainer').should('be.visible').within(() => {
                 cy.get('.sidebar--right__title').
                     should('be.visible').
                     and('have.text', 'Saved Posts');
 
-                // * Check that the post pre-header is not shown for the flagged message in RHS
-                cy.get('div[data-testid="search-item-container"]').within(() => {
+                // * Check that the post pre-header is not shown for the saved message in RHS
+                cy.findByTestId('search-item-container').within(() => {
                     cy.get('div.post__content').should('be.visible');
-                    cy.get(`#rhsPostMessageText_${postId}`).contains('test for flagged post');
+                    cy.get(`#rhsPostMessageText_${postId}`).contains('test for saved post');
                     cy.get('div.post-pre-header').should('not.be.visible');
                 });
             });
@@ -84,8 +84,8 @@ describe('Post PreHeader', () => {
             // # Close the RHS
             cy.get('#searchResultsCloseButton').should('be.visible').click();
 
-            // # Click again the center flag icon of a post
-            cy.clickPostFlagIcon(postId);
+            // # Click again the center save icon of a post
+            cy.clickPostSaveIcon(postId);
 
             // * Check that the post pre-header is not visible
             cy.get('div.post-pre-header').should('not.be.visible');
@@ -95,8 +95,7 @@ describe('Post PreHeader', () => {
         });
     });
 
-    // this is a replacement for 'M14577 Un-pinning and pinning a post removes and adds badge' that existed in post_header_spec before
-    it('should properly handle pinned posts', () => {
+    it('MM-T3353 Unpinning and pinning a post removes and adds badge', () => {
         // # Post a message
         cy.postMessage('test for pinning/unpinning a post');
 
@@ -139,7 +138,7 @@ describe('Post PreHeader', () => {
                     and('have.text', 'Pinned postsTown Square');
 
                 // * Check that the post pre-header is not shown for the pinned message in RHS
-                cy.get('div[data-testid="search-item-container"]').within(() => {
+                cy.findByTestId('search-item-container').within(() => {
                     cy.get('div.post__content').should('be.visible');
                     cy.get(`#rhsPostMessageText_${postId}`).contains('test for pinning/unpinning a post');
                     cy.get('div.post-pre-header').should('not.be.visible');
@@ -160,16 +159,16 @@ describe('Post PreHeader', () => {
         });
     });
 
-    it('should properly handle posts that are both pinned and flagged', () => {
+    it('MM-T3354 Handle posts that are both pinned and saved', () => {
         // # Post a message
-        cy.postMessage('test both pinned and flagged');
+        cy.postMessage('test both pinned and saved');
 
         cy.getLastPostId().then((postId) => {
             // # Pin the post.
             cy.getPostMenu(postId, 'Pin to Channel').click();
 
-            // # Flag the post
-            cy.clickPostFlagIcon(postId);
+            // # Save the post
+            cy.clickPostSaveIcon(postId);
 
             // * Check that the post is highlighted
             cy.get(`#post_${postId}`).
@@ -178,7 +177,7 @@ describe('Post PreHeader', () => {
                     // * Check that the post pre-header is visible
                     cy.get('div.post-pre-header').should('be.visible');
 
-                    // * Check that the post pre-header has the flagged icon
+                    // * Check that the post pre-header has the saved icon
                     cy.get('span.icon--post-pre-header').
                         should('be.visible').
                         within(() => {
@@ -188,7 +187,7 @@ describe('Post PreHeader', () => {
                     // * Check that the post pre-header has the pinned icon
                     cy.get('span.icon--post-pre-header.icon-pin').should('be.visible');
 
-                    // * Check that the post pre-header has both the flagged and pinned links
+                    // * Check that the post pre-header has both the saved and pinned links
                     cy.get('div.post-pre-header__text-container').
                         should('be.visible').
                         and('have.text', `Pinned${'\u2B24'}Saved`).
@@ -203,7 +202,7 @@ describe('Post PreHeader', () => {
             cy.get('@savedLink').click();
 
             // * Check that the post pre-header only shows the pinned link in RHS
-            cy.get('div[data-testid="search-item-container"]').within(() => {
+            cy.findByTestId('search-item-container').within(() => {
                 cy.get('div.post-pre-header__text-container').
                     should('be.visible').
                     and('have.text', 'Pinned');
@@ -213,14 +212,14 @@ describe('Post PreHeader', () => {
             cy.get('@pinnedLink').click();
 
             // * Check that the post pre-header only shows the saved link in RHS
-            cy.get('div[data-testid="search-item-container"]').within(() => {
+            cy.findByTestId('search-item-container').within(() => {
                 cy.get('div.post-pre-header__text-container').
                     should('be.visible').
                     and('have.text', 'Saved');
             });
 
             // # Search for the channel.
-            cy.get('#searchBox').type('test both pinned and flagged {enter}');
+            cy.get('#searchBox').type('test both pinned and saved {enter}');
 
             // * Check that the post pre-header has both pinned and saved links in RHS search results
             cy.get('#searchContainer').should('be.visible').within(() => {
@@ -228,7 +227,7 @@ describe('Post PreHeader', () => {
                     should('be.visible').
                     and('have.text', 'Search Results');
 
-                cy.get('div[data-testid="search-item-container"]').within(() => {
+                cy.findByTestId('search-item-container').within(() => {
                     cy.get('div.post-pre-header__text-container').
                         should('be.visible').
                         and('have.text', `Pinned${'\u2B24'}Saved`);
