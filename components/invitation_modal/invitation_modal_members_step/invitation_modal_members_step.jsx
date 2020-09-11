@@ -8,6 +8,7 @@ import {injectIntl, FormattedMessage} from 'react-intl';
 import {debounce} from 'mattermost-redux/actions/helpers';
 import {isEmail} from 'mattermost-redux/utils/helpers';
 
+import {trackEvent} from 'actions/diagnostics_actions';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import InviteMembersIcon from 'components/widgets/icons/invite_members_icon';
 import UsersEmailsInput from 'components/widgets/inputs/users_emails_input.jsx';
@@ -33,7 +34,7 @@ class InvitationModalMembersStep extends React.PureComponent {
         userLimit: PropTypes.string.isRequired,
         currentUsers: PropTypes.number.isRequired,
         userIsAdmin: PropTypes.bool.isRequired,
-        isCloud: PropTypes.string.isRequired,
+        isCloud: PropTypes.bool.isRequired,
         analytics: PropTypes.object.isRequired,
         actions: PropTypes.shape({
             getStandardAnalytics: PropTypes.func.isRequired,
@@ -53,6 +54,9 @@ class InvitationModalMembersStep extends React.PureComponent {
     }
 
     copyLink = () => {
+        if (this.props.isCloud) {
+            trackEvent('cloud_invite_users', 'click_copy_link');
+        }
         const input = this.inviteLinkRef.current;
 
         const textField = document.createElement('textarea');
@@ -110,7 +114,11 @@ class InvitationModalMembersStep extends React.PureComponent {
     };
 
     onChange = (usersAndEmails) => {
-        this.setState({usersAndEmails});
+        this.setState({usersAndEmails}, () => {
+            if (this.shouldShowPickerError() && this.props.isCloud) {
+                trackEvent('cloud_invite_users', 'warning_near_limit', {remaining: this.props.userLimit - (this.props.analytics.TOTAL_USERS + this.state.usersAndEmails.length)});
+            }
+        });
         this.props.onEdit(
             usersAndEmails.length > 0 || this.state.usersInputValue,
         );
@@ -124,6 +132,9 @@ class InvitationModalMembersStep extends React.PureComponent {
     };
 
     submit = () => {
+        if (this.props.isCloud) {
+            trackEvent('cloud_invite_users', 'click_send_invitations', {num_invitations: this.state.usersAndEmails.length});
+        }
         const users = [];
         const emails = [];
         for (const userOrEmail of this.state.usersAndEmails) {
@@ -139,7 +150,7 @@ class InvitationModalMembersStep extends React.PureComponent {
     shouldShowPickerError = () => {
         const {userLimit, analytics, userIsAdmin, isCloud} = this.props;
 
-        if (userLimit === '0' || !userIsAdmin || isCloud !== 'true') {
+        if (userLimit === '0' || !userIsAdmin || !isCloud) {
             return false;
         }
 
