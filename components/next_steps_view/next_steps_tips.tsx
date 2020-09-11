@@ -76,7 +76,7 @@ const openAuthPage = (page: string) => {
     browserHistory.push(`/admin_console/authentication/${page}`);
 };
 
-export default function NextStepsTips(props: { showFinalScreen: boolean; animating: boolean; stopAnimating: () => void; isAdmin: boolean}) {
+export default function NextStepsTips(props: { showFinalScreen: boolean; animating: boolean; stopAnimating: () => void; isFirstAdmin: boolean}) {
     const dispatch = useDispatch();
     const openPluginMarketplace = openModal({modalId: ModalIdentifiers.PLUGIN_MARKETPLACE, dialogType: MarketplaceModal});
     const openMoreChannels = openModal({modalId: ModalIdentifiers.MORE_CHANNELS, dialogType: MoreChannels});
@@ -86,7 +86,7 @@ export default function NextStepsTips(props: { showFinalScreen: boolean; animati
     });
 
     let nonMobileTips;
-    if (!Utils.isMobile() && props.isAdmin) {
+    if (!Utils.isMobile() && props.isFirstAdmin) {
         nonMobileTips = (
             <>
                 <Card expanded={true}>
@@ -153,7 +153,7 @@ export default function NextStepsTips(props: { showFinalScreen: boolean; animati
                 </Card>
             </>
         );
-    } else if (!Utils.isMobile() && !props.isAdmin) {
+    } else if (!Utils.isMobile() && !props.isFirstAdmin) {
         nonMobileTips = (
             <>
                 <Card expanded={true}>

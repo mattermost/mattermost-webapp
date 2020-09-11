@@ -27,7 +27,7 @@ const TRANSITION_SCREEN_TIMEOUT = 3000;
 type Props = {
     currentUser: UserProfile;
     preferences: PreferenceType[];
-    isAdmin: boolean;
+    isFirstAdmin: boolean;
     steps: StepType[];
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => void;
@@ -289,7 +289,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                     showFinalScreen={this.state.showFinalScreen}
                     animating={this.state.animating}
                     stopAnimating={this.stopAnimating}
-                    isAdmin={this.props.isAdmin}
+                    isFirstAdmin={this.props.isFirstAdmin}
                 />
             </section>
         );
