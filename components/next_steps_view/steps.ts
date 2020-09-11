@@ -5,8 +5,9 @@ import {createSelector} from 'reselect';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
 import {UserProfile} from 'mattermost-redux/types/users';
+import {IDMappedObjects} from 'mattermost-redux/types/utilities';
 
-import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUser, getUsers} from 'mattermost-redux/selectors/entities/users';
 import {isEqual} from 'lodash';
 
 import {GlobalState} from 'types/store';
@@ -93,10 +94,31 @@ export function isStepForUser(step: StepType, roles: string): boolean {
     );
 }
 
+function isFirstAdmin(currentUser: UserProfile, users: IDMappedObjects<UserProfile>): boolean {
+    const userIds = Object.keys(users);
+    for (const userId of userIds) {
+        const user = users[userId];
+        if (user.roles.includes('system_admin') && user.create_at < currentUser.create_at) {
+            // If the user in the list is an admin with create_at less than our user, than that user is older than the current one, so it can't be the first admin.
+            return false;
+        }
+    }
+    return true;
+}
+
 export const getSteps = createSelector(
     (state: GlobalState) => getCurrentUser(state),
-    (currentUser) => {
-        return Steps.filter((step) => isStepForUser(step, currentUser.roles));
+    (state: GlobalState) => getUsers(state),
+    (state: GlobalState) => getCurrentUser(state),
+    (currentUser, users) => {
+        let roles = currentUser.roles;
+        if (!isFirstAdmin(currentUser, users)) {
+            // Only the first admin sees the admin flow. Show everyone else the end user flow
+            roles = 'system_user';
+        }
+        return Steps.filter((step) =>
+            isStepForUser(step, roles),
+        );
     },
 );
 
