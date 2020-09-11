@@ -15,6 +15,7 @@ import LoadingScreen from 'components/loading_screen';
 import {getBrowserTimezone} from 'utils/timezone.jsx';
 import store from 'stores/redux_store.jsx';
 import WebSocketClient from 'client/web_websocket_client.jsx';
+import BrowserStore from 'stores/browser_store';
 
 const dispatch = store.dispatch;
 const getState = store.getState;
@@ -133,6 +134,10 @@ export default class LoggedIn extends React.PureComponent {
                 e.preventDefault();
             }
         });
+
+        if (this.isValidState()) {
+            BrowserStore.signalLogin();
+        }
     }
 
     componentWillUnmount() {
