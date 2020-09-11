@@ -48,7 +48,6 @@ exports[`ProductNoticesModal Match snapshot for user notice 1`] = `
       <FormattedMessage
         defaultMessage="Previous"
         id="generic.previous"
-        values={Object {}}
       />
     </React.Fragment>
   }
@@ -57,7 +56,6 @@ exports[`ProductNoticesModal Match snapshot for user notice 1`] = `
     <FormattedMessage
       defaultMessage="Done"
       id="generic.done"
-      values={Object {}}
     />
   }
   handleCancel={[Function]}
@@ -125,7 +123,6 @@ exports[`ProductNoticesModal Should match snapshot for system admin notice 1`] =
       <FormattedMessage
         defaultMessage="Next"
         id="generic.next"
-        values={Object {}}
       />
       <NextIcon
         additionalClassName={null}
@@ -190,7 +187,6 @@ exports[`ProductNoticesModal Should match snapshot for system admin notice 1`] =
     <FormattedMessage
       defaultMessage="Visible to Admins only"
       id="inProduct_notices.adminOnlyMessage"
-      values={Object {}}
     />
   </div>
 </GenericModal>
