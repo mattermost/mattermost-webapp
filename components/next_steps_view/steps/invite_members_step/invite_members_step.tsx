@@ -10,6 +10,9 @@ import {ServerError} from 'mattermost-redux/types/errors';
 import {TeamInviteWithError, Team} from 'mattermost-redux/types/teams';
 import {isEmail} from 'mattermost-redux/utils/helpers';
 
+import {pageVisited, trackEvent} from 'actions/diagnostics_actions';
+import {getAnalyticsCategory} from 'components/next_steps_view/step_helpers';
+import MultiInput from 'components/multi_input';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import {getSiteURL} from 'utils/url';
 import * as Utils from 'utils/utils';
@@ -17,7 +20,6 @@ import * as Utils from 'utils/utils';
 import {StepComponentProps} from '../../steps';
 
 import './invite_members_step.scss';
-import MultiInput from 'components/multi_input';
 
 type Props = StepComponentProps & {
     team: Team;
@@ -68,6 +70,18 @@ export default class InviteMembersStep extends React.PureComponent<Props, State>
             emailInput: '',
             emails: [],
         };
+    }
+
+    componentDidMount() {
+        if (this.props.expanded) {
+            pageVisited(getAnalyticsCategory(this.props.isAdmin), 'pageview_invite_members');
+        }
+    }
+
+    componentDidUpdate(prevProps: Props) {
+        if (prevProps.expanded !== this.props.expanded && this.props.expanded) {
+            pageVisited(getAnalyticsCategory(this.props.isAdmin), 'pageview_invite_members');
+        }
     }
 
     onInputChange = (value: string, change: InputActionMeta) => {
@@ -131,13 +145,18 @@ export default class InviteMembersStep extends React.PureComponent<Props, State>
             return;
         }
 
+        trackEvent(getAnalyticsCategory(this.props.isAdmin), 'click_send_invitations', {num_invitations: this.state.emails.length});
+
         const emails = this.state.emails.map((value) => value.value);
         const {data, error} = await this.props.actions.sendEmailInvitesToTeamGracefully(this.props.team.id, emails);
 
         if (error || !data.length || data.some((result) => result.error)) {
+            trackEvent(getAnalyticsCategory(this.props.isAdmin), 'error_sending_invitations');
             this.setState({emailError: Utils.localizeMessage('next_steps_view.invite_members_step.errorSendingEmails', 'There was a problem sending your invitations. Please try again.'), emailsSent: undefined});
             return;
         }
+
+        trackEvent(getAnalyticsCategory(this.props.isAdmin), 'invitations_sent', {num_invitations_sent: data.length});
 
         this.setState({emailError: undefined, emailsSent: data.length}, () => {
             setTimeout(() => this.setState({emailsSent: undefined}), 4000);
@@ -153,6 +172,8 @@ export default class InviteMembersStep extends React.PureComponent<Props, State>
     }
 
     copyLink = () => {
+        trackEvent(getAnalyticsCategory(this.props.isAdmin), 'click_copy_invite_link');
+
         const clipboard = navigator.clipboard;
         if (clipboard) {
             clipboard.writeText(this.getInviteURL());
