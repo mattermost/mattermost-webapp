@@ -109,7 +109,6 @@ function isFirstAdmin(currentUser: UserProfile, users: IDMappedObjects<UserProfi
 export const getSteps = createSelector(
     (state: GlobalState) => getCurrentUser(state),
     (state: GlobalState) => getUsers(state),
-    (state: GlobalState) => getCurrentUser(state),
     (currentUser, users) => {
         let roles = currentUser.roles;
         if (!isFirstAdmin(currentUser, users)) {
