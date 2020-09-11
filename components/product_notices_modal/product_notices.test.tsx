@@ -20,7 +20,7 @@ describe('ProductNoticesModal', () => {
         actionText: 'Download',
         actionParam: 'http://download.com/path',
         sysAdminOnly: true,
-        teamAdminOnly: false
+        teamAdminOnly: false,
     },
     {
         id: '123',
@@ -29,7 +29,7 @@ describe('ProductNoticesModal', () => {
         actionText: 'Download',
         actionParam: 'http://download.com/path',
         sysAdminOnly: false,
-        teamAdminOnly: false
+        teamAdminOnly: false,
     }];
 
     const baseProps = {
@@ -43,7 +43,7 @@ describe('ProductNoticesModal', () => {
         actions: {
             getInProductNotices: jest.fn().mockResolvedValue({data: noticesData}),
             updateNoticeAsViewed: jest.fn().mockResolvedValue({}),
-        }
+        },
     };
 
     test('Should match snapshot when there are no notices', async () => {

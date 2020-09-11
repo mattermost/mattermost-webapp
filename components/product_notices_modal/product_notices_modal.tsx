@@ -33,7 +33,7 @@ type Props = {
         getInProductNotices: (teamId: string, client: string, clientVersion: string) => Promise<{
             data: ProductNotices;
         }>;
-        updateNoticeAsViewed: (noticeIds: string[]) => Promise<{}>;
+        updateNoticeAsViewed: (noticeIds: string[]) => Promise<Record<string, unknown>>;
     };
 }
 
