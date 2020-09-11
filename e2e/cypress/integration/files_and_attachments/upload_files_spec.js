@@ -228,6 +228,8 @@ describe('Upload Files', () => {
             FileSettings: {
                 EnablePublicLink: true,
             },
+        }).then(({config}) => {
+            expect(config.FileSettings.EnablePublicLink).to.be.true;
         });
 
         const attachmentFilename = 'jpg-image-file.jpg';

@@ -85,7 +85,7 @@ Cypress.Commands.add('apiUpdateConfig', (newConfig = {}) => {
             body: config,
         }).then((updateResponse) => {
             expect(updateResponse.status).to.equal(200);
-            return cy.wrap({config: response.body});
+            return cy.apiGetConfig();
         });
     });
 });
@@ -98,7 +98,7 @@ Cypress.Commands.add('apiReloadConfig', () => {
         method: 'POST',
     }).then((reloadResponse) => {
         expect(reloadResponse.status).to.equal(200);
-        return cy.wrap({config: reloadResponse.body});
+        return cy.apiGetConfig();
     });
 });
 
