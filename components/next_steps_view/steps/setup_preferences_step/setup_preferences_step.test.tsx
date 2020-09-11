@@ -18,6 +18,8 @@ describe('components/next_steps_view/steps/setup_preferences_step', () => {
     const props = {
         id: 'test',
         currentUser: TestHelper.getUserMock(),
+        expanded: true,
+        isAdmin: false,
         onSkip: () => { },
         onFinish: () => {},
     };
