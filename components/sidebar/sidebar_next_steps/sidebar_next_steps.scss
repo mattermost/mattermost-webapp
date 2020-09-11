@@ -5,6 +5,11 @@
     align-self: flex-end;
     position: relative;
     background-color: var(--sidebar-bg);
+    cursor: pointer;
+
+    &:hover:not(.active) {
+        background-color: rgba(var(--button-color-rgb), 0.08);
+    }
 
     &.active {
         background-color: var(--sidebar-text-hover-bg);

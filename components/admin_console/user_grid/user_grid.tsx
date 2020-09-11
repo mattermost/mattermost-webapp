@@ -222,7 +222,7 @@ export default class UserGrid extends React.PureComponent<Props, State> {
                             isDisabled={readOnly}
                         />
                     ),
-                }
+                },
             };
         });
     }

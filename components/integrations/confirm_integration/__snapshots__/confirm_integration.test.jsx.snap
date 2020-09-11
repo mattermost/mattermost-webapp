@@ -13,13 +13,11 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, comma
       <FormattedMessage
         defaultMessage="Slash Commands"
         id="installed_commands.header"
-        values={Object {}}
       />
     </Link>
     <FormattedMessage
       defaultMessage="Add"
       id="integrations.add"
-      values={Object {}}
     />
   </BackstageHeader>
   <div
@@ -32,7 +30,6 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, comma
       <FormattedMessage
         defaultMessage="Setup Successful"
         id="integrations.successful"
-        values={Object {}}
       />
     </h4>
     <p>
@@ -71,7 +68,6 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, comma
         <FormattedMessage
           defaultMessage="Done"
           id="integrations.done"
-          values={Object {}}
         />
       </Link>
     </div>
@@ -90,13 +86,11 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, incom
       <FormattedMessage
         defaultMessage="Incoming Webhooks"
         id="installed_incoming_webhooks.header"
-        values={Object {}}
       />
     </Link>
     <FormattedMessage
       defaultMessage="Add"
       id="integrations.add"
-      values={Object {}}
     />
   </BackstageHeader>
   <div
@@ -109,7 +103,6 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, incom
       <FormattedMessage
         defaultMessage="Setup Successful"
         id="integrations.successful"
-        values={Object {}}
       />
     </h4>
     <p>
@@ -148,7 +141,6 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, incom
         <FormattedMessage
           defaultMessage="Done"
           id="integrations.done"
-          values={Object {}}
         />
       </Link>
     </div>
@@ -167,13 +159,11 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, oauth
       <FormattedMessage
         defaultMessage="OAuth 2.0 Applications"
         id="installed_oauth_apps.header"
-        values={Object {}}
       />
     </Link>
     <FormattedMessage
       defaultMessage="Add"
       id="integrations.add"
-      values={Object {}}
     />
   </BackstageHeader>
   <div
@@ -186,7 +176,6 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, oauth
       <FormattedMessage
         defaultMessage="Setup Successful"
         id="integrations.successful"
-        values={Object {}}
       />
     </h4>
     <p
@@ -236,7 +225,6 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, oauth
       <FormattedMessage
         defaultMessage="Here are your authorized redirect URLs."
         id="add_oauth_app.doneUrlHelp"
-        values={Object {}}
       />
     </p>
     <p
@@ -264,7 +252,6 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, oauth
         <FormattedMessage
           defaultMessage="Done"
           id="integrations.done"
-          values={Object {}}
         />
       </Link>
     </div>
@@ -285,13 +272,11 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, outgo
       <FormattedMessage
         defaultMessage="Outgoing Webhooks"
         id="installed_outgoing_webhooks.header"
-        values={Object {}}
       />
     </Link>
     <FormattedMessage
       defaultMessage="Add"
       id="integrations.add"
-      values={Object {}}
     />
   </BackstageHeader>
   <div
@@ -304,7 +289,6 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, outgo
       <FormattedMessage
         defaultMessage="Setup Successful"
         id="integrations.successful"
-        values={Object {}}
       />
     </h4>
     <p>
@@ -343,7 +327,6 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, outgo
         <FormattedMessage
           defaultMessage="Done"
           id="integrations.done"
-          values={Object {}}
         />
       </Link>
     </div>
