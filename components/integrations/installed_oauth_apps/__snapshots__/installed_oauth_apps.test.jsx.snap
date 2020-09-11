@@ -9,7 +9,6 @@ exports[`components/integrations/InstalledOAuthApps should match snapshot 1`] = 
     <FormattedMessage
       defaultMessage="No OAuth 2.0 Applications found"
       id="installed_oauth_apps.empty"
-      values={Object {}}
     />
   }
   emptyTextSearch={
@@ -22,7 +21,6 @@ exports[`components/integrations/InstalledOAuthApps should match snapshot 1`] = 
     <FormattedMessage
       defaultMessage="OAuth 2.0 Applications"
       id="installed_oauth_apps.header"
-      values={Object {}}
     />
   }
   helpText={
@@ -39,7 +37,6 @@ exports[`components/integrations/InstalledOAuthApps should match snapshot 1`] = 
             <FormattedMessage
               defaultMessage="App Directory"
               id="installed_oauth_apps.help.appDirectory"
-              values={Object {}}
             />
           </a>,
           "oauthApplications": <a
@@ -50,7 +47,6 @@ exports[`components/integrations/InstalledOAuthApps should match snapshot 1`] = 
             <FormattedMessage
               defaultMessage="OAuth 2.0 applications"
               id="installed_oauth_apps.help.oauthApplications"
-              values={Object {}}
             />
           </a>,
         }

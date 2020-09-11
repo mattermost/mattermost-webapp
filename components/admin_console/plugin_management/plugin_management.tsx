@@ -3,7 +3,7 @@
 /* eslint-disable react/no-string-refs */
 
 import React from 'react';
-import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 import classNames from 'classnames';
 
@@ -152,7 +152,7 @@ type PluginStatus = {
     settings_schema?: {
         header: string;
         footer: string;
-        settings?: Array<object>;
+        settings?: Array<unknown>;
     };
 }
 
@@ -164,6 +164,7 @@ type PluginItemProps = {
     handleRemove: (e: any) => any;
     showInstances: boolean;
     hasSettings: boolean;
+    isDisabled?: boolean;
 };
 
 const PluginItem = ({
@@ -174,6 +175,7 @@ const PluginItem = ({
     handleRemove,
     showInstances,
     hasSettings,
+    isDisabled,
 }: PluginItemProps) => {
     let activateButton;
     const activating = pluginStatus.state === PluginState.PLUGIN_STATE_STARTING;
@@ -183,6 +185,7 @@ const PluginItem = ({
         activateButton = (
             <a
                 data-plugin-id={pluginStatus.id}
+                className={deactivating || isDisabled ? 'disabled' : ''}
                 onClick={handleDisable}
             >
                 {deactivating ?
@@ -201,6 +204,7 @@ const PluginItem = ({
         activateButton = (
             <a
                 data-plugin-id={pluginStatus.id}
+                className={activating || isDisabled ? 'disabled' : ''}
                 onClick={handleEnable}
             >
                 {activating ?
@@ -255,6 +259,7 @@ const PluginItem = ({
             {' - '}
             <a
                 data-plugin-id={pluginStatus.id}
+                className={removing || isDisabled ? 'disabled' : ''}
                 onClick={handleRemove}
             >
                 {removeButtonText}
@@ -391,6 +396,7 @@ interface PluginSettings {
     AutomaticPrepackagedPlugins: boolean;
     MarketplaceUrl: string;
     RequirePluginSignature: boolean;
+    isDisabled: boolean;
 }
 
 type Props = BaseProps & {
@@ -400,7 +406,7 @@ type Props = BaseProps & {
     actions: {
         uploadPlugin: (fileData: File, force: boolean) => any;
         removePlugin: (pluginId: string) => any;
-        getPlugins: () => {};
+        getPlugins: () => unknown;
         getPluginStatuses: () => any;
         enablePlugin: (pluginId: string) => any;
         disablePlugin: (pluginId: string) => any;
@@ -675,6 +681,9 @@ export default class PluginManagement extends AdminSettings<Props, State> {
     }
 
     showRemovePluginModal = (e: React.SyntheticEvent) => {
+        if (this.props.isDisabled) {
+            return;
+        }
         e.preventDefault();
         const pluginId = e.currentTarget.getAttribute('data-plugin-id');
         this.setState({showRemoveModal: true, removing: pluginId});
@@ -703,6 +712,9 @@ export default class PluginManagement extends AdminSettings<Props, State> {
 
     handleEnable = async (e: React.KeyboardEvent) => {
         e.preventDefault();
+        if (this.props.isDisabled) {
+            return;
+        }
         this.setState({lastMessage: null, serverError: null});
         const pluginId = e.currentTarget.getAttribute('data-plugin-id');
 
@@ -718,6 +730,10 @@ export default class PluginManagement extends AdminSettings<Props, State> {
     handleDisable = async (e: React.KeyboardEvent) => {
         this.setState({lastMessage: null, serverError: null});
         e.preventDefault();
+        if (this.props.isDisabled) {
+            return;
+        }
+        this.setState({lastMessage: null, serverError: null});
         const pluginId = e.currentTarget.getAttribute('data-plugin-id');
         if (pluginId) {
             const {error} = await this.props.actions.disablePlugin(pluginId);
@@ -831,6 +847,7 @@ export default class PluginManagement extends AdminSettings<Props, State> {
                     value={this.state.enable}
                     onChange={this.handleChange}
                     setByEnv={this.isSetByEnv('PluginSettings.Enable')}
+                    disabled={this.props.isDisabled}
                 />
             );
         }
@@ -840,8 +857,8 @@ export default class PluginManagement extends AdminSettings<Props, State> {
     renderSettings = () => {
         const {enableUploads} = this.state;
         const enable = this.props.config?.PluginSettings?.Enable;
-        let serverError = <React.Fragment></React.Fragment>;
-        let lastMessage = <React.Fragment></React.Fragment>;
+        let serverError = <React.Fragment/>;
+        let lastMessage = <React.Fragment/>;
 
         // Using props values to make sure these are set on the server and not just locally
         const enableUploadButton = enableUploads && enable && !(this.props.config.PluginSettings && this.props.config.PluginSettings.RequirePluginSignature);
@@ -918,6 +935,7 @@ export default class PluginManagement extends AdminSettings<Props, State> {
                         handleRemove={this.showRemovePluginModal}
                         showInstances={showInstances}
                         hasSettings={hasSettings}
+                        isDisabled={this.props.isDisabled}
                     />
                 );
             });
@@ -942,7 +960,7 @@ export default class PluginManagement extends AdminSettings<Props, State> {
                     </label>
                     <div className='col-sm-8'>
                         <p className='help-text'>
-                            <FormattedHTMLMessage
+                            <FormattedMessage
                                 id='admin.plugin.installedDesc'
                                 defaultMessage='Installed plugins on your Mattermost server.'
                             />
@@ -1015,7 +1033,7 @@ export default class PluginManagement extends AdminSettings<Props, State> {
                                 />
                             }
                             value={this.state.requirePluginSignature}
-                            disabled={!this.state.enable}
+                            disabled={this.props.isDisabled || !this.state.enable}
                             onChange={this.handleChange}
                             setByEnv={this.isSetByEnv('PluginSettings.RequirePluginSignature')}
                         />
@@ -1034,7 +1052,7 @@ export default class PluginManagement extends AdminSettings<Props, State> {
                                 />
                             }
                             value={this.state.automaticPrepackagedPlugins}
-                            disabled={!this.state.enable}
+                            disabled={this.props.isDisabled || !this.state.enable}
                             onChange={this.handleChange}
                             setByEnv={this.isSetByEnv('PluginSettings.AutomaticPrepackagedPlugins')}
                         />
@@ -1051,7 +1069,7 @@ export default class PluginManagement extends AdminSettings<Props, State> {
                                 <div className='file__upload'>
                                     <button
                                         className={classNames(['btn', {'btn-primary': enableUploads}])}
-                                        disabled={!enableUploadButton}
+                                        disabled={!enableUploadButton || this.props.isDisabled}
                                     >
                                         <FormattedMessage
                                             id='admin.plugin.choose'
@@ -1063,7 +1081,7 @@ export default class PluginManagement extends AdminSettings<Props, State> {
                                         type='file'
                                         accept='.gz'
                                         onChange={this.handleUpload}
-                                        disabled={!enableUploadButton}
+                                        disabled={!enableUploadButton || this.props.isDisabled}
                                     />
                                 </div>
                                 <button
@@ -1099,7 +1117,7 @@ export default class PluginManagement extends AdminSettings<Props, State> {
                                 />
                             }
                             value={this.state.enableMarketplace}
-                            disabled={!this.state.enable}
+                            disabled={this.props.isDisabled || !this.state.enable}
                             onChange={this.handleChange}
                             setByEnv={this.isSetByEnv('PluginSettings.EnableMarketplace')}
                         />
@@ -1118,7 +1136,7 @@ export default class PluginManagement extends AdminSettings<Props, State> {
                                 />
                             }
                             value={this.state.enableRemoteMarketplace}
-                            disabled={!this.state.enable || !this.state.enableMarketplace}
+                            disabled={this.props.isDisabled || !this.state.enable || !this.state.enableMarketplace}
                             onChange={this.handleChange}
                             setByEnv={this.isSetByEnv('PluginSettings.EnableRemoteMarketplace')}
                         />
@@ -1133,7 +1151,7 @@ export default class PluginManagement extends AdminSettings<Props, State> {
                             }
                             helpText={this.getMarketplaceUrlHelpText(this.state.marketplaceUrl)}
                             value={this.state.marketplaceUrl}
-                            disabled={!this.state.enable || !this.state.enableMarketplace || !this.state.enableRemoteMarketplace}
+                            disabled={this.props.isDisabled || !this.state.enable || !this.state.enableMarketplace || !this.state.enableRemoteMarketplace}
                             onChange={this.handleChange}
                             setByEnv={this.isSetByEnv('PluginSettings.MarketplaceUrl')}
                         />

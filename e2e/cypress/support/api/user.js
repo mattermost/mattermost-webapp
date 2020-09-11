@@ -51,13 +51,16 @@ Cypress.Commands.add('apiLogout', () => {
 });
 
 Cypress.Commands.add('apiGetMe', () => {
+    return cy.apiGetUserById('me');
+});
+
+Cypress.Commands.add('apiGetUserById', (userId) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
-        url: 'api/v4/users/me',
-        method: 'GET',
+        url: '/api/v4/users/' + userId,
     }).then((response) => {
         expect(response.status).to.equal(200);
-        cy.wrap({user: response.body});
+        return cy.wrap({user: response.body});
     });
 });
 
@@ -67,7 +70,7 @@ Cypress.Commands.add('apiGetUserByEmail', (email) => {
         url: '/api/v4/users/email/' + email,
     }).then((response) => {
         expect(response.status).to.equal(200);
-        cy.wrap({user: response.body});
+        return cy.wrap({user: response.body});
     });
 });
 
@@ -79,7 +82,7 @@ Cypress.Commands.add('apiGetUsersByUsernames', (usernames = []) => {
         body: usernames,
     }).then((response) => {
         expect(response.status).to.equal(200);
-        cy.wrap({users: response.body});
+        return cy.wrap({users: response.body});
     });
 });
 
@@ -91,7 +94,7 @@ Cypress.Commands.add('apiPatchUser', (userId, userData) => {
         body: userData,
     }).then((response) => {
         expect(response.status).to.equal(200);
-        cy.wrap({user: response.body});
+        return cy.wrap({user: response.body});
     });
 });
 
@@ -103,7 +106,7 @@ Cypress.Commands.add('apiPatchMe', (data) => {
         body: data,
     }).then((response) => {
         expect(response.status).to.equal(200);
-        cy.wrap({user: response.body});
+        return cy.wrap({user: response.body});
     });
 });
 
@@ -129,7 +132,7 @@ Cypress.Commands.add('apiCreateAdmin', () => {
     return cy.request(options).then((res) => {
         expect(res.status).to.equal(201);
 
-        cy.wrap({sysadmin: res.body});
+        return cy.wrap({sysadmin: res.body});
     });
 });
 
@@ -146,7 +149,13 @@ function generateRandomUser(prefix = 'user') {
     };
 }
 
-Cypress.Commands.add('apiCreateUser', ({prefix = 'user', bypassTutorial = true, user = null} = {}) => {
+Cypress.Commands.add('apiCreateUser', ({
+    prefix = 'user',
+    bypassTutorial = true,
+    hideCloudOnboarding = true,
+    hideWhatsNewModal = true,
+    user = null,
+} = {}) => {
     const newUser = user || generateRandomUser(prefix);
 
     const createUserOption = {
@@ -165,13 +174,26 @@ Cypress.Commands.add('apiCreateUser', ({prefix = 'user', bypassTutorial = true, 
             cy.apiSaveTutorialStep(createdUser.id, '999');
         }
 
+        if (hideCloudOnboarding) {
+            cy.apiSaveCloudOnboardingPreference(createdUser.id, 'hide', 'true');
+        }
+
+        if (hideWhatsNewModal) {
+            cy.apiHideSidebarWhatsNewModalPreference(createdUser.id, 'true');
+        }
+
         return cy.wrap({user: {...createdUser, password: newUser.password}});
     });
 });
 
-Cypress.Commands.add('apiCreateGuestUser', ({prefix = 'guest', activate = true} = {}) => {
-    return cy.apiCreateUser({prefix}).then(({user}) => {
-        cy.demoteUser(user.id);
+Cypress.Commands.add('apiCreateGuestUser', ({
+    prefix = 'guest',
+    hideCloudOnboarding = true,
+    hideWhatsNewModal = true,
+    activate = true,
+} = {}) => {
+    return cy.apiCreateUser({prefix, hideCloudOnboarding, hideWhatsNewModal}).then(({user}) => {
+        cy.apiDemoteUserToGuest(user.id);
         cy.externalActivateUser(user.id, activate);
 
         return cy.wrap({guest: user});
@@ -189,7 +211,7 @@ Cypress.Commands.add('apiRevokeUserSessions', (userId) => {
         method: 'POST',
     }).then((response) => {
         expect(response.status).to.equal(200);
-        cy.wrap({data: response.body});
+        return cy.wrap({data: response.body});
     });
 });
 
@@ -200,7 +222,19 @@ Cypress.Commands.add('apiGetUsersNotInTeam', ({teamId, page = 0, perPage = 60} =
         headers: {'X-Requested-With': 'XMLHttpRequest'},
     }).then((response) => {
         expect(response.status).to.equal(200);
-        cy.wrap({users: response.body});
+        return cy.wrap({users: response.body});
+    });
+});
+
+Cypress.Commands.add('apiPatchUserRoles', (userId, roleNames = ['system_user']) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: `/api/v4/users/${userId}/roles`,
+        method: 'PUT',
+        body: {roles: roleNames.join(' ')},
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        cy.wrap({user: response.body});
     });
 });
 
@@ -214,5 +248,49 @@ Cypress.Commands.add('apiDeactivateUser', (userId) => {
     // # Deactivate a user account
     return cy.request(options).then((response) => {
         expect(response.status).to.equal(200);
+        return cy.wrap(response);
     });
 });
+
+Cypress.Commands.add('apiDemoteUserToGuest', (userId) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: `/api/v4/users/${userId}/demote`,
+        method: 'POST',
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.apiGetUserById(userId).then(({user}) => {
+            return cy.wrap({guest: user});
+        });
+    });
+});
+
+Cypress.Commands.add('apiPromoteGuestToUser', (userId) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: `/api/v4/users/${userId}/promote`,
+        method: 'POST',
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.apiGetUserById(userId);
+    });
+});
+
+/**
+ * Verify a user email via API
+ * @param {String} userId - ID of user of email to verify
+ */
+Cypress.Commands.add('apiVerifyUserEmailById', (userId) => {
+    const options = {
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        method: 'POST',
+        url: `/api/v4/users/${userId}/email/verify/member`,
+    };
+
+    return cy.request(options).then((response) => {
+        expect(response.status).to.equal(200);
+        cy.wrap({user: response.body});
+    });
+});
+
+export {generateRandomUser};

@@ -14,7 +14,7 @@ import {
     makeGetChannel,
     getMyChannelMemberships,
 } from 'mattermost-redux/selectors/entities/channels';
-import {getBool, getMyPreferences} from 'mattermost-redux/selectors/entities/preferences';
+import {getTeammateNameDisplaySetting, getBool, getMyPreferences} from 'mattermost-redux/selectors/entities/preferences';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getLastPostPerChannel} from 'mattermost-redux/selectors/entities/posts';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
@@ -206,11 +206,11 @@ function quickSwitchSorter(wrappedA, wrappedB) {
     let aDisplayName = a.display_name.toLowerCase();
     let bDisplayName = b.display_name.toLowerCase();
 
-    if (a.type === Constants.DM_CHANNEL) {
+    if (a.type === Constants.DM_CHANNEL && aDisplayName.startsWith('@')) {
         aDisplayName = aDisplayName.substring(1);
     }
 
-    if (b.type === Constants.DM_CHANNEL) {
+    if (b.type === Constants.DM_CHANNEL && bDisplayName.startsWith('@')) {
         bDisplayName = bDisplayName.substring(1);
     }
 
@@ -332,14 +332,30 @@ export default class SwitchChannelProvider extends Provider {
     }
 
     userWrappedChannel(user, channel) {
-        let displayName = `@${user.username}`;
+        const teammateNameDisplay = getTeammateNameDisplaySetting(getState());
+        let displayName;
 
-        if ((user.first_name || user.last_name) && user.nickname) {
-            displayName += ` - ${Utils.getFullName(user)} (${user.nickname})`;
-        } else if (user.nickname) {
-            displayName += ` - (${user.nickname})`;
-        } else if (user.first_name || user.last_name) {
-            displayName += ` - ${Utils.getFullName(user)}`;
+        // The naming format is fullname - @username (nickname) if DISPLAY_PREFER_FULL_NAME is set.
+        // Otherwise, it's @username - fullname (nickname)
+        if (teammateNameDisplay === Preferences.DISPLAY_PREFER_FULL_NAME) {
+            if ((user.first_name || user.last_name) && user.nickname) {
+                displayName = `${Utils.getFullName(user)} - @${user.username} (${user.nickname})`;
+            } else if (user.nickname) {
+                displayName = `@${user.username} - (${user.nickname})`;
+            } else if (user.first_name || user.last_name) {
+                displayName = `${Utils.getFullName(user)} - @${user.username}`;
+            } else {
+                displayName = `@${user.username}`;
+            }
+        } else {
+            displayName = `@${user.username}`;
+            if ((user.first_name || user.last_name) && user.nickname) {
+                displayName += ` - ${Utils.getFullName(user)} (${user.nickname})`;
+            } else if (user.nickname) {
+                displayName += ` - (${user.nickname})`;
+            } else if (user.first_name || user.last_name) {
+                displayName += ` - ${Utils.getFullName(user)}`;
+            }
         }
 
         if (user.delete_at) {

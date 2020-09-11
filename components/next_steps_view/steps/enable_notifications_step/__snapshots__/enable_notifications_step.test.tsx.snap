@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/next_steps_view/steps/setup_preferences_step should match snapshot 1`] = `
+<div>
+  <TextCardWithAction
+    buttonDefaultMessage="Skip this step"
+    buttonMessageId="next_steps_view.notificationSetup.skipThisStep"
+    cardBodyDefaultMessage="Notifications were previously disabled or you may be browsing in private mode. You'll need to open your browser settings or turn off private mode to enable notifications."
+    cardBodyMessageId="next_steps_view.notificationSetupNotificationsDisabled"
+    onClick={[Function]}
+  />
+</div>
+`;

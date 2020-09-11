@@ -12,9 +12,9 @@ describe('components/timestamp/SemanticTime', () => {
         const wrapper = mount(
             <SemanticTime
                 value={date}
-            />
+            />,
         );
-        expect(wrapper).toMatchSnapshot();
+        expect(wrapper.find('time').prop('aria-label')).toBe(date.toLocaleString());
         expect(wrapper.find('time').prop('dateTime')).toBe(date.toISOString());
     });
 
@@ -25,10 +25,10 @@ describe('components/timestamp/SemanticTime', () => {
                 value={date}
             >
                 {'10:20'}
-            </SemanticTime>
+            </SemanticTime>,
         );
 
-        expect(wrapper).toMatchSnapshot();
+        expect(wrapper.find('time').prop('aria-label')).toBe(date.toLocaleString());
         expect(wrapper.find('time').text()).toBe('10:20');
     });
 
@@ -38,7 +38,7 @@ describe('components/timestamp/SemanticTime', () => {
             <SemanticTime
                 value={date}
                 aria-label='A custom label'
-            />
+            />,
         );
 
         expect(wrapper).toMatchSnapshot();

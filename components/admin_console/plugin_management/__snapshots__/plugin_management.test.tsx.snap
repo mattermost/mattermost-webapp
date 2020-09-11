@@ -13,7 +13,6 @@ exports[`components/PluginManagement should match snapshot 1`] = `
       <FormattedMessage
         defaultMessage="Management"
         id="admin.plugin.management.title"
-        values={Object {}}
       />
     </AdminHeader>
     <div
@@ -33,7 +32,6 @@ exports[`components/PluginManagement should match snapshot 1`] = `
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -47,7 +45,6 @@ exports[`components/PluginManagement should match snapshot 1`] = `
               <FormattedMessage
                 defaultMessage="Enable Plugins: "
                 id="admin.plugins.settings.enable"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -56,7 +53,6 @@ exports[`components/PluginManagement should match snapshot 1`] = `
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={true}
@@ -67,7 +63,6 @@ exports[`components/PluginManagement should match snapshot 1`] = `
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -81,7 +76,6 @@ exports[`components/PluginManagement should match snapshot 1`] = `
               <FormattedMessage
                 defaultMessage="Require Plugin Signature:"
                 id="admin.plugins.settings.requirePluginSignature"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -90,7 +84,6 @@ exports[`components/PluginManagement should match snapshot 1`] = `
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={false}
@@ -101,7 +94,6 @@ exports[`components/PluginManagement should match snapshot 1`] = `
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -115,7 +107,6 @@ exports[`components/PluginManagement should match snapshot 1`] = `
               <FormattedMessage
                 defaultMessage="Enable Automatic Prepackaged Plugins:"
                 id="admin.plugins.settings.automaticPrepackagedPlugins"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -124,7 +115,6 @@ exports[`components/PluginManagement should match snapshot 1`] = `
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={true}
@@ -138,7 +128,6 @@ exports[`components/PluginManagement should match snapshot 1`] = `
               <FormattedMessage
                 defaultMessage="Upload Plugin: "
                 id="admin.plugin.uploadTitle"
-                values={Object {}}
               />
             </label>
             <div
@@ -149,17 +138,14 @@ exports[`components/PluginManagement should match snapshot 1`] = `
               >
                 <button
                   className="btn btn-primary"
-                  disabled={false}
                 >
                   <FormattedMessage
                     defaultMessage="Choose File"
                     id="admin.plugin.choose"
-                    values={Object {}}
                   />
                 </button>
                 <input
                   accept=".gz"
-                  disabled={false}
                   onChange={[Function]}
                   type="file"
                 />
@@ -173,7 +159,6 @@ exports[`components/PluginManagement should match snapshot 1`] = `
                 <FormattedMessage
                   defaultMessage="Upload"
                   id="admin.plugin.upload"
-                  values={Object {}}
                 />
               </button>
               <div
@@ -195,7 +180,6 @@ exports[`components/PluginManagement should match snapshot 1`] = `
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -209,7 +193,6 @@ exports[`components/PluginManagement should match snapshot 1`] = `
               <FormattedMessage
                 defaultMessage="Enable Marketplace:"
                 id="admin.plugins.settings.enableMarketplace"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -218,7 +201,6 @@ exports[`components/PluginManagement should match snapshot 1`] = `
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={true}
@@ -229,7 +211,6 @@ exports[`components/PluginManagement should match snapshot 1`] = `
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -243,7 +224,6 @@ exports[`components/PluginManagement should match snapshot 1`] = `
               <FormattedMessage
                 defaultMessage="Enable Remote Marketplace:"
                 id="admin.plugins.settings.enableRemoteMarketplace"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -252,7 +232,6 @@ exports[`components/PluginManagement should match snapshot 1`] = `
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={true}
@@ -272,7 +251,6 @@ exports[`components/PluginManagement should match snapshot 1`] = `
               <FormattedMessage
                 defaultMessage="Marketplace URL:"
                 id="admin.plugins.settings.marketplaceUrl"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -289,7 +267,6 @@ exports[`components/PluginManagement should match snapshot 1`] = `
               <FormattedMessage
                 defaultMessage="Installed Plugins: "
                 id="admin.plugin.installedTitle"
-                values={Object {}}
               />
             </label>
             <div
@@ -298,11 +275,9 @@ exports[`components/PluginManagement should match snapshot 1`] = `
               <p
                 className="help-text"
               >
-                <FormattedHTMLMessage
+                <FormattedMessage
                   defaultMessage="Installed plugins on your Mattermost server."
                   id="admin.plugin.installedDesc"
-                  tagName="span"
-                  values={Object {}}
                 />
               </p>
               <br />
@@ -320,7 +295,6 @@ exports[`components/PluginManagement should match snapshot 1`] = `
           <FormattedMessage
             defaultMessage="Save"
             id="save_button.save"
-            values={Object {}}
           />
         }
         disabled={true}
@@ -369,7 +343,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
       <FormattedMessage
         defaultMessage="Management"
         id="admin.plugin.management.title"
-        values={Object {}}
       />
     </AdminHeader>
     <div
@@ -389,7 +362,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -403,7 +375,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
               <FormattedMessage
                 defaultMessage="Enable Plugins: "
                 id="admin.plugins.settings.enable"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -412,7 +383,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={true}
@@ -423,7 +393,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -437,7 +406,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
               <FormattedMessage
                 defaultMessage="Require Plugin Signature:"
                 id="admin.plugins.settings.requirePluginSignature"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -446,7 +414,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={false}
@@ -457,7 +424,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -471,7 +437,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
               <FormattedMessage
                 defaultMessage="Enable Automatic Prepackaged Plugins:"
                 id="admin.plugins.settings.automaticPrepackagedPlugins"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -480,7 +445,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={true}
@@ -494,7 +458,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
               <FormattedMessage
                 defaultMessage="Upload Plugin: "
                 id="admin.plugin.uploadTitle"
-                values={Object {}}
               />
             </label>
             <div
@@ -505,17 +468,14 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
               >
                 <button
                   className="btn btn-primary"
-                  disabled={false}
                 >
                   <FormattedMessage
                     defaultMessage="Choose File"
                     id="admin.plugin.choose"
-                    values={Object {}}
                   />
                 </button>
                 <input
                   accept=".gz"
-                  disabled={false}
                   onChange={[Function]}
                   type="file"
                 />
@@ -529,7 +489,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
                 <FormattedMessage
                   defaultMessage="Upload"
                   id="admin.plugin.upload"
-                  values={Object {}}
                 />
               </button>
               <div
@@ -551,7 +510,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -565,7 +523,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
               <FormattedMessage
                 defaultMessage="Enable Marketplace:"
                 id="admin.plugins.settings.enableMarketplace"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -574,7 +531,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={false}
@@ -585,7 +541,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -599,7 +554,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
               <FormattedMessage
                 defaultMessage="Enable Remote Marketplace:"
                 id="admin.plugins.settings.enableRemoteMarketplace"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -608,7 +562,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={true}
@@ -628,7 +581,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
               <FormattedMessage
                 defaultMessage="Marketplace URL:"
                 id="admin.plugins.settings.marketplaceUrl"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -645,7 +597,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
               <FormattedMessage
                 defaultMessage="Installed Plugins: "
                 id="admin.plugin.installedTitle"
-                values={Object {}}
               />
             </label>
             <div
@@ -654,11 +605,9 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
               <p
                 className="help-text"
               >
-                <FormattedHTMLMessage
+                <FormattedMessage
                   defaultMessage="Installed plugins on your Mattermost server."
                   id="admin.plugin.installedDesc"
-                  tagName="span"
-                  values={Object {}}
                 />
               </p>
               <br />
@@ -676,7 +625,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
           <FormattedMessage
             defaultMessage="Save"
             id="save_button.save"
-            values={Object {}}
           />
         }
         disabled={true}
@@ -725,7 +673,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Plugins
       <FormattedMessage
         defaultMessage="Management"
         id="admin.plugin.management.title"
-        values={Object {}}
       />
     </AdminHeader>
     <div
@@ -745,7 +692,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Plugins
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -759,7 +705,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Plugins
               <FormattedMessage
                 defaultMessage="Require Plugin Signature:"
                 id="admin.plugins.settings.requirePluginSignature"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -768,7 +713,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Plugins
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={false}
@@ -779,7 +723,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Plugins
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -793,7 +736,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Plugins
               <FormattedMessage
                 defaultMessage="Enable Automatic Prepackaged Plugins:"
                 id="admin.plugins.settings.automaticPrepackagedPlugins"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -802,7 +744,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Plugins
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={true}
@@ -816,7 +757,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Plugins
               <FormattedMessage
                 defaultMessage="Upload Plugin: "
                 id="admin.plugin.uploadTitle"
-                values={Object {}}
               />
             </label>
             <div
@@ -827,17 +767,14 @@ exports[`components/PluginManagement should match snapshot when \`Enable Plugins
               >
                 <button
                   className="btn btn-primary"
-                  disabled={false}
                 >
                   <FormattedMessage
                     defaultMessage="Choose File"
                     id="admin.plugin.choose"
-                    values={Object {}}
                   />
                 </button>
                 <input
                   accept=".gz"
-                  disabled={false}
                   onChange={[Function]}
                   type="file"
                 />
@@ -851,7 +788,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Plugins
                 <FormattedMessage
                   defaultMessage="Upload"
                   id="admin.plugin.upload"
-                  values={Object {}}
                 />
               </button>
               <div
@@ -873,7 +809,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Plugins
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -887,7 +822,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Plugins
               <FormattedMessage
                 defaultMessage="Enable Marketplace:"
                 id="admin.plugins.settings.enableMarketplace"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -896,7 +830,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Plugins
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={true}
@@ -907,7 +840,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Plugins
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -921,7 +853,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Plugins
               <FormattedMessage
                 defaultMessage="Enable Remote Marketplace:"
                 id="admin.plugins.settings.enableRemoteMarketplace"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -930,7 +861,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Plugins
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={true}
@@ -950,7 +880,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Plugins
               <FormattedMessage
                 defaultMessage="Marketplace URL:"
                 id="admin.plugins.settings.marketplaceUrl"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -967,7 +896,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Plugins
               <FormattedMessage
                 defaultMessage="Installed Plugins: "
                 id="admin.plugin.installedTitle"
-                values={Object {}}
               />
             </label>
             <div
@@ -976,11 +904,9 @@ exports[`components/PluginManagement should match snapshot when \`Enable Plugins
               <p
                 className="help-text"
               >
-                <FormattedHTMLMessage
+                <FormattedMessage
                   defaultMessage="Installed plugins on your Mattermost server."
                   id="admin.plugin.installedDesc"
-                  tagName="span"
-                  values={Object {}}
                 />
               </p>
               <br />
@@ -998,7 +924,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Plugins
           <FormattedMessage
             defaultMessage="Save"
             id="save_button.save"
-            values={Object {}}
           />
         }
         disabled={true}
@@ -1047,7 +972,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
       <FormattedMessage
         defaultMessage="Management"
         id="admin.plugin.management.title"
-        values={Object {}}
       />
     </AdminHeader>
     <div
@@ -1067,7 +991,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -1081,7 +1004,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
               <FormattedMessage
                 defaultMessage="Enable Plugins: "
                 id="admin.plugins.settings.enable"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -1090,7 +1012,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={true}
@@ -1101,7 +1022,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -1115,7 +1035,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
               <FormattedMessage
                 defaultMessage="Require Plugin Signature:"
                 id="admin.plugins.settings.requirePluginSignature"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -1124,7 +1043,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={false}
@@ -1135,7 +1053,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -1149,7 +1066,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
               <FormattedMessage
                 defaultMessage="Enable Automatic Prepackaged Plugins:"
                 id="admin.plugins.settings.automaticPrepackagedPlugins"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -1158,7 +1074,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={true}
@@ -1172,7 +1087,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
               <FormattedMessage
                 defaultMessage="Upload Plugin: "
                 id="admin.plugin.uploadTitle"
-                values={Object {}}
               />
             </label>
             <div
@@ -1183,17 +1097,14 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
               >
                 <button
                   className="btn btn-primary"
-                  disabled={false}
                 >
                   <FormattedMessage
                     defaultMessage="Choose File"
                     id="admin.plugin.choose"
-                    values={Object {}}
                   />
                 </button>
                 <input
                   accept=".gz"
-                  disabled={false}
                   onChange={[Function]}
                   type="file"
                 />
@@ -1207,7 +1118,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
                 <FormattedMessage
                   defaultMessage="Upload"
                   id="admin.plugin.upload"
-                  values={Object {}}
                 />
               </button>
               <div
@@ -1229,7 +1139,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -1243,7 +1152,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
               <FormattedMessage
                 defaultMessage="Enable Marketplace:"
                 id="admin.plugins.settings.enableMarketplace"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -1252,7 +1160,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={true}
@@ -1263,7 +1170,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -1277,7 +1183,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
               <FormattedMessage
                 defaultMessage="Enable Remote Marketplace:"
                 id="admin.plugins.settings.enableRemoteMarketplace"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -1286,7 +1191,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={false}
@@ -1306,7 +1210,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
               <FormattedMessage
                 defaultMessage="Marketplace URL:"
                 id="admin.plugins.settings.marketplaceUrl"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -1323,7 +1226,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
               <FormattedMessage
                 defaultMessage="Installed Plugins: "
                 id="admin.plugin.installedTitle"
-                values={Object {}}
               />
             </label>
             <div
@@ -1332,11 +1234,9 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
               <p
                 className="help-text"
               >
-                <FormattedHTMLMessage
+                <FormattedMessage
                   defaultMessage="Installed plugins on your Mattermost server."
                   id="admin.plugin.installedDesc"
-                  tagName="span"
-                  values={Object {}}
                 />
               </p>
               <br />
@@ -1354,7 +1254,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
           <FormattedMessage
             defaultMessage="Save"
             id="save_button.save"
-            values={Object {}}
           />
         }
         disabled={true}
@@ -1403,7 +1302,6 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
       <FormattedMessage
         defaultMessage="Management"
         id="admin.plugin.management.title"
-        values={Object {}}
       />
     </AdminHeader>
     <div
@@ -1423,7 +1321,6 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -1437,7 +1334,6 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
               <FormattedMessage
                 defaultMessage="Enable Plugins: "
                 id="admin.plugins.settings.enable"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -1446,7 +1342,6 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={true}
@@ -1457,7 +1352,6 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -1471,7 +1365,6 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
               <FormattedMessage
                 defaultMessage="Require Plugin Signature:"
                 id="admin.plugins.settings.requirePluginSignature"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -1480,7 +1373,6 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={true}
@@ -1491,7 +1383,6 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -1505,7 +1396,6 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
               <FormattedMessage
                 defaultMessage="Enable Automatic Prepackaged Plugins:"
                 id="admin.plugins.settings.automaticPrepackagedPlugins"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -1514,7 +1404,6 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={true}
@@ -1528,7 +1417,6 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
               <FormattedMessage
                 defaultMessage="Upload Plugin: "
                 id="admin.plugin.uploadTitle"
-                values={Object {}}
               />
             </label>
             <div
@@ -1544,7 +1432,6 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
                   <FormattedMessage
                     defaultMessage="Choose File"
                     id="admin.plugin.choose"
-                    values={Object {}}
                   />
                 </button>
                 <input
@@ -1563,7 +1450,6 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
                 <FormattedMessage
                   defaultMessage="Upload"
                   id="admin.plugin.upload"
-                  values={Object {}}
                 />
               </button>
               <div
@@ -1585,7 +1471,6 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -1599,7 +1484,6 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
               <FormattedMessage
                 defaultMessage="Enable Marketplace:"
                 id="admin.plugins.settings.enableMarketplace"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -1608,7 +1492,6 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={true}
@@ -1619,7 +1502,6 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -1633,7 +1515,6 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
               <FormattedMessage
                 defaultMessage="Enable Remote Marketplace:"
                 id="admin.plugins.settings.enableRemoteMarketplace"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -1642,7 +1523,6 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={true}
@@ -1662,7 +1542,6 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
               <FormattedMessage
                 defaultMessage="Marketplace URL:"
                 id="admin.plugins.settings.marketplaceUrl"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -1679,7 +1558,6 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
               <FormattedMessage
                 defaultMessage="Installed Plugins: "
                 id="admin.plugin.installedTitle"
-                values={Object {}}
               />
             </label>
             <div
@@ -1688,11 +1566,9 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
               <p
                 className="help-text"
               >
-                <FormattedHTMLMessage
+                <FormattedMessage
                   defaultMessage="Installed plugins on your Mattermost server."
                   id="admin.plugin.installedDesc"
-                  tagName="span"
-                  values={Object {}}
                 />
               </p>
               <br />
@@ -1710,7 +1586,6 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
           <FormattedMessage
             defaultMessage="Save"
             id="save_button.save"
-            values={Object {}}
           />
         }
         disabled={true}
@@ -1759,7 +1634,6 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
       <FormattedMessage
         defaultMessage="Management"
         id="admin.plugin.management.title"
-        values={Object {}}
       />
     </AdminHeader>
     <div
@@ -1779,7 +1653,6 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -1793,7 +1666,6 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
               <FormattedMessage
                 defaultMessage="Enable Plugins: "
                 id="admin.plugins.settings.enable"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -1802,7 +1674,6 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={true}
@@ -1813,7 +1684,6 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -1827,7 +1697,6 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
               <FormattedMessage
                 defaultMessage="Require Plugin Signature:"
                 id="admin.plugins.settings.requirePluginSignature"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -1836,7 +1705,6 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={false}
@@ -1847,7 +1715,6 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -1861,7 +1728,6 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
               <FormattedMessage
                 defaultMessage="Enable Automatic Prepackaged Plugins:"
                 id="admin.plugins.settings.automaticPrepackagedPlugins"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -1870,7 +1736,6 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={true}
@@ -1884,7 +1749,6 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
               <FormattedMessage
                 defaultMessage="Upload Plugin: "
                 id="admin.plugin.uploadTitle"
-                values={Object {}}
               />
             </label>
             <div
@@ -1895,17 +1759,14 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
               >
                 <button
                   className="btn btn-primary"
-                  disabled={false}
                 >
                   <FormattedMessage
                     defaultMessage="Choose File"
                     id="admin.plugin.choose"
-                    values={Object {}}
                   />
                 </button>
                 <input
                   accept=".gz"
-                  disabled={false}
                   onChange={[Function]}
                   type="file"
                 />
@@ -1919,7 +1780,6 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
                 <FormattedMessage
                   defaultMessage="Upload"
                   id="admin.plugin.upload"
-                  values={Object {}}
                 />
               </button>
               <div
@@ -1941,7 +1801,6 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -1955,7 +1814,6 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
               <FormattedMessage
                 defaultMessage="Enable Marketplace:"
                 id="admin.plugins.settings.enableMarketplace"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -1964,7 +1822,6 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={true}
@@ -1975,7 +1832,6 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -1989,7 +1845,6 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
               <FormattedMessage
                 defaultMessage="Enable Remote Marketplace:"
                 id="admin.plugins.settings.enableRemoteMarketplace"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -1998,7 +1853,6 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={true}
@@ -2018,7 +1872,6 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
               <FormattedMessage
                 defaultMessage="Marketplace URL:"
                 id="admin.plugins.settings.marketplaceUrl"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -2035,7 +1888,6 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
               <FormattedMessage
                 defaultMessage="Installed Plugins: "
                 id="admin.plugin.installedTitle"
-                values={Object {}}
               />
             </label>
             <div
@@ -2044,18 +1896,15 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
               <p
                 className="help-text"
               >
-                <FormattedHTMLMessage
+                <FormattedMessage
                   defaultMessage="Installed plugins on your Mattermost server."
                   id="admin.plugin.installedDesc"
-                  tagName="span"
-                  values={Object {}}
                 />
               </p>
               <br />
               <FormattedMessage
                 defaultMessage="No installed plugins."
                 id="admin.plugin.no_plugins"
-                values={Object {}}
               />
             </div>
           </div>
@@ -2071,7 +1920,6 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
           <FormattedMessage
             defaultMessage="Save"
             id="save_button.save"
-            values={Object {}}
           />
         }
         disabled={true}
@@ -2120,7 +1968,6 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
       <FormattedMessage
         defaultMessage="Management"
         id="admin.plugin.management.title"
-        values={Object {}}
       />
     </AdminHeader>
     <div
@@ -2140,7 +1987,6 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -2154,7 +2000,6 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
               <FormattedMessage
                 defaultMessage="Enable Plugins: "
                 id="admin.plugins.settings.enable"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -2163,7 +2008,6 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={true}
@@ -2174,7 +2018,6 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -2188,7 +2031,6 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
               <FormattedMessage
                 defaultMessage="Require Plugin Signature:"
                 id="admin.plugins.settings.requirePluginSignature"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -2197,7 +2039,6 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={false}
@@ -2208,7 +2049,6 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -2222,7 +2062,6 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
               <FormattedMessage
                 defaultMessage="Enable Automatic Prepackaged Plugins:"
                 id="admin.plugins.settings.automaticPrepackagedPlugins"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -2231,7 +2070,6 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={true}
@@ -2245,7 +2083,6 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
               <FormattedMessage
                 defaultMessage="Upload Plugin: "
                 id="admin.plugin.uploadTitle"
-                values={Object {}}
               />
             </label>
             <div
@@ -2256,17 +2093,14 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
               >
                 <button
                   className="btn btn-primary"
-                  disabled={false}
                 >
                   <FormattedMessage
                     defaultMessage="Choose File"
                     id="admin.plugin.choose"
-                    values={Object {}}
                   />
                 </button>
                 <input
                   accept=".gz"
-                  disabled={false}
                   onChange={[Function]}
                   type="file"
                 />
@@ -2280,7 +2114,6 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
                 <FormattedMessage
                   defaultMessage="Upload"
                   id="admin.plugin.upload"
-                  values={Object {}}
                 />
               </button>
               <div
@@ -2302,7 +2135,6 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -2316,7 +2148,6 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
               <FormattedMessage
                 defaultMessage="Enable Marketplace:"
                 id="admin.plugins.settings.enableMarketplace"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -2325,7 +2156,6 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={true}
@@ -2336,7 +2166,6 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -2350,7 +2179,6 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
               <FormattedMessage
                 defaultMessage="Enable Remote Marketplace:"
                 id="admin.plugins.settings.enableRemoteMarketplace"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -2359,7 +2187,6 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={true}
@@ -2379,7 +2206,6 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
               <FormattedMessage
                 defaultMessage="Marketplace URL:"
                 id="admin.plugins.settings.marketplaceUrl"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -2396,7 +2222,6 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
               <FormattedMessage
                 defaultMessage="Installed Plugins: "
                 id="admin.plugin.installedTitle"
-                values={Object {}}
               />
             </label>
             <div
@@ -2405,11 +2230,9 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
               <p
                 className="help-text"
               >
-                <FormattedHTMLMessage
+                <FormattedMessage
                   defaultMessage="Installed plugins on your Mattermost server."
                   id="admin.plugin.installedDesc"
-                  tagName="span"
-                  values={Object {}}
                 />
               </p>
               <br />
@@ -2427,7 +2250,6 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
           <FormattedMessage
             defaultMessage="Save"
             id="save_button.save"
-            values={Object {}}
           />
         }
         disabled={true}
@@ -2476,7 +2298,6 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
       <FormattedMessage
         defaultMessage="Management"
         id="admin.plugin.management.title"
-        values={Object {}}
       />
     </AdminHeader>
     <div
@@ -2496,7 +2317,6 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -2510,7 +2330,6 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
               <FormattedMessage
                 defaultMessage="Enable Plugins: "
                 id="admin.plugins.settings.enable"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -2519,7 +2338,6 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={false}
@@ -2530,7 +2348,6 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -2544,7 +2361,6 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
               <FormattedMessage
                 defaultMessage="Require Plugin Signature:"
                 id="admin.plugins.settings.requirePluginSignature"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -2553,7 +2369,6 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={false}
@@ -2564,7 +2379,6 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -2578,7 +2392,6 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
               <FormattedMessage
                 defaultMessage="Enable Automatic Prepackaged Plugins:"
                 id="admin.plugins.settings.automaticPrepackagedPlugins"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -2587,7 +2400,6 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={true}
@@ -2601,7 +2413,6 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
               <FormattedMessage
                 defaultMessage="Upload Plugin: "
                 id="admin.plugin.uploadTitle"
-                values={Object {}}
               />
             </label>
             <div
@@ -2617,7 +2428,6 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
                   <FormattedMessage
                     defaultMessage="Choose File"
                     id="admin.plugin.choose"
-                    values={Object {}}
                   />
                 </button>
                 <input
@@ -2636,7 +2446,6 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
                 <FormattedMessage
                   defaultMessage="Upload"
                   id="admin.plugin.upload"
-                  values={Object {}}
                 />
               </button>
               <div
@@ -2658,7 +2467,6 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -2672,7 +2480,6 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
               <FormattedMessage
                 defaultMessage="Enable Marketplace:"
                 id="admin.plugins.settings.enableMarketplace"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -2681,7 +2488,6 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={true}
@@ -2692,7 +2498,6 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -2706,7 +2511,6 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
               <FormattedMessage
                 defaultMessage="Enable Remote Marketplace:"
                 id="admin.plugins.settings.enableRemoteMarketplace"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -2715,7 +2519,6 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={true}
@@ -2735,7 +2538,6 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
               <FormattedMessage
                 defaultMessage="Marketplace URL:"
                 id="admin.plugins.settings.marketplaceUrl"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -2755,7 +2557,6 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
           <FormattedMessage
             defaultMessage="Save"
             id="save_button.save"
-            values={Object {}}
           />
         }
         disabled={true}
@@ -2804,7 +2605,6 @@ exports[`components/PluginManagement should match snapshot, text entered into th
       <FormattedMessage
         defaultMessage="Management"
         id="admin.plugin.management.title"
-        values={Object {}}
       />
     </AdminHeader>
     <div
@@ -2824,7 +2624,6 @@ exports[`components/PluginManagement should match snapshot, text entered into th
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -2838,7 +2637,6 @@ exports[`components/PluginManagement should match snapshot, text entered into th
               <FormattedMessage
                 defaultMessage="Enable Plugins: "
                 id="admin.plugins.settings.enable"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -2847,7 +2645,6 @@ exports[`components/PluginManagement should match snapshot, text entered into th
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={true}
@@ -2858,7 +2655,6 @@ exports[`components/PluginManagement should match snapshot, text entered into th
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -2872,7 +2668,6 @@ exports[`components/PluginManagement should match snapshot, text entered into th
               <FormattedMessage
                 defaultMessage="Require Plugin Signature:"
                 id="admin.plugins.settings.requirePluginSignature"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -2881,7 +2676,6 @@ exports[`components/PluginManagement should match snapshot, text entered into th
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={false}
@@ -2892,7 +2686,6 @@ exports[`components/PluginManagement should match snapshot, text entered into th
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -2906,7 +2699,6 @@ exports[`components/PluginManagement should match snapshot, text entered into th
               <FormattedMessage
                 defaultMessage="Enable Automatic Prepackaged Plugins:"
                 id="admin.plugins.settings.automaticPrepackagedPlugins"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -2915,7 +2707,6 @@ exports[`components/PluginManagement should match snapshot, text entered into th
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={true}
@@ -2929,7 +2720,6 @@ exports[`components/PluginManagement should match snapshot, text entered into th
               <FormattedMessage
                 defaultMessage="Upload Plugin: "
                 id="admin.plugin.uploadTitle"
-                values={Object {}}
               />
             </label>
             <div
@@ -2940,17 +2730,14 @@ exports[`components/PluginManagement should match snapshot, text entered into th
               >
                 <button
                   className="btn btn-primary"
-                  disabled={false}
                 >
                   <FormattedMessage
                     defaultMessage="Choose File"
                     id="admin.plugin.choose"
-                    values={Object {}}
                   />
                 </button>
                 <input
                   accept=".gz"
-                  disabled={false}
                   onChange={[Function]}
                   type="file"
                 />
@@ -2964,7 +2751,6 @@ exports[`components/PluginManagement should match snapshot, text entered into th
                 <FormattedMessage
                   defaultMessage="Upload"
                   id="admin.plugin.upload"
-                  values={Object {}}
                 />
               </button>
               <div
@@ -2986,7 +2772,6 @@ exports[`components/PluginManagement should match snapshot, text entered into th
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -3000,7 +2785,6 @@ exports[`components/PluginManagement should match snapshot, text entered into th
               <FormattedMessage
                 defaultMessage="Enable Marketplace:"
                 id="admin.plugins.settings.enableMarketplace"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -3009,7 +2793,6 @@ exports[`components/PluginManagement should match snapshot, text entered into th
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={true}
@@ -3020,7 +2803,6 @@ exports[`components/PluginManagement should match snapshot, text entered into th
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -3034,7 +2816,6 @@ exports[`components/PluginManagement should match snapshot, text entered into th
               <FormattedMessage
                 defaultMessage="Enable Remote Marketplace:"
                 id="admin.plugins.settings.enableRemoteMarketplace"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -3043,7 +2824,6 @@ exports[`components/PluginManagement should match snapshot, text entered into th
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={true}
@@ -3063,7 +2843,6 @@ exports[`components/PluginManagement should match snapshot, text entered into th
               <FormattedMessage
                 defaultMessage="Marketplace URL:"
                 id="admin.plugins.settings.marketplaceUrl"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -3080,7 +2859,6 @@ exports[`components/PluginManagement should match snapshot, text entered into th
               <FormattedMessage
                 defaultMessage="Installed Plugins: "
                 id="admin.plugin.installedTitle"
-                values={Object {}}
               />
             </label>
             <div
@@ -3089,11 +2867,9 @@ exports[`components/PluginManagement should match snapshot, text entered into th
               <p
                 className="help-text"
               >
-                <FormattedHTMLMessage
+                <FormattedMessage
                   defaultMessage="Installed plugins on your Mattermost server."
                   id="admin.plugin.installedDesc"
-                  tagName="span"
-                  values={Object {}}
                 />
               </p>
               <br />
@@ -3111,7 +2887,6 @@ exports[`components/PluginManagement should match snapshot, text entered into th
           <FormattedMessage
             defaultMessage="Save"
             id="save_button.save"
-            values={Object {}}
           />
         }
         disabled={true}
@@ -3160,7 +2935,6 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
       <FormattedMessage
         defaultMessage="Management"
         id="admin.plugin.management.title"
-        values={Object {}}
       />
     </AdminHeader>
     <div
@@ -3180,7 +2954,6 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -3194,7 +2967,6 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
               <FormattedMessage
                 defaultMessage="Enable Plugins: "
                 id="admin.plugins.settings.enable"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -3203,7 +2975,6 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={true}
@@ -3214,7 +2985,6 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -3228,7 +2998,6 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
               <FormattedMessage
                 defaultMessage="Require Plugin Signature:"
                 id="admin.plugins.settings.requirePluginSignature"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -3237,7 +3006,6 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={false}
@@ -3248,7 +3016,6 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -3262,7 +3029,6 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
               <FormattedMessage
                 defaultMessage="Enable Automatic Prepackaged Plugins:"
                 id="admin.plugins.settings.automaticPrepackagedPlugins"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -3271,7 +3037,6 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={true}
@@ -3285,7 +3050,6 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
               <FormattedMessage
                 defaultMessage="Upload Plugin: "
                 id="admin.plugin.uploadTitle"
-                values={Object {}}
               />
             </label>
             <div
@@ -3301,7 +3065,6 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
                   <FormattedMessage
                     defaultMessage="Choose File"
                     id="admin.plugin.choose"
-                    values={Object {}}
                   />
                 </button>
                 <input
@@ -3320,7 +3083,6 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
                 <FormattedMessage
                   defaultMessage="Upload"
                   id="admin.plugin.upload"
-                  values={Object {}}
                 />
               </button>
               <div
@@ -3342,7 +3104,6 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -3356,7 +3117,6 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
               <FormattedMessage
                 defaultMessage="Enable Marketplace:"
                 id="admin.plugins.settings.enableMarketplace"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -3365,7 +3125,6 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={true}
@@ -3376,7 +3135,6 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -3390,7 +3148,6 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
               <FormattedMessage
                 defaultMessage="Enable Remote Marketplace:"
                 id="admin.plugins.settings.enableRemoteMarketplace"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -3399,7 +3156,6 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={true}
@@ -3419,7 +3175,6 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
               <FormattedMessage
                 defaultMessage="Marketplace URL:"
                 id="admin.plugins.settings.marketplaceUrl"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -3436,7 +3191,6 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
               <FormattedMessage
                 defaultMessage="Installed Plugins: "
                 id="admin.plugin.installedTitle"
-                values={Object {}}
               />
             </label>
             <div
@@ -3445,11 +3199,9 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
               <p
                 className="help-text"
               >
-                <FormattedHTMLMessage
+                <FormattedMessage
                   defaultMessage="Installed plugins on your Mattermost server."
                   id="admin.plugin.installedDesc"
-                  tagName="span"
-                  values={Object {}}
                 />
               </p>
               <br />
@@ -3467,7 +3219,6 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
           <FormattedMessage
             defaultMessage="Save"
             id="save_button.save"
-            values={Object {}}
           />
         }
         disabled={true}
@@ -3516,7 +3267,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
       <FormattedMessage
         defaultMessage="Management"
         id="admin.plugin.management.title"
-        values={Object {}}
       />
     </AdminHeader>
     <div
@@ -3536,7 +3286,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -3550,7 +3299,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="Enable Plugins: "
                 id="admin.plugins.settings.enable"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -3559,7 +3307,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={true}
@@ -3570,7 +3317,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -3584,7 +3330,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="Require Plugin Signature:"
                 id="admin.plugins.settings.requirePluginSignature"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -3593,7 +3338,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={false}
@@ -3604,7 +3348,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -3618,7 +3361,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="Enable Automatic Prepackaged Plugins:"
                 id="admin.plugins.settings.automaticPrepackagedPlugins"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -3627,7 +3369,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={true}
@@ -3641,7 +3382,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="Upload Plugin: "
                 id="admin.plugin.uploadTitle"
-                values={Object {}}
               />
             </label>
             <div
@@ -3652,17 +3392,14 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               >
                 <button
                   className="btn btn-primary"
-                  disabled={false}
                 >
                   <FormattedMessage
                     defaultMessage="Choose File"
                     id="admin.plugin.choose"
-                    values={Object {}}
                   />
                 </button>
                 <input
                   accept=".gz"
-                  disabled={false}
                   onChange={[Function]}
                   type="file"
                 />
@@ -3676,7 +3413,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                 <FormattedMessage
                   defaultMessage="Upload"
                   id="admin.plugin.upload"
-                  values={Object {}}
                 />
               </button>
               <div
@@ -3698,7 +3434,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -3712,7 +3447,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="Enable Marketplace:"
                 id="admin.plugins.settings.enableMarketplace"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -3721,7 +3455,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={true}
@@ -3732,7 +3465,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -3746,7 +3478,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="Enable Remote Marketplace:"
                 id="admin.plugins.settings.enableRemoteMarketplace"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -3755,7 +3486,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={true}
@@ -3775,7 +3505,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="Marketplace URL:"
                 id="admin.plugins.settings.marketplaceUrl"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -3792,7 +3521,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="Installed Plugins: "
                 id="admin.plugin.installedTitle"
-                values={Object {}}
               />
             </label>
             <div
@@ -3801,11 +3529,9 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <p
                 className="help-text"
               >
-                <FormattedHTMLMessage
+                <FormattedMessage
                   defaultMessage="Installed plugins on your Mattermost server."
                   id="admin.plugin.installedDesc"
-                  tagName="span"
-                  values={Object {}}
                 />
               </p>
               <br />
@@ -3884,7 +3610,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
           <FormattedMessage
             defaultMessage="Save"
             id="save_button.save"
-            values={Object {}}
           />
         }
         disabled={true}
@@ -3933,7 +3658,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
       <FormattedMessage
         defaultMessage="Management"
         id="admin.plugin.management.title"
-        values={Object {}}
       />
     </AdminHeader>
     <div
@@ -3953,7 +3677,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -3967,7 +3690,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="Enable Plugins: "
                 id="admin.plugins.settings.enable"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -3976,7 +3698,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={true}
@@ -3987,7 +3708,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -4001,7 +3721,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="Require Plugin Signature:"
                 id="admin.plugins.settings.requirePluginSignature"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -4010,7 +3729,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={false}
@@ -4021,7 +3739,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -4035,7 +3752,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="Enable Automatic Prepackaged Plugins:"
                 id="admin.plugins.settings.automaticPrepackagedPlugins"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -4044,7 +3760,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={true}
@@ -4058,7 +3773,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="Upload Plugin: "
                 id="admin.plugin.uploadTitle"
-                values={Object {}}
               />
             </label>
             <div
@@ -4069,17 +3783,14 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               >
                 <button
                   className="btn btn-primary"
-                  disabled={false}
                 >
                   <FormattedMessage
                     defaultMessage="Choose File"
                     id="admin.plugin.choose"
-                    values={Object {}}
                   />
                 </button>
                 <input
                   accept=".gz"
-                  disabled={false}
                   onChange={[Function]}
                   type="file"
                 />
@@ -4093,7 +3804,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                 <FormattedMessage
                   defaultMessage="Upload"
                   id="admin.plugin.upload"
-                  values={Object {}}
                 />
               </button>
               <div
@@ -4115,7 +3825,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -4129,7 +3838,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="Enable Marketplace:"
                 id="admin.plugins.settings.enableMarketplace"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -4138,7 +3846,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={true}
@@ -4149,7 +3856,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -4163,7 +3869,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="Enable Remote Marketplace:"
                 id="admin.plugins.settings.enableRemoteMarketplace"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -4172,7 +3877,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={true}
@@ -4192,7 +3896,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="Marketplace URL:"
                 id="admin.plugins.settings.marketplaceUrl"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -4209,7 +3912,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="Installed Plugins: "
                 id="admin.plugin.installedTitle"
-                values={Object {}}
               />
             </label>
             <div
@@ -4218,11 +3920,9 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <p
                 className="help-text"
               >
-                <FormattedHTMLMessage
+                <FormattedMessage
                   defaultMessage="Installed plugins on your Mattermost server."
                   id="admin.plugin.installedDesc"
-                  tagName="span"
-                  values={Object {}}
                 />
               </p>
               <br />
@@ -4270,7 +3970,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
           <FormattedMessage
             defaultMessage="Save"
             id="save_button.save"
-            values={Object {}}
           />
         }
         disabled={true}
@@ -4319,7 +4018,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
       <FormattedMessage
         defaultMessage="Management"
         id="admin.plugin.management.title"
-        values={Object {}}
       />
     </AdminHeader>
     <div
@@ -4339,7 +4037,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -4353,7 +4050,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="Enable Plugins: "
                 id="admin.plugins.settings.enable"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -4362,7 +4058,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={true}
@@ -4373,7 +4068,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -4387,7 +4081,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="Require Plugin Signature:"
                 id="admin.plugins.settings.requirePluginSignature"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -4396,7 +4089,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={false}
@@ -4407,7 +4099,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -4421,7 +4112,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="Enable Automatic Prepackaged Plugins:"
                 id="admin.plugins.settings.automaticPrepackagedPlugins"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -4430,7 +4120,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={true}
@@ -4444,7 +4133,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="Upload Plugin: "
                 id="admin.plugin.uploadTitle"
-                values={Object {}}
               />
             </label>
             <div
@@ -4455,17 +4143,14 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               >
                 <button
                   className="btn btn-primary"
-                  disabled={false}
                 >
                   <FormattedMessage
                     defaultMessage="Choose File"
                     id="admin.plugin.choose"
-                    values={Object {}}
                   />
                 </button>
                 <input
                   accept=".gz"
-                  disabled={false}
                   onChange={[Function]}
                   type="file"
                 />
@@ -4479,7 +4164,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                 <FormattedMessage
                   defaultMessage="Upload"
                   id="admin.plugin.upload"
-                  values={Object {}}
                 />
               </button>
               <div
@@ -4501,7 +4185,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -4515,7 +4198,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="Enable Marketplace:"
                 id="admin.plugins.settings.enableMarketplace"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -4524,7 +4206,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={true}
@@ -4535,7 +4216,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -4549,7 +4229,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="Enable Remote Marketplace:"
                 id="admin.plugins.settings.enableRemoteMarketplace"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -4558,7 +4237,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={true}
@@ -4578,7 +4256,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="Marketplace URL:"
                 id="admin.plugins.settings.marketplaceUrl"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -4595,7 +4272,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="Installed Plugins: "
                 id="admin.plugin.installedTitle"
-                values={Object {}}
               />
             </label>
             <div
@@ -4604,11 +4280,9 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <p
                 className="help-text"
               >
-                <FormattedHTMLMessage
+                <FormattedMessage
                   defaultMessage="Installed plugins on your Mattermost server."
                   id="admin.plugin.installedDesc"
-                  tagName="span"
-                  values={Object {}}
                 />
               </p>
               <br />
@@ -4656,7 +4330,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
           <FormattedMessage
             defaultMessage="Save"
             id="save_button.save"
-            values={Object {}}
           />
         }
         disabled={true}
@@ -4705,7 +4378,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
       <FormattedMessage
         defaultMessage="Management"
         id="admin.plugin.management.title"
-        values={Object {}}
       />
     </AdminHeader>
     <div
@@ -4725,7 +4397,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -4739,7 +4410,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="Enable Plugins: "
                 id="admin.plugins.settings.enable"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -4748,7 +4418,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={true}
@@ -4759,7 +4428,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -4773,7 +4441,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="Require Plugin Signature:"
                 id="admin.plugins.settings.requirePluginSignature"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -4782,7 +4449,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={false}
@@ -4793,7 +4459,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -4807,7 +4472,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="Enable Automatic Prepackaged Plugins:"
                 id="admin.plugins.settings.automaticPrepackagedPlugins"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -4816,7 +4480,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={true}
@@ -4830,7 +4493,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="Upload Plugin: "
                 id="admin.plugin.uploadTitle"
-                values={Object {}}
               />
             </label>
             <div
@@ -4841,17 +4503,14 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               >
                 <button
                   className="btn btn-primary"
-                  disabled={false}
                 >
                   <FormattedMessage
                     defaultMessage="Choose File"
                     id="admin.plugin.choose"
-                    values={Object {}}
                   />
                 </button>
                 <input
                   accept=".gz"
-                  disabled={false}
                   onChange={[Function]}
                   type="file"
                 />
@@ -4865,7 +4524,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                 <FormattedMessage
                   defaultMessage="Upload"
                   id="admin.plugin.upload"
-                  values={Object {}}
                 />
               </button>
               <div
@@ -4887,7 +4545,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -4901,7 +4558,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="Enable Marketplace:"
                 id="admin.plugins.settings.enableMarketplace"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -4910,7 +4566,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={true}
@@ -4921,7 +4576,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -4935,7 +4589,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="Enable Remote Marketplace:"
                 id="admin.plugins.settings.enableRemoteMarketplace"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -4944,7 +4597,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={true}
@@ -4964,7 +4616,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="Marketplace URL:"
                 id="admin.plugins.settings.marketplaceUrl"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -4981,7 +4632,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="Installed Plugins: "
                 id="admin.plugin.installedTitle"
-                values={Object {}}
               />
             </label>
             <div
@@ -4990,11 +4640,9 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <p
                 className="help-text"
               >
-                <FormattedHTMLMessage
+                <FormattedMessage
                   defaultMessage="Installed plugins on your Mattermost server."
                   id="admin.plugin.installedDesc"
-                  tagName="span"
-                  values={Object {}}
                 />
               </p>
               <br />
@@ -5042,7 +4690,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
           <FormattedMessage
             defaultMessage="Save"
             id="save_button.save"
-            values={Object {}}
           />
         }
         disabled={true}
@@ -5091,7 +4738,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
       <FormattedMessage
         defaultMessage="Management"
         id="admin.plugin.management.title"
-        values={Object {}}
       />
     </AdminHeader>
     <div
@@ -5111,7 +4757,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -5125,7 +4770,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="Enable Plugins: "
                 id="admin.plugins.settings.enable"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -5134,7 +4778,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={true}
@@ -5145,7 +4788,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -5159,7 +4801,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="Require Plugin Signature:"
                 id="admin.plugins.settings.requirePluginSignature"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -5168,7 +4809,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={false}
@@ -5179,7 +4819,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -5193,7 +4832,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="Enable Automatic Prepackaged Plugins:"
                 id="admin.plugins.settings.automaticPrepackagedPlugins"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -5202,7 +4840,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={true}
@@ -5216,7 +4853,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="Upload Plugin: "
                 id="admin.plugin.uploadTitle"
-                values={Object {}}
               />
             </label>
             <div
@@ -5227,17 +4863,14 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               >
                 <button
                   className="btn btn-primary"
-                  disabled={false}
                 >
                   <FormattedMessage
                     defaultMessage="Choose File"
                     id="admin.plugin.choose"
-                    values={Object {}}
                   />
                 </button>
                 <input
                   accept=".gz"
-                  disabled={false}
                   onChange={[Function]}
                   type="file"
                 />
@@ -5251,7 +4884,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                 <FormattedMessage
                   defaultMessage="Upload"
                   id="admin.plugin.upload"
-                  values={Object {}}
                 />
               </button>
               <div
@@ -5273,7 +4905,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -5287,7 +4918,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="Enable Marketplace:"
                 id="admin.plugins.settings.enableMarketplace"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -5296,7 +4926,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={true}
@@ -5307,7 +4936,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="false"
                 id="admin.false"
-                values={Object {}}
               />
             }
             helpText={
@@ -5321,7 +4949,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="Enable Remote Marketplace:"
                 id="admin.plugins.settings.enableRemoteMarketplace"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -5330,7 +4957,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="true"
                 id="admin.true"
-                values={Object {}}
               />
             }
             value={true}
@@ -5350,7 +4976,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="Marketplace URL:"
                 id="admin.plugins.settings.marketplaceUrl"
-                values={Object {}}
               />
             }
             onChange={[Function]}
@@ -5367,7 +4992,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="Installed Plugins: "
                 id="admin.plugin.installedTitle"
-                values={Object {}}
               />
             </label>
             <div
@@ -5376,11 +5000,9 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <p
                 className="help-text"
               >
-                <FormattedHTMLMessage
+                <FormattedMessage
                   defaultMessage="Installed plugins on your Mattermost server."
                   id="admin.plugin.installedDesc"
-                  tagName="span"
-                  values={Object {}}
                 />
               </p>
               <br />
@@ -5459,7 +5081,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
           <FormattedMessage
             defaultMessage="Save"
             id="save_button.save"
-            values={Object {}}
           />
         }
         disabled={true}
