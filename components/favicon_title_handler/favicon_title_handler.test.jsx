@@ -76,9 +76,12 @@ describe('components/FaviconTitleHandler', () => {
         instance.updateFavicon = jest.fn();
 
         wrapper.setProps({unreads: {mentionCount: 3, messageCount: 4}});
-        expect(instance.updateFavicon).lastCalledWith(true);
+        expect(instance.updateFavicon).lastCalledWith('Mention');
 
         wrapper.setProps({unreads: {mentionCount: 0, messageCount: 4}});
-        expect(instance.updateFavicon).lastCalledWith(false);
+        expect(instance.updateFavicon).lastCalledWith('Unread');
+
+        wrapper.setProps({unreads: {mentionCount: 0, messageCount: 0}});
+        expect(instance.updateFavicon).lastCalledWith('None');
     });
 });
