@@ -52,7 +52,7 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
         this.props.actions.dismissNotice(AnnouncementBarMessages.NUMBER_OF_ACTIVE_USERS_WARN_METRIC_STATUS_ACK);
     }
 
-    getNoticeForWarnMetric = (warnMetricStatus) => {
+    getNoticeForWarnMetric = (warnMetricStatus, isE0Edition) => {
         if (!warnMetricStatus) {
             return null;
         }
@@ -65,41 +65,76 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
         var canCloseBar = false;
 
         switch (warnMetricStatus.id) {
+        case WarnMetricTypes.SYSTEM_WARN_METRIC_NUMBER_OF_POSTS_500K:
         case WarnMetricTypes.SYSTEM_WARN_METRIC_NUMBER_OF_ACTIVE_USERS_500:
             if (warnMetricStatus.acked) {
-                message = (
-                    <React.Fragment>
-                        <img
-                            className='advisor-icon'
-                            src={ackIcon}
-                        />
-                        <FormattedMarkdownMessage
-                            id={t('announcement_bar.error.number_active_users_warn_metric_status_ack.text')}
-                            defaultMessage={'Your trial has started! Go to the [System Console](/admin_console/environment/web_server) to check out the new features.'}
-                        />
-                    </React.Fragment>
-                );
+                if (isE0Edition) {
+                    message = (
+                        <React.Fragment>
+                            <img
+                                className='advisor-icon'
+                                src={ackIcon}
+                            />
+                            <FormattedMarkdownMessage
+                                id={t('announcement_bar.error.number_active_users_warn_metric_status_ack.text')}
+                                defaultMessage={'Your trial has started! Go to the [System Console](/admin_console/environment/web_server) to check out the new features.'}
+                            />
+                        </React.Fragment>
+                    );
+                } else {
+                    message = (
+                        <React.Fragment>
+                            <img
+                                className='advisor-icon'
+                                src={ackIcon}
+                            />
+                            <FormattedMarkdownMessage
+                                id={t('announcement_bar.warn_metric_status_ack.text')}
+                                defaultMessage={'Thank you for contacting Mattermost. We will follow up with you soon.'}
+                            />
+                        </React.Fragment>
+                    );
+                }
+
                 type = AnnouncementBarTypes.ADVISOR_ACK;
                 showModal = false;
                 dismissFunc = this.dismissNumberOfActiveUsersWarnMetricAck;
                 isDismissed = this.props.dismissedNumberOfActiveUsersWarnMetricStatusAck;
                 canCloseBar = true;
             } else {
-                message = (
-                    <React.Fragment>
-                        <img
-                            className='advisor-icon'
-                            src={alertIcon}
-                        />
-                        <FormattedMarkdownMessage
-                            id={t('announcement_bar.error.number_active_users_warn_metric_status.text')}
-                            defaultMessage={'You now have over {limit} users. We strongly recommend using advanced features for large-scale servers.'}
-                            values={{
-                                limit: warnMetricStatus.limit,
-                            }}
-                        />
-                    </React.Fragment>
-                );
+                if (warnMetricStatus.id === WarnMetricTypes.SYSTEM_WARN_METRIC_NUMBER_OF_ACTIVE_USERS_500) {
+                    message = (
+                        <React.Fragment>
+                            <img
+                                className='advisor-icon'
+                                src={alertIcon}
+                            />
+                            <FormattedMarkdownMessage
+                                id={t('announcement_bar.error.number_active_users_warn_metric_status.text')}
+                                defaultMessage={'You now have over {limit} users. We strongly recommend using advanced features for large-scale servers.'}
+                                values={{
+                                    limit: warnMetricStatus.limit,
+                                }}
+                            />
+                        </React.Fragment>
+                    );
+                } else {
+                    message = (
+                        <React.Fragment>
+                            <img
+                                className='advisor-icon'
+                                src={alertIcon}
+                            />
+                            <FormattedMarkdownMessage
+                                id={t('announcement_bar.number_posts_warn_metric_status.text')}
+                                defaultMessage={'You now have over {limit} posts. We strongly recommend using advanced features for large-scale servers.'}
+                                values={{
+                                    limit: warnMetricStatus.limit,
+                                }}
+                            />
+                        </React.Fragment>
+                    );
+                }
                 type = AnnouncementBarTypes.ADVISOR;
                 showModal = true;
                 dismissFunc = this.dismissNumberOfActiveUsersWarnMetric;
@@ -176,9 +211,14 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
                     />
                 );
             }
-            if (this.props.license.IsLicensed === 'false' && this.props.warnMetricsStatus) {
+            if (this.props.license &&
+                this.props.license.IsLicensed === 'false' &&
+                this.props.warnMetricsStatus) {
+                const enterpriseReady = (this.props.config.BuildEnterpriseReady === 'true');
+                console.log('CITOMAI enterpriseReady' + enterpriseReady);
+
                 for (const status of Object.values(this.props.warnMetricsStatus)) {
-                    var notice = this.getNoticeForWarnMetric(status);
+                    var notice = this.getNoticeForWarnMetric(status, enterpriseReady);
                     if (!notice || notice.IsDismissed) {
                         continue;
                     }

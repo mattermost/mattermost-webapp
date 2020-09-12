@@ -32,15 +32,20 @@ type Props = {
     closeParentComponent?: () => Promise<void>;
     stats?: Dictionary<number | AnalyticsRow[]>;
     warnMetricStatus: any;
+    enterpriseReady: boolean;
     actions: {
         closeModal: (arg: string) => void;
         getStandardAnalytics: () => any;
         sendWarnMetricAck: (arg0: string, arg1: boolean) => ActionFunc & Partial<{error?: string}>;
+        requestTrialLicenseAndAckWarnMetric: (arg0: string) => ActionFunc & Partial<{error?: string}>;
+        getLicenseConfig: () => void;
     };
 }
 
 type State = {
     serverError: string | null;
+    gettingTrial: boolean;
+    gettingTrialError: string | null;
     saving: boolean;
 }
 
@@ -50,6 +55,8 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
         this.state = {
             saving: false,
             serverError: null,
+            gettingTrial: false,
+            gettingTrialError: null,
         };
     }
 
@@ -80,15 +87,37 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
         }
     }
 
+    requestLicenseAndAckWarnMetric = async (e: any) => {
+        if (this.state.gettingTrial) {
+            return;
+        }
+
+        this.setState({gettingTrial: true, gettingTrialError: null});
+
+        trackEvent('admin', 'click_warn_metric_ack_start_trial', {metric: this.props.warnMetricStatus.id});
+
+        const {error} = this.props.actions.requestTrialLicenseAndAckWarnMetric(this.props.warnMetricStatus.id);
+        if (error) {
+            this.setState({gettingTrialError: error});
+        } else {
+            this.onHide();
+        }
+
+        this.setState({gettingTrial: false});
+        this.props.actions.getLicenseConfig();
+    }
+
     onHide = () => {
         this.setState({serverError: null, saving: false});
+
+        this.setState({gettingTrialError: null, gettingTrial: false});
         this.props.actions.closeModal(ModalIdentifiers.WARN_METRIC_ACK);
         if (this.props.closeParentComponent) {
             this.props.closeParentComponent();
         }
     }
 
-    renderError = () => {
+    renderContactUsError = () => {
         const {serverError} = this.state;
         if (!serverError) {
             return '';
@@ -141,6 +170,25 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
         );
     }
 
+    renderStartTrialError = () => {
+        const {gettingTrialError} = this.state;
+        if (!gettingTrialError) {
+            return '';
+        }
+
+        return (
+            <div className='form-group has-error'>
+                <br/>
+                <label className='control-label'>
+                    <FormattedMessage
+                        id='warn_metric_ack_modal.error.body'
+                        defaultMessage='The license could not be retrieved. Please try again or visit https://mattermost.com/trial/ to request a license.'
+                    />
+                </label>
+            </div>
+        );
+    }
+
     render() {
         const headerTitle = (
             <FormattedMessage
@@ -180,12 +228,53 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
             </div>
         );
 
-        const buttonText = (
-            <FormattedMessage
-                id='warn_metric_ack_modal.contact_support'
-                defaultMessage='Acknowledge'
-            />
-        );
+        let footer;
+        let error;
+        const isE0Edition = (this.props.license && this.props.license.IsLicensed === 'false' && this.props.enterpriseReady);
+
+        if (isE0Edition) {
+            error = this.renderStartTrialError();
+            footer = (<Modal.Footer>
+                <button
+                    className='btn btn-primary save-button'
+                    data-dismiss='modal'
+                    disabled={this.state.gettingTrial}
+                    autoFocus={true}
+                    onClick={this.requestLicenseAndAckWarnMetric}
+                >
+                    <LoadingWrapper
+                        loading={this.state.gettingTrial}
+                        text={Utils.localizeMessage('admin.warn_metric.starting_trial', 'Starting trial')}
+                    >
+                        <FormattedMessage
+                            id='warn_metric_ack_modal.start_trial'
+                            defaultMessage='Start trial'
+                        />
+                    </LoadingWrapper>
+                </button>
+            </Modal.Footer>);
+        } else {
+            error = this.renderContactUsError();
+            footer = (<Modal.Footer>
+                <button
+                    className='btn btn-primary save-button'
+                    data-dismiss='modal'
+                    disabled={this.state.saving}
+                    autoFocus={true}
+                    onClick={this.onContactUsClick}
+                >
+                    <LoadingWrapper
+                        loading={this.state.saving}
+                        text={Utils.localizeMessage('admin.warn_metric.sending-email', 'Sending email')}
+                    >
+                        <FormattedMessage
+                            id='warn_metric_ack_modal.contact_support'
+                            defaultMessage='Acknowledge'
+                        />
+                    </LoadingWrapper>
+                </button>
+            </Modal.Footer>);
+        }
 
         return (
             <Modal
@@ -209,27 +298,12 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
                     <div>
                         {descriptionText}
                         <br/>
-                        {this.renderError()}
+                        {error}
                         <br/>
                         {subText}
                     </div>
                 </Modal.Body>
-                <Modal.Footer>
-                    <button
-                        className='btn btn-primary save-button'
-                        data-dismiss='modal'
-                        disabled={this.state.saving}
-                        autoFocus={true}
-                        onClick={this.onContactUsClick}
-                    >
-                        <LoadingWrapper
-                            loading={this.state.saving}
-                            text={Utils.localizeMessage('admin.warn_metric.sending-email', 'Sending email')}
-                        >
-                            {buttonText}
-                        </LoadingWrapper>
-                    </button>
-                </Modal.Footer>
+                {footer}
             </Modal>
         );
     }

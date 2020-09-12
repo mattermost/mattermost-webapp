@@ -17,6 +17,7 @@ jest.mock('react-dom', () => ({
 
 describe('components/WarnMetricAckModal', () => {
     const serverError = 'some error';
+    const gettingTrialError = 'some error';
 
     const baseProps = {
         stats: {
@@ -36,10 +37,16 @@ describe('components/WarnMetricAckModal', () => {
             limit: 500,
             acked: false,
         },
+        license: {
+            IsLicensed: 'false',
+        },
+        enterpriseReady: false,
         actions: {
             closeModal: jest.fn(),
             getStandardAnalytics: jest.fn(),
             sendWarnMetricAck: jest.fn(),
+            requestTrialLicenseAndAckWarnMetric: jest.fn(),
+            getLicenseConfig: jest.fn(),
         },
     };
 
@@ -81,14 +88,30 @@ describe('components/WarnMetricAckModal', () => {
         expect(wrapper.state('saving')).toEqual(false);
     });
 
-    test('send ack on acknowledge button click', () => {
+    test('send ack on start trial button click', () => {
+        const props = {...baseProps};
+        props.enterpriseReady = true;
+
         const wrapper = shallow<WarnMetricAckModal>(
-            <WarnMetricAckModal {...baseProps}/>,
+            <WarnMetricAckModal {...props}/>,
+        );
+
+        wrapper.setState({gettingTrial: false});
+        wrapper.find('.save-button').simulate('click');
+        expect(props.actions.requestTrialLicenseAndAckWarnMetric).toHaveBeenCalledTimes(1);
+    });
+
+    test('send ack on acknowledge button click', () => {
+        const props = {...baseProps};
+        props.enterpriseReady = false;
+
+        const wrapper = shallow<WarnMetricAckModal>(
+            <WarnMetricAckModal {...props}/>,
         );
 
         wrapper.setState({saving: false});
         wrapper.find('.save-button').simulate('click');
-        expect(baseProps.actions.sendWarnMetricAck).toHaveBeenCalledTimes(1);
+        expect(props.actions.sendWarnMetricAck).toHaveBeenCalledTimes(1);
     });
 
     test('should have called props.onHide when Modal.onExited is called', () => {

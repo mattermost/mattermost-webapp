@@ -219,9 +219,16 @@ export const PostRequestTypes = keyMirror({
 });
 
 export const WarnMetricTypes = {
+    SYSTEM_WARN_METRIC_NUMBER_OF_ACTIVE_USERS_25: 'warn_metric_number_of_active_users_25',
+    SYSTEM_WARN_METRIC_NUMBER_OF_ACTIVE_USERS_100: 'warn_metric_number_of_active_users_100',
     SYSTEM_WARN_METRIC_NUMBER_OF_ACTIVE_USERS_200: 'warn_metric_number_of_active_users_200',
-    SYSTEM_WARN_METRIC_NUMBER_OF_ACTIVE_USERS_400: 'warn_metric_number_of_active_users_400',
+    SYSTEM_WARN_METRIC_NUMBER_OF_ACTIVE_USERS_300: 'warn_metric_number_of_active_users_300',
     SYSTEM_WARN_METRIC_NUMBER_OF_ACTIVE_USERS_500: 'warn_metric_number_of_active_users_500',
+    SYSTEM_WARN_METRIC_NUMBER_OF_TEAMS_5: 'warn_metric_number_of_teams_5',
+    SYSTEM_WARN_METRIC_NUMBER_OF_CHANNELS_5: 'warn_metric_number_of_channels_50',
+    SYSTEM_WARN_METRIC_MFA: 'warn_metric_mfa',
+    SYSTEM_WARN_METRIC_EMAIL_DOMAIN: 'warn_metric_email_domain',
+    SYSTEM_WARN_METRIC_NUMBER_OF_POSTS_500K: 'warn_metric_number_of_posts_500K',
 };
 
 export const ModalIdentifiers = {
@@ -561,7 +568,7 @@ export const AnnouncementBarMessages = {
     PREVIEW_MODE: t('announcement_bar.error.preview_mode'),
     WEBSOCKET_PORT_ERROR: t('channel_loader.socketError'),
     NUMBER_OF_ACTIVE_USERS_WARN_METRIC_STATUS: t('announcement_bar.error.number_active_users_warn_metric_status.text'),
-    NUMBER_OF_ACTIVE_USERS_WARN_METRIC_STATUS_ACK: t('announcement_bar.error.number_active_users_warn_metric_status_ack.text'),
+    NUMBER_OF_ACTIVE_USERS_WARN_METRIC_STATUS_ACK: t('announcement_bar.warn_metric_status_ack.text'),
 };
 
 export const VerifyEmailErrors = {
