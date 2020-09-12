@@ -108,7 +108,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
             component: AtMentionSuggestion,
         });
 
-        jest.runAllTimers();
+        jest.runOnlyPendingTimers();
 
         expect(resultCallback).toHaveBeenNthCalledWith(2, {
             matchedPretext,
@@ -233,7 +233,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
         });
 
         await Promise.resolve().then(() => {
-            jest.runAllTimers();
+            jest.runOnlyPendingTimers();
 
             expect(resultCallback).toHaveBeenNthCalledWith(2, {
                 matchedPretext,
@@ -295,7 +295,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
             component: AtMentionSuggestion,
         });
 
-        jest.runAllTimers();
+        jest.runOnlyPendingTimers();
 
         expect(resultCallback).toHaveBeenNthCalledWith(2, {
             matchedPretext,
@@ -365,7 +365,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
             component: AtMentionSuggestion,
         });
 
-        jest.runAllTimers();
+        jest.runOnlyPendingTimers();
         expect(resultCallback).toHaveBeenNthCalledWith(2, {
             matchedPretext,
             terms: [
@@ -430,7 +430,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
             component: AtMentionSuggestion,
         });
 
-        jest.runAllTimers();
+        jest.runOnlyPendingTimers();
 
         expect(resultCallback).toHaveBeenNthCalledWith(2, {
             matchedPretext,
@@ -488,7 +488,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
             component: AtMentionSuggestion,
         });
 
-        jest.runAllTimers();
+        jest.runOnlyPendingTimers();
 
         expect(resultCallback).toHaveBeenNthCalledWith(2, {
             matchedPretext,
@@ -546,7 +546,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
             component: AtMentionSuggestion,
         });
 
-        jest.runAllTimers();
+        jest.runOnlyPendingTimers();
         expect(resultCallback).toHaveBeenNthCalledWith(2, {
             matchedPretext,
             terms: [
@@ -603,7 +603,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
             component: AtMentionSuggestion,
         });
 
-        jest.runAllTimers();
+        jest.runOnlyPendingTimers();
 
         expect(resultCallback).toHaveBeenNthCalledWith(2, {
             matchedPretext,
@@ -666,7 +666,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
             component: AtMentionSuggestion,
         });
 
-        jest.runAllTimers();
+        jest.runOnlyPendingTimers();
 
         expect(resultCallback).toHaveBeenNthCalledWith(2, {
             matchedPretext,
@@ -732,7 +732,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
             component: AtMentionSuggestion,
         });
 
-        jest.runAllTimers();
+        jest.runOnlyPendingTimers();
 
         expect(resultCallback).toHaveBeenNthCalledWith(2, {
             matchedPretext,
@@ -801,7 +801,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
             component: AtMentionSuggestion,
         });
 
-        jest.runAllTimers();
+        jest.runOnlyPendingTimers();
 
         expect(resultCallback).toHaveBeenNthCalledWith(2, {
             matchedPretext,
@@ -875,7 +875,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
             component: AtMentionSuggestion,
         });
 
-        jest.runAllTimers();
+        jest.runOnlyPendingTimers();
 
         expect(resultCallback).toHaveBeenNthCalledWith(2, {
             matchedPretext,
@@ -947,7 +947,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
             component: AtMentionSuggestion,
         });
 
-        jest.runAllTimers();
+        jest.runOnlyPendingTimers();
 
         expect(resultCallback).toHaveBeenNthCalledWith(2, {
             matchedPretext,
@@ -1015,7 +1015,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
             component: AtMentionSuggestion,
         });
 
-        jest.runAllTimers();
+        jest.runOnlyPendingTimers();
 
         expect(resultCallback).toHaveBeenNthCalledWith(2, {
             matchedPretext,
@@ -1077,7 +1077,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
             component: AtMentionSuggestion,
         });
 
-        jest.runAllTimers();
+        jest.runOnlyPendingTimers();
         expect(resultCallback).toHaveBeenNthCalledWith(2, {
             matchedPretext,
             terms: [

@@ -36,14 +36,17 @@ const formattedMessages: any = defineMessages({
         disabledGuests: {
             id: t('admin.channel_settings.channel_moderation.createPosts.disabledGuest'),
             defaultMessage: 'Create posts for guests are disabled in [{scheme_name}](../permissions/{scheme_link}).',
+            permissionName: 'guest_create_post',
         },
         disabledMembers: {
             id: t('admin.channel_settings.channel_moderation.createPosts.disabledMember'),
             defaultMessage: 'Create posts for members are disabled in [{scheme_name}](../permissions/{scheme_link}).',
+            permissionName: 'create_post',
         },
         disabledBoth: {
             id: t('admin.channel_settings.channel_moderation.createPosts.disabledBoth'),
             defaultMessage: 'Create posts for members and guests are disabled in [{scheme_name}](../permissions/{scheme_link}).',
+            permissionName: 'create_post',
         },
     },
 
@@ -63,14 +66,17 @@ const formattedMessages: any = defineMessages({
         disabledGuests: {
             id: t('admin.channel_settings.channel_moderation.postReactions.disabledGuest'),
             defaultMessage: 'Post reactions for guests are disabled in [{scheme_name}](../permissions/{scheme_link}).',
+            permissionName: 'guest_reactions',
         },
         disabledMembers: {
             id: t('admin.channel_settings.channel_moderation.postReactions.disabledMember'),
             defaultMessage: 'Post reactions for members are disabled in [{scheme_name}](../permissions/{scheme_link}).',
+            permissionName: 'reactions',
         },
         disabledBoth: {
             id: t('admin.channel_settings.channel_moderation.postReactions.disabledBoth'),
             defaultMessage: 'Post reactions for members and guests are disabled in [{scheme_name}](../permissions/{scheme_link}).',
+            permissionName: 'reactions',
         },
     },
 
@@ -86,14 +92,17 @@ const formattedMessages: any = defineMessages({
         disabledGuests: {
             id: t('admin.channel_settings.channel_moderation.manageMembers.disabledGuest'),
             defaultMessage: 'Manage members for guests are disabled in [{scheme_name}](../permissions/{scheme_link}).',
+            permissionName: 'guest_manage_{public_or_private}_channel_members',
         },
         disabledMembers: {
             id: t('admin.channel_settings.channel_moderation.manageMembers.disabledMember'),
             defaultMessage: 'Manage members for members are disabled in [{scheme_name}](../permissions/{scheme_link}).',
+            permissionName: 'manage_{public_or_private}_channel_members',
         },
         disabledBoth: {
             id: t('admin.channel_settings.channel_moderation.manageMembers.disabledBoth'),
             defaultMessage: 'Manage members for members and guests are disabled in [{scheme_name}](../permissions/{scheme_link}).',
+            permissionName: 'manage_{public_or_private}_channel_members',
         },
     },
 
@@ -113,14 +122,17 @@ const formattedMessages: any = defineMessages({
         disabledGuests: {
             id: t('admin.channel_settings.channel_moderation.channelMentions.disabledGuest'),
             defaultMessage: 'Channel mentions for guests are disabled in [{scheme_name}](../permissions/{scheme_link}).',
+            permissionName: 'guest_use_channel_mentions',
         },
         disabledMembers: {
             id: t('admin.channel_settings.channel_moderation.channelMentions.disabledMember'),
             defaultMessage: 'Channel mentions for members are disabled in [{scheme_name}](../permissions/{scheme_link}).',
+            permissionName: 'use_channel_mentions',
         },
         disabledBoth: {
             id: t('admin.channel_settings.channel_moderation.channelMentions.disabledBoth'),
             defaultMessage: 'Channel mentions for members and guests are disabled in [{scheme_name}](../permissions/{scheme_link}).',
+            permissionName: 'use_channel_mentions',
         },
         disabledGuestsDueToCreatePosts: {
             id: t('admin.channel_settings.channel_moderation.channelMentions.disabledGuestsDueToCreatePosts'),
@@ -168,6 +180,8 @@ interface Props {
     teamSchemeID?: string;
     teamSchemeDisplayName?: string;
     guestAccountsEnabled: boolean;
+    isPublic: boolean;
+    readOnly?: boolean;
 }
 
 interface RowProps {
@@ -179,6 +193,7 @@ interface RowProps {
     onClick: (name: string, channelRole: ChannelModerationRoles) => void;
     errorMessages?: any;
     guestAccountsEnabled: boolean;
+    readOnly?: boolean;
 }
 
 export const ChannelModerationTableRow: React.FunctionComponent<RowProps> = (props: RowProps): JSX.Element => {
@@ -222,7 +237,7 @@ export const ChannelModerationTableRow: React.FunctionComponent<RowProps> = (pro
                                 },
                             )}
                             onClick={() => props.onClick(props.name, Roles.GUESTS as ChannelModerationRoles)}
-                            disabled={props.guestsDisabled}
+                            disabled={props.guestsDisabled || props.readOnly}
                         >
                             {props.guests && !props.guestsDisabled && <CheckboxCheckedIcon/>}
                         </button>
@@ -241,7 +256,7 @@ export const ChannelModerationTableRow: React.FunctionComponent<RowProps> = (pro
                             },
                         )}
                         onClick={() => props.onClick(props.name, Roles.MEMBERS as ChannelModerationRoles)}
-                        disabled={props.membersDisabled}
+                        disabled={props.membersDisabled || props.readOnly}
                     >
                         {props.members && !props.membersDisabled && <CheckboxCheckedIcon/>}
                     </button>
@@ -252,8 +267,8 @@ export const ChannelModerationTableRow: React.FunctionComponent<RowProps> = (pro
 };
 
 export default class ChannelModeration extends React.PureComponent<Props> {
-    private errorMessagesToDisplay = (entry: ChannelPermissions): Array<any> => {
-        const errorMessages: Array<any> = [];
+    private errorMessagesToDisplay = (entry: ChannelPermissions): Array<JSX.Element> => {
+        const errorMessages: Array<JSX.Element> = [];
         const isGuestsDisabled = !isNil(entry.roles.guests?.enabled) && !entry.roles.guests?.enabled && this.props.guestAccountsEnabled;
         const isMembersDisabled = !entry.roles.members.enabled;
         let createPostsKey = '';
@@ -308,6 +323,15 @@ export default class ChannelModeration extends React.PureComponent<Props> {
                 schemeName = this.props.teamSchemeDisplayName + ' Team Scheme';
                 schemeLink = `team_override_scheme/${this.props.teamSchemeID}`;
             }
+
+            if (formattedMessages[entry.name][disabledKey].permissionName) {
+                schemeLink += `?rowIdFromQuery=${formattedMessages[entry.name][disabledKey].permissionName}`;
+                if (schemeLink.includes('{public_or_private}')) {
+                    const publicOrPrivate = this.props.isPublic ? 'public' : 'private';
+                    schemeLink = schemeLink.replace('{public_or_private}', publicOrPrivate);
+                }
+            }
+
             errorMessages.push(
                 <div
                     data-testid={formattedMessages[entry.name][disabledKey].id.replace(PERIOD_TO_SLASH_REGEX, '-')}
@@ -328,7 +352,7 @@ export default class ChannelModeration extends React.PureComponent<Props> {
     }
 
     render = (): JSX.Element => {
-        const {channelPermissions, guestAccountsEnabled, onChannelPermissionsChanged} = this.props;
+        const {channelPermissions, guestAccountsEnabled, onChannelPermissionsChanged, readOnly} = this.props;
         return (
             <AdminPanel
                 id='channel_moderation'
@@ -381,6 +405,7 @@ export default class ChannelModeration extends React.PureComponent<Props> {
                                             onClick={onChannelPermissionsChanged}
                                             errorMessages={this.errorMessagesToDisplay(entry)}
                                             guestAccountsEnabled={guestAccountsEnabled}
+                                            readOnly={readOnly}
                                         />
                                     );
                                 })}

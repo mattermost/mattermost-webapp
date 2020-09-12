@@ -9,6 +9,7 @@ import {Client4} from 'mattermost-redux/client';
 import {Channel} from 'mattermost-redux/types/channels';
 import {RelationOneToOne} from 'mattermost-redux/types/utilities';
 import {UserProfile} from 'mattermost-redux/types/users';
+import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants';
@@ -70,9 +71,7 @@ type Props = {
         openGroupChannelToUserIds: (userIds: any) => Promise<any>;
         searchProfiles: (term: string, options?: any) => Promise<any>;
         searchGroupChannels: (term: string) => Promise<any>;
-        setModalSearchTerm: (term: any) => Promise<{
-            data: boolean;
-        }>;
+        setModalSearchTerm: (term: any) => GenericAction;
     };
 }
 
@@ -118,7 +117,7 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
         };
     }
 
-    componentDidMount() {
+    loadModalData = () => {
         this.getUserProfiles();
         this.props.actions.getTotalUsersStats();
         this.loadProfilesMissingStatus(this.props.users, this.props.statuses);
@@ -507,6 +506,7 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
                 show={this.state.show}
                 onHide={this.handleHide}
                 onExited={this.handleExit}
+                onEntered={this.loadModalData}
                 role='dialog'
                 aria-labelledby='moreDmModalLabel'
                 id='moreDmModal'

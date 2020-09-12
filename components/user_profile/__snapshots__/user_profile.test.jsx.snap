@@ -5,7 +5,7 @@ exports[`components/UserProfile should match snapshot 1`] = `
   <OverlayTrigger
     defaultOverlayShown={false}
     overlay={
-      <Connect(injectIntl(ProfilePopover))
+      <Memo(Connect(injectIntl(ProfilePopover)))
         className="user-profile-popover"
         hasMention={false}
         hide={[Function]}
@@ -44,7 +44,7 @@ exports[`components/UserProfile should match snapshot, when displayUsername is e
   <OverlayTrigger
     defaultOverlayShown={false}
     overlay={
-      <Connect(injectIntl(ProfilePopover))
+      <Memo(Connect(injectIntl(ProfilePopover)))
         className="user-profile-popover"
         hasMention={false}
         hide={[Function]}

@@ -7,28 +7,24 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod @smoke
+// Stage: @prod
 // Group: @messaging
 
-import users from '../../fixtures/users.json';
-
-const sysadmin = users.sysadmin;
+import {getAdminAccount} from '../../support/env';
 
 describe('Message Reply', () => {
+    const sysadmin = getAdminAccount();
     let newChannel;
 
     before(() => {
-        // # Login and go to /
-        cy.apiLogin('user-1');
-        cy.apiSaveTeammateNameDisplayPreference('username');
-
         // # Create and visit new channel
-        cy.createAndVisitNewChannel().then((channel) => {
+        cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
             newChannel = channel;
+            cy.visit(`/${team.name}/channels/${channel.name}`);
         });
     });
 
-    it('MM-16730 Reply to an older message', () => {
+    it('MM-T90 Reply to older message', () => {
         // # Get yesterdays date in UTC
         const yesterdaysDate = Cypress.moment().subtract(1, 'days').valueOf();
 
@@ -53,22 +49,22 @@ describe('Message Reply', () => {
             cy.getLastPostId().then((replyId) => {
                 // * Verify that the reply is in the channel view with matching text
                 cy.get(`#post_${replyId}`).within(() => {
-                    cy.queryByTestId('post-link').should('be.visible').and('have.text', 'Commented on sysadmin\'s message: Hello from yesterday');
+                    cy.findByTestId('post-link').should('be.visible').and('have.text', 'Commented on sysadmin\'s message: Hello from yesterday');
                     cy.get(`#postMessageText_${replyId}`).should('be.visible').and('have.text', 'A reply to an older post with attachment');
                 });
 
                 // * Verify that the reply is in the RHS with matching text
                 cy.get(`#rhsPost_${replyId}`).within(() => {
-                    cy.queryByTestId('post-link').should('not.be.visible');
+                    cy.findByTestId('post-link').should('not.be.visible');
                     cy.get(`#rhsPostMessageText_${replyId}`).should('be.visible').and('have.text', 'A reply to an older post with attachment');
                 });
 
-                cy.get(`#CENTER_time_${postId}`).find('time').invoke('attr', 'title').then((originalTimeStamp) => {
+                cy.get(`#CENTER_time_${postId}`).find('time').invoke('attr', 'dateTime').then((originalTimeStamp) => {
                     // * Verify the first post timestamp equals the RHS timestamp
-                    cy.get(`#RHS_ROOT_time_${postId}`).find('time').invoke('attr', 'title').should('be', originalTimeStamp);
+                    cy.get(`#RHS_ROOT_time_${postId}`).find('time').invoke('attr', 'dateTime').should('be', originalTimeStamp);
 
                     // * Verify the first post timestamp was not modified by the reply
-                    cy.get(`#CENTER_time_${replyId}`).find('time').should('have.attr', 'title').and('not.equal', originalTimeStamp);
+                    cy.get(`#CENTER_time_${replyId}`).find('time').should('have.attr', 'dateTime').and('not.equal', originalTimeStamp);
                 });
             });
         });

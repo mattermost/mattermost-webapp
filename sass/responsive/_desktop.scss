@@ -12,21 +12,21 @@
     .channel-header {
         .search-bar__container {
             .search__form--focused {
-                width: 406px;
-                max-width: 406px;;
+                width: 374px;
+                max-width: 374px;;
             }
         }
     }
 
     .search-help-popover {
-        max-width: 406px;
-        width: 406px;
+        max-width: 374px;
+        width: 374px;
     }
 
     .inner-wrap {
         &.move--left {
             .search__form {
-                width: 406px;
+                width: 374px;
             }
 
             #post-list {
@@ -139,6 +139,10 @@
                 }
             }
         }
+    }
+
+    .search-bar__container {
+        padding: 0 4px 0 0;
     }
 }
 

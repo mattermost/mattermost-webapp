@@ -3,7 +3,7 @@
 /* eslint-disable react/no-string-refs */
 
 import React from 'react';
-import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 import * as UserUtils from 'mattermost-redux/utils/user_utils';
 import {UserProfile} from 'mattermost-redux/types/users';
 
@@ -153,7 +153,7 @@ export default class UserAccessTokenSection extends React.PureComponent<Props, S
             ),
             confirmMessage: (state: State) => (
                 <div>
-                    <FormattedHTMLMessage
+                    <FormattedMessage
                         id='user.settings.tokens.confirmCopyMessage'
                         defaultMessage="Make sure you have copied and saved the access token below. You won't be able to see it again!"
                     />
@@ -224,7 +224,7 @@ export default class UserAccessTokenSection extends React.PureComponent<Props, S
             ),
             confirmMessage: () => (
                 <div className='alert alert-danger'>
-                    <FormattedHTMLMessage
+                    <FormattedMessage
                         id='user.settings.tokens.confirmCreateMessage'
                         defaultMessage='You are generating a personal access token with System Admin permissions. Are you sure want to create this token?'
                     />

@@ -8,8 +8,6 @@ import {createSelector} from 'reselect';
 import {getTeams as fetchTeams, searchTeams} from 'mattermost-redux/actions/teams';
 import {getTeams} from 'mattermost-redux/selectors/entities/teams';
 
-import {t} from 'utils/i18n';
-
 import TeamList from './team_list.jsx';
 
 const getSortedListOfTeams = createSelector(
@@ -21,8 +19,6 @@ function mapStateToProps(state) {
     return {
         data: getSortedListOfTeams(state),
         total: state.entities.teams.totalCount || 0,
-        emptyListTextId: t('admin.team_settings.team_list.no_teams_found'),
-        emptyListTextDefaultMessage: 'No teams found',
     };
 }
 

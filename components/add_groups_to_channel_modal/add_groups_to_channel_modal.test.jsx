@@ -10,6 +10,7 @@ describe('components/AddGroupsToChannelModal', () => {
     const baseProps = {
         currentChannelName: 'foo',
         currentChannelId: '123',
+        teamID: '456',
         searchTerm: '',
         groups: [],
         onHide: () => { },
@@ -18,6 +19,8 @@ describe('components/AddGroupsToChannelModal', () => {
             setModalSearchTerm: jest.fn().mockResolvedValue({data: true}),
             linkGroupSyncable: jest.fn().mockResolvedValue({data: true, error: null}),
             getAllGroupsAssociatedToChannel: jest.fn().mockResolvedValue({data: true}),
+            getTeam: jest.fn().mockResolvedValue({data: true}),
+            getAllGroupsAssociatedToTeam: jest.fn().mockResolvedValue({data: true}),
         },
     };
 

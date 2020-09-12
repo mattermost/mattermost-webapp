@@ -7,109 +7,197 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod @smoke
+// Stage: @prod
 // Group: @signin_authentication
 
-import users from '../../fixtures/users.json';
-
-let config;
-
 describe('Login page', () => {
+    let config;
+    let testUser;
+
     before(() => {
         // Disable other auth options
-        cy.apiLogin('sysadmin');
         const newSettings = {
             Office365Settings: {Enable: false},
             LdapSettings: {Enable: false},
         };
-        cy.apiUpdateConfig(newSettings);
-
-        cy.apiGetConfig().then((response) => {
-            config = response.body;
+        cy.apiUpdateConfig(newSettings).then((data) => {
+            ({config} = data);
         });
 
-        // # Go to login page
-        cy.apiLogout();
+        // # Create new team and users
+        cy.apiInitSetup().then(({user}) => {
+            testUser = user;
 
-        cy.visit('/login');
+            cy.apiLogout();
+            cy.visit('/login');
+        });
     });
 
-    it('should render', () => {
-        // * Check that the login section is loaded
-        cy.get('#login_section').should('be.visible');
+    it('MM-T3306_1 Should render all elements of the page', () => {
+        // * Verify URL is of login page
+        cy.url().should('include', '/login');
 
-        // * Check the title
+        // * Verify title of the document is correct
         cy.title().should('include', config.TeamSettings.SiteName);
+
+        // * Verify email/username field is present
+        cy.findByPlaceholderText('Email or Username').should('exist').and('be.visible');
+
+        // * Verify possword is present
+        cy.findByPlaceholderText('Password').should('exist').and('be.visible');
+
+        // * Verify sign in button is present
+        cy.findByText('Sign in').should('exist').and('be.visible');
+
+        // * Verify forget password link is present
+        cy.findByText('I forgot my password.').should('exist').and('be.visible').
+            parent().should('have.attr', 'href', '/reset_password');
+
+        // * Verify create an account link is present
+        cy.findByText('Don\'t have an account?').should('exist').and('be.visible');
+        cy.findByText('Create one now.').should('exist').and('be.visible').
+            parent().should('have.attr', 'href', '/signup_user_complete');
+
+        // * Check if site name is visible on top of login section
+        cy.get('#login_section').within(() => {
+            cy.findByText(config.TeamSettings.SiteName).should('exist').and('be.visible');
+        });
+
+        // # Move inside of footer section
+        cy.get('#footer_section').should('exist').and('be.visible').within(() => {
+            // * Check if about footer link is present
+            cy.findByText('About').should('exist').
+                parent().and('have.attr', 'href', config.SupportSettings.AboutLink);
+
+            // * Check if privacy footer link is present
+            cy.findByText('Privacy').should('exist').
+                parent().and('have.attr', 'href', config.SupportSettings.PrivacyPolicyLink);
+
+            // * Check if terms footer link is present
+            cy.findByText('Terms').should('exist').
+                parent().and('have.attr', 'href', config.SupportSettings.TermsOfServiceLink);
+
+            // * Check if help footer link is present
+            cy.findByText('Help').should('exist').
+                parent().and('have.attr', 'href', config.SupportSettings.HelpLink);
+
+            const todaysDate = new Date();
+            const currentYear = todaysDate.getFullYear();
+
+            // * Check if copyright footer is present
+            cy.findByText(`© 2015-${currentYear} Mattermost, Inc.`).should('exist');
+        });
     });
 
-    it('should match elements, body', () => {
-        // * Check elements in the body
-        cy.get('#login_section').should('be.visible');
-        cy.get('#site_name').should('contain', config.TeamSettings.SiteName);
-        cy.get('#site_description').should('contain', config.TeamSettings.CustomDescriptionText);
-        cy.get('#loginId').
-            should('be.visible').
-            and(($loginTextbox) => {
-                const placeholder = $loginTextbox[0].placeholder;
-                expect(placeholder).to.match(/Email/);
-                expect(placeholder).to.match(/Username/);
-            });
-        cy.get('#loginPassword').
-            should('be.visible').
-            and('have.attr', 'placeholder', 'Password');
-        cy.get('#loginButton').
-            should('be.visible').
-            and('contain', 'Sign in');
-        cy.get('#login_forgot').should('contain', 'I forgot my password');
+    it('MM-T3306_2 Should autofocus on email field on page load', () => {
+        // * Check the focused element has the placeholder of email/username
+        cy.focused().should('have.attr', 'placeholder', 'Email or Username');
     });
 
-    it('should match elements, footer', () => {
-        // * Check elements in the footer
-        cy.get('#footer_section').should('be.visible');
-        cy.get('#company_name').should('contain', 'Mattermost');
-        cy.get('#copyright').
-            should('contain', '© 2015-').
-            and('contain', 'Mattermost, Inc.');
-        cy.get('#about_link').
-            should('contain', 'About').
-            and('have.attr', 'href', config.SupportSettings.AboutLink);
-        cy.get('#privacy_link').
-            should('contain', 'Privacy').
-            and('have.attr', 'href', config.SupportSettings.PrivacyPolicyLink);
-        cy.get('#terms_link').
-            should('contain', 'Terms').
-            and('have.attr', 'href', config.SupportSettings.TermsOfServiceLink);
-        cy.get('#help_link').
-            should('contain', 'Help').
-            and('have.attr', 'href', config.SupportSettings.HelpLink);
+    it('MM-T3306_3 Should show error with empty email/username and password field', () => {
+        // # Clear email/username field
+        cy.findByPlaceholderText('Email or Username').clear();
+
+        // # Clear password field
+        cy.findByPlaceholderText('Password').clear();
+
+        // # Hit enter to login
+        cy.findByText('Sign in').click();
+
+        // * Verify appropriate error message is displayed for empty email/username and password
+        cy.findByText('Please enter your email or username').should('exist').and('be.visible');
     });
 
-    it('should login then logout by user-1', () => {
-        const user = users['user-1'];
+    it('MM-T3306_4 Should show error with empty email/username field', () => {
+        // # Clear email/username field
+        cy.findByPlaceholderText('Email or Username').clear();
 
-        // # Enter "user-1" on Email or Username input box
-        cy.get('#loginId').should('be.visible').type(user.username);
+        // # Enter a password
+        cy.findByPlaceholderText('Password').clear().type('samplepassword');
 
-        // # Enter "user-1" on "Password" input box
-        cy.get('#loginPassword').should('be.visible').type(user.password);
+        // # Hit enter to login
+        cy.findByText('Sign in').click();
 
-        // # Click "Sign in" button
-        cy.get('#loginButton').should('be.visible').click();
+        // * Verify appropriate error message is displayed for empty email/username
+        cy.findByText('Please enter your email or username').should('exist').and('be.visible');
+    });
 
-        // * Check that the Signin button change with rotating icon and "Signing in..." text
-        cy.get('#loadingSpinner').
-            should('be.visible').
-            and('contain', 'Signing in...');
+    it('MM-T3306_5 Should show error with empty password field', () => {
+        // # Enter any email/username in the email field
+        cy.findByPlaceholderText('Email or Username').clear().type('sampleusername');
+
+        // # Clear password field
+        cy.findByPlaceholderText('Password').clear();
+
+        // # Hit enter to login
+        cy.findByText('Sign in').click();
+
+        // * Verify appropriate error message is displayed for empty password
+        cy.findByText('Please enter your password').should('exist').and('be.visible');
+    });
+
+    it('MM-T3306_6 Should show error with invalid email/username and password', () => {
+        const invalidEmail = `${Date.now()}-user`;
+        const invalidPassword = `${Date.now()}-password`;
+
+        // # Lets verify generated email is not an actual email/username
+        expect(invalidEmail).to.not.equal(testUser.username);
+
+        // # Lets verify generated password is not an actual password
+        expect(invalidPassword).to.not.equal(testUser.password);
+
+        // # Enter invalid email/username in the email field
+        cy.findByPlaceholderText('Email or Username').clear().type(invalidEmail);
+
+        // # Enter invalid password in the password field
+        cy.findByPlaceholderText('Password').clear().type(invalidPassword);
+
+        // # Hit enter to login
+        cy.findByText('Sign in').click();
+
+        // * Verify appropriate error message is displayed for incorrect email/username and password
+        cy.findByText('Enter a valid email or username and/or password.').should('exist').and('be.visible');
+    });
+
+    it('MM-T3306_7 Should show error with invalid password', () => {
+        const invalidPassword = `${Date.now()}-password`;
+
+        // # Lets verify generated password is not an actual password
+        expect(invalidPassword).to.not.equal(testUser.password);
+
+        // # Enter actual users email/username in the email field
+        cy.findByPlaceholderText('Email or Username').clear().type(testUser.username);
+
+        // # Enter invalid password in the password field
+        cy.findByPlaceholderText('Password').clear().type(invalidPassword);
+
+        // # Hit enter to login
+        cy.findByText('Sign in').click();
+
+        // * Verify appropriate error message is displayed for incorrect password
+        cy.findByText('Enter a valid email or username and/or password.').should('exist').and('be.visible');
+    });
+
+    it('MM-T3306_8 Should login with a valid email and password and logout', () => {
+        // # Enter actual users email/username in the email field
+        cy.findByPlaceholderText('Email or Username').clear().type(testUser.username);
+
+        // # Enter any password in the email field
+        cy.findByPlaceholderText('Password').clear().type(testUser.password);
+
+        // # Hit enter to login
+        cy.findByText('Sign in').click();
 
         // * Check that it login successfully and it redirects into the main channel page
-        cy.get('#channel_view').should('be.visible');
+        cy.url().should('include', '/channels/town-square');
 
         // # Click hamburger main menu button
-        cy.get('#sidebarHeaderDropdownButton').click();
-        cy.get('#logout').should('be.visible').click();
+        cy.findByLabelText('main menu').should('exist').and('be.visible').click();
+
+        // # Click on the logout menu
+        cy.findByText('Log Out').should('exist').and('be.visible').click();
 
         // * Check that it logout successfully and it redirects into the login page
-        cy.get('#login_section').should('be.visible');
-        cy.location('pathname').should('contain', '/login');
+        cy.url().should('include', '/login');
     });
 });

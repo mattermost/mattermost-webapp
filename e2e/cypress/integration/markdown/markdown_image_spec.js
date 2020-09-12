@@ -12,8 +12,7 @@
 
 describe('Markdown', () => {
     before(() => {
-        // # Login as sysadmin and update config
-        cy.apiLogin('sysadmin');
+        // # Update config
         cy.apiUpdateConfig({
             ImageProxySettings: {
                 Enable: true,
@@ -21,12 +20,9 @@ describe('Markdown', () => {
             },
         });
 
-        // # Login as new user
-        cy.apiCreateAndLoginAsNewUser().then(() => {
-            // # Create new team and visit its URL
-            cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
-                cy.visit(`/${response.body.name}`);
-            });
+        // # Login as new user, create new team and visit its URL
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
         });
     });
 
@@ -89,8 +85,8 @@ describe('Markdown', () => {
             cy.get(`#postMessageText_${postId}`).should('be.visible').within(() => {
                 cy.get('.markdown-inline-img').should('be.visible').
                     and((inlineImg) => {
-                        expect(inlineImg.height()).to.be.closeTo(143, 2);
-                        expect(inlineImg.width()).to.be.closeTo(906, 2);
+                        expect(inlineImg.height()).to.be.closeTo(153, 2);
+                        expect(inlineImg.width()).to.be.closeTo(971, 2);
                     }).
                     click();
             });

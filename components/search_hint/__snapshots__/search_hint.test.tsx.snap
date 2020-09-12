@@ -8,7 +8,6 @@ exports[`components/SearchHint should match snapshot, with title 1`] = `
     <FormattedMessage
       defaultMessage="Search Options"
       id="search_bar.usage.title"
-      values={Object {}}
     />
   </h4>
   <ul
@@ -18,7 +17,7 @@ exports[`components/SearchHint should match snapshot, with title 1`] = `
     <li
       className="search-hint__suggestions-list__option"
       key="From:"
-      onClick={[Function]}
+      onMouseDown={[Function]}
       onMouseOver={[Function]}
     >
       <div
@@ -36,14 +35,13 @@ exports[`components/SearchHint should match snapshot, with title 1`] = `
         <FormattedMessage
           defaultMessage="Messages from a user"
           id="search_list_option.from"
-          values={Object {}}
         />
       </div>
     </li>
     <li
       className="search-hint__suggestions-list__option"
       key="In:"
-      onClick={[Function]}
+      onMouseDown={[Function]}
       onMouseOver={[Function]}
     >
       <div
@@ -61,14 +59,13 @@ exports[`components/SearchHint should match snapshot, with title 1`] = `
         <FormattedMessage
           defaultMessage="Messages in a channel"
           id="search_list_option.in"
-          values={Object {}}
         />
       </div>
     </li>
     <li
       className="search-hint__suggestions-list__option"
       key="On:"
-      onClick={[Function]}
+      onMouseDown={[Function]}
       onMouseOver={[Function]}
     >
       <div
@@ -86,14 +83,13 @@ exports[`components/SearchHint should match snapshot, with title 1`] = `
         <FormattedMessage
           defaultMessage="Messages on a date"
           id="search_list_option.on"
-          values={Object {}}
         />
       </div>
     </li>
     <li
       className="search-hint__suggestions-list__option"
       key="Before:"
-      onClick={[Function]}
+      onMouseDown={[Function]}
       onMouseOver={[Function]}
     >
       <div
@@ -111,14 +107,13 @@ exports[`components/SearchHint should match snapshot, with title 1`] = `
         <FormattedMessage
           defaultMessage="Messages before a date"
           id="search_list_option.before"
-          values={Object {}}
         />
       </div>
     </li>
     <li
       className="search-hint__suggestions-list__option"
       key="After:"
-      onClick={[Function]}
+      onMouseDown={[Function]}
       onMouseOver={[Function]}
     >
       <div
@@ -136,14 +131,13 @@ exports[`components/SearchHint should match snapshot, with title 1`] = `
         <FormattedMessage
           defaultMessage="Messages after a date"
           id="search_list_option.after"
-          values={Object {}}
         />
       </div>
     </li>
     <li
       className="search-hint__suggestions-list__option"
       key="-"
-      onClick={[Function]}
+      onMouseDown={[Function]}
       onMouseOver={[Function]}
     >
       <div
@@ -152,7 +146,7 @@ exports[`components/SearchHint should match snapshot, with title 1`] = `
         <span
           className="search-hint__suggestion-list__label"
         >
-          -
+          —
         </span>
       </div>
       <div
@@ -161,14 +155,13 @@ exports[`components/SearchHint should match snapshot, with title 1`] = `
         <FormattedMessage
           defaultMessage="Exclude search terms"
           id="search_list_option.exclude"
-          values={Object {}}
         />
       </div>
     </li>
     <li
       className="search-hint__suggestions-list__option"
       key="\\"\\""
-      onClick={[Function]}
+      onMouseDown={[Function]}
       onMouseOver={[Function]}
     >
       <div
@@ -186,7 +179,6 @@ exports[`components/SearchHint should match snapshot, with title 1`] = `
         <FormattedMessage
           defaultMessage="Messages with phrases"
           id="search_list_option.phrases"
-          values={Object {}}
         />
       </div>
     </li>
@@ -203,7 +195,7 @@ exports[`components/SearchHint should match snapshot, without title 1`] = `
     <li
       className="search-hint__suggestions-list__option"
       key="From:"
-      onClick={[Function]}
+      onMouseDown={[Function]}
       onMouseOver={[Function]}
     >
       <div
@@ -221,14 +213,13 @@ exports[`components/SearchHint should match snapshot, without title 1`] = `
         <FormattedMessage
           defaultMessage="Messages from a user"
           id="search_list_option.from"
-          values={Object {}}
         />
       </div>
     </li>
     <li
       className="search-hint__suggestions-list__option"
       key="In:"
-      onClick={[Function]}
+      onMouseDown={[Function]}
       onMouseOver={[Function]}
     >
       <div
@@ -246,14 +237,13 @@ exports[`components/SearchHint should match snapshot, without title 1`] = `
         <FormattedMessage
           defaultMessage="Messages in a channel"
           id="search_list_option.in"
-          values={Object {}}
         />
       </div>
     </li>
     <li
       className="search-hint__suggestions-list__option"
       key="On:"
-      onClick={[Function]}
+      onMouseDown={[Function]}
       onMouseOver={[Function]}
     >
       <div
@@ -271,14 +261,13 @@ exports[`components/SearchHint should match snapshot, without title 1`] = `
         <FormattedMessage
           defaultMessage="Messages on a date"
           id="search_list_option.on"
-          values={Object {}}
         />
       </div>
     </li>
     <li
       className="search-hint__suggestions-list__option"
       key="Before:"
-      onClick={[Function]}
+      onMouseDown={[Function]}
       onMouseOver={[Function]}
     >
       <div
@@ -296,14 +285,13 @@ exports[`components/SearchHint should match snapshot, without title 1`] = `
         <FormattedMessage
           defaultMessage="Messages before a date"
           id="search_list_option.before"
-          values={Object {}}
         />
       </div>
     </li>
     <li
       className="search-hint__suggestions-list__option"
       key="After:"
-      onClick={[Function]}
+      onMouseDown={[Function]}
       onMouseOver={[Function]}
     >
       <div
@@ -321,14 +309,13 @@ exports[`components/SearchHint should match snapshot, without title 1`] = `
         <FormattedMessage
           defaultMessage="Messages after a date"
           id="search_list_option.after"
-          values={Object {}}
         />
       </div>
     </li>
     <li
       className="search-hint__suggestions-list__option"
       key="-"
-      onClick={[Function]}
+      onMouseDown={[Function]}
       onMouseOver={[Function]}
     >
       <div
@@ -337,7 +324,7 @@ exports[`components/SearchHint should match snapshot, without title 1`] = `
         <span
           className="search-hint__suggestion-list__label"
         >
-          -
+          —
         </span>
       </div>
       <div
@@ -346,14 +333,13 @@ exports[`components/SearchHint should match snapshot, without title 1`] = `
         <FormattedMessage
           defaultMessage="Exclude search terms"
           id="search_list_option.exclude"
-          values={Object {}}
         />
       </div>
     </li>
     <li
       className="search-hint__suggestions-list__option"
       key="\\"\\""
-      onClick={[Function]}
+      onMouseDown={[Function]}
       onMouseOver={[Function]}
     >
       <div
@@ -371,7 +357,6 @@ exports[`components/SearchHint should match snapshot, without title 1`] = `
         <FormattedMessage
           defaultMessage="Messages with phrases"
           id="search_list_option.phrases"
-          values={Object {}}
         />
       </div>
     </li>

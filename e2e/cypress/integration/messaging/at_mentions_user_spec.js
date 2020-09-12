@@ -24,24 +24,61 @@ function verifySuggestionList({input, expected, withoutSuggestion}) {
 }
 
 describe('Mention user', () => {
+    let testUser;
+
     before(() => {
-        // # Login and go to /
-        cy.apiLogin('user-1');
-        cy.visit('/ad-1/channels/town-square');
+        // # Login as admin and visit town-square
+        cy.apiInitSetup().then(({team, user}) => {
+            testUser = user;
+
+            cy.visit(`/${team.name}/channels/town-square`);
+        });
     });
 
-    it('M19761 autocomplete should match on cases', () => {
+    it('MM-T1662 Autocomplete should match entries with spaces', () => {
+        const fullname = `${testUser.first_name} ${testUser.last_name}`;
+
         [
-            {input: '@samuel.tucker', expected: 'Samuel Tucker'},
-            {input: '@samuel', expected: 'Samuel Tucker'},
-            {input: '@tucker', expected: 'Samuel Tucker'},
-            {input: '@Samuel', expected: 'Samuel Tucker'},
-            {input: '@Tucker', expected: 'Samuel Tucker'},
-            {input: '@Samuel Tuc', expected: 'Samuel Tucker'},
-            {input: '@Samuel Tucker', expected: 'Samuel Tucker'},
-            {input: '@Samuel Tucker ', expected: 'Samuel Tucker', withoutSuggestion: true},
+            {input: `@${testUser.username}`, expected: fullname, case: 'should match on @username'},
+            {input: `@${testUser.first_name.toLowerCase()}`, expected: fullname, case: 'should match on lowercased @firstname'},
+            {input: `@${testUser.last_name.toLowerCase()}`, expected: fullname, case: 'should match on lowercased @lastname'},
+            {input: `@${testUser.first_name}`, expected: fullname, case: 'should match on @firstname'},
+            {input: `@${testUser.last_name}`, expected: fullname, case: 'should match on @lastname'},
+            {input: `@${testUser.first_name} ${testUser.last_name.substring(0, testUser.last_name.length - 6)}`, expected: fullname, case: 'should match on partial @fullname'},
+            {input: `@${testUser.first_name} ${testUser.last_name}`, expected: fullname, case: 'should match on @fullname'},
+            {input: `@${testUser.first_name} ${testUser.last_name} `, expected: fullname, withoutSuggestion: true, case: 'should not match on @fullname with trailing space'},
         ].forEach((testCase) => {
             verifySuggestionList(testCase);
+        });
+    });
+});
+
+describe('Mention self', () => {
+    let testUser;
+
+    before(() => {
+        // # Login as test user and visit town-square
+        cy.apiInitSetup().then(({team, user}) => {
+            testUser = user;
+
+            cy.apiLogin(testUser);
+            cy.visit(`/${team.name}/channels/town-square`);
+        });
+    });
+
+    it('should be always highlighted', () => {
+        [
+            `@${testUser.username}`,
+            `@${testUser.username}.`,
+            `@${testUser.username}_`,
+            `@${testUser.username}-`,
+            `@${testUser.username},`,
+        ].forEach((message) => {
+            cy.postMessage(message);
+
+            cy.getLastPostId().then((postId) => {
+                cy.get(`#postMessageText_${postId}`).find('.mention--highlight');
+            });
         });
     });
 });

@@ -7,16 +7,13 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod @smoke
+// Stage: @prod
 // Group: @channel_sidebar
 
-import users from '../../fixtures/users';
-
+import * as TIMEOUTS from '../../fixtures/timeouts';
 import {testWithConfig} from '../../support/hooks';
-
+import {getAdminAccount} from '../../support/env';
 import {getRandomId} from '../../utils';
-
-const sysadmin = users.sysadmin;
 
 describe('Channel sidebar', () => {
     testWithConfig({
@@ -25,10 +22,13 @@ describe('Channel sidebar', () => {
         },
     });
 
-    before(() => {
-        cy.apiLogin('user-1');
+    const sysadmin = getAdminAccount();
 
-        cy.visit('/');
+    before(() => {
+        // # Login as test user and visit town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
+        });
     });
 
     it('should switch channels when clicking on a channel in the sidebar', () => {
@@ -44,7 +44,7 @@ describe('Channel sidebar', () => {
 
         // * Verify that the channel changed
         cy.url().should('include', `/${teamName}/channels/off-topic`);
-        cy.get('#channelHeaderTitle').should('be.visible').should('contain', 'Off-Topic');
+        cy.get('#channelHeaderTitle', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').should('contain', 'Off-Topic');
 
         // # Click on Town Square
         cy.get('.SidebarChannel:contains(Town Square)').should('be.visible').click();
@@ -90,7 +90,7 @@ describe('Channel sidebar', () => {
         cy.visit(`/${teamName}/channels/off-topic`);
 
         // # Wait for the channel to change
-        cy.get('#channelHeaderTitle').should('be.visible').should('contain', 'Off-Topic');
+        cy.get('#channelHeaderTitle', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').should('contain', 'Off-Topic');
 
         // # Click on the channel menu and select Leave Channel
         cy.get('#channelHeaderTitle').click();
@@ -115,7 +115,7 @@ describe('Channel sidebar', () => {
         cy.visit(`/${teamName}/channels/off-topic`);
 
         // # Wait for the channel to change
-        cy.get('#channelHeaderTitle').should('be.visible').should('contain', 'Off-Topic');
+        cy.get('#channelHeaderTitle', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').should('contain', 'Off-Topic');
 
         // # Click on the channel menu and select Leave Channel
         cy.get('#channelHeaderTitle').click();
@@ -130,7 +130,7 @@ describe('Channel sidebar', () => {
     });
 
     function verifyChannelSwitch(displayName, url) {
-        cy.get('#channelHeaderTitle').should('be.visible').should('contain', displayName);
+        cy.get('#channelHeaderTitle', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').should('contain', displayName);
         cy.url().should('include', url);
     }
 });

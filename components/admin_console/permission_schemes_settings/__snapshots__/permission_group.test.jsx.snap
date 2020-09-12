@@ -22,10 +22,10 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     >
       <FormattedMessage
         id="admin.permissions.group.name.name"
-        values={Object {}}
       />
     </span>
     <injectIntl(PermissionDescription)
+      additionalValues={Object {}}
       id="name"
       inherited={null}
       rowType="group"
@@ -83,10 +83,10 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     >
       <FormattedMessage
         id="admin.permissions.group.name.name"
-        values={Object {}}
       />
     </span>
     <injectIntl(PermissionDescription)
+      additionalValues={Object {}}
       id="name"
       inherited={null}
       rowType="group"
@@ -144,10 +144,10 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     >
       <FormattedMessage
         id="admin.permissions.group.name.name"
-        values={Object {}}
       />
     </span>
     <injectIntl(PermissionDescription)
+      additionalValues={Object {}}
       id="name"
       inherited={null}
       rowType="group"
@@ -205,10 +205,10 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     >
       <FormattedMessage
         id="admin.permissions.group.name.name"
-        values={Object {}}
       />
     </span>
     <injectIntl(PermissionDescription)
+      additionalValues={Object {}}
       id="name"
       inherited={null}
       rowType="group"
@@ -266,10 +266,10 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     >
       <FormattedMessage
         id="admin.permissions.group.name.name"
-        values={Object {}}
       />
     </span>
     <injectIntl(PermissionDescription)
+      additionalValues={Object {}}
       id="name"
       inherited={null}
       rowType="group"
@@ -327,10 +327,10 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     >
       <FormattedMessage
         id="admin.permissions.group.name.name"
-        values={Object {}}
       />
     </span>
     <injectIntl(PermissionDescription)
+      additionalValues={Object {}}
       id="name"
       inherited={null}
       rowType="group"
@@ -402,10 +402,10 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     >
       <FormattedMessage
         id="admin.permissions.group.name.name"
-        values={Object {}}
       />
     </span>
     <injectIntl(PermissionDescription)
+      additionalValues={Object {}}
       id="name"
       inherited={null}
       rowType="group"
@@ -463,10 +463,10 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     >
       <FormattedMessage
         id="admin.permissions.group.name.name"
-        values={Object {}}
       />
     </span>
     <injectIntl(PermissionDescription)
+      additionalValues={Object {}}
       id="name"
       inherited={null}
       rowType="group"
@@ -524,10 +524,10 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     >
       <FormattedMessage
         id="admin.permissions.group.name.name"
-        values={Object {}}
       />
     </span>
     <injectIntl(PermissionDescription)
+      additionalValues={Object {}}
       id="name"
       inherited={null}
       rowType="group"
@@ -591,10 +591,10 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     >
       <FormattedMessage
         id="admin.permissions.group.name.name"
-        values={Object {}}
       />
     </span>
     <injectIntl(PermissionDescription)
+      additionalValues={Object {}}
       id="name"
       inherited={null}
       rowType="group"
@@ -652,10 +652,10 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     >
       <FormattedMessage
         id="admin.permissions.group.name.name"
-        values={Object {}}
       />
     </span>
     <injectIntl(PermissionDescription)
+      additionalValues={Object {}}
       id="name"
       inherited={null}
       rowType="group"
@@ -713,10 +713,10 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     >
       <FormattedMessage
         id="admin.permissions.group.name.name"
-        values={Object {}}
       />
     </span>
     <injectIntl(PermissionDescription)
+      additionalValues={Object {}}
       id="name"
       inherited={null}
       rowType="group"

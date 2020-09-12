@@ -10,7 +10,6 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
       <FormattedMessage
         defaultMessage="Yes, Remove"
         id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_button"
-        values={Object {}}
       />
     }
     message={
@@ -65,7 +64,6 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
     <FormattedMessage
       defaultMessage="Channel (Private)"
       id="admin.group_settings.group_details.group_teams_and_channels_row.privateChannel"
-      values={Object {}}
     />
   </td>
   <td />
@@ -74,12 +72,12 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
   >
     <button
       className="btn btn-link"
+      data-testid="Test private-channel_groupsyncable_remove"
       onClick={[Function]}
     >
       <FormattedMessage
         defaultMessage="Remove"
         id="admin.group_settings.group_details.group_teams_and_channels_row.remove"
-        values={Object {}}
       />
     </button>
   </td>
@@ -96,7 +94,6 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
       <FormattedMessage
         defaultMessage="Yes, Remove"
         id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_button"
-        values={Object {}}
       />
     }
     message={
@@ -144,7 +141,6 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
     <FormattedMessage
       defaultMessage="Team (Private)"
       id="admin.group_settings.group_details.group_teams_and_channels_row.privateTeam"
-      values={Object {}}
     />
   </td>
   <td />
@@ -153,12 +149,12 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
   >
     <button
       className="btn btn-link"
+      data-testid="Test private-team_groupsyncable_remove"
       onClick={[Function]}
     >
       <FormattedMessage
         defaultMessage="Remove"
         id="admin.group_settings.group_details.group_teams_and_channels_row.remove"
-        values={Object {}}
       />
     </button>
   </td>
@@ -175,7 +171,6 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
       <FormattedMessage
         defaultMessage="Yes, Remove"
         id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_button"
-        values={Object {}}
       />
     }
     message={
@@ -230,7 +225,6 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
     <FormattedMessage
       defaultMessage="Channel"
       id="admin.group_settings.group_details.group_teams_and_channels_row.publicChannel"
-      values={Object {}}
     />
   </td>
   <td />
@@ -239,12 +233,12 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
   >
     <button
       className="btn btn-link"
+      data-testid="Test public-channel_groupsyncable_remove"
       onClick={[Function]}
     >
       <FormattedMessage
         defaultMessage="Remove"
         id="admin.group_settings.group_details.group_teams_and_channels_row.remove"
-        values={Object {}}
       />
     </button>
   </td>
@@ -261,7 +255,6 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
       <FormattedMessage
         defaultMessage="Yes, Remove"
         id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_button"
-        values={Object {}}
       />
     }
     message={
@@ -309,7 +302,6 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
     <FormattedMessage
       defaultMessage="Team"
       id="admin.group_settings.group_details.group_teams_and_channels_row.publicTeam"
-      values={Object {}}
     />
   </td>
   <td />
@@ -318,12 +310,12 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
   >
     <button
       className="btn btn-link"
+      data-testid="Test public-team_groupsyncable_remove"
       onClick={[Function]}
     >
       <FormattedMessage
         defaultMessage="Remove"
         id="admin.group_settings.group_details.group_teams_and_channels_row.remove"
-        values={Object {}}
       />
     </button>
   </td>
@@ -340,7 +332,6 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
       <FormattedMessage
         defaultMessage="Yes, Remove"
         id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_button"
-        values={Object {}}
       />
     }
     message={
@@ -393,7 +384,6 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
     <FormattedMessage
       defaultMessage="Team"
       id="admin.group_settings.group_details.group_teams_and_channels_row.publicTeam"
-      values={Object {}}
     />
   </td>
   <td />
@@ -402,12 +392,12 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
   >
     <button
       className="btn btn-link"
+      data-testid="Test team with children_groupsyncable_remove"
       onClick={[Function]}
     >
       <FormattedMessage
         defaultMessage="Remove"
         id="admin.group_settings.group_details.group_teams_and_channels_row.remove"
-        values={Object {}}
       />
     </button>
   </td>
@@ -424,7 +414,6 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
       <FormattedMessage
         defaultMessage="Yes, Remove"
         id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_button"
-        values={Object {}}
       />
     }
     message={
@@ -477,7 +466,6 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
     <FormattedMessage
       defaultMessage="Team"
       id="admin.group_settings.group_details.group_teams_and_channels_row.publicTeam"
-      values={Object {}}
     />
   </td>
   <td />
@@ -486,12 +474,12 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
   >
     <button
       className="btn btn-link"
+      data-testid="Test team with children_groupsyncable_remove"
       onClick={[Function]}
     >
       <FormattedMessage
         defaultMessage="Remove"
         id="admin.group_settings.group_details.group_teams_and_channels_row.remove"
-        values={Object {}}
       />
     </button>
   </td>

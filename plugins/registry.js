@@ -42,7 +42,7 @@ function dispatchPluginComponentAction(name, pluginId, component, id = generateI
 }
 
 const resolveReactElement = (element) => {
-    if (typeof element === 'function') {
+    if (element && !React.isValidElement(element) && typeof element !== 'string') {
         // Allow element to be passed as the name of the component, instead of a React element.
         return React.createElement(element);
     }
@@ -120,6 +120,42 @@ export default class PluginRegistry {
         store.dispatch({
             type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
             name: 'ChannelHeaderButton',
+            data,
+        });
+
+        store.dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
+            name: 'MobileChannelHeaderButton',
+            data,
+        });
+
+        return id;
+    }
+
+    // Add a "call button"" next to the attach file button. If there are more than one button registered by any
+    // plugin, a dropdown menu is created to contain all the call plugin buttons.
+    // Accepts the following:
+    // - icon - React element to use as the button's icon
+    // - action - a function called when the button is clicked, passed the channel and channel member as arguments
+    // - dropdown_text - string or React element shown for the dropdown button description
+    // - tooltip_text - string shown for tooltip appear on hover
+    // Returns an unique identifier
+    // Minimum required version: 5.28
+    registerCallButtonAction(icon, action, dropdownText, tooltipText) {
+        const id = generateId();
+
+        const data = {
+            id,
+            pluginId: this.id,
+            icon: resolveReactElement(icon),
+            action,
+            dropdownText: resolveReactElement(dropdownText),
+            tooltipText,
+        };
+
+        store.dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
+            name: 'CallButton',
             data,
         });
 
@@ -561,22 +597,14 @@ export default class PluginRegistry {
 
     // Register a Right-Hand Sidebar component by providing a title for the right hand component.
     // Accepts the following:
-    // - component - A react component to display in the Right-Hand Sidebar.
     // - title - A string or JSX element to display as a title for the RHS.
-    // - icons - An array of icon objects defined as
-    //      {
-    //        icon: Icon,                   // JSX element (required)
-    //        tooltip: 'This is an icon',   // string or JSX element (required)
-    //        action: actionFunc,           // function called when the button is clicked (required)
-    //      }
+    // - component - A react component to display in the Right-Hand Sidebar.
     // Returns:
     // - id: a unique identifier
     // - showRHSPlugin: the action to dispatch that will open the RHS.
-    // - hideRHSPlugin: the action to dispatch that will close the RHS.
-    // - toggleRHSPlugin: the action to dispatch that will toggle the RHS.
-    // - setRHSPluginIcons: the action to dispatch that will set RHS plugin icons.
-    //      dispatch(setRHSPluginIcons({icon: NewIcon, tooltip: 'This is a new icon', action: actionFunc})).
-    registerRightHandSidebarComponent(component, title, icons = []) {
+    // - hideRHSPlugin: the action to dispatch that will close the RHS
+    // - toggleRHSPlugin: the action to dispatch that will toggle the RHS
+    registerRightHandSidebarComponent(component, title) {
         const id = generateId();
 
         store.dispatch({
@@ -587,32 +615,10 @@ export default class PluginRegistry {
                 pluginId: this.id,
                 component,
                 title,
-                icons: [], // initial value
             },
         });
 
-        const setRHSPluginIcons = (newIcons = []) => {
-            return (dispatch) => {
-                dispatch({
-                    type: ActionTypes.RECEIVED_PLUGIN_RHS_ICONS,
-                    data: {
-                        id,
-                        icons: newIcons.map((icon) => ({...icon, icon: resolveReactElement(icon.icon)})),
-                    },
-                });
-            };
-        };
-
-        // Set initial icons
-        store.dispatch(setRHSPluginIcons(icons));
-
-        return {
-            id,
-            showRHSPlugin: showRHSPlugin(id),
-            hideRHSPlugin: hideRHSPlugin(id),
-            toggleRHSPlugin: toggleRHSPlugin(id),
-            setRHSPluginIcons,
-        };
+        return {id, showRHSPlugin: showRHSPlugin(id), hideRHSPlugin: hideRHSPlugin(id), toggleRHSPlugin: toggleRHSPlugin(id)};
     }
 
     // Register a Needs Team component by providing a route past /:team/:pluginId/ to be displayed at.

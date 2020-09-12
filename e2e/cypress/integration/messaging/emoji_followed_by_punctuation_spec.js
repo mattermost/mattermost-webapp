@@ -6,6 +6,10 @@
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
+
+// Stage: @prod
+// Group: @messaging
+
 function emojiVerification(postId) {
     // # set the postMessageTextId var
     const postMessageTextId = `#postMessageText_${postId}`;
@@ -14,15 +18,18 @@ function emojiVerification(postId) {
     cy.get(`${postMessageTextId} p span span.emoticon`).should('have.attr', 'title', ':slightly_smiling_face:');
 
     // * Check for the punctuation('=') is exists without space
-    cy.get(`${postMessageTextId} p`).should('same.text', '=');
+    cy.get(`${postMessageTextId} p`).should('same.text', ':slightly_smiling_face:=');
 }
 
 describe('Messaging', () => {
-    it('M23360 - Emoji characters followed by punctuation', () => {
-        // # Login and navigate to the app
-        cy.apiLogin('user-1');
-        cy.visit('/');
+    before(() => {
+        // # Login as test user and visit town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
+        });
+    });
 
+    it('MM-T222 Emoji characters followed by punctuation', () => {
         // # Post a message
         const messageText = ':)=';
         cy.postMessage(messageText);

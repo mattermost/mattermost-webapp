@@ -20,6 +20,7 @@ describe('admin_console/team_channel_settings/team/TeamMembers', () => {
     const team: Team = Object.assign(TestHelper.getTeamMock({id: 'team-1'}));
 
     const baseProps = {
+        filters: {},
         teamId: 'team-1',
         team,
         users: [user1, user2, user3],
@@ -30,6 +31,7 @@ describe('admin_console/team_channel_settings/team/TeamMembers', () => {
             [user2.id]: membership2,
             [user3.id]: membership3,
         },
+        enableGuestAccounts: true,
 
         totalCount: 3,
         loading: false,
@@ -42,7 +44,9 @@ describe('admin_console/team_channel_settings/team/TeamMembers', () => {
             getTeamStats: jest.fn(),
             loadProfilesAndReloadTeamMembers: jest.fn(),
             searchProfilesAndTeamMembers: jest.fn(),
-            setModalSearchTerm: jest.fn(),
+            getFilteredUsersStats: jest.fn(),
+            setUserGridSearch: jest.fn(),
+            setUserGridFilters: jest.fn(),
         },
     };
 

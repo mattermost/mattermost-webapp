@@ -10,9 +10,10 @@
 // Stage: @prod
 // Group: @messaging
 
-import users from '../../fixtures/users.json';
+import {getAdminAccount} from '../../support/env';
+import {ignoreUncaughtException, spyNotificationAs} from '../../support/notification';
 
-function setNotificationSettings(desiredSettings = {first: true, username: true, shouts: true, custom: true, customText: '@'}) {
+function setNotificationSettings(desiredSettings = {first: true, username: true, shouts: true, custom: true, customText: '@'}, channel) {
     // Navigate to settings modal
     cy.toAccountSettingsModal();
 
@@ -59,72 +60,51 @@ function setNotificationSettings(desiredSettings = {first: true, username: true,
         should('not.exist');
 
     // Setup notification spy
-    cy.window().then((win) => {
-        function Notification(title, opts) {
-            this.title = title;
-            this.opts = opts;
-        }
-
-        Notification.requestPermission = function() {
-            return 'granted';
-        };
-
-        Notification.close = function() {
-            return true;
-        };
-
-        win.Notification = Notification;
-
-        cy.spy(win, 'Notification').as('notifySpy');
-    });
-
-    // Verify that we now have a Notification property
-    cy.window().should('have.property', 'Notification');
+    spyNotificationAs('notifySpy', 'granted');
 
     // # Navigate to a channel we are NOT going to post to
-    cy.get('#sidebarItem_saepe-5').scrollIntoView().click({force: true});
+    cy.get(`#sidebarItem_${channel.name}`).scrollIntoView().click({force: true});
 }
 
-const receiver = users['user-1'];
-const sender = users['user-2'];
-const sysadmin = users.sysadmin;
-let townsquareChannelId;
-let offTopicChannelId;
-
 describe('at-mention', () => {
-    function ignoreUncaughtException() {
-        cy.on('uncaught:exception', (err) => {
-            expect(err.message).to.include('.close is not a function');
-
-            return false;
-        });
-    }
+    const admin = getAdminAccount();
+    let testTeam;
+    let otherChannel;
+    let townsquareChannelId;
+    let offTopicChannelId;
+    let receiver;
+    let sender;
 
     before(() => {
         // # Update Configs
-        cy.apiLogin('sysadmin');
         cy.apiUpdateConfig({
             ServiceSettings: {
                 ExperimentalChannelOrganization: true,
             },
         });
-        cy.apiLogout();
 
-        // # Login as receiver and go to "/"
-        cy.apiLogin(receiver.username);
-        cy.apiSaveTeammateNameDisplayPreference('username');
-        cy.apiSaveSidebarSettingPreference();
+        cy.apiInitSetup().then(({team, channel, user}) => {
+            testTeam = team;
+            otherChannel = channel;
+            receiver = user;
 
-        // # Navigate to the channel we were mention to
-        // clear the notification gem and get the channelId
-        cy.visit('/ad-1/channels/town-square');
-        cy.getCurrentChannelId().then((id) => {
-            townsquareChannelId = id;
-        });
+            cy.apiCreateUser().then(({user: user1}) => {
+                sender = user1;
 
-        cy.get('#sidebarItem_off-topic').click({force: true});
-        cy.getCurrentChannelId().then((id) => {
-            offTopicChannelId = id;
+                cy.apiAddUserToTeam(testTeam.id, sender.id);
+            });
+
+            cy.apiGetChannelByName(testTeam.name, 'town-square').then((res) => {
+                townsquareChannelId = res.body.id;
+            });
+
+            cy.apiGetChannelByName(testTeam.name, 'off-topic').then((res) => {
+                offTopicChannelId = res.body.id;
+            });
+
+            // # Login as receiver and visit off-topic channel
+            cy.apiLogin(receiver);
+            cy.visit(`/${testTeam.name}/channels/off-topic`);
         });
     });
 
@@ -132,7 +112,7 @@ describe('at-mention', () => {
         ignoreUncaughtException();
 
         // # Set Notification settings
-        setNotificationSettings({first: false, username: true, shouts: true, custom: true});
+        setNotificationSettings({first: false, username: true, shouts: true, custom: true}, otherChannel);
 
         const message = `@${receiver.username} I'm messaging you! ${Date.now()}`;
 
@@ -183,7 +163,7 @@ describe('at-mention', () => {
         ignoreUncaughtException();
 
         // # Set Notification settings
-        setNotificationSettings({first: false, username: false, shouts: true, custom: true});
+        setNotificationSettings({first: false, username: false, shouts: true, custom: true}, otherChannel);
 
         const message = `Hey ${receiver.username}! I'm messaging you! ${Date.now()}`;
 
@@ -223,7 +203,7 @@ describe('at-mention', () => {
         ignoreUncaughtException();
 
         // # Set Notification settings
-        setNotificationSettings({first: false, username: false, shouts: false, custom: true});
+        setNotificationSettings({first: false, username: false, shouts: false, custom: true}, otherChannel);
 
         const channelMentions = ['@here', '@all', '@channel'];
 
@@ -262,20 +242,20 @@ describe('at-mention', () => {
         });
     });
 
-    it('M17445 - Words that trigger mentions support Chinese', () => {
+    it('MM-T184 Words that trigger mentions support Chinese', () => {
         ignoreUncaughtException();
 
         var customText = '番茄';
 
         // # Set Notification settings
-        setNotificationSettings({first: false, username: false, shouts: false, custom: true, customText});
+        setNotificationSettings({first: false, username: false, shouts: false, custom: true, customText}, otherChannel);
         const message = '番茄 I\'m messaging you!';
         const message2 = '我爱吃番茄炒饭 I\'m messaging you!';
 
         // # Use another account to post a message @-mentioning our receiver
         cy.postMessageAs({sender, message, channelId: townsquareChannelId});
 
-        // # Check mention on /ad-1/channels/town-square
+        // # Check mention on town-square channel
         // * Verify unread mentions badge
         cy.get('#publicChannel').scrollIntoView();
 
@@ -304,8 +284,8 @@ describe('at-mention', () => {
             should('be.visible').
             and('have.text', '番茄');
 
-        // # Check mention on /ad-1/channels/off-topic
-        cy.postMessageAs({sender: sysadmin, message: message2, channelId: offTopicChannelId});
+        // # Check mention on off-topic channel
+        cy.postMessageAs({sender: admin, message: message2, channelId: offTopicChannelId});
 
         // * Verify unread mentions badge
         cy.get('#publicChannel').scrollIntoView();

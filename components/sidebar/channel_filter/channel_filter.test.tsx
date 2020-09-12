@@ -9,6 +9,7 @@ import ChannelFilter from 'components/sidebar/channel_filter/channel_filter';
 describe('components/sidebar/channel_filter', () => {
     const baseProps = {
         unreadFilterEnabled: false,
+        hasMultipleTeams: false,
         actions: {
             setUnreadFilterEnabled: jest.fn(),
         },

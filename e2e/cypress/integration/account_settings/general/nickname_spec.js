@@ -11,10 +11,14 @@
 // Group: @account_setting
 
 describe('Account Settings > Sidebar > General', () => {
+    let testUser;
+
     before(() => {
-        // # Login as user-1 and visit town-square channel
-        cy.apiLogin('user-1');
-        cy.visit('/ad-1/channels/town-square');
+        // # Login as new user and visit town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team, user}) => {
+            testUser = user;
+            cy.visit(`/${team.name}/channels/town-square`);
+        });
     });
 
     beforeEach(() => {
@@ -29,7 +33,7 @@ describe('Account Settings > Sidebar > General', () => {
         // * Check if element is present before nickname is set and contains expected text values
         cy.get('#generalSettingsTitle').should('be.visible').should('contain', 'General Settings');
         cy.get('#nicknameTitle').should('be.visible').should('contain', 'Nickname');
-        cy.get('#nicknameDesc').should('be.visible').should('contain', "Click 'Edit' to add a nickname");
+        cy.get('#nicknameDesc').should('be.visible').should('contain', testUser.nickname);
         cy.get('#nicknameEdit').should('be.visible').should('contain', 'Edit');
         cy.get('#accountSettingsHeader > .close').should('be.visible').click();
     });
@@ -66,16 +70,16 @@ describe('Account Settings > Sidebar > General', () => {
 
         // # Search for username and check that no nickname is present
         cy.get('.modal-title').should('be.visible');
-        cy.get('#searchUsersInput').should('be.visible').type('Victor Welch');
+        cy.get('#searchUsersInput').should('be.visible').type(testUser.first_name);
         cy.get('.more-modal__details > .more-modal__name').should('be.visible').then((el) => {
-            expect(getInnerText(el)).equal('@user-1 - Victor Welch');
+            expect(getInnerText(el)).equal(`@${testUser.username} - ${testUser.first_name} ${testUser.last_name}`);
         });
 
         // # Close Team Members modal
         cy.get('#teamMembersModal').should('be.visible').within(() => cy.get('.close').click());
     });
 
-    it('AS13279 Account Settings > Add Nickname', () => {
+    it('MM-T268 Account Settings > Add Nickname', () => {
         // # Click the General tab
         cy.get('#generalButton').should('be.visible').click();
 
@@ -96,9 +100,9 @@ describe('Account Settings > Sidebar > General', () => {
 
         // # Search for username and check that expected nickname is present
         cy.get('.modal-title').should('be.visible');
-        cy.get('#searchUsersInput').should('be.visible').type('Victor Welch');
+        cy.get('#searchUsersInput').should('be.visible').type(testUser.first_name);
         cy.get('.more-modal__details > .more-modal__name').should('be.visible').then((el) => {
-            expect(getInnerText(el)).equal('@user-1 - Victor Welch (victor_nick)');
+            expect(getInnerText(el)).equal(`@${testUser.username} - ${testUser.first_name} ${testUser.last_name} (victor_nick)`);
         });
 
         // # Close Channel Members modal

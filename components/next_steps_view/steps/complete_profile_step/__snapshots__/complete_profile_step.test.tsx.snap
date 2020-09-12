@@ -1,0 +1,62 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/next_steps_view/steps/complete_profile_step should match snapshot 1`] = `
+<div
+  className="NextStepsView__stepWrapper"
+>
+  <div
+    className="CompleteProfileStep"
+  >
+    <div
+      className="CompleteProfileStep__profilePicture"
+    >
+      <h3>
+        <FormattedMessage
+          defaultMessage="Add a photo"
+          id="next_steps_view.complete_profile_step.addAPhoto"
+        />
+      </h3>
+      <PictureSelector
+        defaultSrc="/api/v4/users/user_id/image/default"
+        name="CompleteProfileStep__profilePicture"
+        onOpenDialog={[Function]}
+        onRemove={[Function]}
+        onSelect={[Function]}
+      />
+    </div>
+    <div
+      className="CompleteProfileStep__fullName"
+    >
+      <h3>
+        <FormattedMessage
+          defaultMessage="Enter your name"
+          id="next_steps_view.complete_profile_step.enterYourName"
+        />
+      </h3>
+      <Input
+        info="Your name will be displayed with your messages"
+        name="fullName"
+        onChange={[Function]}
+        placeholder="Your full name"
+        type="text"
+        value=""
+      />
+    </div>
+  </div>
+  <div
+    className="NextStepsView__wizardButtons"
+  >
+    <button
+      className="NextStepsView__button NextStepsView__finishButton primary disabled"
+      data-testid="CompleteProfileStep__saveProfileButton"
+      disabled={true}
+      onClick={[Function]}
+    >
+      <FormattedMessage
+        defaultMessage="Save profile"
+        id="next_steps_view.complete_profile_step.saveProfile"
+      />
+    </button>
+  </div>
+</div>
+`;

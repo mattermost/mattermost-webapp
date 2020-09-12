@@ -11,27 +11,29 @@
 // Group: @messaging
 
 describe('Messaging', () => {
-    beforeEach(() => {
+    before(() => {
         // # resize window to mobile view
         cy.viewport('iphone-6');
 
-        // # Login and navigate to town-square
-        cy.toMainChannelView('user-1');
+        // # Login as test user and visit town-square channel
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
 
-        // # Post a new message to ensure there will be a post to click on
-        cy.postMessage('Hello ' + Date.now());
+            // # Post a new message to ensure there will be a post to click on
+            cy.postMessage('Hello ' + Date.now());
 
-        // # Click "Reply"
-        cy.getLastPostId().then((postId) => {
-            cy.clickPostCommentIcon(postId);
+            // # Click "Reply"
+            cy.getLastPostId().then((postId) => {
+                cy.clickPostCommentIcon(postId);
+            });
+
+            // # Enter valid text into RHS
+            const replyValid = 'Hi ' + Date.now();
+            cy.postMessageReplyInRHS(replyValid);
         });
-
-        // # Enter valid text into RHS
-        const replyValid = 'Hi ' + Date.now();
-        cy.postMessageReplyInRHS(replyValid);
     });
 
-    it('M18679 - Mobile view: Post options menu (3-dots) is present on a reply post in RHS', () => {
+    it('MM-T74 Mobile view: Post options menu (3-dots) is present on a reply post in RHS', () => {
         // # Get the last entered RHS post
         cy.getLastPostId().then((lastPostId) => {
             const dotMenuButtonID = `#RHS_COMMENT_button_${lastPostId}`;
@@ -43,14 +45,14 @@ describe('Messaging', () => {
 
             // * Check if modal for post options have opened
             cy.get(dropDownMenuOfPostOptionsID).should('be.visible').within(() => {
-                // * Check if atleast 1 item is present
+                // * Check if at least 1 item is present
                 cy.get('li').should('have.length.greaterThan', 0);
 
                 // * Check if one of the options are as follows
                 cy.findByText('Add Reaction').should('be.visible');
                 cy.findByText('Mark as Unread').should('be.visible');
                 cy.findByText('Copy Link').should('be.visible');
-                cy.findByText('Flag').should('be.visible');
+                cy.findByText('Save').should('be.visible');
                 cy.findByText('Pin to Channel').should('be.visible');
                 cy.findByText('Edit').should('be.visible');
                 cy.findByText('Delete').should('be.visible');

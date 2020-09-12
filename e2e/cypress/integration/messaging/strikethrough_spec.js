@@ -14,50 +14,47 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Messaging', () => {
     before(() => {
-        // # Login and go to /
-        cy.apiLogin('user-1');
-        cy.visit('/ad-1/channels/town-square');
+        // # Login as test user and visit town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
+        });
     });
 
-    it('M18710-Edit post with "strikethrough" and ensure channel auto-complete closes after second tilde (~~)', () => {
+    it('MM-T173 Edit post with "strikethrough" and ensure channel auto-complete closes after second tilde (~~)', () => {
         const message = 'Hello' + Date.now();
-
-        cy.visit('/ad-1/channels/town-square');
 
         // # Post message to use
         cy.postMessage(message);
 
         // # Hit up arrow to open edit modal
-        cy.get('#post_textbox', {timeout: TIMEOUTS.LARGE}).clear().type('{uparrow}');
+        cy.get('#post_textbox', {timeout: TIMEOUTS.HALF_MIN}).clear().type('{uparrow}').wait(TIMEOUTS.HALF_SEC);
 
         // # Type first tilde (a{backspace} used so cursor is in the textbox and {home} gets us to the beginning of the line)
-        cy.get('#edit_textbox').type('a{backspace}{home}~');
-        cy.wait(TIMEOUTS.TINY);
+        cy.get('#edit_textbox').type('a{backspace}{home}~').wait(TIMEOUTS.HALF_SEC);
 
         // # Channel autocomplete should show
         cy.get('#suggestionList').should('exist');
 
         // # Write the second tilde
-        cy.get('#edit_textbox').type('{home}{rightarrow}~');
+        cy.get('#edit_textbox').type('{home}{rightarrow}~').wait(TIMEOUTS.HALF_SEC);
 
         // * Channel autocomplete should have closed
         cy.get('#suggestionList').should('not.exist');
 
         // # Go to the end of the line and type the first tilde
-        cy.get('#edit_textbox').type('{end} ~');
-        cy.wait(TIMEOUTS.TINY);
+        cy.get('#edit_textbox').type('{end} ~').wait(TIMEOUTS.HALF_SEC);
 
         // # Channel autocomplete should show
         cy.get('#suggestionList').should('exist');
 
         // # Write the second tilde
-        cy.get('#edit_textbox').type('{end}~');
+        cy.get('#edit_textbox').type('{end}~').wait(TIMEOUTS.HALF_SEC);
 
         // * Channel autocomplete should close
         cy.get('#suggestionList').should('not.exist');
 
         // # Remove the whitespace
-        cy.get('#edit_textbox').type('{end}{leftarrow}{leftarrow}{backspace}');
+        cy.get('#edit_textbox').type('{end}{leftarrow}{leftarrow}{backspace}').wait(TIMEOUTS.HALF_SEC);
 
         // * Channel autocomplete should still not exist
         cy.get('#suggestionList').should('not.exist');

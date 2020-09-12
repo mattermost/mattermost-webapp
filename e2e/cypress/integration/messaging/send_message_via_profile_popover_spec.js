@@ -13,35 +13,36 @@
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Profile popover', () => {
-    let newUser;
     const message = `Testing ${Date.now()}`;
+    let testTeam;
+    let testChannel;
+    let testUser;
+    let otherUser;
 
-    beforeEach(() => {
-        // # Login as sysadmin
-        cy.apiLogin('sysadmin');
+    before(() => {
+        cy.apiInitSetup().then(({team, channel, user}) => {
+            testTeam = team;
+            testChannel = channel;
+            testUser = user;
 
-        // # Save Teammate Name Display Preference to username
-        // # Save Message Display Preference to clean
-        cy.apiSaveTeammateNameDisplayPreference('username');
-        cy.apiSaveMessageDisplayPreference('clean');
+            cy.apiCreateUser().then(({user: user1}) => {
+                otherUser = user1;
 
-        // # Create new user and have it post a message
-        cy.apiGetTeamByName('ad-1').then((teamRes) => {
-            cy.apiCreateNewUser({}, [teamRes.body.id]).then((user) => {
-                newUser = user;
+                cy.apiAddUserToTeam(testTeam.id, otherUser.id).then(() => {
+                    cy.apiAddUserToChannel(testChannel.id, otherUser.id).then(() => {
+                        // # Login as test user and visit town-square
+                        cy.apiLogin(testUser);
+                        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 
-                cy.apiGetChannelByName('ad-1', 'town-square').then((channelRes) => {
-                    cy.postMessageAs({sender: newUser, message, channelId: channelRes.body.id}).wait(TIMEOUTS.SMALL);
+                        // # Post a message from the other user
+                        cy.postMessageAs({sender: otherUser, message, channelId: testChannel.id}).wait(TIMEOUTS.FIVE_SEC);
+                    });
                 });
             });
         });
     });
 
-    it('M19908 Send message in profile popover take to DM channel', () => {
-        // # Login as "user-1" and visit '/ad-1/channels/town-square
-        cy.apiLogin('user-1');
-        cy.visit('/ad-1/channels/town-square');
-
+    it('MM-T3310 Send message in profile popover take to DM channel', () => {
         cy.waitUntil(() => cy.getLastPost().then((el) => {
             const postedMessageEl = el.find('.post-message__text > p')[0];
             return Boolean(postedMessageEl && postedMessageEl.textContent.includes(message));
@@ -50,52 +51,52 @@ describe('Profile popover', () => {
         cy.getLastPostId().then((lastPostId) => {
             // # On default viewport width of 1300
             // # Click profile icon to open profile popover. Click "Send Message" and verify redirects to DM channel
-            verifyDMChannelViaSendMessage(lastPostId, '.status-wrapper', newUser);
+            verifyDMChannelViaSendMessage(lastPostId, testTeam, testChannel, '.status-wrapper', otherUser);
 
             // # Click username to open profile popover. Click "Send Message" and verify redirects to DM channel
-            verifyDMChannelViaSendMessage(lastPostId, '.user-popover', newUser);
+            verifyDMChannelViaSendMessage(lastPostId, testTeam, testChannel, '.user-popover', otherUser);
 
             // # On mobile view
             cy.viewport('iphone-6');
 
             // # Click profile icon to open profile popover. Click "Send Message" and verify redirects to DM channel
-            verifyDMChannelViaSendMessage(lastPostId, '.status-wrapper', newUser);
+            verifyDMChannelViaSendMessage(lastPostId, testTeam, testChannel, '.status-wrapper', otherUser);
 
             // # Click username to open profile popover. Click "Send Message" and verify redirects to DM channel
-            verifyDMChannelViaSendMessage(lastPostId, '.user-popover', newUser);
+            verifyDMChannelViaSendMessage(lastPostId, testTeam, testChannel, '.user-popover', otherUser);
         });
     });
 });
 
-function verifyDMChannelViaSendMessage(postId, profileSelector, user) {
+function verifyDMChannelViaSendMessage(postId, team, channel, profileSelector, user) {
     // # Go to default town-square channel
-    cy.visit('/ad-1/channels/town-square');
+    cy.visit(`/${team.name}/channels/${channel.name}`);
 
     // # Visit post thread on RHS and verify that RHS is opened
-    cy.wait(TIMEOUTS.TINY);
+    cy.wait(TIMEOUTS.HALF_SEC);
     cy.clickPostCommentIcon(postId);
     cy.get('#rhsContainer').should('be.visible');
 
     // # Open profile popover with the given selector
-    cy.wait(TIMEOUTS.TINY);
+    cy.wait(TIMEOUTS.HALF_SEC);
     cy.get(`#rhsPost_${postId}`).should('be.visible').within(() => {
         cy.get(profileSelector).should('be.visible').click();
     });
 
     // * Verify that profile popover is opened
-    cy.wait(TIMEOUTS.TINY);
+    cy.wait(TIMEOUTS.HALF_SEC);
     cy.get('#user-profile-popover').should('be.visible').within(() => {
         // # Click "Send Message" on profile popover
         cy.findByText('Send Message').should('be.visible').click();
     });
 
     // * Verify that profile popover is closed
-    cy.wait(TIMEOUTS.TINY);
+    cy.wait(TIMEOUTS.HALF_SEC);
     cy.get('#user-profile-popover').should('not.be.visible');
 
     // * Verify that it redirects into the DM channel and matches channel intro
     cy.get('#channelIntro').should('be.visible').within(() => {
-        cy.url().should('include', '/ad-1/messages/@' + user.username);
+        cy.url().should('include', `/${team.name}/messages/@${user.username}`);
         cy.get('.channel-intro-profile').
             should('be.visible').
             and('have.text', user.username);

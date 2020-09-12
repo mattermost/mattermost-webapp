@@ -1,11 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import React from 'react';
 import {Modal} from 'react-bootstrap';
-import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
+
 import {Client4} from 'mattermost-redux/client';
 import {General} from 'mattermost-redux/constants';
+import {ActionResult} from 'mattermost-redux/types/actions';
+import {UserProfile} from 'mattermost-redux/types/users';
 import * as UserUtils from 'mattermost-redux/utils/user_utils';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
@@ -13,19 +17,21 @@ import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import Avatar from 'components/widgets/users/avatar';
-type Props = {
+import {isSuccess} from 'types/actions';
+
+export type Props = {
     show: boolean;
-    user?: any;
+    user?: UserProfile;
     userAccessTokensEnabled: boolean;
 
     // defining custom function type instead of using React.MouseEventHandler
     // to make the event optional
     onModalDismissed: (e?: React.MouseEvent<HTMLButtonElement>) => void;
-    actions: { updateUserRoles: Function };
+    actions: { updateUserRoles: (userId: string, roles: string) => Promise<ActionResult>};
 }
 
 type State = {
-    user: any;
+    user?: UserProfile;
     error: any | null;
     hasPostAllRole: boolean;
     hasPostAllPublicRole: boolean;
@@ -52,11 +58,8 @@ export default class ManageRolesModal extends React.PureComponent<Props, State> 
         this.state = getStateFromProps(props);
     }
 
-    static getDerivedStateFromProps(nextProps: Props, prevState: Props) {
-        const prevUser = prevState.user || {};
-        const user = nextProps.user || {};
-
-        if (prevUser.id !== user.id) {
+    static getDerivedStateFromProps(nextProps: Props, prevState: State) {
+        if (prevState.user?.id !== nextProps.user?.id) {
             return getStateFromProps(nextProps);
         }
         return null;
@@ -130,11 +133,10 @@ export default class ManageRolesModal extends React.PureComponent<Props, State> 
             }
         }
 
-        const {data} = await this.props.actions.updateUserRoles(this.props.user.id, roles);
+        const result = await this.props.actions.updateUserRoles(this.props.user!.id, roles);
+        this.trackRoleChanges(roles, this.props.user!.roles);
 
-        this.trackRoleChanges(roles, this.props.user.roles);
-
-        if (data) {
+        if (isSuccess(result)) {
             this.props.onModalDismissed();
         } else {
             this.handleError(
@@ -243,7 +245,7 @@ export default class ManageRolesModal extends React.PureComponent<Props, State> 
                                     defaultMessage='Allow this account to generate [personal access tokens](!https://about.mattermost.com/default-user-access-tokens).'
                                 />
                                 <span className='d-block pt-2 pb-2 light'>
-                                    <FormattedHTMLMessage
+                                    <FormattedMessage
                                         id='admin.manage_roles.allowUserAccessTokensDesc'
                                         defaultMessage="Removing this permission doesn't delete existing tokens. To delete them, go to the user's Manage Tokens menu."
                                     />
@@ -371,3 +373,4 @@ export default class ManageRolesModal extends React.PureComponent<Props, State> 
         );
     }
 }
+/* eslint-enable react/no-string-refs */

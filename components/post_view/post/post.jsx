@@ -15,6 +15,7 @@ import PostProfilePicture from 'components/post_profile_picture';
 import PostBody from 'components/post_view/post_body';
 import PostHeader from 'components/post_view/post_header';
 import PostContext from 'components/post_view/post_context';
+import PostPreHeader from 'components/post_view/post_pre_header';
 
 class Post extends React.PureComponent {
     static propTypes = {
@@ -95,6 +96,11 @@ class Post extends React.PureComponent {
             selectPostCard: PropTypes.func.isRequired,
             markPostAsUnread: PropTypes.func.isRequired,
         }).isRequired,
+
+        /*
+         * Set to mark the post as flagged
+         */
+        isFlagged: PropTypes.bool.isRequired,
     }
 
     static defaultProps = {
@@ -217,13 +223,20 @@ class Post extends React.PureComponent {
 
         if (!this.state.fadeOutHighlight && this.props.shouldHighlight) {
             className += ' post--highlight';
+            if (post.is_pinned || this.props.isFlagged) {
+                className += ' post--pinned-or-flagged-highlight';
+            }
         }
 
         let rootUser = '';
-        if (this.hasSameRoot(this.props) && !fromBot) {
+        if (this.hasSameRoot(this.props)) {
             rootUser = 'same--root';
         } else {
             rootUser = 'other--root';
+        }
+
+        if (fromBot) {
+            className += ' post--bot';
         }
 
         let currentUserCss = '';
@@ -266,8 +279,8 @@ class Post extends React.PureComponent {
             className += ' post--hovered';
         }
 
-        if (post.is_pinned) {
-            className += ' post--pinned';
+        if (post.is_pinned || this.props.isFlagged) {
+            className += ' post--pinned-or-flagged';
         }
 
         if (this.state.alt && !(this.props.channelIsArchived || post.system_post_ids)) {
@@ -364,6 +377,11 @@ class Post extends React.PureComponent {
                     aria-label={this.state.currentAriaLabel}
                     aria-atomic={true}
                 >
+                    <PostPreHeader
+                        isFlagged={this.props.isFlagged}
+                        isPinned={post.is_pinned}
+                        channelId={post.channel_id}
+                    />
                     <div
                         role='application'
                         data-testid='postContent'

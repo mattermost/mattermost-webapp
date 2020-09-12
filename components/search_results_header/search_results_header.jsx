@@ -7,35 +7,24 @@ import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import OverlayTrigger from 'components/overlay_trigger';
-
 import Constants from 'utils/constants';
-import {generateId} from 'utils/utils';
 
 export default class SearchResultsHeader extends React.PureComponent {
     static propTypes = {
         isExpanded: PropTypes.bool.isRequired,
         children: PropTypes.node,
-        icons: PropTypes.arrayOf(PropTypes.shape({
-            icon: PropTypes.node.isRequired,
-            tooltip: PropTypes.node.isRequired,
-            action: PropTypes.func.isRequired,
-        })),
         actions: PropTypes.shape({
             closeRightHandSide: PropTypes.func.isRequired,
             toggleRhsExpanded: PropTypes.func.isRequired,
         }),
     };
 
-    static defaultProps = {
-        icons: [],
-    }
-
     render() {
         const closeSidebarTooltip = (
             <Tooltip id='closeSidebarTooltip'>
                 <FormattedMessage
                     id='rhs_header.closeSidebarTooltip'
-                    defaultMessage='Close the sidebar'
+                    defaultMessage='Close'
                 />
             </Tooltip>
         );
@@ -44,7 +33,7 @@ export default class SearchResultsHeader extends React.PureComponent {
             <Tooltip id='expandSidebarTooltip'>
                 <FormattedMessage
                     id='rhs_header.expandSidebarTooltip'
-                    defaultMessage='Expand the sidebar'
+                    defaultMessage='Expand Sidebar'
                 />
             </Tooltip>
         );
@@ -52,8 +41,8 @@ export default class SearchResultsHeader extends React.PureComponent {
         const shrinkSidebarTooltip = (
             <Tooltip id='shrinkSidebarTooltip'>
                 <FormattedMessage
-                    id='rhs_header.shrinkSidebarTooltip'
-                    defaultMessage='Shrink the sidebar'
+                    id='rhs_header.collapseSidebarTooltip'
+                    defaultMessage='Collapse Sidebar'
                 />
             </Tooltip>
         );
@@ -62,33 +51,6 @@ export default class SearchResultsHeader extends React.PureComponent {
             <div className='sidebar--right__header'>
                 <span className='sidebar--right__title'>{this.props.children}</span>
                 <div className='pull-right'>
-                    {
-                        this.props.icons.map(
-                            (icon) => {
-                                const id = generateId();
-                                return (
-                                    <OverlayTrigger
-                                        key={id}
-                                        delayShow={Constants.OVERLAY_TIME_DELAY}
-                                        placement='top'
-                                        overlay={<Tooltip id={id}>{icon.tooltip}</Tooltip>}
-                                    >
-                                        <button
-                                            id={id}
-                                            type='button'
-                                            className='sidebar--right__expand btn-icon'
-                                            onClick={() => {
-                                                if (icon.action) {
-                                                    icon.action();
-                                                }
-                                            }}
-                                        >
-                                            {icon.icon}
-                                        </button>
-                                    </OverlayTrigger>
-                                );
-                            })
-                    }
                     <OverlayTrigger
                         delayShow={Constants.OVERLAY_TIME_DELAY}
                         placement='top'
@@ -101,7 +63,7 @@ export default class SearchResultsHeader extends React.PureComponent {
                         >
                             <FormattedMessage
                                 id='rhs_header.expandSidebarTooltip.icon'
-                                defaultMessage='Expand the sidebar icon'
+                                defaultMessage='Expand Sidebar Icon'
                             >
                                 {(ariaLabel) => (
                                     <i
@@ -111,8 +73,8 @@ export default class SearchResultsHeader extends React.PureComponent {
                                 )}
                             </FormattedMessage>
                             <FormattedMessage
-                                id='rhs_header.expandTooltip.icon'
-                                defaultMessage='Shrink the sidebar icon'
+                                id='rhs_header.collapseSidebarTooltip.icon'
+                                defaultMessage='Collapse Sidebar Icon'
                             >
                                 {(ariaLabel) => (
                                     <i
@@ -137,7 +99,7 @@ export default class SearchResultsHeader extends React.PureComponent {
                         >
                             <FormattedMessage
                                 id='rhs_header.closeTooltip.icon'
-                                defaultMessage='Close the sidebar icon'
+                                defaultMessage='Close Sidebar Icon'
                             >
                                 {(ariaLabel) => (
                                     <i

@@ -1,10 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
-import Chart from 'chart.js';
+import Chart, {ChartData} from 'chart.js';
 
 import * as Utils from 'utils/utils.jsx';
 
@@ -12,7 +13,7 @@ type Props = {
     title: React.ReactNode;
     width: number;
     height: number;
-    data?: object;
+    data?: ChartData;
 }
 
 export default class DoughnutChart extends React.PureComponent<Props> {
@@ -80,3 +81,4 @@ export default class DoughnutChart extends React.PureComponent<Props> {
         );
     }
 }
+/* eslint-enable react/no-string-refs */

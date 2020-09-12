@@ -42,6 +42,7 @@ context('Okta', () => {
             IdpUrl: idpUrl,
             IdpDescriptorUrl: `http://www.okta.com/${oktaMMEntityId}`,
             IdpMetadataUrl: idpMetadataUrl,
+            ServiceProviderIdentifier: `${Cypress.config('baseUrl')}/login/sso/saml`,
             AssertionConsumerServiceURL: `${Cypress.config('baseUrl')}/login/sso/saml`,
             SignatureAlgorithm: 'RSAwithSHA1',
             CanonicalAlgorithm: 'Canonical1.0',
@@ -72,8 +73,7 @@ context('Okta', () => {
     describe('SAML Login flow', () => {
         before(() => {
             // * Check if server has license for SAML
-            cy.apiLogin('sysadmin');
-            cy.requireLicenseForFeature('SAML');
+            cy.apiRequireLicenseForFeature('SAML');
 
             // # Get certificates status and upload as necessary
             cy.apiGetSAMLCertificateStatus().then((resp) => {
@@ -96,15 +96,15 @@ context('Okta', () => {
             cy.apiGetMetadataFromIdp(idpMetadataUrl);
 
             cy.oktaAddUsers(users);
-            cy.apiUpdateConfig(newConfig).then((response) => {
-                cy.setTestSettings(loginButtonText, response.body).then((_response) => {
+            cy.apiUpdateConfig(newConfig).then(({config}) => {
+                cy.setTestSettings(loginButtonText, config).then((_response) => {
                     testSettings = _response;
                 });
             });
         });
 
         it('Saml login new and existing MM regular user', () => {
-            cy.apiLogin('sysadmin');
+            cy.apiAdminLogin();
 
             testSettings.user = regular1;
 
@@ -136,7 +136,7 @@ context('Okta', () => {
         });
 
         it('Saml login new and existing MM guest user(userType=Guest)', () => {
-            cy.apiLogin('sysadmin');
+            cy.apiAdminLogin();
 
             testSettings.user = guest1;
             newConfig.SamlSettings.GuestAttribute = 'UserType=Guest';
@@ -171,7 +171,7 @@ context('Okta', () => {
         });
 
         it('Saml login new and existing MM guest(isGuest=true)', () => {
-            cy.apiLogin('sysadmin');
+            cy.apiAdminLogin();
 
             testSettings.user = guest2;
             newConfig.SamlSettings.GuestAttribute = 'IsGuest=true';
@@ -206,7 +206,7 @@ context('Okta', () => {
         });
 
         it('Saml login new and existing MM admin(userType=Admin)', () => {
-            cy.apiLogin('sysadmin');
+            cy.apiAdminLogin();
 
             testSettings.user = admin1;
             newConfig.SamlSettings.EnableAdminAttribute = true;
@@ -242,7 +242,7 @@ context('Okta', () => {
         });
 
         it('Saml login new and existing MM admin(isAdmin=true)', () => {
-            cy.apiLogin('sysadmin');
+            cy.apiAdminLogin();
             testSettings.user = admin2;
             newConfig.SamlSettings.EnableAdminAttribute = true;
             newConfig.SamlSettings.AdminAttribute = 'IsAdmin=true';
@@ -276,7 +276,7 @@ context('Okta', () => {
         });
 
         it('Saml login invited Guest user to a team', () => {
-            cy.apiLogin('sysadmin');
+            cy.apiAdminLogin();
             testSettings.user = regular1;
 
             //login as a regular user - generate an invite link

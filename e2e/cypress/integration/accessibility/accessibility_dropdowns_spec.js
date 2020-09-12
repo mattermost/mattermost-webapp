@@ -32,26 +32,22 @@ function verifyMenuItems(menuEl, labels) {
 }
 
 describe('Verify Accessibility Support in Dropdown Menus', () => {
-    before(() => {
-        cy.apiLogin('sysadmin');
+    let testTeam;
 
-        // # Ensure an open team is available to join
-        cy.getCurrentUserId().then((userId) => {
-            cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
-                const teamId = response.body.id;
-                cy.removeUserFromTeam(teamId, userId);
-            });
+    before(() => {
+        cy.apiInitSetup().then(({team}) => {
+            testTeam = team;
         });
     });
 
     beforeEach(() => {
         // Visit the Off Topic channel
-        cy.visit('/ad-1/channels/off-topic').wait(TIMEOUTS.SMALL);
+        cy.visit(`/${testTeam.name}/channels/off-topic`).wait(TIMEOUTS.FIVE_SEC);
     });
 
-    it('MM-22627 Accessibility Support in Channel Menu Dropdown', () => {
+    it('MM-T1464 Accessibility Support in Channel Menu Dropdown', () => {
         // # Press tab from the Channel Favorite button
-        cy.get('#toggleFavorite').focus().tab({shift: true}).tab().tab();
+        cy.get('#toggleFavorite').focus().wait(TIMEOUTS.HALF_SEC).tab({shift: true}).tab().tab();
 
         // * Verify the aria-label in channel menu button
         cy.get('#channelHeaderDropdownButton button').should('have.attr', 'aria-label', 'channel menu').and('have.class', 'a11y--active a11y--focused').click();
@@ -74,9 +70,9 @@ describe('Verify Accessibility Support in Dropdown Menus', () => {
         cy.get('#channelHeaderDropdownMenu').should('not.exist');
     });
 
-    it('MM-22627 Accessibility Support in Main Menu Dropdown', () => {
+    it('MM-T1476 Accessibility Support in Main Menu Dropdown', () => {
         // # Press tab from the Set Status button
-        cy.get('.status-wrapper button.status').focus().tab({shift: true}).tab().tab();
+        cy.get('.status-wrapper button.status').focus().wait(TIMEOUTS.HALF_SEC).tab({shift: true}).tab().tab();
 
         // * Verify the aria-label in main menu button
         cy.get('#headerInfo button').should('have.attr', 'aria-label', 'main menu').and('have.class', 'a11y--active a11y--focused').click();
@@ -91,9 +87,9 @@ describe('Verify Accessibility Support in Dropdown Menus', () => {
         cy.focused().tab();
 
         // * Verify the accessibility support in the Main Menu Dropdown items
-        cy.apiGetConfig().then((response) => {
-            const siteName = response.body.TeamSettings.SiteName;
-            const labels = ['Account Settings dialog', 'Invite People dialog', 'Team Settings dialog', 'Manage Members dialog', '', '', 'Leave Team dialog', '', 'Plugin Marketplace dialog', '', '', '', '', '', `About ${siteName} dialog`, ''];
+        cy.apiGetConfig().then(({config}) => {
+            const siteName = config.TeamSettings.SiteName;
+            const labels = ['Account Settings dialog', 'Invite People dialog', 'Team Settings dialog', 'Manage Members dialog', '', 'Leave Team dialog', '', 'Plugin Marketplace dialog', '', '', '', '', '', `About ${siteName} dialog`, ''];
             verifyMenuItems('#sidebarDropdownMenu', labels);
         });
 
@@ -106,9 +102,9 @@ describe('Verify Accessibility Support in Dropdown Menus', () => {
         cy.get('#sidebarDropdownMenu').should('not.exist');
     });
 
-    it('MM-22627 Accessibility Support in Status Dropdown', () => {
+    it('MM-T1477 Accessibility Support in Status Dropdown', () => {
         // # Press tab from Add Team button
-        cy.get('#select_teamTeamButton').focus().tab({shift: true}).tab().tab();
+        cy.get('#create_teamTeamButton').focus().wait(TIMEOUTS.HALF_SEC).tab({shift: true}).tab().tab();
 
         // * Verify the aria-label in status menu button
         cy.get('.status-wrapper button.status').should('have.attr', 'aria-label', 'set status').and('have.class', 'a11y--active a11y--focused').click();
@@ -123,7 +119,7 @@ describe('Verify Accessibility Support in Dropdown Menus', () => {
         cy.focused().tab();
 
         // * Verify the accessibility support in the Status Dropdown menu items
-        const labels = ['online', 'away', 'do not disturb. disables desktop, email and push notifications', 'offline'];
+        const labels = ['online', 'away', 'do not disturb. disables all notifications', 'offline'];
         verifyMenuItems('#statusDropdownMenu', labels);
 
         // * Verify if menu is closed when we press Escape

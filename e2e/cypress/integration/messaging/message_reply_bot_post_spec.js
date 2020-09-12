@@ -10,18 +10,18 @@
 // Stage: @prod
 // Group: @messaging
 
-import users from '../../fixtures/users.json';
+import {getAdminAccount} from '../../support/env';
 
-const sysadmin = users.sysadmin;
 describe('Messaging', () => {
+    const sysadmin = getAdminAccount();
     let newChannel;
     let botsUserId;
     let botName;
     let botToken;
     let yesterdaysDate;
+
     before(() => {
-        // # Login as sysadmin and set ServiceSettings to expected values
-        cy.apiLogin('sysadmin');
+        // # Set ServiceSettings to expected values
         const newSettings = {
             ServiceSettings: {
                 EnableBotAccountCreation: true,
@@ -29,15 +29,14 @@ describe('Messaging', () => {
         };
         cy.apiUpdateConfig(newSettings);
 
-        cy.apiSaveTeammateNameDisplayPreference('username');
-
         // # Create and visit new channel
-        cy.createAndVisitNewChannel().then((channel) => {
+        cy.apiInitSetup().then(({team, channel}) => {
             newChannel = channel;
+            cy.visit(`/${team.name}/channels/${channel.name}`);
         });
     });
 
-    it('M16735 - Replying to an older bot post that has no post content and no attachment pretext', () => {
+    it('MM-T93 Replying to an older bot post that has no post content and no attachment pretext', () => {
         // # Get yesterdays date in UTC
         yesterdaysDate = Cypress.moment().subtract(1, 'days').valueOf();
         botName = 'bot-' + Date.now();
@@ -78,16 +77,16 @@ describe('Messaging', () => {
             cy.getLastPostId().then((replyId) => {
                 // * Verify that the reply is in the RHS with matching text
                 cy.get(`#rhsPost_${replyId}`).within(() => {
-                    cy.queryByTestId('post-link').should('not.be.visible');
+                    cy.findByTestId('post-link').should('not.be.visible');
                     cy.get(`#rhsPostMessageText_${replyId}`).should('be.visible').and('have.text', 'A reply to an older post bot post');
                 });
 
-                cy.get(`#CENTER_time_${postId}`).find('time').invoke('attr', 'title').then((originalTimeStamp) => {
+                cy.get(`#CENTER_time_${postId}`).find('time').invoke('attr', 'dateTime').then((originalTimeStamp) => {
                     // * Verify the first post timestamp equals the RHS timestamp
-                    cy.get(`#RHS_ROOT_time_${postId}`).find('time').invoke('attr', 'title').should('be', originalTimeStamp);
+                    cy.get(`#RHS_ROOT_time_${postId}`).find('time').invoke('attr', 'dateTime').should('be', originalTimeStamp);
 
                     // * Verify the first post timestamp was not modified by the reply
-                    cy.get(`#CENTER_time_${replyId}`).find('time').should('have.attr', 'title').and('not.equal', originalTimeStamp);
+                    cy.get(`#CENTER_time_${replyId}`).find('time').should('have.attr', 'dateTime').and('not.equal', originalTimeStamp);
                 });
 
                 //# Close RHS
@@ -95,7 +94,7 @@ describe('Messaging', () => {
 
                 // * Verify that the reply is in the channel view with matching text
                 cy.get(`#post_${replyId}`).within(() => {
-                    cy.queryByTestId('post-link').should('be.visible').and('have.text', 'Commented on ' + botName + '\'s message: Some Text posted by bot that has no content and no attachment pretext');
+                    cy.findByTestId('post-link').should('be.visible').and('have.text', 'Commented on ' + botName + 'BOT\'s message: Some Text posted by bot that has no content and no attachment pretext');
                     cy.get(`#postMessageText_${replyId}`).should('be.visible').and('have.text', 'A reply to an older post bot post');
                 });
             });
@@ -104,7 +103,7 @@ describe('Messaging', () => {
         // # Verify RHS is closed
         cy.get('#rhsContainer').should('not.be.visible');
     });
-    it('MM-16734 Reply to an older bot post that has some attachment pretext', () => {
+    it('MM-T91 Replying to an older post by a user that has no content (only file attachments)', () => {
         // # Get yesterdays date in UTC
         yesterdaysDate = Cypress.moment().subtract(1, 'days').valueOf();
         botName = 'bot-' + Date.now();
@@ -146,16 +145,16 @@ describe('Messaging', () => {
             cy.getLastPostId().then((replyId) => {
                 // * Verify that the reply is in the RHS with matching text
                 cy.get(`#rhsPost_${replyId}`).within(() => {
-                    cy.queryByTestId('post-link').should('not.be.visible');
+                    cy.findByTestId('post-link').should('not.be.visible');
                     cy.get(`#rhsPostMessageText_${replyId}`).should('be.visible').and('have.text', 'A reply to an older post with message attachment');
                 });
 
-                cy.get(`#CENTER_time_${postId}`).find('time').invoke('attr', 'title').then((originalTimeStamp) => {
+                cy.get(`#CENTER_time_${postId}`).find('time').invoke('attr', 'dateTime').then((originalTimeStamp) => {
                     // * Verify the first post timestamp equals the RHS timestamp
-                    cy.get(`#RHS_ROOT_time_${postId}`).find('time').invoke('attr', 'title').should('be', originalTimeStamp);
+                    cy.get(`#RHS_ROOT_time_${postId}`).find('time').invoke('attr', 'dateTime').should('be', originalTimeStamp);
 
                     // * Verify the first post timestamp was not modified by the reply
-                    cy.get(`#CENTER_time_${replyId}`).find('time').should('have.attr', 'title').and('not.equal', originalTimeStamp);
+                    cy.get(`#CENTER_time_${replyId}`).find('time').should('have.attr', 'dateTime').and('not.equal', originalTimeStamp);
                 });
 
                 //# Close RHS
@@ -163,7 +162,7 @@ describe('Messaging', () => {
 
                 // * Verify that the reply is in the channel view with matching text
                 cy.get(`#post_${replyId}`).within(() => {
-                    cy.queryByTestId('post-link').should('be.visible').and('have.text', 'Commented on ' + botName + '\'s message: Hello message from ' + botName);
+                    cy.findByTestId('post-link').should('be.visible').and('have.text', 'Commented on ' + botName + 'BOT\'s message: Hello message from ' + botName);
                     cy.get(`#postMessageText_${replyId}`).should('be.visible').and('have.text', 'A reply to an older post with message attachment');
                 });
             });

@@ -12,7 +12,7 @@
  * Options:
  *   --stage=[stage]
  *      Selects spec files with matching stage. It can be of multiple values separated by comma.
- *      E.g. "--stage='@prod,@smoke'" will select files with either @prod or @smoke.
+ *      E.g. "--stage='@prod,@dev'" will select files with either @prod or @dev.
  *   --group=[group]
  *      Selects spec files with matching group. It can be of multiple values separated by comma.
  *      E.g. "--group='@channel,@messaging'" will select files with either @channel or @messaging.
@@ -38,13 +38,14 @@
  */
 
 const os = require('os');
-
+const chai = require('chai');
 const chalk = require('chalk');
 const cypress = require('cypress');
 const argv = require('yargs').argv;
 
 const {getTestFiles, getSkippedFiles} = require('./utils/file');
-const {MOCHAWESOME_REPORT_DIR} = require('./utils/constants');
+const {writeJsonToFile} = require('./utils/report');
+const {MOCHAWESOME_REPORT_DIR, RESULTS_DIR} = require('./utils/constants');
 
 require('dotenv').config();
 
@@ -54,6 +55,10 @@ async function runTests() {
         BROWSER,
         BUILD_ID,
         HEADLESS,
+        ENABLE_VISUAL_TEST,
+        APPLITOOLS_API_KEY,
+        APPLITOOLS_BATCH_NAME,
+        FAILURE_MESSAGE,
     } = process.env;
 
     const browser = BROWSER || 'chrome';
@@ -69,6 +74,7 @@ async function runTests() {
 
     const {invert, group, stage} = argv;
 
+    let hasFailed = false;
     for (let i = 0; i < finalTestFiles.length; i++) {
         const testFile = finalTestFiles[i];
         const testStage = stage ? `Stage: "${stage}" ` : '';
@@ -78,13 +84,18 @@ async function runTests() {
         console.log(chalk.magenta.bold(`${invert ? 'All Except --> ' : ''}${testStage}${stage && group ? '| ' : ''}${testGroup}`));
         console.log(chalk.magenta(`(Testing ${i + 1} of ${finalTestFiles.length})  - `, testFile));
 
-        await cypress.run({
+        const result = await cypress.run({
             browser,
             headless,
             spec: testFile,
             config: {
                 screenshotsFolder: `${MOCHAWESOME_REPORT_DIR}/screenshots`,
                 trashAssetsBeforeRuns: false,
+            },
+            env: {
+                enableVisualTest: ENABLE_VISUAL_TEST,
+                enableApplitools: Boolean(APPLITOOLS_API_KEY),
+                batchName: APPLITOOLS_BATCH_NAME,
             },
             reporter: 'cypress-multi-reporters',
             reporterOptions:
@@ -111,7 +122,28 @@ async function runTests() {
                     },
                 },
         });
+
+        // Write test environment details once only
+        if (i === 0) {
+            const environment = {
+                cypressVersion: result.cypressVersion,
+                browserName: result.browserName,
+                browserVersion: result.browserVersion,
+                headless,
+                osName: result.osName,
+                osVersion: result.osVersion,
+                nodeVersion: process.version,
+            };
+
+            writeJsonToFile(environment, 'environment.json', RESULTS_DIR);
+        }
+
+        if (!hasFailed && result.totalFailed > 0) {
+            hasFailed = true;
+        }
     }
+
+    chai.expect(hasFailed, FAILURE_MESSAGE).to.be.false;
 }
 
 runTests();

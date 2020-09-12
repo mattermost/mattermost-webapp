@@ -11,13 +11,19 @@ describe('components/feature_discovery', () => {
         test('should match snapshot', () => {
             const wrapper = shallow(
                 <FeatureDiscovery
+                    featureName='test'
                     titleID='translation.test.title'
                     titleDefault='Foo'
                     copyID='translation.test.copy'
                     copyDefault={'Bar'}
-                    primaryURL='https://test.mattermost.com/primary/'
-                    secondaryURL='https://test.mattermost.com/secondary/'
+                    learnMoreURL='https://test.mattermost.com/secondary/'
                     imgPath='foo/bar.png'
+                    // eslint-disable-next-line @typescript-eslint/naming-convention
+                    stats={{TOTAL_USERS: 20}}
+                    actions={{
+                        requestTrialLicense: jest.fn(),
+                        getLicenseConfig: jest.fn(),
+                    }}
                 />,
             );
             expect(wrapper).toMatchSnapshot();

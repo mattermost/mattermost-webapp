@@ -11,17 +11,19 @@
 // Group: @search
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
+import * as MESSAGES from '../../fixtures/messages';
 
 describe('Search', () => {
     before(() => {
-        // # Login as the sysadmin.
-        cy.apiLogin('sysadmin');
-        cy.visit('/ad-1/channels/town-square');
+        // # Login as test user and visit town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
+        });
     });
 
     it('QuickInput clear X', () => {
         // # Wait for the page to be completely loaded
-        cy.wait(TIMEOUTS.SMALL);
+        cy.wait(TIMEOUTS.FIVE_SEC);
 
         // * X should not be visible on empty input
         cy.get('#searchFormContainer').find('.input-clear-x').should('not.be.visible');
@@ -43,5 +45,40 @@ describe('Search', () => {
 
         // * The value of the input is empty
         cy.get('#searchBox').should('have.value', '');
+    });
+
+    it('MM-T368 - Text in search box should not clear when Pinned or Saved posts icon is clicked', () => {
+        const searchText = MESSAGES.SMALL;
+
+        // * Verify search input field exists and not search button, as inputs contains placeholder not buttons/icons
+        // and then type in a search text
+        cy.findByPlaceholderText('Search').should('be.visible').and('exist').click().type(searchText).as('searchInput');
+
+        // # Click on the pinned post button from the header
+        cy.get('#channel-header').within(() => {
+            cy.findByLabelText('Pin Icon').should('be.visible').and('exist').click();
+        });
+
+        // * Verify the pinned post RHS is open
+        cy.get('#sidebar-right').should('be.visible').and('contain', 'Pinned posts');
+
+        // * Check that search input value remains the same as we entered before
+        cy.get('@searchInput').should('have.value', searchText);
+
+        // # Now click on the saved post button from the header
+        cy.get('#channel-header').within(() => {
+            cy.findByLabelText('Save Icon').should('be.visible').and('exist').click();
+        });
+
+        // * Verify the pinned post RHS is open
+        cy.get('#sidebar-right').should('be.visible').and('contain', 'Saved posts');
+
+        // * Again check that search input value remains the same as we entered before
+        cy.get('@searchInput').should('have.value', searchText);
+
+        // # Close the Saved posts RHS
+        cy.get('#sidebar-right').within(() => {
+            cy.findByLabelText('Close').should('be.visible').and('exist').click();
+        });
     });
 });

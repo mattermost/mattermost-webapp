@@ -11,13 +11,13 @@ import {getEmojiMap, getRecentEmojis} from 'selectors/emojis';
 import store from 'stores/redux_store.jsx';
 
 import * as Emoticons from 'utils/emoticons';
-import {compareEmojis} from 'utils/emoji_utils.jsx';
+import {compareEmojis} from 'utils/emoji_utils';
 
 import Suggestion from './suggestion.jsx';
 import Provider from './provider.jsx';
 
 export const MIN_EMOTICON_LENGTH = 2;
-export const EMOJI_CATEGORY_SUGGESTION_BLACKLIST = ['skintone'];
+export const EMOJI_CATEGORY_SUGGESTION_BLOCKLIST = ['skintone'];
 
 class EmoticonSuggestion extends Suggestion {
     render() {
@@ -110,7 +110,7 @@ export default class EmoticonProvider extends Provider {
 
         // Check for named emoji
         for (const [name, emoji] of emojiMap) {
-            if (EMOJI_CATEGORY_SUGGESTION_BLACKLIST.includes(emoji.category)) {
+            if (EMOJI_CATEGORY_SUGGESTION_BLOCKLIST.includes(emoji.category)) {
                 continue;
             }
 

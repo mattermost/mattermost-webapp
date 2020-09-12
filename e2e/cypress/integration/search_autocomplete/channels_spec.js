@@ -10,24 +10,19 @@
 // Stage: @prod
 // Group: @autocomplete
 
-import users from '../../fixtures/users.json';
-
 import {
     createPrivateChannel,
-    createEmail,
     searchForChannel,
-    withTimestamp,
 } from '../enterprise/elasticsearch_autocomplete/helpers';
 
+import {getAdminAccount} from '../../support/env';
+
 describe('Autocomplete without Elasticsearch - Channel', () => {
-    const timestamp = Date.now();
-    let team = {};
-    let user;
+    const admin = getAdminAccount();
+    let testTeam;
+    let testUser;
 
     before(() => {
-        // # Execute the before hook based on current config
-        cy.apiLogin('sysadmin');
-
         // # Disable elastic search via API
         cy.apiUpdateConfig({
             ElasticsearchSettings: {
@@ -38,28 +33,12 @@ describe('Autocomplete without Elasticsearch - Channel', () => {
             },
         });
 
-        // # Create new team to run tests against
-        cy.apiCreateTeam(`search-${timestamp}`, `search-${timestamp}`).then((response) => {
-            team = response.body;
+        // # Login as test user and go to town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team, user}) => {
+            testUser = user;
+            testTeam = team;
 
-            const daredevil = {
-                username: withTimestamp('daredevil', timestamp),
-                firstName: 'Matt',
-                lastName: 'Murdock',
-                email: createEmail('daredevil', timestamp),
-                nickname: withTimestamp('attorney', timestamp),
-            };
-
-            // # Setup new channel and user
-            cy.apiCreateNewUser(daredevil, [team.id]).as('newUser');
-        });
-        cy.apiLogout();
-
-        // # Login and navigate to team with new user
-        cy.get('@newUser').then((newUser) => {
-            user = newUser;
-            cy.apiLogin(user.username, user.password);
-            cy.visit(`/${team.name}`);
+            cy.visit(`/${testTeam.name}/channels/town-square`);
         });
     });
 
@@ -69,7 +48,7 @@ describe('Autocomplete without Elasticsearch - Channel', () => {
 
     it("private channel I don't belong to does not appear", () => {
         // # Create private channel, do not add new user to it (sets @privateChannel alias)
-        createPrivateChannel(team.id).then((channel) => {
+        createPrivateChannel(testTeam.id).then((channel) => {
             // # Go to off-topic channel to partially reload the page
             cy.get('#sidebarChannelContainer').should('be.visible').within(() => {
                 cy.findAllByText('Off-Topic').should('be.visible').click();
@@ -79,7 +58,7 @@ describe('Autocomplete without Elasticsearch - Channel', () => {
             searchForChannel(channel.name);
 
             // * And it should not appear
-            cy.queryByTestId(channel.name).
+            cy.findByTestId(channel.name).
                 should('not.exist');
         });
     });
@@ -91,7 +70,7 @@ describe('Autocomplete without Elasticsearch - Channel', () => {
         });
 
         // # Create private channel and add new user to it (sets @privateChannel alias)
-        createPrivateChannel(team.id, user).then((channel) => {
+        createPrivateChannel(testTeam.id, testUser).then((channel) => {
             // # Search for the private channel
             searchForChannel(channel.name);
 
@@ -99,7 +78,7 @@ describe('Autocomplete without Elasticsearch - Channel', () => {
             cy.get('#suggestionList').should('be.visible');
 
             // * Channel should appear in the list
-            cy.queryByTestId(channel.name).
+            cy.findByTestId(channel.name).
                 should('be.visible');
         });
     });
@@ -110,7 +89,7 @@ describe('Autocomplete without Elasticsearch - Channel', () => {
 
         // # As admin, create a new team that the new user is not a member of
         cy.task('externalRequest', {
-            user: users.sysadmin,
+            user: admin,
             path: 'teams',
             baseUrl,
             method: 'post',
@@ -133,7 +112,7 @@ describe('Autocomplete without Elasticsearch - Channel', () => {
                 searchForChannel(channel.name);
 
                 // * Channel should not appear in the search results
-                cy.queryByTestId(channel.name).
+                cy.findByTestId(channel.name).
                     should('not.exist');
             });
         });
@@ -143,16 +122,13 @@ describe('Autocomplete without Elasticsearch - Channel', () => {
         let channelId;
 
         before(() => {
-            cy.apiLogout();
-
-            // # Login as admin
-            cy.apiLogin('sysadmin');
-            cy.visit(`/${team.name}`);
+            // // # Visit town-square
+            cy.visit(`/${testTeam.name}`);
 
             const name = 'hellothere';
 
             // # Create a new channel
-            cy.apiCreateChannel(team.id, name, name).then((channelResponse) => {
+            cy.apiCreateChannel(testTeam.id, name, name).then((channelResponse) => {
                 channelId = channelResponse.body.id;
             });
 

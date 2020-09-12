@@ -152,7 +152,7 @@
         top: 0;
 
         .mentions__name & {
-            background-color: v(center-channel-color-30);
+            background-color: rgba(var(--center-channel-color-rgb), 0.32);
             flex: 0 0 17px;
             height: 18px;
             left: 0;
@@ -191,5 +191,20 @@
     .fa-globe {
         position: relative;
         top: -1px;
+    }
+}
+
+.status-dropdown-menu {
+    .online--icon > svg {
+        fill: var(--online-indicator);
+    }
+    .away--icon > svg {
+        fill: var(--away-indicator);
+    }
+    .dnd--icon > svg {
+        fill: var(--dnd-indicator);
+    }
+    .offline--icon {
+        fill: rgba(var(--center-channel-color-rgb), 0.56);
     }
 }

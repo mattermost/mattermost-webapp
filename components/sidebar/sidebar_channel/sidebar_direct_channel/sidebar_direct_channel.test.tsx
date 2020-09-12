@@ -6,6 +6,7 @@ import React from 'react';
 import {ChannelType} from 'mattermost-redux/types/channels';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
+import {TestHelper} from 'utils/test_helper';
 
 import SidebarDirectChannel from 'components/sidebar/sidebar_channel/sidebar_direct_channel/sidebar_direct_channel';
 
@@ -29,35 +30,16 @@ describe('components/sidebar/sidebar_channel/sidebar_direct_channel', () => {
             scheme_id: '',
             group_constrained: false,
         },
-        teammate: {
-            auth_data: '',
-            auth_service: 'test',
-            create_at: 0,
-            delete_at: 0,
-            email: '',
-            email_verified: false,
-            first_name: '',
-            id: '1',
-            is_bot: false,
-            last_name: '',
-            last_picture_update: 0,
-            locale: '',
-            nickname: '',
-            notify_props: {} as any,
-            position: '',
-            roles: '',
-            terms_of_service_create_at: 0,
-            terms_of_service_id: '',
-            update_at: 0,
-            username: '',
-        },
+        teammate: TestHelper.getUserMock(),
         currentTeamName: 'team_name',
         currentUserId: 'current_user_id',
         redirectChannel: 'redirect-channel',
         active: false,
         botIconUrl: null,
+        isCollapsed: false,
         actions: {
             savePreferences: jest.fn(),
+            leaveDirectChannel: jest.fn(),
         },
     };
 

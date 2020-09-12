@@ -5,6 +5,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import * as UserUtils from 'mattermost-redux/utils/user_utils';
 import {Permissions} from 'mattermost-redux/constants';
+import {AdminConfig} from 'mattermost-redux/types/config';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {ServerError} from 'mattermost-redux/types/errors';
 import {Dictionary} from 'mattermost-redux/types/utilities';
@@ -26,23 +27,24 @@ import Menu from 'components/widgets/menu/menu';
 const ROWS_FROM_BOTTOM_TO_OPEN_UP = 3;
 const TOTAL_USERS_TO_OPEN_UP = 5;
 
-type Props = {
-    user: UserProfile & {mfa_active: boolean};
+export type Props = {
+    user: UserProfile;
     currentUser: UserProfile;
     mfaEnabled: boolean;
     enableUserAccessTokens: boolean;
     experimentalEnableAuthenticationTransfer: boolean;
     index: number;
     totalUsers: number;
-    config: any;
+    config: DeepPartial<AdminConfig>;
     bots: Dictionary<Bot>;
     isLicensed: boolean;
+    isDisabled: boolean;
     actions: {
         updateUserActive: (id: string, active: boolean) => Promise<{error: ServerError}>;
         revokeAllSessionsForUser: (id: string) => Promise<{error: ServerError; data: any}>;
         promoteGuestToUser: (id: string) => Promise<{error: ServerError}>;
         demoteUserToGuest: (id: string) => Promise<{error: ServerError}>;
-        loadBots: (page?: number, size?: number) => Promise<{}>;
+        loadBots: (page?: number, size?: number) => Promise<unknown>;
     };
     doPasswordReset: (user: UserProfile) => void;
     doEmailReset: (user: UserProfile) => void;
@@ -453,7 +455,7 @@ export default class SystemUsersDropdown extends React.PureComponent<Props, Stat
     }
 
     render() {
-        const {currentUser, user, isLicensed} = this.props;
+        const {currentUser, user, isLicensed, config} = this.props;
         const isGuest = Utils.isGuest(user);
         if (!user) {
             return <div/>;
@@ -520,7 +522,9 @@ export default class SystemUsersDropdown extends React.PureComponent<Props, Stat
                 {revokeSessionsModal}
                 {promoteToUserModal}
                 {demoteToGuestModal}
-                <MenuWrapper>
+                <MenuWrapper
+                    isDisabled={this.props.isDisabled}
+                >
                     <div className='text-right'>
                         <a>
                             <span>{currentRoles} </span>
@@ -586,7 +590,7 @@ export default class SystemUsersDropdown extends React.PureComponent<Props, Stat
                             text={Utils.localizeMessage('admin.user_item.promoteToUser', 'Promote to User')}
                         />
                         <Menu.ItemAction
-                            show={!isGuest && user.id !== currentUser.id && isLicensed}
+                            show={!isGuest && user.id !== currentUser.id && isLicensed && config.GuestAccountsSettings?.Enable}
                             onClick={this.handleDemoteToGuest}
                             text={Utils.localizeMessage('admin.user_item.demoteToGuest', 'Demote to Guest')}
                         />

@@ -16,6 +16,7 @@ import {
     PreferenceTypes,
 } from 'mattermost-redux/action_types';
 import {WebsocketEvents, General, Permissions} from 'mattermost-redux/constants';
+import {addChannelToInitialCategory, fetchMyCategories, receivedCategoryOrder} from 'mattermost-redux/actions/channel_categories';
 import {
     getChannelAndMyMember,
     getMyChannelMember,
@@ -72,7 +73,6 @@ import store from 'stores/redux_store.jsx';
 import WebSocketClient from 'client/web_websocket_client.jsx';
 import {loadPlugin, loadPluginsIfNecessary, removePlugin} from 'plugins';
 import {ActionTypes, Constants, AnnouncementBarMessages, SocketEvents, UserStatuses, ModalIdentifiers} from 'utils/constants';
-import {fromAutoResponder} from 'utils/post_utils';
 import {getSiteURL} from 'utils/url';
 import {isGuest} from 'utils/utils';
 import RemovedFromChannelModal from 'components/removed_from_channel_modal';
@@ -298,7 +298,7 @@ export function handleEvent(msg) {
         break;
 
     case SocketEvents.USER_ADDED:
-        handleUserAddedEvent(msg);
+        dispatch(handleUserAddedEvent(msg));
         break;
 
     case SocketEvents.USER_REMOVED:
@@ -330,7 +330,7 @@ export function handleEvent(msg) {
         break;
 
     case SocketEvents.CHANNEL_CREATED:
-        handleChannelCreatedEvent(msg);
+        dispatch(handleChannelCreatedEvent(msg));
         break;
 
     case SocketEvents.CHANNEL_DELETED:
@@ -354,7 +354,11 @@ export function handleEvent(msg) {
         break;
 
     case SocketEvents.DIRECT_ADDED:
-        handleDirectAddedEvent(msg);
+        dispatch(handleDirectAddedEvent(msg));
+        break;
+
+    case SocketEvents.GROUP_ADDED:
+        dispatch(handleGroupAddedEvent(msg));
         break;
 
     case SocketEvents.PREFERENCE_CHANGED:
@@ -443,6 +447,30 @@ export function handleEvent(msg) {
 
     case SocketEvents.RECEIVED_GROUP_NOT_ASSOCIATED_TO_CHANNEL:
         handleGroupNotAssociatedToChannelEvent(msg);
+        break;
+
+    case SocketEvents.WARN_METRIC_STATUS_RECEIVED:
+        handleWarnMetricStatusReceivedEvent(msg);
+        break;
+
+    case SocketEvents.WARN_METRIC_STATUS_REMOVED:
+        handleWarnMetricStatusRemovedEvent(msg);
+        break;
+
+    case SocketEvents.SIDEBAR_CATEGORY_CREATED:
+        dispatch(handleSidebarCategoryCreated(msg));
+        break;
+
+    case SocketEvents.SIDEBAR_CATEGORY_UPDATED:
+        dispatch(handleSidebarCategoryUpdated(msg));
+        break;
+
+    case SocketEvents.SIDEBAR_CATEGORY_DELETED:
+        dispatch(handleSidebarCategoryDeleted(msg));
+        break;
+
+    case SocketEvents.SIDEBAR_CATEGORY_ORDER_UPDATED:
+        dispatch(handleSidebarCategoryOrderUpdated(msg));
         break;
 
     default:
@@ -539,7 +567,16 @@ export function handleNewPostEvent(msg) {
 
         getProfilesAndStatusesForPosts([post], myDispatch, myGetState);
 
-        if (post.user_id !== getCurrentUserId(myGetState()) && !fromAutoResponder(post) && !getIsManualStatusForUserId(myGetState(), post.user_id)) {
+        // Since status updates aren't real time, assume another user is online if they have posted and:
+        // 1. The user hasn't set their status manually to something that isn't online
+        // 2. The server hasn't told the client not to set the user to online. This happens when:
+        //     a. The post is from the auto responder
+        //     b. The post is a response to a push notification
+        if (
+            post.user_id !== getCurrentUserId(myGetState()) &&
+            !getIsManualStatusForUserId(myGetState(), post.user_id) &&
+            msg.data.set_online
+        ) {
             myDispatch({
                 type: UserTypes.RECEIVED_STATUSES,
                 data: [{user_id: post.user_id, status: UserStatuses.ONLINE}],
@@ -744,31 +781,48 @@ function handleUpdateMemberRoleEvent(msg) {
 }
 
 function handleDirectAddedEvent(msg) {
-    dispatch(getChannelAndMyMember(msg.broadcast.channel_id));
+    return fetchChannelAndAddToSidebar(msg.broadcast.channel_id);
+}
+
+function handleGroupAddedEvent(msg) {
+    return fetchChannelAndAddToSidebar(msg.broadcast.channel_id);
 }
 
 function handleUserAddedEvent(msg) {
-    const state = getState();
-    const config = getConfig(state);
-    const license = getLicense(state);
-    const isTimezoneEnabled = config.ExperimentalTimezone === 'true';
-    const currentChannelId = getCurrentChannelId(state);
-    if (currentChannelId === msg.broadcast.channel_id) {
-        dispatch(getChannelStats(currentChannelId));
-        dispatch({
-            type: UserTypes.RECEIVED_PROFILE_IN_CHANNEL,
-            data: {id: msg.broadcast.channel_id, user_id: msg.data.user_id},
-        });
-        if (license?.IsLicensed === 'true' && license?.LDAPGroups === 'true') {
-            dispatch(getChannelMemberCountsByGroup(currentChannelId, isTimezoneEnabled));
+    return async (doDispatch, doGetState) => {
+        const state = doGetState();
+        const config = getConfig(state);
+        const license = getLicense(state);
+        const isTimezoneEnabled = config.ExperimentalTimezone === 'true';
+        const currentChannelId = getCurrentChannelId(state);
+        if (currentChannelId === msg.broadcast.channel_id) {
+            doDispatch(getChannelStats(currentChannelId));
+            doDispatch({
+                type: UserTypes.RECEIVED_PROFILE_IN_CHANNEL,
+                data: {id: msg.broadcast.channel_id, user_id: msg.data.user_id},
+            });
+            if (license?.IsLicensed === 'true' && license?.LDAPGroups === 'true') {
+                doDispatch(getChannelMemberCountsByGroup(currentChannelId, isTimezoneEnabled));
+            }
         }
-    }
 
-    const currentTeamId = getCurrentTeamId(getState());
-    const currentUserId = getCurrentUserId(getState());
-    if (currentTeamId === msg.data.team_id && currentUserId === msg.data.user_id) {
-        dispatch(getChannelAndMyMember(msg.broadcast.channel_id));
-    }
+        // Load the channel so that it appears in the sidebar
+        const currentTeamId = getCurrentTeamId(doGetState());
+        const currentUserId = getCurrentUserId(doGetState());
+        if (currentTeamId === msg.data.team_id && currentUserId === msg.data.user_id) {
+            doDispatch(fetchChannelAndAddToSidebar(msg.broadcast.channel_id));
+        }
+    };
+}
+
+function fetchChannelAndAddToSidebar(channelId) {
+    return async (doDispatch) => {
+        const {data, error} = await doDispatch(getChannelAndMyMember(channelId));
+
+        if (!error) {
+            doDispatch(addChannelToInitialCategory(data.channel));
+        }
+    };
 }
 
 export async function handleUserRemovedEvent(msg) {
@@ -947,13 +1001,23 @@ function handleRoleUpdatedEvent(msg) {
 }
 
 function handleChannelCreatedEvent(msg) {
-    const channelId = msg.data.channel_id;
-    const teamId = msg.data.team_id;
-    const state = getState();
+    return async (myDispatch, myGetState) => {
+        const channelId = msg.data.channel_id;
+        const teamId = msg.data.team_id;
+        const state = myGetState();
 
-    if (getCurrentTeamId(state) === teamId && !getChannel(state, channelId)) {
-        dispatch(getChannelAndMyMember(channelId));
-    }
+        if (getCurrentTeamId(state) === teamId) {
+            let channel = getChannel(state, channelId);
+
+            if (!channel) {
+                await myDispatch(getChannelAndMyMember(channelId));
+
+                channel = getChannel(myGetState(), channelId);
+            }
+
+            myDispatch(addChannelToInitialCategory(channel, false));
+        }
+    };
 }
 
 function handleChannelDeletedEvent(msg) {
@@ -1151,10 +1215,16 @@ function handleOpenDialogEvent(msg) {
 
 function handleGroupUpdatedEvent(msg) {
     const data = JSON.parse(msg.data.group);
-    store.dispatch({
-        type: GroupTypes.RECEIVED_GROUP,
-        data,
-    });
+    dispatch(batchActions([
+        {
+            type: GroupTypes.RECEIVED_GROUP,
+            data,
+        },
+        {
+            type: GroupTypes.RECEIVED_MY_GROUPS,
+            data: [data],
+        },
+    ]));
 }
 
 function handleGroupAssociatedToTeamEvent(msg) {
@@ -1183,4 +1253,68 @@ function handleGroupNotAssociatedToChannelEvent(msg) {
         type: GroupTypes.RECEIVED_GROUP_NOT_ASSOCIATED_TO_CHANNEL,
         data: {channelID: msg.broadcast.channel_id, groups: [{id: msg.data.group_id}]},
     });
+}
+
+function handleWarnMetricStatusReceivedEvent(msg) {
+    store.dispatch(batchActions([
+        {
+            type: GeneralTypes.WARN_METRIC_STATUS_RECEIVED,
+            data: JSON.parse(msg.data.warnMetricStatus),
+        },
+        {
+            type: ActionTypes.SHOW_NOTICE,
+            data: [AnnouncementBarMessages.NUMBER_OF_ACTIVE_USERS_WARN_METRIC_STATUS],
+        },
+    ]));
+}
+
+function handleWarnMetricStatusRemovedEvent(msg) {
+    store.dispatch({type: GeneralTypes.WARN_METRIC_STATUS_REMOVED, data: {id: msg.data.warnMetricId}});
+}
+
+function handleSidebarCategoryCreated(msg) {
+    return (doDispatch, doGetState) => {
+        const state = doGetState();
+
+        if (msg.broadcast.team_id !== getCurrentTeamId(state)) {
+            // The new category will be loaded when we switch teams.
+            return;
+        }
+
+        // Fetch all categories, including ones that weren't explicitly updated, in case any other categories had channels
+        // moved out of them.
+        doDispatch(fetchMyCategories(msg.broadcast.team_id));
+    };
+}
+
+function handleSidebarCategoryUpdated(msg) {
+    return (doDispatch, doGetState) => {
+        const state = doGetState();
+
+        if (msg.broadcast.team_id !== getCurrentTeamId(state)) {
+            // The updated categories will be loaded when we switch teams.
+            return;
+        }
+
+        // Fetch all categories in case any other categories had channels moved out of them.
+        doDispatch(fetchMyCategories(msg.broadcast.team_id));
+    };
+}
+
+function handleSidebarCategoryDeleted(msg) {
+    return (doDispatch, doGetState) => {
+        const state = doGetState();
+
+        if (msg.broadcast.team_id !== getCurrentTeamId(state)) {
+            // The category will be removed when we switch teams.
+            return;
+        }
+
+        // Fetch all categories since any channels that were in the deleted category were moved to other categories.
+        doDispatch(fetchMyCategories(msg.broadcast.team_id));
+    };
+}
+
+function handleSidebarCategoryOrderUpdated(msg) {
+    return receivedCategoryOrder(msg.broadcast.team_id, msg.data.order);
 }

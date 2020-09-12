@@ -693,7 +693,7 @@ describe('PostUtils.createAriaLabelForPost', () => {
         assert.ok(ariaLabel.indexOf(testPost.message));
         assert.ok(ariaLabel.indexOf('3 attachments'));
         assert.ok(ariaLabel.indexOf('2 reactions'));
-        assert.ok(ariaLabel.indexOf('message is flagged and pinned'));
+        assert.ok(ariaLabel.indexOf('message is saved and pinned'));
     });
     test('Should show that message is a reply', () => {
         const intl = createIntl({locale: 'en', messages: enMessages, defaultLocale: 'en'}, {});

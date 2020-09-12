@@ -7,8 +7,9 @@ import {FormattedMessage} from 'react-intl';
 import {Tooltip} from 'react-bootstrap';
 
 import OverlayTrigger from 'components/overlay_trigger';
-
 import Constants from 'utils/constants.jsx';
+
+import AutosizeTextarea from './autosize_textarea';
 
 // A component that can be used to make controlled inputs that function properly in certain
 // environments (ie. IE11) where typing quickly would sometimes miss inputs
@@ -97,7 +98,9 @@ export default class QuickInput extends React.PureComponent {
         this.input = input;
     }
 
-    onClear = () => {
+    onClear = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
         if (this.props.onClear) {
             this.props.onClear();
         }
@@ -126,6 +129,11 @@ export default class QuickInput extends React.PureComponent {
         Reflect.deleteProperty(props, 'delayInputUpdate');
         Reflect.deleteProperty(props, 'onClear');
         Reflect.deleteProperty(props, 'clearableTooltipText');
+        Reflect.deleteProperty(props, 'channelId');
+
+        if (inputComponent !== AutosizeTextarea) {
+            Reflect.deleteProperty(props, 'onHeightChange');
+        }
 
         const inputElement = React.createElement(
             inputComponent || 'input',
@@ -141,7 +149,7 @@ export default class QuickInput extends React.PureComponent {
             {clearable && value && this.props.onClear &&
                 <div
                     className='input-clear visible'
-                    onClick={this.onClear}
+                    onMouseDown={this.onClear}
                 >
                     <OverlayTrigger
                         delayShow={Constants.OVERLAY_TIME_DELAY}

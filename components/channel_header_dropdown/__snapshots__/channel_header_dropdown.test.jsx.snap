@@ -11,7 +11,15 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
           },
         }
       }
-      dialogType={[Function]}
+      dialogType={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "displayName": "Connect(ChannelInfoModal)",
+          "type": [Function],
+        }
+      }
       id="channelViewInfo"
       modalId="channel_info"
       show={true}
@@ -47,7 +55,15 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
           },
         }
       }
-      dialogType={[Function]}
+      dialogType={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "displayName": "Connect(ChannelNotificationsModal)",
+          "type": [Function],
+        }
+      }
       id="channelNotificationPreferences"
       modalId="channel_notifications"
       show={true}
@@ -86,7 +102,15 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
             },
           }
         }
-        dialogType={[Function]}
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "displayName": "Connect(ChannelInviteModal)",
+            "type": [Function],
+          }
+        }
         id="channelAddMembers"
         modalId="channel_invite"
         show={true}
@@ -98,7 +122,15 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
             "isExistingChannel": true,
           }
         }
-        dialogType={[Function]}
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "displayName": "Connect(MoreDirectChannels)",
+            "type": [Function],
+          }
+        }
         id="channelAddMembers"
         modalId="create_dm_channel"
         show={false}
@@ -113,7 +145,15 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
           },
         }
       }
-      dialogType={[Function]}
+      dialogType={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "displayName": "Connect(ChannelMembersModal)",
+          "type": [Function],
+        }
+      }
       id="channelViewMembers"
       modalId="channel_members"
       show={false}
@@ -128,7 +168,15 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
       }
     >
       <MenuItemToggleModalRedux
-        dialogType={[Function]}
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "displayName": "Connect(AddGroupsToChannelModal)",
+            "type": [Function],
+          }
+        }
         id="channelAddGroups"
         modalId="add_groups_to_channel"
         show={false}
@@ -140,7 +188,15 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
             "channelID": "test-channel-id",
           }
         }
-        dialogType={[Function]}
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "displayName": "Connect(injectIntl(ChannelGroupsManageModal))",
+            "type": [Function],
+          }
+        }
         id="channelManageGroups"
         modalId="manage_channel_groups"
         show={false}
@@ -154,7 +210,15 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
             },
           }
         }
-        dialogType={[Function]}
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "displayName": "Connect(ChannelMembersModal)",
+            "type": [Function],
+          }
+        }
         id="channelManageMembers"
         modalId="channel_members"
         show={true}
@@ -178,7 +242,15 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
             },
           }
         }
-        dialogType={[Function]}
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "displayName": "Connect(ChannelMembersModal)",
+            "type": [Function],
+          }
+        }
         id="channelViewMembers"
         modalId="channel_members"
         show={true}
@@ -195,7 +267,15 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
           },
         }
       }
-      dialogType={[Function]}
+      dialogType={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "displayName": "Connect(injectIntl(EditChannelHeaderModal))",
+          "type": [Function],
+        }
+      }
       id="channelEditHeader"
       modalId="edit_channel_header"
       show={false}
@@ -217,7 +297,15 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
             },
           }
         }
-        dialogType={[Function]}
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "displayName": "Connect(injectIntl(EditChannelHeaderModal))",
+            "type": [Function],
+          }
+        }
         id="channelEditHeader"
         modalId="edit_channel_header"
         show={true}
@@ -231,7 +319,15 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
             },
           }
         }
-        dialogType={[Function]}
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "displayName": "Connect(injectIntl(EditChannelPurposeModal))",
+            "type": [Function],
+          }
+        }
         id="channelEditPurpose"
         modalId="edit_channel_purpose"
         show={true}
@@ -245,17 +341,26 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
             },
           }
         }
-        dialogType={[Function]}
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "displayName": "Connect(injectIntl(RenameChannelModal))",
+            "type": [Function],
+          }
+        }
         id="channelRename"
         modalId="rename_channel"
         show={true}
         text="Rename Channel"
       />
     </Connect(ChannelPermissionGate)>
-    <Connect(TeamPermissionGate)
+    <Connect(ChannelPermissionGate)
+      channelId="test-channel-id"
       permissions={
         Array [
-          "manage_team",
+          "convert_public_channel_to_private",
         ]
       }
     >
@@ -266,13 +371,21 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
             "channelId": "test-channel-id",
           }
         }
-        dialogType={[Function]}
-        id="channelCovertToPrivate"
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "displayName": "Connect(ConvertChannelModal)",
+            "type": [Function],
+          }
+        }
+        id="channelConvertToPrivate"
         modalId="convert_channel"
         show={false}
         text="Convert to Private Channel"
       />
-    </Connect(TeamPermissionGate)>
+    </Connect(ChannelPermissionGate)>
     <Connect(ChannelPermissionGate)
       channelId="test-channel-id"
       permissions={
@@ -290,7 +403,15 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
             "penultimateViewedChannelName": "test-channel",
           }
         }
-        dialogType={[Function]}
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "displayName": "Connect(DeleteChannelModal)",
+            "type": [Function],
+          }
+        }
         id="channelArchiveChannel"
         modalId="delete_channel"
         show={true}
@@ -345,7 +466,15 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
             },
           }
         }
-        dialogType={[Function]}
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "displayName": "Connect(UnarchiveChannelModal)",
+            "type": [Function],
+          }
+        }
         id="channelUnarchiveChannel"
         modalId="unarchive_channel"
         show={false}
@@ -367,7 +496,15 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
           },
         }
       }
-      dialogType={[Function]}
+      dialogType={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "displayName": "Connect(ChannelInfoModal)",
+          "type": [Function],
+        }
+      }
       id="channelViewInfo"
       modalId="channel_info"
       show={true}
@@ -403,7 +540,15 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
           },
         }
       }
-      dialogType={[Function]}
+      dialogType={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "displayName": "Connect(ChannelNotificationsModal)",
+          "type": [Function],
+        }
+      }
       id="channelNotificationPreferences"
       modalId="channel_notifications"
       show={true}
@@ -442,7 +587,15 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
             },
           }
         }
-        dialogType={[Function]}
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "displayName": "Connect(ChannelInviteModal)",
+            "type": [Function],
+          }
+        }
         id="channelAddMembers"
         modalId="channel_invite"
         show={true}
@@ -454,7 +607,15 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
             "isExistingChannel": true,
           }
         }
-        dialogType={[Function]}
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "displayName": "Connect(MoreDirectChannels)",
+            "type": [Function],
+          }
+        }
         id="channelAddMembers"
         modalId="create_dm_channel"
         show={false}
@@ -469,7 +630,15 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
           },
         }
       }
-      dialogType={[Function]}
+      dialogType={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "displayName": "Connect(ChannelMembersModal)",
+          "type": [Function],
+        }
+      }
       id="channelViewMembers"
       modalId="channel_members"
       show={false}
@@ -484,7 +653,15 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
       }
     >
       <MenuItemToggleModalRedux
-        dialogType={[Function]}
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "displayName": "Connect(AddGroupsToChannelModal)",
+            "type": [Function],
+          }
+        }
         id="channelAddGroups"
         modalId="add_groups_to_channel"
         show={false}
@@ -496,7 +673,15 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
             "channelID": "test-channel-id",
           }
         }
-        dialogType={[Function]}
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "displayName": "Connect(injectIntl(ChannelGroupsManageModal))",
+            "type": [Function],
+          }
+        }
         id="channelManageGroups"
         modalId="manage_channel_groups"
         show={false}
@@ -510,7 +695,15 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
             },
           }
         }
-        dialogType={[Function]}
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "displayName": "Connect(ChannelMembersModal)",
+            "type": [Function],
+          }
+        }
         id="channelManageMembers"
         modalId="channel_members"
         show={true}
@@ -534,7 +727,15 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
             },
           }
         }
-        dialogType={[Function]}
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "displayName": "Connect(ChannelMembersModal)",
+            "type": [Function],
+          }
+        }
         id="channelViewMembers"
         modalId="channel_members"
         show={true}
@@ -551,7 +752,15 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
           },
         }
       }
-      dialogType={[Function]}
+      dialogType={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "displayName": "Connect(injectIntl(EditChannelHeaderModal))",
+          "type": [Function],
+        }
+      }
       id="channelEditHeader"
       modalId="edit_channel_header"
       show={false}
@@ -573,7 +782,15 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
             },
           }
         }
-        dialogType={[Function]}
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "displayName": "Connect(injectIntl(EditChannelHeaderModal))",
+            "type": [Function],
+          }
+        }
         id="channelEditHeader"
         modalId="edit_channel_header"
         show={true}
@@ -587,7 +804,15 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
             },
           }
         }
-        dialogType={[Function]}
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "displayName": "Connect(injectIntl(EditChannelPurposeModal))",
+            "type": [Function],
+          }
+        }
         id="channelEditPurpose"
         modalId="edit_channel_purpose"
         show={true}
@@ -601,17 +826,26 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
             },
           }
         }
-        dialogType={[Function]}
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "displayName": "Connect(injectIntl(RenameChannelModal))",
+            "type": [Function],
+          }
+        }
         id="channelRename"
         modalId="rename_channel"
         show={true}
         text="Rename Channel"
       />
     </Connect(ChannelPermissionGate)>
-    <Connect(TeamPermissionGate)
+    <Connect(ChannelPermissionGate)
+      channelId="test-channel-id"
       permissions={
         Array [
-          "manage_team",
+          "convert_public_channel_to_private",
         ]
       }
     >
@@ -622,13 +856,21 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
             "channelId": "test-channel-id",
           }
         }
-        dialogType={[Function]}
-        id="channelCovertToPrivate"
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "displayName": "Connect(ConvertChannelModal)",
+            "type": [Function],
+          }
+        }
+        id="channelConvertToPrivate"
         modalId="convert_channel"
         show={false}
         text="Convert to Private Channel"
       />
-    </Connect(TeamPermissionGate)>
+    </Connect(ChannelPermissionGate)>
     <Connect(ChannelPermissionGate)
       channelId="test-channel-id"
       permissions={
@@ -646,7 +888,15 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
             "penultimateViewedChannelName": "test-channel",
           }
         }
-        dialogType={[Function]}
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "displayName": "Connect(DeleteChannelModal)",
+            "type": [Function],
+          }
+        }
         id="channelArchiveChannel"
         modalId="delete_channel"
         show={true}
@@ -716,7 +966,15 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
             },
           }
         }
-        dialogType={[Function]}
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "displayName": "Connect(UnarchiveChannelModal)",
+            "type": [Function],
+          }
+        }
         id="channelUnarchiveChannel"
         modalId="unarchive_channel"
         show={false}

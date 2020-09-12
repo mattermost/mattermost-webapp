@@ -25,7 +25,6 @@ exports[`components/admin_console/data_grid/DataGrid should match snapshot while
       <FormattedMessage
         defaultMessage="Loading"
         id="admin.data_grid.loading"
-        values={Object {}}
       />
     </div>
   </div>
@@ -81,8 +80,10 @@ exports[`components/admin_console/data_grid/DataGrid should match snapshot with 
       key="0"
       row={
         Object {
-          "name": "Joe Schmoe",
-          "team": "Admin Team",
+          "cells": Object {
+            "name": "Joe Schmoe",
+            "team": "Admin Team",
+          },
         }
       }
     />
@@ -105,8 +106,10 @@ exports[`components/admin_console/data_grid/DataGrid should match snapshot with 
       key="1"
       row={
         Object {
-          "name": "Foo Bar",
-          "team": "Admin Team",
+          "cells": Object {
+            "name": "Foo Bar",
+            "team": "Admin Team",
+          },
         }
       }
     />
@@ -129,8 +132,10 @@ exports[`components/admin_console/data_grid/DataGrid should match snapshot with 
       key="2"
       row={
         Object {
-          "name": "Some Guy",
-          "team": "Admin Team",
+          "cells": Object {
+            "name": "Some Guy",
+            "team": "Admin Team",
+          },
         }
       }
     />
@@ -160,7 +165,6 @@ exports[`components/admin_console/data_grid/DataGrid should match snapshot with 
       <FormattedMessage
         defaultMessage="No items found"
         id="admin.data_grid.empty"
-        values={Object {}}
       />
     </div>
   </div>

@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -75,6 +76,11 @@ export default class PostList extends React.PureComponent {
          * Used for passing down to virt list so it can change the chunk of posts selected
          */
         changeUnreadChunkTimeStamp: PropTypes.func.isRequired,
+
+        /*
+         * Used for skipping the call on load
+         */
+        isPrefetchingInProcess: PropTypes.bool.isRequired,
 
         actions: PropTypes.shape({
 
@@ -159,19 +165,23 @@ export default class PostList extends React.PureComponent {
     }
 
     postsOnLoad = async (channelId) => {
-        if (this.props.focusedPostId) {
-            await this.props.actions.loadPostsAround(channelId, this.props.focusedPostId);
-        } else if (this.props.isFirstLoad) {
-            await this.props.actions.loadUnreads(channelId);
-        } else if (this.props.latestPostTimeStamp) {
-            await this.props.actions.syncPostsInChannel(channelId, this.props.latestPostTimeStamp, false);
+        const {focusedPostId, isFirstLoad, latestPostTimeStamp, isPrefetchingInProcess, actions} = this.props;
+        if (focusedPostId) {
+            await actions.loadPostsAround(channelId, this.props.focusedPostId);
+        } else if (isFirstLoad) {
+            if (!isPrefetchingInProcess) {
+                await actions.loadUnreads(channelId);
+            }
+        } else if (latestPostTimeStamp) {
+            await actions.syncPostsInChannel(channelId, this.props.latestPostTimeStamp, false);
         } else {
-            await this.props.actions.loadLatestPosts(channelId);
+            await actions.loadLatestPosts(channelId);
         }
 
-        if (!this.props.focusedPostId) {
-            this.markChannelAsReadAndViewed(this.props.channelId);
+        if (!focusedPostId) {
+            this.markChannelAsReadAndViewed(channelId);
         }
+
         if (this.mounted) {
             this.setState({
                 loadingOlderPosts: false,
@@ -318,3 +328,4 @@ export default class PostList extends React.PureComponent {
         );
     }
 }
+/* eslint-enable react/no-string-refs */

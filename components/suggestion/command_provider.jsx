@@ -5,13 +5,18 @@ import React from 'react';
 
 import {Client4} from 'mattermost-redux/client';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {getChannel, getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 
 import store from 'stores/redux_store.jsx';
 
 import * as UserAgent from 'utils/user_agent';
+import * as Utils from 'utils/utils.jsx';
+import {getSelectedPost} from 'selectors/rhs';
 
 import Suggestion from './suggestion.jsx';
 import Provider from './provider.jsx';
+
+export const EXECUTE_CURRENT_COMMAND_ITEM_ID = '_execute_current_command';
 
 export class CommandSuggestion extends Suggestion {
     render() {
@@ -21,8 +26,12 @@ export class CommandSuggestion extends Suggestion {
         if (isSelection) {
             className += ' suggestion--selected';
         }
-        let icon = <div className='slash-command__icon'><span>{'/'}</span></div>;
-        if (item.iconData !== '') {
+        let symbolSpan = <span>{'/'}</span>;
+        if (item.iconData === EXECUTE_CURRENT_COMMAND_ITEM_ID) {
+            symbolSpan = <span className='block mt-1'>{'↵'}</span>;
+        }
+        let icon = <div className='slash-command__icon'>{symbolSpan}</div>;
+        if (item.iconData !== '' && item.iconData !== EXECUTE_CURRENT_COMMAND_ITEM_ID) {
             icon = (
                 <div
                     className='slash-command__icon'
@@ -54,6 +63,12 @@ export class CommandSuggestion extends Suggestion {
 }
 
 export default class CommandProvider extends Provider {
+    constructor({isInRHS}) {
+        super();
+
+        this.isInRHS = isInRHS;
+    }
+
     handlePretextChanged(pretext, resultCallback) {
         if (!pretext.startsWith('/')) {
             return false;
@@ -115,17 +130,45 @@ export default class CommandProvider extends Provider {
 
     handleWebapp(pretext, resultCallback) {
         const command = pretext.toLowerCase();
-        Client4.getCommandAutocompleteSuggestionsList(command, getCurrentTeamId(store.getState())).then(
+        const teamId = getCurrentTeamId(store.getState());
+        const selectedPost = getSelectedPost(store.getState());
+        let rootId;
+        if (this.isInRHS) {
+            rootId = selectedPost.root_id ? selectedPost.root_id : selectedPost.id;
+        }
+        const channel = this.isInRHS && selectedPost.channel_id ? getChannel(store.getState(), selectedPost.channel_id) : getCurrentChannel(store.getState());
+
+        const args = {
+            channel_id: channel.id,
+            ...(rootId && {root_id: rootId, parent_id: rootId}),
+        };
+
+        Client4.getCommandAutocompleteSuggestionsList(command, teamId, args).then(
             (data) => {
                 const matches = [];
-                data.forEach((sug) => {
+                let cmd = 'Ctrl';
+                if (Utils.isMac()) {
+                    cmd = '⌘';
+                }
+                if (this.shouldAddExecuteItem(data, pretext)) {
                     matches.push({
-                        complete: '/' + sug.Complete,
-                        suggestion: '/' + sug.Suggestion,
-                        hint: sug.Hint,
-                        description: sug.Description,
-                        iconData: sug.IconData,
+                        complete: pretext + EXECUTE_CURRENT_COMMAND_ITEM_ID,
+                        suggestion: '/Execute Current Command',
+                        hint: '',
+                        description: 'Select this option or use ' + cmd + '+Enter to execute the current command.',
+                        iconData: EXECUTE_CURRENT_COMMAND_ITEM_ID,
                     });
+                }
+                data.forEach((sug) => {
+                    if (!this.contains(matches, '/' + sug.Complete)) {
+                        matches.push({
+                            complete: '/' + sug.Complete,
+                            suggestion: '/' + sug.Suggestion,
+                            hint: sug.Hint,
+                            description: sug.Description,
+                            iconData: sug.IconData,
+                        });
+                    }
                 });
 
                 // pull out the suggested commands from the returned data
@@ -143,5 +186,21 @@ export default class CommandProvider extends Provider {
         );
 
         return true;
+    }
+
+    shouldAddExecuteItem(data, pretext) {
+        if (data.length === 0) {
+            return false;
+        }
+        if (pretext[pretext.length - 1] === ' ') {
+            return true;
+        }
+
+        // If suggestion is empty it means that user can input any text so we allow them to execute.
+        return data.findIndex((item) => item.Suggestion === '') !== -1;
+    }
+
+    contains(matches, complete) {
+        return matches.findIndex((match) => match.complete === complete) !== -1;
     }
 }

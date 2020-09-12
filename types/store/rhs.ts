@@ -30,7 +30,7 @@ export type RhsViewState = {
     previousRhsState: RhsState;
     rhsState: RhsState;
     searchTerms: string;
-    pluginId: string;
+    pluggableId: string;
     searchResultsTerms: string;
     isSearchingFlaggedPost: boolean;
     isSearchingPinnedPost: boolean;

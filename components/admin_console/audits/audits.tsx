@@ -1,28 +1,23 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {CSSProperties} from 'react';
 import {FormattedMessage} from 'react-intl';
+
+import {Audit} from 'mattermost-redux/types/audits';
 
 import ComplianceReports from 'components/admin_console/compliance_reports';
 import AuditTable from 'components/audit_table';
 import LoadingScreen from 'components/loading_screen';
 
 import ReloadIcon from 'components/widgets/icons/fa_reload_icon';
+
 type Props = {
     isLicensed: boolean;
-    audits: Array<any>;
+    audits: Audit[];
+    isDisabled?: boolean;
     actions: {
-        getAudits: () => Promise<{data: {
-            id: string;
-            create_at: number;
-            user_id: string;
-            action: string;
-            extra_info: string;
-            ip_address: string;
-            session_id: string;
-        };
-        }>;
+        getAudits: () => Promise<{data: Audit[]}>;
     };
 };
 
@@ -53,11 +48,11 @@ export default class Audits extends React.PureComponent<Props, State> {
     };
 
     private activityLogHeader = () => {
-        const h4Style = {
+        const h4Style: CSSProperties = {
             display: 'inline-block',
             marginBottom: '6px',
         };
-        const divStyle: object = {
+        const divStyle: CSSProperties = {
             clear: 'both',
         };
         return (
@@ -87,7 +82,7 @@ export default class Audits extends React.PureComponent<Props, State> {
         if (!this.props.isLicensed) {
             return <div/>;
         }
-        return <ComplianceReports/>;
+        return <ComplianceReports readOnly={this.props.isDisabled}/>;
     };
 
     public render() {

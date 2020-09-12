@@ -63,7 +63,7 @@ class SearchChannelWithPermissionsSuggestion extends Suggestion {
                 }}
                 {...Suggestion.baseProps}
             >
-                <span className='suggestion-list__icon suggestion-list__icon--standard'>{icon}</span>
+                <span className='suggestion-list__icon suggestion-list__icon--large'>{icon}</span>
                 {displayName}
             </div>
         );
@@ -208,8 +208,6 @@ export default class SearchChannelWithPermissionsProvider extends Provider {
                 if (!viewArchivedChannels && channelIsArchived) {
                     continue;
                 } else if (!members[channel.id]) {
-                    continue;
-                } else if (channelIsArchived && !members[channel.id]) {
                     continue;
                 } else if (channel.type === Constants.OPEN_CHANNEL) {
                     wrappedChannel.type = Constants.OPEN_CHANNEL;

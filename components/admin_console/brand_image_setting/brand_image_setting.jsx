@@ -1,10 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 import {Tooltip} from 'react-bootstrap';
 import {Client4} from 'mattermost-redux/client';
 
@@ -80,7 +81,7 @@ export default class BrandImageSetting extends React.PureComponent {
 
             const img = this.refs.image;
             reader.onload = (e) => {
-                $(img).attr('src', e.target.result);
+                $(img).attr('src', e.target.result); // eslint-disable-line jquery/no-attr
             };
 
             reader.readAsDataURL(this.state.brandImage);
@@ -249,9 +250,9 @@ export default class BrandImageSetting extends React.PureComponent {
                     <br/>
                     <FormError error={this.state.error}/>
                     <p className='help-text m-0'>
-                        <FormattedHTMLMessage
+                        <FormattedMessage
                             id='admin.team.uploadDesc'
-                            defaultMessage='Customize your user experience by adding a custom image to your login screen. See examples at <a href="http://docs.mattermost.com/administration/config-settings.html#custom-branding" target="_blank">docs.mattermost.com/administration/config-settings.html#custom-branding</a>.'
+                            defaultMessage='Customize your user experience by adding a custom image to your login screen. Recommended maximum image size is less than 2 MB.'
                         />
                     </p>
                 </div>
@@ -259,3 +260,4 @@ export default class BrandImageSetting extends React.PureComponent {
         );
     }
 }
+/* eslint-enable react/no-string-refs */

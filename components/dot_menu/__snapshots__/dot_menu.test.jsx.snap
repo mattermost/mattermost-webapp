@@ -20,7 +20,6 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
         <FormattedMessage
           defaultMessage="More actions"
           id="post_info.dot_menu.tooltip.more_actions"
-          values={Object {}}
         />
       </Tooltip>
     }
@@ -84,12 +83,12 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
     <MenuItemAction
       onClick={[Function]}
       show={false}
-      text="Unflag"
+      text="Remove from Saved"
     />
     <MenuItemAction
       onClick={[Function]}
       show={false}
-      text="Flag"
+      text="Save"
     />
     <MenuItemAction
       id="unpin_post_post_id_1"
@@ -149,7 +148,6 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
         <FormattedMessage
           defaultMessage="More actions"
           id="post_info.dot_menu.tooltip.more_actions"
-          values={Object {}}
         />
       </Tooltip>
     }
@@ -213,12 +211,12 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
     <MenuItemAction
       onClick={[Function]}
       show={false}
-      text="Unflag"
+      text="Remove from Saved"
     />
     <MenuItemAction
       onClick={[Function]}
       show={false}
-      text="Flag"
+      text="Save"
     />
     <MenuItemAction
       id="unpin_post_post_id_1"

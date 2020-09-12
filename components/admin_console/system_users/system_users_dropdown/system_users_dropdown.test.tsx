@@ -3,11 +3,12 @@
 
 import React from 'react';
 import {shallow} from 'enzyme';
+
 import {UserProfile} from 'mattermost-redux/types/users';
 
 import {TestHelper} from '../../../../utils/test_helper';
 
-import SystemUsersDropdown from './system_users_dropdown';
+import SystemUsersDropdown, {Props} from './system_users_dropdown';
 
 describe('components/admin_console/system_users/system_users_dropdown/system_users_dropdown', () => {
     const user: UserProfile & {mfa_active: boolean} = Object.assign(TestHelper.getUserMock(), {mfa_active: true});
@@ -18,7 +19,7 @@ describe('components/admin_console/system_users/system_users_dropdown/system_use
         username: 'other-user',
     });
 
-    const requiredProps = {
+    const requiredProps: Props = {
         user,
         mfaEnabled: true,
         isLicensed: true,
@@ -31,18 +32,20 @@ describe('components/admin_console/system_users/system_users_dropdown/system_use
         doManageTokens: jest.fn(),
         onError: jest.fn(),
         currentUser: otherUser,
-        teamUrl: 'teamUrl',
         index: 0,
         totalUsers: 10,
+        isDisabled: false,
         actions: {
             updateUserActive: jest.fn().mockResolvedValue({data: true}),
             revokeAllSessionsForUser: jest.fn().mockResolvedValue({data: true}),
             promoteGuestToUser: jest.fn().mockResolvedValue({data: true}),
             demoteUserToGuest: jest.fn().mockResolvedValue({data: true}),
-            loadBots: jest.fn(() => Promise.resolve({})),
+            loadBots: jest.fn(() => Promise.resolve([])),
         },
         config: {
-            ServiceSettings: {},
+            GuestAccountsSettings: {
+                Enable: true,
+            },
         },
         bots: {},
     };
@@ -51,7 +54,7 @@ describe('components/admin_console/system_users/system_users_dropdown/system_use
         const wrapper = shallow<SystemUsersDropdown>(<SystemUsersDropdown {...requiredProps}/>);
 
         const event = {preventDefault: jest.fn()};
-        await wrapper.instance().handleMakeActive(event);
+        wrapper.instance().handleMakeActive(event);
 
         expect(requiredProps.actions.updateUserActive).toHaveBeenCalledTimes(1);
         expect(requiredProps.actions.updateUserActive).toHaveBeenCalledWith(requiredProps.user.id, true);
@@ -126,7 +129,7 @@ describe('components/admin_console/system_users/system_users_dropdown/system_use
                 DisableBotsWhenOwnerIsDeactivated: true,
             },
         };
-        const wrapper = shallow<SystemUsersDropdown>(<SystemUsersDropdown {...{...requiredProps, config: overrideConfig, bots: { }}}/>);
+        const wrapper = shallow<SystemUsersDropdown>(<SystemUsersDropdown {...{...requiredProps, config: overrideConfig, bots: {}}}/>);
 
         const event = {preventDefault: jest.fn()};
         await wrapper.instance().handleShowDeactivateMemberModal(event);

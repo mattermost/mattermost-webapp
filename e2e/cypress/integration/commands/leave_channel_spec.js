@@ -7,31 +7,34 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod @smoke
+// Stage: @prod
 // Group: @commands
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
+
 describe('Leave Channel Command', () => {
+    let testChannel;
+
     before(() => {
-        // # Login and go to town-square
-        cy.apiLogin();
-        cy.visit('/ad-1/channels/town-square');
+        // # Login as test user and go to town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
+            testChannel = channel;
+            cy.visit(`/${team.name}/channels/town-square`);
+            cy.get('#channelHeaderTitle').should('be.visible').and('contain', 'Town Square');
+        });
     });
 
-    it('Should be redirected to last channel when user leaves channelw with /leave command', () => {
-        cy.getCurrentTeamId().then((teamId) => {
-            const channelName = 'newchannel' + Date.now();
-            cy.apiCreateChannel(teamId, channelName, channelName).then((response) => {
-                // # Go to newly created channel
-                cy.get('#sidebarItem_' + response.body.name).click({force: true});
-                cy.findAllByTestId('postView').should('be.visible');
+    it('Should be redirected to last channel when user leaves channel with /leave command', () => {
+        // # Go to newly created channel
+        cy.get('#sidebarItem_' + testChannel.name).click({force: true});
+        cy.findAllByTestId('postView').should('be.visible');
 
-                // # Post /leave command in center channel
-                cy.postMessage('/leave');
-                cy.wait(2000); // eslint-disable-line cypress/no-unnecessary-waiting
+        // # Post /leave command in center channel
+        cy.postMessage('/leave');
+        cy.wait(TIMEOUTS.TWO_SEC); // eslint-disable-line cypress/no-unnecessary-waiting
 
-                // * Assert that user is redirected to townsquare
-                cy.url().should('include', '/channels/town-square');
-            });
-        });
+        // * Assert that user is redirected to townsquare
+        cy.url().should('include', '/channels/town-square');
+        cy.get('#channelHeaderTitle').should('be.visible').and('contain', 'Town Square');
     });
 });

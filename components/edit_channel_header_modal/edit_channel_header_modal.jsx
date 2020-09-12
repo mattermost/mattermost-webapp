@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -120,13 +121,13 @@ class EditChannelHeaderModal extends React.PureComponent {
 
     focusTextbox = () => {
         if (this.refs.editChannelHeaderTextbox) {
-            this.refs.editChannelHeaderTextbox.getWrappedInstance().focus();
+            this.refs.editChannelHeaderTextbox.focus();
         }
     }
 
     blurTextbox = () => {
         if (this.refs.editChannelHeaderTextbox) {
-            this.refs.editChannelHeaderTextbox.getWrappedInstance().blur();
+            this.refs.editChannelHeaderTextbox.blur();
         }
     }
 
@@ -239,6 +240,7 @@ class EditChannelHeaderModal extends React.PureComponent {
                                 createMessage={localizeMessage('edit_channel_header.editHeader', 'Edit the Channel Header...')}
                                 previewMessageLink={localizeMessage('edit_channel_header.previewHeader', 'Edit Header')}
                                 handlePostError={this.handlePostError}
+                                channelId={this.props.channel.id}
                                 id='edit_textbox'
                                 ref='editChannelHeaderTextbox'
                                 characterLimit={1024}
@@ -287,3 +289,4 @@ class EditChannelHeaderModal extends React.PureComponent {
 }
 
 export default injectIntl(EditChannelHeaderModal);
+/* eslint-enable react/no-string-refs */

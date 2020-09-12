@@ -14,18 +14,20 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Messaging', () => {
     before(() => {
-        // # Login and navigate to town-square
-        cy.toMainChannelView('user-1');
+        // # Login as test user and visit town-square channel
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
 
-        // # Post a new message to ensure there will be a post to click on
-        cy.postMessage('Hello ' + Date.now());
+            // # Post a new message to ensure there will be a post to click on
+            cy.postMessage('Hello ' + Date.now());
+        });
     });
 
-    it('M18706-Input box on reply thread can expand', () => {
+    it('MM-T209 Input box on reply thread can expand', () => {
         const maxReplyCount = 15;
         const halfViewportHeight = Cypress.config('viewportHeight') / 2;
-        const padding = 7;
-        const postCreateContainerDefaultHeight = 187;
+        const padding = 10;
+        const postCreateContainerDefaultHeight = 190;
         const replyTextBoxDefaultHeight = 100;
         const postCreateContainerClassName = 'post-create__container';
         const replyTextBoxId = 'reply_textbox';
@@ -66,7 +68,7 @@ describe('Messaging', () => {
         // # Get first reply and scroll into view
         cy.getNthPostId(-maxReplyCount).then((replyId) => {
             cy.get(`#postMessageText_${replyId}`).scrollIntoView();
-            cy.wait(TIMEOUTS.TINY);
+            cy.wait(TIMEOUTS.HALF_SEC);
         });
 
         // # Type new message to reply text box and verify last reply
@@ -101,7 +103,9 @@ describe('Messaging', () => {
             expect(replyTextBox.offsetHeight).to.be.greaterThan(postCreateContainerDefaultHeight);
 
             // * Check if reply text box height attribute is greater than reply text box offset height
-            cy.get(`#${replyTextBoxId}`).should('have.attr', 'height').and('greaterThan', replyTextBox.offsetHeight);
+            cy.get(`#${replyTextBoxId}`).should('have.attr', 'height').then((height) => {
+                expect(Number(height)).to.be.greaterThan(replyTextBox.offsetHeight);
+            });
         });
     }
 });

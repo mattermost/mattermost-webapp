@@ -8,49 +8,31 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @messaging
+// Group: @messaging @smoke
 
-import users from '../../fixtures/users.json';
-
-const sysadmin = users.sysadmin;
-
-function shouldHavePostProfileImageVisible(isVisible = true) {
-    cy.getLastPostId().then((postID) => {
-        const target = `#post_${postID}`;
-        if (isVisible) {
-            cy.get(target).invoke('attr', 'class').
-                should('contain', 'current--user').
-                and('contain', 'other--root');
-
-            cy.get(`${target} > div[data-testid='postContent'] > .post__img`).should('be.visible');
-        } else {
-            cy.get(target).invoke('attr', 'class').
-                should('contain', 'current--user').
-                and('contain', 'same--user').
-                and('contain', 'same--root');
-
-            cy.get(`${target} > div[data-testid='postContent'] > .post__img`).
-                should('be.visible').
-                and('be.empty');
-        }
-    });
-}
+import {getAdminAccount} from '../../support/env';
+import * as MESSAGES from '../../fixtures/messages';
 
 describe('Message', () => {
+    const admin = getAdminAccount();
+    let testTeam;
+    let testChannel;
+
     before(() => {
-        // # Login as "user-1" and go to /
-        cy.apiLogin('user-1');
-        cy.visit('/ad-1/channels/town-square');
+        // # Create new team and new user and visit Town Square channel
+        cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
+            testTeam = team;
+            testChannel = channel;
+            cy.visit(`/${testTeam.name}/channels/town-square`);
+        });
     });
 
-    it('M13701 Consecutive message does not repeat profile info', () => {
+    it('MM-T77 Consecutive message does not repeat profile info', () => {
         // # Wait for posts to load
         cy.get('#postListContent').should('be.visible');
 
         // # Post a message to force next user message to display a message
-        cy.getCurrentChannelId().then((channelId) => {
-            cy.postMessageAs({sender: sysadmin, message: 'Hello', channelId});
-        });
+        cy.postMessageAs({sender: admin, message: 'Hello', channelId: testChannel.id});
 
         // # Post message "One"
         cy.postMessage('One');
@@ -71,7 +53,7 @@ describe('Message', () => {
         shouldHavePostProfileImageVisible(false);
     });
 
-    it('M14012 Focus move to main input box when a character key is selected', () => {
+    it('MM-T201 Focus move to main input box when a character key is selected', () => {
         // # Post message
         cy.postMessage('Message');
 
@@ -96,19 +78,7 @@ describe('Message', () => {
         });
     });
 
-    it('M14320 @here, @all and @channel (ending in a period) still highlight', () => {
-        // # Change settings to allow @channel messages
-        cy.apiPatchMe({notify_props: {channel: 'true'}});
-
-        // # Login as sysadmin the create/login as new user
-        cy.apiLogin('sysadmin');
-        cy.apiCreateAndLoginAsNewUser().then(() => {
-            // # Create new team and visit its URL
-            cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
-                cy.visit(`/${response.body.name}`);
-            });
-        });
-
+    it('MM-T72 @here. @all. @channel. (containing a period) still highlight', () => {
         // # Post message
         cy.postMessage('@here. @all. @channel.');
 
@@ -128,7 +98,10 @@ describe('Message', () => {
 
     it('MM-2954 /me message should be formatted like a system message', () => {
         // # Post message
-        cy.postMessage('/me hello there');
+        const message = 'hello there';
+        cy.postMessage(`/me ${message}`);
+
+        cy.uiWaitUntilMessagePostedIncludes(message);
 
         cy.getLastPostId().then((postId) => {
             const divPostId = `#post_${postId}`;
@@ -137,4 +110,110 @@ describe('Message', () => {
             cy.get(divPostId).should('have.class', 'post--system');
         });
     });
+
+    it('message with emoji contains hidden shortcode text', () => {
+        const message = 'This post has a shortcode emoji :raising_hand_man: within it.';
+
+        // # Post a message with a shortcode emoji
+        cy.postMessage(message);
+
+        cy.getLastPostId().then((postId) => {
+            const divPostId = `#post_${postId}`;
+
+            // * Check that message matches what was posted with the emoji omitted
+            cy.get(`#postMessageText_${postId}`).should('have.text', message);
+
+            // * Check that the emoji image contains the hidden shortcode text
+            cy.get(divPostId).find('span.emoticon').should('have.text', ':raising_hand_man:');
+        });
+    });
+
+    it('message with unicode emoji displays the unicode and not a span with background image', () => {
+        // # Post a message with a shortcode emoji
+        cy.postMessage('This post a unicode emoji in a code snippet: `😉`');
+
+        cy.getLastPostId().then((postId) => {
+            const divPostId = `#post_${postId}`;
+
+            cy.get(divPostId).find('span.emoticon').should('not.exist');
+            cy.get(divPostId).find('span.codespan__pre-wrap code').should('have.text', '😉');
+        });
+    });
+
+    it('MM-T3307 Focus remains in the RHS text box', () => {
+        cy.apiSaveShowMarkdownPreviewPreference();
+
+        cy.postMessage(MESSAGES.MEDIUM);
+
+        // # Open reply thread (RHS)
+        cy.clickPostCommentIcon();
+
+        // # Add some text to RHS text box
+        cy.get('#reply_textbox').type(MESSAGES.TINY);
+
+        // # Click on Preview
+        cy.get('#previewLink').click();
+
+        // # Click on Add Comment
+        cy.get('#addCommentButton').click();
+
+        // * Focus to remain in the RHS text box
+        cy.get('#reply_textbox').should('be.focused');
+    });
+
+    it('MM-T1796 Standard view: Show single image thumbnail', () => {
+        verifySingleImageThumbnail({mode: 'Standard'});
+    });
+
+    it('MM-T1797 Compact view: Show single image thumbnail', () => {
+        verifySingleImageThumbnail({mode: 'Compact'});
+    });
 });
+
+function verifySingleImageThumbnail({mode = null} = {}) {
+    const displayMode = {
+        Compact: 'compact',
+        Standard: 'clean',
+    };
+    const filename = 'image-small-height.png';
+
+    // # Set message display setting to compact
+    cy.apiSaveMessageDisplayPreference(displayMode[mode]);
+
+    // # Make a post with some text and a single image
+    cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(filename);
+    cy.postMessage(MESSAGES.MEDIUM);
+
+    cy.get('div.file__image').last().within(() => {
+        // *  The name of the image appears on a new line and is not bolded
+        cy.contains('div', filename).should('be.visible').and('have.css', 'font-weight', '400');
+
+        // * There are arrows to collapse the preview
+        cy.get('img[src*="preview"]').should('be.visible');
+        cy.findByLabelText('Toggle Embed Visibility').should('exist').and('have.attr', 'data-expanded', 'true').click();
+        cy.findByLabelText('Toggle Embed Visibility').should('exist').and('have.attr', 'data-expanded', 'false');
+        cy.get('img[src*="preview"]').should('not.be.visible');
+    });
+}
+
+function shouldHavePostProfileImageVisible(isVisible = true) {
+    cy.getLastPostId().then((postID) => {
+        const target = `#post_${postID}`;
+        if (isVisible) {
+            cy.get(target).invoke('attr', 'class').
+                should('contain', 'current--user').
+                and('contain', 'other--root');
+
+            cy.get(`${target} > div[data-testid='postContent'] > .post__img`).should('be.visible');
+        } else {
+            cy.get(target).invoke('attr', 'class').
+                should('contain', 'current--user').
+                and('contain', 'same--user').
+                and('contain', 'same--root');
+
+            cy.get(`${target} > div[data-testid='postContent'] > .post__img`).
+                should('be.visible').
+                and('be.empty');
+        }
+    });
+}

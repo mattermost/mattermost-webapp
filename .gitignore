@@ -23,6 +23,7 @@ e2e/cypress/screenshots
 e2e/cypress/videos
 e2e/results
 storybook-static
+mattermost-license.txt
 
 # Vim temporary files
 [._]*.s[a-w][a-z]

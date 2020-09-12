@@ -7,47 +7,63 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod @smoke
+// Stage: @prod
 // Group: @messaging
 
-import users from '../../fixtures/users.json';
-
-const receiver = users['user-1'];
-const sender = users['user-2'];
-
-let townsquareChannelId;
-
 describe('Channel users interactions', () => {
-    before(() => {
-        cy.apiLogin(receiver.username);
+    let testTeam;
+    let testChannel;
+    let receiver;
+    let sender;
 
-        cy.visit('/ad-1/channels/town-square');
-        cy.getCurrentChannelId().then((id) => {
-            townsquareChannelId = id;
+    before(() => {
+        // # Login as test user
+        cy.apiInitSetup().then(({team, channel, user}) => {
+            receiver = user;
+            testTeam = team;
+            testChannel = channel;
+
+            cy.apiCreateUser().then(({user: user1}) => {
+                sender = user1;
+                cy.apiAddUserToTeam(testTeam.id, sender.id).then(() => {
+                    cy.apiAddUserToChannel(testChannel.id, sender.id);
+                });
+            });
+
+            cy.apiLogin(receiver);
+
+            // # Visit a test channel and post a message
+            cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+            cy.postMessage('Hello');
         });
     });
 
-    it('M17454 Scroll to bottom when sending a message', () => {
-        // # Go to test channel A on sidebar
-        cy.visit('/ad-1/channels/off-topic');
+    it('MM-T216 Scroll to bottom when sending a message', () => {
+        // # Go to off-topic channel via LHS
+        cy.get('#sidebarItem_off-topic').click({force: true});
 
-        // # post message in channel B by another user
-        const message = 'I\'m messaging!\n2\n2\n2\n2\n2\n2\n2\n2\n2\n2\n2\n2\n2\n2\n2\n2\n2\n2\n2\n2\n2\n2\n2\n2\n2\n2\n2\n2\n2\n2';
-        cy.postMessageAs({sender, message, channelId: townsquareChannelId});
+        // # Post a message in test channel by another user
+        const message = `I\'m messaging!${'\n2'.repeat(30)}`; // eslint-disable-line no-useless-escape
+        cy.postMessageAs({sender, message, channelId: testChannel.id});
 
-        // # return back channel where is a post
-        cy.get('#sidebarItem_town-square').click({force: true});
+        // # Post any message to off-topic channel
+        const hello = 'Hello';
+        cy.postMessage(hello);
+        cy.uiWaitUntilMessagePostedIncludes(hello);
 
-        // * check that separator with message visible
+        // # Go to test channel where the message is posted
+        cy.get(`#sidebarItem_${testChannel.name}`).click({force: true});
+
+        // * Check that the new message separator is visible
         cy.findByTestId('NotificationSeparator').
             find('span').
             should('be.visible').
             and('have.text', 'New Messages');
 
-        // # post message on current channel
+        // # Post a message on current channel
         cy.get('#post_textbox').clear().type('message123{enter}');
 
-        // * verify that last posted message is visible
+        // * Verify that last posted message is visible
         cy.getLastPostId().then((postId) => {
             cy.get(`#postMessageText_${postId}`).should('have.text', 'message123');
         });

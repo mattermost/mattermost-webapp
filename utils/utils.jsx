@@ -24,7 +24,12 @@ import {searchForTerm} from 'actions/post_actions';
 import Constants, {FileTypes, UserStatuses} from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils';
-import bing from 'images/bing.mp3';
+import bing from 'sounds/bing.mp3';
+import crackle from 'sounds/crackle.mp3';
+import down from 'sounds/down.mp3';
+import hello from 'sounds/hello.mp3';
+import ripple from 'sounds/ripple.mp3';
+import upstairs from 'sounds/upstairs.mp3';
 import {t} from 'utils/i18n';
 import store from 'stores/redux_store.jsx';
 import {getCurrentLocale, getTranslations} from 'selectors/i18n';
@@ -89,8 +94,8 @@ export function isKeyPressed(event, key) {
 export function isUnhandledLineBreakKeyCombo(e) {
     return Boolean(
         isKeyPressed(e, Constants.KeyCodes.ENTER) &&
-            !e.shiftKey && // shift + enter is already handled everywhere, so don't handle again
-            (e.altKey && !UserAgent.isSafari() && !cmdOrCtrlPressed(e)), // alt/option + enter is already handled in Safari, so don't handle again
+        !e.shiftKey && // shift + enter is already handled everywhere, so don't handle again
+        (e.altKey && !UserAgent.isSafari() && !cmdOrCtrlPressed(e)), // alt/option + enter is already handled in Safari, so don't handle again
     );
 }
 
@@ -195,17 +200,29 @@ export function getChannelURL(state, channel, teamId) {
     return notificationURL;
 }
 
-var canDing = true;
+export const notificationSounds = new Map([
+    ['Bing', bing],
+    ['Crackle', crackle],
+    ['Down', down],
+    ['Hello', hello],
+    ['Ripple', ripple],
+    ['Upstairs', upstairs],
+]);
 
-export function ding() {
+var canDing = true;
+export function ding(name) {
     if (hasSoundOptions() && canDing) {
-        var audio = new Audio(bing);
-        audio.play();
+        tryNotificationSound(name);
         canDing = false;
         setTimeout(() => {
             canDing = true;
         }, 3000);
     }
+}
+
+export function tryNotificationSound(name) {
+    const audio = new Audio(notificationSounds.get(name) ?? notificationSounds.get('Bing'));
+    audio.play();
 }
 
 export function hasSoundOptions() {
@@ -474,9 +491,15 @@ export function isHexColor(value) {
     return value && (/^#[0-9a-f]{3}([0-9a-f]{3})?$/i).test(value);
 }
 
+// given '#fffff', returns '255, 255, 255' (no trailing comma)
+export function toRgbValues(hexStr) {
+    const rgbaStr = `${parseInt(hexStr.substr(1, 2), 16)}, ${parseInt(hexStr.substr(3, 2), 16)}, ${parseInt(hexStr.substr(5, 2), 16)}`;
+    return rgbaStr;
+}
+
 export function applyTheme(theme) {
     if (theme.sidebarBg) {
-        changeCss('.app__body .sidebar--left .sidebar__switcher, .sidebar--left, .sidebar--left .sidebar__divider .sidebar__divider__text, .app__body .modal .settings-modal .settings-table .settings-links, .app__body .sidebar--menu', 'background:' + theme.sidebarBg);
+        changeCss('.app__body .sidebar--left .sidebar__switcher, .sidebar--left, .app__body .modal .settings-modal .settings-table .settings-links, .app__body .sidebar--menu', 'background:' + theme.sidebarBg);
         changeCss('body.app__body', 'scrollbar-face-color:' + theme.sidebarBg);
         changeCss('@media(max-width: 768px){.app__body .modal .settings-modal:not(.settings-modal--tabless):not(.display--content) .modal-content', 'background:' + theme.sidebarBg);
         changeCss('.app__body .modal-tabs .nav-tabs > li.active', `border-bottom-color:${theme.sidebarBg}`);
@@ -507,9 +530,6 @@ export function applyTheme(theme) {
     }
 
     if (theme.sidebarTextActiveBorder) {
-        changeCss('.sidebar--left .nav li.active .sidebar-item:before, .app__body .modal .settings-modal .nav-pills>li.active button:before', 'background:' + theme.sidebarTextActiveBorder);
-        changeCss('.sidebar--left .sidebar__divider:before', 'background:' + changeOpacity(theme.sidebarTextActiveBorder, 0.5));
-        changeCss('.sidebar--left .sidebar__divider', 'color:' + theme.sidebarTextActiveBorder);
         changeCss('.multi-teams .team-sidebar .team-wrapper .team-container:before', 'background:' + theme.sidebarTextActiveBorder);
         changeCss('.multi-teams .team-sidebar .team-wrapper .team-container.active:before', 'background:' + theme.sidebarTextActiveBorder);
         changeCss('.multi-teams .team-sidebar .team-wrapper .team-container.unread:before', 'background:' + theme.sidebarTextActiveBorder);
@@ -595,6 +615,7 @@ export function applyTheme(theme) {
     }
 
     if (theme.centerChannelBg) {
+        changeCss('.app__body #channel_view.channel-view', `background: ${theme.centerChannelBg}`);
         changeCss('@media(max-width: 768px){.app__body .post .MenuWrapper .dropdown-menu button', 'background:' + theme.centerChannelBg);
         changeCss('@media(max-width: 320px){.tutorial-steps__container', 'background:' + theme.centerChannelBg);
         changeCss('.app__body .post-card--info, .app__body .bg--white, .app__body .system-notice, .app__body .channel-header__info .channel-header__description:before, .app__body .app__content, .app__body .markdown__table, .app__body .markdown__table tbody tr, .app__body .modal .modal-footer, .app__body .status-wrapper .status, .app__body .alert.alert-transparent', 'background:' + theme.centerChannelBg);
@@ -652,7 +673,7 @@ export function applyTheme(theme) {
         changeCss('.app__body .svg-text-color', 'fill:' + theme.centerChannelColor);
         changeCss('.app__body .mentions__name .status.status--group, .app__body .multi-select__note', 'background:' + changeOpacity(theme.centerChannelColor, 0.12));
         changeCss('.app__body .modal-tabs .nav-tabs > li, .app__body .system-notice, .app__body .file-view--single .file__image .image-loaded, .app__body .post .MenuWrapper .dropdown-menu button, .app__body .member-list__popover .more-modal__body, .app__body .alert.alert-transparent, .app__body .table > thead > tr > th, .app__body .table > tbody > tr > td', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.12));
-        changeCss('.app__body .post-list__arrows, .app__body .post .flag-icon__container', 'fill:' + changeOpacity(theme.centerChannelColor, 0.3));
+        changeCss('.app__body .post-list__arrows', 'fill:' + changeOpacity(theme.centerChannelColor, 0.3));
         changeCss('.app__body .post .card-icon__container', 'color:' + changeOpacity(theme.centerChannelColor, 0.3));
         changeCss('.app__body .post-image__details .post-image__download svg', 'stroke:' + changeOpacity(theme.centerChannelColor, 0.4));
         changeCss('.app__body .post-image__details .post-image__download svg', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.35));
@@ -708,7 +729,7 @@ export function applyTheme(theme) {
         changeCss('@media(min-width: 768px){.app__body .post.current--user:hover .post__body ', 'background: transparent;');
         changeCss('.app__body .more-modal__row.more-modal__row--selected, .app__body .date-separator.hovered--before:after, .app__body .date-separator.hovered--after:before, .app__body .new-separator.hovered--after:before, .app__body .new-separator.hovered--before:after', 'background:' + changeOpacity(theme.centerChannelColor, 0.07));
         changeCss('@media(min-width: 768px){.app__body .dropdown-menu>li>a:focus, .app__body .dropdown-menu>li>a:hover', 'background:' + changeOpacity(theme.centerChannelColor, 0.15));
-        changeCss('code, .app__body .form-control[disabled], .app__body .form-control[readonly], .app__body fieldset[disabled] .form-control', 'background:' + changeOpacity(theme.centerChannelColor, 0.1));
+        changeCss('.app__body .form-control[disabled], .app__body .form-control[readonly], .app__body fieldset[disabled] .form-control', 'background:' + changeOpacity(theme.centerChannelColor, 0.1));
         changeCss('.app__body .sidebar--right', 'color:' + theme.centerChannelColor);
         changeCss('.app__body .modal .settings-modal .settings-table .settings-content .appearance-section .theme-elements__body', 'background:' + changeOpacity(theme.centerChannelColor, 0.05));
         if (!UserAgent.isFirefox() && !UserAgent.isInternetExplorer() && !UserAgent.isEdge()) {
@@ -805,8 +826,8 @@ export function applyTheme(theme) {
         changeCss('.app__body .DayPicker-Day--today, .app__body .channel-header .channel-header__favorites.inactive:hover, .app__body .channel-header__links > a.active, .app__body a, .app__body a:focus, .app__body a:hover, .app__body .channel-header__links > .color--link.active, .app__body .color--link, .app__body a:focus, .app__body .color--link:hover, .app__body .btn, .app__body .btn:focus, .app__body .btn:hover', 'color:' + theme.linkColor);
         changeCss('.app__body .attachment .attachment__container', 'border-left-color:' + changeOpacity(theme.linkColor, 0.5));
         changeCss('.app__body .channel-header .channel-header_plugin-dropdown a:hover, .app__body .member-list__popover .more-modal__list .more-modal__row:hover', 'background:' + changeOpacity(theme.linkColor, 0.08));
-        changeCss('.app__body .channel-header__links .icon:hover, .app__body .channel-header__links > a.active .icon, .app__body .post .flag-icon__container.visible, .app__body .post .post__reply', 'fill:' + theme.linkColor);
-        changeCss('.app__body .channel-header__links .icon:hover, .app__body .post .flag-icon__container.visible, .app__body .post .card-icon__container.active svg, .app__body .post .post__reply', 'fill:' + theme.linkColor);
+        changeCss('.app__body .channel-header__links .icon:hover, .app__body .channel-header__links > a.active .icon, .app__body .post .post__reply', 'fill:' + theme.linkColor);
+        changeCss('.app__body .channel-header__links .icon:hover, .app__body .post .card-icon__container.active svg, .app__body .post .post__reply', 'fill:' + theme.linkColor);
         changeCss('.app__body .channel-header .pinned-posts-button:hover svg', 'fill:' + changeOpacity(theme.linkColor, 0.6));
         changeCss('.app__body .member-list__popover .more-modal__actions svg', 'fill:' + theme.linkColor);
         changeCss('.app__body .modal-tabs .nav-tabs > li.active, .app__body .channel-header .channel-header_plugin-dropdown a:hover, .app__body .member-list__popover .more-modal__list .more-modal__row:hover', 'border-color:' + theme.linkColor);
@@ -821,7 +842,7 @@ export function applyTheme(theme) {
     }
 
     if (theme.buttonBg) {
-        changeCss('.app__body .modal .settings-modal .profile-img__remove:hover, .app__body .DayPicker:not(.DayPicker--interactionDisabled) .DayPicker-Day:not(.DayPicker-Day--disabled):not(.DayPicker-Day--selected):not(.DayPicker-Day--outside):hover, .app__body .modal .settings-modal .team-img__remove:hover, .app__body .btn.btn-transparent:hover, .app__body .btn.btn-transparent:active, .app__body .post-image__details .post-image__download svg:hover, .app__body .file-view--single .file__download:hover, .app__body .new-messages__button div, .app__body .btn.btn-primary, .app__body .tutorial__circles .circle.active, .app__body .post__pinned-badge', 'background:' + theme.buttonBg);
+        changeCss('.app__body .modal .settings-modal .profile-img__remove:hover, .app__body .DayPicker:not(.DayPicker--interactionDisabled) .DayPicker-Day:not(.DayPicker-Day--disabled):not(.DayPicker-Day--selected):not(.DayPicker-Day--outside):hover, .app__body .modal .settings-modal .team-img__remove:hover, .app__body .btn.btn-transparent:hover, .app__body .btn.btn-transparent:active, .app__body .post-image__details .post-image__download svg:hover, .app__body .file-view--single .file__download:hover, .app__body .new-messages__button div, .app__body .btn.btn-primary, .app__body .tutorial__circles .circle.active', 'background:' + theme.buttonBg);
         changeCss('.app__body .system-notice__logo svg', 'fill:' + theme.buttonBg);
         changeCss('.app__body .post-image__details .post-image__download svg:hover', 'border-color:' + theme.buttonBg);
         changeCss('.app__body .btn.btn-primary:hover, .app__body .btn.btn-primary:active, .app__body .btn.btn-primary:focus', 'background:' + changeColor(theme.buttonBg, -0.15));
@@ -830,7 +851,7 @@ export function applyTheme(theme) {
     }
 
     if (theme.buttonColor) {
-        changeCss('.app__body .DayPicker:not(.DayPicker--interactionDisabled) .DayPicker-Day:not(.DayPicker-Day--disabled):not(.DayPicker-Day--selected):not(.DayPicker-Day--outside):hover, .app__body .modal .settings-modal .team-img__remove:hover, .app__body .btn.btn-transparent:hover, .app__body .btn.btn-transparent:active, .app__body .new-messages__button div, .app__body .btn.btn-primary, .app__body .post__pinned-badge', 'color:' + theme.buttonColor);
+        changeCss('.app__body .DayPicker:not(.DayPicker--interactionDisabled) .DayPicker-Day:not(.DayPicker-Day--disabled):not(.DayPicker-Day--selected):not(.DayPicker-Day--outside):hover, .app__body .modal .settings-modal .team-img__remove:hover, .app__body .btn.btn-transparent:hover, .app__body .btn.btn-transparent:active, .app__body .new-messages__button div, .app__body .btn.btn-primary', 'color:' + theme.buttonColor);
         changeCss('.app__body .new-messages__button svg', 'fill:' + theme.buttonColor);
         changeCss('.app__body .post-image__details .post-image__download svg:hover, .app__body .file-view--single .file__download svg', 'stroke:' + theme.buttonColor);
     }
@@ -855,9 +876,40 @@ export function applyTheme(theme) {
     updateCodeTheme(theme.codeTheme);
     cssVars({
         variables: {
+
+            // RGB values derived from theme hex values i.e. '255, 255, 255'
+            // (do not apply opacity mutations here)
+            'away-indicator-rgb': toRgbValues(theme.awayIndicator),
+            'button-bg-rgb': toRgbValues(theme.buttonBg),
+            'button-color-rgb': toRgbValues(theme.buttonColor),
+            'center-channel-bg-rgb': toRgbValues(theme.centerChannelBg),
+            'center-channel-color-rgb': toRgbValues(theme.centerChannelColor),
+            'dnd-indicator-rgb': toRgbValues(theme.dndIndicator),
+            'error-text-color-rgb': toRgbValues(theme.errorTextColor),
+            'link-color-rgb': toRgbValues(theme.linkColor),
+            'mention-bg-rgb': toRgbValues(theme.mentionBg),
+            'mention-color-rgb': toRgbValues(theme.mentionColor),
+            'mention-highlight-bg-rgb': toRgbValues(theme.mentionHighlightBg),
+            'mention-highlight-link-rgb': toRgbValues(theme.mentionHighlightLink),
+            'new-message-separator-rgb': toRgbValues(theme.newMessageSeparator),
+            'online-indicator-rgb': toRgbValues(theme.onlineIndicator),
+            'sidebar-bg-rgb': toRgbValues(theme.sidebarBg),
+            'sidebar-header-bg-rgb': toRgbValues(theme.sidebarHeaderBg),
+            'sidebar-header-text-color-rgb': toRgbValues(theme.sidebarHeaderTextColor),
+            'sidebar-text-rgb': toRgbValues(theme.sidebarText),
+            'sidebar-text-active-border-rgb': toRgbValues(theme.sidebarTextActiveBorder),
+            'sidebar-text-active-color-rgb': toRgbValues(theme.sidebarTextActiveColor),
+            'sidebar-text-hover-bg-rgb': toRgbValues(theme.sidebarTextHoverBg),
+            'sidebar-unread-text-rgb': toRgbValues(theme.sidebarUnreadText),
+
+            // Hex CSS variables
+            // TODO: phase out changeOpacity() here
             'sidebar-bg': theme.sidebarBg,
             'sidebar-text': theme.sidebarText,
+            'sidebar-text-08': changeOpacity(theme.sidebarText, 0.08),
+            'sidebar-text-16': changeOpacity(theme.sidebarText, 0.16),
             'sidebar-text-30': changeOpacity(theme.sidebarText, 0.3),
+            'sidebar-text-40': changeOpacity(theme.sidebarText, 0.4),
             'sidebar-text-50': changeOpacity(theme.sidebarText, 0.5),
             'sidebar-text-60': changeOpacity(theme.sidebarText, 0.6),
             'sidebar-text-72': changeOpacity(theme.sidebarText, 0.72),
@@ -932,6 +984,7 @@ export function applyTheme(theme) {
             'error-text-12': changeOpacity(theme.errorTextColor, 0.12),
             'mention-highlight-bg': theme.mentionHighlightBg,
             'mention-highlight-link': theme.mentionHighlightLink,
+            'mention-highlight-bg-12': changeOpacity(theme.mentionHighlightBg, 0.12),
         },
     });
 }
@@ -987,12 +1040,12 @@ export function updateCodeTheme(userTheme) {
         }
     });
     const $link = $('link.code_theme');
-    if (cssPath !== $link.attr('href')) {
+    if (cssPath !== $link.attr('href')) { // eslint-disable-line jquery/no-attr
         changeCss('code.hljs', 'visibility: hidden');
         var xmlHTTP = new XMLHttpRequest();
         xmlHTTP.open('GET', cssPath, true);
         xmlHTTP.onload = function onLoad() {
-            $link.attr('href', cssPath);
+            $link.attr('href', cssPath); // eslint-disable-line jquery/no-attr
             if (UserAgent.isFirefox()) {
                 $link.one('load', () => {
                     changeCss('code.hljs', 'visibility: visible');
@@ -1049,6 +1102,10 @@ export function setCaretPosition(input, pos) {
     setSelectionRange(input, pos, pos);
 }
 
+export function scrollbarWidth(el) {
+    return el.offsetWidth - el.clientWidth;
+}
+
 export function isValidUsername(name) {
     var error = '';
     if (!name) {
@@ -1056,7 +1113,7 @@ export function isValidUsername(name) {
     } else if (name.length < Constants.MIN_USERNAME_LENGTH || name.length > Constants.MAX_USERNAME_LENGTH) {
         error = 'Must be between ' + Constants.MIN_USERNAME_LENGTH + ' and ' + Constants.MAX_USERNAME_LENGTH + ' characters';
     } else if (!(/^[a-z0-9.\-_]+$/).test(name)) {
-        error = "Must contain only letters, numbers, and the symbols '.', '-', and '_'.";
+        error = "Username must contain only letters, numbers, and the symbols '.', '-', and '_'.";
     } else if (!(/[a-z]/).test(name.charAt(0))) { //eslint-disable-line no-negated-condition
         error = 'First character must be a letter.';
     } else {
@@ -1289,7 +1346,7 @@ export function displayEntireNameForUser(user) {
     }
 
     displayName = (
-        <span>
+        <span id={'displayedUserName' + user.username}>
             {'@' + user.username}
             <span className='light'>{displayName}</span>
         </span>
@@ -1615,9 +1672,16 @@ export function removePrefixFromLocalStorage(prefix) {
 }
 
 export function copyToClipboard(data) {
+    // Attempt to use the newer clipboard API when possible
+    const clipboard = navigator.clipboard;
+    if (clipboard) {
+        clipboard.writeText(data);
+        return;
+    }
+
     // creates a tiny temporary text area to copy text out of
     // see https://stackoverflow.com/a/30810322/591374 for details
-    var textArea = document.createElement('textarea');
+    const textArea = document.createElement('textarea');
     textArea.style.position = 'fixed';
     textArea.style.top = 0;
     textArea.style.left = 0;
@@ -1703,19 +1767,19 @@ export function getClosestParent(elem, selector) {
     // Element.matches() polyfill
     if (!Element.prototype.matches) {
         Element.prototype.matches =
-        Element.prototype.matchesSelector ||
-        Element.prototype.mozMatchesSelector ||
-        Element.prototype.msMatchesSelector ||
-        Element.prototype.oMatchesSelector ||
-        Element.prototype.webkitMatchesSelector ||
-        ((s) => {
-            const matches = (this.document || this.ownerDocument).querySelectorAll(s);
-            let i = matches.length - 1;
-            while (i >= 0 && matches.item(i) !== this) {
-                i--;
-            }
-            return i > -1;
-        });
+            Element.prototype.matchesSelector ||
+            Element.prototype.mozMatchesSelector ||
+            Element.prototype.msMatchesSelector ||
+            Element.prototype.oMatchesSelector ||
+            Element.prototype.webkitMatchesSelector ||
+            ((s) => {
+                const matches = (this.document || this.ownerDocument).querySelectorAll(s);
+                let i = matches.length - 1;
+                while (i >= 0 && matches.item(i) !== this) {
+                    i--;
+                }
+                return i > -1;
+            });
     }
 
     // Get the closest matching element
@@ -1750,4 +1814,84 @@ export function getSortedUsers(reactions, currentUserId, profiles, teammateNameD
     }
 
     return {currentUserReacted, users};
+}
+
+const BOLD_MD = '**';
+const ITALIC_MD = '*';
+
+/**
+ * Applies bold/italic markdown on textbox associated with event and returns
+ * modified text alongwith modified selection positions.
+ */
+export function applyHotkeyMarkdown(e) {
+    e.preventDefault();
+
+    const el = e.target;
+    const {selectionEnd, selectionStart, value} = el;
+
+    // <prefix> <selection> <suffix>
+    const prefix = value.substring(0, selectionStart);
+    const selection = value.substring(selectionStart, selectionEnd);
+    const suffix = value.substring(selectionEnd);
+
+    // Is it italic hot key on existing bold markdown? i.e. italic on **haha**
+    let isItalicFollowedByBold = false;
+    let delimiter = '';
+    if (e.keyCode === Constants.KeyCodes.B[1]) {
+        delimiter = BOLD_MD;
+    } else if (e.keyCode === Constants.KeyCodes.I[1]) {
+        delimiter = ITALIC_MD;
+        isItalicFollowedByBold = prefix.endsWith(BOLD_MD) && suffix.startsWith(BOLD_MD);
+    }
+
+    // Does the selection have current hotkey's markdown?
+    const hasCurrentMarkdown = prefix.endsWith(delimiter) && suffix.startsWith(delimiter);
+
+    // Does current selection have both of the markdown around it? i.e. ***haha***
+    const hasItalicAndBold = prefix.endsWith(BOLD_MD + ITALIC_MD) && suffix.startsWith(BOLD_MD + ITALIC_MD);
+
+    let newValue = '';
+    let newStart = 0;
+    let newEnd = 0;
+    if (hasItalicAndBold || (hasCurrentMarkdown && !isItalicFollowedByBold)) {
+        // message already has the markdown; remove it
+        newValue = prefix.substring(0, prefix.length - delimiter.length) + selection + suffix.substring(delimiter.length);
+        newStart = selectionStart - delimiter.length;
+        newEnd = selectionEnd - delimiter.length;
+    } else {
+        newValue = prefix + delimiter + selection + delimiter + suffix;
+        newStart = selectionStart + delimiter.length;
+        newEnd = selectionEnd + delimiter.length;
+    }
+
+    return {
+        message: newValue,
+        selectionStart: newStart,
+        selectionEnd: newEnd,
+    };
+}
+
+/**
+ * Adjust selection to correct text when there is Italic markdown (_) around selected text.
+ */
+export function adjustSelection(inputBox, e) {
+    const el = e.target;
+    const {selectionEnd, selectionStart, value} = el;
+
+    if (selectionStart === selectionEnd) {
+        // nothing selected.
+        return;
+    }
+
+    e.preventDefault();
+
+    const firstUnderscore = value.charAt(selectionStart) === '_';
+    const lastUnderscore = value.charAt(selectionEnd - 1) === '_';
+
+    const spaceBefore = value.charAt(selectionStart - 1) === ' ';
+    const spaceAfter = value.charAt(selectionEnd) === ' ';
+
+    if (firstUnderscore && lastUnderscore && (spaceBefore || spaceAfter)) {
+        setSelectionRange(inputBox, selectionStart + 1, selectionEnd - 1);
+    }
 }

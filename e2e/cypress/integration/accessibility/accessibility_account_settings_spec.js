@@ -7,7 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod @smoke
+// Stage: @prod
 // Group: @accessibility
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
@@ -31,8 +31,6 @@ function verifySections(sections) {
 
 describe('Verify Accessibility Support in different sections in Account Settings Dialog', () => {
     before(() => {
-        cy.apiLogin('sysadmin');
-
         // # Update Configs
         cy.apiUpdateConfig({
             ServiceSettings: {
@@ -47,8 +45,10 @@ describe('Verify Accessibility Support in different sections in Account Settings
             },
         });
 
-        // # Visit the Town Square channel
-        cy.visit('/ad-1/channels/town-square');
+        // # Login as test user and visit town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
+        });
     });
 
     beforeEach(() => {
@@ -64,7 +64,7 @@ describe('Verify Accessibility Support in different sections in Account Settings
         cy.get('#accountSettingsHeader > .close').click();
     });
 
-    it('MM-22628 Verify Label & Tab behavior in section links', () => {
+    it('MM-T1465_1 Verify Label & Tab behavior in section links', () => {
         // * Verify the aria-label and Tab support in different sections
         cy.get('body').tab();
         cy.get('#generalButton').should('have.attr', 'aria-label', 'general').focus().tab();
@@ -75,7 +75,7 @@ describe('Verify Accessibility Support in different sections in Account Settings
         cy.get('#advancedButton').should('have.attr', 'aria-label', 'advanced').should('have.class', 'a11y--active a11y--focused').tab();
     });
 
-    it('MM-22628 Verify Accessibility Support in each section in Account Settings Dialog', () => {
+    it('MM-T1465_2 Verify Accessibility Support in each section in Account Settings Dialog', () => {
         // # Tab from Advanced section
         cy.get('body').tab();
         cy.get('#generalButton').click();
@@ -109,7 +109,7 @@ describe('Verify Accessibility Support in different sections in Account Settings
         verifySections(accountSettingSections.advanced);
     });
 
-    it('MM-22628 Verify Correct Radio button behavior in Account Settings', () => {
+    it('MM-T1481 Verify Correct Radio button behavior in Account Settings', () => {
         cy.get('#notificationsButton').click();
         cy.get('#desktopEdit').click();
         cy.get('#desktopNotificationAllActivity').check().should('be.checked').tab().check();
@@ -117,7 +117,7 @@ describe('Verify Accessibility Support in different sections in Account Settings
         cy.get('#desktopNotificationNever').should('be.checked');
     });
 
-    it('MM-22628 Input fields in Account Settings should read labels', () => {
+    it('MM-T1482 Input fields in Account Settings should read labels', () => {
         accountSettingSections.general.forEach((section) => {
             if (section.type === 'text') {
                 cy.get(`#${section.key}Edit`).click();
@@ -132,7 +132,7 @@ describe('Verify Accessibility Support in different sections in Account Settings
         });
     });
 
-    it('MM-22628 Language dropdown should read labels', () => {
+    it('MM-T1485 Language dropdown should read labels', () => {
         cy.get('#displayButton').click();
         cy.get('#languagesEdit').click();
         cy.get('#displayLanguage').within(() => {
@@ -167,7 +167,7 @@ describe('Verify Accessibility Support in different sections in Account Settings
         cy.get('@ariaEl').get('#aria-selection-event').should('contain', 'option English, selected');
     });
 
-    it('MM-22628 Profile Picture should read labels', () => {
+    it('MM-T1488 Profile Picture should read labels', () => {
         // # Go to Edit Profile picture
         cy.get('#generalButton').click();
         cy.get('#pictureEdit').click();
@@ -189,7 +189,7 @@ describe('Verify Accessibility Support in different sections in Account Settings
         cy.findByTestId('cancelSettingPicture').should('have.attr', 'aria-label', 'Cancel');
 
         // # Upload a pic and save
-        cy.fileUpload('[data-testid="uploadPicture"]', 'mattermost-icon.png');
+        cy.findByTestId('uploadPicture').attachFile('mattermost-icon.png');
         cy.findByTestId('saveSettingPicture').should('not.be.disabled').click();
 
         // # Click on Edit Profile Picture
@@ -210,7 +210,7 @@ describe('Verify Accessibility Support in different sections in Account Settings
         cy.findByTestId('cancelSettingPicture').should('have.class', 'a11y--active a11y--focused');
 
         // # Remove the profile picture and check the tab behavior
-        cy.findByTestId('removeSettingPicture').click().wait(TIMEOUTS.TINY);
+        cy.findByTestId('removeSettingPicture').click().wait(TIMEOUTS.HALF_SEC);
         cy.findByTestId('inputSettingPictureButton').focus().tab({shift: true}).tab();
         cy.findByTestId('inputSettingPictureButton').should('have.class', 'a11y--active a11y--focused').tab();
         cy.findByTestId('saveSettingPicture').should('have.class', 'a11y--active a11y--focused').tab();
@@ -218,7 +218,7 @@ describe('Verify Accessibility Support in different sections in Account Settings
         cy.findByTestId('saveSettingPicture').click();
     });
 
-    it('MM-22628 Security Settings screen should read labels', () => {
+    it('MM-T1496 Security Settings screen should read labels', () => {
         // # Go to Security Settings
         cy.get('#securityButton').click();
 
@@ -232,7 +232,7 @@ describe('Verify Accessibility Support in different sections in Account Settings
         cy.get('.user-settings').then((el) => {
             if (el.find('#signinEdit').length) {
                 cy.get('#signinEdit').click();
-                cy.get('#appsEdit').focus().tab({shift: true}).tab().tab();
+                cy.get('#mfaEdit').focus().tab({shift: true}).tab().tab();
                 cy.get('.setting-list a.btn').should('have.class', 'a11y--active a11y--focused').tab();
                 cy.get('#cancelSetting').should('have.class', 'a11y--active a11y--focused');
             }

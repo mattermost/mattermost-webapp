@@ -35,11 +35,14 @@ function verifyLastPostStyle(expectedSize) {
 }
 
 describe('Message', () => {
-    it('M15011 - Emojis show as jumbo in reply thread', () => {
-        // # Login and navigate to the app
-        cy.apiLogin('user-1');
-        cy.visit('/ad-1/channels/town-square');
+    before(() => {
+        // # Login as test user and visit town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
+        });
+    });
 
+    it('MM-T162 Emojis show as jumbo in reply thread', () => {
         // # Post a message
         const messageText = 'This is a test message';
         cy.postMessage(messageText);

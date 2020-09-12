@@ -10,20 +10,30 @@
 // Stage: @prod
 // Group: @search
 
-describe('Search', () => {
-    it('S14548 Search results Right-Hand-Side: Post a comment', () => {
-        // # Login and navigate to the app
-        cy.apiLogin('user-1');
-        cy.visit('/ad-1/channels/town-square');
+import {getRandomId} from '../../utils';
 
-        const message = `asparagus${Date.now()}`;
+describe('Search', () => {
+    before(() => {
+        // # Login as test user and visit town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
+
+            // # Post several messages of similar format to add complexity in searching
+            Cypress._.times(5, () => {
+                cy.postMessage(`asparagus${getRandomId()}`);
+            });
+        });
+    });
+
+    it('S14548 Search results Right-Hand-Side: Post a comment', () => {
+        const message = `asparagus${getRandomId()}`;
         const comment = 'Replying to asparagus';
 
         // # Post a new message
         cy.postMessage(message);
 
         // # Search for the text we just entered
-        cy.get('#searchBox').type(message).type('{enter}');
+        cy.uiSearchPosts(message);
 
         // # Get last postId
         cy.getLastPostId().then((postId) => {

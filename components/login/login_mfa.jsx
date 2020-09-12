@@ -59,7 +59,7 @@ export default class LoginMfa extends React.PureComponent {
         this.setState(state);
 
         this.props.submit(
-            this.props.loginId,
+            this.props.loginId.toLowerCase(),
             this.props.password,
             this.state.token,
         );

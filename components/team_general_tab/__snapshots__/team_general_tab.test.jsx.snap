@@ -34,7 +34,6 @@ exports[`components/TeamSettings hide invite code if no permissions for team inv
       <FormattedMessage
         defaultMessage="General Settings"
         id="general_tab.title"
-        values={Object {}}
       />
     </h4>
   </div>
@@ -47,13 +46,12 @@ exports[`components/TeamSettings hide invite code if no permissions for team inv
       <FormattedMessage
         defaultMessage="General Settings"
         id="general_tab.title"
-        values={Object {}}
       />
     </h3>
     <div
       className="divider-dark first"
     />
-    <Connect(SettingItemMin)
+    <SettingItemMin
       section="name"
       title="Team Name"
       updateSection={[Function]}
@@ -61,12 +59,11 @@ exports[`components/TeamSettings hide invite code if no permissions for team inv
     <div
       className="divider-light"
     />
-    <Connect(SettingItemMin)
+    <SettingItemMin
       describe={
         <FormattedMessage
           defaultMessage="Click 'Edit' to add a team description."
           id="general_tab.emptyDescription"
-          values={Object {}}
         />
       }
       section="description"
@@ -99,12 +96,11 @@ exports[`components/TeamSettings hide invite code if no permissions for team inv
     <div
       className="divider-light"
     />
-    <Connect(SettingItemMin)
+    <SettingItemMin
       describe={
         <FormattedMessage
           defaultMessage="Click 'Edit' to add an email domain whitelist."
           id="general_tab.allowedDomainsEdit"
-          values={Object {}}
         />
       }
       section="allowed_domains"
@@ -114,7 +110,7 @@ exports[`components/TeamSettings hide invite code if no permissions for team inv
     <div
       className="divider-light"
     />
-    <Connect(SettingItemMin)
+    <SettingItemMin
       describe="No"
       section="open_invite"
       title="Allow any user with an account on this server to join this team"
@@ -123,7 +119,7 @@ exports[`components/TeamSettings hide invite code if no permissions for team inv
     <div
       className="divider-light"
     />
-    <Connect(SettingItemMin)
+    <SettingItemMin
       describe="Click 'Edit' to regenerate Invite Code."
       section="invite_id"
       title="Invite Code"
@@ -170,7 +166,6 @@ exports[`components/TeamSettings hide invite code if no permissions for team inv
       <FormattedMessage
         defaultMessage="General Settings"
         id="general_tab.title"
-        values={Object {}}
       />
     </h4>
   </div>
@@ -183,13 +178,12 @@ exports[`components/TeamSettings hide invite code if no permissions for team inv
       <FormattedMessage
         defaultMessage="General Settings"
         id="general_tab.title"
-        values={Object {}}
       />
     </h3>
     <div
       className="divider-dark first"
     />
-    <Connect(SettingItemMin)
+    <SettingItemMin
       section="name"
       title="Team Name"
       updateSection={[Function]}
@@ -197,12 +191,11 @@ exports[`components/TeamSettings hide invite code if no permissions for team inv
     <div
       className="divider-light"
     />
-    <Connect(SettingItemMin)
+    <SettingItemMin
       describe={
         <FormattedMessage
           defaultMessage="Click 'Edit' to add a team description."
           id="general_tab.emptyDescription"
-          values={Object {}}
         />
       }
       section="description"
@@ -235,12 +228,11 @@ exports[`components/TeamSettings hide invite code if no permissions for team inv
     <div
       className="divider-light"
     />
-    <Connect(SettingItemMin)
+    <SettingItemMin
       describe={
         <FormattedMessage
           defaultMessage="Click 'Edit' to add an email domain whitelist."
           id="general_tab.allowedDomainsEdit"
-          values={Object {}}
         />
       }
       section="allowed_domains"
@@ -250,7 +242,7 @@ exports[`components/TeamSettings hide invite code if no permissions for team inv
     <div
       className="divider-light"
     />
-    <Connect(SettingItemMin)
+    <SettingItemMin
       describe="No"
       section="open_invite"
       title="Allow any user with an account on this server to join this team"
@@ -300,7 +292,6 @@ exports[`components/TeamSettings should match snapshot when team is group constr
       <FormattedMessage
         defaultMessage="General Settings"
         id="general_tab.title"
-        values={Object {}}
       />
     </h4>
   </div>
@@ -313,13 +304,12 @@ exports[`components/TeamSettings should match snapshot when team is group constr
       <FormattedMessage
         defaultMessage="General Settings"
         id="general_tab.title"
-        values={Object {}}
       />
     </h3>
     <div
       className="divider-dark first"
     />
-    <Connect(SettingItemMin)
+    <SettingItemMin
       describe="TestTeam"
       section="name"
       title="Team Name"
@@ -328,7 +318,7 @@ exports[`components/TeamSettings should match snapshot when team is group constr
     <div
       className="divider-light"
     />
-    <Connect(SettingItemMin)
+    <SettingItemMin
       describe="The Test Team"
       section="description"
       title="Team Description"
@@ -360,7 +350,7 @@ exports[`components/TeamSettings should match snapshot when team is group constr
     <div
       className="divider-light"
     />
-    <Connect(SettingItemMin)
+    <SettingItemMin
       describe="No, members of this team are added and removed by linked groups."
       section="open_invite"
       title="Allow any user with an account on this server to join this team"

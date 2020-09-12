@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -14,12 +15,13 @@ export default class UserList extends React.PureComponent {
     static propTypes = {
         users: PropTypes.arrayOf(PropTypes.object),
         extraInfo: PropTypes.object,
-        actions: PropTypes.arrayOf(PropTypes.func),
+        actions: PropTypes.arrayOf(PropTypes.node),
         actionProps: PropTypes.object,
         actionUserProps: PropTypes.object,
+        isDisabled: PropTypes.bool,
 
         // the type of user list row to render
-        rowComponentType: PropTypes.func,
+        rowComponentType: PropTypes.node,
     }
 
     static defaultProps = {
@@ -56,6 +58,7 @@ export default class UserList extends React.PureComponent {
                         index={index}
                         totalUsers={users.length}
                         userCount={(index >= 0 && index < Constants.TEST_ID_COUNT) ? index : -1}
+                        isDisabled={this.props.isDisabled}
                     />
                 );
             });
@@ -83,3 +86,4 @@ export default class UserList extends React.PureComponent {
         );
     }
 }
+/* eslint-enable react/no-string-refs */

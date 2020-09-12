@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -325,3 +326,4 @@ class SidebarChannel extends React.PureComponent {
 const wrappedComponent = injectIntl(SidebarChannel, {forwardRef: true});
 wrappedComponent.displayName = 'injectIntl(SidebarChannel)';
 export default wrappedComponent;
+/* eslint-enable react/no-string-refs */

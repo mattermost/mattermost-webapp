@@ -73,10 +73,6 @@
             .card-icon__container {
                 margin: 0px 0 0 6px;
             }
-
-            .post__pinned-badge {
-                margin: 0 8px 0 5px;
-            }
         }
 
         &.post--comment {
@@ -95,10 +91,6 @@
                     flex: none;
                 }
             }
-
-            .flag-icon__container, .card-icon__container {
-                z-index: 5;
-            }
         }
     }
 
@@ -108,7 +100,7 @@
         }
 
         .post-create {
-            padding: 0 15px;
+            padding: .5em 15px 0;
         }
 
         .msg-typing {
@@ -274,6 +266,10 @@
         overflow: hidden;
         padding: 0 16px 0 0;
         white-space: nowrap;
+
+        .btn-icon {
+            font-size: 20px;
+        }
     }
 
     .sidebar--right__loading {
@@ -286,8 +282,15 @@
     }
 
     .sidebar--right__subheader {
+        @include single-transition(width, 0.25s, ease-in);
         font-size: 1em;
-        padding: 0 1em 0;
+        width: 100%;
+        margin: auto;
+        padding-bottom: 10vh;
+
+        &.search__hints {
+            margin: 0;
+        }
 
         h4 {
             font-size: 1em;
@@ -310,6 +313,10 @@
             margin: 0 3px;
             position: relative;
             top: 3px;
+        }
+
+        &.sidebar-expanded {
+            width: 52%;
         }
     }
 

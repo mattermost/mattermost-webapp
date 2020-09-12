@@ -4,14 +4,18 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import RecentDate from 'components/recent_date';
+import Timestamp, {RelativeRanges} from 'components/timestamp';
 
+const DATE_RANGES = [
+    RelativeRanges.TODAY_TITLE_CASE,
+    RelativeRanges.YESTERDAY_TITLE_CASE,
+];
 type Props = {
     isScrolling: boolean;
     isMobile: boolean;
     createAt: Date | number;
     toastPresent: boolean;
-    isRhsPost?: boolean;
+    isRhsPost: boolean;
 }
 
 export default class FloatingTimestamp extends React.PureComponent<Props> {
@@ -21,12 +25,6 @@ export default class FloatingTimestamp extends React.PureComponent<Props> {
         if (!isMobile || createAt === 0) {
             return null;
         }
-
-        const dateString = (
-            <RecentDate
-                value={createAt}
-            />
-        );
 
         const classes = classNames('post-list__timestamp', {
             scrolling: isScrolling,
@@ -40,7 +38,13 @@ export default class FloatingTimestamp extends React.PureComponent<Props> {
                 data-testid='floatingTimestamp'
             >
                 <div>
-                    <span>{dateString}</span>
+                    <span>
+                        <Timestamp
+                            value={createAt}
+                            useTime={false}
+                            ranges={DATE_RANGES}
+                        />
+                    </span>
                 </div>
             </div>
         );

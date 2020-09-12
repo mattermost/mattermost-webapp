@@ -1,81 +1,81 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/post_view/PostFlagIcon should match snapshot 1`] = `
-<button
-  aria-label="flag for follow up"
-  className="style--none flag-icon__container "
-  id="CENTER_flagIcon_post_id"
-  onClick={[Function]}
+<OverlayTrigger
+  className="hidden-xs"
+  defaultOverlayShown={false}
+  delayShow={400}
+  key="flagtooltipkey"
+  overlay={
+    <Tooltip
+      bsClass="tooltip"
+      className="hidden-xs"
+      id="flagTooltip"
+      placement="right"
+    >
+      <FormattedMessage
+        defaultMessage="Save"
+        id="flag_post.flag"
+      />
+    </Tooltip>
+  }
+  placement="top"
+  trigger={
+    Array [
+      "hover",
+      "focus",
+    ]
+  }
 >
-  <OverlayTrigger
-    defaultOverlayShown={false}
-    delayShow={400}
-    key="flagtooltipkey"
-    overlay={
-      <Tooltip
-        bsClass="tooltip"
-        id="flagTooltip"
-        placement="right"
-      >
-        <FormattedMessage
-          defaultMessage="Flag for follow up"
-          id="flag_post.flag"
-          values={Object {}}
-        />
-      </Tooltip>
-    }
-    placement="top"
-    trigger={
-      Array [
-        "hover",
-        "focus",
-      ]
-    }
+  <button
+    aria-label="save"
+    className="post-menu__item"
+    id="CENTER_flagIcon_post_id"
+    onClick={[Function]}
   >
     <FlagIcon
-      className="icon"
+      className="icon icon--small"
     />
-  </OverlayTrigger>
-</button>
+  </button>
+</OverlayTrigger>
 `;
 
 exports[`components/post_view/PostFlagIcon should match snapshot 2`] = `
-<button
-  aria-label="unflag"
-  className="style--none flag-icon__container visible"
-  id="CENTER_flagIcon_post_id"
-  onClick={[Function]}
+<OverlayTrigger
+  className="hidden-xs"
+  defaultOverlayShown={false}
+  delayShow={400}
+  key="flagtooltipkeyflagged"
+  overlay={
+    <Tooltip
+      bsClass="tooltip"
+      className="hidden-xs"
+      id="flagTooltip"
+      placement="right"
+    >
+      <FormattedMessage
+        defaultMessage="Remove from Saved"
+        id="flag_post.unflag"
+      />
+    </Tooltip>
+  }
+  placement="top"
+  trigger={
+    Array [
+      "hover",
+      "focus",
+    ]
+  }
 >
-  <OverlayTrigger
-    defaultOverlayShown={false}
-    delayShow={400}
-    key="flagtooltipkeyvisible"
-    overlay={
-      <Tooltip
-        bsClass="tooltip"
-        id="flagTooltip"
-        placement="right"
-      >
-        <FormattedMessage
-          defaultMessage="Unflag"
-          id="flag_post.unflag"
-          values={Object {}}
-        />
-      </Tooltip>
-    }
-    placement="top"
-    trigger={
-      Array [
-        "hover",
-        "focus",
-      ]
-    }
+  <button
+    aria-label="remove from saved"
+    className="post-menu__item"
+    id="CENTER_flagIcon_post_id"
+    onClick={[Function]}
   >
     <FlagIconFilled
-      className="icon"
+      className="icon icon--small icon--small-filled post-menu__item--selected"
     />
-  </OverlayTrigger>
-</button>
+  </button>
+</OverlayTrigger>
 `;
-
-exports[`components/post_view/PostFlagIcon should match snapshot 3`] = `""`;

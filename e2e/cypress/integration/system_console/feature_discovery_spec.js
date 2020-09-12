@@ -7,13 +7,19 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+// Group: @system_console
+
 describe('Feature discovery', () => {
     before(() => {
-        cy.apiLogin('sysadmin');
+        // # Remove license
+        cy.apiDeleteLicense();
+
+        // # Visit admin console
         cy.visit('/admin_console');
     });
 
-    const testCallsToAction = async () => {
+    const testCallsToAction = () => {
         cy.get("a[data-testid$='CallToAction']").each(($el) => {
             cy.wrap($el).should('have.attr', 'href').and('not.eq', '');
             cy.wrap($el).should('have.attr', 'target', '_blank');

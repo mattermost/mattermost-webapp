@@ -7,20 +7,24 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod @smoke
+// Stage: @prod
 // Group: @messaging @markdown
 
 describe('Messaging', () => {
+    let townsquareLink;
+
     before(() => {
-        // # Login and go to /
-        cy.apiLogin('user-1');
-        cy.visit('/ad-1/channels/town-square');
+        // # Login as test user and visit town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            townsquareLink = `/${team.name}/channels/town-square`;
+            cy.visit(townsquareLink);
+        });
     });
 
-    it('M18703-Markdown quotation paragraphs', () => {
+    it('MM-T189 Markdown quotation paragraphs', () => {
         const messageParts = ['this is', 'really', 'three quote lines'];
 
-        cy.visit('/ad-1/channels/town-square');
+        cy.visit(townsquareLink);
 
         // # Post message to use
         cy.get('#post_textbox').clear().type('>' + messageParts[0]).type('{shift}{enter}{enter}');

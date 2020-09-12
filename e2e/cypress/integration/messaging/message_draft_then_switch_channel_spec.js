@@ -7,29 +7,23 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod @smoke
+// Stage: @prod
 // Group: @messaging
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
-let testTeam;
-
 describe('Message Draft and Switch Channels', () => {
-    before(() => {
-        // # Login as sysadmin
-        cy.apiLogin('sysadmin');
+    let testTeam;
 
-        // # Login as new user
-        cy.apiCreateAndLoginAsNewUser().then(() => {
-            // # Create new team and visit its URL
-            cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
-                testTeam = response.body;
-                cy.visit(`/${testTeam.name}`);
-            });
+    before(() => {
+        // # Create new team and new user and visit Town Square channel
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            testTeam = team;
+            cy.visit(`/${testTeam.name}/channels/town-square`);
         });
     });
 
-    it('M14358 Message Draft Pencil Icon Visible in Channel Switcher', () => {
+    it('MM-T131 Message Draft Pencil Icon - CTRL/CMD+K & "Jump to"', () => {
         // # In a test channel, type some text in the message input box
         // # Do not send the post
         cy.get('#sidebarItem_town-square').click({force: true});
@@ -58,14 +52,14 @@ describe('Message Draft and Switch Channels', () => {
 
         // # Type the first few letters of the channel name you typed the message draft in
         cy.get('#quickSwitchInput').type('tow');
-        cy.wait(TIMEOUTS.TINY);
+        cy.wait(TIMEOUTS.HALF_SEC);
 
         // * Suggestion list should be visible
         cy.get('#suggestionList').should('be.visible');
 
         // * Validate if the draft icon is visible to left of the channel name in the filtered list
         cy.get('#publicChannel').scrollIntoView();
-        cy.get('#switchChannel_town-square #draftIcon').should('be.visible');
+        cy.get('#switchChannel_town-square .icon-pencil-outline').should('be.visible');
 
         // * Escape channel switcher and reset post textbox for test channel
         cy.get('.close').click();

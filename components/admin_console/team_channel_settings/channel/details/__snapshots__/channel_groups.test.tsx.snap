@@ -26,13 +26,21 @@ exports[`admin_console/team_channel_settings/channel/ChannelGroups should match 
           "skipCommit": true,
         }
       }
-      dialogType={[Function]}
+      dialogType={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "displayName": "Connect(AddGroupsToChannelModal)",
+          "type": [Function],
+        }
+      }
       id="addGroupsToChannelToggle"
+      isDisabled={false}
     >
       <FormattedMessage
         defaultMessage="Add Group"
         id="admin.channel_settings.channel_details.add_group"
-        values={Object {}}
       />
     </ModalToggleButton>
   }
@@ -62,6 +70,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelGroups should match 
         },
       ]
     }
+    isDisabled={false}
     isModeSync={true}
     onGroupRemoved={[MockFunction]}
     setNewGroupRole={[MockFunction]}

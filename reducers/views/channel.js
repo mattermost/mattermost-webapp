@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {combineReducers} from 'redux';
-import {ChannelTypes, PostTypes, UserTypes} from 'mattermost-redux/action_types';
+import {ChannelTypes, PostTypes, UserTypes, GeneralTypes} from 'mattermost-redux/action_types';
 
 import {ActionTypes, Constants, NotificationLevels} from 'utils/constants';
 
@@ -150,6 +150,22 @@ function toastStatus(state = false, action) {
     }
 }
 
+function channelPrefetchStatus(state = {}, action) {
+    switch (action.type) {
+    case ActionTypes.PREFETCH_POSTS_FOR_CHANNEL:
+        return {
+            ...state,
+            [action.channelId]: action.status,
+        };
+    case GeneralTypes.WEBSOCKET_FAILURE:
+    case GeneralTypes.WEBSOCKET_CLOSED:
+    case UserTypes.LOGOUT_SUCCESS:
+        return {};
+    default:
+        return state;
+    }
+}
+
 export default combineReducers({
     postVisibility,
     lastChannelViewTime,
@@ -159,4 +175,5 @@ export default combineReducers({
     keepChannelIdAsUnread,
     lastGetPosts,
     toastStatus,
+    channelPrefetchStatus,
 });

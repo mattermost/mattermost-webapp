@@ -7,6 +7,8 @@ import * as TeamActions from 'mattermost-redux/actions/teams';
 import {Client4} from 'mattermost-redux/client';
 import {bindClientFunc} from 'mattermost-redux/actions/helpers';
 
+import {trackEvent} from 'actions/diagnostics_actions.jsx';
+
 import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
 import {getOnNavigationConfirmed} from 'selectors/views/admin';
 import store from 'stores/redux_store.jsx';
@@ -383,4 +385,47 @@ export async function setSamlIdpCertificateFromMetadata(success, error, certData
     } else if (err && error) {
         error({id: err.server_error_id, ...err});
     }
+}
+
+export function upgradeToE0() {
+    return async () => {
+        trackEvent('api', 'upgrade_to_e0_requested');
+        const data = await Client4.upgradeToEnterprise();
+        return data;
+    };
+}
+
+export function upgradeToE0Status() {
+    return async () => {
+        const data = await Client4.upgradeToEnterpriseStatus();
+        return data;
+    };
+}
+
+export function restartServer() {
+    return async () => {
+        const data = await Client4.restartServer();
+        return data;
+    };
+}
+
+export function ping() {
+    return async () => {
+        const data = await Client4.ping();
+        return data;
+    };
+}
+
+export function requestTrialLicense(users, termsAccepted, receiveEmailsAccepted, page) {
+    return async () => {
+        try {
+            trackEvent('api', 'api_request_trial_license', {from_page: page});
+            const response = await Client4.doFetch(`${Client4.getBaseRoute()}/trial-license`, {
+                method: 'POST', body: JSON.stringify({users, terms_accepted: termsAccepted, receive_emails_accepted: receiveEmailsAccepted}),
+            });
+            return {data: response};
+        } catch (e) {
+            return {error: e.message};
+        }
+    };
 }

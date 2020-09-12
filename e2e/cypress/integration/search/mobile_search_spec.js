@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @search
 
 function openSidebarMenu() {
@@ -26,13 +27,21 @@ function verifyLoadingSpinnerIsGone() {
 }
 
 describe('Mobile Search', () => {
-    beforeEach(() => {
-        // # Login and navigate to the app
-        cy.apiLogin('user-1');
-        cy.visit('/ad-1/channels/town-square');
+    let townsquareLink;
 
+    before(() => {
+        // # Login as test user
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            townsquareLink = `/${team.name}/channels/town-square`;
+        });
+    });
+
+    beforeEach(() => {
         // # Resize window to mobile view
         cy.viewport('iphone-6');
+
+        // # Visit town-square
+        cy.visit(townsquareLink);
     });
 
     it('Opening the Recent Mentions eventually loads the results', () => {
@@ -46,11 +55,11 @@ describe('Mobile Search', () => {
         verifyLoadingSpinnerIsGone();
     });
 
-    it('Opening the Flagged Posts eventually loads the results', () => {
+    it('Opening the Saved Posts eventually loads the results', () => {
         // # Open the sidebar menu
         openSidebarMenu();
 
-        // # Click the Flagged Posts button
+        // # Click the Saved Posts button
         cy.get('#flaggedPosts').click();
 
         // * Verify that the loading spinner is eventually gone

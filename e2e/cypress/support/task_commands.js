@@ -20,17 +20,49 @@ Cypress.Commands.add('postMessageAs', ({sender, message, channelId, rootId, crea
 });
 
 /**
+* reactToMessageAs is a task wrapped as command with post-verification
+* that a reaction is added successfully to a message by a user/sender
+* @param {Object} sender - a user object who will post a message
+* @param {String} postId - post on which reaction is intended
+* @param {String} reaction - emoji text eg. smile
+*/
+Cypress.Commands.add('reactToMessageAs', ({sender, postId, reaction}) => {
+    const baseUrl = Cypress.config('baseUrl');
+
+    cy.task('reactToMessageAs', {sender, postId, reaction, baseUrl}).then(({status, data}) => {
+        expect(status).to.equal(200);
+
+        // # Return the response after reaction is added
+        cy.wrap({status, data});
+    });
+});
+
+/**
 * postIncomingWebhook is a task which is wrapped as command with post-verification
 * that the incoming webhook is successfully posted
 * @param {String} url - incoming webhook URL
 * @param {Object} data - payload on incoming webhook
 */
-Cypress.Commands.add('postIncomingWebhook', ({url, data}) => {
+Cypress.Commands.add('postIncomingWebhook', ({url, data, waitFor}) => {
     cy.task('postIncomingWebhook', {url, data}).its('status').should('be.equal', 200);
 
+    if (!waitFor) {
+        return;
+    }
+
     cy.waitUntil(() => cy.getLastPost().then((el) => {
-        const postedMessageEl = el.find('.attachment__thumb-pretext > p')[0];
-        return Boolean(postedMessageEl && postedMessageEl.textContent.includes(data.attachments[0].pretext));
+        switch (waitFor) {
+        case 'text': {
+            const textEl = el.find('.post-message__text > p')[0];
+            return Boolean(textEl && textEl.textContent.includes(data.text));
+        }
+        case 'attachment-pretext': {
+            const attachmentPretextEl = el.find('.attachment__thumb-pretext > p')[0];
+            return Boolean(attachmentPretextEl && attachmentPretextEl.textContent.includes(data.attachments[0].pretext));
+        }
+        default:
+            return false;
+        }
     }));
 });
 
@@ -45,7 +77,10 @@ Cypress.Commands.add('postIncomingWebhook', ({url, data}) => {
 Cypress.Commands.add('externalRequest', ({user, method, path, data}) => {
     const baseUrl = Cypress.config('baseUrl');
 
-    cy.task('externalRequest', {baseUrl, user, method, path, data}).its('status').should('be.equal', 200);
+    return cy.task('externalRequest', {baseUrl, user, method, path, data}).then((response) => {
+        expect(response.status).to.be.oneOf([200, 201, 204]);
+        return cy.wrap(response);
+    });
 });
 
 /**

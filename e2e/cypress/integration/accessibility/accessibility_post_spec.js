@@ -10,85 +10,47 @@
 // Stage: @prod
 // Group: @accessibility
 
-import users from '../../fixtures/users.json';
-
-const otherUser = users['user-2'];
-const currentUser = users.sysadmin;
-let message;
-
-function postMessages(count = 1) {
-    cy.getCurrentChannelId().then((channelId) => {
-        cy.apiGetUserByEmail(otherUser.email).then((emailResponse) => {
-            cy.apiAddUserToChannel(channelId, emailResponse.body.id);
-            for (let index = 0; index < count; index++) {
-                // # Post Message as Current user
-                message = `hello from sysadmin: ${Date.now()}`;
-                cy.postMessage(message);
-                message = `hello from ${otherUser.username}: ${Date.now()}`;
-                cy.postMessageAs({sender: otherUser, message, channelId});
-            }
-            cy.wait(1000); // eslint-disable-line cypress/no-unnecessary-waiting
-        });
-    });
-}
-
-function postAndPerformActions() {
-    postMessages();
-
-    // # Take some actions on the last post
-    cy.getLastPostId().then((postId) => {
-        // # Add couple of Reactions
-        cy.clickPostReactionIcon(postId);
-        cy.findByTestId('grinning').click();
-        cy.clickPostReactionIcon(postId);
-        cy.findByTestId('smile').click();
-
-        // # Flag the post
-        cy.clickPostFlagIcon(postId);
-
-        // # Pin the post
-        cy.clickPostDotMenu(postId);
-        cy.get(`#pin_post_${postId}`).click();
-
-        cy.clickPostDotMenu(postId);
-        cy.get('body').type('{esc}');
-    });
-}
-
-function verifyPostLabel(elementId, username, labelSuffix) {
-    // # Shift focus to the last post
-    cy.get(elementId).as('lastPost').should('have.class', 'a11y--active a11y--focused');
-
-    // * Verify reader reads out the post correctly
-    cy.get('@lastPost').then((el) => {
-        // # Get the post time
-        cy.wrap(el).find('time.post__time').invoke('text').then((time) => {
-            const expectedLabel = `At ${time} ${Cypress.moment().format('dddd, MMMM D')}, ${username} ${labelSuffix}`;
-            cy.wrap(el).should('have.attr', 'aria-label', expectedLabel);
-        });
-    });
-}
+import {getRandomId} from '../../utils';
 
 describe('Verify Accessibility Support in Post', () => {
-    before(() => {
-        cy.apiLogin('sysadmin');
+    let testUser;
+    let otherUser;
+    let testTeam;
+    let testChannel;
 
+    before(() => {
         // # Update Configs
         cy.apiUpdateConfig({
             ServiceSettings: {
                 ExperimentalChannelOrganization: false,
             },
         });
+
+        cy.apiInitSetup().then(({team, channel, user}) => {
+            testUser = user;
+            testTeam = team;
+            testChannel = channel;
+
+            cy.apiCreateUser({prefix: 'other'}).then(({user: user1}) => {
+                otherUser = user1;
+
+                cy.apiAddUserToTeam(testTeam.id, otherUser.id).then(() => {
+                    cy.apiAddUserToChannel(testChannel.id, otherUser.id);
+                });
+            });
+        });
     });
 
     beforeEach(() => {
-        // # Visit the Town Square channel
-        cy.visit('/ad-1/channels/off-topic');
+        // # Login as test user and visit the Town Square channel
+        cy.apiLogin(testUser);
+        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
         cy.get('#postListContent').should('be.visible');
     });
 
-    it('MM-22631 Verify Reader reads out the post correctly on Center Channel', () => {
-        postAndPerformActions();
+    it('MM-T1479 Verify Reader reads out the post correctly on Center Channel', () => {
+        const {lastMessage} = postMessages(testChannel, otherUser, 1);
+        performActionsToLastPost();
 
         // # Shift focus to the last post
         cy.get('#fileUploadButton').focus().tab({shift: true}).tab({shift: true});
@@ -97,12 +59,13 @@ describe('Verify Accessibility Support in Post', () => {
         // * Verify post message in Center Channel
         cy.getLastPostId().then((postId) => {
             // * Verify reader reads out the post correctly
-            verifyPostLabel(`#post_${postId}`, otherUser.username, `wrote, ${message}, 2 reactions, message is flagged and pinned`);
+            verifyPostLabel(`#post_${postId}`, otherUser.username, `wrote, ${lastMessage}, 2 reactions, message is saved and pinned`);
         });
     });
 
-    it('MM-22631 Verify Reader reads out the post correctly on RHS', () => {
-        postAndPerformActions();
+    it('MM-T1480 Verify Reader reads out the post correctly on RHS', () => {
+        const {lastMessage} = postMessages(testChannel, otherUser, 1);
+        performActionsToLastPost();
 
         // # Post a reply on RHS
         cy.getLastPostId().then((postId) => {
@@ -117,7 +80,7 @@ describe('Verify Accessibility Support in Post', () => {
                 cy.get('#fileUploadButton').focus().tab({shift: true}).tab({shift: true}).type('{uparrow}');
 
                 // * Verify reader reads out the post correctly
-                verifyPostLabel(`#rhsPost_${postId}`, otherUser.username, `wrote, ${message}, 2 reactions, message is flagged and pinned`);
+                verifyPostLabel(`#rhsPost_${postId}`, otherUser.username, `wrote, ${lastMessage}, 2 reactions, message is saved and pinned`);
             });
 
             // * Verify reply message in RHS
@@ -127,14 +90,14 @@ describe('Verify Accessibility Support in Post', () => {
                     cy.get('#fileUploadButton').focus().tab({shift: true}).tab({shift: true}).type('{uparrow}{downarrow}');
 
                     // * Verify reader reads out the post correctly
-                    verifyPostLabel(`#rhsPost_${replyId}`, currentUser.username, `replied, ${replyMessage}`);
+                    verifyPostLabel(`#rhsPost_${replyId}`, testUser.username, `replied, ${replyMessage}`);
                 });
             });
         });
     });
 
-    it('MM-22631 Verify different Post Focus on Center Channel', () => {
-        postMessages(5);
+    it('MM-T1486_1 Verify different Post Focus on Center Channel', () => {
+        postMessages(testChannel, otherUser, 5);
 
         // # Shift focus to the last post
         cy.get('#fileUploadButton').focus().tab({shift: true}).tab({shift: true}).type('{uparrow}');
@@ -156,23 +119,22 @@ describe('Verify Accessibility Support in Post', () => {
         }
     });
 
-    it('MM-22631 Verify different Post Focus on RHS', () => {
+    it('MM-T1486_2 Verify different Post Focus on RHS', () => {
         // # Post Message as Current user
-        message = `hello from sysadmin: ${Date.now()}`;
+        const message = `hello from current user: ${getRandomId()}`;
         cy.postMessage(message);
 
         // # Post few replies on RHS
         cy.getLastPostId().then((postId) => {
             cy.clickPostCommentIcon(postId);
             cy.get('#rhsContainer').should('be.visible');
-            cy.getCurrentChannelId().then((channelId) => {
-                for (let index = 0; index < 3; index++) {
-                    const replyMessage = `A reply ${Date.now()}`;
-                    cy.postMessageReplyInRHS(replyMessage);
-                    message = `reply from ${otherUser.username}: ${Date.now()}`;
-                    cy.postMessageAs({sender: otherUser, message, channelId, rootId: postId});
-                }
-            });
+
+            for (let index = 0; index < 3; index++) {
+                const replyMessage = `A reply ${getRandomId()}`;
+                cy.postMessageReplyInRHS(replyMessage);
+                const otherMessage = `reply from ${otherUser.username}: ${getRandomId()}`;
+                cy.postMessageAs({sender: otherUser, message: otherMessage, channelId: testChannel.id, rootId: postId});
+            }
         });
 
         cy.get('#rhsContainer').within(() => {
@@ -197,8 +159,8 @@ describe('Verify Accessibility Support in Post', () => {
         }
     });
 
-    it('MM-22631 Verify Tab support on Post on Center Channel', () => {
-        postMessages();
+    it('MM-T1486_3 Verify Tab support on Post on Center Channel', () => {
+        postMessages(testChannel, otherUser, 1);
 
         // # Shift focus to the last post
         cy.get('#fileUploadButton').focus().tab({shift: true}).tab({shift: true});
@@ -215,16 +177,16 @@ describe('Verify Accessibility Support in Post', () => {
                 cy.get(`#CENTER_time_${postId}`).should('have.class', 'a11y--active a11y--focused');
                 cy.focused().tab();
 
-                // * Verify focus is on the flag icon
-                cy.get(`#CENTER_flagIcon_${postId}`).should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'flag for follow up');
-                cy.focused().tab();
-
                 // * Verify focus is on the actions button
                 cy.get(`#CENTER_button_${postId}`).should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'more actions');
                 cy.focused().tab();
 
                 // * Verify focus is on the reactions button
                 cy.get(`#CENTER_reaction_${postId}`).should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'add reaction');
+                cy.focused().tab();
+
+                // * Verify focus is on the save post button
+                cy.get(`#CENTER_flagIcon_${postId}`).should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'save');
                 cy.focused().tab();
 
                 // * Verify focus is on the comment button
@@ -237,21 +199,20 @@ describe('Verify Accessibility Support in Post', () => {
         });
     });
 
-    it('MM-22631 Verify Tab support on Post on RHS', () => {
+    it('MM-T1486_4 Verify Tab support on Post on RHS', () => {
         // # Post Message as Current user
-        message = `hello from sysadmin: ${Date.now()}`;
+        const message = `hello from current user: ${getRandomId()}`;
         cy.postMessage(message);
 
         // # Post few replies on RHS
         cy.getLastPostId().then((postId) => {
             cy.clickPostCommentIcon(postId);
             cy.get('#rhsContainer').should('be.visible');
-            cy.getCurrentChannelId().then((channelId) => {
-                const replyMessage = `A reply ${Date.now()}`;
-                cy.postMessageReplyInRHS(replyMessage);
-                message = `reply from ${otherUser.username}: ${Date.now()}`;
-                cy.postMessageAs({sender: otherUser, message, channelId, rootId: postId});
-            });
+
+            const replyMessage = `A reply ${getRandomId()}`;
+            cy.postMessageReplyInRHS(replyMessage);
+            const otherMessage = `reply from ${otherUser.username}: ${getRandomId()}`;
+            cy.postMessageAs({sender: otherUser, message: otherMessage, channelId: testChannel.id, rootId: postId});
         });
 
         cy.get('#rhsContainer').within(() => {
@@ -266,16 +227,16 @@ describe('Verify Accessibility Support in Post', () => {
                 cy.get(`#rhsPostMessageText_${postId}`).should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-readonly', 'true');
                 cy.focused().tab({shift: true});
 
+                // * Verify focus is on the save icon
+                cy.get(`#RHS_COMMENT_flagIcon_${postId}`).should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'save');
+                cy.focused().tab({shift: true});
+
                 // * Verify focus is on the reactions button
                 cy.get(`#RHS_COMMENT_reaction_${postId}`).should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'add reaction');
                 cy.focused().tab({shift: true});
 
                 // * Verify focus is on the actions button
                 cy.get(`#RHS_COMMENT_button_${postId}`).should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'more actions');
-                cy.focused().tab({shift: true});
-
-                // * Verify focus is on the flag icon
-                cy.get(`#RHS_COMMENT_flagIcon_${postId}`).should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'flag for follow up');
                 cy.focused().tab({shift: true});
 
                 // * Verify focus is on the time
@@ -289,12 +250,10 @@ describe('Verify Accessibility Support in Post', () => {
         });
     });
 
-    it('MM-24078 Verify incoming messages are read', () => {
+    it('MM-T1462 Verify incoming messages are read', () => {
         // # Submit a post as another user
-        cy.getCurrentChannelId().then((channelId) => {
-            message = `verify incoming message from ${otherUser.username}: ${Date.now()}`;
-            cy.postMessageAs({sender: otherUser, message, channelId});
-        });
+        const message = `verify incoming message from ${otherUser.username}: ${getRandomId()}`;
+        cy.postMessageAs({sender: otherUser, message, channelId: testChannel.id});
 
         // # Get the element which stores the incoming messages
         cy.get('#postListContent').within(() => {
@@ -307,3 +266,62 @@ describe('Verify Accessibility Support in Post', () => {
         });
     });
 });
+
+function postMessages(testChannel, otherUser, count) {
+    let lastMessage;
+
+    for (let index = 0; index < count; index++) {
+        // # Post Message as Current user
+        const message = `hello from current user: ${getRandomId()}`;
+        cy.postMessage(message);
+        lastMessage = `hello from ${otherUser.username}: ${getRandomId()}`;
+        cy.postMessageAs({sender: otherUser, message: lastMessage, channelId: testChannel.id});
+    }
+
+    return {lastMessage};
+}
+
+function performActionsToLastPost() {
+    // # Take some actions on the last post
+    cy.getLastPostId().then((postId) => {
+        // # Add grinning reaction
+        cy.clickPostReactionIcon(postId);
+        cy.findByTestId('grinning').trigger('mouseover');
+        cy.get('#emojiPickerSpritePreview').should('be.visible');
+        cy.get('#emojiPickerAliasesPreview').should('be.visible').and('have.text', ':grinning:');
+        cy.findByTestId('grinning').click();
+        cy.get(`#postReaction-${postId}-grinning`).should('be.visible');
+
+        // # Add smile reaction
+        cy.clickPostReactionIcon(postId);
+        cy.findByTestId('smile').trigger('mouseover');
+        cy.get('#emojiPickerSpritePreview').should('be.visible');
+        cy.get('#emojiPickerAliasesPreview').should('be.visible').and('have.text', ':smile:');
+        cy.findByTestId('smile').click();
+        cy.get(`#postReaction-${postId}-smile`).should('be.visible');
+
+        // # Save the post
+        cy.clickPostSaveIcon(postId);
+
+        // # Pin the post
+        cy.clickPostDotMenu(postId);
+        cy.get(`#pin_post_${postId}`).click();
+
+        cy.clickPostDotMenu(postId);
+        cy.get('body').type('{esc}');
+    });
+}
+
+function verifyPostLabel(elementId, username, labelSuffix) {
+    // # Shift focus to the last post
+    cy.get(elementId).as('lastPost').should('have.class', 'a11y--active a11y--focused');
+
+    // * Verify reader reads out the post correctly
+    cy.get('@lastPost').then((el) => {
+        // # Get the post time
+        cy.wrap(el).find('time.post__time').invoke('text').then((time) => {
+            const expectedLabel = `At ${time} ${Cypress.moment().format('dddd, MMMM D')}, ${username} ${labelSuffix}`;
+            cy.wrap(el).should('have.attr', 'aria-label', expectedLabel);
+        });
+    });
+}

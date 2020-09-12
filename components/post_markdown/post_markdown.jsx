@@ -30,6 +30,12 @@ export default class PostMarkdown extends React.PureComponent {
          * The optional post for which this message is being rendered
          */
         post: PropTypes.object,
+
+        /*
+         * The id of the channel that this post is being rendered in
+         */
+        channelId: PropTypes.string.isRequired,
+
         channel: PropTypes.object,
 
         options: PropTypes.object,
@@ -75,6 +81,10 @@ export default class PostMarkdown extends React.PureComponent {
                 message = o.hook(post, message);
             }
         });
+
+        if (post && post.props) {
+            options.mentionHighlight = !post.props.mentionHighlightDisabled;
+        }
 
         return (
             <Markdown

@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import $ from 'jquery';
 import PropTypes from 'prop-types';
@@ -45,7 +46,7 @@ export default class ThemeSetting extends React.PureComponent {
 
     componentDidMount() {
         if (this.props.selected) {
-            $(ReactDOM.findDOMNode(this.refs[this.state.theme])).addClass('active-border');
+            $(ReactDOM.findDOMNode(this.refs[this.state.theme])).addClass('active-border'); // eslint-disable-line jquery/no-class
         }
     }
 
@@ -55,8 +56,8 @@ export default class ThemeSetting extends React.PureComponent {
         }
 
         if (this.props.selected) {
-            $('.color-btn').removeClass('active-border');
-            $(ReactDOM.findDOMNode(this.refs[this.state.theme])).addClass('active-border');
+            $('.color-btn').removeClass('active-border'); // eslint-disable-line jquery/no-class
+            $(ReactDOM.findDOMNode(this.refs[this.state.theme])).addClass('active-border'); // eslint-disable-line jquery/no-class
         }
     }
 
@@ -328,3 +329,4 @@ export default class ThemeSetting extends React.PureComponent {
         return themeUI;
     }
 }
+/* eslint-enable react/no-string-refs */

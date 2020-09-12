@@ -23,16 +23,13 @@ describe('Interactive Dialog', () => {
     before(() => {
         cy.requireWebhookServer();
 
-        // # Login as sysadmin and ensure that teammate name display setting is set to default 'username'
-        cy.apiLogin('sysadmin');
+        // # Ensure that teammate name display setting is set to default 'username'
         cy.apiSaveTeammateNameDisplayPreference('username');
 
         // # Create new team and create command on it
-        cy.apiCreateTeam('test-team', 'Test Team').then((teamResponse) => {
-            const team = teamResponse.body;
-
+        cy.apiCreateTeam('test-team', 'Test Team').then(({team}) => {
             for (let i = 0; i < 20; i++) {
-                cy.apiCreateChannel(team.id, 'name' + i + Date.now(), 'name' + i + Date.now());
+                cy.apiCreateChannel(team.id, `channel-${i}`, `Channel ${i}`);
             }
 
             cy.visit(`/${team.name}`);
@@ -46,7 +43,7 @@ describe('Interactive Dialog', () => {
                 icon_url: '',
                 method: 'P',
                 team_id: team.id,
-                trigger: 'user_and_channel_dialog' + Date.now(),
+                trigger: 'user_and_channel_dialog',
                 url: `${webhookBaseUrl}/user_and_channel_dialog_request`,
                 username: '',
             };
@@ -58,7 +55,7 @@ describe('Interactive Dialog', () => {
         });
     });
 
-    it('ID21031 - Individual "User" and "Channel" screens are scrollable', () => {
+    it('MM-T2498 - Individual "User" and "Channel" screens are scrollable', () => {
         // # Post a slash command
         cy.postMessage(`/${createdCommand.trigger}`);
 

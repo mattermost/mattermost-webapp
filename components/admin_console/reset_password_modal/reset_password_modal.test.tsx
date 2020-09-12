@@ -8,6 +8,7 @@ import {UserNotifyProps, UserProfile} from 'mattermost-redux/types/users';
 import {ActionResult} from 'mattermost-redux/types/actions';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
+import {TestHelper} from 'utils/test_helper';
 
 import ResetPasswordModal from './reset_password_modal';
 
@@ -25,31 +26,15 @@ describe('components/admin_console/reset_password_modal/reset_password_modal.tsx
         push: 'default',
         push_status: 'ooo',
     };
-    const user: UserProfile = {
-        auth_data: '',
+    const user: UserProfile = TestHelper.getUserMock({
         auth_service: 'test',
-        create_at: 0,
-        delete_at: 0,
-        email: '',
-        email_verified: false,
-        first_name: '',
-        id: '1',
-        is_bot: false,
-        last_name: '',
-        last_picture_update: 0,
-        locale: '',
-        nickname: '',
         notify_props: notifyProps,
-        position: '',
-        roles: '',
-        terms_of_service_create_at: 0,
-        terms_of_service_id: '',
-        update_at: 0,
-        username: '',
-    };
+    });
+
     const baseProps = {
+        // eslint-disable-next-line @typescript-eslint/ban-types
         actions: {updateUserPassword: jest.fn<ActionResult, {}[]>(() => ({data: ''}))},
-        currentUserId: '1',
+        currentUserId: user.id,
         user,
         show: true,
         onModalSubmit: emptyFunction,
@@ -79,6 +64,7 @@ describe('components/admin_console/reset_password_modal/reset_password_modal.tsx
     });
 
     test('should call updateUserPassword', () => {
+        // eslint-disable-next-line @typescript-eslint/ban-types
         const updateUserPassword = jest.fn<ActionResult, {}[]>(() => ({data: ''}));
         const oldPassword = 'oldPassword123!';
         const newPassword = 'newPassword123!';
@@ -95,6 +81,7 @@ describe('components/admin_console/reset_password_modal/reset_password_modal.tsx
     });
 
     test('should not call updateUserPassword when the old password is not provided', () => {
+        // eslint-disable-next-line @typescript-eslint/ban-types
         const updateUserPassword = jest.fn<ActionResult, {}[]>(() => ({data: ''}));
         const newPassword = 'newPassword123!';
         const props = {...baseProps, actions: {updateUserPassword}};
@@ -108,12 +95,12 @@ describe('components/admin_console/reset_password_modal/reset_password_modal.tsx
             <FormattedMessage
                 defaultMessage='Please enter your current password.'
                 id='admin.reset_password.missing_current'
-                values={{}}
             />);
         expect(wrapper.state('serverErrorNewPass')).toBeNull();
     });
 
     test('should call updateUserPassword', () => {
+        // eslint-disable-next-line @typescript-eslint/ban-types
         const updateUserPassword = jest.fn<ActionResult, {}[]>(() => ({data: ''}));
         const password = 'Password123!';
 

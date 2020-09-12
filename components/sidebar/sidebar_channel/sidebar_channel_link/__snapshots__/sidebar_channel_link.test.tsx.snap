@@ -6,6 +6,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
   className="SidebarLink"
   id="sidebarItem_"
   onClick={[Function]}
+  tabIndex={0}
   to="http://a.fake.link"
 >
   <Connect(SidebarChannelIcon)
@@ -31,16 +32,20 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
     }
     icon={null}
   />
-  <span
-    className="SidebarChannelLinkLabel"
+  <div
+    className="SidebarChannelLinkLabel_wrapper"
   >
-    channel_label
-  </span>
+    <span
+      className="SidebarChannelLinkLabel"
+    >
+      channel_label
+    </span>
+  </div>
   <ChannelMentionBadge
     channelId="channel_id"
     unreadMentions={0}
   />
-  <SidebarChannelClose
+  <Connect(injectIntl(SidebarChannelMenu))
     channel={
       Object {
         "create_at": 0,
@@ -61,7 +66,11 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
         "update_at": 0,
       }
     }
-    show={true}
+    channelLink="http://a.fake.link"
+    isCollapsed={false}
+    isMenuOpen={false}
+    isUnread={false}
+    onToggleMenu={[Function]}
   />
 </Link>
 `;
@@ -72,6 +81,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
   className="SidebarLink"
   id="sidebarItem_"
   onClick={[Function]}
+  tabIndex={0}
   to="http://a.fake.link"
 >
   <Connect(SidebarChannelIcon)
@@ -97,16 +107,20 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
     }
     icon={null}
   />
-  <span
-    className="SidebarChannelLinkLabel"
+  <div
+    className="SidebarChannelLinkLabel_wrapper"
   >
-    channel_label
-  </span>
+    <span
+      className="SidebarChannelLinkLabel"
+    >
+      channel_label
+    </span>
+  </div>
   <ChannelMentionBadge
     channelId="channel_id"
     unreadMentions={0}
   />
-  <SidebarChannelClose
+  <Connect(injectIntl(SidebarChannelMenu))
     channel={
       Object {
         "create_at": 0,
@@ -127,99 +141,112 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
         "update_at": 0,
       }
     }
-    show={true}
+    channelLink="http://a.fake.link"
+    isCollapsed={false}
+    isMenuOpen={false}
+    isUnread={false}
+    onToggleMenu={[Function]}
   />
 </Link>
 `;
 
 exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match snapshot when tooltip is enabled 1`] = `
-<OverlayTrigger
-  defaultOverlayShown={false}
-  delayShow={400}
-  onEntering={[Function]}
-  overlay={
-    <Tooltip
-      bsClass="tooltip"
-      id="channel-displayname__tooltip"
-      placement="right"
-    >
-      channel_label
-    </Tooltip>
-  }
-  placement="top"
-  trigger={
-    Array [
-      "hover",
-      "focus",
-    ]
-  }
+<Link
+  aria-label="channel_label"
+  className="SidebarLink"
+  id="sidebarItem_"
+  onClick={[Function]}
+  tabIndex={0}
+  to="http://a.fake.link"
 >
-  <div>
-    <Link
-      aria-label="channel_label"
-      className="SidebarLink"
-      id="sidebarItem_"
-      onClick={[Function]}
-      to="http://a.fake.link"
+  <Connect(SidebarChannelIcon)
+    channel={
+      Object {
+        "create_at": 0,
+        "creator_id": "",
+        "delete_at": 0,
+        "display_name": "channel_display_name",
+        "extra_update_at": 0,
+        "group_constrained": false,
+        "header": "",
+        "id": "channel_id",
+        "last_post_at": 0,
+        "name": "",
+        "purpose": "",
+        "scheme_id": "",
+        "team_id": "",
+        "total_msg_count": 0,
+        "type": "O",
+        "update_at": 0,
+      }
+    }
+    icon={null}
+  />
+  <div
+    className="SidebarChannelLinkLabel_wrapper"
+  >
+    <OverlayTrigger
+      defaultOverlayShown={false}
+      delayShow={400}
+      onEntering={[Function]}
+      overlay={
+        <Tooltip
+          bsClass="tooltip"
+          id="channel-displayname__tooltip"
+          placement="right"
+        >
+          channel_label
+        </Tooltip>
+      }
+      placement="top"
+      trigger={
+        Array [
+          "hover",
+          "focus",
+        ]
+      }
     >
-      <Connect(SidebarChannelIcon)
-        channel={
-          Object {
-            "create_at": 0,
-            "creator_id": "",
-            "delete_at": 0,
-            "display_name": "channel_display_name",
-            "extra_update_at": 0,
-            "group_constrained": false,
-            "header": "",
-            "id": "channel_id",
-            "last_post_at": 0,
-            "name": "",
-            "purpose": "",
-            "scheme_id": "",
-            "team_id": "",
-            "total_msg_count": 0,
-            "type": "O",
-            "update_at": 0,
-          }
-        }
-        icon={null}
-      />
-      <span
-        className="SidebarChannelLinkLabel"
-      >
-        channel_label
-      </span>
-      <ChannelMentionBadge
-        channelId="channel_id"
-        unreadMentions={0}
-      />
-      <SidebarChannelClose
-        channel={
-          Object {
-            "create_at": 0,
-            "creator_id": "",
-            "delete_at": 0,
-            "display_name": "channel_display_name",
-            "extra_update_at": 0,
-            "group_constrained": false,
-            "header": "",
-            "id": "channel_id",
-            "last_post_at": 0,
-            "name": "",
-            "purpose": "",
-            "scheme_id": "",
-            "team_id": "",
-            "total_msg_count": 0,
-            "type": "O",
-            "update_at": 0,
-          }
-        }
-        show={true}
-      />
-    </Link>
+      <div>
+        <span
+          className="SidebarChannelLinkLabel"
+        >
+          channel_label
+        </span>
+      </div>
+    </OverlayTrigger>
   </div>
-</OverlayTrigger>
+  <ChannelMentionBadge
+    channelId="channel_id"
+    unreadMentions={0}
+  />
+  <Connect(injectIntl(SidebarChannelMenu))
+    channel={
+      Object {
+        "create_at": 0,
+        "creator_id": "",
+        "delete_at": 0,
+        "display_name": "channel_display_name",
+        "extra_update_at": 0,
+        "group_constrained": false,
+        "header": "",
+        "id": "channel_id",
+        "last_post_at": 0,
+        "name": "",
+        "purpose": "",
+        "scheme_id": "",
+        "team_id": "",
+        "total_msg_count": 0,
+        "type": "O",
+        "update_at": 0,
+      }
+    }
+    channelLink="http://a.fake.link"
+    isCollapsed={false}
+    isMenuOpen={false}
+    isUnread={false}
+    onToggleMenu={[Function]}
+  />
+</Link>
 `;
 
 exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match snapshot with aria label prefix and unread mentions 1`] = `
@@ -228,6 +255,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
   className="SidebarLink unread-title"
   id="sidebarItem_"
   onClick={[Function]}
+  tabIndex={0}
   to="http://a.fake.link"
 >
   <Connect(SidebarChannelIcon)
@@ -253,16 +281,20 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
     }
     icon={null}
   />
-  <span
-    className="SidebarChannelLinkLabel"
+  <div
+    className="SidebarChannelLinkLabel_wrapper"
   >
-    channel_label
-  </span>
+    <span
+      className="SidebarChannelLinkLabel"
+    >
+      channel_label
+    </span>
+  </div>
   <ChannelMentionBadge
     channelId="channel_id"
     unreadMentions={2}
   />
-  <SidebarChannelClose
+  <Connect(injectIntl(SidebarChannelMenu))
     channel={
       Object {
         "create_at": 0,
@@ -283,7 +315,11 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
         "update_at": 0,
       }
     }
-    show={false}
+    channelLink="http://a.fake.link"
+    isCollapsed={false}
+    isMenuOpen={false}
+    isUnread={true}
+    onToggleMenu={[Function]}
   />
 </Link>
 `;

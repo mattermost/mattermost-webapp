@@ -7,40 +7,33 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @accessibility
 
 describe('Verify Accessibility Support in different Buttons', () => {
     before(() => {
-        cy.apiLogin('sysadmin');
+        // # Login as test user and visit town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/off-topic`);
 
-        // # Visit the Off Topic channel
-        cy.visit('/ad-1/channels/off-topic');
-        cy.findAllByTestId('postView').should('be.visible');
-
-        // # Remove from Favorites if already set
-        cy.get('#channelHeaderInfo').then((el) => {
-            if (el.find('#toggleFavorite.active').length) {
-                cy.get('#toggleFavorite').click();
-            }
+            // # Post a message
+            cy.postMessage(`hello from test user: ${Date.now()}`);
         });
-
-        // # Post a message
-        cy.postMessage(`hello from sysadmin: ${Date.now()}`);
     });
 
-    it('MM-22624 Accessibility Support in RHS expand and close icons', () => {
+    it('MM-T1459 Accessibility Support in RHS expand and close icons', () => {
         cy.getLastPostId().then((postId) => {
             cy.clickPostCommentIcon(postId);
             cy.get('#rhsContainer').should('be.visible').within(() => {
                 // * Verify accessibility support in Sidebar Expand and Shrink icon
                 cy.get('button.sidebar--right__expand').should('have.attr', 'aria-label', 'Expand').within(() => {
-                    cy.get('.fa-expand').should('have.attr', 'aria-label', 'Expand the sidebar icon');
-                    cy.get('.fa-compress').should('have.attr', 'aria-label', 'Shrink the sidebar icon');
+                    cy.get('.icon-arrow-expand').should('have.attr', 'aria-label', 'Expand Sidebar Icon');
+                    cy.get('.icon-arrow-collapse').should('have.attr', 'aria-label', 'Collapse Sidebar Icon');
                 });
 
                 // * Verify accessibility support in Close icon
                 cy.get('#rhsCloseButton').should('have.attr', 'aria-label', 'Close').within(() => {
-                    cy.get('i').should('have.attr', 'aria-label', 'Close the sidebar icon');
+                    cy.get('.icon-close').should('have.attr', 'aria-label', 'Close Sidebar Icon');
                 });
 
                 // # Close the sidebar
@@ -49,7 +42,7 @@ describe('Verify Accessibility Support in different Buttons', () => {
         });
     });
 
-    it('MM-22624 Accessibility Support in different buttons in Channel Header', () => {
+    it('MM-T1461 Accessibility Support in different buttons in Channel Header', () => {
         // # Ensure the focus is on the Toggle Favorites button
         cy.get('#toggleFavorite').focus().tab({shift: true}).tab();
 
@@ -74,7 +67,7 @@ describe('Verify Accessibility Support in different Buttons', () => {
         // * Verify accessibility support in Recent Mentions button
         cy.get('#channelHeaderMentionButton').should('have.attr', 'aria-label', 'Recent mentions').and('have.class', 'a11y--active a11y--focused').tab();
 
-        // * Verify accessibility support in Flagged Posts button
-        cy.get('#channelHeaderFlagButton').should('have.attr', 'aria-label', 'Flagged posts').and('have.class', 'a11y--active a11y--focused');
+        // * Verify accessibility support in Saved Posts button
+        cy.get('#channelHeaderFlagButton').should('have.attr', 'aria-label', 'Saved posts').and('have.class', 'a11y--active a11y--focused');
     });
 });

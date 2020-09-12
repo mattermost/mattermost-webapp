@@ -11,6 +11,11 @@ exports[`components/RhsRootPost should match snapshot 1`] = `
   role="listitem"
   tabIndex="-1"
 >
+  <Connect(injectIntl(PostPreHeader))
+    channelId="channel_id"
+    isFlagged={false}
+    isPinned={false}
+  />
   <div
     className="post__content"
     role="application"
@@ -68,11 +73,6 @@ exports[`components/RhsRootPost should match snapshot 1`] = `
             location="RHS_ROOT"
             postId="id"
           />
-          <Connect(PostFlagIcon)
-            isFlagged={false}
-            location="RHS_ROOT"
-            postId="id"
-          />
         </div>
         <div
           className="col post-menu"
@@ -114,6 +114,11 @@ exports[`components/RhsRootPost should match snapshot 1`] = `
             showEmojiPicker={false}
             teamId="team_id"
             toggleEmojiPicker={[Function]}
+          />
+          <Connect(PostFlagIcon)
+            isFlagged={false}
+            location="RHS_ROOT"
+            postId="id"
           />
         </div>
       </div>
@@ -188,6 +193,11 @@ exports[`components/RhsRootPost should match snapshot on deleted post 1`] = `
   role="listitem"
   tabIndex="-1"
 >
+  <Connect(injectIntl(PostPreHeader))
+    channelId="channel_id"
+    isFlagged={false}
+    isPinned={false}
+  />
   <div
     className="post__content"
     role="application"
@@ -321,6 +331,11 @@ exports[`components/RhsRootPost should match snapshot on flagged, deleted post 1
   role="listitem"
   tabIndex="-1"
 >
+  <Connect(injectIntl(PostPreHeader))
+    channelId="channel_id"
+    isFlagged={false}
+    isPinned={false}
+  />
   <div
     className="post__content"
     role="application"
@@ -457,6 +472,11 @@ exports[`components/RhsRootPost should match snapshot when flagged 1`] = `
   role="listitem"
   tabIndex="-1"
 >
+  <Connect(injectIntl(PostPreHeader))
+    channelId="channel_id"
+    isFlagged={true}
+    isPinned={false}
+  />
   <div
     className="post__content"
     role="application"
@@ -514,11 +534,6 @@ exports[`components/RhsRootPost should match snapshot when flagged 1`] = `
             location="RHS_ROOT"
             postId="id"
           />
-          <Connect(PostFlagIcon)
-            isFlagged={true}
-            location="RHS_ROOT"
-            postId="id"
-          />
         </div>
         <div
           className="col post-menu"
@@ -560,6 +575,11 @@ exports[`components/RhsRootPost should match snapshot when flagged 1`] = `
             showEmojiPicker={false}
             teamId="team_id"
             toggleEmojiPicker={[Function]}
+          />
+          <Connect(PostFlagIcon)
+            isFlagged={true}
+            location="RHS_ROOT"
+            postId="id"
           />
         </div>
       </div>

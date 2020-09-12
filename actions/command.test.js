@@ -32,6 +32,9 @@ const initialState = {
         channels: {
             currentChannelId,
         },
+        preferences: {
+            myPreferences: {},
+        },
         teams: {
             currentTeamId,
         },

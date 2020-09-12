@@ -4,6 +4,7 @@ BUILD_SERVER_DIR = ../mattermost-server
 BUILD_WEBAPP_DIR = ../mattermost-webapp
 MM_UTILITIES_DIR = ../mattermost-utilities
 EMOJI_TOOLS_DIR = ./build/emoji
+export NODE_OPTIONS=--max-old-space-size=4096
 
 build-storybook: node_modules ## Build the storybook
 	@echo Building storybook
@@ -40,6 +41,7 @@ node_modules: package.json package-lock.json
 	@echo Getting dependencies using npm
 
 	npm install
+	touch $@
 
 package: build ## Packages app
 	@echo Packaging webapp

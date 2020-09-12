@@ -7,15 +7,18 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod @smoke
+// Stage: @prod
 // Group: @messaging
 
 describe('Message', () => {
-    it('M13326 Text in bullet points is the same size as text above and below it', () => {
-        // # Login and navigate to the app
-        cy.apiLogin('user-1');
-        cy.visit('/ad-1/channels/town-square');
+    before(() => {
+        // # Login as test user and visit town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
+        });
+    });
 
+    it('MM-T87 Text in bullet points is the same size as text above and below it', () => {
         // # Post a message
         cy.get('#post_textbox').clear().
             type('This is a normal sentence.').

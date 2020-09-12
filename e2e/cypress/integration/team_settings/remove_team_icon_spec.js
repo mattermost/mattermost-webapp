@@ -10,8 +10,6 @@
 // Stage: @prod
 // Group: @team_settings
 
-let team;
-
 function openTeamSettingsDialog() {
     // validating the side bar is visible
     cy.get('#sidebarHeaderDropdownButton').should('be.visible');
@@ -36,22 +34,20 @@ function openTeamSettingsDialog() {
 }
 
 describe('Teams Settings', () => {
+    let testTeam;
+
     before(() => {
-        // # Login as sysadmin and update config
-        cy.apiLogin('sysadmin');
+        // # Update config
         cy.apiUpdateConfig({EmailSettings: {RequireEmailVerification: false}});
 
-        // # Login as new user
-        cy.apiCreateAndLoginAsNewUser().then(() => {
-            // # Create new team and visit its URL
-            cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
-                team = response.body;
-                cy.visit(`/${team.name}`);
-            });
+        cy.apiInitSetup().then(({team}) => {
+            testTeam = team;
+
+            cy.visit(`/${testTeam.name}/channels/town-square`);
         });
     });
 
-    it('TS14632 Remove Team Icon', () => {
+    it('MM-T391 Remove team icon', () => {
         // function to open the team settings dialog
         openTeamSettingsDialog();
 
@@ -62,7 +58,7 @@ describe('Teams Settings', () => {
         cy.findByTestId('saveSettingPicture').should('be.disabled');
 
         // # Upload a file on center view
-        cy.fileUpload('[data-testid="uploadPicture"]', 'mattermost-icon.png');
+        cy.findByTestId('uploadPicture').attachFile('mattermost-icon.png');
 
         // after uploading the picture the save button must be disabled
         cy.findByTestId('saveSettingPicture').should('not.be.disabled').click();
@@ -70,7 +66,7 @@ describe('Teams Settings', () => {
         // close the team settings dialog
         cy.get('#teamSettingsModalLabel > .close').click();
 
-        cy.get(`#${team.name}TeamButton`).within(() => {
+        cy.get(`#${testTeam.name}TeamButton`).within(() => {
             cy.findByTestId('teamIconImage').should('be.visible');
             cy.findByTestId('teamIconInitial').should('not.exist');
         });
@@ -88,7 +84,7 @@ describe('Teams Settings', () => {
         cy.get('#teamSettingsModalLabel > .close').click();
 
         // verify the team icon image is visible and initial team holder is not visible
-        cy.get(`#${team.name}TeamButton`).within(() => {
+        cy.get(`#${testTeam.name}TeamButton`).within(() => {
             cy.findByTestId('teamIconImage').should('be.visible');
             cy.findByTestId('teamIconInitial').should('not.exist');
         });
@@ -106,7 +102,7 @@ describe('Teams Settings', () => {
         cy.get('#teamSettingsModalLabel > .close').click();
 
         // after removing the team icon initial team holder is visible but not team icon holder
-        cy.get(`#${team.name}TeamButton`).within(() => {
+        cy.get(`#${testTeam.name}TeamButton`).within(() => {
             cy.findByTestId('teamIconImage').should('not.exist');
             cy.findByTestId('teamIconInitial').should('be.visible');
         });

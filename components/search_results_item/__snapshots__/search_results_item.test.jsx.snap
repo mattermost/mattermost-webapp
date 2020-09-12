@@ -5,11 +5,12 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
   className="search-item__container"
   data-testid="search-item-container"
 >
-  <Connect(DateSeparator)
+  <Memo(DateSeparator)
     date={2017-12-14T18:15:28.290Z}
   />
   <div
     className="a11y__section post post--thread post--compact"
+    id="searchResult_id"
     onFocus={[Function]}
   >
     <div
@@ -18,6 +19,11 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
     >
       Direct Message (with Other guy)
     </div>
+    <Connect(injectIntl(PostPreHeader))
+      channelId="channel_id"
+      isFlagged={true}
+      isPinned={true}
+    />
     <div
       className="post__content"
       role="application"
@@ -75,20 +81,6 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
               location="SEARCH"
               postId="id"
             />
-            <span
-              className="post__pinned-badge"
-            >
-              <FormattedMessage
-                defaultMessage="Pinned"
-                id="post_info.pinned"
-                values={Object {}}
-              />
-            </span>
-            <Connect(PostFlagIcon)
-              isFlagged={true}
-              location="SEARCH"
-              postId="id"
-            />
           </div>
           <div
             className="col__controls post-menu"
@@ -119,6 +111,11 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
                 }
               }
             />
+            <Connect(PostFlagIcon)
+              isFlagged={true}
+              location="SEARCH"
+              postId="id"
+            />
             <CommentIcon
               commentCount={0}
               extraClass=""
@@ -135,7 +132,6 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
               <FormattedMessage
                 defaultMessage="Jump"
                 id="search_item.jump"
-                values={Object {}}
               />
             </a>
           </div>
@@ -216,11 +212,12 @@ exports[`components/SearchResultsItem should match snapshot for archived channel
   className="search-item__container"
   data-testid="search-item-container"
 >
-  <Connect(DateSeparator)
+  <Memo(DateSeparator)
     date={2017-12-14T18:15:28.290Z}
   />
   <div
     className="a11y__section post post--thread post--compact"
+    id="searchResult_id"
     onFocus={[Function]}
   >
     <div
@@ -237,10 +234,14 @@ exports[`components/SearchResultsItem should match snapshot for archived channel
         <FormattedMessage
           defaultMessage="Archived"
           id="search_item.channelArchived"
-          values={Object {}}
         />
       </span>
     </div>
+    <Connect(injectIntl(PostPreHeader))
+      channelId="channel_id"
+      isFlagged={true}
+      isPinned={false}
+    />
     <div
       className="post__content"
       role="application"
@@ -298,11 +299,6 @@ exports[`components/SearchResultsItem should match snapshot for archived channel
               location="SEARCH"
               postId="id"
             />
-            <Connect(PostFlagIcon)
-              isFlagged={true}
-              location="SEARCH"
-              postId="id"
-            />
           </div>
           <div
             className="col__controls post-menu"
@@ -333,6 +329,11 @@ exports[`components/SearchResultsItem should match snapshot for archived channel
                 }
               }
             />
+            <Connect(PostFlagIcon)
+              isFlagged={true}
+              location="SEARCH"
+              postId="id"
+            />
             <CommentIcon
               commentCount={0}
               extraClass=""
@@ -349,7 +350,6 @@ exports[`components/SearchResultsItem should match snapshot for archived channel
               <FormattedMessage
                 defaultMessage="Jump"
                 id="search_item.jump"
-                values={Object {}}
               />
             </a>
           </div>
@@ -430,11 +430,12 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
   className="search-item__container"
   data-testid="search-item-container"
 >
-  <Connect(DateSeparator)
+  <Memo(DateSeparator)
     date={2017-12-14T18:15:28.290Z}
   />
   <div
     className="a11y__section post post--thread post--compact"
+    id="searchResult_id"
     onFocus={[Function]}
   >
     <div
@@ -443,6 +444,11 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
     >
       channel_name
     </div>
+    <Connect(injectIntl(PostPreHeader))
+      channelId="channel_id"
+      isFlagged={true}
+      isPinned={false}
+    />
     <div
       className="post__content"
       role="application"
@@ -500,11 +506,6 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
               location="SEARCH"
               postId="id"
             />
-            <Connect(PostFlagIcon)
-              isFlagged={true}
-              location="SEARCH"
-              postId="id"
-            />
           </div>
           <div
             className="col__controls post-menu"
@@ -535,6 +536,11 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
                 }
               }
             />
+            <Connect(PostFlagIcon)
+              isFlagged={true}
+              location="SEARCH"
+              postId="id"
+            />
             <CommentIcon
               commentCount={0}
               extraClass=""
@@ -551,7 +557,6 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
               <FormattedMessage
                 defaultMessage="Jump"
                 id="search_item.jump"
-                values={Object {}}
               />
             </a>
           </div>
@@ -632,11 +637,12 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
   className="search-item__container"
   data-testid="search-item-container"
 >
-  <Connect(DateSeparator)
+  <Memo(DateSeparator)
     date={2017-12-14T18:15:28.290Z}
   />
   <div
     className="a11y__section post post--thread post--compact"
+    id="searchResult_id"
     onFocus={[Function]}
   >
     <div
@@ -645,6 +651,11 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
     >
       channel_name
     </div>
+    <Connect(injectIntl(PostPreHeader))
+      channelId="channel_id"
+      isFlagged={true}
+      isPinned={false}
+    />
     <div
       className="post__content"
       role="application"
@@ -723,7 +734,6 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
               <FormattedMessage
                 defaultMessage="(message deleted)"
                 id="post_body.deleted"
-                values={Object {}}
               />
             </p>
             <Connect(FileAttachmentList)
@@ -769,11 +779,12 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
   className="search-item__container"
   data-testid="search-item-container"
 >
-  <Connect(DateSeparator)
+  <Memo(DateSeparator)
     date={2017-12-14T18:15:28.290Z}
   />
   <div
     className="a11y__section post post--thread post--compact"
+    id="searchResult_id"
     onFocus={[Function]}
   >
     <div
@@ -782,6 +793,11 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
     >
       channel_name
     </div>
+    <Connect(injectIntl(PostPreHeader))
+      channelId="channel_id"
+      isFlagged={true}
+      isPinned={false}
+    />
     <div
       className="post__content"
       role="application"
@@ -860,7 +876,6 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
               <FormattedMessage
                 defaultMessage="(message deleted)"
                 id="post_body.deleted"
-                values={Object {}}
               />
             </p>
             <Connect(FileAttachmentList)

@@ -11,6 +11,7 @@ import Constants from 'utils/constants';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
 
+import {EXECUTE_CURRENT_COMMAND_ITEM_ID} from './command_provider';
 const KeyCodes = Constants.KeyCodes;
 
 export default class SuggestionBox extends React.PureComponent {
@@ -20,6 +21,11 @@ export default class SuggestionBox extends React.PureComponent {
          * The list component to render, usually SuggestionList
          */
         listComponent: PropTypes.func.isRequired,
+
+        /**
+         * The input component to render (it is passed through props to the QuickInput)
+         */
+        inputComponent: PropTypes.elementType,
 
         /**
          * The date component to render
@@ -34,7 +40,7 @@ export default class SuggestionBox extends React.PureComponent {
         /**
          * Array of suggestion providers
          */
-        providers: PropTypes.arrayOf(PropTypes.object),
+        providers: PropTypes.arrayOf(PropTypes.object).isRequired,
 
         /**
          * Where the list will be displayed relative to the input box, defaults to 'top'
@@ -80,7 +86,10 @@ export default class SuggestionBox extends React.PureComponent {
          * Function called when a key is pressed and the input box is in focus
          */
         onKeyDown: PropTypes.func,
+        onKeyPress: PropTypes.func,
         onComposition: PropTypes.func,
+
+        onSelect: PropTypes.func,
 
         /**
          * Function called when an item is selected
@@ -139,9 +148,9 @@ export default class SuggestionBox extends React.PureComponent {
         onSuggestionsReceived: PropTypes.func,
 
         /**
-         * Suppress loading spinner when necessary
+         * To show suggestions even when focus is lost
          */
-        suppressLoadingSpinner: PropTypes.bool,
+        forceSuggestionsWhenBlur: PropTypes.bool,
     }
 
     static defaultProps = {
@@ -156,6 +165,7 @@ export default class SuggestionBox extends React.PureComponent {
         openWhenEmpty: false,
         replaceAllInputOnSelect: false,
         listenForMentionKeyClick: false,
+        forceSuggestionsWhenBlur: false,
     }
 
     constructor(props) {
@@ -198,6 +208,7 @@ export default class SuggestionBox extends React.PureComponent {
         if (this.props.listenForMentionKeyClick) {
             EventEmitter.addListener('mention_key_click', this.handleMentionKeyClick);
         }
+        this.handlePretextChanged(this.pretext);
     }
 
     componentWillUnmount() {
@@ -288,7 +299,9 @@ export default class SuggestionBox extends React.PureComponent {
             return;
         }
 
-        this.handleEmitClearSuggestions();
+        if (!this.props.forceSuggestionsWhenBlur) {
+            this.handleEmitClearSuggestions();
+        }
 
         this.setState({focused: false});
 
@@ -314,7 +327,9 @@ export default class SuggestionBox extends React.PureComponent {
                 if (textbox) {
                     const pretext = textbox.value.substring(0, textbox.selectionEnd);
                     if (this.props.openWhenEmpty || pretext.length >= this.props.requiredCharacters) {
-                        this.handlePretextChanged(pretext);
+                        if (this.pretext !== pretext) {
+                            this.handlePretextChanged(pretext);
+                        }
                     }
                 }
             });
@@ -430,18 +445,24 @@ export default class SuggestionBox extends React.PureComponent {
         }
     }
 
-    handleCompleteWord = (term, matchedPretext) => {
+    handleCompleteWord = (term, matchedPretext, e) => {
+        let fixedTerm = term;
+        let finish = false;
+        if (term.endsWith(EXECUTE_CURRENT_COMMAND_ITEM_ID)) {
+            fixedTerm = term.substring(0, term.length - EXECUTE_CURRENT_COMMAND_ITEM_ID.length);
+            finish = true;
+        }
         if (this.props.replaceAllInputOnSelect) {
-            this.replaceText(term);
+            this.replaceText(fixedTerm);
         } else {
-            this.addTextAtCaret(term, matchedPretext);
+            this.addTextAtCaret(fixedTerm, matchedPretext);
         }
 
         if (this.props.onItemSelected) {
             const items = this.state.items;
             const terms = this.state.terms;
             for (let i = 0; i < terms.length; i++) {
-                if (terms[i] === term) {
+                if (terms[i] === fixedTerm) {
                     this.props.onItemSelected(items[i]);
                     break;
                 }
@@ -452,11 +473,28 @@ export default class SuggestionBox extends React.PureComponent {
 
         this.inputRef.current.focus();
 
-        for (const provider of this.props.providers) {
-            if (provider.handleCompleteWord) {
-                provider.handleCompleteWord(term, matchedPretext, this.handlePretextChanged);
+        if (finish && this.props.onKeyPress) {
+            let ke = e;
+            if (!e || Utils.isKeyPressed(e, Constants.KeyCodes.TAB)) {
+                ke = new KeyboardEvent('keydown', {
+                    bubbles: true, cancelable: true, keyCode: 13,
+                });
+                if (e) {
+                    e.preventDefault();
+                }
+            }
+            this.props.onKeyPress(ke);
+            return true;
+        }
+
+        if (!finish) {
+            for (const provider of this.props.providers) {
+                if (provider.handleCompleteWord) {
+                    provider.handleCompleteWord(fixedTerm, matchedPretext, this.handlePretextChanged);
+                }
             }
         }
+        return false;
     }
 
     selectNext = () => {
@@ -506,6 +544,7 @@ export default class SuggestionBox extends React.PureComponent {
                 components: [],
                 selection: '',
             });
+            this.handlePretextChanged('');
         }
     }
 
@@ -531,8 +570,10 @@ export default class SuggestionBox extends React.PureComponent {
 
                 // If these don't match, the user typed quickly and pressed enter before we could
                 // update the pretext, so update the pretext before completing
-                if (this.pretext.endsWith(matchedPretext)) {
-                    this.handleCompleteWord(this.state.selection, matchedPretext);
+                if (this.pretext.toLowerCase().endsWith(matchedPretext.toLowerCase())) {
+                    if (this.handleCompleteWord(this.state.selection, matchedPretext, e)) {
+                        return;
+                    }
                 } else {
                     clearTimeout(this.timeoutId);
                     this.nonDebouncedPretextChanged(this.pretext, true);
@@ -552,6 +593,12 @@ export default class SuggestionBox extends React.PureComponent {
             }
         } else if (this.props.onKeyDown) {
             this.props.onKeyDown(e);
+        }
+    }
+
+    handleSelect = (e) => {
+        if (this.props.onSelect) {
+            this.props.onSelect(e);
         }
     }
 
@@ -693,6 +740,8 @@ export default class SuggestionBox extends React.PureComponent {
         Reflect.deleteProperty(props, 'contextId');
         Reflect.deleteProperty(props, 'listenForMentionKeyClick');
         Reflect.deleteProperty(props, 'wrapperHeight');
+        Reflect.deleteProperty(props, 'forceSuggestionsWhenBlur');
+        Reflect.deleteProperty(props, 'onSuggestionsReceived');
 
         // This needs to be upper case so React doesn't think it's an html tag
         const SuggestionListComponent = listComponent;
@@ -718,12 +767,13 @@ export default class SuggestionBox extends React.PureComponent {
                     onCompositionUpdate={this.handleCompositionUpdate}
                     onCompositionEnd={this.handleCompositionEnd}
                     onKeyDown={this.handleKeyDown}
+                    onSelect={this.handleSelect}
                 />
                 {(this.props.openWhenEmpty || this.props.value.length >= this.props.requiredCharacters) && this.state.presentationType === 'text' &&
                     <div style={{width: this.state.width}}>
                         <SuggestionListComponent
                             ariaLiveRef={this.suggestionReadOut}
-                            open={this.state.focused}
+                            open={this.state.focused || this.props.forceSuggestionsWhenBlur}
                             pretext={this.pretext}
                             location={listStyle}
                             renderDividers={renderDividers}
@@ -740,7 +790,6 @@ export default class SuggestionBox extends React.PureComponent {
                             wrapperHeight={this.props.wrapperHeight}
                             inputRef={this.inputRef}
                             onLoseVisibility={this.blur}
-                            suppressLoadingSpinner={this.props.suppressLoadingSpinner}
                         />
                     </div>
                 }

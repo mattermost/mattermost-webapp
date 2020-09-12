@@ -11,88 +11,87 @@
 // Group: @account_setting
 
 import * as TIMEOUTS from '../../../../fixtures/timeouts';
+import {hexToRgbArray, rgbArrayToString} from '../../../../utils';
 
-describe('AS14318 Theme Colors - Color Picker', () => {
+describe('Account Settings', () => {
     before(() => {
-        // Login as user-1 and visit town-square channel
-        cy.apiLogin('user-1');
-        cy.visit('/ad-1/channels/town-square');
+        // # Login as new user and visit town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
+        });
     });
 
     beforeEach(() => {
-        // Navigating to account settings
-        cy.toAccountSettingsModal();
-        cy.get('#displayButton').click();
-        cy.get('#themeTitle').click();
-        cy.get('#customThemes').click();
-    });
+        cy.reload();
+        cy.findByTestId('post_textbox').should('be.visible');
 
-    after(() => {
-        cy.apiSaveThemePreference();
+        // # Navigating to account settings
+        cy.toAccountSettingsModal();
+        cy.get('#displayButton', {timeout: TIMEOUTS.FIVE_SEC}).should('be.visible').click();
+        cy.get('#themeTitle', {timeout: TIMEOUTS.ONE_SEC}).should('be.visible').click();
+        cy.get('#customThemes', {timeout: TIMEOUTS.ONE_SEC}).should('be.visible').click();
     });
 
     afterEach(() => {
         // # Click "x" button to close Account Settings modal and then discard changes made
-        cy.get('#accountSettingsHeader > .close').click();
-        cy.findAllByText('Yes, Discard').click();
+        cy.get('#accountSettingsHeader > .close').should('be.visible').click();
+        cy.findAllByText('Yes, Discard', {timeout: TIMEOUTS.ONE_SEC}).should('be.visible').click();
     });
 
-    it('Should be able to use color picker input and change Sidebar theme color', () => {
+    it('MM-T280_1 Theme Colors - Color Picker (Sidebar styles)', () => {
         // # Change "Sidebar BG" and verify color change
         verifyColorPickerChange(
             'Sidebar Styles',
             '#sidebarBg-squareColorIcon',
-            '#sidebarBg-ChromePickerModal',
+            '#sidebarBg-inputColorValue',
             '#sidebarBg-squareColorIconValue',
-            '#bb123e',
-            'rgb(187, 18, 62)',
         );
     });
 
-    it('Should be able to use color picker input and change Center Channel Styles', () => {
+    it('MM-T280_2 Theme Colors - Color Picker (Center Channel styles)', () => {
         // # Change "Center Channel BG" and verify color change
         verifyColorPickerChange(
             'Center Channel Styles',
             '#centerChannelBg-squareColorIcon',
-            '#centerChannelBg-ChromePickerModal',
+            '#centerChannelBg-inputColorValue',
             '#centerChannelBg-squareColorIconValue',
-            '#ff8800',
-            'rgb(255, 136, 0)',
         );
     });
 
-    it('Should be able to use color picker input and change Link and Button Styles', () => {
+    it('MM-T280_3 Theme Colors - Color Picker (Link and Button styles)', () => {
         // # Change "Link Color" and verify color change
         verifyColorPickerChange(
             'Link and Button Styles',
             '#linkColor-squareColorIcon',
-            '#linkColor-ChromePickerModal',
+            '#linkColor-inputColorValue',
             '#linkColor-squareColorIconValue',
-            '#ffe577',
-            'rgb(255, 229, 119)',
         );
     });
 });
 
-function verifyColorPickerChange(stylesText, iconButtonId, modalId, iconValueId, hexValue, rgbValue) {
+function verifyColorPickerChange(stylesText, iconButtonId, inputId, iconValueId) {
     // # Open styles section
     cy.findByText(stylesText).scrollIntoView().should('be.visible').click({force: true});
 
     // # Click the Sidebar BG setting
     cy.get(iconButtonId).click();
 
-    // # Enter hex value
-    cy.get(modalId).within(() => {
-        cy.get('input').clear({force: true}).invoke('val', hexValue).wait(TIMEOUTS.TINY).type(' {backspace}{enter}', {force: true});
-    });
+    // # Click the 15, 40 coordinate of color popover
+    cy.get('.color-popover').should('be.visible').click(15, 40);
+
+    // # Click the Sidebar BG setting again to close popover
+    cy.get(iconButtonId).click();
 
     // # Toggle theme colors the custom theme
-    cy.findByText('Theme Colors').scrollIntoView().click({force: true});
-    cy.findByText('Custom Theme').scrollIntoView().click({force: true});
+    cy.get('#standardThemes').scrollIntoView().should('be.visible').check().should('be.checked');
+    cy.get('#customThemes').scrollIntoView().should('be.visible').check().should('be.checked');
 
     // # Re-open styles section
     cy.findByText(stylesText).scrollIntoView().should('be.visible').click({force: true});
 
     // * Verify color change is applied correctly
-    cy.get(iconValueId).should('have.css', 'background-color', rgbValue);
+    cy.get(inputId).scrollIntoView().should('be.visible').invoke('attr', 'value').then((hexColor) => {
+        const rbgArr = hexToRgbArray(hexColor);
+        cy.get(iconValueId).should('be.visible').and('have.css', 'background-color', rgbArrayToString(rbgArr));
+    });
 }

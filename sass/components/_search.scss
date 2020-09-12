@@ -22,12 +22,23 @@
     }
 }
 
+.search__font-icon {
+    pointer-events: none;
+    color: var(--center-channel-color-56);
+    left: 4px;
+    position: absolute;
+    top: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
 .search__icon {
     pointer-events: none;
     fill: v(center-channel-color-56);
     left: 9px;
     position: absolute;
-    top: 7px;
+    top: 6px;
 
     svg {
         width: 14px;
@@ -41,7 +52,7 @@
 
 .input-clear {
     cursor: pointer;
-    font-size: 14px;
+    font-size: 16px;
     color: v(center-channel-color-56);
     position: absolute;
     right: 0;
@@ -124,7 +135,7 @@
     }
 
     .inner-wrap.move--left & {
-        width: 306px;
+        width: 272px;
     }
 
     .search-bar {
@@ -155,8 +166,13 @@
     @include flex(1 1 auto);
     -webkit-overflow-scrolling: touch;
     height: calc(100% - 56px);
-    padding-top: 28px;
     position: relative;
+    padding-top: 28px;
+
+    &.no-results {
+        display: flex;
+        padding-top: 0;
+    }
 }
 
 .search-items-container div.loading {
@@ -205,6 +221,12 @@
         .search-channel__archived {
             opacity: 0.5;
             float: right;
+        }
+
+        .post-pre-header__icons-container {
+            padding-right: 10px; // If the padding of post__img changes, this needs to be adjusted accordingly
+            width: 53px; // If the width of post__img changes, this needs to be adjusted accordingly
+            margin-left: 0px; // if left margin of post__content changes, this needs to be adjusted accordingly
         }
     }
 }
@@ -267,7 +289,7 @@
     box-sizing: border-box;
 
     &.highlighted {
-        background: rgba(61, 60, 64, 0.06);
+        background: var(--center-channel-color-08);
     }
 }
 
@@ -292,16 +314,14 @@
 .sidebar--right__subheader {
     // Fighting specificity with _sidebar-right.scss (sidebar--right .sidebar--right__subheader ul)
     ul.search-hint__suggestions-list {
-        padding-left: 0;
-        // to negate the padding in the mentioned element, since we don't know what will be affected if changed there.
-        margin: -18px -14px 0;
+        padding: 10px 0;
     }
 
     .search-hint__suggestions-list__option:first-child {
         padding-top: 10px;
-    }    
+    }
 
     .search-hint__suggestions-list__option:hover {
-        background: rgba(61, 60, 64, 0.06);
+        background: var(--center-channel-color-08);
     }
 }

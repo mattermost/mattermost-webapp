@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
+import classNames from 'classnames';
 
 import OverlayTrigger from 'components/overlay_trigger';
 import FlagIcon from 'components/widgets/icons/flag_icon';
@@ -18,7 +19,6 @@ export default class PostFlagIcon extends React.PureComponent {
         location: PropTypes.oneOf([Locations.CENTER, Locations.RHS_ROOT, Locations.RHS_COMMENT, Locations.SEARCH]).isRequired,
         postId: PropTypes.string.isRequired,
         isFlagged: PropTypes.bool.isRequired,
-        isEphemeral: PropTypes.bool,
         actions: PropTypes.shape({
             flagPost: PropTypes.func.isRequired,
             unflagPost: PropTypes.func.isRequired,
@@ -26,7 +26,6 @@ export default class PostFlagIcon extends React.PureComponent {
     };
 
     static defaultProps = {
-        isEphemeral: false,
         location: Locations.CENTER,
     };
 
@@ -84,45 +83,43 @@ export default class PostFlagIcon extends React.PureComponent {
     }
 
     render() {
-        if (this.props.isEphemeral) {
-            return null;
-        }
-
         const isFlagged = this.props.isFlagged;
-
-        const flagVisible = isFlagged ? 'visible' : '';
 
         let flagIcon;
         if (isFlagged) {
-            flagIcon = <FlagIconFilled className='icon'/>;
+            flagIcon = <FlagIconFilled className={classNames('icon', 'icon--small', 'icon--small-filled', {'post-menu__item--selected': isFlagged})}/>;
         } else {
-            flagIcon = <FlagIcon className='icon'/>;
+            flagIcon = <FlagIcon className={classNames('icon', 'icon--small')}/>;
         }
 
         return (
-            <button
-                ref={this.buttonRef}
-                id={`${this.props.location}_flagIcon_${this.props.postId}`}
-                aria-label={isFlagged ? localizeMessage('flag_post.unflag', 'Unflag').toLowerCase() : localizeMessage('flag_post.flag', 'Flag for follow up').toLowerCase()}
-                className={'style--none flag-icon__container ' + flagVisible}
-                onClick={this.handlePress}
+            <OverlayTrigger
+                className='hidden-xs'
+                key={`flagtooltipkey${isFlagged ? 'flagged' : ''}`}
+                delayShow={Constants.OVERLAY_TIME_DELAY}
+                placement='top'
+                overlay={
+                    <Tooltip
+                        id='flagTooltip'
+                        className='hidden-xs'
+                    >
+                        <FormattedMessage
+                            id={isFlagged ? t('flag_post.unflag') : t('flag_post.flag')}
+                            defaultMessage={isFlagged ? 'Remove from Saved' : 'Save'}
+                        />
+                    </Tooltip>
+                }
             >
-                <OverlayTrigger
-                    key={'flagtooltipkey' + flagVisible}
-                    delayShow={Constants.OVERLAY_TIME_DELAY}
-                    placement='top'
-                    overlay={
-                        <Tooltip id='flagTooltip'>
-                            <FormattedMessage
-                                id={isFlagged ? t('flag_post.unflag') : t('flag_post.flag')}
-                                defaultMessage={isFlagged ? 'Unflag' : 'Flag for follow up'}
-                            />
-                        </Tooltip>
-                    }
+                <button
+                    ref={this.buttonRef}
+                    id={`${this.props.location}_flagIcon_${this.props.postId}`}
+                    aria-label={isFlagged ? localizeMessage('flag_post.unflag', 'Remove from Saved').toLowerCase() : localizeMessage('flag_post.flag', 'Save').toLowerCase()}
+                    className='post-menu__item'
+                    onClick={this.handlePress}
                 >
                     {flagIcon}
-                </OverlayTrigger>
-            </button>
+                </button>
+            </OverlayTrigger>
         );
     }
 }

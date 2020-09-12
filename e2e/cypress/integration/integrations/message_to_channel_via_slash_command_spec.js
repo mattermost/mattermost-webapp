@@ -14,18 +14,14 @@
 */
 
 describe('Integrations', () => {
-    let team;
+    let testTeam;
     let offTopicChannel;
 
     before(() => {
         cy.requireWebhookServer();
 
-        // # Login as sysadmin
-        cy.apiLogin('sysadmin');
-
-        // # Create new team and get off-topic channel
-        cy.apiCreateTeam('test-team', 'Test Team').then((teamResponse) => {
-            team = teamResponse.body;
+        cy.apiInitSetup().then(({team}) => {
+            testTeam = team;
 
             cy.apiGetChannelByName(team.name, 'off-topic').then((res) => {
                 offTopicChannel = res.body;
@@ -35,7 +31,7 @@ describe('Integrations', () => {
 
     beforeEach(() => {
         // # Visit town-square
-        cy.visit(`/${team.name}/town-square`);
+        cy.visit(`/${testTeam.name}/town-square`);
     });
 
     it('MM-T706 Error Handling for Slash Commands', () => {
@@ -45,8 +41,8 @@ describe('Integrations', () => {
             display_name: 'Send message to different channel via slash command',
             icon_url: '',
             method: 'P',
-            team_id: team.id,
-            trigger: 'send_message' + Date.now(),
+            team_id: testTeam.id,
+            trigger: 'error_handling',
             url: `${Cypress.env().webhookBaseUrl}/send_message_to_channel?type=system_message&channel_id=${offTopicChannel.id}`,
             username: '',
         };
@@ -84,8 +80,8 @@ describe('Integrations', () => {
             display_name: 'Send message to different channel via slash command',
             icon_url: '',
             method: 'P',
-            team_id: team.id,
-            trigger: 'send_message' + Date.now(),
+            team_id: testTeam.id,
+            trigger: 'send_message_from_different_channel',
             url: `${Cypress.env().webhookBaseUrl}/send_message_to_channel?channel_id=${offTopicChannel.id}`,
             username: '',
         };

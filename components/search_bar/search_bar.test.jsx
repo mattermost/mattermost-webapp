@@ -7,7 +7,7 @@ import {shallow} from 'enzyme';
 import SearchBar from './search_bar';
 
 jest.mock('utils/utils', () => {
-    const original = require.requireActual('utils/utils');
+    const original = jest.requireActual('utils/utils');
     return {
         ...original,
         isMobile: jest.fn(() => false),

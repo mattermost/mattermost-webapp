@@ -10,27 +10,30 @@
 // Stage: @prod
 // Group: @messaging
 
-import * as TIMEOUTS from '../../fixtures/timeouts';
-
 describe('Messaging', () => {
-    beforeEach(() => {
-        // # Login as sysadmin
-        cy.apiLogin('sysadmin');
+    before(() => {
+        cy.apiInitSetup().then(({team, channel, user: testUser}) => {
+            cy.apiCreateUser().then(({user: otherUser}) => {
+                cy.apiAddUserToTeam(team.id, otherUser.id).then(() => {
+                    cy.apiAddUserToChannel(channel.id, otherUser.id).then(() => {
+                        // # Login as test user and visit town-square
+                        cy.apiLogin(testUser);
 
-        // # Create new user and DM
-        cy.apiCreateNewUser().then((res) => {
-            // # Start DM with new user
-            cy.visit(`/ad-1/messages/@${res.username}`);
+                        // # Start DM with other user
+                        cy.visit(`/${team.name}/messages/@${otherUser.username}`);
+
+                        cy.get('#channelIntro').should('be.visible').
+                            and('contain', `This is the start of your direct message history with ${otherUser.username}.`);
+
+                        // # Post test message
+                        cy.postMessage('Test');
+                    });
+                });
+            });
         });
-
-        // # Wait a few ms for the user to be created before sending the test message
-        cy.wait(TIMEOUTS.SMALL);
-
-        // # Post test message
-        cy.postMessage('Test');
     });
 
-    it('M18697 - Visual verification of tooltips on post hover menu', () => {
+    it('MM-T133 Visual verification of tooltips on post hover menu', () => {
         cy.getLastPostId().then((postId) => {
             verifyToolTip(postId, `#CENTER_button_${postId}`, 'More actions');
 

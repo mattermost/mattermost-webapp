@@ -74,8 +74,8 @@
 }
 
 .help__format-text {
-    @include opacity(0);
     @include single-transition(all, .3s, ease-in, .3s);
+    opacity: 0;
     display: inline-block;
     font-size: .85em;
     vertical-align: bottom;
@@ -391,6 +391,7 @@
         max-height: calc(50vh - 40px);
         padding: 12px 0 12px 15px;
         resize: none;
+        cursor: auto;
 
         &:not(.custom-textarea--emoji-picker) {
             padding-right: 40px;
@@ -417,7 +418,7 @@
 
     .scroll {
         .post-body__actions {
-            right: 10px;
+            right: calc(var(--detected-scrollbar-width) - 4px);
         }
 
         .custom-textarea {
@@ -542,7 +543,6 @@
 .post-body__actions {
     margin: 0 1px 0 0;
     display: flex;
-    height: 100%;
     position: absolute;
     right: 0;
     top: 0;
@@ -652,11 +652,8 @@
     }
     .loading-screen {
         position: relative;
-        height: 40px;
+        height: calc(40px + 1em);
         padding: 0px;
-        .loading__content {
-            height: 40px;
-        }
     }
 }
 
@@ -709,7 +706,6 @@
         .card-icon__container,
         .reacticon,
         .post-menu__item,
-        .flag-icon__container,
         .post__reply,
         .post-reaction,
         .post__remove {
@@ -721,7 +717,7 @@
         }
 
         .post-add-reaction {
-            .post-reaction {
+            .Reaction {
                 visibility: visible;
                 @include opacity(1);
             }
@@ -780,12 +776,6 @@
                         width: 51px;
 
                     }
-
-                    .flag-icon__container, .card-icon__container {
-                        left: 37px;
-                        position: absolute;
-                        top: 3px;
-                    }
                 }
             }
         }
@@ -805,14 +795,6 @@
 
             > div {
                 margin-bottom: 0;
-            }
-        }
-
-        &.same--root {
-            &.same--user {
-                .post__header {
-                    height: 0;
-                }
             }
         }
 
@@ -1108,18 +1090,8 @@
                 }
             }
 
-            .flag-icon__container, .card-icon__container {
-                left: 37px;
-                position: absolute;
-                top: 4px;
-            }
-
             .post__img {
                 .status-wrapper {
-                    display: none;
-                }
-
-                img {
                     display: none;
                 }
             }
@@ -1136,6 +1108,11 @@
                     top: -1px;
                 }
             }
+
+            .post-pre-header {
+                padding-top: 5px;
+                padding-bottom: 5px;
+            }
         }
 
         &.post--comment {
@@ -1145,8 +1122,42 @@
 
             &.same--user {
                 .post__img {
-                    img {
+                    .status-wrapper {
                         display: none;
+                    }
+                }
+
+                &.post--bot {
+                    .post__header {
+                        height: auto;
+                        float: none;
+                    }
+
+                    &.post--compact {
+                        .post__header {
+                            float: left;
+                        }
+                    }
+
+                    .col__name {
+                        display: flex;
+                    }
+
+                    .post__permalink {
+                        position: relative;
+                        top: auto;
+                        left: auto;
+                        width: auto;
+                    }
+
+                    .post__time {
+                        opacity: 0.6;
+                    }
+
+                    .post__img {
+                        .status-wrapper {
+                            display: inline;
+                        }
                     }
                 }
             }
@@ -1177,10 +1188,54 @@
         }
     }
 
+    .post-pre-header {
+        display: flex;
+        height: 25px;
+        padding-bottom: 10px;
+
+        .post-pre-header__icons-container {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding-right: 9px; // If the padding of post__img changes, this needs to be adjusted accordingly
+            width: 52px; // If the width of post__img changes, this needs to be adjusted accordingly
+            margin-left: 5px; // if left margin of post__content changes, this needs to be adjusted accordingly
+
+            .icon--post-pre-header {
+                height: 10px;
+                width: 10px;
+                fill: var(--link-color);
+                color: var(--link-color);
+                font-size: 12px;
+
+                &:nth-of-type(even) {
+                    margin-left: 9px;
+                }
+
+                &.icon-pin::before {
+                    line-height: 10px;
+                }
+            }
+        }
+
+        .post-pre-header__text-container {
+            color: var(--link-color);
+            font-size: 12px;
+            line-height: 15px;
+
+            .post-pre-header__link-separator {
+                margin: 0px 5px;
+                color: var(--center-channel-color-32);
+                font-size: 4px;
+                vertical-align: top;
+            }
+        }
+    }
+
     .post__content {
         display: table;
         margin: 0 auto;
-        padding: 0 8px 0 5px;
+        padding: 0 8px 0 5px; // if the left margin changes, the margin of post-pre-header__icons-container needs to be adjusted accordingly
         position: relative;
         table-layout: fixed;
         width: 100%;
@@ -1221,6 +1276,7 @@
                 text-align: left;
                 vertical-align: top;
                 white-space: nowrap;
+                -moz-user-select: all;    /* Firefox all */
             }
 
             .colon {
@@ -1253,9 +1309,9 @@
     }
 
     .post__img {
-        padding-right: 10px;
+        padding-right: 10px; // if this changes, the padding of post-pre-header__icons-container needs to be adjusted accordingly
         text-align: right;
-        width: 53px;
+        width: 53px; // if this changes, the width of post-pre-header__icons-container needs to be adjusted accordingly
 
         .icon {
             fill: v(center-channel-color);
@@ -1285,7 +1341,7 @@
                     -webkit-user-select: none; /* Chrome all / Safari all */
                     -moz-user-select: none;    /* Firefox all */
                     -ms-user-select: none;     /* IE 10+ */
-                    user-select: none;                
+                    user-select: none;
                 }
             }
         }
@@ -1355,7 +1411,7 @@
     .post-add-reaction {
         display: inline-block;
 
-        .post-reaction {
+        .Reaction {
             @include opacity(0);
             visibility: hidden;
         }
@@ -1369,9 +1425,6 @@
 
         &.post--ephemeral {
             padding-right: 20px !important;
-        }
-
-        div {
         }
 
         p + p {
@@ -1470,7 +1523,7 @@
         .post-add-reaction-emoji-picker-open {
             display: inline-block;
 
-            .post-reaction {
+            .Reaction {
                 @include opacity(1);
                 visibility: visible;
             }
@@ -1478,83 +1531,10 @@
     }
 
     .post-add-reaction-emoji-picker-open {
-        .post-reaction {
+        .Reaction {
             background-color: v(button-bg-08);
             color: v(button-bg);
             fill: v(button-bg);
-        }
-    }
-
-    .post-reaction {
-        @include user-select(none);
-        @include border-radius(4px);
-        border: 1px solid transparent;
-        background: v(center-channel-color-08);
-        fill: v(center-channel-color-56);
-        color: v(center-channel-color-64);
-        cursor: pointer;
-        display: inline-flex;
-        align-items: center;
-        font-size: 11px;
-        font-weight: 600;
-        min-width: 28px;
-        height: 24px;
-        margin: 0 4px 4px 0;
-        padding: 0 5px;
-
-        &:not(.post-reaction--current-user) {
-            &:hover {
-                background: v(center-channel-bg);
-                border-color: v(center-channel-color-16);
-                color: v(center-channel-color-72);
-                fill: v(center-channel-color-72);
-            }
-
-            &:active {
-                background-color: v(button-bg-08);
-                color: v(button-bg);
-                fill: v(button-bg);
-            }
-        }
-
-        &--current-user {
-            color: v(button-bg);
-            background-color: v(button-bg-08);
-            border-color: v(button-bg);
-
-            &:hover {
-                border-color: v(button-bg);
-                background: v(center-channel-bg);
-            }
-
-            &:active {
-                background-color: v(button-bg-08);
-                color: v(button-bg);
-                fill: v(button-bg);
-            }
-        }
-
-        .post-reaction__count {
-            line-height: 16px;
-        }
-
-        .post-reaction__emoji {
-            margin: 0 2px 0 0;
-            max-height: 16px;
-            min-height: 16px;
-            max-width: 16px;
-            min-width: 16px;
-            vertical-align: middle;
-        }
-
-        .post-reaction__add {
-            display: block;
-            width: 16px;
-            height: 16px;
-        }
-
-        &--read-only {
-            cursor: default;
         }
     }
 
@@ -1568,9 +1548,13 @@
         -moz-user-select: none;    /* Firefox all */
         -ms-user-select: none;     /* IE 10+ */
         user-select: none;
-    
+
         a {
             font-weight: bold;
+
+            &.user_name:hover {
+                text-decoration: none;
+            }
         }
     }
 
@@ -1756,41 +1740,6 @@
         }
     }
 
-    .flag-icon__container {
-        display: inline-block;
-        height: 15px;
-        width: 15px;
-        position: relative;
-        top: 2px;
-        vertical-align: top;
-        visibility: hidden;
-
-        &.visible {
-            visibility: visible;
-        }
-
-        svg {
-            width: 12px;
-        }
-
-        path {
-            fill: inherit;
-        }
-
-        .fa-star-o {
-            @include opacity(.8);
-        }
-
-        &:focus {
-            outline: none;
-        }
-
-        &.icon--visible {
-            visibility: visible;
-        }
-
-    }
-
     .web-embed-data {
         @include border-radius(2px);
         @include alpha-property(background, $black, 0.05);
@@ -1822,12 +1771,8 @@
     }
 }
 
-.post__pinned-badge {
-    border-radius: 2px;
-    font-family: inherit;
-    font-size: 10px;
-    font-weight: 600;
-    padding: 1px 4px;
+.post--pinned-or-flagged {
+    background-color: var(--mention-highlight-bg-12);
 }
 
 .Badge {
@@ -1845,12 +1790,6 @@
         background: rgba(61, 60, 64, 0.15);
         display: inline;
     }
-}
-
-.post__pinned-badge {
-    margin: 0 8px 0 4px;
-    position: relative;
-    top: -1px;
 }
 
 .permalink-text {
@@ -2042,4 +1981,15 @@
     animation-name: postHighlight;
     animation-delay: 5s;
     animation-fill-mode: forwards;
+}
+
+@keyframes postPinnedOrFlaggedHighlight {
+    100% {
+      background: initial;
+      background-color: var(--mention-highlight-bg-12);
+    }
+}
+
+.app__body .app__content .post.post--pinned-or-flagged-highlight {
+    animation-name: postPinnedOrFlaggedHighlight;
 }

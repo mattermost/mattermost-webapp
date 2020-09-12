@@ -2,35 +2,22 @@
 // See LICENSE.txt for license information.
 
 /* eslint-disable import/order */
-const de = require('./de.json');
-
-const es = require('./es.json');
-
-const fr = require('./fr.json');
-
-const it = require('./it.json');
-
-const ja = require('./ja.json');
-
-const ko = require('./ko.json');
-
-const nl = require('./nl.json');
-
-const pl = require('./pl.json');
-
-const ptBR = require('./pt-BR.json');
-
-const ro = require('./ro.json');
-
-const ru = require('./ru.json');
-
-const tr = require('./tr.json');
-
-const uk = require('./uk.json');
-
-const zhTW = require('./zh-TW.json');
-
-const zhCN = require('./zh-CN.json');
+import bg from './bg.json';
+import de from './de.json';
+import es from './es.json';
+import fr from './fr.json';
+import it from './it.json';
+import ja from './ja.json';
+import ko from './ko.json';
+import nl from './nl.json';
+import pl from './pl.json';
+import ptBR from './pt-BR.json';
+import ro from './ro.json';
+import ru from './ru.json';
+import tr from './tr.json';
+import uk from './uk.json';
+import zhTW from './zh-TW.json';
+import zhCN from './zh-CN.json';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
@@ -38,6 +25,12 @@ import store from 'stores/redux_store.jsx';
 
 // should match the values in model/config.go
 const languages = {
+    bg: {
+        value: 'bg',
+        name: 'Български (Beta)',
+        order: 10,
+        url: bg,
+    },
     de: {
         value: 'de',
         name: 'Deutsch',
@@ -71,18 +64,18 @@ const languages = {
     ja: {
         value: 'ja',
         name: '日本語',
-        order: 15,
+        order: 16,
         url: ja,
     },
     ko: {
         value: 'ko',
         name: '한국어 (Alpha)',
-        order: 12,
+        order: 13,
         url: ko,
     },
     nl: {
         value: 'nl',
-        name: 'Nederlands (Beta)',
+        name: 'Nederlands',
         order: 5,
         url: nl,
     },
@@ -106,8 +99,8 @@ const languages = {
     },
     ru: {
         value: 'ru',
-        name: 'Pусский (Beta)',
-        order: 10,
+        name: 'Pусский',
+        order: 11,
         url: ru,
     },
     tr: {
@@ -119,19 +112,19 @@ const languages = {
     uk: {
         value: 'uk',
         name: 'Yкраїнська (Alpha)',
-        order: 11,
+        order: 12,
         url: uk,
     },
     'zh-TW': {
         value: 'zh-TW',
         name: '中文 (繁體)',
-        order: 14,
+        order: 15,
         url: zhTW,
     },
     'zh-CN': {
         value: 'zh-CN',
         name: '中文 (简体)',
-        order: 13,
+        order: 14,
         url: zhCN,
     },
 };

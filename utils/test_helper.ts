@@ -2,8 +2,10 @@
 // See LICENSE.txt for license information.
 import {Channel, ChannelMembership, ChannelNotifyProps} from 'mattermost-redux/types/channels';
 import {Bot} from 'mattermost-redux/types/bots';
+import {Role} from 'mattermost-redux/types/roles';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {Team, TeamMembership} from 'mattermost-redux/types/teams';
+import {Group} from 'mattermost-redux/types/groups';
 
 export class TestHelper {
     public static getUserMock(override: Partial<UserProfile> = {}): UserProfile {
@@ -11,6 +13,7 @@ export class TestHelper {
             id: 'user_id',
             roles: '',
             username: 'some-user',
+            password: '',
             auth_data: '',
             auth_service: '',
             create_at: 0,
@@ -26,7 +29,8 @@ export class TestHelper {
             terms_of_service_id: '',
             update_at: 0,
             is_bot: false,
-            last_picture_update: 0,
+            allow_marketing: false,
+            props: {},
             notify_props: {
                 channel: 'false',
                 comments: 'never',
@@ -39,6 +43,14 @@ export class TestHelper {
                 push: 'none',
                 push_status: 'offline',
             },
+            last_picture_update: 0,
+            last_password_update: 0,
+            failed_attempts: 0,
+            mfa_active: false,
+            mfa_secret: '',
+            last_activity_at: 0,
+            bot_description: '',
+            bot_last_icon_update: 0,
         };
         return Object.assign({}, defaultUser, override);
     }
@@ -104,7 +116,7 @@ export class TestHelper {
         return Object.assign({}, defaultMembership, override);
     }
 
-    public static getTeamMock(override: Partial<Team>): Team {
+    public static getTeamMock(override?: Partial<Team>): Team {
         const defaultTeam: Team = {
             id: 'team_id',
             create_at: 0,
@@ -137,5 +149,40 @@ export class TestHelper {
             scheme_admin: false,
         };
         return Object.assign({}, defaultMembership, override);
+    }
+
+    public static getRoleMock(override: Partial<Role> = {}): Role {
+        const defaultRole: Role = {
+            id: 'role_id',
+            name: 'role_name',
+            display_name: 'role_display_name',
+            description: 'role_description',
+            create_at: 0,
+            update_at: 0,
+            delete_at: 0,
+            permissions: [],
+            scheme_managed: false,
+            built_in: false,
+        };
+        return Object.assign({}, defaultRole, override);
+    }
+
+    public static getGroupMock(override: Partial<Group>): Group {
+        const defaultGroup: Group = {
+            id: 'group_id',
+            name: 'group_name',
+            display_name: 'group_display_name',
+            description: '',
+            type: '',
+            remote_id: '',
+            create_at: 1,
+            update_at: 1,
+            delete_at: 0,
+            has_syncables: false,
+            member_count: 0,
+            scheme_admin: false,
+            allow_reference: true,
+        };
+        return Object.assign({}, defaultGroup, override);
     }
 }

@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -50,6 +51,7 @@ class AdminSidebar extends React.PureComponent {
         siteName: PropTypes.string,
         onFilterChange: PropTypes.func.isRequired,
         navigationBlocked: PropTypes.bool.isRequired,
+        consoleAccess: PropTypes.object,
         intl: intlShape.isRequired,
         actions: PropTypes.shape({
 
@@ -143,6 +145,7 @@ class AdminSidebar extends React.PureComponent {
     }
 
     visibleSections = () => {
+        const {config, license, buildEnterpriseReady, consoleAccess, adminDefinition} = this.props;
         const isVisible = (item) => {
             if (!item.schema) {
                 return false;
@@ -152,13 +155,13 @@ class AdminSidebar extends React.PureComponent {
                 return false;
             }
 
-            if (item.isHidden && item.isHidden(this.props.config, {}, this.props.license, this.props.buildEnterpriseReady)) {
+            if (item.isHidden && item.isHidden(config, this.state, license, buildEnterpriseReady, consoleAccess)) {
                 return false;
             }
             return true;
         };
         const result = new Set();
-        for (const section of Object.values(this.props.adminDefinition)) {
+        for (const section of Object.values(adminDefinition)) {
             for (const item of Object.values(section)) {
                 if (isVisible(item)) {
                     result.add(item.url);
@@ -169,116 +172,117 @@ class AdminSidebar extends React.PureComponent {
     }
 
     renderRootMenu = (definition) => {
+        const {config, license, buildEnterpriseReady, consoleAccess} = this.props;
         const sidebarSections = [];
-        Object.values(definition).forEach((section, sectionIndex) => {
-            const sidebarItems = [];
-            Object.values(section).forEach((item, itemIndex) => {
-                if (!item.title) {
-                    return;
-                }
-
-                if (item.isHidden && item.isHidden(this.props.config, {}, this.props.license, this.props.buildEnterpriseReady)) {
-                    return;
-                }
-
-                if (this.state.sections !== null) {
-                    let active = false;
-                    for (const url of this.state.sections) {
-                        if (url === item.url) {
-                            active = true;
-                        }
-                    }
-                    if (!active) {
+        Object.entries(definition).forEach(([key, section]) => {
+            let isSectionHidden = false;
+            if (section.isHidden) {
+                isSectionHidden = typeof section.isHidden === 'function' ? section.isHidden(config, this.state, license, buildEnterpriseReady, consoleAccess) : Boolean(section.isHidden);
+            }
+            if (!isSectionHidden) {
+                const sidebarItems = [];
+                Object.entries(section).forEach(([subKey, item]) => {
+                    if (!item.title) {
                         return;
                     }
+
+                    if (item.isHidden) {
+                        if (typeof item.isHidden === 'function' ? item.isHidden(config, this.state, license, buildEnterpriseReady, consoleAccess) : Boolean(item.isHidden)) {
+                            return;
+                        }
+                    }
+
+                    if (this.state.sections !== null) {
+                        let active = false;
+                        for (const url of this.state.sections) {
+                            if (url === item.url) {
+                                active = true;
+                            }
+                        }
+                        if (!active) {
+                            return;
+                        }
+                    }
+                    const subDefinitionKey = `${key}.${subKey}`;
+                    sidebarItems.push((
+                        <AdminSidebarSection
+                            key={subDefinitionKey}
+                            definitionKey={subDefinitionKey}
+                            name={item.url}
+                            title={
+                                <FormattedMessage
+                                    id={item.title}
+                                    defaultMessage={item.title_default}
+                                />
+                            }
+                        />
+                    ));
+                });
+
+                // Special case for plugins entries
+                let moreSidebarItems = [];
+                if (section.id === 'plugins') {
+                    moreSidebarItems = this.renderPluginsMenu();
                 }
 
-                sidebarItems.push((
-                    <AdminSidebarSection
-                        key={itemIndex}
-                        name={item.url}
-                        title={
-                            <FormattedMessage
-                                id={item.title}
-                                defaultMessage={item.title_default}
-                            />
-                        }
-                    />
-                ));
-            });
+                // If no visible items, don't display this section
+                if (sidebarItems.length === 0 && moreSidebarItems.length === 0) {
+                    return null;
+                }
 
-            // Special case for plugins entries
-            let moreSidebarItems = [];
-            if (section.id === 'plugins') {
-                moreSidebarItems = this.renderPluginsMenu();
-            }
-
-            // If no visible items, don't display this section
-            if (sidebarItems.length === 0 && moreSidebarItems.length === 0) {
-                return null;
-            }
-
-            if (sidebarItems.length || moreSidebarItems.length) {
-                sidebarSections.push((
-                    <AdminSidebarCategory
-                        key={sectionIndex}
-                        parentLink='/admin_console'
-                        icon={section.icon}
-                        sectionClass=''
-                        title={
-                            <FormattedMessage
-                                id={section.sectionTitle}
-                                defaultMessage={section.sectionTitleDefault}
-                            />
-                        }
-                    >
-                        {sidebarItems}
-                        {moreSidebarItems}
-                    </AdminSidebarCategory>
-                ));
+                if (sidebarItems.length || moreSidebarItems.length) {
+                    sidebarSections.push((
+                        <AdminSidebarCategory
+                            key={key}
+                            definitionKey={key}
+                            parentLink='/admin_console'
+                            icon={section.icon}
+                            sectionClass=''
+                            title={
+                                <FormattedMessage
+                                    id={section.sectionTitle}
+                                    defaultMessage={section.sectionTitleDefault}
+                                />
+                            }
+                        >
+                            {sidebarItems}
+                            {moreSidebarItems}
+                        </AdminSidebarCategory>
+                    ));
+                }
             }
             return null;
         });
         return sidebarSections;
     }
 
+    isPluginPresentInSections = (plugin) => {
+        return this.state.sections && this.state.sections.indexOf(`plugin_${plugin.id}`) !== -1;
+    }
+
     renderPluginsMenu = () => {
-        const customPlugins = [];
         if (this.props.config.PluginSettings.Enable) {
-            Object.values(this.props.plugins).sort((a, b) => {
+            return Object.values(this.props.plugins).sort((a, b) => {
                 const nameCompare = a.name.localeCompare(b.name);
                 if (nameCompare !== 0) {
                     return nameCompare;
                 }
 
                 return a.id.localeCompare(b.id);
-            }).forEach((p) => {
-                const hasSettings = p.settings_schema && (p.settings_schema.header || p.settings_schema.footer || p.settings_schema.settings);
-                if (!hasSettings) {
-                    return;
-                }
-
-                if (p.settings_schema.settings && (!p.settings_schema.header && !p.settings_schema.footer)) {
-                    if (p.settings_schema.settings.hasOwnProperty('length')) {
-                        if (p.settings_schema.settings.length === 0) {
-                            return;
-                        }
-                    }
-                }
-
-                if (this.state.sections !== null && this.state.sections.indexOf(`plugin_${p.id}`) === -1) {
-                    return;
-                }
-                customPlugins.push(
-                    <AdminSidebarSection
-                        key={'customplugin' + p.id}
-                        name={'plugins/plugin_' + p.id}
-                        title={p.name}
-                    />,
-                );
-            });
+            }).
+                filter((plugin) => this.state.sections === null || this.isPluginPresentInSections(plugin)).
+                map((plugin) => {
+                    return (
+                        <AdminSidebarSection
+                            key={'customplugin' + plugin.id}
+                            name={'plugins/plugin_' + plugin.id}
+                            title={plugin.name}
+                        />
+                    );
+                });
         }
-        return customPlugins;
+
+        return [];
     }
 
     handleClearFilter = () => {
@@ -330,3 +334,4 @@ class AdminSidebar extends React.PureComponent {
 }
 
 export default injectIntl(AdminSidebar);
+/* eslint-enable react/no-string-refs */

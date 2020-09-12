@@ -32,6 +32,7 @@ describe('components/admin_console/group_settings/group_details/GroupDetails', (
         actions: {
             getGroup: jest.fn().mockReturnValue(Promise.resolve()),
             getMembers: jest.fn().mockReturnValue(Promise.resolve()),
+            getGroupStats: jest.fn().mockReturnValue(Promise.resolve()),
             getGroupSyncables: jest.fn().mockReturnValue(Promise.resolve()),
             link: jest.fn(),
             unlink: jest.fn(),
@@ -71,6 +72,7 @@ describe('components/admin_console/group_settings/group_details/GroupDetails', (
     test('should load data on mount', () => {
         const actions = {
             getGroupSyncables: jest.fn().mockReturnValue(Promise.resolve()),
+            getGroupStats: jest.fn().mockReturnValue(Promise.resolve()),
             getGroup: jest.fn().mockReturnValue(Promise.resolve()),
             getMembers: jest.fn(),
             link: jest.fn(),
@@ -91,9 +93,10 @@ describe('components/admin_console/group_settings/group_details/GroupDetails', (
         expect(actions.getGroup).toBeCalledWith('xxxxxxxxxxxxxxxxxxxxxxxxxx');
     });
 
-    test('should call link for each channel when addChannels is called', async () => {
+    test('should set state for each channel when addChannels is called', async () => {
         const actions = {
             getGroupSyncables: jest.fn().mockReturnValue(Promise.resolve()),
+            getGroupStats: jest.fn().mockReturnValue(Promise.resolve()),
             getGroup: jest.fn().mockReturnValue(Promise.resolve()),
             getMembers: jest.fn(),
             link: jest.fn().mockReturnValue(Promise.resolve()),
@@ -110,16 +113,19 @@ describe('components/admin_console/group_settings/group_details/GroupDetails', (
         );
         const instance = wrapper.instance();
         await instance.addChannels([{id: '11111111111111111111111111'}, {id: '22222222222222222222222222'}]);
-        expect(actions.getGroupSyncables).toBeCalledWith('xxxxxxxxxxxxxxxxxxxxxxxxxx', 'channel');
-        expect(actions.getGroupSyncables).toBeCalledTimes(4);
-        expect(actions.link).toBeCalledWith('xxxxxxxxxxxxxxxxxxxxxxxxxx', '11111111111111111111111111', 'channel', {auto_add: true});
-        expect(actions.link).toBeCalledWith('xxxxxxxxxxxxxxxxxxxxxxxxxx', '22222222222222222222222222', 'channel', {auto_add: true});
-        expect(actions.link).toBeCalledTimes(2);
+        const testStateObj = (stateSubset) => {
+            const channelIDs = stateSubset.map((gc) => gc.channel_id);
+            expect(channelIDs).toContain('11111111111111111111111111');
+            expect(channelIDs).toContain('22222222222222222222222222');
+        };
+        testStateObj(instance.state.groupChannels);
+        testStateObj(instance.state.channelsToAdd);
     });
 
-    test('should call link for each team when addTeams is called', async () => {
+    test('should set state for each team when addTeams is called', async () => {
         const actions = {
             getGroupSyncables: jest.fn().mockReturnValue(Promise.resolve()),
+            getGroupStats: jest.fn().mockReturnValue(Promise.resolve()),
             getGroup: jest.fn().mockReturnValue(Promise.resolve()),
             getMembers: jest.fn(),
             link: jest.fn().mockReturnValue(Promise.resolve()),
@@ -135,11 +141,49 @@ describe('components/admin_console/group_settings/group_details/GroupDetails', (
             />,
         );
         const instance = wrapper.instance();
-        await instance.addTeams([{id: '11111111111111111111111111'}, {id: '22222222222222222222222222'}]);
-        expect(actions.getGroupSyncables).toBeCalledWith('xxxxxxxxxxxxxxxxxxxxxxxxxx', 'team');
-        expect(actions.getGroupSyncables).toBeCalledTimes(3);
-        expect(actions.link).toBeCalledWith('xxxxxxxxxxxxxxxxxxxxxxxxxx', '11111111111111111111111111', 'team', {auto_add: true});
-        expect(actions.link).toBeCalledWith('xxxxxxxxxxxxxxxxxxxxxxxxxx', '22222222222222222222222222', 'team', {auto_add: true});
-        expect(actions.link).toBeCalledTimes(2);
+        expect(instance.state.groupTeams.length === 0);
+        instance.addTeams([{id: '11111111111111111111111111'}, {id: '22222222222222222222222222'}]);
+        const testStateObj = (stateSubset) => {
+            const teamIDs = stateSubset.map((gt) => gt.team_id);
+            expect(teamIDs).toContain('11111111111111111111111111');
+            expect(teamIDs).toContain('22222222222222222222222222');
+        };
+        testStateObj(instance.state.groupTeams);
+        testStateObj(instance.state.teamsToAdd);
+    });
+
+    test('update name for null slug', async () => {
+        const wrapper = shallow(
+            <GroupDetails
+                {...defaultProps}
+                group={{display_name: 'test group', allow_reference: false}}
+            />,
+        );
+
+        wrapper.instance().onMentionToggle(true);
+        expect(wrapper.state().groupMentionName).toBe('test-group');
+    });
+
+    test('update name for empty slug', async () => {
+        const wrapper = shallow(
+            <GroupDetails
+                {...defaultProps}
+                group={{name: '', display_name: 'test group', allow_reference: false}}
+            />,
+        );
+
+        wrapper.instance().onMentionToggle(true);
+        expect(wrapper.state().groupMentionName).toBe('test-group');
+    });
+
+    test('Should not update name for slug', async () => {
+        const wrapper = shallow(
+            <GroupDetails
+                {...defaultProps}
+                group={{name: 'any_name_at_all', display_name: 'test group', allow_reference: false}}
+            />,
+        );
+        wrapper.instance().onMentionToggle(true);
+        expect(wrapper.state().groupMentionName).toBe('any_name_at_all');
     });
 });

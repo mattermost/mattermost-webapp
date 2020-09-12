@@ -15,10 +15,12 @@ import {SyncablePatch, Group} from 'mattermost-redux/types/groups';
 import {Channel, ChannelModeration as ChannelPermissions, ChannelModerationPatch} from 'mattermost-redux/types/channels';
 import {Team} from 'mattermost-redux/types/teams';
 
+import ConfirmModal from 'components/confirm_modal';
 import BlockableLink from 'components/admin_console/blockable_link';
 import FormError from 'components/form_error';
 import Constants from 'utils/constants';
 import {browserHistory} from 'utils/browser_history';
+import {trackEvent} from 'actions/diagnostics_actions.jsx';
 
 import {NeedGroupsError, UsersWillBeRemovedError} from '../../errors';
 import ConvertConfirmModal from '../../convert_confirm_modal';
@@ -39,9 +41,10 @@ interface ChannelDetailsProps {
     groups: Group[];
     totalGroups: number;
     channelPermissions?: Array<ChannelPermissions>;
-    allGroups: {[gid: string]: Group}; // hashmap of groups
+    allGroups: Dictionary<Group>;
     teamScheme?: Scheme;
     guestAccountsEnabled: boolean;
+    isDisabled: boolean;
     actions: {
         getGroups: (channelID: string, q?: string, page?: number, perPage?: number) => Promise<Partial<Group>[]>;
         linkGroupSyncable: (groupID: string, syncableID: string, syncableType: string, patch: Partial<SyncablePatch>) => ActionFunc|ActionResult;
@@ -59,6 +62,8 @@ interface ChannelDetailsProps {
         addChannelMember: (channelId: string, userId: string, postRootId?: string) => Promise<ActionResult>;
         removeChannelMember: (channelId: string, userId: string) => Promise<ActionResult>;
         updateChannelMemberSchemeRoles: (channelId: string, userId: string, isSchemeUser: boolean, isSchemeAdmin: boolean) => Promise<ActionResult>;
+        deleteChannel: (channelId: string) => Promise<ActionResult>;
+        unarchiveChannel: (channelId: string) => Promise<ActionResult>;
     };
 }
 
@@ -79,6 +84,7 @@ interface ChannelDetailsState {
     };
     saveNeeded: boolean;
     serverError: JSX.Element | null;
+    previousServerError: JSX.Element | null;
     isPrivacyChanging: boolean;
     saving: boolean;
     showConvertConfirmModal: boolean;
@@ -86,6 +92,8 @@ interface ChannelDetailsState {
     showConvertAndRemoveConfirmModal: boolean;
     channelPermissions?: Array<ChannelPermissions>;
     teamScheme?: Scheme;
+    isLocalArchived: boolean;
+    showArchiveConfirmModal: boolean;
 }
 
 export default class ChannelDetails extends React.PureComponent<ChannelDetailsProps, ChannelDetailsState> {
@@ -108,10 +116,14 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
             groups: props.groups,
             saveNeeded: false,
             serverError: null,
+            previousServerError: null,
             channelPermissions: props.channelPermissions,
             teamScheme: props.teamScheme,
+            isLocalArchived: props.channel.delete_at > 0,
+            showArchiveConfirmModal: false,
         };
     }
+
     componentDidUpdate(prevProps: ChannelDetailsProps) {
         const {channel, totalGroups, actions} = this.props;
         if (channel.id !== prevProps.channel.id || totalGroups !== prevProps.totalGroups) {
@@ -121,6 +133,7 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
                 isSynced: Boolean(channel.group_constrained),
                 isPublic: channel.type === Constants.OPEN_CHANNEL,
                 isDefault: channel.name === Constants.DEFAULT_CHANNEL,
+                isLocalArchived: channel.delete_at > 0,
             });
         }
 
@@ -227,6 +240,8 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
                                 <UsersWillBeRemovedError
                                     total={usersToRemoveCount}
                                     users={result.data.users}
+                                    scope='channel'
+                                    scopeId={this.props.channelID}
                                 />
                             );
                         }
@@ -238,6 +253,7 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
         }
         this.setState({groups, usersToRemoveCount, saveNeeded: true, serverError});
     }
+
     private handleGroupRemoved = (gid: string) => {
         const groups = this.state.groups.filter((g) => g.id !== gid);
         this.setState({totalGroups: this.state.totalGroups - 1});
@@ -308,19 +324,31 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
         this.setState({totalGroups: this.state.totalGroups + groupIDs.length});
         this.processGroupsChange(groups);
     };
+
     private hideConvertConfirmModal = () => {
         this.setState({showConvertConfirmModal: false});
     };
+
     private hideRemoveConfirmModal = () => {
         this.setState({showRemoveConfirmModal: false});
     };
+
     private hideConvertAndRemoveConfirmModal = () => {
         this.setState({showConvertAndRemoveConfirmModal: false});
     };
+
+    private hideArchiveConfirmModal = () => {
+        this.setState({showArchiveConfirmModal: false});
+    };
+
     private onSave = () => {
         const {channel} = this.props;
-        const {isSynced, usersToRemoveCount} = this.state;
+        const {isSynced, usersToRemoveCount, serverError} = this.state;
         let {isPublic, isPrivacyChanging} = this.state;
+        if (this.channelToBeArchived()) {
+            this.setState({showArchiveConfirmModal: true});
+            return;
+        }
         const isOriginallyPublic = channel.type === Constants.OPEN_CHANNEL;
         if (isSynced) {
             isPublic = false;
@@ -334,7 +362,7 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
             this.setState({showConvertAndRemoveConfirmModal: true});
             return;
         }
-        if (isPrivacyChanging && usersToRemoveCount === 0) {
+        if (isPrivacyChanging && usersToRemoveCount === 0 && serverError === null) {
             this.setState({showConvertConfirmModal: true});
             return;
         }
@@ -344,12 +372,39 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
         }
         this.handleSubmit();
     };
+
     private handleSubmit = async () => {
-        this.setState({showConvertConfirmModal: false, showRemoveConfirmModal: false, showConvertAndRemoveConfirmModal: false, saving: true});
+        this.setState({showConvertConfirmModal: false, showRemoveConfirmModal: false, showConvertAndRemoveConfirmModal: false, showArchiveConfirmModal: false, saving: true});
         const {groups, isSynced, isPublic, isPrivacyChanging, channelPermissions, usersToAdd, usersToRemove, rolesToUpdate} = this.state;
-        let serverError = null;
+        let serverError: JSX.Element | null = null;
         let saveNeeded = false;
         const {groups: origGroups, channelID, actions, channel} = this.props;
+
+        if (this.channelToBeArchived()) {
+            const result = await actions.deleteChannel(channel.id);
+            if ('error' in result) {
+                serverError = <FormError error={result.error.message}/>;
+                saveNeeded = true;
+            } else {
+                trackEvent('admin_channel_config_page', 'channel_archived', {channel_id: channelID});
+            }
+            this.setState({serverError, saving: false, saveNeeded, isPrivacyChanging: false, usersToRemoveCount: 0, rolesToUpdate: {}, usersToAdd: {}, usersToRemove: {}}, () => {
+                actions.setNavigationBlocked(saveNeeded);
+                if (!saveNeeded) {
+                    browserHistory.push('/admin_console/user_management/channels');
+                }
+            });
+            return;
+        } else if (this.channelToBeRestored() && this.state.serverError === null) {
+            const result = await actions.unarchiveChannel(channel.id);
+            if ('error' in result) {
+                serverError = <FormError error={result.error.message}/>;
+            } else {
+                trackEvent('admin_channel_config_page', 'channel_unarchived', {channel_id: channelID});
+            }
+            this.setState({serverError, previousServerError: null});
+        }
+
         if (this.state.groups.length === 0 && isSynced) {
             serverError = <NeedGroupsError isChannel={true}/>;
             saveNeeded = true;
@@ -386,36 +441,49 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
                 return origGroups.some((group) => group.id === g.id && group.scheme_admin !== g.scheme_admin);
             }).
             map((g) => actions.patchGroupSyncable(g.id, channelID, Groups.SYNCABLE_TYPE_CHANNEL, {scheme_admin: g.scheme_admin}));
+
         const unlink = origGroups.
             filter((g) => {
                 return !groups.some((group) => group.id === g.id);
             }).
             map((g) => actions.unlinkGroupSyncable(g.id, channelID, Groups.SYNCABLE_TYPE_CHANNEL));
+
         const link = groups.
             filter((g) => {
                 return !origGroups.some((group) => group.id === g.id);
             }).
             map((g) => actions.linkGroupSyncable(g.id, channelID, Groups.SYNCABLE_TYPE_CHANNEL, {auto_add: true, scheme_admin: g.scheme_admin}));
-        const result = await Promise.all([...promises, ...patchChannelSyncable, ...unlink, ...link]);
-        const resultWithError = result.find((r) => 'error' in r);
-        if (resultWithError && 'error' in resultWithError) {
-            serverError = <FormError error={resultWithError.error.message}/>;
-        } else {
-            const actionsToAwait: any[] = [actions.getGroups(channelID)];
-            if (isPrivacyChanging) {
-                // If the privacy is changing update the manage_members value for the channel moderation widget
-                actionsToAwait.push(
-                    actions.getChannelModerations(channelID).then(() => {
-                        const manageMembersIndex = channelPermissions!.findIndex((element) => element.name === Permissions.CHANNEL_MODERATED_PERMISSIONS.MANAGE_MEMBERS);
-                        if (channelPermissions) {
-                            const updatedManageMembers = this.props.channelPermissions!.find((element) => element.name === Permissions.CHANNEL_MODERATED_PERMISSIONS.MANAGE_MEMBERS);
-                            channelPermissions[manageMembersIndex] = updatedManageMembers || channelPermissions[manageMembersIndex];
-                        }
-                        this.setState({channelPermissions});
-                    }),
-                );
+
+        const groupActions = [...promises, ...patchChannelSyncable, ...unlink, ...link];
+        if (groupActions.length > 0) {
+            const result = await Promise.all(groupActions);
+            const resultWithError = result.find((r) => 'error' in r);
+            if (resultWithError && 'error' in resultWithError) {
+                serverError = <FormError error={resultWithError.error.message}/>;
+            } else {
+                if (unlink.length > 0) {
+                    trackEvent('admin_channel_config_page', 'groups_removed_from_channel', {count: unlink.length, channel_id: channelID});
+                }
+                if (link.length > 0) {
+                    trackEvent('admin_channel_config_page', 'groups_added_to_channel', {count: link.length, channel_id: channelID});
+                }
+
+                const actionsToAwait: any[] = [actions.getGroups(channelID)];
+                if (isPrivacyChanging) {
+                    // If the privacy is changing update the manage_members value for the channel moderation widget
+                    actionsToAwait.push(
+                        actions.getChannelModerations(channelID).then(() => {
+                            const manageMembersIndex = channelPermissions!.findIndex((element) => element.name === Permissions.CHANNEL_MODERATED_PERMISSIONS.MANAGE_MEMBERS);
+                            if (channelPermissions) {
+                                const updatedManageMembers = this.props.channelPermissions!.find((element) => element.name === Permissions.CHANNEL_MODERATED_PERMISSIONS.MANAGE_MEMBERS);
+                                channelPermissions[manageMembersIndex] = updatedManageMembers || channelPermissions[manageMembersIndex];
+                            }
+                            this.setState({channelPermissions});
+                        }),
+                    );
+                }
+                await Promise.all(actionsToAwait);
             }
-            await Promise.all(actionsToAwait);
         }
 
         const patchChannelPermissionsArray: Array<ChannelModerationPatch> = channelPermissions!.map((p) => {
@@ -444,40 +512,95 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
         const userRolesToUpdate = Object.keys(rolesToUpdate);
         const usersToUpdate = usersToAddList.length > 0 || usersToRemoveList.length > 0 || userRolesToUpdate.length > 0;
         if (usersToUpdate && !isSynced) {
-            const userActions: any[] = [];
+            const addUserActions: any[] = [];
+            const removeUserActions: any[] = [];
             const {addChannelMember, removeChannelMember, updateChannelMemberSchemeRoles} = this.props.actions;
             usersToAddList.forEach((user) => {
-                userActions.push(addChannelMember(channelID, user.id));
+                addUserActions.push(addChannelMember(channelID, user.id));
             });
             usersToRemoveList.forEach((user) => {
-                userActions.push(removeChannelMember(channelID, user.id));
+                removeUserActions.push(removeChannelMember(channelID, user.id));
             });
 
-            let userResult = await Promise.all(userActions);
-            let userResultWithError = userResult.find((r) => 'error' in r);
-            if (userResultWithError && 'error' in userResultWithError) {
-                serverError = <FormError error={userResultWithError.error.message}/>;
-            } else {
-                const roleActions: any[] = [];
-                userRolesToUpdate.forEach((userId) => {
-                    const {schemeUser, schemeAdmin} = rolesToUpdate[userId];
-                    roleActions.push(updateChannelMemberSchemeRoles(channelID, userId, schemeUser, schemeAdmin));
-                });
-                userResult = await Promise.all(roleActions);
-                userResultWithError = userResult.find((r) => 'error' in r);
-                if (userResultWithError && 'error' in userResultWithError) {
-                    serverError = <FormError error={userResultWithError.error.message}/>;
+            if (addUserActions.length > 0) {
+                const result = await Promise.all(addUserActions);
+                const resultWithError = result.find((r) => 'error' in r);
+                const count = result.filter((r) => 'data' in r).length;
+                if (resultWithError && 'error' in resultWithError) {
+                    serverError = <FormError error={resultWithError.error.message}/>;
+                }
+                if (count > 0) {
+                    trackEvent('admin_channel_config_page', 'members_added_to_channel', {count, channel_id: channelID});
+                }
+            }
+
+            if (removeUserActions.length > 0) {
+                const result = await Promise.all(removeUserActions);
+                const resultWithError = result.find((r) => 'error' in r);
+                const count = result.filter((r) => 'data' in r).length;
+                if (resultWithError && 'error' in resultWithError) {
+                    serverError = <FormError error={resultWithError.error.message}/>;
+                }
+                if (count > 0) {
+                    trackEvent('admin_channel_config_page', 'members_removed_from_channel', {count, channel_id: channelID});
+                }
+            }
+
+            const rolesToPromote: any[] = [];
+            const rolesToDemote: any[] = [];
+            userRolesToUpdate.forEach((userId) => {
+                const {schemeUser, schemeAdmin} = rolesToUpdate[userId];
+                if (schemeAdmin) {
+                    rolesToPromote.push(updateChannelMemberSchemeRoles(channelID, userId, schemeUser, schemeAdmin));
+                } else {
+                    rolesToDemote.push(updateChannelMemberSchemeRoles(channelID, userId, schemeUser, schemeAdmin));
+                }
+            });
+
+            if (rolesToPromote.length > 0) {
+                const result = await Promise.all(rolesToPromote);
+                const resultWithError = result.find((r) => 'error' in r);
+                const count = result.filter((r) => 'data' in r).length;
+                if (resultWithError && 'error' in resultWithError) {
+                    serverError = <FormError error={resultWithError.error.message}/>;
+                }
+                if (count > 0) {
+                    trackEvent('admin_channel_config_page', 'members_elevated_to_channel_admin', {count, channel_id: channelID});
+                }
+            }
+
+            if (rolesToDemote.length > 0) {
+                const result = await Promise.all(rolesToDemote);
+                const resultWithError = result.find((r) => 'error' in r);
+                const count = result.filter((r) => 'data' in r).length;
+                if (resultWithError && 'error' in resultWithError) {
+                    serverError = <FormError error={resultWithError.error.message}/>;
+                }
+                if (count > 0) {
+                    trackEvent('admin_channel_config_page', 'admins_demoted_to_channel_member', {count, channel_id: channelID});
                 }
             }
         }
 
         this.setState({serverError, saving: false, saveNeeded, isPrivacyChanging: privacyChanging, usersToRemoveCount: 0, rolesToUpdate: {}, usersToAdd: {}, usersToRemove: {}}, () => {
             actions.setNavigationBlocked(saveNeeded);
-            if (!saveNeeded) {
+            if (!saveNeeded && serverError === null) {
                 browserHistory.push('/admin_console/user_management/channels');
             }
         });
     };
+
+    private channelToBeArchived = (): boolean => {
+        const {isLocalArchived} = this.state;
+        const isServerArchived = this.props.channel.delete_at !== 0;
+        return isLocalArchived && !isServerArchived;
+    }
+
+    private channelToBeRestored = (): boolean => {
+        const {isLocalArchived} = this.state;
+        const isServerArchived = this.props.channel.delete_at !== 0;
+        return !isLocalArchived && isServerArchived;
+    }
 
     private addRolesToUpdate = (userId: string, schemeUser: boolean, schemeAdmin: boolean) => {
         const {rolesToUpdate} = this.state;
@@ -485,6 +608,7 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
         this.setState({rolesToUpdate: {...rolesToUpdate}, saveNeeded: true});
         this.props.actions.setNavigationBlocked(true);
     }
+
     private addUserToRemove = (user: UserProfile) => {
         let {usersToRemoveCount} = this.state;
         const {usersToAdd, usersToRemove, rolesToUpdate} = this.state;
@@ -498,6 +622,7 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
         this.setState({usersToRemove: {...usersToRemove}, usersToAdd: {...usersToAdd}, rolesToUpdate: {...rolesToUpdate}, usersToRemoveCount, saveNeeded: true});
         this.props.actions.setNavigationBlocked(true);
     }
+
     private addUsersToAdd = (users: UserProfile[]) => {
         let {usersToRemoveCount} = this.state;
         const {usersToAdd, usersToRemove} = this.state;
@@ -512,6 +637,33 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
         this.setState({usersToAdd: {...usersToAdd}, usersToRemove: {...usersToRemove}, usersToRemoveCount, saveNeeded: true});
         this.props.actions.setNavigationBlocked(true);
     }
+
+    private onToggleArchive = () => {
+        const {isLocalArchived, serverError, previousServerError} = this.state;
+        const {isDisabled} = this.props;
+        if (isDisabled) {
+            return;
+        }
+        const newState: any = {
+            saveNeeded: true,
+            isLocalArchived: !isLocalArchived,
+        };
+
+        if (newState.isLocalArchived) {
+            // if the channel is being archived then clear the other server
+            // errors, they're no longer relevant.
+            newState.previousServerError = serverError;
+            newState.serverError = null;
+        } else {
+            // if the channel is being unarchived (maybe the user had toggled
+            // and untoggled) the button, so reinstate any server errors that
+            // were present.
+            newState.serverError = previousServerError;
+            newState.previousServerError = null;
+        }
+        this.props.actions.setNavigationBlocked(true);
+        this.setState(newState);
+    };
 
     public render = (): JSX.Element => {
         const {
@@ -531,10 +683,82 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
             teamScheme,
             usersToRemove,
             usersToAdd,
+            isLocalArchived,
+            showArchiveConfirmModal,
         } = this.state;
         const {channel, team} = this.props;
         const missingGroup = (og: {id: string}) => !groups.find((g: Group) => g.id === og.id);
         const removedGroups = this.props.groups.filter(missingGroup);
+        const nonArchivedContent = (
+            <>
+                <ConvertConfirmModal
+                    show={showConvertConfirmModal}
+                    onCancel={this.hideConvertConfirmModal}
+                    onConfirm={this.handleSubmit}
+                    displayName={channel.display_name || ''}
+                    toPublic={isPublic}
+                />
+
+                <ChannelModeration
+                    channelPermissions={channelPermissions}
+                    onChannelPermissionsChanged={this.channelPermissionsChanged}
+                    teamSchemeID={teamScheme?.id}
+                    teamSchemeDisplayName={teamScheme?.['display_name']}
+                    guestAccountsEnabled={this.props.guestAccountsEnabled}
+                    isPublic={this.props.channel.type === Constants.OPEN_CHANNEL}
+                    readOnly={this.props.isDisabled}
+                />
+
+                <RemoveConfirmModal
+                    show={showRemoveConfirmModal}
+                    onCancel={this.hideRemoveConfirmModal}
+                    onConfirm={this.handleSubmit}
+                    inChannel={true}
+                    amount={usersToRemoveCount}
+                />
+
+                <ConvertAndRemoveConfirmModal
+                    show={showConvertAndRemoveConfirmModal}
+                    onCancel={this.hideConvertAndRemoveConfirmModal}
+                    onConfirm={this.handleSubmit}
+                    displayName={channel.display_name || ''}
+                    toPublic={isPublic}
+                    removeAmount={usersToRemoveCount}
+                />
+
+                <ChannelModes
+                    isPublic={isPublic}
+                    isSynced={isSynced}
+                    isDefault={isDefault}
+                    onToggle={this.setToggles}
+                    isDisabled={this.props.isDisabled}
+                />
+
+                <ChannelGroups
+                    synced={isSynced}
+                    channel={channel}
+                    totalGroups={totalGroups}
+                    groups={groups}
+                    removedGroups={removedGroups}
+                    onAddCallback={this.handleGroupChange}
+                    onGroupRemoved={this.handleGroupRemoved}
+                    setNewGroupRole={this.setNewGroupRole}
+                    isDisabled={this.props.isDisabled}
+                />
+
+                {!isSynced &&
+                    <ChannelMembers
+                        onRemoveCallback={this.addUserToRemove}
+                        onAddCallback={this.addUsersToAdd}
+                        usersToRemove={usersToRemove}
+                        usersToAdd={usersToAdd}
+                        updateRole={this.addRolesToUpdate}
+                        channelId={this.props.channelID}
+                        isDisabled={this.props.isDisabled}
+                    />
+                }
+            </>
+        );
         return (
             <div className='wrapper--fixed'>
                 <div className='admin-console__header with-back'>
@@ -554,69 +778,34 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
                         <ChannelProfile
                             channel={channel}
                             team={team}
+                            onToggleArchive={this.onToggleArchive}
+                            isArchived={isLocalArchived}
+                            isDisabled={this.props.isDisabled}
                         />
-
-                        <ConvertConfirmModal
-                            show={showConvertConfirmModal}
-                            onCancel={this.hideConvertConfirmModal}
+                        <ConfirmModal
+                            show={showArchiveConfirmModal}
+                            title={
+                                <FormattedMessage
+                                    id='admin.channel_settings.channel_detail.archive_confirm.title'
+                                    defaultMessage='Save and Archive Channel'
+                                />
+                            }
+                            message={
+                                <FormattedMessage
+                                    id='admin.channel_settings.channel_detail.archive_confirm.message'
+                                    defaultMessage='Saving will archive the channel from the team and make its contents inaccessible for all users. Are you sure you wish to save and archive this channel?'
+                                />
+                            }
+                            confirmButtonText={
+                                <FormattedMessage
+                                    id='admin.channel_settings.channel_detail.archive_confirm.button'
+                                    defaultMessage='Save and Archive Channel'
+                                />
+                            }
                             onConfirm={this.handleSubmit}
-                            displayName={channel.display_name || ''}
-                            toPublic={isPublic}
+                            onCancel={this.hideArchiveConfirmModal}
                         />
-
-                        <RemoveConfirmModal
-                            show={showRemoveConfirmModal}
-                            onCancel={this.hideRemoveConfirmModal}
-                            onConfirm={this.handleSubmit}
-                            inChannel={true}
-                            amount={usersToRemoveCount}
-                        />
-
-                        <ConvertAndRemoveConfirmModal
-                            show={showConvertAndRemoveConfirmModal}
-                            onCancel={this.hideConvertAndRemoveConfirmModal}
-                            onConfirm={this.handleSubmit}
-                            displayName={channel.display_name || ''}
-                            toPublic={isPublic}
-                            removeAmount={usersToRemoveCount}
-                        />
-
-                        <ChannelModes
-                            isPublic={isPublic}
-                            isSynced={isSynced}
-                            isDefault={isDefault}
-                            onToggle={this.setToggles}
-                        />
-
-                        <ChannelModeration
-                            channelPermissions={channelPermissions}
-                            onChannelPermissionsChanged={this.channelPermissionsChanged}
-                            teamSchemeID={teamScheme?.id}
-                            teamSchemeDisplayName={teamScheme?.['display_name']}
-                            guestAccountsEnabled={this.props.guestAccountsEnabled}
-                        />
-
-                        <ChannelGroups
-                            synced={isSynced}
-                            channel={channel}
-                            totalGroups={totalGroups}
-                            groups={groups}
-                            removedGroups={removedGroups}
-                            onAddCallback={this.handleGroupChange}
-                            onGroupRemoved={this.handleGroupRemoved}
-                            setNewGroupRole={this.setNewGroupRole}
-                        />
-
-                        {!isSynced &&
-                            <ChannelMembers
-                                onRemoveCallback={this.addUserToRemove}
-                                onAddCallback={this.addUsersToAdd}
-                                usersToRemove={usersToRemove}
-                                usersToAdd={usersToAdd}
-                                updateRole={this.addRolesToUpdate}
-                                channelId={this.props.channelID}
-                            />
-                        }
+                        {!isLocalArchived && nonArchivedContent}
                     </div>
                 </div>
 
@@ -626,6 +815,7 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
                     onClick={this.onSave}
                     serverError={serverError}
                     cancelLink='/admin_console/user_management/channels'
+                    isDisabled={this.props.isDisabled}
                 />
             </div>
         );

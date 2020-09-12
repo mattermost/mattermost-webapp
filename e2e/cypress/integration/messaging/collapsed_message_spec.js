@@ -7,7 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod @smoke
+// Stage: @prod
 // Group: @messaging
 
 function verifyCollapsedPost() {
@@ -27,11 +27,14 @@ function verifyExpandedPost() {
 }
 
 describe('Long message', () => {
-    it('M14321 will show more/less content correctly', () => {
-        // # Login as "user-1" and go to /
-        cy.apiLogin('user-1');
-        cy.visit('/ad-1/channels/town-square');
+    before(() => {
+        // # Login as test user and visit town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
+        });
+    });
 
+    it('MM-T104 Can `Show More` and `Show Less` on long posts, Markdown in long posts', () => {
         // # Post message with kitchen sink markdown text
         cy.postMessageFromFile('long_text_post.txt');
 

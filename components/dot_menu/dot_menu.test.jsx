@@ -9,7 +9,7 @@ import {Locations, PostTypes} from 'utils/constants';
 import DotMenu, {PLUGGABLE_COMPONENT} from './dot_menu';
 
 jest.mock('utils/utils', () => {
-    const original = require.requireActual('utils/utils');
+    const original = jest.requireActual('utils/utils');
     return {
         ...original,
         isMobile: jest.fn(() => false),

@@ -307,11 +307,10 @@
             padding: 0 0 12px;
             position: relative;
             -webkit-overflow-scrolling: touch;
-            overflow: hidden;
+            overflow-x: hidden;
 
             &::-webkit-scrollbar-track {
                 width: 0;
-                background: transparent;
             }
 
             &::-webkit-scrollbar-thumb {

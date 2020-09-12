@@ -10,40 +10,54 @@
 // Stage: @prod
 // Group: @signin_authentication
 
-import users from '../../fixtures/users.json';
-
 describe('Cookie with Subpath', () => {
+    let testUser;
+    let townsquareLink;
+
     before(() => {
-        // # Logout to remove whitelisted cookies
-        cy.apiLogout();
+        // # Create new team and user
+        cy.apiInitSetup().then(({team, user}) => {
+            testUser = user;
+
+            // Logout current session and try to visit town-square
+            cy.apiLogout().then(() => {
+                townsquareLink = `/${team.name}/channels/town-square`;
+                cy.visit(townsquareLink);
+            });
+        });
     });
 
     it('should generate cookie with subpath', () => {
-        const user = users['user-1'];
-
-        cy.getSubpath().then((subpath) => {
-            // * Check login page is loaded
-            cy.get('#login_section').should('be.visible');
-
-            // # Login as user-1
-            cy.get('#loginId').should('be.visible').type(user.username);
-            cy.get('#loginPassword').should('be.visible').type(user.password);
-            cy.get('#loginButton').should('be.visible').click();
-
-            // * Check login success
-            cy.get('#channel_view').should('be.visible');
-
-            // * Check subpath included in url
-            cy.url().should('include', subpath);
-            cy.url().should('include', '/channels/town-square');
-
-            // * Check cookies have correct path parameter
-            cy.getCookies().should('have.length', 3).each((cookie) => {
-                if (subpath) {
-                    expect(cookie).to.have.property('path', subpath);
-                } else {
-                    expect(cookie).to.have.property('path', '/');
+        cy.url().then((url) => {
+            cy.location().its('origin').then((origin) => {
+                let subpath = '';
+                if (url !== origin) {
+                    subpath = url.replace(origin, '').replace(townsquareLink, '');
                 }
+
+                // * Check login page is loaded
+                cy.get('#login_section').should('be.visible');
+
+                // # Login as testUser
+                cy.get('#loginId').should('be.visible').type(testUser.username);
+                cy.get('#loginPassword').should('be.visible').type(testUser.password);
+                cy.get('#loginButton').should('be.visible').click();
+
+                // * Check login success
+                cy.get('#channel_view').should('be.visible');
+
+                // * Check subpath included in url
+                cy.url().should('include', subpath);
+                cy.url().should('include', '/channels/town-square');
+
+                // * Check cookies have correct path parameter
+                cy.getCookies().should('have.length', 5).each((cookie) => {
+                    if (subpath) {
+                        expect(cookie).to.have.property('path', subpath);
+                    } else {
+                        expect(cookie).to.have.property('path', '/');
+                    }
+                });
             });
         });
     });

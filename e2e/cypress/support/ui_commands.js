@@ -12,27 +12,6 @@ Cypress.Commands.add('logout', () => {
     cy.get('#logout').click({force: true});
 });
 
-Cypress.Commands.add('toMainChannelView', (username = 'user-1', password) => {
-    cy.apiLogin(username, password);
-    cy.visit('/ad-1/channels/town-square');
-
-    cy.get('#post_textbox', {timeout: TIMEOUTS.HUGE}).should('be.visible');
-});
-
-Cypress.Commands.add('getSubpath', () => {
-    cy.visit('/ad-1/channels/town-square');
-    cy.url().then((url) => {
-        cy.location().its('origin').then((origin) => {
-            if (url === origin) {
-                return '';
-            }
-
-            // Remove trailing slash
-            return url.replace(origin, '').substring(0, url.length - origin.length - 1);
-        });
-    });
-});
-
 Cypress.Commands.add('getCurrentUserId', () => {
     return cy.wrap(new Promise((resolve) => {
         cy.getCookie('MMUSERID').then((cookie) => {
@@ -47,7 +26,7 @@ Cypress.Commands.add('getCurrentUserId', () => {
 
 // Go to Account Settings modal
 Cypress.Commands.add('toAccountSettingsModal', () => {
-    cy.get('#channel_view').should('be.visible');
+    cy.get('#channel_view', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
     cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
     cy.get('#accountSettings').should('be.visible').click();
     cy.get('#accountSettingsModal').should('be.visible');
@@ -57,7 +36,7 @@ Cypress.Commands.add('toAccountSettingsModal', () => {
  * Change the message display setting
  * @param {String} setting - as 'STANDARD' or 'COMPACT'
  */
-Cypress.Commands.add('changeMessageDisplaySetting', (setting = 'STANDARD') => {
+Cypress.Commands.add('uiChangeMessageDisplaySetting', (setting = 'STANDARD') => {
     const SETTINGS = {STANDARD: '#message_displayFormatA', COMPACT: '#message_displayFormatB'};
 
     cy.toAccountSettingsModal();
@@ -105,7 +84,16 @@ function isMac() {
 // ***********************************************************
 
 Cypress.Commands.add('postMessage', (message) => {
-    cy.get('#post_textbox', {timeout: TIMEOUTS.LARGE}).clear().type(message).type('{enter}');
+    postMessageAndWait('#post_textbox', message);
+});
+
+Cypress.Commands.add('postMessageReplyInRHS', (message) => {
+    postMessageAndWait('#reply_textbox', message);
+});
+
+Cypress.Commands.add('uiPostMessageQuickly', (message) => {
+    cy.get('#post_textbox', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').clear().
+        invoke('val', message).wait(TIMEOUTS.HALF_SEC).type(' {backspace}{enter}');
     cy.waitUntil(() => {
         return cy.get('#post_textbox').then((el) => {
             return el[0].textContent === '';
@@ -113,13 +101,17 @@ Cypress.Commands.add('postMessage', (message) => {
     });
 });
 
-Cypress.Commands.add('postMessageReplyInRHS', (message) => {
-    cy.get('#reply_textbox').should('be.visible').clear().type(message).type('{enter}');
-    cy.wait(TIMEOUTS.TINY);
-});
+function postMessageAndWait(textboxSelector, message) {
+    cy.get(textboxSelector, {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').clear().type(`${message}{enter}`).wait(TIMEOUTS.HALF_SEC);
+    cy.waitUntil(() => {
+        return cy.get(textboxSelector).then((el) => {
+            return el[0].textContent === '';
+        });
+    });
+}
 
 function waitUntilPermanentPost() {
-    cy.get('#postListContent').should('be.visible');
+    cy.get('#postListContent', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
     cy.waitUntil(() => cy.findAllByTestId('postView').last().then((el) => !(el[0].id.includes(':'))));
 }
 
@@ -134,6 +126,27 @@ Cypress.Commands.add('getLastPostId', () => {
 
     cy.findAllByTestId('postView').last().should('have.attr', 'id').and('not.include', ':').
         invoke('replace', 'post_', '');
+});
+
+/**
+ * @see `cy.uiWaitUntilMessagePostedIncludes` at ./ui_commands.d.ts
+ */
+Cypress.Commands.add('uiWaitUntilMessagePostedIncludes', (message) => {
+    const checkFn = () => {
+        return cy.getLastPost().then((el) => {
+            const postedMessageEl = el.find('.post-message__text')[0];
+            return Boolean(postedMessageEl && postedMessageEl.textContent.includes(message));
+        });
+    };
+
+    // Wait for 5 seconds with 500ms check interval
+    const options = {
+        timeout: TIMEOUTS.FIVE_SEC,
+        interval: TIMEOUTS.HALF_SEC,
+        errorMsg: `Expected "${message}" to be in the last message posted but not found.`,
+    };
+
+    return cy.waitUntil(checkFn, options);
 });
 
 Cypress.Commands.add('getLastPostIdRHS', () => {
@@ -157,6 +170,12 @@ Cypress.Commands.add('getNthPostId', (index = 0) => {
         invoke('replace', 'post_', '');
 });
 
+Cypress.Commands.add('uiGetNthPost', (index) => {
+    waitUntilPermanentPost();
+
+    cy.findAllByTestId('postView').eq(index);
+});
+
 /**
  * Post message from a file instantly post a message in a textbox
  * instead of typing into it which takes longer period of time.
@@ -165,7 +184,7 @@ Cypress.Commands.add('getNthPostId', (index = 0) => {
  */
 Cypress.Commands.add('postMessageFromFile', (file, target = '#post_textbox') => {
     cy.fixture(file, 'utf-8').then((text) => {
-        cy.get(target).clear().invoke('val', text).wait(TIMEOUTS.TINY).type(' {backspace}{enter}').should('have.text', '');
+        cy.get(target).clear().invoke('val', text).wait(TIMEOUTS.HALF_SEC).type(' {backspace}{enter}').should('have.text', '');
     });
 });
 
@@ -174,7 +193,7 @@ Cypress.Commands.add('postMessageFromFile', (file, target = '#post_textbox') => 
  * instead of typing into it which takes longer period of time.
  * @param {String} file - includes path and filename relative to cypress/fixtures
  */
-Cypress.Commands.add('compareLastPostHTMLContentFromFile', (file, timeout = TIMEOUTS.MEDIUM) => {
+Cypress.Commands.add('compareLastPostHTMLContentFromFile', (file, timeout = TIMEOUTS.TEN_SEC) => {
     // * Verify that HTML Content is correct
     cy.getLastPostId().then((postId) => {
         const postMessageTextId = `#postMessageText_${postId}`;
@@ -190,13 +209,30 @@ Cypress.Commands.add('compareLastPostHTMLContentFromFile', (file, timeout = TIME
 // ***********************************************************
 
 function clickPostHeaderItem(postId, location, item) {
+    let idPrefix;
+    switch (location) {
+    case 'CENTER':
+        idPrefix = 'post';
+        break;
+    case 'RHS_ROOT':
+    case 'RHS_COMMENT':
+        idPrefix = 'rhsPost';
+        break;
+    case 'SEARCH':
+        idPrefix = 'searchResult';
+        break;
+
+    default:
+        idPrefix = 'post';
+    }
+
     if (postId) {
-        cy.get(`#post_${postId}`).trigger('mouseover', {force: true});
-        cy.wait(TIMEOUTS.TINY).get(`#${location}_${item}_${postId}`).click({force: true});
+        cy.get(`#${idPrefix}_${postId}`).trigger('mouseover', {force: true});
+        cy.wait(TIMEOUTS.HALF_SEC).get(`#${location}_${item}_${postId}`).click({force: true});
     } else {
         cy.getLastPostId().then((lastPostId) => {
-            cy.get(`#post_${lastPostId}`).trigger('mouseover', {force: true});
-            cy.wait(TIMEOUTS.TINY).get(`#${location}_${item}_${lastPostId}`).click({force: true});
+            cy.get(`#${idPrefix}_${lastPostId}`).trigger('mouseover', {force: true});
+            cy.wait(TIMEOUTS.HALF_SEC).get(`#${location}_${item}_${lastPostId}`).click({force: true});
         });
     }
 }
@@ -211,11 +247,11 @@ Cypress.Commands.add('clickPostTime', (postId, location = 'CENTER') => {
 });
 
 /**
- * Click flag icon by post ID or to most recent post (if post ID is not provided)
+ * Click save icon by post ID or to most recent post (if post ID is not provided)
  * @param {String} postId - Post ID
  * @param {String} location - as 'CENTER', 'RHS_ROOT', 'RHS_COMMENT', 'SEARCH'
  */
-Cypress.Commands.add('clickPostFlagIcon', (postId, location = 'CENTER') => {
+Cypress.Commands.add('clickPostSaveIcon', (postId, location = 'CENTER') => {
     clickPostHeaderItem(postId, location, 'flagIcon');
 });
 
@@ -258,7 +294,7 @@ Cypress.Commands.add('getPostMenu', (postId, menuItem, location = 'CENTER') => {
     cy.clickPostDotMenu(postId, location).then(() => {
         cy.get(`#post_${postId}`).should('be.visible').within(() => {
             cy.get('.dropdown-menu').should('be.visible').within(() => {
-                return cy.findByText(menuItem).should('be.visible');
+                return cy.findByText(menuItem).scrollIntoView().should('be.visible');
             });
         });
     });
@@ -361,7 +397,7 @@ Cypress.Commands.add('userStatus', (statusInt) => {
 // ************************************************************
 
 Cypress.Commands.add('getCurrentChannelId', () => {
-    return cy.get('#channel-header', {timeout: TIMEOUTS.LARGE}).invoke('attr', 'data-channelid');
+    return cy.get('#channel-header', {timeout: TIMEOUTS.HALF_MIN}).invoke('attr', 'data-channelid');
 });
 
 /**
@@ -380,120 +416,16 @@ Cypress.Commands.add('updateChannelHeader', (text) => {
         clear().
         type(text).
         type('{enter}').
-        wait(TIMEOUTS.TINY);
+        wait(TIMEOUTS.HALF_SEC);
 });
 
 /**
- * On default "ad-1" team, create and visit a new channel
+ * Archive the current channel.
  */
-Cypress.Commands.add('createAndVisitNewChannel', () => {
-    cy.visit('/ad-1/channels/town-square');
-
-    cy.getCurrentTeamId().then((teamId) => {
-        cy.apiCreateChannel(teamId, 'channel-test', 'Channel Test').then((res) => {
-            const channel = res.body;
-
-            // # Visit the new channel
-            cy.visit(`/ad-1/channels/${channel.name}`);
-
-            // * Verify channel's display name
-            cy.get('#channelHeaderTitle').should('contain', channel.display_name);
-
-            cy.wrap(channel);
-        });
-    });
-});
-
-/**
- * On default "ad-1" team, create and visit a new direct message between user-1 and the provided user
- * @param {String} user - Username of user to open DM with
- */
-Cypress.Commands.add('createAndVisitNewDirectMessageWith', (user) => {
-    cy.visit('/ad-1/channels/town-square');
-
-    cy.apiGetUsers(['user-1', user]).then((userResponse) => {
-        const userEmailArray = [userResponse.body[1].id, userResponse.body[0].id];
-
-        cy.apiCreateDirectChannel(userEmailArray).then((res) => {
-            const channel = res.body;
-
-            // # Visit the new channel
-            cy.visit(`/ad-1/channels/${channel.name}`);
-
-            // * Verify channel's display name
-            cy.get('#channelHeaderTitle').should('contain', channel.display_name);
-
-            cy.wrap(channel);
-        });
-    });
-});
-
-/**
- * On default "ad-1" team, create and visit a new group message between user-1 and the provided users
- * @param {Array} usernames - Array of usernames of the users to open GM with
- */
-Cypress.Commands.add('createAndVisitNewGroupMessageWith', (usernames) => {
-    cy.visit('/ad-1/channels/town-square');
-
-    cy.apiGetUsers(usernames).then((userResponse) => {
-        const userEmailArray = userResponse.body.map((u) => u.id);
-
-        cy.apiCreateGroupChannel(userEmailArray).then((res) => {
-            const channel = res.body;
-
-            // # Visit the new channel
-            cy.visit(`/ad-1/channels/${channel.name}`);
-
-            // The display name does not contain the logged in user
-            const names = channel.display_name.split(', ');
-            names.splice(names.indexOf('user-1'), 1);
-
-            // * Verify channel's display name
-            cy.get('#channelHeaderTitle').should('contain', names.join(', '));
-
-            cy.wrap(channel);
-        });
-    });
-});
-
-// ***********************************************************
-// File Upload
-// ************************************************************
-
-/**
- * Upload a file on target input given a filename and mime type
- * @param {String} targetInput - Target input to upload a file
- * @param {String} fileName - Filename to upload from the fixture
- * @param {String} mimeType - Mime type of a file
- */
-Cypress.Commands.add('fileUpload', (targetInput, fileName = 'mattermost-icon.png', mimeType = 'image/png') => {
-    cy.fixture(fileName).then((fileContent) => {
-        cy.get(targetInput).upload(
-            {fileContent, fileName, mimeType},
-            {subjectType: 'input', force: true},
-        );
-    });
-});
-
-/**
- * Upload a file on target input in binary format -
- * @param {String} targetInput - #LocatorID
- * @param {String} fileName - Filename to upload from the fixture Ex: drawPlugin-binary.tar
- * @param {String} fileType - application/gzip
- */
-Cypress.Commands.add('uploadFile', {prevSubject: true}, (targetInput, fileName, fileType) => {
-    cy.log('Upload process started .FileName:' + fileName);
-    cy.fixture(fileName, 'binary').then((content) => {
-        return Cypress.Blob.binaryStringToBlob(content, fileType).then((blob) => {
-            const el = targetInput[0];
-            cy.log('el:' + el);
-            const testFile = new File([blob], fileName, {type: fileType});
-            const dataTransfer = new DataTransfer();
-            dataTransfer.items.add(testFile);
-            el.files = dataTransfer.files;
-            cy.wrap(targetInput).trigger('change', {force: true});
-        });
-    });
+Cypress.Commands.add('uiArchiveChannel', () => {
+    cy.get('#channelHeaderDropdownIcon').click();
+    cy.get('#channelArchiveChannel').click();
+    cy.get('#deleteChannelModalDeleteButton').click();
 });
 
 /**
@@ -509,8 +441,12 @@ Cypress.Commands.add('checkRunLDAPSync', () => {
             // # Go to system admin LDAP page and run the group sync
             cy.visit('/admin_console/authentication/ldap');
 
+            // # Click on AD/LDAP Synchronize Now button and verify if succesful
+            cy.findByText('AD/LDAP Test').click();
+            cy.findByText('AD/LDAP Test Successful').should('be.visible');
+
             // # Click on AD/LDAP Synchronize Now button
-            cy.findByText('AD/LDAP Synchronize Now').click().wait(1000);
+            cy.findByText('AD/LDAP Synchronize Now').click().wait(TIMEOUTS.ONE_SEC);
 
             // * Get the First row
             cy.findByTestId('jobTable').
@@ -525,8 +461,8 @@ Cypress.Commands.add('checkRunLDAPSync', () => {
                 });
             }
             , {
-                timeout: TIMEOUTS.FOUR_MINS,
-                interval: 2000,
+                timeout: TIMEOUTS.FIVE_MIN,
+                interval: TIMEOUTS.TWO_SEC,
                 errorMsg: 'AD/LDAP Sync Job did not finish',
             });
         }

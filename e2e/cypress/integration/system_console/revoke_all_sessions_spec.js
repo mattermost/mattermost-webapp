@@ -10,13 +10,15 @@
 // Stage: @prod
 // Group: @system_console
 
-import users from '../../fixtures/users.json';
 import * as TIMEOUTS from '../../fixtures/timeouts';
+import {getAdminAccount} from '../../support/env';
 
-describe('SC17020 - Revoke All Sessions from System Console', () => {
+describe('MM-T940 Users - Revoke all sessions', () => {
+    const admin = getAdminAccount();
+
     it('Verify for System Admin', () => {
         // # Login as System Admin
-        cy.apiLogin('sysadmin');
+        cy.apiAdminLogin();
 
         cy.visit('/admin_console/user_management/users');
 
@@ -42,25 +44,29 @@ describe('SC17020 - Revoke All Sessions from System Console', () => {
         cy.get('#confirmModalButton').click();
 
         // * Verify if Admin User's session is expired and is redirected to login page
-        cy.url({timeout: TIMEOUTS.LARGE}).should('include', '/login');
-        cy.get('#login_section', {timeout: TIMEOUTS.LARGE}).should('be.visible');
+        cy.url({timeout: TIMEOUTS.HALF_MIN}).should('include', '/login');
+        cy.get('#login_section', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible');
     });
 
     it('Verify for Regular Member', () => {
-        // # Login as a regular member and navigate to Town Square Chat channel
-        cy.apiLogin('user-1');
-        cy.visit('/ad-1/channels/town-square');
-        cy.get('#sidebarItem_town-square').click({force: true});
+        // # Login as System Admin
+        cy.apiAdminLogin();
 
-        // # Issue a Request to Revoke All Sessions as SysAdmin
-        const baseUrl = Cypress.config('baseUrl');
-        cy.externalRequest({user: users.sysadmin, method: 'post', baseUrl, path: 'users/sessions/revoke/all'}).then(() => {
-            // # Initiate browser activity like visit on "/"
-            cy.visit('/ad-1/channels/town-square');
+        // # Create new setup, login as test user and visit town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
+            cy.get('#sidebarItem_off-topic').click({force: true});
 
-            // * Verify if the regular member is logged out and redirected to login page
-            cy.url({timeout: TIMEOUTS.LARGE}).should('include', '/login');
-            cy.get('#login_section', {timeout: TIMEOUTS.LARGE}).should('be.visible');
+            // # Issue a Request to Revoke All Sessions as SysAdmin
+            const baseUrl = Cypress.config('baseUrl');
+            cy.externalRequest({user: admin, method: 'post', baseUrl, path: 'users/sessions/revoke/all'}).then(() => {
+                // # Initiate browser activity like visit to town-square
+                cy.visit(`/${team.name}/channels/town-square`);
+
+                // * Verify if the regular member is logged out and redirected to login page
+                cy.url({timeout: TIMEOUTS.HALF_MIN}).should('include', '/login');
+                cy.get('#login_section', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible');
+            });
         });
     });
 });

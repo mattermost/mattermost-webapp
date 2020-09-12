@@ -7,37 +7,47 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod @smoke
+// Stage: @prod
 // Group: @messaging
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
-import users from '../../fixtures/users.json';
-
-let townsquareChannelId;
 
 describe('Messaging', () => {
+    let testTeam;
+    let testChannel;
+    let testUser;
+    let userOne;
+
     before(() => {
         // # Wrap websocket to be able to connect and close connections on demand
         cy.mockWebsockets();
 
-        // # Login and go to /
-        cy.apiLogin('sysadmin');
-        cy.visit('/ad-1/channels/town-square');
+        // # Login as test user and go to town-square
+        cy.apiInitSetup().then(({team, channel, user}) => {
+            testUser = user;
+            testTeam = team;
+            testChannel = channel;
 
-        // # Get ChannelID to use later
-        cy.getCurrentChannelId().then((id) => {
-            townsquareChannelId = id;
+            cy.apiCreateUser().then(({user: user1}) => {
+                userOne = user1;
+                cy.apiAddUserToTeam(testTeam.id, userOne.id).then(() => {
+                    cy.apiAddUserToChannel(testChannel.id, userOne.id);
+                });
+            });
+
+            cy.apiLogin(testUser);
+            cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
         });
     });
 
-    it('M18682-RHS fetches messages on socket reconnect when a different channel is in center', () => {
+    it('MM-T94 RHS fetches messages on socket reconnect when a different channel is in center', () => {
         // # Connect all sockets
         window.mockWebsockets.forEach((value) => {
             value.connect();
         });
 
         // # Post a message as another user
-        cy.postMessageAs({sender: users['user-1'], message: 'abc', channelId: townsquareChannelId}).wait(TIMEOUTS.SMALL);
+        cy.postMessageAs({sender: userOne, message: 'abc', channelId: testChannel.id}).wait(TIMEOUTS.FIVE_SEC);
 
         // # Click "Reply"
         cy.getLastPostId().then((rootPostId) => {
@@ -47,7 +57,7 @@ describe('Messaging', () => {
             cy.postMessageReplyInRHS('def');
 
             // # Change channel
-            cy.get('#sidebarItem_suscipit-4').click({force: true}).then(() => {
+            cy.get('#sidebarItem_town-square').click({force: true}).then(() => {
                 // # Close all sockets
                 window.mockWebsockets.forEach((value) => {
                     if (value.close) {
@@ -56,16 +66,16 @@ describe('Messaging', () => {
                 });
 
                 // # Post message as a different user
-                cy.postMessageAs({sender: users['user-1'], message: 'ghi', channelId: townsquareChannelId, rootId: rootPostId});
+                cy.postMessageAs({sender: userOne, message: 'ghi', channelId: testChannel.id, rootId: rootPostId});
 
                 // # Wait a short time to check whether the message appears or not
-                cy.wait(TIMEOUTS.SMALL);
+                cy.wait(TIMEOUTS.FIVE_SEC);
 
                 // * Verify that only "def" is posted and not "ghi"
                 cy.get('#rhsPostList').should('be.visible').children().should('have.length', 1);
                 cy.get('#rhsPostList').within(() => {
                     cy.findByText('def').should('be.visible');
-                    cy.queryByText('ghi').should('not.exist');
+                    cy.findByText('ghi').should('not.exist');
                 }).then(() => {
                     // * Connect all sockets one more time
                     window.mockWebsockets.forEach((value) => {
@@ -73,7 +83,7 @@ describe('Messaging', () => {
                     });
 
                     // # Wait for sockets to be connected
-                    cy.wait(TIMEOUTS.MEDIUM);
+                    cy.wait(TIMEOUTS.TEN_SEC);
 
                     // * Verify that both "def" and "ghi" are posted on websocket reconnect
                     cy.get('#rhsPostList').should('be.visible').children().should('have.length', 2);

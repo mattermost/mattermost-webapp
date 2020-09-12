@@ -6,6 +6,7 @@ import {Posts} from 'mattermost-redux/constants';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import {testComponentForLineBreak} from 'tests/helpers/line_break_helpers';
+import {testComponentForMarkdownHotkeys, makeSelectionEvent} from 'tests/helpers/markdown_hotkey_helpers.js';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import EmojiMap from 'utils/emoji_map';
 
@@ -14,6 +15,7 @@ import * as Utils from 'utils/utils.jsx';
 
 import CreatePost from 'components/create_post/create_post.jsx';
 import FileUpload from 'components/file_upload';
+import Textbox from 'components/textbox';
 
 jest.mock('actions/global_actions.jsx', () => ({
     emitLocalUserTypingEvent: jest.fn(),
@@ -36,7 +38,6 @@ jest.mock('actions/post_actions.jsx', () => ({
     }),
 }));
 
-const KeyCodes = Constants.KeyCodes;
 const currentTeamIdProp = 'r7rws4y7ppgszym3pdd5kaibfa';
 const currentUserIdProp = 'zaktnt8bpbgu8mb6ez9k64r7sa';
 const showTutorialTipProp = false;
@@ -256,7 +257,7 @@ describe('components/create_post', () => {
                 focus: jest.fn(),
             };
         };
-        wrapper.instance().refs = {textbox: {getWrappedInstance: () => ({getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()})}};
+        wrapper.instance().refs = {textbox: {getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()}};
 
         wrapper.find('.emoji-picker__container').simulate('click');
         expect(wrapper.state('showEmojiPicker')).toBe(true);
@@ -299,16 +300,16 @@ describe('components/create_post', () => {
         const postTextbox = wrapper.find('#post_textbox');
         postTextbox.simulate('change', {target: {value: 'change'}});
         expect(setDraft).not.toHaveBeenCalled();
-        jest.runAllTimers();
+        jest.runOnlyPendingTimers();
         expect(setDraft).toHaveBeenCalledWith(StoragePrefixes.DRAFT + currentChannelProp.id, draft);
     });
 
     it('onKeyPress textbox should call emitLocalUserTypingEvent', () => {
         const wrapper = shallowWithIntl(createPost());
-        wrapper.instance().refs = {textbox: {getWrappedInstance: () => ({blur: jest.fn()})}};
+        wrapper.instance().refs = {textbox: {blur: jest.fn()}};
 
         const postTextbox = wrapper.find('#post_textbox');
-        postTextbox.simulate('KeyPress', {key: KeyCodes.ENTER[0], preventDefault: jest.fn(), persist: jest.fn()});
+        postTextbox.simulate('KeyPress', {key: Constants.KeyCodes.ENTER[0], preventDefault: jest.fn(), persist: jest.fn()});
         expect(GlobalActions.emitLocalUserTypingEvent).toHaveBeenCalledWith(currentChannelProp.id, '');
     });
 
@@ -902,7 +903,7 @@ describe('components/create_post', () => {
         }));
 
         const instance = wrapper.instance();
-        instance.refs = {textbox: {getWrappedInstance: () => ({blur: jest.fn()})}};
+        instance.refs = {textbox: {blur: jest.fn()}};
 
         instance.handleKeyDown({ctrlKey: true, key: Constants.KeyCodes.ENTER[0], keyCode: Constants.KeyCodes.ENTER[1], preventDefault: jest.fn(), persist: jest.fn()});
         setTimeout(() => {
@@ -1142,7 +1143,7 @@ describe('components/create_post', () => {
                 focus: jest.fn(),
             };
         };
-        wrapper.instance().refs = {textbox: {getWrappedInstance: () => ({getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()})}};
+        wrapper.instance().refs = {textbox: {getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()}};
 
         const event = {
             target: {
@@ -1168,7 +1169,10 @@ describe('components/create_post', () => {
         const wrapper = shallowWithIntl(createPost());
 
         const message = 'original message';
-        wrapper.setState({message});
+        wrapper.setState({
+            message,
+            caretPosition: message.length,
+        });
 
         const event = {
             target: {
@@ -1184,8 +1188,22 @@ describe('components/create_post', () => {
             },
         };
 
-        const markdownTable = '|test | test|\n|--- | ---|\n|test | test|\n';
-        const expectedMessage = `${message}\n\n${markdownTable}`;
+        const markdownTable = '|test | test|\n|--- | ---|\n|test | test|\n\n';
+        const expectedMessage = `${message}\n${markdownTable}`;
+
+        const mockTop = () => {
+            return document.createElement('div');
+        };
+
+        const mockImpl = () => {
+            return {
+                setSelectionRange: jest.fn(),
+                getBoundingClientRect: jest.fn(mockTop),
+                focus: jest.fn(),
+            };
+        };
+
+        wrapper.instance().refs = {textbox: {getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()}};
 
         wrapper.instance().pasteHandler(event);
         expect(wrapper.state('message')).toBe(expectedMessage);
@@ -1199,7 +1217,7 @@ describe('components/create_post', () => {
                 focus: jest.fn(),
             };
         };
-        wrapper.instance().refs = {textbox: {getWrappedInstance: () => ({getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()})}};
+        wrapper.instance().refs = {textbox: {getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()}};
 
         const event = {
             target: {
@@ -1232,7 +1250,7 @@ describe('components/create_post', () => {
                 focus: jest.fn(),
             };
         };
-        wrapper.instance().refs = {textbox: {getWrappedInstance: () => ({getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()})}};
+        wrapper.instance().refs = {textbox: {getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()}};
         wrapper.setState({
             message: 'test',
             caretPosition: 'test'.length, // cursor is at the end
@@ -1286,4 +1304,44 @@ describe('components/create_post', () => {
         (value) => createPost({draft: {...draftProp, message: value}}),
         (instance) => instance.state().message,
     );
+
+    testComponentForMarkdownHotkeys(
+        (value) => createPost({draft: {...draftProp, message: value}}),
+        (wrapper, setSelectionRangeFn) => {
+            wrapper.instance().refs = {
+                textbox: {
+                    getInputBox: jest.fn(() => {
+                        return {
+                            focus: jest.fn(),
+                            setSelectionRange: setSelectionRangeFn,
+                        };
+                    }),
+                },
+            };
+        },
+        (instance) => instance.find(Textbox),
+        (instance) => instance.state().message,
+    );
+
+    it('should adjust selection to correct text', () => {
+        const value = 'Jalebi _Fafda_ and Sambharo';
+        const wrapper = shallowWithIntl(createPost({draft: {...draftProp, message: value}}));
+
+        const setSelectionRangeFn = jest.fn();
+        wrapper.instance().refs = {
+            textbox: {
+                getInputBox: jest.fn(() => {
+                    return {
+                        focus: jest.fn(),
+                        setSelectionRange: setSelectionRangeFn,
+                    };
+                }),
+            },
+        };
+
+        const textbox = wrapper.find(Textbox);
+        const e = makeSelectionEvent(value, 7, 14);
+        textbox.props().onSelect(e);
+        expect(setSelectionRangeFn).toHaveBeenCalledWith(8, 13);
+    });
 });

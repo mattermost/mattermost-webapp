@@ -11,17 +11,21 @@
 // Group: @messaging @markdown
 
 describe('Messaging', () => {
+    let townsquareLink;
+
     before(() => {
-        // # Login, set the Show Markdown Preview preference, then go to /
-        cy.apiLogin('user-1');
-        cy.apiSaveShowMarkdownPreviewPreference();
-        cy.visit('/ad-1/channels/town-square');
+        // # Login as test user and visit town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            townsquareLink = `/${team.name}/channels/town-square`;
+            cy.apiSaveShowMarkdownPreviewPreference();
+            cy.visit(townsquareLink);
+        });
     });
 
-    it('M18714-Markdown preview: inline image', () => {
+    it('MM-T186 Markdown preview: inline image', () => {
         const message = '![make it so](https://i.stack.imgur.com/MNeE7.jpg)';
 
-        cy.visit('/ad-1/channels/town-square');
+        cy.visit(townsquareLink);
 
         // # Get the height before starting to write
         cy.get('#post_textbox').should('be.visible').clear().then(() => {

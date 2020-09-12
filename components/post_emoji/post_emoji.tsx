@@ -13,7 +13,7 @@ declare module 'react' {
     }
 }
 
-export default class PostEmoji extends React.PureComponent<PostEmojiProps, {}> {
+export default class PostEmoji extends React.PureComponent<PostEmojiProps> {
     public render() {
         const emojiText = ':' + this.props.name + ':';
 
@@ -27,7 +27,9 @@ export default class PostEmoji extends React.PureComponent<PostEmojiProps, {}> {
                 className='emoticon'
                 title={emojiText}
                 style={{backgroundImage: 'url(' + this.props.imageUrl + ')'}}
-            />
+            >
+                {emojiText}
+            </span>
         );
     }
 }

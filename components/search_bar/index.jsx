@@ -10,6 +10,7 @@ import {
     showMentions,
     showFlaggedPosts,
     closeRightHandSide,
+    updateRhsState,
 } from 'actions/views/rhs';
 import {autocompleteChannelsForSearch} from 'actions/channel_actions';
 import {autocompleteUsersInTeam} from 'actions/user_actions';
@@ -40,6 +41,7 @@ function mapDispatchToProps(dispatch) {
             closeRightHandSide,
             autocompleteChannelsForSearch,
             autocompleteUsersInTeam,
+            updateRhsState,
         }, dispatch),
     };
 }

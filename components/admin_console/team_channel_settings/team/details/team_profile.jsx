@@ -28,15 +28,15 @@ export function TeamProfile({team}) {
             <div className='group-teams-and-channels'>
 
                 <div className='group-teams-and-channels--body'>
-                    <div className='row'>
-                        <div className='col-sm-2 large-team-image-col'>
+                    <div className='d-flex'>
+                        <div className='large-team-image-col'>
                             <TeamIcon
                                 name={team.display_name}
                                 size='lg'
                                 url={teamIconUrl}
                             />
                         </div>
-                        <div className='col-sm-10 team-desc-col'>
+                        <div className='team-desc-col'>
                             <div className='row row-bottom-padding'>
                                 <FormattedMarkdownMessage
                                     id='admin.team_settings.team_detail.teamName'

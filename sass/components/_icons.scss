@@ -4,6 +4,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    font-size: 18px;
 }
 
 .icon--no-spacing:before {
@@ -15,8 +16,49 @@
     width: 16px;
 }
 
+.icon--small-filled {
+    height: 14px;
+    width: 14px;
+}
+
 .icon--standard {
     font-size: 1.6rem;
     height: 20px;
     width: 20px;
+}
+
+.icon-10 {
+    font-size: 12px;
+}
+
+.icon-12 {
+    font-size: 14.4px;
+}
+
+.icon-16 {
+    font-size: 18px;
+}
+
+.icon-20 {
+    font-size: 24px;
+}
+
+.icon-28 {
+    font-size: 31.2px;
+}
+
+.icon-32 {
+    font-size: 36px;
+}
+
+.icon-40 {
+    font-size: 48px;
+}
+
+.icon-52 {
+    font-size: 60px;
+}
+
+.icon-64 {
+    font-size: 72px;
 }

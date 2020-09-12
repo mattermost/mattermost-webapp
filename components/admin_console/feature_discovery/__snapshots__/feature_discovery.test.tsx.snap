@@ -14,7 +14,6 @@ exports[`components/feature_discovery FeatureDiscovery should match snapshot 1`]
       <FormattedMessage
         defaultMessage="Foo"
         id="translation.test.title"
-        values={Object {}}
       />
     </div>
     <div
@@ -23,22 +22,23 @@ exports[`components/feature_discovery FeatureDiscovery should match snapshot 1`]
       <FormattedMessage
         defaultMessage="Bar"
         id="translation.test.copy"
-        values={Object {}}
       />
     </div>
-    <a
-      className="btn"
+    <button
+      className="btn btn-primary"
       data-testid="featureDiscovery_primaryCallToAction"
-      href="https://test.mattermost.com/primary/"
-      rel="noopener noreferrer"
-      target="_blank"
+      onClick={[Function]}
     >
-      <FormattedMessage
-        defaultMessage=""
-        id="admin.ldap_feature_discovery.call_to_action.primary"
-        values={Object {}}
-      />
-    </a>
+      <LoadingWrapper
+        loading={false}
+        text="Getting trial"
+      >
+        <FormattedMessage
+          defaultMessage="Start trial"
+          id="admin.ldap_feature_discovery.call_to_action.primary"
+        />
+      </LoadingWrapper>
+    </button>
     <a
       className="btn btn-secondary"
       data-testid="featureDiscovery_secondaryCallToAction"
@@ -47,11 +47,18 @@ exports[`components/feature_discovery FeatureDiscovery should match snapshot 1`]
       target="_blank"
     >
       <FormattedMessage
-        defaultMessage=""
+        defaultMessage="Learn more"
         id="admin.ldap_feature_discovery.call_to_action.secondary"
-        values={Object {}}
       />
     </a>
+    <p
+      className="trial-legal-terms"
+    >
+      <injectIntl(FormattedMarkdownMessage)
+        defaultMessage="By clicking **Start trial**, I agree to the [Mattermost Software Evaluation Agreement](!https://mattermost.com/software-evaluation-agreement/), [Privacy Policy](!https://mattermost.com/privacy-policy/), and receiving product emails."
+        id="admin.license.trial-request.accept-terms"
+      />
+    </p>
   </div>
   <div
     className="FeatureDiscovery_imageWrapper"

@@ -11,10 +11,10 @@
 // Group: @messaging
 
 describe('Messaging', () => {
-    beforeEach(() => {
-        // # Login as sysadmin
-        cy.apiLogin('sysadmin');
+    let testUser;
+    let townSquareLink;
 
+    before(() => {
         // # Enable Link Previews
         cy.apiUpdateConfig({
             ServiceSettings: {
@@ -22,28 +22,21 @@ describe('Messaging', () => {
             },
         });
 
-        // # Save Show Preview Preference to true
-        // # Save Preview Collapsed Preference to false
-        cy.apiSaveShowPreviewPreference('true');
-        cy.apiSavePreviewCollapsedPreference('false');
+        cy.apiInitSetup({loginAfter: true}).then(({team, user}) => {
+            testUser = user;
+            townSquareLink = `/${team.name}/channels/town-square`;
 
-        // # Login as user-1
-        cy.apiLogin('user-1');
+            // # Save Show Preview Preference to true
+            // # Save Preview Collapsed Preference to false
+            cy.apiSaveLinkPreviewsPreference('true');
+            cy.apiSaveCollapsePreviewsPreference('false');
 
-        // # Save Show Preview Preference to true
-        // # Save Preview Collapsed Preference to false
-        cy.apiSaveShowPreviewPreference('true');
-        cy.apiSavePreviewCollapsedPreference('false');
-
-        // # Visit the Town Square channel
-        cy.visit('/ad-1/channels/town-square');
+            cy.visit(townSquareLink);
+        });
     });
 
-    it('M18708-Link preview - Removing it from my view removes it from other user\'s view', () => {
+    it('MM-T199 Link preview - Removing it from my view removes it from other user\'s view', () => {
         const message = 'https://www.bbc.com/news/uk-wales-45142614';
-
-        // # Create new DM channel with user's email
-        cy.visit('/ad-1/channels/town-square');
 
         // # Post message to use
         cy.postMessage(message);
@@ -54,16 +47,16 @@ describe('Messaging', () => {
             cy.get(`#${postId}_message`).find('.attachment__image').should('exist');
 
             // # Log-in to the other user
-            cy.apiLogin('sysadmin');
-            cy.visit('/ad-1/channels/town-square');
+            cy.apiAdminLogin();
+            cy.visit(townSquareLink);
 
             // * Check the preview is shown
             cy.get(`#${postId}_message`).find('.attachment--opengraph').should('exist');
             cy.get(`#${postId}_message`).find('.attachment__image').should('exist');
 
             // # Log-in back to the first user
-            cy.apiLogin('user-1');
-            cy.visit('/ad-1/channels/town-square');
+            cy.apiLogin(testUser);
+            cy.visit(townSquareLink);
 
             // # Collapse the preview
             cy.get(`#${postId}_message`).find('.post__embed-visibility').click({force: true});
@@ -73,16 +66,16 @@ describe('Messaging', () => {
             cy.get(`#${postId}_message`).find('.attachment__image').should('not.exist');
 
             // # Log-in to the other user
-            cy.apiLogin('sysadmin');
-            cy.visit('/ad-1/channels/town-square');
+            cy.apiAdminLogin();
+            cy.visit(townSquareLink);
 
             // * Check the preview is shown
             cy.get(`#${postId}_message`).find('.attachment--opengraph').should('exist');
             cy.get(`#${postId}_message`).find('.attachment__image').should('exist');
 
             // # Log-in back to the first user
-            cy.apiLogin('user-1');
-            cy.visit('/ad-1/channels/town-square');
+            cy.apiLogin(testUser);
+            cy.visit(townSquareLink);
 
             // # Remove the preview
             cy.get(`#${postId}_message`).within(() => {
@@ -94,8 +87,8 @@ describe('Messaging', () => {
             cy.get(`#${postId}_message`).find('.attachment__image').should('not.exist');
 
             // # Log-in to the other user
-            cy.apiLogin('sysadmin');
-            cy.visit('/ad-1/channels/town-square');
+            cy.apiAdminLogin();
+            cy.visit(townSquareLink);
 
             // * Preview should not exist
             cy.get(`#${postId}_message`).find('.attachment--opengraph').should('not.exist');

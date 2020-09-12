@@ -22,6 +22,7 @@ exports[`components/PostMarkdown plugin hooks can build upon other hook message 
   options={
     Object {
       "disableGroupHighlight": false,
+      "mentionHighlight": true,
     }
   }
   proxyImages={true}
@@ -50,6 +51,7 @@ exports[`components/PostMarkdown plugin hooks can overwrite other hooks messages
   options={
     Object {
       "disableGroupHighlight": false,
+      "mentionHighlight": true,
     }
   }
   proxyImages={true}
@@ -85,7 +87,7 @@ exports[`components/PostMarkdown should render header change properly 1`] = `
     id="api.channel.post_update_channel_header_message_and_forget.updated_from"
     values={
       Object {
-        "new": <Connect(Markdown)
+        "new": <Memo(Connect(Markdown))
           message="now ~test"
           options={
             Object {
@@ -101,7 +103,7 @@ exports[`components/PostMarkdown should render header change properly 1`] = `
           postId="post_id"
           postType="system_header_change"
         />,
-        "old": <Connect(Markdown)
+        "old": <Memo(Connect(Markdown))
           message="see ~test"
           options={
             Object {
@@ -117,7 +119,7 @@ exports[`components/PostMarkdown should render header change properly 1`] = `
           postId="post_id"
           postType="system_header_change"
         />,
-        "username": <Connect(Markdown)
+        "username": <Memo(Connect(Markdown))
           message="@user"
           options={
             Object {
@@ -153,6 +155,7 @@ exports[`components/PostMarkdown should render properly with a post 1`] = `
   options={
     Object {
       "disableGroupHighlight": false,
+      "mentionHighlight": true,
     }
   }
   proxyImages={true}
@@ -195,6 +198,7 @@ exports[`components/PostMarkdown should render properly without group highlight 
   options={
     Object {
       "disableGroupHighlight": true,
+      "mentionHighlight": true,
     }
   }
   proxyImages={true}

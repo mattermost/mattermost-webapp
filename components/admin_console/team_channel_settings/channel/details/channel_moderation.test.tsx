@@ -35,6 +35,8 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                 teamSchemeID={teamSchemeID}
                 teamSchemeDisplayName={teamSchemeDisplayName}
                 guestAccountsEnabled={true}
+                readOnly={false}
+                isPublic={true}
             />,
         );
         expect(wrapper).toMatchSnapshot();
@@ -93,6 +95,8 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                 teamSchemeID={teamSchemeID}
                 teamSchemeDisplayName={teamSchemeDisplayName}
                 guestAccountsEnabled={true}
+                isPublic={true}
+                readOnly={false}
             />,
         );
         expect(wrapper).toMatchSnapshot();
@@ -134,6 +138,8 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                 teamSchemeID={teamSchemeID}
                 teamSchemeDisplayName={teamSchemeDisplayName}
                 guestAccountsEnabled={true}
+                isPublic={false}
+                readOnly={false}
             />,
         );
         expect(wrapper).toMatchSnapshot();
@@ -175,6 +181,8 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                 teamSchemeID={teamSchemeID}
                 teamSchemeDisplayName={teamSchemeDisplayName}
                 guestAccountsEnabled={true}
+                isPublic={true}
+                readOnly={false}
             />,
         );
         expect(wrapper).toMatchSnapshot();
@@ -216,6 +224,8 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                 teamSchemeID={teamSchemeID}
                 teamSchemeDisplayName={teamSchemeDisplayName}
                 guestAccountsEnabled={true}
+                isPublic={false}
+                readOnly={false}
             />,
         );
         expect(wrapper).toMatchSnapshot();
@@ -229,6 +239,8 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                 teamSchemeID={undefined}
                 teamSchemeDisplayName={undefined}
                 guestAccountsEnabled={false}
+                isPublic={false}
+                readOnly={false}
             />,
         );
         expect(wrapper).toMatchSnapshot();
@@ -260,6 +272,8 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                     teamSchemeID={teamSchemeID}
                     teamSchemeDisplayName={teamSchemeDisplayName}
                     guestAccountsEnabled={true}
+                    isPublic={false}
+                    readOnly={false}
                 />,
             );
             const instance: any = wrapper.instance();
@@ -278,6 +292,8 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                     teamSchemeID={teamSchemeID}
                     teamSchemeDisplayName={teamSchemeDisplayName}
                     guestAccountsEnabled={true}
+                    isPublic={false}
+                    readOnly={false}
                 />,
             );
             const instance: any = wrapper.instance();
@@ -306,6 +322,8 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                     teamSchemeID={teamSchemeID}
                     teamSchemeDisplayName={teamSchemeDisplayName}
                     guestAccountsEnabled={true}
+                    isPublic={false}
+                    readOnly={false}
                 />,
             );
             const instance: any = wrapper.instance();
@@ -334,6 +352,8 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                     teamSchemeID={teamSchemeID}
                     teamSchemeDisplayName={teamSchemeDisplayName}
                     guestAccountsEnabled={true}
+                    isPublic={false}
+                    readOnly={false}
                 />,
             );
             const instance: any = wrapper.instance();
@@ -390,6 +410,8 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                     teamSchemeID={teamSchemeID}
                     teamSchemeDisplayName={teamSchemeDisplayName}
                     guestAccountsEnabled={true}
+                    isPublic={false}
+                    readOnly={false}
                 />,
             );
             const instance: any = wrapper.instance();
@@ -434,6 +456,8 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                     teamSchemeID={teamSchemeID}
                     teamSchemeDisplayName={teamSchemeDisplayName}
                     guestAccountsEnabled={true}
+                    isPublic={false}
+                    readOnly={false}
                 />,
             );
             const instance: any = wrapper.instance();
@@ -478,6 +502,8 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                     teamSchemeID={teamSchemeID}
                     teamSchemeDisplayName={teamSchemeDisplayName}
                     guestAccountsEnabled={true}
+                    isPublic={true}
+                    readOnly={false}
                 />,
             );
             const instance: any = wrapper.instance();
@@ -522,6 +548,8 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                     teamSchemeID={teamSchemeID}
                     teamSchemeDisplayName={teamSchemeDisplayName}
                     guestAccountsEnabled={true}
+                    isPublic={true}
+                    readOnly={false}
                 />,
             );
             const instance: any = wrapper.instance();
@@ -566,6 +594,8 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                     teamSchemeID={teamSchemeID}
                     teamSchemeDisplayName={teamSchemeDisplayName}
                     guestAccountsEnabled={true}
+                    isPublic={true}
+                    readOnly={false}
                 />,
             );
             const instance: any = wrapper.instance();

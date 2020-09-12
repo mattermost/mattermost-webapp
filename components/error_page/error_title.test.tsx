@@ -58,6 +58,15 @@ describe('components/error_page/ErrorTitle', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('should match snapshot, oauth_invalid_redirect_url type', () => {
+        const props = {...baseProps, type: ErrorPageTypes.OAUTH_INVALID_REDIRECT_URL};
+        const wrapper = shallow(
+            <ErrorTitle {...props}/>,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
     test('should match snapshot, page_not_found type', () => {
         const props = {...baseProps, type: ErrorPageTypes.PAGE_NOT_FOUND};
         const wrapper = shallow(

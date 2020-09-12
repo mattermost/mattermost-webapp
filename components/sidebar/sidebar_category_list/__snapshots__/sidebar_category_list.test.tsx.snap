@@ -3,6 +3,7 @@
 exports[`components/sidebar/sidebar_category_list should match snapshot 1`] = `
 <div
   className="SidebarNavContainer a11y__region"
+  data-a11y-disable-nav={false}
   data-a11y-sort-order="7"
   id="sidebar-left"
   onTransitionEnd={[Function]}
@@ -10,9 +11,8 @@ exports[`components/sidebar/sidebar_category_list should match snapshot 1`] = `
   <UnreadChannelIndicator
     content={
       <FormattedMessage
-        defaultMessage="More Unreads"
+        defaultMessage="More unreads"
         id="sidebar.unreads"
-        values={Object {}}
       />
     }
     extraClass="nav-pills__unread-indicator-top"
@@ -23,9 +23,8 @@ exports[`components/sidebar/sidebar_category_list should match snapshot 1`] = `
   <UnreadChannelIndicator
     content={
       <FormattedMessage
-        defaultMessage="More Unreads"
+        defaultMessage="More unreads"
         id="sidebar.unreads"
-        values={Object {}}
       />
     }
     extraClass="nav-pills__unread-indicator-bottom"
@@ -56,27 +55,61 @@ exports[`components/sidebar/sidebar_category_list should match snapshot 1`] = `
     thumbMinSize={30}
     universal={false}
   >
-    <Connect(SidebarCategory)
-      category={
-        Object {
-          "display_name": "custom_category_1",
-          "id": "category1",
-          "team_id": "team1",
-          "type": "custom",
-        }
-      }
-      getChannelRef={[Function]}
-      handleOpenMoreDirectChannelsModal={[MockFunction]}
-      key="category1"
-      setChannelRef={[Function]}
-    />
+    <DragDropContext
+      onBeforeCapture={[Function]}
+      onBeforeDragStart={[Function]}
+      onDragEnd={[Function]}
+      onDragStart={[Function]}
+    >
+      <Connect(Droppable)
+        direction="vertical"
+        droppableId="droppable-categories"
+        getContainerForClone={[Function]}
+        ignoreContainerClipping={false}
+        isCombineEnabled={false}
+        isDropDisabled={false}
+        mode="standard"
+        renderClone={null}
+        type="SIDEBAR_CATEGORY"
+      >
+        <Component />
+      </Connect(Droppable)>
+    </DragDropContext>
   </Scrollbars>
+</div>
+`;
+
+exports[`components/sidebar/sidebar_category_list should match snapshot 2`] = `
+<div>
+  <Connect(SidebarCategory)
+    category={
+      Object {
+        "channel_ids": Array [
+          "channel_id",
+          "channel_id_2",
+        ],
+        "display_name": "custom_category_1",
+        "id": "category1",
+        "sorting": "alpha",
+        "team_id": "team1",
+        "type": "custom",
+        "user_id": "",
+      }
+    }
+    categoryIndex={0}
+    getChannelRef={[Function]}
+    handleOpenMoreDirectChannelsModal={[MockFunction]}
+    isNewCategory={false}
+    key="category1"
+    setChannelRef={[Function]}
+  />
 </div>
 `;
 
 exports[`components/sidebar/sidebar_category_list should match snapshot when unread filter is enabled 1`] = `
 <div
   className="SidebarNavContainer a11y__region disabled"
+  data-a11y-disable-nav={false}
   data-a11y-sort-order="7"
   id="sidebar-left"
   onTransitionEnd={[Function]}
@@ -84,9 +117,8 @@ exports[`components/sidebar/sidebar_category_list should match snapshot when unr
   <UnreadChannelIndicator
     content={
       <FormattedMessage
-        defaultMessage="More Unreads"
+        defaultMessage="More unreads"
         id="sidebar.unreads"
-        values={Object {}}
       />
     }
     extraClass="nav-pills__unread-indicator-top"
@@ -97,9 +129,8 @@ exports[`components/sidebar/sidebar_category_list should match snapshot when unr
   <UnreadChannelIndicator
     content={
       <FormattedMessage
-        defaultMessage="More Unreads"
+        defaultMessage="More unreads"
         id="sidebar.unreads"
-        values={Object {}}
       />
     }
     extraClass="nav-pills__unread-indicator-bottom"
@@ -130,20 +161,53 @@ exports[`components/sidebar/sidebar_category_list should match snapshot when unr
     thumbMinSize={30}
     universal={false}
   >
-    <Connect(SidebarCategory)
-      category={
-        Object {
-          "display_name": "custom_category_1",
-          "id": "category1",
-          "team_id": "team1",
-          "type": "custom",
-        }
-      }
-      getChannelRef={[Function]}
-      handleOpenMoreDirectChannelsModal={[MockFunction]}
-      key="category1"
-      setChannelRef={[Function]}
-    />
+    <DragDropContext
+      onBeforeCapture={[Function]}
+      onBeforeDragStart={[Function]}
+      onDragEnd={[Function]}
+      onDragStart={[Function]}
+    >
+      <Connect(Droppable)
+        direction="vertical"
+        droppableId="droppable-categories"
+        getContainerForClone={[Function]}
+        ignoreContainerClipping={false}
+        isCombineEnabled={false}
+        isDropDisabled={false}
+        mode="standard"
+        renderClone={null}
+        type="SIDEBAR_CATEGORY"
+      >
+        <Component />
+      </Connect(Droppable)>
+    </DragDropContext>
   </Scrollbars>
+</div>
+`;
+
+exports[`components/sidebar/sidebar_category_list should match snapshot when unread filter is enabled 2`] = `
+<div>
+  <Connect(SidebarCategory)
+    category={
+      Object {
+        "channel_ids": Array [
+          "channel_id",
+          "channel_id_2",
+        ],
+        "display_name": "custom_category_1",
+        "id": "category1",
+        "sorting": "alpha",
+        "team_id": "team1",
+        "type": "custom",
+        "user_id": "",
+      }
+    }
+    categoryIndex={0}
+    getChannelRef={[Function]}
+    handleOpenMoreDirectChannelsModal={[MockFunction]}
+    isNewCategory={false}
+    key="category1"
+    setChannelRef={[Function]}
+  />
 </div>
 `;

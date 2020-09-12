@@ -7,30 +7,29 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod @smoke
+// Stage: @prod
 // Group: @messaging
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
-import users from '../../fixtures/users.json';
-
-const sysadmin = users.sysadmin;
-let townsquareChannelId;
+import {getAdminAccount} from '../../support/env';
 
 describe('Messaging', () => {
-    before(() => {
-        // # Login
-        cy.apiLogin('user-1');
+    const admin = getAdminAccount();
+    let testChannelId;
+    let testChannelLink;
 
-        // # Navigate to the channel and get the channelId
-        cy.visit('/ad-1/channels/town-square');
-        cy.getCurrentChannelId().then((id) => {
-            townsquareChannelId = id;
+    before(() => {
+        // # Login as test user and visit town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
+            testChannelId = channel.id;
+            testChannelLink = `/${team.name}/channels/${channel.name}`;
+            cy.visit(testChannelLink);
         });
     });
 
-    it('M18693-Delete a Message during reply, other user sees (message deleted)', () => {
+    it('MM-T113 Delete a Message during reply, other user sees "(message deleted)"', () => {
         // # Type message to use
-        cy.postMessageAs({sender: sysadmin, message: 'aaa', channelId: townsquareChannelId});
+        cy.postMessageAs({sender: admin, message: 'aaa', channelId: testChannelId});
 
         // # Click Reply button
         cy.clickPostCommentIcon();
@@ -40,11 +39,11 @@ describe('Messaging', () => {
 
         // # Remove message from the other user
         cy.getLastPostId().as('postId').then((postId) => {
-            cy.externalRequest({user: sysadmin, method: 'DELETE', path: `posts/${postId}`});
+            cy.externalRequest({user: admin, method: 'DELETE', path: `posts/${postId}`});
         });
 
         // # Wait for the message to be deleted and hit enter
-        cy.wait(TIMEOUTS.TINY);
+        cy.wait(TIMEOUTS.HALF_SEC);
         cy.get('#reply_textbox').type('{enter}');
 
         // * Post Deleted Modal should be visible
@@ -75,9 +74,9 @@ describe('Messaging', () => {
         cy.get('#reply_textbox').should('contain', '123');
 
         // # Change to the other user and go to Town Square
-        cy.apiLogin('sysadmin');
-        cy.visit('/ad-1/channels/town-square');
-        cy.wait(TIMEOUTS.SMALL);
+        cy.apiAdminLogin();
+        cy.visit(testChannelLink);
+        cy.wait(TIMEOUTS.FIVE_SEC);
 
         // * Post should not exist
         cy.get('@postId').then((postId) => {

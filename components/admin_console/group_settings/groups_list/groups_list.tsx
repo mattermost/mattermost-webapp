@@ -3,7 +3,7 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {GroupSearchOpts} from 'mattermost-redux/types/groups';
+import {GroupSearchOpts, MixedUnlinkedGroupRedux} from 'mattermost-redux/types/groups';
 
 import * as Utils from 'utils/utils';
 
@@ -17,8 +17,9 @@ import {Constants} from 'utils/constants';
 const LDAP_GROUPS_PAGE_SIZE = 200;
 
 type Props = {
-    groups: any[];
+    groups: MixedUnlinkedGroupRedux[];
     total: number;
+    readOnly?: boolean;
     actions: {
         getLdapGroups: (page?: number, perPage?: number, opts?: GroupSearchOpts) => Promise<any>;
         link: (key: string) => Promise<any>;
@@ -55,7 +56,7 @@ type State = {
     filterIsUnlinked?: boolean;
 }
 
-type filterUpdates = [string, boolean];
+type FilterUpdates = [string, boolean];
 
 const FILTER_STATE_SEARCH_KEY_MAPPING: FilterSearchMap = {
     filterIsConfigured: {filter: 'is:configured', option: {is_configured: true}},
@@ -84,7 +85,7 @@ export default class GroupsList extends React.PureComponent<Props, State> {
         };
     }
 
-    public closeFilters() {
+    public closeFilters = () => {
         this.setState({showFilters: false});
     }
 
@@ -154,6 +155,7 @@ export default class GroupsList extends React.PureComponent<Props, State> {
                 <button
                     className='btn btn-primary'
                     onClick={() => this.linkSelectedGroups()}
+                    disabled={this.props.readOnly}
                 >
                     <i className='icon fa fa-link'/>
                     <FormattedMessage
@@ -167,6 +169,7 @@ export default class GroupsList extends React.PureComponent<Props, State> {
                 <button
                     className='btn btn-primary'
                     onClick={() => this.unlinkSelectedGroups()}
+                    disabled={this.props.readOnly}
                 >
                     <i className='icon fa fa-unlink'/>
                     <FormattedMessage
@@ -179,6 +182,7 @@ export default class GroupsList extends React.PureComponent<Props, State> {
             return (
                 <button
                     className='btn btn-inactive disabled'
+                    disabled={this.props.readOnly}
                 >
                     <i className='icon fa fa-link'/>
                     <FormattedMessage
@@ -243,6 +247,7 @@ export default class GroupsList extends React.PureComponent<Props, State> {
                     failed={item.failed}
                     checked={Boolean(this.state.checked[item.primary_key])}
                     onCheckToggle={(key: string) => this.onCheckToggle(key)}
+                    readOnly={this.props.readOnly}
                     actions={{
                         link: this.props.actions.link,
                         unlink: this.props.actions.unlink,
@@ -323,9 +328,9 @@ export default class GroupsList extends React.PureComponent<Props, State> {
         return newSearchString.replace(/\s{2,}/g, ' ');
     }
 
-    public handleFilterCheck(updates: filterUpdates[]) {
+    public handleFilterCheck(updates: FilterUpdates[]) {
         let {searchString} = this.state;
-        updates.forEach((item: filterUpdates) => {
+        updates.forEach((item: FilterUpdates) => {
             searchString = this.newSearchString(searchString, item[0], item[1]);
             this.setState({[item[0]]: item[1]} as any);
         });

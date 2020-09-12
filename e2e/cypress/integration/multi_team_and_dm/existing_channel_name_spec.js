@@ -7,8 +7,44 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod @smoke
+// Stage: @prod
 // Group: @multi_team_and_dm
+
+import * as TIMEOUTS from '../../fixtures/timeouts';
+
+describe('Channel', () => {
+    let testTeamId;
+
+    before(() => {
+        // # Login as test user and visit town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            testTeamId = team.id;
+            cy.visit(`/${team.name}/channels/town-square`);
+        });
+    });
+
+    it('Mult14635 Should not create new channel with existing public channel name', () => {
+        // # Create a new public channel
+        createNewChannel('unique-public', false, testTeamId).as('channel');
+        cy.reload();
+
+        cy.get('@channel').then((channel) => {
+            // * Verify new public or private channel cannot be created with existing private channel name:
+            channelNameTest('PUBLIC CHANNELS', channel);
+        });
+    });
+
+    it('Mult14635 Should not create new channel with existing private channel name', () => {
+        // # Create a new private channel
+        createNewChannel('unique-private', true, testTeamId).as('channel');
+        cy.reload();
+
+        cy.get('@channel').then((channel) => {
+            // * Verify new public or private channel cannot be created with existing private channel name:
+            channelNameTest('PRIVATE CHANNELS', channel);
+        });
+    });
+});
 
 /**
 * Creates a channel with existing name and verify that error is shown
@@ -30,7 +66,8 @@ function verifyExistingChannelError(newChannelName, makePrivate = false) {
     cy.get('@channelType').should('be.checked');
 
     // Type `newChannelName` in the input field for new channel
-    cy.get('#newChannelName').type(newChannelName);
+    cy.get('#newChannelName').click().type(newChannelName);
+    cy.wait(TIMEOUTS.HALF_SEC);
 
     // Click 'Create New Channel' button
     cy.get('#submitNewChannel').click();
@@ -76,43 +113,11 @@ function channelNameTest(channelTypeHeading, channel) {
  * Create new channel via API
  * @param {String} name Name of the channel. This will be used for both name and display_name
  * @param {Boolean} isPrivate Should the channel be private
+ * @param {String} testTeamId Team where to create a channel
  * @returns body of request
  */
-function createNewChannel(name, isPrivate = false) {
-    const makePrivate = isPrivate ? 'P' : '0';
+function createNewChannel(name, isPrivate = false, testTeamId) {
+    const makePrivate = isPrivate ? 'P' : 'O';
 
-    return cy.getCurrentTeamId().then((teamId) => {
-        return cy.apiCreateChannel(teamId, name, name, makePrivate, 'Let us chat here').
-            its('body');
-    });
+    return cy.apiCreateChannel(testTeamId, name, name, makePrivate, 'Let us chat here').its('body');
 }
-
-describe('Channel', () => {
-    beforeEach(() => {
-        // Login and go to /
-        cy.apiLogin('user-1');
-        cy.visit('/ad-1/channels/town-square');
-    });
-
-    it('Mult14635 Should not create new channel with existing public channel name', () => {
-        // # Create a new private channel
-        createNewChannel(`unique-public-${Date.now()}`, true).as('channel');
-        cy.reload();
-
-        cy.get('@channel').then((channel) => {
-            // * Verify new public or private channel cannot be created with existing private channel name:
-            channelNameTest('PUBLIC CHANNELS', channel);
-        });
-    });
-
-    it('Mult14635 Should not create new channel with existing private channel name', () => {
-        // # Create a new private channel
-        createNewChannel(`unique-private-${Date.now()}`, true).as('channel');
-        cy.reload();
-
-        cy.get('@channel').then((channel) => {
-            // * Verify new public or private channel cannot be created with existing private channel name:
-            channelNameTest('PRIVATE CHANNELS', channel);
-        });
-    });
-});

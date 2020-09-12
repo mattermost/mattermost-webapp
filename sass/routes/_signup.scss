@@ -482,6 +482,10 @@ body {
     }
 }
 
+.select-team__container {
+    max-width: 800px;
+}
+
 .signup-team-all {
     @include border-radius(2px);
     border: 1px solid #dddddd;

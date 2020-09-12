@@ -3,6 +3,8 @@
 
 import React, {RefObject} from 'react';
 import {Modal} from 'react-bootstrap';
+import {Provider} from 'react-redux';
+
 import ReactDOM from 'react-dom';
 import {
     defineMessages,
@@ -12,6 +14,9 @@ import {
 } from 'react-intl';
 
 import {UserProfile} from 'mattermost-redux/types/users';
+import {StatusOK} from 'mattermost-redux/types/client4';
+
+import store from 'stores/redux_store.jsx';
 
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
@@ -64,13 +69,14 @@ const holders = defineMessages({
     },
 });
 
-type Props = {
+export type Props = {
     currentUser: UserProfile;
     onHide: () => void;
+    onExit: () => void;
     intl: IntlShape;
     actions: {
         sendVerificationEmail: (email: string) => Promise<{
-            data: {};
+            data: StatusOK;
             error: {
                 err: string;
             };
@@ -92,6 +98,10 @@ class UserSettingsModal extends React.PureComponent<Props, State> {
     private customConfirmAction: ((handleConfirm: () => void) => void) | null;
     private modalBodyRef: React.RefObject<Modal>;
     private afterConfirm: (() => void) | null;
+
+    static defaultProps = {
+        onExit: () => {},
+    };
 
     constructor(props: Props) {
         super(props);
@@ -168,6 +178,7 @@ class UserSettingsModal extends React.PureComponent<Props, State> {
             active_section: '',
         });
         this.props.onHide();
+        this.props.onExit();
     }
 
     // Called to hide the settings pane when on mobile
@@ -303,30 +314,34 @@ class UserSettingsModal extends React.PureComponent<Props, State> {
                     <div className='settings-table'>
                         <div className='settings-links'>
                             <React.Suspense fallback={null}>
-                                <SettingsSidebar
-                                    tabs={tabs}
-                                    activeTab={this.state.active_tab}
-                                    updateTab={this.updateTab}
-                                />
+                                <Provider store={store}>
+                                    <SettingsSidebar
+                                        tabs={tabs}
+                                        activeTab={this.state.active_tab}
+                                        updateTab={this.updateTab}
+                                    />
+                                </Provider>
                             </React.Suspense>
                         </div>
                         <div className='settings-content minimize-settings'>
                             <React.Suspense fallback={null}>
-                                <UserSettings
-                                    activeTab={this.state.active_tab}
-                                    activeSection={this.state.active_section}
-                                    updateSection={this.updateSection}
-                                    updateTab={this.updateTab}
-                                    closeModal={this.closeModal}
-                                    collapseModal={this.collapseModal}
-                                    setEnforceFocus={(enforceFocus?: boolean) => this.setState({enforceFocus})}
-                                    setRequireConfirm={
-                                        (requireConfirm?: boolean, customConfirmAction?: () => () => void) => {
-                                            this.requireConfirm = requireConfirm!;
-                                            this.customConfirmAction = customConfirmAction!;
+                                <Provider store={store}>
+                                    <UserSettings
+                                        activeTab={this.state.active_tab}
+                                        activeSection={this.state.active_section}
+                                        updateSection={this.updateSection}
+                                        updateTab={this.updateTab}
+                                        closeModal={this.closeModal}
+                                        collapseModal={this.collapseModal}
+                                        setEnforceFocus={(enforceFocus?: boolean) => this.setState({enforceFocus})}
+                                        setRequireConfirm={
+                                            (requireConfirm?: boolean, customConfirmAction?: () => () => void) => {
+                                                this.requireConfirm = requireConfirm!;
+                                                this.customConfirmAction = customConfirmAction!;
+                                            }
                                         }
-                                    }
-                                />
+                                    />
+                                </Provider>
                             </React.Suspense>
                         </div>
                     </div>

@@ -1,0 +1,20 @@
+@import 'utils/variables';
+
+.Menu {
+    .MenuHeader {
+        align-items: center;
+        clear: both;
+        color: inherit;
+        cursor: default;
+        display: block;
+        font-weight: normal;
+        padding: 0 32px 0 24px;
+        text-align: left;
+        white-space: nowrap;
+        width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        line-height: 28px;
+        font-weight: $font-weight--semibold;
+    }
+}

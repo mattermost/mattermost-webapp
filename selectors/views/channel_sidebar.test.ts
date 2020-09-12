@@ -21,12 +21,12 @@ describe('isCategoryCollapsed', () => {
     test('should return true when category is explicitly collapsed', async () => {
         const store = await configureStore();
 
-        store.dispatch(setCategoryCollapsed(category1, true));
+        await store.dispatch(setCategoryCollapsed(category1, true));
 
         expect(Selectors.isCategoryCollapsed(store.getState(), category1)).toBe(true);
         expect(Selectors.isCategoryCollapsed(store.getState(), category2)).toBe(false);
 
-        store.dispatch(setCategoryCollapsed(category1, false));
+        await store.dispatch(setCategoryCollapsed(category1, false));
 
         expect(Selectors.isCategoryCollapsed(store.getState(), category1)).toBe(false);
         expect(Selectors.isCategoryCollapsed(store.getState(), category2)).toBe(false);
@@ -35,12 +35,12 @@ describe('isCategoryCollapsed', () => {
     test('should return true when the unread filter is enabled', async () => {
         const store = await configureStore();
 
-        store.dispatch(setUnreadFilterEnabled(true));
+        await store.dispatch(setUnreadFilterEnabled(true));
 
         expect(Selectors.isCategoryCollapsed(store.getState(), category1)).toBe(true);
         expect(Selectors.isCategoryCollapsed(store.getState(), category2)).toBe(true);
 
-        store.dispatch(setUnreadFilterEnabled(false));
+        await store.dispatch(setUnreadFilterEnabled(false));
 
         expect(Selectors.isCategoryCollapsed(store.getState(), category1)).toBe(false);
         expect(Selectors.isCategoryCollapsed(store.getState(), category2)).toBe(false);

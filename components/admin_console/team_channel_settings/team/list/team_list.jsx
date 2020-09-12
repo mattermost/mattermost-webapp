@@ -4,17 +4,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
-import {cloneDeep} from 'lodash';
+import {Link} from 'react-router-dom';
+import {debounce} from 'mattermost-redux/actions/helpers';
 
-import * as Utils from 'utils/utils.jsx';
-import {Constants} from 'utils/constants';
-
-import TeamRow from 'components/admin_console/team_channel_settings/team/list/team_row.jsx';
-import AbstractList, {PAGE_SIZE} from 'components/admin_console/team_channel_settings/abstract_list.jsx';
 import {browserHistory} from 'utils/browser_history';
 
-import SearchIcon from 'components/widgets/icons/search_icon';
+import * as Utils from 'utils/utils.jsx';
 
+import DataGrid from 'components/admin_console/data_grid/data_grid';
+import {PAGE_SIZE} from 'components/admin_console/team_channel_settings/abstract_list.jsx';
+import TeamIcon from 'components/widgets/team_icon/team_icon';
+
+import './team_list.scss';
+
+const ROW_HEIGHT = 80;
 export default class TeamList extends React.PureComponent {
     static propTypes = {
         actions: PropTypes.shape({
@@ -28,136 +31,319 @@ export default class TeamList extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
-            searchString: '',
+            loading: false,
+            term: '',
             teams: [],
-            searchTotalCount: 0,
-            pageResetKey: 0,
+            page: 0,
+            total: 0,
+            searchErrored: false,
+            filters: {},
         };
     }
 
-    header() {
-        return (
-            <div className='groups-list--header'>
-                <div className='group-name adjusted'>
-                    <FormattedMessage
-                        id='admin.team_settings.team_list.nameHeader'
-                        defaultMessage='Name'
-                    />
-                </div>
-                <div className='group-content'>
-                    <div className='group-description adjusted'>
-                        <FormattedMessage
-                            id='admin.team_settings.team_list.mappingHeader'
-                            defaultMessage='Management'
-                        />
-                    </div>
-                    <div className='group-actions'/>
-                </div>
-            </div>
-        );
+    componentDidMount() {
+        this.loadPage();
     }
 
-    searchBar = () => {
-        return (
-            <div className='groups-list--global-actions'>
-                <div className='group-list-search'>
-                    <input
-                        type='text'
-                        placeholder={Utils.localizeMessage('search_bar.search', 'Search')}
-                        onKeyUp={this.handleTeamSearchKeyUp}
-                        onChange={this.searchBarChangeHandler}
-                        value={this.state.searchString}
-                        data-testid='search-input'
-                    />
-                    <SearchIcon
-                        id='searchIcon'
-                        className='search__icon'
-                        aria-hidden='true'
-                    />
-                    <i
-                        className={'fa fa-times-circle group-filter-action ' + (this.state.searchString.length ? '' : 'hidden')}
-                        onClick={this.resetSearch}
-                        data-testid='clear-search'
-                    />
-                </div>
-            </div>
-        );
+    isSearching = (term, filters) => {
+        return (term.length + Object.keys(filters).length) > 0;
     }
 
-    searchBarChangeHandler = (e) => {
-        const {searchString} = this.state;
-        if (searchString.length !== 0 && e.target.value.length === 0) {
-            this.resetSearch();
+    getPaginationProps = () => {
+        const {page, term, filters} = this.state;
+        const total = this.isSearching(term, filters) ? this.state.total : this.props.total;
+        const startCount = (page * PAGE_SIZE) + 1;
+        let endCount = (page + 1) * PAGE_SIZE;
+        endCount = endCount > total ? total : endCount;
+        return {startCount, endCount, total};
+    }
+
+    loadPage = async (page = 0, term = '', filters = {}) => {
+        this.setState({loading: true, term, filters});
+
+        if (this.isSearching(term, filters)) {
+            if (page > 0) {
+                this.searchTeams(page, term, filters);
+            } else {
+                this.searchTeamsDebounced(page, term, filters);
+            }
             return;
         }
-        this.setState({searchString: e.target.value});
+
+        await this.props.actions.getData(page, PAGE_SIZE);
+        this.setState({page, loading: false});
     }
 
-    handleTeamSearchKeyUp = async (e) => {
-        const {key} = e;
-        const {searchString} = this.state;
+    searchTeams = async (page = 0, term = '', filters = {}) => {
+        let teams = [];
+        let total = 0;
+        let searchErrored = true;
+        const response = await this.props.actions.searchTeams(term, {page, per_page: PAGE_SIZE, ...filters});
+        if (response?.data) {
+            teams = page > 0 ? this.state.teams.concat(response.data.teams) : response.data.teams;
+            total = response.data.total_count;
+            searchErrored = false;
+        }
+        this.setState({page, loading: false, teams, total, searchErrored});
+    }
 
-        if (key === Constants.KeyCodes.ENTER[0]) {
-            if (searchString.length > 1) {
-                const response = await this.props.actions.searchTeams(searchString, 0, PAGE_SIZE);
-                this.setState({searchMode: true, teams: response.data.teams, searchTotalCount: response.data.total_count, pageResetKey: Date.now()});
+    searchTeamsDebounced = debounce((page, term, filters = {}) => this.searchTeams(page, term, filters), 300);
+
+    nextPage = () => {
+        this.loadPage(this.state.page + 1, this.state.term, this.state.filters);
+    }
+
+    previousPage = () => {
+        this.setState({page: this.state.page - 1});
+    }
+
+    search = (term = '') => {
+        this.loadPage(0, term, this.state.filters);
+    };
+
+    onFilter = ({management}) => {
+        const filters = {};
+
+        const {
+            group_constrained: {value: groupConstrained},
+            allow_open_invite: {value: allowOpenInvite},
+            invite_only: {value: inviteOnly},
+        } = management.values;
+
+        const filtersList = [allowOpenInvite, inviteOnly, groupConstrained];
+
+        // If all filters or no filters do nothing
+        if (filtersList.includes(false) && filtersList.includes(true)) {
+            // If requesting private and public teams then just exclude all group constrained teams in the results
+            if (allowOpenInvite && inviteOnly) {
+                filters.group_constrained = false;
+            } else {
+                // Since the API returns different results if a filter is set to false vs not set at all
+                // we only set filters when needed and if not leave the filter option blank
+                if (groupConstrained) {
+                    filters.group_constrained = true;
+                }
+
+                if (allowOpenInvite || inviteOnly) {
+                    filters.allow_open_invite = allowOpenInvite;
+                }
             }
         }
+
+        this.loadPage(0, this.state.term, filters);
     }
 
-    getDataBySearch = async (page, perPage) => {
-        if (this.state.searchString.length > 1) {
-            const response = await this.props.actions.searchTeams(this.state.searchString, page, perPage);
-            const teams = new Array(page * perPage); // Pad the array with empty entries because AbstractList expects to slice the results based on the pagination offset.
-            return teams.concat(response.data.teams);
-        }
-        return [];
-    }
-
-    resetSearch = () => {
-        this.setState({searchString: '', teams: [], searchMode: false, searchTotalCount: 0, pageResetKey: Date.now()});
-    }
-
-    onPageChangedCallback = (pagination, teams) => {
-        if (this.state.searchMode) {
-            this.setState({teams});
-        }
-    }
-
-    render() {
-        const absProps = cloneDeep(this.props);
-        if (this.state.searchMode) {
-            absProps.actions.getData = this.getDataBySearch;
-        }
-        return (
-            <div className='groups-list groups-list-no-padding'>
-                {this.searchBar()}
-                <AbstractList
-                    header={this.header()}
-                    renderRow={this.renderRow}
-                    noPadding={true}
-                    {...absProps}
-                    key={this.state.pageResetKey}
-                    onPageChangedCallback={this.onPageChangedCallback}
-                    data={this.state.searchMode ? this.state.teams : this.props.data}
-                    total={this.state.searchMode ? this.state.searchTotalCount : this.props.total}
-                />
-            </div>
+    getColumns = () => {
+        const name = (
+            <FormattedMessage
+                id='admin.team_settings.team_list.nameHeader'
+                defaultMessage='Name'
+            />
         );
+        const management = (
+            <FormattedMessage
+                id='admin.team_settings.team_list.mappingHeader'
+                defaultMessage='Management'
+            />
+        );
+
+        return [
+            {
+                name,
+                field: 'name',
+                width: 4,
+                fixed: true,
+            },
+            {
+                name: management,
+                field: 'management',
+                fixed: true,
+            },
+            {
+                name: '',
+                field: 'edit',
+                textAlign: 'right',
+                fixed: true,
+            },
+        ];
     }
 
-    renderRow = (item) => {
+    renderManagementMethodText = (team) => {
+        if (team.group_constrained) {
+            return (
+                <FormattedMessage
+                    id='admin.team_settings.team_row.managementMethod.groupSync'
+                    defaultMessage='Group Sync'
+                />
+            );
+        } else if (team.allow_open_invite) {
+            return (
+                <FormattedMessage
+                    id='admin.team_settings.team_row.managementMethod.anyoneCanJoin'
+                    defaultMessage='Anyone Can Join'
+                />
+            );
+        }
         return (
-            <TeamRow
-                key={item.id}
-                team={item}
-                onRowClick={this.onTeamClick}
+            <FormattedMessage
+                id='admin.team_settings.team_row.managementMethod.inviteOnly'
+                defaultMessage='Invite Only'
             />
         );
     }
 
-    onTeamClick = (id) => {
-        browserHistory.push(`/admin_console/user_management/teams/${id}`);
+    getRows = () => {
+        const {data} = this.props;
+        const {term, teams, filters} = this.state;
+        const {startCount, endCount} = this.getPaginationProps();
+        let teamsToDisplay = this.isSearching(term, filters) ? teams : data;
+        teamsToDisplay = teamsToDisplay.slice(startCount - 1, endCount);
+
+        return teamsToDisplay.map((team) => {
+            return {
+                cells: {
+                    id: team.id,
+                    name: (
+                        <div className='TeamList_nameColumn'>
+                            <div className='TeamList__lowerOpacity'>
+                                <TeamIcon
+                                    size='sm'
+                                    url={Utils.imageURLForTeam(team)}
+                                    name={team.display_name}
+                                />
+                            </div>
+                            <div className='TeamList_nameText'>
+                                <b data-testid='team-display-name'>
+                                    {team.display_name}
+                                </b>
+                                {team.description && (
+                                    <div className='TeamList_descriptionText'>
+                                        {team.description}
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    ),
+                    management: (
+                        <span
+                            data-testid={`${team.name}Management`}
+                            className='TeamList_managementText'
+                        >
+                            {this.renderManagementMethodText(team)}
+                        </span>
+                    ),
+                    edit: (
+                        <span
+                            data-testid={`${team.display_name}edit`}
+                            className='group-actions TeamList_editText'
+                        >
+                            <Link to={`/admin_console/user_management/teams/${team.id}`}>
+                                <FormattedMessage
+                                    id='admin.team_settings.team_row.configure'
+                                    defaultMessage='Edit'
+                                />
+                            </Link>
+                        </span>
+                    ),
+                },
+                onClick: () => browserHistory.push(`/admin_console/user_management/teams/${team.id}`),
+            };
+        });
+    }
+
+    render() {
+        const {term, searchErrored} = this.state;
+        const rows = this.getRows();
+        const columns = this.getColumns();
+        const {startCount, endCount, total} = this.getPaginationProps();
+
+        let placeholderEmpty = (
+            <FormattedMessage
+                id='admin.team_settings.team_list.no_teams_found'
+                defaultMessage='No teams found'
+            />
+        );
+
+        if (searchErrored) {
+            placeholderEmpty = (
+                <FormattedMessage
+                    id='admin.team_settings.team_list.search_teams_errored'
+                    defaultMessage='Something went wrong. Try again'
+                />
+            );
+        }
+
+        const filterOptions = {
+            management: {
+                name: (
+                    <FormattedMessage
+                        id='admin.team_settings.team_list.mappingHeader'
+                        defaultMessage='Management'
+                    />
+                ),
+                values: {
+                    allow_open_invite: {
+                        name: (
+                            <FormattedMessage
+                                id='admin.team_settings.team_row.managementMethod.anyoneCanJoin'
+                                defaultMessage='Anyone Can Join'
+                            />
+                        ),
+                        value: false,
+                    },
+                    invite_only: {
+                        name: (
+                            <FormattedMessage
+                                id='admin.team_settings.team_row.managementMethod.inviteOnly'
+                                defaultMessage='Invite Only'
+                            />
+                        ),
+                        value: false,
+                    },
+                    group_constrained: {
+                        name: (
+                            <FormattedMessage
+                                id='admin.team_settings.team_row.managementMethod.groupSync'
+                                defaultMessage='Group Sync'
+                            />
+                        ),
+                        value: false,
+                    },
+                },
+                keys: ['allow_open_invite', 'invite_only', 'group_constrained'],
+            },
+        };
+
+        const filterProps = {
+            options: filterOptions,
+            keys: ['management'],
+            onFilter: this.onFilter,
+        };
+
+        const rowsContainerStyles = {
+            minHeight: `${rows.length * ROW_HEIGHT}px`,
+        };
+
+        return (
+            <div className='TeamsList'>
+                <DataGrid
+                    columns={columns}
+                    rows={rows}
+                    loading={this.state.loading}
+                    page={this.state.page}
+                    nextPage={this.nextPage}
+                    previousPage={this.previousPage}
+                    startCount={startCount}
+                    endCount={endCount}
+                    total={total}
+                    search={this.search}
+                    term={term}
+                    placeholderEmpty={placeholderEmpty}
+                    rowsContainerStyles={rowsContainerStyles}
+                    filterProps={filterProps}
+                />
+            </div>
+        );
     }
 }
 

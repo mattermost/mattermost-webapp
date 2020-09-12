@@ -15,7 +15,7 @@ import Constants from 'utils/constants';
 type Props = {
     channel: Channel;
     currentTeamName: string;
-    enableXToLeaveChannelsFromLHS?: string;
+    isCollapsed: boolean;
     actions: {
         leaveChannel: (channelId: any) => void;
     };
@@ -37,14 +37,12 @@ export default class SidebarBaseChannel extends React.PureComponent<Props, State
     }
 
     getCloseHandler = () => {
-        const {channel, enableXToLeaveChannelsFromLHS} = this.props;
+        const {channel} = this.props;
 
-        if (enableXToLeaveChannelsFromLHS === 'true') {
-            if (channel.type === Constants.OPEN_CHANNEL && channel.name !== Constants.DEFAULT_CHANNEL) {
-                return this.handleLeavePublicChannel;
-            } else if (channel.type === Constants.PRIVATE_CHANNEL) {
-                return this.handleLeavePrivateChannel;
-            }
+        if (channel.type === Constants.OPEN_CHANNEL && channel.name !== Constants.DEFAULT_CHANNEL) {
+            return this.handleLeavePublicChannel;
+        } else if (channel.type === Constants.PRIVATE_CHANNEL) {
+            return this.handleLeavePrivateChannel;
         }
 
         return null;
@@ -84,6 +82,7 @@ export default class SidebarBaseChannel extends React.PureComponent<Props, State
                 ariaLabelPrefix={ariaLabelPrefix}
                 closeHandler={this.getCloseHandler()!}
                 icon={this.getIcon()!}
+                isCollapsed={this.props.isCollapsed}
             />
         );
     }

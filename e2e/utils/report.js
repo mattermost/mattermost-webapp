@@ -3,7 +3,6 @@
 
 /* eslint-disable no-console */
 
-const os = require('os');
 const axios = require('axios');
 const fse = require('fs-extra');
 
@@ -11,10 +10,15 @@ const {MOCHAWESOME_REPORT_DIR} = require('./constants');
 
 const MAX_FAILED_TITLES = 5;
 
+let incrementalDuration = 0;
+
 function getAllTests(results) {
     const tests = [];
     results.forEach((result) => {
-        result.tests.forEach((test) => tests.push(test));
+        result.tests.forEach((test) => {
+            incrementalDuration += test.duration;
+            tests.push({...test, incrementalDuration});
+        });
 
         if (result.suites.length > 0) {
             getAllTests(result.suites).forEach((test) => tests.push(test));
@@ -85,6 +89,14 @@ function writeJsonToFile(jsonObject, filename, dir) {
         catch((err) => console.error(err));
 }
 
+function readJsonFromFile(file) {
+    try {
+        return fse.readJsonSync(file);
+    } catch (err) {
+        return {err};
+    }
+}
+
 const result = [
     {status: 'Passed', priority: 'none', cutOff: 100, color: '#43A047'},
     {status: 'Failed', priority: 'low', cutOff: 98, color: '#FFEB3B'},
@@ -92,17 +104,24 @@ const result = [
     {status: 'Failed', priority: 'high', cutOff: 0, color: '#F44336'},
 ];
 
-function generateTestReport(summary, isUploadedToS3, reportLink) {
+function generateTestReport(summary, isUploadedToS3, reportLink, environment) {
     const {
         BRANCH,
-        BROWSER,
         BUILD_TAG,
         FULL_REPORT,
-        HEADLESS,
         PULL_REQUEST,
         TYPE,
     } = process.env;
     const {statsFieldValue, stats} = summary;
+    const {
+        cypressVersion,
+        browserName,
+        browserVersion,
+        headless,
+        osName,
+        osVersion,
+        nodeVersion,
+    } = environment;
 
     let testResult;
     for (let i = 0; i < result.length; i++) {
@@ -121,37 +140,39 @@ function generateTestReport(summary, isUploadedToS3, reportLink) {
         };
     }
 
-    let dockerImageLink;
+    let dockerImageLink = '';
     if (BUILD_TAG) {
-        dockerImageLink = `[mattermost-enterprise-edition:${BUILD_TAG}](https://hub.docker.com/r/mattermost/mattermost-enterprise-edition/tags?name=${BUILD_TAG})`;
+        dockerImageLink = `with [mattermost-enterprise-edition:${BUILD_TAG}](https://hub.docker.com/r/mattermost/mattermost-enterprise-edition/tags?name=${BUILD_TAG})`;
     }
 
     let title;
 
     switch (TYPE) {
     case 'PR':
-        title = `E2E for Pull Request Build: [${BRANCH}](${PULL_REQUEST}) with ${BUILD_TAG ? dockerImageLink : ''}`;
+        title = `E2E for Pull Request Build: [${BRANCH}](${PULL_REQUEST}) ${dockerImageLink}`;
         break;
     case 'RELEASE':
-        title = `E2E for Release Build with ${BUILD_TAG ? dockerImageLink : ''}`;
+        title = `E2E for Release Build ${dockerImageLink}`;
         break;
     case 'MASTER':
-        title = `E2E for Master Nightly Build (Prod tests) with ${BUILD_TAG ? dockerImageLink : ''}`;
+        title = `E2E for Master Nightly Build (Prod tests) ${dockerImageLink}`;
         break;
     case 'MASTER_UNSTABLE':
-        title = `E2E for Master Nightly Build (Unstable tests) with ${BUILD_TAG ? dockerImageLink : ''}`;
+        title = `E2E for Master Nightly Build (Unstable tests) ${dockerImageLink}`;
         break;
     default:
-        title = 'Cypress UI Test';
+        title = `E2E for Build ${dockerImageLink}`;
     }
 
-    if (FULL_REPORT) {
+    const envValue = `cypress@${cypressVersion} | node@${nodeVersion} | ${browserName}@${browserVersion}${headless ? ' (headless)' : ''} | ${osName}@${osVersion}`;
+
+    if (FULL_REPORT === 'true') {
         return {
             username: 'Cypress UI Test',
             icon_url: 'https://www.mattermost.org/wp-content/uploads/2016/04/icon.png',
             attachments: [{
                 color: testResult.color,
-                author_name: 'Cypress UI Test',
+                author_name: 'Webapp End-to-end Testing',
                 author_icon: 'https://www.mattermost.org/wp-content/uploads/2016/04/icon.png',
                 author_link: 'https://www.mattermost.com',
                 title,
@@ -159,7 +180,7 @@ function generateTestReport(summary, isUploadedToS3, reportLink) {
                     {
                         short: false,
                         title: 'Environment',
-                        value: `Branch: **${BRANCH}**, Browser: **${BROWSER}**`,
+                        value: envValue,
                     },
                     awsS3Fields,
                     {
@@ -186,7 +207,7 @@ function generateTestReport(summary, isUploadedToS3, reportLink) {
             author_icon: 'https://www.mattermost.org/wp-content/uploads/2016/04/icon.png',
             author_link: 'https://www.mattermost.com/',
             title,
-            text: `${quickSummary} | ${(stats.duration / (60 * 1000)).toFixed(2)} mins | ${os.type()} ${BROWSER} (${HEADLESS === 'false' ? 'headed' : 'headless'})`,
+            text: `${quickSummary} | ${(stats.duration / (60 * 1000)).toFixed(2)} mins\n${envValue}`,
         }],
     };
 }
@@ -234,5 +255,6 @@ module.exports = {
     getAllTests,
     removeOldGeneratedReports,
     sendReport,
+    readJsonFromFile,
     writeJsonToFile,
 };

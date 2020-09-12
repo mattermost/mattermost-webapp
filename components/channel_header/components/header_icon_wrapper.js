@@ -27,7 +27,7 @@ export default function HeaderIconWrapper({
             class: 'text-nowrap',
             id: 'flaggedTooltip',
             messageID: t('channel_header.flagged'),
-            message: 'Flagged posts',
+            message: 'Saved posts',
         },
         pinnedPosts: {
             class: '',

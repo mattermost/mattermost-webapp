@@ -64,7 +64,6 @@ exports[`components/ReactionList should render when there are reactions 1`] = `
               <FormattedMessage
                 defaultMessage="Add a reaction"
                 id="reaction_list.addReactionTooltip"
-                values={Object {}}
               />
             </Tooltip>
           }
@@ -78,11 +77,11 @@ exports[`components/ReactionList should render when there are reactions 1`] = `
         >
           <button
             aria-label="Add a reaction"
-            className="style--none post-reaction"
+            className="Reaction"
             onClick={[Function]}
           >
             <span
-              className="post-reaction__add"
+              className="Reaction__add"
               id="addReaction-post_id"
             >
               <AddReactionIcon />

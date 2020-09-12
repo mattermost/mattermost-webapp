@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import $ from 'jquery';
 import PropTypes from 'prop-types';
@@ -195,8 +196,6 @@ class CreateComment extends React.PureComponent {
          */
         selectedPostFocussedAt: PropTypes.number.isRequired,
 
-        isMarkdownPreviewEnabled: PropTypes.bool,
-
         /**
          * Function to set or unset emoji picker for last message
          */
@@ -263,7 +262,7 @@ class CreateComment extends React.PureComponent {
             channelTimezoneCount: 0,
             uploadsProgressPercent: {},
             renderScrollbar: false,
-            suggestionListStyle: 'top',
+            scrollbarWidth: 0,
             mentions: [],
             memberNotifyCount: 0,
         };
@@ -350,7 +349,7 @@ class CreateComment extends React.PureComponent {
     }
 
     setCaretPosition = (newCaretPosition) => {
-        const textbox = this.refs.textbox.getWrappedInstance().getInputBox();
+        const textbox = this.refs.textbox.getInputBox();
 
         this.setState({
             caretPosition: newCaretPosition,
@@ -381,7 +380,10 @@ class CreateComment extends React.PureComponent {
             message = formattedMessage;
             this.setCaretPosition(newCaretPosition);
         } else {
-            message = formatMarkdownTableMessage(table, draft.message.trim());
+            const originalSize = draft.message.length;
+            message = formatMarkdownTableMessage(table, draft.message.trim(), this.state.caretPosition);
+            const newCaretPosition = message.length - (originalSize - this.state.caretPosition);
+            this.setCaretPosition(newCaretPosition);
         }
 
         const updatedDraft = {...draft, message};
@@ -640,7 +642,7 @@ class CreateComment extends React.PureComponent {
         if (allowSending) {
             e.persist();
             if (this.refs.textbox) {
-                this.refs.textbox.getWrappedInstance().blur();
+                this.refs.textbox.blur();
             }
 
             if (withClosedCodeBlock && message) {
@@ -680,7 +682,7 @@ class CreateComment extends React.PureComponent {
     scrollToBottom = () => {
         const $el = $('.post-right__scroll');
         if ($el[0]) {
-            $el.parent().scrollTop($el[0].scrollHeight);
+            $el.parent().scrollTop($el[0].scrollHeight); // eslint-disable-line jquery/no-parent
         }
     }
 
@@ -706,6 +708,10 @@ class CreateComment extends React.PureComponent {
         this.setState({
             caretPosition,
         });
+    }
+
+    handleSelect = (e) => {
+        Utils.adjustSelection(this.refs.textbox.getInputBox(), e);
     }
 
     handleKeyDown = (e) => {
@@ -739,7 +745,7 @@ class CreateComment extends React.PureComponent {
         if (!e.ctrlKey && !e.metaKey && !e.altKey && !e.shiftKey && Utils.isKeyPressed(e, Constants.KeyCodes.UP) && message === '') {
             e.preventDefault();
             if (this.refs.textbox) {
-                this.refs.textbox.getWrappedInstance().blur();
+                this.refs.textbox.blur();
             }
 
             const {data: canEditNow} = this.props.onEditLatestPost();
@@ -755,12 +761,35 @@ class CreateComment extends React.PureComponent {
             } else if (Utils.isKeyPressed(e, Constants.KeyCodes.DOWN)) {
                 e.preventDefault();
                 this.props.onMoveHistoryIndexForward();
+            } else if (Utils.isKeyPressed(e, Constants.KeyCodes.B) ||
+                       Utils.isKeyPressed(e, Constants.KeyCodes.I)) {
+                this.applyHotkeyMarkdown(e);
             }
         }
 
         if (lastMessageReactionKeyCombo) {
             this.reactToLastMessage(e);
         }
+    }
+
+    applyHotkeyMarkdown = (e) => {
+        const res = Utils.applyHotkeyMarkdown(e);
+
+        const {draft} = this.state;
+        const modifiedDraft = {
+            ...draft,
+            message: res.message,
+        };
+
+        this.props.onUpdateCommentDraft(modifiedDraft);
+        this.draftsForPost[this.props.rootId] = modifiedDraft;
+
+        this.setState({
+            draft: modifiedDraft,
+        }, () => {
+            const textbox = this.refs.textbox.getInputBox();
+            Utils.setSelectionRange(textbox, res.selectionStart, res.selectionEnd);
+        });
     }
 
     handleFileUploadChange = () => {
@@ -864,8 +893,8 @@ class CreateComment extends React.PureComponent {
             if (index !== -1) {
                 uploadsInProgress.splice(index, 1);
 
-                if (this.refs.fileUpload && this.refs.fileUpload.getWrappedInstance()) {
-                    this.refs.fileUpload.getWrappedInstance().cancelUpload(id);
+                if (this.refs.fileUpload && this.refs.fileUpload) {
+                    this.refs.fileUpload.cancelUpload(id);
                 }
             }
         } else {
@@ -896,7 +925,7 @@ class CreateComment extends React.PureComponent {
     }
 
     getFileUploadTarget = () => {
-        return this.refs.textbox.getWrappedInstance();
+        return this.refs.textbox;
     }
 
     getCreateCommentControls = () => {
@@ -905,7 +934,7 @@ class CreateComment extends React.PureComponent {
 
     focusTextbox = (keepFocus = false) => {
         if (this.refs.textbox && (keepFocus || !UserAgent.isMobile())) {
-            this.refs.textbox.getWrappedInstance().focus();
+            this.refs.textbox.focus();
         }
     }
 
@@ -937,6 +966,11 @@ class CreateComment extends React.PureComponent {
 
     handleHeightChange = (height, maxHeight) => {
         this.setState({renderScrollbar: height > maxHeight});
+        window.requestAnimationFrame(() => {
+            if (this.refs.textbox) {
+                this.setState({scrollbarWidth: Utils.scrollbarWidth(this.refs.textbox.getInputBox())});
+            }
+        });
     }
 
     render() {
@@ -1161,12 +1195,11 @@ class CreateComment extends React.PureComponent {
         }
 
         const textboxRef = this.refs.textbox;
+        let suggestionListStyle = 'top';
         if (textboxRef) {
-            const textboxPosTop = textboxRef.getWrappedInstance().getInputBox().getBoundingClientRect().top;
+            const textboxPosTop = textboxRef.getInputBox().getBoundingClientRect().top;
             if (textboxPosTop < Constants.SUGGESTION_LIST_SPACE_RHS) {
-                this.setState({suggestionListStyle: 'bottom'});
-            } else {
-                this.setState({suggestionListStyle: 'top'});
+                suggestionListStyle = 'bottom';
             }
         }
 
@@ -1178,6 +1211,7 @@ class CreateComment extends React.PureComponent {
                     aria-label={ariaLabelReplyInput}
                     tabIndex='-1'
                     className={`post-create a11y__region${scrollbarClass}`}
+                    style={this.state.renderScrollbar && this.state.scrollbarWidth ? {'--detected-scrollbar-width': `${this.state.scrollbarWidth}px`} : undefined}
                     data-a11y-sort-order='4'
                 >
                     <div
@@ -1189,6 +1223,7 @@ class CreateComment extends React.PureComponent {
                                 onChange={this.handleChange}
                                 onKeyPress={this.commentMsgKeyPress}
                                 onKeyDown={this.handleKeyDown}
+                                onSelect={this.handleSelect}
                                 onMouseUp={this.handleMouseUpKeyUp}
                                 onKeyUp={this.handleMouseUpKeyUp}
                                 onComposition={this.emitTypingEvent}
@@ -1200,6 +1235,7 @@ class CreateComment extends React.PureComponent {
                                 emojiEnabled={this.props.enableEmojiPicker}
                                 initialText=''
                                 channelId={this.props.channelId}
+                                rootId={this.props.rootId}
                                 isRHS={true}
                                 popoverMentionKeyClick={true}
                                 id='reply_textbox'
@@ -1207,7 +1243,7 @@ class CreateComment extends React.PureComponent {
                                 disabled={readOnlyChannel}
                                 characterLimit={this.props.maxPostSize}
                                 preview={this.props.shouldShowPreview}
-                                suggestionListStyle={this.state.suggestionListStyle}
+                                suggestionListStyle={suggestionListStyle}
                                 badConnection={this.props.badConnection}
                                 listenForMentionKeyClick={true}
                                 useChannelMentions={this.props.useChannelMentions}
@@ -1238,7 +1274,6 @@ class CreateComment extends React.PureComponent {
                                     showPreview={this.props.shouldShowPreview}
                                     updatePreview={this.setShowPreview}
                                     message={readOnlyChannel ? '' : this.state.message}
-                                    isMarkdownPreviewEnabled={this.props.isMarkdownPreviewEnabled}
                                 />
                             </div>
                         </div>
@@ -1275,3 +1310,4 @@ class CreateComment extends React.PureComponent {
 }
 
 export default injectIntl(CreateComment);
+/* eslint-enable react/no-string-refs */

@@ -1,5 +1,165 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Post should handle highlighting properly when jumping to pinned or flagged posts 1`] = `
+<ContextProvider
+  value={
+    Object {
+      "handlePopupOpened": [Function],
+    }
+  }
+>
+  <div
+    aria-atomic={true}
+    aria-label=""
+    className="a11y__section post post--highlight post--pinned-or-flagged-highlight post--pinned-or-flagged  other--root  "
+    data-testid="postView"
+    id="post_post1"
+    onClick={[Function]}
+    onFocus={[Function]}
+    onMouseLeave={[Function]}
+    onMouseOver={[Function]}
+    onTouchStart={[Function]}
+    role="listitem"
+    tabIndex="0"
+  >
+    <Connect(injectIntl(PostPreHeader))
+      isFlagged={true}
+      isPinned={false}
+    />
+    <div
+      aria-hidden={true}
+      className="post__content "
+      data-testid="postContent"
+      role="application"
+    >
+      <div
+        className="post__img"
+      >
+        <Connect(PostProfilePicture)
+          compactDisplay={false}
+          post={
+            Object {
+              "id": "post1",
+              "is_pinned": false,
+            }
+          }
+        />
+      </div>
+      <div>
+        <Connect(PostHeader)
+          compactDisplay={false}
+          handleCardClick={[Function]}
+          handleCommentClick={[Function]}
+          handleDropdownOpened={[Function]}
+          hover={false}
+          isFirstReply={true}
+          post={
+            Object {
+              "id": "post1",
+              "is_pinned": false,
+            }
+          }
+          replyCount={0}
+          showTimeWithoutHover={true}
+        />
+        <Connect(PostBody)
+          compactDisplay={false}
+          handleCommentClick={[Function]}
+          isCommentMention={false}
+          isFirstReply={true}
+          post={
+            Object {
+              "id": "post1",
+              "is_pinned": false,
+            }
+          }
+        />
+      </div>
+    </div>
+  </div>
+</ContextProvider>
+`;
+
+exports[`Post should handle highlighting properly when jumping to pinned or flagged posts 2`] = `
+<ContextProvider
+  value={
+    Object {
+      "handlePopupOpened": [Function],
+    }
+  }
+>
+  <div
+    aria-atomic={true}
+    aria-label=""
+    className="a11y__section post post--pinned-or-flagged  other--root  "
+    data-testid="postView"
+    id="post_post1"
+    onClick={[Function]}
+    onFocus={[Function]}
+    onMouseLeave={[Function]}
+    onMouseOver={[Function]}
+    onTouchStart={[Function]}
+    role="listitem"
+    tabIndex="0"
+  >
+    <Connect(injectIntl(PostPreHeader))
+      isFlagged={true}
+      isPinned={false}
+    />
+    <div
+      aria-hidden={true}
+      className="post__content "
+      data-testid="postContent"
+      role="application"
+    >
+      <div
+        className="post__img"
+      >
+        <Connect(PostProfilePicture)
+          compactDisplay={false}
+          post={
+            Object {
+              "id": "post1",
+              "is_pinned": false,
+            }
+          }
+        />
+      </div>
+      <div>
+        <Connect(PostHeader)
+          compactDisplay={false}
+          handleCardClick={[Function]}
+          handleCommentClick={[Function]}
+          handleDropdownOpened={[Function]}
+          hover={false}
+          isFirstReply={true}
+          post={
+            Object {
+              "id": "post1",
+              "is_pinned": false,
+            }
+          }
+          replyCount={0}
+          showTimeWithoutHover={true}
+        />
+        <Connect(PostBody)
+          compactDisplay={false}
+          handleCommentClick={[Function]}
+          isCommentMention={false}
+          isFirstReply={true}
+          post={
+            Object {
+              "id": "post1",
+              "is_pinned": false,
+            }
+          }
+        />
+      </div>
+    </div>
+  </div>
+</ContextProvider>
+`;
+
 exports[`Post should not remove post--highlight class after timeout so the classes for permalink are not applied 1`] = `
 <ContextProvider
   value={
@@ -22,6 +182,10 @@ exports[`Post should not remove post--highlight class after timeout so the class
     role="listitem"
     tabIndex="0"
   >
+    <Connect(injectIntl(PostPreHeader))
+      isFlagged={false}
+      isPinned={false}
+    />
     <div
       aria-hidden={true}
       className="post__content "
@@ -36,6 +200,7 @@ exports[`Post should not remove post--highlight class after timeout so the class
           post={
             Object {
               "id": "post1",
+              "is_pinned": false,
             }
           }
         />
@@ -51,6 +216,7 @@ exports[`Post should not remove post--highlight class after timeout so the class
           post={
             Object {
               "id": "post1",
+              "is_pinned": false,
             }
           }
           replyCount={0}
@@ -64,6 +230,7 @@ exports[`Post should not remove post--highlight class after timeout so the class
           post={
             Object {
               "id": "post1",
+              "is_pinned": false,
             }
           }
         />
@@ -95,6 +262,10 @@ exports[`Post should not remove post--highlight class after timeout so the class
     role="listitem"
     tabIndex="0"
   >
+    <Connect(injectIntl(PostPreHeader))
+      isFlagged={false}
+      isPinned={false}
+    />
     <div
       aria-hidden={true}
       className="post__content "
@@ -109,6 +280,7 @@ exports[`Post should not remove post--highlight class after timeout so the class
           post={
             Object {
               "id": "post1",
+              "is_pinned": false,
             }
           }
         />
@@ -124,6 +296,7 @@ exports[`Post should not remove post--highlight class after timeout so the class
           post={
             Object {
               "id": "post1",
+              "is_pinned": false,
             }
           }
           replyCount={0}
@@ -137,6 +310,7 @@ exports[`Post should not remove post--highlight class after timeout so the class
           post={
             Object {
               "id": "post1",
+              "is_pinned": false,
             }
           }
         />

@@ -33,7 +33,7 @@ describe('components/MenuItem', () => {
 
         expect(wrapper).toMatchInlineSnapshot(`
 <li
-  className="MenuItem"
+  className="MenuItem MenuItem--with-icon"
   id="test-id"
   role="menuitem"
 >

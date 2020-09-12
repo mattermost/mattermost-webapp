@@ -14,11 +14,13 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Messaging', () => {
     before(() => {
-        cy.apiLogin('user-1');
-        cy.visit('/ad-1/channels/town-square');
+        // # Login as test user and visit town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
+        });
     });
 
-    it('M18707 - Autocomplete should close if tildes are deleted using backspace', () => {
+    it('MM-T174 Autocomplete should close if tildes are deleted using backspace', () => {
         const msg = 'foo';
 
         // # Make a post
@@ -28,7 +30,7 @@ describe('Messaging', () => {
         cy.get('#post_textbox').type('{uparrow}');
 
         // # Insert a tilde (~) at the beginning of the post to be edited
-        cy.get('#edit_textbox').should('be.visible').wait(TIMEOUTS.TINY).type('{home}~');
+        cy.get('#edit_textbox').should('be.visible').wait(TIMEOUTS.HALF_SEC).type('{home}~');
 
         // * autocomplete opens
         cy.get('#suggestionList').should('be.visible');

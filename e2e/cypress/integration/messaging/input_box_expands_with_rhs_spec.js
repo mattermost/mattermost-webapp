@@ -11,17 +11,25 @@
 // Group: @messaging
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
+import {getAdminAccount} from '../../support/env';
 
 describe('Messaging', () => {
+    const admin = getAdminAccount();
+
     before(() => {
-        // # Login and go to sint channel
-        cy.apiLogin('user-1');
-        cy.visit('/ad-1/channels/suscipit-4');
+        // # Log in as test user, go to test channel and post several messages
+        cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
+            cy.visit(`/${team.name}/channels/${channel.name}`);
+
+            Cypress._.times(30, (i) => {
+                cy.postMessageAs({sender: admin, message: `[${i}]`, channelId: channel.id});
+            });
+        });
     });
 
-    it('M18709-Input box on main thread can expand with RHS open', () => {
+    it('MM-T208 Input box on main thread can expand with RHS open', () => {
         // # Wait until site is loaded
-        cy.wait(TIMEOUTS.SMALL);
+        cy.wait(TIMEOUTS.FIVE_SEC);
 
         // # Open RHS
         cy.clickPostCommentIcon();
@@ -71,7 +79,7 @@ describe('Messaging', () => {
         cy.get('#post_textbox').should('be.visible').clear();
 
         // # Scroll to a previous post
-        cy.getNthPostId(-20).then((postId) => {
+        cy.getNthPostId(-29).then((postId) => {
             cy.get(`#postMessageText_${postId}`).scrollIntoView();
         });
 
@@ -81,7 +89,7 @@ describe('Messaging', () => {
         }
 
         // * Previous post should be visible
-        cy.getNthPostId(-20).then((postId) => {
+        cy.getNthPostId(-29).then((postId) => {
             cy.get(`#postMessageText_${postId}`).should('be.visible');
         });
     });

@@ -109,6 +109,8 @@ exports[`components/post_view/MessageAttachment should call actions.doPostAction
                   "name": "action_name_1",
                 }
               }
+              actionExecuting={false}
+              actionExecutingMessage={null}
               handleAction={[Function]}
               key="action_id_1"
             />
@@ -591,7 +593,7 @@ exports[`components/post_view/MessageAttachment should match value on getFieldsT
           className="attachment-field__caption"
           width="50%"
         >
-          <Connect(Markdown)
+          <Memo(Connect(Markdown))
             message="title_1"
             options={
               Object {
@@ -608,7 +610,7 @@ exports[`components/post_view/MessageAttachment should match value on getFieldsT
         <td
           className="attachment-field"
         >
-          <Connect(Markdown)
+          <Memo(Connect(Markdown))
             message="value_1"
           />
         </td>
@@ -624,7 +626,7 @@ exports[`components/post_view/MessageAttachment should match value on getFieldsT
           className="attachment-field__caption"
           width="50%"
         >
-          <Connect(Markdown)
+          <Memo(Connect(Markdown))
             message="title_2"
             options={
               Object {
@@ -641,7 +643,7 @@ exports[`components/post_view/MessageAttachment should match value on getFieldsT
         <td
           className="attachment-field"
         >
-          <Connect(Markdown)
+          <Memo(Connect(Markdown))
             message="value_2"
           />
         </td>
@@ -657,25 +659,29 @@ exports[`components/post_view/MessageAttachment should match value on renderPost
 <div
   className="attachment-actions"
 >
-  <Connect(ActionButton)
+  <Memo(Connect(ActionButton))
     action={
       Object {
         "id": "action_id_1",
         "name": "action_name_1",
       }
     }
+    actionExecuting={false}
+    actionExecutingMessage={null}
     handleAction={[Function]}
   />
-  <Connect(ActionButton)
+  <Memo(Connect(ActionButton))
     action={
       Object {
         "id": "action_id_2",
         "name": "action_name_2",
       }
     }
+    actionExecuting={false}
+    actionExecutingMessage={null}
     handleAction={[Function]}
   />
-  <Connect(ActionMenu)
+  <Memo(Connect(ActionMenu))
     action={
       Object {
         "data_source": "users",

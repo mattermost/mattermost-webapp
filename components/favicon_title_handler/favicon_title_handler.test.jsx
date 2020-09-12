@@ -10,7 +10,7 @@ import {Constants} from 'utils/constants';
 import FaviconTitleHandler from 'components/favicon_title_handler/favicon_title_handler';
 
 jest.mock('utils/user_agent', () => {
-    const original = require.requireActual('utils/user_agent');
+    const original = jest.requireActual('utils/user_agent');
     return {
         ...original,
         isFirefox: () => true,

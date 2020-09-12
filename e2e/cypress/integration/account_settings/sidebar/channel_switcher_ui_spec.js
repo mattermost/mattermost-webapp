@@ -7,23 +7,27 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod @smoke
+// Stage: @prod
 // Group: @account_setting
 
 describe('Account Settings > Sidebar > Channel Switcher', () => {
     before(() => {
-        // # Login as user-1 and visit town-square channel
-        cy.apiLogin('sysadmin');
+        // # Update config and visit town-square channel
         cy.apiUpdateConfig({
             ServiceSettings: {
                 ExperimentalChannelSidebarOrganization: 'disabled',
             },
         });
-        cy.visit('/ad-1/channels/town-square');
+
+        // # Login as test user and visit town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
+        });
     });
 
     beforeEach(() => {
         // # Go to Account Settings
+        cy.reload();
         cy.toAccountSettingsModal();
     });
 
@@ -61,7 +65,7 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
         cy.get('#accountSettingsHeader > .close').should('be.visible').click();
     });
 
-    it('AS12980 Hide Channel Switcher button in left-hand-side', () => {
+    it('MM-T265_1 Hide Channel Switcher button in LHS', () => {
         // * Check that the Sidebar tab is loaded, then click
         cy.get('#sidebarButton').should('be.visible').click();
 
@@ -85,7 +89,7 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
         cy.get('#sidebarSwitcherButton').should('be.not.visible');
     });
 
-    it('AS12980 Show Channel Switcher button in left-hand-side', () => {
+    it('MM-T265_2 Show Channel Switcher button in LHS', () => {
         // * Check that the Sidebar tab is loaded, then click
         cy.get('#sidebarButton').should('be.visible').click();
 

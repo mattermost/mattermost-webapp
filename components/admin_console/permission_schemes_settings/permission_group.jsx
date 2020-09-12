@@ -290,6 +290,7 @@ export default class PermissionGroup extends React.PureComponent {
                             <FormattedMessage id={'admin.permissions.group.' + id + '.name'}/>
                         </span>
                         <PermissionDescription
+                            additionalValues={additionalValues?.[id] ? additionalValues[id] : {}}
                             inherited={inherited}
                             id={id}
                             selectRow={this.props.selectRow}

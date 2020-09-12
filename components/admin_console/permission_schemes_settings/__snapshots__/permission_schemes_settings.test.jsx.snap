@@ -49,7 +49,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
       />
       <AdminPanelWithLink
         className="permissions-block"
-        disabled={false}
         id="team-override-schemes"
         linkTextDefault="New Team Override Scheme"
         linkTextId="admin.permissions.teamOverrideSchemesNewButton"
@@ -137,7 +136,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
       />
       <AdminPanelWithLink
         className="permissions-block"
-        disabled={false}
         id="team-override-schemes"
         linkTextDefault="New Team Override Scheme"
         linkTextId="admin.permissions.teamOverrideSchemesNewButton"
@@ -153,7 +151,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
           <FormattedMessage
             defaultMessage="No team override schemes created."
             id="admin.permissions.teamOverrideSchemesNoSchemes"
-            values={Object {}}
           />
         </div>
       </AdminPanelWithLink>
@@ -233,7 +230,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
                     <FormattedMessage
                       defaultMessage="documentation"
                       id="admin.permissions.documentationLinkText"
-                      values={Object {}}
                     />
                   </a>,
                 }
@@ -348,7 +344,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
                     <FormattedMessage
                       defaultMessage="documentation"
                       id="admin.permissions.documentationLinkText"
-                      values={Object {}}
                     />
                   </a>,
                 }
@@ -434,7 +429,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
       />
       <AdminPanelWithLink
         className="permissions-block"
-        disabled={false}
         id="team-override-schemes"
         linkTextDefault="New Team Override Scheme"
         linkTextId="admin.permissions.teamOverrideSchemesNewButton"

@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -29,7 +30,7 @@ import MessageWithAdditionalContent from 'components/message_with_additional_con
 import BotBadge from 'components/widgets/badges/bot_badge';
 import Badge from 'components/widgets/badges/badge';
 import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
-
+import PostPreHeader from 'components/post_view/post_pre_header';
 import UserProfile from 'components/user_profile';
 
 class RhsComment extends React.PureComponent {
@@ -40,7 +41,7 @@ class RhsComment extends React.PureComponent {
         compactDisplay: PropTypes.bool,
         author: PropTypes.string,
         reactions: PropTypes.object,
-        isFlagged: PropTypes.bool,
+        isFlagged: PropTypes.bool.isRequired,
         isBusy: PropTypes.bool,
         removePost: PropTypes.func.isRequired,
         previewCollapsed: PropTypes.string.isRequired,
@@ -209,10 +210,6 @@ class RhsComment extends React.PureComponent {
 
         if (this.props.compactDisplay) {
             className += ' post--compact';
-        }
-
-        if (post.is_pinned) {
-            className += ' post--pinned';
         }
 
         if (this.state.dropdownOpened || this.state.showEmojiPicker) {
@@ -425,6 +422,17 @@ class RhsComment extends React.PureComponent {
             );
         }
 
+        let flagIcon = null;
+        if (!isMobile() && (!isEphemeral && !post.failed && !isSystemMessage)) {
+            flagIcon = (
+                <PostFlagIcon
+                    location={Locations.RHS_COMMENT}
+                    postId={post.id}
+                    isFlagged={this.props.isFlagged}
+                />
+            );
+        }
+
         let options;
         if (isEphemeral) {
             options = (
@@ -455,33 +463,11 @@ class RhsComment extends React.PureComponent {
                 >
                     {dotMenu}
                     {postReaction}
+                    {flagIcon}
                 </div>
             );
         }
 
-        let pinnedBadge;
-        if (post.is_pinned) {
-            pinnedBadge = (
-                <span className='post__pinned-badge'>
-                    <FormattedMessage
-                        id='post_info.pinned'
-                        defaultMessage='Pinned'
-                    />
-                </span>
-            );
-        }
-
-        let flagIcon = null;
-        if (this.state.hover || this.state.a11yActive || this.state.dropdownOpened || this.state.showEmojiPicker || this.props.isFlagged) {
-            flagIcon = (
-                <PostFlagIcon
-                    location={Locations.RHS_COMMENT}
-                    postId={post.id}
-                    isFlagged={this.props.isFlagged}
-                    isEphemeral={isEphemeral}
-                />
-            );
-        }
         const postTime = this.renderPostTime();
 
         let postInfoIcon;
@@ -500,7 +486,7 @@ class RhsComment extends React.PureComponent {
                     }
                 >
                     <button
-                        className='post-menu__item post-menu__item--show'
+                        className='card-icon__container icon--show style--none'
                         onClick={(e) => {
                             e.preventDefault();
                             this.props.handleCardClick(this.props.post);
@@ -529,6 +515,11 @@ class RhsComment extends React.PureComponent {
                 onFocus={this.handlePostFocus}
                 data-a11y-sort-order={this.props.a11yIndex}
             >
+                <PostPreHeader
+                    isFlagged={this.props.isFlagged}
+                    isPinned={post.is_pinned}
+                    channelId={post.channel_id}
+                />
                 <div
                     role='application'
                     className='post__content'
@@ -547,9 +538,7 @@ class RhsComment extends React.PureComponent {
                             </div>
                             <div className='col'>
                                 {postTime}
-                                {pinnedBadge}
                                 {postInfoIcon}
-                                {flagIcon}
                                 {visibleMessage}
                             </div>
                             {options}
@@ -579,3 +568,4 @@ class RhsComment extends React.PureComponent {
 }
 
 export default injectIntl(RhsComment);
+/* eslint-enable react/no-string-refs */

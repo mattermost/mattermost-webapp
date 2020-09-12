@@ -234,5 +234,5 @@ Cypress.Commands.add('doOktaLogin', (user) => {
 
     cy.get('#okta-signin-username').type(user.email);
     cy.get('#okta-signin-password').type(user.password);
-    cy.findAllByText('Sign In').last().click().wait(TIMEOUTS.SMALL);
+    cy.findAllByText('Sign In').last().click().wait(TIMEOUTS.FIVE_SEC);
 });

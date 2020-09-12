@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -36,6 +37,7 @@ export default class SystemUserDetail extends React.PureComponent {
     static propTypes = {
         user: PropTypes.object.isRequired,
         mfaEnabled: PropTypes.bool.isRequired,
+        isDisabled: PropTypes.bool,
         actions: PropTypes.shape({
             updateUserActive: PropTypes.func.isRequired,
             setNavigationBlocked: PropTypes.func.isRequired,
@@ -256,6 +258,7 @@ export default class SystemUserDetail extends React.PureComponent {
                 <AdminButtonOutline
                     onClick={this.handleMakeActive}
                     className='admin-btn-default'
+                    disabled={this.props.isDisabled}
                 >
                     {Utils.localizeMessage('admin.user_item.makeActive', 'Activate')}
                 </AdminButtonOutline>
@@ -265,6 +268,7 @@ export default class SystemUserDetail extends React.PureComponent {
             <AdminButtonOutline
                 onClick={this.handleShowDeactivateMemberModal}
                 className='admin-btn-default'
+                disabled={this.props.isDisabled}
             >
                 {Utils.localizeMessage('admin.user_item.makeInactive', 'Deactivate')}
             </AdminButtonOutline>
@@ -277,6 +281,7 @@ export default class SystemUserDetail extends React.PureComponent {
                 <AdminButtonOutline
                     onClick={this.handleResetMfa}
                     className='admin-btn-default'
+                    disabled={this.props.isDisabled}
                 >
                     {Utils.localizeMessage('admin.user_item.resetMfa', 'Remove MFA')}
                 </AdminButtonOutline>
@@ -382,6 +387,7 @@ export default class SystemUserDetail extends React.PureComponent {
                                             type='text'
                                             value={this.state.user.email}
                                             onChange={this.handleEmailChange}
+                                            disabled={this.props.isDisabled}
                                         />
                                     </div>
                                     <span className='SystemUserDetail__field-label'>{Utils.localizeMessage('admin.userManagement.userDetail.username', 'Username')}</span>
@@ -404,6 +410,7 @@ export default class SystemUserDetail extends React.PureComponent {
                                     <AdminButtonOutline
                                         onClick={this.doPasswordReset}
                                         className='admin-btn-default'
+                                        disabled={this.props.isDisabled}
                                     >
                                         {Utils.localizeMessage('admin.user_item.resetPwd', 'Reset Password')}
                                     </AdminButtonOutline>
@@ -422,6 +429,7 @@ export default class SystemUserDetail extends React.PureComponent {
                                     <button
                                         className='btn btn-primary'
                                         onClick={this.openAddTeam}
+                                        disabled={this.props.isDisabled}
                                     >
                                         <FormattedMessage
                                             id='admin.userManagement.userDetail.addTeam'
@@ -435,6 +443,7 @@ export default class SystemUserDetail extends React.PureComponent {
                                 userId={this.props.user.id}
                                 userDetailCallback={this.setTeamsData}
                                 refreshTeams={this.state.refreshTeams}
+                                readOnly={this.props.isDisabled}
                             />
                         </AdminPanel>
                     </div>
@@ -483,3 +492,4 @@ export default class SystemUserDetail extends React.PureComponent {
         );
     }
 }
+/* eslint-enable react/no-string-refs */

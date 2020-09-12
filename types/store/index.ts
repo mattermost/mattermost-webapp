@@ -4,15 +4,22 @@
 import {Channel} from 'mattermost-redux/types/channels';
 import {MarketplacePlugin} from 'mattermost-redux/types/plugins';
 import {GlobalState as BaseGlobalState} from 'mattermost-redux/types/store';
+import {Dictionary} from 'mattermost-redux/types/utilities';
 
 import {I18nState} from './i18n';
 import {RhsViewState} from './rhs';
 import {PluginsState} from './plugins';
 
+export type DraggingState = {
+    state?: string;
+    type?: string;
+    id?: string;
+}
+
 export type GlobalState = BaseGlobalState & {
     plugins: PluginsState;
     storage: {
-        storage: {[key: string]: any};
+        storage: Dictionary<any>;
     };
 
     views: {
@@ -44,6 +51,9 @@ export type GlobalState = BaseGlobalState & {
             lastGetPosts: {
                 [channelId: string]: number;
             };
+            channelPrefetchStatus: {
+                [channelId: string]: string;
+            };
         };
 
         rhs: RhsViewState;
@@ -65,7 +75,7 @@ export type GlobalState = BaseGlobalState & {
         modals: {
             [modalId: string]: {
                 open: boolean;
-                dialogProps: object;
+                dialogProps: Dictionary<any>;
                 dialogType: React.Component;
             };
         };
@@ -82,10 +92,23 @@ export type GlobalState = BaseGlobalState & {
 
         search: {
             modalSearch: string;
+            modalFilters: {
+                roles?: string[];
+                channel_roles?: string[];
+                team_roles?: string[];
+            };
             systemUsersSearch: {
                 term: string;
                 team: string;
                 filter: string;
+            };
+            userGridSearch: {
+                term: string;
+                filters: {
+                    roles?: string[];
+                    channel_roles?: string[];
+                    team_roles?: string[];
+                };
             };
         };
 
@@ -115,6 +138,12 @@ export type GlobalState = BaseGlobalState & {
 
         channelSidebar: {
             unreadFilterEnabled: boolean;
+            draggingState: DraggingState;
+            newCategoryIds: string[];
+        };
+
+        nextSteps: {
+            show: boolean;
         };
     };
 };

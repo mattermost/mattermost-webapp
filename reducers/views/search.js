@@ -15,6 +15,19 @@ function modalSearch(state = '', action) {
     }
 }
 
+function modalFilters(state = {}, action) {
+    switch (action.type) {
+    case SearchTypes.SET_MODAL_FILTERS: {
+        const filters = action.data;
+        return {
+            ...filters,
+        };
+    }
+    default:
+        return state;
+    }
+}
+
 function systemUsersSearch(state = {}, action) {
     switch (action.type) {
     case SearchTypes.SET_SYSTEM_USERS_SEARCH: {
@@ -25,7 +38,30 @@ function systemUsersSearch(state = {}, action) {
     }
 }
 
+function userGridSearch(state = {}, action) {
+    switch (action.type) {
+    case SearchTypes.SET_USER_GRID_SEARCH: {
+        const term = action.data.trim();
+        return {
+            ...state,
+            term,
+        };
+    }
+    case SearchTypes.SET_USER_GRID_FILTERS: {
+        const filters = action.data;
+        return {
+            ...state,
+            filters,
+        };
+    }
+    default:
+        return state;
+    }
+}
+
 export default combineReducers({
     modalSearch,
+    modalFilters,
     systemUsersSearch,
+    userGridSearch,
 });

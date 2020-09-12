@@ -1,12 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {ModalIdentifiers} from 'utils/constants';
-import {localizeMessage} from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import Markdown from 'components/markdown';
@@ -19,15 +20,23 @@ export default class NavbarInfoButton extends React.PureComponent {
     static propTypes = {
         channel: PropTypes.object.isRequired,
         isReadOnly: PropTypes.bool.isRequired,
+        isRHSOpen: PropTypes.bool,
+        currentRelativeTeamUrl: PropTypes.string,
         actions: PropTypes.shape({
             openModal: PropTypes.func.isRequired,
         }).isRequired,
     };
 
-    showEditChannelHeaderModal = () => {
-        if (this.refs.headerOverlay) {
-            this.refs.headerOverlay.hide();
+    componentDidUpdate(prevProps) {
+        const RHSChanged = !prevProps.isRHSOpen && this.props.isRHSOpen;
+        const channelChanged = prevProps.channel?.id !== this.props.channel?.id;
+        if (RHSChanged || channelChanged) {
+            this.hide();
         }
+    }
+
+    showEditChannelHeaderModal = () => {
+        this.hide();
 
         const {actions, channel} = this.props;
         const modalData = {
@@ -44,6 +53,8 @@ export default class NavbarInfoButton extends React.PureComponent {
             this.refs.headerOverlay.hide();
         }
     }
+
+    handleFormattedTextClick = (e) => Utils.handleFormattedTextClick(e, this.props.currentRelativeTeamUrl);
 
     render() {
         const {channel, isReadOnly} = this.props;
@@ -100,7 +111,12 @@ export default class NavbarInfoButton extends React.PureComponent {
                 className='navbar__popover'
                 id='header-popover'
             >
-                {popoverContent}
+                <span
+                    onClick={this.handleFormattedTextClick}
+                >
+                    {popoverContent}
+                </span>
+
                 <div
                     className='close visible-xs-block'
                     onClick={this.hide}
@@ -121,7 +137,7 @@ export default class NavbarInfoButton extends React.PureComponent {
             >
                 <button
                     className='navbar-toggle navbar-right__icon navbar-info-button pull-right'
-                    aria-label={localizeMessage('accessibility.button.Info', 'Info')}
+                    aria-label={Utils.localizeMessage('accessibility.button.Info', 'Info')}
                 >
                     <InfoIcon
                         className='icon icon__info'
@@ -132,3 +148,4 @@ export default class NavbarInfoButton extends React.PureComponent {
         );
     }
 }
+/* eslint-enable react/no-string-refs */

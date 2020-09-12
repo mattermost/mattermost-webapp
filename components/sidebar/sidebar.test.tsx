@@ -11,12 +11,29 @@ describe('components/sidebar', () => {
         canCreatePublicChannel: true,
         canCreatePrivateChannel: true,
         canJoinPublicChannel: true,
+        isDataPrefechEnabled: true,
         isOpen: false,
+        teamId: 'fake_team_id',
+        hasSeenModal: true,
+        isCloud: false,
+        actions: {
+            createCategory: jest.fn(),
+            fetchMyCategories: jest.fn(),
+            openModal: jest.fn(),
+        },
     };
 
     test('should match snapshot', () => {
         const wrapper = shallow(
             <Sidebar {...baseProps}/>,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot when isDataPrefechEnabled is disabled', () => {
+        const wrapper = shallow(
+            <Sidebar {...{...baseProps, isDataPrefechEnabled: false}}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -56,5 +73,17 @@ describe('components/sidebar', () => {
         instance.setState({showDirectChannelsModal: true});
         instance.handleOpenMoreDirectChannelsModal(mockEvent as any);
         expect(instance.hideMoreDirectChannelsModal).toHaveBeenCalled();
+    });
+
+    test('should match empty div snapshot when teamId is missing', () => {
+        const props = {
+            ...baseProps,
+            teamId: '',
+        };
+        const wrapper = shallow(
+            <Sidebar {...props}/>,
+        );
+
+        expect(wrapper).toMatchSnapshot();
     });
 });

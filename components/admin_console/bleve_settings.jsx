@@ -122,13 +122,14 @@ export default class BleveSettings extends AdminSettings {
                     value={this.state.enableIndexing}
                     onChange={this.handleSettingChanged}
                     setByEnv={this.isSetByEnv('BleveSettings.EnableIndexing')}
+                    disabled={this.props.isDisabled}
                 />
                 <TextSetting
                     id='indexDir'
                     label={
                         <FormattedMessage
                             id='admin.bleve.indexDirTitle'
-                            defaultMessage='IndexDir:'
+                            defaultMessage='Index Directory:'
                         />
                     }
                     helpText={
@@ -140,6 +141,7 @@ export default class BleveSettings extends AdminSettings {
                     value={this.state.indexDir}
                     onChange={this.handleSettingChanged}
                     setByEnv={this.isSetByEnv('BleveSettings.IndexDir')}
+                    disabled={this.props.isDisabled}
                 />
                 <div className='form-group'>
                     <label
@@ -154,7 +156,7 @@ export default class BleveSettings extends AdminSettings {
                         <div className='job-table-setting'>
                             <JobsTable
                                 jobType={JobTypes.BLEVE_POST_INDEXING}
-                                disabled={!this.state.canPurgeAndIndex}
+                                disabled={!this.state.canPurgeAndIndex || this.props.isDisabled}
                                 createJobButtonText={
                                     <FormattedMessage
                                         id='admin.bleve.createJob.title'
@@ -178,7 +180,7 @@ export default class BleveSettings extends AdminSettings {
                     helpText={
                         <FormattedMessage
                             id='admin.bleve.purgeIndexesHelpText'
-                            defaultMessage='Purging will entirely remove the indexes on the Bleve server. Search results may be incomplete until a bulk index of the existing database is rebuilt.'
+                            defaultMessage='Purging will entirely remove the content of the Bleve index directory. Search results may be incomplete until a bulk index of the existing database is rebuilt.'
                         />
                     }
                     buttonText={
@@ -195,7 +197,7 @@ export default class BleveSettings extends AdminSettings {
                         id: t('admin.bleve.purgeIndexesButton.error'),
                         defaultMessage: 'Failed to purge indexes: {error}',
                     }}
-                    disabled={!this.state.canPurgeAndIndex}
+                    disabled={!this.state.canPurgeAndIndex || this.props.isDisabled}
                     label={(
                         <FormattedMessage
                             id='admin.bleve.purgeIndexesButton.label'
@@ -214,11 +216,11 @@ export default class BleveSettings extends AdminSettings {
                     helpText={
                         <FormattedMessage
                             id='admin.bleve.enableSearchingDescription'
-                            defaultMessage='Requires a successful connection to the Bleve server. When true, Bleve will be used for all search queries using the latest index. Search results may be incomplete until a bulk index of the existing post database is finished. When false, database search is used.'
+                            defaultMessage='When true, Bleve will be used for all search queries using the latest index. Search results may be incomplete until a bulk index of the existing post database is finished. When false, database search is used.'
                         />
                     }
                     value={this.state.enableSearching}
-                    disabled={!this.state.enableIndexing}
+                    disabled={!this.state.enableIndexing || this.props.isDisabled}
                     onChange={this.handleSettingChanged}
                     setByEnv={this.isSetByEnv('BleveSettings.EnableSearching')}
                 />
@@ -233,11 +235,11 @@ export default class BleveSettings extends AdminSettings {
                     helpText={
                         <FormattedMessage
                             id='admin.bleve.enableAutocompleteDescription'
-                            defaultMessage='Requires a successful connection to the Bleve server. When true, Bleve will be used for all autocompletion queries on users and channels using the latest index. Autocompletion results may be incomplete until a bulk index of the existing users and channels database is finished. When false, database autocomplete is used.'
+                            defaultMessage='When true, Bleve will be used for all autocompletion queries on users and channels using the latest index. Autocompletion results may be incomplete until a bulk index of the existing users and channels database is finished. When false, database autocomplete is used.'
                         />
                     }
                     value={this.state.enableAutocomplete}
-                    disabled={!this.state.enableIndexing}
+                    disabled={!this.state.enableIndexing || this.props.isDisabled}
                     onChange={this.handleSettingChanged}
                     setByEnv={this.isSetByEnv('BleveSettings.EnableAutocomplete')}
                 />

@@ -42,7 +42,7 @@ exports[`comoponents/rhs_card/RhsCard should match on post when no plugin defini
             id="rhs_card.message_by"
             values={
               Object {
-                "avatar": <Connect(PostProfilePicture)
+                "avatar": <Memo(Connect(PostProfilePicture))
                   compactDisplay={false}
                   post={
                     Object {
@@ -54,7 +54,7 @@ exports[`comoponents/rhs_card/RhsCard should match on post when no plugin defini
                     }
                   }
                 />,
-                "user": <Connect(UserProfile)
+                "user": <Memo(Connect(UserProfile))
                   disablePopover={true}
                   hideStatus={true}
                 />,
@@ -73,7 +73,6 @@ exports[`comoponents/rhs_card/RhsCard should match on post when no plugin defini
             <FormattedMessage
               defaultMessage="Jump"
               id="rhs_card.jump"
-              values={Object {}}
             />
           </Link>
         </div>
@@ -125,7 +124,7 @@ exports[`comoponents/rhs_card/RhsCard should match on post when plugin defining 
             id="rhs_card.message_by"
             values={
               Object {
-                "avatar": <Connect(PostProfilePicture)
+                "avatar": <Memo(Connect(PostProfilePicture))
                   compactDisplay={false}
                   post={
                     Object {
@@ -137,7 +136,7 @@ exports[`comoponents/rhs_card/RhsCard should match on post when plugin defining 
                     }
                   }
                 />,
-                "user": <Connect(UserProfile)
+                "user": <Memo(Connect(UserProfile))
                   disablePopover={true}
                   hideStatus={true}
                 />,
@@ -156,7 +155,6 @@ exports[`comoponents/rhs_card/RhsCard should match on post when plugin defining 
             <FormattedMessage
               defaultMessage="Jump"
               id="rhs_card.jump"
-              values={Object {}}
             />
           </Link>
         </div>
@@ -214,7 +212,7 @@ exports[`comoponents/rhs_card/RhsCard should match on post when plugin defining 
             id="rhs_card.message_by"
             values={
               Object {
-                "avatar": <Connect(PostProfilePicture)
+                "avatar": <Memo(Connect(PostProfilePicture))
                   compactDisplay={false}
                   post={
                     Object {
@@ -226,7 +224,7 @@ exports[`comoponents/rhs_card/RhsCard should match on post when plugin defining 
                     }
                   }
                 />,
-                "user": <Connect(UserProfile)
+                "user": <Memo(Connect(UserProfile))
                   disablePopover={true}
                   hideStatus={true}
                 />,
@@ -245,7 +243,6 @@ exports[`comoponents/rhs_card/RhsCard should match on post when plugin defining 
             <FormattedMessage
               defaultMessage="Jump"
               id="rhs_card.jump"
-              values={Object {}}
             />
           </Link>
         </div>

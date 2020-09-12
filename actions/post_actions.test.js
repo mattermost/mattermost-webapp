@@ -29,7 +29,7 @@ jest.mock('actions/emoji_actions', () => ({
 }));
 
 jest.mock('actions/storage', () => {
-    const original = require.requireActual('actions/storage');
+    const original = jest.requireActual('actions/storage');
     return {
         ...original,
         setGlobalItem: (...args) => ({type: 'MOCK_SET_GLOBAL_ITEM', args}),

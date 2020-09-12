@@ -10,24 +10,18 @@
 // Stage: @prod
 // Group: @messaging
 
-let testTeam;
-
 describe('Message Draft', () => {
-    before(() => {
-        // # Login as sysadmin
-        cy.apiLogin('sysadmin');
+    let testTeam;
 
-        // # Login as new user
-        cy.apiCreateAndLoginAsNewUser().then(() => {
-            // # Create new team and visit its URL
-            cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
-                testTeam = response.body;
-                cy.visit(`/${testTeam.name}`);
-            });
+    before(() => {
+        // # Create new team and new user and visit Town Square channel
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            testTeam = team;
+            cy.visit(`/${testTeam.name}/channels/town-square`);
         });
     });
 
-    it('M13473 Message Draft - Pencil Icon', () => {
+    it('MM-T130 Message Draft Pencil Icon- Text', () => {
         // # Got to a test channel on the side bar
         cy.get('#sidebarItem_town-square').click({force: true});
 

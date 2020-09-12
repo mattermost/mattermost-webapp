@@ -441,12 +441,12 @@ export function createAriaLabelForPost(post, author, isFlagged, reactions, intl,
         if (post.is_pinned) {
             ariaLabel += formatMessage({
                 id: 'post.ariaLabel.messageIsFlaggedAndPinned',
-                defaultMessage: ', message is flagged and pinned',
+                defaultMessage: ', message is saved and pinned',
             });
         } else {
             ariaLabel += formatMessage({
                 id: 'post.ariaLabel.messageIsFlagged',
-                defaultMessage: ', message is flagged',
+                defaultMessage: ', message is saved',
             });
         }
     } else if (!isFlagged && post.is_pinned) {

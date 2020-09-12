@@ -1,13 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/user_settings/advanced/JoinLeaveSection should match snapshot 1`] = `
-<Connect(SettingItemMin)
+<SettingItemMin
   section="joinLeave"
   title={
     <FormattedMessage
       defaultMessage="Enable Join/Leave Messages"
       id="user.settings.advance.joinLeaveTitle"
-      values={Object {}}
     />
   }
   updateSection={[Function]}
@@ -27,7 +26,6 @@ exports[`components/user_settings/advanced/JoinLeaveSection should match snapsho
           <FormattedMessage
             defaultMessage="Enable Join/Leave Messages"
             id="user.settings.advance.joinLeaveTitle"
-            values={Object {}}
           />
         </legend>
         <div
@@ -45,7 +43,6 @@ exports[`components/user_settings/advanced/JoinLeaveSection should match snapsho
             <FormattedMessage
               defaultMessage="On"
               id="user.settings.advance.on"
-              values={Object {}}
             />
           </label>
           <br />
@@ -65,7 +62,6 @@ exports[`components/user_settings/advanced/JoinLeaveSection should match snapsho
             <FormattedMessage
               defaultMessage="Off"
               id="user.settings.advance.off"
-              values={Object {}}
             />
           </label>
           <br />
@@ -76,7 +72,6 @@ exports[`components/user_settings/advanced/JoinLeaveSection should match snapsho
           <FormattedMessage
             defaultMessage="When \\"On\\", System Messages saying a user has joined or left a channel will be visible. When \\"Off\\", the System Messages about joining or leaving a channel will be hidden. A message will still show up when you are added to a channel, so you can receive a notification."
             id="user.settings.advance.joinLeaveDesc"
-            values={Object {}}
           />
         </div>
       </fieldset>,
@@ -90,7 +85,6 @@ exports[`components/user_settings/advanced/JoinLeaveSection should match snapsho
     <FormattedMessage
       defaultMessage="Enable Join/Leave Messages"
       id="user.settings.advance.joinLeaveTitle"
-      values={Object {}}
     />
   }
   updateSection={[Function]}

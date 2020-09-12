@@ -3,14 +3,21 @@
 
 /* eslint-disable no-console */
 
-const postMessageAs = require('./post_message_as');
-const postBotMessage = require('./post_bot_message');
+const {
+    dbGetActiveUserSessions,
+    dbGetUser,
+    dbGetUserSession,
+    dbUpdateUserSession,
+} = require('./db_request');
 const externalRequest = require('./external_request');
-const getClipboard = require('./getClipboard');
+const fileExist = require('./file_exist');
 const getRecentEmail = require('./get_recent_email');
-const postIncomingWebhook = require('./post_incoming_webhook');
 const oktaRequest = require('./okta_request');
+const postBotMessage = require('./post_bot_message');
+const postIncomingWebhook = require('./post_incoming_webhook');
+const postMessageAs = require('./post_message_as');
 const urlHealthCheck = require('./url_health_check');
+const reactToMessageAs = require('./react_to_message_as');
 
 const log = (message) => {
     console.log(message);
@@ -19,22 +26,23 @@ const log = (message) => {
 
 module.exports = (on, config) => {
     on('task', {
-        postMessageAs,
-        postBotMessage,
+        dbGetActiveUserSessions,
+        dbGetUser,
+        dbGetUserSession,
+        dbUpdateUserSession,
         externalRequest,
-        getClipboard,
+        fileExist,
         getRecentEmail,
         log,
-        postIncomingWebhook,
         oktaRequest,
+        postBotMessage,
+        postIncomingWebhook,
+        postMessageAs,
         urlHealthCheck,
+        reactToMessageAs,
     });
 
     on('before:browser:launch', (browser = {}, launchOptions) => {
-        if (browser.name === 'chrome') {
-            launchOptions.args.push('--disable-notifications');
-        }
-
         if (browser.name === 'chrome' && !config.chromeWebSecurity) {
             launchOptions.args.push('--disable-features=CrossSiteDocumentBlockingIfIsolating,CrossSiteDocumentBlockingAlways,IsolateOrigins,site-per-process');
             launchOptions.args.push('--load-extension=cypress/extensions/Ignore-X-Frame-headers');
@@ -45,3 +53,7 @@ module.exports = (on, config) => {
 
     return config;
 };
+
+if (process.env.ENABLE_VISUAL_TEST) {
+    require('@applitools/eyes-cypress')(module); // eslint-disable-line global-require
+}

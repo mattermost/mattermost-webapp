@@ -12,15 +12,16 @@
 
 describe('Messaging', () => {
     before(() => {
-        // # Login as "user-1" and go to /
-        cy.apiLogin('user-1');
-        cy.visit('/ad-1/channels/town-square');
-
         // # resize window to mobile view
         cy.viewport('iphone-6');
+
+        // # Login as test user and visit town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
+        });
     });
 
-    it('M18677 - Clicking on airplane icon does not open file attachment modal but sends the message', () => {
+    it('MM-T73 Mobile view: Clicking on airplane icon does not open file attachment modal but sends the message', () => {
         // # type some characters in the message box
         const message = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. ';
         cy.get('#post_textbox').clear().type(message);

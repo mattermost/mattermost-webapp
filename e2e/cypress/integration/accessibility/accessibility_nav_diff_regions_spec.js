@@ -7,27 +7,19 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @accessibility
 
-import users from '../../fixtures/users.json';
+import {getRandomId} from '../../utils';
 
-const otherUser = users['user-2'];
-let message;
-
-function postMessages(count = 1) {
-    cy.getCurrentChannelId().then((channelId) => {
-        cy.apiGetUserByEmail(otherUser.email).then((emailResponse) => {
-            cy.apiAddUserToChannel(channelId, emailResponse.body.id);
-            for (let index = 0; index < count; index++) {
-                // # Post Message as Current user
-                message = `hello from sysadmin: ${Date.now()}`;
-                cy.postMessage(message);
-                message = `hello from ${otherUser.username}: ${Date.now()}`;
-                cy.postMessageAs({sender: otherUser, message, channelId});
-            }
-            cy.wait(1000); // eslint-disable-line cypress/no-unnecessary-waiting
-        });
-    });
+function postMessages(testChannel, otherUser, count) {
+    for (let index = 0; index < count; index++) {
+        // # Post Message as Current user
+        const message = `hello from current user: ${getRandomId()}`;
+        cy.postMessage(message);
+        const otherMessage = `hello from ${otherUser.username}: ${getRandomId()}`;
+        cy.postMessageAs({sender: otherUser, message: otherMessage, channelId: testChannel.id});
+    }
 }
 
 function verifyNavSupport(element, label, tabOrder) {
@@ -38,17 +30,31 @@ function verifyNavSupport(element, label, tabOrder) {
 }
 
 describe('Verify Quick Navigation support across different regions in the app', () => {
+    let otherUser;
+    let testChannel;
+
     before(() => {
-        cy.apiLogin('sysadmin');
+        cy.apiInitSetup().then(({team, channel, user}) => {
+            testChannel = channel;
 
-        // Visit the Town Square channel
-        cy.visit('/ad-1/channels/town-square');
+            cy.apiCreateUser({prefix: 'other'}).then(({user: user1}) => {
+                otherUser = user1;
 
-        // # Post few messages
-        postMessages(2);
+                cy.apiAddUserToTeam(team.id, otherUser.id).then(() => {
+                    cy.apiAddUserToChannel(testChannel.id, otherUser.id).then(() => {
+                        // # Login as test user, visit town-square and post few messages
+                        cy.apiLogin(user);
+                        cy.visit(`/${team.name}/channels/${testChannel.name}`);
+
+                        // # Post few messages
+                        postMessages(testChannel, otherUser, 5);
+                    });
+                });
+            });
+        });
     });
 
-    it('MM-22626 Verify Navigation Support in Post List & Post Input', () => {
+    it('MM-T1460_1 Verify Navigation Support in Post List & Post Input', () => {
         // # Shift focus to the last post
         cy.get('#fileUploadButton').focus().tab({shift: true}).tab({shift: true});
         cy.get('body').type('{uparrow}{downarrow}');
@@ -63,7 +69,7 @@ describe('Verify Quick Navigation support across different regions in the app', 
         verifyNavSupport('#centerChannelFooter', 'message input complimentary region', '2');
     });
 
-    it('MM-22626 Verify Navigation Support in RHS Post List & RHS Post Input', () => {
+    it('MM-T1460_3 Verify Navigation Support in RHS Post List & RHS Post Input', () => {
         // # Open RHS and reply
         cy.getLastPostId().then((postId) => {
             cy.clickPostCommentIcon(postId);
@@ -87,7 +93,7 @@ describe('Verify Quick Navigation support across different regions in the app', 
         });
     });
 
-    it('MM-22626 Verify Navigation Support in LHS Sidebar', () => {
+    it('MM-T1460_5 Verify Navigation Support in LHS Sidebar', () => {
         // # Change the focus to Main Menu button
         cy.get('#headerInfo button').focus().tab({shift: true}).tab();
 
@@ -101,7 +107,7 @@ describe('Verify Quick Navigation support across different regions in the app', 
         verifyNavSupport('#lhsList', 'channel sidebar region', '6');
     });
 
-    it('MM-22626 Verify Navigation Support in Channel Header', () => {
+    it('MM-T1460_6 Verify Navigation Support in Channel Header', () => {
         // # Change the focus to Main Menu button
         cy.get('#toggleFavorite').focus().tab({shift: true}).tab();
 
@@ -109,7 +115,7 @@ describe('Verify Quick Navigation support across different regions in the app', 
         verifyNavSupport('#channel-header', 'channel header region', '8');
     });
 
-    it('MM-22626 Verify Navigation Support in Search Results', () => {
+    it('MM-T1460_8 Verify Navigation Support in Search Results', () => {
         // # Search for some text
         cy.get('#searchBox').should('be.visible').type('hello {enter}');
 

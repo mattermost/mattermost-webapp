@@ -7,21 +7,27 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod @smoke
+// Stage: @prod
 // Group: @messaging
 
 describe('Message', () => {
-    beforeEach(() => {
-        // # Login as "user-1" and go to /
-        cy.apiLogin('user-1');
+    let testChannel;
+    let testTeam;
 
-        cy.visit('/ad-1/channels/town-square');
+    before(() => {
+        // # Login as test user and go to town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
+            testChannel = channel;
+            testTeam = team;
+
+            cy.visit(`/${testTeam.name}/channels/town-square`);
+        });
     });
 
-    it('M17451 Channel shortlinking still works when placed in brackets', () => {
+    it('MM-T175 Channel shortlinking still works when placed in brackets', () => {
         // # Post a shortlink of channel
-        const shortLink = '(~saepe-5)';
-        const longLink = '~doloremque';
+        const shortLink = `(~${testChannel.name})`;
+        const longLink = `~${testChannel.display_name}`;
 
         cy.postMessage(shortLink);
 
@@ -31,10 +37,10 @@ describe('Message', () => {
             cy.get(divPostId).contains(longLink).click();
 
             // * verify that the url is the same as what was just clicked on
-            cy.location('pathname').should('contain', 'ad-1/channels/saepe-5');
+            cy.location('pathname').should('contain', `${testTeam.name}/channels/${testChannel.name}`);
 
             // * verify that the channel title represents the same channel that was clicked on
-            cy.get('#channelHeaderTitle').should('contain', 'doloremque');
+            cy.get('#channelHeaderTitle').should('contain', testChannel.display_name);
         });
     });
 });

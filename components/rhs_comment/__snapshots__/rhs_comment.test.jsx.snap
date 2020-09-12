@@ -12,6 +12,11 @@ exports[`components/RhsComment should match snapshot 1`] = `
   role="listitem"
   tabIndex="-1"
 >
+  <Connect(injectIntl(PostPreHeader))
+    channelId="channel_id"
+    isFlagged={true}
+    isPinned={false}
+  />
   <div
     className="post__content"
     role="application"
@@ -65,12 +70,6 @@ exports[`components/RhsComment should match snapshot 1`] = `
           <Connect(PostTime)
             eventTime={1502715365009}
             isPermalink={true}
-            location="RHS_COMMENT"
-            postId="id"
-          />
-          <Connect(PostFlagIcon)
-            isEphemeral={false}
-            isFlagged={true}
             location="RHS_COMMENT"
             postId="id"
           />
@@ -148,6 +147,11 @@ exports[`components/RhsComment should match snapshot hovered 1`] = `
   role="listitem"
   tabIndex="-1"
 >
+  <Connect(injectIntl(PostPreHeader))
+    channelId="channel_id"
+    isFlagged={true}
+    isPinned={false}
+  />
   <div
     className="post__content"
     role="application"
@@ -204,12 +208,6 @@ exports[`components/RhsComment should match snapshot hovered 1`] = `
             location="RHS_COMMENT"
             postId="id"
           />
-          <Connect(PostFlagIcon)
-            isEphemeral={false}
-            isFlagged={true}
-            location="RHS_COMMENT"
-            postId="id"
-          />
         </div>
         <div
           className="col post-menu"
@@ -250,6 +248,11 @@ exports[`components/RhsComment should match snapshot hovered 1`] = `
             showEmojiPicker={false}
             teamId="team_id"
             toggleEmojiPicker={[Function]}
+          />
+          <Connect(PostFlagIcon)
+            isFlagged={true}
+            location="RHS_COMMENT"
+            postId="id"
           />
         </div>
       </div>
@@ -325,6 +328,11 @@ exports[`components/RhsComment should match snapshot hovered on deleted post 1`]
   role="listitem"
   tabIndex="-1"
 >
+  <Connect(injectIntl(PostPreHeader))
+    channelId="channel_id"
+    isFlagged={true}
+    isPinned={false}
+  />
   <div
     className="post__content"
     role="application"
@@ -379,12 +387,6 @@ exports[`components/RhsComment should match snapshot hovered on deleted post 1`]
           <Connect(PostTime)
             eventTime={1502715365009}
             isPermalink={false}
-            location="RHS_COMMENT"
-            postId="id"
-          />
-          <Connect(PostFlagIcon)
-            isEphemeral={true}
-            isFlagged={true}
             location="RHS_COMMENT"
             postId="id"
           />
@@ -475,6 +477,11 @@ exports[`components/RhsComment should match snapshot mobile 1`] = `
   role="listitem"
   tabIndex="-1"
 >
+  <Connect(injectIntl(PostPreHeader))
+    channelId="channel_id"
+    isFlagged={true}
+    isPinned={false}
+  />
   <div
     className="post__content"
     role="application"
@@ -528,12 +535,6 @@ exports[`components/RhsComment should match snapshot mobile 1`] = `
           <Connect(PostTime)
             eventTime={1502715365009}
             isPermalink={true}
-            location="RHS_COMMENT"
-            postId="id"
-          />
-          <Connect(PostFlagIcon)
-            isEphemeral={false}
-            isFlagged={true}
             location="RHS_COMMENT"
             postId="id"
           />
