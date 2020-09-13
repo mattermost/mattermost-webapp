@@ -6,6 +6,55 @@
         border-radius: $border-rad;
     }
 
+    .about-modal.cloud {
+        .modal-content {
+            .modal-header {
+                background: transparent;
+                        border: none;
+                        color: inherit;
+                        padding: 20px 25px;
+                        display: flex;
+                        align-items: center;
+                        border-bottom: 1px solid #ddd;
+
+                        .close {
+                            color: inherit;
+                            font-weight: normal;
+                            right: 15px;
+                            font-size: 30px;
+                            opacity: .5;
+                        }
+
+                        .more-modal__image {
+                            margin-right: 12px;
+                        }
+
+                        .modal-title {
+                            color: inherit;
+                            font-size: 17px;
+                            font-weight: 600;
+                        }
+
+                        .icon {
+                            margin: 0 5px 0 8px;
+                            position: relative;
+                            top: 1px;
+
+                            svg {
+                                @include opacity(.8);
+                                height: 14px;
+                                width: 14px;
+                            }
+                        }
+                    }
+                }
+
+                .modal-body {
+                    padding: 15px 25px;
+                    max-height: calc(100vh - 220px);
+                }
+    }
+
     .about-modal {
         .modal-content {
             .modal-header {

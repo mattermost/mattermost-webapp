@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
+import classNames from 'classnames';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import MattermostLogo from 'components/widgets/icons/mattermost_logo';
@@ -59,6 +60,7 @@ export default class AboutBuildModal extends React.PureComponent {
     render() {
         const config = this.props.config;
         const license = this.props.license;
+        const isCloud = license.Cloud === 'true';
 
         let title = (
             <FormattedMessage
@@ -141,7 +143,42 @@ export default class AboutBuildModal extends React.PureComponent {
             }
         }
 
-        const termsOfService = (
+        if (isCloud) {
+            title = (
+                <FormattedMessage
+                    id='about.cloudEdition'
+                    defaultMessage='Cloud Edition'
+                />
+            );
+
+            subTitle = (
+                <FormattedMessage
+                    id='about.enterpriseEditionSst'
+                    defaultMessage='High trust messaging for the enterprise'
+                />
+            );
+
+            learnMore = null;
+
+            title = (
+                <FormattedMessage
+                    id='about.cloudEdition'
+                    defaultMessage='Cloud Edition'
+                />
+            );
+            licensee = (
+                <div className='form-group'>
+                    <FormattedMessage
+                        id='about.licensed'
+                        defaultMessage='Licensed to:'
+                    />
+                    <Nbsp/>
+                    {license.Company}
+                </div>
+            );
+        }
+
+        let termsOfService = (
             <a
                 target='_blank'
                 id='tosLink'
@@ -155,7 +192,7 @@ export default class AboutBuildModal extends React.PureComponent {
             </a>
         );
 
-        const privacyPolicy = (
+        let privacyPolicy = (
             <a
                 target='_blank'
                 id='privacyLink'
@@ -168,6 +205,11 @@ export default class AboutBuildModal extends React.PureComponent {
                 />
             </a>
         );
+
+        if (isCloud) {
+            termsOfService = null;
+            privacyPolicy = null;
+        }
 
         // Only show build number if it's a number (so only builds from Jenkins)
         let buildnumber = (
@@ -183,6 +225,10 @@ export default class AboutBuildModal extends React.PureComponent {
             buildnumber = null;
         }
 
+        if (isCloud) {
+            buildnumber = null;
+        }
+
         let mmversion = config.BuildNumber;
         if (!isNaN(config.BuildNumber)) {
             mmversion = 'ci';
@@ -190,7 +236,7 @@ export default class AboutBuildModal extends React.PureComponent {
 
         return (
             <Modal
-                dialogClassName='a11y__modal about-modal'
+                dialogClassName={classNames('a11y__modal', 'about-modal', isCloud ? 'cloud' : '')}
                 show={this.state.show}
                 onHide={this.doHide}
                 onExited={this.handleExit}
@@ -225,21 +271,23 @@ export default class AboutBuildModal extends React.PureComponent {
                                     />
                                     <span id='versionString'>{'\u00a0' + mmversion}</span>
                                 </div>
-                                <div>
-                                    <FormattedMessage
-                                        id='about.dbversion'
-                                        defaultMessage='Database Schema Version:'
-                                    />
-                                    <span id='dbversionString'>{'\u00a0' + config.Version}</span>
-                                </div>
-                                {buildnumber}
-                                <div>
-                                    <FormattedMessage
-                                        id='about.database'
-                                        defaultMessage='Database:'
-                                    />
-                                    {'\u00a0' + config.SQLDriverName}
-                                </div>
+                                {!isCloud && <>
+                                    <div>
+                                        <FormattedMessage
+                                            id='about.dbversion'
+                                            defaultMessage='Database Schema Version:'
+                                        />
+                                        <span id='dbversionString'>{'\u00a0' + config.Version}</span>
+                                    </div>
+                                    {buildnumber}
+                                    <div>
+                                        <FormattedMessage
+                                            id='about.database'
+                                            defaultMessage='Database:'
+                                        />
+                                        {'\u00a0' + config.SQLDriverName}
+                                    </div>
+                                </>}
                             </div>
                             {licensee}
                         </div>
@@ -258,7 +306,7 @@ export default class AboutBuildModal extends React.PureComponent {
                             </div>
                             <div className='about-modal__links'>
                                 {termsOfService}
-                                {' - '}
+                                {!isCloud && ' - '}
                                 {privacyPolicy}
                             </div>
                         </div>
@@ -271,7 +319,7 @@ export default class AboutBuildModal extends React.PureComponent {
                             />
                         </p>
                     </div>
-                    <div className='about-modal__hash'>
+                    {!isCloud && <div className='about-modal__hash'>
                         <p>
                             <FormattedMessage
                                 id='about.hash'
@@ -298,7 +346,7 @@ export default class AboutBuildModal extends React.PureComponent {
                             />
                             <Nbsp/>{config.BuildDate}
                         </p>
-                    </div>
+                    </div>}
                 </Modal.Body>
             </Modal>
         );
