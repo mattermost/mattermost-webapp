@@ -50,7 +50,7 @@ describe('Emoji reactions to posts/messages in GM channels', () => {
 
             // # Choose "slightly_frowning_face" emoji
             // delaying 500ms in case of lag
-            cy.get('.emoji-picker__items #emoji-1f641').wait(500).click();
+            cy.get('.emoji-picker__items #emoji-1f641').wait(500).click(); // eslint-disable-line cypress/no-unnecessary-waiting
 
             // * The number shown on the reaction is incremented by 1
             cy.get(`#postReaction-${postId}-slightly_frowning_face .Reaction__number--display`).
