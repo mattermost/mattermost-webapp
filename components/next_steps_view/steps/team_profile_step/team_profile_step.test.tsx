@@ -17,6 +17,8 @@ describe('components/next_steps_view/steps/team_profile_step', () => {
         team: TestHelper.getTeamMock(),
         maxFileSize: 1000000000,
         siteURL: 'http://a.site.url',
+        expanded: true,
+        isAdmin: true,
         actions: {
             patchTeam: jest.fn(),
             removeTeamIcon: jest.fn(),

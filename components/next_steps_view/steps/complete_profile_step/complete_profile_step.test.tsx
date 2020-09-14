@@ -15,6 +15,8 @@ describe('components/next_steps_view/steps/complete_profile_step', () => {
         onFinish: jest.fn(),
         currentUser: TestHelper.getUserMock(),
         maxFileSize: 1000000000,
+        expanded: true,
+        isAdmin: true,
         actions: {
             updateMe: jest.fn(),
             setDefaultProfileImage: jest.fn(),

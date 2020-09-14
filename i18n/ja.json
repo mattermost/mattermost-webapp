@@ -827,12 +827,8 @@
   "admin.permissions.permission.manage_oauth.name": "OAuthアプリケーション管理",
   "admin.permissions.permission.manage_outgoing_webhooks.description": "内向きのウェブフックを作成、編集、削除する。",
   "admin.permissions.permission.manage_outgoing_webhooks.name": "外向きのウェブフックの管理",
-  "admin.permissions.permission.manage_private_channel_members.description": "非公開チャンネルのメンバーの追加と削除。",
-  "admin.permissions.permission.manage_private_channel_members.name": "チャンネルメンバー管理",
   "admin.permissions.permission.manage_private_channel_properties.description": "非公開チャンネル名、ヘッダー、目的の更新。",
   "admin.permissions.permission.manage_private_channel_properties.name": "チャンネル設定の管理",
-  "admin.permissions.permission.manage_public_channel_members.description": "公開チャンネルメンバーの追加と削除。",
-  "admin.permissions.permission.manage_public_channel_members.name": "チャンネルメンバー管理",
   "admin.permissions.permission.manage_public_channel_properties.description": "公開チャンネル名、ヘッダー、目的の更新。",
   "admin.permissions.permission.manage_public_channel_properties.name": "チャンネル設定の管理",
   "admin.permissions.permission.manage_roles.description": "役割の管理",
@@ -4001,5 +3997,9 @@
   "admin.channel_list.manual_invites": "手動で招待する",
   "warn_metric_ack_modal.learn_more.link": "詳しく知る",
   "warn_metric_ack_modal.number_of_active_users.subtext": "サポートを受けるにはあなたの連絡先をMattermost, Inc. まで送信してください。 {link}",
-  "timestamp.datetime": "{time} の {relativeOrDate}"
+  "timestamp.datetime": "{time} の {relativeOrDate}",
+  "admin.permissions.group.manage_public_channel_members_and_read_groups.name": "チャンネルメンバー管理",
+  "admin.permissions.group.manage_public_channel_members_and_read_groups.description": "公開チャンネルメンバーの追加と削除。",
+  "admin.permissions.group.manage_private_channel_members_and_read_groups.name": "チャンネルメンバー管理",
+  "admin.permissions.group.manage_private_channel_members_and_read_groups.description": "非公開チャンネルのメンバーの追加と削除。"
 }
