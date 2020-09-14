@@ -65,7 +65,6 @@ exports[`components/post_view/post_list_row should render manual load messages t
   <FormattedMessage
     defaultMessage="Load More Messages"
     id="posts_view.loadMore"
-    values={Object {}}
   />
 </button>
 `;

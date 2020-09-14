@@ -38,7 +38,7 @@ export default function RemoveNextStepsModal(props: Props) {
                         />
                     </span>
                 </div>,
-                document.body as HTMLElement
+                document.body as HTMLElement,
             )}
             <GenericModal
                 className='RemoveNextStepsModal'
