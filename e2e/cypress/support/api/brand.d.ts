@@ -19,15 +19,14 @@ declare namespace Cypress {
     interface Chainable<Subject = any> {
 
         /**
-         * Create a new terms of service.
-         * See https://api.mattermost.com/#tag/terms-of-service/paths/~1terms_of_service/post
-         * @param {String} text - Terms of service text, displayed when a user logs in for the first time after a new one has been created.
+         * Delete the custom brand image.
+         * See https://api.mattermost.com/#tag/brand/paths/~1brand~1image/delete
+         * @returns {Response} response: Cypress-chainable response which should have either a successful HTTP status of 200 OK
+         * or a 404 Not Found in case that the image didn't exists to continue or pass.
          *
          * @example
-         *   cy.apiCreateTermsOfService('Accept me').then(({termsOfService}) => {
-         *       // do something
-         *   });
+         *   cy.apiDeleteBrandImage();
          */
-        apiCreateTermsOfService(text: string): Chainable<TermsOfService>;
+        apiDeleteBrandImage(): Chainable<Record<string, any>>;
     }
 }
