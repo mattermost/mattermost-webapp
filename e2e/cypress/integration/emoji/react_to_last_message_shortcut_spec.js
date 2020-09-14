@@ -480,11 +480,11 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
         verifyShortcutReactToLastMessageIsBlocked();
     });
 
-    it('Should not open the emoji picker by shortcut if RHS is fully expanded for search results, recent mentions, flagged and pinned posts', () => {
-        // # Open the flagged message
+    it('Should not open the emoji picker by shortcut if RHS is fully expanded for search results, recent mentions, saved and pinned posts', () => {
+        // # Open the saved message
         cy.findByLabelText('Saved posts').click();
 
-        // # Expand the flagged message
+        // # Expand the saved message
         cy.findByLabelText('Expand Sidebar Icon').click();
 
         // Execute the shortcut
