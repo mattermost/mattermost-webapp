@@ -97,6 +97,27 @@ describe('Customization', () => {
         });
     });
 
+    it('MM-T1027 - Custom branding is enabled but no image has been uploaded', () => {
+        // # Ensure that the brand image is deleted
+        cy.apiDeleteBrandImage();
+        cy.reload();
+
+        // # Set Enable Custom Branding to true
+        cy.findByTestId('TeamSettings.EnableCustomBrandtrue').check();
+
+        // # Save setting
+        saveSetting();
+
+        // # Logout from the current user
+        cy.apiLogout();
+
+        // * Ensure that the user was redirected to the login page after the logout
+        cy.url().should('include', '/login');
+
+        // * Ensure that the signup is loaded and the img doesn't exist
+        cy.get('.signup__markdown').find('img').should('not.be.visible');
+    });
+
     it('MM-T1028 - Custom brand image and text - true, and uploaded / updated', () => {
         // # Make sure necessary field is false
         cy.apiUpdateConfig({TeamSettings: {EnableCustomBrand: false}});
