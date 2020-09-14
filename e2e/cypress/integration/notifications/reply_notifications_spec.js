@@ -206,7 +206,6 @@ describe('reply-notifications', () => {
                     and('have.text', message);
             });
         });
-
     });
 
     it('MM-T554 Trigger notifications on messages in reply threads that I start or participate in - participate in', () => {
