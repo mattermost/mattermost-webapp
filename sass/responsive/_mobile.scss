@@ -24,7 +24,7 @@
         .post {
             &.post--thread {
                 .post-pre-header__icons-container {
-                    padding-right: 12px; // If the padding of post__img changes, this needs to be adjusted accordingly 
+                    padding-right: 12px; // If the padding of post__img changes, this needs to be adjusted accordingly
                     width: 60px; // If the width of post__img changes, this needs to be adjusted accordingly
                     margin-left: 0px; // if left margin of post__content changes, this needs to be adjusted accordingly
                 }
@@ -584,7 +584,7 @@
         }
 
         .post-add-reaction {
-            .post-reaction {
+            .Reaction {
                 opacity: 1;
                 visibility: visible;
             }
@@ -665,12 +665,12 @@
             }
         }
 
-        .post-pre-header {    
+        .post-pre-header {
             .post-pre-header__icons-container {
                 padding-right: 8px; // If the padding of post__img changes, this needs to be adjusted accordingly
                 width: 40px; // If the width of post__img changes, this needs to be adjusted accordingly
                 margin-left: 0px;
-    
+
                 .icon--post-pre-header {
                     &:nth-of-type(even) {
                         margin-left: 8px;
@@ -1653,7 +1653,7 @@
 
         .SidebarMenu, .AddChannelDropdown {
             display: block !important;
-    
+
             .Menu {
                 top: 0 !important;
             }
@@ -1885,7 +1885,7 @@
     .signup-team-all {
         max-height: calc(75vh - (118px + 187px));
     }
-    
+
 }
 
 @media screen and (max-width: 640px) {
