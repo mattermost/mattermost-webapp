@@ -105,7 +105,7 @@ describe('Plugin Marketplace', () => {
             });
             cy.visit(pluginManagementPage);
 
-            cy.wait(TIMEOUTS.HALF_SEC).get('input[data-testid="enablefalse"]').should('be.checked')
+            cy.wait(TIMEOUTS.HALF_SEC).get('input[data-testid="enablefalse"]').should('be.checked');
             cy.get('input[data-testid="enabletrue"]').check();
             cy.get('#saveSetting').click();
 
@@ -129,7 +129,7 @@ describe('Plugin Marketplace', () => {
             });
             cy.visit(pluginManagementPage);
 
-            cy.wait(TIMEOUTS.HALF_SEC).get('input[data-testid="enableMarketplacefalse"]').should('be.checked')
+            cy.wait(TIMEOUTS.HALF_SEC).get('input[data-testid="enableMarketplacefalse"]').should('be.checked');
             cy.get('input[data-testid="enableMarketplacetrue"]').check();
             cy.get('#saveSetting').click();
 
