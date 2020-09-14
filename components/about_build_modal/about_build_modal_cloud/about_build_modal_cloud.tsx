@@ -10,40 +10,18 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import MattermostLogo from 'components/widgets/icons/mattermost_logo';
 import Nbsp from 'components/html_entities/nbsp';
 
-import {AboutLinks} from 'utils/constants';
-
 import './about_build_modal_cloud.scss';
 
 type Props = {
-
-    /**
-     * Function that is called when the modal is dismissed
-     */
     onHide: () => void;
-
-    /**
-     * Global config object
-     */
     config: any;
-
-    /**
-     * Global license object
-     */
     license: any;
-
-    /**
-     * Webapp build hash override. By default, webpack sets this (so it must be overridden in tests).
-     */
     webappBuildHash: string;
-
     show: boolean;
+    doHide: () => void;
 };
 
 export default function AboutBuildModalCloud(props: Props) {
-    const doHide = () => {
-
-    };
-
     const handleExit = () => {
         props.onHide();
     };
@@ -103,7 +81,7 @@ export default function AboutBuildModalCloud(props: Props) {
         <Modal
             dialogClassName={classNames('a11y__modal', 'about-modal', 'cloud')}
             show={props.show}
-            onHide={doHide}
+            onHide={props.doHide}
             onExited={handleExit}
             role='dialog'
             aria-labelledby='aboutModalLabel'
