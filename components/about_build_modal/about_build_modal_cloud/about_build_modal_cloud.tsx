@@ -41,6 +41,7 @@ export default function AboutBuildModalCloud(props: Props) {
         />
     );
 
+    //
     const licensee = (
         <div className='form-group'>
             <FormattedMessage
