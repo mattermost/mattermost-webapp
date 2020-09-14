@@ -27,10 +27,25 @@ const features = [
 
 const PlanDetails: React.FC<Props> = (props: Props) => {
     const userCount = useSelector((state: GlobalState) => state.entities.admin.analytics!.TOTAL_USERS) as number;
-    const userLimit = parseInt(useSelector((state: GlobalState) => getConfig(state).ExperimentalCloudUserLimit) || '0');
+    const userLimit = parseInt(useSelector((state: GlobalState) => getConfig(state).ExperimentalCloudUserLimit) || '0', 10);
 
     let userCountDisplay;
-    if (!userLimit) {
+    if (userLimit) {
+        userCountDisplay = (
+            <div
+                className={classNames('PlanDetails__userCount', {
+                    withinLimit: (userLimit - userCount) <= 5,
+                    overLimit: userCount > userLimit,
+                })}
+            >
+                <FormattedMarkdownMessage
+                    id='admin.billing.subscription.planDetails.userCountWithLimit'
+                    defaultMessage='{userCount} / {userLimit} users'
+                    values={{userCount, userLimit}}
+                />
+            </div>
+        );
+    } else {
         userCountDisplay = (
             <div className='PlanDetails__userCount'>
                 <FormattedMarkdownMessage
@@ -40,23 +55,13 @@ const PlanDetails: React.FC<Props> = (props: Props) => {
                 />
             </div>
         );
-    } else {
-        userCountDisplay = (
-            <div className={classNames('PlanDetails__userCount', {
-                withinLimit: (userLimit - userCount) <= 5,
-                overLimit: userCount > userLimit,
-            })}>
-                <FormattedMarkdownMessage
-                    id='admin.billing.subscription.planDetails.userCountWithLimit'
-                    defaultMessage='{userCount} / {userLimit} users'
-                    values={{userCount, userLimit}}
-                />
-            </div>
-        );
     }
 
-    const featureList = features.map((feature) => (
-        <div className='PlanDetails__feature'>
+    const featureList = features.map((feature, i) => (
+        <div
+            key={`PlanDetails__feature${i}`}
+            className='PlanDetails__feature'
+        >
             <i className='icon-check'/>
             <span>{feature}</span>
         </div>
@@ -65,10 +70,10 @@ const PlanDetails: React.FC<Props> = (props: Props) => {
     return (
         <div className='PlanDetails'>
             <div className='PlanDetails__top'>
-                 <div className='PlanDetails__productName'>
-                     {'Mattermost Cloud'}
-                 </div>
-                 {userCountDisplay}
+                <div className='PlanDetails__productName'>
+                    {'Mattermost Cloud'}
+                </div>
+                {userCountDisplay}
             </div>
             <div className='PlanDetails__plan'>
                 <div className='PlanDetails__planName'>
