@@ -11,13 +11,11 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot 1`] = `
       <FormattedMessage
         defaultMessage="Installed OAuth2 Apps"
         id="installed_oauth_apps.header"
-        values={Object {}}
       />
     </Link>
     <FormattedMessage
       defaultMessage="Header"
       id="Header"
-      values={Object {}}
     />
   </BackstageHeader>
   <div
@@ -51,7 +49,6 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot 1`] = `
             <FormattedMessage
               defaultMessage="Is Trusted"
               id="installed_oauth_apps.trusted"
-              values={Object {}}
             />
           </label>
           <div
@@ -70,7 +67,6 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot 1`] = `
               <FormattedMessage
                 defaultMessage="Yes"
                 id="installed_oauth_apps.trusted.yes"
-                values={Object {}}
               />
             </label>
             <label
@@ -86,7 +82,6 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot 1`] = `
               <FormattedMessage
                 defaultMessage="No"
                 id="installed_oauth_apps.trusted.no"
-                values={Object {}}
               />
             </label>
             <div
@@ -95,7 +90,6 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot 1`] = `
               <FormattedMessage
                 defaultMessage="If true, the OAuth 2.0 application is considered trusted by the Mattermost server and does not require the user to accept authorization. If false, a window opens to ask the user to accept or deny the authorization."
                 id="add_oauth_app.trusted.help"
-                values={Object {}}
               />
             </div>
           </div>
@@ -111,7 +105,6 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot 1`] = `
           <FormattedMessage
             defaultMessage="Display Name"
             id="installed_oauth_apps.name"
-            values={Object {}}
           />
         </label>
         <div
@@ -131,7 +124,6 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot 1`] = `
             <FormattedMessage
               defaultMessage="Specify the display name, of up to 64 characters, for your OAuth 2.0 application."
               id="add_oauth_app.name.help"
-              values={Object {}}
             />
           </div>
         </div>
@@ -146,7 +138,6 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot 1`] = `
           <FormattedMessage
             defaultMessage="Description"
             id="installed_oauth_apps.description"
-            values={Object {}}
           />
         </label>
         <div
@@ -166,7 +157,6 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot 1`] = `
             <FormattedMessage
               defaultMessage="Describe your OAuth 2.0 application."
               id="add_oauth_app.description.help"
-              values={Object {}}
             />
           </div>
         </div>
@@ -181,7 +171,6 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot 1`] = `
           <FormattedMessage
             defaultMessage="Homepage"
             id="installed_oauth_apps.homepage"
-            values={Object {}}
           />
         </label>
         <div
@@ -201,7 +190,6 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot 1`] = `
             <FormattedMessage
               defaultMessage="This is the URL for the homepage of the OAuth 2.0 application. Depending on your server configuration, use HTTP or HTTPS in the URL."
               id="add_oauth_app.homepage.help"
-              values={Object {}}
             />
           </div>
         </div>
@@ -216,7 +204,6 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot 1`] = `
           <FormattedMessage
             defaultMessage="Icon URL"
             id="installed_oauth_apps.iconUrl"
-            values={Object {}}
           />
         </label>
         <div
@@ -236,7 +223,6 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot 1`] = `
             <FormattedMessage
               defaultMessage="(Optional) The URL of the image used for your OAuth 2.0 application. Make sure you use HTTP or HTTPS in your URL."
               id="add_oauth_app.icon.help"
-              values={Object {}}
             />
           </div>
         </div>
@@ -251,7 +237,6 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot 1`] = `
           <FormattedMessage
             defaultMessage="Callback URLs (One Per Line)"
             id="installed_oauth_apps.callbackUrls"
-            values={Object {}}
           />
         </label>
         <div
@@ -272,7 +257,6 @@ https://test.com/callback2"
             <FormattedMessage
               defaultMessage="The redirect URIs to which the service will redirect users after accepting or denying authorization of your application, and which will handle authorization codes or access tokens. Must be a valid URL and start with http:// or https://."
               id="add_oauth_app.callbackUrls.help"
-              values={Object {}}
             />
           </div>
         </div>
@@ -297,7 +281,6 @@ https://test.com/callback2"
           <FormattedMessage
             defaultMessage="Cancel"
             id="installed_oauth_apps.cancel"
-            values={Object {}}
           />
         </Link>
         <SpinnerButton
@@ -311,7 +294,6 @@ https://test.com/callback2"
           <FormattedMessage
             defaultMessage="Footer"
             id="Footer"
-            values={Object {}}
           />
         </SpinnerButton>
         renderExtra
@@ -332,13 +314,11 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot, display
       <FormattedMessage
         defaultMessage="Installed OAuth2 Apps"
         id="installed_oauth_apps.header"
-        values={Object {}}
       />
     </Link>
     <FormattedMessage
       defaultMessage="Header"
       id="Header"
-      values={Object {}}
     />
   </BackstageHeader>
   <div
@@ -372,7 +352,6 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot, display
             <FormattedMessage
               defaultMessage="Is Trusted"
               id="installed_oauth_apps.trusted"
-              values={Object {}}
             />
           </label>
           <div
@@ -391,7 +370,6 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot, display
               <FormattedMessage
                 defaultMessage="Yes"
                 id="installed_oauth_apps.trusted.yes"
-                values={Object {}}
               />
             </label>
             <label
@@ -407,7 +385,6 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot, display
               <FormattedMessage
                 defaultMessage="No"
                 id="installed_oauth_apps.trusted.no"
-                values={Object {}}
               />
             </label>
             <div
@@ -416,7 +393,6 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot, display
               <FormattedMessage
                 defaultMessage="If true, the OAuth 2.0 application is considered trusted by the Mattermost server and does not require the user to accept authorization. If false, a window opens to ask the user to accept or deny the authorization."
                 id="add_oauth_app.trusted.help"
-                values={Object {}}
               />
             </div>
           </div>
@@ -432,7 +408,6 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot, display
           <FormattedMessage
             defaultMessage="Display Name"
             id="installed_oauth_apps.name"
-            values={Object {}}
           />
         </label>
         <div
@@ -452,7 +427,6 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot, display
             <FormattedMessage
               defaultMessage="Specify the display name, of up to 64 characters, for your OAuth 2.0 application."
               id="add_oauth_app.name.help"
-              values={Object {}}
             />
           </div>
         </div>
@@ -467,7 +441,6 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot, display
           <FormattedMessage
             defaultMessage="Description"
             id="installed_oauth_apps.description"
-            values={Object {}}
           />
         </label>
         <div
@@ -487,7 +460,6 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot, display
             <FormattedMessage
               defaultMessage="Describe your OAuth 2.0 application."
               id="add_oauth_app.description.help"
-              values={Object {}}
             />
           </div>
         </div>
@@ -502,7 +474,6 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot, display
           <FormattedMessage
             defaultMessage="Homepage"
             id="installed_oauth_apps.homepage"
-            values={Object {}}
           />
         </label>
         <div
@@ -522,7 +493,6 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot, display
             <FormattedMessage
               defaultMessage="This is the URL for the homepage of the OAuth 2.0 application. Depending on your server configuration, use HTTP or HTTPS in the URL."
               id="add_oauth_app.homepage.help"
-              values={Object {}}
             />
           </div>
         </div>
@@ -537,7 +507,6 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot, display
           <FormattedMessage
             defaultMessage="Icon URL"
             id="installed_oauth_apps.iconUrl"
-            values={Object {}}
           />
         </label>
         <div
@@ -557,7 +526,6 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot, display
             <FormattedMessage
               defaultMessage="(Optional) The URL of the image used for your OAuth 2.0 application. Make sure you use HTTP or HTTPS in your URL."
               id="add_oauth_app.icon.help"
-              values={Object {}}
             />
           </div>
         </div>
@@ -572,7 +540,6 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot, display
           <FormattedMessage
             defaultMessage="Callback URLs (One Per Line)"
             id="installed_oauth_apps.callbackUrls"
-            values={Object {}}
           />
         </label>
         <div
@@ -592,7 +559,6 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot, display
             <FormattedMessage
               defaultMessage="The redirect URIs to which the service will redirect users after accepting or denying authorization of your application, and which will handle authorization codes or access tokens. Must be a valid URL and start with http:// or https://."
               id="add_oauth_app.callbackUrls.help"
-              values={Object {}}
             />
           </div>
         </div>
@@ -608,7 +574,6 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot, display
               <FormattedMessage
                 defaultMessage="One or more callback URLs are required."
                 id="add_oauth_app.callbackUrlsRequired"
-                values={Object {}}
               />,
             ]
           }
@@ -621,7 +586,6 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot, display
           <FormattedMessage
             defaultMessage="Cancel"
             id="installed_oauth_apps.cancel"
-            values={Object {}}
           />
         </Link>
         <SpinnerButton
@@ -635,7 +599,6 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot, display
           <FormattedMessage
             defaultMessage="Footer"
             id="Footer"
-            values={Object {}}
           />
         </SpinnerButton>
         renderExtra

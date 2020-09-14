@@ -4,6 +4,8 @@
 const MAX_WEBSOCKET_FAILS = 7;
 const MIN_WEBSOCKET_RETRY_TIME = 3000; // 3 sec
 const MAX_WEBSOCKET_RETRY_TIME = 300000; // 5 mins
+const PING_TIME = 10000;
+const PONG_WAIT_TIME = 2000;
 
 export default class WebSocketClient {
     constructor() {
@@ -19,6 +21,7 @@ export default class WebSocketClient {
         this.missedEventCallback = null;
         this.errorCallback = null;
         this.closeCallback = null;
+        this.pingTimer = null;
     }
 
     initialize(connectionUrl = this.connectionUrl, token) {
@@ -54,6 +57,8 @@ export default class WebSocketClient {
                 this.firstConnectCallback();
             }
 
+            this.clearPingPong();
+            this.createPingEvent();
             this.connectFailCount = 0;
         };
 
@@ -65,6 +70,7 @@ export default class WebSocketClient {
                 console.log('websocket closed'); //eslint-disable-line no-console
             }
 
+            this.clearPingPong();
             this.connectFailCount++;
 
             if (this.closeCallback) {
@@ -98,6 +104,7 @@ export default class WebSocketClient {
             if (this.errorCallback) {
                 this.errorCallback(evt);
             }
+            this.clearPingPong();
         };
 
         this.conn.onmessage = (evt) => {
@@ -119,6 +126,9 @@ export default class WebSocketClient {
                 this.eventSequence = msg.seq + 1;
                 this.eventCallback(msg);
             }
+
+            this.clearPingPong();
+            this.createPingEvent();
         };
     }
 
@@ -150,6 +160,7 @@ export default class WebSocketClient {
         this.connectFailCount = 0;
         this.sequence = 1;
         if (this.conn && this.conn.readyState === WebSocket.OPEN) {
+            this.clearPingPong();
             this.conn.onclose = () => {}; //eslint-disable-line no-empty-function
             this.conn.close();
             this.conn = null;
@@ -200,5 +211,23 @@ export default class WebSocketClient {
         const data = {};
         data.user_ids = userIds;
         this.sendMessage('get_statuses_by_ids', data, callback);
+    }
+
+    createPingEvent() {
+        this.pingTimer = setInterval(() => {
+            this.sendMessage('ping');
+            this.waitForPong();
+        }, PING_TIME);
+    }
+
+    waitForPong() {
+        this.pongTimer = setTimeout(() => {
+            this.conn.onclose();
+        }, PONG_WAIT_TIME);
+    }
+
+    clearPingPong() {
+        clearInterval(this.pingTimer);
+        clearTimeout(this.pongTimer);
     }
 }

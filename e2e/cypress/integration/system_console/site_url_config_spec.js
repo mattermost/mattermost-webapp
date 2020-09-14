@@ -7,7 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage:
+// Stage: @prod
 // Group: @system_console
 
 describe('Site URL', () => {

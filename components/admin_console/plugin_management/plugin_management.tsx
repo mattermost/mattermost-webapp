@@ -3,7 +3,7 @@
 /* eslint-disable react/no-string-refs */
 
 import React from 'react';
-import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 import classNames from 'classnames';
 
@@ -152,7 +152,7 @@ type PluginStatus = {
     settings_schema?: {
         header: string;
         footer: string;
-        settings?: Array<object>;
+        settings?: Array<unknown>;
     };
 }
 
@@ -406,7 +406,7 @@ type Props = BaseProps & {
     actions: {
         uploadPlugin: (fileData: File, force: boolean) => any;
         removePlugin: (pluginId: string) => any;
-        getPlugins: () => {};
+        getPlugins: () => unknown;
         getPluginStatuses: () => any;
         enablePlugin: (pluginId: string) => any;
         disablePlugin: (pluginId: string) => any;
@@ -857,8 +857,8 @@ export default class PluginManagement extends AdminSettings<Props, State> {
     renderSettings = () => {
         const {enableUploads} = this.state;
         const enable = this.props.config?.PluginSettings?.Enable;
-        let serverError = <React.Fragment></React.Fragment>;
-        let lastMessage = <React.Fragment></React.Fragment>;
+        let serverError = <React.Fragment/>;
+        let lastMessage = <React.Fragment/>;
 
         // Using props values to make sure these are set on the server and not just locally
         const enableUploadButton = enableUploads && enable && !(this.props.config.PluginSettings && this.props.config.PluginSettings.RequirePluginSignature);
@@ -960,7 +960,7 @@ export default class PluginManagement extends AdminSettings<Props, State> {
                     </label>
                     <div className='col-sm-8'>
                         <p className='help-text'>
-                            <FormattedHTMLMessage
+                            <FormattedMessage
                                 id='admin.plugin.installedDesc'
                                 defaultMessage='Installed plugins on your Mattermost server.'
                             />
