@@ -19,7 +19,7 @@ describe('components/invitation_modal/InvitationModalMembersStep', () => {
         userIsAdmin: true,
         userLimit: '0',
         currentUsers: 4,
-        isCloud: 'false',
+        isCloud: false,
         analytics: {
             TOTAL_USERS: 10,
         },
