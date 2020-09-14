@@ -16,7 +16,6 @@ type Props = {
     onHide: () => void;
     config: any;
     license: any;
-    webappBuildHash: string;
     show: boolean;
     doHide: () => void;
 };
