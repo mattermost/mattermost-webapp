@@ -202,7 +202,7 @@ export default class AboutBuildModal extends React.PureComponent {
 
         return (
             <Modal
-                dialogClassName={'a11y__modal about-modal'}
+                dialogClassName='a11y__modal about-modal'
                 show={this.state.show}
                 onHide={this.doHide}
                 onExited={this.handleExit}
