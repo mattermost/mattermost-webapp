@@ -47,7 +47,7 @@ export default function AboutBuildModalCloud(props: Props) {
                 id='about.licensed'
                 defaultMessage='Licensed to:'
             />
-            {license.Company}
+            {'\u00a0' + license.Company}
         </div>
     );
 
