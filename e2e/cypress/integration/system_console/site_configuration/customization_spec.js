@@ -172,6 +172,7 @@ describe('Customization', () => {
 
         // eslint-disable-next-line no-irregular-whitespace
         const customBrandText = `​​​​:yay:
+:smile:
 
 - This is a bullet point
 - This is another bullet point
@@ -195,9 +196,12 @@ describe('Customization', () => {
         cy.url().should('include', '/login');
 
         cy.get('.signup__markdown div div').should('be.visible').within(() => {
-            // * Ensure emoji has been rendered
-            // ToDo: uncomment after fixing MM-28443
+            // * Ensure custom emoji has been rendered
+            // ToDo: uncomment after fixing MM-12657
             //cy.get('span.emoticon').should('have.attr', 'title', ':yay:');
+
+            // * Ensure default emoji has been rendered
+            cy.get('span.emoticon').should('have.attr', 'title', ':smile:');
 
             // * Ensure the list and two bullets have been rendered
             cy.get('ul.markdown__list').should('be.visible').within(() => {
