@@ -7,6 +7,8 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+
 describe('Scroll', () => {
     before(() => {
         // # Create new team and new user and visit Town Square channel

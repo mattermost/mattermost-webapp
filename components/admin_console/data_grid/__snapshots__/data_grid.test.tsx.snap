@@ -25,7 +25,6 @@ exports[`components/admin_console/data_grid/DataGrid should match snapshot while
       <FormattedMessage
         defaultMessage="Loading"
         id="admin.data_grid.loading"
-        values={Object {}}
       />
     </div>
   </div>
@@ -166,7 +165,6 @@ exports[`components/admin_console/data_grid/DataGrid should match snapshot with 
       <FormattedMessage
         defaultMessage="No items found"
         id="admin.data_grid.empty"
-        values={Object {}}
       />
     </div>
   </div>

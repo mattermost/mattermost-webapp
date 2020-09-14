@@ -31,7 +31,7 @@ type Props = {
     unauthorizedRoute: string;
     buildEnterpriseReady: boolean;
     roles: Dictionary<Role>;
-    match: { url: string };
+    match: {url: string};
     showNavigationPrompt: boolean;
     isCurrentUserSystemAdmin: boolean;
     currentUserHasAnAdminRole: boolean;
@@ -61,9 +61,7 @@ type ExtraProps = {
     config?: DeepPartial<AdminConfig>;
     environmentConfig?: Partial<EnvironmentConfig>;
     setNavigationBlocked?: () => void;
-    roles?: {
-        [x: string]: string | object;
-    };
+    roles?: Dictionary<Role>;
     editRole?: (role: Role) => void;
     updateConfig?: (config: AdminConfig) => ActionFunc;
 }
@@ -137,6 +135,13 @@ export default class AdminConsole extends React.PureComponent<Props, State> {
         let defaultUrl = '';
 
         const schemaRoutes = schemas.map((item: Item, index: number) => {
+            if (typeof item.isHidden !== 'undefined') {
+                const isHidden = (typeof item.isHidden === 'function') ? item.isHidden(config, this.state, license, buildEnterpriseReady, consoleAccess) : Boolean(item.isHidden);
+                if (isHidden) {
+                    return false;
+                }
+            }
+
             let isItemDisabled: boolean;
 
             if (typeof item.isDisabled === 'function') {

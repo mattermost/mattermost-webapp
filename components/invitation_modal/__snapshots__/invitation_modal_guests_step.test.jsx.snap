@@ -30,7 +30,6 @@ exports[`components/invitation_modal/InvitationModalGuestsStep should match the 
       <FormattedMessage
         defaultMessage="Invite People"
         id="invitation_modal.guests.add_people.title"
-        values={Object {}}
       />
     </h2>
     <div
@@ -60,7 +59,6 @@ exports[`components/invitation_modal/InvitationModalGuestsStep should match the 
       <FormattedMessage
         defaultMessage="Add existing guests or send email invites to new guests."
         id="invitation_modal.guests.add_people.description"
-        values={Object {}}
       />
     </div>
   </div>
@@ -72,14 +70,12 @@ exports[`components/invitation_modal/InvitationModalGuestsStep should match the 
       <FormattedMessage
         defaultMessage="Search and Add Channels"
         id="invitation_modal.guests.add_channels.title"
-        values={Object {}}
       />
     </h2>
     <div>
       <FormattedMessage
         defaultMessage="Search and add channels"
         id="invitation_modal.guests.add_channels.placeholder"
-        values={Object {}}
       >
         <Component />
       </FormattedMessage>
@@ -90,7 +86,6 @@ exports[`components/invitation_modal/InvitationModalGuestsStep should match the 
       <FormattedMessage
         defaultMessage="Specify the channels the guests have access to."
         id="invitation_modal.guests.add-channels.description"
-        values={Object {}}
       />
     </div>
   </div>
@@ -105,7 +100,6 @@ exports[`components/invitation_modal/InvitationModalGuestsStep should match the 
       <FormattedMessage
         defaultMessage="Set a custom message"
         id="invitation_modal.guests.custom-message.link"
-        values={Object {}}
       />
     </a>
     <div
@@ -114,7 +108,6 @@ exports[`components/invitation_modal/InvitationModalGuestsStep should match the 
       <FormattedMessage
         defaultMessage="Create a custom message to make your invite more personal."
         id="invitation_modal.guests.custom-message.description"
-        values={Object {}}
       />
     </div>
   </div>
@@ -130,7 +123,6 @@ exports[`components/invitation_modal/InvitationModalGuestsStep should match the 
       <FormattedMessage
         defaultMessage="Invite Guests"
         id="invitation_modal.guests.invite_button"
-        values={Object {}}
       />
     </button>
   </div>
@@ -167,7 +159,6 @@ exports[`components/invitation_modal/InvitationModalGuestsStep should match the 
       <FormattedMessage
         defaultMessage="Invite People"
         id="invitation_modal.guests.add_people.title"
-        values={Object {}}
       />
     </h2>
     <div
@@ -197,7 +188,6 @@ exports[`components/invitation_modal/InvitationModalGuestsStep should match the 
       <FormattedMessage
         defaultMessage="Add existing guests."
         id="invitation_modal.guests.add_people.description-email-disabled"
-        values={Object {}}
       />
     </div>
   </div>
@@ -209,14 +199,12 @@ exports[`components/invitation_modal/InvitationModalGuestsStep should match the 
       <FormattedMessage
         defaultMessage="Search and Add Channels"
         id="invitation_modal.guests.add_channels.title"
-        values={Object {}}
       />
     </h2>
     <div>
       <FormattedMessage
         defaultMessage="Search and add channels"
         id="invitation_modal.guests.add_channels.placeholder"
-        values={Object {}}
       >
         <Component />
       </FormattedMessage>
@@ -227,7 +215,6 @@ exports[`components/invitation_modal/InvitationModalGuestsStep should match the 
       <FormattedMessage
         defaultMessage="Specify the channels the guests have access to."
         id="invitation_modal.guests.add-channels.description"
-        values={Object {}}
       />
     </div>
   </div>
@@ -242,7 +229,6 @@ exports[`components/invitation_modal/InvitationModalGuestsStep should match the 
       <FormattedMessage
         defaultMessage="Set a custom message"
         id="invitation_modal.guests.custom-message.link"
-        values={Object {}}
       />
     </a>
     <div
@@ -251,7 +237,6 @@ exports[`components/invitation_modal/InvitationModalGuestsStep should match the 
       <FormattedMessage
         defaultMessage="Create a custom message to make your invite more personal."
         id="invitation_modal.guests.custom-message.description"
-        values={Object {}}
       />
     </div>
   </div>
@@ -267,7 +252,6 @@ exports[`components/invitation_modal/InvitationModalGuestsStep should match the 
       <FormattedMessage
         defaultMessage="Invite Guests"
         id="invitation_modal.guests.invite_button"
-        values={Object {}}
       />
     </button>
   </div>

@@ -5,7 +5,6 @@ exports[`components/channel_notifications_modal/ExtraInfo should match snapshot,
   <FormattedMessage
     defaultMessage="Selecting an option other than \\"Default\\" will override the global notification settings. Desktop notifications are available on Firefox, Safari, and Chrome."
     id="channel_notifications.override"
-    values={Object {}}
   />
 </span>
 `;
@@ -15,7 +14,6 @@ exports[`components/channel_notifications_modal/ExtraInfo should match snapshot,
   <FormattedMessage
     defaultMessage="Muting turns off desktop, email and push notifications for this channel. The channel will not be marked as unread unless you are mentioned."
     id="channel_notifications.muteChannel.help"
-    values={Object {}}
   />
 </span>
 `;
@@ -25,7 +23,6 @@ exports[`components/channel_notifications_modal/ExtraInfo should match snapshot,
   <FormattedMessage
     defaultMessage="Selecting an option other than \\"Global default\\" will override the global notification settings for mobile push notifications in account settings. Push notifications must be enabled by the System Admin."
     id="channel_notifications.overridePush"
-    values={Object {}}
   />
 </span>
 `;

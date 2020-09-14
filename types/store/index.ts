@@ -4,6 +4,7 @@
 import {Channel} from 'mattermost-redux/types/channels';
 import {MarketplacePlugin} from 'mattermost-redux/types/plugins';
 import {GlobalState as BaseGlobalState} from 'mattermost-redux/types/store';
+import {Dictionary} from 'mattermost-redux/types/utilities';
 
 import {I18nState} from './i18n';
 import {RhsViewState} from './rhs';
@@ -18,7 +19,7 @@ export type DraggingState = {
 export type GlobalState = BaseGlobalState & {
     plugins: PluginsState;
     storage: {
-        storage: {[key: string]: any};
+        storage: Dictionary<any>;
     };
 
     views: {
@@ -74,7 +75,7 @@ export type GlobalState = BaseGlobalState & {
         modals: {
             [modalId: string]: {
                 open: boolean;
-                dialogProps: object;
+                dialogProps: Dictionary<any>;
                 dialogType: React.Component;
             };
         };
@@ -91,6 +92,11 @@ export type GlobalState = BaseGlobalState & {
 
         search: {
             modalSearch: string;
+            modalFilters: {
+                roles?: string[];
+                channel_roles?: string[];
+                team_roles?: string[];
+            };
             systemUsersSearch: {
                 term: string;
                 team: string;

@@ -8,9 +8,11 @@ import {injectIntl, FormattedMessage} from 'react-intl';
 import {debounce} from 'mattermost-redux/actions/helpers';
 import {isEmail} from 'mattermost-redux/utils/helpers';
 
+import {trackEvent} from 'actions/diagnostics_actions';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import InviteMembersIcon from 'components/widgets/icons/invite_members_icon';
 import UsersEmailsInput from 'components/widgets/inputs/users_emails_input.jsx';
+import {Constants} from 'utils/constants';
 
 import LinkIcon from 'components/widgets/icons/link_icon';
 
@@ -33,7 +35,7 @@ class InvitationModalMembersStep extends React.PureComponent {
         userLimit: PropTypes.string.isRequired,
         currentUsers: PropTypes.number.isRequired,
         userIsAdmin: PropTypes.bool.isRequired,
-        isCloud: PropTypes.string.isRequired,
+        isCloud: PropTypes.bool.isRequired,
         analytics: PropTypes.object.isRequired,
         actions: PropTypes.shape({
             getStandardAnalytics: PropTypes.func.isRequired,
@@ -53,6 +55,9 @@ class InvitationModalMembersStep extends React.PureComponent {
     }
 
     copyLink = () => {
+        if (this.props.isCloud) {
+            trackEvent('cloud_invite_users', 'click_copy_link');
+        }
         const input = this.inviteLinkRef.current;
 
         const textField = document.createElement('textarea');
@@ -110,7 +115,11 @@ class InvitationModalMembersStep extends React.PureComponent {
     };
 
     onChange = (usersAndEmails) => {
-        this.setState({usersAndEmails});
+        this.setState({usersAndEmails}, () => {
+            if (this.shouldShowPickerError() && this.props.isCloud) {
+                trackEvent('cloud_invite_users', 'warning_near_limit', {remaining: this.props.userLimit - (this.props.analytics.TOTAL_USERS + this.state.usersAndEmails.length)});
+            }
+        });
         this.props.onEdit(
             usersAndEmails.length > 0 || this.state.usersInputValue,
         );
@@ -124,6 +133,9 @@ class InvitationModalMembersStep extends React.PureComponent {
     };
 
     submit = () => {
+        if (this.props.isCloud) {
+            trackEvent('cloud_invite_users', 'click_send_invitations', {num_invitations: this.state.usersAndEmails.length});
+        }
         const users = [];
         const emails = [];
         for (const userOrEmail of this.state.usersAndEmails) {
@@ -139,7 +151,7 @@ class InvitationModalMembersStep extends React.PureComponent {
     shouldShowPickerError = () => {
         const {userLimit, analytics, userIsAdmin, isCloud} = this.props;
 
-        if (userLimit === '0' || !userIsAdmin || isCloud !== 'true') {
+        if (userLimit === '0' || !userIsAdmin || !isCloud) {
             return false;
         }
 
@@ -185,6 +197,28 @@ class InvitationModalMembersStep extends React.PureComponent {
             noMatchMessageDefault = 'No one found matching **{text}**';
         }
         const remainingUsers = this.props.userLimit - this.props.analytics.TOTAL_USERS;
+        const inviteMembersButtonDisabled = this.state.usersAndEmails.length > Constants.MAX_ADD_MEMBERS_BATCH || this.state.usersAndEmails.length === 0;
+
+        const errorProperties = {
+            showError: this.shouldShowPickerError(),
+            errorMessageId: t(
+                'invitation_modal.invite_members.hit_cloud_user_limit',
+            ),
+            errorMessageDefault: 'You have reached the user limit for your tier',
+            errorMessageValues: {
+                text: remainingUsers < 0 ? '0' : remainingUsers,
+            },
+        };
+
+        if (this.state.usersAndEmails.length > Constants.MAX_ADD_MEMBERS_BATCH) {
+            errorProperties.showError = true;
+            errorProperties.errorMessageId = t(
+                'invitation_modal.invite_members.exceeded_max_add_members_batch',
+            );
+            errorProperties.errorMessageDefault = 'No more than **{text}** people can be invited at once';
+            errorProperties.errorMessageValues.text = Constants.MAX_ADD_MEMBERS_BATCH;
+        }
+
         return (
             <div className='InvitationModalMembersStep'>
                 <div className='modal-icon'>
@@ -268,9 +302,9 @@ class InvitationModalMembersStep extends React.PureComponent {
                     </h2>
                     <div data-testid='inputPlaceholder'>
                         <UsersEmailsInput
+                            {...errorProperties}
                             usersLoader={this.usersLoader}
                             placeholder={placeholder}
-                            showError={this.shouldShowPickerError()}
                             ariaLabel={localizeMessage(
                                 'invitation_modal.members.search_and_add.title',
                                 'Invite People',
@@ -281,15 +315,6 @@ class InvitationModalMembersStep extends React.PureComponent {
                                 'invitation_modal.members.users_emails_input.valid_email',
                             )}
                             validAddressMessageDefault='Invite **{email}** as a team member'
-                            errorMessageId={t(
-                                'invitation_modal.invite_members.hit_cloud_user_limit',
-                            )}
-                            errorMessageDefault={
-                                'You have reached the user limit for your tier'
-                            }
-                            errorMessageValues={{
-                                text: remainingUsers < 0 ? '0' : remainingUsers,
-                            }}
                             noMatchMessageId={noMatchMessageId}
                             noMatchMessageDefault={noMatchMessageDefault}
                             onInputChange={this.onUsersInputChange}
@@ -318,12 +343,12 @@ class InvitationModalMembersStep extends React.PureComponent {
                     <button
                         className={
                             'btn ' +
-                            (this.state.usersAndEmails.length === 0 ?
+                            (inviteMembersButtonDisabled ?
                                 'btn-inactive' :
                                 'btn-primary')
                         }
                         onClick={this.submit}
-                        disabled={this.state.usersAndEmails.length === 0}
+                        disabled={inviteMembersButtonDisabled}
                         id='inviteMembersButton'
                     >
                         <FormattedMessage

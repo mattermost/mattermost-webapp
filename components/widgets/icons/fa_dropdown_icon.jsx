@@ -2,23 +2,16 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import {useIntl} from 'react-intl';
 
-import {FormattedMessage} from 'react-intl';
+import {t} from 'utils/i18n';
 
-export default class DropdownIcon extends React.PureComponent {
-    render() {
-        return (
-            <FormattedMessage
-                id='generic_icons.dropdown'
-                defaultMessage='Dropdown Icon'
-            >
-                {(title) => (
-                    <i
-                        className='fa fa-angle-down'
-                        title={title}
-                    />
-                )}
-            </FormattedMessage>
-        );
-    }
+export default function DropdownIcon() {
+    const {formatMessage} = useIntl();
+    return (
+        <i
+            className='fa fa-angle-down'
+            title={formatMessage({id: t('generic_icons.dropdown'), defaultMessage: 'Dropdown Icon'})}
+        />
+    );
 }

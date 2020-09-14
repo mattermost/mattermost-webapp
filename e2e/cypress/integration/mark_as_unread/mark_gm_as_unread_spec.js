@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @mark_as_unread
 
 import {markAsUnreadByPostIdFromMenu, verifyPostNextToNewMessageSeparator} from './helpers';

@@ -28,7 +28,6 @@ exports[`components/SystemNotice should match snapshot for admin, admin notice 1
   >
     <LocalizedIcon
       className="fa fa-eye"
-      component="i"
       title={
         Object {
           "defaultMessage": "Only visible to System Admins Icon",
@@ -39,7 +38,6 @@ exports[`components/SystemNotice should match snapshot for admin, admin notice 1
     <FormattedMessage
       defaultMessage="Only visible to System Admins"
       id="system_notice.adminVisible"
-      values={Object {}}
     />
   </div>
   <div
@@ -53,7 +51,6 @@ exports[`components/SystemNotice should match snapshot for admin, admin notice 1
       <FormattedMessage
         defaultMessage="Remind Me Later"
         id="system_notice.remind_me"
-        values={Object {}}
       />
     </button>
     <button
@@ -64,7 +61,6 @@ exports[`components/SystemNotice should match snapshot for admin, admin notice 1
       <FormattedMessage
         defaultMessage="Don't Show Again"
         id="system_notice.dont_show"
-        values={Object {}}
       />
     </button>
   </div>
@@ -105,7 +101,6 @@ exports[`components/SystemNotice should match snapshot for admin, regular notice
       <FormattedMessage
         defaultMessage="Remind Me Later"
         id="system_notice.remind_me"
-        values={Object {}}
       />
     </button>
     <button
@@ -116,7 +111,6 @@ exports[`components/SystemNotice should match snapshot for admin, regular notice
       <FormattedMessage
         defaultMessage="Don't Show Again"
         id="system_notice.dont_show"
-        values={Object {}}
       />
     </button>
   </div>
@@ -157,7 +151,6 @@ exports[`components/SystemNotice should match snapshot for regular user, admin a
       <FormattedMessage
         defaultMessage="Remind Me Later"
         id="system_notice.remind_me"
-        values={Object {}}
       />
     </button>
     <button
@@ -168,7 +161,6 @@ exports[`components/SystemNotice should match snapshot for regular user, admin a
       <FormattedMessage
         defaultMessage="Don't Show Again"
         id="system_notice.dont_show"
-        values={Object {}}
       />
     </button>
   </div>
@@ -217,7 +209,6 @@ exports[`components/SystemNotice should match snapshot for regular user, regular
       <FormattedMessage
         defaultMessage="Remind Me Later"
         id="system_notice.remind_me"
-        values={Object {}}
       />
     </button>
     <button
@@ -228,7 +219,6 @@ exports[`components/SystemNotice should match snapshot for regular user, regular
       <FormattedMessage
         defaultMessage="Don't Show Again"
         id="system_notice.dont_show"
-        values={Object {}}
       />
     </button>
   </div>
@@ -271,7 +261,6 @@ exports[`components/SystemNotice should match snapshot for show function returni
       <FormattedMessage
         defaultMessage="Remind Me Later"
         id="system_notice.remind_me"
-        values={Object {}}
       />
     </button>
     <button
@@ -282,7 +271,6 @@ exports[`components/SystemNotice should match snapshot for show function returni
       <FormattedMessage
         defaultMessage="Don't Show Again"
         id="system_notice.dont_show"
-        values={Object {}}
       />
     </button>
   </div>
@@ -323,7 +311,6 @@ exports[`components/SystemNotice should match snapshot for with allowForget equa
       <FormattedMessage
         defaultMessage="Remind Me Later"
         id="system_notice.remind_me"
-        values={Object {}}
       />
     </button>
   </div>
