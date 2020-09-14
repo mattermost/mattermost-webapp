@@ -1,6 +1,6 @@
 {
   "about.buildnumber": "Build Number:",
-  "about.cloudEdition": "Cloud Edition",
+  "about.cloudEdition": "Cloud",
   "about.copyright": "Copyright 2015 - {currentYear} Mattermost, Inc. All rights reserved",
   "about.database": "Database:",
   "about.date": "Build Date:",
