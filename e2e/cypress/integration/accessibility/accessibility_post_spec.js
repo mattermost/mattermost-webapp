@@ -227,7 +227,7 @@ describe('Verify Accessibility Support in Post', () => {
                 cy.get(`#rhsPostMessageText_${postId}`).should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-readonly', 'true');
                 cy.focused().tab({shift: true});
 
-                // * Verify focus is on the flag icon
+                // * Verify focus is on the save icon
                 cy.get(`#RHS_COMMENT_flagIcon_${postId}`).should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'save');
                 cy.focused().tab({shift: true});
 
@@ -300,8 +300,8 @@ function performActionsToLastPost() {
         cy.findByTestId('smile').click();
         cy.get(`#postReaction-${postId}-smile`).should('be.visible');
 
-        // # Flag the post
-        cy.clickPostFlagIcon(postId);
+        // # Save the post
+        cy.clickPostSaveIcon(postId);
 
         // # Pin the post
         cy.clickPostDotMenu(postId);
