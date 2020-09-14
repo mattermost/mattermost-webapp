@@ -8,7 +8,6 @@ import classNames from 'classnames';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import MattermostLogo from 'components/widgets/icons/mattermost_logo';
-import Nbsp from 'components/html_entities/nbsp';
 
 import './about_build_modal_cloud.scss';
 
@@ -27,49 +26,30 @@ export default function AboutBuildModalCloud(props: Props) {
 
     const config = props.config;
     const license = props.license;
-    const isCloud = license.Cloud === 'true';
 
-    let title = (
+    const title = (
         <FormattedMessage
-            id='about.teamEditiont0'
-            defaultMessage='Team Edition'
+            id='about.cloudEdition'
+            defaultMessage='Cloud'
         />
     );
 
-    let subTitle = (
+    const subTitle = (
         <FormattedMessage
-            id='about.teamEditionSt'
-            defaultMessage='All your team communication in one place, instantly searchable and accessible anywhere.'
+            id='about.enterpriseEditionSst'
+            defaultMessage='High trust messaging for the enterprise'
         />
     );
 
-    let licensee;
-    if (isCloud) {
-        title = (
+    const licensee = (
+        <div className='form-group'>
             <FormattedMessage
-                id='about.cloudEdition'
-                defaultMessage='Cloud'
+                id='about.licensed'
+                defaultMessage='Licensed to:'
             />
-        );
-
-        subTitle = (
-            <FormattedMessage
-                id='about.enterpriseEditionSst'
-                defaultMessage='High trust messaging for the enterprise'
-            />
-        );
-
-        licensee = (
-            <div className='form-group'>
-                <FormattedMessage
-                    id='about.licensed'
-                    defaultMessage='Licensed to:'
-                />
-                <Nbsp/>
-                {license.Company}
-            </div>
-        );
-    }
+            {license.Company}
+        </div>
+    );
 
     let mmversion = config.BuildNumber;
     if (!isNaN(config.BuildNumber)) {

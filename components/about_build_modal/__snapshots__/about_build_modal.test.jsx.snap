@@ -104,7 +104,6 @@ exports[`components/AboutBuildModal should match snapshot for cloud edition 1`] 
             defaultMessage="Licensed to:"
             id="about.licensed"
           />
-          <Nbsp />
           Mattermost Inc
         </div>
         <div
