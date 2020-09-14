@@ -215,7 +215,7 @@ export default class InteractiveDialog extends React.PureComponent {
         const elements = this.props.elements.map((el, i) => {
             if (el.depends_on === name && el.type === 'select' && el.subtype === 'dynamic') {
                 updateElements = true;
-                // setting options to a new array tells child element to recreate its suggestion providerß
+                // setting options to a new array tells child element to recreate its suggestion provider
                 return {...el, options: []};
             }
             return el;
