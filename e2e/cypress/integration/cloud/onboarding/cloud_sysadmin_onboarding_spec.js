@@ -7,8 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
-
 import {testWithConfig} from '../../../support/hooks';
 
 const adminSteps = ['complete_profile', 'team_setup', 'invite_members', 'hide'];
