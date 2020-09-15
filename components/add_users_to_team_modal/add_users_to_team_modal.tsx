@@ -32,8 +32,8 @@ type Props = {
     onHide?: () => void;
 
     actions: {
-        getProfilesNotInTeam: (teamId: string, groupConstrained: boolean, page: number, perPage?: number, options?: {}) => Promise<{ data: UserProfile[] }>;
-        searchProfiles: (term: string, options?: any) => Promise<{ data: UserProfile[] }>;
+        getProfilesNotInTeam: (teamId: string, groupConstrained: boolean, page: number, perPage?: number, options?: Record<string, any>) => Promise<{ data: UserProfile[] }>;
+        searchProfiles: (term: string, options?: Record<string, any>) => Promise<{ data: UserProfile[] }>;
     };
 }
 
@@ -45,14 +45,14 @@ type State = {
     saving: boolean;
     addError: null;
     loading: boolean;
-    filterOptions: {};
+    filterOptions: {[key: string]: any};
 }
 
 export default class AddUsersToTeamModal extends React.PureComponent<Props, State> {
     public constructor(props: Props) {
         super(props);
 
-        let filterOptions: {} = {};
+        let filterOptions = {};
         if (props.filterExcludeGuests) {
             filterOptions = {role: 'system_user'};
         }

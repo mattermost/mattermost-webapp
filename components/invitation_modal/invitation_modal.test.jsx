@@ -20,6 +20,7 @@ describe('components/invitation_modal/InvitationModal', () => {
         canInviteGuests: true,
         canAddUsers: true,
         emailInvitationsEnabled: true,
+        isCloud: false,
         actions: {
             closeModal: jest.fn(),
             sendGuestsInvites: jest.fn(),

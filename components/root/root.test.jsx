@@ -33,7 +33,7 @@ jest.mock('mattermost-redux/actions/general', () => ({
     setUrl: () => {},
 }));
 jest.mock('mattermost-redux/client', () => {
-    const original = require.requireActual('mattermost-redux/client');
+    const original = jest.requireActual('mattermost-redux/client');
 
     return {
         ...original,
