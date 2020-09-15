@@ -33,36 +33,41 @@ describe('Scroll', () => {
         });
     });
 
-    it('MM-T2368 Fixed Width', () => {
+    it('MM-T2368 Fixed Width setting should not scroll pop and display posts properly', () => {
         // Creating some post to verify scroll pop and Posts views
-        Cypress._.times(20, (postIndex) => {
+        cy.postMessage('This is the first post');
+        Cypress._.times(18, (postIndex) => {
             cy.postMessage(`p-${postIndex + 1}`);
         });
+        cy.postMessage('This is the last post');
 
         // # Switch the account settings for the test user to enable Fixed width center
-        cy.get('.channel-intro-profile > .user-popover').scrollIntoView();
         cy.get('#headerInfo > .style--none').click();
         cy.get('#accountSettings > .style--none > .MenuItem__primary-text').click();
         cy.get('#accountSettingsModalLabel > span').should('contain', 'Account Settings');
         cy.get('#displayButton', {timeout: 500000}).click();
         cy.get('#channel_display_modeEdit > span').click();
         cy.get('#settingTitle > span').should('contain', 'Channel Display');
-        cy.get(':nth-child(3) > label').should('contain', 'Fixed width, centered').click();
+        cy.get('input#channel_display_modeFormatB').click();
+        cy.get('input#channel_display_modeFormatB').next().should('contain', 'Fixed width, centered');
         cy.get('#saveSetting').click();
         cy.get('#accountSettingsHeader > .close > [aria-hidden="true"]').click();
 
-        // # Browser Channel
+        // # Browse to Channel
         cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 
-        // * Verify No scroll pop is visible
-        cy.get('.channel-intro-profile > .user-popover').should('be.visible');
+        // * Verify there is no scroll pop
+        cy.get('button[aria-label="sysadmin"]').eq(0).should('be.visible');
+        cy.get('#post-list').should('exist').within(() => {
+            cy.findByText('This is the first post').should('exist').and('be.visible');
+            cy.findByText('This is the last post').should('exist').and('be.visible');
+        });
 
         // * Verify All posts are displayed correctly
-        cy.get('.post__img > .status-wrapper > .profile-icon').eq(0).should('be.visible');
-        cy.get('.col.col__name').eq(0).should('be.visible');
-        cy.get('.post__header--info').eq(0).should('be.visible');
-        cy.get('textarea#post_textbox').eq(0).should('be.visible');
-        cy.get('.post-action.style--none').eq(0).should('be.visible');
-        cy.get('.emoji-picker__container.post-action').eq(0).should('be.visible');
+        Cypress._.times(18, (postIndex) => {
+            cy.get('#post-list').should('exist').within(() => {
+                cy.findByText(`p-${postIndex + 1}`).should('exist').and('be.visible');
+            });
+        });
     });
 });
