@@ -1,19 +1,20 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {FC, memo} from 'react';
+import React, {FC, memo, ComponentProps} from 'react';
 
 import SimpleTooltip from 'components/simple_tooltip';
 
-import Avatar from './avatar';
-import ProfilePicture, {Props as ProfilePictureProps} from './profile_picture';
+import Avatar from 'components/widgets/users/avatar';
 
-import './profile_pictures.scss';
+import './avatars.scss';
 
 type StylingKeys = 'size';
 
-type Props = Pick<ProfilePictureProps, StylingKeys> & {
-    users: Omit<ProfilePictureProps & {name: string}, StylingKeys>[];
+type UserProps = ComponentProps<typeof Avatar> & {name: string};
+
+export type Props = Pick<UserProps, StylingKeys> & {
+    users: Omit<UserProps, StylingKeys>[];
     breakAt?: number;
 }
 
@@ -25,12 +26,12 @@ const Avatars: FC<Props> = ({size, breakAt = 3, users}: Props) => {
         <div className={`ProfilePictures ProfilePictures-${size}`}>
             {displayUsers.map(({name, ...user}) => (
                 <SimpleTooltip
-                    key={user.userId}
+                    key={user.url}
                     id={'groupNameTooltip'}
                     content={name}
                 >
                     <div>
-                        <ProfilePicture
+                        <Avatar
                             size={size}
                             {...user}
                         />

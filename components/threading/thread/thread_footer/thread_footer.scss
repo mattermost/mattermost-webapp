@@ -1,0 +1,23 @@
+.ThreadFooter {
+    display: inline-flex;
+    align-items: center;
+
+    font-family: 'Open Sans';
+    font-size: 12px;
+    line-height: 15px;
+
+    .indicator {
+        padding: 8px;
+    }
+
+    .dot-unread {
+        background: rgba(var(--sidebar-text-active-border-rgb), 1);
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+    }
+
+    button {
+
+    }
+}

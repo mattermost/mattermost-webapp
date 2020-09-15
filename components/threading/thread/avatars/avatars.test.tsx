@@ -15,7 +15,7 @@ describe('components/widgets/users/Avatar', () => {
                 size='xl'
             />,
         );
-        
+
     });
 
     test('should match the snapshot only with url', () => {
