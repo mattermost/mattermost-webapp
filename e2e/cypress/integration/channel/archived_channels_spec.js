@@ -10,20 +10,19 @@
 // Stage: @prod
 // Group: @channel
 
-import {testWithConfig} from '../../support/hooks';
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Leave an archived channel', () => {
-    testWithConfig({
-        TeamSettings: {
-            ExperimentalViewArchivedChannels: true,
-        },
-    });
-
     let testTeam;
     let testChannel;
 
     before(() => {
+        cy.apiUpdateConfig({
+            TeamSettings: {
+                ExperimentalViewArchivedChannels: true,
+            },
+        });
+
         // # Login as test user and visit town-square
         cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
             testTeam = team;

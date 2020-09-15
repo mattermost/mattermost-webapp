@@ -7,21 +7,19 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-import {testWithConfig} from '../../../support/hooks';
-
 const adminSteps = ['complete_profile', 'team_setup', 'invite_members', 'hide'];
 
 describe('Cloud Onboarding - Sysadmin', () => {
     let townSquarePage;
     let sysadmin;
 
-    testWithConfig({
-        ServiceSettings: {
-            ExperimentalChannelSidebarOrganization: 'default_on',
-        },
-    });
-
     before(() => {
+        cy.apiUpdateConfig({
+            ServiceSettings: {
+                ExperimentalChannelSidebarOrganization: 'default_on',
+            },
+        });
+
         // # Check if with license and has matching database
         cy.apiRequireLicenseForFeature('Cloud');
 
