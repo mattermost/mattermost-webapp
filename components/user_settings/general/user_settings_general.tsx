@@ -85,7 +85,7 @@ const holders = defineMessages({
     },
 });
 
-type Props = {
+export type Props = {
     intl: IntlShape;
     user: UserProfile;
     updateSection: (section: string) => void;
@@ -112,7 +112,7 @@ type Props = {
             };
         }>;
         setDefaultProfileImage: (id: string) => void;
-        uploadProfileImage: (id: string, file: object) => Promise<{
+        uploadProfileImage: (id: string, file: File) => Promise<{
             data: boolean;
             error?: {
                 message: string;
@@ -141,7 +141,7 @@ type State = {
     email: string;
     confirmEmail: string;
     currentPassword: string;
-    pictureFile: {type: string; size: number} | null;
+    pictureFile: File | null;
     loadingPicture: boolean;
     sectionIsSaving: boolean;
     showSpinner: boolean;
@@ -781,10 +781,11 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
             let extraInfo;
             let submit = null;
             if (
-                (this.props.user.auth_service === 'ldap' &&
+                (this.props.user.auth_service === Constants.LDAP_SERVICE &&
                     (this.props.ldapFirstNameAttributeSet || this.props.ldapLastNameAttributeSet)) ||
                 (this.props.user.auth_service === Constants.SAML_SERVICE &&
-                    (this.props.samlFirstNameAttributeSet || this.props.samlLastNameAttributeSet))
+                    (this.props.samlFirstNameAttributeSet || this.props.samlLastNameAttributeSet)) ||
+                (Constants.OAUTH_SERVICES.includes(this.props.user.auth_service))
             ) {
                 extraInfo = (
                     <span>

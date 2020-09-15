@@ -27,6 +27,24 @@
         }
     }
 
+    .call-plugin-icon {
+        vertical-align: middle;
+        text-align: center;
+        width: 20px;
+        height: 20px;
+        margin-right: 8px;
+        font-size: 1.6rem;
+        fill: v(center-channel-color-56);
+        color: v(center-channel-color-56);
+
+        svg,
+        img,
+        .icon {
+            width: 16px;
+            height: 16px;
+        }
+    }
+
     .a11y--focused {
         box-shadow: none !important;
     }

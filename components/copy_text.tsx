@@ -16,7 +16,7 @@ type Props = {
     idMessage: string;
 };
 
-export default class CopyText extends React.PureComponent<Props, {}> {
+export default class CopyText extends React.PureComponent<Props> {
     public static defaultProps = {
         defaultMessage: 'Copy',
         idMessage: 'integrations.copy',
