@@ -20,14 +20,14 @@ function* range(start: number, end: number): Iterable<number> {
 }
 
 const unitDiffs = new Map<Unit, Array<number>>([
-    ['second', [-0, ...range(-1, -3), -57, -58, -59]],
-    ['minute', [-0, ...range(-1, -3), -57, -58, -59]],
-    ['hour', [-0, ...range(-1, -3), -12, -22, -23]],
-    ['day', [-0, ...range(-1, -7), -14, ...range(-25, -31)]],
-    ['week', [-0, ...range(-1, -4)]],
-    ['month', [-0, ...range(-1, -3), ...range(-11, -13)]],
-    ['quarter', [-0, ...range(-1, -5)]],
-    ['year', [-0, ...range(-1, -3)]],
+    ['second', [...range(-1, -3), -57, -58, -59]],
+    ['minute', [...range(-1, -3), -57, -58, -59]],
+    ['hour', [...range(-1, -3), -12, -22, -23]],
+    ['day', [...range(-1, -7), -14, -22]],
+    ['week', [...range(-1, -4)]],
+    ['month', [...range(-1, -3), ...range(-11, -13)]],
+    ['quarter', [...range(-1, -5)]],
+    ['year', [...range(-1, -3)]],
 ]);
 
 const units = [...unitDiffs.keys()];
@@ -68,23 +68,8 @@ storiesOf('Timestamp', module).
                 ['rel=progressive, date-only', {
                     useTime: false,
                 } as Props],
-                ['progressive, numeric', {
+                ['rel=progressive, numeric', {
                     numeric: 'always',
-                } as Props],
-                ['0–45s = now, rel min-hr', {
-                    units: [
-                        'now',
-                        'minute',
-                        'hour',
-                    ],
-                } as Props],
-                ['sec=now, rel min-hr, abs date-only', {
-                    useTime: false,
-                    units: [
-                        'now',
-                        'minute',
-                        'hour',
-                    ],
                 } as Props],
             ].map(([label, props], boxIndex) => (
                 <StoryBox
@@ -94,14 +79,39 @@ storiesOf('Timestamp', module).
                     {[...unitDiffs].map(([unit, diffs], unitIndex) => (
                         <StoryBox
                             key={unit}
+                            label={unit}
                         >
-                            {diffs.map((diff) => (
+                            <Timestamp
+                                key={`start-${0}`}
+                                {...props}
+                                units={units.slice(unitIndex, units.length)}
+                                value={moment().toDate()}
+                            >
+                                {({formatted}, {relative}) => (
+                                    <span>
+                                        <pre
+                                            style={{
+                                                display: 'inline-grid',
+                                                marginRight: '2rem',
+                                                width: '4rem',
+                                                padding: '0px 5px',
+                                                textAlign: 'center',
+                                                borderColor: relative && relative.updateIntervalInSeconds != null ? 'green' : 'red',
+                                            }}
+                                        >
+                                            {0}
+                                        </pre>
+                                        {formatted}
+                                    </span>
+                                )}
+                            </Timestamp>
 
+                            {diffs.map((diff) => (
                                 <Timestamp
                                     key={`start-${diff}`}
-                                    units={unitIndex === 0 ? units.slice(unitIndex, units.length) : units}
-                                    value={moment().add(diff, unit).toDate()}
+                                    units={units}
                                     {...props}
+                                    value={moment().add(diff, unit).toDate()}
                                 >
                                     {({formatted}, {relative}) => (
                                         <span key={`span-${diff}`}>
@@ -109,13 +119,13 @@ storiesOf('Timestamp', module).
                                                 style={{
                                                     display: 'inline-grid',
                                                     marginRight: '2rem',
-                                                    width: '15rem',
+                                                    width: '4rem',
                                                     padding: '0px 5px',
                                                     textAlign: 'center',
                                                     borderColor: relative && relative.updateIntervalInSeconds != null ? 'green' : 'red',
                                                 }}
                                             >
-                                                {unit} {diff}
+                                                {diff}
                                             </pre>
                                             {formatted}
                                         </span>
