@@ -137,18 +137,18 @@ describe('Post Header', () => {
         cy.get('#rhsContainer').should('not.be.visible');
     });
 
-    it('MM-T122 Visual verification of "Searching" animation for Flagged and Pinned posts', () => {
+    it('MM-T122 Visual verification of "Searching" animation for Saved and Pinned posts', () => {
         cy.delayRequestToRoutes(['pinned', 'flagged'], 5000);
         cy.reload();
 
-        // Pin and flag last post before clicking on Pinned and Flagged post icons
+        // Pin and save last post before clicking on Pinned and Saved post icons
         cy.postMessage('Post');
 
-        //Pin and flag the posted message
+        //Pin and save the posted message
         cy.getLastPostId().then((postId) => {
             cy.clickPostDotMenu(postId);
             cy.get(`#pin_post_${postId}`).click();
-            cy.clickPostFlagIcon(postId);
+            cy.clickPostSaveIcon(postId);
         });
 
         // # Click on the "Pinned Posts" icon to the left of the "Search" box
@@ -164,10 +164,10 @@ describe('Post Header', () => {
             cy.get('#searchResultsCloseButton').should('be.visible').click();
         });
 
-        // # Click on the "Flagged Posts" icon to the right of the "Search" box
+        // # Click on the "Saved Posts" icon to the right of the "Search" box
         cy.get('#channelHeaderFlagButton').click();
 
-        // * Verify that the RHS for pinned posts is opened.
+        // * Verify that the RHS for saved posts is opened.
         cy.get('#searchContainer').should('be.visible').within(() => {
             // * Check that searching indicator appears before the pinned posts are loaded
             cy.get('#loadingSpinner').should('be.visible').and('have.text', 'Searching...');
