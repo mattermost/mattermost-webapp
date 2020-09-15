@@ -27,7 +27,7 @@ import Menu from 'components/widgets/menu/menu';
 const ROWS_FROM_BOTTOM_TO_OPEN_UP = 3;
 const TOTAL_USERS_TO_OPEN_UP = 5;
 
-type Props = {
+export type Props = {
     user: UserProfile;
     currentUser: UserProfile;
     mfaEnabled: boolean;
@@ -44,7 +44,7 @@ type Props = {
         revokeAllSessionsForUser: (id: string) => Promise<{error: ServerError; data: any}>;
         promoteGuestToUser: (id: string) => Promise<{error: ServerError}>;
         demoteUserToGuest: (id: string) => Promise<{error: ServerError}>;
-        loadBots: (page?: number, size?: number) => Promise<{}>;
+        loadBots: (page?: number, size?: number) => Promise<unknown>;
     };
     doPasswordReset: (user: UserProfile) => void;
     doEmailReset: (user: UserProfile) => void;

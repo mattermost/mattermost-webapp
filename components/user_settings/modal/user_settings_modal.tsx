@@ -14,6 +14,7 @@ import {
 } from 'react-intl';
 
 import {UserProfile} from 'mattermost-redux/types/users';
+import {StatusOK} from 'mattermost-redux/types/client4';
 
 import store from 'stores/redux_store.jsx';
 
@@ -68,14 +69,14 @@ const holders = defineMessages({
     },
 });
 
-type Props = {
+export type Props = {
     currentUser: UserProfile;
     onHide: () => void;
     onExit: () => void;
     intl: IntlShape;
     actions: {
         sendVerificationEmail: (email: string) => Promise<{
-            data: {};
+            data: StatusOK;
             error: {
                 err: string;
             };
@@ -97,6 +98,10 @@ class UserSettingsModal extends React.PureComponent<Props, State> {
     private customConfirmAction: ((handleConfirm: () => void) => void) | null;
     private modalBodyRef: React.RefObject<Modal>;
     private afterConfirm: (() => void) | null;
+
+    static defaultProps = {
+        onExit: () => {},
+    };
 
     constructor(props: Props) {
         super(props);

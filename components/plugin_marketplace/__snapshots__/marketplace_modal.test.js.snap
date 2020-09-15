@@ -14,7 +14,6 @@ exports[`components/marketplace/ AllPlugins should render with no plugins 1`] = 
     <FormattedMessage
       defaultMessage="There are no plugins available at this time."
       id="marketplace_modal.no_plugins"
-      values={Object {}}
     />
   </div>
 </div>
@@ -121,7 +120,6 @@ exports[`components/marketplace/ InstalledPlugins should render with no plugins 
     <FormattedMessage
       defaultMessage="You do not have any plugins installed."
       id="marketplace_modal.no_plugins_installed"
-      values={Object {}}
     />
   </div>
   <button
@@ -132,7 +130,6 @@ exports[`components/marketplace/ InstalledPlugins should render with no plugins 
     <FormattedMessage
       defaultMessage="Install Plugins"
       id="marketplace_modal.install_plugins"
-      values={Object {}}
     />
   </button>
 </div>
@@ -193,7 +190,6 @@ exports[`components/marketplace/ MarketplaceModal should render with error banne
           <FormattedMessage
             defaultMessage="Plugin Marketplace"
             id="marketplace_modal.title"
-            values={Object {}}
           />
         </strong>
       </h1>
@@ -275,7 +271,6 @@ exports[`components/marketplace/ MarketplaceModal should render with no plugins 
           <FormattedMessage
             defaultMessage="Plugin Marketplace"
             id="marketplace_modal.title"
-            values={Object {}}
           />
         </strong>
       </h1>
@@ -357,7 +352,6 @@ exports[`components/marketplace/ MarketplaceModal should render with plugins ins
           <FormattedMessage
             defaultMessage="Plugin Marketplace"
             id="marketplace_modal.title"
-            values={Object {}}
           />
         </strong>
       </h1>

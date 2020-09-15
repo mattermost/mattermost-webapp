@@ -44,7 +44,6 @@ exports[`components/channel_invite_modal should match snapshot for channel_invit
       <FormattedMessage
         defaultMessage="Add New Members to "
         id="channel_invite.addNewMembers"
-        values={Object {}}
       />
       <span
         className="name"
@@ -152,7 +151,6 @@ exports[`components/channel_invite_modal should match snapshot with exclude and 
       <FormattedMessage
         defaultMessage="Add New Members to "
         id="channel_invite.addNewMembers"
-        values={Object {}}
       />
       <span
         className="name"

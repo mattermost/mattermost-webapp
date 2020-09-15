@@ -24,7 +24,6 @@ exports[`components/StatusDropdown should match snapshot in default state 1`] = 
       <FormattedMessage
         defaultMessage="Dropdown Icon"
         id="generic_icons.dropdown"
-        values={Object {}}
       >
         <Component />
       </FormattedMessage>
@@ -38,7 +37,6 @@ exports[`components/StatusDropdown should match snapshot in default state 1`] = 
       <FormattedMessage
         defaultMessage="Status"
         id="status_dropdown.set_your_status"
-        values={Object {}}
       />
     </MenuHeader>
     <MenuGroup>
@@ -129,7 +127,6 @@ exports[`components/StatusDropdown should match snapshot with profile picture UR
       <FormattedMessage
         defaultMessage="Dropdown Icon"
         id="generic_icons.dropdown"
-        values={Object {}}
       >
         <Component />
       </FormattedMessage>
@@ -143,7 +140,6 @@ exports[`components/StatusDropdown should match snapshot with profile picture UR
       <FormattedMessage
         defaultMessage="Status"
         id="status_dropdown.set_your_status"
-        values={Object {}}
       />
     </MenuHeader>
     <MenuGroup>

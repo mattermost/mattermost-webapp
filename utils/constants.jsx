@@ -479,6 +479,7 @@ export const UserFilters = {
 
 export const SearchTypes = keyMirror({
     SET_MODAL_SEARCH: null,
+    SET_MODAL_FILTERS: null,
     SET_SYSTEM_USERS_SEARCH: null,
     SET_USER_GRID_SEARCH: null,
     SET_USER_GRID_FILTERS: null,
@@ -719,6 +720,8 @@ export const PermissionsScope = {
     [Permissions.USE_GROUP_MENTIONS]: 'channel_scope',
     [Permissions.READ_PUBLIC_CHANNEL_GROUPS]: 'channel_scope',
     [Permissions.READ_PRIVATE_CHANNEL_GROUPS]: 'channel_scope',
+    [Permissions.CONVERT_PUBLIC_CHANNEL_TO_PRIVATE]: 'channel_scope',
+    [Permissions.CONVERT_PRIVATE_CHANNEL_TO_PUBLIC]: 'channel_scope',
 };
 
 export const DefaultRolePermissions = {
@@ -789,6 +792,8 @@ export const DefaultRolePermissions = {
         Permissions.MANAGE_OTHERS_INCOMING_WEBHOOKS,
         Permissions.USE_CHANNEL_MENTIONS,
         Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS,
+        Permissions.CONVERT_PUBLIC_CHANNEL_TO_PRIVATE,
+        Permissions.CONVERT_PRIVATE_CHANNEL_TO_PUBLIC,
         Permissions.READ_PUBLIC_CHANNEL_GROUPS,
         Permissions.READ_PRIVATE_CHANNEL_GROUPS,
         Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS,
@@ -868,6 +873,9 @@ export const Constants = {
         NEW_MESSAGE: 4,
         POST: 5,
     },
+
+    // This is the same limit set https://github.com/mattermost/mattermost-server/blob/master/api4/team.go#L23
+    MAX_ADD_MEMBERS_BATCH: 256,
 
     SPECIAL_MENTIONS: ['all', 'channel', 'here'],
     SPECIAL_MENTIONS_REGEX: /(?:\B|\b_+)@(channel|all|here)(?!(\.|-|_)*[^\W_])/gi,

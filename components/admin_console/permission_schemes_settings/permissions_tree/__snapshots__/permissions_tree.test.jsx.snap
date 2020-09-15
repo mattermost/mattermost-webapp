@@ -13,7 +13,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       <FormattedMessage
         defaultMessage="Permission"
         id="admin.permissions.permissionsTree.permission"
-        values={Object {}}
       />
     </div>
     <div
@@ -22,7 +21,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       <FormattedMessage
         defaultMessage="Description"
         id="admin.permissions.permissionsTree.description"
-        values={Object {}}
       />
     </div>
   </div>
@@ -76,6 +74,14 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 ],
               },
               "delete_public_channel",
+              Object {
+                "combined": true,
+                "id": "convert_public_channel_to_private",
+                "permissions": Array [
+                  "convert_public_channel_to_private",
+                  "convert_private_channel_to_public",
+                ],
+              },
             ],
           },
           Object {
@@ -162,7 +168,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       <FormattedMessage
         defaultMessage="Permission"
         id="admin.permissions.permissionsTree.permission"
-        values={Object {}}
       />
     </div>
     <div
@@ -171,7 +176,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       <FormattedMessage
         defaultMessage="Description"
         id="admin.permissions.permissionsTree.description"
-        values={Object {}}
       />
     </div>
   </div>
@@ -225,6 +229,14 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 ],
               },
               "delete_public_channel",
+              Object {
+                "combined": true,
+                "id": "convert_public_channel_to_private",
+                "permissions": Array [
+                  "convert_public_channel_to_private",
+                  "convert_private_channel_to_public",
+                ],
+              },
             ],
           },
           Object {
@@ -319,7 +331,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       <FormattedMessage
         defaultMessage="Permission"
         id="admin.permissions.permissionsTree.permission"
-        values={Object {}}
       />
     </div>
     <div
@@ -328,7 +339,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       <FormattedMessage
         defaultMessage="Description"
         id="admin.permissions.permissionsTree.description"
-        values={Object {}}
       />
     </div>
   </div>
@@ -382,6 +392,14 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 ],
               },
               "delete_public_channel",
+              Object {
+                "combined": true,
+                "id": "convert_public_channel_to_private",
+                "permissions": Array [
+                  "convert_public_channel_to_private",
+                  "convert_private_channel_to_public",
+                ],
+              },
             ],
           },
           Object {
@@ -476,7 +494,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       <FormattedMessage
         defaultMessage="Permission"
         id="admin.permissions.permissionsTree.permission"
-        values={Object {}}
       />
     </div>
     <div
@@ -485,7 +502,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       <FormattedMessage
         defaultMessage="Description"
         id="admin.permissions.permissionsTree.description"
-        values={Object {}}
       />
     </div>
   </div>
@@ -539,6 +555,14 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 ],
               },
               "delete_public_channel",
+              Object {
+                "combined": true,
+                "id": "convert_public_channel_to_private",
+                "permissions": Array [
+                  "convert_public_channel_to_private",
+                  "convert_private_channel_to_public",
+                ],
+              },
             ],
           },
           Object {
@@ -633,7 +657,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       <FormattedMessage
         defaultMessage="Permission"
         id="admin.permissions.permissionsTree.permission"
-        values={Object {}}
       />
     </div>
     <div
@@ -642,7 +665,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       <FormattedMessage
         defaultMessage="Description"
         id="admin.permissions.permissionsTree.description"
-        values={Object {}}
       />
     </div>
   </div>
@@ -696,6 +718,14 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 ],
               },
               "delete_public_channel",
+              Object {
+                "combined": true,
+                "id": "convert_public_channel_to_private",
+                "permissions": Array [
+                  "convert_public_channel_to_private",
+                  "convert_private_channel_to_public",
+                ],
+              },
             ],
           },
           Object {
@@ -790,7 +820,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       <FormattedMessage
         defaultMessage="Permission"
         id="admin.permissions.permissionsTree.permission"
-        values={Object {}}
       />
     </div>
     <div
@@ -799,7 +828,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       <FormattedMessage
         defaultMessage="Description"
         id="admin.permissions.permissionsTree.description"
-        values={Object {}}
       />
     </div>
   </div>
@@ -853,6 +881,14 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 ],
               },
               "delete_public_channel",
+              Object {
+                "combined": true,
+                "id": "convert_public_channel_to_private",
+                "permissions": Array [
+                  "convert_public_channel_to_private",
+                  "convert_private_channel_to_public",
+                ],
+              },
             ],
           },
           Object {
@@ -947,7 +983,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       <FormattedMessage
         defaultMessage="Permission"
         id="admin.permissions.permissionsTree.permission"
-        values={Object {}}
       />
     </div>
     <div
@@ -956,7 +991,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       <FormattedMessage
         defaultMessage="Description"
         id="admin.permissions.permissionsTree.description"
-        values={Object {}}
       />
     </div>
   </div>
@@ -1014,6 +1048,14 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 ],
               },
               "delete_public_channel",
+              Object {
+                "combined": true,
+                "id": "convert_public_channel_to_private",
+                "permissions": Array [
+                  "convert_public_channel_to_private",
+                  "convert_private_channel_to_public",
+                ],
+              },
             ],
           },
           Object {

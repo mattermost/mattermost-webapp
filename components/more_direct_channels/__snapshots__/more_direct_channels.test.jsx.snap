@@ -45,7 +45,6 @@ exports[`components/MoreDirectChannels should exclude deleted users if there is 
       <FormattedMessage
         defaultMessage="Direct Messages"
         id="more_direct_channels.title"
-        values={Object {}}
       />
     </ModalTitle>
   </ModalHeader>
@@ -161,7 +160,6 @@ exports[`components/MoreDirectChannels should exclude deleted users if there is 
       <FormattedMessage
         defaultMessage="Close"
         id="general_button.close"
-        values={Object {}}
       />
     </button>
   </ModalFooter>
@@ -269,7 +267,6 @@ exports[`components/MoreDirectChannels should match snapshot 1`] = `
       <FormattedMessage
         defaultMessage="Direct Messages"
         id="more_direct_channels.title"
-        values={Object {}}
       />
     </ModalTitle>
   </ModalHeader>
@@ -380,7 +377,6 @@ exports[`components/MoreDirectChannels should match snapshot 1`] = `
       <FormattedMessage
         defaultMessage="Close"
         id="general_button.close"
-        values={Object {}}
       />
     </button>
   </ModalFooter>
