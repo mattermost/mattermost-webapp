@@ -7,7 +7,6 @@ import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
 import {UserProfile} from 'mattermost-redux/types/users';
 
 import {getCurrentUser, getUsers} from 'mattermost-redux/selectors/entities/users';
-import {isEqual} from 'lodash';
 
 import {GlobalState} from 'types/store';
 import {RecommendedNextSteps, Preferences} from 'utils/constants';
@@ -86,15 +85,6 @@ export const Steps: StepType[] = [
         component: SetupPreferencesStep,
     },
 ];
-
-// Filter the steps shown by checking if our user has any of the required roles for that step
-export function isStepForUser(step: StepType, roles: string): boolean {
-    const userRoles = roles.split(' ');
-    return (
-        isEqual(userRoles.sort(), step.roles.sort()) ||
-          step.roles.length === 0
-    );
-}
 
 export const isFirstAdmin = createSelector(
     (state: GlobalState) => getCurrentUser(state),
