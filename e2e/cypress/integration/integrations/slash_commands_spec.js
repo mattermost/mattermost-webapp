@@ -7,8 +7,11 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @integrations
+
+/**
+* Note: This test requires webhook server running. Initiate `npm run start:webhook` to start.
+*/
 
 describe('Integrations', () => {
     let user1;
@@ -17,8 +20,9 @@ describe('Integrations', () => {
     let team2;
     let testChannelUrl1;
     let testChannelUrl2;
+    let commandURL;
+
     const commandTrigger = 'test-ephemeral';
-    const commandURL = 'http://hidden-peak-21733.herokuapp.com/test_ephemeral';
     const timestamp = Date.now();
 
     before(() => {
@@ -33,16 +37,19 @@ describe('Integrations', () => {
             user1 = user;
             team1 = team;
             testChannelUrl1 = `/${team.name}/channels/town-square`;
+            cy.apiGetChannelByName(team1.name, 'town-square').then((response) => {
+                const channel = response.body;
+                commandURL = `${Cypress.env().webhookBaseUrl}/send_message_to_channel?channel_id=${channel.id}`
+            });
 
             cy.apiCreateUser().then(({user: otherUser}) => {
                 user2 = otherUser;
-
                 cy.apiAddUserToTeam(team.id, user2.id);
             });
 
-            cy.apiCreateTeam(`test-team-${timestamp}`, `test-team-${timestamp}`).then(({anotherTeam}) => {
+            cy.apiCreateTeam(`test-team-${timestamp}`, `test-team-${timestamp}`).then(({team: anotherTeam}) => {
                 team2 = anotherTeam;
-                testChannelUrl2 = `/${team.name}/channels/town-square`;
+                testChannelUrl2 = `/${team2.name}/channels/town-square`;
                 cy.apiAddUserToTeam(team2.id, user1.id);
                 cy.apiAddUserToTeam(team2.id, user2.id);
             });
@@ -166,8 +173,8 @@ describe('Integrations', () => {
             // * Should come from the webhook bot
             cy.get('.BotBadge').should('exist');
 
-            // * Should be an ephemeral message
-            cy.findByText('(Only visible to you)').should('exist');
+            // * Should contain the "Hello World" text
+            cy.findByText('Hello World').should('exist');
         });
     });
 });
