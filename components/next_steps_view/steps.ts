@@ -18,9 +18,12 @@ import SetupPreferencesStep from './steps/setup_preferences_step/setup_preferenc
 import InviteMembersStep from './steps/invite_members_step';
 import TeamProfileStep from './steps/team_profile_step';
 import EnableNotificationsStep from './steps/enable_notifications_step/enable_notifications_step';
+import {isStepForUser} from './step_helpers';
 
 export type StepComponentProps = {
     id: string;
+    expanded: boolean;
+    isAdmin: boolean;
     currentUser: UserProfile;
     onSkip: (id: string) => void;
     onFinish: (id: string) => void;

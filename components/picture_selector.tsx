@@ -15,6 +15,7 @@ type Props = {
     defaultSrc?: string;
     placeholder?: React.ReactNode;
     loadingPicture?: boolean;
+    onOpenDialog?: () => void;
     onSelect: (file: File) => void;
     onRemove: () => void;
 };
@@ -46,6 +47,10 @@ const PictureSelector: React.FC<Props> = (props: Props) => {
     };
 
     const handleInputFile = () => {
+        if (props.onOpenDialog) {
+            props.onOpenDialog();
+        }
+
         if (!inputRef || !inputRef.current) {
             return;
         }
