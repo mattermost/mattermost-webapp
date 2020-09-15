@@ -4,54 +4,23 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import TeamMembersDropdown from 'components/team_members_dropdown/team_members_dropdown.jsx';
+import TeamMembersDropdown from 'components/team_members_dropdown/team_members_dropdown';
+
+import {TestHelper} from '../../utils/test_helper';
 
 describe('components/team_members_dropdown', () => {
-    const user = {
-        id: 'user-1',
-        username: 'username1',
-        roles: 'team_admin',
-        is_bot: false,
-    };
+    const user = TestHelper.getUserMock({id: 'user-1', username: 'username1', roles: 'team_admin', is_bot: false});
 
-    const user2 = {
-        id: 'user-2',
-        username: 'username2',
-        roles: 'team_admin',
-        is_bot: false,
-    };
+    const user2 = TestHelper.getUserMock({id: 'user-2', username: 'username2', roles: 'team_admin', is_bot: false});
 
-    const bot = {
-        id: 'bot-user',
-        username: 'bot',
-        roles: 'system_user',
-        is_bot: true,
-    };
+    const bot = TestHelper.getUserMock({id: 'bot-user', username: 'bot', roles: 'system_user', is_bot: true});
 
-    const team = {
-        id: 'qkh1bxwgkjry3x4sgn5roa8ypy',
-        create_at: 1553808980710,
-        update_at: 1553808980710,
-        delete_at: 0,
-        display_name: 'engineering',
-        name: 'engineering',
-        description: '',
-        email: 'sysadmin@test.com',
-        type: 'O',
-        company_name: '',
-        allowed_domains: '',
-        invite_id: 'sgic8xqghb8iupttw6skeqifuo',
-        allow_open_invite: false,
-        scheme_id: null,
-    };
+    const team = TestHelper.getTeamMock({type: 'O', allowed_domains: '', allow_open_invite: false, scheme_id: undefined});
 
     const baseProps = {
         user: user2,
         currentUser: user,
-        teamMember: {
-            roles: 'channel_admin',
-            scheme_admin: 'system_admin',
-        },
+        teamMember: TestHelper.getTeamMembershipMock({roles: 'channel_admin', scheme_admin: true}),
         teamUrl: '',
         currentTeam: team,
         index: 0,
