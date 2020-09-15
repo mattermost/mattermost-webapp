@@ -18,6 +18,7 @@ export default {
                         manualTimezone: 'Canada/Yukon',
                         useAutomaticTimezone: 'false',
                     },
+                    locale: 'pt'
                 },
             },
         },

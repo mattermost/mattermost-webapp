@@ -58,8 +58,6 @@ const defaultRefreshIntervals = new Map<Unit, number /* seconds */>([
     ['second', 1],
 ]);
 
-type FormatOptions = DateTimeOptions & Partial<RelativeOptions>;
-
 type UnitDescriptor = [Unit, number?, boolean?];
 
 type Breakpoint = RequireOnlyOne<{
@@ -72,7 +70,23 @@ type DisplayAs = {
     updateIntervalInSeconds?: number;
 }
 
-export type RangeDescriptor = Breakpoint & DisplayAs
+export type RangeDescriptor = Breakpoint & DisplayAs;
+
+function normalizeUnit(unit: Unit | keyof typeof defaultRanges | RangeDescriptor) : RangeDescriptor {
+    return typeof unit === 'string' || typeof unit === 'number' ? Timestamp.defaultRanges[unit] : unit;
+}
+
+const defaultRanges: {[key in Unit]: RangeDescriptor} & {[key: string]: RangeDescriptor} = {
+    now: {within: ['second', -45], display: ['second', 0]},
+    second: {within: ['second', -59], display: ['second']},
+    minute: {within: ['hour', -1], display: ['minute']},
+    hour: {within: ['hour', -24], display: ['hour']},
+    day: {within: ['day', -6], display: ['day']},
+    week: {within: ['week', -3], display: ['week']},
+    month: {within: ['month', -11], display: ['month']},
+    quarter: {within: ['quarter', -3], display: ['quarter']},
+    year: {within: ['year', -1000], display: ['year']},
+};
 
 export type ResolvedFormats = {
     relative: RelativeOptions | SimpleRelativeOptions | false;
@@ -86,12 +100,14 @@ type FormattedParts = {
     time?: ReactNode;
 }
 
+type FormatOptions = DateTimeOptions & Partial<RelativeOptions>;
+
 export type Props = FormatOptions & {
-    value?: string | number | Date;
+    value?: ConstructorParameters<typeof Date>[0];
 
     useRelative?: Resolvable<ResolvedFormats['relative'], {value: Date}, FormatOptions>;
-    ranges?: RangeDescriptor[];
-
+    units?: (RangeDescriptor | Unit | keyof typeof defaultRanges)[];
+    ranges?: Props['units'];
     useDate?: Resolvable<Exclude<ResolvedFormats['date'], 'timeZone'> | false, {value: Date}, FormatOptions>;
     useTime?: Resolvable<Exclude<ResolvedFormats['time'], 'timeZone' | 'hourCycle' | 'hour12'> | false, {value: Date}, FormatOptions>;
 
@@ -142,7 +158,7 @@ class Timestamp extends PureComponent<Props, State> {
 
         // relative
         numeric: 'auto',
-        style: 'narrow',
+        style: 'long',
         relNearest: 1,
 
         // fixed
@@ -156,6 +172,8 @@ class Timestamp extends PureComponent<Props, State> {
         hourCycle: 'h12',
         timeZoneName: 'short',
     }
+
+    static defaultRanges = defaultRanges;
 
     nextUpdate: ReturnType<typeof setTimeout> | null = null;
 
@@ -218,6 +236,10 @@ class Timestamp extends PureComponent<Props, State> {
             }
         }
 
+        if (diff === 0) {
+            diff = value <= this.state.now ? -0 : +0;
+        }
+
         return this.props.intl.formatRelativeTime(diff, unit, format);
     }
 
@@ -247,8 +269,8 @@ class Timestamp extends PureComponent<Props, State> {
         return undefined;
     }
 
-    autoRange(value: Date, ranges: Props['ranges'] = this.props.ranges): DisplayAs {
-        return ranges?.find(({equals, within}: Breakpoint) => {
+    autoRange(value: Date, units: Props['units'] = (this.props.units || this.props.ranges)): DisplayAs {
+        return units?.map(normalizeUnit).find(({equals, within}) => {
             if (equals != null) {
                 return isEqual(value, this.state.now, this.props.timeZone, ...equals);
             }
@@ -378,16 +400,10 @@ class Timestamp extends PureComponent<Props, State> {
         const value = unparsed instanceof Date ? unparsed : new Date(unparsed);
         const formats = this.getFormats(value);
         const parts = this.formatParts(value, formats);
-        const formatted = Timestamp.format(parts);
-
-        this.nextUpdate = this.maybeUpdate(formats.relative);
-
-        if (children) {
-            return resolve(children, {value, timeZone, formatted, ...parts}, formats);
-        }
+        let formatted = Timestamp.format(parts);
 
         if (useSemanticOutput) {
-            return (
+            formatted = (
                 <SemanticTime
                     value={value}
                     aria-label={label ?? Timestamp.formatLabel(value, timeZone)}
@@ -396,6 +412,12 @@ class Timestamp extends PureComponent<Props, State> {
                     {formatted}
                 </SemanticTime>
             );
+        }
+
+        this.nextUpdate = this.maybeUpdate(formats.relative);
+
+        if (children) {
+            return resolve(children, {value, timeZone, formatted, ...parts}, formats);
         }
 
         return formatted;
