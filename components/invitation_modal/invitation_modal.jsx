@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import {trackEvent, pageVisited} from 'actions/diagnostics_actions.jsx';
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
 import ConfirmModal from 'components/confirm_modal';
 import RootPortal from 'components/root_portal';
@@ -31,6 +32,7 @@ export default class InvitationModal extends React.PureComponent {
         canInviteGuests: PropTypes.bool.isRequired,
         canAddUsers: PropTypes.bool.isRequired,
         emailInvitationsEnabled: PropTypes.bool.isRequired,
+        isCloud: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
             closeModal: PropTypes.func.isRequired,
             sendGuestsInvites: PropTypes.func.isRequired,
@@ -68,6 +70,12 @@ export default class InvitationModal extends React.PureComponent {
         };
     }
 
+    componentDidMount() {
+        if (this.props.isCloud) {
+            pageVisited('cloud_invite_users', 'pageview_invite_users');
+        }
+    }
+
     componentDidUpdate(prevProps, prevState) {
         if (this.state.step === STEPS_INVITE_MEMBERS && prevState.step !== STEPS_INVITE_MEMBERS && !this.props.currentTeam.invite_id) {
             this.props.actions.getTeam(this.props.currentTeam.id);
@@ -98,6 +106,9 @@ export default class InvitationModal extends React.PureComponent {
     }
 
     goToMembers = () => {
+        if (this.props.isCloud) {
+            trackEvent('cloud_invite_users', 'click_invite_members');
+        }
         this.setState({step: STEPS_INVITE_MEMBERS, prevStep: this.state.step, hasChanges: false, invitesSent: [], invitesNotSent: [], invitesType: InviteTypes.INVITE_MEMBER});
         if (this.modal && this.modal.current) {
             this.modal.current.enforceFocus();
@@ -105,6 +116,9 @@ export default class InvitationModal extends React.PureComponent {
     }
 
     goToGuests = () => {
+        if (this.props.isCloud) {
+            trackEvent('cloud_invite_users', 'click_invite_guests');
+        }
         this.setState({step: STEPS_INVITE_GUESTS, prevStep: this.state.step, hasChanges: false, invitesSent: [], invitesNotSent: [], invitesType: InviteTypes.INVITE_GUEST});
         if (this.modal && this.modal.current) {
             this.modal.current.enforceFocus();
@@ -163,6 +177,10 @@ export default class InvitationModal extends React.PureComponent {
 
     onMembersSubmit = async (users, emails, extraText) => {
         const invites = await this.props.actions.sendMembersInvites(this.props.currentTeam.id, users, emails);
+
+        if (this.props.isCloud) {
+            trackEvent('cloud_invite_users', 'invitations_sent', {num_invitations_sent: invites.sent});
+        }
 
         if (extraText !== '') {
             invites.notSent.push({
