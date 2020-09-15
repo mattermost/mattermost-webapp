@@ -14,7 +14,7 @@ import Card from 'components/card/card';
 import {getAnalyticsCategory} from 'components/next_steps_view/step_helpers';
 
 import loadingIcon from 'images/spinner-48x48-blue.apng';
-import {Preferences} from 'utils/constants';
+import Constants, {Preferences} from 'utils/constants';
 
 import {StepType} from './steps';
 import './next_steps_view.scss';
@@ -34,6 +34,7 @@ type Props = {
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => void;
         setShowNextStepsView: (show: boolean) => void;
+        getProfiles: () => void;
     };
 };
 
@@ -54,7 +55,8 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
         };
     }
 
-    componentDidMount() {
+    async componentDidMount() {
+        await this.props.actions.getProfiles();
         pageVisited(getAnalyticsCategory(this.props.isFirstAdmin), 'pageview_welcome');
 
         // If all steps are complete, don't render this and skip to the tips screen
