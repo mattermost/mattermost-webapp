@@ -61,15 +61,15 @@ export default class AboutBuildModal extends React.PureComponent {
     render() {
         const config = this.props.config;
         const license = this.props.license;
-        const isCloud = license.Cloud === 'true';
 
-        if (isCloud) {
+        if (license.Cloud === 'true') {
             return (
                 <AboutBuildModalCloud
                     {...this.props}
                     {...this.state}
                     doHide={this.doHide}
-                />);
+                />
+            );
         }
 
         let title = (

@@ -15,7 +15,8 @@
             height: 66px;
         }
         .modal-body {
-            padding-top: 0px;
+            overflow: hidden;
+            padding: 15px 64px;
             height: 294px;
             width: 600px;
             .about-modal__logo {
@@ -43,7 +44,7 @@
                 top: 32px;
                 font-size: 16px;
                 line-height: 24px;
-                color: #3D3C40;
+                color: var(--center-channel-color);
                 margin-bottom: 16px;
             }
             .description, .form-group {
