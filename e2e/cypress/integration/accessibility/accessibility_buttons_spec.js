@@ -56,7 +56,7 @@ describe('Verify Accessibility Support in different Buttons', () => {
         cy.get('#toggleFavorite').focus().tab({shift: true}).tab();
 
         // # Press tab until the focus is on the Pinned posts button
-        cy.focused().tab().tab().tab().tab().tab();
+        cy.focused().tab().tab().tab().tab();
 
         // * Verify accessibility support in Pinned Posts button
         cy.get('#channelHeaderPinButton').should('have.attr', 'aria-label', 'Pinned posts').and('have.class', 'a11y--active a11y--focused').tab();
