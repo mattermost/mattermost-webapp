@@ -23,21 +23,50 @@
         margin-right: 4px;
     }
 
-    .while-inactive {
+    .hover-visible {
         display: none;
     }
 
     &:hover {
-        // color: rgb(var(--button-bg-rgb));
-        .while-inactive {
+        color: rgba(var(--button-bg-rgb), 1);
+        .Icon {
+            fill: rgba(var(--button-bg-rgb), 1);
+        }
+        .hover-visible {
             display: unset;
         }
+        .hover-hidden {
+            display: none;
+        }
     }
+
+    .Button:hover ~ .ButtonSeparator {
+        visibility: hidden;
+    }
+
+
+    .Timestamp {
+        padding: .5rem 1rem;
+    }
+}
+
+.ButtonSeparator {
+    width: 1px;
+    height: 15px;
+    background: rgba(var(--center-channel-color-rgb), .16)
 }
 
 .Button {
     padding: 4.5px 10px;
     border-radius: 4px;
+
+    .Icon svg {
+        width: 12px;
+        height: 10px;
+    }
+    .Button_leftIcon {
+        margin-right: .75rem;
+    }
 
     font-family: Open Sans;
     font-style: normal;

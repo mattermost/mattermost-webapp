@@ -11,6 +11,9 @@ import Avatars from '../avatars';
 
 import Timestamp from 'components/timestamp';
 import SimpleTooltip from 'components/simple_tooltip';
+import ReplyIcon from 'components/widgets/icons/reply_icon';
+import FaAddIcon from 'components/widgets/icons/fa_add_icon';
+
 type Props = {
     repliers: ComponentProps<typeof Avatars>['users'];
     totalReplies: number;
@@ -49,27 +52,35 @@ const ThreadFooter: FC<Props> = ({
             />
 
             <button className='Button Button___transparent'>
+                <ReplyIcon className='Icon Icon___small Button_leftIcon'/>
                 <FormattedMessage
                     id='threading.footer.numReplies'
-                    defaultMessage='{count, number} replies'
+                    defaultMessage='{count, plural, =0 {reply} other {# replies}}'
                     values={{count: newReplies || totalReplies}}
                 />
             </button>
 
-            <div className='btn-separator'/>
+            <div className='ButtonSeparator'/>
 
-            <div className='while-active'>
+            <div className='hover-visible'>
                 {isFollowing === true ? (
                     <button className='Button Button___transparent'>
-                        <i className='Icon Icon___small Button_leftIcon fa-plus'/>
-                        <FormattedMessage
-                            id='threading.footer.following'
-                            defaultMessage='Unfollow'
-                        />
+                        <span className='Icon Icon___small Button_leftIcon'>
+                            <FaAddIcon/>
+                        </span>
+                        <span className='Button_label'>
+                            <FormattedMessage
+                                id='threading.footer.following'
+                                defaultMessage='Unfollow'
+                            />
+                        </span>
+
                     </button>
                 ) : (
                     <button className='Button Button___transparent'>
-                        <i className='Icon Icon___small Button_leftIcon fa-plus'/>
+                        <span className='Icon Icon___small Button_leftIcon'>
+                            <FaAddIcon/>
+                        </span>
                         <span className='Button_label'>
                             <FormattedMessage
                                 id='threading.footer.notFollowing'
@@ -82,27 +93,29 @@ const ThreadFooter: FC<Props> = ({
 
             </div>
 
-            <div className='while-inactive'>
+            <div className='hover-hidden'>
                 <Timestamp
                     value={lastReplyAt}
                     useTime={false}
                     units={['minute', 'day']}
                 >
-                    {({formatted}, {relative}) => {
-                        return relative ? (
-                            <FormattedMessage
-                                id='threading.footer.lastReplyRelative'
-                                defaultMessage='Last reply was {formatted}'
-                                values={{formatted}}
-                            />
-                        ) : (
-                            <FormattedMessage
-                                id='threading.footer.lastReplyAbsolute'
-                                defaultMessage='Last reply on {formatted}'
-                                values={{formatted}}
-                            />
-                        );
-                    }}
+                    {({formatted}, {relative}) => (
+                        <span className='Timestamp'>
+                            {relative ? (
+                                <FormattedMessage
+                                    id='threading.footer.lastReplyRelative'
+                                    defaultMessage='Last reply was {formatted}'
+                                    values={{formatted}}
+                                />
+                            ) : (
+                                <FormattedMessage
+                                    id='threading.footer.lastReplyAbsolute'
+                                    defaultMessage='Last reply on {formatted}'
+                                    values={{formatted}}
+                                />
+                            )}
+                        </span>
+                    )}
                 </Timestamp>
             </div>
         </div>

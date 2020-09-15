@@ -74,6 +74,7 @@ storiesOf('Thread View', module).
                     repliers={staticProps.users}
                     totalReplies={42}
                     newReplies={5}
+                    isFollowing={false}
                     lastReplyAt={1599838334920}
                 />
             </StoryBox>
