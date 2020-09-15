@@ -2,6 +2,8 @@
     display: inline-flex;
     align-items: center;
 
+    padding: 5px 10px;
+
     font-family: 'Open Sans';
     font-size: 12px;
     line-height: 15px;
@@ -17,7 +19,42 @@
         border-radius: 50%;
     }
 
-    button {
+    .Avatars {
+        margin-right: 4px;
+    }
 
+    .while-inactive {
+        display: none;
+    }
+
+    &:hover {
+        // color: rgb(var(--button-bg-rgb));
+        .while-inactive {
+            display: unset;
+        }
+    }
+}
+
+.Button {
+    padding: 4.5px 10px;
+    border-radius: 4px;
+
+    font-family: Open Sans;
+    font-style: normal;
+    font-weight: 600;
+
+    &:hover,
+    &:active {
+        text-decoration: none;
+    }
+}
+
+.Button___transparent {
+    background: transparent;
+    border: none;
+
+    &:hover,
+    &:focus {
+        background: rgba(var(--center-channel-color-rgb), .08);
     }
 }

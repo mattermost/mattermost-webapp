@@ -1,33 +1,33 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-.ProfilePictures {
+.Avatars {
     display: flex;
     flex-flow: nowrap;
     align-items: center;
     justify-content: center;
 
-    &.ProfilePictures-xs {
+    &.Avatars___xs {
         --offset: -4px;
         --border-width: 1px;
     }
-    &.ProfilePictures-sm {
+    &.Avatars___sm {
         --offset: -5px;
         --border-width: 1px;
     }
-    &.ProfilePictures-md {
+    &.Avatars___md {
         --offset: -6px;
         --border-width: 1.5px;
     }
-    &.ProfilePictures-lg {
+    &.Avatars___lg {
         --offset: -7px;
         --border-width: 2px;
     }
-    &.ProfilePictures-xl {
+    &.Avatars___xl {
         --offset: -10px;
         --border-width: 2px;
     }
-    &.ProfilePictures-xxl {
+    &.Avatars___xxl {
         --offset: -26px;
         --border-width: 5px;
     }

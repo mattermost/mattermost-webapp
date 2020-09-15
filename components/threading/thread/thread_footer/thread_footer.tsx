@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/prop-types */
 
 import React, {FC, memo, ComponentProps} from 'react';
 import {FormattedMessage} from 'react-intl';
@@ -31,8 +32,9 @@ const ThreadFooter: FC<Props> = ({
                 id='threadFooterIndicator'
                 content={
                     <FormattedMessage
-                        id='x'
-                        defaultMessage='x'
+                        id='threading.footer.numNewMessages'
+                        defaultMessage='{unreads, plural, =0 {no unread messages} =1 {one unread message} other {# unread messages}}'
+                        values={{unreads: newReplies}}
                     />
                 }
             >
@@ -46,7 +48,7 @@ const ThreadFooter: FC<Props> = ({
                 users={repliers}
             />
 
-            <button className='btn btn-transparent'>
+            <button className='Button Button___transparent'>
                 <FormattedMessage
                     id='threading.footer.numReplies'
                     defaultMessage='{count, number} replies'
@@ -58,7 +60,7 @@ const ThreadFooter: FC<Props> = ({
 
             <div className='while-active'>
                 {isFollowing === true ? (
-                    <button className='btn btn-transparent'>
+                    <button className='Button Button___transparent'>
                         <i className='Icon Icon___small Button_leftIcon fa-plus'/>
                         <FormattedMessage
                             id='threading.footer.following'
@@ -66,11 +68,14 @@ const ThreadFooter: FC<Props> = ({
                         />
                     </button>
                 ) : (
-                    <button className='btn btn-transparent'>
-                        <FormattedMessage
-                            id='threading.footer.notFollowing'
-                            defaultMessage='Follow'
-                        />
+                    <button className='Button Button___transparent'>
+                        <i className='Icon Icon___small Button_leftIcon fa-plus'/>
+                        <span className='Button_label'>
+                            <FormattedMessage
+                                id='threading.footer.notFollowing'
+                                defaultMessage='Follow'
+                            />
+                        </span>
                     </button>
                 )
                 }

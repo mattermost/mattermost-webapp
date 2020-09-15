@@ -23,7 +23,7 @@ const Avatars: FC<Props> = ({size, breakAt = 3, users}: Props) => {
     const others = users.slice(breakAt);
 
     return (
-        <div className={`ProfilePictures ProfilePictures-${size}`}>
+        <div className={`Avatars Avatars___${size}`}>
             {displayUsers.map(({name, ...user}) => (
                 <SimpleTooltip
                     key={user.url}
