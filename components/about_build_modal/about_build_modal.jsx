@@ -11,6 +11,8 @@ import MattermostLogo from 'components/widgets/icons/mattermost_logo';
 
 import {AboutLinks} from 'utils/constants';
 
+import AboutBuildModalCloud from './about_build_modal_cloud/about_build_modal_cloud';
+
 export default class AboutBuildModal extends React.PureComponent {
     static defaultProps = {
         show: false,
@@ -58,6 +60,16 @@ export default class AboutBuildModal extends React.PureComponent {
     render() {
         const config = this.props.config;
         const license = this.props.license;
+
+        if (license.Cloud === 'true') {
+            return (
+                <AboutBuildModalCloud
+                    {...this.props}
+                    {...this.state}
+                    doHide={this.doHide}
+                />
+            );
+        }
 
         let title = (
             <FormattedMessage

@@ -1,11 +1,13 @@
 {
   "about.buildnumber": "Build Number:",
+  "about.cloudEdition": "Cloud",
   "about.copyright": "Copyright 2015 - {currentYear} Mattermost, Inc. All rights reserved",
   "about.database": "Database:",
   "about.date": "Build Date:",
   "about.dbversion": "Database Schema Version:",
   "about.enterpriseEditione1": "Enterprise Edition",
   "about.enterpriseEditionLearn": "Learn more about Enterprise Edition at ",
+  "about.enterpriseEditionSst": "High trust messaging for the enterprise",
   "about.enterpriseEditionSt": "Modern communication from behind your firewall.",
   "about.hash": "Build Hash:",
   "about.hashee": "EE Build Hash:",
