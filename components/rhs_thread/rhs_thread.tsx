@@ -387,7 +387,7 @@ export default class RhsThread extends React.Component<Props, State> {
                     autoHideTimeout={500}
                     autoHideDuration={500}
                     autoHeight={true}
-                    autoHeightMax={'100vh'}
+                    autoHeightMax={'100%'}
                     renderThumbHorizontal={renderThumbHorizontal}
                     renderThumbVertical={renderThumbVertical}
                     renderView={renderView}
