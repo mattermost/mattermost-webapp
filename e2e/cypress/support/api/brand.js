@@ -2,20 +2,19 @@
 // See LICENSE.txt for license information.
 
 // *****************************************************************************
-// Terms of service
-// https://api.mattermost.com/#tag/terms-of-service
+// Brand
+// https://api.mattermost.com/#tag/brand
 // *****************************************************************************
 
-Cypress.Commands.add('apiCreateTermsOfService', (text) => {
+Cypress.Commands.add('apiDeleteBrandImage', () => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
-        url: '/api/v4/terms_of_service',
-        method: 'POST',
-        body: {
-            text,
-        },
+        url: '/api/v4/brand/image',
+        method: 'DELETE',
+        failOnStatusCode: false,
     }).then((response) => {
-        expect(response.status).to.equal(200);
-        return cy.wrap(response.body);
+        // both deleted and not existing responses are valid
+        expect(response.status).to.be.oneOf([200, 404]);
+        return cy.wrap(response);
     });
 });

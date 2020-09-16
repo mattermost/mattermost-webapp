@@ -173,6 +173,23 @@ export async function uploadPrivateSamlCertificate(file, success, error) {
     }
 }
 
+export async function uploadPublicLdapCertificate(file, success, error) {
+    const {data, error: err} = await AdminActions.uploadPublicLdapCertificate(file)(dispatch, getState);
+    if (data && success) {
+        success('ldap-public.crt');
+    } else if (err && error) {
+        error({id: err.server_error_id, ...err});
+    }
+}
+export async function uploadPrivateLdapCertificate(file, success, error) {
+    const {data, error: err} = await AdminActions.uploadPrivateLdapCertificate(file)(dispatch, getState);
+    if (data && success) {
+        success('ldap-private.key');
+    } else if (err && error) {
+        error({id: err.server_error_id, ...err});
+    }
+}
+
 export async function uploadIdpSamlCertificate(file, success, error) {
     const {data, error: err} = await AdminActions.uploadIdpSamlCertificate(file)(dispatch, getState);
     if (data && success) {
@@ -193,6 +210,24 @@ export async function removePublicSamlCertificate(success, error) {
 
 export async function removePrivateSamlCertificate(success, error) {
     const {data, error: err} = await AdminActions.removePrivateSamlCertificate()(dispatch, getState);
+    if (data && success) {
+        success(data);
+    } else if (err && error) {
+        error({id: err.server_error_id, ...err});
+    }
+}
+
+export async function removePublicLdapCertificate(success, error) {
+    const {data, error: err} = await AdminActions.removePublicLdapCertificate()(dispatch, getState);
+    if (data && success) {
+        success(data);
+    } else if (err && error) {
+        error({id: err.server_error_id, ...err});
+    }
+}
+
+export async function removePrivateLdapCertificate(success, error) {
+    const {data, error: err} = await AdminActions.removePrivateLdapCertificate()(dispatch, getState);
     if (data && success) {
         success(data);
     } else if (err && error) {

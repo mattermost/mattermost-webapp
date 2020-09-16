@@ -42,60 +42,6 @@ declare namespace Cypress {
         // *******************************************************************************
 
         /**
-         * Create a new direct message channel between two users via API.
-         * See https://api.mattermost.com/#tag/channels/paths/~1channels~1direct/post
-         * @param {string} teamId - The team ID of the team to create the channel on
-         * @param {string} name - The unique handle for the channel, will be present in the channel URL
-         * @param {string} displayName - The non-unique UI name for the channel
-         * @param {ChannelType} type - 'O' for a public channel (default), 'P' for a private channel
-         * @param {string} purpose - A short description of the purpose of the channel
-         * @param {string} header - Markdown-formatted text to display in the header of the channel
-         * @returns {Response} response: Cypress-chainable response which should have successful HTTP status of 201 CREATED to continue or pass.
-         * @returns {Channel} response.body: `Channel` object
-         *
-         * @example
-         *   cy.apiCreateChannel('team-id', 'channel-name', 'channel-display-name').then((response) => {
-         *     const newChannel = response.body;
-         *   });
-         */
-        apiCreateChannel(
-            teamId: string,
-            name: string,
-            displayName: string,
-            type: ChannelType,
-            purpose?: string,
-            header?: string
-        ): Chainable<Response>;
-
-        /**
-         * Create a new direct message channel between two users.
-         * See https://api.mattermost.com/#tag/channels/paths/~1channels~1direct/post
-         * @param {string[]} userIds - The two user ids to be in the direct message
-         * @returns {Response} response: Cypress-chainable response which should have successful HTTP status of 201 CREATED to continue or pass.
-         * @returns {Channel} response.body: `Channel` object
-         *
-         * @example
-         *   cy.apiCreateDirectChannel('user-1-id', 'user-2-id').then((response) => {
-         *     const newDMChannel = response.body;
-         *   });
-         */
-        apiCreateDirectChannel(userIds: Array<string>): Chainable<Response>;
-
-        /**
-         * Create a new group message channel to group of users via API. If the logged in user's id is not included in the list, it will be appended to the end.
-         * See https://api.mattermost.com/#tag/channels/paths/~1channels~1group/post
-         * @param {string[]} userIds - User ids to be in the group message channel
-         * @returns {Response} response: Cypress-chainable response which should have successful HTTP status of 201 CREATED to continue or pass.
-         * @returns {Channel} response.body: `Channel` object
-         *
-         * @example
-         *   cy.apiCreateGroupChannel('user-1-id', 'user-2-id', 'current-user-id').then((response) => {
-         *     const newGroupChannel = response.body;
-         *   });
-         */
-        apiCreateGroupChannel(userIds: Array<string>): Chainable<Response>;
-
-        /**
          * Soft deletes a channel, by marking the channel as deleted in the database.
          * Soft deleted channels will not be accessible in the user interface.
          * Direct and group message channels cannot be deleted.
