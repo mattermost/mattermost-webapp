@@ -40,7 +40,7 @@ describe('Archived channels', () => {
         cy.get('#reply_textbox').should('be.visible');
 
         // # Archive the channel
-        cy.archiveCurrentChannel();
+        cy.uiArchiveChannel();
 
         // * Post text box should not be visible
         cy.get('#post_textbox').should('not.be.visible');
