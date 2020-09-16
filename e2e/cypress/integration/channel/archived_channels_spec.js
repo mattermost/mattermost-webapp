@@ -23,19 +23,12 @@ describe('Leave an archived channel', () => {
     let testTeam;
     let testChannel;
     let testUser;
-<<<<<<< HEAD
     let otherUser;
-=======
->>>>>>> upstream/master
     const testArchivedMessage = `this is an archived post ${getRandomId()}`;
 
     before(() => {
         // # Login as test user and visit town-square
-<<<<<<< HEAD
         cy.apiInitSetup().then(({team, channel, user}) => {
-=======
-        cy.apiInitSetup({loginAfter: true}).then(({team, channel, user}) => {
->>>>>>> upstream/master
             testTeam = team;
             testChannel = channel;
             testUser = user;
@@ -168,11 +161,7 @@ describe('Leave an archived channel', () => {
 
         cy.apiCreateChannel(testTeam.id, 'archived-is-not', 'archived-is-not');
 
-<<<<<<< HEAD
         // # Create another channel with text and archive it
-=======
-        // # create another channel with text and archive it
->>>>>>> upstream/master
         createArchivedChannel({name: 'archive-', teamId: testTeam.id, teamName: testTeam.name}, [messageText]);
         cy.visit(`/${testTeam.name}/channels/off-topic`);
 
@@ -253,7 +242,10 @@ describe('Leave an archived channel', () => {
 
         // # As another user, create or locate a private channel that the test user is not a member of and archive the channel
         cy.apiLogout();
+        cy.get('#loginButton').should('be.visible');
         cy.apiLogin(otherUser);
+        cy.visit(`/${testTeam.name}/channels/off-topic`);
+        cy.contains('#channelHeaderTitle', 'Off-Topic');
         createArchivedChannel(
             {
                 name: otherChannelName,
@@ -266,13 +258,16 @@ describe('Leave an archived channel', () => {
 
         // # As the test user, select CTRL/CMD+K (or ⌘+k) to open the channel switcher
         cy.apiLogout();
+        cy.get('#loginButton').should('be.visible');
         cy.apiLogin(testUser);
         cy.visit(`/${testTeam.name}/channels/off-topic`);
+        cy.contains('#channelHeaderTitle', 'Off-Topic');
         cy.typeCmdOrCtrl().type('K', {release: true});
 
         // # Start typing the name of a private channel located above
         cy.get('#quickSwitchInput').type('archived-');
 
+        cy.get('#suggestionList').should('be.visible');
         // * Private archived channels you are not a member above are not available on channel switcher
         cy.contains('#suggestionList', otherChannelName).should('not.exist');
     });
