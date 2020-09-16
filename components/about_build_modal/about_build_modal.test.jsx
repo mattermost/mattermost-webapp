@@ -12,7 +12,6 @@ import {AboutLinks} from 'utils/constants';
 
 import AboutBuildModalCloud from './about_build_modal_cloud/about_build_modal_cloud';
 
-//
 describe('components/AboutBuildModal', () => {
     const RealDate = Date;
 
