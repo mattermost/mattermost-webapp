@@ -9,7 +9,7 @@
 
 // Group: @channel
 
-import {testWithConfig} from '../../../support/hooks';
+import {testWithConfig} from '../../support/hooks';
 
 describe('Archived channels', () => {
     testWithConfig({
