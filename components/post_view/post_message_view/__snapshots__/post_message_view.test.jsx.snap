@@ -122,7 +122,6 @@ exports[`components/post_view/PostAttachment should match snapshot, on deleted p
   <FormattedMessage
     defaultMessage="(message deleted)"
     id="post_body.deleted"
-    values={Object {}}
   />
 </p>
 `;
@@ -132,7 +131,6 @@ exports[`components/post_view/PostAttachment should match snapshot, on deleted p
   <FormattedMessage
     defaultMessage="(message deleted)"
     id="post_body.deleted"
-    values={Object {}}
   />
 </p>
 `;
@@ -176,7 +174,6 @@ exports[`components/post_view/PostAttachment should match snapshot, on edited po
     <FormattedMessage
       defaultMessage="(edited)"
       id="post_message_view.edited"
-      values={Object {}}
     />
   </span>
   <Connect(Pluggable)
@@ -195,7 +192,6 @@ exports[`components/post_view/PostAttachment should match snapshot, on edited po
   <FormattedMessage
     defaultMessage="(edited)"
     id="post_message_view.edited"
-    values={Object {}}
   />
 </span>
 `;

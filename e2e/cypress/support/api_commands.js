@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {getRandomId} from '../utils';
-
 import {getAdminAccount} from './env';
 
 // *****************************************************************************
@@ -11,71 +9,10 @@ import {getAdminAccount} from './env';
 // - https://api.mattermost.com/ for Mattermost API reference
 // *****************************************************************************
 
-// *******************************************************************************
-// Bots
-// https://api.mattermost.com/#tag/bots
-// *******************************************************************************
-
-Cypress.Commands.add('apiGetBots', () => {
-    return cy.request({
-        headers: {'X-Requested-With': 'XMLHttpRequest'},
-        url: '/api/v4/bots',
-        method: 'GET',
-    }).then((response) => {
-        expect(response.status).to.equal(200);
-        return cy.wrap(response);
-    });
-});
-
 // *****************************************************************************
 // Channels
 // https://api.mattermost.com/#tag/channels
 // *****************************************************************************
-
-Cypress.Commands.add('apiCreateChannel', (teamId, name, displayName, type = 'O', purpose = '', header = '', unique = true) => {
-    const randomSuffix = getRandomId();
-
-    return cy.request({
-        headers: {'X-Requested-With': 'XMLHttpRequest'},
-        url: '/api/v4/channels',
-        method: 'POST',
-        body: {
-            team_id: teamId,
-            name: unique ? `${name}-${randomSuffix}` : name,
-            display_name: unique ? `${displayName} ${randomSuffix}` : displayName,
-            type,
-            purpose,
-            header,
-        },
-    }).then((response) => {
-        expect(response.status).to.equal(201);
-        return cy.wrap(response);
-    });
-});
-
-Cypress.Commands.add('apiCreateDirectChannel', (userids) => {
-    return cy.request({
-        headers: {'X-Requested-With': 'XMLHttpRequest'},
-        url: '/api/v4/channels/direct',
-        method: 'POST',
-        body: userids,
-    }).then((response) => {
-        expect(response.status).to.equal(201);
-        return cy.wrap(response);
-    });
-});
-
-Cypress.Commands.add('apiCreateGroupChannel', (userIds = []) => {
-    return cy.request({
-        headers: {'X-Requested-With': 'XMLHttpRequest'},
-        url: '/api/v4/channels/group',
-        method: 'POST',
-        body: userIds,
-    }).then((response) => {
-        expect(response.status).to.equal(201);
-        return cy.wrap(response);
-    });
-});
 
 Cypress.Commands.add('apiDeleteChannel', (channelId) => {
     return cy.request({
@@ -436,40 +373,6 @@ Cypress.Commands.add('apiGetLDAPSync', () => {
         url: '/api/v4/jobs/type/ldap_sync?page=0&per_page=50',
         method: 'GET',
         timeout: 60000,
-    }).then((response) => {
-        expect(response.status).to.equal(200);
-        return cy.wrap(response);
-    });
-});
-
-// *****************************************************************************
-// Schemes
-// https://api.mattermost.com/#tag/schemes
-// *****************************************************************************
-
-/**
- * Get all schemes in the system - must have PERMISSION_MANAGE_SYSTEM
- *
- * @param {String} scope - either "team" or "channel"
- */
-Cypress.Commands.add('apiGetSchemes', (scope) => {
-    return cy.request({
-        headers: {'X-Requested-With': 'XMLHttpRequest'},
-        url: `/api/v4/schemes?scope=${scope}`,
-        method: 'GET',
-    });
-});
-
-/**
- * Delete a scheme directly via API
- *
- * @param {String} schemeId - the id of the scheme to delete
- */
-Cypress.Commands.add('apiDeleteScheme', (schemeId) => {
-    return cy.request({
-        headers: {'X-Requested-With': 'XMLHttpRequest'},
-        url: '/api/v4/schemes/' + schemeId,
-        method: 'DELETE',
     }).then((response) => {
         expect(response.status).to.equal(200);
         return cy.wrap(response);

@@ -50,12 +50,10 @@ describe('OverlayTrigger', () => {
             </IntlProvider>,
         );
 
-        const overlay = mount(wrapper.find(BaseOverlayTrigger).prop('overlay'));
-
-        expect(overlay.text()).toBe('Default value');
-
         // console.error will have been called by FormattedMessage because its intl context is missing
-        expect(console.error).toHaveBeenCalled();
+        expect(() => {
+            mount(wrapper.find(BaseOverlayTrigger).prop('overlay'));
+        }).toThrow('[React Intl] Could not find required `intl` object. <IntlProvider> needs to exist in the component ancestry.');
     });
 
     test('custom OverlayTrigger should pass intl to overlay', () => {
