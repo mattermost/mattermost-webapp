@@ -36,9 +36,7 @@ describe('Desktop notifications', () => {
             cy.apiAddUserToTeam(testTeam.id, user.id);
             cy.apiLogin(user);
 
-            cy.apiCreateDirectChannel([testUser.id, user.id]).then((res) => {
-                const channel = res.body;
-
+            cy.apiCreateDirectChannel([testUser.id, user.id]).then(({channel}) => {
                 // Ensure notifications are set up to fire a desktop notification if you receive a DM
                 cy.apiPatchUser(user.id, {notify_props: {...user.notify_props, desktop: 'all'}});
 
@@ -168,9 +166,7 @@ describe('Desktop notifications', () => {
             cy.apiAddUserToTeam(testTeam.id, user.id);
             cy.apiLogin(user);
 
-            cy.apiCreateDirectChannel([testUser.id, user.id]).then((res) => {
-                const channel = res.body;
-
+            cy.apiCreateDirectChannel([testUser.id, user.id]).then(({channel}) => {
                 // # Ensure notifications are set up to fire a desktop notification if you receive a DM
                 cy.apiPatchUser(user.id, {notify_props: {...user.notify_props, desktop: 'all'}});
 

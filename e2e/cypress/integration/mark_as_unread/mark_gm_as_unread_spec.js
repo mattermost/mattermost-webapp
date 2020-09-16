@@ -46,9 +46,7 @@ describe('Mark as Unread', () => {
         const userGroupIds = [testUser.id, otherUser1.id, otherUser2.id];
 
         // # Create a group channel for 3 users
-        cy.apiCreateGroupChannel(userGroupIds).then((response) => {
-            const gmChannel = response.body;
-
+        cy.apiCreateGroupChannel(userGroupIds).then(({channel: gmChannel}) => {
             // # Visit the channel using the name using the channels route
             for (let index = 0; index < 8; index++) {
                 // # Post Message as otherUser1
