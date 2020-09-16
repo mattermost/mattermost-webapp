@@ -72,6 +72,7 @@ exports[`components/AboutBuildModal should match snapshot for cloud edition 1`] 
           <FormattedMessage
             defaultMessage="Cloud"
             id="about.cloudEdition"
+            values={Object {}}
           />
         </h3>
         <p
@@ -80,6 +81,7 @@ exports[`components/AboutBuildModal should match snapshot for cloud edition 1`] 
           <FormattedMessage
             defaultMessage="High trust messaging for the enterprise"
             id="about.enterpriseEditionSst"
+            values={Object {}}
           />
         </p>
         <div
@@ -89,6 +91,7 @@ exports[`components/AboutBuildModal should match snapshot for cloud edition 1`] 
             <FormattedMessage
               defaultMessage="Mattermost Version:"
               id="about.version"
+              values={Object {}}
             />
             <span
               id="versionString"
@@ -103,6 +106,7 @@ exports[`components/AboutBuildModal should match snapshot for cloud edition 1`] 
           <FormattedMessage
             defaultMessage="Licensed to:"
             id="about.licensed"
+            values={Object {}}
           />
            Mattermost Inc
         </div>
