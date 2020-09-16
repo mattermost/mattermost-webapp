@@ -19,24 +19,6 @@ declare namespace Cypress {
     interface Chainable<Subject = any> {
 
         // *******************************************************************************
-        // Bots
-        // https://api.mattermost.com/#tag/bots
-        // *******************************************************************************
-
-        /**
-         * Get a page of a list of bots via API.
-         * See https://api.mattermost.com/#tag/bots/paths/~1bots/get
-         * @returns {Response} response: Cypress-chainable response which should have successful HTTP status of 200 OK to continue or pass.
-         * @returns {Bot} response.body: `Bot` object
-         *
-         * @example
-         *   cy.apiGetBots().then((response) => {
-         *       const bots = response.body;
-         *   });
-         */
-        apiGetBots(): Chainable<Response>;
-
-        // *******************************************************************************
         // Channels
         // https://api.mattermost.com/#tag/channels
         // *******************************************************************************
