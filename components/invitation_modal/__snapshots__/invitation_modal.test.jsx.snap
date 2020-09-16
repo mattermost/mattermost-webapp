@@ -18,14 +18,12 @@ exports[`components/invitation_modal/InvitationModal should match the snapshot 1
           <FormattedMessage
             defaultMessage="Yes, Discard"
             id="invitation-modal.discard-changes.button"
-            values={Object {}}
           />
         }
         message={
           <FormattedMessage
             defaultMessage="You have unsent invitations, are you sure you want to discard them?"
             id="invitation-modal.discard-changes.message"
-            values={Object {}}
           />
         }
         modalClass="invitation-modal-confirm"
@@ -36,7 +34,6 @@ exports[`components/invitation_modal/InvitationModal should match the snapshot 1
           <FormattedMessage
             defaultMessage="Discard Changes"
             id="invitation-modal.discard-changes.title"
-            values={Object {}}
           />
         }
       />
@@ -69,14 +66,12 @@ exports[`components/invitation_modal/InvitationModal should match the snapshot w
           <FormattedMessage
             defaultMessage="Yes, Discard"
             id="invitation-modal.discard-changes.button"
-            values={Object {}}
           />
         }
         message={
           <FormattedMessage
             defaultMessage="You have unsent invitations, are you sure you want to discard them?"
             id="invitation-modal.discard-changes.message"
-            values={Object {}}
           />
         }
         modalClass="invitation-modal-confirm"
@@ -87,7 +82,6 @@ exports[`components/invitation_modal/InvitationModal should match the snapshot w
           <FormattedMessage
             defaultMessage="Discard Changes"
             id="invitation-modal.discard-changes.title"
-            values={Object {}}
           />
         }
       />
@@ -126,14 +120,12 @@ exports[`components/invitation_modal/InvitationModal should match the snapshot w
           <FormattedMessage
             defaultMessage="Yes, Discard"
             id="invitation-modal.discard-changes.button"
-            values={Object {}}
           />
         }
         message={
           <FormattedMessage
             defaultMessage="You have unsent invitations, are you sure you want to discard them?"
             id="invitation-modal.discard-changes.message"
-            values={Object {}}
           />
         }
         modalClass="invitation-modal-confirm"
@@ -144,7 +136,6 @@ exports[`components/invitation_modal/InvitationModal should match the snapshot w
           <FormattedMessage
             defaultMessage="Discard Changes"
             id="invitation-modal.discard-changes.title"
-            values={Object {}}
           />
         }
       />
@@ -180,14 +171,12 @@ exports[`components/invitation_modal/InvitationModal should match the snapshot w
           <FormattedMessage
             defaultMessage="Yes, Discard"
             id="invitation-modal.discard-changes.button"
-            values={Object {}}
           />
         }
         message={
           <FormattedMessage
             defaultMessage="You have unsent invitations, are you sure you want to discard them?"
             id="invitation-modal.discard-changes.message"
-            values={Object {}}
           />
         }
         modalClass="invitation-modal-confirm"
@@ -198,7 +187,6 @@ exports[`components/invitation_modal/InvitationModal should match the snapshot w
           <FormattedMessage
             defaultMessage="Discard Changes"
             id="invitation-modal.discard-changes.title"
-            values={Object {}}
           />
         }
       />

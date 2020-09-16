@@ -6,7 +6,7 @@ import hlJS from 'highlight.js';
 import Constants from './constants';
 import * as TextFormatting from './text_formatting';
 
-type languageObject = {
+type LanguageObject = {
     [key: string]: {
         name: string;
         extensions: string[];
@@ -14,7 +14,7 @@ type languageObject = {
     };
 }
 
-const HighlightedLanguages: languageObject = Constants.HighlightedLanguages;
+const HighlightedLanguages: LanguageObject = Constants.HighlightedLanguages;
 
 export function highlight(lang: string, code: string) {
     const language = getLanguageFromNameOrAlias(lang);

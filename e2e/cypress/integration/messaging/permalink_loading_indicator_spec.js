@@ -23,8 +23,8 @@ describe('Messaging', () => {
             testTeam = team;
             testPublicChannel = channel;
 
-            cy.apiCreateChannel(testTeam.id, 'private', 'Private', 'P').then((res) => {
-                testPrivateChannel = res.body;
+            cy.apiCreateChannel(testTeam.id, 'private', 'Private', 'P').then((out) => {
+                testPrivateChannel = out.channel;
             });
 
             cy.visit(`/${testTeam.name}/channels/town-square`);

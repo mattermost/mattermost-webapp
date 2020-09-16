@@ -22,7 +22,7 @@ function mapStateToProps(state: GlobalState) {
         userLimit: getConfig(state).ExperimentalCloudUserLimit,
         analytics: state.entities.admin.analytics,
         userIsAdmin: isAdmin(getCurrentUser(state).roles),
-        isCloud: getLicense(state).Cloud,
+        isCloud: getLicense(state).Cloud === 'true',
     };
 }
 
@@ -32,7 +32,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             {
                 getStandardAnalytics,
             },
-            dispatch
+            dispatch,
         ),
     };
 }

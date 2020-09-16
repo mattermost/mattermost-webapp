@@ -116,8 +116,8 @@ const removePermission = (permissionCheckBoxTestId) => {
 };
 
 const deleteExistingTeamOverrideSchemes = () => {
-    cy.apiGetSchemes('team').then((res) => {
-        res.body.forEach((scheme) => {
+    cy.apiGetSchemes('team').then(({schemes}) => {
+        schemes.forEach((scheme) => {
             cy.apiDeleteScheme(scheme.id);
         });
     });
@@ -179,8 +179,8 @@ const checkChannelPermission = (permissionName, hasChannelPermissionCheckFunc, n
     cy.apiAdminLogin();
 
     // # Get team scheme URL
-    cy.apiGetSchemes('team').then((res) => {
-        const teamScheme = res.body[0];
+    cy.apiGetSchemes('team').then(({schemes}) => {
+        const teamScheme = schemes[0];
         const url = `admin_console/user_management/permissions/team_override_scheme/${teamScheme.id}`;
 
         // todo: add checks for guests once mattermost-webapp/pull/5061 is merged

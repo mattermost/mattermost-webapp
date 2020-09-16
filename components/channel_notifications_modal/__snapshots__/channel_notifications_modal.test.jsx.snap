@@ -43,7 +43,6 @@ exports[`components/channel_notifications_modal/ChannelNotificationsModal should
       <FormattedMessage
         defaultMessage="Notification Preferences for "
         id="channel_notifications.preferences"
-        values={Object {}}
       />
       <span
         className="name"

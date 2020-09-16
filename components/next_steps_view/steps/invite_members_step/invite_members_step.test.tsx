@@ -15,6 +15,8 @@ describe('components/next_steps_view/steps/invite_members_step', () => {
         onSkip: jest.fn(),
         onFinish: jest.fn(),
         currentUser: TestHelper.getUserMock(),
+        expanded: true,
+        isAdmin: true,
         actions: {
             sendEmailInvitesToTeamGracefully: jest.fn(),
         },
