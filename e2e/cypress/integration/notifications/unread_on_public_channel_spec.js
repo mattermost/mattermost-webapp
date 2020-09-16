@@ -15,7 +15,6 @@ describe('Notifications', () => {
     let testUser;
     let otherUser;
     let testTeam;
-    let testChannel;
 
     beforeEach(() => {
         cy.apiInitSetup().then(({team, user}) => {
@@ -30,25 +29,23 @@ describe('Notifications', () => {
 
             cy.apiLogin(testUser).then(() => {
                 // # Create new test channel
-                cy.apiCreateChannel(testTeam.id, 'channel-test', 'Channel').then((channelRes) => {
-                    testChannel = channelRes.body;
-
-                    cy.apiAddUserToChannel(channelRes.body.id, otherUser.id);
+                cy.apiCreateChannel(testTeam.id, 'channel-test', 'Channel').then(({channel}) => {
+                    cy.apiAddUserToChannel(channel.id, otherUser.id);
 
                     // # Create more channels for scrolling in LHS
                     Cypress._.times(40, (i) => {
-                        cy.apiCreateChannel(testTeam.id, `channel-test-${i}`, `channel-${i}`).then((channelResponse) => {
-                            cy.apiAddUserToChannel(channelResponse.body.id, otherUser.id);
+                        cy.apiCreateChannel(testTeam.id, `channel-test-${i}`, `channel-${i}`).then((out) => {
+                            cy.apiAddUserToChannel(out.channel.id, otherUser.id);
                         });
                     });
 
                     // # Most page of messages so the channel can be scrolled up
                     Cypress._.times(40, (i) => {
-                        cy.postMessageAs({sender: testUser, message: `test${i}`, channelId: testChannel.id});
+                        cy.postMessageAs({sender: testUser, message: `test${i}`, channelId: channel.id});
                     });
 
                     // # Go to test channel
-                    cy.visit(`/${team.name}/channels/${testChannel.name}`);
+                    cy.visit(`/${team.name}/channels/${channel.name}`);
 
                     // # Scroll above the last few messages
                     cy.get('div.post-list__dynamic', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').
