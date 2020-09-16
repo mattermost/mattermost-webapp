@@ -41,7 +41,7 @@ describe('In product notices', () => {
             // * Verify that the sysadmin notice has info that it is  visible to only sysadmins
             cy.get('.productNotices__info').within(() => cy.findByText('Visible to Admins only').should('be.visible'));
 
-            // * Verify that the first cicle indicator circle has class active
+            // * Verify that the first circle indicator circle has class active
             cy.get('#tutorialIntroCircle0').should('have.class', 'active');
 
             // * Verify that there is a next button and click on it
@@ -59,7 +59,7 @@ describe('In product notices', () => {
             // * Verify that the previous button is visible as this is the second notice
             cy.get('.GenericModal__button.cancel').should('be.visible');
 
-            // * Verify that the second cicle indicator circle has class active
+            // * Verify that the second circle indicator circle has class active
             cy.get('#tutorialIntroCircle1').should('have.class', 'active');
 
             // * Verify that there is a done button and click on it
