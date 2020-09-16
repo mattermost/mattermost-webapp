@@ -23,12 +23,19 @@ describe('Leave an archived channel', () => {
     let testTeam;
     let testChannel;
     let testUser;
+<<<<<<< HEAD
     let otherUser;
+=======
+>>>>>>> upstream/master
     const testArchivedMessage = `this is an archived post ${getRandomId()}`;
 
     before(() => {
         // # Login as test user and visit town-square
+<<<<<<< HEAD
         cy.apiInitSetup().then(({team, channel, user}) => {
+=======
+        cy.apiInitSetup({loginAfter: true}).then(({team, channel, user}) => {
+>>>>>>> upstream/master
             testTeam = team;
             testChannel = channel;
             testUser = user;
@@ -46,9 +53,7 @@ describe('Leave an archived channel', () => {
         cy.apiLogin(testUser);
 
         // # Archive the channel
-        cy.get('#channelHeaderDropdownIcon').click();
-        cy.get('#channelArchiveChannel').click();
-        cy.get('#deleteChannelModalDeleteButton').click();
+        cy.uiArchiveChannel();
 
         // # Switch to another channel
         cy.visit(`/${testTeam.name}/channels/town-square`);
@@ -163,7 +168,11 @@ describe('Leave an archived channel', () => {
 
         cy.apiCreateChannel(testTeam.id, 'archived-is-not', 'archived-is-not');
 
+<<<<<<< HEAD
         // # Create another channel with text and archive it
+=======
+        // # create another channel with text and archive it
+>>>>>>> upstream/master
         createArchivedChannel({name: 'archive-', teamId: testTeam.id, teamName: testTeam.name}, [messageText]);
         cy.visit(`/${testTeam.name}/channels/off-topic`);
 
@@ -223,7 +232,6 @@ describe('Leave an archived channel', () => {
         // * there should be public channels as well
         cy.get('#suggestionList').find('.icon-globe').should('be.visible');
     });
-
     it('MM-T1675 CTRL/CMD+K list private archived channels you are a member of', () => {
         cy.visit(`/${testTeam.name}/channels/off-topic`);
 
@@ -239,6 +247,7 @@ describe('Leave an archived channel', () => {
         // * there should be public channels as well
         cy.get('#suggestionList').find('.icon-archive-outline').should('be.visible');
     });
+
     it('MM-T1676 CTRL/CMD+K does not show private archived channels you are not a member of', () => {
         const otherChannelName = 'archived-not-mine';
 

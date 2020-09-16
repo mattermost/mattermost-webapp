@@ -9,7 +9,6 @@ exports[`components/error_page/ErrorLink should match snapshot 1`] = `
   <FormattedMessage
     defaultMessage="GitLab"
     id="error.oauth_missing_code.gitlab.link"
-    values={Object {}}
   />
 </a>
 `;

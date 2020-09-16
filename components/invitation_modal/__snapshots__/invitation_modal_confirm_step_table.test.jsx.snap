@@ -13,7 +13,6 @@ exports[`components/invitation_modal/InvitationModalConfirmStepTable should matc
       <FormattedMessage
         defaultMessage="People"
         id="invitation-modal.confirm.people-header"
-        values={Object {}}
       />
     </div>
     <div
@@ -22,7 +21,6 @@ exports[`components/invitation_modal/InvitationModalConfirmStepTable should matc
       <FormattedMessage
         defaultMessage="Details"
         id="invitation-modal.confirm.details-header"
-        values={Object {}}
       />
     </div>
   </div>

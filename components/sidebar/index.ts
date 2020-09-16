@@ -9,7 +9,7 @@ import {fetchMyCategories} from 'mattermost-redux/actions/channel_categories';
 import {Preferences} from 'mattermost-redux/constants';
 import Permissions from 'mattermost-redux/constants/permissions';
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
@@ -51,6 +51,7 @@ function mapStateToProps(state: GlobalState) {
             Preferences.HAS_SEEN_SIDEBAR_WHATS_NEW_MODAL,
             false,
         ),
+        isCloud: getLicense(state).Cloud === 'true',
     };
 }
 

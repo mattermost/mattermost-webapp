@@ -14,13 +14,11 @@ exports[`components/next_steps_view/steps/invite_members_step should match snaps
         <FormattedMessage
           defaultMessage="Send invitations via email"
           id="next_steps_view.invite_members_step.sendInvitationsViaEmail"
-          values={Object {}}
         />
       </h3>
       <FormattedMessage
         defaultMessage="You can invite up to 10 team members using a space or comma between addresses"
         id="next_steps_view.invite_members_step.youCanInviteUpTo"
-        values={Object {}}
       />
       <MultiInput
         inputValue=""
@@ -53,7 +51,6 @@ exports[`components/next_steps_view/steps/invite_members_step should match snaps
           <FormattedMessage
             defaultMessage="Send"
             id="next_steps_view.invite_members_step.send"
-            values={Object {}}
           />
         </button>
         <div
@@ -68,7 +65,6 @@ exports[`components/next_steps_view/steps/invite_members_step should match snaps
         <FormattedMessage
           defaultMessage="Or share this link to invite members"
           id="next_steps_view.invite_members_step.orShareThisLink"
-          values={Object {}}
         />
       </h3>
       <div
@@ -98,7 +94,6 @@ exports[`components/next_steps_view/steps/invite_members_step should match snaps
           <FormattedMessage
             defaultMessage="Copy Link"
             id="next_steps_view.invite_members_step.copy_button"
-            values={Object {}}
           />
         </button>
       </div>
@@ -115,7 +110,6 @@ exports[`components/next_steps_view/steps/invite_members_step should match snaps
       <FormattedMessage
         defaultMessage="Finish"
         id="next_steps_view.invite_members_step.finish"
-        values={Object {}}
       />
     </button>
   </div>

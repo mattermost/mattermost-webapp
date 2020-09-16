@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import PQueue from 'p-queue';
+
 import {getChannelAndMyMember, getChannelMembersByIds} from 'mattermost-redux/actions/channels';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {getTeamMembersByIds} from 'mattermost-redux/actions/teams';
@@ -34,9 +35,9 @@ const getState = store.getState;
 export const filterAutoclosedDMs = makeFilterAutoclosedDMs();
 export const filterManuallyClosedDMs = makeFilterManuallyClosedDMs();
 
-export function loadProfilesAndStatusesInChannel(channelId, page = 0, perPage = General.PROFILE_CHUNK_SIZE, sort = '') {
+export function loadProfilesAndStatusesInChannel(channelId, page = 0, perPage = General.PROFILE_CHUNK_SIZE, sort = '', options = {}) {
     return async (doDispatch) => {
-        const {data} = await doDispatch(UserActions.getProfilesInChannel(channelId, page, perPage, sort));
+        const {data} = await doDispatch(UserActions.getProfilesInChannel(channelId, page, perPage, sort, options));
         if (data) {
             doDispatch(loadStatusesForProfilesList(data));
         }
@@ -117,12 +118,12 @@ export function searchProfilesAndChannelMembers(term, options = {}) {
     };
 }
 
-export function loadProfilesAndTeamMembersAndChannelMembers(page, perPage, teamId, channelId) {
+export function loadProfilesAndTeamMembersAndChannelMembers(page, perPage, teamId, channelId, options) {
     return async (doDispatch, doGetState) => {
         const state = doGetState();
         const teamIdParam = teamId || getCurrentTeamId(state);
         const channelIdParam = channelId || getCurrentChannelId(state);
-        const {data} = await doDispatch(UserActions.getProfilesInChannel(channelIdParam, page, perPage));
+        const {data} = await doDispatch(UserActions.getProfilesInChannel(channelIdParam, page, perPage, '', options));
         if (data) {
             const {data: listData} = await doDispatch(loadTeamMembersForProfilesList(data, teamIdParam));
             if (listData) {
