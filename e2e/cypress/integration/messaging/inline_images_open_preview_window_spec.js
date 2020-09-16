@@ -36,7 +36,7 @@ describe('Messaging', () => {
 
         // * Confirm image container is visible
         cy.get('.markdown-inline-img__container').should('be.visible');
-        
+
         // * Confirm image is visible
         cy.get('[data-testid=imagePreview]').should('be.visible');
     });
