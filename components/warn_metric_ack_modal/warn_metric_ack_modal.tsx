@@ -87,7 +87,7 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
         }
     }
 
-    requestLicenseAndAckWarnMetric = async (e: any) => {
+    requestLicenseAndAckWarnMetric = async () => {
         if (this.state.gettingTrial) {
             return;
         }

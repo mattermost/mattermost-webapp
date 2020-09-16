@@ -17,7 +17,6 @@ jest.mock('react-dom', () => ({
 
 describe('components/WarnMetricAckModal', () => {
     const serverError = 'some error';
-    const gettingTrialError = 'some error';
 
     const baseProps = {
         stats: {

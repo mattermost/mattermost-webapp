@@ -215,7 +215,6 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
                 this.props.license.IsLicensed === 'false' &&
                 this.props.warnMetricsStatus) {
                 const enterpriseReady = (this.props.config.BuildEnterpriseReady === 'true');
-                console.log('CITOMAI enterpriseReady' + enterpriseReady);
 
                 for (const status of Object.values(this.props.warnMetricsStatus)) {
                     var notice = this.getNoticeForWarnMetric(status, enterpriseReady);
