@@ -250,7 +250,7 @@ describe('Customization', () => {
         });
     });
 
-    it('MM-T1030 - Custom branding removed - Blank site name and description, and brand image and text - false', () => {
+    it('MM-T1030 - Custom branding removed - Default site name and description, and brand image and text - false', () => {
         // # Make sure necessary field is true
         cy.apiUpdateConfig({TeamSettings: {EnableCustomBrand: true}});
         cy.reload();
