@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @scroll
 
 describe('Scroll', () => {
@@ -34,7 +33,7 @@ describe('Scroll', () => {
     });
 
     it('MM-T2368 Fixed Width setting should not scroll pop and display posts properly', () => {
-        // Creating some post to verify scroll pop and Posts views
+        // # Creating some post to verify scroll pop and Posts views
         cy.postMessage('This is the first post');
         Cypress._.times(18, (postIndex) => {
             cy.postMessage(`p-${postIndex + 1}`);
@@ -42,16 +41,14 @@ describe('Scroll', () => {
         cy.postMessage('This is the last post');
 
         // # Switch the account settings for the test user to enable Fixed width center
-        cy.get('#headerInfo > .style--none').click();
-        cy.get('#accountSettings > .style--none > .MenuItem__primary-text').click();
-        cy.get('#accountSettingsModalLabel > span').should('contain', 'Account Settings');
+        cy.toAccountSettingsModal();
         cy.get('#displayButton', {timeout: 500000}).click();
-        cy.get('#channel_display_modeEdit > span').click();
-        cy.get('#settingTitle > span').should('contain', 'Channel Display');
+        cy.get('#channel_display_modeEdit').click();
+        cy.get('#settingTitle').should('contain', 'Channel Display');
         cy.get('input#channel_display_modeFormatB').click();
         cy.get('input#channel_display_modeFormatB').next().should('contain', 'Fixed width, centered');
         cy.get('#saveSetting').click();
-        cy.get('#accountSettingsHeader > .close > [aria-hidden="true"]').click();
+        cy.get('#accountSettingsHeader > .close').click();
 
         // # Browse to Channel
         cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
@@ -68,6 +65,10 @@ describe('Scroll', () => {
             cy.get('#post-list').should('exist').within(() => {
                 cy.findByText(`p-${postIndex + 1}`).should('exist').and('be.visible');
             });
+        });
+
+        cy.get('[data-testid="postContent"].post__content.center').should('have.length', '21').each(($el) => {
+            expect($el).to.be.visible;
         });
     });
 });
