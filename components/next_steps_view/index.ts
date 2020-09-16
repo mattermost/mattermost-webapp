@@ -11,7 +11,6 @@ import {getCurrentUser, isCurrentUserSystemAdmin} from 'mattermost-redux/selecto
 import {setShowNextStepsView} from 'actions/views/next_steps';
 import {GlobalState} from 'types/store';
 import {Preferences} from 'utils/constants';
-import {openModal} from 'actions/views/modals';
 
 import {getSteps} from './steps';
 
@@ -35,7 +34,6 @@ function mapDispatchToProps(dispatch: Dispatch) {
         actions: bindActionCreators({
             savePreferences,
             setShowNextStepsView,
-            openModal,
         }, dispatch),
     };
 }
