@@ -109,16 +109,14 @@ const seatsAndSubscriptionDates = (locale: string, userCount: number, numberOfSe
 // TODO Temp
 const cloudSku = 'annual' as string;
 const pricePerMonth = 9.5;
+const numberOfSeats = 50;
+const startDate = new Date(2020, 0, 12);
+const endDate = new Date(2021, 0, 11);
 
 const PlanDetails: React.FC = () => {
     const locale = useSelector((state: GlobalState) => getCurrentLocale(state));
     const userCount = useSelector((state: GlobalState) => state.entities.admin.analytics!.TOTAL_USERS) as number;
     const userLimit = parseInt(useSelector((state: GlobalState) => getConfig(state).ExperimentalCloudUserLimit) || '0', 10);
-    const subscription = useSelector((state: GlobalState) => state.entities.cloud.subscription);
-
-    if (!subscription) {
-        return null;
-    }
 
     let planPricing;
     let showSeatsAndSubscriptionDates = false;
@@ -228,7 +226,7 @@ const PlanDetails: React.FC = () => {
                 {userCountDisplay}
             </div>
             {planPricing}
-            {showSeatsAndSubscriptionDates && seatsAndSubscriptionDates(locale, userCount, subscription.seats, new Date(subscription.start_at), new Date(subscription.end_at))}
+            {showSeatsAndSubscriptionDates && seatsAndSubscriptionDates(locale, userCount, numberOfSeats, startDate, endDate)}
             <div className='PlanDetails__teamAndChannelCount'>
                 <FormattedMessage
                     id='admin.billing.subscription.planDetails.features.unlimitedTeamsAndChannels'
