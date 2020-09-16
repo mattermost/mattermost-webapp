@@ -482,4 +482,3 @@ Cypress.Commands.add('checkRunLDAPSync', () => {
         }
     });
 });
-
