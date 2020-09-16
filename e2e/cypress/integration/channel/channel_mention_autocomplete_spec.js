@@ -25,8 +25,8 @@ describe('Channel', () => {
             ownChannel = channel;
             testUser = user;
 
-            cy.apiCreateChannel(testTeam.id, 'delta-test', 'Delta Channel').then((res) => {
-                otherChannel = res.body;
+            cy.apiCreateChannel(testTeam.id, 'delta-test', 'Delta Channel').then((out) => {
+                otherChannel = out.channel;
             });
 
             cy.apiLogin(testUser);

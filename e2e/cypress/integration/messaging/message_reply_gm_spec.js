@@ -45,9 +45,7 @@ describe('Reply in existing GM', () => {
         const userGroupIds = [testUser.id, otherUser1.id, otherUser2.id];
 
         // # Create a group channel for 3 users
-        cy.apiCreateGroupChannel(userGroupIds).then((response) => {
-            const gmChannel = response.body;
-
+        cy.apiCreateGroupChannel(userGroupIds).then(({channel: gmChannel}) => {
             // # Go to the group message channel
             cy.visit(`/${testTeam.name}/channels/${gmChannel.name}`);
             const rootPostMessage = `this is test message from user: ${otherUser1.id}`;

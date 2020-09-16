@@ -64,8 +64,8 @@ describe('Verify Accessibility Support in different input fields', () => {
     });
 
     beforeEach(() => {
-        cy.apiCreateChannel(testTeam.id, 'accessibility', 'accessibility').then((response) => {
-            testChannel = response.body;
+        cy.apiCreateChannel(testTeam.id, 'accessibility', 'accessibility').then(({channel}) => {
+            testChannel = channel;
             cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
         });
     });

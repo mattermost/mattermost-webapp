@@ -39,9 +39,9 @@ describe('Messaging', () => {
 
     it('MM-T1226 - CTRL/CMD+K - Find GM by matching username, full name, or nickname, even if that name isn\'t displayed', () => {
         // # Create a group channel and add the three users created in the 'before' hook
-        cy.apiCreateGroupChannel([firstUser.id, secondUser.id, thirdUser.id]).then((groupChannel) => {
+        cy.apiCreateGroupChannel([firstUser.id, secondUser.id, thirdUser.id]).then(({channel}) => {
             // # Visit the newly created group message
-            cy.visit(`/${testTeam.name}/channels/${groupChannel.body.name}`);
+            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
 
             // # Go to town square
             cy.get('#sidebarItem_town-square').click();
