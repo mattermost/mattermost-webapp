@@ -320,6 +320,20 @@ Cypress.Commands.add('getCurrentTeamId', () => {
     return cy.get('#headerTeamName').invoke('attr', 'data-teamid');
 });
 
+Cypress.Commands.add('getCurrentTeamURL', (siteURL) => {
+    let path;
+
+    // siteURL can be provided for cases where subpath is being tested
+    if (siteURL) {
+        path = window.location.href.substring(siteURL.length);
+    } else {
+        path = window.location.pathname;
+    }
+
+    const result = path.split('/', 2);
+    return `/${(result[0] ? result[0] : result[1])}`; // sometimes the first element is emply if path starts with '/'
+});
+
 Cypress.Commands.add('leaveTeam', () => {
     cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
     cy.get('#sidebarDropdownMenu #leaveTeam').should('be.visible').click();
@@ -468,3 +482,4 @@ Cypress.Commands.add('checkRunLDAPSync', () => {
         }
     });
 });
+
