@@ -12,9 +12,9 @@ import {pageVisited, trackEvent} from 'actions/diagnostics_actions';
 import Accordion from 'components/accordion';
 import Card from 'components/card/card';
 import {getAnalyticsCategory} from 'components/next_steps_view/step_helpers';
+import {Preferences} from 'utils/constants';
 
 import loadingIcon from 'images/spinner-48x48-blue.apng';
-import {Preferences} from 'utils/constants';
 
 import {StepType} from './steps';
 import './next_steps_view.scss';
@@ -29,11 +29,12 @@ const TRANSITION_SCREEN_TIMEOUT = 3000;
 type Props = {
     currentUser: UserProfile;
     preferences: PreferenceType[];
-    isAdmin: boolean;
+    isFirstAdmin: boolean;
     steps: StepType[];
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => void;
         setShowNextStepsView: (show: boolean) => void;
+        getProfiles: () => void;
     };
 };
 
@@ -54,8 +55,9 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
         };
     }
 
-    componentDidMount() {
-        pageVisited(getAnalyticsCategory(this.props.isAdmin), 'pageview_welcome');
+    async componentDidMount() {
+        await this.props.actions.getProfiles();
+        pageVisited(getAnalyticsCategory(this.props.isFirstAdmin), 'pageview_welcome');
 
         // If all steps are complete, don't render this and skip to the tips screen
         if (this.getIncompleteStep() === null) {
@@ -83,7 +85,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
 
     onClickHeader = (setExpanded: (expandedKey: string) => void, id: string) => {
         const stepIndex = this.getStepNumberFromId(id);
-        trackEvent(getAnalyticsCategory(this.props.isAdmin), `click_onboarding_step${stepIndex}`);
+        trackEvent(getAnalyticsCategory(this.props.isFirstAdmin), `click_onboarding_step${stepIndex}`);
         setExpanded(id);
     }
 
@@ -100,7 +102,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
     onFinish = (setExpanded: (expandedKey: string) => void) => {
         return async (id: string) => {
             const stepIndex = this.getStepNumberFromId(id);
-            trackEvent(getAnalyticsCategory(this.props.isAdmin), `complete_onboarding_step${stepIndex}`);
+            trackEvent(getAnalyticsCategory(this.props.isFirstAdmin), `complete_onboarding_step${stepIndex}`);
 
             await this.props.actions.savePreferences(this.props.currentUser.id, [{
                 category: Preferences.RECOMMENDED_NEXT_STEPS,
@@ -114,13 +116,13 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
     }
 
     showFinalScreenNoAnimation = () => {
-        pageVisited(getAnalyticsCategory(this.props.isAdmin), 'pageview_tips_next_steps');
+        pageVisited(getAnalyticsCategory(this.props.isFirstAdmin), 'pageview_tips_next_steps');
         this.setState({showFinalScreen: true});
     }
 
     showFinalScreen = () => {
-        trackEvent(getAnalyticsCategory(this.props.isAdmin), 'click_skip_getting_started', {channel_sidebar: false});
-        pageVisited(getAnalyticsCategory(this.props.isAdmin), 'pageview_tips_next_steps');
+        trackEvent(getAnalyticsCategory(this.props.isFirstAdmin), 'click_skip_getting_started', {channel_sidebar: false});
+        pageVisited(getAnalyticsCategory(this.props.isFirstAdmin), 'pageview_tips_next_steps');
         this.setState({showFinalScreen: true, animating: true});
     }
 
@@ -131,7 +133,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
     setTimerToFinalScreen = () => {
         if (this.state.showTransitionScreen) {
             setTimeout(() => {
-                pageVisited(getAnalyticsCategory(this.props.isAdmin), 'pageview_tips_next_steps');
+                pageVisited(getAnalyticsCategory(this.props.isFirstAdmin), 'pageview_tips_next_steps');
                 this.setState({showFinalScreen: true});
             }, TRANSITION_SCREEN_TIMEOUT);
         }
@@ -199,7 +201,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                     <step.component
                         id={id}
                         expanded={expandedKey === id}
-                        isAdmin={this.props.isAdmin}
+                        isAdmin={this.props.isFirstAdmin}
                         currentUser={this.props.currentUser}
                         onFinish={this.onFinish(setExpanded)}
                         onSkip={this.onSkip(setExpanded)}
@@ -312,7 +314,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                     showFinalScreen={this.state.showFinalScreen}
                     animating={this.state.animating}
                     stopAnimating={this.stopAnimating}
-                    isAdmin={this.props.isAdmin}
+                    isFirstAdmin={this.props.isFirstAdmin}
                 />
             </section>
         );
