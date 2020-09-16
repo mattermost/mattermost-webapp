@@ -15,7 +15,6 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Notifications', () => {
     let testTeam;
-    let testChannel;
     let otherUser;
 
     before(() => {
@@ -54,11 +53,9 @@ describe('Notifications', () => {
 
     it('MM-T546 Words that trigger mentions - Deselect username, still get mention when added to private channel', () => {
         // # Create a new private channel
-        cy.apiCreateChannel(testTeam.id, 'private-channel', 'Private Channel', 'P').then((res) => {
-            testChannel = res.body;
-
+        cy.apiCreateChannel(testTeam.id, 'private-channel', 'Private Channel', 'P').then(({channel}) => {
             // # Add otherUser to the newly created private channel and logout from sysadmin account
-            cy.apiAddUserToChannel(testChannel.id, otherUser.id);
+            cy.apiAddUserToChannel(channel.id, otherUser.id);
             cy.apiLogout();
 
             // # Login as otherUser and visit team
@@ -66,9 +63,9 @@ describe('Notifications', () => {
             cy.visit(`/${testTeam.name}`);
 
             // * Verify that the channel appears in LHS
-            cy.get(`#sidebarItem_${testChannel.name}`, {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').within(() => {
+            cy.get(`#sidebarItem_${channel.name}`, {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').within(() => {
                 // * Verify that the channel name is visible and is the channel otherUser was invited to
-                cy.findByText(testChannel.display_name).should('be.visible');
+                cy.findByText(channel.display_name).should('be.visible');
 
                 // * Ensure that the unread mentions badge is visible and has the text '1'
                 cy.get('#unreadMentions').should('have.text', 1);
