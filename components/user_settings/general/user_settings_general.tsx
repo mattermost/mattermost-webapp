@@ -1223,7 +1223,7 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
             let helpText = null;
             let imgSrc = null;
 
-            if ((this.props.user.auth_service === Constants.LDAP_SERVICE && this.props.ldapPictureAttributeSet)) {
+            if ((this.props.user.auth_service === Constants.LDAP_SERVICE || this.props.user.auth_service === Constants.SAML_SERVICE) && this.props.ldapPictureAttributeSet) {
                 helpText = (
                     <span>
                         <FormattedMessage

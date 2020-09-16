@@ -1,9 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+
+import {Team, TeamMembership} from 'mattermost-redux/types/teams';
+
+import {UserProfile} from 'mattermost-redux/types/users';
+
+import {ActionFunc} from 'mattermost-redux/types/actions';
 
 import {browserHistory} from 'utils/browser_history';
 import * as Utils from 'utils/utils.jsx';
@@ -15,29 +20,36 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 
 const ROWS_FROM_BOTTOM_TO_OPEN_UP = 3;
 
-export default class TeamMembersDropdown extends React.PureComponent {
-    static propTypes = {
-        user: PropTypes.object.isRequired,
-        currentUser: PropTypes.object.isRequired,
-        teamMember: PropTypes.object.isRequired,
-        teamUrl: PropTypes.string.isRequired,
-        currentTeam: PropTypes.object.isRequired,
-        index: PropTypes.number.isRequired,
-        totalUsers: PropTypes.number.isRequired,
-        actions: PropTypes.shape({
-            getMyTeamMembers: PropTypes.func.isRequired,
-            getMyTeamUnreads: PropTypes.func.isRequired,
-            getUser: PropTypes.func.isRequired,
-            getTeamMember: PropTypes.func.isRequired,
-            getTeamStats: PropTypes.func.isRequired,
-            getChannelStats: PropTypes.func.isRequired,
-            updateTeamMemberSchemeRoles: PropTypes.func.isRequired,
-            removeUserFromTeamAndGetStats: PropTypes.func.isRequired,
-            updateUserActive: PropTypes.func.isRequired,
-        }).isRequired,
-    }
+type Props = {
+    user: UserProfile;
+    currentUser: UserProfile;
+    teamMember: TeamMembership;
+    teamUrl: string;
+    currentTeam: Team;
+    index: number;
+    totalUsers: number;
+    actions: {
+        getMyTeamMembers: () => void;
+        getMyTeamUnreads: () => void;
+        getUser: (id: string) => void;
+        getTeamMember: (teamId: string, userId: string) => void;
+        getTeamStats: (teamId: string) => ActionFunc;
+        getChannelStats: (channelId: string) => void;
+        updateTeamMemberSchemeRoles: (teamId: string, userId: string, b1: boolean, b2: boolean) => ActionFunc & Partial<{error: Error}>;
+        updateUserActive: (userId: string, active: boolean) => ActionFunc;
+        removeUserFromTeamAndGetStats: (teamId: string, userId: string) => ActionFunc & Partial<{error: Error}>;
+    };
+};
 
-    constructor(props) {
+type State = {
+    serverError: string|null;
+    showDemoteModal: boolean;
+    user: UserProfile|null;
+    role: string|null;
+}
+
+export default class TeamMembersDropdown extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -48,7 +60,7 @@ export default class TeamMembersDropdown extends React.PureComponent {
         };
     }
 
-    handleMakeMember = async () => {
+    private handleMakeMember = async () => {
         const me = this.props.currentUser;
         if (this.props.user.id === me.id && me.roles.includes('system_admin')) {
             this.handleDemote(this.props.user, 'team_user');
@@ -67,14 +79,14 @@ export default class TeamMembersDropdown extends React.PureComponent {
         }
     }
 
-    handleRemoveFromTeam = async () => {
+    private handleRemoveFromTeam = async () => {
         const {error} = await this.props.actions.removeUserFromTeamAndGetStats(this.props.teamMember.team_id, this.props.user.id);
         if (error) {
             this.setState({serverError: error.message});
         }
     }
 
-    handleMakeAdmin = async () => {
+    private handleMakeAdmin = async () => {
         const me = this.props.currentUser;
         if (this.props.user.id === me.id && me.roles.includes('system_admin')) {
             this.handleDemote(this.props.user, 'team_user team_admin');
@@ -89,27 +101,25 @@ export default class TeamMembersDropdown extends React.PureComponent {
         }
     }
 
-    handleDemote = (user, role, newRole) => {
+    private handleDemote = (user: UserProfile, role: string): void => {
         this.setState({
             serverError: this.state.serverError,
             showDemoteModal: true,
             user,
             role,
-            newRole,
         });
     }
 
-    handleDemoteCancel = () => {
+    private handleDemoteCancel = (): void => {
         this.setState({
             serverError: null,
             showDemoteModal: false,
             user: null,
             role: null,
-            newRole: null,
         });
     }
 
-    handleDemoteSubmit = async () => {
+    private handleDemoteSubmit = async () => {
         const {error} = await this.props.actions.updateTeamMemberSchemeRoles(this.props.teamMember.team_id, this.props.user.id, true, false);
         if (error) {
             this.setState({serverError: error.message});
@@ -200,7 +210,7 @@ export default class TeamMembersDropdown extends React.PureComponent {
                     <FormattedMessage
                         id='team_members_dropdown.confirmDemotionCmd'
                         defaultMessage='platform roles system_admin {username}'
-                        vallues={{
+                        values={{
                             username: me.username,
                         }}
                     />
