@@ -21,7 +21,6 @@ exports[`components/next_steps_view should match snapshot 1`] = `
           <FormattedMessage
             defaultMessage="Welcome to Mattermost"
             id="next_steps_view.welcomeToMattermost"
-            values={Object {}}
           />
         </h1>
         <h2
@@ -30,7 +29,6 @@ exports[`components/next_steps_view should match snapshot 1`] = `
           <FormattedMessage
             defaultMessage="Here are some recommended next steps to help you get started"
             id="next_steps_view.hereAreSomeNextSteps"
-            values={Object {}}
           />
         </h2>
       </div>
@@ -61,7 +59,6 @@ exports[`components/next_steps_view should match snapshot 1`] = `
             <FormattedMessage
               defaultMessage="Skip Getting Started"
               id="next_steps_view.skipGettingStarted"
-              values={Object {}}
             />
           </button>
         </div>
@@ -87,7 +84,6 @@ exports[`components/next_steps_view should match snapshot 1`] = `
         <FormattedMessage
           defaultMessage="Nicely done! You’re all set."
           id="next_steps_view.nicelyDone"
-          values={Object {}}
         />
       </h1>
       <h2
@@ -99,7 +95,6 @@ exports[`components/next_steps_view should match snapshot 1`] = `
         <FormattedMessage
           defaultMessage="One moment"
           id="next_steps_view.oneMoment"
-          values={Object {}}
         />
       </h2>
     </div>

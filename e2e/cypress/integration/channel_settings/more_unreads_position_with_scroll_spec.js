@@ -10,6 +10,8 @@
 // Stage: @prod
 // Group: @channel_settings
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
+
 describe('Channel settings', () => {
     let mainUser;
     let otherUser;
@@ -33,12 +35,10 @@ describe('Channel settings', () => {
             // # Create 20 channels (based on length of channelNames array) to ensure that the channels list is scrollable
             cy.wrap(channelNames).each((name) => {
                 const displayName = `channel-${name}`;
-                cy.apiCreateChannel(team.id, name, displayName, 'O', '', '', false).then((response) => {
-                    const testChannel = response.body;
-
+                cy.apiCreateChannel(team.id, name, displayName, 'O', '', '', false).then(({channel}) => {
                     // # Add our 2 created users to each channel so they can both post messages
-                    cy.apiAddUserToChannel(testChannel.id, mainUser.id);
-                    cy.apiAddUserToChannel(testChannel.id, otherUser.id);
+                    cy.apiAddUserToChannel(channel.id, mainUser.id);
+                    cy.apiAddUserToChannel(channel.id, otherUser.id);
                 });
             });
         });
@@ -61,7 +61,7 @@ describe('Channel settings', () => {
             });
 
             // # Scroll down in channels list until last created channel is visible
-            cy.get(`#sidebarItem_${channelNames[lastChannelIndex]}`).scrollIntoView();
+            cy.get(`#sidebarItem_${channelNames[lastChannelIndex]}`).scrollIntoView({duration: TIMEOUTS.TWO_SEC});
         });
 
         // * After scrolling is complete, "More Unreads" pill should be visible at the top of the channels list
@@ -81,7 +81,7 @@ describe('Channel settings', () => {
             });
 
             // # Scroll down in channels list until last created channel is visible
-            cy.get(`#sidebarItem_${channelNames[firstChannelIndex]}`).scrollIntoView();
+            cy.get(`#sidebarItem_${channelNames[firstChannelIndex]}`).scrollIntoView({duration: TIMEOUTS.TWO_SEC});
         });
 
         // * After scrolling is complete, "More Unreads" pill should not be visible at the top of the channels list
