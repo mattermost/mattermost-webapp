@@ -9,22 +9,6 @@ import {getAdminAccount} from './env';
 // - https://api.mattermost.com/ for Mattermost API reference
 // *****************************************************************************
 
-// *******************************************************************************
-// Bots
-// https://api.mattermost.com/#tag/bots
-// *******************************************************************************
-
-Cypress.Commands.add('apiGetBots', () => {
-    return cy.request({
-        headers: {'X-Requested-With': 'XMLHttpRequest'},
-        url: '/api/v4/bots',
-        method: 'GET',
-    }).then((response) => {
-        expect(response.status).to.equal(200);
-        return cy.wrap(response);
-    });
-});
-
 // *****************************************************************************
 // Channels
 // https://api.mattermost.com/#tag/channels
