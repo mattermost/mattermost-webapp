@@ -72,20 +72,20 @@ export function shouldRemoveMentionsInRHS(teamName, sidebarItemClass) {
     });
 }
 
-export function shouldRemoveFlaggedPostsInRHS(teamName, sidebarItemClass) {
+export function shouldRemoveSavedPostsInRHS(teamName, sidebarItemClass) {
     let postId;
 
     // # Post a unique message and retrieve its ID
-    var messageText = `${Date.now()} - post to flag`;
+    var messageText = `${Date.now()} - post to save`;
     cy.postMessage(messageText);
 
     cy.getLastPostId().then((lastPostId) => {
         postId = lastPostId;
 
-        // # Flag the last post
-        cy.clickPostFlagIcon(postId);
+        // # Save the last post
+        cy.clickPostSaveIcon(postId);
 
-        // # Click on the Flagged Posts button to open the RHS
+        // # Click on the Saved Posts button to open the RHS
         cy.get('#channelHeaderFlagButton').click();
 
         // * Verify that the recently posted message is shown in the RHS

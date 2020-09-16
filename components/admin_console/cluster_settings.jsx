@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 import {Client4} from 'mattermost-redux/client';
 
 import * as Utils from 'utils/utils.jsx';
@@ -172,7 +172,7 @@ export default class ClusterSettings extends AdminSettings {
                     helpText={
                         <FormattedMessage
                             id='admin.cluster.OverrideHostnameDesc'
-                            defaultMessage='The default value of <blank> will attempt to get the Hostname from the OS or use the IP Address.  You can override the hostname of this server with this property.  It is not recommended to override the Hostname unless needed. This property can also be set to a specific IP Address if needed.'
+                            defaultMessage="The default value of '<blank>' will attempt to get the Hostname from the OS or use the IP Address.  You can override the hostname of this server with this property.  It is not recommended to override the Hostname unless needed. This property can also be set to a specific IP Address if needed."
                         />
                     }
                     value={this.state.OverrideHostname}
@@ -189,7 +189,7 @@ export default class ClusterSettings extends AdminSettings {
                         />
                     }
                     helpText={
-                        <FormattedHTMLMessage
+                        <FormattedMessage
                             id='admin.cluster.UseIpAddressDesc'
                             defaultMessage='When true, the cluster will attempt to communicate via IP Address vs using the hostname.'
                         />
@@ -208,7 +208,7 @@ export default class ClusterSettings extends AdminSettings {
                         />
                     }
                     helpText={
-                        <FormattedHTMLMessage
+                        <FormattedMessage
                             id='admin.cluster.UseExperimentalGossipDesc'
                             defaultMessage='When true, the server will attempt to communicate via the gossip protocol over the gossip port.  When false the server will attempt to communicate over the streaming port. When false the gossip port and protocol are still used to determine cluster health.'
                         />
@@ -227,7 +227,7 @@ export default class ClusterSettings extends AdminSettings {
                         />
                     }
                     helpText={
-                        <FormattedHTMLMessage
+                        <FormattedMessage
                             id='admin.cluster.EnableExperimentalGossipEncryptionDesc'
                             defaultMessage='When true, all communication through the gossip protocol will be encrypted.'
                         />

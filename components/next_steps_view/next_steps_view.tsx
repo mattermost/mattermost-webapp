@@ -8,8 +8,10 @@ import {FormattedMessage} from 'react-intl';
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 import {UserProfile} from 'mattermost-redux/types/users';
 
+import {pageVisited, trackEvent} from 'actions/diagnostics_actions';
 import Accordion from 'components/accordion';
 import Card from 'components/card/card';
+import {getAnalyticsCategory} from 'components/next_steps_view/step_helpers';
 
 import loadingIcon from 'images/spinner-48x48-blue.apng';
 import {Preferences} from 'utils/constants';
@@ -52,6 +54,15 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
         };
     }
 
+    componentDidMount() {
+        pageVisited(getAnalyticsCategory(this.props.isAdmin), 'pageview_welcome');
+
+        // If all steps are complete, don't render this and skip to the tips screen
+        if (this.getIncompleteStep() === null) {
+            this.showFinalScreenNoAnimation();
+        }
+    }
+
     getStartingStep = () => {
         for (let i = 0; i < this.props.steps.length; i++) {
             if (!this.isStepComplete(this.props.steps[i].id)) {
@@ -70,6 +81,16 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
         return null;
     }
 
+    onClickHeader = (setExpanded: (expandedKey: string) => void, id: string) => {
+        const stepIndex = this.getStepNumberFromId(id);
+        trackEvent(getAnalyticsCategory(this.props.isAdmin), `click_onboarding_step${stepIndex}`);
+        setExpanded(id);
+    }
+
+    getStepNumberFromId = (id: string) => {
+        return this.props.steps.findIndex((step) => step.id === id) + 1;
+    }
+
     onSkip = (setExpanded: (expandedKey: string) => void) => {
         return (id: string) => {
             this.nextStep(setExpanded, id);
@@ -78,6 +99,9 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
 
     onFinish = (setExpanded: (expandedKey: string) => void) => {
         return async (id: string) => {
+            const stepIndex = this.getStepNumberFromId(id);
+            trackEvent(getAnalyticsCategory(this.props.isAdmin), `complete_onboarding_step${stepIndex}`);
+
             await this.props.actions.savePreferences(this.props.currentUser.id, [{
                 category: Preferences.RECOMMENDED_NEXT_STEPS,
                 user_id: this.props.currentUser.id,
@@ -89,7 +113,14 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
         };
     }
 
+    showFinalScreenNoAnimation = () => {
+        pageVisited(getAnalyticsCategory(this.props.isAdmin), 'pageview_tips_next_steps');
+        this.setState({showFinalScreen: true});
+    }
+
     showFinalScreen = () => {
+        trackEvent(getAnalyticsCategory(this.props.isAdmin), 'click_skip_getting_started', {channel_sidebar: false});
+        pageVisited(getAnalyticsCategory(this.props.isAdmin), 'pageview_tips_next_steps');
         this.setState({showFinalScreen: true, animating: true});
     }
 
@@ -100,6 +131,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
     setTimerToFinalScreen = () => {
         if (this.state.showTransitionScreen) {
             setTimeout(() => {
+                pageVisited(getAnalyticsCategory(this.props.isAdmin), 'pageview_tips_next_steps');
                 this.setState({showFinalScreen: true});
             }, TRANSITION_SCREEN_TIMEOUT);
         }
@@ -155,7 +187,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
             >
                 <Card.Header>
                     <button
-                        onClick={() => setExpanded(id)}
+                        onClick={() => this.onClickHeader(setExpanded, id)}
                         disabled={this.isStepComplete(id)}
                         className='NextStepsView__cardHeader'
                     >
@@ -166,6 +198,8 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                 <Card.Body>
                     <step.component
                         id={id}
+                        expanded={expandedKey === id}
+                        isAdmin={this.props.isAdmin}
                         currentUser={this.props.currentUser}
                         onFinish={this.onFinish(setExpanded)}
                         onSkip={this.onSkip(setExpanded)}

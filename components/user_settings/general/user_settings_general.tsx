@@ -85,7 +85,7 @@ const holders = defineMessages({
     },
 });
 
-type Props = {
+export type Props = {
     intl: IntlShape;
     user: UserProfile;
     updateSection: (section: string) => void;
@@ -112,7 +112,7 @@ type Props = {
             };
         }>;
         setDefaultProfileImage: (id: string) => void;
-        uploadProfileImage: (id: string, file: object) => Promise<{
+        uploadProfileImage: (id: string, file: File) => Promise<{
             data: boolean;
             error?: {
                 message: string;
@@ -141,7 +141,7 @@ type State = {
     email: string;
     confirmEmail: string;
     currentPassword: string;
-    pictureFile: {type: string; size: number} | null;
+    pictureFile: File | null;
     loadingPicture: boolean;
     sectionIsSaving: boolean;
     showSpinner: boolean;
@@ -1223,7 +1223,7 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
             let helpText = null;
             let imgSrc = null;
 
-            if ((this.props.user.auth_service === Constants.LDAP_SERVICE && this.props.ldapPictureAttributeSet)) {
+            if ((this.props.user.auth_service === Constants.LDAP_SERVICE || this.props.user.auth_service === Constants.SAML_SERVICE) && this.props.ldapPictureAttributeSet) {
                 helpText = (
                     <span>
                         <FormattedMessage

@@ -32,6 +32,7 @@ import EditChannelPurposeModal from 'components/edit_channel_purpose_modal';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 import FilePreview from 'components/file_preview';
 import FileUpload from 'components/file_upload';
+import CallButton from 'components/call_button';
 import LocalizedIcon from 'components/localized_icon';
 import MsgTyping from 'components/msg_typing';
 import PostDeletedModal from 'components/post_deleted_modal';
@@ -1406,6 +1407,13 @@ class CreatePost extends React.PureComponent {
             attachmentsDisabled = ' post-create--attachment-disabled';
         }
 
+        let callButton;
+        if (!readOnlyChannel && !this.props.shouldShowPreview) {
+            callButton = (
+                <CallButton/>
+            );
+        }
+
         let fileUpload;
         if (!readOnlyChannel && !this.props.shouldShowPreview) {
             fileUpload = (
@@ -1519,6 +1527,7 @@ class CreatePost extends React.PureComponent {
                                 ref='createPostControls'
                                 className='post-body__actions'
                             >
+                                {callButton}
                                 {fileUpload}
                                 {emojiPicker}
                                 <a
