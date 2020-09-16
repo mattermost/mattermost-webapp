@@ -24,6 +24,7 @@ describe('components/AboutBuildModal', () => {
         };
     }
 
+    //
     let config = null;
     let license = null;
 
