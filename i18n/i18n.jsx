@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 /* eslint-disable import/order */
+import bg from './bg.json';
 import de from './de.json';
 import es from './es.json';
 import fr from './fr.json';
@@ -24,6 +25,12 @@ import store from 'stores/redux_store.jsx';
 
 // should match the values in model/config.go
 const languages = {
+    bg: {
+        value: 'bg',
+        name: 'Български (Beta)',
+        order: 10,
+        url: bg,
+    },
     de: {
         value: 'de',
         name: 'Deutsch',
@@ -57,13 +64,13 @@ const languages = {
     ja: {
         value: 'ja',
         name: '日本語',
-        order: 15,
+        order: 16,
         url: ja,
     },
     ko: {
         value: 'ko',
         name: '한국어 (Alpha)',
-        order: 12,
+        order: 13,
         url: ko,
     },
     nl: {
@@ -93,7 +100,7 @@ const languages = {
     ru: {
         value: 'ru',
         name: 'Pусский',
-        order: 10,
+        order: 11,
         url: ru,
     },
     tr: {
@@ -105,19 +112,19 @@ const languages = {
     uk: {
         value: 'uk',
         name: 'Yкраїнська (Alpha)',
-        order: 11,
+        order: 12,
         url: uk,
     },
     'zh-TW': {
         value: 'zh-TW',
         name: '中文 (繁體)',
-        order: 14,
+        order: 15,
         url: zhTW,
     },
     'zh-CN': {
         value: 'zh-CN',
         name: '中文 (简体)',
-        order: 13,
+        order: 14,
         url: zhCN,
     },
 };

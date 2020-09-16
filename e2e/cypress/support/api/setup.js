@@ -9,9 +9,7 @@ Cypress.Commands.add('apiInitSetup', ({
 } = {}) => {
     return cy.apiCreateTeam(teamPrefix.name, teamPrefix.displayName).then(({team}) => {
         // # Add public channel
-        return cy.apiCreateChannel(team.id, channelPrefix.name, channelPrefix.displayName).then((channelRes) => {
-            const channel = channelRes.body;
-
+        return cy.apiCreateChannel(team.id, channelPrefix.name, channelPrefix.displayName).then(({channel}) => {
             return cy.apiCreateUser({prefix: userPrefix}).then(({user}) => {
                 return cy.apiAddUserToTeam(team.id, user.id).then(() => {
                     return cy.apiAddUserToChannel(channel.id, user.id).then(() => {

@@ -129,7 +129,7 @@ class Filter extends React.PureComponent<Props, State> {
             [optionKey]: {
                 ...this.state.options[optionKey],
                 values: {
-                    ...values
+                    ...values,
                 },
             },
         };
@@ -188,6 +188,7 @@ class Filter extends React.PureComponent<Props, State> {
                 ref={this.filterRef}
             >
                 <button
+                    // eslint-disable-next-line @typescript-eslint/naming-convention
                     className={classNames('Filter_button', {Filter__active: this.state.show})}
                     onClick={this.togglePopover}
                     ref={this.buttonRef}
@@ -202,6 +203,7 @@ class Filter extends React.PureComponent<Props, State> {
                 </button>
 
                 <div
+                    // eslint-disable-next-line @typescript-eslint/naming-convention
                     className={classNames('Filter_content', {Filter__show: this.state.show})}
                 >
                     <div className='Filter_header'>

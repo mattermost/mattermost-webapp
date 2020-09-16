@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/next_steps_view/steps/setup_preferences_step should match snapshot 1`] = `
+<div
+  className="TextCardWithAction"
+>
+  <div
+    className="card-body"
+  >
+    <FormattedMessage
+      defaultMessage="This is a test card body message"
+      id="test-id"
+    />
+  </div>
+  <div
+    className="NextStepsView__wizardButtons"
+  >
+    <button
+      className="NextStepsView__button NextStepsView__finishButton primary"
+      onClick={[Function]}
+    >
+      <FormattedMessage
+        defaultMessage="this is test button text"
+        id="test-button-id"
+      />
+    </button>
+  </div>
+</div>
+`;
