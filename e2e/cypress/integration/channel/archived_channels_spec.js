@@ -214,6 +214,21 @@ describe('Leave an archived channel', () => {
         // * there should be public channels as well
         cy.get('#suggestionList').find('.icon-globe').should('be.visible');
     });
+    it('MM-T1675 CTRL/CMD+K list private archived channels you are a member of', () => {
+        cy.visit(`/${testTeam.name}/channels/off-topic`);
+
+        // # Select CTRL/⌘+k) to open the channel switcher
+        cy.typeCmdOrCtrl().type('K', {release: true});
+
+        // # Start typing the name of a private channel on this team that has been archived which the test user belongs to
+        cy.get('#quickSwitchInput').type('archived-');
+
+        // * Suggestion list should be visible
+        cy.get('#suggestionList').should('be.visible');
+
+        // * there should be public channels as well
+        cy.get('#suggestionList').find('.icon-archive-outline').should('be.visible');
+    });
 });
 
 function createArchivedChannel(channelOptions, messages, memberUsernames) {
