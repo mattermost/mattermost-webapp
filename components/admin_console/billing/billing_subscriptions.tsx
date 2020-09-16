@@ -1,11 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useState} from 'react';
-import {Tooltip} from 'react-bootstrap';
+import React, {useState, useEffect} from 'react';
+import {useDispatch, useStore} from 'react-redux';
+
+import {getCloudSubscriptionByInstallationId} from 'mattermost-redux/actions/cloud';
+import {DispatchFunc} from 'mattermost-redux/types/actions';
 
 import AlertBanner from 'components/alert_banner';
-import OverlayTrigger from 'components/overlay_trigger';
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 
 import PlanDetails from './plan_details';
@@ -17,33 +19,12 @@ type Props = {
 };
 
 const BillingSubscriptions: React.FC<Props> = () => {
-    const testTooltipLeft = (
-        <Tooltip
-            id='BillingSubscriptions__testTooltip'
-            className='BillingSubscriptions__tooltip BillingSubscriptions__tooltip-left'
-        >
-            <div className='BillingSubscriptions__tooltipTitle'>
-                {'Seat count overages'}
-            </div>
-            <div className='BillingSubscriptions__tooltipMessage'>
-                {'Prolonged overages may result in additional charges. See how billing works'}
-            </div>
-        </Tooltip>
-    );
+    const dispatch = useDispatch<DispatchFunc>();
+    const store = useStore();
 
-    const testTooltipRight = (
-        <Tooltip
-            id='BillingSubscriptions__testTooltip'
-            className='BillingSubscriptions__tooltip BillingSubscriptions__tooltip-right'
-        >
-            <div className='BillingSubscriptions__tooltipTitle'>
-                {'What are partial charges?'}
-            </div>
-            <div className='BillingSubscriptions__tooltipMessage'>
-                {'Users who have not been enabled for the full duration of the month are charged at a prorated monthly rate.'}
-            </div>
-        </Tooltip>
-    );
+    useEffect(() => {
+        getCloudSubscriptionByInstallationId('test')(dispatch, store.getState());
+    }, []);
 
     const [showDanger, setShowDanger] = useState(true);
     const [showWarning, setShowWarning] = useState(true);

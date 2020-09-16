@@ -103,3 +103,42 @@
         line-height: 14px;
     }
 }
+
+.PlanDetails__seatsAndSubscriptionDates {
+    margin-top: 24px;
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--sys-center-channel-color);
+}
+
+.PlanDetails__seats {
+    font-weight: 600;
+    display: flex;
+}
+
+.PlanDetails__seats-registered {
+    margin-left: 4px;
+    color: rgba(var(--sys-center-channel-color-rgb), 0.56);
+
+    &.overLimit {
+        color: var(--sys-error-text);
+    }
+
+    i {
+        font-size: 14.4px;
+        line-height: 17px;
+        margin-left: 4px;
+
+        &::before {
+            margin: 0;
+        }
+    }
+}
+
+.PlanDetails__subscriptionDate {
+    margin-top: 8px;
+}
+
+#BillingSubscriptions__seatOverageTooltip {
+    margin-left: -5px;
+}
