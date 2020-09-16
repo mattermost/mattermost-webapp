@@ -74,8 +74,8 @@
 }
 
 .help__format-text {
-    @include opacity(0);
     @include single-transition(all, .3s, ease-in, .3s);
+    opacity: 0;
     display: inline-block;
     font-size: .85em;
     vertical-align: bottom;
@@ -1094,10 +1094,6 @@
                 .status-wrapper {
                     display: none;
                 }
-
-                img {
-                    display: none;
-                }
             }
 
             .post__header {
@@ -1126,8 +1122,42 @@
 
             &.same--user {
                 .post__img {
-                    img {
+                    .status-wrapper {
                         display: none;
+                    }
+                }
+
+                &.post--bot {
+                    .post__header {
+                        height: auto;
+                        float: none;
+                    }
+
+                    &.post--compact {
+                        .post__header {
+                            float: left;
+                        }
+                    }
+
+                    .col__name {
+                        display: flex;
+                    }
+
+                    .post__permalink {
+                        position: relative;
+                        top: auto;
+                        left: auto;
+                        width: auto;
+                    }
+
+                    .post__time {
+                        opacity: 0.6;
+                    }
+
+                    .post__img {
+                        .status-wrapper {
+                            display: inline;
+                        }
                     }
                 }
             }

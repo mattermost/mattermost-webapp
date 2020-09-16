@@ -29,7 +29,6 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
         <FormattedMessage
           defaultMessage="More unreads"
           id="sidebar.unreads"
-          values={Object {}}
         />
       }
       extraClass="nav-pills__unread-indicator-top"
@@ -42,7 +41,6 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
         <FormattedMessage
           defaultMessage="More unreads"
           id="sidebar.unreads"
-          values={Object {}}
         />
       }
       extraClass="nav-pills__unread-indicator-bottom"
@@ -247,7 +245,6 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
       <FormattedMessage
         defaultMessage="Switch Channels"
         id="channel_switch_modal.title"
-        values={Object {}}
       />
       <span
         className="switch__shortcut hidden-xs"
@@ -255,7 +252,6 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
         <FormattedMessage
           defaultMessage="- CTRL+K"
           id="quick_switch_modal.channelsShortcut.windows"
-          values={Object {}}
         />
       </span>
     </button>
@@ -293,7 +289,6 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
         <FormattedMessage
           defaultMessage="More unreads"
           id="sidebar.unreads"
-          values={Object {}}
         />
       }
       extraClass="nav-pills__unread-indicator-top"
@@ -306,7 +301,6 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
         <FormattedMessage
           defaultMessage="More unreads"
           id="sidebar.unreads"
-          values={Object {}}
         />
       }
       extraClass="nav-pills__unread-indicator-bottom"
@@ -511,7 +505,6 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
       <FormattedMessage
         defaultMessage="Switch Channels"
         id="channel_switch_modal.title"
-        values={Object {}}
       />
       <span
         className="switch__shortcut hidden-xs"
@@ -519,7 +512,6 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
         <FormattedMessage
           defaultMessage="- CTRL+K"
           id="quick_switch_modal.channelsShortcut.windows"
-          values={Object {}}
         />
       </span>
     </button>
@@ -557,7 +549,6 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
         <FormattedMessage
           defaultMessage="More unreads"
           id="sidebar.unreads"
-          values={Object {}}
         />
       }
       extraClass="nav-pills__unread-indicator-top"
@@ -570,7 +561,6 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
         <FormattedMessage
           defaultMessage="More unreads"
           id="sidebar.unreads"
-          values={Object {}}
         />
       }
       extraClass="nav-pills__unread-indicator-bottom"
@@ -775,7 +765,6 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
       <FormattedMessage
         defaultMessage="Switch Channels"
         id="channel_switch_modal.title"
-        values={Object {}}
       />
       <span
         className="switch__shortcut hidden-xs"
@@ -783,7 +772,6 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
         <FormattedMessage
           defaultMessage="- CTRL+K"
           id="quick_switch_modal.channelsShortcut.windows"
-          values={Object {}}
         />
       </span>
     </button>
@@ -821,7 +809,6 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
         <FormattedMessage
           defaultMessage="More unreads"
           id="sidebar.unreads"
-          values={Object {}}
         />
       }
       extraClass="nav-pills__unread-indicator-top"
@@ -834,7 +821,6 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
         <FormattedMessage
           defaultMessage="More unreads"
           id="sidebar.unreads"
-          values={Object {}}
         />
       }
       extraClass="nav-pills__unread-indicator-bottom"
@@ -1039,7 +1025,6 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
       <FormattedMessage
         defaultMessage="Switch Channels"
         id="channel_switch_modal.title"
-        values={Object {}}
       />
       <span
         className="switch__shortcut hidden-xs"
@@ -1047,7 +1032,6 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
         <FormattedMessage
           defaultMessage="- CTRL+K"
           id="quick_switch_modal.channelsShortcut.windows"
-          values={Object {}}
         />
       </span>
     </button>
@@ -1085,7 +1069,6 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
         <FormattedMessage
           defaultMessage="More unreads"
           id="sidebar.unreads"
-          values={Object {}}
         />
       }
       extraClass="nav-pills__unread-indicator-top"
@@ -1098,7 +1081,6 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
         <FormattedMessage
           defaultMessage="More unreads"
           id="sidebar.unreads"
-          values={Object {}}
         />
       }
       extraClass="nav-pills__unread-indicator-bottom"
@@ -1303,7 +1285,6 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
       <FormattedMessage
         defaultMessage="Switch Channels"
         id="channel_switch_modal.title"
-        values={Object {}}
       />
       <span
         className="switch__shortcut hidden-xs"
@@ -1311,7 +1292,6 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
         <FormattedMessage
           defaultMessage="- CTRL+K"
           id="quick_switch_modal.channelsShortcut.windows"
-          values={Object {}}
         />
       </span>
     </button>
@@ -1357,7 +1337,6 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should show/hid
         <FormattedMessage
           defaultMessage="More unreads"
           id="sidebar.unreads"
-          values={Object {}}
         />
       }
       extraClass="nav-pills__unread-indicator-top"
@@ -1370,7 +1349,6 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should show/hid
         <FormattedMessage
           defaultMessage="More unreads"
           id="sidebar.unreads"
-          values={Object {}}
         />
       }
       extraClass="nav-pills__unread-indicator-bottom"
@@ -1575,7 +1553,6 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should show/hid
       <FormattedMessage
         defaultMessage="Switch Channels"
         id="channel_switch_modal.title"
-        values={Object {}}
       />
       <span
         className="switch__shortcut hidden-xs"
@@ -1583,7 +1560,6 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should show/hid
         <FormattedMessage
           defaultMessage="- CTRL+K"
           id="quick_switch_modal.channelsShortcut.windows"
-          values={Object {}}
         />
       </span>
     </button>
@@ -1621,7 +1597,6 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should show/hid
         <FormattedMessage
           defaultMessage="More unreads"
           id="sidebar.unreads"
-          values={Object {}}
         />
       }
       extraClass="nav-pills__unread-indicator-top"
@@ -1634,7 +1609,6 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should show/hid
         <FormattedMessage
           defaultMessage="More unreads"
           id="sidebar.unreads"
-          values={Object {}}
         />
       }
       extraClass="nav-pills__unread-indicator-bottom"
@@ -1839,7 +1813,6 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should show/hid
       <FormattedMessage
         defaultMessage="Switch Channels"
         id="channel_switch_modal.title"
-        values={Object {}}
       />
       <span
         className="switch__shortcut hidden-xs"
@@ -1847,7 +1820,6 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should show/hid
         <FormattedMessage
           defaultMessage="- CTRL+K"
           id="quick_switch_modal.channelsShortcut.windows"
-          values={Object {}}
         />
       </span>
     </button>

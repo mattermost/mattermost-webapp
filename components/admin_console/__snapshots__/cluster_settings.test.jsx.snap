@@ -13,7 +13,6 @@ exports[`components/ClusterSettings should match snapshot, encryption disabled 1
       <FormattedMessage
         defaultMessage="High Availability"
         id="admin.advance.cluster"
-        values={Object {}}
       />
     </AdminHeader>
     <SettingsGroup
@@ -27,7 +26,6 @@ exports[`components/ClusterSettings should match snapshot, encryption disabled 1
         <FormattedMessage
           defaultMessage="Changing properties in this section will require a server restart before taking effect."
           id="admin.cluster.noteDescription"
-          values={Object {}}
         />
       </div>
       <BooleanSetting
@@ -36,7 +34,6 @@ exports[`components/ClusterSettings should match snapshot, encryption disabled 1
           <FormattedMessage
             defaultMessage="false"
             id="admin.false"
-            values={Object {}}
           />
         }
         helpText={
@@ -50,7 +47,6 @@ exports[`components/ClusterSettings should match snapshot, encryption disabled 1
           <FormattedMessage
             defaultMessage="Enable High Availability Mode:"
             id="admin.cluster.enableTitle"
-            values={Object {}}
           />
         }
         onChange={[Function]}
@@ -59,7 +55,6 @@ exports[`components/ClusterSettings should match snapshot, encryption disabled 1
           <FormattedMessage
             defaultMessage="true"
             id="admin.true"
-            values={Object {}}
           />
         }
         value={true}
@@ -69,7 +64,6 @@ exports[`components/ClusterSettings should match snapshot, encryption disabled 1
           <FormattedMessage
             defaultMessage="The cluster to join by name.  Only nodes with the same cluster name will join together.  This is to support Blue-Green deployments or staging pointing to the same database."
             id="admin.cluster.ClusterNameDesc"
-            values={Object {}}
           />
         }
         id="ClusterName"
@@ -77,7 +71,6 @@ exports[`components/ClusterSettings should match snapshot, encryption disabled 1
           <FormattedMessage
             defaultMessage="Cluster Name:"
             id="admin.cluster.ClusterName"
-            values={Object {}}
           />
         }
         onChange={[Function]}
@@ -88,9 +81,8 @@ exports[`components/ClusterSettings should match snapshot, encryption disabled 1
       <AdminTextSetting
         helpText={
           <FormattedMessage
-            defaultMessage="The default value of <blank> will attempt to get the Hostname from the OS or use the IP Address.  You can override the hostname of this server with this property.  It is not recommended to override the Hostname unless needed. This property can also be set to a specific IP Address if needed."
+            defaultMessage="The default value of '<blank>' will attempt to get the Hostname from the OS or use the IP Address.  You can override the hostname of this server with this property.  It is not recommended to override the Hostname unless needed. This property can also be set to a specific IP Address if needed."
             id="admin.cluster.OverrideHostnameDesc"
-            values={Object {}}
           />
         }
         id="OverrideHostname"
@@ -98,7 +90,6 @@ exports[`components/ClusterSettings should match snapshot, encryption disabled 1
           <FormattedMessage
             defaultMessage="Override Hostname:"
             id="admin.cluster.OverrideHostname"
-            values={Object {}}
           />
         }
         onChange={[Function]}
@@ -112,15 +103,12 @@ exports[`components/ClusterSettings should match snapshot, encryption disabled 1
           <FormattedMessage
             defaultMessage="false"
             id="admin.false"
-            values={Object {}}
           />
         }
         helpText={
-          <FormattedHTMLMessage
+          <FormattedMessage
             defaultMessage="When true, the cluster will attempt to communicate via IP Address vs using the hostname."
             id="admin.cluster.UseIpAddressDesc"
-            tagName="span"
-            values={Object {}}
           />
         }
         id="UseIpAddress"
@@ -128,7 +116,6 @@ exports[`components/ClusterSettings should match snapshot, encryption disabled 1
           <FormattedMessage
             defaultMessage="Use IP Address:"
             id="admin.cluster.UseIpAddress"
-            values={Object {}}
           />
         }
         onChange={[Function]}
@@ -137,7 +124,6 @@ exports[`components/ClusterSettings should match snapshot, encryption disabled 1
           <FormattedMessage
             defaultMessage="true"
             id="admin.true"
-            values={Object {}}
           />
         }
         value={false}
@@ -148,15 +134,12 @@ exports[`components/ClusterSettings should match snapshot, encryption disabled 1
           <FormattedMessage
             defaultMessage="false"
             id="admin.false"
-            values={Object {}}
           />
         }
         helpText={
-          <FormattedHTMLMessage
+          <FormattedMessage
             defaultMessage="When true, the server will attempt to communicate via the gossip protocol over the gossip port.  When false the server will attempt to communicate over the streaming port. When false the gossip port and protocol are still used to determine cluster health."
             id="admin.cluster.UseExperimentalGossipDesc"
-            tagName="span"
-            values={Object {}}
           />
         }
         id="UseExperimentalGossip"
@@ -164,7 +147,6 @@ exports[`components/ClusterSettings should match snapshot, encryption disabled 1
           <FormattedMessage
             defaultMessage="Use Experimental Gossip:"
             id="admin.cluster.UseExperimentalGossip"
-            values={Object {}}
           />
         }
         onChange={[Function]}
@@ -173,7 +155,6 @@ exports[`components/ClusterSettings should match snapshot, encryption disabled 1
           <FormattedMessage
             defaultMessage="true"
             id="admin.true"
-            values={Object {}}
           />
         }
         value={true}
@@ -184,15 +165,12 @@ exports[`components/ClusterSettings should match snapshot, encryption disabled 1
           <FormattedMessage
             defaultMessage="false"
             id="admin.false"
-            values={Object {}}
           />
         }
         helpText={
-          <FormattedHTMLMessage
+          <FormattedMessage
             defaultMessage="When true, all communication through the gossip protocol will be encrypted."
             id="admin.cluster.EnableExperimentalGossipEncryptionDesc"
-            tagName="span"
-            values={Object {}}
           />
         }
         id="EnableExperimentalGossipEncryption"
@@ -200,7 +178,6 @@ exports[`components/ClusterSettings should match snapshot, encryption disabled 1
           <FormattedMessage
             defaultMessage="Enable Experimental Gossip encryption:"
             id="admin.cluster.EnableExperimentalGossipEncryption"
-            values={Object {}}
           />
         }
         onChange={[Function]}
@@ -209,7 +186,6 @@ exports[`components/ClusterSettings should match snapshot, encryption disabled 1
           <FormattedMessage
             defaultMessage="true"
             id="admin.true"
-            values={Object {}}
           />
         }
         value={false}
@@ -219,7 +195,6 @@ exports[`components/ClusterSettings should match snapshot, encryption disabled 1
           <FormattedMessage
             defaultMessage="The port used for the gossip protocol.  Both UDP and TCP should be allowed on this port."
             id="admin.cluster.GossipPortDesc"
-            values={Object {}}
           />
         }
         id="GossipPort"
@@ -227,7 +202,6 @@ exports[`components/ClusterSettings should match snapshot, encryption disabled 1
           <FormattedMessage
             defaultMessage="Gossip Port:"
             id="admin.cluster.GossipPort"
-            values={Object {}}
           />
         }
         onChange={[Function]}
@@ -240,7 +214,6 @@ exports[`components/ClusterSettings should match snapshot, encryption disabled 1
           <FormattedMessage
             defaultMessage="The port used for streaming data between servers."
             id="admin.cluster.StreamingPortDesc"
-            values={Object {}}
           />
         }
         id="StreamingPort"
@@ -248,7 +221,6 @@ exports[`components/ClusterSettings should match snapshot, encryption disabled 1
           <FormattedMessage
             defaultMessage="Streaming Port:"
             id="admin.cluster.StreamingPort"
-            values={Object {}}
           />
         }
         onChange={[Function]}
@@ -265,7 +237,6 @@ exports[`components/ClusterSettings should match snapshot, encryption disabled 1
           <FormattedMessage
             defaultMessage="Save"
             id="save_button.save"
-            values={Object {}}
           />
         }
         disabled={true}
@@ -314,7 +285,6 @@ exports[`components/ClusterSettings should match snapshot, encryption enabled 1`
       <FormattedMessage
         defaultMessage="High Availability"
         id="admin.advance.cluster"
-        values={Object {}}
       />
     </AdminHeader>
     <SettingsGroup
@@ -328,7 +298,6 @@ exports[`components/ClusterSettings should match snapshot, encryption enabled 1`
         <FormattedMessage
           defaultMessage="Changing properties in this section will require a server restart before taking effect."
           id="admin.cluster.noteDescription"
-          values={Object {}}
         />
       </div>
       <BooleanSetting
@@ -337,7 +306,6 @@ exports[`components/ClusterSettings should match snapshot, encryption enabled 1`
           <FormattedMessage
             defaultMessage="false"
             id="admin.false"
-            values={Object {}}
           />
         }
         helpText={
@@ -351,7 +319,6 @@ exports[`components/ClusterSettings should match snapshot, encryption enabled 1`
           <FormattedMessage
             defaultMessage="Enable High Availability Mode:"
             id="admin.cluster.enableTitle"
-            values={Object {}}
           />
         }
         onChange={[Function]}
@@ -360,7 +327,6 @@ exports[`components/ClusterSettings should match snapshot, encryption enabled 1`
           <FormattedMessage
             defaultMessage="true"
             id="admin.true"
-            values={Object {}}
           />
         }
         value={true}
@@ -370,7 +336,6 @@ exports[`components/ClusterSettings should match snapshot, encryption enabled 1`
           <FormattedMessage
             defaultMessage="The cluster to join by name.  Only nodes with the same cluster name will join together.  This is to support Blue-Green deployments or staging pointing to the same database."
             id="admin.cluster.ClusterNameDesc"
-            values={Object {}}
           />
         }
         id="ClusterName"
@@ -378,7 +343,6 @@ exports[`components/ClusterSettings should match snapshot, encryption enabled 1`
           <FormattedMessage
             defaultMessage="Cluster Name:"
             id="admin.cluster.ClusterName"
-            values={Object {}}
           />
         }
         onChange={[Function]}
@@ -389,9 +353,8 @@ exports[`components/ClusterSettings should match snapshot, encryption enabled 1`
       <AdminTextSetting
         helpText={
           <FormattedMessage
-            defaultMessage="The default value of <blank> will attempt to get the Hostname from the OS or use the IP Address.  You can override the hostname of this server with this property.  It is not recommended to override the Hostname unless needed. This property can also be set to a specific IP Address if needed."
+            defaultMessage="The default value of '<blank>' will attempt to get the Hostname from the OS or use the IP Address.  You can override the hostname of this server with this property.  It is not recommended to override the Hostname unless needed. This property can also be set to a specific IP Address if needed."
             id="admin.cluster.OverrideHostnameDesc"
-            values={Object {}}
           />
         }
         id="OverrideHostname"
@@ -399,7 +362,6 @@ exports[`components/ClusterSettings should match snapshot, encryption enabled 1`
           <FormattedMessage
             defaultMessage="Override Hostname:"
             id="admin.cluster.OverrideHostname"
-            values={Object {}}
           />
         }
         onChange={[Function]}
@@ -413,15 +375,12 @@ exports[`components/ClusterSettings should match snapshot, encryption enabled 1`
           <FormattedMessage
             defaultMessage="false"
             id="admin.false"
-            values={Object {}}
           />
         }
         helpText={
-          <FormattedHTMLMessage
+          <FormattedMessage
             defaultMessage="When true, the cluster will attempt to communicate via IP Address vs using the hostname."
             id="admin.cluster.UseIpAddressDesc"
-            tagName="span"
-            values={Object {}}
           />
         }
         id="UseIpAddress"
@@ -429,7 +388,6 @@ exports[`components/ClusterSettings should match snapshot, encryption enabled 1`
           <FormattedMessage
             defaultMessage="Use IP Address:"
             id="admin.cluster.UseIpAddress"
-            values={Object {}}
           />
         }
         onChange={[Function]}
@@ -438,7 +396,6 @@ exports[`components/ClusterSettings should match snapshot, encryption enabled 1`
           <FormattedMessage
             defaultMessage="true"
             id="admin.true"
-            values={Object {}}
           />
         }
         value={false}
@@ -449,15 +406,12 @@ exports[`components/ClusterSettings should match snapshot, encryption enabled 1`
           <FormattedMessage
             defaultMessage="false"
             id="admin.false"
-            values={Object {}}
           />
         }
         helpText={
-          <FormattedHTMLMessage
+          <FormattedMessage
             defaultMessage="When true, the server will attempt to communicate via the gossip protocol over the gossip port.  When false the server will attempt to communicate over the streaming port. When false the gossip port and protocol are still used to determine cluster health."
             id="admin.cluster.UseExperimentalGossipDesc"
-            tagName="span"
-            values={Object {}}
           />
         }
         id="UseExperimentalGossip"
@@ -465,7 +419,6 @@ exports[`components/ClusterSettings should match snapshot, encryption enabled 1`
           <FormattedMessage
             defaultMessage="Use Experimental Gossip:"
             id="admin.cluster.UseExperimentalGossip"
-            values={Object {}}
           />
         }
         onChange={[Function]}
@@ -474,7 +427,6 @@ exports[`components/ClusterSettings should match snapshot, encryption enabled 1`
           <FormattedMessage
             defaultMessage="true"
             id="admin.true"
-            values={Object {}}
           />
         }
         value={true}
@@ -485,15 +437,12 @@ exports[`components/ClusterSettings should match snapshot, encryption enabled 1`
           <FormattedMessage
             defaultMessage="false"
             id="admin.false"
-            values={Object {}}
           />
         }
         helpText={
-          <FormattedHTMLMessage
+          <FormattedMessage
             defaultMessage="When true, all communication through the gossip protocol will be encrypted."
             id="admin.cluster.EnableExperimentalGossipEncryptionDesc"
-            tagName="span"
-            values={Object {}}
           />
         }
         id="EnableExperimentalGossipEncryption"
@@ -501,7 +450,6 @@ exports[`components/ClusterSettings should match snapshot, encryption enabled 1`
           <FormattedMessage
             defaultMessage="Enable Experimental Gossip encryption:"
             id="admin.cluster.EnableExperimentalGossipEncryption"
-            values={Object {}}
           />
         }
         onChange={[Function]}
@@ -510,7 +458,6 @@ exports[`components/ClusterSettings should match snapshot, encryption enabled 1`
           <FormattedMessage
             defaultMessage="true"
             id="admin.true"
-            values={Object {}}
           />
         }
         value={true}
@@ -520,7 +467,6 @@ exports[`components/ClusterSettings should match snapshot, encryption enabled 1`
           <FormattedMessage
             defaultMessage="The port used for the gossip protocol.  Both UDP and TCP should be allowed on this port."
             id="admin.cluster.GossipPortDesc"
-            values={Object {}}
           />
         }
         id="GossipPort"
@@ -528,7 +474,6 @@ exports[`components/ClusterSettings should match snapshot, encryption enabled 1`
           <FormattedMessage
             defaultMessage="Gossip Port:"
             id="admin.cluster.GossipPort"
-            values={Object {}}
           />
         }
         onChange={[Function]}
@@ -541,7 +486,6 @@ exports[`components/ClusterSettings should match snapshot, encryption enabled 1`
           <FormattedMessage
             defaultMessage="The port used for streaming data between servers."
             id="admin.cluster.StreamingPortDesc"
-            values={Object {}}
           />
         }
         id="StreamingPort"
@@ -549,7 +493,6 @@ exports[`components/ClusterSettings should match snapshot, encryption enabled 1`
           <FormattedMessage
             defaultMessage="Streaming Port:"
             id="admin.cluster.StreamingPort"
-            values={Object {}}
           />
         }
         onChange={[Function]}
@@ -566,7 +509,6 @@ exports[`components/ClusterSettings should match snapshot, encryption enabled 1`
           <FormattedMessage
             defaultMessage="Save"
             id="save_button.save"
-            values={Object {}}
           />
         }
         disabled={true}

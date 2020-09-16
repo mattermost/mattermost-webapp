@@ -26,8 +26,8 @@ describe('Mark as Unread', () => {
             channelA = channel;
 
             // # Create second channel and add testUser
-            cy.apiCreateChannel(team.id, 'channel-b', 'Channel B').then((resp) => {
-                channelB = resp.body;
+            cy.apiCreateChannel(team.id, 'channel-b', 'Channel B').then((out) => {
+                channelB = out.channel;
                 cy.apiAddUserToChannel(channelB.id, testUser.id);
             });
 
