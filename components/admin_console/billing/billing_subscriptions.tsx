@@ -2,10 +2,14 @@
 // See LICENSE.txt for license information.
 
 import React, {useState} from 'react';
+import {FormattedMessage} from 'react-intl';
 import {Tooltip} from 'react-bootstrap';
 
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import OverlayTrigger from 'components/overlay_trigger';
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
+
+import upgradeMattermostCloudImage from 'images/upgrade-mattermost-cloud-image.svg';
 
 import './billing_subscriptions.scss';
 import AlertBanner from 'components/alert_banner';
@@ -13,6 +17,32 @@ import AlertBanner from 'components/alert_banner';
 type Props = {
 
 };
+
+const upgradeMattermostCloud = () => (
+    <div className='UpgradeMattermostCloud'>
+        <div className='UpgradeMattermostCloud__image'>
+            <img src={upgradeMattermostCloudImage}/>
+        </div>
+        <div className='UpgradeMattermostCloud__title'>
+            <FormattedMessage
+                id='admin.billing.subscription.upgradeMattermostCloud.title'
+                defaultMessage='Need more users?'
+            />
+        </div>
+        <div className='UpgradeMattermostCloud__description'>
+            <FormattedMarkdownMessage
+                id='admin.billing.subscription.upgradeMattermostCloud.description'
+                defaultMessage='The free tier is **limited to 10 users.** Get access to more users, teams and other great features'
+            />
+        </div>
+        <button className='UpgradeMattermostCloud__upgradeButton'>
+            <FormattedMessage
+                id='admin.billing.subscription.upgradeMattermostCloud.upgradeButton'
+                defaultMessage='Upgrade Mattermost Cloud'
+            />
+        </button>
+    </div>
+);
 
 const BillingSubscriptions: React.FC<Props> = () => {
     const testTooltipLeft = (
@@ -83,7 +113,7 @@ const BillingSubscriptions: React.FC<Props> = () => {
                         className='BillingSubscriptions__topWrapper'
                         style={{marginTop: '20px'}}
                     >
-                        <div style={{border: '1px solid #000', width: '568px', height: '438px'}}>
+                        <div style={{border: '1px solid #000', width: '568px'}}>
                             {'Plan Details Card'}
                             <OverlayTrigger
                                 delayShow={500}
@@ -100,9 +130,10 @@ const BillingSubscriptions: React.FC<Props> = () => {
                                 <button>{'Right Side Test Button'}</button>
                             </OverlayTrigger>
                         </div>
-                        <div style={{border: '1px solid #000', width: '332px', marginLeft: '20px'}}>
+                        {/* <div style={{border: '1px solid #000', width: '332px', marginLeft: '20px'}}>
                             {'Billing Summary Card / Upgrade Mattermost Cloud'}
-                        </div>
+                        </div> */}
+                        {upgradeMattermostCloud()}
                     </div>
                     <div style={{border: '1px solid #000', width: '100%', height: '217px', marginTop: '20px'}}>
                         {'Private Cloud'}
