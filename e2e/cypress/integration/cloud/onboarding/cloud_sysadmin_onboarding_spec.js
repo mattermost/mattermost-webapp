@@ -163,7 +163,7 @@ describe('Cloud Onboarding - Sysadmin', () => {
 
         // # Click 'Getting Started' in the main menu
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
-        cy.get('.dropdown-menu .MenuItem:contains(Getting Started)').should('be.visible').click();
+        cy.get('.dropdown-menu .MenuItem:contains(Getting Started)').scrollIntoView().should('be.visible').click();
 
         // * Verify that sidebar element and next steps view are back
         cy.get('.SidebarNextSteps').should('be.visible');
