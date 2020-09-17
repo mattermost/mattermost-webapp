@@ -1940,7 +1940,7 @@ const AdminDefinition = {
                         permissions_mapping_name: 'editOthersPosts',
                         isHidden: it.any(
                             it.licensed,
-                            it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin')
+                            it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
                         ),
                         isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
                     },
