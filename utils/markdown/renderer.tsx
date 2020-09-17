@@ -216,7 +216,7 @@ export default class Renderer extends marked.Renderer {
         const pattern = new RegExp(
             '^(' +
             TextFormatting.escapeRegex(this.formattingOptions.siteURL) +
-            ')?\\/(?:signup_user_complete|admin_console|[^\\/]+\\/(?:pl|channels|messages))\\/',
+            ')?\\/(?:signup_user_complete|admin_console|[^\\/]+\\/(?:pl|channels|messages|plugins))\\/',
         );
         internalLink = internalLink || pattern.test(outHref);
 

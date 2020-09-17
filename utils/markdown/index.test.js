@@ -159,5 +159,8 @@ this is long text this is long text this is long text this is long text this is 
 
         const messages = format('[thread](/reiciendis-0/messages/b3hrs3brjjn7fk4kge3xmeuffc))', {siteURL: 'http://localhost'});
         expect(messages).toContain('<a class="theme markdown__link" href="/reiciendis-0/messages/b3hrs3brjjn7fk4kge3xmeuffc" rel="noreferrer" data-link="/reiciendis-0/messages/b3hrs3brjjn7fk4kge3xmeuffc">thread</a>');
+
+        const plugin = format('[plugin](/reiciendis-0/plugins/example))', {siteURL: 'http://localhost'});
+        expect(plugin).toContain('<a class="theme markdown__link" href="/reiciendis-0/plugins/example" rel="noreferrer" data-link="/reiciendis-0/plugins/example">plugin</a>');
     });
 });
