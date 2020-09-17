@@ -118,9 +118,9 @@ exports[`components/AddGroupsToTeamModal should match when renderOption is calle
     <div
       className="more-modal__name"
     >
-       
+      <Nbsp />
       -
-       
+      <Nbsp />
       <span
         className="more-modal__name_sub"
       >
@@ -167,9 +167,9 @@ exports[`components/AddGroupsToTeamModal should match when renderOption is calle
     <div
       className="more-modal__name"
     >
-       
+      <Nbsp />
       -
-       
+      <Nbsp />
       <span
         className="more-modal__name_sub"
       >
@@ -216,9 +216,9 @@ exports[`components/AddGroupsToTeamModal should match when renderOption is calle
     <div
       className="more-modal__name"
     >
-       
+      <Nbsp />
       -
-       
+      <Nbsp />
       <span
         className="more-modal__name_sub"
       >

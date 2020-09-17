@@ -16,7 +16,6 @@ exports[`components/channel_members_dropdown should match snapshot for channel_m
       <FormattedMessage
         defaultMessage="Channel Admin"
         id="channel_members_dropdown.channel_admin"
-        values={Object {}}
       />
        
     </span>
@@ -64,7 +63,6 @@ exports[`components/channel_members_dropdown should match snapshot for dropdown 
       <FormattedMessage
         defaultMessage="Channel Guest"
         id="channel_members_dropdown.channel_guest"
-        values={Object {}}
       />
        
     </span>
@@ -101,7 +99,6 @@ exports[`components/channel_members_dropdown should match snapshot for group_con
   <FormattedMessage
     defaultMessage="Channel Admin"
     id="channel_members_dropdown.channel_admin"
-    values={Object {}}
   />
 </div>
 `;
@@ -122,7 +119,6 @@ exports[`components/channel_members_dropdown should match snapshot for not dropd
       <FormattedMessage
         defaultMessage="Channel Guest"
         id="channel_members_dropdown.channel_guest"
-        values={Object {}}
       />
        
     </span>
@@ -170,7 +166,6 @@ exports[`components/channel_members_dropdown should match snapshot opening dropd
       <FormattedMessage
         defaultMessage="Channel Admin"
         id="channel_members_dropdown.channel_admin"
-        values={Object {}}
       />
        
     </span>

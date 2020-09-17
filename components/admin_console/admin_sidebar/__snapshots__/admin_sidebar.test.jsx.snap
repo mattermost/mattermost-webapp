@@ -60,7 +60,6 @@ exports[`components/AdminSidebar Plugins should filter plugins 1`] = `
               <FormattedMessage
                 defaultMessage="Plugins (Beta)"
                 id="admin.sidebar.plugins"
-                values={Object {}}
               />
             }
           >
@@ -139,7 +138,6 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               <FormattedMessage
                 defaultMessage="Plugins (Beta)"
                 id="admin.sidebar.plugins"
-                values={Object {}}
               />
             }
           >
@@ -153,7 +151,6 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
                 <FormattedMessage
                   defaultMessage="Plugin Management"
                   id="admin.plugins.pluginManagement"
-                  values={Object {}}
                 />
               }
             />
@@ -232,7 +229,6 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               <FormattedMessage
                 defaultMessage="Reporting"
                 id="admin.sidebar.reporting"
-                values={Object {}}
               />
             }
           >
@@ -246,7 +242,6 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
                 <FormattedMessage
                   defaultMessage="Site Statistics"
                   id="admin.sidebar.siteStatistics"
-                  values={Object {}}
                 />
               }
             />
@@ -260,7 +255,6 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
                 <FormattedMessage
                   defaultMessage="Team Statistics"
                   id="admin.sidebar.teamStatistics"
-                  values={Object {}}
                 />
               }
             />
@@ -274,7 +268,6 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
                 <FormattedMessage
                   defaultMessage="Server Logs"
                   id="admin.sidebar.logs"
-                  values={Object {}}
                 />
               }
             />
@@ -289,7 +282,6 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               <FormattedMessage
                 defaultMessage="Environment"
                 id="admin.sidebar.environment"
-                values={Object {}}
               />
             }
           >
@@ -303,7 +295,6 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
                 <FormattedMessage
                   defaultMessage="Web Server"
                   id="admin.sidebar.webServer"
-                  values={Object {}}
                 />
               }
             />
@@ -317,7 +308,6 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
                 <FormattedMessage
                   defaultMessage="Database"
                   id="admin.sidebar.database"
-                  values={Object {}}
                 />
               }
             />
@@ -331,7 +321,6 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
                 <FormattedMessage
                   defaultMessage="File Storage"
                   id="admin.sidebar.fileStorage"
-                  values={Object {}}
                 />
               }
             />
@@ -345,7 +334,6 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
                 <FormattedMessage
                   defaultMessage="Image Proxy"
                   id="admin.sidebar.imageProxy"
-                  values={Object {}}
                 />
               }
             />
@@ -359,7 +347,6 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
                 <FormattedMessage
                   defaultMessage="SMTP"
                   id="admin.sidebar.smtp"
-                  values={Object {}}
                 />
               }
             />
@@ -373,7 +360,6 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
                 <FormattedMessage
                   defaultMessage="Push Notification Server"
                   id="admin.sidebar.pushNotificationServer"
-                  values={Object {}}
                 />
               }
             />
@@ -387,7 +373,6 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
                 <FormattedMessage
                   defaultMessage="Rate Limiting"
                   id="admin.sidebar.rateLimiting"
-                  values={Object {}}
                 />
               }
             />
@@ -401,7 +386,6 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
                 <FormattedMessage
                   defaultMessage="Logging"
                   id="admin.sidebar.logging"
-                  values={Object {}}
                 />
               }
             />
@@ -415,7 +399,6 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
                 <FormattedMessage
                   defaultMessage="Session Lengths"
                   id="admin.sidebar.sessionLengths"
-                  values={Object {}}
                 />
               }
             />
@@ -429,7 +412,6 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
                 <FormattedMessage
                   defaultMessage="Developer"
                   id="admin.sidebar.developer"
-                  values={Object {}}
                 />
               }
             />
@@ -444,7 +426,6 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               <FormattedMessage
                 defaultMessage="Authentication"
                 id="admin.sidebar.authentication"
-                values={Object {}}
               />
             }
           >
@@ -458,7 +439,6 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
                 <FormattedMessage
                   defaultMessage="Signup"
                   id="admin.sidebar.signup"
-                  values={Object {}}
                 />
               }
             />
@@ -472,7 +452,6 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
                 <FormattedMessage
                   defaultMessage="Email"
                   id="admin.sidebar.email"
-                  values={Object {}}
                 />
               }
             />
@@ -486,7 +465,6 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
                 <FormattedMessage
                   defaultMessage="Password"
                   id="admin.sidebar.password"
-                  values={Object {}}
                 />
               }
             />
@@ -500,7 +478,6 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
                 <FormattedMessage
                   defaultMessage="MFA"
                   id="admin.sidebar.mfa"
-                  values={Object {}}
                 />
               }
             />
@@ -514,7 +491,6 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
                 <FormattedMessage
                   defaultMessage="GitLab"
                   id="admin.sidebar.gitlab"
-                  values={Object {}}
                 />
               }
             />
@@ -529,7 +505,6 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               <FormattedMessage
                 defaultMessage="Plugins (Beta)"
                 id="admin.sidebar.plugins"
-                values={Object {}}
               />
             }
           >
@@ -543,7 +518,6 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
                 <FormattedMessage
                   defaultMessage="Plugin Management"
                   id="admin.plugins.pluginManagement"
-                  values={Object {}}
                 />
               }
             />
@@ -565,7 +539,6 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               <FormattedMessage
                 defaultMessage="Integrations"
                 id="admin.sidebar.integrations"
-                values={Object {}}
               />
             }
           >
@@ -579,7 +552,6 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
                 <FormattedMessage
                   defaultMessage="Integration Management"
                   id="admin.integrations.integrationManagement"
-                  values={Object {}}
                 />
               }
             />
@@ -593,7 +565,6 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
                 <FormattedMessage
                   defaultMessage="Bot Accounts"
                   id="admin.integrations.botAccounts"
-                  values={Object {}}
                 />
               }
             />
@@ -607,7 +578,6 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
                 <FormattedMessage
                   defaultMessage="GIF (Beta)"
                   id="admin.sidebar.gif"
-                  values={Object {}}
                 />
               }
             />
@@ -621,7 +591,6 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
                 <FormattedMessage
                   defaultMessage="CORS"
                   id="admin.sidebar.cors"
-                  values={Object {}}
                 />
               }
             />
@@ -636,7 +605,6 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               <FormattedMessage
                 defaultMessage="Experimental"
                 id="admin.sidebar.experimental"
-                values={Object {}}
               />
             }
           >
@@ -650,7 +618,6 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
                 <FormattedMessage
                   defaultMessage="Features"
                   id="admin.sidebar.experimentalFeatures"
-                  values={Object {}}
                 />
               }
             />
@@ -664,7 +631,6 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
                 <FormattedMessage
                   defaultMessage="Bleve"
                   id="admin.sidebar.blevesearch"
-                  values={Object {}}
                 />
               }
             />

@@ -8,6 +8,7 @@ import store from 'stores/redux_store.jsx';
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import * as lineBreakHelpers from 'tests/helpers/line_break_helpers.js';
+import {makeBoldHotkeyEvent, makeItalicHotkeyEvent, makeSelectionEvent} from 'tests/helpers/markdown_hotkey_helpers.js';
 import * as ua from 'tests/helpers/user_agent_mocks';
 
 describe('Utils.getDisplayNameByUser', () => {
@@ -793,5 +794,191 @@ describe('Utils.insertLineBreakFromKeyEvent', () => {
     });
     test('insertLineBreakFromKeyEvent returns with line break replacing (with selection range)', () => {
         expect(Utils.insertLineBreakFromKeyEvent(lineBreakHelpers.getReplaceEvent())).toBe(lineBreakHelpers.OUTPUT_REPLACE);
+    });
+});
+
+describe('Utils.applyHotkeyMarkdown', () => {
+    test('applyHotkeyMarkdown returns correct markdown for bold hotkey', () => {
+        // "Fafda" is selected with ctrl + B hotkey
+        const e = makeBoldHotkeyEvent('Jalebi Fafda & Sambharo', 7, 12);
+
+        expect(Utils.applyHotkeyMarkdown(e)).
+            toEqual({
+                message: 'Jalebi **Fafda** & Sambharo',
+                selectionStart: 9,
+                selectionEnd: 14,
+            });
+    });
+
+    test('applyHotkeyMarkdown returns correct markdown for undo bold', () => {
+        // "Fafda" is selected with ctrl + B hotkey
+        const e = makeBoldHotkeyEvent('Jalebi **Fafda** & Sambharo', 9, 14);
+
+        expect(Utils.applyHotkeyMarkdown(e)).
+            toEqual({
+                message: 'Jalebi Fafda & Sambharo',
+                selectionStart: 7,
+                selectionEnd: 12,
+            });
+    });
+
+    test('applyHotkeyMarkdown returns correct markdown for italic hotkey', () => {
+        // "Fafda" is selected with ctrl + I hotkey
+        const e = makeItalicHotkeyEvent('Jalebi Fafda & Sambharo', 7, 12);
+
+        expect(Utils.applyHotkeyMarkdown(e)).
+            toEqual({
+                message: 'Jalebi *Fafda* & Sambharo',
+                selectionStart: 8,
+                selectionEnd: 13,
+            });
+    });
+
+    test('applyHotkeyMarkdown returns correct markdown for undo italic', () => {
+        // "Fafda" is selected with ctrl + I hotkey
+        const e = makeItalicHotkeyEvent('Jalebi *Fafda* & Sambharo', 8, 13);
+
+        expect(Utils.applyHotkeyMarkdown(e)).
+            toEqual({
+                message: 'Jalebi Fafda & Sambharo',
+                selectionStart: 7,
+                selectionEnd: 12,
+            });
+    });
+
+    test('applyHotkeyMarkdown returns correct markdown for bold hotkey and empty', () => {
+        // Nothing is selected with ctrl + B hotkey and caret is just before "Fafda"
+        const e = makeBoldHotkeyEvent('Jalebi Fafda & Sambharo', 7, 7);
+
+        expect(Utils.applyHotkeyMarkdown(e)).
+            toEqual({
+                message: 'Jalebi ****Fafda & Sambharo',
+                selectionStart: 9,
+                selectionEnd: 9,
+            });
+    });
+
+    test('applyHotkeyMarkdown returns correct markdown for italic hotkey and empty', () => {
+        // Nothing is selected with ctrl + I hotkey and caret is just before "Fafda"
+        const e = makeItalicHotkeyEvent('Jalebi Fafda & Sambharo', 7, 7);
+
+        expect(Utils.applyHotkeyMarkdown(e)).
+            toEqual({
+                message: 'Jalebi **Fafda & Sambharo',
+                selectionStart: 8,
+                selectionEnd: 8,
+            });
+    });
+
+    test('applyHotkeyMarkdown returns correct markdown for italic with bold', () => {
+        // "Fafda" is selected with ctrl + I hotkey
+        const e = makeItalicHotkeyEvent('Jalebi **Fafda** & Sambharo', 9, 14);
+
+        expect(Utils.applyHotkeyMarkdown(e)).
+            toEqual({
+                message: 'Jalebi ***Fafda*** & Sambharo',
+                selectionStart: 10,
+                selectionEnd: 15,
+            });
+    });
+
+    test('applyHotkeyMarkdown returns correct markdown for bold with italic', () => {
+        // "Fafda" is selected with ctrl + B hotkey
+        const e = makeBoldHotkeyEvent('Jalebi *Fafda* & Sambharo', 8, 13);
+
+        expect(Utils.applyHotkeyMarkdown(e)).
+            toEqual({
+                message: 'Jalebi ***Fafda*** & Sambharo',
+                selectionStart: 10,
+                selectionEnd: 15,
+            });
+    });
+
+    test('applyHotkeyMarkdown returns correct markdown for bold with italic+bold', () => {
+        // "Fafda" is selected with ctrl + B hotkey
+        const e = makeBoldHotkeyEvent('Jalebi ***Fafda*** & Sambharo', 10, 15);
+
+        // Should undo bold
+        expect(Utils.applyHotkeyMarkdown(e)).
+            toEqual({
+                message: 'Jalebi *Fafda* & Sambharo',
+                selectionStart: 8,
+                selectionEnd: 13,
+            });
+    });
+
+    test('applyHotkeyMarkdown returns correct markdown for italic with italic+bold', () => {
+        // "Fafda" is selected with ctrl + I hotkey
+        const e = makeItalicHotkeyEvent('Jalebi ***Fafda*** & Sambharo', 10, 15);
+
+        // Should undo italic
+        expect(Utils.applyHotkeyMarkdown(e)).
+            toEqual({
+                message: 'Jalebi **Fafda** & Sambharo',
+                selectionStart: 9,
+                selectionEnd: 14,
+            });
+    });
+});
+
+describe('Utils.adjustSelection', () => {
+    test('adjustSelection fixes selection to correct text', () => {
+        // "_Fafda_" is selected
+        const e = makeSelectionEvent('Jalebi _Fafda_ and Sambharo', 7, 14);
+        const input = {
+            focus: jest.fn(),
+            setSelectionRange: jest.fn(),
+        };
+
+        Utils.adjustSelection(input, e);
+        expect(input.setSelectionRange).toHaveBeenCalledWith(8, 13);
+    });
+
+    test('adjustSelection does not fix selection when selected text does not end with "_"', () => {
+        // "_Fafda" is selected
+        const e = makeSelectionEvent('Jalebi _Fafda and Sambharo', 7, 13);
+        const input = {
+            focus: jest.fn(),
+            setSelectionRange: jest.fn(),
+        };
+
+        Utils.adjustSelection(input, e);
+        expect(input.setSelectionRange).not.toHaveBeenCalled();
+    });
+
+    test('adjustSelection does not fix selection when selected text does start end with "_"', () => {
+        // "Fafda_" is selected
+        const e = makeSelectionEvent('Jalebi Fafda_ and Sambharo', 7, 13);
+        const input = {
+            focus: jest.fn(),
+            setSelectionRange: jest.fn(),
+        };
+
+        Utils.adjustSelection(input, e);
+        expect(input.setSelectionRange).not.toHaveBeenCalled();
+    });
+
+    test('adjustSelection fixes selection at start of text', () => {
+        // "_Jalebi_" is selected
+        const e = makeSelectionEvent('_Jalebi_ Fafda and Sambharo', 0, 8);
+        const input = {
+            focus: jest.fn(),
+            setSelectionRange: jest.fn(),
+        };
+
+        Utils.adjustSelection(input, e);
+        expect(input.setSelectionRange).toHaveBeenCalledWith(1, 7);
+    });
+
+    test('adjustSelection fixes selection at end of text', () => {
+        // "_Sambharo_" is selected
+        const e = makeSelectionEvent('Jalebi Fafda and _Sambharo_', 17, 27);
+        const input = {
+            focus: jest.fn(),
+            setSelectionRange: jest.fn(),
+        };
+
+        Utils.adjustSelection(input, e);
+        expect(input.setSelectionRange).toHaveBeenCalledWith(18, 26);
     });
 });

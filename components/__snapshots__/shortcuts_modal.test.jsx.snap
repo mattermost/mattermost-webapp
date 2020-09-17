@@ -8,7 +8,7 @@ exports[`components/ShortcutsModal should match snapshot modal for Mac 1`] = `
       "defaultLocale": "en",
       "formatDate": [Function],
       "formatDateToParts": [Function],
-      "formatHTMLMessage": [Function],
+      "formatDisplayName": [Function],
       "formatList": [Function],
       "formatMessage": [Function],
       "formatNumber": [Function],
@@ -20,6 +20,7 @@ exports[`components/ShortcutsModal should match snapshot modal for Mac 1`] = `
       "formats": Object {},
       "formatters": Object {
         "getDateTimeFormat": [Function],
+        "getDisplayNames": [Function],
         "getListFormat": [Function],
         "getMessageFormat": [Function],
         "getNumberFormat": [Function],
@@ -104,7 +105,7 @@ exports[`components/ShortcutsModal should match snapshot modal for non-Mac like 
       "defaultLocale": "en",
       "formatDate": [Function],
       "formatDateToParts": [Function],
-      "formatHTMLMessage": [Function],
+      "formatDisplayName": [Function],
       "formatList": [Function],
       "formatMessage": [Function],
       "formatNumber": [Function],
@@ -116,6 +117,7 @@ exports[`components/ShortcutsModal should match snapshot modal for non-Mac like 
       "formats": Object {},
       "formatters": Object {
         "getDateTimeFormat": [Function],
+        "getDisplayNames": [Function],
         "getListFormat": [Function],
         "getMessageFormat": [Function],
         "getNumberFormat": [Function],

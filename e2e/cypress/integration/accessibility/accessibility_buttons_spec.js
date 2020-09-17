@@ -67,7 +67,7 @@ describe('Verify Accessibility Support in different Buttons', () => {
         // * Verify accessibility support in Recent Mentions button
         cy.get('#channelHeaderMentionButton').should('have.attr', 'aria-label', 'Recent mentions').and('have.class', 'a11y--active a11y--focused').tab();
 
-        // * Verify accessibility support in Flagged Posts button
+        // * Verify accessibility support in Saved Posts button
         cy.get('#channelHeaderFlagButton').should('have.attr', 'aria-label', 'Saved posts').and('have.class', 'a11y--active a11y--focused');
     });
 });

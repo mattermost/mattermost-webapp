@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+// Stage: @prod
 // Group: @multi_team_and_dm
 
 describe('Join an open team from a direct message link', () => {
@@ -31,8 +32,8 @@ describe('Join an open team from a direct message link', () => {
             });
 
             // # Create a public channel inside the open team
-            cy.apiCreateChannel(openTeam.id, 'open-team-channel', 'open-team-channel').then((response) => {
-                publicChannelInOpenTeam = response.body;
+            cy.apiCreateChannel(openTeam.id, 'open-team-channel', 'open-team-channel').then(({channel}) => {
+                publicChannelInOpenTeam = channel;
             });
 
             // # Create test user

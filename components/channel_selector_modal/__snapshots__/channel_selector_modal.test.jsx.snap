@@ -64,7 +64,6 @@ exports[`components/ChannelSelectorModal should match snapshot 1`] = `
         <FormattedMessage
           defaultMessage="Use ↑↓ to browse, ↵ to select."
           id="multiselect.selectChannels"
-          values={Object {}}
         />
       }
       optionRenderer={[Function]}
