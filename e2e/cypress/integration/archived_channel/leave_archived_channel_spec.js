@@ -40,4 +40,21 @@ describe('Leaving archived channels', () => {
             cy.url().should('include', '/channels/town-square');
         });
     });
+
+    it('MM-T1686 User can leave archived private channel', () => {
+        // # Create a new private channel
+        cy.apiCreateChannel(testTeam.id, 'channel', 'channel', 'P').then(({channel}) => {
+            // # Visit the channel
+            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+
+            // # Archive the channel
+            cy.uiArchiveChannel();
+
+            // # Leave the channel
+            cy.uiLeaveChannel(true);
+
+            // * Verify that we've switched to Town Square
+            cy.url().should('include', '/channels/town-square');
+        });
+    });
 });
