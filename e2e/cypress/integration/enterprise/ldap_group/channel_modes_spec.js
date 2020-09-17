@@ -45,8 +45,7 @@ describe('Test channel public/private toggle', () => {
             cy.get('#saveSetting').click();
             cy.get('#confirmModalButton').click();
             return cy.apiGetChannel(channel.id);
-        }).then((res) => {
-            const channel = res.body;
+        }).then(({channel}) => {
             assert(channel.type === 'P');
             cy.visit(`/admin_console/user_management/channels/${channel.id}`);
             cy.get('#channel_profile').contains(channel.display_name);
@@ -54,8 +53,7 @@ describe('Test channel public/private toggle', () => {
             cy.get('#saveSetting').click();
             cy.get('#confirmModalButton').click();
             return cy.apiGetChannel(channel.id);
-        }).then((res) => {
-            const channel = res.body;
+        }).then(({channel}) => {
             assert(channel.type === 'O');
         });
     });
