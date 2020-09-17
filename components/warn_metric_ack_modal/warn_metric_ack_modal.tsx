@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {CSSProperties} from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
@@ -22,6 +22,7 @@ import * as Utils from 'utils/utils.jsx';
 
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 import ErrorLink from 'components/error_page/error_link';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 type Props = {
     user: UserProfile;
