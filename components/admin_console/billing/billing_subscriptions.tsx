@@ -130,9 +130,6 @@ const BillingSubscriptions: React.FC<Props> = () => {
                                 <button>{'Right Side Test Button'}</button>
                             </OverlayTrigger>
                         </div>
-                        {/* <div style={{border: '1px solid #000', width: '332px', marginLeft: '20px'}}>
-                            {'Billing Summary Card / Upgrade Mattermost Cloud'}
-                        </div> */}
                         {upgradeMattermostCloud()}
                     </div>
                     <div style={{border: '1px solid #000', width: '100%', height: '217px', marginTop: '20px'}}>
