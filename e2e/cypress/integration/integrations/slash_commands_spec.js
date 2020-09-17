@@ -38,7 +38,7 @@ describe('Integrations', () => {
             testChannelUrl1 = `/${team.name}/channels/town-square`;
             cy.apiGetChannelByName(team1.name, 'town-square').then((response) => {
                 const channel = response.body;
-                commandURL = `${Cypress.env().webhookBaseUrl}/send_message_to_channel?channel_id=${channel.id}`
+                commandURL = `${Cypress.env().webhookBaseUrl}/send_message_to_channel?channel_id=${channel.id}`;
             });
 
             cy.apiCreateUser().then(({user: otherUser}) => {
