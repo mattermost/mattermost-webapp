@@ -4,7 +4,8 @@
 import React from 'react';
 
 import {storiesOf} from '@storybook/react';
-import {withKnobs, text} from '@storybook/addon-knobs';
+import {withKnobs, text, boolean, number} from '@storybook/addon-knobs';
+import {action} from '@storybook/addon-actions';
 
 import StoryGrid from 'storybook/story_grid';
 import StoryBox from 'storybook/story_box';
@@ -15,39 +16,39 @@ import ThreadFooter from './thread_footer';
 const staticProps = {
     users: [
         {
-            url: text('Image 1 url', '/api/v4/users/1/image?_=0'),
-            username: text('Username 1', 'johnny.depp'),
-            name: text('Fullname 1', 'Johnny Depp'),
+            url: '/api/v4/users/1/image?_=0',
+            username: 'jesus.espino',
+            name: 'Jesus Espino',
         },
         {
-            url: text('Image 2 url', '/api/v4/users/2/image?_=0'),
-            username: text('Username 2', 'winona.ryder'),
-            name: text('Fullname 2', 'Winona Ryder'),
+            url: '/api/v4/users/2/image?_=0',
+            username: 'johnny.depp',
+            name: 'Johnny Depp',
         },
         {
-            url: text('Image 3 url', '/api/v4/users/3/image?_=0'),
-            username: text('Username 3', 'dianne.wiest'),
-            name: text('Fullname 3', 'Dianne Wiest'),
+            url: '/api/v4/users/3/image?_=0',
+            username: 'bilbo.baggins',
+            name: 'Bilbo Baggins',
         },
         {
-            url: text('Image 4 url', '/api/v4/users/4/image?_=0'),
-            username: text('Username 4', 'michael.hall'),
-            name: text('Fullname 4', 'Anthony Michael Hall'),
+            url: '/api/v4/users/4/image?_=0',
+            username: 'michael.hall',
+            name: 'Anthony Michael Hall',
         },
         {
-            url: text('Image 5 url', '/api/v4/users/5/image?_=0'),
-            username: text('Username  5', 'kathy.baker'),
-            name: text('Fullname 5', 'Kathy Baker'),
+            url: '/api/v4/users/5/image?_=0',
+            username: 'kathy.baker',
+            name: 'Kathy Baker',
         },
         {
-            url: text('Image 6 url', '/api/v4/users/6/image?_=0'),
-            username: text('Username 6', 'vincent.price'),
-            name: text('Fullname 6', 'Vincent Price'),
+            url: '/api/v4/users/6/image?_=0',
+            username: 'vincent.price',
+            name: 'Vincent Price',
         },
         {
-            url: text('Image 7 url', '/api/v4/users/7/image?_=0'),
-            username: text('Username 7', 'alan.arkin'),
-            name: text('Fullname 7', 'Alan Arkin'),
+            url: '/api/v4/users/7/image?_=0',
+            username: 'alan.arkin',
+            name: 'Alan Arkin',
         },
     ],
 };
@@ -57,7 +58,10 @@ storiesOf('Thread View', module).
     add('Avatars, per size', () => (
         <StoryGrid>
             {['xs', 'sm', 'md', 'lg', 'xl', 'xxl'].map((size) => (
-                <StoryBox label={`size: ${size}`}>
+                <StoryBox
+                    key={size}
+                    label={`size: ${size}`}
+                >
                     <Avatars
                         size={size}
                         users={staticProps.users}
@@ -69,13 +73,16 @@ storiesOf('Thread View', module).
     )).
     add('ThreadFooter', () => (
         <StoryGrid>
-            <StoryBox label='default'>
+            <StoryBox>
                 <ThreadFooter
-                    repliers={staticProps.users}
-                    totalReplies={42}
-                    newReplies={5}
-                    isFollowing={false}
-                    lastReplyAt={1599838334920}
+                    repliers={staticProps.users.slice(0, number('number of repliers', 7))}
+                    totalReplies={number('total replies', 8)}
+                    newReplies={number('new/unread replies', 3)}
+                    lastReplyAt={text('last reply', new Date().toLocaleString())}
+                    isFollowing={boolean('is following', false)}
+                    startFollowing={action('start following')}
+                    stopFollowing={action('stop following')}
+                    requestOpenThread={action('open thread')}
                 />
             </StoryBox>
         </StoryGrid>

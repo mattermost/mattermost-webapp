@@ -7,6 +7,7 @@
     font-family: 'Open Sans';
     font-size: 12px;
     line-height: 15px;
+    white-space: nowrap;
 
     .indicator {
         padding: 8px;
@@ -27,7 +28,8 @@
         display: none;
     }
 
-    &:hover {
+    &:hover,
+    &.active {
         color: rgba(var(--button-bg-rgb), 1);
         .Icon {
             fill: rgba(var(--button-bg-rgb), 1);
@@ -40,17 +42,12 @@
         }
     }
 
-    .Button:hover ~ .ButtonSeparator {
-        visibility: hidden;
-    }
-
-
     .Timestamp {
-        padding: .5rem 1rem;
+        padding: 0 1rem;
     }
 }
 
-.ButtonSeparator {
+.VerticalSeparator {
     width: 1px;
     height: 15px;
     background: rgba(var(--center-channel-color-rgb), .16)

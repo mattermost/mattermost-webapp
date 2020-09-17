@@ -27,7 +27,7 @@ const Avatars: FC<Props> = ({size, breakAt = 3, users}: Props) => {
             {displayUsers.map(({name, ...user}) => (
                 <SimpleTooltip
                     key={user.url}
-                    id={'groupNameTooltip'}
+                    id={'nameTooltip'}
                     content={name}
                 >
                     <div>
@@ -40,7 +40,7 @@ const Avatars: FC<Props> = ({size, breakAt = 3, users}: Props) => {
             ))}
             {Boolean(others.length) && (
                 <SimpleTooltip
-                    id='groupNameTooltip'
+                    id='nameTooltip'
                     content={others.map((user) => user.name).join(', ')}
                 >
                     <div>

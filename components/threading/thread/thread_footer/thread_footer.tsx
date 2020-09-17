@@ -12,7 +12,6 @@ import Avatars from '../avatars';
 import Timestamp from 'components/timestamp';
 import SimpleTooltip from 'components/simple_tooltip';
 import ReplyIcon from 'components/widgets/icons/reply_icon';
-import FaAddIcon from 'components/widgets/icons/fa_add_icon';
 
 type Props = {
     repliers: ComponentProps<typeof Avatars>['users'];
@@ -20,6 +19,9 @@ type Props = {
     newReplies: number;
     lastReplyAt: ComponentProps<typeof Timestamp>['value'];
     isFollowing: boolean;
+    startFollowing: () => void;
+    stopFollowing: () => void;
+    requestOpenThread: () => void;
 };
 
 const ThreadFooter: FC<Props> = ({
@@ -28,96 +30,102 @@ const ThreadFooter: FC<Props> = ({
     newReplies = 0,
     lastReplyAt,
     isFollowing = null,
+    startFollowing: start,
+    stopFollowing: stop,
+    requestOpenThread: open,
 }) => {
+    const followingButton = isFollowing === true ? (
+        <button
+            className='Button Button___transparent'
+            onClick={() => stop()}
+        >
+            <span className='Button_label'>
+                <FormattedMessage
+                    id='threading.footer.following'
+                    defaultMessage='Following '
+                />
+            </span>
+
+        </button>
+    ) : (
+        <button
+            className='Button Button___transparent'
+            onClick={() => start()}
+        >
+            <span className='Button_label'>
+                <FormattedMessage
+                    id='threading.footer.notFollowing'
+                    defaultMessage='Follow'
+                />
+            </span>
+        </button>
+    );
+
+    if (!totalReplies) {
+        return (
+            <div className='ThreadFooter'>
+                {followingButton}
+            </div>
+        );
+    }
+
     return (
         <div className='ThreadFooter'>
-            <SimpleTooltip
-                id='threadFooterIndicator'
-                content={
-                    <FormattedMessage
-                        id='threading.footer.numNewMessages'
-                        defaultMessage='{unreads, plural, =0 {no unread messages} =1 {one unread message} other {# unread messages}}'
-                        values={{unreads: newReplies}}
-                    />
-                }
-            >
-                <div className='indicator'>
-                    <div className='dot-unread'/>
-                </div>
-            </SimpleTooltip>
-
+            {Boolean(newReplies) && <>
+                <SimpleTooltip
+                    id='threadFooterIndicator'
+                    content={
+                        <FormattedMessage
+                            id='threading.footer.numNewMessages'
+                            defaultMessage='{unreads, plural, =0 {no unread messages} =1 {one unread message} other {# unread messages}}'
+                            values={{unreads: newReplies}}
+                        />
+                    }
+                >
+                    <div className='indicator'>
+                        <div className='dot-unread'/>
+                    </div>
+                </SimpleTooltip>
+            </>}
             <Avatars
-                size='sm'
+                breakAt={repliers.length <= 4 ? 4 : 3}
                 users={repliers}
+                size='sm'
             />
 
-            <button className='Button Button___transparent'>
+            <button
+                className='Button Button___transparent'
+                onClick={() => open()}
+            >
                 <ReplyIcon className='Icon Icon___small Button_leftIcon'/>
                 <FormattedMessage
                     id='threading.footer.numReplies'
-                    defaultMessage='{count, plural, =0 {reply} other {# replies}}'
-                    values={{count: newReplies || totalReplies}}
+                    defaultMessage='{totalReplies, plural, =0 {reply} =1 {# reply} other {# replies}}'
+                    values={{totalReplies}}
                 />
             </button>
 
-            <div className='ButtonSeparator'/>
+            <div className='VerticalSeparator'/>
 
-            <div className='hover-visible'>
-                {isFollowing === true ? (
-                    <button className='Button Button___transparent'>
-                        <span className='Icon Icon___small Button_leftIcon'>
-                            <FaAddIcon/>
-                        </span>
-                        <span className='Button_label'>
-                            <FormattedMessage
-                                id='threading.footer.following'
-                                defaultMessage='Unfollow'
-                            />
-                        </span>
+            {followingButton}
 
-                    </button>
-                ) : (
-                    <button className='Button Button___transparent'>
-                        <span className='Icon Icon___small Button_leftIcon'>
-                            <FaAddIcon/>
-                        </span>
-                        <span className='Button_label'>
-                            <FormattedMessage
-                                id='threading.footer.notFollowing'
-                                defaultMessage='Follow'
-                            />
-                        </span>
-                    </button>
-                )
-                }
+            <div className='VerticalSeparator hover-visible'/>
 
-            </div>
-
-            <div className='hover-hidden'>
-                <Timestamp
-                    value={lastReplyAt}
-                    useTime={false}
-                    units={['minute', 'day']}
-                >
-                    {({formatted}, {relative}) => (
-                        <span className='Timestamp'>
-                            {relative ? (
-                                <FormattedMessage
-                                    id='threading.footer.lastReplyRelative'
-                                    defaultMessage='Last reply was {formatted}'
-                                    values={{formatted}}
-                                />
-                            ) : (
-                                <FormattedMessage
-                                    id='threading.footer.lastReplyAbsolute'
-                                    defaultMessage='Last reply on {formatted}'
-                                    values={{formatted}}
-                                />
-                            )}
-                        </span>
-                    )}
-                </Timestamp>
-            </div>
+            <Timestamp
+                value={lastReplyAt}
+                useTime={false}
+                units={['now', 'minute', 'hour', 'day']}
+            >
+                {({formatted}) => (
+                    <span className='Timestamp hover-visible'>
+                        <FormattedMessage
+                            id='threading.footer.lastReplyAt'
+                            defaultMessage='Last reply {formatted}'
+                            values={{formatted}}
+                        />
+                    </span>
+                )}
+            </Timestamp>
         </div>
     );
 };

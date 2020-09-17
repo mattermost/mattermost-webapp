@@ -38,7 +38,7 @@ type Props = ComponentProps<typeof Timestamp>;
 storiesOf('Timestamp', module).
     addDecorator(withKnobs).
     add('absolute', () => {
-        const value = text('value', new Date().toISOString());
+        const value = text('value', new Date().toLocaleString());
         return (
             <StoryGrid>
                 <StoryBox label='datetime'>
