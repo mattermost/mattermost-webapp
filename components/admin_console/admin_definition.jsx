@@ -50,12 +50,6 @@ import CustomTermsOfServiceSettings from './custom_terms_of_service_settings';
 import SessionLengthSettings from './session_length_settings';
 import LDAPFeatureDiscovery from './feature_discovery/ldap.tsx';
 import SAMLFeatureDiscovery from './feature_discovery/saml.tsx';
-import BillingSubscriptions from './billing/billing_subscriptions';
-import BillingHistory from './billing/billing_history';
-import CompanyInfo from './billing/company_info';
-import PaymentInfo from './billing/payment_info';
-import CompanyInfoEdit from './billing/company_info_edit';
-import PaymentInfoEdit from './billing/payment_info_edit';
 
 import * as DefinitionConstants from './admin_definition_constants';
 
