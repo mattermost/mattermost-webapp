@@ -56,13 +56,14 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
     }
 
     async componentDidMount() {
+        console.log(this.getIncompleteStep());
         await this.props.actions.getProfiles();
-        pageVisited(getAnalyticsCategory(this.props.isFirstAdmin), 'pageview_welcome');
-
-        // If all steps are complete, don't render this and skip to the tips screen
         if (this.getIncompleteStep() === null) {
             this.showFinalScreenNoAnimation();
         }
+        pageVisited(getAnalyticsCategory(this.props.isFirstAdmin), 'pageview_welcome');
+
+        // If all steps are complete, don't render this and skip to the tips screen
     }
 
     getStartingStep = () => {
@@ -99,6 +100,19 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
         };
     }
 
+    onSkipAll = async () => {
+        const finishedSteps = this.props.steps.map((step) => {
+            return {
+                user_id: this.props.currentUser.id,
+                category: Preferences.RECOMMENDED_NEXT_STEPS,
+                name: step.id,
+                value: 'true',
+            };
+        });
+        this.showFinalScreen();
+        this.props.actions.savePreferences(this.props.currentUser.id, finishedSteps);
+    }
+
     onFinish = (setExpanded: (expandedKey: string) => void) => {
         return async (id: string) => {
             const stepIndex = this.getStepNumberFromId(id);
@@ -117,7 +131,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
 
     showFinalScreenNoAnimation = () => {
         pageVisited(getAnalyticsCategory(this.props.isFirstAdmin), 'pageview_tips_next_steps');
-        this.setState({showFinalScreen: true});
+        this.setState({showFinalScreen: true, animating: false});
     }
 
     showFinalScreen = () => {
@@ -284,7 +298,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                         <div className='NextStepsView__skipGettingStarted'>
                             <button
                                 className='NextStepsView__button tertiary'
-                                onClick={this.showFinalScreen}
+                                onClick={this.onSkipAll}
                             >
                                 <FormattedMessage
                                     id='next_steps_view.skipGettingStarted'
@@ -302,6 +316,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
     }
 
     render() {
+        console.log(this.props);
         return (
             <section
                 id='app-content'
