@@ -1018,143 +1018,147 @@ export default class PluginManagement extends AdminSettings<Props, State> {
                     >
                         {this.renderEnablePluginsSetting()}
 
-                        <BooleanSetting
-                            id='requirePluginSignature'
-                            label={
-                                <FormattedMessage
-                                    id='admin.plugins.settings.requirePluginSignature'
-                                    defaultMessage='Require Plugin Signature:'
+                        { !this.props.config.ExperimentalSettings?.RestrictSystemAdmin && (
+                            <>
+                                <BooleanSetting
+                                    id='requirePluginSignature'
+                                    label={
+                                        <FormattedMessage
+                                            id='admin.plugins.settings.requirePluginSignature'
+                                            defaultMessage='Require Plugin Signature:'
+                                        />
+                                    }
+                                    helpText={
+                                        <FormattedMarkdownMessage
+                                            id='admin.plugins.settings.requirePluginSignatureDesc'
+                                            defaultMessage='When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](!https://mattermost.com/pl/default-plugin-signing) to learn more.'
+                                        />
+                                    }
+                                    value={this.state.requirePluginSignature}
+                                    disabled={this.props.isDisabled || !this.state.enable}
+                                    onChange={this.handleChange}
+                                    setByEnv={this.isSetByEnv('PluginSettings.RequirePluginSignature')}
                                 />
-                            }
-                            helpText={
-                                <FormattedMarkdownMessage
-                                    id='admin.plugins.settings.requirePluginSignatureDesc'
-                                    defaultMessage='When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](!https://mattermost.com/pl/default-plugin-signing) to learn more.'
+                                <BooleanSetting
+                                    id='automaticPrepackagedPlugins'
+                                    label={
+                                        <FormattedMessage
+                                            id='admin.plugins.settings.automaticPrepackagedPlugins'
+                                            defaultMessage='Enable Automatic Prepackaged Plugins:'
+                                        />
+                                    }
+                                    helpText={
+                                        <FormattedMarkdownMessage
+                                            id='admin.plugins.settings.automaticPrepackagedPluginsDesc'
+                                            defaultMessage='When true, automatically installs any prepackaged plugin found to be enabled in the server configuration.'
+                                        />
+                                    }
+                                    value={this.state.automaticPrepackagedPlugins}
+                                    disabled={this.props.isDisabled || !this.state.enable}
+                                    onChange={this.handleChange}
+                                    setByEnv={this.isSetByEnv('PluginSettings.AutomaticPrepackagedPlugins')}
                                 />
-                            }
-                            value={this.state.requirePluginSignature}
-                            disabled={this.props.isDisabled || !this.state.enable}
-                            onChange={this.handleChange}
-                            setByEnv={this.isSetByEnv('PluginSettings.RequirePluginSignature')}
-                        />
-                        <BooleanSetting
-                            id='automaticPrepackagedPlugins'
-                            label={
-                                <FormattedMessage
-                                    id='admin.plugins.settings.automaticPrepackagedPlugins'
-                                    defaultMessage='Enable Automatic Prepackaged Plugins:'
-                                />
-                            }
-                            helpText={
-                                <FormattedMarkdownMessage
-                                    id='admin.plugins.settings.automaticPrepackagedPluginsDesc'
-                                    defaultMessage='When true, automatically installs any prepackaged plugin found to be enabled in the server configuration.'
-                                />
-                            }
-                            value={this.state.automaticPrepackagedPlugins}
-                            disabled={this.props.isDisabled || !this.state.enable}
-                            onChange={this.handleChange}
-                            setByEnv={this.isSetByEnv('PluginSettings.AutomaticPrepackagedPlugins')}
-                        />
-                        <div className='form-group'>
-                            <label
-                                className='control-label col-sm-4'
-                            >
-                                <FormattedMessage
-                                    id='admin.plugin.uploadTitle'
-                                    defaultMessage='Upload Plugin: '
-                                />
-                            </label>
-                            <div className='col-sm-8'>
-                                <div className='file__upload'>
-                                    <button
-                                        className={classNames(['btn', {'btn-primary': enableUploads}])}
-                                        disabled={!enableUploadButton || this.props.isDisabled}
+                                <div className='form-group'>
+                                    <label
+                                        className='control-label col-sm-4'
                                     >
                                         <FormattedMessage
-                                            id='admin.plugin.choose'
-                                            defaultMessage='Choose File'
+                                            id='admin.plugin.uploadTitle'
+                                            defaultMessage='Upload Plugin: '
                                         />
-                                    </button>
-                                    <input
-                                        ref='fileInput'
-                                        type='file'
-                                        accept='.gz'
-                                        onChange={this.handleUpload}
-                                        disabled={!enableUploadButton || this.props.isDisabled}
-                                    />
+                                    </label>
+                                    <div className='col-sm-8'>
+                                        <div className='file__upload'>
+                                            <button
+                                                className={classNames(['btn', {'btn-primary': enableUploads}])}
+                                                disabled={!enableUploadButton || this.props.isDisabled}
+                                            >
+                                                <FormattedMessage
+                                                    id='admin.plugin.choose'
+                                                    defaultMessage='Choose File'
+                                                />
+                                            </button>
+                                            <input
+                                                ref='fileInput'
+                                                type='file'
+                                                accept='.gz'
+                                                onChange={this.handleUpload}
+                                                disabled={!enableUploadButton || this.props.isDisabled}
+                                            />
+                                        </div>
+                                        <button
+                                            className={btnClass}
+                                            id='uploadPlugin'
+                                            disabled={!this.state.fileSelected}
+                                            onClick={this.handleSubmitUpload}
+                                        >
+                                            {uploadButtonText}
+                                        </button>
+                                        <div className='help-text m-0'>
+                                            {fileName}
+                                        </div>
+                                        {serverError}
+                                        {lastMessage}
+                                        <p className='help-text'>
+                                            {uploadHelpText}
+                                        </p>
+                                    </div>
                                 </div>
-                                <button
-                                    className={btnClass}
-                                    id='uploadPlugin'
-                                    disabled={!this.state.fileSelected}
-                                    onClick={this.handleSubmitUpload}
-                                >
-                                    {uploadButtonText}
-                                </button>
-                                <div className='help-text m-0'>
-                                    {fileName}
-                                </div>
-                                {serverError}
-                                {lastMessage}
-                                <p className='help-text'>
-                                    {uploadHelpText}
-                                </p>
-                            </div>
-                        </div>
-                        <BooleanSetting
-                            id='enableMarketplace'
-                            label={
-                                <FormattedMessage
-                                    id='admin.plugins.settings.enableMarketplace'
-                                    defaultMessage='Enable Marketplace:'
+                                <BooleanSetting
+                                    id='enableMarketplace'
+                                    label={
+                                        <FormattedMessage
+                                            id='admin.plugins.settings.enableMarketplace'
+                                            defaultMessage='Enable Marketplace:'
+                                        />
+                                    }
+                                    helpText={
+                                        <FormattedMarkdownMessage
+                                            id='admin.plugins.settings.enableMarketplaceDesc'
+                                            defaultMessage='When true, enables System Administrators to install plugins from the [marketplace](!https://mattermost.com/pl/default-mattermost-marketplace.html).'
+                                        />
+                                    }
+                                    value={this.state.enableMarketplace}
+                                    disabled={this.props.isDisabled || !this.state.enable}
+                                    onChange={this.handleChange}
+                                    setByEnv={this.isSetByEnv('PluginSettings.EnableMarketplace')}
                                 />
-                            }
-                            helpText={
-                                <FormattedMarkdownMessage
-                                    id='admin.plugins.settings.enableMarketplaceDesc'
-                                    defaultMessage='When true, enables System Administrators to install plugins from the [marketplace](!https://mattermost.com/pl/default-mattermost-marketplace.html).'
+                                <BooleanSetting
+                                    id='enableRemoteMarketplace'
+                                    label={
+                                        <FormattedMessage
+                                            id='admin.plugins.settings.enableRemoteMarketplace'
+                                            defaultMessage='Enable Remote Marketplace:'
+                                        />
+                                    }
+                                    helpText={
+                                        <FormattedMarkdownMessage
+                                            id='admin.plugins.settings.enableRemoteMarketplaceDesc'
+                                            defaultMessage='When true, marketplace fetches latest plugins from the configured Marketplace URL.'
+                                        />
+                                    }
+                                    value={this.state.enableRemoteMarketplace}
+                                    disabled={this.props.isDisabled || !this.state.enable || !this.state.enableMarketplace}
+                                    onChange={this.handleChange}
+                                    setByEnv={this.isSetByEnv('PluginSettings.EnableRemoteMarketplace')}
                                 />
-                            }
-                            value={this.state.enableMarketplace}
-                            disabled={this.props.isDisabled || !this.state.enable}
-                            onChange={this.handleChange}
-                            setByEnv={this.isSetByEnv('PluginSettings.EnableMarketplace')}
-                        />
-                        <BooleanSetting
-                            id='enableRemoteMarketplace'
-                            label={
-                                <FormattedMessage
-                                    id='admin.plugins.settings.enableRemoteMarketplace'
-                                    defaultMessage='Enable Remote Marketplace:'
+                                <TextSetting
+                                    id={'marketplaceUrl'}
+                                    type={'input'}
+                                    label={
+                                        <FormattedMessage
+                                            id='admin.plugins.settings.marketplaceUrl'
+                                            defaultMessage='Marketplace URL:'
+                                        />
+                                    }
+                                    helpText={this.getMarketplaceUrlHelpText(this.state.marketplaceUrl)}
+                                    value={this.state.marketplaceUrl}
+                                    disabled={this.props.isDisabled || !this.state.enable || !this.state.enableMarketplace || !this.state.enableRemoteMarketplace}
+                                    onChange={this.handleChange}
+                                    setByEnv={this.isSetByEnv('PluginSettings.MarketplaceUrl')}
                                 />
-                            }
-                            helpText={
-                                <FormattedMarkdownMessage
-                                    id='admin.plugins.settings.enableRemoteMarketplaceDesc'
-                                    defaultMessage='When true, marketplace fetches latest plugins from the configured Marketplace URL.'
-                                />
-                            }
-                            value={this.state.enableRemoteMarketplace}
-                            disabled={this.props.isDisabled || !this.state.enable || !this.state.enableMarketplace}
-                            onChange={this.handleChange}
-                            setByEnv={this.isSetByEnv('PluginSettings.EnableRemoteMarketplace')}
-                        />
-                        <TextSetting
-                            id={'marketplaceUrl'}
-                            type={'input'}
-                            label={
-                                <FormattedMessage
-                                    id='admin.plugins.settings.marketplaceUrl'
-                                    defaultMessage='Marketplace URL:'
-                                />
-                            }
-                            helpText={this.getMarketplaceUrlHelpText(this.state.marketplaceUrl)}
-                            value={this.state.marketplaceUrl}
-                            disabled={this.props.isDisabled || !this.state.enable || !this.state.enableMarketplace || !this.state.enableRemoteMarketplace}
-                            onChange={this.handleChange}
-                            setByEnv={this.isSetByEnv('PluginSettings.MarketplaceUrl')}
-                        />
+                            </>
+                        )}
                         {pluginsContainer}
                     </SettingsGroup>
                     {overwriteUploadPluginModal}
