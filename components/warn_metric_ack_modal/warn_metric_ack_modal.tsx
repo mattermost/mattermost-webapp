@@ -12,7 +12,6 @@ import {ActionFunc} from 'mattermost-redux/types/actions';
 
 import {getSiteURL} from 'utils/url';
 import {Constants, ModalIdentifiers, WarnMetricTypes} from 'utils/constants';
-import {t} from 'utils/i18n';
 
 import {trackEvent} from 'actions/diagnostics_actions';
 import * as AdminActions from 'actions/admin_actions.jsx';
@@ -157,7 +156,7 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
                             link: (
                                 <WarnMetricAckErrorLink
                                     url={mailToLinkText}
-                                    messageId={t('warn_metric_ack_modal.mailto.link')}
+                                    messageId={'warn_metric_ack_modal.mailto.link'}
                                     forceAck={true}
                                     defaultMessage={'email us'}
                                     onClickHandler={this.onContactUsClick}
@@ -226,8 +225,8 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
                                 link: (
                                     <ErrorLink
                                         url={learnMoreLink}
-                                        messageId={t('warn_metric_ack_modal.learn_more.link')}
-                                        defaultMessage={'Learn More'}
+                                        messageId={'warn_metric_ack_modal.learn_more.link'}
+                                        defaultMessage='Learn more'
                                     />
                                 ),
                             }}
@@ -256,8 +255,8 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
                                 link: (
                                     <ErrorLink
                                         url={learnMoreLink}
-                                        messageId={t('warn_metric_ack_modal.learn_more.link')}
-                                        defaultMessage={'Learn More'}
+                                        messageId={'warn_metric_ack_modal.learn_more.link'}
+                                        defaultMessage='Learn more'
                                     />
                                 ),
                             }}
@@ -272,46 +271,50 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
 
         if (isE0Edition) {
             error = this.renderStartTrialError();
-            footer = (<Modal.Footer>
-                <button
-                    className='btn btn-primary save-button'
-                    data-dismiss='modal'
-                    disabled={this.state.gettingTrial}
-                    autoFocus={true}
-                    onClick={this.onRequestLicenseAndAckWarnMetricClick}
-                >
-                    <LoadingWrapper
-                        loading={this.state.gettingTrial}
-                        text={Utils.localizeMessage('admin.warn_metric.getting_trial', 'Getting trial')}
+            footer = (
+                <Modal.Footer>
+                    <button
+                        className='btn btn-primary save-button'
+                        data-dismiss='modal'
+                        disabled={this.state.gettingTrial}
+                        autoFocus={true}
+                        onClick={this.onRequestLicenseAndAckWarnMetricClick}
                     >
-                        <FormattedMessage
-                            id='warn_metric_ack_modal.start_trial'
-                            defaultMessage='Start trial'
-                        />
-                    </LoadingWrapper>
-                </button>
-            </Modal.Footer>);
+                        <LoadingWrapper
+                            loading={this.state.gettingTrial}
+                            text={Utils.localizeMessage('admin.warn_metric.getting_trial', 'Getting trial')}
+                        >
+                            <FormattedMessage
+                                id='warn_metric_ack_modal.start_trial'
+                                defaultMessage='Start trial'
+                            />
+                        </LoadingWrapper>
+                    </button>
+                </Modal.Footer>
+            );
         } else {
             error = this.renderContactUsError();
-            footer = (<Modal.Footer>
-                <button
-                    className='btn btn-primary save-button'
-                    data-dismiss='modal'
-                    disabled={this.state.saving}
-                    autoFocus={true}
-                    onClick={this.onContactUsClick}
-                >
-                    <LoadingWrapper
-                        loading={this.state.saving}
-                        text={Utils.localizeMessage('admin.warn_metric.sending-email', 'Sending email')}
+            footer = (
+                <Modal.Footer>
+                    <button
+                        className='btn btn-primary save-button'
+                        data-dismiss='modal'
+                        disabled={this.state.saving}
+                        autoFocus={true}
+                        onClick={this.onContactUsClick}
                     >
-                        <FormattedMessage
-                            id='warn_metric_ack_modal.contact_support'
-                            defaultMessage='Acknowledge'
-                        />
-                    </LoadingWrapper>
-                </button>
-            </Modal.Footer>);
+                        <LoadingWrapper
+                            loading={this.state.saving}
+                            text={Utils.localizeMessage('admin.warn_metric.sending-email', 'Sending email')}
+                        >
+                            <FormattedMessage
+                                id='warn_metric_ack_modal.contact_support'
+                                defaultMessage='Acknowledge'
+                            />
+                        </LoadingWrapper>
+                    </button>
+                </Modal.Footer>
+            );
         }
 
         return (

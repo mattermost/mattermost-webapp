@@ -10,8 +10,6 @@ import {isLicenseExpired, isLicenseExpiring, isLicensePastGracePeriod} from 'uti
 import {AnnouncementBarTypes, AnnouncementBarMessages, WarnMetricTypes} from 'utils/constants';
 import {intlShape} from 'utils/react_intl';
 
-import {t} from 'utils/i18n';
-
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import AnnouncementBar from '../default_announcement_bar';
@@ -76,7 +74,7 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
                                 src={ackIcon}
                             />
                             <FormattedMarkdownMessage
-                                id={t('announcement_bar.error.number_active_users_warn_metric_status_ack.text')}
+                                id={'announcement_bar.error.number_active_users_warn_metric_status_ack.text'}
                                 defaultMessage={'Your trial has started! Go to the [System Console](/admin_console/environment/web_server) to check out the new features.'}
                             />
                         </React.Fragment>
@@ -89,7 +87,7 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
                                 src={ackIcon}
                             />
                             <FormattedMarkdownMessage
-                                id={t('announcement_bar.warn_metric_status_ack.text')}
+                                id={'announcement_bar.warn_metric_status_ack.text'}
                                 defaultMessage={'Thank you for contacting Mattermost. We will follow up with you soon.'}
                             />
                         </React.Fragment>
@@ -110,7 +108,7 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
                                 src={alertIcon}
                             />
                             <FormattedMarkdownMessage
-                                id={t('announcement_bar.error.number_active_users_warn_metric_status.text')}
+                                id={'announcement_bar.error.number_active_users_warn_metric_status.text'}
                                 defaultMessage={'You now have over {limit} users. We strongly recommend using advanced features for large-scale servers.'}
                                 values={{
                                     limit: warnMetricStatus.limit,
@@ -126,7 +124,7 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
                                 src={alertIcon}
                             />
                             <FormattedMarkdownMessage
-                                id={t('announcement_bar.number_of_posts_warn_metric_status.text')}
+                                id={'announcement_bar.number_of_posts_warn_metric_status.text'}
                                 defaultMessage={'You now have over {limit} posts. We strongly recommend using advanced features for large-scale servers.'}
                                 values={{
                                     limit: warnMetricStatus.limit,
@@ -228,8 +226,8 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
                             handleClose={notice.DismissFunc}
                             type={notice.Type}
                             showModal={notice.ShowModal}
-                            modalButtonText={t('announcement_bar.error.warn_metric_status.link')}
-                            modalButtonDefaultText={'Learn More'}
+                            modalButtonText={'announcement_bar.error.warn_metric_status.link'}
+                            modalButtonDefaultText='Learn more'
                             warnMetricStatus={status}
                             message={notice.Message}
                         />
@@ -276,10 +274,10 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
             let id;
             let defaultMessage;
             if (this.props.config.EnableSignUpWithGitLab === 'true') {
-                id = t('announcement_bar.error.site_url_gitlab.full');
+                id = 'announcement_bar.error.site_url_gitlab.full';
                 defaultMessage = 'Please configure your [site URL](https://docs.mattermost.com/administration/config-settings.html#site-url) either on the [System Console](/admin_console/environment/web_server) or, if you\'re using GitLab Mattermost, in gitlab.rb.';
             } else {
-                id = t('announcement_bar.error.site_url.full');
+                id = 'announcement_bar.error.site_url.full';
                 defaultMessage = 'Please configure your [site URL](https://docs.mattermost.com/administration/config-settings.html#site-url) on the [System Console](/admin_console/environment/web_server).';
             }
 
