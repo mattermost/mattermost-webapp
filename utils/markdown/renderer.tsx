@@ -207,8 +207,10 @@ export default class Renderer extends marked.Renderer {
 
         output += `" href="${outHref}" rel="noreferrer"`;
 
+        const pluginURL = `${this.formattingOptions.siteURL}/plugins`;
+
         // Any link that begins with siteURL should be opened inside the app
-        let internalLink = outHref.startsWith(this.formattingOptions.siteURL || '');
+        let internalLink = outHref.startsWith(this.formattingOptions.siteURL || '') && (!outHref.startsWith(pluginURL));
 
         // special case for team invite links, channel links, and permalinks that are inside the app
         const pattern = new RegExp(
