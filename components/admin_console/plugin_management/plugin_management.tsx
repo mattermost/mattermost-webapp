@@ -1018,7 +1018,7 @@ export default class PluginManagement extends AdminSettings<Props, State> {
                     >
                         {this.renderEnablePluginsSetting()}
 
-                        { !this.props.config.ExperimentalSettings.RestrictSystemAdmin && (
+                        { !this.props.config.ExperimentalSettings?.RestrictSystemAdmin && (
                             <>
                                 <BooleanSetting
                                     id='requirePluginSignature'

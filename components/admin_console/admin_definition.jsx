@@ -5255,7 +5255,7 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.cloudBilling.desc'),
                         help_text_default: 'Show the new billing view for Cloud',
                         help_text_markdown: false,
-                        isHidden: true,
+                        isHidden: it.not(it.licensedForFeature('Cloud')),
                     },
                 ],
             },
