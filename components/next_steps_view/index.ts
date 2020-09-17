@@ -9,6 +9,7 @@ import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUser, isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 
 import {setShowNextStepsView} from 'actions/views/next_steps';
+import {closeRightHandSide} from 'actions/views/rhs';
 import {GlobalState} from 'types/store';
 import {Preferences} from 'utils/constants';
 
@@ -34,6 +35,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
         actions: bindActionCreators({
             savePreferences,
             setShowNextStepsView,
+            closeRightHandSide,
         }, dispatch),
     };
 }
