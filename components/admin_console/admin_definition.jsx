@@ -2451,7 +2451,6 @@ const AdminDefinition = {
                         label_default: 'Enable Open Server: ',
                         help_text: t('admin.team.openServerDescription'),
                         help_text_default: 'When true, anyone can signup for a user account on this server without the need to be invited.',
-                        isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
                         isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
                     },
                     {
