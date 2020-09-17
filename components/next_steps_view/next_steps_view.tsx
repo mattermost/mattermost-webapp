@@ -34,6 +34,7 @@ type Props = {
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => void;
         setShowNextStepsView: (show: boolean) => void;
+        closeRightHandSide: () => void;
         getProfiles: () => void;
     };
 };
@@ -63,6 +64,8 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
         if (this.getIncompleteStep() === null) {
             this.showFinalScreenNoAnimation();
         }
+
+        this.props.actions.closeRightHandSide();
     }
 
     getStartingStep = () => {

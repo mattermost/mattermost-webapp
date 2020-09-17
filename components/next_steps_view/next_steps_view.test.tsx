@@ -35,6 +35,7 @@ describe('components/next_steps_view', () => {
         actions: {
             setShowNextStepsView: jest.fn(),
             savePreferences: jest.fn(),
+            closeRightHandSide: jest.fn(),
             getProfiles: jest.fn(),
         },
     };
