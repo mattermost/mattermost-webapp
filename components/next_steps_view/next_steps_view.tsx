@@ -42,6 +42,7 @@ type State = {
     showFinalScreen: boolean;
     showTransitionScreen: boolean;
     animating: boolean;
+    show: boolean;
 }
 
 export default class NextStepsView extends React.PureComponent<Props, State> {
@@ -52,18 +53,24 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
             showFinalScreen: false,
             showTransitionScreen: false,
             animating: false,
+            show: false,
         };
     }
 
     async componentDidMount() {
         console.log(this.getIncompleteStep());
         await this.props.actions.getProfiles();
-        if (this.getIncompleteStep() === null) {
+        if (this.getIncompleteStep() === null || this.checkStepsSkipped()) {
             this.showFinalScreenNoAnimation();
         }
+        this.setState({show: true});
         pageVisited(getAnalyticsCategory(this.props.isFirstAdmin), 'pageview_welcome');
 
         // If all steps are complete, don't render this and skip to the tips screen
+    }
+
+    checkStepsSkipped = () => {
+        return this.props.preferences.some((pref) => pref.name === 'SKIPPED' && pref.value === 'true');
     }
 
     getStartingStep = () => {
@@ -101,16 +108,13 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
     }
 
     onSkipAll = async () => {
-        const finishedSteps = this.props.steps.map((step) => {
-            return {
-                user_id: this.props.currentUser.id,
-                category: Preferences.RECOMMENDED_NEXT_STEPS,
-                name: step.id,
-                value: 'true',
-            };
-        });
         this.showFinalScreen();
-        this.props.actions.savePreferences(this.props.currentUser.id, finishedSteps);
+        this.props.actions.savePreferences(this.props.currentUser.id, [{
+            user_id: this.props.currentUser.id,
+            category: Preferences.RECOMMENDED_NEXT_STEPS,
+            name: 'SKIPPED',
+            value: 'true',
+        }]);
     }
 
     onFinish = (setExpanded: (expandedKey: string) => void) => {
@@ -316,12 +320,12 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
     }
 
     render() {
-        console.log(this.props);
         return (
             <section
                 id='app-content'
                 className='app__content NextStepsView'
-            >
+            >{this.state.show &&
+            <>
                 <OnboardingBgSvg/>
                 {this.renderMainBody()}
                 {this.renderTransitionScreen()}
@@ -331,6 +335,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                     stopAnimating={this.stopAnimating}
                     isFirstAdmin={this.props.isFirstAdmin}
                 />
+            </>}
             </section>
         );
     }

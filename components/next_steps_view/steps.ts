@@ -123,7 +123,7 @@ export const showNextSteps = createSelector(
     (state: GlobalState) => getLicense(state),
     (state: GlobalState) => nextStepsNotFinished(state),
     (stepPreferences, license, nextStepsNotFinished) => {
-        if (stepPreferences.some((pref) => pref.name === RecommendedNextSteps.HIDE && pref.value === 'true')) {
+        if (stepPreferences.some((pref) => (pref.name === RecommendedNextSteps.HIDE && pref.value === 'true') || (pref.name === 'SKIPPED' && pref.value === 'true'))) {
             return false;
         }
 
@@ -132,6 +132,24 @@ export const showNextSteps = createSelector(
         }
 
         return nextStepsNotFinished;
+    },
+);
+
+export const showNextStepsTips = createSelector(
+    (state: GlobalState) => showNextSteps(state),
+    (state: GlobalState) => getCategory(state, Preferences.RECOMMENDED_NEXT_STEPS),
+    (state: GlobalState) => getLicense(state),
+    (showNextStepsView, stepPreferences, license) => {
+        if (stepPreferences.every((pref) => !(pref.name === RecommendedNextSteps.HIDE && pref.value === 'true') && (pref.name === 'SKIPPED' && pref.value === 'true'))) {
+            console.log('showNextStepsTips');
+            return true;
+        }
+
+        if (license.Cloud !== 'true') {
+            return false;
+        }
+
+        return true;
     },
 );
 
