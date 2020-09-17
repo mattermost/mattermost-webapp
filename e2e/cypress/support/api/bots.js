@@ -2,20 +2,17 @@
 // See LICENSE.txt for license information.
 
 // *****************************************************************************
-// Terms of service
-// https://api.mattermost.com/#tag/terms-of-service
+// Bots
+// https://api.mattermost.com/#tag/bots
 // *****************************************************************************
 
-Cypress.Commands.add('apiCreateTermsOfService', (text) => {
+Cypress.Commands.add('apiGetBots', () => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
-        url: '/api/v4/terms_of_service',
-        method: 'POST',
-        body: {
-            text,
-        },
+        url: '/api/v4/bots',
+        method: 'GET',
     }).then((response) => {
         expect(response.status).to.equal(200);
-        return cy.wrap(response.body);
+        return cy.wrap({bots: response.body});
     });
 });

@@ -60,7 +60,7 @@ describe('System Message', () => {
         });
     });
 
-    it('MM-T213 System message limited options', () => {
+    it('MM-T426 System messages wrap properly', () => {
         const newHeader = `${Date.now()} newheader`;
 
         // # Update channel header textbox

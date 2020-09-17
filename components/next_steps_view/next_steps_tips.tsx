@@ -82,10 +82,10 @@ const openAuthPage = (page: string, isAdmin: boolean) => {
     browserHistory.push(`/admin_console/authentication/${page}`);
 };
 
-export default function NextStepsTips(props: { showFinalScreen: boolean; animating: boolean; stopAnimating: () => void; isAdmin: boolean}) {
+export default function NextStepsTips(props: { showFinalScreen: boolean; animating: boolean; stopAnimating: () => void; isFirstAdmin: boolean}) {
     const dispatch = useDispatch();
     const openPluginMarketplace = () => {
-        trackEvent(getAnalyticsCategory(props.isAdmin), 'click_add_plugins');
+        trackEvent(getAnalyticsCategory(props.isFirstAdmin), 'click_add_plugins');
         openModal({modalId: ModalIdentifiers.PLUGIN_MARKETPLACE, dialogType: MarketplaceModal})(dispatch);
     };
     const openMoreChannels = openModal({modalId: ModalIdentifiers.MORE_CHANNELS, dialogType: MoreChannels});
@@ -95,7 +95,7 @@ export default function NextStepsTips(props: { showFinalScreen: boolean; animati
     });
 
     let nonMobileTips;
-    if (!Utils.isMobile() && props.isAdmin) {
+    if (!Utils.isMobile() && props.isFirstAdmin) {
         nonMobileTips = (
             <>
                 <Card expanded={true}>
@@ -122,15 +122,15 @@ export default function NextStepsTips(props: { showFinalScreen: boolean; animati
                             </button>
                             <Menu ariaLabel={Utils.localizeMessage('next_steps_view.tips.auth.menuAriaLabel', 'Configure Authentication Menu')}>
                                 <Menu.ItemAction
-                                    onClick={() => openAuthPage('oauth', props.isAdmin)}
+                                    onClick={() => openAuthPage('oauth', props.isFirstAdmin)}
                                     text={Utils.localizeMessage('next_steps_view.tips.auth.oauth', 'OAuth')}
                                 />
                                 <Menu.ItemAction
-                                    onClick={() => openAuthPage('saml', props.isAdmin)}
+                                    onClick={() => openAuthPage('saml', props.isFirstAdmin)}
                                     text={Utils.localizeMessage('next_steps_view.tips.auth.saml', 'SAML')}
                                 />
                                 <Menu.ItemAction
-                                    onClick={() => openAuthPage('ldap', props.isAdmin)}
+                                    onClick={() => openAuthPage('ldap', props.isFirstAdmin)}
                                     text={Utils.localizeMessage('next_steps_view.tips.auth.ldap', 'AD/LDAP')}
                                 />
                             </Menu>
@@ -162,7 +162,7 @@ export default function NextStepsTips(props: { showFinalScreen: boolean; animati
                 </Card>
             </>
         );
-    } else if (!Utils.isMobile() && !props.isAdmin) {
+    } else if (!Utils.isMobile() && !props.isFirstAdmin) {
         nonMobileTips = (
             <>
                 <Card expanded={true}>
@@ -244,13 +244,13 @@ export default function NextStepsTips(props: { showFinalScreen: boolean; animati
                     <div className='NextStepsView__downloadButtons'>
                         <button
                             className='NextStepsView__button NextStepsView__downloadForPlatformButton secondary'
-                            onClick={() => downloadLatest(props.isAdmin)}
+                            onClick={() => downloadLatest(props.isFirstAdmin)}
                         >
                             {getDownloadButtonString()}
                         </button>
                         <button
                             className='NextStepsView__button NextStepsView__downloadAnyButton tertiary'
-                            onClick={() => seeAllApps(props.isAdmin)}
+                            onClick={() => seeAllApps(props.isFirstAdmin)}
                         >
                             <FormattedMessage
                                 id='next_steps_view.seeAllTheApps'

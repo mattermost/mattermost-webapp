@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {bindActionCreators, Dispatch} from 'redux';
 
 import {getChannelStats} from 'mattermost-redux/actions/channels';
 import {
@@ -17,11 +17,15 @@ import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentRelativeTeamUrl, getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
+import {GlobalState} from 'mattermost-redux/types/store';
+
+import {GenericAction} from 'mattermost-redux/types/actions';
+
 import {removeUserFromTeamAndGetStats} from 'actions/team_actions.jsx';
 
-import TeamMembersDropdown from './team_members_dropdown.jsx';
+import TeamMembersDropdown from './team_members_dropdown';
 
-function mapStateToProps(state) {
+function mapStateToProps(state: GlobalState) {
     return {
         currentUser: getCurrentUser(state),
         currentChannelId: getCurrentChannelId(state),
@@ -30,7 +34,7 @@ function mapStateToProps(state) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
             getMyTeamMembers,
