@@ -285,7 +285,7 @@ describe('Customization', () => {
         // * Ensure that the custom branding img is not visible
         cy.get('img').should('not.be.visible');
 
-        // * Ensure tha the custom branding text is empty
+        // * Ensure that the custom branding text is empty
         cy.get('.signup__markdown').should('be.empty');
     });
 });
