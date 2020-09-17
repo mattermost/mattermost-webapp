@@ -1,0 +1,88 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/next_steps_view/steps/setup_preferences_step should match snapshot 1`] = `
+<ContextProvider
+  value={
+    Object {
+      "store": Object {
+        "clearActions": [Function],
+        "dispatch": [Function],
+        "getActions": [Function],
+        "getState": [Function],
+        "replaceReducer": [Function],
+        "subscribe": [Function],
+      },
+      "subscription": Subscription {
+        "handleChangeWrapper": [Function],
+        "listeners": Object {
+          "notify": [Function],
+        },
+        "onStateChange": [Function],
+        "parentSub": undefined,
+        "store": Object {
+          "clearActions": [Function],
+          "dispatch": [Function],
+          "getActions": [Function],
+          "getState": [Function],
+          "replaceReducer": [Function],
+          "subscribe": [Function],
+        },
+        "unsubscribe": null,
+      },
+    }
+  }
+>
+  <SetupPreferencesStep
+    currentUser={
+      Object {
+        "allow_marketing": false,
+        "auth_data": "",
+        "auth_service": "",
+        "bot_description": "",
+        "bot_last_icon_update": 0,
+        "create_at": 0,
+        "delete_at": 0,
+        "email": "",
+        "email_verified": true,
+        "failed_attempts": 0,
+        "first_name": "",
+        "id": "user_id",
+        "is_bot": false,
+        "last_activity_at": 0,
+        "last_name": "",
+        "last_password_update": 0,
+        "last_picture_update": 0,
+        "locale": "",
+        "mfa_active": false,
+        "mfa_secret": "",
+        "nickname": "",
+        "notify_props": Object {
+          "channel": "false",
+          "comments": "never",
+          "desktop": "default",
+          "desktop_sound": "false",
+          "email": "false",
+          "first_name": "false",
+          "mark_unread": "mention",
+          "mention_keys": "",
+          "push": "none",
+          "push_status": "offline",
+        },
+        "password": "",
+        "position": "",
+        "props": Object {},
+        "roles": "",
+        "terms_of_service_create_at": 0,
+        "terms_of_service_id": "",
+        "update_at": 0,
+        "username": "some-user",
+      }
+    }
+    expanded={true}
+    id="test"
+    isAdmin={false}
+    onFinish={[Function]}
+    onSkip={[Function]}
+  />
+</ContextProvider>
+`;
