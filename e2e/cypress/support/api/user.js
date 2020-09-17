@@ -17,7 +17,12 @@ Cypress.Commands.add('apiLogin', (user) => {
         body: {login_id: user.username, password: user.password},
     }).then((response) => {
         expect(response.status).to.equal(200);
-        return cy.wrap({user: response.body});
+        return cy.wrap({
+            user: {
+                ...response.body,
+                password: user.password,
+            },
+        });
     });
 });
 
