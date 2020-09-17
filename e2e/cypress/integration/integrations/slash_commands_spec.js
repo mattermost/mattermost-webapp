@@ -29,7 +29,6 @@ describe('Integrations', () => {
         cy.apiUpdateConfig({
             ServiceSettings: {
                 EnableLinkPreviews: true,
-                EnableOnlyAdminIntegrations: false,
             },
         });
 
@@ -152,7 +151,7 @@ describe('Integrations', () => {
     });
 
     it('MM-T705 Ephemeral message', () => {
-        cy.apiLogin(user1);
+        cy.apiAdminLogin();
         cy.visit(testChannelUrl1);
 
         // # Navigate to slash commands and create the slash command
