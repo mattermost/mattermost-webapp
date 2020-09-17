@@ -63,10 +63,10 @@ describe('Channel switching', () => {
 
         // # Create a new channel
         cy.getCurrentTeamId().then((teamId) => {
-            cy.apiCreateChannel(teamId, 'test-channel', 'Test Channel').then((response) => {
+            cy.apiCreateChannel(teamId, 'test-channel', 'Test Channel').then(({channel}) => {
                 // # Have another user post a message in the new channel
                 cy.reload();
-                cy.postMessageAs({sender: sysadmin, message: 'Test', channelId: response.body.id});
+                cy.postMessageAs({sender: sysadmin, message: 'Test', channelId: channel.id});
             });
         });
 
