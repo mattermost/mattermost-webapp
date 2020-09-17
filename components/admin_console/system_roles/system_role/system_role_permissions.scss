@@ -1,0 +1,108 @@
+@import 'utils/variables';
+
+.SystemRolePermissions {
+    padding: 2rem 2rem 2rem 2rem;
+    background: #F5F5F5;
+    color: rgba(var(--sys-center-channel-color-rgb), 0.87);
+
+    .PermissionSection {
+        height: 84px;
+
+        &:nth-child(even) {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        display: flex;
+        flex-direction: row;
+
+        .PermissionSectionText {
+            margin-top: 10px;
+            padding: 14px 16px;
+            align-content: flex-start;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 3;
+
+            .PermissionSectionText_title {
+                font-size: 14px;
+            }
+
+            .PermissionSectionText_description {
+                font-size: 12px;
+            }
+        }
+
+        .PermissionSectionDropdown {
+            padding: 26px 16px;
+
+            .MenuWrapper {
+                background: rgba(var(--sys-center-channel-color-rgb), 0.04);
+                border: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.16);
+                box-sizing: border-box;
+                border-radius: 4px;
+            }
+        }
+    }
+
+    .SystemRolePermissionDropdownButton {
+        background: var(--sys-center-channel-bg);
+        border: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.16);
+        box-sizing: border-box;
+        border-radius: 4px;
+        width: 132px;
+        height: 32px;
+        display: flex;
+        justify-content: space-between;
+
+        font-style: normal;
+        font-weight: normal;
+        font-size: 12px;
+        line-height: 28px;
+        color: var(--sys-center-channel-color);
+        padding: 1px 0px 1px 4px;
+
+        &:hover {
+            border: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.48);
+        }
+
+        .SystemRolePermissionDropdownButton_text {
+            text-align: left;
+            padding-left: 8px;
+            flex-grow: 3;
+            max-width: 230px;
+            overflow-x: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .SystemRolePermissionDropdownButton_more {
+            color: rgba(var(--sys-center-channel-color-rgb), 0.6);
+            margin-right: 8px;
+        }
+
+        .SystemRolePermissionDropdownButton_icon {
+            min-width: 32px;
+            height: 31px;
+            border-left: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.16);
+            margin-top: -1px;
+            .Icon {
+                display: flex;
+                width: 14px;
+                height: 14px;
+                padding-top: 8px;
+                margin-left: 6px;
+                margin-right: 0;
+            }
+        }
+    }
+
+    .SystemRolePermissionDropdownOptions {
+        .SystemRolePermissionDropdownOptions_label {
+            font-size: 14px;
+            color: var(--sys-center-channel-color);
+        }
+        .SystemRolePermissionDropdownOptions_description {
+            font-size: 12px;
+            color: rgba(var(--sys-center-channel-color-rgb), 0.56);
+        }
+    }
+}

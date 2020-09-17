@@ -28,6 +28,8 @@ import LicenseSettings from './license_settings';
 import PermissionSchemesSettings from './permission_schemes_settings';
 import PermissionSystemSchemeSettings from './permission_schemes_settings/permission_system_scheme_settings';
 import PermissionTeamSchemeSettings from './permission_schemes_settings/permission_team_scheme_settings';
+import SystemRoles from './system_roles';
+import SystemRole from './system_roles/system_role';
 import SystemUsers from './system_users';
 import SystemUserDetail from './system_user_detail';
 import ServerLogs from './server_logs';
@@ -492,6 +494,29 @@ const AdminDefinition = {
             schema: {
                 id: 'PermissionSchemes',
                 component: PermissionSchemesSettings,
+            },
+        },
+        system_role: {
+            url: 'user_management/system_roles/:role_id',
+            isDisabled: it.not(it.userHasWritePermissionOnResource('user_management.permissions')),
+            schema: {
+                id: 'SystemRole',
+                component: SystemRole,
+            },
+        },
+        system_roles: {
+            url: 'user_management/system_roles',
+            title: t('admin.sidebar.systemRoles'),
+            title_default: 'System Roles',
+            searchableStrings: [],
+            isHidden: it.any(
+                it.not(it.licensed),
+                it.not(it.userHasReadPermissionOnResource('user_management.permissions')),
+            ),
+            isDisabled: it.not(it.userHasWritePermissionOnResource('user_management.permissions')),
+            schema: {
+                id: 'SystemRoles',
+                component: SystemRoles,
             },
         },
     },
