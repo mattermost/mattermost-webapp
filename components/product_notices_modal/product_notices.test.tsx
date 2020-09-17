@@ -5,7 +5,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import GenericModal from 'components/generic_modal';
-import {isDesktopApp} from 'utils/user_agent';
+import {isDesktopApp, getDesktopVersion} from 'utils/user_agent';
 
 import ProductNoticesModal from './product_notices_modal';
 
@@ -126,21 +126,6 @@ describe('ProductNoticesModal', () => {
         expect(wrapper.state('presentNoticeIndex')).toEqual(0);
     });
 
-    test('Should call for getInProductNotices with desktop as client if isDesktopApp returns true', () => {
-        Object.defineProperty(global, 'window', {
-            value: {
-                desktop: {
-                    version: '1.4.1',
-                },
-            },
-        });
-
-        (isDesktopApp as any).mockResolvedValueOnce(() => true);
-
-        shallow(<ProductNoticesModal {...baseProps}/>);
-        expect(baseProps.actions.getInProductNotices).toHaveBeenCalledWith(baseProps.currentTeamId, 'desktop', '1.4.1');
-    });
-
     test('Should call for getInProductNotices if socket reconnects for the first time in a day', () => {
         const wrapper = shallow(<ProductNoticesModal {...baseProps}/>);
         Date.now = jest.fn().mockReturnValue(1599807605628);
@@ -160,6 +145,13 @@ describe('ProductNoticesModal', () => {
 
         expect(baseProps.actions.getInProductNotices).toHaveBeenCalledWith(baseProps.currentTeamId, 'web', baseProps.version);
         expect(baseProps.actions.getInProductNotices).toHaveBeenCalledTimes(2);
+    });
+
+    test('Should call for getInProductNotices with desktop as client if isDesktopApp returns true', () => {
+        (getDesktopVersion as any).mockReturnValue('4.5.0');
+        (isDesktopApp as any).mockReturnValue(true);
+        shallow(<ProductNoticesModal {...baseProps}/>);
+        expect(baseProps.actions.getInProductNotices).toHaveBeenCalledWith(baseProps.currentTeamId, 'desktop', '4.5.0');
     });
 
     test('Should not call for getInProductNotices if socket reconnects on the same day', () => {

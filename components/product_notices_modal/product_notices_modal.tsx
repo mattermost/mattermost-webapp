@@ -13,17 +13,9 @@ import NextIcon from 'components/widgets/icons/fa_next_icon';
 import PreviousIcon from 'components/widgets/icons/fa_previous_icon';
 import AdminEyeIcon from 'components/widgets/icons/admin_eye_icon';
 
-import {isDesktopApp} from 'utils/user_agent';
+import {isDesktopApp, getDesktopVersion} from 'utils/user_agent';
 
 import './product_notices_modal.scss';
-
-declare global {
-    interface Window {
-        desktop: {
-            version: string;
-        };
-    }
-}
 
 type Props = {
     version: string;
@@ -80,16 +72,18 @@ export default class ProductNoticesModal extends React.PureComponent<Props, Stat
         let clientVersion = version;
         if (isDesktopApp()) {
             client = 'desktop';
-            clientVersion = window.desktop.version;
+            clientVersion = getDesktopVersion();
         }
 
         const {data} = await this.props.actions.getInProductNotices(currentTeamId, client, clientVersion);
         this.setState({
             noticesData: data,
         });
-        const presentNoticeInfo = this.state.noticesData[this.state.presentNoticeIndex];
 
-        this.props.actions.updateNoticeAsViewed([presentNoticeInfo.id]);
+        if (data.length) {
+            const presentNoticeInfo = this.state.noticesData[this.state.presentNoticeIndex];
+            this.props.actions.updateNoticeAsViewed([presentNoticeInfo.id]);
+        }
     }
 
     private confirmButtonText(presentNoticeInfo: ProductNotice) {
