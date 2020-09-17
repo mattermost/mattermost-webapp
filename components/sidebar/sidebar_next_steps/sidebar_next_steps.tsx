@@ -9,8 +9,8 @@ import {PreferenceType} from 'mattermost-redux/types/preferences';
 
 import {trackEvent} from 'actions/diagnostics_actions';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
-import {StepType} from 'components/next_steps_view/steps';
-import {getAnalyticsCategory} from 'components/next_steps_view/step_helpers';
+import {StepType} from 'components/cloud_onboarding/steps';
+import {getAnalyticsCategory} from 'components/cloud_onboarding/step_helpers';
 import ProgressBar from 'components/progress_bar';
 import {ModalIdentifiers, RecommendedNextSteps, Preferences} from 'utils/constants';
 import {localizeMessage} from 'utils/utils';

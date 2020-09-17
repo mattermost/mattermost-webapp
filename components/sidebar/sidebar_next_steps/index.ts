@@ -8,11 +8,11 @@ import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId, getCurrentUser, isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 
-import {getSteps} from '../../next_steps_view/steps';
+import {getSteps} from '../../cloud_onboarding/steps';
 
 import {openModal, closeModal} from 'actions/views/modals';
 import {setShowNextStepsView} from 'actions/views/next_steps';
-import {showNextSteps} from 'components/next_steps_view/steps';
+import {showNextSteps} from 'components/cloud_onboarding/steps';
 import {GlobalState} from 'types/store';
 import {Preferences} from 'utils/constants';
 

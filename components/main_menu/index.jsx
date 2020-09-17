@@ -24,7 +24,7 @@ import {showMentions, showFlaggedPosts, closeRightHandSide, closeMenu as closeRh
 import {openModal} from 'actions/views/modals';
 import {getRhsState} from 'selectors/rhs';
 
-import {nextStepsNotFinished} from 'components/next_steps_view/steps';
+import {nextStepsNotFinished} from 'components/cloud_onboarding/steps';
 
 import MainMenu from './main_menu.jsx';
 

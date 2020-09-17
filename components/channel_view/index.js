@@ -11,13 +11,16 @@ import {getRoles} from 'mattermost-redux/selectors/entities/roles_helpers';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {withRouter} from 'react-router-dom';
+import {
+    getProfiles,
+} from 'mattermost-redux/actions/users';
 
 import {getDirectTeammate} from 'utils/utils.jsx';
 import {TutorialSteps, Preferences} from 'utils/constants';
 
 import {goToLastViewedChannel} from 'actions/views/channel';
 import {setShowNextStepsView} from 'actions/views/next_steps';
-import {showNextSteps} from 'components/next_steps_view/steps';
+import {showNextSteps} from 'components/cloud_onboarding/steps';
 
 import ChannelView from './channel_view.jsx';
 
@@ -72,6 +75,7 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             setShowNextStepsView,
             goToLastViewedChannel,
+            getProfiles,
         }, dispatch),
     };
 }

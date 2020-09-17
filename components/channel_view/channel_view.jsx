@@ -10,7 +10,7 @@ import deferComponentRender from 'components/deferComponentRender';
 import ChannelHeader from 'components/channel_header';
 import CreatePost from 'components/create_post';
 import FileUploadOverlay from 'components/file_upload_overlay';
-import NextStepsView from 'components/next_steps_view';
+import CloudOnboarding from 'components/cloud_onboarding';
 import PostView from 'components/post_view';
 import TutorialView from 'components/tutorial';
 import {clearMarks, mark, measure, trackEvent} from 'actions/diagnostics_actions.jsx';
@@ -37,6 +37,7 @@ export default class ChannelView extends React.PureComponent {
             setShowNextStepsView: PropTypes.func.isRequired,
         }),
         isCloud: PropTypes.bool.isRequired,
+        getProfiles: PropTypes.func,
     };
 
     static createDeferredPostView = () => {
@@ -97,8 +98,9 @@ export default class ChannelView extends React.PureComponent {
         this.props.actions.goToLastViewedChannel();
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         if (this.props.showNextSteps) {
+            await this.props.actions.getProfiles();
             this.props.actions.setShowNextStepsView(true);
         }
     }
@@ -144,7 +146,7 @@ export default class ChannelView extends React.PureComponent {
 
         if (this.props.showNextStepsEphemeral && this.props.isCloud) {
             return (
-                <NextStepsView/>
+                <CloudOnboarding/>
             );
         }
 
