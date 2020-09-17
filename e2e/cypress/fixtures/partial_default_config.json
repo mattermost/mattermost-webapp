@@ -473,6 +473,9 @@
         "PluginStates": {
             "com.mattermost.nps": {
                 "Enable": false
+            },
+            "com.mattermost.plugin-incident-response": {
+                "Enable": false
             }
         },
         "EnableMarketplace": true,

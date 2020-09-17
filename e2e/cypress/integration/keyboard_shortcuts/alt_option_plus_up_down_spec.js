@@ -28,11 +28,11 @@ describe('Keyboard Shortcuts', () => {
                 testTeam = team;
                 publicChannel = channel;
 
-                cy.apiCreateChannel(testTeam.id, 'private-a', 'Private B', 'P').then((channelResponse) => {
-                    privateChannel = channelResponse.body;
+                cy.apiCreateChannel(testTeam.id, 'private-a', 'Private B', 'P').then((out) => {
+                    privateChannel = out.channel;
                 });
-                cy.apiCreateDirectChannel([sysadmin.id, user.id]).then((response) => {
-                    dmWithSysadmin = response.body;
+                cy.apiCreateDirectChannel([sysadmin.id, user.id]).then((out) => {
+                    dmWithSysadmin = out.channel;
                     dmWithSysadmin.name = sysadmin.username;
                     dmWithSysadmin.display_name = sysadmin.username;
                 });
