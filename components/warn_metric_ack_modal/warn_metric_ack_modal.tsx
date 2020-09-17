@@ -48,6 +48,12 @@ type State = {
     saving: boolean;
 }
 
+const containerStyles: CSSProperties = {
+    display: 'flex',
+    opacity: '0.56',
+    flexWrap: 'wrap',
+};
+
 export default class WarnMetricAckModal extends React.PureComponent<Props, State> {
     public constructor(props: Props) {
         super(props);
@@ -179,7 +185,7 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
             <div className='form-group has-error'>
                 <br/>
                 <label className='control-label'>
-                    <FormattedMessage
+                    <FormattedMarkdownMessage
                         id='warn_metric_ack_modal.error.body'
                         defaultMessage='The license could not be retrieved. Please try again or visit https://mattermost.com/trial/ to request a license.'
                     />
@@ -215,7 +221,7 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
                 );
                 subText = (
                     <div
-                        style={{display: 'flex', opacity: '0.56', flexWrap: 'wrap'}}
+                        style={containerStyles}
                         className='help__format-text'
                     >
                         <FormattedMessage
@@ -245,7 +251,7 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
                 );
                 subText = (
                     <div
-                        style={{display: 'flex', opacity: '0.56', flexWrap: 'wrap'}}
+                        style={containerStyles}
                         className='help__format-text'
                     >
                         <FormattedMessage

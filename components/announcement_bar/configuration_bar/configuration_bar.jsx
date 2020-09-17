@@ -86,7 +86,7 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
                                 className='advisor-icon'
                                 src={ackIcon}
                             />
-                            <FormattedMarkdownMessage
+                            <FormattedMessage
                                 id={'announcement_bar.warn_metric_status_ack.text'}
                                 defaultMessage={'Thank you for contacting Mattermost. We will follow up with you soon.'}
                             />
