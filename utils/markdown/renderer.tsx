@@ -209,7 +209,8 @@ export default class Renderer extends marked.Renderer {
 
         const pluginURL = `${this.formattingOptions.siteURL}/plugins`;
 
-        // Any link that begins with siteURL should be opened inside the app
+         // Any link that begins with siteURL should be opened inside the app, except when rooted
+         // at /plugins, which is logically "outside the app" despite being hosted by a plugin.
         let internalLink = outHref.startsWith(this.formattingOptions.siteURL || '') && (!outHref.startsWith(pluginURL));
 
         // special case for team invite links, channel links, and permalinks that are inside the app
