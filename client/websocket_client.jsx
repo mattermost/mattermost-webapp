@@ -156,12 +156,15 @@ export default class WebSocketClient {
         this.closeCallback = callback;
     }
 
-    close() {
+    close(autoRetries = false) {
         this.connectFailCount = 0;
         this.sequence = 1;
+
         if (this.conn && this.conn.readyState === WebSocket.OPEN) {
             this.clearPingPong();
-            this.conn.onclose = () => {}; //eslint-disable-line no-empty-function
+            if (!autoRetries) {
+                this.conn.onclose = () => {}; //eslint-disable-line no-empty-function
+            }
             this.conn.close();
             this.conn = null;
             console.log('websocket closed'); //eslint-disable-line no-console
@@ -222,6 +225,7 @@ export default class WebSocketClient {
 
     waitForPong() {
         this.pongTimer = setTimeout(() => {
+            this.close(true);
             this.conn.onclose();
         }, PONG_WAIT_TIME);
     }
