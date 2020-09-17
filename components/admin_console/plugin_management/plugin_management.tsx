@@ -1157,7 +1157,8 @@ export default class PluginManagement extends AdminSettings<Props, State> {
                                     onChange={this.handleChange}
                                     setByEnv={this.isSetByEnv('PluginSettings.MarketplaceUrl')}
                                 />
-                            </>)}
+                            </>)
+                            }
                         {pluginsContainer}
                     </SettingsGroup>
                     {overwriteUploadPluginModal}
