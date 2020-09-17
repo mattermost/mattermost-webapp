@@ -2,32 +2,26 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {History} from 'history';
-import {Stripe, StripeElements} from '@stripe/stripe-js';
-import {ElementsConsumer} from '@stripe/react-stripe-js';
+import {Stripe} from '@stripe/stripe-js';
 
-import IconMessage from '../../icon_message';
 import {BillingDetails} from 'types/sku';
 
-import processSvg from 'images/payment-processing.svg';
-import successSvg from 'images/payment-success.svg';
-import failedSvg from 'images/payment-failed.svg';
+import successSvg from 'images/cloud/payment_success.svg';
+import failedSvg from 'images/cloud/payment_fail.svg';
+
+import processSvg from 'images/cloud/processing_payment.svg';
 
 import './process_payment.css';
-import {injectIntl} from 'react-intl';
-import {IntlProps} from 'types/ui';
 
-type OwnProps = IntlProps & {
-    history: History;
-    billingDetails: BillingDetails | null;
-    completeStripePayment: Function;
-    back: Function;
-}
+import IconMessage from './icon_message';
 
 type Props = {
-    elements: StripeElements | null | undefined;
-    stripe: Stripe | null | undefined;
-} & OwnProps;
+    billingDetails: BillingDetails | null;
+    stripe: Promise<Stripe>;
+    addPaymentMethod: Function;
+    onBack: Function;
+    onClose: Function;
+}
 
 type State = {
     progress: number;
@@ -44,7 +38,7 @@ enum ProcessState {
 const MIN_PROCESSING_MILLISECONDS = 5000;
 const MAX_FAKE_PROGRESS = 95;
 
-class ProcessPayment extends React.PureComponent<Props, State> {
+export default class ProcessPaymentSetup extends React.PureComponent<Props, State> {
     intervalId: NodeJS.Timeout;
 
     public constructor(props: Props) {
@@ -60,22 +54,13 @@ class ProcessPayment extends React.PureComponent<Props, State> {
     }
 
     public componentDidMount() {
-        const {billingDetails} = this.props;
-        if (billingDetails == null) {
-            this.handleGoBack();
-            return;
-        }
-
-        this.makePayment();
+        this.savePaymentMethod();
 
         this.intervalId = setInterval(this.updateProgress, MIN_PROCESSING_MILLISECONDS / MAX_FAKE_PROGRESS);
-
-        document.getElementsByTagName('body')[0].classList.add('ProcessPayment-body');
     }
 
     public componentWillUnmount() {
         clearInterval(this.intervalId);
-        document.getElementsByTagName('body')[0].classList.remove('ProcessPayment-body');
     }
 
     private updateProgress = () => {
@@ -90,11 +75,12 @@ class ProcessPayment extends React.PureComponent<Props, State> {
         this.setState({progress: progress > MAX_FAKE_PROGRESS ? MAX_FAKE_PROGRESS : progress});
     }
 
-    private makePayment = async () => {
+    private savePaymentMethod = async () => {
         const start = new Date();
-        const {stripe, completeStripePayment} = this.props;
+        const {stripe, addPaymentMethod, billingDetails} = this.props;
 
-        const {error} = await completeStripePayment(stripe);
+        const {error} = await addPaymentMethod(stripe, billingDetails);
+
         if (error) {
             this.setState({error, state: ProcessState.FAILED});
             return;
@@ -115,10 +101,6 @@ class ProcessPayment extends React.PureComponent<Props, State> {
         this.setState({state: ProcessState.SUCCESS, progress: 100});
     }
 
-    private handleViewLicense = () => {
-        this.props.history.push('/console');
-    }
-
     private handleGoBack = () => {
         clearInterval(this.intervalId);
         this.setState({
@@ -126,12 +108,13 @@ class ProcessPayment extends React.PureComponent<Props, State> {
             error: '',
             state: ProcessState.PROCESSING,
         });
-        this.props.back();
+        this.props.onBack();
     }
 
     public render() {
         const {state, progress, error} = this.state;
-        const {formatMessage} = this.props.intl;
+
+        // const {formatMessage} = this.props.intl;
         const progressBar: JSX.Element | null = (
             <div className='ProcessPayment-progress'>
                 <div
@@ -145,8 +128,8 @@ class ProcessPayment extends React.PureComponent<Props, State> {
         case ProcessState.PROCESSING:
             return (
                 <IconMessage
-                    title={formatMessage({id: 'process_payment.processing'})}
-                    subtitle={formatMessage({id: 'process_payment.please_wait'})}
+                    title={'Verifying your payment information'} //ormatMessage({id: 'process_payment.processing'})}
+                    //subtitle={formatMessage({id: 'process_payment.please_wait'})}
                     icon={processSvg}
                     footer={progressBar}
                 />
@@ -154,23 +137,23 @@ class ProcessPayment extends React.PureComponent<Props, State> {
         case ProcessState.SUCCESS:
             return (
                 <IconMessage
-                    title={formatMessage({id: 'process_payment.congratulations'})}
-                    subtitle={formatMessage({id: 'process_payment.processed'})}
+                    title={'Great! Youre now upgraded'} //formatMessage({id: 'process_payment.congratulations'})}
+                    subtitle={'Starting August 8, 2020 you will be charged based on the number of enabled users'} //formatMessage({id: 'process_payment.processed'})}
                     icon={successSvg}
-                    buttonText={formatMessage({id: 'process_payment.view_your_license'})}
-                    buttonHandler={this.handleViewLicense}
+                    buttonText={'Lets go!'} //formatMessage({id: 'process_payment.view_your_license'})}
+                    buttonHandler={this.props.onClose}
                 />
             );
         case ProcessState.FAILED:
             return (
                 <IconMessage
-                    title={formatMessage({id: 'process_payment.sorry_the_payment_failed'})}
-                    subtitle={formatMessage({id: 'process_payment.problem_processing'})}
+                    title={'Sorry, the payment verification failed'}//formatMessage({id: 'process_payment.sorry_the_payment_failed'})}
+                    subtitle={'Detailed error'} //formatMessage({id: 'process_payment.problem_processing'})}
                     icon={failedSvg}
                     error={error}
-                    buttonText={formatMessage({id: 'process_payment.try_again'})}
+                    buttonText={'Go back and try again'}//formatMessage({id: 'process_payment.try_again'})}
                     buttonHandler={this.handleGoBack}
-                    linkText={formatMessage({id: 'need_help.contact_support'})}
+                    linkText={'Contact support'}//formatMessage({id: 'need_help.contact_support'})}
                     linkURL='https://support.mattermost.com/hc/en-us/requests/new?ticket_form_id=360000640492'
                 />
             );
@@ -179,19 +162,3 @@ class ProcessPayment extends React.PureComponent<Props, State> {
         }
     }
 }
-
-const InjectedProcessPayment = (props: OwnProps) => {
-    return (
-        <ElementsConsumer>
-            {({stripe, elements}) => (
-                <ProcessPayment
-                    elements={elements}
-                    stripe={stripe}
-                    {...props}
-                />
-            )}
-        </ElementsConsumer>
-    );
-};
-
-export default injectIntl(InjectedProcessPayment);

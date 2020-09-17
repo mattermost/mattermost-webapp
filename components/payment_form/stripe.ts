@@ -16,13 +16,10 @@ import {isDevMode} from 'utils/utils';
 type confirmCardSetupType = (clientSecret: string, data?: ConfirmCardSetupData | undefined, options?: ConfirmCardSetupOptions | undefined) => Promise<{ setupIntent?: SetupIntent | undefined; error?: StripeError | undefined }> | undefined;
 
 function prodConfirmCardSetup(confirmCardSetup: confirmCardSetupType): confirmCardSetupType {
-    console.log('GETTING PROD CONFIRM CARD SETUP');
-
     return confirmCardSetup;
 }
 
 function devConfirmCardSetup(confirmCardSetup: confirmCardSetupType): confirmCardSetupType {
-    console.log('GETTING DEV CONFIRM CARD SETUP');
     return async (clientSecret: string, data?: ConfirmCardSetupData | undefined, options?: ConfirmCardSetupOptions | undefined) => {
         return {setupIntent: {id: 'testid', status: 'succeeded'} as SetupIntent};
     };

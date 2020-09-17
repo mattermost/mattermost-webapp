@@ -6,7 +6,7 @@ import React from 'react';
 import {injectIntl} from 'react-intl';
 import {Permissions} from 'mattermost-redux/constants';
 
-import PurchaseModal from 'components/cloud/purchase_modal';
+import PurchaseModal from 'components/purchase_modal';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {Constants, ModalIdentifiers} from 'utils/constants';

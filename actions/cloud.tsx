@@ -6,47 +6,42 @@ import {Stripe} from '@stripe/stripe-js';
 import {getCode} from 'country-list';
 
 import {Client4} from 'mattermost-redux/client';
+import {Product} from 'mattermost-redux/types/cloud';
 
-import {BillingDetails} from 'components/cloud/types/sku';
+import {getConfirmCardSetup} from 'components/payment_form/stripe';
 
-import {getConfirmCardSetup} from 'components/cloud/purchase_modal/stripe';
+import {StripeSetupIntent, BillingDetails} from 'components/cloud/types/sku';
 
 export function getProductPrice() {
     return async () => {
-        let cloudProducts;
+        let cloudProducts = [] as Product[];
+
         try {
             cloudProducts = await Client4.getCloudProducts();
         } catch (error) {
-        // eslint-disable-next-line no-console
+            // eslint-disable-next-line no-console
             console.error(`Error fetching cloud products: ${error}`);
         }
 
         let productPrice = 0;
-        if (cloudProducts?.length > 0) {
+        if (cloudProducts.length > 0) {
+            // Assuming the first and only one for now.
             productPrice = cloudProducts[0].dollars_per_seat;
         }
-
-        console.log('PRICE IN FETCH ' + productPrice);
 
         return productPrice;
     };
 }
 
 export function completeStripeAddPaymentMethod(stripe: Stripe, billingDetails: BillingDetails) {
-    return async (/*dispatch: DispatchFunc, getState: GetStateFunc*/) => {
-        // const {data: paymentSetupIntent, error} = await Client4.createPaymentMethod();
-
-        let paymentSetupIntent;
+    return async () => {
+        let paymentSetupIntent: StripeSetupIntent;
         try {
-            paymentSetupIntent = await Client4.createPaymentMethod();
+            paymentSetupIntent = await Client4.createPaymentMethod() as StripeSetupIntent;
         } catch (error) {
-            console.log(error);
-
+            console.error(error); //eslint-disable-line no-console
             return {error};
         }
-
-        console.log('RECEIVED PAYMENT INTENT: ');
-        console.log(paymentSetupIntent);
 
         const confirmCardSetup = getConfirmCardSetup(stripe.confirmCardSetup);
 
@@ -69,9 +64,6 @@ export function completeStripeAddPaymentMethod(stripe: Stripe, billingDetails: B
                 }
             }
         );
-
-        console.log('CONFIRM CARD RESULTS:');
-        console.log(result);
 
         if (!result) {
             console.error('Stripe confirm card setup failed.'); //eslint-disable-line no-console
@@ -96,14 +88,13 @@ export function completeStripeAddPaymentMethod(stripe: Stripe, billingDetails: B
         }
 
         try {
-            console.log('CONFIRMING PAYMENT METHOD');
             await Client4.confirmPaymentMethod(setupIntent.id);
-            console.log('CONFIRMING PAYMENT METHOD - COMPLETED');
         } catch (error) {
             console.error(error); //eslint-disable-line no-console
             return {error: 'Error confirming payment'//intl.formatMessage({id: 'errors.generic_payment_failure'})};
             };
         }
-    }
-    ;
+
+        return {};
+    };
 }

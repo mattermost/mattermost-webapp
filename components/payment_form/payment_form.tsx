@@ -12,7 +12,7 @@ import {BillingDetails} from 'components/cloud/types/sku';
 
 import Input from 'components/input';
 
-import {COUNTRIES} from 'components/cloud/utils/countries';
+import {COUNTRIES} from './countries';
 
 import StateSelector from './state_selector';
 import CardInput, {CardInputType} from './card_input';
