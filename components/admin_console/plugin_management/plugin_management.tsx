@@ -1018,6 +1018,8 @@ export default class PluginManagement extends AdminSettings<Props, State> {
                     >
                         {this.renderEnablePluginsSetting()}
 
+                        { !this.props.config.ExperimentalSettings.RestrictSystemAdmin  && ( 
+                            <>
                         <BooleanSetting
                             id='requirePluginSignature'
                             label={
@@ -1155,6 +1157,7 @@ export default class PluginManagement extends AdminSettings<Props, State> {
                             onChange={this.handleChange}
                             setByEnv={this.isSetByEnv('PluginSettings.MarketplaceUrl')}
                         />
+                        </>)}
                         {pluginsContainer}
                     </SettingsGroup>
                     {overwriteUploadPluginModal}
