@@ -10,22 +10,21 @@
 // Stage: @prod
 // Group: @channel
 
-import {testWithConfig} from '../../support/hooks';
 import {getRandomId} from '../../utils';
 
 describe('Leave an archived channel', () => {
-    testWithConfig({
-        TeamSettings: {
-            ExperimentalViewArchivedChannels: true,
-        },
-    });
-
     let testTeam;
     let testChannel;
     let testUser;
     const testArchivedMessage = `this is an archived post ${getRandomId()}`;
 
     before(() => {
+        cy.apiUpdateConfig({
+            TeamSettings: {
+                ExperimentalViewArchivedChannels: true,
+            },
+        });
+
         // # Login as test user and visit town-square
         cy.apiInitSetup({loginAfter: true}).then(({team, channel, user}) => {
             testTeam = team;
