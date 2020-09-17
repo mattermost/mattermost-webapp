@@ -7,6 +7,8 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Group: @channel
+
 import {getAdminAccount} from '../../support/env';
 
 describe('Archived channels', () => {
@@ -20,7 +22,7 @@ describe('Archived channels', () => {
         });
     });
 
-    it('MM-T1682 joining an archived public channel via a permalink', () => {
+    it('MM-T1682 Join an archived public channel by selecting a permalink to one of its posts', () => {
         // # Log in as another user
         cy.apiAdminLogin();
 
