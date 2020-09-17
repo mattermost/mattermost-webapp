@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @notifications
 
 function addNumberOfUsersToChannel(num = 1) {
@@ -34,6 +33,11 @@ function addNumberOfUsersToChannel(num = 1) {
 }
 
 function setIgnoreMentions(toSet) {
+    let stringToSet = 'Off';
+    if (toSet) {
+        stringToSet = 'On';
+    }
+
     // # Click on the header to open dropdown
     cy.get('#channelHeaderDropdownButton').should('exist').click();
 
@@ -44,13 +48,13 @@ function setIgnoreMentions(toSet) {
     cy.get('#ignoreChannelMentionsEdit').should('exist').click();
 
     // # Click on selected option
-    cy.get(`#ignoreChannelMentions${toSet}`).should('exist').click();
+    cy.get(`#ignoreChannelMentions${stringToSet}`).should('exist').click();
 
     // # Click on save to save the configuration
     cy.get('#saveSetting').should('exist').click();
 
     // * Assert that the option selected is reflected
-    cy.get('#ignoreChannelMentionsDesc').should('contain', toSet);
+    cy.get('#ignoreChannelMentionsDesc').should('contain', stringToSet);
 
     // # Click on the X button to close the modal
     cy.get('#channelNotificationModalLabel').siblings('.close').click();
@@ -68,8 +72,8 @@ describe('CS15445 Join/leave messages', () => {
         cy.apiInitSetup().then(({team, user}) => {
             testTeam = team;
 
-            // # Add 1 users
-            cy.apiCreateUser().then(({user: newUser}) => { // eslint-disable-line
+            // # Add 1 user
+            cy.apiCreateUser().then(({user: newUser}) => {
                 userB = newUser;
                 cy.apiAddUserToTeam(testTeam.id, userB.id);
             });
@@ -97,7 +101,8 @@ describe('CS15445 Join/leave messages', () => {
             cy.get(`#postMessageText_${id}`).should('contain', 'added to the channel by you');
         });
 
-        setIgnoreMentions('On');
+        // # Set ignore mentions
+        setIgnoreMentions(true);
 
         // # Go to a different channel
         cy.visit(`/${testTeam.name}/channels/${channelB.name}`);
@@ -115,7 +120,8 @@ describe('CS15445 Join/leave messages', () => {
     it('MM-T568 - Turn off Ignore mentions for @channel, @here and @all', () => {
         cy.visit(`/${testTeam.name}/channels/${channelA.name}`);
 
-        setIgnoreMentions('Off');
+        // # Unset ignore mentions
+        setIgnoreMentions(false);
 
         // # Go to a different channel
         cy.visit(`/${testTeam.name}/channels/${channelB.name}`);
