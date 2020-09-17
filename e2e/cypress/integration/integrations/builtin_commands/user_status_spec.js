@@ -9,6 +9,8 @@
 
 // Group: @integrations
 
+import * as TIMEOUTS from '../../../fixtures/timeouts';
+
 describe('Integrations', () => {
     before(() => {
         // # Login as test user and go to town-square
@@ -82,7 +84,7 @@ function verifyUserStatus(testCase) {
     cy.get('#suggestionList').should('be.visible');
 
     // # Post slash command to change user status
-    cy.get('#post_textbox').type(`${testCase.name}{enter}{enter}`);
+    cy.get('#post_textbox').type(`${testCase.name}{enter}`).wait(TIMEOUTS.ONE_HUNDRED_MILLIS).type('{enter}');
 
     // * Get last post and verify system message
     cy.getLastPost().within(() => {
