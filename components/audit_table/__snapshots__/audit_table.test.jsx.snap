@@ -10,35 +10,30 @@ exports[`components/audit_table/AuditTable should match snapshot with audits 1`]
         <FormattedMessage
           defaultMessage="Timestamp"
           id="audit_table.timestamp"
-          values={Object {}}
         />
       </th>
       <th>
         <FormattedMessage
           defaultMessage="User ID"
           id="audit_table.userId"
-          values={Object {}}
         />
       </th>
       <th>
         <FormattedMessage
           defaultMessage="Action"
           id="audit_table.action"
-          values={Object {}}
         />
       </th>
       <th>
         <FormattedMessage
           defaultMessage="IP Address"
           id="audit_table.ip"
-          values={Object {}}
         />
       </th>
       <th>
         <FormattedMessage
           defaultMessage="Session ID"
           id="audit_table.session"
-          values={Object {}}
         />
       </th>
     </tr>
@@ -148,35 +143,30 @@ exports[`components/audit_table/AuditTable should match snapshot with no audits 
         <FormattedMessage
           defaultMessage="Timestamp"
           id="audit_table.timestamp"
-          values={Object {}}
         />
       </th>
       <th>
         <FormattedMessage
           defaultMessage="User ID"
           id="audit_table.userId"
-          values={Object {}}
         />
       </th>
       <th>
         <FormattedMessage
           defaultMessage="Action"
           id="audit_table.action"
-          values={Object {}}
         />
       </th>
       <th>
         <FormattedMessage
           defaultMessage="IP Address"
           id="audit_table.ip"
-          values={Object {}}
         />
       </th>
       <th>
         <FormattedMessage
           defaultMessage="Session ID"
           id="audit_table.session"
-          values={Object {}}
         />
       </th>
     </tr>

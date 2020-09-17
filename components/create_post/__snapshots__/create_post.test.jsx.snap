@@ -46,6 +46,7 @@ exports[`components/create_post Show tutorial 1`] = `
         <span
           className="post-body__actions"
         >
+          <Connect(injectIntl(CallButton)) />
           <Connect(injectIntl(FileUpload))
             fileCount={0}
             getTarget={[Function]}
@@ -90,7 +91,6 @@ exports[`components/create_post Show tutorial 1`] = `
           >
             <LocalizedIcon
               className="fa fa-paper-plane"
-              component="i"
               title={
                 Object {
                   "defaultMessage": "Create a post",
@@ -113,7 +113,6 @@ exports[`components/create_post Show tutorial 1`] = `
                 <FormattedMessage
                   defaultMessage="Sending Messages"
                   id="create_post.tutorialTip.title"
-                  values={Object {}}
                 />
               </h4>
               <p>
@@ -165,7 +164,6 @@ exports[`components/create_post Show tutorial 1`] = `
       <FormattedMessage
         defaultMessage="Confirm"
         id="notify_all.confirm"
-        values={Object {}}
       />
     }
     message=""
@@ -224,6 +222,7 @@ exports[`components/create_post should match snapshot for center textbox 1`] = `
         <span
           className="post-body__actions"
         >
+          <Connect(injectIntl(CallButton)) />
           <Connect(injectIntl(FileUpload))
             fileCount={0}
             getTarget={[Function]}
@@ -268,7 +267,6 @@ exports[`components/create_post should match snapshot for center textbox 1`] = `
           >
             <LocalizedIcon
               className="fa fa-paper-plane"
-              component="i"
               title={
                 Object {
                   "defaultMessage": "Create a post",
@@ -312,7 +310,6 @@ exports[`components/create_post should match snapshot for center textbox 1`] = `
       <FormattedMessage
         defaultMessage="Confirm"
         id="notify_all.confirm"
-        values={Object {}}
       />
     }
     message=""
@@ -380,7 +377,6 @@ exports[`components/create_post should match snapshot for read only channel 1`] 
           >
             <LocalizedIcon
               className="fa fa-paper-plane"
-              component="i"
               title={
                 Object {
                   "defaultMessage": "Create a post",
@@ -424,7 +420,6 @@ exports[`components/create_post should match snapshot for read only channel 1`] 
       <FormattedMessage
         defaultMessage="Confirm"
         id="notify_all.confirm"
-        values={Object {}}
       />
     }
     message=""
@@ -483,6 +478,7 @@ exports[`components/create_post should match snapshot when cannot post 1`] = `
         <span
           className="post-body__actions"
         >
+          <Connect(injectIntl(CallButton)) />
           <Connect(injectIntl(FileUpload))
             fileCount={0}
             getTarget={[Function]}
@@ -527,7 +523,6 @@ exports[`components/create_post should match snapshot when cannot post 1`] = `
           >
             <LocalizedIcon
               className="fa fa-paper-plane"
-              component="i"
               title={
                 Object {
                   "defaultMessage": "Create a post",
@@ -571,7 +566,6 @@ exports[`components/create_post should match snapshot when cannot post 1`] = `
       <FormattedMessage
         defaultMessage="Confirm"
         id="notify_all.confirm"
-        values={Object {}}
       />
     }
     message=""
@@ -630,6 +624,7 @@ exports[`components/create_post should match snapshot when file upload disabled 
         <span
           className="post-body__actions"
         >
+          <Connect(injectIntl(CallButton)) />
           <Connect(injectIntl(FileUpload))
             fileCount={0}
             getTarget={[Function]}
@@ -674,7 +669,6 @@ exports[`components/create_post should match snapshot when file upload disabled 
           >
             <LocalizedIcon
               className="fa fa-paper-plane"
-              component="i"
               title={
                 Object {
                   "defaultMessage": "Create a post",
@@ -718,7 +712,6 @@ exports[`components/create_post should match snapshot when file upload disabled 
       <FormattedMessage
         defaultMessage="Confirm"
         id="notify_all.confirm"
-        values={Object {}}
       />
     }
     message=""
@@ -777,6 +770,7 @@ exports[`components/create_post should match snapshot, init 1`] = `
         <span
           className="post-body__actions"
         >
+          <Connect(injectIntl(CallButton)) />
           <Connect(injectIntl(FileUpload))
             fileCount={0}
             getTarget={[Function]}
@@ -821,7 +815,6 @@ exports[`components/create_post should match snapshot, init 1`] = `
           >
             <LocalizedIcon
               className="fa fa-paper-plane"
-              component="i"
               title={
                 Object {
                   "defaultMessage": "Create a post",
@@ -865,7 +858,6 @@ exports[`components/create_post should match snapshot, init 1`] = `
       <FormattedMessage
         defaultMessage="Confirm"
         id="notify_all.confirm"
-        values={Object {}}
       />
     }
     message=""

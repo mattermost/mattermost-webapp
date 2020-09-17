@@ -28,7 +28,6 @@ exports[`components/user_settings/sidebar/UserSettingsSidebar should match snaps
       >
         <LocalizedIcon
           className="fa fa-angle-left"
-          component="i"
           title={
             Object {
               "defaultMessage": "Collapse Icon",
@@ -40,7 +39,6 @@ exports[`components/user_settings/sidebar/UserSettingsSidebar should match snaps
       <FormattedMessage
         defaultMessage="Sidebar Settings"
         id="user.settings.sidebar.title"
-        values={Object {}}
       />
     </h4>
   </div>
@@ -54,7 +52,6 @@ exports[`components/user_settings/sidebar/UserSettingsSidebar should match snaps
       <FormattedMessage
         defaultMessage="Sidebar Settings"
         id="user.settings.sidebar.title"
-        values={Object {}}
       />
     </h3>
     <div
@@ -65,7 +62,6 @@ exports[`components/user_settings/sidebar/UserSettingsSidebar should match snaps
         <FormattedMessage
           defaultMessage="Off"
           id="user.settings.sidebar.off"
-          values={Object {}}
         />
       }
       section="channelSidebarOrganization"
@@ -73,7 +69,6 @@ exports[`components/user_settings/sidebar/UserSettingsSidebar should match snaps
         <FormattedMessage
           defaultMessage="Experimental Sidebar Features"
           id="user.settings.sidebar.channelSidebarOrganizationSectionTitle"
-          values={Object {}}
         />
       }
       updateSection={[Function]}
@@ -87,7 +82,6 @@ exports[`components/user_settings/sidebar/UserSettingsSidebar should match snaps
           <FormattedMessage
             defaultMessage="Group by channel type"
             id="user.settings.sidebar.groupByTypeShort"
-            values={Object {}}
           />,
           <span>
             , 
@@ -95,13 +89,11 @@ exports[`components/user_settings/sidebar/UserSettingsSidebar should match snaps
           <FormattedMessage
             defaultMessage="sorted alphabetically"
             id="user.settings.sidebar.sortAlphaShort"
-            values={Object {}}
           />,
           <br />,
           <FormattedMessage
             defaultMessage="Unreads and favorites grouped separately"
             id="user.settings.sidebar.unreadsFavoritesShort"
-            values={Object {}}
           />,
         ]
       }
@@ -110,7 +102,6 @@ exports[`components/user_settings/sidebar/UserSettingsSidebar should match snaps
         <FormattedMessage
           defaultMessage="Channel Grouping and Sorting"
           id="user.settings.sidebar.groupAndSortChannelsTitle"
-          values={Object {}}
         />
       }
       updateSection={[Function]}
@@ -123,7 +114,6 @@ exports[`components/user_settings/sidebar/UserSettingsSidebar should match snaps
         <FormattedMessage
           defaultMessage="On"
           id="user.settings.sidebar.on"
-          values={Object {}}
         />
       }
       section="channelSwitcher"
@@ -131,7 +121,6 @@ exports[`components/user_settings/sidebar/UserSettingsSidebar should match snaps
         <FormattedMessage
           defaultMessage="Channel Switcher"
           id="user.settings.sidebar.channelSwitcherSectionTitle"
-          values={Object {}}
         />
       }
       updateSection={[Function]}

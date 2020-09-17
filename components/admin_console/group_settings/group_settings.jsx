@@ -14,7 +14,10 @@ import {getSiteURL} from 'utils/url';
 
 export default class GroupSettings extends React.PureComponent {
     static propTypes = {
-        isDisabled: PropTypes.func,
+        isDisabled: PropTypes.oneOfType([
+            PropTypes.func,
+            PropTypes.bool,
+        ]),
     }
 
     render = () => {

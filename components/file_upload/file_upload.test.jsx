@@ -206,6 +206,7 @@ describe('components/FileUpload', () => {
         const expectedFileName = 'Image Pasted at 2000-2-1 01-01';
 
         const event = new Event('paste');
+        event.preventDefault = jest.fn();
         const getAsFile = jest.fn().mockReturnValue(new File(['test'], 'test'));
         const file = {getAsFile, kind: 'file', name: 'test'};
         event.clipboardData = {items: [file], types: ['image/png']};
@@ -222,9 +223,29 @@ describe('components/FileUpload', () => {
             global.File = undefined;
         }
         document.dispatchEvent(event);
+        expect(event.preventDefault).toHaveBeenCalled();
         expect(spy).toHaveBeenCalledWith([expect.objectContaining({name: expectedFileName})]);
         expect(spy.mock.calls[0][0][0]).toBeInstanceOf(Blob); // first call, first arg, first item in array
         expect(baseProps.onFileUploadChange).toHaveBeenCalled();
+    });
+
+    test('should not prevent paste event default if no file in clipboard', () => {
+        const event = new Event('paste');
+        event.preventDefault = jest.fn();
+        const getAsString = jest.fn();
+        event.clipboardData = {items: [{getAsString, kind: 'string', type: 'text/plain'}], types: ['text/plain']};
+
+        const wrapper = shallowWithIntl(
+            <FileUpload
+                {...baseProps}
+            />,
+        );
+        const spy = jest.spyOn(wrapper.instance(), 'containsEventTarget').mockReturnValue(true);
+
+        document.dispatchEvent(event);
+
+        expect(spy).toHaveBeenCalled();
+        expect(event.preventDefault).not.toHaveBeenCalled();
     });
 
     test('should have props.functions when uploadFiles is called', () => {

@@ -41,7 +41,7 @@ describe('Plugin remains enabled when upgraded', () => {
         cy.apiRemovePluginById(pluginIdDemo);
     });
 
-    it('MT40 Plugin remains enabled when upgraded', () => {
+    it('MM-T40 Plugin remains enabled when upgraded', () => {
     // * Upload Demo plugin from the browser
         const fileName1 = 'com.mattermost.demo-plugin-0.1.0.tar.gz';
         const fileName2 = 'com.mattermost.demo-plugin-0.2.0.tar.gz';

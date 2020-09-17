@@ -83,7 +83,7 @@ describe('Messaging', () => {
 
                 cy.get(`#CENTER_time_${postId}`).find('time').invoke('attr', 'dateTime').then((originalTimeStamp) => {
                     // * Verify the first post timestamp equals the RHS timestamp
-                    cy.get(`#RHS_ROOT_time_${postId}`).find('time').invoke('attr', 'dateTime').should('be', originalTimeStamp);
+                    cy.get(`#RHS_ROOT_time_${postId}`).find('time').invoke('attr', 'dateTime').should('equal', originalTimeStamp);
 
                     // * Verify the first post timestamp was not modified by the reply
                     cy.get(`#CENTER_time_${replyId}`).find('time').should('have.attr', 'dateTime').and('not.equal', originalTimeStamp);
@@ -94,7 +94,7 @@ describe('Messaging', () => {
 
                 // * Verify that the reply is in the channel view with matching text
                 cy.get(`#post_${replyId}`).within(() => {
-                    cy.findByTestId('post-link').should('be.visible').and('have.text', 'Commented on ' + botName + '\'s message: Some Text posted by bot that has no content and no attachment pretext');
+                    cy.findByTestId('post-link').should('be.visible').and('have.text', 'Commented on ' + botName + 'BOT\'s message: Some Text posted by bot that has no content and no attachment pretext');
                     cy.get(`#postMessageText_${replyId}`).should('be.visible').and('have.text', 'A reply to an older post bot post');
                 });
             });
@@ -151,7 +151,7 @@ describe('Messaging', () => {
 
                 cy.get(`#CENTER_time_${postId}`).find('time').invoke('attr', 'dateTime').then((originalTimeStamp) => {
                     // * Verify the first post timestamp equals the RHS timestamp
-                    cy.get(`#RHS_ROOT_time_${postId}`).find('time').invoke('attr', 'dateTime').should('be', originalTimeStamp);
+                    cy.get(`#RHS_ROOT_time_${postId}`).find('time').invoke('attr', 'dateTime').should('equal', originalTimeStamp);
 
                     // * Verify the first post timestamp was not modified by the reply
                     cy.get(`#CENTER_time_${replyId}`).find('time').should('have.attr', 'dateTime').and('not.equal', originalTimeStamp);
@@ -162,7 +162,7 @@ describe('Messaging', () => {
 
                 // * Verify that the reply is in the channel view with matching text
                 cy.get(`#post_${replyId}`).within(() => {
-                    cy.findByTestId('post-link').should('be.visible').and('have.text', 'Commented on ' + botName + '\'s message: Hello message from ' + botName);
+                    cy.findByTestId('post-link').should('be.visible').and('have.text', 'Commented on ' + botName + 'BOT\'s message: Hello message from ' + botName);
                     cy.get(`#postMessageText_${replyId}`).should('be.visible').and('have.text', 'A reply to an older post with message attachment');
                 });
             });

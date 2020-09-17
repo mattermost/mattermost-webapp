@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @dm_category
 
 import {getAdminAccount} from '../../support/env';
@@ -50,9 +51,7 @@ describe('MM-T3156 DM category', () => {
         usersPrefixes.forEach((prefix) => {
             // # Create users with prefixes in alphabetical order
             cy.apiCreateUser({prefix}).then(({user: newUser}) => {
-                cy.apiCreateDirectChannel([testUser.id, newUser.id]).then((res) => {
-                    const channel = res.body;
-
+                cy.apiCreateDirectChannel([testUser.id, newUser.id]).then(({channel}) => {
                     // # Post message in The DM channel
                     cy.postMessageAs({sender: newUser, message: 'test', channelId: channel.id});
 

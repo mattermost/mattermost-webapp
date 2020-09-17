@@ -125,6 +125,7 @@ function sysadminSetup(user) {
     cy.apiSaveTeammateNameDisplayPreference('username');
     cy.apiSaveLinkPreviewsPreference('true');
     cy.apiSaveCollapsePreviewsPreference('false');
+    cy.apiSaveClockDisplayModeTo24HourPreference(false);
     cy.apiSaveTutorialStep(user.id, '999');
     cy.apiSaveCloudOnboardingPreference(user.id, 'hide', 'true');
     cy.apiHideSidebarWhatsNewModalPreference(user.id, 'true');
