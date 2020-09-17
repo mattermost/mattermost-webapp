@@ -11,7 +11,7 @@ import {AnalyticsRow} from 'mattermost-redux/types/admin';
 import {ActionFunc} from 'mattermost-redux/types/actions';
 
 import {getSiteURL} from 'utils/url';
-import {Constants, ModalIdentifiers} from 'utils/constants';
+import {Constants, ModalIdentifiers, WarnMetricTypes} from 'utils/constants';
 import {t} from 'utils/i18n';
 
 import {trackEvent} from 'actions/diagnostics_actions';
@@ -87,7 +87,7 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
         }
     }
 
-    requestLicenseAndAckWarnMetric = async () => {
+    onRequestLicenseAndAckWarnMetricClick = async () => {
         if (this.state.gettingTrial) {
             return;
         }
@@ -96,7 +96,7 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
 
         trackEvent('admin', 'click_warn_metric_ack_start_trial', {metric: this.props.warnMetricStatus.id});
 
-        const {error} = this.props.actions.requestTrialLicenseAndAckWarnMetric(this.props.warnMetricStatus.id);
+        const {error} = await this.props.actions.requestTrialLicenseAndAckWarnMetric(this.props.warnMetricStatus.id);
         if (error) {
             this.setState({gettingTrialError: error});
         } else {
@@ -190,47 +190,83 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
     }
 
     render() {
+        const isE0Edition = (this.props.enterpriseReady && this.props.license && this.props.license.IsLicensed === 'false');
+
         const headerTitle = (
             <FormattedMessage
                 id='warn_metric_ack_modal.header.title'
                 defaultMessage='Scaling with Mattermost'
             />
         );
-        const descriptionText = (
-            <FormattedMessage
-                id='warn_metric_ack_modal.number_of_active_users.description'
-                defaultMessage='Mattermost strongly recommends that deployments of over {limit} users upgrade to Mattermost Enterprise Edition, which offers features such as user management, server clustering, and performance monitoring'
-                values={{
-                    limit: this.props.warnMetricStatus.limit,
-                }}
-            />
-        );
 
+        let descriptionText;
+        let subText;
         const learnMoreLink = 'https://mattermost.com/pl/default-admin-advisory';
-        const subText = (
-            <div
-                style={{display: 'flex', opacity: '0.56', flexWrap: 'wrap'}}
-                className='help__format-text'
-            >
+
+        if (this.props.warnMetricStatus.id === WarnMetricTypes.SYSTEM_WARN_METRIC_NUMBER_OF_ACTIVE_USERS_500) {
+            descriptionText = (
                 <FormattedMessage
-                    id='warn_metric_ack_modal.number_of_active_users.subtext'
-                    defaultMessage='By clicking Acknowledge, you will be sharing your information with Mattermost Inc., to learn more about upgrading. {link}'
+                    id='warn_metric_ack_modal.number_of_active_users.description'
+                    defaultMessage='Mattermost strongly recommends that deployments of over {limit} users upgrade to Mattermost Enterprise Edition, which offers features such as user management, server clustering, and performance monitoring'
                     values={{
-                        link: (
-                            <ErrorLink
-                                url={learnMoreLink}
-                                messageId={t('warn_metric_ack_modal.learn_more.link')}
-                                defaultMessage={'Learn More'}
-                            />
-                        ),
+                        limit: this.props.warnMetricStatus.limit,
                     }}
                 />
-            </div>
-        );
+            );
+            subText = (
+                <div
+                    style={{display: 'flex', opacity: '0.56', flexWrap: 'wrap'}}
+                    className='help__format-text'
+                >
+                    <FormattedMessage
+                        id='warn_metric_ack_modal.number_of_active_users.subtext'
+                        defaultMessage='By clicking Acknowledge, you will be sharing your information with Mattermost Inc., to learn more about upgrading. {link}'
+                        values={{
+                            link: (
+                                <ErrorLink
+                                    url={learnMoreLink}
+                                    messageId={t('warn_metric_ack_modal.learn_more.link')}
+                                    defaultMessage={'Learn More'}
+                                />
+                            ),
+                        }}
+                    />
+                </div>
+            );
+        } else if (this.props.warnMetricStatus.id === WarnMetricTypes.SYSTEM_WARN_METRIC_NUMBER_OF_POSTS_500K) {
+            descriptionText = (
+                <FormattedMessage
+                    id='warn_metric_ack_modal.number_of_posts.description'
+                    defaultMessage='TODO'
+                    values={{
+                        limit: this.props.warnMetricStatus.limit,
+                    }}
+                />
+            );
+            subText = (
+                <div
+                    style={{display: 'flex', opacity: '0.56', flexWrap: 'wrap'}}
+                    className='help__format-text'
+                >
+                    <FormattedMessage
+                        id='warn_metric_ack_modal.number_of_posts.subtext'
+                        defaultMessage='TODO'
+                        values={{
+                            link: (
+                                <ErrorLink
+                                    url={learnMoreLink}
+                                    messageId={t('warn_metric_ack_modal.learn_more.link')}
+                                    defaultMessage={'Learn More'}
+                                />
+                            ),
+                        }}
+                    />
+                </div>
+            );
+        }
 
         let footer;
         let error;
-        const isE0Edition = (this.props.license && this.props.license.IsLicensed === 'false' && this.props.enterpriseReady);
 
         if (isE0Edition) {
             error = this.renderStartTrialError();
@@ -240,11 +276,11 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
                     data-dismiss='modal'
                     disabled={this.state.gettingTrial}
                     autoFocus={true}
-                    onClick={this.requestLicenseAndAckWarnMetric}
+                    onClick={this.onRequestLicenseAndAckWarnMetricClick}
                 >
                     <LoadingWrapper
                         loading={this.state.gettingTrial}
-                        text={Utils.localizeMessage('admin.warn_metric.starting_trial', 'Starting trial')}
+                        text={Utils.localizeMessage('admin.warn_metric.getting_trial', 'Getting trial')}
                     >
                         <FormattedMessage
                             id='warn_metric_ack_modal.start_trial'

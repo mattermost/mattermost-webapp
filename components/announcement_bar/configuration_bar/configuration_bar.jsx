@@ -45,11 +45,11 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
     }
 
     dismissNumberOfActiveUsersWarnMetric = () => {
-        this.props.actions.dismissNotice(AnnouncementBarMessages.NUMBER_OF_ACTIVE_USERS_WARN_METRIC_STATUS);
+        this.props.actions.dismissNotice(AnnouncementBarMessages.WARN_METRIC_STATUS);
     }
 
     dismissNumberOfActiveUsersWarnMetricAck = () => {
-        this.props.actions.dismissNotice(AnnouncementBarMessages.NUMBER_OF_ACTIVE_USERS_WARN_METRIC_STATUS_ACK);
+        this.props.actions.dismissNotice(AnnouncementBarMessages.WARN_METRIC_STATUS_ACK);
     }
 
     getNoticeForWarnMetric = (warnMetricStatus, isE0Edition) => {
@@ -118,7 +118,7 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
                             />
                         </React.Fragment>
                     );
-                } else {
+                } else if (warnMetricStatus.id === WarnMetricTypes.SYSTEM_WARN_METRIC_NUMBER_OF_POSTS_500K) {
                     message = (
                         <React.Fragment>
                             <img
@@ -126,7 +126,7 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
                                 src={alertIcon}
                             />
                             <FormattedMarkdownMessage
-                                id={t('announcement_bar.number_posts_warn_metric_status.text')}
+                                id={t('announcement_bar.number_of_posts_warn_metric_status.text')}
                                 defaultMessage={'You now have over {limit} posts. We strongly recommend using advanced features for large-scale servers.'}
                                 values={{
                                     limit: warnMetricStatus.limit,

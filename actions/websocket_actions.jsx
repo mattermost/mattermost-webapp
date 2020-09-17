@@ -1263,7 +1263,7 @@ function handleWarnMetricStatusReceivedEvent(msg) {
         },
         {
             type: ActionTypes.SHOW_NOTICE,
-            data: [AnnouncementBarMessages.NUMBER_OF_ACTIVE_USERS_WARN_METRIC_STATUS],
+            data: [AnnouncementBarMessages.WARN_METRIC_STATUS],
         },
     ]));
 }
