@@ -69,8 +69,8 @@ context('ldap', () => {
                 });
 
                 // # Create a test channel
-                cy.apiCreateChannel(testTeam.id, 'ldap-group-sync-automated-tests', 'ldap-group-sync-automated-tests').then((response) => {
-                    testChannel = response.body;
+                cy.apiCreateChannel(testTeam.id, 'ldap-group-sync-automated-tests', 'ldap-group-sync-automated-tests').then(({channel}) => {
+                    testChannel = channel;
                 });
             });
         });
@@ -240,8 +240,8 @@ context('ldap', () => {
                 'private-channel-test',
                 'Private channel',
                 'P',
-            ).then((res) => {
-                const privateChannel = res.body;
+            ).then(({channel}) => {
+                const privateChannel = channel;
 
                 // # Visit channel configuration of private channel
                 cy.visit(`/admin_console/user_management/channels/${privateChannel.id}`);
@@ -389,8 +389,7 @@ context('ldap', () => {
                 'a-channel-im-not-apart-off',
                 'Public channel',
                 'O',
-            ).then((res) => {
-                const publicChannel = res.body;
+            ).then(({channel: publicChannel}) => {
                 cy.apiLogin(testUser);
 
                 cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
@@ -444,8 +443,7 @@ context('ldap', () => {
                 'a-channel-im-not-apart-off',
                 'Public channel',
                 'O',
-            ).then((res) => {
-                const publicChannel = res.body;
+            ).then(({channel: publicChannel}) => {
                 cy.apiLogin(testUser);
 
                 // # Click more under public channels
@@ -460,7 +458,7 @@ context('ldap', () => {
                 cy.apiAdminLogin();
                 cy.apiPatchChannelPrivacy(publicChannel.id, 'P');
 
-                // # Login as a nromal user
+                // # Login as a normal user
                 cy.apiLogin(testUser);
 
                 // # Click more under public channels
