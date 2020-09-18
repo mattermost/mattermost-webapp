@@ -162,11 +162,10 @@ export default class WebSocketClient {
 
         if (this.conn && this.conn.readyState === WebSocket.OPEN) {
             this.clearPingPong();
-            if (!autoRetries) {
-                this.conn.onclose = () => {}; //eslint-disable-line no-empty-function
-            }
             this.conn.close();
-            this.conn = null;
+            if (!autoRetries) {
+                this.conn = null;
+            }
             console.log('websocket closed'); //eslint-disable-line no-console
         }
     }
