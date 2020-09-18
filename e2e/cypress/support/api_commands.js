@@ -319,30 +319,6 @@ Cypress.Commands.add('apiUploadPlugin', (filename) => {
 });
 
 /**
- * Creates a bot directly via API
- * This API assume that the user is logged in and has cookie to access
- * @param {String} username - The bots username
- * @param {String} displayName - The non-unique UI name for the bot
- * @param {String} description - The description of the bot
- * All parameters are required
- */
-Cypress.Commands.add('apiCreateBot', (username, displayName, description) => {
-    return cy.request({
-        headers: {'X-Requested-With': 'XMLHttpRequest'},
-        url: '/api/v4/bots',
-        method: 'POST',
-        body: {
-            username,
-            display_name: displayName,
-            description,
-        },
-    }).then((response) => {
-        expect(response.status).to.equal(201);
-        return cy.wrap(response);
-    });
-});
-
-/**
  * Get access token
  * This API assume that the user is logged in and has cookie to access
  * @param {String} user_id - The user id to generate token for
