@@ -16,6 +16,8 @@ describe('Scroll', () => {
     let testChannel;
 
     before(() => {
+        cy.viewport(1300, 1000);
+
         cy.apiUpdateConfig({
             ServiceSettings: {
                 EnableLinkPreviews: true,
