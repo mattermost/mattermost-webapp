@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+const timeouts = require('../../fixtures/timeouts');
+
 // ***************************************************************
 // - [#] indicates a test step (e.g. # Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
@@ -12,63 +14,94 @@
 describe('Scroll', () => {
     let testTeam;
     let testChannel;
-    let otherUser;
 
-    beforeEach(() => {
-        // # Create new team and new user and visit Town Square channel
+    before(() => {
+        cy.apiUpdateConfig({
+            ServiceSettings: {
+                EnableLinkPreviews: true,
+            },
+        });
+
         cy.apiInitSetup().then(({team, channel}) => {
             testTeam = team;
             testChannel = channel;
-
-            cy.apiCreateUser().then(({user: user2}) => {
-                otherUser = user2;
-
-                cy.apiAddUserToTeam(testTeam.id, otherUser.id).then(() => {
-                    cy.apiAddUserToChannel(testChannel.id, otherUser.id);
-                });
-            });
-
             cy.visit(`/${testTeam.name}/channels/${channel.name}`);
         });
     });
 
-    it('MM-T2368 Fixed Width setting should not scroll pop and display posts properly', () => {
-        // # Creating some post to verify scroll pop and Posts views
+    it('MM-T2368 Fixed width', () => {
+        const link = 'https://www.bbc.com/news/uk-wales-45142614';
+        const gifLink = '![gif](http://i.giphy.com/xNrM4cGJ8u3ao.gif)';
         cy.postMessage('This is the first post');
-        Cypress._.times(18, (postIndex) => {
-            cy.postMessage(`p-${postIndex + 1}`);
-        });
+        cy.postMessage(link);
+        cy.postMessage(gifLink);
+        cy.get('#fileUploadInput').attachFile('jpg-image-file.jpg');
+        cy.get('#fileUploadInput').attachFile('gif-image-file.gif');
+        cy.get('#fileUploadInput').attachFile('mp3-audio-file.mp3');
         cy.postMessage('This is the last post');
+
+        getThumbnailPost().eq(0).invoke('height').as('initailThumbnailHeight');
+        getAttachmentPost().eq(0).invoke('height').as('initialAttachmentHeight');
+        getInlinImgPost().eq(0).invoke('height').as('initailInlineImgHeight');
+        getFirstTextPost().eq(0).invoke('height').as('initail1stPostHeight');
+        getLastTextPost().eq(0).invoke('height').as('initaillastPostHeight');
 
         // # Switch the account settings for the test user to enable Fixed width center
         cy.toAccountSettingsModal();
-        cy.get('#displayButton', {timeout: 500000}).click();
-        cy.get('#channel_display_modeEdit').click();
-        cy.get('#settingTitle').should('contain', 'Channel Display');
-        cy.get('input#channel_display_modeFormatB').click();
-        cy.get('input#channel_display_modeFormatB').next().should('contain', 'Fixed width, centered');
-        cy.get('#saveSetting').click();
-        cy.get('#accountSettingsHeader > .close').click();
+        cy.get('#accountSettingsModal').should('be.visible').within(() => {
+            cy.findByText('Display', {timeout: timeouts.ONE_MIN}).click();
+            cy.findByText('Channel Display').click();
+            cy.findByLabelText('Fixed width, centered').click();
+            cy.findByText('Save').click();
+            cy.get('#accountSettingsHeader > .close').click();
+        });
 
         // # Browse to Channel
         cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 
         // * Verify there is no scroll pop
-        cy.get('button[aria-label="sysadmin"]').eq(0).should('be.visible');
+        cy.findAllByLabelText('sysadmin').eq(0).should('be.visible');
         cy.get('#post-list').should('exist').within(() => {
-            cy.findByText('This is the first post').should('exist').and('be.visible');
-            cy.findByText('This is the last post').should('exist').and('be.visible');
-        });
-
-        // * Verify All posts are displayed correctly
-        Cypress._.times(18, (postIndex) => {
-            cy.get('#post-list').should('exist').within(() => {
-                cy.findByText(`p-${postIndex + 1}`).should('exist').and('be.visible');
+            cy.get('@initail1stPostHeight').then((originalHeight) => {
+                getFirstTextPost().eq(0).should('exist').and('be.visible').should('have.css', 'height', originalHeight + 'px');
+            });
+            cy.get('@initaillastPostHeight').then((originalHeight) => {
+                getLastTextPost().eq(0).should('exist').and('be.visible').should('have.css', 'height', originalHeight + 'px');
+            });
+            cy.get('@initailThumbnailHeight').then((originalHeight) => {
+                getThumbnailPost().should('have.length', '3').and('be.visible').should('have.css', 'height', originalHeight + 'px');
+            });
+            cy.get('@initailInlineImgHeight').then((originalHeight) => {
+                getInlinImgPost().should('be.visible').and('have.css', 'height', (originalHeight + 2) + 'px');
+            });
+            cy.get('@initialAttachmentHeight').then((originalHeight) => {
+                getAttachmentPost().should('be.visible').and('have.css', 'height', (originalHeight + 2) + 'px');
             });
         });
 
-        cy.get('[data-testid="postContent"].post__content.center').should('have.length', '21').each(($el) => {
+        // * Verify All posts are displayed correctly
+        cy.findAllByTestId('postContent').should('have.class', 'post__content center').should('have.length', '5').each(($el) => {
             expect($el).to.be.visible;
         });
     });
+
+    const getThumbnailPost = () => {
+        return cy.get('.post-image__thumbnail');
+    };
+
+    const getAttachmentPost = () => {
+        return cy.get('.attachment__image');
+    };
+
+    const getInlinImgPost = () => {
+        return cy.get('.markdown-inline-img');
+    };
+
+    const getFirstTextPost = () => {
+        return cy.findByText('This is the first post');
+    };
+
+    const getLastTextPost = () => {
+        return cy.findByText('This is the last post');
+    };
 });
