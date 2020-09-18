@@ -26,6 +26,7 @@ describe('Integrations', () => {
     const timestamp = Date.now();
 
     before(() => {
+        cy.requireWebhookServer();
         cy.apiUpdateConfig({
             ServiceSettings: {
                 EnableLinkPreviews: true,
