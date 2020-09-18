@@ -76,7 +76,7 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
                                 src={ackIcon}
                             />
                             <FormattedMarkdownMessage
-                                id={'announcement_bar.error.number_active_users_warn_metric_status_ack.text'}
+                                id='announcement_bar.error.number_active_users_warn_metric_status_ack.text'
                                 defaultMessage='Your trial has started! Go to the [System Console](/admin_console/environment/web_server) to check out the new features.'
                             />
                         </React.Fragment>
@@ -89,7 +89,7 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
                                 src={ackIcon}
                             />
                             <FormattedMessage
-                                id={'announcement_bar.warn_metric_status_ack.text'}
+                                id='announcement_bar.warn_metric_status_ack.text'
                                 defaultMessage='Thank you for contacting Mattermost. We will follow up with you soon.'
                             />
                         </React.Fragment>
@@ -110,7 +110,7 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
                                 src={alertIcon}
                             />
                             <FormattedMarkdownMessage
-                                id={'announcement_bar.error.number_active_users_warn_metric_status.text'}
+                                id='announcement_bar.error.number_active_users_warn_metric_status.text'
                                 defaultMessage='You now have over {limit} users. We strongly recommend using advanced features for large-scale servers.'
                                 values={{
                                     limit: warnMetricStatus.limit,
@@ -126,7 +126,7 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
                                 src={alertIcon}
                             />
                             <FormattedMarkdownMessage
-                                id={'announcement_bar.number_of_posts_warn_metric_status.text'}
+                                id='announcement_bar.number_of_posts_warn_metric_status.text'
                                 defaultMessage='You now have over {limit} posts. We strongly recommend using advanced features for large-scale servers.'
                                 values={{
                                     limit: warnMetricStatus.limit,
