@@ -58,6 +58,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
 
     async componentDidMount() {
         await this.props.actions.getProfiles();
+
         // If all steps are complete, or user has skipped, don't render this and skip to the tips screen
         if (this.getIncompleteStep() === null || this.checkStepsSkipped()) {
             this.showFinalScreenNoAnimation();
