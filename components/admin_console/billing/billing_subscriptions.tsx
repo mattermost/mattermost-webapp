@@ -4,15 +4,14 @@
 import React, {useState} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Tooltip} from 'react-bootstrap';
-import {FormattedMessage} from 'react-intl';
 
 import AlertBanner from 'components/alert_banner';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import OverlayTrigger from 'components/overlay_trigger';
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 
-import upgradeMattermostCloudImage from 'images/upgrade-mattermost-cloud-image.svg';
 import privateCloudImage from 'images/private-cloud-image.svg';
+import upgradeMattermostCloudImage from 'images/upgrade-mattermost-cloud-image.svg';
 
 import './billing_subscriptions.scss';
 
