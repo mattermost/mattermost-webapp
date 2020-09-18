@@ -130,10 +130,13 @@ export const showOnboarding = createSelector(
         return !showNextStepsEphemeral && license.Cloud === 'true' && (showNextSteps || showNextStepsTips);
     });
 
-// If HIDE or SKIPPED, false
-// If not cloud, false
-// Otherwise, if not all steps are complete, return true
 
+export const isOnboardingHidden = createSelector(
+    (state: GlobalState) => getCategory(state, Preferences.RECOMMENDED_NEXT_STEPS),
+    (stepPreferences) => {
+        return stepPreferences.some((pref) => (pref.name === RecommendedNextSteps.HIDE && pref.value === 'true'));
+    },
+);
 
 // Only show next steps if they haven't been skipped and there are steps unfinished
 export const showNextSteps = createSelector(
@@ -160,10 +163,6 @@ export const showNextSteps = createSelector(
         return nextStepsNotFinished;
     },
 );
-
-// If NOT HIDE AND SKIPPED true
-// if not cloud false
-// otherwise true
 
 // Only show tips if they have been skipped, or there are no unfinished steps
 export const showNextStepsTips = createSelector(

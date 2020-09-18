@@ -30,6 +30,7 @@ export default class ChannelView extends React.PureComponent {
         showTutorial: PropTypes.bool.isRequired,
         showNextSteps: PropTypes.bool.isRequired,
         showNextStepsTips: PropTypes.bool.isRequired,
+        isOnboardingHidden: PropTypes.bool.isRequired,
         showNextStepsEphemeral: PropTypes.bool.isRequired,
         channelIsArchived: PropTypes.bool.isRequired,
         viewArchivedChannels: PropTypes.bool.isRequired,
@@ -101,7 +102,8 @@ export default class ChannelView extends React.PureComponent {
 
     async componentDidMount() {
         await this.props.actions.getProfiles();
-        if (this.props.showNextSteps || this.props.showNextStepsTips) {
+        console.log(this.props);
+        if ((this.props.showNextSteps || this.props.showNextStepsTips) && !this.props.isOnboardingHidden) {
             this.props.actions.setShowNextStepsView(true);
         }
     }

@@ -21,7 +21,7 @@ import {TutorialSteps, Preferences} from 'utils/constants';
 
 import {goToLastViewedChannel} from 'actions/views/channel';
 import {setShowNextStepsView} from 'actions/views/next_steps';
-import {showNextSteps, showNextStepsTips} from 'components/next_steps_view/steps';
+import {isOnboardingHidden, showNextSteps, showNextStepsTips} from 'components/next_steps_view/steps';
 
 import ChannelView from './channel_view.jsx';
 
@@ -65,6 +65,7 @@ function mapStateToProps(state) {
         showTutorial: enableTutorial && tutorialStep <= TutorialSteps.INTRO_SCREENS,
         showNextSteps: showNextSteps(state),
         showNextStepsTips: showNextStepsTips(state),
+        isOnboardingHidden: isOnboardingHidden(state),
         showNextStepsEphemeral: state.views.nextSteps.show,
         channelIsArchived: channel ? channel.delete_at !== 0 : false,
         viewArchivedChannels,
