@@ -56,6 +56,7 @@ type Props = {
     };
     useChannelMentions: boolean;
     inputComponent?: ElementType;
+    openWhenEmpty?: boolean;
 };
 
 export default class Textbox extends React.PureComponent<Props> {
@@ -276,6 +277,7 @@ export default class Textbox extends React.PureComponent<Props> {
                     contextId={this.props.channelId}
                     listenForMentionKeyClick={this.props.listenForMentionKeyClick}
                     wrapperHeight={wrapperHeight}
+                    openWhenEmpty={this.props.openWhenEmpty}
                 />
                 {preview}
             </div>
