@@ -17,7 +17,12 @@ Cypress.Commands.add('apiLogin', (user) => {
         body: {login_id: user.username, password: user.password},
     }).then((response) => {
         expect(response.status).to.equal(200);
-        return cy.wrap({user: response.body});
+        return cy.wrap({
+            user: {
+                ...response.body,
+                password: user.password,
+            },
+        });
     });
 });
 
@@ -149,7 +154,13 @@ function generateRandomUser(prefix = 'user') {
     };
 }
 
-Cypress.Commands.add('apiCreateUser', ({prefix = 'user', bypassTutorial = true, user = null} = {}) => {
+Cypress.Commands.add('apiCreateUser', ({
+    prefix = 'user',
+    bypassTutorial = true,
+    hideCloudOnboarding = true,
+    hideWhatsNewModal = true,
+    user = null,
+} = {}) => {
     const newUser = user || generateRandomUser(prefix);
 
     const createUserOption = {
@@ -168,12 +179,25 @@ Cypress.Commands.add('apiCreateUser', ({prefix = 'user', bypassTutorial = true, 
             cy.apiSaveTutorialStep(createdUser.id, '999');
         }
 
+        if (hideCloudOnboarding) {
+            cy.apiSaveCloudOnboardingPreference(createdUser.id, 'hide', 'true');
+        }
+
+        if (hideWhatsNewModal) {
+            cy.apiHideSidebarWhatsNewModalPreference(createdUser.id, 'true');
+        }
+
         return cy.wrap({user: {...createdUser, password: newUser.password}});
     });
 });
 
-Cypress.Commands.add('apiCreateGuestUser', ({prefix = 'guest', activate = true} = {}) => {
-    return cy.apiCreateUser({prefix}).then(({user}) => {
+Cypress.Commands.add('apiCreateGuestUser', ({
+    prefix = 'guest',
+    hideCloudOnboarding = true,
+    hideWhatsNewModal = true,
+    activate = true,
+} = {}) => {
+    return cy.apiCreateUser({prefix, hideCloudOnboarding, hideWhatsNewModal}).then(({user}) => {
         cy.apiDemoteUserToGuest(user.id);
         cy.externalActivateUser(user.id, activate);
 
@@ -256,3 +280,22 @@ Cypress.Commands.add('apiPromoteGuestToUser', (userId) => {
         return cy.apiGetUserById(userId);
     });
 });
+
+/**
+ * Verify a user email via API
+ * @param {String} userId - ID of user of email to verify
+ */
+Cypress.Commands.add('apiVerifyUserEmailById', (userId) => {
+    const options = {
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        method: 'POST',
+        url: `/api/v4/users/${userId}/email/verify/member`,
+    };
+
+    return cy.request(options).then((response) => {
+        expect(response.status).to.equal(200);
+        cy.wrap({user: response.body});
+    });
+});
+
+export {generateRandomUser};

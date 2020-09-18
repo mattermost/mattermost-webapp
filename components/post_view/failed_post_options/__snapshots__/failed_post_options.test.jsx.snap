@@ -12,7 +12,6 @@ exports[`components/post_view/FailedPostOptions should match snapshot 1`] = `
     <FormattedMessage
       defaultMessage="Retry"
       id="pending_post_actions.retry"
-      values={Object {}}
     />
   </a>
    - 
@@ -24,7 +23,6 @@ exports[`components/post_view/FailedPostOptions should match snapshot 1`] = `
     <FormattedMessage
       defaultMessage="Cancel"
       id="pending_post_actions.cancel"
-      values={Object {}}
     />
   </a>
 </span>

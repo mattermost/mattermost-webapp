@@ -17,6 +17,7 @@ const postBotMessage = require('./post_bot_message');
 const postIncomingWebhook = require('./post_incoming_webhook');
 const postMessageAs = require('./post_message_as');
 const urlHealthCheck = require('./url_health_check');
+const reactToMessageAs = require('./react_to_message_as');
 
 const log = (message) => {
     console.log(message);
@@ -38,13 +39,10 @@ module.exports = (on, config) => {
         postIncomingWebhook,
         postMessageAs,
         urlHealthCheck,
+        reactToMessageAs,
     });
 
     on('before:browser:launch', (browser = {}, launchOptions) => {
-        if (browser.name === 'chrome') {
-            launchOptions.args.push('--disable-notifications');
-        }
-
         if (browser.name === 'chrome' && !config.chromeWebSecurity) {
             launchOptions.args.push('--disable-features=CrossSiteDocumentBlockingIfIsolating,CrossSiteDocumentBlockingAlways,IsolateOrigins,site-per-process');
             launchOptions.args.push('--load-extension=cypress/extensions/Ignore-X-Frame-headers');

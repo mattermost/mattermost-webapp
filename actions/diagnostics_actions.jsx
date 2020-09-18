@@ -18,6 +18,10 @@ export function trackEvent(category, event, props) {
     Client4.trackEvent(category, event, props);
 }
 
+export function pageVisited(category, name) {
+    Client4.pageVisited(category, name);
+}
+
 /**
  * Takes an array of string names of performance markers and invokes
  * performance.clearMarkers on each.

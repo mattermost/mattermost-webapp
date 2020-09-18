@@ -15,7 +15,6 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
       <FormattedMessage
         defaultMessage="Channel Configuration"
         id="admin.channel_settings.channel_detail.channel_configuration"
-        values={Object {}}
       />
     </div>
   </div>
@@ -62,14 +61,12 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
           <FormattedMessage
             defaultMessage="Save and Archive Channel"
             id="admin.channel_settings.channel_detail.archive_confirm.button"
-            values={Object {}}
           />
         }
         message={
           <FormattedMessage
             defaultMessage="Saving will archive the channel from the team and make its contents inaccessible for all users. Are you sure you wish to save and archive this channel?"
             id="admin.channel_settings.channel_detail.archive_confirm.message"
-            values={Object {}}
           />
         }
         modalClass=""
@@ -80,7 +77,6 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
           <FormattedMessage
             defaultMessage="Save and Archive Channel"
             id="admin.channel_settings.channel_detail.archive_confirm.title"
-            values={Object {}}
           />
         }
       />
@@ -207,7 +203,6 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
       <FormattedMessage
         defaultMessage="Channel Configuration"
         id="admin.channel_settings.channel_detail.channel_configuration"
-        values={Object {}}
       />
     </div>
   </div>
@@ -250,14 +245,12 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
           <FormattedMessage
             defaultMessage="Save and Archive Channel"
             id="admin.channel_settings.channel_detail.archive_confirm.button"
-            values={Object {}}
           />
         }
         message={
           <FormattedMessage
             defaultMessage="Saving will archive the channel from the team and make its contents inaccessible for all users. Are you sure you wish to save and archive this channel?"
             id="admin.channel_settings.channel_detail.archive_confirm.message"
-            values={Object {}}
           />
         }
         modalClass=""
@@ -268,7 +261,6 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
           <FormattedMessage
             defaultMessage="Save and Archive Channel"
             id="admin.channel_settings.channel_detail.archive_confirm.title"
-            values={Object {}}
           />
         }
       />

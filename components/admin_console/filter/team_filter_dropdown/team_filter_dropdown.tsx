@@ -53,7 +53,7 @@ const getFilteredTeams = createSelector(
     (term: string) => term.trim().toLowerCase(),
     (term: string, teams: Team[]) => teams,
     (term: string, teams: Team[]) => {
-        return teams.filter((team: Team) => team?.display_name?.toLowerCase().includes(term)); // eslint-disable-line camelcase, @typescript-eslint/camelcase
+        return teams.filter((team: Team) => team?.display_name?.toLowerCase().includes(term));
     },
 );
 
@@ -176,7 +176,7 @@ class TeamFilterDropdown extends React.PureComponent<Props, State> {
             this.setState({page, loading: false, searchResults, searchTotal, searchTerm: term});
             return;
         }
-        this.searchRetryInterval = this.searchRetryInterval * 2;
+        this.searchRetryInterval *= 2;
         this.searchRetryId = window.setTimeout(this.searchTeams.bind(null, term, page), this.searchRetryInterval);
     }
 

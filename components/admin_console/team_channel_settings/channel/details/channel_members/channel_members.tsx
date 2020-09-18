@@ -6,6 +6,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {Dictionary} from 'mattermost-redux/types/utilities';
 
+import {ActionResult} from 'mattermost-redux/types/actions';
 import {ServerError} from 'mattermost-redux/types/errors';
 import {UserProfile, UsersStats, GetFilteredUsersStatsOpts} from 'mattermost-redux/types/users';
 import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
@@ -47,22 +48,18 @@ type Props = {
         getChannelStats: (channelId: string) => Promise<{
             data: boolean;
         }>;
-        loadProfilesAndReloadChannelMembers: (page: number, perPage: number, channelId?: string, sort?: string, options?: {}) => Promise<{
+        loadProfilesAndReloadChannelMembers: (page: number, perPage: number, channelId?: string, sort?: string, options?: {[key: string]: any}) => Promise<{
             data: boolean;
         }>;
-        searchProfilesAndChannelMembers: (term: string, options?: {}) => Promise<{
+        searchProfilesAndChannelMembers: (term: string, options?: {[key: string]: any}) => Promise<{
             data: boolean;
         }>;
         getFilteredUsersStats: (filters: GetFilteredUsersStatsOpts) => Promise<{
             data?: UsersStats;
             error?: ServerError;
         }>;
-        setUserGridSearch: (term: string) => Promise<{
-            data: boolean;
-        }>;
-        setUserGridFilters: (filters: GetFilteredUsersStatsOpts) => Promise<{
-            data: boolean;
-        }>;
+        setUserGridSearch: (term: string) => ActionResult;
+        setUserGridFilters: (filters: GetFilteredUsersStatsOpts) => ActionResult;
     };
 }
 
@@ -266,7 +263,7 @@ export default class ChannelMembers extends React.PureComponent<Props, State> {
                         dialogProps={{
                             channel,
                             channelId,
-                            teamId: channel?.team_id, // eslint-disable-line camelcase, @typescript-eslint/camelcase
+                            teamId: channel?.team_id, // eslint-disable-line camelcase
                             onAddCallback: this.onAddCallback,
                             skipCommit: true,
                             excludeUsers: usersToAdd,

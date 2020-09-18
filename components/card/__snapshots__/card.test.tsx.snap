@@ -1,0 +1,78 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/card/card should match snapshot 1`] = `
+<Card
+  expanded={false}
+>
+  <div
+    className="Card"
+  >
+    <CardHeader
+      expanded={false}
+      key=".0"
+    >
+      <div
+        className="Card__header"
+      >
+        Header Test
+      </div>
+    </CardHeader>
+    <CardBody
+      expanded={false}
+      key=".1"
+    >
+      <div
+        className="Card__body expanding"
+        onTransitionEnd={[Function]}
+        style={
+          Object {
+            "height": "",
+          }
+        }
+      >
+        Body Test
+      </div>
+    </CardBody>
+  </div>
+</Card>
+`;
+
+exports[`components/card/card should match snapshot when expanded 1`] = `
+<Card
+  expanded={true}
+>
+  <div
+    className="Card expanded"
+  >
+    <CardHeader
+      expanded={true}
+      key=".0"
+    >
+      <div
+        className="Card__header expanded"
+      >
+        Header Test
+        <hr
+          className="Card__hr"
+        />
+      </div>
+    </CardHeader>
+    <CardBody
+      expanded={true}
+      key=".1"
+    >
+      <div
+        className="Card__body expanded expanding"
+        onTransitionEnd={[Function]}
+        style={
+          Object {
+            "height": 0,
+          }
+        }
+      >
+        Body Test
+      </div>
+    </CardBody>
+  </div>
+</Card>
+`;
