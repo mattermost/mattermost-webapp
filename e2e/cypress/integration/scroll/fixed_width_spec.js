@@ -16,8 +16,6 @@ describe('Scroll', () => {
     let testChannel;
 
     before(() => {
-        cy.viewport(1300, 1000);
-
         cy.apiUpdateConfig({
             ServiceSettings: {
                 EnableLinkPreviews: true,
@@ -37,16 +35,21 @@ describe('Scroll', () => {
         cy.postMessage('This is the first post');
         cy.postMessage(link);
         cy.postMessage(gifLink);
-        cy.get('#fileUploadInput').attachFile('jpg-image-file.jpg');
-        cy.get('#fileUploadInput').attachFile('gif-image-file.gif');
-        cy.get('#fileUploadInput').attachFile('mp3-audio-file.mp3');
-        cy.postMessage('This is the last post');
 
-        getThumbnailPost().eq(0).invoke('height').as('initailThumbnailHeight');
+        const commonTypeFiles = ['jpg-image-file.jpg', 'gif-image-file.gif', 'mp3-audio-file.mp3', 'mpeg-video-file.mpg'];
+        commonTypeFiles.forEach((file) => {
+            cy.get('#fileUploadInput').attachFile(file);
+            cy.postMessage(`Attached with ${file}`);
+        });
+        cy.postMessage('This is the last post');
+        getUserNameTitle().eq(0).invoke('height').as('initialUserNameHeight');
+        getThumbnailPost().eq(0).invoke('height').as('initialThumbnailHeight');
         getAttachmentPost().eq(0).invoke('height').as('initialAttachmentHeight');
-        getInlinImgPost().eq(0).invoke('height').as('initailInlineImgHeight');
-        getFirstTextPost().eq(0).invoke('height').as('initail1stPostHeight');
-        getLastTextPost().eq(0).invoke('height').as('initaillastPostHeight');
+        getInlinImgPost().eq(0).invoke('height').as('initialInlineImgHeight');
+        getFirstTextPost().eq(0).invoke('height').as('initial1stPostHeight');
+        getLastTextPost().eq(0).invoke('height').as('initiallastPostHeight');
+        getGifPost().eq(0).invoke('height').as('initialGifPostHeight');
+        getJpgPost().eq(0).invoke('height').as('initialJpgPostHeight');
 
         // # Switch the account settings for the test user to enable Fixed width center
         cy.toAccountSettingsModal();
@@ -62,33 +65,52 @@ describe('Scroll', () => {
         cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 
         // * Verify there is no scroll pop
-        cy.findAllByLabelText('sysadmin').eq(0).should('be.visible');
         cy.get('#post-list').should('exist').within(() => {
-            cy.get('@initail1stPostHeight').then((originalHeight) => {
-                getFirstTextPost().eq(0).should('exist').and('be.visible').should('have.css', 'height', originalHeight + 'px');
+            cy.get('@initialUserNameHeight').then((originalHeight) => {
+                getUserNameTitle().eq(0).should('exist').and('have.css', 'height', originalHeight + 'px');
             });
-            cy.get('@initaillastPostHeight').then((originalHeight) => {
-                getLastTextPost().eq(0).should('exist').and('be.visible').should('have.css', 'height', originalHeight + 'px');
+            cy.get('@initial1stPostHeight').then((originalHeight) => {
+                getFirstTextPost().eq(0).should('exist').and('have.css', 'height', originalHeight + 'px');
             });
-            cy.get('@initailThumbnailHeight').then((originalHeight) => {
-                getThumbnailPost().should('have.length', '3').and('be.visible').should('have.css', 'height', originalHeight + 'px');
+            cy.get('@initiallastPostHeight').then((originalHeight) => {
+                getLastTextPost().eq(0).should('exist').and('have.css', 'height', originalHeight + 'px');
             });
-            cy.get('@initailInlineImgHeight').then((originalHeight) => {
-                getInlinImgPost().should('be.visible').and('have.css', 'height', (originalHeight + 2) + 'px');
+            cy.get('@initialThumbnailHeight').then((originalHeight) => {
+                getThumbnailPost().should('have.length', '2').and('have.css', 'height', originalHeight + 'px');
+            });
+            cy.get('@initialInlineImgHeight').then((originalHeight) => {
+                getInlinImgPost().should('have.css', 'height', (originalHeight + 2) + 'px');
             });
             cy.get('@initialAttachmentHeight').then((originalHeight) => {
-                getAttachmentPost().should('be.visible').and('have.css', 'height', (originalHeight + 2) + 'px');
+                getAttachmentPost().should('have.css', 'height', (originalHeight + 2) + 'px');
+            });
+
+            cy.get('@initialGifPostHeight').then((originalHeight) => {
+                getGifPost().should('have.css', 'height', originalHeight + 'px');
+            });
+
+            cy.get('@initialJpgPostHeight').then((originalHeight) => {
+                getJpgPost().should('have.css', 'height', originalHeight + 'px');
             });
         });
 
         // * Verify All posts are displayed correctly
-        cy.findAllByTestId('postContent').should('have.class', 'post__content center').should('have.length', '5').each(($el) => {
-            expect($el).to.be.visible;
-        });
+        cy.findAllByTestId('postContent').should('have.length', '9').and('have.class', 'post__content center');
     });
 
+    const getUserNameTitle = () => {
+        return cy.findAllByLabelText('sysadmin');
+    };
     const getThumbnailPost = () => {
         return cy.get('.post-image__thumbnail');
+    };
+
+    const getGifPost = () => {
+        return cy.findAllByLabelText('file thumbnail gif-image-file.gif');
+    };
+
+    const getJpgPost = () => {
+        return cy.findAllByLabelText('file thumbnail jpg-image-file.jpg');
     };
 
     const getAttachmentPost = () => {
