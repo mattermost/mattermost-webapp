@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 
 import {haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
 
-import SystemPermissionGate from './system_permission_gate.jsx';
+import SystemPermissionGate from './system_permission_gate.tsx';
 
 function mapStateToProps(state, ownProps) {
     for (const permission of ownProps.permissions) {

@@ -1,20 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 
-export default class SystemPermissionGate extends React.PureComponent {
-    static defaultProps = {
-        invert: false,
-    }
-
-    static propTypes = {
-
-        /**
-         * Permissions enough to pass the gate (binary OR)
-         */
-        permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
+    type Props = {
+        permissions: Array<string>;
 
         /**
          * Has permission
@@ -22,18 +12,23 @@ export default class SystemPermissionGate extends React.PureComponent {
          * it should be required when this component is converted to TS, for now its optional to make the TS compiler quite.
          * about this prop not being passed from where this component is used
          */
-        hasPermission: PropTypes.bool,
+        hasPermission: boolean;
 
         /**
          * Invert the permission (used for else)
          */
-        invert: PropTypes.bool.isRequired,
+        invert: boolean;
 
         /**
          * Content protected by the permissions gate
          */
-        children: PropTypes.node.isRequired,
+        children: React.ReactNode;
     };
+
+export default class SystemPermissionGate extends React.PureComponent<Props> {
+    public static defaultProps = {
+        invert: false,
+    }
 
     render() {
         if (this.props.hasPermission && !this.props.invert) {
