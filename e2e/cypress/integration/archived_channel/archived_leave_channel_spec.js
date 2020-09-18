@@ -267,6 +267,7 @@ describe('Leave an archived channel', () => {
         cy.get('#quickSwitchInput').type('archived-');
 
         cy.get('#suggestionList').should('be.visible');
+
         // * Private archived channels you are not a member above are not available on channel switcher
         cy.contains('#suggestionList', otherChannelName).should('not.exist');
     });
