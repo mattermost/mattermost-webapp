@@ -25,8 +25,8 @@ describe('Emoji reactions to posts/messages in GM channels', () => {
 
                 cy.apiAddUserToTeam(testTeam.id, userTwo.id);
 
-                cy.apiCreateGroupChannel([userOne.id, userTwo.id]).then((response) => {
-                    testGroupChannel = response.body;
+                cy.apiCreateGroupChannel([userOne.id, userTwo.id]).then(({channel}) => {
+                    testGroupChannel = channel;
                 });
 
                 // # Login as userOne and town-square

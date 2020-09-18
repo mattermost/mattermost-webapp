@@ -31,10 +31,12 @@ describe('components/next_steps_view', () => {
         ],
         currentUser: TestHelper.getUserMock(),
         preferences: [],
-        isAdmin: true,
+        isFirstAdmin: true,
         actions: {
             setShowNextStepsView: jest.fn(),
             savePreferences: jest.fn(),
+            closeRightHandSide: jest.fn(),
+            getProfiles: jest.fn(),
         },
     };
 

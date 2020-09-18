@@ -9,6 +9,8 @@
 
 // Group: @integrations
 
+import * as TIMEOUTS from '../../../fixtures/timeouts';
+
 describe('Integrations', () => {
     before(() => {
         // # Login as test user and go to town-square
@@ -18,9 +20,9 @@ describe('Integrations', () => {
     });
 
     const testCases = [
-        {name: 'away', command: '/away', ariaLabel: 'Away Icon', message: 'You are now away'},
-        {name: 'offline', command: '/offline', ariaLabel: 'Offline Icon', message: 'You are now offline'},
-        {name: 'online', command: '/online', ariaLabel: 'Online Icon', message: 'You are now online'},
+        {name: 'away', ariaLabel: 'Away Icon', message: 'You are now away'},
+        {name: 'offline', ariaLabel: 'Offline Icon', message: 'You are now offline'},
+        {name: 'online', ariaLabel: 'Online Icon', message: 'You are now online'},
     ];
 
     it('MM-T670 /away', () => {
@@ -75,8 +77,14 @@ describe('Integrations', () => {
 });
 
 function verifyUserStatus(testCase) {
+    // # Clear then type '/'
+    cy.get('#post_textbox').should('be.visible').clear().type('/');
+
+    // * Verify that the suggestion list is visible
+    cy.get('#suggestionList').should('be.visible');
+
     // # Post slash command to change user status
-    cy.postMessage(testCase.command);
+    cy.get('#post_textbox').type(`${testCase.name}{enter}`).wait(TIMEOUTS.ONE_HUNDRED_MILLIS).type('{enter}');
 
     // * Get last post and verify system message
     cy.getLastPost().within(() => {
