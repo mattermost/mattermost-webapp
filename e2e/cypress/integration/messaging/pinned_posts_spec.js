@@ -34,17 +34,18 @@ describe('Messaging', () => {
             // # On a message in center channel, click then pin the post to the channel
             cy.getPostMenu(postId, 'Pin to Channel').click();
 
-            // * Find the 'Pinned' span in the post pre-header to verify that the post was actually pinned
-            cy.get(`#post_${postId}`).findByText('Pinned').should('exist');
-
             // # Click pin icon next to search box
             cy.get('#channelHeaderPinButton').should('exist').click();
 
-            // * RHS title displays as "Pinned Posts in [channel name]"
+            // * RHS title displays as "Pinned Posts" and "[channel name]"
             cy.get('#sidebar-right').should('be.visible').and('contain', 'Pinned posts').and('contain', `${testChannel.display_name}`);
 
             // * Pinned post appear in RHS
             cy.get(`#rhsPostMessageText_${postId}`).should('exist');
+
+            // * Message has Pinned badge in center but not in "Pinned Posts" RHS
+            cy.get(`#post_${postId}`).findByText('Pinned').should('exist');
+            cy.get(`#rhsPostMessageText_${postId}`).findByText('Pinned').should('not.exist');
         });
     });
 });
