@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @messaging
 
 describe('Messaging', () => {
@@ -29,7 +28,7 @@ describe('Messaging', () => {
 
         // # Visit a test channel and post a message
         cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
-        cy.postMessage('This a post that is going to be pinned.');
+        cy.postMessage('This is a post that is going to be pinned.');
 
         cy.getLastPostId().then((postId) => {
             // # On a message in center channel, click then pin the post to the channel
