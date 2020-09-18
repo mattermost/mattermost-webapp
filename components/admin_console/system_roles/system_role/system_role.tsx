@@ -99,15 +99,46 @@ export default class SystemRole extends React.PureComponent<Props, State> {
 
     private handleSubmit = async () => {
         this.setState({saving: true, saveNeeded: false});
-        const {usersToRemove, usersToAdd} = this.state;
+        const {usersToRemove, usersToAdd, permissionsToUpdate} = this.state;
         const {role} = this.props;
+        let serverError = null;
 
+        let newRolePermissions: string[] = [];
 
+        // Determine required ancillary permissions...
+        role.permissions.forEach((permission) => {
+            if (permission.startsWith('sysconsole_')) {
+                const permissionShortName = permission.replace(/sysconsole_(read|write)_/, '');
+                if (!(permissionShortName in permissionsToUpdate)) {
+                    const ancillary = Permissions.SYSCONSOLE_ANCILLARY_PERMISSIONS[permission] || [];
+                    newRolePermissions = [...newRolePermissions, ...ancillary, permission];
+                }
+            }
+        });
 
+        Object.keys(permissionsToUpdate).forEach((permissionShortName) => {
+            const value = permissionsToUpdate[permissionShortName];
+            if (value) {
+                if (value === 'write') {
+                    newRolePermissions.push(`sysconsole_${value}_${permissionShortName}`);
+                }
+                newRolePermissions.push(`sysconsole_read_${permissionShortName}`);
+            }
+        });
+
+        newRolePermissions = uniq(newRolePermissions);
+        const {editRole} = this.props.actions;
+        const newRole: Role = {
+            ...role,
+            permissions: newRolePermissions,
+        };
+        const result = await editRole(newRole);
+        if (isError(result)) {
+            serverError = <FormError error={result.error.message}/>;
+        }
 
         const {updateUserRoles} = this.props.actions;
         const userIdsToRemove = Object.keys(usersToRemove);
-        let serverError = null;
         if (userIdsToRemove.length > 0) {
             const removeUserPromises: Promise<ActionResult>[] = [];
             userIdsToRemove.forEach((userId) => {
@@ -116,8 +147,8 @@ export default class SystemRole extends React.PureComponent<Props, State> {
                 removeUserPromises.push(updateUserRoles(userId, updatedRoles));
             });
 
-            const result = await Promise.all(removeUserPromises);
-            const resultWithError = result.find(isError);
+            const results = await Promise.all(removeUserPromises);
+            const resultWithError = results.find(isError);
 
             // const count = result.filter(isSuccess).length; // To be used for potential telemetry
             if (resultWithError && 'error' in resultWithError) {
@@ -134,8 +165,8 @@ export default class SystemRole extends React.PureComponent<Props, State> {
                 addUserPromises.push(updateUserRoles(userId, updatedRoles));
             });
 
-            const result = await Promise.all(addUserPromises);
-            const resultWithError = result.find(isError);
+            const results = await Promise.all(addUserPromises);
+            const resultWithError = results.find(isError);
 
             // const count = result.filter(isSuccess).length; // To be used for potential telemetry
             if (resultWithError && 'error' in resultWithError) {
@@ -143,7 +174,7 @@ export default class SystemRole extends React.PureComponent<Props, State> {
             }
         }
 
-        let {saveKey}= this.state;
+        let {saveKey} = this.state;
         if (serverError === null) {
             saveKey += 1;
         }
@@ -164,6 +195,7 @@ export default class SystemRole extends React.PureComponent<Props, State> {
                 ...this.state.permissionsToUpdate,
                 [name]: value,
             },
+            saveNeeded: true,
         });
     }
 

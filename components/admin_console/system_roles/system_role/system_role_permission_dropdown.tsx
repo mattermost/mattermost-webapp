@@ -14,7 +14,7 @@ import DropdownIcon from 'components/widgets/icons/fa_dropdown_icon';
 
 import {SystemSection} from './system_role_permissions';
 
-import './system_role_permissions.scss'
+import './system_role_permissions.scss';
 
 type Props = {
     permissions: Record<string, boolean>;
@@ -38,11 +38,11 @@ export default class SystemRolePermissionDropdown extends React.PureComponent<Pr
 
     private renderOption = (label: JSX.Element, description: JSX.Element) => {
         return (
-            <div className='SystemRolePermissionDropdownOptions'>
-                <div className='SystemRolePermissionDropdownOptions_label'>
+            <div className='PermissionSectionDropdownOptions'>
+                <div className='PermissionSectionDropdownOptions_label'>
                     {label}
                 </div>
-                <div className='SystemRolePermissionDropdownOptions_description'>
+                <div className='PermissionSectionDropdownOptions_description'>
                     {description}
                 </div>
             </div>
@@ -154,14 +154,14 @@ export default class SystemRolePermissionDropdown extends React.PureComponent<Pr
             >
                 <button
                     id={`systemRolePermissionDropdown${section.name}`}
-                    className='SystemRolePermissionDropdownButton dropdown-toggle theme'
+                    className='PermissionSectionDropdownButton dropdown-toggle theme'
                     type='button'
                     aria-expanded='true'
                 >
-                    <div className='SystemRolePermissionDropdownButton_text'>
+                    <div className='PermissionSectionDropdownButton_text'>
                         {currentAccess}
                     </div>
-                    <div className='SystemRolePermissionDropdownButton_icon'>
+                    <div className='PermissionSectionDropdownButton_icon'>
                         <DropdownIcon/>
                     </div>
                 </button>

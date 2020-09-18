@@ -25,6 +25,8 @@
 
             .PermissionSectionText_title {
                 font-size: 14px;
+                color: rgba(var(--sys-center-channel-color-rgb), 0.87);
+                font-weight: 600;
             }
 
             .PermissionSectionText_description {
@@ -37,14 +39,13 @@
 
             .MenuWrapper {
                 background: rgba(var(--sys-center-channel-color-rgb), 0.04);
-                border: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.16);
                 box-sizing: border-box;
                 border-radius: 4px;
             }
         }
     }
 
-    .SystemRolePermissionDropdownButton {
+    .PermissionSectionDropdownButton {
         background: var(--sys-center-channel-bg);
         border: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.16);
         box-sizing: border-box;
@@ -65,7 +66,7 @@
             border: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.48);
         }
 
-        .SystemRolePermissionDropdownButton_text {
+        .PermissionSectionDropdownButton_text {
             text-align: left;
             padding-left: 8px;
             flex-grow: 3;
@@ -74,12 +75,12 @@
             text-overflow: ellipsis;
         }
 
-        .SystemRolePermissionDropdownButton_more {
+        .PermissionSectionDropdownButton_more {
             color: rgba(var(--sys-center-channel-color-rgb), 0.6);
             margin-right: 8px;
         }
 
-        .SystemRolePermissionDropdownButton_icon {
+        .PermissionSectionDropdownButton_icon {
             min-width: 32px;
             height: 31px;
             border-left: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.16);
@@ -95,12 +96,12 @@
         }
     }
 
-    .SystemRolePermissionDropdownOptions {
-        .SystemRolePermissionDropdownOptions_label {
+    .PermissionSectionDropdownOptions {
+        .PermissionSectionDropdownOptions_label {
             font-size: 14px;
             color: var(--sys-center-channel-color);
         }
-        .SystemRolePermissionDropdownOptions_description {
+        .PermissionSectionDropdownOptions_description {
             font-size: 12px;
             color: rgba(var(--sys-center-channel-color-rgb), 0.56);
         }

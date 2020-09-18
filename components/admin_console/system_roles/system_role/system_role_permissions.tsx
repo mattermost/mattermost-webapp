@@ -29,10 +29,11 @@ const sectionsList: SystemSection[] = [
         name: 'about',
         subsections: [],
     },
-    {
-        name: 'billing',
-        subsections: [],
-    },
+
+    // {
+    //     name: 'billing',
+    //     subsections: [],
+    // },
     {
         name: 'reporting',
         subsections: [],
