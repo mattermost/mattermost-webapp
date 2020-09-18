@@ -4123,7 +4123,7 @@
   "warn_metric_ack_modal.error.body": "Please try again or visit https://mattermost.com/trial to request a license.",
   "warn_metric_ack_modal.header.title": "Scaling with Mattermost",
   "warn_metric_ack_modal.learn_more.link": "Learn more",
-  "warn_metric_ack_modal.mailto.link": "email us",
+  "warn_metric_ack_modal.mailto.link": "Email us",
   "warn_metric_ack_modal.mailto.message": "Support could not be reached. Please {link}.",
   "warn_metric_ack_modal.number_of_active_users.description": "Mattermost strongly recommends that deployments of over {limit} users take advantage of features such as user management, server clustering and performance monitoring. Contact us to learn more and let us know how we can help.",
   "warn_metric_ack_modal.number_of_active_users.subtext": "By clicking Acknowledge, you will be sharing your information with Mattermost Inc., to learn more about upgrading. {link}",

@@ -11,6 +11,7 @@ import {AnalyticsRow} from 'mattermost-redux/types/admin';
 import {ActionFunc} from 'mattermost-redux/types/actions';
 
 import {getSiteURL} from 'utils/url';
+import {t} from 'utils/i18n';
 import {Constants, ModalIdentifiers, WarnMetricTypes} from 'utils/constants';
 
 import {trackEvent} from 'actions/diagnostics_actions';
@@ -163,9 +164,9 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
                             link: (
                                 <WarnMetricAckErrorLink
                                     url={mailToLinkText}
-                                    messageId={'warn_metric_ack_modal.mailto.link'}
+                                    messageId={t('warn_metric_ack_modal.mailto.link')}
                                     forceAck={true}
-                                    defaultMessage={'email us'}
+                                    defaultMessage='Email us'
                                     onClickHandler={this.onContactUsClick}
                                 />
                             ),
@@ -232,7 +233,7 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
                                 link: (
                                     <ErrorLink
                                         url={learnMoreLink}
-                                        messageId={'warn_metric_ack_modal.learn_more.link'}
+                                        messageId={t('warn_metric_ack_modal.learn_more.link')}
                                         defaultMessage='Learn more'
                                     />
                                 ),
@@ -262,7 +263,7 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
                                 link: (
                                     <ErrorLink
                                         url={learnMoreLink}
-                                        messageId={'warn_metric_ack_modal.learn_more.link'}
+                                        messageId={t('warn_metric_ack_modal.learn_more.link')}
                                         defaultMessage='Learn more'
                                     />
                                 ),
