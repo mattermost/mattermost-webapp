@@ -9,7 +9,7 @@
 
 // Group: @modals
 
-describe('In product notices', () => {
+describe('MM-T3361 In product notices', () => {
     let testTeam;
     let testUser;
 
@@ -21,7 +21,7 @@ describe('In product notices', () => {
         });
     });
 
-    it('UI for miltiple notices', () => {
+    it('MM-T3361_1 UI for miltiple notices', () => {
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // * Verify that the notices modal is open
@@ -75,7 +75,7 @@ describe('In product notices', () => {
         cy.get('[aria-labelledby="genericModalLabel"').should('be.not.visible');
     });
 
-    it('UI for end user notice', () => {
+    it('MM-T3361_2 UI for end user notice', () => {
         cy.apiLogout();
 
         // # Login as test user and go to town square
