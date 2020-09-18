@@ -101,7 +101,10 @@ exports[`components/next_steps_view should match snapshot 1`] = `
   </div>
   <NextStepsTips
     animating={false}
-    isAdmin={true}
+    currentUserId="user_id"
+    isFirstAdmin={true}
+    savePreferences={[MockFunction]}
+    setShowNextStepsView={[MockFunction]}
     showFinalScreen={false}
     stopAnimating={[Function]}
   />
