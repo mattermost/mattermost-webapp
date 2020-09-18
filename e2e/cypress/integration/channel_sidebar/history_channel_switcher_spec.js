@@ -10,18 +10,16 @@
 // Stage: @prod
 // Group: @channel_sidebar
 
-import {testWithConfig} from '../../support/hooks';
-
 import {getRandomId} from '../../utils';
 
 describe('Channel sidebar', () => {
-    testWithConfig({
-        ServiceSettings: {
-            ExperimentalChannelSidebarOrganization: 'default_on',
-        },
-    });
-
     before(() => {
+        cy.apiUpdateConfig({
+            ServiceSettings: {
+                ExperimentalChannelSidebarOrganization: 'default_on',
+            },
+        });
+
         // # Login as test user and visit town-square
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
             cy.visit(`/${team.name}/channels/town-square`);

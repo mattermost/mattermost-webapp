@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import './bots';
 import './common';
 import './ldap';
 import './preference';
@@ -13,5 +14,4 @@ import './system';
 import './team';
 import './user';
 import './channel';
-import './terms_of_service';
 import './brand';

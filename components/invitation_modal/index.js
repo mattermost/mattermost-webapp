@@ -59,6 +59,7 @@ export function mapStateToProps(state) {
         canAddUsers,
         emailInvitationsEnabled,
         show: isModalOpen(state, ModalIdentifiers.INVITATION),
+        isCloud: license.Cloud === 'true',
     };
 }
 

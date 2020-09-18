@@ -19,15 +19,28 @@ declare namespace Cypress {
     interface Chainable<Subject = any> {
 
         /**
-         * Create a new terms of service.
-         * See https://api.mattermost.com/#tag/terms-of-service/paths/~1terms_of_service/post
-         * @param {String} text - Terms of service text, displayed when a user logs in for the first time after a new one has been created.
+         * Create a bot.
+         * See https://api.mattermost.com/#tag/bots/paths/~1bots/post
+         * @param {string} username - The bots username
+         * @param {string} displayName - The non-unique UI name for the bot
+         * @param {string} description - The description of the bot
+         * @returns {Bot} out.bot: `Bot` object
          *
          * @example
-         *   cy.apiCreateTermsOfService('Accept me').then(({termsOfService}) => {
-         *       // do something
+         *   cy.apiCreateBot().then(({bot}) => {
+         *       // do something with bot
          *   });
          */
-        apiCreateTermsOfService(text: string): Chainable<TermsOfService>;
+        apiCreateBot(): Chainable<Bot>;
+
+        /**
+         * Get bots.
+         * See https://api.mattermost.com/#tag/bots/paths/~1bots/get
+         * @returns {Bot[]} out.bots: `Bot[]` object
+         *
+         * @example
+         *   cy.apiGetBots();
+         */
+        apiGetBots(): Chainable<Bot[]>;
     }
 }
