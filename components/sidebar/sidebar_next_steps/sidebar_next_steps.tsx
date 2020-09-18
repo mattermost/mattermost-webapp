@@ -115,7 +115,6 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
                 defaultMessage='Getting Started'
             />
         );
-
         if (!this.props.showNextSteps) {
             header = (
                 <FormattedMessage

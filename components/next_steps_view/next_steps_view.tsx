@@ -12,7 +12,7 @@ import {pageVisited, trackEvent} from 'actions/diagnostics_actions';
 import Accordion from 'components/accordion';
 import Card from 'components/card/card';
 import {getAnalyticsCategory} from 'components/next_steps_view/step_helpers';
-import {Preferences} from 'utils/constants';
+import {Preferences, RecommendedNextSteps} from 'utils/constants';
 
 import loadingIcon from 'images/spinner-48x48-blue.apng';
 
@@ -57,19 +57,18 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
     }
 
     async componentDidMount() {
-        // await this.props.actions.getProfiles();
+        await this.props.actions.getProfiles();
+        // If all steps are complete, or user has skipped, don't render this and skip to the tips screen
         if (this.getIncompleteStep() === null || this.checkStepsSkipped()) {
             this.showFinalScreenNoAnimation();
         }
         // eslint-disable-next-line react/no-did-mount-set-state
         this.setState({show: true});
         pageVisited(getAnalyticsCategory(this.props.isFirstAdmin), 'pageview_welcome');
-
-        // If all steps are complete, don't render this and skip to the tips screen
     }
 
     checkStepsSkipped = () => {
-        return this.props.preferences.some((pref) => pref.name === 'SKIPPED' && pref.value === 'true');
+        return this.props.preferences.some((pref) => pref.name === RecommendedNextSteps.SKIP && pref.value === 'true');
     }
 
     getStartingStep = () => {
@@ -111,7 +110,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
         this.props.actions.savePreferences(this.props.currentUser.id, [{
             user_id: this.props.currentUser.id,
             category: Preferences.RECOMMENDED_NEXT_STEPS,
-            name: 'SKIPPED',
+            name: RecommendedNextSteps.SKIP,
             value: 'true',
         }]);
     }

@@ -143,7 +143,7 @@ export const showNextSteps = createSelector(
     (state: GlobalState) => getLicense(state),
     (state: GlobalState) => nextStepsNotFinished(state),
     (stepPreferences, license, nextStepsNotFinished) => {
-        if (stepPreferences.some((pref) => (pref.name === 'SKIPPED' && pref.value === 'true'))) {
+        if (stepPreferences.some((pref) => (pref.name === RecommendedNextSteps.SKIP && pref.value === 'true'))) {
             return false;
         }
 
@@ -161,7 +161,7 @@ export const showNextStepsTips = createSelector(
     (state: GlobalState) => getLicense(state),
     (state: GlobalState) => nextStepsNotFinished(state),
     (stepPreferences, license, nextStepsNotFinished) => {
-        if (stepPreferences.some((pref) => (pref.name === 'SKIPPED' && pref.value === 'true'))) {
+        if (stepPreferences.some((pref) => (pref.name === RecommendedNextSteps.SKIP && pref.value === 'true'))) {
             return true;
         }
 
