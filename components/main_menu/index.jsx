@@ -24,7 +24,11 @@ import {showMentions, showFlaggedPosts, closeRightHandSide, closeMenu as closeRh
 import {openModal} from 'actions/views/modals';
 import {getRhsState} from 'selectors/rhs';
 
-import {nextStepsNotFinished} from 'components/next_steps_view/steps';
+import {
+    showOnboarding,
+    showNextStepsTips,
+    showNextSteps,
+} from 'components/next_steps_view/steps';
 
 import MainMenu from './main_menu.jsx';
 
@@ -92,13 +96,14 @@ function mapStateToProps(state) {
         currentUser,
         isMentionSearch: rhsState === RHSStates.MENTION,
         teamIsGroupConstrained: Boolean(currentTeam.group_constrained),
-        isLicensedForLDAPGroups: state.entities.general.license.LDAPGroups === 'true',
+        isLicensedForLDAPGroups:
+            state.entities.general.license.LDAPGroups === 'true',
         userLimit: getConfig(state).ExperimentalCloudUserLimit,
         currentUsers: state.entities.admin.analytics.TOTAL_USERS,
-        userIsAdmin: isAdmin(
-            getMyTeamMember(state, currentTeam.id).roles,
-        ),
-        showGettingStarted: !state.views.nextSteps.show && nextStepsNotFinished(state) && license.Cloud === 'true',
+        userIsAdmin: isAdmin(getMyTeamMember(state, currentTeam.id).roles),
+        showGettingStarted: showOnboarding(state),
+        showNextStepsTips: showNextStepsTips(state),
+        showNextSteps: showNextSteps(state),
     };
 }
 

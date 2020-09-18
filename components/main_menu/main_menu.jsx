@@ -65,6 +65,7 @@ class MainMenu extends React.PureComponent {
         userIsAdmin: PropTypes.bool,
         showGettingStarted: PropTypes.bool.isRequired,
         intl: intlShape.isRequired,
+        showNextStepsTips: PropTypes.bool,
         actions: PropTypes.shape({
             openModal: PropTypes.func.isRequred,
             showMentions: PropTypes.func,
@@ -186,7 +187,7 @@ class MainMenu extends React.PureComponent {
                 icon={this.props.mobile && <i className='fa fa-user-plus'/>}
             />
         );
-
+        console.log(this.props);
         return (
             <Menu
                 mobile={this.props.mobile}
@@ -371,7 +372,7 @@ class MainMenu extends React.PureComponent {
                         id='gettingStarted'
                         show={this.props.showGettingStarted}
                         onClick={() => this.props.actions.unhideNextSteps()}
-                        text={formatMessage({id: 'navbar_dropdown.gettingStarted', defaultMessage: 'Getting Started'})}
+                        text={formatMessage({id: this.props.showNextStepsTips ? 'fdfd' : 'navbar_dropdown.gettingStarted', defaultMessage: this.props.showNextStepsTips ? 'Tips & Next Steps' : 'Getting Started'})}
                     />
                     <Menu.ItemAction
                         id='keyboardShortcuts'
