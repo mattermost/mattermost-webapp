@@ -4,6 +4,7 @@
     background: var(--sys-center-channel-bg);
     box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.08);
     width: 568px;
+    border-radius: 4px;
 }
 
 .PlanDetails__top {
@@ -64,10 +65,10 @@
 .PlanDetails__feature {
     margin-top: 12px;
     color: var(--sys-center-channel-color);
+    line-height: 16px;
 
     i {
         font-size: 14.4px;
-        line-height: 17px;
 
         &::before {
             margin: 0;
@@ -77,7 +78,6 @@
     span {
         margin-left: 8px;
         font-size: 12px;
-        line-height: 16px;
     }
 }
 
