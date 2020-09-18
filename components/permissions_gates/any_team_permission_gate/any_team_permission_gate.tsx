@@ -1,37 +1,34 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 
-export default class AnyTeamPermissionGate extends React.PureComponent {
-    static defaultProps = {
-        invert: false,
-    }
-
-    static propTypes = {
+    type Props = {
 
         /**
          * Permissions enough to pass the gate (binary OR)
          */
-        permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
+        permissions: Array<string>;
 
         /**
          * Has permission
          */
-        hasPermission: PropTypes.bool.isRequired,
+        hasPermission: boolean;
 
         /**
          * Invert the permission (used for else)
          */
-        invert: PropTypes.bool.isRequired,
+        invert: boolean;
 
         /**
          * Content protected by the permissions gate
          */
-        children: PropTypes.node.isRequired,
+        children: React.ReactNode;
     };
-
+export default class AnyTeamPermissionGate extends React.PureComponent<Props> {
+    public static defaultProps = {
+        invert: false,
+    }
     render() {
         if (this.props.hasPermission && !this.props.invert) {
             return this.props.children;
