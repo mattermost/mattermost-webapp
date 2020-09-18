@@ -2,10 +2,18 @@
 // See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, {ReactNode, ReactElement} from 'react';
 import {Route, NavLink} from 'react-router-dom';
 
-export default class BackstageCategory extends React.PureComponent {
+type Props = {
+    name: string;
+    title: ReactNode;
+    icon: string;
+    parentLink?: string;
+    children?: ReactElement[];
+}
+
+export default class BackstageCategory extends React.PureComponent<Props> {
     static get propTypes() {
         return {
             name: PropTypes.string.isRequired,
