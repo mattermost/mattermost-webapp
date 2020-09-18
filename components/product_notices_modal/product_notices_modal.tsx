@@ -76,13 +76,14 @@ export default class ProductNoticesModal extends React.PureComponent<Props, Stat
         }
 
         const {data} = await this.props.actions.getInProductNotices(currentTeamId, client, clientVersion);
-        this.setState({
-            noticesData: data,
-        });
-
-        if (data.length) {
-            const presentNoticeInfo = this.state.noticesData[this.state.presentNoticeIndex];
-            this.props.actions.updateNoticeAsViewed([presentNoticeInfo.id]);
+        if(data) {
+            this.setState({
+                noticesData: data,
+            });
+            if (data.length) {
+                const presentNoticeInfo = this.state.noticesData[this.state.presentNoticeIndex];
+                this.props.actions.updateNoticeAsViewed([presentNoticeInfo.id]);
+            }
         }
     }
 
