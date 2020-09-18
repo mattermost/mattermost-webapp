@@ -21,6 +21,7 @@ type Props = {
     role: Role;
     permissionsToUpdate: Record<string, 'read' | 'write' | false>;
     updatePermission: (name: string, value: 'read' | 'write' | false) => void;
+    readOnly?: boolean;
 }
 
 // the actual permissions correlating to these values are of the format `sysconsole_(read|write)_name(.subsection.name)`
@@ -127,6 +128,7 @@ export default class SystemRolePermissions extends React.PureComponent<Props> {
                             section={section}
                             updatePermission={this.updatePermission}
                             permissionsToUpdate={this.props.permissionsToUpdate}
+                            isDisabled={this.props.readOnly}
                         />
                     </div>
                 </div>

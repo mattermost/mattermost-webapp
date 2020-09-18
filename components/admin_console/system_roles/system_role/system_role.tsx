@@ -3,7 +3,7 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {uniq} from 'lodash';
+import {uniq, difference} from 'lodash';
 
 import {Role} from 'mattermost-redux/types/roles';
 
@@ -36,6 +36,7 @@ type State = {
     usersToAdd: Dictionary<UserProfile>;
     usersToRemove: Dictionary<UserProfile>;
     permissionsToUpdate: Record<string, 'read' | 'write' | false>;
+    updatedRolePermissions: string[];
     saving: boolean;
     saveNeeded: boolean;
     serverError: JSX.Element | null;
@@ -54,6 +55,7 @@ export default class SystemRole extends React.PureComponent<Props, State> {
             serverError: null,
             permissionsToUpdate: {},
             saveKey: 0,
+            updatedRolePermissions: [],
         };
     }
 
@@ -99,45 +101,19 @@ export default class SystemRole extends React.PureComponent<Props, State> {
 
     private handleSubmit = async () => {
         this.setState({saving: true, saveNeeded: false});
-        const {usersToRemove, usersToAdd, permissionsToUpdate} = this.state;
-        const {role} = this.props;
+        const {usersToRemove, usersToAdd, updatedRolePermissions} = this.state;
+        const {role, actions: {editRole, updateUserRoles}} = this.props;
         let serverError = null;
 
-        let newRolePermissions: string[] = [];
-
-        // Determine required ancillary permissions...
-        role.permissions.forEach((permission) => {
-            if (permission.startsWith('sysconsole_')) {
-                const permissionShortName = permission.replace(/sysconsole_(read|write)_/, '');
-                if (!(permissionShortName in permissionsToUpdate)) {
-                    const ancillary = Permissions.SYSCONSOLE_ANCILLARY_PERMISSIONS[permission] || [];
-                    newRolePermissions = [...newRolePermissions, ...ancillary, permission];
-                }
-            }
-        });
-
-        Object.keys(permissionsToUpdate).forEach((permissionShortName) => {
-            const value = permissionsToUpdate[permissionShortName];
-            if (value) {
-                if (value === 'write') {
-                    newRolePermissions.push(`sysconsole_${value}_${permissionShortName}`);
-                }
-                newRolePermissions.push(`sysconsole_read_${permissionShortName}`);
-            }
-        });
-
-        newRolePermissions = uniq(newRolePermissions);
-        const {editRole} = this.props.actions;
         const newRole: Role = {
             ...role,
-            permissions: newRolePermissions,
+            permissions: updatedRolePermissions,
         };
         const result = await editRole(newRole);
         if (isError(result)) {
             serverError = <FormError error={result.error.message}/>;
         }
 
-        const {updateUserRoles} = this.props.actions;
         const userIdsToRemove = Object.keys(usersToRemove);
         if (userIdsToRemove.length > 0) {
             const removeUserPromises: Promise<ActionResult>[] = [];
@@ -190,12 +166,47 @@ export default class SystemRole extends React.PureComponent<Props, State> {
     }
 
     private updatePermission = (name: string, value: 'read' | 'write' | false) => {
+        const {role} = this.props;
+        const permissionsToUpdate = {
+            ...this.state.permissionsToUpdate,
+            [name]: value,
+        };
+
+        let updatedRolePermissions: string[] = [];
+
+        // Determine required ancillary permissions...
+        role.permissions.forEach((permission) => {
+            if (permission.startsWith('sysconsole_')) {
+                const permissionShortName = permission.replace(/sysconsole_(read|write)_/, '');
+                if (!(permissionShortName in permissionsToUpdate)) {
+                    const ancillary = Permissions.SYSCONSOLE_ANCILLARY_PERMISSIONS[permission] || [];
+                    updatedRolePermissions = [...updatedRolePermissions, ...ancillary, permission];
+                }
+            }
+        });
+
+        Object.keys(permissionsToUpdate).forEach((permissionShortName) => {
+            const value = permissionsToUpdate[permissionShortName];
+            if (value) {
+                if (value === 'write') {
+                    updatedRolePermissions.push(`sysconsole_${value}_${permissionShortName}`);
+                }
+                updatedRolePermissions.push(`sysconsole_read_${permissionShortName}`);
+            }
+        });
+
+        // Make sure the sysadmin role always has manage system...
+        if (role.name === 'system_admin') {
+            updatedRolePermissions.push(Permissions.MANAGE_SYSTEM);
+        }
+
+        updatedRolePermissions = uniq(updatedRolePermissions);
+        console.log(difference(updatedRolePermissions, role.permissions))
+        console.log(difference(role.permissions, updatedRolePermissions))
         this.setState({
-            permissionsToUpdate: {
-                ...this.state.permissionsToUpdate,
-                [name]: value,
-            },
-            saveNeeded: true,
+            permissionsToUpdate,
+            updatedRolePermissions,
+            saveNeeded: difference(updatedRolePermissions, role.permissions).length > 0 || difference(role.permissions, updatedRolePermissions).length > 0,
         });
     }
 
@@ -223,6 +234,7 @@ export default class SystemRole extends React.PureComponent<Props, State> {
                             role={role}
                             permissionsToUpdate={permissionsToUpdate}
                             updatePermission={this.updatePermission}
+                            readOnly={isDisabled || role.name === 'system_admin'}
                         />
 
                         <SystemRoleUsers
@@ -243,7 +255,7 @@ export default class SystemRole extends React.PureComponent<Props, State> {
                     saveNeeded={saveNeeded}
                     onClick={this.handleSubmit}
                     serverError={serverError}
-                    isDisabled={isDisabled}
+                    isDisabled={isDisabled || role.name === 'system_admin'}
                 />
             </div>
         );
