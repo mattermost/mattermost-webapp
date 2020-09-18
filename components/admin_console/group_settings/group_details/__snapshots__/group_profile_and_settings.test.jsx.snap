@@ -79,7 +79,6 @@ exports[`components/admin_console/group_settings/group_details/GroupProfileAndSe
   </div>
   <GroupProfile
     customID="groupMention"
-    isDisabled={false}
     name="GroupProfileAndSettings"
     onChange={[MockFunction]}
     showAtMention={true}

@@ -32,17 +32,14 @@ describe('Channel sidebar', () => {
         // # Start with a new team
         cy.apiCreateTeam('team', 'Team').then(({team}) => {
             teamName = team.display_name;
-            cy.apiCreateChannel(team.id, 'channel', 'Channel').then((response) => {
-                channelName = response.body.display_name;
+            cy.apiCreateChannel(team.id, 'channel', 'Channel').then(({channel}) => {
+                channelName = channel.display_name;
             });
             cy.visit(`/${team.name}/channels/town-square`);
         });
     });
 
     it('should move channel to correct place when dragging channel within category', () => {
-        // # Close "What's new" modal
-        cy.uiCloseWhatsNewModal();
-
         // * Verify that we've switched to the new team
         cy.get('#headerTeamName', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').should('contain', teamName);
 

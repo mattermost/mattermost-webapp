@@ -10,25 +10,21 @@
 // Stage: @prod
 // Group: @channel_sidebar
 
-import {testWithConfig} from '../../support/hooks';
-
+import * as TIMEOUTS from '../../fixtures/timeouts';
 import {getRandomId} from '../../utils';
 
 describe('Channel sidebar', () => {
-    testWithConfig({
-        ServiceSettings: {
-            ExperimentalChannelSidebarOrganization: 'default_on',
-        },
-    });
-
     before(() => {
+        cy.apiUpdateConfig({
+            ServiceSettings: {
+                ExperimentalChannelSidebarOrganization: 'default_on',
+            },
+        });
+
         // # Login as test user and visit town-square
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
             cy.visit(`/${team.name}/channels/town-square`);
         });
-
-        // # Close "What's new" modal
-        cy.uiCloseWhatsNewModal();
     });
 
     it('should create a new channel when using the new channel dropdown', () => {
@@ -71,7 +67,7 @@ describe('Channel sidebar', () => {
         cy.visit(`/${teamName}/channels/off-topic`);
 
         // # Wait for the channel to change
-        cy.get('#channelHeaderTitle').should('contain', 'Off-Topic');
+        cy.get('#channelHeaderTitle', {timeout: TIMEOUTS.HALF_MIN}).should('contain', 'Off-Topic');
 
         // # Click on the channel menu and select Leave Channel
         cy.get('#channelHeaderTitle').click();

@@ -1,11 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-/* eslint-disable jquery/no-text */
-/* eslint-disable jquery/no-find */
+
+// Stage: @prod
+// Group: @multi_team_and_dm
 
 describe('Multi-user group messages', () => {
     let testUser;
     let testTeam;
+
     before(() => {
         // # Create a new team
         cy.apiInitSetup().then(({team, user}) => {
@@ -34,7 +36,7 @@ describe('Multi-user group messages', () => {
 
         // # Start typing part of a username that matches previously created users
         cy.get('#selectItems input').
-            type(searchTerm);
+            type(searchTerm, {force: true});
 
         // * Expect user list to only contain usernames matching the query term and to be sorted alphabetically
         expectUserListSortedAlphabetically(searchTerm);

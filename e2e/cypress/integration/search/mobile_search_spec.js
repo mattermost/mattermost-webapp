@@ -55,11 +55,11 @@ describe('Mobile Search', () => {
         verifyLoadingSpinnerIsGone();
     });
 
-    it('Opening the Flagged Posts eventually loads the results', () => {
+    it('Opening the Saved Posts eventually loads the results', () => {
         // # Open the sidebar menu
         openSidebarMenu();
 
-        // # Click the Flagged Posts button
+        // # Click the Saved Posts button
         cy.get('#flaggedPosts').click();
 
         // * Verify that the loading spinner is eventually gone

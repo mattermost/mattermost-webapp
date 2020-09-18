@@ -1,35 +1,34 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import React, {InputHTMLAttributes} from 'react';
+import {useIntl, MessageDescriptor} from 'react-intl';
+import {PrimitiveType, FormatXMLElementFn} from 'intl-messageformat';
 
-type Props = {
-    placeholder: {
-        id: string;
-        defaultMessage: string;
-        values?: {string: any};
+export type Props = Omit<InputHTMLAttributes<HTMLInputElement>, 'placeholder'> & {
+    placeholder: MessageDescriptor & {
+        values?: Record<string, PrimitiveType | FormatXMLElementFn<string, string>>;
     };
-    value?: string;
 };
 
 const LocalizedInput = React.forwardRef((props: Props, ref?: React.Ref<HTMLInputElement>) => {
-    const {placeholder, ...otherProps} = props;
+    const {
+        placeholder: {
+            id,
+            defaultMessage,
+            values,
+        },
+        ...otherProps
+    } = props;
+
+    const {formatMessage} = useIntl();
 
     return (
-        <FormattedMessage
-            id={placeholder.id}
-            defaultMessage={placeholder.defaultMessage}
-            values={placeholder.values}
-        >
-            {(localizedPlaceholder: (string | JSX.Element)) => (
-                <input
-                    {...otherProps}
-                    ref={ref}
-                    placeholder={localizedPlaceholder as string}
-                />
-            )}
-        </FormattedMessage>
+        <input
+            {...otherProps}
+            ref={ref}
+            placeholder={formatMessage({id, defaultMessage}, values)}
+        />
     );
 });
 LocalizedInput.displayName = 'LocalizedInput';

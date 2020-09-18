@@ -17,6 +17,7 @@ export type BaseProps = {
     config?: DeepPartial<AdminConfig>;
     environmentConfig?: EnvironmentConfig;
     setNavigationBlocked?: (blocked: boolean) => void;
+    isDisabled?: boolean;
     updateConfig?: (config: AdminConfig) => {data: AdminConfig; error: ClientErrorPlaceholder};
 }
 
@@ -55,7 +56,7 @@ export default abstract class AdminSettings <Props extends BaseProps, State exte
 
     protected abstract getStateFromConfig(config: DeepPartial<AdminConfig>): Partial<State>;
 
-    protected abstract getConfigFromState(config: DeepPartial<AdminConfig>): object;
+    protected abstract getConfigFromState(config: DeepPartial<AdminConfig>): unknown;
 
     protected abstract renderTitle(): React.ReactElement;
 
@@ -200,16 +201,20 @@ export default abstract class AdminSettings <Props extends BaseProps, State exte
     private getConfigValue(config: AdminConfig | EnvironmentConfig, path: string) {
         const pathParts = path.split('.');
 
-        return pathParts.reduce((obj: object|null, pathPart) => {
+        // eslint-disable-next-line @typescript-eslint/ban-types
+        return pathParts.reduce((obj: object | null, pathPart) => {
             if (!obj) {
                 return null;
             }
+            // eslint-disable-next-line @typescript-eslint/ban-types
             return obj[(pathPart as keyof object)];
         }, config);
     }
 
     private setConfigValue(config: AdminConfig, path: string, value: any) {
+        // eslint-disable-next-line @typescript-eslint/ban-types
         function setValue(obj: object, pathParts: string[]) {
+            // eslint-disable-next-line @typescript-eslint/ban-types
             const part = pathParts[0] as keyof object;
 
             if (pathParts.length === 1) {
@@ -245,7 +250,7 @@ export default abstract class AdminSettings <Props extends BaseProps, State exte
                     <div className='admin-console-save'>
                         <SaveButton
                             saving={this.state.saving}
-                            disabled={!this.state.saveNeeded || (this.canSave && !this.canSave())}
+                            disabled={this.props.isDisabled || !this.state.saveNeeded || (this.canSave && !this.canSave())}
                             onClick={this.handleSubmit}
                             savingMessage={localizeMessage('admin.saving', 'Saving Config...')}
                         />

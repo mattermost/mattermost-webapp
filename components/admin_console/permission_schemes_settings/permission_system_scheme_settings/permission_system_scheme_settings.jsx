@@ -29,6 +29,7 @@ export default class PermissionSystemSchemeSettings extends React.PureComponent 
         config: PropTypes.object.isRequired,
         roles: PropTypes.object.isRequired,
         license: PropTypes.object.isRequired,
+        isDisabled: PropTypes.bool,
         actions: PropTypes.shape({
             loadRolesIfNeeded: PropTypes.func.isRequired,
             editRole: PropTypes.func.isRequired,
@@ -117,7 +118,20 @@ export default class PermissionSystemSchemeSettings extends React.PureComponent 
     }
 
     loadRolesIntoState(props) {
-        const {system_admin, team_admin, channel_admin, system_user, team_user, channel_user, system_guest, team_guest, channel_guest} = props.roles; // eslint-disable-line camelcase, @typescript-eslint/camelcase
+        /* eslint-disable camelcase */
+        const {
+            system_admin,
+            team_admin,
+            channel_admin,
+            system_user,
+            team_user,
+            channel_user,
+            system_guest,
+            team_guest,
+            channel_guest,
+        } = props.roles;
+        /* eslint-enable camelcase */
+
         this.setState({
             selectedPermission: null,
             loaded: true,
@@ -334,7 +348,7 @@ export default class PermissionSystemSchemeSettings extends React.PureComponent 
                                     scope={'system_scope'}
                                     onToggle={this.togglePermission}
                                     selectRow={this.selectRow}
-                                    readOnly={!this.haveGuestAccountsPermissions()}
+                                    readOnly={this.props.isDisabled || !this.haveGuestAccountsPermissions()}
                                 />
                             </AdminPanelTogglable>}
 
@@ -354,6 +368,7 @@ export default class PermissionSystemSchemeSettings extends React.PureComponent 
                                 scope={'system_scope'}
                                 onToggle={this.togglePermission}
                                 selectRow={this.selectRow}
+                                readOnly={this.props.isDisabled}
                             />
                         </AdminPanelTogglable>
 
@@ -372,6 +387,7 @@ export default class PermissionSystemSchemeSettings extends React.PureComponent 
                                 scope={'channel_scope'}
                                 onToggle={this.togglePermission}
                                 selectRow={this.selectRow}
+                                readOnly={this.props.isDisabled}
                             />
                         </AdminPanelTogglable>
 
@@ -390,6 +406,7 @@ export default class PermissionSystemSchemeSettings extends React.PureComponent 
                                 scope={'team_scope'}
                                 onToggle={this.togglePermission}
                                 selectRow={this.selectRow}
+                                readOnly={this.props.isDisabled}
                             />
                         </AdminPanelTogglable>
 
@@ -416,7 +433,7 @@ export default class PermissionSystemSchemeSettings extends React.PureComponent 
                 <div className='admin-console-save'>
                     <SaveButton
                         saving={this.state.saving}
-                        disabled={!this.state.saveNeeded || (this.canSave && !this.canSave())}
+                        disabled={this.props.isDisabled || !this.state.saveNeeded || (this.canSave && !this.canSave())}
                         onClick={this.handleSubmit}
                         savingMessage={localizeMessage('admin.saving', 'Saving Config...')}
                     />
