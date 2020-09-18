@@ -3,9 +3,12 @@
 
 import React, {useState} from 'react';
 import {Tooltip} from 'react-bootstrap';
+import {FormattedMessage} from 'react-intl';
 
 import OverlayTrigger from 'components/overlay_trigger';
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
+
+import privateCloudImage from 'images/private-cloud-image.svg';
 
 import './billing_subscriptions.scss';
 import AlertBanner from 'components/alert_banner';
@@ -13,6 +16,34 @@ import AlertBanner from 'components/alert_banner';
 type Props = {
 
 };
+
+const privateCloudCard = () => (
+    <div className='PrivateCloudCard'>
+        <div className='PrivateCloudCard__text'>
+            <div className='PrivateCloudCard__text-title'>
+                <FormattedMessage
+                    id='admin.billing.subscription.privateCloudCard.title'
+                    defaultMessage='Looking for a high-trust private cloud?'
+                />
+            </div>
+            <div className='PrivateCloudCard__text-description'>
+                <FormattedMessage
+                    id='admin.billing.subscription.privateCloudCard.description'
+                    defaultMessage='If you need software with dedicated, single-tenant architecture, Mattermost Private Cloud (Beta) is the solution for high-trust collaboration.'
+                />
+            </div>
+            <button className='PrivateCloudCard__contactSales'>
+                <FormattedMessage
+                    id='admin.billing.subscription.privateCloudCard.contactSales'
+                    defaultMessage='Contact Sales'
+                />
+            </button>
+        </div>
+        <div className='PrivateCloudCard__image'>
+            <img src={privateCloudImage}/>
+        </div>
+    </div>
+);
 
 const BillingSubscriptions: React.FC<Props> = () => {
     const testTooltipLeft = (
@@ -104,9 +135,7 @@ const BillingSubscriptions: React.FC<Props> = () => {
                             {'Billing Summary Card / Upgrade Mattermost Cloud'}
                         </div>
                     </div>
-                    <div style={{border: '1px solid #000', width: '100%', height: '217px', marginTop: '20px'}}>
-                        {'Private Cloud'}
-                    </div>
+                    {privateCloudCard()}
                 </div>
             </div>
         </div>

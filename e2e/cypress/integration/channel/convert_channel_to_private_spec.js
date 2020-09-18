@@ -33,9 +33,7 @@ describe('Channels', () => {
         cy.apiLogin(testUser);
 
         // # Create new test channel
-        cy.apiCreateChannel(testTeam.id, 'channel-test', 'Channel').then((channelRes) => {
-            const channel = channelRes.body;
-
+        cy.apiCreateChannel(testTeam.id, 'channel-test', 'Channel').then(({channel}) => {
             // # Go to test channel
             cy.visit(`/${testTeam.name}/channels/${channel.name}`);
 
@@ -60,9 +58,7 @@ describe('Channels', () => {
         cy.apiLogin(testUser);
 
         // # Create new test channel
-        cy.apiCreateChannel(testTeam.id, 'channel-test', 'Channel').then((channelRes) => {
-            const channel = channelRes.body;
-
+        cy.apiCreateChannel(testTeam.id, 'channel-test', 'Channel').then(({channel}) => {
             // # Go to test channel
             cy.visit(`/${testTeam.name}/channels/${channel.name}`);
 
@@ -87,9 +83,7 @@ describe('Channels', () => {
         cy.apiLogin(testUser);
 
         // # Create new test channel
-        cy.apiCreateChannel(testTeam.id, 'channel-test', 'Channel').then((channelRes) => {
-            const channel = channelRes.body;
-
+        cy.apiCreateChannel(testTeam.id, 'channel-test', 'Channel').then(({channel}) => {
             // # Go to test channel
             cy.visit(`/${testTeam.name}/channels/${channel.name}`);
 
@@ -107,9 +101,7 @@ describe('Channels', () => {
         cy.apiLogin(testUser);
 
         // # Create new test channel
-        cy.apiCreateChannel(testTeam.id, 'channel-test', 'Channel').then((channelRes) => {
-            const channel = channelRes.body;
-
+        cy.apiCreateChannel(testTeam.id, 'channel-test', 'Channel').then(({channel}) => {
             // # Go to test channel
             cy.visit(`/${testTeam.name}/channels/${channel.name}`);
 
