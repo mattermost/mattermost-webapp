@@ -175,7 +175,6 @@ export default class InteractiveDialog extends React.PureComponent {
         }
 
         const u = element.data_source;
-        // const u = 'http://localhost:8065/plugins/proxy';
         const payload = {
             url: element.data_source,
             method: 'POST',

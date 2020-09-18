@@ -51,11 +51,11 @@ export default class DialogElement extends React.PureComponent {
         const providers = [];
         if (props.type === 'select') {
             if (props.subtype === 'dynamic') {
-                providers.push(new AutocompleteProvider(this.getAutocompleteResults, this.props.fetchOnce));
+                providers.push(new AutocompleteProvider(this.getAutocompleteResults, props.fetchOnce));
             } else if (props.dataSource === 'users') {
                 providers.push(new GenericUserProvider(props.actions.autocompleteUsers));
             } else if (props.dataSource === 'channels') {
-                providers.push(new AutocompleteProvider(this.getAutocompleteResults));
+                providers.push(new GenericChannelProvider(props.actions.autocompleteChannels));
             } else if (props.options) {
                 providers.push(new MenuActionProvider(props.options));
             }
@@ -76,13 +76,20 @@ export default class DialogElement extends React.PureComponent {
 
     componentDidUpdate(prevProps) {
         if (prevProps.value && !this.props.value) {
-            // state.value is supposed to be option.text not option.value
+            // TODO: state.value is supposed to be option.text not option.value
+            // we need a way for the integration server to send a "valueLabel" as well
+            // or just store select (values, labels) in state as objects, but always submit the form with only the values
             this.setState({value: this.props.value});
         }
 
         if (this.props.type === 'select' && this.props.options) {
             if (this.props.options !== prevProps.options) {
-                if (this.props.subtype === 'dynamic') {
+                if (this.props.subtype === 'dynamic' || !this.props.dataSource) {
+                    // TODO: This is a hacky way to tell server-controlled select boxes to refresh
+                    // Parent is changing the `options` prop to signal this
+                    // The `options` prop will coincidentally always be "new" if the server sends back an `elements` property in its response
+                    // Ideally we switch to something like React-Select for these,
+                    // or discuss with webapp team how to properly implement these use cases with the existing Provider pattern
                     this.setState({providers: [new AutocompleteProvider(this.getAutocompleteResults, this.props.fetchOnce)]})
                 } else {
                     this.setState({providers: [new MenuActionProvider(this.props.options)]})
