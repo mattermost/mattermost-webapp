@@ -26,7 +26,7 @@ describe('Messaging', () => {
         cy.postMessage(msg);
 
         // * Check that last message do contain right message
-        cy.getLastPost().should('have', msg);
+        cy.getLastPost().should('contain', msg);
 
         // # Mouseover the post and click post comment icon.
         cy.clickPostCommentIcon();
@@ -35,6 +35,6 @@ describe('Messaging', () => {
         cy.postMessageReplyInRHS(msg2);
 
         // * Check that last message do contain right message
-        cy.getLastPost().should('have', msg2);
+        cy.getLastPost().should('contain', msg2);
     });
 });

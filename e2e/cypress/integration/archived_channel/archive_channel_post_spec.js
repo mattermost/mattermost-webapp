@@ -9,16 +9,14 @@
 
 // Group: @channel
 
-import {testWithConfig} from '../../support/hooks';
-
 describe('Archived channels', () => {
-    testWithConfig({
-        TeamSettings: {
-            ExperimentalViewArchivedChannels: true,
-        },
-    });
-
     before(() => {
+        cy.apiUpdateConfig({
+            TeamSettings: {
+                ExperimentalViewArchivedChannels: true,
+            },
+        });
+
         // # Login as test user and visit create channel
         cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
             cy.visit(`/${team.name}/channels/${channel.name}`);
