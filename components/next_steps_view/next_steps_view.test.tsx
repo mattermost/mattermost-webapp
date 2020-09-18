@@ -7,7 +7,6 @@ import {shallow, ShallowWrapper} from 'enzyme';
 import NextStepsView from 'components/next_steps_view/next_steps_view';
 import {TestHelper} from 'utils/test_helper';
 
-//
 describe('components/next_steps_view', () => {
     const baseProps = {
         steps: [
