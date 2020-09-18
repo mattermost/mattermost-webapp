@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {
     getMyTeams,
     getJoinableTeamIds,
@@ -36,7 +36,6 @@ function mapStateToProps(state) {
     const config = getConfig(state);
     const currentTeam = getCurrentTeam(state);
     const currentUser = getCurrentUser(state);
-    const license = getLicense(state);
 
     const appDownloadLink = config.AppDownloadLink;
     const enableCommands = config.EnableCommands === 'true';

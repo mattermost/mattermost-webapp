@@ -130,7 +130,6 @@ export const showOnboarding = createSelector(
         return !showNextStepsEphemeral && license.Cloud === 'true' && (showNextSteps || showNextStepsTips);
     });
 
-
 export const isOnboardingHidden = createSelector(
     (state: GlobalState) => getCategory(state, Preferences.RECOMMENDED_NEXT_STEPS),
     (stepPreferences) => {
@@ -144,13 +143,7 @@ export const showNextSteps = createSelector(
     (state: GlobalState) => getLicense(state),
     (state: GlobalState) => nextStepsNotFinished(state),
     (stepPreferences, license, nextStepsNotFinished) => {
-        // if (stepPreferences.some((pref) => (pref.name === RecommendedNextSteps.HIDE && pref.value === 'true'))) {
-        //     console.log("showNextSteps: false (hidden)")
-        //     return false;
-        // }
-
         if (stepPreferences.some((pref) => (pref.name === 'SKIPPED' && pref.value === 'true'))) {
-            console.log("showNextSteps: false (skipped)")
             return false;
         }
 
@@ -158,8 +151,6 @@ export const showNextSteps = createSelector(
             return false;
         }
 
-
-        console.log("showNextSteps (nextStepsNotFinished): ", nextStepsNotFinished)
         return nextStepsNotFinished;
     },
 );
@@ -171,7 +162,6 @@ export const showNextStepsTips = createSelector(
     (state: GlobalState) => nextStepsNotFinished(state),
     (stepPreferences, license, nextStepsNotFinished) => {
         if (stepPreferences.some((pref) => (pref.name === 'SKIPPED' && pref.value === 'true'))) {
-            console.log('showNextStepsTips: true');
             return true;
         }
 
@@ -179,7 +169,6 @@ export const showNextStepsTips = createSelector(
             return false;
         }
 
-        console.log("showNextStepsTips", !nextStepsNotFinished);
         return !nextStepsNotFinished;
     },
 );
@@ -195,7 +184,6 @@ export const nextStepsNotFinished = createSelector(
             roles = 'system_user';
         }
         const checkPref = (step: StepType) => stepPreferences.some((pref) => (pref.name === step.id && pref.value === 'true') || !isStepForUser(step, roles));
-        const nextStepsNotFinished = !Steps.every(checkPref);
-        return nextStepsNotFinished;
+        return !Steps.every(checkPref);
     },
 );

@@ -12,9 +12,7 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {withRouter} from 'react-router-dom';
 
-import {
-    getProfiles,
-} from 'mattermost-redux/actions/users';
+import {getProfiles} from 'mattermost-redux/actions/users';
 
 import {getDirectTeammate} from 'utils/utils.jsx';
 import {TutorialSteps, Preferences} from 'utils/constants';

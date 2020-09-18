@@ -187,7 +187,7 @@ class MainMenu extends React.PureComponent {
                 icon={this.props.mobile && <i className='fa fa-user-plus'/>}
             />
         );
-        console.log(this.props);
+
         return (
             <Menu
                 mobile={this.props.mobile}

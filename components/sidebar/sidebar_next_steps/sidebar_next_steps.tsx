@@ -116,7 +116,6 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
             />
         );
 
-        // console.log(this.props);
         if (!this.props.showNextSteps) {
             header = (
                 <FormattedMessage

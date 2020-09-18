@@ -48,7 +48,6 @@ type State = {
 export default class NextStepsView extends React.PureComponent<Props, State> {
     constructor(props: Props) {
         super(props);
-
         this.state = {
             showFinalScreen: false,
             showTransitionScreen: false,
@@ -58,11 +57,11 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
     }
 
     async componentDidMount() {
-        console.log(this.getIncompleteStep());
-        await this.props.actions.getProfiles();
+        // await this.props.actions.getProfiles();
         if (this.getIncompleteStep() === null || this.checkStepsSkipped()) {
             this.showFinalScreenNoAnimation();
         }
+        // eslint-disable-next-line react/no-did-mount-set-state
         this.setState({show: true});
         pageVisited(getAnalyticsCategory(this.props.isFirstAdmin), 'pageview_welcome');
 
