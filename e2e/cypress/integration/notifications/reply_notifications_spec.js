@@ -67,8 +67,8 @@ describe('reply-notifications', () => {
                 cy.apiAddUserToTeam(testTeam.id, sender.id);
             });
 
-            cy.apiGetChannelByName(testTeam.name, 'town-square').then((res) => {
-                townsquareChannelId = res.body.id;
+            cy.apiGetChannelByName(testTeam.name, 'town-square').then((out) => {
+                townsquareChannelId = out.channel.id;
             });
 
             // # Login as receiver and visit town-square channel

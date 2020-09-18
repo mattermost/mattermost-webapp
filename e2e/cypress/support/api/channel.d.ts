@@ -71,16 +71,128 @@ declare namespace Cypress {
         apiCreateGroupChannel(userIds: Array<string>): Chainable<Channel>;
 
         /**
+         * Update a channel.
+         * The fields that can be updated are listed as parameters. Omitted fields will be treated as blanks.
+         * See https://api.mattermost.com/#tag/channels/paths/~1channels~1{channel_id}/put
+         * @param {string} channelId - The channel ID to be updated
+         * @param {Channel} channel - Channel object to be updated
+         * @param {string} channel.name - The unique handle for the channel, will be present in the channel URL
+         * @param {string} channel.display_name - The non-unique UI name for the channel
+         * @param {string} channel.purpose - A short description of the purpose of the channel
+         * @param {string} channel.header - Markdown-formatted text to display in the header of the channel
+         * @returns {Channel} `out.channel` as `Channel`
+         *
+         * @example
+         *   cy.apiUpdateChannel('channel-id', {name: 'new-name', display_name: 'New Display Name'. 'purpose': 'Updated purpose', 'header': 'Updated header'});
+         */
+        apiUpdateChannel(channelId: string, channel: Channel): Chainable<Channel>;
+
+        /**
+         * Partially update a channel by providing only the fields you want to update.
+         * Omitted fields will not be updated.
+         * The fields that can be updated are defined in the request body, all other provided fields will be ignored.
+         * See https://api.mattermost.com/#tag/channels/paths/~1channels~1{channel_id}~1patch/put
+         * @param {string} channelId - The channel ID to be patched
+         * @param {Channel} channel - Channel object to be patched
+         * @param {string} channel.name - The unique handle for the channel, will be present in the channel URL
+         * @param {string} channel.display_name - The non-unique UI name for the channel
+         * @param {string} channel.purpose - A short description of the purpose of the channel
+         * @param {string} channel.header - Markdown-formatted text to display in the header of the channel
+         * @returns {Channel} `out.channel` as `Channel`
+         *
+         * @example
+         *   cy.apiPatchChannel('channel-id', {name: 'new-name', display_name: 'New Display Name'});
+         */
+        apiPatchChannel(channelId: string, channel: Channel): Chainable<Channel>;
+
+        /**
          * Updates channel's privacy allowing changing a channel from Public to Private and back.
          * See https://api.mattermost.com/#tag/channels/paths/~1channels~1{channel_id}~1privacy/put
          * @param {string} channelId - The channel ID to be patched
          * @param {string} privacy - The privacy the channel should be set too. P = Private, O = Open
-         * @returns {Response} response: Cypress-chainable response which should have successful HTTP status of 200 OK to continue or pass.
-         * @returns {Channel} response.body: `Channel` object
+         * @returns {Channel} `out.channel` as `Channel`
          *
          * @example
          *   cy.apiPatchChannelPrivacy('channel-id', 'P');
          */
-        apiPatchChannelPrivacy(channelId: string, privacy: string): Chainable<Response>;
+        apiPatchChannelPrivacy(channelId: string, privacy: string): Chainable<Channel>;
+
+        /**
+         * Get channel from the provided channel id string.
+         * See https://api.mattermost.com/#tag/channels/paths/~1channels~1{channel_id}/get
+         * @param {string} channelId - Channel ID
+         * @returns {Channel} `out.channel` as `Channel`
+         *
+         * @example
+         *   cy.apiGetChannel('channel-id').then(({channel}) => {
+         *       // do something with channel
+         *   });
+         */
+        apiGetChannel(channelId: string): Chainable<Channel>;
+
+        /**
+         * Gets a channel from the provided team name and channel name strings.
+         * See https://api.mattermost.com/#tag/channels/paths/~1teams~1name~1{team_name}~1channels~1name~1{channel_name}/get
+         * @param {string} teamName - Team name
+         * @param {string} channelName - Channel name
+         * @returns {Channel} `out.channel` as `Channel`
+         *
+         * @example
+         *   cy.apiGetChannelByName('team-name', 'channel-name').then(({channel}) => {
+         *       // do something with channel
+         *   });
+         */
+        apiGetChannelByName(teamName: string, channelName: string): Chainable<Channel>;
+
+        /**
+         * Get a list of all channels.
+         * See https://api.mattermost.com/#tag/channels/paths/~1channels/get
+         * @returns {Channel[]} `out.channels` as `Channel[]`
+         *
+         * @example
+         *   cy.apiGetAllChannels().then(({channels}) => {
+         *       // do something with channels
+         *   });
+         */
+        apiGetAllChannels(): Chainable<Channel[]>;
+
+        /**
+         * Get channels for user.
+         * See https://api.mattermost.com/#tag/channels/paths/~1users~1{user_id}~1teams~1{team_id}~1channels/get
+         * @returns {Channel[]} `out.channels` as `Channel[]`
+         *
+         * @example
+         *   cy.apiGetChannelsForUser().then(({channels}) => {
+         *       // do something with channels
+         *   });
+         */
+        apiGetChannelsForUser(): Chainable<Channel[]>;
+
+        /**
+         * Soft deletes a channel, by marking the channel as deleted in the database.
+         * Soft deleted channels will not be accessible in the user interface.
+         * Direct and group message channels cannot be deleted.
+         * See https://api.mattermost.com/#tag/channels/paths/~1channels~1{channel_id}/delete
+         * @param {string} channelId - The channel ID to be deleted
+         * @returns {Response} response: Cypress-chainable response which should have successful HTTP status of 200 OK to continue or pass.
+         *
+         * @example
+         *   cy.apiDeleteChannel('channel-id');
+         */
+        apiDeleteChannel(channelId: string): Chainable<Response>;
+
+        /**
+         * Add a user to a channel by creating a channel member object.
+         * See https://api.mattermost.com/#tag/channels/paths/~1channels~1{channel_id}~1members/post
+         * @param {string} channelId - Channel ID
+         * @param {string} userId - User ID to add to the channel
+         * @returns {ChannelMembership} `out.member` as `ChannelMembership`
+         *
+         * @example
+         *   cy.apiAddUserToChannel('channel-id', 'user-id').then(({member}) => {
+         *       // do something with member
+         *   });
+         */
+        apiAddUserToChannel(channelId: string, userId: string): Chainable<ChannelMembership>;
     }
 }
