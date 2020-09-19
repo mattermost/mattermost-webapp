@@ -19,6 +19,7 @@ describe('components/next_steps_view/steps/invite_members_step', () => {
         isAdmin: true,
         actions: {
             sendEmailInvitesToTeamGracefully: jest.fn(),
+            regenerateTeamInviteId: jest.fn(),
         },
     };
 
