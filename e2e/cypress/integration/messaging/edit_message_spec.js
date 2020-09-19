@@ -27,7 +27,7 @@ describe('Edit Message', () => {
         cy.visit(townsquareLink);
     });
 
-    it('M13909 Escape should not close modal when an autocomplete drop down is in use', () => {
+    it('MM-T121 Escape should not close modal when an autocomplete drop down is in use', () => {
         // # Post a message
         cy.postMessage('Hello World!');
 
@@ -77,7 +77,7 @@ describe('Edit Message', () => {
         cy.get('#emojiPicker').should('not.exist');
     });
 
-    it('M13482 Display correct timestamp for edited message', () => {
+    it('MM-T102 Timestamp on edited post shows original post time', () => {
         // # Post a message
         cy.postMessage('Checking timestamp');
 
@@ -85,7 +85,7 @@ describe('Edit Message', () => {
             // # Mouseover post to display the timestamp
             cy.get(`#post_${postId}`).trigger('mouseover');
 
-            cy.get(`#CENTER_time_${postId}`).find('time').invoke('attr', 'title').then((originalTimeStamp) => {
+            cy.get(`#CENTER_time_${postId}`).find('time').invoke('attr', 'dateTime').then((originalTimeStamp) => {
                 // # Click dot menu
                 cy.clickPostDotMenu(postId);
 
@@ -105,7 +105,7 @@ describe('Edit Message', () => {
                 cy.get(`#post_${postId}`).trigger('mouseover');
 
                 // * Current post timestamp should have not been changed by edition
-                cy.get(`#CENTER_time_${postId}`).find('time').should('have.attr', 'title').and('equal', originalTimeStamp);
+                cy.get(`#CENTER_time_${postId}`).find('time').should('have.attr', 'dateTime').and('equal', originalTimeStamp);
 
                 // # Open RHS by clicking the post comment icon
                 cy.clickPostCommentIcon(postId);
@@ -114,12 +114,12 @@ describe('Edit Message', () => {
                 cy.get('#rhsContainer').should('be.visible');
 
                 // * Check that the RHS timeStamp equals the original post timeStamp
-                cy.get(`#CENTER_time_${postId}`).find('time').invoke('attr', 'title').should('be', originalTimeStamp);
+                cy.get(`#CENTER_time_${postId}`).find('time').invoke('attr', 'dateTime').should('equal', originalTimeStamp);
             });
         });
     });
 
-    it('M15519 Open edit modal immediately after making a post when post is pending', () => {
+    it('MM-T97 Open edit modal immediately after making a post', () => {
         // # Enter first message
         const firstMessage = 'Hello';
         cy.postMessage(firstMessage);

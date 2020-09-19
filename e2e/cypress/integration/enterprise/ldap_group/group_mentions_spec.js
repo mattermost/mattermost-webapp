@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @enterprise @ldap_group
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
@@ -84,13 +85,13 @@ const assertGroupMentionEnabled = (groupName) => {
 
     // * Should open up suggestion list for groups
     // * Should match group item and group label
-    cy.get('#suggestionList').should('be.visible').children().within((el) => {
+    cy.get('#suggestionList', {timeout: TIMEOUTS.FIVE_SEC}).should('be.visible').children().within((el) => {
         cy.wrap(el).eq(0).should('contain', 'Group Mentions');
         cy.wrap(el).eq(1).should('contain', `@${groupName}`);
     });
 
     // # Type @groupName and post it to the channel
-    cy.get('#post_textbox').clear().type(`@${groupName}{enter}{enter}`);
+    cy.get('#post_textbox').clear().type(`@${groupName}{enter}{enter}`).wait(TIMEOUTS.HALF_SEC);
 
     // # Get last post message text
     cy.getLastPostId().then((postId) => {
@@ -171,10 +172,9 @@ describe('System Console', () => {
 
         // # Add board user to test team to ensure that it exists in the team and set its preferences to skip tutorial step
         cy.apiGetUserByEmail(boardUser.email).then(({user}) => {
-            cy.apiGetChannelByName(testTeam.name, 'town-square').then((channelRes) => {
-                const channelId = channelRes.body.id;
+            cy.apiGetChannelByName(testTeam.name, 'town-square').then(({channel}) => {
                 cy.apiAddUserToTeam(testTeam.id, user.id).then(() => {
-                    cy.apiAddUserToChannel(channelId, user.id);
+                    cy.apiAddUserToChannel(channel.id, user.id);
                 });
             });
 

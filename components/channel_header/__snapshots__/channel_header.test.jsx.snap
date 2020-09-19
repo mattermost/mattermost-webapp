@@ -38,7 +38,6 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
                   <FormattedMessage
                     defaultMessage="Add to Favorites"
                     id="channelHeader.addToFavorites"
-                    values={Object {}}
                   />
                 </Tooltip>
               }
@@ -112,12 +111,10 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
               <FormattedMessage
                 defaultMessage="Add a channel description"
                 id="channel_header.addChannelHeader"
-                values={Object {}}
               />
               <FormattedMessage
                 defaultMessage="(Edit)"
                 id="channel_header.editLink"
-                values={Object {}}
               >
                 <Component />
               </FormattedMessage>
@@ -249,7 +246,6 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
                   <FormattedMessage
                     defaultMessage="Add to Favorites"
                     id="channelHeader.addToFavorites"
-                    values={Object {}}
                   />
                 </Tooltip>
               }
@@ -323,12 +319,10 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
               <FormattedMessage
                 defaultMessage="Add a channel description"
                 id="channel_header.addChannelHeader"
-                values={Object {}}
               />
               <FormattedMessage
                 defaultMessage="(Edit)"
                 id="channel_header.editLink"
-                values={Object {}}
               >
                 <Component />
               </FormattedMessage>
@@ -460,7 +454,6 @@ exports[`components/ChannelHeader should render active pinned posts 1`] = `
                   <FormattedMessage
                     defaultMessage="Add to Favorites"
                     id="channelHeader.addToFavorites"
-                    values={Object {}}
                   />
                 </Tooltip>
               }
@@ -534,12 +527,10 @@ exports[`components/ChannelHeader should render active pinned posts 1`] = `
               <FormattedMessage
                 defaultMessage="Add a channel description"
                 id="channel_header.addChannelHeader"
-                values={Object {}}
               />
               <FormattedMessage
                 defaultMessage="(Edit)"
                 id="channel_header.editLink"
-                values={Object {}}
               >
                 <Component />
               </FormattedMessage>
@@ -821,7 +812,6 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
                   <FormattedMessage
                     defaultMessage="Add to Favorites"
                     id="channelHeader.addToFavorites"
-                    values={Object {}}
                   />
                 </Tooltip>
               }
@@ -886,7 +876,6 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
                 <FormattedMessage
                   defaultMessage="Unmute"
                   id="channelHeader.unmute"
-                  values={Object {}}
                 />
               </Tooltip>
             }
@@ -930,12 +919,10 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
               <FormattedMessage
                 defaultMessage="Add a channel description"
                 id="channel_header.addChannelHeader"
-                values={Object {}}
               />
               <FormattedMessage
                 defaultMessage="(Edit)"
                 id="channel_header.editLink"
-                values={Object {}}
               >
                 <Component />
               </FormattedMessage>
@@ -1073,7 +1060,6 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
                   <FormattedMessage
                     defaultMessage="Add to Favorites"
                     id="channelHeader.addToFavorites"
-                    values={Object {}}
                   />
                 </Tooltip>
               }
@@ -1147,12 +1133,10 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
               <FormattedMessage
                 defaultMessage="Add a channel description"
                 id="channel_header.addChannelHeader"
-                values={Object {}}
               />
               <FormattedMessage
                 defaultMessage="(Edit)"
                 id="channel_header.editLink"
-                values={Object {}}
               >
                 <Component />
               </FormattedMessage>
@@ -1533,7 +1517,6 @@ exports[`components/ChannelHeader should render the pinned icon with the pinned 
                   <FormattedMessage
                     defaultMessage="Add to Favorites"
                     id="channelHeader.addToFavorites"
-                    values={Object {}}
                   />
                 </Tooltip>
               }
@@ -1607,12 +1590,10 @@ exports[`components/ChannelHeader should render the pinned icon with the pinned 
               <FormattedMessage
                 defaultMessage="Add a channel description"
                 id="channel_header.addChannelHeader"
-                values={Object {}}
               />
               <FormattedMessage
                 defaultMessage="(Edit)"
                 id="channel_header.editLink"
-                values={Object {}}
               >
                 <Component />
               </FormattedMessage>

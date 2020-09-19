@@ -30,5 +30,18 @@ declare namespace Cypress {
          *   });
          */
         apiUpdateUserStatus(status: string): Chainable<UserStatus>;
+
+        /**
+         * Get status of a current user.
+         * See https://api.mattermost.com/#tag/status/paths/~1users~1{user_id}~1status/get
+         * @param {String} userId - ID of a given user
+         * @returns {UserStatus} `out.status` as `UserStatus`
+         *
+         * @example
+         *   cy.apiGetUserStatus('userId').then(({status}) => {
+         *       // examine the status information of the user
+         *   });
+         */
+        apiGetStatus(userId: string): Chainable<UserStatus>;
     }
 }

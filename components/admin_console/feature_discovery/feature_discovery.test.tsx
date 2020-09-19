@@ -18,6 +18,7 @@ describe('components/feature_discovery', () => {
                     copyDefault={'Bar'}
                     learnMoreURL='https://test.mattermost.com/secondary/'
                     imgPath='foo/bar.png'
+                    // eslint-disable-next-line @typescript-eslint/naming-convention
                     stats={{TOTAL_USERS: 20}}
                     actions={{
                         requestTrialLicense: jest.fn(),

@@ -7,7 +7,32 @@ exports[`components/post_view/FloatingTimestamp should match snapshot 1`] = `
 >
   <div>
     <span>
-      <injectIntl(RecentDate)
+      <Connect(injectIntl(Timestamp))
+        ranges={
+          Array [
+            Object {
+              "display": <FormattedMessage
+                defaultMessage="Today"
+                id="date_separator.today"
+              />,
+              "equals": Array [
+                "day",
+                0,
+              ],
+            },
+            Object {
+              "display": <FormattedMessage
+                defaultMessage="Yesterday"
+                id="date_separator.yesterday"
+              />,
+              "equals": Array [
+                "day",
+                -1,
+              ],
+            },
+          ]
+        }
+        useTime={false}
         value={1234}
       />
     </span>

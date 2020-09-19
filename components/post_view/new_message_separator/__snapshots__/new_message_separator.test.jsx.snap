@@ -10,7 +10,6 @@ exports[`components/post_view/new_message_separator should render new_message_se
     <FormattedMessage
       defaultMessage="New Messages"
       id="posts_view.newMsg"
-      values={Object {}}
     />
   </NotificationSeparator>
 </div>

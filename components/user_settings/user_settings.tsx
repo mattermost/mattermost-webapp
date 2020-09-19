@@ -3,6 +3,8 @@
 
 import React from 'react';
 
+import {UserProfile} from 'mattermost-redux/types/users';
+
 import AdvancedTab from './advanced';
 import DisplayTab from './display';
 import GeneralTab from './general';
@@ -10,19 +12,19 @@ import NotificationsTab from './notifications';
 import SecurityTab from './security';
 import SidebarTab from './sidebar';
 
-type Props = {
-    user: {};
+export type Props = {
+    user: UserProfile;
     activeTab?: string;
     activeSection?: string;
-    updateSection?: () => void;
-    updateTab?: () => void;
+    updateSection: (section: string) => void;
+    updateTab: (notifications: string) => void;
     closeModal: () => void;
     collapseModal: () => void;
     setEnforceFocus: () => void;
     setRequireConfirm: () => void;
-}
+};
 
-export default class UserSettings extends React.PureComponent<Props, {}> {
+export default class UserSettings extends React.PureComponent<Props> {
     render() {
         if (this.props.activeTab === 'general') {
             return (

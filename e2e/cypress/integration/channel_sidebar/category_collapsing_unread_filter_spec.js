@@ -37,9 +37,6 @@ describe('Channel sidebar', () => {
     });
 
     it('should display collapsed state when collapsed', () => {
-        // # Close "What's new" modal
-        cy.uiCloseWhatsNewModal();
-
         // # Check that the CHANNELS group header is visible
         cy.get('.SidebarChannelGroupHeader:contains(CHANNELS)').should('be.visible').as('channelsGroup');
 
@@ -72,8 +69,8 @@ describe('Channel sidebar', () => {
     it('should collapse channels that are not unread channels', () => {
         // Create a new channel and post a message into it
         cy.getCurrentTeamId().then((teamId) => {
-            cy.apiCreateChannel(teamId, 'channel-test', 'Channel Test').then((res) => {
-                cy.postMessageAs({sender: sysadmin, message: 'Test', channelId: res.body.id});
+            cy.apiCreateChannel(teamId, 'channel-test', 'Channel Test').then(({channel}) => {
+                cy.postMessageAs({sender: sysadmin, message: 'Test', channelId: channel.id});
 
                 // Force a reload to ensure the unread message displays
                 cy.reload();
@@ -159,8 +156,8 @@ describe('Channel sidebar', () => {
     it('should only show unreads when the unread filter is enabled', () => {
         // # Create a new channel and post a message into it
         cy.getCurrentTeamId().then((teamId) => {
-            cy.apiCreateChannel(teamId, 'channel-test', 'Channel Test').then((res) => {
-                cy.postMessageAs({sender: sysadmin, message: 'Test', channelId: res.body.id});
+            cy.apiCreateChannel(teamId, 'channel-test', 'Channel Test').then(({channel}) => {
+                cy.postMessageAs({sender: sysadmin, message: 'Test', channelId: channel.id});
 
                 // Force a reload to ensure the unread message displays
                 cy.reload();

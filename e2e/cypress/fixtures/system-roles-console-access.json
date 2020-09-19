@@ -1,0 +1,86 @@
+[
+  {
+    "section": "about",
+    "system_manager": "read",
+    "system_user_manager": "none",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "reporting",
+    "system_manager": "read",
+    "system_user_manager": "none",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "user_management.system_users",
+    "system_manager": "none",
+    "system_user_manager": "none",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "user_management.groups",
+    "system_manager": "read+write",
+    "system_user_manager": "read+write",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "user_management.teams",
+    "system_manager": "read+write",
+    "system_user_manager": "read+write",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "user_management.channel",
+    "system_manager": "read+write",
+    "system_user_manager": "read+write",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "user_management.permissions",
+    "system_manager": "read+write",
+    "system_user_manager": "read",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "environment",
+    "system_manager": "read+write",
+    "system_user_manager": "none",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "site",
+    "system_manager": "read+write",
+    "system_user_manager": "none",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "authentication",
+    "system_manager": "read",
+    "system_user_manager": "read",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "plugins",
+    "system_manager": "read",
+    "system_user_manager": "none",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "integrations",
+    "system_manager": "read+write",
+    "system_user_manager": "none",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "compliance",
+    "system_manager": "none",
+    "system_user_manager": "none",
+    "system_read_only_admin": "none"
+  },
+  {
+    "section": "experimental",
+    "system_manager": "none",
+    "system_user_manager": "none",
+    "system_read_only_admin": "read"
+  }
+]

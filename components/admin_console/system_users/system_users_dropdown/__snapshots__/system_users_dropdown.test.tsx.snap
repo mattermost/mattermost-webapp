@@ -78,7 +78,6 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
       <FormattedMessage
         defaultMessage="Deactivate"
         id="deactivate_member_modal.deactivate"
-        values={Object {}}
       />
     }
     message={
@@ -125,7 +124,6 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
       <FormattedMessage
         defaultMessage="Revoke"
         id="revoke_user_sessions_modal.revoke"
-        values={Object {}}
       />
     }
     message={
@@ -161,7 +159,6 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
       <FormattedMessage
         defaultMessage="Promote"
         id="promote_to_user_modal.promote"
-        values={Object {}}
       />
     }
     message={
@@ -197,7 +194,6 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
       <FormattedMessage
         defaultMessage="Demote"
         id="demote_to_user_modal.demote"
-        values={Object {}}
       />
     }
     message={
@@ -230,6 +226,7 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
   <MenuWrapper
     animationComponent={[Function]}
     className=""
+    isDisabled={false}
   >
     <div
       className="text-right"
@@ -239,7 +236,6 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
           <FormattedMessage
             defaultMessage="Member"
             id="admin.user_item.member"
-            values={Object {}}
           />
            
         </span>
@@ -336,7 +332,6 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
       <FormattedMessage
         defaultMessage="Deactivate"
         id="deactivate_member_modal.deactivate"
-        values={Object {}}
       />
     }
     message={
@@ -383,7 +378,6 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
       <FormattedMessage
         defaultMessage="Revoke"
         id="revoke_user_sessions_modal.revoke"
-        values={Object {}}
       />
     }
     message={
@@ -419,7 +413,6 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
       <FormattedMessage
         defaultMessage="Promote"
         id="promote_to_user_modal.promote"
-        values={Object {}}
       />
     }
     message={
@@ -455,7 +448,6 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
       <FormattedMessage
         defaultMessage="Demote"
         id="demote_to_user_modal.demote"
-        values={Object {}}
       />
     }
     message={
@@ -488,6 +480,7 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
   <MenuWrapper
     animationComponent={[Function]}
     className=""
+    isDisabled={false}
   >
     <div
       className="text-right"
@@ -497,7 +490,6 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
           <FormattedMessage
             defaultMessage="Member"
             id="admin.user_item.member"
-            values={Object {}}
           />
            
         </span>

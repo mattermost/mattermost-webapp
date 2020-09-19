@@ -22,6 +22,7 @@ const StatTypes = Constants.StatTypes;
 import * as Utils from 'utils/utils.jsx';
 
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
+import ErrorLink from 'components/error_page/error_link';
 
 type Props = {
     user: UserProfile;
@@ -75,17 +76,13 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
         if (error) {
             this.setState({serverError: error, saving: false});
         } else {
-            this.onHideWithParent();
+            this.onHide();
         }
     }
 
     onHide = () => {
         this.setState({serverError: null, saving: false});
         this.props.actions.closeModal(ModalIdentifiers.WARN_METRIC_ACK);
-    }
-
-    onHideWithParent = () => {
-        this.onHide();
         if (this.props.closeParentComponent) {
             this.props.closeParentComponent();
         }
@@ -148,23 +145,45 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
         const headerTitle = (
             <FormattedMessage
                 id='warn_metric_ack_modal.header.title'
-                defaultMessage='Upgrade to Mattermost Enterprise Edition'
+                defaultMessage='Scaling with Mattermost'
             />
         );
         const descriptionText = (
             <FormattedMessage
                 id='warn_metric_ack_modal.number_of_active_users.description'
-                defaultMessage='Mattermost strongly recommends that deployments of over {limit} users upgrade to Mattermost Enterprise E20, which offers features such as user management, server clustering, and performance monitoring'
+                defaultMessage='Mattermost strongly recommends that deployments of over {limit} users upgrade to Mattermost Enterprise Edition, which offers features such as user management, server clustering, and performance monitoring'
                 values={{
                     limit: this.props.warnMetricStatus.limit,
                 }}
             />
         );
 
+        const learnMoreLink = 'https://mattermost.com/pl/default-admin-advisory';
+        const subText = (
+            <div
+                style={{display: 'flex', opacity: '0.56', flexWrap: 'wrap'}}
+                className='help__format-text'
+            >
+                <FormattedMessage
+                    id='warn_metric_ack_modal.number_of_active_users.subtext'
+                    defaultMessage='By clicking Acknowledge, you will be sharing your information with Mattermost Inc., to learn more about upgrading. {link}'
+                    values={{
+                        link: (
+                            <ErrorLink
+                                url={learnMoreLink}
+                                messageId={t('warn_metric_ack_modal.learn_more.link')}
+                                defaultMessage={'Learn More'}
+                            />
+                        ),
+                    }}
+                />
+            </div>
+        );
+
         const buttonText = (
             <FormattedMessage
                 id='warn_metric_ack_modal.contact_support'
-                defaultMessage='Contact us'
+                defaultMessage='Acknowledge'
             />
         );
 
@@ -191,6 +210,8 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
                         {descriptionText}
                         <br/>
                         {this.renderError()}
+                        <br/>
+                        {subText}
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
