@@ -3,17 +3,30 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import {makeGetReactionsForPost} from 'mattermost-redux/selectors/entities/posts';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
-import {addReaction} from 'actions/post_actions.jsx';
+import {addReaction, removeReaction} from 'actions/post_actions.jsx';
 
 import PostReaction from './post_reaction';
+
+function mapStateToProps(state, ownProps) {
+    const getReactionsForPost = makeGetReactionsForPost();
+    const currentUserId = getCurrentUserId(state);
+
+    return {
+        reactions: Object.values(getReactionsForPost(state, ownProps.postId) || {}),
+        currentUserId,
+    };
+}
 
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             addReaction,
+            removeReaction,
         }, dispatch),
     };
 }
 
-export default connect(null, mapDispatchToProps)(PostReaction);
+export default connect(mapStateToProps, mapDispatchToProps)(PostReaction);

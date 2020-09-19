@@ -131,6 +131,13 @@ export function addReaction(postId, emojiName) {
     };
 }
 
+export function removeReaction(postId, emojiName) {
+    return (dispatch) => {
+        dispatch(PostActions.removeReaction(postId, emojiName));
+        dispatch(addRecentEmoji(emojiName));
+    };
+}
+
 export function searchForTerm(term) {
     return (dispatch) => {
         dispatch(RhsActions.updateSearchTerms(term));
