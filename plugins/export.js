@@ -5,6 +5,7 @@ import messageHtmlToComponent from 'utils/message_html_to_component';
 import {formatText} from 'utils/text_formatting';
 import {browserHistory} from 'utils/browser_history';
 import Textbox from 'components/textbox';
+import ViewImageModal from 'components/view_image';
 
 // The following import has intentional side effects. Do not remove without research.
 import {openInteractiveDialog} from './interactive_dialog';
@@ -23,4 +24,4 @@ window.PDFJS = require('pdfjs-dist');
 window.PostUtils = {formatText, messageHtmlToComponent};
 window.openInteractiveDialog = openInteractiveDialog;
 window.WebappUtils = {browserHistory};
-window.Components = {Textbox};
+window.Components = {Textbox, ViewImageModal};
