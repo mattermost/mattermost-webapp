@@ -52,7 +52,7 @@ type State = {
 const USERS_PER_PAGE = 10;
 
 export default class SystemRoleUsers extends React.PureComponent<Props, State> {
-    private searchTimeoutId: number;
+    searchTimeoutId: number;
 
     constructor(props: Props) {
         super(props);
@@ -67,7 +67,7 @@ export default class SystemRoleUsers extends React.PureComponent<Props, State> {
         };
     }
 
-    public async componentDidMount() {
+    async componentDidMount() {
         const {getProfiles, getFilteredUsersStats, setUserGridSearch} = this.props.actions;
         await Promise.all([
             setUserGridSearch(''),
@@ -77,7 +77,7 @@ export default class SystemRoleUsers extends React.PureComponent<Props, State> {
         this.setStateLoading(false);
     }
 
-    public async componentDidUpdate(prevProps: Props) {
+    async componentDidUpdate(prevProps: Props) {
         if (prevProps.term !== this.props.term) {
             this.setStateLoading(true);
             clearTimeout(this.searchTimeoutId);
@@ -105,18 +105,18 @@ export default class SystemRoleUsers extends React.PureComponent<Props, State> {
         }
     }
 
-    public setStateLoading = (loading: boolean) => {
+    setStateLoading = (loading: boolean) => {
         this.setState({loading});
     }
 
-    private getVisibleTotalCount = (): number => {
+    getVisibleTotalCount = (): number => {
         const {usersToRemove, usersToAdd, totalCount} = this.props;
         const usersToAddCount = Object.keys(usersToAdd).length;
         const usersToRemoveCount = Object.keys(usersToRemove).length;
         return totalCount + (usersToAddCount - usersToRemoveCount);
     }
 
-    public getPaginationProps = (): {startCount: number; endCount: number; total: number} => {
+    getPaginationProps = (): {startCount: number; endCount: number; total: number} => {
         const {term, usersToRemove, usersToAdd} = this.props;
         const {page} = this.state;
 
@@ -141,11 +141,11 @@ export default class SystemRoleUsers extends React.PureComponent<Props, State> {
         return {startCount, endCount, total};
     }
 
-    private search = async (term: string) => {
+    search = async (term: string) => {
         this.props.actions.setUserGridSearch(term);
     }
 
-    private nextPage = async () => {
+    nextPage = async () => {
         if (this.state.loading) {
             return;
         }
@@ -155,14 +155,14 @@ export default class SystemRoleUsers extends React.PureComponent<Props, State> {
         this.setState({loading: false, page});
     }
 
-    private previousPage = async () => {
+    previousPage = async () => {
         if (this.state.loading || this.state.page === 0) {
             return;
         }
         this.setState({page: this.state.page - 1});
     }
 
-    private getRows = () => {
+    getRows = () => {
         const {users, readOnly, usersToAdd, usersToRemove, currentUserId} = this.props;
         const {startCount, endCount} = this.getPaginationProps();
 
@@ -204,7 +204,7 @@ export default class SystemRoleUsers extends React.PureComponent<Props, State> {
         });
     }
 
-    private getColumns = () => {
+    getColumns = () => {
         const name: JSX.Element = (
             <FormattedMessage
                 id='admin.user_grid.name'
@@ -234,15 +234,15 @@ export default class SystemRoleUsers extends React.PureComponent<Props, State> {
         ];
     }
 
-    private onAddCallback = (users: UserProfile[]) => {
+    onAddCallback = (users: UserProfile[]) => {
         this.props.onAddCallback(users);
     }
 
-    private onRemoveCallback = (user: UserProfile) => {
+    onRemoveCallback = (user: UserProfile) => {
         this.props.onRemoveCallback(user);
     }
 
-    public render() {
+    render() {
         const {page, loading} = this.state;
         const {term, role, usersToAdd, usersToRemove, readOnly} = this.props;
         const {startCount, endCount, total} = this.getPaginationProps();

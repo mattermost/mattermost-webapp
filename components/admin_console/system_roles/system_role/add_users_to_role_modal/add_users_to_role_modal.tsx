@@ -59,7 +59,7 @@ function searchUsersToAdd(users: Dictionary<UserProfile>, term: string): Diction
 }
 
 export default class AddUsersToRoleModal extends React.PureComponent<Props, State> {
-    public constructor(props: Props) {
+    constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -73,16 +73,16 @@ export default class AddUsersToRoleModal extends React.PureComponent<Props, Stat
         };
     }
 
-    public componentDidMount = async () => {
+    componentDidMount = async () => {
         await this.props.actions.getProfiles(0, USERS_PER_PAGE * 2, {roles: ['system_user']});
         this.setUsersLoadingState(false);
     }
 
-    private setUsersLoadingState = (loading: boolean) => {
+    setUsersLoadingState = (loading: boolean) => {
         this.setState({loading});
     }
 
-    public search = async (term: string) => {
+    search = async (term: string) => {
         this.setUsersLoadingState(true);
         let searchResults: UserProfile[] = [];
         const search = term !== '';
@@ -95,17 +95,17 @@ export default class AddUsersToRoleModal extends React.PureComponent<Props, Stat
         this.setState({loading: false, searchResults, term});
     }
 
-    public handleHide = () => {
+    handleHide = () => {
         this.setState({show: false});
     }
 
-    private handleExit = () => {
+    handleExit = () => {
         if (this.props.onHide) {
             this.props.onHide();
         }
     }
 
-    private renderOption = (option: UserProfileValue, isSelected: boolean, onAdd: (user: UserProfileValue) => void, onMouseMove: (user: UserProfileValue) => void) => {
+    renderOption = (option: UserProfileValue, isSelected: boolean, onAdd: (user: UserProfileValue) => void, onMouseMove: (user: UserProfileValue) => void) => {
         let rowSelected = '';
         if (isSelected) {
             rowSelected = 'more-modal__row--selected';
@@ -145,15 +145,15 @@ export default class AddUsersToRoleModal extends React.PureComponent<Props, Stat
         );
     }
 
-    private renderValue = (value: { data: UserProfileValue }): string => {
+    renderValue = (value: { data: UserProfileValue }): string => {
         return value.data?.username || '';
     }
 
-    private renderAriaLabel = (option: UserProfileValue): string => {
+    renderAriaLabel = (option: UserProfileValue): string => {
         return option?.username || '';
     }
 
-    private handleAdd = (value: UserProfileValue) => {
+    handleAdd = (value: UserProfileValue) => {
         const values: UserProfileValue[] = [...this.state.values];
         if (!values.includes(value)) {
             values.push(value);
@@ -161,11 +161,11 @@ export default class AddUsersToRoleModal extends React.PureComponent<Props, Stat
         this.setState({values});
     }
 
-    private handleDelete = (values: UserProfileValue[]) => {
+    handleDelete = (values: UserProfileValue[]) => {
         this.setState({values});
     }
 
-    private handlePageChange = (page: number, prevPage: number) => {
+    handlePageChange = (page: number, prevPage: number) => {
         if (page > prevPage) {
             const needMoreUsers = (this.props.users.length / USERS_PER_PAGE) <= page + 1;
             this.setUsersLoadingState(needMoreUsers);
@@ -174,12 +174,12 @@ export default class AddUsersToRoleModal extends React.PureComponent<Props, Stat
         }
     };
 
-    private handleSubmit = () => {
+    handleSubmit = () => {
         this.props.onAddCallback(this.state.values);
         this.handleHide();
     }
 
-    public render = (): JSX.Element => {
+    render = (): JSX.Element => {
         const numRemainingText = (
             <div id='numPeopleRemaining'>
                 <FormattedMessage

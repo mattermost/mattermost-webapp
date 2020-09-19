@@ -16,27 +16,34 @@ import {SystemSection} from './system_role_permissions';
 
 import './system_role_permissions.scss';
 
+export type PermissionToUpdate = {
+    name: string;
+    value: 'read' | 'write' | false;
+};
+
 type Props = {
     permissions: Record<string, boolean>;
     section: SystemSection;
     permissionsToUpdate: Record<string, 'read' | 'write' | false>;
-    updatePermission: (name: string, value: 'read' | 'write' | false) => void;
+    updatePermissions: (permissions: PermissionToUpdate[]) => void;
     isDisabled?: boolean;
 }
 
 export default class SystemRolePermissionDropdown extends React.PureComponent<Props> {
-    private updatePermission = (value: 'read' | 'write' | false) => {
+    updatePermission = (value: 'read' | 'write' | false) => {
         const section = this.props.section;
-        if (section.subsections.length > 0) {
+        const permissions: PermissionToUpdate[] = [];
+        if (section.subsections && section.subsections.length > 0) {
             section.subsections.forEach(({name}) => {
-                this.props.updatePermission(`${section.name}_${name}`, value);
+                permissions.push({name, value});
             });
         } else {
-            this.props.updatePermission(section.name, value);
+            permissions.push({name: section.name, value});
         }
+        this.props.updatePermissions(permissions);
     }
 
-    private renderOption = (label: JSX.Element, description: JSX.Element) => {
+    renderOption = (label: JSX.Element, description: JSX.Element) => {
         return (
             <div className='PermissionSectionDropdownOptions'>
                 <div className='PermissionSectionDropdownOptions_label'>
@@ -49,8 +56,25 @@ export default class SystemRolePermissionDropdown extends React.PureComponent<Pr
         );
     }
 
-    public render() {
-        const {isDisabled, section, permissions, permissionsToUpdate} = this.props;
+    getAccessForSection = (sectionName: string, permissions: Record<string, boolean>, permissionsToUpdate: Record<string, 'read' | 'write' | false>) => {
+        let access: 'read' | 'write' | false = false;
+        if (sectionName in permissionsToUpdate) {
+            access = permissionsToUpdate[sectionName];
+        } else {
+            if (permissions[`sysconsole_read_${sectionName}`] === true) {
+                access = 'read';
+            }
+
+            if (permissions[`sysconsole_write_${sectionName}`] === true) {
+                access = 'write';
+            }
+        }
+
+        return access;
+    }
+
+    render() {
+        const {isDisabled, section, permissionsToUpdate, permissions} = this.props;
 
         const canWriteLabel = (
             <FormattedMessage
@@ -102,17 +126,23 @@ export default class SystemRolePermissionDropdown extends React.PureComponent<Pr
 
         let currentAccess = noAccessLabel;
 
-        // If we have subsections then use them to determine access.
-        if (section.subsections.length > 0) {
+        // If we have subsections then use them to determine access to show.
+        if (section.subsections && section.subsections.length > 0) {
             let hasNoAccess = false;
             let canRead = false;
             let canWrite = false;
             section.subsections.forEach((subsection) => {
-                const canWriteSubsection = Boolean(permissions[`sysconsole_write_${section.name}_${subsection.name}`]);
-                const canReadSubsection = !canWriteSubsection && Boolean(permissions[`sysconsole_read_${section.name}_${subsection.name}`]);
-                hasNoAccess = hasNoAccess || !(canReadSubsection || canWriteSubsection);
-                canRead = canRead || canReadSubsection;
-                canWrite = canWrite || canWriteSubsection;
+                switch (this.getAccessForSection(subsection.name, permissions, permissionsToUpdate)) {
+                case 'read':
+                    canRead = true;
+                    break;
+                case 'write':
+                    canWrite = true;
+                    break;
+                default:
+                    hasNoAccess = true;
+                    break;
+                }
             });
 
             // If the role has more than one type of access across the subsection then mark it as mixed access.
@@ -125,8 +155,8 @@ export default class SystemRolePermissionDropdown extends React.PureComponent<Pr
             } else if (hasNoAccess) {
                 currentAccess = noAccessLabel;
             }
-        } else if (section.name in permissionsToUpdate) {
-            switch (permissionsToUpdate[section.name]) {
+        } else {
+            switch (this.getAccessForSection(section.name, permissions, permissionsToUpdate)) {
             case 'read':
                 currentAccess = canReadLabel;
                 break;
@@ -136,14 +166,6 @@ export default class SystemRolePermissionDropdown extends React.PureComponent<Pr
             default:
                 currentAccess = noAccessLabel;
                 break;
-            }
-        } else {
-            if (permissions[`sysconsole_read_${section.name}`]) {
-                currentAccess = canReadLabel;
-            }
-
-            if (permissions[`sysconsole_write_${section.name}`]) {
-                currentAccess = canWriteLabel;
             }
         }
 

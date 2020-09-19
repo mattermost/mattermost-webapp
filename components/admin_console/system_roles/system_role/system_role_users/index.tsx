@@ -16,6 +16,7 @@ import {getFilteredUsersStats, getProfiles, searchProfiles} from 'mattermost-red
 
 import {getRoles} from 'mattermost-redux/selectors/entities/roles_helpers';
 import {getProfiles as selectProfiles, getFilteredUsersStats as selectFilteredUserStats, searchProfiles as selectProfilesWithTerm, filterProfiles, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+
 import {setUserGridSearch} from 'actions/views/search';
 import {GlobalState} from 'types/store';
 

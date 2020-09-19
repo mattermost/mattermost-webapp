@@ -44,7 +44,7 @@ type State = {
 }
 
 export default class SystemRole extends React.PureComponent<Props, State> {
-    public constructor(props: Props) {
+    constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -59,14 +59,14 @@ export default class SystemRole extends React.PureComponent<Props, State> {
         };
     }
 
-    private getSaveNeeded = (nextState: Partial<State>): boolean => {
+    getSaveNeeded = (nextState: Partial<State>): boolean => {
         const {usersToAdd, usersToRemove} = {...this.state, ...nextState};
         let saveNeeded = false;
         saveNeeded = Object.keys(usersToAdd).length > 0 || Object.keys(usersToRemove).length > 0;
         return saveNeeded;
     }
 
-    private addUsersToRole = (users: UserProfile[]) => {
+    addUsersToRole = (users: UserProfile[]) => {
         const usersToAdd = {
             ...this.state.usersToAdd,
         };
@@ -84,7 +84,7 @@ export default class SystemRole extends React.PureComponent<Props, State> {
         this.setState({usersToAdd, usersToRemove, saveNeeded: this.getSaveNeeded({usersToAdd, usersToRemove})});
     }
 
-    private removeUserFromRole = (user: UserProfile) => {
+    removeUserFromRole = (user: UserProfile) => {
         const usersToAdd = {
             ...this.state.usersToAdd,
         };
@@ -99,7 +99,7 @@ export default class SystemRole extends React.PureComponent<Props, State> {
         this.setState({usersToRemove, usersToAdd, saveNeeded: this.getSaveNeeded({usersToAdd, usersToRemove})});
     }
 
-    private handleSubmit = async () => {
+    handleSubmit = async () => {
         this.setState({saving: true, saveNeeded: false});
         const {usersToRemove, usersToAdd, updatedRolePermissions} = this.state;
         const {role, actions: {editRole, updateUserRoles}} = this.props;
@@ -165,11 +165,15 @@ export default class SystemRole extends React.PureComponent<Props, State> {
         });
     }
 
-    private updatePermission = (name: string, value: 'read' | 'write' | false) => {
+    updatePermissions = (permissions: {name: string, value: 'read' | 'write' | false}[]) => {
         const {role} = this.props;
+        const updatedPermissions: Record<string, 'read' | 'write' | false> = {};
+        permissions.forEach((perm) => {
+            updatedPermissions[perm.name] = perm.value;
+        });
         const permissionsToUpdate = {
             ...this.state.permissionsToUpdate,
-            [name]: value,
+            ...updatedPermissions,
         };
 
         let updatedRolePermissions: string[] = [];
@@ -201,8 +205,6 @@ export default class SystemRole extends React.PureComponent<Props, State> {
         }
 
         updatedRolePermissions = uniq(updatedRolePermissions);
-        console.log(difference(updatedRolePermissions, role.permissions))
-        console.log(difference(role.permissions, updatedRolePermissions))
         this.setState({
             permissionsToUpdate,
             updatedRolePermissions,
@@ -210,7 +212,7 @@ export default class SystemRole extends React.PureComponent<Props, State> {
         });
     }
 
-    public render() {
+    render() {
         const {usersToAdd, usersToRemove, saving, saveNeeded, serverError, permissionsToUpdate, saveKey} = this.state;
         const {role, isDisabled} = this.props;
         const defaultName = role.name.split('').map((r) => r.charAt(0).toUpperCase() + r.slice(1)).join(' ');
@@ -233,7 +235,7 @@ export default class SystemRole extends React.PureComponent<Props, State> {
                         <SystemRolePermissions
                             role={role}
                             permissionsToUpdate={permissionsToUpdate}
-                            updatePermission={this.updatePermission}
+                            updatePermissions={this.updatePermissions}
                             readOnly={isDisabled || role.name === 'system_admin'}
                         />
 

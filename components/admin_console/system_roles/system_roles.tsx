@@ -20,34 +20,34 @@ type Props = {
     roles: Dictionary<Role>;
 }
 
+const columns: Column[] = [
+    {
+        name: 'Role',
+        field: 'role',
+        width: 2,
+    },
+    {
+        name: 'Description',
+        field: 'description',
+        width: 3,
+    },
+    {
+        name: 'Type',
+        field: 'type',
+        width: 2,
+    },
+    {
+        name: '',
+        field: 'edit',
+        width: 1,
+    },
+];
+
 import './system_roles.scss';
 
 export default class SystemRoles extends React.PureComponent<Props> {
-    public renderSystemRoles() {
+    render() {
         const {roles} = this.props;
-        const columns: Column[] = [
-            {
-                name: 'Role',
-                field: 'role',
-                width: 2,
-            },
-            {
-                name: 'Description',
-                field: 'description',
-                width: 3,
-            },
-            {
-                name: 'Type',
-                field: 'type',
-                width: 2,
-            },
-            {
-                name: '',
-                field: 'edit',
-                width: 1,
-            },
-        ];
-
         const rows: Row[] = [];
         Object.keys(roles).forEach((name) => {
             const role = roles[name];
@@ -75,21 +75,6 @@ export default class SystemRoles extends React.PureComponent<Props> {
         });
 
         return (
-            <DataGrid
-                rows={rows}
-                columns={columns}
-                page={1}
-                startCount={0}
-                endCount={rows.length}
-                loading={false}
-                nextPage={() => {}}
-                previousPage={() => {}}
-            />
-        );
-    }
-
-    public render() {
-        return (
             <div className='wrapper--fixed'>
                 <FormattedAdminHeader
                     id='admin.permissions.systemRoles'
@@ -106,7 +91,16 @@ export default class SystemRoles extends React.PureComponent<Props> {
                             subtitleDefault='Manage different levels of access to the system console.'
                         >
                             <div className='SystemRoles'>
-                                {this.renderSystemRoles()}
+                                <DataGrid
+                                    rows={rows}
+                                    columns={columns}
+                                    page={1}
+                                    startCount={0}
+                                    endCount={rows.length}
+                                    loading={false}
+                                    nextPage={() => {}}
+                                    previousPage={() => {}}
+                                />
                             </div>
                         </AdminPanel>
                     </div>
