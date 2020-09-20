@@ -36,9 +36,6 @@ describe('components/WarnMetricAckModal', () => {
             limit: 500,
             acked: false,
         },
-        license: {
-            IsLicensed: 'false',
-        },
         actions: {
             closeModal: jest.fn(),
             getStandardAnalytics: jest.fn(),

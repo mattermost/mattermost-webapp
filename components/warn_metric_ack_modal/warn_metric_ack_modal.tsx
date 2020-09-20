@@ -26,7 +26,6 @@ import ErrorLink from 'components/error_page/error_link';
 
 type Props = {
     user: UserProfile;
-    license?: Record<string, any>;
     diagnosticId?: string;
     show: boolean;
     closeParentComponent?: () => Promise<void>;
