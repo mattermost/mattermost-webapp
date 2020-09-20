@@ -45,9 +45,9 @@ describe('Scroll', () => {
         getUserNameTitle().eq(0).invoke('height').as('initialUserNameHeight');
         getThumbnailPost().eq(0).invoke('height').as('initialThumbnailHeight');
         getAttachmentPost().eq(0).invoke('height').as('initialAttachmentHeight');
-        getInlinImgPost().eq(0).invoke('height').as('initialInlineImgHeight');
-        getFirstTextPost().eq(0).invoke('height').as('initial1stPostHeight');
-        getLastTextPost().eq(0).invoke('height').as('initiallastPostHeight');
+        getInlineImgPost().eq(0).invoke('height').as('initialInlineImgHeight');
+        getFirstTextPost().eq(0).invoke('height').as('initialFirstPostHeight');
+        getLastTextPost().eq(0).invoke('height').as('initialLastPostHeight');
         getGifPost().eq(0).invoke('height').as('initialGifPostHeight');
         getJpgPost().eq(0).invoke('height').as('initialJpgPostHeight');
 
@@ -69,17 +69,17 @@ describe('Scroll', () => {
             cy.get('@initialUserNameHeight').then((originalHeight) => {
                 getUserNameTitle().eq(0).should('exist').and('have.css', 'height', originalHeight + 'px');
             });
-            cy.get('@initial1stPostHeight').then((originalHeight) => {
+            cy.get('@initialFirstPostHeight').then((originalHeight) => {
                 getFirstTextPost().eq(0).should('exist').and('have.css', 'height', originalHeight + 'px');
             });
-            cy.get('@initiallastPostHeight').then((originalHeight) => {
+            cy.get('@initialLastPostHeight').then((originalHeight) => {
                 getLastTextPost().eq(0).should('exist').and('have.css', 'height', originalHeight + 'px');
             });
             cy.get('@initialThumbnailHeight').then((originalHeight) => {
                 getThumbnailPost().should('have.length', '2').and('have.css', 'height', originalHeight + 'px');
             });
             cy.get('@initialInlineImgHeight').then((originalHeight) => {
-                getInlinImgPost().should('have.css', 'height', (originalHeight + 2) + 'px');
+                getInlineImgPost().should('have.css', 'height', (originalHeight + 2) + 'px');
             });
             cy.get('@initialAttachmentHeight').then((originalHeight) => {
                 getAttachmentPost().should('have.css', 'height', (originalHeight + 2) + 'px');
@@ -101,6 +101,7 @@ describe('Scroll', () => {
     const getUserNameTitle = () => {
         return cy.findAllByLabelText('sysadmin');
     };
+
     const getThumbnailPost = () => {
         return cy.get('.post-image__thumbnail');
     };
@@ -117,7 +118,7 @@ describe('Scroll', () => {
         return cy.get('.attachment__image');
     };
 
-    const getInlinImgPost = () => {
+    const getInlineImgPost = () => {
         return cy.get('.markdown-inline-img');
     };
 
