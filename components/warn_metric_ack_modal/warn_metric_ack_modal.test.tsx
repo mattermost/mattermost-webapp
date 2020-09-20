@@ -39,7 +39,6 @@ describe('components/WarnMetricAckModal', () => {
         license: {
             IsLicensed: 'false',
         },
-        enterpriseReady: false,
         actions: {
             closeModal: jest.fn(),
             getStandardAnalytics: jest.fn(),
@@ -87,7 +86,6 @@ describe('components/WarnMetricAckModal', () => {
 
     test('send ack on acknowledge button click', () => {
         const props = {...baseProps};
-        props.enterpriseReady = false;
 
         const wrapper = shallow<WarnMetricAckModal>(
             <WarnMetricAckModal {...props}/>,

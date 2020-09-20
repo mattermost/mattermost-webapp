@@ -32,7 +32,6 @@ type Props = {
     closeParentComponent?: () => Promise<void>;
     stats?: Dictionary<number | AnalyticsRow[]>;
     warnMetricStatus: any;
-    enterpriseReady: boolean;
     actions: {
         closeModal: (arg: string) => void;
         getStandardAnalytics: () => any;

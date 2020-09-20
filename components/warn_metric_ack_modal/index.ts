@@ -32,7 +32,6 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
         diagnosticId: config.DiagnosticId,
         show: isModalOpen(state, ModalIdentifiers.WARN_METRIC_ACK),
         closeParentComponent: ownProps.closeParentComponent,
-        enterpriseReady: config.BuildEnterpriseReady === 'true',
     };
 }
 
