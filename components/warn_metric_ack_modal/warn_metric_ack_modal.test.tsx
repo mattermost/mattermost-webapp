@@ -44,8 +44,6 @@ describe('components/WarnMetricAckModal', () => {
             closeModal: jest.fn(),
             getStandardAnalytics: jest.fn(),
             sendWarnMetricAck: jest.fn(),
-            requestTrialLicenseAndAckWarnMetric: jest.fn(),
-            getLicenseConfig: jest.fn(),
         },
     };
 
@@ -85,19 +83,6 @@ describe('components/WarnMetricAckModal', () => {
 
         expect(baseProps.closeParentComponent).toHaveBeenCalledTimes(1);
         expect(wrapper.state('saving')).toEqual(false);
-    });
-
-    test('send ack on start trial button click', () => {
-        const props = {...baseProps};
-        props.enterpriseReady = true;
-
-        const wrapper = shallow<WarnMetricAckModal>(
-            <WarnMetricAckModal {...props}/>,
-        );
-
-        wrapper.setState({gettingTrial: false});
-        wrapper.find('.save-button').simulate('click');
-        expect(props.actions.requestTrialLicenseAndAckWarnMetric).toHaveBeenCalledTimes(1);
     });
 
     test('send ack on acknowledge button click', () => {

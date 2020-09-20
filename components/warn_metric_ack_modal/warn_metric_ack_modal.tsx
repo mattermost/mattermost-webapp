@@ -23,7 +23,6 @@ import * as Utils from 'utils/utils.jsx';
 
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 import ErrorLink from 'components/error_page/error_link';
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 type Props = {
     user: UserProfile;
@@ -38,8 +37,6 @@ type Props = {
         closeModal: (arg: string) => void;
         getStandardAnalytics: () => any;
         sendWarnMetricAck: (arg0: string, arg1: boolean) => ActionFunc & Partial<{error?: string}>;
-        requestTrialLicenseAndAckWarnMetric: (arg0: string) => ActionFunc & Partial<{error?: string}>;
-        getLicenseConfig: () => void;
     };
 }
 
@@ -94,26 +91,6 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
         }
     }
 
-    onRequestLicenseAndAckWarnMetricClick = async () => {
-        if (this.state.gettingTrial) {
-            return;
-        }
-
-        this.setState({gettingTrial: true, gettingTrialError: null});
-
-        trackEvent('admin', 'click_warn_metric_ack_start_trial', {metric: this.props.warnMetricStatus.id});
-
-        const {error} = await this.props.actions.requestTrialLicenseAndAckWarnMetric(this.props.warnMetricStatus.id);
-        if (error) {
-            this.setState({gettingTrialError: error});
-        } else {
-            this.onHide();
-        }
-
-        this.setState({gettingTrial: false});
-        this.props.actions.getLicenseConfig();
-    }
-
     onHide = () => {
         this.setState({serverError: null, saving: false});
 
@@ -166,7 +143,7 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
                                     url={mailToLinkText}
                                     messageId={t('warn_metric_ack_modal.mailto.link')}
                                     forceAck={true}
-                                    defaultMessage='Email us'
+                                    defaultMessage='email us'
                                     onClickHandler={this.onContactUsClick}
                                 />
                             ),
@@ -177,153 +154,92 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
         );
     }
 
-    renderStartTrialError = () => {
-        const {gettingTrialError} = this.state;
-        if (!gettingTrialError) {
-            return '';
-        }
-
-        return (
-            <div className='form-group has-error'>
-                <br/>
-                <label className='control-label'>
-                    <FormattedMarkdownMessage
-                        id='warn_metric_ack_modal.error.body'
-                        defaultMessage='The license could not be retrieved. Please try again or visit https://mattermost.com/trial/ to request a license.'
-                    />
-                </label>
-            </div>
-        );
-    }
-
     render() {
-        const isE0Edition = (this.props.enterpriseReady && this.props.license && this.props.license.IsLicensed === 'false');
-
-        const headerTitle = (
-            <FormattedMessage
-                id='warn_metric_ack_modal.header.title'
-                defaultMessage='Scaling with Mattermost'
-            />
-        );
+        let headerTitle;
+        if (this.props.warnMetricStatus.id === WarnMetricTypes.SYSTEM_WARN_METRIC_NUMBER_OF_ACTIVE_USERS_500) {
+            headerTitle = (
+                <FormattedMessage
+                    id='warn_metric_ack_modal.number_of_users.header.title'
+                    defaultMessage='Scaling with Mattermost'
+                />
+            );
+        } else if (this.props.warnMetricStatus.id === WarnMetricTypes.SYSTEM_WARN_METRIC_NUMBER_OF_POSTS_500K) {
+            headerTitle = (
+                <FormattedMessage
+                    id='warn_metric_ack_modal.number_of_posts.header.title'
+                    defaultMessage='Improve Performance'
+                />
+            );
+        }
 
         let descriptionText;
-        let subText;
         const learnMoreLink = 'https://mattermost.com/pl/default-admin-advisory';
 
-        if (!isE0Edition) {
-            if (this.props.warnMetricStatus.id === WarnMetricTypes.SYSTEM_WARN_METRIC_NUMBER_OF_ACTIVE_USERS_500) {
-                descriptionText = (
-                    <FormattedMessage
-                        id='warn_metric_ack_modal.number_of_active_users.description'
-                        defaultMessage='Mattermost strongly recommends that deployments of over {limit} users upgrade to Mattermost Enterprise Edition, which offers features such as user management, server clustering, and performance monitoring'
-                        values={{
-                            limit: this.props.warnMetricStatus.limit,
-                        }}
-                    />
-                );
-                subText = (
-                    <div
-                        style={containerStyles}
-                        className='help__format-text'
-                    >
-                        <FormattedMessage
-                            id='warn_metric_ack_modal.number_of_active_users.subtext'
-                            defaultMessage='By clicking Acknowledge, you will be sharing your information with Mattermost Inc., to learn more about upgrading. {link}'
-                            values={{
-                                link: (
-                                    <ErrorLink
-                                        url={learnMoreLink}
-                                        messageId={t('warn_metric_ack_modal.learn_more.link')}
-                                        defaultMessage='Learn more'
-                                    />
-                                ),
-                            }}
-                        />
-                    </div>
-                );
-            } else if (this.props.warnMetricStatus.id === WarnMetricTypes.SYSTEM_WARN_METRIC_NUMBER_OF_POSTS_500K) {
-                descriptionText = (
-                    <FormattedMessage
-                        id='warn_metric_ack_modal.number_of_posts.description'
-                        defaultMessage='TODO'
-                        values={{
-                            limit: this.props.warnMetricStatus.limit,
-                        }}
-                    />
-                );
-                subText = (
-                    <div
-                        style={containerStyles}
-                        className='help__format-text'
-                    >
-                        <FormattedMessage
-                            id='warn_metric_ack_modal.number_of_posts.subtext'
-                            defaultMessage='TODO'
-                            values={{
-                                link: (
-                                    <ErrorLink
-                                        url={learnMoreLink}
-                                        messageId={t('warn_metric_ack_modal.learn_more.link')}
-                                        defaultMessage='Learn more'
-                                    />
-                                ),
-                            }}
-                        />
-                    </div>
-                );
-            }
-        }
-
-        let footer;
-        let error;
-
-        if (isE0Edition) {
-            error = this.renderStartTrialError();
-            footer = (
-                <Modal.Footer>
-                    <button
-                        className='btn btn-primary save-button'
-                        data-dismiss='modal'
-                        disabled={this.state.gettingTrial}
-                        autoFocus={true}
-                        onClick={this.onRequestLicenseAndAckWarnMetricClick}
-                    >
-                        <LoadingWrapper
-                            loading={this.state.gettingTrial}
-                            text={Utils.localizeMessage('admin.warn_metric.getting_trial', 'Getting trial')}
-                        >
-                            <FormattedMessage
-                                id='warn_metric_ack_modal.start_trial'
-                                defaultMessage='Start trial'
-                            />
-                        </LoadingWrapper>
-                    </button>
-                </Modal.Footer>
+        if (this.props.warnMetricStatus.id === WarnMetricTypes.SYSTEM_WARN_METRIC_NUMBER_OF_ACTIVE_USERS_500) {
+            descriptionText = (
+                <FormattedMessage
+                    id='warn_metric_ack_modal.number_of_active_users.description'
+                    defaultMessage='Mattermost strongly recommends that deployments of over {limit}} users take advantage of features such as user management, server clustering, and performance monitoring. Contact us to learn more and let us know how we can help.'
+                    values={{
+                        limit: this.props.warnMetricStatus.limit,
+                    }}
+                />
             );
-        } else {
-            error = this.renderContactUsError();
-            footer = (
-                <Modal.Footer>
-                    <button
-                        className='btn btn-primary save-button'
-                        data-dismiss='modal'
-                        disabled={this.state.saving}
-                        autoFocus={true}
-                        onClick={this.onContactUsClick}
-                    >
-                        <LoadingWrapper
-                            loading={this.state.saving}
-                            text={Utils.localizeMessage('admin.warn_metric.sending-email', 'Sending email')}
-                        >
-                            <FormattedMessage
-                                id='warn_metric_ack_modal.contact_support'
-                                defaultMessage='Acknowledge'
-                            />
-                        </LoadingWrapper>
-                    </button>
-                </Modal.Footer>
+        } else if (this.props.warnMetricStatus.id === WarnMetricTypes.SYSTEM_WARN_METRIC_NUMBER_OF_POSTS_500K) {
+            descriptionText = (
+                <FormattedMessage
+                    id='warn_metric_ack_modal.number_of_posts.description'
+                    defaultMessage='Your Mattermost system has a very high number of posts. Mattermost strongly recommends that you implement Elasticsearch in order to optimize search performance and prevent performance degradation and timeouts. Contact us to learn more and let us know how we can help.'
+                    values={{
+                        limit: this.props.warnMetricStatus.limit,
+                    }}
+                />
             );
         }
+
+        const subText = (
+            <div
+                style={containerStyles}
+                className='help__format-text'
+            >
+                <FormattedMessage
+                    id='warn_metric_ack_modal.subtext'
+                    defaultMessage='By clicking Acknowledge, you will be sharing your information with Mattermost Inc., to learn more about upgrading. {link}'
+                    values={{
+                        link: (
+                            <ErrorLink
+                                url={learnMoreLink}
+                                messageId={t('warn_metric_ack_modal.learn_more.link')}
+                                defaultMessage='Learn more'
+                            />
+                        ),
+                    }}
+                />
+            </div>
+        );
+
+        const error = this.renderContactUsError();
+        const footer = (
+            <Modal.Footer>
+                <button
+                    className='btn btn-primary save-button'
+                    data-dismiss='modal'
+                    disabled={this.state.saving}
+                    autoFocus={true}
+                    onClick={this.onContactUsClick}
+                >
+                    <LoadingWrapper
+                        loading={this.state.saving}
+                        text={Utils.localizeMessage('admin.warn_metric.sending-email', 'Sending email')}
+                    >
+                        <FormattedMessage
+                            id='warn_metric_ack_modal.contact_support'
+                            defaultMessage='Acknowledge'
+                        />
+                    </LoadingWrapper>
+                </button>
+            </Modal.Footer>
+        );
 
         return (
             <Modal

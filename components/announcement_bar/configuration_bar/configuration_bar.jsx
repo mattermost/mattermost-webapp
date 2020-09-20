@@ -52,7 +52,7 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
         this.props.actions.dismissNotice(AnnouncementBarMessages.WARN_METRIC_STATUS_ACK);
     }
 
-    getNoticeForWarnMetric = (warnMetricStatus, isE0Edition) => {
+    getNoticeForWarnMetric = (warnMetricStatus) => {
         if (!warnMetricStatus) {
             return null;
         }
@@ -68,33 +68,18 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
         case WarnMetricTypes.SYSTEM_WARN_METRIC_NUMBER_OF_POSTS_500K:
         case WarnMetricTypes.SYSTEM_WARN_METRIC_NUMBER_OF_ACTIVE_USERS_500:
             if (warnMetricStatus.acked) {
-                if (isE0Edition) {
-                    message = (
-                        <React.Fragment>
-                            <img
-                                className='advisor-icon'
-                                src={ackIcon}
-                            />
-                            <FormattedMarkdownMessage
-                                id='announcement_bar.error.number_active_users_warn_metric_status_ack.text'
-                                defaultMessage='Your trial has started! Go to the [System Console](/admin_console/environment/web_server) to check out the new features.'
-                            />
-                        </React.Fragment>
-                    );
-                } else {
-                    message = (
-                        <React.Fragment>
-                            <img
-                                className='advisor-icon'
-                                src={ackIcon}
-                            />
-                            <FormattedMessage
-                                id='announcement_bar.warn_metric_status_ack.text'
-                                defaultMessage='Thank you for contacting Mattermost. We will follow up with you soon.'
-                            />
-                        </React.Fragment>
-                    );
-                }
+                message = (
+                    <React.Fragment>
+                        <img
+                            className='advisor-icon'
+                            src={ackIcon}
+                        />
+                        <FormattedMessage
+                            id='announcement_bar.warn_metric_status_ack.text'
+                            defaultMessage='Thank you for contacting Mattermost. We will follow up with you soon.'
+                        />
+                    </React.Fragment>
+                );
 
                 type = AnnouncementBarTypes.ADVISOR_ACK;
                 showModal = false;
@@ -211,13 +196,10 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
                     />
                 );
             }
-            if (this.props.license &&
-                this.props.license.IsLicensed === 'false' &&
+            if (this.props.license?.IsLicensed === 'false' &&
                 this.props.warnMetricsStatus) {
-                const enterpriseReady = (this.props.config.BuildEnterpriseReady === 'true');
-
                 for (const status of Object.values(this.props.warnMetricsStatus)) {
-                    var notice = this.getNoticeForWarnMetric(status, enterpriseReady);
+                    var notice = this.getNoticeForWarnMetric(status);
                     if (!notice || notice.IsDismissed) {
                         continue;
                     }
