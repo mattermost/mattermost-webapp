@@ -42,12 +42,15 @@ export default class ReactionList extends React.PureComponent {
          */
         enableEmojiPicker: PropTypes.bool.isRequired,
 
+        currentUserId: PropTypes.string,
+
         actions: PropTypes.shape({
 
             /**
              * Function to add a reaction to the post
              */
             addReaction: PropTypes.func.isRequired,
+            removeReaction: PropTypes.func.isRequired,
         }),
     }
 
@@ -66,8 +69,14 @@ export default class ReactionList extends React.PureComponent {
     handleEmojiClick = (emoji) => {
         this.setState({showEmojiPicker: false});
         const emojiName = emoji.name || emoji.aliases[0];
-        this.props.actions.addReaction(this.props.post.id, emojiName);
-    }
+        const reactions = Object.values(this.props.reactions || {});
+
+        if (reactions.some((reaction) => reaction.emoji_name === emojiName && reaction.user_id === this.props.currentUserId)) {
+            this.props.actions.removeReaction(this.props.post.id, emojiName);
+        } else {
+            this.props.actions.addReaction(this.props.post.id, emojiName);
+        }
+    };
 
     hideEmojiPicker = () => {
         this.setState({showEmojiPicker: false});

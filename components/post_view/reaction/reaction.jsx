@@ -116,13 +116,16 @@ export default class Reaction extends React.Component {
 
     static getDerivedStateFromProps(nextProps, prevState) {
         // reaction count has changed, but not by current user
-        if (nextProps.reactionCount !== prevState.displayNumber && nextProps.sortedUsers.currentUserReacted === prevState.userReacted) {
+
+        if (nextProps.reactionCount !== prevState.displayNumber) {
             // set counts relative to current user having reacted
             if (prevState.userReacted) {
                 return {
                     displayNumber: nextProps.reactionCount,
                     reactedNumber: nextProps.reactionCount,
                     unreactedNumber: nextProps.reactionCount - 1,
+                    userReacted: nextProps.sortedUsers.currentUserReacted,
+                    reactedClass: `Reaction--${nextProps.sortedUsers.currentUserReacted ? '' : 'un'}reacted`,
                 };
             }
 
@@ -131,6 +134,8 @@ export default class Reaction extends React.Component {
                 displayNumber: nextProps.reactionCount,
                 reactedNumber: nextProps.reactionCount + 1,
                 unreactedNumber: nextProps.reactionCount,
+                userReacted: nextProps.sortedUsers.currentUserReacted,
+                reactedClass: `Reaction--${nextProps.sortedUsers.currentUserReacted ? '' : 'un'}reacted`,
             };
         }
         return null;

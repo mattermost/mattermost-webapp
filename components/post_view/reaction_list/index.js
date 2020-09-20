@@ -7,8 +7,9 @@ import {bindActionCreators} from 'redux';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {makeGetReactionsForPost} from 'mattermost-redux/selectors/entities/posts';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
-import {addReaction} from 'actions/post_actions.jsx';
+import {addReaction, removeReaction} from 'actions/post_actions.jsx';
 
 import ReactionList from './reaction_list.jsx';
 
@@ -18,6 +19,7 @@ function makeMapStateToProps() {
     return function mapStateToProps(state, ownProps) {
         const config = getConfig(state);
         const enableEmojiPicker = config.EnableEmojiPicker === 'true' && !ownProps.isReadOnly;
+        const currentUserId = getCurrentUserId(state);
 
         const channel = getChannel(state, ownProps.post.channel_id) || {};
         const teamId = channel.team_id;
@@ -26,6 +28,7 @@ function makeMapStateToProps() {
             teamId,
             reactions: getReactionsForPost(state, ownProps.post.id),
             enableEmojiPicker,
+            currentUserId,
         };
     };
 }
@@ -34,8 +37,9 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             addReaction,
+            removeReaction,
         }, dispatch),
     };
 }
 
-export default connect(makeMapStateToProps, mapDispatchToProps)(ReactionList);
+export default connect(makeMapStateToProps(), mapDispatchToProps)(ReactionList);
