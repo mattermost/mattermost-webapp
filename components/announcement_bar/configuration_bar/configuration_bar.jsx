@@ -33,6 +33,8 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
         dismissedExpiringLicense: PropTypes.bool,
         dismissedNumberOfActiveUsersWarnMetricStatus: PropTypes.bool,
         dismissedNumberOfActiveUsersWarnMetricStatusAck: PropTypes.bool,
+        dismissedNumberOfPostsWarnMetricStatus: PropTypes.bool,
+        dismissedNumberOfPostsWarnMetricStatusAck: PropTypes.bool,
         siteURL: PropTypes.string.isRequired,
         warnMetricsStatus: PropTypes.object,
         actions: PropTypes.shape({
@@ -45,11 +47,19 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
     }
 
     dismissNumberOfActiveUsersWarnMetric = () => {
-        this.props.actions.dismissNotice(AnnouncementBarMessages.WARN_METRIC_STATUS);
+        this.props.actions.dismissNotice(AnnouncementBarMessages.WARN_METRIC_STATUS_NUMBER_OF_USERS);
+    }
+
+    dismissNumberOfPostsWarnMetric = () => {
+        this.props.actions.dismissNotice(AnnouncementBarMessages.WARN_METRIC_STATUS_NUMBER_OF_POSTS);
     }
 
     dismissNumberOfActiveUsersWarnMetricAck = () => {
-        this.props.actions.dismissNotice(AnnouncementBarMessages.WARN_METRIC_STATUS_ACK);
+        this.props.actions.dismissNotice(AnnouncementBarMessages.WARN_METRIC_STATUS_NUMBER_OF_USERS_ACK);
+    }
+
+    dismissNumberOfPostsWarnMetricAck = () => {
+        this.props.actions.dismissNotice(AnnouncementBarMessages.WARN_METRIC_STATUS_NUMBER_OF_POSTS_ACK);
     }
 
     getNoticeForWarnMetric = (warnMetricStatus) => {
@@ -64,10 +74,8 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
         var isDismissed = null;
         var canCloseBar = false;
 
-        switch (warnMetricStatus.id) {
-        case WarnMetricTypes.SYSTEM_WARN_METRIC_NUMBER_OF_POSTS_500K:
-        case WarnMetricTypes.SYSTEM_WARN_METRIC_NUMBER_OF_ACTIVE_USERS_500:
-            if (warnMetricStatus.acked) {
+        if (warnMetricStatus.acked) {
+            if (warnMetricStatus.id === WarnMetricTypes.SYSTEM_WARN_METRIC_NUMBER_OF_ACTIVE_USERS_500) {
                 message = (
                     <React.Fragment>
                         <img
@@ -81,62 +89,77 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
                     </React.Fragment>
                 );
 
-                type = AnnouncementBarTypes.ADVISOR_ACK;
-                showModal = false;
                 dismissFunc = this.dismissNumberOfActiveUsersWarnMetricAck;
                 isDismissed = this.props.dismissedNumberOfActiveUsersWarnMetricStatusAck;
-                canCloseBar = true;
-            } else {
-                if (warnMetricStatus.id === WarnMetricTypes.SYSTEM_WARN_METRIC_NUMBER_OF_ACTIVE_USERS_500) {
-                    message = (
-                        <React.Fragment>
-                            <img
-                                className='advisor-icon'
-                                src={alertIcon}
-                            />
-                            <FormattedMarkdownMessage
-                                id='announcement_bar.error.number_active_users_warn_metric_status.text'
-                                defaultMessage='You now have over {limit} users. We strongly recommend using advanced features for large-scale servers.'
-                                values={{
-                                    limit: warnMetricStatus.limit,
-                                }}
-                            />
-                        </React.Fragment>
-                    );
-                } else if (warnMetricStatus.id === WarnMetricTypes.SYSTEM_WARN_METRIC_NUMBER_OF_POSTS_500K) {
-                    message = (
-                        <React.Fragment>
-                            <img
-                                className='advisor-icon'
-                                src={alertIcon}
-                            />
-                            <FormattedMarkdownMessage
-                                id='announcement_bar.number_of_posts_warn_metric_status.text'
-                                defaultMessage='You now have over {limit} posts. We strongly recommend using advanced features for large-scale servers.'
-                                values={{
-                                    limit: warnMetricStatus.limit,
-                                }}
-                            />
-                        </React.Fragment>
-                    );
-                }
-                type = AnnouncementBarTypes.ADVISOR;
-                showModal = true;
+            } else if (warnMetricStatus.id === WarnMetricTypes.SYSTEM_WARN_METRIC_NUMBER_OF_POSTS_500K) {
+                message = (
+                    <React.Fragment>
+                        <img
+                            className='advisor-icon'
+                            src={ackIcon}
+                        />
+                        <FormattedMessage
+                            id='announcement_bar.warn_metric_status_ack.text'
+                            defaultMessage='Thank you for contacting Mattermost. We will follow up with you soon.'
+                        />
+                    </React.Fragment>
+                );
+                dismissFunc = this.dismissNumberOfPostsWarnMetricAck;
+                isDismissed = this.props.dismissedNumberOfPostsWarnMetricStatusAck;
+            }
+            type = AnnouncementBarTypes.ADVISOR_ACK;
+            showModal = false;
+            canCloseBar = true;
+        } else {
+            if (warnMetricStatus.id === WarnMetricTypes.SYSTEM_WARN_METRIC_NUMBER_OF_ACTIVE_USERS_500) {
+                message = (
+                    <React.Fragment>
+                        <img
+                            className='advisor-icon'
+                            src={alertIcon}
+                        />
+                        <FormattedMarkdownMessage
+                            id='announcement_bar.error.number_active_users_warn_metric_status.text'
+                            defaultMessage='You now have over {limit} users. We strongly recommend using advanced features for large-scale servers.'
+                            values={{
+                                limit: warnMetricStatus.limit,
+                            }}
+                        />
+                    </React.Fragment>
+                );
                 dismissFunc = this.dismissNumberOfActiveUsersWarnMetric;
                 isDismissed = this.props.dismissedNumberOfActiveUsersWarnMetricStatus;
-                canCloseBar = false;
+            } else if (warnMetricStatus.id === WarnMetricTypes.SYSTEM_WARN_METRIC_NUMBER_OF_POSTS_500K) {
+                message = (
+                    <React.Fragment>
+                        <img
+                            className='advisor-icon'
+                            src={alertIcon}
+                        />
+                        <FormattedMarkdownMessage
+                            id='announcement_bar.number_of_posts_warn_metric_status.text'
+                            defaultMessage='You now have over {limit} posts. We strongly recommend using advanced features for large-scale servers.'
+                            values={{
+                                limit: warnMetricStatus.limit,
+                            }}
+                        />
+                    </React.Fragment>
+                );
+                dismissFunc = this.dismissNumberOfPostsWarnMetric;
+                isDismissed = this.props.dismissedNumberOfPostsWarnMetricStatus;
             }
-            return {
-                Message: message,
-                DismissFunc: dismissFunc,
-                IsDismissed: isDismissed,
-                Type: type,
-                ShowModal: showModal,
-                CanCloseBar: canCloseBar,
-            };
-        default:
-            return null;
+            type = AnnouncementBarTypes.ADVISOR;
+            showModal = true;
+            canCloseBar = false;
         }
+        return {
+            Message: message,
+            DismissFunc: dismissFunc,
+            IsDismissed: isDismissed,
+            Type: type,
+            ShowModal: showModal,
+            CanCloseBar: canCloseBar,
+        };
     }
 
     render() {
