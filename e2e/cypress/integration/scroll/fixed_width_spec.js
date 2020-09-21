@@ -10,7 +10,6 @@ const timeouts = require('../../fixtures/timeouts');
 // ***************************************************************
 
 // Group: @scroll
-
 describe('Scroll', () => {
     let testTeam;
     let testChannel;
@@ -33,23 +32,29 @@ describe('Scroll', () => {
         const link = 'https://www.bbc.com/news/uk-wales-45142614';
         const gifLink = '![gif](http://i.giphy.com/xNrM4cGJ8u3ao.gif)';
         cy.postMessage('This is the first post');
+        cy.getLastPostId().as('firstPostId');
         cy.postMessage(link);
+        cy.getLastPostId().as('linkPreviewId');
         cy.postMessage(gifLink);
-
+        cy.getLastPostId().as('gifLinkPostId');
         const commonTypeFiles = ['jpg-image-file.jpg', 'gif-image-file.gif', 'mp3-audio-file.mp3', 'mpeg-video-file.mpg'];
         commonTypeFiles.forEach((file) => {
             cy.get('#fileUploadInput').attachFile(file);
             cy.postMessage(`Attached with ${file}`);
+            cy.getLastPostId().as(`${file}PostId`);
         });
         cy.postMessage('This is the last post');
-        getUserNameTitle().eq(0).invoke('height').as('initialUserNameHeight');
-        getThumbnailPost().eq(0).invoke('height').as('initialThumbnailHeight');
-        getAttachmentPost().eq(0).invoke('height').as('initialAttachmentHeight');
-        getInlineImgPost().eq(0).invoke('height').as('initialInlineImgHeight');
-        getFirstTextPost().eq(0).invoke('height').as('initialFirstPostHeight');
-        getLastTextPost().eq(0).invoke('height').as('initialLastPostHeight');
-        getGifPost().eq(0).invoke('height').as('initialGifPostHeight');
-        getJpgPost().eq(0).invoke('height').as('initialJpgPostHeight');
+        cy.getLastPostId().as('lastPostId');
+
+        getLastTextPost().invoke('height').as('initialFirstPostHeight');
+        getUserNameTitle().invoke('height').as('initialUserNameHeight');
+        getMp3Post().invoke('height').as('initialMp3Height');
+        getMpgPost().invoke('height').as('initialMpgHeight');
+        getGifPost().invoke('height').as('initialGifHeight');
+        getJpgPost().invoke('height').as('initialJpgHeight');
+        getAttachmentPost().invoke('height').as('initialAttachmentHeight');
+        getInlineImgPost().invoke('height').as('initialInlineImgHeight');
+        getLastTextPost().invoke('height').as('initialLastPostHeight');
 
         // # Switch the account settings for the test user to enable Fixed width center
         cy.toAccountSettingsModal();
@@ -75,22 +80,23 @@ describe('Scroll', () => {
             cy.get('@initialLastPostHeight').then((originalHeight) => {
                 getLastTextPost().eq(0).should('exist').and('have.css', 'height', originalHeight + 'px');
             });
-            cy.get('@initialThumbnailHeight').then((originalHeight) => {
-                getThumbnailPost().should('have.length', '2').and('have.css', 'height', originalHeight + 'px');
+            cy.get('@initialMp3Height').then((originalHeight) => {
+                getMp3Post().should('have.css', 'height', originalHeight + 'px');
+            });
+            cy.get('@initialMpgHeight').then((originalHeight) => {
+                getMpgPost().should('have.css', 'height', originalHeight + 'px');
+            });
+            cy.get('@initialGifHeight').then((originalHeight) => {
+                getGifPost().should('have.css', 'height', originalHeight + 'px');
+            });
+            cy.get('@initialJpgHeight').then((originalHeight) => {
+                getJpgPost().should('have.css', 'height', originalHeight + 'px');
             });
             cy.get('@initialInlineImgHeight').then((originalHeight) => {
                 getInlineImgPost().should('have.css', 'height', (originalHeight + 2) + 'px');
             });
             cy.get('@initialAttachmentHeight').then((originalHeight) => {
                 getAttachmentPost().should('have.css', 'height', (originalHeight + 2) + 'px');
-            });
-
-            cy.get('@initialGifPostHeight').then((originalHeight) => {
-                getGifPost().should('have.css', 'height', originalHeight + 'px');
-            });
-
-            cy.get('@initialJpgPostHeight').then((originalHeight) => {
-                getJpgPost().should('have.css', 'height', originalHeight + 'px');
             });
         });
 
@@ -99,34 +105,54 @@ describe('Scroll', () => {
     });
 
     const getUserNameTitle = () => {
-        return cy.findAllByLabelText('sysadmin');
+        return cy.findAllByText('sysadmin');
     };
 
-    const getThumbnailPost = () => {
-        return cy.get('.post-image__thumbnail');
+    const getMp3Post = () => {
+        return cy.get('@mp3-audio-file.mp3PostId').then((postId) => {
+            cy.get(`#${postId}_message`).findByLabelText('file thumbnail mp3-audio-file.mp3');
+        });
+    };
+
+    const getMpgPost = () => {
+        return cy.get('@mpeg-video-file.mpgPostId').then((postId) => {
+            cy.get(`#${postId}_message`).findByLabelText('file thumbnail mpeg-video-file.mpg');
+        });
     };
 
     const getGifPost = () => {
-        return cy.findAllByLabelText('file thumbnail gif-image-file.gif');
+        return cy.get('@gif-image-file.gifPostId').then((postId) => {
+            cy.get(`#${postId}_message`).findByLabelText('file thumbnail gif-image-file.gif');
+        });
     };
 
     const getJpgPost = () => {
-        return cy.findAllByLabelText('file thumbnail jpg-image-file.jpg');
+        return cy.get('@jpg-image-file.jpgPostId').then((postId) => {
+            cy.get(`#${postId}_message`).findByLabelText('file thumbnail jpg-image-file.jpg');
+        });
     };
 
     const getAttachmentPost = () => {
-        return cy.get('.attachment__image');
+        return cy.get('@linkPreviewId').then((postId) => {
+            cy.get(`#${postId}_message`).find('img[aria-label="file thumbnail"]');
+        });
     };
 
     const getInlineImgPost = () => {
-        return cy.get('.markdown-inline-img');
+        return cy.get('@gifLinkPostId').then((postId) => {
+            cy.get(`#${postId}_message`).find('img[aria-label="file thumbnail"]');
+        });
     };
 
     const getFirstTextPost = () => {
-        return cy.findByText('This is the first post');
+        return cy.get('@firstPostId').then((postId) => {
+            cy.get(`#${postId}_message`).findByText('This is the first post');
+        });
     };
 
     const getLastTextPost = () => {
-        return cy.findByText('This is the last post');
+        return cy.get('@lastPostId').then((postId) => {
+            cy.get(`#${postId}_message`).findByText('This is the last post');
+        });
     };
 });
