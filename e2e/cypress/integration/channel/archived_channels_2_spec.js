@@ -9,22 +9,21 @@
 
 // Group: @channel
 
-import {testWithConfig} from '../../support/hooks';
 import {getRandomId} from '../../utils';
 
 describe('Leave an archived channel', () => {
-    testWithConfig({
-        ServiceSettings: {
-            ExperimentalChannelSidebarOrganization: 'default_on',
-        },
-        TeamSettings: {
-            ExperimentalViewArchivedChannels: true,
-        },
-    });
-
     let testTeam;
 
     before(() => {
+        cy.apiUpdateConfig({
+            ServiceSettings: {
+                ExperimentalChannelSidebarOrganization: 'default_on',
+            },
+            TeamSettings: {
+                ExperimentalViewArchivedChannels: true,
+            },
+        });
+
         // # Login as test user and visit town-square
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
             testTeam = team;

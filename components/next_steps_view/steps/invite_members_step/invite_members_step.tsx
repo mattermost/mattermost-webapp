@@ -24,7 +24,8 @@ import './invite_members_step.scss';
 type Props = StepComponentProps & {
     team: Team;
     actions: {
-        sendEmailInvitesToTeamGracefully: (teamId: string, emails: string[]) => Promise<{data: TeamInviteWithError[]; error: ServerError}>;
+        sendEmailInvitesToTeamGracefully: (teamId: string, emails: string[]) => Promise<{ data: TeamInviteWithError[]; error: ServerError }>;
+        regenerateTeamInviteId: (teamId: string) => void;
     };
 };
 
@@ -75,6 +76,11 @@ export default class InviteMembersStep extends React.PureComponent<Props, State>
     componentDidMount() {
         if (this.props.expanded) {
             pageVisited(getAnalyticsCategory(this.props.isAdmin), 'pageview_invite_members');
+        }
+
+        if (!this.props.team.invite_id) {
+            // force a regenerate if an invite ID hasn't been generated yet
+            this.props.actions.regenerateTeamInviteId(this.props.team.id);
         }
     }
 

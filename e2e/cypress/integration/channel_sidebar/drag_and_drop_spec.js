@@ -32,8 +32,8 @@ describe('Channel sidebar', () => {
         // # Start with a new team
         cy.apiCreateTeam('team', 'Team').then(({team}) => {
             teamName = team.display_name;
-            cy.apiCreateChannel(team.id, 'channel', 'Channel').then((response) => {
-                channelName = response.body.display_name;
+            cy.apiCreateChannel(team.id, 'channel', 'Channel').then(({channel}) => {
+                channelName = channel.display_name;
             });
             cy.visit(`/${team.name}/channels/town-square`);
         });
