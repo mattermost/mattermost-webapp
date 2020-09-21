@@ -104,13 +104,6 @@ before(() => {
                 cy.apiAdminLogin().then(() => sysadminSetup(sysadmin));
             });
         }
-    }).then(() => {
-        cy.apiUpdateConfig({
-            AnnouncementSettings: {
-                AdminNoticesEnabled: false,
-                UserNoticesEnabled: false,
-            },
-        });
     });
 });
 
