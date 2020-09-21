@@ -17,19 +17,19 @@ describe('Messaging', () => {
             cy.visit(`/${team.name}/channels/${channel.name}`);
         });
     });
-    it('M23345 - Inline markdown images open preview window', () => {
+    it('MM-T187 Inline markdown images open preview window', () => {
         // # Enable 'Show markdown preview option in message input box' setting in Account Settings > Advanced
-        cy.get('#sidebarHeaderDropdownButton').click();
-        cy.get('#accountSettings').click();
-        cy.get('#advancedButton').click();
-        cy.get('#advancedPreviewFeaturesDesc').click();
+        cy.findAllByLabelText('main menu').should('be.visible').click();
+        cy.findByText('Account Settings').click();
+        cy.get('#accountSettingsModal').should('be.visible').within(() => {
+            cy.findByText('Advanced').click();
+            cy.findByText('Preview Pre-release Features').should('be.visible').click();
         cy.get('#advancedPreviewFeaturesmarkdown_preview').check().should('be.checked');
-        cy.get('#saveSetting').click();
-        cy.reload();
-
+            cy.findByText('Save').click();
+            cy.findAllByLabelText('Close').first().click();
+        });
         // # Post the image link to the channel
-        cy.get('[data-testid=post_textbox]').type('![test image](https://www.mattermost.org/wp-content/uploads/2016/03/logoHorizontal.png){enter}');
-        cy.reload();
+        cy.postMessage('![test image](https://www.mattermost.org/wp-content/uploads/2016/03/logoHorizontal.png)');
 
         // # Hover over image then click to open preview image
         cy.get('.file-preview__button').trigger('mouseover').click();
@@ -38,6 +38,7 @@ describe('Messaging', () => {
         cy.get('.markdown-inline-img__container').should('be.visible');
 
         // * Confirm image is visible
-        cy.get('[data-testid=imagePreview]').should('be.visible');
+        cy.findByTestId('imagePreview').should('be.visible');
+        //cy.get('[data-testid=imagePreview]').should('be.visible');
     });
 });
