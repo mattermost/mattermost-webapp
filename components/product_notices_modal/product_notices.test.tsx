@@ -42,7 +42,7 @@ describe('ProductNoticesModal', () => {
         },
         actions: {
             getInProductNotices: jest.fn().mockResolvedValue({data: noticesData}),
-            updateNoticeAsViewed: jest.fn().mockResolvedValue({}),
+            updateNoticesAsViewed: jest.fn().mockResolvedValue({}),
         },
     };
 
@@ -102,18 +102,18 @@ describe('ProductNoticesModal', () => {
         expect(window.open).toHaveBeenCalledWith(noticesData[1].actionParam, '_blank');
     });
 
-    test('Should call for getInProductNotices and updateNoticeAsViewed on mount', async () => {
+    test('Should call for getInProductNotices and updateNoticesAsViewed on mount', async () => {
         shallow(<ProductNoticesModal {...baseProps}/>);
         expect(baseProps.actions.getInProductNotices).toHaveBeenCalledWith(baseProps.currentTeamId, 'web', baseProps.version);
         await baseProps.actions.getInProductNotices();
-        expect(baseProps.actions.updateNoticeAsViewed).toHaveBeenCalledWith([noticesData[0].id]);
+        expect(baseProps.actions.updateNoticesAsViewed).toHaveBeenCalledWith([noticesData[0].id]);
     });
 
-    test('Should call for updateNoticeAsViewed on click of next button', async () => {
+    test('Should call for updateNoticesAsViewed on click of next button', async () => {
         const wrapper = shallow(<ProductNoticesModal {...baseProps}/>);
         await baseProps.actions.getInProductNotices();
         wrapper.find(GenericModal).prop('handleConfirm')?.();
-        expect(baseProps.actions.updateNoticeAsViewed).toHaveBeenCalledWith([noticesData[1].id]);
+        expect(baseProps.actions.updateNoticesAsViewed).toHaveBeenCalledWith([noticesData[1].id]);
     });
 
     test('Should clear state on onHide with a timer', async () => {

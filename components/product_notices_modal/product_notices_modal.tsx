@@ -25,7 +25,7 @@ type Props = {
         getInProductNotices: (teamId: string, client: string, clientVersion: string) => Promise<{
             data: ProductNotices;
         }>;
-        updateNoticeAsViewed: (noticeIds: string[]) => Promise<Record<string, unknown>>;
+        updateNoticesAsViewed: (noticeIds: string[]) => Promise<Record<string, unknown>>;
     };
 }
 
@@ -82,7 +82,7 @@ export default class ProductNoticesModal extends React.PureComponent<Props, Stat
             });
             if (data.length) {
                 const presentNoticeInfo = this.state.noticesData[this.state.presentNoticeIndex];
-                this.props.actions.updateNoticeAsViewed([presentNoticeInfo.id]);
+                this.props.actions.updateNoticesAsViewed([presentNoticeInfo.id]);
             }
         }
     }
@@ -214,7 +214,7 @@ export default class ProductNoticesModal extends React.PureComponent<Props, Stat
         } else if (this.state.presentNoticeIndex + 1 < noOfNotices) {
             const nextNoticeInfo = this.state.noticesData[this.state.presentNoticeIndex + 1];
 
-            this.props.actions.updateNoticeAsViewed([nextNoticeInfo.id]);
+            this.props.actions.updateNoticesAsViewed([nextNoticeInfo.id]);
 
             this.setState({
                 presentNoticeIndex: this.state.presentNoticeIndex + 1,
