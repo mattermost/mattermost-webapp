@@ -21,6 +21,7 @@ import Menu from 'components/widgets/menu/menu';
 import downloadApps from 'images/download-app.svg';
 import {browserHistory} from 'utils/browser_history';
 import * as UserAgent from 'utils/user_agent';
+import NewChannelFlow from 'components/new_channel_flow';
 import {
     ModalIdentifiers,
     RecommendedNextSteps,
@@ -107,6 +108,10 @@ export default function NextStepsTips(props: Props) {
         openModal({modalId: ModalIdentifiers.PLUGIN_MARKETPLACE, dialogType: MarketplaceModal})(dispatch);
     };
     const openMoreChannels = openModal({modalId: ModalIdentifiers.MORE_CHANNELS, dialogType: MoreChannels});
+    const openNewChannels = openModal({
+        modalId: ModalIdentifiers.NEW_CHANNEL_FLOW,
+        dialogType: NewChannelFlow,
+    });
     const openViewMembersModal = openModal({
         modalId: ModalIdentifiers.TEAM_MEMBERS,
         dialogType: TeamMembersModal,
@@ -309,6 +314,63 @@ export default function NextStepsTips(props: Props) {
         );
     }
 
+    let channelsSection;
+    if (props.isFirstAdmin) {
+        channelsSection = (
+            <Card expanded={true}>
+                <div className='Card__body'>
+                    <h3>
+                        <FormattedMessage
+                            id='next_steps_view.tips.createChannels'
+                            defaultMessage='Create a new channel'
+                        />
+                    </h3>
+                    <FormattedMessage
+                        id='next_steps_view.tips.createChannels.text'
+                        defaultMessage={
+                            "Think of a topic you' like to organize a conversation around."
+                        }
+                    />
+                    <button
+                        className='NextStepsView__button NextStepsView__finishButton primary'
+                        onClick={() => openNewChannels(dispatch)}
+                    >
+                        <FormattedMessage
+                            id='next_steps_view.tips.createChannels.button'
+                            defaultMessage='Create a channel'
+                        />
+                    </button>
+                </div>
+            </Card>
+        );
+    } else {
+        channelsSection = (
+            <Card expanded={true}>
+                <div className='Card__body'>
+                    <h3>
+                        <FormattedMessage
+                            id='next_steps_view.tips.exploreChannels'
+                            defaultMessage='Explore channels'
+                        />
+                    </h3>
+                    <FormattedMessage
+                        id='next_steps_view.tips.exploreChannels.text'
+                        defaultMessage='See the channels in your workspace or create a new channel.'
+                    />
+                    <button
+                        className='NextStepsView__button NextStepsView__finishButton primary'
+                        onClick={() => openMoreChannels(dispatch)}
+                    >
+                        <FormattedMessage
+                            id='next_steps_view.tips.exploreChannels.button'
+                            defaultMessage='Browse channels'
+                        />
+                    </button>
+                </div>
+            </Card>
+        );
+    }
+
     return (
         <div
             className={classNames(
@@ -343,52 +405,7 @@ export default function NextStepsTips(props: Props) {
             </header>
             <div className='NextStepsView__body'>
                 <div className='NextStepsView__nextStepsCards'>
-                    <Card expanded={true}>
-                        <div className='Card__body'>
-                            {
-
-                                // TODO: Bring back when the tour is working
-                                /* <h3>
-                                <FormattedMessage
-                                    id='next_steps_view.tips.takeATour'
-                                    defaultMessage='Take a tour'
-                                />
-                            </h3>
-                            <FormattedMessage
-                                id='next_steps_view.tips.takeATour.text'
-                                defaultMessage='Let us show you around with a guided tour of the interface.'
-                            />
-                            <button
-                                className='NextStepsView__button NextStepsView__finishButton primary'
-                                onClick={() => {}}
-                            >
-                                <FormattedMessage
-                                    id='next_steps_view.tips.takeATour.button'
-                                    defaultMessage='Take the tour'
-                                />
-                            </button> */
-                            }
-                            <h3>
-                                <FormattedMessage
-                                    id='next_steps_view.tips.exploreChannels'
-                                    defaultMessage='Explore channels'
-                                />
-                            </h3>
-                            <FormattedMessage
-                                id='next_steps_view.tips.exploreChannels.text'
-                                defaultMessage='See the channels in your workspace or create a new channel.'
-                            />
-                            <button
-                                className='NextStepsView__button NextStepsView__finishButton primary'
-                                onClick={() => openMoreChannels(dispatch)}
-                            >
-                                <FormattedMessage
-                                    id='next_steps_view.tips.exploreChannels.button'
-                                    defaultMessage='Browse channels'
-                                />
-                            </button>
-                        </div>
-                    </Card>
+                    {channelsSection}
                     {nonMobileTips}
                 </div>
                 {downloadSection}
