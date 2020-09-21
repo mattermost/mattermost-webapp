@@ -43,6 +43,7 @@ describe('components/next_steps_view', () => {
         const wrapper = shallow(
             <NextStepsView {...baseProps}/>,
         );
+        wrapper.setState({show: true});
 
         expect(wrapper).toMatchSnapshot();
     });
