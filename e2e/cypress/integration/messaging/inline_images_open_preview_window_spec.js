@@ -24,10 +24,11 @@ describe('Messaging', () => {
         cy.get('#accountSettingsModal').should('be.visible').within(() => {
             cy.findByText('Advanced').click();
             cy.findByText('Preview Pre-release Features').should('be.visible').click();
-        cy.get('#advancedPreviewFeaturesmarkdown_preview').check().should('be.checked');
+            cy.get('#advancedPreviewFeaturesmarkdown_preview').check().should('be.checked');
             cy.findByText('Save').click();
             cy.findAllByLabelText('Close').first().click();
         });
+
         // # Post the image link to the channel
         cy.postMessage('![test image](https://www.mattermost.org/wp-content/uploads/2016/03/logoHorizontal.png)');
 
@@ -39,6 +40,5 @@ describe('Messaging', () => {
 
         // * Confirm image is visible
         cy.findByTestId('imagePreview').should('be.visible');
-        //cy.get('[data-testid=imagePreview]').should('be.visible');
     });
 });
