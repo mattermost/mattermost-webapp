@@ -33,7 +33,7 @@ describe('Messaging', () => {
 
         cy.getLastPostId().then((postId) => {
             // # On a message in center channel, click then pin the post to the channel
-            cy.getPostMenu(postId, 'Pin to Channel').click();
+            cy.clickPostPinIcon(postId);
 
             // # Click pin icon next to search box
             cy.get('#channelHeaderPinButton').should('exist').click();
@@ -56,7 +56,7 @@ describe('Messaging', () => {
 
         cy.getLastPostId().then((postId) => {
             // # On a message in center channel, click then pin the post to the channel
-            cy.getPostMenu(postId, 'Pin to Channel').click();
+            cy.clickPostPinIcon(postId);
 
             // # Find the 'Pinned' span in the post pre-header to verify that the post was actually pinned
             cy.get(`#post_${postId}`).findByText('Pinned').should('exist');
@@ -84,7 +84,7 @@ describe('Messaging', () => {
 
         cy.getLastPostId().then((postId) => {
             // # On a message in center channel, click then pin the post to the channel
-            cy.getPostMenu(postId, 'Pin to Channel').click();
+            cy.clickPostPinIcon(postId);
 
             // # Search for "Hello"
             cy.get('#searchBox').should('be.visible').type('Hello').type('{enter}');
@@ -106,7 +106,7 @@ describe('Messaging', () => {
 
         cy.getLastPostId().then((postId) => {
             // # On a message in center channel, click then pin the post to the channel
-            cy.getPostMenu(postId, 'Pin to Channel').click();
+            cy.clickPostPinIcon(postId);
 
             // # Click flag icon
             cy.clickPostSaveIcon(postId);
@@ -137,7 +137,7 @@ describe('Messaging', () => {
 
         cy.getLastPostId().then((postId) => {
             // # On a message in center channel, click then pin the post to the channel
-            cy.getPostMenu(postId, 'Pin to Channel').click();
+            cy.clickPostPinIcon(postId);
 
             // # And also flag the message
             cy.clickPostSaveIcon(postId);
@@ -170,7 +170,7 @@ describe('Messaging', () => {
 
         cy.getLastPostId().then((postId) => {
             // # On a message in center channel, click then pin the post to the channel
-            cy.getPostMenu(postId, 'Pin to Channel').click();
+            cy.clickPostPinIcon(postId);
 
             // # Open RHS comment menu
             cy.clickPostCommentIcon(postId);
