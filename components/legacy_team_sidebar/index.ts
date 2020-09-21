@@ -11,7 +11,7 @@ import {
     getCurrentTeamId,
     getJoinableTeamIds,
     getMyTeams,
-    getTeamMemberships
+    getTeamMemberships,
 } from 'mattermost-redux/selectors/entities/teams';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 

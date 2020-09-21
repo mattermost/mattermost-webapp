@@ -12,26 +12,22 @@
 
 import {beRead, beUnread} from '../../support/assertions';
 import {getAdminAccount} from '../../support/env';
-import {testWithConfig} from '../../support/hooks';
 
 import {getRandomId} from '../../utils';
 
-const admin = getAdminAccount();
-
 describe('Handle new post', () => {
+    const admin = getAdminAccount();
     let channel1;
-
     let team1;
-
     let user1;
 
-    testWithConfig({
-        ServiceSettings: {
-            ExperimentalChannelSidebarOrganization: 'default_on',
-        },
-    });
-
     before(() => {
+        cy.apiUpdateConfig({
+            ServiceSettings: {
+                ExperimentalChannelSidebarOrganization: 'default_on',
+            },
+        });
+
         cy.apiInitSetup().then(({channel, team, user}) => {
             channel1 = channel;
             team1 = team;

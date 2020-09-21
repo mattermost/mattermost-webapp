@@ -29,8 +29,8 @@ describe('Toast', () => {
         cy.apiInitSetup().then(({team, user}) => {
             testTeam = team;
 
-            cy.apiGetChannelByName(testTeam.name, 'town-square').then((res) => {
-                townsquareChannelId = res.body.id;
+            cy.apiGetChannelByName(testTeam.name, 'town-square').then(({channel}) => {
+                townsquareChannelId = channel.id;
             });
 
             cy.apiCreateUser().then(({user: user1}) => {

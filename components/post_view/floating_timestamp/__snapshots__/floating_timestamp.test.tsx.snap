@@ -14,7 +14,6 @@ exports[`components/post_view/FloatingTimestamp should match snapshot 1`] = `
               "display": <FormattedMessage
                 defaultMessage="Today"
                 id="date_separator.today"
-                values={Object {}}
               />,
               "equals": Array [
                 "day",
@@ -25,7 +24,6 @@ exports[`components/post_view/FloatingTimestamp should match snapshot 1`] = `
               "display": <FormattedMessage
                 defaultMessage="Yesterday"
                 id="date_separator.yesterday"
-                values={Object {}}
               />,
               "equals": Array [
                 "day",

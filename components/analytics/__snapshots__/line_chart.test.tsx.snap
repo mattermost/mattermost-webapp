@@ -43,7 +43,6 @@ exports[`components/analytics/line_chart.tsx should match snapshot, loaded witho
         <FormattedMessage
           defaultMessage="Not enough data for a meaningful representation."
           id="analytics.chart.meaningful"
-          values={Object {}}
         />
       </h5>
     </div>
@@ -69,7 +68,6 @@ exports[`components/analytics/line_chart.tsx should match snapshot, on loading 1
       <FormattedMessage
         defaultMessage="Loading..."
         id="analytics.chart.loading"
-        values={Object {}}
       />
     </div>
   </div>
