@@ -7,11 +7,13 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @account_setting
 
 import * as TIMEOUTS from '../../../../fixtures/timeouts';
+import {hexToRgbArray, rgbArrayToString} from '../../../../utils';
 
-describe('AS14318 Theme Colors - Color Picker', () => {
+describe('Account Settings', () => {
     before(() => {
         // # Login as new user and visit town-square
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
@@ -36,44 +38,38 @@ describe('AS14318 Theme Colors - Color Picker', () => {
         cy.findAllByText('Yes, Discard', {timeout: TIMEOUTS.ONE_SEC}).should('be.visible').click();
     });
 
-    it('Should be able to use color picker input and change Sidebar theme color', () => {
+    it('MM-T280_1 Theme Colors - Color Picker (Sidebar styles)', () => {
         // # Change "Sidebar BG" and verify color change
         verifyColorPickerChange(
             'Sidebar Styles',
             '#sidebarBg-squareColorIcon',
             '#sidebarBg-inputColorValue',
             '#sidebarBg-squareColorIconValue',
-            '#B0B6BD',
-            'rgb(176, 182, 189)',
         );
     });
 
-    it('Should be able to use color picker input and change Center Channel Styles', () => {
+    it('MM-T280_2 Theme Colors - Color Picker (Center Channel styles)', () => {
         // # Change "Center Channel BG" and verify color change
         verifyColorPickerChange(
             'Center Channel Styles',
             '#centerChannelBg-squareColorIcon',
             '#centerChannelBg-inputColorValue',
             '#centerChannelBg-squareColorIconValue',
-            '#BDB0B0',
-            'rgb(189, 176, 176)',
         );
     });
 
-    it('Should be able to use color picker input and change Link and Button Styles', () => {
+    it('MM-T280_3 Theme Colors - Color Picker (Link and Button styles)', () => {
         // # Change "Link Color" and verify color change
         verifyColorPickerChange(
             'Link and Button Styles',
             '#linkColor-squareColorIcon',
             '#linkColor-inputColorValue',
             '#linkColor-squareColorIconValue',
-            '#EEF8FF',
-            'rgb(238, 248, 255)',
         );
     });
 });
 
-function verifyColorPickerChange(stylesText, iconButtonId, inputId, iconValueId, hexValue, rgbValue) {
+function verifyColorPickerChange(stylesText, iconButtonId, inputId, iconValueId) {
     // # Open styles section
     cy.findByText(stylesText).scrollIntoView().should('be.visible').click({force: true});
 
@@ -93,9 +89,9 @@ function verifyColorPickerChange(stylesText, iconButtonId, inputId, iconValueId,
     // # Re-open styles section
     cy.findByText(stylesText).scrollIntoView().should('be.visible').click({force: true});
 
-    // * Verify input box has new hex value
-    cy.get(inputId).should('be.visible').and('have.value', hexValue);
-
     // * Verify color change is applied correctly
-    cy.get(iconValueId).should('be.visible').and('have.css', 'background-color', rgbValue);
+    cy.get(inputId).scrollIntoView().should('be.visible').invoke('attr', 'value').then((hexColor) => {
+        const rbgArr = hexToRgbArray(hexColor);
+        cy.get(iconValueId).should('be.visible').and('have.css', 'background-color', rgbArrayToString(rbgArr));
+    });
 }

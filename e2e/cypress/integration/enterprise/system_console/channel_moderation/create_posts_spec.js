@@ -7,14 +7,13 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @enterprise @system_console @channel_moderation
 
 import {checkboxesTitleToIdMap} from './constants';
 
 import {
-    disableChannelModeratedPermission,
-    enableChannelModeratedPermission,
+    disablePermission,
+    enablePermission,
     saveConfigForChannel,
     visitChannel,
     visitChannelConfigPage,
@@ -50,7 +49,7 @@ describe('MM-23102 - Channel Moderation - Create Posts', () => {
         visitChannelConfigPage(testChannel);
 
         // # Uncheck the Create Posts option for Guests and Save
-        disableChannelModeratedPermission(checkboxesTitleToIdMap.CREATE_POSTS_GUESTS);
+        disablePermission(checkboxesTitleToIdMap.CREATE_POSTS_GUESTS);
         saveConfigForChannel();
 
         // # Login as a Guest user and visit the same channel
@@ -63,7 +62,7 @@ describe('MM-23102 - Channel Moderation - Create Posts', () => {
 
         // # As a system admin, check the option to allow Create Posts for Guests and save
         visitChannelConfigPage(testChannel);
-        enableChannelModeratedPermission(checkboxesTitleToIdMap.CREATE_POSTS_GUESTS);
+        enablePermission(checkboxesTitleToIdMap.CREATE_POSTS_GUESTS);
         saveConfigForChannel();
 
         // # Login as a Guest user and visit the same channel
@@ -81,7 +80,7 @@ describe('MM-23102 - Channel Moderation - Create Posts', () => {
         visitChannelConfigPage(testChannel);
 
         // # Uncheck the Create Posts option for Members and Save
-        disableChannelModeratedPermission(checkboxesTitleToIdMap.CREATE_POSTS_MEMBERS);
+        disablePermission(checkboxesTitleToIdMap.CREATE_POSTS_MEMBERS);
         saveConfigForChannel();
 
         // # Login as a Guest user and visit test channel
@@ -94,7 +93,7 @@ describe('MM-23102 - Channel Moderation - Create Posts', () => {
 
         // # As a system admin, check the option to allow Create Posts for Members and save
         visitChannelConfigPage(testChannel);
-        enableChannelModeratedPermission(checkboxesTitleToIdMap.CREATE_POSTS_MEMBERS);
+        enablePermission(checkboxesTitleToIdMap.CREATE_POSTS_MEMBERS);
         saveConfigForChannel();
 
         // # Login as a Member user and visit the same channel

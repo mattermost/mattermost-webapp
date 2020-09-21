@@ -1,8 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/timestamp/Timestamp should be wrapped in SemanticTime 1`] = `
+exports[`components/timestamp/Timestamp should be wrapped in SemanticTime and support passthrough className and label 1`] = `
 <Memo(SemanticTime)
-  label="Fri May 03 2019 13:20:00 GMT+0000"
+  aria-label="test label"
+  className="test class"
   value={2019-05-03T13:20:00.000Z}
 >
   Friday

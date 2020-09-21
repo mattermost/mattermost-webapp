@@ -99,7 +99,6 @@ exports[`components/multiselect/multiselect should match snapshot 1`] = `
           <FormattedMessage
             defaultMessage="Save"
             id="save_button.save"
-            values={Object {}}
           />
         }
         disabled={false}
@@ -111,13 +110,13 @@ exports[`components/multiselect/multiselect should match snapshot 1`] = `
           <FormattedMessage
             defaultMessage="Saving"
             id="save_button.saving"
-            values={Object {}}
           />
         }
       />
     </div>
     <div
       className="multi-select__help"
+      id="multiSelectHelpMemberInfo"
     >
       <FormattedMessage
         defaultMessage="{memberOptions, number} of {totalCount, number} members"
@@ -132,6 +131,7 @@ exports[`components/multiselect/multiselect should match snapshot 1`] = `
     </div>
     <div
       className="multi-select__help"
+      id="multiSelectMessageNote"
     />
   </div>
   <MultiSelectList
@@ -182,7 +182,6 @@ exports[`components/multiselect/multiselect should match snapshot 1`] = `
       <FormattedMessage
         defaultMessage="Next"
         id="filtered_user_list.next"
-        values={Object {}}
       />
     </button>
   </div>
@@ -288,7 +287,6 @@ exports[`components/multiselect/multiselect should match snapshot for page 2 1`]
           <FormattedMessage
             defaultMessage="Save"
             id="save_button.save"
-            values={Object {}}
           />
         }
         disabled={false}
@@ -300,13 +298,13 @@ exports[`components/multiselect/multiselect should match snapshot for page 2 1`]
           <FormattedMessage
             defaultMessage="Saving"
             id="save_button.saving"
-            values={Object {}}
           />
         }
       />
     </div>
     <div
       className="multi-select__help"
+      id="multiSelectHelpMemberInfo"
     >
       <FormattedMessage
         defaultMessage="{memberOptions, number} of {totalCount, number} members"
@@ -321,6 +319,7 @@ exports[`components/multiselect/multiselect should match snapshot for page 2 1`]
     </div>
     <div
       className="multi-select__help"
+      id="multiSelectMessageNote"
     />
   </div>
   <MultiSelectList
@@ -361,7 +360,6 @@ exports[`components/multiselect/multiselect should match snapshot for page 2 1`]
       <FormattedMessage
         defaultMessage="Previous"
         id="filtered_user_list.prev"
-        values={Object {}}
       />
     </button>
   </div>

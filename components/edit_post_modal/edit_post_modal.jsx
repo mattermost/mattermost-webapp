@@ -6,6 +6,7 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage, injectIntl} from 'react-intl';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 import {Constants, ModalIdentifiers} from 'utils/constants';
 import {splitMessageBasedOnCaretPosition, postMessageOnKeyPress} from 'utils/post_utils.jsx';
@@ -64,6 +65,8 @@ class EditPostModal extends React.PureComponent {
             postError: '',
             errorClass: null,
             showEmojiPicker: false,
+            renderScrollbar: false,
+            scrollbarWidth: 0,
             prevShowState: props.editingPost.show,
         };
     }
@@ -286,7 +289,14 @@ class EditPostModal extends React.PureComponent {
         });
     }
 
+    handleSelect = (e) => {
+        Utils.adjustSelection(this.editbox.getInputBox(), e);
+    }
+
     handleKeyDown = (e) => {
+        const ctrlKeyCombo = (e.ctrlKey || e.metaKey) && !e.altKey && !e.shiftKey;
+        const markdownHotkey = Utils.isKeyPressed(e, KeyCodes.B) || Utils.isKeyPressed(e, KeyCodes.I);
+
         // listen for line break key combo and insert new line character
         if (Utils.isUnhandledLineBreakKeyCombo(e)) {
             e.stopPropagation(); // perhaps this should happen in all of these cases? or perhaps Modal should not be listening?
@@ -295,7 +305,20 @@ class EditPostModal extends React.PureComponent {
             this.handleEdit();
         } else if (Utils.isKeyPressed(e, KeyCodes.ESCAPE) && !this.state.showEmojiPicker) {
             this.handleHide();
+        } else if (ctrlKeyCombo && markdownHotkey) {
+            this.applyHotkeyMarkdown(e);
         }
+    }
+
+    applyHotkeyMarkdown = (e) => {
+        const res = Utils.applyHotkeyMarkdown(e);
+
+        this.setState({
+            editText: res.message,
+        }, () => {
+            const textbox = this.editbox.getInputBox();
+            Utils.setSelectionRange(textbox, res.selectionStart, res.selectionEnd);
+        });
     }
 
     handleHide = (doRefocus = true) => {
@@ -315,6 +338,15 @@ class EditPostModal extends React.PureComponent {
         if (this.editbox) {
             this.editbox.focus();
             this.editbox.recalculateSize();
+        }
+    }
+
+    handleHeightChange = (height, maxHeight) => {
+        if (this.editbox) {
+            this.setState({
+                renderScrollbar: height > maxHeight,
+                scrollbarWidth: Utils.scrollbarWidth(this.editbox.getInputBox()),
+            });
         }
     }
 
@@ -353,7 +385,7 @@ class EditPostModal extends React.PureComponent {
             return !this.props.canEditPost;
         }
 
-        if (this.state.editText !== '') {
+        if (this.state.editText.trim() !== '') {
             return !this.props.canEditPost;
         }
 
@@ -407,6 +439,7 @@ class EditPostModal extends React.PureComponent {
                 dialogClassName='a11y__modal edit-modal'
                 show={this.props.editingPost.show}
                 onKeyDown={this.handleKeyDown}
+                onSelect={this.handleSelect}
                 onHide={this.handleCheckForChangesHide}
                 onEntered={this.handleEntered}
                 onExit={this.handleExit}
@@ -437,14 +470,19 @@ class EditPostModal extends React.PureComponent {
                     ref='editModalBody'
                 >
                     <div className='post-create__container'>
-                        <div className='textarea-wrapper'>
+                        <div
+                            className={classNames('textarea-wrapper', {scroll: this.state.renderScrollbar})}
+                            style={this.state.renderScrollbar && this.state.scrollbarWidth ? {'--detected-scrollbar-width': `${this.state.scrollbarWidth}px`} : undefined}
+                        >
                             <Textbox
                                 tabIndex='0'
                                 onChange={this.handleChange}
                                 onKeyPress={this.handleEditKeyPress}
                                 onKeyDown={this.handleKeyDown}
+                                onSelect={this.handleSelect}
                                 onMouseUp={this.handleMouseUpKeyUp}
                                 onKeyUp={this.handleMouseUpKeyUp}
+                                onHeightChange={this.handleHeightChange}
                                 handlePostError={this.handlePostError}
                                 value={this.state.editText}
                                 channelId={this.props.editingPost.post && this.props.editingPost.post.channel_id}

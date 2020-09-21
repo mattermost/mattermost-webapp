@@ -40,9 +40,6 @@ describe('Draw Plugin - Upload', () => {
         });
     });
 
-    /**
-     * Draw Plugin configuration UI test - For Admin Access
-    */
     it('M11759-Draw plugin Configuration - should upload draw plugin', () => {
         // * upload Draw plugin from the browser
         const fileName = 'com.mattermost.draw-plugin.tar.gz';
@@ -62,42 +59,67 @@ describe('Draw Plugin - Upload', () => {
         cy.findByText('Upload', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
         cy.get('#uploadPlugin').and('be.disabled');
 
-        // # Draw plugin ID should be visible
-        cy.findByText(/Installed Plugins/).scrollIntoView().should('be.visible');
-        cy.findByTestId('com.mattermost.draw-plugin').scrollIntoView().should('be.visible').within(() => {
-            // * Verify that the Draw Plugin is shown on successful upload
-            cy.findByText('Draw Plugin').should('be.visible');
+        // # Enable draw plugin
+        doTaskOnDrawPlugin(() => {
+            // * Verify Draw Plugin title is shown
+            cy.waitUntil(() => cy.get('strong').scrollIntoView().should('be.visible').then((title) => {
+                return title[0].innerText === 'Draw Plugin';
+            }));
 
-            // #Enable draw plugin and check plugin is running
-            cy.wait(TIMEOUTS.HALF_SEC).findByText('Enable').click();
-            cy.findByText('This plugin is running.').should('be.visible');
+            // # Click on Enable link
+            cy.findByText('Enable').click();
+        });
 
-            // #Disable draw plugin
+        // # Disable draw plugin
+        doTaskOnDrawPlugin(() => {
+            // * Verify plugin is starting
+            waitForAlert('This plugin is starting.');
+
+            // * Verify plugin is running
+            waitForAlert('This plugin is running.');
+
+            // # Click on Disable link
             cy.findByText('Disable').click();
         });
 
-        // # Need to re-query DOM elements as they are updated asynchronously
-        cy.findByText(/Installed Plugins/).scrollIntoView().should('be.visible');
-        cy.findByTestId('com.mattermost.draw-plugin').scrollIntoView().should('be.visible').within(() => {
-            // * Check plugin is not enabled
-            cy.wait(TIMEOUTS.HALF_SEC).findByText('This plugin is not enabled.').should('be.visible');
+        // # Attempt to remove draw plugin
+        doTaskOnDrawPlugin(() => {
+            // * Verify plugin is not enabled
+            waitForAlert('This plugin is not enabled.');
 
-            // * Click on remove
+            // # Click on Remove link
             cy.findByText('Remove').click();
         });
 
-        // #Remove plugin Id should exist upon clicking Cancel in confirmation popup
+        // # Click on Cancel button from modal
         cy.get('#cancelModalButton').should('be.visible').click();
-        cy.findByText(/Installed Plugins/).scrollIntoView().should('be.visible');
-        cy.findByTestId('com.mattermost.draw-plugin').scrollIntoView().should('be.visible').within(() => {
-            // * Click on remove
-            cy.wait(TIMEOUTS.HALF_SEC).findByText('Remove').click();
+
+        // # Attempt to remove draw plugin again
+        doTaskOnDrawPlugin(() => {
+            // # Click on Remove link
+            cy.findByText('Remove').click();
         });
 
-        // #Remove plugin Id should not exist upon clicking remove in confirmation popup
+        // # Click on Confirm button from modal
         cy.findByText('Are you sure you would like to remove the plugin?').should('be.visible');
         cy.get('#confirmModalButton').should('be.visible').click();
+
+        // * Verify Draw plugin should not exist
         cy.findByText(/Installed Plugins/).scrollIntoView().should('be.visible');
         cy.findByTestId('com.mattermost.draw-plugin').should('not.exist');
     });
 });
+
+function waitForAlert(message) {
+    cy.waitUntil(() => cy.get('.alert').scrollIntoView().should('be.visible').then((alert) => {
+        return alert[0].innerText === message;
+    }));
+}
+
+function doTaskOnDrawPlugin(taskCallback) {
+    cy.findByText(/Installed Plugins/).scrollIntoView().should('be.visible');
+    cy.findByTestId('com.mattermost.draw-plugin').scrollIntoView().should('be.visible').within(() => {
+        // # Perform task
+        taskCallback();
+    });
+}

@@ -70,7 +70,7 @@ describe('Verify Accessibility Support in Channel Sidebar Navigation', () => {
         cy.get('#postListContent').should('be.visible');
     });
 
-    it('MM-22630 Verify Up & Down Arrow support in Channel Sidebar', () => {
+    it('MM-T1475 Verify Up & Down Arrow support in Channel Sidebar', () => {
         // # Mark few channels as Favorites
         markAsFavorite('off-topic');
         markAsFavorite('town-square');
@@ -109,7 +109,7 @@ describe('Verify Accessibility Support in Channel Sidebar Navigation', () => {
         cy.get('#directChannelList').should('have.attr', 'aria-label', 'direct messages').and('have.class', 'a11y__section a11y--active a11y--focused');
     });
 
-    it('MM-22630 Verify Tab Support in Unreads section', () => {
+    it('MM-T1473 Verify Tab Support in Unreads section', () => {
         // # Press tab from the Main Menu button
         cy.get('#headerInfo button').focus().tab({shift: true}).tab().tab();
 
@@ -120,7 +120,7 @@ describe('Verify Accessibility Support in Channel Sidebar Navigation', () => {
         });
     });
 
-    it('MM-22630 Verify Tab Support in Favorites section', () => {
+    it('MM-T1474 Verify Tab Support in Favorites section', () => {
         // # Press tab from the Main Menu button
         cy.get('#headerInfo button').focus().tab({shift: true}).tab().tab();
         cy.get('#unreadsChannelList .sidebar-item').each(() => {
@@ -134,7 +134,7 @@ describe('Verify Accessibility Support in Channel Sidebar Navigation', () => {
         });
     });
 
-    it('MM-22630 Verify Tab Support in Public Channels section', () => {
+    it('MM-T1470 Verify Tab Support in Public Channels section', () => {
         // # Create some Public Channels
         Cypress._.times(2, () => {
             cy.apiCreateChannel(testTeam.id, 'public', 'public');
@@ -159,7 +159,7 @@ describe('Verify Accessibility Support in Channel Sidebar Navigation', () => {
         cy.get('#sidebarPublicChannelsMore').should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'See more public channels');
     });
 
-    it('MM-22630 Verify Tab Support in Private Channels section', () => {
+    it('MM-T1471 Verify Tab Support in Private Channels section', () => {
         // # Create some Private Channels
         Cypress._.times(2, () => {
             cy.apiCreateChannel(testTeam.id, 'private', 'private', 'P');
@@ -181,7 +181,7 @@ describe('Verify Accessibility Support in Channel Sidebar Navigation', () => {
         });
     });
 
-    it('MM-22630 Verify Tab Support in Direct Messages section', () => {
+    it('MM-T1472 Verify Tab Support in Direct Messages section', () => {
         // # Trigger DM with a user
         cy.get('#addDirectChannel').click();
         cy.get('.more-modal__row.clickable').first().click();

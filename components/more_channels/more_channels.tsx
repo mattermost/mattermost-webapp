@@ -13,8 +13,10 @@ import {browserHistory} from 'utils/browser_history';
 
 import {getRelativeChannelURL} from 'utils/url';
 
+import NewChannelFlow from 'components/new_channel_flow';
 import SearchableChannelList from 'components/searchable_channel_list.jsx';
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
+import {ModalIdentifiers} from 'utils/constants';
 
 const CHANNELS_CHUNK_SIZE = 50;
 const CHANNELS_PER_PAGE = 50;
@@ -25,6 +27,10 @@ type Actions = {
     getArchivedChannels: (teamId: string, page: number, channelsPerPage: number) => ActionFunc | void;
     joinChannel: (currentUserId: string, teamId: string, channelId: string) => Promise<ActionResult>;
     searchMoreChannels: (term: string, shouldShowArchivedChannels: boolean) => Promise<ActionResult>;
+    openModal: (modalData: {modalId: string; dialogType: any; dialogProps?: any}) => Promise<{
+        data: boolean;
+    }>;
+    closeModal: (modalId: string) => void;
 }
 
 export type Props = {
@@ -33,8 +39,6 @@ export type Props = {
     currentUserId: string;
     teamId: string;
     teamName: string;
-    onModalDismissed?: () => void;
-    handleNewChannel?: () => void;
     channelsRequestStarted?: boolean;
     bodyOnly?: boolean;
     canShowArchivedChannels?: boolean;
@@ -86,10 +90,16 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
         }
     }
 
+    handleNewChannel = () => {
+        this.handleExit();
+        this.props.actions.openModal({
+            modalId: ModalIdentifiers.NEW_CHANNEL_FLOW,
+            dialogType: NewChannelFlow,
+        });
+    }
+
     handleExit = () => {
-        if (this.props.onModalDismissed) {
-            this.props.onModalDismissed();
-        }
+        this.props.actions.closeModal(ModalIdentifiers.MORE_CHANNELS);
     }
 
     onChange = (force: boolean) => {
@@ -208,7 +218,7 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
                     id='createNewChannel'
                     type='button'
                     className='btn btn-primary channel-create-btn'
-                    onClick={this.props.handleNewChannel}
+                    onClick={this.handleNewChannel}
                 >
                     <FormattedMessage
                         id='more_channels.create'

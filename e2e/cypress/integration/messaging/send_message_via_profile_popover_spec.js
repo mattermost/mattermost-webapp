@@ -42,7 +42,7 @@ describe('Profile popover', () => {
         });
     });
 
-    it('M19908 Send message in profile popover take to DM channel', () => {
+    it('MM-T3310 Send message in profile popover take to DM channel', () => {
         cy.waitUntil(() => cy.getLastPost().then((el) => {
             const postedMessageEl = el.find('.post-message__text > p')[0];
             return Boolean(postedMessageEl && postedMessageEl.textContent.includes(message));

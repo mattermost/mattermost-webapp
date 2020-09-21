@@ -21,7 +21,7 @@ describe('Messaging - Opening a private channel using keyboard shortcuts', () =>
         });
     });
 
-    it('M23358 - CTRL/CMD+K - Open private channel using arrow keys and Enter', () => {
+    it('MM-T1225 CTRL/CMD+K - Open private channel using arrow keys and Enter', () => {
         cy.apiCreateChannel(testTeam.id, 'private-channel', 'Private channel', 'P').then(() => {
             // # Press CTRL+K (Windows) or CMD+K(Mac)
             cy.typeCmdOrCtrl().type('K', {release: true});

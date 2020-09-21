@@ -25,7 +25,6 @@ exports[`components/PostPreHeader should properly handle flagged posts (and not 
         <FormattedMessage
           defaultMessage="Saved"
           id="post_pre_header.flagged"
-          values={Object {}}
         />
       </a>
     </span>
@@ -59,7 +58,6 @@ exports[`components/PostPreHeader should properly handle link clicks 1`] = `
         <FormattedMessage
           defaultMessage="Pinned"
           id="post_pre_header.pinned"
-          values={Object {}}
         />
       </a>
       <span
@@ -73,7 +71,6 @@ exports[`components/PostPreHeader should properly handle link clicks 1`] = `
         <FormattedMessage
           defaultMessage="Saved"
           id="post_pre_header.flagged"
-          values={Object {}}
         />
       </a>
     </span>
@@ -102,7 +99,6 @@ exports[`components/PostPreHeader should properly handle pinned posts (and not f
         <FormattedMessage
           defaultMessage="Pinned"
           id="post_pre_header.pinned"
-          values={Object {}}
         />
       </a>
     </span>
@@ -136,7 +132,6 @@ exports[`components/PostPreHeader should properly handle posts that are flagged 
         <FormattedMessage
           defaultMessage="Pinned"
           id="post_pre_header.pinned"
-          values={Object {}}
         />
       </a>
       <span
@@ -150,7 +145,6 @@ exports[`components/PostPreHeader should properly handle posts that are flagged 
         <FormattedMessage
           defaultMessage="Saved"
           id="post_pre_header.flagged"
-          values={Object {}}
         />
       </a>
     </span>
@@ -179,7 +173,6 @@ exports[`components/PostPreHeader should properly handle posts that are flagged 
         <FormattedMessage
           defaultMessage="Pinned"
           id="post_pre_header.pinned"
-          values={Object {}}
         />
       </a>
     </span>
@@ -208,7 +201,6 @@ exports[`components/PostPreHeader should properly handle posts that are flagged 
         <FormattedMessage
           defaultMessage="Saved"
           id="post_pre_header.flagged"
-          values={Object {}}
         />
       </a>
     </span>

@@ -13,7 +13,6 @@ exports[`components/ElasticSearchSettings should match snapshot, disabled 1`] = 
       <FormattedMessage
         defaultMessage="Elasticsearch"
         id="admin.elasticsearch.title"
-        values={Object {}}
       />
     </AdminHeader>
     <SettingsGroup
@@ -26,7 +25,6 @@ exports[`components/ElasticSearchSettings should match snapshot, disabled 1`] = 
           <FormattedMessage
             defaultMessage="false"
             id="admin.false"
-            values={Object {}}
           />
         }
         helpText={
@@ -43,7 +41,6 @@ exports[`components/ElasticSearchSettings should match snapshot, disabled 1`] = 
                   <FormattedMessage
                     defaultMessage="Learn more about Elasticsearch in our documentation."
                     id="admin.elasticsearch.enableIndexingDescription.documentationLinkText"
-                    values={Object {}}
                   />
                 </a>,
               }
@@ -55,7 +52,6 @@ exports[`components/ElasticSearchSettings should match snapshot, disabled 1`] = 
           <FormattedMessage
             defaultMessage="Enable Elasticsearch Indexing:"
             id="admin.elasticsearch.enableIndexingTitle"
-            values={Object {}}
           />
         }
         onChange={[Function]}
@@ -64,7 +60,6 @@ exports[`components/ElasticSearchSettings should match snapshot, disabled 1`] = 
           <FormattedMessage
             defaultMessage="true"
             id="admin.true"
-            values={Object {}}
           />
         }
         value={false}
@@ -85,7 +80,6 @@ exports[`components/ElasticSearchSettings should match snapshot, disabled 1`] = 
                   <FormattedMessage
                     defaultMessage="Please see documentation with server setup instructions."
                     id="admin.elasticsearch.connectionUrlExample.documentationLinkText"
-                    values={Object {}}
                   />
                 </a>,
               }
@@ -97,7 +91,6 @@ exports[`components/ElasticSearchSettings should match snapshot, disabled 1`] = 
           <FormattedMessage
             defaultMessage="Server Connection Address:"
             id="admin.elasticsearch.connectionUrlTitle"
-            values={Object {}}
           />
         }
         onChange={[Function]}
@@ -111,14 +104,12 @@ exports[`components/ElasticSearchSettings should match snapshot, disabled 1`] = 
           <FormattedMessage
             defaultMessage="false"
             id="admin.false"
-            values={Object {}}
           />
         }
         helpText={
           <FormattedMessage
             defaultMessage="When true, Mattermost will not require the Elasticsearch certificate to be signed by a trusted Certificate Authority."
             id="admin.elasticsearch.skipTLSVerificationDescription"
-            values={Object {}}
           />
         }
         id="skipTLSVerification"
@@ -126,7 +117,6 @@ exports[`components/ElasticSearchSettings should match snapshot, disabled 1`] = 
           <FormattedMessage
             defaultMessage="Skip TLS Verification:"
             id="admin.elasticsearch.skipTLSVerificationTitle"
-            values={Object {}}
           />
         }
         onChange={[Function]}
@@ -135,7 +125,6 @@ exports[`components/ElasticSearchSettings should match snapshot, disabled 1`] = 
           <FormattedMessage
             defaultMessage="true"
             id="admin.true"
-            values={Object {}}
           />
         }
         value={false}
@@ -146,7 +135,6 @@ exports[`components/ElasticSearchSettings should match snapshot, disabled 1`] = 
           <FormattedMessage
             defaultMessage="(Optional) The username to authenticate to the Elasticsearch server."
             id="admin.elasticsearch.usernameDescription"
-            values={Object {}}
           />
         }
         id="username"
@@ -154,7 +142,6 @@ exports[`components/ElasticSearchSettings should match snapshot, disabled 1`] = 
           <FormattedMessage
             defaultMessage="Server Username:"
             id="admin.elasticsearch.usernameTitle"
-            values={Object {}}
           />
         }
         onChange={[Function]}
@@ -168,7 +155,6 @@ exports[`components/ElasticSearchSettings should match snapshot, disabled 1`] = 
           <FormattedMessage
             defaultMessage="(Optional) The password to authenticate to the Elasticsearch server."
             id="admin.elasticsearch.passwordDescription"
-            values={Object {}}
           />
         }
         id="password"
@@ -176,7 +162,6 @@ exports[`components/ElasticSearchSettings should match snapshot, disabled 1`] = 
           <FormattedMessage
             defaultMessage="Server Password:"
             id="admin.elasticsearch.passwordTitle"
-            values={Object {}}
           />
         }
         onChange={[Function]}
@@ -190,14 +175,12 @@ exports[`components/ElasticSearchSettings should match snapshot, disabled 1`] = 
           <FormattedMessage
             defaultMessage="false"
             id="admin.false"
-            values={Object {}}
           />
         }
         helpText={
           <FormattedMessage
             defaultMessage="When true, sniffing finds and connects to all data nodes in your cluster automatically."
             id="admin.elasticsearch.sniffDescription"
-            values={Object {}}
           />
         }
         id="sniff"
@@ -205,7 +188,6 @@ exports[`components/ElasticSearchSettings should match snapshot, disabled 1`] = 
           <FormattedMessage
             defaultMessage="Enable Cluster Sniffing:"
             id="admin.elasticsearch.sniffTitle"
-            values={Object {}}
           />
         }
         onChange={[Function]}
@@ -214,7 +196,6 @@ exports[`components/ElasticSearchSettings should match snapshot, disabled 1`] = 
           <FormattedMessage
             defaultMessage="true"
             id="admin.true"
-            values={Object {}}
           />
         }
         value={false}
@@ -224,7 +205,6 @@ exports[`components/ElasticSearchSettings should match snapshot, disabled 1`] = 
           <FormattedMessage
             defaultMessage="Test Connection"
             id="admin.elasticsearch.elasticsearch_test_button"
-            values={Object {}}
           />
         }
         disabled={true}
@@ -238,7 +218,6 @@ exports[`components/ElasticSearchSettings should match snapshot, disabled 1`] = 
           <FormattedMessage
             defaultMessage="Tests if the Mattermost server can connect to the Elasticsearch server specified. Testing the connection only saves the configuration if the test is successful. See log file for more detailed error messages."
             id="admin.elasticsearch.testHelpText"
-            values={Object {}}
           />
         }
         id="testConfig"
@@ -262,7 +241,6 @@ exports[`components/ElasticSearchSettings should match snapshot, disabled 1`] = 
           <FormattedMessage
             defaultMessage="Bulk Indexing:"
             id="admin.elasticsearch.bulkIndexingTitle"
-            values={Object {}}
           />
         </label>
         <div
@@ -276,14 +254,12 @@ exports[`components/ElasticSearchSettings should match snapshot, disabled 1`] = 
                 <FormattedMessage
                   defaultMessage="Index Now"
                   id="admin.elasticsearch.createJob.title"
-                  values={Object {}}
                 />
               }
               createJobHelpText={
                 <FormattedMessage
                   defaultMessage="All users, channels and posts in the database will be indexed from oldest to newest. Elasticsearch is available during indexing but search results may be incomplete until the indexing job is complete."
                   id="admin.elasticsearch.createJob.help"
-                  values={Object {}}
                 />
               }
               disabled={true}
@@ -298,7 +274,6 @@ exports[`components/ElasticSearchSettings should match snapshot, disabled 1`] = 
           <FormattedMessage
             defaultMessage="Purge Index"
             id="admin.elasticsearch.purgeIndexesButton"
-            values={Object {}}
           />
         }
         disabled={true}
@@ -312,7 +287,6 @@ exports[`components/ElasticSearchSettings should match snapshot, disabled 1`] = 
           <FormattedMessage
             defaultMessage="Purging will entirely remove the indexes on the Elasticsearch server. Search results may be incomplete until a bulk index of the existing database is rebuilt."
             id="admin.elasticsearch.purgeIndexesHelpText"
-            values={Object {}}
           />
         }
         id="purgeIndexesSection"
@@ -321,7 +295,6 @@ exports[`components/ElasticSearchSettings should match snapshot, disabled 1`] = 
           <FormattedMessage
             defaultMessage="Purge Indexes:"
             id="admin.elasticsearch.purgeIndexesButton.label"
-            values={Object {}}
           />
         }
         requestAction={[MockFunction]}
@@ -340,14 +313,12 @@ exports[`components/ElasticSearchSettings should match snapshot, disabled 1`] = 
           <FormattedMessage
             defaultMessage="false"
             id="admin.false"
-            values={Object {}}
           />
         }
         helpText={
           <FormattedMessage
             defaultMessage="Requires a successful connection to the Elasticsearch server. When true, Elasticsearch will be used for all search queries using the latest index. Search results may be incomplete until a bulk index of the existing post database is finished. When false, database search is used."
             id="admin.elasticsearch.enableSearchingDescription"
-            values={Object {}}
           />
         }
         id="enableSearching"
@@ -355,7 +326,6 @@ exports[`components/ElasticSearchSettings should match snapshot, disabled 1`] = 
           <FormattedMessage
             defaultMessage="Enable Elasticsearch for search queries:"
             id="admin.elasticsearch.enableSearchingTitle"
-            values={Object {}}
           />
         }
         onChange={[Function]}
@@ -364,7 +334,6 @@ exports[`components/ElasticSearchSettings should match snapshot, disabled 1`] = 
           <FormattedMessage
             defaultMessage="true"
             id="admin.true"
-            values={Object {}}
           />
         }
         value={false}
@@ -375,14 +344,12 @@ exports[`components/ElasticSearchSettings should match snapshot, disabled 1`] = 
           <FormattedMessage
             defaultMessage="false"
             id="admin.false"
-            values={Object {}}
           />
         }
         helpText={
           <FormattedMessage
             defaultMessage="Requires a successful connection to the Elasticsearch server. When true, Elasticsearch will be used for all autocompletion queries on users and channels using the latest index. Autocompletion results may be incomplete until a bulk index of the existing users and channels database is finished. When false, database autocomplete is used."
             id="admin.elasticsearch.enableAutocompleteDescription"
-            values={Object {}}
           />
         }
         id="enableAutocomplete"
@@ -390,7 +357,6 @@ exports[`components/ElasticSearchSettings should match snapshot, disabled 1`] = 
           <FormattedMessage
             defaultMessage="Enable Elasticsearch for autocomplete queries:"
             id="admin.elasticsearch.enableAutocompleteTitle"
-            values={Object {}}
           />
         }
         onChange={[Function]}
@@ -399,7 +365,6 @@ exports[`components/ElasticSearchSettings should match snapshot, disabled 1`] = 
           <FormattedMessage
             defaultMessage="true"
             id="admin.true"
-            values={Object {}}
           />
         }
         value={false}
@@ -414,7 +379,6 @@ exports[`components/ElasticSearchSettings should match snapshot, disabled 1`] = 
           <FormattedMessage
             defaultMessage="Save"
             id="save_button.save"
-            values={Object {}}
           />
         }
         disabled={true}
@@ -463,7 +427,6 @@ exports[`components/ElasticSearchSettings should match snapshot, enabled 1`] = `
       <FormattedMessage
         defaultMessage="Elasticsearch"
         id="admin.elasticsearch.title"
-        values={Object {}}
       />
     </AdminHeader>
     <SettingsGroup
@@ -476,7 +439,6 @@ exports[`components/ElasticSearchSettings should match snapshot, enabled 1`] = `
           <FormattedMessage
             defaultMessage="false"
             id="admin.false"
-            values={Object {}}
           />
         }
         helpText={
@@ -493,7 +455,6 @@ exports[`components/ElasticSearchSettings should match snapshot, enabled 1`] = `
                   <FormattedMessage
                     defaultMessage="Learn more about Elasticsearch in our documentation."
                     id="admin.elasticsearch.enableIndexingDescription.documentationLinkText"
-                    values={Object {}}
                   />
                 </a>,
               }
@@ -505,7 +466,6 @@ exports[`components/ElasticSearchSettings should match snapshot, enabled 1`] = `
           <FormattedMessage
             defaultMessage="Enable Elasticsearch Indexing:"
             id="admin.elasticsearch.enableIndexingTitle"
-            values={Object {}}
           />
         }
         onChange={[Function]}
@@ -514,7 +474,6 @@ exports[`components/ElasticSearchSettings should match snapshot, enabled 1`] = `
           <FormattedMessage
             defaultMessage="true"
             id="admin.true"
-            values={Object {}}
           />
         }
         value={true}
@@ -535,7 +494,6 @@ exports[`components/ElasticSearchSettings should match snapshot, enabled 1`] = `
                   <FormattedMessage
                     defaultMessage="Please see documentation with server setup instructions."
                     id="admin.elasticsearch.connectionUrlExample.documentationLinkText"
-                    values={Object {}}
                   />
                 </a>,
               }
@@ -547,7 +505,6 @@ exports[`components/ElasticSearchSettings should match snapshot, enabled 1`] = `
           <FormattedMessage
             defaultMessage="Server Connection Address:"
             id="admin.elasticsearch.connectionUrlTitle"
-            values={Object {}}
           />
         }
         onChange={[Function]}
@@ -561,14 +518,12 @@ exports[`components/ElasticSearchSettings should match snapshot, enabled 1`] = `
           <FormattedMessage
             defaultMessage="false"
             id="admin.false"
-            values={Object {}}
           />
         }
         helpText={
           <FormattedMessage
             defaultMessage="When true, Mattermost will not require the Elasticsearch certificate to be signed by a trusted Certificate Authority."
             id="admin.elasticsearch.skipTLSVerificationDescription"
-            values={Object {}}
           />
         }
         id="skipTLSVerification"
@@ -576,7 +531,6 @@ exports[`components/ElasticSearchSettings should match snapshot, enabled 1`] = `
           <FormattedMessage
             defaultMessage="Skip TLS Verification:"
             id="admin.elasticsearch.skipTLSVerificationTitle"
-            values={Object {}}
           />
         }
         onChange={[Function]}
@@ -585,7 +539,6 @@ exports[`components/ElasticSearchSettings should match snapshot, enabled 1`] = `
           <FormattedMessage
             defaultMessage="true"
             id="admin.true"
-            values={Object {}}
           />
         }
         value={false}
@@ -596,7 +549,6 @@ exports[`components/ElasticSearchSettings should match snapshot, enabled 1`] = `
           <FormattedMessage
             defaultMessage="(Optional) The username to authenticate to the Elasticsearch server."
             id="admin.elasticsearch.usernameDescription"
-            values={Object {}}
           />
         }
         id="username"
@@ -604,7 +556,6 @@ exports[`components/ElasticSearchSettings should match snapshot, enabled 1`] = `
           <FormattedMessage
             defaultMessage="Server Username:"
             id="admin.elasticsearch.usernameTitle"
-            values={Object {}}
           />
         }
         onChange={[Function]}
@@ -618,7 +569,6 @@ exports[`components/ElasticSearchSettings should match snapshot, enabled 1`] = `
           <FormattedMessage
             defaultMessage="(Optional) The password to authenticate to the Elasticsearch server."
             id="admin.elasticsearch.passwordDescription"
-            values={Object {}}
           />
         }
         id="password"
@@ -626,7 +576,6 @@ exports[`components/ElasticSearchSettings should match snapshot, enabled 1`] = `
           <FormattedMessage
             defaultMessage="Server Password:"
             id="admin.elasticsearch.passwordTitle"
-            values={Object {}}
           />
         }
         onChange={[Function]}
@@ -640,14 +589,12 @@ exports[`components/ElasticSearchSettings should match snapshot, enabled 1`] = `
           <FormattedMessage
             defaultMessage="false"
             id="admin.false"
-            values={Object {}}
           />
         }
         helpText={
           <FormattedMessage
             defaultMessage="When true, sniffing finds and connects to all data nodes in your cluster automatically."
             id="admin.elasticsearch.sniffDescription"
-            values={Object {}}
           />
         }
         id="sniff"
@@ -655,7 +602,6 @@ exports[`components/ElasticSearchSettings should match snapshot, enabled 1`] = `
           <FormattedMessage
             defaultMessage="Enable Cluster Sniffing:"
             id="admin.elasticsearch.sniffTitle"
-            values={Object {}}
           />
         }
         onChange={[Function]}
@@ -664,7 +610,6 @@ exports[`components/ElasticSearchSettings should match snapshot, enabled 1`] = `
           <FormattedMessage
             defaultMessage="true"
             id="admin.true"
-            values={Object {}}
           />
         }
         value={false}
@@ -674,7 +619,6 @@ exports[`components/ElasticSearchSettings should match snapshot, enabled 1`] = `
           <FormattedMessage
             defaultMessage="Test Connection"
             id="admin.elasticsearch.elasticsearch_test_button"
-            values={Object {}}
           />
         }
         disabled={false}
@@ -688,7 +632,6 @@ exports[`components/ElasticSearchSettings should match snapshot, enabled 1`] = `
           <FormattedMessage
             defaultMessage="Tests if the Mattermost server can connect to the Elasticsearch server specified. Testing the connection only saves the configuration if the test is successful. See log file for more detailed error messages."
             id="admin.elasticsearch.testHelpText"
-            values={Object {}}
           />
         }
         id="testConfig"
@@ -712,7 +655,6 @@ exports[`components/ElasticSearchSettings should match snapshot, enabled 1`] = `
           <FormattedMessage
             defaultMessage="Bulk Indexing:"
             id="admin.elasticsearch.bulkIndexingTitle"
-            values={Object {}}
           />
         </label>
         <div
@@ -726,17 +668,14 @@ exports[`components/ElasticSearchSettings should match snapshot, enabled 1`] = `
                 <FormattedMessage
                   defaultMessage="Index Now"
                   id="admin.elasticsearch.createJob.title"
-                  values={Object {}}
                 />
               }
               createJobHelpText={
                 <FormattedMessage
                   defaultMessage="All users, channels and posts in the database will be indexed from oldest to newest. Elasticsearch is available during indexing but search results may be incomplete until the indexing job is complete."
                   id="admin.elasticsearch.createJob.help"
-                  values={Object {}}
                 />
               }
-              disabled={false}
               getExtraInfoText={[Function]}
               jobType="elasticsearch_post_indexing"
             />
@@ -748,7 +687,6 @@ exports[`components/ElasticSearchSettings should match snapshot, enabled 1`] = `
           <FormattedMessage
             defaultMessage="Purge Index"
             id="admin.elasticsearch.purgeIndexesButton"
-            values={Object {}}
           />
         }
         disabled={false}
@@ -762,7 +700,6 @@ exports[`components/ElasticSearchSettings should match snapshot, enabled 1`] = `
           <FormattedMessage
             defaultMessage="Purging will entirely remove the indexes on the Elasticsearch server. Search results may be incomplete until a bulk index of the existing database is rebuilt."
             id="admin.elasticsearch.purgeIndexesHelpText"
-            values={Object {}}
           />
         }
         id="purgeIndexesSection"
@@ -771,7 +708,6 @@ exports[`components/ElasticSearchSettings should match snapshot, enabled 1`] = `
           <FormattedMessage
             defaultMessage="Purge Indexes:"
             id="admin.elasticsearch.purgeIndexesButton.label"
-            values={Object {}}
           />
         }
         requestAction={[MockFunction]}
@@ -790,14 +726,12 @@ exports[`components/ElasticSearchSettings should match snapshot, enabled 1`] = `
           <FormattedMessage
             defaultMessage="false"
             id="admin.false"
-            values={Object {}}
           />
         }
         helpText={
           <FormattedMessage
             defaultMessage="Requires a successful connection to the Elasticsearch server. When true, Elasticsearch will be used for all search queries using the latest index. Search results may be incomplete until a bulk index of the existing post database is finished. When false, database search is used."
             id="admin.elasticsearch.enableSearchingDescription"
-            values={Object {}}
           />
         }
         id="enableSearching"
@@ -805,7 +739,6 @@ exports[`components/ElasticSearchSettings should match snapshot, enabled 1`] = `
           <FormattedMessage
             defaultMessage="Enable Elasticsearch for search queries:"
             id="admin.elasticsearch.enableSearchingTitle"
-            values={Object {}}
           />
         }
         onChange={[Function]}
@@ -814,7 +747,6 @@ exports[`components/ElasticSearchSettings should match snapshot, enabled 1`] = `
           <FormattedMessage
             defaultMessage="true"
             id="admin.true"
-            values={Object {}}
           />
         }
         value={false}
@@ -825,14 +757,12 @@ exports[`components/ElasticSearchSettings should match snapshot, enabled 1`] = `
           <FormattedMessage
             defaultMessage="false"
             id="admin.false"
-            values={Object {}}
           />
         }
         helpText={
           <FormattedMessage
             defaultMessage="Requires a successful connection to the Elasticsearch server. When true, Elasticsearch will be used for all autocompletion queries on users and channels using the latest index. Autocompletion results may be incomplete until a bulk index of the existing users and channels database is finished. When false, database autocomplete is used."
             id="admin.elasticsearch.enableAutocompleteDescription"
-            values={Object {}}
           />
         }
         id="enableAutocomplete"
@@ -840,7 +770,6 @@ exports[`components/ElasticSearchSettings should match snapshot, enabled 1`] = `
           <FormattedMessage
             defaultMessage="Enable Elasticsearch for autocomplete queries:"
             id="admin.elasticsearch.enableAutocompleteTitle"
-            values={Object {}}
           />
         }
         onChange={[Function]}
@@ -849,7 +778,6 @@ exports[`components/ElasticSearchSettings should match snapshot, enabled 1`] = `
           <FormattedMessage
             defaultMessage="true"
             id="admin.true"
-            values={Object {}}
           />
         }
         value={false}
@@ -864,7 +792,6 @@ exports[`components/ElasticSearchSettings should match snapshot, enabled 1`] = `
           <FormattedMessage
             defaultMessage="Save"
             id="save_button.save"
-            values={Object {}}
           />
         }
         disabled={true}
