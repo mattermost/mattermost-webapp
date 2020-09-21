@@ -20,6 +20,7 @@ import {
     getTotalUsersStats as getTotalUsersStatsSelector,
     getUser,
 } from 'mattermost-redux/selectors/entities/users';
+import {Constants} from 'utils/constants';
 import {getChannelsWithUserProfiles, getAllChannels} from 'mattermost-redux/selectors/entities/channels';
 import {getUserIdFromChannelName} from 'mattermost-redux/utils/channel_utils';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
@@ -123,7 +124,7 @@ const filterDirectChannels = memoizeResult((channels: Channel[], userId: string)
 
 const filterRecentChannels = (channels: RelationOneToOne<Channel, Channel>, userId: string) => {
     return Object.values(channels).filter((channel) => {
-        if (channel.type !== 'D' || channel.last_post_at === 0) {
+        if (channel.type !== Constants.DM_CHANNEL || channel.last_post_at === 0) {
             return false;
         }
         if (channel.name && channel.name.indexOf(userId) < 0) {

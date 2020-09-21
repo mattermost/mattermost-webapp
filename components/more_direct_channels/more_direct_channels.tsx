@@ -30,7 +30,7 @@ type UserProfileValue = (UserProfile & Value);
 type GroupChannelValue = (Channel & Value & {profiles: UserProfile[]});
 type RecentDirectChannelsValue = (UserProfileWithLastPostedAt & Value)
 
-type OptionType = UserProfileValue | GroupChannelValue ;
+type OptionType = UserProfileValue | GroupChannelValue;
 
 type Props = {
     currentUserId: string;
