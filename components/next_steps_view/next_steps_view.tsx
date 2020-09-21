@@ -325,21 +325,22 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
             <section
                 id='app-content'
                 className='app__content NextStepsView'
-            >{this.state.show &&
-            <>
-                <OnboardingBgSvg/>
-                {this.renderMainBody()}
-                {this.renderTransitionScreen()}
-                <NextStepsTips
-                    showFinalScreen={this.state.showFinalScreen}
-                    animating={this.state.animating}
-                    stopAnimating={this.stopAnimating}
-                    isFirstAdmin={this.props.isFirstAdmin}
-                    savePreferences={this.props.actions.savePreferences}
-                    currentUserId={this.props.currentUser.id}
-                    setShowNextStepsView={this.props.actions.setShowNextStepsView}
-                />
-            </>}
+            >
+                {this.state.show &&
+                <>
+                    <OnboardingBgSvg/>
+                    {this.renderMainBody()}
+                    {this.renderTransitionScreen()}
+                    <NextStepsTips
+                        showFinalScreen={this.state.showFinalScreen}
+                        animating={this.state.animating}
+                        stopAnimating={this.stopAnimating}
+                        isFirstAdmin={this.props.isFirstAdmin}
+                        savePreferences={this.props.actions.savePreferences}
+                        currentUserId={this.props.currentUser.id}
+                        setShowNextStepsView={this.props.actions.setShowNextStepsView}
+                    />
+                </>}
             </section>
         );
     }
