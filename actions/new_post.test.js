@@ -124,7 +124,7 @@ describe('actions/new_post', () => {
 
             window.isActive = true;
 
-            await testStore.dispatch(NewPostActions.setChannelReadAndViewed(post2, {}));
+            await testStore.dispatch(NewPostActions.setChannelReadAndViewed(post2, {}, false));
 
             expect(testStore.getActions()).toEqual([{
                 type: 'MOCK_MARK_CHANNEL_AS_READ',
@@ -164,11 +164,11 @@ describe('actions/new_post', () => {
 
             window.isActive = false;
 
-            await testStore.dispatch(NewPostActions.setChannelReadAndViewed(post2, {}));
+            await testStore.dispatch(NewPostActions.setChannelReadAndViewed(post2, {}, false));
 
             expect(testStore.getActions()).toEqual([{
                 type: 'MOCK_MARK_CHANNEL_AS_UNREAD',
-                args: [undefined, channelId, undefined],
+                args: [undefined, channelId, undefined, false],
             }]);
         });
 
@@ -203,11 +203,11 @@ describe('actions/new_post', () => {
 
             window.isActive = true;
 
-            await testStore.dispatch(NewPostActions.setChannelReadAndViewed(post2, {}));
+            await testStore.dispatch(NewPostActions.setChannelReadAndViewed(post2, {}, false));
 
             expect(testStore.getActions()).toEqual([{
                 type: 'MOCK_MARK_CHANNEL_AS_UNREAD',
-                args: [undefined, channelId, undefined],
+                args: [undefined, channelId, undefined, false],
             }]);
         });
 
@@ -240,7 +240,7 @@ describe('actions/new_post', () => {
                 },
             });
 
-            await testStore.dispatch(NewPostActions.setChannelReadAndViewed(post2, {}));
+            await testStore.dispatch(NewPostActions.setChannelReadAndViewed(post2, {}, false));
 
             expect(testStore.getActions()).toEqual([{
                 type: 'MOCK_MARK_CHANNEL_AS_READ',
@@ -280,11 +280,11 @@ describe('actions/new_post', () => {
                 },
             });
 
-            await testStore.dispatch(NewPostActions.setChannelReadAndViewed(post2, {}));
+            await testStore.dispatch(NewPostActions.setChannelReadAndViewed(post2, {}, false));
 
             expect(testStore.getActions()).toEqual([{
                 type: 'MOCK_MARK_CHANNEL_AS_UNREAD',
-                args: [undefined, channelId, undefined],
+                args: [undefined, channelId, undefined, false],
             }]);
         });
 
@@ -317,11 +317,11 @@ describe('actions/new_post', () => {
                 },
             });
 
-            await testStore.dispatch(NewPostActions.setChannelReadAndViewed(post2, {}));
+            await testStore.dispatch(NewPostActions.setChannelReadAndViewed(post2, {}, false));
 
             expect(testStore.getActions()).toEqual([{
                 type: 'MOCK_MARK_CHANNEL_AS_UNREAD',
-                args: [undefined, channelId, undefined],
+                args: [undefined, channelId, undefined, false],
             }]);
         });
     });
