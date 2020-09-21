@@ -10,15 +10,15 @@
 // Stage: @prod
 // Group: @websocket
 
-import {testWithConfig} from '../../../support/hooks';
-
 import {getRandomId} from '../../../utils';
 
 describe('Handle removed user - new sidebar', () => {
-    testWithConfig({
-        ServiceSettings: {
-            ExperimentalChannelSidebarOrganization: 'default_on',
-        },
+    before(() => {
+        cy.apiUpdateConfig({
+            ServiceSettings: {
+                ExperimentalChannelSidebarOrganization: 'default_on',
+            },
+        });
     });
 
     it('MM-27202 should add new channels to the sidebar when created from another session', () => {

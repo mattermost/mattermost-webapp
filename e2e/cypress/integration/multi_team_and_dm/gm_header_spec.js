@@ -33,8 +33,8 @@ describe('Multi-user group header', () => {
             // # add test user to the list of group members
             userIds.push(testUser.id);
 
-            cy.apiCreateGroupChannel(userIds).then((response) => {
-                groupChannel = response.body;
+            cy.apiCreateGroupChannel(userIds).then(({channel}) => {
+                groupChannel = channel;
             });
         });
     });

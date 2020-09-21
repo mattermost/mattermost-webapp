@@ -94,7 +94,16 @@
     }
 
     blockquote {
-        padding-bottom: 0;
+        font-size: 13px;
+        padding: 0 0 0 20px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        &:before {
+            font-size: 15px;
+            left: 2px;
+            top: 0;
+        }
     }
 
     .popover-title {

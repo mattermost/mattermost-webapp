@@ -28,8 +28,8 @@ describe('Toast', () => {
                 cy.apiAddUserToTeam(testTeam.id, otherUser.id);
             });
 
-            cy.apiGetChannelByName(testTeam.name, 'town-square').then((res) => {
-                townsquareChannelId = res.body.id;
+            cy.apiGetChannelByName(testTeam.name, 'town-square').then(({channel}) => {
+                townsquareChannelId = channel.id;
             });
 
             cy.visit(`/${testTeam.name}/channels/town-square`);
