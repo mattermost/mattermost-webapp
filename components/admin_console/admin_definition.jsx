@@ -4358,8 +4358,8 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
-                        key: 'GitLabSettings.IsserURL',
-                        label: t('admin.gitlab.IsserURL'),
+                        key: 'GitLabSettings.DiscoveryEndpoint',
+                        label: t('admin.gitlab.DiscoveryEndpoint'),
                         label_default: 'Issuer URL',
                         dynamic_value: (value, config, state) => {
                             if (state['GitLabSettings.Url']) {
@@ -4396,8 +4396,8 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
-                        key: 'GoogleSettings.IsserURL',
-                        label: t('admin.google.IsserURL'),
+                        key: 'GoogleSettings.DiscoveryEndpoint',
+                        label: t('admin.google.DiscoveryEndpoint'),
                         label_default: 'Issuer URL',
                         dynamic_value: () => 'https://accounts.google.com/.well-known/openid-configuration',
                         isDisabled: true,
@@ -4441,8 +4441,8 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
-                        key: 'Office365Settings.IsserURL',
-                        label: t('admin.office365.IsserURL'),
+                        key: 'Office365Settings.DiscoveryEndpoint',
+                        label: t('admin.office365.DiscoveryEndpoint'),
                         label_default: 'Issuer URL',
                         dynamic_value: (value, config, state) => {
                             if (state['Office365Settings.DirectoryId']) {

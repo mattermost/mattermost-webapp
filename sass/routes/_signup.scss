@@ -368,6 +368,12 @@ body {
                 }
             }
 
+            &.openid {
+                .icon {
+                    background-image: url('../images/openIdLogo.png');
+                }
+            }
+
             &.ldap {
                 background: #3AA1CF;
 

@@ -36,6 +36,8 @@ function mapStateToProps(state) {
     const enableSignUpWithOpenId = config.EnableSignUpWithOpenId === 'true';
     const ldapLoginFieldName = config.LdapLoginFieldName;
     const samlLoginButtonText = config.SamlLoginButtonText;
+    const openIdButtonText = config.OpenIdButtonText;
+    const openIdButtonColor = config.OpenIdButtonColor;
     const siteName = config.SiteName;
     const initializing = state.requests.users.logout.status === RequestStatus.SUCCESS || !state.storage.initialized;
 
@@ -72,6 +74,8 @@ function mapStateToProps(state) {
         experimentalPrimaryTeam,
         ldapLoginFieldName,
         samlLoginButtonText,
+        openIdButtonText,
+        openIdButtonColor,
         siteName,
         initializing,
     };

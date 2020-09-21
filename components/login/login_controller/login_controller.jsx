@@ -57,6 +57,8 @@ class LoginController extends React.PureComponent {
         experimentalPrimaryTeam: PropTypes.string,
         ldapLoginFieldName: PropTypes.string,
         samlLoginButtonText: PropTypes.string,
+        openIdButtonText: PropTypes.string,
+        openIdButtonColor: PropTypes.string,
         siteName: PropTypes.string,
         initializing: PropTypes.bool,
         actions: PropTypes.shape({
@@ -739,17 +741,17 @@ class LoginController extends React.PureComponent {
         if (openIdSigninEnabled) {
             loginControls.push(
                 <a
-                    className='btn btn-custom-login office365'
+                    className='btn btn-custom-login openid'
+                    style={{
+                        backgroundColor: this.props.openIdButtonColor,
+                    }}
                     key='openid'
                     href={Client4.getOAuthRoute() + '/openid/login' + this.props.location.search}
                 >
                     <span>
                         <span className='icon'/>
                         <span>
-                            <FormattedMessage
-                                id='login.openid'
-                                defaultMessage='Open Id'
-                            />
+                            {this.props.openIdButtonText}
                         </span>
                     </span>
                 </a>,
