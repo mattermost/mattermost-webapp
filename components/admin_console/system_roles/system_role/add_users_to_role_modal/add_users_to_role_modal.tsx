@@ -74,7 +74,7 @@ export default class AddUsersToRoleModal extends React.PureComponent<Props, Stat
     }
 
     componentDidMount = async () => {
-        await this.props.actions.getProfiles(0, USERS_PER_PAGE * 2, {roles: ['system_user']});
+        await this.props.actions.getProfiles(0, USERS_PER_PAGE * 2);
         this.setUsersLoadingState(false);
     }
 
@@ -87,10 +87,10 @@ export default class AddUsersToRoleModal extends React.PureComponent<Props, Stat
         let searchResults: UserProfile[] = [];
         const search = term !== '';
         if (search) {
-            const {data} = await this.props.actions.searchProfiles(term, {replace: true, roles: ['system_user']});
+            const {data} = await this.props.actions.searchProfiles(term, {replace: true});
             searchResults = data;
         } else {
-            await this.props.actions.getProfiles(0, USERS_PER_PAGE * 2, {roles: ['system_user']});
+            await this.props.actions.getProfiles(0, USERS_PER_PAGE * 2);
         }
         this.setState({loading: false, searchResults, term});
     }
@@ -169,7 +169,7 @@ export default class AddUsersToRoleModal extends React.PureComponent<Props, Stat
         if (page > prevPage) {
             const needMoreUsers = (this.props.users.length / USERS_PER_PAGE) <= page + 1;
             this.setUsersLoadingState(needMoreUsers);
-            this.props.actions.getProfiles(page, USERS_PER_PAGE * 2, {roles: ['system_user']}).
+            this.props.actions.getProfiles(page, USERS_PER_PAGE * 2).
                 then(() => this.setUsersLoadingState(false));
         }
     };

@@ -25,7 +25,7 @@ type Actions = {
 };
 
 function mapStateToProps(state: GlobalState, props: Props) {
-    const filterOptions: {[key: string]: any} = {active: true, roles: ['system_user'], exclude_roles: [props.role.name]};
+    const filterOptions: {[key: string]: any} = {active: true, exclude_roles: [props.role.name]};
 
     const users: UserProfile[] = selectProfiles(state, filterOptions);
 

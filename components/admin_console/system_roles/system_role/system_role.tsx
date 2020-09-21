@@ -59,10 +59,14 @@ export default class SystemRole extends React.PureComponent<Props, State> {
         };
     }
 
-    getSaveNeeded = (nextState: Partial<State>): boolean => {
-        const {usersToAdd, usersToRemove} = {...this.state, ...nextState};
+    getSaveStateNeeded = (nextState: Partial<State>): boolean => {
+        const {role} = this.props;
+        const {usersToAdd, usersToRemove, updatedRolePermissions, permissionsToUpdate} = {...this.state, ...nextState};
         let saveNeeded = false;
         saveNeeded = Object.keys(usersToAdd).length > 0 || Object.keys(usersToRemove).length > 0;
+        if (Object.keys(permissionsToUpdate).length > 0) {
+            saveNeeded = saveNeeded || difference(updatedRolePermissions, role.permissions).length > 0 || difference(role.permissions, updatedRolePermissions).length > 0;
+        }
         return saveNeeded;
     }
 
@@ -81,7 +85,7 @@ export default class SystemRole extends React.PureComponent<Props, State> {
             }
         });
 
-        this.setState({usersToAdd, usersToRemove, saveNeeded: this.getSaveNeeded({usersToAdd, usersToRemove})});
+        this.setState({usersToAdd, usersToRemove, saveNeeded: this.getSaveStateNeeded({usersToAdd, usersToRemove})});
     }
 
     removeUserFromRole = (user: UserProfile) => {
@@ -96,22 +100,25 @@ export default class SystemRole extends React.PureComponent<Props, State> {
         } else {
             usersToRemove[user.id] = user;
         }
-        this.setState({usersToRemove, usersToAdd, saveNeeded: this.getSaveNeeded({usersToAdd, usersToRemove})});
+        this.setState({usersToRemove, usersToAdd, saveNeeded: this.getSaveStateNeeded({usersToAdd, usersToRemove})});
     }
 
     handleSubmit = async () => {
         this.setState({saving: true, saveNeeded: false});
-        const {usersToRemove, usersToAdd, updatedRolePermissions} = this.state;
+        const {usersToRemove, usersToAdd, updatedRolePermissions, permissionsToUpdate} = this.state;
         const {role, actions: {editRole, updateUserRoles}} = this.props;
         let serverError = null;
 
-        const newRole: Role = {
-            ...role,
-            permissions: updatedRolePermissions,
-        };
-        const result = await editRole(newRole);
-        if (isError(result)) {
-            serverError = <FormError error={result.error.message}/>;
+        // Do not update permissions if sysadmin or if roles have not been updated (to prevent overrwiting roles with no permissions)
+        if (role.name !== 'system_admin' && Object.keys(permissionsToUpdate).length > 0) {
+            const newRole: Role = {
+                ...role,
+                permissions: updatedRolePermissions,
+            };
+            const result = await editRole(newRole);
+            if (isError(result)) {
+                serverError = <FormError error={result.error.message}/>;
+            }
         }
 
         const userIdsToRemove = Object.keys(usersToRemove);
@@ -208,7 +215,7 @@ export default class SystemRole extends React.PureComponent<Props, State> {
         this.setState({
             permissionsToUpdate,
             updatedRolePermissions,
-            saveNeeded: difference(updatedRolePermissions, role.permissions).length > 0 || difference(role.permissions, updatedRolePermissions).length > 0,
+            saveNeeded: this.getSaveStateNeeded({updatedRolePermissions}),
         });
     }
 
@@ -257,7 +264,7 @@ export default class SystemRole extends React.PureComponent<Props, State> {
                     saveNeeded={saveNeeded}
                     onClick={this.handleSubmit}
                     serverError={serverError}
-                    isDisabled={isDisabled || role.name === 'system_admin'}
+                    isDisabled={isDisabled}
                 />
             </div>
         );
