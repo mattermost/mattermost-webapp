@@ -52,8 +52,7 @@ describe('Channel settings', () => {
         cy.visit(`/${myTeam.name}/channels/off-topic`);
 
         // # Post message as the second user, in a channel near the top of the list
-        cy.apiGetChannelByName(myTeam.name, channelNames[firstChannelIndex]).then((response) => {
-            const channel = response.body;
+        cy.apiGetChannelByName(myTeam.name, channelNames[firstChannelIndex]).then(({channel}) => {
             cy.postMessageAs({
                 sender: otherUser,
                 message: 'Bleep bloop I am a robot',
@@ -72,8 +71,7 @@ describe('Channel settings', () => {
         cy.get('#unreadIndicatorTop').should('be.visible').click();
 
         // # Post as another user in a channel near the bottom of the list, scroll channels list to view it (should be in bold)
-        cy.apiGetChannelByName(myTeam.name, channelNames[lastChannelIndex]).then((response) => {
-            const channel = response.body;
+        cy.apiGetChannelByName(myTeam.name, channelNames[lastChannelIndex]).then(({channel}) => {
             cy.postMessageAs({
                 sender: otherUser,
                 message: 'Bleep bloop I am a robot',

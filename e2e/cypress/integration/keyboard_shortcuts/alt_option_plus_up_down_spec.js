@@ -36,11 +36,11 @@ describe('Keyboard Shortcuts', () => {
                     dmWithSysadmin.name = sysadmin.username;
                     dmWithSysadmin.display_name = sysadmin.username;
                 });
-                cy.apiGetChannelByName(testTeam.name, 'town-square').then((response) => {
-                    townSquare = response.body;
+                cy.apiGetChannelByName(testTeam.name, 'town-square').then((out) => {
+                    townSquare = out.channel;
                 });
-                cy.apiGetChannelByName(testTeam.name, 'off-topic').then((response) => {
-                    offTopic = response.body;
+                cy.apiGetChannelByName(testTeam.name, 'off-topic').then((out) => {
+                    offTopic = out.channel;
                 });
             });
         });
