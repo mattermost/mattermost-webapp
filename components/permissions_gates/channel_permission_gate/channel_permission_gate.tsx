@@ -3,38 +3,38 @@
 
 import React from 'react';
 
-    type Props = {
+type Props = {
 
-        /**
-         * Channel to check the permission
-         */
-        channelId: string;
+    /**
+     * Channel to check the permission
+     */
+    channelId: string;
 
-        /**
-         * Team to check the permission
-         */
-        teamId: string;
+    /**
+     * Team to check the permission
+     */
+    teamId: string;
 
-        /**
-         * Permissions enough to pass the gate (binary OR)
-         */
-        permissions: Array<string>;
+    /**
+     * Permissions enough to pass the gate (binary OR)
+     */
+    permissions: Array<string>;
 
-        /**
-         * Has permission
-         */
-        hasPermission: boolean;
+    /**
+     * Has permission
+     */
+    hasPermission: boolean;
 
-        /**
-         * Invert the permission (used for else)
-         */
-        invert: boolean;
+    /**
+     * Invert the permission (used for else)
+     */
+    invert: boolean;
 
-        /**
-         * Content protected by the permissions gate
-         */
-        children: React.ReactNode;
-    };
+    /**
+     * Content protected by the permissions gate
+     */
+    children: React.ReactNode;
+};
 
 export default class ChannelPermissionGate extends React.PureComponent<Props> {
     public static defaultProps = {

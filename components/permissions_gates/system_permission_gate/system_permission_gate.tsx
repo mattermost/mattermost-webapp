@@ -3,27 +3,27 @@
 
 import React from 'react';
 
-    type Props = {
-        permissions: Array<string>;
+type Props = {
+    permissions: Array<string>;
 
-        /**
-         * Has permission
-         * This prop is will always be passed by the mapStateToProps function
-         * it should be required when this component is converted to TS, for now its optional to make the TS compiler quite.
-         * about this prop not being passed from where this component is used
-         */
-        hasPermission: boolean;
+    /**
+     * Has permission
+     * This prop is will always be passed by the mapStateToProps function
+     * it should be required when this component is converted to TS, for now its optional to make the TS compiler quite.
+     * about this prop not being passed from where this component is used
+     */
+    hasPermission: boolean;
 
-        /**
-         * Invert the permission (used for else)
-         */
-        invert: boolean;
+    /**
+     * Invert the permission (used for else)
+     */
+    invert: boolean;
 
-        /**
-         * Content protected by the permissions gate
-         */
-        children: React.ReactNode;
-    };
+    /**
+     * Content protected by the permissions gate
+     */
+    children: React.ReactNode;
+};
 
 export default class SystemPermissionGate extends React.PureComponent<Props> {
     public static defaultProps = {
