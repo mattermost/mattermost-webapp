@@ -270,17 +270,36 @@ describe('Leave an archived channel', () => {
 
         // * Private archived channels you are not a member above are not available on channel switcher
         cy.contains('#suggestionList', otherChannelName).should('not.exist');
+        cy.get('#quickSwitchModalLabel button.close').click();
     });
     it('MM-T1677 Archived channels are not shown as unread in channel switcher', () => {
         // # As the test user join a public channel then open any other channel in the drawer
-        // # As another user post in the channel from step 1. then archive it
-        cy.visit(`/${testTeam.name}/channels/off-topic`);
+        cy.uiCreateChannel('arhived-not-read').then(({name}) => {
+            cy.visit(`/${testTeam.name}/channels/off-topic`);
 
-        // # As the test user hit CTRL/CMD+K (or ⌘+k) and locate the channel
-        cy.typeCmdOrCtrl().type('K', {release: true});
-        cy.get('#quickSwitchInput').type('archived-');
+            // # As another user post in the channel from step 1. then archive it
+            cy.apiLogout();
+            cy.get('#loginButton').should('be.visible');
+            cy.apiLogin(otherUser);
+            cy.visit(`/${testTeam.name}/channels/${name}`);
+            cy.postMessage('this is an message not read by the test user');
+            cy.uiArchiveChannel();
+            cy.apiLogout();
+            cy.get('#loginButton').should('be.visible');
+            cy.apiLogin(otherUser);
 
-        // * Channel does not appear at the top with other unread channels
+            cy.visit(`/${testTeam.name}/channels/off-topic`);
+            cy.contains('#channelHeaderTitle', 'Off-Topic');
+
+            // # As the test user hit CTRL/CMD+K (or ⌘+k) and locate the channel
+            cy.typeCmdOrCtrl().type('K', {release: true});
+            cy.get('#quickSwitchInput').type('archived-');
+
+            // * Channel does not appear at the top with other unread channels
+            cy.get('#suggestionList').should('be.visible');
+            cy.findByTestId(name).should('not.be.visible');
+            cy.get('#quickSwitchModalLabel button.close').click();
+        });
     });
 });
 
