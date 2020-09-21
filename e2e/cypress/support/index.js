@@ -125,6 +125,7 @@ function sysadminSetup(user) {
     cy.apiSaveTeammateNameDisplayPreference('username');
     cy.apiSaveLinkPreviewsPreference('true');
     cy.apiSaveCollapsePreviewsPreference('false');
+    cy.apiSaveClockDisplayModeTo24HourPreference(false);
     cy.apiSaveTutorialStep(user.id, '999');
     cy.apiSaveCloudOnboardingPreference(user.id, 'hide', 'true');
     cy.apiHideSidebarWhatsNewModalPreference(user.id, 'true');
@@ -159,9 +160,7 @@ function sysadminSetup(user) {
                 }
             });
 
-            cy.apiGetChannelsForUser('me', defaultTeam.id).then((channelsRes) => {
-                const channels = channelsRes.body;
-
+            cy.apiGetChannelsForUser('me', defaultTeam.id).then(({channels}) => {
                 channels.forEach((channel) => {
                     if (
                         (channel.team_id === defaultTeam.id || channel.team_name === defaultTeam.name) &&
