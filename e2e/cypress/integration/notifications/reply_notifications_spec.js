@@ -67,8 +67,8 @@ describe('reply-notifications', () => {
                 cy.apiAddUserToTeam(testTeam.id, sender.id);
             });
 
-            cy.apiGetChannelByName(testTeam.name, 'town-square').then((res) => {
-                townsquareChannelId = res.body.id;
+            cy.apiGetChannelByName(testTeam.name, 'town-square').then((out) => {
+                townsquareChannelId = out.channel.id;
             });
 
             // # Login as receiver and visit town-square channel
@@ -154,10 +154,114 @@ describe('reply-notifications', () => {
                 // * Verify entire message
                 cy.getLastPostId().then((msgId) => {
                     cy.get(`#postMessageText_${msgId}`).as('postMessageText');
+
+                    // * Verify reply bar highlight
+                    cy.get(`#${msgId}_message`).should('have.class', 'mention-comment');
                 });
                 cy.get('@postMessageText').
                     should('be.visible').
                     and('have.text', message);
+            });
+        });
+    });
+
+    it('MM-T553 Trigger notifications on messages in reply threads that I start or participate in - start thread', () => {
+        cy.visit(`/${testTeam.name}/channels/town-square`);
+
+        // Setup notification spy
+        spyNotificationAs('notifySpy', 'granted');
+
+        // # Set users notification settings
+        setReplyNotificationsSetting('#notificationCommentsAny');
+
+        // # Post a message
+        cy.postMessage('Hi there, this is another root message');
+
+        // # Get post id of message
+        cy.getLastPostId().then((postId) => {
+            // # Switch to other channel so that unread notifications in 'town-square` may be triggered
+            cy.get(`#sidebarItem_${otherChannel.name}`).click({force: true});
+
+            // # Post a message in original thread as another user
+            const message = 'This is a reply to the root post';
+            cy.postMessageAs({sender, message, channelId: townsquareChannelId, rootId: postId}).then(() => {
+                // * Verify stub was called
+                cy.get('@notifySpy').should('be.called');
+
+                // * Verify unread mentions badge exists
+                cy.get('#sidebarItem_town-square').find('#unreadMentions').should('be.visible');
+
+                // # Navigate to town square channel
+                cy.get(`#sidebarItem_${'town-square'}`).click({force: true});
+
+                // * Verify entire message
+                cy.getLastPostId().then((msgId) => {
+                    cy.get(`#postMessageText_${msgId}`).as('postMessageText');
+
+                    // * Verify reply bar highlight
+                    cy.get(`#${msgId}_message`).should('have.class', 'mention-comment');
+                });
+                cy.get('@postMessageText').
+                    should('be.visible').
+                    and('have.text', message);
+            });
+        });
+    });
+
+    it('MM-T554 Trigger notifications on messages in reply threads that I start or participate in - participate in', () => {
+        cy.visit(`/${testTeam.name}/channels/town-square`);
+
+        // Setup notification spy
+        spyNotificationAs('notifySpy', 'granted');
+
+        // # Set users notification settings
+        setReplyNotificationsSetting('#notificationCommentsAny');
+
+        // # Make a root post as some other user
+        const rootPostMessage = 'a root message by some other user';
+        cy.postMessageAs({sender, message: rootPostMessage, channelId: townsquareChannelId}).then((post) => {
+            const rootPostId = post.id;
+            const rootPostMessageId = `#rhsPostMessageText_${rootPostId}`;
+
+            // # Click comment icon to open RHS
+            cy.clickPostCommentIcon(rootPostId);
+
+            // * Check that the RHS is open
+            cy.get('#rhsContainer').should('be.visible');
+
+            // * Verify that the original message is in the RHS
+            cy.get('#rhsContainer').find(rootPostMessageId).should('have.text', `${rootPostMessage}`);
+
+            // # Post a reply as receiver, i.e. participate in the thread
+            cy.postMessageReplyInRHS('this is a reply from the receiver');
+
+            // # Wait till receiver's post is visible
+            cy.getLastPostId().then(() => {
+                // # Switch to other channel so that unread notifications in 'town-square` may be triggered
+                cy.get(`#sidebarItem_${otherChannel.name}`).click({force: true});
+
+                // # Post a message in thread as another user
+                const message = 'This is a reply by sender';
+                cy.postMessageAs({sender, message, channelId: townsquareChannelId, rootId: rootPostId}).then(() => {
+                    // * Verify stub was called
+                    cy.get('@notifySpy').should('be.called');
+
+                    // * Verify unread mentions badge exists
+                    cy.get('#sidebarItem_town-square').find('#unreadMentions').should('be.visible');
+
+                    // # Navigate to town square channel
+                    cy.get(`#sidebarItem_${'town-square'}`).click({force: true});
+
+                    cy.getLastPostId().then((msgId) => {
+                        // * Verify entire message
+                        cy.get(`#postMessageText_${msgId}`).
+                            should('be.visible').
+                            and('have.text', message);
+
+                        // * Verify reply bar highlight
+                        cy.get(`#${msgId}_message`).should('have.class', 'mention-comment');
+                    });
+                });
             });
         });
     });

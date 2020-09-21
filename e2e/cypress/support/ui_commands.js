@@ -91,6 +91,16 @@ Cypress.Commands.add('postMessageReplyInRHS', (message) => {
     postMessageAndWait('#reply_textbox', message);
 });
 
+Cypress.Commands.add('uiPostMessageQuickly', (message) => {
+    cy.get('#post_textbox', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').clear().
+        invoke('val', message).wait(TIMEOUTS.HALF_SEC).type(' {backspace}{enter}');
+    cy.waitUntil(() => {
+        return cy.get('#post_textbox').then((el) => {
+            return el[0].textContent === '';
+        });
+    });
+});
+
 function postMessageAndWait(textboxSelector, message) {
     cy.get(textboxSelector, {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').clear().type(`${message}{enter}`).wait(TIMEOUTS.HALF_SEC);
     cy.waitUntil(() => {
@@ -199,12 +209,29 @@ Cypress.Commands.add('compareLastPostHTMLContentFromFile', (file, timeout = TIME
 // ***********************************************************
 
 function clickPostHeaderItem(postId, location, item) {
+    let idPrefix;
+    switch (location) {
+    case 'CENTER':
+        idPrefix = 'post';
+        break;
+    case 'RHS_ROOT':
+    case 'RHS_COMMENT':
+        idPrefix = 'rhsPost';
+        break;
+    case 'SEARCH':
+        idPrefix = 'searchResult';
+        break;
+
+    default:
+        idPrefix = 'post';
+    }
+
     if (postId) {
-        cy.get(`#post_${postId}`).trigger('mouseover', {force: true});
+        cy.get(`#${idPrefix}_${postId}`).trigger('mouseover', {force: true});
         cy.wait(TIMEOUTS.HALF_SEC).get(`#${location}_${item}_${postId}`).click({force: true});
     } else {
         cy.getLastPostId().then((lastPostId) => {
-            cy.get(`#post_${lastPostId}`).trigger('mouseover', {force: true});
+            cy.get(`#${idPrefix}_${lastPostId}`).trigger('mouseover', {force: true});
             cy.wait(TIMEOUTS.HALF_SEC).get(`#${location}_${item}_${lastPostId}`).click({force: true});
         });
     }
@@ -220,11 +247,11 @@ Cypress.Commands.add('clickPostTime', (postId, location = 'CENTER') => {
 });
 
 /**
- * Click flag icon by post ID or to most recent post (if post ID is not provided)
+ * Click save icon by post ID or to most recent post (if post ID is not provided)
  * @param {String} postId - Post ID
  * @param {String} location - as 'CENTER', 'RHS_ROOT', 'RHS_COMMENT', 'SEARCH'
  */
-Cypress.Commands.add('clickPostFlagIcon', (postId, location = 'CENTER') => {
+Cypress.Commands.add('clickPostSaveIcon', (postId, location = 'CENTER') => {
     clickPostHeaderItem(postId, location, 'flagIcon');
 });
 
@@ -407,6 +434,15 @@ Cypress.Commands.add('updateChannelHeader', (text) => {
 });
 
 /**
+ * Archive the current channel.
+ */
+Cypress.Commands.add('uiArchiveChannel', () => {
+    cy.get('#channelHeaderDropdownIcon').click();
+    cy.get('#channelArchiveChannel').click();
+    cy.get('#deleteChannelModalDeleteButton').click();
+});
+
+/**
  * Navigate to system console-PluginManagement from account settings
  */
 Cypress.Commands.add('checkRunLDAPSync', () => {
@@ -445,55 +481,4 @@ Cypress.Commands.add('checkRunLDAPSync', () => {
             });
         }
     });
-});
-
-Cypress.Commands.add('createArchivedChannel', (options, messages, memberIds) => {
-    let archivedChannel;
-
-    // ensure it is not undefined
-    const safeOptions = options || {};
-
-    const channelType = ['O', 'P', 'G', 'D'].includes(safeOptions.type) ? safeOptions.type : 'O';
-
-    const name = safeOptions.name || 'channel-';
-    const displayName = safeOptions.displayName ? safeOptions.displayName : name;
-
-    // helper function in case teamid wasn't provided
-    const createChannel = (teamId, prefix, display, chanType, purpose, header) => {
-        // # create another channel
-        cy.apiCreateChannel(teamId, prefix, display, chanType, purpose, header).then((response) => {
-            archivedChannel = response.body;
-            const teamName = safeOptions.teamName ? safeOptions.teamName : cy.getCurrentTeamURL();
-            cy.visit(`/${teamName}/channels/${archivedChannel.name}`);
-
-            if (messages !== undefined) {
-                // # with text
-                const messageQueue = Array.isArray(messages) ? messages : [messages];
-                messageQueue.forEach((message) => {
-                    cy.postMessage(message);
-                });
-            }
-            if (memberIds !== undefined) {
-                const memberQueue = Array.isArray(memberIds) ? memberIds : [memberIds];
-
-                memberQueue.forEach((member) => {
-                    cy.apiAddUserToChannel(archivedChannel.id, member);
-                });
-            }
-
-            // # and archive it
-            cy.get('#channelHeaderDropdownIcon').click();
-            cy.get('#channelArchiveChannel').click();
-            cy.get('#deleteChannelModalDeleteButton').click();
-        });
-    };
-
-    if (safeOptions.teamId) {
-        createChannel(safeOptions.teamId, name, displayName, channelType, safeOptions.purpose, safeOptions.header);
-    } else {
-        cy.getCurrentTeamId().then((value) => {
-            createChannel(value, name, displayName, channelType, safeOptions.purpose, safeOptions.header);
-        });
-    }
-    return cy.wrap(archivedChannel);
 });

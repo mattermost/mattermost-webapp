@@ -32,6 +32,7 @@ import EditChannelPurposeModal from 'components/edit_channel_purpose_modal';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 import FilePreview from 'components/file_preview';
 import FileUpload from 'components/file_upload';
+import CallButton from 'components/call_button';
 import LocalizedIcon from 'components/localized_icon';
 import MsgTyping from 'components/msg_typing';
 import PostDeletedModal from 'components/post_deleted_modal';
@@ -1021,6 +1022,10 @@ class CreatePost extends React.PureComponent {
         });
     }
 
+    handleSelect = (e) => {
+        Utils.adjustSelection(this.refs.textbox.getInputBox(), e);
+    }
+
     handleKeyDown = (e) => {
         const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
         const messageIsEmpty = this.state.message.length === 0;
@@ -1029,6 +1034,7 @@ class CreatePost extends React.PureComponent {
         const upKeyOnly = !ctrlOrMetaKeyPressed && !e.altKey && !e.shiftKey && Utils.isKeyPressed(e, KeyCodes.UP);
         const shiftUpKeyCombo = !ctrlOrMetaKeyPressed && !e.altKey && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.UP);
         const ctrlKeyCombo = ctrlOrMetaKeyPressed && !e.altKey && !e.shiftKey;
+        const markdownHotkey = Utils.isKeyPressed(e, KeyCodes.B) || Utils.isKeyPressed(e, KeyCodes.I);
 
         // listen for line break key combo and insert new line character
         if (Utils.isUnhandledLineBreakKeyCombo(e)) {
@@ -1043,6 +1049,8 @@ class CreatePost extends React.PureComponent {
             this.loadPrevMessage(e);
         } else if (ctrlKeyCombo && draftMessageIsEmpty && Utils.isKeyPressed(e, KeyCodes.DOWN)) {
             this.loadNextMessage(e);
+        } else if (ctrlKeyCombo && markdownHotkey) {
+            this.applyHotkeyMarkdown(e);
         }
     }
 
@@ -1086,6 +1094,17 @@ class CreatePost extends React.PureComponent {
     loadNextMessage = (e) => {
         e.preventDefault();
         this.props.actions.moveHistoryIndexForward(Posts.MESSAGE_TYPES.POST).then(() => this.fillMessageFromHistory());
+    }
+
+    applyHotkeyMarkdown = (e) => {
+        const res = Utils.applyHotkeyMarkdown(e);
+
+        this.setState({
+            message: res.message,
+        }, () => {
+            const textbox = this.refs.textbox.getInputBox();
+            Utils.setSelectionRange(textbox, res.selectionStart, res.selectionEnd);
+        });
     }
 
     reactToLastMessage = (e) => {
@@ -1388,6 +1407,13 @@ class CreatePost extends React.PureComponent {
             attachmentsDisabled = ' post-create--attachment-disabled';
         }
 
+        let callButton;
+        if (!readOnlyChannel && !this.props.shouldShowPreview) {
+            callButton = (
+                <CallButton/>
+            );
+        }
+
         let fileUpload;
         if (!readOnlyChannel && !this.props.shouldShowPreview) {
             fileUpload = (
@@ -1477,6 +1503,7 @@ class CreatePost extends React.PureComponent {
                                 onChange={this.handleChange}
                                 onKeyPress={this.postMsgKeyPress}
                                 onKeyDown={this.handleKeyDown}
+                                onSelect={this.handleSelect}
                                 onMouseUp={this.handleMouseUpKeyUp}
                                 onKeyUp={this.handleMouseUpKeyUp}
                                 onComposition={this.emitTypingEvent}
@@ -1500,6 +1527,7 @@ class CreatePost extends React.PureComponent {
                                 ref='createPostControls'
                                 className='post-body__actions'
                             >
+                                {callButton}
                                 {fileUpload}
                                 {emojiPicker}
                                 <a

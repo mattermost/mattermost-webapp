@@ -12,6 +12,8 @@ import {
     removeIdpSamlCertificate, uploadIdpSamlCertificate,
     removePrivateSamlCertificate, uploadPrivateSamlCertificate,
     removePublicSamlCertificate, uploadPublicSamlCertificate,
+    removePrivateLdapCertificate, uploadPrivateLdapCertificate,
+    removePublicLdapCertificate, uploadPublicLdapCertificate,
     invalidateAllEmailInvites, testSmtp, testSiteURL, getSamlMetadataFromIdp, setSamlIdpCertificateFromMetadata,
 } from 'actions/admin_actions';
 import SystemAnalytics from 'components/analytics/system_analytics';
@@ -212,7 +214,10 @@ const AdminDefinition = {
         icon: 'fa-credit-card', // TODO: Need compass icon
         sectionTitle: t('admin.sidebar.billing'),
         sectionTitleDefault: 'Billing & Account',
-        isHidden: it.not(it.licensedForFeature('Cloud')),
+        isHidden: it.any(
+            it.not(it.licensedForFeature('Cloud')),
+            it.configIsFalse('ExperimentalSettings', 'CloudBilling'),
+        ),
         subscription: {
             url: 'billing/subscription',
             title: t('admin.sidebar.subscription'),
@@ -333,6 +338,9 @@ const AdminDefinition = {
             url: 'reporting/server_logs',
             title: t('admin.sidebar.logs'),
             title_default: 'Server Logs',
+            isHidden: it.any(
+                it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
+            ),
             searchableStrings: [
                 'admin.logs.bannerDesc',
                 'admin.logs.title',
@@ -1713,6 +1721,7 @@ const AdminDefinition = {
                         help_text: t('admin.support.termsDesc'),
                         help_text_default: 'Link to the terms under which users may use your online service. By default, this includes the "Mattermost Conditions of Use (End Users)" explaining the terms under which Mattermost software is provided to end users. If you change the default link to add your own terms for using the service you provide, your new terms must include a link to the default terms so end users are aware of the Mattermost Conditions of Use (End User) for Mattermost software.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
+                        isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -1722,6 +1731,7 @@ const AdminDefinition = {
                         help_text: t('admin.support.privacyDesc'),
                         help_text_default: 'The URL for the Privacy link on the login and sign-up pages. If this field is empty, the Privacy link is hidden from users.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
+                        isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -1731,6 +1741,7 @@ const AdminDefinition = {
                         help_text: t('admin.support.aboutDesc'),
                         help_text_default: 'The URL for the About link on the Mattermost login and sign-up pages. If this field is empty, the About link is hidden from users.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
+                        isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -1740,6 +1751,7 @@ const AdminDefinition = {
                         help_text: t('admin.support.problemDesc'),
                         help_text_default: 'The URL for the Report a Problem link in the Main Menu. If this field is empty, the link is removed from the Main Menu.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
+                        isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -1749,6 +1761,7 @@ const AdminDefinition = {
                         help_text: t('admin.customization.appDownloadLinkDesc'),
                         help_text_default: 'Add a link to a download page for the Mattermost apps. When a link is present, an option to "Download Mattermost Apps" will be added in the Main Menu so users can find the download page. Leave this field blank to hide the option from the Main Menu.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
+                        isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -1758,6 +1771,7 @@ const AdminDefinition = {
                         help_text: t('admin.customization.androidAppDownloadLinkDesc'),
                         help_text_default: 'Add a link to download the Android app. Users who access the site on a mobile web browser will be prompted with a page giving them the option to download the app. Leave this field blank to prevent the page from appearing.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
+                        isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -1767,6 +1781,7 @@ const AdminDefinition = {
                         help_text: t('admin.customization.iosAppDownloadLinkDesc'),
                         help_text_default: 'Add a link to download the iOS app. Users who access the site on a mobile web browser will be prompted with a page giving them the option to download the app. Leave this field blank to prevent the page from appearing.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
+                        isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
                     },
                 ],
             },
@@ -1923,7 +1938,10 @@ const AdminDefinition = {
                         help_text: t('admin.team.editOthersPostsDesc'),
                         help_text_default: 'When true, Team Administrators and System Administrators can edit other user\'s posts.  When false, only System Administrators can edit other user\'s posts.',
                         permissions_mapping_name: 'editOthersPosts',
-                        isHidden: it.licensed,
+                        isHidden: it.any(
+                            it.licensed,
+                            it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
+                        ),
                         isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
                     },
                     {
@@ -2378,6 +2396,36 @@ const AdminDefinition = {
                 ],
             },
         },
+        notices: {
+            url: 'site_config/notices',
+            title: t('admin.sidebar.notices'),
+            title_default: 'Notices',
+            schema: {
+                id: 'NoticesSettings',
+                name: t('admin.site.notices'),
+                name_default: 'Notices',
+                settings: [
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'AnnouncementSettings.AdminNoticesEnabled',
+                        label: t('admin.notices.enableAdminNoticesTitle'),
+                        label_default: 'Enable Admin Notices: ',
+                        help_text: t('admin.notices.enableAdminNoticesDescription'),
+                        help_text_default: 'When enabled, System Admins will receive notices about available server upgrades and relevant system administration features. [Learn more about notices](!https://about.mattermost.com/default-notices) in our documentation.',
+                        help_text_markdown: true,
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'AnnouncementSettings.UserNoticesEnabled',
+                        label: t('admin.notices.enableEndUserNoticesTitle'),
+                        label_default: 'Enable End User Notices: ',
+                        help_text: t('admin.notices.enableEndUserNoticesDescription'),
+                        help_text_default: 'When enabled, all users will receive notices about available client upgrades and relevant end user features to improve user experience. [Learn more about notices](!https://about.mattermost.com/default-notices) in our documentation.',
+                        help_text_markdown: true,
+                    },
+                ],
+            },
+        },
     },
     authentication: {
         icon: 'fa-shield',
@@ -2433,7 +2481,6 @@ const AdminDefinition = {
                         label_default: 'Enable Open Server: ',
                         help_text: t('admin.team.openServerDescription'),
                         help_text_default: 'When true, anyone can signup for a user account on this server without the need to be invited.',
-                        isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
                         isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
                     },
                     {
@@ -2668,6 +2715,52 @@ const AdminDefinition = {
                                 it.stateIsFalse('LdapSettings.EnableSync'),
                             ),
                         ),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_FILE_UPLOAD,
+                        key: 'LdapSettings.PrivateKeyFile',
+                        label: t('admin.ldap.privateKeyFileTitle'),
+                        label_default: 'Private Key:',
+                        help_text: t('admin.ldap.privateKeyFileFileDesc'),
+                        help_text_default: 'The private key file for TLS Certificate. If using TLS client certificates as primary authentication mechanism. This will be provided by your LDAP Authentication Provider.',
+                        remove_help_text: t('admin.ldap.privateKeyFileFileRemoveDesc'),
+                        remove_help_text_default: 'Remove the private key file for TLS Certificate.',
+                        remove_button_text: t('admin.ldap.remove.privKey'),
+                        remove_button_text_default: 'Remove TLS Certificate Private Key',
+                        removing_text: t('admin.ldap.removing.privKey'),
+                        removing_text_default: 'Removing Private Key...',
+                        uploading_text: t('admin.ldap.uploading.privateKey'),
+                        uploading_text_default: 'Uploading Private Key...',
+                        isDisabled: it.all(
+                            it.stateIsFalse('LdapSettings.Enable'),
+                            it.stateIsFalse('LdapSettings.EnableSync'),
+                        ),
+                        fileType: '.key',
+                        upload_action: uploadPrivateLdapCertificate,
+                        remove_action: removePrivateLdapCertificate,
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_FILE_UPLOAD,
+                        key: 'LdapSettings.PublicCertificateFile',
+                        label: t('admin.ldap.publicCertificateFileTitle'),
+                        label_default: 'Public Certificate:',
+                        help_text: t('admin.ldap.publicCertificateFileDesc'),
+                        help_text_default: 'The public certificate file for TLS Certificate. If using TLS client certificates as primary authentication mechanism.  This will be provided by your LDAP Authentication Provider.',
+                        remove_help_text: t('admin.ldap.publicCertificateFileRemoveDesc'),
+                        remove_help_text_default: 'Remove the public certificate file for TLS Certificate.',
+                        remove_button_text: t('admin.ldap.remove.sp_certificate'),
+                        remove_button_text_default: 'Remove Service Provider Certificate',
+                        removing_text: t('admin.ldap.removing.certificate'),
+                        removing_text_default: 'Removing Certificate...',
+                        uploading_text: t('admin.ldap.uploading.certificate'),
+                        uploading_text_default: 'Uploading Certificate...',
+                        isDisabled: it.all(
+                            it.stateIsFalse('LdapSettings.Enable'),
+                            it.stateIsFalse('LdapSettings.EnableSync'),
+                        ),
+                        fileType: '.crt,.cer',
+                        upload_action: uploadPublicLdapCertificate,
+                        remove_action: removePublicLdapCertificate,
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -3419,7 +3512,7 @@ const AdminDefinition = {
                         help_text: t('admin.saml.serviceProviderIdentifierDesc'),
                         help_text_default: 'The unique identifier for the Service Provider, usually the same as Service Provider Login URL. In ADFS, this MUST match the Relying Party Identifier.',
                         placeholder: t('admin.saml.serviceProviderIdentifierEx'),
-                        placeholder_default: 'E.g.: "https://<your-mattermost-url>/login/sso/saml"',
+                        placeholder_default: "E.g.: \"https://'<your-mattermost-url>'/login/sso/saml\"",
                         isDisabled: it.stateIsFalse('SamlSettings.Enable'),
                     },
                     {
@@ -3776,7 +3869,7 @@ const AdminDefinition = {
                         label: t('admin.gitlab.enableTitle'),
                         label_default: 'Enable authentication with GitLab: ',
                         help_text: t('admin.gitlab.enableDescription'),
-                        help_text_default: 'When true, Mattermost allows team creation and account signup using GitLab OAuth.\n \n1. Log in to your GitLab account and go to Profile Settings -> Applications.\n2. Enter Redirect URIs "<your-mattermost-url>/login/gitlab/complete" (example: http://localhost:8065/login/gitlab/complete) and "<your-mattermost-url>/signup/gitlab/complete".\n3. Then use "Application Secret Key" and "Application ID" fields from GitLab to complete the options below.\n4. Complete the Endpoint URLs below.',
+                        help_text_default: "When true, Mattermost allows team creation and account signup using GitLab OAuth.\n \n1. Log in to your GitLab account and go to Profile Settings -> Applications.\n2. Enter Redirect URIs \"'<your-mattermost-url>'/login/gitlab/complete\" (example: http://localhost:8065/login/gitlab/complete) and \"<your-mattermost-url>/signup/gitlab/complete\".\n3. Then use \"Application Secret Key\" and \"Application ID\" fields from GitLab to complete the options below.\n4. Complete the Endpoint URLs below.",
                         help_text_markdown: true,
                         isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
                     },
@@ -5183,6 +5276,16 @@ const AdminDefinition = {
                     //     placeholder: t('admin.experimental.replyToAddress.example'),
                     //     placeholder_default: 'E.g.: "reply-to@example.com"',
                     // },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'ExperimentalSettings.CloudBilling',
+                        label: t('admin.experimental.cloudBilling.title'),
+                        label_default: 'Cloud Billing:',
+                        help_text: t('admin.experimental.cloudBilling.desc'),
+                        help_text_default: 'Show the new billing view for Cloud',
+                        help_text_markdown: false,
+                        isHidden: it.not(it.licensedForFeature('Cloud')),
+                    },
                 ],
             },
         },

@@ -15,35 +15,8 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {GlobalState} from 'mattermost-redux/types/store';
 import {ActionFunc} from 'mattermost-redux/types/actions';
-import {UserProfile} from 'mattermost-redux/types/users';
 
-import UserSettingsGeneralTab from './user_settings_general';
-
-type Actions = {
-    logError: ({message, type}: {message: any; type: string}, status: boolean) => void;
-    clearErrors: () => void;
-    getMe: () => void;
-    updateMe: (user: UserProfile) => Promise<{
-        data: boolean;
-        error?: {
-            server_error_id: string;
-            message: string;
-        };
-    }>;
-    sendVerificationEmail: (email: string) => Promise<{
-        data: boolean;
-        error?: {
-            err: string;
-        };
-    }>;
-    setDefaultProfileImage: (id: string) => void;
-    uploadProfileImage: (id: string, file: object) => Promise<{
-        data: boolean;
-        error?: {
-            message: string;
-        };
-    }>;
-}
+import UserSettingsGeneralTab, {Props} from './user_settings_general';
 
 function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
@@ -58,6 +31,7 @@ function mapStateToProps(state: GlobalState) {
     const samlNicknameAttributeSet = config.SamlNicknameAttributeSet === 'true';
     const samlPositionAttributeSet = config.SamlPositionAttributeSet === 'true';
     const ldapPositionAttributeSet = config.LdapPositionAttributeSet === 'true';
+    const ldapPictureAttributeSet = config.LdapPictureAttributeSet === 'true';
 
     return {
         requireEmailVerification,
@@ -70,13 +44,13 @@ function mapStateToProps(state: GlobalState) {
         samlNicknameAttributeSet,
         samlPositionAttributeSet,
         ldapPositionAttributeSet,
+        ldapPictureAttributeSet,
     };
 }
 
 function mapDispatchToProps(dispatch: Dispatch) {
     return {
-        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>,
-        Actions>({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Props['actions']>({
             logError,
             clearErrors,
             getMe,

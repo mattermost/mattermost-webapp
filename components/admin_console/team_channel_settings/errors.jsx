@@ -57,25 +57,41 @@ export class UsersWillBeRemovedError extends React.PureComponent {
     static propTypes = {
         users: PropTypes.arrayOf(PropTypes.object).isRequired,
         total: PropTypes.number.isRequired,
+        scope: PropTypes.string.isRequired,
+        scopeId: PropTypes.string.isRequired,
     }
 
     render() {
-        const {total, users} = this.props;
+        const {total, users, scope, scopeId} = this.props;
+        let error = (
+            <FormattedMessage
+                id='admin.team_channel_settings.users_will_be_removed'
+                defaultMessage='{amount, number} {amount, plural, one {User} other {Users}} will be removed from this team. They are not in groups linked to this team.'
+                values={{amount: total}}
+            />
+        );
+
+        if (scope === 'channel') {
+            error = (
+                <FormattedMessage
+                    id='admin.team_channel_settings.channel_users_will_be_removed'
+                    defaultMessage='{amount, number} {amount, plural, one {User} other {Users}} will be removed from this channel. They are not in groups linked to this channel.'
+                    values={{amount: total}}
+                />
+            );
+        }
+
         return (
             <FormError
                 iconClassName='fa-exclamation-triangle'
                 textClassName='has-warning'
                 error={(
                     <span>
-                        <FormattedMessage
-                            id='admin.team_channel_settings.users_will_be_removed'
-                            defaultMessage='{amount, number} {amount, plural, one {User} other {Users}} will be removed from this team. They are not in groups linked to this team.'
-                            values={{amount: total}}
-                        />
+                        {error}
                         <ToggleModalButton
                             className='btn btn-link'
                             dialogType={UsersToBeRemovedModal}
-                            dialogProps={{total, users}}
+                            dialogProps={{total, users, scope, scopeId}}
                         >
                             <FormattedMessage
                                 id='admin.team_channel_settings.view_removed_users'

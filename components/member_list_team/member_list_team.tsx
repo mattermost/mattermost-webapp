@@ -3,8 +3,9 @@
 
 import React from 'react';
 
+import {ActionResult} from 'mattermost-redux/types/actions';
 import {UserProfile} from 'mattermost-redux/types/users';
-import {TeamMembership, GetTeamMembersOpts} from 'mattermost-redux/types/teams';
+import {TeamMembership, TeamStats, GetTeamMembersOpts} from 'mattermost-redux/types/teams';
 import {Teams} from 'mattermost-redux/constants';
 
 import Constants from 'utils/constants';
@@ -25,10 +26,10 @@ type Props = {
     totalTeamMembers: number;
     canManageTeamMembers?: boolean;
     actions: {
-        getTeamMembers: (teamId: string, page?: number, perPage?: number, options?: GetTeamMembersOpts) => Promise<{data: {}}>;
-        searchProfiles: (term: string, options?: {}) => Promise<{data: UserProfile[]}>;
-        getTeamStats: (teamId: string) => Promise<{data: {}}>;
-        loadProfilesAndTeamMembers: (page: number, perPage: number, teamId?: string, options?: {}) => Promise<{
+        getTeamMembers: (teamId: string, page?: number, perPage?: number, options?: GetTeamMembersOpts) => Promise<{data: TeamMembership}>;
+        searchProfiles: (term: string, options?: {[key: string]: any}) => Promise<{data: UserProfile[]}>;
+        getTeamStats: (teamId: string) => Promise<{data: TeamStats}>;
+        loadProfilesAndTeamMembers: (page: number, perPage: number, teamId?: string, options?: {[key: string]: any}) => Promise<{
             data: boolean;
         }>;
         loadStatusesForProfilesList: (users: Array<UserProfile>) => Promise<{
@@ -37,9 +38,7 @@ type Props = {
         loadTeamMembersForProfilesList: (profiles: any, teamId: string, reloadAllMembers: boolean) => Promise<{
             data: boolean;
         }>;
-        setModalSearchTerm: (term: string) => Promise<{
-            data: boolean;
-        }>;
+        setModalSearchTerm: (term: string) => ActionResult;
     };
 }
 

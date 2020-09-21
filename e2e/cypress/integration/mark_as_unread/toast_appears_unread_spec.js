@@ -9,6 +9,7 @@ import {markAsUnreadFromPost, switchToChannel} from './helpers';
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @mark_as_unread
 
 describe('Verify unread toast appears after repeated manual marking post as unread', () => {
@@ -22,11 +23,11 @@ describe('Verify unread toast appears after repeated manual marking post as unre
         cy.apiInitSetup().then(({team, user}) => {
             otherUser = user;
 
-            cy.apiGetChannelByName(team.name, 'town-square').then((res) => {
-                townSquareChannel = res.body;
+            cy.apiGetChannelByName(team.name, 'town-square').then(({channel}) => {
+                townSquareChannel = channel;
 
-                cy.apiGetChannelByName(team.name, 'off-topic').then((res2) => {
-                    offTopicChannel = res2.body;
+                cy.apiGetChannelByName(team.name, 'off-topic').then((out) => {
+                    offTopicChannel = out.channel;
 
                     // Toast only seems to appear after first visiting the channel
                     // So we need to visit the channel then navigate away
@@ -61,6 +62,7 @@ describe('Verify unread toast appears after repeated manual marking post as unre
             });
         });
     });
+
     it('MM-T1429 Toast when navigating to channel with unread messages and after repeated marking as unread', () => {
         // # Switch to town square channel that has unread messages
         switchToChannel(townSquareChannel);
