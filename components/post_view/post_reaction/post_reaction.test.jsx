@@ -15,8 +15,10 @@ describe('components/post_view/PostReaction', () => {
         showIcon: false,
         showEmojiPicker: false,
         toggleEmojiPicker: jest.fn(),
+        reactions: ['smile'],
         actions: {
             addReaction: jest.fn(),
+            removeReaction: jest.fn(),
         },
     };
 

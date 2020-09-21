@@ -24,6 +24,7 @@ describe('components/ReactionList', () => {
 
     const actions = {
         addReaction: jest.fn(),
+        removeReaction: jest.fn(),
     };
 
     const baseProps = {
