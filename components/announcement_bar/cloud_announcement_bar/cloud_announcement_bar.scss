@@ -1,0 +1,20 @@
+.announcement-bar.cloud {
+    background-color: #579EFF;
+    margin: 0;
+    height: 40px;
+    max-height: 40px;
+    .upgrade-button {
+        margin-left: 8px;
+        background-color: #579EFF;
+        font-family: Open Sans;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 12px;
+        line-height: 16px;
+        padding: 4px 8px;
+        border: 1px solid #FFFFFF;
+        height: 24px;
+        box-sizing: border-box;
+        border-radius: 4px;
+    }
+}
