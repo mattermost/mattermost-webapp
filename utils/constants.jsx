@@ -99,6 +99,7 @@ export const Preferences = {
     CATEGORY_SYSTEM_NOTICE: 'system_notice',
     TEAMS_ORDER: 'teams_order',
     RECOMMENDED_NEXT_STEPS: 'recommended_next_steps',
+    CLOUD_UPGRADE_BANNER: 'cloud_upgrade_banner',
 };
 
 export const ActionTypes = keyMirror({
@@ -388,6 +389,10 @@ export const RecommendedNextSteps = {
     INVITE_MEMBERS: 'invite_members',
     PREFERENCES_SETUP: 'preferences_setup',
     NOTIFICATION_SETUP: 'notification_setup',
+    HIDE: 'hide',
+};
+
+export const CloudBanners = {
     HIDE: 'hide',
 };
 
