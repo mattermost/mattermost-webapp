@@ -208,7 +208,7 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
             >
                 <FormattedMessage
                     id='warn_metric_ack_modal.subtext'
-                    defaultMessage='By clicking Acknowledge, you will be sharing your information with Mattermost Inc., to learn more about upgrading. {link}'
+                    defaultMessage='By clicking Acknowledge, you will be sharing your information with Mattermost Inc. {link}'
                     values={{
                         link: (
                             <ErrorLink

@@ -4134,7 +4134,7 @@
   "warn_metric_ack_modal.number_of_posts.description": "Your Mattermost system has a very high number of posts. Mattermost strongly recommends that you implement Elasticsearch in order to optimize search performance and prevent performance degradation and timeouts. Contact us to learn more and let us know how we can help.",
   "warn_metric_ack_modal.number_of_posts.header.title": "Improve Performance",
   "warn_metric_ack_modal.number_of_users.header.title": "Scaling with Mattermost",
-  "warn_metric_ack_modal.subtext": "By clicking Acknowledge, you will be sharing your information with Mattermost Inc., to learn more about upgrading. {link}",
+  "warn_metric_ack_modal.subtext": "By clicking Acknowledge, you will be sharing your information with Mattermost Inc. {link}",
   "web.footer.about": "About",
   "web.footer.help": "Help",
   "web.footer.privacy": "Privacy",
