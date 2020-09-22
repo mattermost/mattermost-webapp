@@ -76,10 +76,8 @@ export default function EnableNotificationsStep(props: StepComponentProps) {
             cardBodyDefaultMessage={
                 'We recommend enabling desktop notifications so you don’t miss any important communications.'
             }
-            buttonMessageId={
-                'next_steps_view.notificationSetup.enableNotifications'
-            }
-            buttonDefaultMessage={'Enable notifications'}
+            buttonMessageId={'next_steps_view.notificationSetup.setNotifications'}
+            buttonDefaultMessage={'Set up notifications'}
             onClick={onFinish}
         />
     );

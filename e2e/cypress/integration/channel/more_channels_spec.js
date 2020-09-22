@@ -31,8 +31,8 @@ describe('Channels', () => {
 
             cy.apiLogin(testUser).then(() => {
                 // # Create new test channel
-                cy.apiCreateChannel(testTeam.id, 'channel-test', 'Channel').then((channelRes) => {
-                    testChannel = channelRes.body;
+                cy.apiCreateChannel(testTeam.id, 'channel-test', 'Channel').then(({channel}) => {
+                    testChannel = channel;
                 });
 
                 // # Go to town square
