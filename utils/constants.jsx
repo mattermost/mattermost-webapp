@@ -395,6 +395,7 @@ export const RecommendedNextSteps = {
     PREFERENCES_SETUP: 'preferences_setup',
     NOTIFICATION_SETUP: 'notification_setup',
     HIDE: 'hide',
+    SKIP: 'skip',
 };
 
 export const PostTypes = {
