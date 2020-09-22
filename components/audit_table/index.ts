@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {bindActionCreators, Dispatch} from 'redux';
 
 import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
 import {getUser, getCurrentUser} from 'mattermost-redux/selectors/entities/users';
@@ -10,18 +10,20 @@ import {getChannelByName} from 'mattermost-redux/selectors/entities/channels';
 
 import {getDirectTeammate} from 'utils/utils.jsx';
 
-import AuditTable from './audit_table.jsx';
+import {GlobalState} from 'types/store';
 
-function mapStateToProps(state) {
+import AuditTable from './audit_table';
+
+function mapStateToProps(state: GlobalState) {
     return {
         currentUser: getCurrentUser(state),
-        getUser: (userId) => getUser(state, userId),
-        getByName: (channelName) => getChannelByName(state, channelName),
-        getDirectTeammate: (channelId) => getDirectTeammate(state, channelId),
+        getUser: (userId: string) => getUser(state, userId),
+        getByName: (channelName: string) => getChannelByName(state, channelName),
+        getDirectTeammate: (channelId: string) => getDirectTeammate(state, channelId),
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch) {
     return {
         actions: bindActionCreators({
             getMissingProfilesByIds,
