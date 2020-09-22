@@ -16,7 +16,7 @@ const Avatar: FC<Props> = ({
     url,
     username,
     size = 'md',
-    children
+    children,
 }: Props) => {
     const classes = `Avatar Avatar-${size}`;
 

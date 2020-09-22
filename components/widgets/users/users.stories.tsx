@@ -1,57 +1,92 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {CSSProperties} from 'react';
+import React from 'react';
 
 import {storiesOf} from '@storybook/react';
 import {withKnobs, text} from '@storybook/addon-knobs';
 
+import StoryGrid from 'storybook/story_grid';
+import StoryBox from 'storybook/story_box';
+
 import Avatar from './avatar';
+import Avatars from './avatars';
 
-const containerStyle: CSSProperties = {
-    width: 600,
-    height: 180,
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    position: 'relative',
-    alignItems: 'center',
-    border: '1px solid #eeeeee',
-    borderRadius: 5,
-    margin: 10,
-};
+const users = [
+    {
+        url: '/api/v4/users/1/image?_=0',
+        username: 'jesus.espino',
+        name: 'Jesus Espino',
+    },
+    {
+        url: '/api/v4/users/2/image?_=0',
+        username: 'johnny.depp',
+        name: 'Johnny Depp',
+    },
+    {
+        url: '/api/v4/users/3/image?_=0',
+        username: 'bilbo.baggins',
+        name: 'Bilbo Baggins',
+    },
+    {
+        url: '/api/v4/users/4/image?_=0',
+        username: 'michael.hall',
+        name: 'Anthony Michael Hall',
+    },
+    {
+        url: '/api/v4/users/5/image?_=0',
+        username: 'kathy.baker',
+        name: 'Kathy Baker',
+    },
+    {
+        url: '/api/v4/users/6/image?_=0',
+        username: 'vincent.price',
+        name: 'Vincent Price',
+    },
+    {
+        url: '/api/v4/users/7/image?_=0',
+        username: 'alan.arkin',
+        name: 'Alan Arkin',
+    },
+];
 
-const labelStyle: CSSProperties = {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    fontFamily: 'monospace',
-    background: '#eee',
-    padding: '5px 10px',
-    borderRadius: '3px 0 3px',
-};
-
-storiesOf('Users Info', module).
+storiesOf('Widgets/Users Info', module).
     addDecorator(withKnobs).
     add('avatar, per size', () => {
-        const sizes: ('xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl')[] = ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'];
+        const sizes = ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'];
         const url = text('Image url', '/api/v4/users/1/image?_=0');
         const username = text('Username', 'jesus.espino');
         return (
-            <div style={{display: 'flex', width: '100%', flexWrap: 'wrap'}}>
+            <StoryGrid>
                 {sizes.map((size) => (
-                    <div
+                    <StoryBox
                         key={size}
-                        style={containerStyle}
+                        label={`size: ${size}`}
                     >
-                        <span style={labelStyle}>{'size: ' + size}</span>
+
                         <Avatar
                             size={size}
                             username={username}
                             url={url}
                         />
-                    </div>
+                    </StoryBox>
                 ))}
-            </div>
+            </StoryGrid>
         );
-    });
+    }).
+    add('avatars, per size', () => (
+        <StoryGrid>
+            {['xs', 'sm', 'md', 'lg', 'xl', 'xxl'].map((size) => (
+                <StoryBox
+                    key={size}
+                    label={`size: ${size}`}
+                >
+                    <Avatars
+                        size={size}
+                        users={users}
+                    />
+                </StoryBox>
+
+            ))}
+        </StoryGrid>
+    ));

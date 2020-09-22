@@ -35,7 +35,7 @@ const units = [...unitDiffs.keys()];
 type Props = ComponentProps<typeof Timestamp>;
 
 /* eslint-disable max-nested-callbacks */
-storiesOf('Timestamp', module).
+storiesOf('Connected/Timestamp', module).
     addDecorator(withKnobs).
     add('absolute', () => {
         const value = text('value', new Date().toLocaleString());

@@ -1,0 +1,110 @@
+
+.ThreadItem {
+    padding: 16px 28px;
+    text-align: left;
+    cursor: pointer;
+
+    &:hover,
+    &:focus,
+    &:focus-within {
+        background: rgba(var(--center-channel-color-rgb), .04);
+    }
+
+    &.is-selected {
+        background: rgba(var(--button-bg-rgb), .04);
+
+        &:hover,
+        &:focus {
+            background: rgba(var(--button-bg-rgb), .08);
+        }
+    }
+
+    &.has-mentions {
+        .activity {
+            color: rgba(var(--sidebar-text-active-border-rgb), 1);
+        }
+    }
+
+    // TODO move to own css
+    .Dot {
+        display: inline-block;
+        text-align: center;
+        border-radius: 50%;
+    }
+
+    .Dot.Dot___unreads {
+        width: 8px;
+        height: 8px;
+        margin: 0 8px;
+        background: rgba(var(--sidebar-text-active-border-rgb), 1);
+    }
+    .Dot.Dot___mentions {
+        width: 16px;
+        height: 16px;
+        background: rgba(var(--mention-color-rgb), 1);
+        color: rgba(var(--center-channel-bg-rgb), 1);
+        font-size: 10px;
+        line-height: 16px;
+    }
+
+    .indicator {
+        position: absolute;
+        left: -24px;
+        width: 24px;
+        height: 20px;
+        display: grid;
+        place-content: center;
+    }
+
+    h4 {
+        margin: 0 0 6px;
+        font-size: 14px;
+        line-height: 20px;
+        font-weight: 600;
+        display: flex;
+        position: relative;
+    }
+
+    .Badge {
+        margin-left: 10px;
+    }
+
+    .Badge__box{
+        font-weight: 600;
+        font-size: 10px;
+        line-height: 16px;
+        text-transform: uppercase;
+        padding: 0px 4px;
+    }
+
+    p {
+        max-height: 40px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
+
+    time {
+        font-weight: normal;
+        font-size: 12px;
+        line-height: 20px;
+        margin-left: auto;
+        color: rgba(var(--center-channel-color-rgb), .64)
+    }
+
+    .Avatars {
+        margin-right: 10px;
+    }
+
+    .activity {
+        font-weight: 600;
+        font-size: 12px;
+        line-height: 15px;
+        color: rgba(var(--center-channel-color-rgb), .64);
+        display: flex;
+        align-items: center;
+    }
+
+}

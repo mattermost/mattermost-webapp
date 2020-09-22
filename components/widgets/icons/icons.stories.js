@@ -90,7 +90,7 @@ const icons = [
     StatusOnlineIcon, TeamInfoIcon, UnreadBelowIcon,
 ];
 
-const stories = storiesOf('Icons', module).addDecorator(withKnobs);
+const stories = storiesOf('Widgets/Icons', module).addDecorator(withKnobs);
 
 stories.add('Icons', () => {
     return (

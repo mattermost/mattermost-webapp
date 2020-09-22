@@ -10,7 +10,7 @@ import Badge from './badge';
 import GuestBadge from './guest_badge';
 import BotBadge from './bot_badge';
 
-storiesOf('Badges', module).
+storiesOf('Widgets/Badges', module).
     addDecorator(withKnobs).
     add(
         'regular badge',
