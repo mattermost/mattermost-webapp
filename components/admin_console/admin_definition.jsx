@@ -3977,9 +3977,6 @@ const AdminDefinition = {
                     if (config.GoogleSettings && config.GoogleSettings.Enable) {
                         newState.oauthType = Constants.GOOGLE_SERVICE;
                     }
-                    if (config.OpenIdSettings && config.OpenIdSettings.Enable) {
-                        newState.oauthType = Constants.OPENID_SERVICE;
-                    }
 
                     newState['GitLabSettings.Url'] = config.GitLabSettings.UserApiEndpoint.replace('/api/v4/user', '');
 
@@ -3990,12 +3987,10 @@ const AdminDefinition = {
                     newConfig.GitLabSettings = config.GitLabSettings || {};
                     newConfig.Office365Settings = config.Office365Settings || {};
                     newConfig.GoogleSettings = config.GoogleSettings || {};
-                    newConfig.OpenIdSettings = config.OpenIdSettings || {};
 
                     newConfig.GitLabSettings.Enable = false;
                     newConfig.Office365Settings.Enable = false;
                     newConfig.GoogleSettings.Enable = false;
-                    newConfig.OpenIdSettings.Enable = false;
                     newConfig.GitLabSettings.UserApiEndpoint = config.GitLabSettings.Url.replace(/\/$/, '') + '/api/v4/user';
 
                     if (config.oauthType === Constants.GITLAB_SERVICE) {
@@ -4006,9 +4001,6 @@ const AdminDefinition = {
                     }
                     if (config.oauthType === Constants.GOOGLE_SERVICE) {
                         newConfig.GoogleSettings.Enable = true;
-                    }
-                    if (config.oauthType === Constants.OPENID_SERVICE) {
-                        newConfig.OpenIdSettings.Enable = true;
                     }
                     delete newConfig.oauthType;
                     return newConfig;
@@ -4049,15 +4041,6 @@ const AdminDefinition = {
                                 isHidden: it.not(it.licensedForFeature('Office365OAuth')),
                                 help_text: t('admin.office365.EnableMarkdownDesc'),
                                 help_text_default: '1. [Log in](!https://login.microsoftonline.com/) to your Microsoft or Office 365 account. Make sure it`s the account on the same [tenant](!https://msdn.microsoft.com/en-us/library/azure/jj573650.aspx#Anchor_0) that you would like users to log in with.\n2. Go to [https://apps.dev.microsoft.com](!https://apps.dev.microsoft.com), click **Go to app list** > **Add an app** and use "Mattermost - your-company-name" as the **Application Name**.\n3. Under **Application Secrets**, click **Generate New Password** and paste it to the **Application Secret Password** field below.\n4. Under **Platforms**, click **Add Platform**, choose **Web** and enter **your-mattermost-url/signup/office365/complete** (example: http://localhost:8065/signup/office365/complete) under **Redirect URIs**. Also uncheck **Allow Implicit Flow**.\n5. Finally, click **Save** and then paste the **Application ID** below.',
-                                help_text_markdown: true,
-                            },
-                            {
-                                value: Constants.OPENID_SERVICE,
-                                display_name: t('admin.oauth.openid'),
-                                display_name_default: 'OpenId Connect',
-                                isHidden: it.not(it.licensedForFeature('OpenIdAuth')),
-                                help_text: t('admin.openid.EnableMarkdownDesc'),
-                                help_text_default: '1. Follow provider directions',
                                 help_text_markdown: true,
                             },
                         ],
