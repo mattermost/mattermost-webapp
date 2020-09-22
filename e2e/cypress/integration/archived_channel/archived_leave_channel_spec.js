@@ -16,6 +16,7 @@ describe('Leave an archived channel', () => {
     let testTeam;
     let testChannel;
     let testUser;
+    let otherUser;
     const testArchivedMessage = `this is an archived post ${getRandomId()}`;
 
     before(() => {
@@ -26,17 +27,23 @@ describe('Leave an archived channel', () => {
         });
 
         // # Login as test user and visit town-square
-        cy.apiInitSetup({loginAfter: true}).then(({team, channel, user}) => {
+        cy.apiInitSetup().then(({team, channel, user}) => {
             testTeam = team;
             testChannel = channel;
             testUser = user;
 
+            cy.apiCreateUser({prefix: 'second'}).then(({user: second}) => {
+                cy.apiAddUserToTeam(testTeam.id, second.id);
+                otherUser = second;
+            });
             cy.visit(`/${team.name}/channels/${testChannel.name}`);
             cy.postMessageAs({sender: testUser, message: testArchivedMessage, channelId: testChannel.id});
         });
     });
 
     it('should leave recently archived channel', () => {
+        cy.apiLogin(testUser);
+
         // # Archive the channel
         cy.uiArchiveChannel();
 
@@ -153,7 +160,7 @@ describe('Leave an archived channel', () => {
 
         cy.apiCreateChannel(testTeam.id, 'archived-is-not', 'archived-is-not');
 
-        // # create another channel with text and archive it
+        // # Create another channel with text and archive it
         createArchivedChannel({name: 'archive-', teamId: testTeam.id, teamName: testTeam.name}, [messageText]);
         cy.visit(`/${testTeam.name}/channels/off-topic`);
 
@@ -227,6 +234,42 @@ describe('Leave an archived channel', () => {
 
         // * there should be public channels as well
         cy.get('#suggestionList').find('.icon-archive-outline').should('be.visible');
+    });
+
+    it('MM-T1676 CTRL/CMD+K does not show private archived channels you are not a member of', () => {
+        const otherChannelName = 'archived-not-mine';
+
+        // # As another user, create or locate a private channel that the test user is not a member of and archive the channel
+        cy.apiLogout();
+        cy.get('#loginButton').should('be.visible');
+        cy.apiLogin(otherUser);
+        cy.visit(`/${testTeam.name}/channels/off-topic`);
+        cy.contains('#channelHeaderTitle', 'Off-Topic');
+        createArchivedChannel(
+            {
+                name: otherChannelName,
+                type: 'P',
+                teamId: testTeam.id,
+                teamName: testTeam.name,
+            },
+            [`some text message ${getRandomId()}`],
+        );
+
+        // # As the test user, select CTRL/CMD+K (or ⌘+k) to open the channel switcher
+        cy.apiLogout();
+        cy.get('#loginButton').should('be.visible');
+        cy.apiLogin(testUser);
+        cy.visit(`/${testTeam.name}/channels/off-topic`);
+        cy.contains('#channelHeaderTitle', 'Off-Topic');
+        cy.typeCmdOrCtrl().type('K', {release: true});
+
+        // # Start typing the name of a private channel located above
+        cy.get('#quickSwitchInput').type('archived-');
+
+        cy.get('#suggestionList').should('be.visible');
+
+        // * Private archived channels you are not a member above are not available on channel switcher
+        cy.contains('#suggestionList', otherChannelName).should('not.exist');
     });
 });
 
