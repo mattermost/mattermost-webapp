@@ -106,6 +106,7 @@ describe('ProductNoticesModal', () => {
         shallow(<ProductNoticesModal {...baseProps}/>);
         expect(baseProps.actions.getInProductNotices).toHaveBeenCalledWith(baseProps.currentTeamId, 'web', baseProps.version);
         await baseProps.actions.getInProductNotices();
+
         // expect(baseProps.actions.updateNoticesAsViewed).toHaveBeenCalledWith([noticesData[0].id]);
     });
 
@@ -113,6 +114,7 @@ describe('ProductNoticesModal', () => {
         const wrapper = shallow(<ProductNoticesModal {...baseProps}/>);
         await baseProps.actions.getInProductNotices();
         wrapper.find(GenericModal).prop('handleConfirm')?.();
+
         // expect(baseProps.actions.updateNoticesAsViewed).toHaveBeenCalledWith([noticesData[1].id]);
     });
 
