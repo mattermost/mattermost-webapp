@@ -5,17 +5,9 @@ import {connect} from 'react-redux';
 
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 
-import {GlobalState} from 'types/store';
+import ChannelPermissionGate from './channel_permission_gate.jsx';
 
-import ChannelPermissionGate from './channel_permission_gate';
-
-type Props = {
-    permissions: Array<string>;
-    channelId: string;
-    teamId: string;
-}
-
-function mapStateToProps(state: GlobalState, ownProps: Props) {
+function mapStateToProps(state, ownProps) {
     if (!ownProps.channelId || ownProps.teamId === null || typeof ownProps.teamId === 'undefined') {
         return {hasPermission: false};
     }

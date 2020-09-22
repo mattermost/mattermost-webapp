@@ -1,50 +1,46 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import PropTypes from 'prop-types';
 import React from 'react';
 
-<<<<<<< HEAD:components/permissions_gates/channel_permission_gate/channel_permission_gate.tsx
-=======
+export default class ChannelPermissionGate extends React.PureComponent {
+    static defaultProps = {
+        invert: false,
+    }
 
-
->>>>>>> parent of 2e729c04f... fixed channel_permission_gate file... sorry about that:components/permissions_gates/channel_permission_gate/channel_permission_gate.jsx
-    type Props = {
+    static propTypes = {
 
         /**
          * Channel to check the permission
          */
-        channelId: string;
+        channelId: PropTypes.string,
 
         /**
          * Team to check the permission
          */
-        teamId: string;
+        teamId: PropTypes.string,
 
         /**
          * Permissions enough to pass the gate (binary OR)
          */
-        permissions: Array<string>;
+        permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
 
         /**
          * Has permission
          */
-        hasPermission: boolean;
+        hasPermission: PropTypes.bool.isRequired,
 
         /**
          * Invert the permission (used for else)
          */
-        invert: boolean;
+        invert: PropTypes.bool.isRequired,
 
         /**
          * Content protected by the permissions gate
          */
-        children: React.ReactNode;
+        children: PropTypes.node.isRequired,
     };
-
-export default class ChannelPermissionGate extends React.PureComponent<Props> {
-    public static defaultProps = {
-        invert: false,
-    }
 
     render() {
         if (this.props.hasPermission && !this.props.invert) {
