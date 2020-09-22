@@ -90,6 +90,9 @@ export const isFirstAdmin = createSelector(
     (state: GlobalState) => getCurrentUser(state),
     (state: GlobalState) => getUsers(state),
     (currentUser, users) => {
+        if (!currentUser.roles.includes('system_admin')) {
+            return false;
+        }
         const userIds = Object.keys(users);
         for (const userId of userIds) {
             const user = users[userId];
@@ -118,12 +121,29 @@ export const getSteps = createSelector(
 );
 
 const getCategory = makeGetCategory();
+export const showOnboarding = createSelector(
+    (state: GlobalState) => showNextSteps(state),
+    (state: GlobalState) => showNextStepsTips(state),
+    (state: GlobalState) => getLicense(state),
+    (state: GlobalState) => state.views.nextSteps.show,
+    (showNextSteps, showNextStepsTips, license, showNextStepsEphemeral) => {
+        return !showNextStepsEphemeral && license.Cloud === 'true' && (showNextSteps || showNextStepsTips);
+    });
+
+export const isOnboardingHidden = createSelector(
+    (state: GlobalState) => getCategory(state, Preferences.RECOMMENDED_NEXT_STEPS),
+    (stepPreferences) => {
+        return stepPreferences.some((pref) => (pref.name === RecommendedNextSteps.HIDE && pref.value === 'true'));
+    },
+);
+
+// Only show next steps if they haven't been skipped and there are steps unfinished
 export const showNextSteps = createSelector(
     (state: GlobalState) => getCategory(state, Preferences.RECOMMENDED_NEXT_STEPS),
     (state: GlobalState) => getLicense(state),
     (state: GlobalState) => nextStepsNotFinished(state),
     (stepPreferences, license, nextStepsNotFinished) => {
-        if (stepPreferences.some((pref) => pref.name === RecommendedNextSteps.HIDE && pref.value === 'true')) {
+        if (stepPreferences.some((pref) => (pref.name === RecommendedNextSteps.SKIP && pref.value === 'true'))) {
             return false;
         }
 
@@ -135,11 +155,35 @@ export const showNextSteps = createSelector(
     },
 );
 
+// Only show tips if they have been skipped, or there are no unfinished steps
+export const showNextStepsTips = createSelector(
+    (state: GlobalState) => getCategory(state, Preferences.RECOMMENDED_NEXT_STEPS),
+    (state: GlobalState) => getLicense(state),
+    (state: GlobalState) => nextStepsNotFinished(state),
+    (stepPreferences, license, nextStepsNotFinished) => {
+        if (stepPreferences.some((pref) => (pref.name === RecommendedNextSteps.SKIP && pref.value === 'true'))) {
+            return true;
+        }
+
+        if (license.Cloud !== 'true') {
+            return false;
+        }
+
+        return !nextStepsNotFinished;
+    },
+);
+
+// Loop through all Steps. For each step, check that
 export const nextStepsNotFinished = createSelector(
     (state: GlobalState) => getCategory(state, Preferences.RECOMMENDED_NEXT_STEPS),
     (state: GlobalState) => getCurrentUser(state),
-    (stepPreferences, currentUser) => {
-        const checkPref = (step: StepType) => stepPreferences.some((pref) => (pref.name === step.id && pref.value === 'true') || !isStepForUser(step, currentUser.roles));
+    (state: GlobalState) => isFirstAdmin(state),
+    (stepPreferences, currentUser, firstAdmin) => {
+        let roles = currentUser.roles;
+        if (!firstAdmin) {
+            roles = 'system_user';
+        }
+        const checkPref = (step: StepType) => stepPreferences.some((pref) => (pref.name === step.id && pref.value === 'true') || !isStepForUser(step, roles));
         return !Steps.every(checkPref);
     },
 );

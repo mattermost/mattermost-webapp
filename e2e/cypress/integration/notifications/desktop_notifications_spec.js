@@ -69,9 +69,7 @@ describe('Desktop notifications', () => {
             // # Ensure notifications are set up to fire a desktop notification if are mentioned.
             changeDesktopNotificationSettingsAs('#desktopNotificationMentions');
 
-            cy.apiGetChannelByName(testTeam.name, 'Off-Topic').then((res) => {
-                const channel = res.body;
-
+            cy.apiGetChannelByName(testTeam.name, 'Off-Topic').then(({channel}) => {
                 // # Logout the user.
                 cy.apiLogout().wait(TIMEOUTS.TEN_SEC);
 
@@ -145,10 +143,8 @@ describe('Desktop notifications', () => {
             // # Ensure notifications are set up to fire a desktop notification if are mentioned.
             changeDesktopNotificationSettingsAs('#desktopNotificationAllActivity');
 
-            cy.apiGetChannelByName(testTeam.name, 'Off-Topic').then((res) => {
-                const channel = res.body;
-
-                // Have another user send a post.
+            cy.apiGetChannelByName(testTeam.name, 'Off-Topic').then(({channel}) => {
+                // # Have another user send a post.
                 cy.postMessageAs({sender: testUser, message: actualMsg, channelId: channel.id});
 
                 // * Desktop notification should be received with expected body.
