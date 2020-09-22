@@ -7,8 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
-
 import {getAdminAccount} from '../../../support/env';
 
 describe('Team Scheme Channel Mentions Permissions Test', () => {
