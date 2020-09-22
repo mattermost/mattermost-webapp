@@ -100,7 +100,7 @@ describe('Messaging', () => {
         });
     });
 
-    it('MM-T2170 Un-pinning a post in *permalink* view also removes badge from flagged posts RHS', () => {
+    it('MM-T2170 Un-pinning a post in *permalink* view also removes badge from saved posts RHS', () => {
         // # Post a message
         cy.postMessage('Permalink post.');
 
@@ -108,7 +108,7 @@ describe('Messaging', () => {
             // # On a message in center channel, click then pin the post to the channel
             cy.clickPostPinIcon(postId);
 
-            // # Click flag icon
+            // # Click save icon
             cy.clickPostSaveIcon(postId);
 
             // # In RHS, click Jump to view permalink view
@@ -131,7 +131,7 @@ describe('Messaging', () => {
         });
     });
 
-    it('MM-T2171 Un-pinning and pinning a post in center also removes and adds badge in *flagged posts* RHS (Se portion)', () => {
+    it('MM-T2171 Un-pinning and pinning a post in center also removes and adds badge in *saved posts* RHS (Se portion)', () => {
         // # Post a message
         cy.postMessage('This is a post that is going to be pinned then removed, then pinned again.');
 
@@ -139,19 +139,19 @@ describe('Messaging', () => {
             // # On a message in center channel, click then pin the post to the channel
             cy.clickPostPinIcon(postId);
 
-            // # And also flag the message
+            // # And also save the message
             cy.clickPostSaveIcon(postId);
 
             // # Open Saved posts
             cy.get('#channelHeaderFlagButton').should('exist').click();
 
-            // * Post appears in flagged list, and displays Pinned badge
+            // * Post appears in saved posts list, and displays Pinned badge
             cy.get(`#searchResult_${postId}`).findByText('Pinned').should('exist');
 
             // # In center channel, click [...] > Un-pin from channel
             cy.getPostMenu(postId, 'Unpin from Channel').click();
 
-            // * Post still appears in flagged list, and Pinned badge is removed in both center and RHS
+            // * Post still appears in saved posts list, and Pinned badge is removed in both center and RHS
             cy.get(`#post_${postId}`).findByText('Pinned').should('not.exist');
             cy.get(`#searchResult_${postId}`).findByText('Pinned').should('not.exist');
 
