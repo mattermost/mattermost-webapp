@@ -11,7 +11,8 @@
     },
     {
       "path": "../../../../mattermost-server"
-    }
+
+    },
   ],
   "settings": {}
 }
