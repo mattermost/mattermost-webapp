@@ -45,6 +45,9 @@
         width: 6px;
         margin: 0 3px;
         vertical-align: middle;
+        &:hover {
+            cursor: initial;
+        }
     }
 
     svg {

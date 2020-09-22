@@ -80,10 +80,11 @@ export default class ProductNoticesModal extends React.PureComponent<Props, Stat
             this.setState({
                 noticesData: data,
             });
-            if (data.length) {
-                const presentNoticeInfo = this.state.noticesData[this.state.presentNoticeIndex];
-                this.props.actions.updateNoticesAsViewed([presentNoticeInfo.id]);
-            }
+
+            // if (data.length) {
+            //     const presentNoticeInfo = this.state.noticesData[this.state.presentNoticeIndex];
+            //     this.props.actions.updateNoticesAsViewed([presentNoticeInfo.id]);
+            // }
         }
     }
 
@@ -212,9 +213,9 @@ export default class ProductNoticesModal extends React.PureComponent<Props, Stat
         if (noOfNotices === 1 && presentNoticeInfo.actionText) {
             window.open(presentNoticeInfo.actionParam, '_blank');
         } else if (this.state.presentNoticeIndex + 1 < noOfNotices) {
-            const nextNoticeInfo = this.state.noticesData[this.state.presentNoticeIndex + 1];
+            // const nextNoticeInfo = this.state.noticesData[this.state.presentNoticeIndex + 1];
 
-            this.props.actions.updateNoticesAsViewed([nextNoticeInfo.id]);
+            // this.props.actions.updateNoticesAsViewed([nextNoticeInfo.id]);
 
             this.setState({
                 presentNoticeIndex: this.state.presentNoticeIndex + 1,
