@@ -2396,6 +2396,36 @@ const AdminDefinition = {
                 ],
             },
         },
+        notices: {
+            url: 'site_config/notices',
+            title: t('admin.sidebar.notices'),
+            title_default: 'Notices',
+            schema: {
+                id: 'NoticesSettings',
+                name: t('admin.site.notices'),
+                name_default: 'Notices',
+                settings: [
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'AnnouncementSettings.AdminNoticesEnabled',
+                        label: t('admin.notices.enableAdminNoticesTitle'),
+                        label_default: 'Enable Admin Notices: ',
+                        help_text: t('admin.notices.enableAdminNoticesDescription'),
+                        help_text_default: 'When enabled, System Admins will receive notices about available server upgrades and relevant system administration features. [Learn more about notices](!https://about.mattermost.com/default-notices) in our documentation.',
+                        help_text_markdown: true,
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'AnnouncementSettings.UserNoticesEnabled',
+                        label: t('admin.notices.enableEndUserNoticesTitle'),
+                        label_default: 'Enable End User Notices: ',
+                        help_text: t('admin.notices.enableEndUserNoticesDescription'),
+                        help_text_default: 'When enabled, all users will receive notices about available client upgrades and relevant end user features to improve user experience. [Learn more about notices](!https://about.mattermost.com/default-notices) in our documentation.',
+                        help_text_markdown: true,
+                    },
+                ],
+            },
+        },
     },
     authentication: {
         icon: 'fa-shield',
