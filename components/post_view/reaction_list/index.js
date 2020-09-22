@@ -9,7 +9,7 @@ import {makeGetReactionsForPost} from 'mattermost-redux/selectors/entities/posts
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
-import {addReaction, removeReaction} from 'actions/post_actions.jsx';
+import {toggleReaction} from 'actions/post_actions.jsx';
 
 import ReactionList from './reaction_list.jsx';
 
@@ -36,10 +36,9 @@ function makeMapStateToProps() {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            addReaction,
-            removeReaction,
+            toggleReaction,
         }, dispatch),
     };
 }
 
-export default connect(makeMapStateToProps(), mapDispatchToProps)(ReactionList);
+export default connect(makeMapStateToProps, mapDispatchToProps)(ReactionList);

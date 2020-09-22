@@ -15,10 +15,8 @@ describe('components/post_view/PostReaction', () => {
         showIcon: false,
         showEmojiPicker: false,
         toggleEmojiPicker: jest.fn(),
-        reactions: ['smile'],
         actions: {
-            addReaction: jest.fn(),
-            removeReaction: jest.fn(),
+            toggleReaction: jest.fn(),
         },
     };
 
@@ -27,12 +25,12 @@ describe('components/post_view/PostReaction', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should call addReaction and toggleEmojiPicker on handleAddEmoji', () => {
+    test('should call toggleReaction and toggleEmojiPicker on handleAddEmoji', () => {
         const wrapper = shallow(<PostReaction {...baseProps}/>);
 
         wrapper.instance().handleAddEmoji({name: 'smile'});
-        expect(baseProps.actions.addReaction).toHaveBeenCalledTimes(1);
-        expect(baseProps.actions.addReaction).toHaveBeenCalledWith('post_id_1', 'smile');
+        expect(baseProps.actions.toggleReaction).toHaveBeenCalledTimes(1);
+        expect(baseProps.actions.toggleReaction).toHaveBeenCalledWith('post_id_1', 'smile');
         expect(baseProps.toggleEmojiPicker).toHaveBeenCalledTimes(1);
     });
 });

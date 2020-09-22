@@ -28,11 +28,8 @@ export default class PostReaction extends React.PureComponent {
         location: PropTypes.oneOf([Locations.CENTER, Locations.RHS_ROOT, Locations.RHS_COMMENT]).isRequired,
         showEmojiPicker: PropTypes.bool.isRequired,
         toggleEmojiPicker: PropTypes.func.isRequired,
-        reactions: PropTypes.array,
-        currentUserId: PropTypes.string,
         actions: PropTypes.shape({
-            addReaction: PropTypes.func.isRequired,
-            removeReaction: PropTypes.func.isRequired,
+            toggleReaction: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -45,11 +42,7 @@ export default class PostReaction extends React.PureComponent {
         this.setState({showEmojiPicker: false});
         const emojiName = emoji.name || emoji.aliases[0];
 
-        if (this.props.reactions.some((reaction) => reaction.emoji_name === emojiName && reaction.user_id === this.props.currentUserId)) {
-            this.props.actions.removeReaction(this.props.postId, emojiName);
-        } else {
-            this.props.actions.addReaction(this.props.postId, emojiName);
-        }
+        this.props.actions.toggleReaction(this.props.postId, emojiName);
         this.props.toggleEmojiPicker();
     };
 

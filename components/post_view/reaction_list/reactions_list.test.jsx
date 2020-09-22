@@ -23,8 +23,7 @@ describe('components/ReactionList', () => {
     const teamId = 'teamId';
 
     const actions = {
-        addReaction: jest.fn(),
-        removeReaction: jest.fn(),
+        toggleReaction: jest.fn(),
     };
 
     const baseProps = {
@@ -38,7 +37,6 @@ describe('components/ReactionList', () => {
     test('should render nothing when no reactions', () => {
         const props = {
             ...baseProps,
-            reactions: {},
         };
 
         const wrapper = shallow(

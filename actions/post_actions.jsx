@@ -138,6 +138,21 @@ export function removeReaction(postId, emojiName) {
     };
 }
 
+export function toggleReaction(postId, emojiName) {
+    return (dispatch, getState) => {
+        const state = getState();
+        const currentUserId = getCurrentUserId(state);
+        const currentReactionsForPost = PostSelectors.makeGetReactionsForPost()(state, postId);
+
+        if (currentReactionsForPost.some((reaction) => reaction.emoji_name === emojiName && reaction.user_id === currentUserId)) {
+            dispatch(PostActions.removeReaction(postId, emojiName));
+        } else {
+            dispatch(PostActions.addReaction(postId, emojiName));
+        }
+        dispatch(addRecentEmoji(emojiName));
+    };
+}
+
 export function searchForTerm(term) {
     return (dispatch) => {
         dispatch(RhsActions.updateSearchTerms(term));
