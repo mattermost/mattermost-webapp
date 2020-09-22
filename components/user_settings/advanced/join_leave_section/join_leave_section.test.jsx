@@ -29,7 +29,7 @@ describe('components/user_settings/advanced/JoinLeaveSection', () => {
 
     test('should match snapshot', () => {
         const wrapper = shallow(
-            <JoinLeaveSection {...defaultProps}/>
+            <JoinLeaveSection {...defaultProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -44,7 +44,7 @@ describe('components/user_settings/advanced/JoinLeaveSection', () => {
 
     test('should match state on handleOnChange', () => {
         const wrapper = shallow(
-            <JoinLeaveSection {...defaultProps}/>
+            <JoinLeaveSection {...defaultProps}/>,
         );
 
         let value = 'false';
@@ -67,7 +67,7 @@ describe('components/user_settings/advanced/JoinLeaveSection', () => {
                 {...defaultProps}
                 actions={actions}
                 onUpdateSection={onUpdateSection}
-            />
+            />,
         );
 
         const joinLeavePreference = {
@@ -95,7 +95,7 @@ describe('components/user_settings/advanced/JoinLeaveSection', () => {
             <JoinLeaveSection
                 {...defaultProps}
                 onUpdateSection={onUpdateSection}
-            />
+            />,
         );
 
         wrapper.setState({joinLeaveState: 'false'});

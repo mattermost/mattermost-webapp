@@ -41,7 +41,7 @@ describe('components/ReactionList', () => {
         };
 
         const wrapper = shallow(
-            <ReactionList {...props}/>
+            <ReactionList {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -49,7 +49,7 @@ describe('components/ReactionList', () => {
 
     test('should render when there are reactions', () => {
         const wrapper = shallow(
-            <ReactionList {...baseProps}/>
+            <ReactionList {...baseProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();

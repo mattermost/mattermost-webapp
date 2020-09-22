@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 import {Client4} from 'mattermost-redux/client';
 
 import * as Utils from 'utils/utils.jsx';
@@ -23,6 +23,7 @@ export default class ClusterSettings extends AdminSettings {
         config.ClusterSettings.OverrideHostname = this.state.OverrideHostname;
         config.ClusterSettings.UseIpAddress = this.state.UseIpAddress;
         config.ClusterSettings.UseExperimentalGossip = this.state.UseExperimentalGossip;
+        config.ClusterSettings.EnableExperimentalGossipEncryption = this.state.EnableExperimentalGossipEncryption;
         config.ClusterSettings.GossipPort = this.parseIntNonZero(this.state.GossipPort, 8074);
         config.ClusterSettings.StreamingPort = this.parseIntNonZero(this.state.StreamingPort, 8075);
         return config;
@@ -37,6 +38,7 @@ export default class ClusterSettings extends AdminSettings {
             OverrideHostname: settings.OverrideHostname,
             UseIpAddress: settings.UseIpAddress,
             UseExperimentalGossip: settings.UseExperimentalGossip,
+            EnableExperimentalGossipEncryption: settings.EnableExperimentalGossipEncryption,
             GossipPort: settings.GossipPort,
             StreamingPort: settings.StreamingPort,
             showWarning: false,
@@ -136,6 +138,7 @@ export default class ClusterSettings extends AdminSettings {
                     value={this.state.Enable}
                     onChange={this.overrideHandleChange}
                     setByEnv={this.isSetByEnv('ClusterSettings.Enable')}
+                    disabled={this.props.isDisabled}
                 />
                 <TextSetting
                     id='ClusterName'
@@ -155,6 +158,7 @@ export default class ClusterSettings extends AdminSettings {
                     value={this.state.ClusterName}
                     onChange={this.overrideHandleChange}
                     setByEnv={this.isSetByEnv('ClusterSettings.ClusterName')}
+                    disabled={this.props.isDisabled}
                 />
                 <TextSetting
                     id='OverrideHostname'
@@ -168,12 +172,13 @@ export default class ClusterSettings extends AdminSettings {
                     helpText={
                         <FormattedMessage
                             id='admin.cluster.OverrideHostnameDesc'
-                            defaultMessage='The default value of <blank> will attempt to get the Hostname from the OS or use the IP Address.  You can override the hostname of this server with this property.  It is not recommended to override the Hostname unless needed. This property can also be set to a specific IP Address if needed.'
+                            defaultMessage="The default value of '<blank>' will attempt to get the Hostname from the OS or use the IP Address.  You can override the hostname of this server with this property.  It is not recommended to override the Hostname unless needed. This property can also be set to a specific IP Address if needed."
                         />
                     }
                     value={this.state.OverrideHostname}
                     onChange={this.overrideHandleChange}
                     setByEnv={this.isSetByEnv('ClusterSettings.OverrideHostname')}
+                    disabled={this.props.isDisabled}
                 />
                 <BooleanSetting
                     id='UseIpAddress'
@@ -184,7 +189,7 @@ export default class ClusterSettings extends AdminSettings {
                         />
                     }
                     helpText={
-                        <FormattedHTMLMessage
+                        <FormattedMessage
                             id='admin.cluster.UseIpAddressDesc'
                             defaultMessage='When true, the cluster will attempt to communicate via IP Address vs using the hostname.'
                         />
@@ -192,6 +197,7 @@ export default class ClusterSettings extends AdminSettings {
                     value={this.state.UseIpAddress}
                     onChange={this.overrideHandleChange}
                     setByEnv={this.isSetByEnv('ClusterSettings.UseIpAddress')}
+                    disabled={this.props.isDisabled}
                 />
                 <BooleanSetting
                     id='UseExperimentalGossip'
@@ -202,7 +208,7 @@ export default class ClusterSettings extends AdminSettings {
                         />
                     }
                     helpText={
-                        <FormattedHTMLMessage
+                        <FormattedMessage
                             id='admin.cluster.UseExperimentalGossipDesc'
                             defaultMessage='When true, the server will attempt to communicate via the gossip protocol over the gossip port.  When false the server will attempt to communicate over the streaming port. When false the gossip port and protocol are still used to determine cluster health.'
                         />
@@ -210,6 +216,26 @@ export default class ClusterSettings extends AdminSettings {
                     value={this.state.UseExperimentalGossip}
                     onChange={this.overrideHandleChange}
                     setByEnv={this.isSetByEnv('ClusterSettings.UseExperimentalGossip')}
+                    disabled={this.props.isDisabled}
+                />
+                <BooleanSetting
+                    id='EnableExperimentalGossipEncryption'
+                    label={
+                        <FormattedMessage
+                            id='admin.cluster.EnableExperimentalGossipEncryption'
+                            defaultMessage='Enable Experimental Gossip encryption:'
+                        />
+                    }
+                    helpText={
+                        <FormattedMessage
+                            id='admin.cluster.EnableExperimentalGossipEncryptionDesc'
+                            defaultMessage='When true, all communication through the gossip protocol will be encrypted.'
+                        />
+                    }
+                    value={this.state.EnableExperimentalGossipEncryption}
+                    onChange={this.overrideHandleChange}
+                    setByEnv={this.isSetByEnv('ClusterSettings.EnableExperimentalGossipEncryption')}
+                    disabled={this.props.isDisabled}
                 />
                 <TextSetting
                     id='GossipPort'
@@ -229,6 +255,7 @@ export default class ClusterSettings extends AdminSettings {
                     value={this.state.GossipPort}
                     onChange={this.overrideHandleChange}
                     setByEnv={this.isSetByEnv('ClusterSettings.GossipPort')}
+                    disabled={this.props.isDisabled}
                 />
                 <TextSetting
                     id='StreamingPort'
@@ -248,6 +275,7 @@ export default class ClusterSettings extends AdminSettings {
                     value={this.state.StreamingPort}
                     onChange={this.overrideHandleChange}
                     setByEnv={this.isSetByEnv('ClusterSettings.StreamingPort')}
+                    disabled={this.props.isDisabled}
                 />
             </SettingsGroup>
         );

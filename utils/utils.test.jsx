@@ -1,9 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+import assert from 'assert';
 import {GeneralTypes} from 'mattermost-redux/action_types';
 
-import * as Utils from 'utils/utils.jsx';
 import store from 'stores/redux_store.jsx';
+
+import Constants from 'utils/constants';
+import * as Utils from 'utils/utils.jsx';
+import * as lineBreakHelpers from 'tests/helpers/line_break_helpers.js';
+import {makeBoldHotkeyEvent, makeItalicHotkeyEvent, makeSelectionEvent} from 'tests/helpers/markdown_hotkey_helpers.js';
+import * as ua from 'tests/helpers/user_agent_mocks';
 
 describe('Utils.getDisplayNameByUser', () => {
     afterEach(() => {
@@ -33,7 +39,7 @@ describe('Utils.getDisplayNameByUser', () => {
         });
 
         [userA, userB, userC, userD, userE, userF, userG, userH, userI, userJ].forEach((user) => {
-            expect(Utils.getDisplayNameByUser(user)).toEqual(user.username);
+            expect(Utils.getDisplayNameByUser(store.getState(), user)).toEqual(user.username);
         });
     });
 
@@ -57,7 +63,7 @@ describe('Utils.getDisplayNameByUser', () => {
             {user: userI, result: userI.nickname},
             {user: userJ, result: userJ.first_name},
         ]) {
-            expect(Utils.getDisplayNameByUser(data.user)).toEqual(data.result);
+            expect(Utils.getDisplayNameByUser(store.getState(), data.user)).toEqual(data.result);
         }
     });
 
@@ -81,7 +87,7 @@ describe('Utils.getDisplayNameByUser', () => {
             {user: userI, result: userI.first_name},
             {user: userJ, result: userJ.first_name},
         ]) {
-            expect(Utils.getDisplayNameByUser(data.user)).toEqual(data.result);
+            expect(Utils.getDisplayNameByUser(store.getState(), data.user)).toEqual(data.result);
         }
     });
 });
@@ -145,7 +151,7 @@ describe('Utils.sortUsersByStatusAndDisplayName', () => {
                 result: [userD, userE, userF, userJ, userK, userL, userM],
             },
         ]) {
-            const sortedUsers = Utils.sortUsersByStatusAndDisplayName(data.users, statusesByUserId);
+            const sortedUsers = Utils.sortUsersByStatusAndDisplayName(data.users, statusesByUserId, 'username');
             for (let i = 0; i < sortedUsers.length; i++) {
                 expect(sortedUsers[i]).toEqual(data.result[i]);
             }
@@ -174,7 +180,7 @@ describe('Utils.sortUsersByStatusAndDisplayName', () => {
                 result: [userJ, userF, userE, userD, userK, userL, userM],
             },
         ]) {
-            const sortedUsers = Utils.sortUsersByStatusAndDisplayName(data.users, statusesByUserId);
+            const sortedUsers = Utils.sortUsersByStatusAndDisplayName(data.users, statusesByUserId, 'nickname_full_name');
             for (let i = 0; i < sortedUsers.length; i++) {
                 expect(sortedUsers[i]).toEqual(data.result[i]);
             }
@@ -203,7 +209,7 @@ describe('Utils.sortUsersByStatusAndDisplayName', () => {
                 result: [userD, userF, userE, userJ, userK, userL, userM],
             },
         ]) {
-            const sortedUsers = Utils.sortUsersByStatusAndDisplayName(data.users, statusesByUserId);
+            const sortedUsers = Utils.sortUsersByStatusAndDisplayName(data.users, statusesByUserId, 'full_name');
             for (let i = 0; i < sortedUsers.length; i++) {
                 expect(sortedUsers[i]).toEqual(data.result[i]);
             }
@@ -709,5 +715,270 @@ describe('Utils.enableDevModeFeatures', () => {
         test('invoke Set.Length', () => {
             expect(new Set().length).toEqual(undefined);
         });
+    });
+});
+
+describe('Utils.getSortedUsers', () => {
+    test('should sort users by who reacted first', () => {
+        const baseDate = Date.now();
+        const currentUserId = 'user_id_1';
+        const profiles = [{id: 'user_id_1', username: 'username_1'}, {id: 'user_id_2', username: 'username_2'}, {id: 'user_id_3', username: 'username_3'}];
+        const reactions = [
+            {user_id: 'user_id_2', create_at: baseDate}, // Will be sorted 2nd, after the logged-in user
+            {user_id: 'user_id_1', create_at: baseDate + 5000}, // Logged-in user, will be sorted first although 2nd user reacted first
+            {user_id: 'user_id_3', create_at: baseDate + 8000}, // Last to react, will be sorted last
+        ];
+
+        const {currentUserReacted, users} = Utils.getSortedUsers(reactions, currentUserId, profiles, 'username');
+
+        expect(currentUserReacted).toEqual(true);
+        assert.deepEqual(
+            users,
+            ['You', 'username_2', 'username_3'],
+        );
+    });
+});
+
+describe('Utils.imageURLForUser', () => {
+    test('should return url when user id and last_picture_update is given', () => {
+        const imageUrl = Utils.imageURLForUser('foobar-123', 123456);
+        expect(imageUrl).toEqual('/api/v4/users/foobar-123/image?_=123456');
+    });
+
+    test('should return url when user id is given without last_picture_update', () => {
+        const imageUrl = Utils.imageURLForUser('foobar-123');
+        expect(imageUrl).toEqual('/api/v4/users/foobar-123/image?_=0');
+    });
+});
+
+describe('Utils.isUnhandledLineBreakKeyCombo', () => {
+    test('isUnhandledLineBreakKeyCombo returns true for alt + enter for Chrome UA', () => {
+        ua.mockChrome();
+        expect(Utils.isUnhandledLineBreakKeyCombo(lineBreakHelpers.getAltKeyEvent())).toBe(true);
+    });
+
+    test('isUnhandledLineBreakKeyCombo returns false for alt + enter for Safari UA', () => {
+        ua.mockSafari();
+        expect(Utils.isUnhandledLineBreakKeyCombo(lineBreakHelpers.getAltKeyEvent())).toBe(false);
+    });
+
+    test('isUnhandledLineBreakKeyCombo returns false for shift + enter', () => {
+        expect(Utils.isUnhandledLineBreakKeyCombo(lineBreakHelpers.getShiftKeyEvent())).toBe(false);
+    });
+
+    test('isUnhandledLineBreakKeyCombo returns false for ctrl/command + enter', () => {
+        expect(Utils.isUnhandledLineBreakKeyCombo(lineBreakHelpers.getCtrlKeyEvent())).toBe(false);
+        expect(Utils.isUnhandledLineBreakKeyCombo(lineBreakHelpers.getMetaKeyEvent())).toBe(false);
+    });
+
+    test('isUnhandledLineBreakKeyCombo returns false for just enter', () => {
+        expect(Utils.isUnhandledLineBreakKeyCombo(lineBreakHelpers.BASE_EVENT)).toBe(false);
+    });
+
+    test('isUnhandledLineBreakKeyCombo returns false for f (random key)', () => {
+        const e = {
+            ...lineBreakHelpers.BASE_EVENT,
+            key: Constants.KeyCodes.F[0],
+            keyCode: Constants.KeyCodes.F[1],
+        };
+        expect(Utils.isUnhandledLineBreakKeyCombo(e)).toBe(false);
+    });
+
+    // restore initial user agent
+    afterEach(ua.reset);
+});
+
+describe('Utils.insertLineBreakFromKeyEvent', () => {
+    test('insertLineBreakFromKeyEvent returns with line break appending (no selection range)', () => {
+        expect(Utils.insertLineBreakFromKeyEvent(lineBreakHelpers.getAppendEvent())).toBe(lineBreakHelpers.OUTPUT_APPEND);
+    });
+    test('insertLineBreakFromKeyEvent returns with line break replacing (with selection range)', () => {
+        expect(Utils.insertLineBreakFromKeyEvent(lineBreakHelpers.getReplaceEvent())).toBe(lineBreakHelpers.OUTPUT_REPLACE);
+    });
+});
+
+describe('Utils.applyHotkeyMarkdown', () => {
+    test('applyHotkeyMarkdown returns correct markdown for bold hotkey', () => {
+        // "Fafda" is selected with ctrl + B hotkey
+        const e = makeBoldHotkeyEvent('Jalebi Fafda & Sambharo', 7, 12);
+
+        expect(Utils.applyHotkeyMarkdown(e)).
+            toEqual({
+                message: 'Jalebi **Fafda** & Sambharo',
+                selectionStart: 9,
+                selectionEnd: 14,
+            });
+    });
+
+    test('applyHotkeyMarkdown returns correct markdown for undo bold', () => {
+        // "Fafda" is selected with ctrl + B hotkey
+        const e = makeBoldHotkeyEvent('Jalebi **Fafda** & Sambharo', 9, 14);
+
+        expect(Utils.applyHotkeyMarkdown(e)).
+            toEqual({
+                message: 'Jalebi Fafda & Sambharo',
+                selectionStart: 7,
+                selectionEnd: 12,
+            });
+    });
+
+    test('applyHotkeyMarkdown returns correct markdown for italic hotkey', () => {
+        // "Fafda" is selected with ctrl + I hotkey
+        const e = makeItalicHotkeyEvent('Jalebi Fafda & Sambharo', 7, 12);
+
+        expect(Utils.applyHotkeyMarkdown(e)).
+            toEqual({
+                message: 'Jalebi *Fafda* & Sambharo',
+                selectionStart: 8,
+                selectionEnd: 13,
+            });
+    });
+
+    test('applyHotkeyMarkdown returns correct markdown for undo italic', () => {
+        // "Fafda" is selected with ctrl + I hotkey
+        const e = makeItalicHotkeyEvent('Jalebi *Fafda* & Sambharo', 8, 13);
+
+        expect(Utils.applyHotkeyMarkdown(e)).
+            toEqual({
+                message: 'Jalebi Fafda & Sambharo',
+                selectionStart: 7,
+                selectionEnd: 12,
+            });
+    });
+
+    test('applyHotkeyMarkdown returns correct markdown for bold hotkey and empty', () => {
+        // Nothing is selected with ctrl + B hotkey and caret is just before "Fafda"
+        const e = makeBoldHotkeyEvent('Jalebi Fafda & Sambharo', 7, 7);
+
+        expect(Utils.applyHotkeyMarkdown(e)).
+            toEqual({
+                message: 'Jalebi ****Fafda & Sambharo',
+                selectionStart: 9,
+                selectionEnd: 9,
+            });
+    });
+
+    test('applyHotkeyMarkdown returns correct markdown for italic hotkey and empty', () => {
+        // Nothing is selected with ctrl + I hotkey and caret is just before "Fafda"
+        const e = makeItalicHotkeyEvent('Jalebi Fafda & Sambharo', 7, 7);
+
+        expect(Utils.applyHotkeyMarkdown(e)).
+            toEqual({
+                message: 'Jalebi **Fafda & Sambharo',
+                selectionStart: 8,
+                selectionEnd: 8,
+            });
+    });
+
+    test('applyHotkeyMarkdown returns correct markdown for italic with bold', () => {
+        // "Fafda" is selected with ctrl + I hotkey
+        const e = makeItalicHotkeyEvent('Jalebi **Fafda** & Sambharo', 9, 14);
+
+        expect(Utils.applyHotkeyMarkdown(e)).
+            toEqual({
+                message: 'Jalebi ***Fafda*** & Sambharo',
+                selectionStart: 10,
+                selectionEnd: 15,
+            });
+    });
+
+    test('applyHotkeyMarkdown returns correct markdown for bold with italic', () => {
+        // "Fafda" is selected with ctrl + B hotkey
+        const e = makeBoldHotkeyEvent('Jalebi *Fafda* & Sambharo', 8, 13);
+
+        expect(Utils.applyHotkeyMarkdown(e)).
+            toEqual({
+                message: 'Jalebi ***Fafda*** & Sambharo',
+                selectionStart: 10,
+                selectionEnd: 15,
+            });
+    });
+
+    test('applyHotkeyMarkdown returns correct markdown for bold with italic+bold', () => {
+        // "Fafda" is selected with ctrl + B hotkey
+        const e = makeBoldHotkeyEvent('Jalebi ***Fafda*** & Sambharo', 10, 15);
+
+        // Should undo bold
+        expect(Utils.applyHotkeyMarkdown(e)).
+            toEqual({
+                message: 'Jalebi *Fafda* & Sambharo',
+                selectionStart: 8,
+                selectionEnd: 13,
+            });
+    });
+
+    test('applyHotkeyMarkdown returns correct markdown for italic with italic+bold', () => {
+        // "Fafda" is selected with ctrl + I hotkey
+        const e = makeItalicHotkeyEvent('Jalebi ***Fafda*** & Sambharo', 10, 15);
+
+        // Should undo italic
+        expect(Utils.applyHotkeyMarkdown(e)).
+            toEqual({
+                message: 'Jalebi **Fafda** & Sambharo',
+                selectionStart: 9,
+                selectionEnd: 14,
+            });
+    });
+});
+
+describe('Utils.adjustSelection', () => {
+    test('adjustSelection fixes selection to correct text', () => {
+        // "_Fafda_" is selected
+        const e = makeSelectionEvent('Jalebi _Fafda_ and Sambharo', 7, 14);
+        const input = {
+            focus: jest.fn(),
+            setSelectionRange: jest.fn(),
+        };
+
+        Utils.adjustSelection(input, e);
+        expect(input.setSelectionRange).toHaveBeenCalledWith(8, 13);
+    });
+
+    test('adjustSelection does not fix selection when selected text does not end with "_"', () => {
+        // "_Fafda" is selected
+        const e = makeSelectionEvent('Jalebi _Fafda and Sambharo', 7, 13);
+        const input = {
+            focus: jest.fn(),
+            setSelectionRange: jest.fn(),
+        };
+
+        Utils.adjustSelection(input, e);
+        expect(input.setSelectionRange).not.toHaveBeenCalled();
+    });
+
+    test('adjustSelection does not fix selection when selected text does start end with "_"', () => {
+        // "Fafda_" is selected
+        const e = makeSelectionEvent('Jalebi Fafda_ and Sambharo', 7, 13);
+        const input = {
+            focus: jest.fn(),
+            setSelectionRange: jest.fn(),
+        };
+
+        Utils.adjustSelection(input, e);
+        expect(input.setSelectionRange).not.toHaveBeenCalled();
+    });
+
+    test('adjustSelection fixes selection at start of text', () => {
+        // "_Jalebi_" is selected
+        const e = makeSelectionEvent('_Jalebi_ Fafda and Sambharo', 0, 8);
+        const input = {
+            focus: jest.fn(),
+            setSelectionRange: jest.fn(),
+        };
+
+        Utils.adjustSelection(input, e);
+        expect(input.setSelectionRange).toHaveBeenCalledWith(1, 7);
+    });
+
+    test('adjustSelection fixes selection at end of text', () => {
+        // "_Sambharo_" is selected
+        const e = makeSelectionEvent('Jalebi Fafda and _Sambharo_', 17, 27);
+        const input = {
+            focus: jest.fn(),
+            setSelectionRange: jest.fn(),
+        };
+
+        Utils.adjustSelection(input, e);
+        expect(input.setSelectionRange).toHaveBeenCalledWith(18, 26);
     });
 });

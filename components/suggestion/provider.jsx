@@ -9,7 +9,7 @@ export default class Provider {
         this.requestStarted = false;
     }
 
-    handlePretextChanged(pretext) { // eslint-disable-line no-unused-vars
+    handlePretextChanged(pretext, callback) { // eslint-disable-line no-unused-vars
         // NO-OP for inherited classes to override
     }
 

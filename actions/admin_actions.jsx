@@ -7,6 +7,8 @@ import * as TeamActions from 'mattermost-redux/actions/teams';
 import {Client4} from 'mattermost-redux/client';
 import {bindClientFunc} from 'mattermost-redux/actions/helpers';
 
+import {trackEvent} from 'actions/diagnostics_actions.jsx';
+
 import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
 import {getOnNavigationConfirmed} from 'selectors/views/admin';
 import store from 'stores/redux_store.jsx';
@@ -64,15 +66,6 @@ export async function invalidateAllCaches(success, error) {
 
 export async function recycleDatabaseConnection(success, error) {
     const {data, error: err} = await AdminActions.recycleDatabase()(dispatch, getState);
-    if (data && success) {
-        success(data);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
-
-export async function adminResetPassword(userId, currentPassword, password, success, error) {
-    const {data, error: err} = await UserActions.updateUserPassword(userId, currentPassword, password)(dispatch, getState);
     if (data && success) {
         success(data);
     } else if (err && error) {
@@ -180,6 +173,23 @@ export async function uploadPrivateSamlCertificate(file, success, error) {
     }
 }
 
+export async function uploadPublicLdapCertificate(file, success, error) {
+    const {data, error: err} = await AdminActions.uploadPublicLdapCertificate(file)(dispatch, getState);
+    if (data && success) {
+        success('ldap-public.crt');
+    } else if (err && error) {
+        error({id: err.server_error_id, ...err});
+    }
+}
+export async function uploadPrivateLdapCertificate(file, success, error) {
+    const {data, error: err} = await AdminActions.uploadPrivateLdapCertificate(file)(dispatch, getState);
+    if (data && success) {
+        success('ldap-private.key');
+    } else if (err && error) {
+        error({id: err.server_error_id, ...err});
+    }
+}
+
 export async function uploadIdpSamlCertificate(file, success, error) {
     const {data, error: err} = await AdminActions.uploadIdpSamlCertificate(file)(dispatch, getState);
     if (data && success) {
@@ -200,6 +210,24 @@ export async function removePublicSamlCertificate(success, error) {
 
 export async function removePrivateSamlCertificate(success, error) {
     const {data, error: err} = await AdminActions.removePrivateSamlCertificate()(dispatch, getState);
+    if (data && success) {
+        success(data);
+    } else if (err && error) {
+        error({id: err.server_error_id, ...err});
+    }
+}
+
+export async function removePublicLdapCertificate(success, error) {
+    const {data, error: err} = await AdminActions.removePublicLdapCertificate()(dispatch, getState);
+    if (data && success) {
+        success(data);
+    } else if (err && error) {
+        error({id: err.server_error_id, ...err});
+    }
+}
+
+export async function removePrivateLdapCertificate(success, error) {
+    const {data, error: err} = await AdminActions.removePrivateLdapCertificate()(dispatch, getState);
     if (data && success) {
         success(data);
     } else if (err && error) {
@@ -256,6 +284,20 @@ export async function testS3Connection(success, error) {
 
 export async function elasticsearchPurgeIndexes(success, error) {
     const {data, error: err} = await AdminActions.purgeElasticsearchIndexes()(dispatch, getState);
+    if (data && success) {
+        success(data);
+    } else if (err && error) {
+        error({id: err.server_error_id, ...err});
+    }
+}
+
+export async function blevePurgeIndexes(success, error) {
+    const purgeBleveIndexes = bindClientFunc({
+        clientFunc: Client4.purgeBleveIndexes,
+        params: [],
+    });
+
+    const {data, error: err} = await dispatch(purgeBleveIndexes);
     if (data && success) {
         success(data);
     } else if (err && error) {
@@ -378,4 +420,47 @@ export async function setSamlIdpCertificateFromMetadata(success, error, certData
     } else if (err && error) {
         error({id: err.server_error_id, ...err});
     }
+}
+
+export function upgradeToE0() {
+    return async () => {
+        trackEvent('api', 'upgrade_to_e0_requested');
+        const data = await Client4.upgradeToEnterprise();
+        return data;
+    };
+}
+
+export function upgradeToE0Status() {
+    return async () => {
+        const data = await Client4.upgradeToEnterpriseStatus();
+        return data;
+    };
+}
+
+export function restartServer() {
+    return async () => {
+        const data = await Client4.restartServer();
+        return data;
+    };
+}
+
+export function ping() {
+    return async () => {
+        const data = await Client4.ping();
+        return data;
+    };
+}
+
+export function requestTrialLicense(users, termsAccepted, receiveEmailsAccepted, page) {
+    return async () => {
+        try {
+            trackEvent('api', 'api_request_trial_license', {from_page: page});
+            const response = await Client4.doFetch(`${Client4.getBaseRoute()}/trial-license`, {
+                method: 'POST', body: JSON.stringify({users, terms_accepted: termsAccepted, receive_emails_accepted: receiveEmailsAccepted}),
+            });
+            return {data: response};
+        } catch (e) {
+            return {error: e.message};
+        }
+    };
 }

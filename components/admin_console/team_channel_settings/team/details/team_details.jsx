@@ -8,8 +8,10 @@ import {cloneDeep} from 'lodash';
 
 import {Groups} from 'mattermost-redux/constants';
 
-import BlockableLink from 'components/admin_console/blockable_link';
+import {browserHistory} from 'utils/browser_history';
 
+import {trackEvent} from 'actions/diagnostics_actions.jsx';
+import BlockableLink from 'components/admin_console/blockable_link';
 import FormError from 'components/form_error';
 
 import RemoveConfirmModal from '../../remove_confirm_modal';
@@ -20,14 +22,16 @@ import SaveChangesPanel from '../../save_changes_panel';
 import {TeamProfile} from './team_profile';
 import {TeamModes} from './team_modes';
 import {TeamGroups} from './team_groups';
+import TeamMembers from './team_members/index';
 
-export default class TeamDetails extends React.Component {
+export default class TeamDetails extends React.PureComponent {
     static propTypes = {
         teamID: PropTypes.string.isRequired,
         team: PropTypes.object.isRequired,
         totalGroups: PropTypes.number.isRequired,
         groups: PropTypes.arrayOf(PropTypes.object),
         allGroups: PropTypes.object.isRequired,
+        isDisabled: PropTypes.bool,
         actions: PropTypes.shape({
             setNavigationBlocked: PropTypes.func.isRequired,
             getTeam: PropTypes.func.isRequired,
@@ -37,6 +41,9 @@ export default class TeamDetails extends React.Component {
             getGroups: PropTypes.func.isRequired,
             patchTeam: PropTypes.func.isRequired,
             patchGroupSyncable: PropTypes.func.isRequired,
+            addUserToTeam: PropTypes.func.isRequired,
+            removeUserFromTeam: PropTypes.func.isRequired,
+            updateTeamMemberSchemeRoles: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -55,7 +62,10 @@ export default class TeamDetails extends React.Component {
             allowedDomains: team.allowed_domains || '',
             saving: false,
             showRemoveConfirmation: false,
-            usersToRemove: 0,
+            usersToRemoveCount: 0,
+            usersToRemove: {},
+            usersToAdd: {},
+            rolesToUpdate: {},
             totalGroups: props.totalGroups,
             saveNeeded: false,
             serverError: null,
@@ -95,7 +105,7 @@ export default class TeamDetails extends React.Component {
 
     handleSubmit = async () => {
         this.setState({showRemoveConfirmation: false, saving: true});
-        const {groups, allAllowedChecked, allowedDomainsChecked, allowedDomains, syncChecked} = this.state;
+        const {groups, allAllowedChecked, allowedDomainsChecked, allowedDomains, syncChecked, usersToAdd, usersToRemove, rolesToUpdate} = this.state;
 
         let serverError = null;
         let saveNeeded = false;
@@ -134,12 +144,97 @@ export default class TeamDetails extends React.Component {
             if (resultWithError) {
                 serverError = <FormError error={resultWithError.error.message}/>;
             } else {
+                if (unlink.length > 0) {
+                    trackEvent('admin_team_config_page', 'groups_removed_from_team', {count: unlink.length, team_id: teamID});
+                }
+                if (link.length > 0) {
+                    trackEvent('admin_team_config_page', 'groups_added_to_team', {count: link.length, team_id: teamID});
+                }
                 await actions.getGroups(teamID);
             }
         }
 
-        this.setState({serverError, saving: false, saveNeeded});
-        actions.setNavigationBlocked(saveNeeded);
+        const usersToAddList = Object.values(usersToAdd);
+        const usersToRemoveList = Object.values(usersToRemove);
+        const userRolesToUpdate = Object.keys(rolesToUpdate);
+        const usersToUpdate = usersToAddList.length > 0 || usersToRemoveList.length > 0 || userRolesToUpdate.length > 0;
+        if (usersToUpdate && !syncChecked) {
+            const addUserActions = [];
+            const removeUserActions = [];
+            const {addUserToTeam, removeUserFromTeam, updateTeamMemberSchemeRoles} = this.props.actions;
+            usersToAddList.forEach((user) => {
+                addUserActions.push(addUserToTeam(teamID, user.id));
+            });
+            usersToRemoveList.forEach((user) => {
+                removeUserActions.push(removeUserFromTeam(teamID, user.id));
+            });
+
+            if (addUserActions.length > 0) {
+                const result = await Promise.all(addUserActions);
+                const resultWithError = result.find((r) => r.error);
+                const count = result.filter((r) => r.data).length;
+                if (resultWithError) {
+                    serverError = <FormError error={resultWithError.error.message}/>;
+                }
+                if (count > 0) {
+                    trackEvent('admin_team_config_page', 'members_added_to_team', {count, team_id: teamID});
+                }
+            }
+
+            if (removeUserActions.length > 0) {
+                const result = await Promise.all(removeUserActions);
+                const resultWithError = result.find((r) => r.error);
+                const count = result.filter((r) => r.data).length;
+                if (resultWithError) {
+                    serverError = <FormError error={resultWithError.error.message}/>;
+                }
+                if (count > 0) {
+                    trackEvent('admin_team_config_page', 'members_removed_from_team', {count, team_id: teamID});
+                }
+            }
+
+            const rolesToPromote = [];
+            const rolesToDemote = [];
+            userRolesToUpdate.forEach((userId) => {
+                const {schemeUser, schemeAdmin} = rolesToUpdate[userId];
+                if (schemeAdmin) {
+                    rolesToPromote.push(updateTeamMemberSchemeRoles(teamID, userId, schemeUser, schemeAdmin));
+                } else {
+                    rolesToDemote.push(updateTeamMemberSchemeRoles(teamID, userId, schemeUser, schemeAdmin));
+                }
+            });
+
+            if (rolesToPromote.length > 0) {
+                const result = await Promise.all(rolesToPromote);
+                const resultWithError = result.find((r) => r.error);
+                const count = result.filter((r) => r.data).length;
+                if (resultWithError) {
+                    serverError = <FormError error={resultWithError.error.message}/>;
+                }
+                if (count > 0) {
+                    trackEvent('admin_team_config_page', 'members_elevated_to_team_admin', {count, team_id: teamID});
+                }
+            }
+
+            if (rolesToDemote.length > 0) {
+                const result = await Promise.all(rolesToDemote);
+                const resultWithError = result.find((r) => r.error);
+                const count = result.filter((r) => r.data).length;
+                if (resultWithError) {
+                    serverError = <FormError error={resultWithError.error.message}/>;
+                }
+                if (count > 0) {
+                    trackEvent('admin_team_config_page', 'admins_demoted_to_team_member', {count, team_id: teamID});
+                }
+            }
+        }
+
+        this.setState({usersToRemoveCount: 0, rolesToUpdate: {}, usersToAdd: {}, usersToRemove: {}, serverError, saving: false, saveNeeded}, () => {
+            actions.setNavigationBlocked(saveNeeded);
+            if (!saveNeeded && !serverError) {
+                browserHistory.push('/admin_console/user_management/teams');
+            }
+        });
     }
 
     setToggles = (syncChecked, allAllowedChecked, allowedDomainsChecked, allowedDomains) => {
@@ -158,19 +253,21 @@ export default class TeamDetails extends React.Component {
         actions.setNavigationBlocked(true);
 
         let serverError = null;
-        let usersToRemove = 0;
+        let usersToRemoveCount = 0;
         if (this.state.syncChecked) {
             try {
                 if (groups.length === 0) {
                     serverError = <NeedGroupsError warning={true}/>;
                 } else {
                     const result = await actions.membersMinusGroupMembers(teamID, groups.map((g) => g.id));
-                    usersToRemove = result.data.total_count;
-                    if (usersToRemove > 0) {
+                    usersToRemoveCount = result.data.total_count;
+                    if (usersToRemoveCount > 0) {
                         serverError = (
                             <UsersWillBeRemovedError
-                                total={usersToRemove}
+                                total={usersToRemoveCount}
                                 users={result.data.users}
+                                scope={'team'}
+                                scopeId={this.props.teamID}
                             />
                         );
                     }
@@ -179,7 +276,43 @@ export default class TeamDetails extends React.Component {
                 serverError = ex;
             }
         }
-        this.setState({groups, usersToRemove, saveNeeded: true, serverError});
+        this.setState({groups, usersToRemoveCount, saveNeeded: true, serverError});
+    }
+
+    addUsersToAdd = (users) => {
+        let {usersToRemoveCount} = this.state;
+        const {usersToAdd, usersToRemove} = this.state;
+        users.forEach((user) => {
+            if (usersToRemove[user.id]?.id === user.id) {
+                delete usersToRemove[user.id];
+                usersToRemoveCount -= 1;
+            } else {
+                usersToAdd[user.id] = user;
+            }
+        });
+        this.setState({usersToAdd: {...usersToAdd}, usersToRemove: {...usersToRemove}, usersToRemoveCount, saveNeeded: true});
+        this.props.actions.setNavigationBlocked(true);
+    }
+
+    addUserToRemove = (user) => {
+        let {usersToRemoveCount} = this.state;
+        const {usersToAdd, usersToRemove, rolesToUpdate} = this.state;
+        if (usersToAdd[user.id]?.id === user.id) {
+            delete usersToAdd[user.id];
+        } else if (usersToRemove[user.id]?.id !== user.id) {
+            usersToRemoveCount += 1;
+            usersToRemove[user.id] = user;
+        }
+        delete rolesToUpdate[user.id];
+        this.setState({usersToRemove: {...usersToRemove}, usersToAdd: {...usersToAdd}, rolesToUpdate: {...rolesToUpdate}, usersToRemoveCount, saveNeeded: true});
+        this.props.actions.setNavigationBlocked(true);
+    }
+
+    addRolesToUpdate = (userId, schemeUser, schemeAdmin) => {
+        const {rolesToUpdate} = this.state;
+        rolesToUpdate[userId] = {schemeUser, schemeAdmin};
+        this.setState({rolesToUpdate: {...rolesToUpdate}, saveNeeded: true});
+        this.props.actions.setNavigationBlocked(true);
     }
 
     handleGroupRemoved = (gid) => {
@@ -198,7 +331,7 @@ export default class TeamDetails extends React.Component {
         this.setState({showRemoveConfirmation: false});
     }
     showRemoveUsersModal = () => {
-        if (this.state.usersToRemove > 0) {
+        if (this.state.usersToRemoveCount > 0) {
             this.setState({showRemoveConfirmation: true});
         } else {
             this.handleSubmit();
@@ -207,7 +340,7 @@ export default class TeamDetails extends React.Component {
 
     render = () => {
         const {team} = this.props;
-        const {totalGroups, saving, saveNeeded, serverError, groups, allAllowedChecked, allowedDomainsChecked, allowedDomains, syncChecked, showRemoveConfirmation, usersToRemove} = this.state;
+        const {totalGroups, saving, saveNeeded, serverError, groups, allAllowedChecked, allowedDomainsChecked, allowedDomains, syncChecked, showRemoveConfirmation, usersToRemoveCount} = this.state;
         const missingGroup = (og) => !groups.find((g) => g.id === og.id);
         const removedGroups = this.props.groups.filter(missingGroup);
 
@@ -229,7 +362,7 @@ export default class TeamDetails extends React.Component {
                 <div className='admin-console__wrapper'>
                     <div className='admin-console__content'>
                         <RemoveConfirmModal
-                            amount={usersToRemove}
+                            amount={usersToRemoveCount}
                             inChannel={false}
                             show={showRemoveConfirmation}
                             onCancel={this.hideRemoveUsersModal}
@@ -245,6 +378,7 @@ export default class TeamDetails extends React.Component {
                             allowedDomains={allowedDomains}
                             syncChecked={syncChecked}
                             onToggle={this.setToggles}
+                            isDisabled={this.props.isDisabled}
                         />
 
                         <TeamGroups
@@ -256,8 +390,20 @@ export default class TeamDetails extends React.Component {
                             onAddCallback={this.handleGroupChange}
                             onGroupRemoved={this.handleGroupRemoved}
                             setNewGroupRole={this.setNewGroupRole}
+                            isDisabled={this.props.isDisabled}
                         />
 
+                        {!syncChecked &&
+                            <TeamMembers
+                                onRemoveCallback={this.addUserToRemove}
+                                onAddCallback={this.addUsersToAdd}
+                                usersToRemove={this.state.usersToRemove}
+                                usersToAdd={this.state.usersToAdd}
+                                updateRole={this.addRolesToUpdate}
+                                teamId={this.props.teamID}
+                                isDisabled={this.props.isDisabled}
+                            />
+                        }
                     </div>
                 </div>
 
@@ -267,6 +413,7 @@ export default class TeamDetails extends React.Component {
                     saveNeeded={saveNeeded}
                     onClick={this.showRemoveUsersModal}
                     serverError={serverError}
+                    isDisabled={this.props.isDisabled}
                 />
             </div>
         );

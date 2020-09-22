@@ -7,6 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+// Group: @channel @channel_settings @smoke
+
 function verifyMentionedUserAndProfilePopover(postId) {
     cy.get(`#post_${postId}`).find('.mention-link').each(($el) => {
         // # Get username from each mentioned link
@@ -50,14 +53,29 @@ function addNumberOfUsersToChannel(num = 1) {
 }
 
 describe('CS15445 Join/leave messages', () => {
+    let testTeam;
+
     before(() => {
-        cy.apiLogin('user-1');
-        cy.visit('/');
+        // # Login as new user and visit town-square
+        cy.apiInitSetup().then(({team, user}) => {
+            testTeam = team;
+
+            // # Add 4 users
+            for (let i = 0; i < 4; i++) {
+                cy.apiCreateUser().then(({user: newUser}) => { // eslint-disable-line
+                    cy.apiAddUserToTeam(testTeam.id, newUser.id);
+                });
+            }
+
+            cy.apiLogin(user);
+        });
     });
 
     it('Single User: Usernames are links, open profile popovers', () => {
         // # Create and visit new channel
-        cy.createAndVisitNewChannel().then(() => {
+        cy.apiCreateChannel(testTeam.id, 'channel-test', 'Channel').then(({channel}) => {
+            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+
             // # Add users to channel
             addNumberOfUsersToChannel(1);
 
@@ -73,7 +91,9 @@ describe('CS15445 Join/leave messages', () => {
 
     it('Combined Users: Usernames are links, open profile popovers', () => {
         // # Create and visit new channel
-        cy.createAndVisitNewChannel().then(() => {
+        cy.apiCreateChannel(testTeam.id, 'channel-test', 'Channel').then(({channel}) => {
+            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+
             addNumberOfUsersToChannel(3);
 
             cy.getLastPostId().then((id) => {

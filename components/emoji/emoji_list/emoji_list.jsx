@@ -20,7 +20,7 @@ import {t} from 'utils/i18n.jsx';
 const EMOJI_PER_PAGE = 50;
 const EMOJI_SEARCH_DELAY_MILLISECONDS = 200;
 
-export default class EmojiList extends React.Component {
+export default class EmojiList extends React.PureComponent {
     static propTypes = {
 
         /**
@@ -154,7 +154,7 @@ export default class EmojiList extends React.Component {
                     <td colSpan='4'>
                         <LoadingScreen key='loading'/>
                     </td>
-                </tr>
+                </tr>,
             );
         } else if (this.props.emojiIds.length === 0 || (searchEmojis && searchEmojis.length === 0)) {
             emojis.push(
@@ -168,7 +168,7 @@ export default class EmojiList extends React.Component {
                             defaultMessage='No custom emoji found'
                         />
                     </td>
-                </tr>
+                </tr>,
             );
         } else if (searchEmojis) {
             searchEmojis.forEach((emojiId) => {
@@ -177,7 +177,7 @@ export default class EmojiList extends React.Component {
                         key={'emoji_search_item' + emojiId}
                         emojiId={emojiId}
                         onDelete={this.deleteFromSearch}
-                    />
+                    />,
                 );
             });
         } else {
@@ -190,7 +190,7 @@ export default class EmojiList extends React.Component {
                     <EmojiListItem
                         key={'emoji_list_item' + emojiId}
                         emojiId={emojiId}
-                    />
+                    />,
                 );
             });
 

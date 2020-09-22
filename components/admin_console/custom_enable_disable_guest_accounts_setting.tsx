@@ -20,7 +20,7 @@ type Props = {
     showConfirm: boolean;
 }
 
-export default class CustomEnableDisableGuestAccountsSetting extends React.Component<Props> {
+export default class CustomEnableDisableGuestAccountsSetting extends React.PureComponent<Props> {
     public handleChange = (id: string, value: boolean, submit = false) => {
         const confirmNeeded = value === false; // Requires confirmation if disabling guest accounts
         let warning: React.ReactNode | string = '';
@@ -58,6 +58,7 @@ export default class CustomEnableDisableGuestAccountsSetting extends React.Compo
                     helpText={helpText}
                     setByEnv={this.props.setByEnv}
                     onChange={this.handleChange}
+                    disabled={this.props.disabled}
                 />
                 <ConfirmModal
                     show={this.props.showConfirm && (this.props.value === false)}

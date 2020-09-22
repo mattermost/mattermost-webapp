@@ -3,16 +3,17 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {FormattedMessage, FormattedHTMLMessage} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 import {Modal} from 'react-bootstrap';
 
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import {Constants} from 'utils/constants';
 import {localizeMessage} from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 
 const INT32_MAX = 2147483647;
 
-export default class EditPostTimeLimitModal extends React.Component {
+export default class EditPostTimeLimitModal extends React.PureComponent {
     static propTypes = {
         config: PropTypes.object.isRequired,
         show: PropTypes.bool,
@@ -97,9 +98,9 @@ export default class EditPostTimeLimitModal extends React.Component {
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <FormattedHTMLMessage
+                    <FormattedMarkdownMessage
                         id='edit_post.time_limit_modal.description'
-                        defaultMessage='Setting a time limit <strong>applies to all users</strong> who have the "Edit Post" permissions in any permission scheme.'
+                        defaultMessage='Setting a time limit **applies to all users** who have the "Edit Post" permissions in any permission scheme.'
                     />
                     <div className='pl-3 pb-3 pt-3'>
                         <div className='pt-3'>

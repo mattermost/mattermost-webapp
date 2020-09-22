@@ -10,6 +10,7 @@ exports[`components/team_settings_modal should match snapshot 1`] = `
   dialogClassName="a11y__modal settings-modal settings-modal--action"
   dialogComponentClass={[Function]}
   enforceFocus={true}
+  id="teamSettingsModal"
   keyboard={true}
   manager={
     ModalManager {
@@ -43,7 +44,6 @@ exports[`components/team_settings_modal should match snapshot 1`] = `
       <FormattedMessage
         defaultMessage="Team Settings"
         id="team_settings_modal.title"
-        values={Object {}}
       />
     </ModalTitle>
   </ModalHeader>

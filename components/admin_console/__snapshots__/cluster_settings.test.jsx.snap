@@ -1,0 +1,545 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/ClusterSettings should match snapshot, encryption disabled 1`] = `
+<form
+  className="form-horizontal"
+  onSubmit={[Function]}
+  role="form"
+>
+  <div
+    className="wrapper--fixed"
+  >
+    <AdminHeader>
+      <FormattedMessage
+        defaultMessage="High Availability"
+        id="admin.advance.cluster"
+      />
+    </AdminHeader>
+    <SettingsGroup
+      container={true}
+      show={true}
+    >
+      <ClusterTableContainer />
+      <div
+        className="banner"
+      >
+        <FormattedMessage
+          defaultMessage="Changing properties in this section will require a server restart before taking effect."
+          id="admin.cluster.noteDescription"
+        />
+      </div>
+      <BooleanSetting
+        disabled={false}
+        falseText={
+          <FormattedMessage
+            defaultMessage="false"
+            id="admin.false"
+          />
+        }
+        helpText={
+          <injectIntl(FormattedMarkdownMessage)
+            defaultMessage="When true, Mattermost will run in High Availability mode. Please see [documentation](!http://docs.mattermost.com/deployment/cluster.html) to learn more about configuring High Availability for Mattermost."
+            id="admin.cluster.enableDescription"
+          />
+        }
+        id="Enable"
+        label={
+          <FormattedMessage
+            defaultMessage="Enable High Availability Mode:"
+            id="admin.cluster.enableTitle"
+          />
+        }
+        onChange={[Function]}
+        setByEnv={false}
+        trueText={
+          <FormattedMessage
+            defaultMessage="true"
+            id="admin.true"
+          />
+        }
+        value={true}
+      />
+      <AdminTextSetting
+        helpText={
+          <FormattedMessage
+            defaultMessage="The cluster to join by name.  Only nodes with the same cluster name will join together.  This is to support Blue-Green deployments or staging pointing to the same database."
+            id="admin.cluster.ClusterNameDesc"
+          />
+        }
+        id="ClusterName"
+        label={
+          <FormattedMessage
+            defaultMessage="Cluster Name:"
+            id="admin.cluster.ClusterName"
+          />
+        }
+        onChange={[Function]}
+        placeholder="E.g.: \\"Production\\" or \\"Staging\\""
+        setByEnv={false}
+        value="test"
+      />
+      <AdminTextSetting
+        helpText={
+          <FormattedMessage
+            defaultMessage="The default value of '<blank>' will attempt to get the Hostname from the OS or use the IP Address.  You can override the hostname of this server with this property.  It is not recommended to override the Hostname unless needed. This property can also be set to a specific IP Address if needed."
+            id="admin.cluster.OverrideHostnameDesc"
+          />
+        }
+        id="OverrideHostname"
+        label={
+          <FormattedMessage
+            defaultMessage="Override Hostname:"
+            id="admin.cluster.OverrideHostname"
+          />
+        }
+        onChange={[Function]}
+        placeholder="E.g.: \\"app-server-01\\""
+        setByEnv={false}
+        value=""
+      />
+      <BooleanSetting
+        disabled={false}
+        falseText={
+          <FormattedMessage
+            defaultMessage="false"
+            id="admin.false"
+          />
+        }
+        helpText={
+          <FormattedMessage
+            defaultMessage="When true, the cluster will attempt to communicate via IP Address vs using the hostname."
+            id="admin.cluster.UseIpAddressDesc"
+          />
+        }
+        id="UseIpAddress"
+        label={
+          <FormattedMessage
+            defaultMessage="Use IP Address:"
+            id="admin.cluster.UseIpAddress"
+          />
+        }
+        onChange={[Function]}
+        setByEnv={false}
+        trueText={
+          <FormattedMessage
+            defaultMessage="true"
+            id="admin.true"
+          />
+        }
+        value={false}
+      />
+      <BooleanSetting
+        disabled={false}
+        falseText={
+          <FormattedMessage
+            defaultMessage="false"
+            id="admin.false"
+          />
+        }
+        helpText={
+          <FormattedMessage
+            defaultMessage="When true, the server will attempt to communicate via the gossip protocol over the gossip port.  When false the server will attempt to communicate over the streaming port. When false the gossip port and protocol are still used to determine cluster health."
+            id="admin.cluster.UseExperimentalGossipDesc"
+          />
+        }
+        id="UseExperimentalGossip"
+        label={
+          <FormattedMessage
+            defaultMessage="Use Experimental Gossip:"
+            id="admin.cluster.UseExperimentalGossip"
+          />
+        }
+        onChange={[Function]}
+        setByEnv={false}
+        trueText={
+          <FormattedMessage
+            defaultMessage="true"
+            id="admin.true"
+          />
+        }
+        value={true}
+      />
+      <BooleanSetting
+        disabled={false}
+        falseText={
+          <FormattedMessage
+            defaultMessage="false"
+            id="admin.false"
+          />
+        }
+        helpText={
+          <FormattedMessage
+            defaultMessage="When true, all communication through the gossip protocol will be encrypted."
+            id="admin.cluster.EnableExperimentalGossipEncryptionDesc"
+          />
+        }
+        id="EnableExperimentalGossipEncryption"
+        label={
+          <FormattedMessage
+            defaultMessage="Enable Experimental Gossip encryption:"
+            id="admin.cluster.EnableExperimentalGossipEncryption"
+          />
+        }
+        onChange={[Function]}
+        setByEnv={false}
+        trueText={
+          <FormattedMessage
+            defaultMessage="true"
+            id="admin.true"
+          />
+        }
+        value={false}
+      />
+      <AdminTextSetting
+        helpText={
+          <FormattedMessage
+            defaultMessage="The port used for the gossip protocol.  Both UDP and TCP should be allowed on this port."
+            id="admin.cluster.GossipPortDesc"
+          />
+        }
+        id="GossipPort"
+        label={
+          <FormattedMessage
+            defaultMessage="Gossip Port:"
+            id="admin.cluster.GossipPort"
+          />
+        }
+        onChange={[Function]}
+        placeholder="E.g.: \\"8074\\""
+        setByEnv={false}
+        value={8074}
+      />
+      <AdminTextSetting
+        helpText={
+          <FormattedMessage
+            defaultMessage="The port used for streaming data between servers."
+            id="admin.cluster.StreamingPortDesc"
+          />
+        }
+        id="StreamingPort"
+        label={
+          <FormattedMessage
+            defaultMessage="Streaming Port:"
+            id="admin.cluster.StreamingPort"
+          />
+        }
+        onChange={[Function]}
+        placeholder="E.g.: \\"8075\\""
+        setByEnv={false}
+      />
+    </SettingsGroup>
+    <div
+      className="admin-console-save"
+    >
+      <SaveButton
+        btnClass="btn-primary"
+        defaultMessage={
+          <FormattedMessage
+            defaultMessage="Save"
+            id="save_button.save"
+          />
+        }
+        disabled={true}
+        extraClasses=""
+        onClick={[Function]}
+        saving={false}
+        savingMessage="Saving Config..."
+      />
+      <div
+        className="error-message"
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+      >
+        <FormError
+          error={null}
+          errors={Array []}
+        />
+      </div>
+      <Overlay
+        animation={[Function]}
+        placement="top"
+        rootClose={false}
+        show={false}
+      >
+        <Tooltip
+          bsClass="tooltip"
+          id="error-tooltip"
+          placement="right"
+        />
+      </Overlay>
+    </div>
+  </div>
+</form>
+`;
+
+exports[`components/ClusterSettings should match snapshot, encryption enabled 1`] = `
+<form
+  className="form-horizontal"
+  onSubmit={[Function]}
+  role="form"
+>
+  <div
+    className="wrapper--fixed"
+  >
+    <AdminHeader>
+      <FormattedMessage
+        defaultMessage="High Availability"
+        id="admin.advance.cluster"
+      />
+    </AdminHeader>
+    <SettingsGroup
+      container={true}
+      show={true}
+    >
+      <ClusterTableContainer />
+      <div
+        className="banner"
+      >
+        <FormattedMessage
+          defaultMessage="Changing properties in this section will require a server restart before taking effect."
+          id="admin.cluster.noteDescription"
+        />
+      </div>
+      <BooleanSetting
+        disabled={false}
+        falseText={
+          <FormattedMessage
+            defaultMessage="false"
+            id="admin.false"
+          />
+        }
+        helpText={
+          <injectIntl(FormattedMarkdownMessage)
+            defaultMessage="When true, Mattermost will run in High Availability mode. Please see [documentation](!http://docs.mattermost.com/deployment/cluster.html) to learn more about configuring High Availability for Mattermost."
+            id="admin.cluster.enableDescription"
+          />
+        }
+        id="Enable"
+        label={
+          <FormattedMessage
+            defaultMessage="Enable High Availability Mode:"
+            id="admin.cluster.enableTitle"
+          />
+        }
+        onChange={[Function]}
+        setByEnv={false}
+        trueText={
+          <FormattedMessage
+            defaultMessage="true"
+            id="admin.true"
+          />
+        }
+        value={true}
+      />
+      <AdminTextSetting
+        helpText={
+          <FormattedMessage
+            defaultMessage="The cluster to join by name.  Only nodes with the same cluster name will join together.  This is to support Blue-Green deployments or staging pointing to the same database."
+            id="admin.cluster.ClusterNameDesc"
+          />
+        }
+        id="ClusterName"
+        label={
+          <FormattedMessage
+            defaultMessage="Cluster Name:"
+            id="admin.cluster.ClusterName"
+          />
+        }
+        onChange={[Function]}
+        placeholder="E.g.: \\"Production\\" or \\"Staging\\""
+        setByEnv={false}
+        value="test"
+      />
+      <AdminTextSetting
+        helpText={
+          <FormattedMessage
+            defaultMessage="The default value of '<blank>' will attempt to get the Hostname from the OS or use the IP Address.  You can override the hostname of this server with this property.  It is not recommended to override the Hostname unless needed. This property can also be set to a specific IP Address if needed."
+            id="admin.cluster.OverrideHostnameDesc"
+          />
+        }
+        id="OverrideHostname"
+        label={
+          <FormattedMessage
+            defaultMessage="Override Hostname:"
+            id="admin.cluster.OverrideHostname"
+          />
+        }
+        onChange={[Function]}
+        placeholder="E.g.: \\"app-server-01\\""
+        setByEnv={false}
+        value=""
+      />
+      <BooleanSetting
+        disabled={false}
+        falseText={
+          <FormattedMessage
+            defaultMessage="false"
+            id="admin.false"
+          />
+        }
+        helpText={
+          <FormattedMessage
+            defaultMessage="When true, the cluster will attempt to communicate via IP Address vs using the hostname."
+            id="admin.cluster.UseIpAddressDesc"
+          />
+        }
+        id="UseIpAddress"
+        label={
+          <FormattedMessage
+            defaultMessage="Use IP Address:"
+            id="admin.cluster.UseIpAddress"
+          />
+        }
+        onChange={[Function]}
+        setByEnv={false}
+        trueText={
+          <FormattedMessage
+            defaultMessage="true"
+            id="admin.true"
+          />
+        }
+        value={false}
+      />
+      <BooleanSetting
+        disabled={false}
+        falseText={
+          <FormattedMessage
+            defaultMessage="false"
+            id="admin.false"
+          />
+        }
+        helpText={
+          <FormattedMessage
+            defaultMessage="When true, the server will attempt to communicate via the gossip protocol over the gossip port.  When false the server will attempt to communicate over the streaming port. When false the gossip port and protocol are still used to determine cluster health."
+            id="admin.cluster.UseExperimentalGossipDesc"
+          />
+        }
+        id="UseExperimentalGossip"
+        label={
+          <FormattedMessage
+            defaultMessage="Use Experimental Gossip:"
+            id="admin.cluster.UseExperimentalGossip"
+          />
+        }
+        onChange={[Function]}
+        setByEnv={false}
+        trueText={
+          <FormattedMessage
+            defaultMessage="true"
+            id="admin.true"
+          />
+        }
+        value={true}
+      />
+      <BooleanSetting
+        disabled={false}
+        falseText={
+          <FormattedMessage
+            defaultMessage="false"
+            id="admin.false"
+          />
+        }
+        helpText={
+          <FormattedMessage
+            defaultMessage="When true, all communication through the gossip protocol will be encrypted."
+            id="admin.cluster.EnableExperimentalGossipEncryptionDesc"
+          />
+        }
+        id="EnableExperimentalGossipEncryption"
+        label={
+          <FormattedMessage
+            defaultMessage="Enable Experimental Gossip encryption:"
+            id="admin.cluster.EnableExperimentalGossipEncryption"
+          />
+        }
+        onChange={[Function]}
+        setByEnv={false}
+        trueText={
+          <FormattedMessage
+            defaultMessage="true"
+            id="admin.true"
+          />
+        }
+        value={true}
+      />
+      <AdminTextSetting
+        helpText={
+          <FormattedMessage
+            defaultMessage="The port used for the gossip protocol.  Both UDP and TCP should be allowed on this port."
+            id="admin.cluster.GossipPortDesc"
+          />
+        }
+        id="GossipPort"
+        label={
+          <FormattedMessage
+            defaultMessage="Gossip Port:"
+            id="admin.cluster.GossipPort"
+          />
+        }
+        onChange={[Function]}
+        placeholder="E.g.: \\"8074\\""
+        setByEnv={false}
+        value={8074}
+      />
+      <AdminTextSetting
+        helpText={
+          <FormattedMessage
+            defaultMessage="The port used for streaming data between servers."
+            id="admin.cluster.StreamingPortDesc"
+          />
+        }
+        id="StreamingPort"
+        label={
+          <FormattedMessage
+            defaultMessage="Streaming Port:"
+            id="admin.cluster.StreamingPort"
+          />
+        }
+        onChange={[Function]}
+        placeholder="E.g.: \\"8075\\""
+        setByEnv={false}
+      />
+    </SettingsGroup>
+    <div
+      className="admin-console-save"
+    >
+      <SaveButton
+        btnClass="btn-primary"
+        defaultMessage={
+          <FormattedMessage
+            defaultMessage="Save"
+            id="save_button.save"
+          />
+        }
+        disabled={true}
+        extraClasses=""
+        onClick={[Function]}
+        saving={false}
+        savingMessage="Saving Config..."
+      />
+      <div
+        className="error-message"
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+      >
+        <FormError
+          error={null}
+          errors={Array []}
+        />
+      </div>
+      <Overlay
+        animation={[Function]}
+        placement="top"
+        rootClose={false}
+        show={false}
+      >
+        <Tooltip
+          bsClass="tooltip"
+          id="error-tooltip"
+          placement="right"
+        />
+      </Overlay>
+    </div>
+  </div>
+</form>
+`;

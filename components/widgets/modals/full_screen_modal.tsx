@@ -23,13 +23,13 @@ type Props = {
     intl: any; // TODO This needs to be replaced with IntlShape once react-intl is upgraded
 };
 
-class FullScreenModal extends React.Component<Props> {
+class FullScreenModal extends React.PureComponent<Props> {
     private modal = React.createRef<HTMLDivElement>();
 
     public componentDidMount() {
         document.addEventListener('keydown', this.handleKeypress);
         document.addEventListener('focus', this.enforceFocus, true);
-        this.resetFocus();
+        this.enforceFocus();
     }
 
     public componentWillUnmount() {
@@ -37,18 +37,10 @@ class FullScreenModal extends React.Component<Props> {
         document.removeEventListener('focus', this.enforceFocus, true);
     }
 
-    private enforceFocus = () => {
+    public enforceFocus = () => {
         setTimeout(() => {
             const currentActiveElement = document.activeElement;
             if (this.modal && this.modal.current && !this.modal.current.contains(currentActiveElement)) {
-                this.modal.current.focus();
-            }
-        });
-    }
-
-    public resetFocus = () => {
-        setTimeout(() => {
-            if (this.modal && this.modal.current) {
                 this.modal.current.focus();
             }
         });

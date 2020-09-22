@@ -15,7 +15,7 @@ import Avatar from 'components/widgets/users/avatar';
 import ManageTeamsDropdown from './manage_teams_dropdown.jsx';
 import RemoveFromTeamButton from './remove_from_team_button.jsx';
 
-export default class ManageTeamsModal extends React.Component {
+export default class ManageTeamsModal extends React.PureComponent {
     static propTypes = {
         locale: PropTypes.string.isRequired,
         onModalDismissed: PropTypes.func.isRequired,

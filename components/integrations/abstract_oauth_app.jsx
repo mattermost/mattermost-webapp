@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -272,7 +273,7 @@ export default class AbstractOAuthApp extends React.PureComponent {
                         <div className='form__help'>
                             <FormattedMessage
                                 id='add_oauth_app.trusted.help'
-                                defaultMessage="When true, the OAuth 2.0 application is considered trusted by the Mattermost server and doesn't require the user to accept authorization. When false, an additional window will appear, asking the user to accept or deny the authorization."
+                                defaultMessage='If true, the OAuth 2.0 application is considered trusted by the Mattermost server and does not require the user to accept authorization. If false, a window opens to ask the user to accept or deny the authorization.'
                             />
                         </div>
                     </div>
@@ -320,7 +321,7 @@ export default class AbstractOAuthApp extends React.PureComponent {
                                 <div className='form__help'>
                                     <FormattedMessage
                                         id='add_oauth_app.name.help'
-                                        defaultMessage='Display name for your OAuth 2.0 application made of up to 64 characters.'
+                                        defaultMessage='Specify the display name, of up to 64 characters, for your OAuth 2.0 application.'
                                     />
                                 </div>
                             </div>
@@ -347,7 +348,7 @@ export default class AbstractOAuthApp extends React.PureComponent {
                                 <div className='form__help'>
                                     <FormattedMessage
                                         id='add_oauth_app.description.help'
-                                        defaultMessage='Description for your OAuth 2.0 application.'
+                                        defaultMessage='Describe your OAuth 2.0 application.'
                                     />
                                 </div>
                             </div>
@@ -374,7 +375,7 @@ export default class AbstractOAuthApp extends React.PureComponent {
                                 <div className='form__help'>
                                     <FormattedMessage
                                         id='add_oauth_app.homepage.help'
-                                        defaultMessage='The URL for the homepage of the OAuth 2.0 application. Make sure you use HTTP or HTTPS in your URL depending on your server configuration.'
+                                        defaultMessage='This is the URL for the homepage of the OAuth 2.0 application. Depending on your server configuration, use HTTP or HTTPS in the URL.'
                                     />
                                 </div>
                             </div>
@@ -402,7 +403,7 @@ export default class AbstractOAuthApp extends React.PureComponent {
                                 <div className='form__help'>
                                     <FormattedMessage
                                         id='add_oauth_app.icon.help'
-                                        defaultMessage='The URL for the homepage of the OAuth 2.0 application. Make sure you use HTTP or HTTPS in your URL depending on your server configuration.'
+                                        defaultMessage='(Optional) The URL of the image used for your OAuth 2.0 application. Make sure you use HTTP or HTTPS in your URL.'
                                     />
                                 </div>
                             </div>
@@ -469,3 +470,4 @@ export default class AbstractOAuthApp extends React.PureComponent {
         );
     }
 }
+/* eslint-enable react/no-string-refs */

@@ -24,7 +24,7 @@ export default class PasswordResetForm extends React.PureComponent {
         super(props);
 
         this.state = {
-            error: null
+            error: null,
         };
 
         this.passwordInput = React.createRef();

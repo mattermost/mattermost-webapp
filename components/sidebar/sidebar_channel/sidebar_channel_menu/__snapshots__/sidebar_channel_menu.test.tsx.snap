@@ -1,0 +1,739 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match snapshot and contain correct buttons 1`] = `
+<Connect(SidebarMenu)
+  ariaLabel="Channel Menu"
+  buttonAriaLabel="Channel Menu"
+  id="SidebarChannelMenu-channel_id"
+  isMenuOpen={false}
+  onToggleMenu={[Function]}
+  refCallback={[Function]}
+  tabIndex={0}
+  tooltipText="Channel options"
+>
+  <MenuGroup>
+    <MenuItemAction
+      icon={
+        <i
+          className="icon-star-outline"
+        />
+      }
+      id="favorite-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Favorite"
+    />
+    <MenuItemAction
+      icon={
+        <i
+          className="icon-bell-outline"
+        />
+      }
+      id="mute-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Mute Channel"
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <SubMenuItem
+      direction="right"
+      icon={
+        <i
+          className="icon-folder-move-outline"
+        />
+      }
+      id="moveTo-channel_id"
+      openUp={false}
+      show={true}
+      subMenu={
+        Array [
+          Object {
+            "id": "SidebarChannelMenu-moveToDivider",
+            "text": <li
+              className="MenuGroup menu-divider"
+            />,
+          },
+          Object {
+            "action": [Function],
+            "direction": "right",
+            "icon": <i
+              className="icon-folder-move-outline"
+            />,
+            "id": "moveToNewCategory-channel_id",
+            "text": "New Category",
+          },
+        ]
+      }
+      text="Move to"
+      xOffset={0}
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <MenuItemAction
+      icon={
+        <i
+          className="icon-link-variant"
+        />
+      }
+      id="copyLink-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Copy Link"
+    />
+    <MenuItemAction
+      icon={
+        <i
+          className="icon-account-outline"
+        />
+      }
+      id="addMembers-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Add Members"
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <MenuItemAction
+      icon={
+        <i
+          className="icon-close"
+        />
+      }
+      id="leave-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Leave Channel"
+    />
+  </MenuGroup>
+</Connect(SidebarMenu)>
+`;
+
+exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match snapshot when channel is DM 1`] = `
+<Connect(SidebarMenu)
+  ariaLabel="Channel Menu"
+  buttonAriaLabel="Channel Menu"
+  id="SidebarChannelMenu-channel_id"
+  isMenuOpen={false}
+  onToggleMenu={[Function]}
+  refCallback={[Function]}
+  tabIndex={0}
+  tooltipText="Channel options"
+>
+  <MenuGroup>
+    <MenuItemAction
+      icon={
+        <i
+          className="icon-star-outline"
+        />
+      }
+      id="favorite-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Favorite"
+    />
+    <MenuItemAction
+      icon={
+        <i
+          className="icon-bell-outline"
+        />
+      }
+      id="mute-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Mute Conversation"
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <SubMenuItem
+      direction="right"
+      icon={
+        <i
+          className="icon-folder-move-outline"
+        />
+      }
+      id="moveTo-channel_id"
+      openUp={false}
+      show={true}
+      subMenu={
+        Array [
+          Object {
+            "id": "SidebarChannelMenu-moveToDivider",
+            "text": <li
+              className="MenuGroup menu-divider"
+            />,
+          },
+          Object {
+            "action": [Function],
+            "direction": "right",
+            "icon": <i
+              className="icon-folder-move-outline"
+            />,
+            "id": "moveToNewCategory-channel_id",
+            "text": "New Category",
+          },
+        ]
+      }
+      text="Move to"
+      xOffset={0}
+    />
+  </MenuGroup>
+  <MenuGroup />
+  <MenuGroup>
+    <MenuItemAction
+      icon={
+        <i
+          className="icon-close"
+        />
+      }
+      id="leave-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Close Conversation"
+    />
+  </MenuGroup>
+</Connect(SidebarMenu)>
+`;
+
+exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match snapshot when channel is Town Square 1`] = `
+<Connect(SidebarMenu)
+  ariaLabel="Channel Menu"
+  buttonAriaLabel="Channel Menu"
+  id="SidebarChannelMenu-channel_id"
+  isMenuOpen={false}
+  onToggleMenu={[Function]}
+  refCallback={[Function]}
+  tabIndex={0}
+  tooltipText="Channel options"
+>
+  <MenuGroup>
+    <MenuItemAction
+      icon={
+        <i
+          className="icon-star-outline"
+        />
+      }
+      id="favorite-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Favorite"
+    />
+    <MenuItemAction
+      icon={
+        <i
+          className="icon-bell-outline"
+        />
+      }
+      id="mute-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Mute Channel"
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <SubMenuItem
+      direction="right"
+      icon={
+        <i
+          className="icon-folder-move-outline"
+        />
+      }
+      id="moveTo-channel_id"
+      openUp={false}
+      show={true}
+      subMenu={
+        Array [
+          Object {
+            "id": "SidebarChannelMenu-moveToDivider",
+            "text": <li
+              className="MenuGroup menu-divider"
+            />,
+          },
+          Object {
+            "action": [Function],
+            "direction": "right",
+            "icon": <i
+              className="icon-folder-move-outline"
+            />,
+            "id": "moveToNewCategory-channel_id",
+            "text": "New Category",
+          },
+        ]
+      }
+      text="Move to"
+      xOffset={0}
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <MenuItemAction
+      icon={
+        <i
+          className="icon-link-variant"
+        />
+      }
+      id="copyLink-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Copy Link"
+    />
+    <MenuItemAction
+      icon={
+        <i
+          className="icon-account-outline"
+        />
+      }
+      id="addMembers-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Add Members"
+    />
+  </MenuGroup>
+</Connect(SidebarMenu)>
+`;
+
+exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match snapshot when channel is favorite 1`] = `
+<Connect(SidebarMenu)
+  ariaLabel="Channel Menu"
+  buttonAriaLabel="Channel Menu"
+  id="SidebarChannelMenu-channel_id"
+  isMenuOpen={false}
+  onToggleMenu={[Function]}
+  refCallback={[Function]}
+  tabIndex={0}
+  tooltipText="Channel options"
+>
+  <MenuGroup>
+    <MenuItemAction
+      icon={
+        <i
+          className="icon-star"
+        />
+      }
+      id="unfavorite-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Unfavorite"
+    />
+    <MenuItemAction
+      icon={
+        <i
+          className="icon-bell-outline"
+        />
+      }
+      id="mute-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Mute Channel"
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <SubMenuItem
+      direction="right"
+      icon={
+        <i
+          className="icon-folder-move-outline"
+        />
+      }
+      id="moveTo-channel_id"
+      openUp={false}
+      show={true}
+      subMenu={
+        Array [
+          Object {
+            "id": "SidebarChannelMenu-moveToDivider",
+            "text": <li
+              className="MenuGroup menu-divider"
+            />,
+          },
+          Object {
+            "action": [Function],
+            "direction": "right",
+            "icon": <i
+              className="icon-folder-move-outline"
+            />,
+            "id": "moveToNewCategory-channel_id",
+            "text": "New Category",
+          },
+        ]
+      }
+      text="Move to"
+      xOffset={0}
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <MenuItemAction
+      icon={
+        <i
+          className="icon-link-variant"
+        />
+      }
+      id="copyLink-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Copy Link"
+    />
+    <MenuItemAction
+      icon={
+        <i
+          className="icon-account-outline"
+        />
+      }
+      id="addMembers-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Add Members"
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <MenuItemAction
+      icon={
+        <i
+          className="icon-close"
+        />
+      }
+      id="leave-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Leave Channel"
+    />
+  </MenuGroup>
+</Connect(SidebarMenu)>
+`;
+
+exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match snapshot when channel is muted 1`] = `
+<Connect(SidebarMenu)
+  ariaLabel="Channel Menu"
+  buttonAriaLabel="Channel Menu"
+  id="SidebarChannelMenu-channel_id"
+  isMenuOpen={false}
+  onToggleMenu={[Function]}
+  refCallback={[Function]}
+  tabIndex={0}
+  tooltipText="Channel options"
+>
+  <MenuGroup>
+    <MenuItemAction
+      icon={
+        <i
+          className="icon-star-outline"
+        />
+      }
+      id="favorite-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Favorite"
+    />
+    <MenuItemAction
+      icon={
+        <i
+          className="icon-bell-off-outline"
+        />
+      }
+      id="unmute-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Unmute Channel"
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <SubMenuItem
+      direction="right"
+      icon={
+        <i
+          className="icon-folder-move-outline"
+        />
+      }
+      id="moveTo-channel_id"
+      openUp={false}
+      show={true}
+      subMenu={
+        Array [
+          Object {
+            "id": "SidebarChannelMenu-moveToDivider",
+            "text": <li
+              className="MenuGroup menu-divider"
+            />,
+          },
+          Object {
+            "action": [Function],
+            "direction": "right",
+            "icon": <i
+              className="icon-folder-move-outline"
+            />,
+            "id": "moveToNewCategory-channel_id",
+            "text": "New Category",
+          },
+        ]
+      }
+      text="Move to"
+      xOffset={0}
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <MenuItemAction
+      icon={
+        <i
+          className="icon-link-variant"
+        />
+      }
+      id="copyLink-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Copy Link"
+    />
+    <MenuItemAction
+      icon={
+        <i
+          className="icon-account-outline"
+        />
+      }
+      id="addMembers-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Add Members"
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <MenuItemAction
+      icon={
+        <i
+          className="icon-close"
+        />
+      }
+      id="leave-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Leave Channel"
+    />
+  </MenuGroup>
+</Connect(SidebarMenu)>
+`;
+
+exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match snapshot when channel is private 1`] = `
+<Connect(SidebarMenu)
+  ariaLabel="Channel Menu"
+  buttonAriaLabel="Channel Menu"
+  id="SidebarChannelMenu-channel_id"
+  isMenuOpen={false}
+  onToggleMenu={[Function]}
+  refCallback={[Function]}
+  tabIndex={0}
+  tooltipText="Channel options"
+>
+  <MenuGroup>
+    <MenuItemAction
+      icon={
+        <i
+          className="icon-star-outline"
+        />
+      }
+      id="favorite-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Favorite"
+    />
+    <MenuItemAction
+      icon={
+        <i
+          className="icon-bell-outline"
+        />
+      }
+      id="mute-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Mute Channel"
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <SubMenuItem
+      direction="right"
+      icon={
+        <i
+          className="icon-folder-move-outline"
+        />
+      }
+      id="moveTo-channel_id"
+      openUp={false}
+      show={true}
+      subMenu={
+        Array [
+          Object {
+            "id": "SidebarChannelMenu-moveToDivider",
+            "text": <li
+              className="MenuGroup menu-divider"
+            />,
+          },
+          Object {
+            "action": [Function],
+            "direction": "right",
+            "icon": <i
+              className="icon-folder-move-outline"
+            />,
+            "id": "moveToNewCategory-channel_id",
+            "text": "New Category",
+          },
+        ]
+      }
+      text="Move to"
+      xOffset={0}
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <MenuItemAction
+      icon={
+        <i
+          className="icon-link-variant"
+        />
+      }
+      id="copyLink-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Copy Link"
+    />
+    <MenuItemAction
+      icon={
+        <i
+          className="icon-account-outline"
+        />
+      }
+      id="addMembers-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Add Members"
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <MenuItemAction
+      icon={
+        <i
+          className="icon-close"
+        />
+      }
+      id="leave-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Leave Channel"
+    />
+  </MenuGroup>
+</Connect(SidebarMenu)>
+`;
+
+exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match snapshot when channel is unread 1`] = `
+<Connect(SidebarMenu)
+  ariaLabel="Channel Menu"
+  buttonAriaLabel="Channel Menu"
+  id="SidebarChannelMenu-channel_id"
+  isMenuOpen={false}
+  onToggleMenu={[Function]}
+  refCallback={[Function]}
+  tabIndex={0}
+  tooltipText="Channel options"
+>
+  <MenuGroup>
+    <MenuItemAction
+      icon={
+        <i
+          className="icon-mark-as-unread"
+        />
+      }
+      id="markAsRead-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Mark as Read"
+    />
+    <MenuItemAction
+      icon={
+        <i
+          className="icon-star-outline"
+        />
+      }
+      id="favorite-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Favorite"
+    />
+    <MenuItemAction
+      icon={
+        <i
+          className="icon-bell-outline"
+        />
+      }
+      id="mute-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Mute Channel"
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <SubMenuItem
+      direction="right"
+      icon={
+        <i
+          className="icon-folder-move-outline"
+        />
+      }
+      id="moveTo-channel_id"
+      openUp={false}
+      show={true}
+      subMenu={
+        Array [
+          Object {
+            "id": "SidebarChannelMenu-moveToDivider",
+            "text": <li
+              className="MenuGroup menu-divider"
+            />,
+          },
+          Object {
+            "action": [Function],
+            "direction": "right",
+            "icon": <i
+              className="icon-folder-move-outline"
+            />,
+            "id": "moveToNewCategory-channel_id",
+            "text": "New Category",
+          },
+        ]
+      }
+      text="Move to"
+      xOffset={0}
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <MenuItemAction
+      icon={
+        <i
+          className="icon-link-variant"
+        />
+      }
+      id="copyLink-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Copy Link"
+    />
+    <MenuItemAction
+      icon={
+        <i
+          className="icon-account-outline"
+        />
+      }
+      id="addMembers-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Add Members"
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <MenuItemAction
+      icon={
+        <i
+          className="icon-close"
+        />
+      }
+      id="leave-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Leave Channel"
+    />
+  </MenuGroup>
+</Connect(SidebarMenu)>
+`;

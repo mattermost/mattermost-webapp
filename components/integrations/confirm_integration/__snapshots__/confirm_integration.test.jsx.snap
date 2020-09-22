@@ -13,13 +13,11 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, comma
       <FormattedMessage
         defaultMessage="Slash Commands"
         id="installed_commands.header"
-        values={Object {}}
       />
     </Link>
     <FormattedMessage
       defaultMessage="Add"
       id="integrations.add"
-      values={Object {}}
     />
   </BackstageHeader>
   <div
@@ -32,12 +30,11 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, comma
       <FormattedMessage
         defaultMessage="Setup Successful"
         id="integrations.successful"
-        values={Object {}}
       />
     </h4>
     <p>
       <injectIntl(FormattedMarkdownMessage)
-        defaultMessage="Your slash command has been set up. The following token will be sent in the outgoing payload. Please use it to verify the request came from your Mattermost team (see [documentation](!https://docs.mattermost.com/developer/slash-commands.html) for further details)."
+        defaultMessage="Your slash command is set up. The following token will be sent in the outgoing payload. Please use it to verify the request came from your Mattermost team (details at [Slash Commands](!https://docs.mattermost.com/developer/slash-commands.html))."
         id="add_command.doneHelp"
       />
     </p>
@@ -71,7 +68,6 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, comma
         <FormattedMessage
           defaultMessage="Done"
           id="integrations.done"
-          values={Object {}}
         />
       </Link>
     </div>
@@ -90,13 +86,11 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, incom
       <FormattedMessage
         defaultMessage="Incoming Webhooks"
         id="installed_incoming_webhooks.header"
-        values={Object {}}
       />
     </Link>
     <FormattedMessage
       defaultMessage="Add"
       id="integrations.add"
-      values={Object {}}
     />
   </BackstageHeader>
   <div
@@ -109,12 +103,11 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, incom
       <FormattedMessage
         defaultMessage="Setup Successful"
         id="integrations.successful"
-        values={Object {}}
       />
     </h4>
     <p>
       <injectIntl(FormattedMarkdownMessage)
-        defaultMessage="Your incoming webhook has been set up. Please send data to the following URL (see [documentation](!https://docs.mattermost.com/developer/webhooks-incoming.html) for further details)."
+        defaultMessage="Your incoming webhook is set up. Please send data to the following URL (details at [Incoming Webhooks](!https://docs.mattermost.com/developer/webhooks-incoming.html))."
         id="add_incoming_webhook.doneHelp"
       />
     </p>
@@ -148,7 +141,6 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, incom
         <FormattedMessage
           defaultMessage="Done"
           id="integrations.done"
-          values={Object {}}
         />
       </Link>
     </div>
@@ -167,13 +159,11 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, oauth
       <FormattedMessage
         defaultMessage="OAuth 2.0 Applications"
         id="installed_oauth_apps.header"
-        values={Object {}}
       />
     </Link>
     <FormattedMessage
       defaultMessage="Add"
       id="integrations.add"
-      values={Object {}}
     />
   </BackstageHeader>
   <div
@@ -186,14 +176,13 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, oauth
       <FormattedMessage
         defaultMessage="Setup Successful"
         id="integrations.successful"
-        values={Object {}}
       />
     </h4>
     <p
       key="add_oauth_app.doneHelp"
     >
       <injectIntl(FormattedMarkdownMessage)
-        defaultMessage="Your OAuth 2.0 application has been set up. Please use the following Client ID and Client Secret when requesting authorization for your application (see [documentation](!https://docs.mattermost.com/developer/oauth-2-0-applications.html) for further details)."
+        defaultMessage="Your OAuth 2.0 application is set up. Please use the following Client ID and Client Secret when requesting authorization for your application (details at [oAuth 2 Applications](!https://docs.mattermost.com/developer/oauth-2-0-applications.html))."
         id="add_oauth_app.doneHelp"
       />
     </p>
@@ -234,9 +223,8 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, oauth
       key="add_oauth_app.doneUrlHelp"
     >
       <FormattedMessage
-        defaultMessage="The following are your authorized redirect URL(s)."
+        defaultMessage="Here are your authorized redirect URLs."
         id="add_oauth_app.doneUrlHelp"
-        values={Object {}}
       />
     </p>
     <p
@@ -264,7 +252,6 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, oauth
         <FormattedMessage
           defaultMessage="Done"
           id="integrations.done"
-          values={Object {}}
         />
       </Link>
     </div>
@@ -285,13 +272,11 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, outgo
       <FormattedMessage
         defaultMessage="Outgoing Webhooks"
         id="installed_outgoing_webhooks.header"
-        values={Object {}}
       />
     </Link>
     <FormattedMessage
       defaultMessage="Add"
       id="integrations.add"
-      values={Object {}}
     />
   </BackstageHeader>
   <div
@@ -304,12 +289,11 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, outgo
       <FormattedMessage
         defaultMessage="Setup Successful"
         id="integrations.successful"
-        values={Object {}}
       />
     </h4>
     <p>
       <injectIntl(FormattedMarkdownMessage)
-        defaultMessage="Your outgoing webhook has been set up. The following token will be sent in the outgoing payload. Please use it to verify the request came from your Mattermost team (see [documentation](!https://docs.mattermost.com/developer/webhooks-outgoing.html) for further details)."
+        defaultMessage="Your outgoing webhook is set up. The following token will be sent in the outgoing payload. Please use it to verify that the request came from your Mattermost team (details at [Outgoing Webhooks](!https://docs.mattermost.com/developer/webhooks-outgoing.html))."
         id="add_outgoing_webhook.doneHelp"
       />
     </p>
@@ -343,7 +327,6 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, outgo
         <FormattedMessage
           defaultMessage="Done"
           id="integrations.done"
-          values={Object {}}
         />
       </Link>
     </div>

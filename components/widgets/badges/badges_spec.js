@@ -16,6 +16,8 @@
 
 describe('Widgets - Badges', () => {
     before(() => {
+        cy.requireStorybookServer();
+
         // # Go to widget story and verify that it renders regular badge
         cy.toWidgetStory('/story/badges--regular-badge');
         cy.get('.sidebar-container').should('be.visible').within(() => {

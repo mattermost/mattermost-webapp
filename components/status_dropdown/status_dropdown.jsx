@@ -8,13 +8,17 @@ import {FormattedMessage} from 'react-intl';
 import {UserStatuses, ModalIdentifiers} from 'utils/constants';
 import {localizeMessage} from 'utils/utils.jsx';
 import ResetStatusModal from 'components/reset_status_modal';
-import StatusIcon from 'components/status_icon.jsx';
+import StatusIcon from 'components/status_icon';
 
 import Avatar from 'components/widgets/users/avatar';
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
+import StatusAwayIcon from 'components/widgets/icons/status_away_icon';
+import StatusOnlineIcon from 'components/widgets/icons/status_online_icon';
+import StatusDndIcon from 'components/widgets/icons/status_dnd_icon';
+import StatusOfflineIcon from 'components/widgets/icons/status_offline_icon';
 
-export default class StatusDropdown extends React.Component {
+export default class StatusDropdown extends React.PureComponent {
     static propTypes = {
         style: PropTypes.object,
         status: PropTypes.string,
@@ -95,7 +99,7 @@ export default class StatusDropdown extends React.Component {
                 { (title) => (
                     <i
                         className={'fa fa-caret-down'}
-                        title={title}
+                        aria-label={title}
                     />)
                 }
             </FormattedMessage>
@@ -116,12 +120,13 @@ export default class StatusDropdown extends React.Component {
             <MenuWrapper
                 onToggle={this.onToggle}
                 style={this.props.style}
+                className={'status-dropdown-menu'}
             >
                 <div className='status-wrapper status-selector'>
                     {profilePicture}
                     <button
                         className='status style--none'
-                        aria-label={localizeMessage('status_dropdown.menuAriaLabel', 'set status')}
+                        aria-label={localizeMessage('status_dropdown.menuAriaLabel', 'Set a status')}
                     >
                         <StatusIcon
                             status={this.props.status}
@@ -132,7 +137,16 @@ export default class StatusDropdown extends React.Component {
                         {dropdownIcon}
                     </span>
                 </div>
-                <Menu ariaLabel={localizeMessage('status_dropdown.menuAriaLabel', 'set status')}>
+                <Menu
+                    ariaLabel={localizeMessage('status_dropdown.menuAriaLabel', 'Set a status')}
+                    id='statusDropdownMenu'
+                >
+                    <Menu.Header>
+                        <FormattedMessage
+                            id='status_dropdown.set_your_status'
+                            defaultMessage='Status'
+                        />
+                    </Menu.Header>
                     <Menu.Group>
                         <Menu.ItemAction
                             show={this.isUserOutOfOffice()}
@@ -147,22 +161,30 @@ export default class StatusDropdown extends React.Component {
                             onClick={setOnline}
                             ariaLabel={localizeMessage('status_dropdown.set_online', 'Online').toLowerCase()}
                             text={localizeMessage('status_dropdown.set_online', 'Online')}
+                            icon={<StatusOnlineIcon className={'online--icon'}/>}
+                            id={'status-menu-online'}
                         />
                         <Menu.ItemAction
                             onClick={setAway}
                             ariaLabel={localizeMessage('status_dropdown.set_away', 'Away').toLowerCase()}
                             text={localizeMessage('status_dropdown.set_away', 'Away')}
+                            icon={<StatusAwayIcon className={'away--icon'}/>}
+                            id={'status-menu-away'}
                         />
                         <Menu.ItemAction
                             onClick={setDnd}
                             ariaLabel={`${localizeMessage('status_dropdown.set_dnd', 'Do not disturb').toLowerCase()}. ${localizeMessage('status_dropdown.set_dnd.extra', 'Disables desktop, email and push notifications').toLowerCase()}`}
                             text={localizeMessage('status_dropdown.set_dnd', 'Do not disturb')}
-                            extraText={localizeMessage('status_dropdown.set_dnd.extra', 'Disables desktop, email and push notifications')}
+                            extraText={localizeMessage('status_dropdown.set_dnd.extra', 'Disables all notifications')}
+                            icon={<StatusDndIcon className={'dnd--icon'}/>}
+                            id={'status-menu-dnd'}
                         />
                         <Menu.ItemAction
                             onClick={setOffline}
                             ariaLabel={localizeMessage('status_dropdown.set_offline', 'Offline').toLowerCase()}
                             text={localizeMessage('status_dropdown.set_offline', 'Offline')}
+                            icon={<StatusOfflineIcon/>}
+                            id={'status-menu-offline'}
                         />
                     </Menu.Group>
                 </Menu>

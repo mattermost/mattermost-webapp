@@ -26,7 +26,7 @@ describe('components/LeavePrivateChannelModal', () => {
             delete_at: 0,
             last_post_at: 0,
             total_msg_count: 0,
-            extra_update_at: 0
+            extra_update_at: 0,
         },
         'channel-2': {
             id: 'channel-2',
@@ -44,7 +44,7 @@ describe('components/LeavePrivateChannelModal', () => {
             delete_at: 0,
             last_post_at: 0,
             total_msg_count: 0,
-            extra_update_at: 0
+            extra_update_at: 0,
         },
         'town-square': {
             id: 'town-square-id',
@@ -62,7 +62,7 @@ describe('components/LeavePrivateChannelModal', () => {
             delete_at: 0,
             last_post_at: 0,
             total_msg_count: 0,
-            extra_update_at: 0
+            extra_update_at: 0,
         },
     };
 
@@ -76,7 +76,7 @@ describe('components/LeavePrivateChannelModal', () => {
         const wrapper = shallow(
             <LeavePrivateChannelModal
                 {...baseProps}
-            />
+            />,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -86,7 +86,7 @@ describe('components/LeavePrivateChannelModal', () => {
         const wrapper = shallow<LeavePrivateChannelModal>(
             <LeavePrivateChannelModal
                 {...baseProps}
-            />
+            />,
         );
 
         wrapper.instance().handleToggle(channels['channel-2']);
@@ -112,7 +112,7 @@ describe('components/LeavePrivateChannelModal', () => {
         const wrapper = shallow<LeavePrivateChannelModal>(
             <LeavePrivateChannelModal
                 {...props}
-            />
+            />,
         );
 
         wrapper.setState({
@@ -143,7 +143,7 @@ describe('components/LeavePrivateChannelModal', () => {
         const wrapper = shallow<LeavePrivateChannelModal>(
             <LeavePrivateChannelModal
                 {...props}
-            />
+            />,
         );
 
         wrapper.setState({

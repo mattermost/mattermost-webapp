@@ -2,101 +2,121 @@
 // See LICENSE.txt for license information.
 
 // ***************************************************************
-// - [number] indicates a test step (e.g. 1. Go to a page)
+// - [#] indicates a test step (e.g. # Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+// Group: @messaging
+
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Message permalink', () => {
+    function ignoreUncaughtException() {
+        cy.on('uncaught:exception', (err) => {
+            expect(err.message).to.include('Cannot clear timer: timer created');
+
+            return false;
+        });
+    }
+
+    let testTeam;
+    let testChannel;
+    let testUser;
+    let otherUser;
+
     before(() => {
-        // # Login and go to /
-        cy.apiLogin('user-1');
-        cy.visit('/');
-    });
+        cy.apiInitSetup().then(({team, channel, user}) => {
+            testTeam = team;
+            testChannel = channel;
+            testUser = user;
 
-    it('M13675-Copy a permalink and paste into another channel', () => {
-        const message = 'Hello' + Date.now();
-        const channelName = 'test-message-channel-1';
+            cy.apiCreateUser().then(({user: user1}) => {
+                otherUser = user1;
 
-        // # Create new DM channel with user's email
-        cy.apiGetUsers(['user-1', 'sysadmin']).then((userResponse) => {
-            const userEmailArray = [userResponse.body[1].id, userResponse.body[0].id];
-
-            cy.apiCreateDirectChannel(userEmailArray).then(() => {
-                cy.visit('/ad-1/messages/@sysadmin');
-
-                // # Post message to use
-                cy.postMessage(message);
-
-                cy.getLastPostId().then((postId) => {
-                    // # check if ... button is visible in last post right side
-                    cy.get(`#CENTER_button_${postId}`).should('not.be.visible');
-
-                    // # click on ... button of last post
-                    cy.clickPostDotMenu(postId);
-
-                    // spy on function and verify it
-                    cy.document().then((doc) => {
-                        cy.spy(doc, 'execCommand').as('execCommandSpy');
-                    });
-
-                    // # click on permalink option
-                    cy.get(`#permalink_${postId}`).should('be.visible').click();
-
-                    // # copy permalink from button
-                    cy.get('#linkModalCopyLink').click();
-
-                    // # Copy link url from text area
-                    cy.get('#linkModalTextArea').invoke('val').as('linkText');
-
-                    cy.get('@execCommandSpy').should('have.been.calledWith', 'copy');
-
-                    // # close modal dialog
-                    cy.get('#linkModalCloseButton').click();
+                cy.apiAddUserToTeam(testTeam.id, otherUser.id).then(() => {
+                    // # Login as test user and create DM with other user
+                    cy.apiLogin(testUser);
+                    cy.apiCreateDirectChannel([testUser.id, otherUser.id]);
                 });
             });
         });
+    });
 
-        // # get current team id
-        cy.getCurrentTeamId().then((teamId) => {
-            // # create public channel to post permalink
-            cy.apiCreateChannel(teamId, channelName, channelName, 'O', 'Test channel').then((response) => {
-                const testChannel = response.body;
+    beforeEach(() => {
+        cy.visit(`/${testTeam.name}/messages/@${otherUser.username}`);
+    });
 
-                cy.apiSaveMessageDisplayPreference('compact');
-                verifyPermalink(message, testChannel);
+    it('MM-T177 Copy a permalink and paste into another channel', () => {
+        // # Post message to use
+        const message = 'Hello' + Date.now();
+        cy.postMessage(message);
 
-                cy.apiSaveMessageDisplayPreference('clean');
-                verifyPermalink(message, testChannel);
-            });
+        cy.getLastPostId().then((postId) => {
+            const permalink = `${Cypress.config('baseUrl')}/${testTeam.name}/pl/${postId}`;
+
+            // # Check if ... button is visible in last post right side
+            cy.get(`#CENTER_button_${postId}`).should('not.be.visible');
+
+            // # Click on ... button of last post
+            cy.clickPostDotMenu(postId);
+
+            // # Click on "Copy Link"
+            cy.uiClickCopyLink(permalink);
+
+            const dmChannelLink = `/${testTeam.name}/messages/@${otherUser.username}`;
+            cy.apiSaveMessageDisplayPreference('compact');
+            verifyPermalink(message, testChannel, permalink, postId, dmChannelLink);
+
+            cy.apiSaveMessageDisplayPreference('clean');
+            verifyPermalink(message, testChannel, permalink, postId, dmChannelLink);
+        });
+    });
+
+    it('Permalink highlight should fade after timeout and change to channel url', () => {
+        ignoreUncaughtException();
+
+        // # Post message to use
+        const message = 'Hello' + Date.now();
+        cy.postMessage(message);
+
+        cy.getLastPostId().then((postId) => {
+            const link = `/${testTeam.name}/messages/@${otherUser.username}/${postId}`;
+            cy.visit(link);
+            cy.url().should('include', link);
+            cy.get(`#post_${postId}`, {timeout: TIMEOUTS.HALF_MIN}).should('have.class', 'post--highlight');
+            cy.clock();
+            cy.tick(6000);
+            cy.get(`#post_${postId}`).should('not.have.class', 'post--highlight');
+            cy.url().should('not.include', postId);
         });
     });
 });
 
-function verifyPermalink(message, testChannel) {
-    // # click on test public channel
+function verifyPermalink(message, testChannel, permalink, postId, dmChannelLink) {
+    // # Click on test public channel
     cy.get('#sidebarItem_' + testChannel.name).click({force: true});
-    cy.wait(TIMEOUTS.TINY);
+    cy.wait(TIMEOUTS.HALF_SEC);
 
-    // # paste link on postlist area
-    cy.get('@linkText').then((linkText) => {
-        cy.postMessage(linkText);
+    // # Paste link on postlist area
+    cy.postMessage(permalink);
 
-        // # Get last post id from that postlist area
-        cy.getLastPostId().then((postId) => {
-            // # Click on permalink
-            cy.get(`#postMessageText_${postId} > p > .markdown__link`).scrollIntoView().click();
+    // # Get last post id from that postlist area
+    cy.getLastPostId().then((id) => {
+        // # Click on permalink
+        cy.get(`#postMessageText_${id} > p > .markdown__link`).scrollIntoView().click();
 
-            // # Check if url include the permalink
-            cy.url().should('include', linkText);
-        });
+        // # Check if url include the permalink
+        cy.url().should('include', `${dmChannelLink}/${postId}`);
 
-        // # Get last post id from open channel
-        cy.getLastPostId().then((clickedpostid) => {
-            // # Check the sent message
-            cy.get(`#postMessageText_${clickedpostid}`).should('be.visible').and('have.text', message);
-        });
+        // * Check if url redirects back to parent path eventually
+        cy.wait(TIMEOUTS.FIVE_SEC).url().should('include', dmChannelLink).and('not.include', `/${postId}`);
+    });
+
+    // # Get last post id from open channel
+    cy.getLastPostId().then((clickedpostid) => {
+        // # Check the sent message
+        cy.get(`#postMessageText_${clickedpostid}`).should('be.visible').and('have.text', message);
     });
 }

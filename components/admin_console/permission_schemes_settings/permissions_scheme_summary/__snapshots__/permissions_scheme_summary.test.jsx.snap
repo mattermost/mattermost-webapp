@@ -3,6 +3,7 @@
 exports[`components/admin_console/permission_schemes_settings/permissions_scheme_summary should match snapshot on default data 1`] = `
 <div
   className="permissions-scheme-summary"
+  data-testid="permissions-scheme-summary"
   onClick={[Function]}
 >
   <div
@@ -18,7 +19,6 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
           <FormattedMessage
             defaultMessage="Yes, Delete"
             id="admin.permissions.permissionsSchemeSummary.deleteConfirmButton"
-            values={Object {}}
           />
         </LoadingWrapper>
       }
@@ -67,23 +67,23 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
     >
       <Link
         className="edit-button"
+        data-testid="Test-edit"
         to="/admin_console/user_management/permissions/team_override_scheme/id"
       >
         <FormattedMessage
           defaultMessage="Edit"
           id="admin.permissions.permissionsSchemeSummary.edit"
-          values={Object {}}
         />
       </Link>
       -
       <a
         className="delete-button"
+        data-testid="Test-delete"
         onClick={[Function]}
       >
         <FormattedMessage
           defaultMessage="Delete"
           id="admin.permissions.permissionsSchemeSummary.delete"
-          values={Object {}}
         />
       </a>
     </div>
@@ -121,6 +121,7 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
 exports[`components/admin_console/permission_schemes_settings/permissions_scheme_summary should match snapshot on more than eight teams 1`] = `
 <div
   className="permissions-scheme-summary"
+  data-testid="permissions-scheme-summary"
   onClick={[Function]}
 >
   <div
@@ -136,7 +137,6 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
           <FormattedMessage
             defaultMessage="Yes, Delete"
             id="admin.permissions.permissionsSchemeSummary.deleteConfirmButton"
-            values={Object {}}
           />
         </LoadingWrapper>
       }
@@ -185,23 +185,23 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
     >
       <Link
         className="edit-button"
+        data-testid="Test-edit"
         to="/admin_console/user_management/permissions/team_override_scheme/id"
       >
         <FormattedMessage
           defaultMessage="Edit"
           id="admin.permissions.permissionsSchemeSummary.edit"
-          values={Object {}}
         />
       </Link>
       -
       <a
         className="delete-button"
+        data-testid="Test-delete"
         onClick={[Function]}
       >
         <FormattedMessage
           defaultMessage="Delete"
           id="admin.permissions.permissionsSchemeSummary.delete"
-          values={Object {}}
         />
       </a>
     </div>
@@ -314,6 +314,7 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
 exports[`components/admin_console/permission_schemes_settings/permissions_scheme_summary should match snapshot on no teams 1`] = `
 <div
   className="permissions-scheme-summary"
+  data-testid="permissions-scheme-summary"
   onClick={[Function]}
 >
   <div
@@ -329,7 +330,6 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
           <FormattedMessage
             defaultMessage="Yes, Delete"
             id="admin.permissions.permissionsSchemeSummary.deleteConfirmButton"
-            values={Object {}}
           />
         </LoadingWrapper>
       }
@@ -378,23 +378,23 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
     >
       <Link
         className="edit-button"
+        data-testid="Test-edit"
         to="/admin_console/user_management/permissions/team_override_scheme/id"
       >
         <FormattedMessage
           defaultMessage="Edit"
           id="admin.permissions.permissionsSchemeSummary.edit"
-          values={Object {}}
         />
       </Link>
       -
       <a
         className="delete-button"
+        data-testid="Test-delete"
         onClick={[Function]}
       >
         <FormattedMessage
           defaultMessage="Delete"
           id="admin.permissions.permissionsSchemeSummary.delete"
-          values={Object {}}
         />
       </a>
     </div>

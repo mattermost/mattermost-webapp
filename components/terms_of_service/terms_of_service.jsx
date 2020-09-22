@@ -28,6 +28,7 @@ export default class TermsOfService extends React.PureComponent {
             getTermsOfService: PropTypes.func.isRequired,
             updateMyTermsOfServiceStatus: PropTypes.func.isRequired,
         }).isRequired,
+        emojiMap: PropTypes.object.isRequired,
     };
 
     constructor(props) {
@@ -42,7 +43,7 @@ export default class TermsOfService extends React.PureComponent {
             serverError: null,
         };
 
-        this.formattedText = memoizeResult((text) => formatText(text));
+        this.formattedText = memoizeResult((text) => formatText(text, {}, props.emojiMap));
     }
 
     componentDidMount() {
@@ -91,7 +92,7 @@ export default class TermsOfService extends React.PureComponent {
                 } else {
                     GlobalActions.redirectUserToDefaultTeam();
                 }
-            }
+            },
         );
     };
 
@@ -104,7 +105,7 @@ export default class TermsOfService extends React.PureComponent {
             false,
             () => {
                 GlobalActions.emitUserLoggedOutEvent(`/login?extra=${Constants.TERMS_REJECTED}`);
-            }
+            },
         );
     };
 
@@ -155,7 +156,10 @@ export default class TermsOfService extends React.PureComponent {
                 <div>
                     <div className='signup-team__container terms-of-service__container'>
                         <div className={termsMarkdownClasses}>
-                            <div className='medium-center'>
+                            <div
+                                className='medium-center'
+                                data-testid='termsOfService'
+                            >
                                 {messageHtmlToComponent(this.formattedText(this.state.customTermsOfServiceText), false, {mentions: false})}
                             </div>
                         </div>

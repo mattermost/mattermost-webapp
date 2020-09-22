@@ -21,9 +21,10 @@ describe('components/post_view/post_list_row', () => {
         const listId = PostListRowListIds.OLDER_MESSAGES_LOADER;
         const props = {
             listId,
+            loadingOlderPosts: true,
         };
         const wrapper = shallow(
-            <PostListRow {...props}/>
+            <PostListRow {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -36,7 +37,7 @@ describe('components/post_view/post_list_row', () => {
             loadOlderPosts,
         };
         const wrapper = shallow(
-            <PostListRow {...props}/>
+            <PostListRow {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
         wrapper.prop('onClick')();
@@ -54,7 +55,7 @@ describe('components/post_view/post_list_row', () => {
         };
 
         const wrapper = shallow(
-            <PostListRow {...props}/>
+            <PostListRow {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find(ChannelIntroMessage).exists()).toBe(true);
@@ -66,7 +67,7 @@ describe('components/post_view/post_list_row', () => {
             listId,
         };
         const wrapper = shallow(
-            <PostListRow {...props}/>
+            <PostListRow {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find(NewMessageSeparator).exists()).toBe(true);
@@ -78,7 +79,7 @@ describe('components/post_view/post_list_row', () => {
             listId,
         };
         const wrapper = shallow(
-            <PostListRow {...props}/>
+            <PostListRow {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find(DateSeparator).exists()).toBe(true);
@@ -91,7 +92,7 @@ describe('components/post_view/post_list_row', () => {
             previousListId: 'abcd',
         };
         const wrapper = shallow(
-            <PostListRow {...props}/>
+            <PostListRow {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find(CombinedUserActivityPost).exists()).toBe(true);
@@ -104,9 +105,33 @@ describe('components/post_view/post_list_row', () => {
             previousListId: 'abcd',
         };
         const wrapper = shallow(
-            <PostListRow {...props}/>
+            <PostListRow {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find(Post).exists()).toBe(true);
+    });
+
+    test('should have class hideAnimation for OLDER_MESSAGES_LOADER if loadingOlderPosts is false', () => {
+        const listId = PostListRowListIds.OLDER_MESSAGES_LOADER;
+        const props = {
+            listId,
+            loadingOlderPosts: false,
+        };
+        const wrapper = shallow(
+            <PostListRow {...props}/>,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should have class hideAnimation for NEWER_MESSAGES_LOADER if loadingNewerPosts is false', () => {
+        const listId = PostListRowListIds.NEWER_MESSAGES_LOADER;
+        const props = {
+            listId,
+            loadingNewerPosts: false,
+        };
+        const wrapper = shallow(
+            <PostListRow {...props}/>,
+        );
+        expect(wrapper).toMatchSnapshot();
     });
 });

@@ -1,9 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 import * as UserUtils from 'mattermost-redux/utils/user_utils';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
@@ -23,7 +24,7 @@ const TOKEN_CREATING = 'creating';
 const TOKEN_CREATED = 'created';
 const TOKEN_NOT_CREATING = 'not_creating';
 
-export default class UserAccessTokenSection extends React.Component {
+export default class UserAccessTokenSection extends React.PureComponent {
     static propTypes = {
         user: PropTypes.object,
         active: PropTypes.bool,
@@ -122,7 +123,7 @@ export default class UserAccessTokenSection extends React.Component {
             ),
             confirmMessage: (state) => (
                 <div>
-                    <FormattedHTMLMessage
+                    <FormattedMessage
                         id='user.settings.tokens.confirmCopyMessage'
                         defaultMessage="Make sure you have copied and saved the access token below. You won't be able to see it again!"
                     />
@@ -193,7 +194,7 @@ export default class UserAccessTokenSection extends React.Component {
             ),
             confirmMessage: () => (
                 <div className='alert alert-danger'>
-                    <FormattedHTMLMessage
+                    <FormattedMessage
                         id='user.settings.tokens.confirmCreateMessage'
                         defaultMessage='You are generating a personal access token with System Admin permissions. Are you sure want to create this token?'
                     />
@@ -383,7 +384,7 @@ export default class UserAccessTokenSection extends React.Component {
                         </a>
                     </div>
                     <hr className='mb-3 mt-3'/>
-                </div>
+                </div>,
             );
         });
 
@@ -546,7 +547,7 @@ export default class UserAccessTokenSection extends React.Component {
                     </div>
                     {newTokenSection}
                 </div>
-            </div>
+            </div>,
         );
 
         return (
@@ -580,3 +581,4 @@ export default class UserAccessTokenSection extends React.Component {
         );
     }
 }
+/* eslint-enable react/no-string-refs */

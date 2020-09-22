@@ -23,7 +23,7 @@ exports[`components/ChannelInfoModal should match snapshot 1`] = `
       "remove": [Function],
     }
   }
-  onExited={[Function]}
+  onExited={[MockFunction]}
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
@@ -43,11 +43,10 @@ exports[`components/ChannelInfoModal should match snapshot 1`] = `
       <FormattedMessage
         defaultMessage="About"
         id="channel_info.about"
-        values={Object {}}
       />
       <strong>
         <ArchiveIcon
-          className="icon icon__archive"
+          className="icon icon__archive svg-text-color"
         />
       </strong>
     </ModalTitle>
@@ -65,7 +64,6 @@ exports[`components/ChannelInfoModal should match snapshot 1`] = `
         <FormattedMessage
           defaultMessage="URL:"
           id="channel_info.url"
-          values={Object {}}
         />
       </div>
       <div
@@ -81,7 +79,6 @@ exports[`components/ChannelInfoModal should match snapshot 1`] = `
         <FormattedMessage
           defaultMessage="ID: "
           id="channel_info.id"
-          values={Object {}}
         />
       </p>
     </div>
@@ -112,7 +109,7 @@ exports[`components/ChannelInfoModal should match snapshot with channel props 1`
       "remove": [Function],
     }
   }
-  onExited={[Function]}
+  onExited={[MockFunction]}
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
@@ -132,11 +129,10 @@ exports[`components/ChannelInfoModal should match snapshot with channel props 1`
       <FormattedMessage
         defaultMessage="About"
         id="channel_info.about"
-        values={Object {}}
       />
       <strong>
         <ArchiveIcon
-          className="icon icon__archive"
+          className="icon icon__archive svg-text-color"
         />
       </strong>
     </ModalTitle>
@@ -154,7 +150,6 @@ exports[`components/ChannelInfoModal should match snapshot with channel props 1`
         <FormattedMessage
           defaultMessage="Purpose:"
           id="channel_info.purpose"
-          values={Object {}}
         />
       </div>
       <div
@@ -172,11 +167,11 @@ exports[`components/ChannelInfoModal should match snapshot with channel props 1`
         <FormattedMessage
           defaultMessage="Header:"
           id="channel_info.header"
-          values={Object {}}
         />
       </div>
       <div
         className="info__value"
+        onClick={[Function]}
       >
         <Connect(Markdown)
           message="See ~test"
@@ -203,7 +198,6 @@ exports[`components/ChannelInfoModal should match snapshot with channel props 1`
         <FormattedMessage
           defaultMessage="URL:"
           id="channel_info.url"
-          values={Object {}}
         />
       </div>
       <div
@@ -219,7 +213,6 @@ exports[`components/ChannelInfoModal should match snapshot with channel props 1`
         <FormattedMessage
           defaultMessage="ID: "
           id="channel_info.id"
-          values={Object {}}
         />
       </p>
     </div>

@@ -46,7 +46,6 @@ exports[`components/select_team/components/SelectTeamItem should match snapshot,
     </span>
     <LocalizedIcon
       className="fa fa-lock light"
-      component="i"
       title={
         Object {
           "defaultMessage": "Private team",
@@ -85,7 +84,6 @@ exports[`components/select_team/components/SelectTeamItem should match snapshot,
     </span>
     <LocalizedIcon
       className="fa fa-lock light"
-      component="i"
       title={
         Object {
           "defaultMessage": "Private team",
@@ -213,7 +211,7 @@ exports[`components/select_team/components/SelectTeamItem should match snapshot,
             "_rendered": <div
               className="signup-team-dir"
             >
-              <ForwardRef
+              <OverlayTrigger
                 container={[Circular]}
                 defaultOverlayShown={false}
                 delayShow={1000}
@@ -238,7 +236,7 @@ exports[`components/select_team/components/SelectTeamItem should match snapshot,
                 <TeamInfoIcon
                   className="icon icon--info"
                 />
-              </ForwardRef>
+              </OverlayTrigger>
               <a
                 className=""
                 href="#"
@@ -250,7 +248,7 @@ exports[`components/select_team/components/SelectTeamItem should match snapshot,
                 >
                   team_display_name
                 </span>
-                <ForwardRef
+                <LocalizedIcon
                   className="fa fa-angle-right right signup-team__icon"
                   component="span"
                   title={

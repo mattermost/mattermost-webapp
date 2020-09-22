@@ -24,7 +24,7 @@ describe('components/SettingItemMax', () => {
 
     test('should match snapshot', () => {
         const wrapper = shallow(
-            <SettingItemMax {...baseProps}/>
+            <SettingItemMax {...baseProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -33,7 +33,7 @@ describe('components/SettingItemMax', () => {
     test('should match snapshot, without submit', () => {
         const props = {...baseProps, submit: null};
         const wrapper = shallow(
-            <SettingItemMax {...props}/>
+            <SettingItemMax {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -42,7 +42,7 @@ describe('components/SettingItemMax', () => {
     test('should match snapshot, on clientError', () => {
         const props = {...baseProps, clientError: 'clientError'};
         const wrapper = shallow(
-            <SettingItemMax {...props}/>
+            <SettingItemMax {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -51,7 +51,7 @@ describe('components/SettingItemMax', () => {
     test('should match snapshot, on serverError', () => {
         const props = {...baseProps, serverError: 'serverError'};
         const wrapper = shallow(
-            <SettingItemMax {...props}/>
+            <SettingItemMax {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -61,7 +61,7 @@ describe('components/SettingItemMax', () => {
         const updateSection = jest.fn();
         const props = {...baseProps, updateSection};
         const wrapper = shallow(
-            <SettingItemMax {...props}/>
+            <SettingItemMax {...props}/>,
         );
 
         wrapper.instance().handleUpdateSection({preventDefault: jest.fn()});
@@ -73,7 +73,7 @@ describe('components/SettingItemMax', () => {
         const updateSection = jest.fn();
         const props = {...baseProps, updateSection, section: ''};
         const wrapper = shallow(
-            <SettingItemMax {...props}/>
+            <SettingItemMax {...props}/>,
         );
 
         wrapper.instance().handleUpdateSection({preventDefault: jest.fn()});
@@ -85,7 +85,7 @@ describe('components/SettingItemMax', () => {
         const submit = jest.fn();
         const props = {...baseProps, submit};
         const wrapper = shallow(
-            <SettingItemMax {...props}/>
+            <SettingItemMax {...props}/>,
         );
 
         wrapper.instance().handleSubmit({preventDefault: jest.fn()});
@@ -97,7 +97,7 @@ describe('components/SettingItemMax', () => {
         const submit = jest.fn();
         const props = {...baseProps, submit, setting: ''};
         const wrapper = shallow(
-            <SettingItemMax {...props}/>
+            <SettingItemMax {...props}/>,
         );
 
         wrapper.instance().handleSubmit({preventDefault: jest.fn()});
@@ -109,7 +109,7 @@ describe('components/SettingItemMax', () => {
         const submit = jest.fn();
         const props = {...baseProps, submit};
         const wrapper = shallow(
-            <SettingItemMax {...props}/>
+            <SettingItemMax {...props}/>,
         );
         const instance = wrapper.instance();
 
@@ -125,7 +125,7 @@ describe('components/SettingItemMax', () => {
     test('should match snapshot, with new saveTextButton', () => {
         const props = {...baseProps, saveButtonText: 'CustomText'};
         const wrapper = shallow(
-            <SettingItemMax {...props}/>
+            <SettingItemMax {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();

@@ -11,7 +11,7 @@ import InstalledOAuthApp from './installed_oauth_app.jsx';
 function mapStateToProps(state, ownProps) {
     const oauthApp = ownProps.oauthApp || {};
     return {
-        creatorName: getDisplayNameByUser(getUser(state, oauthApp.creator_id)),
+        creatorName: getDisplayNameByUser(state, getUser(state, oauthApp.creator_id)),
     };
 }
 

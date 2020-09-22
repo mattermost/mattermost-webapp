@@ -9,12 +9,13 @@ import {Posts} from 'mattermost-redux/constants';
 import {isMeMessage as checkIsMeMessage} from 'mattermost-redux/utils/post_utils';
 
 import * as PostUtils from 'utils/post_utils.jsx';
-import {A11yCustomEventTypes} from 'utils/constants';
+import Constants, {A11yCustomEventTypes} from 'utils/constants';
 import {intlShape} from 'utils/react_intl';
 import PostProfilePicture from 'components/post_profile_picture';
 import PostBody from 'components/post_view/post_body';
 import PostHeader from 'components/post_view/post_header';
 import PostContext from 'components/post_view/post_context';
+import PostPreHeader from 'components/post_view/post_pre_header';
 
 class Post extends React.PureComponent {
     static propTypes = {
@@ -80,17 +81,26 @@ class Post extends React.PureComponent {
         replyCount: PropTypes.number,
 
         /**
+         * To Check if the current post is last in the list
+         */
+        isLastPost: PropTypes.bool,
+
+        /**
          * Whether or not the channel that contains this post is archived
          */
         channelIsArchived: PropTypes.bool.isRequired,
 
         intl: intlShape.isRequired,
-
         actions: PropTypes.shape({
             selectPost: PropTypes.func.isRequired,
             selectPostCard: PropTypes.func.isRequired,
             markPostAsUnread: PropTypes.func.isRequired,
         }).isRequired,
+
+        /*
+         * Set to mark the post as flagged
+         */
+        isFlagged: PropTypes.bool.isRequired,
     }
 
     static defaultProps = {
@@ -109,6 +119,7 @@ class Post extends React.PureComponent {
             a11yActive: false,
             currentAriaLabel: '',
             ariaHidden: true,
+            fadeOutHighlight: false,
         };
     }
 
@@ -121,6 +132,12 @@ class Post extends React.PureComponent {
             this.postRef.current.addEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
             this.postRef.current.addEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
         }
+
+        if (this.props.shouldHighlight) {
+            this.highlightTimeout = setTimeout(() => {
+                this.setState({fadeOutHighlight: true});
+            }, Constants.PERMALINK_FADEOUT);
+        }
     }
 
     componentWillUnmount() {
@@ -131,6 +148,8 @@ class Post extends React.PureComponent {
             this.postRef.current.removeEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
             this.postRef.current.removeEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
         }
+
+        clearTimeout(this.highlightTimeout);
     }
 
     componentDidUpdate() {
@@ -162,7 +181,7 @@ class Post extends React.PureComponent {
             return;
         }
 
-        if (this.props.channelIsArchived) {
+        if (this.props.channelIsArchived || post.system_post_ids) {
             return;
         }
 
@@ -202,15 +221,22 @@ class Post extends React.PureComponent {
             className += ' post--hide-controls';
         }
 
-        if (this.props.shouldHighlight) {
+        if (!this.state.fadeOutHighlight && this.props.shouldHighlight) {
             className += ' post--highlight';
+            if (post.is_pinned || this.props.isFlagged) {
+                className += ' post--pinned-or-flagged-highlight';
+            }
         }
 
         let rootUser = '';
-        if (this.hasSameRoot(this.props) && !fromBot) {
+        if (this.hasSameRoot(this.props)) {
             rootUser = 'same--root';
         } else {
             rootUser = 'other--root';
+        }
+
+        if (fromBot) {
+            className += ' post--bot';
         }
 
         let currentUserCss = '';
@@ -253,11 +279,11 @@ class Post extends React.PureComponent {
             className += ' post--hovered';
         }
 
-        if (post.is_pinned) {
-            className += ' post--pinned';
+        if (post.is_pinned || this.props.isFlagged) {
+            className += ' post--pinned-or-flagged';
         }
 
-        if (this.state.alt && !this.props.channelIsArchived) {
+        if (this.state.alt && !(this.props.channelIsArchived || post.system_post_ids)) {
             className += ' cursor--pointer';
         }
 
@@ -351,6 +377,11 @@ class Post extends React.PureComponent {
                     aria-label={this.state.currentAriaLabel}
                     aria-atomic={true}
                 >
+                    <PostPreHeader
+                        isFlagged={this.props.isFlagged}
+                        isPinned={post.is_pinned}
+                        channelId={post.channel_id}
+                    />
                     <div
                         role='application'
                         data-testid='postContent'
@@ -371,6 +402,7 @@ class Post extends React.PureComponent {
                                 replyCount={this.props.replyCount}
                                 showTimeWithoutHover={!hideProfilePicture}
                                 hover={this.state.hover || this.state.a11yActive}
+                                isLastPost={this.props.isLastPost}
                             />
                             <PostBody
                                 post={post}

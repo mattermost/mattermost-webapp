@@ -8,7 +8,8 @@ exports[`components/post_view/PostInfo removePost, should have called props.acti
     className="col"
   />
   <div
-    className="col col__reply"
+    className="col post-menu"
+    data-testid="post-menu-e584uzbwwpny9kengqayx5ayzw"
   />
 </div>
 `;
@@ -21,7 +22,8 @@ exports[`components/post_view/PostInfo should match snapshot 1`] = `
     className="col"
   />
   <div
-    className="col col__reply"
+    className="col post-menu"
+    data-testid="post-menu-e584uzbwwpny9kengqayx5ayzw"
   />
 </div>
 `;
@@ -34,7 +36,8 @@ exports[`components/post_view/PostInfo should match snapshot, compact display 1`
     className="col"
   />
   <div
-    className="col col__reply"
+    className="col post-menu"
+    data-testid="post-menu-e584uzbwwpny9kengqayx5ayzw"
   />
 </div>
 `;
@@ -68,7 +71,8 @@ exports[`components/post_view/PostInfo should match snapshot, enable emoji picke
     className="col"
   />
   <div
-    className="col col__reply"
+    className="col post-menu"
+    data-testid="post-menu-e584uzbwwpny9kengqayx5ayzw"
   />
 </div>
 `;
@@ -107,7 +111,6 @@ exports[`components/post_view/PostInfo should match snapshot, ephemeral post 1`]
       <FormattedMessage
         defaultMessage="(Only visible to you)"
         id="post_info.message.visible"
-        values={Object {}}
       />
     </span>
   </div>
@@ -131,16 +134,16 @@ exports[`components/post_view/PostInfo should match snapshot, flagged post 1`] =
 >
   <div
     className="col"
+  />
+  <div
+    className="col post-menu"
+    data-testid="post-menu-e584uzbwwpny9kengqayx5ayzw"
   >
     <Connect(PostFlagIcon)
-      isEphemeral={false}
       isFlagged={true}
       postId="e584uzbwwpny9kengqayx5ayzw"
     />
   </div>
-  <div
-    className="col col__reply"
-  />
 </div>
 `;
 
@@ -156,14 +159,10 @@ exports[`components/post_view/PostInfo should match snapshot, hover 1`] = `
       isPermalink={true}
       postId="e584uzbwwpny9kengqayx5ayzw"
     />
-    <Connect(PostFlagIcon)
-      isEphemeral={false}
-      isFlagged={false}
-      postId="e584uzbwwpny9kengqayx5ayzw"
-    />
   </div>
   <div
-    className="col col__reply"
+    className="col post-menu"
+    data-testid="post-menu-e584uzbwwpny9kengqayx5ayzw"
   >
     <Connect(DotMenu)
       commentCount={0}
@@ -193,6 +192,10 @@ exports[`components/post_view/PostInfo should match snapshot, hover 1`] = `
         }
       }
     />
+    <Connect(PostFlagIcon)
+      isFlagged={false}
+      postId="e584uzbwwpny9kengqayx5ayzw"
+    />
     <CommentIcon
       commentCount={0}
       extraClass="pull-right"
@@ -213,7 +216,8 @@ exports[`components/post_view/PostInfo should match snapshot, military time 1`] 
     className="col"
   />
   <div
-    className="col col__reply"
+    className="col post-menu"
+    data-testid="post-menu-e584uzbwwpny9kengqayx5ayzw"
   />
 </div>
 `;
@@ -224,19 +228,10 @@ exports[`components/post_view/PostInfo should match snapshot, pinned post 1`] = 
 >
   <div
     className="col"
-  >
-    <span
-      className="post__pinned-badge"
-    >
-      <FormattedMessage
-        defaultMessage="Pinned"
-        id="post_info.pinned"
-        values={Object {}}
-      />
-    </span>
-  </div>
+  />
   <div
-    className="col col__reply"
+    className="col post-menu"
+    data-testid="post-menu-e584uzbwwpny9kengqayx5ayzw"
   />
 </div>
 `;
@@ -255,7 +250,8 @@ exports[`components/post_view/PostInfo should match snapshot, showTimeWithoutHov
     />
   </div>
   <div
-    className="col col__reply"
+    className="col post-menu"
+    data-testid="post-menu-e584uzbwwpny9kengqayx5ayzw"
   />
 </div>
 `;
@@ -268,7 +264,8 @@ exports[`components/post_view/PostInfo toggleEmojiPicker, should have called pro
     className="col"
   />
   <div
-    className="col col__reply"
+    className="col post-menu"
+    data-testid="post-menu-e584uzbwwpny9kengqayx5ayzw"
   >
     <Connect(DotMenu)
       commentCount={0}
@@ -304,6 +301,10 @@ exports[`components/post_view/PostInfo toggleEmojiPicker, should have called pro
       postId="e584uzbwwpny9kengqayx5ayzw"
       showEmojiPicker={true}
       toggleEmojiPicker={[Function]}
+    />
+    <Connect(PostFlagIcon)
+      isFlagged={false}
+      postId="e584uzbwwpny9kengqayx5ayzw"
     />
     <CommentIcon
       commentCount={0}

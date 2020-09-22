@@ -42,6 +42,10 @@
             margin: 5px 0;
         }
     }
+
+    textarea {
+        resize: vertical;
+    }
 }
 
 .modal {
@@ -382,9 +386,8 @@
                     }
 
                     .copy-theme-button {
-                        background-color: #ffffff;
                         padding: 5px 8px;
-                        border: 1px solid $primary-color;
+                        border: 1px solid v(link-color);
                         text-decoration: none;
                     }
 

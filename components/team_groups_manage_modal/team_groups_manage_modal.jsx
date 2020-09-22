@@ -119,7 +119,7 @@ class TeamGroupsManageModal extends React.PureComponent {
                     height='32'
                 />
                 <div className='more-modal__details'>
-                    <div className='more-modal__name'>{item.display_name} {'-'} &nbsp;
+                    <div className='more-modal__name'>{item.display_name} {'-'} {'&nbsp;'}
                         <span className='more-modal__name_count'>
                             <FormattedMessage
                                 id='numMembers'
@@ -144,7 +144,7 @@ class TeamGroupsManageModal extends React.PureComponent {
                         </button>
                         <Menu
                             openLeft={true}
-                            ariaLabel={Utils.localizeMessage('team_members_dropdown.menuAriaLabel', 'Team member role change')}
+                            ariaLabel={Utils.localizeMessage('team_members_dropdown.menuAriaLabel', 'Change the role of a team member')}
                         >
                             <Menu.ItemAction
                                 show={!item.scheme_admin}
@@ -185,7 +185,7 @@ class TeamGroupsManageModal extends React.PureComponent {
                 <ConfirmModal
                     show={this.state.showConfirmModal}
                     title={formatMessage({id: 'remove_group_confirm_title', defaultMessage: 'Remove Group and {memberCount, number} {memberCount, plural, one {Member} other {Members}}'}, {memberCount})}
-                    message={formatMessage({id: 'remove_group_confirm_message', defaultMessage: '{memberCount, number} {memberCount, plural, one {member} other {members}} associated to this group will be removed from the team on the next scheduled AD/LDAP synchronization. Are you sure you wish to remove this group and {memberCount} {memberCount, plural, one {member} other {members}}?'}, {memberCount})}
+                    message={formatMessage({id: 'remove_group_confirm_message', defaultMessage: '{memberCount, number} {memberCount, plural, one {member} other {members}} associated to this group will be removed from the team. Are you sure you wish to remove this group and {memberCount} {memberCount, plural, one {member} other {members}}?'}, {memberCount})}
                     confirmButtonText={formatMessage({id: 'remove_group_confirm_button', defaultMessage: 'Yes, Remove Group and {memberCount, plural, one {Member} other {Members}}'}, {memberCount})}
                     onConfirm={this.handleDeleteConfirmed}
                     onCancel={this.handleDeleteCanceled}

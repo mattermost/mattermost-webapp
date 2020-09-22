@@ -7,41 +7,45 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+// Group: @emoji
+
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Recent Emoji', () => {
     before(() => {
-        // # Login and go to /
-        cy.apiLogin();
-        cy.visit('/');
+        // # Login as test user and visit town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
+            cy.get('#channelHeaderTitle').should('be.visible').and('contain', 'Town Square');
+            cy.postMessage('hello');
+        });
     });
 
-    it('M14014 Recently used emojis are shown 1st', async () => {
-        // 2 before test delete all recent emoji on local storage
+    it('MM-T155 Recently used emoji reactions are shown first', () => {
+        // # Before test delete all recent emoji on local storage
         cy.clearLocalStorage(/recent_emojis/);
 
-        // # Get random emoji index
-        const firstEmoji = 200;
+        const firstEmoji = 5;
+        const secondEmoji = 10;
 
         // # Show emoji list
         cy.get('#emojiPickerButton').should('be.visible').click();
 
-        // # Click emoji with random index
+        // # Click first emoji
+        cy.get('#emojiPicker').should('be.visible');
         cy.get('.emoji-picker__item').eq(firstEmoji).click();
 
         // # Submit post
         cy.get('#create_post').submit();
 
         // # Wait 500 millisecond
-        cy.wait(TIMEOUTS.TINY);
+        cy.wait(TIMEOUTS.HALF_SEC);
 
         // # Post reaction to post
         cy.clickPostReactionIcon();
 
-        // # Get second emoji
-        const secondEmoji = 100;
-
-        // # Click chosen emoji
+        // # Click second emoji
         cy.get('.emoji-picker__item').eq(secondEmoji).click();
 
         // # Show emoji list

@@ -8,6 +8,8 @@ import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
 import {getUser, getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getChannelByName} from 'mattermost-redux/selectors/entities/channels';
 
+import {getDirectTeammate} from 'utils/utils.jsx';
+
 import AuditTable from './audit_table.jsx';
 
 function mapStateToProps(state) {
@@ -15,6 +17,7 @@ function mapStateToProps(state) {
         currentUser: getCurrentUser(state),
         getUser: (userId) => getUser(state, userId),
         getByName: (channelName) => getChannelByName(state, channelName),
+        getDirectTeammate: (channelId) => getDirectTeammate(state, channelId),
     };
 }
 

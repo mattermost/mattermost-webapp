@@ -15,17 +15,20 @@ export default class UserProfile extends PureComponent {
     static propTypes = {
         disablePopover: PropTypes.bool,
         displayName: PropTypes.string,
+        displayUsername: PropTypes.bool,
         hasMention: PropTypes.bool,
         hideStatus: PropTypes.bool,
         isBusy: PropTypes.bool,
         isRHS: PropTypes.bool,
         overwriteName: PropTypes.node,
+        overwriteIcon: PropTypes.node,
         user: PropTypes.object,
         userId: PropTypes.string,
     };
 
     static defaultProps = {
         disablePopover: false,
+        displayUsername: false,
         hasMention: false,
         hideStatus: false,
         isRHS: false,
@@ -47,16 +50,24 @@ export default class UserProfile extends PureComponent {
         const {
             disablePopover,
             displayName,
+            displayUsername,
             isBusy,
             isRHS,
             hasMention,
             hideStatus,
             overwriteName,
+            overwriteIcon,
             user,
             userId,
         } = this.props;
 
-        const name = overwriteName || displayName || '...';
+        let name;
+        if (displayUsername) {
+            name = `@${(user.username)}`;
+        } else {
+            name = overwriteName || displayName || '...';
+        }
+
         if (disablePopover) {
             return <div className='user-popover'>{name}</div>;
         }
@@ -68,7 +79,7 @@ export default class UserProfile extends PureComponent {
 
         let profileImg = '';
         if (user) {
-            profileImg = imageURLForUser(user);
+            profileImg = imageURLForUser(user.id, user.last_picture_update);
         }
 
         return (
@@ -88,6 +99,8 @@ export default class UserProfile extends PureComponent {
                             hideStatus={hideStatus}
                             isRHS={isRHS}
                             hasMention={hasMention}
+                            overwriteName={overwriteName}
+                            overwriteIcon={overwriteIcon}
                         />
                     }
                 >

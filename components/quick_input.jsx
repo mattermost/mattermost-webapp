@@ -7,8 +7,9 @@ import {FormattedMessage} from 'react-intl';
 import {Tooltip} from 'react-bootstrap';
 
 import OverlayTrigger from 'components/overlay_trigger';
-
 import Constants from 'utils/constants.jsx';
+
+import AutosizeTextarea from './autosize_textarea';
 
 // A component that can be used to make controlled inputs that function properly in certain
 // environments (ie. IE11) where typing quickly would sometimes miss inputs
@@ -36,6 +37,12 @@ export default class QuickInput extends React.PureComponent {
          * the input when clicked.
          */
         clearable: PropTypes.bool,
+
+        /**
+         * The optional tooltip text to display on the X shown when clearable. Pass a components
+         * such as FormattedMessage to localize.
+         */
+        clearableTooltipText: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
 
         /**
          * Callback to clear the input value, and used in tandem with the clearable prop above.
@@ -91,19 +98,29 @@ export default class QuickInput extends React.PureComponent {
         this.input = input;
     }
 
-    onClear = () => {
+    onClear = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
         if (this.props.onClear) {
             this.props.onClear();
         }
+        this.focus();
     }
 
     render() {
-        const clearableTooltip = (
-            <Tooltip id={'InputClearTooltip'}>
+        let clearableTooltipText = this.props.clearableTooltipText;
+        if (!clearableTooltipText) {
+            clearableTooltipText = (
                 <FormattedMessage
                     id={'input.clear'}
-                    defaultMessage='Clear input'
+                    defaultMessage='Clear'
                 />
+            );
+        }
+
+        const clearableTooltip = (
+            <Tooltip id={'InputClearTooltip'}>
+                {clearableTooltipText}
             </Tooltip>
         );
 
@@ -111,6 +128,12 @@ export default class QuickInput extends React.PureComponent {
 
         Reflect.deleteProperty(props, 'delayInputUpdate');
         Reflect.deleteProperty(props, 'onClear');
+        Reflect.deleteProperty(props, 'clearableTooltipText');
+        Reflect.deleteProperty(props, 'channelId');
+
+        if (inputComponent !== AutosizeTextarea) {
+            Reflect.deleteProperty(props, 'onHeightChange');
+        }
 
         const inputElement = React.createElement(
             inputComponent || 'input',
@@ -118,7 +141,7 @@ export default class QuickInput extends React.PureComponent {
                 ...props,
                 ref: this.setInput,
                 defaultValue: value, // Only set the defaultValue since the real one will be updated using componentDidUpdate
-            }
+            },
         );
 
         return (<div>
@@ -126,7 +149,7 @@ export default class QuickInput extends React.PureComponent {
             {clearable && value && this.props.onClear &&
                 <div
                     className='input-clear visible'
-                    onClick={this.onClear}
+                    onMouseDown={this.onClear}
                 >
                     <OverlayTrigger
                         delayShow={Constants.OVERLAY_TIME_DELAY}
@@ -137,7 +160,7 @@ export default class QuickInput extends React.PureComponent {
                             className='input-clear-x'
                             aria-hidden='true'
                         >
-                            {'×'}
+                            <i className='icon icon-close-circle'/>
                         </span>
                     </OverlayTrigger>
                 </div>

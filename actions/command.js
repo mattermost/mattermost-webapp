@@ -4,11 +4,10 @@
 import {Client4} from 'mattermost-redux/client';
 import {unfavoriteChannel} from 'mattermost-redux/actions/channels';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
-import {getCurrentChannel, getRedirectChannelNameForTeam} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentChannel, getRedirectChannelNameForTeam, isFavoriteChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentRelativeTeamUrl, getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {IntegrationTypes} from 'mattermost-redux/action_types';
-import {isFavoriteChannel} from 'mattermost-redux/utils/channel_utils';
 
 import {openModal} from 'actions/views/modals';
 import * as GlobalActions from 'actions/global_actions.jsx';
@@ -62,6 +61,7 @@ export function executeCommand(message, args) {
                 channel.type === Constants.DM_CHANNEL ||
                 channel.type === Constants.GM_CHANNEL
             ) {
+                const currentUserId = getCurrentUserId(state);
                 let name;
                 let category;
                 if (channel.type === Constants.DM_CHANNEL) {
@@ -71,14 +71,13 @@ export function executeCommand(message, args) {
                     name = channel.id;
                     category = Constants.Preferences.CATEGORY_GROUP_CHANNEL_SHOW;
                 }
-                const currentUserId = getCurrentUserId(state);
                 const currentTeamId = getCurrentTeamId(state);
                 const redirectChannel = getRedirectChannelNameForTeam(state, currentTeamId);
                 const teamUrl = getCurrentRelativeTeamUrl(state);
                 browserHistory.push(`${teamUrl}/channels/${redirectChannel}`);
 
                 dispatch(savePreferences(currentUserId, [{category, name, user_id: currentUserId, value: 'false'}]));
-                if (isFavoriteChannel(channel)) {
+                if (isFavoriteChannel(state, channel.id)) {
                     dispatch(unfavoriteChannel(channel.id));
                 }
 

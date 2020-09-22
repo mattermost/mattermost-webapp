@@ -21,7 +21,7 @@ describe('components/admin_console/RadioSetting', () => {
                 value={'Sales'}
                 onChange={onChange}
                 setByEnv={false}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -40,7 +40,7 @@ describe('components/admin_console/RadioSetting', () => {
                 value={'Sales'}
                 onChange={onChange}
                 setByEnv={false}
-            />
+            />,
         );
         wrapper.find('input').at(0).simulate('change', {target: {value: 'Administration'}});
 

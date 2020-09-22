@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import semver from 'semver';
+import {logError} from 'mattermost-redux/actions/errors';
 import {getProfilesByIds} from 'mattermost-redux/actions/users';
 import {getChannel, getCurrentChannel, getMyChannelMember} from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
@@ -10,8 +12,10 @@ import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 import {isSystemMessage} from 'mattermost-redux/utils/post_utils';
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
 
+import {browserHistory} from 'utils/browser_history';
 import Constants, {NotificationLevels, UserStatuses} from 'utils/constants';
-import {isMacApp, isMobileApp, isWindowsApp} from 'utils/user_agent';
+import {showNotification} from 'utils/notifications';
+import {isDesktopApp, isMacApp, isMobileApp, isWindowsApp} from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
 import {stripMarkdown} from 'utils/markdown';
 
@@ -137,14 +141,54 @@ export function sendDesktopNotification(post, msgProps) {
         const activeChannel = getCurrentChannel(state);
         const channelId = channel ? channel.id : null;
         const notify = (activeChannel && activeChannel.id !== channelId) || !state.views.browser.focused;
+        const soundName = user.notify_props !== undefined && user.notify_props.desktop_notification_sound !== undefined ? user.notify_props.desktop_notification_sound : 'None';
 
         if (notify) {
-            Utils.notifyMe(title, body, channel, teamId, !sound);
+            dispatch(notifyMe(title, body, channel, teamId, !sound, soundName));
 
             //Don't add extra sounds on native desktop clients
             if (sound && !isWindowsApp() && !isMacApp() && !isMobileApp()) {
-                Utils.ding();
+                Utils.ding(soundName);
             }
         }
     };
 }
+
+const notifyMe = (title, body, channel, teamId, silent, soundName) => (dispatch, getState) => {
+    // handle notifications in desktop app >= 4.3.0
+    if (isDesktopApp() && window.desktop && semver.gte(window.desktop.version, '4.3.0')) {
+        const msg = {
+            title,
+            body,
+            channel,
+            teamId,
+            silent,
+        };
+
+        if (isDesktopApp() && window.desktop && semver.gte(window.desktop.version, '4.6.0')) {
+            msg.data = {soundName};
+        }
+
+        // get the desktop app to trigger the notification
+        window.postMessage(
+            {
+                type: 'dispatch-notification',
+                message: msg,
+            },
+            window.location.origin,
+        );
+    } else {
+        showNotification({
+            title,
+            body,
+            requireInteraction: false,
+            silent,
+            onClick: () => {
+                window.focus();
+                browserHistory.push(Utils.getChannelURL(getState(), channel, teamId));
+            },
+        }).catch((error) => {
+            dispatch(logError(error));
+        });
+    }
+};

@@ -9,7 +9,7 @@ import FormError from 'components/form_error';
 
 import Setting from './setting';
 
-export default class MultiSelectSetting extends React.Component {
+export default class MultiSelectSetting extends React.PureComponent {
     static propTypes = {
         id: PropTypes.string.isRequired,
         values: PropTypes.array.isRequired,
@@ -85,7 +85,7 @@ export default class MultiSelectSetting extends React.Component {
                     options={this.props.values}
                     delimiter={','}
                     clearable={false}
-                    disabled={this.props.disabled || this.props.setByEnv}
+                    isDisabled={this.props.disabled || this.props.setByEnv}
                     noResultsText={this.props.noResultText}
                     onChange={this.handleChange}
                     value={this.calculateValue()}

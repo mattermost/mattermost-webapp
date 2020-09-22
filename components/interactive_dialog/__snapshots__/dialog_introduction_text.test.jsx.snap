@@ -2,6 +2,12 @@
 
 exports[`components/DialogIntroductionText should not fail on empty value 1`] = `
 <DialogIntroductionText
+  emojiMap={
+    EmojiMap {
+      "customEmojis": Map {},
+      "customEmojisArray": Array [],
+    }
+  }
   id="testblankvalue"
   value=""
 >
@@ -18,6 +24,12 @@ exports[`components/DialogIntroductionText should not fail on empty value 1`] = 
 
 exports[`components/DialogIntroductionText should render message with supported values 1`] = `
 <DialogIntroductionText
+  emojiMap={
+    EmojiMap {
+      "customEmojis": Map {},
+      "customEmojisArray": Array [],
+    }
+  }
   id="testsupported"
   value="**bold** *italic* [link](https://mattermost.com/) <br/> [link target blank](!https://mattermost.com/)"
 >

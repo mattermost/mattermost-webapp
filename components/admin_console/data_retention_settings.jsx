@@ -74,14 +74,14 @@ export default class DataRetentionSettings extends AdminSettings {
                             </strong>
                         ),
                     }}
-                />
+                />,
             );
         } else {
             messageList.push(
                 <FormattedMessage
                     id='admin.data_retention.confirmChangesModal.description.itemMessageIndefinite'
                     defaultMessage='All messages will be retained indefinitely.'
-                />
+                />,
             );
         }
 
@@ -97,14 +97,14 @@ export default class DataRetentionSettings extends AdminSettings {
                             </strong>
                         ),
                     }}
-                />
+                />,
             );
         } else {
             messageList.push(
                 <FormattedMessage
                     id='admin.data_retention.confirmChangesModal.description.itemFileIndefinite'
                     defaultMessage='All files will be retained indefinitely.'
-                />
+                />,
             );
         }
 
@@ -185,6 +185,7 @@ export default class DataRetentionSettings extends AdminSettings {
                     value={this.state.messageRetentionDays}
                     onChange={this.handleChange}
                     setByEnv={this.isSetByEnv('DataRetentionSettings.MessageRetentionDays')}
+                    disabled={this.props.isDisabled}
                 />
             );
         }
@@ -205,6 +206,7 @@ export default class DataRetentionSettings extends AdminSettings {
                     value={this.state.fileRetentionDays}
                     onChange={this.handleChange}
                     setByEnv={this.isSetByEnv('DataRetentionSettings.FileRetentionDays')}
+                    disabled={this.props.isDisabled}
                 />
             );
         }
@@ -254,6 +256,7 @@ export default class DataRetentionSettings extends AdminSettings {
                     value={this.state.enableMessageDeletion}
                     onChange={this.handleChange}
                     setByEnv={this.isSetByEnv('DataRetentionSettings.EnableMessageDeletion')}
+                    disabled={this.props.isDisabled}
                 />
                 {messageRetentionDaysSetting}
                 <DropdownSetting
@@ -274,6 +277,7 @@ export default class DataRetentionSettings extends AdminSettings {
                     value={this.state.enableFileDeletion}
                     onChange={this.handleChange}
                     setByEnv={this.isSetByEnv('DataRetentionSettings.EnableFileDeletion')}
+                    disabled={this.props.isDisabled}
                 />
                 {fileRetentionDaysSetting}
                 <TextSetting
@@ -294,6 +298,7 @@ export default class DataRetentionSettings extends AdminSettings {
                     value={this.state.deletionJobStartTime}
                     onChange={this.handleChange}
                     setByEnv={this.isSetByEnv('DataRetentionSettings.DeletionJobStartTime')}
+                    disabled={this.props.isDisabled}
                 />
                 <JobsTable
                     jobType={JobTypes.DATA_RETENTION}

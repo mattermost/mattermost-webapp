@@ -176,19 +176,19 @@ class TestHelperClass {
                                                 self.basicp = rpost;
                                                 d1.resolve();
                                             },
-                                            throwerror
+                                            throwerror,
                                         );
                                     },
-                                    throwerror
+                                    throwerror,
                                 );
                             },
-                            throwerror
+                            throwerror,
                         );
                     },
-                    throwerror
+                    throwerror,
                 );
             },
-            throwerror
+            throwerror,
         );
 
         jqd.when(d1).done(() => {

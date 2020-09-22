@@ -26,4 +26,19 @@ describe('TeamUtils.filterAndSortTeamsByDisplayName', () => {
             expect(TeamUtils.filterAndSortTeamsByDisplayName(data.teams, General.DEFAULT_LOCALE)).toEqual(data.result);
         }
     });
+
+    test('should return correct sorted teams when teamsOrder is provided', () => {
+        const teamsOrder = 'team_id_d,team_id_b,team_id_a,team_id_c';
+
+        for (const data of [
+            {teams: [teamG], result: []},
+            {teams: [teamF, teamG], result: []},
+            {teams: [teamA, teamB, teamC, teamD, teamE], result: [teamD, teamB, teamA, teamC]},
+            {teams: [teamE, teamD, teamC, teamB, teamA], result: [teamD, teamB, teamA, teamC]},
+            {teams: [teamA, teamB, teamC, teamD, teamE, teamF, teamG], result: [teamD, teamB, teamA, teamC]},
+            {teams: [teamG, teamF, teamE, teamD, teamC, teamB, teamA], result: [teamD, teamB, teamA, teamC]},
+        ]) {
+            expect(TeamUtils.filterAndSortTeamsByDisplayName(data.teams, General.DEFAULT_LOCALE, teamsOrder)).toEqual(data.result);
+        }
+    });
 });

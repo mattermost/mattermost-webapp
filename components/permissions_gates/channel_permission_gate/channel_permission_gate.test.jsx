@@ -54,7 +54,7 @@ describe('components/permissions_gates', () => {
                     >
                         <p>{'Valid permission (shown)'}</p>
                     </ChannelPermissionGate>
-                </Provider>
+                </Provider>,
             );
 
             expect(wrapper).toMatchSnapshot();
@@ -68,7 +68,7 @@ describe('components/permissions_gates', () => {
                     >
                         <p>{'Valid permission (shown)'}</p>
                     </TeamPermissionGate>
-                </Provider>
+                </Provider>,
             );
 
             expect(wrapper).toMatchSnapshot();
@@ -84,7 +84,7 @@ describe('components/permissions_gates', () => {
                     >
                         <p>{'Valid permission but inverted (not shown)'}</p>
                     </ChannelPermissionGate>
-                </Provider>
+                </Provider>,
             );
 
             expect(wrapper).toMatchSnapshot();
@@ -100,7 +100,7 @@ describe('components/permissions_gates', () => {
                     >
                         <p>{'Invalid permission but inverted (shown)'}</p>
                     </ChannelPermissionGate>
-                </Provider>
+                </Provider>,
             );
 
             expect(wrapper).toMatchSnapshot();
@@ -115,7 +115,7 @@ describe('components/permissions_gates', () => {
                     >
                         <p>{'Invalid permission (not shown)'}</p>
                     </ChannelPermissionGate>
-                </Provider>
+                </Provider>,
             );
 
             expect(wrapper).toMatchSnapshot();
@@ -130,7 +130,7 @@ describe('components/permissions_gates', () => {
                     >
                         <p>{'Valid permission invalid channel (not shown)'}</p>
                     </ChannelPermissionGate>
-                </Provider>
+                </Provider>,
             );
 
             expect(wrapper).toMatchSnapshot();
@@ -145,7 +145,7 @@ describe('components/permissions_gates', () => {
                     >
                         <p>{'Valid permission (shown)'}</p>
                     </ChannelPermissionGate>
-                </Provider>
+                </Provider>,
             );
 
             expect(wrapper).toMatchSnapshot();
@@ -160,7 +160,7 @@ describe('components/permissions_gates', () => {
                     >
                         <p>{'Valid permission (shown)'}</p>
                     </ChannelPermissionGate>
-                </Provider>
+                </Provider>,
             );
 
             expect(wrapper).toMatchSnapshot();
@@ -176,7 +176,7 @@ describe('components/permissions_gates', () => {
                     >
                         <p>{'Valid permission (shown)'}</p>
                     </ChannelPermissionGate>
-                </Provider>
+                </Provider>,
             );
 
             expect(wrapper).toMatchSnapshot();
@@ -192,7 +192,7 @@ describe('components/permissions_gates', () => {
                     >
                         <p>{'Invalid permission (not shown)'}</p>
                     </ChannelPermissionGate>
-                </Provider>
+                </Provider>,
             );
 
             expect(wrapper).toMatchSnapshot();

@@ -15,7 +15,6 @@ exports[`admin_console/team_channel_settings/team/TeamDetails should match snaps
       <FormattedMessage
         defaultMessage="Team Configuration"
         id="admin.team_settings.team_detail.group_configuration"
-        values={Object {}}
       />
     </div>
   </div>
@@ -75,6 +74,14 @@ exports[`admin_console/team_channel_settings/team/TeamDetails should match snaps
           }
         }
         totalGroups={1}
+      />
+      <Connect(TeamMembers)
+        onAddCallback={[Function]}
+        onRemoveCallback={[Function]}
+        teamId="123"
+        updateRole={[Function]}
+        usersToAdd={Object {}}
+        usersToRemove={Object {}}
       />
     </div>
   </div>

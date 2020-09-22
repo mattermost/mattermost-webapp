@@ -2,21 +2,29 @@
 // See LICENSE.txt for license information.
 
 // ***************************************************************
-// - [number] indicates a test step (e.g. 1. Go to a page)
+// - [#] indicates a test step (e.g. # Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Group: @messaging
+
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Messaging', () => {
+    let townsquareLink;
+    let otherUser;
+
     before(() => {
-        // # Login and go to /
-        cy.apiLogin('sysadmin');
-        cy.visit('/ad-1/channels/town-square');
+        // # Visit town-square
+        cy.apiInitSetup().then(({team, user}) => {
+            otherUser = user;
+            townsquareLink = `/${team.name}/channels/town-square`;
+            cy.visit(townsquareLink);
+        });
     });
 
-    it('M17458 - System message limited options', () => {
+    it('MM-T213 System message limited options', () => {
         // # Update channel header to create a new system message
         cy.updateChannelHeader(Date.now());
 
@@ -24,7 +32,7 @@ describe('Messaging', () => {
         cy.getLastPostId().then((lastPostId) => {
             // # Mouse over the post to show the options
             cy.get(`#post_${lastPostId}`).trigger('mouseover', {force: true});
-            cy.wait(TIMEOUTS.TINY);
+            cy.wait(TIMEOUTS.HALF_SEC);
 
             // * No option to reply this post
             cy.get(`#CENTER_commentIcon_${lastPostId}`).should('not.exist');
@@ -34,7 +42,7 @@ describe('Messaging', () => {
 
             // # Click in the '...' button
             cy.get(`#CENTER_button_${lastPostId}`).click({force: true});
-            cy.wait(TIMEOUTS.TINY);
+            cy.wait(TIMEOUTS.HALF_SEC);
 
             // # Get all list elements in the dropdown
             cy.get(`#CENTER_dropdown_${lastPostId}`).find('li').then((items) => {
@@ -46,12 +54,12 @@ describe('Messaging', () => {
             });
 
             // # Log-in as a different user
-            cy.apiLogin('user-1');
-            cy.visit('/ad-1/channels/town-square');
+            cy.apiLogin(otherUser);
+            cy.visit(townsquareLink);
 
             // # Mouse over the post to show the options
             cy.get(`#post_${lastPostId}`).trigger('mouseover', {force: true});
-            cy.wait(TIMEOUTS.TINY);
+            cy.wait(TIMEOUTS.HALF_SEC);
 
             // * No option should appear
             cy.get(`#CENTER_commentIcon_${lastPostId}`).should('not.exist');

@@ -23,6 +23,7 @@ import PostTime from 'components/post_view/post_time';
 import {browserHistory} from 'utils/browser_history';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
+import PostPreHeader from 'components/post_view/post_pre_header';
 
 import Constants, {Locations} from 'utils/constants';
 import * as PostUtils from 'utils/post_utils.jsx';
@@ -47,7 +48,6 @@ class SearchResultsItem extends React.PureComponent {
         */
         matches: PropTypes.array,
 
-        channelId: PropTypes.string,
         channelName: PropTypes.string,
         channelType: PropTypes.string,
         channelIsArchived: PropTypes.bool,
@@ -70,7 +70,7 @@ class SearchResultsItem extends React.PureComponent {
         /**
         *  Flag for determining result flag state
         */
-        isFlagged: PropTypes.bool,
+        isFlagged: PropTypes.bool.isRequired,
 
         /**
         *  Data used creating URl for jump to post
@@ -108,6 +108,23 @@ class SearchResultsItem extends React.PureComponent {
          * react-intl helper object
          */
         intl: intlShape.isRequired,
+        directTeammate: PropTypes.string.isRequired,
+        displayName: PropTypes.string.isRequired,
+
+        /**
+         * The number of replies in the same thread as this post
+         */
+        replyCount: PropTypes.number,
+
+        /**
+         * Is the search results item from the flagged posts list.
+         */
+        isFlaggedPosts: PropTypes.bool,
+
+        /**
+         * Is the search results item from the pinned posts list.
+         */
+        isPinnedPosts: PropTypes.bool,
     };
 
     static defaultProps = {
@@ -187,7 +204,7 @@ class SearchResultsItem extends React.PureComponent {
     }
 
     getChannelName = () => {
-        const {channelId, channelType} = this.props;
+        const {channelType} = this.props;
         let {channelName} = this.props;
 
         if (channelType === Constants.DM_CHANNEL) {
@@ -195,7 +212,7 @@ class SearchResultsItem extends React.PureComponent {
                 id: 'search_item.direct',
                 defaultMessage: 'Direct Message (with {username})',
             }, {
-                username: Utils.getDisplayNameByUser(Utils.getDirectTeammate(channelId)),
+                username: this.props.displayName,
             });
         }
 
@@ -255,13 +272,15 @@ class SearchResultsItem extends React.PureComponent {
                 </p>
             );
         } else {
-            flagContent = (
-                <PostFlagIcon
-                    location={Locations.SEARCH}
-                    postId={post.id}
-                    isFlagged={this.props.isFlagged}
-                />
-            );
+            if (!Utils.isMobile()) {
+                flagContent = (
+                    <PostFlagIcon
+                        location={Locations.SEARCH}
+                        postId={post.id}
+                        isFlagged={this.props.isFlagged}
+                    />
+                );
+            }
 
             if (post.props && post.props.card) {
                 postInfoIcon = (
@@ -294,20 +313,24 @@ class SearchResultsItem extends React.PureComponent {
             }
 
             rhsControls = (
-                <div className='col__controls col__reply'>
+                <div className='col__controls post-menu'>
                     <DotMenu
                         post={post}
                         location={Locations.SEARCH}
                         isFlagged={this.props.isFlagged}
                         handleDropdownOpened={this.handleDropdownOpened}
                         commentCount={this.props.commentCountForPost}
+                        isMenuOpen={this.state.dropdownOpened}
                         isReadOnly={channelIsArchived || null}
                     />
+                    {flagContent}
                     <CommentIcon
                         location={Locations.SEARCH}
                         handleCommentClick={this.handleFocusRHSClick}
+                        commentCount={this.props.replyCount}
                         postId={post.id}
                         searchStyle={'search-item__comment'}
+                        extraClass={this.props.replyCount ? 'icon--visible' : ''}
                     />
                     <a
                         href='#'
@@ -343,18 +366,6 @@ class SearchResultsItem extends React.PureComponent {
             );
         }
 
-        let pinnedBadge;
-        if (post.is_pinned) {
-            pinnedBadge = (
-                <span className='post__pinned-badge'>
-                    <FormattedMessage
-                        id='post_info.pinned'
-                        defaultMessage='Pinned'
-                    />
-                </span>
-            );
-        }
-
         const currentPostDay = Utils.getDateForUnixTicks(post.create_at);
 
         return (
@@ -365,6 +376,7 @@ class SearchResultsItem extends React.PureComponent {
                 <DateSeparator date={currentPostDay}/>
                 <div
                     className={`a11y__section ${this.getClassName()}`}
+                    id={'searchResult_' + post.id}
                     aria-label={this.state.currentAriaLabel}
                     onFocus={this.handleSearchItemFocus}
                     data-a11y-sort-order={this.props.a11yIndex}
@@ -384,6 +396,13 @@ class SearchResultsItem extends React.PureComponent {
                             </span>
                         }
                     </div>
+                    <PostPreHeader
+                        isFlagged={this.props.isFlagged}
+                        isPinned={post.is_pinned}
+                        skipPinned={this.props.isPinnedPosts}
+                        skipFlagged={this.props.isFlaggedPosts}
+                        channelId={post.channel_id}
+                    />
                     <div
                         role='application'
                         className='post__content'
@@ -402,9 +421,7 @@ class SearchResultsItem extends React.PureComponent {
                                 </div>
                                 <div className='col'>
                                     {this.renderPostTime()}
-                                    {pinnedBadge}
                                     {postInfoIcon}
-                                    {flagContent}
                                 </div>
                                 {rhsControls}
                             </div>

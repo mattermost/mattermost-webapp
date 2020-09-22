@@ -16,23 +16,24 @@ exports[`components/channel_members_dropdown should match snapshot for channel_m
       <FormattedMessage
         defaultMessage="Channel Admin"
         id="channel_members_dropdown.channel_admin"
-        values={Object {}}
       />
        
     </span>
     <DropdownIcon />
   </button>
   <Menu
-    ariaLabel="Channel member role change"
+    ariaLabel="Change the role of channel member"
     openLeft={true}
     openUp={false}
   >
     <MenuItemAction
+      id="undefined-make-channel-member"
       onClick={[Function]}
       show={false}
       text="Make Channel Member"
     />
     <MenuItemAction
+      id="undefined-make-channel-admin"
       onClick={[Function]}
       show={false}
       text="Make Channel Admin"
@@ -62,23 +63,24 @@ exports[`components/channel_members_dropdown should match snapshot for dropdown 
       <FormattedMessage
         defaultMessage="Channel Guest"
         id="channel_members_dropdown.channel_guest"
-        values={Object {}}
       />
        
     </span>
     <DropdownIcon />
   </button>
   <Menu
-    ariaLabel="Channel member role change"
+    ariaLabel="Change the role of channel member"
     openLeft={true}
     openUp={false}
   >
     <MenuItemAction
+      id="undefined-make-channel-member"
       onClick={[Function]}
       show={false}
       text="Make Channel Member"
     />
     <MenuItemAction
+      id="undefined-make-channel-admin"
       onClick={[Function]}
       show={false}
       text="Make Channel Admin"
@@ -97,7 +99,6 @@ exports[`components/channel_members_dropdown should match snapshot for group_con
   <FormattedMessage
     defaultMessage="Channel Admin"
     id="channel_members_dropdown.channel_admin"
-    values={Object {}}
   />
 </div>
 `;
@@ -118,23 +119,24 @@ exports[`components/channel_members_dropdown should match snapshot for not dropd
       <FormattedMessage
         defaultMessage="Channel Guest"
         id="channel_members_dropdown.channel_guest"
-        values={Object {}}
       />
        
     </span>
     <DropdownIcon />
   </button>
   <Menu
-    ariaLabel="Channel member role change"
+    ariaLabel="Change the role of channel member"
     openLeft={true}
     openUp={false}
   >
     <MenuItemAction
+      id="undefined-make-channel-member"
       onClick={[Function]}
       show={false}
       text="Make Channel Member"
     />
     <MenuItemAction
+      id="undefined-make-channel-admin"
       onClick={[Function]}
       show={false}
       text="Make Channel Admin"
@@ -164,23 +166,24 @@ exports[`components/channel_members_dropdown should match snapshot opening dropd
       <FormattedMessage
         defaultMessage="Channel Admin"
         id="channel_members_dropdown.channel_admin"
-        values={Object {}}
       />
        
     </span>
     <DropdownIcon />
   </button>
   <Menu
-    ariaLabel="Channel member role change"
+    ariaLabel="Change the role of channel member"
     openLeft={true}
     openUp={true}
   >
     <MenuItemAction
+      id="undefined-make-channel-member"
       onClick={[Function]}
       show={false}
       text="Make Channel Member"
     />
     <MenuItemAction
+      id="undefined-make-channel-admin"
       onClick={[Function]}
       show={false}
       text="Make Channel Admin"

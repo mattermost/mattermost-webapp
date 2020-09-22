@@ -14,7 +14,8 @@ describe('admin_console/team_channel_settings/channel/ChannelModes', () => {
                 isPublic={true}
                 isSynced={false}
                 isDefault={false}
-            />
+                isDisabled={false}
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });

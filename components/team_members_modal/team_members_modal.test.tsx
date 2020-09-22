@@ -15,12 +15,12 @@ describe('components/TeamMembersModal', () => {
             <TeamMembersModal
                 currentTeam={{
                     id: 'id',
-                    display_name: 'display name'
+                    display_name: 'display name',
                 }}
                 onHide={emptyFunction}
                 onLoad={emptyFunction}
                 actions={{openModal: jest.fn()}}
-            />
+            />,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -34,12 +34,12 @@ describe('components/TeamMembersModal', () => {
             <TeamMembersModal
                 currentTeam={{
                     id: 'id',
-                    display_name: 'display name'
+                    display_name: 'display name',
                 }}
                 onHide={onHide}
                 onLoad={emptyFunction}
                 actions={{openModal: jest.fn()}}
-            />
+            />,
         );
 
         const modalProps = wrapper.find(Modal).first().props();

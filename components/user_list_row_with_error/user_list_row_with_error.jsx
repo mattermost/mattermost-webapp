@@ -12,7 +12,7 @@ import BotBadge from 'components/widgets/badges/bot_badge';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
-export default class UserListRowWithError extends React.Component {
+export default class UserListRowWithError extends React.PureComponent {
     static propTypes = {
         user: PropTypes.object.isRequired,
         status: PropTypes.string,
@@ -23,6 +23,7 @@ export default class UserListRowWithError extends React.Component {
         index: PropTypes.number,
         totalUsers: PropTypes.number,
         userCount: PropTypes.number,
+        isDisabled: PropTypes.bool,
     };
 
     static defaultProps = {
@@ -122,7 +123,9 @@ export default class UserListRowWithError extends React.Component {
                                 id={userCountID}
                                 className='more-modal__name'
                             >
-                                <Link to={'/admin_console/user_management/user/' + this.props.user.id}>{Utils.displayEntireNameForUser(this.props.user)}</Link>
+                                <Link to={'/admin_console/user_management/user/' + this.props.user.id}>
+                                    {Utils.displayEntireNameForUser(this.props.user)}
+                                </Link>
                                 <BotBadge
                                     className='badge-admin'
                                     show={Boolean(this.props.user.is_bot)}

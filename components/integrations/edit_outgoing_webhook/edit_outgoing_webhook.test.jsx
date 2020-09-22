@@ -48,14 +48,14 @@ describe('components/integrations/EditOutgoingWebhook', () => {
     test('should match snapshot', () => {
         const props = {...baseProps, hook};
         const wrapper = shallow(
-            <EditOutgoingWebhook {...props}/>
+            <EditOutgoingWebhook {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot, loading', () => {
         const wrapper = shallow(
-            <EditOutgoingWebhook {...baseProps}/>
+            <EditOutgoingWebhook {...baseProps}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -63,7 +63,7 @@ describe('components/integrations/EditOutgoingWebhook', () => {
     test('should match snapshot when EnableOutgoingWebhooks is false', () => {
         const props = {...baseProps, enableOutgoingWebhooks: false, hook};
         const wrapper = shallow(
-            <EditOutgoingWebhook {...props}/>
+            <EditOutgoingWebhook {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -72,7 +72,7 @@ describe('components/integrations/EditOutgoingWebhook', () => {
     test('should have match state when handleConfirmModal is called', () => {
         const props = {...baseProps, hook};
         const wrapper = shallow(
-            <EditOutgoingWebhook {...props}/>
+            <EditOutgoingWebhook {...props}/>,
         );
 
         wrapper.setState({showConfirmModal: false});
@@ -83,7 +83,7 @@ describe('components/integrations/EditOutgoingWebhook', () => {
     test('should have match state when confirmModalDismissed is called', () => {
         const props = {...baseProps, hook};
         const wrapper = shallow(
-            <EditOutgoingWebhook {...props}/>
+            <EditOutgoingWebhook {...props}/>,
         );
 
         wrapper.setState({showConfirmModal: true});
@@ -94,7 +94,7 @@ describe('components/integrations/EditOutgoingWebhook', () => {
     test('should have match renderExtra', () => {
         const props = {...baseProps, hook};
         const wrapper = shallow(
-            <EditOutgoingWebhook {...props}/>
+            <EditOutgoingWebhook {...props}/>,
         );
 
         expect(wrapper.instance().renderExtra()).toMatchSnapshot();
@@ -103,7 +103,7 @@ describe('components/integrations/EditOutgoingWebhook', () => {
     test('should have match when editOutgoingHook is called', () => {
         const props = {...baseProps, hook};
         const wrapper = shallow(
-            <EditOutgoingWebhook {...props}/>
+            <EditOutgoingWebhook {...props}/>,
         );
 
         const instance = wrapper.instance();
@@ -120,7 +120,7 @@ describe('components/integrations/EditOutgoingWebhook', () => {
         browserHistory.push = jest.fn();
         const props = {...baseProps, hook, actions: newActions};
         const wrapper = shallow(
-            <EditOutgoingWebhook {...props}/>
+            <EditOutgoingWebhook {...props}/>,
         );
 
         const instance = wrapper.instance();
@@ -136,7 +136,7 @@ describe('components/integrations/EditOutgoingWebhook', () => {
         const newActions = {...baseProps.actions, updateOutgoingHook: jest.fn().mockReturnValue({data: ''})};
         const props = {...baseProps, hook, actions: newActions};
         const wrapper = shallow(
-            <EditOutgoingWebhook {...props}/>
+            <EditOutgoingWebhook {...props}/>,
         );
 
         const instance = wrapper.instance();

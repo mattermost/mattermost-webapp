@@ -195,12 +195,10 @@
             width: 110px;
         }
     }
+
+    .badge-notify {
+        background: $red;
+    }
 }
 
-.badge-notify {
-    background: $red;
-    left: 4px;
-    position: absolute;
-    top: 3px;
-    z-index: 100;
-}
+

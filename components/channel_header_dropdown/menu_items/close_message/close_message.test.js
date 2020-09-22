@@ -25,6 +25,7 @@ describe('components/ChannelHeaderDropdown/MenuItem.CloseMessage', () => {
         },
         actions: {
             savePreferences: jest.fn(() => Promise.resolve()),
+            leaveDirectChannel: jest.fn(() => Promise.resolve()),
         },
     };
 

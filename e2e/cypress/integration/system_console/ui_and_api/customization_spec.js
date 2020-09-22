@@ -7,49 +7,28 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+// Group: @system_console
+
+import * as TIMEOUTS from '../../../fixtures/timeouts';
+
 describe('Customization', () => {
     let origConfig;
 
     before(() => {
         // Get config
-        cy.apiGetConfig().then((response) => {
-            const config = response.body;
-            origConfig = {
-                SupportSettings: {
-                    SupportEmail: config.SupportSettings.SupportEmail,
-                    HelpLink: config.SupportSettings.HelpLink,
-                    AboutLink: config.SupportSettings.AboutLink,
-                    ReportAProblemLink: config.SupportSettings.ReportAProblemLink,
-                    PrivacyPolicyLink: config.SupportSettings.PrivacyPolicyLink,
-                    TermsOfServiceLink: config.SupportSettings.TermsOfServiceLink,
-                },
-                TeamSettings: {
-                    SiteName: config.TeamSettings.SiteName,
-                    CustomDescriptionText: config.TeamSettings.CustomDescriptionText,
-                    EnableCustomBrand: config.TeamSettings.EnableCustomBrand,
-                    CustomBrandText: config.TeamSettings.CustomBrandText,
-                },
-                NativeAppSettings: {
-                    AppDownloadLink: config.NativeAppSettings.AppDownloadLink,
-                    AndroidAppDownloadLink: config.NativeAppSettings.AndroidAppDownloadLink,
-                    IosAppDownloadLink: config.NativeAppSettings.IosAppDownloadLink,
-                },
-            };
+        cy.apiGetConfig().then(({config}) => {
+            origConfig = config;
         });
 
-        // # Login as sysadmin and visit customization system console page
-        cy.apiLogin('sysadmin');
+        // # Visit customization system console page
         cy.visit('/admin_console/site_config/customization');
         cy.get('.admin-console__header').should('be.visible').and('have.text', 'Customization');
     });
 
-    after(() => {
-        cy.apiUpdateConfig(origConfig);
-    });
-
-    it('SC20336 - Can change Custom Brand Image setting', () => {
+    it('MM-T1207 - Can change Custom Brand Image setting', () => {
         // # Make sure necessary field is false
-        cy.apiUpdateConfigBasic({TeamSettings: {EnableCustomBrand: false}});
+        cy.apiUpdateConfig({TeamSettings: {EnableCustomBrand: false}});
         cy.reload();
 
         // # Set Enable Custom Branding to true to be able to upload custom brand image
@@ -64,11 +43,11 @@ describe('Customization', () => {
             cy.get('.help-text').should('be.visible').and('have.text', contents);
 
             // # upload the image
-            cy.fileUpload('input');
+            cy.get('input').attachFile('mattermost-icon.png');
         });
 
-        // # save image
-        cy.get('#saveSetting').click();
+        // # Save setting
+        saveSetting();
 
         // # Verify that after page reload image exist
         cy.reload();
@@ -77,7 +56,7 @@ describe('Customization', () => {
         });
     });
 
-    it('SC20335 - Can change Site Name setting', () => {
+    it('MM-T1204 - Can change Site Name setting', () => {
         // * Verify site name's setting name for is visible and matches the text
         cy.findByTestId('TeamSettings.SiteNamelabel').scrollIntoView().should('be.visible').and('have.text', 'Site Name:');
 
@@ -91,19 +70,17 @@ describe('Customization', () => {
         const siteName = 'New site name';
         cy.findByTestId('TeamSettings.SiteNameinput').clear().type(siteName);
 
-        // # Click Save button
-        cy.get('#saveSetting').click();
+        // # Save setting
+        saveSetting();
 
         // Get config again
-        cy.apiGetConfig().then((response) => {
-            const config = response.body;
-
+        cy.apiGetConfig().then(({config}) => {
             // * Verify the site name is saved, directly via REST API
             expect(config.TeamSettings.SiteName).to.eq(siteName);
         });
     });
 
-    it('SC20332 - Can change Site Description setting', () => {
+    it('MM-T1205 - Can change Site Description setting', () => {
         // * Verify site description label is visible and matches the text
         cy.findByTestId('TeamSettings.CustomDescriptionTextlabel').should('be.visible').and('have.text', 'Site Description: ');
 
@@ -117,17 +94,17 @@ describe('Customization', () => {
         const siteDescription = 'New site description';
         cy.findByTestId('TeamSettings.CustomDescriptionTextinput').clear().type(siteDescription);
 
-        // # Click Save button
-        cy.get('#saveSetting').click();
+        // # Save setting
+        saveSetting();
 
         // Get config again
-        cy.apiGetConfig().then((response) => {
+        cy.apiGetConfig().then(({config}) => {
             // * Verify the site description is saved, directly via REST API
-            expect(response.body.TeamSettings.CustomDescriptionText).to.eq(siteDescription);
+            expect(config.TeamSettings.CustomDescriptionText).to.eq(siteDescription);
         });
     });
 
-    it('SC20342 - Can change Custom Brand Text setting', () => {
+    it('MM-T1208 - Can change Custom Brand Text setting', () => {
         // * Verify custom brand text label is visible and matches the text
         cy.findByTestId('TeamSettings.CustomBrandTextlabel').scrollIntoView().should('be.visible').and('have.text', 'Custom Brand Text:');
 
@@ -144,17 +121,17 @@ describe('Customization', () => {
         const customBrandText = 'Random brand text';
         cy.findByTestId('TeamSettings.CustomBrandTextinput').clear().type(customBrandText);
 
-        // # Click Save button
-        cy.get('#saveSetting').click();
+        // # Save setting
+        saveSetting();
 
         // Get config again
-        cy.apiGetConfig().then((response) => {
+        cy.apiGetConfig().then(({config}) => {
             // * Verify the custom brand text is saved, directly via REST API
-            expect(response.body.TeamSettings.CustomBrandText).to.eq(customBrandText);
+            expect(config.TeamSettings.CustomBrandText).to.eq(customBrandText);
         });
     });
 
-    it('SC20331 - Can change Report a Problem Link setting', () => {
+    it('MM-T1214 - Can change Report a Problem Link setting', () => {
         // * Verify Report a Problem link label is visible and matches the text
         cy.findByTestId('SupportSettings.ReportAProblemLinklabel').scrollIntoView().should('be.visible').and('have.text', 'Report a Problem Link:');
 
@@ -168,17 +145,17 @@ describe('Customization', () => {
         const reportAProblemLink = 'https://about.mattermost.com/default-report-a-problem/test';
         cy.findByTestId('SupportSettings.ReportAProblemLinkinput').clear().type(reportAProblemLink);
 
-        // # Click Save button
-        cy.get('#saveSetting').click();
+        // # Save setting
+        saveSetting();
 
         // Get config again
-        cy.apiGetConfig().then((response) => {
+        cy.apiGetConfig().then(({config}) => {
             // * Verify the Report a Problem link is saved, directly via REST API
-            expect(response.body.SupportSettings.ReportAProblemLink).to.eq(reportAProblemLink);
+            expect(config.SupportSettings.ReportAProblemLink).to.eq(reportAProblemLink);
         });
     });
 
-    it('SC20330 - Can change Privacy Policy Link setting', () => {
+    it('MM-T1212 - Can change Privacy Policy Link setting', () => {
         // * Verify that setting is visible and matches text content
         cy.findByTestId('SupportSettings.PrivacyPolicyLinklabel').scrollIntoView().should('be.visible').and('have.text', 'Privacy Policy Link:');
 
@@ -193,15 +170,16 @@ describe('Customization', () => {
         const stringToSave = 'https://some.com';
         cy.findByTestId('SupportSettings.PrivacyPolicyLinkinput').clear().type(stringToSave);
 
-        cy.get('#saveSetting').click();
+        // # Save setting
+        saveSetting();
 
         // * Verify that the value is save, directly via REST API
-        cy.apiGetConfig().then((response) => {
-            expect(response.body.SupportSettings.PrivacyPolicyLink).to.equal(stringToSave);
+        cy.apiGetConfig().then(({config}) => {
+            expect(config.SupportSettings.PrivacyPolicyLink).to.equal(stringToSave);
         });
     });
 
-    it('SC20337 Can change Support Email setting', () => {
+    it('MM-T1210 Can change Support Email setting', () => {
         // # Scroll Support Email section into view and verify that it's visible
         cy.findByTestId('SupportSettings.SupportEmail').scrollIntoView().should('be.visible');
 
@@ -219,16 +197,16 @@ describe('Customization', () => {
         // * Verify that set value is visible and matches text
         cy.findByTestId('SupportSettings.SupportEmail').find('input').clear().type(newEmail).should('have.value', newEmail);
 
-        // # Update Support Email
-        cy.get('#saveSetting').click();
+        // # Save setting
+        saveSetting();
 
         // * Verify that the config is correctly saved in the server
-        cy.apiGetConfig().then((response) => {
-            expect(response.body.SupportSettings.SupportEmail).to.equal(newEmail);
+        cy.apiGetConfig().then(({config}) => {
+            expect(config.SupportSettings.SupportEmail).to.equal(newEmail);
         });
     });
 
-    it('SC20338 Can change Android App Download Link setting', () => {
+    it('MM-T1216 Can change Android App Download Link setting', () => {
         // # Scroll Android App Download Link section into view and verify that it's visible
         cy.findByTestId('NativeAppSettings.AndroidAppDownloadLink').scrollIntoView().should('be.visible');
 
@@ -246,16 +224,16 @@ describe('Customization', () => {
         // * Verify that set value is visible and matches text
         cy.findByTestId('NativeAppSettings.AndroidAppDownloadLinkinput').clear().type(newAndroidAppDownloadLink).should('have.value', newAndroidAppDownloadLink);
 
-        // # Update Support Email
-        cy.get('#saveSetting').click();
+        // # Save setting
+        saveSetting();
 
         // * Verify that the config is correctly saved in the server
-        cy.apiGetConfig().then((response) => {
-            expect(response.body.NativeAppSettings.AndroidAppDownloadLink).to.equal(newAndroidAppDownloadLink);
+        cy.apiGetConfig().then(({config}) => {
+            expect(config.NativeAppSettings.AndroidAppDownloadLink).to.equal(newAndroidAppDownloadLink);
         });
     });
 
-    it('SC20340 Can change iOS App Download Link setting', () => {
+    it('MM-T1217 Can change iOS App Download Link setting', () => {
         // # Scroll iOS App Download Link section into view and verify that it's visible
         cy.findByTestId('NativeAppSettings.IosAppDownloadLink').scrollIntoView().should('be.visible');
 
@@ -273,16 +251,16 @@ describe('Customization', () => {
         // * Verify that set value is visible and matches text
         cy.findByTestId('NativeAppSettings.IosAppDownloadLinkinput').clear().type(newIosAppDownloadLink).should('have.value', newIosAppDownloadLink);
 
-        // # Update Support Email
-        cy.get('#saveSetting').click();
+        // # Save setting
+        saveSetting();
 
         // * Verify that the config is correctly saved in the server
-        cy.apiGetConfig().then((response) => {
-            expect(response.body.NativeAppSettings.IosAppDownloadLink).to.equal(newIosAppDownloadLink);
+        cy.apiGetConfig().then(({config}) => {
+            expect(config.NativeAppSettings.IosAppDownloadLink).to.equal(newIosAppDownloadLink);
         });
     });
 
-    it('SC20333 - Can change Mattermost Apps Download Page Link setting', () => {
+    it('MM-T1215 - Can change Mattermost Apps Download Page Link setting', () => {
         // * Verify Mattermost Apps Download Page Link's setting name is visible and matches the text
         cy.findByTestId('NativeAppSettings.AppDownloadLinklabel').scrollIntoView().should('be.visible').and('have.text', 'Mattermost Apps Download Page Link:');
 
@@ -292,23 +270,21 @@ describe('Customization', () => {
         // * Verify the site name's help text is visible and matches the text
         cy.findByTestId('NativeAppSettings.AppDownloadLinkhelp-text').find('span').should('be.visible').and('have.text', 'Add a link to a download page for the Mattermost apps. When a link is present, an option to "Download Mattermost Apps" will be added in the Main Menu so users can find the download page. Leave this field blank to hide the option from the Main Menu.');
 
-        // # Generate and enter a random site name
-        const siteName = 'New site name';
-        cy.findByTestId('NativeAppSettings.AppDownloadLinkinput').clear().type(siteName);
+        // # Enter new App download link
+        const newAppDownloadLink = 'https://example.com/app-download-link/';
+        cy.findByTestId('NativeAppSettings.AppDownloadLinkinput').clear().type(newAppDownloadLink);
 
-        // # Click Save button
-        cy.get('#saveSetting').click();
+        // # Save setting
+        saveSetting();
 
         // Get config again
-        cy.apiGetConfig().then((response) => {
-            const config = response.body;
-
-            // * Verify the site name is saved, directly via REST API
-            expect(config.NativeAppSettings.AppDownloadLink).to.eq(siteName);
+        cy.apiGetConfig().then(({config}) => {
+            // * Verify the App download link is saved, directly via REST API
+            expect(config.NativeAppSettings.AppDownloadLink).to.eq(newAppDownloadLink);
         });
     });
 
-    it('SC20330 - Can change Help Link setting', () => {
+    it('MM-T1209 - Can change Help Link setting', () => {
         // * Verify that setting is visible and matches text content
         const contents = ['The URL for the Help link on the Mattermost login page, sign-up pages, and Main Menu. If this field is empty, the Help link is hidden from users.'];
         cy.findByTestId('SupportSettings.HelpLinklabel').scrollIntoView().should('be.visible').and('have.text', 'Help Link:');
@@ -323,15 +299,16 @@ describe('Customization', () => {
         const stringToSave = 'https://some.com';
         cy.findByTestId('SupportSettings.HelpLinkinput').clear().type(stringToSave);
 
-        cy.get('#saveSetting').click();
+        // # Save setting
+        saveSetting();
 
         // * Verify that the value is save, directly via REST API
-        cy.apiGetConfig().then((response) => {
-            expect(response.body.SupportSettings.HelpLink).to.equal(stringToSave);
+        cy.apiGetConfig().then(({config}) => {
+            expect(config.SupportSettings.HelpLink).to.equal(stringToSave);
         });
     });
 
-    it('SC20341 Can change About Link setting', () => {
+    it('MM-T1213 Can change About Link setting', () => {
         const newAboutLink = 'https://about.mattermost.com/new-about-page/';
 
         // * Verify that setting is visible and has the correct label text
@@ -346,15 +323,15 @@ describe('Customization', () => {
         // # Clear existing about link and type the new about link
         cy.findByTestId('SupportSettings.AboutLinkinput').clear().type(newAboutLink);
 
-        // # Click the save button
-        cy.get('#saveSetting').click();
+        // # Save setting
+        saveSetting();
 
-        cy.apiGetConfig().then((response) => {
-            expect(response.body.SupportSettings.AboutLink).to.equal(newAboutLink);
+        cy.apiGetConfig().then(({config}) => {
+            expect(config.SupportSettings.AboutLink).to.equal(newAboutLink);
         });
     });
 
-    it('SC20329 - Can change Terms of Service Link setting', () => {
+    it('MM-T1211 - Can change Terms of Service Link setting', () => {
         // * Verify site name's setting name for is visible and matches the text
         cy.findByTestId('SupportSettings.TermsOfServiceLinklabel').scrollIntoView().should('be.visible').and('have.text', 'Terms of Service Link:');
 
@@ -373,21 +350,19 @@ describe('Customization', () => {
         const newValue = 'https://test.com';
         cy.findByTestId('SupportSettings.TermsOfServiceLinkinput').clear().type(newValue);
 
-        // # Click Save button
-        cy.get('#saveSetting').click();
+        // # Save setting
+        saveSetting();
 
         // Get config again
-        cy.apiGetConfig().then((response) => {
-            const config = response.body;
-
+        cy.apiGetConfig().then(({config}) => {
             // * Verify the site name is saved, directly via REST API
             expect(config.SupportSettings.TermsOfServiceLink).to.eq(newValue);
         });
     });
 
-    it('SC20339 - Can change Enable Custom Branding setting', () => {
+    it('MM-T1206 - Can change Enable Custom Branding setting', () => {
         // # Make sure necessary field is false
-        cy.apiUpdateConfigBasic({TeamSettings: {EnableCustomBrand: false}});
+        cy.apiUpdateConfig({TeamSettings: {EnableCustomBrand: false}});
         cy.reload();
 
         cy.findByTestId('TeamSettings.EnableCustomBrand').should('be.visible').within(() => {
@@ -402,23 +377,33 @@ describe('Customization', () => {
             cy.findByTestId('TeamSettings.EnableCustomBrandtrue').check();
         });
 
-        // # Click Save button
-        cy.get('#saveSetting').click();
+        // # Save setting
+        saveSetting();
 
         // * Verify that the value is save, directly via REST API
-        cy.apiGetConfig().then((response) => {
-            expect(response.body.TeamSettings.EnableCustomBrand).to.equal(true);
+        cy.apiGetConfig().then(({config}) => {
+            expect(config.TeamSettings.EnableCustomBrand).to.equal(true);
         });
 
         // # Set Enable Custom Branding to false
         cy.findByTestId('TeamSettings.EnableCustomBrandfalse').check();
 
-        // # Click Save button
-        cy.get('#saveSetting').click();
+        // # Save setting
+        saveSetting();
 
         // * Verify that the value is save, directly via REST API
-        cy.apiGetConfig().then((response) => {
-            expect(response.body.TeamSettings.EnableCustomBrand).to.equal(false);
+        cy.apiGetConfig().then(({config}) => {
+            expect(config.TeamSettings.EnableCustomBrand).to.equal(false);
         });
     });
 });
+
+function saveSetting() {
+    // # Click save button, and verify text and visibility
+    cy.get('#saveSetting').
+        should('have.text', 'Save').
+        and('be.enabled').
+        click().
+        should('be.disabled').
+        wait(TIMEOUTS.HALF_SEC);
+}

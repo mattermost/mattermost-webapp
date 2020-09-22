@@ -12,12 +12,19 @@ exports[`components/admin_console/system_users/list should match default snapsho
         "doPasswordReset": [Function],
         "enableUserAccessTokens": false,
         "experimentalEnableAuthenticationTransfer": false,
+        "isDisabled": false,
         "mfaEnabled": false,
       }
     }
     actions={
       Array [
-        [Function],
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "displayName": "Connect(SystemUsersDropdown)",
+          "type": [Function],
+        },
       ]
     }
     enableUserAccessTokens={false}
@@ -25,6 +32,7 @@ exports[`components/admin_console/system_users/list should match default snapsho
     extraInfo={Object {}}
     filter=""
     focusOnMount={false}
+    isDisabled={false}
     mfaEnabled={false}
     nextPage={[Function]}
     onTermChange={[MockFunction]}
@@ -32,7 +40,15 @@ exports[`components/admin_console/system_users/list should match default snapsho
     previousPage={[Function]}
     renderCount={[Function]}
     renderFilterRow={[MockFunction]}
-    rowComponentType={[Function]}
+    rowComponentType={
+      Object {
+        "$$typeof": Symbol(react.memo),
+        "WrappedComponent": [Function],
+        "compare": null,
+        "displayName": "Connect(UserListRowWithError)",
+        "type": [Function],
+      }
+    }
     search={[Function]}
     teamId=""
     term=""
@@ -82,12 +98,19 @@ exports[`components/admin_console/system_users/list should match default snapsho
         "doPasswordReset": [Function],
         "enableUserAccessTokens": false,
         "experimentalEnableAuthenticationTransfer": false,
+        "isDisabled": false,
         "mfaEnabled": false,
       }
     }
     actions={
       Array [
-        [Function],
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "displayName": "Connect(SystemUsersDropdown)",
+          "type": [Function],
+        },
       ]
     }
     enableUserAccessTokens={false}
@@ -193,6 +216,7 @@ exports[`components/admin_console/system_users/list should match default snapsho
     }
     filter=""
     focusOnMount={false}
+    isDisabled={false}
     mfaEnabled={false}
     nextPage={[Function]}
     onTermChange={[MockFunction]}
@@ -200,7 +224,15 @@ exports[`components/admin_console/system_users/list should match default snapsho
     previousPage={[Function]}
     renderCount={[Function]}
     renderFilterRow={[MockFunction]}
-    rowComponentType={[Function]}
+    rowComponentType={
+      Object {
+        "$$typeof": Symbol(react.memo),
+        "WrappedComponent": [Function],
+        "compare": null,
+        "displayName": "Connect(UserListRowWithError)",
+        "type": [Function],
+      }
+    }
     search={[Function]}
     teamId=""
     term=""
@@ -271,12 +303,19 @@ exports[`components/admin_console/system_users/list should match default snapsho
         "doPasswordReset": [Function],
         "enableUserAccessTokens": false,
         "experimentalEnableAuthenticationTransfer": false,
+        "isDisabled": false,
         "mfaEnabled": true,
       }
     }
     actions={
       Array [
-        [Function],
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "displayName": "Connect(SystemUsersDropdown)",
+          "type": [Function],
+        },
       ]
     }
     enableUserAccessTokens={false}
@@ -407,6 +446,7 @@ exports[`components/admin_console/system_users/list should match default snapsho
     }
     filter=""
     focusOnMount={false}
+    isDisabled={false}
     mfaEnabled={true}
     nextPage={[Function]}
     onTermChange={[MockFunction]}
@@ -414,7 +454,15 @@ exports[`components/admin_console/system_users/list should match default snapsho
     previousPage={[Function]}
     renderCount={[Function]}
     renderFilterRow={[MockFunction]}
-    rowComponentType={[Function]}
+    rowComponentType={
+      Object {
+        "$$typeof": Symbol(react.memo),
+        "WrappedComponent": [Function],
+        "compare": null,
+        "displayName": "Connect(UserListRowWithError)",
+        "type": [Function],
+      }
+    }
     search={[Function]}
     teamId=""
     term=""

@@ -44,7 +44,6 @@ exports[`components/RenameChannelModal should match snapshot 1`] = `
       <FormattedMessage
         defaultMessage="Rename Channel"
         id="rename_channel.title"
-        values={Object {}}
       />
     </ModalTitle>
   </ModalHeader>
@@ -64,7 +63,6 @@ exports[`components/RenameChannelModal should match snapshot 1`] = `
           <FormattedMessage
             defaultMessage="Display Name"
             id="rename_channel.displayName"
-            values={Object {}}
           />
         </label>
         <LocalizedInput
@@ -120,23 +118,25 @@ exports[`components/RenameChannelModal should match snapshot 1`] = `
               fake-channel/channels/
             </span>
           </OverlayTrigger>
-          <LocalizedInput
+          <input
             aria-label="rename channel"
             className="form-control"
             id="channel_name"
             maxLength={64}
             onChange={[Function]}
-            placeholder={
-              Object {
-                "defaultMessage": "lowercase alphanumeric characters",
-                "id": "rename_channel.handleHolder",
-              }
-            }
             readOnly={false}
             type="text"
             value="fake-channel"
           />
         </div>
+        <p
+          className="input__help"
+        >
+          <FormattedMessage
+            defaultMessage="You can use lowercase letters, numbers, dashes, and underscores."
+            id="change_url.helpText"
+          />
+        </p>
       </div>
     </ModalBody>
     <ModalFooter
@@ -151,7 +151,6 @@ exports[`components/RenameChannelModal should match snapshot 1`] = `
         <FormattedMessage
           defaultMessage="Cancel"
           id="rename_channel.cancel"
-          values={Object {}}
         />
       </button>
       <button
@@ -163,7 +162,6 @@ exports[`components/RenameChannelModal should match snapshot 1`] = `
         <FormattedMessage
           defaultMessage="Save"
           id="rename_channel.save"
-          values={Object {}}
         />
       </button>
     </ModalFooter>

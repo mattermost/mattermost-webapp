@@ -248,7 +248,7 @@ describe('components/admin_console/SchemaAdminSettings', () => {
                 environmentConfig={environmentConfig}
                 schema={{...schema}}
                 updateConfig={jest.fn()}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -260,7 +260,7 @@ describe('components/admin_console/SchemaAdminSettings', () => {
                 environmentConfig={environmentConfig}
                 schema={{component: () => <p>{'Test'}</p>}}
                 updateConfig={jest.fn()}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -323,7 +323,7 @@ describe('components/admin_console/SchemaAdminSettings', () => {
             <FormattedMessage
                 id='error.plugin_not_found.title'
                 defaultMessage='Plugin Not Found'
-            />
+            />,
         )).toEqual(true);
     });
 });

@@ -36,7 +36,7 @@ function makeGetPluginSchema() {
                     let bannerType = '';
                     let type = setting.type;
                     let displayName = setting.display_name;
-                    let isDisabled = it.stateIsFalse(pluginEnabledConfigKey);
+                    let isDisabled = it.any(it.stateIsFalse(pluginEnabledConfigKey), it.not(it.userHasWritePermissionOnResource('plugins')));
 
                     if (customComponents[key]) {
                         component = customComponents[key].component;
@@ -46,7 +46,7 @@ function makeGetPluginSchema() {
                         type = Constants.SettingsTypes.TYPE_BANNER;
                         displayName = localizeMessage('admin.plugin.customSetting.pluginDisabledWarning', 'In order to view this setting, enable the plugin and click Save.');
                         bannerType = 'warning';
-                        isDisabled = it.stateIsTrue(pluginEnabledConfigKey);
+                        isDisabled = it.any(it.stateIsTrue(pluginEnabledConfigKey), it.not(it.userHasWritePermissionOnResource('plugins')));
                     }
 
                     return {
@@ -64,7 +64,13 @@ function makeGetPluginSchema() {
                 });
             }
 
-            settings.unshift(getEnablePluginSetting(plugin));
+            const pluginEnableSetting = getEnablePluginSetting(plugin);
+            pluginEnableSetting.isDisabled = it.any(pluginEnableSetting.isDisabled, it.not(it.userHasWritePermissionOnResource('plugins')));
+            settings.unshift(pluginEnableSetting);
+
+            settings.forEach((s) => {
+                s.isDisabled = it.any(s.isDisabled, it.not(it.userHasWritePermissionOnResource('plugins')));
+            });
 
             return {
                 ...plugin.settings_schema,
@@ -73,7 +79,7 @@ function makeGetPluginSchema() {
                 settings,
                 translate: Boolean(plugin.translate),
             };
-        }
+        },
     );
 }
 

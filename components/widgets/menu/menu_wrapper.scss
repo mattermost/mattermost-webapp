@@ -8,6 +8,38 @@
 
     *:first-child {
         @include unselectable;
-        cursor: pointer;
+    }
+}
+
+div[disabled] {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.MenuWrapperAnimation {
+    // Rule order here is important for precedence
+    &-enter {
+        opacity: 0;
+    }
+
+    &-enter-active,
+    &-enter-done,
+    &-exit {
+        opacity: 1;
+    }
+
+    &-exit-active,
+    &-exit-done {
+        opacity: 0;
+    }
+}
+
+body.enable-animations {
+    .MenuWrapperAnimation {
+        &-enter-active,
+        &-exit-active {
+            @include transition-property(opacity);
+            @include transition-duration(80ms);
+        }
     }
 }

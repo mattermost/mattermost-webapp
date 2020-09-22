@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {CSSProperties} from 'react';
+import React from 'react';
 
 interface PostEmojiProps {
     name: string;
@@ -13,7 +13,7 @@ declare module 'react' {
     }
 }
 
-export default class PostEmoji extends React.PureComponent<PostEmojiProps, {}> {
+export default class PostEmoji extends React.PureComponent<PostEmojiProps> {
     public render() {
         const emojiText = ':' + this.props.name + ':';
 
@@ -27,7 +27,9 @@ export default class PostEmoji extends React.PureComponent<PostEmojiProps, {}> {
                 className='emoticon'
                 title={emojiText}
                 style={{backgroundImage: 'url(' + this.props.imageUrl + ')'}}
-            />
+            >
+                {emojiText}
+            </span>
         );
     }
 }

@@ -82,7 +82,7 @@ export function submitPost(channelId, rootId, draft) {
             user_id: userId,
             create_at: time,
             metadata: {},
-            props: {},
+            props: {...draft.props},
         };
 
         const hookResult = await dispatch(runMessageWillBePostedHooks(post));

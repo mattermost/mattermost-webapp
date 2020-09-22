@@ -33,7 +33,7 @@ describe('components/tutorial/tutorial_tip/tutorial_tip', () => {
 
         const props = {...requiredProps, actions: {closeRhsMenu, savePreferences}};
         const wrapper: ShallowWrapper<any, any, TutorialTip> = shallow(
-            <TutorialTip {...props}/>
+            <TutorialTip {...props}/>,
         );
 
         wrapper.instance().handleNext();
@@ -51,7 +51,7 @@ describe('components/tutorial/tutorial_tip/tutorial_tip', () => {
 
         const props = {...requiredProps, actions: {closeRhsMenu, savePreferences}};
         const wrapper: ShallowWrapper<any, any, TutorialTip> = shallow(
-            <TutorialTip {...props}/>
+            <TutorialTip {...props}/>,
         );
 
         wrapper.instance().handleNext();
@@ -72,12 +72,12 @@ describe('components/tutorial/tutorial_tip/tutorial_tip', () => {
 
     test('should have called mockEvent.preventDefault when skipTutorial', () => {
         const mockEvent = {
-            preventDefault: jest.fn()
+            preventDefault: jest.fn(),
         } as unknown as React.MouseEvent<HTMLAnchorElement>;
 
         const props = {...requiredProps};
         const wrapper: ShallowWrapper<any, any, TutorialTip> = shallow(
-            <TutorialTip {...props}/>
+            <TutorialTip {...props}/>,
         );
 
         wrapper.instance().skipTutorial(mockEvent);
@@ -88,12 +88,12 @@ describe('components/tutorial/tutorial_tip/tutorial_tip', () => {
         const savePreferences = jest.fn();
         const closeRhsMenu = jest.fn();
         const mockEvent = {
-            preventDefault: jest.fn()
+            preventDefault: jest.fn(),
         } as unknown as React.MouseEvent<HTMLAnchorElement>;
 
         const props = {...requiredProps, actions: {closeRhsMenu, savePreferences}};
         const wrapper: ShallowWrapper<any, any, TutorialTip> = shallow(
-            <TutorialTip {...props}/>
+            <TutorialTip {...props}/>,
         );
 
         wrapper.instance().skipTutorial(mockEvent);

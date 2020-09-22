@@ -15,6 +15,11 @@
         flex-direction: column;
         height: 100vh;
 
+        // Fix for Safari on iOS MM-24361
+        @supports (-webkit-touch-callout: none) {
+            height: -webkit-fill-available;
+        }
+
         .announcement-bar--fixed & {
             height: calc(100vh - 32px);
         }
@@ -69,7 +74,11 @@
     }
 
     .filtered-user-list {
-        height: calc(100vh - 160px);
+        height: calc(100vh - 175px);
+
+        .announcement-bar--fixed & {
+            height: calc(100vh - 205px);
+        }
     }
 
     .Select-value-label {
@@ -484,6 +493,21 @@
     .suggestion--selected {
         background-color: #e2e2e2;
     }
+
+    .trial {
+        margin-top: 15px;
+    }
+    .trial-error {
+        color: $dark-gray;
+        font-weight: 400;
+        margin-top: 10px;
+    }
+    .trial-legal-terms {
+        margin-top: 10px;
+        margin-bottom: 0;
+        color: $dark-gray;
+        font-weight: 400;
+    }
 }
 
 .job-table__cancel-button {
@@ -523,6 +547,39 @@
     width: 220px;
     z-index: 10;
 
+    .filter-container{
+        position: relative;
+        .search__icon {
+            stroke: #999;
+            width: 16px;
+            height: 16px;
+            position: absolute;
+            top: 16px;
+            left: 21px
+        }
+        .filter {
+            background: rgba(255, 255, 255, .05);
+            border: 1px solid #666;
+            border-radius: 20px;
+            color: $white;
+            padding: 5px 36px;
+            margin: 8px;
+            width: 204px;
+            font-size: 14px;
+            outline: none;
+            &:focus, &.active {
+                margin: 7px;
+                border: 2px solid $primary-color;
+            }
+        }
+        .input-clear {
+            color: $white;
+            font-weight: bold;
+            position: absolute;
+            right: 16px
+        }
+    }
+
     .Menu {
         .dropdown-menu {
             overflow: auto;
@@ -536,6 +593,7 @@
 
     body.announcement-bar--fixed & {
         top: $announcement-bar-height;
+        padding-bottom: $announcement-bar-height;
     }
 
     .dropdown-menu {
@@ -556,42 +614,9 @@
         padding-bottom: 20px;
         position: relative;
 
-        .filter-container{
-            position: relative;
-            .search__icon {
-                stroke: #999;
-                width: 16px;
-                height: 16px;
-                position: absolute;
-                top: 16px;
-                left: 21px
-            }
-            .filter {
-                background: rgba(255, 255, 255, .05);
-                border: 1px solid #666;
-                border-radius: 20px;
-                color: $white;
-                padding: 5px 36px;
-                margin: 8px;
-                width: 204px;
-                font-size: 14px;
-                outline: none;
-                &:focus, &.active {
-                    margin: 7px;
-                    border: 2px solid $primary-color;
-                }
-            }
-            .input-clear {
-                color: $white;
-                font-weight: bold;
-                position: absolute;
-                top: 10px;
-                right: 12px
-            }
-        }
-
         ul {
             margin-top: 1px;
+            padding-bottom: 20px;
         }
 
     }
@@ -935,4 +960,25 @@
     .tooltip-inner {
         max-width: none;
     }
+}
+
+.admin-console .admin-console__content.admin-logs-content {
+    max-width: none;
+
+    // We keep the banner the same width and only expand the content box.
+    .banner {
+        max-width: 920px;
+    }
+}
+
+div[disabled] {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.enterprise-license-text {
+    padding: 10px;
+    text-align: justify;
+    border: 1px solid $light-gray;
+    background: white;
 }

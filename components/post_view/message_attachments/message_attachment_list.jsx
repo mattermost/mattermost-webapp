@@ -44,7 +44,7 @@ export default class MessageAttachmentList extends React.PureComponent {
                     key={'att_' + i}
                     options={this.props.options}
                     imagesMetadata={this.props.imagesMetadata}
-                />
+                />,
             );
         });
 

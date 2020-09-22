@@ -17,7 +17,7 @@ describe('components/widgets/admin_console/AdminHeader', () => {
 >
   Test
 </div>
-`
+`,
         );
     });
 });

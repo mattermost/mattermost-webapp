@@ -16,7 +16,7 @@ function mapStateToProps(state) {
         state,
         Preferences.CATEGORY_ADVANCED_SETTINGS,
         Preferences.ADVANCED_FILTER_JOIN_LEAVE,
-        'true'
+        'true',
     );
 
     return {

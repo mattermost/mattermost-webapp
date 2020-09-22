@@ -1,24 +1,30 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 // ***************************************************************
 // - [#] indicates a test step (e.g. # Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+// Group: @messaging
+
 describe('Messaging', () => {
     before(() => {
         // # Change viewport to tablet
         cy.viewport('ipad-2');
 
-        // # Login and navigate to town-square
-        cy.toMainChannelView('user-1');
+        // # Login as test user and visit town-square channel
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
 
-        // # Post a new message to ensure there will be a post to click on
-        cy.postMessage('Hello ' + Date.now());
+            // # Post a new message to ensure there will be a post to click on
+            cy.postMessage('Hello ' + Date.now());
+        });
     });
 
-    it('M18705-Center channel input box does not overlap with RHS', () => {
+    it('MM-T210 Center channel input box doesn\'t overlap with RHS', () => {
         const maxReplyCount = 15;
 
         // * Check if center channel post text box is focused

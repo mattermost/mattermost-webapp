@@ -9,12 +9,19 @@ import MenuWrapperAnimation from './menu_wrapper_animation';
 
 import './menu_wrapper.scss';
 
+declare module 'react' {
+    interface HTMLAttributes<T> extends AriaAttributes, DOMAttributes<T> {
+        disabled?: boolean;
+    }
+}
 type Props = {
     children?: React.ReactNode;
     className: string;
     onToggle?: (open: boolean) => void;
     animationComponent: any;
     id?: string;
+    isDisabled?: boolean;
+    stopPropagationOnToggle?: boolean;
 }
 
 type State = {
@@ -68,7 +75,7 @@ export default class MenuWrapper extends React.PureComponent<Props, State> {
         this.close();
     }
 
-    private close = () => {
+    public close = () => {
         if (this.state.open) {
             this.setState({open: false});
             if (this.props.onToggle) {
@@ -77,12 +84,23 @@ export default class MenuWrapper extends React.PureComponent<Props, State> {
         }
     }
 
-    private toggle = () => {
-        const newState = !this.state.open;
-        this.setState({open: newState});
-        if (this.props.onToggle) {
-            this.props.onToggle(newState);
+    toggle = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        /**
+         * This is only here so that we can toggle the menus in the sidebar, because the default behavior of the mobile
+         * version (ie the one that uses a modal) needs propagation to close the modal after selecting something
+         * We need to refactor this so that the modal is explicitly closed on toggle, but for now I am aiming to preserve the existing logic
+         * so as to not break other things
+        **/
+        if (this.props.stopPropagationOnToggle) {
+            e.preventDefault();
+            e.stopPropagation();
         }
+        const newState = !this.state.open;
+        this.setState({open: newState}, () => {
+            if (this.props.onToggle) {
+                this.props.onToggle(newState);
+            }
+        });
     }
 
     public render() {
@@ -96,6 +114,7 @@ export default class MenuWrapper extends React.PureComponent<Props, State> {
                 className={'MenuWrapper ' + this.props.className}
                 onClick={this.toggle}
                 ref={this.node}
+                disabled={this.props.isDisabled}
             >
                 {children ? Object.values(children)[0] : {}}
                 <Animation show={this.state.open}>

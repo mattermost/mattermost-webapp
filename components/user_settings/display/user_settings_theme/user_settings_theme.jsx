@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import $ from 'jquery';
 import PropTypes from 'prop-types';
@@ -16,7 +17,7 @@ import SettingItemMin from 'components/setting_item_min';
 import CustomThemeChooser from './custom_theme_chooser.jsx';
 import PremadeThemeChooser from './premade_theme_chooser';
 
-export default class ThemeSetting extends React.Component {
+export default class ThemeSetting extends React.PureComponent {
     static propTypes = {
         actions: PropTypes.shape({
             saveTheme: PropTypes.func.isRequired,
@@ -45,7 +46,7 @@ export default class ThemeSetting extends React.Component {
 
     componentDidMount() {
         if (this.props.selected) {
-            $(ReactDOM.findDOMNode(this.refs[this.state.theme])).addClass('active-border');
+            $(ReactDOM.findDOMNode(this.refs[this.state.theme])).addClass('active-border'); // eslint-disable-line jquery/no-class
         }
     }
 
@@ -55,8 +56,8 @@ export default class ThemeSetting extends React.Component {
         }
 
         if (this.props.selected) {
-            $('.color-btn').removeClass('active-border');
-            $(ReactDOM.findDOMNode(this.refs[this.state.theme])).addClass('active-border');
+            $('.color-btn').removeClass('active-border'); // eslint-disable-line jquery/no-class
+            $(ReactDOM.findDOMNode(this.refs[this.state.theme])).addClass('active-border'); // eslint-disable-line jquery/no-class
         }
     }
 
@@ -205,7 +206,7 @@ export default class ThemeSetting extends React.Component {
                             />
                         </label>
                         <br/>
-                    </div>
+                    </div>,
                 );
             }
 
@@ -230,7 +231,7 @@ export default class ThemeSetting extends React.Component {
                                 defaultMessage='Custom Theme'
                             />
                         </label>
-                    </div>
+                    </div>,
                 );
 
                 inputs.push(custom);
@@ -249,7 +250,7 @@ export default class ThemeSetting extends React.Component {
                                 defaultMessage='See other themes'
                             />
                         </a>
-                    </div>
+                    </div>,
                 );
 
                 inputs.push(
@@ -267,7 +268,7 @@ export default class ThemeSetting extends React.Component {
                                 defaultMessage='Import theme colors from Slack'
                             />
                         </button>
-                    </div>
+                    </div>,
                 );
             }
 
@@ -328,3 +329,4 @@ export default class ThemeSetting extends React.Component {
         return themeUI;
     }
 }
+/* eslint-enable react/no-string-refs */

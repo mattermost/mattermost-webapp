@@ -9,7 +9,7 @@ import {FormattedMessage} from 'react-intl';
 import {equalServerVersions} from 'utils/server_version';
 import {AnnouncementBarTypes} from 'utils/constants';
 
-import AnnouncementBar from '../announcement_bar.jsx';
+import AnnouncementBar from '../default_announcement_bar';
 
 export default class VersionBar extends React.PureComponent {
     static propTypes = {

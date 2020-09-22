@@ -34,7 +34,7 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
 
     test('should match snapshot', () => {
         const wrapper = shallow(
-            <ChannelNotificationsModal {...baseProps}/>
+            <ChannelNotificationsModal {...baseProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -45,7 +45,7 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
             <ChannelNotificationsModal
                 {...baseProps}
                 channelMember={{notify_props: {}}}
-            />
+            />,
         );
 
         expect(wrapper.state('desktopNotifyLevel')).toEqual(NotificationLevels.DEFAULT);
@@ -64,7 +64,7 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
         };
         const props = {...baseProps, currentUser};
         const wrapper = shallow(
-            <ChannelNotificationsModal {...props}/>
+            <ChannelNotificationsModal {...props}/>,
         );
 
         expect(wrapper.state('ignoreChannelMentions')).toEqual(IgnoreChannelMentions.OFF);
@@ -80,7 +80,7 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
         };
         const props = {...baseProps, currentUser};
         const wrapper = shallow(
-            <ChannelNotificationsModal {...props}/>
+            <ChannelNotificationsModal {...props}/>,
         );
 
         expect(wrapper.state('ignoreChannelMentions')).toEqual(IgnoreChannelMentions.ON);
@@ -101,7 +101,7 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
         };
         const props = {...baseProps, channelMember, currentUser};
         const wrapper = shallow(
-            <ChannelNotificationsModal {...props}/>
+            <ChannelNotificationsModal {...props}/>,
         );
 
         expect(wrapper.state('ignoreChannelMentions')).toEqual(IgnoreChannelMentions.OFF);
@@ -122,7 +122,7 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
         };
         const props = {...baseProps, channelMember, currentUser};
         const wrapper = shallow(
-            <ChannelNotificationsModal {...props}/>
+            <ChannelNotificationsModal {...props}/>,
         );
 
         expect(wrapper.state('ignoreChannelMentions')).toEqual(IgnoreChannelMentions.ON);
@@ -132,7 +132,7 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
         const onHide = jest.fn();
         const props = {...baseProps, onHide};
         const wrapper = shallow(
-            <ChannelNotificationsModal {...props}/>
+            <ChannelNotificationsModal {...props}/>,
         );
 
         wrapper.setState({activeSection: NotificationSections.DESKTOP, desktopNotifyLevel: NotificationLevels.NONE});
@@ -156,7 +156,7 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
 
     test('should match state on updateSection', () => {
         const wrapper = shallow(
-            <ChannelNotificationsModal {...baseProps}/>
+            <ChannelNotificationsModal {...baseProps}/>,
         );
 
         wrapper.setState({activeSection: NotificationSections.NONE});
@@ -166,7 +166,7 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
 
     test('should reset state when collapsing a section', () => {
         const wrapper = shallow(
-            <ChannelNotificationsModal {...baseProps}/>
+            <ChannelNotificationsModal {...baseProps}/>,
         );
 
         wrapper.instance().updateSection(NotificationSections.DESKTOP);
@@ -181,7 +181,7 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
 
     test('should match state on handleSubmitDesktopNotifyLevel', () => {
         const wrapper = shallow(
-            <ChannelNotificationsModal {...baseProps}/>
+            <ChannelNotificationsModal {...baseProps}/>,
         );
 
         const instance = wrapper.instance();
@@ -200,7 +200,7 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
 
     test('should match state on handleUpdateDesktopNotifyLevel', () => {
         const wrapper = shallow(
-            <ChannelNotificationsModal {...baseProps}/>
+            <ChannelNotificationsModal {...baseProps}/>,
         );
 
         wrapper.setState({desktopNotifyLevel: NotificationLevels.ALL});
@@ -217,7 +217,7 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
         };
         const props = {...baseProps, channelMember};
         const wrapper = shallow(
-            <ChannelNotificationsModal {...props}/>
+            <ChannelNotificationsModal {...props}/>,
         );
 
         const instance = wrapper.instance();
@@ -243,7 +243,7 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
         };
         const props = {...baseProps, channelMember};
         const wrapper = shallow(
-            <ChannelNotificationsModal {...props}/>
+            <ChannelNotificationsModal {...props}/>,
         );
 
         wrapper.setState({markUnreadNotifyLevel: NotificationLevels.ALL});
@@ -261,7 +261,7 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
         };
         const props = {...baseProps, channelMember};
         const wrapper = shallow(
-            <ChannelNotificationsModal {...props}/>
+            <ChannelNotificationsModal {...props}/>,
         );
 
         const instance = wrapper.instance();
@@ -288,7 +288,7 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
         };
         const props = {...baseProps, channelMember};
         const wrapper = shallow(
-            <ChannelNotificationsModal {...props}/>
+            <ChannelNotificationsModal {...props}/>,
         );
 
         wrapper.setState({pushNotifyLevel: NotificationLevels.ALL});
@@ -306,7 +306,7 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
             channel: 'false',
         };
         const wrapper = shallow(
-            <ChannelNotificationsModal {...baseProps}/>
+            <ChannelNotificationsModal {...baseProps}/>,
         );
 
         wrapper.instance().resetStateFromNotifyProps(channelMemberNotifyProps, currentUserNotifyProps);

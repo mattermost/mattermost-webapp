@@ -3,7 +3,7 @@
 
 import assert from 'assert';
 
-import * as Selectors from 'selectors/rhs.jsx';
+import * as Selectors from 'selectors/rhs';
 
 describe('Selectors.Rhs', () => {
     describe('should return the last time a post was selected', () => {

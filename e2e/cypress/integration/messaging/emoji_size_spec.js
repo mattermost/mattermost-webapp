@@ -6,6 +6,10 @@
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
+
+// Stage: @prod
+// Group: @messaging
+
 /**
  * [checkEmojiSizeInPost: this function is going to check the correct size of emojis when they're inside messages]
  * @param  message {string[]} [this is the message we send along with some emojis attached to it ]
@@ -25,12 +29,13 @@ function checkEmojiSize(message, emojis, isJumbo) {
 
 describe('Messaging', () => {
     before(() => {
-        // # Login as "user-1" and go to /
-        cy.apiLogin('user-1');
-        cy.visit('/');
+        // # Login as test user and visit town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
+        });
     });
 
-    it('M15381 - Whitespace with emojis does not affect size', () => {
+    it('MM-T164 Whitespace with emojis does not affect size', () => {
         const emojis = [':book:', ':key:', ':gem:'];
 
         // # Post a message beginning with a new line and followed by emojis
@@ -69,7 +74,7 @@ describe('Messaging', () => {
         checkEmojiSize('@spacesMessage', emojis, true);
     });
 
-    it('MM-15012 - Emojis are not jumbo when accompanied by text', () => {
+    it('MM-T163 Emojis are not jumbo when accompanied by text', () => {
         const emojis = [':book:', ':key:', ':gem:'];
 
         // # Post a message
@@ -85,7 +90,7 @@ describe('Messaging', () => {
         checkEmojiSize('@newLineMessage', emojis, false);
     });
 
-    it('M17457 Emojis show as jumbo in main thread - Multi emoji, no text, including unicode and emoticon', () => {
+    it('MM-T160 Emojis show as jumbo in main thread - Multi emoji, no text, including unicode and emoticon', () => {
         // # Create list of emojis we want to post
         const emojis = [':smiley:', ':thumbsup:', '🤟'];
 

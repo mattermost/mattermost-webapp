@@ -4,7 +4,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
-import {Groups} from 'mattermost-redux/constants';
 
 import GroupTeamsAndChannelsRow from 'components/admin_console/group_settings/group_details/group_teams_and_channels_row.jsx';
 
@@ -14,9 +13,9 @@ export default class GroupTeamsAndChannels extends React.PureComponent {
         teams: PropTypes.arrayOf(PropTypes.object),
         channels: PropTypes.arrayOf(PropTypes.object),
         loading: PropTypes.bool.isRequired,
-        getGroupSyncables: PropTypes.func.isRequired,
-        unlink: PropTypes.func.isRequired,
         onChangeRoles: PropTypes.func.isRequired,
+        onRemoveItem: PropTypes.func.isRequired,
+        isDisabled: PropTypes.bool,
     }
 
     constructor(props) {
@@ -32,15 +31,8 @@ export default class GroupTeamsAndChannels extends React.PureComponent {
         this.setState({collapsed});
     }
 
-    onRemoveItem = async (id, type) => {
-        if (type === 'public-team' || type === 'private-team') {
-            await this.props.unlink(this.props.id, id, Groups.SYNCABLE_TYPE_TEAM);
-            await this.props.getGroupSyncables(this.props.id, Groups.SYNCABLE_TYPE_TEAM);
-            await this.props.getGroupSyncables(this.props.id, Groups.SYNCABLE_TYPE_CHANNEL);
-        } else {
-            await this.props.unlink(this.props.id, id, Groups.SYNCABLE_TYPE_CHANNEL);
-            await this.props.getGroupSyncables(this.props.id, Groups.SYNCABLE_TYPE_CHANNEL);
-        }
+    onRemoveItem = (id, type) => {
+        this.props.onRemoveItem(id, type);
     }
 
     onChangeRoles = async (id, type, roleToBe) => {
@@ -160,6 +152,7 @@ export default class GroupTeamsAndChannels extends React.PureComponent {
                                 onRemoveItem={this.onRemoveItem}
                                 onChangeRoles={this.onChangeRoles}
                                 onToggleCollapse={this.onToggleCollapse}
+                                isDisabled={this.props.isDisabled}
                                 {...entry}
                             />
                         ))}

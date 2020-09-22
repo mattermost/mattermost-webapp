@@ -1,12 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {CSSProperties} from 'react';
 
 import {isMobile} from 'utils/utils';
 
 import SubMenuItem from './menu_items/submenu_item';
 
+import MenuHeader from './menu_header';
 import MenuGroup from './menu_group';
 import MenuItemAction from './menu_items/menu_item_action';
 import MenuItemExternalLink from './menu_items/menu_item_external_link';
@@ -21,10 +22,11 @@ type Props = {
     openUp?: boolean;
     id?: string;
     ariaLabel: string;
-    customStyles?: object;
+    customStyles?: CSSProperties;
 }
 
 export default class Menu extends React.PureComponent<Props> {
+    public static Header = MenuHeader
     public static Group = MenuGroup
     public static ItemAction = MenuItemAction
     public static ItemExternalLink = MenuItemExternalLink
@@ -64,9 +66,10 @@ export default class Menu extends React.PureComponent<Props> {
                 prevWasDivider = false;
             }
         }
+        children.reverse();
 
         // Hiding trailing dividers
-        for (const child of children.reverse()) {
+        for (const child of children) {
             if (child.classList.contains('menu-divider') || child.classList.contains('mobile-menu-divider')) {
                 child.style.display = 'none';
             } else {
@@ -105,7 +108,7 @@ export default class Menu extends React.PureComponent<Props> {
 
     public render() {
         const {children, openUp, openLeft, id, ariaLabel, customStyles} = this.props;
-        let styles: React.CSSProperties = {};
+        let styles: CSSProperties = {};
         if (customStyles) {
             styles = customStyles;
         } else {

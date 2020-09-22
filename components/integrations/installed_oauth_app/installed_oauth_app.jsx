@@ -85,7 +85,7 @@ export default class InstalledOAuthApp extends React.PureComponent {
                     this.setState({error: null});
                     this.handleShowClientSecret();
                 }
-            }
+            },
         );
     }
 

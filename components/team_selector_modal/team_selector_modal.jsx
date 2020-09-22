@@ -18,7 +18,7 @@ import {imageURLForTeam} from 'utils/utils';
 
 const TEAMS_PER_PAGE = 50;
 
-export default class TeamSelectorModal extends React.Component {
+export default class TeamSelectorModal extends React.PureComponent {
     static propTypes = {
         currentSchemeId: PropTypes.string,
         alreadySelected: PropTypes.array,
@@ -55,11 +55,11 @@ export default class TeamSelectorModal extends React.Component {
         });
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (this.props.searchTerm !== nextProps.searchTerm) {
+    componentDidUpdate(prevProps) {
+        if (this.props.searchTerm !== prevProps.searchTerm) {
             clearTimeout(this.searchTimeoutId);
 
-            const searchTerm = nextProps.searchTerm;
+            const searchTerm = this.props.searchTerm;
             if (searchTerm === '') {
                 return;
             }
@@ -70,7 +70,7 @@ export default class TeamSelectorModal extends React.Component {
                     await this.props.actions.searchTeams(searchTerm);
                     this.setTeamsLoadingState(false);
                 },
-                Constants.SEARCH_TIMEOUT_MILLISECONDS
+                Constants.SEARCH_TIMEOUT_MILLISECONDS,
             );
         }
     }

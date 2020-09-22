@@ -18,7 +18,7 @@ describe('components/widgets/inputs/ChannelsInput', () => {
                     {id: 'test-channel-1', type: 'O', display_name: 'test channel 1'},
                     {id: 'test-channel-2', type: 'P', display_name: 'test channel 2'},
                 ]}
-            />
+            />,
         );
         expect(wrapper).toMatchInlineSnapshot(`
 <Async

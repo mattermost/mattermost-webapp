@@ -12,6 +12,7 @@ import GenericChannelProvider from 'components/suggestion/generic_channel_provid
 
 import TextSetting from 'components/widgets/settings/text_setting';
 import AutocompleteSelector from 'components/autocomplete_selector';
+import ModalSuggestionList from 'components/suggestion/modal_suggestion_list.jsx';
 import BoolSetting from 'components/widgets/settings/bool_setting';
 import RadioSetting from 'components/widgets/settings/radio_setting';
 
@@ -33,6 +34,7 @@ export default class DialogElement extends React.PureComponent {
         options: PropTypes.arrayOf(PropTypes.object),
         value: PropTypes.any,
         onChange: PropTypes.func,
+        autoFocus: PropTypes.bool,
         actions: PropTypes.shape({
             autocompleteChannels: PropTypes.func.isRequired,
             autocompleteUsers: PropTypes.func.isRequired,
@@ -55,7 +57,7 @@ export default class DialogElement extends React.PureComponent {
 
             if (props.value && props.options) {
                 const defaultOption = props.options.find(
-                    (option) => option.value === props.value
+                    (option) => option.value === props.value,
                 );
                 defaultText = defaultOption ? defaultOption.text : '';
             }
@@ -146,6 +148,7 @@ export default class DialogElement extends React.PureComponent {
 
             return (
                 <TextSetting
+                    autoFocus={this.props.autoFocus}
                     id={name}
                     type={type}
                     label={displayNameContent}
@@ -167,11 +170,14 @@ export default class DialogElement extends React.PureComponent {
                     helpText={helpTextContent}
                     placeholder={placeholder}
                     value={this.state.value}
+                    listComponent={ModalSuggestionList}
+                    listStyle='bottom'
                 />
             );
         } else if (type === 'bool') {
             return (
                 <BoolSetting
+                    autoFocus={this.props.autoFocus}
                     id={name}
                     label={displayNameContent}
                     value={value || false}

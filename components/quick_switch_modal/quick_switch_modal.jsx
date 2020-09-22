@@ -1,11 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
@@ -15,6 +17,9 @@ import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 import SwitchChannelProvider from 'components/suggestion/switch_channel_provider.jsx';
 import SwitchTeamProvider from 'components/suggestion/switch_team_provider.jsx';
+import NoResultsIndicator from 'components/no_results_indicator/no_results_indicator.tsx';
+
+import {NoResultsVariant} from 'components/no_results_indicator/types';
 
 const CHANNEL_MODE = 'channel';
 const TEAM_MODE = 'team';
@@ -49,6 +54,9 @@ export default class QuickSwitchModal extends React.PureComponent {
         this.state = {
             text: '',
             mode: CHANNEL_MODE,
+            hasSuggestions: true,
+            shouldShowLoadingSpinner: true,
+            pretext: '',
         };
     }
 
@@ -95,7 +103,7 @@ export default class QuickSwitchModal extends React.PureComponent {
     };
 
     onChange = (e) => {
-        this.setState({text: e.target.value});
+        this.setState({text: e.target.value, shouldShowLoadingSpinner: true});
     };
 
     handleKeyDown = (e) => {
@@ -156,10 +164,25 @@ export default class QuickSwitchModal extends React.PureComponent {
         this.focusTextbox();
     }
 
+    handleSuggestionsReceived = (suggestions) => {
+        const loadingPropPresent = suggestions.items.some((item) => item.loading);
+        this.setState({shouldShowLoadingSpinner: loadingPropPresent,
+            pretext: suggestions.matchedPretext,
+            hasSuggestions: suggestions.items.length > 0});
+    }
+
     render() {
         let providers = this.channelProviders;
-        let header;
         let renderDividers = true;
+
+        let header = (
+            <h1>
+                <FormattedMessage
+                    id='quick_switch_modal.switchChannels'
+                    defaultMessage='Switch Channels'
+                />
+            </h1>
+        );
 
         let channelShortcut = t('quick_switch_modal.channelsShortcut.windows');
         let defaultChannelShortcut = 'CTRL+K';
@@ -231,30 +254,30 @@ export default class QuickSwitchModal extends React.PureComponent {
         let help;
         if (Utils.isMobile()) {
             help = (
-                <FormattedMessage
+                <FormattedMarkdownMessage
                     id='quick_switch_modal.help_mobile'
                     defaultMessage='Type to find a channel.'
                 />
             );
         } else if (this.props.showTeamSwitcher) {
             help = (
-                <FormattedMessage
+                <FormattedMarkdownMessage
                     id='quick_switch_modal.help'
-                    defaultMessage='Start typing then use TAB to toggle channels/teams, ↑↓ to browse, ↵ to select, and ESC to dismiss.'
+                    defaultMessage='Start typing then use TAB to toggle channels/teams, **UP/DOWN** to browse, **ENTER** to select, and **ESC** to dismiss.'
                 />
             );
         } else {
             help = (
-                <FormattedMessage
+                <FormattedMarkdownMessage
                     id='quick_switch_modal.help_no_team'
-                    defaultMessage='Type to find a channel. Use ↑↓ to browse, ↵ to select, ESC to dismiss.'
+                    defaultMessage='Type to find a channel. Use **▲/▼** to browse, **ENTER** to select, **ESC** to dismiss.'
                 />
             );
         }
 
         return (
             <Modal
-                dialogClassName='a11y__modal channel-switch__modal'
+                dialogClassName='a11y__modal channel-switcher'
                 ref='modal'
                 show={true}
                 onHide={this.onHide}
@@ -269,14 +292,17 @@ export default class QuickSwitchModal extends React.PureComponent {
                     closeButton={true}
                 />
                 <Modal.Body>
-                    {header}
-                    <div
-                        id='quickSwitchHint'
-                        className='modal__hint'
-                    >
-                        {help}
+                    <div className='channel-switcher__header'>
+                        {header}
+                        <div
+                            className='channel-switcher__hint'
+                            id='quickSwitchHint'
+                        >
+                            {help}
+                        </div>
                     </div>
-                    <div className='channel-switch__suggestion-box'>
+                    <div className='channel-switcher__suggestion-box'>
+                        <i className='icon icon-magnify icon-16'/>
                         <SuggestionBox
                             id='quickSwitchInput'
                             ref={this.setSwitchBoxRef}
@@ -294,10 +320,19 @@ export default class QuickSwitchModal extends React.PureComponent {
                             renderDividers={renderDividers}
                             delayInputUpdate={true}
                             openWhenEmpty={true}
+                            onSuggestionsReceived={this.handleSuggestionsReceived}
+                            forceSuggestionsWhenBlur={true}
                         />
+                        {!this.state.shouldShowLoadingSpinner && !this.state.hasSuggestions && this.state.text &&
+                        <NoResultsIndicator
+                            variant={NoResultsVariant.ChannelSearch}
+                            titleValues={{channelName: `"${this.state.pretext}"`}}
+                        />
+                        }
                     </div>
                 </Modal.Body>
             </Modal>
         );
     }
 }
+/* eslint-enable react/no-string-refs */

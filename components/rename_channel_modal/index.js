@@ -21,7 +21,7 @@ const mapStateToProps = createSelector(
             team,
         };
     },
-    (teamInfo) => ({...teamInfo})
+    (teamInfo) => ({...teamInfo}),
 );
 
 function mapDispatchToProps(dispatch) {

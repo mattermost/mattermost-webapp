@@ -18,7 +18,7 @@ type Props = {
     };
 }
 
-export default class HelpController extends React.Component<Props> {
+export default class HelpController extends React.PureComponent<Props> {
     public componentDidUpdate(): void {
         // eslint-disable-next-line react/no-find-dom-node
         const helpControllerNode = ReactDOM.findDOMNode(this);

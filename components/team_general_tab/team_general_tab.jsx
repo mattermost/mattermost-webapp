@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import $ from 'jquery';
 import PropTypes from 'prop-types';
@@ -19,7 +20,7 @@ import {t} from 'utils/i18n.jsx';
 
 const ACCEPTED_TEAM_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/bmp'];
 
-export default class GeneralTab extends React.Component {
+export default class GeneralTab extends React.PureComponent {
     static propTypes = {
         updateSection: PropTypes.func.isRequired,
         team: PropTypes.object.isRequired,
@@ -415,7 +416,7 @@ export default class GeneralTab extends React.Component {
                         <div className='mt-5'>
                             <FormattedMessage
                                 id='general_tab.openInviteDesc'
-                                defaultMessage='When allowed, a link to this team will be included on the landing page allowing anyone with an account to join this team.'
+                                defaultMessage='When allowed, a link to this team will be included on the landing page allowing anyone with an account to join this team. Changing from "Yes" to "No" will regenerate the  invitation code, create a new invitation link and invalidate the previous link.'
                             />
                         </div>
                     </fieldset>,
@@ -476,7 +477,7 @@ export default class GeneralTab extends React.Component {
                     <div className='setting-list__hint'>
                         <FormattedMessage
                             id='general_tab.codeLongDesc'
-                            defaultMessage='The Invite Code is used as part of the URL in the team invitation link created by {getTeamInviteLink} in the main menu. Regenerating creates a new team invitation link and invalidates the previous link.'
+                            defaultMessage='The Invite Code is part of the unique team invitation link which is sent to members you’re inviting to this team. Regenerating the code creates a new invitation link and invalidates the previous link.'
                             values={{
                                 getTeamInviteLink: (
                                     <strong>
@@ -489,7 +490,7 @@ export default class GeneralTab extends React.Component {
                             }}
                         />
                     </div>
-                </div>
+                </div>,
             );
 
             inviteSection = (
@@ -547,7 +548,7 @@ export default class GeneralTab extends React.Component {
                             onFocus={Utils.moveCursorToEnd}
                         />
                     </div>
-                </div>
+                </div>,
             );
 
             const nameExtraInfo = <span>{Utils.localizeMessage('general_tab.teamNameInfo', 'Set the name of the team as it appears on your sign-in screen and at the top of the left-hand sidebar.')}</span>;
@@ -609,7 +610,7 @@ export default class GeneralTab extends React.Component {
                             onFocus={Utils.moveCursorToEnd}
                         />
                     </div>
-                </div>
+                </div>,
             );
 
             const descriptionExtraInfo = <span>{Utils.localizeMessage('general_tab.teamDescriptionInfo', 'Team description provides additional information to help users select the right team. Maximum of 50 characters.')}</span>;
@@ -649,6 +650,12 @@ export default class GeneralTab extends React.Component {
 
         let teamIconSection;
         if (this.props.activeSection === 'team_icon') {
+            const helpText = (
+                <FormattedMarkdownMessage
+                    id={'setting_picture.help.team'}
+                    defaultMessage='Upload a team icon in BMP, JPG or PNG format.\nSquare images with a solid background color are recommended.'
+                />
+            );
             teamIconSection = (
                 <SettingPicture
                     imageContext='team'
@@ -666,6 +673,7 @@ export default class GeneralTab extends React.Component {
                     onFileChange={this.updateTeamIcon}
                     onSubmit={this.handleTeamIconSubmit}
                     onRemove={this.handleTeamIconRemove}
+                    helpText={helpText}
                 />
             );
         } else {
@@ -727,7 +735,7 @@ export default class GeneralTab extends React.Component {
                             aria-label={Utils.localizeMessage('general_tab.allowedDomains.ariaLabel', 'Allowed Domains')}
                         />
                     </div>
-                </div>
+                </div>,
             );
 
             const allowedDomainsInfo = <span>{Utils.localizeMessage('general_tab.AllowedDomainsInfo', 'Users can only join the team if their email matches a specific domain (e.g. "mattermost.org") or list of comma-separated domains (e.g. "corp.mattermost.com, mattermost.org").')}</span>;
@@ -829,3 +837,4 @@ export default class GeneralTab extends React.Component {
         );
     }
 }
+/* eslint-enable react/no-string-refs */

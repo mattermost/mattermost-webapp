@@ -50,7 +50,7 @@ describe('components/integrations/ConfirmIntegration', () => {
     test('should match snapshot, oauthApps case', () => {
         props.location.search = getSearchString('oauth2-apps');
         const wrapper = shallow(
-            <ConfirmIntegration {...props}/>
+            <ConfirmIntegration {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -60,7 +60,7 @@ describe('components/integrations/ConfirmIntegration', () => {
         const {container} = renderWithIntl(
             <Router history={browserHistory}>
                 <ConfirmIntegration {...props}/>
-            </Router>
+            </Router>,
         );
 
         expect(container.querySelector('.word-break--all')).toHaveTextContent('URL(s): https://someCallback, https://anotherCallback');
@@ -69,7 +69,7 @@ describe('components/integrations/ConfirmIntegration', () => {
     test('should match snapshot, commands case', () => {
         props.location.search = getSearchString('commands');
         const wrapper = shallow(
-            <ConfirmIntegration {...props}/>
+            <ConfirmIntegration {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -77,7 +77,7 @@ describe('components/integrations/ConfirmIntegration', () => {
     test('should match snapshot, incomingHooks case', () => {
         props.location.search = getSearchString('incoming_webhooks');
         const wrapper = shallow(
-            <ConfirmIntegration {...props}/>
+            <ConfirmIntegration {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -85,7 +85,7 @@ describe('components/integrations/ConfirmIntegration', () => {
     test('should match snapshot, outgoingHooks case', () => {
         props.location.search = getSearchString('outgoing_webhooks');
         const wrapper = shallow(
-            <ConfirmIntegration {...props}/>
+            <ConfirmIntegration {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -93,7 +93,7 @@ describe('components/integrations/ConfirmIntegration', () => {
     test('should match snapshot, outgoingHooks and bad identifier case', () => {
         props.location.search = getSearchString('outgoing_webhooks', 'bad');
         const wrapper = shallow(
-            <ConfirmIntegration {...props}/>
+            <ConfirmIntegration {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -101,7 +101,7 @@ describe('components/integrations/ConfirmIntegration', () => {
     test('should match snapshot, bad integration type case', () => {
         props.location.search = getSearchString('bad');
         const wrapper = shallow(
-            <ConfirmIntegration {...props}/>
+            <ConfirmIntegration {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });

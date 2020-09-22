@@ -9,7 +9,7 @@ import {FormattedMessage} from 'react-intl';
 import * as Utils from 'utils/utils';
 import TeamIcon from 'components/widgets/team_icon/team_icon';
 
-export default class TeamRow extends React.Component {
+export default class TeamRow extends React.PureComponent {
     static propTypes = {
         team: PropTypes.object.isRequired,
         onRowClick: PropTypes.func.isRequired,

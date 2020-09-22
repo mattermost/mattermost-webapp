@@ -1,85 +1,5 @@
 @charset 'UTF-8';
 
-@media screen and (max-width: 1020px) {
-    .sidebar--right {
-        @include single-transition(all, .35s, ease);
-        @include translateX(100%);
-        z-index: 12;
-        top: 0px !important;
-
-        .announcement-bar--fixed & {
-            top: 32px !important;
-        }
-
-        &.move--left {
-            -webkit-transform: translateX(0) !important;
-            -moz-transform: translateX(0) !important;
-            -ms-transform: translateX(0) !important;
-            -o-transform: translateX(0) !important;
-            transform: translateX(0) !important;
-
-            .browser--ie & {
-                -webkit-transform: none   !important;
-                -moz-transform: none !important;
-                -ms-transform: none !important;
-                -o-transform: none !important;
-                transform: none !important;
-                display: block;
-            }
-
-            .search-bar__container {
-                z-index: 5;
-                display: block !important;
-
-                 .search__form {
-                     width: 100% !important;
-                 }
-            }
-        }
-    }
-
-    .inner-wrap {
-        &:not(.move--left) {
-            .app__content {
-                > #post-list {
-                    margin-right: 0 !important;
-                }
-                > #post-create {
-                    width: 100% !important;
-                }
-            }
-        }
-
-        &.move--left {
-            .search-bar__container {
-                display: none;
-            }
-            .app__content {
-                > #post-list {
-                    margin-right: 0 !important;
-                }
-                > #post-create {
-                    width: 100% !important;
-                }
-            }
-
-            .channel-header__links {
-                position: relative;
-                right: auto;
-                top: auto;
-            }
-        }
-
-        &.move--left,
-        &.move--right {
-            .header-list__right {
-                // hide it behind the RHS
-                z-index: -1;
-            }
-        }
-    }
-}
-
 @media screen and (max-width: 960px) {
     .system-users__filter-row {
         flex-direction: column;
@@ -213,6 +133,10 @@
 
 // Tablet and desktop
 @media screen and (min-width: 769px) {
+    .search-help-popover {
+        width: 274px;
+    }
+
     .channel-header__popover {
         left: 236px !important;
         top: 44px !important;
@@ -229,8 +153,8 @@
     .channel-header {
         .search-bar__container {
             .search__form {
-                &.focused {
-                    width: 300px;
+                &--focused {
+                    width: 274px;
                 }
             }
         }
@@ -252,15 +176,10 @@
         }
 
         &.sidebar--right--expanded {
-            width: calc(100% - 220px);
+            width: calc(100% - 220px - 48px);
 
             .multi-teams & {
-                width: calc(100% - 285px);
-            }
-
-            .sidebar--right__bg {
-                background-color: alpha-color($black, .4);
-                visibility: visible;
+                width: calc(100% - 285px - 48px);
             }
 
             .search-bar__container {
@@ -273,50 +192,30 @@
             }
 
             .sidebar--right__expand {
-                .fa-expand {
+                .icon-arrow-expand {
                     display: none;
                 }
 
-                .fa-compress {
+                .icon-arrow-collapse {
                     display: inline-block;
                 }
             }
         }
-
-        .sidebar--right__title {
-            display: inline-block;
-            max-width: 300px;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
     }
 
-    .inner-wrap {
-        &.move--left {
-            .app__content {
-                > #post-list {
-                    margin-right: 400px;
-                }
-                > #post-create {
-                    width: calc(100% - 400px);
-                }
+    .move--left {
+        #post-list {
+            margin-right: 400px;
+        }
+
+        .app__content {
+            > .post-create__container {
+                width: calc(100% - 400px);
             }
         }
     }
 
     .post {
-        .sidebar--right & {
-            &.same--root {
-                &.post--comment {
-                    &:not(.post--compact) {
-                        .post__pinned-badge {
-                            margin-left: 7px;
-                        }
-                    }
-                }
-            }
-        }
-
         &.post--compact {
             .post-message--overflow {
                 @include clearfix;
@@ -376,11 +275,6 @@
                 }
             }
 
-            .post__pinned-badge {
-                margin-left: 0;
-                margin-right: 5px;
-            }
-
             &:not(.post--thread) {
                 padding: 0 .5em 0 77px; // .post-row__padding.bottom needs to be changed accordingly if this is changed
 
@@ -415,8 +309,8 @@
                         display: inline;
                     }
 
-                    .col__reply {
-                        top: -6px;
+                    .post-menu {
+                        top: -12px;
                     }
                 }
 
@@ -427,8 +321,8 @@
 
                     &.post--comment {
                         .post__header {
-                            .col__reply {
-                                top: -6px;
+                            .post-menu {
+                                top: -12px;
                             }
                         }
                     }
@@ -447,13 +341,7 @@
                 }
             }
 
-            .flag-icon__container, .card-icon-container {
-                left: -16px;
-                position: absolute;
-                top: 4px;
-            }
-
-            .sidebar--right & .flag-icon__container, .sidebar--right & .card-icon__container {
+            .sidebar--right & .card-icon__container {
                 left: auto;
                 position: relative;
                 top: 2px;
@@ -464,15 +352,15 @@
                     padding-left: 77px;
                     padding-top: 0;
 
-                    .flag-icon__container, .card-icon__container {
+                    .card-icon__container {
                         left: -16px;
                         position: absolute;
                         top: 4px;
                     }
 
                     .post__header {
-                        .col__reply {
-                            top: -6px;
+                        .post-menu {
+                            top: -34px;
                         }
                     }
 
@@ -520,41 +408,21 @@
                 .post__header {
                     float: left;
 
-                    .col__reply {
-                        top: -21px;
+                    .post-menu {
+                        top: -32px;
                     }
 
-                    .post__pinned-badge {
-                        margin-right: 5px;
-                    }
-                }
-
-                &.post--pinned {
-                    .post__body {
-                        &:before {
-                            content: '';
-                            display: block;
-                            height: 21px;
-                            width: 1px;
-                        }
-                    }
                 }
 
                 &:not(.post--compact) {
-                    .post__header {
-                        .post__pinned-badge {
-                            top: 3px;
-                        }
-                    }
-
                     .post__permalink {
                         position: absolute;
                         left: -18px;
-                        top: 3px;
+                        top: 2px;
 
                         .sidebar--right & {
                             left: -18px;
-                            top: 4px;
+                            top: 1px;
                         }
                     }
 
@@ -572,12 +440,6 @@
                     }
                 }
             }
-
-            &.post--comment:not(.post--compact) {
-                .post__pinned-badge {
-                    margin-left: 10px;
-                }
-            }
         }
     }
 
@@ -587,5 +449,93 @@
 
     .post-row__padding.bottom .post--compact {
         padding-bottom: 1em;
+    }
+}
+
+@media screen and (max-width: 1020px) {
+    .channel-header {
+        z-index: 5;
+    }
+
+    .sidebar--right {
+        @include single-transition(all, .35s, ease);
+        @include translateX(100%);
+        z-index: 12;
+        top: 0px;
+
+        .announcement-bar--fixed & {
+            top: 32px;
+        }
+
+        .sidebar-right-container {
+            height: 100%;
+        }
+
+        &.move--left {
+            -webkit-transform: translateX(0) !important;
+            -moz-transform: translateX(0) !important;
+            -ms-transform: translateX(0) !important;
+            -o-transform: translateX(0) !important;
+            transform: translateX(0) !important;
+
+            .browser--ie & {
+                -webkit-transform: none   !important;
+                -moz-transform: none !important;
+                -ms-transform: none !important;
+                -o-transform: none !important;
+                transform: none !important;
+                display: block;
+            }
+
+            .search-bar__container {
+                z-index: 5;
+                display: block !important;
+
+                 .search__form {
+                     width: 100% !important;
+                 }
+            }
+        }
+    }
+
+    .inner-wrap {
+        &:not(.move--left) {
+            .app__content {
+                > #post-list {
+                    margin-right: 0 !important;
+                }
+                > .post-create__container {
+                    width: 100% !important;
+                }
+            }
+        }
+
+        &.move--left {
+            .search-bar__container {
+                display: none;
+            }
+            .app__content {
+                > #post-list {
+                    margin-right: 0 !important;
+                }
+                > .post-create__container {
+                    width: 100% !important;
+                }
+            }
+
+            .channel-header__links {
+                position: relative;
+                right: auto;
+                top: auto;
+            }
+        }
+
+        &.move--left,
+        &.move--right {
+            .header-list__right {
+                // hide it behind the RHS
+                z-index: -1;
+            }
+        }
     }
 }

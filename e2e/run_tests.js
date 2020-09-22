@@ -3,95 +3,99 @@
 
 /* eslint-disable no-await-in-loop, no-console */
 
-const axios = require('axios');
+/*
+ * This command, which normally use in CI, runs Cypress test in full or partial
+ * depending on test metadata and environment capabilities.
+ *
+ * Usage: [ENVIRONMENT] node run_tests.js [options]
+ *
+ * Options:
+ *   --stage=[stage]
+ *      Selects spec files with matching stage. It can be of multiple values separated by comma.
+ *      E.g. "--stage='@prod,@dev'" will select files with either @prod or @dev.
+ *   --group=[group]
+ *      Selects spec files with matching group. It can be of multiple values separated by comma.
+ *      E.g. "--group='@channel,@messaging'" will select files with either @channel or @messaging.
+ *   --invert
+ *      Selected files are those not matching any of the specified stage or group.
+ *
+ * Environment:
+ *   BROWSER=[browser]      : Chrome by default. Set to run test on other browser such as chrome, edge, electron and firefox.
+ *                            The environment should have the specified browser to successfully run.
+ *   HEADLESS=[boolean]     : Headless by default (true) or false to run on headed mode.
+ *   BRANCH=[branch]        : Branch identifier from CI
+ *   BUILD_ID=[build_id]    : Build identifier from CI
+ *
+ * Example:
+ * 1. "node run_tests.js"
+ *      - will run all the specs on default test environment, except those matching skipped metadata
+ * 2. "node run_tests.js --stage='@prod'"
+ *      - will run all production tests, except those matching skipped metadata
+ * 3. "node run_tests.js --stage='@prod' --invert"
+ *      - will run all non-production tests
+ * 4. "BROWSER='chrome' HEADLESS='false' node run_tests.js --stage='@prod' --group='@channel,@messaging'"
+ *      - will run spec files matching stage and group values in Chrome (headed)
+ */
+
+const os = require('os');
+const chai = require('chai');
+const chalk = require('chalk');
 const cypress = require('cypress');
-const fse = require('fs-extra');
-const {merge} = require('mochawesome-merge');
-const generator = require('mochawesome-report-generator');
+const argv = require('yargs').argv;
 
-const MAX_FAILED_TITLES = 5;
+const {getTestFiles, getSkippedFiles} = require('./utils/file');
+const {writeJsonToFile} = require('./utils/report');
+const {MOCHAWESOME_REPORT_DIR, RESULTS_DIR} = require('./utils/constants');
 
-function getAllTests(results) {
-    const tests = [];
-    results.forEach((result) => {
-        result.tests.forEach((test) => tests.push(test));
-
-        if (result.suites.length > 0) {
-            getAllTests(result.suites).forEach((test) => tests.push(test));
-        }
-    });
-
-    return tests;
-}
-
-function generateStatsFieldValue(stats, failedFullTitles) {
-    let statsFieldValue = `
-| Key | Value |
-|:---|:---|
-| Passing Rate | ${stats.passPercent.toFixed(2)}% |
-| Duration | ${(stats.duration / (60 * 1000)).toFixed(2)} mins |
-| Suites | ${stats.suites} |
-| Tests | ${stats.tests} |
-| :white_check_mark: Passed | ${stats.passes} |
-| :x: Failed | ${stats.failures} |
-| :fast_forward: Skipped | ${stats.skipped} |
-`;
-
-    // If present, add full title of failing tests.
-    // Only show per maximum number of failed titles with the last item as "more..." if failing tests are more than that.
-    let failedTests;
-    if (failedFullTitles && failedFullTitles.length > 0) {
-        const re = /[:'"\\]/gi;
-        const failed = failedFullTitles;
-        if (failed.length > MAX_FAILED_TITLES) {
-            failedTests = failed.slice(0, MAX_FAILED_TITLES - 1).map((f) => `- ${f.replace(re, '')}`).join('\n');
-            failedTests += '\n- more...';
-        } else {
-            failedTests = failed.map((f) => `- ${f.replace(re, '')}`).join('\n');
-        }
-    }
-
-    if (failedTests) {
-        statsFieldValue += '###### Failed Tests:\n' + failedTests;
-    }
-
-    return statsFieldValue;
-}
-
-function generateShortSummary(report) {
-    const {results, stats} = report;
-    const tests = getAllTests(results);
-
-    const failedFullTitles = tests.filter((t) => t.fail).map((t) => t.fullTitle);
-    const statsFieldValue = generateStatsFieldValue(stats, failedFullTitles);
-
-    return {
-        stats,
-        statsFieldValue,
-    };
-}
-
-function writeJsonToFile(jsonObject, filename, dir) {
-    fse.writeJson(`${dir}/${filename}`, jsonObject).
-        then(() => console.log('Success!')).
-        catch((err) => console.error(err));
-}
+require('dotenv').config();
 
 async function runTests() {
-    await fse.remove('results');
-    await fse.remove('screenshots');
+    const {
+        BRANCH,
+        BROWSER,
+        BUILD_ID,
+        HEADLESS,
+        ENABLE_VISUAL_TEST,
+        APPLITOOLS_API_KEY,
+        APPLITOOLS_BATCH_NAME,
+        FAILURE_MESSAGE,
+    } = process.env;
 
-    const testDirs = fse.readdirSync('cypress/integration/');
-    let failedTests = 0;
+    const browser = BROWSER || 'chrome';
+    const headless = typeof HEADLESS === 'undefined' ? true : HEADLESS === 'true';
+    const platform = os.platform();
+    const initialTestFiles = getTestFiles().sort((a, b) => a.localeCompare(b));
+    const {finalTestFiles} = getSkippedFiles(initialTestFiles, platform, browser, headless);
 
-    const mochawesomeReportDir = 'results/mochawesome-report';
+    if (!finalTestFiles.length) {
+        console.log(chalk.red('Nothing to test!'));
+        return;
+    }
 
-    for (const dir of testDirs) {
-        const {totalFailed} = await cypress.run({
-            spec: `./cypress/integration/${dir}/**/*`,
+    const {invert, group, stage} = argv;
+
+    let hasFailed = false;
+    for (let i = 0; i < finalTestFiles.length; i++) {
+        const testFile = finalTestFiles[i];
+        const testStage = stage ? `Stage: "${stage}" ` : '';
+        const testGroup = group ? `Group: "${group}" ` : '';
+
+        // Log which files were being tested
+        console.log(chalk.magenta.bold(`${invert ? 'All Except --> ' : ''}${testStage}${stage && group ? '| ' : ''}${testGroup}`));
+        console.log(chalk.magenta(`(Testing ${i + 1} of ${finalTestFiles.length})  - `, testFile));
+
+        const result = await cypress.run({
+            browser,
+            headless,
+            spec: testFile,
             config: {
-                screenshotsFolder: `${mochawesomeReportDir}/screenshots`,
+                screenshotsFolder: `${MOCHAWESOME_REPORT_DIR}/screenshots`,
                 trashAssetsBeforeRuns: false,
+            },
+            env: {
+                enableVisualTest: ENABLE_VISUAL_TEST,
+                enableApplitools: Boolean(APPLITOOLS_API_KEY),
+                batchName: APPLITOOLS_BATCH_NAME,
             },
             reporter: 'cypress-multi-reporters',
             reporterOptions:
@@ -102,98 +106,44 @@ async function runTests() {
                         toConsole: false,
                     },
                     mochawesomeReporterOptions: {
-                        reportDir: mochawesomeReportDir,
-                        reportFilename: `mochawesome-${dir}`,
+                        reportDir: MOCHAWESOME_REPORT_DIR,
+                        reportFilename: `json/${testFile}`,
                         quiet: true,
                         overwrite: false,
                         html: false,
                         json: true,
+                        testMeta: {
+                            platform,
+                            browser,
+                            headless,
+                            branch: BRANCH,
+                            buildId: BUILD_ID,
+                        },
                     },
                 },
         });
 
-        failedTests += totalFailed;
-    }
+        // Write test environment details once only
+        if (i === 0) {
+            const environment = {
+                cypressVersion: result.cypressVersion,
+                browserName: result.browserName,
+                browserVersion: result.browserVersion,
+                headless,
+                osName: result.osName,
+                osVersion: result.osVersion,
+                nodeVersion: process.version,
+            };
 
-    // Merge all json reports into one single json report
-    const jsonReport = await merge({reportDir: mochawesomeReportDir});
+            writeJsonToFile(environment, 'environment.json', RESULTS_DIR);
+        }
 
-    // Generate short summary, write to file and then send report via webhook
-    const summary = generateShortSummary(jsonReport);
-    writeJsonToFile(summary, 'summary.json', mochawesomeReportDir);
-    await sendReport(summary);
-
-    // Generate the html report file
-    await generator.create(jsonReport, {reportDir: mochawesomeReportDir});
-
-    // eslint-disable-next-line
-    process.exit(failedTests); // exit with the number of failed tests
-}
-
-const result = [
-    {status: 'Passed', priority: 'none', cutOff: 100, color: '#43A047'},
-    {status: 'Failed', priority: 'low', cutOff: 98, color: '#FFEB3B'},
-    {status: 'Failed', priority: 'medium', cutOff: 95, color: '#FF9800'},
-    {status: 'Failed', priority: 'high', cutOff: 0, color: '#F44336'},
-];
-
-function generateReport(summary) {
-    const {BRANCH, BUILD_ID} = process.env;
-    const {statsFieldValue, stats} = summary;
-
-    let testResult;
-    for (let i = 0; i < result.length; i++) {
-        if (stats.passPercent >= result[i].cutOff) {
-            testResult = result[i];
-            break;
+        if (!hasFailed && result.totalFailed > 0) {
+            hasFailed = true;
         }
     }
 
-    return {
-        username: 'Cypress UI Test',
-        icon_url: 'https://www.mattermost.org/wp-content/uploads/2016/04/icon.png',
-        attachments: [{
-            color: testResult.color,
-            author_name: 'Cypress UI Test',
-            author_icon: 'https://www.mattermost.org/wp-content/uploads/2016/04/icon.png',
-            author_link: 'https://www.mattermost.com',
-            title: `[${BRANCH}] Cypress UI Test Automation #${BUILD_ID} ${testResult.status}!`,
-            fields: [{
-                short: false,
-                title: 'Test Report',
-                value: `[Link to the report](https://build-push.internal.mattermost.com/job/mattermost-ui-testing/job/mattermost-cypress/${BUILD_ID}/artifact/mattermost-webapp/e2e/results/mochawesome-report/mochawesome.html)`,
-            }, {
-                short: false,
-                title: 'Screenshots',
-                value: `[Link to the screenshots](https://build-push.internal.mattermost.com/job/mattermost-ui-testing/job/mattermost-cypress/${BUILD_ID}/artifact/mattermost-webapp/e2e/results/mochawesome-report/screenshots/)`,
-            }, {
-                short: false,
-                title: 'New Commits',
-                value: `[Link to the new commits](https://build-push.internal.mattermost.com/job/mattermost-ui-testing/job/mattermost-cypress/${BUILD_ID}/changes)`,
-            }, {
-                short: false,
-                title: `Key metrics (required support: ${testResult.priority})`,
-                value: statsFieldValue,
-            }],
-            image_url: 'https://pbs.twimg.com/profile_images/1044345247440896001/pXI1GDHW_bigger.jpg'
-        }],
-    };
-}
-
-async function sendReport(summary) {
-    const data = generateReport(summary);
-
-    const response = await axios({
-        method: 'post',
-        url: process.env.WEBHOOK_URL,
-        data,
-    });
-
-    if (response.data) {
-        console.log('Successfully sent report via webhook');
-    }
-
-    return response;
+    chai.expect(hasFailed, FAILURE_MESSAGE).to.be.false;
 }
 
 runTests();

@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import React, {ChangeEvent, FormEvent, CSSProperties} from 'react';
 
@@ -14,7 +15,7 @@ type Props = {
     placeholder?: string;
 }
 
-export default class AutosizeTextarea extends React.Component<Props> {
+export default class AutosizeTextarea extends React.PureComponent<Props> {
     private height: number;
     constructor(props: Props) {
         super(props);
@@ -79,11 +80,11 @@ export default class AutosizeTextarea extends React.Component<Props> {
 
             this.height = height;
 
-            if (this.props.onHeightChange) {
-                this.props.onHeightChange(height, parseInt(style.maxHeight || '0', 10));
-            }
+            window.requestAnimationFrame(() => {
+                this.props.onHeightChange?.(height, parseInt(style.maxHeight || '0', 10));
+            });
         }
-    };
+    }
 
     getDOMNode = () => {
         return (this.refs.textarea as HTMLTextAreaElement);
@@ -119,7 +120,7 @@ export default class AutosizeTextarea extends React.Component<Props> {
 
         const heightProps = {
             rows: 0,
-            height: 0
+            height: 0,
         };
 
         if (this.height <= 0) {
@@ -135,6 +136,7 @@ export default class AutosizeTextarea extends React.Component<Props> {
             textareaPlaceholder = (
                 <div
                     {...otherProps as any}
+                    data-testid={`${id}_placeholder`}
                     style={style.placeholder}
                 >
                     {placeholder}
@@ -147,6 +149,7 @@ export default class AutosizeTextarea extends React.Component<Props> {
                 {textareaPlaceholder}
                 <textarea
                     ref='textarea'
+                    data-testid={id}
                     id={id}
                     {...heightProps}
                     {...otherProps}
@@ -178,5 +181,6 @@ export default class AutosizeTextarea extends React.Component<Props> {
 const style: { [Key: string]: CSSProperties} = {
     container: {height: 0, overflow: 'hidden'},
     reference: {height: 'auto', width: '100%'},
-    placeholder: {overflow: 'hidden', textOverflow: 'ellipsis', opacity: 0.5, pointerEvents: 'none', position: 'absolute', whiteSpace: 'nowrap', background: 'none'},
+    placeholder: {overflow: 'hidden', textOverflow: 'ellipsis', opacity: 0.5, pointerEvents: 'none', position: 'absolute', whiteSpace: 'nowrap', background: 'none', borderColor: 'transparent'},
 };
+/* eslint-enable react/no-string-refs */

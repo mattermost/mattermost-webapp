@@ -7,6 +7,8 @@ import {Modal} from 'react-bootstrap';
 import {Provider} from 'react-redux';
 import configureStore from 'redux-mock-store';
 
+import EmojiMap from 'utils/emoji_map';
+
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
 import InteractiveDialog from './interactive_dialog.jsx';
@@ -25,6 +27,7 @@ describe('components/interactive_dialog/InteractiveDialog', () => {
         actions: {
             submitInteractiveDialog: () => ({}),
         },
+        emojiMap: new EmojiMap(new Map()),
     };
 
     describe('generic error message', () => {
@@ -70,23 +73,23 @@ describe('components/interactive_dialog/InteractiveDialog', () => {
                 options: [
                     {text: 'Option1', value: 'opt1'},
                     {text: 'Option2', value: 'opt2'},
-                    {text: 'Option3', value: 'opt3'}
+                    {text: 'Option3', value: 'opt3'},
                 ],
-                type: 'select'
+                type: 'select',
             };
 
             const {elements, ...rest} = baseProps;
             elements.push(selectElement);
             const props = {
                 ...rest,
-                elements
+                elements,
             };
 
             const store = mockStore({});
             const wrapper = mountWithIntl(
                 <Provider store={store}>
                     <InteractiveDialog {...props}/>
-                </Provider>
+                </Provider>,
             );
             expect(wrapper.find(Modal.Body).find('input').find({defaultValue: 'Option3'}).exists()).toBe(true);
         });
@@ -132,7 +135,7 @@ describe('components/interactive_dialog/InteractiveDialog', () => {
             const wrapper = mountWithIntl(
                 <Provider store={store}>
                     <InteractiveDialog {...props}/>
-                </Provider>
+                </Provider>,
             );
             expect(wrapper.find(Modal.Body).find('input').find({checked: testCase.expectedChecked}).exists()).toBe(true);
         }));

@@ -1,13 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import PropTypes from 'prop-types';
 import React from 'react';
 import truncate from 'lodash/truncate';
 
 import {isUrlSafe} from 'utils/url';
-import {handleFormattedTextClick} from 'utils/utils';
 import {Constants} from 'utils/constants';
+import * as Utils from 'utils/utils';
+import LinkOnlyRenderer from 'utils/markdown/link_only_renderer';
 
 import ExternalImage from 'components/external_image';
 import Markdown from 'components/markdown';
@@ -16,7 +18,8 @@ import SizeAwareImage from 'components/size_aware_image';
 
 import ActionButton from '../action_button';
 import ActionMenu from '../action_menu';
-import LinkOnlyRenderer from 'utils/markdown/link_only_renderer';
+
+import {trackEvent} from 'actions/diagnostics_actions';
 
 export default class MessageAttachment extends React.PureComponent {
     static propTypes = {
@@ -44,6 +47,8 @@ export default class MessageAttachment extends React.PureComponent {
         actions: PropTypes.shape({
             doPostActionWithCookie: PropTypes.func.isRequired,
         }).isRequired,
+
+        currentRelativeTeamUrl: PropTypes.string.isRequired,
     }
 
     constructor(props) {
@@ -51,6 +56,8 @@ export default class MessageAttachment extends React.PureComponent {
 
         this.state = {
             checkOverflow: 0,
+            actionExecuting: false,
+            actionExecutingMessage: null,
         };
 
         this.imageProps = {
@@ -116,7 +123,7 @@ export default class MessageAttachment extends React.PureComponent {
                         postId={this.props.postId}
                         action={action}
                         disabled={action.disabled}
-                    />
+                    />,
                 );
                 break;
             case 'button':
@@ -127,7 +134,9 @@ export default class MessageAttachment extends React.PureComponent {
                         action={action}
                         disabled={action.disabled}
                         handleAction={this.handleAction}
-                    />
+                        actionExecuting={this.state.actionExecuting}
+                        actionExecutingMessage={this.state.actionExecutingMessage}
+                    />,
                 );
                 break;
             }
@@ -142,13 +151,45 @@ export default class MessageAttachment extends React.PureComponent {
         );
     };
 
-    handleAction = (e) => {
+    handleAction = (e, actionOptions) => {
         e.preventDefault();
+
+        var actionExecutingMessage = this.getActionOption(actionOptions, 'ActionExecutingMessage');
+        if (actionExecutingMessage) {
+            this.setState({actionExecuting: true, actionExecutingMessage: actionExecutingMessage.value});
+        }
+
+        var trackOption = this.getActionOption(actionOptions, 'TrackEventId');
+        if (trackOption) {
+            trackEvent('admin', 'click_warn_metric_bot_id', {metric: trackOption.value});
+        }
+
         const actionId = e.currentTarget.getAttribute('data-action-id');
         const actionCookie = e.currentTarget.getAttribute('data-action-cookie');
 
-        this.props.actions.doPostActionWithCookie(this.props.postId, actionId, actionCookie);
+        this.props.actions.doPostActionWithCookie(this.props.postId, actionId, actionCookie).then(() => {
+            this.handleCustomActions(actionOptions);
+            if (actionExecutingMessage) {
+                this.setState({actionExecuting: false, actionExecutingMessage: null});
+            }
+        });
     };
+
+    handleCustomActions = (actionOptions) => {
+        var extUrlOption = this.getActionOption(actionOptions, 'WarnMetricMailtoUrl');
+        if (extUrlOption) {
+            const mailtoPayload = JSON.parse(extUrlOption.value);
+            window.location.href = 'mailto:' + mailtoPayload.mail_recipient + '?cc=' + mailtoPayload.mail_cc + '&subject=' + encodeURIComponent(mailtoPayload.mail_subject) + '&body=' + encodeURIComponent(mailtoPayload.mail_body);
+        }
+    }
+
+    getActionOption = (actionOptions, optionName) => {
+        var opt = null;
+        if (actionOptions) {
+            opt = actionOptions.find((option) => option.text === optionName);
+        }
+        return opt;
+    }
 
     getFieldsTable = () => {
         const fields = this.props.attachment.fields;
@@ -182,7 +223,7 @@ export default class MessageAttachment extends React.PureComponent {
                                 {bodyCols}
                             </tr>
                         </tbody>
-                    </table>
+                    </table>,
                 );
                 headerCols = [];
                 bodyCols = [];
@@ -200,7 +241,7 @@ export default class MessageAttachment extends React.PureComponent {
                         message={field.title}
                         options={markdown}
                     />
-                </th>
+                </th>,
             );
 
             bodyCols.push(
@@ -209,7 +250,7 @@ export default class MessageAttachment extends React.PureComponent {
                     key={'attachment__field-' + i + '__' + nrTables}
                 >
                     <Markdown message={field.value}/>
-                </td>
+                </td>,
             );
             rowPos += 1;
             lastWasLong = !(field.short === true);
@@ -230,7 +271,7 @@ export default class MessageAttachment extends React.PureComponent {
                             {bodyCols}
                         </tr>
                     </tbody>
-                </table>
+                </table>,
             );
         }
         return (
@@ -239,6 +280,8 @@ export default class MessageAttachment extends React.PureComponent {
             </div>
         );
     };
+
+    handleFormattedTextClick = (e) => Utils.handleFormattedTextClick(e, this.props.currentRelativeTeamUrl);
 
     render() {
         const {attachment, options} = this.props;
@@ -272,7 +315,7 @@ export default class MessageAttachment extends React.PureComponent {
                                 width='14'
                             />
                         )}
-                    </ExternalImage>
+                    </ExternalImage>,
                 );
             }
             if (attachment.author_name) {
@@ -282,7 +325,7 @@ export default class MessageAttachment extends React.PureComponent {
                         key={'attachment__author-name'}
                     >
                         {attachment.author_name}
-                    </span>
+                    </span>,
                 );
             }
         }
@@ -447,7 +490,7 @@ export default class MessageAttachment extends React.PureComponent {
                         <div>
                             <div
                                 className={thumb ? 'attachment__body' : 'attachment__body attachment__body--no_thumb'}
-                                onClick={handleFormattedTextClick}
+                                onClick={this.handleFormattedTextClick}
                             >
                                 {attachmentText}
                                 {image}
@@ -468,3 +511,4 @@ export default class MessageAttachment extends React.PureComponent {
 const style = {
     footer: {clear: 'both'},
 };
+/* eslint-enable react/no-string-refs */

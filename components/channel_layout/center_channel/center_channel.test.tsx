@@ -9,15 +9,15 @@ import CenterChannel from './center_channel';
 describe('components/channel_layout/CenterChannel', () => {
     const props = {
         location: {
-            pathname: '/some'
+            pathname: '/some',
         },
         lastChannelPath: '',
         lhsOpen: true,
         rhsOpen: true,
         rhsMenuOpen: true,
         match: {
-            url: '/url'
-        }
+            url: '/url',
+        },
     };
     test('should call update returnTo on props change', () => {
         const wrapper = shallow(<CenterChannel {...props}/>);
@@ -26,14 +26,14 @@ describe('components/channel_layout/CenterChannel', () => {
 
         wrapper.setProps({
             location: {
-                pathname: '/pl/path'
-            }
+                pathname: '/pl/path',
+            },
         });
         expect(wrapper.state('returnTo')).toBe('/some');
         wrapper.setProps({
             location: {
-                pathname: '/pl/path1'
-            }
+                pathname: '/pl/path1',
+            },
         });
         expect(wrapper.state('returnTo')).toBe('/pl/path');
     });

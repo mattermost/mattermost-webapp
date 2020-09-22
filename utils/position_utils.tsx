@@ -5,7 +5,7 @@ export function popOverOverlayPosition(
     targetBounds: DOMRect,
     innerHeight: number,
     spaceRequiredAbove: number,
-    spaceRequiredBelow?: number
+    spaceRequiredBelow?: number,
 ): string {
     let placement: string;
 

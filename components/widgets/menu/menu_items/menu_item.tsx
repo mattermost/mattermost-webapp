@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import classNames from 'classnames';
 
 import './menu_item.scss';
 
@@ -10,7 +11,7 @@ export default function menuItem(Component: React.ComponentType<any>) {
         show: boolean;
         id?: string;
         icon?: React.ReactNode;
-        text?: string;
+        text?: React.ReactNode;
     }
     class MenuItem extends React.PureComponent<Props|React.ComponentProps<typeof Component>> {
         public static defaultProps = {
@@ -37,7 +38,9 @@ export default function menuItem(Component: React.ComponentType<any>) {
 
             return (
                 <li
-                    className='MenuItem'
+                    className={classNames('MenuItem', {
+                        'MenuItem--with-icon': icon,
+                    })}
                     role='menuitem'
                     id={id}
                 >

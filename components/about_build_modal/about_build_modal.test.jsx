@@ -7,7 +7,10 @@ import {shallow} from 'enzyme';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 import AboutBuildModal from 'components/about_build_modal/about_build_modal.jsx';
+
 import {AboutLinks} from 'utils/constants';
+
+import AboutBuildModalCloud from './about_build_modal_cloud/about_build_modal_cloud';
 
 describe('components/AboutBuildModal', () => {
     const RealDate = Date;
@@ -70,6 +73,20 @@ describe('components/AboutBuildModal', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('should match snapshot for cloud edition', () => {
+        license.Cloud = 'true';
+        const wrapper = shallow(
+            <AboutBuildModalCloud
+                config={config}
+                license={license}
+                show={true}
+                onHide={jest.fn()}
+                doHide={jest.fn()}
+            />,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
     test('should show dev if this is a dev build', () => {
         const sameBuildConfig = {
             ...config,
@@ -111,7 +128,7 @@ describe('components/AboutBuildModal', () => {
                 webappBuildHash='0a1b2c3d4f'
                 show={true}
                 onHide={onHide}
-            />
+            />,
         );
 
         wrapper.find(Modal).first().props().onExited();
@@ -125,7 +142,7 @@ describe('components/AboutBuildModal', () => {
                 license={license}
                 show={true}
                 onHide={jest.fn()}
-            />
+            />,
         );
 
         expect(wrapper.find('#tosLink').props().href).toBe(AboutLinks.TERMS_OF_SERVICE);

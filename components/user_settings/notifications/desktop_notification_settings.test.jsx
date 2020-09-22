@@ -9,7 +9,7 @@ import {NotificationLevels} from 'utils/constants';
 import DesktopNotificationSettings from 'components/user_settings/notifications/desktop_notification_settings';
 
 jest.mock('utils/utils.jsx', () => {
-    const original = require.requireActual('utils/utils.jsx');
+    const original = jest.requireActual('utils/utils.jsx');
     return {
         ...original,
         hasSoundOptions: jest.fn(() => true),
@@ -30,11 +30,21 @@ describe('components/user_settings/notifications/DesktopNotificationSettings', (
         active: true,
         saving: false,
         focused: false,
+        selectedSound: 'Bing',
     };
 
     test('should match snapshot, on max setting', () => {
         const wrapper = shallow(
-            <DesktopNotificationSettings {...baseProps}/>
+            <DesktopNotificationSettings {...baseProps}/>,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot, on max setting with sound enabled', () => {
+        const props = {...baseProps, sound: 'true'};
+        const wrapper = shallow(
+            <DesktopNotificationSettings {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -43,7 +53,7 @@ describe('components/user_settings/notifications/DesktopNotificationSettings', (
     test('should match snapshot, on min setting', () => {
         const props = {...baseProps, active: false};
         const wrapper = shallow(
-            <DesktopNotificationSettings {...props}/>
+            <DesktopNotificationSettings {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -52,7 +62,7 @@ describe('components/user_settings/notifications/DesktopNotificationSettings', (
     test('should call props.updateSection and props.cancel on handleMinUpdateSection', () => {
         const props = {...baseProps, updateSection: jest.fn(), cancel: jest.fn()};
         const wrapper = shallow(
-            <DesktopNotificationSettings {...props}/>
+            <DesktopNotificationSettings {...props}/>,
         );
 
         wrapper.instance().handleMinUpdateSection('');
@@ -71,7 +81,7 @@ describe('components/user_settings/notifications/DesktopNotificationSettings', (
     test('should call props.updateSection on handleMaxUpdateSection', () => {
         const props = {...baseProps, updateSection: jest.fn()};
         const wrapper = shallow(
-            <DesktopNotificationSettings {...props}/>
+            <DesktopNotificationSettings {...props}/>,
         );
 
         wrapper.instance().handleMaxUpdateSection('');
@@ -86,7 +96,7 @@ describe('components/user_settings/notifications/DesktopNotificationSettings', (
     test('should call props.setParentState on handleOnChange', () => {
         const props = {...baseProps, setParentState: jest.fn()};
         const wrapper = shallow(
-            <DesktopNotificationSettings {...props}/>
+            <DesktopNotificationSettings {...props}/>,
         );
 
         wrapper.instance().handleOnChange({
@@ -101,7 +111,7 @@ describe('components/user_settings/notifications/DesktopNotificationSettings', (
 
     test('should match snapshot, on buildMaximizedSetting', () => {
         const wrapper = shallow(
-            <DesktopNotificationSettings {...baseProps}/>
+            <DesktopNotificationSettings {...baseProps}/>,
         );
 
         expect(wrapper.instance().buildMaximizedSetting()).toMatchSnapshot();
@@ -112,7 +122,7 @@ describe('components/user_settings/notifications/DesktopNotificationSettings', (
 
     test('should match snapshot, on buildMinimizedSetting', () => {
         const wrapper = shallow(
-            <DesktopNotificationSettings {...baseProps}/>
+            <DesktopNotificationSettings {...baseProps}/>,
         );
 
         expect(wrapper.instance().buildMinimizedSetting()).toMatchSnapshot();

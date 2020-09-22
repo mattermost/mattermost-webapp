@@ -2,17 +2,22 @@
 // See LICENSE.txt for license information.
 
 // ***************************************************************
-// - [number] indicates a test step (e.g. 1. Go to a page)
+// - [#] indicates a test step (e.g. # Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-import * as TIMEOUTS from '../../fixtures/timeouts';
-import users from '../../fixtures/users.json';
+// Stage: @prod
+// Group: @messaging
 
-const sysadmin = users.sysadmin;
+import * as TIMEOUTS from '../../fixtures/timeouts';
+import {getAdminAccount} from '../../support/env';
 
 describe('Messaging', () => {
+    const admin = getAdminAccount();
+    let testUser;
+    let testTeam;
+
     before(() => {
         // # Set the configuration on Link Previews
         cy.apiUpdateConfig({
@@ -21,19 +26,16 @@ describe('Messaging', () => {
             },
         });
 
-        // # Login and setup link preferences
-        cy.apiLogin('user-1');
-        cy.apiSaveShowPreviewPreference();
-        cy.apiSavePreviewCollapsedPreference('false');
+        // # Login as test user and go to town-square
+        cy.apiInitSetup().then(({team, user}) => {
+            testUser = user;
+            testTeam = team;
 
-        // # Login and go to /
-        cy.apiLogin('sysadmin');
-        cy.visit('/');
+            cy.visit(`/${testTeam.name}/channels/town-square`);
+        });
     });
 
-    it('M18692-Delete a GIF from RHS reply thread, other user viewing in center and RHS sees GIF preview disappear from both', () => {
-        cy.visit('/ad-1/channels/town-square');
-
+    it('MM-T114_1 Delete a GIF from RHS reply thread, other user viewing in center and RHS sees GIF preview disappear from both', () => {
         // # Type message to use
         cy.postMessage('123');
 
@@ -44,11 +46,11 @@ describe('Messaging', () => {
         cy.postMessageReplyInRHS('https://media1.giphy.com/media/l41lM6sJvwmZNruLe/giphy.gif');
 
         // # Change user and go to Town Square
-        cy.apiLogin('user-1');
-        cy.visit('/ad-1/channels/town-square');
+        cy.apiLogin(testUser);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # Wait for the page to be loaded
-        cy.wait(TIMEOUTS.SMALL);
+        cy.wait(TIMEOUTS.FIVE_SEC);
 
         // # Click Reply button to open the RHS
         cy.clickPostCommentIcon();
@@ -62,10 +64,10 @@ describe('Messaging', () => {
             cy.get(`#rhsPost_${postId}`).find('.attachment__image').should('exist');
 
             // # Delete the message
-            cy.externalRequest({user: sysadmin, method: 'DELETE', path: `posts/${postId}`});
+            cy.externalRequest({user: admin, method: 'DELETE', path: `posts/${postId}`});
 
             // # Wait for the message to be deleted
-            cy.wait(TIMEOUTS.TINY);
+            cy.wait(TIMEOUTS.HALF_SEC);
 
             // * Cannot view the gif on main channel
             cy.get(`#post_${postId}`).find('.attachment__image').should('not.exist');
@@ -81,7 +83,7 @@ describe('Messaging', () => {
 
             // # Refresh the website and wait for it to be loaded
             cy.reload();
-            cy.wait(TIMEOUTS.SMALL);
+            cy.wait(TIMEOUTS.FIVE_SEC);
 
             // * The RHS is closed
             cy.get('#rhsCloseButton').should('not.exist');
@@ -90,17 +92,16 @@ describe('Messaging', () => {
             cy.get(`#post_${postId}`).should('not.exist');
 
             // # Log in as the other user and go to town square
-            cy.apiLogin('sysadmin');
-            cy.visit('/ad-1/channels/town-square');
+            cy.apiAdminLogin();
+            cy.visit(`/${testTeam.name}/channels/town-square`);
 
             // * The post should not exist
             cy.get(`#post_${postId}`).should('not.exist');
         });
     });
 
-    it('M18692-Delete a GIF from RHS reply thread, other user viewing in center and RHS sees GIF preview disappear from both (mobile view)', () => {
-        cy.apiLogin('sysadmin');
-        cy.visit('/ad-1/channels/town-square');
+    it('MM-T114_1 Delete a GIF from RHS reply thread, other user viewing in center and RHS sees GIF preview disappear from both (mobile view)', () => {
+        cy.apiAdminLogin();
 
         // # Type message to use
         cy.postMessage('123');
@@ -112,8 +113,8 @@ describe('Messaging', () => {
         cy.postMessageReplyInRHS('https://media1.giphy.com/media/l41lM6sJvwmZNruLe/giphy.gif');
 
         // # Change user and go to Town Square
-        cy.apiLogin('user-1');
-        cy.visit('/ad-1/channels/town-square');
+        cy.apiLogin(testUser);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # Change viewport so it has mobile view
         cy.viewport('iphone-6');
@@ -136,10 +137,10 @@ describe('Messaging', () => {
             cy.clickPostCommentIcon();
 
             // # Delete the message
-            cy.externalRequest({user: sysadmin, method: 'DELETE', path: `posts/${postId}`});
+            cy.externalRequest({user: admin, method: 'DELETE', path: `posts/${postId}`});
 
             // # Wait for the message to be deleted
-            cy.wait(TIMEOUTS.TINY);
+            cy.wait(TIMEOUTS.HALF_SEC);
 
             // * Cannot view the gif on main channel
             cy.get(`#post_${postId}`).find('.attachment__image').should('not.exist');
@@ -148,8 +149,8 @@ describe('Messaging', () => {
             cy.get(`#rhsPost_${postId}`).find('.attachment__image').should('not.exist');
 
             // # Log in as the other user and go to town square
-            cy.apiLogin('sysadmin');
-            cy.visit('/ad-1/channels/town-square');
+            cy.apiAdminLogin();
+            cy.visit(`/${testTeam.name}/channels/town-square`);
 
             // * The post should not exist
             cy.get(`#post_${postId}`).should('not.exist');

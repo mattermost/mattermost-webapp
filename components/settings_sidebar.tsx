@@ -19,17 +19,19 @@ export type Props = {
     updateTab: (name: string) => void;
 }
 
-export default class SettingsSidebar extends React.Component<Props> {
+export default class SettingsSidebar extends React.PureComponent<Props> {
     public handleClick = (tab: Tab, e: React.MouseEvent) => {
         e.preventDefault();
         this.props.updateTab(tab.name);
-        $(e.target).closest('.settings-modal').addClass('display--content');
+        $(e.target).closest('.settings-modal').addClass('display--content'); // eslint-disable-line jquery/no-closest, jquery/no-class
     }
+
     public componentDidMount() {
         if (UserAgent.isFirefox()) {
-            $('.settings-modal .settings-table .nav').addClass('position--top');
+            $('.settings-modal .settings-table .nav').addClass('position--top'); // eslint-disable-line jquery/no-closest, jquery/no-class
         }
     }
+
     public render() {
         const tabList = this.props.tabs.map((tab) => {
             const key = `${tab.name}_li`;

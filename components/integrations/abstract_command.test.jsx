@@ -39,7 +39,7 @@ describe('components/integrations/AbstractCommand', () => {
             return new Promise((resolve) => {
                 process.nextTick(() => resolve());
             });
-        }
+        },
     );
 
     const baseProps = {
@@ -55,7 +55,7 @@ describe('components/integrations/AbstractCommand', () => {
 
     test('should match snapshot', () => {
         const wrapper = shallow(
-            <AbstractCommand {...baseProps}/>
+            <AbstractCommand {...baseProps}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -64,7 +64,7 @@ describe('components/integrations/AbstractCommand', () => {
         const newSeverError = 'server error';
         const props = {...baseProps, serverError: newSeverError};
         const wrapper = shallow(
-            <AbstractCommand {...props}/>
+            <AbstractCommand {...props}/>,
         );
 
         wrapper.find('#trigger').simulate('change', {target: {value: ''}});
@@ -76,7 +76,7 @@ describe('components/integrations/AbstractCommand', () => {
 
     test('should call action function', () => {
         const wrapper = shallow(
-            <AbstractCommand {...baseProps}/>
+            <AbstractCommand {...baseProps}/>,
         );
 
         wrapper.find('#displayName').simulate('change', {target: {value: 'name'}});
@@ -87,7 +87,7 @@ describe('components/integrations/AbstractCommand', () => {
 
     test('should match object returned by getStateFromCommand', () => {
         const wrapper = shallow(
-            <AbstractCommand {...baseProps}/>
+            <AbstractCommand {...baseProps}/>,
         );
 
         const expectedOutput = {
@@ -110,7 +110,7 @@ describe('components/integrations/AbstractCommand', () => {
 
     test('should match state when method is called', () => {
         const wrapper = shallow(
-            <AbstractCommand {...baseProps}/>
+            <AbstractCommand {...baseProps}/>,
         );
 
         const displayName = 'new display_name';
@@ -161,11 +161,11 @@ describe('components/integrations/AbstractCommand', () => {
                 return new Promise((resolve) => {
                     process.nextTick(() => resolve());
                 });
-            }
+            },
         );
         const props = {...baseProps, action: newAction};
         const wrapper = shallow(
-            <AbstractCommand {...props}/>
+            <AbstractCommand {...props}/>,
         );
         expect(newAction).toHaveBeenCalledTimes(0);
 
@@ -185,49 +185,46 @@ describe('components/integrations/AbstractCommand', () => {
         // empty trigger
         wrapper.setState({saving: false, trigger: ''});
         handleSubmit(evt);
-        expect(wrapper.state('clientError')).toEqual((
+        expect(wrapper.state('clientError')).toEqual(
             <FormattedMessage
                 defaultMessage='A trigger word is required'
                 id='add_command.triggerRequired'
-                values={{}}
-            />
-        ));
+            />,
+        );
         expect(newAction).toHaveBeenCalledTimes(1);
 
         // trigger that starts with a slash '/'
         wrapper.setState({saving: false, trigger: '//startwithslash'});
         handleSubmit(evt);
-        expect(wrapper.state('clientError')).toEqual((
+        expect(wrapper.state('clientError')).toEqual(
             <FormattedMessage
                 defaultMessage='A trigger word cannot begin with a /'
                 id='add_command.triggerInvalidSlash'
-                values={{}}
-            />
-        ));
+            />,
+        );
         expect(newAction).toHaveBeenCalledTimes(1);
 
         // trigger with space
         wrapper.setState({saving: false, trigger: '/trigger with space'});
         handleSubmit(evt);
-        expect(wrapper.state('clientError')).toEqual((
+        expect(wrapper.state('clientError')).toEqual(
             <FormattedMessage
                 defaultMessage='A trigger word must not contain spaces'
                 id='add_command.triggerInvalidSpace'
-                values={{}}
-            />
-        ));
+            />,
+        );
         expect(newAction).toHaveBeenCalledTimes(1);
 
         // trigger above maximum length
         wrapper.setState({saving: false, trigger: '123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789'});
         handleSubmit(evt);
-        expect(wrapper.state('clientError')).toEqual((
+        expect(wrapper.state('clientError')).toEqual(
             <FormattedMessage
                 defaultMessage='A trigger word must contain between {min} and {max} characters'
                 id='add_command.triggerInvalidLength'
                 values={{max: 128, min: 1}}
-            />
-        ));
+            />,
+        );
         expect(newAction).toHaveBeenCalledTimes(1);
 
         // good triggers
@@ -249,13 +246,12 @@ describe('components/integrations/AbstractCommand', () => {
         // empty url
         wrapper.setState({saving: false, trigger: 'trigger', url: ''});
         handleSubmit(evt);
-        expect(wrapper.state('clientError')).toEqual((
+        expect(wrapper.state('clientError')).toEqual(
             <FormattedMessage
                 defaultMessage='A request URL is required'
                 id='add_command.urlRequired'
-                values={{}}
-            />
-        ));
+            />,
+        );
         expect(newAction).toHaveBeenCalledTimes(4);
     });
 });

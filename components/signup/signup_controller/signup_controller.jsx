@@ -19,7 +19,7 @@ import LoadingScreen from 'components/loading_screen';
 import {Constants} from 'utils/constants';
 import {t} from 'utils/i18n';
 
-export default class SignupController extends React.Component {
+export default class SignupController extends React.PureComponent {
     static propTypes = {
         location: PropTypes.object,
         loggedIn: PropTypes.bool.isRequired,
@@ -168,7 +168,7 @@ export default class SignupController extends React.Component {
                             defaultMessage='Email and Password'
                         />
                     </span>
-                </Link>
+                </Link>,
             );
         }
 
@@ -188,7 +188,7 @@ export default class SignupController extends React.Component {
                             />
                         </span>
                     </span>
-                </a>
+                </a>,
             );
         }
 
@@ -208,7 +208,7 @@ export default class SignupController extends React.Component {
                             />
                         </span>
                     </span>
-                </a>
+                </a>,
             );
         }
 
@@ -228,7 +228,7 @@ export default class SignupController extends React.Component {
                             />
                         </span>
                     </span>
-                </a>
+                </a>,
             );
         }
 
@@ -262,7 +262,7 @@ export default class SignupController extends React.Component {
                             {LDAPText}
                         </span>
                     </span>
-                </Link>
+                </Link>,
             );
         }
 
@@ -290,7 +290,7 @@ export default class SignupController extends React.Component {
                             {this.props.samlLoginButtonText}
                         </span>
                     </span>
-                </Link>
+                </Link>,
             );
         }
 

@@ -12,7 +12,7 @@ import PermissionGroup from '../permission_group.jsx';
 import EditPostTimeLimitButton from '../edit_post_time_limit_button';
 import EditPostTimeLimitModal from '../edit_post_time_limit_modal';
 
-export default class GuestPermissionsTree extends React.Component {
+export default class GuestPermissionsTree extends React.PureComponent {
     static propTypes = {
         scope: PropTypes.string.isRequired,
         role: PropTypes.object.isRequired,
@@ -21,6 +21,7 @@ export default class GuestPermissionsTree extends React.Component {
         selected: PropTypes.string,
         selectRow: PropTypes.func.isRequired,
         readOnly: PropTypes.bool,
+        license: PropTypes.object,
     };
 
     static defaultProps = {
@@ -37,8 +38,13 @@ export default class GuestPermissionsTree extends React.Component {
         };
 
         this.ADDITIONAL_VALUES = {
-            edit_post: {
-                editTimeLimitButton: <EditPostTimeLimitButton onClick={this.openPostTimeLimitModal}/>,
+            guest_edit_post: {
+                editTimeLimitButton: (
+                    <EditPostTimeLimitButton
+                        onClick={this.openPostTimeLimitModal}
+                        isDisabled={this.props.readOnly}
+                    />
+                ),
             },
         };
 
@@ -47,14 +53,32 @@ export default class GuestPermissionsTree extends React.Component {
             Permissions.EDIT_POST,
             Permissions.DELETE_POST,
             {
-                id: 'reactions',
+                id: 'guest_reactions',
                 combined: true,
                 permissions: [
                     Permissions.ADD_REACTION,
                     Permissions.REMOVE_REACTION,
                 ],
             },
+            Permissions.USE_CHANNEL_MENTIONS,
         ];
+
+        if (props.license && props.license.IsLicensed === 'true' && props.license.LDAPGroups === 'true') {
+            this.permissions.push(Permissions.USE_GROUP_MENTIONS);
+        }
+        this.permissions.push(Permissions.CREATE_POST);
+        this.permissions = this.permissions.map((permission) => {
+            if (typeof (permission) === 'string') {
+                return {
+                    id: `guest_${permission}`,
+                    combined: true,
+                    permissions: [
+                        permission,
+                    ],
+                };
+            }
+            return permission;
+        });
     }
 
     openPostTimeLimitModal = () => {

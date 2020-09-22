@@ -31,7 +31,7 @@ describe('admin_console/team_channel_settings/team/TeamGroups', () => {
                 groups={groups}
                 team={testTeam}
                 totalGroups={1}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });

@@ -9,7 +9,7 @@ import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 import {ModalIdentifiers} from 'utils/constants';
 import ToggleModalButtonRedux from 'components/toggle_modal_button_redux/toggle_modal_button_redux.jsx';
 
-class TestModal extends React.Component {
+class TestModal extends React.PureComponent {
     render() {
         return (
             <Modal
@@ -37,7 +37,7 @@ describe('components/ToggleModalButtonRedux', () => {
                     id='channel_header.delete'
                     defaultMessage='Delete Channel'
                 />
-            </ToggleModalButtonRedux>
+            </ToggleModalButtonRedux>,
         );
 
         expect(wrapper).toMatchSnapshot();

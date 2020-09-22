@@ -61,12 +61,12 @@ describe('Actions.Storage', () => {
 
         store.dispatch(Actions.actionOnGlobalItemsWithPrefix(
             'prefix',
-            (key, value) => touchedPairs.push([key, value])
+            (key, value) => touchedPairs.push([key, value]),
         ));
 
         assert.deepEqual(
             touchedPairs,
-            [['prefix_test1', 1], ['prefix_test2', 2]]
+            [['prefix_test1', 1], ['prefix_test2', 2]],
         );
     });
 
@@ -78,12 +78,12 @@ describe('Actions.Storage', () => {
         const touchedPairs = [];
         store.dispatch(Actions.actionOnItemsWithPrefix(
             'prefix',
-            (key, value) => touchedPairs.push([key, value])
+            (key, value) => touchedPairs.push([key, value]),
         ));
 
         assert.deepEqual(
             touchedPairs,
-            [['prefix_test1', 1], ['prefix_test2', 2]]
+            [['prefix_test1', 1], ['prefix_test2', 2]],
         );
     });
 

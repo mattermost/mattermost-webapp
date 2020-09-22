@@ -8,10 +8,11 @@ exports[`components/multiselect/multiselect should match snapshot 1`] = `
     className="filter-row filter-row--full"
   >
     <div
-      className="multi-select__container"
+      className="multi-select__container react-select"
     >
       <StateManager
         className=""
+        classNamePrefix="react-select-auto react-select"
         components={
           Object {
             "IndicatorsContainer": [Function],
@@ -80,9 +81,6 @@ exports[`components/multiselect/multiselect should match snapshot 1`] = `
         styles={
           Object {
             "container": [Function],
-            "control": [Function],
-            "multiValue": [Function],
-            "multiValueRemove": [Function],
           }
         }
         value={
@@ -101,7 +99,6 @@ exports[`components/multiselect/multiselect should match snapshot 1`] = `
           <FormattedMessage
             defaultMessage="Save"
             id="save_button.save"
-            values={Object {}}
           />
         }
         disabled={false}
@@ -113,13 +110,13 @@ exports[`components/multiselect/multiselect should match snapshot 1`] = `
           <FormattedMessage
             defaultMessage="Saving"
             id="save_button.saving"
-            values={Object {}}
           />
         }
       />
     </div>
     <div
       className="multi-select__help"
+      id="multiSelectHelpMemberInfo"
     >
       <FormattedMessage
         defaultMessage="{memberOptions, number} of {totalCount, number} members"
@@ -134,6 +131,7 @@ exports[`components/multiselect/multiselect should match snapshot 1`] = `
     </div>
     <div
       className="multi-select__help"
+      id="multiSelectMessageNote"
     />
   </div>
   <MultiSelectList
@@ -184,7 +182,6 @@ exports[`components/multiselect/multiselect should match snapshot 1`] = `
       <FormattedMessage
         defaultMessage="Next"
         id="filtered_user_list.next"
-        values={Object {}}
       />
     </button>
   </div>
@@ -199,10 +196,11 @@ exports[`components/multiselect/multiselect should match snapshot for page 2 1`]
     className="filter-row filter-row--full"
   >
     <div
-      className="multi-select__container"
+      className="multi-select__container react-select"
     >
       <StateManager
         className=""
+        classNamePrefix="react-select-auto react-select"
         components={
           Object {
             "IndicatorsContainer": [Function],
@@ -271,9 +269,6 @@ exports[`components/multiselect/multiselect should match snapshot for page 2 1`]
         styles={
           Object {
             "container": [Function],
-            "control": [Function],
-            "multiValue": [Function],
-            "multiValueRemove": [Function],
           }
         }
         value={
@@ -292,7 +287,6 @@ exports[`components/multiselect/multiselect should match snapshot for page 2 1`]
           <FormattedMessage
             defaultMessage="Save"
             id="save_button.save"
-            values={Object {}}
           />
         }
         disabled={false}
@@ -304,13 +298,13 @@ exports[`components/multiselect/multiselect should match snapshot for page 2 1`]
           <FormattedMessage
             defaultMessage="Saving"
             id="save_button.saving"
-            values={Object {}}
           />
         }
       />
     </div>
     <div
       className="multi-select__help"
+      id="multiSelectHelpMemberInfo"
     >
       <FormattedMessage
         defaultMessage="{memberOptions, number} of {totalCount, number} members"
@@ -325,6 +319,7 @@ exports[`components/multiselect/multiselect should match snapshot for page 2 1`]
     </div>
     <div
       className="multi-select__help"
+      id="multiSelectMessageNote"
     />
   </div>
   <MultiSelectList
@@ -365,7 +360,6 @@ exports[`components/multiselect/multiselect should match snapshot for page 2 1`]
       <FormattedMessage
         defaultMessage="Previous"
         id="filtered_user_list.prev"
-        values={Object {}}
       />
     </button>
   </div>

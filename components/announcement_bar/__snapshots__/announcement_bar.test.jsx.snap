@@ -31,6 +31,9 @@ exports[`components/AnnouncementBar should match snapshot, bar not showing 1`] =
       <injectIntl(FormattedMarkdownMessage)
         id="text"
       />
+      <span
+        className="announcement-bar__link"
+      />
     </span>
   </OverlayTrigger>
 </div>
@@ -66,6 +69,9 @@ exports[`components/AnnouncementBar should match snapshot, bar showing 1`] = `
     <span>
       <injectIntl(FormattedMarkdownMessage)
         id="text"
+      />
+      <span
+        className="announcement-bar__link"
       />
     </span>
   </OverlayTrigger>
@@ -103,6 +109,9 @@ exports[`components/AnnouncementBar should match snapshot, bar showing, no dismi
       <injectIntl(FormattedMarkdownMessage)
         id="text"
       />
+      <span
+        className="announcement-bar__link"
+      />
     </span>
   </OverlayTrigger>
 </div>
@@ -138,6 +147,9 @@ exports[`components/AnnouncementBar should match snapshot, dismissal 1`] = `
     <span>
       <injectIntl(FormattedMarkdownMessage)
         id="text"
+      />
+      <span
+        className="announcement-bar__link"
       />
     </span>
   </OverlayTrigger>
@@ -175,6 +187,9 @@ exports[`components/AnnouncementBar should match snapshot, dismissal 2`] = `
       <injectIntl(FormattedMarkdownMessage)
         id="text"
       />
+      <span
+        className="announcement-bar__link"
+      />
     </span>
   </OverlayTrigger>
 </div>
@@ -210,6 +225,9 @@ exports[`components/AnnouncementBar should match snapshot, dismissal 3`] = `
     <span>
       <injectIntl(FormattedMarkdownMessage)
         id="text"
+      />
+      <span
+        className="announcement-bar__link"
       />
     </span>
   </OverlayTrigger>
@@ -247,6 +265,9 @@ exports[`components/AnnouncementBar should match snapshot, props change 1`] = `
       <injectIntl(FormattedMarkdownMessage)
         id="text"
       />
+      <span
+        className="announcement-bar__link"
+      />
     </span>
   </OverlayTrigger>
 </div>
@@ -282,6 +303,9 @@ exports[`components/AnnouncementBar should match snapshot, props change 2`] = `
     <span>
       <injectIntl(FormattedMarkdownMessage)
         id="text"
+      />
+      <span
+        className="announcement-bar__link"
       />
     </span>
   </OverlayTrigger>
@@ -319,6 +343,9 @@ exports[`components/AnnouncementBar should match snapshot, props change 3`] = `
       <injectIntl(FormattedMarkdownMessage)
         id="text"
       />
+      <span
+        className="announcement-bar__link"
+      />
     </span>
   </OverlayTrigger>
 </div>
@@ -354,6 +381,9 @@ exports[`components/AnnouncementBar should match snapshot, props change 4`] = `
     <span>
       <injectIntl(FormattedMarkdownMessage)
         id="text"
+      />
+      <span
+        className="announcement-bar__link"
       />
     </span>
   </OverlayTrigger>

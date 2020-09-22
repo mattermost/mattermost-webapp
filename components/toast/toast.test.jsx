@@ -50,4 +50,9 @@ describe('components/Toast', () => {
         toast.handleDismiss();
         expect(defaultProps.onDismiss).toHaveBeenCalledTimes(1);
     });
+
+    test('should match snapshot to have extraClasses', () => {
+        const wrapper = shallow(<Toast {...{...defaultProps, extraClasses: 'extraClasses'}}><span>{'child'}</span></Toast>);
+        expect(wrapper).toMatchSnapshot();
+    });
 });

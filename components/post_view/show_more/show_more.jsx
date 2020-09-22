@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -121,10 +122,10 @@ export default class ShowMore extends React.PureComponent {
             }
 
             let showIcon = 'fa fa-angle-up';
-            let showText = localizeMessage('post_info.message.show_less', 'Show Less');
+            let showText = localizeMessage('post_info.message.show_less', 'Show less');
             if (isCollapsed) {
                 showIcon = 'fa fa-angle-down';
-                showText = localizeMessage('post_info.message.show_more', 'Show More');
+                showText = localizeMessage('post_info.message.show_more', 'Show more');
             }
 
             attachmentTextOverflow = (
@@ -165,3 +166,4 @@ export default class ShowMore extends React.PureComponent {
         );
     }
 }
+/* eslint-enable react/no-string-refs */

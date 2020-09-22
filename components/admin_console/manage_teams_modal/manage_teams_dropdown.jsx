@@ -9,7 +9,7 @@ import Menu from 'components/widgets/menu/menu';
 
 import * as Utils from 'utils/utils.jsx';
 
-export default class ManageTeamsDropdown extends React.Component {
+export default class ManageTeamsDropdown extends React.PureComponent {
     static propTypes = {
         team: PropTypes.object.isRequired,
         user: PropTypes.object.isRequired,
@@ -67,7 +67,7 @@ export default class ManageTeamsDropdown extends React.Component {
                 </a>
                 <Menu
                     openLeft={true}
-                    ariaLabel={Utils.localizeMessage('team_members_dropdown.menuAriaLabel', 'Team member role change')}
+                    ariaLabel={Utils.localizeMessage('team_members_dropdown.menuAriaLabel', 'Change the role of a team member')}
                 >
                     <Menu.ItemAction
                         show={!isTeamAdmin && !isGuest}

@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -7,19 +8,16 @@ import {Overlay, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {browserHistory} from 'utils/browser_history';
-import {canManageMembers} from 'utils/channel_utils.jsx';
-import {Constants} from 'utils/constants';
+import {Constants, ModalIdentifiers} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
-import ChannelInviteModal from 'components/channel_invite_modal';
 import ChannelMembersModal from 'components/channel_members_modal';
 import OverlayTrigger from 'components/overlay_trigger';
 import MemberIcon from 'components/widgets/icons/member_icon';
 import Popover from 'components/widgets/popover';
-import TeamMembersModal from 'components/team_members_modal';
 
-import PopoverListMembersItem from './popover_list_members_item';
+import PopoverListMembersItem from 'components/popover_list_members/popover_list_members_item';
 
-export default class PopoverListMembers extends React.Component {
+export default class PopoverListMembers extends React.PureComponent {
     static propTypes = {
         channel: PropTypes.object.isRequired,
         statuses: PropTypes.object.isRequired,
@@ -27,11 +25,13 @@ export default class PopoverListMembers extends React.Component {
         memberCount: PropTypes.number,
         currentUserId: PropTypes.string.isRequired,
         teamUrl: PropTypes.string,
+        manageMembers: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
             openModal: PropTypes.func.isRequired,
             loadProfilesAndStatusesInChannel: PropTypes.func.isRequired,
             openDirectChannelToUserId: PropTypes.func.isRequired,
         }).isRequired,
+        sortedUsers: PropTypes.array,
     };
 
     constructor(props) {
@@ -40,12 +40,8 @@ export default class PopoverListMembers extends React.Component {
 
         this.state = {
             showPopover: false,
-            showTeamMembersModal: false,
-            showChannelMembersModal: false,
-            showChannelInviteModal: false,
             users: props.users,
             statuses: props.statuses,
-            sortedUsers: this.sortUsers(props.users, props.statuses),
         };
     }
 
@@ -54,15 +50,10 @@ export default class PopoverListMembers extends React.Component {
             return {
                 users: nextProps.users,
                 statuses: nextProps.statuses,
-                sortedUsers: Utils.sortUsersByStatusAndDisplayName(nextProps.users, nextProps.statuses),
             };
         }
         return null;
     }
-
-    sortUsers = (users, statuses) => {
-        return Utils.sortUsersByStatusAndDisplayName(users, statuses);
-    };
 
     handleShowDirectChannel = (user) => {
         const {actions} = this.props;
@@ -85,31 +76,20 @@ export default class PopoverListMembers extends React.Component {
     showMembersModal = (e) => {
         e.preventDefault();
 
-        this.setState({
-            showPopover: false,
-            showChannelMembersModal: true,
-        });
-    };
+        this.closePopover();
 
-    hideChannelMembersModal = () => {
-        this.setState({showChannelMembersModal: false});
-    };
+        const modalData = {
+            modalId: ModalIdentifiers.CHANNEL_MEMBERS,
+            dialogProps: this.props,
+            dialogType: ChannelMembersModal,
+        };
 
-    showChannelInviteModal = () => {
-        this.setState({showChannelInviteModal: true});
-    };
-
-    hideChannelInviteModal = () => {
-        this.setState({showChannelInviteModal: false});
-    };
-
-    hideTeamMembersModal = () => {
-        this.setState({showTeamMembersModal: false});
+        this.props.actions.openModal(modalData);
     };
 
     handleGetProfilesInChannel = (e) => {
         this.setState({popoverTarget: e.target, showPopover: !this.state.showPopover});
-        this.props.actions.loadProfilesAndStatusesInChannel(this.props.channel.id, 0, undefined, 'status'); // eslint-disable-line no-undefined
+        this.props.actions.loadProfilesAndStatusesInChannel(this.props.channel.id, 0, undefined, 'status', {active: true});
     };
 
     getTargetPopover = () => {
@@ -120,7 +100,7 @@ export default class PopoverListMembers extends React.Component {
     render() {
         const isDirectChannel = this.props.channel.type === Constants.DM_CHANNEL;
 
-        const items = this.state.sortedUsers.map((user) => (
+        const items = this.props.sortedUsers.map((user) => (
             <PopoverListMembersItem
                 key={user.id}
                 onItemClick={this.handleShowDirectChannel}
@@ -140,10 +120,9 @@ export default class PopoverListMembers extends React.Component {
                 />
             );
 
-            const manageMembers = canManageMembers(this.props.channel);
             const isDefaultChannel = this.props.channel.name === Constants.DEFAULT_CHANNEL;
 
-            if (isDefaultChannel || !manageMembers) {
+            if (isDefaultChannel || !this.props.manageMembers) {
                 membersName = (
                     <FormattedMessage
                         id='members_popover.viewMembers'
@@ -181,36 +160,6 @@ export default class PopoverListMembers extends React.Component {
             />
         );
 
-        let channelMembersModal;
-        if (this.state.showChannelMembersModal) {
-            channelMembersModal = (
-                <ChannelMembersModal
-                    onHide={this.hideChannelMembersModal}
-                    showInviteModal={this.showChannelInviteModal}
-                    channel={this.props.channel}
-                />
-            );
-        }
-
-        let teamMembersModal;
-        if (this.state.showTeamMembersModal) {
-            teamMembersModal = (
-                <TeamMembersModal
-                    onHide={this.hideTeamMembersModal}
-                />
-            );
-        }
-
-        let channelInviteModal;
-        if (this.state.showChannelInviteModal) {
-            channelInviteModal = (
-                <ChannelInviteModal
-                    onHide={this.hideChannelInviteModal}
-                    channel={this.props.channel}
-                />
-            );
-        }
-
         const channelMembersTooltip = (
             <Tooltip id='channelMembersTooltip'>
                 <FormattedMessage
@@ -227,27 +176,27 @@ export default class PopoverListMembers extends React.Component {
                 <button
                     id='member_popover'
                     aria-label={ariaLabel}
-                    className={'style--none member-popover__trigger channel-header__icon wide ' + (this.state.showPopover ? 'active' : '')}
+                    className={'member-popover__trigger channel-header__icon channel-header__icon--wide ' + (this.state.showPopover ? 'channel-header__icon--active' : '')}
                     ref='member_popover_target'
                     onClick={this.handleGetProfilesInChannel}
                 >
                     <OverlayTrigger
                         delayShow={Constants.OVERLAY_TIME_DELAY}
                         placement='bottom'
-                        overlay={channelMembersTooltip}
+                        overlay={this.state.showPopover ? <></> : channelMembersTooltip}
                     >
-                        <div>
+                        <div className='d-flex align-items-center'>
+                            <MemberIcon
+                                id='channelMemberIcon'
+                                className='icon icon--standard'
+                                aria-hidden='true'
+                            />
                             <span
                                 id='channelMemberCountText'
                                 className='icon__text'
                             >
                                 {countText}
                             </span>
-                            <MemberIcon
-                                id='channelMemberIcon'
-                                className='icon icon__members'
-                                aria-hidden='true'
-                            />
                         </div>
                     </OverlayTrigger>
                 </button>
@@ -286,10 +235,8 @@ export default class PopoverListMembers extends React.Component {
                         {popoverButton}
                     </Popover>
                 </Overlay>
-                {channelMembersModal}
-                {teamMembersModal}
-                {channelInviteModal}
             </div>
         );
     }
 }
+/* eslint-enable react/no-string-refs */

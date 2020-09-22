@@ -18,9 +18,8 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
         placement="right"
       >
         <FormattedMessage
-          defaultMessage="More Actions"
+          defaultMessage="More actions"
           id="post_info.dot_menu.tooltip.more_actions"
-          values={Object {}}
         />
       </Tooltip>
     }
@@ -36,10 +35,14 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
     <button
       aria-expanded="false"
       aria-label="more actions"
-      className="post__dropdown color--link style--none"
+      className="post-menu__item"
       id="CENTER_button_post_id_1"
       type="button"
-    />
+    >
+      <DotsHorizontalIcon
+        className="icon icon--small"
+      />
+    </button>
   </OverlayTrigger>
   <Menu
     ariaLabel="Post extra options"
@@ -75,17 +78,17 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
       id="permalink_post_id_1"
       onClick={[Function]}
       show={true}
-      text="Permalink"
+      text="Copy Link"
     />
     <MenuItemAction
       onClick={[Function]}
       show={false}
-      text="Unflag"
+      text="Remove from Saved"
     />
     <MenuItemAction
       onClick={[Function]}
       show={false}
-      text="Flag"
+      text="Save"
     />
     <MenuItemAction
       id="unpin_post_post_id_1"
@@ -143,9 +146,8 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
         placement="right"
       >
         <FormattedMessage
-          defaultMessage="More Actions"
+          defaultMessage="More actions"
           id="post_info.dot_menu.tooltip.more_actions"
-          values={Object {}}
         />
       </Tooltip>
     }
@@ -161,10 +163,14 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
     <button
       aria-expanded="false"
       aria-label="more actions"
-      className="post__dropdown color--link style--none"
+      className="post-menu__item"
       id="CENTER_button_post_id_1"
       type="button"
-    />
+    >
+      <DotsHorizontalIcon
+        className="icon icon--small"
+      />
+    </button>
   </OverlayTrigger>
   <Menu
     ariaLabel="Post extra options"
@@ -200,17 +206,17 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
       id="permalink_post_id_1"
       onClick={[Function]}
       show={true}
-      text="Permalink"
+      text="Copy Link"
     />
     <MenuItemAction
       onClick={[Function]}
       show={false}
-      text="Unflag"
+      text="Remove from Saved"
     />
     <MenuItemAction
       onClick={[Function]}
       show={false}
-      text="Flag"
+      text="Save"
     />
     <MenuItemAction
       id="unpin_post_post_id_1"

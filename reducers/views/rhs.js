@@ -112,12 +112,15 @@ function searchTerms(state = '', action) {
     }
 }
 
-function pluginId(state = '', action) {
+function pluggableId(state = '', action) {
     switch (action.type) {
     case ActionTypes.UPDATE_RHS_STATE:
         if (action.state === RHSStates.PLUGIN) {
-            return action.pluginId;
+            return action.pluggableId;
         }
+        return '';
+    case ActionTypes.SELECT_POST:
+    case ActionTypes.SELECT_POST_CARD:
         return '';
     default:
         return state;
@@ -172,8 +175,6 @@ function isSidebarOpen(state = false, action) {
     case ActionTypes.TOGGLE_LHS:
         return false;
     case ActionTypes.OPEN_LHS:
-        return false;
-    case TeamTypes.SELECT_TEAM:
         return false;
     default:
         return state;
@@ -235,7 +236,7 @@ export default combineReducers({
     rhsState,
     searchTerms,
     searchResultsTerms,
-    pluginId,
+    pluggableId,
     isSearchingFlaggedPost,
     isSearchingPinnedPost,
     isSidebarOpen,

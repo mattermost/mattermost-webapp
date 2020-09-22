@@ -26,12 +26,12 @@ describe('components/ElasticSearchSettings', () => {
                 EnableIndexing: false,
                 EnableSearching: false,
                 EnableAutocomplete: false,
-            }
+            },
         };
         const wrapper = shallow(
             <ElasticSearchSettings
                 config={config}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -47,12 +47,12 @@ describe('components/ElasticSearchSettings', () => {
                 EnableIndexing: true,
                 EnableSearching: false,
                 EnableAutocomplete: false,
-            }
+            },
         };
         const wrapper = shallow(
             <ElasticSearchSettings
                 config={config}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -68,12 +68,12 @@ describe('components/ElasticSearchSettings', () => {
                 EnableIndexing: false,
                 EnableSearching: false,
                 EnableAutocomplete: false,
-            }
+            },
         };
         const wrapper = shallow(
             <ElasticSearchSettings
                 config={config}
-            />
+            />,
         );
         expect(wrapper.find(SaveButton).prop('disabled')).toBe(true);
         wrapper.instance().handleSettingChanged('enableIndexing', true);
@@ -83,7 +83,6 @@ describe('components/ElasticSearchSettings', () => {
         const success = jest.fn();
         instance.doTestConfig(success);
         expect(success).toBeCalled();
-        expect(instance.doSubmit).toBeCalled();
         expect(wrapper.find(SaveButton).prop('disabled')).toBe(false);
     });
 });

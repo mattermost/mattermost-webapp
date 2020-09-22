@@ -9,7 +9,7 @@ exports[`components/CreateComment should match snapshot read only channel 1`] = 
     className="post-create a11y__region"
     data-a11y-sort-order="4"
     id="rhsFooter"
-    role="application"
+    role="form"
     tabIndex="-1"
   >
     <div
@@ -39,8 +39,10 @@ exports[`components/CreateComment should match snapshot read only channel 1`] = 
           onKeyPress={[Function]}
           onKeyUp={[Function]}
           onMouseUp={[Function]}
+          onSelect={[Function]}
           popoverMentionKeyClick={true}
           preview={false}
+          rootId=""
           suggestionListStyle="top"
           useChannelMentions={true}
           value=""
@@ -67,7 +69,7 @@ exports[`components/CreateComment should match snapshot read only channel 1`] = 
         <div
           className="col col-auto"
         >
-          <TextboxLinks
+          <Connect(TextboxLinks)
             characterLimit={4000}
             message=""
             showPreview={false}
@@ -99,31 +101,14 @@ exports[`components/CreateComment should match snapshot read only channel 1`] = 
       <FormattedMessage
         defaultMessage="Confirm"
         id="notify_all.confirm"
-        values={Object {}}
       />
     }
-    message={
-      <FormattedMessage
-        defaultMessage="By using @all or @channel you are about to send notifications to {totalMembers} people. Are you sure you want to do this?"
-        id="notify_all.question"
-        values={
-          Object {
-            "totalMembers": 2,
-          }
-        }
-      />
-    }
+    message=""
     modalClass=""
     onCancel={[Function]}
     onConfirm={[Function]}
     show={false}
-    title={
-      <FormattedMessage
-        defaultMessage="Confirm sending notifications to entire channel"
-        id="notify_all.title.confirm"
-        values={Object {}}
-      />
-    }
+    title=""
   />
 </form>
 `;
@@ -137,7 +122,7 @@ exports[`components/CreateComment should match snapshot when cannot post 1`] = `
     className="post-create a11y__region"
     data-a11y-sort-order="4"
     id="rhsFooter"
-    role="application"
+    role="form"
     tabIndex="-1"
   >
     <div
@@ -167,8 +152,10 @@ exports[`components/CreateComment should match snapshot when cannot post 1`] = `
           onKeyPress={[Function]}
           onKeyUp={[Function]}
           onMouseUp={[Function]}
+          onSelect={[Function]}
           popoverMentionKeyClick={true}
           preview={false}
+          rootId=""
           suggestionListStyle="top"
           useChannelMentions={true}
           value=""
@@ -195,7 +182,7 @@ exports[`components/CreateComment should match snapshot when cannot post 1`] = `
         <div
           className="col col-auto"
         >
-          <TextboxLinks
+          <Connect(TextboxLinks)
             characterLimit={4000}
             message=""
             showPreview={false}
@@ -227,31 +214,14 @@ exports[`components/CreateComment should match snapshot when cannot post 1`] = `
       <FormattedMessage
         defaultMessage="Confirm"
         id="notify_all.confirm"
-        values={Object {}}
       />
     }
-    message={
-      <FormattedMessage
-        defaultMessage="By using @all or @channel you are about to send notifications to {totalMembers} people. Are you sure you want to do this?"
-        id="notify_all.question"
-        values={
-          Object {
-            "totalMembers": 2,
-          }
-        }
-      />
-    }
+    message=""
     modalClass=""
     onCancel={[Function]}
     onConfirm={[Function]}
     show={false}
-    title={
-      <FormattedMessage
-        defaultMessage="Confirm sending notifications to entire channel"
-        id="notify_all.title.confirm"
-        values={Object {}}
-      />
-    }
+    title=""
   />
 </form>
 `;
@@ -265,7 +235,7 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
     className="post-create a11y__region"
     data-a11y-sort-order="4"
     id="rhsFooter"
-    role="application"
+    role="form"
     tabIndex="-1"
   >
     <div
@@ -295,8 +265,10 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
           onKeyPress={[Function]}
           onKeyUp={[Function]}
           onMouseUp={[Function]}
+          onSelect={[Function]}
           popoverMentionKeyClick={true}
           preview={false}
+          rootId=""
           suggestionListStyle="top"
           useChannelMentions={true}
           value="Test message"
@@ -330,7 +302,7 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
             />
             <button
               aria-label="emoji picker"
-              className="style--none emoji-picker__container post-action"
+              className="emoji-picker__container post-action"
               onClick={[Function]}
               type="button"
             >
@@ -359,9 +331,8 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
         <div
           className="col col-auto"
         >
-          <TextboxLinks
+          <Connect(TextboxLinks)
             characterLimit={4000}
-            message=""
             showPreview={false}
             updatePreview={[Function]}
           />
@@ -391,31 +362,14 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
       <FormattedMessage
         defaultMessage="Confirm"
         id="notify_all.confirm"
-        values={Object {}}
       />
     }
-    message={
-      <FormattedMessage
-        defaultMessage="By using @all or @channel you are about to send notifications to {totalMembers} people. Are you sure you want to do this?"
-        id="notify_all.question"
-        values={
-          Object {
-            "totalMembers": 2,
-          }
-        }
-      />
-    }
+    message=""
     modalClass=""
     onCancel={[Function]}
     onConfirm={[Function]}
     show={false}
-    title={
-      <FormattedMessage
-        defaultMessage="Confirm sending notifications to entire channel"
-        id="notify_all.title.confirm"
-        values={Object {}}
-      />
-    }
+    title=""
   />
 </form>
 `;
@@ -429,7 +383,7 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
     className="post-create a11y__region"
     data-a11y-sort-order="4"
     id="rhsFooter"
-    role="application"
+    role="form"
     tabIndex="-1"
   >
     <div
@@ -459,8 +413,10 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
           onKeyPress={[Function]}
           onKeyUp={[Function]}
           onMouseUp={[Function]}
+          onSelect={[Function]}
           popoverMentionKeyClick={true}
           preview={false}
+          rootId=""
           suggestionListStyle="top"
           useChannelMentions={true}
           value="Test message"
@@ -499,9 +455,8 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
         <div
           className="col col-auto"
         >
-          <TextboxLinks
+          <Connect(TextboxLinks)
             characterLimit={4000}
-            message=""
             showPreview={false}
             updatePreview={[Function]}
           />
@@ -543,31 +498,14 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
       <FormattedMessage
         defaultMessage="Confirm"
         id="notify_all.confirm"
-        values={Object {}}
       />
     }
-    message={
-      <FormattedMessage
-        defaultMessage="By using @all or @channel you are about to send notifications to {totalMembers} people. Are you sure you want to do this?"
-        id="notify_all.question"
-        values={
-          Object {
-            "totalMembers": 2,
-          }
-        }
-      />
-    }
+    message=""
     modalClass=""
     onCancel={[Function]}
     onConfirm={[Function]}
     show={false}
-    title={
-      <FormattedMessage
-        defaultMessage="Confirm sending notifications to entire channel"
-        id="notify_all.title.confirm"
-        values={Object {}}
-      />
-    }
+    title=""
   />
 </form>
 `;
@@ -581,7 +519,7 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
     className="post-create a11y__region"
     data-a11y-sort-order="4"
     id="rhsFooter"
-    role="application"
+    role="form"
     tabIndex="-1"
   >
     <div
@@ -611,8 +549,10 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
           onKeyPress={[Function]}
           onKeyUp={[Function]}
           onMouseUp={[Function]}
+          onSelect={[Function]}
           popoverMentionKeyClick={true}
           preview={false}
+          rootId=""
           suggestionListStyle="top"
           useChannelMentions={true}
           value=""
@@ -646,7 +586,7 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
             />
             <button
               aria-label="emoji picker"
-              className="style--none emoji-picker__container post-action"
+              className="emoji-picker__container post-action"
               onClick={[Function]}
               type="button"
             >
@@ -675,9 +615,8 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
         <div
           className="col col-auto"
         >
-          <TextboxLinks
+          <Connect(TextboxLinks)
             characterLimit={4000}
-            message=""
             showPreview={false}
             updatePreview={[Function]}
           />
@@ -707,31 +646,14 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
       <FormattedMessage
         defaultMessage="Confirm"
         id="notify_all.confirm"
-        values={Object {}}
       />
     }
-    message={
-      <FormattedMessage
-        defaultMessage="By using @all or @channel you are about to send notifications to {totalMembers} people. Are you sure you want to do this?"
-        id="notify_all.question"
-        values={
-          Object {
-            "totalMembers": 2,
-          }
-        }
-      />
-    }
+    message=""
     modalClass=""
     onCancel={[Function]}
     onConfirm={[Function]}
     show={false}
-    title={
-      <FormattedMessage
-        defaultMessage="Confirm sending notifications to entire channel"
-        id="notify_all.title.confirm"
-        values={Object {}}
-      />
-    }
+    title=""
   />
 </form>
 `;
@@ -745,7 +667,7 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
     className="post-create a11y__region"
     data-a11y-sort-order="4"
     id="rhsFooter"
-    role="application"
+    role="form"
     tabIndex="-1"
   >
     <div
@@ -775,8 +697,10 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
           onKeyPress={[Function]}
           onKeyUp={[Function]}
           onMouseUp={[Function]}
+          onSelect={[Function]}
           popoverMentionKeyClick={true}
           preview={false}
+          rootId=""
           suggestionListStyle="top"
           useChannelMentions={true}
           value="Test message"
@@ -810,7 +734,7 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
             />
             <button
               aria-label="emoji picker"
-              className="style--none emoji-picker__container post-action"
+              className="emoji-picker__container post-action"
               onClick={[Function]}
               type="button"
             >
@@ -839,9 +763,8 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
         <div
           className="col col-auto"
         >
-          <TextboxLinks
+          <Connect(TextboxLinks)
             characterLimit={4000}
-            message=""
             showPreview={false}
             updatePreview={[Function]}
           />
@@ -856,7 +779,6 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
           <FormattedMessage
             defaultMessage="File uploading"
             id="create_comment.file"
-            values={Object {}}
           />
         </span>
         <input
@@ -896,31 +818,14 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
       <FormattedMessage
         defaultMessage="Confirm"
         id="notify_all.confirm"
-        values={Object {}}
       />
     }
-    message={
-      <FormattedMessage
-        defaultMessage="By using @all or @channel you are about to send notifications to {totalMembers} people. Are you sure you want to do this?"
-        id="notify_all.question"
-        values={
-          Object {
-            "totalMembers": 2,
-          }
-        }
-      />
-    }
+    message=""
     modalClass=""
     onCancel={[Function]}
     onConfirm={[Function]}
     show={false}
-    title={
-      <FormattedMessage
-        defaultMessage="Confirm sending notifications to entire channel"
-        id="notify_all.title.confirm"
-        values={Object {}}
-      />
-    }
+    title=""
   />
 </form>
 `;

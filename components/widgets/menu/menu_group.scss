@@ -1,11 +1,10 @@
 @import 'compass/css3';
-
 @import 'utils/variables';
+@import 'utils/functions';
 
 .MenuGroup {
     &.menu-divider {
-        @include opacity(.15);
-        background: $black;
+        background: v(center-channel-color-16);
         height: 1px;
         margin: 8px 0;
     }

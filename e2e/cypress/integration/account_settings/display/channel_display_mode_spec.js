@@ -7,17 +7,16 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+// Group: @account_setting
+
 describe('Account Settings > Display > Channel Display Mode', () => {
     before(() => {
-        cy.apiLogin('user-1');
-
-        // # Set default preference of a user on channel and message display
-        cy.apiSaveChannelDisplayModePreference('centered');
-        cy.apiSaveMessageDisplayPreference();
-
-        // Post a message to a channel
-        cy.visit('/');
-        cy.postMessage('Test for channel display mode');
+        // # Login as new user, visit town-square and post a message
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
+            cy.postMessage('Test for channel display mode');
+        });
     });
 
     beforeEach(() => {
@@ -25,8 +24,8 @@ describe('Account Settings > Display > Channel Display Mode', () => {
     });
 
     it('should render in min setting view', () => {
-        // # Go to Account Settings with "user-1"
-        cy.toAccountSettingsModal(null, true);
+        // # Go to Account Settings
+        cy.toAccountSettingsModal();
 
         // * Check that the Display tab is loaded
         cy.get('#displayButton').should('be.visible');
@@ -42,7 +41,7 @@ describe('Account Settings > Display > Channel Display Mode', () => {
 
         // * Check the min setting view if each element is present and contains expected text values
         cy.get('#channel_display_modeTitle').should('be.visible').should('contain', 'Channel Display');
-        cy.get('#channel_display_modeDesc').should('be.visible').should('contain', 'Fixed width');
+        cy.get('#channel_display_modeDesc').should('be.visible').should('contain', 'Full width');
         cy.get('#channel_display_modeEdit').should('be.visible').should('contain', 'Edit');
         cy.get('#accountSettingsHeader > .close').should('be.visible');
     });
@@ -63,7 +62,7 @@ describe('Account Settings > Display > Channel Display Mode', () => {
         cy.get('#accountSettingsHeader > .close').should('be.visible');
     });
 
-    it('change channel display mode setting to "Full width"', () => {
+    it('MM-T296 change channel display mode setting to "Full width"', () => {
         // # Click the radio button for "Full width"
         cy.get('#channel_display_modeFormatA').click();
 
@@ -86,9 +85,8 @@ describe('Account Settings > Display > Channel Display Mode', () => {
         cy.get("div[data-testid='postContent']").first().invoke('attr', 'class').should('contain', 'post__content').should('not.contain', 'center');
     });
 
-    it('AS13225 Channel display mode setting to "Fixed width, centered"', () => {
-        // # Return to Account Settings modal
-        cy.toAccountSettingsModal('user-1', true);
+    it('MM-T295 Channel display mode setting to "Fixed width, centered"', () => {
+        cy.toAccountSettingsModal();
 
         // * Check that the Sidebar tab is loaded
         cy.get('#displayButton').should('be.visible');

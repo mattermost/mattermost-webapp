@@ -85,7 +85,7 @@ export default class WebSocketClient {
                 () => {
                     this.initialize(connectionUrl, token);
                 },
-                retryTime
+                retryTime,
             );
         };
 

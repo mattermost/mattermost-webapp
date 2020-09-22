@@ -42,7 +42,7 @@ function dispatchPluginComponentAction(name, pluginId, component, id = generateI
 }
 
 const resolveReactElement = (element) => {
-    if (typeof element === 'function') {
+    if (element && !React.isValidElement(element) && typeof element !== 'string') {
         // Allow element to be passed as the name of the component, instead of a React element.
         return React.createElement(element);
     }
@@ -120,6 +120,42 @@ export default class PluginRegistry {
         store.dispatch({
             type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
             name: 'ChannelHeaderButton',
+            data,
+        });
+
+        store.dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
+            name: 'MobileChannelHeaderButton',
+            data,
+        });
+
+        return id;
+    }
+
+    // Add a "call button"" next to the attach file button. If there are more than one button registered by any
+    // plugin, a dropdown menu is created to contain all the call plugin buttons.
+    // Accepts the following:
+    // - icon - React element to use as the button's icon
+    // - action - a function called when the button is clicked, passed the channel and channel member as arguments
+    // - dropdown_text - string or React element shown for the dropdown button description
+    // - tooltip_text - string shown for tooltip appear on hover
+    // Returns an unique identifier
+    // Minimum required version: 5.28
+    registerCallButtonAction(icon, action, dropdownText, tooltipText) {
+        const id = generateId();
+
+        const data = {
+            id,
+            pluginId: this.id,
+            icon: resolveReactElement(icon),
+            action,
+            dropdownText: resolveReactElement(dropdownText),
+            tooltipText,
+        };
+
+        store.dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
+            name: 'CallButton',
             data,
         });
 
@@ -583,5 +619,61 @@ export default class PluginRegistry {
         });
 
         return {id, showRHSPlugin: showRHSPlugin(id), hideRHSPlugin: hideRHSPlugin(id), toggleRHSPlugin: toggleRHSPlugin(id)};
+    }
+
+    // Register a Needs Team component by providing a route past /:team/:pluginId/ to be displayed at.
+    // Accepts the following:
+    // - route - The route to be displayed at.
+    // - component - A react component to display.
+    // Returns:
+    // - id: a unique identifier
+    registerNeedsTeamRoute(route, component) {
+        const id = generateId();
+        let fixedRoute = route.trim();
+        if (fixedRoute[0] === '/') {
+            fixedRoute = fixedRoute.substring(1);
+        }
+        fixedRoute = this.id + '/' + fixedRoute;
+
+        store.dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
+            name: 'NeedsTeamComponent',
+            data: {
+                id,
+                pluginId: this.id,
+                component,
+                route: fixedRoute,
+            },
+        });
+
+        return id;
+    }
+
+    // Register a component to be displayed at a custom route under /plug/:pluginId
+    // Accepts the following:
+    // - route - The route to be displayed at.
+    // - component - A react component to display.
+    // Returns:
+    // - id: a unique identifier
+    registerCustomRoute(route, component) {
+        const id = generateId();
+        let fixedRoute = route.trim();
+        if (fixedRoute[0] === '/') {
+            fixedRoute = fixedRoute.substring(1);
+        }
+        fixedRoute = this.id + '/' + fixedRoute;
+
+        store.dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
+            name: 'CustomRouteComponent',
+            data: {
+                id,
+                pluginId: this.id,
+                component,
+                route: fixedRoute,
+            },
+        });
+
+        return id;
     }
 }

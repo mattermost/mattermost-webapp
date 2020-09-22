@@ -21,7 +21,7 @@ type Props = {
     helpText: React.ReactNode;
 }
 
-export default class BooleanSetting extends React.Component<Props> {
+export default class BooleanSetting extends React.PureComponent<Props> {
     public static defaultProps = {
         trueText: (
             <FormattedMessage

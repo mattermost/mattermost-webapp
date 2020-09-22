@@ -97,3 +97,29 @@ button {
 %btn-transition {
     @include single-transition(all, .15s, ease);
 }
+
+.btn-icon {
+    padding: 0;
+    background: transparent;
+    border: none;
+    border-radius: 4px;
+    width: 3.2rem;
+    height: 3.2rem;
+    font-size: 1.6rem;
+    fill: v(center-channel-color-56);
+    color: v(center-channel-color-56);
+
+    &:hover {
+        background: v(center-channel-color-08);
+        fill: v(center-channel-color-72);
+        color: v(center-channel-color-72);
+    }
+
+    &:active,
+    &--active,
+    &--active:hover {
+        background: v(button-bg-08);
+        fill: v(button-bg);
+        color: v(button-bg);
+    }
+}

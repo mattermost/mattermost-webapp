@@ -7,15 +7,22 @@ import * as PostUtils from 'utils/post_utils';
 import * as SyntaxHighlighting from 'utils/syntax_highlighting';
 import * as TextFormatting from 'utils/text_formatting';
 import {getScheme, isUrlSafe} from 'utils/url';
+import EmojiMap from 'utils/emoji_map';
 
 export default class Renderer extends marked.Renderer {
     private formattingOptions: TextFormatting.TextFormattingOptions;
-    public constructor(options: MarkedOptions, formattingOptions = {}) {
+    private emojiMap: EmojiMap;
+    public constructor(
+        options: MarkedOptions,
+        formattingOptions = {},
+        emojiMap = new EmojiMap(new Map()),
+    ) {
         super(options);
 
         this.heading = this.heading.bind(this);
         this.paragraph = this.paragraph.bind(this);
         this.text = this.text.bind(this);
+        this.emojiMap = emojiMap;
 
         this.formattingOptions = formattingOptions;
     }
@@ -27,6 +34,9 @@ export default class Renderer extends marked.Renderer {
         if (usedLanguage === 'tex' || usedLanguage === 'latex') {
             return `<div data-latex="${TextFormatting.escapeHtml(code)}"></div>`;
         }
+        if (usedLanguage === 'texcode' || usedLanguage === 'latexcode') {
+            usedLanguage = 'tex';
+        }
 
         // treat html as xml to prevent injection attacks
         if (usedLanguage === 'html') {
@@ -34,13 +44,8 @@ export default class Renderer extends marked.Renderer {
         }
 
         let className = 'post-code';
-        let codeClassName = 'hljs';
         if (!usedLanguage) {
             className += ' post-code--wrap';
-        }
-
-        if (SyntaxHighlighting.canHighlight(usedLanguage)) {
-            codeClassName = 'hljs hljs-ln';
         }
 
         let header = '';
@@ -52,10 +57,19 @@ export default class Renderer extends marked.Renderer {
             );
         }
 
-        // if we have to apply syntax highlighting AND highlighting of search terms, create two copies
+        let lineNumbers = '';
+        if (SyntaxHighlighting.canHighlight(usedLanguage)) {
+            lineNumbers = (
+                '<div class="post-code__line-numbers">' +
+                    SyntaxHighlighting.renderLineNumbers(code) +
+                '</div>'
+            );
+        }
+
+        // If we have to apply syntax highlighting AND highlighting of search terms, create two copies
         // of the code block, one with syntax highlighting applied and another with invisible text, but
         // search term highlighting and overlap them
-        const content = SyntaxHighlighting.highlight(usedLanguage, code, true);
+        const content = SyntaxHighlighting.highlight(usedLanguage, code);
         let searchedContent = '';
 
         if (this.formattingOptions.searchPatterns) {
@@ -65,7 +79,7 @@ export default class Renderer extends marked.Renderer {
             searched = TextFormatting.highlightSearchTerms(
                 searched,
                 tokens,
-                this.formattingOptions.searchPatterns
+                this.formattingOptions.searchPatterns,
             );
 
             if (tokens.size > 0) {
@@ -82,10 +96,13 @@ export default class Renderer extends marked.Renderer {
         return (
             '<div class="' + className + '">' +
                 header +
-                '<code class="' + codeClassName + '">' +
-                    searchedContent +
-                    content +
-                '</code>' +
+                '<div class="hljs">' +
+                    lineNumbers +
+                    '<code>' +
+                        searchedContent +
+                        content +
+                    '</code>' +
+                '</div>' +
             '</div>'
         );
     }
@@ -98,7 +115,7 @@ export default class Renderer extends marked.Renderer {
             output = TextFormatting.highlightSearchTerms(
                 output,
                 tokens,
-                this.formattingOptions.searchPatterns
+                this.formattingOptions.searchPatterns,
             );
             output = TextFormatting.replaceTokens(output, tokens);
         }
@@ -162,9 +179,10 @@ export default class Renderer extends marked.Renderer {
             if (!scheme) {
                 outHref = `http://${outHref}`;
             } else if (isUrl && this.formattingOptions.autolinkedUrlSchemes) {
-                const isValidUrl = this.formattingOptions.autolinkedUrlSchemes.indexOf(
-                    scheme.toLowerCase()
-                ) !== -1;
+                const isValidUrl =
+          this.formattingOptions.autolinkedUrlSchemes.indexOf(
+              scheme.toLowerCase(),
+          ) !== -1;
 
                 if (!isValidUrl) {
                     return text;
@@ -189,19 +207,21 @@ export default class Renderer extends marked.Renderer {
 
         output += `" href="${outHref}" rel="noreferrer"`;
 
+        // Any link that begins with siteURL should be opened inside the app
+        let internalLink = outHref.startsWith(this.formattingOptions.siteURL || '');
+
         // special case for team invite links, channel links, and permalinks that are inside the app
-        let internalLink = false;
         const pattern = new RegExp(
             '^(' +
-        TextFormatting.escapeRegex(this.formattingOptions.siteURL) +
-        ')?\\/(?:signup_user_complete|admin_console|[^\\/]+\\/(?:pl|channels|messages))\\/'
+            TextFormatting.escapeRegex(this.formattingOptions.siteURL) +
+            ')?\\/(?:signup_user_complete|admin_console|[^\\/]+\\/(?:pl|channels|messages))\\/',
         );
-        internalLink = pattern.test(outHref);
+        internalLink = internalLink || pattern.test(outHref);
 
         if (internalLink && this.formattingOptions.siteURL) {
             output += ` data-link="${outHref.replace(
                 this.formattingOptions.siteURL,
-                ''
+                '',
             )}"`;
         } else {
             output += ' target="_blank"';
@@ -222,9 +242,9 @@ export default class Renderer extends marked.Renderer {
             let result;
             if (text.includes('class="markdown-inline-img"')) {
                 /*
-                ** use a div tag instead of a p tag to allow other divs to be nested,
-                ** which avoids errors of incorrect DOM nesting (<div> inside <p>)
-                */
+         ** use a div tag instead of a p tag to allow other divs to be nested,
+         ** which avoids errors of incorrect DOM nesting (<div> inside <p>)
+         */
                 result = `<div class="markdown__paragraph-inline">${text}</div>`;
             } else {
                 result = `<p class="markdown__paragraph-inline">${text}</p>`;
@@ -248,7 +268,7 @@ export default class Renderer extends marked.Renderer {
         flags: {
             header: boolean;
             align: 'center' | 'left' | 'right' | null;
-        }
+        },
     ) {
         return marked.Renderer.prototype.tablecell(content, flags).trim();
     }
@@ -257,7 +277,7 @@ export default class Renderer extends marked.Renderer {
         const type = ordered ? 'ol' : 'ul';
 
         let output = `<${type} className="markdown__list"`;
-        if (ordered && start) {
+        if (ordered && start !== undefined) {
             // The CSS that we use for lists hides the actual counter and uses ::before to simulate one so that we can
             // style it properly. We need to use a CSS counter to tell the ::before elements which numbers to show.
             output += ` style="counter-reset: list ${start - 1}"`;
@@ -267,7 +287,7 @@ export default class Renderer extends marked.Renderer {
         return output;
     }
 
-    public listitem(text: string, bullet = '') {
+    public listitem(text: string, bullet = '') { // eslint-disable-line @typescript-eslint/no-unused-vars
         const taskListReg = /^\[([ |xX])] /;
         const isTaskList = taskListReg.exec(text);
 
@@ -283,7 +303,11 @@ export default class Renderer extends marked.Renderer {
     }
 
     public text(txt: string) {
-        return TextFormatting.doFormatText(txt, this.formattingOptions);
+        return TextFormatting.doFormatText(
+            txt,
+            this.formattingOptions,
+            this.emojiMap,
+        );
     }
 }
 

@@ -7,10 +7,11 @@ import classNames from 'classnames';
 import {Tooltip} from 'react-bootstrap';
 import semver from 'semver';
 
-import {FormattedMessage, FormattedHTMLMessage} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 
 import {Link} from 'react-router-dom';
 
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import ConfirmModal from 'components/confirm_modal';
 import OverlayTrigger from 'components/overlay_trigger';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper.tsx';
@@ -175,12 +176,12 @@ export const UpdateConfirmationModal = ({show, name, version, installedVersion, 
     if (releaseNotesUrl) {
         messages.push(
             <p key='current'>
-                <FormattedHTMLMessage
+                <FormattedMarkdownMessage
                     id='marketplace_modal.list.update_confirmation.message.current_with_release_notes'
-                    defaultMessage={`You currently have ${installedVersion} installed. View the <a href="${releaseNotesUrl}" target='_blank' rel='noopener noreferrer'>release notes</a> to learn about the changes included in this update.`}
+                    defaultMessage='You currently have {installedVersion} installed. View the [release notes](!{releaseNotesUrl}) to learn about the changes included in this update.'
                     values={{installedVersion, releaseNotesUrl}}
                 />
-            </p>
+            </p>,
         );
     } else {
         messages.push(
@@ -190,7 +191,7 @@ export const UpdateConfirmationModal = ({show, name, version, installedVersion, 
                     defaultMessage={`You currently have ${installedVersion} installed.`}
                     values={{installedVersion}}
                 />
-            </p>
+            </p>,
         );
     }
 
@@ -209,12 +210,12 @@ export const UpdateConfirmationModal = ({show, name, version, installedVersion, 
                     className='alert alert-warning'
                     key='warning'
                 >
-                    <FormattedHTMLMessage
+                    <FormattedMarkdownMessage
                         id='marketplace_modal.list.update_confirmation.message.warning_major_version_with_release_notes'
-                        defaultMessage={`This update may contain breaking changes. Consult the <a href="${releaseNotesUrl}" target='_blank' rel='noopener noreferrer'>release notes</a> before upgrading.`}
+                        defaultMessage='This update may contain breaking changes. Consult the [release notes](!{releaseNotesUrl}) before upgrading.'
                         values={{releaseNotesUrl}}
                     />
-                </p>
+                </p>,
             );
         } else {
             messages.push(
@@ -226,7 +227,7 @@ export const UpdateConfirmationModal = ({show, name, version, installedVersion, 
                         id='marketplace_modal.list.update_confirmation.message.warning_major_version'
                         defaultMessage={'This update may contain breaking changes.'}
                     />
-                </p>
+                </p>,
             );
         }
     }
@@ -263,7 +264,7 @@ UpdateConfirmationModal.propTypes = {
     onCancel: PropTypes.func.isRequired,
 };
 
-export default class MarketplaceItem extends React.Component {
+export default class MarketplaceItem extends React.PureComponent {
     static propTypes = {
         id: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
@@ -412,7 +413,7 @@ export default class MarketplaceItem extends React.Component {
                     url={label.url}
                     color={label.color}
                 />
-            )
+            ),
             );
         }
 

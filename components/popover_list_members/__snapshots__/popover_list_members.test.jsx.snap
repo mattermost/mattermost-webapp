@@ -6,7 +6,7 @@ exports[`components/PopoverListMembers should match snapshot 1`] = `
 >
   <button
     aria-label="members"
-    className="style--none member-popover__trigger channel-header__icon wide "
+    className="member-popover__trigger channel-header__icon channel-header__icon--wide "
     id="member_popover"
     onClick={[Function]}
   >
@@ -22,7 +22,6 @@ exports[`components/PopoverListMembers should match snapshot 1`] = `
           <FormattedMessage
             defaultMessage="Members"
             id="channel_header.channelMembers"
-            values={Object {}}
           />
         </Tooltip>
       }
@@ -34,18 +33,20 @@ exports[`components/PopoverListMembers should match snapshot 1`] = `
         ]
       }
     >
-      <div>
+      <div
+        className="d-flex align-items-center"
+      >
+        <MemberIcon
+          aria-hidden="true"
+          className="icon icon--standard"
+          id="channelMemberIcon"
+        />
         <span
           className="icon__text"
           id="channelMemberCountText"
         >
           2
         </span>
-        <MemberIcon
-          aria-hidden="true"
-          className="icon icon__members"
-          id="channelMemberIcon"
-        />
       </div>
     </OverlayTrigger>
   </button>
@@ -70,7 +71,6 @@ exports[`components/PopoverListMembers should match snapshot 1`] = `
         <FormattedMessage
           defaultMessage="Channel Members"
           id="members_popover.title"
-          values={Object {}}
         />
       </div>
       <div
@@ -81,7 +81,7 @@ exports[`components/PopoverListMembers should match snapshot 1`] = `
           role="presentation"
           tabIndex="-1"
         >
-          <PopoverListMembersItem
+          <Connect(PopoverListMembersItem)
             key="member_id_1"
             onItemClick={[Function]}
             showMessageIcon={true}
@@ -92,7 +92,7 @@ exports[`components/PopoverListMembers should match snapshot 1`] = `
               }
             }
           />
-          <PopoverListMembersItem
+          <Connect(PopoverListMembersItem)
             key="member_id_2"
             onItemClick={[Function]}
             showMessageIcon={true}
@@ -116,7 +116,7 @@ exports[`components/PopoverListMembers should match snapshot with archived chann
 >
   <button
     aria-label="members"
-    className="style--none member-popover__trigger channel-header__icon wide "
+    className="member-popover__trigger channel-header__icon channel-header__icon--wide "
     id="member_popover"
     onClick={[Function]}
   >
@@ -132,7 +132,6 @@ exports[`components/PopoverListMembers should match snapshot with archived chann
           <FormattedMessage
             defaultMessage="Members"
             id="channel_header.channelMembers"
-            values={Object {}}
           />
         </Tooltip>
       }
@@ -144,18 +143,20 @@ exports[`components/PopoverListMembers should match snapshot with archived chann
         ]
       }
     >
-      <div>
+      <div
+        className="d-flex align-items-center"
+      >
+        <MemberIcon
+          aria-hidden="true"
+          className="icon icon--standard"
+          id="channelMemberIcon"
+        />
         <span
           className="icon__text"
           id="channelMemberCountText"
         >
           2
         </span>
-        <MemberIcon
-          aria-hidden="true"
-          className="icon icon__members"
-          id="channelMemberIcon"
-        />
       </div>
     </OverlayTrigger>
   </button>
@@ -180,7 +181,6 @@ exports[`components/PopoverListMembers should match snapshot with archived chann
         <FormattedMessage
           defaultMessage="Channel Members"
           id="members_popover.title"
-          values={Object {}}
         />
       </div>
       <div
@@ -191,7 +191,7 @@ exports[`components/PopoverListMembers should match snapshot with archived chann
           role="presentation"
           tabIndex="-1"
         >
-          <PopoverListMembersItem
+          <Connect(PopoverListMembersItem)
             key="member_id_1"
             onItemClick={[Function]}
             showMessageIcon={true}
@@ -202,7 +202,7 @@ exports[`components/PopoverListMembers should match snapshot with archived chann
               }
             }
           />
-          <PopoverListMembersItem
+          <Connect(PopoverListMembersItem)
             key="member_id_2"
             onItemClick={[Function]}
             showMessageIcon={true}
@@ -226,7 +226,7 @@ exports[`components/PopoverListMembers should match snapshot with group-constrai
 >
   <button
     aria-label="members"
-    className="style--none member-popover__trigger channel-header__icon wide "
+    className="member-popover__trigger channel-header__icon channel-header__icon--wide "
     id="member_popover"
     onClick={[Function]}
   >
@@ -242,7 +242,6 @@ exports[`components/PopoverListMembers should match snapshot with group-constrai
           <FormattedMessage
             defaultMessage="Members"
             id="channel_header.channelMembers"
-            values={Object {}}
           />
         </Tooltip>
       }
@@ -254,18 +253,20 @@ exports[`components/PopoverListMembers should match snapshot with group-constrai
         ]
       }
     >
-      <div>
+      <div
+        className="d-flex align-items-center"
+      >
+        <MemberIcon
+          aria-hidden="true"
+          className="icon icon--standard"
+          id="channelMemberIcon"
+        />
         <span
           className="icon__text"
           id="channelMemberCountText"
         >
           2
         </span>
-        <MemberIcon
-          aria-hidden="true"
-          className="icon icon__members"
-          id="channelMemberIcon"
-        />
       </div>
     </OverlayTrigger>
   </button>
@@ -290,7 +291,6 @@ exports[`components/PopoverListMembers should match snapshot with group-constrai
         <FormattedMessage
           defaultMessage="Channel Members"
           id="members_popover.title"
-          values={Object {}}
         />
         <div
           className="subhead"
@@ -298,7 +298,6 @@ exports[`components/PopoverListMembers should match snapshot with group-constrai
           <FormattedMessage
             defaultMessage="Members managed by linked groups."
             id="channel_header.groupConstrained"
-            values={Object {}}
           />
         </div>
       </div>
@@ -310,7 +309,7 @@ exports[`components/PopoverListMembers should match snapshot with group-constrai
           role="presentation"
           tabIndex="-1"
         >
-          <PopoverListMembersItem
+          <Connect(PopoverListMembersItem)
             key="member_id_1"
             onItemClick={[Function]}
             showMessageIcon={true}
@@ -321,117 +320,7 @@ exports[`components/PopoverListMembers should match snapshot with group-constrai
               }
             }
           />
-          <PopoverListMembersItem
-            key="member_id_2"
-            onItemClick={[Function]}
-            showMessageIcon={true}
-            status="offline"
-            user={
-              Object {
-                "id": "member_id_2",
-              }
-            }
-          />
-        </div>
-      </div>
-    </Popover>
-  </Overlay>
-</div>
-`;
-
-exports[`components/PopoverListMembers should match state when showChannelInviteModal is called 1`] = `
-<div
-  id="channelMember"
->
-  <button
-    aria-label="members"
-    className="style--none member-popover__trigger channel-header__icon wide "
-    id="member_popover"
-    onClick={[Function]}
-  >
-    <OverlayTrigger
-      defaultOverlayShown={false}
-      delayShow={400}
-      overlay={
-        <Tooltip
-          bsClass="tooltip"
-          id="channelMembersTooltip"
-          placement="right"
-        >
-          <FormattedMessage
-            defaultMessage="Members"
-            id="channel_header.channelMembers"
-            values={Object {}}
-          />
-        </Tooltip>
-      }
-      placement="bottom"
-      trigger={
-        Array [
-          "hover",
-          "focus",
-        ]
-      }
-    >
-      <div>
-        <span
-          className="icon__text"
-          id="channelMemberCountText"
-        >
-          2
-        </span>
-        <MemberIcon
-          aria-hidden="true"
-          className="icon icon__members"
-          id="channelMemberIcon"
-        />
-      </div>
-    </OverlayTrigger>
-  </button>
-  <Overlay
-    animation={[Function]}
-    onHide={[Function]}
-    placement="bottom"
-    rootClose={true}
-    show={false}
-    target={[Function]}
-  >
-    <Popover
-      className="member-list__popover"
-      id="member-list-popover"
-      placement="right"
-      popoverSize="sm"
-      popoverStyle="info"
-    >
-      <div
-        className="more-modal__header"
-      >
-        <FormattedMessage
-          defaultMessage="Channel Members"
-          id="members_popover.title"
-          values={Object {}}
-        />
-      </div>
-      <div
-        className="more-modal__body"
-      >
-        <div
-          className="more-modal__list"
-          role="presentation"
-          tabIndex="-1"
-        >
-          <PopoverListMembersItem
-            key="member_id_1"
-            onItemClick={[Function]}
-            showMessageIcon={true}
-            status="online"
-            user={
-              Object {
-                "id": "member_id_1",
-              }
-            }
-          />
-          <PopoverListMembersItem
+          <Connect(PopoverListMembersItem)
             key="member_id_2"
             onItemClick={[Function]}
             showMessageIcon={true}

@@ -72,8 +72,13 @@
     padding: .8em 1.5rem;
 
     &.guest {
+        .permission-row {
+            padding-left: 15px;
+        }
+
         .permission-group {
             .permission-group-row {
+                padding-left: 15px;
                 .permission-name {
                     min-width: 300px;
                 }
@@ -342,15 +347,15 @@
     }
 }
 
-.team-info-block {	
-    display: flex;	
-    flex-grow: 1;	
-    align-items: center;		
-    .team-data {	
-        flex-grow: 1;	
-        padding: 0 0 0 10px;	
-        .title {	
-            font-weight: bold;	
-        }	
-    }	
+.team-info-block {
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+    .team-data {
+        flex-grow: 1;
+        padding: 0 0 0 10px;
+        .title {
+            font-weight: bold;
+        }
+    }
 }

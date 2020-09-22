@@ -47,15 +47,13 @@ describe('OverlayTrigger', () => {
                 <BaseOverlayTrigger {...baseProps}>
                     <span/>
                 </BaseOverlayTrigger>
-            </IntlProvider>
+            </IntlProvider>,
         );
 
-        const overlay = mount(wrapper.find(BaseOverlayTrigger).prop('overlay'));
-
-        expect(overlay.text()).toBe('Default value');
-
         // console.error will have been called by FormattedMessage because its intl context is missing
-        expect(console.error).toHaveBeenCalled();
+        expect(() => {
+            mount(wrapper.find(BaseOverlayTrigger).prop('overlay'));
+        }).toThrow('[React Intl] Could not find required `intl` object. <IntlProvider> needs to exist in the component ancestry.');
     });
 
     test('custom OverlayTrigger should pass intl to overlay', () => {
@@ -64,7 +62,7 @@ describe('OverlayTrigger', () => {
                 <OverlayTrigger {...baseProps}>
                     <span/>
                 </OverlayTrigger>
-            </IntlProvider>
+            </IntlProvider>,
         );
 
         const overlay = mount(wrapper.find(BaseOverlayTrigger).prop('overlay'));
@@ -85,7 +83,7 @@ describe('OverlayTrigger', () => {
                 <OverlayTrigger {...props}>
                     <span/>
                 </OverlayTrigger>
-            </IntlProvider>
+            </IntlProvider>,
         );
 
         expect(ref.current).toBe(wrapper.find(BaseOverlayTrigger).instance());
@@ -110,7 +108,7 @@ describe('OverlayTrigger', () => {
                 <OverlayTrigger {...props}>
                     <span/>
                 </OverlayTrigger>
-            </IntlProvider>
+            </IntlProvider>,
         );
 
         // Dive into the react-bootstrap internals to find our overlay

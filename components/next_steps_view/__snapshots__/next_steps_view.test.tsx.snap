@@ -1,0 +1,112 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/next_steps_view should match snapshot 1`] = `
+<section
+  className="app__content NextStepsView"
+  id="app-content"
+>
+  <OnboardingBgSvg />
+  <div
+    className="NextStepsView__viewWrapper NextStepsView__mainView"
+  >
+    <header
+      className="NextStepsView__header"
+    >
+      <div
+        className="NextStepsView__header-headerText"
+      >
+        <h1
+          className="NextStepsView__header-headerTopText"
+        >
+          <FormattedMessage
+            defaultMessage="Welcome to Mattermost"
+            id="next_steps_view.welcomeToMattermost"
+          />
+        </h1>
+        <h2
+          className="NextStepsView__header-headerBottomText"
+        >
+          <FormattedMessage
+            defaultMessage="Here are some recommended next steps to help you get started"
+            id="next_steps_view.hereAreSomeNextSteps"
+          />
+        </h2>
+      </div>
+      <div
+        className="NextStepsView__header-logo"
+      >
+        <CloudLogoSvg />
+      </div>
+    </header>
+    <div
+      className="NextStepsView__body"
+    >
+      <div
+        className="NextStepsView__body-main"
+      >
+        <Accordion
+          defaultExpandedKey="step_1"
+        >
+          <Component />
+        </Accordion>
+        <div
+          className="NextStepsView__skipGettingStarted"
+        >
+          <button
+            className="NextStepsView__button tertiary"
+            onClick={[Function]}
+          >
+            <FormattedMessage
+              defaultMessage="Skip Getting Started"
+              id="next_steps_view.skipGettingStarted"
+            />
+          </button>
+        </div>
+      </div>
+      <div
+        className="NextStepsView__body-graphic"
+      >
+        <GettingStartedSvg />
+      </div>
+    </div>
+  </div>
+  <div
+    className="NextStepsView__viewWrapper NextStepsView__transitionView"
+    onTransitionEnd={[Function]}
+  >
+    <div
+      className="NextStepsView__transitionBody"
+    >
+      <OnboardingSuccessSvg />
+      <h1
+        className="NextStepsView__transitionTopText"
+      >
+        <FormattedMessage
+          defaultMessage="Nicely done! You’re all set."
+          id="next_steps_view.nicelyDone"
+        />
+      </h1>
+      <h2
+        className="NextStepsView__transitionBottomText"
+      >
+        <img
+          src={null}
+        />
+        <FormattedMessage
+          defaultMessage="One moment"
+          id="next_steps_view.oneMoment"
+        />
+      </h2>
+    </div>
+  </div>
+  <NextStepsTips
+    animating={false}
+    currentUserId="user_id"
+    isFirstAdmin={true}
+    savePreferences={[MockFunction]}
+    setShowNextStepsView={[MockFunction]}
+    showFinalScreen={false}
+    stopAnimating={[Function]}
+  />
+</section>
+`;

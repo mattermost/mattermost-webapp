@@ -24,12 +24,16 @@ import {isGuest} from 'utils/utils';
 
 import './users_emails_input.scss';
 
-export default class UsersEmailsInput extends React.Component {
+export default class UsersEmailsInput extends React.PureComponent {
     static propTypes = {
         placeholder: PropTypes.string,
         ariaLabel: PropTypes.string.isRequired,
         usersLoader: PropTypes.func,
         onChange: PropTypes.func,
+        showError: PropTypes.bool,
+        errorMessageId: PropTypes.string,
+        errorMessageDefault: PropTypes.string,
+        errorMessageValues: PropTypes.object,
         value: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.object, PropTypes.string])),
         onInputChange: PropTypes.func,
         inputValue: PropTypes.string,
@@ -49,6 +53,7 @@ export default class UsersEmailsInput extends React.Component {
         validAddressMessageDefault: 'Add **{email}**',
         loadingMessageId: t('widgets.users_emails_input.loading'),
         loadingMessageDefault: 'Loading',
+        showError: false,
     };
 
     constructor(props) {
@@ -95,7 +100,7 @@ export default class UsersEmailsInput extends React.Component {
     }
 
     formatOptionLabel = (user, options) => {
-        const profileImg = imageURLForUser(user);
+        const profileImg = imageURLForUser(user.id, user.last_picture_update);
         let guestBadge = null;
         if (!isEmail(user.value) && isGuest(user)) {
             guestBadge = <GuestBadge/>;
@@ -169,6 +174,7 @@ export default class UsersEmailsInput extends React.Component {
         if (!inputValue) {
             return null;
         }
+
         return (
             <div className='users-emails-input__option users-emails-input__option--no-matches'>
                 <FormattedMarkdownMessage
@@ -258,32 +264,54 @@ export default class UsersEmailsInput extends React.Component {
             return {label: v, value: v};
         });
         return (
-            <AsyncSelect
-                ref={this.selectRef}
-                styles={this.customStyles}
-                onChange={this.onChange}
-                loadOptions={this.optionsLoader}
-                isValidNewOption={this.showAddEmail}
-                isMulti={true}
-                isClearable={false}
-                className={classNames('UsersEmailsInput', {empty: this.props.inputValue === ''})}
-                classNamePrefix='users-emails-input'
-                placeholder={this.props.placeholder}
-                components={this.components}
-                getOptionValue={this.getOptionValue}
-                formatOptionLabel={this.formatOptionLabel}
-                defaultOptions={false}
-                defaultMenuIsOpen={false}
-                openMenuOnClick={false}
-                loadingMessage={this.loadingMessage}
-                onInputChange={this.handleInputChange}
-                inputValue={this.props.inputValue}
-                openMenuOnFocus={true}
-                onFocus={this.onFocus}
-                tabSelectsValue={true}
-                value={values}
-                aria-label={this.props.ariaLabel}
-            />
+            <>
+                <AsyncSelect
+                    ref={this.selectRef}
+                    styles={this.customStyles}
+                    onChange={this.onChange}
+                    loadOptions={this.optionsLoader}
+                    isValidNewOption={this.showAddEmail}
+                    isMulti={true}
+                    isClearable={false}
+                    className={classNames(
+                        'UsersEmailsInput',
+                        this.props.showError ? 'error' : '',
+                        {empty: this.props.inputValue === ''},
+                    )}
+                    classNamePrefix='users-emails-input'
+                    placeholder={this.props.placeholder}
+                    components={this.components}
+                    getOptionValue={this.getOptionValue}
+                    formatOptionLabel={this.formatOptionLabel}
+                    defaultOptions={false}
+                    defaultMenuIsOpen={false}
+                    openMenuOnClick={false}
+                    loadingMessage={this.loadingMessage}
+                    onInputChange={this.handleInputChange}
+                    inputValue={this.props.inputValue}
+                    openMenuOnFocus={true}
+                    onFocus={this.onFocus}
+                    tabSelectsValue={true}
+                    value={values}
+                    aria-label={this.props.ariaLabel}
+                />
+                {this.props.showError && (
+                    <div className='InputErrorBox'>
+                        <FormattedMarkdownMessage
+                            id={this.props.errorMessageId}
+                            defaultMessage={this.props.errorMessageDefault}
+                            values={this.props.errorMessageValues || null}
+                            disableLinks={true}
+                        >
+                            {(message) => (
+                                <components.NoOptionsMessage>
+                                    {message}
+                                </components.NoOptionsMessage>
+                            )}
+                        </FormattedMarkdownMessage>
+                    </div>
+                )}
+            </>
         );
     }
 }

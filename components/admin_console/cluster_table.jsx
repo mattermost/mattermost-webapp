@@ -10,7 +10,7 @@ import statusGreen from 'images/status_green.png';
 import statusYellow from 'images/status_yellow.png';
 import ReloadIcon from 'components/widgets/icons/fa_reload_icon';
 
-export default class ClusterTable extends React.Component {
+export default class ClusterTable extends React.PureComponent {
     static propTypes = {
         clusterInfos: PropTypes.array.isRequired,
         reload: PropTypes.func.isRequired,

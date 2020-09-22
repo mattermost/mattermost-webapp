@@ -68,7 +68,7 @@ describe('components/channel_members_dropdown', () => {
             canChangeMemberRoles: true,
         };
         const wrapper = shallow(
-            <ChannelMembersDropdown {...props}/>
+            <ChannelMembersDropdown {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -86,14 +86,14 @@ describe('components/channel_members_dropdown', () => {
             canChangeMemberRoles: false,
         };
         const wrapper = shallow(
-            <ChannelMembersDropdown {...props}/>
+            <ChannelMembersDropdown {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot for channel_members_dropdown', () => {
         const wrapper = shallow(
-            <ChannelMembersDropdown {...baseProps}/>
+            <ChannelMembersDropdown {...baseProps}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -104,14 +104,14 @@ describe('components/channel_members_dropdown', () => {
                 {...baseProps}
                 index={4}
                 totalUsers={5}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
 
     test('If a removal is in progress do not execute another removal', () => {
         const wrapper = shallow(
-            <ChannelMembersDropdown {...baseProps}/>
+            <ChannelMembersDropdown {...baseProps}/>,
         );
 
         wrapper.setState({removing: true});
@@ -121,7 +121,7 @@ describe('components/channel_members_dropdown', () => {
 
     test('should fail to remove channel member', (done) => {
         const wrapper = shallow(
-            <ChannelMembersDropdown {...baseProps}/>
+            <ChannelMembersDropdown {...baseProps}/>,
         );
 
         wrapper.instance().handleRemoveFromChannel();
@@ -148,7 +148,7 @@ describe('components/channel_members_dropdown', () => {
         };
 
         const wrapper = shallow(
-            <ChannelMembersDropdown {...props}/>
+            <ChannelMembersDropdown {...props}/>,
         );
 
         wrapper.instance().handleRemoveFromChannel();
@@ -166,7 +166,7 @@ describe('components/channel_members_dropdown', () => {
     test('should match snapshot for group_constrained channel', () => {
         baseProps.channel.group_constrained = true;
         const wrapper = shallow(
-            <ChannelMembersDropdown {...baseProps}/>
+            <ChannelMembersDropdown {...baseProps}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });

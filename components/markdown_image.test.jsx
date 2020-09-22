@@ -21,13 +21,13 @@ describe('components/MarkdownImage', () => {
         className: 'markdown-inline-img',
         postId: 'post_id',
         imageIsLink: false,
-        onImageLoaded: jest.fn()
+        onImageLoaded: jest.fn(),
     };
 
     test('should match snapshot', () => {
         const props = {...baseProps, src: '/images/logo.png'};
         const wrapper = shallow(
-            <MarkdownImage {...props}/>
+            <MarkdownImage {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -36,7 +36,7 @@ describe('components/MarkdownImage', () => {
     test('should match snapshot for broken link', () => {
         const props = {...baseProps, imageMetadata: {}, src: 'brokenLink'};
         const wrapper = shallow(
-            <MarkdownImage {...props}/>
+            <MarkdownImage {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -45,7 +45,7 @@ describe('components/MarkdownImage', () => {
     test('should handle load failure properly', () => {
         const props = {...baseProps, imageMetadata: {}, src: 'brokenLink'};
         const wrapper = shallow(
-            <MarkdownImage {...props}/>
+            <MarkdownImage {...props}/>,
         );
 
         expect(wrapper.state('loadFailed')).toBe(false);
@@ -59,7 +59,7 @@ describe('components/MarkdownImage', () => {
         const props = {...baseProps, imageMetadata: {}, src: 'brokenLink'};
         const nextProps = {...baseProps, src: 'https://example.com/image.png'};
         const wrapper = shallow(
-            <MarkdownImage {...props}/>
+            <MarkdownImage {...props}/>,
         );
 
         wrapper.instance().setState({loadFailed: true});
@@ -72,7 +72,7 @@ describe('components/MarkdownImage', () => {
     test('should render a link if the source is unsafe', () => {
         const props = {...baseProps, src: ''};
         const wrapper = shallow(
-            <MarkdownImage {...props}/>
+            <MarkdownImage {...props}/>,
         );
         expect(wrapper.find('img').props().alt).toBe(props.alt);
         expect(wrapper.find('img').props().className).toBe(props.className + ' broken-image');
@@ -82,7 +82,7 @@ describe('components/MarkdownImage', () => {
     test('should handle not loaded state properly', () => {
         const props = {...baseProps, src: 'https://example.com/image.png'};
         const wrapper = shallow(
-            <MarkdownImage {...props}/>
+            <MarkdownImage {...props}/>,
         );
 
         expect(wrapper.state('loaded')).toBe(false);
@@ -100,7 +100,7 @@ describe('components/MarkdownImage', () => {
     test('should handle not loaded state properly in case of a header change system message', () => {
         const props = {...baseProps, src: 'https://example.com/image.png', postType: 'system_header_change'};
         const wrapper = shallow(
-            <MarkdownImage {...props}/>
+            <MarkdownImage {...props}/>,
         );
 
         expect(wrapper.state('loaded')).toBe(false);
@@ -118,11 +118,11 @@ describe('components/MarkdownImage', () => {
     test('should set loaded state when img loads and call onImageLoaded prop', () => {
         const props = {...baseProps, src: 'https://example.com/image.png'};
         const wrapper = shallow(
-            <MarkdownImage {...props}/>
+            <MarkdownImage {...props}/>,
         );
         const dimensions = {
             height: props.imageMetadata.height,
-            width: props.imageMetadata.width
+            width: props.imageMetadata.width,
         };
 
         expect(wrapper.state('loaded')).toBe(false);
@@ -141,7 +141,7 @@ describe('components/MarkdownImage', () => {
             src: 'path/image',
         };
         const wrapper = shallow(
-            <MarkdownImage {...props}/>
+            <MarkdownImage {...props}/>,
         );
 
         wrapper.instance().setState({loaded: true});
@@ -153,7 +153,7 @@ describe('components/MarkdownImage', () => {
     test('should render an image with preview modal if the source is safe', () => {
         const props = {...baseProps, src: 'https://example.com/image.png'};
         const wrapper = shallow(
-            <MarkdownImage {...props}/>
+            <MarkdownImage {...props}/>,
         );
         wrapper.instance().setState({loaded: true});
 
@@ -172,7 +172,7 @@ describe('components/MarkdownImage', () => {
     test('should render an image with no preview if the source is safe and the image is a link', () => {
         const props = {...baseProps, src: 'https://example.com/image.png', imageIsLink: true};
         const wrapper = shallow(
-            <MarkdownImage {...props}/>
+            <MarkdownImage {...props}/>,
         );
         wrapper.instance().setState({loaded: true});
 
@@ -191,7 +191,7 @@ describe('components/MarkdownImage', () => {
     test('should handle showModal state properly', () => {
         const props = {...baseProps, src: 'https://example.com/image.png'};
         const wrapper = shallow(
-            <MarkdownImage {...props}/>
+            <MarkdownImage {...props}/>,
         );
         wrapper.instance().showModal({preventDefault: () => {}});
         expect(wrapper.state('showModal')).toEqual(true);
@@ -200,7 +200,7 @@ describe('components/MarkdownImage', () => {
     test('should handle showModal state properly in case the image is a link', () => {
         const props = {...baseProps, src: 'https://example.com/image.png', imageIsLink: true};
         const wrapper = shallow(
-            <MarkdownImage {...props}/>
+            <MarkdownImage {...props}/>,
         );
         wrapper.instance().showModal();
         expect(wrapper.state('showModal')).toEqual(false);
@@ -209,7 +209,7 @@ describe('components/MarkdownImage', () => {
     test('should properly scale down the image in case of a header change system message', () => {
         const props = {...baseProps, src: 'https://example.com/image.png', postType: 'system_header_change'};
         const wrapper = shallow(
-            <MarkdownImage {...props}/>
+            <MarkdownImage {...props}/>,
         );
         wrapper.instance().setState({loaded: true});
 
@@ -232,11 +232,11 @@ describe('components/MarkdownImage', () => {
             src: 'https://example.com/image.png',
             imageIsLink: false,
             height: 76,
-            width: 50
+            width: 50,
         };
 
         const wrapper = shallow(
-            <MarkdownImage {...props}/>
+            <MarkdownImage {...props}/>,
         );
         wrapper.instance().setState({loaded: true});
 

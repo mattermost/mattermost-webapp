@@ -1,16 +1,16 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {ReactNode} from 'react';
+import React, {ReactNode, CSSProperties} from 'react';
 import {FormattedMessage} from 'react-intl';
 
 type Props = {
     position: 'absolute' | 'fixed' | 'relative' | 'static' | 'inherit';
-    style?: object;
+    style?: CSSProperties;
     message?: ReactNode;
 }
 
-export default class LoadingScreen extends React.Component<Props> {
+export default class LoadingScreen extends React.PureComponent<Props> {
     public static defaultProps: Partial<Props> = {
         position: 'relative',
         style: {},

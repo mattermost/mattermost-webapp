@@ -7,7 +7,9 @@ import {SearchTypes} from 'utils/constants';
 describe('Reducers.Search', () => {
     const initialState = {
         modalSearch: '',
+        modalFilters: {},
         systemUsersSearch: {},
+        userGridSearch: {},
     };
 
     test('Initial state', () => {
@@ -16,7 +18,7 @@ describe('Reducers.Search', () => {
                 modalSearch: '',
                 systemUsersSearch: {},
             },
-            {}
+            {},
         );
 
         expect(nextState).toEqual(initialState);
@@ -30,12 +32,47 @@ describe('Reducers.Search', () => {
             {
                 type: SearchTypes.SET_MODAL_SEARCH,
                 data: ' something ',
-            }
+            },
         );
 
         expect(nextState).toEqual({
             ...initialState,
             modalSearch: 'something',
+        });
+    });
+
+    test('should set user grid search', () => {
+        const filters = {team_id: '123456789'};
+        const nextState = searchReducer(
+            {
+                userGridSearch: {filters},
+            },
+            {
+                type: SearchTypes.SET_USER_GRID_SEARCH,
+                data: 'something',
+            },
+        );
+
+        expect(nextState).toEqual({
+            ...initialState,
+            userGridSearch: {term: 'something', filters},
+        });
+    });
+
+    test('should set user grid filters', () => {
+        const nextState = searchReducer(
+            {
+                userGridSearch: {term: 'something', filters: {team_id: '123456789'}},
+            },
+            {
+                type: SearchTypes.SET_USER_GRID_FILTERS,
+                data: {team_id: '1', channel_roles: ['channel_admin']},
+            },
+        );
+
+        expect(nextState).toEqual({
+            ...initialState,
+            userGridSearch: {term: 'something', filters: {team_id: '1', channel_roles: ['channel_admin']}},
         });
     });
 });

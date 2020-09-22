@@ -13,7 +13,7 @@ const SettingsSidebar = React.lazy(() => import('components/settings_sidebar.tsx
 
 import TeamSettings from 'components/team_settings';
 
-export default class TeamSettingsModal extends React.Component {
+export default class TeamSettingsModal extends React.PureComponent {
     static propTypes = {
         onHide: PropTypes.func,
     };
@@ -42,7 +42,7 @@ export default class TeamSettingsModal extends React.Component {
     }
 
     collapseModal = () => {
-        $(ReactDOM.findDOMNode(this.modalBodyRef.current)).closest('.modal-dialog').removeClass('display--content');
+        $(ReactDOM.findDOMNode(this.modalBodyRef.current)).closest('.modal-dialog').removeClass('display--content'); // eslint-disable-line jquery/no-closest, jquery/no-class
 
         this.setState({
             active_tab: '',
@@ -76,6 +76,7 @@ export default class TeamSettingsModal extends React.Component {
                 onExited={this.handleHidden}
                 role='dialog'
                 aria-labelledby='teamSettingsModalLabel'
+                id='teamSettingsModal'
             >
                 <Modal.Header
                     id='teamSettingsModalLabel'

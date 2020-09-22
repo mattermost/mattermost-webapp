@@ -37,7 +37,7 @@ describe('FileAttachmentList', () => {
         };
 
         const wrapper = shallow(
-            <FileAttachmentList {...props}/>
+            <FileAttachmentList {...props}/>,
         );
 
         expect(wrapper.find(FileAttachment).exists()).toBe(true);
@@ -45,7 +45,7 @@ describe('FileAttachmentList', () => {
 
     test('should render multiple, sorted FileAttachments for multiple files', () => {
         const wrapper = shallow(
-            <FileAttachmentList {...baseProps}/>
+            <FileAttachmentList {...baseProps}/>,
         );
 
         expect(wrapper.find(FileAttachment)).toHaveLength(3);
@@ -63,7 +63,7 @@ describe('FileAttachmentList', () => {
         };
 
         const wrapper = shallow(
-            <FileAttachmentList {...props}/>
+            <FileAttachmentList {...props}/>,
         );
 
         expect(wrapper.find(SingleImageView).exists()).toBe(true);
@@ -80,7 +80,7 @@ describe('FileAttachmentList', () => {
         };
 
         const wrapper = shallow(
-            <FileAttachmentList {...props}/>
+            <FileAttachmentList {...props}/>,
         );
 
         expect(wrapper.find(SingleImageView).exists()).toBe(true);
@@ -96,7 +96,7 @@ describe('FileAttachmentList', () => {
         };
 
         const wrapper = shallow(
-            <FileAttachmentList {...props}/>
+            <FileAttachmentList {...props}/>,
         );
 
         expect(wrapper.find(SingleImageView).exists()).toBe(false);
@@ -105,7 +105,7 @@ describe('FileAttachmentList', () => {
 
     test('should match state on handleImageClick', () => {
         const wrapper = shallow(
-            <FileAttachmentList {...baseProps}/>
+            <FileAttachmentList {...baseProps}/>,
         );
 
         wrapper.setState({showPreviewModal: false, startImgIndex: 0});
@@ -118,7 +118,7 @@ describe('FileAttachmentList', () => {
 
     test('should match state on hidePreviewModal', () => {
         const wrapper = shallow(
-            <FileAttachmentList {...baseProps}/>
+            <FileAttachmentList {...baseProps}/>,
         );
 
         wrapper.setState({showPreviewModal: true});

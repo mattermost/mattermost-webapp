@@ -9,11 +9,12 @@ import SetByEnv from './set_by_env';
 
 interface Props extends WidgetTextSettingProps {
     setByEnv: boolean;
+    disabled?: boolean;
 }
 
 const AdminTextSetting: React.SFC<Props> = (props: Props): JSX.Element => {
     const {setByEnv, disabled, ...sharedProps} = props;
-    const isTextDisabled = props.disabled || props.setByEnv;
+    const isTextDisabled = disabled || setByEnv;
 
     return (
         <TextSetting

@@ -23,7 +23,7 @@ type Props = {
 
 const AdminPanel: React.FC<Props> = (props: Props) => (
     <div
-        className={'AdminPanel ' + props.className}
+        className={'AdminPanel clearfix ' + props.className}
         id={props.id}
     >
         <div

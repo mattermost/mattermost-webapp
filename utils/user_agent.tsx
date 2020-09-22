@@ -46,22 +46,22 @@ iOS App:
     Mozilla/5.0 (iPhone; CPU iPhone OS 9_3_2 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13F69
 */
 
-const userAgent = window.navigator.userAgent;
+const userAgent = () => window.navigator.userAgent;
 
 export function isChrome(): boolean {
-    return userAgent.indexOf('Chrome') > -1 && userAgent.indexOf('Edge') === -1;
+    return userAgent().indexOf('Chrome') > -1 && userAgent().indexOf('Edge') === -1;
 }
 
 export function isSafari(): boolean {
-    return userAgent.indexOf('Safari') !== -1 && userAgent.indexOf('Chrome') === -1;
+    return userAgent().indexOf('Safari') !== -1 && userAgent().indexOf('Chrome') === -1;
 }
 
 export function isIosSafari(): boolean {
-    return (userAgent.indexOf('iPhone') !== -1 || userAgent.indexOf('iPad') !== -1) && userAgent.indexOf('Safari') !== -1 && navigator.userAgent.indexOf('CriOS') === -1;
+    return (userAgent().indexOf('iPhone') !== -1 || userAgent().indexOf('iPad') !== -1) && userAgent().indexOf('Safari') !== -1 && userAgent().indexOf('CriOS') === -1;
 }
 
 export function isIosChrome(): boolean {
-    return userAgent.indexOf('CriOS') !== -1;
+    return userAgent().indexOf('CriOS') !== -1;
 }
 
 export function isIosWeb(): boolean {
@@ -69,19 +69,19 @@ export function isIosWeb(): boolean {
 }
 
 export function isIos(): boolean {
-    return userAgent.indexOf('iPhone') !== -1 || userAgent.indexOf('iPad') !== -1;
+    return userAgent().indexOf('iPhone') !== -1 || userAgent().indexOf('iPad') !== -1;
 }
 
 export function isAndroid(): boolean {
-    return userAgent.indexOf('Android') !== -1;
+    return userAgent().indexOf('Android') !== -1;
 }
 
 export function isAndroidChrome(): boolean {
-    return userAgent.indexOf('Android') !== -1 && userAgent.indexOf('Chrome') !== -1 && userAgent.indexOf('Version') === -1;
+    return userAgent().indexOf('Android') !== -1 && userAgent().indexOf('Chrome') !== -1 && userAgent().indexOf('Version') === -1;
 }
 
 export function isAndroidFirefox(): boolean {
-    return userAgent.indexOf('Android') !== -1 && userAgent.indexOf('Firefox') !== -1;
+    return userAgent().indexOf('Android') !== -1 && userAgent().indexOf('Firefox') !== -1;
 }
 
 export function isAndroidWeb(): boolean {
@@ -104,27 +104,35 @@ export function isMobile(): boolean {
 }
 
 export function isFirefox(): boolean {
-    return userAgent.indexOf('Firefox') !== -1;
+    return userAgent().indexOf('Firefox') !== -1;
 }
 
 export function isInternetExplorer(): boolean {
-    return userAgent.indexOf('Trident') !== -1;
+    return userAgent().indexOf('Trident') !== -1;
 }
 
 export function isEdge(): boolean {
-    return userAgent.indexOf('Edge') !== -1;
+    return userAgent().indexOf('Edge') !== -1;
 }
 
 export function isDesktopApp(): boolean {
-    return userAgent.indexOf('Mattermost') !== -1 && userAgent.indexOf('Electron') !== -1;
+    return userAgent().indexOf('Mattermost') !== -1 && userAgent().indexOf('Electron') !== -1;
 }
 
 export function isWindowsApp(): boolean {
-    return isDesktopApp() && userAgent.indexOf('Windows') !== -1;
+    return isDesktopApp() && isWindows();
 }
 
 export function isMacApp(): boolean {
-    return isDesktopApp() && userAgent.indexOf('Macintosh') !== -1;
+    return isDesktopApp() && isMac();
+}
+
+export function isWindows(): boolean {
+    return userAgent().indexOf('Windows') !== -1;
+}
+
+export function isMac(): boolean {
+    return userAgent().indexOf('Macintosh') !== -1;
 }
 
 export function isWindows7(): boolean {
@@ -135,4 +143,11 @@ export function isWindows7(): boolean {
     }
 
     return (/\bWindows NT 6\.1\b/).test(appVersion);
+}
+
+export function getDesktopVersion(): string {
+    // use if the value window.desktop.version is not set yet
+    const regex = /Mattermost\/(\d\.\d\.\d{0,1})/gm;
+    const match = regex.exec(window.navigator.appVersion)?.[1] || '';
+    return match;
 }

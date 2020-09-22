@@ -33,5 +33,5 @@ storiesOf('Users Info', module).
                     ))}
                 </div>
             );
-        }
+        },
     );

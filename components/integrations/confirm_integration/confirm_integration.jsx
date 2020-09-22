@@ -13,7 +13,7 @@ import BackstageHeader from 'components/backstage/components/backstage_header.js
 import {getSiteURL} from 'utils/url';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
-export default class ConfirmIntegration extends React.Component {
+export default class ConfirmIntegration extends React.PureComponent {
     static get propTypes() {
         return {
             team: PropTypes.object,
@@ -72,7 +72,7 @@ export default class ConfirmIntegration extends React.Component {
                 <p>
                     <FormattedMarkdownMessage
                         id='add_command.doneHelp'
-                        defaultMessage='Your slash command has been set up. The following token will be sent in the outgoing payload. Please use it to verify the request came from your Mattermost team (see [documentation](!https://docs.mattermost.com/developer/slash-commands.html) for further details).'
+                        defaultMessage='Your slash command is set up. The following token will be sent in the outgoing payload. Please use it to verify the request came from your Mattermost team (details at [Slash Commands](!https://docs.mattermost.com/developer/slash-commands.html)).'
                     />
                 </p>
             );
@@ -103,7 +103,7 @@ export default class ConfirmIntegration extends React.Component {
                 <p>
                     <FormattedMarkdownMessage
                         id='add_incoming_webhook.doneHelp'
-                        defaultMessage='Your incoming webhook has been set up. Please send data to the following URL (see [documentation](!https://docs.mattermost.com/developer/webhooks-incoming.html) for further details).'
+                        defaultMessage='Your incoming webhook is set up. Please send data to the following URL (details at [Incoming Webhooks](!https://docs.mattermost.com/developer/webhooks-incoming.html)).'
                     />
                 </p>
             );
@@ -136,7 +136,7 @@ export default class ConfirmIntegration extends React.Component {
                 <p>
                     <FormattedMarkdownMessage
                         id='add_outgoing_webhook.doneHelp'
-                        defaultMessage='Your outgoing webhook has been set up. The following token will be sent in the outgoing payload. Please use it to verify the request came from your Mattermost team (see [documentation](!https://docs.mattermost.com/developer/webhooks-outgoing.html) for further details).'
+                        defaultMessage='Your outgoing webhook is set up. The following token will be sent in the outgoing payload. Please use it to verify that the request came from your Mattermost team (details at [Outgoing Webhooks](!https://docs.mattermost.com/developer/webhooks-outgoing.html)).'
                     />
                 </p>
             );
@@ -170,9 +170,9 @@ export default class ConfirmIntegration extends React.Component {
                 <p key='add_oauth_app.doneHelp'>
                     <FormattedMarkdownMessage
                         id='add_oauth_app.doneHelp'
-                        defaultMessage='Your OAuth 2.0 application has been set up. Please use the following Client ID and Client Secret when requesting authorization for your application (see [documentation](!https://docs.mattermost.com/developer/oauth-2-0-applications.html) for further details).'
+                        defaultMessage='Your OAuth 2.0 application is set up. Please use the following Client ID and Client Secret when requesting authorization for your application (details at [oAuth 2 Applications](!https://docs.mattermost.com/developer/oauth-2-0-applications.html)).'
                     />
-                </p>
+                </p>,
             );
             helpText.push(
                 <p key='add_oauth_app.clientId'>
@@ -201,16 +201,16 @@ export default class ConfirmIntegration extends React.Component {
                         defaultMessage='Copy Client Secret'
                         value={oauthAppSecret}
                     />
-                </p>
+                </p>,
             );
 
             helpText.push(
                 <p key='add_oauth_app.doneUrlHelp'>
                     <FormattedMessage
                         id='add_oauth_app.doneUrlHelp'
-                        defaultMessage='The following are your authorized redirect URL(s).'
+                        defaultMessage='Here are your authorized redirect URLs.'
                     />
-                </p>
+                </p>,
             );
 
             tokenText = (

@@ -8,30 +8,27 @@ import {browserHistory} from 'utils/browser_history';
 
 type Props = {
 
-    /*
-   * Bool whether navigation is blocked
-   */
+    // Bool whether navigation is blocked
     blocked: boolean;
 
-    /*
-   * String Link destination
-   */
+    // String Link destination
     to: string;
     actions: {
 
-        /*
-     * Function for deferring navigation while blocked
-     */
+        // Function for deferring navigation while blocked
         deferNavigation: (func: () => void) => void;
     };
     children?: string | React.ReactNode;
     className?: string;
+    onClick?: (e: React.MouseEvent) => void;
 };
 export default class BlockableLink extends React.PureComponent<Props> {
     private handleClick = (e: React.MouseEvent) => {
+        if (this.props.onClick) {
+            this.props.onClick(e);
+        }
         if (this.props.blocked) {
             e.preventDefault();
-
             this.props.actions.deferNavigation(() => {
                 browserHistory.push(this.props.to);
             });

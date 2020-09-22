@@ -20,7 +20,7 @@ type Props = {
 
 export default class BackButton extends React.PureComponent<Props> {
     public static defaultProps: Partial<Props> = {
-        url: '/'
+        url: '/',
     }
 
     public render(): JSX.Element {

@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
@@ -12,7 +11,6 @@ import LockIcon from 'components/widgets/icons/lock_icon';
 import LocalizedInput from 'components/localized_input/localized_input';
 import Constants from 'utils/constants.jsx';
 import {getShortenedURL} from 'utils/url';
-import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n.jsx';
 
@@ -110,13 +108,6 @@ export default class NewChannelModal extends React.PureComponent {
         this.displayNameInput = React.createRef();
     }
 
-    componentDidMount() {
-        // ???
-        if (UserAgent.isInternetExplorer() || UserAgent.isEdge()) {
-            $('body').addClass('browser--ie');
-        }
-    }
-
     onEnterKeyDown = (e) => {
         const enterPressed = Utils.isKeyPressed(e, Constants.KeyCodes.ENTER);
         const {ctrlSend} = this.props;
@@ -178,7 +169,7 @@ export default class NewChannelModal extends React.PureComponent {
                 <p className='input__help error'>
                     <FormattedMessage
                         id='channel_modal.displayNameError'
-                        defaultMessage='Channel name must be 2 or more characters'
+                        defaultMessage='Display name must have at least 2 characters.'
                     />
                     {this.state.displayNameError}
                 </p>
@@ -210,7 +201,7 @@ export default class NewChannelModal extends React.PureComponent {
                 />
                 <FormattedMessage
                     id='channel_modal.publicHint'
-                    defaultMessage=' - Anyone can join this channel.'
+                    defaultMessage=' - Anyone can join this channel'
                 />
             </div>
         );
@@ -224,7 +215,7 @@ export default class NewChannelModal extends React.PureComponent {
                 />
                 <FormattedMessage
                     id='channel_modal.privateHint'
-                    defaultMessage=' - Only invited members can join this channel.'
+                    defaultMessage=' - Only invited members can join this channel'
                 />
             </div>
         );

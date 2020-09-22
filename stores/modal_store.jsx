@@ -31,7 +31,6 @@ class ModalStoreClass extends EventEmitter {
         case ActionTypes.TOGGLE_SHORTCUTS_MODAL:
         case ActionTypes.TOGGLE_IMPORT_THEME_MODAL:
         case ActionTypes.TOGGLE_DELETE_POST_MODAL:
-        case ActionTypes.TOGGLE_GET_POST_LINK_MODAL:
         case ActionTypes.TOGGLE_GET_TEAM_INVITE_LINK_MODAL:
         case ActionTypes.TOGGLE_GET_PUBLIC_LINK_MODAL:
         case ActionTypes.TOGGLE_QUICK_SWITCH_MODAL:

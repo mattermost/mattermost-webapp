@@ -11,11 +11,12 @@ import ArrowRightIcon from 'components/widgets/icons/arrow_right_icon';
 
 import './invitation_modal_initial_step.scss';
 
-export default class InvitationModalInitialStep extends React.Component {
+export default class InvitationModalInitialStep extends React.PureComponent {
     static propTypes = {
         teamName: PropTypes.string.isRequired,
         goToMembers: PropTypes.func.isRequired,
         goToGuests: PropTypes.func.isRequired,
+        emailInvitationsEnabled: PropTypes.bool.isRequired,
     }
 
     onMembersKeyDown = (e) => {
@@ -52,7 +53,7 @@ export default class InvitationModalInitialStep extends React.Component {
                     data-testid='inviteMembersLink'
                     tabIndex='0'
                     onKeyDown={this.onMembersKeyDown}
-                    aria-labeledby='inviteMembersSectionHeader'
+                    aria-labelledby='inviteMembersSectionHeader'
                     aria-describedby='inviteMembersSectionDescription'
                 >
                     <div data-testid='inviteMembersSection'>
@@ -62,12 +63,22 @@ export default class InvitationModalInitialStep extends React.Component {
                                 defaultMessage='Invite **Members**'
                             />
                         </h2>
+                        {this.props.emailInvitationsEnabled &&
                         <FormattedMessage
                             id='invitation_modal.invite_members.description'
                             defaultMessage='Invite new team members with a link or by email. Team members have access to messages and files in open teams and public channels.'
                         >
                             {(text) => (<span id='inviteMembersSectionDescription'>{text}</span>)}
                         </FormattedMessage>
+                        }
+                        {!this.props.emailInvitationsEnabled &&
+                        <FormattedMessage
+                            id='invitation_modal.invite_members.description-email-disabled'
+                            defaultMessage='Invite new team members with a link. Team members have access to messages and files in open teams and public channels.'
+                        >
+                            {(text) => (<span id='inviteMembersSectionDescription'>{text}</span>)}
+                        </FormattedMessage>
+                        }
                     </div>
                     <ArrowRightIcon className='arrow'/>
                 </div>
@@ -77,7 +88,7 @@ export default class InvitationModalInitialStep extends React.Component {
                     data-testid='inviteGuestLink'
                     tabIndex='0'
                     onKeyDown={this.onGuestsKeyDown}
-                    aria-labeledby='inviteGuestsSectionHeader'
+                    aria-labelledby='inviteGuestsSectionHeader'
                     aria-describedby='inviteGuestsSectionDescription'
                 >
                     <div>

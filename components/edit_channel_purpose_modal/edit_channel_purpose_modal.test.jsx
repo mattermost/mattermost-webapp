@@ -3,6 +3,7 @@
 import React from 'react';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
+import {testComponentForLineBreak} from 'tests/helpers/line_break_helpers';
 import EditChannelPurposeModal from 'components/edit_channel_purpose_modal/edit_channel_purpose_modal.jsx';
 import Constants from 'utils/constants';
 
@@ -21,7 +22,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
                 onModalDismissed={jest.fn()}
                 actions={{patchChannel: jest.fn()}}
             />,
-            {disableLifecycleMethods: true}
+            {disableLifecycleMethods: true},
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -41,7 +42,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
                 onModalDismissed={jest.fn()}
                 actions={{patchChannel: jest.fn()}}
             />,
-            {disableLifecycleMethods: true}
+            {disableLifecycleMethods: true},
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -61,7 +62,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
                 onModalDismissed={jest.fn()}
                 actions={{patchChannel: jest.fn()}}
             />,
-            {disableLifecycleMethods: true}
+            {disableLifecycleMethods: true},
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -76,7 +77,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
                 onModalDismissed={jest.fn()}
                 actions={{patchChannel: jest.fn()}}
             />,
-            {disableLifecycleMethods: true}
+            {disableLifecycleMethods: true},
         ).dive();
 
         expect(wrapper).toMatchSnapshot();
@@ -96,7 +97,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
                 onModalDismissed={jest.fn()}
                 actions={{patchChannel: jest.fn().mockResolvedValue({error: serverError})}}
             />,
-            {disableLifecycleMethods: true}
+            {disableLifecycleMethods: true},
         );
 
         const instance = wrapper.instance();
@@ -119,7 +120,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
                 onModalDismissed={jest.fn()}
                 actions={{patchChannel: jest.fn().mockResolvedValue({error: serverError})}}
             />,
-            {disableLifecycleMethods: true}
+            {disableLifecycleMethods: true},
         );
 
         const instance = wrapper.instance();
@@ -137,7 +138,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
                 onModalDismissed={jest.fn()}
                 actions={{patchChannel: jest.fn().mockResolvedValue({data: true})}}
             />,
-            {disableLifecycleMethods: true}
+            {disableLifecycleMethods: true},
         );
 
         const serverError = {
@@ -160,7 +161,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
                 onModalDismissed={jest.fn()}
                 actions={{patchChannel: jest.fn()}}
             />,
-            {disableLifecycleMethods: true}
+            {disableLifecycleMethods: true},
         );
 
         wrapper.find('textarea').simulate(
@@ -168,7 +169,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
             {
                 preventDefault: jest.fn(),
                 target: {value: 'new info'},
-            }
+            },
         );
 
         expect(wrapper.state('purpose')).toBe('new info');
@@ -183,7 +184,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
                 onModalDismissed={jest.fn()}
                 actions={{patchChannel: jest.fn().mockResolvedValue({data: true})}}
             />,
-            {disableLifecycleMethods: true}
+            {disableLifecycleMethods: true},
         );
         const instance = wrapper.instance();
         await instance.handleSave();
@@ -202,7 +203,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
                 onModalDismissed={jest.fn()}
                 actions={{patchChannel}}
             />,
-            {disableLifecycleMethods: true}
+            {disableLifecycleMethods: true},
         );
 
         wrapper.find('.save-button').simulate('click');
@@ -221,7 +222,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
                 onModalDismissed={jest.fn()}
                 actions={{patchChannel}}
             />,
-            {disableLifecycleMethods: true}
+            {disableLifecycleMethods: true},
         );
 
         wrapper.find('textarea').simulate('keydown', {
@@ -245,7 +246,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
                 onModalDismissed={jest.fn()}
                 actions={{patchChannel}}
             />,
-            {disableLifecycleMethods: true}
+            {disableLifecycleMethods: true},
         );
 
         wrapper.find('textarea').simulate('keydown', {
@@ -257,4 +258,17 @@ describe('comoponents/EditChannelPurposeModal', () => {
 
         expect(patchChannel).toBeCalledWith('fake-id', {purpose: 'purpose'});
     });
+
+    testComponentForLineBreak((value) => (
+        <EditChannelPurposeModal
+            channel={{
+                ...channel,
+                purpose: value,
+            }}
+            ctrlSend={true}
+            onHide={jest.fn()}
+            onModalDismissed={jest.fn()}
+            actions={{patchChannel: jest.fn()}}
+        />
+    ), (instance) => instance.state().purpose);
 });

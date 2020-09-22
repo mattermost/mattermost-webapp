@@ -1,0 +1,51 @@
+:root {
+    // Cloned default hex values from base/css_variables to be used in the system console
+    --sys-away-indicator: #ffbc42;
+    --sys-button-bg: #166de0;
+    --sys-button-color: #ffffff;
+    --sys-center-channel-bg: #ffffff;
+    --sys-center-channel-color: #3d3c40;
+    --sys-dnd-indicator: #f74343;
+    --sys-error-text: #fd5960;
+    --sys-link-color: #2389d7;
+    --sys-mention-bg: #ffffff;
+    --sys-mention-color: #145dbf;
+    --sys-mention-highlight-bg: #ffe577;
+    --sys-mention-highlight-link: #166de0;
+    --sys-new-message-separator: #ff8800;
+    --sys-online-indicator: #06d6a0;
+    --sys-sidebar-bg: #145dbf;
+    --sys-sidebar-header-bg: #1153ab;
+    --sys-sidebar-header-text-color: #ffffff;
+    --sys-sidebar-text: #ffffff;
+    --sys-sidebar-text-60: #ffffff99;
+    --sys-sidebar-text-80: #ffffffcc;
+    --sys-sidebar-text-active-border: #579eff;
+    --sys-sidebar-text-active-color: #ffffff;
+    --sys-sidebar-text-hover-bg: #4578bf;
+    --sys-sidebar-unread-text: #ffffff;
+
+    // Cloned RGB values from base/css_variables, to be used as rgba(var(--sys-color), opacity_here) to apply opacity to base colors
+    --sys-away-indicator-rgb: 255, 188, 66;
+    --sys-button-bg-rgb: 22, 109, 224;
+    --sys-button-color-rgb: 255, 255, 255;
+    --sys-center-channel-bg-rgb: 255, 255, 255;
+    --sys-center-channel-color-rgb: 61, 60, 64;
+    --sys-dnd-indicator-rgb: 247, 67, 67;
+    --sys-error-text-color-rgb: 253, 89, 96;
+    --sys-link-color-rgb: 35, 137, 215;
+    --sys-mention-bg-rgb: 255, 255, 255;
+    --sys-mention-color-rgb: 20, 93, 191;
+    --sys-mention-highlight-bg-rgb: 255, 229, 119;
+    --sys-mention-highlight-link-rgb: 22, 109, 224;
+    --sys-new-message-separator-rgb: 255, 136, 0;
+    --sys-online-indicator-rgb: 6, 214, 160;
+    --sys-sidebar-bg-rgb: 20, 93, 191;
+    --sys-sidebar-header-bg-rgb: 17, 83, 171;
+    --sys-sidebar-header-text-color-rgb: 255, 255, 255;
+    --sys-sidebar-text-rgb: 255, 255, 255;
+    --sys-sidebar-text-active-border-rgb: 87, 158, 255;
+    --sys-sidebar-text-active-color-rgb: 255, 255, 255;
+    --sys-sidebar-text-hover-bg-rgb: 69, 120, 191;
+    --sys-sidebar-unread-text-rgb: 255, 255, 255;
+}

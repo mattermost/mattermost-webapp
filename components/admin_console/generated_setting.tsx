@@ -22,7 +22,7 @@ type Props = {
     regenerateHelpText?: React.ReactNode;
 }
 
-export default class GeneratedSetting extends React.Component<Props> {
+export default class GeneratedSetting extends React.PureComponent<Props> {
     public static get defaultProps() {
         return {
             disabled: false,

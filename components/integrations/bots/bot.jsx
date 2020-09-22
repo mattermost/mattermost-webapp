@@ -45,6 +45,11 @@ export default class Bot extends React.PureComponent {
         owner: PropTypes.object,
 
         /**
+        * User of the bot we are displaying
+        */
+        user: PropTypes.object,
+
+        /**
         * The access tokens of the bot user
         */
         accessTokens: PropTypes.object.isRequired,
@@ -273,7 +278,7 @@ export default class Bot extends React.PureComponent {
                             </a>
                         </div>
                     </div>
-                </div>
+                </div>,
             );
         });
 
@@ -393,7 +398,7 @@ export default class Bot extends React.PureComponent {
                             </div>
                         </form>
                     </div>
-                </div>
+                </div>,
             );
         } else if (this.state.creatingTokenState === 'CREATED') {
             tokenList.push(
@@ -440,11 +445,11 @@ export default class Bot extends React.PureComponent {
                             />
                         </button>
                     </div>
-                </div>
+                </div>,
             );
         }
 
-        const imageURL = Utils.imageURLForUser(this.props.bot.user_id);
+        const imageURL = Utils.imageURLForUser(this.props.user.id, this.props.user.last_picture_update);
 
         return (
             <div className='backstage-list__item'>

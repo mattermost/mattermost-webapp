@@ -12,7 +12,7 @@ describe('components/integrations/EditCommand', () => {
             return new Promise((resolve) => {
                 process.nextTick(() => resolve());
             });
-        }
+        },
     );
 
     const commands = {
@@ -59,7 +59,7 @@ describe('components/integrations/EditCommand', () => {
 
     test('should match snapshot', () => {
         const wrapper = shallow(
-            <EditCommand {...baseProps}/>
+            <EditCommand {...baseProps}/>,
         );
 
         wrapper.setState({originalCommand: commands.r5tpgt4iepf45jt768jz84djic});
@@ -71,7 +71,7 @@ describe('components/integrations/EditCommand', () => {
 
     test('should match snapshot, loading', () => {
         const wrapper = shallow(
-            <EditCommand {...baseProps}/>
+            <EditCommand {...baseProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -84,7 +84,7 @@ describe('components/integrations/EditCommand', () => {
         };
         const props = {...baseProps, actions, enableCommands: false};
         const wrapper = shallow(
-            <EditCommand {...props}/>
+            <EditCommand {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -94,7 +94,7 @@ describe('components/integrations/EditCommand', () => {
     test('should have match state when handleConfirmModal is called', () => {
         const props = {...baseProps, getCustomTeamCommands};
         const wrapper = shallow(
-            <EditCommand {...props}/>
+            <EditCommand {...props}/>,
         );
 
         wrapper.setState({showConfirmModal: false});
@@ -105,7 +105,7 @@ describe('components/integrations/EditCommand', () => {
     test('should have match state when confirmModalDismissed is called', () => {
         const props = {...baseProps, getCustomTeamCommands};
         const wrapper = shallow(
-            <EditCommand {...props}/>
+            <EditCommand {...props}/>,
         );
 
         wrapper.setState({showConfirmModal: true});
@@ -116,7 +116,7 @@ describe('components/integrations/EditCommand', () => {
     test('should have match renderExtra', () => {
         const props = {...baseProps, getCustomTeamCommands};
         const wrapper = shallow(
-            <EditCommand {...props}/>
+            <EditCommand {...props}/>,
         );
 
         expect(wrapper.instance().renderExtra()).toMatchSnapshot();
@@ -125,7 +125,7 @@ describe('components/integrations/EditCommand', () => {
     test('should have match when editCommand is called', () => {
         const props = {...baseProps, getCustomTeamCommands};
         const wrapper = shallow(
-            <EditCommand {...props}/>
+            <EditCommand {...props}/>,
         );
 
         wrapper.setState({originalCommand: commands.r5tpgt4iepf45jt768jz84djic});

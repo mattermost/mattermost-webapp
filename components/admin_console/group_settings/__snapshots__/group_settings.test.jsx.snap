@@ -8,9 +8,8 @@ exports[`components/admin_console/group_settings/GroupSettings should match snap
     className="admin-console__header"
   >
     <FormattedMessage
-      defaultMessage="Groups (Beta)"
+      defaultMessage="Groups"
       id="admin.group_settings.groupsPageTitle"
-      values={Object {}}
     />
   </div>
   <div
@@ -35,7 +34,7 @@ For more information on Groups, please see [documentation](!https://www.mattermo
       <AdminPanel
         className=""
         id="ldap_groups"
-        subtitleDefault="Link and configure groups from your AD/LDAP to Mattermost. Please ensure you have configured a [group filter](http://localhost:8065/admin_console/authentication/ldap)."
+        subtitleDefault="Connect AD/LDAP and create groups in Mattermost. To get started, configure group attributes on the [AD/LDAP] (http://localhost:8065/admin_console/authentication/ldap) configuration page."
         subtitleId="admin.group_settings.ldapGroupsDescription"
         subtitleValues={
           Object {

@@ -18,7 +18,7 @@ describe('components/ColorSetting', () => {
                 value='#fff'
                 onChange={emptyFunction}
                 disabled={false}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -33,7 +33,7 @@ describe('components/ColorSetting', () => {
                 value='#fff'
                 onChange={emptyFunction}
                 disabled={false}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -48,7 +48,7 @@ describe('components/ColorSetting', () => {
                 value='#fff'
                 onChange={emptyFunction}
                 disabled={true}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -64,7 +64,7 @@ describe('components/ColorSetting', () => {
                 value='#fff'
                 onChange={emptyFunction}
                 disabled={false}
-            />
+            />,
         );
         wrapper.find('.picker-id').first().simulate('click');
         expect(wrapper).toMatchSnapshot();

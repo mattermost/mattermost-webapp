@@ -10,6 +10,7 @@ import ModalStore from 'stores/modal_store.jsx';
 import Constants from 'utils/constants';
 import {intlShape} from 'utils/react_intl';
 import {t} from 'utils/i18n';
+import * as Utils from 'utils/utils';
 
 const allShortcuts = defineMessages({
     mainHeader: {
@@ -64,6 +65,36 @@ const allShortcuts = defineMessages({
         mac: {
             id: t('shortcuts.nav.unread_next.mac'),
             defaultMessage: 'Next unread channel:\t⌥|Shift|Down',
+        },
+    },
+    teamNavPrev: {
+        default: {
+            id: t('shortcuts.team_nav.prev'),
+            defaultMessage: 'Previous team:\tCtrl|Alt|Up',
+        },
+        mac: {
+            id: t('shortcuts.team_nav.prev.mac'),
+            defaultMessage: 'Previous team:\t⌘|⌥|Up',
+        },
+    },
+    teamNavNext: {
+        default: {
+            id: t('shortcuts.team_nav.next'),
+            defaultMessage: 'Next team:\tCtrl|Alt|Down',
+        },
+        mac: {
+            id: t('shortcuts.team_nav.next.mac'),
+            defaultMessage: 'Next team:\t⌘|⌥|Down',
+        },
+    },
+    teamNavSwitcher: {
+        default: {
+            id: t('shortcuts.team_nav.switcher'),
+            defaultMessage: 'Switch to a specific team:\tCtrl|Alt|[1-9]',
+        },
+        mac: {
+            id: t('shortcuts.team_nav.switcher.mac'),
+            defaultMessage: 'Switch to a specific team:\t⌘|⌥|[1-9]',
         },
     },
     navSwitcher: {
@@ -124,7 +155,7 @@ const allShortcuts = defineMessages({
         mac: {
             id: t('shortcuts.nav.open_close_sidebar.mac'),
             defaultMessage: 'Open or close the right sidebar\t⌘|.',
-        }
+        },
     },
     msgHeader: {
         id: t('shortcuts.msgs.header'),
@@ -177,6 +208,16 @@ const allShortcuts = defineMessages({
     msgCompEmoji: {
         id: t('shortcuts.msgs.comp.emoji'),
         defaultMessage: 'Emoji:\t:|[a-z]|Tab',
+    },
+    msgLastReaction: {
+        default: {
+            id: t('shortcuts.msgs.comp.last_reaction'),
+            defaultMessage: 'React to last message:\tCtrl|Shift|\u29F5',
+        },
+        mac: {
+            id: t('shortcuts.msgs.comp.last_reaction.mac'),
+            defaultMessage: 'React to last message:\t⌘|Shift|\u29F5',
+        },
     },
     filesHeader: {
         id: t('shortcuts.files.header'),
@@ -311,6 +352,8 @@ class ShortcutsModal extends React.PureComponent {
         const shortcuts = this.getShortcuts();
         const {formatMessage} = this.props.intl;
 
+        const isLinux = Utils.isLinux();
+
         return (
             <Modal
                 dialogClassName='a11y__modal shortcuts-modal'
@@ -339,6 +382,9 @@ class ShortcutsModal extends React.PureComponent {
                                         {renderShortcut(formatMessage(shortcuts.navNext))}
                                         {renderShortcut(formatMessage(shortcuts.navUnreadPrev))}
                                         {renderShortcut(formatMessage(shortcuts.navUnreadNext))}
+                                        {!isLinux && renderShortcut(formatMessage(shortcuts.teamNavPrev))}
+                                        {!isLinux && renderShortcut(formatMessage(shortcuts.teamNavNext))}
+                                        {renderShortcut(formatMessage(shortcuts.teamNavSwitcher))}
                                         {renderShortcut(formatMessage(shortcuts.navSwitcher))}
                                         {renderShortcut(formatMessage(shortcuts.navDMMenu))}
                                         {renderShortcut(formatMessage(shortcuts.navSettings))}
@@ -356,6 +402,7 @@ class ShortcutsModal extends React.PureComponent {
                                         <div className='subsection'>
                                             {renderShortcut(formatMessage(shortcuts.msgEdit))}
                                             {renderShortcut(formatMessage(shortcuts.msgReply))}
+                                            {renderShortcut(formatMessage(shortcuts.msgLastReaction))}
                                             {renderShortcut(formatMessage(shortcuts.msgReprintPrev))}
                                             {renderShortcut(formatMessage(shortcuts.msgReprintNext))}
                                         </div>

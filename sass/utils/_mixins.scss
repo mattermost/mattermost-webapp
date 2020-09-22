@@ -1,8 +1,7 @@
 @charset 'UTF-8';
 
 @mixin file-icon($path) {
-    @include background-size(37% auto);
-    background-color: $white;
+    @include background-size(32px 40px);
     background-image: url($path);
     background-position: center;
     background-repeat: no-repeat;
@@ -39,5 +38,30 @@
     // (won't show `…` at the end of the block)
     @if $line-height {
         max-height: $line-height * $lines * 1px;
+    }
+}
+
+@mixin button-style--none {
+    background: transparent;
+    border: none;
+    padding: 0;
+
+    &:focus {
+        outline: 0;
+        text-decoration: none;
+    }
+
+    &.btn {
+        padding: 6px 12px;
+    }
+
+    &.btn--block {
+        text-align: left;
+        width: 100%;
+    }
+
+    &:hover,
+    &:active {
+        text-decoration: none;
     }
 }

@@ -15,13 +15,15 @@ interface Props {
     isSynced: boolean;
     isDefault: boolean;
     onToggle: (isSynced: boolean, isPublic: boolean) => void;
+    isDisabled: boolean;
 }
 
 const SyncGroupsToggle: React.SFC<Props> = (props: Props): JSX.Element => {
-    const {isPublic, isSynced, isDefault, onToggle} = props;
+    const {isPublic, isSynced, isDefault, onToggle, isDisabled} = props;
     return (
         <LineSwitch
-            disabled={isDefault}
+            id='syncGroupSwitch'
+            disabled={isDisabled || isDefault}
             toggled={isSynced}
             last={isSynced}
             onToggle={() => {
@@ -47,13 +49,14 @@ const SyncGroupsToggle: React.SFC<Props> = (props: Props): JSX.Element => {
 };
 
 const AllowAllToggle: React.SFC<Props> = (props: Props): JSX.Element | null => {
-    const {isPublic, isSynced, isDefault, onToggle} = props;
+    const {isPublic, isSynced, isDefault, onToggle, isDisabled} = props;
     if (isSynced) {
         return null;
     }
     return (
         <LineSwitch
-            disabled={isDefault}
+            id='allow-all-toggle'
+            disabled={isDisabled || isDefault}
             toggled={isPublic}
             last={true}
             onToggle={() => {
@@ -98,7 +101,7 @@ const AllowAllToggle: React.SFC<Props> = (props: Props): JSX.Element | null => {
 };
 
 export const ChannelModes: React.SFC<Props> = (props: Props): JSX.Element => {
-    const {isPublic, isSynced, isDefault, onToggle} = props;
+    const {isPublic, isSynced, isDefault, onToggle, isDisabled} = props;
     return (
         <AdminPanel
             id='channel_manage'
@@ -114,12 +117,14 @@ export const ChannelModes: React.SFC<Props> = (props: Props): JSX.Element => {
                         isSynced={isSynced}
                         isDefault={isDefault}
                         onToggle={onToggle}
+                        isDisabled={isDisabled}
                     />
                     <AllowAllToggle
                         isPublic={isPublic}
                         isSynced={isSynced}
                         isDefault={isDefault}
                         onToggle={onToggle}
+                        isDisabled={isDisabled}
                     />
                 </div>
             </div>

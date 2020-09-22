@@ -10,19 +10,37 @@
     height: 100%;
     align-items: center;
     font-size: 16px;
-    color: var(--center-channel-color-90);
+    color: var(--center-channel-color);
 
     @media (max-width: 768px) {
         padding-left: 15px;
         padding-right: 15px;
     }
 
+    div.navigation-row {
+        margin-top: 10px;
+
+        div {
+            font-size: 14px;
+            text-align: center;
+
+            button {
+                font-weight: bold;
+                font-size: 14px;
+            }
+        }
+
+        div.count {
+            padding-top: 8px;
+        }
+    }
+
     .input-clear {
         top: 32px;
-        right: 38px;
-        font-size: 22px;
-        width: 30px;
-        height: 30px;
+        right: 36px;
+        font-size: 16px;
+        width: 32px;
+        height: 32px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -85,6 +103,7 @@
     }
 
     .search_input {
+        box-shadow: none;
         flex: 1;
         margin-left: 16px;
         margin-right: 16px;
@@ -187,15 +206,26 @@
 }
 
 .error-bar {
-    background-color: var(--error-text-08);
+    background-color: var(--center-channel-bg);
     color: var(--error-text);
     min-height: $announcement-bar-height;
     position: fixed;
-    text-align: center;
     top: 0;
     width: 100%;
-    z-index: 9999;
+    z-index: 8;
     overflow: hidden;
     padding: 5px 30px;
     max-height: $announcement-bar-height;
+
+    .error-bar__content {
+        background-color: var(--error-text-12);
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 }

@@ -33,7 +33,7 @@ describe('components/widgets/admin_console/AdminPanelTogglable', () => {
 >
   Test
 </AdminPanel>
-`
+`,
         );
     });
 
@@ -58,7 +58,7 @@ describe('components/widgets/admin_console/AdminPanelTogglable', () => {
 >
   Test
 </AdminPanel>
-`
+`,
         );
     });
 });

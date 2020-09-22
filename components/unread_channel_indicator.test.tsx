@@ -13,7 +13,7 @@ describe('components/UnreadChannelIndicator', () => {
         const wrapper = shallow(
             <UnreadChannelIndicator
                 onClick={emptyFunction}
-            />
+            />,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -26,7 +26,7 @@ describe('components/UnreadChannelIndicator', () => {
             <UnreadChannelIndicator
                 onClick={emptyFunction}
                 show={true}
-            />
+            />,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -40,7 +40,7 @@ describe('components/UnreadChannelIndicator', () => {
                 onClick={emptyFunction}
                 show={true}
                 content='foo'
-            />
+            />,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -54,7 +54,7 @@ describe('components/UnreadChannelIndicator', () => {
                 onClick={emptyFunction}
                 show={true}
                 content={<div>{'foo'}</div>}
-            />
+            />,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -70,7 +70,7 @@ describe('components/UnreadChannelIndicator', () => {
                 show={true}
                 content={<div>{'foo'}</div>}
                 name={name}
-            />
+            />,
         );
 
         wrapper.find('#unreadIndicator' + name).simulate('click');

@@ -17,7 +17,7 @@ Cypress.Commands.add('toWidgetStory', (storyPath) => {
  */
 Cypress.Commands.add('openStoryPanel', (tab = 'Actions') => {
     cy.get('#storybook-panel-root').should('be.visible').within((el) => {
-        cy.queryByText(tab).should('be.visible').click();
+        cy.findByText(tab).should('be.visible').click();
         cy.wrap(el);
     });
 });

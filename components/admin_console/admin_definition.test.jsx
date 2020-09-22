@@ -120,7 +120,7 @@ const settingFileUploadButton = yup.object().shape({
     uploading_text_default: yup.string().required(),
     upload_action: yup.object().required(),
     remove_action: yup.object().required(),
-    fileType: yup.string().required()
+    fileType: yup.string().required(),
 });
 
 // eslint-disable-next-line no-template-curly-in-string

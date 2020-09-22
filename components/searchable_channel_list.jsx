@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import $ from 'jquery';
 import PropTypes from 'prop-types';
@@ -23,7 +24,7 @@ import Menu from './widgets/menu/menu';
 
 const NEXT_BUTTON_TIMEOUT_MILLISECONDS = 500;
 
-export default class SearchableChannelList extends React.Component {
+export default class SearchableChannelList extends React.PureComponent {
     static getDerivedStateFromProps(props, state) {
         return {isSearch: props.isSearch, page: props.isSearch && !state.isSearch ? 0 : state.page};
     }
@@ -53,7 +54,7 @@ export default class SearchableChannelList extends React.Component {
             channel,
             () => {
                 this.setState({joiningChannel: ''});
-            }
+            },
         );
     }
 
@@ -239,7 +240,7 @@ export default class SearchableChannelList extends React.Component {
                         </a>
                         <Menu
                             openLeft={false}
-                            ariaLabel={localizeMessage('team_members_dropdown.menuAriaLabel', 'Team member role change')}
+                            ariaLabel={localizeMessage('team_members_dropdown.menuAriaLabel', 'Change the role of a team member')}
                         >
                             <Menu.ItemAction
                                 id='channelsMoreDropdownPublic'
@@ -301,3 +302,4 @@ SearchableChannelList.propTypes = {
     shouldShowArchivedChannels: PropTypes.bool.isRequired,
     canShowArchivedChannels: PropTypes.bool.isRequired,
 };
+/* eslint-enable react/no-string-refs */

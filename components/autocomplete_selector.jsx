@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
-import SuggestionList from 'components/suggestion/suggestion_list.jsx';
+import SuggestionList from 'components/suggestion/suggestion_list';
 
 export default class AutocompleteSelector extends React.PureComponent {
     static propTypes = {
@@ -20,6 +20,8 @@ export default class AutocompleteSelector extends React.PureComponent {
         footer: PropTypes.node,
         disabled: PropTypes.bool,
         toggleFocus: PropTypes.func,
+        listComponent: PropTypes.elementType,
+        listStyle: PropTypes.string,
     };
 
     static defaultProps = {
@@ -27,6 +29,8 @@ export default class AutocompleteSelector extends React.PureComponent {
         id: '',
         labelClassName: '',
         inputClassName: '',
+        listComponent: SuggestionList,
+        listStyle: 'top',
     };
 
     constructor(props) {
@@ -90,6 +94,8 @@ export default class AutocompleteSelector extends React.PureComponent {
             inputClassName,
             value,
             disabled,
+            listComponent,
+            listStyle,
         } = this.props;
 
         const {focused} = this.state;
@@ -129,7 +135,7 @@ export default class AutocompleteSelector extends React.PureComponent {
                     <SuggestionBox
                         placeholder={placeholder}
                         ref={this.setSuggestionRef}
-                        listComponent={SuggestionList}
+                        listComponent={listComponent}
                         className='form-control'
                         containerClass='select-suggestion-container'
                         value={input}
@@ -145,6 +151,7 @@ export default class AutocompleteSelector extends React.PureComponent {
                         openWhenEmpty={true}
                         replaceAllInputOnSelect={true}
                         disabled={disabled}
+                        listStyle={listStyle}
                     />
                     {helpTextContent}
                     {footer}

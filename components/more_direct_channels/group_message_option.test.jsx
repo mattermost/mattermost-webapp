@@ -21,7 +21,7 @@ describe('components/more_direct_channels/GroupMessageOption', () => {
                 channel={channel}
                 isSelected={false}
                 onAdd={onAdd}
-            />
+            />,
         );
     }
 

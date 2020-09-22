@@ -23,7 +23,6 @@ describe('components/AdminConsole/CustomEnableDisableGuestAccountsSetting', () =
         <FormattedMessage
             defaultMessage='All current guest account sessions will be revoked, and marked as inactive'
             id='admin.guest_access.disableConfirmWarning'
-            values={{}}
         />
     );
 
@@ -35,7 +34,7 @@ describe('components/AdminConsole/CustomEnableDisableGuestAccountsSetting', () =
             };
 
             const wrapper = shallow(
-                <CustomEnableDisableGuestAccountsSetting {...props}/>
+                <CustomEnableDisableGuestAccountsSetting {...props}/>,
             );
             expect(wrapper).toMatchSnapshot();
         });
@@ -47,7 +46,7 @@ describe('components/AdminConsole/CustomEnableDisableGuestAccountsSetting', () =
             };
 
             const wrapper = shallow(
-                <CustomEnableDisableGuestAccountsSetting {...props}/>
+                <CustomEnableDisableGuestAccountsSetting {...props}/>,
             );
             expect(wrapper).toMatchSnapshot();
         });
@@ -62,7 +61,7 @@ describe('components/AdminConsole/CustomEnableDisableGuestAccountsSetting', () =
             };
 
             const wrapper = shallow<CustomEnableDisableGuestAccountsSetting>(
-                <CustomEnableDisableGuestAccountsSetting {...props}/>
+                <CustomEnableDisableGuestAccountsSetting {...props}/>,
             );
 
             wrapper.instance().handleChange('MySetting', true);
@@ -77,7 +76,7 @@ describe('components/AdminConsole/CustomEnableDisableGuestAccountsSetting', () =
             };
 
             const wrapper = shallow<CustomEnableDisableGuestAccountsSetting>(
-                <CustomEnableDisableGuestAccountsSetting {...props}/>
+                <CustomEnableDisableGuestAccountsSetting {...props}/>,
             );
 
             wrapper.instance().handleChange('MySetting', false);
@@ -92,7 +91,7 @@ describe('components/AdminConsole/CustomEnableDisableGuestAccountsSetting', () =
             };
 
             const wrapper = shallow<CustomEnableDisableGuestAccountsSetting>(
-                <CustomEnableDisableGuestAccountsSetting {...props}/>
+                <CustomEnableDisableGuestAccountsSetting {...props}/>,
             );
 
             wrapper.instance().handleChange('MySetting', false, true);

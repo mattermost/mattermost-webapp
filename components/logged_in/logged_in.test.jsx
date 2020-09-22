@@ -5,10 +5,13 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import LoggedIn from 'components/logged_in/logged_in.jsx';
+import BrowserStore from 'stores/browser_store';
 
 jest.mock('actions/websocket_actions.jsx', () => ({
     initialize: jest.fn(),
 }));
+
+BrowserStore.signalLogin = jest.fn();
 
 describe('components/logged_in/LoggedIn', () => {
     const children = <span>{'Test'}</span>;
@@ -18,6 +21,7 @@ describe('components/logged_in/LoggedIn', () => {
         enableTimezone: false,
         actions: {
             autoUpdateTimezone: jest.fn(),
+            getChannelURLAction: jest.fn(),
         },
         showTermsOfService: false,
         location: {
@@ -38,7 +42,7 @@ describe('components/logged_in/LoggedIn', () => {
   position="relative"
   style={Object {}}
 />
-`
+`,
         );
     });
 
@@ -54,7 +58,7 @@ describe('components/logged_in/LoggedIn', () => {
 <Redirect
   to="/mfa/setup"
 />
-`
+`,
         );
     });
 
@@ -73,7 +77,7 @@ describe('components/logged_in/LoggedIn', () => {
 <span>
   Test
 </span>
-`
+`,
         );
     });
 
@@ -92,7 +96,7 @@ describe('components/logged_in/LoggedIn', () => {
 <span>
   Test
 </span>
-`
+`,
         );
     });
 
@@ -109,7 +113,7 @@ describe('components/logged_in/LoggedIn', () => {
 <Redirect
   to="/terms_of_service?redirect_to=%2F"
 />
-`
+`,
         );
     });
 
@@ -129,7 +133,7 @@ describe('components/logged_in/LoggedIn', () => {
 <span>
   Test
 </span>
-`
+`,
         );
     });
 
@@ -146,7 +150,19 @@ describe('components/logged_in/LoggedIn', () => {
 <span>
   Test
 </span>
-`
+`,
         );
+    });
+
+    it('should signal to other tabs when login is successful', () => {
+        const props = {
+            ...baseProps,
+            mfaRequired: false,
+            showTermsOfService: true,
+        };
+
+        shallow(<LoggedIn {...props}>{children}</LoggedIn>);
+
+        expect(BrowserStore.signalLogin).toBeCalledTimes(1);
     });
 });

@@ -28,6 +28,7 @@ describe('components/post_view/MessageAttachment', () => {
     const baseProps = {
         postId: 'post_id',
         attachment,
+        currentRelativeTeamUrl: 'dummy_team',
         actions: {doPostActionWithCookie: jest.fn()},
         imagesMetadata: {
             image_url: {
@@ -79,7 +80,8 @@ describe('components/post_view/MessageAttachment', () => {
     });
 
     test('should call actions.doPostActionWithCookie on handleAction', () => {
-        const doPostActionWithCookie = jest.fn();
+        const promise = Promise.resolve(123);
+        const doPostActionWithCookie = jest.fn(() => promise);
         const actionId = 'action_id_1';
         const newAttachment = {
             ...attachment,

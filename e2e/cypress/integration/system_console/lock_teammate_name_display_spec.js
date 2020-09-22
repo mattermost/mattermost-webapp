@@ -7,10 +7,20 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-describe('System Console', () => {
-    it('MM-19309 Allow System Admins to control Teammate Name Display at the system level', () => {
-        cy.apiLogin('sysadmin');
+// Stage: @prod
+// Group: @system_console
 
+describe('System Console', () => {
+    let townsquareUrl;
+
+    before(() => {
+        // # Initialize setup and visit town-square
+        cy.apiInitSetup().then(({team}) => {
+            townsquareUrl = `/${team.name}/channels/town-square`;
+        });
+    });
+
+    it('MM-T1100 Lock Teammate Name Display for all users', () => {
         // # Go to system admin page
         cy.visit('/admin_console/site_config/users_and_teams');
 
@@ -25,10 +35,10 @@ describe('System Console', () => {
         cy.get('#saveSetting').click();
 
         // # Go to main page
-        cy.visit('/');
+        cy.visit(townsquareUrl);
 
         // # Go to Account settings
-        cy.toAccountSettingsModal(null, true);
+        cy.toAccountSettingsModal();
 
         // # Click Display on the left hand side
         cy.get('#displayButton').click();
@@ -56,10 +66,10 @@ describe('System Console', () => {
         cy.get('#saveSetting').click();
 
         // # Go to main page
-        cy.visit('/');
+        cy.visit(townsquareUrl);
 
         // # Go to Account settings
-        cy.toAccountSettingsModal(null, true);
+        cy.toAccountSettingsModal();
 
         // # Click Display on the left hand side
         cy.get('#displayButton').click();

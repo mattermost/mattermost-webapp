@@ -2,21 +2,25 @@
 // See LICENSE.txt for license information.
 
 // ***************************************************************
-// - [number] indicates a test step (e.g. 1. Go to a page)
+// - [#] indicates a test step (e.g. # Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
+
+// Stage: @prod
+// Group: @messaging
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Messaging', () => {
     before(() => {
-        // # Login and go to /
-        cy.apiLogin('user-1');
-        cy.visit('/');
+        // # Login as test user and visit town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
+        });
     });
 
-    it('M18683-Trying to type in middle of text should not send the cursor to end of textbox', () => {
+    it('MM-T96 Trying to type in middle of text should not send the cursor to end of textbox', () => {
         // # Type message to use
         cy.get('#post_textbox').clear().type('aa');
 
@@ -24,7 +28,7 @@ describe('Messaging', () => {
         cy.get('#post_textbox').click().type('{leftarrow}b');
 
         // # Wait for the cursor to move in failing case
-        cy.wait(TIMEOUTS.SMALL);
+        cy.wait(TIMEOUTS.FIVE_SEC);
 
         // # Write another letter
         cy.get('#post_textbox').type('c');

@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import $ from 'jquery';
 import PropTypes from 'prop-types';
@@ -15,7 +16,7 @@ import {t} from 'utils/i18n';
 
 const NEXT_BUTTON_TIMEOUT = 500;
 
-class SearchableUserList extends React.Component {
+class SearchableUserList extends React.PureComponent {
     static propTypes = {
         users: PropTypes.arrayOf(PropTypes.object),
         usersPerPage: PropTypes.number,
@@ -35,6 +36,7 @@ class SearchableUserList extends React.Component {
         term: PropTypes.string.isRequired,
         onTermChange: PropTypes.func.isRequired,
         intl: PropTypes.any,
+        isDisabled: PropTypes.bool,
 
         // the type of user list row to render
         rowComponentType: PropTypes.func,
@@ -42,7 +44,7 @@ class SearchableUserList extends React.Component {
 
     static defaultProps = {
         users: [],
-        usersPerPage: 50, // eslint-disable-line no-magic-numbers
+        usersPerPage: 50,
         extraInfo: {},
         actions: [],
         actionProps: {},
@@ -124,6 +126,9 @@ class SearchableUserList extends React.Component {
         } else {
             startCount = this.props.page * this.props.usersPerPage;
             endCount = Math.min(startCount + this.props.usersPerPage, total);
+            if (this.props.users.length < endCount) {
+                endCount = this.props.users.length;
+            }
         }
 
         if (this.props.renderCount) {
@@ -171,10 +176,14 @@ class SearchableUserList extends React.Component {
             usersToDisplay = this.props.users;
         } else if (!this.props.term) {
             const pageStart = this.props.page * this.props.usersPerPage;
-            const pageEnd = pageStart + this.props.usersPerPage;
+            let pageEnd = pageStart + this.props.usersPerPage;
+            if (this.props.users.length < pageEnd) {
+                pageEnd = this.props.users.length;
+            }
+
             usersToDisplay = this.props.users.slice(pageStart, pageEnd);
 
-            if (pageEnd < this.props.users.length) {
+            if (pageEnd < this.props.total) {
                 nextButton = (
                     <button
                         id='searchableUserListNextBtn'
@@ -259,6 +268,7 @@ class SearchableUserList extends React.Component {
                         actionProps={this.props.actionProps}
                         actionUserProps={this.props.actionUserProps}
                         rowComponentType={this.props.rowComponentType}
+                        isDisabled={this.props.isDisabled}
                     />
                 </div>
                 <div className='filter-controls'>
@@ -271,3 +281,4 @@ class SearchableUserList extends React.Component {
 }
 
 export default injectIntl(SearchableUserList);
+/* eslint-enable react/no-string-refs */

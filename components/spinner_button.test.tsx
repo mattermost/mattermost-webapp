@@ -12,7 +12,7 @@ describe('components/SpinnerButton', () => {
             <SpinnerButton
                 spinning={false}
                 spinningText='Test'
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -22,7 +22,7 @@ describe('components/SpinnerButton', () => {
             <SpinnerButton
                 spinning={true}
                 spinningText='Test'
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -35,7 +35,7 @@ describe('components/SpinnerButton', () => {
             >
                 <span id='child1'/>
                 <span id='child2'/>
-            </SpinnerButton>
+            </SpinnerButton>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -48,7 +48,7 @@ describe('components/SpinnerButton', () => {
                 spinning={false}
                 onClick={onClick}
                 spinningText='Test'
-            />
+            />,
         );
 
         wrapper.find('.btn-primary').simulate('click');

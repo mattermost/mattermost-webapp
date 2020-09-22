@@ -11,13 +11,11 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
       <FormattedMessage
         defaultMessage="Slash Commands"
         id="installed_command.header"
-        values={Object {}}
       />
     </Link>
     <FormattedMessage
       defaultMessage="Header"
       id="Header"
-      values={Object {}}
     />
   </BackstageHeader>
   <div
@@ -37,7 +35,6 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
           <FormattedMessage
             defaultMessage="Title"
             id="add_command.displayName"
-            values={Object {}}
           />
         </label>
         <div
@@ -55,9 +52,8 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
             className="form__help"
           >
             <FormattedMessage
-              defaultMessage="Choose a title to be displayed on the slash command settings page. Maximum 64 characters."
+              defaultMessage="Specify a title, of up to 64 characters, for the slash command settings page."
               id="add_command.displayName.help"
-              values={Object {}}
             />
           </div>
         </div>
@@ -72,7 +68,6 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
           <FormattedMessage
             defaultMessage="Description"
             id="add_command.description"
-            values={Object {}}
           />
         </label>
         <div
@@ -90,9 +85,8 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
             className="form__help"
           >
             <FormattedMessage
-              defaultMessage="Description for your incoming webhook."
+              defaultMessage="Describe your incoming webhook."
               id="add_command.description.help"
-              values={Object {}}
             />
           </div>
         </div>
@@ -107,7 +101,6 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
           <FormattedMessage
             defaultMessage="Command Trigger Word"
             id="add_command.trigger"
-            values={Object {}}
           />
         </label>
         <div
@@ -131,9 +124,8 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
             className="form__help"
           >
             <FormattedMessage
-              defaultMessage="Trigger word must be unique, and cannot begin with a slash or contain any spaces."
+              defaultMessage="Specify a trigger word that is not a built-in command, does not contain spaces, and does not begin with the slash character."
               id="add_command.trigger.help"
-              values={Object {}}
             />
           </div>
           <div
@@ -142,7 +134,6 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
             <FormattedMessage
               defaultMessage="Examples: client, employee, patient, weather"
               id="add_command.trigger.helpExamples"
-              values={Object {}}
             />
           </div>
           <div
@@ -161,7 +152,6 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
                     <FormattedMessage
                       defaultMessage="See built-in slash commands"
                       id="add_command.trigger.helpReservedLinkText"
-                      values={Object {}}
                     />
                   </a>,
                 }
@@ -180,7 +170,6 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
           <FormattedMessage
             defaultMessage="Request URL"
             id="add_command.url"
-            values={Object {}}
           />
         </label>
         <div
@@ -204,9 +193,8 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
             className="form__help"
           >
             <FormattedMessage
-              defaultMessage="The callback URL to receive the HTTP POST or GET event request when the slash command is run."
+              defaultMessage="Specify the callback URL to receive the HTTP POST or GET event request when the slash command is run."
               id="add_command.url.help"
-              values={Object {}}
             />
           </div>
         </div>
@@ -221,7 +209,6 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
           <FormattedMessage
             defaultMessage="Request Method"
             id="add_command.method"
-            values={Object {}}
           />
         </label>
         <div
@@ -248,9 +235,8 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
             className="form__help"
           >
             <FormattedMessage
-              defaultMessage="The type of command request issued to the Request URL."
+              defaultMessage="Specify the type of request, either POST or GET, sent to the endpoint that Mattermost hits to reach your application."
               id="add_command.method.help"
-              values={Object {}}
             />
           </div>
         </div>
@@ -265,7 +251,6 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
           <FormattedMessage
             defaultMessage="Response Username"
             id="add_command.username"
-            values={Object {}}
           />
         </label>
         <div
@@ -289,9 +274,8 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
             className="form__help"
           >
             <FormattedMessage
-              defaultMessage="(Optional) Choose a username override for responses for this slash command. Usernames can consist of up to 22 characters consisting of lowercase letters, numbers and they symbols \\"-\\", \\"_\\", and \\".\\" ."
+              defaultMessage="(Optional) Specify the name to use when posting responses for this slash command. Usernames can be up to 22 characters, and contain lowercase letters, numbers, and the symbols \\\\\\"-\\\\\\", \\\\\\"_\\\\\\", and \\\\\\".\\\\\\". If left blank, your Mattermost username is used."
               id="add_command.username.help"
-              values={Object {}}
             />
           </div>
         </div>
@@ -306,7 +290,6 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
           <FormattedMessage
             defaultMessage="Response Icon"
             id="add_command.iconUrl"
-            values={Object {}}
           />
         </label>
         <div
@@ -330,9 +313,8 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
             className="form__help"
           >
             <FormattedMessage
-              defaultMessage="(Optional) Choose a profile picture override for the post responses to this slash command. Enter the URL of a .png or .jpg file at least 128 pixels by 128 pixels."
+              defaultMessage="(Optional) Enter the URL of a .png or .jpg file to use as the icon when posting responses to this slash command. The file must be at least 128 pixels by 128 pixels. If left blank, your profile picture is used."
               id="add_command.iconUrl.help"
-              values={Object {}}
             />
           </div>
         </div>
@@ -347,7 +329,6 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
           <FormattedMessage
             defaultMessage="Autocomplete"
             id="add_command.autocomplete"
-            values={Object {}}
           />
         </label>
         <div
@@ -363,9 +344,8 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
             className="form__help"
           >
             <FormattedMessage
-              defaultMessage="(Optional) Show slash command in autocomplete list."
+              defaultMessage="(Optional) Show your slash command on the autocomplete list when someone types \\"/\\" in the input box."
               id="add_command.autocomplete.help"
-              values={Object {}}
             />
           </div>
         </div>
@@ -380,7 +360,6 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
           <FormattedMessage
             defaultMessage="Autocomplete Hint"
             id="add_command.autocompleteHint"
-            values={Object {}}
           />
         </label>
         <div
@@ -404,9 +383,8 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
             className="form__help"
           >
             <FormattedMessage
-              defaultMessage="(Optional) Arguments associated with your slash command, displayed as help in the autocomplete list."
+              defaultMessage="(Optional) Specify the arguments associated with your slash command. These are displayed as help on the autocomplete list."
               id="add_command.autocompleteHint.help"
-              values={Object {}}
             />
           </div>
         </div>
@@ -421,7 +399,6 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
           <FormattedMessage
             defaultMessage="Autocomplete Description"
             id="add_command.autocompleteDescription"
-            values={Object {}}
           />
         </label>
         <div
@@ -445,9 +422,8 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
             className="form__help"
           >
             <FormattedMessage
-              defaultMessage="(Optional) Short description of slash command for the autocomplete list."
+              defaultMessage="(Optional) Describe your slash command for the autocomplete list."
               id="add_command.autocompleteDescription.help"
-              values={Object {}}
             />
           </div>
         </div>
@@ -472,7 +448,6 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
           <FormattedMessage
             defaultMessage="Cancel"
             id="add_command.cancel"
-            values={Object {}}
           />
         </Link>
         <SpinnerButton
@@ -486,7 +461,6 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
           <FormattedMessage
             defaultMessage="Footer"
             id="Footer"
-            values={Object {}}
           />
         </SpinnerButton>
         renderExtra
@@ -507,13 +481,11 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
       <FormattedMessage
         defaultMessage="Slash Commands"
         id="installed_command.header"
-        values={Object {}}
       />
     </Link>
     <FormattedMessage
       defaultMessage="Header"
       id="Header"
-      values={Object {}}
     />
   </BackstageHeader>
   <div
@@ -533,7 +505,6 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
           <FormattedMessage
             defaultMessage="Title"
             id="add_command.displayName"
-            values={Object {}}
           />
         </label>
         <div
@@ -551,9 +522,8 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
             className="form__help"
           >
             <FormattedMessage
-              defaultMessage="Choose a title to be displayed on the slash command settings page. Maximum 64 characters."
+              defaultMessage="Specify a title, of up to 64 characters, for the slash command settings page."
               id="add_command.displayName.help"
-              values={Object {}}
             />
           </div>
         </div>
@@ -568,7 +538,6 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
           <FormattedMessage
             defaultMessage="Description"
             id="add_command.description"
-            values={Object {}}
           />
         </label>
         <div
@@ -586,9 +555,8 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
             className="form__help"
           >
             <FormattedMessage
-              defaultMessage="Description for your incoming webhook."
+              defaultMessage="Describe your incoming webhook."
               id="add_command.description.help"
-              values={Object {}}
             />
           </div>
         </div>
@@ -603,7 +571,6 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
           <FormattedMessage
             defaultMessage="Command Trigger Word"
             id="add_command.trigger"
-            values={Object {}}
           />
         </label>
         <div
@@ -627,9 +594,8 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
             className="form__help"
           >
             <FormattedMessage
-              defaultMessage="Trigger word must be unique, and cannot begin with a slash or contain any spaces."
+              defaultMessage="Specify a trigger word that is not a built-in command, does not contain spaces, and does not begin with the slash character."
               id="add_command.trigger.help"
-              values={Object {}}
             />
           </div>
           <div
@@ -638,7 +604,6 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
             <FormattedMessage
               defaultMessage="Examples: client, employee, patient, weather"
               id="add_command.trigger.helpExamples"
-              values={Object {}}
             />
           </div>
           <div
@@ -657,7 +622,6 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
                     <FormattedMessage
                       defaultMessage="See built-in slash commands"
                       id="add_command.trigger.helpReservedLinkText"
-                      values={Object {}}
                     />
                   </a>,
                 }
@@ -676,7 +640,6 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
           <FormattedMessage
             defaultMessage="Request URL"
             id="add_command.url"
-            values={Object {}}
           />
         </label>
         <div
@@ -700,9 +663,8 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
             className="form__help"
           >
             <FormattedMessage
-              defaultMessage="The callback URL to receive the HTTP POST or GET event request when the slash command is run."
+              defaultMessage="Specify the callback URL to receive the HTTP POST or GET event request when the slash command is run."
               id="add_command.url.help"
-              values={Object {}}
             />
           </div>
         </div>
@@ -717,7 +679,6 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
           <FormattedMessage
             defaultMessage="Request Method"
             id="add_command.method"
-            values={Object {}}
           />
         </label>
         <div
@@ -744,9 +705,8 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
             className="form__help"
           >
             <FormattedMessage
-              defaultMessage="The type of command request issued to the Request URL."
+              defaultMessage="Specify the type of request, either POST or GET, sent to the endpoint that Mattermost hits to reach your application."
               id="add_command.method.help"
-              values={Object {}}
             />
           </div>
         </div>
@@ -761,7 +721,6 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
           <FormattedMessage
             defaultMessage="Response Username"
             id="add_command.username"
-            values={Object {}}
           />
         </label>
         <div
@@ -785,9 +744,8 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
             className="form__help"
           >
             <FormattedMessage
-              defaultMessage="(Optional) Choose a username override for responses for this slash command. Usernames can consist of up to 22 characters consisting of lowercase letters, numbers and they symbols \\"-\\", \\"_\\", and \\".\\" ."
+              defaultMessage="(Optional) Specify the name to use when posting responses for this slash command. Usernames can be up to 22 characters, and contain lowercase letters, numbers, and the symbols \\\\\\"-\\\\\\", \\\\\\"_\\\\\\", and \\\\\\".\\\\\\". If left blank, your Mattermost username is used."
               id="add_command.username.help"
-              values={Object {}}
             />
           </div>
         </div>
@@ -802,7 +760,6 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
           <FormattedMessage
             defaultMessage="Response Icon"
             id="add_command.iconUrl"
-            values={Object {}}
           />
         </label>
         <div
@@ -826,9 +783,8 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
             className="form__help"
           >
             <FormattedMessage
-              defaultMessage="(Optional) Choose a profile picture override for the post responses to this slash command. Enter the URL of a .png or .jpg file at least 128 pixels by 128 pixels."
+              defaultMessage="(Optional) Enter the URL of a .png or .jpg file to use as the icon when posting responses to this slash command. The file must be at least 128 pixels by 128 pixels. If left blank, your profile picture is used."
               id="add_command.iconUrl.help"
-              values={Object {}}
             />
           </div>
         </div>
@@ -843,7 +799,6 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
           <FormattedMessage
             defaultMessage="Autocomplete"
             id="add_command.autocomplete"
-            values={Object {}}
           />
         </label>
         <div
@@ -859,9 +814,8 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
             className="form__help"
           >
             <FormattedMessage
-              defaultMessage="(Optional) Show slash command in autocomplete list."
+              defaultMessage="(Optional) Show your slash command on the autocomplete list when someone types \\"/\\" in the input box."
               id="add_command.autocomplete.help"
-              values={Object {}}
             />
           </div>
         </div>
@@ -876,7 +830,6 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
           <FormattedMessage
             defaultMessage="Autocomplete Hint"
             id="add_command.autocompleteHint"
-            values={Object {}}
           />
         </label>
         <div
@@ -900,9 +853,8 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
             className="form__help"
           >
             <FormattedMessage
-              defaultMessage="(Optional) Arguments associated with your slash command, displayed as help in the autocomplete list."
+              defaultMessage="(Optional) Specify the arguments associated with your slash command. These are displayed as help on the autocomplete list."
               id="add_command.autocompleteHint.help"
-              values={Object {}}
             />
           </div>
         </div>
@@ -917,7 +869,6 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
           <FormattedMessage
             defaultMessage="Autocomplete Description"
             id="add_command.autocompleteDescription"
-            values={Object {}}
           />
         </label>
         <div
@@ -941,9 +892,8 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
             className="form__help"
           >
             <FormattedMessage
-              defaultMessage="(Optional) Short description of slash command for the autocomplete list."
+              defaultMessage="(Optional) Describe your slash command for the autocomplete list."
               id="add_command.autocompleteDescription.help"
-              values={Object {}}
             />
           </div>
         </div>
@@ -959,7 +909,6 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
               <FormattedMessage
                 defaultMessage="A trigger word is required"
                 id="add_command.triggerRequired"
-                values={Object {}}
               />,
             ]
           }
@@ -972,7 +921,6 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
           <FormattedMessage
             defaultMessage="Cancel"
             id="add_command.cancel"
-            values={Object {}}
           />
         </Link>
         <SpinnerButton
@@ -986,7 +934,6 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
           <FormattedMessage
             defaultMessage="Footer"
             id="Footer"
-            values={Object {}}
           />
         </SpinnerButton>
         renderExtra

@@ -70,7 +70,7 @@ end
 puts "\nThe following #{emoji_added.length} emoji were added:"
 print emoji_added
 
-blacklist = ['basecamp', 'basecampy']
+blocklist = ['basecamp', 'basecampy']
 
 categories = []
 
@@ -84,7 +84,7 @@ batch = 1
 i = 0
 
 Emoji.all.each do |emoji|
-    if blacklist.include? emoji.name
+    if blocklist.include? emoji.name
         next
     end
     count += 1
@@ -175,7 +175,7 @@ end
 Emoji::Extractor.new(64, emoji_path).extract!
 
 Dir["#{Emoji.images_path}/*.png"].each do |png|
-    if blacklist.include? File.basename(png, '.png')
+    if blocklist.include? File.basename(png, '.png')
         next
     end
     FileUtils.cp(png, File.join(emoji_path, File.basename(png)))
@@ -235,7 +235,7 @@ categories.each do |category|
     Dir.mkdir tmp_directory
     Emoji.all.each do |emoji|
         i += 1
-        if blacklist.include? emoji.name
+        if blocklist.include? emoji.name
             next
         end
         if category == (emoji.category ? emoji.category.downcase : 'custom')

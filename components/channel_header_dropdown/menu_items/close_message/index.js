@@ -8,6 +8,8 @@ import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {getCurrentTeam, getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getRedirectChannelNameForTeam} from 'mattermost-redux/selectors/entities/channels';
 
+import {leaveDirectChannel} from 'actions/views/channel';
+
 import CloseMessage from './close_message';
 
 const mapStateToProps = (state) => {
@@ -18,7 +20,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-    actions: bindActionCreators({savePreferences}, dispatch),
+    actions: bindActionCreators({savePreferences, leaveDirectChannel}, dispatch),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CloseMessage);

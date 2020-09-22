@@ -15,7 +15,6 @@ exports[`components/search_bar/SearchBar should match snapshot with search 1`] =
       <FormattedMessage
         defaultMessage="Back Icon"
         id="generic_icons.back"
-        values={Object {}}
       >
         <Component />
       </FormattedMessage>
@@ -37,10 +36,13 @@ exports[`components/search_bar/SearchBar should match snapshot with search 1`] =
         }
       }
     >
-      <SearchIcon
-        aria-hidden="true"
-        className="search__icon"
-      />
+      <div
+        className="search__font-icon"
+      >
+        <i
+          className="icon icon-magnify icon-16"
+        />
+      </div>
       <SuggestionBox
         aria-describedby="searchbar-help-popup"
         aria-label="Search"
@@ -48,10 +50,11 @@ exports[`components/search_bar/SearchBar should match snapshot with search 1`] =
         className="search-bar a11y__region"
         clearable={true}
         completeOnTab={true}
-        containerClass=""
-        data-a11y-sort-order="8"
+        containerClass="w-full"
+        data-a11y-sort-order="9"
         dateComponent={[Function]}
         delayInputUpdate={true}
+        forceSuggestionsWhenBlur={false}
         id="searchBox"
         isRHS={false}
         listComponent={[Function]}
@@ -117,7 +120,6 @@ exports[`components/search_bar/SearchBar should match snapshot without search 1`
       <FormattedMessage
         defaultMessage="Back Icon"
         id="generic_icons.back"
-        values={Object {}}
       >
         <Component />
       </FormattedMessage>
@@ -139,10 +141,13 @@ exports[`components/search_bar/SearchBar should match snapshot without search 1`
         }
       }
     >
-      <SearchIcon
-        aria-hidden="true"
-        className="search__icon"
-      />
+      <div
+        className="search__font-icon"
+      >
+        <i
+          className="icon icon-magnify icon-16"
+        />
+      </div>
       <SuggestionBox
         aria-describedby="searchbar-help-popup"
         aria-label="Search"
@@ -150,10 +155,11 @@ exports[`components/search_bar/SearchBar should match snapshot without search 1`
         className="search-bar a11y__region"
         clearable={true}
         completeOnTab={true}
-        containerClass=""
-        data-a11y-sort-order="8"
+        containerClass="w-full"
+        data-a11y-sort-order="9"
         dateComponent={[Function]}
         delayInputUpdate={true}
+        forceSuggestionsWhenBlur={false}
         id="searchBox"
         isRHS={false}
         listComponent={[Function]}
@@ -207,6 +213,64 @@ exports[`components/search_bar/SearchBar should match snapshot without search 1`
         popoverStyle="info"
       >
         <SearchHint
+          highlightedIndex={-1}
+          onMouseDown={[Function]}
+          onOptionHover={[Function]}
+          onOptionSelected={[Function]}
+          options={
+            Array [
+              Object {
+                "message": Object {
+                  "defaultMessage": "Messages from a user",
+                  "id": "search_list_option.from",
+                },
+                "searchTerm": "From:",
+              },
+              Object {
+                "message": Object {
+                  "defaultMessage": "Messages in a channel",
+                  "id": "search_list_option.in",
+                },
+                "searchTerm": "In:",
+              },
+              Object {
+                "message": Object {
+                  "defaultMessage": "Messages on a date",
+                  "id": "search_list_option.on",
+                },
+                "searchTerm": "On:",
+              },
+              Object {
+                "message": Object {
+                  "defaultMessage": "Messages before a date",
+                  "id": "search_list_option.before",
+                },
+                "searchTerm": "Before:",
+              },
+              Object {
+                "message": Object {
+                  "defaultMessage": "Messages after a date",
+                  "id": "search_list_option.after",
+                },
+                "searchTerm": "After:",
+              },
+              Object {
+                "additionalDisplay": "—",
+                "message": Object {
+                  "defaultMessage": "Exclude search terms",
+                  "id": "search_list_option.exclude",
+                },
+                "searchTerm": "-",
+              },
+              Object {
+                "message": Object {
+                  "defaultMessage": "Messages with phrases",
+                  "id": "search_list_option.phrases",
+                },
+                "searchTerm": "\\"\\"",
+              },
+            ]
+          }
           withTitle={true}
         />
       </Popover>
@@ -230,7 +294,6 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
       <FormattedMessage
         defaultMessage="Back Icon"
         id="generic_icons.back"
-        values={Object {}}
       >
         <Component />
       </FormattedMessage>
@@ -243,7 +306,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
     <form
       aria-labelledby="searchBox"
       autoComplete="off"
-      className="search__form focused"
+      className="search__form search__form--focused"
       onSubmit={[Function]}
       role="application"
       style={
@@ -252,10 +315,13 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
         }
       }
     >
-      <SearchIcon
-        aria-hidden="true"
-        className="search__icon"
-      />
+      <div
+        className="search__font-icon"
+      >
+        <i
+          className="icon icon-magnify icon-16"
+        />
+      </div>
       <SuggestionBox
         aria-describedby="searchbar-help-popup"
         aria-label="Search"
@@ -263,10 +329,11 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
         className="search-bar a11y__region"
         clearable={true}
         completeOnTab={true}
-        containerClass=""
-        data-a11y-sort-order="8"
+        containerClass="w-full"
+        data-a11y-sort-order="9"
         dateComponent={[Function]}
         delayInputUpdate={true}
+        forceSuggestionsWhenBlur={false}
         id="searchBox"
         isRHS={false}
         listComponent={[Function]}
@@ -320,6 +387,64 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
         popoverStyle="info"
       >
         <SearchHint
+          highlightedIndex={-1}
+          onMouseDown={[Function]}
+          onOptionHover={[Function]}
+          onOptionSelected={[Function]}
+          options={
+            Array [
+              Object {
+                "message": Object {
+                  "defaultMessage": "Messages from a user",
+                  "id": "search_list_option.from",
+                },
+                "searchTerm": "From:",
+              },
+              Object {
+                "message": Object {
+                  "defaultMessage": "Messages in a channel",
+                  "id": "search_list_option.in",
+                },
+                "searchTerm": "In:",
+              },
+              Object {
+                "message": Object {
+                  "defaultMessage": "Messages on a date",
+                  "id": "search_list_option.on",
+                },
+                "searchTerm": "On:",
+              },
+              Object {
+                "message": Object {
+                  "defaultMessage": "Messages before a date",
+                  "id": "search_list_option.before",
+                },
+                "searchTerm": "Before:",
+              },
+              Object {
+                "message": Object {
+                  "defaultMessage": "Messages after a date",
+                  "id": "search_list_option.after",
+                },
+                "searchTerm": "After:",
+              },
+              Object {
+                "additionalDisplay": "—",
+                "message": Object {
+                  "defaultMessage": "Exclude search terms",
+                  "id": "search_list_option.exclude",
+                },
+                "searchTerm": "-",
+              },
+              Object {
+                "message": Object {
+                  "defaultMessage": "Messages with phrases",
+                  "id": "search_list_option.phrases",
+                },
+                "searchTerm": "\\"\\"",
+              },
+            ]
+          }
           withTitle={true}
         />
       </Popover>
@@ -343,7 +468,6 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
       <FormattedMessage
         defaultMessage="Back Icon"
         id="generic_icons.back"
-        values={Object {}}
       >
         <Component />
       </FormattedMessage>
@@ -356,7 +480,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
     <form
       aria-labelledby="searchBox"
       autoComplete="off"
-      className="search__form focused"
+      className="search__form search__form--focused"
       onSubmit={[Function]}
       role="application"
       style={
@@ -365,10 +489,13 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
         }
       }
     >
-      <SearchIcon
-        aria-hidden="true"
-        className="search__icon"
-      />
+      <div
+        className="search__font-icon"
+      >
+        <i
+          className="icon icon-magnify icon-16"
+        />
+      </div>
       <SuggestionBox
         aria-describedby="searchbar-help-popup"
         aria-label="Search"
@@ -376,10 +503,11 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
         className="search-bar a11y__region"
         clearable={true}
         completeOnTab={true}
-        containerClass=""
-        data-a11y-sort-order="8"
+        containerClass="w-full"
+        data-a11y-sort-order="9"
         dateComponent={[Function]}
         delayInputUpdate={true}
+        forceSuggestionsWhenBlur={false}
         id="searchBox"
         isRHS={false}
         listComponent={[Function]}

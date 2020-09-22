@@ -18,30 +18,30 @@ describe('components/integrations/bots/AddBot', () => {
                 maxFileSize={100}
                 team={team}
                 editingUserHasManageSystem={true}
-            />
+            />,
         );
         expect(wrapper.containsMatchingElement(
             <input
                 id='username'
                 value={''}
-            />
+            />,
         )).toEqual(true);
         expect(wrapper.containsMatchingElement(
             <input
                 id='displayName'
                 value={''}
-            />
+            />,
         )).toEqual(true);
         expect(wrapper.containsMatchingElement(
             <input
                 id='description'
                 value={''}
-            />
+            />,
         )).toEqual(true);
         expect(wrapper.containsMatchingElement(
             <FormattedMarkdownMessage
                 id='admin.manage_roles.additionalRoles'
-            />
+            />,
         )).toEqual(true);
     });
 
@@ -53,25 +53,25 @@ describe('components/integrations/bots/AddBot', () => {
                 maxFileSize={100}
                 team={team}
                 editingUserHasManageSystem={true}
-            />
+            />,
         );
         expect(wrapper.containsMatchingElement(
             <input
                 id='username'
                 value={bot.username}
-            />
+            />,
         )).toEqual(true);
         expect(wrapper.containsMatchingElement(
             <input
                 id='displayName'
                 value={bot.display_name}
-            />
+            />,
         )).toEqual(true);
         expect(wrapper.containsMatchingElement(
             <input
                 id='description'
                 value={bot.description}
-            />
+            />,
         )).toEqual(true);
     });
 });

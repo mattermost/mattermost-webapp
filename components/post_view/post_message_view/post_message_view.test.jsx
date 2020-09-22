@@ -26,6 +26,7 @@ describe('components/post_view/PostAttachment', () => {
         isRHSExpanded: false,
         theme: {},
         pluginPostTypes: {},
+        currentRelativeTeamUrl: 'dummy_team_url',
     };
 
     test('should match snapshot', () => {

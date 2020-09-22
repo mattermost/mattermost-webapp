@@ -1,24 +1,28 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import PropTypes from 'prop-types';
 import React from 'react';
 import Scrollbars from 'react-custom-scrollbars';
 
 import {injectIntl} from 'react-intl';
+import classNames from 'classnames';
 
 import {debounce} from 'mattermost-redux/actions/helpers';
 
 import {intlShape} from 'utils/react_intl';
 import * as Utils from 'utils/utils.jsx';
+import {searchHintOptions} from 'utils/constants';
 
 import SearchResultsHeader from 'components/search_results_header';
 import SearchResultsItem from 'components/search_results_item';
 import SearchHint from 'components/search_hint/search_hint';
-import FlagPostSearchHint from 'components/search_hint/flag_post_search_hint';
-import NoResultSearchHint from 'components/search_hint/no_result_search_hint';
-import PinPostSearchHint from 'components/search_hint/pin_post_search_hint';
 import LoadingSpinner from 'components/widgets/loading/loading_wrapper';
+import NoResultsIndicator from 'components/no_results_indicator/no_results_indicator.tsx';
+import FlagIcon from 'components/widgets/icons/flag_icon';
+
+import {NoResultsVariant} from 'components/no_results_indicator/types';
 
 const GET_MORE_BUFFER = 30;
 
@@ -91,7 +95,6 @@ class SearchResults extends React.Component {
     static propTypes = {
         results: PropTypes.array,
         matches: PropTypes.object,
-        currentUser: PropTypes.object,
         searchTerms: PropTypes.string,
         isSearchingTerm: PropTypes.bool,
         isSearchingFlaggedPost: PropTypes.bool,
@@ -104,18 +107,17 @@ class SearchResults extends React.Component {
         isPinnedPosts: PropTypes.bool,
         isCard: PropTypes.bool,
         channelDisplayName: PropTypes.string.isRequired,
-        dataRetentionEnableMessageDeletion: PropTypes.bool.isRequired,
-        dataRetentionMessageRetentionDays: PropTypes.string,
         isOpened: PropTypes.bool,
+        updateSearchTerms: PropTypes.func.isRequired,
         actions: PropTypes.shape({
             getMorePostsForSearch: PropTypes.func.isRequired,
         }),
         intl: intlShape.isRequired,
+        isSideBarExpanded: PropTypes.bool,
     };
 
     static defaultProps = {
         matches: {},
-        currentUser: {},
     };
 
     constructor(props) {
@@ -195,34 +197,57 @@ class SearchResults extends React.Component {
             );
         } else if (this.props.isFlaggedPosts && noResults) {
             ctls = (
-                <div className='sidebar--right__subheader a11y__section'>
-                    <FlagPostSearchHint
-                        dataRetentionEnableMessageDeletion={this.props.dataRetentionEnableMessageDeletion}
-                        dataRetentionMessageRetentionDays={this.props.dataRetentionMessageRetentionDays}
+                <div
+                    className={classNames(['sidebar--right__subheader a11y__section',
+                        {'sidebar-expanded': this.props.isSideBarExpanded && noResults}])}
+                >
+                    <NoResultsIndicator
+                        variant={NoResultsVariant.FlaggedPosts}
+                        subtitleValues={{icon: <FlagIcon className='icon  no-results__mini_icon'/>}}
                     />
                 </div>
             );
         } else if (this.props.isPinnedPosts && noResults) {
             ctls = (
-                <div className='sidebar--right__subheader a11y__section'>
-                    <PinPostSearchHint
-                        dataRetentionEnableMessageDeletion={this.props.dataRetentionEnableMessageDeletion}
-                        dataRetentionMessageRetentionDays={this.props.dataRetentionMessageRetentionDays}
+                <div
+                    className={classNames(['sidebar--right__subheader a11y__section',
+                        {'sidebar-expanded': this.props.isSideBarExpanded && noResults}])}
+                >
+                    <NoResultsIndicator
+                        variant={NoResultsVariant.PinnedPosts}
+                        subtitleValues={{text: <strong>{'Pin to Channel'}</strong>}}
                     />
                 </div>
             );
-        } else if (!searchTerms && noResults) {
+        } else if (!searchTerms && noResults && !this.props.isMentionSearch) {
             ctls = (
-                <div className='sidebar--right__subheader a11y__section'>
-                    <SearchHint/>
+                <div className='sidebar--right__subheader search__hints a11y__section'>
+                    <SearchHint
+                        onOptionSelected={this.props.updateSearchTerms}
+                        options={searchHintOptions}
+                    />
+                </div>
+            );
+        } else if (this.props.isMentionSearch && noResults) {
+            ctls = (
+                <div
+                    className={classNames(['sidebar--right__subheader a11y__section',
+                        {'sidebar-expanded': this.props.isSideBarExpanded && noResults}])}
+                >
+                    <NoResultsIndicator
+                        variant={NoResultsVariant.Mentions}
+                    />
                 </div>
             );
         } else if (noResults) {
             ctls = (
-                <div className='sidebar--right__subheader a11y__section'>
-                    <NoResultSearchHint
-                        dataRetentionEnableMessageDeletion={this.props.dataRetentionEnableMessageDeletion}
-                        dataRetentionMessageRetentionDays={this.props.dataRetentionMessageRetentionDays}
+                <div
+                    className={classNames(['sidebar--right__subheader a11y__section',
+                        {'sidebar-expanded': this.props.isSideBarExpanded && noResults}])}
+                >
+                    <NoResultsIndicator
+                        variant={NoResultsVariant.ChannelSearch}
+                        titleValues={{channelName: `"${this.props.searchTerms}"`}}
                     />
                 </div>
             );
@@ -245,6 +270,8 @@ class SearchResults extends React.Component {
                         term={(!this.props.isFlaggedPosts && !this.props.isPinnedPosts && !this.props.isMentionSearch) ? searchTerms : ''}
                         isMentionSearch={this.props.isMentionSearch}
                         a11yIndex={index}
+                        isFlaggedPosts={this.props.isFlaggedPosts}
+                        isPinnedPosts={this.props.isPinnedPosts}
                     />
                 );
             }, this);
@@ -267,6 +294,8 @@ class SearchResults extends React.Component {
             defaultMessage: 'Search Results',
         });
 
+        const channelName = this.props.channelDisplayName;
+
         if (this.props.isMentionSearch) {
             formattedTitle = this.props.intl.formatMessage({
                 id: 'search_header.title2',
@@ -275,19 +304,22 @@ class SearchResults extends React.Component {
         } else if (this.props.isFlaggedPosts) {
             formattedTitle = this.props.intl.formatMessage({
                 id: 'search_header.title3',
-                defaultMessage: 'Flagged Posts',
+                defaultMessage: 'Saved Posts',
             });
         } else if (this.props.isPinnedPosts) {
             formattedTitle = this.props.intl.formatMessage({
-                id: 'search_header.title4',
-                defaultMessage: 'Pinned Posts in {channelDisplayName}',
-            }, {
-                channelDisplayName: this.props.channelDisplayName,
+                id: 'channel_header.pinnedPosts',
+                defaultMessage: 'Pinned Posts',
             });
         } else if (this.props.isCard) {
             formattedTitle = this.props.intl.formatMessage({
                 id: 'search_header.title5',
                 defaultMessage: 'Extra information',
+            });
+        } else if (!searchTerms && noResults) {
+            formattedTitle = this.props.intl.formatMessage({
+                id: 'search_bar.search',
+                defaultMessage: 'Search',
             });
         }
 
@@ -298,6 +330,7 @@ class SearchResults extends React.Component {
             >
                 <SearchResultsHeader>
                     {formattedTitle}
+                    {channelName && <div className='sidebar--right__title__channel'>{channelName}</div>}
                 </SearchResultsHeader>
                 <Scrollbars
                     ref='scrollbars'
@@ -312,7 +345,7 @@ class SearchResults extends React.Component {
                     <div
                         id='search-items-container'
                         role='application'
-                        className='search-items-container post-list__table a11y__region'
+                        className={classNames(['search-items-container post-list__table a11y__region', {'no-results': noResults}])}
                         data-a11y-sort-order='3'
                         data-a11y-focus-child={true}
                         data-a11y-loop-navigation={false}
@@ -333,3 +366,4 @@ class SearchResults extends React.Component {
 }
 
 export default injectIntl(SearchResults);
+/* eslint-enable react/no-string-refs */

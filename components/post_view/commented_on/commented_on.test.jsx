@@ -155,25 +155,8 @@ describe('components/post_view/CommentedOn', () => {
         expect(baseProps.onCommentClick).toHaveBeenCalledTimes(1);
     });
 
-    test('should call actions.updateSearchTerms and actions.showSearchResults on handleOnClick', () => {
-        const wrapper = shallow(<CommentedOn {...baseProps}/>);
-
-        wrapper.instance().handleOnClick();
-
-        expect(baseProps.actions.updateSearchTerms).toHaveBeenCalledTimes(1);
-        expect(baseProps.actions.updateSearchTerms).toHaveBeenCalledWith(baseProps.displayName);
-        expect(baseProps.actions.showSearchResults).toHaveBeenCalledTimes(1);
-    });
-
     test('Should trigger search with override_username', () => {
         const wrapper = shallow(<CommentedOn {...baseProps}/>);
         wrapper.setProps({enablePostUsernameOverride: true});
-
-        wrapper.instance().handleOnClick();
-
-        expect(baseProps.actions.updateSearchTerms).toHaveBeenCalledTimes(1);
-        expect(baseProps.actions.updateSearchTerms).toHaveBeenCalledWith(baseProps.post.props.override_username);
-
-        expect(baseProps.actions.showSearchResults).toHaveBeenCalledTimes(1);
     });
 });

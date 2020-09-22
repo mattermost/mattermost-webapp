@@ -15,19 +15,19 @@ describe('FileUtils.trimFilename', () => {
         assert.equal(
             trimFilename('abcdefghijklmnopqrstuvwxyz'),
             'abcdefghijklmnopqrstuvwxyz',
-            'should return same filename'
+            'should return same filename',
         );
 
         assert.equal(
             trimFilename('abcdefghijklmnopqrstuvwxyz0123456789'),
             'abcdefghijklmnopqrstuvwxyz012345678...',
-            'should return trimmed filename'
+            'should return trimmed filename',
         );
     });
 });
 
 describe('FileUtils.canUploadFiles', () => {
-    UserAgent.isMobileApp = jest.fn().mockImplementation(() => false);
+    UserAgent.isMobileApp = jest.fn().mockImplementation(() => false); // eslint-disable-line no-import-assign
 
     it('is false when file attachments are disabled', () => {
         const config = {

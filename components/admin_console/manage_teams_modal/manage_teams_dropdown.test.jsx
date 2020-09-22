@@ -32,7 +32,7 @@ describe('ManageTeamsDropdown', () => {
 
     test('should match snapshot for team member', () => {
         const wrapper = shallow(
-            <ManageTeamsDropdown {...baseProps}/>
+            <ManageTeamsDropdown {...baseProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -50,7 +50,7 @@ describe('ManageTeamsDropdown', () => {
         };
 
         const wrapper = shallow(
-            <ManageTeamsDropdown {...props}/>
+            <ManageTeamsDropdown {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -74,7 +74,7 @@ describe('ManageTeamsDropdown', () => {
         };
 
         const wrapper = shallow(
-            <ManageTeamsDropdown {...props}/>
+            <ManageTeamsDropdown {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -97,7 +97,7 @@ describe('ManageTeamsDropdown', () => {
         };
 
         const wrapper = shallow(
-            <ManageTeamsDropdown {...props}/>
+            <ManageTeamsDropdown {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();

@@ -22,36 +22,34 @@ describe('components/widgets/admin_console/AdminPanelWithLink', () => {
 
     test('should match snapshot', () => {
         const wrapper = shallow(
-            <AdminPanelWithLink {...defaultProps}>
-                {'Test'}
-            </AdminPanelWithLink>
+            <AdminPanelWithLink {...defaultProps}>{'Test'}</AdminPanelWithLink>,
         );
         expect(wrapper).toMatchInlineSnapshot(`
-<AdminPanel
-  button={
-    <Link
-      className="btn btn-primary"
-      onClick={[Function]}
-      to="/path"
-    >
-      <FormattedMessage
-        defaultMessage="test-button-text-default"
-        id="test-button-text-id"
-        values={Object {}}
-      />
-    </Link>
-  }
-  className="AdminPanelWithLink test-class-name"
-  id="test-id"
-  subtitleDefault="test-subtitle-default"
-  subtitleId="test-subtitle-id"
-  titleDefault="test-title-default"
-  titleId="test-title-id"
->
-  Test
-</AdminPanel>
-`
-        );
+            <AdminPanel
+              button={
+                <Link
+                  className="btn btn-primary"
+                  data-testid="test-id-link"
+                  onClick={[Function]}
+                  to="/path"
+                >
+                  <FormattedMessage
+                    defaultMessage="test-button-text-default"
+                    id="test-button-text-id"
+                  />
+                </Link>
+              }
+              className="AdminPanelWithLink test-class-name"
+              data-testid="test-id"
+              id="test-id"
+              subtitleDefault="test-subtitle-default"
+              subtitleId="test-subtitle-id"
+              titleDefault="test-title-default"
+              titleId="test-title-id"
+            >
+              Test
+            </AdminPanel>
+        `);
     });
 
     test('should match snapshot when disabled', () => {
@@ -61,33 +59,33 @@ describe('components/widgets/admin_console/AdminPanelWithLink', () => {
                 disabled={true}
             >
                 {'Test'}
-            </AdminPanelWithLink>
+            </AdminPanelWithLink>,
         );
         expect(wrapper).toMatchInlineSnapshot(`
-<AdminPanel
-  button={
-    <Link
-      className="btn btn-primary"
-      onClick={[Function]}
-      to="/path"
-    >
-      <FormattedMessage
-        defaultMessage="test-button-text-default"
-        id="test-button-text-id"
-        values={Object {}}
-      />
-    </Link>
-  }
-  className="AdminPanelWithLink test-class-name"
-  id="test-id"
-  subtitleDefault="test-subtitle-default"
-  subtitleId="test-subtitle-id"
-  titleDefault="test-title-default"
-  titleId="test-title-id"
->
-  Test
-</AdminPanel>
-`
-        );
+      <AdminPanel
+        button={
+          <Link
+            className="btn btn-primary disabled"
+            data-testid="test-id-link"
+            onClick={[Function]}
+            to="/path"
+          >
+            <FormattedMessage
+              defaultMessage="test-button-text-default"
+              id="test-button-text-id"
+            />
+          </Link>
+        }
+        className="AdminPanelWithLink test-class-name"
+        data-testid="test-id"
+        id="test-id"
+        subtitleDefault="test-subtitle-default"
+        subtitleId="test-subtitle-id"
+        titleDefault="test-title-default"
+        titleId="test-title-id"
+      >
+        Test
+      </AdminPanel>
+    `);
     });
 });

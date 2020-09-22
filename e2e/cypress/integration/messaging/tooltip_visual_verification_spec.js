@@ -6,29 +6,36 @@
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
-import * as TIMEOUTS from '../../fixtures/timeouts';
+
+// Stage: @prod
+// Group: @messaging
 
 describe('Messaging', () => {
     before(() => {
-        // # Login as user-1
-        cy.apiLogin('user-1');
+        cy.apiInitSetup().then(({team, channel, user: testUser}) => {
+            cy.apiCreateUser().then(({user: otherUser}) => {
+                cy.apiAddUserToTeam(team.id, otherUser.id).then(() => {
+                    cy.apiAddUserToChannel(channel.id, otherUser.id).then(() => {
+                        // # Login as test user and visit town-square
+                        cy.apiLogin(testUser);
 
-        // # Use the API to create a new user
-        cy.createNewUser().then((res) => {
-            // # Start DM with new user
-            cy.visit(`/ad-1/messages/@${res.username}`);
+                        // # Start DM with other user
+                        cy.visit(`/${team.name}/messages/@${otherUser.username}`);
+
+                        cy.get('#channelIntro').should('be.visible').
+                            and('contain', `This is the start of your direct message history with ${otherUser.username}.`);
+
+                        // # Post test message
+                        cy.postMessage('Test');
+                    });
+                });
+            });
         });
-
-        // # Wait a few ms for the user to be created before sending the test message
-        cy.wait(TIMEOUTS.SMALL);
-
-        // # Post test message
-        cy.postMessage('Test');
     });
 
-    it('M18697 - Visual verification of tooltips on post hover menu', () => {
+    it('MM-T133 Visual verification of tooltips on post hover menu', () => {
         cy.getLastPostId().then((postId) => {
-            verifyToolTip(postId, `#CENTER_button_${postId}`, 'More Actions');
+            verifyToolTip(postId, `#CENTER_button_${postId}`, 'More actions');
 
             verifyToolTip(postId, `#CENTER_reaction_${postId}`, 'Add Reaction');
 

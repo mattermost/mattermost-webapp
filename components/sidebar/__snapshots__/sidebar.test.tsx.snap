@@ -1,0 +1,150 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/sidebar should match empty div snapshot when teamId is missing 1`] = `<div />`;
+
+exports[`components/sidebar should match snapshot 1`] = `
+<div
+  className=""
+  id="SidebarContainer"
+>
+  <Connect(SidebarHeader) />
+  <div
+    className="a11y__region"
+    data-a11y-sort-order="6"
+  >
+    <Connect(ChannelNavigator) />
+    <div
+      className="SidebarContainer_filterAddChannel"
+    >
+      <Connect(ChannelFilter) />
+      <injectIntl(AddChannelDropdown)
+        canCreateChannel={true}
+        canJoinPublicChannel={true}
+        showCreateCategoryModal={[Function]}
+        showMoreChannelsModal={[Function]}
+        showNewChannelModal={[Function]}
+      />
+    </div>
+  </div>
+  <Connect(Pluggable)
+    pluggableName="LeftSidebarHeader"
+  />
+  <Connect(SidebarCategoryList)
+    handleOpenMoreDirectChannelsModal={[Function]}
+    onDragEnd={[Function]}
+    onDragStart={[Function]}
+  />
+  <Connect(DataPrefetch) />
+</div>
+`;
+
+exports[`components/sidebar should match snapshot when direct channels modal is open 1`] = `
+<div
+  className=""
+  id="SidebarContainer"
+>
+  <Connect(SidebarHeader) />
+  <div
+    className="a11y__region"
+    data-a11y-sort-order="6"
+  >
+    <Connect(ChannelNavigator) />
+    <div
+      className="SidebarContainer_filterAddChannel"
+    >
+      <Connect(ChannelFilter) />
+      <injectIntl(AddChannelDropdown)
+        canCreateChannel={true}
+        canJoinPublicChannel={true}
+        showCreateCategoryModal={[Function]}
+        showMoreChannelsModal={[Function]}
+        showNewChannelModal={[Function]}
+      />
+    </div>
+  </div>
+  <Connect(Pluggable)
+    pluggableName="LeftSidebarHeader"
+  />
+  <Connect(SidebarCategoryList)
+    handleOpenMoreDirectChannelsModal={[Function]}
+    onDragEnd={[Function]}
+    onDragStart={[Function]}
+  />
+  <Connect(DataPrefetch) />
+  <Connect(MoreDirectChannels)
+    isExistingChannel={false}
+    onModalDismissed={[Function]}
+  />
+</div>
+`;
+
+exports[`components/sidebar should match snapshot when isDataPrefechEnabled is disabled 1`] = `
+<div
+  className=""
+  id="SidebarContainer"
+>
+  <Connect(SidebarHeader) />
+  <div
+    className="a11y__region"
+    data-a11y-sort-order="6"
+  >
+    <Connect(ChannelNavigator) />
+    <div
+      className="SidebarContainer_filterAddChannel"
+    >
+      <Connect(ChannelFilter) />
+      <injectIntl(AddChannelDropdown)
+        canCreateChannel={true}
+        canJoinPublicChannel={true}
+        showCreateCategoryModal={[Function]}
+        showMoreChannelsModal={[Function]}
+        showNewChannelModal={[Function]}
+      />
+    </div>
+  </div>
+  <Connect(Pluggable)
+    pluggableName="LeftSidebarHeader"
+  />
+  <Connect(SidebarCategoryList)
+    handleOpenMoreDirectChannelsModal={[Function]}
+    onDragEnd={[Function]}
+    onDragStart={[Function]}
+  />
+</div>
+`;
+
+exports[`components/sidebar should match snapshot when more channels modal is open 1`] = `
+<div
+  className=""
+  id="SidebarContainer"
+>
+  <Connect(SidebarHeader) />
+  <div
+    className="a11y__region"
+    data-a11y-sort-order="6"
+  >
+    <Connect(ChannelNavigator) />
+    <div
+      className="SidebarContainer_filterAddChannel"
+    >
+      <Connect(ChannelFilter) />
+      <injectIntl(AddChannelDropdown)
+        canCreateChannel={true}
+        canJoinPublicChannel={true}
+        showCreateCategoryModal={[Function]}
+        showMoreChannelsModal={[Function]}
+        showNewChannelModal={[Function]}
+      />
+    </div>
+  </div>
+  <Connect(Pluggable)
+    pluggableName="LeftSidebarHeader"
+  />
+  <Connect(SidebarCategoryList)
+    handleOpenMoreDirectChannelsModal={[Function]}
+    onDragEnd={[Function]}
+    onDragStart={[Function]}
+  />
+  <Connect(DataPrefetch) />
+</div>
+`;

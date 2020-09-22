@@ -17,7 +17,7 @@ describe('components/QuickInput', () => {
         ].forEach(([description, props]) => {
             it(description, () => {
                 const wrapper = mount(
-                    <QuickInput {...props}/>
+                    <QuickInput {...props}/>,
                 );
 
                 expect(wrapper.find('.input-clear').exists()).toBe(false);
@@ -25,31 +25,70 @@ describe('components/QuickInput', () => {
         });
     });
 
-    test('should render clear button', () => {
-        const wrapper = mount(
-            <QuickInput
-                value='mock'
-                clearable={true}
-                onClear={() => {}}
-            />
-        );
+    describe('should render clear button', () => {
+        test('with default tooltip text', () => {
+            const wrapper = mount(
+                <QuickInput
+                    value='mock'
+                    clearable={true}
+                    onClear={() => {}}
+                />,
+            );
 
-        expect(wrapper.find('.input-clear').exists()).toBe(true);
+            expect(wrapper.find('.input-clear')).toMatchSnapshot();
+        });
+
+        test('with customized tooltip text', () => {
+            const wrapper = mount(
+                <QuickInput
+                    value='mock'
+                    clearable={true}
+                    clearableTooltipText='Custom'
+                    onClear={() => {}}
+                />,
+            );
+
+            expect(wrapper.find('.input-clear')).toMatchSnapshot();
+        });
+
+        test('with customized tooltip component', () => {
+            const wrapper = mount(
+                <QuickInput
+                    value='mock'
+                    clearable={true}
+                    clearableTooltipText={
+                        <span>{'Custom'}</span>
+                    }
+                    onClear={() => {}}
+                />,
+            );
+
+            expect(wrapper.find('.input-clear')).toMatchSnapshot();
+        });
     });
 
     test('should dismiss clear button', () => {
+        const focusFn = jest.fn();
+        class MockComp extends React.PureComponent {
+            focus = focusFn;
+            render() {
+                return <div/>;
+            }
+        }
         const wrapper = mount(
             <QuickInput
                 value='mock'
                 clearable={true}
                 onClear={() => {}}
-            />
+                inputComponent={MockComp}
+            />,
         );
 
         wrapper.setProps({onClear: () => wrapper.setProps({value: ''})});
         expect(wrapper.find('.input-clear').exists()).toBe(true);
 
-        wrapper.find('.input-clear').simulate('click');
+        wrapper.find('.input-clear').simulate('mousedown');
         expect(wrapper.find('.input-clear').exists()).toBe(false);
+        expect(focusFn).toBeCalled();
     });
 });

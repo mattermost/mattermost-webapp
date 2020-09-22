@@ -1,16 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import {UserProfile} from 'mattermost-redux/types/users';
+import {ActionResult} from 'mattermost-redux/types/actions';
 
 import * as Utils from 'utils/utils.jsx';
-
-interface Error {
-    message: string;
-}
 
 interface PasswordConfig {
     minimumLength: number;
@@ -33,11 +31,11 @@ type Props = {
     onModalDismissed: () => void;
     passwordConfig: PasswordConfig;
     actions: {
-        adminResetPassword: (userId: string, currentPassword: string, password: string, success: () => void, error: (err: Error) => void) => void;
+        updateUserPassword: (userId: string, currentPassword: string, password: string) => ActionResult;
     };
 }
 
-export default class ResetPasswordModal extends React.Component<Props, State> {
+export default class ResetPasswordModal extends React.PureComponent<Props, State> {
     public static defaultProps: Partial<Props> = {
         show: false,
     };
@@ -58,7 +56,7 @@ export default class ResetPasswordModal extends React.Component<Props, State> {
         });
     }
 
-    private doSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
+    private doSubmit = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
         if (!this.props.user) {
             return;
@@ -89,17 +87,12 @@ export default class ResetPasswordModal extends React.Component<Props, State> {
 
         this.setState({serverErrorNewPass: null});
 
-        this.props.actions.adminResetPassword(
-            this.props.user.id,
-            currentPassword,
-            password,
-            () => {
-                this.props.onModalSubmit(this.props.user);
-            },
-            (err: Error) => {
-                this.setState({serverErrorCurrentPass: err.message});
-            }
-        );
+        const result = await this.props.actions.updateUserPassword(this.props.user.id, currentPassword, password);
+        if ('error' in result) {
+            this.setState({serverErrorCurrentPass: result.error.message});
+            return;
+        }
+        this.props.onModalSubmit(this.props.user);
     }
 
     private doCancel = (): void => {
@@ -249,3 +242,4 @@ export default class ResetPasswordModal extends React.Component<Props, State> {
         );
     }
 }
+/* eslint-enable react/no-string-refs */

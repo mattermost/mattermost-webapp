@@ -14,7 +14,7 @@ jest.mock('utils/utils', () => {
 });
 
 jest.mock('utils/post_utils', () => {
-    const original = require.requireActual('utils/post_utils');
+    const original = jest.requireActual('utils/post_utils');
     return {
         ...original,
         isSystemMessage: jest.fn(() => true),
@@ -30,6 +30,7 @@ describe('components/dot_menu/DotMenu on mobile view', () => {
             enableEmojiPicker: true,
             components: {},
             channelIsArchived: false,
+            currentTeamUrl: '',
             actions: {
                 flagPost: jest.fn(),
                 unflagPost: jest.fn(),
@@ -39,10 +40,12 @@ describe('components/dot_menu/DotMenu on mobile view', () => {
                 openModal: jest.fn(),
                 markPostAsUnread: jest.fn(),
             },
+            canEdit: false,
+            canDelete: false,
         };
 
         const wrapper = shallow(
-            <DotMenu {...baseProps}/>
+            <DotMenu {...baseProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();

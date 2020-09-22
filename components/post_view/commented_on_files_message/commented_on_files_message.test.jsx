@@ -13,7 +13,7 @@ describe('components/CommentedOnFilesMessage', () => {
 
     test('Snapshot when no files', () => {
         const wrapper = shallow(
-            <CommentedOnFilesMessage {...baseProps}/>
+            <CommentedOnFilesMessage {...baseProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -26,7 +26,7 @@ describe('components/CommentedOnFilesMessage', () => {
         };
 
         const wrapper = shallow(
-            <CommentedOnFilesMessage {...props}/>
+            <CommentedOnFilesMessage {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -45,7 +45,7 @@ describe('components/CommentedOnFilesMessage', () => {
         };
 
         const wrapper = shallow(
-            <CommentedOnFilesMessage {...props}/>
+            <CommentedOnFilesMessage {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();

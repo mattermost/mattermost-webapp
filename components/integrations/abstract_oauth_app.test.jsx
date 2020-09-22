@@ -30,7 +30,7 @@ describe('components/integrations/AbstractOAuthApp', () => {
             return new Promise((resolve) => {
                 process.nextTick(() => resolve());
             });
-        }
+        },
     );
     const baseProps = {
         team,
@@ -45,7 +45,7 @@ describe('components/integrations/AbstractOAuthApp', () => {
 
     test('should match snapshot', () => {
         const wrapper = shallow(
-            <AbstractOAuthApp {...baseProps}/>
+            <AbstractOAuthApp {...baseProps}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -54,7 +54,7 @@ describe('components/integrations/AbstractOAuthApp', () => {
         const newServerError = 'serverError';
         const props = {...baseProps, serverError: newServerError};
         const wrapper = shallow(
-            <AbstractOAuthApp {...props}/>
+            <AbstractOAuthApp {...props}/>,
         );
 
         wrapper.find('#callbackUrls').simulate('change', {target: {value: ''}});
@@ -69,7 +69,7 @@ describe('components/integrations/AbstractOAuthApp', () => {
     test('should call action function', () => {
         const props = {...baseProps, action};
         const wrapper = shallow(
-            <AbstractOAuthApp {...props}/>
+            <AbstractOAuthApp {...props}/>,
         );
 
         wrapper.find('#name').simulate('change', {target: {value: 'name'}});
@@ -83,7 +83,7 @@ describe('components/integrations/AbstractOAuthApp', () => {
     test('should have correct state when updateName is called', () => {
         const props = {...baseProps, action};
         const wrapper = shallow(
-            <AbstractOAuthApp {...props}/>
+            <AbstractOAuthApp {...props}/>,
         );
 
         wrapper.instance().updateName({target: {value: 'new name'}});
@@ -96,7 +96,7 @@ describe('components/integrations/AbstractOAuthApp', () => {
     test('should have correct state when updateTrusted is called', () => {
         const props = {...baseProps, action};
         const wrapper = shallow(
-            <AbstractOAuthApp {...props}/>
+            <AbstractOAuthApp {...props}/>,
         );
 
         wrapper.instance().updateTrusted({target: {value: 'false'}});
@@ -109,7 +109,7 @@ describe('components/integrations/AbstractOAuthApp', () => {
     test('should have correct state when updateDescription is called', () => {
         const props = {...baseProps, action};
         const wrapper = shallow(
-            <AbstractOAuthApp {...props}/>
+            <AbstractOAuthApp {...props}/>,
         );
 
         wrapper.instance().updateDescription({target: {value: 'new description'}});
@@ -122,7 +122,7 @@ describe('components/integrations/AbstractOAuthApp', () => {
     test('should have correct state when updateHomepage is called', () => {
         const props = {...baseProps, action};
         const wrapper = shallow(
-            <AbstractOAuthApp {...props}/>
+            <AbstractOAuthApp {...props}/>,
         );
 
         wrapper.instance().updateHomepage({target: {value: 'new homepage'}});
@@ -135,7 +135,7 @@ describe('components/integrations/AbstractOAuthApp', () => {
     test('should have correct state when updateIconUrl is called', () => {
         const props = {...baseProps, action};
         const wrapper = shallow(
-            <AbstractOAuthApp {...props}/>
+            <AbstractOAuthApp {...props}/>,
         );
 
         wrapper.setState({has_icon: true});
@@ -152,7 +152,7 @@ describe('components/integrations/AbstractOAuthApp', () => {
     test('should have correct state when handleSubmit is called', () => {
         const props = {...baseProps, action};
         const wrapper = shallow(
-            <AbstractOAuthApp {...props}/>
+            <AbstractOAuthApp {...props}/>,
         );
 
         const newState = {saving: false, name: 'name', description: 'description', homepage: 'homepage'};
@@ -173,8 +173,7 @@ describe('components/integrations/AbstractOAuthApp', () => {
             <FormattedMessage
                 defaultMessage='Name for the OAuth 2.0 application is required.'
                 id='add_oauth_app.nameRequired'
-                values={{}}
-            />
+            />,
         );
 
         wrapper.setState({...newState, description: ''});
@@ -184,8 +183,7 @@ describe('components/integrations/AbstractOAuthApp', () => {
             <FormattedMessage
                 defaultMessage='Description for the OAuth 2.0 application is required.'
                 id='add_oauth_app.descriptionRequired'
-                values={{}}
-            />
+            />,
         );
 
         wrapper.setState({...newState, homepage: ''});
@@ -195,8 +193,7 @@ describe('components/integrations/AbstractOAuthApp', () => {
             <FormattedMessage
                 defaultMessage='Homepage for the OAuth 2.0 application is required.'
                 id='add_oauth_app.homepageRequired'
-                values={{}}
-            />
+            />,
         );
     });
 });

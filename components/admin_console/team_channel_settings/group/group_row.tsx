@@ -5,8 +5,11 @@ import React from 'react';
 import {Group} from 'mattermost-redux/types/groups';
 import {FormattedMessage} from 'react-intl';
 
+import ToggleModalButton from 'components/toggle_modal_button';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
+import GroupMembersModal from 'components/admin_console/team_channel_settings/group/group_members_modal';
+
 import {localizeMessage} from 'utils/utils.jsx';
 
 interface GroupRowProps {
@@ -15,10 +18,15 @@ interface GroupRowProps {
     key?: string;
     setNewGroupRole: (gid: string) => void;
     type: string;
+    isDisabled?: boolean;
 }
 
-export default class GroupRow extends React.Component<GroupRowProps> {
-    removeGroup = () => {
+export default class GroupRow extends React.PureComponent<GroupRowProps> {
+    removeGroup = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+        e.preventDefault();
+        if (this.props.isDisabled) {
+            return;
+        }
         this.props.removeGroup(this.props.group.id!);
     };
 
@@ -80,18 +88,27 @@ export default class GroupRow extends React.Component<GroupRowProps> {
                         {group.display_name || group.name}
                     </span>
                     <span className='group-description row-content'>
-                        <FormattedMessage
-                            id='admin.team_channel_settings.group_row.members'
-                            defaultMessage='{memberCount, number} {memberCount, plural, one {member} other {members}}'
-                            values={{memberCount: group.member_count}}
-                        />
+                        <ToggleModalButton
+                            id={`${group.display_name}MembersToggle`}
+                            className='color--link'
+                            dialogType={GroupMembersModal}
+                            dialogProps={{
+                                group,
+                            }}
+                        >
+                            <FormattedMessage
+                                id='admin.team_channel_settings.group_row.members'
+                                defaultMessage='{memberCount, number} {memberCount, plural, one {member} other {members}}'
+                                values={{memberCount: group.member_count}}
+                            />
+                        </ToggleModalButton>
                     </span>
                     <div className='group-description row-content roles'>
-                        <MenuWrapper>
+                        <MenuWrapper
+                            isDisabled={this.props.isDisabled}
+                        >
                             <div>
-                                <a
-                                    data-testid='current-role'
-                                >
+                                <a data-testid='current-role'>
                                     <span>{this.displayCurrentRole()}</span>
                                     <span className='caret'/>
                                 </a>
@@ -117,6 +134,7 @@ export default class GroupRow extends React.Component<GroupRowProps> {
                         <a
                             href='#'
                             onClick={this.removeGroup}
+                            className={this.props.isDisabled ? 'disabled' : ''}
                         >
                             <FormattedMessage
                                 id='admin.team_channel_settings.group_row.remove'

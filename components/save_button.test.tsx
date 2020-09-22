@@ -13,7 +13,7 @@ describe('components/SaveButton', () => {
 
     test('should match snapshot, on defaultMessage', () => {
         const wrapper = shallow(
-            <SaveButton {...baseProps}/>
+            <SaveButton {...baseProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -26,7 +26,7 @@ describe('components/SaveButton', () => {
     test('should match snapshot, on savingMessage', () => {
         const props = {...baseProps, saving: true, disabled: true};
         const wrapper = shallow(
-            <SaveButton {...props}/>
+            <SaveButton {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -39,7 +39,7 @@ describe('components/SaveButton', () => {
     test('should match snapshot, extraClasses', () => {
         const props = {...baseProps, extraClasses: 'some-class'};
         const wrapper = shallow(
-            <SaveButton {...props}/>
+            <SaveButton {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();

@@ -66,7 +66,7 @@ export default class OAuthToEmail extends React.PureComponent {
             },
             (err) => {
                 this.setState({error: err.message});
-            }
+            },
         );
     }
     render() {
