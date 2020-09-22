@@ -1,0 +1,128 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
+import React, {useState, CSSProperties} from 'react';
+import ReactSelect, {Props as SelectProps, ActionMeta, components} from 'react-select';
+
+import './dropdown_input.scss';
+
+// TODO: This component needs work, should not be used outside of AddressInfo until this comment is removed.
+
+type ValueType = {
+    label: string;
+    value: string;
+}
+
+type Props<T> = Omit<SelectProps<T>, 'onChange'> & {
+    value?: T;
+    legend?: string;
+    error?: string;
+    onChange: (value: T, action: ActionMeta<T>) => void;
+};
+
+const baseStyles = {
+    input: (provided: CSSProperties) => ({
+        ...provided,
+        color: 'var(--center-channel-color)',
+    }),
+    control: (provided: CSSProperties) => ({
+        ...provided,
+        border: 'none',
+        boxShadow: 'none',
+        padding: '0 2px',
+    }),
+    indicatorSeparator: (provided: CSSProperties) => ({
+        ...provided,
+        display: 'none',
+    }),
+};
+
+const IndicatorsContainer = (props: any) => {
+    return (
+        <div className='DropdownInput__indicatorsContainer'>
+            <components.IndicatorsContainer {...props}>
+                <i className='icon icon-chevron-down'/>
+            </components.IndicatorsContainer>
+        </div>
+    );
+};
+
+const renderError = (error?: string) => {
+    if (!error) {
+        return null;
+    }
+
+    return (
+        <div className='Input___error'>
+            <i className='icon icon-alert-outline'/>
+            <span>{error}</span>
+        </div>
+    );
+};
+
+const DropdownInput = <T extends ValueType>(props: Props<T>) => {
+    const {value, placeholder, className, addon, name, textPrefix, legend, onChange, styles, options, error, ...otherProps} = props;
+
+    const [focused, setFocused] = useState(false);
+
+    const onInputFocus = (event: React.FocusEvent<HTMLElement>) => {
+        const {onFocus} = props;
+
+        setFocused(true);
+
+        if (onFocus) {
+            onFocus(event);
+        }
+    };
+
+    const onInputBlur = (event: React.FocusEvent<HTMLElement>) => {
+        const {onBlur} = props;
+
+        setFocused(false);
+
+        if (onBlur) {
+            onBlur(event);
+        }
+    };
+
+    let inputClass = className ? `Input ${className}` : 'Input';
+    let fieldsetClass = className ? `Input_fieldset ${className}` : 'Input_fieldset';
+    let fieldsetErrorClass = className ? `Input_fieldset Input_fieldset___error ${className}` : 'Input_fieldset Input_fieldset___error';
+    const showLegend = Boolean(focused || value);
+
+    inputClass = showLegend ? inputClass + ' Input___focus' : inputClass;
+    fieldsetClass = showLegend ? fieldsetClass + ' Input_fieldset___legend' : fieldsetClass;
+    fieldsetErrorClass = showLegend ? fieldsetErrorClass + ' Input_fieldset___legend' : fieldsetErrorClass;
+
+    return (
+        <div className='DropdownInput Input_container'>
+            <fieldset className={error ? fieldsetErrorClass : fieldsetClass}>
+                <legend className={showLegend ? 'Input_legend Input_legend___focus' : 'Input_legend'}>{showLegend ? (legend || placeholder) : null}</legend>
+                <div
+                    className='Input_wrapper'
+                    onFocus={onInputFocus}
+                    onBlur={onInputBlur}
+                >
+                    {textPrefix && <span>{textPrefix}</span>}
+                    <ReactSelect
+                        id={`DropdownInput_${name}`}
+                        options={options}
+                        placeholder={focused ? '' : placeholder}
+                        components={{
+                            IndicatorsContainer,
+                        }}
+                        className={inputClass}
+                        value={value}
+                        onChange={onChange as any} // types are not working correctly for multiselect
+                        styles={{...baseStyles, ...styles}}
+                        {...otherProps}
+                    />
+                </div>
+                {addon}
+            </fieldset>
+            {renderError(error)}
+        </div>
+    );
+};
+
+export default DropdownInput;
