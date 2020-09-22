@@ -270,7 +270,6 @@ export default class MarketplaceItem extends React.PureComponent {
         name: PropTypes.string.isRequired,
         description: PropTypes.string.isRequired,
         version: PropTypes.string.isRequired,
-        downloadUrl: PropTypes.string,
         homepageUrl: PropTypes.string,
         releaseNotesUrl: PropTypes.string,
         labels: PropTypes.array,
