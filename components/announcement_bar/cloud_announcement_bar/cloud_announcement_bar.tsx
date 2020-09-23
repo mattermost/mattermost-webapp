@@ -7,6 +7,8 @@ import {PreferenceType} from "mattermost-redux/types/preferences";
 import './cloud_announcement_bar.scss';
 import {UserProfile} from "mattermost-redux/types/users";
 import { Preferences } from "utils/constants";
+import classNames from 'classnames';
+import { isEmpty } from 'lodash';
 
 type Props = {
     userLimit: string;
@@ -26,9 +28,15 @@ type Props = {
 
 export default class CloudAnnouncementBar extends React.PureComponent<Props> {
     componentDidMount() {
-        if (!this.props.analytics) {
+        if (isEmpty(this.props.analytics)) {
+            console.log("getStandardAnalytics");
             this.props.actions.getStandardAnalytics();
         }
+    }
+
+    handleButtonClick = () => {
+        console.log('Upgrade');
+        // Do nothing for now
     }
 
     handleClose = async () => {
@@ -51,35 +59,66 @@ export default class CloudAnnouncementBar extends React.PureComponent<Props> {
             return false;
         }
 
-        if (userLimit !== analytics.TOTAL_USERS) {
+        if (userLimit > analytics.TOTAL_USERS) {
             return false;
         }
 
-        if (this.props.preferences.some((pref) => pref.name === 'hide' && pref.value === 'true')) {
-            return false;
-        }
+        // if (this.props.preferences.some((pref) => pref.name === 'hide' && pref.value === 'true')) {
+        //     return false;
+        // }
 
         return true;
     }
 
     render() {
-        if (this.shouldShowBanner()) {
+
+        if (!this.shouldShowBanner()) {
             return null;
         }
+
+        // If they AT user limit, and banner hidden, don't render anything
+        if (this.props.userLimit === this.props.analytics.TOTAL_USERS &&
+            this.props.preferences.some((pref) => pref.name === "hide" && pref.value === "true")) {
+                return null;
+        }
+
+
+        let notDismissable = false;
+        if (this.props.userLimit < this.props.analytics.TOTAL_USERS) {
+            notDismissable = true;
+        }
+
+        let closeButton = null;
+        if (!notDismissable) {
+            closeButton = (
+                <a onClick={this.handleClose} href="#" className="content__close">
+                    {""}
+                </a>
+            );
+        }
         console.log(this.props);
-        const closeButton = (
-            <a onClick={this.handleClose}href="#" className="content__close">
-            {""}
-          </a>
-        );
+        console.log(notDismissable);
         return (
-          <div className={"announcement-bar cloud"}>
+          <div
+            className={classNames(
+              "announcement-bar",
+              "cloud",
+              notDismissable ? "not-dismissable" : ""
+            )}
+          >
             <div className={"content"}>
-              <div className={"content__icon"}>{""}</div>
+              {notDismissable ? (
+                <div className={"content__icon"}>{""}</div>
+              ) : (
+                <div className={"content__icon"}>{""}</div>
+              )}
               <div className={"content__description"}>
                 {"You've reached the user limit of the free tier"}
               </div>
-              <button className="upgrade-button">
+              <button
+                onClick={this.handleButtonClick}
+                className="upgrade-button"
+              >
                 {"Upgrade Mattermost Cloud"}
               </button>
               {closeButton}

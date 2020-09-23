@@ -1,4 +1,12 @@
 .announcement-bar.cloud {
+    &.not-dismissable {
+        background-color: var(--error-text);
+        .content {
+            .upgrade-button {
+                background-color: var(--error-text);
+            }
+        }
+    }
     padding: 0;
     background-color: #579EFF;
     margin: 0;
