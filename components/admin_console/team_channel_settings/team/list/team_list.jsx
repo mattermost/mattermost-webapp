@@ -336,7 +336,7 @@ export default class TeamList extends React.PureComponent {
                     startCount={startCount}
                     endCount={endCount}
                     total={total}
-                    search={this.search}
+                    onSearch={this.onSearch}
                     term={term}
                     placeholderEmpty={placeholderEmpty}
                     rowsContainerStyles={rowsContainerStyles}

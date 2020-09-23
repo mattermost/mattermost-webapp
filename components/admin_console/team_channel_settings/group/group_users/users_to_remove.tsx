@@ -111,7 +111,7 @@ export default class UsersToRemove extends React.PureComponent<Props, State> {
         this.setState({page});
     }
 
-    search = (term: string) => {
+    onSearch = (term: string) => {
         this.props.actions.setModalSearchTerm(term);
         this.setState({page: 0});
     }
@@ -353,7 +353,7 @@ export default class UsersToRemove extends React.PureComponent<Props, State> {
                     startCount={startCount}
                     endCount={endCount}
                     total={total}
-                    search={this.search}
+                    onSearch={this.onSearch}
                     filterProps={{options, keys, onFilter: this.onFilter}}
                     term={this.props.searchTerm || ''}
                     placeholderEmpty={placeholderEmpty}

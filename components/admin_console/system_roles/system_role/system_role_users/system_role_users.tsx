@@ -141,7 +141,7 @@ export default class SystemRoleUsers extends React.PureComponent<Props, State> {
         return {startCount, endCount, total};
     }
 
-    search = async (term: string) => {
+    onSearch = async (term: string) => {
         this.props.actions.setUserGridSearch(term);
     }
 
@@ -284,7 +284,7 @@ export default class SystemRoleUsers extends React.PureComponent<Props, State> {
                     startCount={startCount}
                     endCount={endCount}
                     loading={loading}
-                    search={this.search}
+                    onSearch={this.onSearch}
                     term={term}
                     total={total}
                 />

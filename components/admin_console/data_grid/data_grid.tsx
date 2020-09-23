@@ -52,7 +52,7 @@ type Props = {
     nextPage: () => void;
     previousPage: () => void;
 
-    search?: (term: string) => void;
+    onSearch?: (term: string) => void;
     term?: string;
     searchPlaceholder?: string;
 
@@ -184,7 +184,7 @@ class DataGrid extends React.PureComponent<Props, State> {
     }
 
     private renderSearch(): JSX.Element | null {
-        if (this.props.search && this.props.term !== undefined) {
+        if (this.props.onSearch && this.props.term !== undefined) {
             return (
                 <DataGridSearch
                     onSearch={this.search}
@@ -210,8 +210,8 @@ class DataGrid extends React.PureComponent<Props, State> {
     }
 
     private search = (term: string) => {
-        if (this.props.search) {
-            this.props.search(term);
+        if (this.props.onSearch) {
+            this.props.onSearch(term);
         }
     }
 

@@ -16,7 +16,7 @@ describe('components/admin_console/data_grid/DataGrid', () => {
 
         nextPage: jest.fn(),
         previousPage: jest.fn(),
-        search: jest.fn(),
+        onSearch: jest.fn(),
 
         rows: [],
         columns: [],
