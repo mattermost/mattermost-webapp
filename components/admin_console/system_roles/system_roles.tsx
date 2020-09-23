@@ -40,6 +40,7 @@ const columns: Column[] = [
         name: '',
         field: 'edit',
         width: 1,
+        textAlign: 'right',
     },
 ];
 
@@ -48,30 +49,33 @@ import './system_roles.scss';
 export default class SystemRoles extends React.PureComponent<Props> {
     render() {
         const {roles} = this.props;
+        const roleNames = ['system_admin', 'system_manager', 'system_user_manager', 'system_read_only_admin'];
         const rows: Row[] = [];
-        Object.keys(roles).forEach((name) => {
+        roleNames.forEach((name) => {
             const role = roles[name];
-            rows.push({
-                cells: {
-                    role: <FormattedMessage id={`admin.permissions.roles.${role.name}.name`}/>,
-                    description: <FormattedMessage id={`admin.permissions.roles.${role.name}.description`}/>,
-                    type: <FormattedMessage id={`admin.permissions.roles.${role.name}.type`}/>,
-                    edit: (
-                        <span
-                            className='SystemRoles_editRow'
-                            data-testid={`${role.name}_edit`}
-                        >
-                            <Link to={`/admin_console/user_management/system_roles/${role.id}`} >
-                                <FormattedMessage
-                                    id='admin.permissions.roles.edit'
-                                    defaultMessage='Edit'
-                                />
-                            </Link>
-                        </span>
-                    ),
-                },
-                onClick: () => browserHistory.push(`/admin_console/user_management/system_roles/${role.id}`),
-            });
+            if (role) {
+                rows.push({
+                    cells: {
+                        role: <FormattedMessage id={`admin.permissions.roles.${role.name}.name`}/>,
+                        description: <FormattedMessage id={`admin.permissions.roles.${role.name}.description`}/>,
+                        type: <FormattedMessage id={`admin.permissions.roles.${role.name}.type`}/>,
+                        edit: (
+                            <span
+                                className='SystemRoles_editRow'
+                                data-testid={`${role.name}_edit`}
+                            >
+                                <Link to={`/admin_console/user_management/system_roles/${role.id}`} >
+                                    <FormattedMessage
+                                        id='admin.permissions.roles.edit'
+                                        defaultMessage='Edit'
+                                    />
+                                </Link>
+                            </span>
+                        ),
+                    },
+                    onClick: () => browserHistory.push(`/admin_console/user_management/system_roles/${role.id}`),
+                });
+            }
         });
 
         return (
@@ -83,8 +87,8 @@ export default class SystemRoles extends React.PureComponent<Props> {
 
                 <div className='admin-console__wrapper'>
                     <div className='admin-console__content'>
-
                         <AdminPanel
+                            id='SystemRoles'
                             titleId={t('admin.permissions.systemRolesBannerTitle')}
                             titleDefault='Admin Roles'
                             subtitleId={t('admin.permissions.systemRolesBannerText')}

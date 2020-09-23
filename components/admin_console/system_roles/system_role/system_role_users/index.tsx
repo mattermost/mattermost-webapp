@@ -21,6 +21,12 @@ import {GlobalState} from 'types/store';
 
 import SystemRoleUsers, {Props} from './system_role_users';
 
+type OwnProps = {
+    roleName: string;
+    usersToAdd: Dictionary<UserProfile>;
+    usersToRemove: Dictionary<UserProfile>;
+}
+
 function searchUsersToAdd(users: Dictionary<UserProfile>, term: string): Dictionary<UserProfile> {
     const profiles = filterProfilesMatchingTerm(Object.keys(users).map((key) => users[key]), term);
     const filteredProfilesMap = filterProfiles(profileListToMap(profiles), {});
@@ -28,7 +34,7 @@ function searchUsersToAdd(users: Dictionary<UserProfile>, term: string): Diction
     return filteredProfilesMap;
 }
 
-function mapStateToProps(state: GlobalState, props: Props) {
+function mapStateToProps(state: GlobalState, props: OwnProps) {
     const {roleName} = props;
     const role = getRoles(state)[roleName];
     const totalCount = selectFilteredUserStats(state)?.total_users_count || 0;
@@ -45,7 +51,6 @@ function mapStateToProps(state: GlobalState, props: Props) {
     }
 
     return {
-        roleName,
         role,
         users,
         totalCount,

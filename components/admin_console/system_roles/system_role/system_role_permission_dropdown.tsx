@@ -5,6 +5,8 @@ import React from 'react';
 
 import {FormattedMessage} from 'react-intl';
 
+import Permissions from 'mattermost-redux/constants/permissions';
+
 import * as Utils from 'utils/utils.jsx';
 
 import Menu from 'components/widgets/menu/menu';
@@ -12,9 +14,7 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 
 import DropdownIcon from 'components/widgets/icons/fa_dropdown_icon';
 
-import {noAccess, PermissionAccess, PermissionsToUpdate, writeAccess, readAccess, PermissionToUpdate} from './types';
-
-import {SystemSection} from './system_role_permissions';
+import {noAccess, PermissionAccess, PermissionsToUpdate, writeAccess, readAccess, PermissionToUpdate, SystemSection} from './types';
 
 import './system_role_permissions.scss';
 
@@ -31,8 +31,10 @@ export default class SystemRolePermissionDropdown extends React.PureComponent<Pr
         const section = this.props.section;
         const permissions: PermissionToUpdate[] = [];
         if (section.subsections && section.subsections.length > 0) {
-            section.subsections.forEach(({name}) => {
-                permissions.push({name, value});
+            section.subsections.forEach(({name, disabled}) => {
+                if (!disabled) {
+                    permissions.push({name, value});
+                }
             });
         } else {
             permissions.push({name: section.name, value});
@@ -54,6 +56,11 @@ export default class SystemRolePermissionDropdown extends React.PureComponent<Pr
     }
 
     getAccessForSection = (sectionName: string, permissions: Record<string, boolean>, permissionsToUpdate: Record<string, PermissionAccess>) => {
+        // Assume sysadmin has write access for everything, this is a bit of a hack but it should be left in until `user_management_read|write_system_roles` is actually a permission
+        if (permissions[Permissions.MANAGE_SYSTEM]) {
+            return writeAccess;
+        }
+
         let access: PermissionAccess = false;
         if (sectionName in permissionsToUpdate) {
             access = permissionsToUpdate[sectionName];

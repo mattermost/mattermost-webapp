@@ -98,6 +98,7 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemove shou
     }
     previousPage={[Function]}
     rows={Array []}
+    searchPlaceholder=""
     startCount={1}
     term=""
     total={2}
@@ -203,6 +204,7 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemove shou
     }
     previousPage={[Function]}
     rows={Array []}
+    searchPlaceholder=""
     startCount={1}
     term="foo"
     total={2}
@@ -308,6 +310,7 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemove shou
     }
     previousPage={[Function]}
     rows={Array []}
+    searchPlaceholder=""
     startCount={1}
     term=""
     total={2}
@@ -405,6 +408,7 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemove shou
     }
     previousPage={[Function]}
     rows={Array []}
+    searchPlaceholder=""
     startCount={1}
     term=""
     total={2}

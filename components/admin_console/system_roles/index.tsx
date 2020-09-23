@@ -11,10 +11,8 @@ import {GlobalState} from 'types/store';
 import SystemRoles from './system_roles';
 
 function mapStateToProps(state: GlobalState) {
-    const {system_admin, system_user_manager, system_manager, system_read_only_admin} = getRoles(state);
-
     return {
-        roles: {system_admin, system_user_manager, system_manager, system_read_only_admin},
+        roles: getRoles(state),
     };
 }
 

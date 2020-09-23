@@ -4,7 +4,6 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
-import {Role} from 'mattermost-redux/types/roles';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';

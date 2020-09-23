@@ -255,7 +255,7 @@ export default class SystemRole extends React.PureComponent<Props, State> {
                             role={role}
                             permissionsToUpdate={permissionsToUpdate}
                             updatePermissions={this.updatePermissions}
-                            readOnly={isDisabled || role.name === Constants.PERMISSIONS_SYSTEM_ADMIN}
+                            readOnly={isDisabled || role.name === Constants.PERMISSIONS_SYSTEM_ADMIN || role.name === Constants.PERMISSIONS_SYSTEM_READ_ONLY_ADMIN}
                         />
 
                         <SystemRoleUsers
