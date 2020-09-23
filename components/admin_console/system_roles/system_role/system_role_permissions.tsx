@@ -2,24 +2,23 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-
-import {Role} from 'mattermost-redux/types/roles';
-
 import {FormattedMessage} from 'react-intl';
 
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
+import {Role} from 'mattermost-redux/types/roles';
 
 import {t} from 'utils/i18n';
 
 import AdminPanel from 'components/widgets/admin_console/admin_panel';
 
-import SystemRolePermissionDropdown, {PermissionToUpdate} from './system_role_permission_dropdown';
+import SystemRolePermissionDropdown from './system_role_permission_dropdown';
+import {PermissionsToUpdate, PermissionToUpdate} from './types';
 
 import './system_role_permissions.scss';
 
 type Props = {
     role: Role;
-    permissionsToUpdate: Record<string, 'read' | 'write' | false>;
+    permissionsToUpdate: PermissionsToUpdate;
     updatePermissions: (permissions: PermissionToUpdate[]) => void;
     readOnly?: boolean;
 }
@@ -35,11 +34,6 @@ const sectionsList: SystemSection[] = [
         hasDescription: true,
         subsections: [],
     },
-
-    // {
-    //     name: 'billing',
-    //     subsections: [],
-    // },
     {
         name: 'reporting',
         hasDescription: true,
@@ -119,7 +113,7 @@ export default class SystemRolePermissions extends React.PureComponent<Props, St
         this.props.updatePermissions(permissions);
     }
 
-    renderSectionRow = (section: SystemSection, permissionsMap: Record<string, boolean>, permissionsToUpdate: Record<string, 'read' | 'write' | false>) => {
+    renderSectionRow = (section: SystemSection, permissionsMap: Record<string, boolean>, permissionsToUpdate: PermissionsToUpdate) => {
         return (
             <div className='PermissionSection'>
                 <div className='PermissionSectionText'>
@@ -163,7 +157,7 @@ export default class SystemRolePermissions extends React.PureComponent<Props, St
         this.setState({visibleSection});
     }
 
-    renderSubsections = (section: SystemSection, permissionsMap: Record<string, boolean>, permissionsToUpdate: Record<string, 'read' | 'write' | false>, visibleSection: string) => {
+    renderSubsections = (section: SystemSection, permissionsMap: Record<string, boolean>, permissionsToUpdate: PermissionsToUpdate, visibleSection: string) => {
         if (!section.subsections || section.subsections.length === 0) {
             return null;
         }
@@ -205,7 +199,7 @@ export default class SystemRolePermissions extends React.PureComponent<Props, St
         );
     }
 
-    getRows = (permissionsMap: Record<string, boolean>, permissionsToUpdate: Record<string, 'read' | 'write' | false>, visibleSection: string) => {
+    getRows = (permissionsMap: Record<string, boolean>, permissionsToUpdate: PermissionsToUpdate, visibleSection: string) => {
         return sectionsList.map((section: SystemSection) => {
             return (
                 <div
@@ -229,7 +223,7 @@ export default class SystemRolePermissions extends React.PureComponent<Props, St
                 titleId={t('admin.permissions.system_role_permissions.title')}
                 titleDefault='Privileges'
                 subtitleId={t('admin.permissions.system_role_permissions.description')}
-                subtitleDefault={'Level of access to the system console.'}
+                subtitleDefault='Level of access to the system console.'
             >
                 <div className='SystemRolePermissions'>
                     {this.getRows(permissionsMap, permissionsToUpdate, visibleSection)}

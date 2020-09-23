@@ -13,6 +13,8 @@ import {ActionResult} from 'mattermost-redux/types/actions';
 
 import Permissions from 'mattermost-redux/constants/permissions';
 
+import Constants from 'utils/constants';
+
 import FormError from 'components/form_error';
 import BlockableLink from 'components/admin_console/blockable_link';
 import SaveChangesPanel from 'components/admin_console/team_channel_settings/save_changes_panel';
@@ -21,6 +23,7 @@ import {isError} from 'types/actions';
 
 import SystemRoleUsers from './system_role_users';
 import SystemRolePermissions from './system_role_permissions';
+import {PermissionToUpdate, PermissionsToUpdate, writeAccess} from './types';
 
 type Props = {
     role: Role;
@@ -35,7 +38,7 @@ type Props = {
 type State = {
     usersToAdd: Dictionary<UserProfile>;
     usersToRemove: Dictionary<UserProfile>;
-    permissionsToUpdate: Record<string, 'read' | 'write' | false>;
+    permissionsToUpdate: PermissionsToUpdate;
     updatedRolePermissions: string[];
     saving: boolean;
     saveNeeded: boolean;
@@ -110,7 +113,7 @@ export default class SystemRole extends React.PureComponent<Props, State> {
         let serverError = null;
 
         // Do not update permissions if sysadmin or if roles have not been updated (to prevent overrwiting roles with no permissions)
-        if (role.name !== 'system_admin' && Object.keys(permissionsToUpdate).length > 0) {
+        if (role.name !== Constants.PERMISSIONS_SYSTEM_ADMIN && Object.keys(permissionsToUpdate).length > 0) {
             const newRole: Role = {
                 ...role,
                 permissions: updatedRolePermissions,
@@ -172,9 +175,9 @@ export default class SystemRole extends React.PureComponent<Props, State> {
         });
     }
 
-    updatePermissions = (permissions: {name: string, value: 'read' | 'write' | false}[]) => {
+    updatePermissions = (permissions: PermissionToUpdate[]) => {
         const {role} = this.props;
-        const updatedPermissions: Record<string, 'read' | 'write' | false> = {};
+        const updatedPermissions: PermissionsToUpdate = {};
         permissions.forEach((perm) => {
             updatedPermissions[perm.name] = perm.value;
         });
@@ -204,7 +207,7 @@ export default class SystemRole extends React.PureComponent<Props, State> {
                 const readAncillary = Permissions.SYSCONSOLE_ANCILLARY_PERMISSIONS[readPermission] || [];
                 const writeAncillary = Permissions.SYSCONSOLE_ANCILLARY_PERMISSIONS[writePermission] || [];
 
-                if (value === 'write') {
+                if (value === writeAccess) {
                     updatedRolePermissions.push(...readAncillary, ...writeAncillary, readPermission, writePermission);
                 } else {
                     updatedRolePermissions.push(...readAncillary, readPermission);
@@ -213,7 +216,7 @@ export default class SystemRole extends React.PureComponent<Props, State> {
         });
 
         // Make sure the sysadmin role always has manage system...
-        if (role.name === 'system_admin') {
+        if (role.name === Constants.PERMISSIONS_SYSTEM_ADMIN) {
             updatedRolePermissions.push(Permissions.MANAGE_SYSTEM);
         }
 
@@ -252,7 +255,7 @@ export default class SystemRole extends React.PureComponent<Props, State> {
                             role={role}
                             permissionsToUpdate={permissionsToUpdate}
                             updatePermissions={this.updatePermissions}
-                            readOnly={isDisabled || role.name === 'system_admin'}
+                            readOnly={isDisabled || role.name === Constants.PERMISSIONS_SYSTEM_ADMIN}
                         />
 
                         <SystemRoleUsers

@@ -75,6 +75,11 @@ const MINIMUM_COLUMN_WIDTH = 100;
 class DataGrid extends React.PureComponent<Props, State> {
     private ref: React.RefObject<HTMLDivElement>;
 
+    static defaultProps = {
+        term: '',
+        searchPlaceholder: '',
+    }
+
     public constructor(props: Props) {
         super(props);
 
@@ -184,11 +189,11 @@ class DataGrid extends React.PureComponent<Props, State> {
     }
 
     private renderSearch(): JSX.Element | null {
-        if (this.props.onSearch && this.props.term !== undefined) {
+        if (this.props.onSearch) {
             return (
                 <DataGridSearch
                     onSearch={this.search}
-                    placeholder={this.props.searchPlaceholder || ''}
+                    placeholder={this.props.searchPlaceholder}
                     term={this.props.term}
                     filterProps={this.props.filterProps}
                 />

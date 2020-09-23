@@ -13,7 +13,7 @@ import './data_grid.scss';
 
 type Props = {
     onSearch: (term: string) => void;
-    placeholder: string;
+    placeholder?: string;
     term: string;
 
     filterProps?: {
@@ -28,6 +28,11 @@ type State = {
 }
 
 class DataGridSearch extends React.PureComponent<Props, State> {
+    static defaultProps = {
+        placeholder: '',
+        term: '',
+    }
+
     public constructor(props: Props) {
         super(props);
 

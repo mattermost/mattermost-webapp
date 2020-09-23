@@ -13,20 +13,10 @@ import {getProfiles, searchProfiles} from 'mattermost-redux/actions/users';
 
 import {getProfiles as selectProfiles} from 'mattermost-redux/selectors/entities/users';
 
-import AddUsersToRoleModal from './add_users_to_role_modal';
-
-type Props = {
-    role: Role;
-};
-
-type Actions = {
-    getProfiles: (page: number, perPage?: number, options?: {[key: string]: any}) => Promise<{ data: UserProfile[] }>;
-    searchProfiles: (term: string, options?: any) => Promise<{ data: UserProfile[] }>;
-};
+import AddUsersToRoleModal, {Props} from './add_users_to_role_modal';
 
 function mapStateToProps(state: GlobalState, props: Props) {
     const filterOptions: {[key: string]: any} = {active: true, exclude_roles: [props.role.name]};
-
     const users: UserProfile[] = selectProfiles(state, filterOptions);
 
     return {
@@ -36,7 +26,7 @@ function mapStateToProps(state: GlobalState, props: Props) {
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
-        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Props['actions']>({
             getProfiles,
             searchProfiles,
         }, dispatch),

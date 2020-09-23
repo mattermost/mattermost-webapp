@@ -6,8 +6,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
 import {Dictionary} from 'mattermost-redux/types/utilities';
-import {ServerError} from 'mattermost-redux/types/errors';
-import {UserProfile, UsersStats, GetFilteredUsersStatsOpts} from 'mattermost-redux/types/users';
+import {UserProfile} from 'mattermost-redux/types/users';
 import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
 
 import {filterProfilesMatchingTerm, profileListToMap} from 'mattermost-redux/utils/user_utils';
@@ -20,23 +19,7 @@ import {getProfiles as selectProfiles, getFilteredUsersStats as selectFilteredUs
 import {setUserGridSearch} from 'actions/views/search';
 import {GlobalState} from 'types/store';
 
-import SystemRoleUsers from './system_role_users';
-
-type Props = {
-    roleName: string;
-    usersToAdd: Dictionary<UserProfile>;
-    usersToRemove: Dictionary<UserProfile>;
-}
-
-type Actions = {
-    getFilteredUsersStats: (filters: GetFilteredUsersStatsOpts) => Promise<{
-        data?: UsersStats;
-        error?: ServerError;
-    }>;
-    getProfiles: (page?: number | undefined, perPage?: number | undefined, options?: any) => Promise<any>;
-    searchProfiles: (term: string, options: any) => Promise<any>;
-    setUserGridSearch: (term: string) => Promise<any>;
-}
+import SystemRoleUsers, {Props} from './system_role_users';
 
 function searchUsersToAdd(users: Dictionary<UserProfile>, term: string): Dictionary<UserProfile> {
     const profiles = filterProfilesMatchingTerm(Object.keys(users).map((key) => users[key]), term);
@@ -62,6 +45,7 @@ function mapStateToProps(state: GlobalState, props: Props) {
     }
 
     return {
+        roleName,
         role,
         users,
         totalCount,
@@ -73,7 +57,7 @@ function mapStateToProps(state: GlobalState, props: Props) {
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
-        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc | GenericAction>, Actions>({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc | GenericAction>, Props['actions']>({
             getProfiles,
             getFilteredUsersStats,
             searchProfiles,

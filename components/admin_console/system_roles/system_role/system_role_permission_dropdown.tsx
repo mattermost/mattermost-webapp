@@ -12,25 +12,22 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 
 import DropdownIcon from 'components/widgets/icons/fa_dropdown_icon';
 
+import {noAccess, PermissionAccess, PermissionsToUpdate, writeAccess, readAccess, PermissionToUpdate} from './types';
+
 import {SystemSection} from './system_role_permissions';
 
 import './system_role_permissions.scss';
 
-export type PermissionToUpdate = {
-    name: string;
-    value: 'read' | 'write' | false;
-};
-
 type Props = {
     permissions: Record<string, boolean>;
     section: SystemSection;
-    permissionsToUpdate: Record<string, 'read' | 'write' | false>;
+    permissionsToUpdate: PermissionsToUpdate;
     updatePermissions: (permissions: PermissionToUpdate[]) => void;
     isDisabled?: boolean;
 }
 
 export default class SystemRolePermissionDropdown extends React.PureComponent<Props> {
-    updatePermission = (value: 'read' | 'write' | false) => {
+    updatePermission = (value: PermissionAccess) => {
         const section = this.props.section;
         const permissions: PermissionToUpdate[] = [];
         if (section.subsections && section.subsections.length > 0) {
@@ -56,17 +53,17 @@ export default class SystemRolePermissionDropdown extends React.PureComponent<Pr
         );
     }
 
-    getAccessForSection = (sectionName: string, permissions: Record<string, boolean>, permissionsToUpdate: Record<string, 'read' | 'write' | false>) => {
-        let access: 'read' | 'write' | false = false;
+    getAccessForSection = (sectionName: string, permissions: Record<string, boolean>, permissionsToUpdate: Record<string, PermissionAccess>) => {
+        let access: PermissionAccess = false;
         if (sectionName in permissionsToUpdate) {
             access = permissionsToUpdate[sectionName];
         } else {
             if (permissions[`sysconsole_read_${sectionName}`] === true) {
-                access = 'read';
+                access = readAccess;
             }
 
             if (permissions[`sysconsole_write_${sectionName}`] === true) {
-                access = 'write';
+                access = writeAccess;
             }
         }
 
@@ -133,10 +130,10 @@ export default class SystemRolePermissionDropdown extends React.PureComponent<Pr
             let canWrite = false;
             section.subsections.forEach((subsection) => {
                 switch (this.getAccessForSection(subsection.name, permissions, permissionsToUpdate)) {
-                case 'read':
+                case readAccess:
                     canRead = true;
                     break;
-                case 'write':
+                case writeAccess:
                     canWrite = true;
                     break;
                 default:
@@ -157,10 +154,10 @@ export default class SystemRolePermissionDropdown extends React.PureComponent<Pr
             }
         } else {
             switch (this.getAccessForSection(section.name, permissions, permissionsToUpdate)) {
-            case 'read':
+            case readAccess:
                 currentAccess = canReadLabel;
                 break;
-            case 'write':
+            case writeAccess:
                 currentAccess = canWriteLabel;
                 break;
             default:
@@ -189,15 +186,15 @@ export default class SystemRolePermissionDropdown extends React.PureComponent<Pr
                 </button>
                 <Menu ariaLabel={ariaLabel}>
                     <Menu.ItemAction
-                        onClick={() => this.updatePermission('write')}
+                        onClick={() => this.updatePermission(writeAccess)}
                         text={this.renderOption(canWriteLabel, canWriteDescription)}
                     />
                     <Menu.ItemAction
-                        onClick={() => this.updatePermission('read')}
+                        onClick={() => this.updatePermission(readAccess)}
                         text={this.renderOption(canReadLabel, canReadDescription)}
                     />
                     <Menu.ItemAction
-                        onClick={() => this.updatePermission(false)}
+                        onClick={() => this.updatePermission(noAccess)}
                         text={this.renderOption(noAccessLabel, noAccessDescription)}
                     />
                 </Menu>

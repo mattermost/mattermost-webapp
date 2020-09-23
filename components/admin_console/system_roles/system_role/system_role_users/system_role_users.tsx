@@ -20,7 +20,8 @@ import UserGridName from 'components/admin_console/user_grid/user_grid_name';
 import UserGridRemove from 'components/admin_console/user_grid/user_grid_remove';
 import AddUsersToRoleModal from '../add_users_to_role_modal';
 
-type Props = {
+export type Props = {
+    roleName: string;
     users: UserProfile[];
     role: Role;
     totalCount: number;
@@ -81,7 +82,7 @@ export default class SystemRoleUsers extends React.PureComponent<Props, State> {
         if (prevProps.term !== this.props.term) {
             this.setStateLoading(true);
             clearTimeout(this.searchTimeoutId);
-            const term = this.props.term;
+            const {term} = this.props;
 
             if (term === '') {
                 this.searchTimeoutId = 0;
@@ -253,7 +254,7 @@ export default class SystemRoleUsers extends React.PureComponent<Props, State> {
                 titleId={t('admin.permissions.system_role_users.title')}
                 titleDefault='Assigned People'
                 subtitleId={t('admin.permissions.system_role_users.description')}
-                subtitleDefault={'List of people assigned to this system role.'}
+                subtitleDefault='List of people assigned to this system role.'
                 button={
                     <ToggleModalButton
                         id='addRoleMembers'

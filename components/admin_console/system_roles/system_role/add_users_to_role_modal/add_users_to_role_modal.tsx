@@ -27,7 +27,7 @@ const MAX_SELECTABLE_VALUES = 20;
 
 type UserProfileValue = Value & UserProfile;
 
-type Props = {
+export type Props = {
     role: Role;
     users: UserProfile[];
     excludeUsers: { [userId: string]: UserProfile };
@@ -52,10 +52,9 @@ type State = {
 }
 
 function searchUsersToAdd(users: Dictionary<UserProfile>, term: string): Dictionary<UserProfile> {
-    const profiles = filterProfilesMatchingTerm(Object.keys(users).map((key) => users[key]), term);
-    const filteredProfilesMap = filterProfiles(profileListToMap(profiles), {});
-
-    return filteredProfilesMap;
+    const profilesList: UserProfile[] = Object.keys(users).map((key) => users[key]);
+    const filteredProfilesList = filterProfilesMatchingTerm(profilesList, term);
+    return filterProfiles(profileListToMap(filteredProfilesList), {});
 }
 
 export default class AddUsersToRoleModal extends React.PureComponent<Props, State> {
