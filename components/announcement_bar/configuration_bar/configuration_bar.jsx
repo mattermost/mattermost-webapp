@@ -75,38 +75,27 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
         var canCloseBar = false;
 
         if (warnMetricStatus.acked) {
-            if (warnMetricStatus.id === WarnMetricTypes.SYSTEM_WARN_METRIC_NUMBER_OF_ACTIVE_USERS_500) {
-                message = (
-                    <React.Fragment>
-                        <img
-                            className='advisor-icon'
-                            src={ackIcon}
-                        />
-                        <FormattedMessage
-                            id='announcement_bar.warn_metric_status_ack.text'
-                            defaultMessage='Thank you for contacting Mattermost. We will follow up with you soon.'
-                        />
-                    </React.Fragment>
-                );
+            message = (
+                <React.Fragment>
+                    <img
+                        className='advisor-icon'
+                        src={ackIcon}
+                    />
+                    <FormattedMessage
+                        id='announcement_bar.warn_metric_status_ack.text'
+                        defaultMessage='Thank you for contacting Mattermost. We will follow up with you soon.'
+                    />
+                </React.Fragment>
+            );
 
+            if (warnMetricStatus.id === WarnMetricTypes.SYSTEM_WARN_METRIC_NUMBER_OF_ACTIVE_USERS_500) {
                 dismissFunc = this.dismissNumberOfActiveUsersWarnMetricAck;
                 isDismissed = this.props.dismissedNumberOfActiveUsersWarnMetricStatusAck;
             } else if (warnMetricStatus.id === WarnMetricTypes.SYSTEM_WARN_METRIC_NUMBER_OF_POSTS_500K) {
-                message = (
-                    <React.Fragment>
-                        <img
-                            className='advisor-icon'
-                            src={ackIcon}
-                        />
-                        <FormattedMessage
-                            id='announcement_bar.warn_metric_status_ack.text'
-                            defaultMessage='Thank you for contacting Mattermost. We will follow up with you soon.'
-                        />
-                    </React.Fragment>
-                );
                 dismissFunc = this.dismissNumberOfPostsWarnMetricAck;
                 isDismissed = this.props.dismissedNumberOfPostsWarnMetricStatusAck;
             }
+
             type = AnnouncementBarTypes.ADVISOR_ACK;
             showModal = false;
             canCloseBar = true;
@@ -119,7 +108,7 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
                             src={alertIcon}
                         />
                         <FormattedMarkdownMessage
-                            id='announcement_bar.error.number_active_users_warn_metric_status.text'
+                            id='announcement_bar.number_active_users_warn_metric_status.text'
                             defaultMessage='You now have over {limit} users. We strongly recommend using advanced features for large-scale servers.'
                             values={{
                                 limit: warnMetricStatus.limit,
