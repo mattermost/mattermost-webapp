@@ -4,19 +4,12 @@
     }
 
     .Input_wrapper {
-        // font-size: 14px;
-        // line-height: 20px;
         padding: 0;
     }
 
     .Input {
         font-size: 14px;
         line-height: 20px;
-
-    //     > div {
-    //         min-height: 70px;
-    //         padding: 4px;
-    //     }
 
         &.Input___focus .a11y--focused {
             box-shadow: none;
@@ -26,10 +19,6 @@
     .Input_legend {
         margin-left: 8px;
     }
-
-    // input {
-    //     padding-left: 8px !important;
-    // }
 }
 
 .DropdownInput__indicatorsContainer {
