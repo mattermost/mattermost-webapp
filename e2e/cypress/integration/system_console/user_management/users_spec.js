@@ -43,7 +43,7 @@ describe('System Console > User Management > Users', () => {
         cy.get('#user_management\\/users').click().wait(TIMEOUTS.ONE_SEC);
     });
 
-    it('MM-T923 Users - Change a user\'s password', () => {
+    it('MM-T932 Users - Change a user\'s password', () => {
         // # Search for the user.
         cy.get('#searchUsers').type(testUser.email).wait(TIMEOUTS.HALF_SEC);
 
