@@ -146,6 +146,7 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
             <div
                 className={classNames('SidebarNextSteps', {
                     active: this.props.active,
+                    tips: !this.props.showNextSteps,
                 })}
                 onClick={this.showNextSteps}
             >

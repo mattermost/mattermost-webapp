@@ -9,7 +9,9 @@
 
 // Group: @mark_as_unread
 
-import {verifyPostNextToNewMessageSeparator, beUnread, switchToChannel, beRead, markAsUnreadFromMenu, showCursor} from './helpers';
+import {beRead, beUnread} from '../../support/assertions';
+
+import {verifyPostNextToNewMessageSeparator, switchToChannel, markAsUnreadFromMenu, showCursor} from './helpers';
 
 describe('Mark as Unread', () => {
     let testUser;

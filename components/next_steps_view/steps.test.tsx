@@ -1,8 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {showNextSteps, getSteps} from './steps';
+import {showNextSteps, getSteps, isOnboardingHidden, nextStepsNotFinished} from './steps';
 
+//
 describe('components/next_steps_view/steps', () => {
     test('should not show next steps if not cloud', () => {
         const goodState = {
@@ -64,7 +65,7 @@ describe('components/next_steps_view/steps', () => {
             },
         };
 
-        expect(showNextSteps(state as any)).toBe(false);
+        expect(isOnboardingHidden(state as any)).toBe(true);
     });
 
     test('should not show the view if all steps are complete', () => {
@@ -100,7 +101,7 @@ describe('components/next_steps_view/steps', () => {
             },
         };
 
-        expect(showNextSteps(state as any)).toBe(false);
+        expect(nextStepsNotFinished(state as any)).toBe(true);
     });
 
     test('should only show admin steps for admin users', () => {

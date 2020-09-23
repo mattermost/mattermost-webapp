@@ -5,9 +5,14 @@ import {connect} from 'react-redux';
 
 import {haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
 
-import SystemPermissionGate from './system_permission_gate.jsx';
+import {GlobalState} from 'types/store';
 
-function mapStateToProps(state, ownProps) {
+import SystemPermissionGate from './system_permission_gate';
+
+type Props = {
+    permissions: Array<string>;
+}
+function mapStateToProps(state: GlobalState, ownProps: Props) {
     for (const permission of ownProps.permissions) {
         if (haveISystemPermission(state, {permission})) {
             return {hasPermission: true};
