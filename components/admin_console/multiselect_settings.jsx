@@ -20,7 +20,6 @@ export default class MultiSelectSetting extends React.PureComponent {
         setByEnv: PropTypes.bool.isRequired,
         helpText: PropTypes.node,
         noResultText: PropTypes.node,
-        errorText: PropTypes.node,
     };
 
     static defaultProps = {
