@@ -157,7 +157,7 @@ exports[`ProductNoticesModal Should match snapshot for system admin notice 1`] =
   >
     <img
       className="productNotices__img"
-      src="https://i.ibb.co/sCF9YnD/Untitled.png"
+      src="https://raw.githubusercontent.com/reflog/notices-experiment/master/images/2020-08-11_11-42.png"
     />
   </div>
   <div
