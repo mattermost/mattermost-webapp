@@ -43,8 +43,18 @@
             margin: 0;
         }
     }
+}
 
-    &:hover i {
-        color: rgba(var(--center-channel-color-rgb), 1);
-    }
+.DropdownInput__option > div {
+    padding: 10px 24px;
+    line-height: 16px;
+}
+
+.DropdownInput__option.selected > div {
+    background-color: rgba(var(--button-bg-rgb), 0.08);
+    color: var(--center-channel-color);
+}
+
+.DropdownInput__option.focused > div {
+    background-color: rgba(var(--center-channel-color-rgb), 0.08);
 }

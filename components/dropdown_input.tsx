@@ -3,6 +3,7 @@
 
 import React, {useState, CSSProperties} from 'react';
 import ReactSelect, {Props as SelectProps, ActionMeta, components} from 'react-select';
+import classNames from 'classnames';
 
 import './dropdown_input.scss';
 
@@ -43,6 +44,19 @@ const IndicatorsContainer = (props: any) => {
             <components.IndicatorsContainer {...props}>
                 <i className='icon icon-chevron-down'/>
             </components.IndicatorsContainer>
+        </div>
+    );
+};
+
+const Option = (props: any) => {
+    return (
+        <div
+            className={classNames('DropdownInput__option', {
+                selected: props.isSelected,
+                focused: props.isFocused,
+            })}
+        >
+            <components.Option {...props}/>
         </div>
     );
 };
@@ -110,6 +124,7 @@ const DropdownInput = <T extends ValueType>(props: Props<T>) => {
                         placeholder={focused ? '' : placeholder}
                         components={{
                             IndicatorsContainer,
+                            Option,
                         }}
                         className={inputClass}
                         value={value}

@@ -74,6 +74,10 @@
     padding: 0 1px;
 }
 
+.Input_fieldset:hover {
+    border-color: rgba(var(--center-channel-color-rgb), 0.48);
+}
+
 .Input_fieldset:focus-within {
     border-color: transparent;
     box-shadow: 0 0 0 2px var(--button-bg);
@@ -95,6 +99,10 @@
 .Input_fieldset___error:focus-within {
     color: var(--error-text);
     box-shadow: 0 0 0 2px var(--error-text);
+}
+
+.Input_fieldset___error:hover {
+    border-color: transparent;
 }
 
 .Input_legend {
