@@ -40,25 +40,7 @@ export default class ProductNoticesModal extends React.PureComponent<Props, Stat
         super(props);
         this.state = {
             presentNoticeIndex: 0,
-            noticesData: [{
-                id: '124',
-                title: 'for sysadmin',
-                description: 'your eyes only! [test](https://test.com)',
-                image: 'https://i.ibb.co/sCF9YnD/Untitled.png',
-                actionText: 'Download',
-                actionParam: 'http://download.com/path',
-                sysAdminOnly: true,
-                teamAdminOnly: false,
-            },
-            {
-                id: '123',
-                title: 'title',
-                description: 'descr',
-                actionText: 'Download',
-                actionParam: 'http://download.com/path',
-                sysAdminOnly: false,
-                teamAdminOnly: false,
-            }],
+            noticesData: [],
         };
         this.clearDataTimer = undefined;
     }
@@ -95,9 +77,9 @@ export default class ProductNoticesModal extends React.PureComponent<Props, Stat
 
         const {data} = await this.props.actions.getInProductNotices(currentTeamId, client, clientVersion);
         if (data) {
-            // this.setState({
-            //     noticesData: data,
-            // });
+            this.setState({
+                noticesData: data,
+            });
             if (data.length) {
                 const presentNoticeInfo = this.state.noticesData[this.state.presentNoticeIndex];
                 this.props.actions.updateNoticesAsViewed([presentNoticeInfo.id]);
