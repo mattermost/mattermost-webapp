@@ -552,6 +552,7 @@ exports[`admin_console/team_channel_settings/group/GroupList should match snapsh
         },
       ]
     }
+    searchPlaceholder=""
     startCount={1}
     term=""
     total={15}
@@ -588,6 +589,7 @@ exports[`admin_console/team_channel_settings/group/GroupList should match snapsh
     }
     previousPage={[Function]}
     rows={Array []}
+    searchPlaceholder=""
     startCount={1}
     term=""
     total={0}
