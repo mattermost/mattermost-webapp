@@ -1316,6 +1316,7 @@
   "admin.permissions.system_role_permissions.title": "Privileges",
   "admin.permissions.system_role_permissions.write.description": "Can add, edit and delete anything in this section.",
   "admin.permissions.system_role_permissions.write.title": "Can edit",
+  "admin.permissions.system_role_users.add_people": "Add People",
   "admin.permissions.system_role_users.description": "List of people assigned to this system role.",
   "admin.permissions.system_role_users.title": "Assigned People",
   "admin.permissions.systemRoles": "System Roles",

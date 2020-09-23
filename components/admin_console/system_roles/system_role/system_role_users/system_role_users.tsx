@@ -269,8 +269,8 @@ export default class SystemRoleUsers extends React.PureComponent<Props, State> {
                         }}
                     >
                         <FormattedMessage
-                            id='admin.team_settings.team_details.add_members'
-                            defaultMessage='Add Members'
+                            id='admin.permissions.system_role_users.add_people'
+                            defaultMessage='Add People'
                         />
                     </ToggleModalButton>
                 }

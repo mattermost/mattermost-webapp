@@ -1,5 +1,9 @@
 @import 'utils/variables';
 
+#SystemRolePermissions {
+    margin-top: 0;
+}
+
 .SystemRolePermissions {
     padding: 2rem 2rem 2rem 2rem;
     background: #F5F5F5;
@@ -97,10 +101,13 @@
                         }
                     }
 
-                    &[disabled] > .PermissionSectionDropdownButton {
-                        color: var(--sys-center-channel-color);
-                        background: rgba(var(--sys-center-channel-color-rgb), 0.08);
-                        border-color: rgba(var(--sys-center-channel-color-rgb), 0.16);
+                    &[disabled] {
+                        opacity: 1;
+                        .PermissionSectionDropdownButton {
+                            color: var(--sys-center-channel-color);
+                            background: rgba(var(--sys-center-channel-color-rgb), 0.08);
+                            border-color: rgba(var(--sys-center-channel-color-rgb), 0.16);
+                        }
                     }
                 }
 
@@ -113,6 +120,10 @@
 
         .PermissionSubsectionsToggle {
             margin: 0;
+            line-height: 16px;
+            button {
+                font-size: 12px;
+            }
         }
         .PermissionSubsections {
             margin: 0 0 14px 16px;
@@ -133,7 +144,7 @@
                 }
                 .PermissionSection_description {
                     span {
-                        border-radius: 4px;
+                        border-radius: 2px;
                         background: rgba(var(--sys-center-channel-color-rgb), 0.08);
                         padding: 0 4px;
                     }
