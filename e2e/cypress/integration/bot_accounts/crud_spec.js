@@ -15,10 +15,7 @@ describe('Bot accounts - CRUD Testing', () => {
     let newTeam;
     let botName;
     let botDescription;
-    beforeEach(() => {
-        botName = 'bot-' + Date.now();
-        botDescription = 'test-bot-' + Date.now();
-
+    before(() => {
         // # Set ServiceSettings to expected values
         const newSettings = {
             ServiceSettings: {
@@ -32,14 +29,19 @@ describe('Bot accounts - CRUD Testing', () => {
         };
         cy.apiUpdateConfig(newSettings);
 
-        // # Create a test bot
-        cy.apiCreateBot(botName, 'Test Bot', botDescription);
-
         // # Create and visit new channel
         cy.apiInitSetup().then(({team}) => {
             newTeam = team;
         });
         cy.apiAdminLogin();
+    });
+
+    beforeEach(() => {
+        botName = 'bot-' + Date.now();
+        botDescription = 'test-bot-' + Date.now();
+
+        // # Create a test bot
+        cy.apiCreateBot(botName, 'Test Bot', botDescription);
     });
 
     it('MM-T1841 Long description text', () => {
@@ -76,6 +78,9 @@ describe('Bot accounts - CRUD Testing', () => {
 
             // * Validate that bot saved correctly
             cy.url().should('include', `/${newTeam.name}/integrations/bots`);
+
+            // * Validate that the description exists
+            cy.findAllByText(longDescription + '1234').should('exist');
         });
     });
 
@@ -96,7 +101,7 @@ describe('Bot accounts - CRUD Testing', () => {
                 should('include', `/${newTeam.name}/integrations/bots/edit`);
 
             // # Select sysadmin
-            cy.get(':nth-child(5) > .col-md-5 > .form-control').select('System Admin');
+            cy.get('select').select('System Admin');
 
             // * Validate that permissions are set and read only
             cy.get('#postChannels').should('be.checked').should('be.disabled');
@@ -145,13 +150,21 @@ describe('Bot accounts - CRUD Testing', () => {
 
     it('MM-T1844 Token is hidden whe you return to the page but ID is still visible', () => {
         // # Create the bot and validate token is visible
-        createBotInteractive().then((text) => {
+
+        const botUsername = `bot-${getRandomId()}`;
+
+        createBotInteractive(botUsername).then((text) => {
             // # Close the Add dialog
             cy.get('#doneButton').click();
 
-            // * Validate that token is NOT visible on the next page
-            const token = text.substr(text.indexOf('Token: ') + 7, 26);
-            cy.findByText(new RegExp(token)).should('not.be.visible');
+            // * Check that the previously created bot is listed
+            cy.findByText(`Test Bot (@${botUsername})`).then((el) => {
+                cy.wrap(el[0].parentElement.parentElement).scrollIntoView();
+
+                // * Validate that token is NOT visible on the next page
+                const token = text.substr(text.indexOf('Token: ') + 7, 26);
+                cy.findByText(new RegExp(token)).should('not.be.visible');
+            });
         });
     });
 
@@ -175,11 +188,14 @@ describe('Bot accounts - CRUD Testing', () => {
             cy.get('#clientError').should('be.visible');
 
             // # Add description
-            cy.wrap(el[0].parentElement.parentElement).find('input').click().type('description!');
+            cy.wrap(el[0].parentElement.parentElement).find('input').click().type(botName + 'description!');
 
             // # Save and check that no error is visible
             cy.get('[data-testid=saveSetting]').click();
+
             cy.get('#clientError').should('not.be.visible');
+
+            cy.findAllByText(botName + 'description!').should('exist');
         });
     });
 
@@ -219,7 +235,8 @@ describe('Bot accounts - CRUD Testing', () => {
             cy.wrap(el[0].parentElement.parentElement).findByText(/Token ID:/).should('not.be.visible');
         });
     });
-    it('MM-T1849 Create a Personal Accees Token when email cofig is invalid', () => {
+
+    it('MM-T1849 Create a Personal Accees Token when email config is invalid', () => {
         // # Make sure that email is now functioning
         const newSettings = {
             EmailSettings: {
@@ -233,7 +250,8 @@ describe('Bot accounts - CRUD Testing', () => {
         createBotInteractive(botUsername);
         cy.get('#doneButton').click();
 
-        // # Add a new tocket to the bot
+        // # Add a new token to the bot
+
         // * Check that the previously created bot is listed
         cy.findByText(`Test Bot (@${botUsername})`).then((el) => {
             // # Make sure it's on the screen
@@ -247,6 +265,14 @@ describe('Bot accounts - CRUD Testing', () => {
 
             // # Save
             cy.get('[data-testid=saveSetting]').click();
+
+            // # Click Close button
+            cy.wrap(el[0].parentElement.parentElement).findByText('Close').should('be.visible').click();
+
+            cy.wrap(el[0].parentElement.parentElement).scrollIntoView();
+
+            // * Check that token is visible
+            cy.wrap(el[0].parentElement.parentElement).findAllByText(/Token ID:/).should('have.length', 2);
         });
     });
 });
