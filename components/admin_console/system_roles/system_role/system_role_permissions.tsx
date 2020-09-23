@@ -122,7 +122,10 @@ export default class SystemRolePermissions extends React.PureComponent<Props, St
 
     renderSectionRow = (section: SystemSection, permissionsMap: Record<string, boolean>, permissionsToUpdate: PermissionsToUpdate, visibleSection: string) => {
         return (
-            <div className='PermissionSection'>
+            <div
+                key={section.name}
+                className='PermissionSection'
+            >
                 <div className='PermissionSectionText'>
                     <div className='PermissionSectionText_title'>
                         <FormattedMessage
@@ -206,7 +209,7 @@ export default class SystemRolePermissions extends React.PureComponent<Props, St
         }
         const isSectionVisible = visibleSection === section.name;
         return (
-            <div key={section.name}>
+            <div>
                 {isSectionVisible &&
                     <div className='PermissionSubsections'>
                         {section.subsections.map((subsection) => this.renderSectionRow(subsection, permissionsMap, permissionsToUpdate, visibleSection))}
