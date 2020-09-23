@@ -19,6 +19,8 @@ type Props = {
     confirmButtonClassName?: string;
     cancelButtonText?: React.ReactNode;
     isConfirmDisabled?: boolean;
+    autoCloseOnCancelButton?: boolean;
+    autoCloseOnConfirmButton?: boolean;
 };
 
 type State = {
@@ -28,6 +30,8 @@ type State = {
 export default class GenericModal extends React.PureComponent<Props, State> {
     static defaultProps: Partial<Props> = {
         show: true,
+        autoCloseOnCancelButton: true,
+        autoCloseOnConfirmButton: true,
     };
 
     constructor(props: Props) {
@@ -44,7 +48,9 @@ export default class GenericModal extends React.PureComponent<Props, State> {
 
     handleCancel = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         event.preventDefault();
-        this.onHide();
+        if (this.props.autoCloseOnCancelButton) {
+            this.onHide();
+        }
         if (this.props.handleCancel) {
             this.props.handleCancel();
         }
@@ -52,7 +58,9 @@ export default class GenericModal extends React.PureComponent<Props, State> {
 
     handleConfirm = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         event.preventDefault();
-        this.onHide();
+        if (this.props.autoCloseOnConfirmButton) {
+            this.onHide();
+        }
         if (this.props.handleConfirm) {
             this.props.handleConfirm();
         }

@@ -17,6 +17,8 @@ describe('components/channel_view', () => {
         },
         showTutorial: false,
         showNextSteps: false,
+        showNextStepsTips: false,
+        isOnboardingHidden: true,
         showNextStepsEphemeral: false,
         channelIsArchived: false,
         viewArchivedChannels: false,
@@ -24,6 +26,7 @@ describe('components/channel_view', () => {
         actions: {
             goToLastViewedChannel: jest.fn(),
             setShowNextStepsView: jest.fn(),
+            getProfiles: jest.fn(),
         },
     };
 

@@ -12,7 +12,7 @@ import {pageVisited, trackEvent} from 'actions/diagnostics_actions';
 import Accordion from 'components/accordion';
 import Card from 'components/card/card';
 import {getAnalyticsCategory} from 'components/next_steps_view/step_helpers';
-import {Preferences} from 'utils/constants';
+import {Preferences, RecommendedNextSteps} from 'utils/constants';
 
 import loadingIcon from 'images/spinner-48x48-blue.apng';
 
@@ -43,29 +43,35 @@ type State = {
     showFinalScreen: boolean;
     showTransitionScreen: boolean;
     animating: boolean;
+    show: boolean;
 }
 
 export default class NextStepsView extends React.PureComponent<Props, State> {
     constructor(props: Props) {
         super(props);
-
         this.state = {
             showFinalScreen: false,
             showTransitionScreen: false,
             animating: false,
+            show: false,
         };
     }
 
     async componentDidMount() {
         await this.props.actions.getProfiles();
-        pageVisited(getAnalyticsCategory(this.props.isFirstAdmin), 'pageview_welcome');
 
-        // If all steps are complete, don't render this and skip to the tips screen
-        if (this.getIncompleteStep() === null) {
+        // If all steps are complete, or user has skipped, don't render this and skip to the tips screen
+        if (this.getIncompleteStep() === null || this.checkStepsSkipped()) {
             this.showFinalScreenNoAnimation();
         }
-
+        // eslint-disable-next-line react/no-did-mount-set-state
+        this.setState({show: true});
+        pageVisited(getAnalyticsCategory(this.props.isFirstAdmin), 'pageview_welcome');
         this.props.actions.closeRightHandSide();
+    }
+
+    checkStepsSkipped = () => {
+        return this.props.preferences.some((pref) => pref.name === RecommendedNextSteps.SKIP && pref.value === 'true');
     }
 
     getStartingStep = () => {
@@ -102,6 +108,16 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
         };
     }
 
+    onSkipAll = async () => {
+        this.showFinalScreen();
+        this.props.actions.savePreferences(this.props.currentUser.id, [{
+            user_id: this.props.currentUser.id,
+            category: Preferences.RECOMMENDED_NEXT_STEPS,
+            name: RecommendedNextSteps.SKIP,
+            value: 'true',
+        }]);
+    }
+
     onFinish = (setExpanded: (expandedKey: string) => void) => {
         return async (id: string) => {
             const stepIndex = this.getStepNumberFromId(id);
@@ -120,7 +136,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
 
     showFinalScreenNoAnimation = () => {
         pageVisited(getAnalyticsCategory(this.props.isFirstAdmin), 'pageview_tips_next_steps');
-        this.setState({showFinalScreen: true});
+        this.setState({showFinalScreen: true, animating: false});
     }
 
     showFinalScreen = () => {
@@ -287,7 +303,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                         <div className='NextStepsView__skipGettingStarted'>
                             <button
                                 className='NextStepsView__button tertiary'
-                                onClick={this.showFinalScreen}
+                                onClick={this.onSkipAll}
                             >
                                 <FormattedMessage
                                     id='next_steps_view.skipGettingStarted'
@@ -310,18 +326,21 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                 id='app-content'
                 className='app__content NextStepsView'
             >
-                <OnboardingBgSvg/>
-                {this.renderMainBody()}
-                {this.renderTransitionScreen()}
-                <NextStepsTips
-                    showFinalScreen={this.state.showFinalScreen}
-                    animating={this.state.animating}
-                    stopAnimating={this.stopAnimating}
-                    isFirstAdmin={this.props.isFirstAdmin}
-                    savePreferences={this.props.actions.savePreferences}
-                    currentUserId={this.props.currentUser.id}
-                    setShowNextStepsView={this.props.actions.setShowNextStepsView}
-                />
+                {this.state.show &&
+                <>
+                    <OnboardingBgSvg/>
+                    {this.renderMainBody()}
+                    {this.renderTransitionScreen()}
+                    <NextStepsTips
+                        showFinalScreen={this.state.showFinalScreen}
+                        animating={this.state.animating}
+                        stopAnimating={this.stopAnimating}
+                        isFirstAdmin={this.props.isFirstAdmin}
+                        savePreferences={this.props.actions.savePreferences}
+                        currentUserId={this.props.currentUser.id}
+                        setShowNextStepsView={this.props.actions.setShowNextStepsView}
+                    />
+                </>}
             </section>
         );
     }

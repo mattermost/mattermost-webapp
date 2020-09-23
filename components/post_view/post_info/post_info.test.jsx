@@ -5,8 +5,9 @@ import React from 'react';
 import {shallow} from 'enzyme';
 import {Posts} from 'mattermost-redux/constants';
 
+import PostInfo from 'components/post_view/post_info/post_info';
+
 import Constants from 'utils/constants';
-import PostInfo from 'components/post_view/post_info/post_info.jsx';
 import PostFlagIcon from 'components/post_view/post_flag_icon';
 
 describe('components/post_view/PostInfo', () => {
