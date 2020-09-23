@@ -97,14 +97,14 @@ export default class Reaction extends React.Component {
                 reactedClass: 'Reaction--reacted',
                 displayNumber: reactionCount,
                 reactedNumber: reactionCount,
-                unreactedNumber: reactionCount - 1,
+                unreactedNumber: reactionCount,
             };
         } else {
             this.state = {
                 userReacted: currentUserReacted,
                 reactedClass: 'Reaction--unreacted',
                 displayNumber: reactionCount,
-                reactedNumber: reactionCount + 1,
+                reactedNumber: reactionCount,
                 unreactedNumber: reactionCount,
             };
         }
@@ -123,7 +123,7 @@ export default class Reaction extends React.Component {
                 return {
                     displayNumber: nextProps.reactionCount,
                     reactedNumber: nextProps.reactionCount,
-                    unreactedNumber: nextProps.reactionCount - 1,
+                    unreactedNumber: nextProps.reactionCount,
                     userReacted: nextProps.sortedUsers.currentUserReacted,
                     reactedClass: `Reaction--${nextProps.sortedUsers.currentUserReacted ? '' : 'un'}reacted`,
                 };
@@ -132,7 +132,7 @@ export default class Reaction extends React.Component {
             // set counts relative to current user having NOT reacted
             return {
                 displayNumber: nextProps.reactionCount,
-                reactedNumber: nextProps.reactionCount + 1,
+                reactedNumber: nextProps.reactionCount,
                 unreactedNumber: nextProps.reactionCount,
                 userReacted: nextProps.sortedUsers.currentUserReacted,
                 reactedClass: `Reaction--${nextProps.sortedUsers.currentUserReacted ? '' : 'un'}reacted`,
@@ -175,6 +175,7 @@ export default class Reaction extends React.Component {
                 displayNumber: unreactedNumber,
             };
         });
+
         if (this.state.userReacted) {
             actions.addReaction(post.id, emojiName);
         } else {
