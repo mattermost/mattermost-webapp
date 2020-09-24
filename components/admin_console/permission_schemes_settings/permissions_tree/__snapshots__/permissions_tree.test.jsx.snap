@@ -133,6 +133,12 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             "id": "integrations",
             "permissions": Array [],
           },
+          Object {
+            "id": "manage_shared_channels",
+            "permissions": Array [
+              "manage_shared_channels",
+            ],
+          },
         ]
       }
       readOnly={false}
@@ -294,6 +300,12 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
               "create_emojis",
               "delete_emojis",
               "delete_others_emojis",
+            ],
+          },
+          Object {
+            "id": "manage_shared_channels",
+            "permissions": Array [
+              "manage_shared_channels",
             ],
           },
         ]
@@ -459,6 +471,12 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
               "delete_others_emojis",
             ],
           },
+          Object {
+            "id": "manage_shared_channels",
+            "permissions": Array [
+              "manage_shared_channels",
+            ],
+          },
         ]
       }
       readOnly={false}
@@ -620,6 +638,12 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
               "create_emojis",
               "delete_emojis",
               "delete_others_emojis",
+            ],
+          },
+          Object {
+            "id": "manage_shared_channels",
+            "permissions": Array [
+              "manage_shared_channels",
             ],
           },
         ]
@@ -785,6 +809,12 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
               "delete_others_emojis",
             ],
           },
+          Object {
+            "id": "manage_shared_channels",
+            "permissions": Array [
+              "manage_shared_channels",
+            ],
+          },
         ]
       }
       readOnly={false}
@@ -946,6 +976,12 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
               "create_emojis",
               "delete_emojis",
               "delete_others_emojis",
+            ],
+          },
+          Object {
+            "id": "manage_shared_channels",
+            "permissions": Array [
+              "manage_shared_channels",
             ],
           },
         ]
@@ -1113,6 +1149,12 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
               "create_emojis",
               "delete_emojis",
               "delete_others_emojis",
+            ],
+          },
+          Object {
+            "id": "manage_shared_channels",
+            "permissions": Array [
+              "manage_shared_channels",
             ],
           },
         ]
