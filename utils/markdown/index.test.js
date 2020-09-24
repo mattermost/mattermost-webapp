@@ -144,6 +144,12 @@ this is long text this is long text this is long text this is long text this is 
         expect(output).toContain('<a class="theme markdown__link" href="http://localhost/example" rel="noreferrer" data-link="/example">internal_link</a>');
     });
 
+    test('<a> should contain target=_blank for internal links that live under /plugins', () => {
+        const output = format('[internal_link](http://localhost/plugins/example)', {siteURL: 'http://localhost'});
+
+        expect(output).toContain('<a class="theme markdown__link" href="http://localhost/plugins/example" rel="noreferrer" target="_blank">internal_link</a>');
+    });
+
     test('<a> should not contain target=_blank for pl|channels|messages links', () => {
         const pl = format('[thread](/reiciendis-0/pl/b3hrs3brjjn7fk4kge3xmeuffc))', {siteURL: 'http://localhost'});
         expect(pl).toContain('<a class="theme markdown__link" href="/reiciendis-0/pl/b3hrs3brjjn7fk4kge3xmeuffc" rel="noreferrer" data-link="/reiciendis-0/pl/b3hrs3brjjn7fk4kge3xmeuffc">thread</a>');
@@ -153,5 +159,8 @@ this is long text this is long text this is long text this is long text this is 
 
         const messages = format('[thread](/reiciendis-0/messages/b3hrs3brjjn7fk4kge3xmeuffc))', {siteURL: 'http://localhost'});
         expect(messages).toContain('<a class="theme markdown__link" href="/reiciendis-0/messages/b3hrs3brjjn7fk4kge3xmeuffc" rel="noreferrer" data-link="/reiciendis-0/messages/b3hrs3brjjn7fk4kge3xmeuffc">thread</a>');
+
+        const plugin = format('[plugin](/reiciendis-0/plugins/example))', {siteURL: 'http://localhost'});
+        expect(plugin).toContain('<a class="theme markdown__link" href="/reiciendis-0/plugins/example" rel="noreferrer" data-link="/reiciendis-0/plugins/example">plugin</a>');
     });
 });

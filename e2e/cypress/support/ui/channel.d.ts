@@ -42,11 +42,19 @@ declare namespace Cypress {
         uiAddUsersToCurrentChannel(usernameList: string[]);
 
         /**
-       * Archives a channel
+       * Archives the current channel
        *
        * @returns {Response} Cypress chainable response.
        */
         uiArchiveChannel();
+
+        /**
+       * Leaves the current channel
+       * @param {boolean} isPrivate - is the channel private or public (default)?
+       *
+       * @returns {Response} Cypress chainable response.
+       */
+        uiLeaveChannel(isPrivate?: boolean);
 
     }
 }
