@@ -141,7 +141,7 @@ export default class TeamSelectorModal extends React.PureComponent {
         this.props.actions.setModalSearchTerm(term);
     }
 
-    renderOption(option, isSelected, onAdd, onMouseMove) {
+    renderOption = (option, isSelected, onAdd, onMouseMove) => {
         var rowSelected = '';
         if (isSelected) {
             rowSelected = 'more-modal__row--selected';
