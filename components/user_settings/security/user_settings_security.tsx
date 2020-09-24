@@ -86,7 +86,7 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
             tokenError: '',
             authService: this.props.user.auth_service,
             savingPassword: false,
-            authorizedApps: []
+            authorizedApps: [],
         };
     }
 
@@ -117,21 +117,21 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
             this.setState({
                 passwordError: Utils.localizeMessage(
                     'user.settings.security.currentPasswordError',
-                    'Please enter your current password.'
+                    'Please enter your current password.',
                 ),
-                serverError: ''
+                serverError: '',
             });
             return;
         }
 
         const {valid, error} = Utils.isValidPassword(
             newPassword,
-            this.props.passwordConfig
+            this.props.passwordConfig,
         );
         if (!valid && error) {
             this.setState({
                 passwordError: error,
-                serverError: ''
+                serverError: '',
             });
             return;
         }
@@ -140,9 +140,9 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
             const defaultState = Object.assign(this.getDefaultState(), {
                 passwordError: Utils.localizeMessage(
                     'user.settings.security.passwordMatchError',
-                    'The new passwords you entered do not match.'
+                    'The new passwords you entered do not match.',
                 ),
-                serverError: ''
+                serverError: '',
             });
             this.setState(defaultState);
             return;
@@ -153,7 +153,7 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
         const res = await this.props.actions.updateUserPassword(
             user.id,
             currentPassword,
-            newPassword
+            newPassword,
         );
         if ('data' in res) {
             this.props.updateSection('');
@@ -211,7 +211,7 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
             case SECTION_TOKENS:
             case SECTION_APPS:
                 this.setState({
-                    serverError: null
+                    serverError: null,
                 });
                 break;
             case SECTION_PASSWORD:
@@ -220,7 +220,7 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
                     newPassword: '',
                     confirmPassword: '',
                     serverError: null,
-                    passwordError: null
+                    passwordError: null,
                 });
                 break;
             default:
@@ -259,11 +259,11 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
                                 value={this.state.currentPassword}
                                 aria-label={Utils.localizeMessage(
                                     'user.settings.security.currentPassword',
-                                    'Current Password'
+                                    'Current Password',
                                 )}
                             />
                         </div>
-                    </div>
+                    </div>,
                 );
                 inputs.push(
                     <div
@@ -285,11 +285,11 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
                                 value={this.state.newPassword}
                                 aria-label={Utils.localizeMessage(
                                     'user.settings.security.newPassword',
-                                    'New Password'
+                                    'New Password',
                                 )}
                             />
                         </div>
-                    </div>
+                    </div>,
                 );
                 inputs.push(
                     <div
@@ -311,11 +311,11 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
                                 value={this.state.confirmPassword}
                                 aria-label={Utils.localizeMessage(
                                     'user.settings.security.retypePassword',
-                                    'Retype New Password'
+                                    'Retype New Password',
                                 )}
                             />
                         </div>
-                    </div>
+                    </div>,
                 );
             } else if (
                 this.props.user.auth_service === Constants.GITLAB_SERVICE
@@ -331,7 +331,7 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
                                 defaultMessage='Login occurs through GitLab. Password cannot be updated.'
                             />
                         </div>
-                    </div>
+                    </div>,
                 );
             } else if (
                 this.props.user.auth_service === Constants.LDAP_SERVICE
@@ -347,7 +347,7 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
                                 defaultMessage='Login occurs through AD/LDAP. Password cannot be updated.'
                             />
                         </div>
-                    </div>
+                    </div>,
                 );
             } else if (
                 this.props.user.auth_service === Constants.SAML_SERVICE
@@ -363,7 +363,7 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
                                 defaultMessage='This field is handled through your login provider. If you want to change it, you need to do so through your login provider.'
                             />
                         </div>
-                    </div>
+                    </div>,
                 );
             } else if (
                 this.props.user.auth_service === Constants.GOOGLE_SERVICE
@@ -379,7 +379,7 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
                                 defaultMessage='Login occurs through Google Apps. Password cannot be updated.'
                             />
                         </div>
-                    </div>
+                    </div>,
                 );
             } else if (
                 this.props.user.auth_service === Constants.OFFICE365_SERVICE
@@ -395,7 +395,7 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
                                 defaultMessage='Login occurs through Office 365. Password cannot be updated.'
                             />
                         </div>
-                    </div>
+                    </div>,
                 );
             }
 
@@ -442,7 +442,7 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
                                 hour='2-digit'
                                 minute='2-digit'
                             />
-                        )
+                        ),
                     }}
                 />
             );
@@ -666,7 +666,7 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
                     {office365Option}
                     {ldapOption}
                     {samlOption}
-                </div>
+                </div>,
             );
 
             const extraInfo = (
@@ -682,7 +682,7 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
                 <SettingItemMax
                     title={Utils.localizeMessage(
                         'user.settings.security.method',
-                        'Sign-in Method'
+                        'Sign-in Method',
                     )}
                     extraInfo={extraInfo}
                     inputs={inputs}
@@ -741,7 +741,7 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
             <SettingItemMin
                 title={Utils.localizeMessage(
                     'user.settings.security.method',
-                    'Sign-in Method'
+                    'Sign-in Method',
                 )}
                 describe={describe}
                 section={SECTION_SIGNIN}
@@ -841,7 +841,7 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
                     key='authorizedApps'
                 >
                     {apps}
-                </div>
+                </div>,
             );
 
             const title = (
@@ -875,7 +875,7 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
             <SettingItemMin
                 title={Utils.localizeMessage(
                     'user.settings.security.oauthApps',
-                    'OAuth 2.0 Applications'
+                    'OAuth 2.0 Applications',
                 )}
                 describe={
                     <FormattedMessage
