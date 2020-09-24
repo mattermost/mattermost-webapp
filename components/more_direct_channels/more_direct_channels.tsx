@@ -311,6 +311,7 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
         if ((option as GroupChannelValue).type && (option as GroupChannelValue).type === 'G') {
             return (
                 <GroupMessageOption
+                    selectedItemRef={this.selectedItemRef}
                     key={option.id}
                     channel={(option as GroupChannelValue)}
                     isSelected={isSelected}
