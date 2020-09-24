@@ -63,7 +63,9 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
     }
 
     getNoticeForWarnMetric = (warnMetricStatus) => {
-        if (!warnMetricStatus) {
+        if (!warnMetricStatus ||
+            (warnMetricStatus.id !== WarnMetricTypes.SYSTEM_WARN_METRIC_NUMBER_OF_ACTIVE_USERS_500 &&
+            warnMetricStatus.id !== WarnMetricTypes.SYSTEM_WARN_METRIC_NUMBER_OF_POSTS_2M)) {
             return null;
         }
 
