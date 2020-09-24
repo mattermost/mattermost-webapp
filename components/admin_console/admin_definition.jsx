@@ -4501,6 +4501,7 @@ const AdminDefinition = {
                         help_text: t('admin.openid.openidButtonTextDesc'),
                         help_text_default: 'The text that will show on the login button.',
                         isHidden: it.not(it.stateEquals('oauthType', 'openid')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_COLOR,
@@ -4511,6 +4512,7 @@ const AdminDefinition = {
                         help_text_default: 'Specify the color of the OpenId login button for white labeling purposes. Use a hex code with a #-sign before the code. This setting only applies to the mobile apps.',
                         help_text_markdown: false,
                         isHidden: it.not(it.stateEquals('oauthType', 'openid')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
                     },
 
                     {
@@ -4523,6 +4525,7 @@ const AdminDefinition = {
                         placeholder: t('admin.openid.clientIdExample'),
                         placeholder_default: 'E.g.: "jcuS8PuvcpGhpgHhlcpT1Mx42pnqMxQY"',
                         isHidden: it.not(it.stateEquals('oauthType', 'openid')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -4534,6 +4537,7 @@ const AdminDefinition = {
                         placeholder: t('admin.openid.clientSecretExample'),
                         placeholder_default: 'E.g.: "H8sz0Az-dDs2p15-7QzD231"',
                         isHidden: it.not(it.stateEquals('oauthType', 'openid')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -4543,6 +4547,7 @@ const AdminDefinition = {
                         placeholder: t('admin.openid.discovery.placehoder'),
                         placeholder_default: 'E.g.: "https://openid.provider.com/.well-known/openid-configuration"',
                         isHidden: it.not(it.stateEquals('oauthType', 'openid')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
                     },
                 ],
             },
