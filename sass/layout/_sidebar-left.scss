@@ -60,7 +60,7 @@
         height: calc(100% - #{$announcement-bar-height});
     }
 
-    body.cloud-banner--fixed & {
+    body.announcement-banner-tall--fixed & {
         height: calc(100% - 40px)
     }
 

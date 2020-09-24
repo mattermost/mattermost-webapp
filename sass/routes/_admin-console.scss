@@ -24,7 +24,7 @@
             height: calc(100vh - 32px);
         }
 
-        .cloud-banner--fixed & {
+        .announcement-banner-tall--fixed & {
             height: calc(100vh - 40px);
         }
     }
@@ -84,7 +84,7 @@
             height: calc(100vh - 205px);
         }
 
-        .cloud-banner--fixed & {
+        .announcement-banner-tall--fixed & {
             height: calc(100vh - 205px);
         }
     }
@@ -604,7 +604,7 @@
         padding-bottom: $announcement-bar-height;
     }
 
-    body.cloud-banner--fixed & {
+    body.announcement-banner-tall--fixed & {
         top: 40px;
         padding-bottom: 40px;
     }

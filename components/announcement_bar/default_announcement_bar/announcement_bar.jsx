@@ -31,6 +31,7 @@ export default class AnnouncementBar extends React.PureComponent {
         modalButtonDefaultText: PropTypes.string,
         showLinkAsButton: PropTypes.bool,
         warnMetricStatus: PropTypes.object,
+        isTallBanner: PropTypes.bool,
         actions: PropTypes.shape({
             incrementAnnouncementBarCount: PropTypes.func.isRequired,
             decrementAnnouncementBarCount: PropTypes.func.isRequired,
@@ -45,17 +46,23 @@ export default class AnnouncementBar extends React.PureComponent {
         handleClose: null,
         onButtonClick: null,
         showLinkAsButton: false,
+        isTallBanner: false,
     }
 
     componentDidMount() {
         this.props.actions.incrementAnnouncementBarCount();
-
-        document.body.classList.add('announcement-bar--fixed');
+        if (this.props.isTallBanner) {
+            document.body.classList.add('announcement-banner-tall--fixed');
+        } else {
+            document.body.classList.add('announcement-bar--fixed');
+        }
     }
 
     componentWillUnmount() {
-        if (this.props.announcementBarCount === 1) {
+        if (this.props.announcementBarCount === 1 && !this.props.isTallBanner) {
             document.body.classList.remove('announcement-bar--fixed');
+        } else if (this.props.announcementBarCount === 1 && this.props.isTallBanner) {
+            document.body.classList.remove('announcement-banner-tall--fixed');
         }
 
         this.props.actions.decrementAnnouncementBarCount();

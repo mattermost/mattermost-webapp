@@ -1250,7 +1250,7 @@
                     top: calc(48px + #{$announcement-bar-height});
                 }
 
-                body.cloud-banner--fixed & {
+                body.announcement-banner-tall--fixed & {
                     height: calc(100% - 48px - 40px);
                     top: calc(48px + 40px);
                 }
@@ -1931,7 +1931,7 @@
             }
         }
 
-        &.cloud-banner--fixed {
+        &.announcement-banner-tall--fixed {
             .modal {
                 padding-top: 40px;
             }
