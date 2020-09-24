@@ -139,6 +139,8 @@ class SwitchChannelSuggestion extends Suggestion {
 
         return (
             <div
+                onClick={this.handleClick}
+                onMouseMove={this.handleMouseMove}
                 className={className}
                 role='list'
                 ref={(node) => {
