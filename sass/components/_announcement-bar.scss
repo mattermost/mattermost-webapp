@@ -1,8 +1,8 @@
 @charset 'UTF-8';
 
 .announcement-bar {
-
     &.tall {
+        transition: all 0.2s ease-in-out;
         height: 40px;
         max-height: 40px;
         min-height: 40px;
@@ -12,6 +12,22 @@
             font-size: 14px;
             line-height: 20px;
             font-weight: 600;
+        }
+        .announcement-bar__close {
+            &:hover {
+                background-color: rgba(255, 255, 255, 0.08)
+            }
+            font-size: 18px;
+            line-height: 21px;
+            display: inline-block;
+            position: absolute;
+            right: 0;
+            width: 18px;
+            height: 18px;
+            margin-right: 11px;
+            margin-top: 11.3px;
+            margin-bottom: 10.7px;
+            padding: 0;
         }
     }
 
@@ -90,6 +106,9 @@
     }
 
     .upgrade-button {
+        &:hover {
+            background-color: rgba(255, 255, 255, 0.08)
+        }
         display: inline-block;
         margin-top: 8px;
         margin-bottom: 8px;

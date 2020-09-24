@@ -98,7 +98,11 @@ export default class AnnouncementBar extends React.PureComponent {
         } else if (this.props.type === AnnouncementBarTypes.ADVISOR_ACK) {
             barClass = 'announcement-bar announcement-bar-advisor-ack';
         } else if (this.props.type === AnnouncementBarTypes.CRITICAL_LIGHT) {
-            barClass = 'announcement-bar announcement-bar-critical-light tall';
+            barClass = 'announcement-bar announcement-bar-critical-light';
+        }
+
+        if (this.props.isTallBanner) {
+            barClass += ' tall';
         }
 
         let closeButton;
