@@ -29,6 +29,7 @@ export default class AnnouncementBar extends React.PureComponent {
         showModal: PropTypes.bool,
         modalButtonText: PropTypes.string,
         modalButtonDefaultText: PropTypes.string,
+        showLinkAsButton: PropTypes.bool,
         warnMetricStatus: PropTypes.object,
         actions: PropTypes.shape({
             incrementAnnouncementBarCount: PropTypes.func.isRequired,
@@ -42,6 +43,8 @@ export default class AnnouncementBar extends React.PureComponent {
         textColor: '',
         type: AnnouncementBarTypes.CRITICAL,
         handleClose: null,
+        onButtonClick: null,
+        showLinkAsButton: false,
     }
 
     componentDidMount() {
@@ -87,6 +90,8 @@ export default class AnnouncementBar extends React.PureComponent {
             barClass = 'announcement-bar announcement-bar-advisor';
         } else if (this.props.type === AnnouncementBarTypes.ADVISOR_ACK) {
             barClass = 'announcement-bar announcement-bar-advisor-ack';
+        } else if (this.props.type === AnnouncementBarTypes.CRITICAL_LIGHT) {
+            barClass = 'announcement-bar announcement-bar-critical-light tall';
         }
 
         let closeButton;
@@ -126,9 +131,14 @@ export default class AnnouncementBar extends React.PureComponent {
                     overlay={announcementTooltip}
                 >
                     <span>
+                        {this.props.showLinkAsButton &&
+                            (this.props.showCloseButton ? <div className={'content__icon'}>{''}</div> : <div className={'content__icon'}>{''}</div>)
+                        }
                         {message}
-                        <span className='announcement-bar__link'>
-                            {this.props.showModal &&
+                        {
+                            !this.props.showLinkAsButton &&
+                            <span className='announcement-bar__link'>
+                                {this.props.showModal &&
                                 <FormattedMessage
                                     id={this.props.modalButtonText}
                                     defaultMessage={this.props.modalButtonDefaultText}
@@ -149,8 +159,21 @@ export default class AnnouncementBar extends React.PureComponent {
                                         </ToggleModalButtonRedux>
                                     )}
                                 </FormattedMessage>
-                            }
-                        </span>
+                                }
+                            </span>
+                        }
+                        {
+                            this.props.showLinkAsButton &&
+                            <button
+                                onClick={this.props.showModal}
+                                className='upgrade-button'
+                            >
+                                <FormattedMessage
+                                    id={this.props.modalButtonText}
+                                    defaultMessage={this.props.modalButtonDefaultText}
+                                />
+                            </button>
+                        }
                     </span>
                 </OverlayTrigger>
                 {closeButton}

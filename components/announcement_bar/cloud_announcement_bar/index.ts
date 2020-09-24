@@ -16,7 +16,7 @@ import {GlobalState} from 'types/store';
 
 import {Preferences} from 'utils/constants';
 
-import CloudAnnouncementBar from './cloud_announcement_bar';
+import UserLimitAnnouncementBar from './user_limit_announcement_bar';
 
 function mapStateToProps(state: GlobalState) {
     const getCategory = makeGetCategory();
@@ -42,4 +42,4 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CloudAnnouncementBar);
+export default connect(mapStateToProps, mapDispatchToProps)(UserLimitAnnouncementBar);
