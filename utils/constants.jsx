@@ -227,7 +227,7 @@ export const WarnMetricTypes = {
     SYSTEM_WARN_METRIC_NUMBER_OF_CHANNELS_5: 'warn_metric_number_of_channels_50',
     SYSTEM_WARN_METRIC_MFA: 'warn_metric_mfa',
     SYSTEM_WARN_METRIC_EMAIL_DOMAIN: 'warn_metric_email_domain',
-    SYSTEM_WARN_METRIC_NUMBER_OF_POSTS_500K: 'warn_metric_number_of_posts_500k',
+    SYSTEM_WARN_METRIC_NUMBER_OF_POSTS_2M: 'warn_metric_number_of_posts_2M',
 };
 
 export const ModalIdentifiers = {

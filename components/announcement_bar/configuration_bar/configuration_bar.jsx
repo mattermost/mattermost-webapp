@@ -91,7 +91,7 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
             if (warnMetricStatus.id === WarnMetricTypes.SYSTEM_WARN_METRIC_NUMBER_OF_ACTIVE_USERS_500) {
                 dismissFunc = this.dismissNumberOfActiveUsersWarnMetricAck;
                 isDismissed = this.props.dismissedNumberOfActiveUsersWarnMetricStatusAck;
-            } else if (warnMetricStatus.id === WarnMetricTypes.SYSTEM_WARN_METRIC_NUMBER_OF_POSTS_500K) {
+            } else if (warnMetricStatus.id === WarnMetricTypes.SYSTEM_WARN_METRIC_NUMBER_OF_POSTS_2M) {
                 dismissFunc = this.dismissNumberOfPostsWarnMetricAck;
                 isDismissed = this.props.dismissedNumberOfPostsWarnMetricStatusAck;
             }
@@ -118,7 +118,7 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
                 );
                 dismissFunc = this.dismissNumberOfActiveUsersWarnMetric;
                 isDismissed = this.props.dismissedNumberOfActiveUsersWarnMetricStatus;
-            } else if (warnMetricStatus.id === WarnMetricTypes.SYSTEM_WARN_METRIC_NUMBER_OF_POSTS_500K) {
+            } else if (warnMetricStatus.id === WarnMetricTypes.SYSTEM_WARN_METRIC_NUMBER_OF_POSTS_2M) {
                 message = (
                     <React.Fragment>
                         <img

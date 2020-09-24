@@ -110,7 +110,7 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
         let mailBody = 'Mattermost Contact Us request.';
         if (this.props.warnMetricStatus.id === WarnMetricTypes.SYSTEM_WARN_METRIC_NUMBER_OF_ACTIVE_USERS_500) {
             mailBody = 'Mattermost Contact Us request.\r\nMy team now has 500 users, and I am considering Mattermost Enterprise Edition.';
-        } else if (this.props.warnMetricStatus.id === WarnMetricTypes.SYSTEM_WARN_METRIC_NUMBER_OF_POSTS_500K) {
+        } else if (this.props.warnMetricStatus.id === WarnMetricTypes.SYSTEM_WARN_METRIC_NUMBER_OF_POSTS_2M) {
             mailBody = 'Mattermost Contact Us request.\r\nI am interested in learning more about improving performance with Elasticsearch.';
         }
 
@@ -167,7 +167,7 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
                     defaultMessage='Scaling with Mattermost'
                 />
             );
-        } else if (this.props.warnMetricStatus.id === WarnMetricTypes.SYSTEM_WARN_METRIC_NUMBER_OF_POSTS_500K) {
+        } else if (this.props.warnMetricStatus.id === WarnMetricTypes.SYSTEM_WARN_METRIC_NUMBER_OF_POSTS_2M) {
             headerTitle = (
                 <FormattedMessage
                     id='warn_metric_ack_modal.number_of_posts.header.title'
@@ -189,11 +189,11 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
                     }}
                 />
             );
-        } else if (this.props.warnMetricStatus.id === WarnMetricTypes.SYSTEM_WARN_METRIC_NUMBER_OF_POSTS_500K) {
+        } else if (this.props.warnMetricStatus.id === WarnMetricTypes.SYSTEM_WARN_METRIC_NUMBER_OF_POSTS_2M) {
             descriptionText = (
                 <FormattedMessage
                     id='warn_metric_ack_modal.number_of_posts.description'
-                    defaultMessage='Your Mattermost system has a very high number of posts. Mattermost strongly recommends that you implement Elasticsearch in order to optimize search performance and prevent performance degradation and timeouts. Contact us to learn more and let us know how we can help.'
+                    defaultMessage='Your Mattermost system has a large number of messages. The default Mattermost database search starts to show performance degradation at around 2.5 million posts. With over 5 million posts, Elasticsearch can help avoid significant performance issues, such as timeouts, with search and at-mentions. Contact us to learn more and let us know how we can help.'
                     values={{
                         limit: this.props.warnMetricStatus.limit,
                     }}
