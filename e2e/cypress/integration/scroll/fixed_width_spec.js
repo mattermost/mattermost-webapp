@@ -15,6 +15,8 @@ describe('Scroll', () => {
     let testChannel;
 
     before(() => {
+        cy.viewport(1800, 2000);
+
         cy.apiUpdateConfig({
             ServiceSettings: {
                 EnableLinkPreviews: true,
@@ -46,8 +48,8 @@ describe('Scroll', () => {
         cy.postMessage('This is the last post');
         cy.getLastPostId().as('lastPostId');
 
-        getLastTextPost().invoke('height').as('initialFirstPostHeight');
-        getUserNameTitle().invoke('height').as('initialUserNameHeight');
+        getUserNameTitle().eq(0).invoke('height').as('initialUserNameHeight');
+        getFirstTextPost().invoke('height').as('initialFirstPostHeight');
         getMp3Post().invoke('height').as('initialMp3Height');
         getMpgPost().invoke('height').as('initialMpgHeight');
         getGifPost().invoke('height').as('initialGifHeight');
@@ -69,16 +71,19 @@ describe('Scroll', () => {
         // # Browse to Channel
         cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 
+        // * Verify All posts are displayed correctly
+        cy.findAllByTestId('postContent').should('have.length', '9').and('have.class', 'post__content center');
+
         // * Verify there is no scroll pop
         cy.get('#post-list').should('exist').within(() => {
             cy.get('@initialUserNameHeight').then((originalHeight) => {
                 getUserNameTitle().eq(0).should('exist').and('have.css', 'height', originalHeight + 'px');
             });
             cy.get('@initialFirstPostHeight').then((originalHeight) => {
-                getFirstTextPost().eq(0).should('exist').and('have.css', 'height', originalHeight + 'px');
+                getFirstTextPost().should('exist').and('have.css', 'height', originalHeight + 'px');
             });
             cy.get('@initialLastPostHeight').then((originalHeight) => {
-                getLastTextPost().eq(0).should('exist').and('have.css', 'height', originalHeight + 'px');
+                getLastTextPost().should('exist').and('have.css', 'height', originalHeight + 'px');
             });
             cy.get('@initialMp3Height').then((originalHeight) => {
                 getMp3Post().should('have.css', 'height', originalHeight + 'px');
@@ -99,13 +104,10 @@ describe('Scroll', () => {
                 getAttachmentPost().should('have.css', 'height', (originalHeight + 2) + 'px');
             });
         });
-
-        // * Verify All posts are displayed correctly
-        cy.findAllByTestId('postContent').should('have.length', '9').and('have.class', 'post__content center');
     });
 
     const getUserNameTitle = () => {
-        return cy.findAllByText('sysadmin');
+        return cy.findAllByLabelText('sysadmin');
     };
 
     const getMp3Post = () => {
