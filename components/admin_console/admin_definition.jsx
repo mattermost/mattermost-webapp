@@ -3368,6 +3368,19 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'SamlSettings.IgnoreGuestsLDAPSync',
+                        label: t('admin.saml.ignoreGuestsLDAPSync'),
+                        label_default: 'Ignore Guest Users when  Synchronizing with AD/LDAP"',
+                        help_text: t('admin.saml.ignoreGuestsLdapSync'),
+                        help_text_default: 'When true, Mattermost periodically synchronizes SAML user attributes, including user deactivation and removal, from AD/LDAP. Enable and configure synchronization settings at **Authentication > AD/LDAP**. When false, user attributes are updated from SAML during user login. See [documentation](!https://about.mattermost.com/default-saml-ldap-sync) to learn more.',
+                        isDisabled: it.either(
+                            it.configIsFalse('GuestAccountsSettings', 'Enable'),
+                            it.stateIsFalse('SamlSettings.EnableSyncWithLdap'),
+                            it.stateIsFalse('SamlSettings.Enable'),
+                        ),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
                         key: 'SamlSettings.EnableSyncWithLdapIncludeAuth',
                         label: t('admin.saml.enableSyncWithLdapIncludeAuthTitle'),
                         label_default: 'Override SAML bind data with AD/LDAP information:',
