@@ -54,7 +54,7 @@ type Props = {
     enableSaml: boolean;
     enableSignUpWithOffice365: boolean;
     experimentalEnableAuthenticationTransfer: boolean;
-    passwordConfig: object;
+    passwordConfig: Record<string, unknown>;
     militaryTime: boolean;
     actions: Actions;
 };
