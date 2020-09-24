@@ -630,6 +630,7 @@
   "admin.experimental.enableXToLeaveChannelsFromLHS.title": "Enable X to Leave Channels from Left-Hand Sidebar:",
   "admin.experimental.experimentalChannelOrganization.desc": "Enables channel sidebar organization options in **Account Settings > Sidebar > Channel grouping and sorting** including options for grouping unread channels, sorting channels by most recent post and combining all channel types into a single list. These settings are not available if **Account Settings > Sidebar > Experimental Sidebar Features** are enabled.",
   "admin.experimental.experimentalChannelOrganization.title": "Channel Grouping and Sorting",
+  "admin.experimental.experimentalChannelSidebarOrganization.always_on": "Always On",
   "admin.experimental.experimentalChannelSidebarOrganization.default_off": "Enabled (Default Off)",
   "admin.experimental.experimentalChannelSidebarOrganization.default_on": "Enabled (Default On)",
   "admin.experimental.experimentalChannelSidebarOrganization.desc": "When enabled, users can access experimental channel sidebar features, including collapsible sections and unreads filtering. If default on, this enabled the new sidebar features by default for all users on this server. Users can disable the features in **Account Settings > Sidebar > Experimental Sidebar Features**. If default off, users must enable the experimental sidebar features in Account Settings. [Learn more](!https://about.mattermost.com/default-sidebar/) or [give us feedback](!https://about.mattermost.com/default-sidebar-survey/)",

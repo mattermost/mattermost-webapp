@@ -93,17 +93,15 @@ exports[`ProductNoticesModal Match snapshot for user notice 1`] = `
     <span
       className="tutorial__circles"
     >
-      <a
+      <span
         className="circle"
         data-screen={0}
-        href="#"
         id="tutorialIntroCircle0"
         key="circle0"
       />
-      <a
+      <span
         className="circle active"
         data-screen={1}
-        href="#"
         id="tutorialIntroCircle1"
         key="circle1"
       />
@@ -168,17 +166,15 @@ exports[`ProductNoticesModal Should match snapshot for system admin notice 1`] =
     <span
       className="tutorial__circles"
     >
-      <a
+      <span
         className="circle active"
         data-screen={0}
-        href="#"
         id="tutorialIntroCircle0"
         key="circle0"
       />
-      <a
+      <span
         className="circle"
         data-screen={1}
-        href="#"
         id="tutorialIntroCircle1"
         key="circle1"
       />
