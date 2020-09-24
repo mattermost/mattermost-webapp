@@ -88,23 +88,34 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
     test('submitPassword() should not have called updateUserPassword', async () => {
         const wrapper = shallow(<UserSettingsSecurity {...requiredProps}/>);
 
-        await wrapper.instance().submitPassword();
+        await (wrapper.instance() as UserSettingsSecurity).submitPassword();
         expect(requiredProps.actions.updateUserPassword).toHaveBeenCalledTimes(0);
     });
 
     test('submitPassword() should have called updateUserPassword', async () => {
         const updateUserPassword = jest.fn(() => Promise.resolve({data: true}));
-        const props = {...requiredProps, actions: {...requiredProps.actions, updateUserPassword}};
+        const props = {
+            ...requiredProps,
+            actions: {...requiredProps.actions, updateUserPassword},
+        };
         const wrapper = shallow(<UserSettingsSecurity {...props}/>);
 
         const password = 'psw';
-        const state = {currentPassword: 'currentPassword', newPassword: password, confirmPassword: password};
+        const state = {
+            currentPassword: 'currentPassword',
+            newPassword: password,
+            confirmPassword: password,
+        };
         wrapper.setState(state);
 
-        await wrapper.instance().submitPassword();
+        await (wrapper.instance() as UserSettingsSecurity).submitPassword();
 
         expect(updateUserPassword).toHaveBeenCalled();
-        expect(updateUserPassword).toHaveBeenCalledWith(user.id, state.currentPassword, state.newPassword);
+        expect(updateUserPassword).toHaveBeenCalledWith(
+            user.id,
+            state.currentPassword,
+            state.newPassword,
+        );
 
         expect(requiredProps.updateSection).toHaveBeenCalled();
         expect(requiredProps.updateSection).toHaveBeenCalledWith('');
@@ -112,14 +123,19 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
 
     test('deauthorizeApp() should have called deauthorizeOAuthApp', () => {
         const appId = 'appId';
-        const event = {currentTarget: {getAttribute: jest.fn().mockReturnValue(appId)}, preventDefault: jest.fn()};
+        const event = {
+            currentTarget: {getAttribute: jest.fn().mockReturnValue(appId)},
+            preventDefault: jest.fn(),
+        };
 
         const wrapper = shallow(<UserSettingsSecurity {...requiredProps}/>);
         wrapper.setState({authorizedApps: []});
-        wrapper.instance().deauthorizeApp(event);
+        (wrapper.instance() as UserSettingsSecurity).deauthorizeApp(event);
 
         expect(requiredProps.actions.deauthorizeOAuthApp).toHaveBeenCalled();
-        expect(requiredProps.actions.deauthorizeOAuthApp).toHaveBeenCalledWith(appId);
+        expect(requiredProps.actions.deauthorizeOAuthApp).toHaveBeenCalledWith(
+            appId,
+        );
     });
 
     test('deauthorizeApp() should have updated state.authorizedApps', async () => {
@@ -133,7 +149,7 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
 
         const appId = 'appId';
         const apps = [{id: appId}, {id: '2'}];
-        const event = {
+        const event: any = {
             currentTarget: {getAttribute: jest.fn().mockReturnValue(appId)},
             preventDefault: jest.fn(),
         };
@@ -155,7 +171,7 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
 
         const wrapper = shallow(<UserSettingsSecurity {...props}/>);
 
-        const event = {
+        const event: any = {
             currentTarget: {getAttribute: jest.fn().mockReturnValue('appId')},
             preventDefault: jest.fn(),
         };
