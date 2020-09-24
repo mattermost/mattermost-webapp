@@ -2,35 +2,28 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import Permissions from 'mattermost-redux/constants/permissions';
 import {Client4} from 'mattermost-redux/client';
+import {CustomEmoji} from 'mattermost-redux/types/emojis';
+import {Team} from 'mattermost-redux/src/types/teams';
 
 import DeleteEmoji from 'components/emoji/delete_emoji_modal.jsx';
 import AnyTeamPermissionGate from 'components/permissions_gates/any_team_permission_gate';
 
-export default class EmojiListItem extends React.PureComponent {
-    static propTypes = {
-        emoji: PropTypes.object.isRequired,
-        currentUserId: PropTypes.string.isRequired,
-        creatorDisplayName: PropTypes.string.isRequired,
-        creatorUsername: PropTypes.string,
-        currentTeam: PropTypes.object,
-        onDelete: PropTypes.func,
-        actions: PropTypes.shape({
-            deleteCustomEmoji: PropTypes.func.isRequired,
-        }).isRequired,
+export type Props = {
+    emoji: CustomEmoji;
+    currentUserId: string;
+    creatorDisplayName: string;
+    creatorUsername?: string;
+    currentTeam?: Team;
+    onDelete?: (id: string) => void;
+    actions: {
+        deleteCustomEmoji: (id: string) => void;
     }
-
-    static defaultProps = {
-        emoji: {},
-        currentUserId: '',
-        currentTeam: {},
-        creatorDisplayName: '',
-    }
-
-    handleDelete = () => {
+}
+export default class EmojiListItem extends React.PureComponent<Props> {
+    handleDelete = (): void => {
         if (this.props.onDelete) {
             this.props.onDelete(this.props.emoji.id);
         }
@@ -57,7 +50,7 @@ export default class EmojiListItem extends React.PureComponent {
         } else {
             deleteButton = (
                 <AnyTeamPermissionGate permissions={[Permissions.DELETE_EMOJIS]}>
-                    <AnyTeamPermissionGate permissions={[Permissions.DELETE_OTHERS_EMOJIS]}>
+                    <AnyTeamPermissionGate permissions={[Permissions.DELETE_EMOJIS]}>
                         <DeleteEmoji onDelete={this.handleDelete}/>
                     </AnyTeamPermissionGate>
                 </AnyTeamPermissionGate>
