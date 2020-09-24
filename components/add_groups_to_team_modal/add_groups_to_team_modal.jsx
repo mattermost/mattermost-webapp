@@ -170,7 +170,7 @@ export default class AddGroupsToTeamModal extends React.PureComponent {
         this.props.actions.setModalSearchTerm(term);
     }
 
-    renderOption(option, isSelected, onAdd, onMouseMove) {
+    renderOption = (option, isSelected, onAdd, onMouseMove) => {
         const rowSelected = isSelected ? 'more-modal__row--selected' : '';
 
         return (
