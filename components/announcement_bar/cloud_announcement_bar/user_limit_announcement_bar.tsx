@@ -58,7 +58,7 @@ export default class UserLimitAnnouncementBar extends React.PureComponent<Props>
             return false;
         }
 
-        if (!userLimit || userLimit > analytics!.TOTAL_USERS) {
+        if (!userLimit || userLimit > analytics!.TOTAL_USERS || !userLimit) {
             return false;
         }
 

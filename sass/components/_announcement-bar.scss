@@ -1,8 +1,8 @@
 @charset 'UTF-8';
 
 .announcement-bar {
+    transition: 0.2s ease-in-out;
     &.tall {
-        transition: all 0.2s ease-in-out;
         height: 40px;
         max-height: 40px;
         min-height: 40px;
