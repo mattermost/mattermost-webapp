@@ -24,6 +24,7 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         collapseModal: jest.fn(),
         setRequireConfirm: jest.fn(),
         updateSection: jest.fn(),
+        authorizedApps: jest.fn(),
         actions: {
             getMe: jest.fn(),
             updateUserPassword: jest.fn(() => Promise.resolve({error: true})),
@@ -61,7 +62,7 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
             enableOAuthServiceProvider: true,
         };
 
-        const wrapper = shallow(<UserSettingsSecurity {...props}/>);
+        const wrapper: any = shallow(<UserSettingsSecurity {...props}/>);
 
         await promise;
 
@@ -78,11 +79,11 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
             enableOAuthServiceProvider: true,
         };
 
-        const wrapper = shallow(<UserSettingsSecurity {...props}/>);
+        const wrapper: any = shallow(<UserSettingsSecurity {...props}/>);
 
         await promise;
 
-        expect(wrapper.state().serverError).toEqual(error.message);
+        expect(wrapper.state('serverError')).toEqual(error.message);
     });
 
     test('submitPassword() should not have called updateUserPassword', async () => {
@@ -123,7 +124,7 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
 
     test('deauthorizeApp() should have called deauthorizeOAuthApp', () => {
         const appId = 'appId';
-        const event = {
+        const event: any = {
             currentTarget: {getAttribute: jest.fn().mockReturnValue(appId)},
             preventDefault: jest.fn(),
         };
@@ -145,7 +146,7 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
             actions: {...requiredProps.actions, deauthorizeOAuthApp: () => promise},
         };
 
-        const wrapper = shallow(<UserSettingsSecurity {...props}/>);
+        const wrapper: any = shallow(<UserSettingsSecurity {...props}/>);
 
         const appId = 'appId';
         const apps = [{id: appId}, {id: '2'}];
@@ -169,7 +170,7 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
             actions: {...requiredProps.actions, deauthorizeOAuthApp: () => promise},
         };
 
-        const wrapper = shallow(<UserSettingsSecurity {...props}/>);
+        const wrapper: any = shallow(<UserSettingsSecurity {...props}/>);
 
         const event: any = {
             currentTarget: {getAttribute: jest.fn().mockReturnValue('appId')},
@@ -179,6 +180,6 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
 
         await promise;
 
-        expect(wrapper.state().serverError).toEqual(error.message);
+        expect(wrapper.state('serverError')).toEqual(error.message);
     });
 });
