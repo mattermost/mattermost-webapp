@@ -6,6 +6,8 @@ import {FormattedMessage} from 'react-intl';
 import {Stripe, loadStripe} from '@stripe/stripe-js';
 import {Elements} from '@stripe/react-stripe-js';
 
+import moment from 'moment';
+
 import upgradeImage from 'images/cloud/upgrade.svg';
 import wavesBackground from 'images/cloud/waves.svg';
 import professionalLogo from 'images/cloud-logos/professional.svg';
@@ -21,7 +23,7 @@ import './purchase.scss';
 import 'components/payment_form/payment_form.scss';
 import ProcessPaymentSetup from './process_payment_setup';
 
-const STRIPE_CSS_SRC = 'https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i&display=swap';
+const STRIPE_CSS_SRC = 'https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,600i&display=swap';
 const STRIPE_PUBLIC_KEY = 'pk_test_ttEpW6dCHksKyfAFzh6MvgBj';
 
 const stripePromise = loadStripe(STRIPE_PUBLIC_KEY);
@@ -71,8 +73,11 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
 
     handleSubmitClick = async () => {
         this.setState({processing: true});
+    }
 
-        await this.props.actions.completeStripeAddPaymentMethod(stripePromise, this.state.billingDetails);
+    nextBillingDate = () => {
+        const nextBillingDate = moment().add(1, 'months').startOf('month');
+        return nextBillingDate.format('MMM D, YYYY');
     }
 
     purchaseScreen = () => {
@@ -102,7 +107,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                     <div className='price-container'>
                         <div className='bold-text'>{'Mattermost Cloud'}</div>
                         <div className='price-text'>{`$${this.state.productPrice}`}<span className='monthly-text'>{' /user/month'}</span></div>
-                        <div className='footer-text'>{'Payment begins: Aug 8, 2020'}</div>
+                        <div className='footer-text'>{`Payment begins: ${this.nextBillingDate()}`}</div>
                         <button
                             disabled={!this.state.paymentInfoIsValid}
                             onClick={this.handleSubmitClick}
@@ -131,9 +136,6 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
     }
 
     render() {
-        // Calculate starting subscription date
-        //const upgradeDisable = payment
-
         return (
             <Elements
                 options={{fonts: [{cssSrc: STRIPE_CSS_SRC}]}}

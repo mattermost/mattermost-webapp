@@ -76,9 +76,7 @@ export default function IconMessage(props: Props) {
             <div className='IconMessage-sub'>
                 {subtitle}
             </div>
-            <div className='IconMessage-error'>
-                {error}
-            </div>
+            <div className='IconMessage-error'/>
             {button}
             {link}
             {footer}

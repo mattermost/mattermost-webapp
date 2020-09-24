@@ -7,20 +7,22 @@ import {getName} from 'country-list';
 
 import Select, {StylesConfig} from 'react-select';
 
+import {FormattedMessage} from 'react-intl';
+
 import {PaymentMethod} from 'components/cloud/types/customer';
 import {BillingDetails} from 'components/cloud/types/sku';
 
 import Input from 'components/input';
 
-import {COUNTRIES} from './countries';
+import * as Utils from 'utils/utils';
 
+import {COUNTRIES} from './countries';
 import StateSelector from './state_selector';
 import CardInput, {CardInputType} from './card_input';
 import CardImage from './card_image';
 
 import './payment_form.scss';
 import 'components/input.css';
-import './form.css';
 
 type Props = {
     className: string;
@@ -159,16 +161,19 @@ export default class PaymentForm extends React.PureComponent<Props, State> {
                             value={this.state.name}
                             onChange={this.handleInputChange}
                             onBlur={this.onBlur}
-                            placeholder='Name on Card'
+                            placeholder={Utils.localizeMessage('payment_form.name_on_card', 'Name on Card')}
                             required={true}
                         />
                     </div>
                     <div className='section-title'>
-                        {'Billing address'}
+                        <FormattedMessage
+                            id='payment_form.billing_address'
+                            defaultMessage='Billing address'
+                        />
                     </div>
                     <div className='form-row selector'>
                         <Select
-                            placeholder='Country'
+                            placeholder={Utils.localizeMessage('payment_form.country', 'Country')}
                             name='state'
                             className='full-width'
                             components={{IndicatorSeparator: null}}
@@ -188,7 +193,7 @@ export default class PaymentForm extends React.PureComponent<Props, State> {
                             value={this.state.address}
                             onChange={this.handleInputChange}
                             onBlur={this.onBlur}
-                            placeholder='Address'
+                            placeholder={Utils.localizeMessage('payment_form.address', 'Address')}
                             required={true}
                         />
                     </div>
@@ -199,7 +204,7 @@ export default class PaymentForm extends React.PureComponent<Props, State> {
                             value={this.state.address2}
                             onChange={this.handleInputChange}
                             onBlur={this.onBlur}
-                            placeholder='Address 2'
+                            placeholder={Utils.localizeMessage('payment_form.address_2', 'Address 2')}
                         />
                     </div>
                     <div className='form-row'>
@@ -209,12 +214,12 @@ export default class PaymentForm extends React.PureComponent<Props, State> {
                             value={this.state.city}
                             onChange={this.handleInputChange}
                             onBlur={this.onBlur}
-                            placeholder='City'
+                            placeholder={Utils.localizeMessage('payment_form.city', 'City')}
                             required={true}
                         />
                     </div>
                     <div className='form-row'>
-                        <div className='Form-row-third-1 selector'>
+                        <div className='form-row-third-1 selector'>
                             <StateSelector
                                 country={this.state.country}
                                 state={this.state.state}
@@ -222,14 +227,14 @@ export default class PaymentForm extends React.PureComponent<Props, State> {
                                 onBlur={this.onBlur}
                             />
                         </div>
-                        <div className='Form-row-third-2'>
+                        <div className='form-row-third-2'>
                             <Input
                                 name='postalCode'
                                 type='text'
                                 value={this.state.postalCode}
                                 onChange={this.handleInputChange}
                                 onBlur={this.onBlur}
-                                placeholder='Zip/Postal code'
+                                placeholder={Utils.localizeMessage('payment_form.zipcode', 'Zip/Postal Code')}
                                 required={true}
                             />
                         </div>
@@ -241,7 +246,13 @@ export default class PaymentForm extends React.PureComponent<Props, State> {
             let cardContent: JSX.Element | null = null;
 
             if (paymentMethod) {
-                let cardDetails = <i>{'No credit card added'}</i>;
+                let cardDetails = (
+                    <i>
+                        <FormattedMessage
+                            id='payment_form.no_credit_card'
+                            defaultMessage='No credit card added'
+                        />
+                    </i>);
                 if (paymentMethod.last_four) {
                     cardDetails = (
                         <React.Fragment>
@@ -252,7 +263,13 @@ export default class PaymentForm extends React.PureComponent<Props, State> {
                         </React.Fragment>
                     );
                 }
-                let addressDetails = <i>{'No billing address added'}</i>;
+                let addressDetails = (
+                    <i>
+                        <FormattedMessage
+                            id='payment_form.no_billing_address'
+                            defaultMessage='No billing address added'
+                        />
+                    </i>);
                 if (this.state.state) {
                     addressDetails = (
                         <React.Fragment>
@@ -285,14 +302,20 @@ export default class PaymentForm extends React.PureComponent<Props, State> {
                     className='PaymentForm-saved'
                 >
                     <div className='PaymentForm-saved-title'>
-                        {'Saved Payment Method'}
+                        <FormattedMessage
+                            id='payment_form.saved_payment_method'
+                            defaultMessage='Saved Payment Method'
+                        />
                     </div>
                     {cardContent}
                     <button
                         className='Form-btn-link PaymentForm-change'
                         onClick={this.changePaymentMethod}
                     >
-                        {'Change Payment Method'}
+                        <FormattedMessage
+                            id='payment_form.change_payment_method'
+                            defaultMessage='Change Payment Method'
+                        />
                     </button>
                 </div>
             );
@@ -304,7 +327,10 @@ export default class PaymentForm extends React.PureComponent<Props, State> {
                 className={`PaymentForm ${className}`}
             >
                 <div className='section-title'>
-                    {'Credit Card'}
+                    <FormattedMessage
+                        id='payment_form.credit_card'
+                        defaultMessage='Credit Card'
+                    />
                 </div>
                 {paymentDetails}
             </form>
@@ -315,8 +341,7 @@ const selectorStyles: StylesConfig = {
     placeholder: (provided) => ({
         ...provided,
 
-        //color: changeOpacity(theme.centerChannelColor, 0.64),
-        color: '#213F6B',
+        color: 'var(--center-channel-color-64)',
         opacity: 0.5,
         fontSize: '14px',
         padding: '2px'

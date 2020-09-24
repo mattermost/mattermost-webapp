@@ -5,31 +5,20 @@ import React from 'react';
 import {StripeElements, StripeCardElement, StripeCardElementChangeEvent} from '@stripe/stripe-js';
 import {ElementsConsumer, CardElement} from '@stripe/react-stripe-js';
 
-import AlertIcon from 'components/widgets/icons/alert_icon';
+import {FormattedMessage} from 'react-intl';
 
 import './card_input.css';
+import 'components/input.css';
 
 const CARD_ELEMENT_OPTIONS = {
     hidePostalCode: true,
     style: {
         base: {
-            height: '48px',
-            fontFamily: 'Source Sans Pro',
-            fontSize: '18px',
-            color: '#32325d',
+            fontFamily: 'Open Sans',
+            fontSize: '14px',
+            opacity: '0.5',
             fontSmoothing: 'antialiased',
-            '::placeholder': {
-                color: 'rgb(33,63,107, 0.5)',
-                fontSize: '18px',
-            },
-            ':focus::placeholder': {
-                color: 'transparent',
-            }
         },
-        invalid: {
-            color: '#DB3214',
-            iconColor: '#DB3214',
-        }
     }
 };
 
@@ -102,6 +91,8 @@ class CardInput extends React.PureComponent<Props, State> {
         this.setState({error: ''});
         if (required && empty) {
             error = REQUIRED_FIELD_TEXT;
+
+            //t('shortcuts.header'),
         } else if (!complete) {
             error = VALID_CARD_TEXT;
         }
@@ -114,10 +105,25 @@ class CardInput extends React.PureComponent<Props, State> {
             return null;
         }
 
+        let errorMessage;
+        if (error === REQUIRED_FIELD_TEXT) {
+            errorMessage = (
+                <FormattedMessage
+                    id='payment.field_required'
+                    defaultMessage='This field is required'
+                />);
+        } else if (error === VALID_CARD_TEXT) {
+            errorMessage = (
+                <FormattedMessage
+                    id='payment.invalid_card_number'
+                    defaultMessage='Please enter a valid credit card'
+                />);
+        }
+
         return (
-            <div className='Input-error'>
-                <AlertIcon className='Form-error-icon'/>
-                {' ' + error}
+            <div className='Input___error'>
+                <i className='icon icon-alert-outline'/>
+                {errorMessage}
             </div>
         );
     }
@@ -129,19 +135,24 @@ class CardInput extends React.PureComponent<Props, State> {
     public render() {
         const {className, error: propError, ...otherProps} = this.props;
         const {empty, focused, error: stateError} = this.state;
-        let fieldsetClass = className ? `Input-fieldset ${className}` : 'Input-fieldset';
-        let fieldsetErrorClass = className ? `Input-fieldset Input-fieldset-error ${className}` : 'Input-fieldset Input-fieldset-error';
+        let fieldsetClass = className ? `Input_fieldset ${className}` : 'Input_fieldset';
+        let fieldsetErrorClass = className ? `Input_fieldset Input_fieldset___error ${className}` : 'Input_fieldset Input_fieldset___error';
         const showLegend = Boolean(focused || !empty);
 
-        fieldsetClass = showLegend ? fieldsetClass + ' Input-fieldset-legend' : fieldsetClass;
-        fieldsetErrorClass = showLegend ? fieldsetErrorClass + ' Input-fieldset-legend' : fieldsetErrorClass;
+        fieldsetClass = showLegend ? fieldsetClass + ' Input_fieldset___legend' : fieldsetClass;
+        fieldsetErrorClass = showLegend ? fieldsetErrorClass + ' Input_fieldset___legend' : fieldsetErrorClass;
 
         const error = propError || stateError;
 
         return (
-            <div className='Input-container'>
+            <div className='Input_container'>
                 <fieldset className={error ? fieldsetErrorClass : fieldsetClass}>
-                    <legend className={showLegend ? 'Input-legend Input-legend-focus' : 'Input-legend'}>{'Card number'}</legend>
+                    <legend className={showLegend ? 'Input_legend Input_legend___focus' : 'Input_legend'}>
+                        <FormattedMessage
+                            id='payment.card_number'
+                            defaultMessage='Card Number'
+                        />
+                    </legend>
                     <CardElement
                         {...otherProps}
                         options={CARD_ELEMENT_OPTIONS}

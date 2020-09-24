@@ -101,8 +101,8 @@
         margin: 24px 0px;
 
         &:disabled {
-            background: rgba(var(--center-channel-color), 0.08);
-            color: rgba(var(--center-channel-color), 0.32);
+            background: var(--center-channel-color-08);
+            color: var(--center-channel-color-32);
         }
     }
     

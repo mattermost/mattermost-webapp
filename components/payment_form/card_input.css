@@ -1,28 +1,37 @@
 .StripeElement {
+    font-family: 'Open Sans';
+    font-size: 14px;
     position: relative;
-    top: -6px;
     padding-top: 10px;
     padding-left: 14px;
     width: 100%;
-    height: 43px;
-    font-size: 18px;
+    height: 40px;
+    font-size: 14px;
     line-height: 23px;
-    color: #213F6B;
-    background-color: #fff;
+    color: var(--center-channel-color);    
+    background-color: var(--center-channel-bg);
     background-image: none;
     border-radius: 4px;
     outline: none;
     box-shadow: none;
 }
 
-.StripeElement--empty {
-    top: 0px;
-}
-
-.StripeElement--focus {
-    top: -5px;
-}
-
 .StripeElement--invalid {
-    top: -6px;
+    color: var(--error-text);
+    icon-color: var(--error-text);
+}
+
+.StripeElement::placeholder {
+    color: var(--center-channel-color-72);
+    opacity: 0.5;
+    font-size: 14px;
+}
+
+.StripeElement:focus::placeholder {
+    color: 'transparent';
+}
+
+.StripeElement:focus {
+    border-color: transparent;
+    box-shadow: 0 0 0 2px var(--button-bg);
 }

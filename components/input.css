@@ -5,6 +5,7 @@
     border: 0;
     outline: 0;
     color: var(--center-channel-color);
+    background-color: var(--center-channel-bg);
     padding: 0 12px;
     font-size: 12px;
     line-height: 30px;

@@ -79,10 +79,12 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
         const start = new Date();
         const {stripe, addPaymentMethod, billingDetails} = this.props;
 
-        const {error} = await addPaymentMethod(stripe, billingDetails);
+        const errorText = await addPaymentMethod(stripe, billingDetails);
 
-        if (error) {
-            this.setState({error, state: ProcessState.FAILED});
+        if (errorText) {
+            this.setState({
+                error: errorText,
+                state: ProcessState.FAILED});
             return;
         }
 

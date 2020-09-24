@@ -11,8 +11,6 @@ import Input from 'components/input';
 import {US_STATES, CA_PROVINCES, StateCode} from 'components/cloud/utils/states';
 
 type Props = {
-
-    //theme:
     country: string;
     state: string;
     onChange: (newValue: string) => void;
@@ -70,8 +68,7 @@ const selectorStyles: StylesConfig = {
     placeholder: (provided) => ({
         ...provided,
 
-        //color: changeOpacity(theme.centerChannelColor, 0.64),
-        color: '#213F6B',
+        color: 'var(--center-channel-color-64)',
         opacity: 0.5,
         fontSize: '14px',
         padding: '2px'
