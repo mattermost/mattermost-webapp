@@ -23,6 +23,10 @@
         .announcement-bar--fixed & {
             height: calc(100vh - 32px);
         }
+
+        .cloud-banner--fixed & {
+            height: calc(100vh - 40px);
+        }
     }
 
     .admin-console__wrapper {
@@ -77,6 +81,10 @@
         height: calc(100vh - 175px);
 
         .announcement-bar--fixed & {
+            height: calc(100vh - 205px);
+        }
+
+        .cloud-banner--fixed & {
             height: calc(100vh - 205px);
         }
     }
@@ -543,6 +551,7 @@
     height: 100%;
     left: 0;
     position: fixed;
+    top: 0;
     width: 220px;
     z-index: 10;
 
@@ -593,6 +602,11 @@
     body.announcement-bar--fixed & {
         top: $announcement-bar-height;
         padding-bottom: $announcement-bar-height;
+    }
+
+    body.cloud-banner--fixed & {
+        top: 40px;
+        padding-bottom: 40px;
     }
 
     .dropdown-menu {

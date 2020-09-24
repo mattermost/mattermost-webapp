@@ -12,6 +12,10 @@
         height: calc(100% - #{$announcement-bar-height});
     }
 
+    body.cloud-banner--fixed & {
+        height: calc(100% - 40px);
+    }
+
     .fa {
         @include single-transition(all, .15s, ease);
         @include opacity(.6);
