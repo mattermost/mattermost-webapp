@@ -113,9 +113,7 @@ export default class MarkdownImage extends React.PureComponent {
                                 rel='noopener noreferrer'
                                 target='_blank'
                                 title={this.props.title}
-                            >
-                                {alt}
-                            </a>
+                            />
                         );
                     }
 
