@@ -124,6 +124,7 @@
         height: 24px;
         box-sizing: border-box;
         border-radius: 4px;
+        background-color: inherit
     }
 }
 
@@ -131,16 +132,10 @@
 
 .announcement-bar-critical {
     background-color: #B0171F;
-    .upgrade-button {
-        background-color: #B0171F;
-    }
 }
 
 .announcement-bar-critical-light {
     background-color: var(--error-text);
-    .upgrade-button {
-        background-color: var(--error-text);
-    }
 }
 
 .announcement-bar-developer {
