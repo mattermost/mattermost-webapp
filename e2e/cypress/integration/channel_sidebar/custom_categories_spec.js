@@ -37,7 +37,7 @@ describe('Channel sidebar', () => {
         cy.get(`button[aria-label='${categoryName}']`).should('contain', categoryName);
     });
 
-    it('should create a new category from category menu', () => {
+    it('MM-T3161_2 should create a new category from category menu', () => {
         const categoryName = createCategoryFromSidebarMenu();
 
         // # create a category from category menu
