@@ -4,7 +4,6 @@
 import React from 'react';
 import {useIntl} from 'react-intl';
 
-import {t} from 'utils/i18n';
 export default function InfoIcon(props) {
     const {formatMessage} = useIntl();
     return (
@@ -14,7 +13,7 @@ export default function InfoIcon(props) {
                 height='18px'
                 viewBox='0 0 22 22'
                 role='img'
-                aria-label={formatMessage({id: t('generic_icons.info'), defaultMessage: 'Info Icon'})}
+                aria-label={formatMessage({id: 'generic_icons.info', defaultMessage: 'Info Icon'})}
             >
                 <g
                     stroke='none'
