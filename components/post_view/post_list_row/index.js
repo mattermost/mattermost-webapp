@@ -7,7 +7,7 @@ import {bindActionCreators} from 'redux';
 import {getShortcutReactToLastPostEmittedFrom} from 'selectors/emojis';
 import {emitShortcutReactToLastPostFrom} from 'actions/post_actions.jsx';
 
-import PostListRow from './post_list_row.jsx';
+import PostListRow from './post_list_row';
 
 function mapStateToProps(state, ownProps) {
     const shortcutReactToLastPostEmittedFrom = getShortcutReactToLastPostEmittedFrom(state);
