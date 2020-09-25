@@ -113,6 +113,8 @@ export class MarketplaceModal extends React.PureComponent {
             serverError: null,
             filter: '',
         };
+
+        this.filter = React.createRef()
     }
 
     componentDidMount() {
@@ -120,8 +122,8 @@ export class MarketplaceModal extends React.PureComponent {
 
         this.fetchPlugins();
 
-        if (this.refs.filter) {
-            this.refs.filter.focus();
+        if (this.filter.current) {
+            this.filter.current.focus();
         }
     }
 
@@ -148,14 +150,14 @@ export class MarketplaceModal extends React.PureComponent {
     }
 
     onInput = () => {
-        this.setState({filter: this.refs.filter.value});
+        this.setState({filter: this.filter.current.value});
 
         this.debouncedSearch();
     }
 
     handleClearSearch = () => {
-        this.refs.filter.value = '';
-        this.setState({filter: this.refs.filter.value}, this.doSearch);
+        this.filter.current.value = '';
+        this.setState({filter: this.filter.current.value}, this.doSearch);
     }
 
     doSearch = async () => {
@@ -174,7 +176,7 @@ export class MarketplaceModal extends React.PureComponent {
                 <div className='col-sm-12'>
                     <QuickInput
                         id='searchMarketplaceTextbox'
-                        ref='filter'
+                        ref={this.filter}
                         className='form-control filter-textbox search_input'
                         placeholder={{id: t('marketplace_modal.search'), defaultMessage: 'Search Plugins'}}
                         inputComponent={LocalizedInput}

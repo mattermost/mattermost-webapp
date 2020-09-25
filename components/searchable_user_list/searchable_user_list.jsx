@@ -61,6 +61,8 @@ class SearchableUserList extends React.PureComponent {
         this.state = {
             nextDisabled: false,
         };
+
+        this.filter = React.createRef()
     }
 
     componentDidMount() {
@@ -96,7 +98,7 @@ class SearchableUserList extends React.PureComponent {
 
     focusSearchBar = () => {
         if (this.props.focusOnMount) {
-            this.refs.filter.focus();
+            this.filter.current.focus();
         }
     }
 
@@ -233,7 +235,7 @@ class SearchableUserList extends React.PureComponent {
                     </label>
                     <QuickInput
                         id='searchUsersInput'
-                        ref='filter'
+                        ref={this.filter}
                         className='form-control filter-textbox'
                         placeholder={searchUsersPlaceholder}
                         inputComponent={LocalizedInput}
