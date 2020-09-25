@@ -40,7 +40,7 @@ export default class SearchableChannelList extends React.PureComponent {
             nextDisabled: false,
         };
 
-        this.filter = React.createRef()
+        this.filter = React.createRef();
     }
 
     componentDidMount() {

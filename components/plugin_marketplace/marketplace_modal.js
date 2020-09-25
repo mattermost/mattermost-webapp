@@ -114,7 +114,7 @@ export class MarketplaceModal extends React.PureComponent {
             filter: '',
         };
 
-        this.filter = React.createRef()
+        this.filter = React.createRef();
     }
 
     componentDidMount() {
