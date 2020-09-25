@@ -114,7 +114,7 @@ export default class AnnouncementBar extends React.PureComponent {
                     style={linkStyle}
                     onClick={this.handleClose}
                 >
-                    {'×'}
+                    {this.props.isTallBanner ? '' : '×'}
                 </a>
             );
         }
