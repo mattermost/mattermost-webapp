@@ -99,19 +99,19 @@ const DropdownInput = <T extends ValueType>(props: Props<T>) => {
         }
     };
 
-    let inputClass = className ? `Input ${className}` : 'Input';
-    let fieldsetClass = className ? `Input_fieldset ${className}` : 'Input_fieldset';
-    let fieldsetErrorClass = className ? `Input_fieldset Input_fieldset___error ${className}` : 'Input_fieldset Input_fieldset___error';
     const showLegend = Boolean(focused || value);
-
-    inputClass = showLegend ? inputClass + ' Input___focus' : inputClass;
-    fieldsetClass = showLegend ? fieldsetClass + ' Input_fieldset___legend' : fieldsetClass;
-    fieldsetErrorClass = showLegend ? fieldsetErrorClass + ' Input_fieldset___legend' : fieldsetErrorClass;
 
     return (
         <div className='DropdownInput Input_container'>
-            <fieldset className={error ? fieldsetErrorClass : fieldsetClass}>
-                <legend className={showLegend ? 'Input_legend Input_legend___focus' : 'Input_legend'}>{showLegend ? (legend || placeholder) : null}</legend>
+            <fieldset
+                className={classNames('Input_fieldset', className, {
+                    Input_fieldset___error: error,
+                    Input_fieldset___legend: showLegend,
+                })}
+            >
+                <legend className={classNames('Input_legend', {Input_legend___focus: showLegend})}>
+                    {showLegend ? (legend || placeholder) : null}
+                </legend>
                 <div
                     className='Input_wrapper'
                     onFocus={onInputFocus}
@@ -126,7 +126,7 @@ const DropdownInput = <T extends ValueType>(props: Props<T>) => {
                             IndicatorsContainer,
                             Option,
                         }}
-                        className={inputClass}
+                        className={classNames('Input', className, {Input__focus: showLegend})}
                         value={value}
                         onChange={onChange as any} // types are not working correctly for multiselect
                         styles={{...baseStyles, ...styles}}
