@@ -63,7 +63,7 @@ type State = {
     currentPassword: string;
     newPassword: string;
     confirmPassword: string;
-    passwordError: React.ReactNode | string;
+    passwordError: React.ReactNode;
     serverError: string | null;
     tokenError: string;
     savingPassword: boolean;

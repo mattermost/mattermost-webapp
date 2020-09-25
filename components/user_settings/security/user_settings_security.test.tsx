@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow} from 'enzyme';
+import {shallow, ShallowWrapper} from 'enzyme';
 
 import {UserProfile} from 'mattermost-redux/types/users';
 
@@ -62,7 +62,7 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
             enableOAuthServiceProvider: true,
         };
 
-        const wrapper: any = shallow(<UserSettingsSecurity {...props}/>);
+        const wrapper: ShallowWrapper<any, any, UserSettingsSecurity> = shallow(<UserSettingsSecurity {...props}/>);
 
         await promise;
 
@@ -79,7 +79,7 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
             enableOAuthServiceProvider: true,
         };
 
-        const wrapper: any = shallow(<UserSettingsSecurity {...props}/>);
+        const wrapper: ShallowWrapper<any, any, UserSettingsSecurity> = shallow(<UserSettingsSecurity {...props}/>);
 
         await promise;
 

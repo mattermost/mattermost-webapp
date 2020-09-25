@@ -17,7 +17,7 @@ import {Preferences} from 'utils/constants';
 
 import SecurityTab from './user_settings_security';
 
-type Actions= {
+type Actions = {
     getMe: () => void;
     updateUserPassword: (userId: string, currentPassword: string, newPassword: string) => Promise<ActionResult>;
     getAuthorizedOAuthApps: () => Promise<ActionResult>;
