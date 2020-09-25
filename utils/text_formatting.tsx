@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-//eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 //@ts-ignore
 import XRegExp from 'xregexp';
 import emojiRegex from 'emoji-regex';
@@ -851,7 +851,7 @@ export function handleUnicodeEmoji(text: string, emojiMap: EmojiMap, searchPatte
         const emojiCode = codePoints.map((codePoint) => codePoint.toString(16)).join('-');
 
         // convert emoji to image if supported, or wrap in span to apply appropriate formatting
-        if (emojiMap.hasUnicode(emojiCode)) {
+        if (emojiMap && emojiMap.hasUnicode(emojiCode)) {
             const emoji = emojiMap.getUnicode(emojiCode);
 
             return Emoticons.renderEmoji(emoji.aliases[0], emojiMatch);

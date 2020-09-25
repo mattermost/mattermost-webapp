@@ -240,6 +240,7 @@ class EditChannelHeaderModal extends React.PureComponent {
                                 createMessage={localizeMessage('edit_channel_header.editHeader', 'Edit the Channel Header...')}
                                 previewMessageLink={localizeMessage('edit_channel_header.previewHeader', 'Edit Header')}
                                 handlePostError={this.handlePostError}
+                                channelId={this.props.channel.id}
                                 id='edit_textbox'
                                 ref='editChannelHeaderTextbox'
                                 characterLimit={1024}

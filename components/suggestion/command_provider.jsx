@@ -130,7 +130,7 @@ export default class CommandProvider extends Provider {
 
     handleWebapp(pretext, resultCallback) {
         const command = pretext.toLowerCase();
-
+        const teamId = getCurrentTeamId(store.getState());
         const selectedPost = getSelectedPost(store.getState());
         let rootId;
         if (this.isInRHS) {
@@ -139,11 +139,11 @@ export default class CommandProvider extends Provider {
         const channel = this.isInRHS && selectedPost.channel_id ? getChannel(store.getState(), selectedPost.channel_id) : getCurrentChannel(store.getState());
 
         const args = {
-            channel_id: channel.id,
+            channel_id: channel?.id,
             ...(rootId && {root_id: rootId, parent_id: rootId}),
         };
 
-        Client4.getCommandAutocompleteSuggestionsList(command, channel.team_id, args).then(
+        Client4.getCommandAutocompleteSuggestionsList(command, teamId, args).then(
             (data) => {
                 const matches = [];
                 let cmd = 'Ctrl';

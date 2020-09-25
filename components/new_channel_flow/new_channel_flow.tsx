@@ -52,8 +52,8 @@ export type Props = {
     canCreatePrivateChannel: boolean;
 
     actions: {
-        createChannel: (channel: Channel) => Promise<{data: Channel; error?: ServerError}>;
-        switchToChannel: (channel: Channel) => Promise<{}>;
+        createChannel: (channel: Channel) => Promise<{data?: Channel; error?: ServerError}>;
+        switchToChannel: (channel: Channel) => Promise<{data?: true; error?: true}>;
         closeModal: (modalId: string) => void;
     };
 };
@@ -126,14 +126,13 @@ export default class NewChannelFlow extends React.PureComponent<Props, State> {
             update_at: 0,
         };
 
-        actions.createChannel(channel).then((result: {data: Channel; error?: ServerError}) => {
-            if (result.error) {
-                this.onCreateChannelError(result.error);
-                return;
+        actions.createChannel(channel).then(({data, error}) => {
+            if (error) {
+                this.onCreateChannelError(error);
+            } else if (data) {
+                this.onModalDismissed();
+                actions.switchToChannel(data);
             }
-
-            this.onModalDismissed();
-            actions.switchToChannel(result.data);
         });
     };
 

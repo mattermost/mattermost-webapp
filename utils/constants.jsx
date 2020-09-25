@@ -389,6 +389,7 @@ export const RecommendedNextSteps = {
     PREFERENCES_SETUP: 'preferences_setup',
     NOTIFICATION_SETUP: 'notification_setup',
     HIDE: 'hide',
+    SKIP: 'skip',
 };
 
 export const PostTypes = {
@@ -479,6 +480,7 @@ export const UserFilters = {
 
 export const SearchTypes = keyMirror({
     SET_MODAL_SEARCH: null,
+    SET_MODAL_FILTERS: null,
     SET_SYSTEM_USERS_SEARCH: null,
     SET_USER_GRID_SEARCH: null,
     SET_USER_GRID_FILTERS: null,
@@ -872,6 +874,9 @@ export const Constants = {
         NEW_MESSAGE: 4,
         POST: 5,
     },
+
+    // This is the same limit set https://github.com/mattermost/mattermost-server/blob/master/api4/team.go#L23
+    MAX_ADD_MEMBERS_BATCH: 256,
 
     SPECIAL_MENTIONS: ['all', 'channel', 'here'],
     SPECIAL_MENTIONS_REGEX: /(?:\B|\b_+)@(channel|all|here)(?!(\.|-|_)*[^\W_])/gi,

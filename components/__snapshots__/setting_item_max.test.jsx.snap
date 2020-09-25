@@ -32,7 +32,6 @@ exports[`components/SettingItemMax should match snapshot 1`] = `
             <FormattedMessage
               defaultMessage="Save"
               id="save_button.save"
-              values={Object {}}
             />
           }
           disabled={false}
@@ -43,7 +42,6 @@ exports[`components/SettingItemMax should match snapshot 1`] = `
             <FormattedMessage
               defaultMessage="Saving"
               id="save_button.saving"
-              values={Object {}}
             />
           }
         />
@@ -55,7 +53,6 @@ exports[`components/SettingItemMax should match snapshot 1`] = `
           <FormattedMessage
             defaultMessage="Cancel"
             id="setting_item_max.cancel"
-            values={Object {}}
           />
         </button>
       </div>
@@ -106,7 +103,6 @@ exports[`components/SettingItemMax should match snapshot, on clientError 1`] = `
             <FormattedMessage
               defaultMessage="Save"
               id="save_button.save"
-              values={Object {}}
             />
           }
           disabled={false}
@@ -117,7 +113,6 @@ exports[`components/SettingItemMax should match snapshot, on clientError 1`] = `
             <FormattedMessage
               defaultMessage="Saving"
               id="save_button.saving"
-              values={Object {}}
             />
           }
         />
@@ -129,7 +124,6 @@ exports[`components/SettingItemMax should match snapshot, on clientError 1`] = `
           <FormattedMessage
             defaultMessage="Cancel"
             id="setting_item_max.cancel"
-            values={Object {}}
           />
         </button>
       </div>
@@ -180,7 +174,6 @@ exports[`components/SettingItemMax should match snapshot, on serverError 1`] = `
             <FormattedMessage
               defaultMessage="Save"
               id="save_button.save"
-              values={Object {}}
             />
           }
           disabled={false}
@@ -191,7 +184,6 @@ exports[`components/SettingItemMax should match snapshot, on serverError 1`] = `
             <FormattedMessage
               defaultMessage="Saving"
               id="save_button.saving"
-              values={Object {}}
             />
           }
         />
@@ -203,7 +195,6 @@ exports[`components/SettingItemMax should match snapshot, on serverError 1`] = `
           <FormattedMessage
             defaultMessage="Cancel"
             id="setting_item_max.cancel"
-            values={Object {}}
           />
         </button>
       </div>
@@ -249,7 +240,6 @@ exports[`components/SettingItemMax should match snapshot, with new saveTextButto
             <FormattedMessage
               defaultMessage="Saving"
               id="save_button.saving"
-              values={Object {}}
             />
           }
         />
@@ -261,7 +251,6 @@ exports[`components/SettingItemMax should match snapshot, with new saveTextButto
           <FormattedMessage
             defaultMessage="Cancel"
             id="setting_item_max.cancel"
-            values={Object {}}
           />
         </button>
       </div>
@@ -304,7 +293,6 @@ exports[`components/SettingItemMax should match snapshot, without submit 1`] = `
           <FormattedMessage
             defaultMessage="Cancel"
             id="setting_item_max.cancel"
-            values={Object {}}
           />
         </button>
       </div>
