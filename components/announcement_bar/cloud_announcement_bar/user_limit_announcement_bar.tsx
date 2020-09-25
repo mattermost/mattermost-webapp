@@ -98,7 +98,7 @@ export default class UserLimitAnnouncementBar extends React.PureComponent<Props>
                 showModal={() => {}}
                 modalButtonText={t('admin.billing.subscription.upgradeMattermostCloud.upgradeButton')}
                 modalButtonDefaultText={'Upgrade Mattermost Cloud'}
-                message={dismissable ? 'upgrade.cloud_banner_reached' : 'upgrade.cloud_banner_over'}
+                message={dismissable ? t('upgrade.cloud_banner_reached') : t('upgrade.cloud_banner_over')}
                 showLinkAsButton={true}
                 isTallBanner={true}
             />
