@@ -36,7 +36,7 @@ describe('Messaging', () => {
                 cy.findByLabelText('remove reaction +1').should('be.visible');
             });
 
-            // # Clos RHS
+            // # Close RHS
             cy.closeRHS();
         });
     });
@@ -52,7 +52,7 @@ describe('Messaging', () => {
             // # Add a reaction to the post
             cy.get('.emoji-picker__items #emoji-1f631').wait(TIMEOUTS.HALF_SEC).click();
 
-            // $ Click the `+` button next to the existing reactions (visible on hover)
+            // # Click the `+` button next to the existing reactions (visible on hover)
             cy.get(`#addReaction-${postId}`).should('exist').click({force: true});
 
             // # Click to select an emoji from the picker
@@ -102,14 +102,14 @@ describe('Messaging', () => {
                     cy.findByLabelText('remove reaction upside down face').should('be.visible');
                 });
 
-                // # Clos RHS
+                // # Close RHS
                 cy.closeRHS();
             });
         });
     });
 
     it('MM-T2195 Emoji reaction - not available on system message Flag - not available on system message Pin - not available on system message Can delete your own system message', () => {
-        // # click add a channel description
+        // # Click add a channel description
         cy.get('#channelHeaderDescription button').click();
 
         // # Add or update a channel header
@@ -135,10 +135,10 @@ describe('Messaging', () => {
             // * If permissions allow, can click [...] >
             cy.clickPostDotMenu(postId);
 
-            // * Delete to delete system message
+            // # Delete to delete system message
             cy.get(`#delete_post_${postId}`).click();
 
-            // # Check that confirmation dialog is open.
+            // * Check that confirmation dialog is open.
             cy.get('#deletePostModal').should('be.visible');
 
             // # Confirm deletion.
