@@ -30,7 +30,7 @@ describe('Channel sidebar', () => {
         cy.uiCloseWhatsNewModal();
     });
 
-    it('should create a new category from sidebar menu', () => {
+    it('MM-T3161_1 should create a new category from sidebar menu', () => {
         const categoryName = createCategoryFromSidebarMenu();
 
         // * check if the category exists
