@@ -98,6 +98,7 @@ export const Preferences = {
     NAME_NAME_FORMAT: 'name_format',
     CATEGORY_SYSTEM_NOTICE: 'system_notice',
     TEAMS_ORDER: 'teams_order',
+    RECOMMENDED_NEXT_STEPS: 'recommended_next_steps',
 };
 
 export const ActionTypes = keyMirror({
@@ -208,6 +209,8 @@ export const ActionTypes = keyMirror({
     DISMISS_ANNOUNCEMENT_BAR: null,
 
     PREFETCH_POSTS_FOR_CHANNEL: null,
+
+    SET_SHOW_NEXT_STEPS_VIEW: null,
 });
 
 export const PostRequestTypes = keyMirror({
@@ -259,6 +262,10 @@ export const ModalIdentifiers = {
     DELETE_CATEGORY: 'delete_category',
     SIDEBAR_WHATS_NEW_MODAL: 'sidebar_whats_new_modal',
     WARN_METRIC_ACK: 'warn_metric_acknowledgement',
+    UPGRADE_CLOUD_ACCOUNT: 'upgrade_cloud_account',
+    REMOVE_NEXT_STEPS_MODAL: 'remove_next_steps_modal',
+    MORE_CHANNELS: 'more_channels',
+    NEW_CHANNEL_FLOW: 'new_channel_flow',
 };
 
 export const UserStatuses = {
@@ -361,6 +368,10 @@ export const SocketEvents = {
     RECEIVED_GROUP_NOT_ASSOCIATED_TO_CHANNEL: 'received_group_not_associated_to_channel',
     WARN_METRIC_STATUS_RECEIVED: 'warn_metric_status_received',
     WARN_METRIC_STATUS_REMOVED: 'warn_metric_status_removed',
+    SIDEBAR_CATEGORY_CREATED: 'sidebar_category_created',
+    SIDEBAR_CATEGORY_UPDATED: 'sidebar_category_updated',
+    SIDEBAR_CATEGORY_DELETED: 'sidebar_category_deleted',
+    SIDEBAR_CATEGORY_ORDER_UPDATED: 'sidebar_category_order_updated',
 };
 
 export const TutorialSteps = {
@@ -369,6 +380,16 @@ export const TutorialSteps = {
     CHANNEL_POPOVER: 2,
     MENU_POPOVER: 3,
     FINISHED: 999,
+};
+
+export const RecommendedNextSteps = {
+    COMPLETE_PROFILE: 'complete_profile',
+    TEAM_SETUP: 'team_setup',
+    INVITE_MEMBERS: 'invite_members',
+    PREFERENCES_SETUP: 'preferences_setup',
+    NOTIFICATION_SETUP: 'notification_setup',
+    HIDE: 'hide',
+    SKIP: 'skip',
 };
 
 export const PostTypes = {
@@ -459,6 +480,7 @@ export const UserFilters = {
 
 export const SearchTypes = keyMirror({
     SET_MODAL_SEARCH: null,
+    SET_MODAL_FILTERS: null,
     SET_SYSTEM_USERS_SEARCH: null,
     SET_USER_GRID_SEARCH: null,
     SET_USER_GRID_FILTERS: null,
@@ -497,6 +519,7 @@ export const ErrorPageTypes = {
     OAUTH_ACCESS_DENIED: 'oauth_access_denied',
     OAUTH_MISSING_CODE: 'oauth_missing_code',
     OAUTH_INVALID_PARAM: 'oauth_invalid_param',
+    OAUTH_INVALID_REDIRECT_URL: 'oauth_invalid_redirect_url',
     PAGE_NOT_FOUND: 'page_not_found',
     PERMALINK_NOT_FOUND: 'permalink_not_found',
     TEAM_NOT_FOUND: 'team_not_found',
@@ -696,6 +719,10 @@ export const PermissionsScope = {
     [Permissions.DELETE_OTHERS_EMOJIS]: 'team_scope',
     [Permissions.USE_CHANNEL_MENTIONS]: 'channel_scope',
     [Permissions.USE_GROUP_MENTIONS]: 'channel_scope',
+    [Permissions.READ_PUBLIC_CHANNEL_GROUPS]: 'channel_scope',
+    [Permissions.READ_PRIVATE_CHANNEL_GROUPS]: 'channel_scope',
+    [Permissions.CONVERT_PUBLIC_CHANNEL_TO_PRIVATE]: 'channel_scope',
+    [Permissions.CONVERT_PRIVATE_CHANNEL_TO_PUBLIC]: 'channel_scope',
 };
 
 export const DefaultRolePermissions = {
@@ -720,6 +747,8 @@ export const DefaultRolePermissions = {
         Permissions.ADD_REACTION,
         Permissions.REMOVE_REACTION,
         Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS,
+        Permissions.READ_PUBLIC_CHANNEL_GROUPS,
+        Permissions.READ_PRIVATE_CHANNEL_GROUPS,
         Permissions.UPLOAD_FILE,
         Permissions.GET_PUBLIC_LINK,
         Permissions.CREATE_POST,
@@ -740,6 +769,8 @@ export const DefaultRolePermissions = {
         Permissions.ADD_REACTION,
         Permissions.REMOVE_REACTION,
         Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS,
+        Permissions.READ_PUBLIC_CHANNEL_GROUPS,
+        Permissions.READ_PRIVATE_CHANNEL_GROUPS,
         Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS,
         Permissions.USE_CHANNEL_MENTIONS,
         Permissions.USE_GROUP_MENTIONS,
@@ -762,6 +793,10 @@ export const DefaultRolePermissions = {
         Permissions.MANAGE_OTHERS_INCOMING_WEBHOOKS,
         Permissions.USE_CHANNEL_MENTIONS,
         Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS,
+        Permissions.CONVERT_PUBLIC_CHANNEL_TO_PRIVATE,
+        Permissions.CONVERT_PRIVATE_CHANNEL_TO_PUBLIC,
+        Permissions.READ_PUBLIC_CHANNEL_GROUPS,
+        Permissions.READ_PRIVATE_CHANNEL_GROUPS,
         Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS,
         Permissions.CREATE_POST,
         Permissions.REMOVE_REACTION,
@@ -795,6 +830,12 @@ export const PostListRowListIds = {
     NEWER_MESSAGES_LOADER: 'NEWER_MESSAGES_LOADER',
     LOAD_OLDER_MESSAGES_TRIGGER: 'LOAD_OLDER_MESSAGES_TRIGGER',
     LOAD_NEWER_MESSAGES_TRIGGER: 'LOAD_NEWER_MESSAGES_TRIGGER',
+};
+
+export const exportFormats = {
+    EXPORT_FORMAT_CSV: 'csv',
+    EXPORT_FORMAT_ACTIANCE: 'actiance',
+    EXPORT_FORMAT_GLOBALRELAY: 'globalrelay',
 };
 
 export const Constants = {
@@ -834,6 +875,9 @@ export const Constants = {
         POST: 5,
     },
 
+    // This is the same limit set https://github.com/mattermost/mattermost-server/blob/master/api4/team.go#L23
+    MAX_ADD_MEMBERS_BATCH: 256,
+
     SPECIAL_MENTIONS: ['all', 'channel', 'here'],
     SPECIAL_MENTIONS_REGEX: /(?:\B|\b_+)@(channel|all|here)(?!(\.|-|_)*[^\W_])/gi,
     NOTIFY_ALL_MEMBERS: 5,
@@ -841,7 +885,7 @@ export const Constants = {
     DEFAULT_CHARACTER_LIMIT: 4000,
     IMAGE_TYPE_GIF: 'gif',
     TEXT_TYPES: ['txt', 'rtf'],
-    IMAGE_TYPES: ['jpg', 'gif', 'bmp', 'png', 'jpeg', 'tiff', 'tif'],
+    IMAGE_TYPES: ['jpg', 'gif', 'bmp', 'png', 'jpeg', 'tiff', 'tif', 'psd'],
     AUDIO_TYPES: ['mp3', 'wav', 'wma', 'm4a', 'flac', 'aac', 'ogg', 'm4r'],
     VIDEO_TYPES: ['mp4', 'avi', 'webm', 'mkv', 'wmv', 'mpg', 'mov', 'flv'],
     PRESENTATION_TYPES: ['ppt', 'pptx'],
@@ -896,6 +940,7 @@ export const Constants = {
     GITLAB_SERVICE: 'gitlab',
     GOOGLE_SERVICE: 'google',
     OFFICE365_SERVICE: 'office365',
+    OAUTH_SERVICES: ['gitlab', 'google', 'office365'],
     EMAIL_SERVICE: 'email',
     LDAP_SERVICE: 'ldap',
     SAML_SERVICE: 'saml',

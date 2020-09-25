@@ -36,8 +36,8 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
             cy.apiCreateUser({prefix: 'other'}).then(({user: user1}) => {
                 otherUser = user1;
 
-                cy.apiGetChannelByName(testTeam.name, 'town-square').then((res) => {
-                    townsquareChannel = res.body;
+                cy.apiGetChannelByName(testTeam.name, 'town-square').then((out) => {
+                    townsquareChannel = out.channel;
                 });
 
                 cy.apiAddUserToTeam(testTeam.id, otherUser.id).then(() => {
@@ -480,11 +480,11 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
         verifyShortcutReactToLastMessageIsBlocked();
     });
 
-    it('Should not open the emoji picker by shortcut if RHS is fully expanded for search results, recent mentions, flagged and pinned posts', () => {
-        // # Open the flagged message
+    it('Should not open the emoji picker by shortcut if RHS is fully expanded for search results, recent mentions, saved and pinned posts', () => {
+        // # Open the saved message
         cy.findByLabelText('Saved posts').click();
 
-        // # Expand the flagged message
+        // # Expand the saved message
         cy.findByLabelText('Expand Sidebar Icon').click();
 
         // Execute the shortcut

@@ -9,6 +9,7 @@ import {FormattedMessage} from 'react-intl';
 import './generic_modal.scss';
 
 type Props = {
+    className?: string;
     onHide: () => void;
     modalHeaderText: React.ReactNode;
     show?: boolean;
@@ -19,6 +20,8 @@ type Props = {
     cancelButtonText?: React.ReactNode;
     isConfirmDisabled?: boolean;
     id: string;
+    autoCloseOnCancelButton?: boolean;
+    autoCloseOnConfirmButton?: boolean;
 };
 
 type State = {
@@ -28,7 +31,9 @@ type State = {
 export default class GenericModal extends React.PureComponent<Props, State> {
     static defaultProps: Partial<Props> = {
         show: true,
-        id: 'genericModal'
+        id: 'genericModal',
+        autoCloseOnCancelButton: true,
+        autoCloseOnConfirmButton: true,
     };
 
     constructor(props: Props) {
@@ -45,7 +50,9 @@ export default class GenericModal extends React.PureComponent<Props, State> {
 
     handleCancel = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         event.preventDefault();
-        this.onHide();
+        if (this.props.autoCloseOnCancelButton) {
+            this.onHide();
+        }
         if (this.props.handleCancel) {
             this.props.handleCancel();
         }
@@ -53,7 +60,9 @@ export default class GenericModal extends React.PureComponent<Props, State> {
 
     handleConfirm = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         event.preventDefault();
-        this.onHide();
+        if (this.props.autoCloseOnConfirmButton) {
+            this.onHide();
+        }
         if (this.props.handleConfirm) {
             this.props.handleConfirm();
         }
@@ -111,7 +120,7 @@ export default class GenericModal extends React.PureComponent<Props, State> {
 
         return (
             <Modal
-                dialogClassName='a11y__modal GenericModal'
+                dialogClassName={classNames('a11y__modal GenericModal', this.props.className)}
                 show={this.state.show}
                 onHide={this.onHide}
                 onExited={this.onHide}

@@ -1,11 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 import React from 'react';
-import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
-import {JobTypes} from 'utils/constants';
+import {JobTypes, exportFormats} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import {getSiteURL} from 'utils/url';
 
@@ -16,12 +16,6 @@ import JobsTable from './jobs';
 import SettingsGroup from './settings_group.jsx';
 import TextSetting from './text_setting';
 import RadioSetting from './radio_setting';
-
-const exportFormats = {
-    EXPORT_FORMAT_CSV: 'csv',
-    EXPORT_FORMAT_ACTIANCE: 'actiance',
-    EXPORT_FORMAT_GLOBALRELAY: 'globalrelay',
-};
 
 export default class MessageExportSettings extends AdminSettings {
     getConfigFromState = (config) => {
@@ -71,17 +65,31 @@ export default class MessageExportSettings extends AdminSettings {
                 );
             }
             if (job.data.warning_count > 0) {
-                message.push(
-                    <div>
-                        <FormattedMessage
-                            id='admin.complianceExport.warningCount'
-                            defaultMessage='{count} warning(s) were encountered, see warning.txt for details'
-                            values={{
-                                count: job.data.warning_count,
-                            }}
-                        />
-                    </div>,
-                );
+                if (job.data.export_type === exportFormats.EXPORT_FORMAT_GLOBALRELAY) {
+                    message.push(
+                        <div>
+                            <FormattedMessage
+                                id='admin.complianceExport.warningCount.globalrelay'
+                                defaultMessage='{count} warning(s) encountered, see log for details'
+                                values={{
+                                    count: job.data.warning_count,
+                                }}
+                            />
+                        </div>,
+                    );
+                } else {
+                    message.push(
+                        <div>
+                            <FormattedMessage
+                                id='admin.complianceExport.warningCount'
+                                defaultMessage='{count} warning(s) encountered, see warning.txt for details'
+                                values={{
+                                    count: job.data.warning_count,
+                                }}
+                            />
+                        </div>,
+                    );
+                }
             }
             return message;
         }
@@ -127,9 +135,9 @@ export default class MessageExportSettings extends AdminSettings {
                         />
                     }
                     value={this.state.globalRelayCustomerType ? this.state.globalRelayCustomerType : ''}
-                    disabled={!this.state.enableComplianceExport}
                     onChange={this.handleChange}
                     setByEnv={this.isSetByEnv('DataRetentionSettings.GlobalRelaySettings.CustomerType')}
+                    disabled={this.props.isDisabled || !this.state.enableComplianceExport}
                 />
             );
 
@@ -150,9 +158,9 @@ export default class MessageExportSettings extends AdminSettings {
                         />
                     }
                     value={this.state.globalRelaySmtpUsername ? this.state.globalRelaySmtpUsername : ''}
-                    disabled={!this.state.enableComplianceExport}
                     onChange={this.handleChange}
                     setByEnv={this.isSetByEnv('DataRetentionSettings.GlobalRelaySettings.SmtpUsername')}
+                    disabled={this.props.isDisabled || !this.state.enableComplianceExport}
                 />
             );
 
@@ -173,9 +181,9 @@ export default class MessageExportSettings extends AdminSettings {
                         />
                     }
                     value={this.state.globalRelaySmtpPassword ? this.state.globalRelaySmtpPassword : ''}
-                    disabled={!this.state.enableComplianceExport}
                     onChange={this.handleChange}
                     setByEnv={this.isSetByEnv('DataRetentionSettings.GlobalRelaySettings.SmtpPassword')}
+                    disabled={this.props.isDisabled || !this.state.enableComplianceExport}
                 />
             );
 
@@ -190,15 +198,15 @@ export default class MessageExportSettings extends AdminSettings {
                     }
                     placeholder={Utils.localizeMessage('admin.complianceExport.globalRelayEmailAddress.example', 'E.g.: "globalrelay@mattermost.com"')}
                     helpText={
-                        <FormattedHTMLMessage
+                        <FormattedMessage
                             id='admin.complianceExport.globalRelayEmailAddress.description'
                             defaultMessage='The email address that your GlobalRelay server monitors for incoming Compliance Exports.'
                         />
                     }
                     value={this.state.globalRelayEmailAddress ? this.state.globalRelayEmailAddress : ''}
-                    disabled={!this.state.enableComplianceExport}
                     onChange={this.handleChange}
                     setByEnv={this.isSetByEnv('DataRetentionSettings.GlobalRelaySettings.EmailAddress')}
+                    disabled={this.props.isDisabled || !this.state.enableComplianceExport}
                 />
             );
 
@@ -239,6 +247,7 @@ export default class MessageExportSettings extends AdminSettings {
                     value={this.state.enableComplianceExport}
                     onChange={this.handleChange}
                     setByEnv={this.isSetByEnv('DataRetentionSettings.EnableExport')}
+                    disabled={this.props.isDisabled}
                 />
 
                 <TextSetting
@@ -251,15 +260,15 @@ export default class MessageExportSettings extends AdminSettings {
                     }
                     placeholder={Utils.localizeMessage('admin.complianceExport.exportJobStartTime.example', 'E.g.: "02:00"')}
                     helpText={
-                        <FormattedHTMLMessage
+                        <FormattedMessage
                             id='admin.complianceExport.exportJobStartTime.description'
                             defaultMessage='Set the start time of the daily scheduled compliance export job. Choose a time when fewer people are using your system. Must be a 24-hour time stamp in the form HH:MM.'
                         />
                     }
                     value={this.state.exportJobStartTime}
-                    disabled={!this.state.enableComplianceExport}
                     onChange={this.handleChange}
                     setByEnv={this.isSetByEnv('DataRetentionSettings.DailyRunTime')}
+                    disabled={this.props.isDisabled || !this.state.enableComplianceExport}
                 />
 
                 <DropdownSetting
@@ -273,16 +282,15 @@ export default class MessageExportSettings extends AdminSettings {
                     }
                     helpText={dropdownHelpText}
                     value={this.state.exportFormat}
-                    disabled={!this.state.enableComplianceExport}
                     onChange={this.handleChange}
                     setByEnv={this.isSetByEnv('DataRetentionSettings.ExportFormat')}
+                    disabled={this.props.isDisabled || !this.state.enableComplianceExport}
                 />
 
                 {globalRelaySettings}
 
                 <JobsTable
                     jobType={JobTypes.MESSAGE_EXPORT}
-                    disabled={!this.state.enableComplianceExport}
                     createJobButtonText={
                         <FormattedMessage
                             id='admin.complianceExport.createJob.title'
@@ -296,6 +304,7 @@ export default class MessageExportSettings extends AdminSettings {
                         />
                     }
                     getExtraInfoText={this.getJobDetails}
+                    disabled={this.props.isDisabled || !this.state.enableComplianceExport}
                 />
             </SettingsGroup>
         );

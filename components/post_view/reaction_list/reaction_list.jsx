@@ -153,12 +153,12 @@ export default class ReactionList extends React.PureComponent {
                         >
                             <button
                                 aria-label={localizeMessage('reaction.add.ariaLabel', 'Add a reaction')}
-                                className='style--none post-reaction'
+                                className='Reaction'
                                 onClick={this.toggleEmojiPicker}
                             >
                                 <span
                                     id={`addReaction-${this.props.post.id}`}
-                                    className='post-reaction__add'
+                                    className='Reaction__add'
                                     ref='addReactionButton'
                                 >
                                     <AddReactionIcon/>

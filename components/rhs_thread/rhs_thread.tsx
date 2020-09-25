@@ -208,7 +208,7 @@ export default class RhsThread extends React.Component<Props, State> {
 
     public scrollToBottom = (): void => {
         if ($('.post-right__scroll')[0]) {
-            $('.post-right__scroll').parent().scrollTop($('.post-right__scroll')[0].scrollHeight);
+            $('.post-right__scroll').parent().scrollTop($('.post-right__scroll')[0].scrollHeight); // eslint-disable-line jquery/no-parent
         }
     }
 

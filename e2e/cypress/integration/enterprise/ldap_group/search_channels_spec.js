@@ -34,7 +34,9 @@ describe('Search channels', () => {
 
     it('loads with no search text', () => {
         // * Check that text input loads empty.
-        cy.findByPlaceholderText('Search').should('be.visible').and('have.text', '');
+        cy.get('.DataGrid_searchBar').within(() => {
+            cy.findByPlaceholderText('Search').should('be.visible').and('have.text', '');
+        });
     });
 
     it('returns results', () => {
@@ -43,7 +45,9 @@ describe('Search channels', () => {
         cy.apiCreateChannel(testTeamId, 'channel-search', displayName);
 
         // # Search for the channel.
-        cy.findByPlaceholderText('Search').type(displayName + '{enter}');
+        cy.get('.DataGrid_searchBar').within(() => {
+            cy.findByPlaceholderText('Search').type(displayName + '{enter}');
+        });
 
         // * Check that channel is in search results.
         cy.findAllByTestId('channel-display-name').contains(displayName);
@@ -57,7 +61,9 @@ describe('Search channels', () => {
         }
 
         // # Search using the common channel name prefix.
-        cy.findByPlaceholderText('Search').type(displayName + '{enter}');
+        cy.get('.DataGrid_searchBar').within(() => {
+            cy.findByPlaceholderText('Search').type(displayName + '{enter}');
+        });
 
         // * Check that the first page of results is full.
         cy.findAllByTestId('channel-display-name').should('have.length', PAGE_SIZE);
@@ -77,7 +83,9 @@ describe('Search channels', () => {
         cy.apiCreateChannel(testTeamId, 'channel-search', displayName);
 
         // # Search for the channel.
-        cy.findByPlaceholderText('Search').as('searchInput').type(displayName + '{enter}');
+        cy.get('.DataGrid_searchBar').within(() => {
+            cy.findByPlaceholderText('Search').as('searchInput').type(displayName + '{enter}');
+        });
 
         // * Check that the list of channels is in search results mode.
         cy.findAllByTestId('channel-display-name').should('have.length', 1);
@@ -98,7 +106,9 @@ describe('Search channels', () => {
         cy.apiCreateChannel(testTeamId, 'channel-search', displayName);
 
         // # Search for the channel.
-        cy.findByPlaceholderText('Search').as('searchInput').type(displayName + '{enter}');
+        cy.get('.DataGrid_searchBar').within(() => {
+            cy.findByPlaceholderText('Search').as('searchInput').type(displayName + '{enter}');
+        });
 
         // * Check that the list of teams is in search results mode.
         cy.findAllByTestId('channel-display-name').should('have.length', 1);

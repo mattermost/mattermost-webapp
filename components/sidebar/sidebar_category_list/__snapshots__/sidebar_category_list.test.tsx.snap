@@ -11,9 +11,8 @@ exports[`components/sidebar/sidebar_category_list should match snapshot 1`] = `
   <UnreadChannelIndicator
     content={
       <FormattedMessage
-        defaultMessage="More Unreads"
+        defaultMessage="More unreads"
         id="sidebar.unreads"
-        values={Object {}}
       />
     }
     extraClass="nav-pills__unread-indicator-top"
@@ -24,9 +23,8 @@ exports[`components/sidebar/sidebar_category_list should match snapshot 1`] = `
   <UnreadChannelIndicator
     content={
       <FormattedMessage
-        defaultMessage="More Unreads"
+        defaultMessage="More unreads"
         id="sidebar.unreads"
-        values={Object {}}
       />
     }
     extraClass="nav-pills__unread-indicator-bottom"
@@ -119,9 +117,8 @@ exports[`components/sidebar/sidebar_category_list should match snapshot when unr
   <UnreadChannelIndicator
     content={
       <FormattedMessage
-        defaultMessage="More Unreads"
+        defaultMessage="More unreads"
         id="sidebar.unreads"
-        values={Object {}}
       />
     }
     extraClass="nav-pills__unread-indicator-top"
@@ -132,9 +129,8 @@ exports[`components/sidebar/sidebar_category_list should match snapshot when unr
   <UnreadChannelIndicator
     content={
       <FormattedMessage
-        defaultMessage="More Unreads"
+        defaultMessage="More unreads"
         id="sidebar.unreads"
-        values={Object {}}
       />
     }
     extraClass="nav-pills__unread-indicator-bottom"

@@ -60,7 +60,7 @@ describe('System Message', () => {
         });
     });
 
-    it('MM-14636 - Validate that system message is wrapping properly', () => {
+    it('MM-T426 System messages wrap properly', () => {
         const newHeader = `${Date.now()} newheader`;
 
         // # Update channel header textbox

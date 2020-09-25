@@ -25,11 +25,12 @@ type Props = {
     membership?: BaseMembership | TeamMembership | ChannelMembership;
     scope: 'team' | 'channel';
     handleUpdateMembership: (membership: BaseMembership) => void;
+    isDisabled?: boolean;
 }
 
 export type Role = 'system_admin' | 'team_admin' | 'team_user' | 'channel_admin' | 'channel_user' | 'guest';
 
-export default class UserGridRoleDropdown extends React.Component<Props> {
+export default class UserGridRoleDropdown extends React.PureComponent<Props> {
     private getDropDownOptions = () => {
         if (this.props.scope === 'team') {
             return {
@@ -76,12 +77,11 @@ export default class UserGridRoleDropdown extends React.Component<Props> {
             return Utils.localizeMessage('admin.user_grid.system_admin', 'System Admin');
         case 'team_admin':
             return Utils.localizeMessage('admin.user_grid.team_admin', 'Team Admin');
-        case 'team_user':
-            return Utils.localizeMessage('admin.user_grid.team_member', 'Team Member');
         case 'channel_admin':
             return Utils.localizeMessage('admin.user_grid.channel_admin', 'Channel Admin');
+        case 'team_user':
         case 'channel_user':
-            return Utils.localizeMessage('admin.user_grid.channel_member', 'Channel Member');
+            return Utils.localizeMessage('admin.group_teams_and_channels_row.member', 'Member');
         default:
             return Utils.localizeMessage('admin.user_grid.guest', 'Guest');
         }
@@ -116,7 +116,7 @@ export default class UserGridRoleDropdown extends React.Component<Props> {
             return null;
         }
 
-        const {user} = this.props;
+        const {user, isDisabled} = this.props;
 
         const {makeAdmin, makeMember} = this.getDropDownOptions();
         const currentRole = this.getCurrentRole();
@@ -132,7 +132,9 @@ export default class UserGridRoleDropdown extends React.Component<Props> {
         }
 
         return (
-            <MenuWrapper>
+            <MenuWrapper
+                isDisabled={isDisabled}
+            >
                 <button
                     id={`userGridRoleDropdown_${user.username}`}
                     className='dropdown-toggle theme color--link style--none'

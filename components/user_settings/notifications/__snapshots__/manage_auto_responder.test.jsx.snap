@@ -29,18 +29,15 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
             <FormattedMessage
               defaultMessage="Enabled"
               id="user.settings.notifications.autoResponderEnabled"
-              values={Object {}}
             />
           </label>
         </div>,
         <div
           className="mt-5"
         >
-          <FormattedHTMLMessage
+          <FormattedMessage
             defaultMessage="Set a custom message that will be automatically sent in response to Direct Messages. Mentions in Public and Private Channels will not trigger the automated reply. Enabling Automatic Replies sets your status to Out of Office and disables email and push notifications."
             id="user.settings.notifications.autoResponderHint"
-            tagName="span"
-            values={Object {}}
           />
         </div>,
       ]
@@ -53,7 +50,6 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
       <FormattedMessage
         defaultMessage="Automatic Direct Message Replies"
         id="user.settings.notifications.autoResponder"
-        values={Object {}}
       />
     }
     updateSection={[MockFunction]}
@@ -69,7 +65,6 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
         <FormattedMessage
           defaultMessage="Automatic Direct Message Replies"
           id="user.settings.notifications.autoResponder"
-          values={Object {}}
         >
           <span>
             Automatic Direct Message Replies
@@ -101,7 +96,6 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
                 <FormattedMessage
                   defaultMessage="Enabled"
                   id="user.settings.notifications.autoResponderEnabled"
-                  values={Object {}}
                 >
                   <span>
                     Enabled
@@ -113,20 +107,14 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
               className="mt-5"
               key="autoResponderHint"
             >
-              <FormattedHTMLMessage
+              <FormattedMessage
                 defaultMessage="Set a custom message that will be automatically sent in response to Direct Messages. Mentions in Public and Private Channels will not trigger the automated reply. Enabling Automatic Replies sets your status to Out of Office and disables email and push notifications."
                 id="user.settings.notifications.autoResponderHint"
-                tagName="span"
-                values={Object {}}
               >
-                <span
-                  dangerouslySetInnerHTML={
-                    Object {
-                      "__html": "Set a custom message that will be automatically sent in response to Direct Messages. Mentions in Public and Private Channels will not trigger the automated reply. Enabling Automatic Replies sets your status to Out of Office and disables email and push notifications.",
-                    }
-                  }
-                />
-              </FormattedHTMLMessage>
+                <span>
+                  Set a custom message that will be automatically sent in response to Direct Messages. Mentions in Public and Private Channels will not trigger the automated reply. Enabling Automatic Replies sets your status to Out of Office and disables email and push notifications.
+                </span>
+              </FormattedMessage>
             </div>
           </div>
           <div
@@ -139,7 +127,6 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
                 <FormattedMessage
                   defaultMessage="Save"
                   id="save_button.save"
-                  values={Object {}}
                 />
               }
               disabled={false}
@@ -150,12 +137,12 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
                 <FormattedMessage
                   defaultMessage="Saving"
                   id="save_button.saving"
-                  values={Object {}}
                 />
               }
             >
               <button
                 className="save-button btn btn-primary"
+                data-testid="saveSetting"
                 disabled={false}
                 id="saveSetting"
                 onClick={[Function]}
@@ -167,7 +154,6 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
                     <FormattedMessage
                       defaultMessage="Saving"
                       id="save_button.saving"
-                      values={Object {}}
                     />
                   }
                 >
@@ -175,7 +161,6 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
                     <FormattedMessage
                       defaultMessage="Save"
                       id="save_button.save"
-                      values={Object {}}
                     >
                       <span>
                         Save
@@ -193,7 +178,6 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
               <FormattedMessage
                 defaultMessage="Cancel"
                 id="setting_item_max.cancel"
-                values={Object {}}
               >
                 <span>
                   Cancel
@@ -237,7 +221,6 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
             <FormattedMessage
               defaultMessage="Enabled"
               id="user.settings.notifications.autoResponderEnabled"
-              values={Object {}}
             />
           </label>
         </div>,
@@ -266,11 +249,9 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
         <div
           className="mt-5"
         >
-          <FormattedHTMLMessage
+          <FormattedMessage
             defaultMessage="Set a custom message that will be automatically sent in response to Direct Messages. Mentions in Public and Private Channels will not trigger the automated reply. Enabling Automatic Replies sets your status to Out of Office and disables email and push notifications."
             id="user.settings.notifications.autoResponderHint"
-            tagName="span"
-            values={Object {}}
           />
         </div>,
       ]
@@ -283,7 +264,6 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
       <FormattedMessage
         defaultMessage="Automatic Direct Message Replies"
         id="user.settings.notifications.autoResponder"
-        values={Object {}}
       />
     }
     updateSection={[MockFunction]}
@@ -299,7 +279,6 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
         <FormattedMessage
           defaultMessage="Automatic Direct Message Replies"
           id="user.settings.notifications.autoResponder"
-          values={Object {}}
         >
           <span>
             Automatic Direct Message Replies
@@ -331,7 +310,6 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
                 <FormattedMessage
                   defaultMessage="Enabled"
                   id="user.settings.notifications.autoResponderEnabled"
-                  values={Object {}}
                 >
                   <span>
                     Enabled
@@ -410,20 +388,14 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
               className="mt-5"
               key="autoResponderHint"
             >
-              <FormattedHTMLMessage
+              <FormattedMessage
                 defaultMessage="Set a custom message that will be automatically sent in response to Direct Messages. Mentions in Public and Private Channels will not trigger the automated reply. Enabling Automatic Replies sets your status to Out of Office and disables email and push notifications."
                 id="user.settings.notifications.autoResponderHint"
-                tagName="span"
-                values={Object {}}
               >
-                <span
-                  dangerouslySetInnerHTML={
-                    Object {
-                      "__html": "Set a custom message that will be automatically sent in response to Direct Messages. Mentions in Public and Private Channels will not trigger the automated reply. Enabling Automatic Replies sets your status to Out of Office and disables email and push notifications.",
-                    }
-                  }
-                />
-              </FormattedHTMLMessage>
+                <span>
+                  Set a custom message that will be automatically sent in response to Direct Messages. Mentions in Public and Private Channels will not trigger the automated reply. Enabling Automatic Replies sets your status to Out of Office and disables email and push notifications.
+                </span>
+              </FormattedMessage>
             </div>
           </div>
           <div
@@ -436,7 +408,6 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
                 <FormattedMessage
                   defaultMessage="Save"
                   id="save_button.save"
-                  values={Object {}}
                 />
               }
               disabled={false}
@@ -447,12 +418,12 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
                 <FormattedMessage
                   defaultMessage="Saving"
                   id="save_button.saving"
-                  values={Object {}}
                 />
               }
             >
               <button
                 className="save-button btn btn-primary"
+                data-testid="saveSetting"
                 disabled={false}
                 id="saveSetting"
                 onClick={[Function]}
@@ -464,7 +435,6 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
                     <FormattedMessage
                       defaultMessage="Saving"
                       id="save_button.saving"
-                      values={Object {}}
                     />
                   }
                 >
@@ -472,7 +442,6 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
                     <FormattedMessage
                       defaultMessage="Save"
                       id="save_button.save"
-                      values={Object {}}
                     >
                       <span>
                         Save
@@ -490,7 +459,6 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
               <FormattedMessage
                 defaultMessage="Cancel"
                 id="setting_item_max.cancel"
-                values={Object {}}
               >
                 <span>
                   Cancel

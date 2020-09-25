@@ -16,7 +16,7 @@ import {
     PreferenceTypes,
 } from 'mattermost-redux/action_types';
 import {WebsocketEvents, General, Permissions} from 'mattermost-redux/constants';
-import {addChannelToInitialCategory} from 'mattermost-redux/actions/channel_categories';
+import {addChannelToInitialCategory, fetchMyCategories, receivedCategoryOrder} from 'mattermost-redux/actions/channel_categories';
 import {
     getChannelAndMyMember,
     getMyChannelMember,
@@ -330,7 +330,7 @@ export function handleEvent(msg) {
         break;
 
     case SocketEvents.CHANNEL_CREATED:
-        handleChannelCreatedEvent(msg);
+        dispatch(handleChannelCreatedEvent(msg));
         break;
 
     case SocketEvents.CHANNEL_DELETED:
@@ -455,6 +455,22 @@ export function handleEvent(msg) {
 
     case SocketEvents.WARN_METRIC_STATUS_REMOVED:
         handleWarnMetricStatusRemovedEvent(msg);
+        break;
+
+    case SocketEvents.SIDEBAR_CATEGORY_CREATED:
+        dispatch(handleSidebarCategoryCreated(msg));
+        break;
+
+    case SocketEvents.SIDEBAR_CATEGORY_UPDATED:
+        dispatch(handleSidebarCategoryUpdated(msg));
+        break;
+
+    case SocketEvents.SIDEBAR_CATEGORY_DELETED:
+        dispatch(handleSidebarCategoryDeleted(msg));
+        break;
+
+    case SocketEvents.SIDEBAR_CATEGORY_ORDER_UPDATED:
+        dispatch(handleSidebarCategoryOrderUpdated(msg));
         break;
 
     default:
@@ -985,13 +1001,23 @@ function handleRoleUpdatedEvent(msg) {
 }
 
 function handleChannelCreatedEvent(msg) {
-    const channelId = msg.data.channel_id;
-    const teamId = msg.data.team_id;
-    const state = getState();
+    return async (myDispatch, myGetState) => {
+        const channelId = msg.data.channel_id;
+        const teamId = msg.data.team_id;
+        const state = myGetState();
 
-    if (getCurrentTeamId(state) === teamId && !getChannel(state, channelId)) {
-        dispatch(getChannelAndMyMember(channelId));
-    }
+        if (getCurrentTeamId(state) === teamId) {
+            let channel = getChannel(state, channelId);
+
+            if (!channel) {
+                await myDispatch(getChannelAndMyMember(channelId));
+
+                channel = getChannel(myGetState(), channelId);
+            }
+
+            myDispatch(addChannelToInitialCategory(channel, false));
+        }
+    };
 }
 
 function handleChannelDeletedEvent(msg) {
@@ -1244,4 +1270,51 @@ function handleWarnMetricStatusReceivedEvent(msg) {
 
 function handleWarnMetricStatusRemovedEvent(msg) {
     store.dispatch({type: GeneralTypes.WARN_METRIC_STATUS_REMOVED, data: {id: msg.data.warnMetricId}});
+}
+
+function handleSidebarCategoryCreated(msg) {
+    return (doDispatch, doGetState) => {
+        const state = doGetState();
+
+        if (msg.broadcast.team_id !== getCurrentTeamId(state)) {
+            // The new category will be loaded when we switch teams.
+            return;
+        }
+
+        // Fetch all categories, including ones that weren't explicitly updated, in case any other categories had channels
+        // moved out of them.
+        doDispatch(fetchMyCategories(msg.broadcast.team_id));
+    };
+}
+
+function handleSidebarCategoryUpdated(msg) {
+    return (doDispatch, doGetState) => {
+        const state = doGetState();
+
+        if (msg.broadcast.team_id !== getCurrentTeamId(state)) {
+            // The updated categories will be loaded when we switch teams.
+            return;
+        }
+
+        // Fetch all categories in case any other categories had channels moved out of them.
+        doDispatch(fetchMyCategories(msg.broadcast.team_id));
+    };
+}
+
+function handleSidebarCategoryDeleted(msg) {
+    return (doDispatch, doGetState) => {
+        const state = doGetState();
+
+        if (msg.broadcast.team_id !== getCurrentTeamId(state)) {
+            // The category will be removed when we switch teams.
+            return;
+        }
+
+        // Fetch all categories since any channels that were in the deleted category were moved to other categories.
+        doDispatch(fetchMyCategories(msg.broadcast.team_id));
+    };
+}
+
+function handleSidebarCategoryOrderUpdated(msg) {
+    return receivedCategoryOrder(msg.broadcast.team_id, msg.data.order);
 }

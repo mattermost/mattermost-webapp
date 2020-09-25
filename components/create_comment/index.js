@@ -12,9 +12,7 @@ import {makeGetMessageInHistoryItem} from 'mattermost-redux/selectors/entities/p
 import {resetCreatePostRequest, resetHistoryIndex} from 'mattermost-redux/actions/posts';
 import {getChannelTimezones, getChannelMemberCountsByGroup} from 'mattermost-redux/actions/channels';
 import {Permissions, Preferences, Posts} from 'mattermost-redux/constants';
-import {
-    getAssociatedGroupsForReference,
-} from 'mattermost-redux/selectors/entities/groups';
+import {getAssociatedGroupsForReferenceByMention} from 'mattermost-redux/selectors/entities/groups';
 
 import {connectionErrorCount} from 'selectors/views/system';
 
@@ -76,6 +74,7 @@ function makeMapStateToProps() {
             permission: Permissions.USE_GROUP_MENTIONS,
         });
         const channelMemberCountsByGroup = selectChannelMemberCountsByGroup(state, ownProps.channelId);
+        const groupsWithAllowReference = useGroupMentions ? getAssociatedGroupsForReferenceByMention(state, channel.team_id, channel.id) : null;
 
         return {
             draft,
@@ -98,7 +97,7 @@ function makeMapStateToProps() {
             canPost,
             useChannelMentions,
             shouldShowPreview: showPreviewOnCreateComment(state),
-            groupsWithAllowReference: new Map(getAssociatedGroupsForReference(state, channel.team_id, channel.id).map((group) => [`@${group.name}`, group])),
+            groupsWithAllowReference,
             useGroupMentions,
             channelMemberCountsByGroup,
         };

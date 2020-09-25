@@ -19,14 +19,12 @@ exports[`components/FileUploadOverlay should match snapshot when file upload is 
         <FormattedMessage
           defaultMessage="Upload Icon"
           id="generic_icons.upload"
-          values={Object {}}
         >
           <Component />
         </FormattedMessage>
         <FormattedMessage
           defaultMessage="Drop a file to upload it."
           id="upload_overlay.info"
-          values={Object {}}
         />
       </span>
       <img
@@ -59,14 +57,12 @@ exports[`components/FileUploadOverlay should match snapshot when file upload is 
         <FormattedMessage
           defaultMessage="Upload Icon"
           id="generic_icons.upload"
-          values={Object {}}
         >
           <Component />
         </FormattedMessage>
         <FormattedMessage
           defaultMessage="Drop a file to upload it."
           id="upload_overlay.info"
-          values={Object {}}
         />
       </span>
       <img
@@ -99,14 +95,12 @@ exports[`components/FileUploadOverlay should match snapshot when file upload is 
         <FormattedMessage
           defaultMessage="Upload Icon"
           id="generic_icons.upload"
-          values={Object {}}
         >
           <Component />
         </FormattedMessage>
         <FormattedMessage
           defaultMessage="Drop a file to upload it."
           id="upload_overlay.info"
-          values={Object {}}
         />
       </span>
       <img

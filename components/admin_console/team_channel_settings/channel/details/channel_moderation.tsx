@@ -181,6 +181,7 @@ interface Props {
     teamSchemeDisplayName?: string;
     guestAccountsEnabled: boolean;
     isPublic: boolean;
+    readOnly?: boolean;
 }
 
 interface RowProps {
@@ -192,6 +193,7 @@ interface RowProps {
     onClick: (name: string, channelRole: ChannelModerationRoles) => void;
     errorMessages?: any;
     guestAccountsEnabled: boolean;
+    readOnly?: boolean;
 }
 
 export const ChannelModerationTableRow: React.FunctionComponent<RowProps> = (props: RowProps): JSX.Element => {
@@ -235,7 +237,7 @@ export const ChannelModerationTableRow: React.FunctionComponent<RowProps> = (pro
                                 },
                             )}
                             onClick={() => props.onClick(props.name, Roles.GUESTS as ChannelModerationRoles)}
-                            disabled={props.guestsDisabled}
+                            disabled={props.guestsDisabled || props.readOnly}
                         >
                             {props.guests && !props.guestsDisabled && <CheckboxCheckedIcon/>}
                         </button>
@@ -254,7 +256,7 @@ export const ChannelModerationTableRow: React.FunctionComponent<RowProps> = (pro
                             },
                         )}
                         onClick={() => props.onClick(props.name, Roles.MEMBERS as ChannelModerationRoles)}
-                        disabled={props.membersDisabled}
+                        disabled={props.membersDisabled || props.readOnly}
                     >
                         {props.members && !props.membersDisabled && <CheckboxCheckedIcon/>}
                     </button>
@@ -350,7 +352,7 @@ export default class ChannelModeration extends React.PureComponent<Props> {
     }
 
     render = (): JSX.Element => {
-        const {channelPermissions, guestAccountsEnabled, onChannelPermissionsChanged} = this.props;
+        const {channelPermissions, guestAccountsEnabled, onChannelPermissionsChanged, readOnly} = this.props;
         return (
             <AdminPanel
                 id='channel_moderation'
@@ -403,6 +405,7 @@ export default class ChannelModeration extends React.PureComponent<Props> {
                                             onClick={onChannelPermissionsChanged}
                                             errorMessages={this.errorMessagesToDisplay(entry)}
                                             guestAccountsEnabled={guestAccountsEnabled}
+                                            readOnly={readOnly}
                                         />
                                     );
                                 })}
