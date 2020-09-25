@@ -103,7 +103,7 @@ describe('Channel sidebar', () => {
         });
     });
 
-    it('Delete a category', () => {
+    it('MM-T3165 Delete a category', () => {
         const categoryName = createCategoryFromSidebarMenu();
         cy.get(`button[aria-label='${categoryName}']`).should('contain', categoryName);
         cy.get(`button[aria-label='${categoryName}']`).parents('.SidebarChannelGroup').then((element) => {
