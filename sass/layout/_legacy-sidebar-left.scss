@@ -1,6 +1,7 @@
 @charset 'UTF-8';
 
 .sidebar--left {
+    background: var(--sidebar-bg);
     display: flex;
     flex-direction: column;
     border-right: $border-gray;
