@@ -12,7 +12,7 @@ import {getSteps} from '../../next_steps_view/steps';
 
 import {openModal, closeModal} from 'actions/views/modals';
 import {setShowNextStepsView} from 'actions/views/next_steps';
-import {showNextSteps} from 'components/next_steps_view/steps';
+import {showNextSteps, showNextStepsTips} from 'components/next_steps_view/steps';
 import {GlobalState} from 'types/store';
 import {Preferences} from 'utils/constants';
 
@@ -25,6 +25,7 @@ function makeMapStateToProps() {
         active: state.views.nextSteps.show,
         steps: getSteps(state),
         showNextSteps: showNextSteps(state),
+        showNextStepsTips: showNextStepsTips(state),
         currentUser: getCurrentUser(state),
         currentUserId: getCurrentUserId(state),
         preferences: getCategory(state, Preferences.RECOMMENDED_NEXT_STEPS),

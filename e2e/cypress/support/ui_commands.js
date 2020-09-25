@@ -300,6 +300,14 @@ Cypress.Commands.add('getPostMenu', (postId, menuItem, location = 'CENTER') => {
     });
 });
 
+/**
+ * Click Pin to Channel icon by post ID or to most recent post (if post ID is not provided)
+ * @param {String} postId - Post ID
+ */
+Cypress.Commands.add('clickPostPinIcon', (postId) => {
+    cy.getPostMenu(postId, 'Pin to Channel').click();
+});
+
 // Close RHS by clicking close button
 Cypress.Commands.add('closeRHS', () => {
     cy.get('#rhsCloseButton').should('be.visible').click();
