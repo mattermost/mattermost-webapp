@@ -207,7 +207,7 @@ describe('Guest Account - Guest User Experience', () => {
                 cy.apiLogin(guestUser);
                 cy.reload();
 
-
+                // # Click team button
                 cy.get(`#${teamTwo.name}TeamButton`, {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').click();
 
                 // * Verify if Channel Not found is displayed
