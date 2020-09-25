@@ -1,18 +1,23 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {FC, memo, ComponentProps} from 'react';
+import React, {FC, memo, ComponentProps, MouseEventHandler} from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import Button from './button';
 
 type Props = {
     isFollowing: boolean;
-    start: () => void,
-    stop: () => void;
+    start: MouseEventHandler<HTMLButtonElement>,
+    stop: MouseEventHandler<HTMLButtonElement>;
 }
 
-const Comp: FC<Props & Exclude<ComponentProps<typeof Button>, Props>> = ({isFollowing, start, stop, ...props}) => {
+const FollowButton: FC<Props & Exclude<ComponentProps<typeof Button>, Props>> = ({
+    isFollowing,
+    start,
+    stop,
+    ...props
+}) => {
     return (
         <Button
             {...props}
@@ -34,4 +39,4 @@ const Comp: FC<Props & Exclude<ComponentProps<typeof Button>, Props>> = ({isFoll
     );
 };
 
-export default memo(Comp);
+export default memo(FollowButton);

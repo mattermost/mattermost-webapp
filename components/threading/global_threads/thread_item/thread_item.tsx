@@ -11,88 +11,125 @@ import Badge from 'components/widgets/badges/badge';
 import Timestamp from 'components/timestamp';
 import Avatars from 'components/widgets/users/avatars';
 
+import ThreadMenu from '../thread_menu';
+
 type Props = {
+    participants: ComponentProps<typeof Avatars>['users'],
     name: string,
     teamName: string,
     previewText: string,
-    users: ComponentProps<typeof Avatars>['users'],
-    totalReplies: number,
+
+    lastReplyAt: ComponentProps<typeof Timestamp>['value'],
     newReplies: number,
     newMentions: number,
-    lastReplyAt: ComponentProps<typeof Timestamp>['value'],
-    isSelected: boolean,
-    select: () => void
-};
+    totalReplies: number,
 
-const Comp: FC<Props> = ({
+    isFollowing: boolean,
+    isSaved: boolean,
+    isSelected: boolean,
+
+    actions: {
+        select: () => void,
+    },
+} & Pick<ComponentProps<typeof ThreadMenu>, 'actions'>;
+
+const ThreadItem: FC<Props> = ({
+    participants,
     name,
     teamName,
-    lastReplyAt,
     previewText,
-    totalReplies,
+
+    lastReplyAt,
     newReplies,
     newMentions,
+    totalReplies,
+
     isSelected,
-    users,
-    select,
+    isSaved,
+    isFollowing,
+
+    actions: {
+        select,
+        ...menuActions
+    },
+
 }) => {
-    const hasMentions = Boolean(newMentions);
-    const showIndicator = hasMentions || Boolean(newReplies);
+    const hasUnreads = Boolean(newMentions || newReplies);
+
     return (
         <div
             className={classNames('ThreadItem', {
-                'has-mentions': hasMentions,
-                'is-selected': isSelected},
-            )}
+                'has-indicator': hasUnreads,
+                'is-selected': isSelected,
+            })}
             tabIndex={0}
             onClick={select}
         >
             <h4>
-                {showIndicator && (
+                {hasUnreads && (
                     <div className='indicator'>
                         {newMentions ? (
-                            <div className='Dot Dot___mentions'>
+                            <div className='dot-mentions'>
                                 {newMentions}
                             </div>
                         ) : (
-                            <div className='Dot Dot___unreads'/>
+                            <div className='dot-unreads'/>
                         )}
                     </div>
                 )}
-                {name || users[0].name}
+                {name || participants[0].name}
                 <Badge>
                     {teamName}
                 </Badge>
                 <Timestamp
+                    className='alt-hidden'
                     value={lastReplyAt}
                     useTime={false}
-                    units={['now', 'minute', 'hour', 'day']}
+                    units={[
+                        'now',
+                        'minute',
+                        {within: ['day', 0], display: ['hour']},
+                        'today-yesterday',
+                        'week',
+                        'month',
+                    ]}
                 />
+                <span className='menu-anchor alt-visible'>
+                    <ThreadMenu
+                        isSaved={isSaved}
+                        isFollowing={isFollowing}
+                        hasUnreads={hasUnreads}
+                        actions={menuActions}
+                    />
+                </span>
+
             </h4>
             <p>
                 {previewText}
             </p>
-            <div className='activity'>
-                <Avatars
-                    users={users}
-                    size='sm'
-                />
-                {showIndicator ? (
-                    <FormattedMessage
-                        id='threading.footer.numNewReplies'
-                        defaultMessage='{newReplies, plural, =1 {# new reply} other {# new replies}}'
-                        values={{newReplies}}
+            {Boolean(totalReplies) && (
+                <div className='activity'>
+                    <Avatars
+                        users={participants}
+                        size='sm'
                     />
-                ) : (
-                    <FormattedMessage
-                        id='threading.footer.numReplies'
-                        defaultMessage='{totalReplies, plural, =0 {Reply} =1 {# reply} other {# replies}}'
-                        values={{totalReplies}}
-                    />
-                )}
-            </div>
+                    {newReplies ? (
+                        <FormattedMessage
+                            id='threading.numNewReplies'
+                            defaultMessage='{newReplies, plural, =1 {# new reply} other {# new replies}}'
+                            values={{newReplies}}
+                        />
+                    ) : (
+                        <FormattedMessage
+                            id='threading.numReplies'
+                            defaultMessage='{totalReplies, plural, =0 {Reply} =1 {# reply} other {# replies}}'
+                            values={{totalReplies}}
+                        />
+                    )}
+                </div>
+            )}
         </div>
     );
 };
 
-export default memo(Comp);
+export default memo(ThreadItem);

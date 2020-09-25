@@ -2,15 +2,29 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import moment from 'moment-timezone';
+
+import {Unit} from '@formatjs/intl-relativetimeformat';
 
 import {storiesOf} from '@storybook/react';
-import {withKnobs, text, boolean, number} from '@storybook/addon-knobs';
+import {withKnobs, boolean, number, select} from '@storybook/addon-knobs';
 import {action} from '@storybook/addon-actions';
 
 import StoryGrid from 'storybook/story_grid';
 import StoryBox from 'storybook/story_box';
 
 import ThreadFooter from './thread_footer';
+
+const units: Unit[] = [
+    'second',
+    'minute',
+    'hour',
+    'day',
+    'week',
+    'month',
+    'quarter',
+    'year',
+];
 
 const users = [
     {
@@ -59,10 +73,10 @@ storiesOf('Features/Threading/Channel Threads', module).
                     users={users.slice(0, number('number of users', 7))}
                     totalReplies={number('total replies', 8)}
                     newReplies={number('new/unread replies', 3)}
-                    lastReplyAt={text('last reply', new Date().toLocaleString())}
+                    lastReplyAt={moment().add(select('unit', units, 'second'), number('diff', 0)).toDate()}
                     isFollowing={boolean('is following', false)}
-                    startFollowing={action('start following')}
-                    stopFollowing={action('stop following')}
+                    follow={action('start following')}
+                    unfollow={action('stop following')}
                     requestOpenThread={action('open thread')}
                 />
             </StoryBox>

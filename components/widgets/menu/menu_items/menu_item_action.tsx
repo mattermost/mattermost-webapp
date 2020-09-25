@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {FC} from 'react';
 
 import menuItem from './menu_item';
 
@@ -14,7 +14,7 @@ type Props = {
     buttonClass?: string;
     isDangerous?: boolean;
 }
-export const MenuItemActionImpl = ({onClick, ariaLabel, text, extraText, id, buttonClass, isDangerous}: Props) => (
+export const MenuItemActionImpl: FC<Props> = ({onClick, ariaLabel, text, extraText, id, buttonClass, isDangerous}) => (
     <button
         data-testid={id}
         id={id}

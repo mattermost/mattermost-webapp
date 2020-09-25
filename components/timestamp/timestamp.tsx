@@ -79,8 +79,9 @@ function normalizeUnit(unit: Unit | keyof typeof defaultRanges | RangeDescriptor
 const defaultRanges: {[key in Unit]: RangeDescriptor} & {[key: string]: RangeDescriptor} = {
     now: {within: ['second', -45], display: ['second', 0]},
     second: {within: ['second', -59], display: ['second']},
-    minute: {within: ['hour', -1], display: ['minute']},
-    hour: {within: ['hour', -24], display: ['hour']},
+    minute: {within: ['minute', -59], display: ['minute']},
+    hour: {within: ['hour', -23.75], display: ['hour']},
+    'today-yesterday': {within: ['day', -1], display: ['day']},
     day: {within: ['day', -6], display: ['day']},
     week: {within: ['week', -3], display: ['week']},
     month: {within: ['month', -11], display: ['month']},

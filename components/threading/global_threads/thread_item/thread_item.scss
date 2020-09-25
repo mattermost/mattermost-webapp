@@ -4,10 +4,21 @@
     text-align: left;
     cursor: pointer;
 
+    .alt-visible {
+        display: none;
+    }
+
     &:hover,
     &:focus,
     &:focus-within {
         background: rgba(var(--center-channel-color-rgb), .04);
+
+        .alt-visible {
+            display: unset;
+        }
+        .alt-hidden {
+            display: none;
+        }
     }
 
     &.is-selected {
@@ -19,32 +30,32 @@
         }
     }
 
-    &.has-mentions {
+    &.has-indicator {
         .activity {
             color: rgba(var(--sidebar-text-active-border-rgb), 1);
         }
     }
 
-    // TODO move to own css
-    .Dot {
+    .dot-unreads {
         display: inline-block;
         text-align: center;
         border-radius: 50%;
-    }
-
-    .Dot.Dot___unreads {
         width: 8px;
         height: 8px;
         margin: 0 8px;
         background: rgba(var(--sidebar-text-active-border-rgb), 1);
     }
-    .Dot.Dot___mentions {
+    .dot-mentions {
+        display: inline-block;
+        text-align: center;
+        border-radius: 50%;
         width: 16px;
         height: 16px;
         background: rgba(var(--mention-color-rgb), 1);
         color: rgba(var(--center-channel-bg-rgb), 1);
         font-size: 10px;
         line-height: 16px;
+        font-weight: 700;
     }
 
     .indicator {
@@ -75,12 +86,19 @@
         line-height: 16px;
         text-transform: uppercase;
         padding: 0px 4px;
+        background: rgba(var(--center-channel-color-rgb), .08);
+        &:hover,
+        &:focus {
+            cursor: pointer;
+            background: rgba(var(--center-channel-color-rgb), .16);
+        }
     }
 
     p {
-        max-height: 40px;
         text-overflow: ellipsis;
         overflow: hidden;
+
+        // cross-browser multi-line text-overflow support
         display: -webkit-box;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
@@ -92,6 +110,20 @@
         line-height: 20px;
         margin-left: auto;
         color: rgba(var(--center-channel-color-rgb), .64)
+    }
+
+    .menu-anchor {
+        position: absolute;
+        right: 0;
+        top: -5px;
+
+        .Button {
+            width: 28px;
+            height: 28px;
+            padding: 0;
+            font-size: 18px;
+            color: rgba(var(--center-channel-color-rgb), .64)
+        }
     }
 
     .Avatars {
@@ -106,5 +138,4 @@
         display: flex;
         align-items: center;
     }
-
 }

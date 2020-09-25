@@ -23,8 +23,8 @@ type Props = {
     lastReplyAt: ComponentProps<typeof Timestamp>['value'];
     minimalist?: boolean,
     isFollowing: boolean;
-    startFollowing: () => void;
-    stopFollowing: () => void;
+    follow: () => void,
+    unfollow: () => void,
     requestOpenThread: () => void;
 };
 
@@ -34,8 +34,8 @@ const ThreadFooter: FC<Props> = ({
     newReplies = 0,
     lastReplyAt,
     isFollowing,
-    startFollowing: start,
-    stopFollowing: stop,
+    follow,
+    unfollow,
     requestOpenThread: open,
 }) => {
     return (
@@ -58,7 +58,6 @@ const ThreadFooter: FC<Props> = ({
             </>}
 
             <Avatars
-                breakAt={users.length > 4 ? 3 : 4}
                 users={users}
                 size='sm'
             />
@@ -76,8 +75,8 @@ const ThreadFooter: FC<Props> = ({
 
             <FollowButton
                 isFollowing={isFollowing}
-                start={start}
-                stop={stop}
+                start={follow}
+                stop={unfollow}
             />
 
             {lastReplyAt && (

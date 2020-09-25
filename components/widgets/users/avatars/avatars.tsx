@@ -18,7 +18,11 @@ export type Props = Pick<UserProps, StylingKeys> & {
     breakAt?: number;
 }
 
-const Avatars: FC<Props> = ({size, breakAt = 3, users}: Props) => {
+const Avatars: FC<Props> = ({
+    size,
+    users,
+    breakAt = users?.length > 4 ? 3 : 4,
+}: Props) => {
     const displayUsers = users.slice(0, breakAt);
     const others = users.slice(breakAt);
 

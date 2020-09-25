@@ -1,13 +1,9 @@
 .Button {
-    //===layout
-    //-standard
     padding: 4.5px 10px;
     border-radius: 4px;
-
     position: relative;
 
-    //===text
-    //-standard
+
     font-family: Open Sans;
     font-style: normal;
     font-weight: 600;
@@ -43,9 +39,6 @@
         }
     }
 
-
-
-    //===children
     .Icon svg {
         width: 12px;
         height: 10px;
@@ -67,11 +60,11 @@
 }
 
 //TODO?: design system
-//===separator
-.Button:not(:hover):not(:focus):not(.is-active),
-.Separated {
-    & + .Button:not(:hover):not(:focus):not(.is-active),
-    & + .Separated {
+
+.Separated,
+.Button:not(:hover):not(:focus):not(.is-active) {
+    & + .Separated,
+    & + .Button:not(:hover):not(:focus):not(.is-active) {
         position: relative;
         &::before {
             width: 1px;
