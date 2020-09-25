@@ -11,12 +11,17 @@
         > span {
             font-size: 14px;
             line-height: 20px;
+            > span {
+                font-weight: 600;
+
+            }
         }
         .announcement-bar__close {
             &:hover {
                 background-color: rgba(255, 255, 255, 0.08);
                 color: rgba(255,255,255,0.72);
             }
+
             color: rgba(255,255,255,0.56);
             font-size: 18px;
             line-height: 21px;
@@ -63,8 +68,11 @@
         }
 
         &.announcement-bar__close {
+
             color: $white;
+
             font-family: 'Open Sans', sans-serif;
+
             font-size: 20px;
             font-weight: 600;
             padding: 0 10px;
@@ -93,7 +101,9 @@
         top: 1px;
         position: relative;
         align-items: center;
+
         display: inline-block;
+
         font-family: 'compass-icons';
         font-size: 18px;
         line-height: 21px;
@@ -110,9 +120,13 @@
         margin-top: 8px;
         margin-bottom: 8px;
         margin-left: 8px;
+
         background-color: #579EFF;
+
         font-family: Open Sans;
+
         font-style: normal;
+
         font-weight: 600;
         font-size: 12px;
         line-height: 16px;
