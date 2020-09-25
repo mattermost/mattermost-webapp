@@ -108,7 +108,6 @@ exports[`components/TextBox should match snapshot with additional, optional prop
     tabIndex={0}
   >
     <Connect(PostMarkdown)
-      channelId="channelId"
       isRHS={true}
       mentionKeys={Array []}
       message="some test text"
