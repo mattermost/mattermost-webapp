@@ -108,7 +108,7 @@ describe('Messaging', () => {
         });
     });
 
-    it('MM-T2195 Emoji reaction - not available on system message Flag - not available on system message Pin - not available on system message Can delete your own system message', () => {
+    it('MM-T2195 Emoji reaction - not available on system message Save - not available on system message Pin - not available on system message Can delete your own system message', () => {
         // # click add a channel description
         cy.get('#channelHeaderDescription button').click();
 
@@ -121,7 +121,7 @@ describe('Messaging', () => {
             cy.get(`#post_${postId}`).trigger('mouseover', {force: true});
             cy.wait(TIMEOUTS.HALF_SEC).get(`#CENTER_reaction_${postId}`).should('not.exist');
 
-            // * Flag - not available on system message
+            // * Save - not available on system message
             cy.get(`#post_${postId}`).trigger('mouseover', {force: true});
             cy.wait(TIMEOUTS.HALF_SEC).get(`#CENTER_flagIcon_${postId}`).should('not.exist');
 
@@ -146,7 +146,7 @@ describe('Messaging', () => {
         });
     });
 
-    it('MM-T2196 Emoji reaction - not available on ephemeral message Flag - not available on ephemeral message Pin - not available on ephemeral message Timestamp - not a link on ephemeral message Can close ephemeral message', () => {
+    it('MM-T2196 Emoji reaction - not available on ephemeral message Save - not available on ephemeral message Pin - not available on ephemeral message Timestamp - not a link on ephemeral message Can close ephemeral message', () => {
         // # Post `/away` to create an ephemeral message
         cy.postMessage('/away');
 
@@ -160,7 +160,7 @@ describe('Messaging', () => {
             cy.get(`#post_${postId}`).trigger('mouseover', {force: true});
             cy.wait(TIMEOUTS.HALF_SEC).get(`#CENTER_reaction_${postId}`).should('not.exist');
 
-            // * Flag not available on ephemeral messages
+            // * Save not available on ephemeral messages
             cy.get(`#post_${postId}`).trigger('mouseover', {force: true});
             cy.wait(TIMEOUTS.HALF_SEC).get(`#CENTER_flagIcon_${postId}`).should('not.exist');
 
