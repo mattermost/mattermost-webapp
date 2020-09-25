@@ -64,6 +64,8 @@ export default class ChannelInviteModal extends React.PureComponent {
             saving: false,
             loadingUsers: true,
         };
+
+        this.selectedItemRef = React.createRef();
     }
 
     addValue = (value) => {
@@ -192,7 +194,7 @@ export default class ChannelInviteModal extends React.PureComponent {
         return (
             <div
                 key={option.id}
-                ref={isSelected ? 'selected' : option.id}
+                ref={isSelected ? this.selectedItemRef : option.id}
                 className={'more-modal__row clickable ' + rowSelected}
                 onClick={() => onAdd(option)}
                 onMouseMove={() => onMouseMove(option)}
@@ -261,6 +263,7 @@ export default class ChannelInviteModal extends React.PureComponent {
                 key='addUsersToChannelKey'
                 options={users}
                 optionRenderer={this.renderOption}
+                selectedItemRef={this.selectedItemRef}
                 values={this.state.values}
                 valueRenderer={this.renderValue}
                 ariaLabelRenderer={this.renderAriaLabel}
