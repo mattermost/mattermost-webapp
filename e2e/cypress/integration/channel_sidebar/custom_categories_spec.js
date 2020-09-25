@@ -77,7 +77,7 @@ describe('Channel sidebar', () => {
         cy.get(`button[aria-label='${newCategoryName}']`).should('contain', newCategoryName);
     });
 
-    it('Rename a category', () => {
+    it('MM-T3163 Rename a category', () => {
         const categoryName = createCategoryFromSidebarMenu();
         cy.get(`button[aria-label='${categoryName}']`).should('contain', categoryName);
         cy.get(`button[aria-label='${categoryName}']`).parents('.SidebarChannelGroup').then((element) => {
