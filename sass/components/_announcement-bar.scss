@@ -11,7 +11,6 @@
         > span {
             font-size: 14px;
             line-height: 20px;
-            font-weight: 600;
         }
         .announcement-bar__close {
             &:hover {
@@ -27,8 +26,8 @@
             width: 18px;
             height: 18px;
             margin-right: 11px;
-            margin-top: 11.3px;
-            margin-bottom: 10.7px;
+            // margin-top: 11.3px;
+            // margin-bottom: 10.7px;
             padding: 0;
         }
     }
@@ -91,10 +90,8 @@
     }
 
     .content__icon {
-        left: -6.25%;
-        right: -6.25%;
-        top: -4.38%;
-        bottom: -8.12%;
+        top: 1px;
+        position: relative;
         align-items: center;
         display: inline-block;
         font-family: 'compass-icons';
@@ -102,9 +99,7 @@
         line-height: 21px;
         color: #FFFFFF;
         height: 18px;
-        margin-right: 7px;
-        margin-top: 11.3px;
-        margin-bottom: 10.7px;
+        margin-right: 8px;
     }
 
     .upgrade-button {
