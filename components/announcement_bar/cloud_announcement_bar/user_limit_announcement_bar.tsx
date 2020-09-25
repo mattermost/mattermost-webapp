@@ -65,10 +65,6 @@ export default class UserLimitAnnouncementBar extends React.PureComponent<Props>
         return true;
     }
 
-    removeFixedBannerClass = () => {
-        document.body.classList.remove('announcement-banner-tall--fixed');
-    }
-
     render() {
         const {userLimit, analytics, preferences} = this.props;
 
@@ -78,14 +74,12 @@ export default class UserLimitAnnouncementBar extends React.PureComponent<Props>
         }
 
         if (!this.shouldShowBanner()) {
-            this.removeFixedBannerClass();
             return null;
         }
 
         // If AT user limit, and banner hidden, don't render anything
         if (userLimit === analytics!.TOTAL_USERS &&
             preferences.some((pref) => pref.name === CloudBanners.HIDE && pref.value === 'true')) {
-            this.removeFixedBannerClass();
             return null;
         }
 
