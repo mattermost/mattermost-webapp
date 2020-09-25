@@ -2,16 +2,23 @@
 // See LICENSE.txt for license information.
 
 import {batchActions} from 'redux-batched-actions';
+
 import {
     markChannelAsRead,
     markChannelAsUnread,
     markChannelAsViewed,
 } from 'mattermost-redux/actions/channels';
 import * as PostActions from 'mattermost-redux/actions/posts';
+
 import {WebsocketEvents} from 'mattermost-redux/constants';
-import * as PostSelectors from 'mattermost-redux/selectors/entities/posts';
+
 import {getCurrentChannelId, isManuallyUnread} from 'mattermost-redux/selectors/entities/channels';
+import * as PostSelectors from 'mattermost-redux/selectors/entities/posts';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+
+import {ActionFunc, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
+import {Post} from 'mattermost-redux/types/posts';
+
 import {
     isFromWebhook,
     isSystemMessage,
@@ -22,14 +29,19 @@ import {sendDesktopNotification} from 'actions/notification_actions.jsx';
 
 import {ActionTypes} from 'utils/constants';
 
-export function completePostReceive(post, websocketMessageProps, channelMemberUpdated) {
-    return async (dispatch, getState) => {
+type NewPostMessageProps = {
+    mentions: string[];
+    team_id: string;
+}
+
+export function completePostReceive(post: Post, websocketMessageProps: NewPostMessageProps, fetchedChannelMember: boolean): ActionFunc {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const rootPost = PostSelectors.getPost(getState(), post.root_id);
         if (post.root_id && !rootPost) {
-            const {error} = await dispatch(PostActions.getPostThread(post.root_id));
+            const result = await dispatch(PostActions.getPostThread(post.root_id));
 
-            if (error) {
-                return;
+            if ('error' in result) {
+                return result;
             }
         }
 
@@ -61,20 +73,20 @@ export function completePostReceive(post, websocketMessageProps, channelMemberUp
 
         // Still needed to update unreads
 
-        dispatch(setChannelReadAndViewed(post, websocketMessageProps, channelMemberUpdated));
+        dispatch(setChannelReadAndViewed(post, websocketMessageProps, fetchedChannelMember));
 
-        dispatch(sendDesktopNotification(post, websocketMessageProps));
+        return dispatch(sendDesktopNotification(post, websocketMessageProps) as unknown as ActionFunc);
     };
 }
 
-export function setChannelReadAndViewed(post, websocketMessageProps, channelMemberUpdated) {
-    return (dispatch, getState) => {
+export function setChannelReadAndViewed(post: Post, websocketMessageProps: NewPostMessageProps, fetchedChannelMember: boolean): ActionFunc {
+    return (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
         const currentUserId = getCurrentUserId(state);
 
         // ignore system message posts, except when added to a team
         if (shouldIgnorePost(post, currentUserId)) {
-            return;
+            return {data: false};
         }
 
         let markAsRead = false;
@@ -100,10 +112,12 @@ export function setChannelReadAndViewed(post, websocketMessageProps, channelMemb
         }
 
         if (markAsRead) {
-            dispatch(markChannelAsRead(post.channel_id, null, markAsReadOnServer));
+            dispatch(markChannelAsRead(post.channel_id, undefined, markAsReadOnServer));
             dispatch(markChannelAsViewed(post.channel_id));
-        } else if (!channelMemberUpdated) {
-            dispatch(markChannelAsUnread(websocketMessageProps.team_id, post.channel_id, websocketMessageProps.mentions));
+        } else {
+            dispatch(markChannelAsUnread(websocketMessageProps.team_id, post.channel_id, websocketMessageProps.mentions, fetchedChannelMember));
         }
+
+        return {data: true};
     };
 }

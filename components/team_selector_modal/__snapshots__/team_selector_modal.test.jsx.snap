@@ -115,6 +115,11 @@ exports[`components/TeamSelectorModal should match snapshot 1`] = `
       perPage={50}
       placeholderText="Search and add teams"
       saving={false}
+      selectedItemRef={
+        Object {
+          "current": null,
+        }
+      }
       valueRenderer={[Function]}
       values={Array []}
     />

@@ -4,8 +4,6 @@
 import React from 'react';
 import {useIntl} from 'react-intl';
 
-import {t} from 'utils/i18n';
-
 export default function StatusOfflineIcon(props) {
     const {formatMessage} = useIntl();
     return (
@@ -17,7 +15,7 @@ export default function StatusOfflineIcon(props) {
                 viewBox='0 0 20 20'
                 style={style}
                 role='img'
-                aria-label={formatMessage({id: t('mobile.set_status.offline.icon'), defaultMessage: 'Offline Icon'})}
+                aria-label={formatMessage({id: 'mobile.set_status.offline.icon', defaultMessage: 'Offline Icon'})}
             >
                 <path d='M10,0c5.519,0 10,4.481 10,10c0,5.519 -4.481,10 -10,10c-5.519,0 -10,-4.481 -10,-10c0,-5.519 4.481,-10 10,-10Zm0,2c4.415,0 8,3.585 8,8c0,4.415 -3.585,8 -8,8c-4.415,0 -8,-3.585 -8,-8c0,-4.415 3.585,-8 8,-8Z'/>
             </svg>
