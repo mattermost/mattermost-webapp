@@ -53,7 +53,7 @@ describe('Channel sidebar', () => {
         cy.get(`button[aria-label='${newCategoryName}']`).should('contain', newCategoryName);
     });
 
-    it('move an existing channel to a new category', () => {
+    it('MM-T3161_3 move an existing channel to a new category', () => {
         const newCategoryName = `category-${getRandomId()}`;
 
         // # move to a new category
