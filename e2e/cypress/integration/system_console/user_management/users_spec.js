@@ -28,7 +28,6 @@ describe('System Console > User Management > Users', () => {
         cy.apiInitSetup({loginAfter: true}).then(({user}) => {
             testUser = user;
             cy.apiLogout();
-            cy.apiAdminLogin();
         });
     });
 
