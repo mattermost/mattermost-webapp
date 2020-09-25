@@ -30,14 +30,14 @@ describe('Channel sidebar', () => {
         cy.uiCloseWhatsNewModal();
     });
 
-    it('should create a new category from sidebar menu', () => {
+    it('MM-T3161_1 should create a new category from sidebar menu', () => {
         const categoryName = createCategoryFromSidebarMenu();
 
         // * check if the category exists
         cy.get(`button[aria-label='${categoryName}']`).should('contain', categoryName);
     });
 
-    it('should create a new category from category menu', () => {
+    it('MM-T3161_2 should create a new category from category menu', () => {
         const categoryName = createCategoryFromSidebarMenu();
 
         // # create a category from category menu
@@ -53,7 +53,7 @@ describe('Channel sidebar', () => {
         cy.get(`button[aria-label='${newCategoryName}']`).should('contain', newCategoryName);
     });
 
-    it('move an existing channel to a new category', () => {
+    it('MM-T3161_3 move an existing channel to a new category', () => {
         const newCategoryName = `category-${getRandomId()}`;
 
         // # move to a new category
@@ -77,7 +77,7 @@ describe('Channel sidebar', () => {
         cy.get(`button[aria-label='${newCategoryName}']`).should('contain', newCategoryName);
     });
 
-    it('Rename a category', () => {
+    it('MM-T3163 Rename a category', () => {
         const categoryName = createCategoryFromSidebarMenu();
         cy.get(`button[aria-label='${categoryName}']`).should('contain', categoryName);
         cy.get(`button[aria-label='${categoryName}']`).parents('.SidebarChannelGroup').then((element) => {
@@ -103,7 +103,7 @@ describe('Channel sidebar', () => {
         });
     });
 
-    it('Delete a category', () => {
+    it('MM-T3165 Delete a category', () => {
         const categoryName = createCategoryFromSidebarMenu();
         cy.get(`button[aria-label='${categoryName}']`).should('contain', categoryName);
         cy.get(`button[aria-label='${categoryName}']`).parents('.SidebarChannelGroup').then((element) => {
