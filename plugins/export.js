@@ -17,6 +17,7 @@ import InfoIcon from 'components/widgets/icons/info_icon';
 import MenuIcon from 'components/widgets/icons/menu_icon';
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
+import FileSearchResultItem from 'components/file_search_results/file_search_result_item';
 
 // The following import has intentional side effects. Do not remove without research.
 import {openInteractiveDialog} from './interactive_dialog';
@@ -35,4 +36,4 @@ window.PDFJS = require('pdfjs-dist');
 window.PostUtils = {formatText, messageHtmlToComponent};
 window.openInteractiveDialog = openInteractiveDialog;
 window.WebappUtils = {browserHistory};
-window.Components = {Textbox, ViewImageModal, InfoIcon, MenuIcon, Menu, MenuWrapper, Badge, BotBadge, GuestBadge, ProfilePicture, EmojiPicker};
+window.Components = {Textbox, ViewImageModal, InfoIcon, MenuIcon, Menu, MenuWrapper, Badge, BotBadge, GuestBadge, ProfilePicture, EmojiPicker, FileSearchResultItem};

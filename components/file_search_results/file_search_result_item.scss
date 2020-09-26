@@ -1,0 +1,74 @@
+.FileSearchResultItem {
+    display: flex;
+    flex-direction: row;
+    padding: 8px;
+    border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
+    border-radius: 4px;
+    align-items: center;
+    margin-bottom: 8px;
+    &:hover {
+        .action-icon {
+            display: flex;
+        }
+        .MenuWrapper {
+            display: block;
+        }
+    }
+    .file-icon {
+        min-width: 48px;
+        width: 48px;
+        height: 48px;
+    }
+    .fileData {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        flex-grow: 1;
+        padding: 5px 8px;
+        display: flex;
+        flex-direction: column;
+        font-weight: 600;
+        .fileDataName {
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .fileMetadata {
+            font-weight: 400;
+            opacity: 0.56;
+            display: flex;
+            flex-direction: row;
+            >span {
+                margin-right: 8px;
+            }
+        }
+    }
+    .action-icon {
+        display: none;
+        align-items: center;
+        height: 32px;
+        width: 32px;
+        border-radius: 4px;
+        background-color: rgba(var(--center-channel-color-rgb), 0.08);
+        color: rgba(var(--center-channel-color-rgb), 0.72);
+        fill: rgba(var(--center-channel-color-rgb), 0.72);
+        align-items: center;
+        justify-content: center;
+        margin-left: 8px;
+        cursor: pointer;
+        text-decoration: none;
+        &.dots-icon {
+            background-color: var(--center-channel-bg);
+        }
+        svg {
+            display: flex
+        }
+        &:hover {
+            background-color: rgba(var(--button-bg-rgb), 0.08);
+            color: var(--button-bg);
+            fill: var(--button-bg);
+        }
+    }
+    .MenuWrapper {
+        display: none;
+    }
+}
