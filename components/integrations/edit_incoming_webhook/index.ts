@@ -17,8 +17,8 @@ type Props = {
 }
 
 type Actions = {
-    updateIncomingHook: { (hook: IncomingWebhook): Promise<ActionResult> };
-    getIncomingHook: { (hookId: string): Promise<ActionResult> };
+    updateIncomingHook: (hook: IncomingWebhook) => Promise<ActionResult>;
+    getIncomingHook: (hookId: string) => Promise<ActionResult>;
 }
 
 function mapStateToProps(state: GlobalState, ownProps: Props) {

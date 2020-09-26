@@ -24,8 +24,8 @@ type Props = {
     enablePostUsernameOverride: boolean;
     enablePostIconOverride: boolean;
     actions: {
-        updateIncomingHook: { (hook: IncomingWebhook): Promise<ActionResult> };
-        getIncomingHook: { (hookId: string): Promise<ActionResult> };
+        updateIncomingHook: (hook: IncomingWebhook) => Promise<ActionResult>;
+        getIncomingHook: (hookId: string) => Promise<ActionResult>;
     };
 };
 
