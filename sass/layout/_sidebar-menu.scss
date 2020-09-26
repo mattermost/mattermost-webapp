@@ -2,7 +2,7 @@
 
 .sidebar--menu {
     -webkit-overflow-scrolling: touch;
-    background: #fafafa;
+    background: var(--sidebar-bg);
     border-right: $border-gray;
     height: 100%;
     overflow: auto;
