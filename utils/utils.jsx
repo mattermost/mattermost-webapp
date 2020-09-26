@@ -499,7 +499,6 @@ export function toRgbValues(hexStr) {
 
 export function applyTheme(theme) {
     if (theme.sidebarBg) {
-        changeCss('@media(max-width: 768px){.app__body .modal .settings-modal:not(.settings-modal--tabless):not(.display--content) .modal-content', 'background:' + theme.sidebarBg);
         changeCss('.app__body .modal-tabs .nav-tabs > li.active', `border-bottom-color:${theme.sidebarBg}`);
     }
 

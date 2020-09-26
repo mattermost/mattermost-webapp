@@ -410,7 +410,17 @@
             overflow: auto;
         }
     }
-
+    .app__body {
+        .modal {
+            .settings-modal {
+                &:not(.settings-modal--tabless):not(.display--content) {
+                    .modal-content {
+                        background: var(--sidebar-bg);
+                    }
+                }
+            }
+        }
+    }
     #header-popover {
         @include single-transition(all, .35s, ease);
         @include translate3d(0, 100%, 0);
