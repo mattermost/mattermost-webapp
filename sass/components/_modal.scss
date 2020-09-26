@@ -647,7 +647,7 @@
             border-bottom: 2px $light-gray solid;
 
             &.active {
-                border-bottom: 2px $primary-color solid;
+                border-bottom: 2px var(--sidebar-bg) solid;
 
                 a {
                     opacity: 1;
