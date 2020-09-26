@@ -91,9 +91,9 @@ class FaviconTitleHandler extends React.PureComponent<Props> {
                     currentChannelName = currentTeammate.display_name;
                 }
             }
-
             const mentionTitle = unreads.mentionCount > 0 ? '(' + unreads.mentionCount + ') ' : '';
-            document.title = mentionTitle + currentChannelName + ' - ' + currentTeam.display_name + ' ' + currentSiteName;
+            const unreadTitle = UserAgent.isSafari() && unreads.messageCount > 0 ? '* ' : '';
+            document.title = mentionTitle + unreadTitle + currentChannelName + ' - ' + currentTeam.display_name + ' ' + currentSiteName;
         } else {
             document.title = formatMessage({id: 'sidebar.team_select', defaultMessage: '{siteName} - Join a team'}, {siteName: currentSiteName || 'Mattermost'});
         }
