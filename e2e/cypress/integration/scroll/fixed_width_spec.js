@@ -10,6 +10,7 @@ const timeouts = require('../../fixtures/timeouts');
 // ***************************************************************
 
 // Group: @scroll
+
 describe('Scroll', () => {
     let testTeam;
     let testChannel;
@@ -31,12 +32,16 @@ describe('Scroll', () => {
     it('MM-T2368 Fixed width', () => {
         const link = 'https://www.bbc.com/news/uk-wales-45142614';
         const gifLink = '![gif](http://i.giphy.com/xNrM4cGJ8u3ao.gif)';
+
+        // Assigning alias to posted message ids
         cy.postMessage('This is the first post');
         cy.getLastPostId().as('firstPostId');
         cy.postMessage(link);
         cy.getLastPostId().as('linkPreviewId');
         cy.postMessage(gifLink);
         cy.getLastPostId().as('gifLinkPostId');
+
+        // Posting different type of images and Videos
         const commonTypeFiles = ['jpg-image-file.jpg', 'gif-image-file.gif', 'mp3-audio-file.mp3', 'mpeg-video-file.mpg'];
         commonTypeFiles.forEach((file) => {
             cy.get('#fileUploadInput').attachFile(file);
@@ -46,6 +51,7 @@ describe('Scroll', () => {
         cy.postMessage('This is the last post');
         cy.getLastPostId().as('lastPostId');
 
+        // Getting height of all postes before applying 'Fixed width, centered' option and assigning alias
         getUserNameTitle().eq(0).invoke('height').as('initialUserNameHeight');
         getFirstTextPost().invoke('height').as('initialFirstPostHeight');
         getMp3Post().invoke('height').as('initialMp3Height');
@@ -104,52 +110,61 @@ describe('Scroll', () => {
         });
     });
 
+    // Finding elements and assigning to const variable for multiple use
     const getUserNameTitle = () => {
         return cy.findAllByLabelText('sysadmin');
     };
 
+    // Getting element using mp3 Post Id, finding its child mp3 post and assigning to const variable for later use
     const getMp3Post = () => {
         return cy.get('@mp3-audio-file.mp3PostId').then((postId) => {
             cy.get(`#${postId}_message`).findByLabelText('file thumbnail mp3-audio-file.mp3');
         });
     };
 
+    // Getting element using mpg Post Id, then finding its child mpg post and assigning to const variable for later use
     const getMpgPost = () => {
         return cy.get('@mpeg-video-file.mpgPostId').then((postId) => {
             cy.get(`#${postId}_message`).findByLabelText('file thumbnail mpeg-video-file.mpg');
         });
     };
 
+    // Getting element using gif Post Id, then finding its child mpg post and assigning to const variable for later use
     const getGifPost = () => {
         return cy.get('@gif-image-file.gifPostId').then((postId) => {
             cy.get(`#${postId}_message`).findByLabelText('file thumbnail gif-image-file.gif');
         });
     };
 
+    // Getting element using jpg Post Id, then finding its child jpg post and assigning to const variable for later use
     const getJpgPost = () => {
         return cy.get('@jpg-image-file.jpgPostId').then((postId) => {
             cy.get(`#${postId}_message`).findByLabelText('file thumbnail jpg-image-file.jpg');
         });
     };
 
+    // Getting element using link preview Post Id, then finding its child file thumbnail post and assigning to const variable for later use
     const getAttachmentPost = () => {
         return cy.get('@linkPreviewId').then((postId) => {
             cy.get(`#${postId}_message`).find('img[aria-label="file thumbnail"]');
         });
     };
 
+    // Getting element using gif Link Post Id, then finding its child file thumbnail post and assigning to const variable for later use
     const getInlineImgPost = () => {
         return cy.get('@gifLinkPostId').then((postId) => {
             cy.get(`#${postId}_message`).find('img[aria-label="file thumbnail"]');
         });
     };
 
+    // Getting element using first Post Id, then finding its child text and assigning to const variable for later use
     const getFirstTextPost = () => {
         return cy.get('@firstPostId').then((postId) => {
             cy.get(`#${postId}_message`).findByText('This is the first post');
         });
     };
 
+    // Getting element using last Post Id, then finding its child text and assigning to const variable for later use
     const getLastTextPost = () => {
         return cy.get('@lastPostId').then((postId) => {
             cy.get(`#${postId}_message`).findByText('This is the last post');
