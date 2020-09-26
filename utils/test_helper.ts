@@ -6,6 +6,8 @@ import {Role} from 'mattermost-redux/types/roles';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {Team, TeamMembership} from 'mattermost-redux/types/teams';
 import {Group} from 'mattermost-redux/types/groups';
+import {Post} from 'mattermost-redux/types/posts';
+import {Reaction} from 'mattermost-redux/types/reactions';
 
 export class TestHelper {
     public static getUserMock(override: Partial<UserProfile> = {}): UserProfile {
@@ -184,5 +186,39 @@ export class TestHelper {
             allow_reference: true,
         };
         return Object.assign({}, defaultGroup, override);
+    }
+
+    public static getPostMock(override: Partial<Post>): Post {
+        const defaultPost: Post = {
+            id: 'post_id',
+            create_at: 1,
+            update_at: 1,
+            edit_at: 1,
+            delete_at: 1,
+            is_pinned: false,
+            user_id: 'user_id',
+            channel_id: 'channel_id',
+            root_id: 'root_id',
+            parent_id: 'parent_id',
+            original_id: 'original_id',
+            message: 'message',
+            type: 'type',
+            props: {props: 'props'},
+            hashtags: 'hashtags',
+            pending_post_id: 'pending_post_id',
+            reply_count: 1,
+            metadata: 'metadata',
+        };
+        return Object.assign({}, defaultPost, override);
+    }
+
+    public static getReactionMock(override: Partial<Reaction>): Reaction {
+        const defaultReaction: Reaction = {
+            user_id: 'user_id',
+            post_id: 'post_id',
+            emoji_name: 'emoji_name',
+            create_at: 1,
+        };
+        return Object.assign({}, defaultReaction, override);
     }
 }

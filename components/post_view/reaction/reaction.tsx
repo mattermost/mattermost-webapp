@@ -1,10 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
+
+import {Post} from 'mattermost-redux/types/posts';
+import {UserProfile} from 'mattermost-redux/types/users';
+import {Reaction} from 'mattermost-redux/types/reactions';
 
 import OverlayTrigger from 'components/overlay_trigger';
 
@@ -12,80 +15,93 @@ import * as Utils from 'utils/utils.jsx';
 
 import './reaction.scss';
 
-export default class Reaction extends React.Component {
-    static propTypes = {
+type Props = {
+
+    /*
+    * The post to render the reaction for
+    */
+    post: Post;
+
+    /*
+    * The user id of the logged in user
+    */
+    currentUserId: string;
+
+    /*
+    * The name of the emoji for the reaction
+    */
+    emojiName: string;
+
+    /*
+    * The number of reactions to this post for this emoji
+    */
+    reactionCount: number;
+
+    /*
+    * Array of users who reacted to this post
+    */
+    profiles: UserProfile[],
+
+    /*
+    * The number of users not in the profile list who have reacted with this emoji
+    */
+    otherUsersCount: number;
+
+    /*
+    * Array of reactions by user
+    */
+    reactions: Reaction[],
+
+    /*
+    * True if the user has the permission to add a reaction in this channel
+    */
+    canAddReaction: boolean;
+
+    /*
+    * True if user has the permission to remove his own reactions in this channel
+    */
+    canRemoveReaction: boolean;
+
+    /*
+    * The URL of the emoji image
+    */
+    emojiImageUrl: string;
+
+    actions: {
 
         /*
-         * The post to render the reaction for
-         */
-        post: PropTypes.object.isRequired,
+        * Function to add a reaction to a post
+        */
+        addReaction: (postId: string, emojiName: string) => void;
 
         /*
-         * The user id of the logged in user
-         */
-        currentUserId: PropTypes.string.isRequired,
+        * Function to get non-loaded profiles by id
+        */
+        getMissingProfilesByIds: (ids: string[]) => void;
 
         /*
-         * The name of the emoji for the reaction
-         */
-        emojiName: PropTypes.string.isRequired,
+        * Function to remove a reaction from a post
+        */
+        removeReaction: (postId: string, emojiName: string) => void;
 
-        /*
-         * The number of reactions to this post for this emoji
-         */
-        reactionCount: PropTypes.number.isRequired,
-
-        /*
-         * Array of users who reacted to this post
-         */
-        profiles: PropTypes.array.isRequired,
-
-        /*
-         * The number of users not in the profile list who have reacted with this emoji
-         */
-        otherUsersCount: PropTypes.number.isRequired,
-
-        /*
-         * Array of reactions by user
-         */
-        reactions: PropTypes.arrayOf(PropTypes.object).isRequired,
-
-        /*
-         * True if the user has the permission to add a reaction in this channel
-         */
-        canAddReaction: PropTypes.bool.isRequired,
-
-        /*
-         * True if user has the permission to remove his own reactions in this channel
-         */
-        canRemoveReaction: PropTypes.bool.isRequired,
-
-        /*
-         * The URL of the emoji image
-         */
-        emojiImageUrl: PropTypes.string.isRequired,
-
-        actions: PropTypes.shape({
-
-            /*
-             * Function to add a reaction to a post
-             */
-            addReaction: PropTypes.func.isRequired,
-
-            /*
-             * Function to get non-loaded profiles by id
-             */
-            getMissingProfilesByIds: PropTypes.func.isRequired,
-
-            /*
-             * Function to remove a reaction from a post
-             */
-            removeReaction: PropTypes.func.isRequired,
-        }),
-        sortedUsers: PropTypes.object.isRequired,
     }
 
-    constructor(props) {
+    sortedUsers: {currentUserReacted: boolean, users: UserProfile[]};
+}
+
+type State = {
+    userReacted: boolean;
+    reactedClass: string;
+    displayNumber: number;
+    reactedNumber: number;
+    unreactedNumber: number;
+}
+
+export default class ReactionComponent extends React.Component<Props, State> {
+    private reactionButtonRef: React.RefObject<HTMLButtonElement>;
+    private reactionCountRef: React.RefObject<HTMLSpanElement>;
+
+    constructor(props: Props) {
         super(props);
 
         const {reactionCount} = this.props;
@@ -111,10 +127,9 @@ export default class Reaction extends React.Component {
 
         this.reactionButtonRef = React.createRef();
         this.reactionCountRef = React.createRef();
-        this.reactedNumeralRef = React.createRef();
     }
 
-    static getDerivedStateFromProps(nextProps, prevState) {
+    static getDerivedStateFromProps(nextProps: Props, prevState: State) {
         // reaction count has changed, but not by current user
         if (nextProps.reactionCount !== prevState.displayNumber && nextProps.sortedUsers.currentUserReacted === prevState.userReacted) {
             // set counts relative to current user having reacted
@@ -309,7 +324,6 @@ export default class Reaction extends React.Component {
                 <OverlayTrigger
                     delayShow={500}
                     placement='top'
-                    shouldUpdatePosition={true}
                     overlay={
                         <Tooltip id={`${this.props.post.id}-${this.props.emojiName}-reaction`}>
                             {tooltip}

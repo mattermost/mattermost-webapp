@@ -4,13 +4,17 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import Reaction from 'components/post_view/reaction/reaction.jsx';
+import Reaction from 'components/post_view/reaction/reaction';
 import {getSortedUsers} from 'utils/utils';
+import {TestHelper} from 'utils/test_helper';
 
 describe('components/post_view/Reaction', () => {
-    const post = {id: 'post_id_1'};
-    const profiles = [{id: 'user_id_2', username: 'username_2'}];
-    const reactions = [{user_id: 'user_id_2'}, {user_id: 'user_id_3'}];
+    const post = Object.assign(TestHelper.getPostMock({id: 'post_id_1'}));
+    const profiles = [Object.assign(TestHelper.getUserMock({id: 'user_id_2', username: 'username_2'}))];
+    const reactions = [
+        Object.assign(TestHelper.getReactionMock({user_id: 'user_id_2'})),
+        Object.assign(TestHelper.getReactionMock({user_id: 'user_id_3'})),
+    ];
     const emojiName = 'smile';
     const actions = {
         addReaction: () => {}, //eslint-disable-line no-empty-function
@@ -45,8 +49,11 @@ describe('components/post_view/Reaction', () => {
     });
 
     test('should match snapshot when a current user reacted to a post', () => {
-        const newReactions = [{user_id: 'user_id_1'}, {user_id: 'user_id_2'}];
-        const newProfiles = [{id: 'user_id_1', username: 'username_1'}];
+        const newReactions = [
+            Object.assign(TestHelper.getReactionMock({user_id: 'user_id_1'})),
+            Object.assign(TestHelper.getReactionMock({user_id: 'user_id_2'})),
+        ];
+        const newProfiles = [Object.assign(TestHelper.getUserMock({id: 'user_id_1', username: 'username_1'}))];
         const props = {
             ...baseProps,
             reactions: newReactions,
@@ -97,7 +104,8 @@ describe('components/post_view/Reaction', () => {
         const props = {...baseProps, actions: newActions};
 
         const wrapper = shallow(<Reaction {...props}/>);
-        wrapper.instance().loadMissingProfiles();
+        const instance = wrapper.instance() as Reaction;
+        instance.loadMissingProfiles();
 
         expect(newActions.getMissingProfilesByIds).toHaveBeenCalledTimes(1);
         expect(newActions.getMissingProfilesByIds).toHaveBeenCalledWith([reactions[0].user_id, reactions[1].user_id]);
