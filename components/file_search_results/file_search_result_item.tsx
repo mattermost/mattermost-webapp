@@ -6,7 +6,7 @@ import {FormattedTime} from 'react-intl';
 
 import {FileInfo} from 'mattermost-redux/types/files';
 
-import {getFileType, fileSizeToString} from 'utils/utils';
+import {getFileType, fileSizeToString, copyToClipboard} from 'utils/utils';
 import {browserHistory} from 'utils/browser_history';
 
 import Menu from 'components/widgets/menu/menu';
@@ -15,13 +15,22 @@ import DotsHorizontalIcon from 'components/widgets/icons/dots_horizontal';
 
 import './file_search_result_item.scss';
 
+interface ResultItem extends FileInfo {
+    team_name: string
+    post_id: string
+}
+
 type Props = {
-    fileInfo: FileInfo
+    fileInfo: ResultItem
 };
 
 export default class FileSearchResultItem extends React.PureComponent<Props> {
     private jumpToConv = () => {
         browserHistory.push(`/${this.props.fileInfo.team_name}/pl/${this.props.fileInfo.post_id}`);
+    }
+
+    private copyLink = () => {
+        copyToClipboard(`${this.props.fileInfo.team_name}/pl/${this.props.fileInfo.post_id}`);
     }
 
     public render(): React.ReactNode {
@@ -55,7 +64,7 @@ export default class FileSearchResultItem extends React.PureComponent<Props> {
                             text={'Open in channel'}
                         />
                         <Menu.ItemAction
-                            onClick={() => alert('Copy link')}
+                            onClick={this.copyLink}
                             ariaLabel={'Copy link'}
                             text={'Copy link'}
                         />
