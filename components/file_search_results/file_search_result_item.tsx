@@ -15,22 +15,18 @@ import DotsHorizontalIcon from 'components/widgets/icons/dots_horizontal';
 
 import './file_search_result_item.scss';
 
-interface ResultItem extends FileInfo {
-    team_name: string
-    post_id: string
-}
-
 type Props = {
-    fileInfo: ResultItem
+    fileInfo: FileInfo
+    teamName: string
 };
 
 export default class FileSearchResultItem extends React.PureComponent<Props> {
     private jumpToConv = () => {
-        browserHistory.push(`/${this.props.fileInfo.team_name}/pl/${this.props.fileInfo.post_id}`);
+        browserHistory.push(`/${this.props.teamName}/pl/${this.props.fileInfo.post_id}`);
     }
 
     private copyLink = () => {
-        copyToClipboard(`${this.props.fileInfo.team_name}/pl/${this.props.fileInfo.post_id}`);
+        copyToClipboard(`${this.props.teamName}/pl/${this.props.fileInfo.post_id}`);
     }
 
     public render(): React.ReactNode {
