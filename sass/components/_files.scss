@@ -96,7 +96,7 @@
         @include file-icon('../images/icons/ppt.svg');
     }
 
-    &.generic {
+    &.generic, &.other {
         @include file-icon('../images/icons/generic.svg');
     }
 
