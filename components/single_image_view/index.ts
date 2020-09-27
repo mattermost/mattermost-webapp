@@ -2,15 +2,17 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {bindActionCreators, Dispatch} from 'redux';
+
+import {GlobalState} from 'types/store';
 
 import {toggleEmbedVisibility} from 'actions/post_actions';
 
 import {getIsRhsOpen} from 'selectors/rhs';
 
-import SingleImageView from 'components/single_image_view/single_image_view.jsx';
+import SingleImageView from 'components/single_image_view/single_image_view';
 
-function mapStateToProps(state) {
+function mapStateToProps(state: GlobalState) {
     const isRhsOpen = getIsRhsOpen(state);
 
     return {
@@ -18,7 +20,7 @@ function mapStateToProps(state) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch) {
     return {
         actions: bindActionCreators({
             toggleEmbedVisibility,

@@ -1,10 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import {getFilePreviewUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
+import {FileInfo} from 'mattermost-redux/types/files';
+import {Post} from 'mattermost-redux/types/posts';
 
 import SizeAwareImage from 'components/size_aware_image';
 import {FileTypes} from 'utils/constants';
@@ -16,25 +17,35 @@ import ViewImageModal from 'components/view_image';
 
 const PREVIEW_IMAGE_MIN_DIMENSION = 50;
 
-export default class SingleImageView extends React.PureComponent {
-    static propTypes = {
-        postId: PropTypes.string.isRequired,
-        fileInfo: PropTypes.object.isRequired,
-        isRhsOpen: PropTypes.bool.isRequired,
-        compactDisplay: PropTypes.bool,
-        isEmbedVisible: PropTypes.bool,
-        actions: PropTypes.shape({
-            toggleEmbedVisibility: PropTypes.func.isRequired,
-        }).isRequired,
+type Props = {
+    post: Post;
+    fileInfo: FileInfo;
+    isRhsOpen: boolean;
+    compactDisplay?: boolean;
+    isEmbedVisible?: boolean;
+    actions: {
+        toggleEmbedVisibility: (postId: string) => void;
     };
+}
 
+type State = {
+    loaded: boolean;
+    showPreviewModal: boolean;
+    dimensions: {
+        width: number;
+        height: number;
+    },
+}
+
+export default class SingleImageView extends React.PureComponent<Props, State> {
+    private mounted: boolean;
     static defaultProps = {
-        fileInfo: {},
         compactDisplay: false,
     };
 
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
+        this.mounted = true;
         this.state = {
             loaded: false,
             showPreviewModal: false,
@@ -49,7 +60,7 @@ export default class SingleImageView extends React.PureComponent {
         this.mounted = true;
     }
 
-    static getDerivedStateFromProps(props, state) {
+    static getDerivedStateFromProps(props: Props, state: State) {
         if ((props.fileInfo.width !== state.dimensions.width) || props.fileInfo.height !== state.dimensions.height) {
             return {
                 dimensions: {
@@ -71,7 +82,7 @@ export default class SingleImageView extends React.PureComponent {
         }
     }
 
-    handleImageClick = (e) => {
+    handleImageClick = (e: React.MouseEvent<HTMLDivElement>) => {
         e.preventDefault();
         this.setState({showPreviewModal: true});
     }
@@ -81,7 +92,7 @@ export default class SingleImageView extends React.PureComponent {
     }
 
     toggleEmbedVisibility = () => {
-        this.props.actions.toggleEmbedVisibility(this.props.postId);
+        this.props.actions.toggleEmbedVisibility(this.props.post.id);
     }
 
     render() {
@@ -170,7 +181,8 @@ export default class SingleImageView extends React.PureComponent {
                     show={this.state.showPreviewModal}
                     onModalDismissed={this.showPreviewModal}
                     fileInfos={[fileInfo]}
-                    postId={this.props.postId}
+                    startIndex={0}
+                    post={this.props.post}
                 />
             );
 
