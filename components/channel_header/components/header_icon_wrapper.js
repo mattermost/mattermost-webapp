@@ -12,32 +12,8 @@ import * as Utils from 'utils/utils';
 import {localizeMessage} from 'utils/utils.jsx';
 import {Constants} from 'utils/constants';
 import {t} from 'utils/i18n';
-import {allShortcuts} from 'components/shortcuts_modal.jsx';
-
-function renderShortcut(text) {
-    if (!text) {
-        return null;
-    }
-
-    const shortcut = text.split('\t');
-    let keys = null;
-    if (shortcut.length > 1) {
-        keys = shortcut[1].split('|').map((key) => (
-            <span
-                className='shortcut-key'
-                key={key}
-            >
-                {key}
-            </span>
-        ));
-    }
-
-    return (
-        <div className='shortcut-line'>
-            {keys}
-        </div>
-    );
-}
+import {allShortcuts} from 'components/Shortcuts/shortcuts.ts';
+import ShortcutSequence from 'components/Shortcuts/shortcut_sequence.tsx';
 
 export default function HeaderIconWrapper({
     iconComponent,
@@ -107,7 +83,7 @@ export default function HeaderIconWrapper({
                     id={toolTips[key].messageID}
                     defaultMessage={toolTips[key].message}
                 />
-                {key === 'recentMentions' ? (<div>{renderShortcut(shortcuts.navMentions.defaultMessage)}</div>) : null}
+                <ShortcutSequence shortcut={shortcuts.navMentions}/>
             </Tooltip>
         );
     }
@@ -128,7 +104,10 @@ export default function HeaderIconWrapper({
 
     let ariaLabelText;
     if (ariaLabel) {
-        ariaLabelText = `${localizeMessage(toolTips[tooltipKey].messageID, toolTips[tooltipKey].message)}`;
+        ariaLabelText = `${localizeMessage(
+            toolTips[tooltipKey].messageID,
+            toolTips[tooltipKey].message,
+        )}`;
     }
 
     if (tooltip) {
