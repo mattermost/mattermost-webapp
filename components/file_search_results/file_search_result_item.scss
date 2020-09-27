@@ -6,6 +6,7 @@
     border-radius: 4px;
     align-items: center;
     margin-bottom: 8px;
+    cursor: pointer;
     &:hover {
         .action-icon {
             display: flex;
@@ -47,6 +48,7 @@
         align-items: center;
         height: 32px;
         width: 32px;
+        min-width: 32px;
         border-radius: 4px;
         background-color: rgba(var(--center-channel-color-rgb), 0.08);
         color: rgba(var(--center-channel-color-rgb), 0.72);

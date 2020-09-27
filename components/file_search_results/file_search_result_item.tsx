@@ -18,21 +18,35 @@ import './file_search_result_item.scss';
 type Props = {
     fileInfo: FileInfo
     teamName: string
+    onClick: (fileInfo: FileInfo) => void
 };
 
 export default class FileSearchResultItem extends React.PureComponent<Props> {
-    private jumpToConv = () => {
+    private jumpToConv = (e: MouseEvent) => {
+        e.stopPropagation();
         browserHistory.push(`/${this.props.teamName}/pl/${this.props.fileInfo.post_id}`);
     }
 
-    private copyLink = () => {
+    private copyLink = (e: MouseEvent) => {
+        e.stopPropagation();
         copyToClipboard(`${this.props.teamName}/pl/${this.props.fileInfo.post_id}`);
+    }
+
+    private onClickHandler = (e: MouseEvent) => {
+        this.props.onClick(this.props.fileInfo);
+    }
+
+    private stopPropagation = (e: MouseEvent) => {
+        e.stopPropagation();
     }
 
     public render(): React.ReactNode {
         const {fileInfo} = this.props;
         return (
-            <div className='FileSearchResultItem'>
+            <div
+                className='FileSearchResultItem'
+                onClick={this.onClickHandler}
+            >
                 <div className={`file-icon ${getFileType(fileInfo.extension)}`}/>
                 <div className='fileData'>
                     <div className='fileDataName'>{fileInfo.name}</div>
@@ -46,29 +60,32 @@ export default class FileSearchResultItem extends React.PureComponent<Props> {
                         />
                     </div>
                 </div>
-                <MenuWrapper>
-                    <span className='action-icon dots-icon'>
-                        <DotsHorizontalIcon/>
-                    </span>
-                    <Menu
-                        ariaLabel={'file menu'}
-                        openLeft={true}
-                    >
-                        <Menu.ItemAction
-                            onClick={this.jumpToConv}
-                            ariaLabel={'Open in channel'}
-                            text={'Open in channel'}
-                        />
-                        <Menu.ItemAction
-                            onClick={this.copyLink}
-                            ariaLabel={'Copy link'}
-                            text={'Copy link'}
-                        />
-                    </Menu>
-                </MenuWrapper>
+                <div onClick={this.stopPropagation}>
+                    <MenuWrapper>
+                        <span className='action-icon dots-icon'>
+                            <DotsHorizontalIcon/>
+                        </span>
+                        <Menu
+                            ariaLabel={'file menu'}
+                            openLeft={true}
+                        >
+                            <Menu.ItemAction
+                                onClick={this.jumpToConv}
+                                ariaLabel={'Open in channel'}
+                                text={'Open in channel'}
+                            />
+                            <Menu.ItemAction
+                                onClick={this.copyLink}
+                                ariaLabel={'Copy link'}
+                                text={'Copy link'}
+                            />
+                        </Menu>
+                    </MenuWrapper>
+                </div>
                 <a
                     className='action-icon download-icon'
                     href={`/api/v4/files/${fileInfo.id}?download=1`}
+                    onClick={this.stopPropagation}
                 >
                     <i className='icon icon-download-outline'/>
                 </a>
