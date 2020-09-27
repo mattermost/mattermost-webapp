@@ -1040,17 +1040,17 @@ export function updateCodeTheme(userTheme) {
             });
         }
     });
-    const link = document.querySelector("link.code_theme")
+    const link = document.querySelector('link.code_theme');
     if (link && cssPath !== link.attributes.href) {
         changeCss('code.hljs', 'visibility: hidden');
-        var xmlHTTP = new XMLHttpRequest(); 
+        var xmlHTTP = new XMLHttpRequest();
         xmlHTTP.open('GET', cssPath, true);
         xmlHTTP.onload = function onLoad() {
-            link.attributes.href = cssPath
+            link.attributes.href = cssPath;
             if (UserAgent.isFirefox()) {
-                link.addEventListener("load", ()=> { 
+                link.addEventListener('load', () => {
                     changeCss('code.hljs', 'visibility: visible');
-                }, {once : true})
+                }, {once: true});
             } else {
                 changeCss('code.hljs', 'visibility: visible');
             }
