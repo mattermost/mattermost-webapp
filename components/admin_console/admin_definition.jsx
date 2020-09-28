@@ -4261,45 +4261,46 @@ const AdminDefinition = {
                 name: t('admin.authentication.openIdConnect'),
                 name_default: 'Open ID Connect',
                 onConfigLoad: (config) => {
+                    console.log(config);
                     const newState = {};
-                    if (config.GitLabSettings && config.GitLabSettings.Enable) {
+                    if (config.GitLabOpenIdSettings && config.GitLabOpenIdSettings.Enable) {
                         newState.oauthType = Constants.GITLAB_SERVICE;
                     }
-                    if (config.Office365Settings && config.Office365Settings.Enable) {
+                    if (config.Office365OpenIdSettings && config.Office365OpenIdSettings.Enable) {
                         newState.oauthType = Constants.OFFICE365_SERVICE;
                     }
-                    if (config.GoogleSettings && config.GoogleSettings.Enable) {
+                    if (config.GoogleOpenIdSettings && config.GoogleOpenIdSettings.Enable) {
                         newState.oauthType = Constants.GOOGLE_SERVICE;
                     }
                     if (config.OpenIdSettings && config.OpenIdSettings.Enable) {
                         newState.oauthType = Constants.OPENID_SERVICE;
                     }
 
-                    newState['GitLabSettings.Url'] = config.GitLabSettings.UserApiEndpoint.replace('/api/v4/user', '');
+                    newState['GitLabOpenIdSettings.Url'] = config.GitLabOpenIdSettings.UserApiEndpoint.replace('/api/v4/user', '');
 
                     return newState;
                 },
                 onConfigSave: (config) => {
                     const newConfig = {...config};
-                    newConfig.GitLabSettings = config.GitLabSettings || {};
-                    newConfig.Office365Settings = config.Office365Settings || {};
-                    newConfig.GoogleSettings = config.GoogleSettings || {};
+                    newConfig.GitLabOpenIdSettings = config.GitLabOpenIdSettings || {};
+                    newConfig.Office365OpenIdSettings = config.Office365OpenIdSettings || {};
+                    newConfig.GoogleOpenIdSettings = config.GoogleOpenIdSettings || {};
                     newConfig.OpenIdSettings = config.OpenIdSettings || {};
 
-                    newConfig.GitLabSettings.Enable = false;
-                    newConfig.Office365Settings.Enable = false;
-                    newConfig.GoogleSettings.Enable = false;
+                    newConfig.GitLabOpenIdSettings.Enable = false;
+                    newConfig.Office365OpenIdSettings.Enable = false;
+                    newConfig.GoogleOpenIdSettings.Enable = false;
                     newConfig.OpenIdSettings.Enable = false;
-                    newConfig.GitLabSettings.UserApiEndpoint = config.GitLabSettings.Url.replace(/\/$/, '') + '/api/v4/user';
+                    newConfig.GitLabOpenIdSettings.UserApiEndpoint = config.GitLabOpenIdSettings.Url.replace(/\/$/, '') + '/api/v4/user';
 
                     if (config.oauthType === Constants.GITLAB_SERVICE) {
-                        newConfig.GitLabSettings.Enable = true;
+                        newConfig.GitLabOpenIdSettings.Enable = true;
                     }
                     if (config.oauthType === Constants.OFFICE365_SERVICE) {
-                        newConfig.Office365Settings.Enable = true;
+                        newConfig.Office365OpenIdSettings.Enable = true;
                     }
                     if (config.oauthType === Constants.GOOGLE_SERVICE) {
-                        newConfig.GoogleSettings.Enable = true;
+                        newConfig.GoogleOpenIdSettings.Enable = true;
                     }
                     if (config.oauthType === Constants.OPENID_SERVICE) {
                         newConfig.OpenIdSettings.Enable = true;
@@ -4359,7 +4360,7 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
-                        key: 'GitLabSettings.Url',
+                        key: 'GitLabOpenIdSettings.Url',
                         label: t('admin.gitlab.siteUrl'),
                         label_default: 'GitLab Site URL:',
                         help_text: t('admin.gitlab.siteUrlDescription'),
@@ -4371,12 +4372,12 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
-                        key: 'GitLabSettings.DiscoveryEndpoint',
+                        key: 'GitLabOpenIdSettings.DiscoveryEndpoint',
                         label: t('admin.gitlab.DiscoveryEndpoint'),
                         label_default: 'Issuer URL',
                         dynamic_value: (value, config, state) => {
-                            if (state['GitLabSettings.Url']) {
-                                return state['GitLabSettings.Url'].replace(/\/$/, '') + '/.well-known/openid-configuration';
+                            if (state['GitLabOpenIdSettings.Url']) {
+                                return state['GitLabOpenIdSettings.Url'].replace(/\/$/, '') + '/.well-known/openid-configuration';
                             }
                             return '';
                         },
@@ -4385,7 +4386,7 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
-                        key: 'GitLabSettings.Id',
+                        key: 'GitLabOpenIdSettings.Id',
                         label: t('admin.gitlab.clientIdTitle'),
                         label_default: 'Application ID:',
                         help_text: t('admin.gitlab.clientIdDescription'),
@@ -4397,7 +4398,7 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
-                        key: 'GitLabSettings.Secret',
+                        key: 'GitLabOpenIdSettings.Secret',
                         label: t('admin.gitlab.clientSecretTitle'),
                         label_default: 'Application Secret Key:',
                         help_text: t('admin.gitlab.clientSecretDescription'),
@@ -4409,7 +4410,7 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
-                        key: 'GoogleSettings.DiscoveryEndpoint',
+                        key: 'GoogleOpenIdSettings.DiscoveryEndpoint',
                         label: t('admin.google.DiscoveryEndpoint'),
                         label_default: 'Issuer URL',
                         dynamic_value: () => 'https://accounts.google.com/.well-known/openid-configuration',
@@ -4418,7 +4419,7 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
-                        key: 'GoogleSettings.Id',
+                        key: 'GoogleOpenIdSettings.Id',
                         label: t('admin.google.clientIdTitle'),
                         label_default: 'Client ID:',
                         help_text: t('admin.google.clientIdDescription'),
@@ -4430,7 +4431,7 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
-                        key: 'GoogleSettings.Secret',
+                        key: 'GoogleOpenIdSettings.Secret',
                         label: t('admin.google.clientSecretTitle'),
                         label_default: 'Client Secret:',
                         help_text: t('admin.google.clientSecretDescription'),
@@ -4442,7 +4443,7 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
-                        key: 'Office365Settings.DirectoryId',
+                        key: 'Office365OpenIdSettings.DirectoryId',
                         label: t('admin.office365.directoryIdTitle'),
                         label_default: 'Directory (tenant) ID:',
                         help_text: t('admin.office365.directoryIdDescription'),
@@ -4454,12 +4455,12 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
-                        key: 'Office365Settings.DiscoveryEndpoint',
+                        key: 'Office365OpenIdSettings.DiscoveryEndpoint',
                         label: t('admin.office365.DiscoveryEndpoint'),
                         label_default: 'Issuer URL',
                         dynamic_value: (value, config, state) => {
-                            if (state['Office365Settings.DirectoryId']) {
-                                return 'https://login.microsoftonline.com/' + state['Office365Settings.DirectoryId'] + '/v2.0/.well-known/openid-configuration';
+                            if (state['Office365OpenIdSettings.DirectoryId']) {
+                                return 'https://login.microsoftonline.com/' + state['Office365OpenIdSettings.DirectoryId'] + '/v2.0/.well-known/openid-configuration';
                             }
                             return 'https://login.microsoftonline.com/{directoryId}/v2.0/.well-known/openid-configuration';
                         },
@@ -4468,7 +4469,7 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
-                        key: 'Office365Settings.Id',
+                        key: 'Office365OpenIdSettings.Id',
                         label: t('admin.office365.clientIdTitle'),
                         label_default: 'Application ID:',
                         help_text: t('admin.office365.clientIdDescription'),
@@ -4480,7 +4481,7 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
-                        key: 'Office365Settings.Secret',
+                        key: 'Office365OpenIdSettings.Secret',
                         label: t('admin.office365.clientSecretTitle'),
                         label_default: 'Application Secret Password:',
                         help_text: t('admin.office365.clientSecretDescription'),
