@@ -1,10 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {ReactNode} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
-
 
 import {Permissions} from 'mattermost-redux/constants';
 
@@ -35,9 +34,9 @@ export const TEAMS_PER_PAGE = 30;
 const TEAM_MEMBERSHIP_DENIAL_ERROR_ID = 'api.team.add_members.user_denied';
 
 type Actions = {
-    getTeams: Function,
-    loadRolesIfNeeded: Function,
-    addUserToTeam: Function,
+    getTeams: any,
+    loadRolesIfNeeded: any,
+    addUserToTeam: any,
 }
 
 type Props = {
@@ -63,12 +62,10 @@ type State = {
     error: null,
     endofTeamsData: boolean,
     currentPage: number,
-    currentListableTeams:  Array<any>,
+    currentListableTeams: Array<any>,
 }
 
-
 export default class SelectTeam extends React.PureComponent<Props, State> {
-
     constructor(props: Props) {
         super(props);
 
@@ -93,7 +90,7 @@ export default class SelectTeam extends React.PureComponent<Props, State> {
     componentDidMount() {
         trackEvent('signup', 'signup_select_team', {userId: this.props.currentUserId});
         this.fetchMoreTeams();
-        if(this.props.currentUserRoles !== undefined){
+        if (this.props.currentUserRoles !== undefined) {
             this.props.actions.loadRolesIfNeeded(this.props.currentUserRoles.split(' '));
         }
     }
@@ -151,13 +148,13 @@ export default class SelectTeam extends React.PureComponent<Props, State> {
         }
     };
 
-    handleLogoutClick = (e: any) => {
+    handleLogoutClick = (e: any): void => {
         e.preventDefault();
         trackEvent('select_team', 'click_logout');
         emitUserLoggedOutEvent('/login');
     };
 
-    clearError = (e: any) => {
+    clearError = (e: any): void => {
         e.preventDefault();
 
         this.setState({
@@ -165,7 +162,7 @@ export default class SelectTeam extends React.PureComponent<Props, State> {
         });
     };
 
-    render() {
+    render(): ReactNode {
         const {currentPage, currentListableTeams} = this.state;
         const {
             currentUserIsGuest,

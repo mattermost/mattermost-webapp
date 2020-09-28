@@ -23,7 +23,7 @@ describe('components/select_team/components/SelectTeamItem', () => {
     test('should match snapshot, on public not joinable', () => {
         const props = {...baseProps, canJoinPublicTeams: false};
         const wrapper: ShallowWrapper<any, any, SelectTeamItem> = shallow(
-            <SelectTeamItem {...baseProps}/>
+            <SelectTeamItem {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -31,7 +31,7 @@ describe('components/select_team/components/SelectTeamItem', () => {
     test('should match snapshot, on private joinable', () => {
         const props = {...baseProps, team: {...baseProps.team, allow_open_invite: false}, canJoinPrivateTeams: true};
         const wrapper: ShallowWrapper<any, any, SelectTeamItem> = shallow(
-            <SelectTeamItem {...baseProps}/>
+            <SelectTeamItem {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -39,7 +39,7 @@ describe('components/select_team/components/SelectTeamItem', () => {
     test('should match snapshot, on private not joinable', () => {
         const props = {...baseProps, team: {...baseProps.team, allow_open_invite: false}};
         const wrapper: ShallowWrapper<any, any, SelectTeamItem> = shallow(
-            <SelectTeamItem {...baseProps}/>
+            <SelectTeamItem {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -47,7 +47,7 @@ describe('components/select_team/components/SelectTeamItem', () => {
     test('should match snapshot, on loading', () => {
         const props = {...baseProps, loading: true};
         const wrapper: ShallowWrapper<any, any, SelectTeamItem> = shallow(
-            <SelectTeamItem {...baseProps}/>
+            <SelectTeamItem {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -55,14 +55,14 @@ describe('components/select_team/components/SelectTeamItem', () => {
     test('should match snapshot, with description', () => {
         const props = {...baseProps, team: {...baseProps.team, description: 'description'}};
         const wrapper: ShallowWrapper<any, any, SelectTeamItem> = shallow(
-            <SelectTeamItem {...baseProps}/>
+            <SelectTeamItem {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should call props.onTeamClick on handleTeamClick', () => {
         const wrapper: ShallowWrapper<any, any, SelectTeamItem> = shallow(
-            <SelectTeamItem {...baseProps}/>
+            <SelectTeamItem {...baseProps}/>,
         );
         wrapper.instance().handleTeamClick({preventDefault: jest.fn()});
         expect(baseProps.onTeamClick).toHaveBeenCalledTimes(1);
@@ -72,7 +72,7 @@ describe('components/select_team/components/SelectTeamItem', () => {
     test('should not call props.onTeamClick on handleTeamClick when you cant join the team', () => {
         const props = {...baseProps, canJoinPublicTeams: false};
         const wrapper: ShallowWrapper<any, any, SelectTeamItem> = shallow(
-            <SelectTeamItem {...baseProps}/>
+            <SelectTeamItem {...props}/>,
         );
         wrapper.instance().handleTeamClick({preventDefault: jest.fn()});
         expect(baseProps.onTeamClick).toHaveBeenCalledTimes(1);

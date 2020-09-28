@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React  from 'react';
+import React, {ReactNode} from 'react';
 import {Tooltip} from 'react-bootstrap';
 
 import LocalizedIcon from 'components/localized_icon';
@@ -13,21 +13,19 @@ import * as Utils from 'utils/utils.jsx';
 
 type Props = {
     team: any,
-    onTeamClick: React.EventHandler<React.MouseEvent>,
+    onTeamClick: (team: any) => void,
     loading: boolean,
     canJoinPublicTeams: boolean,
     canJoinPrivateTeams: boolean,
 };
 
 export default class SelectTeamItem extends React.PureComponent<Props> {
-
-    handleTeamClick = (e: any) => {
+    handleTeamClick = (e: any): void => {
         e.preventDefault();
         this.props.onTeamClick(this.props.team);
     }
-    
 
-    renderDescriptionTooltip = () => {
+    renderDescriptionTooltip = (): ReactNode => {
         const team = this.props.team;
         if (!team.description) {
             return null;
@@ -52,11 +50,12 @@ export default class SelectTeamItem extends React.PureComponent<Props> {
         );
     }
 
-    getId(name: string){
-        const id = Utils.createSafeId(name)
-        if(id){
+    getId(name: string): string | undefined {
+        const id = Utils.createSafeId(name);
+        if (id) {
             return id;
         }
+        return undefined;
     }
 
     render() {
