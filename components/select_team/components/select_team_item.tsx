@@ -1,8 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
-import React from 'react';
+import React  from 'react';
 import {Tooltip} from 'react-bootstrap';
 
 import LocalizedIcon from 'components/localized_icon';
@@ -12,19 +11,21 @@ import TeamInfoIcon from 'components/widgets/icons/team_info_icon';
 import {t} from 'utils/i18n';
 import * as Utils from 'utils/utils.jsx';
 
-export default class SelectTeamItem extends React.PureComponent {
-    static propTypes = {
-        team: PropTypes.object.isRequired,
-        onTeamClick: PropTypes.func.isRequired,
-        loading: PropTypes.bool.isRequired,
-        canJoinPublicTeams: PropTypes.bool.isRequired,
-        canJoinPrivateTeams: PropTypes.bool.isRequired,
-    };
+type Props = {
+    team: any,
+    onTeamClick: React.EventHandler<React.MouseEvent>,
+    loading: boolean,
+    canJoinPublicTeams: boolean,
+    canJoinPrivateTeams: boolean,
+};
 
-    handleTeamClick = (e) => {
+export default class SelectTeamItem extends React.PureComponent<Props> {
+
+    handleTeamClick = (e: any) => {
         e.preventDefault();
         this.props.onTeamClick(this.props.team);
     }
+    
 
     renderDescriptionTooltip = () => {
         const team = this.props.team;
@@ -49,6 +50,13 @@ export default class SelectTeamItem extends React.PureComponent {
                 <TeamInfoIcon className='icon icon--info'/>
             </OverlayTrigger>
         );
+    }
+
+    getId(name: string){
+        const id = Utils.createSafeId(name)
+        if(id){
+            return id;
+        }
     }
 
     render() {
@@ -79,8 +87,8 @@ export default class SelectTeamItem extends React.PureComponent {
                 {this.renderDescriptionTooltip()}
                 <a
                     href='#'
-                    id={Utils.createSafeId(team.display_name)}
-                    onClick={canJoin ? this.handleTeamClick : null}
+                    id={this.getId(team.display_name)}
+                    onClick={canJoin ? this.handleTeamClick : undefined}
                     className={canJoin ? '' : 'disabled'}
                 >
                     <span className='signup-team-dir__name'>{team.display_name}</span>

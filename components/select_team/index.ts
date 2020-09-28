@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {bindActionCreators, Dispatch} from 'redux';
 import {withRouter} from 'react-router-dom';
 
 import {getTeams} from 'mattermost-redux/actions/teams';
@@ -16,9 +16,9 @@ import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {addUserToTeam} from 'actions/team_actions';
 import {isGuest} from 'utils/utils';
 
-import SelectTeam from './select_team.jsx';
+import SelectTeam from './select_team';
 
-function mapStateToProps(state) {
+function mapStateToProps(state: any) {
     const config = getConfig(state);
     const currentUser = getCurrentUser(state);
     const myTeamMemberships = Object.values(getTeamMemberships(state));
@@ -40,7 +40,7 @@ function mapStateToProps(state) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch) {
     return {
         actions: bindActionCreators({
             getTeams,
