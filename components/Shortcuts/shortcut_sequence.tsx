@@ -2,11 +2,7 @@
 // See LICENSE.txt for license information.
 import React from 'react';
 
-type Props = {
-    shorcut: object;
-};
-
-export default function ShortcutSequence({shortcut}: Props) {
+export default function ShortcutSequence({shortcut}) {
     if (!shortcut) {
         return null;
     }
@@ -26,5 +22,3 @@ export default function ShortcutSequence({shortcut}: Props) {
 
     return <div className='shortcut-line'>{keys}</div>;
 }
-
-// {key === 'recentMentions' ? (<div>{renderShortcut(shortcuts.navMentions.defaultMessage)}</div>) : null}

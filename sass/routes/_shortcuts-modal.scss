@@ -83,19 +83,19 @@
 }
 
 .shortcut-line {
-    margin: 16px 0;
+    padding: 8px 4px;
 
     span {
         &:first-child {
-            margin-right: 5px;
+            // margin-right: 4px;
         }
     }
 
     .shortcut-key {
-        border-radius: 3px;
-        font-size: .9em;
+        border-radius: 4px;
+        font-size: 1.1em;
         font-weight: 500;
-        margin: 5px 0 5px 5px;
+        margin: 4px 0 0px 5px;
         padding: 1px 5px;
     }
 }

@@ -83,7 +83,9 @@ export default function HeaderIconWrapper({
                     id={toolTips[key].messageID}
                     defaultMessage={toolTips[key].message}
                 />
-                <ShortcutSequence shortcut={shortcuts.navMentions}/>
+                {key === 'recentMentions' && (
+                    <ShortcutSequence shortcut={shortcuts.navMentions}/>
+                )}
             </Tooltip>
         );
     }
