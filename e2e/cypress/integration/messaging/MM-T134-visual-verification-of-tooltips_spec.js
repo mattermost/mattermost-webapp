@@ -47,7 +47,6 @@ describe('Messaging', () => {
             });
             
             cy.visit(`/${testTeam.name}/channels/town-square`);
-            
         });
     });
     it('MM-T134-visual-verification-of-tooltips', () => {
@@ -76,14 +75,14 @@ describe('Messaging', () => {
         cy.findAllByLabelText('add to favorites').should('be','visible').trigger('mouseout');
 
         // * Add to favourites posts tool-tip is present - checked
-        cy.findAllByLabelText('add to favorites').click()
+        cy.findAllByLabelText('add to favorites').click();
         cy.findAllByLabelText('remove from favorites').should('be.visible').trigger('mouseover');
         cy.get('div.tooltip-inner').should('be.visible').and('contain','Remove from Favorites');
         cy.findAllByLabelText('remove from favorites').should('be','visible').trigger('mouseout');
 
         // * Unmute a channel tool-tip is present
-        cy.findAllByLabelText('dropdown icon').click()
-        cy.findAllByText('Mute Channel').click()
+        cy.findAllByLabelText('dropdown icon').click();
+        cy.findAllByText('Mute Channel').click();
         cy.findAllByLabelText('Muted Icon').should('be','visible').trigger('mouseover');
         cy.get('div.tooltip-inner').should('be.visible').and('contain','Unmute');
         cy.findAllByLabelText('Muted Icon').should('be','visible').trigger('mouseout');
@@ -94,14 +93,13 @@ describe('Messaging', () => {
 
         // # Set up the Demo plugin
         cy.apiInstallPluginFromUrl('https://github.com/mattermost/mattermost-plugin-demo/releases/download/v0.8.0/com.mattermost.demo-plugin-0.8.0.tar.gz', true);
-        cy.visit('/admin_console/plugins/plugin_com.mattermost.demo-plugin')
-        cy.get('[data-testid="PluginSettings.PluginStates.com+mattermost+demo-plugin.Enabletrue"]').check().should('be','checked')
+        cy.visit('/admin_console/plugins/plugin_com.mattermost.demo-plugin');
+        cy.get('[data-testid="PluginSettings.PluginStates.com+mattermost+demo-plugin.Enabletrue"]').check().should('be','checked');
         cy.get('#saveSetting').click({force:true});
         cy.visit(`/${testTeam.name}/channels/town-square`);
         
         // * Check that the Demo plugin tool-tip is present
         cy.get('#channel-header').find('.fa-plug').should('be.visible').trigger('mouseover');
         cy.get('#pluginTooltip').should('be.visible').and('have.text', 'Demo Plugin');
-
     });
 });
