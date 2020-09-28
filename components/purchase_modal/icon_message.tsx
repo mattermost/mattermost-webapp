@@ -2,14 +2,15 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import classNames from 'classnames';
 
-import './icon_message.css';
+import './icon_message.scss';
 
 type Props = {
     icon: string;
     title: string;
     subtitle: string;
-    error?: string;
+    error?: boolean;
     buttonText?: string;
     buttonHandler?: () => void;
     linkText?: string;
@@ -33,7 +34,7 @@ export default function IconMessage(props: Props) {
     let button = null;
     if (buttonText && buttonHandler) {
         button = (
-            <div className='IconMessage-button'>
+            <div className={classNames('IconMessage-button', props.error ? 'error' : '')}>
                 <button
                     id='login_button'
                     className='btn btn-primary Form-btn'
@@ -73,13 +74,17 @@ export default function IconMessage(props: Props) {
             <h3 className='IconMessage-h3'>
                 {title}
             </h3>
-            <div className='IconMessage-sub'>
+            <div className={classNames('IconMessage-sub', props.error ? props.error : '')}>
                 {subtitle}
             </div>
-            <div className='IconMessage-error'/>
+            {/* <div className='IconMessage-error'/> */}
             {button}
             {link}
             {footer}
         </div>
     );
+}
+
+IconMessage.defaultProps = {
+    error: false,
 }

@@ -43,8 +43,8 @@
 
     .RHS {
         width: 25%;
-        position: sticky;   
-        
+        position: sticky;
+
         .price-container{
             font-weight: normal;
             padding: 24px;
@@ -76,10 +76,22 @@
         top: 0;
         z-index: -1;
        // opacity:0.08;
-    
+
         stop {
             stop-color: var(--button-bg);
         }
+    }
+
+    .blue-dots {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+        z-index: -1;
+
+        // this opacity makes it invisible
+        // opacity: 0.16;
     }
 
     .logo{
@@ -98,14 +110,14 @@
         background: var(--button-bg);
         color: var(--button-color);
         border: 0;
-        margin: 24px 0px;
+        // margin: 24px 0px;
 
         &:disabled {
             background: var(--center-channel-color-08);
             color: var(--center-channel-color-32);
         }
     }
-    
+
 
 /// ?
     .SignUpRHS {
@@ -114,7 +126,7 @@
         width: 25%;
         z-index: 2;
     }
-    
+
     .SignUpRHS-terms {
         position: absolute;
         bottom: 0;
@@ -123,7 +135,7 @@
         line-height: 24px;
         margin-bottom: 42px;
     }
-    
+
     .SignUpRHS-link {
         color: #22406D;
         margin-left: 32px;

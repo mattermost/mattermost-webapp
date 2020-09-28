@@ -10,7 +10,9 @@ import moment from 'moment';
 
 import upgradeImage from 'images/cloud/upgrade.svg';
 import wavesBackground from 'images/cloud/waves.svg';
-import professionalLogo from 'images/cloud-logos/professional.svg';
+import blueDotes from 'images/cloud/blue.svg';
+
+import cloudLogo from 'images/cloud/mattermost-cloud.svg';
 
 import RootPortal from 'components/root_portal';
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
@@ -128,7 +130,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                     >{'Contact Sales'}</a>
 
                     <div className='logo'>
-                        <img src={professionalLogo}/>
+                        <img src={cloudLogo}/>
                     </div>
                 </div>
             </React.Fragment>
@@ -165,6 +167,10 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                                 <img
                                     className='waves'
                                     src={wavesBackground}
+                                />
+                                <img
+                                    className='blue-dots'
+                                    src={blueDotes}
                                 />
                             </div>
                         </div>

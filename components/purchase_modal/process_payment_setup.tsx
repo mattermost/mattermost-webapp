@@ -125,7 +125,7 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
                 />
             </div>
         );
-
+        console.log(error);
         switch (state) {
         case ProcessState.PROCESSING:
             return (
@@ -141,6 +141,7 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
                 <IconMessage
                     title={'Great! Youre now upgraded'} //formatMessage({id: 'process_payment.congratulations'})}
                     subtitle={'Starting August 8, 2020 you will be charged based on the number of enabled users'} //formatMessage({id: 'process_payment.processed'})}
+                    error={false}
                     icon={successSvg}
                     buttonText={'Lets go!'} //formatMessage({id: 'process_payment.view_your_license'})}
                     buttonHandler={this.props.onClose}
@@ -150,9 +151,9 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
             return (
                 <IconMessage
                     title={'Sorry, the payment verification failed'}//formatMessage({id: 'process_payment.sorry_the_payment_failed'})}
-                    subtitle={'Detailed error'} //formatMessage({id: 'process_payment.problem_processing'})}
+                    subtitle={'detailed error'} //formatMessage({id: 'process_payment.problem_processing'})}
                     icon={failedSvg}
-                    error={error}
+                    error={true}
                     buttonText={'Go back and try again'}//formatMessage({id: 'process_payment.try_again'})}
                     buttonHandler={this.handleGoBack}
                     linkText={'Contact support'}//formatMessage({id: 'need_help.contact_support'})}

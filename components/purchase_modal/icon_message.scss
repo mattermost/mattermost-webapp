@@ -13,7 +13,7 @@
     font-size: 24px;
     line-height: 32px;
     color: #152235;
-    margin-top: 0;
+    margin-top: 43px;
     font-weight: 600;
 
     @media screen and (max-width: 600px) {
@@ -24,16 +24,20 @@
 }
 
 .IconMessage-sub {
-    margin-top: 15px;
+    &.error {
+        color: #DB3214;
+    }
+    margin-top: 16px;
     font-size: 14px;
     font-style: normal;
     font-weight: normal;
     line-height: 20px;
-    color: #152235;
+    color: #3D3C40;
 }
 
 .IconMessage-img {
    /* margin-top: -100px;*/
+   margin-top: 136px;
 }
 
 .IconMessage-progress {
@@ -41,7 +45,7 @@
     margin-top: 90px;
     height: 4px;
     width: 387px;
-    background: rgb(34,64,109, 0.12);
+    background: rgba(34,64,109, 0.12);
     border-radius: 4px;
 }
 
@@ -51,24 +55,27 @@
     border-radius: 4px;
 }
 
-.IconMessage-error {
-    height: 32px;
-    margin-top: 13px;
+.IconMessage-button {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 16px;
+    align-self: center;
+    text-align: center;
     font-weight: 600;
     font-size: 14px;
-    line-height: 20px;
-    color: #DB3214;
-}
-
-.IconMessage-button {
-    margin-top: 16px;
+    line-height: 14px;
+    height: 40px;
+    width: 95px;
+    &.error {
+        width: 176px;
+    }
 }
 
 .IconMessage-link {
-    margin-top: 17px;
+    margin-top: 21px;
     font-weight: 600;
-    font-size: 18px;
-    line-height: 28px;
+    font-size: 14px;
+    line-height: 14px;
     text-align: center;
     color: #0058CC;
     margin-left: -10px;
