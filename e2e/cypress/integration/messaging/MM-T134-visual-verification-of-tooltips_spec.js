@@ -29,9 +29,9 @@ function verifyChannel(res, verifyExistence = true) {
 
 describe('Messaging', () => {
     let loggedUser;
-    let longUser;
+    //let longUser;
     let testTeam;
-    
+
     before(() => {
         // # Login as test user and visit the newly created test channel
 
@@ -39,12 +39,12 @@ describe('Messaging', () => {
             testTeam = team;
             loggedUser = user;
 
-            cy.apiAdminLogin
+            cy.apiAdminLogin;
 
-            cy.apiCreateUser({prefix: `thisIsALongUsername${timestamp}`}).then(({user: user1}) => {
-                longUser = user1;
+            //cy.apiCreateUser({prefix: `thisIsALongUsername${timestamp}`}).then(({user: user1}) => {
+            //    longUser = user1;
             cy.apiAddUserToTeam(testTeam.id, loggedUser.id);
-            });
+            // });
             
             cy.visit(`/${testTeam.name}/channels/town-square`);
         });
