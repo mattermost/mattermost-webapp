@@ -24,12 +24,6 @@ jest.mock('actions/global_actions.jsx', () => ({
     toggleShortcutsModal: jest.fn(),
 }));
 
-jest.mock('react-dom', () => ({
-    findDOMNode: () => ({
-        blur: jest.fn(),
-    }),
-}));
-
 jest.mock('actions/post_actions.jsx', () => ({
     createPost: jest.fn(() => {
         return new Promise((resolve) => {
