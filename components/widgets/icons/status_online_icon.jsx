@@ -4,8 +4,6 @@
 import React from 'react';
 import {useIntl} from 'react-intl';
 
-import {t} from 'utils/i18n';
-
 export default function StatusOnlineIcon(props) {
     const {formatMessage} = useIntl();
     return (
@@ -16,7 +14,7 @@ export default function StatusOnlineIcon(props) {
                 viewBox='0 0 20 20'
                 style={style}
                 role='img'
-                aria-label={formatMessage({id: t('mobile.set_status.online.icon'), defaultMessage: 'Online Icon'})}
+                aria-label={formatMessage({id: 'mobile.set_status.online.icon', defaultMessage: 'Online Icon'})}
             >
                 <path
                     className='online--icon'

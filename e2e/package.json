@@ -22,6 +22,7 @@
     "lodash.without": "4.4.0",
     "lodash.xor": "4.5.0",
     "mattermost-redux": "5.26.2",
+    "mime": "2.4.6",
     "mime-types": "2.1.27",
     "mocha": "8.1.3",
     "mocha-junit-reporters": "1.23.6",
