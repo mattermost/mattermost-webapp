@@ -4,8 +4,6 @@
 import React from 'react';
 import {useIntl} from 'react-intl';
 
-import {t} from 'utils/i18n';
-
 export default function UnreadBelowIcon(props) {
     const {formatMessage} = useIntl();
     return (
@@ -16,7 +14,7 @@ export default function UnreadBelowIcon(props) {
                 height='16'
                 viewBox='0 0 16 16'
                 role='img'
-                aria-label={formatMessage({id: t('generic_icons.arrow.down'), defaultMessage: 'Down Arrow Icon'})}
+                aria-label={formatMessage({id: 'generic_icons.arrow.down', defaultMessage: 'Down Arrow Icon'})}
             >
                 <path d='M8.696 2H7.184V11L3.062 6.878L2 7.94L7.94 13.88L13.88 7.94L12.818 6.878L8.696 11V2Z'/>
             </svg>
