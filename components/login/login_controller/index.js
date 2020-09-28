@@ -33,6 +33,9 @@ function mapStateToProps(state) {
     const enableSignUpWithGitLab = config.EnableSignUpWithGitLab === 'true';
     const enableSignUpWithGoogle = config.EnableSignUpWithGoogle === 'true';
     const enableSignUpWithOffice365 = config.EnableSignUpWithOffice365 === 'true';
+    const enableSignUpWithGitLabOpenId = config.EnableSignUpWithGitLabOpenId === 'true';
+    const enableSignUpWithGoogleOpenId = config.EnableSignUpWithGoogleOpenId === 'true';
+    const enableSignUpWithOffice365OpenId = config.EnableSignUpWithOffice365OpenId === 'true';
     const enableSignUpWithOpenId = config.EnableSignUpWithOpenId === 'true';
     const ldapLoginFieldName = config.LdapLoginFieldName;
     const samlLoginButtonText = config.SamlLoginButtonText;
@@ -70,6 +73,9 @@ function mapStateToProps(state) {
         enableSignUpWithGitLab,
         enableSignUpWithGoogle,
         enableSignUpWithOffice365,
+        enableSignUpWithGitLabOpenId,
+        enableSignUpWithGoogleOpenId,
+        enableSignUpWithOffice365OpenId,
         enableSignUpWithOpenId,
         experimentalPrimaryTeam,
         ldapLoginFieldName,

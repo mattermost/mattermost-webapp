@@ -25,6 +25,10 @@ function mapStateToProps(state, ownProps) {
     const enableSignUpWithGitLab = config.EnableSignUpWithGitLab === 'true';
     const enableSignUpWithGoogle = config.EnableSignUpWithGoogle === 'true';
     const enableSignUpWithOffice365 = config.EnableSignUpWithOffice365 === 'true';
+    const enableSignUpWithGitLabOpenId = config.EnableSignUpWithGitLabOpenId === 'true';
+    const enableSignUpWithGoogleOpenId = config.EnableSignUpWithGoogleOpenId === 'true';
+    const enableSignUpWithOffice365OpenId = config.EnableSignUpWithOffice365OpenId === 'true';
+    const enableSignUpWithOpenId = config.EnableSignUpWithOpenId === 'true';
     const enableLDAP = config.EnableLdap === 'true';
     const enableSAML = config.EnableSaml === 'true';
     const samlLoginButtonText = config.SamlLoginButtonText;
@@ -50,6 +54,10 @@ function mapStateToProps(state, ownProps) {
         enableSignUpWithGitLab,
         enableSignUpWithGoogle,
         enableSignUpWithOffice365,
+        enableSignUpWithGitLabOpenId,
+        enableSignUpWithGoogleOpenId,
+        enableSignUpWithOffice365OpenId,
+        enableSignUpWithOpenId,
         enableLDAP,
         enableSAML,
         samlLoginButtonText,

@@ -30,6 +30,9 @@ export default class SignupController extends React.PureComponent {
         enableSignUpWithGitLab: PropTypes.bool.isRequired,
         enableSignUpWithGoogle: PropTypes.bool.isRequired,
         enableSignUpWithOffice365: PropTypes.bool.isRequired,
+        enableSignUpWithGitLabOpenId: PropTypes.bool.isRequired,
+        enableSignUpWithGoogleOpenId: PropTypes.bool.isRequired,
+        enableSignUpWithOffice365OpenId: PropTypes.bool.isRequired,
         enableSignUpWithOpenId: PropTypes.bool.isRequired,
         enableLDAP: PropTypes.bool.isRequired,
         enableSAML: PropTypes.bool.isRequired,
@@ -173,7 +176,7 @@ export default class SignupController extends React.PureComponent {
             );
         }
 
-        if (this.props.enableSignUpWithGitLab) {
+        if (this.props.enableSignUpWithGitLab || this.props.enableSignUpWithGitLabOpenId) {
             signupControls.push(
                 <a
                     className='btn btn-custom-login btn--full gitlab'
@@ -193,7 +196,7 @@ export default class SignupController extends React.PureComponent {
             );
         }
 
-        if (this.props.isLicensed && this.props.enableSignUpWithGoogle) {
+        if (this.props.isLicensed && (this.props.enableSignUpWithGoogle || this.props.enableSignUpWithGoogleOpenId)) {
             signupControls.push(
                 <a
                     className='btn btn-custom-login btn--full google'
@@ -213,7 +216,7 @@ export default class SignupController extends React.PureComponent {
             );
         }
 
-        if (this.props.isLicensed && this.props.enableSignUpWithOffice365) {
+        if (this.props.isLicensed && (this.props.enableSignUpWithOffice365 || this.props.enableSignUpWithOffice365OpenId)) {
             signupControls.push(
                 <a
                     className='btn btn-custom-login btn--full office365'
@@ -232,6 +235,7 @@ export default class SignupController extends React.PureComponent {
                 </a>,
             );
         }
+        
 
         if (this.props.isLicensed && this.props.enableSignUpWithOpenId) {
             signupControls.push(
@@ -370,6 +374,7 @@ export default class SignupController extends React.PureComponent {
         } else {
             signupControls = this.renderSignupControls();
         }
+        console.log(this.props);
 
         return (
             <div>

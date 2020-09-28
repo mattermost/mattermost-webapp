@@ -53,6 +53,9 @@ class LoginController extends React.PureComponent {
         enableSignUpWithGitLab: PropTypes.bool.isRequired,
         enableSignUpWithGoogle: PropTypes.bool.isRequired,
         enableSignUpWithOffice365: PropTypes.bool.isRequired,
+        enableSignUpWithGitLabOpenId: PropTypes.bool.isRequired,
+        enableSignUpWithGoogleOpenId: PropTypes.bool.isRequired,
+        enableSignUpWithOffice365OpenId: PropTypes.bool.isRequired,
         enableSignUpWithOpenId: PropTypes.bool.isRequired,
         experimentalPrimaryTeam: PropTypes.string,
         ldapLoginFieldName: PropTypes.string,
@@ -426,8 +429,11 @@ class LoginController extends React.PureComponent {
         return this.props.enableSignUpWithEmail ||
             this.props.enableSignUpWithGitLab ||
             this.props.enableSignUpWithOffice365 ||
-            this.props.enableSignUpWithOpenId ||
             this.props.enableSignUpWithGoogle ||
+            this.props.enableSignUpWithGitLabOpenId ||
+            this.props.enableSignUpWithOffice365OpenId ||
+            this.props.enableSignUpWithGoogleOpenId ||
+            this.props.enableSignUpWithOpenId ||
             this.props.enableLdap ||
             this.props.enableSaml;
     }
@@ -538,9 +544,9 @@ class LoginController extends React.PureComponent {
         const loginControls = [];
 
         const ldapEnabled = this.state.ldapEnabled;
-        const gitlabSigninEnabled = this.props.enableSignUpWithGitLab;
-        const googleSigninEnabled = this.props.enableSignUpWithGoogle;
-        const office365SigninEnabled = this.props.enableSignUpWithOffice365;
+        const gitlabSigninEnabled = this.props.enableSignUpWithGitLab || this.props.enableSignUpWithGitLabOpenId;
+        const googleSigninEnabled = this.props.enableSignUpWithGoogle || this.props.enableSignUpWithGoogleOpenId;
+        const office365SigninEnabled = this.props.enableSignUpWithOffice365 || this.props.enableSignUpWithOffice365OpenId;
         const openIdSigninEnabled = this.props.enableSignUpWithOpenId;
         const samlSigninEnabled = this.state.samlEnabled;
         const usernameSigninEnabled = this.state.usernameSigninEnabled;
