@@ -2,25 +2,64 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow} from 'enzyme';
 
-import Avatar from './avatars';
+import {mount} from 'enzyme';
 
-describe('components/widgets/users/Avatar', () => {
+import Avatars from './avatars';
+
+const users = [
+    {
+        url: 'test-url-1',
+        username: 'jesus.espino',
+        name: 'Jesus Espino',
+    },
+    {
+        url: 'test-url-2',
+        username: 'johnny.depp',
+        name: 'Johnny Depp',
+    },
+    {
+        url: 'test-url-3',
+        username: 'bilbo.baggins',
+        name: 'Bilbo Baggins',
+    },
+    {
+        url: 'test-url-4',
+        username: 'michael.hall',
+        name: 'Anthony Michael Hall',
+    },
+    {
+        url: 'test-url-5',
+        username: 'kathy.baker',
+        name: 'Kathy Baker',
+    },
+];
+
+describe('components/widgets/users/Avatars', () => {
     test('should match the snapshot', () => {
-        const wrapper = shallow(
-            <Avatar
-                url='test-url'
-                username='test-username'
+        const wrapper = mount(
+            <Avatars
                 size='xl'
+                users={users}
             />,
         );
 
+        expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match the snapshot only with url', () => {
-        const wrapper = shallow(
-            <Avatar url='test-url'/>,
+    test('should properly count overflow', () => {
+        const wrapper = mount(
+            <Avatars
+                size='xl'
+                users={users}
+            />,
         );
+
+        expect(wrapper).toMatchSnapshot();
+        expect(wrapper.exists('img[src="test-url-1"]')).toBe(true);
+        expect(wrapper.exists('img[src="test-url-2"]')).toBe(true);
+        expect(wrapper.exists('img[src="test-url-3"]')).toBe(true);
+        expect(wrapper.exists('img[src="test-url-4"]')).toBe(false);
+        expect(wrapper.exists('img[src="test-url-5"]')).toBe(false);
     });
 });

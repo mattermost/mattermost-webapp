@@ -1,0 +1,633 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/widgets/users/Avatars should match the snapshot 1`] = `
+<Memo(Avatars)
+  size="xl"
+  users={
+    Array [
+      Object {
+        "name": "Jesus Espino",
+        "url": "test-url-1",
+        "username": "jesus.espino",
+      },
+      Object {
+        "name": "Johnny Depp",
+        "url": "test-url-2",
+        "username": "johnny.depp",
+      },
+      Object {
+        "name": "Bilbo Baggins",
+        "url": "test-url-3",
+        "username": "bilbo.baggins",
+      },
+      Object {
+        "name": "Anthony Michael Hall",
+        "url": "test-url-4",
+        "username": "michael.hall",
+      },
+      Object {
+        "name": "Kathy Baker",
+        "url": "test-url-5",
+        "username": "kathy.baker",
+      },
+    ]
+  }
+>
+  <div
+    className="Avatars Avatars___xl"
+  >
+    <Memo(SimpleTooltip)
+      content="Jesus Espino"
+      id="name-jesus.espino"
+      key="test-url-1"
+    >
+      <OverlayTrigger
+        defaultOverlayShown={false}
+        delayShow={500}
+        overlay={
+          <Tooltip
+            bsClass="tooltip"
+            className="hidden-xs"
+            id="name-jesus.espino"
+            placement="top"
+          >
+            Jesus Espino
+          </Tooltip>
+        }
+        placement="top"
+        trigger={
+          Array [
+            "hover",
+            "focus",
+          ]
+        }
+      >
+        <OverlayTrigger
+          defaultOverlayShown={false}
+          delayShow={500}
+          overlay={
+            <OverlayWrapper
+              bsClass="tooltip"
+              className="hidden-xs"
+              id="name-jesus.espino"
+              intl={null}
+              placement="top"
+            >
+              Jesus Espino
+            </OverlayWrapper>
+          }
+          placement="top"
+          trigger={
+            Array [
+              "hover",
+              "focus",
+            ]
+          }
+        >
+          <div
+            onBlur={[Function]}
+            onClick={null}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+          >
+            <Memo(Avatar)
+              size="xl"
+              url="test-url-1"
+              username="jesus.espino"
+            >
+              <img
+                alt="jesus.espino profile image"
+                className="Avatar Avatar-xl"
+                src="test-url-1"
+              />
+            </Memo(Avatar)>
+          </div>
+        </OverlayTrigger>
+      </OverlayTrigger>
+    </Memo(SimpleTooltip)>
+    <Memo(SimpleTooltip)
+      content="Johnny Depp"
+      id="name-johnny.depp"
+      key="test-url-2"
+    >
+      <OverlayTrigger
+        defaultOverlayShown={false}
+        delayShow={500}
+        overlay={
+          <Tooltip
+            bsClass="tooltip"
+            className="hidden-xs"
+            id="name-johnny.depp"
+            placement="top"
+          >
+            Johnny Depp
+          </Tooltip>
+        }
+        placement="top"
+        trigger={
+          Array [
+            "hover",
+            "focus",
+          ]
+        }
+      >
+        <OverlayTrigger
+          defaultOverlayShown={false}
+          delayShow={500}
+          overlay={
+            <OverlayWrapper
+              bsClass="tooltip"
+              className="hidden-xs"
+              id="name-johnny.depp"
+              intl={null}
+              placement="top"
+            >
+              Johnny Depp
+            </OverlayWrapper>
+          }
+          placement="top"
+          trigger={
+            Array [
+              "hover",
+              "focus",
+            ]
+          }
+        >
+          <div
+            onBlur={[Function]}
+            onClick={null}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+          >
+            <Memo(Avatar)
+              size="xl"
+              url="test-url-2"
+              username="johnny.depp"
+            >
+              <img
+                alt="johnny.depp profile image"
+                className="Avatar Avatar-xl"
+                src="test-url-2"
+              />
+            </Memo(Avatar)>
+          </div>
+        </OverlayTrigger>
+      </OverlayTrigger>
+    </Memo(SimpleTooltip)>
+    <Memo(SimpleTooltip)
+      content="Bilbo Baggins"
+      id="name-bilbo.baggins"
+      key="test-url-3"
+    >
+      <OverlayTrigger
+        defaultOverlayShown={false}
+        delayShow={500}
+        overlay={
+          <Tooltip
+            bsClass="tooltip"
+            className="hidden-xs"
+            id="name-bilbo.baggins"
+            placement="top"
+          >
+            Bilbo Baggins
+          </Tooltip>
+        }
+        placement="top"
+        trigger={
+          Array [
+            "hover",
+            "focus",
+          ]
+        }
+      >
+        <OverlayTrigger
+          defaultOverlayShown={false}
+          delayShow={500}
+          overlay={
+            <OverlayWrapper
+              bsClass="tooltip"
+              className="hidden-xs"
+              id="name-bilbo.baggins"
+              intl={null}
+              placement="top"
+            >
+              Bilbo Baggins
+            </OverlayWrapper>
+          }
+          placement="top"
+          trigger={
+            Array [
+              "hover",
+              "focus",
+            ]
+          }
+        >
+          <div
+            onBlur={[Function]}
+            onClick={null}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+          >
+            <Memo(Avatar)
+              size="xl"
+              url="test-url-3"
+              username="bilbo.baggins"
+            >
+              <img
+                alt="bilbo.baggins profile image"
+                className="Avatar Avatar-xl"
+                src="test-url-3"
+              />
+            </Memo(Avatar)>
+          </div>
+        </OverlayTrigger>
+      </OverlayTrigger>
+    </Memo(SimpleTooltip)>
+    <Memo(SimpleTooltip)
+      content="Anthony Michael Hall, Kathy Baker"
+      id="names-overflow"
+    >
+      <OverlayTrigger
+        defaultOverlayShown={false}
+        delayShow={500}
+        overlay={
+          <Tooltip
+            bsClass="tooltip"
+            className="hidden-xs"
+            id="names-overflow"
+            placement="top"
+          >
+            Anthony Michael Hall, Kathy Baker
+          </Tooltip>
+        }
+        placement="top"
+        trigger={
+          Array [
+            "hover",
+            "focus",
+          ]
+        }
+      >
+        <OverlayTrigger
+          defaultOverlayShown={false}
+          delayShow={500}
+          overlay={
+            <OverlayWrapper
+              bsClass="tooltip"
+              className="hidden-xs"
+              id="names-overflow"
+              intl={null}
+              placement="top"
+            >
+              Anthony Michael Hall, Kathy Baker
+            </OverlayWrapper>
+          }
+          placement="top"
+          trigger={
+            Array [
+              "hover",
+              "focus",
+            ]
+          }
+        >
+          <div
+            onBlur={[Function]}
+            onClick={null}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+          >
+            <Memo(Avatar)
+              size="xl"
+            >
+              <div
+                className="Avatar Avatar-xl Avatar-plain"
+                data-content="+2"
+              />
+            </Memo(Avatar)>
+          </div>
+        </OverlayTrigger>
+      </OverlayTrigger>
+    </Memo(SimpleTooltip)>
+  </div>
+</Memo(Avatars)>
+`;
+
+exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
+<Memo(Avatars)
+  size="xl"
+  users={
+    Array [
+      Object {
+        "name": "Jesus Espino",
+        "url": "test-url-1",
+        "username": "jesus.espino",
+      },
+      Object {
+        "name": "Johnny Depp",
+        "url": "test-url-2",
+        "username": "johnny.depp",
+      },
+      Object {
+        "name": "Bilbo Baggins",
+        "url": "test-url-3",
+        "username": "bilbo.baggins",
+      },
+      Object {
+        "name": "Anthony Michael Hall",
+        "url": "test-url-4",
+        "username": "michael.hall",
+      },
+      Object {
+        "name": "Kathy Baker",
+        "url": "test-url-5",
+        "username": "kathy.baker",
+      },
+    ]
+  }
+>
+  <div
+    className="Avatars Avatars___xl"
+  >
+    <Memo(SimpleTooltip)
+      content="Jesus Espino"
+      id="name-jesus.espino"
+      key="test-url-1"
+    >
+      <OverlayTrigger
+        defaultOverlayShown={false}
+        delayShow={500}
+        overlay={
+          <Tooltip
+            bsClass="tooltip"
+            className="hidden-xs"
+            id="name-jesus.espino"
+            placement="top"
+          >
+            Jesus Espino
+          </Tooltip>
+        }
+        placement="top"
+        trigger={
+          Array [
+            "hover",
+            "focus",
+          ]
+        }
+      >
+        <OverlayTrigger
+          defaultOverlayShown={false}
+          delayShow={500}
+          overlay={
+            <OverlayWrapper
+              bsClass="tooltip"
+              className="hidden-xs"
+              id="name-jesus.espino"
+              intl={null}
+              placement="top"
+            >
+              Jesus Espino
+            </OverlayWrapper>
+          }
+          placement="top"
+          trigger={
+            Array [
+              "hover",
+              "focus",
+            ]
+          }
+        >
+          <div
+            onBlur={[Function]}
+            onClick={null}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+          >
+            <Memo(Avatar)
+              size="xl"
+              url="test-url-1"
+              username="jesus.espino"
+            >
+              <img
+                alt="jesus.espino profile image"
+                className="Avatar Avatar-xl"
+                src="test-url-1"
+              />
+            </Memo(Avatar)>
+          </div>
+        </OverlayTrigger>
+      </OverlayTrigger>
+    </Memo(SimpleTooltip)>
+    <Memo(SimpleTooltip)
+      content="Johnny Depp"
+      id="name-johnny.depp"
+      key="test-url-2"
+    >
+      <OverlayTrigger
+        defaultOverlayShown={false}
+        delayShow={500}
+        overlay={
+          <Tooltip
+            bsClass="tooltip"
+            className="hidden-xs"
+            id="name-johnny.depp"
+            placement="top"
+          >
+            Johnny Depp
+          </Tooltip>
+        }
+        placement="top"
+        trigger={
+          Array [
+            "hover",
+            "focus",
+          ]
+        }
+      >
+        <OverlayTrigger
+          defaultOverlayShown={false}
+          delayShow={500}
+          overlay={
+            <OverlayWrapper
+              bsClass="tooltip"
+              className="hidden-xs"
+              id="name-johnny.depp"
+              intl={null}
+              placement="top"
+            >
+              Johnny Depp
+            </OverlayWrapper>
+          }
+          placement="top"
+          trigger={
+            Array [
+              "hover",
+              "focus",
+            ]
+          }
+        >
+          <div
+            onBlur={[Function]}
+            onClick={null}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+          >
+            <Memo(Avatar)
+              size="xl"
+              url="test-url-2"
+              username="johnny.depp"
+            >
+              <img
+                alt="johnny.depp profile image"
+                className="Avatar Avatar-xl"
+                src="test-url-2"
+              />
+            </Memo(Avatar)>
+          </div>
+        </OverlayTrigger>
+      </OverlayTrigger>
+    </Memo(SimpleTooltip)>
+    <Memo(SimpleTooltip)
+      content="Bilbo Baggins"
+      id="name-bilbo.baggins"
+      key="test-url-3"
+    >
+      <OverlayTrigger
+        defaultOverlayShown={false}
+        delayShow={500}
+        overlay={
+          <Tooltip
+            bsClass="tooltip"
+            className="hidden-xs"
+            id="name-bilbo.baggins"
+            placement="top"
+          >
+            Bilbo Baggins
+          </Tooltip>
+        }
+        placement="top"
+        trigger={
+          Array [
+            "hover",
+            "focus",
+          ]
+        }
+      >
+        <OverlayTrigger
+          defaultOverlayShown={false}
+          delayShow={500}
+          overlay={
+            <OverlayWrapper
+              bsClass="tooltip"
+              className="hidden-xs"
+              id="name-bilbo.baggins"
+              intl={null}
+              placement="top"
+            >
+              Bilbo Baggins
+            </OverlayWrapper>
+          }
+          placement="top"
+          trigger={
+            Array [
+              "hover",
+              "focus",
+            ]
+          }
+        >
+          <div
+            onBlur={[Function]}
+            onClick={null}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+          >
+            <Memo(Avatar)
+              size="xl"
+              url="test-url-3"
+              username="bilbo.baggins"
+            >
+              <img
+                alt="bilbo.baggins profile image"
+                className="Avatar Avatar-xl"
+                src="test-url-3"
+              />
+            </Memo(Avatar)>
+          </div>
+        </OverlayTrigger>
+      </OverlayTrigger>
+    </Memo(SimpleTooltip)>
+    <Memo(SimpleTooltip)
+      content="Anthony Michael Hall, Kathy Baker"
+      id="names-overflow"
+    >
+      <OverlayTrigger
+        defaultOverlayShown={false}
+        delayShow={500}
+        overlay={
+          <Tooltip
+            bsClass="tooltip"
+            className="hidden-xs"
+            id="names-overflow"
+            placement="top"
+          >
+            Anthony Michael Hall, Kathy Baker
+          </Tooltip>
+        }
+        placement="top"
+        trigger={
+          Array [
+            "hover",
+            "focus",
+          ]
+        }
+      >
+        <OverlayTrigger
+          defaultOverlayShown={false}
+          delayShow={500}
+          overlay={
+            <OverlayWrapper
+              bsClass="tooltip"
+              className="hidden-xs"
+              id="names-overflow"
+              intl={null}
+              placement="top"
+            >
+              Anthony Michael Hall, Kathy Baker
+            </OverlayWrapper>
+          }
+          placement="top"
+          trigger={
+            Array [
+              "hover",
+              "focus",
+            ]
+          }
+        >
+          <div
+            onBlur={[Function]}
+            onClick={null}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+          >
+            <Memo(Avatar)
+              size="xl"
+            >
+              <div
+                className="Avatar Avatar-xl Avatar-plain"
+                data-content="+2"
+              />
+            </Memo(Avatar)>
+          </div>
+        </OverlayTrigger>
+      </OverlayTrigger>
+    </Memo(SimpleTooltip)>
+  </div>
+</Memo(Avatars)>
+`;

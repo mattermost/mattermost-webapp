@@ -107,7 +107,7 @@ exports[`components/StatusDropdown should match snapshot with profile picture UR
   <div
     className="status-wrapper status-selector"
   >
-    <Avatar
+    <Memo(Avatar)
       size="lg"
       url="http://localhost:8065/api/v4/users/jsx5jmdiyjyuzp9rzwfaf5pwjo/image?_=1590519110944"
     />
