@@ -9,12 +9,6 @@ import {UserProfile} from 'mattermost-redux/src/types/users';
 
 import WarnMetricAckModal from 'components/warn_metric_ack_modal/warn_metric_ack_modal';
 
-jest.mock('react-dom', () => ({
-    findDOMNode: () => ({
-        blur: jest.fn(),
-    }),
-}));
-
 describe('components/WarnMetricAckModal', () => {
     const serverError = 'some error';
 
@@ -82,13 +76,15 @@ describe('components/WarnMetricAckModal', () => {
     });
 
     test('send ack on acknowledge button click', () => {
+        const props = {...baseProps};
+
         const wrapper = shallow<WarnMetricAckModal>(
-            <WarnMetricAckModal {...baseProps}/>,
+            <WarnMetricAckModal {...props}/>,
         );
 
         wrapper.setState({saving: false});
         wrapper.find('.save-button').simulate('click');
-        expect(baseProps.actions.sendWarnMetricAck).toHaveBeenCalledTimes(1);
+        expect(props.actions.sendWarnMetricAck).toHaveBeenCalledTimes(1);
     });
 
     test('should have called props.onHide when Modal.onExited is called', () => {
