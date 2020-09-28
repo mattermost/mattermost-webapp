@@ -6,7 +6,11 @@ import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import {ActionFunc} from 'mattermost-redux/types/actions';
 
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+
 import Constants from 'utils/constants';
+
+// import {t} from 'utils/i18n';
 import {isKeyPressed} from 'utils/utils';
 
 type Props = {
@@ -45,6 +49,8 @@ export default class LeaveTeamModal extends React.PureComponent<Props> {
     };
 
     render() {
+        const num_of_public_channels = 10;
+        const num_of_private_channels = 20;
         return (
             <Modal
                 dialogClassName='a11y__modal'
@@ -67,9 +73,13 @@ export default class LeaveTeamModal extends React.PureComponent<Props> {
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <FormattedMessage
+                    <FormattedMarkdownMessage
                         id='leave_team_modal.desc'
-                        defaultMessage='You will be removed from all public and private channels.  If the team is private you will not be able to rejoin the team.  Are you sure?'
+                        defaultMessage='**You will be removed from all {num_of_public_channels} public channels and {num_of_private_channels} private channels on this team**. If the team is private you will not be able to rejoin the team without an invitation. Are you sure?'
+                        values={{
+                            num_of_public_channels,
+                            num_of_private_channels,
+                        }}
                     />
                 </Modal.Body>
                 <Modal.Footer>
