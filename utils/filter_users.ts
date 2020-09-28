@@ -43,6 +43,6 @@ export function searchUserOptionsFromFilter(filter: string | undefined): FilterO
 }
 
 // isActive returns whether a user is active or not.
-export function isActive(user) {
+export function isActive(user: {delete_at: number}): boolean {
     return user.delete_at === NEVER;
 }
