@@ -50,7 +50,7 @@ describe('Archive channel members spec', () => {
 
         // * Ensure there are no options to change channel roles or membership
         cy.findAllByTestId('userListItemActions').within(() => {
-            cy.get('.MenuWrapper').should('be.not.visible')
+            cy.get('.MenuWrapper').should('be.not.visible');
         });
     });
 });
