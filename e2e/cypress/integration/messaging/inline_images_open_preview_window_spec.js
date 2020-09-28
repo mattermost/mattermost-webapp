@@ -30,13 +30,14 @@ describe('Messaging', () => {
         });
 
         // # Post the image link to the channel
-        cy.postMessage('![test image](https://www.mattermost.org/wp-content/uploads/2016/03/logoHorizontal.png)');
+        cy.postMessage('Hello ![test image](https://www.mattermost.org/wp-content/uploads/2016/03/logoHorizontal.png)');
+
+        // * Confirm the image container is visible
+        cy.uiWaitUntilMessagePostedIncludes('Hello');
+        cy.get('.markdown-inline-img__container').should('be.visible');
 
         // # Hover over image then click to open preview image
         cy.get('.file-preview__button').trigger('mouseover').click();
-
-        // * Confirm image container is visible
-        cy.get('.markdown-inline-img__container').should('be.visible');
 
         // * Confirm image is visible
         cy.findByTestId('imagePreview').should('be.visible');
