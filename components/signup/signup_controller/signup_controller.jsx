@@ -177,11 +177,12 @@ export default class SignupController extends React.PureComponent {
         }
 
         if (this.props.enableSignUpWithGitLab || this.props.enableSignUpWithGitLabOpenId) {
+            const service = this.props.enableSignUpWithGitLabOpenId ? 'gitlab' : 'gitlabLegacy';
             signupControls.push(
                 <a
                     className='btn btn-custom-login btn--full gitlab'
                     key='gitlab'
-                    href={Client4.getOAuthRoute() + '/gitlab/signup' + window.location.search}
+                    href={Client4.getOAuthRoute() + `/${service}/signup` + window.location.search}
                 >
                     <span>
                         <span className='icon'/>
@@ -197,11 +198,12 @@ export default class SignupController extends React.PureComponent {
         }
 
         if (this.props.isLicensed && (this.props.enableSignUpWithGoogle || this.props.enableSignUpWithGoogleOpenId)) {
+            const service = this.props.enableSignUpWithGoogleOpenId ? 'google': 'googleLegacy';
             signupControls.push(
                 <a
                     className='btn btn-custom-login btn--full google'
                     key='google'
-                    href={Client4.getOAuthRoute() + '/google/signup' + window.location.search}
+                    href={Client4.getOAuthRoute() + `/${service}/signup` + window.location.search}
                 >
                     <span>
                         <span className='icon'/>
@@ -217,11 +219,12 @@ export default class SignupController extends React.PureComponent {
         }
 
         if (this.props.isLicensed && (this.props.enableSignUpWithOffice365 || this.props.enableSignUpWithOffice365OpenId)) {
+            const service = this.props.enableSignUpWithOffice365OpenId ? 'office365' : 'office365Legacy';
             signupControls.push(
                 <a
                     className='btn btn-custom-login btn--full office365'
                     key='office365'
-                    href={Client4.getOAuthRoute() + '/office365/signup' + window.location.search}
+                    href={Client4.getOAuthRoute() + `/${service}/signup` + window.location.search}
                 >
                     <span>
                         <span className='icon'/>

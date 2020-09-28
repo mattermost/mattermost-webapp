@@ -685,11 +685,13 @@ class LoginController extends React.PureComponent {
         }
 
         if (gitlabSigninEnabled) {
+            const service = this.props.enableSignUpWithGitLabOpenId ? 'gitlab' : 'gitlabLegacy';
+
             loginControls.push(
                 <a
                     className='btn btn-custom-login gitlab'
                     key='gitlab'
-                    href={Client4.getOAuthRoute() + '/gitlab/login' + this.props.location.search}
+                    href={Client4.getOAuthRoute() + `/${service}/login` + this.props.location.search}
                 >
                     <span>
                         <span className='icon'/>
@@ -705,11 +707,12 @@ class LoginController extends React.PureComponent {
         }
 
         if (googleSigninEnabled) {
+            const service = this.props.enableSignUpWithGoogleOpenId ? 'google': 'googleLegacy';
             loginControls.push(
                 <a
                     className='btn btn-custom-login google'
                     key='google'
-                    href={Client4.getOAuthRoute() + '/google/login' + this.props.location.search}
+                    href={Client4.getOAuthRoute() + `/${service}/login`  + this.props.location.search}
                 >
                     <span>
                         <span className='icon'/>
@@ -725,11 +728,12 @@ class LoginController extends React.PureComponent {
         }
 
         if (office365SigninEnabled) {
+            const service = this.props.enableSignUpWithOffice365OpenId ? 'office365' : 'office365Legacy';
             loginControls.push(
                 <a
                     className='btn btn-custom-login office365'
                     key='office365'
-                    href={Client4.getOAuthRoute() + '/office365/login' + this.props.location.search}
+                    href={Client4.getOAuthRoute() + `/${service}/login`  + this.props.location.search}
                 >
                     <span>
                         <span className='icon'/>
