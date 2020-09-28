@@ -2,10 +2,12 @@
 // See LICENSE.txt for license information.
 /* eslint-disable react/no-string-refs */
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedDate, FormattedMessage, FormattedTime} from 'react-intl';
 import {Link} from 'react-router-dom';
+import {UserProfile} from 'mattermost-redux/types/users';
+import {ActionResult} from 'mattermost-redux/types/actions';
+import {OAuthApp} from 'mattermost-redux/types/integrations';
 
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
@@ -25,63 +27,52 @@ const SECTION_SIGNIN = 'signin';
 const SECTION_APPS = 'apps';
 const SECTION_TOKENS = 'tokens';
 
-export default class SecurityTab extends React.PureComponent {
-    static propTypes = {
-        user: PropTypes.object,
-        activeSection: PropTypes.string,
-        updateSection: PropTypes.func,
-        closeModal: PropTypes.func.isRequired,
-        collapseModal: PropTypes.func.isRequired,
-        setRequireConfirm: PropTypes.func.isRequired,
+type Actions = {
+    getMe: () => void;
+    updateUserPassword: (
+        userId: string,
+        currentPassword: string,
+        newPassword: string
+    ) => Promise<ActionResult>;
+    getAuthorizedOAuthApps: () => Promise<ActionResult>;
+    deauthorizeOAuthApp: (clientId: string) => Promise<ActionResult>;
+};
 
-        /*
-         * Set if access tokens are enabled and this user can use them
-         */
-        canUseAccessTokens: PropTypes.bool,
+type Props = {
+    user: UserProfile;
+    activeSection?: string;
+    updateSection: (section: string) => void;
+    closeModal: () => void;
+    collapseModal: () => void;
+    setRequireConfirm: () => void;
+    canUseAccessTokens: boolean;
+    enableOAuthServiceProvider: boolean;
+    enableSignUpWithEmail: boolean;
+    enableSignUpWithGitLab: boolean;
+    enableSignUpWithGoogle: boolean;
+    enableLdap: boolean;
+    enableSaml: boolean;
+    enableSignUpWithOffice365: boolean;
+    experimentalEnableAuthenticationTransfer: boolean;
+    passwordConfig: Record<string, unknown>;
+    militaryTime: boolean;
+    actions: Actions;
+};
 
-        // Whether or not OAuth applications are enabled.
-        enableOAuthServiceProvider: PropTypes.bool,
+type State = {
+    currentPassword: string;
+    newPassword: string;
+    confirmPassword: string;
+    passwordError: React.ReactNode;
+    serverError: string | null;
+    tokenError: string;
+    savingPassword: boolean;
+    authorizedApps: OAuthApp[];
+};
 
-        // Whether or not sign-up with email is enabled.
-        enableSignUpWithEmail: PropTypes.bool,
-
-        // Whether or not sign-up with GitLab is enabled.
-        enableSignUpWithGitLab: PropTypes.bool,
-
-        // Whether or not sign-up with Google is enabled.
-        enableSignUpWithGoogle: PropTypes.bool,
-
-        // Whether or not sign-up with LDAP is enabled.
-        enableLdap: PropTypes.bool,
-
-        // Whether or not sign-up with SAML is enabled.
-        enableSaml: PropTypes.bool,
-
-        // Whether or not sign-up with Office 365 is enabled.
-        enableSignUpWithOffice365: PropTypes.bool,
-
-        // Whether or not the experimental authentication transfer is enabled.
-        experimentalEnableAuthenticationTransfer: PropTypes.bool,
-
-        passwordConfig: PropTypes.object,
-        militaryTime: PropTypes.bool,
-
-        actions: PropTypes.shape({
-            getMe: PropTypes.func.isRequired,
-            updateUserPassword: PropTypes.func.isRequired,
-            getAuthorizedOAuthApps: PropTypes.func.isRequired,
-            deauthorizeOAuthApp: PropTypes.func.isRequired,
-        }),
-    }
-
-    static defaultProps = {
-        user: {},
-        activeSection: '',
-    };
-
-    constructor(props) {
+export default class SecurityTab extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
         super(props);
-
         this.state = this.getDefaultState();
     }
 
@@ -95,6 +86,7 @@ export default class SecurityTab extends React.PureComponent {
             tokenError: '',
             authService: this.props.user.auth_service,
             savingPassword: false,
+            authorizedApps: [],
         };
     }
 
@@ -105,13 +97,15 @@ export default class SecurityTab extends React.PureComponent {
     }
 
     loadAuthorizedOAuthApps = async () => {
-        const {data, error} = await this.props.actions.getAuthorizedOAuthApps();
-        if (data) {
+        const res = await this.props.actions.getAuthorizedOAuthApps();
+        if ('data' in res) {
+            const {data} = res;
             this.setState({authorizedApps: data, serverError: null}); //eslint-disable-line react/no-did-mount-set-state
-        } else if (error) {
+        } else if ('error' in res) {
+            const {error} = res;
             this.setState({serverError: error.message}); //eslint-disable-line react/no-did-mount-set-state
         }
-    }
+    };
 
     submitPassword = async () => {
         const user = this.props.user;
@@ -120,11 +114,20 @@ export default class SecurityTab extends React.PureComponent {
         const confirmPassword = this.state.confirmPassword;
 
         if (currentPassword === '') {
-            this.setState({passwordError: Utils.localizeMessage('user.settings.security.currentPasswordError', 'Please enter your current password.'), serverError: ''});
+            this.setState({
+                passwordError: Utils.localizeMessage(
+                    'user.settings.security.currentPasswordError',
+                    'Please enter your current password.',
+                ),
+                serverError: '',
+            });
             return;
         }
 
-        const {valid, error} = Utils.isValidPassword(newPassword, this.props.passwordConfig);
+        const {valid, error} = Utils.isValidPassword(
+            newPassword,
+            this.props.passwordConfig,
+        );
         if (!valid && error) {
             this.setState({
                 passwordError: error,
@@ -134,23 +137,30 @@ export default class SecurityTab extends React.PureComponent {
         }
 
         if (newPassword !== confirmPassword) {
-            const defaultState = Object.assign(this.getDefaultState(), {passwordError: Utils.localizeMessage('user.settings.security.passwordMatchError', 'The new passwords you entered do not match.'), serverError: ''});
+            const defaultState = Object.assign(this.getDefaultState(), {
+                passwordError: Utils.localizeMessage(
+                    'user.settings.security.passwordMatchError',
+                    'The new passwords you entered do not match.',
+                ),
+                serverError: '',
+            });
             this.setState(defaultState);
             return;
         }
 
         this.setState({savingPassword: true});
 
-        const {data, error: err} = await this.props.actions.updateUserPassword(
+        const res = await this.props.actions.updateUserPassword(
             user.id,
             currentPassword,
             newPassword,
         );
-        if (data) {
+        if ('data' in res) {
             this.props.updateSection('');
             this.props.actions.getMe();
             this.setState(this.getDefaultState());
-        } else if (err) {
+        } else if ('error' in res) {
+            const {error: err} = res;
             const state = this.getDefaultState();
             if (err.message) {
                 state.serverError = err.message;
@@ -160,37 +170,38 @@ export default class SecurityTab extends React.PureComponent {
             state.passwordError = '';
             this.setState(state);
         }
-    }
+    };
 
-    updateCurrentPassword = (e) => {
+    updateCurrentPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({currentPassword: e.target.value});
-    }
+    };
 
-    updateNewPassword = (e) => {
+    updateNewPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({newPassword: e.target.value});
-    }
+    };
 
-    updateConfirmPassword = (e) => {
+    updateConfirmPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({confirmPassword: e.target.value});
-    }
+    };
 
-    deauthorizeApp = async (e) => {
+    deauthorizeApp = async (e: React.MouseEvent) => {
         e.preventDefault();
 
-        const appId = e.currentTarget.getAttribute('data-app');
+        const appId = e.currentTarget.getAttribute('data-app') as string;
 
-        const {data, error} = await this.props.actions.deauthorizeOAuthApp(appId);
-        if (data) {
+        const res = await this.props.actions.deauthorizeOAuthApp(appId);
+        if ('data' in res) {
             const authorizedApps = this.state.authorizedApps.filter((app) => {
                 return app.id !== appId;
             });
             this.setState({authorizedApps, serverError: null});
-        } else if (error) {
+        } else if ('error' in res) {
+            const {error} = res;
             this.setState({serverError: error.message});
         }
-    }
+    };
 
-    handleUpdateSection = (section) => {
+    handleUpdateSection = (section: string) => {
         if (section) {
             this.props.updateSection(section);
         } else {
@@ -217,7 +228,7 @@ export default class SecurityTab extends React.PureComponent {
 
             this.props.updateSection('');
         }
-    }
+    };
 
     createPasswordSection = () => {
         if (this.props.activeSection === SECTION_PASSWORD) {
@@ -246,7 +257,10 @@ export default class SecurityTab extends React.PureComponent {
                                 type='password'
                                 onChange={this.updateCurrentPassword}
                                 value={this.state.currentPassword}
-                                aria-label={Utils.localizeMessage('user.settings.security.currentPassword', 'Current Password')}
+                                aria-label={Utils.localizeMessage(
+                                    'user.settings.security.currentPassword',
+                                    'Current Password',
+                                )}
                             />
                         </div>
                     </div>,
@@ -269,7 +283,10 @@ export default class SecurityTab extends React.PureComponent {
                                 type='password'
                                 onChange={this.updateNewPassword}
                                 value={this.state.newPassword}
-                                aria-label={Utils.localizeMessage('user.settings.security.newPassword', 'New Password')}
+                                aria-label={Utils.localizeMessage(
+                                    'user.settings.security.newPassword',
+                                    'New Password',
+                                )}
                             />
                         </div>
                     </div>,
@@ -292,12 +309,17 @@ export default class SecurityTab extends React.PureComponent {
                                 type='password'
                                 onChange={this.updateConfirmPassword}
                                 value={this.state.confirmPassword}
-                                aria-label={Utils.localizeMessage('user.settings.security.retypePassword', 'Retype New Password')}
+                                aria-label={Utils.localizeMessage(
+                                    'user.settings.security.retypePassword',
+                                    'Retype New Password',
+                                )}
                             />
                         </div>
                     </div>,
                 );
-            } else if (this.props.user.auth_service === Constants.GITLAB_SERVICE) {
+            } else if (
+                this.props.user.auth_service === Constants.GITLAB_SERVICE
+            ) {
                 inputs.push(
                     <div
                         key='oauthEmailInfo'
@@ -311,7 +333,9 @@ export default class SecurityTab extends React.PureComponent {
                         </div>
                     </div>,
                 );
-            } else if (this.props.user.auth_service === Constants.LDAP_SERVICE) {
+            } else if (
+                this.props.user.auth_service === Constants.LDAP_SERVICE
+            ) {
                 inputs.push(
                     <div
                         key='oauthEmailInfo'
@@ -325,7 +349,9 @@ export default class SecurityTab extends React.PureComponent {
                         </div>
                     </div>,
                 );
-            } else if (this.props.user.auth_service === Constants.SAML_SERVICE) {
+            } else if (
+                this.props.user.auth_service === Constants.SAML_SERVICE
+            ) {
                 inputs.push(
                     <div
                         key='oauthEmailInfo'
@@ -339,7 +365,9 @@ export default class SecurityTab extends React.PureComponent {
                         </div>
                     </div>,
                 );
-            } else if (this.props.user.auth_service === Constants.GOOGLE_SERVICE) {
+            } else if (
+                this.props.user.auth_service === Constants.GOOGLE_SERVICE
+            ) {
                 inputs.push(
                     <div
                         key='oauthEmailInfo'
@@ -353,7 +381,9 @@ export default class SecurityTab extends React.PureComponent {
                         </div>
                     </div>,
                 );
-            } else if (this.props.user.auth_service === Constants.OFFICE365_SERVICE) {
+            } else if (
+                this.props.user.auth_service === Constants.OFFICE365_SERVICE
+            ) {
                 inputs.push(
                     <div
                         key='oauthEmailInfo'
@@ -444,7 +474,9 @@ export default class SecurityTab extends React.PureComponent {
                     defaultMessage='Login done through Google Apps'
                 />
             );
-        } else if (this.props.user.auth_service === Constants.OFFICE365_SERVICE) {
+        } else if (
+            this.props.user.auth_service === Constants.OFFICE365_SERVICE
+        ) {
             describe = (
                 <FormattedMessage
                     id='user.settings.security.loginOffice365'
@@ -464,10 +496,9 @@ export default class SecurityTab extends React.PureComponent {
                 describe={describe}
                 section={SECTION_PASSWORD}
                 updateSection={this.handleUpdateSection}
-                focused={true}
             />
         );
-    }
+    };
 
     createSignInSection = () => {
         const user = this.props.user;
@@ -486,7 +517,14 @@ export default class SecurityTab extends React.PureComponent {
                         <div className='pb-3'>
                             <Link
                                 className='btn btn-primary'
-                                to={'/claim/email_to_oauth?email=' + encodeURIComponent(user.email) + '&old_type=' + user.auth_service + '&new_type=' + Constants.GITLAB_SERVICE}
+                                to={
+                                    '/claim/email_to_oauth?email=' +
+                                    encodeURIComponent(user.email) +
+                                    '&old_type=' +
+                                    user.auth_service +
+                                    '&new_type=' +
+                                    Constants.GITLAB_SERVICE
+                                }
                             >
                                 <FormattedMessage
                                     id='user.settings.security.switchGitlab'
@@ -503,7 +541,14 @@ export default class SecurityTab extends React.PureComponent {
                         <div className='pb-3'>
                             <Link
                                 className='btn btn-primary'
-                                to={'/claim/email_to_oauth?email=' + encodeURIComponent(user.email) + '&old_type=' + user.auth_service + '&new_type=' + Constants.GOOGLE_SERVICE}
+                                to={
+                                    '/claim/email_to_oauth?email=' +
+                                    encodeURIComponent(user.email) +
+                                    '&old_type=' +
+                                    user.auth_service +
+                                    '&new_type=' +
+                                    Constants.GOOGLE_SERVICE
+                                }
                             >
                                 <FormattedMessage
                                     id='user.settings.security.switchGoogle'
@@ -520,7 +565,14 @@ export default class SecurityTab extends React.PureComponent {
                         <div className='pb-3'>
                             <Link
                                 className='btn btn-primary'
-                                to={'/claim/email_to_oauth?email=' + encodeURIComponent(user.email) + '&old_type=' + user.auth_service + '&new_type=' + Constants.OFFICE365_SERVICE}
+                                to={
+                                    '/claim/email_to_oauth?email=' +
+                                    encodeURIComponent(user.email) +
+                                    '&old_type=' +
+                                    user.auth_service +
+                                    '&new_type=' +
+                                    Constants.OFFICE365_SERVICE
+                                }
                             >
                                 <FormattedMessage
                                     id='user.settings.security.switchOffice365'
@@ -537,7 +589,10 @@ export default class SecurityTab extends React.PureComponent {
                         <div className='pb-3'>
                             <Link
                                 className='btn btn-primary'
-                                to={'/claim/email_to_ldap?email=' + encodeURIComponent(user.email)}
+                                to={
+                                    '/claim/email_to_ldap?email=' +
+                                    encodeURIComponent(user.email)
+                                }
                             >
                                 <FormattedMessage
                                     id='user.settings.security.switchLdap'
@@ -554,7 +609,14 @@ export default class SecurityTab extends React.PureComponent {
                         <div className='pb-3'>
                             <Link
                                 className='btn btn-primary'
-                                to={'/claim/email_to_oauth?email=' + encodeURIComponent(user.email) + '&old_type=' + user.auth_service + '&new_type=' + Constants.SAML_SERVICE}
+                                to={
+                                    '/claim/email_to_oauth?email=' +
+                                    encodeURIComponent(user.email) +
+                                    '&old_type=' +
+                                    user.auth_service +
+                                    '&new_type=' +
+                                    Constants.SAML_SERVICE
+                                }
                             >
                                 <FormattedMessage
                                     id='user.settings.security.switchSaml'
@@ -568,9 +630,15 @@ export default class SecurityTab extends React.PureComponent {
             } else if (this.props.enableSignUpWithEmail) {
                 let link;
                 if (user.auth_service === Constants.LDAP_SERVICE) {
-                    link = '/claim/ldap_to_email?email=' + encodeURIComponent(user.email);
+                    link =
+                        '/claim/ldap_to_email?email=' +
+                        encodeURIComponent(user.email);
                 } else {
-                    link = '/claim/oauth_to_email?email=' + encodeURIComponent(user.email) + '&old_type=' + user.auth_service;
+                    link =
+                        '/claim/oauth_to_email?email=' +
+                        encodeURIComponent(user.email) +
+                        '&old_type=' +
+                        user.auth_service;
                 }
 
                 emailOption = (
@@ -612,7 +680,10 @@ export default class SecurityTab extends React.PureComponent {
 
             return (
                 <SettingItemMax
-                    title={Utils.localizeMessage('user.settings.security.method', 'Sign-in Method')}
+                    title={Utils.localizeMessage(
+                        'user.settings.security.method',
+                        'Sign-in Method',
+                    )}
                     extraInfo={extraInfo}
                     inputs={inputs}
                     serverError={this.state.serverError}
@@ -641,7 +712,9 @@ export default class SecurityTab extends React.PureComponent {
                     defaultMessage='Google'
                 />
             );
-        } else if (this.props.user.auth_service === Constants.OFFICE365_SERVICE) {
+        } else if (
+            this.props.user.auth_service === Constants.OFFICE365_SERVICE
+        ) {
             describe = (
                 <FormattedMessage
                     id='user.settings.security.office365'
@@ -666,18 +739,24 @@ export default class SecurityTab extends React.PureComponent {
 
         return (
             <SettingItemMin
-                title={Utils.localizeMessage('user.settings.security.method', 'Sign-in Method')}
+                title={Utils.localizeMessage(
+                    'user.settings.security.method',
+                    'Sign-in Method',
+                )}
                 describe={describe}
                 section={SECTION_SIGNIN}
                 updateSection={this.handleUpdateSection}
             />
         );
-    }
+    };
 
     createOAuthAppsSection = () => {
         if (this.props.activeSection === SECTION_APPS) {
             let apps;
-            if (this.state.authorizedApps && this.state.authorizedApps.length > 0) {
+            if (
+                this.state.authorizedApps &&
+                this.state.authorizedApps.length > 0
+            ) {
                 apps = this.state.authorizedApps.map((app) => {
                     const homepage = (
                         <a
@@ -701,7 +780,9 @@ export default class SecurityTab extends React.PureComponent {
                                         {' -'} {homepage}
                                     </span>
                                 </div>
-                                <div className='authorized-app__description'>{app.description}</div>
+                                <div className='authorized-app__description'>
+                                    {app.description}
+                                </div>
                                 <div className='authorized-app__deauthorize'>
                                     <a
                                         href='#'
@@ -792,7 +873,10 @@ export default class SecurityTab extends React.PureComponent {
 
         return (
             <SettingItemMin
-                title={Utils.localizeMessage('user.settings.security.oauthApps', 'OAuth 2.0 Applications')}
+                title={Utils.localizeMessage(
+                    'user.settings.security.oauthApps',
+                    'OAuth 2.0 Applications',
+                )}
                 describe={
                     <FormattedMessage
                         id='user.settings.security.oauthAppsDescription'
@@ -803,7 +887,7 @@ export default class SecurityTab extends React.PureComponent {
                 updateSection={this.handleUpdateSection}
             />
         );
-    }
+    };
 
     render() {
         const user = this.props.user;
@@ -819,8 +903,11 @@ export default class SecurityTab extends React.PureComponent {
 
         // If there are other sign-in methods and either email is enabled or the user's account is email, then allow switching
         let signInSection;
-        if ((this.props.enableSignUpWithEmail || user.auth_service === '') &&
-            numMethods > 0 && this.props.experimentalEnableAuthenticationTransfer) {
+        if (
+            (this.props.enableSignUpWithEmail || user.auth_service === '') &&
+            numMethods > 0 &&
+            this.props.experimentalEnableAuthenticationTransfer
+        ) {
             signInSection = this.createSignInSection();
         }
 
@@ -848,7 +935,7 @@ export default class SecurityTab extends React.PureComponent {
                         id='user.settings.security.close'
                         defaultMessage='Close'
                     >
-                        {(ariaLabel) => (
+                        {(ariaLabel: string) => (
                             <button
                                 type='button'
                                 className='close'
@@ -869,7 +956,7 @@ export default class SecurityTab extends React.PureComponent {
                                 id='generic_icons.collapse'
                                 defaultMessage='Collapse Icon'
                             >
-                                {(title) => (
+                                {(title: string) => (
                                     <i
                                         className='fa fa-angle-left'
                                         title={title}
@@ -915,7 +1002,7 @@ export default class SecurityTab extends React.PureComponent {
                             id='user.settings.security.viewHistory.icon'
                             defaultMessage='Access History Icon'
                         >
-                            {(title) => (
+                            {(title: string) => (
                                 <i
                                     className='fa fa-clock-o'
                                     title={title}
@@ -935,7 +1022,7 @@ export default class SecurityTab extends React.PureComponent {
                             id='user.settings.security.logoutActiveSessions.icon'
                             defaultMessage='Active Sessions Icon'
                         >
-                            {(title) => (
+                            {(title: string) => (
                                 <i
                                     className='fa fa-clock-o'
                                     title={title}
