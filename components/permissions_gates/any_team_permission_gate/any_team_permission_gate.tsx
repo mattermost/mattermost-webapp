@@ -32,10 +32,7 @@ export default class AnyTeamPermissionGate extends React.PureComponent<Props> {
     }
 
     render() {
-        if (this.props.hasPermission && !this.props.invert) {
-            return this.props.children;
-        }
-        if (!this.props.hasPermission && this.props.invert) {
+        if (this.props.hasPermission !== this.props.invert) {
             return this.props.children;
         }
         return null;
