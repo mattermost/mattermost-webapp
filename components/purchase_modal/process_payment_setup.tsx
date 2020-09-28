@@ -8,6 +8,7 @@ import {BillingDetails} from 'types/sku';
 
 import successSvg from 'images/cloud/payment_success.svg';
 import failedSvg from 'images/cloud/payment_fail.svg';
+import {t} from 'utils/i18n';
 
 import processSvg from 'images/cloud/processing_payment.svg';
 
@@ -19,8 +20,8 @@ type Props = {
     billingDetails: BillingDetails | null;
     stripe: Promise<Stripe>;
     addPaymentMethod: Function;
-    onBack: Function;
-    onClose: Function;
+    onBack: () => void;
+    onClose: () => void;
 }
 
 type State = {
@@ -116,7 +117,6 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
     public render() {
         const {state, progress, error} = this.state;
 
-        // const {formatMessage} = this.props.intl;
         const progressBar: JSX.Element | null = (
             <div className='ProcessPayment-progress'>
                 <div
@@ -125,13 +125,11 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
                 />
             </div>
         );
-        console.log(error);
         switch (state) {
         case ProcessState.PROCESSING:
             return (
                 <IconMessage
-                    title={'Verifying your payment information'} //ormatMessage({id: 'process_payment.processing'})}
-                    //subtitle={formatMessage({id: 'process_payment.please_wait'})}
+                    title={t('admin.billing.subscription.verifyPaymentInformation')}
                     icon={processSvg}
                     footer={progressBar}
                 />
@@ -139,24 +137,26 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
         case ProcessState.SUCCESS:
             return (
                 <IconMessage
-                    title={'Great! Youre now upgraded'} //formatMessage({id: 'process_payment.congratulations'})}
-                    subtitle={'Starting August 8, 2020 you will be charged based on the number of enabled users'} //formatMessage({id: 'process_payment.processed'})}
+                    title={t('admin.billing.subscription.upgradedSuccess')}
+                    subtitle={
+                        'Starting August 8, 2020 you will be charged based on the number of enabled users'
+                    }
                     error={false}
                     icon={successSvg}
-                    buttonText={'Lets go!'} //formatMessage({id: 'process_payment.view_your_license'})}
+                    buttonText={t('admin.billing.subscription.letsGo')}
                     buttonHandler={this.props.onClose}
                 />
             );
         case ProcessState.FAILED:
             return (
                 <IconMessage
-                    title={'Sorry, the payment verification failed'}//formatMessage({id: 'process_payment.sorry_the_payment_failed'})}
-                    subtitle={'detailed error'} //formatMessage({id: 'process_payment.problem_processing'})}
+                    title={t('admin.billing.subscription.paymentVerificationFailed')}
+                    subtitle={t('admin.billing.subscription.paymentFailed')}
                     icon={failedSvg}
                     error={true}
-                    buttonText={'Go back and try again'}//formatMessage({id: 'process_payment.try_again'})}
+                    buttonText={t('admin.billing.subscription.goBackTryAgain')} //formatMessage({id: 'process_payment.try_again'})}
                     buttonHandler={this.handleGoBack}
-                    linkText={'Contact support'}//formatMessage({id: 'need_help.contact_support'})}
+                    linkText={t('admin.billing.subscription.privateCloudCard.contactSupport')}
                     linkURL='https://support.mattermost.com/hc/en-us/requests/new?ticket_form_id=360000640492'
                 />
             );

@@ -3,6 +3,7 @@
 
 import React from 'react';
 import classNames from 'classnames';
+import {FormattedMessage} from 'react-intl';
 
 import './icon_message.scss';
 
@@ -34,13 +35,15 @@ export default function IconMessage(props: Props) {
     let button = null;
     if (buttonText && buttonHandler) {
         button = (
-            <div className={classNames('IconMessage-button', props.error ? 'error' : '')}>
+            <div className={classNames('IconMessage-button', error ? 'error' : '')}>
                 <button
                     id='login_button'
                     className='btn btn-primary Form-btn'
                     onClick={buttonHandler}
                 >
-                    {buttonText}
+                    <FormattedMessage
+                        id={buttonText}
+                    />
                 </button>
             </div>
         );
@@ -55,7 +58,9 @@ export default function IconMessage(props: Props) {
                     target='_blank'
                     rel='noopener noreferrer'
                 >
-                    {linkText}
+                    <FormattedMessage
+                        id={linkText}
+                    />
                 </a>
             </div>
         );
@@ -72,12 +77,15 @@ export default function IconMessage(props: Props) {
                 alt='Payment icon'
             />
             <h3 className='IconMessage-h3'>
-                {title}
+                <FormattedMessage
+                    id={title}
+                />
             </h3>
-            <div className={classNames('IconMessage-sub', props.error ? props.error : '')}>
-                {subtitle}
+            <div className={classNames('IconMessage-sub', error || '')}>
+                <FormattedMessage
+                    id={subtitle}
+                />
             </div>
-            {/* <div className='IconMessage-error'/> */}
             {button}
             {link}
             {footer}
@@ -87,4 +95,4 @@ export default function IconMessage(props: Props) {
 
 IconMessage.defaultProps = {
     error: false,
-}
+};

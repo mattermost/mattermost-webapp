@@ -15,7 +15,9 @@
     }
 
     .fineprint-text{
+        margin-top: 24px;
         font-size: 12px;
+        line-height: 16px;
     }
 
     .bold-text{
@@ -55,6 +57,10 @@
             background-color: var(--center-channel-bg);
             margin-bottom: 24px;
             min-width: 270px;
+            .footer-text {
+                font-size: 14px;
+                margin-bottom: 24px;
+            }
         }
 
         .price-text{

@@ -74,7 +74,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
     }
 
     handleSubmitClick = async () => {
-        this.setState({processing: true});
+        this.setState({processing: true, paymentInfoIsValid: false});
     }
 
     nextBillingDate = () => {
@@ -86,18 +86,34 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
         return (
             <React.Fragment>
                 <div className='LHS'>
-                    <div className='title'>{'Upgrade your Mattermost Cloud Susbcription'}</div>
+                    <div className='title'>
+                        <FormattedMessage
+                            defaultMessage={'Upgrade your Mattermost Cloud Susbcription'}
+                            id={'admin.billing.subscription.upgradeCloudSubscription'}
+                        />
+                    </div>
                     <img
                         className='image'
                         alt='upgrade'
                         src={upgradeImage}
                     />
-                    <div className='footer-text'>{'Questions?'}</div>
+                    <div className='footer-text'>
+                        <FormattedMessage
+                            defaultMessage={'Questions?'}
+                            id={'admin.billing.subscription.questions'}
+                        />
+                    </div>
                     <a
                         className='footer-text'
                         href='https://support.mattermost.com/hc/en-us/requests/new?ticket_form_id=360000640492'
-
-                    >{'Contact Support'}</a>
+                    >
+                        <FormattedMessage
+                            defaultMessage={'Contact Support'}
+                            id={
+                                'admin.billing.subscription.privateCloudCard.contactSupport'
+                            }
+                        />
+                    </a>
                 </div>
                 <div className='central-panel'>
                     <PaymentForm
@@ -107,27 +123,56 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                 </div>
                 <div className='RHS'>
                     <div className='price-container'>
-                        <div className='bold-text'>{'Mattermost Cloud'}</div>
-                        <div className='price-text'>{`$${this.state.productPrice}`}<span className='monthly-text'>{' /user/month'}</span></div>
+                        <div className='bold-text'>
+                            <FormattedMessage
+                                defaultMessage={'Mattermost Cloud'}
+                                id={'admin.billing.subscription.mattermostCloud'}
+                            />
+                        </div>
+                        <div className='price-text'>
+                            {`$${this.state.productPrice}`}
+                            <span className='monthly-text'>
+                                <FormattedMessage
+                                    defaultMessage={' /user/month'}
+                                    id={'admin.billing.subscription.perUserPerMonth'}
+                                />
+                            </span>
+                        </div>
                         <div className='footer-text'>{`Payment begins: ${this.nextBillingDate()}`}</div>
                         <button
                             disabled={!this.state.paymentInfoIsValid}
                             onClick={this.handleSubmitClick}
-                        >{'Upgrade'}</button>
+                        >
+                            <FormattedMessage
+                                defaultMessage={'Upgrade'}
+                                id={'admin.billing.subscription.upgrade'}
+                            />
+                        </button>
                         <div className='fineprint-text'>
-                            <span>{'Your total is calculated at the end of the billing cycle based on the number of enabled users. You’ll only be charged if you exceed the free tier limits. '}</span>
-                            <a
-                                href='https://support.mattermost.com/hc/en-us/requests/new?ticket_form_id=360000640492'
-
-                            >{'See how billing works.'}</a>
+                            <span>
+                                <FormattedMessage
+                                    defaultMessage={'Your total is calculated at the end of the billing cycle based on the number of enabled users. You’ll only be charged if you exceed the free tier limits. '}
+                                    id={'admin.billing.subscription.disclaimer'}
+                                />
+                            </span>
+                            <a href='https://support.mattermost.com/hc/en-us/requests/new?ticket_form_id=360000640492'>
+                                <FormattedMessage
+                                    defaultMessage={'See how billing works.'}
+                                    id={'admin.billing.subscription.howItWorks'}
+                                />
+                            </a>
                         </div>
                     </div>
                     <div className='footer-text'>{'Need other billing options?'}</div>
                     <a
                         className='footer-text'
                         href='https://support.mattermost.com/hc/en-us/requests/new?ticket_form_id=360000640492'
-
-                    >{'Contact Sales'}</a>
+                    >
+                        <FormattedMessage
+                            defaultMessage={'Contact Sales'}
+                            id={'admin.billing.subscription.privateCloudCard.contactSales'}
+                        />
+                    </a>
 
                     <div className='logo'>
                         <img src={cloudLogo}/>

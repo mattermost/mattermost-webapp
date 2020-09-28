@@ -8,10 +8,8 @@ import {
     StripeError,
     ConfirmCardSetupData,
     ConfirmCardSetupOptions,
-    SetupIntent
+    SetupIntent,
 } from '@stripe/stripe-js';
-
-import {isDevMode} from 'utils/utils';
 
 type confirmCardSetupType = (clientSecret: string, data?: ConfirmCardSetupData | undefined, options?: ConfirmCardSetupOptions | undefined) => Promise<{ setupIntent?: SetupIntent | undefined; error?: StripeError | undefined }> | undefined;
 
@@ -25,8 +23,8 @@ function devConfirmCardSetup(confirmCardSetup: confirmCardSetupType): confirmCar
     };
 }
 
-if (isDevMode()) {
+if (process.env.NODE_ENV === 'development') {
     console.log('Loaded Stripe client mock for development'); //eslint-disable-line no-console
 }
 
-export const getConfirmCardSetup = devConfirmCardSetup; //isDevMode() ? devConfirmCardSetup : prodConfirmCardSetup;
+export const getConfirmCardSetup = process.env.NODE_ENV === 'development' ? devConfirmCardSetup : prodConfirmCardSetup;
