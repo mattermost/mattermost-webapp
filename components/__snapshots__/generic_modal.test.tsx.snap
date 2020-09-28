@@ -10,6 +10,7 @@ exports[`components/GenericModal should match snapshot for base case 1`] = `
   dialogClassName="a11y__modal GenericModal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
+  id="genericModal"
   keyboard={true}
   manager={
     ModalManager {
@@ -71,6 +72,7 @@ exports[`components/GenericModal should match snapshot with both buttons 1`] = `
   dialogClassName="a11y__modal GenericModal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
+  id="genericModal"
   keyboard={true}
   manager={
     ModalManager {
@@ -126,7 +128,6 @@ exports[`components/GenericModal should match snapshot with both buttons 1`] = `
         <FormattedMessage
           defaultMessage="Cancel"
           id="generic_modal.cancel"
-          values={Object {}}
         />
       </button>
       <button
@@ -137,7 +138,6 @@ exports[`components/GenericModal should match snapshot with both buttons 1`] = `
         <FormattedMessage
           defaultMessage="Confirm"
           id="generic_modal.confirm"
-          values={Object {}}
         />
       </button>
     </ModalFooter>
@@ -155,6 +155,7 @@ exports[`components/GenericModal should match snapshot with disabled confirm but
   dialogClassName="a11y__modal GenericModal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
+  id="genericModal"
   keyboard={true}
   manager={
     ModalManager {
@@ -211,7 +212,6 @@ exports[`components/GenericModal should match snapshot with disabled confirm but
         <FormattedMessage
           defaultMessage="Confirm"
           id="generic_modal.confirm"
-          values={Object {}}
         />
       </button>
     </ModalFooter>

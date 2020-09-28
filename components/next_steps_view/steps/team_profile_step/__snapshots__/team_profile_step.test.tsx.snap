@@ -14,10 +14,11 @@ exports[`components/next_steps_view/steps/team_profile_step should match snapsho
         <FormattedMessage
           defaultMessage="Team image"
           id="next_steps_view.team_profile_step.teamImage"
-          values={Object {}}
         />
       </h3>
       <PictureSelector
+        name="TeamProfileStep__teamIcon"
+        onOpenDialog={[Function]}
         onRemove={[Function]}
         onSelect={[Function]}
         placeholder={
@@ -38,7 +39,6 @@ exports[`components/next_steps_view/steps/team_profile_step should match snapsho
         <FormattedMessage
           defaultMessage="Enter your team name"
           id="next_steps_view.team_profile_step.enterYourNameAndURL"
-          values={Object {}}
         />
       </h3>
       <Input
@@ -51,21 +51,18 @@ exports[`components/next_steps_view/steps/team_profile_step should match snapsho
       />
     </div>
   </div>
-  <span
-    className="TeamProfileStep__pictureError"
-  />
   <div
     className="NextStepsView__wizardButtons"
   >
     <button
-      className="NextStepsView__button confirm"
+      className="NextStepsView__button NextStepsView__finishButton primary"
+      data-testid="TeamProfileStep__saveTeamButton"
       disabled={false}
       onClick={[Function]}
     >
       <FormattedMessage
         defaultMessage="Save team"
         id="next_steps_view.team_profile_step.saveTeam"
-        values={Object {}}
       />
     </button>
   </div>

@@ -16,7 +16,6 @@
 
     .PictureSelector {
         margin-top: 12px;
-        min-height: 125px;
     }
 }
 
@@ -28,7 +27,7 @@
     .Input_wrapper {
         font-size: 14px;
         line-height: 38px;
-        //padding: 0 16px;
+        padding: 0 16px;
     }
 
     .Input {
@@ -50,7 +49,6 @@
     line-height: 16px;
     color: var(--error-text);
     padding: 0 40px;
-    min-height: 16px;
 
     > span {
         margin-left: 4px;
@@ -66,6 +64,7 @@
 @media screen and (max-width: 1020px) {
     .CompleteProfileStep {
         flex-direction: column;
+        padding: 4px 12px 24px 12px;
     }
 
     .CompleteProfileStep__fullName {

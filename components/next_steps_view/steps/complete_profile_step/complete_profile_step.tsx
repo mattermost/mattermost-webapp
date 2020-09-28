@@ -7,7 +7,9 @@ import classNames from 'classnames';
 
 import {UserProfile} from 'mattermost-redux/types/users';
 
+import {pageVisited, trackEvent} from 'actions/diagnostics_actions';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
+import {getAnalyticsCategory} from 'components/next_steps_view/step_helpers';
 import Input from 'components/input';
 import PictureSelector from 'components/picture_selector';
 import {AcceptedProfileImageTypes} from 'utils/constants';
@@ -47,6 +49,18 @@ export default class CompleteProfileStep extends React.PureComponent<Props, Stat
         };
     }
 
+    componentDidMount() {
+        if (this.props.expanded) {
+            pageVisited(getAnalyticsCategory(this.props.isAdmin), 'pageview_complete_profile');
+        }
+    }
+
+    componentDidUpdate(prevProps: Props) {
+        if (prevProps.expanded !== this.props.expanded && this.props.expanded) {
+            pageVisited(getAnalyticsCategory(this.props.isAdmin), 'pageview_complete_profile');
+        }
+    }
+
     private handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         let fullNameError;
         if (!event.target.value) {
@@ -76,11 +90,19 @@ export default class CompleteProfileStep extends React.PureComponent<Props, Stat
             this.props.actions.setDefaultProfileImage(this.props.currentUser.id);
         }
 
+        trackEvent(getAnalyticsCategory(this.props.isAdmin), 'click_save_profile');
+
         this.props.onFinish(this.props.id);
+    }
+
+    onOpenPictureDialog = () => {
+        trackEvent(getAnalyticsCategory(this.props.isAdmin), 'click_add_profile_photo');
     }
 
     onSelectPicture = (profilePicture: File) => {
         if (!AcceptedProfileImageTypes.includes(profilePicture.type) || profilePicture.size > this.props.maxFileSize) {
+            trackEvent(getAnalyticsCategory(this.props.isAdmin), 'error_profile_photo_invalid');
+
             this.setState({profilePictureError: true});
             return;
         }
@@ -89,6 +111,8 @@ export default class CompleteProfileStep extends React.PureComponent<Props, Stat
     }
 
     onRemovePicture = () => {
+        trackEvent(getAnalyticsCategory(this.props.isAdmin), 'click_remove_photo');
+
         this.setState({profilePicture: undefined, profilePictureError: false, removeProfilePicture: true});
     }
 
@@ -110,6 +134,8 @@ export default class CompleteProfileStep extends React.PureComponent<Props, Stat
                             />
                         </h3>
                         <PictureSelector
+                            name='CompleteProfileStep__profilePicture'
+                            onOpenDialog={this.onOpenPictureDialog}
                             onSelect={this.onSelectPicture}
                             onRemove={this.onRemovePicture}
                             src={pictureSrc}
@@ -134,30 +160,20 @@ export default class CompleteProfileStep extends React.PureComponent<Props, Stat
                         />
                     </div>
                 </div>
-                <span className='CompleteProfileStep__pictureError'>
-                    {this.state.profilePictureError && (
-                        <>
-                            <i className='icon icon-alert-outline'/>
-                            <FormattedMarkdownMessage
-                                id='next_steps_view.complete_profile_step.pictureError'
-                                defaultMessage='Photos must be in BMP, JPG or PNG format. Maximum file size is {max}.'
-                                values={{max: Utils.fileSizeToString(this.props.maxFileSize)}}
-                            />
-                        </>
-                    )}
-                </span>
-                <div className='NextStepsView__wizardButtons'>
-                    {/* <button
-                        className='NextStepsView__button cancel'
-                        onClick={this.onSkip}
-                    >
-                        <FormattedMessage
-                            id='next_steps_view.skipForNow'
-                            defaultMessage='Skip for now'
+                {this.state.profilePictureError &&
+                    <span className='CompleteProfileStep__pictureError'>
+                        <i className='icon icon-alert-outline'/>
+                        <FormattedMarkdownMessage
+                            id='next_steps_view.complete_profile_step.pictureError'
+                            defaultMessage='Photos must be in BMP, JPG or PNG format. Maximum file size is {max}.'
+                            values={{max: Utils.fileSizeToString(this.props.maxFileSize)}}
                         />
-                    </button> */}
+                    </span>
+                }
+                <div className='NextStepsView__wizardButtons'>
                     <button
-                        className={classNames('NextStepsView__button confirm', {disabled: this.isFinishDisabled()})}
+                        data-testid='CompleteProfileStep__saveProfileButton'
+                        className={classNames('NextStepsView__button NextStepsView__finishButton primary', {disabled: this.isFinishDisabled()})}
                         onClick={this.onFinish}
                         disabled={this.isFinishDisabled()}
                     >

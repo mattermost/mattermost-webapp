@@ -24,7 +24,7 @@ describe('Message Reply', () => {
         });
     });
 
-    it('MM-16730 Reply to an older message', () => {
+    it('MM-T90 Reply to older message', () => {
         // # Get yesterdays date in UTC
         const yesterdaysDate = Cypress.moment().subtract(1, 'days').valueOf();
 
@@ -61,7 +61,7 @@ describe('Message Reply', () => {
 
                 cy.get(`#CENTER_time_${postId}`).find('time').invoke('attr', 'dateTime').then((originalTimeStamp) => {
                     // * Verify the first post timestamp equals the RHS timestamp
-                    cy.get(`#RHS_ROOT_time_${postId}`).find('time').invoke('attr', 'dateTime').should('be', originalTimeStamp);
+                    cy.get(`#RHS_ROOT_time_${postId}`).find('time').invoke('attr', 'dateTime').should('equal', originalTimeStamp);
 
                     // * Verify the first post timestamp was not modified by the reply
                     cy.get(`#CENTER_time_${replyId}`).find('time').should('have.attr', 'dateTime').and('not.equal', originalTimeStamp);

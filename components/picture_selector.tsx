@@ -10,16 +10,18 @@ import * as FileUtils from 'utils/file_utils';
 import './picture_selector.scss';
 
 type Props = {
+    name: string;
     src?: string;
     defaultSrc?: string;
     placeholder?: React.ReactNode;
     loadingPicture?: boolean;
+    onOpenDialog?: () => void;
     onSelect: (file: File) => void;
     onRemove: () => void;
 };
 
 const PictureSelector: React.FC<Props> = (props: Props) => {
-    const {src, defaultSrc, placeholder, loadingPicture, onSelect, onRemove} = props;
+    const {name, src, defaultSrc, placeholder, loadingPicture, onSelect, onRemove} = props;
 
     const [image, setImage] = useState<string>();
     const [orientationStyles, setOrientationStyles] = useState<{transform: any; transformOrigin: any}>();
@@ -45,6 +47,10 @@ const PictureSelector: React.FC<Props> = (props: Props) => {
     };
 
     const handleInputFile = () => {
+        if (props.onOpenDialog) {
+            props.onOpenDialog();
+        }
+
         if (!inputRef || !inputRef.current) {
             return;
         }
@@ -94,9 +100,10 @@ const PictureSelector: React.FC<Props> = (props: Props) => {
     return (
         <div className='PictureSelector'>
             <input
-                data-testid='PictureSelector__input'
+                name={name}
+                data-testid={`PictureSelector__input-${name}`}
                 ref={inputRef}
-                className='PictureSelector__input'
+                className='PictureSelector__input hidden'
                 accept='.jpg,.png,.bmp'
                 type='file'
                 onChange={handleFileChange}

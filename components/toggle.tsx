@@ -9,16 +9,19 @@ type Props = {
     disabled?: boolean;
     onText?: React.ReactNode;
     offText?: React.ReactNode;
+    id?: string;
 }
 
 const Toggle: React.FC<Props> = (props: Props) => {
-    const {onToggle, toggled, disabled, onText, offText} = props;
+    const {onToggle, toggled, disabled, onText, offText, id} = props;
     return (
         <button
+            data-testid={`${id}-button`}
             type='button'
             onClick={onToggle}
             className={`btn btn-lg btn-toggle ${toggled && 'active'} ${disabled && 'disabled'}`}
             aria-pressed={toggled ? 'true' : 'false'}
+            disabled={disabled}
         >
             <div className='handle'/>
             {text(toggled, onText, offText)}

@@ -7,8 +7,9 @@ exports[`components/picture_selector should match snapshot, default picture prov
   <input
     accept=".jpg,.png,.bmp"
     aria-hidden={true}
-    className="PictureSelector__input"
-    data-testid="PictureSelector__input"
+    className="PictureSelector__input hidden"
+    data-testid="PictureSelector__input-picture_selector_test"
+    name="picture_selector_test"
     onChange={[Function]}
     tabIndex={-1}
     type="file"
@@ -46,8 +47,9 @@ exports[`components/picture_selector should match snapshot, existing picture pro
   <input
     accept=".jpg,.png,.bmp"
     aria-hidden={true}
-    className="PictureSelector__input"
-    data-testid="PictureSelector__input"
+    className="PictureSelector__input hidden"
+    data-testid="PictureSelector__input-picture_selector_test"
+    name="picture_selector_test"
     onChange={[Function]}
     tabIndex={-1}
     type="file"
@@ -85,8 +87,9 @@ exports[`components/picture_selector should match snapshot, no picture selected 
   <input
     accept=".jpg,.png,.bmp"
     aria-hidden={true}
-    className="PictureSelector__input"
-    data-testid="PictureSelector__input"
+    className="PictureSelector__input hidden"
+    data-testid="PictureSelector__input-picture_selector_test"
+    name="picture_selector_test"
     onChange={[Function]}
     tabIndex={-1}
     type="file"

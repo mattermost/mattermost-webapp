@@ -18,7 +18,7 @@ describe('Messaging', () => {
         });
     });
 
-    it('M23348 - Selecting an emoji from emoji picker should insert it at the cursor position', () => {
+    it('MM-T95 Selecting an emoji from emoji picker should insert it at the cursor position', () => {
         // # Write some text in the send box.
         cy.get('#post_textbox').type('HelloWorld!');
 

@@ -14,28 +14,27 @@ describe('components/card/card', () => {
     test('should match snapshot', () => {
         const wrapper = mount(
             <Card {...baseProps}>
-                <Card.Header {...baseProps}>{'Header Test'}</Card.Header>
-                <Card.Body {...baseProps}>{'Body Test'}</Card.Body>
-            </Card>
+                <Card.Header>{'Header Test'}</Card.Header>
+                <Card.Body>{'Body Test'}</Card.Body>
+            </Card>,
         );
 
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should have a height based on content when expanded', () => {
+    test('should match snapshot when expanded', () => {
+        const props = {
+            ...baseProps,
+            expanded: true,
+        };
+
         const wrapper = mount(
-            <Card.Body {...baseProps}>
-                {'Body Test'}
-                {'Slightly Larger Body Text'}
-            </Card.Body>
+            <Card {...props}>
+                <Card.Header>{'Header Test'}</Card.Header>
+                <Card.Body>{'Body Test'}</Card.Body>
+            </Card>,
         );
 
-        expect(wrapper.find('.Card__body').prop('style')).toHaveProperty('height', '');
-
-        wrapper.setProps({expanded: true});
-        expect(wrapper.find('.Card__body').prop('style')).not.toHaveProperty('height', '');
-
-        wrapper.setProps({expanded: false});
-        expect(wrapper.find('.Card__body').prop('style')).toHaveProperty('height', '');
+        expect(wrapper).toMatchSnapshot();
     });
 });

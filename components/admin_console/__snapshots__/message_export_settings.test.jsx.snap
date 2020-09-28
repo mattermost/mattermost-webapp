@@ -13,7 +13,6 @@ exports[`components/MessageExportSettings should match snapshot, disabled, actia
       <FormattedMessage
         defaultMessage="Compliance Export (Beta)"
         id="admin.complianceExport.title"
-        values={Object {}}
       />
     </AdminHeader>
     <SettingsGroup
@@ -26,7 +25,6 @@ exports[`components/MessageExportSettings should match snapshot, disabled, actia
           <FormattedMessage
             defaultMessage="false"
             id="admin.false"
-            values={Object {}}
           />
         }
         helpText={
@@ -40,7 +38,6 @@ exports[`components/MessageExportSettings should match snapshot, disabled, actia
           <FormattedMessage
             defaultMessage="Enable Compliance Export:"
             id="admin.service.complianceExportTitle"
-            values={Object {}}
           />
         }
         onChange={[Function]}
@@ -49,7 +46,6 @@ exports[`components/MessageExportSettings should match snapshot, disabled, actia
           <FormattedMessage
             defaultMessage="true"
             id="admin.true"
-            values={Object {}}
           />
         }
         value={false}
@@ -57,11 +53,9 @@ exports[`components/MessageExportSettings should match snapshot, disabled, actia
       <AdminTextSetting
         disabled={true}
         helpText={
-          <FormattedHTMLMessage
+          <FormattedMessage
             defaultMessage="Set the start time of the daily scheduled compliance export job. Choose a time when fewer people are using your system. Must be a 24-hour time stamp in the form HH:MM."
             id="admin.complianceExport.exportJobStartTime.description"
-            tagName="span"
-            values={Object {}}
           />
         }
         id="exportJobStartTime"
@@ -69,7 +63,6 @@ exports[`components/MessageExportSettings should match snapshot, disabled, actia
           <FormattedMessage
             defaultMessage="Compliance Export Time:"
             id="admin.complianceExport.exportJobStartTime.title"
-            values={Object {}}
           />
         }
         onChange={[Function]}
@@ -96,7 +89,6 @@ exports[`components/MessageExportSettings should match snapshot, disabled, actia
           <FormattedMessage
             defaultMessage="Export Format:"
             id="admin.complianceExport.exportFormat.title"
-            values={Object {}}
           />
         }
         onChange={[Function]}
@@ -124,14 +116,12 @@ exports[`components/MessageExportSettings should match snapshot, disabled, actia
           <FormattedMessage
             defaultMessage="Run Compliance Export Job Now"
             id="admin.complianceExport.createJob.title"
-            values={Object {}}
           />
         }
         createJobHelpText={
           <FormattedMessage
             defaultMessage="Initiates a Compliance Export job immediately."
             id="admin.complianceExport.createJob.help"
-            values={Object {}}
           />
         }
         disabled={true}
@@ -148,7 +138,6 @@ exports[`components/MessageExportSettings should match snapshot, disabled, actia
           <FormattedMessage
             defaultMessage="Save"
             id="save_button.save"
-            values={Object {}}
           />
         }
         disabled={true}
@@ -197,7 +186,6 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
       <FormattedMessage
         defaultMessage="Compliance Export (Beta)"
         id="admin.complianceExport.title"
-        values={Object {}}
       />
     </AdminHeader>
     <SettingsGroup
@@ -210,7 +198,6 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
           <FormattedMessage
             defaultMessage="false"
             id="admin.false"
-            values={Object {}}
           />
         }
         helpText={
@@ -224,7 +211,6 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
           <FormattedMessage
             defaultMessage="Enable Compliance Export:"
             id="admin.service.complianceExportTitle"
-            values={Object {}}
           />
         }
         onChange={[Function]}
@@ -233,7 +219,6 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
           <FormattedMessage
             defaultMessage="true"
             id="admin.true"
-            values={Object {}}
           />
         }
         value={false}
@@ -241,11 +226,9 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
       <AdminTextSetting
         disabled={true}
         helpText={
-          <FormattedHTMLMessage
+          <FormattedMessage
             defaultMessage="Set the start time of the daily scheduled compliance export job. Choose a time when fewer people are using your system. Must be a 24-hour time stamp in the form HH:MM."
             id="admin.complianceExport.exportJobStartTime.description"
-            tagName="span"
-            values={Object {}}
           />
         }
         id="exportJobStartTime"
@@ -253,7 +236,6 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
           <FormattedMessage
             defaultMessage="Compliance Export Time:"
             id="admin.complianceExport.exportJobStartTime.title"
-            values={Object {}}
           />
         }
         onChange={[Function]}
@@ -280,7 +262,6 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
           <FormattedMessage
             defaultMessage="Export Format:"
             id="admin.complianceExport.exportFormat.title"
-            values={Object {}}
           />
         }
         onChange={[Function]}
@@ -314,7 +295,6 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
             <FormattedMessage
               defaultMessage="The type of GlobalRelay customer account that your organization has."
               id="admin.complianceExport.globalRelayCustomerType.description"
-              values={Object {}}
             />
           }
           id="globalRelayCustomerType"
@@ -322,7 +302,6 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
             <FormattedMessage
               defaultMessage="Customer Type:"
               id="admin.complianceExport.globalRelayCustomerType.title"
-              values={Object {}}
             />
           }
           onChange={[Function]}
@@ -347,7 +326,6 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
             <FormattedMessage
               defaultMessage="The username that is used to authenticate against the GlobalRelay SMTP server."
               id="admin.complianceExport.globalRelaySmtpUsername.description"
-              values={Object {}}
             />
           }
           id="globalRelaySmtpUsername"
@@ -355,7 +333,6 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
             <FormattedMessage
               defaultMessage="SMTP Username:"
               id="admin.complianceExport.globalRelaySmtpUsername.title"
-              values={Object {}}
             />
           }
           onChange={[Function]}
@@ -369,7 +346,6 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
             <FormattedMessage
               defaultMessage="The password that is used to authenticate against the GlobalRelay SMTP server."
               id="admin.complianceExport.globalRelaySmtpPassword.description"
-              values={Object {}}
             />
           }
           id="globalRelaySmtpPassword"
@@ -377,7 +353,6 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
             <FormattedMessage
               defaultMessage="SMTP Password:"
               id="admin.complianceExport.globalRelaySmtpPassword.title"
-              values={Object {}}
             />
           }
           onChange={[Function]}
@@ -388,11 +363,9 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
         <AdminTextSetting
           disabled={true}
           helpText={
-            <FormattedHTMLMessage
+            <FormattedMessage
               defaultMessage="The email address that your GlobalRelay server monitors for incoming Compliance Exports."
               id="admin.complianceExport.globalRelayEmailAddress.description"
-              tagName="span"
-              values={Object {}}
             />
           }
           id="globalRelayEmailAddress"
@@ -400,7 +373,6 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
             <FormattedMessage
               defaultMessage="Email Address:"
               id="admin.complianceExport.globalRelayEmailAddress.title"
-              values={Object {}}
             />
           }
           onChange={[Function]}
@@ -414,14 +386,12 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
           <FormattedMessage
             defaultMessage="Run Compliance Export Job Now"
             id="admin.complianceExport.createJob.title"
-            values={Object {}}
           />
         }
         createJobHelpText={
           <FormattedMessage
             defaultMessage="Initiates a Compliance Export job immediately."
             id="admin.complianceExport.createJob.help"
-            values={Object {}}
           />
         }
         disabled={true}
@@ -438,7 +408,6 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
           <FormattedMessage
             defaultMessage="Save"
             id="save_button.save"
-            values={Object {}}
           />
         }
         disabled={true}
@@ -487,7 +456,6 @@ exports[`components/MessageExportSettings should match snapshot, enabled, actian
       <FormattedMessage
         defaultMessage="Compliance Export (Beta)"
         id="admin.complianceExport.title"
-        values={Object {}}
       />
     </AdminHeader>
     <SettingsGroup
@@ -500,7 +468,6 @@ exports[`components/MessageExportSettings should match snapshot, enabled, actian
           <FormattedMessage
             defaultMessage="false"
             id="admin.false"
-            values={Object {}}
           />
         }
         helpText={
@@ -514,7 +481,6 @@ exports[`components/MessageExportSettings should match snapshot, enabled, actian
           <FormattedMessage
             defaultMessage="Enable Compliance Export:"
             id="admin.service.complianceExportTitle"
-            values={Object {}}
           />
         }
         onChange={[Function]}
@@ -523,7 +489,6 @@ exports[`components/MessageExportSettings should match snapshot, enabled, actian
           <FormattedMessage
             defaultMessage="true"
             id="admin.true"
-            values={Object {}}
           />
         }
         value={true}
@@ -531,11 +496,9 @@ exports[`components/MessageExportSettings should match snapshot, enabled, actian
       <AdminTextSetting
         disabled={false}
         helpText={
-          <FormattedHTMLMessage
+          <FormattedMessage
             defaultMessage="Set the start time of the daily scheduled compliance export job. Choose a time when fewer people are using your system. Must be a 24-hour time stamp in the form HH:MM."
             id="admin.complianceExport.exportJobStartTime.description"
-            tagName="span"
-            values={Object {}}
           />
         }
         id="exportJobStartTime"
@@ -543,7 +506,6 @@ exports[`components/MessageExportSettings should match snapshot, enabled, actian
           <FormattedMessage
             defaultMessage="Compliance Export Time:"
             id="admin.complianceExport.exportJobStartTime.title"
-            values={Object {}}
           />
         }
         onChange={[Function]}
@@ -570,7 +532,6 @@ exports[`components/MessageExportSettings should match snapshot, enabled, actian
           <FormattedMessage
             defaultMessage="Export Format:"
             id="admin.complianceExport.exportFormat.title"
-            values={Object {}}
           />
         }
         onChange={[Function]}
@@ -598,14 +559,12 @@ exports[`components/MessageExportSettings should match snapshot, enabled, actian
           <FormattedMessage
             defaultMessage="Run Compliance Export Job Now"
             id="admin.complianceExport.createJob.title"
-            values={Object {}}
           />
         }
         createJobHelpText={
           <FormattedMessage
             defaultMessage="Initiates a Compliance Export job immediately."
             id="admin.complianceExport.createJob.help"
-            values={Object {}}
           />
         }
         disabled={false}
@@ -622,7 +581,6 @@ exports[`components/MessageExportSettings should match snapshot, enabled, actian
           <FormattedMessage
             defaultMessage="Save"
             id="save_button.save"
-            values={Object {}}
           />
         }
         disabled={true}
@@ -671,7 +629,6 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
       <FormattedMessage
         defaultMessage="Compliance Export (Beta)"
         id="admin.complianceExport.title"
-        values={Object {}}
       />
     </AdminHeader>
     <SettingsGroup
@@ -684,7 +641,6 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
           <FormattedMessage
             defaultMessage="false"
             id="admin.false"
-            values={Object {}}
           />
         }
         helpText={
@@ -698,7 +654,6 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
           <FormattedMessage
             defaultMessage="Enable Compliance Export:"
             id="admin.service.complianceExportTitle"
-            values={Object {}}
           />
         }
         onChange={[Function]}
@@ -707,7 +662,6 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
           <FormattedMessage
             defaultMessage="true"
             id="admin.true"
-            values={Object {}}
           />
         }
         value={true}
@@ -715,11 +669,9 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
       <AdminTextSetting
         disabled={false}
         helpText={
-          <FormattedHTMLMessage
+          <FormattedMessage
             defaultMessage="Set the start time of the daily scheduled compliance export job. Choose a time when fewer people are using your system. Must be a 24-hour time stamp in the form HH:MM."
             id="admin.complianceExport.exportJobStartTime.description"
-            tagName="span"
-            values={Object {}}
           />
         }
         id="exportJobStartTime"
@@ -727,7 +679,6 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
           <FormattedMessage
             defaultMessage="Compliance Export Time:"
             id="admin.complianceExport.exportJobStartTime.title"
-            values={Object {}}
           />
         }
         onChange={[Function]}
@@ -754,7 +705,6 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
           <FormattedMessage
             defaultMessage="Export Format:"
             id="admin.complianceExport.exportFormat.title"
-            values={Object {}}
           />
         }
         onChange={[Function]}
@@ -788,7 +738,6 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
             <FormattedMessage
               defaultMessage="The type of GlobalRelay customer account that your organization has."
               id="admin.complianceExport.globalRelayCustomerType.description"
-              values={Object {}}
             />
           }
           id="globalRelayCustomerType"
@@ -796,7 +745,6 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
             <FormattedMessage
               defaultMessage="Customer Type:"
               id="admin.complianceExport.globalRelayCustomerType.title"
-              values={Object {}}
             />
           }
           onChange={[Function]}
@@ -821,7 +769,6 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
             <FormattedMessage
               defaultMessage="The username that is used to authenticate against the GlobalRelay SMTP server."
               id="admin.complianceExport.globalRelaySmtpUsername.description"
-              values={Object {}}
             />
           }
           id="globalRelaySmtpUsername"
@@ -829,7 +776,6 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
             <FormattedMessage
               defaultMessage="SMTP Username:"
               id="admin.complianceExport.globalRelaySmtpUsername.title"
-              values={Object {}}
             />
           }
           onChange={[Function]}
@@ -843,7 +789,6 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
             <FormattedMessage
               defaultMessage="The password that is used to authenticate against the GlobalRelay SMTP server."
               id="admin.complianceExport.globalRelaySmtpPassword.description"
-              values={Object {}}
             />
           }
           id="globalRelaySmtpPassword"
@@ -851,7 +796,6 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
             <FormattedMessage
               defaultMessage="SMTP Password:"
               id="admin.complianceExport.globalRelaySmtpPassword.title"
-              values={Object {}}
             />
           }
           onChange={[Function]}
@@ -862,11 +806,9 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
         <AdminTextSetting
           disabled={false}
           helpText={
-            <FormattedHTMLMessage
+            <FormattedMessage
               defaultMessage="The email address that your GlobalRelay server monitors for incoming Compliance Exports."
               id="admin.complianceExport.globalRelayEmailAddress.description"
-              tagName="span"
-              values={Object {}}
             />
           }
           id="globalRelayEmailAddress"
@@ -874,7 +816,6 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
             <FormattedMessage
               defaultMessage="Email Address:"
               id="admin.complianceExport.globalRelayEmailAddress.title"
-              values={Object {}}
             />
           }
           onChange={[Function]}
@@ -888,14 +829,12 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
           <FormattedMessage
             defaultMessage="Run Compliance Export Job Now"
             id="admin.complianceExport.createJob.title"
-            values={Object {}}
           />
         }
         createJobHelpText={
           <FormattedMessage
             defaultMessage="Initiates a Compliance Export job immediately."
             id="admin.complianceExport.createJob.help"
-            values={Object {}}
           />
         }
         disabled={false}
@@ -912,7 +851,6 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
           <FormattedMessage
             defaultMessage="Save"
             id="save_button.save"
-            values={Object {}}
           />
         }
         disabled={true}

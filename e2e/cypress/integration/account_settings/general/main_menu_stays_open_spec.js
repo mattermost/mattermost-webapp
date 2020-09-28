@@ -33,7 +33,7 @@ describe('Account Settings > General', () => {
         });
     });
 
-    it('AS15009 - Main Menu stays open', () => {
+    it('MM-T285 Main Menu stays open', () => {
         // # Click the hamburger button
         cy.get('#headerInfo').find('button').click({force: true});
 

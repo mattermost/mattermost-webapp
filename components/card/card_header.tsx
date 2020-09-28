@@ -13,6 +13,7 @@ const CardHeader: React.FC<Props> = (props: Props) => {
     return (
         <div className={classNames('Card__header', {expanded: props.expanded})}>
             {props.children}
+            {props.expanded && <hr className='Card__hr'/>}
         </div>
     );
 };

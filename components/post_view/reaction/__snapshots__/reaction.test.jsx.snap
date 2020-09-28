@@ -28,7 +28,6 @@ exports[`components/post_view/Reaction should apply read-only class if user does
               "reactionVerb": <FormattedMessage
                 defaultMessage="reacted"
                 id="reaction.reactionVerb.users"
-                values={Object {}}
               />,
               "users": <b>
                 <FormattedMessage
@@ -125,7 +124,6 @@ exports[`components/post_view/Reaction should apply read-only class if user does
               "reactionVerb": <FormattedMessage
                 defaultMessage="reacted"
                 id="reaction.reactionVerb.youAndUsers"
-                values={Object {}}
               />,
               "users": <b>
                 <FormattedMessage
@@ -222,7 +220,6 @@ exports[`components/post_view/Reaction should match snapshot 1`] = `
               "reactionVerb": <FormattedMessage
                 defaultMessage="reacted"
                 id="reaction.reactionVerb.users"
-                values={Object {}}
               />,
               "users": <b>
                 <FormattedMessage
@@ -243,7 +240,6 @@ exports[`components/post_view/Reaction should match snapshot 1`] = `
         <FormattedMessage
           defaultMessage="(click to add)"
           id="reaction.clickToAdd"
-          values={Object {}}
         />
       </Tooltip>
     }
@@ -324,7 +320,6 @@ exports[`components/post_view/Reaction should match snapshot when a current user
               "reactionVerb": <FormattedMessage
                 defaultMessage="reacted"
                 id="reaction.reactionVerb.youAndUsers"
-                values={Object {}}
               />,
               "users": <b>
                 <FormattedMessage
@@ -345,7 +340,6 @@ exports[`components/post_view/Reaction should match snapshot when a current user
         <FormattedMessage
           defaultMessage="(click to remove)"
           id="reaction.clickToRemove"
-          values={Object {}}
         />
       </Tooltip>
     }

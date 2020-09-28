@@ -7,8 +7,10 @@ import classNames from 'classnames';
 
 import {Team} from 'mattermost-redux/types/teams';
 
+import {pageVisited, trackEvent} from 'actions/diagnostics_actions';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import Input from 'components/input';
+import {getAnalyticsCategory} from 'components/next_steps_view/step_helpers';
 import PictureSelector from 'components/picture_selector';
 import {AcceptedProfileImageTypes} from 'utils/constants';
 import * as Utils from 'utils/utils';
@@ -31,8 +33,6 @@ type Props = StepComponentProps & {
 type State = {
     teamName: string;
     teamNameError?: string;
-    teamURL: string;
-    teamURLError?: string;
     profilePicture?: File;
     profilePictureError: boolean;
     removeProfilePicture: boolean;
@@ -44,10 +44,21 @@ export default class TeamProfileStep extends React.PureComponent<Props, State> {
 
         this.state = {
             teamName: props.team.display_name,
-            teamURL: props.team.name,
             profilePictureError: false,
             removeProfilePicture: false,
         };
+    }
+
+    componentDidMount() {
+        if (this.props.expanded) {
+            pageVisited(getAnalyticsCategory(this.props.isAdmin), 'pageview_name_team');
+        }
+    }
+
+    componentDidUpdate(prevProps: Props) {
+        if (prevProps.expanded !== this.props.expanded && this.props.expanded) {
+            pageVisited(getAnalyticsCategory(this.props.isAdmin), 'pageview_name_team');
+        }
     }
 
     private handleNameInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -59,31 +70,8 @@ export default class TeamProfileStep extends React.PureComponent<Props, State> {
         this.setState({teamName: event.target.value, teamNameError});
     }
 
-    private handleURLInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        let teamURLError;
-        if (!event.target.value) {
-            teamURLError = Utils.localizeMessage('next_steps_view.team_profile_step.nameCannotBeBlank', 'Team URL can’t be blank');
-        }
-
-        const urlRegex = /^[a-z]+([a-z\-0-9]+|(__)?)[a-z0-9]+$/g;
-        if (!urlRegex.test(event.target.value)) {
-            teamURLError = Utils.localizeMessage('next_steps_view.team_profile_step.malformedURL', 'Use only lower case letters, numbers and dashes. Must start with a letter and can\'t end in a dash.');
-        }
-
-        this.setState({teamURL: event.target.value, teamURLError});
-    }
-
     isFinishDisabled = () => {
-        return Boolean(!this.state.teamName || this.state.teamNameError || !this.state.teamURL || this.state.teamURLError || this.state.profilePictureError);
-    }
-
-    getSanitizedSiteURL = () => {
-        const removeProtocol = this.props.siteURL.replace(/(^\w+:|^)\/\//, '');
-        if (removeProtocol.endsWith('/')) {
-            return removeProtocol;
-        }
-
-        return `${removeProtocol}/`;
+        return Boolean(!this.state.teamName || this.state.teamNameError || this.state.profilePictureError);
     }
 
     onSkip = () => {
@@ -101,11 +89,19 @@ export default class TeamProfileStep extends React.PureComponent<Props, State> {
             this.props.actions.removeTeamIcon(this.props.team.id);
         }
 
+        trackEvent(getAnalyticsCategory(this.props.isAdmin), 'click_save_team');
+
         this.props.onFinish(this.props.id);
+    }
+
+    onOpenPictureDialog = () => {
+        trackEvent(getAnalyticsCategory(this.props.isAdmin), 'click_add_team_image');
     }
 
     onSelectPicture = (profilePicture: File) => {
         if (!AcceptedProfileImageTypes.includes(profilePicture.type) || profilePicture.size > this.props.maxFileSize) {
+            trackEvent(getAnalyticsCategory(this.props.isAdmin), 'error_profile_photo_invalid');
+
             this.setState({profilePictureError: true});
             return;
         }
@@ -114,6 +110,8 @@ export default class TeamProfileStep extends React.PureComponent<Props, State> {
     }
 
     onRemovePicture = () => {
+        trackEvent(getAnalyticsCategory(this.props.isAdmin), 'click_remove_photo');
+
         this.setState({profilePicture: undefined, profilePictureError: false, removeProfilePicture: true});
     }
 
@@ -134,6 +132,8 @@ export default class TeamProfileStep extends React.PureComponent<Props, State> {
                             />
                         </h3>
                         <PictureSelector
+                            name='TeamProfileStep__teamIcon'
+                            onOpenDialog={this.onOpenPictureDialog}
                             onSelect={this.onSelectPicture}
                             onRemove={this.onRemovePicture}
                             src={pictureSrc}
@@ -166,30 +166,20 @@ export default class TeamProfileStep extends React.PureComponent<Props, State> {
                         />
                     </div>
                 </div>
-                <span className='TeamProfileStep__pictureError'>
-                    {this.state.profilePictureError && (
-                        <>
-                            <i className='icon icon-alert-outline'/>
-                            <FormattedMarkdownMessage
-                                id='next_steps_view.team_profile_step.pictureError'
-                                defaultMessage='Photos must be in BMP, JPG or PNG format. Maximum file size is {max}.'
-                                values={{max: Utils.fileSizeToString(this.props.maxFileSize)}}
-                            />
-                        </>
-                    )}
-                </span>
-                <div className='NextStepsView__wizardButtons'>
-                    {/* <button
-                        className='NextStepsView__button cancel'
-                        onClick={this.onSkip}
-                    >
-                        <FormattedMessage
-                            id='next_steps_view.skipForNow'
-                            defaultMessage='Skip for now'
+                {this.state.profilePictureError &&
+                    <span className='TeamProfileStep__pictureError'>
+                        <i className='icon icon-alert-outline'/>
+                        <FormattedMarkdownMessage
+                            id='next_steps_view.team_profile_step.pictureError'
+                            defaultMessage='Photos must be in BMP, JPG or PNG format. Maximum file size is {max}.'
+                            values={{max: Utils.fileSizeToString(this.props.maxFileSize)}}
                         />
-                    </button> */}
+                    </span>
+                }
+                <div className='NextStepsView__wizardButtons'>
                     <button
-                        className={classNames('NextStepsView__button confirm', {disabled: this.isFinishDisabled()})}
+                        data-testid='TeamProfileStep__saveTeamButton'
+                        className={classNames('NextStepsView__button NextStepsView__finishButton primary', {disabled: this.isFinishDisabled()})}
                         onClick={this.onFinish}
                         disabled={this.isFinishDisabled()}
                     >
