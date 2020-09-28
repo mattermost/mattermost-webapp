@@ -82,13 +82,15 @@ describe('components/WarnMetricAckModal', () => {
     });
 
     test('send ack on acknowledge button click', () => {
+        const props = {...baseProps};
+
         const wrapper = shallow<WarnMetricAckModal>(
-            <WarnMetricAckModal {...baseProps}/>,
+            <WarnMetricAckModal {...props}/>,
         );
 
         wrapper.setState({saving: false});
         wrapper.find('.save-button').simulate('click');
-        expect(baseProps.actions.sendWarnMetricAck).toHaveBeenCalledTimes(1);
+        expect(props.actions.sendWarnMetricAck).toHaveBeenCalledTimes(1);
     });
 
     test('should have called props.onHide when Modal.onExited is called', () => {

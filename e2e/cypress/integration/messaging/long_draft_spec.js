@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @messaging
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
@@ -45,11 +44,11 @@ describe('Messaging', () => {
         writeLinesToPostTextBox(lines);
 
         // # Visit a different channel and verify textbox
-        cy.get('#sidebarItem_off-topic').click({force: true}).wait(TIMEOUTS.HALF_SEC);
+        cy.get('#sidebarItem_off-topic').click({force: true}).wait(TIMEOUTS.THREE_SEC);
         verifyPostTextbox('@initialHeight', '');
 
         // # Return to the channel and verify textbox
-        cy.get('#sidebarItem_town-square').click({force: true}).wait(TIMEOUTS.HALF_SEC);
+        cy.get('#sidebarItem_town-square').click({force: true}).wait(TIMEOUTS.THREE_SEC);
         verifyPostTextbox('@previousHeight', lines.join('\n'));
 
         // # Clear the textbox
@@ -61,13 +60,13 @@ describe('Messaging', () => {
         writeLinesToPostTextBox(lines);
 
         // # Visit a different channel by URL and verify textbox
-        cy.visit(`/${testTeam.name}/channels/off-topic`).wait(TIMEOUTS.HALF_SEC);
+        cy.visit(`/${testTeam.name}/channels/off-topic`).wait(TIMEOUTS.THREE_SEC);
         verifyPostTextbox('@initialHeight', '');
 
         // # Should have returned to the channel by URL. However, Cypress is clearing storage for some reason.
         // # Does not happened on actual user interaction.
         // * Verify textbox
-        cy.get('#sidebarItem_town-square').click({force: true}).wait(TIMEOUTS.HALF_SEC);
+        cy.get('#sidebarItem_town-square').click({force: true}).wait(TIMEOUTS.THREE_SEC);
         verifyPostTextbox('@previousHeight', lines.join('\n'));
     });
 });

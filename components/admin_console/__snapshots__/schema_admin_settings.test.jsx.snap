@@ -385,12 +385,6 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
                 id="no-result-j"
               />
             }
-            notPresent={
-              <FormattedMessage
-                defaultMessage="No present"
-                id="no-present-j"
-              />
-            }
             onChange={[Function]}
             selected={Array []}
             setByEnv={false}
