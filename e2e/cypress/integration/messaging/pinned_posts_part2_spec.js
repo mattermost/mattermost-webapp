@@ -9,6 +9,9 @@
 
 // Group: @messaging
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
+import {getAdminAccount} from '../../support/env';
+
 describe('Pinned posts part 2', () => {
     let testTeam;
     let testChannel;
@@ -107,22 +110,23 @@ describe('Pinned posts part 2', () => {
             cy.visit(`/${testTeam.name}/channels/${testUser.id}__${otherUser.id}`);
 
             // # Click pin icon
-            cy.get('#channelHeaderPinButton').should('be.visible').click();
+            cy.get('#channelHeaderPinButton', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').click();
 
             // # Post a message
             cy.postMessage('Hello');
 
             return cy.getLastPostId();
         }).then((postId) => {
+            // * Number of pinned posts in RHS should be 0
+            cy.findByTestId('search-item-container').should('not.exist');
+
             // # Pin the post
             pinPost(postId);
 
-            // # Now open RHS
-            cy.get(`#post_${postId}`).trigger('mouseover');
-            cy.get(`#CENTER_commentIcon_${postId}`).click({force: true});
+            // * Verify that the pinned post appears in RHS.
+            cy.get(`#rhsPostMessageText_${postId}`).should('exist');
 
-            // * Verify that pinned icon is there both in center and RHS
-            cy.get(`#rhsPost_${postId} .post-pre-header`).should('have.text', 'Pinned');
+            // * Verify that pinned icon is there in center.
             cy.get(`#post_${postId} .post-pre-header`).should('have.text', 'Pinned');
         });
     });
@@ -147,12 +151,10 @@ describe('Pinned posts part 2', () => {
             // # Pin the post
             pinPost(postId);
 
-            // # Now open RHS
-            cy.get(`#post_${postId}`).trigger('mouseover');
-            cy.get(`#CENTER_commentIcon_${postId}`).click({force: true});
+            // * Verify that the pinned post appears in RHS.
+            cy.get(`#rhsPostMessageText_${postId}`).should('exist');
 
-            // * Verify that pinned icon is there both in center and RHS
-            cy.get(`#rhsPost_${postId} .post-pre-header`).should('have.text', 'Pinned');
+            // * Verify that pinned icon is there in center.
             cy.get(`#post_${postId} .post-pre-header`).should('have.text', 'Pinned');
 
             // # Now delete the post
@@ -160,15 +162,49 @@ describe('Pinned posts part 2', () => {
             cy.get(`#delete_post_${postId}`).scrollIntoView().should('be.visible').click();
             cy.get('#deletePostModalButton').should('be.visible').click();
 
-            // # Click pin icon
-            cy.get('#channelHeaderPinButton').should('be.visible').click();
-
             // * Should not have any pinned posts
             cy.get('#search-items-container .no-results__title').should('have.text', 'No pinned posts yet');
 
             // * Post should be deleted
             cy.get(`#post_${postId}`).should('not.exist');
             cy.get(`#rhsPost_${postId}`).should('not.exist');
+
+            // # Make another post now
+            cy.postMessage('To be deleted by another user');
+
+            return cy.getLastPostId();
+        }).then((postId) => {
+            // # Pin the post
+            pinPost(postId);
+
+            // * Verify that the pinned post appears in RHS
+            cy.get(`#rhsPostMessageText_${postId}`).should('exist');
+
+            // * Verify that pinned icon is there in center
+            cy.get(`#post_${postId} .post-pre-header`).should('have.text', 'Pinned');
+
+            // # Now delete the post by sysadmin
+            deletePost(postId);
+
+            // * Verify that message delete text is there in RHS
+            cy.get('#search-items-container .post__body').should('have.text', '(message deleted)');
+
+            // * Verify that pinned icon is there in center
+            cy.get(`#post_${postId} .post-pre-header`).should('have.text', 'Pinned');
+
+            // * Verify that message delete text is there in center
+            cy.get(`#post_${postId} #${postId}_message`).should('have.text', '(message deleted)');
+
+            cy.reload();
+
+            // # Click pin icon
+            cy.get('#channelHeaderPinButton').should('be.visible').click();
+
+            // * Should not have any pinned posts
+            cy.get('#search-items-container .no-results__title').should('have.text', 'No pinned posts yet');
+
+            // * The old post should be gone
+            cy.get(`#post_${postId}`).should('not.exist');
         });
     });
 
@@ -254,4 +290,12 @@ function unpinPost(postId) {
     cy.get(`#post_${postId}`).trigger('mouseover');
     cy.get(`#CENTER_button_${postId}`).click({force: true});
     cy.get(`#unpin_post_${postId}`).scrollIntoView().should('be.visible').click();
+}
+
+function deletePost(postId) {
+    cy.externalRequest({
+        user: getAdminAccount(),
+        method: 'delete',
+        path: `posts/${postId}`,
+    });
 }
