@@ -71,10 +71,10 @@ const selectorStyles: StylesConfig = {
         color: 'var(--center-channel-color-64)',
         opacity: 0.5,
         fontSize: '14px',
-        padding: '2px'
+        padding: '2px',
 
     }),
     valueContainer: (provided) => ({...provided, height: '40px'}),
-    menu: (provided) => ({...provided, zIndex: 5})
+    menu: (provided) => ({...provided, zIndex: 5}),
 };
 

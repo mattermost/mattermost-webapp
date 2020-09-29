@@ -59,7 +59,7 @@ export const US_STATES = [
     {code: 'WA', name: 'Washington'},
     {code: 'WV', name: 'West Virginia'},
     {code: 'WI', name: 'Wisconsin'},
-    {code: 'WY', name: 'Wyoming'}
+    {code: 'WY', name: 'Wyoming'},
 ] as StateCode[];
 
 export const CA_PROVINCES = [
@@ -75,5 +75,5 @@ export const CA_PROVINCES = [
     {code: 'PE', name: 'Prince Edward Island'},
     {code: 'QC', name: 'Quebec'},
     {code: 'SK', name: 'Saskatchewan'},
-    {code: 'YT', name: 'Yukon Territory'}
+    {code: 'YT', name: 'Yukon Territory'},
 ] as StateCode[];

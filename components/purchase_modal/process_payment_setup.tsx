@@ -19,7 +19,7 @@ import IconMessage from './icon_message';
 type Props = {
     billingDetails: BillingDetails | null;
     stripe: Promise<Stripe>;
-    addPaymentMethod: Function;
+    addPaymentMethod: (stripe: Stripe, billingDetails: BillingDetails) => void;
     onBack: () => void;
     onClose: () => void;
 }
@@ -115,7 +115,7 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
     }
 
     public render() {
-        const {state, progress, error} = this.state;
+        const {state, progress} = this.state;
 
         const progressBar: JSX.Element | null = (
             <div className='ProcessPayment-progress'>

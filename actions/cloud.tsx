@@ -59,10 +59,10 @@ export function completeStripeAddPaymentMethod(stripe: Stripe, billingDetails: B
                             state: billingDetails.state,
                             country: getCode(billingDetails.country),
                             postal_code: billingDetails.postalCode,
-                        }
-                    }
-                }
-            }
+                        },
+                    },
+                },
+            },
         );
 
         if (!result) {
@@ -93,5 +93,7 @@ export function completeStripeAddPaymentMethod(stripe: Stripe, billingDetails: B
             console.error(error); //eslint-disable-line no-console
             return 'Error confirming payment';//intl.formatMessage({id: 'errors.generic_payment_failure'})};
         }
+
+        return result;
     };
 }

@@ -11,13 +11,13 @@ import {
     SetupIntent,
 } from '@stripe/stripe-js';
 
-type confirmCardSetupType = (clientSecret: string, data?: ConfirmCardSetupData | undefined, options?: ConfirmCardSetupOptions | undefined) => Promise<{ setupIntent?: SetupIntent | undefined; error?: StripeError | undefined }> | undefined;
+type ConfirmCardSetupType = (clientSecret: string, data?: ConfirmCardSetupData | undefined, options?: ConfirmCardSetupOptions | undefined) => Promise<{ setupIntent?: SetupIntent | undefined; error?: StripeError | undefined }> | undefined;
 
-function prodConfirmCardSetup(confirmCardSetup: confirmCardSetupType): confirmCardSetupType {
+function prodConfirmCardSetup(confirmCardSetup: ConfirmCardSetupType): ConfirmCardSetupType {
     return confirmCardSetup;
 }
 
-function devConfirmCardSetup(confirmCardSetup: confirmCardSetupType): confirmCardSetupType {
+function devConfirmCardSetup(confirmCardSetup: ConfirmCardSetupType): ConfirmCardSetupType {
     return async (clientSecret: string, data?: ConfirmCardSetupData | undefined, options?: ConfirmCardSetupOptions | undefined) => {
         return {setupIntent: {id: 'testid', status: 'succeeded'} as SetupIntent};
     };

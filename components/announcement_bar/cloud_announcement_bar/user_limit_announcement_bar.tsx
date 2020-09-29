@@ -9,14 +9,15 @@ import {Dictionary} from 'mattermost-redux/types/utilities';
 import {AnalyticsRow} from 'mattermost-redux/types/admin';
 import {isEmpty} from 'lodash';
 
-import { t } from 'utils/i18n';import PurchaseModal from "components/purchase_modal";
+import {t} from 'utils/i18n';
+import PurchaseModal from 'components/purchase_modal';
 
 import {
-  Preferences,
-  CloudBanners,
-  AnnouncementBarTypes,
-  ModalIdentifiers,
-} from "utils/constants";
+    Preferences,
+    CloudBanners,
+    AnnouncementBarTypes,
+    ModalIdentifiers,
+} from 'utils/constants';
 
 import AnnouncementBar from '../default_announcement_bar';
 
@@ -105,8 +106,8 @@ export default class UserLimitAnnouncementBar extends React.PureComponent<Props>
                 handleClose={this.handleClose}
                 showModal={() => {
                     this.props.actions.openModal({
-                      modalId: ModalIdentifiers.CLOUD_PURCHASE,
-                      dialogType: PurchaseModal,
+                        modalId: ModalIdentifiers.CLOUD_PURCHASE,
+                        dialogType: PurchaseModal,
                     });
                 }}
                 modalButtonText={t('admin.billing.subscription.upgradeMattermostCloud.upgradeButton')}

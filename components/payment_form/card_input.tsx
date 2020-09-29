@@ -19,12 +19,13 @@ const CARD_ELEMENT_OPTIONS = {
             opacity: '0.5',
             fontSmoothing: 'antialiased',
         },
-    }
+    },
 };
 
 type OwnProps = {
     error?: string;
     required?: boolean;
+    forwardedRef: React.RefObject<CardInputType>;
     [propName: string]: any; //eslint-disable-line @typescript-eslint/no-explicit-any
 }
 

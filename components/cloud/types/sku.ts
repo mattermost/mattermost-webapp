@@ -31,7 +31,7 @@ export const areBillingDetailsValid = (billingDetails: BillingDetails | null | u
         billingDetails.state &&
         billingDetails.country &&
         billingDetails.postalCode &&
-        billingDetails.name
+        billingDetails.name,
     );
 };
 
