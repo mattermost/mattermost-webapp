@@ -129,18 +129,6 @@ export default class CustomThemeChooser extends React.PureComponent {
         };
     }
 
-    componentDidMount() {
-        document.
-            querySelector('.group--code').
-            addEventListener('change', this.onCodeThemeChange);
-    }
-
-    componentWillUnmount() {
-        document.
-            querySelector('.group--code').
-            removeEventListener('change', this.onCodeThemeChange);
-    }
-
     handleColorChange = (settingId, color) => {
         const {updateTheme, theme} = this.props;
         if (theme[settingId] !== color) {
@@ -328,6 +316,7 @@ export default class CustomThemeChooser extends React.PureComponent {
                                 className='form-control'
                                 type='text'
                                 defaultValue={theme[element.id]}
+                                onChange={this.onCodeThemeChange}
                             >
                                 {codeThemeOptions}
                             </select>
