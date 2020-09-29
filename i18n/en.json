@@ -3750,6 +3750,8 @@
   "update_outgoing_webhook.question": "Your changes may break the existing outgoing webhook. Are you sure you would like to update it?",
   "update_outgoing_webhook.update": "Update",
   "upgrade.cloud": "Upgrade Mattermost Cloud",
+  "upgrade.cloud_banner_over": "You are currently over the user limit for the free tier",
+  "upgrade.cloud_banner_reached": "You have reached the user limit for the free tier",
   "upgrade.cloud_modal_body": "The free tier is limited to 10 users. Upgrade Mattermost Cloud for more users.",
   "upgrade.cloud_modal_title": "You've reached the user limit",
   "upload_overlay.info": "Drop a file to upload it.",
