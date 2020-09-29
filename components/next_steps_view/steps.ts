@@ -6,7 +6,7 @@ import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
 import {UserProfile} from 'mattermost-redux/types/users';
 
-import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUser, getUsers} from 'mattermost-redux/selectors/entities/users';
 
 import {GlobalState} from 'types/store';
 import {RecommendedNextSteps, Preferences} from 'utils/constants';
@@ -86,20 +86,64 @@ export const Steps: StepType[] = [
     },
 ];
 
+export const isFirstAdmin = createSelector(
+    (state: GlobalState) => getCurrentUser(state),
+    (state: GlobalState) => getUsers(state),
+    (currentUser, users) => {
+        if (!currentUser.roles.includes('system_admin')) {
+            return false;
+        }
+        const userIds = Object.keys(users);
+        for (const userId of userIds) {
+            const user = users[userId];
+            if (user.roles.includes('system_admin') && user.create_at < currentUser.create_at) {
+            // If the user in the list is an admin with create_at less than our user, than that user is older than the current one, so it can't be the first admin.
+                return false;
+            }
+        }
+        return true;
+    },
+);
+
 export const getSteps = createSelector(
     (state: GlobalState) => getCurrentUser(state),
-    (currentUser) => {
-        return Steps.filter((step) => isStepForUser(step, currentUser.roles));
+    (state: GlobalState) => isFirstAdmin(state),
+    (currentUser, firstAdmin) => {
+        let roles = currentUser.roles;
+        if (!firstAdmin) {
+            // Only the first admin sees the admin flow. Show everyone else the end user flow
+            roles = 'system_user';
+        }
+        return Steps.filter((step) =>
+            isStepForUser(step, roles),
+        );
     },
 );
 
 const getCategory = makeGetCategory();
+export const showOnboarding = createSelector(
+    (state: GlobalState) => showNextSteps(state),
+    (state: GlobalState) => showNextStepsTips(state),
+    (state: GlobalState) => getLicense(state),
+    (state: GlobalState) => state.views.nextSteps.show,
+    (showNextSteps, showNextStepsTips, license, showNextStepsEphemeral) => {
+        return !showNextStepsEphemeral && license.Cloud === 'true' && (showNextSteps || showNextStepsTips);
+    });
+
+export const isOnboardingHidden = createSelector(
+    (state: GlobalState) => getCategory(state, Preferences.RECOMMENDED_NEXT_STEPS),
+    (stepPreferences) => {
+        return stepPreferences.some((pref) => (pref.name === RecommendedNextSteps.HIDE && pref.value === 'true'));
+    },
+);
+
+// Only show next steps if they haven't been skipped and there are steps unfinished
 export const showNextSteps = createSelector(
     (state: GlobalState) => getCategory(state, Preferences.RECOMMENDED_NEXT_STEPS),
     (state: GlobalState) => getLicense(state),
     (state: GlobalState) => nextStepsNotFinished(state),
     (stepPreferences, license, nextStepsNotFinished) => {
-        if (stepPreferences.some((pref) => pref.name === RecommendedNextSteps.HIDE && pref.value === 'true')) {
+        if (stepPreferences.some((pref) => (pref.name === RecommendedNextSteps.SKIP && pref.value === 'true'))) {
             return false;
         }
 
@@ -111,11 +155,35 @@ export const showNextSteps = createSelector(
     },
 );
 
+// Only show tips if they have been skipped, or there are no unfinished steps
+export const showNextStepsTips = createSelector(
+    (state: GlobalState) => getCategory(state, Preferences.RECOMMENDED_NEXT_STEPS),
+    (state: GlobalState) => getLicense(state),
+    (state: GlobalState) => nextStepsNotFinished(state),
+    (stepPreferences, license, nextStepsNotFinished) => {
+        if (stepPreferences.some((pref) => (pref.name === RecommendedNextSteps.SKIP && pref.value === 'true'))) {
+            return true;
+        }
+
+        if (license.Cloud !== 'true') {
+            return false;
+        }
+
+        return !nextStepsNotFinished;
+    },
+);
+
+// Loop through all Steps. For each step, check that
 export const nextStepsNotFinished = createSelector(
     (state: GlobalState) => getCategory(state, Preferences.RECOMMENDED_NEXT_STEPS),
     (state: GlobalState) => getCurrentUser(state),
-    (stepPreferences, currentUser) => {
-        const checkPref = (step: StepType) => stepPreferences.some((pref) => (pref.name === step.id && pref.value === 'true') || !isStepForUser(step, currentUser.roles));
+    (state: GlobalState) => isFirstAdmin(state),
+    (stepPreferences, currentUser, firstAdmin) => {
+        let roles = currentUser.roles;
+        if (!firstAdmin) {
+            roles = 'system_user';
+        }
+        const checkPref = (step: StepType) => stepPreferences.some((pref) => (pref.name === step.id && pref.value === 'true') || !isStepForUser(step, roles));
         return !Steps.every(checkPref);
     },
 );

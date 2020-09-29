@@ -172,9 +172,9 @@ describe('Actions.User', () => {
 
     test('loadProfilesAndStatusesInChannel', async () => {
         const testStore = await mockStore(initialState);
-        await testStore.dispatch(UserActions.loadProfilesAndStatusesInChannel('channel_1', 0, 60, 'status'));
+        await testStore.dispatch(UserActions.loadProfilesAndStatusesInChannel('channel_1', 0, 60, 'status', {}));
         const actualActions = testStore.getActions();
-        expect(actualActions[0].args).toEqual(['channel_1', 0, 60, 'status']);
+        expect(actualActions[0].args).toEqual(['channel_1', 0, 60, 'status', {}]);
         expect(actualActions[0].type).toEqual('MOCK_GET_PROFILES_IN_CHANNEL');
         expect(actualActions[1].args).toEqual([['user_1']]);
         expect(actualActions[1].type).toEqual('MOCK_GET_STATUSES_BY_ID');
@@ -207,7 +207,7 @@ describe('Actions.User', () => {
     });
 
     test('loadProfilesAndTeamMembersAndChannelMembers', async () => {
-        const expectedActions = [{type: 'MOCK_GET_PROFILES_IN_CHANNEL', args: ['current_channel_id', 0, 60]}];
+        const expectedActions = [{type: 'MOCK_GET_PROFILES_IN_CHANNEL', args: ['current_channel_id', 0, 60, '', undefined]}];
 
         let testStore = await mockStore(initialState);
         await testStore.dispatch(UserActions.loadProfilesAndTeamMembersAndChannelMembers(0, 60, 'team_1', 'current_channel_id'));

@@ -539,12 +539,7 @@ export default class SchemaAdminSettings extends React.PureComponent {
                     defaultMessage={setting.no_result_default}
                 />
             );
-            const notPresent = (
-                <FormattedMessage
-                    id={setting.not_present}
-                    defaultMessage={setting.not_present_default}
-                />
-            );
+
             return (
                 <MultiSelectSetting
                     key={this.props.schema.id + '_language_' + setting.key}
@@ -557,7 +552,6 @@ export default class SchemaAdminSettings extends React.PureComponent {
                     setByEnv={this.isSetByEnv(setting.key)}
                     onChange={(changedId, value) => this.handleChange(changedId, value.join(','))}
                     noResultText={noResultText}
-                    notPresent={notPresent}
                 />
             );
         }

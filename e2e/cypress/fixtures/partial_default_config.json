@@ -263,7 +263,9 @@
         "BannerText": "",
         "BannerColor": "#f2a93b",
         "BannerTextColor": "#333333",
-        "AllowBannerDismissal": true
+        "AllowBannerDismissal": true,
+        "AdminNoticesEnabled": false,
+        "UserNoticesEnabled": false
     },
     "ThemeSettings": {
         "EnableThemeSelection": true,
@@ -472,6 +474,9 @@
         "Plugins": {},
         "PluginStates": {
             "com.mattermost.nps": {
+                "Enable": false
+            },
+            "com.mattermost.plugin-incident-response": {
                 "Enable": false
             }
         },
