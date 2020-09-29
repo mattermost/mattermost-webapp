@@ -228,7 +228,7 @@
   "admin.billing.subscription.howItWorks": "See how billing works",
   "admin.billing.subscription.title": "Subscriptions",
   "admin.billing.subscription.verifyPaymentInformation": "Verify your payment information",
-  "admin.billing.subscription.upgradedSuccess": "Great! Youre now upgraded",
+  "admin.billing.subscription.upgradedSuccess": "Great! You're now upgraded",
   "admin.billing.subscription.letsGo": "Lets go!",
   "admin.billing.subscription.upgradeMattermostCloud.description": "The free tier is **limited to 10 users.** Get access to more users, teams and other great features",
   "admin.billing.subscription.upgradeMattermostCloud.title": "Need more users?",

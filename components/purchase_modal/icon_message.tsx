@@ -10,7 +10,7 @@ import './icon_message.scss';
 type Props = {
     icon: string;
     title: string;
-    subtitle: string;
+    subtitle?: string;
     error?: boolean;
     buttonText?: string;
     buttonHandler?: () => void;
@@ -65,7 +65,6 @@ export default function IconMessage(props: Props) {
             </div>
         );
     }
-
     return (
         <div
             id='payment_complete_header'
@@ -82,9 +81,7 @@ export default function IconMessage(props: Props) {
                 />
             </h3>
             <div className={classNames('IconMessage-sub', error || '')}>
-                <FormattedMessage
-                    id={subtitle}
-                />
+                {subtitle ? <FormattedMessage id={subtitle}/> : null}
             </div>
             {button}
             {link}
@@ -95,4 +92,5 @@ export default function IconMessage(props: Props) {
 
 IconMessage.defaultProps = {
     error: false,
+    subtitle: '',
 };

@@ -130,6 +130,7 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
             return (
                 <IconMessage
                     title={t('admin.billing.subscription.verifyPaymentInformation')}
+                    subtitle={''}
                     icon={processSvg}
                     footer={progressBar}
                 />
