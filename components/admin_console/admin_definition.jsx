@@ -5168,6 +5168,11 @@ const AdminDefinition = {
                                 display_name: t('admin.experimental.experimentalChannelSidebarOrganization.default_off'),
                                 display_name_default: 'Enabled (Default Off)',
                             },
+                            {
+                                value: 'always_on',
+                                display_name: t('admin.experimental.experimentalChannelSidebarOrganization.always_on'),
+                                display_name_default: 'Always On',
+                            },
                         ],
                         isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },

@@ -144,9 +144,8 @@ export default class ProductNoticesModal extends React.PureComponent<Props, Stat
             }
 
             indicators.push(
-                <a
+                <span
                     id={'tutorialIntroCircle' + i}
-                    href='#'
                     key={'circle' + i}
                     className={className}
                     data-screen={i}
