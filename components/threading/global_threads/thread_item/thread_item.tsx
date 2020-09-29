@@ -88,7 +88,7 @@ const ThreadItem: FC<Props> = ({
                     units={[
                         'now',
                         'minute',
-                        {within: ['day', 0], display: ['hour']},
+                        'hour',
                         'today-yesterday',
                         'week',
                         'month',

@@ -1,0 +1,117 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/threading/global_threads/thread_item should match snapshot 1`] = `
+<div
+  className="ThreadItem has-indicator"
+  onClick={[MockFunction]}
+  tabIndex={0}
+>
+  <h4>
+    <div
+      className="indicator"
+    >
+      <div
+        className="dot-mentions"
+      >
+        1
+      </div>
+    </div>
+    Johnny Depp
+    <Badge
+      className=""
+      show={true}
+    >
+      Enterprise Team
+    </Badge>
+    <Connect(injectIntl(Timestamp))
+      className="alt-hidden"
+      units={
+        Array [
+          "now",
+          "minute",
+          "hour",
+          "today-yesterday",
+          "week",
+          "month",
+        ]
+      }
+      useTime={false}
+      value={2020-09-29T02:30:15.701Z}
+    />
+    <span
+      className="menu-anchor alt-visible"
+    >
+      <Memo(Comp)
+        actions={
+          Object {
+            "copyLink": [MockFunction],
+            "follow": [MockFunction],
+            "markRead": [MockFunction],
+            "markUnread": [MockFunction],
+            "openInChannel": [MockFunction],
+            "save": [MockFunction],
+            "unfollow": [MockFunction],
+            "unsave": [MockFunction],
+          }
+        }
+        hasUnreads={true}
+        isFollowing={true}
+        isSaved={false}
+      />
+    </span>
+  </h4>
+  <p>
+    Lobortis phasellus feugiat vivamus facilisis ac suspendisse elit orci augue, metus hac libero cum diam accumsan magnis.
+  </p>
+  <div
+    className="activity"
+  >
+    <Memo(Avatars)
+      size="sm"
+      users={
+        Array [
+          Object {
+            "name": "Johnny Depp",
+            "url": "test-url-1",
+            "username": "johnny.depp",
+          },
+          Object {
+            "name": "Bilbo Baggins",
+            "url": "test-url-2",
+            "username": "bilbo.baggins",
+          },
+          Object {
+            "name": "Anthony Michael Hall",
+            "url": "test-url-3",
+            "username": "michael.hall",
+          },
+          Object {
+            "name": "Kathy Baker",
+            "url": "test-url-4",
+            "username": "kathy.baker",
+          },
+          Object {
+            "name": "Vincent Price",
+            "url": "test-url-5",
+            "username": "vincent.price",
+          },
+          Object {
+            "name": "Alan Arkin",
+            "url": "test-url-6",
+            "username": "alan.arkin",
+          },
+        ]
+      }
+    />
+    <FormattedMessage
+      defaultMessage="{newReplies, plural, =1 {# new reply} other {# new replies}}"
+      id="threading.numNewReplies"
+      values={
+        Object {
+          "newReplies": 2,
+        }
+      }
+    />
+  </div>
+</div>
+`;
