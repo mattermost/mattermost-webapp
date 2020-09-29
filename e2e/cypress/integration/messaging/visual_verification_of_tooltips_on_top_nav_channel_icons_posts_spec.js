@@ -11,17 +11,13 @@
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Messaging', () => {
-    let loggedUser;
-
     let testTeam;
 
     before(() => {
         // # Login as test user and visit the newly created test channel
 
-        cy.apiInitSetup().then(({team, user}) => {
+        cy.apiInitSetup().then(({team}) => {
             testTeam = team;
-
-            //loggedUser = user;
 
             // # Set up test channel
             cy.apiCreateChannel(testTeam.id, 'channel-test', 'Public channel with a long name');
@@ -37,7 +33,6 @@ describe('Messaging', () => {
     });
     it('MM-T134 Visual verification of tooltips on top nav, channel icons, posts', () => {
         // * Hover effect wraps around Date and New Messages lines
-        // supposed to validate shadow over effect wraping around date but not sure if this is possible
         cy.get('#postListContent').find('.top').should('be.visible');
 
         // * Members tool-tip is present
