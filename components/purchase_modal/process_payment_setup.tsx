@@ -4,7 +4,7 @@
 import React from 'react';
 import {Stripe} from '@stripe/stripe-js';
 
-import {BillingDetails} from 'types/sku';
+import {BillingDetails} from 'components/cloud/types/sku';
 
 import successSvg from 'images/cloud/payment_success.svg';
 import failedSvg from 'images/cloud/payment_fail.svg';
@@ -18,8 +18,8 @@ import IconMessage from './icon_message';
 
 type Props = {
     billingDetails: BillingDetails | null;
-    stripe: Promise<Stripe>;
-    addPaymentMethod: (stripe: Stripe, billingDetails: BillingDetails) => void;
+    stripe: Promise<Stripe | null>;
+    addPaymentMethod: (stripe: Stripe, billingDetails: BillingDetails) => Promise<string | null>;
     onBack: () => void;
     onClose: () => void;
 }
@@ -79,8 +79,7 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
     private savePaymentMethod = async () => {
         const start = new Date();
         const {stripe, addPaymentMethod, billingDetails} = this.props;
-
-        const errorText = await addPaymentMethod(stripe, billingDetails);
+        const errorText = await addPaymentMethod((await stripe)!, billingDetails!);
 
         if (errorText) {
             this.setState({

@@ -31,9 +31,7 @@ type Props = {
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => void;
         getStandardAnalytics: () => void;
-        openModal: (modalData: {modalId: string; dialogType: any; dialogProps?: any}) => Promise<{
-            data: boolean;
-        }>;
+        openModal: (modalData: {modalId: string; dialogType: any; dialogProps?: any}) => void;
     };
 };
 

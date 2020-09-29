@@ -26,7 +26,7 @@ export function getProductPrice() {
         let productPrice = 0;
         if (cloudProducts.length > 0) {
             // Assuming the first and only one for now.
-            productPrice = cloudProducts[0].price_per_seat;
+            productPrice = cloudProducts[0].dollars_per_seat;
         }
 
         return productPrice;

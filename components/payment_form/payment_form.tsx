@@ -16,7 +16,8 @@ import Input from 'components/input';
 
 import * as Utils from 'utils/utils';
 
-import {COUNTRIES} from './countries';
+import {COUNTRIES} from 'components/cloud/utils/countries';
+
 import StateSelector from './state_selector';
 import CardInput, {CardInputType} from './card_input';
 import CardImage from './card_image';
