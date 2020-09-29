@@ -30,7 +30,7 @@ describe('components/PasswordResetSendLink', () => {
             </MemoryRouter>,
         ).children().children();
 
-        wrapper.instance().emailInput.current.value = 'test@example.com';
+        (wrapper.instance() as PasswordResetSendLink).emailInput.current!.value = 'test@example.com';
         wrapper.find('form').simulate('submit', {preventDefault: () => {}});
 
         expect(props.actions.sendPasswordResetEmail).toHaveBeenCalledWith('test@example.com');
