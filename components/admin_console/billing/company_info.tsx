@@ -1,7 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {useEffect} from 'react';
+import {useDispatch, useStore} from 'react-redux';
+
+import {DispatchFunc} from 'mattermost-redux/types/actions';
+import {getCloudCustomer} from 'mattermost-redux/actions/cloud';
 
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 
@@ -12,6 +16,13 @@ type Props = {
 };
 
 const CompanyInfo: React.FC<Props> = () => {
+    const dispatch = useDispatch<DispatchFunc>();
+    const store = useStore();
+
+    useEffect(() => {
+        getCloudCustomer()(dispatch, store.getState());
+    }, []);
+
     return (
         <div className='wrapper--fixed CompanyInfo'>
             <FormattedAdminHeader

@@ -3,10 +3,12 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+import {useSelector} from 'react-redux';
 
 import BlockableLink from 'components/admin_console/blockable_link';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import noCompanyInfoGraphic from 'images/no_company_info_graphic.svg';
+import {GlobalState} from 'types/store';
 
 import './company_info_display.scss';
 
@@ -50,26 +52,17 @@ const noCompanyInfoSection = (
 );
 
 const CompanyInfoDisplay: React.FC = () => {
-    const companyInfo = {
-        company_name: 'Dunder Mifflin',
-        num_employees: 200,
-        address_1: 'Unit 5, 135 Sixth Ave',
-        address_2: '',
-        city: 'New York',
-        state: 'NY',
-        country: 'United States',
-        postal_code: '90210',
-    };
-    //const companyInfo = undefined;
+    const companyInfo = useSelector((state: GlobalState) => state.entities.cloud.customer);
 
     let body = noCompanyInfoSection;
 
     if (companyInfo) {
+        const address = companyInfo.company_address || companyInfo.billing_address;
         body = (
             <div className='CompanyInfoDisplay__companyInfo'>
                 <div className='CompanyInfoDisplay__companyInfo-text'>
                     <div className='CompanyInfoDisplay__companyInfo-name'>
-                        {companyInfo.company_name}
+                        {companyInfo.name}
                     </div>
                     <div className='CompanyInfoDisplay__companyInfo-numEmployees'>
                         <FormattedMarkdownMessage
@@ -85,10 +78,10 @@ const CompanyInfoDisplay: React.FC = () => {
                         />
                     </div>
                     <div className='CompanyInfoDisplay__companyInfo-address'>
-                        <div>{companyInfo.address_1}</div>
-                        {companyInfo.address_2 && <div>{companyInfo.address_2}</div>}
-                        <div>{`${companyInfo.city}, ${companyInfo.state}, ${companyInfo.postal_code}`}</div>
-                        <div>{companyInfo.country}</div>
+                        <div>{address.line1}</div>
+                        {address.line2 && <div>{address.line2}</div>}
+                        <div>{`${address.city}, ${address.state}, ${address.postal_code}`}</div>
+                        <div>{address.country}</div>
                     </div>
                 </div>
                 <div className='CompanyInfoDisplay__companyInfo-edit'>
