@@ -67,7 +67,7 @@ export default class UserLimitAnnouncementBar extends React.PureComponent<Props>
 
     render() {
         const {userLimit, analytics, preferences} = this.props;
-
+        console.log(this.props);
         if (isEmpty(this.props.analytics)) {
             // If the analytics aren't yet loaded, return null to avoid a flash of the banner
             return null;

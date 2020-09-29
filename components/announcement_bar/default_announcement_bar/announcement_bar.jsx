@@ -114,7 +114,7 @@ export default class AnnouncementBar extends React.PureComponent {
                     style={linkStyle}
                     onClick={this.handleClose}
                 >
-                    {this.props.isTallBanner ? '' : '×'}
+                    {this.props.isTallBanner ? '\uF156' : '×'}
                 </a>
             );
         }
@@ -143,7 +143,7 @@ export default class AnnouncementBar extends React.PureComponent {
                 >
                     <span>
                         {this.props.showLinkAsButton &&
-                            (this.props.showCloseButton ? <div className={'content__icon'}>{''}</div> : <div className={'content__icon'}>{''}</div>)
+                            (this.props.showCloseButton ? <div className={'content__icon'}>{'\uF5D6'}</div> : <div className={'content__icon'}>{'\uF02A'}</div>)
                         }
                         {message}
                         {
