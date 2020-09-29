@@ -82,6 +82,7 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
         const errorText = await addPaymentMethod((await stripe)!, billingDetails!);
 
         if (errorText) {
+            console.log(errorText);
             this.setState({
                 error: errorText,
                 state: ProcessState.FAILED});
@@ -124,6 +125,7 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
                 />
             </div>
         );
+        console.log(this.state);
         switch (state) {
         case ProcessState.PROCESSING:
             return (
