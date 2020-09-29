@@ -29,7 +29,7 @@ function verifyChannel(res, verifyExistence = true) {
 
 describe('Messaging', () => {
     let loggedUser;
-    
+
     let testTeam;
 
     before(() => {
@@ -42,11 +42,11 @@ describe('Messaging', () => {
             cy.apiAdminLogin;
 
             cy.apiAddUserToTeam(testTeam.id, loggedUser.id);
-            
+
             cy.visit(`/${testTeam.name}/channels/town-square`);
         });
     });
-        it('MM-T134-visual-verification-of-tooltips', () => {
+    it('MM-T134-visual-verification-of-tooltips', () => {
         // * Hover effect wraps around Date and New Messages lines
         // supposed to validate shadow over effect wraping around date but not sure if this is possible
         cy.get('#postListContent').find('.top').should('be.visible');
@@ -55,7 +55,7 @@ describe('Messaging', () => {
         cy.findAllByLabelText('members').should('be.visible').trigger('mouseover');
         cy.get('div.tooltip-inner').should('be.visible').and('contain', 'Members');
         cy.findAllByLabelText('members').should('be', 'visible').trigger('mouseout');
-        
+
         // * Pinned post tool-tip is present
         cy.findAllByLabelText('Pinned posts').should('be.visible').trigger('mouseover');
         cy.get('div.tooltip-inner').should('be.visible').and('contain', 'Pinned posts');
@@ -80,12 +80,12 @@ describe('Messaging', () => {
         // * Unmute a channel tool-tip is present
         cy.findAllByLabelText('dropdown icon').click();
         cy.findAllByText('Mute Channel').click();
-        cy.findAllByLabelText('Muted Icon').should('be','visible').trigger('mouseover');
+        cy.findAllByLabelText('Muted Icon').should('be', 'visible').trigger('mouseover');
         cy.get('div.tooltip-inner').should('be.visible').and('contain', 'Unmute');
         cy.findAllByLabelText('Muted Icon').should('be', 'visible').trigger('mouseout');
 
         // * Long channel name (shown truncated on the LHS)
-        cy.apiCreateChannel(testTeam.id,'channel-test', `Public channel with a long name-${timestamp}`,).then((res) => {
+        cy.apiCreateChannel(testTeam.id, 'channel-test', `Public channel with a long name-${timestamp}`).then((res) => {
             verifyChannel(res);
         });
 
