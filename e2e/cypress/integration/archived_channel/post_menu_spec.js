@@ -24,7 +24,7 @@ describe('Archived channels', () => {
     });
 
     it('MM-T1721 Archive channel posts menu should have copy link and reply options', () => {
-        // # click to add a channel description
+        // # Click to add a channel description
         cy.get('#channelHeaderDescription button').click();
 
         // # Add channel header for system message
