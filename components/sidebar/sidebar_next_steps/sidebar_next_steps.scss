@@ -1,10 +1,15 @@
 .SidebarNextSteps {
+    &.tips {
+        height: 70px;
+    }
     width: 100%;
     color: var(--sidebar-text);
+    height: 82px;
     padding: 8px 16px 18px 14px;
     align-self: flex-end;
     position: relative;
     background-color: var(--sidebar-bg);
+    transition: 0.2s ease-in-out;
     cursor: pointer;
 
     &:hover:not(.active) {
