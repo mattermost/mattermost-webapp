@@ -23,24 +23,24 @@ describe('Channel', () => {
         });
     });
 
-    it('Mult14635 Should not create new channel with existing public channel name', () => {
+    it('MM-T422_1 Channel name already taken for public channel', () => {
         // # Create a new public channel
         createNewChannel('unique-public', false, testTeamId).as('channel');
         cy.reload();
 
         cy.get('@channel').then((channel) => {
-            // * Verify new public or private channel cannot be created with existing private channel name:
+            // * Verify new public or private channel cannot be created with existing public channel name
             channelNameTest('PUBLIC CHANNELS', channel);
         });
     });
 
-    it('Mult14635 Should not create new channel with existing private channel name', () => {
+    it('MM-T422_2 Channel name already taken for private channel', () => {
         // # Create a new private channel
         createNewChannel('unique-private', true, testTeamId).as('channel');
         cy.reload();
 
         cy.get('@channel').then((channel) => {
-            // * Verify new public or private channel cannot be created with existing private channel name:
+            // * Verify new public or private channel cannot be created with existing private channel name
             channelNameTest('PRIVATE CHANNELS', channel);
         });
     });
@@ -119,5 +119,5 @@ function channelNameTest(channelTypeHeading, channel) {
 function createNewChannel(name, isPrivate = false, testTeamId) {
     const makePrivate = isPrivate ? 'P' : 'O';
 
-    return cy.apiCreateChannel(testTeamId, name, name, makePrivate, 'Let us chat here').its('body');
+    return cy.apiCreateChannel(testTeamId, name, name, makePrivate, 'Let us chat here').its('channel');
 }

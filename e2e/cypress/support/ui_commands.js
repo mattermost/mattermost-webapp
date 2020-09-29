@@ -91,6 +91,16 @@ Cypress.Commands.add('postMessageReplyInRHS', (message) => {
     postMessageAndWait('#reply_textbox', message);
 });
 
+Cypress.Commands.add('uiPostMessageQuickly', (message) => {
+    cy.get('#post_textbox', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').clear().
+        invoke('val', message).wait(TIMEOUTS.HALF_SEC).type(' {backspace}{enter}');
+    cy.waitUntil(() => {
+        return cy.get('#post_textbox').then((el) => {
+            return el[0].textContent === '';
+        });
+    });
+});
+
 function postMessageAndWait(textboxSelector, message) {
     cy.get(textboxSelector, {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').clear().type(`${message}{enter}`).wait(TIMEOUTS.HALF_SEC);
     cy.waitUntil(() => {
@@ -237,11 +247,11 @@ Cypress.Commands.add('clickPostTime', (postId, location = 'CENTER') => {
 });
 
 /**
- * Click flag icon by post ID or to most recent post (if post ID is not provided)
+ * Click save icon by post ID or to most recent post (if post ID is not provided)
  * @param {String} postId - Post ID
  * @param {String} location - as 'CENTER', 'RHS_ROOT', 'RHS_COMMENT', 'SEARCH'
  */
-Cypress.Commands.add('clickPostFlagIcon', (postId, location = 'CENTER') => {
+Cypress.Commands.add('clickPostSaveIcon', (postId, location = 'CENTER') => {
     clickPostHeaderItem(postId, location, 'flagIcon');
 });
 
@@ -290,6 +300,14 @@ Cypress.Commands.add('getPostMenu', (postId, menuItem, location = 'CENTER') => {
     });
 });
 
+/**
+ * Click Pin to Channel icon by post ID or to most recent post (if post ID is not provided)
+ * @param {String} postId - Post ID
+ */
+Cypress.Commands.add('clickPostPinIcon', (postId) => {
+    cy.getPostMenu(postId, 'Pin to Channel').click();
+});
+
 // Close RHS by clicking close button
 Cypress.Commands.add('closeRHS', () => {
     cy.get('#rhsCloseButton').should('be.visible').click();
@@ -308,6 +326,20 @@ Cypress.Commands.add('createNewTeam', (teamName, teamURL) => {
 
 Cypress.Commands.add('getCurrentTeamId', () => {
     return cy.get('#headerTeamName').invoke('attr', 'data-teamid');
+});
+
+Cypress.Commands.add('getCurrentTeamURL', (siteURL) => {
+    let path;
+
+    // siteURL can be provided for cases where subpath is being tested
+    if (siteURL) {
+        path = window.location.href.substring(siteURL.length);
+    } else {
+        path = window.location.pathname;
+    }
+
+    const result = path.split('/', 2);
+    return `/${(result[0] ? result[0] : result[1])}`; // sometimes the first element is emply if path starts with '/'
 });
 
 Cypress.Commands.add('leaveTeam', () => {

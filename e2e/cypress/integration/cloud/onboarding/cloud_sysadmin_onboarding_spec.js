@@ -7,23 +7,19 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
-
-import {testWithConfig} from '../../../support/hooks';
-
 const adminSteps = ['complete_profile', 'team_setup', 'invite_members', 'hide'];
 
 describe('Cloud Onboarding - Sysadmin', () => {
     let townSquarePage;
     let sysadmin;
 
-    testWithConfig({
-        ServiceSettings: {
-            ExperimentalChannelSidebarOrganization: 'default_on',
-        },
-    });
-
     before(() => {
+        cy.apiUpdateConfig({
+            ServiceSettings: {
+                ExperimentalChannelSidebarOrganization: 'default_on',
+            },
+        });
+
         // # Check if with license and has matching database
         cy.apiRequireLicenseForFeature('Cloud');
 
@@ -165,7 +161,7 @@ describe('Cloud Onboarding - Sysadmin', () => {
 
         // # Click 'Getting Started' in the main menu
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
-        cy.get('.dropdown-menu .MenuItem:contains(Getting Started)').should('be.visible').click();
+        cy.get('.dropdown-menu .MenuItem:contains(Getting Started)').scrollIntoView().should('be.visible').click();
 
         // * Verify that sidebar element and next steps view are back
         cy.get('.SidebarNextSteps').should('be.visible');

@@ -54,7 +54,7 @@ export default class SearchChannelProvider extends Provider {
                     //
                     // MM-12677 When this is migrated this needs to be fixed to pull the user's locale
                     //
-                    channels = channels.sort(sortChannelsByTypeListAndDisplayName.bind(null, 'en', [Constants.DM_CHANNEL, Constants.GM_CHANNEL, Constants.PRIVATE_CHANNEL, Constants.OPEN_CHANNEL]));
+                    channels = channels.sort(sortChannelsByTypeListAndDisplayName.bind(null, 'en', [Constants.OPEN_CHANNEL, Constants.PRIVATE_CHANNEL, Constants.DM_CHANNEL, Constants.GM_CHANNEL]));
                     const channelNames = channels.map(itemToTerm.bind(null, isAtSearch));
 
                     resultsCallback({

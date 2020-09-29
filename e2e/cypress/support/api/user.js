@@ -17,7 +17,12 @@ Cypress.Commands.add('apiLogin', (user) => {
         body: {login_id: user.username, password: user.password},
     }).then((response) => {
         expect(response.status).to.equal(200);
-        return cy.wrap({user: response.body});
+        return cy.wrap({
+            user: {
+                ...response.body,
+                password: user.password,
+            },
+        });
     });
 });
 
@@ -290,6 +295,21 @@ Cypress.Commands.add('apiVerifyUserEmailById', (userId) => {
     return cy.request(options).then((response) => {
         expect(response.status).to.equal(200);
         cy.wrap({user: response.body});
+    });
+});
+
+Cypress.Commands.add('apiResetPassword', (userId, currentPass, newPass) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        method: 'PUT',
+        url: `/api/v4/users/${userId}/password`,
+        body: {
+            current_password: currentPass,
+            new_password: newPass,
+        },
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap({user: response.body});
     });
 });
 

@@ -78,7 +78,9 @@ exports[`components/next_steps_view/steps/setup_preferences_step should match sn
         "username": "some-user",
       }
     }
+    expanded={true}
     id="test"
+    isAdmin={false}
     onFinish={[Function]}
     onSkip={[Function]}
   />
