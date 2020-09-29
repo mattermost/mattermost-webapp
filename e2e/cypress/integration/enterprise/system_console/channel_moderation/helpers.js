@@ -17,13 +17,17 @@ export const visitChannelConfigPage = (channel) => {
     cy.wait(TIMEOUTS.ONE_SEC);
 };
 
-// # Disable a specific channel moderated permission in the channel moderation widget
-export const disableChannelModeratedPermission = (permission) => {
-    cy.findByTestId(permission).scrollIntoView().should('be.visible').then((btn) => {
-        if (btn.hasClass('checked')) {
-            btn.click();
+// # Disable a permission
+export const disablePermission = (permission) => {
+    cy.waitUntil(() => cy.findByTestId(permission).scrollIntoView().should('be.visible').then((el) => {
+        const classAttribute = el[0].getAttribute('class');
+        if (classAttribute.includes('checked') || classAttribute.includes('intermediate')) {
+            el[0].click();
+            return false;
         }
-    });
+        return true;
+    }));
+    cy.findByTestId(permission).should('not.have.class', 'checked');
 };
 
 // # Saves channel config and navigates back to the channel config page if specified
@@ -97,13 +101,17 @@ export const postChannelMentionsAndVerifySystemMessageExist = (channelName) => {
     });
 };
 
-// # Enable a specific channel moderated permission in the channel moderation widget
-export const enableChannelModeratedPermission = (permission) => {
-    cy.findByTestId(permission).scrollIntoView().should('be.visible').then((btn) => {
-        if (!btn.hasClass('checked')) {
-            btn.click();
+// # Enable a permission
+export const enablePermission = (permission) => {
+    cy.waitUntil(() => cy.findByTestId(permission).scrollIntoView().should('be.visible').then((el) => {
+        const classAttribute = el[0].getAttribute('class');
+        if (!classAttribute.includes('checked')) {
+            el[0].click();
+            return false;
         }
-    });
+        return true;
+    }));
+    cy.findByTestId(permission).should('have.class', 'checked');
 };
 
 // # Checks to see if we did not get a system message warning after using @all/@here/@channel
@@ -166,6 +174,7 @@ export const saveConfigForScheme = (waitUntilConfigSaved = true, clickConfirmati
 export const goToSystemScheme = () => {
     cy.apiAdminLogin();
     cy.visit('/admin_console/user_management/permissions/system_scheme');
+    cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'System Scheme');
 };
 
 // # Goes to the permissions page and creates a new team override scheme with schemeName

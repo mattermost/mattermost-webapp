@@ -120,11 +120,19 @@ export function isDesktopApp(): boolean {
 }
 
 export function isWindowsApp(): boolean {
-    return isDesktopApp() && userAgent().indexOf('Windows') !== -1;
+    return isDesktopApp() && isWindows();
 }
 
 export function isMacApp(): boolean {
-    return isDesktopApp() && userAgent().indexOf('Macintosh') !== -1;
+    return isDesktopApp() && isMac();
+}
+
+export function isWindows(): boolean {
+    return userAgent().indexOf('Windows') !== -1;
+}
+
+export function isMac(): boolean {
+    return userAgent().indexOf('Macintosh') !== -1;
 }
 
 export function isWindows7(): boolean {
@@ -135,4 +143,11 @@ export function isWindows7(): boolean {
     }
 
     return (/\bWindows NT 6\.1\b/).test(appVersion);
+}
+
+export function getDesktopVersion(): string {
+    // use if the value window.desktop.version is not set yet
+    const regex = /Mattermost\/(\d\.\d\.\d{0,1})/gm;
+    const match = regex.exec(window.navigator.appVersion)?.[1] || '';
+    return match;
 }

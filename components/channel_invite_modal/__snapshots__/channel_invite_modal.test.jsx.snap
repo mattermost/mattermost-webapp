@@ -44,7 +44,6 @@ exports[`components/channel_invite_modal should match snapshot for channel_invit
       <FormattedMessage
         defaultMessage="Add New Members to "
         id="channel_invite.addNewMembers"
-        values={Object {}}
       />
       <span
         className="name"
@@ -101,6 +100,11 @@ exports[`components/channel_invite_modal should match snapshot for channel_invit
       perPage={50}
       placeholderText="Search and add members"
       saving={false}
+      selectedItemRef={
+        Object {
+          "current": null,
+        }
+      }
       valueRenderer={[Function]}
       values={Array []}
     />
@@ -152,7 +156,6 @@ exports[`components/channel_invite_modal should match snapshot with exclude and 
       <FormattedMessage
         defaultMessage="Add New Members to "
         id="channel_invite.addNewMembers"
-        values={Object {}}
       />
       <span
         className="name"
@@ -209,6 +212,11 @@ exports[`components/channel_invite_modal should match snapshot with exclude and 
       perPage={50}
       placeholderText="Search and add members"
       saving={false}
+      selectedItemRef={
+        Object {
+          "current": null,
+        }
+      }
       valueRenderer={[Function]}
       values={Array []}
     />

@@ -9,13 +9,17 @@ import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getMyChannelRoles} from 'mattermost-redux/selectors/entities/roles';
 import {getRoles} from 'mattermost-redux/selectors/entities/roles_helpers';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {withRouter} from 'react-router-dom';
+
+import {getProfiles} from 'mattermost-redux/actions/users';
 
 import {getDirectTeammate} from 'utils/utils.jsx';
 import {TutorialSteps, Preferences} from 'utils/constants';
 
 import {goToLastViewedChannel} from 'actions/views/channel';
+import {setShowNextStepsView} from 'actions/views/next_steps';
+import {isOnboardingHidden, showNextSteps, showNextStepsTips} from 'components/next_steps_view/steps';
 
 import ChannelView from './channel_view.jsx';
 
@@ -57,15 +61,22 @@ function mapStateToProps(state) {
         channelRolesLoading,
         deactivatedChannel: channel ? getDeactivatedChannel(state, channel.id) : false,
         showTutorial: enableTutorial && tutorialStep <= TutorialSteps.INTRO_SCREENS,
+        showNextSteps: showNextSteps(state),
+        showNextStepsTips: showNextStepsTips(state),
+        isOnboardingHidden: isOnboardingHidden(state),
+        showNextStepsEphemeral: state.views.nextSteps.show,
         channelIsArchived: channel ? channel.delete_at !== 0 : false,
         viewArchivedChannels,
+        isCloud: getLicense(state).Cloud === 'true',
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
+            setShowNextStepsView,
             goToLastViewedChannel,
+            getProfiles,
         }, dispatch),
     };
 }

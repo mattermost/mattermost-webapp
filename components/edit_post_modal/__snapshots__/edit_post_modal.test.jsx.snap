@@ -29,6 +29,7 @@ exports[`components/EditPostModal should disable the button on not canDeletePost
   onExited={[Function]}
   onHide={[Function]}
   onKeyDown={[Function]}
+  onSelect={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
   role="dialog"
@@ -74,10 +75,12 @@ exports[`components/EditPostModal should disable the button on not canDeletePost
           handlePostError={[Function]}
           id="edit_textbox"
           onChange={[Function]}
+          onHeightChange={[Function]}
           onKeyDown={[Function]}
           onKeyPress={[Function]}
           onKeyUp={[Function]}
           onMouseUp={[Function]}
+          onSelect={[Function]}
           preview={false}
           suggestionListStyle="bottom"
           supportsCommands={false}
@@ -142,7 +145,6 @@ exports[`components/EditPostModal should disable the button on not canDeletePost
       <FormattedMessage
         defaultMessage="Cancel"
         id="edit_post.cancel"
-        values={Object {}}
       />
     </button>
     <button
@@ -155,7 +157,6 @@ exports[`components/EditPostModal should disable the button on not canDeletePost
       <FormattedMessage
         defaultMessage="Save"
         id="edit_post.save"
-        values={Object {}}
       />
     </button>
   </ModalFooter>
@@ -191,6 +192,7 @@ exports[`components/EditPostModal should disable the button on not canEditPost a
   onExited={[Function]}
   onHide={[Function]}
   onKeyDown={[Function]}
+  onSelect={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
   role="dialog"
@@ -236,10 +238,12 @@ exports[`components/EditPostModal should disable the button on not canEditPost a
           handlePostError={[Function]}
           id="edit_textbox"
           onChange={[Function]}
+          onHeightChange={[Function]}
           onKeyDown={[Function]}
           onKeyPress={[Function]}
           onKeyUp={[Function]}
           onMouseUp={[Function]}
+          onSelect={[Function]}
           preview={false}
           suggestionListStyle="bottom"
           supportsCommands={false}
@@ -304,7 +308,6 @@ exports[`components/EditPostModal should disable the button on not canEditPost a
       <FormattedMessage
         defaultMessage="Cancel"
         id="edit_post.cancel"
-        values={Object {}}
       />
     </button>
     <button
@@ -317,7 +320,6 @@ exports[`components/EditPostModal should disable the button on not canEditPost a
       <FormattedMessage
         defaultMessage="Save"
         id="edit_post.save"
-        values={Object {}}
       />
     </button>
   </ModalFooter>
@@ -353,6 +355,7 @@ exports[`components/EditPostModal should match snapshot with useChannelMentions 
   onExited={[Function]}
   onHide={[Function]}
   onKeyDown={[Function]}
+  onSelect={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
   role="dialog"
@@ -398,10 +401,12 @@ exports[`components/EditPostModal should match snapshot with useChannelMentions 
           handlePostError={[Function]}
           id="edit_textbox"
           onChange={[Function]}
+          onHeightChange={[Function]}
           onKeyDown={[Function]}
           onKeyPress={[Function]}
           onKeyUp={[Function]}
           onMouseUp={[Function]}
+          onSelect={[Function]}
           preview={false}
           suggestionListStyle="bottom"
           supportsCommands={false}
@@ -466,7 +471,6 @@ exports[`components/EditPostModal should match snapshot with useChannelMentions 
       <FormattedMessage
         defaultMessage="Cancel"
         id="edit_post.cancel"
-        values={Object {}}
       />
     </button>
     <button
@@ -479,7 +483,6 @@ exports[`components/EditPostModal should match snapshot with useChannelMentions 
       <FormattedMessage
         defaultMessage="Save"
         id="edit_post.save"
-        values={Object {}}
       />
     </button>
   </ModalFooter>
@@ -515,6 +518,7 @@ exports[`components/EditPostModal should match with default config 1`] = `
   onExited={[Function]}
   onHide={[Function]}
   onKeyDown={[Function]}
+  onSelect={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
   role="dialog"
@@ -560,10 +564,12 @@ exports[`components/EditPostModal should match with default config 1`] = `
           handlePostError={[Function]}
           id="edit_textbox"
           onChange={[Function]}
+          onHeightChange={[Function]}
           onKeyDown={[Function]}
           onKeyPress={[Function]}
           onKeyUp={[Function]}
           onMouseUp={[Function]}
+          onSelect={[Function]}
           preview={false}
           suggestionListStyle="bottom"
           supportsCommands={false}
@@ -628,7 +634,6 @@ exports[`components/EditPostModal should match with default config 1`] = `
       <FormattedMessage
         defaultMessage="Cancel"
         id="edit_post.cancel"
-        values={Object {}}
       />
     </button>
     <button
@@ -641,7 +646,6 @@ exports[`components/EditPostModal should match with default config 1`] = `
       <FormattedMessage
         defaultMessage="Save"
         id="edit_post.save"
-        values={Object {}}
       />
     </button>
   </ModalFooter>
@@ -677,6 +681,7 @@ exports[`components/EditPostModal should match without emoji picker 1`] = `
   onExited={[Function]}
   onHide={[Function]}
   onKeyDown={[Function]}
+  onSelect={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
   role="dialog"
@@ -722,10 +727,12 @@ exports[`components/EditPostModal should match without emoji picker 1`] = `
           handlePostError={[Function]}
           id="edit_textbox"
           onChange={[Function]}
+          onHeightChange={[Function]}
           onKeyDown={[Function]}
           onKeyPress={[Function]}
           onKeyUp={[Function]}
           onMouseUp={[Function]}
+          onSelect={[Function]}
           preview={false}
           suggestionListStyle="bottom"
           supportsCommands={false}
@@ -764,7 +771,6 @@ exports[`components/EditPostModal should match without emoji picker 1`] = `
       <FormattedMessage
         defaultMessage="Cancel"
         id="edit_post.cancel"
-        values={Object {}}
       />
     </button>
     <button
@@ -777,7 +783,6 @@ exports[`components/EditPostModal should match without emoji picker 1`] = `
       <FormattedMessage
         defaultMessage="Save"
         id="edit_post.save"
-        values={Object {}}
       />
     </button>
   </ModalFooter>
@@ -813,6 +818,7 @@ exports[`components/EditPostModal should not disable the button on not canDelete
   onExited={[Function]}
   onHide={[Function]}
   onKeyDown={[Function]}
+  onSelect={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
   role="dialog"
@@ -858,10 +864,12 @@ exports[`components/EditPostModal should not disable the button on not canDelete
           handlePostError={[Function]}
           id="edit_textbox"
           onChange={[Function]}
+          onHeightChange={[Function]}
           onKeyDown={[Function]}
           onKeyPress={[Function]}
           onKeyUp={[Function]}
           onMouseUp={[Function]}
+          onSelect={[Function]}
           preview={false}
           suggestionListStyle="bottom"
           supportsCommands={false}
@@ -926,7 +934,6 @@ exports[`components/EditPostModal should not disable the button on not canDelete
       <FormattedMessage
         defaultMessage="Cancel"
         id="edit_post.cancel"
-        values={Object {}}
       />
     </button>
     <button
@@ -939,7 +946,6 @@ exports[`components/EditPostModal should not disable the button on not canDelete
       <FormattedMessage
         defaultMessage="Save"
         id="edit_post.save"
-        values={Object {}}
       />
     </button>
   </ModalFooter>
@@ -975,6 +981,7 @@ exports[`components/EditPostModal should not disable the button on not canEditPo
   onExited={[Function]}
   onHide={[Function]}
   onKeyDown={[Function]}
+  onSelect={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
   role="dialog"
@@ -1020,10 +1027,12 @@ exports[`components/EditPostModal should not disable the button on not canEditPo
           handlePostError={[Function]}
           id="edit_textbox"
           onChange={[Function]}
+          onHeightChange={[Function]}
           onKeyDown={[Function]}
           onKeyPress={[Function]}
           onKeyUp={[Function]}
           onMouseUp={[Function]}
+          onSelect={[Function]}
           preview={false}
           suggestionListStyle="bottom"
           supportsCommands={false}
@@ -1088,7 +1097,6 @@ exports[`components/EditPostModal should not disable the button on not canEditPo
       <FormattedMessage
         defaultMessage="Cancel"
         id="edit_post.cancel"
-        values={Object {}}
       />
     </button>
     <button
@@ -1101,7 +1109,6 @@ exports[`components/EditPostModal should not disable the button on not canEditPo
       <FormattedMessage
         defaultMessage="Save"
         id="edit_post.save"
-        values={Object {}}
       />
     </button>
   </ModalFooter>
@@ -1137,6 +1144,7 @@ exports[`components/EditPostModal should not disable the save button on not canD
   onExited={[Function]}
   onHide={[Function]}
   onKeyDown={[Function]}
+  onSelect={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
   role="dialog"
@@ -1182,10 +1190,12 @@ exports[`components/EditPostModal should not disable the save button on not canD
           handlePostError={[Function]}
           id="edit_textbox"
           onChange={[Function]}
+          onHeightChange={[Function]}
           onKeyDown={[Function]}
           onKeyPress={[Function]}
           onKeyUp={[Function]}
           onMouseUp={[Function]}
+          onSelect={[Function]}
           preview={false}
           suggestionListStyle="bottom"
           supportsCommands={false}
@@ -1250,7 +1260,6 @@ exports[`components/EditPostModal should not disable the save button on not canD
       <FormattedMessage
         defaultMessage="Cancel"
         id="edit_post.cancel"
-        values={Object {}}
       />
     </button>
     <button
@@ -1263,7 +1272,6 @@ exports[`components/EditPostModal should not disable the save button on not canD
       <FormattedMessage
         defaultMessage="Save"
         id="edit_post.save"
-        values={Object {}}
       />
     </button>
   </ModalFooter>
@@ -1299,6 +1307,7 @@ exports[`components/EditPostModal should show emojis on emojis click 1`] = `
   onExited={[Function]}
   onHide={[Function]}
   onKeyDown={[Function]}
+  onSelect={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
   role="dialog"
@@ -1344,10 +1353,12 @@ exports[`components/EditPostModal should show emojis on emojis click 1`] = `
           handlePostError={[Function]}
           id="edit_textbox"
           onChange={[Function]}
+          onHeightChange={[Function]}
           onKeyDown={[Function]}
           onKeyPress={[Function]}
           onKeyUp={[Function]}
           onMouseUp={[Function]}
+          onSelect={[Function]}
           preview={false}
           suggestionListStyle="bottom"
           supportsCommands={false}
@@ -1412,7 +1423,6 @@ exports[`components/EditPostModal should show emojis on emojis click 1`] = `
       <FormattedMessage
         defaultMessage="Cancel"
         id="edit_post.cancel"
-        values={Object {}}
       />
     </button>
     <button
@@ -1425,7 +1435,6 @@ exports[`components/EditPostModal should show emojis on emojis click 1`] = `
       <FormattedMessage
         defaultMessage="Save"
         id="edit_post.save"
-        values={Object {}}
       />
     </button>
   </ModalFooter>
@@ -1461,6 +1470,7 @@ exports[`components/EditPostModal should show errors when it is set in the state
   onExited={[Function]}
   onHide={[Function]}
   onKeyDown={[Function]}
+  onSelect={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
   role="dialog"
@@ -1506,10 +1516,12 @@ exports[`components/EditPostModal should show errors when it is set in the state
           handlePostError={[Function]}
           id="edit_textbox"
           onChange={[Function]}
+          onHeightChange={[Function]}
           onKeyDown={[Function]}
           onKeyPress={[Function]}
           onKeyUp={[Function]}
           onMouseUp={[Function]}
+          onSelect={[Function]}
           preview={false}
           suggestionListStyle="bottom"
           supportsCommands={false}
@@ -1580,7 +1592,6 @@ exports[`components/EditPostModal should show errors when it is set in the state
       <FormattedMessage
         defaultMessage="Cancel"
         id="edit_post.cancel"
-        values={Object {}}
       />
     </button>
     <button
@@ -1593,7 +1604,6 @@ exports[`components/EditPostModal should show errors when it is set in the state
       <FormattedMessage
         defaultMessage="Save"
         id="edit_post.save"
-        values={Object {}}
       />
     </button>
   </ModalFooter>

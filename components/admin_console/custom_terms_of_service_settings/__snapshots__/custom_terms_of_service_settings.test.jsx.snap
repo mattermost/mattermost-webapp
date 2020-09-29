@@ -13,7 +13,6 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
       <FormattedMessage
         defaultMessage="Custom Terms of Service (Beta)"
         id="admin.support.termsOfServiceTitle"
-        values={Object {}}
       />
     </AdminHeader>
     <LoadingScreen
@@ -29,7 +28,6 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
           <FormattedMessage
             defaultMessage="Save"
             id="save_button.save"
-            values={Object {}}
           />
         }
         disabled={true}
@@ -78,7 +76,6 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
       <FormattedMessage
         defaultMessage="Custom Terms of Service (Beta)"
         id="admin.support.termsOfServiceTitle"
-        values={Object {}}
       />
     </AdminHeader>
     <LoadingScreen
@@ -94,7 +91,6 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
           <FormattedMessage
             defaultMessage="Save"
             id="save_button.save"
-            values={Object {}}
           />
         }
         disabled={true}
@@ -143,7 +139,6 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
       <FormattedMessage
         defaultMessage="Custom Terms of Service (Beta)"
         id="admin.support.termsOfServiceTitle"
-        values={Object {}}
       />
     </AdminHeader>
     <LoadingScreen
@@ -159,7 +154,6 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
           <FormattedMessage
             defaultMessage="Save"
             id="save_button.save"
-            values={Object {}}
           />
         }
         disabled={true}
@@ -208,7 +202,6 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
       <FormattedMessage
         defaultMessage="Custom Terms of Service (Beta)"
         id="admin.support.termsOfServiceTitle"
-        values={Object {}}
       />
     </AdminHeader>
     <LoadingScreen
@@ -224,7 +217,6 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
           <FormattedMessage
             defaultMessage="Save"
             id="save_button.save"
-            values={Object {}}
           />
         }
         disabled={true}

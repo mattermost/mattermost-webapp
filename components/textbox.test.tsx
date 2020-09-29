@@ -49,6 +49,41 @@ describe('components/TextBox', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('should match snapshot with additional, optional props', () => {
+        function emptyFunction() {} //eslint-disable-line no-empty-function
+
+        const wrapper = shallow(
+            <Textbox
+                id='someid'
+                value='some test text'
+                onChange={emptyFunction}
+                onKeyPress={emptyFunction}
+                characterLimit={4000}
+                createMessage='placeholder text'
+                supportsCommands={false}
+                {...baseProps}
+                rootId='root_id'
+                onComposition={() => {}}
+                onHeightChange={() => {}}
+                onKeyDown={() => {}}
+                onSelect={() => {}}
+                onMouseUp={() => {}}
+                onKeyUp={() => {}}
+                onBlur={() => {}}
+                handlePostError={() => {}}
+                suggestionListStyle='style'
+                emojiEnabled={true}
+                isRHS={true}
+                disabled={true}
+                badConnection={true}
+                listenForMentionKeyClick={true}
+                preview={true}
+                openWhenEmpty={true}
+            />,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
     test('should throw error when value is too long', () => {
         function emptyFunction() {} //eslint-disable-line no-empty-function
 

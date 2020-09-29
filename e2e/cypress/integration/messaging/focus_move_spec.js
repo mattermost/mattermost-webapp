@@ -70,7 +70,7 @@ describe('Messaging', () => {
         // # Post a message
         cy.postMessage('Hello');
 
-        // # Click the flag icon to move focus out of the main input box
+        // # Click the save icon to move focus out of the main input box
         cy.get('#channelHeaderFlagButton').
             click().
             should('have.class', 'channel-header__icon channel-header__icon--active');
@@ -160,7 +160,7 @@ describe('Messaging', () => {
         // # Post a message
         cy.postMessage('Hello');
 
-        // # Click the flag icon to move focus out of the main input box
+        // # Click the save icon to move focus out of the main input box
         cy.get('#channelHeaderFlagButton').
             click().
             should('have.class', 'channel-header__icon channel-header__icon--active');

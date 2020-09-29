@@ -11,6 +11,7 @@ describe('admin_console/team_channel_settings/team/TeamList', () => {
         const testTeams = [{
             id: '123',
             display_name: 'DN',
+            name: 'DN',
         }];
 
         const actions = {
@@ -40,6 +41,7 @@ describe('admin_console/team_channel_settings/team/TeamList', () => {
             testTeams.push({
                 id: 'id' + i,
                 display_name: 'DN' + i,
+                name: 'DN' + i,
             });
         }
         const actions = {

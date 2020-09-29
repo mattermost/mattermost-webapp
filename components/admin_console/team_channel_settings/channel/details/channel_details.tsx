@@ -240,6 +240,8 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
                                 <UsersWillBeRemovedError
                                     total={usersToRemoveCount}
                                     users={result.data.users}
+                                    scope='channel'
+                                    scopeId={this.props.channelID}
                                 />
                             );
                         }

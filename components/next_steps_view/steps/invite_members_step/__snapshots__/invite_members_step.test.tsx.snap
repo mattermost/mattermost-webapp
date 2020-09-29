@@ -1,0 +1,117 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/next_steps_view/steps/invite_members_step should match snapshot 1`] = `
+<div
+  className="NextStepsView__stepWrapper"
+>
+  <div
+    className="InviteMembersStep"
+  >
+    <div
+      className="InviteMembersStep__emailInvitations"
+    >
+      <h3>
+        <FormattedMessage
+          defaultMessage="Send invitations via email"
+          id="next_steps_view.invite_members_step.sendInvitationsViaEmail"
+        />
+      </h3>
+      <FormattedMessage
+        defaultMessage="You can invite up to 10 team members using a space or comma between addresses"
+        id="next_steps_view.invite_members_step.youCanInviteUpTo"
+      />
+      <MultiInput
+        inputValue=""
+        legend="Email addresses"
+        name="InviteMembersStep__membersListInput"
+        onBlur={[Function]}
+        onChange={[Function]}
+        onInputChange={[Function]}
+        placeholder="Enter email addresses"
+        styles={
+          Object {
+            "control": [Function],
+            "valueContainer": [Function],
+          }
+        }
+        value={Array []}
+      />
+      <div
+        className="InviteMembersStep__send"
+      >
+        <button
+          className="NextStepsView__button InviteMembersStep__sendButton secondary disabled"
+          data-testid="InviteMembersStep__sendButton"
+          disabled={true}
+          onClick={[Function]}
+        >
+          <i
+            className="icon icon-send"
+          />
+          <FormattedMessage
+            defaultMessage="Send"
+            id="next_steps_view.invite_members_step.send"
+          />
+        </button>
+        <div
+          className="InviteMembersStep__invitationResults"
+        />
+      </div>
+    </div>
+    <div
+      className="InviteMembersStep__shareInviteLink"
+    >
+      <h3>
+        <FormattedMessage
+          defaultMessage="Or share this link to invite members"
+          id="next_steps_view.invite_members_step.orShareThisLink"
+        />
+      </h3>
+      <div
+        className="InviteMembersStep__shareLinkBlock"
+      >
+        <input
+          aria-label={
+            Object {
+              "defaultMessage": "team invite link",
+              "id": "next_steps_view.invite_members_step.shareLinkInput",
+            }
+          }
+          className="InviteMembersStep__shareLinkInput form-control"
+          data-testid="InviteMembersStep__shareLinkInput"
+          readOnly={true}
+          type="text"
+          value="http://localhost:8065/signup_user_complete/?id="
+        />
+        <button
+          className="NextStepsView__button InviteMembersStep__shareLinkInputButton secondary"
+          data-testid="InviteMembersStep__shareLinkInputButton"
+          onClick={[Function]}
+        >
+          <i
+            className="icon icon-link-variant"
+          />
+          <FormattedMessage
+            defaultMessage="Copy Link"
+            id="next_steps_view.invite_members_step.copy_button"
+          />
+        </button>
+      </div>
+    </div>
+  </div>
+  <div
+    className="NextStepsView__wizardButtons"
+  >
+    <button
+      className="NextStepsView__button NextStepsView__finishButton primary"
+      data-testid="InviteMembersStep__finishButton"
+      onClick={[Function]}
+    >
+      <FormattedMessage
+        defaultMessage="Finish"
+        id="next_steps_view.invite_members_step.finish"
+      />
+    </button>
+  </div>
+</div>
+`;

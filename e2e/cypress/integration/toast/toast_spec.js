@@ -30,8 +30,8 @@ describe('toasts', () => {
             testTeam = team;
             otherChannel = channel;
 
-            cy.apiGetChannelByName(testTeam.name, 'town-square').then((res) => {
-                townsquareChannelId = res.body.id;
+            cy.apiGetChannelByName(testTeam.name, 'town-square').then((out) => {
+                townsquareChannelId = out.channel.id;
             });
 
             cy.apiCreateUser().then(({user: user1}) => {
@@ -286,8 +286,8 @@ describe('toasts', () => {
 
     it('Archive toast should be shown when visiting a post which is not at bottom', () => {
         // # Create new channel and add other user to channel
-        cy.apiCreateChannel(testTeam.id, 'channel-test', 'Channel').then((channelRes) => {
-            const testChannelId = channelRes.body.id;
+        cy.apiCreateChannel(testTeam.id, 'channel-test', 'Channel').then(({channel}) => {
+            const testChannelId = channel.id;
             cy.apiAddUserToChannel(testChannelId, otherUser.id);
 
             // # Add one message

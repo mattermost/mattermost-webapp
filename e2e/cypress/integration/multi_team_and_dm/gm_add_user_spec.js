@@ -1,6 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+// Stage: @prod
+// Group: @multi_team_and_dm
+
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Multi-user group messages', () => {
@@ -33,8 +36,8 @@ describe('Multi-user group messages', () => {
             // # add test user to the list of group members
             userIds.push(testUser.id);
 
-            cy.apiCreateGroupChannel(userIds).then((response) => {
-                groupChannel = response.body;
+            cy.apiCreateGroupChannel(userIds).then(({channel}) => {
+                groupChannel = channel;
             });
         });
     });
@@ -47,6 +50,7 @@ describe('Multi-user group messages', () => {
 
         // # Go to town-square channel
         cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.contains('#channelHeaderTitle', 'Town Square');
 
         // # Open the 'Direct messages' dialog
         cy.get('#addDirectChannel').

@@ -10,7 +10,9 @@
 // Stage: @prod
 // Group: @mark_as_unread
 
-import {verifyPostNextToNewMessageSeparator, switchToChannel, beRead, beUnread, showCursor, notShowCursor, markAsUnreadFromMenu} from './helpers';
+import {beRead, beUnread} from '../../support/assertions';
+
+import {verifyPostNextToNewMessageSeparator, switchToChannel, showCursor, notShowCursor, markAsUnreadFromMenu} from './helpers';
 
 describe('Mark as Unread', () => {
     let testUser;
@@ -28,12 +30,10 @@ describe('Mark as Unread', () => {
             testUser = user;
             channelA = channel;
 
-            cy.apiCreateChannel(team.id, 'channel-b', 'Channel B').then(
-                (resp) => {
-                    channelB = resp.body;
-                    cy.apiAddUserToChannel(channelB.id, testUser.id);
-                },
-            );
+            cy.apiCreateChannel(team.id, 'channel-b', 'Channel B').then((out) => {
+                channelB = out.channel;
+                cy.apiAddUserToChannel(channelB.id, testUser.id);
+            });
 
             cy.apiCreateUser().then(({user: user2}) => {
                 const otherUser = user2;

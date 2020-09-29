@@ -164,6 +164,8 @@ declare namespace Cypress {
          * @param {string} options.user - predefined `user` object instead on random user
          * @param {string} options.prefix - 'user' (default) or any prefix to easily identify a user
          * @param {boolean} options.bypassTutorial - true (default) or false for user to go thru tutorial steps
+         * @param {boolean} options.hideCloudOnboarding - true (default) to hide or false to show Cloud Onboarding steps
+         * @param {boolean} options.hideWhatsNewModal - true (default) hide or false to show What's New modal
          * @returns {UserProfile} `out.user` as `UserProfile` object
          *
          * @example
@@ -176,6 +178,8 @@ declare namespace Cypress {
          * @param {string} options.prefix - 'guest' (default) or any prefix to easily identify a guest
          * @param {string} options.activate - true (default) to activate guest user
          * @param {boolean} options.bypassTutorial - true (default) or false for guest to go thru tutorial steps
+         * @param {boolean} options.hideCloudOnboarding - true (default) to hide or false to show Cloud Onboarding steps
+         * @param {boolean} options.hideWhatsNewModal - true (default) hide or false to show What's New modal
          * @returns {UserProfile} `out.guest` as `UserProfile` object
          *
          * @example
@@ -241,5 +245,18 @@ declare namespace Cypress {
          *   cy.apiPromoteGuestToUser('user-id');
          */
         apiPromoteGuestToUser(userId: string): Chainable<UserProfile>;
+
+        /**
+        * Verifies a user's email via userId without having to go to the user's email inbox.
+        * See https://api.mattermost.com/#tag/users/paths/~1users~1{user_id}~1email~1verify~1member/post
+        * @param {string} userId - User ID
+        * @returns {UserProfile} out.user: `UserProfile` object
+        *
+        * @example
+        *   cy.apiVerifyUserEmailById('user-id').then(({user}) => {
+        *       // do something with user
+        *   });
+        */
+        apiVerifyUserEmailById(userId: string): Chainable<UserProfile>;
     }
 }
