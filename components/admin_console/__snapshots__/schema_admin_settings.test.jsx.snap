@@ -336,36 +336,31 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
                 },
                 Object {
                   "order": 10,
-                  "text": "Български (Beta)",
-                  "value": "bg",
-                },
-                Object {
-                  "order": 11,
                   "text": "Pусский",
                   "value": "ru",
                 },
                 Object {
-                  "order": 12,
+                  "order": 11,
                   "text": "Yкраїнська (Alpha)",
                   "value": "uk",
                 },
                 Object {
-                  "order": 13,
+                  "order": 12,
                   "text": "한국어 (Alpha)",
                   "value": "ko",
                 },
                 Object {
-                  "order": 14,
+                  "order": 13,
                   "text": "中文 (简体)",
                   "value": "zh-CN",
                 },
                 Object {
-                  "order": 15,
+                  "order": 14,
                   "text": "中文 (繁體)",
                   "value": "zh-TW",
                 },
                 Object {
-                  "order": 16,
+                  "order": 15,
                   "text": "日本語",
                   "value": "ja",
                 },
@@ -388,12 +383,6 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
               <FormattedMessage
                 defaultMessage="No result"
                 id="no-result-j"
-              />
-            }
-            notPresent={
-              <FormattedMessage
-                defaultMessage="No present"
-                id="no-present-j"
               />
             }
             onChange={[Function]}
@@ -453,36 +442,31 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
                 },
                 Object {
                   "order": 10,
-                  "text": "Български (Beta)",
-                  "value": "bg",
-                },
-                Object {
-                  "order": 11,
                   "text": "Pусский",
                   "value": "ru",
                 },
                 Object {
-                  "order": 12,
+                  "order": 11,
                   "text": "Yкраїнська (Alpha)",
                   "value": "uk",
                 },
                 Object {
-                  "order": 13,
+                  "order": 12,
                   "text": "한국어 (Alpha)",
                   "value": "ko",
                 },
                 Object {
-                  "order": 14,
+                  "order": 13,
                   "text": "中文 (简体)",
                   "value": "zh-CN",
                 },
                 Object {
-                  "order": 15,
+                  "order": 14,
                   "text": "中文 (繁體)",
                   "value": "zh-TW",
                 },
                 Object {
-                  "order": 16,
+                  "order": 15,
                   "text": "日本語",
                   "value": "ja",
                 },

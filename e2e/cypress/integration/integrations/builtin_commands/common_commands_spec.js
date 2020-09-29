@@ -46,8 +46,8 @@ describe('Integrations', () => {
                 cy.apiDeactivateUser(usr.id);
             });
 
-            cy.apiCreateChannel(team1.id, 'channel-test', 'channel-test').then((response) => {
-                testChannel = response.body;
+            cy.apiCreateChannel(team1.id, 'channel-test', 'channel-test').then(({channel}) => {
+                testChannel = channel;
             });
         });
     });
