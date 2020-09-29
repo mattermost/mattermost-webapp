@@ -360,12 +360,12 @@
 
                         margin: 0 20px 0 0;
                         padding: 0 0 0 24px;
-                        transition: all 0.5s ease-in-out;
+                        transition: all 0.4s ease-out;
                         max-height: 0;
                         overflow-y: hidden;
 
                         &.open {
-                            max-height: 1000px;
+                            max-height: 1200px;
                             margin: 0 20px 0 0;
                             padding: 24px 0 0 24px;
                         }

@@ -238,13 +238,13 @@ export default class CustomThemeChooser extends React.PureComponent {
         node.classList.toggle('open');
 
         // set overflow after animation, so the colorchooser is fully shown
-        if (node.classList.contains('open')) {
-            setTimeout(() => {
+        node.ontransitionend = () => {
+            if (node.classList.contains('open')) {
                 node.style.overflowY = 'inherit';
-            }, 500);
-        } else {
-            node.style.overflowY = 'hidden';
-        }
+            } else {
+                node.style.overflowY = 'hidden';
+            }
+        };
     }
 
     onCodeThemeChange = (e) => {
