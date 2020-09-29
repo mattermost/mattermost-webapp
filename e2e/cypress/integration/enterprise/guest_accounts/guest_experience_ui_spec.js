@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @guest_account
 
 /**
@@ -201,13 +200,14 @@ describe('Guest Account - Guest User Experience', () => {
 
         // # Ceate a new team
         cy.apiCreateTeam('test-team2', 'Test Team2').then(({team: teamTwo}) => {
-            // # Login as guest user
-            cy.apiLogin(guestUser);
-            cy.reload();
+            // # Add the guest user to this team
+            cy.apiAddUserToTeam(teamTwo.id, guestUser.id).then(() => {
+                // # Login as guest user
+                cy.apiLogin(guestUser);
+                cy.reload();
 
-            // # As a sysadmin, add the guest user to this team
-            cy.externalAddUserToTeam(teamTwo.id, guestUser.id).then(() => {
-                cy.get(`#${teamTwo.name}TeamButton`).should('be.visible').click();
+                // # Click team button
+                cy.get(`#${teamTwo.name}TeamButton`, {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').click();
 
                 // * Verify if Channel Not found is displayed
                 cy.findByText('Channel Not Found').should('be.visible');

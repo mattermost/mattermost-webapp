@@ -172,10 +172,9 @@ describe('System Console', () => {
 
         // # Add board user to test team to ensure that it exists in the team and set its preferences to skip tutorial step
         cy.apiGetUserByEmail(boardUser.email).then(({user}) => {
-            cy.apiGetChannelByName(testTeam.name, 'town-square').then((channelRes) => {
-                const channelId = channelRes.body.id;
+            cy.apiGetChannelByName(testTeam.name, 'town-square').then(({channel}) => {
                 cy.apiAddUserToTeam(testTeam.id, user.id).then(() => {
-                    cy.apiAddUserToChannel(channelId, user.id);
+                    cy.apiAddUserToChannel(channel.id, user.id);
                 });
             });
 

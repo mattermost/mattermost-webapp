@@ -7,9 +7,11 @@ import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {getIsRhsExpanded, getIsRhsOpen} from 'selectors/rhs';
 import {Preferences} from 'utils/constants';
 
+import {GlobalState} from 'types/store';
+
 import ShowMore from './show_more';
 
-function mapStateToProps(state) {
+function mapStateToProps(state: GlobalState) {
     return {
         isRHSExpanded: getIsRhsExpanded(state),
         isRHSOpen: getIsRhsOpen(state),
