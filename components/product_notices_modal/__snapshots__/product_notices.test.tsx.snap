@@ -12,6 +12,7 @@ exports[`ProductNoticesModal Match snapshot for single notice 1`] = `
     </span>
   }
   handleConfirm={[Function]}
+  id="genericModal"
   modalHeaderText={
     <span>
       title
@@ -60,6 +61,7 @@ exports[`ProductNoticesModal Match snapshot for user notice 1`] = `
   }
   handleCancel={[Function]}
   handleConfirm={[Function]}
+  id="genericModal"
   modalHeaderText={
     <span>
       title
@@ -128,6 +130,7 @@ exports[`ProductNoticesModal Should match snapshot for system admin notice 1`] =
     </React.Fragment>
   }
   handleConfirm={[Function]}
+  id="genericModal"
   modalHeaderText={
     <span>
       for sysadmin
