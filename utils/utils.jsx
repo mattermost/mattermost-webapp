@@ -1738,6 +1738,7 @@ export function setCSRFFromCookie() {
  */
 export function isDevMode() {
     const config = getConfig(store.getState());
+    console.log(config);
     return config.EnableDeveloper === 'true';
 }
 

@@ -1,9 +1,10 @@
 
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-
+import {useDispatch} from 'react-redux';
 import {Stripe} from '@stripe/stripe-js';
 import {getCode} from 'country-list';
+import {getClientConfig} from 'mattermost-redux/actions/general';
 
 import {Client4} from 'mattermost-redux/client';
 import {Product} from 'mattermost-redux/types/cloud';
@@ -33,7 +34,7 @@ export function getProductPrice() {
     };
 }
 
-export function completeStripeAddPaymentMethod(stripe: Stripe, billingDetails: BillingDetails) {
+export function completeStripeAddPaymentMethod(stripe: Stripe, billingDetails: BillingDetails, isDevMode: boolean) {
     return async () => {
         let paymentSetupIntent: StripeSetupIntent;
         try {
@@ -42,8 +43,11 @@ export function completeStripeAddPaymentMethod(stripe: Stripe, billingDetails: B
             console.error(error); //eslint-disable-line no-console
             return error;
         }
-
-        const confirmCardSetup = getConfirmCardSetup(stripe.confirmCardSetup);
+        const cardSetupFunction = getConfirmCardSetup(isDevMode);
+        console.log('hi');
+        console.log(isDevMode);
+        console.log(cardSetupFunction);
+        const confirmCardSetup = cardSetupFunction(stripe.confirmCardSetup);
 
         const result = await confirmCardSetup(
             paymentSetupIntent.client_secret,

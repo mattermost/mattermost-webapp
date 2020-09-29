@@ -23,8 +23,4 @@ function devConfirmCardSetup(confirmCardSetup: ConfirmCardSetupType): ConfirmCar
     };
 }
 
-if (process.env.NODE_ENV === 'development') {
-    console.log('Loaded Stripe client mock for development'); //eslint-disable-line no-console
-}
-
-export const getConfirmCardSetup = process.env.NODE_ENV === 'development' ? devConfirmCardSetup : prodConfirmCardSetup;
+export const getConfirmCardSetup = (isDevMode: boolean) => (isDevMode ? devConfirmCardSetup : prodConfirmCardSetup);

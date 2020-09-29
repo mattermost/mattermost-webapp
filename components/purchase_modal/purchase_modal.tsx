@@ -32,10 +32,12 @@ const stripePromise = loadStripe(STRIPE_PUBLIC_KEY);
 
 type Props = {
     show: boolean;
+    isDevMode: boolean;
     actions: {
         closeModal: () => void;
         getProductPrice: () => Promise<number>;
-        completeStripeAddPaymentMethod: (stripe: Stripe, billingDetails: BillingDetails) => Promise<string | null>;
+        completeStripeAddPaymentMethod: (stripe: Stripe, billingDetails: BillingDetails, isDevMode: boolean) => Promise<string | null>;
+        getClientConfig: () => void;
     };
 }
 
@@ -61,6 +63,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
 
     componentDidMount() {
         this.fetchProductPrice();
+        this.props.actions.getClientConfig();
     }
 
     async fetchProductPrice() {
@@ -202,6 +205,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                                     stripe={stripePromise}
                                     billingDetails={this.state.billingDetails}
                                     addPaymentMethod={this.props.actions.completeStripeAddPaymentMethod}
+                                    isDevMode={this.props.isDevMode}
                                     onClose={this.props.actions.closeModal}
                                     onBack={() => {
                                         this.setState({processing: false});

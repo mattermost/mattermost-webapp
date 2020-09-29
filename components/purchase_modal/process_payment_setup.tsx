@@ -19,7 +19,8 @@ import IconMessage from './icon_message';
 type Props = {
     billingDetails: BillingDetails | null;
     stripe: Promise<Stripe | null>;
-    addPaymentMethod: (stripe: Stripe, billingDetails: BillingDetails) => Promise<string | null>;
+    isDevMode: boolean;
+    addPaymentMethod: (stripe: Stripe, billingDetails: BillingDetails, isDevMode: boolean) => Promise<string | null>;
     onBack: () => void;
     onClose: () => void;
 }
@@ -78,11 +79,10 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
 
     private savePaymentMethod = async () => {
         const start = new Date();
-        const {stripe, addPaymentMethod, billingDetails} = this.props;
-        const errorText = await addPaymentMethod((await stripe)!, billingDetails!);
+        const {stripe, addPaymentMethod, billingDetails, isDevMode} = this.props;
+        const errorText = await addPaymentMethod((await stripe)!, billingDetails!, isDevMode);
 
         if (errorText) {
-            console.log(errorText);
             this.setState({
                 error: errorText,
                 state: ProcessState.FAILED});
