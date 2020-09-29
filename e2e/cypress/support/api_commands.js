@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {getRandomId} from '../utils';
-
 import {getAdminAccount} from './env';
 
 // *****************************************************************************
@@ -10,167 +8,6 @@ import {getAdminAccount} from './env';
 // - https://on.cypress.io/custom-commands on writing Cypress commands
 // - https://api.mattermost.com/ for Mattermost API reference
 // *****************************************************************************
-
-// *******************************************************************************
-// Bots
-// https://api.mattermost.com/#tag/bots
-// *******************************************************************************
-
-Cypress.Commands.add('apiGetBots', () => {
-    return cy.request({
-        headers: {'X-Requested-With': 'XMLHttpRequest'},
-        url: '/api/v4/bots',
-        method: 'GET',
-    }).then((response) => {
-        expect(response.status).to.equal(200);
-        return cy.wrap(response);
-    });
-});
-
-// *****************************************************************************
-// Channels
-// https://api.mattermost.com/#tag/channels
-// *****************************************************************************
-
-Cypress.Commands.add('apiCreateChannel', (teamId, name, displayName, type = 'O', purpose = '', header = '', unique = true) => {
-    const randomSuffix = getRandomId();
-
-    return cy.request({
-        headers: {'X-Requested-With': 'XMLHttpRequest'},
-        url: '/api/v4/channels',
-        method: 'POST',
-        body: {
-            team_id: teamId,
-            name: unique ? `${name}-${randomSuffix}` : name,
-            display_name: unique ? `${displayName} ${randomSuffix}` : displayName,
-            type,
-            purpose,
-            header,
-        },
-    }).then((response) => {
-        expect(response.status).to.equal(201);
-        return cy.wrap(response);
-    });
-});
-
-Cypress.Commands.add('apiCreateDirectChannel', (userids) => {
-    return cy.request({
-        headers: {'X-Requested-With': 'XMLHttpRequest'},
-        url: '/api/v4/channels/direct',
-        method: 'POST',
-        body: userids,
-    }).then((response) => {
-        expect(response.status).to.equal(201);
-        return cy.wrap(response);
-    });
-});
-
-Cypress.Commands.add('apiCreateGroupChannel', (userIds = []) => {
-    return cy.request({
-        headers: {'X-Requested-With': 'XMLHttpRequest'},
-        url: '/api/v4/channels/group',
-        method: 'POST',
-        body: userIds,
-    }).then((response) => {
-        expect(response.status).to.equal(201);
-        return cy.wrap(response);
-    });
-});
-
-Cypress.Commands.add('apiDeleteChannel', (channelId) => {
-    return cy.request({
-        headers: {'X-Requested-With': 'XMLHttpRequest'},
-        url: '/api/v4/channels/' + channelId,
-        method: 'DELETE',
-    }).then((response) => {
-        expect(response.status).to.equal(200);
-        return cy.wrap(response);
-    });
-});
-
-Cypress.Commands.add('apiUpdateChannel', (channelId, channelData) => {
-    return cy.request({
-        headers: {'X-Requested-With': 'XMLHttpRequest'},
-        url: '/api/v4/channels/' + channelId,
-        method: 'PUT',
-        body: {
-            id: channelId,
-            ...channelData,
-        },
-    }).then((response) => {
-        expect(response.status).to.equal(200);
-        return cy.wrap(response);
-    });
-});
-
-Cypress.Commands.add('apiPatchChannel', (channelId, channelData) => {
-    return cy.request({
-        headers: {'X-Requested-With': 'XMLHttpRequest'},
-        method: 'PUT',
-        url: `/api/v4/channels/${channelId}/patch`,
-        body: channelData,
-    }).then((response) => {
-        expect(response.status).to.equal(200);
-        return cy.wrap(response);
-    });
-});
-
-Cypress.Commands.add('apiGetChannelByName', (teamName, channelName) => {
-    return cy.request({
-        headers: {'X-Requested-With': 'XMLHttpRequest'},
-        url: `/api/v4/teams/name/${teamName}/channels/name/${channelName}`,
-    }).then((response) => {
-        expect(response.status).to.equal(200);
-        return cy.wrap(response);
-    });
-});
-
-Cypress.Commands.add('apiGetChannel', (channelId) => {
-    return cy.request({
-        headers: {'X-Requested-With': 'XMLHttpRequest'},
-        url: `/api/v4/channels/${channelId}`,
-    }).then((response) => {
-        expect(response.status).to.equal(200);
-        return cy.wrap(response);
-    });
-});
-
-Cypress.Commands.add('apiGetAllChannels', () => {
-    return cy.request({
-        headers: {'X-Requested-With': 'XMLHttpRequest'},
-        url: '/api/v4/channels',
-    }).then((response) => {
-        expect(response.status).to.equal(200);
-        return cy.wrap(response);
-    });
-});
-
-Cypress.Commands.add('apiAddUserToChannel', (channelId, userId) => {
-    return cy.request({
-        headers: {'X-Requested-With': 'XMLHttpRequest'},
-        url: '/api/v4/channels/' + channelId + '/members',
-        method: 'POST',
-        body: {
-            user_id: userId,
-        },
-    }).then((response) => {
-        expect(response.status).to.equal(201);
-        return cy.wrap(response);
-    });
-});
-
-/**
- * https://api.mattermost.com/#tag/channels/paths/~1users~1{user_id}~1teams~1{team_id}~1channels/get
- */
-Cypress.Commands.add('apiGetChannelsForUser', (userId, teamId) => {
-    return cy.request({
-        headers: {'X-Requested-With': 'XMLHttpRequest'},
-        url: `/api/v4/users/${userId}/teams/${teamId}/channels`,
-    }).then((response) => {
-        expect(response.status).to.equal(200);
-        return cy.wrap(response);
-    });
-});
 
 // *****************************************************************************
 // Commands
@@ -379,30 +216,6 @@ Cypress.Commands.add('apiEnablePluginById', (pluginId) => {
  */
 Cypress.Commands.add('apiUploadPlugin', (filename) => {
     cy.apiUploadFile('plugin', filename, {url: '/api/v4/plugins', method: 'POST', successStatus: 201});
-});
-
-/**
- * Creates a bot directly via API
- * This API assume that the user is logged in and has cookie to access
- * @param {String} username - The bots username
- * @param {String} displayName - The non-unique UI name for the bot
- * @param {String} description - The description of the bot
- * All parameters are required
- */
-Cypress.Commands.add('apiCreateBot', (username, displayName, description) => {
-    return cy.request({
-        headers: {'X-Requested-With': 'XMLHttpRequest'},
-        url: '/api/v4/bots',
-        method: 'POST',
-        body: {
-            username,
-            display_name: displayName,
-            description,
-        },
-    }).then((response) => {
-        expect(response.status).to.equal(201);
-        return cy.wrap(response);
-    });
 });
 
 /**

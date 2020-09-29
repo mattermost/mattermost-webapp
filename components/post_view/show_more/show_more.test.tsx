@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import ShowMore from 'components/post_view/show_more/show_more.jsx';
+import ShowMore from 'components/post_view/show_more/show_more';
 
 describe('components/post_view/ShowMore', () => {
     const children = (<div><p>{'text'}</p></div>);
@@ -70,7 +70,7 @@ describe('components/post_view/ShowMore', () => {
 
     test('should call checkTextOverflow', () => {
         const wrapper = shallow(<ShowMore {...baseProps}/>);
-        const instance = wrapper.instance();
+        const instance = wrapper.instance() as ShowMore;
         instance.checkTextOverflow = jest.fn();
 
         expect(instance.checkTextOverflow).not.toBeCalled();

@@ -33,6 +33,8 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
         dismissedExpiringLicense: PropTypes.bool,
         dismissedNumberOfActiveUsersWarnMetricStatus: PropTypes.bool,
         dismissedNumberOfActiveUsersWarnMetricStatusAck: PropTypes.bool,
+        dismissedNumberOfPostsWarnMetricStatus: PropTypes.bool,
+        dismissedNumberOfPostsWarnMetricStatusAck: PropTypes.bool,
         siteURL: PropTypes.string.isRequired,
         warnMetricsStatus: PropTypes.object,
         actions: PropTypes.shape({
@@ -45,15 +47,25 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
     }
 
     dismissNumberOfActiveUsersWarnMetric = () => {
-        this.props.actions.dismissNotice(AnnouncementBarMessages.NUMBER_OF_ACTIVE_USERS_WARN_METRIC_STATUS);
+        this.props.actions.dismissNotice(AnnouncementBarMessages.WARN_METRIC_STATUS_NUMBER_OF_USERS);
+    }
+
+    dismissNumberOfPostsWarnMetric = () => {
+        this.props.actions.dismissNotice(AnnouncementBarMessages.WARN_METRIC_STATUS_NUMBER_OF_POSTS);
     }
 
     dismissNumberOfActiveUsersWarnMetricAck = () => {
-        this.props.actions.dismissNotice(AnnouncementBarMessages.NUMBER_OF_ACTIVE_USERS_WARN_METRIC_STATUS_ACK);
+        this.props.actions.dismissNotice(AnnouncementBarMessages.WARN_METRIC_STATUS_NUMBER_OF_USERS_ACK);
+    }
+
+    dismissNumberOfPostsWarnMetricAck = () => {
+        this.props.actions.dismissNotice(AnnouncementBarMessages.WARN_METRIC_STATUS_NUMBER_OF_POSTS_ACK);
     }
 
     getNoticeForWarnMetric = (warnMetricStatus) => {
-        if (!warnMetricStatus) {
+        if (!warnMetricStatus ||
+            (warnMetricStatus.id !== WarnMetricTypes.SYSTEM_WARN_METRIC_NUMBER_OF_ACTIVE_USERS_500 &&
+            warnMetricStatus.id !== WarnMetricTypes.SYSTEM_WARN_METRIC_NUMBER_OF_POSTS_2M)) {
             return null;
         }
 
@@ -64,27 +76,33 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
         var isDismissed = null;
         var canCloseBar = false;
 
-        switch (warnMetricStatus.id) {
-        case WarnMetricTypes.SYSTEM_WARN_METRIC_NUMBER_OF_ACTIVE_USERS_500:
-            if (warnMetricStatus.acked) {
-                message = (
-                    <React.Fragment>
-                        <img
-                            className='advisor-icon'
-                            src={ackIcon}
-                        />
-                        <FormattedMarkdownMessage
-                            id={t('announcement_bar.error.number_active_users_warn_metric_status_ack.text')}
-                            defaultMessage={'Your trial has started! Go to the [System Console](/admin_console/environment/web_server) to check out the new features.'}
-                        />
-                    </React.Fragment>
-                );
-                type = AnnouncementBarTypes.ADVISOR_ACK;
-                showModal = false;
+        if (warnMetricStatus.acked) {
+            message = (
+                <React.Fragment>
+                    <img
+                        className='advisor-icon'
+                        src={ackIcon}
+                    />
+                    <FormattedMessage
+                        id='announcement_bar.warn_metric_status_ack.text'
+                        defaultMessage='Thank you for contacting Mattermost. We will follow up with you soon.'
+                    />
+                </React.Fragment>
+            );
+
+            if (warnMetricStatus.id === WarnMetricTypes.SYSTEM_WARN_METRIC_NUMBER_OF_ACTIVE_USERS_500) {
                 dismissFunc = this.dismissNumberOfActiveUsersWarnMetricAck;
                 isDismissed = this.props.dismissedNumberOfActiveUsersWarnMetricStatusAck;
-                canCloseBar = true;
-            } else {
+            } else if (warnMetricStatus.id === WarnMetricTypes.SYSTEM_WARN_METRIC_NUMBER_OF_POSTS_2M) {
+                dismissFunc = this.dismissNumberOfPostsWarnMetricAck;
+                isDismissed = this.props.dismissedNumberOfPostsWarnMetricStatusAck;
+            }
+
+            type = AnnouncementBarTypes.ADVISOR_ACK;
+            showModal = false;
+            canCloseBar = true;
+        } else {
+            if (warnMetricStatus.id === WarnMetricTypes.SYSTEM_WARN_METRIC_NUMBER_OF_ACTIVE_USERS_500) {
                 message = (
                     <React.Fragment>
                         <img
@@ -92,31 +110,47 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
                             src={alertIcon}
                         />
                         <FormattedMarkdownMessage
-                            id={t('announcement_bar.error.number_active_users_warn_metric_status.text')}
-                            defaultMessage={'You now have over {limit} users. We strongly recommend using advanced features for large-scale servers.'}
+                            id='announcement_bar.number_active_users_warn_metric_status.text'
+                            defaultMessage='You now have over {limit} users. We strongly recommend using advanced features for large-scale servers.'
                             values={{
                                 limit: warnMetricStatus.limit,
                             }}
                         />
                     </React.Fragment>
                 );
-                type = AnnouncementBarTypes.ADVISOR;
-                showModal = true;
                 dismissFunc = this.dismissNumberOfActiveUsersWarnMetric;
                 isDismissed = this.props.dismissedNumberOfActiveUsersWarnMetricStatus;
-                canCloseBar = false;
+            } else if (warnMetricStatus.id === WarnMetricTypes.SYSTEM_WARN_METRIC_NUMBER_OF_POSTS_2M) {
+                message = (
+                    <React.Fragment>
+                        <img
+                            className='advisor-icon'
+                            src={alertIcon}
+                        />
+                        <FormattedMarkdownMessage
+                            id='announcement_bar.number_of_posts_warn_metric_status.text'
+                            defaultMessage='You now have over {limit} posts. We strongly recommend using advanced features for large-scale servers.'
+                            values={{
+                                limit: warnMetricStatus.limit,
+                            }}
+                        />
+                    </React.Fragment>
+                );
+                dismissFunc = this.dismissNumberOfPostsWarnMetric;
+                isDismissed = this.props.dismissedNumberOfPostsWarnMetricStatus;
             }
-            return {
-                Message: message,
-                DismissFunc: dismissFunc,
-                IsDismissed: isDismissed,
-                Type: type,
-                ShowModal: showModal,
-                CanCloseBar: canCloseBar,
-            };
-        default:
-            return null;
+            type = AnnouncementBarTypes.ADVISOR;
+            showModal = true;
+            canCloseBar = false;
         }
+        return {
+            Message: message,
+            DismissFunc: dismissFunc,
+            IsDismissed: isDismissed,
+            Type: type,
+            ShowModal: showModal,
+            CanCloseBar: canCloseBar,
+        };
     }
 
     render() {
@@ -176,7 +210,8 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
                     />
                 );
             }
-            if (this.props.license.IsLicensed === 'false' && this.props.warnMetricsStatus) {
+            if (this.props.license?.IsLicensed === 'false' &&
+                this.props.warnMetricsStatus) {
                 for (const status of Object.values(this.props.warnMetricsStatus)) {
                     var notice = this.getNoticeForWarnMetric(status);
                     if (!notice || notice.IsDismissed) {
@@ -190,7 +225,7 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
                             type={notice.Type}
                             showModal={notice.ShowModal}
                             modalButtonText={t('announcement_bar.error.warn_metric_status.link')}
-                            modalButtonDefaultText={'Learn More'}
+                            modalButtonDefaultText='Learn more'
                             warnMetricStatus={status}
                             message={notice.Message}
                         />
