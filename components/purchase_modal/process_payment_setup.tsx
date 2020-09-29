@@ -125,7 +125,7 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
                 />
             </div>
         );
-        console.log(this.state);
+
         switch (state) {
         case ProcessState.PROCESSING:
             return (
