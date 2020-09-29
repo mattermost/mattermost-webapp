@@ -4,7 +4,7 @@
 import React, {useState, useEffect} from 'react';
 import {useDispatch, useStore} from 'react-redux';
 
-import {getCloudSubscriptionByInstallationId} from 'mattermost-redux/actions/cloud';
+import {getCloudSubscription, getCloudProducts} from 'mattermost-redux/actions/cloud';
 import {DispatchFunc} from 'mattermost-redux/types/actions';
 
 import AlertBanner from 'components/alert_banner';
@@ -23,7 +23,8 @@ const BillingSubscriptions: React.FC<Props> = () => {
     const store = useStore();
 
     useEffect(() => {
-        getCloudSubscriptionByInstallationId('test')(dispatch, store.getState());
+        getCloudSubscription()(dispatch, store.getState());
+        getCloudProducts()(dispatch, store.getState());
     }, []);
 
     const [showDanger, setShowDanger] = useState(true);
