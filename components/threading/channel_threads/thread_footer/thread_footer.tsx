@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 /* eslint-disable react/prop-types */
 
-import React, {FC, memo, ComponentProps} from 'react';
+import React, {memo, ComponentProps} from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import './thread_footer.scss';
@@ -29,7 +29,7 @@ type Props = {
     }
 };
 
-const ThreadFooter: FC<Props> = ({
+function ThreadFooter({
     participants,
     totalReplies = 0,
     newReplies = 0,
@@ -40,7 +40,7 @@ const ThreadFooter: FC<Props> = ({
         unfollow,
         requestOpenThread: open,
     },
-}) => {
+}: Props) {
     return (
         <div className='ThreadFooter'>
             {Boolean(newReplies) && <>
@@ -101,6 +101,6 @@ const ThreadFooter: FC<Props> = ({
             )}
         </div>
     );
-};
+}
 
 export default memo(ThreadFooter);

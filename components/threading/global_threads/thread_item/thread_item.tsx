@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {FC, memo, ComponentProps} from 'react';
+import React, {memo, ComponentProps} from 'react';
 import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
 
@@ -33,7 +33,7 @@ type Props = {
     },
 } & Pick<ComponentProps<typeof ThreadMenu>, 'actions'>;
 
-const ThreadItem: FC<Props> = ({
+const ThreadItem = ({
     participants,
     name,
     teamName,
@@ -53,7 +53,7 @@ const ThreadItem: FC<Props> = ({
         ...menuActions
     },
 
-}) => {
+}: Props) => {
     const hasUnreads = Boolean(newMentions || newReplies);
 
     return (

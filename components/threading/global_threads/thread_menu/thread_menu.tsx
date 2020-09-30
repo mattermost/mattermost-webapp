@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {FC, memo} from 'react';
+import React, {memo, PropsWithChildren} from 'react';
 import {useIntl} from 'react-intl';
 
 import {t} from 'utils/i18n';
@@ -28,7 +28,7 @@ type Props = {
     }
 };
 
-const ThreadMenu: FC<Props> = ({
+function ThreadMenu({
     isFollowing,
     isSaved,
     hasUnreads,
@@ -47,7 +47,7 @@ const ThreadMenu: FC<Props> = ({
             <i className='Icon icon-dots-vertical'/>
         </Button>
     ),
-}) => {
+}: PropsWithChildren<Props>) {
     const {formatMessage} = useIntl();
 
     return (
@@ -140,6 +140,6 @@ const ThreadMenu: FC<Props> = ({
             </Menu>
         </MenuWrapper>
     );
-};
+}
 
 export default memo(ThreadMenu);

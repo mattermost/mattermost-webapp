@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {FC, memo, ComponentProps} from 'react';
+import React, {memo, ComponentProps} from 'react';
 
 import SimpleTooltip from 'components/simple_tooltip';
 
@@ -18,11 +18,11 @@ export type Props = Pick<UserProps, StylingKeys> & {
     breakAt?: number;
 }
 
-const Avatars: FC<Props> = ({
+function Avatars({
     size,
     users,
     breakAt = users?.length > 4 ? 3 : 4,
-}: Props) => {
+}: Props) {
     const displayUsers = users.slice(0, breakAt);
     const others = users.slice(breakAt);
 
@@ -58,6 +58,6 @@ const Avatars: FC<Props> = ({
             )}
         </div>
     );
-};
+}
 
 export default memo(Avatars);

@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {FC, CSSProperties} from 'react';
+import React, {ReactNode, CSSProperties} from 'react';
 
 const style: CSSProperties = {
     display: 'flex',
@@ -9,7 +9,11 @@ const style: CSSProperties = {
     flexWrap: 'wrap',
 };
 
-const StoryGrid: FC = ({children}) => {
+type Props = {
+    children?: ReactNode;
+}
+
+const StoryGrid = ({children}: Props) => {
     return (
         <div
             className='StoryGrid'
