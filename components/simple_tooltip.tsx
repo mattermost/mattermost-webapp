@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {FC, memo, ReactNode} from 'react';
+import React, {memo, ReactNode} from 'react';
 import {Tooltip} from 'react-bootstrap';
 
 import OverlayTrigger from 'components/overlay_trigger';
@@ -12,7 +12,7 @@ type Props = {
     children: ReactNode;
 }
 
-const SimpleTooltip: FC<Props> = ({id, content, children}: Props) => (
+const SimpleTooltip = ({id, content, children}: Props) => (
     <OverlayTrigger
         delayShow={500}
         placement='top'
