@@ -14,7 +14,7 @@
         width: 66%;
         margin-right: 16px;
     }
-    
+
     .form-row-third-2 {
         max-width: 144px;
         width: 34%;
@@ -30,7 +30,6 @@
 
     .selector{
         font-size:14px;
-        
     }
 
     .full-width {
@@ -42,9 +41,13 @@
         font-size: 14px;
     }
 
+    .Input_fieldset {
+        background: var(--center-channel-bg);
+    }
+
     .PaymentForm-saved {
         width: 442px;
-        height: fit-content; 
+        height: fit-content;
         background: #FFFFFF;
         border: 1px solid rgba(61, 60, 64, 0.08);
         box-sizing: border-box;
