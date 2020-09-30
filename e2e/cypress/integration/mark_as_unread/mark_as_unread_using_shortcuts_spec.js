@@ -11,7 +11,7 @@
 
 import {beRead, beUnread} from '../../support/assertions';
 
-import {verifyPostNextToNewMessageSeparator, switchToChannel, markAsUnreadFromMenu, showCursor} from './helpers';
+import {verifyPostNextToNewMessageSeparator, switchToChannel, showCursor} from './helpers';
 
 describe('Mark as Unread', () => {
     let testUser;
@@ -82,7 +82,7 @@ describe('Mark as Unread', () => {
         cy.clickPostCommentIcon(post1.id);
 
         // # Mark the post as unread from RHS
-        markAsUnreadFromMenu(post1, 'rhsPostMessageText', 'RHS_ROOT');
+        cy.uiClickPostDropdownMenu(post1.id, 'Mark as Unread', 'RHS_ROOT');
 
         // * Verify the New Messages line should appear above the selected post
         verifyPostNextToNewMessageSeparator('post1');

@@ -60,6 +60,10 @@
         height: calc(100% - #{$announcement-bar-height});
     }
 
+    body.announcement-banner-tall--fixed & {
+        height: calc(100% - 40px)
+    }
+
     .badge {
         display: inline-block;
         flex-shrink: 0;
