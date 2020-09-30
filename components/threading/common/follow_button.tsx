@@ -26,12 +26,12 @@ const FollowButton: FC<Props & Exclude<ComponentProps<typeof Button>, Props>> = 
         >
             {isFollowing ? (
                 <FormattedMessage
-                    id='threading.footer.following'
+                    id='threading.following'
                     defaultMessage='Following'
                 />
             ) : (
                 <FormattedMessage
-                    id='threading.footer.notFollowing'
+                    id='threading.notFollowing'
                     defaultMessage='Follow'
                 />
             )}

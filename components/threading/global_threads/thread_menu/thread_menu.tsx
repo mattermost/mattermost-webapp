@@ -71,11 +71,11 @@ const ThreadMenu: FC<Props> = ({
                 {isFollowing ? (
                     <Menu.ItemAction
                         text={formatMessage({
-                            id: t('threading.threadItem.unfollow'),
+                            id: t('threading.threadMenu.unfollow'),
                             defaultMessage: 'Unfollow thread',
                         })}
                         extraText={formatMessage({
-                            id: t('threading.menuItem.unfollowExtra'),
+                            id: t('threading.threadMenu.unfollowExtra'),
                             defaultMessage: 'You won’t be notified about replies',
                         })}
                         onClick={unfollow}
@@ -84,7 +84,7 @@ const ThreadMenu: FC<Props> = ({
                     <Menu.ItemAction
                         onClick={follow}
                         text={formatMessage({
-                            id: t('threading.threadItem.follow'),
+                            id: t('threading.threadMenu.follow'),
                             defaultMessage: 'Keep following thread',
                         })}
                     />
@@ -92,7 +92,7 @@ const ThreadMenu: FC<Props> = ({
                 <Menu.ItemAction
                     onClick={openInChannel}
                     text={formatMessage({
-                        id: t('threading.threadItem.openInChannel'),
+                        id: t('threading.threadMenu.openInChannel'),
                         defaultMessage: 'Open in channel',
                     })}
                 />
@@ -100,7 +100,7 @@ const ThreadMenu: FC<Props> = ({
                     <Menu.ItemAction
                         onClick={markRead}
                         text={formatMessage({
-                            id: t('threading.threadItem.markRead'),
+                            id: t('threading.threadMenu.markRead'),
                             defaultMessage: 'Mark as read',
                         })}
                     />
@@ -108,7 +108,7 @@ const ThreadMenu: FC<Props> = ({
                     <Menu.ItemAction
                         onClick={markUnread}
                         text={formatMessage({
-                            id: t('threading.threadItem.markUnread'),
+                            id: t('threading.threadMenu.markUnread'),
                             defaultMessage: 'Mark as unread',
                         })}
                     />
@@ -117,7 +117,7 @@ const ThreadMenu: FC<Props> = ({
                     <Menu.ItemAction
                         onClick={unsave}
                         text={formatMessage({
-                            id: t('threading.threadItem.unsave'),
+                            id: t('threading.threadMenu.unsave'),
                             defaultMessage: 'Unsave',
                         })}
                     />
@@ -125,7 +125,7 @@ const ThreadMenu: FC<Props> = ({
                     <Menu.ItemAction
                         onClick={save}
                         text={formatMessage({
-                            id: t('threading.threadItem.save'),
+                            id: t('threading.threadMenu.save'),
                             defaultMessage: 'Save',
                         })}
                     />
@@ -133,7 +133,7 @@ const ThreadMenu: FC<Props> = ({
                 <Menu.ItemAction
                     onClick={copyLink}
                     text={formatMessage({
-                        id: t('threading.threadItem.copy'),
+                        id: t('threading.threadMenu.copy'),
                         defaultMessage: 'Copy link',
                     })}
                 />
