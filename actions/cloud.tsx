@@ -32,6 +32,7 @@ export function getProductPrice() {
     };
 }
 
+// Returns true for success, and false for any error
 export function completeStripeAddPaymentMethod(stripe: Stripe, billingDetails: BillingDetails, isDevMode: boolean) {
     return async () => {
         let paymentSetupIntent: StripeSetupIntent;
@@ -66,33 +67,33 @@ export function completeStripeAddPaymentMethod(stripe: Stripe, billingDetails: B
 
         if (!result) {
             console.error('Stripe confirm card setup failed.'); //eslint-disable-line no-console
-            return 'Stripe confirm card failed';//'intl.formatMessage({id: 'errors.generic_payment_failure'})'};
+            return false;
         }
 
         const {setupIntent, error: stripeError} = result;
 
         if (stripeError) {
             console.error(`Stripe error. decline_code=${stripeError.decline_code}`); //eslint-disable-line no-console
-            return stripeError.message;
+            return false;
         }
 
         if (setupIntent == null) {
             console.error('Stripe setup intent not set.'); //eslint-disable-line no-console
-            return 'Stripe setup intent error'; //intl.formatMessage({id: 'errors.generic_payment_failure'})};
+            return false;
         }
 
         if (setupIntent.status !== 'succeeded') {
             console.error(`Payment intent status ${setupIntent?.status} instead of 'succeeded'.`); //eslint-disable-line no-console
-            return 'Stripe setup intent not succeeded'; //intl.formatMessage({id: 'errors.generic_payment_failure'})};
+            return false;
         }
 
         try {
             await Client4.confirmPaymentMethod(setupIntent.id);
         } catch (error) {
             console.error(error); //eslint-disable-line no-console
-            return 'Error confirming payment';//intl.formatMessage({id: 'errors.generic_payment_failure'})};
+            return false;
         }
 
-        return '';
+        return true;
     };
 }

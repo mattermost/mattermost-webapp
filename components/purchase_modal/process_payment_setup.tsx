@@ -21,14 +21,14 @@ type Props = {
     billingDetails: BillingDetails | null;
     stripe: Promise<Stripe | null>;
     isDevMode: boolean;
-    addPaymentMethod: (stripe: Stripe, billingDetails: BillingDetails, isDevMode: boolean) => Promise<string | null>;
+    addPaymentMethod: (stripe: Stripe, billingDetails: BillingDetails, isDevMode: boolean) => Promise<boolean | null>;
     onBack: () => void;
     onClose: () => void;
 }
 
 type State = {
     progress: number;
-    error: string;
+    error: boolean;
     state: ProcessState;
 }
 
@@ -51,7 +51,7 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
 
         this.state = {
             progress: 0,
-            error: '',
+            error: false,
             state: ProcessState.PROCESSING,
         };
     }
@@ -81,11 +81,11 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
     private savePaymentMethod = async () => {
         const start = new Date();
         const {stripe, addPaymentMethod, billingDetails, isDevMode} = this.props;
-        const errorText = await addPaymentMethod((await stripe)!, billingDetails!, isDevMode);
+        const success = await addPaymentMethod((await stripe)!, billingDetails!, isDevMode);
 
-        if (errorText) {
+        if (!success) {
             this.setState({
-                error: errorText,
+                error: true,
                 state: ProcessState.FAILED});
             return;
         }
@@ -109,14 +109,14 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
         clearInterval(this.intervalId);
         this.setState({
             progress: 0,
-            error: '',
+            error: false,
             state: ProcessState.PROCESSING,
         });
         this.props.onBack();
     }
 
     public render() {
-        const {state, progress} = this.state;
+        const {state, progress, error} = this.state;
 
         const progressBar: JSX.Element | null = (
             <div className='ProcessPayment-progress'>
@@ -143,7 +143,7 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
                     title={t('admin.billing.subscription.upgradedSuccess')}
                     subtitle={t('admin.billing.subscription.nextBillingDate')}
                     date={getNextBillingDate()}
-                    error={false}
+                    error={error}
                     icon={successSvg}
                     buttonText={t('admin.billing.subscription.letsGo')}
                     buttonHandler={this.props.onClose}
@@ -155,7 +155,7 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
                     title={t('admin.billing.subscription.paymentVerificationFailed')}
                     subtitle={t('admin.billing.subscription.paymentFailed')}
                     icon={failedSvg}
-                    error={true}
+                    error={error}
                     buttonText={t('admin.billing.subscription.goBackTryAgain')} //formatMessage({id: 'process_payment.try_again'})}
                     buttonHandler={this.handleGoBack}
                     linkText={t('admin.billing.subscription.privateCloudCard.contactSupport')}

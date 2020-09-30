@@ -35,7 +35,7 @@ type Props = {
     actions: {
         closeModal: () => void;
         getProductPrice: () => Promise<number>;
-        completeStripeAddPaymentMethod: (stripe: Stripe, billingDetails: BillingDetails, isDevMode: boolean) => Promise<string | null>;
+        completeStripeAddPaymentMethod: (stripe: Stripe, billingDetails: BillingDetails, isDevMode: boolean) => Promise<boolean | null>;
         getClientConfig: () => void;
     };
 }
