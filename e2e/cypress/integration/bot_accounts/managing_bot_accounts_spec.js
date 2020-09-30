@@ -98,7 +98,7 @@ describe('Managing bot accounts', () => {
         cy.findByTestId('saveSetting').should('be.enabled').click();
 
         // # Try to remove the plugin, just in case
-        cy.apiRemovePluginById('com.github.matterpoll.matterpoll', false);
+        cy.apiRemovePluginById('com.github.matterpoll.matterpoll');
 
         // # Upload and enable "matterpoll" plugin
         cy.apiUploadPlugin('com.github.matterpoll.matterpoll.tar.gz').then(() => {
