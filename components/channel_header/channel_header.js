@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 /* eslint-disable react/no-string-refs */
 
-import React from 'react';
+import React, {createRef} from 'react';
 import PropTypes from 'prop-types';
 import {Tooltip, Overlay} from 'react-bootstrap';
 import {FormattedMessage, injectIntl} from 'react-intl';
@@ -105,6 +105,8 @@ class ChannelHeader extends React.PureComponent {
         this.getPopoverMarkdownOptions = memoizeResult((channelNamesMap) => (
             {...popoverMarkdownOptions, channelNamesMap}
         ));
+
+        this.headerOverlay = createRef();
     }
 
     componentDidMount() {
@@ -249,8 +251,8 @@ class ChannelHeader extends React.PureComponent {
     }
 
     showEditChannelHeaderModal = () => {
-        if (this.refs.headerOverlay) {
-            this.refs.headerOverlay.hide();
+        if (this.headerOverlay.current) {
+            this.headerOverlay.current.hide();
         }
 
         const {actions, channel} = this.props;
