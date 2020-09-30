@@ -52,17 +52,9 @@ storiesOf('Connected/Timestamp', module).
                 {display: 'multi-select'},
             ),
             userTimezone: {
-                useAutomaticTimezone: boolean('use auto timeZone', true),
+                useAutomaticTimezone: true,
                 automaticTimezone: new Intl.DateTimeFormat().resolvedOptions().timeZone,
-                manualTimezone: optionsKnob(
-                    'manual timeZone',
-                    moment.tz.names().reduce((opts: Record<string, any>, opt: string) => {
-                        opts[opt] = opt;
-                        return opts;
-                    }, {}),
-                    'Etc/UTC',
-                    {display: 'select'},
-                ),
+                manualTimezone: 'Etc/UTC',
             },
         };
 
@@ -74,6 +66,20 @@ storiesOf('Connected/Timestamp', module).
             props.useTime = false;
         } else if (boolean('show timeZone name?', true)) {
             props.useTime = {hour: 'numeric', minute: 'numeric', timeZoneName: 'short'};
+        }
+
+        if (!boolean('use auto timeZone', true)) {
+            props.userTimezone!.useAutomaticTimezone = false;
+
+            props.userTimezone!.manualTimezone = optionsKnob(
+                'manual timeZone',
+                moment.tz.names().reduce((opts: Record<string, any>, opt: string) => {
+                    opts[opt] = opt;
+                    return opts;
+                }, {}),
+                'Etc/UTC',
+                {display: 'select'},
+            );
         }
 
         return (
