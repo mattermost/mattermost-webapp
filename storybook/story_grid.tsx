@@ -3,7 +3,7 @@
 
 import React, {FC, CSSProperties} from 'react';
 
-const Style: CSSProperties = {
+const style: CSSProperties = {
     display: 'flex',
     width: '100%',
     flexWrap: 'wrap',
@@ -13,7 +13,7 @@ const StoryGrid: FC = ({children}) => {
     return (
         <div
             className='StoryGrid'
-            style={Style}
+            style={style}
         >
             {children}
         </div>

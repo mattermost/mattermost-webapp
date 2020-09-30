@@ -18,7 +18,7 @@ export default {
                         manualTimezone: 'Etc/UTC',
                         useAutomaticTimezone: 'false',
                     },
-                    locale: 'pt',
+                    locale: 'en',
                 },
             },
         },
