@@ -161,26 +161,10 @@ exports[`SidebarChannelList should match snapshot when unread filter is enabled 
     thumbMinSize={30}
     universal={false}
   >
-    <DragDropContext
-      onBeforeCapture={[Function]}
-      onBeforeDragStart={[Function]}
-      onDragEnd={[Function]}
-      onDragStart={[Function]}
-    >
-      <Connect(Droppable)
-        direction="vertical"
-        droppableId="droppable-categories"
-        getContainerForClone={[Function]}
-        ignoreContainerClipping={false}
-        isCombineEnabled={false}
-        isDropDisabled={false}
-        mode="standard"
-        renderClone={null}
-        type="SIDEBAR_CATEGORY"
-      >
-        <Component />
-      </Connect(Droppable)>
-    </DragDropContext>
+    <Connect(UnreadChannels)
+      getChannelRef={[Function]}
+      setChannelRef={[Function]}
+    />
   </Scrollbars>
 </div>
 `;
