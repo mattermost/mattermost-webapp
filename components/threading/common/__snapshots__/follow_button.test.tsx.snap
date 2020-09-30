@@ -19,7 +19,7 @@ exports[`components/threading/common/follow_button should say follow and fire st
       >
         <FormattedMessage
           defaultMessage="Follow"
-          id="threading.footer.notFollowing"
+          id="threading.notFollowing"
         >
           <span>
             Follow
@@ -50,7 +50,7 @@ exports[`components/threading/common/follow_button should say following and fire
       >
         <FormattedMessage
           defaultMessage="Following"
-          id="threading.footer.following"
+          id="threading.following"
         >
           <span>
             Following

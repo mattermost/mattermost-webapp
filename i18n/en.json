@@ -3727,7 +3727,7 @@
   "threading.threadMenu.markUnread": "Mark as unread",
   "threading.threadMenu.openInChannel": "Open in channel",
   "threading.threadMenu.save": "Save",
-  "threading.threadMenu.unfollow": "Unfollow thread'",
+  "threading.threadMenu.unfollow": "Unfollow thread",
   "threading.threadMenu.unfollowExtra": "You won’t be notified about replies",
   "threading.threadMenu.unsave": "Unsave",
   "timestamp.datetime": "{relativeOrDate} at {time}",
