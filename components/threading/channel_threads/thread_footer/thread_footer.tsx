@@ -16,6 +16,8 @@ import Timestamp from 'components/timestamp';
 import SimpleTooltip from 'components/simple_tooltip';
 import ReplyIcon from 'components/widgets/icons/reply_icon';
 
+import {THREADING_TIME} from '../../common/options';
+
 type Props = {
     participants: ComponentProps<typeof Avatars>['users'];
     totalReplies: number;
@@ -86,7 +88,7 @@ function ThreadFooter({
                 <Timestamp
                     value={lastReplyAt}
                     useTime={false}
-                    units={['now', 'minute', 'hour', 'day']}
+                    units={THREADING_TIME}
                 >
                     {({formatted}) => (
                         <span className='Timestamp Separated alt-visible'>

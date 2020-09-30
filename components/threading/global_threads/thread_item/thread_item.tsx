@@ -13,6 +13,8 @@ import Avatars from 'components/widgets/users/avatars';
 
 import ThreadMenu from '../thread_menu';
 
+import {THREADING_TIME} from '../../common/options';
+
 type Props = {
     participants: ComponentProps<typeof Avatars>['users'],
     name: string,
@@ -87,14 +89,7 @@ const ThreadItem = ({
                     className='alt-hidden'
                     value={lastReplyAt}
                     useTime={false}
-                    units={[
-                        'now',
-                        'minute',
-                        'hour',
-                        'today-yesterday',
-                        'week',
-                        'month',
-                    ]}
+                    units={THREADING_TIME}
                 />
                 <span className='menu-anchor alt-visible'>
                     <ThreadMenu
