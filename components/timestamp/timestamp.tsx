@@ -19,6 +19,8 @@ import {RequireOnlyOne} from 'utils/conditional_types';
 
 import SemanticTime from './semantic_time';
 
+import {STANDARD_UNITS} from './relative_ranges';
+
 // Feature test the browser for support of hourCycle.
 // Note that Intl.DateTimeFormatOptions typings are stale and do not have definitions of hourCycle, dateStyle, etc..
 // See https://github.com/microsoft/TypeScript/issues/34399
@@ -72,22 +74,9 @@ type DisplayAs = {
 
 export type RangeDescriptor = Breakpoint & DisplayAs;
 
-function normalizeUnit(unit: Unit | keyof typeof defaultRanges | RangeDescriptor) : RangeDescriptor {
-    return typeof unit === 'string' || typeof unit === 'number' ? Timestamp.defaultRanges[unit] : unit;
+function normalizeRangeDescriptor(unit: Unit | keyof typeof STANDARD_UNITS | RangeDescriptor) : RangeDescriptor {
+    return typeof unit === 'string' || typeof unit === 'number' ? STANDARD_UNITS[unit] : unit;
 }
-
-const defaultRanges: {[key in Unit]: RangeDescriptor} & {[key: string]: RangeDescriptor} = {
-    now: {within: ['second', -45], display: ['second', 0]},
-    second: {within: ['second', -59], display: ['second']},
-    minute: {within: ['minute', -59], display: ['minute']},
-    hour: {within: ['hour', -23.75], display: ['hour']},
-    'today-yesterday': {within: ['day', -1], display: ['day']},
-    day: {within: ['day', -6], display: ['day']},
-    week: {within: ['week', -3], display: ['week']},
-    month: {within: ['month', -11], display: ['month']},
-    quarter: {within: ['quarter', -3], display: ['quarter']},
-    year: {within: ['year', -1000], display: ['year']},
-};
 
 export type ResolvedFormats = {
     relative: RelativeOptions | SimpleRelativeOptions | false;
@@ -107,7 +96,7 @@ export type Props = FormatOptions & {
     value?: ConstructorParameters<typeof Date>[0];
 
     useRelative?: Resolvable<ResolvedFormats['relative'], {value: Date}, FormatOptions>;
-    units?: (RangeDescriptor | Unit | keyof typeof defaultRanges)[];
+    units?: (RangeDescriptor | Unit | keyof typeof STANDARD_UNITS)[];
     ranges?: Props['units'];
     useDate?: Resolvable<Exclude<ResolvedFormats['date'], 'timeZone'> | false, {value: Date}, FormatOptions>;
     useTime?: Resolvable<Exclude<ResolvedFormats['time'], 'timeZone' | 'hourCycle' | 'hour12'> | false, {value: Date}, FormatOptions>;
@@ -173,9 +162,6 @@ class Timestamp extends PureComponent<Props, State> {
         hourCycle: 'h12',
         timeZoneName: 'short',
     }
-
-    static defaultRanges = defaultRanges;
-
     nextUpdate: ReturnType<typeof setTimeout> | null = null;
 
     formatParts(value: Date, {relative: relFormat, date: dateFormat, time: timeFormat}: ResolvedFormats): FormattedParts {
@@ -271,7 +257,7 @@ class Timestamp extends PureComponent<Props, State> {
     }
 
     autoRange(value: Date, units: Props['units'] = (this.props.units || this.props.ranges)): DisplayAs {
-        return units?.map(normalizeUnit).find(({equals, within}) => {
+        return units?.map(normalizeRangeDescriptor).find(({equals, within}) => {
             if (equals != null) {
                 return isEqual(value, this.state.now, this.props.timeZone, ...equals);
             }

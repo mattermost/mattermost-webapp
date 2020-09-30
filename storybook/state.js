@@ -15,10 +15,10 @@ export default {
                     id: 'ujwxi78bzfr99q33wtkiw8ae8o',
                     timezone: {
                         automaticTimezone: '',
-                        manualTimezone: 'Canada/Yukon',
+                        manualTimezone: 'Etc/UTC',
                         useAutomaticTimezone: 'false',
                     },
-                    locale: 'pt'
+                    locale: 'pt',
                 },
             },
         },

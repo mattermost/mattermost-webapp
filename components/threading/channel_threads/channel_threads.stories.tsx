@@ -70,14 +70,16 @@ storiesOf('Features/Threading/Channel Threads', module).
         <StoryGrid>
             <StoryBox>
                 <ThreadFooter
-                    users={users.slice(0, number('number of users', 7))}
+                    participants={users.slice(0, number('number of users', 7))}
                     totalReplies={number('total replies', 8)}
                     newReplies={number('new/unread replies', 3)}
                     lastReplyAt={moment().add(select('unit', units, 'second'), number('diff', 0)).toDate()}
                     isFollowing={boolean('is following', false)}
-                    follow={action('start following')}
-                    unfollow={action('stop following')}
-                    requestOpenThread={action('open thread')}
+                    actions={{
+                        follow: action('start following'),
+                        unfollow: action('stop following'),
+                        requestOpenThread: action('open thread'),
+                    }}
                 />
             </StoryBox>
         </StoryGrid>

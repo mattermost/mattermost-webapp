@@ -6,10 +6,12 @@ import {Unit} from '@formatjs/intl-relativetimeformat';
 import moment from 'moment';
 
 import {storiesOf} from '@storybook/react';
-import {withKnobs, text} from '@storybook/addon-knobs';
+import {withKnobs, date, boolean, optionsKnob} from '@storybook/addon-knobs';
 
 import StoryGrid from 'storybook/story_grid';
 import StoryBox from 'storybook/story_box';
+
+import {STANDARD_UNITS} from './relative_ranges';
 
 import Timestamp from './index';
 
@@ -37,84 +39,77 @@ type Props = ComponentProps<typeof Timestamp>;
 /* eslint-disable max-nested-callbacks */
 storiesOf('Connected/Timestamp', module).
     addDecorator(withKnobs).
-    add('absolute', () => {
-        const value = text('value', new Date().toLocaleString());
+    add('interactive', () => {
+        const props: Props = {
+            value: date('value'),
+            units: optionsKnob<string[]>(
+                'auto relative units (ordered)',
+                Object.keys(STANDARD_UNITS).reduce((opts: Record<string, any>, opt: string) => {
+                    opts[opt] = opt;
+                    return opts;
+                }, {}),
+                ['second', 'minute', 'hour', 'day', 'week', 'month', 'year'],
+                {display: 'multi-select'},
+            ),
+            userTimezone: {
+                useAutomaticTimezone: boolean('use auto timeZone', true),
+                automaticTimezone: new Intl.DateTimeFormat().resolvedOptions().timeZone,
+                manualTimezone: optionsKnob(
+                    'manual timeZone',
+                    moment.tz.names().reduce((opts: Record<string, any>, opt: string) => {
+                        opts[opt] = opt;
+                        return opts;
+                    }, {}),
+                    'Etc/UTC',
+                    {display: 'select'},
+                ),
+            },
+        };
+
+        if (!boolean('show date?', true)) {
+            props.useDate = false;
+        }
+
+        if (!boolean('show time?', true)) {
+            props.useTime = false;
+        } else if (boolean('show timeZone name?', true)) {
+            props.useTime = {hour: 'numeric', minute: 'numeric', timeZoneName: 'short'};
+        }
+
         return (
             <StoryGrid>
-                <StoryBox label='datetime'>
-                    <Timestamp value={value}/>
-                </StoryBox>
-                <StoryBox label='date'>
-                    <Timestamp
-                        useTime={false}
-                        value={value}
-                    />
-                </StoryBox>
-                <StoryBox label='time'>
-                    <Timestamp
-                        useDate={false}
-                        value={value}
-                    />
+                <StoryBox>
+                    <Timestamp {...props}/>
                 </StoryBox>
             </StoryGrid>
         );
     }).
-    add('relative, auto unit', () => (
-        <StoryGrid>
-            {[
-                ['rel=progressive', {
-
-                } as Props],
-                ['rel=progressive, date-only', {
-                    useTime: false,
-                } as Props],
-                ['rel=progressive, numeric', {
-                    numeric: 'always',
-                } as Props],
-            ].map(([label, props], boxIndex) => (
-                <StoryBox
-                    key={`kind-${boxIndex}`}
-                    label={label}
-                >
-                    {[...unitDiffs].map(([unit, diffs], unitIndex) => (
-                        <StoryBox
-                            key={unit}
-                            label={unit}
-                        >
-                            <Timestamp
-                                key={`start-${0}`}
-                                {...props}
-                                units={units.slice(unitIndex, units.length)}
-                                value={moment().toDate()}
+    add('relative, auto unit', () => {
+        const propVariations: [string, Props][] = [
+            ['rel=progressive', {} as Props],
+            ['rel=progressive, date-only', {useTime: false} as Props],
+            ['rel=progressive, numeric', {numeric: 'always'} as Props],
+        ];
+        return (
+            <StoryGrid>
+                {propVariations.map(([label, props], boxIndex) => (
+                    <StoryBox
+                        key={`kind-${boxIndex}`}
+                        label={label}
+                    >
+                        {[...unitDiffs].map(([unit, diffs], unitIndex) => (
+                            <StoryBox
+                                key={unit}
+                                label={unit}
                             >
-                                {({formatted}, {relative}) => (
-                                    <span>
-                                        <pre
-                                            style={{
-                                                display: 'inline-grid',
-                                                marginRight: '2rem',
-                                                width: '4rem',
-                                                padding: '0px 5px',
-                                                textAlign: 'center',
-                                                borderColor: relative && relative.updateIntervalInSeconds != null ? 'green' : 'red',
-                                            }}
-                                        >
-                                            {0}
-                                        </pre>
-                                        {formatted}
-                                    </span>
-                                )}
-                            </Timestamp>
-
-                            {diffs.map((diff) => (
                                 <Timestamp
-                                    key={`start-${diff}`}
-                                    units={units}
+                                    key={`start-${0}`}
                                     {...props}
-                                    value={moment().add(diff, unit).toDate()}
+                                    units={units.slice(unitIndex, units.length)}
+                                    value={moment().toDate()}
                                 >
                                     {({formatted}, {relative}) => (
-                                        <span key={`span-${diff}`}>
+                                        <span>
                                             <pre
                                                 style={{
                                                     display: 'inline-grid',
@@ -125,19 +120,46 @@ storiesOf('Connected/Timestamp', module).
                                                     borderColor: relative && relative.updateIntervalInSeconds != null ? 'green' : 'red',
                                                 }}
                                             >
-                                                {diff}
+                                                {0}
                                             </pre>
                                             {formatted}
                                         </span>
                                     )}
                                 </Timestamp>
-                            ))}
-                        </StoryBox>
-                    ))}
-                </StoryBox>
-            ))}
-        </StoryGrid>
-    )).
+
+                                {diffs.map((diff) => (
+                                    <Timestamp
+                                        key={`start-${diff}`}
+                                        units={units}
+                                        {...props}
+                                        value={moment().add(diff, unit).toDate()}
+                                    >
+                                        {({formatted}, {relative}) => (
+                                            <span key={`span-${diff}`}>
+                                                <pre
+                                                    style={{
+                                                        display: 'inline-grid',
+                                                        marginRight: '2rem',
+                                                        width: '4rem',
+                                                        padding: '0px 5px',
+                                                        textAlign: 'center',
+                                                        borderColor: relative && relative.updateIntervalInSeconds != null ? 'green' : 'red',
+                                                    }}
+                                                >
+                                                    {diff}
+                                                </pre>
+                                                {formatted}
+                                            </span>
+                                        )}
+                                    </Timestamp>
+                                ))}
+                            </StoryBox>
+                        ))}
+                    </StoryBox>
+                ))}
+            </StoryGrid>
+        );
+    }).
     add('relative, fixed unit', () => (
         <StoryGrid>
             {units.map((unit) => (

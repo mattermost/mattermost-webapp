@@ -6,7 +6,7 @@ import moment from 'moment-timezone';
 import {Unit} from '@formatjs/intl-relativetimeformat';
 
 import {storiesOf} from '@storybook/react';
-import {withKnobs, boolean, number, select} from '@storybook/addon-knobs';
+import {withKnobs, boolean, number, select, text} from '@storybook/addon-knobs';
 import {action} from '@storybook/addon-actions';
 
 import StoryGrid from 'storybook/story_grid';
@@ -69,8 +69,8 @@ storiesOf('Features/Threading/Global Threads', module).
         <StoryGrid>
             <StoryBox>
                 <ThreadItem
-                    name={users[0].name}
-                    teamName='Enterprise Team'
+                    name={text('team', users[0].name)}
+                    teamName={text('teamName', 'Enterprise Team')}
                     previewText='Do we have a guideline for what minimum width we should support in the system console? Do we have a guideline for what minimum width we should support in the system console? Do we have a guideline for what minimum width we should support in the system console?'
 
                     participants={users.slice(0, number('number of participants', 7))}

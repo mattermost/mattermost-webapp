@@ -17,26 +17,29 @@ import SimpleTooltip from 'components/simple_tooltip';
 import ReplyIcon from 'components/widgets/icons/reply_icon';
 
 type Props = {
-    users: ComponentProps<typeof Avatars>['users'];
+    participants: ComponentProps<typeof Avatars>['users'];
     totalReplies: number;
     newReplies: number;
     lastReplyAt: ComponentProps<typeof Timestamp>['value'];
-    minimalist?: boolean,
     isFollowing: boolean;
-    follow: () => void,
-    unfollow: () => void,
-    requestOpenThread: () => void;
+    actions: {
+        follow: () => void,
+        unfollow: () => void,
+        requestOpenThread: () => void;
+    }
 };
 
 const ThreadFooter: FC<Props> = ({
-    users,
+    participants,
     totalReplies = 0,
     newReplies = 0,
     lastReplyAt,
     isFollowing,
-    follow,
-    unfollow,
-    requestOpenThread: open,
+    actions: {
+        follow,
+        unfollow,
+        requestOpenThread: open,
+    },
 }) => {
     return (
         <div className='ThreadFooter'>
@@ -45,29 +48,29 @@ const ThreadFooter: FC<Props> = ({
                     id='threadFooterIndicator'
                     content={
                         <FormattedMessage
-                            id='threading.footer.numNewMessages'
+                            id='threading.numNewMessages'
                             defaultMessage='{newReplies, plural, =0 {no unread messages} =1 {one unread message} other {# unread messages}}'
                             values={{newReplies}}
                         />
                     }
                 >
                     <div className='indicator'>
-                        <div className='dot-unread'/>
+                        <div className='dot-unreads'/>
                     </div>
                 </SimpleTooltip>
             </>}
 
             <Avatars
-                users={users}
+                users={participants}
                 size='sm'
             />
 
             <Button
                 onClick={() => open()}
-                iconLeft={<ReplyIcon/>}
+                prepend={<ReplyIcon className='Icon'/>}
             >
                 <FormattedMessage
-                    id='threading.footer.numReplies'
+                    id='threading.numReplies'
                     defaultMessage='{totalReplies, plural, =0 {Reply} =1 {# reply} other {# replies}}'
                     values={{totalReplies}}
                 />
@@ -75,8 +78,8 @@ const ThreadFooter: FC<Props> = ({
 
             <FollowButton
                 isFollowing={isFollowing}
-                start={follow}
-                stop={unfollow}
+                start={() => follow()}
+                stop={() => unfollow()}
             />
 
             {lastReplyAt && (

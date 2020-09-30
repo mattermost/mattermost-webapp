@@ -78,9 +78,11 @@ const ThreadItem: FC<Props> = ({
                     </div>
                 )}
                 {name || participants[0].name}
-                <Badge>
-                    {teamName}
-                </Badge>
+                {Boolean(teamName) && (
+                    <Badge>
+                        {teamName}
+                    </Badge>
+                )}
                 <Timestamp
                     className='alt-hidden'
                     value={lastReplyAt}

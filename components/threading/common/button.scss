@@ -43,10 +43,10 @@
         width: 12px;
         height: 10px;
     }
-    .Button_iconLeft {
+    .Button_prepended {
         margin-right: .75rem;
     }
-    .Button_iconRight {
+    .Button_appended {
         margin-left: .75rem;
     }
     .dot {
@@ -58,8 +58,6 @@
         background: rgba(var(--sidebar-text-active-border-rgb), 1);
     }
 }
-
-//TODO?: design system
 
 .Separated,
 .Button:not(:hover):not(:focus):not(.is-active) {

@@ -9,15 +9,15 @@ import './button.scss';
 type Attrs = Exclude<ButtonHTMLAttributes<HTMLButtonElement>, Props>
 
 type Props = {
-    iconLeft?: ReactNode,
-    iconRight?: ReactNode,
+    prepend?: ReactNode,
+    append?: ReactNode,
     isActive?: boolean,
     hasDot?: boolean,
 }
 
-const Comp: FC<Props & Attrs> = ({
-    iconLeft,
-    iconRight,
+const Button: FC<Props & Attrs> = ({
+    prepend,
+    append,
     children,
     isActive,
     hasDot,
@@ -25,23 +25,23 @@ const Comp: FC<Props & Attrs> = ({
 }) => (
     <button
         {...attrs}
-        className={classNames('Button Button___transparent', {'is-active': isActive})}
+        className={classNames('Button Button___transparent', {'is-active': isActive}, attrs.className)}
     >
-        {iconLeft && (
-            <span className='Icon Button_iconLeft'>
-                {iconLeft}
+        {prepend && (
+            <span className='Button_prepended'>
+                {prepend}
             </span>
         )}
         <span className='Button_label'>
             {children}
             {hasDot && <span className='dot'/>}
         </span>
-        {iconRight && (
-            <span className='Icon Button_iconRight'>
-                {iconRight}
+        {append && (
+            <span className='Button_appended'>
+                {append}
             </span>
         )}
     </button>
 );
 
-export default memo(Comp);
+export default memo(Button);

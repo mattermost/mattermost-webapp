@@ -28,7 +28,7 @@ type Props = {
     }
 };
 
-const Comp: FC<Props> = ({
+const ThreadMenu: FC<Props> = ({
     isFollowing,
     isSaved,
     hasUnreads,
@@ -142,4 +142,4 @@ const Comp: FC<Props> = ({
     );
 };
 
-export default memo(Comp);
+export default memo(ThreadMenu);
