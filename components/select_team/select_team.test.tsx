@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow, ShallowWrapper} from 'enzyme';
+import {shallow} from 'enzyme';
 
 import SelectTeam, {TEAMS_PER_PAGE} from 'components/select_team/select_team';
 
@@ -52,7 +52,7 @@ describe('components/select_team/SelectTeam', () => {
     });
 
     test('should match snapshot, on loading', () => {
-        const wrapper: ShallowWrapper<any, any, SelectTeam> = shallow(
+        const wrapper = shallow<SelectTeam>(
             <SelectTeam {...baseProps}/>,
         );
         wrapper.setState({loadingTeamId: 'loading_team_id'});
@@ -60,7 +60,7 @@ describe('components/select_team/SelectTeam', () => {
     });
 
     test('should match snapshot, on error', () => {
-        const wrapper: ShallowWrapper<any, any, SelectTeam> = shallow(
+        const wrapper = shallow<SelectTeam>(
             <SelectTeam {...baseProps}/>,
         );
         wrapper.setState({error: {message: 'error message'}});
@@ -69,7 +69,7 @@ describe('components/select_team/SelectTeam', () => {
 
     test('should match snapshot, on no joinable team but can create team', () => {
         const props = {...baseProps, listableTeams: []};
-        const wrapper: ShallowWrapper<any, any, SelectTeam> = shallow(
+        const wrapper = shallow<SelectTeam>(
             <SelectTeam {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
@@ -77,7 +77,7 @@ describe('components/select_team/SelectTeam', () => {
 
     test('should match snapshot, on no joinable team and is not system admin nor can create team', () => {
         const props = {...baseProps, listableTeams: [], currentUserRoles: '', canManageSystem: false, canCreateTeams: false};
-        const wrapper: ShallowWrapper<any, any, SelectTeam> = shallow(
+        const wrapper = shallow<SelectTeam>(
             <SelectTeam {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
@@ -85,14 +85,14 @@ describe('components/select_team/SelectTeam', () => {
 
     test('should match snapshot, on no joinable team and user is guest', () => {
         const props = {...baseProps, listableTeams: [], currentUserRoles: '', currentUserIsGuest: true, canManageSystem: false, canCreateTeams: false};
-        const wrapper: ShallowWrapper<any, any, SelectTeam> = shallow(
+        const wrapper = shallow<SelectTeam>(
             <SelectTeam {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match state and call addUserToTeam on handleTeamClick', async () => {
-        const wrapper: ShallowWrapper<any, any, SelectTeam> = shallow(
+        const wrapper = shallow<SelectTeam>(
             <SelectTeam {...baseProps}/>,
         );
         await wrapper.instance().handleTeamClick({id: 'team_id'});
@@ -101,20 +101,20 @@ describe('components/select_team/SelectTeam', () => {
     });
 
     test('should call emitUserLoggedOutEvent on handleLogoutClick', () => {
-        const wrapper: ShallowWrapper<any, any, SelectTeam> = shallow(
+        const wrapper = shallow<SelectTeam>(
             <SelectTeam {...baseProps}/>,
         );
-        wrapper.instance().handleLogoutClick({preventDefault: jest.fn()});
+        wrapper.instance().handleLogoutClick({preventDefault: jest.fn()} as any);
         expect(emitUserLoggedOutEvent).toHaveBeenCalledTimes(1);
         expect(emitUserLoggedOutEvent).toHaveBeenCalledWith('/login');
     });
 
     test('should match state on clearError', () => {
-        const wrapper: ShallowWrapper<any, any, SelectTeam> = shallow(
+        const wrapper = shallow<SelectTeam>(
             <SelectTeam {...baseProps}/>,
         );
         wrapper.setState({error: {message: 'error message'}});
-        wrapper.instance().clearError({preventDefault: jest.fn()});
+        wrapper.instance().clearError({preventDefault: jest.fn()} as any);
         expect(wrapper.state('error')).toBeNull();
     });
 });

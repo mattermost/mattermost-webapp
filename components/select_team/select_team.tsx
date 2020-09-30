@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {ReactNode} from 'react';
+import React, {ReactNode, MouseEvent} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
@@ -59,7 +59,7 @@ type Props = {
 
 type State = {
     loadingTeamId?: string,
-    error: null,
+    error: any,
     endofTeamsData: boolean,
     currentPage: number,
     currentListableTeams: Array<any>,
@@ -148,13 +148,13 @@ export default class SelectTeam extends React.PureComponent<Props, State> {
         }
     };
 
-    handleLogoutClick = (e: any): void => {
+    handleLogoutClick = (e: MouseEvent): void => {
         e.preventDefault();
         trackEvent('select_team', 'click_logout');
         emitUserLoggedOutEvent('/login');
     };
 
-    clearError = (e: any): void => {
+    clearError = (e: MouseEvent): void => {
         e.preventDefault();
 
         this.setState({

@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {ReactNode} from 'react';
+import React, {ReactNode, MouseEvent} from 'react';
 import {Tooltip} from 'react-bootstrap';
 
 import LocalizedIcon from 'components/localized_icon';
@@ -20,7 +20,7 @@ type Props = {
 };
 
 export default class SelectTeamItem extends React.PureComponent<Props> {
-    handleTeamClick = (e: any): void => {
+    handleTeamClick = (e: MouseEvent): void => {
         e.preventDefault();
         this.props.onTeamClick(this.props.team);
     }
@@ -48,14 +48,6 @@ export default class SelectTeamItem extends React.PureComponent<Props> {
                 <TeamInfoIcon className='icon icon--info'/>
             </OverlayTrigger>
         );
-    }
-
-    getId(name: string): string | undefined {
-        const id = Utils.createSafeId(name);
-        if (id) {
-            return id;
-        }
-        return undefined;
     }
 
     render() {
@@ -86,7 +78,7 @@ export default class SelectTeamItem extends React.PureComponent<Props> {
                 {this.renderDescriptionTooltip()}
                 <a
                     href='#'
-                    id={this.getId(team.display_name)}
+                    id={Utils.createSafeId(team.display_name) ?? undefined}
                     onClick={canJoin ? this.handleTeamClick : undefined}
                     className={canJoin ? '' : 'disabled'}
                 >

@@ -12,13 +12,14 @@ import {Permissions} from 'mattermost-redux/constants';
 import {haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getSortedListableTeams, getTeamMemberships} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+import {GlobalState} from 'mattermost-redux/types/store';
 
 import {addUserToTeam} from 'actions/team_actions';
 import {isGuest} from 'utils/utils';
 
 import SelectTeam from './select_team';
 
-function mapStateToProps(state: any) {
+function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
     const currentUser = getCurrentUser(state);
     const myTeamMemberships = Object.values(getTeamMemberships(state));
