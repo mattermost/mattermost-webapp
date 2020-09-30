@@ -21,7 +21,7 @@ export default function UnreadChannels(props: Props) {
     return (
         <div className='SidebarChannelGroup a11y__section'>
             <SidebarCategoryHeader
-                displayName={intl.formatMessage({id: 'sidebar.types.unread_channels', defaultMessage: 'UNREAD CHANNELS'})}
+                displayName={intl.formatMessage({id: 'sidebar.types.all_unreads', defaultMessage: 'ALL UNREADS'})}
                 isCollapsible={false}
             />
             {props.unreadChannels.map((channel, index) => {
