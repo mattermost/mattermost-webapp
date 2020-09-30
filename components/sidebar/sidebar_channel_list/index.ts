@@ -21,7 +21,7 @@ import {close} from 'actions/views/lhs';
 import {isUnreadFilterEnabled, makeGetCurrentlyDisplayedChannelsForTeam, getDraggingState, makeGetCollapsedStateForAllCategoriesByTeam} from 'selectors/views/channel_sidebar';
 import {GlobalState} from 'types/store';
 
-import SidebarCategoryList from './sidebar_category_list';
+import SidebarChannelList from './sidebar_channel_list';
 
 function makeMapStateToProps() {
     const getCategoriesForTeam = makeGetCategoriesForTeam();
@@ -60,4 +60,4 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     };
 }
 
-export default connect(makeMapStateToProps, mapDispatchToProps)(SidebarCategoryList);
+export default connect(makeMapStateToProps, mapDispatchToProps)(SidebarChannelList);

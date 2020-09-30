@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/sidebar/sidebar_category_list should match snapshot 1`] = `
+exports[`SidebarChannelList should match snapshot 1`] = `
 <div
   className="SidebarNavContainer a11y__region"
   data-a11y-disable-nav={false}
@@ -79,7 +79,7 @@ exports[`components/sidebar/sidebar_category_list should match snapshot 1`] = `
 </div>
 `;
 
-exports[`components/sidebar/sidebar_category_list should match snapshot 2`] = `
+exports[`SidebarChannelList should match snapshot 2`] = `
 <div>
   <Connect(SidebarCategory)
     category={
@@ -106,7 +106,7 @@ exports[`components/sidebar/sidebar_category_list should match snapshot 2`] = `
 </div>
 `;
 
-exports[`components/sidebar/sidebar_category_list should match snapshot when unread filter is enabled 1`] = `
+exports[`SidebarChannelList should match snapshot when unread filter is enabled 1`] = `
 <div
   className="SidebarNavContainer a11y__region disabled"
   data-a11y-disable-nav={false}
@@ -185,7 +185,7 @@ exports[`components/sidebar/sidebar_category_list should match snapshot when unr
 </div>
 `;
 
-exports[`components/sidebar/sidebar_category_list should match snapshot when unread filter is enabled 2`] = `
+exports[`SidebarChannelList should match snapshot when unread filter is enabled 2`] = `
 <div>
   <Connect(SidebarCategory)
     category={
