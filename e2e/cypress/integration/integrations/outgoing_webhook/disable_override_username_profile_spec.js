@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @outgoing_webhook
 /* eslint-disable max-lines */
 
@@ -25,7 +24,7 @@ describe('Outgoing webhook', () => {
 
     const triggerWord = 'text';
     const triggerWordExpanded = 'text with some more text';
-    const callbackUrl = 'https://outgoing-webhook-01snptsk6qvz.runkit.sh/';
+    const callbackUrl = `${Cypress.env().webhookBaseUrl}/post_outgoing_webhook`;
     const defaultUserName = 'sysadmin';
     const noChannelSelectionOption = '--- Select a channel ---';
     const webhookIconUrlOverride = 'http://via.placeholder.com/150/00F/888';
@@ -39,6 +38,18 @@ describe('Outgoing webhook', () => {
         cy.apiGetMe().then(({user}) => {
             sysadmin = user;
         });
+        cy.requireWebhookServer();
+    });
+
+    beforeEach(() => {
+        cy.apiAdminLogin();
+        cy.apiUpdateConfig({
+            ServiceSettings: {
+                EnablePostUsernameOverride: false,
+                EnablePostIconOverride: false,
+            },
+        });
+
         cy.apiInitSetup().then(({team, channel, user}) => {
             testTeam = team;
             testChannel = channel;
@@ -51,35 +62,7 @@ describe('Outgoing webhook', () => {
         });
     });
 
-    afterEach(() => {
-        cy.apiAdminLogin();
-
-        // # Remove the outgoing webhook
-        // # Go to test team/channel, open main menu and click "Integrations"
-        cy.visit(`${testTeam.name}/channels/${testChannel.name}`);
-        cy.get('#sidebarHeaderDropdownButton', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').click();
-        cy.get('.Menu__content').should('be.visible').findByText('Integrations').click();
-
-        // * click "Outgoing Webhooks"
-        cy.get('.backstage-sidebar').should('be.visible').findByText('Outgoing Webhooks').click();
-
-        // * click "Delete"
-        cy.get('.item-actions > span > button > span').click();
-
-        // * Acknowledge the outgoing webhook deletion
-        cy.get('#confirmModalButton').should('be.visible').click();
-
-        // # Visit integration management at system console and reset override values
-        cy.visit('/admin_console/integrations/integration_management');
-        cy.findByTestId('ServiceSettings.EnablePostUsernameOverride' + false).check({force: true});
-        cy.findByTestId('ServiceSettings.EnablePostIconOverride' + false).check({force: true});
-
-        // # Save the settings
-        cy.get('#saveSetting').scrollIntoView().click({force: true});
-        cy.get('#saveSetting').should('be.disabled');
-    });
-
-    it('MM-T584 default username and profile pic Trigger = posting anything in the specified channel)', () => {
+    it('MM-T584 default username and profile pic Trigger = posting anything in the specified channel', () => {
         // # Enable user name and icon overrides
         cy.apiAdminLogin();
         enableUsernameAndIconOverride(true);
@@ -124,7 +107,7 @@ describe('Outgoing webhook', () => {
         cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
         cy.postMessage(triggerWordExpanded);
         cy.uiWaitUntilMessagePostedIncludes(triggerWord);
-        cy.wait(TIMEOUTS.HALF_SEC);
+        cy.uiWaitUntilMessagePostedIncludes('#### Outgoing Webhook Payload');
 
         cy.getLastPost().within(() => {
             // * Verify that the user name is overriden
@@ -144,7 +127,7 @@ describe('Outgoing webhook', () => {
         cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
         cy.postMessage(triggerWordExpanded);
         cy.uiWaitUntilMessagePostedIncludes(triggerWord);
-        cy.wait(TIMEOUTS.HALF_SEC);
+        cy.uiWaitUntilMessagePostedIncludes('#### Outgoing Webhook Payload');
 
         cy.getLastPost().within(() => {
             // * Verify that the user name is overriden
@@ -160,7 +143,7 @@ describe('Outgoing webhook', () => {
         });
     });
 
-    it('MM-T2035 default username and overridden profile pic (using command) Trigger = posting a trigger word in any channel)', () => {
+    it('MM-T2035 default username and overridden profile pic (using command) Trigger = posting a trigger word in any channel', () => {
         webhookUserIconOverride = 'webhook_override_icon.png';
 
         // # Define outgoing webhook
@@ -233,7 +216,7 @@ describe('Outgoing webhook', () => {
         cy.wait(TIMEOUTS.HALF_SEC);
         cy.postMessage(triggerWordExpanded);
         cy.uiWaitUntilMessagePostedIncludes(triggerWord);
-        cy.wait(TIMEOUTS.HALF_SEC);
+        cy.uiWaitUntilMessagePostedIncludes('#### Outgoing Webhook Payload');
 
         cy.getLastPost().within(() => {
             // * Verify that the user name is the default one
@@ -322,7 +305,7 @@ describe('Outgoing webhook', () => {
         cy.wait(TIMEOUTS.HALF_SEC);
         cy.postMessage(triggerWordExpanded);
         cy.uiWaitUntilMessagePostedIncludes(triggerWord);
-        cy.wait(TIMEOUTS.HALF_SEC);
+        cy.uiWaitUntilMessagePostedIncludes('#### Outgoing Webhook Payload');
 
         cy.getLastPost().within(() => {
             // * Verify that the user name is overriden
@@ -340,7 +323,7 @@ describe('Outgoing webhook', () => {
 
     it('MM-T2037 Outgoing Webhooks - overridden username and profile pic from webhook', () => {
         const webhookUsernameFromWebhook = 'user_from_webhook';
-        const newCallbackUrl = 'https://outgoing-webhook-01snptsk6qvz.runkit.sh?override_username=' + webhookUsernameFromWebhook + '&override_icon_url=' + webhookIconUrlOverride;
+        const newCallbackUrl = callbackUrl + '?override_username=' + webhookUsernameFromWebhook + '&override_icon_url=' + webhookIconUrlOverride;
 
         // # Define outgoing webhook
         // * Go to test team/channel, open main menu and click "Integrations"
@@ -412,7 +395,7 @@ describe('Outgoing webhook', () => {
         cy.wait(TIMEOUTS.HALF_SEC);
         cy.postMessage(triggerWordExpanded);
         cy.uiWaitUntilMessagePostedIncludes(triggerWord);
-        cy.wait(TIMEOUTS.HALF_SEC);
+        cy.uiWaitUntilMessagePostedIncludes('#### Outgoing Webhook Payload');
 
         cy.getLastPost().within(() => {
             // * Verify that the username is the one from the override_username param
@@ -432,7 +415,7 @@ describe('Outgoing webhook', () => {
         cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
         cy.postMessage(triggerWordExpanded);
         cy.uiWaitUntilMessagePostedIncludes(triggerWord);
-        cy.wait(TIMEOUTS.HALF_SEC);
+        cy.uiWaitUntilMessagePostedIncludes('#### Outgoing Webhook Payload');
 
         cy.getLastPost().within(() => {
             // * Verify that the user name is the one from the override_username param
@@ -449,7 +432,7 @@ describe('Outgoing webhook', () => {
     });
 
     it('MM-T2038 Bot posts as a comment/reply', () => {
-        const newCallbackUrl = 'https://outgoing-webhook-01snptsk6qvz.runkit.sh?response_type=comment';
+        const newCallbackUrl = callbackUrl + '?response_type=comment';
 
         // # Define outgoing webhook
         // * Go to test team/channel, open main menu and click "Integrations"
@@ -517,7 +500,7 @@ describe('Outgoing webhook', () => {
         cy.wait(TIMEOUTS.HALF_SEC);
         cy.postMessage(triggerWordExpanded);
         cy.uiWaitUntilMessagePostedIncludes(triggerWord);
-        cy.wait(TIMEOUTS.HALF_SEC);
+        cy.uiWaitUntilMessagePostedIncludes('#### Outgoing Webhook Payload');
 
         cy.getLastPost().should('contain', 'comment');
     });
@@ -565,7 +548,7 @@ describe('Outgoing webhook', () => {
         cy.wait(TIMEOUTS.HALF_SEC);
         cy.postMessage(triggerWordExpanded);
         cy.uiWaitUntilMessagePostedIncludes(triggerWord);
-        cy.wait(TIMEOUTS.HALF_SEC);
+        cy.uiWaitUntilMessagePostedIncludes('#### Outgoing Webhook Payload');
         cy.postMessage(secondMessage);
 
         // # Post a reply on RHS to the webhook post
@@ -630,7 +613,7 @@ describe('Outgoing webhook', () => {
         cy.wait(TIMEOUTS.HALF_SEC);
         cy.postMessage(triggerWordExpanded);
         cy.uiWaitUntilMessagePostedIncludes(triggerWord);
-        cy.wait(TIMEOUTS.HALF_SEC);
+        cy.uiWaitUntilMessagePostedIncludes('#### Outgoing Webhook Payload');
 
         cy.getLastPost().within(() => {
             // * Verify that the username shown is of the webhook creator and override is not allowed.
