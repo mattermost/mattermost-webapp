@@ -599,18 +599,17 @@
         .SidebarMenu:not(.menuOpen) {
             display: none;
         }
-
-        &.draggingOverHeader:hover {
-            //background: radial-gradient(60.83% 3421.87% at 50% 50%, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 100%);
-            box-shadow: inset -1px 0 0 rgba(var(--sidebar-text-rgb), 0.60), inset 0 -1px 0 rgba(var(--sidebar-text-rgb), 0.6), inset 1px 0 0 rgba(var(--sidebar-text-rgb), 0.6), inset 0 1px 0 rgba(var(--sidebar-text-rgb), 0.6);
-            border-radius: 4px;
-
-            .SidebarChannelGroupHeader_groupButton {
-                background-color: inherit;
-            }
-        }
-
     }
+
+    .SidebarChannelGroup:not(.dmCategory) .draggingOver .SidebarChannelGroupHeader:hover {
+        box-shadow: inset -1px 0 0 rgba(var(--sidebar-text-rgb), 0.60), inset 0 -1px 0 rgba(var(--sidebar-text-rgb), 0.6), inset 1px 0 0 rgba(var(--sidebar-text-rgb), 0.6), inset 0 1px 0 rgba(var(--sidebar-text-rgb), 0.6);
+        border-radius: 4px;
+
+        .SidebarChannelGroupHeader_groupButton {
+            background-color: inherit;
+        }
+    }
+
     .SidebarChannelGroup .SidebarChannelGroupHeader_groupButton {
         height: 32px;
         padding: 0;
@@ -618,7 +617,6 @@
         font-family: 'Open Sans', sans-serif;
         font-weight: 600;
         text-transform: uppercase;
-        overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
         text-align: left;
@@ -643,6 +641,10 @@
             overflow: hidden;
             text-overflow: ellipsis;
             width: 100%;
+        }
+
+        &.clickable > div {
+            // This overrides react-beautiful-dnd's grab cursor
             cursor: pointer;
         }
 
@@ -724,7 +726,7 @@
         animation-timing-function: linear;
     }
 
-    .SidebarChannelGroup .draggingOverDMCategory {
+    .SidebarChannelGroup.dmCategory .draggingOver {
         box-shadow: inset -1px 0 0 rgba(var(--sidebar-text-rgb), 0.6), inset 0 -1px 0 rgba(var(--sidebar-text-rgb), 0.6), inset 1px 0 0 rgba(var(--sidebar-text-rgb), 0.6), inset 0 1px 0 rgba(var(--sidebar-text-rgb), 0.6);
         border-radius: 4px;
 
@@ -732,6 +734,7 @@
             background-color: inherit;
         }
     }
+
     .SidebarChannelGroup.capture .SidebarChannelGroup_content {
         margin-bottom: 0;
         padding-bottom: 14px;
