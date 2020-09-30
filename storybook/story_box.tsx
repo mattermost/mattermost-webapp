@@ -6,7 +6,7 @@ import React, {PropsWithChildren, CSSProperties} from 'react';
 import './story_box.scss';
 
 type Props = {
-    label?: string; 
+    label?: string;
     containerStyle?: CSSProperties;
 };
 
