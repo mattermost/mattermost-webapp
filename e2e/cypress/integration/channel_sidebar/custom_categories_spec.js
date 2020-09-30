@@ -25,9 +25,6 @@ describe('Channel sidebar', () => {
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
             cy.visit(`/${team.name}/channels/town-square`);
         });
-
-        // # Close "What's new" modal
-        cy.uiCloseWhatsNewModal();
     });
 
     it('MM-T3161_1 should create a new category from sidebar menu', () => {
