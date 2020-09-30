@@ -227,6 +227,7 @@
   "admin.billing.subscription.questions": "Questions?",
   "admin.billing.subscription.title": "Subscriptions",
   "admin.billing.subscription.upgrade": "Upgrade",
+  "admin.billing.subscription.nextBillingDate": "Starting {date} you will be charged based on the number of enabled users",
   "admin.billing.subscription.upgradeCloudSubscription": "Upgrade your Mattermost Cloud Subscription",
   "admin.billing.subscription.upgradedSuccess": "Great! You're now upgraded",
   "admin.billing.subscription.upgradeMattermostCloud.description": "The free tier is **limited to 10 users.** Get access to more users, teams and other great features",

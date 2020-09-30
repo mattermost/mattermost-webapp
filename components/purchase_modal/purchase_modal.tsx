@@ -18,6 +18,7 @@ import RootPortal from 'components/root_portal';
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
 
 import {areBillingDetailsValid, BillingDetails} from 'components/cloud/types/sku';
+import {getNextBillingDate} from 'utils/utils';
 
 import PaymentForm from '../payment_form/payment_form';
 
@@ -80,11 +81,6 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
         this.setState({processing: true, paymentInfoIsValid: false});
     }
 
-    nextBillingDate = () => {
-        const nextBillingDate = moment().add(1, 'months').startOf('month');
-        return nextBillingDate.format('MMM D, YYYY');
-    }
-
     purchaseScreen = () => {
         return (
             <div className={this.state.processing ? 'processing' : ''}>
@@ -141,7 +137,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                                 />
                             </span>
                         </div>
-                        <div className='footer-text'>{`Payment begins: ${this.nextBillingDate()}`}</div>
+                        <div className='footer-text'>{`Payment begins: ${getNextBillingDate()}`}</div>
                         <button
                             disabled={!this.state.paymentInfoIsValid}
                             onClick={this.handleSubmitClick}

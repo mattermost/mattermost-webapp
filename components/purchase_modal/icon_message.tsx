@@ -11,6 +11,7 @@ type Props = {
     icon: string;
     title: string;
     subtitle?: string;
+    date?: string;
     error?: boolean;
     buttonText?: string;
     buttonHandler?: () => void;
@@ -24,6 +25,7 @@ export default function IconMessage(props: Props) {
         icon,
         title,
         subtitle,
+        date,
         error,
         buttonText,
         buttonHandler,
@@ -81,7 +83,11 @@ export default function IconMessage(props: Props) {
                 />
             </h3>
             <div className={classNames('IconMessage-sub', error || '')}>
-                {subtitle ? <FormattedMessage id={subtitle}/> : null}
+                {subtitle ?
+                    <FormattedMessage
+                        id={subtitle}
+                        values={{date}}
+                    /> : null}
             </div>
             {button}
             {link}
@@ -93,4 +99,5 @@ export default function IconMessage(props: Props) {
 IconMessage.defaultProps = {
     error: false,
     subtitle: '',
+    date: '',
 };

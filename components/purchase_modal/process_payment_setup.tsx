@@ -9,6 +9,7 @@ import {BillingDetails} from 'components/cloud/types/sku';
 import successSvg from 'images/cloud/payment_success.svg';
 import failedSvg from 'images/cloud/payment_fail.svg';
 import {t} from 'utils/i18n';
+import {getNextBillingDate} from 'utils/utils';
 
 import processSvg from 'images/cloud/processing_payment.svg';
 
@@ -140,9 +141,8 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
             return (
                 <IconMessage
                     title={t('admin.billing.subscription.upgradedSuccess')}
-                    subtitle={
-                        'Starting August 8, 2020 you will be charged based on the number of enabled users'
-                    }
+                    subtitle={t('admin.billing.subscription.nextBillingDate')}
+                    date={getNextBillingDate()}
                     error={false}
                     icon={successSvg}
                     buttonText={t('admin.billing.subscription.letsGo')}
