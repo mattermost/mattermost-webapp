@@ -82,7 +82,7 @@ export default class SearchBar extends React.PureComponent {
     }
 
     static getDerivedState(props, state) {
-        const { searchTerms } = props;
+        const {searchTerms} = props;
 
         return {
             ...state,
