@@ -240,6 +240,12 @@ export default class LicenseSettings extends React.PureComponent {
                                     </LoadingWrapper>
                                 </button>
                             </p>
+                            <p className='upgrade-legal-terms'>
+                                <FormattedMarkdownMessage
+                                    id='admin.license.enterprise.upgrade.accept-terms'
+                                    defaultMessage='By clicking **Upgrade to Enterprise Edition**, I agree to the terms of the Mattermost Enterprise Edition License.'
+                                />
+                            </p>
                             {this.state.upgradeError &&
                                 <div className='col-sm-12'>
                                     <div className='form-group has-error'>

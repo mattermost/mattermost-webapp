@@ -184,7 +184,10 @@ const AdminDefinition = {
         icon: 'fa-info-circle',
         sectionTitle: t('admin.sidebar.about'),
         sectionTitleDefault: 'About',
-        isHidden: it.not(it.userHasReadPermissionOnResource('about')),
+        isHidden: it.any(
+            it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
+            it.not(it.userHasReadPermissionOnResource('about')),
+        ),
         license: {
             url: 'about/license',
             title: t('admin.sidebar.license'),
@@ -199,10 +202,6 @@ const AdminDefinition = {
                 'Mattermost Enterprise Edition. Unlock enterprise features in this software through the purchase of a subscription from ',
                 'This software is offered under a commercial license.\n\nSee ENTERPRISE-EDITION-LICENSE.txt in your root install directory for details. See NOTICE.txt for information about open source software used in this system.',
             ],
-            isHidden: it.any(
-                it.not(it.enterpriseReady),
-                it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
-            ),
             isDisabled: it.not(it.userHasWritePermissionOnResource('about')),
             schema: {
                 id: 'LicenseSettings',
