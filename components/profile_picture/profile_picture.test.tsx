@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import ProfilePicture from 'components/profile_picture/profile_picture';
+import ProfilePicture from 'components/profile_picture';
 
 describe('components/ProfilePicture', () => {
     const baseProps = {

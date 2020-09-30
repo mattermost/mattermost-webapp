@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import ProfilePicture from 'components/profile_picture/profile_picture';
+import ProfilePicture from 'components/profile_picture';
 import MattermostLogo from 'components/widgets/icons/mattermost_logo';
 
 import Constants, {UserStatuses} from 'utils/constants';
