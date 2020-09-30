@@ -46,4 +46,28 @@ describe('Archived channels', () => {
         // * RHS text box should not be visible
         cy.get('#reply_textbox').should('not.be.visible');
     });
+
+    it('MM-T1722 Can click reply arrow on a post from archived channel, from saved posts list', () => {
+        // # Switch to the Off Topic channel
+        cy.get('#sidebarItem_off-topic').click();
+
+        // # Post a message in the channel
+        cy.postMessage('Test saved channel');
+        cy.clickPostCommentIcon();
+
+        // * Save the post
+        cy.clickPostSaveIcon();
+
+        // * RHS should be visible
+        cy.get('#rhsContainer').should('be.visible');
+
+        // # Archive the channel
+        cy.uiArchiveChannel();
+
+        // * Should be able to click on reply
+        cy.postMessageReplyInRHS();
+
+        // * RHS text box should not be visible
+        cy.get('#reply_textbox').should('be.visible');
+    });
 });
