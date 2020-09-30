@@ -1005,6 +1005,7 @@
   "admin.license.enterprise.restart": "Restart Server",
   "admin.license.enterprise.restarting": "Restarting",
   "admin.license.enterprise.upgrade": "Upgrade to Enterprise Edition",
+  "admin.license.enterprise.upgrade.accept-terms": "By clicking **Upgrade to Enterprise Edition**, I agree to the terms of the Mattermost Enterprise Edition License.",
   "admin.license.enterprise.upgrading": "Upgrading {percentage}%",
   "admin.license.key": "License Key: ",
   "admin.license.keyRemove": "Remove Enterprise License and Downgrade Server",
