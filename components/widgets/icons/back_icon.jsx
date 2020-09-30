@@ -4,8 +4,6 @@
 import React from 'react';
 import {useIntl} from 'react-intl';
 
-import {t} from 'utils/i18n';
-
 export default function BackIcon(props) {
     const {formatMessage} = useIntl();
     return (
@@ -15,7 +13,7 @@ export default function BackIcon(props) {
                 height='24px'
                 viewBox='0 0 24 24'
                 role='img'
-                aria-label={formatMessage({id: t('generic_icons.back'), defaultMessage: 'Back Icon'})}
+                aria-label={formatMessage({id: 'generic_icons.back', defaultMessage: 'Back Icon'})}
             >
                 <path d='M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z'/>
             </svg>

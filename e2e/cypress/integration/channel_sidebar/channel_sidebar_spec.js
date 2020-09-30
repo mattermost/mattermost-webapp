@@ -65,10 +65,7 @@ describe('Channel sidebar', () => {
         cy.get('.SidebarChannel:not(.unread):contains(Town Square)').should('be.visible');
 
         // # Have another user post in the Off Topic channel
-        cy.apiGetChannelByName(teamName, 'off-topic').then((response) => {
-            expect(response.status).to.equal(200);
-
-            const channel = response.body;
+        cy.apiGetChannelByName(teamName, 'off-topic').then(({channel}) => {
             cy.postMessageAs({sender: sysadmin, message: 'Test', channelId: channel.id});
         });
 

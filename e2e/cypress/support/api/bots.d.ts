@@ -19,6 +19,21 @@ declare namespace Cypress {
     interface Chainable<Subject = any> {
 
         /**
+         * Create a bot.
+         * See https://api.mattermost.com/#tag/bots/paths/~1bots/post
+         * @param {string} username - The bots username
+         * @param {string} displayName - The non-unique UI name for the bot
+         * @param {string} description - The description of the bot
+         * @returns {Bot} out.bot: `Bot` object
+         *
+         * @example
+         *   cy.apiCreateBot().then(({bot}) => {
+         *       // do something with bot
+         *   });
+         */
+        apiCreateBot(): Chainable<Bot>;
+
+        /**
          * Get bots.
          * See https://api.mattermost.com/#tag/bots/paths/~1bots/get
          * @returns {Bot[]} out.bots: `Bot[]` object

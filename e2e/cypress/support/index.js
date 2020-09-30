@@ -160,9 +160,7 @@ function sysadminSetup(user) {
                 }
             });
 
-            cy.apiGetChannelsForUser('me', defaultTeam.id).then((channelsRes) => {
-                const channels = channelsRes.body;
-
+            cy.apiGetChannelsForUser('me', defaultTeam.id).then(({channels}) => {
                 channels.forEach((channel) => {
                     if (
                         (channel.team_id === defaultTeam.id || channel.team_name === defaultTeam.name) &&
