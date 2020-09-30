@@ -12,7 +12,7 @@
 .IconMessage-h3 {
     font-size: 24px;
     line-height: 32px;
-    color: #152235;
+    color: var(--center-channel-color);
     margin-top: 43px;
     font-weight: 600;
 
@@ -32,7 +32,7 @@
     font-style: normal;
     font-weight: normal;
     line-height: 20px;
-    color: #3D3C40;
+    color: var(--center-channel-color);
 }
 
 .IconMessage-img {

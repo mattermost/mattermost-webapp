@@ -6,8 +6,6 @@ import {FormattedMessage} from 'react-intl';
 import {Stripe, loadStripe} from '@stripe/stripe-js';
 import {Elements} from '@stripe/react-stripe-js';
 
-import moment from 'moment';
-
 import upgradeImage from 'images/cloud/upgrade.svg';
 import wavesBackground from 'images/cloud/waves.svg';
 import blueDotes from 'images/cloud/blue.svg';
@@ -18,6 +16,7 @@ import RootPortal from 'components/root_portal';
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
 
 import {areBillingDetailsValid, BillingDetails} from 'components/cloud/types/sku';
+import {getNextBillingDate} from 'utils/utils';
 
 import PaymentForm from '../payment_form/payment_form';
 
@@ -32,10 +31,12 @@ const stripePromise = loadStripe(STRIPE_PUBLIC_KEY);
 
 type Props = {
     show: boolean;
+    isDevMode: boolean;
     actions: {
         closeModal: () => void;
         getProductPrice: () => Promise<number>;
-        completeStripeAddPaymentMethod: (stripe: Stripe, billingDetails: BillingDetails) => Promise<string | null>;
+        completeStripeAddPaymentMethod: (stripe: Stripe, billingDetails: BillingDetails, isDevMode: boolean) => Promise<boolean | null>;
+        getClientConfig: () => void;
     };
 }
 
@@ -61,6 +62,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
 
     componentDidMount() {
         this.fetchProductPrice();
+        this.props.actions.getClientConfig();
     }
 
     async fetchProductPrice() {
@@ -77,14 +79,9 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
         this.setState({processing: true, paymentInfoIsValid: false});
     }
 
-    nextBillingDate = () => {
-        const nextBillingDate = moment().add(1, 'months').startOf('month');
-        return nextBillingDate.format('MMM D, YYYY');
-    }
-
     purchaseScreen = () => {
         return (
-            <React.Fragment>
+            <div className={this.state.processing ? 'processing' : ''}>
                 <div className='LHS'>
                     <div className='title'>
                         <FormattedMessage
@@ -138,7 +135,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                                 />
                             </span>
                         </div>
-                        <div className='footer-text'>{`Payment begins: ${this.nextBillingDate()}`}</div>
+                        <div className='footer-text'>{`Payment begins: ${getNextBillingDate()}`}</div>
                         <button
                             disabled={!this.state.paymentInfoIsValid}
                             onClick={this.handleSubmitClick}
@@ -178,7 +175,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                         <img src={cloudLogo}/>
                     </div>
                 </div>
-            </React.Fragment>
+            </div>
         );
     }
 
@@ -193,21 +190,26 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                         show={Boolean(this.props.show)}
                         onClose={this.props.actions.closeModal}
                         ref={this.modal}
-
                         ariaLabelledBy='purchase_modal_title'
                     >
                         <div className='PurchaseModal'>
-                            { this.state.processing ? <div>
-                                <ProcessPaymentSetup
-                                    stripe={stripePromise}
-                                    billingDetails={this.state.billingDetails}
-                                    addPaymentMethod={this.props.actions.completeStripeAddPaymentMethod}
-                                    onClose={this.props.actions.closeModal}
-                                    onBack={() => {
-                                        this.setState({processing: false});
-                                    }}
-                                /></div> : this.purchaseScreen()
-                            }
+                            {this.state.processing ? (
+                                <div>
+                                    <ProcessPaymentSetup
+                                        stripe={stripePromise}
+                                        billingDetails={this.state.billingDetails}
+                                        addPaymentMethod={
+                                            this.props.actions.completeStripeAddPaymentMethod
+                                        }
+                                        isDevMode={this.props.isDevMode}
+                                        onClose={this.props.actions.closeModal}
+                                        onBack={() => {
+                                            this.setState({processing: false});
+                                        }}
+                                    />
+                                </div>
+                            ) : null}
+                            {this.purchaseScreen()}
                             <div>
                                 <img
                                     className='waves'
